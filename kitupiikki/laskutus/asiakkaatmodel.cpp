@@ -61,6 +61,8 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         return map.value("id");
     else if( role == NimiRooli)
         return map.value("nimi");
+    else if( role == MapRooli)
+        return map;
     return QVariant();
 }
 
@@ -105,7 +107,8 @@ void AsiakkaatModel::paivita(int valinta)
 void AsiakkaatModel::suodataRyhma(int ryhmaId)
 {
     KpKysely *kysely = kpk("/kumppanit");
-    kysely->lisaaAttribuutti("ryhma", ryhmaId);
+    if( ryhmaId )
+        kysely->lisaaAttribuutti("ryhma", ryhmaId);
     connect( kysely, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
     kysely->kysy();
 }

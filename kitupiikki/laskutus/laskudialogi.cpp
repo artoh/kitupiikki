@@ -46,6 +46,7 @@
 #include "db/tositetyyppimodel.h"
 
 #include "myyntilaskujentoimittaja.h"
+#include "ryhmalasku/ryhmalaskutab.h"
 
 #include <QDebug>
 
@@ -122,6 +123,8 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
         alustaMaksutavat();
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
     }
+    // TODO: Tilapäinen
+    ui->tabWidget->addTab(new RyhmalaskuTab, tr("Laskutettavat"));
 
 }
 
@@ -559,6 +562,8 @@ void LaskuDialogi::lisaaRiviTab()
 
     connect( tuoteView, &QTableView::clicked, [this, proxy, tuoteModel] (const QModelIndex& index)
         { this->rivit_->lisaaRivi( tuoteModel->tuoteMap( proxy->mapToSource(index).row()) ); }  );
+
+    // TODO TILAPÄINEN
 
 }
 

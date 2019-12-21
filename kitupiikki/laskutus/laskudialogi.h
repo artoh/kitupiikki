@@ -35,6 +35,7 @@ class LaskuDialogi;
 
 class KohdennusDelegaatti;
 class LaskuRivitModel;
+class RyhmalaskuTab;
 
 /**
  * @brief Laskun laatimisen dialogi
@@ -126,6 +127,7 @@ private:
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
 
+
     QSortFilterProxyModel *ryhmaProxy_;
 
     QList<int> ryhmaLahetys_;
@@ -143,6 +145,8 @@ private:
 
     int tyyppi_ = TositeTyyppi::MYYNTILASKU;
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
+
+    RyhmalaskuTab *ryhmalaskuTab_ = nullptr;
     
 };
 

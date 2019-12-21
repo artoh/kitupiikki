@@ -74,9 +74,6 @@ void LaskuSivu::siirrySivulle()
 
 void LaskuSivu::paaTab(int indeksi)
 {
-    kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
-    laskuWidget_->setVisible( indeksi != TUOTTEET);
-
 
     if( indeksi == REKISTERI) {
         splitter_->replaceWidget(0, ryhmaWidget_);
@@ -88,6 +85,11 @@ void LaskuSivu::paaTab(int indeksi)
         if( splitter_->widget(0) != kumppaniTuoteWidget_)
             splitter_->replaceWidget(0, kumppaniTuoteWidget_);
     }
+
+    kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
+    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
+    ryhmaWidget_->setVisible( indeksi == REKISTERI);
+
 
     if( indeksi >= REKISTERI )
         kumppaniTuoteWidget_->nayta( indeksi - 2);    

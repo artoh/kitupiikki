@@ -16,7 +16,11 @@ public:
     AsiakkaatModel(QObject *parent = nullptr,KumppaniValinta valinta = REKISTERI);
 
     enum AsiakasSarake { NIMI, YHTEENSA, AVOINNA, ERAANTYNYT };
-    enum { IdRooli = Qt::UserRole, NimiRooli = Qt::UserRole + 1 };
+    enum {
+        IdRooli = Qt::UserRole,
+        NimiRooli = Qt::UserRole + 1,
+        MapRooli = Qt::UserRole + 2
+    };
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;

@@ -23,6 +23,8 @@ SOURCES += \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
+    $$PWD/laskutus/ryhmalasku/laskutettavatmodel.cpp \
+    $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
@@ -245,6 +247,8 @@ HEADERS += \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
+    $$PWD/laskutus/ryhmalasku/laskutettavatmodel.h \
+    $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
     $$PWD/laskutus/tuotedialogi.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
@@ -528,7 +532,6 @@ FORMS += \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
-    laskutus/yhteystiedot.ui \
     maaritys/inboxmaaritys.ui \
     arkisto/budjettidlg.ui \
     laskutus/ryhmantuontidlg.ui \
