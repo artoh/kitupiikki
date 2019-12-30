@@ -47,7 +47,7 @@ public slots:
     void laheta();
     void alusta();
 
-    void uusilasku();
+    void uusilasku(bool ryhmalasku);
 
 private slots:
     void muokkaa();

@@ -45,7 +45,7 @@ class LaskuDialogi : public QDialog, public Esikatseltava
     Q_OBJECT
 public:
 
-    LaskuDialogi(const QVariantMap& data = QVariantMap());
+    LaskuDialogi(const QVariantMap& data = QVariantMap(), bool ryhmalasku = false);
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
@@ -70,29 +70,14 @@ private slots:
      */
     void tulosta(QPagedPaintDevice *printer) const override;
     QString otsikko() const override;
-    /**
-     * @brief Finvoice-verkkolaskun muodostaminen
-     */
-    void perusteVaihtuu();
-
 
 
     void rivienKontekstiValikko(QPoint pos);
-
     void poistaLaskuRivi();
-
     void tuotteidenKonteksiValikko(QPoint pos);
-
     void tulostaLasku();
-    void ryhmaNapit(const QItemSelection& valinta);
 
-    void lisaaAsiakasListalta(const QModelIndex& indeksi);
-    void lisaaAsiakas();
-    void tuoAsiakkaitaTiedostosta();
-    void poistaValitutAsiakkaat();
-    void paivitaRyhmanTallennusNappi();
 
-    void verkkolaskuKayttoon();
 
     /////// UUTTA ///////
     void asiakasValittu(int asiakasId);
@@ -101,7 +86,7 @@ private slots:
     void laskutusTapaMuuttui();
     void maksuTapaMuuttui();
 
-    QVariantMap data() const;
+    QVariantMap data(QString otsikko = QString()) const;
 
     void tallenna(Tosite::Tila moodi);
     void tallennusValmis(QVariant* vastaus);
@@ -109,6 +94,7 @@ private slots:
     int tyyppi() const { return tyyppi_;}
 
 private:
+    void alustaRyhmalasku();
     void lataa(const QVariantMap& map);
     void paivitaNakyvat();
     void lisaaRiviTab();
@@ -147,6 +133,7 @@ private:
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
 
     RyhmalaskuTab *ryhmalaskuTab_ = nullptr;
+    bool ryhmalasku_ = false;
     
 };
 

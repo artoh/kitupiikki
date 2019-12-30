@@ -58,9 +58,18 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    void tallennaLaskut(const QVariantMap& data);
 
 public slots:
-    void lisaa(const QVariantMap& data);
+    void lisaa(int kumppaniId);
+    void lisaaAsiakas(QVariant* data);
+
+signals:
+    void tallennettu();
+
+protected slots:
+    void tallennaLasku(const QVariantMap& tallennettava, int indeksi);
+    void laskuTallennettu(const QVariantMap& tallennettava, int indeksi, QVariant* vastaus);
 
 private:
     QList<Laskutettava> laskutettavat_;

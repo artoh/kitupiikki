@@ -167,6 +167,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="ryhmalaskuNappi">
+       <property name="text">
+        <string>Ryhmälasku</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="muokkaaNappi">
        <property name="text">
         <string>Muokkaa</string>

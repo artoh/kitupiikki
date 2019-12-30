@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "laskutettavatmodel.h"
+#include "db/kirjanpito.h"
+#include "../myyntilaskuntulostaja.h"
 
 LaskutettavatModel::LaskutettavatModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -106,20 +108,86 @@ Qt::ItemFlags LaskutettavatModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-void LaskutettavatModel::lisaa(const QVariantMap &data)
+void LaskutettavatModel::tallennaLaskut(const QVariantMap &data)
 {
+    if( rowCount())
+        tallennaLasku(data, 0);
+}
+
+void LaskutettavatModel::lisaa(int kumppaniId)
+{
+    KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
+    connect(kysely, &KpKysely::vastaus, this, &LaskutettavatModel::lisaaAsiakas);
+    kysely->kysy();
+}
+
+void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int indeksi)
+{
+    Laskutettava laskutettava = laskutettavat_.value(indeksi);
+    QVariantMap data(tallennettava);
+    QVariantMap lasku = data.value("lasku").toMap();
+
+    if( laskutettava.kumppaniId)
+        data.insert("kumppani", laskutettava.kumppaniId);
+    lasku.insert("osoite", laskutettava.osoite);
+    if( !laskutettava.alvtunnus.isEmpty())
+        lasku.insert("alvtunnus", laskutettava.alvtunnus);
+    lasku.insert("kieli", laskutettava.kieli);
+    lasku.insert("laskutapa", laskutettava.lahetystapa);
+    if( !laskutettava.email.isEmpty())
+        lasku.insert("email", laskutettava.email);
+    data.insert("lasku", lasku);
+
+    QVariantList viennit = data.value("viennit").toList();
+    QVariantList uusiviennit;
+    for(auto item : viennit) {
+        QVariantMap map = item.toMap();
+        map.insert("kumppani",laskutettava.kumppaniId);
+        uusiviennit.append(map);
+    }
+    data.insert("viennit", uusiviennit);
+
+    KpKysely* kysely = kpk("/tositteet", KpKysely::POST);
+    connect( kysely, &KpKysely::vastaus, [this, tallennettava, indeksi] (QVariant *vastaus) { this->laskuTallennettu(tallennettava, indeksi, vastaus);} );
+    kysely->kysy(data);
+}
+
+void LaskutettavatModel::laskuTallennettu(const QVariantMap &tallennettava, int indeksi, QVariant *vastaus)
+{
+    // Tallennetaan ensin liite
+    QVariantMap map = vastaus->toMap();
+
+    QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
+    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
+    QMap<QString,QString> meta;
+    meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
+    liitetallennus->lahetaTiedosto(liite, meta);
+
+    if( indeksi < rowCount() - 1) {
+        tallennaLasku(tallennettava, indeksi+1);
+    } else {
+        emit tallennettu();
+        emit kp()->kirjanpitoaMuokattu();
+    }
+}
+
+void LaskutettavatModel::lisaaAsiakas(QVariant* data)
+{
+    QVariantMap map = data->toMap();
     Laskutettava uusi;
-    uusi.kumppaniId = data.value("id").toInt();
-    uusi.nimi = data.value("nimi").toString();
-    if( data.contains("osoite"))
-        uusi.osoite = data.value("osoite").toString() + "\n" +
-                data.value("postinumero").toString() + " " +
-                data.value("kaupunki").toString();
-    uusi.kieli = data.value("kieli").toString();
-    uusi.alvtunnus = data.value("alvtunnus").toString();
-    uusi.lahetystapa = data.value("laskutapa").toInt();
-    uusi.ovttunnus = data.value("ovt").toString();
-    uusi.valittaja = data.value("operaattori").toString();
+
+    uusi.kumppaniId = map.value("id").toInt();
+    uusi.nimi = map.value("nimi").toString();
+    if( map.contains("osoite"))
+        uusi.osoite = uusi.nimi + "\n" +
+                map.value("osoite").toString() + "\n" +
+                map.value("postinumero").toString() + " " +
+                map.value("kaupunki").toString();
+    uusi.kieli = map.value("kieli").toString();
+    uusi.alvtunnus = map.value("alvtunnus").toString();
+    uusi.lahetystapa = map.value("laskutapa").toInt();
+    uusi.ovttunnus = map.value("ovt").toString();
+    uusi.valittaja = map.value("operaattori").toString();
     if( uusi.kumppaniId)
         kumppaniIdt_.insert(uusi.kumppaniId);
     beginInsertRows(QModelIndex(), rowCount(), rowCount());

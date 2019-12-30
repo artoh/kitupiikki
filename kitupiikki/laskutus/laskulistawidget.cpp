@@ -63,7 +63,9 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->kopioiNappi, &QPushButton::clicked, this, &LaskulistaWidget::kopioi);
     connect( ui->lahetaNappi, &QPushButton::clicked, this, &LaskulistaWidget::laheta);
 
-    connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
+    connect( ui->uusiNappi, &QPushButton::clicked, [this] {this->uusilasku(false);});
+    connect( ui->ryhmalaskuNappi, &QPushButton::clicked, [this] {this->uusilasku(true);});
+
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
     connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
 
@@ -161,7 +163,7 @@ void LaskulistaWidget::alusta()
     ui->loppupvm->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
 }
 
-void LaskulistaWidget::uusilasku()
+void LaskulistaWidget::uusilasku(bool ryhmalasku)
 {
     if( kp()->paivamaara() <= kp()->tilitpaatetty() ||
         kp()->paivamaara() > kp()->tilikaudet()->kirjanpitoLoppuu()) {
@@ -170,7 +172,7 @@ void LaskulistaWidget::uusilasku()
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        LaskuDialogi *dlg = new LaskuDialogi();
+        LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku);
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);

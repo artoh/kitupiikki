@@ -47,6 +47,7 @@
 
 #include "myyntilaskujentoimittaja.h"
 #include "ryhmalasku/ryhmalaskutab.h"
+#include "ryhmalasku/laskutettavatmodel.h"
 
 #include <QDebug>
 
@@ -74,9 +75,10 @@
 #include <QHeaderView>
 #include <QPainter>
 
-LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
+LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
-    ui( new Ui::LaskuDialogi)
+    ui( new Ui::LaskuDialogi),
+    ryhmalasku_(ryhmalasku)
 {
     ui->setupUi(this);
 
@@ -123,8 +125,9 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
         alustaMaksutavat();
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
     }
-    // TODO: Tilapäinen
-    ui->tabWidget->addTab(new RyhmalaskuTab, tr("Laskutettavat"));
+
+    if( ryhmalasku )
+        alustaRyhmalasku();
 
 }
 
@@ -148,7 +151,8 @@ void LaskuDialogi::esikatselu()
 
 void LaskuDialogi::paivitaNapit()
 {
-    bool tallennettavaa = !rivit_->onkoTyhja();
+    bool tallennettavaa = !rivit_->onkoTyhja() &&
+            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() ) ;
 
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
@@ -170,40 +174,6 @@ QString LaskuDialogi::otsikko() const
 {
     return tr("Lasku");
 }
-
-void LaskuDialogi::perusteVaihtuu()
-{
-/*    int peruste = ui->perusteCombo->currentData().toInt();
-
-//    ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
-//    ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
-
-    ui->viivkorkoLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
-    ui->viivkorkoSpin->setVisible( peruste != LaskuModel::KATEISLASKU);
-    ui->eraLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
-    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
-
-    if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
-        ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
-    else
-        // Jos kirjataan toimituspäivälle, pitää toimituspäivän olla tilikaudella
-        ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addDays(1));
-
-
-    if( peruste == LaskuModel::SUORITEPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE )
-    {
-        ui->rahaTiliEdit->suodataTyypilla("AS");
-        ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuSaatavatili").toInt());
-    }
-    else if( peruste == LaskuModel::KATEISLASKU)
-    {
-        ui->rahaTiliEdit->suodataTyypilla("AR");
-        ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuKateistili").toInt());
-    }
-    model->asetaKirjausperuste(peruste);
-*/
-}
-
 
 
 
@@ -257,91 +227,6 @@ void LaskuDialogi::tulostaLasku()
     kp()->printer()->setPageLayout(vanhaleiska);
 }
 
-void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
-{
-    ui->esikatseluNappi->setEnabled( valinta.size());
-
-}
-
-void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
-{
-    QSqlQuery kysely;
-    QString nimistr = indeksi.data(AsiakkaatModel::NimiRooli).toString();
-    nimistr.remove(QRegExp("['\"]"));
-
-    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' AND iban is null ORDER BY muokattu DESC").arg( nimistr)) ;
-    QString osoite = nimistr;
-    QString email;
-    QString ytunnus;
-    QString verkkolaskuosoite;
-    QString verkkolaskuvalittaja;
-
-    if( kysely.next() )
-    {
-        JsonKentta json;
-        json.fromJson( kysely.value(0).toByteArray() );
-        email =  json.str("Email");
-        ytunnus = json.str("YTunnus");
-        verkkolaskuosoite = json.str("VerkkolaskuOsoite");
-        verkkolaskuvalittaja = json.str("VerkkolaskuValittaja");
-
-        if( !json.str("Osoite").isEmpty())
-        {
-            // Haetaan aiempi osoite
-            osoite = json.str("Osoite");
-        }
-    }
-
-}
-
-void LaskuDialogi::lisaaAsiakas()
-{
-    QDialog yhteystiedot;
-    Ui::Yhteystiedot dui;
-    dui.setupUi(&yhteystiedot);
-    yhteystiedot.setWindowTitle(tr("Lisää laskun saaja"));
-    dui.YtunnusEdit->setValidator(new YTunnusValidator(true));
-    connect(dui.tallennaNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::accept);
-    connect(dui.peruNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::reject);
-    connect(dui.nimiEdit, &QLineEdit::textChanged, [dui](const QString& teksti) { dui.osoiteEdit->setPlainText(teksti + "\n"); });
-    if( yhteystiedot.exec() == QDialog::Accepted)
-    {
-        if( !dui.YtunnusEdit->hasAcceptableInput() )
-            dui.YtunnusEdit->clear();
-
-    }
-}
-
-void LaskuDialogi::tuoAsiakkaitaTiedostosta()
-{
-}
-
-void LaskuDialogi::poistaValitutAsiakkaat()
-{
-/*    QList<int> indeksit;
-    for(const QModelIndex &indeksi : ui->ryhmaView->selectionModel()->selectedRows())
-        indeksit.append( ryhmaProxy_->mapToSource(indeksi).row() );
-
-    // Poistetaan alimmasta alkaen, jotta poistaminen ei sotke
-    // rivien numerointia
-
-    qSort( indeksit );
-    while( !indeksit.isEmpty())
-    {
-        model->ryhmaModel()->poista( indeksit.last() );
-        indeksit.removeLast();
-    }*/
-}
-
-void LaskuDialogi::paivitaRyhmanTallennusNappi()
-{
-
-}
-
-void LaskuDialogi::verkkolaskuKayttoon()
-{
-//    ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
-}
 
 void LaskuDialogi::asiakasValittu(int asiakasId)
 {
@@ -416,7 +301,7 @@ void LaskuDialogi::maksuTapaMuuttui()
 
 }
 
-QVariantMap LaskuDialogi::data() const
+QVariantMap LaskuDialogi::data(QString otsikko) const
 {
     QVariantMap map;
 
@@ -426,7 +311,6 @@ QVariantMap LaskuDialogi::data() const
         map.insert("tunniste", tunniste_);
 
     QString laskutettava;
-    QString otsikko;
 
     if( ui->asiakas->id()) {
         map.insert("kumppani", ui->asiakas->id());
@@ -437,12 +321,12 @@ QVariantMap LaskuDialogi::data() const
 
     if( ui->otsikkoEdit->text().isEmpty())
         otsikko = laskutettava;
-    else
+    else if(otsikko.isEmpty())
         otsikko = ui->otsikkoEdit->text();
 
 
     map.insert("otsikko", otsikko);
-    map.insert("pvm", kp()->paivamaara() );
+    map.insert("pvm", kp()->paivamaara() );     // Laskupäivä vai toimituspäivä ???
     map.insert("tyyppi",  tyyppi_);
     map.insert("rivit", rivit_->rivit());
 
@@ -468,6 +352,7 @@ QVariantMap LaskuDialogi::data() const
     if( !ui->asViiteEdit->text().isEmpty())
         lasku.insert("asviite", ui->asViiteEdit->text());
 
+    lasku.insert("pvm", kp()->paivamaara());
     lasku.insert("kieli", ui->kieliCombo->currentData());
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
     lasku.insert("laskutapa", ui->laskutusCombo->currentData());
@@ -629,15 +514,18 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
     else
         map.insert("tila", Tosite::KIRJANPIDOSSA);
 
+    if( ryhmalasku_ ) {
+        ryhmalaskuTab_->model()->tallennaLaskut(map);
+    } else {
+        KpKysely *kysely;
+        if( !tositeId_ )
+            kysely = kpk("/tositteet/", KpKysely::POST);
+        else
+            kysely = kpk( QString("/tositteet/%1").arg(tositeId_), KpKysely::PUT);
 
-    KpKysely *kysely;
-    if( !tositeId_ )
-        kysely = kpk("/tositteet/", KpKysely::POST);
-    else
-        kysely = kpk( QString("/tositteet/%1").arg(tositeId_), KpKysely::PUT);
-
-    connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
-    kysely->kysy( map );
+        connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
+        kysely->kysy( map );
+    }
 }
 
 void LaskuDialogi::tallennusValmis(QVariant *vastaus)
@@ -664,6 +552,26 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
         toimittaja->toimitaLaskut(lista);
     }
 
+}
+
+void LaskuDialogi::alustaRyhmalasku()
+{
+    ryhmalaskuTab_ = new RyhmalaskuTab;
+    ui->tabWidget->addTab( ryhmalaskuTab_, tr("Laskutettavat"));
+    ui->asiakasLabel->hide();
+    ui->asiakas->hide();
+    ui->osoiteLabel->hide();
+    ui->osoiteEdit->hide();
+    ui->emailLabel->hide();
+    ui->email->hide();
+    ui->asviiteLabel->hide();
+    ui->asViiteEdit->hide();
+    ui->kieliCombo->hide();
+    ui->valmisNappi->hide();
+    ui->laskutusCombo->hide();
+    ui->luonnosNappi->setEnabled(false);
+    connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::accept );
+    setWindowTitle(tr("Ryhmälasku"));
 }
 
 void LaskuDialogi::lataa(const QVariantMap &map)

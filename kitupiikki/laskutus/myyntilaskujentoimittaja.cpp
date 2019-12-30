@@ -83,7 +83,30 @@ void MyyntiLaskujenToimittaja::toimitettu()
 void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
+    map.insert("tila", Tosite::KIRJANPIDOSSA);
+
+    QVariantMap lasku = map.value("lasku").toMap();
+    lasku.insert("pvm", kp()->paivamaara());
+    map.insert("lasku", lasku);
+
+    KpKysely *tallennuskysely = kpk(QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PUT);
+    connect( tallennuskysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::tositeTallennettu);
+    tallennuskysely->kysy(map);
+
+}
+
+void MyyntiLaskujenToimittaja::tositeTallennettu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
     toimitettavat_.append(map);
+
+    // Päivitetään liite
+    QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
+    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
+    QMap<QString,QString> meta;
+    meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
+    liitetallennus->lahetaTiedosto(liite, meta);
+
     if( tilattavat_.isEmpty())
         toimitaLaskut( toimitettavat_ );
     else

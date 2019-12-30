@@ -167,7 +167,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         painter->save();
         painter->setPen( QPen( Qt::lightGray));
         painter->setFont( QFont("FreeSans",60,QFont::Black));
-        painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignCenter, tr("LUONNOS") );
+        painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignCenter, t("luonnos") );
         painter->restore();
     }
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
@@ -175,7 +175,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         painter->save();
         painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("FreeSans",14));
-        painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, QString("HARJOITUS") );
+        painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, t("harjoitus") );
         painter->restore();
     }
 

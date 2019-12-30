@@ -19,6 +19,7 @@
 
 #include <QSplitter>
 
+class LaskutettavatModel;
 
 
 class RyhmalaskuTab : public QSplitter
@@ -27,8 +28,13 @@ class RyhmalaskuTab : public QSplitter
 public:
     RyhmalaskuTab(QWidget *parent = nullptr);
 
+    LaskutettavatModel* model() { return laskutettavat_;}
+
 protected:
     void luoUi();
+
+private:
+    LaskutettavatModel *laskutettavat_;
 
 };
 

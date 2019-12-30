@@ -201,7 +201,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
             tunniste = kysely.value("tunniste").toInt() + 1;
     }
     // Laskun numero ja viite
-    if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::VALMISLASKU &&
+    if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::KIRJANPIDOSSA &&
             viennit.count()) {
         qulonglong laskunumero = kp()->asetukset()->asetus("LaskuSeuraavaId").toULongLong();
         QVariantMap laskumap = map.value("lasku").toMap();

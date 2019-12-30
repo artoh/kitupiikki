@@ -25,7 +25,9 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QTableView>
+#include <QListView>
 #include <QSortFilterProxyModel>
+#include <QHeaderView>
 
 RyhmalaskuTab::RyhmalaskuTab(QWidget *parent) :
     QSplitter(parent)
@@ -50,11 +52,12 @@ void RyhmalaskuTab::luoUi()
 
     QSortFilterProxyModel *suodatusProxy = new QSortFilterProxyModel(this);
     suodatusProxy->setSourceModel(asiakkaat);
+    suodatusProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
     connect( suodatusEdit, &QLineEdit::textChanged,
              suodatusProxy, &QSortFilterProxyModel::setFilterFixedString);
 
-    QTableView *asiakasView = new QTableView();
-    asiakasView->setModel(suodatusProxy);
+    QListView *asiakasView = new QListView();
+    asiakasView->setModel(suodatusProxy);    
 
     QVBoxLayout *vleiska = new QVBoxLayout;
     vleiska->addWidget(ryhmaCombo);
@@ -65,13 +68,17 @@ void RyhmalaskuTab::luoUi()
     vwg->setLayout(vleiska);
     addWidget(vwg);
 
-    LaskutettavatModel *laskutettavat = new LaskutettavatModel(this);
+    laskutettavat_ = new LaskutettavatModel(this);
     QTableView *view = new QTableView;
-    view->setModel(laskutettavat);
+    view->setModel(laskutettavat_);
+    view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     addWidget(view);
 
+    setStretchFactor(0,1);
+    setStretchFactor(1,3);
+
     connect( asiakasView, &QTableView::clicked,
-             [laskutettavat] (const QModelIndex& index)
-            {laskutettavat->lisaa(index.data(AsiakkaatModel::MapRooli).toMap());});
+             [this] (const QModelIndex& index)
+            { this->laskutettavat_->lisaa(index.data(AsiakkaatModel::IdRooli).toInt());});
 
 }

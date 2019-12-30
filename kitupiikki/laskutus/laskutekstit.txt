@@ -155,3 +155,9 @@ ENhyvitysteksti Compensation for invoice %1, date %2
 mmrivi Laskun %1 avoin saldo
 SVmmrivi Saldo för faktura %1
 ENmmrivi Saldo for invoice %1
+luonnos LUONNOS
+SVluonnos KLADD
+ENluonnos DRAFT
+harjoitus HARJOITUS
+SVharjoitus ÖVNING
+ENharjoitus TRIAL
