@@ -48,6 +48,7 @@
 #include "myyntilaskujentoimittaja.h"
 #include "ryhmalasku/ryhmalaskutab.h"
 #include "ryhmalasku/laskutettavatmodel.h"
+#include "ryhmalasku/kielidelegaatti.h"
 
 #include <QDebug>
 
@@ -86,10 +87,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     resize(800,600);
     restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
 
-    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"), tr("Suomi"), "FI");
-    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"), tr("Ruotsi"), "SV");
-    ui->kieliCombo->addItem(QIcon(":/liput/en.png"), tr("Englanti"), "EN");
-
+    KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
     ui->asiakas->alusta();
 
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
@@ -257,6 +255,8 @@ void LaskuDialogi::paivitaLaskutustavat()
     ui->laskutusCombo->clear();
 
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), TULOSTETTAVA);
+    if( ui->osoiteEdit->toPlainText().contains('\n'))
+        ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), POSTITUS);
 
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->email->text()).hasMatch() )

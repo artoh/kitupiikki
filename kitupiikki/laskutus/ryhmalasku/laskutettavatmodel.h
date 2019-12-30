@@ -40,6 +40,8 @@ private:
 
 public:
     enum { NIMI, KIELI, LAHETYSTAPA };
+    enum { LahetysTavatRooli = Qt::UserRole + 2 };
+
 
     explicit LaskutettavatModel(QObject *parent = nullptr);
 
@@ -59,6 +61,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
     void tallennaLaskut(const QVariantMap& data);
+    bool onkoKumppania(int kumppaniId) const;
 
 public slots:
     void lisaa(int kumppaniId);

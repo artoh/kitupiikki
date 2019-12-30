@@ -14,36 +14,23 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RYHMALASKUTAB_H
-#define RYHMALASKUTAB_H
+#ifndef RYHMAANASIAKKAATPROXY_H
+#define RYHMAANASIAKKAATPROXY_H
 
-#include <QSplitter>
+#include <QSortFilterProxyModel>
 
 class LaskutettavatModel;
-class QTableView;
-class QListView;
-class QComboBox;
 
-class RyhmalaskuTab : public QSplitter
+class RyhmaanAsiakkaatProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    RyhmalaskuTab(QWidget *parent = nullptr);
-
-    LaskutettavatModel* model() { return laskutettavat_;}
-
-protected slots:
-    void lisaaKaikki();
-    void uusiAsiakas();
+    RyhmaanAsiakkaatProxy(QObject *parent = nullptr);
+    void asetaLaskutettavatModel( LaskutettavatModel *model);
 
 protected:
-    void luoUi();
-
-private:
-    LaskutettavatModel *laskutettavat_;
-    QComboBox *ryhmaCombo_;
-    QListView* asiakasView_;
-
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    LaskutettavatModel *laskutettavat_ = nullptr;
 };
 
-#endif // RYHMALASKUTAB_H
+#endif // RYHMAANASIAKKAATPROXY_H

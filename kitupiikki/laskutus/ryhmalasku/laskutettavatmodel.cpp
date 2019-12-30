@@ -17,6 +17,8 @@
 #include "laskutettavatmodel.h"
 #include "db/kirjanpito.h"
 #include "../myyntilaskuntulostaja.h"
+#include "kielidelegaatti.h"
+#include "toimitustapadelegaatti.h"
 
 LaskutettavatModel::LaskutettavatModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -57,32 +59,44 @@ QVariant LaskutettavatModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if( role == Qt::DisplayRole) {
-        Laskutettava laskutettava = laskutettavat_.at(index.row());
+    Laskutettava laskutettava = laskutettavat_.at(index.row());
+    if( role == Qt::DisplayRole) {        
         switch (index.column()) {
         case NIMI:
             return laskutettava.nimi;
         case KIELI:
-            if( laskutettava.kieli == "SV")
-                return tr("ruotsi");
-            else if( laskutettava.kieli == "EN")
-                return tr("englanti");
-            else
-                return tr("suomi");
-        case LAHETYSTAPA:
-            switch (laskutettava.lahetystapa) {
-                case LaskuDialogi::TULOSTETTAVA:
-                    return tr("Tulosta");
-                case LaskuDialogi::SAHKOPOSTI:
-                    return tr("Sähköposti");
-                case LaskuDialogi::POSTITUS:
-                    return tr("Postitus");
-                case LaskuDialogi::VERKKOLASKU:
-                    return tr("Verkkolasku");
-            }
+            return KieliDelegaatti::kieliKoodilla(laskutettava.kieli);
+        case LAHETYSTAPA:       
+            return ToimitustapaDelegaatti::toimitustapa(laskutettava.lahetystapa);
         }
+    } else if( role == Qt::EditRole) {
+
+        switch (index.column()) {
+        case NIMI:
+            return laskutettava.nimi;
+        case KIELI:
+            return laskutettava.kieli;
+        case LAHETYSTAPA:
+            return laskutettava.lahetystapa;
+        }
+    } else if( role == Qt::DecorationRole) {
+        if( index.column() == KIELI)
+            return QIcon(QString(":/liput/%1.png").arg(laskutettava.kieli.toLower()));
+        else if(index.column() == LAHETYSTAPA)
+            return ToimitustapaDelegaatti::icon(laskutettava.lahetystapa);
+    } else if( role == LahetysTavatRooli) {
+        QVariantList lista;
+        lista << LaskuDialogi::TULOSTETTAVA;
+        if( !laskutettava.email.isEmpty())
+            lista << LaskuDialogi::SAHKOPOSTI;
+        if( laskutettava.osoite.contains('\n'))
+            lista << LaskuDialogi::POSTITUS;
+        if( !laskutettava.ovttunnus.isEmpty())
+            lista << LaskuDialogi::VERKKOLASKU;
+        lista << LaskuDialogi::PDF;
+        lista << LaskuDialogi::EITULOSTETA;
+        return lista;
     }
-    // Todo: Decorationit sekä toimitustaparajaukset
 
     // FIXME: Implement me!
     return QVariant();
@@ -92,6 +106,11 @@ bool LaskutettavatModel::setData(const QModelIndex &index, const QVariant &value
 {
     if (data(index, role) != value) {
         // FIXME: Implement me!
+        if( index.column() == KIELI && role == Qt::EditRole)
+            laskutettavat_[index.row()].kieli = value.toString();
+        else if( index.column() == LAHETYSTAPA && role == Qt::EditRole)
+            laskutettavat_[index.row()].lahetystapa = value.toInt();
+
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
@@ -114,6 +133,11 @@ void LaskutettavatModel::tallennaLaskut(const QVariantMap &data)
         tallennaLasku(data, 0);
 }
 
+bool LaskutettavatModel::onkoKumppania(int kumppaniId) const
+{
+    return kumppaniIdt_.contains(kumppaniId);
+}
+
 void LaskutettavatModel::lisaa(int kumppaniId)
 {
     KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
@@ -126,9 +150,11 @@ void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int ind
     Laskutettava laskutettava = laskutettavat_.value(indeksi);
     QVariantMap data(tallennettava);
     QVariantMap lasku = data.value("lasku").toMap();
+    QVariantMap kumppaniMap;
 
     if( laskutettava.kumppaniId)
         data.insert("kumppani", laskutettava.kumppaniId);
+
     lasku.insert("osoite", laskutettava.osoite);
     if( !laskutettava.alvtunnus.isEmpty())
         lasku.insert("alvtunnus", laskutettava.alvtunnus);
@@ -136,6 +162,7 @@ void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int ind
     lasku.insert("laskutapa", laskutettava.lahetystapa);
     if( !laskutettava.email.isEmpty())
         lasku.insert("email", laskutettava.email);
+
     data.insert("lasku", lasku);
 
     QVariantList viennit = data.value("viennit").toList();
@@ -177,6 +204,10 @@ void LaskutettavatModel::lisaaAsiakas(QVariant* data)
     Laskutettava uusi;
 
     uusi.kumppaniId = map.value("id").toInt();
+
+    if(uusi.kumppaniId && kumppaniIdt_.contains(uusi.kumppaniId))
+        return;
+
     uusi.nimi = map.value("nimi").toString();
     if( map.contains("osoite"))
         uusi.osoite = uusi.nimi + "\n" +

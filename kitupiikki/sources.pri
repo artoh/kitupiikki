@@ -23,8 +23,11 @@ SOURCES += \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
+    $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.cpp \
+    $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.cpp \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
+    $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
@@ -247,8 +250,11 @@ HEADERS += \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
+    $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.h \
+    $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.h \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
+    $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
     $$PWD/laskutus/tuotedialogi.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \

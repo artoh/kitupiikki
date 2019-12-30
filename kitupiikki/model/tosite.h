@@ -45,13 +45,12 @@ public:
         TILA,
         TUNNISTE,
         OTSIKKO,
-//        VIITE,
-//        ERAPVM,
         KUMPPANI,
         KOMMENTIT,
         ALV,
         SARJA,
-        TILIOTE
+        TILIOTE,
+        LASKU
     };
 
     enum Virheet {

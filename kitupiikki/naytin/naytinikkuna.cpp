@@ -132,7 +132,10 @@ void NaytinIkkuna::teeToolbar()
     QToolBar *tb = addToolBar(tr("Ikkuna"));
     tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
+    QAction *suljeAktio = new QAction(QIcon(":/pic/peru.png"), tr("Sulje"));
+    connect(suljeAktio, &QAction::triggered, this, &NaytinIkkuna::close);
+    suljeAktio->setShortcut(QKeySequence(Qt::Key_Escape));
+    tb->addAction(suljeAktio);
     tb->addSeparator();
 
     avaaAktio_ = tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));

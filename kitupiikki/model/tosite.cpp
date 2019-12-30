@@ -299,11 +299,10 @@ std::map<int,QString> Tosite::avaimet__ = {
     { TILA, "tila"},
     { TUNNISTE, "tunniste"},
     { OTSIKKO, "otsikko"},
-//    { VIITE, "viite"},
-//    { ERAPVM, "erapvm"},
     { KUMPPANI, "kumppani" },
     { KOMMENTIT, "info"},
     { ALV, "alv"},
     { SARJA, "sarja"},
-    { TILIOTE, "tiliote"}
+    { TILIOTE, "tiliote"},
+    { LASKU, "lasku"}
 };

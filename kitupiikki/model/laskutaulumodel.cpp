@@ -18,6 +18,7 @@
 
 #include "db/kirjanpito.h"
 #include "laskutus/laskudialogi.h"
+#include "laskutus/ryhmalasku/toimitustapadelegaatti.h"
 
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -107,16 +108,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return map.value("avoin").toDouble();
             case LAHETYSTAPA:
             {
-                switch (map.value("laskutapa").toInt()) {
-                case LaskuDialogi::TULOSTETTAVA:
-                    return tr("Tuloste");
-                case LaskuDialogi::SAHKOPOSTI:
-                    return tr("Sähköposti");
-                case LaskuDialogi::PDF:
-                    return tr("PDF");
-                default:
-                    return QVariant();
-                }
+                return ToimitustapaDelegaatti::toimitustapa(map.value("laskutapa").toInt());
             }
             case ASIAKASTOIMITTAJA: {
                 QString kumppani = ostoja_ ?
@@ -185,6 +177,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 }
                 return QIcon(":/pic/tyhja.png");
 
+            } else if( index.column() == LAHETYSTAPA) {
+                return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());
             }
         }
     }

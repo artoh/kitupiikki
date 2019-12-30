@@ -82,16 +82,17 @@ void MyyntiLaskujenToimittaja::toimitettu()
 
 void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 {
-    QVariantMap map = data->toMap();
-    map.insert("tila", Tosite::KIRJANPIDOSSA);
+    Tosite tosite(this);
+    tosite.lataaData(data);
+    tosite.setData(Tosite::TILA, Tosite::KIRJANPIDOSSA);
 
-    QVariantMap lasku = map.value("lasku").toMap();
+    QVariantMap lasku = tosite.data(Tosite::LASKU).toMap();
     lasku.insert("pvm", kp()->paivamaara());
-    map.insert("lasku", lasku);
+    tosite.setData(Tosite::LASKU, lasku);
 
-    KpKysely *tallennuskysely = kpk(QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PUT);
+    KpKysely *tallennuskysely = kpk(QString("/tositteet/%1").arg(tosite.id()), KpKysely::PUT);
     connect( tallennuskysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::tositeTallennettu);
-    tallennuskysely->kysy(map);
+    tallennuskysely->kysy(tosite.tallennettava());
 
 }
 

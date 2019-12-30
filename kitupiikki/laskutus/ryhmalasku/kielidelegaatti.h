@@ -14,36 +14,24 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RYHMALASKUTAB_H
-#define RYHMALASKUTAB_H
+#ifndef KIELIDELEGAATTI_H
+#define KIELIDELEGAATTI_H
 
-#include <QSplitter>
+#include <QItemDelegate>
+#include <QComboBox>
 
-class LaskutettavatModel;
-class QTableView;
-class QListView;
-class QComboBox;
-
-class RyhmalaskuTab : public QSplitter
+class KieliDelegaatti : public QItemDelegate
 {
     Q_OBJECT
 public:
-    RyhmalaskuTab(QWidget *parent = nullptr);
+    KieliDelegaatti(QObject *parent = nullptr);
 
-    LaskutettavatModel* model() { return laskutettavat_;}
+    QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 
-protected slots:
-    void lisaaKaikki();
-    void uusiAsiakas();
-
-protected:
-    void luoUi();
-
-private:
-    LaskutettavatModel *laskutettavat_;
-    QComboBox *ryhmaCombo_;
-    QListView* asiakasView_;
-
+    static void alustaKieliCombo(QComboBox *combo);
+    static QString kieliKoodilla(const QString& kielikoodi);
 };
 
-#endif // RYHMALASKUTAB_H
+#endif // KIELIDELEGAATTI_H

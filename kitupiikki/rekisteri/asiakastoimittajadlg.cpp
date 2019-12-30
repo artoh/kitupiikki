@@ -25,6 +25,7 @@
 #include "laskutus/laskudialogi.h"
 
 #include "db/kirjanpito.h"
+#include "laskutus/ryhmalasku/kielidelegaatti.h"
 
 #include <QListWidgetItem>
 
@@ -157,9 +158,7 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
 
 void AsiakasToimittajaDlg::alustaKielet()
 {
-    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"),tr("suomi"),"FI");
-    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"),tr("ruotsi"),"SV");
-    ui->kieliCombo->addItem(QIcon(":/liput/en.png"),tr("englanti"),"EN");
+    KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
 }
 
 void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
