@@ -62,6 +62,13 @@ void RyhmalaskuTab::uusiAsiakas()
     dlg->uusi();
 }
 
+void RyhmalaskuTab::poista()
+{
+    int indeksi = laskutettavatView_->selectionModel()->selectedIndexes().value(0).row();
+    if( indeksi > -1)
+        laskutettavat_->poista(indeksi);
+}
+
 void RyhmalaskuTab::luoUi()
 {
     laskutettavat_ = new LaskutettavatModel(this);
@@ -86,6 +93,7 @@ void RyhmalaskuTab::luoUi()
     connect( suodatusEdit, &QLineEdit::textChanged,
              suodatusProxy, &QSortFilterProxyModel::setFilterFixedString);
     connect( laskutettavat_, &LaskutettavatModel::rowsInserted, suodatusProxy, &RyhmaanAsiakkaatProxy::invalidate);
+    connect( laskutettavat_, &LaskutettavatModel::rowsRemoved, suodatusProxy, &RyhmaanAsiakkaatProxy::invalidate);
 
     asiakasView_ = new QListView();
     asiakasView_->setModel(suodatusProxy);
@@ -111,14 +119,29 @@ void RyhmalaskuTab::luoUi()
     vwg->setLayout(vleiska);
     addWidget(vwg);
 
-    QTableView *view = new QTableView;
-    view->setModel(laskutettavat_);
-    view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    view->setItemDelegateForColumn(LaskutettavatModel::KIELI, new KieliDelegaatti(this));
-    view->setItemDelegateForColumn(LaskutettavatModel::LAHETYSTAPA, new ToimitustapaDelegaatti(this));
+    laskutettavatView_ = new QTableView;
+    laskutettavatView_->setModel(laskutettavat_);
+    laskutettavatView_->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    laskutettavatView_->setItemDelegateForColumn(LaskutettavatModel::KIELI, new KieliDelegaatti(this));
+    laskutettavatView_->setItemDelegateForColumn(LaskutettavatModel::LAHETYSTAPA, new ToimitustapaDelegaatti(this));
+    laskutettavatView_->setEditTriggers(QTableView::AllEditTriggers);
 
+    connect( laskutettavatView_->selectionModel(), &QItemSelectionModel::selectionChanged, [this]
+        {this->poistaNappi_->setEnabled( this->laskutettavatView_->selectionModel()->selectedIndexes().value(0).isValid() );});
 
-    addWidget(view);
+    poistaNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista"));
+    poistaNappi_->setEnabled(false);
+    connect( poistaNappi_, &QPushButton::clicked, this, &RyhmalaskuTab::poista);
+
+    QVBoxLayout *oleiska = new QVBoxLayout;
+    oleiska->addWidget(laskutettavatView_);
+    QHBoxLayout *onleiska = new QHBoxLayout;
+    onleiska->addStretch();
+    onleiska->addWidget(poistaNappi_);
+    oleiska->addLayout(onleiska);
+    QWidget *owidget = new QWidget();
+    owidget->setLayout(oleiska);
+    addWidget(owidget);
 
     setStretchFactor(0,1);
     setStretchFactor(1,3);

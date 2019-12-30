@@ -23,6 +23,7 @@ class LaskutettavatModel;
 class QTableView;
 class QListView;
 class QComboBox;
+class QPushButton;
 
 class RyhmalaskuTab : public QSplitter
 {
@@ -35,6 +36,7 @@ public:
 protected slots:
     void lisaaKaikki();
     void uusiAsiakas();
+    void poista();
 
 protected:
     void luoUi();
@@ -43,6 +45,8 @@ private:
     LaskutettavatModel *laskutettavat_;
     QComboBox *ryhmaCombo_;
     QListView* asiakasView_;
+    QTableView* laskutettavatView_;
+    QPushButton* poistaNappi_;
 
 };
 

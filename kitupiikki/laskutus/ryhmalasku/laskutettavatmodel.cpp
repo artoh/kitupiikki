@@ -225,3 +225,13 @@ void LaskutettavatModel::lisaaAsiakas(QVariant* data)
     laskutettavat_.append(uusi);
     endInsertRows();
 }
+
+void LaskutettavatModel::poista(int indeksi)
+{
+    int id = laskutettavat_.value(indeksi).kumppaniId;
+    if(id)
+        kumppaniIdt_.remove(id);
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    laskutettavat_.removeAt(indeksi);
+    endRemoveRows();
+}

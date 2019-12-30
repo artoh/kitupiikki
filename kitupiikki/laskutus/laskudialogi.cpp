@@ -557,7 +557,7 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
 void LaskuDialogi::alustaRyhmalasku()
 {
     ryhmalaskuTab_ = new RyhmalaskuTab;
-    ui->tabWidget->addTab( ryhmalaskuTab_, tr("Laskutettavat"));
+    ui->tabWidget->addTab( ryhmalaskuTab_, QIcon(":/pic/asiakkaat.png"), tr("Laskutettavat"));
     ui->asiakasLabel->hide();
     ui->asiakas->hide();
     ui->osoiteLabel->hide();

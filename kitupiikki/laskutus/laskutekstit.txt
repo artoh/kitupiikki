@@ -12,7 +12,7 @@ vmka Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet
 ENvmka Margin scheme - Collectors' items and antiques
 yhtmy AVL 72a §: ALV 0% Yhteisömyynti
 ENyhtmy AVL 72a §: VAT 0% Intra Community supply
-palymy AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
+palmy AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
 ENpalmy AVL 65 §: Reverse charge, VAT Directive art 44
 rakmy AVL 8 c §: Käännetty verovelvollisuus
 ENrakmy AVL 8 c §: Reverse charge, VAT Directive art 199

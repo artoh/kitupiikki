@@ -164,6 +164,9 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
         return map.value("alvkoodi").toInt();
     else if( role == TiliNumeroRooli )
         return map.value("tili").toInt();
+    else if( role == Qt::DecorationRole && index.column() == ALV) {
+        return kp()->alvTyypit()->kuvakeKoodilla(map.value("alvkoodi").toInt());
+    }
 
     // FIXME: Implement me!
     return QVariant();
@@ -205,8 +208,16 @@ bool LaskuRivitModel::setData(const QModelIndex &index, const QVariant &value, i
                 else if( value.toString()==" " || map.value("rivi").toInt())
                     uusitili = TilinValintaDialogi::valitseTili( QString());
 
-                if( uusitili.onkoValidi())
+                if( uusitili.onkoValidi()) {
                     map.insert("tili", uusitili.numero());
+                    if( kp()->asetukset()->onko(AsetusModel::ALV)) {
+                        map.insert("alvkoodi", uusitili.arvo("alvlaji").toInt());
+                        map.insert("alvprosentti",uusitili.arvo("alvprosentti").toDouble());
+                        rivit_[index.row()] = map;
+                        emit dataChanged(index.sibling(index.row(), ALV), index.sibling(index.row(), BRUTTOSUMMA), QVector<int>() << role);
+                        return true;
+                    }
+                }
             }
                 break;
             case BRUTTOSUMMA:
@@ -383,6 +394,12 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
         rivi.insert("myyntikpl", 1.0);
     if( !rivi.contains("tili"))
         rivi.insert("tili", 3000);  // Tähän fiksu oletus!
+
+    Tili *tili = kp()->tilit()->tili(rivi.value("tili").toInt());
+    if(tili && kp()->asetukset()->onko(AsetusModel::ALV)) {
+        rivi.insert("alvkoodi", tili->arvo("alvlaji").toInt());
+        rivi.insert("alvprosentti", tili->arvo("alvprosentti").toDouble());
+    }
 
     int rivia = rivit_.count();
     if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble() < 1e-5 ))
