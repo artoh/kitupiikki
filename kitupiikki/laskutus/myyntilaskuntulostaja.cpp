@@ -174,13 +174,14 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     {
         painter->save();
         painter->setPen( QPen(Qt::green));
-        painter->setFont( QFont("FreeSans",14));
+        painter->setFont( QFont("FreeSans",14, QFont::Black));
         painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, t("harjoitus") );
         painter->restore();
     }
 
 
-    if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != LaskuDialogi::KATEINEN )
+    if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != LaskuDialogi::KATEINEN &&
+            kp()->asetukset()->onko("LaskuTilisiirto"))
     {
         painter->translate( 0, painter->window().height() - mm * 95 );
         marginaali += alatunniste(printer, painter) + mm * 95;
@@ -550,7 +551,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     painter->restore();
 
     // Viivakoodi
-    if( !kp()->asetukset()->onko("LaskuEiViivakoodi"))
+    if( kp()->asetukset()->onko("LaskuViivakoodi"))
     {
         painter->save();
 
@@ -569,10 +570,17 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
     painter->save();
     painter->setFont( QFont("FreeSans",10));
     qreal rk = painter->fontMetrics().height();
-    painter->translate(0, -4.5 * rk);
+    painter->translate(0, -4.5 * rk);            
 
     qreal leveys = painter->window().width();
     double mm = printer->width() * 1.00 / printer->widthMM();
+
+    if( !virtuaaliviivakoodi().isEmpty()) {
+        painter->translate(0,-1*rk);
+        painter->drawText(QRectF(0,0,leveys,rk),t("virtviiv") + " " + virtuaaliviivakoodi());
+        painter->translate(0,rk);
+    }
+
 
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.2));
     painter->drawRect(QRectF(leveys * 4 / 5, 0, leveys / 5, rk * 2));
@@ -642,7 +650,8 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
 
     // Viivakoodi
-    if( !kp()->asetukset()->onko("LaskuEiViivakoodi") && kp()->asetukset()->onko("LaskuEiTilisiirto") && laskunSumma_ > 0 /* && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuModel::KATEISLASKU */)
+    if( kp()->asetukset()->onko("LaskuViivakoodi") && !kp()->asetukset()->onko("LaskuTilisiirto")
+            && laskunSumma_ > 0 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )
     {
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
@@ -651,11 +660,11 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
         painter->drawText( QRectF( mm*20, -2.2*rk-mm*15, mm*100, mm*10), Qt::AlignCenter, koodi  );
 
         painter->restore();
-        return  4.7 * rk + mm * 16;
+        return  5.7 * rk + mm * 16;
     }
 
     painter->restore();
-    return 4.5 * rk;
+    return 5.5 * rk;
 }
 
 
