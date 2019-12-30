@@ -30,13 +30,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Kirjaisin</string>
+      <string>Kirjasintyyppi</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QRadioButton" name="oletusfontti">
         <property name="text">
-         <string>Järjestelmän oletuskirjaisin</string>
+         <string>Järjestelmän oletuskirjasintyyppi</string>
         </property>
         <property name="checked">
          <bool>true</bool>
