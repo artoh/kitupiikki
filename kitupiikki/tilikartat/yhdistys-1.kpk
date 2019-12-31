@@ -228,7 +228,7 @@ H4 40 {"Asti":42} Ostot
 H5 40 {} Tavaroiden ostot
 D 4000 {} Tavaraostot, varsinainen toiminta
 H5 41 {} Palveluiden ostot
-D 4100 {} Palveluosostot, varsinainen toiminta
+D 4100 {} Palveluostot, varsinainen toiminta
 H5 42 {} Vuokrat ja käyttömaksut
 D 4200 {} Vuokrat ja käyttömaksut, varsinainen toiminta
 H4 43 {} Jäsenmaksut
