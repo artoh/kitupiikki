@@ -168,7 +168,12 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
                 viesti.append("\n\n");
             viesti.append( maksutiedot(data) );
         }
-        QString otsikko = tr("Lasku %1 %2").arg(lasku.value("numero").toLongLong()).arg(kp()->asetus("Nimi"));
+        MyyntiLaskunTulostaja tulostaja(data);
+        int tyyppi = data.value("tyyppi").toInt();
+
+        QString otsikko = QString("%3 %1 %2").arg(lasku.value("numero").toLongLong()).arg(kp()->asetus("Nimi"))
+                .arg(tyyppi == TositeTyyppi::HYVITYSLASKU ? tulostaja.t("hlasku") :
+                               (tyyppi == TositeTyyppi::MAKSUMUISTUTUS ? tulostaja.t("maksumuistutus") : tulostaja.t("laskuotsikko")));
 
         connect( smtp, &Smtp::status, this, &MyyntiLaskujenToimittaja::lahetaSeuraava);
         smtp->lahetaLiitteella(kenelta, kenelle, otsikko, viesti, "lasku.pdf", MyyntiLaskunTulostaja::pdf(data));

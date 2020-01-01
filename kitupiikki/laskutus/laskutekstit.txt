@@ -118,10 +118,19 @@ SVhlasku Kompensation till faktura
 ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
-ENmaksumuistutus REMINDER
+ENmaksumuistutus REQUEST FOR PAYMENT
+muistutusmaksu Huomautuskulut
+SVmuistutusmaksu Skriftlig betalningspåminnelse 
+ENmuistutusmaksu Request for payment fee
 alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
 ENalkuplasku Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
 SValkuplasku Original faktura|Faktura nummer: %1|Datum: %2|Förfallodag: %3
+aiempimuistutus Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
+SVaiempimuistutus Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3
+ENaiempimuistutus Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
+aiempisaldo Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €
+SVaiempisaldo Obetalada antal om fakturor med följande uppräkning är %L1 €
+ENaiempisaldo The total unpayed amount of invoices detailed below is %L1 €
 veroton veroton
 ENveroton netto
 SVveroton netto
@@ -149,6 +158,9 @@ ENalennus discount
 muistutusteksti Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.
 ENmuistutusteksti According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.
 SVmuistutusteksti Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.
+muistutussaate Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.
+SVmuistutussaate Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.
+ENmuistutussaate According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.
 hyvitysteksti Hyvityslasku laskulle %1, päiväys %2
 SVhyvitysteksti Kompensation för faktura %1, datum %2
 ENhyvitysteksti Compensation for invoice %1, date %2

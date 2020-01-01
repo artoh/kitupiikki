@@ -30,6 +30,8 @@ class MyyntiLaskunTulostaja : public QObject
     Q_OBJECT
 public:
     MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent = nullptr);
+    MyyntiLaskunTulostaja(const QString& kieli, QObject *parent = nullptr);
+
 
     static bool tulosta(const QVariantMap& lasku,
                  QPagedPaintDevice *printer,
@@ -41,6 +43,13 @@ public:
 
     static QString valeilla(const QString& teksti);
     static QString bicIbanilla(const QString& iban);
+
+    /**
+     * @brief Palauttaa oletuseräpäivän
+     * @return
+     */
+    static QDate erapaiva();
+
     QString t(const QString& avain) const;
 
 
@@ -54,7 +63,7 @@ public slots:
 
 
 protected:    
-
+    void alustaKaannos(const QString& kieli);
     void tulosta(QPagedPaintDevice *printer,
                  QPainter *painter,
                  bool kuoreen);
@@ -78,7 +87,7 @@ protected:
     QHash<QString,QString> tekstit_;
     QVariantMap map_;
     LaskuRivitModel rivit_;
-    double laskunSumma_;
+    double laskunSumma_ = 0.0;
 
     QString iban_;
     QStringList ibanit_;

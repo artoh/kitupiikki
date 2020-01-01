@@ -66,6 +66,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     kysymys.append(" ORDER BY vienti.pvm, vienti.viite");
 
+    qDebug() << kysymys;
     QSqlQuery kysely( db());
     kysely.exec(kysymys);
 

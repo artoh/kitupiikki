@@ -135,6 +135,8 @@ private:
     RyhmalaskuTab *ryhmalaskuTab_ = nullptr;
     bool ryhmalasku_ = false;
     
+    QVariantList aiemmat_;
+    double aiempiSaldo_ = 0.0;
 };
 
 #endif // UUSILASKUDIALOGI_H

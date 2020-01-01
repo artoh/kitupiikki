@@ -181,7 +181,10 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());
             }
         }
-    }
+        return QVariant();
+    case EraPvmRooli:
+        return map.value("erapvm").toDate();
+    }    
     return QVariant();
 }
 

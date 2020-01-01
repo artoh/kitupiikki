@@ -50,7 +50,8 @@ public:
         ALV,
         SARJA,
         TILIOTE,
-        LASKU
+        LASKU,
+        RIVIT
     };
 
     enum Virheet {

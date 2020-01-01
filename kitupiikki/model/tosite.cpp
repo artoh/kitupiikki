@@ -304,5 +304,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ALV, "alv"},
     { SARJA, "sarja"},
     { TILIOTE, "tiliote"},
-    { LASKU, "lasku"}
+    { LASKU, "lasku"},
+    { RIVIT, "rivit"}
 };

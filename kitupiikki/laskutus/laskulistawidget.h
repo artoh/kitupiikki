@@ -53,6 +53,7 @@ private slots:
     void muokkaa();
     void kopioi();
     void hyvita();
+    void muistuta();
     void poista();
 
     void naytaLasku();

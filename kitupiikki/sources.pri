@@ -223,7 +223,8 @@ SOURCES += \
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
     maaritys/avauseradlg.cpp\
-    maaritys/maksutapamuokkausdlg.cpp
+    maaritys/maksutapamuokkausdlg.cpp\
+    laskutus/maksumuistutusdialogi.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -451,7 +452,8 @@ HEADERS += \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
     maaritys/avauseradlg.h\
-    maaritys/maksutapamuokkausdlg.h
+    maaritys/maksutapamuokkausdlg.h \
+    laskutus/maksumuistutusdialogi.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -550,4 +552,5 @@ FORMS += \
     apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
     maaritys/avauseradlg.ui\
-    maaritys/maksutapamuokkausdlg.ui
+    maaritys/maksutapamuokkausdlg.ui\
+    laskutus/maksumuistutusdialogi.ui

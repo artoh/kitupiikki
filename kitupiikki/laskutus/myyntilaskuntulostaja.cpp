@@ -130,35 +130,38 @@ QString MyyntiLaskunTulostaja::bicIbanilla(const QString &iban)
 
 }
 
-MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent) :
-    QObject(parent), map_(map), rivit_( this, map.value("rivit").toList() ),
-    laskunSumma_( rivit_.yhteensa() )
+QDate MyyntiLaskunTulostaja::erapaiva()
 {
-    QString kieli = map_.value("lasku").toMap().value("kieli").toString();
+    QDate erapvm = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika",14) );
+    while( erapvm.dayOfWeek() > 5)
+        erapvm = erapvm.addDays(1);
+    return erapvm;
+}
 
-    // Ladataan tekstit
-    QFile tiedosto(":/lasku/laskutekstit.txt");
-    tiedosto.open(QIODevice::ReadOnly);
+MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent) :
+    QObject(parent), map_(map), rivit_( this, map.value("rivit").toList() )
+{
+    alustaKaannos( map_.value("lasku").toMap().value("kieli").toString() );
 
-    QTextStream in(&tiedosto);
-    in.setCodec("utf-8");
-
-    while( !in.atEnd())
-        tekstiRivinLisays(in.readLine(), kieli);
-    for( QString rivi : kp()->asetukset()->lista("LaskuTilit"))
-        tekstiRivinLisays( rivi, kieli);
-
-
+    laskunSumma_ = ( qRound64( rivit_.yhteensa() * 100.0 ) +
+                     qRound64( map.value("lasku").toMap().value("aiempisaldo").toDouble() * 100.0)
+                    ) / 100.0;
 
     QStringList tilit = kp()->asetus("LaskuTilit").split(",");
     for(auto tili : tilit)
         ibanit_.append(  kp()->tilit()->tiliNumerolla( tili.toInt() ).str("IBAN")  );
 }
 
+MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QString &kieli, QObject *parent) :
+    QObject(parent)
+{
+    alustaKaannos(kieli);
+}
+
 void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
     double mm = printer->width() * 1.00 / printer->widthMM();
-    qreal marginaali = 0.0;
+    qreal marginaali = 0.0;    
 
     bool ikkunakuori = kuoreen & kp()->asetukset()->onko("IkkunaKuori");
 
@@ -196,6 +199,44 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
 
     ErittelyRuudukko erittely( map_.value("rivit").toList() , this);
     erittely.tulostaErittely(printer, painter, marginaali);
+
+    // Maksumuistutuksessa on myös erittely aiemmista laskuista
+    double avoinsaldo = map_.value("lasku").toMap().value("aiempisaldo").toDouble();
+    if( avoinsaldo > 1e-5) {
+        QString teksti = t("aiempisaldo").arg(avoinsaldo,0,'f',2);
+        painter->setFont(QFont("FreeSans",10,QFont::Bold));
+        painter->drawText(0,0,teksti);
+        painter->setFont(QFont("FreeSans",10));
+        painter->translate(0, painter->fontMetrics().height());
+    }
+
+    for(auto item : map_.value("lasku").toMap().value("aiemmat").toList()) {
+        if( painter->transform().dy() + painter->fontMetrics().height() * 5 > painter->window().height() - marginaali)
+        {
+            painter->drawText(QRectF(0,0,painter->window().width()-10*mm, painter->fontMetrics().height() ), Qt::AlignRight, t("jatkuu"));
+            printer->newPage();
+            painter->resetTransform();
+            marginaali = 0;
+        }
+
+        QVariantMap muikkari = item.toMap();
+        QVariantMap muikkarilasku = muikkari.value("lasku").toMap();
+
+        QString teksti = t(muikkari.value("tyyppi").toInt() == TositeTyyppi::MAKSUMUISTUTUS ?
+                               "aiempimuistutus" :
+                               "alkuplasku")
+                .arg(muikkarilasku.value("numero").toString())
+                .arg(muikkarilasku.value("pvm").toDate().toString("dd.MM.yyyy"))
+                .arg(muikkarilasku.value("erapvm").toDate().toString("dd.MM.yyyy"));
+
+        painter->drawText(QRectF(0,0,painter->window().width(), painter->fontMetrics().height()*5),Qt::AlignLeft ,teksti);
+        painter->translate(0, painter->fontMetrics().height() * 5);
+
+        ErittelyRuudukko muikkariRuudukko( muikkari.value("rivit").toList(), this);
+        if( rivit_.rowCount() )
+            muikkariRuudukko.tulostaErittely(printer, painter, marginaali);
+    }
+
 
 }
 
@@ -407,7 +448,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     if( !otsikko.isEmpty() && !lisatieto.isEmpty())
         lisatieto.append("\n\n");
     lisatieto.append(otsikko);
-    QString info = map_.value("into").toString();
+    QString info = map_.value("info").toString();
     if( !lisatieto.isEmpty() && !info.isEmpty())
         lisatieto.append("\n\n");
     lisatieto.append(info);
@@ -701,6 +742,21 @@ QString MyyntiLaskunTulostaja::muotoiltuViite() const
     else
         return valeilla(viite);
 
+}
+
+void MyyntiLaskunTulostaja::alustaKaannos(const QString &kieli)
+{
+    // Ladataan tekstit
+    QFile tiedosto(":/lasku/laskutekstit.txt");
+    tiedosto.open(QIODevice::ReadOnly);
+
+    QTextStream in(&tiedosto);
+    in.setCodec("utf-8");
+
+    while( !in.atEnd())
+        tekstiRivinLisays(in.readLine(), kieli);
+    for( QString rivi : kp()->asetukset()->lista("LaskuTilit"))
+        tekstiRivinLisays( rivi, kieli);
 }
 
 QString MyyntiLaskunTulostaja::code128() const

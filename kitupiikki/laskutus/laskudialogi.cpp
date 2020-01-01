@@ -116,10 +116,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     if( !data.isEmpty())
         lataa(data);
     else {
-        QDate erapvm = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") );
-        while( erapvm.dayOfWeek() > 5)
-            erapvm = erapvm.addDays(1);
-        ui->eraDate->setDate( erapvm );
+        ui->eraDate->setDate( MyyntiLaskunTulostaja::erapaiva() );
         alustaMaksutavat();
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
     }
@@ -138,7 +135,7 @@ LaskuDialogi::~LaskuDialogi()
 
 void LaskuDialogi::paivitaSumma()
 {
-    ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa() ,0,'f',2) );
+    ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa() + aiempiSaldo_ ,0,'f',2) );
     paivitaNapit();
 }
 
@@ -367,8 +364,12 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         lasku.insert("alkupPvm", alkupPvm_);
     }
 
-    map.insert("lasku", lasku);
+    if( !aiemmat_.isEmpty()) {
+        lasku.insert("aiemmat", aiemmat_);
+        lasku.insert("aiempisaldo", aiempiSaldo_);
+    }
 
+    map.insert("lasku", lasku);
 
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
@@ -507,12 +508,7 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
     tallennusTila_ = moodi;
 
     QVariantMap map = data();
-    if( moodi == Tosite::LUONNOS )
-        map.insert("tila", Tosite::LUONNOS);
-    else if( map.value("tila").toInt() < Tosite::KIRJANPIDOSSA )
-        map.insert("tila", Tosite::VALMISLASKU);
-    else
-        map.insert("tila", Tosite::KIRJANPIDOSSA);
+    map.insert("tila", moodi);
 
     if( ryhmalasku_ ) {
         ryhmalaskuTab_->model()->tallennaLaskut(map);
@@ -611,6 +607,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
             ? vienti.value("id").toInt()
             : lasku.value("era").toInt();
     asAlvTunnus_ = lasku.value("alvtunnus").toString();
+    aiemmat_ = lasku.value("aiemmat").toList();
+    aiempiSaldo_ = lasku.value("aiempisaldo").toDouble();
 
     tallennettu_ = data();
     paivitaSumma();

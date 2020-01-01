@@ -24,6 +24,7 @@
 #include "laskudialogi.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
+#include "maksumuistutusdialogi.h"
 #include <QDebug>
 
 #include "myyntilaskujentoimittaja.h"
@@ -70,6 +71,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
 
     connect( ui->hyvitysNappi, &QPushButton::clicked, this, &LaskulistaWidget::hyvita);
+    connect( ui->muistutusNappi, &QPushButton::clicked, this, &LaskulistaWidget::muistuta);
 
     connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
 
@@ -108,7 +110,7 @@ void LaskulistaWidget::paivita()
 {
     int laji = ui->tabs->count() == 5 ? ui->tabs->currentIndex() : ui->tabs->currentIndex() + 2;
 
-    ui->view->setColumnHidden( LaskuTauluModel::NUMERO,  laji < KAIKKI);
+//    ui->view->setColumnHidden( LaskuTauluModel::NUMERO,  laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::PVM, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::MAKSAMATTA, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::LAHETYSTAPA, laji >= KAIKKI );
@@ -135,6 +137,7 @@ void LaskulistaWidget::paivitaNapit()
                                && index.data(LaskuTauluModel::TunnisteRooli).toLongLong());
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
+    ui->muistutusNappi->setVisible( index.isValid() && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara() );
 
     if( ui->tabs->currentIndex() >= KAIKKI )
         ui->poistaNappi->setEnabled( index.isValid() &&
@@ -215,6 +218,16 @@ void LaskulistaWidget::hyvita()
         connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::teeHyvitysLasku);
         kysely->kysy();
     }
+}
+
+void LaskulistaWidget::muistuta()
+{
+    QList<int> erat;
+    for(auto item : ui->view->selectionModel()->selectedRows()) {
+        int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
+        erat.append(eraId);
+    }
+    new MaksumuistutusDialogi(erat, this);
 }
 
 void LaskulistaWidget::poista()
