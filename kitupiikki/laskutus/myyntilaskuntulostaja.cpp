@@ -492,7 +492,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
 
     QString tilinumerot;
     for(auto iban : ibanit_)
-        tilinumerot.append(valeilla(iban) + " (" + bicIbanilla(ibanit_.value(0)) + ")" + '\n');
+        tilinumerot.append(valeilla(iban) + " (" + bicIbanilla(iban) + ")" + '\n');
 
     painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter, tilinumerot );
 
@@ -522,7 +522,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 {
     painter->save();
     painter->setFont( QFont("FreeSans",10));
-    qreal rk = painter->fontMetrics().height();
+    qreal rk = 1.1 * painter->fontMetrics().height();
     painter->translate(0, -4.5 * rk);
 
     qreal leveys = painter->window().width();
