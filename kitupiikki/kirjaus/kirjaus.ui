@@ -89,6 +89,9 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="ViennitView" name="viennitView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::AllEditTriggers</set>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>

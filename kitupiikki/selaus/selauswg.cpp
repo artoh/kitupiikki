@@ -81,6 +81,7 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
 
     connect( proxyModel, &QSortFilterProxyModel::modelReset, ui->selausView, &QTableView::resizeColumnsToContents);
+    connect( proxyModel, &QSortFilterProxyModel::modelReset, this, &SelausWg::valitseValittu);
 
     ui->selausView->installEventFilter(this);
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
@@ -252,6 +253,7 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
         kysely->kysy();
     } else
         emit tositeValittu( id );
+    valittu_ = id;
 }
 
 void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
@@ -311,7 +313,6 @@ void SelausWg::selaa(int kumpi)
     else
         selaaTositteita();
 
-    ui->selausView->selectRow(0);
     ui->selausView->setFocus();
 }
 
@@ -319,6 +320,17 @@ void SelausWg::siirrySivulle()
 {
 
     selaa( ui->valintaTab->currentIndex() );
+}
+
+void SelausWg::valitseValittu()
+{
+    for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
+        if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
+            ui->selausView->selectRow(i);
+            return;
+        }
+    }
+    ui->selausView->selectRow(0);
 }
 
 bool SelausWg::eventFilter(QObject *watched, QEvent *event)
