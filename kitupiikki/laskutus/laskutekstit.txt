@@ -107,6 +107,9 @@ ENhyvnro Number of compensation invoice
 huomaika Huomautusaika
 SVhuomaika Anmärkningstid
 ENhuomaika Period for complaints
+paivaa päivää
+SVpaivaa dagar
+ENpaivaa days
 viivkorko Viivästyskorko
 SVviivkorko Dröpmålsränta
 ENviivkorko Overdue fine
@@ -119,6 +122,9 @@ ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
 ENmaksumuistutus REQUEST FOR PAYMENT
+muistutusnro Maksumuistutuksen numero
+SVmuistutusnro Betalningspåminnelses nummero
+ENmuistutusnro Number of request for payment
 muistutusmaksu Huomautuskulut
 SVmuistutusmaksu Skriftlig betalningspåminnelse 
 ENmuistutusmaksu Request for payment fee

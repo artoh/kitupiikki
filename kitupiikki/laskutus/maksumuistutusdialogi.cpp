@@ -119,6 +119,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     // Tähän pitäisi lisätä rivit ja viennit
     qlonglong kulut = 0;
     QVariantList rivit;
+    QVariantList viennit;
 
     // Maksumuistutus
     if( ui->muistutusCheck->isChecked()) {
@@ -128,7 +129,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->muistutusSpin->value());
         kulut+=qRound64(ui->muistutusSpin->value() * 100.0);
-        muistutus.viennit()->lisaa(mmvienti);
+        viennit.append(mmvienti);
 
         QVariantMap mmmap;
         mmmap.insert("nimike", tulostaja.t("muistutusmaksu"));   // Tähän käännös
@@ -176,7 +177,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
             korkovienti.setKredit(vkorkosnt);
             korkovienti.setSelite(selite);
             kulut += vkorkosnt;
-            muistutus.viennit()->lisaa(korkovienti);
+            viennit.append(korkovienti);
 
             QVariantMap komap;
             komap.insert("nimike", selite);
@@ -187,7 +188,6 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         }
     }
 
-
     TositeVienti vienti;
     vienti.setEra(era);
     vienti.setPvm(kp()->paivamaara());
@@ -196,7 +196,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     vienti.setErapaiva(ui->eraDate->date());
     vienti.setKumppani(kumppaniId);
     vienti.setDebet(kulut);
-    muistutus.viennit()->lisaa(vienti);
+    viennit.insert(0, vienti);
 
     lasku.insert("aiempisaldo", eramap.value("saldo"));
 
@@ -204,6 +204,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     QVariantMap tm = muistutus.tallennettava();
     if( !rivit.isEmpty())
         tm.insert("rivit", rivit);
+    tm.insert("viennit", viennit);
 
     return tm;
 }
@@ -217,7 +218,7 @@ void MaksumuistutusDialogi::tallennaSeuraava()
         QVariantMap muikkari = muodostaMuistutus(erat_.takeFirst());
         KpKysely *kysely = kpk("/tositteet", KpKysely::POST);
         connect(kysely, &KpKysely::vastaus, this, &MaksumuistutusDialogi::tallennaLiite);
-        kysely->kysy(muikkari);
+        kysely->kysy(muikkari);                
     }
 }
 
@@ -232,4 +233,20 @@ void MaksumuistutusDialogi::tallennaLiite(QVariant *data)
     meta.insert("Filename", QString("maksumuistutus%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
     connect(liitetallennus, &KpKysely::vastaus, this, &MaksumuistutusDialogi::tallennaSeuraava);
     liitetallennus->lahetaTiedosto(liite, meta);
+    merkkaaMuistutetuksi(map);  // Merkitsee aiemmat laskut muistutettu-tilaan
+}
+
+void MaksumuistutusDialogi::merkkaaMuistutetuksi(const QVariantMap &data)
+{
+    QVariantMap muistutettuTila;
+    muistutettuTila.insert("tila", Tosite::MUISTUTETTU);
+
+    QVariantList lista = data.value("lasku").toMap().value("aiemmat").toList();
+    for(auto item : lista) {
+        QVariantMap map = item.toMap();
+        if( map.value("tila").toInt() != Tosite::MUISTUTETTU) {
+            KpKysely *mkysely = kpk(QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PATCH);
+            mkysely->kysy(muistutettuTila);
+        }
+    }
 }

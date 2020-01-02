@@ -487,7 +487,7 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
 
     addDockWidget(Qt::TopDockWidgetArea, harjoitusDock);
     connect( pvmedit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
-    connect( pvmedit, SIGNAL(dateChanged(QDate)), aloitussivu, SLOT(siirrySivulle()));  // Jotta päivittyy ;)
+    connect( pvmedit, &QDateEdit::dateChanged, Kirjanpito::db(), &Kirjanpito::kirjanpitoaMuokattu );  // Jotta päivittyy ;)
     harjoitusDock->setVisible(false);
 }
 

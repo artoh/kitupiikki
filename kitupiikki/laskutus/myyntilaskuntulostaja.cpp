@@ -256,7 +256,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     rk += 2 * mm;
 
     double leveys = painter->window().width();
-
+    QVariantMap lasku = map_.value("lasku").toMap();
 
     // Kuoren ikkuna
     QRectF ikkuna;
@@ -365,6 +365,9 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     {
         painter->drawText(QRectF( puoliviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, t("hyvnro"));
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, t("hyvpvm"));
+    } else if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS) {
+        painter->drawText(QRectF( puoliviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, t("muistutusnro"));
+        painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, t("erapvm"));
     } else {
         painter->drawText(QRectF( puoliviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, t("lnro"));
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, t("toimpvm"));
@@ -395,8 +398,15 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     painter->setFont(QFont("FreeSans", TEKSTIPT));
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, map_.value("pvm").toDate().toString("dd.MM.yyyy") );
-    painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom, map_.value("lasku").toMap().value("toimituspvm").toDate().toString("dd.MM.yyyy") );
     painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, map_.value("lasku").toMap().value("numero").toString() );
+
+    QString toimituslaatikkoon = map_.value("lasku").toMap().value("toimituspvm").toDate().toString("dd.MM.yyyy");
+    if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
+        toimituslaatikkoon = lasku.value("erapvm").toDate().toString("dd.MM.yyyy");
+    else if( lasku.contains("jaksopvm"))
+        toimituslaatikkoon = QString("%1 - %2").arg(lasku.value("toimituspvm").toDate().toString("dd.MM.yyyy"))
+                                                .arg(lasku.value("jaksopvm").toDate().toString("dd.MM.yyyy"));
+    painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom, toimituslaatikkoon );
 
     painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  ytunnus );
 
@@ -416,7 +426,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
         {
             painter->setFont( QFont("FreeSans", TEKSTIPT+2,QFont::Black));
-            painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys - keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("maksumuistutus") );
+            painter->drawText(QRectF( keskiviiva + mm, pv - rk*2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  t("maksumuistutus") );
             painter->setFont(QFont("FreeSans", TEKSTIPT));
         }
         else
@@ -427,7 +437,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
             painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(viivkorko,0,'f',1) );
         }
     }
-    painter->drawText(QRectF( keskiviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
+    painter->drawText(QRectF( keskiviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%1 %2").arg(kp()->asetukset()->luku("LaskuHuomautusaika",14)).arg(t("paivaa")) );
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2, leveys-keskiviiva, rk-mm ), Qt::AlignBottom,  asviite );
 
     // Kirjoittamista jatkettaan ruudukon jälkeen - taikka ikkunan, jos se on isompi
@@ -790,6 +800,8 @@ QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
     qlonglong summa = qRound64( laskunSumma_ * 100);
 
     if( summa > 99999999 )  // Ylisuuri laskunsumma
+        return QString();
+    if( ibanit_.value(0).isEmpty() || !map_.value("lasku").toMap().value("viite").toInt() || !summa )
         return QString();
 
     QString koodi = kp()->asetukset()->onko("LaskuRF") ?

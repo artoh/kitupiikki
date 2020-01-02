@@ -79,7 +79,10 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             case NUMERO:
                 if( map.contains("numero"))
                     return map.value("numero");
-                return map.value("viite");
+                else if(map.contains("viite"))
+                    return map.value("viite");
+                else
+                    return kp()->tositeTyypit()->nimi(map.value("tyyppi").toInt());
             case PVM:
                 return map.value("pvm").toDate();
             case ERAPVM:
@@ -167,7 +170,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         if( index.column() == NUMERO) {
                 switch (map.value("tyyppi").toInt()) {
                 case TositeTyyppi::MYYNTILASKU:
-                    if( !map.contains("eraid") )
+                    if( map.value("maksutapa").toInt() == LaskuDialogi::KATEINEN )
                             return QIcon(":/pic/kateinen.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:
@@ -179,6 +182,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
 
             } else if( index.column() == LAHETYSTAPA) {
                 return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());
+            } else if( index.column() == ERAPVM) {
+            if( map.value("tila").toInt() == Tosite::MUISTUTETTU)
+                return QIcon(":/pic/punainenkuori.png");
+            else
+                return QIcon(":/pic/tyhja.png");
             }
         }
         return QVariant();

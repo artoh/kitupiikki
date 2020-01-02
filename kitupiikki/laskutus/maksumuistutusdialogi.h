@@ -42,6 +42,7 @@ protected:
 
     void tallennaSeuraava();
     void tallennaLiite(QVariant* data);
+    void merkkaaMuistutetuksi(const QVariantMap& data);
 
 private:
     Ui::MaksumuistutusDialogi *ui;

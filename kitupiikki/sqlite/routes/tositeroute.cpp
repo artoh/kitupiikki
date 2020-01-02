@@ -464,6 +464,8 @@ int TositeRoute::kumppaniMapista(QVariantMap &map)
         kumppaniCache_.insert( kumppani.toString(), lisatty );
         return lisatty;
     }
-    else
+    else if( kumppani.type() == QVariant::Map) {
+        return kumppani.toMap().value("id").toInt();
+    } else
         return kumppani.toInt();
 }

@@ -354,6 +354,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
     lasku.insert("laskutapa", ui->laskutusCombo->currentData());
     lasku.insert("toimituspvm", ui->toimitusDate->date());
+    if( ui->jaksoDate->date().isValid())
+        lasku.insert("jaksopvm", ui->jaksoDate->date());
     if( rivit_->yhteensa() > 1e-3)
         lasku.insert("erapvm", ui->eraDate->date());
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
@@ -589,6 +591,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.value("laskutapa").toInt() ));
     ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.value("maksutapa").toInt() ));
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
+    ui->jaksoDate->setDate( lasku.value("jaksopvm").toDate());
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
     ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
     ui->lisatietoEdit->setPlainText( map.value("info").toString());
