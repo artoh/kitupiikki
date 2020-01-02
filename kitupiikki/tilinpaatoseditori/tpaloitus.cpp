@@ -126,17 +126,20 @@ void TpAloitus::tallennaHenkilosto(int maara)
 
 void TpAloitus::tarkistaPMA()
 {
-    if( kp()->asetukset()->onko("Elinkeinonharjoittaja"))
+
+    if( kp()->asetukset()->onko("Elinkeinonharjoittaja") && tilikausi.pieniElinkeinonharjoittaja() < 2
+            && tilikausi.paattyy().month() == 12 && tilikausi.paattyy().day() == 31)
     {
         // Elinkeinonharjoittajalla vähän toisenlainen
         ui->saantoGroup->setVisible(false);
-        ui->vapaaehtoisLabel->setVisible( tilikausi.pieniElinkeinonharjoittaja() < 2  );
+        ui->vapaaehtoisLabel->setVisible( true );
+        ui->mikroRadio->setChecked(true);
     }
     else
     {
+        int pienuus = tilikausi.pienuus();
         ui->vapaaehtoisLabel->setVisible(false);
 
-        int pienuus = tilikausi.pienuus();
         if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
                 kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
             pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;

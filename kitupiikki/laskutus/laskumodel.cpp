@@ -162,7 +162,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->laskunNumero_ = lasku.viite.toULongLong();
     model->asetaViivastyskorko( lasku.json.str("Viivastyskorko").toDouble() );
 
-    model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
+    model->asetaKieli( lasku.json.str("Kieli").isEmpty() ? "FI" : lasku.json.str("Kieli") );
 
     QVariantList lista = lasku.json.variant("Laskurivit").toList();
     for( const QVariant& var : lista)

@@ -258,9 +258,9 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
-    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
 
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
 
     connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
