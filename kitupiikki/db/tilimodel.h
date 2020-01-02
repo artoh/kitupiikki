@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 #include <QSqlDatabase>
 #include <QList>
+#include <QSet>
 
 #include "db/tili.h"
 

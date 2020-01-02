@@ -21,6 +21,7 @@
 #include <QString>
 #include <QDate>
 #include <QList>
+#include <QVariant>
 
 /**
  * @brief Yhden raportin sarakkeen tiedot, RaporttiRivin käyttöön

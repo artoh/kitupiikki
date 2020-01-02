@@ -25,9 +25,9 @@
 #include "kohdennusdelegaatti.h"
 #include "model/tositeviennit.h"
 
-
 #include <QHeaderView>
 #include <QSettings>
+#include <QKeyEvent>
 
 ViennitView::ViennitView(QWidget *parent)
     : QTableView (parent)

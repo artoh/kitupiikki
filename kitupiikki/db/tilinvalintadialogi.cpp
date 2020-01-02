@@ -18,6 +18,7 @@
 
 #include <QDebug>
 #include <QSettings>
+#include <QKeyEvent>
 
 #include "tilinvalintadialogi.h"
 #include "ui_tilinvalintadialogi.h"

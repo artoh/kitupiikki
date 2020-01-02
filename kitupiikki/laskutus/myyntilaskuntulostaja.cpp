@@ -34,7 +34,6 @@
 #include <QBuffer>
 #include <QApplication>
 
-
 bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
     MyyntiLaskunTulostaja tulostaja( lasku );
@@ -78,7 +77,6 @@ QString MyyntiLaskunTulostaja::valeilla(const QString &teksti)
 
 QString MyyntiLaskunTulostaja::bicIbanilla(const QString &iban)
 {
-
     // Pitää olla suomalainen IBAN
     if( !iban.startsWith("FI"))
         return QString();
@@ -142,8 +140,6 @@ MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *pa
     for( QString rivi : kp()->asetukset()->lista("LaskuTilit"))
         tekstiRivinLisays( rivi, kieli);
 
-
-
     QStringList tilit = kp()->asetus("LaskuTilit").split(",");
     for(auto tili : tilit)
         ibanit_.append(  kp()->tilit()->tiliNumerolla( tili.toInt() ).str("IBAN")  );
@@ -172,7 +168,6 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, QString("HARJOITUS") );
         painter->restore();
     }
-
 
     if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != LaskuDialogi::KATEINEN )
     {
@@ -209,7 +204,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
 
     double leveys = painter->window().width();
 
-
     // Kuoren ikkuna
     QRectF ikkuna;
     double keskiviiva = leveys / 2;
@@ -220,8 +214,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
                        kp()->asetukset()->luku("LaskuIkkunaLeveys",90) * mm, kp()->asetukset()->luku("LaskuIkkunaKorkeus",30) * mm);
     else
         ikkuna = QRectF( 0, rk * 3, keskiviiva, rk * 3);
-
-
 
     if( ikkuna.x() + ikkuna.width() > keskiviiva )
             keskiviiva = ikkuna.x() + ikkuna.width() + 2 * mm;
@@ -237,9 +229,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         ikkuna = QRectF( ikkuna.x(), ikkuna.y() + 30 * mm, ikkuna.width(), ikkuna.height() - 30 * mm);
     }
 
-
     // Lähettäjätiedot
-
     double vasen = 0.0;
     if( !kp()->logo().isNull() )
     {
@@ -299,7 +289,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, t("asviite"));
     }
 
-
     painter->drawText(QRectF( keskiviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, t("pvm"));
 
     int tyyppi = map_.value("tyyppi").toInt();
@@ -323,10 +312,8 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("huomaika"));
 
     // Viivästyskorko-laatikko vain, jos viivästyskorko määritelty ja laskulla maksettavaa
-
     double yhteensa = rivit_.yhteensa();
     double viivkorko = map_.value("lasku").toMap().value("viivkorko").toDouble();
-
 
     if( yhteensa > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )  // TODO: Tämä vakio!!
     {
@@ -341,7 +328,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, map_.value("lasku").toMap().value("numero").toString() );
 
     painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  ytunnus );
-
 
     int maksutapa = map_.value("lasku").toMap().value("maksutapa").toInt();
 
@@ -409,10 +395,8 @@ QString MyyntiLaskunTulostaja::t(const QString &avain) const
     return tekstit_.value(avain, "!" + avain);
 }
 
-
 void MyyntiLaskunTulostaja::tekstiRivinLisays(const QString &rivi, const QString& kieli)
 {
-
     int valinpaikka = rivi.indexOf(' ');
     if( valinpaikka > 2 && rivi.length() > 3) {
         QString avain = rivi.left(valinpaikka);
@@ -442,7 +426,6 @@ QChar MyyntiLaskunTulostaja::code128c(int koodattava) const
         return QChar( 105 + koodattava);
 }
 
-
 void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 {
     painter->setFont(QFont("FreeSans", 7));
@@ -465,19 +448,16 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     double viervi = pv + 20 * mm;
     double eurv = (painter->window().width() - 20 * mm) * 3 / 4 + 20 * mm;
 
-
-
     painter->drawText( QRectF(0,0,mm*19,mm*16.9), Qt::AlignRight | Qt::AlignHCenter, t("bst"));
     painter->drawText( QRectF(0, mm*18, mm*19, mm*14.8), Qt::AlignRight | Qt::AlignHCenter, t("bsa"));
     painter->drawText( QRectF(0, mm*32.7, mm*19, mm*20), Qt::AlignRight | Qt::AlignTop, t("bmo"));
-    painter->drawText( QRectF(0, mm*51.3, mm*19, mm*10), Qt::AlignRight | Qt::AlignBottom , t("bak"));
+    painter->drawText( QRectF(0, mm*51.3, mm*19, mm*10), Qt::AlignRight | Qt::AlignVCenter , t("bak"));
     painter->drawText( QRectF(0, mm*62.3, mm*19, mm*8.5), Qt::AlignRight | Qt::AlignHCenter, t("btl"));
     painter->drawText( QRectF(mm * 22, 0, mm*20, mm*10), Qt::AlignLeft, t("iban"));
 
     painter->drawText( QRectF(pv + 2 * mm, mm*53.8, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bvn"));
     painter->drawText( QRectF(pv + 2 * mm, mm*62.3, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bep"));
     painter->drawText( QRectF(eurv + 2 * mm, mm*62.3, mm*19, mm*8.5), Qt::AlignLeft, t("eur"));
-
 
     painter->setFont(QFont("FreeSans",6));
     painter->drawText( QRectF( loppu - mm * 60, mm * 72, mm * 60, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, t("behto") );
@@ -503,19 +483,18 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
 
     painter->drawText(QRectF( mm*22, mm * 33, osle, mm * 25), Qt::TextWordWrap,  map_.value("lasku").toMap().value("osoite").toString() );
 
-    painter->drawText( QRectF(viervi + 2 * mm, mm * 53.8 ,loppu - viervi - 4*mm, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, muotoiltuViite() );
+    painter->drawText( QRectF(viervi + 2 * mm, mm * 53.8 ,loppu - viervi - 4*mm, mm*7.5), Qt::AlignLeft | Qt::AlignVCenter, muotoiltuViite() );
 
-    painter->drawText( QRectF(viervi + 2 * mm , mm*62.3, eurv - viervi - 4 * mm , mm*7.5), Qt::AlignLeft | Qt::AlignBottom, map_.value("lasku").toMap().value("erapvm").toDate().toString("dd.MM.yyyy") );
-    painter->drawText( QRectF(eurv, mm*62.3, loppu - eurv - 10 * mm, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( laskunSumma_ ,0,'f',2) );
+    painter->drawText( QRectF(viervi + 2 * mm , mm*62.3, eurv - viervi - 4 * mm , mm*7.5), Qt::AlignLeft | Qt::AlignVCenter, map_.value("lasku").toMap().value("erapvm").toDate().toString("dd.MM.yyyy") );
+    painter->drawText( QRectF(eurv, mm*62.3, loppu - eurv - 10 * mm, mm*7.5), Qt::AlignRight | Qt::AlignVCenter, QString("%L1").arg( laskunSumma_ ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, osle, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
 
     QString tilinumerot;
     for(auto iban : ibanit_)
-        tilinumerot.append(valeilla(iban) + '\n');
+        tilinumerot.append(valeilla(iban) + " (" + bicIbanilla(ibanit_.value(0)) + ")" + '\n');
 
-    painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter ,  tilinumerot  );
-
+    painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter, tilinumerot );
 
     painter->save();
     painter->setFont(QFont("FreeSans", 7));
@@ -583,7 +562,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
             painter->setFont( QFont("FreeSans", 11));
             painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
-            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) );
+            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) + " (" + bicIbanilla(ibanit_.value(0)) + ")" );
         }
     }
 
@@ -615,7 +594,6 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
         painter->drawText(QRectF(leveys*4 / 5,0,leveys/5,2*rk), Qt::TextWordWrap , t("eialv") );
     }
 
-
     // Viivakoodi
     if( !kp()->asetukset()->onko("LaskuEiViivakoodi") && kp()->asetukset()->onko("LaskuEiTilisiirto") && laskunSumma_ > 0 /* && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuModel::KATEISLASKU */)
     {
@@ -632,8 +610,6 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
     painter->restore();
     return 4.5 * rk;
 }
-
-
 
 QByteArray MyyntiLaskunTulostaja::qrSvg() const
 {

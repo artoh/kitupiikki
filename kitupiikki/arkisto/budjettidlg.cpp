@@ -23,6 +23,7 @@
 #include "kirjaus/eurodelegaatti.h"
 
 #include <QMessageBox>
+#include <QCloseEvent>
 
 BudjettiDlg::BudjettiDlg(QWidget *parent) :
     QDialog(parent),

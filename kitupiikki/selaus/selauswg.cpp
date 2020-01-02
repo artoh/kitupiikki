@@ -24,6 +24,7 @@
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
 #include <QScrollBar>
+#include <QKeyEvent>
 
 #include <QDebug>
 

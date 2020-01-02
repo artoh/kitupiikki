@@ -18,6 +18,7 @@
 #define MARGINAALILASKELMA_H
 
 #include <QList>
+#include <QDate>
 
 /**
  * @brief Yhden verokannan marginaaliverolaskelma

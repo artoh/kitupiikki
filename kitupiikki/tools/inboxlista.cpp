@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QImage>
 #include <QSettings>
+#include <QMouseEvent>
 
 #include <poppler/qt5/poppler-qt5.h>
 
