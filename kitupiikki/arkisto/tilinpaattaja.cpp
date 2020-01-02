@@ -152,7 +152,7 @@ void TilinPaattaja::teeJaksotukset()
 {
     Jaksottaja *jaksottaja = new Jaksottaja(this);
     connect( jaksottaja, &Jaksottaja::jaksotettu, this, &TilinPaattaja::paivitaDialogi);
-    jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList());
+    jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList(), data_.value("verosaaminen").toDouble());
 }
 
 void TilinPaattaja::muokkaa()
@@ -210,7 +210,8 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->poistoNappi->setVisible(!poistotkirjattu && !eipoistoja);
 
     bool jaksotuksetkirjattu = data_.value("jaksotukset").toString() == "kirjattu";
-    bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty();
+    bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty() &&
+            !data_.contains("verosaaminen");
 
     ui->eiJaksotettavaaLabel->setVisible( !jaksotuksetkirjattu && eijaksotuksia);
     ui->jaksotTehty->setVisible( jaksotuksetkirjattu );

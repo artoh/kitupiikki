@@ -168,9 +168,9 @@ void AlvLaskelma::kirjaaVerot()
         maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
         maksu.setAlvKoodi( AlvKoodi::TILITYS );
         if( vero > vahennys )
-            maksu.setKredit( ( vero - vahennys) / 100.0 );
+            maksu.setKredit(  vero - vahennys );
         else
-            maksu.setDebet( ( vero - vahennys) / 100.0 );
+            maksu.setDebet(  vahennys - vero );
 
         lisaaKirjausVienti( maksu );
     }
@@ -648,13 +648,13 @@ void AlvLaskelma::kirjaaHuojennus()
     TositeVienti huojennettava;
     huojennettava.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
     huojennettava.setSelite( selite );
-    huojennettava.setDebet( huojennus() / 100.0 );
+    huojennettava.setDebet( huojennus() );
     lisaaKirjausVienti( huojennettava );
 
     TositeVienti huojentaja;
     huojentaja.setTili( kp()->asetukset()->luku("AlvHuojennusTili") );
     huojentaja.setSelite( selite );
-    huojentaja.setKredit( huojennus() / 100.0);
+    huojentaja.setKredit( huojennus() );
     lisaaKirjausVienti( huojentaja );
 }
 

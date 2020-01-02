@@ -40,20 +40,22 @@ Jaksottaja::~Jaksottaja()
     delete ui;
 }
 
-bool Jaksottaja::teeJaksotukset(const Tilikausi &kausi, const QVariantList &jaksotukset)
+bool Jaksottaja::teeJaksotukset(const Tilikausi &kausi, const QVariantList &jaksotukset, double verovelka)
 {
+    qlonglong verovelkasentit = qRound64(verovelka * 100.0);
+
     ui->otsakeLabel->setText( tr("Vahvista tilinpäätösjaksotukset"));
-    RaportinKirjoittaja selvitys = jaksotusSelvitys(kausi, jaksotukset);
+    RaportinKirjoittaja selvitys = jaksotusSelvitys(kausi, jaksotukset, verovelkasentit);
     ui->browser->setHtml( selvitys.html());
 
     if( !selvitys.tyhja() && exec()) {
-        kirjaaTilinpaatokseen( kausi.paattyy(), jaksotukset);
+        kirjaaTilinpaatokseen( kausi.paattyy(), jaksotukset, verovelkasentit);
         return true;
     }
     return false;
 }
 
-void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jaksotukset)
+void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jaksotukset, qlonglong verovelkasentit)
 {
     Tosite* tosite = new Tosite(this);
 
@@ -111,6 +113,30 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         tosite->viennit()->lisaa(vienti);
     }
 
+    if( verovelkasentit ) {
+        TositeVienti vienti;
+        TositeVienti vasta;
+
+        vienti.setPvm( pvm );
+        vasta.setPvm( pvm );
+
+        vienti.setTyyppi( TositeVienti::JAKSOTUS_TP + TositeVienti::KIRJAUS);
+        vasta.setTyyppi( TositeVienti::JAKSOTUS_TP + TositeVienti::VASTAKIRJAUS);
+
+        vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        vasta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).numero() );
+
+        vienti.setKredit(verovelkasentit);
+        vasta.setDebet(verovelkasentit);
+
+        QString selite = tr("Negatiivisen verovelan kirjaaminen verosaataviin");
+        vienti.setSelite(selite);
+        vasta.setSelite(selite);
+
+        tosite->viennit()->lisaa(vasta);
+        tosite->viennit()->lisaa(vienti);
+    }
+
 
     KpKysely *kysely = kpk("/tositteet", KpKysely::POST);
     connect( kysely, &KpKysely::vastaus,
@@ -119,10 +145,10 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
 }
 
-RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const QVariantList &jaksotukset)
+RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const QVariantList &jaksotukset, qlonglong verovelkasentit)
 {
     RaportinKirjoittaja rk;
-    rk.asetaOtsikko("TILINPÄÄTÖSJAKSOTUKSET");
+    rk.asetaOtsikko(tr("TILINPÄÄTÖSJAKSOTUKSET"));
     rk.asetaKausiteksti( kausi.paattyy().toString("dd.MM.yyyy"));
 
     rk.lisaaPvmSarake();
@@ -140,7 +166,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
     otsikko.lisaa("Selite");
     otsikko.lisaa("Debet €");
     otsikko.lisaa("Kredit €");
-    rk.lisaaOtsake(otsikko);
+    rk.lisaaOtsake(otsikko);        
 
     int edellinentili = 0;
     for( auto rivi : jaksotukset) {
@@ -168,6 +194,14 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         rr.lisaa( map.value("kredit").toDouble());
         rk.lisaaRivi(rr);
     }
+
+    if( verovelkasentit ) {
+        RaporttiRivi vrivi;
+        vrivi.lisaa(tr("Verosaamiseksi kirjattava negatiivinen verovelka"),3);
+        vrivi.lisaa(verovelkasentit);
+        rk.lisaaRivi(vrivi);
+    }
+
     return rk;
 }
 
