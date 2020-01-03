@@ -31,6 +31,7 @@
 #include "arkistosivu.h"
 #include "poistaja.h"
 #include "jaksottaja.h"
+#include "tuloverodialog.h"
 
 #include "arkisto/arkistosivu.h"
 
@@ -50,6 +51,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
     connect( ui->poistoNappi, SIGNAL(clicked(bool)), this, SLOT(teePoistot()));
     connect( ui->jaksotusNappi, &QPushButton::clicked, this, &TilinPaattaja::teeJaksotukset);
+    connect( ui->tuloveroNappi, &QPushButton::clicked, this, &TilinPaattaja::kirjaaTulovero);
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->mappiNappi, &QPushButton::clicked, this, &TilinPaattaja::mappi);
@@ -153,6 +155,12 @@ void TilinPaattaja::teeJaksotukset()
     Jaksottaja *jaksottaja = new Jaksottaja(this);
     connect( jaksottaja, &Jaksottaja::jaksotettu, this, &TilinPaattaja::paivitaDialogi);
     jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList(), data_.value("verosaaminen").toDouble());
+}
+
+void TilinPaattaja::kirjaaTulovero()
+{
+    TuloveroDialog *dlg = new TuloveroDialog(this);
+    dlg->show();
 }
 
 void TilinPaattaja::muokkaa()

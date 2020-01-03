@@ -66,20 +66,6 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>1. Varmista, että kaikki tilikaudelle kuuluvat tositteet on kirjattu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="poistoLabel">
-        <property name="text">
-         <string>2. Tee poistokirjaukset</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -138,6 +124,13 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>4. Tee muut tarvittavat tilinpäätöskirjaukset</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
@@ -189,14 +182,76 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QLabel" name="label_3">
+      <item row="5" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QPushButton" name="tuloveroNappi">
+          <property name="text">
+           <string>Kirjaa tulovero...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="veroTehty">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="eiveroaLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Ei verovelvollinen</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="veroKirjattuLabel">
+          <property name="text">
+           <string>Tulovero kirjattu</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>4. Tee muut tarvittavat tilinpäätöskirjaukset</string>
+         <string>6. Laske ja kirjaa yhteisön tulovero</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="2">
+      <item row="1" column="0">
+       <widget class="QLabel" name="poistoLabel">
+        <property name="text">
+         <string>2. Tee poistokirjaukset</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>1. Varmista, että kaikki tilikaudelle kuuluvat tositteet on kirjattu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>5. Tarkasta raportteja tutkimalla, että kaikki kirjaukset on tehty</string>
@@ -215,7 +270,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>6. Lukitse kirjanpito ja muodosta arkisto</string>
+         <string>7. Lukitse kirjanpito ja muodosta arkisto</string>
         </property>
        </widget>
       </item>
@@ -263,7 +318,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>7. Muodosta tilinpäätös ja kirjoita liitetiedot</string>
+         <string>8. Muodosta tilinpäätös ja kirjoita liitetiedot</string>
         </property>
        </widget>
       </item>
@@ -284,7 +339,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>8. Tulosta tilinpäätös</string>
+         <string>9. Tulosta tilinpäätös</string>
         </property>
        </widget>
       </item>
@@ -320,7 +375,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>9. Vahvista tilinpäätös</string>
+         <string>10. Vahvista tilinpäätös</string>
         </property>
        </widget>
       </item>
@@ -412,8 +467,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>586</x>
-     <y>431</y>
+     <x>852</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>384</x>

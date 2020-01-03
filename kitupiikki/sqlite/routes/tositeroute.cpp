@@ -201,9 +201,19 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
             tunniste = kysely.value("tunniste").toInt() + 1;
     }
     // Laskun numero ja viite
-    if( map.contains("lasku") && map.value("lasku").toMap().value("numero").toInt() == 0 && tila >= Tosite::KIRJANPIDOSSA &&
+    if( map.contains("lasku") && map.value("lasku").toMap().value("numero").toLongLong() == 0l && tila >= Tosite::KIRJANPIDOSSA &&
             viennit.count()) {
-        qulonglong laskunumero = kp()->asetukset()->asetus("LaskuSeuraavaId").toULongLong();
+        // LaskuSeuraavaId käsitellään käsin, jotta ei tule päällekkäisiä numeroita
+        // vaikka olisi monta instanssia.
+        qulonglong laskunumero = 0;
+        QSqlQuery laskunumerokysely( db());
+        laskunumerokysely.exec("SELECT arvo FROM Asetus WHERE avain='LaskuSeuraavaId'");
+        if( laskunumerokysely.next())
+            laskunumero = laskunumerokysely.value(0).toULongLong();
+
+        if( laskunumero < kp()->asetukset()->asetus("LaskuNumerointialkaa").toULongLong())
+            laskunumero = kp()->asetukset()->asetus("LaskuNumerointialkaa").toULongLong();
+
         QVariantMap laskumap = map.value("lasku").toMap();
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);

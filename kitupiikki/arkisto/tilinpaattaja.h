@@ -50,6 +50,7 @@ private slots:
     void lukitse();
     void teePoistot();
     void teeJaksotukset();
+    void kirjaaTulovero();
     void muokkaa();
     void esikatsele();
     void mappi();
