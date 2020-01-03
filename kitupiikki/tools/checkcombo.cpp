@@ -103,7 +103,7 @@ void CheckCombo::haeMerkkaukset(const QDate &paivalle)
 }
 
 void CheckCombo::updateText()
-{
+{    
     QString text;
     for (int i = 0; i < model_->rowCount(); i++)
     {
@@ -117,6 +117,7 @@ void CheckCombo::updateText()
             text+= model_->item(i)->text();
         }
     }
+    setEditText(text);
     lineEdit()->setText(text);
 }
 
@@ -174,6 +175,7 @@ void CheckCombo::onItemPressed(const QModelIndex &index)
     else
         item->setCheckState(Qt::Checked);
     updateText();
+    emit valintaMuuttui();
 }
 
 bool CheckCombo::eventFilter(QObject *object, QEvent *event)

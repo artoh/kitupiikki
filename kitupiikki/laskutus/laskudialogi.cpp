@@ -119,6 +119,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
         ui->eraDate->setDate( MyyntiLaskunTulostaja::erapaiva() );
         alustaMaksutavat();
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
+        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
     }
 
     if( ryhmalasku )
@@ -241,9 +242,13 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa")));
 
     asAlvTunnus_ = map.value("alvtunnus").toString();
+    if( asAlvTunnus_.isEmpty())
+        // Yksityishenkilön viivästyskorko on peruskorko + 7 %
+        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
+    else
+        // Yrityksen viivästyskorko on peruskorko + 8 %
+        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 8.0 );
 
-
-    // TODO: Mahdolliset toimitustavat
 }
 
 void LaskuDialogi::paivitaLaskutustavat()
@@ -462,9 +467,9 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
     vienti.setPvm( kp()->paivamaara() );
     if( ui->maksuCombo->currentData().toInt() == KATEINEN)
         // TODO: Tilinvalinnat
-        vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KATEINEN).numero());
+        vienti.setTili( kp()->asetukset()->luku("LaskuKateistili"));
     else {
-        vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
+        vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );
         if( tallennusTila_ >= Tosite::VALMISLASKU)
             vienti.setEra( -1 );
     }

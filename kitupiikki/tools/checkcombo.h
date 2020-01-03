@@ -40,21 +40,25 @@ public:
     QVariantList selectedDatas() const;
     QList<int> selectedInts() const;
 
+signals:
+    void valintaMuuttui();
+
 public slots:
     void haeMerkkaukset(const QDate& paivalle = QDate());
     void setSelectedItems(const QList<int>& list);
     void setSelectedItems(const QVariantList& list);
     void haeRyhmat();
+    void updateText();
 
 private slots:
     void onModelDataChanged();
     void onItemPressed(const QModelIndex& index);
-    void updateText();
+
 
 protected:
     bool eventFilter(QObject *object, QEvent* event) override;
     void focusOutEvent(QFocusEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;    
 
 private:
     QStandardItemModel* model_;

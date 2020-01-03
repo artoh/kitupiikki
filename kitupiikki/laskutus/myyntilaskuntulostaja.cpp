@@ -137,17 +137,14 @@ QDate MyyntiLaskunTulostaja::erapaiva()
 }
 
 MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent) :
-    QObject(parent), map_(map), rivit_( this, map.value("rivit").toList() )
+    QObject(parent), map_(map), rivit_( this, map.value("rivit").toList() ),
+    ibanit_( kp()->asetus("LaskuIbanit").split(',') )
 {
     alustaKaannos( map_.value("lasku").toMap().value("kieli").toString() );
 
     laskunSumma_ = ( qRound64( rivit_.yhteensa() * 100.0 ) +
                      qRound64( map.value("lasku").toMap().value("aiempisaldo").toDouble() * 100.0)
                     ) / 100.0;
-
-    QStringList tilit = kp()->asetus("LaskuTilit").split(",");
-    for(auto tili : tilit)
-        ibanit_.append(  kp()->tilit()->tiliNumerolla( tili.toInt() ).str("IBAN")  );
 }
 
 MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QString &kieli, QObject *parent) :
@@ -573,7 +570,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
 
     QString tilinumerot;
     for(auto iban : ibanit_)
-        tilinumerot.append(valeilla(iban) + " (" + bicIbanilla(iban) + ")" + '\n');
+        tilinumerot.append(valeilla(iban) + '\n');
 
     painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter, tilinumerot );
 
@@ -650,7 +647,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
             painter->setFont( QFont("FreeSans", 11));
             painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
-            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) + " (" + bicIbanilla(ibanit_.value(0)) + ")" );
+            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) );
         }
     }
 

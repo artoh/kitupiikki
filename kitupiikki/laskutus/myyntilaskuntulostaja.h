@@ -55,7 +55,7 @@ public:
 
     QString virtuaaliviivakoodi() const;
     QString muotoiltuViite() const;
-    QString iban() const { return valeilla(iban_);}
+    QString iban() const { return valeilla(ibanit_.value(0));}
 
 signals:
 
@@ -89,7 +89,6 @@ protected:
     LaskuRivitModel rivit_;
     double laskunSumma_ = 0.0;
 
-    QString iban_;
     QStringList ibanit_;
 
 };

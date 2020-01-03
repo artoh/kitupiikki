@@ -125,7 +125,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if( ui->muistutusCheck->isChecked()) {
         TositeVienti mmvienti;
         mmvienti.setPvm(kp()->paivamaara());
-        mmvienti.setTili(9170); // Tämä asetuksiin
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili")); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->muistutusSpin->value());
         kulut+=qRound64(ui->muistutusSpin->value() * 100.0);

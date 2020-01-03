@@ -24,12 +24,14 @@
 #include <QTextEdit>
 #include <QDoubleSpinBox>
 #include "tools/tilicombo.h"
+#include "tools/checkcombo.h"
 
 #include "db/kielikentta.h"
 #include <QJsonDocument>
 #include <QVariant>
 
 #include <QDebug>
+#include <QTimer>
 
 TallentavaMaaritysWidget::TallentavaMaaritysWidget(const QString &ohjesivu, QWidget *parent)
     : MaaritysWidget (parent), ohjesivu_(ohjesivu)
@@ -65,6 +67,30 @@ bool TallentavaMaaritysWidget::nollaa()
             tcombo->valitseTili( kp()->asetukset()->luku(asetusavain) );
             connect( tcombo, &TiliCombo::tiliValittu, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
             continue;
+        }
+
+        CheckCombo *ccombo = qobject_cast<CheckCombo*>(widget);
+        if( ccombo ) {
+            ccombo->clear();
+            if( ccombo->property("Ibanit").toBool()) {
+                // Alustetaan ibanluettelolla
+                for(int i=0; i < kp()->tilit()->rowCount(); i++) {
+                    Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
+                    QString iban = tili->str("IBAN");
+                    if( tili->tila() && !iban.isEmpty()) {
+                        ccombo->addItem(QString("%1 %2").arg(tili->nimi()).arg(iban),
+                                        iban,
+                                        Qt::Unchecked);
+                    }
+                }
+                QVariantList valitut;
+                for(auto iban : kp()->asetus(asetusavain).split(','))
+                    valitut.append(iban);
+                ccombo->setSelectedItems(valitut);
+                QTimer::singleShot(50, ccombo, &CheckCombo::updateText);
+
+            }
+            connect( ccombo, &CheckCombo::valintaMuuttui, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
         }
 
         QComboBox *combo = qobject_cast<QComboBox*>(widget);
@@ -150,6 +176,16 @@ bool TallentavaMaaritysWidget::tallenna()
             continue;
         }
 
+        CheckCombo *ccombo = qobject_cast<CheckCombo*>(widget);
+        if( ccombo )
+        {
+            QStringList lista;
+            for(auto item : ccombo->selectedDatas())
+                lista.append(item.toString());
+            asetukset.insert(asetusavain, lista.join(','));
+            continue;
+        }
+
         QComboBox *combo = qobject_cast<QComboBox*>(widget);
         if( combo ) {
             asetukset.insert(asetusavain, combo->currentData());
@@ -211,6 +247,17 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         TiliCombo *tcombo = qobject_cast<TiliCombo*>(widget);
         if( tcombo ) {
             if( tcombo->valittuTilinumero() != kp()->asetukset()->luku(asetusavain))
+                return true;
+            continue;
+        }
+
+        CheckCombo *ccombo = qobject_cast<CheckCombo*>(widget);
+        if( ccombo )
+        {
+            QStringList lista;
+            for(auto item : ccombo->selectedDatas())
+                lista.append(item.toString());
+            if( kp()->asetukset()->asetus(asetusavain) != lista.join(','))
                 return true;
             continue;
         }
