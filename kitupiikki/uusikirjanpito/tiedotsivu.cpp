@@ -86,14 +86,17 @@ bool TiedotSivu::validatePage()
         velho->asetukset_.insert("AlvVelvollinen",true);
     }
 
-    if( IbanValidator::kelpaako(ui->tiliLine->text()))
+    if( IbanValidator::kelpaako(ui->tiliLine->text())) {
+        QString iban = ui->tiliLine->text().remove(QChar(' '));
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
-                QVariantMap map = velho->tilit_.at(i).toMap();
-                map.insert("IBAN", ui->tiliLine->text().remove(QChar(' ')));
+                QVariantMap map = velho->tilit_.at(i).toMap();                
+                map.insert("IBAN", iban);
                 velho->tilit_[i] = map;
                 break;
             }
+        }
+        velho->asetukset_.insert("LaskuIbanit", iban);
     }
 
     return true;
