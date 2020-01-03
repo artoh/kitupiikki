@@ -39,11 +39,15 @@ protected slots:
 
 protected slots:
     void tositeSaapuu(QVariant* data);
+    void tositeTallennettu(QVariant* data);
+
+    void lahetaSeuraava(int status);
 
 protected:
     bool tulosta();
     bool tallenna();
     void merkkaaToimitetuksi(int tositeId);
+    QString maksutiedot(const QVariantMap& data);
 
     void tilaaSeuraavaLasku();
 
@@ -52,8 +56,10 @@ protected:
     QList<int> tilattavat_;
     QList<QVariantMap> tulostettavat_;
     QList<QVariantMap> tallennettavat_;
+    QList<QVariantMap> sahkopostilla_;
     int toimitetut_ = 0;
     int laskuja_ = 0;
+    bool emailvirheita_ = false;
 };
 
 #endif // MYYNTILASKUJENTOIMITTAJA_H

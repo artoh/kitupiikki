@@ -18,6 +18,7 @@
 
 #include "db/kirjanpito.h"
 #include "laskutus/laskudialogi.h"
+#include "laskutus/ryhmalasku/toimitustapadelegaatti.h"
 
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -31,7 +32,7 @@ QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, i
     else if( role == Qt::DisplayRole && orientation == Qt::Horizontal)
     {
         switch (section) {
-        case NUMERO: return tr("Viitenumero");
+        case NUMERO: return tr("Numero");
         case PVM: return tr("Laskun pvm");
         case ERAPVM: return tr("Eräpvm");
         case SUMMA: return tr("Summa");
@@ -76,7 +77,12 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
             case NUMERO:
-                return map.value("viite");
+                if( map.contains("numero"))
+                    return map.value("numero");
+                else if(map.contains("viite"))
+                    return map.value("viite");
+                else
+                    return kp()->tositeTyypit()->nimi(map.value("tyyppi").toInt());
             case PVM:
                 return map.value("pvm").toDate();
             case ERAPVM:
@@ -85,7 +91,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::DisplayRole)
                 {
                     double summa = map.value("summa").toDouble();
-                    if( summa > 1e-5)
+                    if( qAbs(summa) > 1e-5)
                         return QString("%L1 €").arg(summa,0,'f',2);
                     else
                         return QVariant();  // Nollalle tyhjää
@@ -96,7 +102,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::DisplayRole)
                 {                                     
                     double avoin = map.value("avoin").toDouble();
-                    if( avoin > 1e-5)
+                    if( qAbs(avoin) > 1e-5)
                         return QString("%L1 €").arg( avoin ,0,'f',2);
                     else
                         return QVariant();  // Nollalle tyhjää
@@ -105,16 +111,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return map.value("avoin").toDouble();
             case LAHETYSTAPA:
             {
-                switch (map.value("laskutapa").toInt()) {
-                case LaskuDialogi::TULOSTETTAVA:
-                    return tr("Tuloste");
-                case LaskuDialogi::SAHKOPOSTI:
-                    return tr("Sähköposti");
-                case LaskuDialogi::PDF:
-                    return tr("PDF");
-                default:
-                    return QVariant();
-                }
+                return ToimitustapaDelegaatti::toimitustapa(map.value("laskutapa").toInt());
             }
             case ASIAKASTOIMITTAJA: {
                 QString kumppani = ostoja_ ?
@@ -167,7 +164,35 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             era.insert("saldo", map.value("avoin"));
             return era;
         }
-    }
+    case NumeroRooli:
+        return map.value("numero");
+    case Qt::DecorationRole: {
+        if( index.column() == NUMERO) {
+                switch (map.value("tyyppi").toInt()) {
+                case TositeTyyppi::MYYNTILASKU:
+                    if( map.value("maksutapa").toInt() == LaskuDialogi::KATEINEN )
+                            return QIcon(":/pic/kateinen.png");
+                    return QIcon(":/pic/lasku.png");
+                case TositeTyyppi::HYVITYSLASKU:
+                    return QIcon(":/pic/poista.png");
+                case TositeTyyppi::MAKSUMUISTUTUS:
+                    return QIcon(":/pic/punainenkuori.png");
+                }
+                return QIcon(":/pic/tyhja.png");
+
+            } else if( index.column() == LAHETYSTAPA) {
+                return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());
+            } else if( index.column() == ERAPVM) {
+            if( map.value("tila").toInt() == Tosite::MUISTUTETTU)
+                return QIcon(":/pic/punainenkuori.png");
+            else
+                return QIcon(":/pic/tyhja.png");
+            }
+        }
+        return QVariant();
+    case EraPvmRooli:
+        return map.value("erapvm").toDate();
+    }    
     return QVariant();
 }
 

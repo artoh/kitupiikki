@@ -172,10 +172,12 @@ void SiirtoApuri::tililleMuuttui()
     paivitaKateislaji();
 }
 
-void SiirtoApuri::eraValittu(int /* eraId */, double avoinna)
+void SiirtoApuri::eraValittu(int /* eraId */, double avoinna, const QString &selite)
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(avoinna);
+    if( tosite()->otsikko().isEmpty())
+        tosite()->asetaOtsikko(selite);
 
     tositteelle();
 }

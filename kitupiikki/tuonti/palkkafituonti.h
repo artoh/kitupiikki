@@ -32,7 +32,7 @@
  *
  */
 class PalkkaFiTuonti
-{
+{    
 public:
     PalkkaFiTuonti();
 

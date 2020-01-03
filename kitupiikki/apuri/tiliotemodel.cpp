@@ -100,7 +100,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case KOHDENNUS:
         {
             if( rivi.laskupvm.isValid())
-                return rivi.laskupvm;
+                return rivi.laskupvm;            
 
             QString txt;
             if( rivi.kohdennus )
@@ -412,7 +412,7 @@ void TilioteModel::teeTuonti()
         rivi.arkistotunnus = map.value("arkistotunnus").toString();
 
         rivi.era = map.value("era").toMap();
-        rivi.laskupvm = map.value("laskupvm").toDate();
+        rivi.laskupvm = map.value("era").toMap().value("pvm").toDate();
         rivi.tili = map.value("tili").toInt();
         rivi.tilinumero = map.value("iban").toString();
 
@@ -422,7 +422,7 @@ void TilioteModel::teeTuonti()
     // Siivotaan ne, jotka oli kirjattu käsin tililtä
     for(int i=0; i < ennentuontia; i++)
         if( rivit_.value(i).harmaa)
-            siivoa(i, ennentuontia + 1);
+            siivoa(i, ennentuontia);
 }
 
 void TilioteModel::siivoa(int harmaarivi, int myohemmat)
@@ -449,8 +449,10 @@ void TilioteModel::siivoa(int harmaarivi, int myohemmat)
     double euro = rivi(harmaarivi).euro;
 
     for( int i=myohemmat; i < rivit_.count(); i++) {
-        if( pvm == rivi(i).pvm && qAbs( euro - rivi(i).euro) < 1e-5 &&
-            rivi(i).arkistotunnus.isEmpty() )
+        QDate vrtPvm = rivi(i).pvm;
+        double vrtEuro = rivi(i).euro;
+        if( pvm == vrtPvm && qAbs( euro - vrtEuro) < 1e-3 &&
+            arkistotunnus.isEmpty() )
             sopivat.append(i);
     }
 

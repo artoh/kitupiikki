@@ -117,7 +117,7 @@
      <item>
       <widget class="QPushButton" name="hyvitysNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Hyvityslasku</string>
@@ -131,7 +131,7 @@
      <item>
       <widget class="QPushButton" name="muistutusNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Maksumuistutus</string>
@@ -163,6 +163,17 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/uusitiedosto.png</normaloff>:/pic/uusitiedosto.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ryhmalaskuNappi">
+       <property name="text">
+        <string>Ryhmälasku</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
        </property>
       </widget>
      </item>

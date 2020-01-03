@@ -43,9 +43,9 @@
 
 LaskuSivu::LaskuSivu() :
     KitupiikkiSivu () ,
-    ryhmaWidget_( new KumppaniTuoteWidget(this)),
-    kumppaniTuoteWidget_( new KumppaniTuoteWidget(this)),
-    laskuWidget_( new LaskulistaWidget(this))
+    ryhmaWidget_( new KumppaniTuoteWidget()),
+    kumppaniTuoteWidget_( new KumppaniTuoteWidget()),
+    laskuWidget_( new LaskulistaWidget())
 
 {
     luoUi();
@@ -62,7 +62,9 @@ LaskuSivu::LaskuSivu() :
 
 LaskuSivu::~LaskuSivu()
 {
-
+    delete ryhmaWidget_;
+    delete kumppaniTuoteWidget_;
+    delete laskuWidget_;
 }
 
 void LaskuSivu::siirrySivulle()
@@ -72,9 +74,6 @@ void LaskuSivu::siirrySivulle()
 
 void LaskuSivu::paaTab(int indeksi)
 {
-    kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
-    laskuWidget_->setVisible( indeksi != TUOTTEET);
-
 
     if( indeksi == REKISTERI) {
         splitter_->replaceWidget(0, ryhmaWidget_);
@@ -86,6 +85,11 @@ void LaskuSivu::paaTab(int indeksi)
         if( splitter_->widget(0) != kumppaniTuoteWidget_)
             splitter_->replaceWidget(0, kumppaniTuoteWidget_);
     }
+
+    kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
+    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
+    ryhmaWidget_->setVisible( indeksi == REKISTERI);
+
 
     if( indeksi >= REKISTERI )
         kumppaniTuoteWidget_->nayta( indeksi - 2);    

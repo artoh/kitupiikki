@@ -72,7 +72,7 @@ void TulomenoRivi::setAlvvahennys(bool vahennys)
 
 qlonglong TulomenoRivi::brutto() const
 {
-    if( netto_ ) {
+    if( !brutto_ ) {
         return qRound64( ( 100 + veroprosentti_ ) * netto_ / 100.0);
     } else
         return brutto_;
@@ -80,7 +80,7 @@ qlonglong TulomenoRivi::brutto() const
 
 qlonglong TulomenoRivi::netto() const
 {
-    if( brutto_ ) {
+    if( !netto_ ) {
         qlonglong vero = qRound64( brutto_ * veroprosentti_ / ( 100 + veroprosentti_) );
         return brutto_ - vero;
     } else
@@ -97,6 +97,11 @@ void TulomenoRivi::setNetto(qlonglong sentit)
 {
     netto_ = sentit;
     brutto_ = 0;
+}
+
+void TulomenoRivi::setNetonVero(qlonglong sentit)
+{
+    brutto_ = netto_ + sentit;
 }
 
 bool TulomenoRivi::naytaBrutto() const
@@ -214,6 +219,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero() );
             palautus.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO );
+            palautus.setEra(-1);
         } else {
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
@@ -239,6 +245,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
             verorivi.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA ).numero() );
             verorivi.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
+            verorivi.setEra(-1);
         } else {
             verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);

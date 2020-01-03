@@ -47,16 +47,19 @@ public slots:
     void laheta();
     void alusta();
 
-    void uusilasku();
+    void uusilasku(bool ryhmalasku);
 
 private slots:
     void muokkaa();
     void kopioi();
+    void hyvita();
+    void muistuta();
     void poista();
 
     void naytaLasku();
     void naytaDialogi(QVariant* data);
     void haettuKopioitavaksi(QVariant* data);
+    void teeHyvitysLasku(QVariant *data);
 
 
 private:

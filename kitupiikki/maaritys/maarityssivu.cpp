@@ -59,7 +59,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Laskutus"), LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, QIcon(":/pic/kateinen.png"), "maksutavat");
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, QIcon(":/pic/arkisto64.png"),"tositesarjat");
-//    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
+    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
 //    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));

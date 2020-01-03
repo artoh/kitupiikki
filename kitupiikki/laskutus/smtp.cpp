@@ -43,7 +43,7 @@ Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int p
 
 void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QString &subject, const QString &viesti, const QString &liitenimi, const QByteArray &liite)
 {
-    emit status(tr("Yhdistetään sähköpostipalvelimeen..."));
+    emit status(Connecting);
     qApp->processEvents();
 
     message = "To: " + to + "\n";
@@ -65,7 +65,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     message.append("Content-Type: multipart/mixed; boundary=frontier\n\n");
 
     message.append( "--frontier\n" );
-    message.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
+    message.append( "Content-Type: text/plain; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
 
     message.append(viesti);
 
@@ -102,7 +102,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
         {
             QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
             state = Close;
-            emit status(tr("Sähköpostin lähetys epäonnistui"));
+            emit status(Failed);
         }
         qDebug() << socket->errorString();
      }
@@ -132,7 +132,7 @@ void Smtp::errorReceived(QAbstractSocket::SocketError socketError)
     {
         QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
         state = Close;
-        emit status( tr( "Sähköpostin lähetys epäonnistui" ) );
+        emit status( Failed);
     }
 }
 
@@ -165,10 +165,11 @@ void Smtp::readyRead()
 
     qDebug() << "Server response code:" <<  responseLine;
     qDebug() << "Server response: " << response;
+    qDebug() << "State " << state;
 
     if ( state == Init && responseLine == "220" )
     {
-        emit status( tr( "Lähetetään sähköpostia..." ) );
+        emit status( Sending );
         if( port == 25)
         {
             // Portti 25 SMTP-protokolla
@@ -276,7 +277,7 @@ void Smtp::readyRead()
         t->flush();
         // here, we just close.
         state = Close;
-        emit status( tr( "Sähköposti lähetetty" ) );
+        emit status( Send );
     }
     else if ( state == Close )
     {
@@ -285,6 +286,7 @@ void Smtp::readyRead()
     }
     else
     {
+        qDebug() << "BROKEN " << responseLine;
         // something broke.        
         // QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen:\n\n" ) + response );
         state = Close;

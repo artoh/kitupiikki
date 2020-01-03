@@ -160,11 +160,10 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
     connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
-    connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko); });
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
     connect( tosite(), &Tosite::pvmMuuttui, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
-    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko);});
+    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
     connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
         this->ui->sarjaEdit->setText(sarja);  });
@@ -332,7 +331,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->varoKuva->setPixmap(QPixmap());
     ui->varoTeksti->clear();
 
-    if( virheet & Tosite::PVMLUKITTU || kp()->tilitpaatetty() >= ui->tositePvmEdit->date())
+    if( virheet & Tosite::PVMLUKITTU )
     {
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
         ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
@@ -340,14 +339,14 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     }
     else if( virheet & Tosite::PVMALV )
     {
-        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
+        ui->varoTeksti->setText( tr("Alv-ilmoitus on jo annettu") );
         ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
     } else if( virheet & Tosite::EITASMAA) {
         ui->varoTeksti->setText( tr("Debet %L1 €    Kredit %L2 €    <b>Erotus %L3 €</b>")
                      .arg(debet,0,'f',2)
                      .arg(kredit,0,'f',2)
                      .arg(qAbs(debet-kredit),0,'f',2) );
-    } else if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
+    } else if( virheet & Tosite::EIAVOINTAKUTTA )
     {
         ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
         ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));

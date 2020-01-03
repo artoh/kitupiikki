@@ -85,6 +85,9 @@ public:
 
     QString ohjeSivunNimi() override { return "selaus"; }
 
+protected slots:
+    void valitseValittu();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -104,6 +107,7 @@ private:
      * @brief Pitääkö sivu päivittää ennen sen näyttämistä
      */
     bool paivitettava = true;
+    int valittu_ = 0;
 
 };
 

@@ -65,7 +65,7 @@ QVariant MaksutapaModel::data(const QModelIndex &index, int role) const
             if( index.column() == NIMI)
                 return tr("Kaikki vastatilit");
         } else if (role == Qt::DecorationRole)
-            return QIcon(":/pic/tyhja.png");
+            return QIcon(":/pic/tyhja.png");        
 
         return QVariant();
     }

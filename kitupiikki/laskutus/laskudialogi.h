@@ -35,6 +35,7 @@ class LaskuDialogi;
 
 class KohdennusDelegaatti;
 class LaskuRivitModel;
+class RyhmalaskuTab;
 
 /**
  * @brief Laskun laatimisen dialogi
@@ -44,15 +45,14 @@ class LaskuDialogi : public QDialog, public Esikatseltava
     Q_OBJECT
 public:
 
-    LaskuDialogi(const QVariantMap& data = QVariantMap());
+    LaskuDialogi(const QVariantMap& data = QVariantMap(), bool ryhmalasku = false);
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
-    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF };
+    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF, EITULOSTETA, POSTITUS };
     enum Maksutapa { LASKU, KATEINEN };
 
-    static int laskuIkkunoita();
-
+    static int laskuIkkunoita();    
 
 
 private slots:
@@ -70,34 +70,14 @@ private slots:
      */
     void tulosta(QPagedPaintDevice *printer) const override;
     QString otsikko() const override;
-    /**
-     * @brief Finvoice-verkkolaskun muodostaminen
-     */
-    void perusteVaihtuu();
-
 
 
     void rivienKontekstiValikko(QPoint pos);
-
     void poistaLaskuRivi();
-
     void tuotteidenKonteksiValikko(QPoint pos);
-
-    void onkoPostiKaytossa();
-    void lahetaSahkopostilla();
-    void lahetaRyhmanSeuraava(const QString& viesti = {} );
-
-    void smtpViesti(const QString &viesti);
     void tulostaLasku();
-    void ryhmaNapit(const QItemSelection& valinta);
 
-    void lisaaAsiakasListalta(const QModelIndex& indeksi);
-    void lisaaAsiakas();
-    void tuoAsiakkaitaTiedostosta();
-    void poistaValitutAsiakkaat();
-    void paivitaRyhmanTallennusNappi();
 
-    void verkkolaskuKayttoon();
 
     /////// UUTTA ///////
     void asiakasValittu(int asiakasId);
@@ -106,18 +86,22 @@ private slots:
     void laskutusTapaMuuttui();
     void maksuTapaMuuttui();
 
-    QVariantMap data() const;
+    QVariantMap data(QString otsikko = QString()) const;
 
     void tallenna(Tosite::Tila moodi);
     void tallennusValmis(QVariant* vastaus);
 
+    int tyyppi() const { return tyyppi_;}
 
 private:
+    void alustaRyhmalasku();
     void lataa(const QVariantMap& map);
+    void paivitaNakyvat();
     void lisaaRiviTab();
     QVariantMap vastakirjaus(const QString& otsikko) const;
 
     void alustaMaksutavat();
+
 
 
 public slots:
@@ -128,6 +112,7 @@ private:
             
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
+
 
     QSortFilterProxyModel *ryhmaProxy_;
 
@@ -141,10 +126,17 @@ private:
     QString asAlvTunnus_;
     int tunniste_ = 0;
     int era_ = 0;
+    int alkupLasku_ = 0;
+    QDate alkupPvm_;
 
     int tyyppi_ = TositeTyyppi::MYYNTILASKU;
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
+
+    RyhmalaskuTab *ryhmalaskuTab_ = nullptr;
+    bool ryhmalasku_ = false;
     
+    QVariantList aiemmat_;
+    double aiempiSaldo_ = 0.0;
 };
 
 #endif // UUSILASKUDIALOGI_H

@@ -21,6 +21,7 @@
 
 class AvausKohdennusModel : public AvausEraKantaModel
 {
+    Q_OBJECT
 public:
     AvausKohdennusModel(QList<AvausEra> erat = QList<AvausEra>(),  QObject *parent = nullptr);
 

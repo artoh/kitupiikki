@@ -44,6 +44,7 @@ struct TositeSelausRivi
  */
 class TositeSelausModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
     enum Sarake
     {

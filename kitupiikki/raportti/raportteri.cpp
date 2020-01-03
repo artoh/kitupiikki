@@ -15,8 +15,14 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "raportteri.h"
+#include "db/kirjanpito.h"
 
-Raportteri::Raportteri(QObject *parent) : QObject(parent)
+Raportteri::Raportteri(QObject *parent, const QString &kielikoodi) : QObject(parent), kielikoodi_(kielikoodi)
 {
+    rk.asetaKieli(kielikoodi);
+}
 
+QString Raportteri::kaanna(const QString &teksti) const
+{
+    return tulkkaa(teksti, kielikoodi_);
 }

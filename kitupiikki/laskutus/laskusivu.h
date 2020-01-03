@@ -43,6 +43,7 @@ class LaskulistaWidget;
  */
 class LaskuSivu : public KitupiikkiSivu
 {
+    Q_OBJECT
 public:
     LaskuSivu();
     ~LaskuSivu() override;

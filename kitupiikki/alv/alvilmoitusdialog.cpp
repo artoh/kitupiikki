@@ -28,7 +28,6 @@
 
 #include "db/kirjanpito.h"
 
-#include "marginaalilaskelma.h"
 
 #include "alvlaskelma.h"
 
@@ -53,43 +52,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     laskelma->laske(alkupvm, loppupvm);
 
-    return QDate();
-    /*
-
-    // Tarkistetaan, että tarvittavat tilit löytyy
-
-    if( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
-        !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
-            !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
-    {
-        QMessageBox::critical(nullptr, tr("Kitupiikin virhe"),
-                              tr("Alv-tilitystä ei voi laatia, koska tilikartta on puutteellinen."));
-        return QDate();
-    }
-
-    AlvIlmoitusDialog dlg;
-
-    // Maksuperusteisen alv:n lopettaminen
-
-    if( alkupvm == kp()->asetukset()->pvm("MaksuAlvLoppuu"))
-    {
-        if( !dlg.maksuperusteisenTilitys(kp()->asetukset()->pvm("MaksuAlvLoppuu"), alkupvm ) )
-            return QDate();
-    }
-
-    // Erääntynyt (12kk) maksuperusteinen alv
-    else if( kp()->onkoMaksuperusteinenAlv( loppupvm ) )
-    {
-        if( !dlg.maksuperusteisenTilitys( alkupvm.addYears(-1), alkupvm ) )
-            return QDate();
-    }
-
-
-    if( dlg.alvIlmoitus(alkupvm, loppupvm))
-        return loppupvm;
-    else
-        return QDate();
-    */
+    return QDate();   
 }
 
 

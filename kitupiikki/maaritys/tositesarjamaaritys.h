@@ -22,6 +22,7 @@
 
 class TositesarjaMaaritys : public MaaritysWidget
 {
+    Q_OBJECT
 public:
     TositesarjaMaaritys();
 

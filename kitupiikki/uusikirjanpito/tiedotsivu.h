@@ -25,6 +25,7 @@ namespace Ui {
 }
 
 class TiedotSivu : public QWizardPage {
+    Q_OBJECT
 public:
     TiedotSivu(UusiVelho *wizard);
     void initializePage() override;

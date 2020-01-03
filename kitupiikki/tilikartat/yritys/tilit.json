@@ -3,28 +3,28 @@
   "numero": 1,
   "tyyppi": "H1",
   "nimi": {
-   "fi:": "Vastaavaa"
+   "fi": "Vastaavaa"
   }
  },
  {
   "numero": 10,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Pysyvät vastaavat"
+   "fi": "Pysyvät vastaavat"
   }
  },
  {
   "numero": 102,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Kehittämismenot"
+   "fi": "Kehittämismenot"
   }
  },
  {
   "numero": 1021,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Kehittämismenot"
+   "fi": "Kehittämismenot"
   },
   "poistotili": 6820,
   "tasaerapoisto": 120,
@@ -35,14 +35,14 @@
   "numero": 103,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Aineettomat oikeudet"
+   "fi": "Aineettomat oikeudet"
   }
  },
  {
   "numero": 1031,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Patentit"
+   "fi": "Patentit"
   },
   "poistotili": 6830,
   "erittely": 3,
@@ -52,7 +52,7 @@
   "numero": 1033,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Tekijänoikeudet"
+   "fi": "Tekijänoikeudet"
   },
   "poistotili": 6830,
   "erittely": 3,
@@ -62,7 +62,7 @@
   "numero": 1035,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Tavaramerkkioikeudet"
+   "fi": "Tavaramerkkioikeudet"
   },
   "poistotili": 6830,
   "erittely": 3,
@@ -72,7 +72,7 @@
   "numero": 1037,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Lisenssimaksut"
+   "fi": "Lisenssimaksut"
   },
   "poistotili": 6830,
   "tasaerapoisto": 60,
@@ -83,7 +83,7 @@
   "numero": 1039,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Toimilupaoikeudet"
+   "fi": "Toimilupaoikeudet"
   },
   "poistotili": 6830,
   "erittely": 3,
@@ -93,7 +93,7 @@
   "numero": 1041,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Atk-ohjelmien lisenssimaksut"
+   "fi": "Atk-ohjelmien lisenssimaksut"
   },
   "poistotili": 6830,
   "tasaerapoisto": 60,
@@ -104,7 +104,7 @@
   "numero": 1043,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Puhelinliittymät"
+   "fi": "Puhelinliittymät"
   },
   "erittely": 3,
   "laajuus": 4
@@ -113,7 +113,7 @@
   "numero": 1045,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Hälytysliittymät"
+   "fi": "Hälytysliittymät"
   },
   "erittely": 3,
   "laajuus": 4
@@ -122,7 +122,7 @@
   "numero": 1049,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Muut aineettomat oikeudet"
+   "fi": "Muut aineettomat oikeudet"
   },
   "poistotili": 6830,
   "erittely": 3,
@@ -132,14 +132,14 @@
   "numero": 105,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Liikearvo"
+   "fi": "Liikearvo"
   }
  },
  {
   "numero": 1051,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Liikearvo"
+   "fi": "Liikearvo"
   },
   "poistotili": 6840,
   "erittely": 3,
@@ -149,7 +149,7 @@
   "numero": 1055,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Fuusiotili"
+   "fi": "Fuusiotili"
   },
   "poistotili": 6840,
   "erittely": 3,
@@ -159,7 +159,7 @@
   "numero": 1057,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Fuusioaktiiva"
+   "fi": "Fuusioaktiiva"
   },
   "poistotili": 6840,
   "laajuus": 5
@@ -168,14 +168,14 @@
   "numero": 106,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Konserniliikearvo"
+   "fi": "Konserniliikearvo"
   }
  },
  {
   "numero": 1061,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Konserniliikearvo"
+   "fi": "Konserniliikearvo"
   },
   "poistotili": 6840,
   "laajuus": 5
@@ -184,14 +184,14 @@
   "numero": 107,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut pitkävaikutteiset menot"
+   "fi": "Muut pitkävaikutteiset menot"
   }
  },
  {
   "numero": 1071,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Mainos- ja markkinatutkimusmenot"
+   "fi": "Mainos- ja markkinatutkimusmenot"
   },
   "laajuus": 4
  },
@@ -199,7 +199,7 @@
   "numero": 1073,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Osakehuoneiston perusparannusmenot"
+   "fi": "Osakehuoneiston perusparannusmenot"
   },
   "poistotili": 6850,
   "erittely": 3,
@@ -209,7 +209,7 @@
   "numero": 1075,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Vuokrahuoneiston perusparannusmenot"
+   "fi": "Vuokrahuoneiston perusparannusmenot"
   },
   "poistotili": 6850,
   "erittely": 3,
@@ -221,7 +221,7 @@
   "numero": 1081,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Atk-ohjelmat"
+   "fi": "Atk-ohjelmat"
   },
   "poistotili": 6850,
   "tasaerapoisto": 60,
@@ -234,7 +234,7 @@
   "numero": 1089,
   "tyyppi": "APT",
   "nimi": {
-   "fi:": "Muut pitkävaikutteiset menot"
+   "fi": "Muut pitkävaikutteiset menot"
   },
   "poistotili": 6850,
   "erittely": 3,
@@ -244,14 +244,14 @@
   "numero": 109,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ennakkomaksut"
+   "fi": "Ennakkomaksut"
   }
  },
  {
   "numero": 1091,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Ennakkomaksut aineettomista hyödykkeistä"
+   "fi": "Ennakkomaksut aineettomista hyödykkeistä"
   },
   "erittely": 3,
   "laajuus": 3
@@ -260,28 +260,28 @@
   "numero": 11,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Aineelliset hyödykkeet"
+   "fi": "Aineelliset hyödykkeet"
   }
  },
  {
   "numero": 110,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Maa- ja vesialueet"
+   "fi": "Maa- ja vesialueet"
   }
  },
  {
   "numero": 110,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Omistuskiinteistöt"
+   "fi": "Omistuskiinteistöt"
   }
  },
  {
   "numero": 1101,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maa- ja vesialueet"
+   "fi": "Maa- ja vesialueet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -290,7 +290,7 @@
   "numero": 1105,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Liittymismaksut"
+   "fi": "Liittymismaksut"
   },
   "erittely": 3,
   "laajuus": 3
@@ -299,7 +299,7 @@
   "numero": 1109,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonkorotukset maa- ja vesialueista"
+   "fi": "Arvonkorotukset maa- ja vesialueista"
   },
   "erittely": 1,
   "laajuus": 3
@@ -308,14 +308,14 @@
   "numero": 111,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Kiinteistöjen vuokraoikeudet"
+   "fi": "Kiinteistöjen vuokraoikeudet"
   }
  },
  {
   "numero": 1111,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maanvuokraoikeudet"
+   "fi": "Maanvuokraoikeudet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -324,7 +324,7 @@
   "numero": 1113,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Liittymismaksut vuokrakiinteistöistä"
+   "fi": "Liittymismaksut vuokrakiinteistöistä"
   },
   "erittely": 3,
   "laajuus": 3
@@ -333,21 +333,21 @@
   "numero": 112,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Rakennukset ja rakennelmat"
+   "fi": "Rakennukset ja rakennelmat"
   }
  },
  {
   "numero": 112,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Omistusrakennukset ja -rakennelmat"
+   "fi": "Omistusrakennukset ja -rakennelmat"
   }
  },
  {
   "numero": 1121,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Rakennukset 7% menojäännöspoisto"
+   "fi": "Rakennukset 7% menojäännöspoisto"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -358,7 +358,7 @@
   "numero": 1125,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Rakennukset 4% menojäännöspoisto"
+   "fi": "Rakennukset 4% menojäännöspoisto"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -369,7 +369,7 @@
   "numero": 1131,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Rakennusten tekniset laitteet  25% menojäännöspoisto"
+   "fi": "Rakennusten tekniset laitteet  25% menojäännöspoisto"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -380,7 +380,7 @@
   "numero": 1135,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Väestönsuojat ym. max. 25% tasapoisto"
+   "fi": "Väestönsuojat ym. max. 25% tasapoisto"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -390,7 +390,7 @@
   "numero": 1141,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Rakennelmat 20% menojäännöspoisto"
+   "fi": "Rakennelmat 20% menojäännöspoisto"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -401,7 +401,7 @@
   "numero": 1143,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut rakennukset ja rakennelmat"
+   "fi": "Muut rakennukset ja rakennelmat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -410,7 +410,7 @@
   "numero": 1145,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonkorotukset (vanhat rakennuksista tehdyt)"
+   "fi": "Arvonkorotukset (vanhat rakennuksista tehdyt)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -419,14 +419,14 @@
   "numero": 115,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Rakennusten ja rakennelmien vuokraoikeudet"
+   "fi": "Rakennusten ja rakennelmien vuokraoikeudet"
   }
  },
  {
   "numero": 1151,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Rakennusten vuokraoikeudet"
+   "fi": "Rakennusten vuokraoikeudet"
   },
   "laajuus": 3
  },
@@ -434,14 +434,14 @@
   "numero": 116,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Koneet ja kalusto"
+   "fi": "Koneet ja kalusto"
   }
  },
  {
   "numero": 1161,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Koneet ja laitteet"
+   "fi": "Koneet ja laitteet"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -454,7 +454,7 @@
   "numero": 1165,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Tuotannon koneet ja laitteet"
+   "fi": "Tuotannon koneet ja laitteet"
   },
   "poistotili": 6860,
   "erittely": 1,
@@ -467,7 +467,7 @@
   "numero": 1171,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Kuorma- ja pakettiautot"
+   "fi": "Kuorma- ja pakettiautot"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -480,7 +480,7 @@
   "numero": 1173,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Henkilöautot"
+   "fi": "Henkilöautot"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -491,7 +491,7 @@
   "numero": 1175,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Ammattiautot"
+   "fi": "Ammattiautot"
   },
   "poistotili": 6870,
   "menojaannospoisto": 25,
@@ -503,7 +503,7 @@
   "numero": 1179,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Muut ajoneuvot ja alukset"
+   "fi": "Muut ajoneuvot ja alukset"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -516,7 +516,7 @@
   "numero": 1201,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Kalusto ja muu irtain"
+   "fi": "Kalusto ja muu irtain"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -529,7 +529,7 @@
   "numero": 1209,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Vuokrattava kalusto"
+   "fi": "Vuokrattava kalusto"
   },
   "poistotili": 6870,
   "menojaannospoisto": 25,
@@ -541,7 +541,7 @@
   "numero": 1211,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Vapaa-ajan asuntojen kalusto ja muu irtaimisto"
+   "fi": "Vapaa-ajan asuntojen kalusto ja muu irtaimisto"
   },
   "poistotili": 6870,
   "menojaannospoisto": 25,
@@ -551,7 +551,7 @@
   "numero": 1213,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Työsuhdeasuntojen kalusto ja muu irtaimisto"
+   "fi": "Työsuhdeasuntojen kalusto ja muu irtaimisto"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -562,7 +562,7 @@
   "numero": 1241,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Käyttöönottamattomat koneet ja kalusto"
+   "fi": "Käyttöönottamattomat koneet ja kalusto"
   },
   "erittely": 3,
   "laajuus": 3
@@ -571,7 +571,7 @@
   "numero": 1249,
   "tyyppi": "APM",
   "nimi": {
-   "fi:": "Muut koneet ja kalusto"
+   "fi": "Muut koneet ja kalusto"
   },
   "poistotili": 6870,
   "erittely": 1,
@@ -583,14 +583,14 @@
   "numero": 130,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut aineelliset hyödykkeet"
+   "fi": "Muut aineelliset hyödykkeet"
   }
  },
  {
   "numero": 1301,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maa-ainesten ottopaikat"
+   "fi": "Maa-ainesten ottopaikat"
   },
   "erittely": 3,
   "laajuus": 4
@@ -599,7 +599,7 @@
   "numero": 1303,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maa- ja vesirakennukset"
+   "fi": "Maa- ja vesirakennukset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -608,7 +608,7 @@
   "numero": 1305,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Piha-asfaltit"
+   "fi": "Piha-asfaltit"
   },
   "erittely": 3,
   "laajuus": 3
@@ -617,7 +617,7 @@
   "numero": 1315,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Elävä käyttöomaisuus"
+   "fi": "Elävä käyttöomaisuus"
   },
   "erittely": 3,
   "laajuus": 4
@@ -626,7 +626,7 @@
   "numero": 1329,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut poistokelpoiset aineelliset hyödykkeet"
+   "fi": "Muut poistokelpoiset aineelliset hyödykkeet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -635,7 +635,7 @@
   "numero": 1331,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Taide-esineet"
+   "fi": "Taide-esineet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -644,7 +644,7 @@
   "numero": 1335,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Keräilyhyödykkeet"
+   "fi": "Keräilyhyödykkeet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -653,7 +653,7 @@
   "numero": 1339,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut aineelliset hyödykkeet (ei poistokelpoiset)"
+   "fi": "Muut aineelliset hyödykkeet (ei poistokelpoiset)"
   },
   "erittely": 3,
   "laajuus": 4
@@ -662,14 +662,14 @@
   "numero": 138,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ennakkomaksut ja keskeneräiset hankinnat"
+   "fi": "Ennakkomaksut ja keskeneräiset hankinnat"
   }
  },
  {
   "numero": 1381,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Ennakkomaksut aineellisista hyödykkeistä"
+   "fi": "Ennakkomaksut aineellisista hyödykkeistä"
   },
   "erittely": 3,
   "laajuus": 3
@@ -678,7 +678,7 @@
   "numero": 1391,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Keskeneräiset käyttöomaisuushankinnat"
+   "fi": "Keskeneräiset käyttöomaisuushankinnat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -687,21 +687,21 @@
   "numero": 14,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Sijoitukset"
+   "fi": "Sijoitukset"
   }
  },
  {
   "numero": 140,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Osuudet saman konsernin yrityksissä"
+   "fi": "Osuudet saman konsernin yrityksissä"
   }
  },
  {
   "numero": 1401,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Tytäryritysten osakkeet"
+   "fi": "Tytäryritysten osakkeet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -710,7 +710,7 @@
   "numero": 1403,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Emoyrityksen osakkeet"
+   "fi": "Emoyrityksen osakkeet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -719,7 +719,7 @@
   "numero": 1405,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Sisaryritysten osakkeet"
+   "fi": "Sisaryritysten osakkeet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -728,7 +728,7 @@
   "numero": 1407,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut konserniosuudet"
+   "fi": "Muut konserniosuudet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -737,7 +737,7 @@
   "numero": 1409,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonkorotus konserniosuuksista"
+   "fi": "Arvonkorotus konserniosuuksista"
   },
   "erittely": 3,
   "laajuus": 5
@@ -746,14 +746,14 @@
   "numero": 141,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset saman konsernin yrityksiltä"
+   "fi": "Saamiset saman konsernin yrityksiltä"
   }
  },
  {
   "numero": 1411,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset saman konsernin yrityksiltä"
+   "fi": "Pitkäaikaiset saamiset saman konsernin yrityksiltä"
   },
   "erittely": 3,
   "laajuus": 5
@@ -762,7 +762,7 @@
   "numero": 1413,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Konserniyrityksille annetut pääomalainat"
+   "fi": "Konserniyrityksille annetut pääomalainat"
   },
   "erittely": 3,
   "laajuus": 5
@@ -771,14 +771,14 @@
   "numero": 142,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Osuudet omistusyhteysyrityksissä"
+   "fi": "Osuudet omistusyhteysyrityksissä"
   }
  },
  {
   "numero": 1421,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Osakkuusyritysten osakkeet"
+   "fi": "Osakkuusyritysten osakkeet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -787,7 +787,7 @@
   "numero": 1423,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Osakkuusyritysosuudet"
+   "fi": "Osakkuusyritysosuudet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -796,7 +796,7 @@
   "numero": 1425,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut omistusyhteysyritysosakkeet"
+   "fi": "Muut omistusyhteysyritysosakkeet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -805,7 +805,7 @@
   "numero": 1427,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut omistusyhteysyritysosuudet"
+   "fi": "Muut omistusyhteysyritysosuudet"
   },
   "erittely": 3,
   "laajuus": 5
@@ -814,7 +814,7 @@
   "numero": 1429,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonkorotus omistusyhteysyritysosuuksista"
+   "fi": "Arvonkorotus omistusyhteysyritysosuuksista"
   },
   "erittely": 3,
   "laajuus": 5
@@ -823,14 +823,14 @@
   "numero": 143,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset omistusyhteysyrityksiltä"
+   "fi": "Saamiset omistusyhteysyrityksiltä"
   }
  },
  {
   "numero": 1431,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset saamiset omistusyhteysyrityksiltä"
   },
   "erittely": 3,
   "laajuus": 5
@@ -839,14 +839,14 @@
   "numero": 144,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut osakkeet ja osuudet"
+   "fi": "Muut osakkeet ja osuudet"
   }
  },
  {
   "numero": 1441,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Huoneisto-osakkeet"
+   "fi": "Huoneisto-osakkeet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -855,7 +855,7 @@
   "numero": 1447,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pörssiosakkeet"
+   "fi": "Pörssiosakkeet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -864,7 +864,7 @@
   "numero": 1453,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut osakkeet"
+   "fi": "Muut osakkeet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -873,7 +873,7 @@
   "numero": 1457,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pankkiosuudet"
+   "fi": "Pankkiosuudet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -882,7 +882,7 @@
   "numero": 1461,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Sijoitusrahasto-osuudet"
+   "fi": "Sijoitusrahasto-osuudet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -891,7 +891,7 @@
   "numero": 1465,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Puhelinosuudet"
+   "fi": "Puhelinosuudet"
   },
   "erittely": 3,
   "laajuus": 6
@@ -900,7 +900,7 @@
   "numero": 1467,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut osuudet"
+   "fi": "Muut osuudet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -909,7 +909,7 @@
   "numero": 1469,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonkorotus muista  osakkeista ja osuuksista"
+   "fi": "Arvonkorotus muista  osakkeista ja osuuksista"
   },
   "erittely": 1,
   "laajuus": 3
@@ -918,14 +918,14 @@
   "numero": 147,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut saamiset"
+   "fi": "Muut saamiset"
   }
  },
  {
   "numero": 1471,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset lainasaamiset"
+   "fi": "Pitkäaikaiset lainasaamiset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -934,7 +934,7 @@
   "numero": 1473,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset joukkovelkakirjalainat"
+   "fi": "Pitkäaikaiset joukkovelkakirjalainat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -943,7 +943,7 @@
   "numero": 1475,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamistodistukset"
+   "fi": "Pitkäaikaiset saamistodistukset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -952,7 +952,7 @@
   "numero": 1477,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset optiolainat"
+   "fi": "Pitkäaikaiset optiolainat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -961,7 +961,7 @@
   "numero": 1479,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset vaihtovelkakirjalainat"
+   "fi": "Pitkäaikaiset vaihtovelkakirjalainat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -970,7 +970,7 @@
   "numero": 1481,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset nollakorkolainat"
+   "fi": "Pitkäaikaiset nollakorkolainat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -979,7 +979,7 @@
   "numero": 1483,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Liittymismaksusaamiset"
+   "fi": "Liittymismaksusaamiset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -988,7 +988,7 @@
   "numero": 1489,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut pitkäaikaiset saamiset"
+   "fi": "Muut pitkäaikaiset saamiset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -997,28 +997,28 @@
   "numero": 15,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Vaihtuvat vastaavat"
+   "fi": "Vaihtuvat vastaavat"
   }
  },
  {
   "numero": 150,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Vaihto-omaisuus"
+   "fi": "Vaihto-omaisuus"
   }
  },
  {
   "numero": 150,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Aineet ja tarvikkeet"
+   "fi": "Aineet ja tarvikkeet"
   }
  },
  {
   "numero": 1501,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Aineet ja tarvikkeet"
+   "fi": "Aineet ja tarvikkeet"
   },
   "erittely": 1,
   "laajuus": 2
@@ -1027,14 +1027,14 @@
   "numero": 151,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Keskeneräiset tuotteet"
+   "fi": "Keskeneräiset tuotteet"
   }
  },
  {
   "numero": 1511,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Keskeneräiset tuotteet"
+   "fi": "Keskeneräiset tuotteet"
   },
   "erittely": 1,
   "laajuus": 2
@@ -1043,14 +1043,14 @@
   "numero": 152,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Valmiit tuotteet"
+   "fi": "Valmiit tuotteet"
   }
  },
  {
   "numero": 1521,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Valmiit tuotteet"
+   "fi": "Valmiit tuotteet"
   },
   "erittely": 1,
   "laajuus": 2
@@ -1059,14 +1059,14 @@
   "numero": 153,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Tavarat"
+   "fi": "Tavarat"
   }
  },
  {
   "numero": 1531,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Tavarat"
+   "fi": "Tavarat"
   },
   "erittely": 1,
   "laajuus": 2
@@ -1075,7 +1075,7 @@
   "numero": 1533,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Matkalla olevat tavarat"
+   "fi": "Matkalla olevat tavarat"
   },
   "erittely": 1,
   "laajuus": 2
@@ -1084,14 +1084,14 @@
   "numero": 154,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muu vaihto-omaisuus"
+   "fi": "Muu vaihto-omaisuus"
   }
  },
  {
   "numero": 1541,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Kiinteistöt"
+   "fi": "Kiinteistöt"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1100,7 +1100,7 @@
   "numero": 1543,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvopaperit"
+   "fi": "Arvopaperit"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1109,7 +1109,7 @@
   "numero": 1549,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muu vaihto-omaisuus"
+   "fi": "Muu vaihto-omaisuus"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1118,14 +1118,14 @@
   "numero": 155,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ennakkomaksut"
+   "fi": "Ennakkomaksut"
   }
  },
  {
   "numero": 1551,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Ennakkomaksut vaihto-omaisuudesta"
+   "fi": "Ennakkomaksut vaihto-omaisuudesta"
   },
   "erittely": 3,
   "laajuus": 2
@@ -1134,21 +1134,21 @@
   "numero": 16,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset"
+   "fi": "Pitkäaikaiset saamiset"
   }
  },
  {
   "numero": 160,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Myyntisaamiset"
+   "fi": "Myyntisaamiset"
   }
  },
  {
   "numero": 1601,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Pitkäaikaiset myyntisaamiset"
+   "fi": "Pitkäaikaiset myyntisaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1157,7 +1157,7 @@
   "numero": 1621,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Pitkäaikaiset valuuttamääräiset myyntisaamiset"
+   "fi": "Pitkäaikaiset valuuttamääräiset myyntisaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1166,7 +1166,7 @@
   "numero": 1623,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Pitkäaikaiset osamaksusaamiset"
+   "fi": "Pitkäaikaiset osamaksusaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1175,14 +1175,14 @@
   "numero": 163,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset saman konsernin yrityksiltä"
+   "fi": "Saamiset saman konsernin yrityksiltä"
   }
  },
  {
   "numero": 1631,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset konsernimyyntisaamiset"
+   "fi": "Pitkäaikaiset konsernimyyntisaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1191,7 +1191,7 @@
   "numero": 1633,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset konsernisiirtosaamiset"
+   "fi": "Pitkäaikaiset konsernisiirtosaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1200,7 +1200,7 @@
   "numero": 1635,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset konsernilainasaamiset"
+   "fi": "Pitkäaikaiset konsernilainasaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1209,7 +1209,7 @@
   "numero": 1639,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut konsernisaamiset"
+   "fi": "Pitkäaikaiset muut konsernisaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1218,14 +1218,14 @@
   "numero": 164,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset omistusyhteysyrityksiltä"
+   "fi": "Saamiset omistusyhteysyrityksiltä"
   }
  },
  {
   "numero": 1641,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset omistusyhteysyritysmyyntisaamiset"
+   "fi": "Pitkäaikaiset omistusyhteysyritysmyyntisaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1234,7 +1234,7 @@
   "numero": 1643,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset omistusyhteysyrityssiirtosaamiset"
+   "fi": "Pitkäaikaiset omistusyhteysyrityssiirtosaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1243,7 +1243,7 @@
   "numero": 1645,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset omistusyhteysyrityslainasaamiset"
+   "fi": "Pitkäaikaiset omistusyhteysyrityslainasaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1252,7 +1252,7 @@
   "numero": 1649,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut omistusyhteysyrityssaamiset"
+   "fi": "Pitkäaikaiset muut omistusyhteysyrityssaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1261,14 +1261,14 @@
   "numero": 165,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Lainasaamiset"
+   "fi": "Lainasaamiset"
   }
  },
  {
   "numero": 1651,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset työntekijöiltä"
+   "fi": "Pitkäaikaiset saamiset työntekijöiltä"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1277,7 +1277,7 @@
   "numero": 1653,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset johdolta"
+   "fi": "Pitkäaikaiset saamiset johdolta"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1286,7 +1286,7 @@
   "numero": 1655,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset osakkailta ja omaisilta"
+   "fi": "Pitkäaikaiset saamiset osakkailta ja omaisilta"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1295,7 +1295,7 @@
   "numero": 1656,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset saamiset osakkailta ja omaisilta (veronalaiset)"
+   "fi": "Pitkäaikaiset saamiset osakkailta ja omaisilta (veronalaiset)"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1304,7 +1304,7 @@
   "numero": 1657,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut lähipiirilainat"
+   "fi": "Pitkäaikaiset muut lähipiirilainat"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1313,7 +1313,7 @@
   "numero": 1659,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut lainasaamiset"
+   "fi": "Pitkäaikaiset muut lainasaamiset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1322,14 +1322,14 @@
   "numero": 166,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut saamiset"
+   "fi": "Muut saamiset"
   }
  },
  {
   "numero": 1665,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset vakuustalletukset"
+   "fi": "Pitkäaikaiset vakuustalletukset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1338,7 +1338,7 @@
   "numero": 1667,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset maksetut vuokravakuudet"
+   "fi": "Pitkäaikaiset maksetut vuokravakuudet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1347,7 +1347,7 @@
   "numero": 1669,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut saamiset"
+   "fi": "Pitkäaikaiset muut saamiset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1356,14 +1356,14 @@
   "numero": 167,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Maksamattomat osakkeet/osuudet"
+   "fi": "Maksamattomat osakkeet/osuudet"
   }
  },
  {
   "numero": 1671,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset maksamattomat osakkeet / osuudet"
+   "fi": "Pitkäaikaiset maksamattomat osakkeet / osuudet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1372,14 +1372,14 @@
   "numero": 168,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Siirtosaamiset"
+   "fi": "Siirtosaamiset"
   }
  },
  {
   "numero": 1681,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset siirtosaamiset"
+   "fi": "Pitkäaikaiset siirtosaamiset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1388,14 +1388,14 @@
   "numero": 169,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Laskennalliset verosaamiset"
+   "fi": "Laskennalliset verosaamiset"
   }
  },
  {
   "numero": 1691,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pitkäaikaiset laskennalliset verosaamiset"
+   "fi": "Pitkäaikaiset laskennalliset verosaamiset"
   },
   "erittely": 3,
   "laajuus": 4
@@ -1404,21 +1404,21 @@
   "numero": 170,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Lyhytaikaiset saamiset"
+   "fi": "Lyhytaikaiset saamiset"
   }
  },
  {
   "numero": 170,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Myyntisaamiset"
+   "fi": "Myyntisaamiset"
   }
  },
  {
   "numero": 1701,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myyntisaamiset"
+   "fi": "Myyntisaamiset"
   },
   "erittely": 2,
   "laajuus": 1
@@ -1427,7 +1427,7 @@
   "numero": 1702,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myyntisaamiset 2"
+   "fi": "Myyntisaamiset 2"
   },
   "erittely": 2,
   "laajuus": 6
@@ -1436,7 +1436,7 @@
   "numero": 1703,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myyntisaamiset 3"
+   "fi": "Myyntisaamiset 3"
   },
   "erittely": 2,
   "laajuus": 6
@@ -1445,7 +1445,7 @@
   "numero": 1705,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myymäläsaamiset"
+   "fi": "Myymäläsaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1454,7 +1454,7 @@
   "numero": 1707,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Provisiosaamiset"
+   "fi": "Provisiosaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1463,7 +1463,7 @@
   "numero": 1711,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Luottokorttisaamiset"
+   "fi": "Luottokorttisaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1472,7 +1472,7 @@
   "numero": 1713,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Pankkikorttisaamiset"
+   "fi": "Pankkikorttisaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1481,7 +1481,7 @@
   "numero": 1715,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myyntisaamiset ennakkolaskuista"
+   "fi": "Myyntisaamiset ennakkolaskuista"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1490,7 +1490,7 @@
   "numero": 1717,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Factoring-myyntisaamiset matkalla"
+   "fi": "Factoring-myyntisaamiset matkalla"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1499,7 +1499,7 @@
   "numero": 1718,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Factoring-myyntisaamiset laskutili"
+   "fi": "Factoring-myyntisaamiset laskutili"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1508,7 +1508,7 @@
   "numero": 1719,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Factoring-osamaksusaamiset"
+   "fi": "Factoring-osamaksusaamiset"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1517,7 +1517,7 @@
   "numero": 1721,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Myyntisaamiset, valuuttamääräiset"
+   "fi": "Myyntisaamiset, valuuttamääräiset"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1526,7 +1526,7 @@
   "numero": 1723,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Osamaksusaamiset"
+   "fi": "Osamaksusaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1535,7 +1535,7 @@
   "numero": 1727,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Siirtyvät myyntisaamiset/selvittelytili"
+   "fi": "Siirtyvät myyntisaamiset/selvittelytili"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1544,7 +1544,7 @@
   "numero": 1729,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Muut myyntisaamiset"
+   "fi": "Muut myyntisaamiset"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1553,14 +1553,14 @@
   "numero": 173,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset saman konsernin yrityksiltä"
+   "fi": "Saamiset saman konsernin yrityksiltä"
   }
  },
  {
   "numero": 1731,
   "tyyppi": "AO",
   "nimi": {
-   "fi:": "Konsernimyyntisaamiset"
+   "fi": "Konsernimyyntisaamiset"
   },
   "erittely": 2,
   "laajuus": 5
@@ -1569,7 +1569,7 @@
   "numero": 1733,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Konsernisiirtosaamiset"
+   "fi": "Konsernisiirtosaamiset"
   },
   "erittely": 1,
   "laajuus": 5
@@ -1578,7 +1578,7 @@
   "numero": 1735,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Konsernilainasaamiset"
+   "fi": "Konsernilainasaamiset"
   },
   "erittely": 1,
   "laajuus": 5
@@ -1587,7 +1587,7 @@
   "numero": 1739,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut konsernisaamiset"
+   "fi": "Muut konsernisaamiset"
   },
   "erittely": 1,
   "laajuus": 5
@@ -1596,14 +1596,14 @@
   "numero": 174,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saamiset omistusyhteysyrityksiltä"
+   "fi": "Saamiset omistusyhteysyrityksiltä"
   }
  },
  {
   "numero": 1741,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Omistusyhteysyritysmyyntisaamiset"
+   "fi": "Omistusyhteysyritysmyyntisaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1612,7 +1612,7 @@
   "numero": 1743,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Omistusyhteysyrityssiirtosaamiset"
+   "fi": "Omistusyhteysyrityssiirtosaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1621,7 +1621,7 @@
   "numero": 1745,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Omistusyhteysyrityslainasaamiset"
+   "fi": "Omistusyhteysyrityslainasaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1630,7 +1630,7 @@
   "numero": 1749,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut omistusyhteysyrityssaamiset"
+   "fi": "Muut omistusyhteysyrityssaamiset"
   },
   "erittely": 3,
   "laajuus": 5
@@ -1639,14 +1639,14 @@
   "numero": 175,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Lainasaamiset"
+   "fi": "Lainasaamiset"
   }
  },
  {
   "numero": 1751,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Saamiset työntekijöiltä"
+   "fi": "Saamiset työntekijöiltä"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1655,7 +1655,7 @@
   "numero": 1753,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Saamiset johdolta"
+   "fi": "Saamiset johdolta"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1664,7 +1664,7 @@
   "numero": 1755,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Saamiset osakkailta ja omaisilta"
+   "fi": "Saamiset osakkailta ja omaisilta"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1673,7 +1673,7 @@
   "numero": 1756,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Saamiset osakkailta ja omaisilta (veronalaiset)"
+   "fi": "Saamiset osakkailta ja omaisilta (veronalaiset)"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1682,7 +1682,7 @@
   "numero": 1757,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut lähipiirilainat"
+   "fi": "Muut lähipiirilainat"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1691,7 +1691,7 @@
   "numero": 1759,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut lainasaamiset"
+   "fi": "Muut lainasaamiset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1700,14 +1700,14 @@
   "numero": 176,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut saamiset"
+   "fi": "Muut saamiset"
   }
  },
  {
   "numero": 1761,
   "tyyppi": "AV",
   "nimi": {
-   "fi:": "Verosaamiset"
+   "fi": "Verosaamiset"
   },
   "erittely": 0,
   "laajuus": 1
@@ -1716,7 +1716,7 @@
   "numero": 1763,
   "tyyppi": "AL",
   "nimi": {
-   "fi:": "Arvonlisäverosaamiset"
+   "fi": "Arvonlisäverosaamiset"
   },
   "laajuus": 1
  },
@@ -1724,7 +1724,7 @@
   "numero": 17631,
   "tyyppi": "ALM",
   "nimi": {
-   "fi:": "Maksuperusteinen arvonlisäverosaaminen"
+   "fi": "Maksuperusteinen arvonlisäverosaaminen"
   },
   "laajuus": 1
  },
@@ -1732,7 +1732,7 @@
   "numero": 1764,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Anotut arvonlisäveropalautukset"
+   "fi": "Anotut arvonlisäveropalautukset"
   },
   "erittely": 2,
   "laajuus": 6
@@ -1741,7 +1741,7 @@
   "numero": 1765,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Vakuustalletukset"
+   "fi": "Vakuustalletukset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1750,7 +1750,7 @@
   "numero": 1767,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maksetut vuokravakuudet"
+   "fi": "Maksetut vuokravakuudet"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1759,7 +1759,7 @@
   "numero": 1769,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Kuluennakot työntekijöille"
+   "fi": "Kuluennakot työntekijöille"
   },
   "erittely": 2,
   "laajuus": 3
@@ -1768,7 +1768,7 @@
   "numero": 1771,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Vahingonkorvaussaamiset"
+   "fi": "Vahingonkorvaussaamiset"
   },
   "erittely": 3,
   "laajuus": 3
@@ -1777,7 +1777,7 @@
   "numero": 1777,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Selvittelytili"
+   "fi": "Selvittelytili"
   },
   "erittely": 1,
   "laajuus": 3
@@ -1786,7 +1786,7 @@
   "numero": 1779,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut saamiset"
+   "fi": "Muut saamiset"
   },
   "erittely": 1,
   "laajuus": 3
@@ -1795,14 +1795,14 @@
   "numero": 1781,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Maksamattomat osakkeet/osuudet"
+   "fi": "Maksamattomat osakkeet/osuudet"
   }
  },
  {
   "numero": 1781,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Osakemerkintäsaamiset"
+   "fi": "Osakemerkintäsaamiset"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -1812,7 +1812,7 @@
   "numero": 1783,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Maksamattomat osuudet"
+   "fi": "Maksamattomat osuudet"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -1822,14 +1822,14 @@
   "numero": 180,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Siirtosaamiset"
+   "fi": "Siirtosaamiset"
   }
  },
  {
   "numero": 1801,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Palkkamenot (siirtosaamiset)"
+   "fi": "Palkkamenot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1838,7 +1838,7 @@
   "numero": 1803,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Eläkevakuutusmaksut (siirtosaamiset)"
+   "fi": "Eläkevakuutusmaksut (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1847,7 +1847,7 @@
   "numero": 1804,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksut (siirtosaamiset)"
+   "fi": "Sosiaaliturvamaksut (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1856,7 +1856,7 @@
   "numero": 1805,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Työnantajan pakolliset vakuutusmaksut (siirtosaamiset)"
+   "fi": "Työnantajan pakolliset vakuutusmaksut (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1865,7 +1865,7 @@
   "numero": 1809,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Vuokramenot (siirtosaamiset)"
+   "fi": "Vuokramenot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1874,7 +1874,7 @@
   "numero": 1811,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Korkomenot (siirtosaamiset)"
+   "fi": "Korkomenot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1883,7 +1883,7 @@
   "numero": 1813,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Tuloverot (siirtosaamiset)"
+   "fi": "Tuloverot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1892,7 +1892,7 @@
   "numero": 1819,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut menoennakot (siirtosaamiset)"
+   "fi": "Muut menoennakot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1901,7 +1901,7 @@
   "numero": 1831,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Vuokratulot (siirtosaamiset)"
+   "fi": "Vuokratulot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1910,7 +1910,7 @@
   "numero": 1833,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Korkotulot (siirtosaamiset)"
+   "fi": "Korkotulot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1919,7 +1919,7 @@
   "numero": 1837,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Valmistusasteen mukaiset tulot (siirtosaamiset)"
+   "fi": "Valmistusasteen mukaiset tulot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1928,7 +1928,7 @@
   "numero": 1839,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut tulojäämät (siirtosaamiset)"
+   "fi": "Muut tulojäämät (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1937,7 +1937,7 @@
   "numero": 1841,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Ostojen alennukset (siirtosaamiset)"
+   "fi": "Ostojen alennukset (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1946,7 +1946,7 @@
   "numero": 1843,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Laskennalliset kurssitappiot (siirtosaamiset)"
+   "fi": "Laskennalliset kurssitappiot (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1955,7 +1955,7 @@
   "numero": 1845,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Arvonlisäverosaamiset ennakkomaksuista (siirtosaamiset)"
+   "fi": "Arvonlisäverosaamiset ennakkomaksuista (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1964,7 +1964,7 @@
   "numero": 1847,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Veronhyvityssaamiset (siirtosaamiset)"
+   "fi": "Veronhyvityssaamiset (siirtosaamiset)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -1973,7 +1973,7 @@
   "numero": 1849,
   "tyyppi": "AJ",
   "nimi": {
-   "fi:": "Muut siirtosaamiset"
+   "fi": "Muut siirtosaamiset"
   },
   "erittely": 2,
   "laajuus": 1
@@ -1982,21 +1982,21 @@
   "numero": 186,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Rahoitusarvopaperit"
+   "fi": "Rahoitusarvopaperit"
   }
  },
  {
   "numero": 186,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Osuudet saman konsernin yrityksissä"
+   "fi": "Osuudet saman konsernin yrityksissä"
   }
  },
  {
   "numero": 1861,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Tytäryritysten osakkeet (rahoitusomaisuus)"
+   "fi": "Tytäryritysten osakkeet (rahoitusomaisuus)"
   },
   "erittely": 3,
   "laajuus": 5
@@ -2005,7 +2005,7 @@
   "numero": 1863,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Emoyrityksen osakkeet (rahoitusomaisuus)"
+   "fi": "Emoyrityksen osakkeet (rahoitusomaisuus)"
   },
   "erittely": 3,
   "laajuus": 5
@@ -2014,7 +2014,7 @@
   "numero": 1865,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Sisaryritysten osakkeet (rahoitusomaisuus)"
+   "fi": "Sisaryritysten osakkeet (rahoitusomaisuus)"
   },
   "erittely": 3,
   "laajuus": 5
@@ -2023,7 +2023,7 @@
   "numero": 1867,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut konserniosuudet (rahoitusomaisuus)"
+   "fi": "Muut konserniosuudet (rahoitusomaisuus)"
   },
   "erittely": 3,
   "laajuus": 5
@@ -2032,14 +2032,14 @@
   "numero": 188,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut osakkeet ja osuudet"
+   "fi": "Muut osakkeet ja osuudet"
   }
  },
  {
   "numero": 1881,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut osakkeet ja osuudet (rahoitusomaisuus)"
+   "fi": "Muut osakkeet ja osuudet (rahoitusomaisuus)"
   },
   "erittely": 3,
   "laajuus": 3
@@ -2048,14 +2048,14 @@
   "numero": 189,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut arvopaperit"
+   "fi": "Muut arvopaperit"
   }
  },
  {
   "numero": 1891,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Muut rahoitusarvopaperit"
+   "fi": "Muut rahoitusarvopaperit"
   },
   "erittely": 3,
   "laajuus": 3
@@ -2064,21 +2064,21 @@
   "numero": 19,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Rahat ja pankkisaamiset"
+   "fi": "Rahat ja pankkisaamiset"
   }
  },
  {
   "numero": 190,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Rahat"
+   "fi": "Rahat"
   }
  },
  {
   "numero": 1900,
   "tyyppi": "ARK",
   "nimi": {
-   "fi:": "Käteisvarat"
+   "fi": "Käteisvarat"
   },
   "laajuus": 1
  },
@@ -2086,7 +2086,7 @@
   "numero": 1905,
   "tyyppi": "ARK",
   "nimi": {
-   "fi:": "Valuuttakassat"
+   "fi": "Valuuttakassat"
   },
   "laajuus": 3
  },
@@ -2094,14 +2094,14 @@
   "numero": 191,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Pankkisaamiset"
+   "fi": "Pankkisaamiset"
   }
  },
  {
   "numero": 1910,
   "tyyppi": "ARP",
   "nimi": {
-   "fi:": "Pankkitili 1"
+   "fi": "Pankkitili 1"
   },
   "laajuus": 1
  },
@@ -2109,7 +2109,7 @@
   "numero": 1919,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pankkitili 1 shekkitililimiitti"
+   "fi": "Pankkitili 1 shekkitililimiitti"
   },
   "laajuus": 4
  },
@@ -2117,7 +2117,7 @@
   "numero": 1920,
   "tyyppi": "ARP",
   "nimi": {
-   "fi:": "Pankkitili 2"
+   "fi": "Pankkitili 2"
   },
   "laajuus": 6
  },
@@ -2125,7 +2125,7 @@
   "numero": 1929,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pankkitili 2 shekkitililimiitti"
+   "fi": "Pankkitili 2 shekkitililimiitti"
   },
   "laajuus": 6
  },
@@ -2133,7 +2133,7 @@
   "numero": 1930,
   "tyyppi": "ARP",
   "nimi": {
-   "fi:": "Pankkitili 3"
+   "fi": "Pankkitili 3"
   },
   "laajuus": 6
  },
@@ -2141,7 +2141,7 @@
   "numero": 1940,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Pankkitili 4"
+   "fi": "Pankkitili 4"
   },
   "laajuus": 6
  },
@@ -2149,7 +2149,7 @@
   "numero": 1950,
   "tyyppi": "ARP",
   "nimi": {
-   "fi:": "Pankkitili 5"
+   "fi": "Pankkitili 5"
   },
   "laajuus": 6
  },
@@ -2157,7 +2157,7 @@
   "numero": 1960,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Lyhytaikaiset talletukset"
+   "fi": "Lyhytaikaiset talletukset"
   },
   "laajuus": 4
  },
@@ -2165,7 +2165,7 @@
   "numero": 1961,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Lyhytaikaiset lähdeveronalaiset talletukset"
+   "fi": "Lyhytaikaiset lähdeveronalaiset talletukset"
   },
   "laajuus": 4
  },
@@ -2173,7 +2173,7 @@
   "numero": 1970,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Sijoitustili"
+   "fi": "Sijoitustili"
   },
   "laajuus": 3
  },
@@ -2181,7 +2181,7 @@
   "numero": 1984,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Valuuttatili"
+   "fi": "Valuuttatili"
   },
   "laajuus": 3
  },
@@ -2189,7 +2189,7 @@
   "numero": 1986,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Valuuttatalletukset"
+   "fi": "Valuuttatalletukset"
   },
   "laajuus": 3
  },
@@ -2197,14 +2197,14 @@
   "numero": 199,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Rahansiirrot ja täsmäytykset"
+   "fi": "Rahansiirrot ja täsmäytykset"
   }
  },
  {
   "numero": 1991,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Täsmäytykset"
+   "fi": "Täsmäytykset"
   },
   "laajuus": 3
  },
@@ -2212,7 +2212,7 @@
   "numero": 1995,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Rahansiirrot matkalla"
+   "fi": "Rahansiirrot matkalla"
   },
   "laajuus": 3
  },
@@ -2220,7 +2220,7 @@
   "numero": 1996,
   "tyyppi": "A",
   "nimi": {
-   "fi:": "Virhemaksut"
+   "fi": "Virhemaksut"
   },
   "laajuus": 3
  },
@@ -2228,28 +2228,28 @@
   "numero": 2,
   "tyyppi": "H1",
   "nimi": {
-   "fi:": "Vastattavaa"
+   "fi": "Vastattavaa"
   }
  },
  {
   "numero": 20,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Oma pääoma"
+   "fi": "Oma pääoma"
   }
  },
  {
   "numero": 200,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Osakepääoma"
+   "fi": "Osakepääoma"
   }
  },
  {
   "numero": 2001,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Osakepääoma"
+   "fi": "Osakepääoma"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2259,7 +2259,7 @@
   "numero": 2011,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Osakeanti"
+   "fi": "Osakeanti"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2269,7 +2269,7 @@
   "numero": 2021,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Ylikurssirahasto"
+   "fi": "Ylikurssirahasto"
   },
   "erittely": 1,
   "laajuus": 4,
@@ -2279,7 +2279,7 @@
   "numero": 2031,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Arvonkorotusrahasto"
+   "fi": "Arvonkorotusrahasto"
   },
   "erittely": 1,
   "laajuus": 4,
@@ -2289,14 +2289,14 @@
   "numero": 205,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Muut rahastot"
+   "fi": "Muut rahastot"
   }
  },
  {
   "numero": 2051,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vararahasto"
+   "fi": "Vararahasto"
   },
   "erittely": 1,
   "laajuus": 4,
@@ -2306,7 +2306,7 @@
   "numero": 2061,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Sijoitetun vapaan pääoman rahasto"
+   "fi": "Sijoitetun vapaan pääoman rahasto"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2316,7 +2316,7 @@
  "numero": 2071,
  "tyyppi": "B",
  "nimi": {
-  "fi:": "Yhtiöjärjestyksen mukainen rahasto"
+  "fi": "Yhtiöjärjestyksen mukainen rahasto"
  },
  "erittely": 1,
  "laajuus": 4,
@@ -2326,7 +2326,7 @@
   "numero": 2081,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut rahastot"
+   "fi": "Muut rahastot"
   },
   "erittely": 1,
   "laajuus": 6,
@@ -2336,14 +2336,14 @@
   "numero": 210,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Osuuspääoma"
+   "fi": "Osuuspääoma"
   }
  },
  {
   "numero": 2101,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Osuuspääoma"
+   "fi": "Osuuspääoma"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2353,24 +2353,24 @@
   "numero": 2103,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lisäosuuspääoma"
+   "fi": "Lisäosuuspääoma"
   },
   "erittely": 1,
   "laajuus": 3,
-  "muodot" :  ["osk"]
+  "muodot" : ["osk"]
  },
  {
   "numero": 215,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pääomapanokset"
+   "fi": "Pääomapanokset"
   }
  },
  {
   "numero": 2151,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomapanos, yhtiömies A"
+   "fi": "Pääomapanos, yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2380,7 +2380,7 @@
   "numero": 2153,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomapanos, yhtiömies B"
+   "fi": "Pääomapanos, yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2390,7 +2390,7 @@
   "numero": 2171,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomapanos, yhtiömies A"
+   "fi": "Pääomapanos, yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2400,7 +2400,7 @@
   "numero": 2173,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomapanos, yhtiömies B"
+   "fi": "Pääomapanos, yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2410,17 +2410,17 @@
   "numero": 2181,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Äänettömän yhtiömiehen C panos"
+   "fi": "Äänettömän yhtiömiehen C panos"
   },
   "erittely": 1,
   "laajuus": 1,
-  "muodot":  ["ky"]
+  "muodot": ["ky"]
  },
  {
   "numero": 2183,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Äänettömän yhtiömiehen D panos"
+   "fi": "Äänettömän yhtiömiehen D panos"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2430,14 +2430,14 @@
   "numero": 220,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Peruspääoma"
+   "fi": "Peruspääoma"
   }
  },
  {
   "numero": 2201,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Peruspääoma"
+   "fi": "Peruspääoma"
   },
   "erittely": 1,
   "laajuus": 6,
@@ -2448,14 +2448,14 @@
   "numero": 225,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Edellisten tilikausien voitto (tappio)"
+   "fi": "Edellisten tilikausien voitto (tappio)"
   }
  },
  {
   "numero": 2251,
   "tyyppi": "BE",
   "nimi": {
-   "fi:": "Edellisten tilikausien voitto/tappio"
+   "fi": "Edellisten tilikausien voitto/tappio"
   },
   "laajuus": 1
  },
@@ -2463,7 +2463,7 @@
   "numero": 2261,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Osingonjako"
+   "fi": "Osingonjako"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2473,7 +2473,7 @@
   "numero": 2265,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Omista osakkeista maksettu määrä"
+   "fi": "Omista osakkeista maksettu määrä"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2483,7 +2483,7 @@
   "numero": 2271,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Osuuskorot"
+   "fi": "Osuuskorot"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2493,7 +2493,7 @@
   "numero": 2291,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus yhtiömies A"
+   "fi": "Voitto-osuus yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2503,7 +2503,7 @@
   "numero": 2293,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus yhtiömies B"
+   "fi": "Voitto-osuus yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2513,7 +2513,7 @@
   "numero": 2311,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus vastuunalainen yhtiömies A"
+   "fi": "Voitto-osuus vastuunalainen yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2523,7 +2523,7 @@
   "numero": 2313,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus vastuunalainen yhtiömies B"
+   "fi": "Voitto-osuus vastuunalainen yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2533,7 +2533,7 @@
   "numero": 2321,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus äänetön yhtiömies C"
+   "fi": "Voitto-osuus äänetön yhtiömies C"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2543,7 +2543,7 @@
   "numero": 2323,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Voitto-osuus äänetön yhtiömies D"
+   "fi": "Voitto-osuus äänetön yhtiömies D"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2553,14 +2553,14 @@
   "numero": 233,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pääomavajaus"
+   "fi": "Pääomavajaus"
   }
  },
  {
   "numero": 2331,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomavajaus yhtiömies A"
+   "fi": "Pääomavajaus yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2570,7 +2570,7 @@
  "numero": 2332,
  "tyyppi": "B",
  "nimi": {
-  "fi:": "Pääomavajaus yhtiömies B"
+  "fi": "Pääomavajaus yhtiömies B"
  },
  "erittely": 1,
  "laajuus": 3,
@@ -2580,7 +2580,7 @@
 "numero": 2337,
 "tyyppi": "B",
 "nimi": {
- "fi:": "Pääomavajaus"
+ "fi": "Pääomavajaus"
 },
 "erittely": 1,
 "laajuus": 3,
@@ -2590,14 +2590,14 @@
   "numero": 234,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Yksityistilit tilikaudella"
+   "fi": "Yksityistilit tilikaudella"
   }
  },
  {
   "numero": 2341,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityissijoitukset rahana yhtiömies A"
+   "fi": "Yksityissijoitukset rahana yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2607,7 +2607,7 @@
   "numero": 2343,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityissijoitukset yhtiömies A"
+   "fi": "Muut yksityissijoitukset yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2617,7 +2617,7 @@
   "numero": 2345,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityissijoitukset rahana yhtiömies B"
+   "fi": "Yksityissijoitukset rahana yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2627,7 +2627,7 @@
   "numero": 2347,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityissijoitukset  yhtiömies B"
+   "fi": "Muut yksityissijoitukset  yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2637,7 +2637,7 @@
   "numero": 2351,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityisnostot rahana yhtiömies A"
+   "fi": "Yksityisnostot rahana yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2647,7 +2647,7 @@
   "numero": 2353,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityisnostot yhtiömies A"
+   "fi": "Muut yksityisnostot yhtiömies A"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2657,7 +2657,7 @@
   "numero": 2355,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityisnostot rahana yhtiömies B"
+   "fi": "Yksityisnostot rahana yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2667,7 +2667,7 @@
   "numero": 2357,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityisnostot  yhtiömies B"
+   "fi": "Muut yksityisnostot  yhtiömies B"
   },
   "erittely": 1,
   "laajuus": 3,
@@ -2677,7 +2677,7 @@
   "numero": 2361,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityissijoitukset rahana"
+   "fi": "Yksityissijoitukset rahana"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2687,7 +2687,7 @@
   "numero": 2363,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityissijoitukset"
+   "fi": "Muut yksityissijoitukset"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2697,7 +2697,7 @@
   "numero": 2365,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Yksityisnostot rahana"
+   "fi": "Yksityisnostot rahana"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2707,7 +2707,7 @@
   "numero": 2367,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut yksityisnostot"
+   "fi": "Muut yksityisnostot"
   },
   "erittely": 1,
   "laajuus": 1,
@@ -2718,14 +2718,14 @@
   "numero": 237,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Tilikauden tulos"
+   "fi": "Tilikauden tulos"
   }
  },
  {
   "numero": 2371,
   "tyyppi": "T",
   "nimi": {
-   "fi:": "Tilikauden voitto/tappio"
+   "fi": "Tilikauden voitto/tappio"
   },
   "laajuus": 3
  },
@@ -2734,14 +2734,14 @@
   "numero": 238,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pääomalainat"
+   "fi": "Pääomalainat"
   }
  },
  {
   "numero": 2381,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pääomalaina"
+   "fi": "Pääomalaina"
   },
   "erittely": 3,
   "laajuus": 3,
@@ -2751,14 +2751,14 @@
   "numero": 239,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Vähemmistöosuudet"
+   "fi": "Vähemmistöosuudet"
   }
  },
  {
   "numero": 2391,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vähemmistöosuus"
+   "fi": "Vähemmistöosuus"
   },
   "laajuus": 5
  },
@@ -2766,21 +2766,21 @@
   "numero": 24,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Tilinpäätössiirtojen kertymä"
+   "fi": "Tilinpäätössiirtojen kertymä"
   }
  },
  {
   "numero": 240,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Poistoero"
+   "fi": "Poistoero"
   }
  },
  {
   "numero": 2405,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Kehittämismenojen poistoero"
+   "fi": "Kehittämismenojen poistoero"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2789,7 +2789,7 @@
   "numero": 2407,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Aineettomien oikeuksien poistoero"
+   "fi": "Aineettomien oikeuksien poistoero"
   },
   "erittely": 1,
   "laajuus": 3
@@ -2798,7 +2798,7 @@
   "numero": 2411,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Liikearvon poistoero"
+   "fi": "Liikearvon poistoero"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2807,7 +2807,7 @@
   "numero": 2421,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muiden pitkävaikutteisten menojen poistoero"
+   "fi": "Muiden pitkävaikutteisten menojen poistoero"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2816,7 +2816,7 @@
   "numero": 2431,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Rakennusten poistoero"
+   "fi": "Rakennusten poistoero"
   },
   "erittely": 1,
   "laajuus": 3
@@ -2825,7 +2825,7 @@
   "numero": 2441,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Koneiden ja kaluston poistoero"
+   "fi": "Koneiden ja kaluston poistoero"
   },
   "erittely": 1,
   "laajuus": 3
@@ -2834,7 +2834,7 @@
   "numero": 2449,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muiden aineellisten hyödykkeiden poistoero"
+   "fi": "Muiden aineellisten hyödykkeiden poistoero"
   },
   "erittely": 1,
   "laajuus": 3
@@ -2843,14 +2843,14 @@
   "numero": 245,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Verotusperusteiset varaukset"
+   "fi": "Verotusperusteiset varaukset"
   }
  },
  {
   "numero": 2451,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Käyttöomaisuuden jälleenhankintavaraus"
+   "fi": "Käyttöomaisuuden jälleenhankintavaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2859,7 +2859,7 @@
   "numero": 2453,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Toimitilan jälleenhankintavaraus"
+   "fi": "Toimitilan jälleenhankintavaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2868,7 +2868,7 @@
   "numero": 2461,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Luottotappiovaraus"
+   "fi": "Luottotappiovaraus"
   },
   "erittely": 1,
   "laajuus": 3
@@ -2877,7 +2877,7 @@
   "numero": 2471,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Takuuvaraus"
+   "fi": "Takuuvaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2886,7 +2886,7 @@
   "numero": 2481,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Toimintavaraus"
+   "fi": "Toimintavaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2895,7 +2895,7 @@
   "numero": 2491,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Hankintamenon muutosvaraus"
+   "fi": "Hankintamenon muutosvaraus"
   },
   "laajuus": 4
  },
@@ -2903,7 +2903,7 @@
   "numero": 2493,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Asuintalovaraus"
+   "fi": "Asuintalovaraus"
   },
   "laajuus": 4
  },
@@ -2911,7 +2911,7 @@
   "numero": 2499,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut verotusperusteiset varaukset"
+   "fi": "Muut verotusperusteiset varaukset"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2920,21 +2920,21 @@
   "numero": 25,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pakolliset varaukset"
+   "fi": "Pakolliset varaukset"
   }
  },
  {
   "numero": 2501,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Eläkevaraukset"
+   "fi": "Eläkevaraukset"
   }
  },
  {
   "numero": 2501,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Eläkevaraukset"
+   "fi": "Eläkevaraukset"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2943,14 +2943,14 @@
   "numero": 253,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Verovaraukset"
+   "fi": "Verovaraukset"
   }
  },
  {
   "numero": 2531,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Verovaraukset"
+   "fi": "Verovaraukset"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2959,14 +2959,14 @@
   "numero": 255,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut pakolliset varaukset"
+   "fi": "Muut pakolliset varaukset"
   }
  },
  {
   "numero": 2551,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Oikeudenkäyntivaraus"
+   "fi": "Oikeudenkäyntivaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2975,7 +2975,7 @@
   "numero": 2561,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Hinnanlaskuvaraus"
+   "fi": "Hinnanlaskuvaraus"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2984,7 +2984,7 @@
   "numero": 2571,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaishankkeiden pakolliset varaukset"
+   "fi": "Pitkäaikaishankkeiden pakolliset varaukset"
   },
   "erittely": 1,
   "laajuus": 4
@@ -2993,7 +2993,7 @@
   "numero": 2581,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut pakolliset varaukset"
+   "fi": "Muut pakolliset varaukset"
   },
   "erittely": 1,
   "laajuus": 4
@@ -3002,14 +3002,14 @@
   "numero": 259,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Konsernireservi"
+   "fi": "Konsernireservi"
   }
  },
  {
   "numero": 2591,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Konsernireservi"
+   "fi": "Konsernireservi"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3018,28 +3018,28 @@
   "numero": 26,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Vieras pääoma"
+   "fi": "Vieras pääoma"
   }
  },
  {
   "numero": 26,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Pitkäaikainen vieras pääoma"
+   "fi": "Pitkäaikainen vieras pääoma"
   }
  },
  {
   "numero": 260,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Pääomalainat"
+   "fi": "Pääomalainat"
   }
  },
  {
   "numero": 2601,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikainen pääomalaina"
+   "fi": "Pitkäaikainen pääomalaina"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3048,14 +3048,14 @@
   "numero": 260,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Joukkovelkakirjalainat"
+   "fi": "Joukkovelkakirjalainat"
   }
  },
  {
   "numero": 2611,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset joukkovelkakirjalainat"
+   "fi": "Pitkäaikaiset joukkovelkakirjalainat"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3064,7 +3064,7 @@
   "numero": 2613,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset obligaatiolainat"
+   "fi": "Pitkäaikaiset obligaatiolainat"
   },
   "erittely": 3,
   "laajuus": 6
@@ -3073,7 +3073,7 @@
   "numero": 2614,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset debentuurilainat"
+   "fi": "Pitkäaikaiset debentuurilainat"
   },
   "erittely": 3,
   "laajuus": 6
@@ -3082,7 +3082,7 @@
   "numero": 2609,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut pitkäaikaiset joukkovelkakirjalainat"
+   "fi": "Muut pitkäaikaiset joukkovelkakirjalainat"
   },
   "erittely": 3,
   "laajuus": 6
@@ -3091,14 +3091,14 @@
   "numero": 261,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Vaihtovelkakirjalainat"
+   "fi": "Vaihtovelkakirjalainat"
   }
  },
  {
   "numero": 2611,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset vaihtovelkakirjalainat"
+   "fi": "Pitkäaikaiset vaihtovelkakirjalainat"
   },
   "erittely": 3,
   "laajuus": 6
@@ -3107,14 +3107,14 @@
   "numero": 262,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Lainat  rahoituslaitoksilta"
+   "fi": "Lainat  rahoituslaitoksilta"
   }
  },
  {
   "numero": 2621,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoituslaitoslaina 1"
+   "fi": "Pitkäaikainen rahoituslaitoslaina 1"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3123,7 +3123,7 @@
   "numero": 2622,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoituslaitoslaina 2"
+   "fi": "Pitkäaikainen rahoituslaitoslaina 2"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3132,7 +3132,7 @@
   "numero": 2623,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoituslaitoslaina 3"
+   "fi": "Pitkäaikainen rahoituslaitoslaina 3"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3141,7 +3141,7 @@
   "numero": 2631,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoitusyhtiölaina 1"
+   "fi": "Pitkäaikainen rahoitusyhtiölaina 1"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3150,7 +3150,7 @@
   "numero": 2632,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoitusyhtiölaina 2"
+   "fi": "Pitkäaikainen rahoitusyhtiölaina 2"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3159,7 +3159,7 @@
   "numero": 2633,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen rahoitusyhtiölaina 3"
+   "fi": "Pitkäaikainen rahoitusyhtiölaina 3"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3168,7 +3168,7 @@
   "numero": 2639,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikainen factoringluottotili"
+   "fi": "Pitkäaikainen factoringluottotili"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3177,7 +3177,7 @@
   "numero": 2641,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pankki 1 shekkitililimiitti"
+   "fi": "Pankki 1 shekkitililimiitti"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3186,7 +3186,7 @@
   "numero": 2642,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pankki 2 shekkitililimiitti"
+   "fi": "Pankki 2 shekkitililimiitti"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3195,7 +3195,7 @@
   "numero": 2649,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Muut pitkäaikaiset lainat rahoituslaitoksilta"
+   "fi": "Muut pitkäaikaiset lainat rahoituslaitoksilta"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3204,14 +3204,14 @@
   "numero": 265,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Eläkelainat"
+   "fi": "Eläkelainat"
   }
  },
  {
   "numero": 2651,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset eläkelainat"
+   "fi": "Pitkäaikaiset eläkelainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3220,14 +3220,14 @@
   "numero": 266,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saadut ennakot"
+   "fi": "Saadut ennakot"
   }
  },
  {
   "numero": 2661,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset saadut ennakot"
+   "fi": "Pitkäaikaiset saadut ennakot"
   },
   "laajuus": 4
  },
@@ -3235,14 +3235,14 @@
   "numero": 267,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ostovelat"
+   "fi": "Ostovelat"
   }
  },
  {
   "numero": 2671,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Pitkäaikaiset ostovelat"
+   "fi": "Pitkäaikaiset ostovelat"
   },
   "erittely": 2,
   "laajuus": 4
@@ -3251,7 +3251,7 @@
   "numero": 2681,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Pitkäaikaiset osamaksuvelat"
+   "fi": "Pitkäaikaiset osamaksuvelat"
   },
   "erittely": 2,
   "laajuus": 3
@@ -3260,14 +3260,14 @@
   "numero": 269,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Rahoitusvekselit"
+   "fi": "Rahoitusvekselit"
   }
  },
  {
   "numero": 2691,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset rahoitusvekselit"
+   "fi": "Pitkäaikaiset rahoitusvekselit"
   },
   "erittely": 2,
   "laajuus": 4
@@ -3276,14 +3276,14 @@
   "numero": 270,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Velat saman konsernin yrityksille"
+   "fi": "Velat saman konsernin yrityksille"
   }
  },
  {
   "numero": 2701,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset saadut ennakot konserniyrityksiltä"
+   "fi": "Pitkäaikaiset saadut ennakot konserniyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3292,7 +3292,7 @@
   "numero": 2703,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset ostovelat konserniyrityksille"
+   "fi": "Pitkäaikaiset ostovelat konserniyrityksille"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3301,7 +3301,7 @@
   "numero": 2705,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset rahoitusvekselit konserniyrityksiltä"
+   "fi": "Pitkäaikaiset rahoitusvekselit konserniyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3310,7 +3310,7 @@
   "numero": 2707,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut velat konserniyrityksille"
+   "fi": "Pitkäaikaiset muut velat konserniyrityksille"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3319,7 +3319,7 @@
   "numero": 2709,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset siirtovelat konserniyrityksille"
+   "fi": "Pitkäaikaiset siirtovelat konserniyrityksille"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3328,14 +3328,14 @@
   "numero": 271,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Velat omistusyhteysyrityksille"
+   "fi": "Velat omistusyhteysyrityksille"
   }
  },
  {
   "numero": 2711,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset saadut ennakot omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset saadut ennakot omistusyhteysyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3344,7 +3344,7 @@
   "numero": 2713,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset ostovelat omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset ostovelat omistusyhteysyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3353,7 +3353,7 @@
   "numero": 2715,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset rahoitusvekselit omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset rahoitusvekselit omistusyhteysyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3362,7 +3362,7 @@
   "numero": 2717,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut velat omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset muut velat omistusyhteysyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3371,7 +3371,7 @@
   "numero": 2719,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaiset siirtovelat omistusyhteysyrityksiltä"
+   "fi": "Pitkäaikaiset siirtovelat omistusyhteysyrityksiltä"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3380,14 +3380,14 @@
   "numero": 272,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut velat"
+   "fi": "Muut velat"
   }
  },
  {
   "numero": 2721,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset velat työntekijöille"
+   "fi": "Pitkäaikaiset velat työntekijöille"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3396,7 +3396,7 @@
   "numero": 2723,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset velat johdolle"
+   "fi": "Pitkäaikaiset velat johdolle"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3405,7 +3405,7 @@
   "numero": 2725,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset velat osakkaille"
+   "fi": "Pitkäaikaiset velat osakkaille"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3414,7 +3414,7 @@
   "numero": 2731,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset optiolainat"
+   "fi": "Pitkäaikaiset optiolainat"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3423,7 +3423,7 @@
   "numero": 2741,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset saadut vuokravakuudet"
+   "fi": "Pitkäaikaiset saadut vuokravakuudet"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3432,7 +3432,7 @@
   "numero": 2749,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset muut velat"
+   "fi": "Pitkäaikaiset muut velat"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3441,14 +3441,14 @@
   "numero": 275,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Siirtovelat"
+   "fi": "Siirtovelat"
   }
  },
  {
   "numero": 2751,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Pitkäaikaiset siirtovelat"
+   "fi": "Pitkäaikaiset siirtovelat"
   },
   "erittely": 1,
   "laajuus": 4
@@ -3457,21 +3457,21 @@
   "numero": 28,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Lyhytaikainen vieras pääom"
+   "fi": "Lyhytaikainen vieras pääom"
   }
  },
  {
   "numero": 280,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Pääomalainat"
+   "fi": "Pääomalainat"
   }
  },
  {
   "numero": 2801,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen pääomalaina"
+   "fi": "Lyhytaikainen pääomalaina"
   },
   "erittely": 1,
   "laajuus": 4,
@@ -3481,14 +3481,14 @@
   "numero": 281,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Joukkovelkakirjalainat"
+   "fi": "Joukkovelkakirjalainat"
   }
  },
  {
   "numero": 2811,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Joukkovelkakirjalainat"
+   "fi": "Joukkovelkakirjalainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3497,7 +3497,7 @@
   "numero": 2813,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Obligaatiolainat"
+   "fi": "Obligaatiolainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3506,7 +3506,7 @@
   "numero": 2814,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Debentuurilainat"
+   "fi": "Debentuurilainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3515,7 +3515,7 @@
   "numero": 2815,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut joukkovelkakirjalainat"
+   "fi": "Muut joukkovelkakirjalainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3524,14 +3524,14 @@
   "numero": 2817,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Vaihtovelkakirjalainat"
+   "fi": "Vaihtovelkakirjalainat"
   }
  },
  {
   "numero": 2817,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vaihtovelkakirjalainat"
+   "fi": "Vaihtovelkakirjalainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3540,14 +3540,14 @@
   "numero": 282,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Lainat rahoituslaitoksilta"
+   "fi": "Lainat rahoituslaitoksilta"
   }
  },
  {
   "numero": 2821,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoituslaitoslainan 1 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoituslaitoslainan 1 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3556,7 +3556,7 @@
   "numero": 2822,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoituslaitoslainan 2 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoituslaitoslainan 2 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3565,7 +3565,7 @@
   "numero": 2823,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoituslaitoslainan 3 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoituslaitoslainan 3 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3574,7 +3574,7 @@
   "numero": 2825,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoituslaitoslaina 1"
+   "fi": "Lyhytaikainen rahoituslaitoslaina 1"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3583,7 +3583,7 @@
   "numero": 2826,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoituslaitoslaina 2"
+   "fi": "Lyhytaikainen rahoituslaitoslaina 2"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3592,7 +3592,7 @@
   "numero": 2827,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoituslaitoslaina 3"
+   "fi": "Lyhytaikainen rahoituslaitoslaina 3"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3601,7 +3601,7 @@
   "numero": 2831,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoitusyhtiölainan 1 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoitusyhtiölainan 1 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3610,7 +3610,7 @@
   "numero": 2832,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoitusyhtiölainan 2 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoitusyhtiölainan 2 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3619,7 +3619,7 @@
   "numero": 2833,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Pitkäaikaisen rahoitusyhtiölainan 3 lyhennyserät"
+   "fi": "Pitkäaikaisen rahoitusyhtiölainan 3 lyhennyserät"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3628,7 +3628,7 @@
   "numero": 2835,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoitusyhtiölaina 1"
+   "fi": "Lyhytaikainen rahoitusyhtiölaina 1"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3637,7 +3637,7 @@
   "numero": 2836,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoitusyhtiölaina 2"
+   "fi": "Lyhytaikainen rahoitusyhtiölaina 2"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3646,7 +3646,7 @@
   "numero": 2837,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikainen rahoitusyhtiölaina 3"
+   "fi": "Lyhytaikainen rahoitusyhtiölaina 3"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3655,7 +3655,7 @@
   "numero": 2841,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Factoring-luottotili"
+   "fi": "Factoring-luottotili"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3664,7 +3664,7 @@
   "numero": 2849,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut lyhytaikaiset lainat rahoituslaitoksilta"
+   "fi": "Muut lyhytaikaiset lainat rahoituslaitoksilta"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3673,14 +3673,14 @@
   "numero": 285,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Eläkelainat"
+   "fi": "Eläkelainat"
   }
  },
  {
   "numero": 2851,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lyhytaikaiset eläkelainat"
+   "fi": "Lyhytaikaiset eläkelainat"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3689,14 +3689,14 @@
   "numero": 286,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Saadut ennakot"
+   "fi": "Saadut ennakot"
   }
  },
  {
   "numero": 2861,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Saadut ennakot"
+   "fi": "Saadut ennakot"
   },
   "erittely": 2,
   "laajuus": 1
@@ -3705,14 +3705,14 @@
   "numero": 287,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ostovelat"
+   "fi": "Ostovelat"
   }
  },
  {
   "numero": 2871,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Ostovelat"
+   "fi": "Ostovelat"
   },
   "erittely": 2,
   "laajuus": 1
@@ -3721,7 +3721,7 @@
   "numero": 2872,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Ostovelat 2"
+   "fi": "Ostovelat 2"
   },
   "erittely": 2,
   "laajuus": 4
@@ -3730,7 +3730,7 @@
   "numero": 2873,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Ostovelat 3"
+   "fi": "Ostovelat 3"
   },
   "erittely": 2,
   "laajuus": 4
@@ -3739,7 +3739,7 @@
   "numero": 2877,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Ostovelat investoinneista"
+   "fi": "Ostovelat investoinneista"
   },
   "erittely": 2,
   "laajuus": 3
@@ -3748,7 +3748,7 @@
   "numero": 2879,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Ostovelat ennakkolaskuista"
+   "fi": "Ostovelat ennakkolaskuista"
   },
   "erittely": 2,
   "laajuus": 3
@@ -3757,7 +3757,7 @@
   "numero": 2881,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Osamaksuvelat"
+   "fi": "Osamaksuvelat"
   },
   "erittely": 2,
   "laajuus": 3
@@ -3766,7 +3766,7 @@
   "numero": 2888,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Maksuliikennetili"
+   "fi": "Maksuliikennetili"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3775,7 +3775,7 @@
   "numero": 2889,
   "tyyppi": "BO",
   "nimi": {
-   "fi:": "Muut ostovelat"
+   "fi": "Muut ostovelat"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3784,14 +3784,14 @@
   "numero": 289,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Rahoitusvekselit"
+   "fi": "Rahoitusvekselit"
   }
  },
  {
   "numero": 2891,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Rahoitusvekselit"
+   "fi": "Rahoitusvekselit"
   },
   "erittely": 3,
   "laajuus": 4
@@ -3800,14 +3800,14 @@
   "numero": 290,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Velat saman konsernin yrityksille"
+   "fi": "Velat saman konsernin yrityksille"
   }
  },
  {
   "numero": 2901,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Saadut ennakot konserniyrityksiltä"
+   "fi": "Saadut ennakot konserniyrityksiltä"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3816,7 +3816,7 @@
   "numero": 2903,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Ostovelat konserniyrityksille"
+   "fi": "Ostovelat konserniyrityksille"
   },
   "erittely": 2,
   "laajuus": 5
@@ -3825,7 +3825,7 @@
   "numero": 2905,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Rahoitusvekselit konserniyrityksiltä"
+   "fi": "Rahoitusvekselit konserniyrityksiltä"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3834,7 +3834,7 @@
   "numero": 2907,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut velat konserniyrityksille"
+   "fi": "Muut velat konserniyrityksille"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3843,7 +3843,7 @@
   "numero": 2909,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Siirtovelat konserniyrityksille"
+   "fi": "Siirtovelat konserniyrityksille"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3852,14 +3852,14 @@
   "numero": 291,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Velat omistusyhteysyrityksille"
+   "fi": "Velat omistusyhteysyrityksille"
   }
  },
  {
   "numero": 2911,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Saadut ennakot omistusyhteysyrityksiltä"
+   "fi": "Saadut ennakot omistusyhteysyrityksiltä"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3868,7 +3868,7 @@
   "numero": 2913,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Ostovelat omistusyhteysyrityksille"
+   "fi": "Ostovelat omistusyhteysyrityksille"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3877,7 +3877,7 @@
   "numero": 2915,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Rahoitusvekselit omistusyhteysyrityksiltä"
+   "fi": "Rahoitusvekselit omistusyhteysyrityksiltä"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3886,7 +3886,7 @@
   "numero": 2917,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut velat omistusyhteysyrityksille"
+   "fi": "Muut velat omistusyhteysyrityksille"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3895,7 +3895,7 @@
   "numero": 2919,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Siirtovelat omistusyhteysyrityksille"
+   "fi": "Siirtovelat omistusyhteysyrityksille"
   },
   "erittely": 1,
   "laajuus": 5
@@ -3904,14 +3904,14 @@
   "numero": 292,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut velat"
+   "fi": "Muut velat"
   }
  },
  {
   "numero": 2920,
   "tyyppi": "BV",
   "nimi": {
-   "fi:": "Verovelka (oma-aloitteiset verot)"
+   "fi": "Verovelka (oma-aloitteiset verot)"
   },
   "ohje": "Tilille kirjataan OmaVero-palvelussa ilmoitettavat oma-aloitteisesti maksettavat verot (arvonlisävero, ennakonpidätykset, työnantajasuoritukset) silloin, kun verosta on tehty laskelma. ",
   "laajuus": 1
@@ -3920,7 +3920,7 @@
   "numero": 2921,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Ennakonpidätysvelka"
+   "fi": "Ennakonpidätysvelka"
   },
   "laajuus": 6
  },
@@ -3928,7 +3928,7 @@
   "numero": 2923,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksuvelka"
+   "fi": "Sosiaaliturvamaksuvelka"
   },
   "laajuus": 6
  },
@@ -3936,7 +3936,7 @@
   "numero": 2925,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Jäsenmaksutilitysvelka"
+   "fi": "Jäsenmaksutilitysvelka"
   },
   "laajuus": 3
  },
@@ -3944,7 +3944,7 @@
   "numero": 2926,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Jäsenmaksutilitysvelka 2"
+   "fi": "Jäsenmaksutilitysvelka 2"
   },
   "laajuus": 6
  },
@@ -3952,7 +3952,7 @@
   "numero": 2927,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Jäsenmaksutilitysvelka 3"
+   "fi": "Jäsenmaksutilitysvelka 3"
   },
   "laajuus": 6
  },
@@ -3960,7 +3960,7 @@
   "numero": 2931,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "TyEL-velka"
+   "fi": "TyEL-velka"
   },
   "laajuus": 1
  },
@@ -3968,7 +3968,7 @@
   "numero": 2933,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Ulosottotilitysvelka"
+   "fi": "Ulosottotilitysvelka"
   },
   "erittely": 1,
   "laajuus": 3
@@ -3977,7 +3977,7 @@
   "numero": 2935,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Tilitysvelat"
+   "fi": "Tilitysvelat"
   },
   "laajuus": 3
  },
@@ -3985,7 +3985,7 @@
   "numero": 2937,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Maksuunpantu verovelka"
+   "fi": "Maksuunpantu verovelka"
   },
   "erittely": 1,
   "laajuus": 6
@@ -3994,7 +3994,7 @@
   "numero": 2938,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Maksuunpantu ennakkoverovelka"
+   "fi": "Maksuunpantu ennakkoverovelka"
   },
   "erittely": 1,
   "laajuus": 6
@@ -4003,7 +4003,7 @@
   "numero": 2939,
   "tyyppi": "BL",
   "nimi": {
-   "fi:": "Arvonlisäverovelka"
+   "fi": "Arvonlisäverovelka"
   },
   "laajuus": 1
  },
@@ -4011,7 +4011,7 @@
   "numero": 29391,
   "tyyppi": "BLM",
   "nimi": {
-   "fi:": "Maksuperusteinen arvonlisäverovelka"
+   "fi": "Maksuperusteinen arvonlisäverovelka"
   },
   "laajuus": 1
  },
@@ -4019,7 +4019,7 @@
   "numero": 2940,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Velat työntekijöille"
+   "fi": "Velat työntekijöille"
   },
   "erittely": 1,
   "laajuus": 3
@@ -4028,7 +4028,7 @@
   "numero": 2941,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Velat osakkaille"
+   "fi": "Velat osakkaille"
   },
   "erittely": 1,
   "laajuus": 3
@@ -4037,7 +4037,7 @@
   "numero": 2942,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Velat johdolle"
+   "fi": "Velat johdolle"
   },
   "erittely": 1,
   "laajuus": 3
@@ -4046,7 +4046,7 @@
   "numero": 2943,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Voitonjakovelat"
+   "fi": "Voitonjakovelat"
   },
   "erittely": 1,
   "laajuus": 3
@@ -4055,7 +4055,7 @@
   "numero": 2944,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Optiolainat"
+   "fi": "Optiolainat"
   },
   "erittely": 1,
   "laajuus": 4
@@ -4064,7 +4064,7 @@
   "numero": 2945,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Saadut vuokravakuudet"
+   "fi": "Saadut vuokravakuudet"
   },
   "erittely": 2,
   "laajuus": 4
@@ -4073,7 +4073,7 @@
   "numero": 2947,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Selvittelytili"
+   "fi": "Selvittelytili"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4082,7 +4082,7 @@
   "numero": 2949,
   "tyyppi": "BS",
   "nimi": {
-   "fi:": "Muut lyhytaikaiset velat"
+   "fi": "Muut lyhytaikaiset velat"
   },
   "laajuus": 3
  },
@@ -4090,14 +4090,14 @@
   "numero": 295,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Siirtovelat"
+   "fi": "Siirtovelat"
   }
  },
  {
   "numero": 2951,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vuokratulot (siirtovelat)"
+   "fi": "Vuokratulot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -4106,7 +4106,7 @@
   "numero": 2953,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Korkotulot (siirtovelat)"
+   "fi": "Korkotulot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -4115,7 +4115,7 @@
   "numero": 2955,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Jaksotetut investointiavustukset (siirtovelat)"
+   "fi": "Jaksotetut investointiavustukset (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 4
@@ -4124,7 +4124,7 @@
   "numero": 2959,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut tuloennakot (siirtovelat)"
+   "fi": "Muut tuloennakot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4133,7 +4133,7 @@
   "numero": 2961,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Palkkamenot (siirtovelat)"
+   "fi": "Palkkamenot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4142,7 +4142,7 @@
   "numero": 2962,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Lomapalkkamenot (siirtovelat)"
+   "fi": "Lomapalkkamenot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4151,7 +4151,7 @@
   "numero": 2963,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Eläkevakuutusmaksut (siirtovelat)"
+   "fi": "Eläkevakuutusmaksut (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4160,7 +4160,7 @@
   "numero": 2964,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksut (siirtovelat)"
+   "fi": "Sosiaaliturvamaksut (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4169,7 +4169,7 @@
   "numero": 2965,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Työnantajan pakolliset vakuutusmaksut (siirtovelat)"
+   "fi": "Työnantajan pakolliset vakuutusmaksut (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4178,7 +4178,7 @@
   "numero": 2966,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vuokramenot (siirtovelat)"
+   "fi": "Vuokramenot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4187,7 +4187,7 @@
   "numero": 2967,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Korkomenot (siirtovelat)"
+   "fi": "Korkomenot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4196,7 +4196,7 @@
   "numero": 2968,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Tuloverot (siirtovelat)"
+   "fi": "Tuloverot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4205,7 +4205,7 @@
   "numero": 2969,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Muut menojäämät (siirtovelat)"
+   "fi": "Muut menojäämät (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4214,7 +4214,7 @@
   "numero": 2971,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Myynnin alennukset (siirtovelat)"
+   "fi": "Myynnin alennukset (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4223,7 +4223,7 @@
   "numero": 2973,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Vastaiset menot ja menetykset (siirtovelat)"
+   "fi": "Vastaiset menot ja menetykset (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4232,7 +4232,7 @@
   "numero": 2975,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Laskennalliset kurssivoitot (siirtovelat)"
+   "fi": "Laskennalliset kurssivoitot (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4241,7 +4241,7 @@
   "numero": 2977,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Arvonlisäverovelat ennakkomaksuista (siirtovelat)"
+   "fi": "Arvonlisäverovelat ennakkomaksuista (siirtovelat)"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4250,7 +4250,7 @@
   "numero": 2979,
   "tyyppi": "BJ",
   "nimi": {
-   "fi:": "Muut siirtovelat"
+   "fi": "Muut siirtovelat"
   },
   "erittely": 2,
   "laajuus": 1
@@ -4259,14 +4259,14 @@
   "numero": 298,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Laskennalliset verovelat"
+   "fi": "Laskennalliset verovelat"
   }
  },
  {
   "numero": 2981,
   "tyyppi": "B",
   "nimi": {
-   "fi:": "Laskennalliset verovelat"
+   "fi": "Laskennalliset verovelat"
   },
   "erittely": 2,
   "laajuus": 3
@@ -4275,28 +4275,28 @@
   "numero": 3,
   "tyyppi": "H1",
   "nimi": {
-   "fi:": "Tuloslaskelma"
+   "fi": "Tuloslaskelma"
   }
  },
  {
   "numero": 3,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Myyntituotot"
+   "fi": "Myyntituotot"
   }
  },
  {
   "numero": 30,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Yleiset myyntitilit"
+   "fi": "Yleiset myyntitilit"
   }
  },
  {
   "numero": 3000,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti"
+   "fi": "Myynti"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4306,7 +4306,7 @@
   "numero": 3010,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 2"
+   "fi": "Myynti 2"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4316,7 +4316,7 @@
   "numero": 3020,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 3"
+   "fi": "Myynti 3"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4326,7 +4326,7 @@
   "numero": 3030,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 4"
+   "fi": "Myynti 4"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4336,7 +4336,7 @@
   "numero": 3040,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 5"
+   "fi": "Myynti 5"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4346,7 +4346,7 @@
   "numero": 3050,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 6"
+   "fi": "Myynti 6"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4356,7 +4356,7 @@
   "numero": 3060,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 7"
+   "fi": "Myynti 7"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4366,7 +4366,7 @@
   "numero": 3070,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 8"
+   "fi": "Myynti 8"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4376,7 +4376,7 @@
   "numero": 3080,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 9"
+   "fi": "Myynti 9"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4386,7 +4386,7 @@
   "numero": 3090,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti 10"
+   "fi": "Myynti 10"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4396,7 +4396,7 @@
   "numero": 3110,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Rakentamispalveluiden myynti (käänn. verovelv.)"
+   "fi": "Rakentamispalveluiden myynti (käänn. verovelv.)"
   },
   "alvlaji": 16,
   "laajuus": 4
@@ -4405,14 +4405,14 @@
   "numero": 320,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Oheispalvelut"
+   "fi": "Oheispalvelut"
   }
  },
  {
   "numero": 3200,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Puhelintuotot"
+   "fi": "Puhelintuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4422,7 +4422,7 @@
   "numero": 3210,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Veikkaustuotot"
+   "fi": "Veikkaustuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4432,7 +4432,7 @@
   "numero": 3220,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Automaattituotot"
+   "fi": "Automaattituotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4442,7 +4442,7 @@
   "numero": 3230,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Muut oheispalvelutuotot"
+   "fi": "Muut oheispalvelutuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4452,14 +4452,14 @@
   "numero": 325,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Toimitusveloitukset ja osamaksulisät"
+   "fi": "Toimitusveloitukset ja osamaksulisät"
   }
  },
  {
   "numero": 3250,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Laskutuslisät"
+   "fi": "Laskutuslisät"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4469,7 +4469,7 @@
   "numero": 3260,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Kuljetusvakuutukset"
+   "fi": "Kuljetusvakuutukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4479,7 +4479,7 @@
   "numero": 3270,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Kuljetusveloitukset"
+   "fi": "Kuljetusveloitukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4489,7 +4489,7 @@
   "numero": 3280,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Muut toimitusveloitukset"
+   "fi": "Muut toimitusveloitukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4499,7 +4499,7 @@
   "numero": 3290,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Osamaksulisät"
+   "fi": "Osamaksulisät"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4509,14 +4509,14 @@
   "numero": 330,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Komissiokauppa ja agentuuri"
+   "fi": "Komissiokauppa ja agentuuri"
   }
  },
  {
   "numero": 3300,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Komissiomyynti"
+   "fi": "Komissiomyynti"
   },
   "laajuus": 4
  },
@@ -4524,7 +4524,7 @@
   "numero": 3310,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Komissio-ostot"
+   "fi": "Komissio-ostot"
   },
   "laajuus": 4
  },
@@ -4532,7 +4532,7 @@
   "numero": 3320,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Välityspalvelutuotot"
+   "fi": "Välityspalvelutuotot"
   },
   "laajuus": 4
  },
@@ -4540,14 +4540,14 @@
   "numero": 3330,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Tavaravienti"
+   "fi": "Tavaravienti"
   }
  },
  {
   "numero": 3330,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Tavaramyynti Ahvenanmaalle"
+   "fi": "Tavaramyynti Ahvenanmaalle"
   },
   "laajuus": 3
  },
@@ -4555,7 +4555,7 @@
   "numero": 3350,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Yhteisömyynti EMU-maat"
+   "fi": "Yhteisömyynti EMU-maat"
   },
   "alvlaji": 14,
   "laajuus": 3
@@ -4564,7 +4564,7 @@
   "numero": 3360,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Yhteisömyynti muut EU-maat"
+   "fi": "Yhteisömyynti muut EU-maat"
   },
   "alvlaji": 14,
   "laajuus": 3
@@ -4573,7 +4573,7 @@
   "numero": 3370,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Kolmikantamyynti"
+   "fi": "Kolmikantamyynti"
   },
   "laajuus": 3
  },
@@ -4581,7 +4581,7 @@
   "numero": 3380,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti yhteisön ulkopuolelle"
+   "fi": "Myynti yhteisön ulkopuolelle"
   },
   "laajuus": 3
  },
@@ -4589,7 +4589,7 @@
   "numero": 3390,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Palveluiden myynti EU-maihin"
+   "fi": "Palveluiden myynti EU-maihin"
   },
   "alvlaji": 15,
   "laajuus": 3
@@ -4598,14 +4598,14 @@
   "numero": 340,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Myynti, käytetyt tavarat ja taide-, keräily- ja antiikkiesineet"
+   "fi": "Myynti, käytetyt tavarat ja taide-, keräily- ja antiikkiesineet"
   }
  },
  {
   "numero": 3400,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti käytetyt tavarat"
+   "fi": "Myynti käytetyt tavarat"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4615,7 +4615,7 @@
   "numero": 3410,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti käytetyt tavarat marginaalimenettely"
+   "fi": "Myynti käytetyt tavarat marginaalimenettely"
   },
   "alvlaji": 13,
   "alvprosentti": 24,
@@ -4626,7 +4626,7 @@
   "numero": 3420,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti taide-, keräily- ja antiikkiesineet"
+   "fi": "Myynti taide-, keräily- ja antiikkiesineet"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4636,7 +4636,7 @@
   "numero": 3430,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynti taide-, keräily-ja antiikkiesineet marginaalimenettely"
+   "fi": "Myynti taide-, keräily-ja antiikkiesineet marginaalimenettely"
   },
   "alvlaji": 13,
   "alvprosentti": 24,
@@ -4647,14 +4647,14 @@
   "numero": 344,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Myynti, arvopaperit ja kiinteistöt"
+   "fi": "Myynti, arvopaperit ja kiinteistöt"
   }
  },
  {
   "numero": 3440,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Kiinteistöjen myynti"
+   "fi": "Kiinteistöjen myynti"
   },
   "laajuus": 4
  },
@@ -4662,7 +4662,7 @@
   "numero": 3450,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vuokratuotot"
+   "fi": "Vuokratuotot"
   },
   "laajuus": 4
  },
@@ -4670,7 +4670,7 @@
   "numero": 3460,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Arvopapereiden myynti"
+   "fi": "Arvopapereiden myynti"
   },
   "laajuus": 4
  },
@@ -4678,7 +4678,7 @@
   "numero": 3470,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot"
+   "fi": "Osinkotuotot"
   },
   "laajuus": 4
  },
@@ -4686,7 +4686,7 @@
   "numero": 3480,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot"
+   "fi": "Korkotuotot"
   },
   "laajuus": 4
  },
@@ -4694,7 +4694,7 @@
   "numero": 3490,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut kiinteistö-  ja arvopaperituotot"
+   "fi": "Muut kiinteistö-  ja arvopaperituotot"
   },
   "laajuus": 4
  },
@@ -4702,14 +4702,14 @@
   "numero": 35,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Myynnin oikaisuerät"
+   "fi": "Myynnin oikaisuerät"
   }
  },
  {
   "numero": 3500,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynnin alennukset"
+   "fi": "Myynnin alennukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4719,7 +4719,7 @@
   "numero": 3510,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Yhteisömyynnin alennukset EMU-maat"
+   "fi": "Yhteisömyynnin alennukset EMU-maat"
   },
   "alvlaji": 14,
   "laajuus": 3
@@ -4728,7 +4728,7 @@
   "numero": 3520,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Yhteisömyynnin alennukset muut EU-maat"
+   "fi": "Yhteisömyynnin alennukset muut EU-maat"
   },
   "alvlaji": 14,
   "laajuus": 3
@@ -4737,7 +4737,7 @@
   "numero": 3550,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Apteekkimaksu"
+   "fi": "Apteekkimaksu"
   },
   "laajuus": 6
  },
@@ -4745,7 +4745,7 @@
   "numero": 3560,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Muut välilliset verot"
+   "fi": "Muut välilliset verot"
   },
   "laajuus": 6
  },
@@ -4753,7 +4753,7 @@
   "numero": 3570,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Maksut asiakkaan puolesta"
+   "fi": "Maksut asiakkaan puolesta"
   },
   "laajuus": 3
  },
@@ -4761,7 +4761,7 @@
   "numero": 3580,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Myynnin valuuttakurssierot"
+   "fi": "Myynnin valuuttakurssierot"
   },
   "laajuus": 3
  },
@@ -4769,7 +4769,7 @@
   "numero": 3590,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Muut myynnin oikaisuerät"
+   "fi": "Muut myynnin oikaisuerät"
   },
   "laajuus": 3
  },
@@ -4777,14 +4777,14 @@
   "numero": 360,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Valmiiden ja keskeneräisten tuotteiden varastojen lisäys tai vähennys"
+   "fi": "Valmiiden ja keskeneräisten tuotteiden varastojen lisäys tai vähennys"
   }
  },
  {
   "numero": 3600,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Valmiiden tuotteiden varaston muutos"
+   "fi": "Valmiiden tuotteiden varaston muutos"
   },
   "laajuus": 2
  },
@@ -4792,7 +4792,7 @@
   "numero": 3610,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Keskeneräisten tuotteiden varaston muutos"
+   "fi": "Keskeneräisten tuotteiden varaston muutos"
   },
   "laajuus": 2
  },
@@ -4800,7 +4800,7 @@
   "numero": 3620,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Valmiiden ja keskeneräisten tuotteiden varastojen arvonalennus"
+   "fi": "Valmiiden ja keskeneräisten tuotteiden varastojen arvonalennus"
   },
   "laajuus": 2
  },
@@ -4808,14 +4808,14 @@
   "numero": 363,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Valmistus omaan käyttöön"
+   "fi": "Valmistus omaan käyttöön"
   }
  },
  {
   "numero": 3630,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Valmistus omaan käyttöön, aineettomat hyödykkeet"
+   "fi": "Valmistus omaan käyttöön, aineettomat hyödykkeet"
   },
   "laajuus": 2
  },
@@ -4823,7 +4823,7 @@
   "numero": 3640,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Valmistus omaan käyttöön, aineelliset hyödykkeet"
+   "fi": "Valmistus omaan käyttöön, aineelliset hyödykkeet"
   },
   "laajuus": 2
  },
@@ -4831,14 +4831,14 @@
   "numero": 365,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Liiketoiminnan muut tuotot"
+   "fi": "Liiketoiminnan muut tuotot"
   }
  },
  {
   "numero": 3650,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Käyttöomaisuuden myyntivoitot"
+   "fi": "Käyttöomaisuuden myyntivoitot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4848,7 +4848,7 @@
   "numero": 3660,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Myyntivoitto liiketoimintakaupoista"
+   "fi": "Myyntivoitto liiketoimintakaupoista"
   },
   "laajuus": 3
  },
@@ -4856,7 +4856,7 @@
   "numero": 3677,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Käyttöoikeusosakkeiden myyntivoitot (verovapaat)"
+   "fi": "Käyttöoikeusosakkeiden myyntivoitot (verovapaat)"
   },
   "laajuus": 4
  },
@@ -4864,7 +4864,7 @@
   "numero": 3680,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Poikkeukselliset käyttöomaisuuden myyntivoitot"
+   "fi": "Poikkeukselliset käyttöomaisuuden myyntivoitot"
   },
   "laajuus": 4
  },
@@ -4872,7 +4872,7 @@
   "numero": 3697,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Poikkeukselliset käyttöomaisuusosakkeiden myyntivoitot"
+   "fi": "Poikkeukselliset käyttöomaisuusosakkeiden myyntivoitot"
   },
   "laajuus": 4
  },
@@ -4880,7 +4880,7 @@
   "numero": 3700,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Leasinghyvitykset"
+   "fi": "Leasinghyvitykset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4890,7 +4890,7 @@
   "numero": 3710,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Keskeytysvakuutuskorvaukset"
+   "fi": "Keskeytysvakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -4898,7 +4898,7 @@
   "numero": 3720,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vakuutusten takaisinostoarvot"
+   "fi": "Vakuutusten takaisinostoarvot"
   },
   "laajuus": 3
  },
@@ -4906,7 +4906,7 @@
   "numero": 3730,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut vahingonkorvaukset"
+   "fi": "Saadut vahingonkorvaukset"
   },
   "laajuus": 3
  },
@@ -4914,7 +4914,7 @@
   "numero": 3750,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vuokratuotot kiinteistöistä"
+   "fi": "Vuokratuotot kiinteistöistä"
   },
   "laajuus": 4
  },
@@ -4922,7 +4922,7 @@
   "numero": 3760,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vuokratuotot huoneistoista"
+   "fi": "Vuokratuotot huoneistoista"
   },
   "laajuus": 4
  },
@@ -4930,7 +4930,7 @@
   "numero": 3770,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vuokratuotot henkilöstön virkistystiloista"
+   "fi": "Vuokratuotot henkilöstön virkistystiloista"
   },
   "laajuus": 4
  },
@@ -4938,7 +4938,7 @@
   "numero": 3780,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Vuokratuotot koneista ja kalustosta"
+   "fi": "Vuokratuotot koneista ja kalustosta"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4948,7 +4948,7 @@
   "numero": 3790,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut vuokratuotot"
+   "fi": "Muut vuokratuotot"
   },
   "laajuus": 4
  },
@@ -4956,7 +4956,7 @@
   "numero": 3800,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut avustukset"
+   "fi": "Saadut avustukset"
   },
   "laajuus": 1
  },
@@ -4964,7 +4964,7 @@
   "numero": 3810,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut työllistämiskorvaukset"
+   "fi": "Saadut työllistämiskorvaukset"
   },
   "laajuus": 3
  },
@@ -4972,7 +4972,7 @@
   "numero": 3820,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut oppisopimuskorvaukset"
+   "fi": "Saadut oppisopimuskorvaukset"
   },
   "laajuus": 3
  },
@@ -4980,7 +4980,7 @@
   "numero": 3840,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut tuet"
+   "fi": "Saadut tuet"
   },
   "laajuus": 1
  },
@@ -4988,7 +4988,7 @@
   "numero": 3850,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Työvoiman vuokraustuotot"
+   "fi": "Työvoiman vuokraustuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -4998,7 +4998,7 @@
   "numero": 3860,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Kuljetuspalvelutuotot"
+   "fi": "Kuljetuspalvelutuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5008,7 +5008,7 @@
   "numero": 3870,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Toimistopalvelutuotot"
+   "fi": "Toimistopalvelutuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5018,7 +5018,7 @@
   "numero": 3880,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Tietoliikennepalvelutuotot"
+   "fi": "Tietoliikennepalvelutuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5028,7 +5028,7 @@
   "numero": 3890,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut palvelutuotot"
+   "fi": "Muut palvelutuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5038,7 +5038,7 @@
   "numero": 3900,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Rojaltit"
+   "fi": "Rojaltit"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5048,7 +5048,7 @@
   "numero": 3910,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Provisiot"
+   "fi": "Provisiot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5058,7 +5058,7 @@
   "numero": 3920,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Lisenssimaksut"
+   "fi": "Lisenssimaksut"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5068,7 +5068,7 @@
   "numero": 3930,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Asiamiespalkkiot"
+   "fi": "Asiamiespalkkiot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5078,7 +5078,7 @@
   "numero": 3950,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut palkkiot ja korvaukset"
+   "fi": "Muut palkkiot ja korvaukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5088,7 +5088,7 @@
   "numero": 3980,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Fuusiovoitto"
+   "fi": "Fuusiovoitto"
   },
   "laajuus": 5
  },
@@ -5096,7 +5096,7 @@
   "numero": 3990,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut liiketoiminnan muut tuotot"
+   "fi": "Muut liiketoiminnan muut tuotot"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5106,35 +5106,35 @@
   "numero": 4,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Materiaalit ja palvelut"
+   "fi": "Materiaalit ja palvelut"
   }
  },
  {
   "numero": 40,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Aineet, tarvikkeet ja tavarat"
+   "fi": "Aineet, tarvikkeet ja tavarat"
   }
  },
  {
   "numero": 40,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Ostot tilikauden aikana"
+   "fi": "Ostot tilikauden aikana"
   }
  },
  {
   "numero": 40,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Aine-, tarvike- ja tavaraostot"
+   "fi": "Aine-, tarvike- ja tavaraostot"
   }
  },
  {
   "numero": 4000,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot"
+   "fi": "Ostot"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5144,7 +5144,7 @@
   "numero": 4010,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 2"
+   "fi": "Ostot 2"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5154,7 +5154,7 @@
   "numero": 4020,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 3"
+   "fi": "Ostot 3"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5164,7 +5164,7 @@
   "numero": 4030,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 4"
+   "fi": "Ostot 4"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5174,7 +5174,7 @@
   "numero": 4040,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 5"
+   "fi": "Ostot 5"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5184,7 +5184,7 @@
   "numero": 4050,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 6"
+   "fi": "Ostot 6"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5194,7 +5194,7 @@
   "numero": 4060,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot 7"
+   "fi": "Ostot 7"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5204,7 +5204,7 @@
   "numero": 4070,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot välitysmyynti"
+   "fi": "Ostot välitysmyynti"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5214,7 +5214,7 @@
   "numero": 4080,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot, ostaja verovelvollinen"
+   "fi": "Ostot, ostaja verovelvollinen"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5224,14 +5224,14 @@
   "numero": 409,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Tavaratuonti"
+   "fi": "Tavaratuonti"
   }
  },
  {
   "numero": 4090,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tavaraostot Ahvenanmaalta"
+   "fi": "Tavaraostot Ahvenanmaalta"
   },
   "laajuus": 3
  },
@@ -5239,7 +5239,7 @@
   "numero": 4100,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Verot ja muut maksut Ahvenanmaan maahantuonnissa"
+   "fi": "Verot ja muut maksut Ahvenanmaan maahantuonnissa"
   },
   "laajuus": 3
  },
@@ -5247,7 +5247,7 @@
   "numero": 4110,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Yhteisöhankinnat"
+   "fi": "Yhteisöhankinnat"
   },
   "alvlaji": 24,
   "alvprosentti": 24,
@@ -5257,7 +5257,7 @@
   "numero": 4120,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Välittäjän kolmikantaosto"
+   "fi": "Välittäjän kolmikantaosto"
   },
   "laajuus": 3
  },
@@ -5265,7 +5265,7 @@
   "numero": 4130,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot tuonti"
+   "fi": "Ostot tuonti"
   },
   "laajuus": 3
  },
@@ -5273,7 +5273,7 @@
   "numero": 4140,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tullit, verot ja muut maksut tullattaessa"
+   "fi": "Tullit, verot ja muut maksut tullattaessa"
   },
   "laajuus": 3
  },
@@ -5281,14 +5281,14 @@
   "numero": 415,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Ostot, käytetyt tavarat ja taide- keräily- ja antiikkiesineet"
+   "fi": "Ostot, käytetyt tavarat ja taide- keräily- ja antiikkiesineet"
   }
  },
  {
   "numero": 4150,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot käytetyt tavarat"
+   "fi": "Ostot käytetyt tavarat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5298,7 +5298,7 @@
   "numero": 4160,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot käytetyt tavarat marginaalimenettely"
+   "fi": "Ostot käytetyt tavarat marginaalimenettely"
   },
   "alvlaji": 23,
   "alvprosentti": 24,
@@ -5308,7 +5308,7 @@
   "numero": 4170,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot taide, keräily- ja antiikkiesineet"
+   "fi": "Ostot taide, keräily- ja antiikkiesineet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5318,7 +5318,7 @@
   "numero": 4180,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostot taide, keräily- ja antiikkiesineet marginaalimenettely"
+   "fi": "Ostot taide, keräily- ja antiikkiesineet marginaalimenettely"
   },
   "alvlaji": 23,
   "alvprosentti": 24,
@@ -5328,14 +5328,14 @@
   "numero": 420,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Ostot, arvopaperit ja kiinteistöt"
+   "fi": "Ostot, arvopaperit ja kiinteistöt"
   }
  },
  {
   "numero": 4200,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kiinteistöostot"
+   "fi": "Kiinteistöostot"
   },
   "laajuus": 4
  },
@@ -5343,7 +5343,7 @@
   "numero": 4210,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvopapereiden ostot"
+   "fi": "Arvopapereiden ostot"
   },
   "laajuus": 4
  },
@@ -5351,7 +5351,7 @@
   "numero": 4220,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut vaihto-omaisuusosakkeiden kulut"
+   "fi": "Muut vaihto-omaisuusosakkeiden kulut"
   },
   "laajuus": 4
  },
@@ -5359,14 +5359,14 @@
   "numero": 423,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Ostojen oikaisuerät"
+   "fi": "Ostojen oikaisuerät"
   }
  },
  {
   "numero": 4230,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Ostojen alennukset"
+   "fi": "Ostojen alennukset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5376,7 +5376,7 @@
   "numero": 4240,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Yhteisöhankintojen alennukset"
+   "fi": "Yhteisöhankintojen alennukset"
   },
   "alvlaji": 14,
   "laajuus": 3
@@ -5385,7 +5385,7 @@
   "numero": 4260,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Palautetut tavarat ja päällykset"
+   "fi": "Palautetut tavarat ja päällykset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5395,7 +5395,7 @@
   "numero": 4270,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut vahingonkorvaukset"
+   "fi": "Saadut vahingonkorvaukset"
   },
   "laajuus": 3
  },
@@ -5403,7 +5403,7 @@
   "numero": 4280,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut avustukset materiaalihankintoihin"
+   "fi": "Saadut avustukset materiaalihankintoihin"
   },
   "laajuus": 3
  },
@@ -5411,7 +5411,7 @@
   "numero": 4290,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostorahdit"
+   "fi": "Ostorahdit"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5421,7 +5421,7 @@
   "numero": 4300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Yhteisökuljetus"
+   "fi": "Yhteisökuljetus"
   },
   "alvlaji": 24,
   "alvprosentti": 24,
@@ -5431,7 +5431,7 @@
   "numero": 4310,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostojen kuljetusvakuutusmaksut"
+   "fi": "Ostojen kuljetusvakuutusmaksut"
   },
   "laajuus": 3
  },
@@ -5439,7 +5439,7 @@
   "numero": 4320,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tuontihuolinta"
+   "fi": "Tuontihuolinta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5449,7 +5449,7 @@
   "numero": 4330,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut hankintakulut"
+   "fi": "Muut hankintakulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5459,7 +5459,7 @@
   "numero": 4340,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Yksityiskäyttö"
+   "fi": "Yksityiskäyttö"
   },
   "laajuus": 3
  },
@@ -5467,7 +5467,7 @@
   "numero": 4350,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Liikkeen käyttö"
+   "fi": "Liikkeen käyttö"
   },
   "laajuus": 3
  },
@@ -5475,7 +5475,7 @@
   "numero": 4360,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Myynti henkilökunnalle"
+   "fi": "Myynti henkilökunnalle"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -5485,7 +5485,7 @@
   "numero": 4370,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ostojen valuuttakurssierot"
+   "fi": "Ostojen valuuttakurssierot"
   },
   "laajuus": 3
  },
@@ -5493,7 +5493,7 @@
   "numero": 4380,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Rakentamispalvelun oman käytön arvonlisävero"
+   "fi": "Rakentamispalvelun oman käytön arvonlisävero"
   },
   "laajuus": 4
  },
@@ -5501,7 +5501,7 @@
   "numero": 4390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut ostojen oikaisuerät"
+   "fi": "Muut ostojen oikaisuerät"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5511,14 +5511,14 @@
   "numero": 440,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Varastojen lisäys tai vähennys"
+   "fi": "Varastojen lisäys tai vähennys"
   }
  },
  {
   "numero": 4400,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Aine- ja tarvikevaraston muutos"
+   "fi": "Aine- ja tarvikevaraston muutos"
   },
   "laajuus": 2
  },
@@ -5526,7 +5526,7 @@
   "numero": 4410,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tavaravaraston muutos"
+   "fi": "Tavaravaraston muutos"
   },
   "laajuus": 2
  },
@@ -5534,7 +5534,7 @@
   "numero": 4420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muun vaihto-omaisuusvaraston muutos"
+   "fi": "Muun vaihto-omaisuusvaraston muutos"
   },
   "laajuus": 2
  },
@@ -5542,7 +5542,7 @@
   "numero": 4440,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Aine-, tarvike-, tavara- ja muiden vaihto-omaisuusvarast. arvonalennus"
+   "fi": "Aine-, tarvike-, tavara- ja muiden vaihto-omaisuusvarast. arvonalennus"
   },
   "laajuus": 2
  },
@@ -5550,14 +5550,14 @@
   "numero": 445,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Ulkopuoliset palvelut"
+   "fi": "Ulkopuoliset palvelut"
   }
  },
  {
   "numero": 4450,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Alihankinta"
+   "fi": "Alihankinta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5567,7 +5567,7 @@
   "numero": 4458,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Rakentamispalveluiden osto (käänn. verovelv.)"
+   "fi": "Rakentamispalveluiden osto (käänn. verovelv.)"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5577,7 +5577,7 @@
   "numero": 4460,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Alihankinta 2"
+   "fi": "Alihankinta 2"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5587,7 +5587,7 @@
   "numero": 4470,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palveluiden osto EU-maista"
+   "fi": "Palveluiden osto EU-maista"
   },
   "alvlaji": 25,
   "alvprosentti": 24,
@@ -5597,7 +5597,7 @@
   "numero": 4480,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vuokrattu työvoima"
+   "fi": "Vuokrattu työvoima"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5607,7 +5607,7 @@
   "numero": 4490,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut ulkopuoliset palvelut"
+   "fi": "Muut ulkopuoliset palvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -5617,35 +5617,35 @@
   "numero": 50,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Henkilöstökulut"
+   "fi": "Henkilöstökulut"
   }
  },
  {
   "numero": 5,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Palkat ja palkkiot"
+   "fi": "Palkat ja palkkiot"
   }
  },
  {
   "numero": 50,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Työntekijöiden palkat ja palkkiot"
+   "fi": "Työntekijöiden palkat ja palkkiot"
   }
  },
  {
   "numero": 50,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Työssäoloajan normaalipalkat"
+   "fi": "Työssäoloajan normaalipalkat"
   }
  },
  {
   "numero": 5000,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työntekijäpalkat"
+   "fi": "Työntekijäpalkat"
   },
   "laajuus": 1
  },
@@ -5653,7 +5653,7 @@
   "numero": 5010,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kuukausipalkat"
+   "fi": "Kuukausipalkat"
   },
   "laajuus": 3
  },
@@ -5661,7 +5661,7 @@
   "numero": 5020,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tuntipalkat"
+   "fi": "Tuntipalkat"
   },
   "laajuus": 3
  },
@@ -5669,7 +5669,7 @@
   "numero": 5050,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ulkomaan työskentelyn palkat"
+   "fi": "Ulkomaan työskentelyn palkat"
   },
   "laajuus": 3
  },
@@ -5677,7 +5677,7 @@
   "numero": 5060,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palkat, lähdeveronalaiset"
+   "fi": "Palkat, lähdeveronalaiset"
   },
   "laajuus": 3
  },
@@ -5685,7 +5685,7 @@
   "numero": 5090,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palkkojen jaksotus"
+   "fi": "Palkkojen jaksotus"
   },
   "laajuus": 3
  },
@@ -5693,14 +5693,14 @@
   "numero": 51,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Lisät ja korvaukset"
+   "fi": "Lisät ja korvaukset"
   }
  },
  {
   "numero": 5100,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ylityönlisät"
+   "fi": "Ylityönlisät"
   },
   "laajuus": 3
  },
@@ -5708,7 +5708,7 @@
   "numero": 5110,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut palkanlisät"
+   "fi": "Muut palkanlisät"
   },
   "laajuus": 3
  },
@@ -5716,7 +5716,7 @@
   "numero": 5120,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ennakonpidätyksen alaiset päivärahat"
+   "fi": "Ennakonpidätyksen alaiset päivärahat"
   },
   "laajuus": 3
  },
@@ -5724,7 +5724,7 @@
   "numero": 5130,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut ennakonpidätyksen alaiset korvaukset"
+   "fi": "Muut ennakonpidätyksen alaiset korvaukset"
   },
   "laajuus": 3
  },
@@ -5732,7 +5732,7 @@
   "numero": 5170,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osapalkkiot"
+   "fi": "Osapalkkiot"
   },
   "laajuus": 3
  },
@@ -5740,7 +5740,7 @@
   "numero": 5180,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kannustuspalkkiot"
+   "fi": "Kannustuspalkkiot"
   },
   "laajuus": 3
  },
@@ -5748,7 +5748,7 @@
   "numero": 5190,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lisien, korvausten ja palkkioiden jaksotus"
+   "fi": "Lisien, korvausten ja palkkioiden jaksotus"
   },
   "laajuus": 3
  },
@@ -5756,14 +5756,14 @@
   "numero": 52,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Palkkiot"
+   "fi": "Palkkiot"
   }
  },
  {
   "numero": 5200,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palkkiot"
+   "fi": "Palkkiot"
   },
   "laajuus": 1
  },
@@ -5771,7 +5771,7 @@
   "numero": 5290,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palkkioiden jaksotus"
+   "fi": "Palkkioiden jaksotus"
   },
   "laajuus": 3
  },
@@ -5779,14 +5779,14 @@
   "numero": 53,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Loma-ajan ja sosiaalipalkat"
+   "fi": "Loma-ajan ja sosiaalipalkat"
   }
  },
  {
   "numero": 5300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vuosilomapalkat"
+   "fi": "Vuosilomapalkat"
   },
   "laajuus": 3
  },
@@ -5794,7 +5794,7 @@
   "numero": 5310,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vuosilomakorvaukset"
+   "fi": "Vuosilomakorvaukset"
   },
   "laajuus": 3
  },
@@ -5802,7 +5802,7 @@
   "numero": 5320,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lomaltapaluurahat"
+   "fi": "Lomaltapaluurahat"
   },
   "laajuus": 3
  },
@@ -5810,7 +5810,7 @@
   "numero": 5330,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lomapalkkojen jaksotus"
+   "fi": "Lomapalkkojen jaksotus"
   },
   "laajuus": 3
  },
@@ -5818,7 +5818,7 @@
   "numero": 5340,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sairausajan ja vanhempainvapaan palkat"
+   "fi": "Sairausajan ja vanhempainvapaan palkat"
   },
   "laajuus": 3
  },
@@ -5826,7 +5826,7 @@
   "numero": 5350,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut sosiaalipalkat"
+   "fi": "Muut sosiaalipalkat"
   },
   "laajuus": 3
  },
@@ -5834,7 +5834,7 @@
   "numero": 5390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sosiaalipalkkojen jaksotus"
+   "fi": "Sosiaalipalkkojen jaksotus"
   },
   "laajuus": 3
  },
@@ -5842,14 +5842,14 @@
   "numero": 540,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Luontoisedut"
+   "fi": "Luontoisedut"
   }
  },
  {
   "numero": 5400,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Asuntoedut"
+   "fi": "Asuntoedut"
   },
   "laajuus": 3
  },
@@ -5857,7 +5857,7 @@
   "numero": 5410,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ravintoedut"
+   "fi": "Ravintoedut"
   },
   "laajuus": 3
  },
@@ -5865,7 +5865,7 @@
   "numero": 5420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Autoedut"
+   "fi": "Autoedut"
   },
   "laajuus": 3
  },
@@ -5873,7 +5873,7 @@
   "numero": 5430,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Puhelinedut"
+   "fi": "Puhelinedut"
   },
   "laajuus": 3
  },
@@ -5881,7 +5881,7 @@
   "numero": 5440,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut luontoisedut"
+   "fi": "Muut luontoisedut"
   },
   "laajuus": 3
  },
@@ -5889,14 +5889,14 @@
   "numero": 547,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saadut korvaukset palkoista"
+   "fi": "Saadut korvaukset palkoista"
   }
  },
  {
   "numero": 5470,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut sairausvakuutuskorvaukset"
+   "fi": "Saadut sairausvakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -5904,7 +5904,7 @@
   "numero": 5480,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut tapaturmavakuutuskorvaukset"
+   "fi": "Saadut tapaturmavakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -5912,7 +5912,7 @@
   "numero": 5490,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korvausten jaksotus"
+   "fi": "Korvausten jaksotus"
   },
   "laajuus": 3
  },
@@ -5920,21 +5920,21 @@
   "numero": 56,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Johdon palkat"
+   "fi": "Johdon palkat"
   }
  },
  {
   "numero": 56,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Johdon palkat ja palkkiot"
+   "fi": "Johdon palkat ja palkkiot"
   }
  },
  {
   "numero": 5600,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon palkat"
+   "fi": "Johdon palkat"
   },
   "laajuus": 3
  },
@@ -5942,7 +5942,7 @@
   "numero": 5610,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon osapalkkiot"
+   "fi": "Johdon osapalkkiot"
   },
   "laajuus": 3
  },
@@ -5950,7 +5950,7 @@
   "numero": 5620,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon vuosilomapalkat"
+   "fi": "Johdon vuosilomapalkat"
   },
   "laajuus": 3
  },
@@ -5958,7 +5958,7 @@
   "numero": 5630,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon vuosilomakorvaukset"
+   "fi": "Johdon vuosilomakorvaukset"
   },
   "laajuus": 3
  },
@@ -5966,7 +5966,7 @@
   "numero": 5640,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon lomaltapaluurahat"
+   "fi": "Johdon lomaltapaluurahat"
   },
   "laajuus": 3
  },
@@ -5974,7 +5974,7 @@
   "numero": 5690,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon palkkojen jaksotus"
+   "fi": "Johdon palkkojen jaksotus"
   },
   "laajuus": 3
  },
@@ -5982,14 +5982,14 @@
   "numero": 570,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Johdon luontoisedut"
+   "fi": "Johdon luontoisedut"
   }
  },
  {
   "numero": 5700,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon asuntoedut"
+   "fi": "Johdon asuntoedut"
   },
   "laajuus": 3
  },
@@ -5997,7 +5997,7 @@
   "numero": 5710,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon ravintoedut"
+   "fi": "Johdon ravintoedut"
   },
   "laajuus": 3
  },
@@ -6005,7 +6005,7 @@
   "numero": 5720,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon autoedut"
+   "fi": "Johdon autoedut"
   },
   "laajuus": 3
  },
@@ -6013,7 +6013,7 @@
   "numero": 5730,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon puhelinedut"
+   "fi": "Johdon puhelinedut"
   },
   "laajuus": 3
  },
@@ -6021,7 +6021,7 @@
   "numero": 5740,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Johdon muut luontoisedut"
+   "fi": "Johdon muut luontoisedut"
   },
   "laajuus": 3
  },
@@ -6029,14 +6029,14 @@
   "numero": 577,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saadut korvaukset johdon palkoista"
+   "fi": "Saadut korvaukset johdon palkoista"
   }
  },
  {
   "numero": 5770,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut sairausvakuutuskorvaukset"
+   "fi": "Saadut sairausvakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -6044,7 +6044,7 @@
   "numero": 5780,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut tapaturmavakuutuskorvaukset"
+   "fi": "Saadut tapaturmavakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -6052,7 +6052,7 @@
   "numero": 5790,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korvausten jaksotus"
+   "fi": "Korvausten jaksotus"
   },
   "laajuus": 3
  },
@@ -6060,21 +6060,21 @@
   "numero": 58,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Osakkaiden ja omaisten palkat"
+   "fi": "Osakkaiden ja omaisten palkat"
   }
  },
  {
   "numero": 58,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Osakkaiden ja omaisten palkat ja palkkiot"
+   "fi": "Osakkaiden ja omaisten palkat ja palkkiot"
   }
  },
  {
   "numero": 5800,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten palkat"
+   "fi": "Osakkaiden/omaisten palkat"
   },
   "laajuus": 3
  },
@@ -6082,7 +6082,7 @@
   "numero": 5810,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten osapalkkiot"
+   "fi": "Osakkaiden/omaisten osapalkkiot"
   },
   "laajuus": 3
  },
@@ -6090,7 +6090,7 @@
   "numero": 5820,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten vuosilomapalkat"
+   "fi": "Osakkaiden/omaisten vuosilomapalkat"
   },
   "laajuus": 3
  },
@@ -6098,7 +6098,7 @@
   "numero": 5830,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten vuosilomakorvaukset"
+   "fi": "Osakkaiden/omaisten vuosilomakorvaukset"
   },
   "laajuus": 3
  },
@@ -6106,7 +6106,7 @@
   "numero": 5840,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten lomaltapaluurahat"
+   "fi": "Osakkaiden/omaisten lomaltapaluurahat"
   },
   "laajuus": 3
  },
@@ -6114,7 +6114,7 @@
   "numero": 5890,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten palkkojen jaksotus"
+   "fi": "Osakkaiden/omaisten palkkojen jaksotus"
   },
   "laajuus": 3
  },
@@ -6122,14 +6122,14 @@
   "numero": 590,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Osakkaiden ja omaisten luontoisedut"
+   "fi": "Osakkaiden ja omaisten luontoisedut"
   }
  },
  {
   "numero": 5900,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten asuntoedut"
+   "fi": "Osakkaiden/omaisten asuntoedut"
   },
   "laajuus": 3
  },
@@ -6137,7 +6137,7 @@
   "numero": 5910,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten ravintoedut"
+   "fi": "Osakkaiden/omaisten ravintoedut"
   },
   "laajuus": 3
  },
@@ -6145,7 +6145,7 @@
   "numero": 5920,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten autoedut"
+   "fi": "Osakkaiden/omaisten autoedut"
   },
   "laajuus": 3
  },
@@ -6153,7 +6153,7 @@
   "numero": 5930,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten puhelinedut"
+   "fi": "Osakkaiden/omaisten puhelinedut"
   },
   "laajuus": 3
  },
@@ -6161,7 +6161,7 @@
   "numero": 5940,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkaiden/omaisten muut luontoisedut"
+   "fi": "Osakkaiden/omaisten muut luontoisedut"
   },
   "laajuus": 3
  },
@@ -6169,14 +6169,14 @@
   "numero": 596,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saadut korvaukset osakkaiden ja omaisten palkoista"
+   "fi": "Saadut korvaukset osakkaiden ja omaisten palkoista"
   }
  },
  {
   "numero": 5960,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut sairausvakuutuskorvaukset"
+   "fi": "Saadut sairausvakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -6184,7 +6184,7 @@
   "numero": 5970,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut tapaturmavakuutuskorvaukset"
+   "fi": "Saadut tapaturmavakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -6192,7 +6192,7 @@
   "numero": 5980,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korvausten jaksotus"
+   "fi": "Korvausten jaksotus"
   },
   "laajuus": 3
  },
@@ -6200,14 +6200,14 @@
   "numero": 599,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Luontoisetujen vastatili"
+   "fi": "Luontoisetujen vastatili"
   }
  },
  {
   "numero": 5990,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Luontoisetujen vastatili"
+   "fi": "Luontoisetujen vastatili"
   },
   "laajuus": 3
  },
@@ -6215,28 +6215,28 @@
   "numero": 60,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Henkilösivukulut"
+   "fi": "Henkilösivukulut"
   }
  },
  {
   "numero": 60,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Eläkekulut"
+   "fi": "Eläkekulut"
   }
  },
  {
   "numero": 60,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Maksetut eläkkeet"
+   "fi": "Maksetut eläkkeet"
   }
  },
  {
   "numero": 6000,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksetut eläkkeet"
+   "fi": "Maksetut eläkkeet"
   },
   "laajuus": 3
  },
@@ -6244,7 +6244,7 @@
   "numero": 6090,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Eläkkeiden jaksotus"
+   "fi": "Eläkkeiden jaksotus"
   },
   "laajuus": 3
  },
@@ -6252,14 +6252,14 @@
   "numero": 61,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Eläkevakuutusmaksut"
+   "fi": "Eläkevakuutusmaksut"
   }
  },
  {
   "numero": 6100,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "YEL-maksut"
+   "fi": "YEL-maksut"
   },
   "laajuus": 1
  },
@@ -6267,7 +6267,7 @@
   "numero": 6110,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "YEL-maksujen jaksotus"
+   "fi": "YEL-maksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6275,7 +6275,7 @@
   "numero": 6130,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "TyEL-maksut"
+   "fi": "TyEL-maksut"
   },
   "laajuus": 1
  },
@@ -6283,7 +6283,7 @@
   "numero": 6140,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työntekijäin TyEL-maksut"
+   "fi": "Työntekijäin TyEL-maksut"
   },
   "laajuus": 6
  },
@@ -6291,7 +6291,7 @@
   "numero": 6150,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "TyEL-maksujen jaksotus"
+   "fi": "TyEL-maksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6299,7 +6299,7 @@
   "numero": 6240,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vapaaehtoiset eläkevakuutusmaksut"
+   "fi": "Vapaaehtoiset eläkevakuutusmaksut"
   },
   "laajuus": 3
  },
@@ -6307,7 +6307,7 @@
   "numero": 6250,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vapaaehtoisten eläkevakuutusmaksujen jaksotus"
+   "fi": "Vapaaehtoisten eläkevakuutusmaksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6315,7 +6315,7 @@
   "numero": 6270,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut pakolliset eläkevakuutusmaksut"
+   "fi": "Muut pakolliset eläkevakuutusmaksut"
   },
   "laajuus": 3
  },
@@ -6323,7 +6323,7 @@
   "numero": 6280,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muiden pakollisten eläkevakuutusmaksujen jaksotus"
+   "fi": "Muiden pakollisten eläkevakuutusmaksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6331,14 +6331,14 @@
   "numero": 629,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Tilikauden aikainen jaksotus"
+   "fi": "Tilikauden aikainen jaksotus"
   }
  },
  {
   "numero": 6290,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tilikauden aikainen jaksotus"
+   "fi": "Tilikauden aikainen jaksotus"
   },
   "laajuus": 3
  },
@@ -6346,21 +6346,21 @@
   "numero": 63,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut henkilösivukulut"
+   "fi": "Muut henkilösivukulut"
   }
  },
  {
   "numero": 63,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksut"
+   "fi": "Sosiaaliturvamaksut"
   }
  },
  {
   "numero": 6300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksut"
+   "fi": "Sosiaaliturvamaksut"
   },
   "laajuus": 1
  },
@@ -6368,7 +6368,7 @@
   "numero": 6390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sosiaaliturvamaksujen jaksotus"
+   "fi": "Sosiaaliturvamaksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6376,14 +6376,14 @@
   "numero": 64,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Pakolliset vakuutusmaksut"
+   "fi": "Pakolliset vakuutusmaksut"
   }
  },
  {
   "numero": 6400,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tapaturmavakuutusmaksut"
+   "fi": "Tapaturmavakuutusmaksut"
   },
   "laajuus": 1
  },
@@ -6391,7 +6391,7 @@
   "numero": 6410,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työttömyysvakuutusmaksut"
+   "fi": "Työttömyysvakuutusmaksut"
   },
   "laajuus": 1
  },
@@ -6399,7 +6399,7 @@
   "numero": 6420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työntekijöiden työttömyysvakuutusmaksut"
+   "fi": "Työntekijöiden työttömyysvakuutusmaksut"
   },
   "laajuus": 6
  },
@@ -6407,7 +6407,7 @@
   "numero": 6430,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ryhmähenkivakuutusmaksut"
+   "fi": "Ryhmähenkivakuutusmaksut"
   },
   "laajuus": 3
  },
@@ -6415,7 +6415,7 @@
   "numero": 6480,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut pakolliset vakuutusmaksut"
+   "fi": "Muut pakolliset vakuutusmaksut"
   },
   "laajuus": 3
  },
@@ -6423,7 +6423,7 @@
   "numero": 6490,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Pakollisten vakuutusmaksujen jaksotus"
+   "fi": "Pakollisten vakuutusmaksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6431,14 +6431,14 @@
   "numero": 65,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Muut henkilöstön vakuutusmaksut"
+   "fi": "Muut henkilöstön vakuutusmaksut"
   }
  },
  {
   "numero": 6500,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilövakuutusmaksut (vapaaehtoiset)"
+   "fi": "Henkilövakuutusmaksut (vapaaehtoiset)"
   },
   "laajuus": 3
  },
@@ -6446,7 +6446,7 @@
   "numero": 6590,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilövakuutusmaksujen jaksotus"
+   "fi": "Henkilövakuutusmaksujen jaksotus"
   },
   "laajuus": 3
  },
@@ -6454,14 +6454,14 @@
   "numero": 66,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Tilikauden aikainen jaksotus"
+   "fi": "Tilikauden aikainen jaksotus"
   }
  },
  {
   "numero": 6690,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tilikauden aikainen jaksotus"
+   "fi": "Tilikauden aikainen jaksotus"
   },
   "laajuus": 3
  },
@@ -6469,21 +6469,21 @@
   "numero": 68,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Poistot ja arvonalentumiset"
+   "fi": "Poistot ja arvonalentumiset"
   }
  },
  {
   "numero": 68,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Suunnitelman mukaiset poistot"
+   "fi": "Suunnitelman mukaiset poistot"
   }
  },
  {
   "numero": 6820,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto kehittämismenoista"
+   "fi": "Poisto kehittämismenoista"
   },
   "laajuus": 4
  },
@@ -6491,7 +6491,7 @@
   "numero": 6830,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto aineettomista oikeuksista"
+   "fi": "Poisto aineettomista oikeuksista"
   },
   "laajuus": 4
  },
@@ -6499,7 +6499,7 @@
   "numero": 6840,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto liikearvosta"
+   "fi": "Poisto liikearvosta"
   },
   "laajuus": 4
  },
@@ -6507,7 +6507,7 @@
   "numero": 6850,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto muista pitkävaikutteisista menoista"
+   "fi": "Poisto muista pitkävaikutteisista menoista"
   },
   "laajuus": 4
  },
@@ -6515,7 +6515,7 @@
   "numero": 6860,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto rakennuksista ja rakennelmista"
+   "fi": "Poisto rakennuksista ja rakennelmista"
   },
   "laajuus": 3
  },
@@ -6523,7 +6523,7 @@
   "numero": 6870,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto koneista ja kalustosta"
+   "fi": "Poisto koneista ja kalustosta"
   },
   "laajuus": 3
  },
@@ -6531,7 +6531,7 @@
   "numero": 6890,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto muista aineellisista hyödykkeistä"
+   "fi": "Poisto muista aineellisista hyödykkeistä"
   },
   "laajuus": 3
  },
@@ -6539,14 +6539,14 @@
   "numero": 693,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Konserniliikearvon poisto ja konsernireservin vähennys"
+   "fi": "Konserniliikearvon poisto ja konsernireservin vähennys"
   }
  },
  {
   "numero": 6930,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Poisto konserniaktiivasta"
+   "fi": "Poisto konserniaktiivasta"
   },
   "laajuus": 5
  },
@@ -6554,7 +6554,7 @@
   "numero": 6940,
   "tyyppi": "DP",
   "nimi": {
-   "fi:": "Konsernireservin vähennys"
+   "fi": "Konsernireservin vähennys"
   },
   "laajuus": 5
  },
@@ -6562,14 +6562,14 @@
   "numero": 6950,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Arvonalentumiset pysyvien vastaavien hyödykkeistä"
+   "fi": "Arvonalentumiset pysyvien vastaavien hyödykkeistä"
   }
  },
  {
   "numero": 695,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvonalentumiset maa- ja vesialueista"
+   "fi": "Arvonalentumiset maa- ja vesialueista"
   },
   "laajuus": 3
  },
@@ -6577,7 +6577,7 @@
   "numero": 6960,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvonalentumiset sumu-poistettavista pysyvistä vastaavista"
+   "fi": "Arvonalentumiset sumu-poistettavista pysyvistä vastaavista"
   },
   "laajuus": 3
  },
@@ -6585,7 +6585,7 @@
   "numero": 6970,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvonalentumiset ennakkomaksuista"
+   "fi": "Arvonalentumiset ennakkomaksuista"
   },
   "laajuus": 3
  },
@@ -6593,7 +6593,7 @@
   "numero": 6980,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvonalennusten palautukset"
+   "fi": "Arvonalennusten palautukset"
   },
   "laajuus": 3
  },
@@ -6601,14 +6601,14 @@
   "numero": 699,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
+   "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
   }
  },
  {
   "numero": 6990,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
+   "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
   },
   "laajuus": 3
  },
@@ -6616,21 +6616,21 @@
   "numero": 70,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Liiketoiminnan muut kulut"
+   "fi": "Liiketoiminnan muut kulut"
   }
  },
  {
   "numero": 70,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Vapaaehtoiset henkilösivukulut"
+   "fi": "Vapaaehtoiset henkilösivukulut"
   }
  },
  {
   "numero": 7000,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilökunnan koulutus"
+   "fi": "Henkilökunnan koulutus"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6640,7 +6640,7 @@
   "numero": 7010,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sisäiset palaverit ja henkilökuntajuhlat"
+   "fi": "Sisäiset palaverit ja henkilökuntajuhlat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6650,7 +6650,7 @@
   "numero": 7020,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Virkistys- ja harrastustoiminta"
+   "fi": "Virkistys- ja harrastustoiminta"
   },
   "alvlaji": 0,
   "laajuus": 3
@@ -6659,7 +6659,7 @@
   "numero": 7040,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Loma-asuntojen hoitokulut"
+   "fi": "Loma-asuntojen hoitokulut"
   },
   "laajuus": 4
  },
@@ -6667,7 +6667,7 @@
   "numero": 7050,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työterveyshuolto"
+   "fi": "Työterveyshuolto"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6677,7 +6677,7 @@
   "numero": 7060,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut Kela-korvaukset"
+   "fi": "Saadut Kela-korvaukset"
   },
   "laajuus": 3
  },
@@ -6685,7 +6685,7 @@
   "numero": 7070,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilökunnan ruokailu / lounassetelit"
+   "fi": "Henkilökunnan ruokailu / lounassetelit"
   },
   "alvlaji": 21,
   "alvprosentti": 14,
@@ -6695,7 +6695,7 @@
   "numero": 7080,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilökunnan ruokalan kulut"
+   "fi": "Henkilökunnan ruokalan kulut"
   },
   "alvlaji": 21,
   "alvprosentti": 14,
@@ -6705,7 +6705,7 @@
   "numero": 7090,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ruokatarjoilun omaan käyttöön ottamisen arvonlisävero"
+   "fi": "Ruokatarjoilun omaan käyttöön ottamisen arvonlisävero"
   },
   "laajuus": 4
  },
@@ -6713,7 +6713,7 @@
   "numero": 7100,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut ruokakorvaukset"
+   "fi": "Saadut ruokakorvaukset"
   },
   "laajuus": 4
  },
@@ -6721,7 +6721,7 @@
   "numero": 7110,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kahvitarvikkeet"
+   "fi": "Kahvitarvikkeet"
   },
   "alvlaji": 21,
   "alvprosentti": 14,
@@ -6731,7 +6731,7 @@
   "numero": 7120,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työvaatteet"
+   "fi": "Työvaatteet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6741,7 +6741,7 @@
   "numero": 7130,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Suojavälineet"
+   "fi": "Suojavälineet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6751,7 +6751,7 @@
   "numero": 7140,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilöstön hankintakulut"
+   "fi": "Henkilöstön hankintakulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6761,7 +6761,7 @@
   "numero": 7150,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Työpaikkailmoitukset"
+   "fi": "Työpaikkailmoitukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6771,7 +6771,7 @@
   "numero": 7160,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lahjat henkilökunnalle"
+   "fi": "Lahjat henkilökunnalle"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6781,7 +6781,7 @@
   "numero": 7170,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut henkilösivukulut"
+   "fi": "Muut henkilösivukulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6791,14 +6791,14 @@
   "numero": 72,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Toimitilakulut"
+   "fi": "Toimitilakulut"
   }
  },
  {
   "numero": 7200,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maa-aluevuokrat"
+   "fi": "Maa-aluevuokrat"
   },
   "laajuus": 3
  },
@@ -6806,7 +6806,7 @@
   "numero": 7210,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kiinteistöjen vuokrat"
+   "fi": "Kiinteistöjen vuokrat"
   },
   "laajuus": 3
  },
@@ -6814,7 +6814,7 @@
   "numero": 7220,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Toimitilavastikkeet"
+   "fi": "Toimitilavastikkeet"
   },
   "laajuus": 3
  },
@@ -6822,7 +6822,7 @@
   "numero": 7230,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Toimitilavuokrat"
+   "fi": "Toimitilavuokrat"
   },
   "laajuus": 3
  },
@@ -6830,7 +6830,7 @@
   "numero": 7240,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Varastovastikkeet"
+   "fi": "Varastovastikkeet"
   },
   "laajuus": 3
  },
@@ -6838,7 +6838,7 @@
   "numero": 7250,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Varastovuokrat"
+   "fi": "Varastovuokrat"
   },
   "laajuus": 3
  },
@@ -6846,7 +6846,7 @@
   "numero": 7260,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Autotallivastikkeet"
+   "fi": "Autotallivastikkeet"
   },
   "laajuus": 4
  },
@@ -6854,7 +6854,7 @@
   "numero": 7270,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Autotalli- ja autopaikkavuokrat"
+   "fi": "Autotalli- ja autopaikkavuokrat"
   },
   "laajuus": 4
  },
@@ -6862,7 +6862,7 @@
   "numero": 7280,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilöstöasuntojen vastikkeet"
+   "fi": "Henkilöstöasuntojen vastikkeet"
   },
   "laajuus": 4
  },
@@ -6870,7 +6870,7 @@
   "numero": 7290,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Henkilöstöasuntojen vuokrat"
+   "fi": "Henkilöstöasuntojen vuokrat"
   },
   "laajuus": 4
  },
@@ -6878,7 +6878,7 @@
   "numero": 7300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Asuinhuoneistojen vastikkeet"
+   "fi": "Asuinhuoneistojen vastikkeet"
   },
   "laajuus": 4
  },
@@ -6886,7 +6886,7 @@
   "numero": 7310,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut vuokrat ja vastikkeet"
+   "fi": "Muut vuokrat ja vastikkeet"
   },
   "laajuus": 4
  },
@@ -6894,7 +6894,7 @@
   "numero": 7320,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Energian erityisvähennys"
+   "fi": "Energian erityisvähennys"
   },
   "laajuus": 4
  },
@@ -6902,7 +6902,7 @@
   "numero": 7330,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Hallinto"
+   "fi": "Hallinto"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6912,7 +6912,7 @@
   "numero": 7340,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Käyttö ja huolto"
+   "fi": "Käyttö ja huolto"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6922,7 +6922,7 @@
   "numero": 7350,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ulkoalueiden hoito"
+   "fi": "Ulkoalueiden hoito"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6932,7 +6932,7 @@
   "numero": 7360,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Siivous ja puhtaanapito"
+   "fi": "Siivous ja puhtaanapito"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6942,7 +6942,7 @@
   "numero": 7370,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lämmitys"
+   "fi": "Lämmitys"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6952,7 +6952,7 @@
   "numero": 7380,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vesi ja jätevesi"
+   "fi": "Vesi ja jätevesi"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6962,7 +6962,7 @@
   "numero": 7390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sähkö ja kaasu"
+   "fi": "Sähkö ja kaasu"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6972,7 +6972,7 @@
   "numero": 7400,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Jätehuolto"
+   "fi": "Jätehuolto"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -6982,7 +6982,7 @@
   "numero": 7410,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vahinkovakuutukset"
+   "fi": "Vahinkovakuutukset"
   },
   "alvlaji": 0,
   "laajuus": 3
@@ -6991,7 +6991,7 @@
   "numero": 7420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kiinteistövero"
+   "fi": "Kiinteistövero"
   },
   "laajuus": 3
  },
@@ -6999,7 +6999,7 @@
   "numero": 7430,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korjaukset"
+   "fi": "Korjaukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7009,7 +7009,7 @@
   "numero": 7440,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut vakuutuskorvaukset"
+   "fi": "Saadut vakuutuskorvaukset"
   },
   "laajuus": 3
  },
@@ -7017,7 +7017,7 @@
   "numero": 7450,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut toimitilojen hoitokulut"
+   "fi": "Muut toimitilojen hoitokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7027,7 +7027,7 @@
   "numero": 7460,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vartiointi- ja turvallisuuskulut"
+   "fi": "Vartiointi- ja turvallisuuskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7037,7 +7037,7 @@
   "numero": 7470,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut toimitilakulut"
+   "fi": "Muut toimitilakulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7047,14 +7047,14 @@
   "numero": 75,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Ajoneuvokulut"
+   "fi": "Ajoneuvokulut"
   }
  },
  {
   "numero": 7500,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvoleasing"
+   "fi": "Ajoneuvoleasing"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7064,7 +7064,7 @@
   "numero": 7510,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Leasinghyvitykset"
+   "fi": "Leasinghyvitykset"
   },
   "alvlaji": 11,
   "alvprosentti": 24,
@@ -7074,7 +7074,7 @@
   "numero": 7520,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvovuokrat"
+   "fi": "Ajoneuvovuokrat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7084,7 +7084,7 @@
   "numero": 7530,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvojen polttoaine"
+   "fi": "Ajoneuvojen polttoaine"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7094,7 +7094,7 @@
   "numero": 7540,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvojen huolto ja korjaus"
+   "fi": "Ajoneuvojen huolto ja korjaus"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7104,7 +7104,7 @@
   "numero": 7550,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Renkaat ja autotarvikkeet"
+   "fi": "Renkaat ja autotarvikkeet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7114,7 +7114,7 @@
   "numero": 7560,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvojen julkiset maksut"
+   "fi": "Ajoneuvojen julkiset maksut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7124,7 +7124,7 @@
   "numero": 7570,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ajoneuvovakuutukset"
+   "fi": "Ajoneuvovakuutukset"
   },
   "laajuus": 4
  },
@@ -7132,7 +7132,7 @@
   "numero": 7580,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kolarivahingot"
+   "fi": "Kolarivahingot"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7142,7 +7142,7 @@
   "numero": 7590,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksetut vahingonkorvaukset"
+   "fi": "Maksetut vahingonkorvaukset"
   },
   "laajuus": 4
  },
@@ -7150,7 +7150,7 @@
   "numero": 7600,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksetut ajoneuvokorvaukset"
+   "fi": "Maksetut ajoneuvokorvaukset"
   },
   "laajuus": 4
  },
@@ -7158,7 +7158,7 @@
   "numero": 7610,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut ajoneuvokulut"
+   "fi": "Muut ajoneuvokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7168,14 +7168,14 @@
   "numero": 764,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Atk-laite ja -ohjelmistokulut"
+   "fi": "Atk-laite ja -ohjelmistokulut"
   }
  },
  {
   "numero": 7640,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-laite- ja ohjelmistoleasing"
+   "fi": "Atk-laite- ja ohjelmistoleasing"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7185,7 +7185,7 @@
   "numero": 7650,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-laite- ja ohjelmistovuokrat"
+   "fi": "Atk-laite- ja ohjelmistovuokrat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7195,7 +7195,7 @@
   "numero": 7660,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-ohjelmistot, päivitykset ja ylläpito"
+   "fi": "Atk-ohjelmistot, päivitykset ja ylläpito"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7205,7 +7205,7 @@
   "numero": 7670,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-laitehuollot, korjaukset ja asennukset"
+   "fi": "Atk-laitehuollot, korjaukset ja asennukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7215,7 +7215,7 @@
   "numero": 7680,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-laitehankinnat (< 3v. kalusto)"
+   "fi": "Atk-laitehankinnat (< 3v. kalusto)"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7225,7 +7225,7 @@
   "numero": 7690,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Atk-laitteiden pienhankinnat"
+   "fi": "Atk-laitteiden pienhankinnat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7235,7 +7235,7 @@
   "numero": 7700,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut atk-laite- ja -ohjelmistokulut"
+   "fi": "Muut atk-laite- ja -ohjelmistokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7245,14 +7245,14 @@
   "numero": 771,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Muut kone- ja kalustokulut"
+   "fi": "Muut kone- ja kalustokulut"
   }
  },
  {
   "numero": 7710,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kone- ja kalustoleasing"
+   "fi": "Kone- ja kalustoleasing"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7262,7 +7262,7 @@
   "numero": 7720,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kone- ja kalustovuokrat"
+   "fi": "Kone- ja kalustovuokrat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7272,7 +7272,7 @@
   "numero": 7730,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kone- ja kalustohuolto ja korjaus"
+   "fi": "Kone- ja kalustohuolto ja korjaus"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7282,7 +7282,7 @@
   "numero": 7740,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kone- ja kalustohankinnat (< 3v. kalusto)"
+   "fi": "Kone- ja kalustohankinnat (< 3v. kalusto)"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7292,7 +7292,7 @@
   "numero": 7750,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Koneiden ja kaluston pienhankinnat"
+   "fi": "Koneiden ja kaluston pienhankinnat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7302,7 +7302,7 @@
   "numero": 7760,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksetut työkalukorvaukset"
+   "fi": "Maksetut työkalukorvaukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7312,7 +7312,7 @@
   "numero": 7770,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut kone- ja kalustokulut"
+   "fi": "Muut kone- ja kalustokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7322,14 +7322,14 @@
   "numero": 78,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Matkakulut"
+   "fi": "Matkakulut"
   }
  },
  {
   "numero": 7800,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Matkaliput"
+   "fi": "Matkaliput"
   },
   "alvlaji": 21,
   "alvprosentti": 10,
@@ -7339,7 +7339,7 @@
   "numero": 7810,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Taksikulut"
+   "fi": "Taksikulut"
   },
   "alvlaji": 21,
   "alvprosentti": 10,
@@ -7349,7 +7349,7 @@
   "numero": 7820,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Hotelli- ym. majoitus"
+   "fi": "Hotelli- ym. majoitus"
   },
   "alvlaji": 21,
   "alvprosentti": 10,
@@ -7359,7 +7359,7 @@
   "numero": 7830,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ruokailut matkalla"
+   "fi": "Ruokailut matkalla"
   },
   "alvlaji": 21,
   "alvprosentti": 14,
@@ -7369,7 +7369,7 @@
   "numero": 7840,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Matkavakuutukset"
+   "fi": "Matkavakuutukset"
   },
   "laajuus": 3
  },
@@ -7377,7 +7377,7 @@
   "numero": 7850,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Paikoituskulut"
+   "fi": "Paikoituskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7387,7 +7387,7 @@
   "numero": 7860,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut matkakulut"
+   "fi": "Muut matkakulut"
   },
   "laajuus": 3
  },
@@ -7395,7 +7395,7 @@
   "numero": 7870,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kilometrikorvaukset"
+   "fi": "Kilometrikorvaukset"
   },
   "laajuus": 3
  },
@@ -7403,7 +7403,7 @@
   "numero": 7880,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Päivärahat"
+   "fi": "Päivärahat"
   },
   "laajuus": 3
  },
@@ -7411,7 +7411,7 @@
   "numero": 7890,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ulkomaan päivärahat"
+   "fi": "Ulkomaan päivärahat"
   },
   "laajuus": 3
  },
@@ -7419,7 +7419,7 @@
   "numero": 7900,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Yömatkarahat"
+   "fi": "Yömatkarahat"
   },
   "laajuus": 3
  },
@@ -7427,7 +7427,7 @@
   "numero": 7910,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ateriakorvaukset"
+   "fi": "Ateriakorvaukset"
   },
   "laajuus": 3
  },
@@ -7435,14 +7435,14 @@
   "numero": 7950,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Edustuskulut"
+   "fi": "Edustuskulut"
   }
  },
  {
   "numero": 7950,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Edustustilaisuudet"
+   "fi": "Edustustilaisuudet"
   },
   "laajuus": 3
  },
@@ -7450,7 +7450,7 @@
   "numero": 7960,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Edustuslahjat"
+   "fi": "Edustuslahjat"
   },
   "laajuus": 3
  },
@@ -7458,7 +7458,7 @@
   "numero": 7970,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Edustusmatkat"
+   "fi": "Edustusmatkat"
   },
   "laajuus": 3
  },
@@ -7466,7 +7466,7 @@
   "numero": 7980,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Edustustilat"
+   "fi": "Edustustilat"
   },
   "laajuus": 3
  },
@@ -7474,7 +7474,7 @@
   "numero": 7990,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut edustuskulut"
+   "fi": "Muut edustuskulut"
   },
   "laajuus": 3
  },
@@ -7482,14 +7482,14 @@
   "numero": 800,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Myyntikulut"
+   "fi": "Myyntikulut"
   }
  },
  {
   "numero": 8000,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksetut myyntiprovisiot"
+   "fi": "Maksetut myyntiprovisiot"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7499,7 +7499,7 @@
   "numero": 8010,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Luottokorttiprovisiot"
+   "fi": "Luottokorttiprovisiot"
   },
   "laajuus": 3
  },
@@ -7507,7 +7507,7 @@
   "numero": 8020,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Myyntirahdit"
+   "fi": "Myyntirahdit"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7517,7 +7517,7 @@
   "numero": 8030,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Myyntihuolinta"
+   "fi": "Myyntihuolinta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7527,7 +7527,7 @@
   "numero": 8040,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut myyntikulut"
+   "fi": "Muut myyntikulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7537,14 +7537,14 @@
   "numero": 805,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Markkinointikulut"
+   "fi": "Markkinointikulut"
   }
  },
  {
   "numero": 8050,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Mainostoimistopalvelut"
+   "fi": "Mainostoimistopalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7554,7 +7554,7 @@
   "numero": 8060,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Suoramainonta"
+   "fi": "Suoramainonta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7564,7 +7564,7 @@
   "numero": 8070,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ilmoitusmainonta"
+   "fi": "Ilmoitusmainonta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7574,7 +7574,7 @@
   "numero": 8080,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "TV- ja radiomainonta"
+   "fi": "TV- ja radiomainonta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7584,7 +7584,7 @@
   "numero": 8090,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Internetmainonta"
+   "fi": "Internetmainonta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7594,7 +7594,7 @@
   "numero": 8100,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Mainosteippaukset"
+   "fi": "Mainosteippaukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7604,7 +7604,7 @@
   "numero": 8110,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ulkomainonta"
+   "fi": "Ulkomainonta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7614,7 +7614,7 @@
   "numero": 8120,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Mainosmateriaali ja tarvikkeet"
+   "fi": "Mainosmateriaali ja tarvikkeet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7624,7 +7624,7 @@
   "numero": 8130,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Mainoslahjat ja palkinnot"
+   "fi": "Mainoslahjat ja palkinnot"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7634,7 +7634,7 @@
   "numero": 8140,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut mainoskulut"
+   "fi": "Muut mainoskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7644,7 +7644,7 @@
   "numero": 8150,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Markkinointitilaisuudet"
+   "fi": "Markkinointitilaisuudet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7654,7 +7654,7 @@
   "numero": 8160,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Markkinatutkimukset"
+   "fi": "Markkinatutkimukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7664,7 +7664,7 @@
   "numero": 8170,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Messut ja näyttelyt"
+   "fi": "Messut ja näyttelyt"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7674,7 +7674,7 @@
   "numero": 8180,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Asiakaslehdet"
+   "fi": "Asiakaslehdet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7684,7 +7684,7 @@
   "numero": 8190,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Asiakasviihde"
+   "fi": "Asiakasviihde"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7694,7 +7694,7 @@
   "numero": 8200,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Somisteet, kukat"
+   "fi": "Somisteet, kukat"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7704,7 +7704,7 @@
   "numero": 8210,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tavaranäytteet"
+   "fi": "Tavaranäytteet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7714,7 +7714,7 @@
   "numero": 8220,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksettu markkinointituki"
+   "fi": "Maksettu markkinointituki"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7724,7 +7724,7 @@
   "numero": 8230,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut myynnin edistämiskulut"
+   "fi": "Muut myynnin edistämiskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7734,7 +7734,7 @@
   "numero": 8250,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Suhdetoimintakulut"
+   "fi": "Suhdetoimintakulut"
   },
   "alvlaji": 0,
   "laajuus": 3
@@ -7743,7 +7743,7 @@
   "numero": 8260,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kannatusilmoitukset ja -maksut"
+   "fi": "Kannatusilmoitukset ja -maksut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7753,7 +7753,7 @@
   "numero": 8270,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Huomionosoitukset"
+   "fi": "Huomionosoitukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7763,7 +7763,7 @@
   "numero": 8280,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lahjoitukset"
+   "fi": "Lahjoitukset"
   },
   "laajuus": 3
  },
@@ -7771,14 +7771,14 @@
   "numero": 830,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Tutkimus- ja kehityskulut"
+   "fi": "Tutkimus- ja kehityskulut"
   }
  },
  {
   "numero": 8300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tuotekehityspalvelut"
+   "fi": "Tuotekehityspalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7788,7 +7788,7 @@
   "numero": 8310,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Patentit, mallisuoja ja tavaramerkit"
+   "fi": "Patentit, mallisuoja ja tavaramerkit"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7798,7 +7798,7 @@
   "numero": 8320,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Laaduntarkkailu"
+   "fi": "Laaduntarkkailu"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7808,7 +7808,7 @@
   "numero": 8330,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sertifiointi ja laatutodistukset"
+   "fi": "Sertifiointi ja laatutodistukset"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7818,7 +7818,7 @@
   "numero": 8340,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Koulutus"
+   "fi": "Koulutus"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7828,7 +7828,7 @@
   "numero": 8350,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut tutkimus- ja kehityskulut"
+   "fi": "Muut tutkimus- ja kehityskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7838,14 +7838,14 @@
   "numero": 837,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Hallintopalvelut"
+   "fi": "Hallintopalvelut"
   }
  },
  {
   "numero": 8370,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vuokratyövoima"
+   "fi": "Vuokratyövoima"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7855,7 +7855,7 @@
   "numero": 8380,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Taloushallintopalvelut"
+   "fi": "Taloushallintopalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7865,7 +7865,7 @@
   "numero": 8390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tilintarkastuspalvelut"
+   "fi": "Tilintarkastuspalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7875,7 +7875,7 @@
   "numero": 8410,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Laki ja konsultointipalvelut"
+   "fi": "Laki ja konsultointipalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7885,7 +7885,7 @@
   "numero": 8420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Perintä- ja luottotietopalvelut"
+   "fi": "Perintä- ja luottotietopalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7895,7 +7895,7 @@
   "numero": 8430,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut hallintopalvelut"
+   "fi": "Muut hallintopalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7905,7 +7905,7 @@
   "numero": 8440,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Viranomaismaksut"
+   "fi": "Viranomaismaksut"
   },
   "laajuus": 1
  },
@@ -7913,14 +7913,14 @@
   "numero": 845,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Muut hallintokulut"
+   "fi": "Muut hallintokulut"
   }
  },
  {
   "numero": 8450,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kirjat"
+   "fi": "Kirjat"
   },
   "alvlaji": 21,
   "alvprosentti": 10,
@@ -7930,7 +7930,7 @@
   "numero": 8460,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lehdet"
+   "fi": "Lehdet"
   },
   "alvlaji": 21,
   "alvprosentti": 10,
@@ -7940,7 +7940,7 @@
   "numero": 8470,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tietopalvelut"
+   "fi": "Tietopalvelut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7950,7 +7950,7 @@
   "numero": 8480,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Jäsenmaksut"
+   "fi": "Jäsenmaksut"
   },
   "laajuus": 3
  },
@@ -7958,7 +7958,7 @@
   "numero": 8490,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muu tiedonhankinta"
+   "fi": "Muu tiedonhankinta"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7968,7 +7968,7 @@
   "numero": 8500,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Puhelinkulut"
+   "fi": "Puhelinkulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7978,7 +7978,7 @@
   "numero": 8510,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Matkapuhelinkulut"
+   "fi": "Matkapuhelinkulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7988,7 +7988,7 @@
   "numero": 8520,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Telefaxkulut"
+   "fi": "Telefaxkulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -7998,7 +7998,7 @@
   "numero": 8530,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Datasiirtokulut"
+   "fi": "Datasiirtokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8008,7 +8008,7 @@
   "numero": 8540,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Posti- ja lähettikulut"
+   "fi": "Posti- ja lähettikulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8018,7 +8018,7 @@
   "numero": 8550,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Arvo-osuuksien hoitokulut"
+   "fi": "Arvo-osuuksien hoitokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8026,9 +8026,9 @@
  },
  {
   "numero": 8560,
-  "tyyppi": "D",
+  "tyyppi": "DBP",
   "nimi": {
-   "fi:": "Rahaliikenteen kulut"
+   "fi": "Rahaliikenteen kulut"
   },
   "laajuus": 1
  },
@@ -8036,7 +8036,7 @@
   "numero": 8570,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Pyöristyserot"
+   "fi": "Pyöristyserot"
   },
   "laajuus": 3
  },
@@ -8044,7 +8044,7 @@
   "numero": 8580,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vastuuvakuutukset"
+   "fi": "Vastuuvakuutukset"
   },
   "laajuus": 3
  },
@@ -8052,7 +8052,7 @@
   "numero": 8590,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Esinevakuutukset"
+   "fi": "Esinevakuutukset"
   },
   "laajuus": 3
  },
@@ -8060,7 +8060,7 @@
   "numero": 8600,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut vakuutukset"
+   "fi": "Muut vakuutukset"
   },
   "laajuus": 3
  },
@@ -8068,7 +8068,7 @@
   "numero": 8610,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Maksetut vahingonkorvaukset"
+   "fi": "Maksetut vahingonkorvaukset"
   },
   "laajuus": 3
  },
@@ -8076,7 +8076,7 @@
   "numero": 8620,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Toimistotarvikkeet"
+   "fi": "Toimistotarvikkeet"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8086,7 +8086,7 @@
   "numero": 8630,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lomakkeet ja painatuskulut"
+   "fi": "Lomakkeet ja painatuskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8096,7 +8096,7 @@
   "numero": 8640,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Valokopiot"
+   "fi": "Valokopiot"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8106,7 +8106,7 @@
   "numero": 8650,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kokous- ja neuvottelukulut"
+   "fi": "Kokous- ja neuvottelukulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8116,7 +8116,7 @@
   "numero": 8680,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut hallintokulut"
+   "fi": "Muut hallintokulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8126,21 +8126,21 @@
   "numero": 870,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Muut liikekulut"
+   "fi": "Muut liikekulut"
   }
  },
  {
   "numero": 870,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Luottotappiot"
+   "fi": "Luottotappiot"
   }
  },
  {
   "numero": 8700,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Myynnin luottotappiot"
+   "fi": "Myynnin luottotappiot"
   },
   "laajuus": 3
  },
@@ -8148,7 +8148,7 @@
   "numero": 8710,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Yhteisömyynnin luottotappiot"
+   "fi": "Yhteisömyynnin luottotappiot"
   },
   "laajuus": 3
  },
@@ -8156,7 +8156,7 @@
   "numero": 8720,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Marginaaliverotusmyynnin luottotappiot"
+   "fi": "Marginaaliverotusmyynnin luottotappiot"
   },
   "laajuus": 3
  },
@@ -8164,7 +8164,7 @@
   "numero": 8730,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Palautuneet luottotappiot"
+   "fi": "Palautuneet luottotappiot"
   },
   "laajuus": 3
  },
@@ -8172,14 +8172,14 @@
   "numero": 874,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Vähennyskelpoiset muut liikekulut"
+   "fi": "Vähennyskelpoiset muut liikekulut"
   }
  },
  {
   "numero": 8740,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Yle-vero"
+   "fi": "Yle-vero"
   },
   "laajuus": 3
  },
@@ -8187,7 +8187,7 @@
   "numero": 8750,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Poikkeukselliset vähennyskelpoiset kulut"
+   "fi": "Poikkeukselliset vähennyskelpoiset kulut"
   },
   "laajuus": 3
  },
@@ -8195,7 +8195,7 @@
   "numero": 8760,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut vähennyskelpoiset liikekulut"
+   "fi": "Muut vähennyskelpoiset liikekulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8205,14 +8205,14 @@
   "numero": 877,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Vähennyskelvotomat muut liikekulut"
+   "fi": "Vähennyskelvotomat muut liikekulut"
   }
  },
  {
   "numero": 8770,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Veronkorotukset, vähennyskelvottomat"
+   "fi": "Veronkorotukset, vähennyskelvottomat"
   },
   "laajuus": 3
  },
@@ -8220,7 +8220,7 @@
   "numero": 8780,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Sakot, pysäköintivirhemaksut ja muut rangaistusmaksut"
+   "fi": "Sakot, pysäköintivirhemaksut ja muut rangaistusmaksut"
   },
   "laajuus": 3
  },
@@ -8228,7 +8228,7 @@
   "numero": 8790,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Fuusiotappio"
+   "fi": "Fuusiotappio"
   },
   "laajuus": 5
  },
@@ -8236,7 +8236,7 @@
   "numero": 8800,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut vähennyskelvottomat liikekulut"
+   "fi": "Muut vähennyskelvottomat liikekulut"
   },
   "laajuus": 3
  },
@@ -8244,14 +8244,14 @@
   "numero": 884,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Käyttöomaisuuden luovutustappiot"
+   "fi": "Käyttöomaisuuden luovutustappiot"
   }
  },
  {
   "numero": 8840,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Poikkeukselliset käyttöomaisuuden luovutustappiot"
+   "fi": "Poikkeukselliset käyttöomaisuuden luovutustappiot"
   },
   "laajuus": 3
  },
@@ -8259,7 +8259,7 @@
   "numero": 8850,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Käyttöomaisuuden luovutustappiot"
+   "fi": "Käyttöomaisuuden luovutustappiot"
   },
   "laajuus": 3
  },
@@ -8267,7 +8267,7 @@
   "numero": 8867,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Poikkeukselliset käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
+   "fi": "Poikkeukselliset käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
   },
   "laajuus": 3
  },
@@ -8275,7 +8275,7 @@
   "numero": 8870,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
+   "fi": "Käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
   },
   "laajuus": 3
  },
@@ -8283,14 +8283,14 @@
   "numero": 889,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Täsmäytyserot"
+   "fi": "Täsmäytyserot"
   }
  },
  {
   "numero": 8890,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Täsmäytyserot"
+   "fi": "Täsmäytyserot"
   },
   "laajuus": 3
  },
@@ -8298,14 +8298,14 @@
   "numero": 899,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Osuus osakkuusyritysten voitosta (tappiosta)"
+   "fi": "Osuus osakkuusyritysten voitosta (tappiosta)"
   }
  },
  {
   "numero": 8990,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osuus osakkuusyritysten tuloksesta"
+   "fi": "Osuus osakkuusyritysten tuloksesta"
   },
   "laajuus": 5
  },
@@ -8313,21 +8313,21 @@
   "numero": 90,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Rahoitustuotot ja -kulut"
+   "fi": "Rahoitustuotot ja -kulut"
   }
  },
  {
   "numero": 900,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Tuotot osuuksista saman konsernin yrityksissä"
+   "fi": "Tuotot osuuksista saman konsernin yrityksissä"
   }
  },
  {
   "numero": 9000,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot konserniyrityksiltä"
+   "fi": "Osinkotuotot konserniyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8335,7 +8335,7 @@
   "numero": 9010,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osuuskorot konserniyrityksiltä"
+   "fi": "Osuuskorot konserniyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8343,7 +8343,7 @@
   "numero": 9020,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut tuotot konserniyrityksiltä"
+   "fi": "Muut tuotot konserniyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8351,14 +8351,14 @@
   "numero": 903,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Osuus osakkuusyritysten voitosta (tappiosta)"
+   "fi": "Osuus osakkuusyritysten voitosta (tappiosta)"
   }
  },
  {
   "numero": 9030,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osuus osakkuusyritysten tuloksesta"
+   "fi": "Osuus osakkuusyritysten tuloksesta"
   },
   "laajuus": 5
  },
@@ -8366,14 +8366,14 @@
   "numero": 904,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Tuotot osuuksista omistusyhteysyrityksissä"
+   "fi": "Tuotot osuuksista omistusyhteysyrityksissä"
   }
  },
  {
   "numero": 9040,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot omistusyhteysyrityksiltä"
+   "fi": "Osinkotuotot omistusyhteysyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8381,7 +8381,7 @@
   "numero": 9050,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saatu ylijäämä omistusyhteysyrityksiltä"
+   "fi": "Saatu ylijäämä omistusyhteysyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8389,7 +8389,7 @@
   "numero": 9060,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut tuotot omistysyhteysyrityksiltä"
+   "fi": "Muut tuotot omistysyhteysyrityksiltä"
   },
   "laajuus": 5
  },
@@ -8397,14 +8397,14 @@
   "numero": 907,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Tuotot osuuksista muissa omistusyhteysyrityksissä"
+   "fi": "Tuotot osuuksista muissa omistusyhteysyrityksissä"
   }
  },
  {
   "numero": 9070,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Tuotot osuuksista muissa omistusyhteysyrityksissä"
+   "fi": "Tuotot osuuksista muissa omistusyhteysyrityksissä"
   },
   "laajuus": 5
  },
@@ -8412,21 +8412,21 @@
   "numero": 908,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Tuotot muista pysyvien vastaavien sijoituksista"
+   "fi": "Tuotot muista pysyvien vastaavien sijoituksista"
   }
  },
  {
   "numero": 9080,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saman konsernin yrityksiltä"
+   "fi": "Saman konsernin yrityksiltä"
   }
  },
  {
   "numero": 9080,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Sijoitustuotot muista pysyvien vastaavien sijoituksista konserniin"
+   "fi": "Sijoitustuotot muista pysyvien vastaavien sijoituksista konserniin"
   },
   "laajuus": 5
  },
@@ -8434,14 +8434,14 @@
   "numero": 909,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Muilta"
+   "fi": "Muilta"
   }
  },
  {
   "numero": 9090,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot"
+   "fi": "Osinkotuotot"
   },
   "laajuus": 4
  },
@@ -8449,7 +8449,7 @@
   "numero": 9090,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot (verovapaat)"
+   "fi": "Osinkotuotot (verovapaat)"
   },
   "laajuus": 4
  },
@@ -8457,7 +8457,7 @@
   "numero": 9100,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saatu ylijäämä osuuskunnista"
+   "fi": "Saatu ylijäämä osuuskunnista"
   },
   "laajuus": 4
  },
@@ -8465,7 +8465,7 @@
   "numero": 9120,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Voitto-osuus yhtymistä"
+   "fi": "Voitto-osuus yhtymistä"
   },
   "laajuus": 4
  },
@@ -8473,7 +8473,7 @@
   "numero": 9130,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Luovutusvoitot osuuksista"
+   "fi": "Luovutusvoitot osuuksista"
   },
   "laajuus": 4
  },
@@ -8481,7 +8481,7 @@
   "numero": 9140,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut tuotot pysyvien vastaavien sijoituksista"
+   "fi": "Muut tuotot pysyvien vastaavien sijoituksista"
   },
   "laajuus": 4
  },
@@ -8489,21 +8489,21 @@
   "numero": 915,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut korko- ja rahoitustuotot"
+   "fi": "Muut korko- ja rahoitustuotot"
   }
  },
  {
   "numero": 915,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saman konsernin yrityksiltä"
+   "fi": "Saman konsernin yrityksiltä"
   }
  },
  {
   "numero": 9150,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korko- ja rahoitustuotot konsernisaamisista"
+   "fi": "Korko- ja rahoitustuotot konsernisaamisista"
   },
   "laajuus": 5
  },
@@ -8511,14 +8511,14 @@
   "numero": 916,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Muilta"
+   "fi": "Muilta"
   }
  },
  {
   "numero": 9160,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot omistusyhteysyrityssaamisista"
+   "fi": "Korkotuotot omistusyhteysyrityssaamisista"
   },
   "laajuus": 5
  },
@@ -8526,7 +8526,7 @@
   "numero": 9170,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot myyntisaamisista"
+   "fi": "Korkotuotot myyntisaamisista"
   },
   "laajuus": 3
  },
@@ -8534,7 +8534,7 @@
   "numero": 9180,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot osamaksusaamisista"
+   "fi": "Korkotuotot osamaksusaamisista"
   },
   "laajuus": 3
  },
@@ -8542,7 +8542,7 @@
   "numero": 9190,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot lainasaamisista"
+   "fi": "Korkotuotot lainasaamisista"
   },
   "laajuus": 3
  },
@@ -8550,7 +8550,7 @@
   "numero": 9200,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot henkilökuntasaamisista"
+   "fi": "Korkotuotot henkilökuntasaamisista"
   },
   "laajuus": 3
  },
@@ -8558,15 +8558,15 @@
   "numero": 9210,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot osakaslainasaamisista"
+   "fi": "Korkotuotot osakaslainasaamisista"
   },
   "laajuus": 3
  },
  {
   "numero": 9220,
-  "tyyppi": "C",
+  "tyyppi": "CBK",
   "nimi": {
-   "fi:": "Korkotuotot pankkisaamisista"
+   "fi": "Korkotuotot pankkisaamisista"
   },
   "laajuus": 3
  },
@@ -8574,7 +8574,7 @@
   "numero": 9230,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Korkotuotot talletuksista"
+   "fi": "Korkotuotot talletuksista"
   },
   "laajuus": 3
  },
@@ -8582,7 +8582,7 @@
   "numero": 9240,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Palautettava yhteisökorko/palautuskorko"
+   "fi": "Palautettava yhteisökorko/palautuskorko"
   },
   "laajuus": 3
  },
@@ -8590,7 +8590,7 @@
   "numero": 9250,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut korkotuotot"
+   "fi": "Muut korkotuotot"
   },
   "laajuus": 3
  },
@@ -8598,7 +8598,7 @@
   "numero": 9260,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Valuuttakurssivoitot"
+   "fi": "Valuuttakurssivoitot"
   },
   "laajuus": 3
  },
@@ -8606,7 +8606,7 @@
   "numero": 9270,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot rahoitusarvopapereista"
+   "fi": "Osinkotuotot rahoitusarvopapereista"
   },
   "laajuus": 3
  },
@@ -8614,7 +8614,7 @@
   "numero": 9270,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Osinkotuotot rahoitusarvopapereista (verovapaat)"
+   "fi": "Osinkotuotot rahoitusarvopapereista (verovapaat)"
   },
   "laajuus": 3
  },
@@ -8622,7 +8622,7 @@
   "numero": 9280,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut tuotot rahoitusarvopapereista"
+   "fi": "Muut tuotot rahoitusarvopapereista"
   },
   "laajuus": 3
  },
@@ -8630,7 +8630,7 @@
   "numero": 9290,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Muut rahoitustuotot"
+   "fi": "Muut rahoitustuotot"
   },
   "laajuus": 3
  },
@@ -8638,14 +8638,14 @@
   "numero": 930,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Arvonalentumiset pysyvien vastaavien sijoituksista"
+   "fi": "Arvonalentumiset pysyvien vastaavien sijoituksista"
   }
  },
  {
   "numero": 9300,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Konserniosuuksien arvonalentumiset"
+   "fi": "Konserniosuuksien arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8653,7 +8653,7 @@
   "numero": 9310,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Konsernisaamisten  arvonalentumiset"
+   "fi": "Konsernisaamisten  arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8661,7 +8661,7 @@
   "numero": 9320,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Omistusyhteysyritysosuuksien arvonalentumiset"
+   "fi": "Omistusyhteysyritysosuuksien arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8669,7 +8669,7 @@
   "numero": 9330,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Omistusyhteysyrityssaamisten arvonalentumiset"
+   "fi": "Omistusyhteysyrityssaamisten arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8677,7 +8677,7 @@
   "numero": 9340,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkeiden ja osuuksien arvonalentumiset"
+   "fi": "Osakkeiden ja osuuksien arvonalentumiset"
   },
   "laajuus": 4
  },
@@ -8685,7 +8685,7 @@
   "numero": 9350,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Saamisten arvonalentumiset"
+   "fi": "Saamisten arvonalentumiset"
   },
   "laajuus": 3
  },
@@ -8693,7 +8693,7 @@
   "numero": 9360,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Arvonalentumisten palautukset"
+   "fi": "Arvonalentumisten palautukset"
   },
   "laajuus": 3
  },
@@ -8701,14 +8701,14 @@
   "numero": 937,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista"
+   "fi": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista"
   }
  },
  {
   "numero": 9370,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Konserniosuuksien arvonalentumiset"
+   "fi": "Konserniosuuksien arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8716,7 +8716,7 @@
   "numero": 9380,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Omistusyhteysyritysosuuksien arvonalentumiset"
+   "fi": "Omistusyhteysyritysosuuksien arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8724,7 +8724,7 @@
   "numero": 9390,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Osakkeiden ja osuuksien arvonalentumiset"
+   "fi": "Osakkeiden ja osuuksien arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8732,7 +8732,7 @@
   "numero": 9400,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muiden rahoitusarvopapereiden arvonalentumiset"
+   "fi": "Muiden rahoitusarvopapereiden arvonalentumiset"
   },
   "laajuus": 5
  },
@@ -8740,7 +8740,7 @@
   "numero": 9410,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Arvonalentumisten palautukset"
+   "fi": "Arvonalentumisten palautukset"
   },
   "laajuus": 5
  },
@@ -8748,21 +8748,21 @@
   "numero": 942,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Korkokulut ja muut rahoituskulut"
+   "fi": "Korkokulut ja muut rahoituskulut"
   }
  },
  {
   "numero": 942,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Saman konsernin yrityksille"
+   "fi": "Saman konsernin yrityksille"
   }
  },
  {
   "numero": 9420,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut veloista konserniyrityksille"
+   "fi": "Korkokulut veloista konserniyrityksille"
   },
   "laajuus": 5
  },
@@ -8770,7 +8770,7 @@
   "numero": 9430,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut rahoituskulut konserniyrityksille"
+   "fi": "Muut rahoituskulut konserniyrityksille"
   },
   "laajuus": 5
  },
@@ -8778,14 +8778,14 @@
   "numero": 944,
   "tyyppi": "H5",
   "nimi": {
-   "fi:": "Muille"
+   "fi": "Muille"
   }
  },
  {
   "numero": 9440,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut joukkovelkakirjalainoista"
+   "fi": "Korkokulut joukkovelkakirjalainoista"
   },
   "laajuus": 4
  },
@@ -8793,15 +8793,15 @@
   "numero": 9450,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut vaihtovelkakirjalainoista"
+   "fi": "Korkokulut vaihtovelkakirjalainoista"
   },
   "laajuus": 4
  },
  {
   "numero": 9460,
-  "tyyppi": "D",
+  "tyyppi": "DBK",
   "nimi": {
-   "fi:": "Korkokulut rahoituslaitoslainoista"
+   "fi": "Korkokulut rahoituslaitoslainoista"
   },
   "laajuus": 1
  },
@@ -8809,7 +8809,7 @@
   "numero": 9470,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut rahoitusyhtiölainoista"
+   "fi": "Korkokulut rahoitusyhtiölainoista"
   },
   "laajuus": 3
  },
@@ -8817,7 +8817,7 @@
   "numero": 9480,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut eläkelainoista"
+   "fi": "Korkokulut eläkelainoista"
   },
   "laajuus": 3
  },
@@ -8825,7 +8825,7 @@
   "numero": 9490,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut ostoveloista"
+   "fi": "Korkokulut ostoveloista"
   },
   "laajuus": 3
  },
@@ -8833,7 +8833,7 @@
   "numero": 9500,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut rahoitusvekseleistä"
+   "fi": "Korkokulut rahoitusvekseleistä"
   },
   "laajuus": 4
  },
@@ -8841,7 +8841,7 @@
   "numero": 9510,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut omistusyhteysyrityslainoista"
+   "fi": "Korkokulut omistusyhteysyrityslainoista"
   },
   "laajuus": 5
  },
@@ -8849,7 +8849,7 @@
   "numero": 9520,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Korkokulut osakaslainoista"
+   "fi": "Korkokulut osakaslainoista"
   },
   "laajuus": 5
  },
@@ -8857,7 +8857,7 @@
   "numero": 9530,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Maksettava yhteisökorko / jäännösveron korko"
+   "fi": "Maksettava yhteisökorko / jäännösveron korko"
   },
   "laajuus": 3
  },
@@ -8865,7 +8865,7 @@
   "numero": 9540,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Verojen viivästysseuraamukset"
+   "fi": "Verojen viivästysseuraamukset"
   },
   "laajuus": 3
  },
@@ -8873,7 +8873,7 @@
   "numero": 9550,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut korkokulut"
+   "fi": "Muut korkokulut"
   },
   "laajuus": 3
  },
@@ -8881,7 +8881,7 @@
   "numero": 9560,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lainojen hoitokulut"
+   "fi": "Lainojen hoitokulut"
   },
   "laajuus": 3
  },
@@ -8889,7 +8889,7 @@
   "numero": 9570,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Limiittipalkkiot"
+   "fi": "Limiittipalkkiot"
   },
   "laajuus": 3
  },
@@ -8897,7 +8897,7 @@
   "numero": 9580,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Takausprovisiot"
+   "fi": "Takausprovisiot"
   },
   "laajuus": 3
  },
@@ -8905,7 +8905,7 @@
   "numero": 9590,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Luottovakuutukset"
+   "fi": "Luottovakuutukset"
   },
   "laajuus": 3
  },
@@ -8913,7 +8913,7 @@
   "numero": 9600,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kiinnityskulut"
+   "fi": "Kiinnityskulut"
   },
   "laajuus": 3
  },
@@ -8921,7 +8921,7 @@
   "numero": 9610,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Perimiskulut"
+   "fi": "Perimiskulut"
   },
   "alvlaji": 21,
   "alvprosentti": 24,
@@ -8931,7 +8931,7 @@
   "numero": 9620,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Kurssitappiot"
+   "fi": "Kurssitappiot"
   },
   "laajuus": 3
  },
@@ -8939,7 +8939,7 @@
   "numero": 9640,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Factoring-kulut"
+   "fi": "Factoring-kulut"
   },
   "laajuus": 4
  },
@@ -8947,7 +8947,7 @@
   "numero": 9650,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Terminointikulut"
+   "fi": "Terminointikulut"
   },
   "laajuus": 4
  },
@@ -8955,7 +8955,7 @@
   "numero": 9660,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Saamisten luottotappiot"
+   "fi": "Saamisten luottotappiot"
   },
   "laajuus": 3
  },
@@ -8963,7 +8963,7 @@
   "numero": 9670,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut kulut rahoitusarvopapereista"
+   "fi": "Muut kulut rahoitusarvopapereista"
   },
   "laajuus": 3
  },
@@ -8971,7 +8971,7 @@
   "numero": 9690,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut rahoituskulut"
+   "fi": "Muut rahoituskulut"
   },
   "laajuus": 3
  },
@@ -8979,21 +8979,21 @@
   "numero": 97,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Tilinpäätössiirrot"
+   "fi": "Tilinpäätössiirrot"
   }
  },
  {
   "numero": 975,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Poistoerojen lisäys tai vähennys"
+   "fi": "Poistoerojen lisäys tai vähennys"
   }
  },
  {
   "numero": 9750,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Aineettomien hyödykkeiden poistoeron muutos"
+   "fi": "Aineettomien hyödykkeiden poistoeron muutos"
   },
   "laajuus": 4
  },
@@ -9001,7 +9001,7 @@
   "numero": 9760,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Rakennusten poistoeron muutos"
+   "fi": "Rakennusten poistoeron muutos"
   },
   "laajuus": 4
  },
@@ -9009,7 +9009,7 @@
   "numero": 9770,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Koneiden ja kaluston poistoeron muutos"
+   "fi": "Koneiden ja kaluston poistoeron muutos"
   },
   "laajuus": 4
  },
@@ -9017,7 +9017,7 @@
   "numero": 9780,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muiden aineellisten hyödykkeiden poistoeron muutos"
+   "fi": "Muiden aineellisten hyödykkeiden poistoeron muutos"
   },
   "laajuus": 4
  },
@@ -9025,14 +9025,14 @@
   "numero": 98,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Verotusperusteisten varausten lisäys tai vähennys"
+   "fi": "Verotusperusteisten varausten lisäys tai vähennys"
   }
  },
  {
   "numero": 9800,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Käyttöomaisuuden jälleenhankintavarauksen muutos"
+   "fi": "Käyttöomaisuuden jälleenhankintavarauksen muutos"
   },
   "laajuus": 4
  },
@@ -9040,7 +9040,7 @@
   "numero": 9810,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Toimitilan jälleenhankintavarauksen muutos"
+   "fi": "Toimitilan jälleenhankintavarauksen muutos"
   },
   "laajuus": 4
  },
@@ -9048,7 +9048,7 @@
   "numero": 9820,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Takuuvarauksen muutos"
+   "fi": "Takuuvarauksen muutos"
   },
   "laajuus": 4
  },
@@ -9056,7 +9056,7 @@
   "numero": 9830,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Toimintavarauksen muutos"
+   "fi": "Toimintavarauksen muutos"
   },
   "laajuus": 4
  },
@@ -9064,7 +9064,7 @@
   "numero": 9840,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Hankintamenon muutosvarauksen muutos"
+   "fi": "Hankintamenon muutosvarauksen muutos"
   },
   "laajuus": 4
  },
@@ -9072,7 +9072,7 @@
   "numero": 9850,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muiden veroitusperusteisten varausten muutos"
+   "fi": "Muiden veroitusperusteisten varausten muutos"
   },
   "laajuus": 4
  },
@@ -9080,14 +9080,14 @@
   "numero": 988,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Konserniavustukset"
+   "fi": "Konserniavustukset"
   }
  },
  {
   "numero": 9880,
   "tyyppi": "C",
   "nimi": {
-   "fi:": "Saadut konserniavustukset"
+   "fi": "Saadut konserniavustukset"
   },
   "laajuus": 5
  },
@@ -9095,7 +9095,7 @@
   "numero": 9890,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Annetut konserniavustukset"
+   "fi": "Annetut konserniavustukset"
   },
   "laajuus": 5
 },
@@ -9103,21 +9103,21 @@
   "numero": 990,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Tuloverot"
+   "fi": "Tuloverot"
   }
  },
  {
   "numero": 990,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Tilikauden verot"
+   "fi": "Tilikauden verot"
   }
  },
  {
   "numero": 9900,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ennakkoverot"
+   "fi": "Ennakkoverot"
   },
   "laajuus": 3
  },
@@ -9125,7 +9125,7 @@
   "numero": 9910,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Ennakonpidätys työkorvauksista"
+   "fi": "Ennakonpidätys työkorvauksista"
   },
   "laajuus": 3
  },
@@ -9133,7 +9133,7 @@
   "numero": 9920,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Veronhyvitys osingoista"
+   "fi": "Veronhyvitys osingoista"
   },
   "laajuus": 3
  },
@@ -9141,7 +9141,7 @@
   "numero": 9930,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Lähdeverot"
+   "fi": "Lähdeverot"
   },
   "laajuus": 3
  },
@@ -9149,7 +9149,7 @@
   "numero": 9940,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Tilikauden verojaksotus"
+   "fi": "Tilikauden verojaksotus"
   },
   "laajuus": 3
  },
@@ -9157,7 +9157,7 @@
   "numero": 9950,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Veronpalautukset / jäännösverot"
+   "fi": "Veronpalautukset / jäännösverot"
   },
   "laajuus": 3
  },
@@ -9165,7 +9165,7 @@
   "numero": 9960,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Muut tuloverot"
+   "fi": "Muut tuloverot"
   },
   "laajuus": 3
  },
@@ -9173,14 +9173,14 @@
   "numero": 997,
   "tyyppi": "H3",
   "nimi": {
-   "fi:": "Laskennalliset verot"
+   "fi": "Laskennalliset verot"
   }
  },
  {
   "numero": 9970,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Laskennalliset verot"
+   "fi": "Laskennalliset verot"
   },
   "laajuus": 4
  },
@@ -9188,14 +9188,14 @@
   "numero": 998,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Muut välittömät verot"
+   "fi": "Muut välittömät verot"
   }
  },
  {
   "numero": 9980,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Varallisuusverot / Muut välittömät verot"
+   "fi": "Varallisuusverot / Muut välittömät verot"
   },
   "laajuus": 3
  },
@@ -9203,21 +9203,21 @@
   "numero": 998,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Vähemmistöosuudet"
+   "fi": "Vähemmistöosuudet"
   }
  },
  {
   "numero": 999,
   "tyyppi": "H2",
   "nimi": {
-   "fi:": "Vähemmistöosuudet"
+   "fi": "Vähemmistöosuudet"
   }
  },
  {
   "numero": 9990,
   "tyyppi": "D",
   "nimi": {
-   "fi:": "Vähemmistöosuudet"
+   "fi": "Vähemmistöosuudet"
   },
   "laajuus": 3
  }

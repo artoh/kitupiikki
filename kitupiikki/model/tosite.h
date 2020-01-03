@@ -45,12 +45,13 @@ public:
         TILA,
         TUNNISTE,
         OTSIKKO,
-        VIITE,
-        ERAPVM,
         KUMPPANI,
         KOMMENTIT,
         ALV,
-        SARJA
+        SARJA,
+        TILIOTE,
+        LASKU,
+        RIVIT
     };
 
     enum Virheet {
@@ -58,7 +59,6 @@ public:
         PVMLUKITTU      = 0b10,
         PVMALV          = 0b100,
         EITASMAA        = 0b1000,
-        NOLLA           = 0b10000,
         TILIPUUTTUU     = 0b100000,
         EIAVOINTAKUTTA  = 0b1000000
     };
@@ -69,7 +69,8 @@ public:
         LUONNOS         = 50,
         VALMISLASKU     = 80,
         KIRJANPIDOSSA   = 100,
-        LAHETETTYLASKU  = 110
+        LAHETETTYLASKU  = 110,
+        MUISTUTETTU     = 120
     };
 
 
@@ -91,9 +92,10 @@ public:
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
     int kumppani() const { return data(KUMPPANI).toInt();}
+    QString kumppaninimi() const { return kumppaninimi_;}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(KOMMENTIT).toString();}
-    QString sarja() const { return data(SARJA).toString();}
+    QString sarja() const { return data(SARJA).toString();}    
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
@@ -143,6 +145,7 @@ private:
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;
+    QString kumppaninimi_;
 
     bool resetointiKaynnissa_ = false;
 

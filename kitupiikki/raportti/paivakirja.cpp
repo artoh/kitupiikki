@@ -19,7 +19,7 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
-Paivakirja::Paivakirja(QObject *parent) : Raportteri(parent)
+Paivakirja::Paivakirja(QObject *parent, const QString &kielikoodi) : Raportteri(parent, kielikoodi)
 {
 
 }
@@ -36,9 +36,9 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
     if( kohdennuksella > -1 ) {
         // Tulostetaan vain yhdestä kohdennuksesta
         optiot_ |= Kohdennuksella;
-        rk.asetaOtsikko( QString("PÄIVÄKIRJA (%1)").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
+        rk.asetaOtsikko( QString("%1 (%2)").arg(kaanna("PÄIVÄKIRJA")).arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
     } else
-    rk.asetaOtsikko(tr("PÄIVÄKIRJA"));
+    rk.asetaOtsikko(kaanna("PÄIVÄKIRJA"));
 
 
     rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
@@ -55,14 +55,14 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
 
     {
         RaporttiRivi otsikko;
-        otsikko.lisaa("Pvm");
-        otsikko.lisaa("Tosite");
-        otsikko.lisaa("Tili");
+        otsikko.lisaa(kaanna("Pvm"));
+        otsikko.lisaa(kaanna("Tosite"));
+        otsikko.lisaa(kaanna("Tili"));
         if( optiot_ & TulostaKohdennukset)
-            otsikko.lisaa("Kohdennus");
-        otsikko.lisaa("Selite");
-        otsikko.lisaa("Debet €", 1, true);
-        otsikko.lisaa("Kredit €", 1, true);
+            otsikko.lisaa(kaanna("Kohdennus"));
+        otsikko.lisaa(kaanna("Selite"));
+        otsikko.lisaa(kaanna("Debet €"), 1, true);
+        otsikko.lisaa(kaanna("Kredit €"), 1, true);
         rk.lisaaOtsake(otsikko);
     }
 
@@ -105,7 +105,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
         if( optiot_ & RyhmitteleLajeittain && edellinentyyppi != tositetyyppi ) {
             if( optiot_ & TulostaSummat && edellinentyyppi) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
-                valisumma.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+                valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
                 valisumma.lisaa( debetvalisumma);
                 valisumma.lisaa(kreditvalisumma);
                 valisumma.viivaYlle();
@@ -152,11 +152,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
         debetsumma += debetsnt;
         debetvalisumma += debetsnt;
-
-        if( optiot_ & RyhmitteleLajeittain && optiot_ & TulostaSummat) {
-            kreditsumma += kreditsnt;
-            kreditvalisumma += kreditsnt;
-        }
+        kreditsumma += kreditsnt;
+        kreditvalisumma += kreditsnt;
 
         rivi.lisaa( debetsnt );
         rivi.lisaa( kreditsnt );
@@ -167,7 +164,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
     if( optiot_ & TulostaSummat && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+        valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
         valisumma.lisaa( debetvalisumma);
         valisumma.lisaa(kreditvalisumma);
         valisumma.viivaYlle();
@@ -177,7 +174,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
     if( optiot_ & TulostaSummat) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+        summarivi.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
         summarivi.lisaa( debetsumma);
         summarivi.lisaa(kreditsumma);
         summarivi.viivaYlle();

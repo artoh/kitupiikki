@@ -134,7 +134,6 @@ CREATE TABLE Vienti
 	erapvm DATE,
 	viite varchar(64),
 	json text,
-	CHECK (debetsnt > 0 OR kreditsnt > 0),
 	CHECK (debetsnt = 0 OR kreditsnt = 0)
 );
 

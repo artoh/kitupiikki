@@ -35,6 +35,7 @@
 #include "arkisto/arkistosivu.h"
 
 #include "naytin/naytinikkuna.h"
+#include "alv/alvilmoitustenmodel.h"
 
 
 TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *parent) :
@@ -97,11 +98,10 @@ void TilinPaattaja::paivitaDialogi()
                               "varma siitä, että kaikki tilikaudelle kuuluvat kirjaukset on jo tehty."));
     }
 
-    if( kp()->asetukset()->onko("AlvVelvollinen") && kp()->asetukset()->pvm("AlvIlmoitus") < tilikausi.paattyy())
+    if( kp()->asetukset()->onko("AlvVelvollinen") && !kp()->alvIlmoitukset()->onkoIlmoitettu( tilikausi.paattyy() ) )
     {
         // Alv-ilmoitusta ei ole tehty koko tilikaudelle!
-        varoitukset.append( tr("<p><b>Arvonlisäveroilmoitus on tehty vasta %1 asti.</b></p>")
-                            .arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
+        varoitukset.append( tr("<p><b>Arvonlisäilmoitusta ei ole annettu tilikauden loppuun saakka.</b></p>") );
     }
 
     ui->varoKuvake->setVisible( !varoitukset.isEmpty() );
@@ -152,7 +152,7 @@ void TilinPaattaja::teeJaksotukset()
 {
     Jaksottaja *jaksottaja = new Jaksottaja(this);
     connect( jaksottaja, &Jaksottaja::jaksotettu, this, &TilinPaattaja::paivitaDialogi);
-    jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList());
+    jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList(), data_.value("verosaaminen").toDouble());
 }
 
 void TilinPaattaja::muokkaa()
@@ -210,7 +210,8 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->poistoNappi->setVisible(!poistotkirjattu && !eipoistoja);
 
     bool jaksotuksetkirjattu = data_.value("jaksotukset").toString() == "kirjattu";
-    bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty();
+    bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty() &&
+            !data_.contains("verosaaminen");
 
     ui->eiJaksotettavaaLabel->setVisible( !jaksotuksetkirjattu && eijaksotuksia);
     ui->jaksotTehty->setVisible( jaksotuksetkirjattu );

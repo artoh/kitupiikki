@@ -27,6 +27,7 @@
 
 #include <QDebug>
 
+#include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
 #include "tuonti/csvtuonti.h"
 #include "tuonti/titotuonti.h"
@@ -140,7 +141,13 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
         QString tyyppi = KpKysely::tiedostotyyppi(liite);
         if( tyyppi == "application/pdf") {
             QVariant tuotu = Tuonti::PdfTuonti::tuo(liite);
-            emit this->tuonti( &tuotu);
+            if( tuotu.toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
+                KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
+                connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::tuonti);
+                kysely->kysy(tuotu);
+            } else {
+                emit this->tuonti( &tuotu);
+            }
         } else if(  liite.startsWith("T00322100") ||  tyyppi == "text/csv") {
             QVariant tuotu = liite.startsWith("T00322100") ?
                         Tuonti::TitoTuonti::tuo(liite) :

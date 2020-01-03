@@ -63,6 +63,7 @@ public:
 
     void setBrutto(qlonglong sentit);
     void setNetto(qlonglong sentit);
+    void setNetonVero(qlonglong sentit);
 
     bool naytaBrutto() const;
     bool naytaNetto() const;

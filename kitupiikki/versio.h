@@ -24,8 +24,8 @@
   Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "2.0-pre4"
-#define KITSAS_BUILD  "4A" // "PORTABLE" //
+#define KITSAS_VERSIO "2.0-pre5"
+#define KITSAS_BUILD  "5A" // "PORTABLE" //
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL

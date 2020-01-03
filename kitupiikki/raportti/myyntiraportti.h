@@ -30,6 +30,7 @@ namespace Ui {
  */
 class MyyntiRaportti : public RaporttiWidget
 {
+    Q_OBJECT
 public:
     MyyntiRaportti();
     ~MyyntiRaportti();

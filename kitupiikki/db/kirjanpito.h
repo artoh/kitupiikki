@@ -43,6 +43,7 @@
 #include "tilityyppimodel.h"
 
 
+
 #include "tilimodel.h"
 #include "tili.h"
 
@@ -59,8 +60,10 @@ class YhteysModel;
 
 class TositeTyyppiModel;
 class RyhmatModel;
+class AlvIlmoitustenModel;
 
 class QNetworkAccessManager;
+class Tulkki;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -169,6 +172,8 @@ public:
     TuoteModel *tuotteet() const { return tuotteet_; }    
     RyhmatModel *ryhmat() const { return ryhmat_;}
 
+    AlvIlmoitustenModel *alvIlmoitukset() const { return alvIlmoitukset_;}
+
     /**
      * @brief Sql-tietokanta
      *
@@ -259,7 +264,6 @@ public:
     QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false);
 
 
-
     /**
      * @brief Kirjanpito on avattu
      * @param model
@@ -267,6 +271,14 @@ public:
      * Vaihtaa avatun kirjanpidon näkymään
      */
     void yhteysAvattu(YhteysModel *model);
+
+    /**
+     * @brief Kääntää tekstin tulkki.json-tiedoston avulla
+     * @param teksti Käännettävä teksti
+     * @param kieli Kielikoodi (fi, sv, en)
+     * @return Käännetty teksti
+     */
+    QString kaanna(const QString& teksti, const QString& kieli) const;
 
 signals:
     /**
@@ -371,6 +383,7 @@ protected:
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
     RyhmatModel *ryhmat_;
+    AlvIlmoitustenModel *alvIlmoitukset_;
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;
@@ -388,6 +401,8 @@ protected:
 
     YhteysModel *yhteysModel_;
     TositeTyyppiModel *tositeTyypit_;
+
+    Tulkki* tulkki_;
 
 
 public:
@@ -473,5 +488,13 @@ KpKysely *kpk(const QString& polku = QString(), KpKysely::Metodi metodi = KpKyse
  * @return
  */
 QIcon lippu(const QString& kielikoodi);
+
+/**
+ * @brief Globaali funktion tulkki.json-käännökseen
+ * @param teksti Käännettävä teksti
+ * @param kieli Kielikoodi (fi, sv, en)
+ * @return Käännetty teksti
+ */
+QString tulkkaa(const QString& teksti, const QString& kieli);
 
 #endif // KIRJANPITO_H

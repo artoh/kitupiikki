@@ -35,19 +35,20 @@ AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu)
 {
     ui->setupUi(this);
-    model = new AlvIlmoitustenModel(this);
 
     ui->kausiCombo->addItem("Kuukausi",1);
     ui->kausiCombo->addItem("Neljännesvuosi",3);
     ui->kausiCombo->addItem("Vuosi", 12);
-    ui->ilmoituksetView->setModel( model );
+    ui->ilmoituksetView->setModel( kp()->alvIlmoitukset() );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
     paivitaMaksuAlvTieto();
 
+    connect(ui->kausiCombo, &QComboBox::currentTextChanged, [this] { kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
+    connect(ui->alkaaEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaLoppu);
+    connect(ui->paattyyEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaErapaiva);
+    connect( kp()->alvIlmoitukset(), &AlvIlmoitustenModel::modelReset, this, &AlvSivu::siirrySivulle);
 
-    connect( ui->viimeisinEdit, &QDateEdit::editingFinished, this, &AlvSivu::paivitaSeuraavat);
-    connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
@@ -58,11 +59,9 @@ AlvSivu::AlvSivu() :
 
 void AlvSivu::siirrySivulle()
 {
-    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
-    ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
-    model->lataa();
+    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
     riviValittu();      // Jotta napit harmaantuvat
-    paivitaSeuraavat();
+    ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
 
     for(int i=0; i<3; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );
@@ -70,39 +69,33 @@ void AlvSivu::siirrySivulle()
 }
 
 
-void AlvSivu::paivitaSeuraavat()
+void AlvSivu::paivitaLoppu()
 {
-    QDate viimeisin = ui->viimeisinEdit->date();
-
-    if( viimeisin.day() != viimeisin.daysInMonth())
-    {
-        viimeisin.setDate( viimeisin.year(), viimeisin.month(), viimeisin.daysInMonth() );
-        ui->viimeisinEdit->setDate(viimeisin);
-    }
-
-    int kausikk = ui->kausiCombo->currentData().toInt();
-
-    seuraavaAlkaa = viimeisin.addDays(1);
-    seuraavaLoppuu = seuraavaAlkaa.addMonths( kausikk ).addDays(-1);
-
-    ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString("dd.MM.yyyy"))
-                                                        .arg(seuraavaLoppuu.toString("dd.MM.yyyy")) );
-
-    ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
-
-    if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) )
-    {
-        kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt());
-        kp()->asetukset()->aseta("AlvIlmoitus", ui->viimeisinEdit->date());
-    }
-
-    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString("dd.MM.yyyy") );
-
-    if( kp()->paivamaara().daysTo( erapaiva(seuraavaLoppuu) ) < 3)
-        ui->erapaivaLabel->setStyleSheet("color: red;");
+    QDate alkupvm = ui->alkaaEdit->date();
+    if( alkupvm.day() != 1)
+        ui->alkaaEdit->setDate(QDate(alkupvm.year(), alkupvm.month(), 1));
     else
-        ui->erapaivaLabel->setStyleSheet("color: black;");
+        ui->paattyyEdit->setDate( alkupvm.addMonths( ui->kausiCombo->currentData().toInt() ).addDays(-1)  );
+}
 
+void AlvSivu::paivitaErapaiva()
+{
+    QDate loppupvm = ui->paattyyEdit->date();
+    if( loppupvm.day() != loppupvm.daysInMonth()) {
+        ui->paattyyEdit->setDate(QDate( loppupvm.year(), loppupvm.month(), loppupvm.daysInMonth()));
+    } else {
+        QDate erapaiva = AlvIlmoitustenModel::erapaiva(loppupvm);
+
+        ui->erapaivaLabel->setText( erapaiva.toString("dd.MM.yyyy") );
+
+        if( kp()->paivamaara().daysTo( erapaiva) < 3)
+            ui->erapaivaLabel->setStyleSheet("color: red;");
+        else
+            ui->erapaivaLabel->setStyleSheet("color: black;");
+    }
+    ui->tilitaNappi->setEnabled( loppupvm > kp()->tilitpaatetty() &&
+                                 !kp()->alvIlmoitukset()->onkoIlmoitettu(loppupvm) &&
+                                 !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->alkaaEdit->date()));
 }
 
 void AlvSivu::ilmoita()
@@ -112,14 +105,14 @@ void AlvSivu::ilmoita()
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);
-    laskelma->laske(seuraavaAlkaa, seuraavaLoppuu);
+    laskelma->laske(ui->alkaaEdit->date(), ui->paattyyEdit->date());
 
 }
 
 void AlvSivu::naytaIlmoitus()
 {
     // Ilmoitus on tositteen ensimmäinen liite
-    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+    int tositeId = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
     NaytinIkkuna::naytaLiite(tositeId, "alv");
 
@@ -128,16 +121,14 @@ void AlvSivu::naytaIlmoitus()
 
 void AlvSivu::poistaIlmoitus()
 {
-    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+    int tositeId = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa viimeisimmän alv-ilmoituksen?\n"
+    if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa valitun alv-ilmoituksen?\n"
                                                                           "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
                               QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
-    {
-        QDate alkupaiva = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::AlkaaRooli ).toDate();
-        kp()->asetukset()->aseta("AlvIlmoitus", alkupaiva.addDays(-1) );
+    {        
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE);
-        connect( kysely, &KpKysely::vastaus, model, &AlvIlmoitustenModel::lataa);
+        connect( kysely, &KpKysely::vastaus, kp()->alvIlmoitukset(), &AlvIlmoitustenModel::lataa);
         kysely->kysy();
 
     }
@@ -224,17 +215,4 @@ void AlvSivu::paivitaMaksuAlvTieto()
         ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString("dd.MM.yyyy")).arg(loppuu.toString("dd.MM.yyyy")));
 }
 
-QDate AlvSivu::erapaiva(const QDate &loppupaiva)
-{
-    QDate erapvm = loppupaiva.addDays(1).addMonths(1).addDays(11);
-
-    if( kp()->asetukset()->luku("AlvKausi") == 12 )
-        erapvm = loppupaiva.addMonths(2);
-
-    // Ei eräpäivää viikonloppuun
-    while( erapvm.dayOfWeek() > 5)
-        erapvm = erapvm.addDays(1);
-
-    return erapvm;
-}
 

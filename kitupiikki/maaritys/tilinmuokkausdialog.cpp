@@ -172,7 +172,7 @@ void TilinMuokkausDialog::lataa()
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
 
-    ui->ibanLine->setText(tili_->str("iban"));
+    ui->ibanLine->setText(tili_->str("IBAN"));
     ui->veroSpin->setValue( tili_->luku("alvprosentti"));
 
     int alvlaji = tili_->luku("alvlaji");
@@ -385,8 +385,8 @@ void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
 
 void TilinMuokkausDialog::alustaNimet()
 {
-    for(QString kieli : kp()->asetukset()->kielet()) {
-        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), tili_ ? tili_->nimiKaannos(kieli) : "", ui->nimiList  );
+    for(QString kieli : kp()->asetukset()->kielet()) {        
+        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), tili_ ? tili_->nimiKaannos(kieli) : "" , ui->nimiList  );
         item->setData(Qt::UserRole, kieli);
         item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
     }

@@ -191,7 +191,6 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
 
     // Tarkistetaan, onko jaksotukset jo kirjattu
-    // Tarkistetaan, onko poistoja jo kirjattu
     kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
                         "AND tyyppi=%2 AND tila >= 100 LIMIT 1")
                 .arg(kausi.paattyy().toString(Qt::ISODate))
@@ -249,6 +248,18 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             jaksotukset.append(map);
         }
         ulos.insert("jaksotukset", jaksotukset);
+
+        // Negatiivinen alv-velka jaksotetaan alv-saamiseksi tilinpäätökseen
+        kysely.exec(QString("SELECT sum(debetsnt), sum(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                            "WHERE tili=%1 AND tila>=100 AND vienti.pvm <= '%2'")
+                    .arg(kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero())
+                    .arg(kausi.paattyy().toString(Qt::ISODate)));
+        qDebug() << kysely.lastQuery();
+        if( kysely.next() ) {
+            qlonglong velka = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+            if( velka > 0)
+                ulos.insert("verosaaminen", velka / 100.0);
+        }
     }
 
     return ulos;

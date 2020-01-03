@@ -113,7 +113,7 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
         // Valitaan nimellä
         combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
     } else {
-        // Siirrytään dialogiin
+        // Siirrytään dialogiin        
         dlg_->tuonti(data);
     }
 }
@@ -159,6 +159,7 @@ void AsiakasToimittajaValinta::talletettu(int id, const QString& /*nimi*/)
 {
     ladattu_ = id;
     model_->lataa();
+    emit valittu(id);
 
 }
 

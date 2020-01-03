@@ -166,8 +166,8 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
 
     painter->setFont(QFont("FreeSans",12));
     painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, kp()->asetukset()->asetus("Osoite"));
-    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Y-tunnus: %1").arg(kp()->asetukset()->asetus("Ytunnus")));
-    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Kotipaikka: %1").arg(kp()->asetukset()->asetus("Kotipaikka")));
+    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, Kirjanpito::tr("Y-tunnus: %1").arg(kp()->asetukset()->asetus("Ytunnus")));
+    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, Kirjanpito::tr("Kotipaikka: %1").arg(kp()->asetukset()->asetus("Kotipaikka")));
 
 
     painter->restore();

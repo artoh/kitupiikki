@@ -25,7 +25,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  *
  * @author 2013 Raivis Strogonovs
  *
- * Muutokset: Portissa 25 ilman suojausta, osoite muodossa "Nimi" osoite@domain, html/utf-8 muodossa
+ * Muutokset: Portissa 25 ilman suojausta, osoite muodossa "Nimi" osoite@domain, plaintext/utf-8 muodossa
  *
  */
 class Smtp : public QObject
@@ -42,8 +42,16 @@ public:
                           const QString& subject, const QString& viesti,
                           const QString& liitenimi, const QByteArray& liite);
 
+    enum SmtpStatus {
+        Unconnected,
+        Connecting,
+        Sending,
+        Send,
+        Failed
+    };
+
 signals:
-    void status( const QString &);
+    void status( SmtpStatus status);
 
 private slots:
     void stateChanged(QAbstractSocket::SocketState socketState);

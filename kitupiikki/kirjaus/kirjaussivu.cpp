@@ -31,6 +31,7 @@
 #include "naytaliitewg.h"
 #include "naytin/naytinview.h"
 #include "model/tosite.h"
+#include "model/tositeviennit.h"
 
 #include "db/kirjanpito.h"
 
@@ -77,7 +78,7 @@ void KirjausSivu::siirrySivulle()
 
 bool KirjausSivu::poistuSivulta(int minne)
 {
-    if( kirjausWg()->gui()->valmisNappi->isEnabled()  )
+    if( kirjausWg()->gui()->valmisNappi->isEnabled() && kirjausWg()->tosite()->viennit()->rowCount()  )
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {

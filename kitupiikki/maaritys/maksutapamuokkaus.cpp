@@ -32,6 +32,8 @@ MaksutapaMuokkaus::MaksutapaMuokkaus(QWidget *parent) :
     connect( ui->lisaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::uusi);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::muokkaa);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::poista);
+    connect( ui->view, &QTableView::clicked, this, &MaksutapaMuokkaus::paivitaNapit);
+    paivitaNapit();
 }
 
 MaksutapaMuokkaus::~MaksutapaMuokkaus()
@@ -71,4 +73,11 @@ void MaksutapaMuokkaus::poista()
 {
     if( ui->view->currentIndex().isValid())
         model_->poistaRivi(ui->view->currentIndex().row());
+}
+
+void MaksutapaMuokkaus::paivitaNapit()
+{
+    bool kaytossa = ui->view->currentIndex().isValid() && ui->view->currentIndex().row() < ui->view->model()->rowCount()-1;
+    ui->muokkaaNappi->setEnabled(kaytossa);
+    ui->poistaNappi->setEnabled(kaytossa);
 }

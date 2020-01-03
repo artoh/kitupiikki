@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
 
 #include <QDebug>
 #include <QPixmap>
@@ -72,8 +73,12 @@ void UusiVelho::lataaKartta(const QString &polku)
     // Tilit oma json-tiedosto
     {
         QFile tilit(polku + "/tilit.json");
-        if( tilit.open(QIODevice::ReadOnly) )
-            tilit_ = QJsonDocument::fromJson( tilit.readAll() ).toVariant().toList();
+        if( tilit.open(QIODevice::ReadOnly) ) {
+            QJsonParseError error;
+            QJsonDocument doc = QJsonDocument::fromJson(tilit.readAll(), &error);
+            QVariant variant = doc.toVariant();
+            tilit_ = variant.toList();
+        }
     }
 
 }
@@ -193,8 +198,10 @@ bool UusiVelho::Tilikarttasivu::validatePage()
 {
     if( ui->yhdistysButton->isChecked() )
         velho->lataaKartta(":/tilikartat/yhdistys");
-    else
-        return false;   // Tilapäisesti kun ei vielä muita karttoja
+    else if(ui->elinkeinoRadio->isChecked())
+        velho->lataaKartta(":/tilikartat/yritys");
+
+
 
     return true;
 }

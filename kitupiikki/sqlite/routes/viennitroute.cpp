@@ -39,6 +39,8 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
         ehdot.append(QString("vienti.pvm <= '%1'").arg(urlquery.queryItemValue("loppupvm")));
     if( urlquery.hasQueryItem("tili"))
         ehdot.append(QString("tili=%1").arg(urlquery.queryItemValue("tili")));
+    if( urlquery.hasQueryItem("era"))
+        ehdot.append(QString("eraid=%1").arg(urlquery.queryItemValue("era")));
 
 
     // TODO Kohdennus ja merkkaus

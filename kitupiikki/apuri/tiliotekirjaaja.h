@@ -52,7 +52,7 @@ private slots:
     void euroMuuttuu();
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();
-    void eraValittu(int eraId, double avoinna);
+    void eraValittu(int eraId, double avoinna, const QString& selite);
     void jaksomuuttuu(const QDate& pvm);
 
     void valitseLasku();
@@ -78,7 +78,7 @@ private:
 
     LaskuTauluTilioteProxylla *laskut_;
 
-    int muokattavaRivi_ = 0;
+    int muokattavaRivi_ = -1;
 };
 
 #endif // TILIOTEKIRJAAJA_H

@@ -22,6 +22,7 @@
 #include "db/kirjanpito.h"
 #include "db/tilinvalintadialogi.h"
 #include "tosite.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QDebug>
 
@@ -184,13 +185,11 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
         {
             // Väärät päivät
             QDate pvm = rivi.pvm();
-            if( pvm.isValid() )
-                return QVariant();
-            else if( rivi.id() && pvm <= kp()->tilitpaatetty())
+            if( rivi.id() && pvm <= kp()->tilitpaatetty())
                 return QIcon(":/pic/lukittu.png");
-            else if( pvm <= kp()->tilitpaatetty() || pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
+            else if( !pvm.isValid() || pvm <= kp()->tilitpaatetty() || pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
                 return QIcon(":/pic/varoitus.png");
-            else if( kp()->asetukset()->pvm("AlvIlmoitus") >= pvm && rivi.alvkoodi() )
+            else if( kp()->alvIlmoitukset()->onkoIlmoitettu(pvm) && rivi.alvkoodi() )
                 return QIcon(":/pic/vero.png");
         }
         break;

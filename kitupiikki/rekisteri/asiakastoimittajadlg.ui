@@ -6,141 +6,274 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>629</height>
+    <width>781</width>
+    <height>631</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Asiakkaan / toimittajan tiedot</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Nimi</string>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="buddy">
-      <cstring>nimiEdit</cstring>
-     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Perustiedot</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Nimi</string>
+         </property>
+         <property name="buddy">
+          <cstring>nimiEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="nimiEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Maa</string>
+         </property>
+         <property name="buddy">
+          <cstring>maaCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="maaCombo"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="yLabel">
+         <property name="text">
+          <string>Y-tunnus</string>
+         </property>
+         <property name="buddy">
+          <cstring>yEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="yEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="alvlabel">
+         <property name="text">
+          <string>Alv-tunnus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="alvEdit">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Sähköposti</string>
+         </property>
+         <property name="buddy">
+          <cstring>emailEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="emailEdit"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Lähiosoite</string>
+         </property>
+         <property name="buddy">
+          <cstring>osoiteEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPlainTextEdit" name="osoiteEdit">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Postiosoite</string>
+         </property>
+         <property name="buddy">
+          <cstring>postinumeroEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLineEdit" name="postinumeroEdit"/>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="kaupunkiEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Kieli</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QComboBox" name="kieliCombo"/>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Laskutustapa</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QComboBox" name="laskutapaCombo"/>
+       </item>
+       <item row="9" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>612</width>
+           <height>107</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Ryhmät</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="RyhmaValintaListWidget" name="ryhmatWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/verkkolasku.png</normaloff>:/pic/verkkolasku.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Verkkolasku</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="valittajaLabel">
+         <property name="text">
+          <string>Välittäjätunnus</string>
+         </property>
+         <property name="buddy">
+          <cstring>valittajaEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="valittajaEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="ovtLabel">
+         <property name="text">
+          <string>Verkkolaskuosoite</string>
+         </property>
+         <property name="buddy">
+          <cstring>ovtEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="ovtEdit"/>
+       </item>
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>569</width>
+           <height>421</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/pankki.png</normaloff>:/pic/pankki.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Pankkitilit</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListWidget" name="tilitLista">
+         <property name="editTriggers">
+          <set>QAbstractItemView::AllEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/kommentti.png</normaloff>:/pic/kommentti.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Lisätiedot</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPlainTextEdit" name="lisatietoEdit"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="nimiEdit"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Maa</string>
-     </property>
-     <property name="buddy">
-      <cstring>maaCombo</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QComboBox" name="maaCombo"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="yLabel">
-     <property name="text">
-      <string>Y-tunnus</string>
-     </property>
-     <property name="buddy">
-      <cstring>yEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="yEdit"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="alvlabel">
-     <property name="text">
-      <string>Alv-tunnus</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="alvEdit">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Sähköposti</string>
-     </property>
-     <property name="buddy">
-      <cstring>emailEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLineEdit" name="emailEdit"/>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Lähiosoite</string>
-     </property>
-     <property name="buddy">
-      <cstring>osoiteEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QPlainTextEdit" name="osoiteEdit">
-     <property name="tabChangesFocus">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Postiosoite</string>
-     </property>
-     <property name="buddy">
-      <cstring>postinumeroEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLineEdit" name="postinumeroEdit"/>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="kaupunkiEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="tilitLabel">
-     <property name="text">
-      <string>Pankkitilit</string>
-     </property>
-     <property name="buddy">
-      <cstring>tilitLista</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="13" column="1">
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -150,62 +283,13 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
-    <widget class="QListWidget" name="tilitLista">
-     <property name="editTriggers">
-      <set>QAbstractItemView::AllEditTriggers</set>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="ovtLabel">
-     <property name="text">
-      <string>Verkkolaskuosoite</string>
-     </property>
-     <property name="buddy">
-      <cstring>ovtEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QLineEdit" name="ovtEdit"/>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="valittajaLabel">
-     <property name="text">
-      <string>Välittäjätunnus</string>
-     </property>
-     <property name="buddy">
-      <cstring>valittajaEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="valittajaEdit"/>
-   </item>
-   <item row="11" column="1">
-    <widget class="CheckCombo" name="ryhmaCombo"/>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="ryhmatLabel">
-     <property name="text">
-      <string>Ryhmät</string>
-     </property>
-     <property name="buddy">
-      <cstring>ryhmaCombo</cstring>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CheckCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/checkcombo.h</header>
+   <class>RyhmaValintaListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">rekisteri/ryhmavalintalistwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -220,9 +304,10 @@
   <tabstop>valittajaEdit</tabstop>
   <tabstop>ovtEdit</tabstop>
   <tabstop>tilitLista</tabstop>
-  <tabstop>ryhmaCombo</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

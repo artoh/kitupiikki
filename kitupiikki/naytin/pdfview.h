@@ -23,6 +23,7 @@ namespace Naytin {
 
 class PdfView : public AbstraktiView
 {
+    Q_OBJECT
 public:
     PdfView(const QByteArray& pdf);
 

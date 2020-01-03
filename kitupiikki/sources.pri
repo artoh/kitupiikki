@@ -23,6 +23,11 @@ SOURCES += \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
+    $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
+    $$PWD/laskutus/ryhmalasku/laskutettavatmodel.cpp \
+    $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.cpp \
+    $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
+    $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
@@ -55,6 +60,7 @@ SOURCES += \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/rekisteri/ryhmatmodel.cpp \
+    $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -86,6 +92,7 @@ SOURCES += \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
+    $$PWD/tools/tulkki.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -191,7 +198,6 @@ SOURCES += \
     alv/alvilmoitusdialog.cpp \
     alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp \
-    alv/marginaalilaskelma.cpp \
     laskutus/erittelyruudukko.cpp \
     naytin/abstraktinaytin.cpp \
     naytin/printpreviewnaytin.cpp \
@@ -217,7 +223,8 @@ SOURCES += \
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
     maaritys/avauseradlg.cpp\
-    maaritys/maksutapamuokkausdlg.cpp
+    maaritys/maksutapamuokkausdlg.cpp\
+    laskutus/maksumuistutusdialogi.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -244,6 +251,11 @@ HEADERS += \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
+    $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
+    $$PWD/laskutus/ryhmalasku/laskutettavatmodel.h \
+    $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.h \
+    $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
+    $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
     $$PWD/laskutus/tuotedialogi.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
@@ -276,6 +288,7 @@ HEADERS += \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/rekisteri/ryhmatmodel.h \
+    $$PWD/rekisteri/ryhmavalintalistwidget.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \
@@ -307,6 +320,7 @@ HEADERS += \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
+    $$PWD/tools/tulkki.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -413,7 +427,6 @@ HEADERS += \
     alv/alvilmoitusdialog.h \
     alv/alvilmoitustenmodel.h \
     alv/alvsivu.h \
-    alv/marginaalilaskelma.h \
     laskutus/erittelyruudukko.h \
     naytin/abstraktinaytin.h \
     naytin/printpreviewnaytin.h \
@@ -439,10 +452,12 @@ HEADERS += \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
     maaritys/avauseradlg.h\
-    maaritys/maksutapamuokkausdlg.h
+    maaritys/maksutapamuokkausdlg.h \
+    laskutus/maksumuistutusdialogi.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
+    $$PWD/tr/tr.qrc \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     aloitussivu/qrc/aloitus.qrc \
@@ -525,7 +540,6 @@ FORMS += \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
-    laskutus/yhteystiedot.ui \
     maaritys/inboxmaaritys.ui \
     arkisto/budjettidlg.ui \
     laskutus/ryhmantuontidlg.ui \
@@ -538,4 +552,5 @@ FORMS += \
     apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
     maaritys/avauseradlg.ui\
-    maaritys/maksutapamuokkausdlg.ui
+    maaritys/maksutapamuokkausdlg.ui\
+    laskutus/maksumuistutusdialogi.ui

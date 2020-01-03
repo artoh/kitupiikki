@@ -24,6 +24,7 @@
 #include "laskudialogi.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
+#include "maksumuistutusdialogi.h"
 #include <QDebug>
 
 #include "myyntilaskujentoimittaja.h"
@@ -63,9 +64,14 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->kopioiNappi, &QPushButton::clicked, this, &LaskulistaWidget::kopioi);
     connect( ui->lahetaNappi, &QPushButton::clicked, this, &LaskulistaWidget::laheta);
 
-    connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
+    connect( ui->uusiNappi, &QPushButton::clicked, [this] {this->uusilasku(false);});
+    connect( ui->ryhmalaskuNappi, &QPushButton::clicked, [this] {this->uusilasku(true);});
+
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
     connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
+
+    connect( ui->hyvitysNappi, &QPushButton::clicked, this, &LaskulistaWidget::hyvita);
+    connect( ui->muistutusNappi, &QPushButton::clicked, this, &LaskulistaWidget::muistuta);
 
     connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
 
@@ -73,7 +79,6 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
 
     // Nämä toistaiseksi poissa käytöstä
-    ui->hyvitysNappi->hide();
     ui->muistutusNappi->hide();
 }
 
@@ -105,7 +110,8 @@ void LaskulistaWidget::paivita()
 {
     int laji = ui->tabs->count() == 5 ? ui->tabs->currentIndex() : ui->tabs->currentIndex() + 2;
 
-    ui->view->setColumnHidden( LaskuTauluModel::NUMERO,  laji == LUONNOKSET);
+//    ui->view->setColumnHidden( LaskuTauluModel::NUMERO,  laji < KAIKKI);
+    ui->view->setColumnHidden( LaskuTauluModel::PVM, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::MAKSAMATTA, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::LAHETYSTAPA, laji >= KAIKKI );
 
@@ -126,8 +132,12 @@ void LaskulistaWidget::paivitaNapit()
 
     ui->lahetaNappi->setEnabled( index.isValid() );
     ui->kopioiNappi->setEnabled( index.isValid() );
+    ui->hyvitysNappi->setVisible( index.isValid()
+                               && index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
+                               && index.data(LaskuTauluModel::TunnisteRooli).toLongLong());
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
+    ui->muistutusNappi->setVisible( index.isValid() && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara() );
 
     if( ui->tabs->currentIndex() >= KAIKKI )
         ui->poistaNappi->setEnabled( index.isValid() &&
@@ -157,7 +167,7 @@ void LaskulistaWidget::alusta()
     ui->loppupvm->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
 }
 
-void LaskulistaWidget::uusilasku()
+void LaskulistaWidget::uusilasku(bool ryhmalasku)
 {
     if( kp()->paivamaara() <= kp()->tilitpaatetty() ||
         kp()->paivamaara() > kp()->tilikaudet()->kirjanpitoLoppuu()) {
@@ -166,7 +176,7 @@ void LaskulistaWidget::uusilasku()
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        LaskuDialogi *dlg = new LaskuDialogi();
+        LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku);
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
@@ -198,6 +208,26 @@ void LaskulistaWidget::kopioi()
         connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::haettuKopioitavaksi);
         kysely->kysy();
     }
+}
+
+void LaskulistaWidget::hyvita()
+{
+    int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId ) {
+        KpKysely* kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+        connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::teeHyvitysLasku);
+        kysely->kysy();
+    }
+}
+
+void LaskulistaWidget::muistuta()
+{
+    QList<int> erat;
+    for(auto item : ui->view->selectionModel()->selectedRows()) {
+        int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
+        erat.append(eraId);
+    }
+    new MaksumuistutusDialogi(erat, this);
 }
 
 void LaskulistaWidget::poista()
@@ -244,6 +274,7 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     map.remove("id");
     map.insert("tila", Tosite::LUONNOS);
     map.remove("viennit");
+    map.remove("loki");
     QVariantMap lmap = map.take("lasku").toMap();
 
     QVariantMap umap;
@@ -258,6 +289,42 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     map.insert("lasku", umap);
 
     LaskuDialogi* dlg = new LaskuDialogi(map);
+    dlg->show();
+}
+
+void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
+{
+    QVariantMap alkup = data->toMap();
+    QVariantMap hyvitys;
+
+
+    QVariantMap alkuplasku = alkup.value("lasku").toMap();
+    QVariantMap lasku;
+    lasku.insert("kieli", alkuplasku.value("kieli"));
+    lasku.insert("laskutapa", alkuplasku.value("laskutapa"));
+    lasku.insert("alkupNro", alkuplasku.value("numero"));
+    lasku.insert("osoite", alkuplasku.value("osoite"));
+    lasku.insert("email", alkuplasku.value("email"));
+    lasku.insert("alkupPvm", alkup.value("pvm"));
+    lasku.insert("viite", alkuplasku.value("viite"));
+    if(alkuplasku.contains("alvtunnus"))
+        lasku.insert("alvtunnus", alkuplasku.value("alvtunnus"));
+    lasku.insert("era", alkup.value("viennit").toList().value(0).toMap().value("id").toInt());
+    hyvitys.insert("lasku", lasku);
+
+    hyvitys.insert("kumppani", alkup.value("kumppani"));
+    hyvitys.insert("tyyppi", TositeTyyppi::HYVITYSLASKU);
+
+    QVariantList alkuprivit = alkup.value("rivit").toList();
+    QVariantList rivit;
+    for( auto item : alkuprivit) {
+        QVariantMap rmap = item.toMap();
+        rmap.insert("myyntikpl", 0-rmap.value("myyntikpl").toDouble());
+        rivit.append(rmap);
+    }
+    hyvitys.insert("rivit", rivit);
+
+    LaskuDialogi* dlg = new LaskuDialogi(hyvitys);
     dlg->show();
 }
 

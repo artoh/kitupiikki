@@ -22,9 +22,16 @@
 
 #include <QMap>
 #include <QVariantMap>
+#include <QHash>
 
 class Tosite;
 
+/**
+ * @brief Arvonlisälaskelman laatiminen
+ *
+ * @todo Maksuperusteisen alv:n erääntyneiden erien kirjaaminen
+ * @todo Voittomarginaaliverotus
+ */
 class AlvLaskelma : public Raportteri
 {               
     Q_OBJECT
@@ -81,6 +88,7 @@ protected slots:
     void tallennusValmis();
 
 protected:
+    void viimeistele();
     void hae();
     void lisaaKirjausVienti(TositeVienti vienti);
 
@@ -93,6 +101,15 @@ protected:
     void yvRivi(int koodi, const QString& selite, qlonglong sentit);
     qlonglong kotimaanmyyntivero(int prosentinsadasosa);
 
+    void tilaaMaksuperusteisenTosite();
+    void kasitteleMaksuperusteinen(const QVariantMap& map);
+    void maksuperusteTositesaapuu(QVariant* variant, qlonglong sentit);
+    void tilaaNollausLista(const QDate& pvm);
+    void nollaaMaksuperusteisetErat(QVariant* variant, const QDate &pvm);
+
+    void laskeMarginaaliVerotus(int kanta);
+    void marginaaliRivi(const QString selite, int kanta, qlonglong summa);
+
 protected:
     QDate alkupvm_;
     QDate loppupvm_;
@@ -100,12 +117,21 @@ protected:
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
 
+    QHash<int,QPair<int,qlonglong>> maksuperusteiset_;
+    QList<int> maksuperusteTositteet_;
+    QList<QPair<int,qlonglong>> nollattavatErat_;
+    QSet<int> nollatutErat_;
+    int nollattavatHaut_ = 2;
+
     qlonglong maksettava_ = 0l;
 
     qlonglong liikevaihto_ = 0l;
     qlonglong verohuojennukseen_ = 0l;
     int suhteutuskuukaudet_ = 12;
     qlonglong huojennus_ = 0;
+
+    QList<RaporttiRivi> marginaaliRivit_;
+    QVariantMap marginaaliAlijaamat_;
 
     Tosite* tosite_;
 

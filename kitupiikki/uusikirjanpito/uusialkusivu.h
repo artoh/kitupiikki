@@ -25,6 +25,7 @@ namespace Ui {
 
 class UusiAlkuSivu : public QWizardPage
 {
+    Q_OBJECT
 public:
     UusiAlkuSivu();
 

@@ -28,6 +28,7 @@ namespace Naytin {
  */
 class EiPdfNaytin : public AbstraktiNaytin
 {
+    Q_OBJECT
 public:
     EiPdfNaytin(const QByteArray& pdf, QObject *parent = nullptr);
 

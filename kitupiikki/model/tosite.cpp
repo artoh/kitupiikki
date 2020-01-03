@@ -21,6 +21,7 @@
 #include "tositeloki.h"
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QJsonDocument>
 #include <QDebug>
@@ -86,6 +87,7 @@ QString Tosite::tilateksti(int tila)
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");
     case LAHETETTYLASKU: return tr("Lähetetty");
+    case MUISTUTETTU: return tr("Muistutettu");
     }
     return QString();
 }
@@ -108,7 +110,8 @@ void Tosite::asetaTyyppi(int tyyppi)
 
 void Tosite::asetaPvm(const QDate &pvm)
 {
-    setData(PVM, pvm);
+    if( data_.value("pvm").toDate() != pvm)
+        setData(PVM, pvm);
 }
 
 void Tosite::asetaKommentti(const QString &kommentti)
@@ -132,9 +135,12 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
-    int kumppani = data_.value("kumppani").toMap().value("id").toInt();
-    if( kumppani )
-        data_.insert("kumppani", kumppani);
+    if( data_.contains("kumppani")) {
+        kumppaninimi_ = data_.value("kumppani").toMap().value("nimi").toString();
+        int kumppani = data_.value("kumppani").toMap().value("id").toInt();
+        if( kumppani )
+            data_.insert("kumppani", kumppani);
+    }
 
     emit ladattu();
 
@@ -178,24 +184,43 @@ void Tosite::tarkasta()
 
     bool muutettu = tallennettu_ != tallennettava();
 
-    int virheet = 0;
-    double debet = 0.0;
-    double kredit = 0.0;
+    int virheet = 0;    
+    if( !pvm().isValid())
+        virheet |= PVMPUUTTUU;
+    if( pvm() < kp()->tilikaudet()->kirjanpitoAlkaa() ||
+        pvm() > kp()->tilikaudet()->kirjanpitoLoppuu())
+        virheet |= EIAVOINTAKUTTA;
+    else if( pvm() <= kp()->tilitpaatetty())
+        virheet |= PVMLUKITTU;
 
-    // Tarkasta päivämäärät ja alvit
+    qlonglong debet = 0;
+    qlonglong kredit = 0;
 
-    for(int i=0; i < viennit()->rowCount(); i++) {
-        debet += viennit()->data(viennit()->index(i, TositeViennit::DEBET), Qt::EditRole).toDouble();
-        kredit += viennit()->data(viennit()->index(i, TositeViennit::KREDIT), Qt::EditRole).toDouble();
-        if( viennit()->data( viennit()->index(i, TositeViennit::TILI), Qt::EditRole ).toInt() == 0)
-            virheet |= TILIPUUTTUU;
+    for(QVariant item : viennit()->viennit().toList()) {
+        TositeVienti vienti = item.toMap();
+        QDate pvm = vienti.pvm();
+
+        debet += qRound64( vienti.debet() * 100.0 );
+        kredit += qRound64( vienti.kredit() * 100.0 );
+
+        if( !kp()->tilit()->tili(vienti.tili()))
+            virheet |= Tosite::TILIPUUTTUU;
+        if( vienti.alvKoodi() && kp()->alvIlmoitukset()->onkoIlmoitettu(pvm))
+            virheet |= Tosite::PVMALV;
+        if( !vienti.pvm().isValid())
+            virheet |= Tosite::PVMPUUTTUU;
+
+        if( vienti.pvm() > kp()->tilikaudet()->kirjanpitoLoppuu() ||
+                vienti.pvm() < kp()->tilikaudet()->kirjanpitoAlkaa())
+            virheet |= Tosite::EIAVOINTAKUTTA;
+        else if( vienti.pvm() <= kp()->tilitpaatetty())
+            virheet |= Tosite::PVMLUKITTU;
     }
-    if( qAbs(debet-kredit) > 1e-5 )
-        virheet |= EITASMAA;
-    if( qAbs(debet)  < 1e-5 && qAbs(kredit) < 1e-5)
-        virheet |= NOLLA;
+    if( debet != kredit)
+        virheet |= Tosite::EITASMAA;
 
-    emit tila(muutettu, virheet, debet, kredit);
+
+    emit tila(muutettu, virheet, debet / 100.0, kredit / 100.0);
 
 }
 
@@ -275,10 +300,11 @@ std::map<int,QString> Tosite::avaimet__ = {
     { TILA, "tila"},
     { TUNNISTE, "tunniste"},
     { OTSIKKO, "otsikko"},
-    { VIITE, "viite"},
-    { ERAPVM, "erapvm"},
     { KUMPPANI, "kumppani" },
     { KOMMENTIT, "info"},
     { ALV, "alv"},
-    { SARJA, "sarja"}
+    { SARJA, "sarja"},
+    { TILIOTE, "tiliote"},
+    { LASKU, "lasku"},
+    { RIVIT, "rivit"}
 };

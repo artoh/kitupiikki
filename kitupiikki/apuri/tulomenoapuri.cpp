@@ -76,10 +76,11 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tositteelle);
 
-    connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
-    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
+//    connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
+//    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::paivitaVeroFiltterit);
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
@@ -123,10 +124,11 @@ void TuloMenoApuri::teeReset()
 
     alusta( menoa );
 
+
+    rivit_->clear();
     ui->viiteEdit->clear();
     ui->erapaivaEdit->clear();
-    ui->asiakasToimittaja->clear();
-    rivit_->clear();
+    ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
 
@@ -139,21 +141,20 @@ void TuloMenoApuri::teeReset()
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
             Tili* vastatili = kp()->tilit()->tili( vienti.tili());
 
-            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
-            if( vastatili->eritellaankoTase())
-                ui->eraCombo->valitse( vienti.eraId() );
-
             int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
             if( maksutapaind >= 0)
                 ui->maksutapaCombo->setCurrentIndex(maksutapaind);
-
-            ui->viiteEdit->setText( vienti.viite());
-            ui->erapaivaEdit->setDate( vienti.erapaiva());
-
-            ui->asiakasToimittaja->set( vienti.value("kumppani").toMap().value("id").toInt(),
-                                    vienti.value("kumppani").toMap().value("nimi").toString());
+            else
+                ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
 
             maksutapaMuuttui();
+            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
+
+            if( vastatili->eritellaankoTase())
+                ui->eraCombo->valitse( vienti.eraId() );
+
+            ui->erapaivaEdit->setDate(vienti.erapaiva());
+            ui->viiteEdit->setText(vienti.viite());
 
         } else {
             rivit_->lisaa(vienti);
@@ -263,13 +264,22 @@ void TuloMenoApuri::tiliMuuttui()
     ui->poistoLabel->setVisible(tasapoisto);
     ui->poistoSpin->setVisible(tasapoisto);
 
-    if( !resetoidaanko()) {
+    if( !resetoidaanko() || !tosite()->id()) {
 
         ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
         if( kp()->asetukset()->onko(AsetusModel::ALV) )
         {
-            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
+            int verotyyppi = tili.luku("alvlaji");
+            bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
+                                                                || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
+
+            if( verotyyppi == AlvKoodi::OSTOT_NETTO && maksuperuste)
+                verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
+            if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
+                verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
             ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
         }
 
@@ -398,6 +408,7 @@ void TuloMenoApuri::vastatiliMuuttui()
     ui->erapaivaEdit->setVisible( laskulle );
 
     emit tosite()->tarkastaSarja( vastatili.onko(TiliLaji::KATEINEN));
+    paivitaVeroFiltterit(tosite()->pvm());
 
 }
 
@@ -432,6 +443,30 @@ void TuloMenoApuri::poistoAikaMuuttuu()
 {
     rivi()->setPoistoaika(  ui->poistoSpin->value() * 12);
     tositteelle();
+}
+
+void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
+{
+    bool maksuperuste = kp()->onkoMaksuperusteinenAlv(pvm) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
+                                                        || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
+    int verokoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+    if( menoa_) {
+        veroFiltteri_->setFilterRegExp(  maksuperuste ?
+                                            "^(0|2[4-8]|927)"
+                                            : "^(0|2[1-79]|927)");
+        if( verokoodi == AlvKoodi::OSTOT_NETTO && maksuperuste)
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
+        else if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && !maksuperuste)
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
+    } else {
+        veroFiltteri_->setFilterRegExp( maksuperuste ?
+                                           "^(0|1[4-8])"
+                                           : "^(0|1[1-79])");
+        if(verokoodi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
+        else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
+    }
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
@@ -501,16 +536,15 @@ void TuloMenoApuri::alusta(bool meno)
     menoa_ = meno;
 
     if(meno) {
-        ui->tiliLabel->setText( tr("Meno&tili") );
-        ui->tiliEdit->suodataTyypilla("(AP|D).*");
-        veroFiltteri_->setFilterRegExp("^(0|2[1-79]|927)");
+        ui->tiliLabel->setText( tr("Meno&tili") );        
+        ui->tiliEdit->suodataTyypilla("(AP|D).*");        
         ui->toimittajaLabel->setText( tr("Toimittaja"));
         if( tosite()->tyyppi() == TositeTyyppi::KULULASKU )
             ui->toimittajaLabel->setText( tr("Laskuttaja"));
     } else {
         ui->tiliLabel->setText( tr("Tulo&tili"));
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
-        veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
+
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
 
@@ -532,6 +566,8 @@ void TuloMenoApuri::alusta(bool meno)
     ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
 
     ui->asiakasToimittaja->alusta();
+    paivitaVeroFiltterit(tosite()->pvm());
+
 }
 
 int TuloMenoApuri::rivilla() const

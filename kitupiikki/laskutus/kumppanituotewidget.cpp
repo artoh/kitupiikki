@@ -85,21 +85,23 @@ void KumppaniTuoteWidget::suodataRyhma(int ryhma)
 
 void KumppaniTuoteWidget::ilmoitaValinta()
 {    
-    if( ui->view->selectionModel()->selectedRows(0).count() ) {
-        if( valilehti_ == RYHMAT)
+    bool napitkaytossa = true;
+    if( ui->view->selectionModel()->selectedRows(0).count() ) {        
+        if( valilehti_ == RYHMAT) {
             emit ryhmaValittu( ui->view->selectionModel()->selectedRows(0).value(0).data(RyhmatModel::IdRooli).toInt());
-        else
+            napitkaytossa = ui->view->selectionModel()->selectedRows(0).value(0).row() > 0;
+        } else {
             emit kumppaniValittu(  ui->view->selectionModel()->selectedRows(0).value(0).data().toString() );
-        ui->muokkaaNappi->setEnabled( true );
-        ui->poistaNappi->setEnabled(true);
+        }
     } else {
         if( valilehti_ == RYHMAT)
             emit ryhmaValittu(0);
         else
             emit kumppaniValittu("");
-        ui->muokkaaNappi->setEnabled(false);
-        ui->poistaNappi->setEnabled(false);
+        napitkaytossa = false;
     }
+    ui->muokkaaNappi->setEnabled( napitkaytossa );
+    ui->poistaNappi->setEnabled( napitkaytossa );
 }
 
 void KumppaniTuoteWidget::uusi()
@@ -180,9 +182,10 @@ void KumppaniTuoteWidget::paivita()
 {
     if( valilehti_ == TUOTTEET)
         proxy_->setSourceModel( kp()->tuotteet() );
-    else if (valilehti_ == RYHMAT)
+    else if (valilehti_ == RYHMAT) {
         proxy_->setSourceModel( kp()->ryhmat() );
-    else
+        ui->view->selectRow(0);
+    } else
         proxy_->setSourceModel( asiakkaat_);
 
     if( valilehti_ == REKISTERI) {

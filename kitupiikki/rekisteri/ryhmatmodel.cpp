@@ -31,12 +31,11 @@ QVariant RyhmatModel::headerData(int /*section*/, Qt::Orientation orientation, i
 
 int RyhmatModel::rowCount(const QModelIndex &parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
+
     if (parent.isValid())
         return 0;
 
-    return ryhmat_.count();
+    return ryhmat_.count()+1;
 }
 
 QVariant RyhmatModel::data(const QModelIndex &index, int role) const
@@ -44,11 +43,17 @@ QVariant RyhmatModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    if( index.row() == 0) {
+        if (role == Qt::DisplayRole || role == Qt::EditRole)
+            return tr("Kaikki ryhmät");
+        else if( role == IdRooli)
+            return 0;
+    }
+
     if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return ryhmat_.value(index.row()).toMap().value("nimi");
+        return ryhmat_.value(index.row()-1).toMap().value("nimi");
     else if( role == IdRooli)
-        return ryhmat_.value(index.row()).toMap().value("id");
+        return ryhmat_.value(index.row()-1).toMap().value("id");
 
     return QVariant();
 }

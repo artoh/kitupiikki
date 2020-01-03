@@ -33,14 +33,14 @@ public:
     Jaksottaja(QWidget *parent = nullptr);
     ~Jaksottaja();
 
-    bool teeJaksotukset(const Tilikausi& kausi, const QVariantList& jaksotukset);
+    bool teeJaksotukset(const Tilikausi& kausi, const QVariantList& jaksotukset, double verovelka);
 
 signals:
     void jaksotettu();
 
 private:
-    void kirjaaTilinpaatokseen(const QDate& pvm, const QVariantList& jaksotukset);
-    RaportinKirjoittaja jaksotusSelvitys(const Tilikausi& kausi, const QVariantList& jaksotukset);
+    void kirjaaTilinpaatokseen(const QDate& pvm, const QVariantList& jaksotukset, qlonglong verovelkasentit);
+    RaportinKirjoittaja jaksotusSelvitys(const Tilikausi& kausi, const QVariantList& jaksotukset, qlonglong verovelkasentit);
 
 protected slots:
     void kirjaaTilinavaukseen(QVariant* data, const QDate& pvm);

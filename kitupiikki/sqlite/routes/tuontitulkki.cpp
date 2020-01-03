@@ -45,8 +45,7 @@ QVariant TuontiTulkki::tiliote( QVariantMap &map)
 
     QMutableListIterator<QVariant> iter(tapahtumat);
     while( iter.hasNext()) {
-        QVariantMap tapahtuma = iter.next().toMap();
-        // TODO: RF-viitteen yksinkertaistaminen
+        QVariantMap tapahtuma = iter.next().toMap();        
         if( tapahtuma.value("euro").toDouble() > 0)
             tilioteTulorivi(tapahtuma);
         else tilioteMenorivi(tapahtuma);
@@ -62,25 +61,33 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
     // Ensisijaisesti etsitään viitteellä
     QSqlQuery kysely( db() );
 
-    kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.kumppani, Kumppani.nimi, Tosite.pvm, Vienti.selite, Tosite.tunniste, Tosite.sarja FROM Vienti "
-                         "JOIN Tosite ON Vienti.tosite=Tosite.id "
-                         "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
-                         "WHERE Vienti.tyyppi=%1 AND "
-                         "Vienti.Viite='%2' AND Tosite.tila >= 100")
-                 .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
-                 .arg(rivi.value("viite").toString()));
-    if( kysely.next()) {
-       rivi.insert("saajamaksajaid", kysely.value(2));
-       rivi.insert("saajamaksaja", kysely.value(3));
-       QVariantMap eramap;
-       eramap.insert("id", kysely.value(0));
-       eramap.insert("pvm", kysely.value(4));
-       eramap.insert("tunniste", kysely.value(6));
-       eramap.insert("sarja", kysely.value(7));
-       rivi.insert("era", eramap);
-       rivi.insert("tili",kysely.value(1));
-       rivi.insert("selite", kysely.value(5));
-       return;
+    QString viite = rivi.value("viite").toString();
+    if( !viite.isEmpty()) {
+
+        // RF-muodossa olevat viitteet muutetaan kansalliseen muotoon
+        if( viite.startsWith("RF"))
+            viite = viite.mid(4);
+
+        kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.kumppani, Kumppani.nimi, Tosite.pvm, Vienti.selite, Tosite.tunniste, Tosite.sarja FROM Vienti "
+                             "JOIN Tosite ON Vienti.tosite=Tosite.id "
+                             "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
+                             "WHERE Vienti.tyyppi=%1 AND "
+                             "Vienti.Viite='%2' AND Tosite.tila >= 100")
+                     .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
+                     .arg(rivi.value("viite").toString()));
+        if( kysely.next()) {
+           rivi.insert("saajamaksajaid", kysely.value(2));
+           rivi.insert("saajamaksaja", kysely.value(3));
+           QVariantMap eramap;
+           eramap.insert("id", kysely.value(0));
+           eramap.insert("pvm", kysely.value(4));
+           eramap.insert("tunniste", kysely.value(6));
+           eramap.insert("sarja", kysely.value(7));
+           rivi.insert("era", eramap);
+           rivi.insert("tili",kysely.value(1));
+           rivi.insert("selite", kysely.value(5));
+           return;
+        }
     }
 
     QPair<int, QString> kumppani = kumppaniNimella( rivi.value("saajamaksaja").toString() );
