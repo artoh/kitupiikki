@@ -31,6 +31,8 @@ public:
 
 protected:
     QVariant laskelma(const Tilikausi& kausi);
+
+    void verolaskelma(const Tilikausi& kausi, QVariantMap& ulos);
 };
 
 #endif // TILIKAUDETROUTE_H

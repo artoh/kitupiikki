@@ -160,6 +160,8 @@ void TilinPaattaja::teeJaksotukset()
 void TilinPaattaja::kirjaaTulovero()
 {
     TuloveroDialog *dlg = new TuloveroDialog(this);
+    connect(dlg, &TuloveroDialog::tallennettu, this, &TilinPaattaja::paivitaDialogi);
+    dlg->alusta( data_.value("tulovero").toMap(), tilikausi);
     dlg->show();
 }
 
@@ -225,5 +227,19 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->jaksotTehty->setVisible( jaksotuksetkirjattu );
     ui->jaksotKirjattuLabel->setVisible( jaksotuksetkirjattu );
     ui->jaksotusNappi->setVisible(!jaksotuksetkirjattu && !eijaksotuksia);
+
+    bool verokirjattu = data_.value("tulovero").toString() == "kirjattu";
+    bool eiverotettavaa = qAbs(data_.value("tulovero").toMap().value("tulo").toDouble()) < 1e-3;
+    bool vaaramuoto = kp()->asetus("muoto") == "ay" || kp()->asetus("muoto") == "ky"
+            || kp()->asetus("muoto") == "tmi";
+
+    if( vaaramuoto )
+        ui->eiveroaLabel->setText(tr("Tuloverotus yrittäjän verotuksessa"));
+    else if( eiverotettavaa)
+        ui->eiveroaLabel->setText(tr("Ei verotettavaa tuloverossa"));
+    ui->eiveroaLabel->setVisible(!verokirjattu && (vaaramuoto || eiverotettavaa));
+    ui->veroTehty->setVisible(verokirjattu);
+    ui->veroKirjattuLabel->setVisible(verokirjattu);
+    ui->tuloveroNappi->setVisible(!verokirjattu && !eiverotettavaa && !vaaramuoto);
 
 }

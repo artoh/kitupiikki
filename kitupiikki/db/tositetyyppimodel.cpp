@@ -52,6 +52,7 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys", false);
     lisaa(TositeTyyppi::POISTOLASKELMA, tr("Poistolaskelma"), "kirjalaatikko", false);
     lisaa(TositeTyyppi::JAKSOTUS, tr("Jaksotus"), "ratas", false);
+    lisaa(TositeTyyppi::TULOVERO, tr("Tulovero"), "verotilitys", false);
 }
 
 int TositeTyyppiModel::rowCount(const QModelIndex & /* parent */) const

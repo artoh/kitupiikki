@@ -39,7 +39,8 @@ namespace TositeTyyppi {
         TILINAVAUS = 9010,
         ALVLASKELMA = 9100,
         POISTOLASKELMA = 9910,
-        JAKSOTUS = 9920
+        JAKSOTUS = 9920,
+        TULOVERO = 9930
     };    
 }
 

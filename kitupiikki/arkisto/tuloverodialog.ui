@@ -7,118 +7,165 @@
     <x>0</x>
     <y>0</y>
     <width>583</width>
-    <height>471</height>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tuloveron kirjaaminen</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_6">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>Verotettava tulo yhteensä</string>
+      <string>Tutustu huolella verotukseen liittyviin ohjeisiin ja täydennä alla oleva laskelma.
+Vain yksinkertaisimmissa tapauksissa ohjelman tekemä laskelma on sellaisenaan oikea.</string>
      </property>
-     <property name="buddy">
-      <cstring>tuloEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="KpEuroEdit" name="yleveroEdit">
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="KpEuroEdit" name="tulosEdit"/>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Verotettava tulos</string>
-     </property>
-     <property name="buddy">
-      <cstring>tulosEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="KpEuroEdit" name="vahennysEdit"/>
-   </item>
-   <item row="4" column="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2">
-    <widget class="KpEuroEdit" name="veroEdit">
-     <property name="readOnly">
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="9" column="2" rowspan="3">
-    <widget class="KpEuroEdit" name="jaaveroaEdit"/>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Verotettava tulo yhteensä</string>
+       </property>
+       <property name="buddy">
+        <cstring>tuloEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KpEuroEdit" name="tuloEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Yle-vero</string>
+       </property>
+       <property name="buddy">
+        <cstring>yleveroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KpEuroEdit" name="yleveroEdit">
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Vähennyskelposet kulut ilman Yle-veroa</string>
+       </property>
+       <property name="buddy">
+        <cstring>vahennysEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="KpEuroEdit" name="vahennysEdit"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Vähennyskelpoiset kulut yhteensä</string>
+       </property>
+       <property name="buddy">
+        <cstring>vahennysYhteensa</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="KpEuroEdit" name="vahennysYhteensa">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Verotettava tulos</string>
+       </property>
+       <property name="buddy">
+        <cstring>tulosEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="KpEuroEdit" name="tulosEdit"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Tuloveron määrä</string>
+       </property>
+       <property name="buddy">
+        <cstring>veroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="KpEuroEdit" name="veroEdit">
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Maksetut ennakkoverot</string>
+       </property>
+       <property name="buddy">
+        <cstring>maksetutEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="KpEuroEdit" name="maksetutEdit"/>
+     </item>
+     <item row="8" column="1">
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Maksamaton tulovero</string>
+       </property>
+       <property name="buddy">
+        <cstring>jaaveroaEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="KpEuroEdit" name="jaaveroaEdit"/>
+     </item>
+    </layout>
    </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Maksetut ennakkoverot</string>
-     </property>
-     <property name="buddy">
-      <cstring>maksetutEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Maksamaton tulovero</string>
-     </property>
-     <property name="buddy">
-      <cstring>jaaveroaEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="2">
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Vähennyskelposet kulut ilman Yle-veroa</string>
-     </property>
-     <property name="buddy">
-      <cstring>vahennysEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1">
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -131,43 +178,13 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Tuloveron määrä</string>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="buddy">
-      <cstring>veroEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="KpEuroEdit" name="maksetutEdit"/>
-   </item>
-   <item row="0" column="2">
-    <widget class="KpEuroEdit" name="tuloEdit"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_8">
-     <property name="text">
-      <string>Yle-vero</string>
-     </property>
-     <property name="buddy">
-      <cstring>yleveroEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_9">
-     <property name="text">
-      <string>Vähennyskelpoiset kulut yhteensä</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="KpEuroEdit" name="vahennysYhteensa">
-     <property name="readOnly">
-      <bool>true</bool>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -180,6 +197,16 @@
    <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tuloEdit</tabstop>
+  <tabstop>yleveroEdit</tabstop>
+  <tabstop>vahennysEdit</tabstop>
+  <tabstop>vahennysYhteensa</tabstop>
+  <tabstop>tulosEdit</tabstop>
+  <tabstop>veroEdit</tabstop>
+  <tabstop>maksetutEdit</tabstop>
+  <tabstop>jaaveroaEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

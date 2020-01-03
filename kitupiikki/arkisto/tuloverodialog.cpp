@@ -17,6 +17,14 @@
 #include "tuloverodialog.h"
 #include "ui_tuloverodialog.h"
 
+#include "db/kirjanpito.h"
+#include "model/tosite.h"
+#include "model/tositevienti.h"
+#include "model/tositeviennit.h"
+#include "db/tositetyyppimodel.h"
+#include <QPushButton>
+#include <QMessageBox>
+
 TuloveroDialog::TuloveroDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TuloveroDialog)
@@ -33,11 +41,87 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
+
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 TuloveroDialog::~TuloveroDialog()
 {
     delete ui;
+}
+
+void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &tilikausi)
+{
+    tilikausi_ = tilikausi;
+
+    ui->tuloEdit->setValue( verolaskelma.value("tulo").toDouble());
+    ui->vahennysEdit->setValue( verolaskelma.value("vahennys").toDouble());
+    ui->maksetutEdit->setValue( verolaskelma.value("ennakko").toDouble());
+    paivitaVahennys();
+}
+
+void TuloveroDialog::accept()
+{
+    if( !ui->yleveroEdit->asCents() && !ui->jaaveroaEdit->asCents()) {
+
+        QDialog::accept();
+        QMessageBox::information(this, tr("Tuloveron kirjaaminen"),
+                                 tr("Ennakkovero täsmää täysin tuloveroon, eikä tuloveroa jää "
+                                    "myöhemmin tilitettäväksi.\n"
+                                    "Tallenna veroilmoituksesi osaksi kirjanpitoa."));
+        return;
+    }
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    Tosite* tosite = new Tosite(this);
+    tosite->asetaTyyppi(TositeTyyppi::TULOVERO);
+    tosite->asetaPvm( tilikausi_.paattyy());
+    tosite->asetaOtsikko(tr("Tulovero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
+
+    if( ui->yleveroEdit->value() > 1e-5) {
+        QString yleselite = tr("Ylevero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
+
+        TositeVienti yledebet;
+        yledebet.setPvm(tilikausi_.paattyy());
+        yledebet.setTili( kp()->asetukset()->luku("Yleverotili", 8740) );
+        yledebet.setDebet(ui->yleveroEdit->value());
+        yledebet.setSelite(yleselite);
+        tosite->viennit()->lisaa(yledebet);
+
+        TositeVienti ylekredit;
+        ylekredit.setPvm(tilikausi_.paattyy());
+        ylekredit.setTili( kp()->asetukset()->luku("Tuloverojaksotustili",9940));
+        ylekredit.setKredit( ui->yleveroEdit->value());
+        ylekredit.setSelite(yleselite);
+        tosite->viennit()->lisaa(ylekredit);
+    }
+    QString selite = tr("Tuloveron tilitys tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
+
+    TositeVienti jaksovienti;
+    jaksovienti.setPvm(tilikausi_.paattyy());
+    jaksovienti.setTili(kp()->asetukset()->luku("Tuloverojaksotustili", 9940));
+    if( ui->jaaveroaEdit->asCents() > 0)
+        jaksovienti.setDebet(ui->jaaveroaEdit->asCents());
+    else
+        jaksovienti.setKredit(0 - ui->jaaveroaEdit->asCents());
+    jaksovienti.setSelite(selite);
+    tosite->viennit()->lisaa(jaksovienti);
+
+    TositeVienti siirtovienti;
+    siirtovienti.setPvm(tilikausi_.paattyy());
+    if( ui->jaaveroaEdit->asCents() > 0) {
+        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtovelat",2968));
+        siirtovienti.setKredit(ui->jaaveroaEdit->asCents());
+    } else {
+        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtosaamiset",1873));
+        siirtovienti.setDebet(0 - ui->jaaveroaEdit->asCents());
+    }
+    siirtovienti.setSelite(selite);
+    tosite->viennit()->lisaa(siirtovienti);
+
+    connect( tosite, &Tosite::talletettu, this, &TuloveroDialog::kirjattu);
+    tosite->tallenna();
 }
 
 void TuloveroDialog::paivitaYlevero()
@@ -76,4 +160,14 @@ void TuloveroDialog::paivitaVero()
 void TuloveroDialog::paivitaJaannos()
 {
     ui->jaaveroaEdit->setValue( ui->veroEdit->value() - ui->maksetutEdit->value());
+}
+
+void TuloveroDialog::kirjattu()
+{
+    QDialog::accept();
+    QMessageBox::information(this, tr("Tuloveron kirjaus tallennettu"),
+                             tr("Tuloverot on kirjattu.\n"
+                                "Liitä veroilmoitus ja mahdolliset verolaskelmasi "
+                                "kirjanpitoaineistoon."));
+    emit tallennettu();
 }

@@ -262,5 +262,62 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         }
     }
 
+    verolaskelma( kausi, ulos);
+
     return ulos;
+}
+
+void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
+{
+    QSqlQuery kysely(db());
+    // Tarkistetaan, onko tulovero jo kirjattu
+    kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
+                        "AND tyyppi=%2 AND tila >= 100 LIMIT 1")
+                .arg(kausi.paattyy().toString(Qt::ISODate))
+                .arg( TositeTyyppi::TULOVERO ));
+    if( kysely.next()) {
+        ulos.insert("tulovero","kirjattu");
+    } else {
+        QVariantMap vmap;
+        // Tulot, Vähennykset ja Ennakkot
+        // TULOT, tilityypit C ja CL
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "JOIN Tili ON Vienti.tili=Tili.numero "
+                    "WHERE Tosite.tila >= 100 AND (Tili.tyyppi='C' OR Tili.tyyppi='CL') AND "
+                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
+                                                       .arg(kausi.paattyy().toString(Qt::ISODate)));
+        if( kysely.next() )
+            vmap.insert("tulo", (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
+
+        // VÄHENNYKSET
+        qlonglong vahennykset = 0;
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "JOIN Tili ON Vienti.tili=Tili.numero "
+                    "WHERE Tosite.tila >= 100 AND (Tili.tyyppi='D' or Tili.tyyppi='DP') AND "
+                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
+                                                       .arg(kausi.paattyy().toString(Qt::ISODate)));
+        if( kysely.next() )
+            vahennykset = kysely.value(1).toLongLong() - kysely.value(0).toLongLong() ;
+
+        // 50% VÄHENNYKSET
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "JOIN Tili ON Vienti.tili=Tili.numero "
+                    "WHERE Tosite.tila >= 100 AND Tili.tyyppi='DH' AND "
+                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
+                                                       .arg(kausi.paattyy().toString(Qt::ISODate)));
+        if( kysely.next() )
+            vahennykset += ( kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 2;
+        vmap.insert("vahennys", vahennykset / 100.0);
+
+        // 50% VÄHENNYKSET
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "JOIN Tili ON Vienti.tili=Tili.numero "
+                    "WHERE Tosite.tila >= 100 AND Tili.tyyppi='DVE' AND "
+                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
+                                                       .arg(kausi.paattyy().toString(Qt::ISODate)));
+        if( kysely.next() )
+            vmap.insert("ennakko",(kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100);
+
+        ulos.insert("tulovero", vmap);
+    }
 }

@@ -18,6 +18,7 @@
 #define TULOVERODIALOG_H
 
 #include <QDialog>
+#include "db/tilikausi.h"
 
 namespace Ui {
 class TuloveroDialog;
@@ -29,7 +30,14 @@ class TuloveroDialog : public QDialog
 
 public:
     explicit TuloveroDialog(QWidget *parent = nullptr);
-    ~TuloveroDialog();
+    ~TuloveroDialog() override;
+
+    void alusta(const QVariantMap& verolaskelma, const Tilikausi& tilikausi);
+
+    void accept() override;
+
+signals:
+    void tallennettu();
 
 protected slots:
     void paivitaYlevero();
@@ -37,9 +45,11 @@ protected slots:
     void paivitaTulos();
     void paivitaVero();
     void paivitaJaannos();
+    void kirjattu();
 
 private:
     Ui::TuloveroDialog *ui;
+    Tilikausi tilikausi_;
 };
 
 #endif // TULOVERODIALOG_H
