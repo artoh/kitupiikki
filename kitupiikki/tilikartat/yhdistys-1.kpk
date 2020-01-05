@@ -74,8 +74,8 @@ A 1180 {"Taseerittely":2} Ennakkomaksut, rakennukset
 A 1181 {"Taseerittely":2} Ennakkomaksut, kalusto
 A 1182 {"Taseerittely":2} Ennakkomaksut, muut
 H3 14 {} Sijoitukset
-H4- 141 {} Osuuden saman konsernin yrityksissä
-A- 1410 {"Taseerittely":3} Osuuden saman konsernin yrityksissä
+H4- 141 {} Osuudet saman konsernin yrityksissä
+A- 1410 {"Taseerittely":3} Osuudet saman konsernin yrityksissä
 H4- 142 {} Saamiset saman konsernin yrityksiltä
 A- 1420 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 143 {} Osuudet omistusyhteysyrityksissä
@@ -121,7 +121,7 @@ A 1670 {"Taseerittely":2} Siirtosaamiset; pitkäaikaiset
 H3 17 {} Lyhytaikaiset saamiset
 H4 170 {} Myyntisaamiset
 AO 1700 {"Taseerittely":2} Myyntisaamiset
-H4- 171 {} Saamiset saman konsernin yrityksilta
+H4- 171 {} Saamiset saman konsernin yrityksiltä
 A- 1710 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 173 {} Saamiset omistusyhteysyrityksiltä
 A- 1730 {"Taseerittely":2} Saamiset omistusyhteysyrityksiltä
@@ -240,7 +240,7 @@ D 4413 {} Lämmitys
 D 4415 {} Vesi ja jätevesi
 D 4421 {} Rakennusten korjaus
 D 4423 {} Ulkoalueiden huolto
-D 4431 {} Siivous- ja puhtaanapito
+D 4431 {} Siivous ja puhtaanapito
 D 4433 {} Jätehuolto
 D 4441 {} Kiinteistövakuutukset
 D 4451 {} Kiinteistövero
@@ -688,7 +688,7 @@ Maksamattomat osakkeet/osuudet	166 s8 *
 Siirtosaamiset		167 s8 *
 Lyhytaikaiset saamiset		17 s4
 Myyntisaamiset		170 s8 *
-Saamiset saman konsernin yrityksilta	171 s8 *
+Saamiset saman konsernin yrityksiltä	171 s8 *
 Saamiset omistusyhteysyrityksiltä	173 s8 *
 Lainasaamiset		174 s8 *
 Maksamattomat osakkeet/osuudet	176 s8 *
