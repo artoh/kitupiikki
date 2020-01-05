@@ -291,14 +291,14 @@
     "numero": 141,
     "tyyppi": "H4",
     "nimi": {
-      "fi": "Osuuden saman konsernin yrityksissä"
+      "fi": "Osuudet saman konsernin yrityksissä"
     }
   },
   {
     "numero": 1410,
     "tyyppi": "A",
     "nimi": {
-      "fi": "Osuuden saman konsernin yrityksissä"
+      "fi": "Osuudet saman konsernin yrityksissä"
     },
     "erittely": 3,
     "laajuus": 6
@@ -666,7 +666,7 @@
     "numero": 171,
     "tyyppi": "H4",
     "nimi": {
-      "fi": "Saamiset saman konsernin yrityksilta"
+      "fi": "Saamiset saman konsernin yrityksiltä"
     }
   },
   {
@@ -1654,7 +1654,7 @@
     "numero": 4431,
     "tyyppi": "D",
     "nimi": {
-      "fi": "Siivous- ja puhtaanapito"
+      "fi": "Siivous ja puhtaanapito"
     },
     "laajuus": 2
   },
