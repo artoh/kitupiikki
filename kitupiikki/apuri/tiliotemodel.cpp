@@ -294,6 +294,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             int indeksi = lista.count();
 
             // Erikoisrivit
+            // Vastaava käsittely pitäisi lisätä myös Siirto-tositteille
             double osuusErasta = 0.0;
             for(auto item : rivi.alkuperaisetViennit) {
                 TositeVienti evienti(item.toMap());
@@ -311,11 +312,13 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                         mpDebet.setKredit(0-sentit);
                     mpDebet.setSelite(rivi.selite);
                     mpDebet.setEra(evienti.era());
+                    mpDebet.setAlvKoodi(AlvKoodi::TILITYS);
                     lista.append(mpDebet);
 
                     TositeVienti mpKredit;
                     mpKredit.setPvm(rivi.pvm);
-                    if( evienti.tili() == kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero()) {
+                    if( evienti.tili() == kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero() ||
+                        evienti.alvKoodi() == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON) {
                         mpKredit.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
                         mpKredit.setAlvKoodi(evienti.alvKoodi() % 100 + AlvKoodi::ALVKIRJAUS);
                     } else if( evienti.tili() == kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero()) {

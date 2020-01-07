@@ -67,12 +67,13 @@ public:
 
     double yhteensa() const;
     QVariantList viennit(const QDate& pvm = QDate::currentDate(), const QDate& jaksoalkaa = QDate(), const QDate& jaksopaattyy = QDate(),
-                         const QString& otsikko = QString()) const;
+                         const QString& otsikko = QString(), bool ennakkolasku = false) const;
 
     bool onkoTyhja() const;
 
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
+    void asetaEnnakkolasku(bool ennakkoa);
 
 public:
     static double riviSumma(QVariantMap map);
@@ -81,6 +82,7 @@ public:
 
 private:
     QVariantList rivit_;
+    bool ennakkolasku_ = false;
 };
 
 #endif // LASKURIVITMODEL_H

@@ -156,5 +156,9 @@
   "LaskuIkkunaKorkeus" : "35",
   "LaskuQR" : true,
   "AlvKausi" : "1",
-  "AlvHuojennusTili":"3840"
+  "AlvHuojennusTili":"3840",
+  "LaskuEnnakkotili":"2861",
+  "LaskuEnnakkosaatavat":"1715",
+  "OletusMyyntitili":"3000",
+  "OletusMenotili":"4000"
 }

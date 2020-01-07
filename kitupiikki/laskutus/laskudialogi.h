@@ -50,7 +50,7 @@ public:
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
     enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF, EITULOSTETA, POSTITUS };
-    enum Maksutapa { LASKU, KATEINEN };
+    enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE };
 
     static int laskuIkkunoita();    
 

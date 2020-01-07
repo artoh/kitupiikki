@@ -179,3 +179,6 @@ ENluonnos DRAFT
 harjoitus HARJOITUS
 SVharjoitus ÖVNING
 ENharjoitus TRIAL
+ennakkolasku Ennakkolasku
+SVennakkolasku Förhandsfaktura
+ENennakkolasku Advance Invoice 

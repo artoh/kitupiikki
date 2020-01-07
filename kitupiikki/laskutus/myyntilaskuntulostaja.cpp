@@ -415,8 +415,9 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
             painter->setFont( QFont("FreeSans", TEKSTIPT+2,QFont::Black));
             painter->drawText(QRectF( keskiviiva + mm, pv - rk*2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  t("maksumuistutus") );
             painter->setFont(QFont("FreeSans", TEKSTIPT));
-        }
-        else
+        } else if( maksutapa == LaskuDialogi::ENNAKKOLASKU) {
+            painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("ennakkolasku") );
+        } else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
 
         if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 )

@@ -135,6 +135,8 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
                     return QVariant();
         }
         case TILI:
+            if( ennakkolasku_ )
+                return tr("Saadut ennakot");
             return kp()->tilit()->tiliNumerolla( map.value("tili").toInt() ).nimiNumero();
         case BRUTTOSUMMA:
            return QString("%L1 €").arg(  riviSumma(map) ,0,'f',2);
@@ -258,6 +260,8 @@ Qt::ItemFlags LaskuRivitModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
+    if( ennakkolasku_ && index.row() == TILI)
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEnabled;
 
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
@@ -282,12 +286,22 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko) const
+QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku) const
 {
     QVariantList lista;
 
     for(auto rivi : rivit()) {
         QVariantMap map = rivi.toMap();
+        int alvkoodi = map.value("alvkoodi").toInt();
+
+        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku)
+            alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
+        else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm))
+            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+
+        if( ennakkolasku )
+            map.insert("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
+
         bool vanhaan = false;
 
         for(int i=0; i < lista.count(); i++) {
@@ -296,7 +310,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             if( map.value("tili") == vmap.value("tili") &&
                 map.value("kohdennus",0) == vmap.value("kohdennus",0) &&
                 map.value("alvprosentti",0) == vmap.value("alvprosentti",0) &&
-                map.value("alvkoodi",0) == vmap.value("alvkoodi",0))
+                alvkoodi == vmap.value("alvkoodi",0))
             {
                 double brutto = riviSumma( map);
                 double vanhasumma = vmap.value("kredit",0).toDouble() - vmap.value("debet",0).toDouble();
@@ -320,7 +334,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             TositeVienti vienti;
             vienti.setTili( map.value("tili").toInt() );
             vienti.setKohdennus( map.value("kohdennus").toInt());
-            vienti.setAlvKoodi( map.value("alvkoodi").toInt());
+            vienti.setAlvKoodi( alvkoodi );
             vienti.setAlvProsentti( map.value("alvprosentti").toInt());
             vienti.setPvm(pvm);
             if( jaksoalkaa.isValid())
@@ -345,7 +359,10 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
     QVariantList ulos;
     for(auto rivi: lista) {
         QVariantMap map = rivi.toMap();
-        if( map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO) {
+        int alvkoodi = map.value("alvkoodi").toInt();
+        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
+            alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ||
+            alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
             double brutto = map.value("kredit",0).toDouble() - map.value("debet",0).toDouble();
             double netto = qRound64( brutto * 10000 / ( 100 + map.value("alvprosentti").toDouble() ) ) / 100.0;
             double vero = brutto - netto;
@@ -359,13 +376,23 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
 
             TositeVienti verorivi;
             verorivi.setPvm(pvm);
-            verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+
+            // TODO: Maksuperusteinen ALV ja Ennakkolaskutus
+            if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ) {
+                verorivi.setTili( kp()->asetukset()->luku("LaskuEnnakkotili") );
+                verorivi.setAlvKoodi( AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
+            } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
+                verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
+                verorivi.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON);
+            } else {
+                verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+                verorivi.setAlvKoodi( AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS);
+            }
             if( vero > 0)
                 verorivi.setKredit(vero);
             else
                 verorivi.setDebet(vero);
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
-            verorivi.setAlvKoodi( map.value("alvkoodi").toInt() + AlvKoodi::ALVKIRJAUS );
             verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
             verorivi.setSelite( otsikko + " ALV " + QString::number(map.value("alvprosentti").toInt()) );
             ulos.append(verorivi);
@@ -412,6 +439,13 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
     rivit_.append(rivi);
     endInsertRows();
+}
+
+void LaskuRivitModel::asetaEnnakkolasku(bool ennakkoa)
+{
+    beginResetModel();
+    ennakkolasku_ = ennakkoa;
+    endResetModel();
 }
 
 

@@ -100,6 +100,8 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
+    connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::paivitaNapit);
+    connect( ui->maksuCombo, &QComboBox::currentTextChanged, [this] { rivit_->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU); });
 
     connect( ui->luonnosNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LUONNOS); });
     connect( ui->tallennaNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::VALMISLASKU);});
@@ -153,6 +155,8 @@ void LaskuDialogi::paivitaNapit()
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
+    ui->hyvitaEnnakkoNappi->setVisible( ui->maksuCombo->currentData().toInt() != ENNAKKOLASKU
+                                        && tyyppi() == TositeTyyppi::MYYNTILASKU );
 }
 
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
@@ -381,7 +385,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
     viennit.append( vastakirjaus( otsikko ) );
-    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date(), otsikko ) );
+    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date(),
+                                     otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 
     map.insert("viennit", viennit);
 
@@ -465,14 +470,16 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
     TositeVienti vienti;
 
     vienti.setPvm( kp()->paivamaara() );
-    if( ui->maksuCombo->currentData().toInt() == KATEINEN)
-        // TODO: Tilinvalinnat
+    int maksutapa = ui->maksuCombo->currentData().toInt();
+    if( maksutapa == KATEINEN)
         vienti.setTili( kp()->asetukset()->luku("LaskuKateistili"));
+    else if( maksutapa == ENNAKKOLASKU)
+        vienti.setTili( kp()->asetukset()->luku("LaskuEnnakkosaatavat",1715) );
     else {
-        vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );
-        if( tallennusTila_ >= Tosite::VALMISLASKU)
-            vienti.setEra( -1 );
+        vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );        
     }
+    if( tallennusTila_ >= Tosite::VALMISLASKU && maksutapa != KATEINEN)
+        vienti.setEra( -1 );
 
 
     if( ui->asiakas->id())
@@ -506,8 +513,11 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
 void LaskuDialogi::alustaMaksutavat()
 {
     ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), LASKU);
-    if( tyyppi_ == TositeTyyppi::MYYNTILASKU)
+    if( tyyppi_ == TositeTyyppi::MYYNTILASKU) {
         ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), KATEINEN);
+        ui->maksuCombo->addItem(QIcon(":/pic/kopioilasku.png"), tr("Ennakkolasku"), ENNAKKOLASKU);
+        ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), SUORITEPERUSTE);
+    }
 }
 
 void LaskuDialogi::tallenna(Tosite::Tila moodi)
