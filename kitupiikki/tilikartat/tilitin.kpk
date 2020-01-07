@@ -1481,7 +1481,7 @@ Laskennalliset verosaamiset		169 s8 *
 Muut saamiset	166 s8 *
 Lyhytaikaiset saamiset		17 s4
 Myyntisaamiset		170..172 s8 *  
-Saamiset saman konsernin yrityksilta	173 s8 *
+Saamiset saman konsernin yrityksiltä	173 s8 *
 Saamiset omistusyhteysyrityksiltä	174 s8 *
 Lainasaamiset		175 s8 *
 Maksamattomat osakkeet/osuudet	178 s8 *
