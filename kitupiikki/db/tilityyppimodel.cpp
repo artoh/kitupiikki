@@ -66,8 +66,13 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
 
     lisaa(TiliTyyppi("C","Tulot",TiliLaji::TULO));
     lisaa(TiliTyyppi("CL","Liikevaihtotulo (myynti)", TiliLaji::LVTULO));
+    lisaa(TiliTyyppi("CZ","Verottomat tulot",TiliLaji::TULO));
+    lisaa(TiliTyyppi("CLZ","Veroton myynti", TiliLaji::LVTULO));
     lisaa(TiliTyyppi("D","Menot",TiliLaji::MENO));
     lisaa(TiliTyyppi("DP","Poistot",TiliLaji::POISTO));
+    lisaa(TiliTyyppi("DZ","Vähennyskelvottomat menot",TiliLaji::MENO));
+    lisaa(TiliTyyppi("DH","Puoliksi vähennyskelpoiset menot",TiliLaji::MENO));
+    lisaa(TiliTyyppi("DPZ","Vähennyskelvottomat poistot",TiliLaji::POISTO));
 
     lisaa(TiliTyyppi("DBP", "Pankin palvelumaksut", TiliLaji::MENO));
     lisaa(TiliTyyppi("DBK","Pankkitilin korko", TiliLaji::MENO));

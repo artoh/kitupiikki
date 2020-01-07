@@ -132,7 +132,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
 
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 20, 60) )
         {
-            if(  !data.contains("viite")  && ViiteValidator::kelpaako(t) )
+            if(  !data.contains("viite")  && ViiteValidator::kelpaako(t) && t.length() < 21 )
             {
                 data.insert("viite", t.remove(QRegularExpression("\\s")));
                 break;

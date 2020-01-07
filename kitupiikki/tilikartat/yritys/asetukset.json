@@ -138,8 +138,8 @@
     }
   ],
   "LaskuTilit" : "1910",
-  "tilinpaatosvalinnat" : "toiminnantarkastus",
-  "arkistoraportit" : "tase/PMA,tulos/yhdistys",
+  "tilinpaatosvalinnat" : "",
+  "arkistoraportit" : "tase/PMA,tulos/yleinen",
   "LaskuSaatavatili" : "1701",
   "LaskuKateistili" : "1900",
   "LaskuMaksuaika" : "14",
@@ -159,6 +159,16 @@
   "AlvHuojennusTili":"3840",
   "LaskuEnnakkotili":"2861",
   "LaskuEnnakkosaatavat":"1715",
+  "LaskuEnnakkoALV":"29392",
   "OletusMyyntitili":"3000",
-  "OletusMenotili":"4000"
+  "OletusMenotili":"4000",
+  "Yleverotili":"8740",
+  "Tuloveroennakkotili":"9900",
+  "Tuloverojaksotustili":"9940",
+  "Tuloverosiirtovelat":"2968",
+  "Tuloverosiirtosaamiset":"1873",
+  "PankkiPalvelumaksutili":"8560",
+  "PankkiSaapuvakorko":"9220",
+  "PankkiMaksettavakorko":"9460"
+  
 }

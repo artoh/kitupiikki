@@ -4016,6 +4016,14 @@
   "laajuus": 1
  },
  {
+  "numero": 29392,
+  "tyyppi": "B",
+  "nimi": {
+   "fi": "Arvonlisäverovelka ennakkolaskuista"
+  },
+  "laajuus": 1
+ },
+ {
   "numero": 2940,
   "tyyppi": "BS",
   "nimi": {
@@ -7440,7 +7448,7 @@
  },
  {
   "numero": 7950,
-  "tyyppi": "D",
+  "tyyppi": "DH",
   "nimi": {
    "fi": "Edustustilaisuudet"
   },
@@ -7448,7 +7456,7 @@
  },
  {
   "numero": 7960,
-  "tyyppi": "D",
+  "tyyppi": "DH",
   "nimi": {
    "fi": "Edustuslahjat"
   },
@@ -7456,7 +7464,7 @@
  },
  {
   "numero": 7970,
-  "tyyppi": "D",
+  "tyyppi": "DH",
   "nimi": {
    "fi": "Edustusmatkat"
   },
@@ -7464,7 +7472,7 @@
  },
  {
   "numero": 7980,
-  "tyyppi": "D",
+  "tyyppi": "DH",
   "nimi": {
    "fi": "Edustustilat"
   },
@@ -7472,7 +7480,7 @@
  },
  {
   "numero": 7990,
-  "tyyppi": "D",
+  "tyyppi": "DH",
   "nimi": {
    "fi": "Muut edustuskulut"
   },
@@ -8026,7 +8034,7 @@
  },
  {
   "numero": 8560,
-  "tyyppi": "DBP",
+  "tyyppi": "D",
   "nimi": {
    "fi": "Rahaliikenteen kulut"
   },
@@ -8210,7 +8218,7 @@
  },
  {
   "numero": 8770,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Veronkorotukset, vähennyskelvottomat"
   },
@@ -8218,7 +8226,7 @@
  },
  {
   "numero": 8780,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Sakot, pysäköintivirhemaksut ja muut rangaistusmaksut"
   },
@@ -8226,7 +8234,7 @@
  },
  {
   "numero": 8790,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Fuusiotappio"
   },
@@ -8234,7 +8242,7 @@
  },
  {
   "numero": 8800,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Muut vähennyskelvottomat liikekulut"
   },
@@ -8265,7 +8273,7 @@
  },
  {
   "numero": 8867,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Poikkeukselliset käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
   },
@@ -8273,7 +8281,7 @@
  },
  {
   "numero": 8870,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Käyttöomaisuuden luovutustappiot (vähennyskelvottomat)"
   },
@@ -8564,7 +8572,7 @@
  },
  {
   "numero": 9220,
-  "tyyppi": "CBK",
+  "tyyppi": "C",
   "nimi": {
    "fi": "Korkotuotot pankkisaamisista"
   },
@@ -8799,7 +8807,7 @@
  },
  {
   "numero": 9460,
-  "tyyppi": "DBK",
+  "tyyppi": "D",
   "nimi": {
    "fi": "Korkokulut rahoituslaitoslainoista"
   },
@@ -8855,7 +8863,7 @@
  },
  {
   "numero": 9530,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Maksettava yhteisökorko / jäännösveron korko"
   },
@@ -8863,7 +8871,7 @@
  },
  {
   "numero": 9540,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Verojen viivästysseuraamukset"
   },
@@ -9115,7 +9123,7 @@
  },
  {
   "numero": 9900,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Ennakkoverot"
   },
@@ -9123,7 +9131,7 @@
  },
  {
   "numero": 9910,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Ennakonpidätys työkorvauksista"
   },
@@ -9131,7 +9139,7 @@
  },
  {
   "numero": 9920,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Veronhyvitys osingoista"
   },
@@ -9139,7 +9147,7 @@
  },
  {
   "numero": 9930,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Lähdeverot"
   },
@@ -9147,7 +9155,7 @@
  },
  {
   "numero": 9940,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Tilikauden verojaksotus"
   },
@@ -9155,7 +9163,7 @@
  },
  {
   "numero": 9950,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Veronpalautukset / jäännösverot"
   },
@@ -9163,7 +9171,7 @@
  },
  {
   "numero": 9960,
-  "tyyppi": "D",
+  "tyyppi": "DVK",
   "nimi": {
    "fi": "Muut tuloverot"
   },

@@ -349,6 +349,8 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
                 vienti.setDebet( 0 - summa);
 
             vienti.setSelite( otsikko );
+            if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI)
+                vienti.setEra(-1);
 
             lista.append(vienti);
         }
@@ -379,11 +381,13 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
 
             // TODO: Maksuperusteinen ALV ja Ennakkolaskutus
             if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ) {
-                verorivi.setTili( kp()->asetukset()->luku("LaskuEnnakkotili") );
+                verorivi.setTili( kp()->asetukset()->luku("LaskuEnnakkoALV") );
                 verorivi.setAlvKoodi( AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
+                verorivi.setEra(-1);
             } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
                 verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
                 verorivi.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON);
+                verorivi.setEra(-1);
             } else {
                 verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
                 verorivi.setAlvKoodi( AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS);

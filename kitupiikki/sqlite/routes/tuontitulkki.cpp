@@ -97,7 +97,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
 
     // Korkotulot kirjataan KTO-koodin perusteella
     if( rivi.value("ktokoodi").toInt() == 750) {
-        rivi.insert("tili", kp()->tilit()->tiliTyypilla("CBK").numero());
+        rivi.insert("tili", kp()->asetukset()->luku("PankkiMaksettavakorko"));
         return;
     }
 
@@ -164,14 +164,20 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
         rivi.insert("saajamaksaja", kumppani.second);
     }
 
-    // TODO: VEROHALLINNON TUNNISTAMINEN
+    // VEROHALLINNON TUNNISTAMINEN
     // Tunnistetaan viitenumerosta, onko oma-aloitteista veroa vai ennakkoveroa
+    if( rivi.value("saajamaksaja").toString().toUpper() == "VEROHALLINTO") {
+       //
+       //
+       rivi.insert("tili", kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero());
+       return;
+    }
 
     // Pankkimaksut
     if( rivi.value("ktokoodi").toInt() == 730)
-        rivi.insert("tili", kp()->tilit()->tiliTyypilla("DBP").numero());
+        rivi.insert("tili", kp()->asetukset()->luku("PankkiPalvelumaksutili"));
     else if( rivi.value("ktokoodi").toInt() == 740)
-        rivi.insert("tili", kp()->tilit()->tiliTyypilla("DBK").numero());
+        rivi.insert("tili", kp()->asetukset()->luku("PankkiMaksettavakorko"));
     else if( kumppani.first){
 
         // 1) Viitemaksun etsiminen
