@@ -45,6 +45,7 @@ public:
         bool harmaa = false;
         QDate jaksoalkaa;
         QDate jaksoloppuu;
+        QVariantList alkuperaisetViennit;
     };
 
 public:

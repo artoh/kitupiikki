@@ -133,6 +133,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
         rivi.jaksoalkaa = ui->jaksoAlkaaEdit->date();
         rivi.jaksoloppuu = ui->jaksoLoppuuEdit->date();
     }
+    rivi.alkuperaisetViennit = alkuperaisRivit_;
 
     return rivi;
 }
@@ -288,12 +289,13 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoLoppuuEdit->setVisible(jakso);
 }
 
-void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna, const QString &selite)
+void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selite)
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
     if( ui->seliteEdit->text().isEmpty())
         ui->seliteEdit->setText(selite);
+    haeAlkuperaisTosite(eraId);
 
 }
 
@@ -312,6 +314,7 @@ void TilioteKirjaaja::valitseLasku()
     if( index.isValid()) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
+        haeAlkuperaisTosite( index.data(LaskuTauluModel::EraIdRooli).toInt() );
     }
 }
 
@@ -346,6 +349,7 @@ void TilioteKirjaaja::tyhjenna()
 
     tarkastaTallennus();
     avoinProxy_->setFilterFixedString("€");
+    alkuperaisRivit_.clear();
 }
 
 void TilioteKirjaaja::tarkastaTallennus()
@@ -377,6 +381,20 @@ void TilioteKirjaaja::kumppaniTiedot(QVariant *data)
         if( map.contains("tulotili"))
             ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
     }
+}
+
+void TilioteKirjaaja::haeAlkuperaisTosite(int eraId)
+{
+    KpKysely *kysely = kpk("/tositteet");
+    kysely->lisaaAttribuutti("vienti",eraId);
+    connect(kysely, &KpKysely::vastaus, this, &TilioteKirjaaja::tositeSaapuu);
+    kysely->kysy();
+}
+
+void TilioteKirjaaja::tositeSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    alkuperaisRivit_ = map.value("viennit").toList();
 }
 
 TilioteApuri *TilioteKirjaaja::apuri()

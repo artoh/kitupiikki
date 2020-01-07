@@ -18,7 +18,7 @@
 #include "db/kirjanpito.h"
 #include "db/tilinvalintadialogi.h"
 #include "db/tositetyyppimodel.h"
-
+#include "db/tilityyppimodel.h"
 #include "model/tositevienti.h"
 
 TilioteModel::TilioteModel(QObject *parent)
@@ -291,8 +291,51 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 tili.setKumppani( rivi.saajamaksaja );
             }
 
-            lista.append(pankki);
-            lista.append(tili);
+            int indeksi = lista.count();
+
+            // Erikoisrivit
+            double osuusErasta = 0.0;
+            for(auto item : rivi.alkuperaisetViennit) {
+                TositeVienti evienti(item.toMap());
+                if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS && qAbs(rivi.euro) > 1e-5) {
+                    osuusErasta = qAbs( rivi.euro / (evienti.debet() - evienti.kredit()) );
+                } else if( evienti.alvKoodi() / 100 == 4) {
+                    // Maksuperusteinen kohdentamaton
+                    qlonglong sentit = qRound64( osuusErasta * (evienti.kredit() - evienti.debet()) * 100.0);
+                    TositeVienti mpDebet;
+                    mpDebet.setPvm(rivi.pvm);
+                    mpDebet.setTili(evienti.tili());
+                    if( sentit > 0)
+                        mpDebet.setDebet(sentit);
+                    else
+                        mpDebet.setKredit(0-sentit);
+                    mpDebet.setSelite(rivi.selite);
+                    mpDebet.setEra(evienti.era());
+                    lista.append(mpDebet);
+
+                    TositeVienti mpKredit;
+                    mpKredit.setPvm(rivi.pvm);
+                    if( evienti.tili() == kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero()) {
+                        mpKredit.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
+                        mpKredit.setAlvKoodi(evienti.alvKoodi() % 100 + AlvKoodi::ALVKIRJAUS);
+                    } else if( evienti.tili() == kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero()) {
+                        mpKredit.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
+                        mpKredit.setAlvKoodi(evienti.alvKoodi() % 100 + AlvKoodi::ALVVAHENNYS);
+                    }
+                    mpKredit.setAlvProsentti(evienti.alvProsentti());
+                    if( sentit > 0)
+                        mpKredit.setKredit(sentit);
+                    else
+                        mpKredit.setDebet(0-sentit);
+                    mpKredit.setSelite(rivi.selite);
+                    lista.append(mpKredit);
+
+                    tili.set(TositeVienti::ALKUPVIENNIT, rivi.alkuperaisetViennit);
+                }
+            }
+
+            lista.insert(indeksi,pankki);
+            lista.insert(indeksi+1,tili);
         }
     }
     return lista;
@@ -303,9 +346,13 @@ void TilioteModel::lataa(QVariantList lista)
     beginResetModel();
     rivit_.clear();
     // Haetaan ainoastaan joka toinen rivi eli vientirivit, kaikki muuthan koskeekin pankkitiliä
-    for(int i=1; i < lista.count(); i+=2)
+    for(int i=1; i < lista.count(); i++)
     {
         TositeVienti vienti = lista.at(i).toMap();
+
+        if( vienti.tyyppi() % 100 != 1)
+            continue;
+
         TositeVienti pankki = lista.at(i-1).toMap();
         Tilioterivi rivi;
 
@@ -328,6 +375,7 @@ void TilioteModel::lataa(QVariantList lista)
 
         rivi.selite = vienti.selite();
         rivi.arkistotunnus = pankki.arkistotunnus();
+        rivi.alkuperaisetViennit = vienti.data(TositeVienti::ALKUPVIENNIT).toList();
 
         rivit_.append(rivi);
     }

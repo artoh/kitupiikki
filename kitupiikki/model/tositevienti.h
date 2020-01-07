@@ -45,7 +45,8 @@ public:
         TYYPPI,
         PALKKAKOODI,
         TASAERAPOISTO,
-        BRUTTO
+        BRUTTO,
+        ALKUPVIENNIT
     };
 
     enum VientiTyyppi {

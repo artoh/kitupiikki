@@ -64,6 +64,9 @@ private slots:
     void kumppaniValittu(int kumppaniId);
     void kumppaniTiedot(QVariant* data);
 
+    void haeAlkuperaisTosite(int eraId);
+    void tositeSaapuu(QVariant *data);
+
 
 private:
     TilioteApuri* apuri();
@@ -79,6 +82,7 @@ private:
     LaskuTauluTilioteProxylla *laskut_;
 
     int muokattavaRivi_ = -1;
+    QVariantList alkuperaisRivit_;
 };
 
 #endif // TILIOTEKIRJAAJA_H

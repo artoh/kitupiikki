@@ -62,6 +62,7 @@ void AlvSivu::siirrySivulle()
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
     riviValittu();      // Jotta napit harmaantuvat
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
+    paivitaMaksuAlvTieto();
 
     for(int i=0; i<3; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );

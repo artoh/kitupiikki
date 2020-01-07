@@ -238,5 +238,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { TYYPPI, "tyyppi"},
     { PALKKAKOODI, "palkkakoodi"},
     { TASAERAPOISTO, "tasaerapoisto"},
-    { BRUTTO, "brutto"}
+    { BRUTTO, "brutto"},
+    { ALKUPVIENNIT, "alkupviennit"}
 };

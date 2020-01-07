@@ -265,7 +265,8 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
     return taulu_.koodit.value(AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
             taulu_.koodit.value(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
-            taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
+            taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
+            taulu_.koodit.value(AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
 
