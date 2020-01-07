@@ -81,6 +81,8 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
             map.insert("laskutapa", laskumap.value("laskutapa"));
         if( laskumap.contains("numero"))
             map.insert("numero", laskumap.value("numero"));
+        if( laskumap.contains("maksutapa"))
+            map.insert("maksutapa", laskumap.value("maksutapa"));
 
         map.insert("avoin", ds - ks);
         map.insert("summa", (map.take("debetia").toLongLong() - map.take("kreditia").toLongLong()) / 100.0);

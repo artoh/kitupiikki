@@ -49,6 +49,8 @@
 #include "ryhmalasku/ryhmalaskutab.h"
 #include "ryhmalasku/laskutettavatmodel.h"
 #include "ryhmalasku/kielidelegaatti.h"
+#include "ennakkohyvitysmodel.h"
+#include "ennakkohyvitysdialogi.h"
 
 #include <QDebug>
 
@@ -79,7 +81,8 @@
 LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
     ui( new Ui::LaskuDialogi),
-    ryhmalasku_(ryhmalasku)
+    ryhmalasku_(ryhmalasku),
+    ennakkoModel_(new EnnakkoHyvitysModel(this))
 {
     ui->setupUi(this);
 
@@ -100,12 +103,14 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
-    connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::paivitaNapit);
-    connect( ui->maksuCombo, &QComboBox::currentTextChanged, [this] { rivit_->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU); });
+    connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::maksuTapaMuuttui);
 
     connect( ui->luonnosNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LUONNOS); });
     connect( ui->tallennaNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::VALMISLASKU);});
     connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::KIRJANPIDOSSA);});
+
+    connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
+    connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &LaskuDialogi::maksuTapaMuuttui);
 
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
@@ -155,8 +160,6 @@ void LaskuDialogi::paivitaNapit()
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
-    ui->hyvitaEnnakkoNappi->setVisible( ui->maksuCombo->currentData().toInt() != ENNAKKOLASKU
-                                        && tyyppi() == TositeTyyppi::MYYNTILASKU );
 }
 
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
@@ -233,6 +236,7 @@ void LaskuDialogi::asiakasValittu(int asiakasId)
     KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(asiakasId) );
     connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::taytaAsiakasTiedot);
     kysely->kysy();
+    ennakkoModel_->lataaErat(asiakasId);
 }
 
 void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
@@ -304,6 +308,17 @@ void LaskuDialogi::maksuTapaMuuttui()
     ui->eraDate->setVisible( maksutapa != KATEINEN );
     ui->viivkorkoLabel->setVisible( maksutapa != KATEINEN );
     ui->viivkorkoSpin->setVisible( maksutapa != KATEINEN );
+
+    ui->hyvitaEnnakkoNappi->setVisible( maksutapa != ENNAKKOLASKU
+                                        && tyyppi() == TositeTyyppi::MYYNTILASKU &&
+                                        ennakkoModel_->rowCount());
+
+    rivit_->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU);
+
+    ui->toimituspvmLabel->setVisible(maksutapa != ENNAKKOLASKU);
+    ui->toimitusDate->setVisible(maksutapa != ENNAKKOLASKU);
+    ui->jaksoViivaLabel->setVisible(maksutapa != ENNAKKOLASKU);
+    ui->jaksoDate->setVisible( maksutapa != ENNAKKOLASKU);
 
 }
 
@@ -515,7 +530,7 @@ void LaskuDialogi::alustaMaksutavat()
     ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), LASKU);
     if( tyyppi_ == TositeTyyppi::MYYNTILASKU) {
         ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), KATEINEN);
-        ui->maksuCombo->addItem(QIcon(":/pic/kopioilasku.png"), tr("Ennakkolasku"), ENNAKKOLASKU);
+        ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), SUORITEPERUSTE);
     }
 }
@@ -567,6 +582,31 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
 
 }
 
+void LaskuDialogi::ennakkoHyvitysData(int eraid, double eurot, QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    QVariantMap rivi;
+
+    QVariantMap vienti;
+    for(auto item : map.value("viennit").toList()) {
+        vienti = item.toMap();
+        if(vienti.value("era").toMap().value("id").toInt() == eraid)
+            break;
+    }
+
+    MyyntiLaskunTulostaja tulostaja(ui->kieliCombo->currentData().toString());
+    rivi.insert("tili", vienti.value("tili"));
+    rivi.insert("era", eraid);
+    rivi.insert("myyntikpl",1);
+    rivi.insert("ahinta", 0 - eurot);
+    int alvkoodi = vienti.value("alvkoodi").toInt();
+    rivi.insert("alvkoodi", alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ? AlvKoodi::MYYNNIT_NETTO : alvkoodi );
+    rivi.insert("alvprosentti", vienti.value("alvprosentti"));
+    rivi.insert("ennakkohyvitys", eraid);
+    rivi.insert("nimike", tulostaja.t("enhyri").arg(map.value("lasku").toMap().value("numero").toString()));
+    rivit_->lisaaRivi(rivi);
+}
+
 void LaskuDialogi::alustaRyhmalasku()
 {
     ryhmalaskuTab_ = new RyhmalaskuTab;
@@ -596,6 +636,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
 
     ui->asiakas->set( map.value("kumppani").toMap().value("id").toInt(),
                       map.value("kumppani").toMap().value("nimi").toString());
+    if(map.contains("kumppani"))
+        ennakkoModel_->lataaErat(map.value("kumppani").toMap().value("id").toInt());
 
     QVariantMap lasku = map.value("lasku").toMap();
 
@@ -660,6 +702,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->luonnosNappi->setVisible( tila == Tosite::LUONNOS );
     ui->tallennaNappi->setVisible( tila < Tosite::KIRJANPIDOSSA );
 
+    maksuTapaMuuttui();
     paivitaNakyvat();
     paivitaNapit();
 
@@ -680,8 +723,9 @@ void LaskuDialogi::paivitaNakyvat()
         ui->viivkorkoSpin->hide();
     }
     ui->maksuCombo->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU );
-    ui->jaksoViivaLabel->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU);
-    ui->jaksoDate->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU );
+    int maksutapa = ui->maksuCombo->currentData().toInt();
+    ui->jaksoViivaLabel->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU && maksutapa != ENNAKKOLASKU);
+    ui->jaksoDate->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU && maksutapa != ENNAKKOLASKU);
 
 
 }
@@ -689,6 +733,15 @@ void LaskuDialogi::paivitaNakyvat()
 int LaskuDialogi::laskuIkkunoita()
 {
     return 0;
+}
+
+void LaskuDialogi::lisaaEnnakkoHyvitys(int eraId, double eurot)
+{
+    KpKysely *kysely = kpk("/tositteet");
+    kysely->lisaaAttribuutti("vienti", eraId);
+    connect( kysely, &KpKysely::vastaus,
+             [this, eraId, eurot] (QVariant *data) { ennakkoHyvitysData(eraId, eurot, data); });
+    kysely->kysy();
 }
 
 

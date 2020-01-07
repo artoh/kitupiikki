@@ -169,9 +169,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole: {
         if( index.column() == NUMERO) {
                 switch (map.value("tyyppi").toInt()) {
-                case TositeTyyppi::MYYNTILASKU:
+                case TositeTyyppi::MYYNTILASKU:                    
                     if( map.value("maksutapa").toInt() == LaskuDialogi::KATEINEN )
-                            return QIcon(":/pic/kateinen.png");
+                        return QIcon(":/pic/kateinen.png");
+                    else if( map.value("maksutapa").toInt() == LaskuDialogi::ENNAKKOLASKU)
+                        return QIcon(":/pic/ennakkolasku.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:
                     return QIcon(":/pic/poista.png");

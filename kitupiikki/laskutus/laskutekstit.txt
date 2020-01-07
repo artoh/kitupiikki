@@ -182,3 +182,6 @@ ENharjoitus TRIAL
 ennakkolasku Ennakkolasku
 SVennakkolasku Förhandsfaktura
 ENennakkolasku Advance Invoice 
+enhyri Ennakkolaskun %1 hyvitys 
+SVenhyri Kompensation till förhandsfaktura %1
+ENenhyri Compensation for advance invoice %1

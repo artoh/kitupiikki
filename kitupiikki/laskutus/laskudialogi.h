@@ -36,6 +36,7 @@ class LaskuDialogi;
 class KohdennusDelegaatti;
 class LaskuRivitModel;
 class RyhmalaskuTab;
+class EnnakkoHyvitysModel;
 
 /**
  * @brief Laskun laatimisen dialogi
@@ -53,7 +54,7 @@ public:
     enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE };
 
     static int laskuIkkunoita();    
-
+    void lisaaEnnakkoHyvitys(int eraId, double eurot);
 
 private slots:
     void paivitaSumma();
@@ -92,6 +93,7 @@ private slots:
     void tallennusValmis(QVariant* vastaus);
 
     int tyyppi() const { return tyyppi_;}
+    void ennakkoHyvitysData(int eraid, double eurot, QVariant *data);
 
 private:
     void alustaRyhmalasku();
@@ -101,6 +103,7 @@ private:
     QVariantMap vastakirjaus(const QString& otsikko) const;
 
     void alustaMaksutavat();
+
 
 
 
@@ -137,6 +140,8 @@ private:
     
     QVariantList aiemmat_;
     double aiempiSaldo_ = 0.0;
+
+    EnnakkoHyvitysModel* ennakkoModel_;
 };
 
 #endif // UUSILASKUDIALOGI_H

@@ -304,30 +304,32 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
 
         bool vanhaan = false;
 
-        for(int i=0; i < lista.count(); i++) {
-            QVariantMap vmap = lista.at(i).toMap();
+        if( !map.contains("ennakkohyvitys")) {
+            for(int i=0; i < lista.count(); i++) {
+                QVariantMap vmap = lista.at(i).toMap();
 
-            if( map.value("tili") == vmap.value("tili") &&
-                map.value("kohdennus",0) == vmap.value("kohdennus",0) &&
-                map.value("alvprosentti",0) == vmap.value("alvprosentti",0) &&
-                alvkoodi == vmap.value("alvkoodi",0))
-            {
-                double brutto = riviSumma( map);
-                double vanhasumma = vmap.value("kredit",0).toDouble() - vmap.value("debet",0).toDouble();
-                double uusisumma = vanhasumma + brutto;
+                if( map.value("tili") == vmap.value("tili") &&
+                    map.value("kohdennus",0) == vmap.value("kohdennus",0) &&
+                    map.value("alvprosentti",0) == vmap.value("alvprosentti",0) &&
+                    alvkoodi == vmap.value("alvkoodi",0))
+                {
+                    double brutto = riviSumma( map);
+                    double vanhasumma = vmap.value("kredit",0).toDouble() - vmap.value("debet",0).toDouble();
+                    double uusisumma = vanhasumma + brutto;
 
-                if( uusisumma > 0.0) {
-                    vmap.insert("kredit", uusisumma);
-                    vmap.remove("debet");
-                } else {
-                    vmap.insert("debet", 0 - uusisumma);
-                    vmap.remove("kredit");
+                    if( uusisumma > 0.0) {
+                        vmap.insert("kredit", uusisumma);
+                        vmap.remove("debet");
+                    } else {
+                        vmap.insert("debet", 0 - uusisumma);
+                        vmap.remove("kredit");
+                    }
+                    vmap.insert("tyyppi", TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
+
+                    lista[i] = vmap;
+                    vanhaan = true;
+                    break;
                 }
-                vmap.insert("tyyppi", TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
-
-                lista[i] = vmap;
-                vanhaan = true;
-                break;
             }
         }
         if( !vanhaan ) {
@@ -351,6 +353,8 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             vienti.setSelite( otsikko );
             if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI)
                 vienti.setEra(-1);
+            else if( map.contains("ennakkohyvitys"))
+                vienti.setEra( map.value("ennakkohyvitys").toInt());
 
             lista.append(vienti);
         }
@@ -423,21 +427,23 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
 {
     if( !rivi.contains("myyntikpl"))
         rivi.insert("myyntikpl", 1.0);
-    if( !rivi.contains("tili"))
-        rivi.insert("tili", 3000);  // Tähän fiksu oletus!
-
-    Tili *tili = kp()->tilit()->tili(rivi.value("tili").toInt());
-    if(tili && kp()->asetukset()->onko(AsetusModel::ALV)) {
-        rivi.insert("alvkoodi", tili->arvo("alvlaji").toInt());
-        rivi.insert("alvprosentti", tili->arvo("alvprosentti").toDouble());
+    if( !rivi.contains("tili")) {
+        int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
+        rivi.insert("tili", uusitili);
+        Tili *tili = kp()->tilit()->tili(uusitili);
+        if(tili && kp()->asetukset()->onko(AsetusModel::ALV)) {
+            rivi.insert("alvkoodi", tili->arvo("alvlaji").toInt());
+            rivi.insert("alvprosentti", tili->arvo("alvprosentti").toDouble());
+        }
     }
 
     int rivia = rivit_.count();
-    if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble() < 1e-5 ))
+    if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble()) < 1e-5 )
     {
         rivit_[rivia-1] = rivi;
         emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount()) );
-        return lisaaRivi();
+            lisaaRivi();
+        return;
     }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
