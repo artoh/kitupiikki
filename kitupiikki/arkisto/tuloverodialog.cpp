@@ -77,7 +77,7 @@ void TuloveroDialog::accept()
     Tosite* tosite = new Tosite(this);
     tosite->asetaTyyppi(TositeTyyppi::TULOVERO);
     tosite->asetaPvm( tilikausi_.paattyy());
-    tosite->asetaOtsikko(tr("Tulovero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
+    tosite->asetaOtsikko(tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
 
     if( ui->yleveroEdit->value() > 1e-5) {
         QString yleselite = tr("Ylevero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
@@ -96,7 +96,7 @@ void TuloveroDialog::accept()
         ylekredit.setSelite(yleselite);
         tosite->viennit()->lisaa(ylekredit);
     }
-    QString selite = tr("Tuloveron tilitys tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
+    QString selite = tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
 
     TositeVienti jaksovienti;
     jaksovienti.setPvm(tilikausi_.paattyy());
@@ -110,6 +110,7 @@ void TuloveroDialog::accept()
 
     TositeVienti siirtovienti;
     siirtovienti.setPvm(tilikausi_.paattyy());
+    siirtovienti.setEra(-1);        // Oma tase-eränsä
     if( ui->jaaveroaEdit->asCents() > 0) {
         siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtovelat",2968));
         siirtovienti.setKredit(ui->jaaveroaEdit->asCents());
