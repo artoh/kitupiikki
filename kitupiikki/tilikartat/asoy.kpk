@@ -119,7 +119,7 @@ A 1670 {"Taseerittely":2} Siirtosaamiset; pitkäaikaiset
 H3 17 {} Lyhytaikaiset saamiset
 H4 170 {} Myyntisaamiset
 AO 1700 {"Taseerittely":2} Myyntisaamiset
-H4- 171 {} Saamiset saman konsernin yrityksilta
+H4- 171 {} Saamiset saman konsernin yrityksiltä
 A- 1710 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 173 {} Saamiset omistusyhteysyrityksiltä
 A- 1730 {"Taseerittely":2} Saamiset omistusyhteysyrityksiltä
@@ -627,7 +627,7 @@ Maksamattomat osakkeet/osuudet	166 s9 *
 Siirtosaamiset		167 s9 *
 Lyhytaikaiset saamiset		17 s6
 Saamiset kiinteistön tuotoista	170 s9 *
-Saamiset saman konsernin yrityksilta	171 s9 *
+Saamiset saman konsernin yrityksiltä	171 s9 *
 Saamiset omistusyhteysyrityksiltä	173 s9 *
 Lainasaamiset		174 s9 *
 Muut saamiset		179 s9 *
