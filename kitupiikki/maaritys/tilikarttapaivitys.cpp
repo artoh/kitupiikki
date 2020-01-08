@@ -83,10 +83,6 @@ void TilikarttaPaivitys::paivita()
     connect( kysely, &KpKysely::vastaus, this, &TilikarttaPaivitys::paivitetty);
     QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
 
-    qDebug() << lataaPaivitys( polku );
-
-
-
     kysely->kysy( lataaPaivitys( polku ) );
 }
 
