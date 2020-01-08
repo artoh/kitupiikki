@@ -88,7 +88,8 @@ void AlvSivu::paivitaSeuraavat()
     ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString("dd.MM.yyyy"))
                                                         .arg(seuraavaLoppuu.toString("dd.MM.yyyy")) );
 
-    ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilitpaatetty() );
+    ui->tilitaNappi->setEnabled( seuraavaLoppuu > kp()->tilitpaatetty() &&
+                                 seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu());
 
     if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) && !alustaa_ )
     {
