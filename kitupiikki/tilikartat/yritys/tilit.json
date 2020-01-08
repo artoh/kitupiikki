@@ -9123,7 +9123,7 @@
  },
  {
   "numero": 9900,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Ennakkoverot"
   },
@@ -9131,7 +9131,7 @@
  },
  {
   "numero": 9910,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Ennakonpidätys työkorvauksista"
   },
@@ -9139,7 +9139,7 @@
  },
  {
   "numero": 9920,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Veronhyvitys osingoista"
   },
@@ -9147,7 +9147,7 @@
  },
  {
   "numero": 9930,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Lähdeverot"
   },
@@ -9155,7 +9155,7 @@
  },
  {
   "numero": 9940,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Tilikauden verojaksotus"
   },
@@ -9163,7 +9163,7 @@
  },
  {
   "numero": 9950,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Veronpalautukset / jäännösverot"
   },
@@ -9171,7 +9171,7 @@
  },
  {
   "numero": 9960,
-  "tyyppi": "DVK",
+  "tyyppi": "DVE",
   "nimi": {
    "fi": "Muut tuloverot"
   },
