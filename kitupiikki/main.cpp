@@ -138,7 +138,8 @@ int main(int argc, char *argv[])
 #ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
 #endif
-        tervetuloDlg.exec();
+        if( tervetuloDlg.exec() != QDialog::Accepted )
+            return 0;
 
 #ifdef Q_OS_LINUX
         // Ohjelman lisääminen käynnistysvalikkoon Linuxilla

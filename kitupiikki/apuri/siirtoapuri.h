@@ -19,6 +19,8 @@
 
 #include "apuriwidget.h"
 
+#include <QVariantMap>
+
 namespace Ui {
 class SiirtoApuri;
 }
@@ -37,15 +39,22 @@ public:
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
-    void eraValittu(int eraId, double avoinna, const QString& selite);
+    void eraValittu(bool debet, int eraId, double avoinna, const QString& selite);
 
 protected:
     bool teeTositteelle() override;
     void teeReset() override;
     void paivitaKateislaji();
+    void haeAlkuperaistosite(bool debet, int eraId);
+    void tositeSaapuu(bool debet, QVariant* data);
+
+    void erikoisviennit(const QVariantList lista, double eurot, QVariantList& viennit);
 
 private:
     Ui::SiirtoApuri *ui;
+    QVariantList kreditAlkuperaiset_;
+    QVariantList debetAlkuperaiset_;
+
 
 };
 
