@@ -355,7 +355,7 @@ void AloitusSivu::pyydaInfo()
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
                 .arg( asetukset.value("Keksi").toString() )
-                .arg(asetukset.value("Omituisuudet").toString())
+                .arg( KITUPIIKKI_BUILD )
                 .arg( buildDate().toString(Qt::ISODate) )
                 .arg( asetukset.value("Tilikartta").toString());
 
@@ -625,40 +625,6 @@ void AloitusSivu::paivitaTiedostoLista()
         // Tallennetaan tilastointia varten tieto vakiotilikartasta
         QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
         kp()->settings()->setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
-
-        // Tilastoidaan tiettyjä ominaisuuksia, jotta tiedetään, kuinka laajasti ovat käytössä
-        QStringList omituisuudet;
-        if( !kp()->asetukset()->asetus("MaksuAlvAlkaa").isEmpty() )
-            omituisuudet.append("mAlv");
-        if( !kp()->asetukset()->asetus("KirjattavienKansio").isEmpty())
-            omituisuudet.append("inbox");
-        if( kp()->asetukset()->asetus("LaskuKirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE )
-            omituisuudet.append("laskuper");
-        if( !kp()->asetukset()->onko("Samaansarjaan"))
-            omituisuudet.append("toslajit");
-        for(int ti=0; ti < kp()->tilit()->rowCount(QModelIndex()); ti++) {
-            if( kp()->tilit()->tiliIndeksilla(ti).json()->luku("Kohdennukset") ) {
-                omituisuudet.append("tasekohd");
-                break;
-            }
-        }
-        if( !kp()->asetukset()->asetus("VerkkolaskuValittaja").isEmpty() )
-            omituisuudet.append("vl");
-        if( !kp()->settings()->value("SmtpServer").toString().isEmpty())
-            omituisuudet.append("@");
-        if( kp()->onkoHarjoitus())
-            omituisuudet.append("H");
-        omituisuudet.append( kp()->asetukset()->asetus("Muoto") );
-
-        QSqlQuery kysely;
-        kysely.exec("SELECT COUNT(id) FROM liite");
-        if( kysely.next())
-            omituisuudet.append( QString("l%1").arg( kysely.value(0).toInt(),4,10,QChar('0') ) );
-        kysely.exec("SELECT COUNT(id) FROM tosite");
-        if( kysely.next())
-            omituisuudet.append( QString("t%1").arg( kysely.value(0).toInt(),4,10,QChar('0') ) );
-
-        kp()->settings()->setValue("Omituisuudet", omituisuudet.join(' '));
     }
 
 

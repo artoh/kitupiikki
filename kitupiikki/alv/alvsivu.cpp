@@ -88,7 +88,7 @@ void AlvSivu::paivitaSeuraavat()
     ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString("dd.MM.yyyy"))
                                                         .arg(seuraavaLoppuu.toString("dd.MM.yyyy")) );
 
-    ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
+    ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilitpaatetty() );
 
     if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) && !alustaa_ )
     {
@@ -107,12 +107,12 @@ void AlvSivu::paivitaSeuraavat()
 
 void AlvSivu::ilmoita()
 {
+
     QDate ilmoitettu = AlvIlmoitusDialog::teeAlvIlmoitus(seuraavaAlkaa, seuraavaLoppuu);
     if( ilmoitettu.isValid())
     {
         kp()->asetukset()->aseta("AlvIlmoitus", ilmoitettu);
-        ui->viimeisinEdit->setDate(ilmoitettu);
-        model->lataa();
+        siirrySivulle();
     }
 }
 
@@ -157,7 +157,7 @@ void AlvSivu::riviValittu()
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->erittelyNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&
-                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() < kp()->tilitpaatetty() );
+                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() > kp()->tilitpaatetty() );
 
 }
 

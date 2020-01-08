@@ -224,6 +224,20 @@ void LaskuSivu::laskuValintaMuuttuu()
 
 void LaskuSivu::uusiLasku()
 {
+    if( kp()->asetukset()->luku("LaskuKirjausperuste") == LaskuModel::MAKSUPERUSTE) {
+        if( QMessageBox::question(this, tr("Maksuperusteinen laskutus poistuu"),
+                                  tr("Oletusvalintanasi on laskujen kirjaaminen maksuperusteisina.\n\n"
+                                     "Tämä valinta poistuu ohjelman tulevista versioista. Kirjanpitoja, joissa on "
+                                     "avoimia maksuperusteisia laskuja, ei voi siirtää uuteen versioon.\n\n"
+                                     "On suositeltavaa siirtyä käyttämään laskuperustetta uusien myyntilaskujen "
+                                     "kirjaamisessa. Muutos ei edellytä maksuperusteesta luopumista muuten "
+                                     "kirjanpidossa\n\n"
+                                     "Vaihdetaanko myyntilaskujen kirjaamisen oletusvalinta laskuperusteeseen?")) == QMessageBox::Yes) {
+            kp()->asetukset()->aseta("LaskuKirjausperuste", LaskuModel::LASKUTUSPERUSTE);
+        }
+    }
+
+
     if( LaskuDialogi::laskuIkkunoita())
     {
         QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
