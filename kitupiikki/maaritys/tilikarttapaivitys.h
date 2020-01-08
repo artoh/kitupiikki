@@ -21,6 +21,12 @@
 
 #include "ui_tilikarttapaivitys.h"
 
+class QMessageBox;
+class QDialog;
+namespace Ui {
+    class PaivitetaanDlg;
+}
+
 class TilikarttaPaivitys : public MaaritysWidget
 {
     Q_OBJECT
@@ -37,11 +43,15 @@ public:
 public slots:
     void paivita();
 
+private slots:
+    void paivitetty();
+
 protected:
     Ui::TilikarttaPaivitys *ui;
 
     static QVariantMap lataaPaivitys(const QString& polku);
-
+    QDialog *odotaDlg = nullptr;
+    Ui::PaivitetaanDlg *odotaUi = nullptr;
 
 };
 

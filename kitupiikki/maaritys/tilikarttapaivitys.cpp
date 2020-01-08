@@ -26,7 +26,8 @@
 #include <QMap>
 #include <QMessageBox>
 #include <QDebug>
-
+#include <QDialog>
+#include "ui_paivitetaandlg.h"
 
 TilikarttaPaivitys::TilikarttaPaivitys(QWidget *parent)
     : MaaritysWidget(parent),
@@ -69,20 +70,38 @@ bool TilikarttaPaivitys::onkoPaivitettavaa()
 
 void TilikarttaPaivitys::paivita()
 {
+    ui->paivitaNappi->setEnabled(false);
+    odotaDlg = new QDialog(this);
+    odotaUi = new Ui::PaivitetaanDlg();
+    odotaUi->setupUi(odotaDlg);
+    odotaDlg->show();
+    qApp->processEvents();
+
+
     KpKysely *kysely = kpk("/init", KpKysely::PATCH);
 
-    connect( kysely, &KpKysely::vastaus, [this] { QMessageBox::information( this,
-             tr("Tilikartta päivitetty"), tr("Tilikartta päivitetty uuteen versioon")); } );
-
-    connect( kysely, &KpKysely::vastaus, kp()->yhteysModel(), &YhteysModel::alusta);
-    connect( kysely, &KpKysely::vastaus, kp(), &Kirjanpito::perusAsetusMuuttui);
-
-
+    connect( kysely, &KpKysely::vastaus, this, &TilikarttaPaivitys::paivitetty);
     QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
 
     qDebug() << lataaPaivitys( polku );
 
+
+
     kysely->kysy( lataaPaivitys( polku ) );
+}
+
+void TilikarttaPaivitys::paivitetty()
+{
+    if( odotaDlg ) {
+        odotaDlg->close();
+        delete odotaUi;
+        delete odotaDlg;
+        odotaDlg = nullptr;
+    }
+    QMessageBox::information(this, tr("Tilikartta päivitetty"), tr("Tilikartta päivitetty uuteen versioon"));
+
+    kp()->yhteysModel()->alusta();
+    emit kp()->perusAsetusMuuttui();
 }
 
 QVariantMap TilikarttaPaivitys::lataaPaivitys(const QString &polku)
@@ -90,7 +109,6 @@ QVariantMap TilikarttaPaivitys::lataaPaivitys(const QString &polku)
     QVariantMap map;
 
     map.insert("asetukset", UusiVelho::asetukset(polku) );
-
     {
         QFile tilit(polku + "/tilit.json");
         if( tilit.open(QIODevice::ReadOnly) )

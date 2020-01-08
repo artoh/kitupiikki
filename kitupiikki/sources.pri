@@ -482,6 +482,7 @@ FORMS += \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
+    $$PWD/maaritys/paivitetaandlg.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
