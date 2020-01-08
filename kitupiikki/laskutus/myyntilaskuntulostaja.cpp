@@ -392,7 +392,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
         toimituslaatikkoon = lasku.value("erapvm").toDate().toString("dd.MM.yyyy");
     else if (lasku.value("maksutapa").toInt() == LaskuDialogi::ENNAKKOLASKU)
-        toimituslaatikkoon.clear();
+        toimituslaatikkoon = "XX.XX.XXXX";
     else if( lasku.contains("jaksopvm"))
         toimituslaatikkoon = QString("%1 - %2").arg(lasku.value("toimituspvm").toDate().toString("dd.MM.yyyy"))
                                                 .arg(lasku.value("jaksopvm").toDate().toString("dd.MM.yyyy"));

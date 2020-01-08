@@ -326,6 +326,13 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 {
     QVariantMap map;
 
+    // Laskun kirjauspäivämäärä on laskuperusteisella ja käteisellä laskun päivämäärä,
+    // suoriteperusteisella toimituspäivämäärä
+
+    QDate pvm = kp()->paivamaara();
+    if( ui->maksuCombo->currentData().toInt() == SUORITEPERUSTE )
+        pvm = ui->toimitusDate->date();
+
     if( tositeId_ )
         map.insert("id", tositeId_);
     if( tunniste_)
@@ -347,7 +354,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
 
     map.insert("otsikko", otsikko);
-    map.insert("pvm", kp()->paivamaara() );     // Laskupäivä vai toimituspäivä ???
+    map.insert("pvm", pvm);     // Laskupäivä vai toimituspäivä ???
     map.insert("tyyppi",  tyyppi_);
     map.insert("rivit", rivit_->rivit());
 
@@ -377,7 +384,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     lasku.insert("kieli", ui->kieliCombo->currentData());
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
     lasku.insert("laskutapa", ui->laskutusCombo->currentData());
-    lasku.insert("toimituspvm", ui->toimitusDate->date());
+    if( ui->maksuCombo->currentData().toInt() != ENNAKKOLASKU)  // Ennakkolaskulla ei ole toimituspäivää
+        lasku.insert("toimituspvm", ui->toimitusDate->date());
     if( ui->jaksoDate->date().isValid())
         lasku.insert("jaksopvm", ui->jaksoDate->date());
     if( rivit_->yhteensa() > 1e-3)
@@ -400,7 +408,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
     viennit.append( vastakirjaus( otsikko ) );
-    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date(),
+    viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                      otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 
     map.insert("viennit", viennit);
