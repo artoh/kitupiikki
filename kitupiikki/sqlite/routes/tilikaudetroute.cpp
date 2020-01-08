@@ -56,7 +56,7 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         kysely.exec( QString("SELECT sum(kreditsnt), sum(debetsnt) FROM vienti "
                              "JOIN Tili ON Vienti.tili=Tili.numero JOIN Tosite ON vienti.tosite=tosite.id "
                              "WHERE vienti.pvm BETWEEN '%1' AND '%2' AND CAST(tili as text) >= '3' AND Tosite.tila >= 100 "
-                             "AND (tili.tyyppi='CL' OR tili.tyyppi='CLX')")
+                             "AND (tili.tyyppi='CL' OR tili.tyyppi='CLZ')")
                      .arg(map.value("alkaa").toString())
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())

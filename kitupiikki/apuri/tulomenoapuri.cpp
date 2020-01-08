@@ -453,7 +453,7 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
     if( menoa_) {
         veroFiltteri_->setFilterRegExp(  maksuperuste ?
                                             "^(0|2[4-8]|927)"
-                                            : "^(0|2[1-79]|927)");
+                                            : "^(0|2[1-7]|927)");
         if( verokoodi == AlvKoodi::OSTOT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         else if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && !maksuperuste)
@@ -461,7 +461,7 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
     } else {
         veroFiltteri_->setFilterRegExp( maksuperuste ?
                                            "^(0|1[4-8])"
-                                           : "^(0|1[1-79])");
+                                           : "^(0|1[1-7])");
         if(verokoodi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
