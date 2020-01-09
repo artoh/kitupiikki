@@ -385,6 +385,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QDateEdit" name="alvAlkaaEdit">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
        <property name="Asetus" stdset="0">
         <string notr="true">AlvAlkaa</string>
        </property>
@@ -396,6 +399,19 @@ p, li { white-space: pre-wrap; }
         <string>alkaen</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

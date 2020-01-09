@@ -66,6 +66,7 @@ bool Perusvalinnat::nollaa()
     ui->karttaInfo->setText( QString("%1 %2")
                              .arg(kp()->asetus("Tilikartta"))
                              .arg(kp()->asetukset()->pvm("TilikarttaPvm").toString("dd.MM.yyyy")));
+    ui->alvAlkaaEdit->setEnabled( ui->alvCheck->isChecked());
 
     return true;
 }

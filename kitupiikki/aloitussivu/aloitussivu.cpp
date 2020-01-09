@@ -572,7 +572,24 @@ QString AloitusSivu::vinkit()
     if(  kp()->asetukset()->onko("AlvVelvollinen") )
     {
         QDate kausialkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
-        QDate kausipaattyy = kausialkaa.addDays(1).addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
+        QDate laskennallinenalkupaiva = kausialkaa;
+        int kausi = kp()->asetukset()->luku("AlvKausi");
+        if( kausi == 1)
+            laskennallinenalkupaiva = QDate( kausialkaa.year(), kausialkaa.month(), 1);
+        else if( kausi == 3) {
+            int kk = kausialkaa.month();
+            if( kk < 4)
+                kk = 1;
+            else if( kk < 7)
+                kk = 4;
+            else if( kk < 10)
+                kk = 7;
+            kk = 10;
+            laskennallinenalkupaiva = QDate( kausialkaa.year(), kk, 1);
+        } else if( kausi == 12)
+            laskennallinenalkupaiva = QDate( kausialkaa.year(), 1, 1);
+
+        QDate kausipaattyy = laskennallinenalkupaiva.addMonths( kausi ).addDays(-1);
         QDate erapaiva = AlvIlmoitustenModel::erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );

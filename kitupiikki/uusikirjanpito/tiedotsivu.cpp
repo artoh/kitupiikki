@@ -24,6 +24,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
+#include <QMessageBox>
 
 TiedotSivu::TiedotSivu(UusiVelho *wizard) :
     ui( new Ui::UusiTiedot),
@@ -70,6 +71,15 @@ void TiedotSivu::initializePage()
 
 bool TiedotSivu::validatePage()
 {
+    if( !ui->ytunnusEdit->text().isEmpty() && !YTunnusValidator::kelpaako(ui->ytunnusEdit->text())) {
+        QMessageBox::critical(this, tr("Perustiedot"), tr("Y-tunnuksen muoto virheellinen"));
+        return false;
+    }
+    if( !ui->tiliLine->text().isEmpty() && !IbanValidator::kelpaako(ui->tiliLine->text())) {
+        QMessageBox::critical(this, tr("Perustiedot"), tr("Tilinumeron muoto virheellinen. Tilinumero on syötettävä IBAN-muodossa"));
+        return false;
+    }
+
     velho->asetukset_.insert("Nimi", ui->nimiEdit->text());
     if( !ui->ytunnusEdit->text().isEmpty())
         velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text());

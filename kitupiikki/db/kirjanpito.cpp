@@ -268,8 +268,6 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
     yhteysModel_ = model;
     logo_ = QImage();
 
-    emit tietokantaVaihtui();
-
     if( yhteysModel() ) {
         KpKysely *logokysely = kpk("/liitteet/0/logo");
         connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
@@ -278,6 +276,8 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
     tuotteet()->lataa();
     ryhmat()->paivita();
     alvIlmoitukset()->lataa();
+
+    emit tietokantaVaihtui();
 }
 
 QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
