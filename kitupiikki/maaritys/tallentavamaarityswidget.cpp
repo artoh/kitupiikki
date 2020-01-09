@@ -30,6 +30,7 @@
 #include "db/kielikentta.h"
 #include <QJsonDocument>
 #include <QVariant>
+#include "validator/viitevalidator.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -51,6 +52,8 @@ bool TallentavaMaaritysWidget::nollaa()
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit ) {
             edit->setText( kp()->asetukset()->asetus(asetusavain) );
+            if( widget->property("Validator")=="Viite")
+                edit->setValidator(new ViiteValidator);
             connect( edit, &QLineEdit::textEdited, this, &TallentavaMaaritysWidget::ilmoitaMuokattu );
             continue;
         }
@@ -164,7 +167,7 @@ bool TallentavaMaaritysWidget::tallenna()
             continue;
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
-        if( edit ) {
+        if( edit && edit->hasAcceptableInput()) {
             asetukset.insert(asetusavain, edit->text());
             continue;
         }

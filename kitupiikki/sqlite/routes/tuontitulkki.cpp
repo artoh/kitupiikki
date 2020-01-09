@@ -167,8 +167,15 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
     // VEROHALLINNON TUNNISTAMINEN
     // Tunnistetaan viitenumerosta, onko oma-aloitteista veroa vai ennakkoveroa
     if( rivi.value("saajamaksaja").toString().toUpper() == "VEROHALLINTO") {
-       //
-       //
+        QString viite = rivi.value("viite").toString();
+        if( kp()->asetus("VeroOmaViite").endsWith(viite)) {
+            rivi.insert("tili", kp()->asetukset()->luku("VeroOmaverotili"));
+            return;
+        } else if( kp()->asetus("VeroTuloViite").endsWith(viite)) {
+            rivi.insert("tili", kp()->asetukset()->luku("Tuloveroennakkotili"));
+        }
+
+
        rivi.insert("tili", kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero());
        return;
     }

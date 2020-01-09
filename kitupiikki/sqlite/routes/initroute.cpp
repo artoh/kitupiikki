@@ -139,6 +139,9 @@ void InitRoute::paivitaTilit(const QVariantList &list)
             otsikkoKysely.addBindValue(json);
             otsikkoKysely.exec();
         } else {
+            if( muokatutTilit.contains(numero))
+                continue;
+
             tiliKysely.addBindValue(numero);
             tiliKysely.addBindValue(tyyppi);
             tiliKysely.addBindValue(json);

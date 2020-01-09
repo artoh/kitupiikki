@@ -76,6 +76,9 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
     connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::naytaSummat);
 
+    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
+    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
+
     ui->tiliCombo->suodataTyypilla("ARP");
 
     ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );

@@ -61,6 +61,7 @@ public:
         RAPORTIT,
         LIITETIETOKAAVA,
         TILIKARTTAOHJE,
+        VERO,
         PAIVITYS
 
     };

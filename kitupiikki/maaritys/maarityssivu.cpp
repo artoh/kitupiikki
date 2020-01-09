@@ -42,6 +42,7 @@
 #include "tositesarjamaaritys.h"
 
 #include "ui_laskumaaritys.h"
+#include "ui_VeroMaaritys.h"
 
 #include <QDebug>
 
@@ -66,6 +67,7 @@ MaaritysSivu::MaaritysSivu() :
 //    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
 //    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
 //    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
+    lisaaSivu("Verojen maksu", VERO, QIcon(":/pic/vero.png"),"vero");
     lisaaSivu("Tilikartan päivitys", PAIVITYS, QIcon(":/pic/paivita.png"),"paivita");
 
 
@@ -203,6 +205,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if( sivu == LASKUTUS) {
         nykyinen = new TallentavaMaaritysWidget;
         Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
+        ui->setupUi(nykyinen);
+    } else if( sivu == VERO) {
+        nykyinen = new TallentavaMaaritysWidget;
+        Ui::VeroMaaritys *ui = new Ui::VeroMaaritys;
         ui->setupUi(nykyinen);
     }
     else if( sivu == MAKSUTAVAT)
