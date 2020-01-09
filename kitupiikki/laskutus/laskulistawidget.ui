@@ -35,7 +35,7 @@
      <item>
       <widget class="QLineEdit" name="viiteEdit">
        <property name="placeholderText">
-        <string>Etsi viitenumerolla</string>
+        <string>Etsi numerolla</string>
        </property>
       </widget>
      </item>

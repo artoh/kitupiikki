@@ -522,15 +522,16 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
             // Kakkosriville etsitään mm. ibania
             if( tapahtumanrivi == 2 && sarake < arkistosarake + 5 ) {
                 QString alku = teksti.left(18);
+                QString loppu = teksti.mid(teksti.indexOf(' '));
                 if( IbanValidator::kelpaako(alku)) {
                     tapahtuma.insert("iban", alku);
+                    loppu=teksti.mid(18);
                 }
-                QString loppu = teksti.mid(teksti.indexOf(' '));
                 if( ktokoodi(loppu))
                     tapahtuma.insert("ktokoodi", ktokoodi(loppu));
                 else if (loppu.contains(seliteRe) && !tapahtuma.contains("saajamaksaja"))
                     tapahtuma.insert("saajamaksaja", loppu.simplified());
-                else if( !loppu.contains("viesti",Qt::CaseInsensitive))
+                else if( !loppu.contains("viesti",Qt::CaseInsensitive) && loppu.length() > 5)
                     tapahtuma.insert("selite", loppu);
             } else if( tapahtumanrivi == 2 && sarake > arkistosarake + 5 &&
                        sarake < maarasarake - 2 && teksti.contains(seliteRe) ) {

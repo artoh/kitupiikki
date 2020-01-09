@@ -44,9 +44,10 @@ KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi)
 {
     KirjausSivu *sivu = new KirjausSivu(nullptr, nullptr);
     setCentralWidget( sivu );
+    show();
     sivu->siirrySivulle();
     sivu->naytaTosite(tositeId, tyyppi);
-    show();
+
 
     connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));    
     ohjesivu = sivu->ohjeSivunNimi();

@@ -129,9 +129,10 @@ void KpDateEdit::setDate(QDate date)
         date_ = date;
         dateInEditor_ = date;
 
-        int pos = cursorPosition();
+        int pos =  hasFocus() ? cursorPosition() : -1;
         setText( date.toString("dd.MM.yyyy") );
-        setCursorPosition(pos);
+        if( pos > -1)
+            setCursorPosition(pos);
     }
     else if( isNullable() )
     {

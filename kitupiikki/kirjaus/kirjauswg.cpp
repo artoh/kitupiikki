@@ -178,7 +178,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { this->tosite()->nollaa( kp()->paivamaara(), TositeTyyppi::MENO); } );
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::tyhjenna );
 
 
     // Tilapäisesti poistetaan Varasto

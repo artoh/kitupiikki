@@ -125,21 +125,19 @@
       "ERA" : -1
     }
   ],
-  "LaskuTilit" : "1910",
   "tilinpaatosvalinnat" : "toiminnantarkastus",
   "arkistoraportit" : "tase/PMA,tulos/yhdistys",
   "LaskuSaatavatili" : "1700",
   "LaskuKateistili" : "1900",
   "LaskuMaksuaika" : "14",
   "LaskuSeuraavaId" : "1000",
-  "LaskuTili" : "1910",
   "LaskuViivakoodi" : true,
   "LaskuIkkunaX" : "18",
   "LaskuIkkunaY" : "40",
   "LaskuIkkunaLeveys" : "95",
   "LaskuIkkunaKorkeus" : "35",
   "LaskuQR" : true,
-  "AlvKausi" : 1,
+  "AlvKausi" : "1",
   "AlvHuojennusTili":"7030",
   "LaskuEnnakkotili":"2950",
   "LaskuEnnakkosaatavat":"1715",
@@ -153,5 +151,6 @@
   "Tuloverosiirtosaamiset":"1770",
   "PankkiPalvelumaksutili":"4921",
   "PankkiSaapuvakorko":"9050",
-  "PankkiMaksettavakorko":"9150"
+  "PankkiMaksettavakorko":"9150",
+  "VeroOmaverotili":"2986"
 }

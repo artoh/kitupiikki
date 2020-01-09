@@ -29,7 +29,7 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
 {
     QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.pvm as pvm, vienti.erapvm as erapvm, "
                     "kreditsnt as summasnt, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
-                    "vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja "
+                    "vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tyyppi "
                     "from Tosite JOIN "
                     "Vienti ON vienti.tosite=tosite.id ");
 

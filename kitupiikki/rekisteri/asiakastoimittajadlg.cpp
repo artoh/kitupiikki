@@ -139,8 +139,9 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
 
     ui->tilitLista->clear();
     for(auto tili : map.value("iban").toList() ) {
-        QListWidgetItem* item = new QListWidgetItem(tili.toString(), ui->tilitLista);
+        QListWidgetItem* item = new QListWidgetItem(tili.toString());
         item->setFlags( item->flags() | Qt::ItemIsEditable );
+        ui->tilitLista->insertItem(0, item);
     }
 
     ui->ryhmatWidget->valitseRyhmat( map.value("ryhmat").toList() );

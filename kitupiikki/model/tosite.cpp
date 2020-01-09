@@ -142,7 +142,7 @@ void Tosite::lataaData(QVariant *variant)
             data_.insert("kumppani", kumppani);
     }
 
-    emit ladattu();
+
 
     emit tyyppiMuuttui( tyyppi());
     emit pvmMuuttui( pvm() );
@@ -150,6 +150,7 @@ void Tosite::lataaData(QVariant *variant)
     emit tunnisteMuuttui( tunniste() );
     emit sarjaMuuttui( sarja() );
     emit kommenttiMuuttui( kommentti());
+    emit ladattu();
 
     tallennettu_ = tallennettava();
 

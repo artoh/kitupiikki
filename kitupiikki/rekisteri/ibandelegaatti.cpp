@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ibandelegaatti.h"
+#include "laskutus/myyntilaskuntulostaja.h"
 
 #include <QLineEdit>
 #include "validator/ibanvalidator.h"
@@ -29,16 +30,21 @@ IbanDelegaatti::IbanDelegaatti(QObject *parent) :
 
 void IbanDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if( index.data(Qt::EditRole).toString().isEmpty())  {
-        painter->save();
-        painter->setPen(Qt::gray);
-        drawDisplay(painter, option, option.rect, tr("Napsauta lisätäksesi tili"));
-        drawFocus(painter, option, option.rect);
-        painter->restore();
+    painter->save();
 
+    QString teksti = index.data(Qt::EditRole).toString();
+    QStyleOptionViewItem modOption(option);
+
+    if( teksti.isEmpty()) {
+        teksti = tr("Napsauta lisätäksesi tili");
+        modOption.palette.setColor(QPalette::Base, Qt::gray);
     } else {
-        QItemDelegate::paint(painter, option, index);
+        teksti = MyyntiLaskunTulostaja::valeilla(teksti);
     }
+    drawDisplay(painter, modOption, modOption.rect, teksti);
+    drawFocus(painter, option, option.rect);
+    painter->restore();
+
 }
 
 QWidget *IbanDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /*option*/, const QModelIndex & /*index*/) const

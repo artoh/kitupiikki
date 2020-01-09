@@ -174,13 +174,15 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                         return QIcon(":/pic/kateinen.png");
                     else if( map.value("maksutapa").toInt() == LaskuDialogi::ENNAKKOLASKU)
                         return QIcon(":/pic/ennakkolasku.png");
+                    else if( map.value("maksutapa").toInt() == LaskuDialogi::SUORITEPERUSTE)
+                        return QIcon(":/pic/suorite.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:
                     return QIcon(":/pic/poista.png");
                 case TositeTyyppi::MAKSUMUISTUTUS:
                     return QIcon(":/pic/punainenkuori.png");
                 }
-                return QIcon(":/pic/tyhja.png");
+                return kp()->tositeTyypit()->kuvake(map.value("tyyppi").toInt());
 
             } else if( index.column() == LAHETYSTAPA) {
                 return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());

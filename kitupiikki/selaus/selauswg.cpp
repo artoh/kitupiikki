@@ -116,12 +116,17 @@ QPair<int, int> SelausWg::edellinenSeuraava(int tositeId)
 void SelausWg::alusta()
 {
     QDate alku = Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa();
+    QDate loppu = Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu();
 
-    Tilikausi nytkausi = Kirjanpito::db()->tilikaudet()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+    QDate pvm = kp()->db()->paivamaara();
+    if( pvm > loppu)
+        pvm = loppu;
+
+    Tilikausi nytkausi = Kirjanpito::db()->tilikaudet()->tilikausiPaivalle( pvm );
 
     QDate nytalkaa = nytkausi.alkaa();
     QDate nytloppuu = nytkausi.paattyy();
-    QDate loppu = Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu();
+
 
     ui->alkuEdit->setDateRange(alku, loppu);
     ui->loppuEdit->setDateRange(alku, loppu);
