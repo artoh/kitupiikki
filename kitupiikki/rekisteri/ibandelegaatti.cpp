@@ -33,15 +33,13 @@ void IbanDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &option
     painter->save();
 
     QString teksti = index.data(Qt::EditRole).toString();
-    QStyleOptionViewItem modOption(option);
 
     if( teksti.isEmpty()) {
         teksti = tr("Napsauta lisätäksesi tili");
-        modOption.palette.setColor(QPalette::Base, Qt::gray);
     } else {
         teksti = MyyntiLaskunTulostaja::valeilla(teksti);
     }
-    drawDisplay(painter, modOption, modOption.rect, teksti);
+    drawDisplay(painter, option, option.rect, teksti);
     drawFocus(painter, option, option.rect);
     painter->restore();
 

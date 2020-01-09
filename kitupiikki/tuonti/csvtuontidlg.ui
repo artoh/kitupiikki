@@ -170,15 +170,15 @@
    <sender>kirjausRadio</sender>
    <signal>toggled(bool)</signal>
    <receiver>muuntoRadio</receiver>
-   <slot>setEnabled(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>26</x>
-     <y>43</y>
+     <x>47</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel">
-     <x>17</x>
-     <y>375</y>
+     <x>26</x>
+     <y>367</y>
     </hint>
    </hints>
   </connection>
