@@ -4660,7 +4660,7 @@
  },
  {
   "numero": 3440,
-  "tyyppi": "C",
+  "tyyppi": "CL",
   "nimi": {
    "fi": "Kiinteistöjen myynti"
   },
@@ -4668,7 +4668,7 @@
  },
  {
   "numero": 3450,
-  "tyyppi": "C",
+  "tyyppi": "CL",
   "nimi": {
    "fi": "Vuokratuotot"
   },
@@ -4676,7 +4676,7 @@
  },
  {
   "numero": 3460,
-  "tyyppi": "C",
+  "tyyppi": "CL",
   "nimi": {
    "fi": "Arvopapereiden myynti"
   },
@@ -4684,7 +4684,7 @@
  },
  {
   "numero": 3470,
-  "tyyppi": "C",
+  "tyyppi": "CL",
   "nimi": {
    "fi": "Osinkotuotot"
   },
@@ -4692,7 +4692,7 @@
  },
  {
   "numero": 3480,
-  "tyyppi": "C",
+  "tyyppi": "CL",
   "nimi": {
    "fi": "Korkotuotot"
   },
@@ -4848,8 +4848,6 @@
   "nimi": {
    "fi": "Käyttöomaisuuden myyntivoitot"
   },
-  "alvlaji": 11,
-  "alvprosentti": 24,
   "laajuus": 3
  },
  {
@@ -4862,7 +4860,7 @@
  },
  {
   "numero": 3677,
-  "tyyppi": "C",
+  "tyyppi": "CZ",
   "nimi": {
    "fi": "Käyttöoikeusosakkeiden myyntivoitot (verovapaat)"
   },
@@ -5094,7 +5092,7 @@
  },
  {
   "numero": 3980,
-  "tyyppi": "C",
+  "tyyppi": "CZ",
   "nimi": {
    "fi": "Fuusiovoitto"
   },
@@ -9038,7 +9036,7 @@
  },
  {
   "numero": 9800,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Käyttöomaisuuden jälleenhankintavarauksen muutos"
   },
@@ -9046,7 +9044,7 @@
  },
  {
   "numero": 9810,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Toimitilan jälleenhankintavarauksen muutos"
   },
@@ -9054,7 +9052,7 @@
  },
  {
   "numero": 9820,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Takuuvarauksen muutos"
   },
@@ -9062,7 +9060,7 @@
  },
  {
   "numero": 9830,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Toimintavarauksen muutos"
   },
@@ -9070,7 +9068,7 @@
  },
  {
   "numero": 9840,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Hankintamenon muutosvarauksen muutos"
   },
@@ -9078,7 +9076,7 @@
  },
  {
   "numero": 9850,
-  "tyyppi": "D",
+  "tyyppi": "DZ",
   "nimi": {
    "fi": "Muiden veroitusperusteisten varausten muutos"
   },

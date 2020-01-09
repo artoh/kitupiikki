@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,1">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
@@ -368,18 +368,36 @@ p, li { white-space: pre-wrap; }
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="alvCheck">
-     <property name="text">
-      <string>Arvonlisäverovelvollinen</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
-     </property>
-     <property name="Asetus" stdset="0">
-      <string>AlvVelvollinen</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QCheckBox" name="alvCheck">
+       <property name="text">
+        <string>Arvonlisäverovelvollinen</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
+       </property>
+       <property name="Asetus" stdset="0">
+        <string>AlvVelvollinen</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="alvAlkaaEdit">
+       <property name="Asetus" stdset="0">
+        <string notr="true">AlvAlkaa</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>alkaen</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QCheckBox" name="checkBox">
@@ -428,5 +446,22 @@ p, li { white-space: pre-wrap; }
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>alvCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>alvAlkaaEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>789</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>378</x>
+     <y>772</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

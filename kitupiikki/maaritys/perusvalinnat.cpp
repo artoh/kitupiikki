@@ -61,7 +61,7 @@ bool Perusvalinnat::nollaa()
         ui->sijaintiLabel->hide();
         ui->hakemistoNappi->hide();
         ui->tsLabel->hide();
-    }
+    }    
 
     ui->karttaInfo->setText( QString("%1 %2")
                              .arg(kp()->asetus("Tilikartta"))

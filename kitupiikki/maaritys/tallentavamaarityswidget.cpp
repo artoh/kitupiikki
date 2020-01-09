@@ -22,6 +22,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QTextEdit>
+#include <QDateEdit>
 #include <QDoubleSpinBox>
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
@@ -139,6 +140,13 @@ bool TallentavaMaaritysWidget::nollaa()
             continue;
         }
 
+        QDateEdit* tdate = qobject_cast<QDateEdit*>(widget);
+        if( tdate) {
+            tdate->setDate( kp()->asetukset()->pvm(asetusavain));
+            connect( tdate, &QDateEdit::dateChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            continue;
+        }
+
     }
     alustettu_ = true;
 
@@ -207,6 +215,12 @@ bool TallentavaMaaritysWidget::tallenna()
         QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
         if( dspin ) {
             asetukset.insert(asetusavain, QString::number( dspin->value(),'f',2 ));
+            continue;
+        }
+
+        QDateEdit* tdate = qobject_cast<QDateEdit*>(widget);
+        if( tdate) {
+            asetukset.insert(asetusavain, tdate->date());
             continue;
         }
 
@@ -286,6 +300,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
         if( dspin ) {
             if( qAbs(kp()->asetus(asetusavain).toDouble() - dspin->value() ) > 1e-3 )
+                return true;
+            continue;
+        }
+
+        QDateEdit* tdate = qobject_cast<QDateEdit*>(widget);
+        if( tdate) {
+            if( tdate->date() != kp()->asetukset()->pvm(asetusavain))
                 return true;
             continue;
         }

@@ -40,20 +40,29 @@
     <widget class="QTextBrowser" name="ilmoitusBrowser"/>
    </item>
    <item>
+    <widget class="QLabel" name="alarajaInfo">
+     <property name="text">
+      <string>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Ellei huojennusta voi laskea ohjelman käyttämien perussäännösten nojalla (esim. metsätaloustulon takia), sinun on laskettava ja kirjattava mahdollinen alarajahuojennus itse.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="huojennusCheck">
+     <property name="text">
+      <string>Kirjaa alarajahuojennus laskelman mukaisesti</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QCheckBox" name="huojennusCheck">
-         <property name="text">
-          <string>Kirjaa alarajahuojennus laskelman mukaisesti</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QVBoxLayout" name="verticalLayout"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">

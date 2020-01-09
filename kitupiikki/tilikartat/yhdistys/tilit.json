@@ -663,6 +663,15 @@
     "laajuus": 1
   },
   {
+    "numero": 1715,
+    "tyyppi": "AO",
+    "nimi": {
+      "fi": "Myyntisaamiset ennakkomaksuista"
+    },
+    "erittely": 2,
+    "laajuus": 1
+  },
+  {
     "numero": 171,
     "tyyppi": "H4",
     "nimi": {
@@ -1399,6 +1408,14 @@
     "laajuus": 5
   },
   {
+    "numero": 29852,
+    "tyyppi": "B",
+    "nimi": {
+      "fi": "Maksuperusteinen arvonlisäverovelka ennakkolaskuista"
+    },
+    "laajuus": 5
+  },
+  {
     "numero": 2986,
     "tyyppi": "BV",
     "nimi": {
@@ -1963,7 +1980,7 @@
   },
   {
     "numero": 4921,
-    "tyyppi": "DBP",
+    "tyyppi": "DZ",
     "nimi": {
       "fi": "Rahaliikenteen kulut"
     },
@@ -2658,7 +2675,7 @@
   },
   {
     "numero": 9050,
-    "tyyppi": "CBK",
+    "tyyppi": "CZ",
     "nimi": {
       "fi": "Korkotuotot"
     },
@@ -2689,7 +2706,7 @@
   },
   {
     "numero": 9150,
-    "tyyppi": "DBK",
+    "tyyppi": "DZ",
     "nimi": {
       "fi": "Korkokulut"
     },

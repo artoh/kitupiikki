@@ -79,8 +79,10 @@ void AlvIlmoitusDialog::luku(const QString &nimike, qlonglong senttia, bool viiv
 void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 {
     AlvLaskelma *laskelma = qobject_cast<AlvLaskelma*>( sender() );
-    ui->ilmoitusBrowser->setHtml( rk.html() );
+    ui->ilmoitusBrowser->setHtml( rk.html() );    
     ui->huojennusCheck->setVisible( laskelma->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+    ui->alarajaInfo->setVisible(laskelma->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+
     if( exec() ) {
         if( ui->huojennusCheck->isChecked())
             laskelma->kirjaaHuojennus();

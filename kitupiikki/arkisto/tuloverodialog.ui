@@ -23,8 +23,17 @@
       </font>
      </property>
      <property name="text">
-      <string>Tutustu huolella verotukseen liittyviin ohjeisiin ja täydennä alla oleva laskelma.
-Vain yksinkertaisimmissa tapauksissa ohjelman tekemä laskelma on sellaisenaan oikea.</string>
+      <string>Tutustu huolella verotukseen liittyviin ohjeisiin ja täydennä alla oleva laskelma.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Vain yksinkertaisimmissa tapauksissa ohjelman tekemä laskelma on sellaisenaan oikea.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

@@ -130,7 +130,7 @@ bool AlvIlmoitustenModel::onkoIlmoitettu(const QDate &paiva) const
 
 QDate AlvIlmoitustenModel::viimeinenIlmoitus() const
 {
-    QDate viimeinen = kp()->tilitpaatetty();
+    QDate viimeinen = kp()->asetukset()->pvm("AlvAlkaa", kp()->tilitpaatetty().addDays(-1));
     for(QVariant item : tiedot_) {
         QVariantMap map = item.toMap();
         QDate pvm = map.value("kausipaattyy").toDate();

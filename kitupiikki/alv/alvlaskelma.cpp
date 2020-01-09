@@ -519,12 +519,17 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
     QDate huojennusalku;
     QDate huojennusloppu;
 
-    // Tässä huomioidaan ensin alarajahuojennus
-    // TODO: Muu verokausi kuin kuukausi
 
-    if( loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() ) {
+    if( loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() && alkupvm.daysTo(loppupvm) < 32 ) {
         huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm).alkaa();
         huojennusloppu = loppupvm;
+    } else if( loppupvm.month() == 12 && loppupvm.day() == 31) {
+        // Jos alv-kausi muu kuin kuukausi, lasketaan verovuoden mukaisesti
+        huojennusloppu = loppupvm;
+        huojennusalku = QDate(loppupvm.year(),1,1);
+        QDate alvalkaa = kp()->asetukset()->pvm("AlvAlkaa");
+        if( alvalkaa.isValid() && alvalkaa > huojennusalku)
+            huojennusalku = alvalkaa;
     }
 
     if( huojennusalku.isValid()) {
@@ -598,20 +603,30 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
                 verohuojennukseen_ -= brutto - netto;
             }
-        } else if( alvkoodi > 100 && alvkoodi < 200) {
+        } else if( alvkoodi > 100 && alvkoodi < 200 && vienti.alvProsentti() > 1e-5) {
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
-                alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS) {
+                alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
                 verohuojennukseen_ += kredit - debet;                                
-            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
+            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS ||
+                       alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
+                       alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS ) {
                 // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
                 // ja matkatoimistopalvelujen marginaaliverojärjestelmää sovellettaessa liikevaihtoon
                 // luetaan ostajalta veloitettu myyntihinta vähennettynä myynnistä suoritetun
                 // arvonlisäveron osuudella.
-                verohuojennukseen_ += kredit - debet;
-                liikevaihto_ -= kredit - debet;
+
+                // Maksuperusteisessa alvissa veron peruste voi olla kirjattu toiselle verokaudelle, joten
+                // se joudutaan laskemaan samoin verokirjauksesta
+
+                qlonglong vero = kredit - debet;
+                double veroprossa = vienti.alvProsentti();
+                qlonglong liikevaihtoon = qRound64( 100 * vero /  veroprossa);
+                verohuojennukseen_ += vero;
+                liikevaihto_ -= liikevaihtoon;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
+            // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
             verohuojennukseen_ -= debet - kredit;
         }
     }
