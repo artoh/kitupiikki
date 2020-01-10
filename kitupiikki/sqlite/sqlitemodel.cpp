@@ -123,6 +123,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 
     tietokanta_.setDatabaseName( polku );
     tiedostoPolku_.clear();
+    kp()->yhteysAvattu(nullptr);
 
     if( !tietokanta_.open())
     {
@@ -132,7 +133,6 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                   .arg( polku ).arg( tietokanta().lastError().text() ) );
         }
         qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
-        emit kp()->yhteysAvattu(nullptr);
         return false;
     }
 
@@ -164,7 +164,6 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
             }
         }
         tietokanta_.close();
-        emit kp()->yhteysAvattu(nullptr);
         return false;
     }
     // Tarkastetaan versio
@@ -176,7 +175,6 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                      "osoitteesta https://kitsas.fi")
                                   .arg( qApp->applicationVersion() ));
             tietokanta_.close();
-            emit kp()->yhteysAvattu(nullptr);
             return false;
         }
     } else {
@@ -185,7 +183,6 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                               tr("Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut."));
         qDebug() << tietokanta_.lastError().text();
         tietokanta_.close();
-        emit kp()->yhteysAvattu(nullptr);
         return false;
     }
 

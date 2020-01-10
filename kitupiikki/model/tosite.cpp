@@ -35,7 +35,6 @@ Tosite::Tosite(QObject *parent) :
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
-
 }
 
 QVariant Tosite::data(int kentta) const
@@ -142,7 +141,7 @@ void Tosite::lataaData(QVariant *variant)
             data_.insert("kumppani", kumppani);
     }
 
-
+    emit ladattu();
 
     emit tyyppiMuuttui( tyyppi());
     emit pvmMuuttui( pvm() );
@@ -150,7 +149,7 @@ void Tosite::lataaData(QVariant *variant)
     emit tunnisteMuuttui( tunniste() );
     emit sarjaMuuttui( sarja() );
     emit kommenttiMuuttui( kommentti());
-    emit ladattu();
+
 
     tallennettu_ = tallennettava();
 
@@ -183,7 +182,9 @@ void Tosite::tarkasta()
         return;
 
 
-    bool muutettu = tallennettu_ != tallennettava();
+    bool muutettu = tallennettu_ != tallennettava() ||
+            liitteet()->tallennettaviaLiitteita() ||
+            !liitteet()->liitettavat().isEmpty();
 
     int virheet = 0;    
     if( !pvm().isValid())

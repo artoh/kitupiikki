@@ -81,6 +81,7 @@ public:
     void tyhjenna();
 
     QVariant viennit() const { return viennit_;}
+    QVariantList vientilLista() const { return viennit_; }
 
 
     QVariant tallennettavat() const;

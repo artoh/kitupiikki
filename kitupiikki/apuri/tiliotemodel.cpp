@@ -201,12 +201,12 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     {
         Tili tili = kp()->tilit()->tiliNumerolla( rivit_.at(index.row()).tili );
         if( !tili.onko(TiliLaji::TULOS))
-            return Qt::ItemIsEnabled;
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
     if( index.column() == SAAJAMAKSAJA)
-        return Qt::ItemIsEnabled;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    return Qt::ItemIsEditable | Qt::ItemIsEnabled;
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 void TilioteModel::lisaaRivi(const TilioteModel::Tilioterivi &rivi)
@@ -344,7 +344,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
     return lista;
 }
 
-void TilioteModel::lataa(QVariantList lista)
+void TilioteModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
     rivit_.clear();

@@ -92,6 +92,7 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
     }
+    emit kp()->piilotaTallennusWidget();
     return true;
 }
 
@@ -103,11 +104,11 @@ void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
     // kirjaamassa lisäikkunalla, jolloin hylkää-nappi sulkee
     // ikkunan
 
+    if( tositetyyppi > -1)
+        kirjausWg()->tosite()->nollaa( kp()->paivamaara(), tositetyyppi );
     if( tositeId > -1)
         kirjauswg->lataaTosite(tositeId);
-    else {
-        kirjausWg()->tosite()->nollaa( kp()->paivamaara(), tositetyyppi );
-    }
+
 }
 
 void KirjausSivu::tositeKasitelty()

@@ -100,17 +100,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="lisaaTyhjaBtn">
-       <property name="text">
-        <string>Lisää tyhjä rivi</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="muokkaaNappi">
        <property name="enabled">
         <bool>false</bool>
@@ -121,6 +110,17 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="lisaaTyhjaBtn">
+       <property name="text">
+        <string>Lisää tyhjä rivi</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
        </property>
       </widget>
      </item>

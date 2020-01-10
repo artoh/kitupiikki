@@ -76,17 +76,17 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
     connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::naytaSummat);
 
+    ui->tiliCombo->suodataTyypilla("ARP");
+
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
-
-    ui->tiliCombo->suodataTyypilla("ARP");
 
     ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
 }
 
 TilioteApuri::~TilioteApuri()
 {
-
+    delete ui;
 }
 
 void TilioteApuri::tuo(QVariantMap map)
@@ -131,7 +131,7 @@ bool TilioteApuri::teeTositteelle()
 void TilioteApuri::teeReset()
 {
     kirjaaja_->close();
-    QVariantList viennit = tosite()->viennit()->viennit().toList();
+    const QVariantList& viennit = tosite()->viennit()->vientilLista();
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
         ui->tiliCombo->valitseTili(ekarivi.tili());
@@ -143,12 +143,13 @@ void TilioteApuri::teeReset()
         ui->loppuDate->setDate( tilioteMap.value("loppupvm").toDate() );
     }
     model_->lataa(viennit);
-    lataaHarmaat();    
+    if( kp()->yhteysModel())
+        lataaHarmaat();
 }
 
 void TilioteApuri::lisaaRivi()
 {
-    kirjaaja_->show();
+    kirjaaja_->kirjaaUusia();
 }
 
 void TilioteApuri::lisaaTyhjaRivi()
@@ -236,12 +237,14 @@ void TilioteApuri::kysyAlkusumma()
     int tilinumero = ui->tiliCombo->valittuTilinumero();
     QDate alkupvm = ui->alkuDate->date();
     KpKysely *kysely = kpk("/saldot");
-    kysely->lisaaAttribuutti("tili", tilinumero);
-    kysely->lisaaAttribuutti("pvm", alkupvm);
-    kysely->lisaaAttribuutti("tase");
-    kysely->lisaaAttribuutti("alkusaldot");
-    connect(kysely, &KpKysely::vastaus, this, &TilioteApuri::alkusummaSaapuu);
-    kysely->kysy();
+    if( kysely ) {
+        kysely->lisaaAttribuutti("tili", tilinumero);
+        kysely->lisaaAttribuutti("pvm", alkupvm);
+        kysely->lisaaAttribuutti("tase");
+        kysely->lisaaAttribuutti("alkusaldot");
+        connect(kysely, &KpKysely::vastaus, this, &TilioteApuri::alkusummaSaapuu);
+        kysely->kysy();
+    }
 }
 
 void TilioteApuri::alkusummaSaapuu(QVariant* data)

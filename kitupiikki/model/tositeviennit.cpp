@@ -236,8 +236,6 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
 
             switch (index.column()) {
 
-
-
             case PVM:
                 rivi.setPvm( value.toDate() );
                 break;
@@ -254,9 +252,21 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                     rivi.setTili( uusitili.numero());
                     if( uusitili.eritellaankoTase()) {
                         rivi.setEra(-1);
-                        emit dataChanged( index.sibling(index.row(), TILI), index.sibling(index.row(), KOHDENNUS) );
+                        emit dataChanged( index.sibling(index.row(), KOHDENNUS), index.sibling(index.row(), KOHDENNUS) );
                     } else
                         rivi.setEra( 0);
+                    if( kp()->asetukset()->onko(AsetusModel::ALV)) {
+                        int alvkoodi = uusitili.arvo("alvlaji").toInt();
+                        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO)
+                            alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
+                        else if( alvkoodi == AlvKoodi::OSTOT_NETTO)
+                            alvkoodi = AlvKoodi::OSTOT_BRUTTO;
+                        rivi.setAlvKoodi( alvkoodi );
+                        rivi.setAlvProsentti( uusitili.arvo("alvprosentti").toDouble() );
+                        emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
+                    }
+
+
                     break;
                 }
             case SELITE:
@@ -350,6 +360,20 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
 
     Tosite* tosite = qobject_cast<Tosite*>(parent());
     uusi.setPvm( tosite->data(Tosite::PVM).toDate() );
+
+    // Pyrkii tasaamaan tilit ;)
+
+    qlonglong dsumma = 0;
+    qlonglong ksumma = 0;
+    for(int i=0; i < rowCount(); i++) {
+        TositeVienti tvienti( viennit_.at(i).toMap());
+        dsumma += qRound64( tvienti.debet() * 100 );
+        ksumma += qRound64 ( tvienti.kredit() * 100);
+    }
+    if( dsumma > ksumma )
+        uusi.setKredit( dsumma - ksumma);
+    else
+        uusi.setDebet( ksumma - dsumma );
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
     viennit_.insert(indeksi, uusi);

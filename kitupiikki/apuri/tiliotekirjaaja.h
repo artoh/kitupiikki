@@ -45,6 +45,7 @@ public:
 
 public slots:
     void accept() override;
+    void kirjaaUusia();
     void muokkaaRivia(int riviNro);
 
 private slots:

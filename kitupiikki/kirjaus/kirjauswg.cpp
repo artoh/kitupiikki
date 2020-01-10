@@ -175,10 +175,9 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);
 
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
-
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::tyhjenna );
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::nollaaTietokannanvaihtuessa);
 
 
     // Tilapäisesti poistetaan Varasto
@@ -394,6 +393,13 @@ void KirjausWg::tuonti(QVariant *data)
 
     if( apuri_)
         apuri_->tuo(map);
+}
+
+void KirjausWg::nollaaTietokannanvaihtuessa()
+{
+    ui->tositetyyppiCombo->setCurrentIndex(0);
+    tositeTyyppiVaihtui(TositeTyyppi::MENO);
+    tyhjenna();
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -625,7 +631,7 @@ void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
     if( apuri_ )
     {
         ui->tabWidget->removeTab( ui->tabWidget->indexOf( apuri_) );
-        apuri_->deleteLater();
+        delete apuri_;
     }
     apuri_ = nullptr;
 

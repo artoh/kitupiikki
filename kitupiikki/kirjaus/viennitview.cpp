@@ -37,6 +37,8 @@ ViennitView::ViennitView(QWidget *parent)
     setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti);
     setItemDelegateForColumn( TositeViennit::KOHDENNUS, new KohdennusDelegaatti);
 
+    setEditTriggers( QTableView::AllEditTriggers );
+
     horizontalHeader()->setStretchLastSection(true);
 
 

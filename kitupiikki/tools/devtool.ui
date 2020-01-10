@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tervetuloTab">
       <attribute name="icon">
@@ -238,14 +238,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="jsonInput">
-         <property name="tabStopWidth">
-          <number>10</number>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
+         <widget class="QPlainTextEdit" name="jsonInput">
+          <property name="tabStopWidth">
+           <number>10</number>
+          </property>
+         </widget>
+         <widget class="QTextBrowser" name="kyselyBrowser"/>
         </widget>
-       </item>
-       <item>
-        <widget class="QTextBrowser" name="kyselyBrowser"/>
        </item>
       </layout>
      </widget>

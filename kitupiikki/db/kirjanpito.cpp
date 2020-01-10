@@ -272,10 +272,11 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         KpKysely *logokysely = kpk("/liitteet/0/logo");
         connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
         logokysely->kysy();
+
+        tuotteet()->lataa();
+        ryhmat()->paivita();
+        alvIlmoitukset()->lataa();
     }
-    tuotteet()->lataa();
-    ryhmat()->paivita();
-    alvIlmoitukset()->lataa();
 
     emit tietokantaVaihtui();
 }

@@ -112,6 +112,8 @@ private slots:
 
     void tuonti(QVariant* data);
 
+    void nollaaTietokannanvaihtuessa();
+
 public:
     Ui::KirjausWg* gui() { return ui;}
 

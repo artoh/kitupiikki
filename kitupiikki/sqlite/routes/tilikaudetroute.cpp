@@ -129,7 +129,8 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
         kysely.exec( QString("select tili.numero, sum(debetsnt), sum(kreditsnt), kohdennus from vienti "
                              "join tili on vienti.tili=tili.numero join tosite on vienti.tosite=tosite.id "
-                             "where tili.tyyppi='APM' and vienti.pvm <= '2019-12-31' and tosite.tila >= 100 group by tili.numero, kohdennus order by tili.numero, kohdennus"));
+                             "where tili.tyyppi='APM' and vienti.pvm <= '%1' and tosite.tila >= 100 group by tili.numero, kohdennus order by tili.numero, kohdennus")
+                     .arg(kausi.paattyy().toString(Qt::ISODate)));
         while( kysely.next()) {
             Tili* tili = kp()->tilit()->tili(kysely.value(0).toInt());
             if( !tili)

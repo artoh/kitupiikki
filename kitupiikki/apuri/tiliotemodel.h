@@ -79,7 +79,7 @@ public:
     Tilioterivi rivi(int rivi) const { return rivit_.at(rivi); }
 
     QVariantList viennit(int tilinumero) const;
-    void lataa(QVariantList lista);
+    void lataa(const QVariantList& lista);
 
     void tuo(const QVariantList tuotavat);
 

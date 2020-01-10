@@ -11,11 +11,11 @@ mkdir -p $BUILD_DIR
 mkdir -p $DIST_DIR
 cd $BUILD_DIR
 
-export PATH=/opt/mxe/usr/bin:$PATH
+export PATH=/home/arto/mxe/usr/bin:$PATH
 
 touch ../kitupiikki/versio.h
 
-/opt/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake ../kitupiikki/kitupiikki.pro "CONFIG += release"
+~/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake ../kitupiikki/kitupiikki.pro "CONFIG += release"
 make -j 6
 cp kitsas.exe ../$DIST_DIR
 

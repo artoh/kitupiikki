@@ -66,6 +66,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
     connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -208,9 +209,9 @@ void ArkistoSivu::tilinpaatosKasky()
 
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
-    if( ui->view->currentIndex().isValid())
+    if( ui->view->selectionModel()->selection().indexes().value(0).isValid())
     {
-        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->selectionModel()->selection().indexes().value(0).row() );
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
 

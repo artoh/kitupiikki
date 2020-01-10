@@ -40,9 +40,9 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     // Muuten tositteiden lista
     QStringList ehdot;
     if( urlquery.hasQueryItem("luonnos") )
-        ehdot.append( QString("( tosite.tila => %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
+        ehdot.append( QString("( tosite.tila >= %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
     else if( urlquery.hasQueryItem("saapuneet"))
-        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::KIRJANPIDOSSA) );
+        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::LUONNOS) );
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 

@@ -128,7 +128,11 @@ void TuloMenoApuri::teeReset()
     rivit_->clear();
     ui->viiteEdit->clear();
     ui->erapaivaEdit->clear();
-    ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
+
+    if( tosite()->kumppani())
+        ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
+    else
+        ui->asiakasToimittaja->clear();
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
 
@@ -489,14 +493,15 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->tiliEdit->valitseTiliNumerolla( tilinumero );
     tiliMuuttui();
 
+    ui->alvSpin->setValue( rivi->alvprosentti() );
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
+
     verolajiMuuttui();
     ui->maaraEdit->setCents( rivi->brutto() );
     ui->verotonEdit->setCents( rivi->netto());
 
     ui->vahennysCheck->setChecked( !rivi->alvvahennys() );
 
-    ui->alvSpin->setValue( rivi->alvprosentti() );
     ui->poistoSpin->setValue( rivi->poistoaika() / 12 );
 
     ui->alkuEdit->setDate( rivi->jaksoalkaa() );
@@ -605,6 +610,8 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
 
     if( tosite()->tyyppi() == TositeTyyppi::KULULASKU && tosite()->otsikko().isEmpty() )
         tosite()->asetaOtsikko( tr("Kululasku %1").arg(map.value("nimi").toString()) );
+
+    teeTositteelle();
 }
 
 QString TuloMenoApuri::viimeMaksutapa__ = QString();

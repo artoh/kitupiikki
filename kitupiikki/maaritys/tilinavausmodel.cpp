@@ -26,6 +26,9 @@
 
 #include <QMessageBox>
 
+#include "db/tositetyyppimodel.h"
+#include "model/tositevienti.h"
+
 TilinavausModel::TilinavausModel() :    
     tosite_(new Tosite(this)),
     muokattu_(false)
@@ -282,16 +285,24 @@ bool TilinavausModel::tallenna()
             if( era.vienti() )
                 vienti.set(TositeVienti::ID, era.vienti());
 
+            Tili tilio = kp()->tilit()->tiliNumerolla(tili);
+
             if( !era.eranimi().isEmpty()) {
                 if( era.vienti())
                     vienti.setEra( era.vienti() );
-                else
+                else {
                     vienti.setEra(-1);
+                    // Ostosaamiset ja velat -kirjataan niin,
+                    // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
+                    if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
+                        vienti.setTyyppi( TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS );
+                    else if( tilio.onko(TiliLaji::OSTOVELKA) )
+                        vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
+                }
                 vienti.setSelite( era.eranimi() );
             }
             vienti.setKohdennus( era.kohdennus() );
 
-            Tili tilio = kp()->tilit()->tiliNumerolla(tili);
             if( ( tilio.onko( (TiliLaji::VASTAAVAA)) || tilio.onko(TiliLaji::MENO))
                 ^ ( era.saldo() < 0 ) )
                 vienti.setDebet( qAbs(era.saldo()) );

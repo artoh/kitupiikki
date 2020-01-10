@@ -152,8 +152,17 @@ void TilioteKirjaaja::accept()
     }
 }
 
+void TilioteKirjaaja::kirjaaUusia()
+{
+    setWindowTitle( tr("Kirjaa tiliotteelle"));
+    muokattavaRivi_ = -1;
+    show();
+}
+
 void TilioteKirjaaja::muokkaaRivia(int riviNro)
 {
+    setWindowTitle(tr("Muokkaa tiliotekirjausta"));
+
     muokattavaRivi_ = riviNro;
     TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
 
@@ -236,15 +245,15 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
         ui->asiakastoimittaja->alusta();
-        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? 4000 : 3000 );    // TODO: Tod. oletukset
-
+        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? 4000 : 3000 );    // TODO: Tod. oletukset        
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
         ui->tiliEdit->suodataTyypilla( "[AB].*");
-    }
 
+    }
     tiliMuuttuu();
+
 }
 
 void TilioteKirjaaja::euroMuuttuu()
@@ -274,7 +283,8 @@ void TilioteKirjaaja::tiliMuuttuu()
 {
     Tili tili = ui->tiliEdit->valittuTili();
 
-    bool erat = tili.eritellaankoTase();
+    bool erat = tili.eritellaankoTase() &&
+            ui->alaTabs->currentIndex() != MAKSU;
     ui->eraLabel->setVisible(erat);
     ui->eraCombo->setVisible(erat);
     if( erat ) {
