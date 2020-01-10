@@ -57,6 +57,7 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
     ui->tuloEdit->setValue( verolaskelma.value("tulo").toDouble());
     ui->vahennysEdit->setValue( verolaskelma.value("vahennys").toDouble());
     ui->maksetutEdit->setValue( verolaskelma.value("ennakko").toDouble());
+    paivitaYlevero();
     paivitaVahennys();
 }
 

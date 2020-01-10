@@ -48,6 +48,9 @@ BudjettiDlg::BudjettiDlg(QWidget *parent) :
     connect( ui->peruNappi, &QPushButton::clicked, this, &BudjettiDlg::close );
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/budjetti"); });
 
+    ui->view->setItemDelegateForColumn(BudjettiModel::EDELLINEN, new EuroDelegaatti);
+    ui->view->setItemDelegateForColumn(BudjettiModel::EUROT, new EuroDelegaatti);
+
     ui->view->horizontalHeader()->setSectionResizeMode(BudjettiModel::NIMI, QHeaderView::Stretch );
 }
 

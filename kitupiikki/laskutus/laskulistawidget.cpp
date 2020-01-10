@@ -138,7 +138,9 @@ void LaskulistaWidget::paivitaNapit()
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
     ui->muistutusNappi->setVisible( index.isValid() && (index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
-                                                        || index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MAKSUMUISTUTUS) && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara() );
+                                                        || index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MAKSUMUISTUTUS)
+                                    && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
+                                    && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5);
     ui->ryhmalaskuNappi->setVisible(paalehti_ == MYYNTI || paalehti_ == ASIAKAS);
 
     if( ui->tabs->currentIndex() >= KAIKKI )

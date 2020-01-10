@@ -82,12 +82,17 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
                 return proxy_->data( proxy_->index(index.row(), TiliModel::NIMI) ) ;
 
             case EUROT:
+            case EDELLINEN:
+
                 if( proxy_->data( proxy_->index(index.row(), 0), TiliModel::OtsikkotasoRooli ).toInt() )
                     return QVariant();
 
                 QString tilinumero = proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO) ).toString();
 
-                double eurot = data_.value( QString::number(kohdennusid_) ).toMap().value( tilinumero ).toDouble();
+                double eurot = index.column() == EUROT ?
+                        data_.value( QString::number(kohdennusid_) ).toMap().value( tilinumero ).toDouble()
+                          :
+                        edellinen_.value( QString::number(kohdennusid_) ).toMap().value( tilinumero ).toDouble();
                 if( role == Qt::EditRole)
                     return eurot;
 

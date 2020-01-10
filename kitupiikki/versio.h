@@ -28,6 +28,6 @@
 #define KITSAS_BUILD  "5A" // "PORTABLE" //
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+#define KITSAS_DEVEL
 
 #endif // VERSIO_H
