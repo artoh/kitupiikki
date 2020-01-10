@@ -17,7 +17,7 @@ touch ../kitupiikki/versio.h
 
 ~/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake ../kitupiikki/kitupiikki.pro "CONFIG += release"
 make -j 6
-cp kitsas.exe ../$DIST_DIR
+cp release/kitsas.exe ../$DIST_DIR
 
 cd ../$DIST_DIR
 

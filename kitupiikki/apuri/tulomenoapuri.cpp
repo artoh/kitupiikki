@@ -72,6 +72,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->alkuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoAlkaaMuuttui);
     connect( ui->loppuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoLoppuuMuuttui);
+    connect( ui->poistoSpin, SIGNAL(valueChanged(int)), this, SLOT(poistoAikaMuuttuu()));
 
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tositteelle);
@@ -270,7 +271,10 @@ void TuloMenoApuri::tiliMuuttui()
 
     if( !resetoidaanko() || !tosite()->id()) {
 
-        ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
+        if( tasapoisto ) {
+            ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
+            poistoAikaMuuttuu();
+        }
 
         if( kp()->asetukset()->onko(AsetusModel::ALV) )
         {

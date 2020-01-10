@@ -182,8 +182,10 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     if( !tosite->data(Tosite::KUMPPANI).isNull() )
         vienti.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
 
-    if( poistoaika())
+    if( poistoaika()) {
         vienti.setTasaerapoisto( poistoaika());
+        vienti.setEra(-1);
+    }
 
 
     double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||

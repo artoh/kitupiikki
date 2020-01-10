@@ -79,7 +79,7 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
                     rivit_.at( index.row() ).brutto() :
                     rivit_.at( index.row() ).netto() ;
 
-            if( sentit > 1e-5 )
+            if( qAbs(sentit) > 1e-5 )
                return QVariant( QString("%L1 €").arg(sentit / 100.0,0,'f',2));
         }
     }

@@ -66,7 +66,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
     connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
-    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
+    connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -90,9 +90,14 @@ void ArkistoSivu::siirrySivulle()
 
     connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
 
+    // Pyritään valitsemaan tilikausi, jolle laaditaan seuraavaksi tilinpäätös
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
-    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
-
+    for(int i=0; i < kp()->tilikaudet()->rowCount(QModelIndex()); i++) {
+        if( kp()->tilikaudet()->tilikausiIndeksilla(i).tilinpaatoksenTila() < Tilikausi::VAHVISTETTU) {
+            ui->view->selectRow(i);
+            break;
+        }
+    }
 }
 
 void ArkistoSivu::uusiTilikausi()
@@ -209,20 +214,17 @@ void ArkistoSivu::tilinpaatosKasky()
 
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
-    if( ui->view->selectionModel()->selection().indexes().value(0).isValid())
+    int indeksi = ui->view->selectionModel()->currentIndex().row();
+
+    if( indeksi > -1)
     {
-        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->selectionModel()->selection().indexes().value(0).row() );
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( indeksi );
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
-
-        // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
-        // bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
-        //        && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
 
 
         ui->arkistoNappi->setEnabled( true );
         ui->vieNappi->setEnabled( true );
-
 
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
