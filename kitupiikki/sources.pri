@@ -16,6 +16,7 @@ SOURCES += \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
+    $$PWD/kitupiikkituonti/vanhatuontidlg.cpp \
     $$PWD/laskutus/asiakkaatmodel.cpp \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
@@ -247,6 +248,7 @@ HEADERS += \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/kitupiikkituonti/vanhatuontidlg.h \
     $$PWD/laskutus/asiakkaatmodel.h \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
@@ -476,6 +478,7 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
+    $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \

@@ -157,6 +157,17 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="kitupiikkituontiNappi">
+           <property name="text">
+            <string>Tuo Kitupiikistä</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="varmistaNappi">
            <property name="enabled">
             <bool>false</bool>

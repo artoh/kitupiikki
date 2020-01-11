@@ -108,6 +108,7 @@ Kirjanpito::~Kirjanpito()
 {
     tietokanta_.close();
     delete tempDir_;
+    delete printer_;
 }
 
 QString Kirjanpito::asetus(const QString &avain) const

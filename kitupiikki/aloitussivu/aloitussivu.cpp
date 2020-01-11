@@ -52,6 +52,7 @@
 #include "uusikirjanpito/uusivelho.h"
 #include "maaritys/tilikarttapaivitys.h"
 #include "alv/alvilmoitustenmodel.h"
+#include "kitupiikkituonti/vanhatuontidlg.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -76,6 +77,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
     connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
+    connect( ui->kitupiikkituontiNappi, &QPushButton::clicked, this, &AloitusSivu::tuoKitupiikista);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
@@ -270,6 +272,12 @@ void AloitusSivu::avaaTietokanta()
     if( !polku.isEmpty())
         kp()->sqlite()->avaaTiedosto( polku );
 
+}
+
+void AloitusSivu::tuoKitupiikista()
+{
+    VanhatuontiDlg dlg(this);
+    dlg.exec();
 }
 
 void AloitusSivu::abouttiarallaa()

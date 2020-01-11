@@ -289,9 +289,18 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         if( vientiid ) {
             vanhatviennit.remove(vientiid);
-            kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debetsnt=?, kreditsnt=?, eraid=?, "
+            /* kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debetsnt=?, kreditsnt=?, eraid=?, "
                                    "json=?, alvkoodi=?, alvprosentti=?, rivi=?, kumppani=?, jaksoalkaa=?, jaksoloppuu=?, tyyppi=?, erapvm=?, viite=? "
                                    "WHERE id=%1").arg(vientiid));
+            */
+            kysely.prepare("INSERT INTO Vienti (id, tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                           "ON CONFLICT (id) DO UPDATE SET tosite=EXCLUDED.tosite, pvm=EXCLUDED.pvm, tili=EXCLUDED.tili, kohdennus=EXCLUDED.kohdennus,"
+                           "selite=EXCLUDED.selite, debetsnt=EXCLUDED.debetsnt, kreditsnt=EXCLUDED.kreditsnt, eraid=EXCLUDED.eraid,"
+                           "json=EXCLUDED.json, alvkoodi=EXCLUDED.alvkoodi, alvprosentti=EXCLUDED.alvprosentti, rivi=EXCLUDED.rivi,"
+                           "kumppani=EXCLUDED.kumppani, jaksoalkaa=EXCLUDED.jaksoalkaa, jaksoloppuu=EXCLUDED.jaksoloppuu,"
+                           "tyyppi=EXCLUDED.tyyppi, erapvm=EXCLUDED.erapvm, viite=EXCLUDED.viite");
+            kysely.addBindValue( vientiid );
         } else {
             kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
@@ -318,6 +327,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kysely.addBindValue( viite );
 
         kysely.exec();
+        qDebug() << kysely.lastQuery();
+        qDebug() << kysely.lastError().text();
+
 
         if( !vientiid)
             vientiid = kysely.lastInsertId().toInt();

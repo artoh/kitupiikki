@@ -24,6 +24,7 @@ namespace TositeTyyppi {
     enum Tyyppi
     {
         MUU = 0,
+        TUONTI = 90,
         MENO = 100,
         KULULASKU = 120,
         TULO = 200,

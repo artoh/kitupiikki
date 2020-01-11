@@ -66,7 +66,6 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
     connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
-    connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -88,7 +87,7 @@ void ArkistoSivu::siirrySivulle()
         ui->view->setColumnWidth( i, (ui->view->width()-10) / 6);
     ui->view->horizontalHeader()->setStretchLastSection(true);
 
-    connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
+    connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit );
 
     // Pyritään valitsemaan tilikausi, jolle laaditaan seuraavaksi tilinpäätös
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);

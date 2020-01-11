@@ -55,6 +55,7 @@ public slots:
 
     void uusiTietokanta();
     void avaaTietokanta();
+    void tuoKitupiikista();
 
     void abouttiarallaa();
 
