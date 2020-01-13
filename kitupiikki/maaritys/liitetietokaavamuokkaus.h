@@ -37,6 +37,7 @@ public:
     bool nollaa() override;
     bool tallenna() override;
     bool onkoMuokattu() override;
+    void lataa();
 
     QString ohjesivu() override { return "maaritykset/tilinpaatos";}
 

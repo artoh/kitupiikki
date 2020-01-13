@@ -42,7 +42,7 @@
 #include "tositesarjamaaritys.h"
 
 #include "ui_laskumaaritys.h"
-#include "ui_VeroMaaritys.h"
+#include "ui_veromaaritys.h"
 
 #include <QDebug>
 
@@ -65,7 +65,7 @@ MaaritysSivu::MaaritysSivu() :
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
 //    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
 //    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
-//    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
 //    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
     lisaaSivu("Verojen maksu", VERO, QIcon(":/pic/vero.png"),"vero");
     lisaaSivu("Tilikartan päivitys", PAIVITYS, QIcon(":/pic/paivita.png"),"paivita");

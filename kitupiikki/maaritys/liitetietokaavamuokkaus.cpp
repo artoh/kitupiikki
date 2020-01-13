@@ -30,6 +30,7 @@ LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus() :
     new KaavanKorostin(  ui->editori->document());
     connect( ui->editori, SIGNAL(textChanged()), this, SLOT(ilmoitaOnkoMuokattu()));
     connect( ui->raporttiNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRaportti()));
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &LiitetietokaavaMuokkaus::lataa);
 }
 
 LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
@@ -39,13 +40,19 @@ LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
 
 bool LiitetietokaavaMuokkaus::nollaa()
 {
-    ui->editori->setPlainText( kp()->asetukset()->asetus("TilinpaatosPohja"));
+    ui->kieliCombo->clear();
+    QStringList kaavat = kp()->asetukset()->avaimet("tppohja/");
+    for(auto kaava: kaavat) {
+        QString kieli = kaava.mid(8);
+        ui->kieliCombo->addItem(QIcon(":/liput/" + kieli), kp()->asetukset()->kieli(kieli), kieli);
+    }
     return true;
 }
 
 bool LiitetietokaavaMuokkaus::tallenna()
 {
-    kp()->asetukset()->aseta("TilinpaatosPohja", ui->editori->toPlainText() );
+    QString kieli = ui->kieliCombo->currentData().toString();
+    kp()->asetukset()->aseta("tppohja/" + kieli, ui->editori->toPlainText() );
     ui->editori->document()->setModified(false);
     ilmoitaOnkoMuokattu();
     return true;
@@ -54,6 +61,12 @@ bool LiitetietokaavaMuokkaus::tallenna()
 bool LiitetietokaavaMuokkaus::onkoMuokattu()
 {
     return ui->editori->document()->isModified();
+}
+
+void LiitetietokaavaMuokkaus::lataa()
+{
+    QString kieli = ui->kieliCombo->currentData().toString();
+    ui->editori->setPlainText( kp()->asetukset()->asetus("tppohja/" + kieli) );
 }
 
 void LiitetietokaavaMuokkaus::ilmoitaOnkoMuokattu()
