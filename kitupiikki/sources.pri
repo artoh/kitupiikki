@@ -166,7 +166,6 @@ SOURCES += \
     arkisto/poistaja.cpp \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
-    maaritys/tilikarttaohje.cpp \
     arkisto/tararkisto.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
@@ -398,7 +397,6 @@ HEADERS += \
     arkisto/poistaja.h \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
-    maaritys/tilikarttaohje.h \
     arkisto/tararkisto.h \
     tuonti/pdftuonti.h \
     validator/viitevalidator.h \
@@ -538,7 +536,6 @@ FORMS += \
     maaritys/lisaaraporttidialogi.ui \
     maaritys/kaavaeditori.ui \
     arkisto/muokkaatilikausi.ui \
-    maaritys/tilikarttaohje.ui \
     aloitussivu/tervetuloa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \

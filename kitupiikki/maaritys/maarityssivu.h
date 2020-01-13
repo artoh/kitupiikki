@@ -59,8 +59,7 @@ public:
         TUONTI,
         INBOX,
         RAPORTIT,
-        LIITETIETOKAAVA,
-        TILIKARTTAOHJE,
+        LIITETIETOKAAVA,        
         VERO,
         PAIVITYS
 
