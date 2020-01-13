@@ -345,18 +345,24 @@ void VanhatuontiDlg::tuo()
     }
     qApp->processEvents();
 
-    ui->progressBar->setValue(40);
+    ui->progressBar->setValue(30);
     siirraAsetukset();
-    ui->progressBar->setValue(50);
+    ui->progressBar->setValue(40);
     siirraTilikaudet();
-    ui->progressBar->setValue(55);
+    ui->progressBar->setValue(50);
     taydennaTilit();
-    ui->progressBar->setValue(70);
+    ui->progressBar->setValue(60);
     siirraTuotteet();
-    ui->progressBar->setValue(80);
+    ui->progressBar->setValue(70);
     if( ui->asiakasCheck->isChecked())
         siirraAsiakkaat();
+    ui->progressBar->setValue(80);
+
+    // Haetaan muokatut tilit yms. jotta voidaan käsitellä tilien tuontia
+    kp()->sqlite()->alusta();
     ui->progressBar->setValue(90);
+
+
     siirraTositteet();
     siirraLiiteet();
 
@@ -445,8 +451,6 @@ void VanhatuontiDlg::taydennaTilit()
     while( sql.next()) {
         int id = sql.value("id").toInt();
         int numero = tilimuunto(sql.value(0).toInt());
-
-        tiliIdlla_.insert(id, numero);
 
         QString tyyppi = sql.value(2).toString();
 
@@ -627,9 +631,10 @@ void VanhatuontiDlg::siirraTositteet()
         tosite.setData(Tosite::SARJA, tositekysely.value("tunnus"));
         tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
 
-        vientikysely.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, alvkoodi, alvprosentti, "
+        vientikysely.exec(QString("SELECT vienti.id as id, pvm, tili.nro as tilinumero, debetsnt, kreditsnt, selite, alvkoodi, alvprosentti, "
                                   "kohdennus, eraid, viite, iban, laskupvm, erapvm, "
-                          "arkistotunnus, asiakas, json FROM Vienti WHERE tosite=%1 ORDER BY vientirivi").arg(tositeid));
+                          "arkistotunnus, asiakas, vienti.json FROM Vienti "
+                          "LEFT OUTER JOIN Tili ON Vienti.tili=Tili.id   WHERE tosite=%1 ORDER BY vientirivi").arg(tositeid));
         while(vientikysely.next()) {
             TositeVienti vienti;
             int vientiid = vientikysely.value("id").toInt();
@@ -638,7 +643,7 @@ void VanhatuontiDlg::siirraTositteet()
             if( !vientiPvm.isValid())
                 vientiPvm = pvm;    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi
             vienti.setPvm( vientiPvm );
-            int tili =  tiliIdlla_.value( vientikysely.value("tili").toInt() );
+            int tili =  tilimuunto( vientikysely.value("tilinumero").toInt() );
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
@@ -692,7 +697,7 @@ void VanhatuontiDlg::siirraTositteet()
                 vienti.setTasaerapoisto( vientiJson.value("Tasaerapoisto").toInt() );
 
 
-            if( !tili)
+            if( !tilio.onkoValidi())
                 continue;   // Maksuperusteisten maksunvalvontariviä ei voi lisätä
             tosite.viennit()->lisaa(vienti);
 

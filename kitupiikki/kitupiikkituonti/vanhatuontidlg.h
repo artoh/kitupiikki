@@ -71,7 +71,6 @@ private:
     QVariantMap kitsasAsetukset_;
     QVariantList kitsasTilit_;
     QHash<int,int> tilinMuunto_;
-    QHash<int,int> tiliIdlla_;
     QHash<QString,int> asiakasIdt_;
     QHash<QString,QString> tilikausipaivat_;
 };
