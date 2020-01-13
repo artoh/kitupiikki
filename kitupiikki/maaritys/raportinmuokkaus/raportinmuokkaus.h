@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,31 +14,39 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef RAPORTINMUOKKAUS_H
+#define RAPORTINMUOKKAUS_H
 
-#ifndef RAPORTINKOROSTIN_H
-#define RAPORTINKOROSTIN_H
+#include "../maarityswidget.h"
+#include "db/kielikentta.h"
 
-#include <QSyntaxHighlighter>
-#include <QRegularExpression>
+namespace Ui {
+    class RaportinMuokkaus;
+}
 
-/**
- * @brief Syntaksivärjää muokattavan raportin
- */
-class RaportinKorostin : public QSyntaxHighlighter
+class RaporttiMuokkausModel;
+
+
+class RaportinMuokkaus : public MaaritysWidget
 {
     Q_OBJECT
-
 public:
-    RaportinKorostin(QTextDocument *parent = 0);
+    RaportinMuokkaus(QWidget *parent = nullptr);
+
+    bool nollaa() override;
+
 
 protected:
-    void highlightBlock(const QString &text) override;
+    void lataa(const QString& raportti);
+    void muokkaaNimikkeet();
+    void muokkaa();
+    void paivitaNapit(const QModelIndex& index);
 
-private:
-    QFont lihava;
-    QRegularExpression tilinroRe;
-
+    Ui::RaportinMuokkaus* ui;
+    RaporttiMuokkausModel* model_;
+    KieliKentta nimi_;
+    KieliKentta muoto_;
 
 };
 
-#endif // RAPORTINKOROSTIN_H
+#endif // RAPORTINMUOKKAUS_H

@@ -14,34 +14,31 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KIELIKENTTA_H
-#define KIELIKENTTA_H
+#ifndef RAPORTINMUOKKAUSDIALOGI_H
+#define RAPORTINMUOKKAUSDIALOGI_H
 
-#include <QVariant>
-#include <QMap>
+#include <QDialog>
 #include <QVariantMap>
 
-class QListWidget;
+namespace Ui {
+class RaportinmuokkausDialogi;
+}
 
-class KieliKentta
+class RaportinmuokkausDialogi : public QDialog
 {
+    Q_OBJECT
+
 public:
-    KieliKentta();
-    KieliKentta(const QVariant& var);
-    KieliKentta(const QString& var);
+    explicit RaportinmuokkausDialogi(QWidget *parent = nullptr);
+    ~RaportinmuokkausDialogi();
 
-    void aseta(const QVariant& var);
-    void aseta(const QString& nimi, const QString& kieli);
-    QString teksti(QString kieli = QString()) const;
-    QString kaannos(const QString& kieli) const;
+    static QVariantMap muokkaa(const QVariantMap& data);
 
-    void alustaListWidget(QListWidget *widget);
-    void lataa(const QListWidget *widget);
+    void lataa(const QVariantMap& data);
+    QVariantMap data() const;
 
-    QVariantMap map() const;
-
-protected:
-    QMap<QString,QString> tekstit_;
+private:
+    Ui::RaportinmuokkausDialogi *ui;
 };
 
-#endif // KIELIKENTTA_H
+#endif // RAPORTINMUOKKAUSDIALOGI_H

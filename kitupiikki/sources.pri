@@ -37,6 +37,9 @@ SOURCES += \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.cpp \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.cpp \
+    $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.cpp \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
@@ -137,8 +140,6 @@ SOURCES += \
     maaritys/kohdennusdialog.cpp \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
-    maaritys/raporttimuokkaus.cpp \
-    maaritys/raportinkorostin.cpp \
     raportti/muokattavaraportti.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
@@ -268,6 +269,9 @@ HEADERS += \
     $$PWD/maaritys/avauskohdennusmodel.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.h \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.h \
+    $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.h \
     $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
@@ -369,8 +373,6 @@ HEADERS += \
     maaritys/kohdennusdialog.h \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
-    maaritys/raporttimuokkaus.h \
-    maaritys/raportinkorostin.h \
     raportti/muokattavaraportti.h \
     onniwidget.h \
     raportti/raportoija.h \
@@ -484,6 +486,9 @@ FORMS += \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.ui \
+    $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.ui \
+    $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
@@ -513,7 +518,6 @@ FORMS += \
     maaritys/kohdennukset.ui \
     maaritys/kohdennusdialog.ui \
     kirjaus/kirjausapuridialog.ui \
-    maaritys/raportinmuokkaus.ui \
     raportti/muokattavaraportti.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \

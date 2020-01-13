@@ -30,11 +30,10 @@
 #include "tilinavaus.h"
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
-#include "raporttimuokkaus.h"
+#include "raportinmuokkaus/raportinmuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
-#include "tilikarttaohje.h"
 #include "inboxmaaritys.h"
 #include "finvoicemaaritys.h"
 #include "tilikarttapaivitys.h"
@@ -64,10 +63,9 @@ MaaritysSivu::MaaritysSivu() :
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
 //    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
-//    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
-    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
-//    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
     lisaaSivu("Verojen maksu", VERO, QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
+    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan päivitys", PAIVITYS, QIcon(":/pic/paivita.png"),"paivita");
 
 
@@ -199,7 +197,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if( sivu == KOHDENNUS)
         nykyinen = new KohdennusMuokkaus;
     else if( sivu == RAPORTIT)
-        nykyinen = new RaporttiMuokkaus;
+        nykyinen = new RaportinMuokkaus;
     else if( sivu == LIITETIETOKAAVA)
         nykyinen = new LiitetietokaavaMuokkaus;
     else if( sivu == LASKUTUS) {
@@ -219,8 +217,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new TuontiMaaritysWidget;
     else if(sivu == SAHKOPOSTI)
         nykyinen = new EmailMaaritys;
-    else if(sivu == TILIKARTTAOHJE)
-        nykyinen = new TilikarttaOhje;
     else if(sivu == INBOX)
         nykyinen = new InboxMaaritys;
     else if( sivu == VERKKOLASKU)

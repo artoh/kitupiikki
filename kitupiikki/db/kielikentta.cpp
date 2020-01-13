@@ -19,6 +19,8 @@
 #include <QDebug>
 #include <QJsonDocument>
 
+#include <QListWidget>
+
 KieliKentta::KieliKentta()
 {
 
@@ -73,6 +75,27 @@ QString KieliKentta::teksti( QString kieli) const
 QString KieliKentta::kaannos(const QString &kieli) const
 {
     return tekstit_.value(kieli);
+}
+
+void KieliKentta::alustaListWidget(QListWidget *widget)
+{
+    widget->clear();
+    for( QString kieli : kp()->asetukset()->kielet()) {
+        QString kaannos = tekstit_.value(kieli);
+        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), kaannos , widget  );
+        item->setData(Qt::UserRole, kieli);
+        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+}
+
+void KieliKentta::lataa(const QListWidget *widget)
+{
+    tekstit_.clear();
+    for(int i=0; i < widget->count(); i++) {
+        QListWidgetItem *item = widget->item(i);
+        if( !item->text().isEmpty() )
+            tekstit_.insert(item->data(Qt::UserRole).toString(), item->text());
+    }
 }
 
 QVariantMap KieliKentta::map() const
