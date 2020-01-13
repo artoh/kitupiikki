@@ -34,7 +34,7 @@
 KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KumppaniTuoteWidget),
-    proxy_(new QSortFilterProxyModel),
+    proxy_(new QSortFilterProxyModel(this)),
     asiakkaat_( new AsiakkaatModel(this))
 {
     ui->setupUi(this);

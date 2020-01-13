@@ -13,5 +13,7 @@
         <file>yritys/tilikartta.json</file>
         <file>yritys/tilinpaatos.txt</file>
         <file>yritys/tilit.json</file>
+        <file>yhdistys/muunto.txt</file>
+        <file>yritys/muunto.txt</file>
     </qresource>
 </RCC>

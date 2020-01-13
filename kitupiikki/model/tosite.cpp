@@ -55,7 +55,7 @@ void Tosite::setData(int kentta, QVariant arvo)
         kp()->tilikaudet()->tilikausiPaivalle(arvo.toDate()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle( data_.value( avaimet__.at(PVM) ).toDate() ).alkaa())
         setData( Tosite::TUNNISTE, QVariant() );
 
-    if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map) ||
+    if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
         ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
     else

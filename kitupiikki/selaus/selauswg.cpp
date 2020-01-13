@@ -42,8 +42,8 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
 
-    model = new SelausModel();
-    tositeModel = new TositeSelausModel();
+    model = new SelausModel(this);
+    tositeModel = new TositeSelausModel(this);
 
     // Proxyä käytetään tilien tai tositelajien suodattamiseen
     proxyModel = new QSortFilterProxyModel(this);

@@ -30,7 +30,8 @@
 
 #include <algorithm>
 
-TositeSelausModel::TositeSelausModel()
+TositeSelausModel::TositeSelausModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }

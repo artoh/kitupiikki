@@ -20,6 +20,10 @@
 #include <QDialog>
 #include <QSqlDatabase>
 #include <QMap>
+#include <QHash>
+
+#include "model/tosite.h"
+#include "model/tositevienti.h"
 
 namespace Ui {
 class VanhatuontiDlg;
@@ -51,7 +55,9 @@ protected:
     void siirraKohdennukset();
     void siirraTuotteet();
     void siirraAsiakkaat();
+    void tallennaAsiakasId(QVariant* data);
     void siirraTositteet();
+    void laskuTiedot(const QSqlQuery& vientikysely, Tosite& tosite);
     void siirraLiiteet();
     QVariantList tilikaudet() const;
 
@@ -64,8 +70,10 @@ private:
     QStringList muokatutAsetukset_;
     QVariantMap kitsasAsetukset_;
     QVariantList kitsasTilit_;
-    QMap<int,int> tilinMuunto_;
-    QMap<int,int> tiliIdlla_;
+    QHash<int,int> tilinMuunto_;
+    QHash<int,int> tiliIdlla_;
+    QHash<QString,int> asiakasIdt_;
+    QHash<QString,QString> tilikausipaivat_;
 };
 
 #endif // VANHATUONTIDLG_H

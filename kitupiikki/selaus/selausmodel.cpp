@@ -24,7 +24,8 @@
 
 #include <QDebug>
 
-SelausModel::SelausModel()
+SelausModel::SelausModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }

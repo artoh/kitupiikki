@@ -38,7 +38,7 @@ public:
         TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
     };
 
-    SelausModel();
+    SelausModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

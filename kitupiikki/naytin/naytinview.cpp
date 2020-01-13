@@ -65,22 +65,22 @@ NaytinView::NaytinView(QWidget *parent)
 {
     setLayout(leiska_);
 
-    zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
+    zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"),this);
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
     connect( zoomAktio_, &QAction::triggered, this, &NaytinView::zoomFit);
 
-    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"));
+    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
     connect( zoomInAktio_, &QAction::triggered, this, &NaytinView::zoomIn);
 
-    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"));
+    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
     connect( zoomOutAktio_, &QAction::triggered, this, &NaytinView::zoomOut);
 
-    tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"));
+    tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"), this);
     connect( tulostaAktio_, &QAction::triggered, this, &NaytinView::tulosta);
 
-    tallennaAktio_ = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tallenna"));
+    tallennaAktio_ = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this);
     connect( tallennaAktio_, &QAction::triggered, this, &NaytinView::tallenna);
 
 }

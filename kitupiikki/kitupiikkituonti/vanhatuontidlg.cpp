@@ -40,6 +40,8 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
+#include "laskutus/laskudialogi.h"
+#include "rekisteri/asiakastoimittajadlg.h"
 
 VanhatuontiDlg::VanhatuontiDlg(QWidget *parent) :
     QDialog(parent),
@@ -111,6 +113,19 @@ void VanhatuontiDlg::haeTilikartta(const QString &polku)
             QJsonDocument doc = QJsonDocument::fromJson(tilit.readAll());
             QVariant variant = doc.toVariant();
             kitsasTilit_ = variant.toList();
+        }
+    }
+
+    // Tilien muuntotaulukon lukeminen
+    {
+        QFile muunto(polku + "/muunto.txt");
+        if( muunto.open(QIODevice::ReadOnly)) {
+            QString txt = QString::fromUtf8(muunto.readAll());
+            for(QString rivi : txt.split('\n')) {
+                QStringList osat = rivi.split(":");
+                if( osat.value(1).toInt())
+                    tilinMuunto_.insert( osat.value(0).toInt(), osat.value(1).toInt() );
+            }
         }
     }
 
@@ -236,8 +251,16 @@ void VanhatuontiDlg::alustaValinnat()
 
     bool muokattuja = !muokatutAsetukset_.filter("Raportti/").isEmpty() ||
                       muokatutAsetukset_.contains("TilinpaatosPohja");
-    ui->muovaKuva->setVisible(muokattuja);
+
+    bool maksamattomiaMaksuperusteisia = false;
+    QSqlQuery query(kpdb_);
+    query.exec("SELECT COUNT(id) FROM Vienti WHERE pvm IS NULL");
+    if( query.next())
+        maksamattomiaMaksuperusteisia = query.value(0).toInt();
+
+    ui->muovaKuva->setVisible(muokattuja || maksamattomiaMaksuperusteisia);
     ui->muvaLabel->setVisible(muokattuja);
+    ui->maksuperusteVaroitus->setVisible( maksamattomiaMaksuperusteisia );
     ui->jatkaNappi->setVisible(true);
 }
 
@@ -253,7 +276,7 @@ void VanhatuontiDlg::alustaSijainti()
     QString uusinimi = info.fileName();
     uusinimi.remove(".kitupiikki");
 
-    ui->tiedostonNimi->setValidator(new QRegularExpressionValidator(QRegularExpression("([A-Za-z0-9]|-){1,64}")));
+    ui->tiedostonNimi->setValidator(new QRegularExpressionValidator(QRegularExpression("([A-Za-z0-9]|-){1,64}"), this));
 
     ui->tiedostonNimi->setText( uusinimi );
     ui->tiedostonHakemisto->setText( info.dir().absolutePath() );
@@ -261,7 +284,7 @@ void VanhatuontiDlg::alustaSijainti()
 
 void VanhatuontiDlg::valitseHakemisto()
 {
-    QString hakemisto = QFileDialog::getExistingDirectory(this, tr("Valitse tallennushakemisto"),
+    QString hakemisto = QFileDialog::getExistingDirectory(nullptr, tr("Valitse tallennushakemisto"),
                                                           ui->tiedostonHakemisto->text());
     if( !hakemisto.isEmpty())
         ui->tiedostonHakemisto->setText( hakemisto );
@@ -331,7 +354,8 @@ void VanhatuontiDlg::tuo()
     ui->progressBar->setValue(70);
     siirraTuotteet();
     ui->progressBar->setValue(80);
-    siirraAsiakkaat();
+    if( ui->asiakasCheck->isChecked())
+        siirraAsiakkaat();
     ui->progressBar->setValue(90);
     siirraTositteet();
     siirraLiiteet();
@@ -352,7 +376,9 @@ void VanhatuontiDlg::siirraAsetukset()
 
     QStringList siirrettavat;
     siirrettavat << "AlvVelvollinen" << "Harjoitus" << "Kotipaikka" << "LaskuSeuraavaId" << "LogossaNimi"
-                 << "Nimi" << "Osoite" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus";
+                 << "Nimi" << "Osoite" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
+                 << "LaskuIkkuna" << "LaskuIkkunaX" << "LaskuIkkunaY" << "LaskuIkkunaLeveys" << "LaskuIkkunaKorkeus"
+                 << "LaskuRF" << "MaksuAlvAlkaa" << "MaksuAlvLoppuu";
 
     // Joitain laskutuksen valintoja voisi myös siirtää
 
@@ -364,6 +390,19 @@ void VanhatuontiDlg::siirraAsetukset()
 
     map.insert("AlvAlkaa", QDate::fromString(kitupiikkiAsetukset_.value("TilitPaatetty"), Qt::ISODate).addDays(1));
     map.insert("Email", kitupiikkiAsetukset_.value("Sahkoposti"));
+    map.insert("LaskuTilisiirto", !kitupiikkiAsetukset_.contains("LaskuEiTilisiirto"));
+    map.insert("LaskuTilisiirto", !kitupiikkiAsetukset_.contains("LaskuEiViivakoodi"));
+    map.insert("LaskuQR", !kitupiikkiAsetukset_.contains("LaskuEiQR"));
+
+
+    // Tositteiden numerointiperiaate
+    if( !kitsasAsetukset_.contains("SamaanSarjaan")) {
+        map.insert("erisarjaan","ON");
+        QSqlQuery sql(kpdb_);
+        sql.exec("SELECT id FROM Tositelaji WHERE tunnus='K'");
+        if( sql.next())
+            map.insert("kateissarjaan", "ON");
+    }
 
 
     KpKysely *kysely = kpk("/asetukset", KpKysely::PATCH);
@@ -375,15 +414,27 @@ void VanhatuontiDlg::siirraTilikaudet()
 {
     QSqlQuery sql(kpdb_);
     sql.exec("SELECT alkaa, loppuu, json FROM Tilikausi ORDER BY alkaa");
-    while( sql.next()) {
+    while( sql.next()) {        
         KpKysely *kysely = kpk(QString("/tilikaudet/%1").arg(sql.value(0).toDate().toString(Qt::ISODate)), KpKysely::PUT);
         QVariantMap map;
         map.insert("loppuu", sql.value(1));
 
-        // TODO Muut ominaisuudet
+        QVariantMap jsonMap = QJsonDocument::fromJson( sql.value(2).toByteArray() ).toVariant().toMap();
+        map.insert("arkisto", jsonMap.value("Arkistoitu"));
+        map.insert("henkilosta", jsonMap.value("Henkilosto"));
+        map.insert("vahvistettu", jsonMap.value("Vahvistettu"));
 
         kysely->kysy(map);
-        // TODO Budjetti
+
+        tilikausipaivat_.insert(sql.value(0).toString(), sql.value(1).toString());
+
+        if( map.contains("Budjetti")) {
+            kysely = kpk( QString("/budjetti/%1").arg( sql.value(0).toString() ), KpKysely::PUT);
+            kysely->kysy( map.value("Budjetti") );
+        }
+
+
+
     }
 }
 
@@ -491,7 +542,69 @@ void VanhatuontiDlg::siirraTuotteet()
 
 void VanhatuontiDlg::siirraAsiakkaat()
 {
-    // TODO THIS !!!!
+    QRegularExpression postiRe("(\\d{5})\\s(\\w{2,}.*)");
+    QSet<QString> saajatiedosta;
+
+    QSqlQuery sql(kpdb_);
+    sql.exec("SELECT asiakas, json FROM Vienti WHERE asiakas ORDER BY muokattu DESC");
+    while( sql.next()) {
+        QString nimi = sql.value(0).toString();
+        QVariantMap tiedot = QJsonDocument::fromJson(sql.value(1).toByteArray()).toVariant().toMap();
+        bool saatuSaajasta = nimi.isEmpty();
+
+        if( nimi.isEmpty() && tiedot.contains("SaajanNimi") ) {
+            nimi = tiedot.value("SaajanNimi").toString();
+            saajatiedosta.insert(nimi);
+        }
+
+        if( nimi.isEmpty() || (asiakasIdt_.contains(nimi) && !saajatiedosta.contains(nimi)))
+            continue;       // Jokaisesta asiakkaasta huomioidaan vain viimeisimmät tiedot
+        if( !saatuSaajasta) // Kuitenkin, jos saatu saajatiedosta, niin haetaan mieluummin laskulta
+            saajatiedosta.remove(nimi);     // jossa niitä tietojakin löytyy
+
+        QVariantMap asiakasMap;
+        asiakasMap.insert("nimi", nimi);
+        asiakasMap.insert("maa", "fi");
+
+        if( tiedot.contains("Osoite")) {
+            QString postinumero;
+            QString kaupunki;
+            QStringList osoitelista = tiedot.value("Osoite").toString().split('\n');
+            for(int i=1; i < osoitelista.count(); i++) {
+                QRegularExpressionMatch mats = postiRe.match(osoitelista.value(i));
+                if( mats.hasMatch()) {
+                    postinumero = mats.captured(1);
+                    kaupunki = mats.captured(2);
+                    osoitelista.removeAt(i);
+                    break;
+                }
+            }
+            asiakasMap.insert("osoite", osoitelista.join('\n'));
+            asiakasMap.insert("postinumero", postinumero);
+            asiakasMap.insert("kaupunki", kaupunki);
+        }
+        if( tiedot.contains("Email"))
+            asiakasMap.insert("email", tiedot.value("Email"));
+        if( tiedot.contains("YTunnus")) {
+            asiakasMap.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv(tiedot.value("YTunnus").toString()));
+        }
+        if( tiedot.contains("Verkkolaskuosoite")) {
+            asiakasMap.insert("ovt", tiedot.value("Verkkolaskuosoite"));
+            asiakasMap.insert("operaattori", tiedot.value("VerkkolaskuValittaja"));
+        }
+        KpKysely *kysely = kpk("/kumppanit", KpKysely::POST);
+        connect(kysely, &KpKysely::vastaus, this, &VanhatuontiDlg::tallennaAsiakasId);
+        kysely->kysy(asiakasMap);
+    }
+
+}
+
+void VanhatuontiDlg::tallennaAsiakasId(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    int id = map.value("id").toInt();
+    QString nimi = map.value("nimi").toString();
+    asiakasIdt_.insert(nimi, id);
 }
 
 void VanhatuontiDlg::siirraTositteet()
@@ -504,7 +617,10 @@ void VanhatuontiDlg::siirraTositteet()
         int tositeid = tositekysely.value("id").toInt();
         Tosite tosite;
         tosite.setData(Tosite::ID, tositeid);
-        tosite.asetaPvm(tositekysely.value("pvm").toDate());
+        QDate pvm = tositekysely.value("pvm").toDate();
+        if( !pvm.isValid())
+            continue;   // Pitää olla päivämäärä
+        tosite.asetaPvm(pvm);
         tosite.asetaTyyppi(TositeTyyppi::TUONTI);
         tosite.asetaOtsikko(tositekysely.value("otsikko").toString());
         tosite.setData(Tosite::KOMMENTIT, tositekysely.value("kommentti"));
@@ -518,8 +634,12 @@ void VanhatuontiDlg::siirraTositteet()
             TositeVienti vienti;
             int vientiid = vientikysely.value("id").toInt();
             vienti.setId( vientiid );
-            vienti.setPvm( vientikysely.value("pvm").toDate());
-            vienti.setTili( tiliIdlla_.value( vientikysely.value("tili").toInt() ));
+            QDate vientiPvm = vientikysely.value("pvm").toDate();
+            if( !vientiPvm.isValid())
+                vientiPvm = pvm;    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi
+            vienti.setPvm( vientiPvm );
+            int tili =  tiliIdlla_.value( vientikysely.value("tili").toInt() );
+            vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
             if( debetsnt )
@@ -534,9 +654,29 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setViite( vientikysely.value("viite").toString());
             vienti.setErapaiva( vientikysely.value("erapvm").toDate());
             vienti.setArkistotunnus( vientikysely.value("arkistotunnus").toString());
-            // TODO: Asiakas ja laskut yms json-jutut
 
-            // TODO: Merkkaukset
+            QVariantMap vientiJson = QJsonDocument::fromJson( vientikysely.value("json").toByteArray() ).toVariant().toMap();
+
+            // Asiakas tai toimittaja
+            QString asiakasToimittaja = vientikysely.value("asiakas").toString();
+            if( asiakasToimittaja.isEmpty())
+                asiakasToimittaja = vientiJson.value("SaajanNimi").toString();
+            if( !asiakasToimittaja.isEmpty() && asiakasIdt_.contains(asiakasToimittaja)) {
+                vienti.setKumppani(asiakasIdt_.value(asiakasToimittaja));
+                tosite.setData(Tosite::KUMPPANI, asiakasIdt_.value(asiakasToimittaja));
+            }
+
+            // Myyntilaskujen ja ostolaskujen tyypit
+            // Näin saadaan laskut seurantaan
+            Tili tilio = kp()->tilit()->tiliNumerolla(tili);
+            if( vientiid == vientikysely.value("eraid").toInt()) {
+                if( tilio.onko(TiliLaji::OSTOVELKA))
+                    vienti.setTyyppi(TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS);
+                else if( tilio.onko(TiliLaji::MYYNTISAATAVA))
+                    vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
+            }
+
+            // Merkkaukset
             QVariantList merkkaukset;
             merkkauskysely.exec(QString("SELECT kohdennus FROM Merkkaus WHERE vienti=%1").arg(vientiid));
             while( merkkauskysely.next() ) {
@@ -545,7 +685,17 @@ void VanhatuontiDlg::siirraTositteet()
             if( !merkkaukset.isEmpty())
                 vienti.setMerkkaukset(merkkaukset);
 
+            if( vientiJson.contains("Laskurivit"))
+                laskuTiedot(vientikysely, tosite );
+
+            if( vientiJson.contains("Tasaerapoisto"))
+                vienti.setTasaerapoisto( vientiJson.value("Tasaerapoisto").toInt() );
+
+
+            if( !tili)
+                continue;   // Maksuperusteisten maksunvalvontariviä ei voi lisätä
             tosite.viennit()->lisaa(vienti);
+
         }
         connect(&tosite, &Tosite::tallennusvirhe, [] (int virhe) { qDebug() << "TOSITEVIRHE " << virhe;});
         tosite.tallenna();
@@ -554,16 +704,80 @@ void VanhatuontiDlg::siirraTositteet()
     }
 }
 
+void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
+{
+    QVariantMap vientiJson = QJsonDocument::fromJson( vientikysely.value("json").toByteArray() ).toVariant().toMap();
+    QVariantList tuontiRivit = vientiJson.value("Laskurivit").toList();
+
+    QVariantList rivit;
+    for(auto item : tuontiRivit) {
+        QVariantMap map = item.toMap();
+        QVariantMap riviMap;
+
+        riviMap.insert("tuote", map.value("Tuotekoodi"));
+        riviMap.insert("myyntikpl", map.value("Maara"));
+        riviMap.insert("ahinta", map.value("YksikkohintaSnt").toDouble() / 100.0);
+        riviMap.insert("nimike", map.value("Nimike"));
+        riviMap.insert("yksikko", map.value("Yksikko"));
+        riviMap.insert("Tili", tilimuunto( map.value("tili").toInt() ));
+        riviMap.insert("kohdennus", map.value("Kohdennus"));
+        riviMap.insert("alvkoodi", map.value("Alvkoodi"));
+        riviMap.insert("alvprosentti", map.value("Alvprosentti").toDouble());
+        riviMap.insert("aleprosentti", map.value("AleProsentti").toDouble());
+        rivit.append(riviMap);
+    }
+
+    tosite.setData(Tosite::RIVIT, rivit);
+
+    QVariantMap lasku;
+    lasku.insert("osoite", vientiJson.value("Osoite"));
+    lasku.insert("email", vientiJson.value("Email"));
+    lasku.insert("asviite", vientiJson.value("AsiakkaanViite"));
+    if( !vientiJson.value("YTunnus").toString().isEmpty())
+        lasku.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv(vientiJson.value("YTunnus").toString()));
+    lasku.insert("kieli", vientiJson.value("Kieli"));
+    lasku.insert("viivkorko", vientiJson.value("Viivastyskorko"));
+    lasku.insert("numero", vientikysely.value("viite"));
+    lasku.insert("erapvm", vientikysely.value("erapvm"));
+    lasku.insert("pvm", vientikysely.value("laskupvm"));
+    lasku.insert("laskutapa", LaskuDialogi::TUOTULASKU);
+
+    lasku.insert("maksutapa", LaskuDialogi::LASKU);
+    int kirjausperuste = vientiJson.value("Kirjausperuste").toInt();
+    if( kirjausperuste == 0)
+        lasku.insert("maksutapa", LaskuDialogi::SUORITEPERUSTE);
+    else if( kirjausperuste == 3)
+        lasku.insert("maksutapa", LaskuDialogi::KATEINEN);
+
+    if( vientiJson.contains("Hyvityslasku"))
+        tosite.asetaTyyppi( TositeTyyppi::HYVITYSLASKU);
+    else if( vientiJson.contains("Maksumuistutus"))
+        tosite.asetaTyyppi( TositeTyyppi::MAKSUMUISTUTUS);
+    else
+        tosite.asetaTyyppi(TositeTyyppi::MYYNTILASKU);
+
+    tosite.setData(Tosite::LASKU, lasku);
+
+}
+
 void VanhatuontiDlg::siirraLiiteet()
 {
     QSqlQuery sql(kpdb_);
-    sql.exec("SELECT tosite, otsikko, data FROM Liite ORDER BY tosite, liiteno");
+    sql.exec("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id ORDER BY tosite, liiteno ");
     while( sql.next()) {
         int tosite = sql.value(0).toInt();
         QString otsikko = sql.value(1).toString();
         QByteArray data = sql.value(2).toByteArray();
 
-        if( tosite == 0) {
+        if( sql.value(3).toString().startsWith("{\"Lasku\":") ) {
+            KpKysely* kysely = kpk(QString("/liitteet/%1/lasku").arg(tosite), KpKysely::PUT);
+            kysely->lahetaTiedosto(data);
+        }
+        else if( tosite == 0) {
+            // Tilinpäätöksen tallentuminen oikealla roolinimellä
+            if( tilikausipaivat_.contains(otsikko))
+                otsikko = "TP_" + tilikausipaivat_.value(otsikko);
+
             KpKysely* kysely = kpk(QString("/liitteet/0/%1").arg(otsikko), KpKysely::PUT);
             kysely->lahetaTiedosto(data);
         } else {

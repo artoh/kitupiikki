@@ -79,7 +79,7 @@
       </layout>
      </widget>
      <widget class="QWidget" name="valinnat">
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
          <item>
@@ -96,14 +96,28 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="muvaLabel">
-           <property name="text">
-            <string>Olet muokannut raportteja tai tilinpäätöksen mallia. Siirretyssä kirjanpidossa käytetään kuitenkin Kitsaan oletusraportteja ja -tilinpäätöstä, ja mahdolliset tarvittavat muokkaukset on tehtävä uudestaan.</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QLabel" name="muvaLabel">
+             <property name="text">
+              <string>Olet muokannut raportteja tai tilinpäätöksen mallia. Siirretyssä kirjanpidossa käytetään kuitenkin Kitsaan oletusraportteja ja -tilinpäätöstä, ja mahdolliset tarvittavat muokkaukset on tehtävä uudestaan.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="maksuperusteVaroitus">
+             <property name="text">
+              <string>Maksamattomia maksuperusteisia laskut muuttuvat siirrettäessä laskuperusteisiksi.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -150,14 +164,17 @@
        <item row="3" column="1">
         <widget class="QListWidget" name="laajuusLista"/>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="4" column="0">
         <widget class="QCheckBox" name="asiakasCheck">
          <property name="text">
           <string>Tuo asiakasluettelo</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="5" column="0">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

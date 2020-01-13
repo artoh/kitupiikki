@@ -57,6 +57,11 @@ AlvSivu::AlvSivu() :
 
 }
 
+AlvSivu::~AlvSivu()
+{
+    delete ui;
+}
+
 void AlvSivu::siirrySivulle()
 {
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );

@@ -66,7 +66,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     pilviModel_(new PilviModel(this)),
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),
-    tositeTyypit_( new TositeTyyppiModel()),
+    tositeTyypit_( new TositeTyyppiModel(this)),
     tulkki_( new Tulkki(":/tr/tulkki.json", this))
 {
     if( portableDir.isEmpty())

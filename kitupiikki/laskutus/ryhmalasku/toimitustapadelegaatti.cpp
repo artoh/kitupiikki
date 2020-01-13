@@ -83,6 +83,8 @@ QIcon ToimitustapaDelegaatti::icon(int koodi)
         return QIcon(":/pic/pdf.png");
     case LaskuDialogi::EITULOSTETA:
         return QIcon(":/pic/tyhja.png");
+    case LaskuDialogi::TUOTULASKU:
+        return QIcon(":/pic/tuotiedosto.png");
     default:
         return QIcon(":/tyhja.png");
     }

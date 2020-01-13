@@ -36,6 +36,8 @@ class AlvSivu : public KitupiikkiSivu
 public:
     AlvSivu();
 
+    ~AlvSivu() override;
+
     void siirrySivulle() override;
 
 public slots:

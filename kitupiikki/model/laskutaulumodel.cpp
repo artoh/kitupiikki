@@ -196,7 +196,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return QVariant();
     case EraPvmRooli:
         return map.value("erapvm").toDate();
-    }    
+    case LaskutustapaRooli:
+        return map.value("laskutapa");
+    }
     return QVariant();
 }
 

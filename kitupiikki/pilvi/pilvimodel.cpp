@@ -32,7 +32,7 @@
 PilviModel::PilviModel(QObject *parent) :
     YhteysModel (parent)
 {
-    timer_ = new QTimer();
+    timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
 }
 

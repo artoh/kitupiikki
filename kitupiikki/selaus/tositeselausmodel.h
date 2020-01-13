@@ -63,7 +63,7 @@ public:
         KIRJANPIDOSSA = 3
     };
 
-    TositeSelausModel();
+    TositeSelausModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

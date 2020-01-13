@@ -198,6 +198,7 @@ KirjausWg::~KirjausWg()
 
     kp()->settings()->setValue("KirjausWgRuudukko", leveysLista);
 
+    delete ui;
 }
 
 void KirjausWg::lisaaRivi()

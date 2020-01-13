@@ -32,8 +32,8 @@ Tili::Tili(const QVariantMap &data) :
     KantaVariantti (data), tila_(1), ylaotsikkoId_(0)
 {
 
-    nimi_ = data_.take("nimi");
-    ohje_ = data_.take("ohje");
+    nimi_.aseta( data_.take("nimi") );
+    ohje_.aseta( data_.take("ohje") );
 
     numero_ = data_.value("numero").toInt();
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.take("tyyppi").toString() );
