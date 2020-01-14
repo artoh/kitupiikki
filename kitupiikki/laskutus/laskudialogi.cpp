@@ -414,8 +414,8 @@ void LaskuDialogi::perusteVaihtuu()
 
     if( peruste == LaskuModel::MAKSUPERUSTE && isVisible() )
         QMessageBox::warning(this, tr("Maksuperusteinen lasku poistuu"),
-                             tr("Maksuperusteinen laskutus poistuu ohjelman tulevista versioista. Kirjanpitoja, joita on avoimia maksuperusteisia laskuja, "
-                                "ei voi siirtää ohjelman uuteen versioon.\n\n"
+                             tr("Maksuperusteinen laskutus poistuu ohjelman tulevista versioista. Ohjelman seuraavaan versioon siirryttäessä "
+                                "maksuperusteiset laskut muunnetaan laskuperusteisiksi.\n\n"
                                 "On suositeltavaa siirtyä kirjaamaan tulevat laskut laskuperusteisina.\n\n"
                                 "Muutos ei edellytä, että juoksevassa kirjanpidossa luovutaan muuten maksuperusteen käyttämisestä."));
 
