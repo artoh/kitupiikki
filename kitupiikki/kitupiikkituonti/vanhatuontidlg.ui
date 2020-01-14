@@ -109,8 +109,14 @@
            </item>
            <item>
             <widget class="QLabel" name="maksuperusteVaroitus">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="text">
-              <string>Maksamattomia maksuperusteisia laskut muuttuvat siirrettäessä laskuperusteisiksi.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidossa on maksamattomia maksuperusteisia laskuja. Ne muunnetaan laskuperusteisiksi, päivämääränä tämä päivä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

@@ -449,8 +449,7 @@ void VanhatuontiDlg::taydennaTilit()
 {
     QSqlQuery sql(kpdb_);
     sql.exec("SELECT nro, nimi, tyyppi, tila, json, muokattu, id FROM Tili");
-    while( sql.next()) {
-        int id = sql.value("id").toInt();
+    while( sql.next()) {        
         int numero = tilimuunto(sql.value(0).toInt());
 
         QString tyyppi = sql.value(2).toString();
@@ -642,7 +641,7 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setId( vientiid );
             QDate vientiPvm = vientikysely.value("pvm").toDate();
             if( !vientiPvm.isValid())
-                vientiPvm = pvm;    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi
+                vientiPvm = QDate::currentDate();    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi tällä päivämäärällä
             vienti.setPvm( vientiPvm );
             int tili =  tilimuunto( vientikysely.value("tilinumero").toInt() );
             vienti.setTili( tili );
