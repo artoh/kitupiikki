@@ -97,8 +97,6 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    qDebug() << " .. "  << index.row();
-
     QVariantMap map = viimeiset_.at(index.row()).toMap();
     switch (role) {
     case Qt::DisplayRole:
