@@ -24,4 +24,4 @@ DISTFILES += \
 TRANSLATIONS = tr/kitsas_en.ts \
                tr/kitsas_sv.ts
 
-RC_ICONS = kitupiikki.ico 
+RC_ICONS = kitsas.ico 
