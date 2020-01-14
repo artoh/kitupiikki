@@ -65,7 +65,9 @@ QVariant KohdennusRoute::put(const QString &polku, const QVariant &data)
     QVariantMap map = data.toMap();
     QVariantMap jemma = map;
 
-    kysely.prepare("UPDATE Kohdennus SET kuuluu=?, tyyppi=?, json=? WHERE id=?");
+    kysely.prepare("INSERT INTO Kohdennus(kuuluu,tyyppi,json,id) VALUES (?,?,?,?) "
+                   "ON CONFLICT(id) DO UPDATE SET kuuluu=EXCLUDED.kuuluu, "
+                   "tyyppi=EXCLUDED.tyyppi, json=EXCLUDED.json ");
     if( map.value("tyyppi").toInt() == Kohdennus::PROJEKTI)
         kysely.addBindValue( map.take("kuuluu").toInt() );
     else

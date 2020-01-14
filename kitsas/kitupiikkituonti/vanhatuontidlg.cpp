@@ -346,12 +346,14 @@ void VanhatuontiDlg::tuo()
     }
     qApp->processEvents();
 
-    ui->progressBar->setValue(30);
+    ui->progressBar->setValue(20);
     siirraAsetukset();
-    ui->progressBar->setValue(40);
+    ui->progressBar->setValue(30);
     siirraTilikaudet();
-    ui->progressBar->setValue(50);
+    ui->progressBar->setValue(40);
     taydennaTilit();
+    ui->progressBar->setValue(50);
+    siirraKohdennukset();
     ui->progressBar->setValue(60);
     siirraTuotteet();
     ui->progressBar->setValue(70);
@@ -504,7 +506,7 @@ void VanhatuontiDlg::taydennaTilit()
 void VanhatuontiDlg::siirraKohdennukset()
 {
     QSqlQuery sql(kpdb_);
-    sql.exec("SELECT id, nimi, tyyppi, alkaa, loppuu, tyyppi, json");
+    sql.exec("SELECT id, nimi, tyyppi, alkaa, loppuu, tyyppi, json FROM Kohdennus");
     while( sql.next()) {
         int id = sql.value(0).toInt();
         int tyyppi = sql.value("tyyppi").toInt();

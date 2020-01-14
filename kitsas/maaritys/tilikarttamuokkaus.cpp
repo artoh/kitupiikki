@@ -84,6 +84,7 @@ bool TilikarttaMuokkaus::nollaa()
 {
     ui->view->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     ui->view->selectRow(0);
+    model->haeSaldot();
     return true;
 }
 

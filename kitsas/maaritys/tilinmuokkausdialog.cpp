@@ -80,7 +80,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
         while( oletusnumero / 1000 < 1)
             oletusnumero *= 10;
 
-        for(int i=indeksi; i < kp()->tilit()->rowCount(); i++) {
+        for(int i=indeksi+1; i < kp()->tilit()->rowCount(); i++) {
             Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
             if( tamatili->numero() == oletusnumero )
                 oletusnumero++;
@@ -237,7 +237,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->veroSpin->setVisible( alvKaytossa);
 
     if( tyyppi.onko(TiliLaji::TULO)) {
-        veroproxy_->setFilterRegExp("^(0|1[1-7].)$");
+        veroproxy_->setFilterRegExp("^(0|1[1-7])$");
         ui->jaksotiliCombo->suodataTyypilla("AJ", true);
     } else if( tyyppi.onko(TiliLaji::MENO)) {
         veroproxy_->setFilterRegExp("^(0|2[1-7])$");
