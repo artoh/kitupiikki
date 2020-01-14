@@ -382,7 +382,7 @@ void VanhatuontiDlg::siirraAsetukset()
 
 
     QStringList siirrettavat;
-    siirrettavat << "AlvVelvollinen" << "Harjoitus" << "Kotipaikka" << "LaskuSeuraavaId" << "LogossaNimi"
+    siirrettavat << "AlvVelvollinen" << "AlvKausi" << "Harjoitus" << "Kotipaikka" << "LaskuSeuraavaId" << "LogossaNimi"
                  << "Nimi" << "Osoite" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
                  << "LaskuIkkuna" << "LaskuIkkunaX" << "LaskuIkkunaY" << "LaskuIkkunaLeveys" << "LaskuIkkunaKorkeus"
                  << "LaskuRF" << "MaksuAlvAlkaa" << "MaksuAlvLoppuu";
@@ -630,6 +630,26 @@ void VanhatuontiDlg::siirraTositteet()
         tosite.setData(Tosite::KOMMENTIT, tositekysely.value("kommentti"));
         tosite.setData(Tosite::SARJA, tositekysely.value("tunnus"));
         tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
+
+        QVariantMap map = QJsonDocument::fromJson(tositekysely.value("json").toByteArray()).toVariant().toMap();
+        if( map.contains("AlvTilitysAlkaa")) {
+            QVariantMap alvmap;
+            alvmap.insert("kausialkaa", map.value("AlvTilitysAlkaa"));
+            alvmap.insert("kausipaattyy", map.value("AlvTilitysPaattyy"));
+            alvmap.insert("maksettava", map.value("MaksettavaAlv").toDouble() / 100.0);
+            if( map.contains("Voittomarginaalialijaama")) {
+                QVariantMap voittolukumap = map.value("Voittomarginaalialijaama").toMap();
+                QVariantMap voittoMap;
+                QMapIterator<QString,QVariant> iter(voittolukumap);
+                while( iter.hasNext()) {
+                    iter.next();
+                    voittoMap.insert(iter.key(), iter.value().toDouble() / 100.0);
+                }
+                alvmap.insert("marginaalialijaama", voittoMap);
+            }
+            tosite.setData(Tosite::ALV, alvmap);
+            tosite.asetaTyyppi(TositeTyyppi::ALVLASKELMA);
+        }
 
         vientikysely.exec(QString("SELECT vienti.id as id, pvm, tili.nro as tilinumero, debetsnt, kreditsnt, selite, alvkoodi, alvprosentti, "
                                   "kohdennus, eraid, viite, iban, laskupvm, erapvm, "
