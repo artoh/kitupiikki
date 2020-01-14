@@ -11,15 +11,15 @@ BUILDIR=build
 QTDIR=/opt/qt512
 DISTDIR=/media/sf_virtuaali
 
+export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
+export ARCH=x86:64
+export VERSION=2.00-pre1
+
 rm -R $BUILDIR
 mkdir -p $BUILDIR 
 cd $BUILDIR
 
-$QTDIR/bin/qmake ../kitupiikki/kitupiikki.pro -spec linux-g++ "CONFIG+=release" && make qmake_all
-
-export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
-export ARCH=x86:64
-export VERSION=2.00-pre1
+$QTDIR/bin/qmake ../kitsas/kitsas.pro -spec linux-g++ "CONFIG+=release" && make qmake_all
 
 make -j 6
 make clean
