@@ -92,7 +92,7 @@ bool AvausKohdennusModel::setData(const QModelIndex &index, const QVariant &valu
 Qt::ItemFlags AvausKohdennusModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid() || index.column() == NIMI)
-        return Qt::NoItemFlags;
+        return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEditable; // FIXME: Implement me!
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
 }

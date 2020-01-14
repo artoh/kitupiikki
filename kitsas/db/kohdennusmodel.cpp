@@ -150,8 +150,8 @@ QList<Kohdennus> KohdennusModel::vainKohdennukset(const QDate &pvm) const
     QList<Kohdennus> k;
     for( const Kohdennus& kohdennus : kohdennukset_)
         if( kohdennus.tyyppi() != Kohdennus::MERKKAUS &&
-            !(kohdennus.alkaa() > pvm) &&
-            !(kohdennus.paattyy() < pvm) )
+            (!kohdennus.alkaa().isValid() || kohdennus.alkaa() < pvm) &&
+            (!kohdennus.paattyy().isValid() || kohdennus.paattyy() > pvm) )
             k.append(kohdennus);
     return k;
 }
