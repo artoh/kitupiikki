@@ -37,6 +37,7 @@ public:
     void lataa(const QVariantMap& data);
     QVariantMap data() const;
 
+
 private:
     Ui::RaportinmuokkausDialogi *ui;
 };

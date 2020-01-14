@@ -43,9 +43,9 @@ QVariantMap RaportinmuokkausDialogi::muokkaa(const QVariantMap &data)
     RaportinmuokkausDialogi dlg;
     dlg.lataa(data);
 
-    if( dlg.exec() == Accepted) {
+    if( dlg.exec() == Accepted )
         return dlg.data();
-    }
+
     return data;
 }
 

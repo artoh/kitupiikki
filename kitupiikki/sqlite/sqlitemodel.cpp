@@ -97,13 +97,15 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    qDebug() << " .. "  << index.row();
+
     QVariantMap map = viimeiset_.at(index.row()).toMap();
     switch (role) {
     case Qt::DisplayRole:
     case NimiRooli:
         return map.value("nimi").toString();
     case Qt::DecorationRole:
-        return(  QPixmap::fromImage( QImage::fromData(map.value("icon").toByteArray(),"PNG") ) );
+        return(  QPixmap::fromImage( map.value("logo").value<QImage>().scaled(16,16,Qt::KeepAspectRatio) ) );
     case PolkuRooli:
         {
             QString polku = map.value("polku").toString();
@@ -286,10 +288,6 @@ void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba
 void SQLiteModel::lisaaViimeisiin()
 {
 
-    for( auto item : viimeiset_)
-        if( item.toMap().value("polku").toString() == tiedostopolku())
-            return;
-
     QVariantMap map;
     // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
     QDir portableDir( kp()->portableDir() );
@@ -300,9 +298,19 @@ void SQLiteModel::lisaaViimeisiin()
 
     map.insert("polku", tiedostopolku() );
     map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
+    map.insert("logo", kp()->logo().scaled(16,16,Qt::KeepAspectRatio));
 
-    // Model resetoidaan, jottei edellinen jää valituksi
     beginResetModel();
+    for( int i=0; i < viimeiset_.count(); i++ )
+    {
+        if( viimeiset_.value(i).toMap().value("polku").toString() == map.value("polku").toString()) {
+            viimeiset_[i] = map;
+            endResetModel();
+            kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+            return;
+        }
+    }
+
     viimeiset_.append(map);
     endResetModel();
 

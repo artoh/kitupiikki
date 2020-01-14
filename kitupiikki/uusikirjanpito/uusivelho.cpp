@@ -170,7 +170,8 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
                 } else
                     rivit.append(rivi);
             }
-            map.insert("tppohja/" + kieli, rivit.join("\n"));
+            map.insert("tppohja/" + kieli,
+                       QJsonDocument::fromJson(rivit.join('\n').toUtf8()).toVariant());
         }
     }
     return map;

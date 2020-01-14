@@ -55,6 +55,19 @@ bool RaportinMuokkaus::nollaa()
     return true;
 }
 
+bool RaportinMuokkaus::onkoMuokattu()
+{
+    QString raportti = ui->raporttiCombo->currentText();
+    QString str = kp()->asetukset()->asetus(raportti);
+    return str != data();
+}
+
+bool RaportinMuokkaus::tallenna()
+{
+    kp()->asetukset()->aseta( ui->raporttiCombo->currentText(), data() );
+    return true;
+}
+
 void RaportinMuokkaus::lataa(const QString &raportti)
 {
     QString str = kp()->asetukset()->asetus(raportti);
@@ -77,6 +90,7 @@ void RaportinMuokkaus::muokkaaNimikkeet()
     if( dlg.exec() == QDialog::Accepted) {
         nimi_.lataa(ui.nimiView);
         muoto_.lataa(ui.muotoView);
+        emit tallennaKaytossa(onkoMuokattu());
     }
 
 }
@@ -86,11 +100,54 @@ void RaportinMuokkaus::muokkaa()
     QModelIndex index = ui->view->currentIndex();
     if( index.isValid())
         model_->setData(index, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
+    ilmoitaMuokattu();
+
 }
 
 void RaportinMuokkaus::paivitaNapit(const QModelIndex &index)
 {
     ui->muokkaaNappi->setEnabled(index.isValid());
     ui->poistaNappi->setEnabled(index.isValid());
+}
+
+void RaportinMuokkaus::ilmoitaMuokattu()
+{
+    emit tallennaKaytossa(onkoMuokattu());
+}
+
+void RaportinMuokkaus::lisaaEnnen()
+{
+    QModelIndex index = ui->view->currentIndex();
+    if( index.isValid())
+        model_->lisaaRivi(index.row(), RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
+    else
+        model_->lisaaRivi(0, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
+    ilmoitaMuokattu();
+}
+
+void RaportinMuokkaus::lisaaJalkeen()
+{
+    QModelIndex index = ui->view->currentIndex();
+    if( index.isValid())
+        model_->lisaaRivi(index.row() + 1, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
+    else
+        model_->lisaaRivi(0, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
+    ilmoitaMuokattu();
+}
+
+void RaportinMuokkaus::poista()
+{
+    QModelIndex index = ui->view->currentIndex();
+    if( index.isValid())
+        model_->poistaRivi(index.row());
+}
+
+QString RaportinMuokkaus::data() const
+{
+    QVariantMap map;
+    map.insert("nimi", nimi_.map());
+    map.insert("muoto", muoto_.map());
+    map.insert("rivit", model_->rivit());
+    return QString::fromUtf8(QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact));
 }
 

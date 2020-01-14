@@ -34,6 +34,9 @@ public:
     RaportinMuokkaus(QWidget *parent = nullptr);
 
     bool nollaa() override;
+    bool onkoMuokattu() override;
+    bool tallenna() override;
+    bool naytetaankoVienti() override { return true; }
 
 
 protected:
@@ -41,6 +44,13 @@ protected:
     void muokkaaNimikkeet();
     void muokkaa();
     void paivitaNapit(const QModelIndex& index);
+    void ilmoitaMuokattu();
+
+    void lisaaEnnen();
+    void lisaaJalkeen();
+    void poista();
+
+    QString data() const;
 
     Ui::RaportinMuokkaus* ui;
     RaporttiMuokkausModel* model_;

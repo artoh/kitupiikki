@@ -117,6 +117,20 @@ bool RaporttiMuokkausModel::setData(const QModelIndex &index, const QVariant &va
     return true;
 }
 
+void RaporttiMuokkausModel::lisaaRivi(int indeksi, const QVariantMap &data)
+{
+    beginInsertRows(QModelIndex(), indeksi, indeksi);
+    rivit_.insert(indeksi, data);
+    endInsertRows();
+}
+
+void RaporttiMuokkausModel::poistaRivi(int indeksi)
+{
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    rivit_.removeAt(indeksi);
+    endRemoveRows();
+}
+
 void RaporttiMuokkausModel::lataa(const QVariantList &lista)
 {
     beginResetModel();

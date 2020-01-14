@@ -41,7 +41,11 @@ public:
 
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
+    void lisaaRivi(int indeksi, const QVariantMap& data);
+    void poistaRivi(int indeksi);
+
     void lataa(const QVariantList& lista);
+    QVariantList rivit() const { return rivit_;}
 
 private:
     QVariantList rivit_;

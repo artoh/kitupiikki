@@ -31,7 +31,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="raporttiCombo"/>
+      <widget class="QComboBox" name="raporttiCombo">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -78,13 +82,24 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="lisaariviNappi">
+      <widget class="QPushButton" name="lisaaEnnenNappi">
        <property name="text">
-        <string>Lisää rivi</string>
+        <string>Lisää rivi ennen</string>
        </property>
        <property name="icon">
         <iconset resource="../../pic/pic.qrc">
-         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+         <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="lisaaJalkeenNappi">
+       <property name="text">
+        <string>Lisää rivi jälkeen</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../pic/pic.qrc">
+         <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
        </property>
       </widget>
      </item>

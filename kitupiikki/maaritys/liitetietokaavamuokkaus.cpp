@@ -41,10 +41,8 @@ LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
 bool LiitetietokaavaMuokkaus::nollaa()
 {
     ui->kieliCombo->clear();
-    QStringList kaavat = kp()->asetukset()->avaimet("tppohja/");
-    for(auto kaava: kaavat) {
-        QString kieli = kaava.mid(8);
-        ui->kieliCombo->addItem(QIcon(":/liput/" + kieli), kp()->asetukset()->kieli(kieli), kieli);
+    for(auto kieli: kp()->asetukset()->kielet()) {
+        ui->kieliCombo->addItem(lippu(kieli) , kp()->asetukset()->kieli(kieli), kieli);
     }
     return true;
 }

@@ -322,6 +322,7 @@ void VanhatuontiDlg::tuo()
     ui->progressBar->setValue(2);
     kitsasAsetukset_.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO);
     kitsasAsetukset_.insert("LuotuVersiolla", qApp->applicationVersion());
+    kitsasAsetukset_.insert("Nimi", ui->nimiEdit->text());  // Jotta tulee viimeisten luetteloon ;)
 
     QVariantMap initMap;
     initMap.insert("asetukset", kitsasAsetukset_);
