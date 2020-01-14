@@ -46,7 +46,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
             "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1"
-            " AND tosite.tila ").arg( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
+            " AND ( tosite.tila ").arg( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
 
     if( urlquery.hasQueryItem("luonnos"))
         kysymys.append(QString(" = %1 ").arg( Tosite::LUONNOS ));
@@ -54,9 +54,10 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         kysymys.append(QString(" = %1 OR tosite.tila = %2").arg( Tosite::VALMISLASKU ).arg(Tosite::LAHETETAAN));
     else
         kysymys.append(QString(" >= %1 ").arg( Tosite::KIRJANPIDOSSA ));
+    kysymys.append(") ");
 
     if( urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append("AND vienti.erapvm < current_date ");
+        kysymys.append(" AND vienti.erapvm < current_date ");
     if( urlquery.hasQueryItem("alkupvm"))
         kysymys.append(QString(" AND tosite.pvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));
