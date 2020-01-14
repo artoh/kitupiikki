@@ -59,10 +59,10 @@ public slots:
 
 private slots:
 
+    void valmis();
     void lisaaRivi();
     void poistaRivi();
 
-    void tallenna();
     void hylkaa();
     void poistaTosite();
     void vientiValittu();
@@ -104,8 +104,6 @@ private slots:
     void naytaLoki();
 
 private slots:
-    void valmis();
-
     void paivita(bool muokattu, int virheet, double debet, double kredit);
     void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString());
     void tallennusEpaonnistui(int virhe);

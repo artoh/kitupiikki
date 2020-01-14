@@ -69,6 +69,7 @@ public:
         LUONNOS         = 50,
         VALMISLASKU     = 80,
         KIRJANPIDOSSA   = 100,
+        LAHETETAAN      = 101,
         LAHETETTYLASKU  = 110,
         MUISTUTETTU     = 120
     };

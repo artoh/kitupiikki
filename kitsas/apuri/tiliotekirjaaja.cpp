@@ -62,7 +62,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     ui->maksuView->setSortingEnabled(true);
     avoinProxy_->setDynamicSortFilter(true);
     ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
-    connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
+    connect( ui->maksuView, &QTableView::clicked , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
 
     connect( ui->suljeNappi, &QPushButton::clicked,

@@ -244,8 +244,8 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
                                   map.value("osoite").toString() + "\n" +
                                   map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
     ui->email->setText( map.value("email").toString());
-    ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli").toString()));
-    ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa")));
+    ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","fi").toString()));
+    ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
 
     asAlvTunnus_ = map.value("alvtunnus").toString();
     if( asAlvTunnus_.isEmpty())

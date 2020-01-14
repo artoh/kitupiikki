@@ -51,7 +51,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     if( urlquery.hasQueryItem("luonnos"))
         kysymys.append(QString(" = %1 ").arg( Tosite::LUONNOS ));
     else if( urlquery.hasQueryItem("lahetettava"))
-        kysymys.append(QString(" = %1 ").arg( Tosite::VALMISLASKU ));
+        kysymys.append(QString(" = %1 OR tosite.tila = %2").arg( Tosite::VALMISLASKU ).arg(Tosite::LAHETETAAN));
     else
         kysymys.append(QString(" >= %1 ").arg( Tosite::KIRJANPIDOSSA ));
 

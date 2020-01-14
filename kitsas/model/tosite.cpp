@@ -85,6 +85,7 @@ QString Tosite::tilateksti(int tila)
     case LUONNOS: return tr("Luonnos");
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");
+    case LAHETETAAN: return tr("Lähettäminen epäonnistui");
     case LAHETETTYLASKU: return tr("Lähetetty");
     case MUISTUTETTU: return tr("Muistutettu");
     }
@@ -261,8 +262,8 @@ void Tosite::tallennusValmis(QVariant *variant)
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else
-        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
-                         data(SARJA).toString());
+        emit talletettu( id(), tunniste(), pvm(),
+                         sarja());
 
     // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))

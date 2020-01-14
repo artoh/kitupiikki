@@ -104,8 +104,12 @@ void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
     // kirjaamassa lisäikkunalla, jolloin hylkää-nappi sulkee
     // ikkunan
 
-    if( tositetyyppi > -1)
-        kirjausWg()->tosite()->nollaa( kp()->paivamaara(), tositetyyppi );
+    if( tositetyyppi > -1) {
+        QDate pvm = kp()->paivamaara();
+        if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu())
+            pvm = kp()->tilikaudet()->kirjanpitoLoppuu();
+        kirjausWg()->tosite()->nollaa( pvm, tositetyyppi );
+    }
     if( tositeId > -1)
         kirjauswg->lataaTosite(tositeId);
 

@@ -93,7 +93,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
     connect( ui->tallennaButton, &QPushButton::clicked, [this] {  if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::LUONNOS); } );
-    connect( ui->valmisNappi, &QPushButton::clicked, [this] { if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::KIRJANPIDOSSA);} );
+    connect( ui->valmisNappi, &QPushButton::clicked, this, &KirjausWg::valmis);
 
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
 
@@ -233,11 +233,19 @@ void KirjausWg::tyhjenna()
         ui->viennitView->hideColumn(TositeViennit::ALV);
 }
 
-void KirjausWg::tallenna()
+void KirjausWg::valmis()
 {
-    // Luonnokselle tehtävä oma slottinsa??? Tai sitten vähän lamdbaa peliin ;)
-    tosite_->tallenna();
-    return;
+    if( apuri_ )
+        apuri_->tositteelle();
+
+    if( !tosite()->viennit()->rowCount() && tosite()->tyyppi() != TositeTyyppi::LIITETIETO) {
+        if( QMessageBox::question(this, tr("Tositteen tallentaminen"),
+                                  tr("Tositteessa ei ole yhtään vientiä.\n"
+                                     "Tallennatko tositteen ilman vientejä?")) != QMessageBox::Yes)
+            return;
+    }
+
+    tosite()->tallenna();
 }
 
 void KirjausWg::hylkaa()
@@ -319,11 +327,6 @@ void KirjausWg::naytaLoki()
     naytin->nayta(data);
 }
 
-void KirjausWg::valmis()
-{
-    tosite_->setData(Tosite::TILA, 100);
-    tallenna();
-}
 
 void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 {
@@ -401,6 +404,10 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     ui->tositetyyppiCombo->setCurrentIndex(0);
     tositeTyyppiVaihtui(TositeTyyppi::MENO);
     tyhjenna();
+    QDate pvm = kp()->paivamaara();
+    if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu())
+        pvm = kp()->tilikaudet()->kirjanpitoLoppuu();
+    tosite()->asetaPvm(pvm);
 }
 
 void KirjausWg::siirryTositteeseen()

@@ -84,7 +84,7 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 {
     Tosite tosite(this);
     tosite.lataaData(data);
-    tosite.setData(Tosite::TILA, Tosite::KIRJANPIDOSSA);
+    tosite.setData(Tosite::TILA, Tosite::LAHETETAAN);
 
     QVariantMap lasku = tosite.data(Tosite::LASKU).toMap();
     lasku.insert("pvm", kp()->paivamaara());

@@ -90,6 +90,8 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( etsiProxy, &QSortFilterProxyModel::modelReset , this, &SelausWg::paivitaSuodattimet );
     connect( etsiProxy, &QSortFilterProxyModel::modelReset , [this] { this->paivitaSummat(); });
 
+    connect( kp(), &Kirjanpito::tilikausiAvattu, [this] { this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
+
 }
 
 SelausWg::~SelausWg()
