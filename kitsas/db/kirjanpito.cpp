@@ -144,13 +144,13 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 
 void Kirjanpito::ohje(const QString &ohjesivu)
 {
-    QString osoite("https://kitupiikki.info/");
+    QString osoite("https://ohjeet.kitsas.fi/");
     osoite.append(ohjesivu);
     if(!QDesktopServices::openUrl( QUrl(osoite)))
         QMessageBox::critical(nullptr, tr("Ohjeen näyttäminen epäonnistui"),
-                              tr("Kitupiikki ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
+                              tr("Kitsas ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
                                  "määritelty oletusselain avaamaan internet-sivuja?\n\n"
-                                 "Ohjelman ohjeet löytyvät sivulta https://kitupiikki.info"));
+                                 "Ohjelman ohjeet löytyvät sivulta https://ohjeet.kitsas.fi"));
 }
 
 void Kirjanpito::avaaUrl(const QUrl &url)
