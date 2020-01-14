@@ -38,6 +38,7 @@ public:
 
 signals:
     void valittu(int id);
+    void muuttui(const QString& nimi);
 
 public slots:
     void set(int id, const QString& nimi = QString());

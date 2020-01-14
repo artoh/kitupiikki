@@ -82,6 +82,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::paivitaVeroFiltterit);
+
+    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::muuttui, this, &TuloMenoApuri::tositteelle);
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
@@ -228,12 +230,17 @@ bool TuloMenoApuri::teeTositteelle()
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
         else if( !ui->asiakasToimittaja->nimi().isEmpty())
-            vasta.setKumppani( ui->asiakasToimittaja->nimi());
-
-        tosite()->setData(Tosite::KUMPPANI, vasta.data(TositeVienti::KUMPPANI));
+            vasta.setKumppani( ui->asiakasToimittaja->nimi());        
 
         viennit.insert(0, vasta);
     }
+
+    if( ui->asiakasToimittaja->id() > 0)
+        tosite()->setData(Tosite::KUMPPANI, ui->asiakasToimittaja->id() );
+    else if( !ui->asiakasToimittaja->nimi().isEmpty())
+        tosite()->setData(Tosite::KUMPPANI, ui->asiakasToimittaja->nimi() );
+    else
+        tosite()->setData(Tosite::KUMPPANI, QVariant());
 
 
     tosite()->viennit()->asetaViennit(viennit);
@@ -604,18 +611,21 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
 {
     QVariantMap map = data->toMap();
 
-    if(menoa_  ) {
-        if( map.contains("menotili"))
-            ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );
-    } else {
-        if( map.contains("tulotili"))
-            ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
+    if(! ui->maaraEdit->asCents() ) {
+        if(menoa_  ) {
+            if( map.contains("menotili"))
+                ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );
+        } else {
+            if( map.contains("tulotili"))
+                ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
+        }
     }
 
     if( tosite()->tyyppi() == TositeTyyppi::KULULASKU && tosite()->otsikko().isEmpty() )
         tosite()->asetaOtsikko( tr("Kululasku %1").arg(map.value("nimi").toString()) );
 
-    teeTositteelle();
+    if( !resetoidaanko() )
+        teeTositteelle();
 }
 
 QString TuloMenoApuri::viimeMaksutapa__ = QString();

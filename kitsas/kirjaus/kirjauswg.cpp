@@ -157,7 +157,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
-    connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
+    connect( ui->sarjaEdit, &QLineEdit::textEdited, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
     connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
@@ -681,10 +681,12 @@ void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
 
 void KirjausWg::tunnisteVaihtui(int tunniste)
 {
-    ui->tunnisteLabel->setVisible(tunniste);
-    ui->tunnisteLabel->setText(QString::number(tunniste));
-    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
-    ui->sarjaEdit->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
+    if(tunniste)
+        ui->tunnisteLabel->setText(QString::number(tunniste));
+    else
+        ui->tunnisteLabel->setText(tr("Uusi tosite"));
+    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
+    ui->sarjaEdit->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
 
     if( selaus_ && tosite_->id())
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
@@ -692,7 +694,6 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
         edellinenSeuraava_ = qMakePair(0,0);
 
     if( tunniste ) {
-        ui->tunnisteLabel->setVisible(true);
         ui->vuosiLabel->setVisible(true);
         ui->edellinenButton->setVisible(true);
         ui->tallennaButton->setVisible(false);
@@ -709,7 +710,6 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 
     } else {
         ui->edellinenButton->setVisible(false);
-        ui->tunnisteLabel->setVisible(false);
         ui->seuraavaButton->setVisible(false);
         ui->vuosiLabel->setVisible(false);
     }

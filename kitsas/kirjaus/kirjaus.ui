@@ -316,23 +316,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="edellinenButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/edellinen.png</normaloff>:/pic/edellinen.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>Alt+Left</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="sarjaLabel">
        <property name="text">
         <string>Tositesarja</string>
@@ -349,6 +332,23 @@
          <width>60</width>
          <height>16777215</height>
         </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="edellinenButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/edellinen.png</normaloff>:/pic/edellinen.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Alt+Left</string>
        </property>
       </widget>
      </item>
@@ -536,7 +536,6 @@
   <tabstop>lisaaliiteNappi</tabstop>
   <tabstop>poistaLiiteNappi</tabstop>
   <tabstop>lokiView</tabstop>
-  <tabstop>edellinenButton</tabstop>
   <tabstop>seuraavaButton</tabstop>
   <tabstop>tallennaButton</tabstop>
   <tabstop>valmisNappi</tabstop>

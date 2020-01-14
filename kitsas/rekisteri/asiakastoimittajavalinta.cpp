@@ -135,14 +135,16 @@ void AsiakasToimittajaValinta::nimiMuuttui()
             combo_->setCurrentIndex( combo_->findData(hakuId) );
         else
             dlg_->ytunnuksella( combo_->currentText());
-    }
+    } else
+        emit muuttui( combo_->currentText());
 }
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() )
-            && property("MuokkaaUusi").toBool() )
-        muokkaa();
+    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ) ) {
+        if(property("MuokkaaUusi").toBool() )
+            muokkaa();
+    }
 }
 
 void AsiakasToimittajaValinta::muokkaa()
@@ -190,7 +192,7 @@ bool AsiakasToimittajaValinta::eventFilter(QObject *watched, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if( keyEvent->key() == Qt::Key_Enter ||
                 keyEvent->key() == Qt::Key_Return) {
-            syotettyNimi();
+            muokkaa();
             return true;
         }
     }

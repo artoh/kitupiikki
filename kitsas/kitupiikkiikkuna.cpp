@@ -275,7 +275,8 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 
 void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
-    valitseSivu( KIRJAUSSIVU );
+    // valitseSivu( KIRJAUSSIVU );
+    pino->setCurrentWidget(kirjaussivu);
     kirjaussivu->naytaTosite(tositeid);
 }
 
@@ -429,7 +430,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     aktioryhma = new QActionGroup(this);
     lisaaSivu(tr("Aloita"),":/pic/Possu64.png",tr("Erilaisia ohjattuja toimia"),"Home", ALOITUSSIVU, aloitussivu);
-    lisaaSivu(tr("Uusi\ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"F2", KIRJAUSSIVU, kirjaussivu);
+    lisaaSivu(tr("Uusi \ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"F2", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu(tr("Selaa"),":/pic/Paivakirja64.png",tr("Selaa kirjauksia aikajärjestyksessä"),"F3", SELAUSSIVU, selaussivu);
     lisaaSivu(tr("Laskut"),":/pic/lasku.png",tr("Laskuta ja selaa laskuja"),"F4",LASKUTUSSIVU, laskutussivu);
     lisaaSivu(tr("Raportit"),":/pic/print.png",tr("Tulosta erilaisia raportteja"),"F5", TULOSTESIVU, raporttisivu);
