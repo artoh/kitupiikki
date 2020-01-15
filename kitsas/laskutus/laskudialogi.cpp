@@ -634,6 +634,7 @@ void LaskuDialogi::alustaRyhmalasku()
     ui->laskutusCombo->hide();
     ui->luonnosNappi->setEnabled(false);
     connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::accept );
+    connect( ryhmalaskuTab_->model(), &LaskutettavatModel::rowsInserted, this, &LaskuDialogi::paivitaNapit);
     setWindowTitle(tr("Ryhmälasku"));
 }
 

@@ -196,14 +196,6 @@
         <file>liput/gb.png</file>
         <file>liput/mt.png</file>
         <file>liput/hr.png</file>
-        <file>flat/admin.png</file>
-        <file>flat/coins.png</file>
-        <file>flat/edit.png</file>
-        <file>flat/eye.png</file>
-        <file>flat/house.png</file>
-        <file>flat/key.png</file>
-        <file>flat/teamwork.png</file>
-        <file>flat/big-school-pen.png</file>
         <file>liput/sv.png</file>
         <file>maksutavat/kateinen.png</file>
         <file>maksutavat/lasku.png</file>
@@ -212,6 +204,10 @@
         <file>maksutavat/siirra.png</file>
         <file>maksutavat/luottokortti.png</file>
         <file>liput/en.png</file>
+        <file>freeicons/adminkey.png</file>
+        <file>freeicons/edit.png</file>
+        <file>freeicons/key.png</file>
+        <file>freeicons/pencil.png</file>
+        <file>freeicons/view.png</file>
     </qresource>
-    <qresource prefix="/flat"/>
 </RCC>

@@ -54,15 +54,15 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     if( role == Qt::DecorationRole) {
         QString right = map.value("right").toString();
         if( right == "read")
-            return QIcon(":/flat/eye.png");
+            return QIcon(":/freeicons/view.png");
         else if( right == "draft")
-            return QIcon(":/flat/edit.png");
+            return QIcon(":/freeicons/edit.png");
         else if( right == "edit")
-            return QIcon(":/flat/big-school-pen.png");
+            return QIcon(":/freeicons/pencil.png");
         else if( right == "admin")
-            return QIcon(":/flat/admin.png");
+            return QIcon(":/freeicons/adminkey.png");
         else if( right == "owner")
-            return QIcon(":/flat/key.png");
+            return QIcon(":/freeicons/key.png");
     }
 
     return QVariant();

@@ -30,7 +30,7 @@ QVariantList RyhmaValintaListWidget::valitutRyhmat() const
     for(int i=0; i<count(); i++) {
         QListWidgetItem* ci = item(i);
         if(ci->checkState() == Qt::Checked) {
-            valitutRyhmat().append(ci->data(Qt::UserRole));
+            lista.append(ci->data(Qt::UserRole));
         }
     }
     return lista;

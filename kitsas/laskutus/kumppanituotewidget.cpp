@@ -70,8 +70,8 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 {
     valilehti_ = valilehti;
 
-    ui->tuoNappi->setVisible( valilehti != RYHMAT);
-    ui->VieNappi->setVisible( valilehti != RYHMAT);
+//    ui->tuoNappi->setVisible( valilehti != RYHMAT);
+//    ui->VieNappi->setVisible( valilehti != RYHMAT);
 
     paivita();
 }
