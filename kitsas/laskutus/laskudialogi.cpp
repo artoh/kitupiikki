@@ -246,6 +246,7 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     ui->email->setText( map.value("email").toString());
     ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","fi").toString()));
     ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
+    paivitaLaskutustavat();
 
     asAlvTunnus_ = map.value("alvtunnus").toString();
     if( asAlvTunnus_.isEmpty())
@@ -291,6 +292,9 @@ void LaskuDialogi::laskutusTapaMuuttui()
     } else if( laskutustapa == EITULOSTETA) {
         ui->valmisNappi->setText( tr("Tallenna reskontraan"));
         ui->valmisNappi->setIcon(QIcon(":/pic/ok.png"));
+    } else if( laskutustapa == POSTITUS){
+        ui->valmisNappi->setText( tr("Tallenna ja postita"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/mail.png"));
     } else {
         ui->valmisNappi->setText( tr("Tallenna ja tulosta"));
         ui->valmisNappi->setIcon(QIcon(":/pic/tulosta.png"));

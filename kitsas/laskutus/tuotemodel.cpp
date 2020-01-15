@@ -108,6 +108,27 @@ void TuoteModel::lataa()
     }
 }
 
+void TuoteModel::poista(int tuoteId)
+{
+    int indeksi = -1;
+    for(int i=0; i < rowCount(); i++) {
+        if( lista_.value(i).toMap().value("id").toInt() == tuoteId) {
+            indeksi = i;
+            break;
+        }
+    }
+
+    if( indeksi > 0) {
+        beginRemoveRows(QModelIndex(), indeksi, indeksi);
+        lista_.removeAt(indeksi);
+        endRemoveRows();
+
+        KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(tuoteId), KpKysely::DELETE );
+        kysely->kysy();
+
+    }
+}
+
 void TuoteModel::dataSaapuu(QVariant *data)
 {
     beginResetModel();

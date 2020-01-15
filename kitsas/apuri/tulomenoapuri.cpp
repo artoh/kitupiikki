@@ -255,6 +255,7 @@ void TuloMenoApuri::lisaaRivi()
 {
     ui->tilellaView->setVisible(true);
     ui->tilellaView->selectRow( rivit_->lisaaRivi() );
+    ui->poistaRiviNappi->setEnabled( true );    // Rivejä vähintään kaksi kun juuri lisätty
 }
 
 void TuloMenoApuri::poistaRivi()

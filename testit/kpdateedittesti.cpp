@@ -41,10 +41,3 @@ void KpDateEditTesti::pvmRajat()
 
 }
 
-void KpDateEditTesti::pvmSyotto()
-{
-    kp()->asetaHarjoitteluPvm(QDate(2019,01,05));
-    KpDateEdit* edit = new KpDateEdit();
-    edit->setText("01.01.2019");
-    QCOMPARE( edit->date(), QDate(2019,1,1));
-}

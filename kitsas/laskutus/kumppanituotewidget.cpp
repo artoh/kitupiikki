@@ -55,6 +55,10 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     ui->muokkaaNappi->setEnabled(false);
     ui->poistaNappi->setEnabled(false);
 
+    // Tuonti ja vienti odottaa aikaa tulevaa ...
+    ui->tuoNappi->setVisible(false);
+    ui->VieNappi->setVisible(false);
+
 }
 
 KumppaniTuoteWidget::~KumppaniTuoteWidget()
@@ -157,9 +161,7 @@ void KumppaniTuoteWidget::poista()
     if( valilehti_ == TUOTTEET) {
         int tuoteid = ui->view->currentIndex().data(TuoteModel::IdRooli).toInt();
         if( tuoteid ) {
-            KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(tuoteid), KpKysely::DELETE );
-            connect( kysely, &KpKysely::vastaus, this, &KumppaniTuoteWidget::paivita);
-            kysely->kysy();
+            kp()->tuotteet()->poista(tuoteid);
         }
     } else if( valilehti_ == RYHMAT) {
         if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {

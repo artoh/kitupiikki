@@ -39,7 +39,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->tabs->addTab(QIcon(":/pic/harmaa.png"),tr("&Lähetetyt"));
+    ui->tabs->addTab(QIcon(":/pic/kaytossa.png"),tr("&Kirjanpidossa"));
     ui->tabs->addTab(QIcon(":/pic/keltainen.png"),tr("&Avoimet"));
     ui->tabs->addTab(QIcon(":/pic/punainen.png"),tr("&Erääntyneet"));
 
@@ -96,10 +96,12 @@ void LaskulistaWidget::nayta(int paalehti)
 
     if( paalehti == MYYNTI || paalehti == ASIAKAS) {
         if( ui->tabs->count() < 5) {
-            ui->tabs->insertTab(LUONNOKSET,tr("Luonnokset"));
-            ui->tabs->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
-            ui->tabs->setTabText(KAIKKI, tr("Lähetetyt"));
+            ui->tabs->insertTab(LUONNOKSET,QIcon(":/pic/harmaa.png"),tr("Luonnokset"));
+            ui->tabs->insertTab(LAHETETTAVAT,QIcon(":/pic/email.png"),tr("Lähetettävät"));
+            ui->tabs->setTabText(KAIKKI, tr("Kirjanpidossa"));
             ui->vainlaskuNappi->setVisible(true);
+            ui->lahetaNappi->setVisible(true);
+            ui->kopioiNappi->setVisible(true);
             naytaListallaVainLaskut(ui->vainlaskuNappi->isChecked());
         }
     } else {
@@ -108,6 +110,8 @@ void LaskulistaWidget::nayta(int paalehti)
             ui->tabs->removeTab(LAHETETTAVAT);
             ui->tabs->removeTab(LUONNOKSET);
             ui->vainlaskuNappi->setVisible(false);
+            ui->lahetaNappi->setVisible(false);
+            ui->kopioiNappi->setVisible(false);
         }
     }
 }
@@ -136,18 +140,22 @@ void LaskulistaWidget::paivitaNapit()
 {
     QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
 
-    ui->lahetaNappi->setEnabled( index.isValid() );
-    ui->kopioiNappi->setEnabled( index.isValid() );
+    int tyyppi = index.data(LaskuTauluModel::TyyppiRooli).toInt();
+    int laskutustapa = index.data(LaskuTauluModel::LaskutustapaRooli).toInt();
+
+    ui->lahetaNappi->setEnabled( index.isValid()
+                                 && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS);
+    ui->kopioiNappi->setEnabled( index.isValid() && tyyppi == TositeTyyppi::MYYNTILASKU);
     ui->hyvitysNappi->setVisible( index.isValid()
-                               && index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
+                               && tyyppi == TositeTyyppi::MYYNTILASKU
                                && index.data(LaskuTauluModel::TunnisteRooli).toLongLong());
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() &&
-                                  (index.data(LaskuTauluModel::LaskutustapaRooli).toInt() != LaskuDialogi::TUOTULASKU ||
-                                   index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU));
-    ui->muistutusNappi->setVisible( index.isValid() && (index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
-                                                        || ( index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MAKSUMUISTUTUS &&
-                                                             index.data(LaskuTauluModel::LaskutustapaRooli).toInt() != LaskuDialogi::TUOTULASKU))
+                                  (laskutustapa != LaskuDialogi::TUOTULASKU ||
+                                   tyyppi == TositeTyyppi::MYYNTILASKU));
+    ui->muistutusNappi->setVisible( index.isValid() && (tyyppi == TositeTyyppi::MYYNTILASKU
+                                                        || ( tyyppi == TositeTyyppi::MAKSUMUISTUTUS &&
+                                                             laskutustapa != LaskuDialogi::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
                                     && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5);
     ui->ryhmalaskuNappi->setVisible(paalehti_ == MYYNTI || paalehti_ == ASIAKAS);
