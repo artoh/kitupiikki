@@ -393,7 +393,7 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 
     naytin_ = naytin;
     leiska_->addWidget( naytin->widget());
-
+    qApp->processEvents();
 
     emit sisaltoVaihtunut();
 }

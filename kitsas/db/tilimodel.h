@@ -56,6 +56,7 @@ public:
 
 
     TiliModel(QObject *parent = nullptr);
+    ~TiliModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;

@@ -30,7 +30,7 @@ class TiliDelegaatti : public QItemDelegate
     Q_OBJECT
 
 public:
-    TiliDelegaatti();
+    TiliDelegaatti(QObject* parent = nullptr);
 
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

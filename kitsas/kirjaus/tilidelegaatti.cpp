@@ -22,7 +22,8 @@
 #include "db/kirjanpito.h"
 #include "model/tositeviennit.h"
 
-TiliDelegaatti::TiliDelegaatti()
+TiliDelegaatti::TiliDelegaatti(QObject *parent) :
+    QItemDelegate(parent)
 {
 
 }

@@ -21,7 +21,8 @@
 
 #include "tools/kpdateedit.h"
 
-PvmDelegaatti::PvmDelegaatti(KpDateEdit *kantapaivaeditori) :
+PvmDelegaatti::PvmDelegaatti(KpDateEdit *kantapaivaeditori, QObject *parent) :
+    QItemDelegate(parent),
     kantaeditori(kantapaivaeditori)
 {
 

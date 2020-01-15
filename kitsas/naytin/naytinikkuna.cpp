@@ -132,7 +132,7 @@ void NaytinIkkuna::teeToolbar()
     QToolBar *tb = addToolBar(tr("Ikkuna"));
     tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    QAction *suljeAktio = new QAction(QIcon(":/pic/peru.png"), tr("Sulje"));
+    QAction *suljeAktio = new QAction(QIcon(":/pic/peru.png"), tr("Sulje"), this);
     connect(suljeAktio, &QAction::triggered, this, &NaytinIkkuna::close);
     suljeAktio->setShortcut(QKeySequence(Qt::Key_Escape));
     tb->addAction(suljeAktio);
@@ -208,11 +208,11 @@ void NaytinIkkuna::teeToolbar()
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
     connect( zoomAktio_, &QAction::triggered, view(), &NaytinView::zoomFit);
 
-    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"));
+    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
     connect( zoomInAktio_, &QAction::triggered, view(), &NaytinView::zoomIn);
 
-    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"));
+    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
     connect( zoomOutAktio_, &QAction::triggered, view(), &NaytinView::zoomOut);
 

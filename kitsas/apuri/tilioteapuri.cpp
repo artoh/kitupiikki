@@ -74,7 +74,6 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
-    connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::naytaSummat);
 
     ui->tiliCombo->suodataTyypilla("ARP");
 
@@ -189,8 +188,12 @@ void TilioteApuri::naytaSummat()
             otot += qAbs(sentit);
     }
     double loppusaldo = alkusaldo_ + (panot - otot) / 100.0;
-    ui->infoLabel->setText(tr("Alkusaldo %L3 € \tPanot %L1 € \tOtot %L2 € \tLoppusaldo %L4 €").arg((panot / 100.0), 0, 'f', 2).arg((otot / 100.0), 0, 'f', 2)
-                           .arg(alkusaldo_,0,'f',2).arg(loppusaldo,0,'f',2));
+
+    ui->infoLabel->setText(tr("Alkusaldo %L3 € \tPanot %L1 € \tOtot %L2 € \tLoppusaldo %L4 €")
+                           .arg((panot / 100.0), 0, 'f', 2)
+                           .arg((otot / 100.0), 0, 'f', 2)
+                           .arg(alkusaldo_,0,'f',2)
+                           .arg(loppusaldo,0,'f',2));
 }
 
 void TilioteApuri::tiliPvmMuutos()

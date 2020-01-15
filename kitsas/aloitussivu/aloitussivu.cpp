@@ -530,9 +530,13 @@ void AloitusSivu::pilviLogout()
 
 void AloitusSivu::logoMuuttui()
 {
-    double skaala = (1.0 * kp()->logo().width() ) / kp()->logo().height();
-    ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled( qRound( 64 * skaala),64,Qt::KeepAspectRatio) ) );
-    ui->logoLabel->show();
+    if( kp()->logo().isNull() )
+        ui->logoLabel->hide();
+    else {
+        double skaala = (1.0 * kp()->logo().width() ) / kp()->logo().height();
+        ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled( qRound( 64 * skaala),64,Qt::KeepAspectRatio) ) );
+        ui->logoLabel->show();
+    }
 }
 
 void AloitusSivu::haeSaldot()

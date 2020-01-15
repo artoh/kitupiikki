@@ -30,13 +30,16 @@ public:
     Budjettivertailu();
     ~Budjettivertailu() override;
 
-    RaportinKirjoittaja raportti() override;
+public slots:
+    void esikatsele() override;
 
 protected slots:
     void paivitaMuodot();
+    void paivitaKielet();
 
 protected:
-    Ui::Budjettivertailu *ui_;
+    Ui::Budjettivertailu *ui;
+    QString kaava_;
 };
 
 #endif // BUDJETTIVERTAILU_H

@@ -18,113 +18,98 @@
 #include "db/kirjanpito.h"
 #include "db/tilikausimodel.h"
 #include <QComboBox>
+#include <QJsonDocument>
 
 #include "raportoija.h"
 
 Budjettivertailu::Budjettivertailu() :
     RaporttiWidget(nullptr)
 {
-    ui_ = new Ui::Budjettivertailu;
-    ui_->setupUi(raporttiWidget);
+    ui = new Ui::Budjettivertailu;
+    ui->setupUi(raporttiWidget);
 
-    ui_->kausiCombo->setModel(kp()->tilikaudet());
-    ui_->kausiCombo->setModelColumn(TilikausiModel::KAUSI);
-    ui_->kausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() ) );
-
-
-    // Lisätään muokattavat raportit
-    QStringList raporttilista;
-
-    for (QString rnimi : kp()->asetukset()->avaimet("Raportti/") )
-    {
-        // Kohdennusraportit kuitenkin vain, jos kohdennuksia käytettävissä
-        if( kp()->asetukset()->asetus(rnimi).startsWith(":kohdennus") && !kp()->kohdennukset()->kohdennuksia() )
-            continue;
-        // Ei tasetita
-        if( kp()->asetukset()->asetus(rnimi).startsWith(":tase") )
-            continue;
-
-        // Raporttilajit: Jos lajillinen raportti (esim. Tase/PMA, tulee listalle kuitenkin vain Tase yhteen kertaan
-        if( rnimi.count(QChar('/')) > 1)
-            rnimi = rnimi.left( rnimi.lastIndexOf(QChar('/')) );
-
-        if( !raporttilista.contains(rnimi))
-            raporttilista.append(rnimi);
-    }
-    raporttilista.sort(Qt::CaseInsensitive);
-    for( const QString& nimi : raporttilista)
-    {
-        ui_->raporttiCombo->addItem( QIcon(":/pic/tekstisivu.png"),nimi.mid(9), nimi );
-    }
-
-    if( ui_->raporttiCombo->findText("Tuloslaskelma") > -1)
-        ui_->raporttiCombo->setCurrentIndex( ui_->raporttiCombo->findText("Tuloslaskelma") );
-
+    ui->kausiCombo->setModel(kp()->tilikaudet());
+    ui->kausiCombo->setModelColumn(TilikausiModel::KAUSI);
+    ui->kausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() ) );
 
     if( kp()->kohdennukset()->kohdennuksia())
     {
-        ui_->kohdennusCombo->setModel( kp()->kohdennukset());
-        ui_->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+        ui->kohdennusCombo->setModel( kp()->kohdennukset());
+        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
     }
     else
     {
-        ui_->kohdennusCheck->setVisible(false);
-        ui_->kohdennusCombo->setVisible(false);
+        ui->kohdennusCheck->setVisible(false);
+        ui->kohdennusCombo->setVisible(false);
     }
 
     paivitaMuodot();
-    connect( ui_->raporttiCombo, SIGNAL( currentIndexChanged(int) ), this, SLOT(paivitaMuodot()));
+    paivitaKielet();
 
 }
 
 Budjettivertailu::~Budjettivertailu()
 {
-    delete ui_;
+    delete ui;
 }
 
-RaportinKirjoittaja Budjettivertailu::raportti()
+
+void Budjettivertailu::esikatsele()
 {
-    QString raporttiTyyppi = ui_->raporttiCombo->currentData().toString().mid(9);
-    if( ui_->muotoCombo->isVisible())
-        raporttiTyyppi = ui_->muotoCombo->currentData().toString();
+    Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
+                                             ui->kieliCombo->currentData().toString(),
+                                             this,
+                                             Raportoija::TULOSLASKELMA);
 
-    Raportoija raportoija(raporttiTyyppi);
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
+    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTI );
+    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUTUNUT );
+    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTIERO );
+    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
 
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui_->kausiCombo->currentIndex() );
-    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTI );
-    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUTUNUT );
-    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTIERO );
-    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
-
-    return RaportinKirjoittaja(); // raportoija.raportti( ui_->erittelyCheck->isChecked());
+    connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
+    raportoija->kirjoita( ui->erittelyCheck->isChecked(),
+                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
 
 }
 
 void Budjettivertailu::paivitaMuodot()
 {
-    QString raporttiTyyppi = ui_->raporttiCombo->currentData().toString();
+    QStringList muodot = kp()->asetukset()->avaimet("tulos/");
 
-    QStringList muodot = kp()->asetukset()->avaimet( raporttiTyyppi + '/');
+    ui->muotoCombo->clear();
 
-    bool monimuoto = muodot.count();
+    int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;
+    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
 
-    ui_->muotoCombo->setVisible( monimuoto);
-    ui_->muotoLabel->setVisible( monimuoto);
-
-    ui_->muotoCombo->clear();
-
-    if( monimuoto )
-    {
-        for( const QString& muoto : muodot)
-        {
-            ui_->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
-        }
-
-        // Oletuksena monesta muodosta valittuna Yleinen
-        if( ui_->muotoCombo->findText("Yleinen") > -1)
-            ui_->muotoCombo->setCurrentIndex( ui_->muotoCombo->findText("Yleinen") );
-
+    for( auto muoto : muodot ) {
+        QString kaava = kp()->asetukset()->asetus(muoto);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+        QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
+        QString muotonimi = map.value( kieli ).toString();
+        ui->muotoCombo->addItem( muotonimi, muoto );
     }
 
+    ui->muotoCombo->setCurrentIndex(nykyinen);
 
+
+}
+
+void Budjettivertailu::paivitaKielet()
+{
+    QString raportti = ui->muotoCombo->currentData().toString();
+    QString kaava = kp()->asetukset()->asetus(raportti);
+
+    if( kaava == kaava_ || kaava.isEmpty())
+        return;
+    kaava_ = kaava;
+
+    QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+
+    QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
+    ui->kieliCombo->clear();
+
+    for(auto kieli : kielet.keys()) {
+        ui->kieliCombo->addItem( lippu(kieli), kp()->asetukset()->kieli(kieli), kieli );
+    }
 }

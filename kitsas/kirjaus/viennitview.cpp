@@ -32,10 +32,10 @@
 ViennitView::ViennitView(QWidget *parent)
     : QTableView (parent)
 {
-    setItemDelegateForColumn( TositeViennit::TILI, new TiliDelegaatti( ) );
-    setItemDelegateForColumn( TositeViennit::DEBET, new EuroDelegaatti);
-    setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti);
-    setItemDelegateForColumn( TositeViennit::KOHDENNUS, new KohdennusDelegaatti);
+    setItemDelegateForColumn( TositeViennit::TILI, new TiliDelegaatti(this ) );
+    setItemDelegateForColumn( TositeViennit::DEBET, new EuroDelegaatti(this));
+    setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti(this));
+    setItemDelegateForColumn( TositeViennit::KOHDENNUS, new KohdennusDelegaatti(this));
 
     setEditTriggers( QTableView::AllEditTriggers );
 

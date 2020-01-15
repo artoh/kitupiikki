@@ -88,7 +88,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     lokiTab_ = ui->tabWidget->widget(LOKI);
 
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
-    ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit));
+    ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit, this));
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
@@ -132,7 +132,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->viennitView->viewport()->installEventFilter(this);
 
     // ---- tästä alkaen uutta ------
-    tosite_ = new Tosite();
+    tosite_ = new Tosite(this);
     ui->viennitView->setModel( tosite_->viennit() );
     ui->lokiView->setModel( tosite_->loki() );
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);

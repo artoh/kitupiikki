@@ -296,7 +296,8 @@ void SQLiteModel::lisaaViimeisiin()
 
     map.insert("polku", tiedostopolku() );
     map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
-    map.insert("logo", kp()->logo().scaled(16,16,Qt::KeepAspectRatio));
+    if( !kp()->logo().isNull())
+        map.insert("logo", kp()->logo().scaled(16,16,Qt::KeepAspectRatio));
 
     beginResetModel();
     for( int i=0; i < viimeiset_.count(); i++ )

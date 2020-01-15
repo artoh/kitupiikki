@@ -39,6 +39,11 @@ TiliModel::TiliModel(QObject *parent) :
 
 }
 
+TiliModel::~TiliModel()
+{
+    tyhjenna();
+}
+
 int TiliModel::rowCount(const QModelIndex & /* parent */) const
 {
     return tiliLista_.count();

@@ -111,11 +111,11 @@ void Perusvalinnat::alvilaajuudesta()
 
 void Perusvalinnat::naytaLogo()
 {
-    QImage logo = kp()->logo().scaledToHeight(128);
+    QImage logo = kp()->logo();
     if( logo.isNull()) {
         ui->logoLabel->clear();
     } else {
-        ui->logoLabel->setPixmap( QPixmap::fromImage(logo));
+        ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaledToHeight(128)));
     }
 
     ui->poistaLogoNappi->setEnabled( logo.isNull() );
