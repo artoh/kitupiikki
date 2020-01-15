@@ -45,9 +45,9 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     ui->setupUi(this);
 
-    ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti() );
-    ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti() );
-    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti() );    
+    ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
+    ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
+    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( model_ );
@@ -228,7 +228,7 @@ void TilioteApuri::lataaHarmaat()
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)
 {
-    if( pvm != ui->loppuDate->date()) {
+    if( pvm != ui->loppuDate->date() && pvm.isValid()) {
         ui->loppuDate->setDate(pvm);
         ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
         tiliPvmMuutos();
