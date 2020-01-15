@@ -70,7 +70,7 @@
 <p class="intro">Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.</p>
 
 <div class="asennusinfo">
-<h3>Kitupiikki 1.4.3 julkaistu 2.12.2019</h3>
+<h3>Kitupiikki 1.4.5 julkaistu 15.1.2020</h3>
 
 
 <div class="asennuslaatikko">
@@ -78,8 +78,9 @@
 </div>
 </div>
 
-<p class="intro">Tutustu myös Kitupiikin tulevaisuuteen! Tulossa kahdenkertaista kirjanpitoa entistä yksinkertaisemmin. Esiversio ladattavissa <a href="https://kitsas.fi">kitsas.fi</a></p>
+<p class="intro">Tutustu myös Kitupiikin tulevaisuuteen! Tulossa kahdenkertaista kirjanpitoa entistä yksinkertaisemmin. Esiversio ladattavissa <a href="https://kitsas.fi">kitsas.fi</a>. Tilaa uutiskirje kuullaksesi uuden version valmistumisesta.</p>
 
+ <iframe width="540" height="450" src="https://1c6e51a2.sibforms.com/serve/MUIEAOnkVq4mTA6N08WymW3S6eTovCpHEXXGJH2avZMG4L6eJRS_OHxbRq1EwUzBd_V2uHhoocL_EqQWUm69cTAfWGpEc41xyEWUTgIgRJkArXJuUPMGaKijAcLsJ3mbMFeHpJB7UwGAZ54CPbbAxmi8pBT5jmEMJk7V6HTIB1qmjra7nPQECPmVF-X7DsFXuXP0-PNpIfeskaoe" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
 
 <script>
 var slideIndex = Math.floor( Math.random() * document.getElementsByClassName("karusellissa").length );
