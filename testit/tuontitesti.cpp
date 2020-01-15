@@ -19,8 +19,8 @@
 #include "tuontitesti.h"
 
 
-#include "../kitupiikki/validator/ibanvalidator.h"
-#include "../kitupiikki/tuonti/tuontiapu.h"
+#include "validator/ibanvalidator.h"
+#include "tuonti/tuontiapu.h"
 
 
 

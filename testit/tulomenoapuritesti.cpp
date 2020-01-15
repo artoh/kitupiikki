@@ -348,7 +348,10 @@ void TulomenoApuriTesti::menonMuodostusTesti()
     QComboBox *maksutapaCombo = kwg->findChild<QComboBox*>("maksutapaCombo");
     maksutapaCombo->setCurrentText("Käteinen");
 
-    QTest::keyClicks( tositePvmEdit, "15319" );
+    tositePvmEdit->setDate(QDate(2019,03,15));
+
+    QCOMPARE( tositePvmEdit->date(), QDate(2019,03,15));
+
     QTest::keyClicks( otsikkoEdit, "Menokokeilu");
 
     QCOMPARE( kwg->tosite()->otsikko(), "Menokokeilu");

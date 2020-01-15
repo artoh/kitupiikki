@@ -39,6 +39,20 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="vainlaskuNappi">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

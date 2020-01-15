@@ -19,17 +19,19 @@ CONFIG -= app_bundle
 TARGET=kitupiikki-test
 TEMPLATE = app
 
-INCLUDEPATH += $$PWD/../kitupiikki
-VPATH += $$PWD/../kitupiikki
-include(../kitupiikki/sources.pri)
+INCLUDEPATH += $$PWD/../kitsas
+VPATH += $$PWD/../kitsas
+include(../kitsas/sources.pri)
 
 HEADERS += tuontitesti.h \
+    kpdateedittesti.h \
     testiapu.h \
     tilitesti.h \
     tulomenoapuritesti.h \
     tulomenorivitesti.h
 
 SOURCES +=  testit.cpp \
+	kpdateedittesti.cpp \
 	testiapu.cpp \
 	tilitesti.cpp \
 	tulomenoapuritesti.cpp \

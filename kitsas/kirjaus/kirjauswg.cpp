@@ -225,6 +225,7 @@ void KirjausWg::tyhjenna()
     tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
+    ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     ui->tositePvmEdit->checkValidity();
 
     if( kp()->asetukset()->onko(AsetusModel::ALV))

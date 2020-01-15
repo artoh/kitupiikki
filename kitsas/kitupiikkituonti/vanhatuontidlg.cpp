@@ -536,7 +536,7 @@ void VanhatuontiDlg::siirraTuotteet()
         QVariantMap tmap;
         tmap.insert("nimike", sql.value("nimike"));
         tmap.insert("yksikko", sql.value("yksikko"));
-        tmap.insert("ahinta", sql.value("hintaSnt").toDouble() * 100.0);
+        tmap.insert("ahinta", sql.value("hintaSnt").toDouble() / 100.0);
         tmap.insert("alvkoodi", sql.value("alvkoodi").toInt());
         tmap.insert("alvprosentti", sql.value("alvprosentti").toDouble());
         tmap.insert("kohdennus", sql.value("kohdennus").toInt());

@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 
+#include "kpdateedittesti.h"
 #include "tuontitesti.h"
 #include "tilitesti.h"
 #include "tulomenorivitesti.h"
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     std::map<QString, std::unique_ptr<QObject>> tests;
 
     // Tässä kaikki suoritettavat testit!
+    tests.emplace("kpdateedit", std::make_unique<KpDateEditTesti>());
     tests.emplace("tuonti", std::make_unique<TuontiTesti>());
     tests.emplace("tili", std::make_unique<TiliTesti>());
     tests.emplace("tulomenorivi", std::make_unique<TuloMenoRiviTesti>());

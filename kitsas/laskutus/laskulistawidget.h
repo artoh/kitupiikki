@@ -55,6 +55,7 @@ private slots:
     void hyvita();
     void muistuta();
     void poista();
+    void naytaListallaVainLaskut(bool nayta);
 
     void naytaLasku();
     void naytaDialogi(QVariant* data);
@@ -68,6 +69,7 @@ private:
     LaskuTauluModel *laskut_;
     QSortFilterProxyModel *laskuAsiakasProxy_;
     QSortFilterProxyModel *laskuViiteProxy_;
+    QSortFilterProxyModel *vainLaskuProxy_;
 
     int paalehti_ = 0;
 };

@@ -34,7 +34,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     ui(new Ui::LaskulistaWidget),
     laskut_(new LaskuTauluModel(this)),
     laskuAsiakasProxy_(new QSortFilterProxyModel(this)),
-    laskuViiteProxy_(new QSortFilterProxyModel(this))
+    laskuViiteProxy_(new QSortFilterProxyModel(this)),
+    vainLaskuProxy_( new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
 
@@ -47,7 +48,9 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     laskuAsiakasProxy_->setSourceModel( laskut_ );
 
     laskuViiteProxy_->setSourceModel( laskuAsiakasProxy_ );
-    ui->view->setModel( laskuViiteProxy_ );
+    vainLaskuProxy_->setSourceModel( laskuViiteProxy_);
+    vainLaskuProxy_->setFilterRole(LaskuTauluModel::TyyppiRooli);
+    ui->view->setModel( vainLaskuProxy_ );
 
     connect( ui->viiteEdit, &QLineEdit::textEdited,
              laskuViiteProxy_, &QSortFilterProxyModel::setFilterFixedString);
@@ -77,8 +80,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
+    connect( ui->vainlaskuNappi, &QPushButton::toggled, this, &LaskulistaWidget::naytaListallaVainLaskut);
 
-    // Nämä toistaiseksi poissa käytöstä
     ui->muistutusNappi->hide();
 }
 
@@ -96,12 +99,15 @@ void LaskulistaWidget::nayta(int paalehti)
             ui->tabs->insertTab(LUONNOKSET,tr("Luonnokset"));
             ui->tabs->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
             ui->tabs->setTabText(KAIKKI, tr("Lähetetyt"));
+            ui->vainlaskuNappi->setVisible(true);
+            naytaListallaVainLaskut(ui->vainlaskuNappi->isChecked());
         }
     } else {
         if( ui->tabs->count() == 5) {
             ui->tabs->setTabText(KAIKKI, tr("Kaikki"));
             ui->tabs->removeTab(LAHETETTAVAT);
             ui->tabs->removeTab(LUONNOKSET);
+            ui->vainlaskuNappi->setVisible(false);
         }
     }
 }
@@ -140,8 +146,8 @@ void LaskulistaWidget::paivitaNapit()
                                   (index.data(LaskuTauluModel::LaskutustapaRooli).toInt() != LaskuDialogi::TUOTULASKU ||
                                    index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU));
     ui->muistutusNappi->setVisible( index.isValid() && (index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
-                                                        || ( index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MAKSUMUISTUTUS) &&
-                                                             index.data(LaskuTauluModel::LaskutustapaRooli).toInt() != LaskuDialogi::TUOTULASKU)
+                                                        || ( index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MAKSUMUISTUTUS &&
+                                                             index.data(LaskuTauluModel::LaskutustapaRooli).toInt() != LaskuDialogi::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
                                     && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5);
     ui->ryhmalaskuNappi->setVisible(paalehti_ == MYYNTI || paalehti_ == ASIAKAS);
@@ -255,6 +261,14 @@ void LaskulistaWidget::poista()
         }
     }
 
+}
+
+void LaskulistaWidget::naytaListallaVainLaskut(bool nayta)
+{
+    if( nayta )
+        vainLaskuProxy_->setFilterRegularExpression("21.");
+    else
+        vainLaskuProxy_->setFilterFixedString("");
 }
 
 void LaskulistaWidget::naytaLasku()

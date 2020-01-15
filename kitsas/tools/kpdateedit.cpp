@@ -164,17 +164,16 @@ void KpDateEdit::setDateInternal(const QDate &date)
 
         dateInEditor_ = date;
         setText( date.toString("dd.MM.yyyy") );
-
         setCursorPosition(pos);
 
         if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) {
             setStyleSheet("color: red;");
-            date_ = QDate();
-            emit dateChanged(date_);
+            date_ = QDate();            
         } else {
             setStyleSheet("");
-            setDate( date );
+            date_ = date;
         }
+        emit dateChanged(date_);
     }
 
     // Kalenteri piilotetaan

@@ -47,7 +47,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä tehokkaat - mutta niin kovin huonosti dokumentoidut - työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;p&gt;Katso &lt;a href=&quot;https://github.com/artoh/kitupiikki/wiki&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/artoh/kitupiikki/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä tehokkaat - mutta niin kovin huonosti dokumentoidut - työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
