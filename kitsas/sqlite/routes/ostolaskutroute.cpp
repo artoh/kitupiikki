@@ -47,7 +47,13 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
                            .arg(Tosite::KIRJANPIDOSSA) );
 
     if( urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append(" AND vienti.erapvm < current_date ");
+        kysymys.append(" AND vienti.erapvm < current_date ");    
+    if( urlquery.hasQueryItem("alkupvm"))
+        kysymys.append(QString(" AND tosite.pvm >= '%1' ")
+                       .arg(urlquery.queryItemValue("alkupvm")));
+    if( urlquery.hasQueryItem("loppupvm"))
+        kysymys.append(QString(" AND tosite.pvm <= '%1' ")
+                       .arg(urlquery.queryItemValue("loppupvm")));
     kysymys.append(" ORDER BY pvm, viite");
 
     QSqlQuery kysely(db());

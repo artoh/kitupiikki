@@ -72,6 +72,19 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
     maxDate_ = max;
 }
 
+void KpDateEdit::setEnabled(bool enabled)
+{
+    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid()))
+            && enabled)
+    {
+        setStyleSheet("color: red;");
+    } else {
+        setStyleSheet("color: black;");
+    }
+    QLineEdit::setEnabled(enabled);
+
+}
+
 void KpDateEdit::setNullable(bool enable)
 {
     nullMahdollinen_ = enable;
@@ -167,7 +180,8 @@ void KpDateEdit::setDateInternal(const QDate &date)
         setCursorPosition(pos);
 
         if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) {
-            setStyleSheet("color: red;");
+            if( isEnabled())
+                setStyleSheet("color: red;");
             date_ = QDate();            
         } else {
             setStyleSheet("");

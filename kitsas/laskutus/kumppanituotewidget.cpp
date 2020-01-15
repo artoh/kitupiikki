@@ -136,8 +136,8 @@ void KumppaniTuoteWidget::muokkaa()
 {
     if( valilehti_ == TUOTTEET) {
         TuoteDialogi *dlg = new TuoteDialogi(this);
-        dlg->muokkaa( ui->view->currentIndex().data(TuoteModel::MapRooli).toMap()  );
         connect( dlg, &TuoteDialogi::tuoteTallennettu, this, &KumppaniTuoteWidget::paivita);
+        dlg->muokkaa( ui->view->currentIndex().data(TuoteModel::MapRooli).toMap()  );        
     } else if (valilehti_ == RYHMAT) {
         QString nimi = QInputDialog::getText(this, tr("Muokkaa ryhmää"), tr("Ryhmän nimi"),QLineEdit::Normal,
                                              ui->view->currentIndex().data(Qt::DisplayRole).toString());
@@ -161,7 +161,9 @@ void KumppaniTuoteWidget::poista()
     if( valilehti_ == TUOTTEET) {
         int tuoteid = ui->view->currentIndex().data(TuoteModel::IdRooli).toInt();
         if( tuoteid ) {
-            kp()->tuotteet()->poista(tuoteid);
+            KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(tuoteid), KpKysely::DELETE );
+            connect(kysely, &KpKysely::vastaus, kp()->tuotteet(), &TuoteModel::lataa);
+            kysely->kysy();
         }
     } else if( valilehti_ == RYHMAT) {
         if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {

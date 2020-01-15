@@ -48,13 +48,6 @@ public:
     QDate date() const;
 
     /**
-     * @brief Sallittu päivämääräväli
-     * @param min Pienin sallittu pvm
-     * @param max Suurin sallittu pvm
-     */
-    void setDateRange(const QDate& min, const QDate& max);
-
-    /**
      * @brief Pienin sallittu pvm
      * @return
      */
@@ -79,10 +72,6 @@ signals:
      */
     void dateChanged(const QDate& date);
 
-    /**
-     * @brief Muokkaus tullut valmiiksi
-     */
-//    void editingFinished();
 
 public slots:
     /**
@@ -95,6 +84,21 @@ public slots:
      * @param date
      */
     void setDate(QDate date);
+
+    /**
+     * @brief Sallittu päivämääräväli
+     * @param min Pienin sallittu pvm
+     * @param max Suurin sallittu pvm
+     */
+    void setDateRange(const QDate& min, const QDate& max);
+
+    /**
+     * @brief Asettaa editorin käyttöön
+     * @param enabled
+     *
+     * Käytöstä poistettu (lukittu) editori ei ole punaisella
+     */
+    void setEnabled(bool enabled);
 
 protected:
     void setDateInternal(const QDate& date);

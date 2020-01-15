@@ -7,7 +7,7 @@
 #ISO
 @tase/PMA!TASE (TILINPÄÄTÖS)@
 #
-@tulos/yhdistys!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
@@ -16,7 +16,7 @@ annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
 annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 #ISO
-<b>Yhdistyksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
+<b>Yrityksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
 <p>Liitetiedot sisältävät ainakin
 <ol><li>tilinpäätöksen esittämistapaa koskevat tiedot</li>
 <li>tilinpäätöksen laatimisperusteet</li>
@@ -58,9 +58,6 @@ annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 #jalkeen Olennaiset tapahtumat tilikauden jälkeen
 <h2>Olennaiset tapahtumat tilikauden jälkeen </h2>
 <p> Tähän tieto olennaisista tapahtumista ja niiden taloudellisesta merkityksestä </p>
-#sidotut Sidotut rahastot
-<h2>Sidotut rahastot</h2>
-<p>Sidotut rahastot, pääoman katteena olevien varojen käyttö, rahaston tuotot, kulut, varat ja velat; rahaston pääoma ja sen muutokset.</p>
 #kaypa -MIKRO Käypään arvoon merkitseminen
 <h2>Käypään arvoon merkitseminen</h2>
 <ol>
@@ -114,6 +111,19 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #muut -MIKRO Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
 <h2>Muut tiedot</h2>
 <p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. </p>
+?muoto=oy
+##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
+#oypaaoma Oman pääoman muutokset
+<h2>Oman pääoman muutokset</h2>
+<p> ... </p>
+#oyeiosinko -oykaytto Ei osinkoa
+<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
+<p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
+#oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
+<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
+<p>Jakokelpoinen vapaa oma pääoma on ...</p>
+<p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
+?
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>

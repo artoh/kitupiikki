@@ -46,7 +46,6 @@ public:
 
 public slots:
     void lataa();
-    void poista(int tuoteId);
 
 private slots:
     void dataSaapuu(QVariant* data);

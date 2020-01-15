@@ -61,7 +61,7 @@ void TuoteDialogi::muokkaa(const QVariantMap &map)
     laskeBrutto();
     ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );
     ui->kohdennusCombo->setCurrentIndex(
-                ui->kohdennusCombo->findData( map.value("kohdennus") ));
+                ui->kohdennusCombo->findData( map.value("kohdennus", 0), KohdennusModel::IdRooli ));
     show();
 }
 

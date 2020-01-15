@@ -72,6 +72,19 @@ void LaskuSivu::siirrySivulle()
     paaTab( paaTab_->currentIndex() );
 }
 
+QString LaskuSivu::ohjeSivunNimi()
+{
+    switch (paaTab_->currentIndex()) {
+        case OSTO: case TOIMITTAJA:
+            return "laskutus/ostot";
+        case REKISTERI:
+            return "laskutus/rekisteri";
+        default:
+            return "laskutus/myynti";
+    }
+
+}
+
 void LaskuSivu::paaTab(int indeksi)
 {
 

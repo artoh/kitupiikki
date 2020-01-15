@@ -52,7 +52,7 @@ public:
     enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle() override;
-    QString ohjeSivunNimi() override { return "laskutus"; }
+    QString ohjeSivunNimi() override;
 
 public slots:
     void paaTab(int indeksi);
