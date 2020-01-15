@@ -21,7 +21,6 @@
 #include <QString>
 #include <QDate>
 
-#include "jsonkentta.h"
 #include "tilityyppimodel.h"
 
 #include "kantavariantti.h"

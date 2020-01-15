@@ -48,7 +48,7 @@ protected:
     void haeAlkuperaistosite(bool debet, int eraId);
     void tositeSaapuu(bool debet, QVariant* data);
 
-    void erikoisviennit(const QVariantList lista, double eurot, QVariantList& viennit);
+    void erikoisviennit(const QVariantList &lista, double eurot, QVariantList& viennit);
 
 private:
     Ui::SiirtoApuri *ui;

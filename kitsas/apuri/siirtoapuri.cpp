@@ -140,7 +140,7 @@ void SiirtoApuri::haeAlkuperaistosite(bool debet, int eraId)
 void SiirtoApuri::tositeSaapuu(bool debet, QVariant *data)
 {
     QVariantList lista = data->toMap().value("viennit").toList();
-    for(auto item : lista) {
+    for(const auto& item : lista) {
         // Tarvitaan vain, jos maksuperusteisia alveja
         if( item.toMap().value("alvkoodi").toInt() / 100 == 4) {
             if( debet)
@@ -153,10 +153,10 @@ void SiirtoApuri::tositeSaapuu(bool debet, QVariant *data)
     }
 }
 
-void SiirtoApuri::erikoisviennit(const QVariantList alkupviennit, double eurot, QVariantList &viennit)
+void SiirtoApuri::erikoisviennit(const QVariantList& alkupviennit, double eurot, QVariantList &viennit)
 {
     double osuusErasta = 0.0;
-    for(auto item : alkupviennit) {
+    for(const auto& item : alkupviennit) {
         TositeVienti evienti(item.toMap());
         if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS && qAbs(eurot) > 1e-5) {
             osuusErasta = qAbs( eurot / (evienti.debet() - evienti.kredit()) );

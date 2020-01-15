@@ -59,7 +59,7 @@ void PalkkaApuri::teeReset()
 
     QMap<QString,double> eurot;
 
-    for(QVariant item : vientilista) {
+    for(const QVariant& item : vientilista) {
         TositeVienti vienti(item.toMap());
 
         eurot.insert(vienti.palkkakoodi(), vienti.debet() > 1e-5 ? vienti.debet() : vienti.kredit());

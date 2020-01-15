@@ -130,7 +130,6 @@ SOURCES += \
     kitupiikkisivu.cpp \
     raportti/raportinkirjoittaja.cpp \
     raportti/raporttirivi.cpp \
-    db/jsonkentta.cpp \
     kirjaus/naytaliitewg.cpp \
     maaritys/tilikarttamuokkaus.cpp \
     db/tilinvalintaline.cpp \
@@ -363,7 +362,6 @@ HEADERS += \
     kitupiikkisivu.h \
     raportti/raportinkirjoittaja.h \
     raportti/raporttirivi.h \
-    db/jsonkentta.h \
     kirjaus/naytaliitewg.h \
     maaritys/tilikarttamuokkaus.h \
     db/tilinvalintaline.h \
