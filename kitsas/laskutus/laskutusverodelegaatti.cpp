@@ -22,15 +22,24 @@
 #include "db/kirjanpito.h"
 #include "laskualvcombo.h"
 #include "laskurivitmodel.h"
+#include "laskudialogi.h"
 
-LaskutusVeroDelegaatti::LaskutusVeroDelegaatti()
+LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(LaskuDialogi *dialogi) :
+    QItemDelegate(dialogi)
 {
 
 }
 
 QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
 {
-    QComboBox *cbox = new LaskuAlvCombo(parent);
+    LaskuAlvCombo::AsiakasVeroLaji aslaji = LaskuAlvCombo::EU;
+    LaskuDialogi* dlg = qobject_cast<LaskuDialogi*>(this->parent());
+    if( dlg->asiakkaanAlvTunnus().isEmpty())
+        aslaji = LaskuAlvCombo::YKSITYINEN;
+    else if(dlg->asiakkaanAlvTunnus().startsWith("FI"))
+        aslaji = LaskuAlvCombo::KOTIMAA;
+
+    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji);
     return cbox;
 }
 

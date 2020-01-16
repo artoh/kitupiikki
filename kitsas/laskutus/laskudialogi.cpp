@@ -472,7 +472,7 @@ void LaskuDialogi::lisaaRiviTab()
 
 
     rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti(this));
 
     rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
@@ -741,10 +741,6 @@ void LaskuDialogi::paivitaNakyvat()
 
 }
 
-int LaskuDialogi::laskuIkkunoita()
-{
-    return 0;
-}
 
 void LaskuDialogi::lisaaEnnakkoHyvitys(int eraId, double eurot)
 {

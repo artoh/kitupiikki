@@ -53,8 +53,9 @@ public:
     enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF, EITULOSTETA, POSTITUS, TUOTULASKU };
     enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE };
 
-    static int laskuIkkunoita();    
     void lisaaEnnakkoHyvitys(int eraId, double eurot);
+
+    QString asiakkaanAlvTunnus() const { return asAlvTunnus_;}
 
 private slots:
     void paivitaSumma();

@@ -20,13 +20,15 @@
 
 #include <QItemDelegate>
 
+class LaskuDialogi;
+
 /**
  * @brief The Laskutuslomakkeen verovalinta
  */
 class LaskutusVeroDelegaatti : public QItemDelegate
 {
 public:
-    LaskutusVeroDelegaatti();
+    LaskutusVeroDelegaatti(LaskuDialogi* dialogi);
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

@@ -23,7 +23,9 @@ class LaskuAlvCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    LaskuAlvCombo(QWidget* parent = nullptr);
+    enum AsiakasVeroLaji { KAIKKI, EU, KOTIMAA, YKSITYINEN };
+
+    LaskuAlvCombo(QWidget* parent = nullptr, AsiakasVeroLaji asiakasVerolaji = KAIKKI);
 
     int veroKoodi();
     double veroProsentti();
