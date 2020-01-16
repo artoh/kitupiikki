@@ -39,11 +39,7 @@ public slots:
 
 private slots:
     void laskeBrutto();
-    void laskeNetto();
-    void tallennettu(QVariant* vastaus);
-
-signals:
-    void tuoteTallennettu(int tuoteId);
+    void laskeNetto();    
 
 private:
     Ui::TuoteDialogi *ui;

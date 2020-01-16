@@ -54,34 +54,23 @@ public:
     enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE };
 
     void lisaaEnnakkoHyvitys(int eraId, double eurot);
-
     QString asiakkaanAlvTunnus() const { return asAlvTunnus_;}
 
-private slots:
+private:
     void paivitaSumma();
     void esikatselu();
 
     void paivitaNapit();
 
-    /**
-     * @brief Tulostuksen toteutus
-     *
-     * Tukee ryhmälaskutusta
-     *
-     * @param printer
-     */
     void tulosta(QPagedPaintDevice *printer) const override;
     QString otsikko() const override;
 
-
-    void rivienKontekstiValikko(QPoint pos);
+    void lisaaLaskuRivi();
     void poistaLaskuRivi();
+    void lisaaTuote();
     void tuotteidenKonteksiValikko(QPoint pos);
     void tulostaLasku();
 
-
-
-    /////// UUTTA ///////
     void asiakasValittu(int asiakasId);
     void taytaAsiakasTiedot(QVariant* data);
     void paivitaLaskutustavat();
@@ -96,32 +85,23 @@ private slots:
     int tyyppi() const { return tyyppi_;}
     void ennakkoHyvitysData(int eraid, double eurot, QVariant *data);
 
-private:
     void alustaRyhmalasku();
     void lataa(const QVariantMap& map);
     void paivitaNakyvat();
-    void lisaaRiviTab();
-    QVariantMap vastakirjaus(const QDate &pvm, const QString& otsikko) const;
+    void alustaRiviTab();
 
+    QVariantMap vastakirjaus(const QDate &pvm, const QString& otsikko) const;
     void alustaMaksutavat();
 
-
-
-
-public slots:
 
 private:
     LaskuRivitModel *rivit_;
     Ui::LaskuDialogi *ui;
             
-    QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
 
-
     QSortFilterProxyModel *ryhmaProxy_;
-
     QList<int> ryhmaLahetys_;
-
     QVariantMap tallennettu_;
 
     int tositeId_ = 0;

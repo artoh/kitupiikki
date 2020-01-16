@@ -287,6 +287,115 @@ osoite</string>
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vientilista-aktiivinen.png</normaloff>:/pic/vientilista-aktiivinen.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Rivit</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLineEdit" name="tuoteFiltterinEditori">
+             <property name="placeholderText">
+              <string>Etsi tuotetta nimellä</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableView" name="tuoteView">
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="uusituoteNappi">
+             <property name="text">
+              <string>Uusi tuote</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QTableView" name="rivitView">
+             <property name="editTriggers">
+              <set>QAbstractItemView::AllEditTriggers</set>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="lisaaRiviNappi">
+               <property name="text">
+                <string>Lisää rivi</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="poistaRiviNappi">
+               <property name="text">
+                <string>Poista rivi</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">

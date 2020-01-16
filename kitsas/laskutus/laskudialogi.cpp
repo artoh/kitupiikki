@@ -49,6 +49,7 @@
 #include "ryhmalasku/kielidelegaatti.h"
 #include "ennakkohyvitysmodel.h"
 #include "ennakkohyvitysdialogi.h"
+#include "tuotedialogi.h"
 
 #include <QDebug>
 
@@ -97,7 +98,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( rivit_, &LaskuRivitModel::rowsInserted, this, &LaskuDialogi::paivitaSumma);
     connect( rivit_, &LaskuRivitModel::modelReset, this, &LaskuDialogi::paivitaSumma);
 
-    lisaaRiviTab();
+    alustaRiviTab();
     connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
@@ -160,6 +161,8 @@ void LaskuDialogi::paivitaNapit()
     ui->valmisNappi->setEnabled( tallennettavaa );
 }
 
+
+
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
     printer->setPageSize( QPdfWriter::A4);
@@ -178,34 +181,32 @@ QString LaskuDialogi::otsikko() const
 
 
 
-
-void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
-{
-/*    kontekstiIndeksi=ui->rivitView->indexAt(pos);
-
-    QMenu *menu=new QMenu(this);
-    if( kontekstiIndeksi.data(LaskuModel::TuoteKoodiRooli).toInt() )
-        menu->addAction(QIcon(":/pic/kitupiikki32.png"), tr("Päivitä tuoteluetteloon"), this, SLOT(paivitaTuoteluetteloon()) );
-    else
-        menu->addAction(QIcon(":/pic/lisaa.png"), tr("Lisää tuoteluetteloon"), this, SLOT(lisaaTuoteluetteloon()));
-    menu->popup(ui->rivitView->viewport()->mapToGlobal(pos));*/
-}
-
-
 void LaskuDialogi::poistaLaskuRivi()
 {
-/*    int indeksi = ui->rivitView->currentIndex().row();
+    int indeksi = ui->rivitView->currentIndex().row();
     if( indeksi > -1)
-        model->poistaRivi(indeksi);*/
+        rivit_->removeRow(indeksi);
+}
+
+void LaskuDialogi::lisaaTuote()
+{
+    TuoteDialogi* dialog = new TuoteDialogi(this);
+    dialog->uusi();
 }
 
 void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 {
-/*    kontekstiIndeksi = tuoteProxy->mapToSource( ui->tuotelistaView->indexAt(pos) );
+    QModelIndex index = ui->tuoteView->indexAt(pos);
+    int tuoteid = index.data(TuoteModel::IdRooli).toInt();
+    QVariantMap tuoteMap = index.data(TuoteModel::MapRooli).toMap();
 
     QMenu *menu = new QMenu(this);
-    menu->addAction(QIcon(":/pic/poistarivi.png"), tr("Poista tuoteluettelosta"), this, SLOT(poistaTuote()));
-    menu->popup( ui->tuotelistaView->viewport()->mapToGlobal(pos)); */
+    menu->addAction(QIcon(":/pic/muokkaa.png"), tr("Muokkaa"), [this, tuoteMap] {
+        TuoteDialogi* dlg = new TuoteDialogi(this);
+        dlg->muokkaa( tuoteMap );
+    });
+    if( tuoteid )
+        menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
 }
 
 
@@ -421,72 +422,49 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
 
 
-void LaskuDialogi::lisaaRiviTab()
+void LaskuDialogi::alustaRiviTab()
 {
-    QSplitter* split = new QSplitter(Qt::Horizontal,this);
-
-
     TuoteModel* tuoteModel = new TuoteModel(this);
     tuoteModel->lataa();
-
-    QLineEdit* tuoteFiltterinEditori = new QLineEdit();
-    tuoteFiltterinEditori->setPlaceholderText("Etsi tuotetta nimellä");
-
-    QVBoxLayout *leiska = new QVBoxLayout;
-    leiska->addWidget(tuoteFiltterinEditori);
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(tuoteModel);
 
-    QTableView* tuoteView = new QTableView();
-    leiska->addWidget(tuoteView);
-    tuoteView->setModel(proxy);
-    tuoteView->setSelectionBehavior(QTableView::SelectRows);
-    tuoteView->setSelectionMode(QTableView::SingleSelection);
-
+    ui->tuoteView->setModel(proxy);
     proxy->setSortLocaleAware(true);
-    tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
-    tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
-
-    QWidget *tuoteWg = new QWidget();
-    tuoteWg->setLayout(leiska);
-    split->addWidget(tuoteWg);
+    ui->tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
+    ui->tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
+    ui->tuoteView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect( ui->tuoteView, &QTableView::customContextMenuRequested, this, &LaskuDialogi::tuotteidenKonteksiValikko);
 
 
-    QTableView* rivitView = new QTableView(this);
-    split->addWidget(rivitView);
+    ui->rivitView->setModel(rivit_);
 
-    rivitView->setModel(rivit_);
+    ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuRivitModel::NIMIKE, QHeaderView::Stretch);
+    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::AHINTA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
 
-    rivitView->horizontalHeader()->setSectionResizeMode(LaskuRivitModel::NIMIKE, QHeaderView::Stretch);
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::AHINTA, new EuroDelegaatti());
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
-    rivitView->setSelectionMode(QTableView::SingleSelection);
-
-
-    KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti();
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
+    KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
+    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
 
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
-    connect( tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
+    connect( ui->tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
 
+    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti(this));
 
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
-    rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti(this));
+    ui->rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    ui->rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
-    rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
+    connect( ui->uusituoteNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaTuote);
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->rivit_->lisaaRivi();} );
+    connect( ui->poistaRiviNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaLaskuRivi);
 
-    split->setStretchFactor(0,1);
-    split->setStretchFactor(1,3);
+    ui->splitter->setStretchFactor(0,1);
+    ui->splitter->setStretchFactor(1,3);
 
-    ui->tabWidget->insertTab(0, split, QIcon(":/pic/vientilista.png"),"Rivit");
-    ui->tabWidget->setCurrentWidget(split);
-
-    connect( tuoteView, &QTableView::clicked, [this, proxy, tuoteModel] (const QModelIndex& index)
+    connect( ui->tuoteView, &QTableView::clicked, [this, proxy, tuoteModel] (const QModelIndex& index)
         { this->rivit_->lisaaRivi( tuoteModel->tuoteMap( proxy->mapToSource(index).row()) ); }  );
-
-    // TODO TILAPÄINEN
 
 }
 
