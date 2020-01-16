@@ -27,6 +27,9 @@ public:
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant post(const QString &polku, const QVariant &data) override;
     QVariant put(const QString &polku, const QVariant &data) override;
+
+private:
+    QVariant myynti(const QUrlQuery &urlquery);
 };
 
 #endif // TUOTTEETROUTE_H

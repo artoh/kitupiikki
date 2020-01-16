@@ -64,10 +64,10 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
 
     if( urlquery.hasQueryItem("eraalkupvm"))
         kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
-                       .arg(urlquery.queryItemValue("alkupvm")));
+                       .arg(urlquery.queryItemValue("eraalkupvm")));
     if( urlquery.hasQueryItem("eraloppupvm"))
         kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
-                       .arg(urlquery.queryItemValue("loppupvm")));
+                       .arg(urlquery.queryItemValue("eraloppupvm")));
 
     QSqlQuery kysely(db());
     kysely.exec(kysymys);

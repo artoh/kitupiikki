@@ -75,10 +75,10 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     if( urlquery.hasQueryItem("eraalkupvm"))
         kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
-                       .arg(urlquery.queryItemValue("alkupvm")));
+                       .arg(urlquery.queryItemValue("eraalkupvm")));
     if( urlquery.hasQueryItem("eraloppupvm"))
         kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
-                       .arg(urlquery.queryItemValue("loppupvm")));
+                       .arg(urlquery.queryItemValue("eraloppupvm")));
 
     if( urlquery.hasQueryItem("kitsaslaskut"))
         kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");

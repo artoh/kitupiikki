@@ -22,7 +22,7 @@
 #include "raporttiwidget.h"
 
 namespace Ui {
-    class TaseErittely;
+    class PvmVali;
 }
 
 /**
@@ -33,21 +33,14 @@ class MyyntiRaportti : public RaporttiWidget
     Q_OBJECT
 public:
     MyyntiRaportti();
-    ~MyyntiRaportti();
+    ~MyyntiRaportti() override;
 
-    RaportinKirjoittaja raportti();
+public slots:
+    void esikatsele() override;
 
-    /**
-     * @brief Kirjoittaa myyntiraportin
-     * @param mista Pvm alkaen
-     * @param mihin Pvm saakka
-     * @param summat Tulostetaanko lopuksi summarivi
-     * @return
-     */
-    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin, bool summat = true);
 
 protected:
-    Ui::TaseErittely *ui;
+    Ui::PvmVali *ui;
 };
 
 #endif // MYYNTIRAPORTTI_H

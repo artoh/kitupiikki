@@ -30,14 +30,6 @@ class TositeluetteloRaportti : public RaporttiWidget
 public:
     TositeluetteloRaportti();
 
-    RaportinKirjoittaja raportti() override;
-
-
-    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,
-                                                 bool tositejarjestys = true, bool ryhmittelelajeittain=true,
-                                                 bool tulostakohdennukset=true, bool tulostaviennit=true,
-                                                 bool tulostasummat=false);
-
 public slots:
     void esikatsele() override;
 

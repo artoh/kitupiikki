@@ -18,7 +18,7 @@
 #define ALVRAPORTTIWIDGET_H
 
 #include "raporttiwidget.h"
-#include "ui_paivakirja.h"
+#include "ui_pvmvali.h"
 
 /**
  * @brief Alv-erittelyn tulostava raportti
@@ -31,7 +31,7 @@ public:
     ~AlvRaporttiWidget() override;
 
 protected:
-    Ui::Paivakirja *ui;
+    Ui::PvmVali *ui;
 
 public slots:
     void esikatsele() override;

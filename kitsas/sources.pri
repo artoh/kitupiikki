@@ -53,6 +53,7 @@ SOURCES += \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
+    $$PWD/raportti/myyntiraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
@@ -285,6 +286,7 @@ HEADERS += \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laskuraportteri.h \
+    $$PWD/raportti/myyntiraportteri.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/raporttiwidget.h \
@@ -493,6 +495,7 @@ FORMS += \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/maaritys/veromaaritys.ui \
+    $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
@@ -534,7 +537,6 @@ FORMS += \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \
     laskutus/laskunmaksudialogi.ui \
-    raportti/taseerittely.ui \
     arkisto/tilinpaattaja.ui \
     arkisto/poistaja.ui \
     maaritys/lisaaraporttidialogi.ui \

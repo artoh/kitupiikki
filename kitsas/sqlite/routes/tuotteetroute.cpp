@@ -22,8 +22,11 @@ TuotteetRoute::TuotteetRoute(SQLiteModel *model)
 
 }
 
-QVariant TuotteetRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
+QVariant TuotteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
+    if( polku == "myynti")
+        return myynti(urlquery);
+
     QSqlQuery kysely( db() );
     kysely.exec("SELECT * FROM Tuote ORDER BY nimike");
     return resultList(kysely);
@@ -55,4 +58,19 @@ QVariant TuotteetRoute::put(const QString &polku, const QVariant &data)
     kysely.addBindValue(mapToJson(map));
     kysely.exec();
     return jemma;
+}
+
+QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
+{
+    QStringList ehdot;
+    if( urlquery.hasQueryItem("alkupvm"))
+        ehdot.append(QString("pvm >= '%1'").arg(urlquery.queryItemValue("alkupvm")));
+    if( urlquery.hasQueryItem("loppupvm"))
+        ehdot.append(QString("pvm <= '%1'").arg(urlquery.queryItemValue("loppupvm")));
+
+    QSqlQuery kysely( db() );
+    kysely.exec( "SELECT nimike, tuote, sum(myyntikpl) as kpl, sum(ahinta*myyntikpl) as myynti from rivi join tosite on rivi.tosite=tosite.id left outer join tuote on rivi.tuote=tuote.id "
+                 + ( ehdot.isEmpty() ? "" : " WHERE " + ehdot.join(" AND ")  )
+                 +  " group by Tuote order by nimike "  );
+    return resultList( kysely );
 }

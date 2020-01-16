@@ -24,7 +24,7 @@
 TaseErittely::TaseErittely() :
     RaporttiWidget(nullptr)
 {
-    ui = new Ui::TaseErittely;
+    ui = new Ui::PvmVali;
     ui->setupUi( raporttiWidget);
 
     int tilikausia = kp()->tilikaudet()->rowCount(QModelIndex()) ;

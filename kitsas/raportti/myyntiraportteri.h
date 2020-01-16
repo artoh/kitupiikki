@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,31 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef MYYNTIRAPORTTERI_H
+#define MYYNTIRAPORTTERI_H
 
-#ifndef TASEERITTELY_H
-#define TASEERITTELY_H
+#include "raportteri.h"
 
-#include "ui_pvmvali.h"
-
-#include "raporttiwidget.h"
-#include "db/kirjanpito.h"
-
-/**
- * @brief Tase-erittelyn tulostaminen
- */
-class TaseErittely : public RaporttiWidget
+class MyyntiRaportteri : public Raportteri
 {
     Q_OBJECT
 public:
-    TaseErittely();
-    ~TaseErittely() override;
+    MyyntiRaportteri(QObject *parent = nullptr, const QString kielikoodi = QString());
 
-public slots:
-    void esikatsele() override;
+    void kirjoita(const QDate& mista, const QDate& mihin);
 
-
-protected:
-    Ui::PvmVali *ui;
+private:
+    void dataSaapuu(QVariant* data);
 };
 
-#endif // TASEERITTELY_H
+#endif // MYYNTIRAPORTTERI_H
