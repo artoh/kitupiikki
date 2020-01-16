@@ -181,12 +181,7 @@ QString LaskuDialogi::otsikko() const
 
 
 
-void LaskuDialogi::poistaLaskuRivi()
-{
-    int indeksi = ui->rivitView->currentIndex().row();
-    if( indeksi > -1)
-        rivit_->removeRow(indeksi);
-}
+
 
 void LaskuDialogi::lisaaTuote()
 {
@@ -424,11 +419,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
 void LaskuDialogi::alustaRiviTab()
 {
-    TuoteModel* tuoteModel = new TuoteModel(this);
-    tuoteModel->lataa();
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(tuoteModel);
+    proxy->setSourceModel( kp()->tuotteet() );
 
     ui->tuoteView->setModel(proxy);
     proxy->setSortLocaleAware(true);
@@ -458,7 +451,10 @@ void LaskuDialogi::alustaRiviTab()
 
     connect( ui->uusituoteNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaTuote);
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->rivit_->lisaaRivi();} );
-    connect( ui->poistaRiviNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaLaskuRivi);
+    connect( ui->poistaRiviNappi, &QPushButton::clicked, [this] {
+        if( this->ui->rivitView->currentIndex().isValid())
+                this->rivit_->poistaRivi( ui->rivitView->currentIndex().row());
+    });
 
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,3);

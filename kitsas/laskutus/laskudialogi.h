@@ -65,8 +65,6 @@ private:
     void tulosta(QPagedPaintDevice *printer) const override;
     QString otsikko() const override;
 
-    void lisaaLaskuRivi();
-    void poistaLaskuRivi();
     void lisaaTuote();
     void tuotteidenKonteksiValikko(QPoint pos);
     void tulostaLasku();

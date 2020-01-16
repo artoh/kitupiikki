@@ -73,6 +73,7 @@ public:
 
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
+    void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
 
 public:

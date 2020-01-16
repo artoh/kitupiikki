@@ -91,4 +91,5 @@ bool TositesarjaMaaritys::tallenna()
     }
 
     kp()->asetukset()->aseta(asetukset);
+    return true;
 }

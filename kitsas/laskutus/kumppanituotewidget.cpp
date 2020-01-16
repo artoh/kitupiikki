@@ -112,7 +112,6 @@ void KumppaniTuoteWidget::uusi()
 {
     if( valilehti_ == TUOTTEET ) {
         TuoteDialogi *dlg = new TuoteDialogi(this);
-        connect( dlg, &TuoteDialogi::tuoteTallennettu, kp()->tuotteet(), &TuoteModel::lataa);
         dlg->uusi();
     } else if( valilehti_ == RYHMAT) {
         QString nimi = QInputDialog::getText(this, tr("Uusi ryhmä"), tr("Ryhmän nimi"));
@@ -136,7 +135,6 @@ void KumppaniTuoteWidget::muokkaa()
 {
     if( valilehti_ == TUOTTEET) {
         TuoteDialogi *dlg = new TuoteDialogi(this);
-        connect( dlg, &TuoteDialogi::tuoteTallennettu, this, &KumppaniTuoteWidget::paivita);
         dlg->muokkaa( ui->view->currentIndex().data(TuoteModel::MapRooli).toMap()  );        
     } else if (valilehti_ == RYHMAT) {
         QString nimi = QInputDialog::getText(this, tr("Muokkaa ryhmää"), tr("Ryhmän nimi"),QLineEdit::Normal,
@@ -160,10 +158,9 @@ void KumppaniTuoteWidget::poista()
 {
     if( valilehti_ == TUOTTEET) {
         int tuoteid = ui->view->currentIndex().data(TuoteModel::IdRooli).toInt();
-        if( tuoteid ) {
-            KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(tuoteid), KpKysely::DELETE );
-            connect(kysely, &KpKysely::vastaus, kp()->tuotteet(), &TuoteModel::lataa);
-            kysely->kysy();
+        if( tuoteid &&
+            QMessageBox::question(this, tr("Tuotteen poistaminen"),tr("Haluatko varmasti poistaa tuotteen?")) == QMessageBox::Yes) {
+            kp()->tuotteet()->poistaTuote(tuoteid);
         }
     } else if( valilehti_ == RYHMAT) {
         if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {

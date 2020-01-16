@@ -108,10 +108,51 @@ void TuoteModel::lataa()
     }
 }
 
+void TuoteModel::paivitaTuote(QVariantMap map)
+{
+    KpKysely *kysely = map.contains("id") ?
+                kpk(QString("/tuotteet/%1").arg(map.value("id").toInt()), KpKysely::PUT) :
+                kpk("/tuotteet", KpKysely::POST);
+    connect( kysely, &KpKysely::vastaus, this, &TuoteModel::muokattu);
+    kysely->kysy(map);
+}
+
+void TuoteModel::poistaTuote(int id)
+{
+    KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(id), KpKysely::DELETE);
+    kysely->kysy();
+
+    for(int i=0; i<lista_.count(); i++) {
+        if( lista_.at(i).toMap().value("id").toInt() == id) {
+            beginRemoveRows(QModelIndex(),i,i);
+            lista_.removeAt(i);
+            endRemoveRows();
+            return;
+        }
+    }
+}
+
 
 void TuoteModel::dataSaapuu(QVariant *data)
 {
     beginResetModel();
     lista_ = data->toList();
     endResetModel();
+}
+
+void TuoteModel::muokattu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    int id = map.value("id").toInt();
+    for(int i=0; i<lista_.count(); i++) {
+        if( lista_.at(i).toMap().value("id").toInt() == id) {
+            lista_[i] = map;
+            emit dataChanged(index(i,0), index(i,columnCount()));
+            return;
+        }
+    }
+    // Ei löytynyt, lisätään
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    lista_.append(map);
+    endInsertRows();
 }

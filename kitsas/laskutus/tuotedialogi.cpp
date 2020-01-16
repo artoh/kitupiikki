@@ -88,15 +88,10 @@ void TuoteDialogi::accept()
     map.insert("tili", ui->tiliEdit->valittuTilinumero());
     map.insert("kohdennus", ui->kohdennusCombo->currentData(KohdennusModel::IdRooli));
 
-    KpKysely *kysely = nullptr;
-
     if( muokattavanaId_ )
-        kysely = kpk( QString("/tuotteet/%1").arg(muokattavanaId_), KpKysely::PUT );
-    else
-        kysely = kpk("/tuotteet", KpKysely::POST);
-    connect( kysely, &KpKysely::vastaus, this, &TuoteDialogi::tallennettu);
-    kysely->kysy(map);
+        map.insert("id", muokattavanaId_);
 
+    kp()->tuotteet()->paivitaTuote(map);
 }
 
 void TuoteDialogi::laskeBrutto()
@@ -118,12 +113,5 @@ void TuoteDialogi::laskeNetto()
 
     if( qRound64(netto*100.0) != ui->nettoEdit->asCents())
         ui->nettoEdit->setValue(netto);
-}
-
-void TuoteDialogi::tallennettu(QVariant *vastaus)
-{
-    QVariantMap map = vastaus->toMap();
-    emit tuoteTallennettu( map.value("id").toInt() );
-    QDialog::accept();
 }
 

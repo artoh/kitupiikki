@@ -38,7 +38,7 @@ public:
     enum { IdRooli = Qt::UserRole , MapRooli = Qt::UserRole + 2};
     
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;    
     
@@ -46,9 +46,12 @@ public:
 
 public slots:
     void lataa();
+    void paivitaTuote(QVariantMap map);
+    void poistaTuote(int id);
 
 private slots:
     void dataSaapuu(QVariant* data);
+    void muokattu(QVariant* data);
     
 private:
     QVariantList lista_;

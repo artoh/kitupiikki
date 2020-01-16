@@ -440,15 +440,22 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
     int rivia = rivit_.count();
     if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble()) < 1e-5 )
     {
-        rivit_[rivia-1] = rivi;
-        emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount()) );
-            lisaaRivi();
+        beginInsertRows(QModelIndex(), rivia-1, rivia-1);
+        rivit_.insert(rivia-1, rivi);
+        endInsertRows();
         return;
     }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
     rivit_.append(rivi);
     endInsertRows();
+}
+
+void LaskuRivitModel::poistaRivi(int rivi)
+{
+    beginRemoveRows(QModelIndex(), rivi, rivi);
+    rivit_.removeAt(rivi);
+    endRemoveRows();
 }
 
 void LaskuRivitModel::asetaEnnakkolasku(bool ennakkoa)

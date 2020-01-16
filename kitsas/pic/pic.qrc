@@ -167,6 +167,7 @@
         <file>kitsas350.png</file>
         <file>kitsas150.png</file>
         <file>ennakkolasku.png</file>
+        <file>refresh.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
