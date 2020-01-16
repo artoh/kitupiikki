@@ -27,7 +27,6 @@ Naytin::RaporttiNaytin::RaporttiNaytin(const RaportinKirjoittaja &raportti, QObj
 
 Naytin::RaporttiNaytin::~RaporttiNaytin()
 {
-    qDebug() << "~RaporttiNaytin";
     delete raportti_;
 }
 
@@ -58,9 +57,6 @@ QString Naytin::RaporttiNaytin::html() const
 
 void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {
-    qDebug() << "Tulosta raportti alkaa" << raportti_->otsikko();
     QPainter painter(printer);
     raportti_->tulosta(printer, &painter, onkoRaidat());
-    qDebug() << "Tulosta raportti päättyy" << raportti_->otsikko();
-
 }

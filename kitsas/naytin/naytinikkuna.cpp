@@ -144,23 +144,24 @@ void NaytinIkkuna::teeToolbar()
     tb->addSeparator();
 
     avaaAktio_ = tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));
-    connect( avaaAktio_, &QAction::triggered, view(), &NaytinView::avaaOhjelmalla);
+    connect( avaaAktio_, &QAction::triggered, [this] {this->view()->avaaOhjelmalla();});
+
     QAction* tallennaAktio = tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"));
-    connect(tallennaAktio, &QAction::triggered, view(), &NaytinView::tallenna);
+    connect(tallennaAktio, &QAction::triggered, [this] { this->view()->tallenna();});
 
     tb->addSeparator();
 
     QAction *tulostaAktio = tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
-    connect( tulostaAktio, &QAction::triggered, view(), &NaytinView::tulosta);
+    connect( tulostaAktio, &QAction::triggered, [this] {this->view()->tulosta() ;} );
 
     tb->addSeparator();
 
     raitaAktio_ = tb->addAction(QIcon(":/pic/raidoitus.png"), tr("Raidat"));
-    connect( raitaAktio_, &QAction::triggered, [this] (bool raidat) { qDebug() << " RaitaCn " << this; this->view()->raidoita(raidat); });
+    connect( raitaAktio_, &QAction::triggered, [this] (bool raidat) { this->view()->raidoita(raidat); });
     raitaAktio_->setCheckable(true);
 
     sivunAsetusAktio_ = tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
-    connect( sivunAsetusAktio_, &QAction::triggered, view_, &NaytinView::sivunAsetukset );
+    connect( sivunAsetusAktio_, &QAction::triggered, [this] {this->view()->sivunAsetukset();} );
 
 
 
@@ -172,15 +173,15 @@ void NaytinIkkuna::teeToolbar()
     QMenu *htmlMenu = new QMenu();
 
     QAction* htmlAvaaAktio = new QAction( QIcon(":/pic/web.png"), tr("Avaa selaimella"));
-    connect( htmlAvaaAktio, &QAction::triggered, view(), &NaytinView::avaaHtml );
+    connect( htmlAvaaAktio, &QAction::triggered, [this] {this->view()->avaaHtml();} );
     htmlMenu->addAction(htmlAvaaAktio);
 
     QAction *htmlLeikepoytaAktio = new QAction( QIcon(":/pic/edit-paste.png"), tr("Leikepöydälle"));
-    connect( htmlLeikepoytaAktio, &QAction::triggered, view(), &NaytinView::htmlLeikepoydalle);
+    connect( htmlLeikepoytaAktio, &QAction::triggered, [this] {this->view()->htmlLeikepoydalle();});
     htmlMenu->addAction(htmlLeikepoytaAktio);
 
     QAction *htmlTiedostoonAktio = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tiedostoon"));
-    connect( htmlTiedostoonAktio, &QAction::triggered, view(), &NaytinView::tallennaHtml);
+    connect( htmlTiedostoonAktio, &QAction::triggered, [this] {this->view()->tallennaHtml();});
     htmlMenu->addAction(htmlTiedostoonAktio);
 
     htmlBtn->setMenu(htmlMenu);
