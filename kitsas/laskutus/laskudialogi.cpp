@@ -200,6 +200,9 @@ void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
         TuoteDialogi* dlg = new TuoteDialogi(this);
         dlg->muokkaa( tuoteMap );
     });
+    menu->addAction(QIcon(":/pic/refresh.png"), tr("Päivitä luettelo"), [] {
+        kp()->tuotteet()->lataa();
+    });
     if( tuoteid )
         menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
 }
@@ -459,8 +462,8 @@ void LaskuDialogi::alustaRiviTab()
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,3);
 
-    connect( ui->tuoteView, &QTableView::clicked, [this, proxy, tuoteModel] (const QModelIndex& index)
-        { this->rivit_->lisaaRivi( tuoteModel->tuoteMap( proxy->mapToSource(index).row()) ); }  );
+    connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
+        { this->rivit_->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
 
 }
 

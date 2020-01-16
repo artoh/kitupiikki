@@ -59,7 +59,7 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
     
-    QVariantMap map = lista_.at(index.row()).toMap();
+    const QVariantMap &map = lista_.at(index.row()).toMap();
     if( role == Qt::DisplayRole)
     {
         if( index.column() == NIMIKE )
@@ -85,19 +85,15 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
         return map.value("id");
     else if( role == MapRooli)
         return map;
+    else if( role == TuoteMapRooli) {
+        QVariantMap tmap(map);
+        tmap.insert("tuote", tmap.take("id"));
+        return tmap;
+    }
     return QVariant();
     
 }
 
-
-QVariantMap TuoteModel::tuoteMap(int indeksi) const
-{
-    QVariantMap tuote = lista_.at(indeksi).toMap();
-    tuote.insert("tuote", tuote.value("id"));
-    tuote.remove("id");
-    return tuote;
-
-}
 
 void TuoteModel::lataa()
 {
@@ -147,7 +143,7 @@ void TuoteModel::muokattu(QVariant *data)
     for(int i=0; i<lista_.count(); i++) {
         if( lista_.at(i).toMap().value("id").toInt() == id) {
             lista_[i] = map;
-            emit dataChanged(index(i,0), index(i,columnCount()));
+            emit dataChanged( index(i,0), index(i,BRUTTO) );
             return;
         }
     }

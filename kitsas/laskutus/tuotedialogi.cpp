@@ -92,6 +92,7 @@ void TuoteDialogi::accept()
         map.insert("id", muokattavanaId_);
 
     kp()->tuotteet()->paivitaTuote(map);
+    QDialog::accept();
 }
 
 void TuoteDialogi::laskeBrutto()

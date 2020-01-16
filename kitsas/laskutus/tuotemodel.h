@@ -35,14 +35,12 @@ public:
     TuoteModel(QObject *parent = nullptr);
 
     enum TuoteSarake { NIMIKE, NETTO, BRUTTO };
-    enum { IdRooli = Qt::UserRole , MapRooli = Qt::UserRole + 2};
+    enum { IdRooli = Qt::UserRole , MapRooli = Qt::UserRole + 2, TuoteMapRooli = Qt::UserRole + 3};
     
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;    
-    
-    QVariantMap tuoteMap(int indeksi) const;
 
 public slots:
     void lataa();
