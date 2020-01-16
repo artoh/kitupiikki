@@ -143,7 +143,6 @@ void NaytinView::paivita()
 
 void NaytinView::raidoita(bool raidat)
 {
-    qDebug() << "NaytinView::raidoita "  << naytin_;
     if( naytin_)
         naytin_->raidoita(raidat);
 }

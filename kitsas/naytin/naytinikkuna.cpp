@@ -194,15 +194,15 @@ void NaytinIkkuna::teeToolbar()
     QMenu *csvValikko = new QMenu();
 
     QAction *csvLeikepoydelleAktio = new QAction( QIcon(":/pic/edit-paste.png"), tr("Leikepöydälle") );
-    connect( csvLeikepoydelleAktio, &QAction::triggered,  view(), &NaytinView::csvLeikepoydalle );
+    connect( csvLeikepoydelleAktio, &QAction::triggered, [this] { this->view()->csvLeikepoydalle();});
     csvValikko->addAction(csvLeikepoydelleAktio);
     QAction *csvTallennaAktio = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tiedostoon"));
-    connect( csvTallennaAktio, &QAction::triggered, view(), &NaytinView::tallennaCsv);
+    connect( csvTallennaAktio, &QAction::triggered, [this] { this->view()->tallennaCsv();});
     csvValikko->addAction(csvTallennaAktio);
     csvValikko->addSeparator();
 
     QAction *csvAsetukset = new QAction( QIcon(":/pic/ratas.png"), tr("CSV:n muoto"));
-    connect( csvAsetukset, &QAction::triggered, view(), &NaytinView::csvAsetukset);
+    connect( csvAsetukset, &QAction::triggered, [this] { this->view()->csvAsetukset();} );
     csvValikko->addAction(csvAsetukset);
 
     csvBtn->setMenu(csvValikko);
@@ -212,15 +212,15 @@ void NaytinIkkuna::teeToolbar()
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
-    connect( zoomAktio_, &QAction::triggered, view(), &NaytinView::zoomFit);
+    connect( zoomAktio_, &QAction::triggered, [this] { this->view()->zoomFit();} );
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
-    connect( zoomInAktio_, &QAction::triggered, view(), &NaytinView::zoomIn);
+    connect( zoomInAktio_, &QAction::triggered, [this] { this->view()->zoomIn(); });
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
-    connect( zoomOutAktio_, &QAction::triggered, view(), &NaytinView::zoomOut);
+    connect( zoomOutAktio_, &QAction::triggered, [this] { this->view()->zoomOut();} );
 
     tb->addAction(zoomAktio_);
     tb->addAction(zoomInAktio_);

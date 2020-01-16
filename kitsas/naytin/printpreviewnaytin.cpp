@@ -38,9 +38,7 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
 
 void Naytin::PrintPreviewNaytin::paivita() const
 {
-    qDebug() << "PrintPreviewNaytin::paivita()";
     widget_->updatePreview();
-    qDebug() << "PrintPreviewNaytin::paivita() loppuu";
 }
 
 void Naytin::PrintPreviewNaytin::zoomIn()
