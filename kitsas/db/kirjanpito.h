@@ -430,7 +430,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 20;
+    static const int TIETOKANTAVERSIO = 21;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon

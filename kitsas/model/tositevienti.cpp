@@ -167,6 +167,11 @@ void TositeVienti::setViite(const QString &viite)
     set( VIITE, viite);
 }
 
+void TositeVienti::setLaskupvm(const QDate &laskupvm)
+{
+    set( LASKUPVM, laskupvm);
+}
+
 void TositeVienti::setErapaiva(const QDate &erapvm)
 {
     set( ERAPAIVA, erapvm);
@@ -233,6 +238,7 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ERA, "era"},
     { ARKISTOTUNNUS, "arkistotunnus"},
     { VIITE, "viite"},
+    { LASKUPVM, "laskupvm"},
     { ERAPAIVA, "erapvm"},
     { KUMPPANI, "kumppani"},
     { TYYPPI, "tyyppi"},

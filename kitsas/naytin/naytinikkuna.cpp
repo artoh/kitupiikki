@@ -25,12 +25,11 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QSqlQuery>
+#include <QDebug>
 
 
 NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
 {
-    setAttribute(Qt::WA_DeleteOnClose);
-
     resize(800,600);   
     restoreGeometry( kp()->settings()->value("NaytinIkkuna").toByteArray());
 
@@ -40,12 +39,11 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(view_);
 
     teeToolbar();
-
 }
 
 NaytinIkkuna::~NaytinIkkuna()
 {
-    kp()->settings()->setValue("NaytinIkkuna", saveGeometry());
+    qDebug() << "~NaytinIkkuna";
 }
 
 void NaytinIkkuna::naytaRaportti(const RaportinKirjoittaja& raportti)
@@ -105,6 +103,13 @@ void NaytinIkkuna::naytaLiite(const QString &hakulauseke)
     kysely->kysy();
 }
 
+void NaytinIkkuna::closeEvent(QCloseEvent *event)
+{
+    kp()->settings()->setValue("NaytinIkkuna", saveGeometry());
+    deleteLater();
+    event->accept();
+}
+
 void NaytinIkkuna::sisaltoMuuttui()
 {
     setWindowTitle( view()->otsikko() );
@@ -151,7 +156,7 @@ void NaytinIkkuna::teeToolbar()
     tb->addSeparator();
 
     raitaAktio_ = tb->addAction(QIcon(":/pic/raidoitus.png"), tr("Raidat"));
-    connect( raitaAktio_, &QAction::triggered, view_, &NaytinView::raidoita);
+    connect( raitaAktio_, &QAction::triggered, [this] (bool raidat) { qDebug() << " RaitaCn " << this; this->view()->raidoita(raidat); });
     raitaAktio_->setCheckable(true);
 
     sivunAsetusAktio_ = tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));

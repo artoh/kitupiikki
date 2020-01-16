@@ -27,7 +27,7 @@ OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
 
 QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
-    QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.pvm as pvm, vienti.erapvm as erapvm, "
+    QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.laskupvm as pvm, vienti.erapvm as erapvm, "
                     "kreditsnt as summasnt, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
                     "vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tyyppi "
                     "from Tosite JOIN "
@@ -36,7 +36,12 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" LEFT OUTER ");
 
-    kysymys.append("JOIN ( SELECT eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 GROUP BY eraid");
+    kysymys.append("JOIN ( SELECT eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 ");
+
+    if( urlquery.hasQueryItem("saldopvm"))
+        kysymys.append(QString(" AND Vienti.pvm <= '%1' ").arg(urlquery.queryItemValue("saldopvm")));
+
+    kysymys.append("GROUP BY eraid");
 
     if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" HAVING sum(kreditsnt) <> sum(debetsnt) OR sum(debetsnt) IS NULL ");
@@ -48,13 +53,21 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
 
     if( urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" AND vienti.erapvm < current_date ");    
+
     if( urlquery.hasQueryItem("alkupvm"))
-        kysymys.append(QString(" AND tosite.pvm >= '%1' ")
-                       .arg(urlquery.queryItemValue("alkupvm")));
+        kysymys.append(QString(" AND vienti.laskupvm >= '%1' ")
+                       .arg(urlquery.queryItemValue("alkupvm")));    
     if( urlquery.hasQueryItem("loppupvm"))
-        kysymys.append(QString(" AND tosite.pvm <= '%1' ")
+        kysymys.append(QString(" AND vienti.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
     kysymys.append(" ORDER BY pvm, viite");
+
+    if( urlquery.hasQueryItem("eraalkupvm"))
+        kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
+                       .arg(urlquery.queryItemValue("alkupvm")));
+    if( urlquery.hasQueryItem("eraloppupvm"))
+        kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+                       .arg(urlquery.queryItemValue("loppupvm")));
 
     QSqlQuery kysely(db());
     kysely.exec(kysymys);

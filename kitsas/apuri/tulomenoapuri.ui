@@ -62,7 +62,7 @@
        <item row="2" column="1">
         <widget class="QLineEdit" name="viiteEdit"/>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="erapaivaLabel">
          <property name="text">
           <string>E&amp;räpäivä</string>
@@ -72,10 +72,10 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="KpDateEdit" name="erapaivaEdit"/>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="vastatiliLabel">
          <property name="text">
           <string>Vastat&amp;ili</string>
@@ -85,7 +85,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="eraLabel">
          <property name="text">
           <string>Tase-erä</string>
@@ -95,11 +95,24 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="EraCombo" name="eraCombo"/>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="TilinvalintaLine" name="vastatiliLine"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>&amp;Laskun pvm</string>
+         </property>
+         <property name="buddy">
+          <cstring>laskuPvm</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="KpDateEdit" name="laskuPvm"/>
        </item>
       </layout>
      </item>
@@ -410,8 +423,9 @@
  </customwidgets>
  <tabstops>
   <tabstop>maksutapaCombo</tabstop>
-  <tabstop>asiakasToimittaja</tabstop>
   <tabstop>viiteEdit</tabstop>
+  <tabstop>asiakasToimittaja</tabstop>
+  <tabstop>laskuPvm</tabstop>
   <tabstop>erapaivaEdit</tabstop>
   <tabstop>vastatiliLine</tabstop>
   <tabstop>eraCombo</tabstop>

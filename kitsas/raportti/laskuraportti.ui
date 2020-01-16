@@ -164,6 +164,13 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QRadioButton" name="lajitteleNumero">
+        <property name="text">
+         <string>Laskun numero</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QRadioButton" name="lajitteleViite">
         <property name="text">
          <string>Viitenumero</string>
@@ -208,12 +215,16 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="viiteBox">
+    <widget class="QCheckBox" name="naytaViiteCheck">
      <property name="text">
-      <string>Näytä viitenumerot</string>
+      <string>Näytä viitenumero</string>
      </property>
-     <property name="checked">
-      <bool>true</bool>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="vainKitsas">
+     <property name="text">
+      <string>Vain Kitsaalla laaditut laskut</string>
      </property>
     </widget>
    </item>

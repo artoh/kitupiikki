@@ -101,7 +101,8 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
 
-    //    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
+    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
+
 //    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
 
     if( kp()->asetukset()->onko("AlvVelvollinen") )

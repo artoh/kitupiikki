@@ -39,6 +39,7 @@ class NaytinView : public QWidget
     Q_OBJECT
 public:
     NaytinView(QWidget *parent = nullptr);
+    ~NaytinView() override;
 
     QString otsikko() const;
     bool csvKaytossa() const;

@@ -28,28 +28,12 @@ class LaskuRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:
-    enum PvmRajaus { KaikkiLaskut, RajaaLaskupaiva, RajaaErapaiva};
-    enum Lajittelu { Viitenumero, Laskupaiva, Erapaiva, Summa, Asiakas };
-
     LaskuRaportti();
-    ~LaskuRaportti();
+    ~LaskuRaportti() override;
 
-    RaportinKirjoittaja raportti() override;
 
-    /**
-     * @brief Laskuraportin kirjoittaminen
-     *
-     * @param saldopvm Mille päivälle avoin saldo lasketaan
-     * @param avoimet Tulostetaanko vain ne, joilla saldopäivänä avointa saldoa
-     * @param lajittelu Lajitteluperuste
-     * @param rajaus Rajausperuste
-     * @param mista Rajauksen alkupäivä
-     * @param mihin Rajauksen päättymispäivä
-     * @return
-     */
-    static RaportinKirjoittaja kirjoitaRaportti(QDate saldopvm, bool myyntilaskuja = true, bool avoimet = true,
-                                                Lajittelu lajittelu = Laskupaiva, bool summat = true, bool viitteet = true,
-                                                PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
+public slots:
+    void esikatsele() override;
 
 protected slots:
     /**
@@ -58,12 +42,6 @@ protected slots:
     void tyyppivaihtuu();
 
 protected:
-    static RaportinKirjoittaja myyntilaskut(QDate saldopvm, bool avoimet = true, Lajittelu lajittelu = Laskupaiva, bool summat=true, bool viitteet=true,
-                                            PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
-    static RaportinKirjoittaja ostolaskut(QDate saldopvm, bool avoimet = true, Lajittelu lajittelu = Laskupaiva, bool summat=true, bool viitteet=true,
-                                            PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
-
-
     Ui::Laskuraportti *ui;
 };
 

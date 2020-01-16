@@ -101,7 +101,7 @@ private:
     void lataa(const QVariantMap& map);
     void paivitaNakyvat();
     void lisaaRiviTab();
-    QVariantMap vastakirjaus(const QString& otsikko) const;
+    QVariantMap vastakirjaus(const QDate &pvm, const QString& otsikko) const;
 
     void alustaMaksutavat();
 

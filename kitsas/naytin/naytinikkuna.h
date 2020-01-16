@@ -34,7 +34,7 @@ class NaytinIkkuna : public QMainWindow
     Q_OBJECT
 public:
     NaytinIkkuna(QWidget *parent = nullptr);
-    ~NaytinIkkuna();
+    ~NaytinIkkuna() override;
 
     NaytinView* view() { return view_;}
 
@@ -47,6 +47,7 @@ public:
 
 protected:
     static void naytaLiite(const QString& hakulauseke);
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void sisaltoMuuttui();

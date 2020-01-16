@@ -21,39 +21,46 @@
 
 Naytin::RaporttiNaytin::RaporttiNaytin(const RaportinKirjoittaja &raportti, QObject *parent)
     : PrintPreviewNaytin (parent),
-      raportti_(raportti)
-{
+      raportti_(new RaportinKirjoittaja(raportti))
+{    
+}
 
+Naytin::RaporttiNaytin::~RaporttiNaytin()
+{
+    qDebug() << "~RaporttiNaytin";
+    delete raportti_;
 }
 
 QString Naytin::RaporttiNaytin::otsikko() const
 {
-    return raportti_.otsikko();
+    return raportti_->otsikko();
 }
 
 bool Naytin::RaporttiNaytin::csvMuoto() const
 {
-    return raportti_.csvKaytossa();
+    return raportti_->csvKaytossa();
 }
 
 QByteArray Naytin::RaporttiNaytin::csv() const
 {
-    return raportti_.csv();
+    return raportti_->csv();
 }
 
 QByteArray Naytin::RaporttiNaytin::data() const
 {
-    return raportti_.pdf( onkoRaidat() );
+    return raportti_->pdf( onkoRaidat() );
 }
 
 QString Naytin::RaporttiNaytin::html() const
 {
-    return raportti_.html();
+    return raportti_->html();
 }
 
 void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {
+    qDebug() << "Tulosta raportti alkaa" << raportti_->otsikko();
     QPainter painter(printer);
-    raportti_.tulosta(printer, &painter, onkoRaidat());
+    raportti_->tulosta(printer, &painter, onkoRaidat());
+    qDebug() << "Tulosta raportti päättyy" << raportti_->otsikko();
 
 }

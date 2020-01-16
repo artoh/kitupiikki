@@ -68,7 +68,7 @@ CREATE TABLE KumppaniIban
 
 INSERT INTO Kumppani(nimi,alvtunnus,json)
 	VALUES ('Verohallinto','FI02454583','{"osoite":"PL 325","postinumero":"00510","kaupunki":"VERO"}');
-INSERT INTO KumppaniIban(iban,kumppani)	VALUES 
+INSERT INTO KumppaniIban(iban,kumppani)	VALUES
 	('FI6416603000117625',1),
 	('FI5689199710000724',1),
 	('FI3550000120253504',1);
@@ -135,6 +135,7 @@ CREATE TABLE Vienti
 	kumppani integer REFERENCES Kumppani(id),
 	jaksoalkaa DATE,
 	jaksoloppuu DATE,
+	laskupvm DATE,
 	erapvm DATE,
 	viite varchar(64),
 	json text,

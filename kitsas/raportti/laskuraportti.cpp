@@ -19,8 +19,8 @@
 #include <QDebug>
 
 #include "laskuraportti.h"
-
 #include "db/kirjanpito.h"
+#include "laskuraportteri.h"
 
 LaskuRaportti::LaskuRaportti()
 {
@@ -40,280 +40,48 @@ LaskuRaportti::~LaskuRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja LaskuRaportti::raportti()
+void LaskuRaportti::esikatsele()
 {
-    PvmRajaus rajaus = KaikkiLaskut;
-    if( ui->rajaaEra->isChecked())
-        rajaus = RajaaErapaiva;
-    else if( ui->rajaaPvm->isChecked())
-        rajaus = RajaaLaskupaiva;
+    LaskuRaportteri *laskut = new LaskuRaportteri(this);
+    connect( laskut, &LaskuRaportteri::valmis, this, &RaporttiWidget::nayta);
 
-    Lajittelu lajittelu = Laskupaiva;
+    int optiot = 0;
 
-    if( ui->lajitteleViite->isChecked())
-        lajittelu = Viitenumero;
-    else if( ui->lajitteleErapvm->isChecked())
-        lajittelu = Erapaiva;
-    else if( ui->lajitteleSumma->isChecked())
-        lajittelu = Summa;
-    else if( ui->lajitteleAsiakas->isChecked())
-        lajittelu = Asiakas;
-
-    return kirjoitaRaportti( ui->saldoPvm->date(), ui->myyntiRadio->isChecked(),
-                             ui->avoimet->isChecked(),
-                             lajittelu, ui->summaBox->isChecked() ,  ui->viiteBox->isChecked(), rajaus, ui->alkaenPvm->date(), ui->paattyenPvm->date());
-
-}
-
-RaportinKirjoittaja LaskuRaportti::kirjoitaRaportti(QDate saldopvm, bool myyntilaskuja, bool avoimet, LaskuRaportti::Lajittelu lajittelu, bool summat, bool viitteet, LaskuRaportti::PvmRajaus rajaus, QDate mista, QDate mihin)
-{
-    if( myyntilaskuja)
-        return myyntilaskut(saldopvm, avoimet, lajittelu, summat, viitteet, rajaus, mista, mihin);
+    if( ui->myyntiRadio->isChecked())
+        optiot += LaskuRaportteri::Myyntilaskut;
     else
-        return ostolaskut(saldopvm, avoimet, lajittelu, summat, viitteet, rajaus, mista, mihin);
+        optiot += LaskuRaportteri::Ostolaskut;
+
+    if( ui->rajaaPvm->isChecked())
+        optiot += LaskuRaportteri::RajaaLaskupaivalla;
+    else if( ui->rajaaEra->isChecked())
+        optiot += LaskuRaportteri::RajaaErapaivalla;
+
+    if( ui->avoimet->isChecked())
+        optiot += LaskuRaportteri::VainAvoimet;
+
+    if( ui->lajitteleNumero->isChecked())
+        optiot += LaskuRaportteri::LajitteleNumero;
+    else if( ui->lajitteleViite->isChecked())
+        optiot += LaskuRaportteri::LajitteleViite;
+    else if( ui->lajitteleErapvm->isChecked())
+        optiot += LaskuRaportteri::LajitteleErapvm;
+    else if( ui->lajitteleSumma->isChecked())
+        optiot += LaskuRaportteri::LajitteleSumma;
+    else if( ui->lajitteleAsiakas->isChecked())
+        optiot += LaskuRaportteri::LajitteleAsiakas;
+
+    if( ui->naytaViiteCheck->isChecked())
+        optiot += LaskuRaportteri::NaytaViite;
+    if( ui->vainKitsas->isChecked())
+        optiot += LaskuRaportteri::VainKitsas;
+    if( ui->summaBox->isChecked())
+        optiot += LaskuRaportteri::TulostaSummat;
+
+    laskut->kirjoita(optiot, ui->saldoPvm->date(),
+                     ui->alkaenPvm->date(), ui->paattyenPvm->date());
+
 }
-
-
-RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, LaskuRaportti::Lajittelu lajittelu, bool summat, bool viitteet, LaskuRaportti::PvmRajaus rajaus, QDate mista, QDate mihin)
-{
-    RaportinKirjoittaja rk;
-
-    rk.asetaOtsikko("MYYNTILASKUT");
-
-    rk.asetaKausiteksti( saldopvm.toString("dd.MM.yyyy") );
-
-    if( viitteet)
-        rk.lisaaSarake("XXXXXXXXXX");  // Viite
-
-    rk.lisaaPvmSarake();         // Laskupvm
-    rk.lisaaPvmSarake();         // Eräpäivä
-    rk.lisaaEurosarake();       // Summa
-    rk.lisaaEurosarake();       // Avoinna
-    rk.lisaaVenyvaSarake();     // Asiakas
-
-    RaporttiRivi otsikko;
-    if( viitteet )
-        otsikko.lisaa("Viitenro");
-
-    otsikko.lisaa("Laskupvm");
-    otsikko.lisaa("Eräpvm");
-    otsikko.lisaa("Summa", 1, true);
-    otsikko.lisaa("Maksamatta", 1, true);
-    otsikko.lisaa("Asiakas");
-
-    rk.lisaaOtsake(otsikko);
-
-
-    QString jarjestys = "laskupvm";
-    if( lajittelu == Viitenumero)
-        jarjestys = "id";
-    else if( lajittelu == Erapaiva)
-        jarjestys = "erapvm";
-    else if( lajittelu == Summa)
-        jarjestys = "summaSnt";
-    else if( lajittelu == Asiakas)
-        jarjestys = "asiakas";
-
-
-    qlonglong laskusumma = 0;
-    qlonglong avoinsumma = 0;
-
-    QString kysymys = QString("SELECT pvm, debetsnt, kreditsnt, eraid, viite, erapvm, asiakas, laskupvm FROM vienti LEFT OUTER JOIN tili ON vienti.tili=tili.id "
-                     "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) AND vienti.id=vienti.eraid ");
-
-    if( rajaus == RajaaErapaiva)
-        kysymys.append( QString(" AND erapvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
-    else if( rajaus == RajaaLaskupaiva)
-        kysymys.append( QString(" AND laskupvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
-
-    kysymys.append(" ORDER BY " + jarjestys);
-
-
-    QSqlQuery kysely(kysymys);
-
-    while( kysely.next() )
-    {
-        qlonglong avoinna = 0;
-
-        if( kysely.value("eraid").toInt() )
-        {
-            QString erakysymys = QString("SELECT sum(debetsnt) as debet, sum(kreditsnt) as kredit FROM vienti WHERE eraid=%1 AND pvm<='%2'")
-                    .arg( kysely.value("eraid").toInt())
-                    .arg( saldopvm.toString(Qt::ISODate));
-
-            QSqlQuery erakysely( erakysymys);
-            if( erakysely.next())
-            {
-                avoinna -= erakysely.value("kredit").toLongLong();
-                avoinna += erakysely.value("debet").toLongLong();
-            }
-
-        }
-
-        // Lopuksi tulostus
-        if( avoimet && !avoinna)
-            continue;
-
-        RaporttiRivi rivi;
-        if( viitteet)
-            rivi.lisaa( kysely.value("viite").toString() );
-
-        rivi.lisaa( kysely.value("laskupvm").toDate());
-        rivi.lisaa( kysely.value("erapvm").toDate());
-        rivi.lisaa( kysely.value("debetsnt").toLongLong());
-        rivi.lisaa( avoinna);
-        rivi.lisaa( kysely.value("asiakas").toString());
-        rk.lisaaRivi(rivi);
-
-        laskusumma += kysely.value("debetsnt").toLongLong();
-        avoinsumma += avoinna;
-
-    }
-
-    if( summat )
-    {
-        RaporttiRivi summarivi;
-        if( viitteet)
-            summarivi.lisaa("Yhteensä",3);
-        else
-            summarivi.lisaa("Yhteensä",2);
-
-        summarivi.lisaa( laskusumma );
-        summarivi.lisaa( avoinsumma );
-        summarivi.lisaa("");
-        summarivi.viivaYlle();
-        rk.lisaaRivi(summarivi);
-    }
-
-    return rk;
-}
-
-RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, LaskuRaportti::Lajittelu lajittelu, bool summat, bool viitteet, LaskuRaportti::PvmRajaus rajaus, QDate mista, QDate mihin)
-{
-    RaportinKirjoittaja rk;
-
-    rk.asetaOtsikko("OSTOLASKUT");
-
-    rk.asetaKausiteksti( saldopvm.toString("dd.MM.yyyy") );
-
-    if( viitteet )
-    {
-        rk.lisaaSarake("FI00000000000000000000"); // Tili
-        rk.lisaaSarake("XXXXXXXXXX");  // Viite
-    }
-    rk.lisaaPvmSarake();         // Laskupvm
-    rk.lisaaPvmSarake();         // Eräpäivä
-    rk.lisaaEurosarake();       // Summa
-    rk.lisaaEurosarake();       // Avoinna
-    rk.lisaaVenyvaSarake();     // Myyjä
-
-    RaporttiRivi otsikko;
-    if( viitteet )
-    {
-        otsikko.lisaa("Tilille");
-        otsikko.lisaa("Viitenro");
-    }
-    otsikko.lisaa("Laskupvm");
-    otsikko.lisaa("Eräpvm");
-    otsikko.lisaa("Summa", 1, true);
-    otsikko.lisaa("Maksamatta", 1, true);
-    otsikko.lisaa("Myyjä/Selite");
-
-    rk.lisaaOtsake(otsikko);
-
-    // Rivit laitetaan QMapiin ja alkuun niiden lajitteluavain
-    QMultiMap<QString, RaporttiRivi> rivit;
-
-
-    qlonglong laskusumma = 0;
-    qlonglong avoinsumma = 0;
-
-
-    QString ehto;
-    if( rajaus == RajaaErapaiva )
-            ehto = QString(" erapvm BETWEEN %1 and %2 AND")
-                    .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
-    else if( rajaus == RajaaLaskupaiva )
-            ehto = QString(" pvm BETWEEN %1 and %2 AND")
-                    .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
-
-    QString kysymys = QString("SELECT vienti.id, pvm, kreditsnt, viite, iban, erapvm, vienti.json, selite FROM vienti,tili WHERE "
-                             " %1 vienti.tili=tili.id AND tili.tyyppi='BO' AND vienti.eraid=vienti.id  ").arg(ehto);
-
-    QSqlQuery kysely(kysymys);
-
-    while( kysely.next() )
-    {
-        qlonglong avoinna = 0l;
-/*        JsonKentta json( kysely.value("vienti.json").toByteArray() );
-
-        // Nyt pitää hakea tähän tase-erään tulevat muutokset ko. päivään asti
-        QSqlQuery erakysely( QString("SELECT debetsnt, kreditsnt FROM vienti "
-                         "WHERE eraid=%1 AND pvm <= '%2'")
-                             .arg( kysely.value("vienti.id").toInt()  ).arg(saldopvm.toString(Qt::ISODate)));
-
-        while( erakysely.next())
-        {
-            avoinna += erakysely.value("kreditsnt").toLongLong();
-            avoinna -= erakysely.value("debetsnt").toLongLong();
-        }
-
-        // Lopuksi tulostus
-        if( avoimet && !avoinna)
-            continue;
-
-        QString saaja = json.str("SaajanNimi");
-        if( saaja.isEmpty())
-            saaja = kysely.value("selite").toString();
-
-        RaporttiRivi rivi;
-        if(viitteet)
-        {
-            rivi.lisaa( kysely.value("iban").toString());
-            rivi.lisaa( kysely.value("viite").toString() );
-        }
-        rivi.lisaa( kysely.value("pvm").toDate());
-        rivi.lisaa( kysely.value("erapvm").toDate());
-        rivi.lisaa( kysely.value("kreditsnt").toLongLong());
-        rivi.lisaa( avoinna);
-        rivi.lisaa( saaja );
-
-        laskusumma += kysely.value("kreditsnt").toLongLong();
-        avoinsumma += avoinna;
-
-        QString avain = kysely.value("pvm").toDate().toString(Qt::ISODate);
-        if( lajittelu == Erapaiva)
-            avain = kysely.value("erapvm").toDate().toString(Qt::ISODate);
-        else if( lajittelu == Summa)
-            avain = QString("%1").arg(kysely.value("kreditSnt").toLongLong(), 10, 10, QChar('0'));
-        else if( lajittelu == Asiakas)
-            avain = json.str(saaja);
-
-        rivit.insert( avain, rivi);
-*/
-    }
-
-    // Laitetaan nyt rivit järjestyksessä
-    for( const RaporttiRivi& rivi : rivit.values())
-        rk.lisaaRivi(rivi);
-
-    if( summat )
-    {
-        RaporttiRivi summarivi;
-        if( viitteet )
-            summarivi.lisaa("Yhteensä",4);
-        else
-            summarivi.lisaa("Yhteensä",2);
-        summarivi.lisaa( laskusumma );
-        summarivi.lisaa( avoinsumma );
-        summarivi.lisaa(" ");
-        summarivi.viivaYlle();
-        rk.lisaaRivi(summarivi);
-    }
-
-    return rk;
-}
-
 
 void LaskuRaportti::tyyppivaihtuu()
 {
@@ -321,5 +89,7 @@ void LaskuRaportti::tyyppivaihtuu()
     if( ui->myyntiRadio->isChecked())
         ui->lajitteleAsiakas->setText( tr("Asiakas"));
     else
-        ui->lajitteleAsiakas->setText(tr("Myyjä"));
+        ui->lajitteleAsiakas->setText(tr("Toimittaja"));
+
+    ui->vainKitsas->setVisible( ui->myyntiRadio->isChecked() );
 }

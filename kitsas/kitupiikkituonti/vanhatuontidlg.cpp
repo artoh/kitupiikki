@@ -677,6 +677,7 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setAlvKoodi( vientikysely.value("alvkoodi").toInt());
             vienti.setAlvProsentti( vientikysely.value("alvprosentti").toDouble());
             vienti.setKohdennus( vientikysely.value("kohdennus").toInt());
+            vienti.setLaskupvm( vientikysely.value("laskupvm").toDate());
             vienti.setEra( vientikysely.value("eraid").toInt());
             vienti.setViite( vientikysely.value("viite").toString());
             vienti.setErapaiva( vientikysely.value("erapvm").toDate());

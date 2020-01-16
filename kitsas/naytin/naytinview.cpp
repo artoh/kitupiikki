@@ -85,6 +85,13 @@ NaytinView::NaytinView(QWidget *parent)
 
 }
 
+NaytinView::~NaytinView()
+{
+    if( naytin_)
+        delete naytin_;
+    qDebug() << "~NaytinView()";
+}
+
 
 void NaytinView::nayta(const QByteArray &data)
 {
@@ -109,18 +116,19 @@ void NaytinView::nayta(const QByteArray &data)
 
 void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
-    vaihdaNaytin( new Naytin::RaporttiNaytin(raportti ) );
+    vaihdaNaytin( new Naytin::RaporttiNaytin(raportti, this) );
     zoomFit();
 }
 
 void NaytinView::nayta(const QString &teksti)
 {
-    vaihdaNaytin( new Naytin::TekstiNaytin(teksti) );
+    vaihdaNaytin( new Naytin::TekstiNaytin(teksti, this) );
 }
 
 Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
 {
-    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava);
+    qDebug() << "NaytinView::esikatsele";
+    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava, this);
     vaihdaNaytin( naytin );
     return naytin;
 }
@@ -135,6 +143,7 @@ void NaytinView::paivita()
 
 void NaytinView::raidoita(bool raidat)
 {
+    qDebug() << "NaytinView::raidoita "  << naytin_;
     if( naytin_)
         naytin_->raidoita(raidat);
 }

@@ -77,8 +77,9 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tositteelle);
 
-//    connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
-//    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
+    connect( ui->viiteEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::teeTositteelle);
+    connect( ui->laskuPvm, &KpDateEdit::dateChanged, this, &TuloMenoApuri::teeTositteelle);
+    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::teeTositteelle);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::paivitaVeroFiltterit);
@@ -87,6 +88,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( tosite, &Tosite::pvmMuuttui, ui->laskuPvm, &KpDateEdit::setDate);
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
 }
 
@@ -129,8 +131,8 @@ void TuloMenoApuri::teeReset()
 
 
     rivit_->clear();
-    ui->viiteEdit->clear();
-    ui->erapaivaEdit->clear();
+    ui->viiteEdit->clear();    
+    ui->erapaivaEdit->setNull();
 
     if( tosite()->kumppani())
         ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
@@ -160,6 +162,7 @@ void TuloMenoApuri::teeReset()
             if( vastatili->eritellaankoTase())
                 ui->eraCombo->valitse( vienti.eraId() );
 
+            ui->laskuPvm->setDate( vienti.laskupvm());
             ui->erapaivaEdit->setDate(vienti.erapaiva());
             ui->viiteEdit->setText(vienti.viite());
 
@@ -206,8 +209,9 @@ bool TuloMenoApuri::teeTositteelle()
         if( tosite()->viennit()->rowCount() && tosite()->viennit()->vienti(0).tyyppi() % 100 == TositeVienti::VASTAKIRJAUS)
             vasta.setId( tosite()->viennit()->vienti(0).id() );
 
-        vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );
-        vasta.insert("pvm", tosite()->pvm());
+        vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );        
+        vasta.setPvm( tosite()->pvm());
+        vasta.setLaskupvm( ui->laskuPvm->date() );
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
 

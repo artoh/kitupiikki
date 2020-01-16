@@ -102,8 +102,8 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case NimiRooli:
         return map.value("nimi").toString();
-    case Qt::DecorationRole:
-        return(  QPixmap::fromImage( map.value("logo").value<QImage>().scaled(16,16,Qt::KeepAspectRatio) ) );
+    case Qt::DecorationRole:        
+        return(  QPixmap::fromImage( map.value("logo").value<QImage>() ) );
     case PolkuRooli:
         {
             QString polku = map.value("polku").toString();
@@ -168,14 +168,20 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     }
     // Tarkastetaan versio
     if( query.next()) {
-        if( query.value(0).toInt() > Kirjanpito::TIETOKANTAVERSIO) {
+        int versio = query.value(0).toInt();
+        if( versio > Kirjanpito::TIETOKANTAVERSIO) {
             QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(polku),
                                   tr("Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.\n\n"
-                                     "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitupiikistä. Lataa ohjelma "
+                                     "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa ohjelma "
                                      "osoitteesta https://kitsas.fi")
                                   .arg( qApp->applicationVersion() ));
             tietokanta_.close();
             return false;
+        } else if( versio == 20) {
+            // Ensimmäisen version jälkeen on lisätty kenttä laskupäivälle
+            query.exec("ALTER TABLE Vienti ADD COLUMN laskupvm DATE");
+            query.exec("UPDATE Vienti SET laskupvm=pvm");
+            query.exec("UPDATE Asetus SET arvo=21 WHERE avain='KpVersio'");
         }
     } else {
         // Tämä ei ole lainkaan kelvollinen tietokanta

@@ -18,9 +18,10 @@
 
 #include <QPrintPreviewWidget>
 #include "db/kirjanpito.h"
+#include <QDebug>
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QObject *parent)
-    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer() ) }
+    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer()) }
 {
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
 }
@@ -37,7 +38,9 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
 
 void Naytin::PrintPreviewNaytin::paivita() const
 {
+    qDebug() << "PrintPreviewNaytin::paivita()";
     widget_->updatePreview();
+    qDebug() << "PrintPreviewNaytin::paivita() loppuu";
 }
 
 void Naytin::PrintPreviewNaytin::zoomIn()

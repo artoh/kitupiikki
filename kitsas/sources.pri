@@ -52,6 +52,7 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
+    $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
@@ -283,6 +284,7 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
+    $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/raporttiwidget.h \

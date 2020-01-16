@@ -409,7 +409,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
-    viennit.append( vastakirjaus( otsikko ) );
+    viennit.append( vastakirjaus( pvm, otsikko ) );
     viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                      otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 
@@ -490,11 +490,12 @@ void LaskuDialogi::lisaaRiviTab()
 
 }
 
-QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
+QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko) const
 {
     TositeVienti vienti;
 
-    vienti.setPvm( kp()->paivamaara() );
+    vienti.setPvm( pvm );
+    vienti.setLaskupvm( kp()->paivamaara());
     int maksutapa = ui->maksuCombo->currentData().toInt();
     if( maksutapa == KATEINEN)
         vienti.setTili( kp()->asetukset()->luku("LaskuKateistili"));
