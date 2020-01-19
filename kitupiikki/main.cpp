@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
     translator.load("fi.qm",":/aloitus/");
 
     a.installTranslator(&translator);
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QStringList argumentit = qApp->arguments();
 
