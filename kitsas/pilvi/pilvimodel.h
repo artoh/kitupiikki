@@ -46,8 +46,8 @@ public:
     QString kayttajaNimi() const { return data_.value("name").toString();}
     QString kayttajaEmail() const { return data_.value("email").toString();}
     int kayttajaPilvessa() const { return kayttajaId_; }
-    int plan() const { return data_.value("plan").toInt();}
-    QString planname() const { return data_.value("planname").toString();}
+    int plan() const { return data_.value("plan").toMap().value("id").toInt();}
+    QString planname() const { return data_.value("plan").toMap().value("name").toString();}
     int omatPilvet() const;
     int pilviMax() const { return data_.value("cloudsmax").toInt();}
     QString oikeudet() const { return oikeudet_;}

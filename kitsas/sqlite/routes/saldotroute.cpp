@@ -77,7 +77,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             // Nykyisen tulos
             kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
                                 "AND vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100")
-                        .arg(kausi.alkaa().toString(Qt::ISODate))
+                        .arg(kaudenalku.toString(Qt::ISODate))
                         .arg(pvm.toString(Qt::ISODate)));
             if( kysely.next()) {
                 QString tulostili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero() ) ;
@@ -147,7 +147,7 @@ QVariant SaldotRoute::kustannuspaikat(const QDate &mista, const QDate &mihin, bo
         QString tilistr = kysely.value("tili").toString();
 
         QVariantMap kmap = kohdennukset.value(kohdennus).toMap();
-        kmap.insert(tilistr, (  qRound64(kmap.value(tilistr).toDouble() ) +
+        kmap.insert(tilistr, (  qRound64(kmap.value(tilistr).toDouble() * 100.0 ) +
                                 qRound64(kysely.value("ks").toDouble() ) -
                                 qRound64(kysely.value("ds").toDouble() )) / 100.0 );
 

@@ -77,9 +77,9 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tositteelle);
 
-    connect( ui->viiteEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::teeTositteelle);
-    connect( ui->laskuPvm, &KpDateEdit::dateChanged, this, &TuloMenoApuri::teeTositteelle);
-    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::teeTositteelle);
+    connect( ui->viiteEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::tositteelle);
+    connect( ui->laskuPvm, &KpDateEdit::dateChanged, this, &TuloMenoApuri::tositteelle);
+    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::tositteelle);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::paivitaVeroFiltterit);

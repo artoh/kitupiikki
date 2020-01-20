@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 #endif
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 

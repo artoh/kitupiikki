@@ -383,9 +383,6 @@ void TulomenoApuriTesti::menonMuodostusTesti()
     QCOMPARE( vienti.debet(), 15.80);
     QCOMPARE( vienti.pvm(), QDate(2019,3,15));
 
-
-
-
 }
 
 

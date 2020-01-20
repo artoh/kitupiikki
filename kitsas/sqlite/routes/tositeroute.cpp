@@ -360,6 +360,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                     .arg(tositeid).arg(liite.toInt()) );
 
 
+    // Pitäisikö vanhat rivit poistaa ???
     kysely.prepare("INSERT INTO Rivi(tosite,rivi,tuote,myyntikpl,ostokpl, ahinta, json) VALUES (?,?,?,?,?,?,?) ");
     for(int rivi=0; rivi < rivit.count(); rivi++)
     {

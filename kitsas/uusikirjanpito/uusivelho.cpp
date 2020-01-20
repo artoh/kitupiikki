@@ -106,7 +106,9 @@ QVariantMap UusiVelho::data() const
     initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
     initMap.insert("tilikaudet", tilikaudet_);
+
     map.insert("name", asetukset_.value("Nimi"));
+    map.insert("trial", field("harjoitus").toBool());
     map.insert("init", initMap);
 
     return  map;
