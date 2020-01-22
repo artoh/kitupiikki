@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QVariantMap>
 #include <QHash>
+#include <QSet>
 
 class Tosite;
 

@@ -20,6 +20,7 @@
 
 #include "raportti/raportinkirjoittaja.h"
 #include <QMainWindow>
+#include <QCloseEvent>
 
 class NaytinView;
 class QAction;
