@@ -46,7 +46,6 @@
 #include "alv/alvsivu.h"
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
-#include "pilvi/pilvilogindlg.h"
 #include "sqlite/sqlitemodel.h"
 
 #include "uusikirjanpito/uusivelho.h"
@@ -121,6 +120,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->pilviView->setModel( kp()->pilvi() );
     ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
     ui->vaaraSalasana->setVisible(false);
+    ui->palvelinvirheLabel->setVisible(false);
 
     if( kp()->settings()->contains("CloudKey"))
         QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu(); });
@@ -461,6 +461,7 @@ void AloitusSivu::validoiEmail()
 {
     kelpoEmail_ = false;
     validoiLoginTiedot();
+    ui->palvelinvirheLabel->hide();
 
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() ) {
@@ -469,6 +470,8 @@ void AloitusSivu::validoiEmail()
         request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
         QNetworkReply *reply =  kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
+        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+            [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 
     } else {
      validoiLoginTiedot();
@@ -481,6 +484,15 @@ void AloitusSivu::emailTarkastettu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     kelpoEmail_ =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
     validoiLoginTiedot();
+}
+
+void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
+{
+    if( virhe < QNetworkReply::ContentAccessDenied) {
+        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.</b></p><p>Virhe %1</p>").arg(virhe));
+        ui->palvelinvirheLabel->show();
+        QTimer::singleShot(30000, this, &AloitusSivu::validoiEmail);
+    }
 }
 
 void AloitusSivu::rekisteroi()

@@ -35,6 +35,7 @@ class MaaritysSivu;
 class ArkistoSivu;
 class LaskuSivu;
 class AlvSivu;
+class OnniWidget;
 
 class QDateEdit;
 class QDockWidget;
@@ -43,6 +44,7 @@ class TallennettuWidget;
 
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
+#include "db/kirjanpito.h"
 
 /**
  * @brief Ohjelmiston pääikkuna
@@ -88,7 +90,7 @@ protected slots:
      * @brief Näyttää lyhyen ajan viestiä onnistumisesta
      * @param teksti Näytettävä teksti
      */
-    void naytaOnni(const QString& teksti);
+    void naytaOnni(const QString& teksti, Kirjanpito::Onni tyyppi = Kirjanpito::Onnistui);
 
     /**
      * @brief Avaa ohjeen selaimeen
@@ -141,7 +143,7 @@ protected:
     QAction* uusiLaskuAktio;
 
 
-
+    OnniWidget* onni_;
 
 
 

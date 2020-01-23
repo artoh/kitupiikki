@@ -242,7 +242,7 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
     // Lisätään tositteet luetteloon
     QVariantList lista( data->toList() );
 
-    progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Kitsas"), 0, lista.count() + 50 );
+    progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, lista.count() + 50 );
 
     for( auto tosite : lista ) {
         QVariantMap map = tosite.toMap();

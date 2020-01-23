@@ -45,6 +45,8 @@
 
 #include "db/tositetyyppimodel.h"
 
+#include <iostream>
+
 UusiVelho::UusiVelho()
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
@@ -92,8 +94,6 @@ QVariantMap UusiVelho::data() const
     if( field("harjoitus").toBool())
         asetusMap.insert("Harjoitus", true);
 
-
-
     if( field("erisarjaan").toBool())
         asetusMap.insert("erisarjaan", true);
 
@@ -112,6 +112,8 @@ QVariantMap UusiVelho::data() const
     map.insert("name", asetukset_.value("Nimi"));
     map.insert("trial", field("harjoitus").toBool());
     map.insert("init", initMap);
+
+    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
 
     return  map;
 }
@@ -168,14 +170,14 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
                 QString rivi = luku.readLine();
                 if( rivi.startsWith("[") && rivi.endsWith("]")) {
                     if( rivit.count() )
-                        map.insert("tppohja/" + kieli, rivit.join("\n"));
+                        map.insert("tppohja/" + kieli, rivit.join('\n'));
                     rivit.clear();
                     kieli=rivi.mid(1, rivi.length()-2);
                 } else
                     rivit.append(rivi);
             }
             map.insert("tppohja/" + kieli,
-                       QJsonDocument::fromJson(rivit.join('\n').toUtf8()).toVariant());
+                       rivit.join('\n'));
         }
     }
     return map;
@@ -205,8 +207,6 @@ bool UusiVelho::Tilikarttasivu::validatePage()
         velho->lataaKartta(":/tilikartat/yhdistys");
     else if(ui->elinkeinoRadio->isChecked())
         velho->lataaKartta(":/tilikartat/yritys");
-
-
 
     return true;
 }

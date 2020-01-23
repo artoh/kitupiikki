@@ -219,7 +219,7 @@ void NaytinView::htmlLeikepoydalle()
     mimeData->setHtml( html() );
 
     qApp->clipboard()->setMimeData(mimeData);
-    kp()->onni(tr("Viety leikepöydälle"));
+    kp()->onni(tr("Viety leikepöydälle"), Kirjanpito::Onnistui);
 
 }
 

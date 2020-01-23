@@ -179,7 +179,9 @@ void TositeVienti::setErapaiva(const QDate &erapvm)
 
 void TositeVienti::setKumppani(int kumppaniId)
 {
-    set( KUMPPANI, kumppaniId );
+    QVariantMap kmap;
+    kmap.insert("id", kumppaniId);
+    set( KUMPPANI, kmap );
 }
 
 void TositeVienti::setKumppani(const QString &kumppani)

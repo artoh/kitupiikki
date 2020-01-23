@@ -201,7 +201,7 @@ void TilinPaattaja::vahvista()
 
     tilikausi.set("vahvistettu", kp()->paivamaara());
     tilikausi.tallenna();
-    emit kp()->onni("Tilinpäätös merkitty valmiiksi");
+    emit kp()->onni("Tilinpäätös merkitty valmiiksi", Kirjanpito::Onnistui);
     emit vahvistettu();
     close();
 }

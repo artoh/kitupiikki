@@ -69,7 +69,7 @@ void EraCombo::valitse(int eraid)
     int indeksi = findData( valittuna_ );
     if( indeksi > -1)
         setCurrentIndex( findData(valittuna_) );
-    else {
+    else if( eraid > 0){
         // Tilataan erän tiedot
         KpKysely* kysely = kpk(QString("/viennit/%1").arg(eraid));
         if( kysely ) {

@@ -68,13 +68,14 @@
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     tallennettuWidget_( new TallennettuWidget(this)),
     aloitussivu( new AloitusSivu(this)),
-    laskutussivu( new LaskuSivu()),
+    laskutussivu( new LaskuSivu(this)),
     selaussivu( new SelausWg(this)),
     raporttisivu( new RaporttiSivu()),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
-    nykysivu(nullptr)
+    nykysivu(nullptr),
+    onni_(new OnniWidget(this))
 
 {
 
@@ -125,7 +126,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
     connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
-    connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
+    connect( kp(), &Kirjanpito::onni, this, &KitupiikkiIkkuna::naytaOnni);
     connect( kp(), SIGNAL(naytaTosite(int)), this, SLOT(naytaTosite(int)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
@@ -308,12 +309,12 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
 
 }
 
-void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
-{
-    OnniWidget *onni = new OnniWidget(this);
-    onni->nayta( teksti );
-    onni->move( ( width() - onni->width()) / 2 ,
-                height() - onni->height());
+void KitupiikkiIkkuna::naytaOnni(const QString &teksti,  Kirjanpito::Onni tyyppi)
+{    
+    onni_->nayta( teksti, tyyppi, (tyyppi == Kirjanpito::Onnistui) ? 5000 : 15000 );
+
+    onni_->move( ( width() - onni_->width()) / 2 ,
+                height() - onni_->height());
 }
 
 void KitupiikkiIkkuna::ohje()

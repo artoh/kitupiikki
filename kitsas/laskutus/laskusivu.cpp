@@ -41,8 +41,8 @@
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 
-LaskuSivu::LaskuSivu() :
-    KitupiikkiSivu () ,
+LaskuSivu::LaskuSivu(QWidget * parent) :
+    KitupiikkiSivu (parent) ,
     ryhmaWidget_( new KumppaniTuoteWidget()),
     kumppaniTuoteWidget_( new KumppaniTuoteWidget()),
     laskuWidget_( new LaskulistaWidget())

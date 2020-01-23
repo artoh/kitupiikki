@@ -78,9 +78,9 @@ class Kirjanpito : public QObject
 
 public:
     Kirjanpito(const QString& portableDir = QString());
-
-
     ~Kirjanpito();
+
+    enum Onni { Onnistui = 0, Verkkovirhe = 2, Stop=3 };
 
     /**
      * @brief Kirjanpidon asetuksen palauttaminen
@@ -312,10 +312,10 @@ signals:
     void tilikausiAvattu();
 
     /**
-     * @brief Näytetään vähän aikaa ilmoitus onnistumisesta
+     * @brief Näytetään vähän aikaa ilmoitus (epä)onnistumisesta
      * @param teksti Näytettävä teksti
      */
-    void onni(const QString& teksti);
+    void onni(const QString& teksti, Onni onni = Onnistui);
 
     /**
      * @brief Näytetään ilmoitus tositteen tallentumisesta

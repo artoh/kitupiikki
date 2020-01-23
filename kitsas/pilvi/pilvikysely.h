@@ -20,6 +20,8 @@
 #include "db/kpkysely.h"
 #include "pilvimodel.h"
 
+#include <QNetworkReply>
+
 class YhteysModel;
 
 class PilviKysely : public KpKysely
@@ -34,6 +36,7 @@ public slots:
 
 protected slots:
     void vastausSaapuu();
+    void verkkovirhe(QNetworkReply::NetworkError koodi);
 };
 
 #endif // PILVIKYSELY_H

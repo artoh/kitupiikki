@@ -45,7 +45,7 @@ class LaskuSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
-    LaskuSivu();
+    LaskuSivu(QWidget* parent = nullptr);
     ~LaskuSivu() override;
 
     enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET };

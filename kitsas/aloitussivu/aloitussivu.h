@@ -81,6 +81,7 @@ private slots:
     void validoiLoginTiedot();
     void validoiEmail();
     void emailTarkastettu();
+    void verkkovirhe(QNetworkReply::NetworkError virhe);
     void rekisteroi();
     void rekisterointiLahti();
     void pilviLogout();

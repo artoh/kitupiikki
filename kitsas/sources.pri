@@ -221,7 +221,6 @@ SOURCES += \
     raportti/paivakirja.cpp \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
-    pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
@@ -454,7 +453,6 @@ HEADERS += \
     raportti/paivakirja.h \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
-    pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
@@ -561,7 +559,6 @@ FORMS += \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
-    pilvi/pilvilogindlg.ui \
     apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
     maaritys/avauseradlg.ui\

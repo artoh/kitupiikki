@@ -28,10 +28,12 @@
 
 #include "tuonti/csvtuonti.h"
 
+#include <iostream>
+
 PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
 {
-
+    Q_ASSERT(polku != "/viennit/-1");
 }
 
 void PilviKysely::kysy(const QVariant &data)
@@ -64,6 +66,12 @@ void PilviKysely::kysy(const QVariant &data)
     }
 
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu );
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+        [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
+
+
+    std::cout << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented).toStdString();
+    std::cout << "\n--------------------------------------------------\n";
 
 }
 
@@ -88,6 +96,8 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
 
     QNetworkReply *reply = kp()->networkManager()->post(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+        [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 }
 
 void PilviKysely::vastausSaapuu()
@@ -96,10 +106,11 @@ void PilviKysely::vastausSaapuu()
     if( reply->error()) {
         QByteArray vastaus = reply->readAll();
         qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
-        qDebug() << vastaus;
+
+
+        std::cout << vastaus.toStdString();
 
         QString selite = QJsonDocument::fromJson(vastaus).object().value("virhe").toString();
-
         emit virhe( reply->error(), selite);
 
         return;
@@ -115,4 +126,18 @@ void PilviKysely::vastausSaapuu()
         emit vastaus( &vastaus_ );
     }
     this->deleteLater();
+}
+
+void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
+{
+    if( koodi == QNetworkReply::ConnectionRefusedError)
+        emit kp()->onni(tr("<b>Palvelimeen ei saada yhteyttä</b><br>Palvelin on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
+    else if( koodi == 8 || koodi == 9)
+        emit kp()->onni(tr("<b>Häiriö verkkoyhteydessä</b>"), Kirjanpito::Verkkovirhe);
+    else if( koodi < QNetworkReply::ContentAccessDenied)
+        emit kp()->onni(tr("<b>Verkkovirhe %1</b>").arg(koodi), Kirjanpito::Verkkovirhe);
+    else if( koodi == QNetworkReply::ContentAccessDenied)
+        emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>").arg(koodi), Kirjanpito::Stop);
+    else if( koodi == QNetworkReply::InternalServerError)
+        emit kp()->onni(tr("<b>Palvelinvirhe</b>").arg(koodi), Kirjanpito::Stop);
 }

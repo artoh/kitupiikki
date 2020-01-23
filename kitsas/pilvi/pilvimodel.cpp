@@ -24,6 +24,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
+#include <QMessageBox>
 
 #include <QDebug>
 #include <QTimer>
@@ -88,12 +89,9 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 {
     PilviKysely* kysely = new PilviKysely(this, KpKysely::POST, pilviLoginOsoite() + "/clouds");
     connect( kysely, &PilviKysely::vastaus, this, &PilviModel::pilviLisatty);
+    connect( kysely, &PilviKysely::virhe, [] (int koodi, const QString& viesti) {QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"),
+                                                                                     tr("Kirjanpitoa luotaessa tapahtui virhe:\n%1 %2").arg(koodi).arg(viesti)); });
     kysely->kysy(initials);
-
-    QJsonDocument doc( QJsonDocument::fromVariant(initials));
-    QFile out("/tmp/ulos.json");
-    out.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    out.write( doc.toJson());
 }
 
 
