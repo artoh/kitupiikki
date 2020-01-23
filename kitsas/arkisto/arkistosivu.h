@@ -52,7 +52,7 @@ public slots:
 
     void aineisto();
     void arkisto();
-    void vieArkisto();
+    void vieArkisto();    
     void tilinpaatos();
     void tilinpaatosKasky();
     void nykyinenVaihtuuPaivitaNapit();
@@ -64,8 +64,9 @@ public slots:
 private:
     Ui::TilikausiMaaritykset *ui;
 
-    bool teeZip(const Tilikausi& kausi);
-    bool vieHakemistoon(const Tilikausi& kausi);
+    void jatkaVientia(const QString &polku);
+    bool teeZip(const QString& polku);
+    bool vieHakemistoon(const QString& polku);
 };
 
 #endif // ARKISTO_H

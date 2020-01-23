@@ -190,7 +190,14 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         qDebug() << tietokanta_.lastError().text();
         tietokanta_.close();
         return false;
-    }
+    }        
+
+    // Varmistetaan, että kaikilla kirjanpidoilla on UID, jota käytetään
+    // esim. arkistohakemiston sijainnin tallettamiseen
+    query.exec("SELECT Arvo FROM Asetus WHERE Avain='UID'");
+    if(!query.next())
+        query.exec(QString("INSERT INTO Asetus(Avain,Arvo) VALUES('UID','%1')").arg(Kirjanpito::satujono(16)));
+
 
     // Merkitään avausaika
     tietokanta_.exec("UPDATE Asetus SET arvo=CURRENT_TIMESTAMP WHERE avain='Avattu'");

@@ -18,6 +18,7 @@
 #include <QSqlQuery>
 #include <QVariant>
 #include <QDebug>
+#include <QSettings>
 
 #include "tilikausi.h"
 #include "kirjanpito.h"
@@ -44,11 +45,12 @@ Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
 
 QDateTime Tilikausi::arkistoitu()
 {
-    QString arkistoituna = str("arkisto");
-    if( arkistoituna.isEmpty())
-        return QDateTime();
-    else
-        return QDateTime::fromString( arkistoituna, Qt::ISODate);
+    return kp()->settings()->value("arkistopvm/" + kp()->asetus("UID") + "/" + pitkakausitunnus()).toDateTime();
+}
+
+QString Tilikausi::arkistopolku() const
+{
+    return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID") + "/" + pitkakausitunnus()).toString();
 }
 
 QDateTime Tilikausi::viimeinenPaivitys() const

@@ -30,6 +30,8 @@
 #include <QTextStream>
 #include <QBuffer>
 #include <QRandomGenerator>
+#include <QFileDialog>
+#include <QRegularExpression>
 
 #include <QDebug>
 
@@ -210,6 +212,15 @@ QString Kirjanpito::arkistopolku()
         QString polku = sqlite->tiedostopolku();
         if( polku.endsWith(".kitsas"))
          return polku.replace(".kitsas","-arkisto");
+    } else {
+        QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+        QDir dir(polku);
+        if( polku.isEmpty() || !dir.exists() ) {
+            QString nimi = kp()->asetus("Nimi");
+
+            polku = QFileDialog::getExistingDirectory(nullptr, tr("Valitse arkistolle tallennushakemisto"));
+
+        }
     }
     return "";
 }
