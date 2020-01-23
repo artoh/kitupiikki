@@ -24,24 +24,29 @@ TilitRoute::TilitRoute(SQLiteModel *model) :
 
 }
 
-QVariant TilitRoute::put(const QString &, const QVariant &data)
+QVariant TilitRoute::put(const QString &osoite, const QVariant &data)
 {
-
     QVariantMap map = data.toMap();
-    int numero = map.take("numero").toInt();
-    QString tyyppi = map.take("tyyppi").toString();
     QSqlQuery query( db());
+    QString tyyppi = map.take("tyyppi").toString();
 
-    if( tyyppi.startsWith('H')) {
-        // Otsikko
+    if( osoite.contains('/')) {
+        int kautta = osoite.indexOf('/');
+        int numero = osoite.left(kautta).toInt();
+        int taso = osoite.mid(kautta+1).toInt();
+
+        map.take("numero");
+        map.take("tyyppi");
+
         query.prepare("INSERT INTO Otsikko (numero, taso, json, muokattu) VALUES "
                       "(?,?,?,CURRENT_TIMESTAMP) "
                       "ON CONFLICT(numero,taso) DO UPDATE SET "
                       "json=EXCLUDED.json, muokattu=CURRENT_TIMESTAMP");
         query.addBindValue(numero);
-        query.addBindValue(tyyppi.mid(1).toInt());
+        query.addBindValue( taso );
         query.addBindValue( mapToJson(map) );
     } else {
+        int numero = map.take("numero").toInt();
         query.prepare("INSERT INTO Tili (numero, tyyppi, json, muokattu) VALUES "
                       "(?,?,?,CURRENT_TIMESTAMP) "
                       "ON CONFLICT(numero) DO UPDATE SET "

@@ -82,50 +82,18 @@ QVariant KumppanitRoute::post(const QString &/*polku*/, const QVariant &data)
     QVariantMap map = data.toMap();
     QVariantMap kopio(map);
 
-    QString nimi = map.take("nimi").toString();
-    QString alvtunnus = map.take("alvtunnus").toString();
-    QVariantList iban = map.take("iban").toList();
-    QVariantList ryhmat = map.take("ryhmat").toList();
-
     QSqlQuery kysely(db());
-
     db().transaction();
 
-    kysely.prepare("INSERT INTO Kumppani (nimi,alvtunnus,json) VALUES (?,?,?)");
-    kysely.addBindValue(nimi);
-    kysely.addBindValue(alvtunnus);
-    kysely.addBindValue( mapToJson(map) );
-    if(!kysely.exec()) {
+    int id = kumppaninLisays(map, kysely);
+    if( id ) {
+        db().commit();
+        kopio.insert("id", id);
+        return kopio;
+    } else {
         db().rollback();
         throw SQLiteVirhe(kysely);
     }
-
-    int id = kysely.lastInsertId().toInt();
-
-    kysely.prepare("INSERT INTO KumppaniIban (kumppani,iban) VALUES (?,?) ON CONFLICT (iban) DO UPDATE SET kumppani=EXCLUDED.kumppani");
-    for(QVariant var : iban) {
-        kysely.addBindValue(id);
-        kysely.addBindValue(var.toString());
-        if(!kysely.exec()) {
-            db().rollback();
-            throw SQLiteVirhe(kysely);
-        }
-    }
-
-    kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
-    for( QVariant ryhma : ryhmat) {
-        kysely.addBindValue(id);
-        kysely.addBindValue(ryhma.toInt());
-        if(!kysely.exec()) {
-            db().rollback();
-            throw SQLiteVirhe(kysely);
-        }
-    }
-
-    db().commit();
-
-    kopio.insert("id", id);
-    return kopio;
 }
 
 QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
@@ -190,5 +158,43 @@ QVariant KumppanitRoute::doDelete(const QString &polku)
     QSqlQuery kysely(db());
     kysely.exec(QString("DELETE FROM Kumppani WHERE id=%1").arg(polku.toInt()));
     return QVariant();
+
+}
+
+int KumppanitRoute::kumppaninLisays(QVariantMap &map, QSqlQuery &kysely)
+{
+    QString nimi = map.take("nimi").toString();
+    QString alvtunnus = map.take("alvtunnus").toString();
+    QVariantList iban = map.take("iban").toList();
+    QVariantList ryhmat = map.take("ryhmat").toList();
+
+    kysely.prepare("INSERT INTO Kumppani (nimi,alvtunnus,json) VALUES (?,?,?)");
+    kysely.addBindValue(nimi);
+    kysely.addBindValue(alvtunnus);
+    kysely.addBindValue( mapToJson(map) );
+    if(!kysely.exec()) {
+        return 0;
+    }
+
+    int id = kysely.lastInsertId().toInt();
+
+    kysely.prepare("INSERT INTO KumppaniIban (kumppani,iban) VALUES (?,?) ON CONFLICT (iban) DO UPDATE SET kumppani=EXCLUDED.kumppani");
+    for(QVariant var : iban) {
+        kysely.addBindValue(id);
+        kysely.addBindValue(var.toString());
+        if(!kysely.exec()) {
+            return 0;
+        }
+    }
+
+    kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
+    for( QVariant ryhma : ryhmat) {
+        kysely.addBindValue(id);
+        kysely.addBindValue(ryhma.toInt());
+        if(!kysely.exec()) {
+            return 0;
+        }
+    }
+    return id;
 
 }

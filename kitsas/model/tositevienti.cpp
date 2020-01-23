@@ -184,7 +184,14 @@ void TositeVienti::setKumppani(int kumppaniId)
 
 void TositeVienti::setKumppani(const QString &kumppani)
 {
-    set( KUMPPANI, kumppani);
+    QVariantMap kmap;
+    kmap.insert("nimi",kumppani);
+    set( KUMPPANI, kmap);
+}
+
+void TositeVienti::setKumppani(const QVariantMap &map)
+{
+    set( KUMPPANI, map);
 }
 
 void TositeVienti::setTyyppi(int tyyppi)

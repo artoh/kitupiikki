@@ -27,8 +27,7 @@ void TaseErittelija::kirjoita(const QDate& mista, const QDate &mihin)
     mista_ = mista;
     mihin_ = mihin;
 
-    KpKysely* kysely = kpk("/erat");
-    kysely->lisaaAttribuutti("erittely");
+    KpKysely* kysely = kpk("/erat/erittely");
     kysely->lisaaAttribuutti("alkaa", mista);
     kysely->lisaaAttribuutti("loppuu", mihin);
     connect( kysely, &KpKysely::vastaus, this, &TaseErittelija::dataSaapuu );

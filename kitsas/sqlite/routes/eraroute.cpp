@@ -27,9 +27,9 @@ EraRoute::EraRoute(SQLiteModel *model) :
 
 }
 
-QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
+QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
-    if( urlquery.hasQueryItem("erittely"))
+    if(polku == "erittely")
         return erittely( QDate::fromString(urlquery.queryItemValue("alkaa"),Qt::ISODate),
                          QDate::fromString(urlquery.queryItemValue("loppuu"),Qt::ISODate) );
 

@@ -16,6 +16,8 @@
 */
 #include "tositeroute.h"
 
+#include "kumppanitroute.h"
+
 #include "model/tosite.h"
 #include "db/kirjanpito.h"
 
@@ -475,24 +477,28 @@ QString TositeRoute::viite(const QString &numero)
 
 int TositeRoute::kumppaniMapista(QVariantMap &map)
 {
-    QVariant kumppani = map.take("kumppani");
-    if( kumppani.isNull())
+    QVariantMap kumppani = map.take("kumppani").toMap();
+    if( kumppani.isEmpty())
         return 0;
-    else if( kumppani.type() == QVariant::String) {
-        if( kumppaniCache_.contains( kumppani.toString() ))
-            return kumppaniCache_.value(kumppani.toString());
 
-        // Lisätään uusi kumppani
-        QSqlQuery kysely( db());
-        kysely.prepare("INSERT INTO Kumppani (nimi) VALUES (?)");
-        kysely.addBindValue( kumppani.toString() );
-        kysely.exec();
-        int lisatty = kysely.lastInsertId().toInt();
-        kumppaniCache_.insert( kumppani.toString(), lisatty );
-        return lisatty;
-    }
-    else if( kumppani.type() == QVariant::Map) {
-        return kumppani.toMap().value("id").toInt();
-    } else
-        return kumppani.toInt();
+    if( kumppani.contains("id"))
+        return kumppani.value("id").toInt();
+
+    const QString& nimi = kumppani.value("nimi").toString();
+    if( nimi.isEmpty() )
+        return 0;
+
+    if( kumppaniCache_.contains(nimi))
+        return kumppaniCache_.value(nimi);
+
+    // Kumppani pitää lisätä
+    QSqlQuery kumppaniKysely( db() );
+    int id = KumppanitRoute::kumppaninLisays(kumppani, kumppaniKysely) ;
+    if( id ) {
+        kumppaniCache_.insert(nimi, id);
+        return id;
+    } else {
+        db().rollback();
+        throw SQLiteVirhe(kumppaniKysely);
+   }
 }
