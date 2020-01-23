@@ -114,7 +114,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if( lasku.value("laskutapa").toInt() == LaskuDialogi::EITULOSTETA)
         lasku.insert("laskutapa", LaskuDialogi::TULOSTETTAVA);
 
-    muistutus.setData(Tosite::KUMPPANI, kumppaniId);
+    muistutus.asetaKumppani( kumppaniId);
 
     // Tähän pitäisi lisätä rivit ja viennit
     qlonglong kulut = 0;

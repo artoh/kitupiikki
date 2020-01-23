@@ -124,6 +124,25 @@ void Tosite::asetaSarja(const QString &sarja)
     setData(SARJA, sarja);
 }
 
+void Tosite::asetaKumppani(int id)
+{
+    QVariantMap kmap;
+    kmap.insert("id",id);
+    setData(KUMPPANI, kmap);
+}
+
+void Tosite::asetaKumppani(const QString &nimi)
+{
+    QVariantMap kmap;
+    kmap.insert("nimi", nimi);
+    setData(KUMPPANI, kmap);
+}
+
+void Tosite::asetaKumppani(const QVariantMap &map)
+{
+    setData(KUMPPANI, map);
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));
@@ -139,13 +158,6 @@ void Tosite::lataaData(QVariant *variant)
     viennit()->asetaViennit( data_.take("viennit").toList() );
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
-
-    if( data_.contains("kumppani")) {
-        kumppaninimi_ = data_.value("kumppani").toMap().value("nimi").toString();
-        int kumppani = data_.value("kumppani").toMap().value("id").toInt();
-        if( kumppani )
-            data_.insert("kumppani", kumppani);
-    }
 
     emit ladattu();
 

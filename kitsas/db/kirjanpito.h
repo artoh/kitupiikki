@@ -233,12 +233,6 @@ public:
     void asetaLogo(const QImage& logo);
 
     /**
-     * @brief Arkistohakemiston polku
-     * @return
-     */
-    QString arkistopolku();
-
-    /**
      * @brief QSettings käyttäjäkohtaisille asetuksille
      * @return
      */

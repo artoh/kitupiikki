@@ -120,6 +120,7 @@ public:
     void setErapaiva(const QDate& erapvm);
     void setKumppani(int kumppaniId);
     void setKumppani(const QString& kumppani);
+    void setKumppani(const QVariantMap& map);
     void setTyyppi(int tyyppi);
     void setPalkkakoodi(const QString& palkkakoodi);
     void setTasaerapoisto(int kuukautta);

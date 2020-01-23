@@ -241,11 +241,11 @@ bool TuloMenoApuri::teeTositteelle()
     }
 
     if( ui->asiakasToimittaja->id() > 0)
-        tosite()->setData(Tosite::KUMPPANI, ui->asiakasToimittaja->id() );
+        tosite()->asetaKumppani( ui->asiakasToimittaja->id() );
     else if( !ui->asiakasToimittaja->nimi().isEmpty())
-        tosite()->setData(Tosite::KUMPPANI, ui->asiakasToimittaja->nimi() );
+        tosite()->asetaKumppani( ui->asiakasToimittaja->nimi() );
     else
-        tosite()->setData(Tosite::KUMPPANI, QVariant());
+        tosite()->asetaKumppani( QVariantMap());
 
 
     tosite()->viennit()->asetaViennit(viennit);

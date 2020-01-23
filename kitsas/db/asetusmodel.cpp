@@ -216,8 +216,7 @@ void AsetusModel::lataa(const QVariantMap &lista)
 
     // Ladataan kielet
     kieliMap_ = QJsonDocument::fromJson( asetus("kielet").toUtf8() ).toVariant().toMap();
-    kielet_ = kieliMap_.keys();
-
+    kielet_ = kieliMap_.keys();        
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {

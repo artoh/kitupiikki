@@ -284,8 +284,8 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             pankki.setArkistotunnus( rivi.arkistotunnus );
 
             if( rivi.saajamaksajaId){
-                pankki.set(TositeVienti::KUMPPANI, rivi.saajamaksajaId);
-                tili.set(TositeVienti::KUMPPANI, rivi.saajamaksajaId);
+                pankki.setKumppani(rivi.saajamaksajaId);
+                tili.setKumppani( rivi.saajamaksajaId);
             } else if( !rivi.saajamaksaja.isEmpty()) {
                 pankki.setKumppani( rivi.saajamaksaja);
                 tili.setKumppani( rivi.saajamaksaja );

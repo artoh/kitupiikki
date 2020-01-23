@@ -25,15 +25,21 @@
 #include "raportti/tilikarttalistaaja.h"
 #include "raportti/tositeluettelo.h"
 
+#include "sqlite/sqlitemodel.h"
+
 #include <QFile>
 #include <QTextStream>
 #include <QFileInfo>
+#include <QFileDialog>
 
 #include <QDebug>
 #include <QApplication>
 #include <QRegularExpression>
 #include <QCryptographicHash>
 #include <QJsonDocument>
+#include <QSettings>
+#include <QProgressDialog>
+
 
 Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
     : QObject(parent), tilikausi_(tilikausi)
@@ -51,9 +57,10 @@ void Arkistoija::arkistoi()
 void Arkistoija::luoHakemistot()
 {
     QDir hakemisto;
+    QString arkistopolku = arkistoPolku();
 
-    hakemisto.mkpath( kp()->arkistopolku() );
-    hakemisto_ = QDir( kp()->arkistopolku() );
+    hakemisto.mkpath( arkistopolku );
+    hakemisto_ = QDir( arkistopolku );
 
     QString arkistonimi = tilikausi_.arkistoHakemistoNimi();
 
@@ -86,6 +93,29 @@ void Arkistoija::luoHakemistot()
 //    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
 //    QFile::copy( ":/pic/kitsas150.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
 
+}
+
+QString Arkistoija::arkistoPolku()
+{
+    // TODO: Arkistopolun sijainnin asettaminen ohjelman asetuksista
+
+    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
+    if( sqlite ) {
+        QString polku = sqlite->tiedostopolku();
+        if( polku.endsWith(".kitsas"))
+         return polku.replace(".kitsas","-arkisto");
+    } else {
+        QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+        QDir dir(polku);
+        if( polku.isEmpty() || !dir.exists() ) {
+            QString nimi = kp()->asetus("Nimi");
+            polku = QFileDialog::getExistingDirectory(nullptr, tr("Valitse arkistolle tallennushakemisto"));
+            if( !polku.isEmpty())
+                kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID"), polku);
+        }
+        return polku;
+    }
+    return QString();
 }
 
 void Arkistoija::arkistoiTositteet()
@@ -189,10 +219,31 @@ void Arkistoija::kirjoitaHash() const
     tiedosto.close();
 }
 
+void Arkistoija::merkitseArkistoiduksi()
+{
+    kp()->settings()->setValue("arkistopvm/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+                               QDateTime::currentDateTime());
+    kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+                               hakemisto_.absolutePath());
+    kp()->settings()->setValue("arkistosha/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+                               QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
+
+    QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) , TilikausiModel::ARKISTOITU );
+    emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
+
+    emit arkistoValmis( hakemisto_.absolutePath() );
+
+    progressDlg_->deleteLater();
+    deleteLater();
+}
+
 void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
 {
     // Lisätään tositteet luetteloon
     QVariantList lista( data->toList() );
+
+    progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Kitsas"), 0, lista.count() + 50 );
+
     for( auto tosite : lista ) {
         QVariantMap map = tosite.toMap();
         tositeJono_.append( map );
@@ -231,13 +282,14 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
         liiteNimet_.insert( liiteid, liitenimi );
         liiteJono_.enqueue( liiteid );
     }
+    progressDlg_->setMaximum( progressDlg_->maximum() + map.value("liitteet").toList().count() );
 
 
     QString nimi = "tositteet/" + tositeJono_.value(indeksi).tiedostonnimi();
 
     arkistoiByteArray( nimi + ".html", tosite(map, indeksi) );
     arkistoiByteArray(nimi + ".json", QJsonDocument::fromVariant(map).toJson(QJsonDocument::Indented));
-
+    progressDlg_->setValue( progressDlg_->value() + 1);
 
     if( arkistoitavaTosite_ < tositeJono_.count())
         arkistoiSeuraavaTosite();
@@ -260,6 +312,7 @@ void Arkistoija::arkistoiSeuraavaLiite()
 void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
 {
     arkistoiByteArray("liitteet/" + tiedosto, data->toByteArray());
+    progressDlg_->setValue(progressDlg_->value() + 1);
     if( !liiteJono_.isEmpty())
         arkistoiSeuraavaLiite();
     else if( !raporttilaskuri_  && arkistoitavaTosite_ >= tositeJono_.count())
@@ -334,7 +387,8 @@ void Arkistoija::viimeistele()
 
 
     out << "</body></html>";
-    emit arkistoValmis( hakemisto_.absolutePath() );
+    merkitseArkistoiduksi();
+
 }
 
 QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)

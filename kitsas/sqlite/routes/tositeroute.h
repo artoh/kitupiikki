@@ -38,6 +38,17 @@ protected:
 
     static QString viite(const QString& numero);
 
+    /**
+     * @brief Käsittelee Kumppanin map:in
+     *
+     * Jos kumppanilla on id, palauttaa sen. Muuten tallentaa kumppanin
+     * ja palauttaa kumppanin tiedot. Kumppani tallennetaan
+     * cacheen, koska usein samalla tositteella kumppani
+     * on useamman kerran esillä.
+     *
+     * @param map
+     * @return kumppanin id
+     */
     int kumppaniMapista(QVariantMap &map);
     QHash<QString,int> kumppaniCache_;
 };

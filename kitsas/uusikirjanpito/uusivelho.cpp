@@ -102,6 +102,8 @@ QVariantMap UusiVelho::data() const
 
     asetusMap.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO );
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
+    asetusMap.insert("Luotu", QDateTime::currentDateTime());
+    asetusMap.insert("UID", Kirjanpito::satujono(16));
 
     initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);

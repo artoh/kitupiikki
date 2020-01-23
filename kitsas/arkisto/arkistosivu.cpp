@@ -37,7 +37,6 @@
 #include "ui_arkistonvienti.h"
 
 #include "arkistoija/arkistoija.h"
-#include "arkistoija/vanhaarkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
 #include "tilinpaatoseditori/aineistotulostaja.h"
@@ -135,16 +134,17 @@ void ArkistoSivu::arkisto()
     if( ui->view->currentIndex().isValid())
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-        QString arkistotiedosto = kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() + "/index.html";
+        QString arkistotiedosto = kausi.arkistopolku() + "/index.html";
 
         // Tehdään arkisto, jos se on päivittämisen tarpeessa
         if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
         {
-            teeArkisto(kausi);
+            Arkistoija* arkistoija = new Arkistoija(kausi, this);
+            connect( arkistoija, &Arkistoija::arkistoValmis, [] (const QString& polku) { Kirjanpito::avaaUrl( QUrl::fromLocalFile( polku + "/index.html" )); } );
+            arkistoija->arkistoi();
+        } else {
+            Kirjanpito::avaaUrl( QUrl::fromLocalFile(  arkistotiedosto ));
         }
-        // Avataan arkistoi
-
-        Kirjanpito::avaaUrl( QUrl::fromLocalFile(  arkistotiedosto ));
 
     }
 }
@@ -154,34 +154,39 @@ void ArkistoSivu::vieArkisto()
     if( !ui->view->currentIndex().isValid())
         return;
 
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+    QString arkistotiedosto = kausi.arkistopolku() + "/index.html";
+
+    // Tehdään arkisto, jos se on päivittämisen tarpeessa
+    if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
+    {
+        Arkistoija* arkistoija = new Arkistoija(kausi, this);
+        connect( arkistoija, &Arkistoija::arkistoValmis, this, &ArkistoSivu::jatkaVientia );
+        arkistoija->arkistoi();
+    } else {
+        jatkaVientia( kausi.arkistopolku() );
+    }
+
+}
+
+void ArkistoSivu::jatkaVientia(const QString& polku)
+{
     QDialog dlg;
     Ui::ArkistonVienti dlgUi;
     dlgUi.setupUi(&dlg);
 
     if(dlg.exec() == QDialog::Rejected)
         return;
-
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-    QString arkistotiedosto = kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() + "/index.html";
-
-    // Tehdään arkisto, jos se on päivittämisen tarpeessa
-    if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
-    {
-        teeArkisto(kausi);
-    }
-
-
     if( dlgUi.hakemistoRadio->isChecked())
     {
-        vieHakemistoon( kausi );
+        vieHakemistoon( polku );
     }
     else if( dlgUi.zipButton->isChecked())
     {
-        if( !teeZip(kausi))
+        if( !teeZip(polku))
             QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
                                   tr("Arkiston vienti epäonnistui.") );
     }
-
 }
 
 void ArkistoSivu::tilinpaatos()
@@ -241,29 +246,8 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 
 void ArkistoSivu::teeArkisto(Tilikausi kausi)
 {
-
-//    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
-//    odota.setMinimumDuration(250);
-
     Arkistoija* arkistoija = new Arkistoija(kausi, this);
     arkistoija->arkistoi();
-
-    // QString sha = VanhaArkistoija::arkistoi(kausi);
-
-    // Merkitsee arkistoiduksi
-
-//    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
-//    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
-//    kp()->tilikaudet()->tallennaJSON();
-
-    kausi.set("arkisto", QDateTime::currentDateTime());
-    kausi.tallenna();
-
-    QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
-    emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
-
- //   odota.setValue(100);
-
 }
 
 void ArkistoSivu::muokkaa()
@@ -331,9 +315,9 @@ void ArkistoSivu::uudellenNumerointi()
 
 }
 
-bool ArkistoSivu::teeZip(const Tilikausi &kausi)
+bool ArkistoSivu::teeZip(const QString &polku)
 {
-    QDirIterator iter( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi(),
+    QDirIterator iter( polku,
                        QDir::Files,
                        QDirIterator::Subdirectories);
     QStringList tiedostot;
@@ -343,11 +327,10 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
     }
 
 
-      QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-//    QStringList tiedostot = mista.entryList(QDir::Files);
+      QDir mista( polku );
 
 
-    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1.zip").arg(kausi.arkistoHakemistoNimi()) );
+    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1.zip").arg(polku) );
     QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Zip-arkisto (*.zip)") );
 
 
@@ -387,9 +370,9 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
     return true;
 }
 
-bool ArkistoSivu::vieHakemistoon(const Tilikausi &kausi)
+bool ArkistoSivu::vieHakemistoon(const QString &polku)
 {
-    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+    QDir mista( polku );
 
     QDirIterator iter( mista.path(),
                        QDir::Files,

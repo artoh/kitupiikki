@@ -92,8 +92,8 @@ public:
     int tyyppi() const { return data(TYYPPI).toInt();}
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
-    int kumppani() const { return data(KUMPPANI).toInt();}
-    QString kumppaninimi() const { return kumppaninimi_;}
+    int kumppani() const { return data(KUMPPANI).toMap().value("id").toInt();}
+    QString kumppaninimi() const { return data(KUMPPANI).toMap().value("nimi").toString();}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(KOMMENTIT).toString();}
     QString sarja() const { return data(SARJA).toString();}    
@@ -103,6 +103,10 @@ public:
     void asetaPvm(const QDate& pvm);
     void asetaKommentti(const QString& kommentti);
     void asetaSarja(const QString& sarja);
+
+    void asetaKumppani(int id);
+    void asetaKumppani(const QString& nimi);
+    void asetaKumppani(const QVariantMap& map);
 
     /**
      * @brief Tiedot tallennettavassa muodossa
@@ -146,8 +150,7 @@ private:
 
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
-    TositeLoki* loki_;
-    QString kumppaninimi_;
+    TositeLoki* loki_;    
 
     bool resetointiKaynnissa_ = false;
 

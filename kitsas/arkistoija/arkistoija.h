@@ -26,7 +26,8 @@
 #include <QMap>
 #include <QQueue>
 
-class QProcessDialog;
+
+class QProgressDialog;
 
 class Arkistoija : public QObject
 {
@@ -43,11 +44,13 @@ signals:
 
 protected:
     void luoHakemistot();
+    QString arkistoPolku();
     void arkistoiTositteet();
     void arkistoiRaportit();
     void arkistoiTilinpaatos();
     void arkistoiByteArray(const QString& tiedostonnimi, const QByteArray& array);
     void kirjoitaHash() const;
+    void merkitseArkistoiduksi();
 
 protected slots:
     void tositeLuetteloSaapuu(QVariant* data);
@@ -85,7 +88,7 @@ private:
     Tilikausi tilikausi_;
     QDir hakemisto_;
 
-    QProcessDialog *processDlg_;
+    QProgressDialog *progressDlg_ = nullptr;
 
     QList<JonoTosite> tositeJono_;
     QHash<int,QString> liiteNimet_;

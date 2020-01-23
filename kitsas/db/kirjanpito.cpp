@@ -205,25 +205,6 @@ void Kirjanpito::asetaLogo(const QImage &logo)
     emit logoMuuttui();
 }
 
-QString Kirjanpito::arkistopolku()
-{
-    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( yhteysModel() );
-    if( sqlite ) {
-        QString polku = sqlite->tiedostopolku();
-        if( polku.endsWith(".kitsas"))
-         return polku.replace(".kitsas","-arkisto");
-    } else {
-        QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
-        QDir dir(polku);
-        if( polku.isEmpty() || !dir.exists() ) {
-            QString nimi = kp()->asetus("Nimi");
-
-            polku = QFileDialog::getExistingDirectory(nullptr, tr("Valitse arkistolle tallennushakemisto"));
-
-        }
-    }
-    return "";
-}
 
 
 QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)

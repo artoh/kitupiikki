@@ -46,11 +46,8 @@ public:
                              KpKysely::Metodi metodi = KpKysely::GET) = 0;
 
     virtual void sulje() = 0;
-
     void alusta();
-
     void lataaInit(QVariant* reply);
-
     virtual bool onkoOikeutta(Oikeus oikeus) const = 0;
 
 private slots:

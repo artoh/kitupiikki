@@ -691,7 +691,7 @@ void VanhatuontiDlg::siirraTositteet()
                 asiakasToimittaja = vientiJson.value("SaajanNimi").toString();
             if( !asiakasToimittaja.isEmpty() && asiakasIdt_.contains(asiakasToimittaja)) {
                 vienti.setKumppani(asiakasIdt_.value(asiakasToimittaja));
-                tosite.setData(Tosite::KUMPPANI, asiakasIdt_.value(asiakasToimittaja));
+                tosite.asetaKumppani(asiakasIdt_.value(asiakasToimittaja));
             }
 
             // Myyntilaskujen ja ostolaskujen tyypit

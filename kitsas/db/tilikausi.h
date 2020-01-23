@@ -57,7 +57,13 @@ public:
      * @brief Milloin tämä tilikausi on viimeksi arkistoitu
      * @return
      */
-    QDateTime arkistoitu();
+    QDateTime arkistoitu() const;
+
+    /**
+     * @brief Arkiston sijainti
+     * @return
+     */
+    QString arkistopolku() const;
 
     /**
      * @brief Milloin tämän tilikauden kirjauksia on viimeksi päivitetty

@@ -11,7 +11,6 @@ SOURCES += \
     $$PWD/apuri/tulomenorivi.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
-    $$PWD/arkistoija/vanhaarkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
@@ -244,7 +243,6 @@ HEADERS += \
     $$PWD/apuri/tulomenorivi.h \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkistoija/arkistoija.h \
-    $$PWD/arkistoija/vanhaarkistoija.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
