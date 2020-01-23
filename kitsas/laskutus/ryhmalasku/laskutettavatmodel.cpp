@@ -158,7 +158,7 @@ void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int ind
     lasku.insert("osoite", laskutettava.osoite);
     if( !laskutettava.alvtunnus.isEmpty())
         lasku.insert("alvtunnus", laskutettava.alvtunnus);
-    lasku.insert("kieli", laskutettava.kieli);
+    lasku.insert("kieli", laskutettava.kieli.toUpper());
     lasku.insert("laskutapa", laskutettava.lahetystapa);
     if( !laskutettava.email.isEmpty())
         lasku.insert("email", laskutettava.email);
@@ -214,6 +214,8 @@ void LaskutettavatModel::lisaaAsiakas(QVariant* data)
                 map.value("osoite").toString() + "\n" +
                 map.value("postinumero").toString() + " " +
                 map.value("kaupunki").toString();
+    else
+        uusi.osoite = uusi.nimi;
     uusi.kieli = map.value("kieli").toString();
     uusi.alvtunnus = map.value("alvtunnus").toString();
     uusi.lahetystapa = map.value("laskutapa").toInt();

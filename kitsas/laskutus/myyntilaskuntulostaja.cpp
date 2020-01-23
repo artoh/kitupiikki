@@ -390,8 +390,8 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
 
     painter->setFont(QFont("FreeSans", TEKSTIPT));
 
-    painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, map_.value("pvm").toDate().toString("dd.MM.yyyy") );
-    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, map_.value("lasku").toMap().value("numero").toString() );
+    painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, lasku.value("pvm").toDate().toString("dd.MM.yyyy") );
+    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, lasku.value("numero").toString() );
 
     QString toimituslaatikkoon = map_.value("lasku").toMap().value("toimituspvm").toDate().toString("dd.MM.yyyy");
     if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)

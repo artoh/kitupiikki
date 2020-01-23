@@ -121,6 +121,8 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
         rivi.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
         if( rivi.selite.isEmpty())
             rivi.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
+        if( rivi.selite.isEmpty())
+            rivi.selite = index.data(LaskuTauluModel::SeliteRooli).toString();
 
     } else {
         rivi.saajamaksajaId = ui->asiakastoimittaja->id();
@@ -324,6 +326,7 @@ void TilioteKirjaaja::valitseLasku()
     if( index.isValid()) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
+
         haeAlkuperaisTosite( index.data(LaskuTauluModel::EraIdRooli).toInt() );
     }
 }

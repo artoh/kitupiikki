@@ -58,7 +58,6 @@ public:
 
 private:
     void paivitaSumma();
-    void esikatselu();
 
     void paivitaNapit();
 

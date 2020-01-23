@@ -31,8 +31,6 @@ Esikatseltava::Esikatseltava()
 
 Esikatseltava::~Esikatseltava()
 {
-    if( ikkuna_)
-        ikkuna_->deleteLater();
 }
 
 void Esikatseltava::esikatsele()
@@ -40,7 +38,6 @@ void Esikatseltava::esikatsele()
     if( !ikkuna_ )
         ikkuna_ = new NaytinIkkuna;
 
-    ikkuna_->setAttribute(Qt::WA_DeleteOnClose, false);
     ikkuna_->show();
     ikkuna_->raise();
 

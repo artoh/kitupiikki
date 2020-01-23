@@ -92,7 +92,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
     ui->asiakas->alusta();
 
-    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
+    connect( ui->esikatseluNappi, &QPushButton::clicked, [this] { this->esikatsele(); });
 
     connect( rivit_, &LaskuRivitModel::dataChanged, this, &LaskuDialogi::paivitaSumma);
     connect( rivit_, &LaskuRivitModel::rowsInserted, this, &LaskuDialogi::paivitaSumma);
@@ -144,11 +144,6 @@ void LaskuDialogi::paivitaSumma()
 {
     ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa() + aiempiSaldo_ ,0,'f',2) );
     paivitaNapit();
-}
-
-void LaskuDialogi::esikatselu()
-{
-    esikatsele();
 }
 
 void LaskuDialogi::paivitaNapit()

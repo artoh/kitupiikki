@@ -83,6 +83,10 @@ void MyyntiLaskujenToimittaja::toimitettu()
     if( toimitetut_ == laskuja_) {
         emit laskutToimitettu();
         emit kp()->kirjanpitoaMuokattu();
+        if( toimitetut_ > 1)
+            emit kp()->onni(tr("%1 laskua toimitettu").arg(toimitetut_));
+        else
+            emit kp()->onni(tr("Lasku toimitettu").arg(toimitetut_));
         deleteLater();
     }
 }

@@ -59,6 +59,7 @@ public:
 public slots:
     void lataaAvoimet(bool ostoja = false);
     void paivita(bool ostoja = false, int valinta = KAIKKI, QDate mista=QDate(), QDate mihin = QDate());
+    void paivitaNakyma();
 
 private slots:
     void tietoSaapuu(QVariant* var);
@@ -66,6 +67,9 @@ private slots:
 protected:
     QVariantList lista_;
     bool ostoja_ = false;
+    int valinta_;
+    QDate mista_;
+    QDate mihin_;
 
 };
 

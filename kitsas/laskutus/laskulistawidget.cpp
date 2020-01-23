@@ -61,7 +61,6 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     nayta( MYYNTI );
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskulistaWidget::alusta );
-    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
 
     connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
     connect( ui->kopioiNappi, &QPushButton::clicked, this, &LaskulistaWidget::kopioi);
