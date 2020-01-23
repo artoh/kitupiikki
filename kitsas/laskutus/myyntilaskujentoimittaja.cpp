@@ -18,6 +18,8 @@
 #include "laskudialogi.h"
 #include "myyntilaskuntulostaja.h"
 #include "model/tosite.h"
+#include "model/tositeviennit.h"
+#include "model/tositevienti.h"
 
 #include "db/kirjanpito.h"
 
@@ -32,6 +34,11 @@
 #include <QSettings>
 
 #include "smtp.h"
+
+MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent)
+{
+
+}
 
 bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
 {
@@ -86,9 +93,27 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
     tosite.lataaData(data);
     tosite.setData(Tosite::TILA, Tosite::LAHETETAAN);
 
+    // Toimitettaessa lasku päivitetään laskun päivämäärä
+    // sekä eräpäivä (jos maksuaika jäämässä määriteltyä lyhyemmäksi)
     QVariantMap lasku = tosite.data(Tosite::LASKU).toMap();
     lasku.insert("pvm", kp()->paivamaara());
+
+    QVariantList viennit = tosite.viennit()->vientilLista();
+    TositeVienti vienti = viennit.value(0).toMap();
+    vienti.setLaskupvm( kp()->paivamaara() );
+
+    QDate erapvm = vienti.erapaiva();
+    if( erapvm.isValid() ) {
+        if( kp()->paivamaara().daysTo( erapvm ) < kp()->asetukset()->luku("LaskuMaksuaika",0))
+            erapvm = MyyntiLaskunTulostaja::erapaiva();
+        vienti.setErapaiva(erapvm);
+        lasku.insert("erapvm", erapvm);
+    }
+    viennit[0] = vienti;
+    tosite.viennit()->asetaViennit(viennit);
+
     tosite.setData(Tosite::LASKU, lasku);
+
 
     KpKysely *tallennuskysely = kpk(QString("/tositteet/%1").arg(tosite.id()), KpKysely::PUT);
     connect( tallennuskysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::tositeTallennettu);
@@ -259,7 +284,4 @@ void MyyntiLaskujenToimittaja::tilaaSeuraavaLasku()
     kysely->kysy();
 }
 
-MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent)
-{
 
-}

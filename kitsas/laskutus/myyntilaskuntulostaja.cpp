@@ -131,7 +131,12 @@ QString MyyntiLaskunTulostaja::bicIbanilla(const QString &iban)
 QDate MyyntiLaskunTulostaja::erapaiva()
 {
     QDate erapvm = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika",14) );
-    while( erapvm.dayOfWeek() > 5)
+    while( erapvm.dayOfWeek() > 5 ||
+           (erapvm.day()==1 && erapvm.month()==1) ||
+           (erapvm.day()==6 && erapvm.month()==1) ||
+           (erapvm.day()==1 && erapvm.month()==5) ||
+           (erapvm.day()==6 && erapvm.month()==12) ||
+           (erapvm.day()>= 24 && erapvm.day() <= 26 && erapvm.month()==12))
         erapvm = erapvm.addDays(1);
     return erapvm;
 }

@@ -46,7 +46,11 @@ public:
 
     /**
      * @brief Palauttaa oletuseräpäivän
-     * @return
+     * Eräpäivä sijoittuu määritellyn pituisen maksuajan päähän, eikä koskaan
+     * viikonloppuun, uudenvuodenpäivään, loppiaiseen, vapunpäivään, itsenäisyyspäivään,
+     * jouluaattoon, joulupäivään taikka tapaninpäivään
+     * Pitkääperjantaita eikä pääsiäismaanantaita ei vielä oteta huomioon
+     * @return Eräpäivä
      */
     static QDate erapaiva();
 

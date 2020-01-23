@@ -23,6 +23,7 @@
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskuTauluModel::paivitaNakyma);
 }
 
 QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -209,30 +210,39 @@ void LaskuTauluModel::lataaAvoimet(bool ostoja)
 
 void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin)
 {
+    ostoja_ = ostoja;
+    valinta_ = valinta;
+    mista_ = mista;
+    mihin_ = mihin;
+    paivitaNakyma();
+}
+
+void LaskuTauluModel::paivitaNakyma()
+{
     if( !kp()->yhteysModel())
         return;
 
-    ostoja_ = ostoja;
+
     KpKysely *kysely = nullptr;
 
-    if( ostoja )
+    if( ostoja_ )
         kysely = kpk("/ostolaskut");
     else
         kysely = kpk("/myyntilaskut");
 
-    if( mista.isValid())
-        kysely->lisaaAttribuutti("alkupvm", mista);
+    if( mista_.isValid())
+        kysely->lisaaAttribuutti("alkupvm", mista_);
 
-    if( mihin.isValid())
-        kysely->lisaaAttribuutti("loppupvm", mihin);
+    if( mihin_.isValid())
+        kysely->lisaaAttribuutti("loppupvm", mihin_);
 
-    if( valinta == AVOIMET)
+    if( valinta_ == AVOIMET)
         kysely->lisaaAttribuutti("avoin",QString());
-    else if( valinta == ERAANTYNEET)
+    else if( valinta_ == ERAANTYNEET)
         kysely->lisaaAttribuutti("eraantynyt",QString());
-    else if( valinta == LUONNOS)
+    else if( valinta_ == LUONNOS)
         kysely->lisaaAttribuutti("luonnos");
-    else if( valinta == LAHETETTAVA)
+    else if( valinta_ == LAHETETTAVA)
         kysely->lisaaAttribuutti("lahetettava");
 
     connect( kysely, &KpKysely::vastaus, this, &LaskuTauluModel::tietoSaapuu);

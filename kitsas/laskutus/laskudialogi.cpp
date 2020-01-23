@@ -384,7 +384,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     lasku.insert("pvm", kp()->paivamaara());
     lasku.insert("kieli", ui->kieliCombo->currentData());
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
-    lasku.insert("laskutapa", ui->laskutusCombo->currentData());
+    lasku.insert("laskutapa", ui->laskutusCombo->currentData().toInt());
     if( ui->maksuCombo->currentData().toInt() != ENNAKKOLASKU)  // Ennakkolaskulla ei ole toimituspäivää
         lasku.insert("toimituspvm", ui->toimitusDate->date());
     if( ui->jaksoDate->date().isValid())
