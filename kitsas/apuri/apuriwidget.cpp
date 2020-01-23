@@ -16,7 +16,7 @@
 */
 #include "apuriwidget.h"
 #include "model/tosite.h"
-
+#include <QDebug>
 
 
 ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pTosite_(pTosite)

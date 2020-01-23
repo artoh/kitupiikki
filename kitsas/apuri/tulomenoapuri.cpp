@@ -155,8 +155,8 @@ void TuloMenoApuri::teeReset()
                 ui->maksutapaCombo->setCurrentIndex(maksutapaind);
             else
                 ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
-
             maksutapaMuuttui();
+
             ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
             if( vastatili->eritellaankoTase())
@@ -178,6 +178,7 @@ void TuloMenoApuri::teeReset()
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
     ui->tilellaView->selectRow(0);    
+
 
     tiliMuuttui();    
 
@@ -424,8 +425,10 @@ void TuloMenoApuri::vastatiliMuuttui()
     ui->viiteLabel->setVisible( laskulle );
     ui->viiteEdit->setVisible( laskulle );
 
+    ui->laskupvmLabel->setVisible( laskulle );
+    ui->laskuPvm->setVisible( laskulle );
     ui->erapaivaLabel->setVisible( laskulle );
-    ui->erapaivaEdit->setVisible( laskulle );
+    ui->erapaivaEdit->setVisible( laskulle );    
 
     emit tosite()->tarkastaSarja( vastatili.onko(TiliLaji::KATEINEN));
     paivitaVeroFiltterit(tosite()->pvm());
@@ -578,6 +581,7 @@ void TuloMenoApuri::alusta(bool meno)
         ui->maksutapaCombo->setCurrentIndex(0);
 
     ui->vastatiliLine->suodataTyypilla("[AB]");
+    maksutapaMuuttui();
 
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);

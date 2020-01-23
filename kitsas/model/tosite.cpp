@@ -104,8 +104,8 @@ void Tosite::asetaOtsikko(const QString &otsikko)
 
 void Tosite::asetaTyyppi(int tyyppi)
 {
+    asetaSarja( kp()->tositeTyypit()->sarja( tyyppi , viennit()->rowCount() && kp()->tilit()->tiliNumerolla(viennit()->vienti(0).tili() ).onko(TiliLaji::KATEINEN)));
     setData(TYYPPI, tyyppi);
-    setData(SARJA, kp()->tositeTyypit()->sarja( tyyppi ));
 }
 
 void Tosite::asetaPvm(const QDate &pvm)
@@ -117,6 +117,11 @@ void Tosite::asetaPvm(const QDate &pvm)
 void Tosite::asetaKommentti(const QString &kommentti)
 {
     setData(KOMMENTIT, kommentti);
+}
+
+void Tosite::asetaSarja(const QString &sarja)
+{
+    setData(SARJA, sarja);
 }
 
 void Tosite::lataa(int tositeid)
@@ -254,10 +259,11 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 
 void Tosite::tallennusValmis(QVariant *variant)
 {
+    qDebug() << "Tosite::tallennusValmis";
     QVariantMap map = variant->toMap();
     setData(ID, map.value( avaimet__.at(ID) ).toInt() );
     setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());
-    setData(SARJA, map.value(avaimet__.at(SARJA)).toString());
+    asetaSarja(map.value(avaimet__.at(SARJA)).toString());
 
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );

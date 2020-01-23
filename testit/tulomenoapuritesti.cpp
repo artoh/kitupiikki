@@ -385,4 +385,29 @@ void TulomenoApuriTesti::menonMuodostusTesti()
 
 }
 
+void TulomenoApuriTesti::kateisSarjaan()
+{
+    KirjausSivu* sivu = new KirjausSivu(nullptr, nullptr);
+    sivu->show();
+
+    KirjausWg *kwg = sivu->findChild<KirjausWg*>("kirjausWg");
+    QLineEdit* sarjaEdit = sivu->findChild<QLineEdit*>("sarjaEdit");
+    QVERIFY(sarjaEdit->isVisible());
+
+    QComboBox *tositetyyppiCombo = kwg->findChild<QComboBox*>("tositetyyppiCombo");
+    tositetyyppiCombo->setCurrentText("Meno");
+
+    QTabWidget* tab = kwg->findChild<QTabWidget*>("tabWidget");
+    TuloMenoApuri *apuri = qobject_cast<TuloMenoApuri*> (tab->widget(0) );
+    QVERIFY( apuri  != nullptr );
+
+    QComboBox *maksutapaCombo = kwg->findChild<QComboBox*>("maksutapaCombo");
+    maksutapaCombo->setCurrentText("Käteinen");
+
+    // QTest::qWait(2000);
+
+    QCOMPARE(sarjaEdit->text(),"K");
+
+}
+
 

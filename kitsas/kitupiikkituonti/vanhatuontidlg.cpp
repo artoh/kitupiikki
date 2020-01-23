@@ -630,7 +630,7 @@ void VanhatuontiDlg::siirraTositteet()
         tosite.asetaTyyppi(TositeTyyppi::TUONTI);
         tosite.asetaOtsikko(tositekysely.value("otsikko").toString());
         tosite.setData(Tosite::KOMMENTIT, tositekysely.value("kommentti"));
-        tosite.setData(Tosite::SARJA, tositekysely.value("tunnus"));
+        tosite.asetaSarja(tositekysely.value("tunnus").toString());
         tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
 
         QVariantMap map = QJsonDocument::fromJson(tositekysely.value("json").toByteArray()).toVariant().toMap();

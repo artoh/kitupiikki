@@ -157,7 +157,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
-    connect( ui->sarjaEdit, &QLineEdit::textEdited, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
+    connect( ui->sarjaEdit, &QLineEdit::textEdited, [this] { qDebug() << "SE"; this->tosite()->asetaSarja( ui->sarjaEdit->text()); });
     connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
@@ -176,7 +176,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
-
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::nollaaTietokannanvaihtuessa);
 
 
@@ -184,8 +183,10 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     // Voitaisiin tehdä niinkin, että poistetaan ja lisätään tarvittaessa ;)
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( varastoTab_ ) );
 
-    tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
+
+    tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt());
     tosite()->asetaPvm( ui->tositePvmEdit->date());
+    qDebug() << "KirjausWg() --";
 
 }
 
@@ -631,11 +632,13 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
+    qDebug() << "vaihdaTositeTyyppi" << ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt();
     tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
 }
 
 void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
 {
+    qDebug() << "ToTyVa" << tyyppiKoodi;
     // Tässä voisi laittaa muutenkin apurit paikalleen
     if( apuri_ )
     {
@@ -726,9 +729,8 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 
 void KirjausWg::paivitaSarja(bool kateinen)
 {
-    if( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) ||
-        kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
-        ui->sarjaEdit->setText( kp()->tositeTyypit()->sarja( tosite_->tyyppi() , kateinen ) ) ;
+    if( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
+        tosite()->asetaSarja( kp()->tositeTyypit()->sarja( tosite_->tyyppi(), kateinen ) ) ;
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

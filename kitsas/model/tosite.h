@@ -102,6 +102,7 @@ public:
     void asetaTyyppi(int tyyppi);
     void asetaPvm(const QDate& pvm);
     void asetaKommentti(const QString& kommentti);
+    void asetaSarja(const QString& sarja);
 
     /**
      * @brief Tiedot tallennettavassa muodossa

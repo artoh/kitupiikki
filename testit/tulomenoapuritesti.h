@@ -41,6 +41,7 @@ private slots:
     void verollinenTuloKirjausSivulla();
 
     void menonMuodostusTesti();
+    void kateisSarjaan();
 
 
 protected:
