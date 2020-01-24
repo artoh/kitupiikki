@@ -222,11 +222,14 @@ bool MyyntiLaskujenToimittaja::tulosta()
     QPrintDialog printDialog( kp()->printer() );
     if( printDialog.exec())
     {
-        QPainter painter( kp()->printer() );
-        for(QVariantMap tulostettava : tulostettavat_)
+        QPainter painter( kp()->printer() );        
+        for(int i=0; i < tulostettavat_.count(); i++)
         {
+            auto tulostettava = tulostettavat_.value(i);
             MyyntiLaskunTulostaja::tulosta(tulostettava, kp()->printer(), &painter, true);
             merkkaaToimitetuksi( tulostettava.value("id").toInt() );
+            if( i+1 < tulostettavat_.count())
+                kp()->printer()->newPage();
         }
     }
 

@@ -238,7 +238,7 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
                                   map.value("osoite").toString() + "\n" +
                                   map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
     ui->email->setText( map.value("email").toString());
-    ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","fi").toString()));
+    ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","FI").toString()));
     ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
     paivitaLaskutustavat();
 
@@ -337,7 +337,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     QString laskutettava;
 
     if( ui->asiakas->id()) {
-        map.insert("kumppani", ui->asiakas->id());
+        QVariantMap kmap;
+        kmap.insert("id", ui->asiakas->id());
+        map.insert("kumppani", kmap);
         laskutettava = ui->asiakas->nimi();
     } else {
         laskutettava = ui->osoiteEdit->toPlainText().split('\n').value(0);
@@ -476,12 +478,12 @@ QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko)
     else {
         vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );        
     }
-    if( tallennusTila_ >= Tosite::VALMISLASKU && maksutapa != KATEINEN)
+    if(  maksutapa != KATEINEN)
         vienti.setEra( -1 );
 
 
     if( ui->asiakas->id())
-        vienti.insert("kumppani", ui->asiakas->id());
+        vienti.setKumppani( ui->asiakas->id());
 
     double summa = rivit_->yhteensa();
     if( summa > 0) {
@@ -535,6 +537,8 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
             kysely = kpk( QString("/tositteet/%1").arg(tositeId_), KpKysely::PUT);
 
         connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
+        connect( kysely, &KpKysely::virhe, [this] (int koodi, const QString& selite) { QMessageBox::critical(this, tr("Tallennusvirhe"),
+                                                                                                             tr("Laskun tallennus epäonnistui\n%1 %2").arg(koodi).arg(selite)); });
         kysely->kysy( map );
     }
 }

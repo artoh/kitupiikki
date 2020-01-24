@@ -90,6 +90,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
     connect( tosite, &Tosite::pvmMuuttui, ui->laskuPvm, &KpDateEdit::setDate);
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
+    connect( ui->eraCombo, &EraCombo::currentTextChanged, this, &TuloMenoApuri::tositteelle);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -160,7 +161,7 @@ void TuloMenoApuri::teeReset()
             ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
             if( vastatili->eritellaankoTase())
-                ui->eraCombo->valitse( vienti.eraId() );
+                ui->eraCombo->valitse( vienti.eraId() );            
 
             ui->laskuPvm->setDate( vienti.laskupvm());
             ui->erapaivaEdit->setDate(vienti.erapaiva());
@@ -216,8 +217,10 @@ bool TuloMenoApuri::teeTositteelle()
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
 
+        qDebug() << " Vastatili " << vastatili.numero() << " erittely "  << vastatili.eritellaankoTase() << " Erä " << ui->eraCombo->valittuEra();
+
         if( vastatili.eritellaankoTase())
-            vasta.setEra( ui->eraCombo->eraMap() ) ;
+            vasta.setEra(ui->eraCombo->valittuEra() ) ;
 
         if( summa > 0)
             vasta.setDebet( summa );
@@ -235,7 +238,7 @@ bool TuloMenoApuri::teeTositteelle()
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
         else if( !ui->asiakasToimittaja->nimi().isEmpty())
-            vasta.setKumppani( ui->asiakasToimittaja->nimi());        
+            vasta.setKumppani( ui->asiakasToimittaja->nimi());
 
         viennit.insert(0, vasta);
     }
@@ -411,15 +414,18 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
 
-    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).isValid();
+    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
+
+    qDebug() << "Vastatili muuttuu " << vastatili.numero() << " erittely " << vastatili.eritellaankoTase() << " maksutapaer " << ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
 
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->lataa( vastatili.numero() );
-    if( vastatili.eritellaankoTase() ) {
-        ui->eraCombo->valitse( ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toInt() );
+    if( vastatili.eritellaankoTase() || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) {
+        ui->eraCombo->valitse(-1);
     }
 
+    qDebug() << " Erä " << ui->eraCombo->valittuEra();
 
     bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
     ui->viiteLabel->setVisible( laskulle );

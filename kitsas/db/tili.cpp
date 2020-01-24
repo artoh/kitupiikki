@@ -91,6 +91,12 @@ bool Tili::onko(TiliLaji::TiliLuonne luonne) const
     return tyyppi().onko(luonne);
 }
 
+int Tili::taseErittelyTapa()
+{
+
+    return luku("erittely");
+}
+
 QVariantMap Tili::data() const
 {
     QVariantMap map( KantaVariantti::data() );

@@ -49,6 +49,10 @@ void PilviKysely::kysy(const QVariant &data)
 
     QNetworkReply *reply = nullptr;
 
+    std::cerr << "===========" << url.toString().toStdString() << "================\n";
+    std::cerr << QString::fromUtf8(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented)).toStdString();
+
+
     if( metodi() == GET)    {
         reply = kp()->networkManager()->get( request );
     } else if(metodi() == DELETE) {
@@ -63,6 +67,8 @@ void PilviKysely::kysy(const QVariant &data)
             reply = kp()->networkManager()->sendCustomRequest(request, "PATCH", ba);
         else if( metodi() == PUT)
             reply = kp()->networkManager()->put(request, ba);
+
+
     }
 
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu );
@@ -70,8 +76,6 @@ void PilviKysely::kysy(const QVariant &data)
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 
 
-    std::cout << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented).toStdString();
-    std::cout << "\n--------------------------------------------------\n";
 
 }
 
@@ -94,7 +98,9 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
         request.setRawHeader(iter.key().toLatin1(), iter.value().toLatin1());
     }
 
-    QNetworkReply *reply = kp()->networkManager()->post(request, ba);
+    QNetworkReply *reply = metodi()==KpKysely::POST ?
+                kp()->networkManager()->post(request, ba) :
+                kp()->networkManager()->put(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
     connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
@@ -105,10 +111,10 @@ void PilviKysely::vastausSaapuu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     if( reply->error()) {
         QByteArray vastaus = reply->readAll();
+
         qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
+        std::cerr <<  vastaus.toStdString();
 
-
-        std::cout << vastaus.toStdString();
 
         QString selite = QJsonDocument::fromJson(vastaus).object().value("virhe").toString();
         emit virhe( reply->error(), selite);
@@ -116,15 +122,17 @@ void PilviKysely::vastausSaapuu()
         return;
     } else {
         QByteArray luettu = reply->readAll();
+        std::cout << luettu.toStdString();
+        std::cout.flush();
 
         if( reply->header(QNetworkRequest::ContentTypeHeader).toString().startsWith("application/json") ) {
             vastaus_ = QJsonDocument::fromJson(luettu).toVariant();
         } else {
             vastaus_ = luettu;
-        }
-
+        }        
         emit vastaus( &vastaus_ );
     }
+
     this->deleteLater();
 }
 

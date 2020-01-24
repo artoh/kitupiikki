@@ -161,7 +161,8 @@ MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QString &kieli, QObject *pare
 void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
     double mm = printer->width() * 1.00 / printer->widthMM();
-    qreal marginaali = 0.0;    
+    qreal marginaali = 0.0;
+    painter->resetTransform();
 
     bool ikkunakuori = kuoreen & kp()->asetukset()->onko("IkkunaKuori");
 

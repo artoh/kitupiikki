@@ -488,8 +488,15 @@ void AloitusSivu::emailTarkastettu()
 
 void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
 {
+    if( virhe == QNetworkReply::ConnectionRefusedError)
+        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.</b>"));
+    else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
+        ui->palvelinvirheLabel->setText(tr("<p><b>Verkkoon ei saada yhteyttä</b>"));
+    else if(virhe < QNetworkReply::ContentAccessDenied )
+        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelinyhteydessä on virhe (%1)</b>").arg(virhe));
+
     if( virhe < QNetworkReply::ContentAccessDenied) {
-        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.</b></p><p>Virhe %1</p>").arg(virhe));
+
         ui->palvelinvirheLabel->show();
         QTimer::singleShot(30000, this, &AloitusSivu::validoiEmail);
     }

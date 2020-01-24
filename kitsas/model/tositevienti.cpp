@@ -30,8 +30,8 @@ QVariant TositeVienti::data(int kentta) const
 }
 
 void TositeVienti::set(int kentta, const QVariant &arvo)
-{
-    if( arvo.toString().isEmpty())
+{    
+    if( (arvo.toString().isEmpty() || arvo.toString()=="0") && !(arvo.type() == QVariant::Map && !arvo.toMap().isEmpty()))
         remove( avaimet__.at(kentta));
     else
         insert( avaimet__.at(kentta), arvo);
@@ -154,7 +154,10 @@ void TositeVienti::setEra(int era)
 
 void TositeVienti::setEra(const QVariantMap &era)
 {
-    insert("era", era);
+    if( era.isEmpty())
+        remove(avaimet__.at(ERA));
+    else
+        insert(avaimet__.at(ERA), era);
 }
 
 void TositeVienti::setArkistotunnus(const QString &tunnus)

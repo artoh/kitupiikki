@@ -50,8 +50,9 @@ QVariantMap EraCombo::eraMap() const
 
 void EraCombo::lataa(int tili)
 {
-    if( tili )
+    if( tili && tili != tili_)
     {
+        tili_ = tili;   // Jää välimuistiin jotta ei ladattaisi jatkuvasti
         KpKysely* kysely = kpk("/erat");
         if( kysely ) {
             kysely->lisaaAttribuutti("tili", QString::number(tili));
@@ -121,8 +122,8 @@ void EraCombo::vientiSaapuu(QVariant *data)
 void EraCombo::valintaMuuttui()
 {
 
-    valittuna_ = currentData().toInt();
     if( !latauksessa_) {
+        valittuna_ = currentData().toInt();
         emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString() );
     }
 }

@@ -423,8 +423,8 @@
  </customwidgets>
  <tabstops>
   <tabstop>maksutapaCombo</tabstop>
-  <tabstop>viiteEdit</tabstop>
   <tabstop>asiakasToimittaja</tabstop>
+  <tabstop>viiteEdit</tabstop>
   <tabstop>laskuPvm</tabstop>
   <tabstop>erapaivaEdit</tabstop>
   <tabstop>vastatiliLine</tabstop>

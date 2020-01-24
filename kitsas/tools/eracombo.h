@@ -50,6 +50,7 @@ private:
     int valittuna_;    
     QVariantList data_;
     bool latauksessa_ = false;
+    int tili_ = 0;
 
 };
 

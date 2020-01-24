@@ -110,8 +110,7 @@ public:
      * @brief Millä tasolla tase-erittely laaditaan
      * @return TaseErittelyTapa
      */
-    int taseErittelyTapa() { return arvo("erittely").toInt(); }
-
+    int taseErittelyTapa();
     /**
      * @brief Pidetäänkö tase-eristä kirjaa
      *
