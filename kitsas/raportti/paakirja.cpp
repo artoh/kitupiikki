@@ -93,54 +93,126 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
 
 void Paakirja::saldotSaapuu(QVariant *data)
 {
-    saldot_ = data->toMap();
+    QVariantMap saldot = data->toMap();
+    QMapIterator<QString,QVariant> iter(saldot);
+    while(iter.hasNext()) {
+        iter.next();
+        int tili = iter.key().toInt();
+        saldot_.insert(tili, qRound64(iter.value().toDouble() * 100.0));
+        if( !data_.contains(tili))
+            data_.insert(tili, QList<QVariantMap>());
+    }
     if( ++saapuneet_ > 1)
         kirjoitaDatasta();
 }
 
 void Paakirja::viennitSaapuu(QVariant *data)
 {
-    viennit_ = data->toList();
+
+    for(auto vienti : data->toList()) {
+        QVariantMap map = vienti.toMap();
+        int tili = map.value("tili").toInt();
+        data_[tili].append(map);
+    }
+
     if( ++saapuneet_ > 1)
         kirjoitaDatasta();
 }
 
 void Paakirja::kirjoitaDatasta()
 {
+    QMapIterator<int, QList<QVariantMap>> iter(data_);
 
-    QStringList saldotilit = saldot_.keys();
+    qlonglong kaikkiDebet = 0;
+    qlonglong kaikkiKredit = 0;
 
-    for(auto vienti : viennit_) {
-        QVariantMap map = vienti.toMap();
-        int tili = map.value("tili").toInt();
+    while( iter.hasNext()) {
+        iter.next();
 
-        while( !saldotilit.isEmpty() && QString::number(tili) <= saldotilit.first())
+        Tili tili = kp()->tilit()->tiliNumerolla(iter.key());
+        if( tili.onkoValidi())
         {
-            aloitaTili( saldotilit.takeFirst().toInt()  );
+
+            RaporttiRivi rivi;
+            rivi.lihavoi();
+            rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
+                                tili.nimiNumero(), 5);
+
+            qlonglong saldo =  saldot_.value( tili.numero() );
+            rivi.lisaa( saldo );
+            rk.lisaaRivi(rivi);
+
+            qlonglong debetSumma = 0l;
+            qlonglong kreditSumma = 0l;
+
+            for(const QVariantMap& vienti : iter.value()) {
+
+                RaporttiRivi rr;
+                rr.lisaa( vienti.value("pvm").toDate() );
+
+                QVariantMap tositeMap = vienti.value("tosite").toMap();
+
+                rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
+                                      optiot_ & SamaTilikausi);
+                rr.lisaa( vienti.value("selite").toString());
+
+                if( optiot_ & TulostaKohdennukset)
+                    rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi() );
+
+                rr.lisaa(  vienti.value("debet").toDouble()  );
+                rr.lisaa(  vienti.value("kredit").toDouble()  );
+
+                debetSumma += qRound64( vienti.value("debet").toDouble() * 100 );
+                kreditSumma += qRound64( vienti.value("kredit").toDouble() * 100 );
+
+                if( tili.onko(TiliLaji::VASTAAVAA))
+                {
+                    saldo += qRound64( vienti.value("debet").toDouble() * 100 );
+                    saldo -= qRound64( vienti.value("kredit").toDouble() * 100 );
+                } else {
+                    saldo -= qRound64( vienti.value("debet").toDouble() * 100 );
+                    saldo += qRound64( vienti.value("kredit").toDouble() * 100 );
+                }
+
+                rr.lisaa( saldo);
+                rk.lisaaRivi(rr);
+
+            }
+            if( (debetSumma || kreditSumma) && optiot_ & TulostaSummat  ) {
+                RaporttiRivi summa(RaporttiRivi::EICSV);
+                summa.viivaYlle();
+                summa.lihavoi();
+                summa.lisaa("",2);
+
+                if( optiot_ & TulostaKohdennukset)
+                    summa.lisaa("");
+
+                qlonglong muutos = tili.onko(TiliLaji::VASTAAVAA) ?
+                        debetSumma - kreditSumma : kreditSumma - debetSumma;
+                summa.lisaa(muutos,false, true);
+
+                summa.lisaa(debetSumma);
+                summa.lisaa(kreditSumma);
+                summa.lisaa(saldo);
+
+                rk.lisaaRivi(summa);
+
+                kaikkiDebet += debetSumma;
+                kaikkiKredit += kreditSumma;
+            }
+            rk.lisaaRivi();
+
         }
 
-        if( tili != nykytili_.numero()) {
-            aloitaTili( tili);
-        }
-
-        kirjoitaVienti( map );
     }
-
-    while( !saldotilit.isEmpty() )
-    {
-        aloitaTili(saldotilit.takeFirst().toInt());
-    }
-
-    aloitaTili(); // Jotta tulee viimeisteltyä
-
     if( optiot_ & TulostaSummat ) {
-        RaporttiRivi summa;
+        RaporttiRivi summa(RaporttiRivi::EICSV);
         summa.viivaYlle();
         summa.lihavoi();
-        summa.lisaa(tr("Yhteensä"),3);
+        summa.lisaa(kaanna("Yhteensä"),3);
 
-        summa.lisaa(kaikkiDebet_);
-        summa.lisaa(kaikkiKredit_);
+        summa.lisaa(kaikkiDebet);
+        summa.lisaa(kaikkiKredit);
         summa.lisaa("");
 
         rk.lisaaRivi(summa);
@@ -149,84 +221,3 @@ void Paakirja::kirjoitaDatasta()
     emit valmis(rk);
 }
 
-void Paakirja::aloitaTili(int tilinumero)
-{
-    if( (debetSumma_ || kreditSumma_) && optiot_ & TulostaSummat  ) {
-        RaporttiRivi summa;
-        summa.viivaYlle();
-        summa.lihavoi();
-        summa.lisaa("",2);
-
-        if( optiot_ & TulostaKohdennukset)
-            summa.lisaa("");
-
-        qlonglong muutos = nykytili_.onko(TiliLaji::VASTAAVAA) ?
-                debetSumma_ - kreditSumma_ : kreditSumma_ - debetSumma_;
-        summa.lisaa(muutos,false, true);
-
-        summa.lisaa(debetSumma_);
-        summa.lisaa(kreditSumma_);
-        summa.lisaa(saldo_);
-
-        rk.lisaaRivi(summa);
-
-        kaikkiDebet_ += debetSumma_;
-        kaikkiKredit_ += kreditSumma_;
-    }
-
-    if ( debetSumma_ || kreditSumma_ || saldo_)
-        rk.lisaaRivi();     // Tyhjä rivi välille
-
-
-    nykytili_ = kp()->tilit()->tiliNumerolla(tilinumero);
-    if( nykytili_.onkoValidi())
-    {
-
-        RaporttiRivi rivi;
-        rivi.lihavoi();
-        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, nykytili_.numero(),
-                            nykytili_.nimiNumero(), 5);
-
-        saldo_ = qRound64( saldot_.value( QString::number(nykytili_.numero()) ).toDouble() *100);
-        rivi.lisaa( saldo_ );
-        rk.lisaaRivi(rivi);
-
-    }
-
-    debetSumma_ = 0l;
-    kreditSumma_ = 0l;
-
-}
-
-void Paakirja::kirjoitaVienti(QVariantMap map)
-{
-    RaporttiRivi rr;
-    rr.lisaa( map.value("pvm").toDate() );
-
-    QVariantMap tositeMap = map.value("tosite").toMap();
-
-    rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
-                          optiot_ & SamaTilikausi);
-    rr.lisaa( map.value("selite").toString());
-
-    if( optiot_ & TulostaKohdennukset)
-        rr.lisaa(kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
-
-    rr.lisaa(  map.value("debet").toDouble()  );
-    rr.lisaa(  map.value("kredit").toDouble()  );
-
-    debetSumma_ += qRound64( map.value("debet").toDouble() * 100 );
-    kreditSumma_ += qRound64( map.value("kredit").toDouble() * 100 );
-
-    if( nykytili_.onko(TiliLaji::VASTAAVAA))
-    {
-        saldo_ += qRound64( map.value("debet").toDouble() * 100 );
-        saldo_ -= qRound64( map.value("kredit").toDouble() * 100 );
-    } else {
-        saldo_ -= qRound64( map.value("debet").toDouble() * 100 );
-        saldo_ += qRound64( map.value("kredit").toDouble() * 100 );
-    }
-
-    rr.lisaa( saldo_);
-    rk.lisaaRivi(rr);
-}

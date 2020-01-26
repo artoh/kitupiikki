@@ -47,21 +47,12 @@ private slots:
 
 protected:
     void kirjoitaDatasta();
-    void aloitaTili(int tilinumero = 0);
-    void kirjoitaVienti(QVariantMap map);
 
-protected:
-    QVariantMap saldot_;
-    QVariantList viennit_;
+protected:    
+    QMap<int,QList<QVariantMap>> data_;
+    QMap<int,qlonglong> saldot_;
 
     int saapuneet_ = 0;
-
-    Tili nykytili_ ;
-    qlonglong debetSumma_ = 0l;
-    qlonglong kreditSumma_ = 0l;
-    qlonglong kaikkiDebet_ = 0l;
-    qlonglong kaikkiKredit_ = 0l;
-    qlonglong saldo_ = 0l;
 
     int optiot_;
     Tilikausi oletustilikausi_;

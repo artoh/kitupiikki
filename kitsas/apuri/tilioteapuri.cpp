@@ -121,7 +121,11 @@ bool TilioteApuri::teeTositteelle()
     tilioteMap.insert("tili", ui->tiliCombo->valittuTilinumero());
     tosite()->setData(Tosite::TILIOTE,tilioteMap);
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
-        tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
+        tosite()->setData( Tosite::OTSIKKO,
+                       tr("Tiliote %1 - %2 %3")
+                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
+                       .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
+                       .arg( kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).nimi()));
 
     naytaSummat();    
     return true;
@@ -207,7 +211,8 @@ void TilioteApuri::tiliPvmMuutos()
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliCombo->valittuTilinumero() );    
 
     QString otsikko = tosite()->otsikko();
-    if( otsikko.isEmpty() || otsikko.contains(QRegularExpression(R"(\d{2}.\d{2}.\d{4} - \d{2}.\d{2}.\d{4})"))) {
+    if(( otsikko.isEmpty() || otsikko.contains(QRegularExpression(R"(\d{2}.\d{2}.\d{4} - \d{2}.\d{2}.\d{4})"))) &&
+            ui->alkuDate->date().isValid() && ui->loppuDate->date().isValid()) {
         tosite()->setData( Tosite::OTSIKKO,
                        tr("Tiliote %1 - %2 %3")
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
