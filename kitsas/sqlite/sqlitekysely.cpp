@@ -67,6 +67,14 @@ void SQLiteKysely::vastaa(const QVariant &tulos)
     emit vastaus(&vastaus_);
 }
 
+void SQLiteKysely::vastaaLisayksesta(const QPair<const QVariant, int> &tulos)
+{
+    vastaus_ = tulos.first;
+    emit vastaus(&vastaus_);
+    if( tulos.second)
+        emit lisaysVastaus(vastaus_, tulos.second);
+}
+
 SQLiteVirhe::SQLiteVirhe(const QString &selitys, int virhekoodi) :
     selitys_(selitys), koodi_(virhekoodi)
 {

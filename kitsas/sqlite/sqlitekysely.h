@@ -44,6 +44,7 @@ class SQLiteKysely : public KpKysely
 public:
     SQLiteKysely(SQLiteModel* parent, Metodi metodi=GET, QString polku = QString());
     void vastaa(const QVariant& tulos);
+    void vastaaLisayksesta(const QPair<const QVariant,int>& tulos);
 
 public slots:
     void kysy(const QVariant& data = QVariant()) override;

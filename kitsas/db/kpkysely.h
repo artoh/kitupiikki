@@ -65,7 +65,17 @@ public:
     static QString tiedostotyyppi(const QByteArray& ba);
 
 signals:
+    /**
+     * @brief Vastaus kyselyyn
+     * @param reply Vastauksen runko
+     */
     void vastaus(QVariant* reply);
+    /**
+     * @brief POST-kyselyn vastaus, kun kysely onnistuu
+     * @param reply Vastauksen runko
+     * @param lisattyId Vastauksen Location-headerin lopussa oleva numero
+     */
+    void lisaysVastaus(const QVariant& reply, int lisattyId);
     void virhe(int virhe, const QString& selitys = QString());
 
 public slots:

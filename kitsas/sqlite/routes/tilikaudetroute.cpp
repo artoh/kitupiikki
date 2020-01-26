@@ -218,7 +218,9 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             QDate loppuu = kysely.value(5).toDate();
             QDate vientipvm = kysely.value(10).toDate();
 
-            if( vientipvm <= kausi.paattyy() && ( alkaa < kausi.alkaa() ||  ( loppuu.isValid() && loppuu <= kausi.paattyy()) || (!loppuu.isValid() && alkaa <= kausi.paattyy() ) ))
+            if( vientipvm <= kausi.paattyy() && ( alkaa < kausi.alkaa()
+                                                  ||  ( loppuu.isValid() && loppuu <= kausi.paattyy())
+                                                  || (!loppuu.isValid() && alkaa <= kausi.paattyy() ) ))
                 continue;   // Kokonaan tämän vuoden puolella
 
             double jaksotettavaa = 1.0;

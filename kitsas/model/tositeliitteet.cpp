@@ -129,9 +129,8 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
     emit naytaliite( liite );
 
     KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
-    connect( liitekysely, &KpKysely::vastaus, [this, liiteIndeksi] (QVariant* data) {
-            QVariantMap map = data->toMap();
-            this->liitteet_[liiteIndeksi].setLiitettava(map.value("liite").toInt());
+    connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant&, int id) {
+            this->liitteet_[liiteIndeksi].setLiitettava(id);
         });
 
 

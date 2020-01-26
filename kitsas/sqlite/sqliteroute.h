@@ -32,7 +32,7 @@ public:
     virtual ~SQLiteRoute();
 
     QVariant route(SQLiteKysely* kysely, const QVariant& data);
-    virtual QVariant byteArray(SQLiteKysely* kysely, const QByteArray &ba, const QMap<QString,QString> &meta);
+    virtual QPair<const QVariant,int> byteArray(SQLiteKysely* kysely, const QByteArray &ba, const QMap<QString,QString> &meta);
 
     QString polku() const { return polku_;}
 

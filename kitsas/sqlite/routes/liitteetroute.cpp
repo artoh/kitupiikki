@@ -57,7 +57,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
     throw SQLiteVirhe("Liitettä ei löydy",404);
 }
 
-QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)
+QPair<const QVariant, int> LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)
 {
     QString loppu = kysely->polku().mid( polku().length()+1 );
     QRegularExpression re(R"((\d+)/(\S+)?)");
@@ -99,7 +99,8 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
     if( match.hasMatch() )
         palautus.insert("tosite", match.captured(1).toInt());
 
-    return palautus;
+    return qMakePair<const QVariant,int>(palautus, query.lastInsertId().toInt());
+
 }
 
 QVariant LiitteetRoute::doDelete(const QString &polku)

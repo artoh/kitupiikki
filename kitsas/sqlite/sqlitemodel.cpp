@@ -288,7 +288,7 @@ void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba
 {
     for( SQLiteRoute* route : routes_) {
         if( reititettavakysely->polku().startsWith( route->polku() ) ) {
-            reititettavakysely->vastaa( route->byteArray(reititettavakysely, ba, meta) );
+            reititettavakysely->vastaaLisayksesta( route->byteArray(reititettavakysely, ba, meta) );
             return;
         }
     }

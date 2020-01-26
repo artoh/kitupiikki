@@ -55,9 +55,9 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
     throw SQLiteVirhe("Tuntematon metodi",405);
 }
 
-QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)
+QPair<const QVariant, int> SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)
 {
-    return QVariant();
+    return qMakePair<const QVariant,int>(QVariant(),0);
 }
 
 QVariant SQLiteRoute::get(const QString & polku, const QUrlQuery& /*urlquery*/)

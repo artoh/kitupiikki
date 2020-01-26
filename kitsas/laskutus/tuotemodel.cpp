@@ -82,12 +82,12 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
         }
     }
     else if( role == IdRooli)
-        return map.value("id");
+        return map.value("id").toInt();
     else if( role == MapRooli)
         return map;
     else if( role == TuoteMapRooli) {
         QVariantMap tmap(map);
-        tmap.insert("tuote", tmap.take("id"));
+        tmap.insert("tuote", tmap.take("id").toInt());
         return tmap;
     }
     return QVariant();

@@ -26,7 +26,7 @@ public:
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
-    QVariant byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString,QString> &meta) override;
+    QPair<const QVariant,int> byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString,QString> &meta) override;
 
     QVariant doDelete(const QString &polku) override;
 

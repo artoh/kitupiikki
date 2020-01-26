@@ -131,6 +131,11 @@ void PilviKysely::vastausSaapuu()
             vastaus_ = luettu;
         }        
         emit vastaus( &vastaus_ );
+        if( metodi() == KpKysely::POST) {
+            QString location = reply->header(QNetworkRequest::LocationHeader).toString();
+            int lisattyid = location.right( location.lastIndexOf('/') + 1 ).toInt();
+            emit lisaysVastaus(vastaus_, lisattyid);
+        }
     }
 
     this->deleteLater();
@@ -147,5 +152,5 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
     else if( koodi == QNetworkReply::ContentAccessDenied)
         emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>").arg(koodi), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::InternalServerError)
-        emit kp()->onni(tr("<b>Palvelinvirhe</b>").arg(koodi), Kirjanpito::Stop);
+        emit kp()->onni(tr("<b>Palvelinvirhe %1</b>").arg(koodi), Kirjanpito::Stop);
 }
