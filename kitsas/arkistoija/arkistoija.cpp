@@ -51,8 +51,8 @@ Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
 void Arkistoija::arkistoi()
 {
     if( luoHakemistot() ) {
-        arkistoiRaportit();
         arkistoiTositteet();
+        arkistoiRaportit();
     }
 }
 
@@ -60,70 +60,46 @@ bool Arkistoija::luoHakemistot()
 {
 
     QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
-    if( arkistoPolku().isEmpty() || !QFile::exists(arkistoPolku()))
-        arkistoPolku() = ArkistohakemistoDialogi::valitseArkistoHakemisto();
-    if( arkistoPolku().isEmpty())
+    if( arkistopolku.isEmpty() || !QFile::exists(arkistopolku))
+        arkistopolku = ArkistohakemistoDialogi::valitseArkistoHakemisto();
+    if( arkistopolku.isEmpty())
         return false;
 
-    QDir hakemisto_(arkistopolku );
-
+    QDir hakemisto(arkistopolku );
     QString arkistonimi = tilikausi_.arkistoHakemistoNimi();
 
-    if( hakemisto_.exists( arkistonimi ) )
+    if( hakemisto.exists( arkistonimi ) )
     {
         // Jos hakemisto on jo olemassa, poistetaan se
-        hakemisto_.cd( arkistonimi);
-        hakemisto_.removeRecursively();
-        hakemisto_.cdUp();
+        hakemisto.cd( arkistonimi);
+        hakemisto.removeRecursively();
+        hakemisto.cdUp();
     }
 
-    hakemisto_.mkdir( arkistonimi );
-    if(!hakemisto_.cd( arkistonimi ))
+    hakemisto.mkdir( arkistonimi );
+    if(!hakemisto.cd( arkistonimi ))
         return false;
 
-    hakemisto_.mkdir("tositteet");
-    hakemisto_.mkdir("liitteet");
-    hakemisto_.mkdir("static");
+    hakemistoPolku_ = hakemisto.absolutePath();
+
+    hakemisto.mkdir("tositteet");
+    hakemisto.mkdir("liitteet");
+    hakemisto.mkdir("static");
 
     if( !kp()->logo().isNull() )
     {
-        kp()->logo().save(hakemisto_.absoluteFilePath("logo.png"),"PNG");
+        kp()->logo().save(hakemisto.absoluteFilePath("logo.png"),"PNG");
         logo_ = true;
     }
 
 
     // Kopioidaan vakitiedostot
-    QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("static/arkisto.css"));
-    QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("static/jquery.js"));
+    QFile::copy( ":/arkisto/arkisto.css", hakemisto.absoluteFilePath("static/arkisto.css"));
+    QFile::copy( ":/arkisto/jquery.js", hakemisto.absoluteFilePath("static/jquery.js"));
 //    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
 //    QFile::copy( ":/pic/kitsas150.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
 
     return true;
-}
-
-QString Arkistoija::arkistoPolku()
-{
-    QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
-
-    // TODO: Arkistopolun sijainnin asettaminen ohjelman asetuksista
-
-    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
-    if( sqlite ) {
-        QString polku = sqlite->tiedostopolku();
-        if( polku.endsWith(".kitsas"))
-         return polku.replace(".kitsas","-arkisto");
-    } else {
-        QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
-        QDir dir(polku);
-        if( polku.isEmpty() || !dir.exists() ) {
-            QString nimi = kp()->asetus("Nimi");
-            polku = QFileDialog::getExistingDirectory(nullptr, tr("Valitse arkistolle tallennushakemisto"));
-            if( !polku.isEmpty())
-                kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID"), polku);
-        }
-        return polku;
-    }
-    return QString();
 }
 
 void Arkistoija::arkistoiTositteet()
@@ -208,7 +184,8 @@ void Arkistoija::arkistoiTilinpaatos()
 
 void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArray &array)
 {
-    QFile tiedosto( hakemisto_.absoluteFilePath(tiedostonnimi));
+    QDir hakemisto(hakemistoPolku_);
+    QFile tiedosto( hakemisto.absoluteFilePath(tiedostonnimi));
     tiedosto.open( QIODevice::WriteOnly);
     tiedosto.write( array );
     tiedosto.close();
@@ -221,7 +198,8 @@ void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArra
 
 void Arkistoija::kirjoitaHash() const
 {
-    QFile tiedosto( hakemisto_.absoluteFilePath( "arkisto.sha256" ));
+    QDir hakemisto(hakemistoPolku_);
+    QFile tiedosto( hakemisto.absoluteFilePath( "arkisto.sha256" ));
     tiedosto.open( QIODevice::WriteOnly );
     tiedosto.write( shaBytes );
     tiedosto.close();
@@ -232,14 +210,14 @@ void Arkistoija::merkitseArkistoiduksi()
     kp()->settings()->setValue("arkistopvm/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QDateTime::currentDateTime());
     kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
-                               hakemisto_.absolutePath());
+                               hakemistoPolku_);
     kp()->settings()->setValue("arkistosha/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
 
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 
-    emit arkistoValmis( hakemisto_.absolutePath() );
+    emit arkistoValmis( hakemistoPolku_ );
 
     progressDlg_->deleteLater();
     deleteLater();
@@ -256,6 +234,7 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
         QVariantMap map = tosite.toMap();
         tositeJono_.append( map );
     }
+    arkistoitavaTosite_ = 0;
     arkistoiSeuraavaTosite();
 }
 
@@ -263,7 +242,6 @@ void Arkistoija::arkistoiSeuraavaTosite()
 {
     // Hae tosite arkistoitavaksi
     int indeksi = arkistoitavaTosite_;
-    arkistoitavaTosite_++;
 
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tositeJono_.value(indeksi).id() ));
     connect( kysely, &KpKysely::vastaus,
@@ -299,6 +277,8 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
     arkistoiByteArray(nimi + ".json", QJsonDocument::fromVariant(map).toJson(QJsonDocument::Indented));
     progressDlg_->setValue( progressDlg_->value() + 1);
 
+    arkistoitavaTosite_++;
+
     if( arkistoitavaTosite_ < tositeJono_.count())
         arkistoiSeuraavaTosite();
     else if( !liiteJono_.isEmpty() )
@@ -321,6 +301,9 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
 {
     arkistoiByteArray("liitteet/" + tiedosto, data->toByteArray());
     progressDlg_->setValue(progressDlg_->value() + 1);
+
+    if( arkistoitavaTosite_ < tositeJono_.count())
+        arkistoiSeuraavaTosite();
     if( !liiteJono_.isEmpty())
         arkistoiSeuraavaLiite();
     else if( !raporttilaskuri_  && arkistoitavaTosite_ >= tositeJono_.count())
@@ -343,7 +326,8 @@ void Arkistoija::viimeistele()
 {
     kirjoitaHash();
 
-    QFile tiedosto( hakemisto_.absoluteFilePath("index.html"));
+    QDir hakemisto(hakemistoPolku_);
+    QFile tiedosto( hakemisto.absoluteFilePath("index.html"));
     tiedosto.open( QIODevice::WriteOnly);
     QTextStream out( &tiedosto );
     out.setCodec("UTF-8");
@@ -365,7 +349,7 @@ void Arkistoija::viimeistele()
     // Jos tilit on päätetty, tulee linkki myös tilinpäätökseen (pdf)
     out << "<h3>" << tr("Tilinpäätös") << "</h3><ul>";
 
-    if( QFile::exists( hakemisto_.absoluteFilePath("tilinpaatos.pdf")  ))
+    if( QFile::exists( hakemisto.absoluteFilePath("tilinpaatos.pdf")  ))
            out << "<li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>";
 
     out   << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
@@ -565,5 +549,7 @@ Arkistoija::JonoTosite::JonoTosite(const QVariantMap &map)
 
 QString Arkistoija::JonoTosite::tiedostonnimi()
 {
+    qDebug() << "Arkistoija::JonoTosite::tiedostonnimi ";
+    qDebug() << pvm().toString() << " " << tunniste();
     return Arkistoija::tiedostonnimi(pvm(), sarja(), tunniste());
 }

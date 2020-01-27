@@ -61,6 +61,7 @@ ArkistohakemistoDialogi::ArkistohakemistoDialogi(QWidget *parent) :
     ui->nimiEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("([A-Za-z0-9]|-){1,64}"), this));
     connect( ui->sijaintiEdit, &QLineEdit::textChanged, this, &ArkistohakemistoDialogi::tarkistaKelpo );
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &ArkistohakemistoDialogi::tarkistaKelpo);
+    connect( ui->vaihdaNappi, &QPushButton::clicked, this, &ArkistohakemistoDialogi::valitseHakemisto);
 }
 
 ArkistohakemistoDialogi::~ArkistohakemistoDialogi()

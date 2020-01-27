@@ -58,7 +58,7 @@ QDateTime Tilikausi::viimeinenPaivitys() const
     QDateTime tositteet = arvo("paivitetty").toDateTime();
     QDateTime tpaatos = arvo("tilinpaatos").toDateTime();
 
-    if( tpaatos > tositteet)
+    if( tpaatos.isValid() && tpaatos > tositteet)
         return tpaatos;
     return tositteet;
 }

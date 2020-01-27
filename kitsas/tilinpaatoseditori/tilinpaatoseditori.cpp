@@ -247,14 +247,15 @@ void TilinpaatosEditori::tallenna()
 
     TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,  kp()->asetus("tpkieli") ,this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
+    connect( tp, &TilinpaatosTulostaja::tallennettu, [] { kp()->onni(tr("Tilinpäätös tallennettu")); });
     tp->tallenna();
 
 }
 
 void TilinpaatosEditori::valmis()
 {
+    connect(this, &TilinpaatosEditori::tallennettu, this, &TilinpaatosEditori::close);
     tallenna();
-    close();
 }
 
 

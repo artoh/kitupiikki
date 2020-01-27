@@ -44,7 +44,6 @@ signals:
 
 protected:
     bool luoHakemistot();
-    QString arkistoPolku();
     void arkistoiTositteet();
     void arkistoiRaportit();
     void arkistoiTilinpaatos();
@@ -86,7 +85,7 @@ protected:
 
 private:
     Tilikausi tilikausi_;
-    QDir hakemisto_;    
+    QString hakemistoPolku_;
 
     QProgressDialog *progressDlg_ = nullptr;
 

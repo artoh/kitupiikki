@@ -51,7 +51,7 @@ Valitse, mihin hakemistoon arkisto tallennetaan</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="vaihdaNappi">
          <property name="text">
           <string>Vaihda hakemisto</string>
          </property>

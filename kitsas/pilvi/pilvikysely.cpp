@@ -132,8 +132,10 @@ void PilviKysely::vastausSaapuu()
         }        
         emit vastaus( &vastaus_ );
         if( metodi() == KpKysely::POST) {
-            QString location = reply->header(QNetworkRequest::LocationHeader).toString();
-            int lisattyid = location.right( location.lastIndexOf('/') + 1 ).toInt();
+            QString location = QString::fromLatin1(reply->rawHeader("Location"));
+            qDebug() << "Location: " << location;
+            qDebug() << reply->rawHeaderList();
+            int lisattyid = location.mid( location.lastIndexOf('/') + 1 ).toInt();
             emit lisaysVastaus(vastaus_, lisattyid);
         }
     }
