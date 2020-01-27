@@ -103,8 +103,9 @@ private slots:
 
     void naytaLoki();
 
-private slots:
+private slots:    
     void paivita(bool muokattu, int virheet, double debet, double kredit);
+    void tallenna(int tilaan);
     void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString());
     void tallennusEpaonnistui(int virhe);
 

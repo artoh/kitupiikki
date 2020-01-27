@@ -74,7 +74,8 @@ public:
 
     int tallennettaviaLiitteita() const;
     void tallennaLiitteet(int tositeId);
-    QVariantList liitettavat() const;
+    bool tallennetaanko() const { return tallennetaan_;}
+    QVariantList liitettavat() const;    
 
 public slots:
     void nayta(int indeksi);
@@ -84,10 +85,12 @@ signals:
     void liitteetTallennettu();
     void naytaliite(const QByteArray& data);
     void tuonti(QVariant *data);
+    void liitettaTallennetaan(bool tallennetaanko);
 
 private slots:
     void tallennaSeuraava();
     void liitesaapuu(QVariant* data);
+    void liiteLisatty(const QVariant& data, int liiteId, int liiteIndeksi);
 
 protected:
     static QByteArray lueTiedosto(const QString &polku);
@@ -97,6 +100,7 @@ private:
 
     int tositeId_ = -1;
     int tallennuksessa_ = -1;
+    bool tallennetaan_ = false;
 
 };
 

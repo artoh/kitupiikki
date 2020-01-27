@@ -74,6 +74,7 @@ void TositeLiitteet::lataa(QVariantList data)
 {
     beginResetModel();
     liitteet_.clear();    
+    tallennetaan_ = false;
 
     for( QVariant item : data) {
         QVariantMap map = item.toMap();
@@ -93,6 +94,7 @@ void TositeLiitteet::clear()
 {
     beginResetModel();
     liitteet_.clear();
+    tallennetaan_ = false;
     endResetModel();
     emit naytaliite(QByteArray());
 }
@@ -128,10 +130,12 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
 
     emit naytaliite( liite );
 
+    tallennetaan_ = true;
+    emit liitettaTallennetaan(true);
+
     KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
-    connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant&, int id) {
-            this->liitteet_[liiteIndeksi].setLiitettava(id);
-            qDebug() << " ** Liitetty " << id << " ** ";
+    connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant& data, int id) {
+            this->liiteLisatty(data, id, liiteIndeksi);
         });
 
 
@@ -296,6 +300,14 @@ void TositeLiitteet::liitesaapuu(QVariant *data)
 {
     // Tässä voisi myös laittaa liitteen muistiin ;)
     emit naytaliite( data->toByteArray() );
+}
+
+void TositeLiitteet::liiteLisatty(const QVariant &data, int liiteId, int liiteIndeksi)
+{
+    tallennetaan_ = false;
+    emit liitettaTallennetaan(false);
+    liitteet_[liiteIndeksi].setLiitettava(liiteId);
+
 }
 
 QByteArray TositeLiitteet::lueTiedosto(const QString &polku)

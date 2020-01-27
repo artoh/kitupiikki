@@ -92,7 +92,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
-    connect( ui->tallennaButton, &QPushButton::clicked, [this] {  if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::LUONNOS); } );
+    connect( ui->tallennaButton, &QPushButton::clicked, [this] { this->tallenna(Tosite::LUONNOS); } );
     connect( ui->valmisNappi, &QPushButton::clicked, this, &KirjausWg::valmis);
 
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
@@ -169,6 +169,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
         this->ui->sarjaEdit->setText(sarja);  });
     connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
     connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
+    connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
+    connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, ui->tallennetaanLabel, &QLabel::setVisible );
 
 
     ui->viennitView->viewport()->installEventFilter(this);
@@ -233,6 +235,7 @@ void KirjausWg::tyhjenna()
         ui->viennitView->showColumn(TositeViennit::ALV);
     else
         ui->viennitView->hideColumn(TositeViennit::ALV);
+    ui->tallennetaanLabel->hide();
 }
 
 void KirjausWg::valmis()
@@ -246,7 +249,8 @@ void KirjausWg::valmis()
                                      "Tallennatko tositteen ilman vientejä?")) != QMessageBox::Yes)
             return;
     }
-
+    ui->tallennaButton->setEnabled(false);
+    ui->tallennetaanLabel->show();
     tosite()->tallenna();
 }
 
@@ -363,13 +367,23 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
     ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA );
-    ui->tallennaButton->setEnabled( muokattu );
-    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet);
+    ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko());
+    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet
+                                 && !tosite()->liitteet()->tallennetaanko());
 
     salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
 
+}
+
+void KirjausWg::tallenna(int tilaan)
+{
+    ui->tallennaButton->setEnabled(false);
+    ui->tallennetaanLabel->show();
+    if(apuri_)
+        apuri_->tositteelle();
+    this->tosite_->tallenna(tilaan);
 }
 
 void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const QString& sarja)
@@ -385,6 +399,8 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
 void KirjausWg::tallennusEpaonnistui(int virhe)
 {
     QMessageBox::critical(this, tr("Tallennus epäonnistui"), tr("Tositteen tallentaminen epäonnistui (Virhe %1)").arg(virhe));
+    ui->tallennetaanLabel->hide();
+    ui->tallennaButton->setEnabled(true);
 }
 
 void KirjausWg::tuonti(QVariant *data)
