@@ -16,7 +16,7 @@
 */
 
 #include <QDialog>
-
+#include <QSettings>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QProgressDialog>
@@ -134,7 +134,7 @@ void ArkistoSivu::arkisto()
     if( ui->view->currentIndex().isValid())
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-        QString arkistotiedosto = "arkistopvm/" + kp()->asetus("UID") + "-" + kausi.arkistoHakemistoNimi();
+        QString arkistotiedosto = kausi.uusiArkistopolku() + "/index.html";
 
         // Tehdään arkisto, jos se on päivittämisen tarpeessa
         if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
@@ -155,7 +155,7 @@ void ArkistoSivu::vieArkisto()
         return;
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-    QString arkistotiedosto = "arkistopvm/" + kp()->asetus("UID") + "-" + kausi.arkistoHakemistoNimi();
+    QString arkistotiedosto = kausi.uusiArkistopolku() + "/index.html";
 
 
     // Tehdään arkisto, jos se on päivittämisen tarpeessa

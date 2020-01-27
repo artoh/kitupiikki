@@ -53,6 +53,11 @@ QString Tilikausi::arkistopolku() const
     return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID") + "-" + arkistoHakemistoNimi()).toString();
 }
 
+QString Tilikausi::uusiArkistopolku() const
+{
+    return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString() + "/" + arkistoHakemistoNimi();
+}
+
 QDateTime Tilikausi::viimeinenPaivitys() const
 {
     QDateTime tositteet = arvo("paivitetty").toDateTime();

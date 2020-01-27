@@ -43,16 +43,15 @@ signals:
     void arkistoValmis(QString hakemisto);
 
 protected:
-    bool luoHakemistot();
+    bool luoHakemistot();    
     void arkistoiTositteet();
     void arkistoiRaportit();
     void arkistoiTilinpaatos();
     void arkistoiByteArray(const QString& tiedostonnimi, const QByteArray& array);
     void kirjoitaHash() const;
     void merkitseArkistoiduksi();
-
-protected slots:
     void tositeLuetteloSaapuu(QVariant* data);
+    void arkistoiSeuraava();
     void arkistoiSeuraavaTosite();
     void arkistoiTosite(QVariant* data, int indeksi);
     void arkistoiSeuraavaLiite();
@@ -99,6 +98,8 @@ private:
     int arkistoitavaTosite_ = 0;
     bool logo_ = false;
     int raporttilaskuri_=0;
+    int liitelaskuri_ = 0;
+    bool keskeytetty_ = false;
 
 };
 

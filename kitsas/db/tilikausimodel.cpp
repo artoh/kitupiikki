@@ -136,7 +136,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         else if(  index.column() == ARKISTOITU)
         {
             if( kausi.arkistoitu() > kausi.viimeinenPaivitys() &&
-                    QFile::exists( kp()->settings()->value("arkistopvm/" + kp()->asetus("UID") + "-" + kausi.arkistoHakemistoNimi()).toString() + "/index.html")  )
+                    QFile::exists( kausi.uusiArkistopolku() + "/index.html") )
                 return QIcon(":/pic/ok.png");
         }
         else if( index.column() == TILINPAATOS)

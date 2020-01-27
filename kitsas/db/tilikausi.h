@@ -66,6 +66,12 @@ public:
     QString arkistopolku() const;
 
     /**
+     * @brief Minne uusi arkisto tallennetaan
+     * @return
+     */
+    QString uusiArkistopolku() const;
+
+    /**
      * @brief Milloin tämän tilikauden kirjauksia on viimeksi päivitetty
      * @return
      */

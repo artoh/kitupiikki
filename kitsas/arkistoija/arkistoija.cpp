@@ -235,7 +235,20 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
         tositeJono_.append( map );
     }
     arkistoitavaTosite_ = 0;
-    arkistoiSeuraavaTosite();
+    arkistoiSeuraava();
+}
+
+void Arkistoija::arkistoiSeuraava()
+{
+    qApp->processEvents();
+    if( !keskeytetty_ ) {
+        if( arkistoitavaTosite_ < tositeJono_.count())
+            arkistoiSeuraavaTosite();
+        if( !liiteJono_.isEmpty() )
+            arkistoiSeuraavaLiite();
+        if( liitelaskuri_ < 1 && raporttilaskuri_ < 1)
+            viimeistele();
+    }
 }
 
 void Arkistoija::arkistoiSeuraavaTosite()
@@ -267,6 +280,7 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
                 .arg( tnimi.mid(tnimi.indexOf('.')+1)  );
         liiteNimet_.insert( liiteid, liitenimi );
         liiteJono_.enqueue( liiteid );
+        liitelaskuri_++;
     }
     progressDlg_->setMaximum( progressDlg_->maximum() + map.value("liitteet").toList().count() );
 
@@ -301,13 +315,9 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
 {
     arkistoiByteArray("liitteet/" + tiedosto, data->toByteArray());
     progressDlg_->setValue(progressDlg_->value() + 1);
+    liitelaskuri_--;
+    arkistoiSeuraava();
 
-    if( arkistoitavaTosite_ < tositeJono_.count())
-        arkistoiSeuraavaTosite();
-    if( !liiteJono_.isEmpty())
-        arkistoiSeuraavaLiite();
-    else if( !raporttilaskuri_  && arkistoitavaTosite_ >= tositeJono_.count())
-        viimeistele();
 }
 
 void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedosto)
@@ -318,8 +328,7 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
 
     arkistoiByteArray( tiedosto, txt.toUtf8() );
     raporttilaskuri_--;
-    if( !raporttilaskuri_ && liiteJono_.isEmpty() && arkistoitavaTosite_ >= tositeJono_.count())
-        viimeistele();
+    arkistoiSeuraava();
 }
 
 void Arkistoija::viimeistele()

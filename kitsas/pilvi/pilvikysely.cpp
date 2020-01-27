@@ -122,8 +122,8 @@ void PilviKysely::vastausSaapuu()
         return;
     } else {
         QByteArray luettu = reply->readAll();
-        std::cout << luettu.toStdString();
-        std::cout.flush();
+//        std::cout << luettu.toStdString();
+//        std::cout.flush();
 
         if( reply->header(QNetworkRequest::ContentTypeHeader).toString().startsWith("application/json") ) {
             vastaus_ = QJsonDocument::fromJson(luettu).toVariant();
