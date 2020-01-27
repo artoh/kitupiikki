@@ -21,9 +21,12 @@
 #include <QPixmap>
 #include <QSettings>
 #include <QMessageBox>
+#include <QDir>
+#include <QFileInfo>
 
 #include "perusvalinnat.h"
 #include "ui_perusvalinnat.h"
+#include "arkistoija/arkistohakemistodialogi.h"
 
 #include "db/kirjanpito.h"
 #include "sqlite/sqlitemodel.h"
@@ -36,7 +39,9 @@ Perusvalinnat::Perusvalinnat() :
     ui->setupUi(this);
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
-    connect( ui->hakemistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( this->ui->sijaintiLabel->text() );  } );
+    connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl(ui->arkistoEdit->text()) ); });
+    connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
@@ -67,6 +72,13 @@ bool Perusvalinnat::nollaa()
                              .arg(kp()->asetus("Tilikartta"))
                              .arg(kp()->asetukset()->pvm("TilikarttaPvm").toString("dd.MM.yyyy")));
     ui->alvAlkaaEdit->setEnabled( ui->alvCheck->isChecked());
+
+    ui->arkistoEdit->setText(kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString());
+    ui->avaaArkistoNappi->setEnabled( !ui->arkistoEdit->text().isEmpty() );
+
+    KpKysely* kokokysely = kpk("/info");
+    connect(kokokysely, &KpKysely::vastaus, this, &Perusvalinnat::kokoSaapuu);
+    kokokysely->kysy();
 
     return true;
 }
@@ -119,4 +131,25 @@ void Perusvalinnat::naytaLogo()
     }
 
     ui->poistaLogoNappi->setEnabled( logo.isNull() );
+}
+
+void Perusvalinnat::avaaHakemisto()
+{
+    QFileInfo info( ui->sijaintiLabel->text() );
+    kp()->avaaUrl( info.dir().absolutePath() );
+}
+
+void Perusvalinnat::vaihdaArkistoHakemisto()
+{
+    ui->arkistoEdit->setText( ArkistohakemistoDialogi::valitseArkistoHakemisto(this) );
+    ui->avaaArkistoNappi->setEnabled( !ui->arkistoEdit->text().isEmpty());
+}
+
+void Perusvalinnat::kokoSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    long koko = map.value("koko").toInt();
+    double megaa = koko / 1e6;
+    ui->kokoEdit->setText(tr("%L1 Mt").arg(megaa,0,'f',1));
+
 }

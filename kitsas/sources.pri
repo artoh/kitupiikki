@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/apuri/siirtoapuri.cpp \
     $$PWD/apuri/tulomenorivi.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
+    $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
@@ -73,6 +74,7 @@ SOURCES += \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
     $$PWD/sqlite/routes/budjettiroute.cpp \
     $$PWD/sqlite/routes/eraroute.cpp \
+    $$PWD/sqlite/routes/inforoute.cpp \
     $$PWD/sqlite/routes/initroute.cpp \
     $$PWD/sqlite/routes/kohdennusroute.cpp \
     $$PWD/sqlite/routes/kumppanitroute.cpp \
@@ -241,6 +243,7 @@ HEADERS += \
     $$PWD/apuri/siirtoapuri.h \
     $$PWD/apuri/tulomenorivi.h \
     $$PWD/arkisto/jaksottaja.h \
+    $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
@@ -304,6 +307,7 @@ HEADERS += \
     $$PWD/sqlite/routes/asiakkaatroute.h \
     $$PWD/sqlite/routes/budjettiroute.h \
     $$PWD/sqlite/routes/eraroute.h \
+    $$PWD/sqlite/routes/inforoute.h \
     $$PWD/sqlite/routes/initroute.h \
     $$PWD/sqlite/routes/kohdennusroute.h \
     $$PWD/sqlite/routes/kumppanitroute.h \
@@ -475,6 +479,7 @@ FORMS += \
     $$PWD/apuri/tilioteapuri.ui \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
+    $$PWD/arkistoija/arkistohakemistodialogi.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \

@@ -53,6 +53,13 @@ public slots:
     void naytaLogo();
 
 private:
+    void avaaHakemisto();
+    void vaihdaArkistoHakemisto();
+
+private:
+    void kokoSaapuu(QVariant* data);
+
+private:
     Ui::Perusvalinnat *ui;
     QImage uusilogo;
     bool poistalogo = false;

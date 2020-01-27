@@ -138,7 +138,11 @@ void TilinPaattaja::lukitse()
     // Lukitaan tilikausi!
     kp()->asetukset()->aseta("TilitPaatetty", tilikausi.paattyy());
     // Laaditaan arkisto
-    arkistosivu->teeArkisto(tilikausi);
+    if( QMessageBox::question(this, tr("Tilikauden lukitseminen"),
+                              tr("Haluatko muodostaa lukitusta tilikaudesta sähköisen arkiston?"),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::Yes) == QMessageBox::Yes)
+        arkistosivu->teeArkisto(tilikausi);
 
     paivitaDialogi();
 }

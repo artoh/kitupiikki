@@ -17,6 +17,7 @@
 #include "arkistoija.h"
 
 #include "db/kirjanpito.h"
+#include "arkistohakemistodialogi.h"
 
 #include "raportti/raportoija.h"
 #include "raportti/paakirja.h"
@@ -49,18 +50,22 @@ Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
 
 void Arkistoija::arkistoi()
 {
-    luoHakemistot();
-    arkistoiRaportit();
-    arkistoiTositteet();
+    if( luoHakemistot() ) {
+        arkistoiRaportit();
+        arkistoiTositteet();
+    }
 }
 
-void Arkistoija::luoHakemistot()
+bool Arkistoija::luoHakemistot()
 {
-    QDir hakemisto;
-    QString arkistopolku = arkistoPolku();
 
-    hakemisto.mkpath( arkistopolku );
-    hakemisto_ = QDir( arkistopolku );
+    QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+    if( arkistoPolku().isEmpty() || !QFile::exists(arkistoPolku()))
+        arkistoPolku() = ArkistohakemistoDialogi::valitseArkistoHakemisto();
+    if( arkistoPolku().isEmpty())
+        return false;
+
+    QDir hakemisto_(arkistopolku );
 
     QString arkistonimi = tilikausi_.arkistoHakemistoNimi();
 
@@ -72,9 +77,9 @@ void Arkistoija::luoHakemistot()
         hakemisto_.cdUp();
     }
 
-
     hakemisto_.mkdir( arkistonimi );
-    hakemisto_.cd( arkistonimi );
+    if(!hakemisto_.cd( arkistonimi ))
+        return false;
 
     hakemisto_.mkdir("tositteet");
     hakemisto_.mkdir("liitteet");
@@ -93,10 +98,13 @@ void Arkistoija::luoHakemistot()
 //    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
 //    QFile::copy( ":/pic/kitsas150.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
 
+    return true;
 }
 
 QString Arkistoija::arkistoPolku()
 {
+    QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+
     // TODO: Arkistopolun sijainnin asettaminen ohjelman asetuksista
 
     SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
