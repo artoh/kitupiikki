@@ -29,7 +29,7 @@ class Tosite;
 class TulomenoRivi
 {
 public:
-    TulomenoRivi();
+    TulomenoRivi(int tili=0);
     TulomenoRivi(const QVariantMap& data);
 
     int tilinumero() const { return tilinumero_; }

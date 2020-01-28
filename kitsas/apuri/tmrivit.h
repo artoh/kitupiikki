@@ -31,7 +31,7 @@ public:
     explicit TmRivit(QObject *parent = nullptr);
 
     enum Sarakkeet {
-        TILI, EUROA
+        TILI, ALV, EUROA
     };
 
     // Header:
@@ -45,7 +45,7 @@ public:
 
     void lisaa(const QVariantMap& map);
 
-    int lisaaRivi();
+    int lisaaRivi(int tili=0);
     void poistaRivi(int rivi);
 
     TulomenoRivi* rivi(int indeksi);

@@ -50,6 +50,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     ui->tilellaView->setModel( rivit_);
     ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
+    if( !kp()->asetukset()->onko(AsetusModel::ALV))
+        ui->tilellaView->hideColumn(TmRivit::ALV);
 
 
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tiliMuuttui );
@@ -150,22 +152,24 @@ void TuloMenoApuri::teeReset()
 
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
             Tili* vastatili = kp()->tilit()->tili( vienti.tili());
+            if( vastatili ) {
 
-            int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
-            if( maksutapaind >= 0)
-                ui->maksutapaCombo->setCurrentIndex(maksutapaind);
-            else
-                ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
-            maksutapaMuuttui();
+                int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
+                if( maksutapaind >= 0)
+                    ui->maksutapaCombo->setCurrentIndex(maksutapaind);
+                else
+                    ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
+                maksutapaMuuttui();
 
-            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
+                ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
-            if( vastatili->eritellaankoTase())
-                ui->eraCombo->valitse( vienti.eraId() );            
+                if( vastatili->eritellaankoTase())
+                    ui->eraCombo->valitse( vienti.eraId() );
 
-            ui->laskuPvm->setDate( vienti.laskupvm());
-            ui->erapaivaEdit->setDate(vienti.erapaiva());
-            ui->viiteEdit->setText(vienti.viite());
+                ui->laskuPvm->setDate( vienti.laskupvm());
+                ui->erapaivaEdit->setDate(vienti.erapaiva());
+                ui->viiteEdit->setText(vienti.viite());
+            }
 
         } else {
             rivit_->lisaa(vienti);
@@ -261,8 +265,10 @@ bool TuloMenoApuri::teeTositteelle()
 
 void TuloMenoApuri::lisaaRivi()
 {
+    int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntiluku");
+
     ui->tilellaView->setVisible(true);
-    ui->tilellaView->selectRow( rivit_->lisaaRivi() );
+    ui->tilellaView->selectRow( rivit_->lisaaRivi(tili) );
     ui->poistaRiviNappi->setEnabled( true );    // Rivejä vähintään kaksi kun juuri lisätty
 }
 
@@ -416,18 +422,15 @@ void TuloMenoApuri::vastatiliMuuttui()
 
     bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
 
-    qDebug() << "Vastatili muuttuu " << vastatili.numero() << " erittely " << vastatili.eritellaankoTase() << " maksutapaer " << ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
-
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
-    ui->eraCombo->lataa( vastatili.numero() );
+    ui->eraCombo->lataa( vastatili.numero() , ui->asiakasToimittaja->id());
     if( vastatili.eritellaankoTase() || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) {
         ui->eraCombo->valitse(-1);
     }
 
-    qDebug() << " Erä " << ui->eraCombo->valittuEra();
-
-    bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
+    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA)) &&
+            ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
     ui->viiteLabel->setVisible( laskulle );
     ui->viiteEdit->setVisible( laskulle );
 
@@ -620,6 +623,8 @@ void TuloMenoApuri::kumppaniValittu(int kumppaniId)
     KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
     connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
     kysely->kysy();
+
+    ui->eraCombo->lataa(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
 }
 
 void TuloMenoApuri::kumppaniTiedot(QVariant *data)

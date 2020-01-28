@@ -48,14 +48,17 @@ QVariantMap EraCombo::eraMap() const
     return QVariantMap();
 }
 
-void EraCombo::lataa(int tili)
+void EraCombo::lataa(int tili, int asiakas)
 {
-    if( tili && tili != tili_)
+    if( tili && (tili != tili_ || asiakas != asiakas_))
     {
         tili_ = tili;   // Jää välimuistiin jotta ei ladattaisi jatkuvasti
+        asiakas_ = asiakas;
         KpKysely* kysely = kpk("/erat");
         if( kysely ) {
             kysely->lisaaAttribuutti("tili", QString::number(tili));
+            if( asiakas > 0)
+                kysely->lisaaAttribuutti("asiakas",QString::number(asiakas));
 
             connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
             kysely->kysy();

@@ -39,6 +39,8 @@ QVariant TmRivit::headerData(int section, Qt::Orientation orientation, int role)
 
             case TILI:
                 return tr("Tili");
+            case ALV:
+                return tr("Alv");
             case EUROA:
                 return tr("€");
         }
@@ -59,7 +61,7 @@ int TmRivit::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 2;
+    return 3;
 }
 
 QVariant TmRivit::data(const QModelIndex &index, int role) const
@@ -72,7 +74,14 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
             Tili* tilini = kp()->tilit()->tili( rivit_.at(index.row()).tilinumero() );
             if( tilini )
                 return  tilini->nimi() ;
-        } else if( index.column() == EUROA)
+        } else if( index.column() == ALV) {
+            double alv = rivit_.at(index.row()).alvprosentti();
+            if( alv < 1e-3)
+                return QVariant();
+            else
+                return QString::number(alv,'f',0);
+        }
+        else if( index.column() == EUROA)
         {            
             qlonglong sentit =
                 rivit_.at( index.row() ).naytaBrutto() ?
@@ -91,7 +100,7 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
-    else if( role == Qt::DecorationRole && index.column() == EUROA) {
+    else if( role == Qt::DecorationRole && index.column() == ALV) {
         return kp()->alvTyypit()->kuvakeKoodilla( rivit_.at(index.row()).alvkoodi() );
     }
     return QVariant();
@@ -120,10 +129,10 @@ void TmRivit::lisaa(const QVariantMap &map)
 
 }
 
-int TmRivit::lisaaRivi()
+int TmRivit::lisaaRivi(int tili)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    rivit_.append(TulomenoRivi());
+    rivit_.append(TulomenoRivi(tili));
     endInsertRows();
     return rowCount() - 1;
 }

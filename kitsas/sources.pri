@@ -100,6 +100,7 @@ SOURCES += \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
+    $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tools/tulkki.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
@@ -333,6 +334,7 @@ HEADERS += \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
+    $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tools/tulkki.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \

@@ -18,7 +18,8 @@
 #include "viitevalidator.h"
 #include "ibanvalidator.h"
 
-ViiteValidator::ViiteValidator()
+ViiteValidator::ViiteValidator(QObject *parent)
+    : QValidator(parent)
 {
 
 }

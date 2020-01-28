@@ -359,7 +359,7 @@ void TilinMuokkausDialog::accept()
     for(int i=0; i < ui->ohjeTabs->count(); i++) {
         QPlainTextEdit *edit = qobject_cast<QPlainTextEdit*>( ui->ohjeTabs->widget(i) );
         tili_->asetaOhje( edit->toPlainText(), edit->property("Kielikoodi").toString() );
-    }
+    }    
 
     kp()->tilit()->tallenna(tili_);
 
@@ -397,9 +397,9 @@ void TilinMuokkausDialog::alustaOhjeet()
     for( QString kieli : kp()->asetukset()->kielet()) {
         QPlainTextEdit* edit = new QPlainTextEdit;
         if( tili_ ) {
-            edit->setPlainText( tili_->ohjeKaannos(kieli) );
-            edit->setProperty("Kielikoodi", kieli);
+            edit->setPlainText( tili_->ohjeKaannos(kieli) );            
         }
+        edit->setProperty("Kielikoodi", kieli);
         ui->ohjeTabs->addTab(edit,lippu(kieli),kp()->asetukset()->kieli(kieli));
     }
 }

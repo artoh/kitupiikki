@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,25 +14,22 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef KPVIITEEDIT_H
+#define KPVIITEEDIT_H
 
-#ifndef VIITEVALIDATOR_H
-#define VIITEVALIDATOR_H
+#include <QLineEdit>
 
-#include <QValidator>
+class ViiteValidator;
 
-/**
- * @brief Validoi suomalaisen ja RF-viitenumeron
- */
-class ViiteValidator : public QValidator
+class KpViiteEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    ViiteValidator(QObject* parent = nullptr);
+    KpViiteEdit(QWidget* parent = nullptr);
+protected:
+    void paintEvent(QPaintEvent *event) override;
 
-    State validate(QString &input, int &pos) const override;
-
-    static State kelpo(const QString& input);
-    static bool kelpaako(const QString &input);
+    ViiteValidator* validator_;
 };
 
-#endif // VIITEVALIDATOR_H
+#endif // KPVIITEEDIT_H

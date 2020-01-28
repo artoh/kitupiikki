@@ -35,7 +35,7 @@ public:
     QVariantMap eraMap() const;
 
 public slots:
-    void lataa(int tili);
+    void lataa(int tili, int asiakas=0);
     void valitse(int eraid);
 
 signals:
@@ -51,6 +51,7 @@ private:
     QVariantList data_;
     bool latauksessa_ = false;
     int tili_ = 0;
+    int asiakas_ = 0;
 
 };
 

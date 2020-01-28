@@ -21,9 +21,17 @@
 #include "model/tosite.h"
 #include "db/tositetyyppimodel.h"
 
-TulomenoRivi::TulomenoRivi()
-{
 
+TulomenoRivi::TulomenoRivi(int tili)
+{
+    if( tili ) {
+        Tili* tilini = kp()->tilit()->tili(tili);
+        if( tilini ) {
+            alvkoodi_ = tilini->luku("alvlaji");
+            veroprosentti_ = tilini->luku("alvprosentti");
+            poistoaika_ = tilini->luku("menojaannospoisto");
+        }
+    }
 }
 
 TulomenoRivi::TulomenoRivi(const QVariantMap &data)

@@ -491,8 +491,8 @@ int TositeRoute::kumppaniMapista(QVariantMap &map)
     if( kumppaniCache_.contains(nimi))
         return kumppaniCache_.value(nimi);
 
-    // Kumppani pitää lisätä
     QSqlQuery kumppaniKysely( db() );
+    // Kumppani pitää lisätä
     int id = KumppanitRoute::kumppaninLisays(kumppani, kumppaniKysely) ;
     if( id ) {
         kumppaniCache_.insert(nimi, id);

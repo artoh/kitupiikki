@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>925</width>
-    <height>1383</height>
+    <width>706</width>
+    <height>1040</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,6 +55,18 @@
      </item>
      <item row="2" column="1">
       <widget class="QListWidget" name="nimiList">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>120</height>
+        </size>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::AllEditTriggers</set>
        </property>
