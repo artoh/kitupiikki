@@ -74,7 +74,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
                              "WHERE Vienti.tyyppi=%1 AND "
                              "Vienti.Viite='%2' AND Tosite.tila >= 100")
                      .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
-                     .arg(rivi.value("viite").toString()));
+                     .arg(viite));
         if( kysely.next()) {
            rivi.insert("saajamaksajaid", kysely.value(2));
            rivi.insert("saajamaksaja", kysely.value(3));
@@ -108,7 +108,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
         QVariantMap era;
 
         // Yritetään löytää tähän kumppaniin liitetty oikean suuruinen erä
-        kysely.exec( QString("SELECT id, tosite.pvm, tili, tunniste, sarja FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.tyyppi=%1 AND "
+        kysely.exec( QString("SELECT Vienti.id, tosite.pvm, tili, tunniste, sarja FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.tyyppi=%1 AND "
                              "kumppani=%2 AND debetsnt=%3 AND pvm<'%4'")
                      .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
                      .arg(kumppani.first)
@@ -176,9 +176,6 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
             return;
         }
 
-
-       rivi.insert("tili", kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero());
-       return;
     }
 
     // Pankkimaksut
@@ -248,7 +245,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
             return;
         }
 
-        // 3) Viimeisenä toivona etsitään sopivaa tulotiliä ;)
+        // 3) Viimeisenä toivona etsitään sopivaa menotiliä ;)
 
         kysely.exec(QString("SELECT tili FROM Vienti WHERE tyyppi=%1 AND kumppani=%2 GROUP BY tili ORDER BY count(tili) LIMIT 1")
                     .arg(TositeVienti::OSTO + TositeVienti::KIRJAUS).arg(kumppani.first));

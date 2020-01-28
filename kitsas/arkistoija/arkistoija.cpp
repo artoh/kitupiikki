@@ -51,6 +51,7 @@ Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
 void Arkistoija::arkistoi()
 {
     if( luoHakemistot() ) {
+        raporttilaskuri_ = 6;
         arkistoiTositteet();
         arkistoiRaportit();
     }
@@ -115,7 +116,6 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    raporttilaskuri_ = 6;
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
@@ -176,8 +176,8 @@ void Arkistoija::arkistoiTilinpaatos()
     KpKysely *kysely = kpk( QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)) );
 
     connect( kysely, &KpKysely::vastaus, [this] (QVariant* data)
-        { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; });
-    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; });
+        { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; this->arkistoiSeuraava();});
+    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; this->arkistoiSeuraava();});
 
     kysely->kysy();
 }

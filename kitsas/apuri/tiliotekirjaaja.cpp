@@ -142,8 +142,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 
 void TilioteKirjaaja::accept()
 {
-    if( ui->okNappi->isEnabled() ) {
-        ui->okNappi->setEnabled(false);
+    if( ui->okNappi->isEnabled() ) {        
         if( muokattavaRivi_ > -1) {
             apuri()->model()->muokkaaRivi( muokattavaRivi_, rivi());
             QDialog::accept();
@@ -260,7 +259,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 }
 
 void TilioteKirjaaja::euroMuuttuu()
-{
+{   
    ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0 );
 }
 

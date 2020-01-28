@@ -34,9 +34,6 @@ public slots:
     void esikatsele() override;
 
 protected:
-    static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
-
-
     Ui::Paivakirja *ui;
 };
 

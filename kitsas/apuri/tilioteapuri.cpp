@@ -56,6 +56,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
     ui->oteView->installEventFilter(this);
 
+    ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TilioteApuri::lisaaRivi);
@@ -75,7 +76,6 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
 
-    ui->tiliCombo->suodataTyypilla("ARP");
 
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);

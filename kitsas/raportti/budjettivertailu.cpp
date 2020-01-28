@@ -31,6 +31,8 @@ Budjettivertailu::Budjettivertailu() :
     ui->kausiCombo->setModel(kp()->tilikaudet());
     ui->kausiCombo->setModelColumn(TilikausiModel::KAUSI);
     ui->kausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() ) );
+    if( ui->kausiCombo->currentIndex() < 0)
+        ui->kausiCombo->setCurrentIndex( ui->kausiCombo->count() - 1 );
 
     if( kp()->kohdennukset()->kohdennuksia())
     {

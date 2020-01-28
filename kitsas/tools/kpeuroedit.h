@@ -41,6 +41,7 @@ public slots:
     void setCents(qlonglong cents);
     void setValue(double euros);
     void setMiinus(bool miinus);
+    void clear();
 
 protected slots:
     void edited(const QString& newtext);

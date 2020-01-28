@@ -71,8 +71,11 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         // Tilikauden päivitys
         kysely.exec(QString("SELECT MAX(aika) FROM Tositeloki JOIN Tosite ON Tositeloki.tosite=Tosite.id "
                             "WHERE Tosite.pvm BETWEEN '%1' AND '%2'").arg(map.value("alkaa").toString()).arg(map.value("loppuu").toString()) );
-        if( kysely.next())
-            map.insert("paivitetty", kysely.value(0));
+        if( kysely.next()) {
+            QDateTime paivitetty = kysely.value(0).toDateTime();
+            paivitetty.setTimeSpec(Qt::UTC);
+            map.insert("paivitetty", paivitetty.toLocalTime());
+        }
 
         list[i] = map;
     }

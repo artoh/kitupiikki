@@ -91,7 +91,7 @@
      <item>
       <widget class="QPushButton" name="lisaaRiviNappi">
        <property name="text">
-        <string>Kirjaa tilitapahtumia...</string>
+        <string>&amp;Kirjaa tilitapahtumia...</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -105,7 +105,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Muokkaa..</string>
+        <string>&amp;Muokkaa..</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -116,7 +116,7 @@
      <item>
       <widget class="QPushButton" name="lisaaTyhjaBtn">
        <property name="text">
-        <string>Lisää tyhjä rivi</string>
+        <string>Lisää &amp;tyhjä rivi</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">

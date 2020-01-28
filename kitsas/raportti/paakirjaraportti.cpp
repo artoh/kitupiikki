@@ -26,6 +26,7 @@
 #include "raportinkirjoittaja.h"
 
 #include "paakirja.h"
+#include "tools/tulkki.h"
 
 PaakirjaRaportti::PaakirjaRaportti()
     : RaporttiWidget(nullptr)
@@ -53,6 +54,8 @@ PaakirjaRaportti::PaakirjaRaportti()
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     haeTilitComboon();
+
+    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 

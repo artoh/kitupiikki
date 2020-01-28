@@ -21,6 +21,8 @@
 #include "tositeluetteloraportti.h"
 #include "tositeluettelo.h"
 
+#include "tools/tulkki.h"
+
 TositeluetteloRaportti::TositeluetteloRaportti()
     : RaporttiWidget(nullptr)
 {
@@ -44,6 +46,8 @@ TositeluetteloRaportti::TositeluetteloRaportti()
     ui->ryhmittelelajeittainCheck->setChecked(true);
     ui->tositejarjestysRadio->setChecked(true);
     ui->tulostakohdennuksetCheck->setEnabled(false);
+
+    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 
@@ -64,12 +68,4 @@ void TositeluetteloRaportti::esikatsele()
                        optiot);
 }
 
-void TositeluetteloRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
-{
-    RaporttiRivi rivi(RaporttiRivi::EICSV);
-    rivi.lisaa("Yhteensä", sarakeleveys );
-    rivi.lisaa( debet );
-    rivi.lisaa( kredit );
-    rivi.viivaYlle(true);
-    rk.lisaaRivi(rivi);
-}
+

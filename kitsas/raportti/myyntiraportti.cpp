@@ -27,6 +27,8 @@ MyyntiRaportti::MyyntiRaportti()
     ui->setupUi( raporttiWidget );
 
     Tilikausi kausi = kp()->tilikausiPaivalle( kp()->paivamaara() );
+    if( !kausi.alkaa().isValid())
+        kausi = kp()->tilikaudet()->tilikausiIndeksilla(kp()->tilikaudet()->rowCount()-1);
 
     ui->alkaa->setDate(kausi.alkaa());
     ui->paattyy->setDate(kausi.paattyy());

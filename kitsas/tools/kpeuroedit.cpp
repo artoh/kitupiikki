@@ -36,6 +36,17 @@ KpEuroEdit::KpEuroEdit(QWidget *parent) :
     connect(this, &KpEuroEdit::textEdited, this, &KpEuroEdit::edited);
 }
 
+void KpEuroEdit::clear()
+{
+    // Kun tyhjennetään, säilyy miinustieto, jotta
+    // tiliotekirjaajan ylälehti ei vaihdu villisti ;)
+    cents_ = 0;
+    QString etumerkki = miinus_ ? "−" : "" ;
+    setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
+    setClearButtonEnabled( false );
+
+}
+
 void KpEuroEdit::setCents(qlonglong cents)
 {
     cents_ = qAbs(cents);
