@@ -124,7 +124,7 @@
       {
         "fi": "Liikevoitto/tappio",
         "sv": "Rörelsevinst/förlust",
-        "L": "=",
+        "L": "3..8 S",
         "M": "bold",
         "V": 1
       },
@@ -178,7 +178,7 @@
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
         "sv": "Vinst/förlust före bokslutsdispositioner ock skatter",
-        "L": "=",
+        "L": "3..97 S",
         "M": "bold",
         "V": 1
       },
@@ -221,7 +221,7 @@
       {
         "fi": "Tilikauden voitto/tappio",
         "sv": "Räkenskapsperiodens vinst/förlust",
-        "L": "= S",
+        "L": "3..9 S",
         "M": "bold",
         "V": 1
       }

@@ -9066,7 +9066,8 @@
   "nimi": {
    "fi": "Ennakkoverot"
   },
-  "laajuus": 3
+  "laajuus": 1,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9910,
@@ -9074,7 +9075,8 @@
   "nimi": {
    "fi": "Ennakonpidätys työkorvauksista"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9920,
@@ -9082,7 +9084,8 @@
   "nimi": {
    "fi": "Veronhyvitys osingoista"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9930,
@@ -9090,7 +9093,8 @@
   "nimi": {
    "fi": "Lähdeverot"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9940,
@@ -9098,7 +9102,8 @@
   "nimi": {
    "fi": "Tilikauden verojaksotus"
   },
-  "laajuus": 3
+  "laajuus": 1,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9950,
@@ -9106,7 +9111,8 @@
   "nimi": {
    "fi": "Veronpalautukset / jäännösverot"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 9960,
@@ -9114,7 +9120,8 @@
   "nimi": {
    "fi": "Muut tuloverot"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["oy","osk"]
  },
  {
   "numero": 997,
