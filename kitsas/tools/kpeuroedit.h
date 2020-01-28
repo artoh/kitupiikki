@@ -43,6 +43,9 @@ public slots:
     void setMiinus(bool miinus);
     void clear();
 
+signals:
+    void sntMuuttui(qlonglong snt);
+
 protected slots:
     void edited(const QString& newtext);
 

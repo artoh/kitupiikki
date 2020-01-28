@@ -31,7 +31,7 @@ PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     ui->setupUi(this);
 
     for( KpEuroEdit *euro : findChildren<KpEuroEdit*>() )
-        connect( euro, &KpEuroEdit::textChanged, this, &PalkkaApuri::tositteelle);
+        connect( euro, &KpEuroEdit::sntMuuttui, this, &PalkkaApuri::tositteelle);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::otsikkoMuuttui, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::pvmMuuttui, this, &PalkkaApuri::tositteelle);

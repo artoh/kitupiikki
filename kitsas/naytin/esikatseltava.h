@@ -38,8 +38,6 @@ public:
     virtual void tulosta(QPagedPaintDevice * printer) const = 0 ;
     virtual QString otsikko() const { return QString(); }
 
-protected:
-    NaytinIkkuna *ikkuna_ = nullptr;
 
 };
 

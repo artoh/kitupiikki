@@ -24,6 +24,7 @@
 #include <QPdfWriter>
 #include <QApplication>
 
+
 Esikatseltava::Esikatseltava()
 {
 
@@ -35,13 +36,11 @@ Esikatseltava::~Esikatseltava()
 
 void Esikatseltava::esikatsele()
 {
-    if( !ikkuna_ )
-        ikkuna_ = new NaytinIkkuna;
 
-    ikkuna_->show();
-    ikkuna_->raise();
+    NaytinIkkuna *ikkuna = new NaytinIkkuna();
+    ikkuna->show();
 
-    ikkuna_->view()->esikatsele(this);
+    ikkuna->view()->esikatsele(this);
 }
 
 QByteArray Esikatseltava::pdf() const
