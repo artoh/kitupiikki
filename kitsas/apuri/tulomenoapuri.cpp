@@ -387,6 +387,8 @@ void TuloMenoApuri::veroprossaMuuttui()
     ui->verotonEdit->setCents( rivi()->netto() );
     tositteelle();
 
+    emit rivit_->dataChanged( rivit_->index(TmRivit::ALV, rivilla()),
+                              rivit_->index(TmRivit::ALV, rivilla()));
 }
 
 void TuloMenoApuri::alvVahennettavaMuuttui()

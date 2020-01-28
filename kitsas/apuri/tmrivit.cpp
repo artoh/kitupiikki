@@ -79,7 +79,7 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
             if( alv < 1e-3)
                 return QVariant();
             else
-                return QString::number(alv,'f',0);
+                return QString("%1 %").arg(alv,0,'f',0);
         }
         else if( index.column() == EUROA)
         {            
