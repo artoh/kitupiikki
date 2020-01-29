@@ -134,7 +134,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return QVariant();
     case Qt::TextColorRole:
             if( index.column() == ERAPVM )
-                if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin") > 0 )
+                if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin").toDouble() > 1e-5 )
                     return QColor(Qt::red);
             return QVariant();
     case AvoinnaRooli:
