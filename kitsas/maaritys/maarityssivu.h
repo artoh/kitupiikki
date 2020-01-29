@@ -104,14 +104,9 @@ public slots:
     MaaritysWidget *nykyWidget() { return nykyinen; }
 
 protected:
-    /**
-     * @brief Lisää sivun luetteloon
-     * @param otsikko Luettelossa oleva teksti
-     * @param sivu Sivun enum, jonka perusteella valittu sivu luodaan
-     * @param kuvake Kuvake
-     * @param tallennaPeruNapit Näytetäänkö sivulla Tallenna- ja peru-napit
-     */
-    void lisaaSivu(const QString& otsikko, Sivut sivu,
+    enum { SIVUTUNNISTE = Qt::UserRole, SIVUNNIMI = Qt::UserRole + 1, OHJEOSOITE = Qt::UserRole+2};
+
+    void lisaaSivu(const QString& otsikko, Sivut sivu, const QString& ohjesivu,
                    const QIcon& kuvake = QIcon(), const QString &nimi = QString());
 
     QListWidgetItem *item(const QString nimi);

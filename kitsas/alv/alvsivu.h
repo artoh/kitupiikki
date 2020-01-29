@@ -40,6 +40,8 @@ public:
 
     void siirrySivulle() override;
 
+    QString ohjeSivunNimi() override { return "alv";}
+
 public slots:
     void paivitaLoppu();
     void paivitaErapaiva();

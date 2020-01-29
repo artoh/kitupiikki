@@ -64,6 +64,7 @@ KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
     connect( ui->kustannuspaikkaRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
     connect( ui->projektiRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
     connect( ui->tagRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/kohdennukset");});
 }
 
 KohdennusDialog::~KohdennusDialog()

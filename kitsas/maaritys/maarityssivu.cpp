@@ -51,22 +51,22 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu(tr("Näyttöfontti"), ULKOASU, QIcon(":/pic/teksti.png"));
-    lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, QIcon(":/pic/asetusloota.png"),"perus");
-    lisaaSivu(tr("Tililuettelo"), TILIKARTTA, QIcon(":/pic/valilehdet.png"), "tilit");
-    lisaaSivu(tr("Kohdennukset"), KOHDENNUS, QIcon(":/pic/kohdennus.png"), "kohdennukset");
-    lisaaSivu(tr("Tilinavaus"), TILINAVAUS, QIcon(":/pic/rahaa.png"), "tilinavaus");
-    lisaaSivu(tr("Laskutus"), LASKUTUS, QIcon(":/pic/lasku.png"));
-    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, QIcon(":/pic/kateinen.png"), "maksutavat");
-    lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, QIcon(":/pic/arkisto64.png"),"tositesarjat");
-    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
+    lisaaSivu(tr("Näyttöfontti"), ULKOASU, "", QIcon(":/pic/teksti.png"));
+    lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
+    lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
+    lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
+    lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "maaritykset/tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
+    lisaaSivu(tr("Laskutus"), LASKUTUS, "maaritykset/laskutus", QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maaritykset/maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
+    lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
+    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
 //    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
-    lisaaSivu("Verojen maksu", VERO, QIcon(":/pic/vero.png"),"vero");
-    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
-    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
-    lisaaSivu("Tilikartan päivitys", PAIVITYS, QIcon(":/pic/paivita.png"),"paivita");
+    lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
+    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu("Tilikartan päivitys", PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");
 
 
 
@@ -130,8 +130,8 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
 
 QString MaaritysSivu::ohjeSivunNimi()
 {
-    if( nykyinen )
-        return nykyinen->ohjesivu();
+    if( nykyItem )
+        return nykyItem->data(OHJEOSOITE).toString();
     return QString();
 }
 
@@ -263,13 +263,16 @@ void MaaritysSivu::paivitaNakyvat()
 }
 
 
-void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake, const QString& nimi)
+void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QString &ohjesivu, const QIcon &kuvake, const QString& nimi)
 {
     QListWidgetItem *item = new QListWidgetItem();
     item->setText( otsikko );
     item->setIcon(kuvake);
-    item->setData( Qt::UserRole, QVariant(sivu));
-    item->setData( Qt::UserRole + 1, nimi.isEmpty() ? otsikko : nimi);
+    item->setData( SIVUTUNNISTE, QVariant(sivu));
+    item->setData( SIVUNNIMI, nimi.isEmpty() ? otsikko : nimi);
+    item->setData( OHJEOSOITE, ohjesivu );
+
+
     lista->addItem( item);
 }
 

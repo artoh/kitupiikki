@@ -40,6 +40,7 @@ Poistaja::Poistaja(QWidget *parent) :
     ui(new Ui::Poistaja)
 {
     ui->setupUi(this);
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/poistot");});
 }
 
 Poistaja::~Poistaja()

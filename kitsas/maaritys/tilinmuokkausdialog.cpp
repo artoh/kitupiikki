@@ -57,6 +57,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     connect( ui->ibanLine, SIGNAL(textEdited(QString) ), this, SLOT( ibanCheck()) );
     connect( ui->numeroEdit, &QLineEdit::textEdited, this, &TilinMuokkausDialog::numeroCheck);
 
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilikartta");});
 
     if( tila == UUSITILI || tila == UUSIOTSIKKO ) {
 

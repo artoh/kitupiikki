@@ -66,6 +66,9 @@ UusiVelho::UusiVelho()
     loppusivu->setTitle( tr("Valmis"));
     addPage( loppusivu );
 
+    setOption(HaveHelpButton, true);
+    connect(this, &UusiVelho::helpRequested, [] { kp()->ohje("aloitus/uusi"); });
+
 }
 
 void UusiVelho::lataaKartta(const QString &polku)

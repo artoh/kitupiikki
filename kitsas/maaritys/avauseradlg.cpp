@@ -43,6 +43,8 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
 
     connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
     connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilinavaus"); });
 }
 
 AvausEraDlg::~AvausEraDlg()

@@ -38,6 +38,8 @@ RaportinmuokkausDialogi::~RaportinmuokkausDialogi()
     delete ui;
 }
 
+
+
 QVariantMap RaportinmuokkausDialogi::muokkaa(const QVariantMap &data)
 {
     RaportinmuokkausDialogi dlg;
@@ -47,6 +49,17 @@ QVariantMap RaportinmuokkausDialogi::muokkaa(const QVariantMap &data)
         return dlg.data();
 
     return data;
+}
+
+QVariantMap RaportinmuokkausDialogi::uusi()
+{
+    RaportinmuokkausDialogi dlg;
+    dlg.alustaKielet();
+
+    if( dlg.exec() == Accepted )
+        return dlg.data();
+
+    return QVariantMap();
 }
 
 void RaportinmuokkausDialogi::lataa(const QVariantMap &data)
@@ -79,6 +92,12 @@ void RaportinmuokkausDialogi::lataa(const QVariantMap &data)
 
     kaava.remove(QRegularExpression("[*hHsS=]"));
     ui->tilitEdit->setText(kaava.simplified());
+}
+
+void RaportinmuokkausDialogi::alustaKielet()
+{
+    KieliKentta kk;
+    kk.alustaListWidget(ui->nimike);
 }
 
 QVariantMap RaportinmuokkausDialogi::data() const

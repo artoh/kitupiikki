@@ -45,7 +45,7 @@ public:
 
     void siirrySivulle() override;
 
-    QString ohjeSivunNimi() override { return "tilikaudet/tilikaudet"; }
+    QString ohjeSivunNimi() override { return "tilikaudet/"; }
 
 public slots:
     static void uusiTilikausi();

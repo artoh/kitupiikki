@@ -89,6 +89,7 @@ private:
 
     QVariantMap vastakirjaus(const QDate &pvm, const QString& otsikko) const;
     void alustaMaksutavat();
+    void ohje();
 
 
 private:

@@ -33,6 +33,9 @@ Jaksottaja::Jaksottaja(QWidget *parent)
       ui(new Ui::Poistaja)
 {
     ui->setupUi(this);
+    ui->otsakeLabel->setText( tr("Vahvista tilinpäätösjaksotukset"));
+    setWindowTitle(tr("Tilinpäätösjaksotukset"));
+    connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/jaksotukset"); });
 }
 
 Jaksottaja::~Jaksottaja()
@@ -44,7 +47,6 @@ bool Jaksottaja::teeJaksotukset(const Tilikausi &kausi, const QVariantList &jaks
 {
     qlonglong verovelkasentit = qRound64(verovelka * 100.0);
 
-    ui->otsakeLabel->setText( tr("Vahvista tilinpäätösjaksotukset"));
     RaportinKirjoittaja selvitys = jaksotusSelvitys(kausi, jaksotukset, verovelkasentit);
     ui->browser->setHtml( selvitys.html());
 

@@ -32,6 +32,9 @@
             <property name="text">
              <string>Summa</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="0" colspan="2">
@@ -59,6 +62,9 @@
            <widget class="QCheckBox" name="laskevalisummaanCheck">
             <property name="text">
              <string>Laske välisummaan</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -162,7 +168,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

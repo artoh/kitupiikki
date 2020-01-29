@@ -37,6 +37,7 @@ AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     ui(new Ui::AlvIlmoitusDialog)
 {
     ui->setupUi(this);
+    connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("alv/tilitys");});
 }
 
 AlvIlmoitusDialog::~AlvIlmoitusDialog()

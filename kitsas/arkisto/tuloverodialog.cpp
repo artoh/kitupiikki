@@ -41,6 +41,7 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/tulovero");});
 
     setAttribute(Qt::WA_DeleteOnClose);
 }

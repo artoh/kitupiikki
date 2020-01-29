@@ -128,7 +128,7 @@ void TpAloitus::lataaTiedosto()
 
 void TpAloitus::ohje()
 {
-    kp()->ohje("tilikaudet/tilinpaatos");
+    kp()->ohje("tilinpaatos/asiakirja");
 }
 
 void TpAloitus::tallennaHenkilosto(int maara)

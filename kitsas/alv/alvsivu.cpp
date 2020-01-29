@@ -191,7 +191,7 @@ void AlvSivu::maksuAlv()
     ui.paattyyDate->setEnabled( kp()->asetukset()->onko("MaksuAlvLoppuu"));
     ui.paattyyDate->setDate( loppuu );
 
-    connect( ui.ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("alv");} );
+    connect( ui.ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("alv/maksuperusteinen");} );
 
     if( dlg.exec() == QDialog::Accepted)
     {

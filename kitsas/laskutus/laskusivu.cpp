@@ -79,8 +79,10 @@ QString LaskuSivu::ohjeSivunNimi()
             return "laskutus/ostot";
         case REKISTERI:
             return "laskutus/rekisteri";
+        case TUOTTEET:
+            return "laskutus/tuotteet";
         default:
-            return "laskutus/myynti";
+            return "laskutus/myynnit";
     }
 
 }

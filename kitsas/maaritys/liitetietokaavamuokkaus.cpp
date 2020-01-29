@@ -77,12 +77,15 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
     QDialog dlg;
     Ui::LisaaRaportti dlgUi;
     dlgUi.setupUi(&dlg);
+    connect(dlgUi.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilinpaatos");});
 
     // Lisätään raportit dialogiin
-    foreach (QString nimi, kp()->asetukset()->avaimet("Raportti/") )
+    foreach (QString nimi, kp()->asetukset()->avaimet("tase/") )
     {
-        dlgUi.rapottiCombo->addItem( nimi.mid(9) );
+        dlgUi.rapottiCombo->addItem( nimi );
     }
+    for( auto nimi : kp()->asetukset()->avaimet("tulos/"))
+        dlgUi.rapottiCombo->addItem( nimi );
 
     if( dlg.exec() )
     {

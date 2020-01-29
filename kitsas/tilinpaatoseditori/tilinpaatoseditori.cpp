@@ -261,5 +261,5 @@ void TilinpaatosEditori::valmis()
 
 void TilinpaatosEditori::ohje()
 {
-    kp()->ohje("tilikaudet/tilinpaatos");
+    kp()->ohje("tilinpaatos/asiakirja");
 }

@@ -38,6 +38,8 @@ RaportinMuokkaus::RaportinMuokkaus(QWidget *parent)
     connect(ui->raporttiCombo, &QComboBox::currentTextChanged, this, &RaportinMuokkaus::lataa);
     connect(ui->nimikeNappi, &QPushButton::clicked, this, &RaportinMuokkaus::muokkaaNimikkeet);
     connect(ui->muokkaaNappi, &QPushButton::clicked, this, &RaportinMuokkaus::muokkaa);
+    connect( ui->lisaaEnnenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaEnnen);
+    connect( ui->lisaaJalkeenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaJalkeen);
     connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &RaportinMuokkaus::paivitaNapit);
 
 }
@@ -118,21 +120,27 @@ void RaportinMuokkaus::ilmoitaMuokattu()
 void RaportinMuokkaus::lisaaEnnen()
 {
     QModelIndex index = ui->view->currentIndex();
-    if( index.isValid())
-        model_->lisaaRivi(index.row(), RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
-    else
-        model_->lisaaRivi(0, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
-    ilmoitaMuokattu();
+    QVariantMap data = RaportinmuokkausDialogi::uusi();
+    if( !data.isEmpty()) {
+        if( index.isValid())
+            model_->lisaaRivi(index.row(), data);
+        else
+            model_->lisaaRivi(0, data );
+        ilmoitaMuokattu();
+    }
 }
 
 void RaportinMuokkaus::lisaaJalkeen()
 {
-    QModelIndex index = ui->view->currentIndex();
-    if( index.isValid())
-        model_->lisaaRivi(index.row() + 1, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
-    else
-        model_->lisaaRivi(0, RaportinmuokkausDialogi::muokkaa(index.data(Qt::EditRole).toMap()) );
-    ilmoitaMuokattu();
+    QModelIndex index = ui->view->currentIndex();    
+    QVariantMap data = RaportinmuokkausDialogi::uusi();
+    if( !data.isEmpty()) {
+        if( index.isValid())
+            model_->lisaaRivi(index.row() + 1,data );
+        else
+            model_->lisaaRivi(0, data );
+        ilmoitaMuokattu();
+    }
 }
 
 void RaportinMuokkaus::poista()

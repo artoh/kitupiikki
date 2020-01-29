@@ -33,8 +33,10 @@ public:
     ~RaportinmuokkausDialogi();
 
     static QVariantMap muokkaa(const QVariantMap& data);
+    static QVariantMap uusi();
 
     void lataa(const QVariantMap& data);
+    void alustaKielet();
     QVariantMap data() const;
 
 

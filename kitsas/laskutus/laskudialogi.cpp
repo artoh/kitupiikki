@@ -110,6 +110,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
 
     connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
     connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &LaskuDialogi::maksuTapaMuuttui);
+    connect( ui->ohjeNappi, &QPushButton::clicked, this, &LaskuDialogi::ohje);
 
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
@@ -518,6 +519,20 @@ void LaskuDialogi::alustaMaksutavat()
         ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), SUORITEPERUSTE);
     }
+}
+
+void LaskuDialogi::ohje()
+{
+    if( ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU )
+        kp()->ohje("laskutus/ennakko");
+    else if( tyyppi_ == TositeTyyppi::HYVITYSLASKU )
+        kp()->ohje("laskutus/hyvitys");
+    else if( tyyppi_ == TositeTyyppi::MAKSUMUISTUTUS )
+        kp()->ohje("laskutus/muistutus");
+    else if( ryhmalasku_ )
+        kp()->ohje("laskutus/ryhmalasku");
+    else
+        kp()->ohje("laskutus/uusi");
 }
 
 void LaskuDialogi::tallenna(Tosite::Tila moodi)
