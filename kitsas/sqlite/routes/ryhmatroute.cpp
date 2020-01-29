@@ -75,6 +75,6 @@ QVariant RyhmatRoute::put(const QString &polku, const QVariant &data)
 QVariant RyhmatRoute::doDelete(const QString &polku)
 {
     QSqlQuery kysely(db());
-    kysely.exec(QString("DELETE FROM Kumppani WHERE id=%1").arg(polku.toInt()));
+    kysely.exec(QString("DELETE FROM Ryhma WHERE id=%1").arg(polku.toInt()));
     return QVariant();
 }
