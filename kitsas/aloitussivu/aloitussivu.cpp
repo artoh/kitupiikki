@@ -35,6 +35,7 @@
 #include <QDialog>
 #include <QDebug>
 
+
 #include <QSettings>
 #include <QSysInfo>
 
@@ -59,6 +60,8 @@
 
 #include "tilaus/tilauswizard.h"
 #include "versio.h"
+
+#include <QSslError>
 
 AloitusSivu::AloitusSivu(QWidget *parent) :
     KitupiikkiSivu(parent)
@@ -472,6 +475,7 @@ void AloitusSivu::validoiEmail()
         connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
         connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
             [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
+        connect( reply, &QNetworkReply::sslErrors, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
 
     } else {
      validoiLoginTiedot();

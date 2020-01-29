@@ -25,6 +25,7 @@
 #include <QJsonObject>
 #include <QSettings>
 #include <QMessageBox>
+#include <QSslSocket>
 
 #include <QDebug>
 #include <QTimer>
@@ -35,6 +36,8 @@ PilviModel::PilviModel(QObject *parent) :
 {
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
+
+    qDebug() << "Sertifikaatti " << QSslSocket::addDefaultCaCertificates(":/aloitus/kitsas.crt");
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -82,7 +85,7 @@ int PilviModel::omatPilvet() const
 
 QString PilviModel::pilviLoginOsoite()
 {
-    return "http://localhost:5665/api";
+    return "https://192.168.1.200/api";
 }
 
 void PilviModel::uusiPilvi(const QVariant &initials)
