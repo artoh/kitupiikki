@@ -63,6 +63,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_3">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 0, 0);</string>
+        </property>
+        <property name="text">
+         <string>Testikäyttöön. Tilikartta on testattu puutteellisesti</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QRadioButton" name="yhdistysButton">
         <property name="font">
          <font>

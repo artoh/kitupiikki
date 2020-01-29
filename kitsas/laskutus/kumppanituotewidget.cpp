@@ -167,7 +167,7 @@ void KumppaniTuoteWidget::poista()
         if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {
             int ryhmaid = ui->view->currentIndex().data(RyhmatModel::IdRooli).toInt();
             KpKysely *kysely = kpk(QString("/ryhmat/%1").arg(ryhmaid), KpKysely::DELETE );
-            connect( kysely, &KpKysely::vastaus, this, &KumppaniTuoteWidget::paivita);
+            connect( kysely, &KpKysely::vastaus, kp()->ryhmat(), &RyhmatModel::paivita);
             kysely->kysy();
         }
     } else {
