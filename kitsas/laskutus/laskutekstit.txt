@@ -138,10 +138,10 @@ aiempisaldo Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 �
 SVaiempisaldo Obetalada antal om fakturor med följande uppräkning är %L1 €
 ENaiempisaldo The total unpayed amount of invoices detailed below is %L1 €
 veroton veroton
-ENveroton netto
+ENveroton net
 SVveroton netto
 verollinen verollinen
-ENverollinen brutto
+ENverollinen gross
 SVverollinen brutto
 nimike nimike
 SVnimike produkt
