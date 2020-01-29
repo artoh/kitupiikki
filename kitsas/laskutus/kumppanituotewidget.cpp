@@ -41,6 +41,7 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
 
     proxy_->setDynamicSortFilter(true);
     proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxy_->setSortRole(Qt::EditRole);
     ui->view->setSortingEnabled(true);
     ui->view->setModel(proxy_);
 

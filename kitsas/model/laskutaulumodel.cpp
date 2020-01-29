@@ -78,9 +78,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
             case NUMERO:
-                if( map.contains("numero"))
+                if( map.contains("numero")) {
+                    if( role == Qt::EditRole)
+                        return QString(" %1").arg(map.value("numero").toInt(),20,10);
                     return map.value("numero");
-                else if(map.contains("viite"))
+                } else if(map.contains("viite"))
                     return map.value("viite");
                 else
                     return kp()->tositeTyypit()->nimi(map.value("tyyppi").toInt());
@@ -108,8 +110,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     else
                         return QVariant();  // Nollalle tyhjää
                 }
-                else
+                else {
                     return map.value("avoin").toDouble();
+                }
             case LAHETYSTAPA:
             {
                 return ToimitustapaDelegaatti::toimitustapa(map.value("laskutapa").toInt());

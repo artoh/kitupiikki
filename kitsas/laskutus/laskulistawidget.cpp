@@ -50,6 +50,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     laskuViiteProxy_->setSourceModel( laskuAsiakasProxy_ );
     vainLaskuProxy_->setSourceModel( laskuViiteProxy_);
     vainLaskuProxy_->setFilterRole(LaskuTauluModel::TyyppiRooli);
+    vainLaskuProxy_->setSortRole(Qt::EditRole);
     ui->view->setModel( vainLaskuProxy_ );
 
     connect( ui->viiteEdit, &QLineEdit::textEdited,
