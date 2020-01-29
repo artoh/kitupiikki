@@ -152,8 +152,11 @@ void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int ind
     QVariantMap lasku = data.value("lasku").toMap();
     QVariantMap kumppaniMap;
 
+    kumppaniMap.insert("id", laskutettava.kumppaniId);
+
+
     if( laskutettava.kumppaniId)
-        data.insert("kumppani", laskutettava.kumppaniId);
+        data.insert("kumppani", kumppaniMap);
 
     lasku.insert("osoite", laskutettava.osoite);
     if( !laskutettava.alvtunnus.isEmpty())
@@ -169,7 +172,7 @@ void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int ind
     QVariantList uusiviennit;
     for(auto item : viennit) {
         QVariantMap map = item.toMap();
-        map.insert("kumppani",laskutettava.kumppaniId);
+        map.insert("kumppani",kumppaniMap);
         uusiviennit.append(map);
     }
     data.insert("viennit", uusiviennit);
