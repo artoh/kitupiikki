@@ -71,7 +71,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
     tyhjenna();
 
-    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
 
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->merkkausCC, &CheckCombo::haeMerkkaukset);
