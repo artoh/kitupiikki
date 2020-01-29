@@ -165,26 +165,35 @@ void TilinpaatosEditori::uusiTp()
 
 void TilinpaatosEditori::lataa()
 {
-    QString data = tilikausi_.str("tilinpaatosteksti");
-    if( data.isEmpty())
-    {
-        if(!aloitaAlusta())
-        {
-            // Ei päästy edes alkuun!
+    KpKysely* haku = kpk(QString("/liitteet/0/TPTEKSTI_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)));
+    connect( haku, &KpKysely::vastaus, this, &TilinpaatosEditori::tekstiSaapuu);
+    connect( haku, &KpKysely::virhe, this, &TilinpaatosEditori::eitekstia);
+    haku->kysy();
+}
+
+void TilinpaatosEditori::tekstiSaapuu(QVariant *data)
+{
+    QString teksti = QString::fromUtf8(data->toByteArray());
+
+    raportit_ = teksti.left( teksti.indexOf("\n")).split(" ");
+    editori_->setText( teksti.mid(teksti.indexOf("\n")+1));
+}
+
+void TilinpaatosEditori::eitekstia(int virhe)
+{
+    if( virhe == 404) {
+        if( !aloitaAlusta()) {
             close();
         }
-    }
-    else
-    {
-        raportit_ = data.left( data.indexOf("\n")).split(" ");
-        editori_->setText( data.mid(data.indexOf("\n")+1));
+    } else {
+        QMessageBox::critical(this, tr("Tilinpäätöstekstin lataaminen"), tr("Tilinpäätöstekstin lataaminen epäonnistui"));
     }
 }
 
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
-    if( teksti != tilikausi_.str("tilinpaatosteksti"))
+    if( teksti != kp()->asetukset()->asetus("tilinpaatos/" + tilikausi_.paattyy().toString(Qt::ISODate)))
     {
         QMessageBox::StandardButton vastaus =
                 QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
@@ -239,9 +248,17 @@ bool TilinpaatosEditori::aloitaAlusta()
 }
 
 void TilinpaatosEditori::tallenna()
-{
+{    
+
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
-    tilikausi_.set("tilinpaatosteksti", teksti);
+
+    KpKysely *tallennus = kpk(QString("/liitteet/0/TPTEKSTI_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+    QMap<QString,QString> meta;
+    meta.insert("Content-type","text/plain");
+    meta.insert("Filename",tilikausi_.arkistoHakemistoNimi() + ".txt");
+    tallennus->lahetaTiedosto(teksti.toUtf8(),meta);
+
+    kp()->asetukset()->aseta("tilinpaatos/" + tilikausi_.paattyy().toString(Qt::ISODate), teksti);
     tilikausi_.set("tilinpaatos", QDateTime::currentDateTime());
     tilikausi_.tallenna();
 

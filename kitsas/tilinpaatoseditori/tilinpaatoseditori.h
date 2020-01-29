@@ -62,6 +62,8 @@ protected:
 
     void uusiTp();
     void lataa();
+    void tekstiSaapuu(QVariant* data);
+    void eitekstia(int virhe);
 
 signals:
     void tallennettu();
