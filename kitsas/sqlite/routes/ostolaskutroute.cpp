@@ -51,9 +51,6 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
                            .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
                            .arg(Tosite::KIRJANPIDOSSA) );
 
-    if( urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append(" AND vienti.erapvm < current_date ");    
-
     if( urlquery.hasQueryItem("alkupvm"))
         kysymys.append(QString(" AND vienti.laskupvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));    
@@ -65,9 +62,14 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     if( urlquery.hasQueryItem("eraalkupvm"))
         kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
                        .arg(urlquery.queryItemValue("eraalkupvm")));
-    if( urlquery.hasQueryItem("eraloppupvm"))
-        kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+    if( urlquery.hasQueryItem("eraloppupvm")) {
+        if( urlquery.hasQueryItem("eraantynyt"))
+            kysymys.append(QString(" AND vienti.erapvm < '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
+        else
+            kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+                       .arg(urlquery.queryItemValue("eraloppupvm")));
+    }
 
     QSqlQuery kysely(db());
     kysely.exec(kysymys);

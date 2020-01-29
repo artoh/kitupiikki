@@ -63,9 +63,6 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         kysymys.append(QString(" >= %1 ").arg( Tosite::KIRJANPIDOSSA ));
     kysymys.append(") ");
 
-    if( urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append(" AND vienti.erapvm < current_date ");
-
     if( urlquery.hasQueryItem("alkupvm"))
         kysymys.append(QString(" AND vienti.laskupvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));    
@@ -76,9 +73,15 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     if( urlquery.hasQueryItem("eraalkupvm"))
         kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
                        .arg(urlquery.queryItemValue("eraalkupvm")));
-    if( urlquery.hasQueryItem("eraloppupvm"))
-        kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+
+    if( urlquery.hasQueryItem("eraloppupvm")) {
+        if( urlquery.hasQueryItem("eraantynyt"))
+            kysymys.append(QString(" AND vienti.erapvm < '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
+        else
+            kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+                       .arg(urlquery.queryItemValue("eraloppupvm")));
+    }
 
     if( urlquery.hasQueryItem("kitsaslaskut"))
         kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");

@@ -240,8 +240,10 @@ void LaskuTauluModel::paivitaNakyma()
 
     if( valinta_ == AVOIMET)
         kysely->lisaaAttribuutti("avoin",QString());
-    else if( valinta_ == ERAANTYNEET)
+    else if( valinta_ == ERAANTYNEET) {
+        kysely->lisaaAttribuutti("eraantynyt");
         kysely->lisaaAttribuutti("eraloppupvm", kp()->paivamaara() );
+    }
     else if( valinta_ == LUONNOS)
         kysely->lisaaAttribuutti("luonnos");
     else if( valinta_ == LAHETETTAVA)
