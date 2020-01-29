@@ -197,7 +197,6 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
         } else if( erittelytapa == Tili::TASEERITTELY_MUUTOKSET) {
 
-            // TODO: Edellisten tilikausien voitto/tappio: Edellisen voiton/tappion lisääminen jos halutaan (KPA ei vaadi ;)
 
             QSqlQuery apukysely( db());
             apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste "
@@ -236,5 +235,20 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
         }
 
     }
+
+    // Tulokset
+    int betili = kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero();
+    kysely.exec(QString("SELECT SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                "WHERE vienti.pvm<'%1' AND CAST (tili AS text) >= '3' AND Tosite.tila >= 100").arg(mista.toString(Qt::ISODate)));
+    if(kysely.next())
+        ulos.insert(QString("%1S").arg(betili), (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
+
+    int ttili = kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero();
+    kysely.exec(QString("SELECT SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                "WHERE vienti.pvm BETWEEN '%1' AND '%2' AND CAST (tili AS text) >= '3' AND Tosite.tila >= 100").arg(mista.toString(Qt::ISODate)).arg(pvm.toString(Qt::ISODate)));
+    if(kysely.next())
+        ulos.insert(QString("%1S").arg(ttili), (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
+
+
     return ulos;
 }

@@ -17,7 +17,9 @@
 #include "taseerittelija.h"
 #include "db/kirjanpito.h"
 
-TaseErittelija::TaseErittelija(QObject *parent) : QObject(parent)
+
+TaseErittelija::TaseErittelija(QObject *parent, const QString &kielikoodi)
+    : Raportteri(parent,kielikoodi)
 {
 
 }
@@ -68,15 +70,23 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
     QVariantMap map = data->toMap();
     QMapIterator<QString,QVariant> iter(map);
+    qlonglong yhteensa = 0;
 
     while( iter.hasNext()) {
         iter.next();
 
         if( iter.key().startsWith('2') && !vastattavaa) {
+            RaporttiRivi summaRivi;
+            summaRivi.lisaa(kaanna("VASTAAVAA YHTEENSÄ"),3);
+            summaRivi.lisaa(yhteensa);
+            rk.lisaaRivi(summaRivi);
+            rk.lisaaTyhjaRivi();
+            yhteensa = 0;
+
             RaporttiRivi otsikkoRivi;
             otsikkoRivi.lisaa("VASTATTAVAA",3);
-            otsikkoRivi.asetaKoko(14);
-            rk.lisaaRivi(otsikkoRivi);
+            otsikkoRivi.asetaKoko(14);            
+            rk.lisaaRivi(otsikkoRivi);            
             vastattavaa = true;
         }
 
@@ -88,10 +98,12 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
         if( tyyppi == 'S') {    // VAIN SALDO
             RaporttiRivi rr;
+            qlonglong saldo = qRound64(iter.value().toDouble() * 100);
             rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 3 );
-            rr.lisaa( qRound64(iter.value().toDouble() * 100), true);
+            rr.lisaa( saldo, true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
+            yhteensa += saldo;
         } else {
             qlonglong loppusaldo = 0l;
 
@@ -122,15 +134,15 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     if( eramap.value("pvm").toDate() < mista_ && map.value("ennen") != eramap.value("eur") ) {
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( tr("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")));
+                        poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")));
                         poistettuRivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ) -
-                                             qRound64( eramap.value("eur").toDouble() * 100));
+                                             qRound64( eramap.value("eur").toDouble() * 100), true);
                         rk.lisaaRivi(poistettuRivi);
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
-                        saldorivi.lisaa( tr("Jäljellä %1").arg( mista_.toString("dd.MM.yyyy")));
-                        saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ) );
+                        saldorivi.lisaa( kaanna("Jäljellä %1").arg( mista_.toString("dd.MM.yyyy")));
+                        saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ), true );
                         saldorivi.viivaYlle();
                         rk.lisaaRivi( saldorivi);
                     }
@@ -168,8 +180,8 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                 RaporttiRivi saldorivi;
                 saldorivi.lisaa(" ", 2);
-                saldorivi.lisaa( tr("Alkusaldo %1").arg( mista_.toString("dd.MM.yyyy")));
-                saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ) );
+                saldorivi.lisaa( kaanna("Alkusaldo %1").arg( mista_.toString("dd.MM.yyyy")));
+                saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ), true );
                 rk.lisaaRivi( saldorivi);
 
                 // Muutokset
@@ -216,8 +228,16 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             vikaRivi.lihavoi();
             vikaRivi.viivaYlle();
             rk.lisaaRivi( vikaRivi );
+            yhteensa += loppusaldo;
         }
         rk.lisaaRivi();
     }
+
+    RaporttiRivi summaRivi;
+    summaRivi.lisaa(kaanna("VASTATTAVAA YHTEENSÄ"),3);
+    summaRivi.lisaa(yhteensa);
+    rk.lisaaRivi(summaRivi);
+    rk.lisaaTyhjaRivi();
+
     emit valmis(rk);
 }

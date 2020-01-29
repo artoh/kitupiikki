@@ -27,7 +27,7 @@ class Paakirja : public Raportteri
 {
     Q_OBJECT
 public:
-    explicit Paakirja(QObject *parent = nullptr);
+    explicit Paakirja(QObject *parent = nullptr, const QString& kielikoodi = QString());
 
     void kirjoita(const QDate& mista, const QDate& mihin, int optiot = 0,
                   int kohdennuksella = -1,

@@ -19,13 +19,13 @@
 
 #include "raportinkirjoittaja.h"
 
-#include <QObject>
+#include "raportteri.h"
 
-class TaseErittelija : public QObject
+class TaseErittelija : public Raportteri
 {
     Q_OBJECT
 public:
-    explicit TaseErittelija(QObject *parent = nullptr);
+    explicit TaseErittelija(QObject *parent = nullptr, const QString& kielikoodi = QString());
 
     void kirjoita(const QDate &mista, const QDate& mihin);
 

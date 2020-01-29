@@ -20,7 +20,8 @@
 
 #include <QDebug>
 
-Paakirja::Paakirja(QObject *parent) : Raportteri(parent)
+Paakirja::Paakirja(QObject *parent, const QString &kielikoodi)
+    : Raportteri(parent, kielikoodi)
 {
 
 }
