@@ -488,6 +488,7 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/kayttooikeudet.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
