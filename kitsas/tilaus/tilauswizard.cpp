@@ -23,6 +23,15 @@
 #include "pilvi/pilvimodel.h"
 
 #include <QMessageBox>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+
+
+#include "validator/ytunnusvalidator.h"
+#include "rekisteri/postinumerot.h"
+#include "rekisteri/asiakastoimittajadlg.h"
+
 
 #include "ui_tilausyhteys.h"
 #include "ui_tilausvahvistus.h"
@@ -46,26 +55,28 @@ int TilausWizard::nextId() const
 
 void TilausWizard::nayta()
 {
-    KpKysely *kysely = kpk( kp()->pilvi()->pilviLoginOsoite() + "/subscription" );
-    connect( kysely, &KpKysely::vastaus, this, &TilausWizard::dataSaapuu );
-    kysely->kysy();
+    QNetworkRequest request( QUrl( kp()->pilvi()->pilviLoginOsoite() + "/subscription" ));
+    request.setRawHeader("Authorization", QString("bearer %1").arg( kp()->pilvi()->token() ).toLatin1());
+    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+    QNetworkReply *reply = kp()->networkManager()->get(request);
+    connect( reply, &QNetworkReply::finished, this, &TilausWizard::dataSaapuu);
 }
 
 QString TilausWizard::yhteenveto()
 {
-    QString txt = tr("Tilaamasi paketti: %1 \n").arg(valintaSivu_->tilaus(PlanModel::NIMI).toString());
-    if( !valintaSivu_->tilaus(PlanModel::PlanRooli).toInt())
-        txt.append( tr("Maksuton käyttäjä voi lisätä enintään 50 tositetta, eikä pääse "
-                       "hyödyntämään lisätoimintoja kuten skannattujen kuittien tekstintunnistusta."));
-    else {
-        txt.append( tr("Voit tallentaa pilveen enintään %1 kirjanpitoa.")
-                    .arg( valintaSivu_->tilaus(PlanModel::PilviaRooli ).toInt() ) );
+    QString txt = tr("Tilaamasi paketti: %1 \n\n").arg(valintaSivu_->tilaus(PlanModel::NimiRooli).toString());
+
+    txt.append(valintaSivu_->tilaus(PlanModel::InfoRooli).toString());
+
+    txt.append( tr("\nVoit tallentaa pilveen enintään %1 kirjanpitoa.")
+                    .arg( valintaSivu_->tilaus(PlanModel::PilviaRooli ).toInt() + field("lisapilvet").toInt() ) );
+    if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
 
         double hinta = valintaSivu_->tilaus(PlanModel::HintaRooli).toDouble();
 
         txt.append( tr("\n\nHinta %L1 € ").arg( hinta ,0,'f',2 ));
-        if( field("kuukausittain").toBool())
-            txt.append( tr("laskutettuna kuukausittain\n") );
+        if( field("puolivuosittain").toBool())
+            txt.append( tr("laskutettuna puolivuosittain\n") );
         else
             txt.append( tr("laskutettuna vuosittain\n"));
 
@@ -84,19 +95,29 @@ QString TilausWizard::yhteenveto()
 
         txt.append(tr("\n\nLaskun saajaksi merkitään\n"));
         txt.append( field("name").toString() + "\n");
-        txt.append( field("address").toString());
+        txt.append( field("address").toString() + "\n");
+        txt.append( field("postcode").toString() + " ");
+        txt.append( field("town").toString() + "\n");
 
         if( !field("asviite").toString().isEmpty())
-            txt.append("\n\nAsiakkaan viite: " + field("asviite").toString());
+            txt.append("\nAsiakkaan viite: " + field("asviite").toString());
     }
 
     return txt;
 
 }
 
-void TilausWizard::dataSaapuu(QVariant *data)
+void TilausWizard::dataSaapuu()
 {
-    QVariantMap map = data->toMap();
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    if( reply->error() ) {
+        qDebug() << reply->readAll();
+        QMessageBox::critical(nullptr, tr("Verkkovirhe"), tr("Tilaustietojen hakeminen palvelimelta epäonnistui"));
+        deleteLater();
+        return;
+    }
+    QVariantMap map = QJsonDocument::fromJson(reply->readAll()).toVariant().toMap();
+
     current_ = map.value("current").toMap();
 
     int nykyplan = current_.value("plan").toInt();
@@ -115,33 +136,77 @@ void TilausWizard::dataSaapuu(QVariant *data)
     else
         setField("email", current_.value("email"));
 
-    bool kuukausittain = current_.value("period").toInt() == 1;
-    setField("name", current_.value("name").toString());
-    setField("address", current_.value("address"));
-    setField("asviite", current_.value("customerref"));
+    bool puolivuosittain = current_.value("period").toInt() == 6;
+    QVariantMap pinfo = current_.value("payer").toMap();
+    setField("name", pinfo.value("name").toString());
+    setField("address", pinfo.value("address"));
+    setField("postcode", pinfo.value("postcode"));
+    setField("town", pinfo.value("town"));
+    setField("asviite", pinfo.value("customerref"));
+    if(pinfo.contains("vatnumber"))
+    setField("ytunnus", AsiakasToimittajaDlg::alvToY( pinfo.value("vatnumber").toString()));
 
-    planModel_->alusta( map.value("plans").toList(), kuukausittain);
-    valintaSivu_->alusta(nykyplan, kuukausittain,
-                         current_.value("refund").toDouble());
+    planModel_->alusta( map.value("plans").toList(), puolivuosittain);
+    valintaSivu_->alusta(nykyplan, puolivuosittain,
+                         current_.value("refund").toDouble(),
+                         map.value("cloudgigas").toDouble(),
+                         current_.value("extraclouds").toInt());
 
     if( exec() )
     {
-        KpKysely *tallennus = kpk( kp()->pilvi()->pilviLoginOsoite() + "/subscription", KpKysely::POST );
         QVariantMap tmap;
         int plan = valintaSivu_->tilaus(PlanModel::PlanRooli).toInt();
         tmap.insert("plan", plan);
+        tmap.insert("extraclouds", field("lisapilvet"));
 
         if( plan) {
-            tmap.insert("period", field("kuukausittain").toBool() ? 1 : 12 );
-            tmap.insert("email", field("email"));
-            tmap.insert("name", field("name"));
-            tmap.insert("address", field("address"));
-            tmap.insert("customref", field("asviite"));
+            tmap.insert("period", field("puolivuosittain").toBool() ? 6 : 12 );
+
+            QVariantMap payer;
+            payer.insert("name", field("name"));
+            payer.insert("email", field("email"));
+            if( !field("ytunnus").toString().isEmpty())
+                payer.insert("vatnumber", AsiakasToimittajaDlg::yToAlv(field("ytunnus").toString()));
+            if( !field("asviite").toString().isEmpty())
+                payer.insert("customref", field("asviite").toString());
+            if( !field("address").toString().isEmpty())
+                payer.insert("address", field("address").toString());
+            if( !field("postcode").toString().isEmpty())
+                payer.insert("postcode", field("postcode").toString());
+            if( !field("town").toString().isEmpty())
+                payer.insert("town", field("town").toString());
+            tmap.insert("payer", payer);
         }
-        connect( tallennus, &KpKysely::vastaus, kp()->pilvi(), &PilviModel::paivitaLista);
-        tallennus->kysy(tmap);
+        QNetworkRequest request( QUrl( kp()->pilvi()->pilviLoginOsoite() + "/subscription" ));
+        request.setRawHeader("Authorization", QString("bearer %1").arg( kp()->pilvi()->token() ).toLatin1());
+        request.setRawHeader("Content-type", "application/json");
+        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+        QNetworkReply *reply = kp()->networkManager()->post(request, QJsonDocument::fromVariant(tmap).toJson());
+        connect( reply, &QNetworkReply::finished, this, &TilausWizard::tilattu);
+
     }
-    deleteLater();
+
+}
+
+void TilausWizard::tilattu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    if( reply->error() ) {
+        qDebug() << reply->readAll();
+        QMessageBox::critical(nullptr, tr("Verkkovirhe"), tr("Tilauksen lähettäminen epäonnistui"));
+    } else {
+        kp()->pilvi()->paivitaLista();
+        if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
+            QMessageBox::information(this, tr("Kiitos tilauksestasi"),
+                                     tr("Tilauksesi on heti käytettävissä.\n"
+                                        "Saat sähköpostiisi vahvistuksen tilauksesta. \n"
+                                        "Jos sinulle jäi jotain kysyttävää, älä epäröi ottaa yhteyttä "
+                                        "tuki@kitsas.fi"));
+        } else {
+            QMessageBox::information(this, tr("Kitsas"),tr("Tilauksesi on päivitetty"));
+        }
+        deleteLater();
+    }
 }
 
 TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
@@ -154,7 +219,14 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     registerField("name*", ui->nimiEdit);
 
     registerField("address", ui->osoiteEdit,"plainText", SIGNAL(textChanged()));
+    registerField("postcode", ui->postinumero);
+    registerField("town", ui->postitoimipaikka);
+    registerField("ytunnus", ui->ytunnusEdit);
     registerField( "asviite", ui->asviite);
+
+    ui->ytunnusEdit->setValidator(new YTunnusValidator(false, this));
+    connect( ui->postinumero, &QLineEdit::textChanged,
+             [this] (const QString& numero) { this->ui->postitoimipaikka->setText(Postinumerot::toimipaikka(numero)); });
 
 }
 

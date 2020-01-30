@@ -33,7 +33,6 @@ QVariant PlanModel::headerData(int section, Qt::Orientation orientation, int rol
 
         switch (section) {
             case NIMI: return tr("Paketti");
-        case PILVIA: return tr("Pilvikirjanpitoja");
         case HINTA:
             return tr("Hinta");
         }
@@ -54,7 +53,7 @@ int PlanModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 3;
+    return 2;
 }
 
 QVariant PlanModel::data(const QModelIndex &index, int role) const
@@ -67,14 +66,14 @@ QVariant PlanModel::data(const QModelIndex &index, int role) const
     if( role == Qt::DisplayRole) {
 
         switch (index.column()) {
-        case NIMI: return map.value("planname");
-        case PILVIA: return map.value("clouds");
+        case NIMI: return map.value("planname").toString() + "\n" +
+                    map.value("info").toString();
         case HINTA:
-            if( kuukausittain_ )
-                return tr("%1 € / kk")
-                        .arg( map.value("monthly").toDouble(),0,'f',2 );
+            if( puolivuosittain_ )
+                return tr("%L1 € / 6 kk")
+                        .arg( map.value("annually").toDouble() / 2,0,'f',2 );
             else
-                return tr("%1 € / vuosi")
+                return tr("%L1 € / vuosi")
                         .arg( map.value("annually").toDouble(),0,'f',2 );
         }
     }
@@ -82,26 +81,24 @@ QVariant PlanModel::data(const QModelIndex &index, int role) const
     else if( role == PlanRooli)
         return map.value("planid");
     else if( role == HintaRooli)
-        return kuukausittain_ ? map.value("monthly") : map.value("annually");
+        return puolivuosittain_ ? map.value("annually").toDouble() / 2.0 : map.value("annually");
     else if( role == NimiRooli)
         return map.value("planname");
     else if( role == PilviaRooli)
         return map.value("clouds");
+    else if( role == LisaPilviHinta)
+        return map.value("extraprice");
+    else if( role == InfoRooli)
+        return map.value("info");
 
 
 
     return QVariant();
 }
 
-Qt::ItemFlags PlanModel::flags(const QModelIndex &index) const
+Qt::ItemFlags PlanModel::flags(const QModelIndex &/*index*/) const
 {
-    QVariantMap map = plans_.at(index.row()).toMap();
-
-    if( map.value("clouds").toInt() < pilvia_ )
-        return Qt::NoItemFlags;
-    else
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 int PlanModel::rowForPlan(int plan) const
@@ -114,17 +111,17 @@ int PlanModel::rowForPlan(int plan) const
     return -1;
 }
 
-void PlanModel::alusta(const QVariantList &plans, bool kuukausittain)
+void PlanModel::alusta(const QVariantList &plans, bool puolivuosittain)
 {
     beginResetModel();
     plans_ = plans;
-    kuukausittain_ =kuukausittain;
+    puolivuosittain_ =puolivuosittain;
     endResetModel();
 }
 
 void PlanModel::naytaKuukausittain(bool kuukausittain)
 {
-    kuukausittain_ = kuukausittain;
+    puolivuosittain_ = kuukausittain;
     emit dataChanged( index(0, HINTA),
                       index(rowCount()-1, HINTA));
 }

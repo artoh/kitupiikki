@@ -30,7 +30,7 @@ class TilausValintaSivu : public QWizardPage
 Q_OBJECT
 public:
     TilausValintaSivu(PlanModel *model);
-    void alusta(int nykyinen, bool kuukausittain, double palautus);
+    void alusta(int nykyinen, bool kuukausittain, double palautus, double vakiokoko, int lisapilvet);
 
 
     QVariant tilaus(int rooli) const;
@@ -38,10 +38,15 @@ public:
     bool isComplete() const override;
     void initializePage() override;
 
+protected slots:
+    void paivita();
 protected:
     Ui::TilausValinta *ui;
-    int alkuperainenPlan_;
-    bool alunperinKuukaudet_;
+    int alkuperainenPlan_ = 0;
+    bool alunperinPuolivuodet_ = 0;
+    double palautus_ = 0;
+    int alunperinLisapilvet_ = 0;
+    double vakiokoko_ = 2.0;
 };
 
 #endif // TILAUSVALINTASIVU_H

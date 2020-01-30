@@ -41,8 +41,9 @@ public:
 
     QString yhteenveto();
 
-protected slots:
-    void dataSaapuu(QVariant* data);
+protected:
+    void dataSaapuu();
+    void tilattu();
 
 protected:
     PlanModel* planModel_;

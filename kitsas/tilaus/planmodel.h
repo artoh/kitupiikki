@@ -26,12 +26,14 @@ class PlanModel : public QAbstractTableModel
 public:
     PlanModel( QObject *parent = nullptr);
 
-    enum { NIMI, PILVIA, HINTA};
+    enum { NIMI, HINTA};
 
     enum { PlanRooli = Qt::UserRole,
            HintaRooli = Qt::UserRole +1,
            NimiRooli = Qt::UserRole + 2,
-           PilviaRooli = Qt::UserRole + 3
+           PilviaRooli = Qt::UserRole + 3,
+           LisaPilviHinta  = Qt::UserRole + 4,
+           InfoRooli = Qt::UserRole + 5
          };
 
     // Header:
@@ -54,7 +56,7 @@ public slots:
 
 private:
     QVariantList plans_;
-    bool kuukausittain_;
+    bool puolivuosittain_;
     int pilvia_;
 };
 
