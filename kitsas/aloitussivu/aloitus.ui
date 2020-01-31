@@ -304,6 +304,16 @@
                <property name="text">
                 <string>Kirjaudu</string>
                </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/login.svg</normaloff>:/freeicons/login.svg</iconset>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
+               <property name="default">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -314,6 +324,10 @@
                <property name="text">
                 <string>Luo käyttäjätunnus</string>
                </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/uusiasiakas.png</normaloff>:/pic/uusiasiakas.png</iconset>
+               </property>
               </widget>
              </item>
              <item>
@@ -323,6 +337,10 @@
                </property>
                <property name="text">
                 <string>Unohdin salasanan</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/lukitsematta.png</normaloff>:/pic/lukitsematta.png</iconset>
                </property>
               </widget>
              </item>
@@ -362,6 +380,10 @@
                <property name="text">
                 <string>Kirjaudu ulos</string>
                </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/logout.svg</normaloff>:/freeicons/logout.svg</iconset>
+               </property>
               </widget>
              </item>
              <item>
@@ -369,15 +391,25 @@
                <property name="text">
                 <string>Tilaa lisäpalvelut!</string>
                </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/timantti.svg</normaloff>:/freeicons/timantti.svg</iconset>
+               </property>
               </widget>
              </item>
              <item>
-              <widget class="QListView" name="pilviView"/>
-             </item>
-             <item>
-              <widget class="QPushButton" name="oikeudetButton">
-               <property name="text">
-                <string>Käyttöoikeudet</string>
+              <widget class="QListView" name="pilviView">
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="showDropIndicator" stdset="0">
+                <bool>false</bool>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -385,6 +417,10 @@
               <widget class="QPushButton" name="pilviPoistaButton">
                <property name="text">
                 <string>Poista kirjanpito</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/roskis.png</normaloff>:/freeicons/roskis.png</iconset>
                </property>
               </widget>
              </item>
@@ -445,5 +481,22 @@
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>salaEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1529</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1487</x>
+     <y>511</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

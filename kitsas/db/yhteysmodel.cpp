@@ -52,6 +52,11 @@ void YhteysModel::lataaInit(QVariant *reply)
     }
 }
 
+bool YhteysModel::onkoOikeutta(qlonglong oikeus)
+{
+    return oikeudet() & oikeus;
+}
+
 
 void YhteysModel::initSaapuu(QVariant *reply)
 {

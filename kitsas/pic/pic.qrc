@@ -211,5 +211,9 @@
         <file>freeicons/key.png</file>
         <file>freeicons/pencil.png</file>
         <file>freeicons/view.png</file>
+        <file>freeicons/login.svg</file>
+        <file>freeicons/logout.svg</file>
+        <file>freeicons/roskis.png</file>
+        <file>freeicons/timantti.svg</file>
     </qresource>
 </RCC>

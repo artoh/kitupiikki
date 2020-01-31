@@ -35,6 +35,8 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
+    $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.cpp \
@@ -269,6 +271,8 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
+    $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.h \
@@ -488,7 +492,7 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
-    $$PWD/maaritys/kayttooikeudet.ui \
+    $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/paivitetaandlg.ui \

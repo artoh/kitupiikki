@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KayttoOikeudet</class>
+ <widget class="QWidget" name="KayttoOikeudet">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1035</width>
+    <height>1087</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_12">
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Kirjanpidon käyttöoikeudet</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,2">
+     <item>
+      <widget class="QListView" name="view">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="title">
+          <string>Lisää käyttäjä</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Käyttäjän on ensin itse rekisteröidyttävä Kitsaan pilveen. 
+Tämän jälkeen voit antaa käyttäjälle oikeuden kirjanpitoosi</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Sähköpostiosoite</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lisaysEdit">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="lisaysNappi">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Lisää</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../pic/pic.qrc">
+                <normaloff>:/pic/uusiasiakas.png</normaloff>:/pic/uusiasiakas.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QLabel" name="nimiLabel">
+              <property name="styleSheet">
+               <string notr="true">font-size: 16pt;
+font-weight: bold;</string>
+              </property>
+              <property name="text">
+               <string>Nimi</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="emailLabel">
+              <property name="text">
+               <string>osoite@fi</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="omistajaLabel">
+              <property name="text">
+               <string>Kirjanpidon omistaja</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QGroupBox" name="groupBox_3">
+                <property name="title">
+                 <string>Tositteet</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_2">
+                   <property name="text">
+                    <string>Selaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ts</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_3">
+                   <property name="text">
+                    <string>Luonnoksen laatiminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Tl</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox">
+                   <property name="text">
+                    <string>Tallentaminen ja muokkaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Tt</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_4">
+                <property name="title">
+                 <string>Laskut</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_4">
+                   <property name="text">
+                    <string>Selaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ls</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_5">
+                   <property name="text">
+                    <string>Laskun laatiminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ll</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_6">
+                   <property name="text">
+                    <string>Laskun lähettäminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Lt</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_15">
+                   <property name="text">
+                    <string>Tuotteiden muokkaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Xt</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_16">
+                   <property name="text">
+                    <string>Ryhmien muokkaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Xr</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QGroupBox" name="groupBox_6">
+                <property name="title">
+                 <string>Laskujen kierto</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_7">
+                   <property name="text">
+                    <string>Laskun lisääminen kiertoon</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Kl</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_8">
+                   <property name="text">
+                    <string>Laskun tarkastaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Kt</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_9">
+                   <property name="text">
+                    <string>Laskun hyväksyminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Kh</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_7">
+                <property name="title">
+                 <string>Raporttit</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_17">
+                   <property name="text">
+                    <string>Raporttien tulostaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ra</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_5">
+                <property name="title">
+                 <string>Ylläpito</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_10">
+                   <property name="text">
+                    <string>Arvolisäveroilmoitus</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Av</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_11">
+                   <property name="text">
+                    <string>Budjetin muokkaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Bm</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_12">
+                   <property name="text">
+                    <string>Tilinpäätöksen tekeminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Tp</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_13">
+                   <property name="text">
+                    <string>Asetusten muokkaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">As</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="oikeusBox">
+                   <property name="text">
+                    <string>Käyttöoikeuksien myöntäminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ko</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="kaikkiNappi">
+              <property name="text">
+               <string>Kaikki oikeudet</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../pic/pic.qrc">
+                <normaloff>:/freeicons/adminkey.png</normaloff>:/freeicons/adminkey.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="tallennaNappi">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Tallenna</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../pic/pic.qrc">
+                <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../pic/pic.qrc"/>
+ </resources>
+ <connections/>
+</ui>

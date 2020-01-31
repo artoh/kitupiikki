@@ -56,7 +56,8 @@ public slots:
 private:
     Ui::AlvSivu *ui;
     QDate seuraavaAlkaa;
-    QDate seuraavaLoppuu;    
+    QDate seuraavaLoppuu;
+    bool alustaa_ = true;
 };
 
 #endif // ALVMAARITYS_H

@@ -51,7 +51,7 @@ public:
     QString tiedostopolku() const { return tiedostoPolku_; }
     QSqlDatabase tietokanta() const { return tietokanta_; }
 
-    bool onkoOikeutta(Oikeus oikeus) const override;
+    qlonglong oikeudet() const override;
 
     bool uusiKirjanpito(const QString& polku, const QVariantMap& initials);
 

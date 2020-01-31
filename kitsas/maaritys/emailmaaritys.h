@@ -46,6 +46,7 @@ public slots:
 
 private:
     Ui::EMailMaaritys *ui;
+    bool paikallinen_=false;
 
 };
 

@@ -152,7 +152,7 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
     else if( koodi < QNetworkReply::ContentAccessDenied)
         emit kp()->onni(tr("<b>Verkkovirhe %1</b>").arg(koodi), Kirjanpito::Verkkovirhe);
     else if( koodi == QNetworkReply::ContentAccessDenied)
-        emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>").arg(koodi), Kirjanpito::Stop);
+        emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>"), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::InternalServerError)
         emit kp()->onni(tr("<b>Palvelinvirhe %1</b>").arg(koodi), Kirjanpito::Stop);
 }

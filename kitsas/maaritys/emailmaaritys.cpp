@@ -22,8 +22,7 @@
 
 #include "emailmaaritys.h"
 #include "db/kirjanpito.h"
-
-
+#include "db/yhteysmodel.h"
 
 
 EmailMaaritys::EmailMaaritys() :
@@ -52,7 +51,9 @@ EmailMaaritys::~EmailMaaritys()
 
 bool EmailMaaritys::nollaa()
 {
-    if( kp()->asetukset()->asetus("SmtpServer").isEmpty()) {
+    paikallinen_ = !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
+
+    if( kp()->asetukset()->asetus("SmtpServer").isEmpty() || paikallinen_) {
         ui->palvelinEdit->setText( kp()->settings()->value("SmtpServer").toString() );
         ui->kayttajaEdit->setText( kp()->settings()->value("SmtpUser").toString());
         ui->salasanaEdit->setText( kp()->settings()->value("SmtpPassword").toString());
@@ -91,6 +92,10 @@ bool EmailMaaritys::nollaa()
     ui->saateRadio->setChecked( kp()->asetukset()->luku("EmailMuoto") == 0);
     ui->saateEdit->setPlainText( kp()->asetukset()->asetus("EmailSaate") );
 
+    ui->kpAsetusRadio->setDisabled( paikallinen_ );
+    ui->saateEdit->setDisabled( paikallinen_ );
+    ui->maksutiedotRadio->setDisabled( paikallinen_ );
+    ui->saateEdit->setDisabled( paikallinen_ );
 
     return true;
 }
@@ -104,7 +109,8 @@ bool EmailMaaritys::tallenna()
         kp()->settings()->setValue("SmtpPassword", ui->salasanaEdit->text());
         kp()->settings()->setValue("EmailNimi", ui->nimiEdit->text());
         kp()->settings()->setValue("EmailOsoite", ui->emailEdit->text());
-        kp()->asetukset()->poista("SmtpServer");
+        if( !paikallinen_ )
+            kp()->asetukset()->poista("SmtpServer");
     } else {
         kp()->asetukset()->aseta("SmtpServer", ui->palvelinEdit->text());
         kp()->asetukset()->aseta("SmtpPort", ui->porttiSpin->value());
@@ -114,8 +120,10 @@ bool EmailMaaritys::tallenna()
         kp()->asetukset()->aseta("EmailOsoite", ui->emailEdit->text());
     }
 
-    kp()->asetukset()->aseta("EmailMuoto", ui->maksutiedotRadio->isChecked() ? 1 : 0);
-    kp()->asetukset()->aseta("EmailSaate", ui->saateEdit->toPlainText());
+    if( !paikallinen_ ) {
+        kp()->asetukset()->aseta("EmailMuoto", ui->maksutiedotRadio->isChecked() ? 1 : 0);
+        kp()->asetukset()->aseta("EmailSaate", ui->saateEdit->toPlainText());
+    }
 
     return true;
 }

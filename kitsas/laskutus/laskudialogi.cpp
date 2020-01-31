@@ -51,6 +51,8 @@
 #include "ennakkohyvitysdialogi.h"
 #include "tuotedialogi.h"
 
+#include "db/yhteysmodel.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -155,6 +157,10 @@ void LaskuDialogi::paivitaNapit()
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
+
+    ui->luonnosNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
+    ui->tallennaNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
+    ui->valmisNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
 }
 
 

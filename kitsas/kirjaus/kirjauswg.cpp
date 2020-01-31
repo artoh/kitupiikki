@@ -71,6 +71,8 @@
 #include "selaus/selauswg.h"
 #include "arkistoija/arkistoija.h"
 
+#include "db/yhteysmodel.h"
+
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
@@ -366,8 +368,9 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
-    ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA );
-    ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko());
+    ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
+    ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko() && kp()->yhteysModel() );
+    ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
     ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet
                                  && !tosite()->liitteet()->tallennetaanko());
 

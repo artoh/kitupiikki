@@ -47,6 +47,7 @@
 #include "naytin/naytinikkuna.h"
 
 #include "budjettidlg.h"
+#include "db/yhteysmodel.h"
 
 
 #include <zip.h>
@@ -96,6 +97,10 @@ void ArkistoSivu::siirrySivulle()
             break;
         }
     }
+    ui->uusiNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->muokkaaNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->tilinpaatosNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS));
+    ui->budjettiNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::BUDJETTI));
 }
 
 void ArkistoSivu::uusiTilikausi()

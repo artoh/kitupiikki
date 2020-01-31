@@ -17,10 +17,12 @@
 #ifndef PILVIMODEL_H
 #define PILVIMODEL_H
 
-#include "db/yhteysmodel.h"
 
-class PilviYhteys;
+#include "db/yhteysmodel.h"
+#include <QPixmap>
+
 class QTimer;
+class QNetworkReply;
 
 /**
  * @brief Pilvessä olevien kirjanpitojen luettelo
@@ -40,7 +42,7 @@ public:
     };
 
 
-    int rowCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent=QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
     QString kayttajaNimi() const { return data_.value("name").toString();}
@@ -50,7 +52,6 @@ public:
     QString planname() const { return data_.value("plan").toMap().value("name").toString();}
     int omatPilvet() const;
     int pilviMax() const { return data_.value("cloudsmax").toInt();}
-    QString oikeudet() const { return oikeudet_;}
 
     static QString pilviLoginOsoite();
 
@@ -68,7 +69,8 @@ public:
     QString pilviosoite() const { return osoite_;}
     QString token() const { return token_; }
 
-    bool onkoOikeutta(Oikeus oikeus) const override;
+    qlonglong oikeudet() const override { return oikeudet_;}
+
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
@@ -76,17 +78,16 @@ public slots:
     void paivitaLista();
 
 
-
-private slots:
+private:
     void kirjautuminenValmis();
     void paivitysValmis(QVariant* paluu);
     void pilviLisatty(QVariant* paluu);
+    void tilaaLogo(const QVariantMap& map);
+
 
 signals:
     void kirjauduttu();
     void loginvirhe();
-
-
 
 private:
     int kayttajaId_ = 0;
@@ -94,10 +95,14 @@ private:
     int avaaPilvi_ = 0;
     QString osoite_;
     QString token_;
-    QString oikeudet_;
+    qlonglong oikeudet_ = 0;
 
     QVariantMap data_;
     QTimer *timer_;
+    QMap<int,QPixmap> logot_;
+
+private:
+    static std::map<QString,qlonglong> oikeustunnukset__;
 };
 
 #endif // PILVIMODEL_H

@@ -218,8 +218,12 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
             sivuaktiot[i]->setEnabled(true);
 
-        sivuaktiot[KIRJAUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::LUONNOSOIKEUS ) );
-        sivuaktiot[MAARITYSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::HALLINTAOIKEUS) );
+        sivuaktiot[KIRJAUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS | YhteysModel::KIERTO_LISAAMINEN ));
+        sivuaktiot[SELAUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TOSITE_SELAUS | YhteysModel::KIERTO_LISAAMINEN |YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_TARKASTAMINEN) );
+        sivuaktiot[LASKUTUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::LASKU_SELAUS ));
+        sivuaktiot[TULOSTESIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::RAPORTIT ));
+        sivuaktiot[ARKISTOSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TILINPAATOS | YhteysModel::BUDJETTI ));
+        sivuaktiot[ALVSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::ALV_ILMOITUS ));
     } else {
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);

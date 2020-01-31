@@ -28,6 +28,7 @@
 #include <QDebug>
 
 #include "myyntilaskujentoimittaja.h"
+#include "db/yhteysmodel.h"
 
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     QWidget(parent),
@@ -144,12 +145,14 @@ void LaskulistaWidget::paivitaNapit()
     int laskutustapa = index.data(LaskuTauluModel::LaskutustapaRooli).toInt();
 
     ui->lahetaNappi->setEnabled( index.isValid()
-                                 && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS);
-    ui->kopioiNappi->setEnabled( index.isValid() && tyyppi == TositeTyyppi::MYYNTILASKU);
+                                 && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
+                                 kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
+    ui->kopioiNappi->setEnabled( index.isValid() && tyyppi == TositeTyyppi::MYYNTILASKU && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->hyvitysNappi->setVisible( index.isValid()
                                && tyyppi == TositeTyyppi::MYYNTILASKU
-                               && index.data(LaskuTauluModel::TunnisteRooli).toLongLong());
-    ui->naytaNappi->setEnabled( index.isValid() );
+                               && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
+                               && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
+    ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
     ui->muokkaaNappi->setEnabled( index.isValid() &&
                                   (laskutustapa != LaskuDialogi::TUOTULASKU ||
                                    tyyppi == TositeTyyppi::MYYNTILASKU));
@@ -157,15 +160,22 @@ void LaskulistaWidget::paivitaNapit()
                                                         || ( tyyppi == TositeTyyppi::MAKSUMUISTUTUS &&
                                                              laskutustapa != LaskuDialogi::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
-                                    && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5);
+                                    && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5
+                                    && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
+                                    && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->ryhmalaskuNappi->setVisible(paalehti_ == MYYNTI || paalehti_ == ASIAKAS);
+
+    ui->uusiNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
+    ui->ryhmalaskuNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 
     if( ui->tabs->currentIndex() >= KAIKKI )
         ui->poistaNappi->setEnabled( index.isValid() &&
-                                     index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5);
+                                     index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5
+                                     && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN)
+                                     );
     else
         // Luonnoksen voi aina poistaa
-        ui->poistaNappi->setEnabled( index.isValid() );
+        ui->poistaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 }
 
 void LaskulistaWidget::laheta()

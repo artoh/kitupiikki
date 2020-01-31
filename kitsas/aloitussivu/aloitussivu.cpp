@@ -168,6 +168,7 @@ void AloitusSivu::siirrySivulle()
 
         ui->selain->setHtml( teksti );
     }
+    ui->muistiinpanotNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
 }
 
@@ -439,8 +440,7 @@ void AloitusSivu::kirjauduttu()
                             .arg( pilvia )
                             .arg( pilvetmax ));
 
-    ui->oikeudetButton->setVisible( kp()->pilvi()->oikeudet() == "owner" );
-    ui->pilviPoistaButton->setVisible( kp()->pilvi()->oikeudet() == "owner" );
+    ui->pilviPoistaButton->setVisible( kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
     ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tilaa pilvipalvelut!") );
 }
@@ -548,6 +548,7 @@ void AloitusSivu::pilviLogout()
 {
     ui->salaEdit->clear();
     kp()->pilvi()->kirjauduUlos();
+    ui->vaaraSalasana->hide();
     ui->pilviPino->setCurrentIndex(KIRJAUDU);
 }
 
@@ -564,6 +565,10 @@ void AloitusSivu::logoMuuttui()
 
 void AloitusSivu::haeSaldot()
 {
+    if( kp()->yhteysModel() && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS) && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::RAPORTIT)
+            && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS))
+        return;
+
     QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
     KpKysely *kysely = kpk("/saldot");
     if( kysely ) {
@@ -578,7 +583,7 @@ QString AloitusSivu::vinkit()
     QString vinkki;
 
 
-    if( TilikarttaPaivitys::onkoPaivitettavaa() )
+    if( TilikarttaPaivitys::onkoPaivitettavaa() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) )
     {
         vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/maaritys/paivita>Päivitä tilikartta</a></h3>Tilikartasta saatavilla uudempi versio %1"
                          "</td></tr></table>").arg( TilikarttaPaivitys::paivitysPvm().toString("dd.MM.yyyy") ) );
@@ -586,7 +591,7 @@ QString AloitusSivu::vinkit()
     }
 
     // Ensin tietokannan alkutoimiin
-    if( !kp()->asetukset()->onko("EkaTositeKirjattu") )
+    if( !kp()->asetukset()->onko("EkaTositeKirjattu") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
@@ -599,12 +604,13 @@ QString AloitusSivu::vinkit()
         vinkki.append("</ol></td></tr></table>");
 
     }
-    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
+    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&
+             kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
                       "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
 
     // Muistutus arvonlisäverolaskelmasta
-    if(  kp()->asetukset()->onko("AlvVelvollinen") )
+    if(  kp()->asetukset()->onko("AlvVelvollinen") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
     {
         QDate kausialkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
         QDate laskennallinenalkupaiva = kausialkaa;
@@ -649,7 +655,7 @@ QString AloitusSivu::vinkit()
 
 
     // Uuden tilikauden aloittaminen
-    if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 )
+    if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
     {
         vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
                       "<h3><a href=ktp:/uusitilikausi>Aloita uusi tilikausi</a></h3>"
@@ -659,39 +665,29 @@ QString AloitusSivu::vinkit()
     }
 
     // Tilinpäätöksen laatiminen
-    for(int i=0; i<kp()->tilikaudet()->rowCount(QModelIndex()); i++)
-    {
-        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(i);
-        if( kausi.paattyy().daysTo(kp()->paivamaara()) > 1 &&
-                                   kausi.paattyy().daysTo( kp()->paivamaara()) < 5 * 30
-                && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
+    if( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS)) {
+        for(int i=0; i<kp()->tilikaudet()->rowCount(QModelIndex()); i++)
         {
-            vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
-                          "<h3><a href=ktp:/tilinpaatos>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(i);
+            if( kausi.paattyy().daysTo(kp()->paivamaara()) > 1 &&
+                                       kausi.paattyy().daysTo( kp()->paivamaara()) < 5 * 30
+                    && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
+            {
+                vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
+                              "<h3><a href=ktp:/tilinpaatos>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
 
-            if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
-            {
-                vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>");
+                if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
+                {
+                    vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>");
+                }
+                else
+                {
+                    vinkki.append("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
+                }
+                vinkki.append("<p>Katso <a href=ohje:/tilikaudet/tilinpaatos>ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>");
             }
-            else
-            {
-                vinkki.append("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
-            }
-            vinkki.append("<p>Katso <a href=ohje:/tilikaudet/tilinpaatos>ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>");
         }
     }
-
-    /* Tarkistetaan, että alv-tilit paikallaan
-    if( kp()->asetukset()->onko("AlvVelvollinen") &&
-        ( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() ||
-          !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
-          !kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).onkoValidi()))
-    {
-        vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
-                          "<h3><a href=ktp:/maaritys/Tilikartta>Tilikartta puutteellinen</a></h3>"
-                          "<p>Tilikartassa pitää olla tilit alv-kirjauksille, alv-vähennyksille ja verovelalle.</td></tr></table>") );
-
-    } */
 
     // Viimeisenä muistiinpanot
     if( kp()->asetukset()->onko("Muistiinpanot") )

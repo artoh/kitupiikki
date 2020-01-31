@@ -48,6 +48,7 @@ public:
     {
         ULKOASU,
         PERUSVALINNAT,
+        KAYTTOOIKEUDET,
         TILIKARTTA,
         KOHDENNUS,
         TILINAVAUS,

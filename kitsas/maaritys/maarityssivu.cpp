@@ -23,6 +23,7 @@
 
 #include <QMessageBox>
 
+#include "db/yhteysmodel.h"
 #include "maarityssivu.h"
 
 #include "ulkoasumaaritys.h"
@@ -39,6 +40,7 @@
 #include "tilikarttapaivitys.h"
 #include "maksutapasivu.h"
 #include "tositesarjamaaritys.h"
+#include "kayttooikeudet/kayttooikeussivu.h"
 
 #include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
@@ -53,6 +55,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lisaaSivu(tr("Näyttöfontti"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
+    lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
     lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "maaritykset/tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
@@ -223,6 +226,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new FinvoiceMaaritys;
     else if( sivu == PAIVITYS)
         nykyinen = new TilikarttaPaivitys;
+    else if( sivu == KAYTTOOIKEUDET)
+        nykyinen = new KayttoOikeusSivu;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -252,13 +257,18 @@ void MaaritysSivu::valitseSivu(const QString& otsikko)
 void MaaritysSivu::paivitaNakyvat()
 {
     for(int i=1; i < lista->count(); i++)
-        lista->item(i)->setHidden( !kp()->yhteysModel() );
+        lista->item(i)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
 
-    item( TILINAVAUS )->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
-    item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() );
+    item( TILINAVAUS )->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") ||
+                                   !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
+    item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
+
+    item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
+
+    item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset
 
 }
 

@@ -31,12 +31,24 @@ class YhteysModel : public QAbstractListModel
 {
 public:
     enum Oikeus {
-        LUKUOIKEUS,
-        LUONNOSOIKEUS,
-        MUOKKAUSOIKEUS,
-        HALLINTAOIKEUS,
-        OMISTUSOIKEUS,
-        PAIKALLINENOIKEUS
+        TOSITE_SELAUS       = 0b1,
+        TOSITE_LUONNOS      = 0b10,
+        TOSITE_MUOKKAUS     = 0b100,
+        LASKU_SELAUS        = 0b1000,
+        LASKU_LAATIMINEN    = 0b10000,
+        LASKU_LAHETTAMINEN  = 0b100000,
+        KIERTO_LISAAMINEN   = 0b1000000,
+        KIERTO_TARKASTAMINEN= 0b10000000,
+        KIERTO_HYVAKSYMINEN = 0b100000000,
+        ALV_ILMOITUS        = 0b1000000000,
+        BUDJETTI            = 0b10000000000,
+        TILINPAATOS         = 0b100000000000,
+        ASETUKSET           = 0b1000000000000,
+        KAYTTOOIKEUDET      = 0b10000000000000,
+        OMISTAJA            = 0b100000000000000,
+        TUOTTEET            = 0b1000000000000000,
+        RYHMAT              = 0b10000000000000000,
+        RAPORTIT            = 0b100000000000000000
     };
 
 
@@ -48,10 +60,13 @@ public:
     virtual void sulje() = 0;
     void alusta();
     void lataaInit(QVariant* reply);
-    virtual bool onkoOikeutta(Oikeus oikeus) const = 0;
+    virtual qlonglong oikeudet() const = 0;
+    bool onkoOikeutta(qlonglong oikeus);
 
 private slots:
     void initSaapuu(QVariant* reply);
+
+
 };
 
 #endif // YHTEYSMODEL_H

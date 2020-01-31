@@ -26,6 +26,7 @@
 #include "tuotedialogi.h"
 
 #include "db/kirjanpito.h"
+#include "db/yhteysmodel.h"
 
 #include <QDebug>
 #include <QInputDialog>
@@ -73,6 +74,18 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 
 //    ui->tuoNappi->setVisible( valilehti != RYHMAT);
 //    ui->VieNappi->setVisible( valilehti != RYHMAT);
+
+    bool muokkausoikeus = false;
+    if( valilehti == RYHMAT )
+        muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::RYHMAT);
+    else if(valilehti == TUOTTEET)
+        muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::TUOTTEET);
+    else
+        muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS |
+                                                           YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN);
+    ui->uusiNappi->setVisible(muokkausoikeus);
+    ui->poistaNappi->setVisible(muokkausoikeus);
+    ui->muokkaaNappi->setVisible(muokkausoikeus);
 
     paivita();
 }

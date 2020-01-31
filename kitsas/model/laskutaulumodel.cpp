@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 #include "laskutus/laskudialogi.h"
 #include "laskutus/ryhmalasku/toimitustapadelegaatti.h"
+#include "db/yhteysmodel.h"
 
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -224,7 +225,7 @@ void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin
 
 void LaskuTauluModel::paivitaNakyma()
 {
-    if( !kp()->yhteysModel())
+    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS))
         return;
 
 

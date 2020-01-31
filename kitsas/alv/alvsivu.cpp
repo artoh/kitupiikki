@@ -31,6 +31,9 @@
 
 #include "naytin/naytinikkuna.h"
 
+#include "db/kirjanpito.h"
+#include "db/yhteysmodel.h"
+
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu)
 {
@@ -44,7 +47,7 @@ AlvSivu::AlvSivu() :
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
     paivitaMaksuAlvTieto();
 
-    connect(ui->kausiCombo, &QComboBox::currentTextChanged, [this] { kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
+    connect(ui->kausiCombo, &QComboBox::currentTextChanged, [this] { if(!alustaa_) kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
     connect(ui->alkaaEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaLoppu);
     connect(ui->paattyyEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaErapaiva);
     connect( kp()->alvIlmoitukset(), &AlvIlmoitustenModel::modelReset, this, &AlvSivu::siirrySivulle);
@@ -64,6 +67,7 @@ AlvSivu::~AlvSivu()
 
 void AlvSivu::siirrySivulle()
 {
+    alustaa_ = true;
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
     riviValittu();      // Jotta napit harmaantuvat
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
@@ -71,6 +75,10 @@ void AlvSivu::siirrySivulle()
 
     for(int i=0; i<3; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );
+
+    ui->kausiCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->maksuperusteNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
+    alustaa_ = false;
 
 }
 

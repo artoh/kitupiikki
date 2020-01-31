@@ -17,6 +17,7 @@
 #include "pilvimodel.h"
 #include "db/kirjanpito.h"
 #include "pilvikysely.h"
+#include "versio.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -26,10 +27,13 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QSslSocket>
+#include <QApplication>
+#include <QImage>
 
 #include <QDebug>
 #include <QTimer>
 #include <QFile>
+#include <QNetworkReply>
 
 PilviModel::PilviModel(QObject *parent) :
     YhteysModel (parent)
@@ -37,7 +41,9 @@ PilviModel::PilviModel(QObject *parent) :
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
 
+#ifdef KITSAS_DEVEL
     qDebug() << "Sertifikaatti " << QSslSocket::addDefaultCaCertificates(":/aloitus/kitsas.crt");
+#endif
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -56,17 +62,11 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     }
 
     if( role == Qt::DecorationRole) {
-        QString right = map.value("right").toString();
-        if( right == "read")
-            return QIcon(":/freeicons/view.png");
-        else if( right == "draft")
-            return QIcon(":/freeicons/edit.png");
-        else if( right == "edit")
-            return QIcon(":/freeicons/pencil.png");
-        else if( right == "admin")
-            return QIcon(":/freeicons/adminkey.png");
-        else if( right == "owner")
-            return QIcon(":/freeicons/key.png");
+        return logot_.value( map.value("id").toInt() );
+    }
+    if( role == Qt::ForegroundRole) {
+        if( map.value("trial").toBool())
+            return QColor(Qt::darkGreen);
     }
 
     return QVariant();
@@ -108,7 +108,16 @@ bool PilviModel::avaaPilvesta(int pilviId)
             pilviId_ = pilviId;
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
-            oikeudet_ = map.value("right").toString();
+            oikeudet_ = 0;
+            QVariantList oikeudet = map.value("rights").toList();
+            for(auto oikeus : oikeudet) {
+                try {
+                    oikeudet_ += oikeustunnukset__.at(oikeus.toString());
+                } catch( std::out_of_range )
+                {
+                    qDebug() << "Tuntematon oikeus " << oikeus.toString();
+                }
+            }
             alusta();
 
             emit kirjauduttu();
@@ -126,28 +135,11 @@ KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
 void PilviModel::sulje()
 {
     pilviId_ = 0;
+    oikeudet_ = 0;
     osoite_.clear();
     token_.clear();
 }
 
-bool PilviModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
-{
-    switch (oikeus) {
-    case LUKUOIKEUS:
-        return true;
-    case LUONNOSOIKEUS:
-        return oikeudet()!="read";
-    case MUOKKAUSOIKEUS:
-        return oikeudet()!="read" && oikeudet()!="draft";
-    case HALLINTAOIKEUS:
-        return oikeudet() == "admin" || oikeudet()=="owner";
-    case OMISTUSOIKEUS:
-        return oikeudet() == "owner";
-    case PAIKALLINENOIKEUS:
-        return false;
-    }
-    return false;
-}
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
 {
@@ -169,7 +161,7 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
 
 
     request.setRawHeader("Content-Type","application/json");
-    request.setRawHeader("User-Agent","Kitupiikki");
+    request.setRawHeader("User-Agent",QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1());
 
     QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
     connect( reply, &QNetworkReply::finished, this, &PilviModel::kirjautuminenValmis);
@@ -185,6 +177,7 @@ void PilviModel::kirjauduUlos()
     kp()->settings()->remove("CloudEmail");
     kp()->settings()->remove("CloudKey");
     kayttajaId_ = 0;
+    oikeudet_ = 0;
     timer_->stop();
 
     endResetModel();
@@ -237,15 +230,21 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         kp()->settings()->setValue("CloudEmail", data_.value("email").toString());
     }
 
-    // Tallennetaan uusi token
+    // Tallennetaan uusi token ja tilataan puuttuvat logot
     for( QVariant variant : data_.value("clouds").toList()) {
-    QVariantMap map = variant.toMap();
+    QVariantMap map = variant.toMap();    
         if( map.value("id").toInt() == pilviId_ ) {
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
-            oikeudet_ = map.value("right").toString();
-            break;
+            QVariantList oikeudet = map.value("rights").toList();
+            oikeudet_ = 0;
+            for( auto oikeus : oikeudet) {
+                oikeudet += oikeustunnukset__.at(oikeus.toString());
+            }
         }
+        // Tilataan puuttuvat logot
+        if( !logot_.contains(map.value("id").toInt()))
+            tilaaLogo(map);
     }
     // Uuden pilven avaaminen, kun lista on päivittynyt
     if( avaaPilvi_ )
@@ -262,3 +261,49 @@ void PilviModel::pilviLisatty(QVariant *paluu)
     paivitaLista();
 
 }
+
+void PilviModel::tilaaLogo(const QVariantMap &map)
+{
+    int id = map.value("id").toInt();
+    QUrl url( map.value("url").toString() + "/liitteet/0/logo");
+    QNetworkRequest request( url );
+
+    request.setRawHeader("Authorization", QString("bearer %1").arg( map.value("token").toString() ).toLatin1());
+    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
+    QNetworkReply *reply = kp()->networkManager()->get(request);
+    connect( reply, &QNetworkReply::finished, [this, id, reply]
+    {
+        if( reply->error())
+            this->logot_.insert(id, QPixmap());
+        else {
+            this->logot_.insert(id, QPixmap::fromImage(QImage::fromData(reply->readAll()).scaled(16,16,Qt::KeepAspectRatio)));
+            for(int i=0; i<rowCount() ;i++) {
+                if( this->data_.value("clouds").toList().value(i).toMap().value("id").toInt() == id ) {
+                    emit this->dataChanged(index(i), index(i));
+                }
+            }
+        }
+    });
+}
+
+
+std::map<QString,qlonglong> PilviModel::oikeustunnukset__ = {
+    {"Ts", TOSITE_SELAUS},
+    {"Tl", TOSITE_LUONNOS},
+    {"Tt", TOSITE_MUOKKAUS},
+    {"Ls", LASKU_SELAUS},
+    {"Ll", LASKU_LAATIMINEN},
+    {"Lt", LASKU_LAHETTAMINEN},
+    {"Kl", KIERTO_LISAAMINEN},
+    {"Kt", KIERTO_TARKASTAMINEN},
+    {"Kh", KIERTO_HYVAKSYMINEN},
+    {"Av", ALV_ILMOITUS},
+    {"Bm", BUDJETTI},
+    {"Tp", TILINPAATOS},
+    {"As", ASETUKSET},
+    {"Ko", KAYTTOOIKEUDET},
+    {"Om", OMISTAJA},
+    {"Xt", TUOTTEET},
+    {"Xr", RYHMAT},
+    {"Ra", RAPORTIT}
+};

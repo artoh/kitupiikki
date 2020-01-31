@@ -116,6 +116,10 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
             return polku;
         }
     }
+    if( role == Qt::ForegroundRole) {
+        if( map.value("harjoitus").toBool())
+            return QColor(Qt::darkGreen);
+    }
 
     return QVariant();
 }
@@ -264,9 +268,21 @@ void SQLiteModel::sulje()
     tietokanta_.close();
 }
 
-bool SQLiteModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
+qlonglong SQLiteModel::oikeudet() const
 {
-    return oikeus != OMISTUSOIKEUS;
+    return TOSITE_SELAUS |
+            TOSITE_LUONNOS |
+            TOSITE_MUOKKAUS |
+            LASKU_SELAUS |
+            LASKU_LAATIMINEN |
+            LASKU_LAHETTAMINEN |
+            ALV_ILMOITUS |
+            BUDJETTI |
+            TILINPAATOS |
+            ASETUKSET |
+            TUOTTEET |
+            RYHMAT |
+            RAPORTIT;
 }
 
 bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initials)
@@ -313,6 +329,7 @@ void SQLiteModel::lisaaViimeisiin()
     map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
     if( !kp()->logo().isNull())
         map.insert("logo", kp()->logo().scaled(16,16,Qt::KeepAspectRatio));
+    map.insert("harjoitus", kp()->onkoHarjoitus());
 
     beginResetModel();
     for( int i=0; i < viimeiset_.count(); i++ )
