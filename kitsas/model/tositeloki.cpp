@@ -82,6 +82,16 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
             return Tosite::tilateksti( map.value("tila").toInt() );
         }
     }    
+    else if(role == Qt::EditRole) {
+        switch (index.column()) {
+        case AIKA:
+            return map.value("aika").toDateTime();
+        case KAYTTAJA:
+            return map.value("nimi").toString();
+        case TILA:
+            return map.value("tila").toInt();
+        }
+    }
     else if( role == Qt::UserRole)
         return map.value("data");
 

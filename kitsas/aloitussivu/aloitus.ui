@@ -306,7 +306,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
-                 <normaloff>:/freeicons/login.svg</normaloff>:/freeicons/login.svg</iconset>
+                 <normaloff>:/pixaby/log-in.svg</normaloff>:/pixaby/log-in.svg</iconset>
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
@@ -382,7 +382,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
-                 <normaloff>:/freeicons/logout.svg</normaloff>:/freeicons/logout.svg</iconset>
+                 <normaloff>:/pixaby/log-out.svg</normaloff>:/pixaby/log-out.svg</iconset>
                </property>
               </widget>
              </item>

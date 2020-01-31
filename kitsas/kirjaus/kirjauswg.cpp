@@ -72,6 +72,7 @@
 #include "arkistoija/arkistoija.h"
 
 #include "db/yhteysmodel.h"
+#include "kierto/kiertowidget.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
@@ -190,7 +191,10 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt());
     tosite()->asetaPvm( ui->tositePvmEdit->date());
-    qDebug() << "KirjausWg() --";
+
+    KiertoWidget* kierto = new KiertoWidget(tosite(), this);
+    ui->tabWidget->insertTab( ui->tabWidget->count()-1, kierto, QIcon(":/pixaby/oikealle.png"), tr("Kierto") );
+    connect( kierto, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
 
 }
 

@@ -81,7 +81,10 @@ QString Tosite::tilateksti(int tila)
 {
     switch (tila) {
     case POISTETTU: return tr("Poistettu");
+    case HYLATTY: return tr("Hylätty");
     case SAAPUNUT: return tr("Saapunut");
+    case TARKASTETTU: return tr("Tarkastettu");
+    case HYVAKSYTTY: return tr("Hyväksytty");
     case LUONNOS: return tr("Luonnos");
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");

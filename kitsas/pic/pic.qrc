@@ -211,9 +211,13 @@
         <file>freeicons/key.png</file>
         <file>freeicons/pencil.png</file>
         <file>freeicons/view.png</file>
-        <file>freeicons/login.svg</file>
-        <file>freeicons/logout.svg</file>
         <file>freeicons/roskis.png</file>
         <file>freeicons/timantti.svg</file>
+        <file>pixaby/oikealle.png</file>
+        <file>pixaby/leimasin.png</file>
+        <file>pixaby/skanneri.png</file>
+        <file>pixaby/tarkastus.png</file>
+        <file>pixaby/log-in.svg</file>
+        <file>pixaby/log-out.svg</file>
     </qresource>
 </RCC>

@@ -65,7 +65,10 @@ public:
 
     enum Tila {
         POISTETTU       = 0,
-        SAAPUNUT        = 10,
+        HYLATTY         = 10,
+        SAAPUNUT        = 20,
+        TARKASTETTU     = 30,
+        HYVAKSYTTY      = 40,
         LUONNOS         = 50,
         VALMISLASKU     = 80,
         KIRJANPIDOSSA   = 100,
@@ -96,7 +99,8 @@ public:
     QString kumppaninimi() const { return data(KUMPPANI).toMap().value("nimi").toString();}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(KOMMENTIT).toString();}
-    QString sarja() const { return data(SARJA).toString();}    
+    QString sarja() const { return data(SARJA).toString();}
+    int tositetila() const { return data(TILA).toInt();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);

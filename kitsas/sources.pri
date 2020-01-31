@@ -232,7 +232,9 @@ SOURCES += \
     maaritys/avauseradlg.cpp\
     maaritys/maksutapamuokkausdlg.cpp\
     laskutus/maksumuistutusdialogi.cpp \
-    arkisto/tuloverodialog.cpp
+    arkisto/tuloverodialog.cpp  \
+    kirjaus/kierto/kiertowidget.cpp
+
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -469,7 +471,8 @@ HEADERS += \
     maaritys/avauseradlg.h\
     maaritys/maksutapamuokkausdlg.h \
     laskutus/maksumuistutusdialogi.h \
-    arkisto/tuloverodialog.h
+    arkisto/tuloverodialog.h \
+    kirjaus/kierto/kiertowidget.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -486,6 +489,7 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkistoija/arkistohakemistodialogi.ui \
+    $$PWD/kirjaus/kierto/kierto.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
