@@ -169,6 +169,7 @@
         <file>ennakkolasku.png</file>
         <file>refresh.png</file>
         <file>verkkovirhe.png</file>
+        <file>kierto.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

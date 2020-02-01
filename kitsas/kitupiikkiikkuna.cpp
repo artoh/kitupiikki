@@ -48,6 +48,7 @@
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
 #include "laskutus/laskusivu.h"
+#include "kierto/kiertosivu.h"
 #include "alv/alvsivu.h"
 #include "kirjaus/tallennettuwidget.h"
 
@@ -70,6 +71,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     aloitussivu( new AloitusSivu(this)),
     laskutussivu( new LaskuSivu(this)),
     selaussivu( new SelausWg(this)),
+    kiertosivu( new KiertoSivu(this)),
     raporttisivu( new RaporttiSivu()),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
@@ -437,6 +439,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Aloita"),":/pic/Possu64.png",tr("Erilaisia ohjattuja toimia"),"Home", ALOITUSSIVU, aloitussivu);
     lisaaSivu(tr("Uusi \ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"F2", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu(tr("Selaa"),":/pic/Paivakirja64.png",tr("Selaa kirjauksia aikajärjestyksessä"),"F3", SELAUSSIVU, selaussivu);
+    lisaaSivu(tr("Kierto"),":/pic/kierto.svg",tr("Käsittele kierrossa olevia laskuja"),"Shift+F5", KIERTOSIVU, kiertosivu);
     lisaaSivu(tr("Laskut"),":/pic/lasku.png",tr("Laskuta ja selaa laskuja"),"F4",LASKUTUSSIVU, laskutussivu);
     lisaaSivu(tr("Raportit"),":/pic/print.png",tr("Tulosta erilaisia raportteja"),"F5", TULOSTESIVU, raporttisivu);
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"F6", ARKISTOSIVU, arkistosivu);

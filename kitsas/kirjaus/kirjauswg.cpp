@@ -72,7 +72,7 @@
 #include "arkistoija/arkistoija.h"
 
 #include "db/yhteysmodel.h"
-#include "kierto/kiertowidget.h"
+#include "../kierto/kiertowidget.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),

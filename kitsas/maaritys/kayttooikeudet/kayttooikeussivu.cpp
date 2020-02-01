@@ -134,6 +134,7 @@ void KayttoOikeusSivu::lisaaKayttaja()
 {
     ui->lisaysNappi->setEnabled(false);
     nykyisenEmail_ = ui->lisaysEdit->text();
+    ui->lisaysEdit->clear();
     malliNollattu();
 }
 

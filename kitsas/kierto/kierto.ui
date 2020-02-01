@@ -6,14 +6,85 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>834</width>
-    <height>440</height>
+    <width>933</width>
+    <height>539</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="polkuLabel">
+       <property name="text">
+        <string>Polku</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="polkuCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="siirraNappi">
+       <property name="text">
+        <string>Siirrä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/siirra.png</normaloff>:/pic/siirra.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
    <item>
     <spacer name="verticalSpacer_2">
      <property name="orientation">
@@ -41,7 +112,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pixaby/skanneri.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pixaby/skanneri.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -54,7 +125,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pic/ok.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -77,7 +148,7 @@
            <string>Aloita kierto</string>
           </property>
           <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
+           <iconset resource="../pic/pic.qrc">
             <normaloff>:/pic/seuraava.png</normaloff>:/pic/seuraava.png</iconset>
           </property>
          </widget>
@@ -91,7 +162,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../pic/pic.qrc">:/pixaby/oikealle.png</pixmap>
+        <pixmap resource="../pic/pic.qrc">:/pixaby/oikealle.png</pixmap>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -110,7 +181,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pixaby/tarkastus.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pixaby/tarkastus.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -123,7 +194,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pic/ok.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -136,7 +207,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pic/peru.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pic/peru.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -159,7 +230,7 @@
            <string>Tarkasta</string>
           </property>
           <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
+           <iconset resource="../pic/pic.qrc">
             <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
           </property>
          </widget>
@@ -170,7 +241,7 @@
            <string>Hylkää</string>
           </property>
           <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
+           <iconset resource="../pic/pic.qrc">
             <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
           </property>
          </widget>
@@ -184,7 +255,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../../pic/pic.qrc">:/pixaby/oikealle.png</pixmap>
+        <pixmap resource="../pic/pic.qrc">:/pixaby/oikealle.png</pixmap>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -203,7 +274,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pixaby/leimasin.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pixaby/leimasin.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -216,7 +287,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pic/ok.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -229,7 +300,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="../../pic/pic.qrc">:/pic/peru.png</pixmap>
+           <pixmap resource="../pic/pic.qrc">:/pic/peru.png</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -252,7 +323,7 @@
            <string>Hyväksy</string>
           </property>
           <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
+           <iconset resource="../pic/pic.qrc">
             <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
           </property>
          </widget>
@@ -263,7 +334,7 @@
            <string>Hylkää</string>
           </property>
           <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
+           <iconset resource="../pic/pic.qrc">
             <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
           </property>
          </widget>
@@ -289,7 +360,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../pic/pic.qrc"/>
+  <include location="../pic/pic.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -30,6 +30,7 @@ class QToolBar;
 class AloitusSivu;
 class KirjausSivu;
 class SelausWg;
+class KiertoSivu;
 class RaporttiSivu;
 class MaaritysSivu;
 class ArkistoSivu;
@@ -59,7 +60,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = nullptr);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -130,6 +131,7 @@ protected:
     KirjausSivu *kirjaussivu;
     LaskuSivu *laskutussivu;
     SelausWg *selaussivu;
+    KiertoSivu* kiertosivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
     ArkistoSivu *arkistosivu;
