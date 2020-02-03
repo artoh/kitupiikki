@@ -56,6 +56,8 @@ QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/
     kysely.exec("select * from Tilikausi order by alkaa");
     map.insert("tilikaudet", resultList(kysely));
 
+    map.insert("kierrot", QVariantList());
+
     return map;
 }
 

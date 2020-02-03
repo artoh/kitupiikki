@@ -49,6 +49,7 @@
 #include "tositetyyppimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
+#include "kierto/kiertomodel.h"
 #include "tools/tulkki.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
@@ -69,6 +70,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),
     tositeTyypit_( new TositeTyyppiModel(this)),
+    kiertoModel_( new KiertoModel(this)),
     tulkki_( new Tulkki(":/tr/tulkki.json", this))
 {
     if( portableDir.isEmpty())

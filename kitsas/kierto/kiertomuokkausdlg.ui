@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KiertoMuokkausDlg</class>
+ <widget class="QDialog" name="KiertoMuokkausDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>848</width>
+    <height>761</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Kierron muokkaus</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Kierron nimi</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="nimiEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="portaaliRyhma">
+     <property name="title">
+      <string>Näkyvillä laskuportaalissa</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Tyyppi</string>
+        </property>
+        <property name="buddy">
+         <cstring>tyyppiCombo</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="tyyppiCombo"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Tiliöinti</string>
+        </property>
+        <property name="buddy">
+         <cstring>tiliCombo</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="TiliCombo" name="tiliCombo"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Vastatili</string>
+        </property>
+        <property name="buddy">
+         <cstring>vastaCombo</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="TiliCombo" name="vastaCombo"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Kohdennus</string>
+        </property>
+        <property name="buddy">
+         <cstring>comboBox</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="KohdennusCombo" name="comboBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Lisää osallistuja</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,0,0">
+      <item>
+       <widget class="QComboBox" name="osallistujaCombo"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="rooliCombo"/>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Lähetä sähköposti</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Lisää</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Osallistujat</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTableView" name="osallistujaView"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="poistaNappi">
+          <property name="text">
+           <string>Poista</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>KiertoMuokkausDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>KiertoMuokkausDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

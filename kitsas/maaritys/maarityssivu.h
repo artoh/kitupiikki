@@ -56,6 +56,7 @@ public:
         MAKSUTAVAT,
         TOSITESARJAT,
         SAHKOPOSTI,
+        KIERTO,
         VERKKOLASKU,
         TUONTI,
         INBOX,

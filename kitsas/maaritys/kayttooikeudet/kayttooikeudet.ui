@@ -307,6 +307,16 @@ font-weight: bold;</string>
                    </property>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_14">
+                   <property name="text">
+                    <string>Kaikkien kiertojen selaaminen</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Ks</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>

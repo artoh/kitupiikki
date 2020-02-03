@@ -18,6 +18,7 @@
 
 #include "db/kpkysely.h"
 #include "db/kirjanpito.h"
+#include "kierto/kiertomodel.h"
 
 #include <QDebug>
 
@@ -49,6 +50,8 @@ void YhteysModel::lataaInit(QVariant *reply)
             kp()->kohdennukset()->lataa( iter.value().toList() );
         else if( avain == "tilikaudet")
             kp()->tilikaudet()->lataa( iter.value().toList() );
+        else if( avain == "kierrot")
+            kp()->kierrot()->lataa( iter.value().toList() );
     }
 }
 

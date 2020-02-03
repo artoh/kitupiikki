@@ -24,6 +24,7 @@
 #include <QMessageBox>
 
 #include "db/yhteysmodel.h"
+#include "pilvi/pilvimodel.h"
 #include "maarityssivu.h"
 
 #include "ulkoasumaaritys.h"
@@ -41,6 +42,7 @@
 #include "maksutapasivu.h"
 #include "tositesarjamaaritys.h"
 #include "kayttooikeudet/kayttooikeussivu.h"
+#include "../kierto/kiertomaaritys.h"
 
 #include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
@@ -62,7 +64,8 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Laskutus"), LASKUTUS, "maaritykset/laskutus", QIcon(":/pic/lasku.png"));
     lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maaritykset/maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
-    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
+    lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
+    lisaaSivu(tr("Laskujen kierto"), KIERTO, "", QIcon(":/pic/kierto.svg"),"kierto");
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
 //    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
@@ -228,6 +231,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new TilikarttaPaivitys;
     else if( sivu == KAYTTOOIKEUDET)
         nykyinen = new KayttoOikeusSivu;
+    else if(sivu == KIERTO)
+        nykyinen = new KiertoMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -265,10 +270,13 @@ void MaaritysSivu::paivitaNakyvat()
     item( TILINAVAUS )->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") ||
                                    !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
     item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
-
     item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
-
     item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset
+
+    PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
+    if( pilvi == nullptr)
+        item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä
+
 
 }
 

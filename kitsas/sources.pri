@@ -15,6 +15,8 @@ SOURCES += \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
+    $$PWD/kierto/kiertomaaritys.cpp \
+    $$PWD/kierto/kiertomodel.cpp \
     $$PWD/kierto/kiertosivu.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/kitupiikkituonti/vanhatuontidlg.cpp \
@@ -234,7 +236,8 @@ SOURCES += \
     maaritys/maksutapamuokkausdlg.cpp\
     laskutus/maksumuistutusdialogi.cpp \
     arkisto/tuloverodialog.cpp  \
-    kierto/kiertowidget.cpp
+    kierto/kiertowidget.cpp \
+    kierto/kiertomuokkausdlg.cpp
 
 
 HEADERS += \
@@ -254,6 +257,8 @@ HEADERS += \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
+    $$PWD/kierto/kiertomaaritys.h \
+    $$PWD/kierto/kiertomodel.h \
     $$PWD/kierto/kiertosivu.h \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/kitupiikkituonti/vanhatuontidlg.h \
@@ -474,7 +479,8 @@ HEADERS += \
     maaritys/maksutapamuokkausdlg.h \
     laskutus/maksumuistutusdialogi.h \
     arkisto/tuloverodialog.h \
-    kierto/kiertowidget.h
+    kierto/kiertowidget.h \
+    kierto/kiertomuokkausdlg.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -491,6 +497,7 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkistoija/arkistohakemistodialogi.ui \
+    $$PWD/kierto/kiertomaaritys.ui \
     $$PWD/kierto/kiertosivu.ui \
     $$PWD/kierto/kierto.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
@@ -584,3 +591,4 @@ FORMS += \
     maaritys/maksutapamuokkausdlg.ui\
     laskutus/maksumuistutusdialogi.ui\
     arkisto/tuloverodialog.ui \
+    kierto/kiertomuokkausdlg.ui

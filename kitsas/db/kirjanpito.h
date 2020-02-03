@@ -61,6 +61,7 @@ class YhteysModel;
 class TositeTyyppiModel;
 class RyhmatModel;
 class AlvIlmoitustenModel;
+class KiertoModel;
 
 class QNetworkAccessManager;
 class Tulkki;
@@ -171,8 +172,8 @@ public:
      */
     TuoteModel *tuotteet() const { return tuotteet_; }    
     RyhmatModel *ryhmat() const { return ryhmat_;}
-
     AlvIlmoitustenModel *alvIlmoitukset() const { return alvIlmoitukset_;}
+    KiertoModel *kierrot() const { return kiertoModel_; }
 
     /**
      * @brief Sql-tietokanta
@@ -395,6 +396,7 @@ protected:
 
     YhteysModel *yhteysModel_;
     TositeTyyppiModel *tositeTyypit_;
+    KiertoModel* kiertoModel_;
 
     Tulkki* tulkki_;
 
