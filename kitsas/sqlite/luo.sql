@@ -98,6 +98,9 @@ CREATE TABLE Tosite
 	sarja VARCHAR(10),
 	otsikko TEXT,
 	kumppani integer REFERENCES Kumppani(id),
+	laskupvm DATE,
+	erapvm DATE,
+	viite varchar(64),	
 	json text
 );
 
@@ -135,9 +138,7 @@ CREATE TABLE Vienti
 	kumppani integer REFERENCES Kumppani(id),
 	jaksoalkaa DATE,
 	jaksoloppuu DATE,
-	laskupvm DATE,
-	erapvm DATE,
-	viite varchar(64),
+	arkistotunnus VARCHAR(32),
 	json text,
 	CHECK (debetsnt = 0 OR kreditsnt = 0)
 );

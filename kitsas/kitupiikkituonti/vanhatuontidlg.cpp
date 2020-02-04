@@ -678,11 +678,15 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setAlvKoodi( vientikysely.value("alvkoodi").toInt());
             vienti.setAlvProsentti( vientikysely.value("alvprosentti").toDouble());
             vienti.setKohdennus( vientikysely.value("kohdennus").toInt());
-            vienti.setLaskupvm( vientikysely.value("laskupvm").toDate());
             vienti.setEra( vientikysely.value("eraid").toInt());
-            vienti.setViite( vientikysely.value("viite").toString());
-            vienti.setErapaiva( vientikysely.value("erapvm").toDate());
             vienti.setArkistotunnus( vientikysely.value("arkistotunnus").toString());
+
+            if( vientikysely.value("laskupvm").toDate().isValid())
+                tosite.asetaLaskupvm(vientikysely.value("laskupvm").toDate());
+            if( vientikysely.value("viite").toString().length()>1)
+                tosite.asetaViite(vientikysely.value("viite").toString());
+            if( vientikysely.value("erapvm").toDate().isValid())
+                tosite.asetaErapvm( vientikysely.value("erapvm").toDate());
 
             QVariantMap vientiJson = QJsonDocument::fromJson( vientikysely.value("json").toByteArray() ).toVariant().toMap();
 

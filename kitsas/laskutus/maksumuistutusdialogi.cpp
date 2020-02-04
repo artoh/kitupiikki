@@ -96,7 +96,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     muistutus.asetaTyyppi(TositeTyyppi::MAKSUMUISTUTUS);
     muistutus.asetaPvm(kp()->paivamaara());
     muistutus.setData(Tosite::TILA, Tosite::VALMISLASKU);
-
+    muistutus.asetaErapvm( ui->eraDate->date());
     QVariantList tositteet = muistutettavat_.value(era);
     QVariantMap amap = tositteet.value(0).toMap();
     QVariantMap eramap = eraMapit_.value(era);
@@ -193,7 +193,6 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     vienti.setPvm(kp()->paivamaara());
     vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
-    vienti.setErapaiva(ui->eraDate->date());
     vienti.setKumppani(kumppaniId);
     vienti.setDebet(kulut);
     viennit.insert(0, vienti);

@@ -104,13 +104,13 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 
     QVariantList viennit = tosite.viennit()->vientilLista();
     TositeVienti vienti = viennit.value(0).toMap();
-    vienti.setLaskupvm( kp()->paivamaara() );
+    tosite.asetaLaskupvm( kp()->paivamaara());
 
-    QDate erapvm = vienti.erapaiva();
+    QDate erapvm = tosite.erapvm();
     if( erapvm.isValid() ) {
         if( kp()->paivamaara().daysTo( erapvm ) < kp()->asetukset()->luku("LaskuMaksuaika",0))
             erapvm = MyyntiLaskunTulostaja::erapaiva();
-        vienti.setErapaiva(erapvm);
+        tosite.asetaErapvm(erapvm);
         lasku.insert("erapvm", erapvm);
     }
     viennit[0] = vienti;

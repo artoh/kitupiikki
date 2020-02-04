@@ -177,6 +177,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QVariantList liita = map.take("liita").toList();
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
+    QDate laskupvm = map.take("laskupvm").toDate();
+    QDate erapvm = map.take("erapvm").toDate();
+    QString viitenro = map.take("viite").toString();
 
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
@@ -219,29 +222,28 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         QVariantMap laskumap = map.value("lasku").toMap();
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);
-        QString viitenumero = laskumap.value("viite", viite(QString::number(laskunumero))).toString();
-        laskumap.insert("viite", viitenumero );
+        viitenro = laskumap.value("viite", viite(QString::number(laskunumero))).toString();
+        laskumap.insert("viite", viitenro );
         map.insert("lasku", laskumap);
-
-        QVariantMap vmap = viennit.at(0).toMap();
-        vmap.insert("viite", viitenumero);
-        viennit[0] = vmap;
     }
 
     // Lisätään itse tosite
     QSqlQuery tositelisays(db());
 
+    if( !laskupvm.isValid())
+        laskupvm = pvm;
+
     if( tositeid ) {
-        tositelisays.prepare("INSERT INTO Tosite (id, pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, json) "
-                             "VALUES (?,?,?,?,?,?,?,?,?) "
+        tositelisays.prepare("INSERT INTO Tosite (id, pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, laskupvm, erapvm, viite, json) "
+                             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?) "
                              "ON CONFLICT(id) DO UPDATE "
                              "SET pvm=EXCLUDED.pvm, tyyppi=EXCLUDED.tyyppi, tila=EXCLUDED.tila, tunniste=EXCLUDED.tunniste, otsikko=EXCLUDED.otsikko, "
-                             "kumppani=EXCLUDED.kumppani, sarja=EXCLUDED.sarja, json=EXCLUDED.json");
+                             "kumppani=EXCLUDED.kumppani, sarja=EXCLUDED.sarja, laskupvm=EXCLUDED.laskupvm, erapvm=EXCLUDED.erapvm, viite=EXCLUDED.viite, json=EXCLUDED.json");
 
         tositelisays.addBindValue(tositeid);
     } else {
-        tositelisays.prepare("INSERT INTO Tosite (pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, json) "
-                             "VALUES (?,?,?,?,?,?,?,?)");
+        tositelisays.prepare("INSERT INTO Tosite (pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, laskupvm, erapvm, viite, json) "
+                             "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
     }
     tositelisays.addBindValue(pvm);
     tositelisays.addBindValue(tyyppi);
@@ -250,6 +252,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     tositelisays.addBindValue(otsikko);
     tositelisays.addBindValue(kumppani ? kumppani : QVariant());
     tositelisays.addBindValue(sarja);
+    tositelisays.addBindValue(laskupvm);
+    tositelisays.addBindValue(erapvm);
+    tositelisays.addBindValue(viitenro);
     tositelisays.addBindValue( mapToJson(map) );
     tositelisays.exec();
 
@@ -284,31 +289,23 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         vientimap.take("alvprosentti");
         int alvkoodi = vientimap.take("alvkoodi").toInt();
         int eraid = vientimap.take("era").toMap().value("id").toInt();
-        QDate laskupvm = vientimap.take("laskupvm").toDate();
-        if( !laskupvm.isValid())
-            laskupvm = vientipvm;
-        QDate erapvm = vientimap.take("erapvm").toDate();
-        QString viite = vientimap.take("viite").toString();
+        QString arkistotunnus = vientimap.take("arkistotunnus").toString();
 
         rivinumero++;
 
         if( vientiid ) {
             vanhatviennit.remove(vientiid);
-            /* kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debetsnt=?, kreditsnt=?, eraid=?, "
-                                   "json=?, alvkoodi=?, alvprosentti=?, rivi=?, kumppani=?, jaksoalkaa=?, jaksoloppuu=?, tyyppi=?, laskupvm=?, erapvm=?, viite=? "
-                                   "WHERE id=%1").arg(vientiid));
-            */
-            kysely.prepare("INSERT INTO Vienti (id, tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, laskupvm, erapvm, viite) "
-                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+            kysely.prepare("INSERT INTO Vienti (id, tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, arkistotunnus) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
                            "ON CONFLICT (id) DO UPDATE SET tosite=EXCLUDED.tosite, pvm=EXCLUDED.pvm, tili=EXCLUDED.tili, kohdennus=EXCLUDED.kohdennus,"
                            "selite=EXCLUDED.selite, debetsnt=EXCLUDED.debetsnt, kreditsnt=EXCLUDED.kreditsnt, eraid=EXCLUDED.eraid,"
                            "json=EXCLUDED.json, alvkoodi=EXCLUDED.alvkoodi, alvprosentti=EXCLUDED.alvprosentti, rivi=EXCLUDED.rivi,"
                            "kumppani=EXCLUDED.kumppani, jaksoalkaa=EXCLUDED.jaksoalkaa, jaksoloppuu=EXCLUDED.jaksoloppuu,"
-                           "tyyppi=EXCLUDED.tyyppi, laskupvm=EXCLUDED.laskupvm, erapvm=EXCLUDED.erapvm, viite=EXCLUDED.viite");
+                           "tyyppi=EXCLUDED.tyyppi, arkistotunnus=EXCLUDED.arkistotunnus");
             kysely.addBindValue( vientiid );
         } else {
-            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, laskupvm, erapvm, viite) "
-                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, arkistotunnus) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
         }
         kysely.addBindValue(tositeid);
         kysely.addBindValue(vientipvm);
@@ -328,9 +325,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kysely.addBindValue( jaksoalkaa );
         kysely.addBindValue( jaksoloppuu );
         kysely.addBindValue( vientityyppi );
-        kysely.addBindValue( laskupvm );
-        kysely.addBindValue( erapvm );
-        kysely.addBindValue( viite );
+        kysely.addBindValue( arkistotunnus );
 
         kysely.exec();
         qDebug() << kysely.lastQuery();
@@ -413,12 +408,12 @@ QVariant TositeRoute::hae(int tositeId)
 {
     QSqlQuery kysely(db());
     if( tositeId > 0)
-        kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, tosite.json as json, "
+        kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, laskupvm, erapvm, viite, tosite.json as json, "
                         "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Tosite "
                         " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
                         "WHERE tosite.id=%1").arg(tositeId));
     else
-        kysely.exec(QString("SELECT tosite.id as id, tosite.pvm as pvm, tosite.tyyppi as tosite, tila, tunniste, sarja, otsikko, tosite.json as json, "
+        kysely.exec(QString("SELECT tosite.id as id, tosite.pvm as pvm, tosite.tyyppi as tosite, tila, tunniste, sarja, otsikko, laskupvm, erapvm, viite, tosite.json as json, "
                         "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id"
                         " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
                         "WHERE vienti.id=%1").arg(0-tositeId));
@@ -429,7 +424,7 @@ QVariant TositeRoute::hae(int tositeId)
 
     // Viennit
     kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid as era_id, alvprosentti, alvkoodi, "
-                "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, laskupvm, erapvm, viite, vienti.json as json FROM Vienti "
+                "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, arkistotunnus, vienti.json as json FROM Vienti "
                 "LEFT OUTER JOIN kumppani ON vienti.kumppani=kumppani.id "
                 "WHERE tosite=%1 ORDER BY rivi").arg(tositeId) );
     QVariantList viennit = resultList(kysely);

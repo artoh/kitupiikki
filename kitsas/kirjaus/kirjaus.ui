@@ -166,7 +166,7 @@
         <normaloff>:/pic/kommentti-harmaa.png</normaloff>:/pic/kommentti-harmaa.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>&amp;Kommentit</string>
+       <string>&amp;Muistiinpanot</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -278,7 +278,7 @@
         <normaloff>:/pic/varasto-mv.png</normaloff>:/pic/varasto-mv.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Varasto</string>
+       <string>&amp;Varasto</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="lisatab">

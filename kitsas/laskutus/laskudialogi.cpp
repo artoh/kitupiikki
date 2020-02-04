@@ -373,6 +373,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     }
     if( !viite_.isEmpty()) {
         lasku.insert("viite", viite_);
+        map.insert("viite", viite_);
     }
 
     if( !asAlvTunnus_.isEmpty())
@@ -386,6 +387,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         lasku.insert("asviite", ui->asViiteEdit->text());
 
     lasku.insert("pvm", kp()->paivamaara());
+    map.insert("laskupvm", kp()->paivamaara());
+
     lasku.insert("kieli", ui->kieliCombo->currentData());
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
     lasku.insert("laskutapa", ui->laskutusCombo->currentData().toInt());
@@ -393,8 +396,11 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         lasku.insert("toimituspvm", ui->toimitusDate->date());
     if( ui->jaksoDate->date().isValid())
         lasku.insert("jaksopvm", ui->jaksoDate->date());
-    if( rivit_->yhteensa() > 1e-3)
+    if( rivit_->yhteensa() > 1e-3 &&
+            ui->maksuCombo->currentData().toInt() != KATEINEN) {
         lasku.insert("erapvm", ui->eraDate->date());
+        map.insert("erapvm", ui->eraDate->date());
+    }
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
     lasku.insert("otsikko", ui->otsikkoEdit->text());
     lasku.insert("saate", ui->saateEdit->toPlainText());
@@ -476,7 +482,6 @@ QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko)
     TositeVienti vienti;
 
     vienti.setPvm( pvm );
-    vienti.setLaskupvm( kp()->paivamaara());
     int maksutapa = ui->maksuCombo->currentData().toInt();
     if( maksutapa == KATEINEN)
         vienti.setTili( kp()->asetukset()->luku("LaskuKateistili"));
@@ -495,14 +500,8 @@ QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko)
     double summa = rivit_->yhteensa();
     if( summa > 0) {
         vienti.setDebet(summa);
-        if( ui->maksuCombo->currentData().toInt() != KATEINEN) {
-            vienti.setErapaiva( ui->eraDate->date() );
-        }
     } else
         vienti.setKredit(0-summa);
-
-    if( !viite_.isEmpty())
-        vienti.setViite( viite_ );
 
     if( era_ ) {
         if( tyyppi() == TositeTyyppi::MYYNTILASKU) {

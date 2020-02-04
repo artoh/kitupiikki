@@ -83,7 +83,7 @@ void KiertoMuokkausDlg::alusta()
 
     proxy->setSourceModel(model);
     ui->osallistujaView->setSortingEnabled(true);
-    ui->osallistujaView->sortByColumn(KiertoMuokkausModel::ROOLI);
+    ui->osallistujaView->sortByColumn(KiertoMuokkausModel::ROOLI, Qt::AscendingOrder);
     proxy->setSortRole(Qt::EditRole);
     ui->osallistujaView->setModel(proxy);
     ui->osallistujaView->horizontalHeader()->setSectionResizeMode(KiertoMuokkausModel::NIMI, QHeaderView::Stretch);

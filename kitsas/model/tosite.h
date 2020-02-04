@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QVariant>
 #include <map>
+#include <QDate>
 
 class TositeViennit;
 class TositeLiitteet;
@@ -51,7 +52,11 @@ public:
         SARJA,
         TILIOTE,
         LASKU,
-        RIVIT
+        RIVIT,
+        LASKUPVM,
+        ERAPVM,
+        VIITE,
+        KIERTO
     };
 
     enum Virheet {
@@ -103,12 +108,20 @@ public:
     QString kommentti() const { return data(KOMMENTIT).toString();}
     QString sarja() const { return data(SARJA).toString();}
     int tositetila() const { return data(TILA).toInt();}
+    QDate laskupvm() const { return data(LASKUPVM).toDate();}
+    QDate erapvm() const { return data(ERAPVM).toDate();}
+    QString viite() const { return data(VIITE).toString();}
+    int kierto() const { return data(KIERTO).toInt();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
     void asetaPvm(const QDate& pvm);
     void asetaKommentti(const QString& kommentti);
     void asetaSarja(const QString& sarja);
+    void asetaLaskupvm(const QDate& pvm) { setData(LASKUPVM, pvm);}
+    void asetaErapvm(const QDate& pvm) { setData(ERAPVM, pvm);}
+    void asetaViite(const QString& viite) { setData(VIITE, viite);}
+    void asetaKierto(int kierto) { setData(KIERTO, kierto);}
 
     void asetaKumppani(int id);
     void asetaKumppani(const QString& nimi);

@@ -32,10 +32,13 @@ public:
     ~KiertoWidget();
 
 public slots:
-    void lataaTosite();
+    void lataaTosite();    
 
 signals:
     void tallenna(int tilaan);
+
+protected:
+    void valmis(int tilaan);
 
 private:
     Ui::Kierto* ui;

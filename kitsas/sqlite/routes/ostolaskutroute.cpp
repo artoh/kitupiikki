@@ -27,7 +27,7 @@ OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
 
 QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
-    QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.laskupvm as pvm, vienti.erapvm as erapvm, "
+    QString kysymys("select tosite.id as tosite, tosite.viite as viite,tosite.laskupvm as pvm, tosite.erapvm as erapvm, "
                     "kreditsnt as summasnt, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
                     "vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tyyppi "
                     "from Tosite JOIN "
@@ -52,22 +52,22 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
                            .arg(Tosite::KIRJANPIDOSSA) );
 
     if( urlquery.hasQueryItem("alkupvm"))
-        kysymys.append(QString(" AND vienti.laskupvm >= '%1' ")
+        kysymys.append(QString(" AND tosite.laskupvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));    
     if( urlquery.hasQueryItem("loppupvm"))
-        kysymys.append(QString(" AND vienti.laskupvm <= '%1' ")
+        kysymys.append(QString(" AND tosite.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
     kysymys.append(" ORDER BY pvm, viite");
 
     if( urlquery.hasQueryItem("eraalkupvm"))
-        kysymys.append(QString(" AND vienti.erapvm >= '%1' ")
+        kysymys.append(QString(" AND tosite.erapvm >= '%1' ")
                        .arg(urlquery.queryItemValue("eraalkupvm")));
     if( urlquery.hasQueryItem("eraloppupvm")) {
         if( urlquery.hasQueryItem("eraantynyt"))
-            kysymys.append(QString(" AND vienti.erapvm < '%1' ")
+            kysymys.append(QString(" AND tosite.erapvm < '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
         else
-            kysymys.append(QString(" AND vienti.erapvm <= '%1' ")
+            kysymys.append(QString(" AND tosite.erapvm <= '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
     }
 

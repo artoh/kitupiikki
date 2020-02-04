@@ -137,6 +137,10 @@ void TuloMenoApuri::teeReset()
     ui->viiteEdit->clear();    
     ui->erapaivaEdit->setNull();
 
+    ui->viiteEdit->setText( tosite()->viite());
+    ui->laskuPvm->setDate( tosite()->laskupvm());
+    ui->erapaivaEdit->setDate( tosite()->erapvm());
+
     if( tosite()->kumppani())
         ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
     else
@@ -165,10 +169,6 @@ void TuloMenoApuri::teeReset()
 
                 if( vastatili->eritellaankoTase())
                     ui->eraCombo->valitse( vienti.eraId() );
-
-                ui->laskuPvm->setDate( vienti.laskupvm());
-                ui->erapaivaEdit->setDate(vienti.erapaiva());
-                ui->viiteEdit->setText(vienti.viite());
             }
 
         } else {
@@ -177,8 +177,7 @@ void TuloMenoApuri::teeReset()
 
     }
     if( !rivit_->rowCount())
-        rivit_->lisaaRivi();
-
+        rivit_->lisaaRivi();    
 
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
@@ -217,7 +216,6 @@ bool TuloMenoApuri::teeTositteelle()
 
         vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );        
         vasta.setPvm( tosite()->pvm());
-        vasta.setLaskupvm( ui->laskuPvm->date() );
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
 
@@ -233,10 +231,6 @@ bool TuloMenoApuri::teeTositteelle()
 
         vasta.insert("selite", otsikko);
 
-        if( !ui->viiteEdit->text().isEmpty())
-            vasta.setViite( ui->viiteEdit->text());
-        if( ui->erapaivaEdit->date().isValid())
-            vasta.setErapaiva( ui->erapaivaEdit->date());
 
         // Asiakas tai toimittaja
         if( ui->asiakasToimittaja->id() > 0)
@@ -254,6 +248,9 @@ bool TuloMenoApuri::teeTositteelle()
     else
         tosite()->asetaKumppani( QVariantMap());
 
+    tosite()->asetaLaskupvm( ui->laskuPvm->date());
+    tosite()->asetaErapvm( ui->erapaivaEdit->date());
+    tosite()->asetaViite( ui->viiteEdit->text());
 
     tosite()->viennit()->asetaViennit(viennit);
 

@@ -30,13 +30,18 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
 
     connect( tosite, &Tosite::ladattu, this, &KiertoWidget::lataaTosite);
 
-    connect( ui->vAloita, &QPushButton::clicked, [this] { emit this->tallenna(Tosite::SAAPUNUT); });
+    connect( ui->vAloita, &QPushButton::clicked, [this] { this->valmis(Tosite::SAAPUNUT); });
 
-    connect( ui->tOk, &QPushButton::clicked, [this] { emit this->tallenna(Tosite::TARKASTETTU); });
-    connect( ui->tHylkaa, &QPushButton::clicked, [this] { emit this->tallenna(Tosite::HYLATTY); });
+    connect( ui->tOk, &QPushButton::clicked, [this] { this->valmis(Tosite::TARKASTETTU); });
+    connect( ui->tHylkaa, &QPushButton::clicked, [this] { this->valmis(Tosite::HYLATTY); });
 
-    connect( ui->hOk, &QPushButton::clicked, [this] { emit this->tallenna(Tosite::HYVAKSYTTY); });
-    connect( ui->hHylkaa, &QPushButton::clicked, [this] { emit this->tallenna(Tosite::HYLATTY); });
+    connect( ui->hOk, &QPushButton::clicked, [this] { this->valmis(Tosite::HYVAKSYTTY); });
+    connect( ui->hHylkaa, &QPushButton::clicked, [this] { this->valmis(Tosite::HYLATTY); });
+
+    connect( ui->polkuCombo, &QComboBox::currentTextChanged, [this] {
+        this->ui->siirraNappi->setVisible( this->ui->polkuCombo->currentData().toInt() != this->tosite_->kierto() );
+    });
+    connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
 }
 
 KiertoWidget::~KiertoWidget()
@@ -46,11 +51,15 @@ KiertoWidget::~KiertoWidget()
 
 void KiertoWidget::lataaTosite()
 {
-    if( !kp()->yhteysModel())
+    if( !kp()->yhteysModel() || !tosite_)
         return;
 
 
     int ntila = tosite_ ? tosite_->tositetila() : 0;
+
+    ui->polkuCombo->setCurrentIndex( ui->polkuCombo->findData( tosite_->kierto()  ) );
+    ui->siirraNappi->hide();
+    ui->polkuCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN ));
 
     ui->vCheck->hide();
     ui->vAloita->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN) &&
@@ -66,7 +75,7 @@ void KiertoWidget::lataaTosite()
 
     ui->hInfo->hide();
     ui->hCheck->hide();
-    ui->tHylatty->hide();
+    ui->hHylatty->hide();
     ui->hOk->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_HYVAKSYMINEN) &&
                         (ntila == Tosite::LUONNOS || ntila < Tosite::HYVAKSYTTY));
     ui->hHylkaa->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_HYVAKSYMINEN) &&
@@ -125,4 +134,10 @@ void KiertoWidget::lataaTosite()
         edellinentila = tila;
     }
 
+}
+
+void KiertoWidget::valmis(int tilaan)
+{
+    tosite_->asetaKierto( ui->polkuCombo->currentData().toInt() );
+    emit tallenna(tilaan);
 }

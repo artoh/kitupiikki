@@ -39,9 +39,6 @@ public:
         JAKSOLOPPUU,
         ERA,
         ARKISTOTUNNUS,
-        VIITE,
-        LASKUPVM,
-        ERAPAIVA,
         KUMPPANI,
         TYYPPI,
         PALKKAKOODI,
@@ -89,9 +86,6 @@ public:
     int kumppaniId() const;
     QVariantList merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
-    QString viite() const { return data(VIITE).toString();}
-    QDate laskupvm() const { return data(LASKUPVM).toDate();}
-    QDate erapaiva() const { return data(ERAPAIVA).toDate();}
     int tyyppi() const { return data(TYYPPI).toInt(); }
     QString palkkakoodi() const { return data(PALKKAKOODI).toString(); }
     int tasaerapoisto() const { return data(TASAERAPOISTO).toInt();}
@@ -115,9 +109,6 @@ public:
     void setEra(int era);
     void setEra(const QVariantMap& era);
     void setArkistotunnus(const QString& tunnus);
-    void setViite(const QString& viite);
-    void setLaskupvm(const QDate& laskupvm);
-    void setErapaiva(const QDate& erapvm);
     void setKumppani(int kumppaniId);
     void setKumppani(const QString& kumppani);
     void setKumppani(const QVariantMap& map);

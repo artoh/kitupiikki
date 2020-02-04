@@ -165,21 +165,6 @@ void TositeVienti::setArkistotunnus(const QString &tunnus)
     set( ARKISTOTUNNUS, tunnus);
 }
 
-void TositeVienti::setViite(const QString &viite)
-{
-    set( VIITE, viite);
-}
-
-void TositeVienti::setLaskupvm(const QDate &laskupvm)
-{
-    set( LASKUPVM, laskupvm);
-}
-
-void TositeVienti::setErapaiva(const QDate &erapvm)
-{
-    set( ERAPAIVA, erapvm);
-}
-
 void TositeVienti::setKumppani(int kumppaniId)
 {
     QVariantMap kmap;
@@ -249,9 +234,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { JAKSOLOPPUU, "jaksoloppuu"},
     { ERA, "era"},
     { ARKISTOTUNNUS, "arkistotunnus"},
-    { VIITE, "viite"},
-    { LASKUPVM, "laskupvm"},
-    { ERAPAIVA, "erapvm"},
     { KUMPPANI, "kumppani"},
     { TYYPPI, "tyyppi"},
     { PALKKAKOODI, "palkkakoodi"},
