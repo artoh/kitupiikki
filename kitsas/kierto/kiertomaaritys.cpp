@@ -23,6 +23,7 @@
 #include "kiertomuokkausdlg.h"
 
 #include <QSortFilterProxyModel>
+#include <QMessageBox>
 
 KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
     MaaritysWidget(parent),
@@ -44,6 +45,22 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
                               .arg(kp()->pilvi()->pilviId()));
 
     connect(ui->uusiNappi, &QPushButton::clicked, this, &KiertoMaaritys::uusi);
+    connect(ui->muokkaaNappi, &QPushButton::clicked, this, &KiertoMaaritys::muokkaa);
+    connect(ui->poistaNappi, &QPushButton::clicked, this, &KiertoMaaritys::poista);
+
+    connect(ui->alatunnisteEdit, &QPlainTextEdit::textChanged, this, &KiertoMaaritys::ohjeMuokattu);
+    connect(ui->tallennaNappi, &QPushButton::clicked, [this] () {
+        kp()->asetukset()->aseta("PortaaliOhje", ui->alatunnisteEdit->toPlainText());
+        this->ohjeMuokattu();
+    });
+    connect(ui->PeruNappi, &QPushButton::clicked, this, [this] () {
+        this->ui->alatunnisteEdit->setPlainText(kp()->asetukset()->asetus("PortaaliOhje"));
+    });
+    connect(ui->portaaliRyhma, &QGroupBox::toggled, [] (bool paalla) {
+        kp()->asetukset()->aseta("Portaali", paalla);
+    });
+
+    connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &KiertoMaaritys::paivitaNapit);
 }
 
 KiertoMaaritys::~KiertoMaaritys()
@@ -55,4 +72,51 @@ void KiertoMaaritys::uusi()
 {
     KiertoMuokkausDlg dlg(0, this, ui->portaaliRyhma->isChecked());
     dlg.exec();
+    kp()->kierrot()->paivita();
+}
+
+void KiertoMaaritys::muokkaa()
+{
+    int id = ui->view->currentIndex().data(KiertoModel::IdRooli).toInt();
+    if( id ) {
+        KiertoMuokkausDlg dlg(id, this, ui->portaaliRyhma->isChecked());
+        dlg.exec();
+        kp()->kierrot()->paivita();
+
+    }
+}
+
+void KiertoMaaritys::poista()
+{
+    int id = ui->view->currentIndex().data(KiertoModel::IdRooli).toInt();
+    if( id &&
+            QMessageBox::question(this, tr("Kierron poistaminen"),
+                                  tr("Haluatko todella poistaa kierron %1")
+                                  .arg(ui->view->currentIndex().data(KiertoModel::NimiRooli).toString())
+                                  ) == QMessageBox::Yes) {
+
+        KpKysely *poisto = kpk(QString("/kierrot/%1").arg(id), KpKysely::DELETE);
+        connect(poisto, &KpKysely::vastaus, kp()->kierrot(), &KiertoModel::paivita);
+        poisto->kysy();
+    }
+}
+
+bool KiertoMaaritys::nollaa()
+{
+    ui->portaaliRyhma->setChecked( kp()->asetukset()->onko("Portaali") );
+    ui->alatunnisteEdit->setPlainText( kp()->asetukset()->asetus("PortaaliOhje"));
+    return true;
+}
+
+void KiertoMaaritys::ohjeMuokattu()
+{
+    bool muokattu = kp()->asetukset()->asetus("PortaaliOhje") != ui->alatunnisteEdit->toPlainText();
+    ui->tallennaNappi->setEnabled( muokattu);
+    ui->PeruNappi->setEnabled( muokattu );
+}
+
+void KiertoMaaritys::paivitaNapit(const QModelIndex& index)
+{
+    ui->muokkaaNappi->setEnabled( index.isValid());
+    ui->poistaNappi->setEnabled( index.isValid());
 }

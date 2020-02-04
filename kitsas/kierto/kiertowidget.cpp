@@ -20,11 +20,13 @@
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 #include "ui_kierto.h"
+#include "kiertomodel.h"
 
 KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui( new Ui::Kierto), tosite_(tosite)
 {
     ui->setupUi(this);
+    ui->polkuCombo->setModel(kp()->kierrot());
 
     connect( tosite, &Tosite::ladattu, this, &KiertoWidget::lataaTosite);
 

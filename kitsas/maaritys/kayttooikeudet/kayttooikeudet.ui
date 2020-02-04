@@ -323,7 +323,7 @@ font-weight: bold;</string>
               <item>
                <widget class="QGroupBox" name="groupBox_7">
                 <property name="title">
-                 <string>Raporttit</string>
+                 <string>Raportit</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>

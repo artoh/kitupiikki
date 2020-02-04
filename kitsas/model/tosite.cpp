@@ -85,7 +85,7 @@ QString Tosite::tilateksti(int tila)
     case SAAPUNUT: return tr("Saapunut");
     case TARKASTETTU: return tr("Tarkastettu");
     case HYVAKSYTTY: return tr("Hyväksytty");
-    case LUONNOS: return tr("Luonnos");
+    case LUONNOS: case LASKULUONNOS: return tr("Luonnos");
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");
     case LAHETETAAN: return tr("Lähettäminen epäonnistui");
@@ -93,6 +93,24 @@ QString Tosite::tilateksti(int tila)
     case MUISTUTETTU: return tr("Muistutettu");
     }
     return QString();
+}
+
+QIcon Tosite::tilakuva(int tila)
+{
+    switch (tila) {
+    case POISTETTU: return QIcon(":/pic/roskis.png");
+    case HYLATTY: return QIcon(":/pic/sulje.png");
+    case SAAPUNUT: return QIcon(":/pic/inbox.png");
+    case TARKASTETTU: return QIcon(":/pixaby/tarkastettu.svg");
+    case HYVAKSYTTY: return QIcon(":/pixaby/hyvaksytty.svg");
+    case LUONNOS: return QIcon(":/pic/harmaa.png");
+    case VALMISLASKU: return QIcon(":/pic/keltainen.png");
+    case KIRJANPIDOSSA: return QIcon(":/pic/kaytossa.png");
+    case LAHETETAAN: return QIcon(":/pic/varoitus.png");
+    case LAHETETTYLASKU: return QIcon(":/pic/mail.png");
+    case MUISTUTETTU: return QIcon(":/pic/punainenkuori.png");
+    }
+    return QIcon(":/pic/tyhja.png");
 }
 
 QDate Tosite::pvm() const

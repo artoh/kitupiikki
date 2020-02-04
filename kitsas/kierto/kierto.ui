@@ -43,13 +43,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="polkuLabel">
-       <property name="text">
-        <string>Polku</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QComboBox" name="polkuCombo">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">

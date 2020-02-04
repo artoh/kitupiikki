@@ -73,6 +73,7 @@
 
 #include "db/yhteysmodel.h"
 #include "../kierto/kiertowidget.h"
+#include "../kierto/kiertomodel.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
@@ -192,9 +193,9 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt());
     tosite()->asetaPvm( ui->tositePvmEdit->date());
 
-    KiertoWidget* kierto = new KiertoWidget(tosite(), this);
-    ui->tabWidget->insertTab( ui->tabWidget->count()-1, kierto, QIcon(":/pixaby/oikealle.png"), tr("Kierto") );
-    connect( kierto, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
+    kiertoTab_ = new KiertoWidget(tosite(), this);
+    ui->tabWidget->insertTab( ui->tabWidget->count()-1, kiertoTab_, QIcon(":/pic/kierto.svg"), tr("Kierto") );
+    connect( kiertoTab_, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
 
 }
 
@@ -432,7 +433,7 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     QDate pvm = kp()->paivamaara();
     if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu())
         pvm = kp()->tilikaudet()->kirjanpitoLoppuu();
-    tosite()->asetaPvm(pvm);
+    tosite()->asetaPvm(pvm);            
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -717,8 +718,10 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 {
     if(tunniste)
         ui->tunnisteLabel->setText(QString::number(tunniste));
-    else
+    else if( tosite()->tositetila() == 0 )
         ui->tunnisteLabel->setText(tr("Uusi tosite"));
+    else
+        ui->tunnisteLabel->setText( Tosite::tilateksti(tosite()->tositetila()) );
     ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
     ui->sarjaEdit->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
 
@@ -747,6 +750,15 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
         ui->seuraavaButton->setVisible(false);
         ui->vuosiLabel->setVisible(false);
     }
+
+    if( tosite()->tositetila() >= Tosite::HYLATTY && tosite()->tositetila() <= Tosite::HYVAKSYTTY)
+    {
+        ui->tabWidget->setCurrentWidget(kiertoTab_);
+        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(kiertoTab_), QIcon(":/pic/kierto.svg") );
+    } else {
+        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(kiertoTab_), QIcon(":/pic/kierto-harmaa.svg") );
+    }
+    ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(kiertoTab_), kp()->kierrot()->rowCount() );
 
 }
 

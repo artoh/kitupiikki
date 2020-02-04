@@ -51,6 +51,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="muokkaaNappi">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Muokkaa</string>
           </property>
@@ -61,7 +64,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="poistaNappi">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Poista</string>
           </property>

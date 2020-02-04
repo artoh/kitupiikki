@@ -108,16 +108,7 @@ bool PilviModel::avaaPilvesta(int pilviId)
             pilviId_ = pilviId;
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
-            oikeudet_ = 0;
-            QVariantList oikeudet = map.value("rights").toList();
-            for(auto oikeus : oikeudet) {
-                try {
-                    oikeudet_ += oikeustunnukset__.at(oikeus.toString());
-                } catch( std::out_of_range )
-                {
-                    qDebug() << "Tuntematon oikeus " << oikeus.toString();
-                }
-            }
+            oikeudet_ = oikeudet( map.value("rights").toList() );
             alusta();
 
             emit kirjauduttu();
@@ -138,6 +129,20 @@ void PilviModel::sulje()
     oikeudet_ = 0;
     osoite_.clear();
     token_.clear();
+}
+
+qlonglong PilviModel::oikeudet(const QVariantList &lista)
+{
+    qlonglong bittikartta = 0;
+    for(auto oikeus : lista) {
+        try {
+            bittikartta += oikeustunnukset__.at(oikeus.toString());
+        } catch( std::out_of_range )
+        {
+            qDebug() << "Tuntematon oikeus " << oikeus.toString();
+        }
+    }
+    return bittikartta;
 }
 
 
@@ -305,5 +310,6 @@ std::map<QString,qlonglong> PilviModel::oikeustunnukset__ = {
     {"Om", OMISTAJA},
     {"Xt", TUOTTEET},
     {"Xr", RYHMAT},
-    {"Ra", RAPORTIT}
+    {"Ra", RAPORTIT},
+    {"Ks", KIERTO_SELAAMINEN}
 };

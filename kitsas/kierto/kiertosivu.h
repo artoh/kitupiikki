@@ -19,6 +19,8 @@
 
 #include "kitupiikkisivu.h"
 
+class KiertoSelausModel;
+
 namespace Ui {
     class KiertoSivu;
 }
@@ -30,8 +32,15 @@ public:
     KiertoSivu(QWidget *parent = nullptr);
     ~KiertoSivu() override;
 
+    void siirrySivulle() override;
+signals:
+    void tositeValittu(int id);
+private:
+    void naytaTosite(const QModelIndex& index);
+
 private:
     Ui::KiertoSivu* ui;
+    KiertoSelausModel *model;
 };
 
 #endif // KIERTOSIVU_H

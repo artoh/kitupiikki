@@ -71,6 +71,12 @@ public:
 
     qlonglong oikeudet() const override { return oikeudet_;}
 
+    /**
+     * @brief Muodostaa oikeuksista bittikartan
+     * @param Oikeudet listana ["Ts","Tl"] jne
+     * @return YhteysModelin oikeuksista koostuva bittikartta
+     */
+    static qlonglong oikeudet(const QVariantList& lista);
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);

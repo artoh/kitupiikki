@@ -31,9 +31,17 @@ public:
     KiertoMaaritys(QWidget *parent = nullptr);
     ~KiertoMaaritys() override;
 
-    void uusi();
+    bool nollaa() override;
+    bool naytetaankoTallennus() override { return false;}
 
 private:
+    void uusi();
+    void muokkaa();
+    void poista();
+
+    void ohjeMuokattu();
+    void paivitaNapit(const QModelIndex& index);
+
     Ui::KiertoMaaritys *ui;
 };
 

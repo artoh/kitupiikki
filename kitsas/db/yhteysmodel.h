@@ -48,7 +48,8 @@ public:
         OMISTAJA            = 0b100000000000000,
         TUOTTEET            = 0b1000000000000000,
         RYHMAT              = 0b10000000000000000,
-        RAPORTIT            = 0b100000000000000000
+        RAPORTIT            = 0b100000000000000000,
+        KIERTO_SELAAMINEN   = 0b1000000000000000000
     };
 
 

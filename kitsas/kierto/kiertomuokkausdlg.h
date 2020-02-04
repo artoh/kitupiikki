@@ -23,16 +23,33 @@ namespace Ui {
 class KiertoMuokkausDlg;
 }
 
+class KiertoMuokkausModel;
+class QSortFilterProxyModel;
+
 class KiertoMuokkausDlg : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit KiertoMuokkausDlg(int id = 0, QWidget *parent = nullptr, bool portaali = true);
-    ~KiertoMuokkausDlg();    
+    ~KiertoMuokkausDlg() override;
+
+    void accept() override;
+
+private:
+    void tallennettu();
+    void alusta();
+    void kayttajatSaapuu(QVariant* data);
+    void paivitaRooliValinta();
+    void lisaaRivi();
+    void poistaRivi();
+    void lataa(QVariant* data);
+    QVariantMap data() const;
 
 private:
     Ui::KiertoMuokkausDlg *ui;
+    KiertoMuokkausModel *model;
+    QSortFilterProxyModel *proxy;
     int kiertoId_ = 0;
 };
 

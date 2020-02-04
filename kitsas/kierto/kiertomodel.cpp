@@ -17,6 +17,8 @@
 #include "kiertomodel.h"
 #include "db/kirjanpito.h"
 
+#include <QIcon>
+
 KiertoModel::KiertoModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -41,9 +43,20 @@ QVariant KiertoModel::data(const QModelIndex &index, int role) const
         return lista_.at(index.row()).second;
     } else if( role == IdRooli) {
         return lista_.at(index.row()).first;
+    } else if( role == Qt::DecorationRole) {
+        return QIcon(":/pic/kierto.svg");
     }
 
     return QVariant();
+}
+
+QString KiertoModel::nimi(int id) const
+{
+    for(auto item : lista_) {
+        if( item.first == id)
+            return item.second;
+    }
+    return QString();
 }
 
 void KiertoModel::lataaData(QVariant *lista)

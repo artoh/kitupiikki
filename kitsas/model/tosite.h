@@ -70,6 +70,7 @@ public:
         TARKASTETTU     = 30,
         HYVAKSYTTY      = 40,
         LUONNOS         = 50,
+        LASKULUONNOS    = 60,
         VALMISLASKU     = 80,
         KIRJANPIDOSSA   = 100,
         LAHETETAAN      = 101,
@@ -90,6 +91,7 @@ public:
     bool resetoidaanko() const { return resetointiKaynnissa_; }
 
     static QString tilateksti(int tila);
+    static QIcon tilakuva(int tila);
 
     int id() const { return data(ID).toInt();}
     int tyyppi() const { return data(TYYPPI).toInt();}

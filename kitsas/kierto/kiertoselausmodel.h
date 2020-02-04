@@ -14,33 +14,49 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KIERTOMODEL_H
-#define KIERTOMODEL_H
+#ifndef KIERTOSELAUSMODEL_H
+#define KIERTOSELAUSMODEL_H
 
-#include <QAbstractListModel>
+#include <QAbstractTableModel>
 
-class KiertoModel : public QAbstractListModel
+class KiertoSelausModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit KiertoModel(QObject *parent = nullptr);
+    explicit KiertoSelausModel(QObject *parent = nullptr);
 
     enum {
-        NimiRooli = Qt::DisplayRole,
+        TILA,
+        KIERTO,
+        PVM,
+        ERAPVM,
+        SUMMA,
+        KUMPPANI,
+        OTSIKKO
+    };
+
+    enum {
         IdRooli = Qt::UserRole
     };
 
+    // Header:
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    QString nimi(int id) const;
-    void lataaData(QVariant* lista);
-    void lataa(const QVariantList &lista);
-    void paivita();
+    void lataa();
+
+protected:
+    void saapuu(QVariant* data);
 
 private:
-    QList<QPair<int,QString>> lista_;
+    QVariantList lista_;
+    bool kaikki_ = false;
 };
 
-#endif // KIERTOMODEL_H
+#endif // KIERTOSELAUSMODEL_H

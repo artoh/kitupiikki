@@ -170,6 +170,7 @@
         <file>refresh.png</file>
         <file>verkkovirhe.png</file>
         <file>kierto.svg</file>
+        <file>kierto-harmaa.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
@@ -220,5 +221,7 @@
         <file>pixaby/tarkastus.png</file>
         <file>pixaby/log-in.svg</file>
         <file>pixaby/log-out.svg</file>
+        <file>pixaby/hyvaksytty.svg</file>
+        <file>pixaby/tarkastettu.svg</file>
     </qresource>
 </RCC>

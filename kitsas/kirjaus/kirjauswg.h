@@ -31,6 +31,7 @@ class SelausWg;
 
 class Tosite;
 class ApuriWidget;
+class KiertoWidget;
 
 /**
  * @brief Kirjausten muokkaus
@@ -165,6 +166,7 @@ protected:
     QWidget* liitteetTab_;
     QWidget* varastoTab_;
     QWidget* lokiTab_;
+    KiertoWidget* kiertoTab_;
 
     SelausWg* selaus_;
     QPair<int,int> edellinenSeuraava_;

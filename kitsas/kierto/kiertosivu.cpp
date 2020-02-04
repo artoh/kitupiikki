@@ -17,14 +17,35 @@
 #include "kiertosivu.h"
 #include "ui_kiertosivu.h"
 
+#include "kiertoselausmodel.h"
+
 KiertoSivu::KiertoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
-    ui(new Ui::KiertoSivu)
+    ui(new Ui::KiertoSivu),
+    model(new KiertoSelausModel(this))
 {
     ui->setupUi(this);
+    ui->view->setModel(model);
+    ui->view->horizontalHeader()->setSectionResizeMode(KiertoSelausModel::OTSIKKO, QHeaderView::Stretch);
+
+    ui->tab->addTab(QIcon(":/pic/inbox.png"),tr("Työlista"));
+    ui->tab->addTab(QIcon(":/pic/kierto-harmaa.svg"),tr("Kaikki"));
+
+    connect( ui->view, &QTableView::clicked, this, &KiertoSivu::naytaTosite);
 }
 
 KiertoSivu::~KiertoSivu()
 {
     delete ui;
+}
+
+void KiertoSivu::siirrySivulle()
+{
+    model->lataa();
+}
+
+void KiertoSivu::naytaTosite(const QModelIndex &index)
+{
+    if( index.isValid())
+        emit tositeValittu( index.data(KiertoSelausModel::IdRooli).toInt());
 }
