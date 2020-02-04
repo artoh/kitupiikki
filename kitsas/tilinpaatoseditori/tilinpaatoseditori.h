@@ -91,6 +91,7 @@ protected:
     QToolBar *tilinpaatosTb_;
 
     QStringList raportit_;
+    QString tallennettu_;
 };
 
 #endif // TILINPAATOSEDITORI_H

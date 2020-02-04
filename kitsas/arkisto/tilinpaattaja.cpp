@@ -86,13 +86,6 @@ void TilinPaattaja::paivitaDialogi()
     ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
 
-    bool tilinpaatosolemassa = !tilikausi.str("tilinpaatos").isEmpty();
-
-    ui->tulostaNappi->setEnabled( tilinpaatosolemassa );
-    ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
-
-
-
     if( kp()->paivamaara() < tilikausi.paattyy() )
     {
         varoitukset.append(tr("<p><b>Tilikausi on vielä kesken</b><br>"
@@ -112,6 +105,13 @@ void TilinPaattaja::paivitaDialogi()
     KpKysely *kysely = kpk(QString("/tilikaudet/%1").arg(tilikausi.paattyy().toString(Qt::ISODate)));
     connect( kysely, &KpKysely::vastaus, this, &TilinPaattaja::dataSaapuu);
     kysely->kysy();
+
+    KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+    connect( tkysely, &KpKysely::vastaus, [this] () {
+        this->ui->tulostaNappi->setEnabled(true);
+        this->ui->vahvistaNappi->setEnabled(true);
+    });
+    tkysely->kysy();
 
     kp()->tilikaudet()->paivita();
 }

@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDirIterator>
+#include <QDebug>
 
 #include <fstream>
 #include <iostream>
@@ -57,6 +58,9 @@ ArkistoSivu::ArkistoSivu()
     ui = new Ui::TilikausiMaaritykset;
     ui->setupUi(this);
 
+    ui->view->setModel( kp()->tilikaudet() );
+    ui->view->hideColumn(TilikausiModel::LYHENNE);
+
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
     connect( ui->aineistoNappi, &QPushButton::clicked, this, &ArkistoSivu::aineisto);
     connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
@@ -66,6 +70,9 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
     connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
+
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit );
+
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -78,16 +85,11 @@ ArkistoSivu::~ArkistoSivu()
 void ArkistoSivu::siirrySivulle()
 {
     kp()->tilikaudet()->paivita();
-
-    ui->view->setModel( kp()->tilikaudet() );
-    ui->view->hideColumn(TilikausiModel::LYHENNE);
     ui->view->resizeColumnsToContents();
 
     for(int i=0; i < 6; i++)
         ui->view->setColumnWidth( i, (ui->view->width()-10) / 6);
     ui->view->horizontalHeader()->setStretchLastSection(true);
-
-    connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit );
 
     // Pyritään valitsemaan tilikausi, jolle laaditaan seuraavaksi tilinpäätös
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
@@ -224,7 +226,8 @@ void ArkistoSivu::tilinpaatosKasky()
 
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
-    int indeksi = ui->view->selectionModel()->currentIndex().row();
+    int indeksi = ui->view->selectionModel()->selectedRows().value(0).row();
+    qDebug() << " indekkksi "  << indeksi;
 
     if( indeksi > -1)
     {
@@ -232,9 +235,9 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
 
-
-        ui->arkistoNappi->setEnabled( true );
-        ui->vieNappi->setEnabled( true );
+        ui->arkistoNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+        ui->vieNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+        ui->aineistoNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
 
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
@@ -246,6 +249,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->tilinpaatosNappi->setEnabled(false);
         ui->arkistoNappi->setEnabled(false);
         ui->muokkaaNappi->setEnabled(false);
+        ui->aineistoNappi->setEnabled(false);
         // ui->numeroiButton->setEnabled(false);
     }
 }

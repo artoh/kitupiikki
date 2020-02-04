@@ -107,22 +107,16 @@ void TpAloitus::lataaTiedosto()
                                                     QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
     if( !tiedosto.isEmpty() )
     {
-        QString tulosfile =  tilikausi.arkistopolku() + "/tilinpaatos.pdf" ;
-        if( QFile::exists(tulosfile))
-            QFile(tulosfile).remove();
-        QFile::copy( tiedosto, tulosfile);
-
         QFile luku(tiedosto);
         if(!luku.open(QIODevice::ReadOnly))
             QMessageBox::critical(this, tr("Tiedostovirhe"), tr("Tiedoston %1 luku epäonnistui\n%2")
                                   .arg(tiedosto)
                                   .arg(luku.errorString()));
-
         QMap<QString,QString> meta;
         meta.insert("Filename",tiedosto);
         KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
         connect( kysely, &KpKysely::vastaus, this, &TpAloitus::reject);
-        kysely->lahetaTiedosto( luku.readAll() , meta);
+        kysely->lahetaTiedosto( luku.readAll(), meta);
     }
 }
 

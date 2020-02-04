@@ -23,6 +23,7 @@
 #include <QSqlQuery>
 #include <QJsonDocument>
 #include <QVariant>
+#include <QNetworkReply>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
@@ -173,15 +174,17 @@ void TilinpaatosEditori::lataa()
 
 void TilinpaatosEditori::tekstiSaapuu(QVariant *data)
 {
-    QString teksti = QString::fromUtf8(data->toByteArray());
+    QString teksti = QString::fromUtf8(data->toByteArray());    
 
     raportit_ = teksti.left( teksti.indexOf("\n")).split(" ");
     editori_->setText( teksti.mid(teksti.indexOf("\n")+1));
+    tallennettu_ = editori_->toHtml();
 }
 
 void TilinpaatosEditori::eitekstia(int virhe)
 {
-    if( virhe == 404) {
+    tallennettu_ = editori_->toHtml();
+    if( virhe == QNetworkReply::ContentNotFoundError) {
         if( !aloitaAlusta()) {
             close();
         }
@@ -193,7 +196,7 @@ void TilinpaatosEditori::eitekstia(int virhe)
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
-    if( teksti != kp()->asetukset()->asetus("tilinpaatos/" + tilikausi_.paattyy().toString(Qt::ISODate)))
+    if( editori_->toHtml() != tallennettu_)
     {
         QMessageBox::StandardButton vastaus =
                 QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
@@ -251,6 +254,7 @@ void TilinpaatosEditori::tallenna()
 {    
 
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
+    tallennettu_ = editori_->toHtml();
 
     KpKysely *tallennus = kpk(QString("/liitteet/0/TPTEKSTI_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
     QMap<QString,QString> meta;
