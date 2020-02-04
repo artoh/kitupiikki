@@ -523,7 +523,7 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
     if( loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() && alkupvm.daysTo(loppupvm) < 32 ) {
         huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm).alkaa();
         huojennusloppu = loppupvm;
-    } else if( loppupvm.month() == 12 && loppupvm.day() == 31) {
+    } else if( loppupvm.month() == 12 && loppupvm.day() == 31 && alkupvm.daysTo(loppupvm) > 31) {
         // Jos alv-kausi muu kuin kuukausi, lasketaan verovuoden mukaisesti
         huojennusloppu = loppupvm;
         huojennusalku = QDate(loppupvm.year(),1,1);
