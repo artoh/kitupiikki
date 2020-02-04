@@ -76,7 +76,7 @@ int PilviModel::omatPilvet() const
 {
     int omia = 0;
     for( auto pilvi : data_.value("clouds").toList())
-        if( pilvi.toMap().value("right").toString() == "owner")
+        if( oikeudet( pilvi.toMap().value("rights").toList() ) & YhteysModel::OMISTAJA )
             omia++;
 
     return omia;

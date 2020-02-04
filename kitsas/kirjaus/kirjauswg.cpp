@@ -194,7 +194,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     tosite()->asetaPvm( ui->tositePvmEdit->date());
 
     kiertoTab_ = new KiertoWidget(tosite(), this);
-    ui->tabWidget->insertTab( ui->tabWidget->count()-1, kiertoTab_, QIcon(":/pic/kierto.svg"), tr("Kierto") );
+    kiertoTab_->hide();
     connect( kiertoTab_, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
 
 }
@@ -394,12 +394,12 @@ void KirjausWg::tallenna(int tilaan)
     this->tosite_->tallenna(tilaan);
 }
 
-void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const QString& sarja)
+void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const QString& sarja, int tila)
 {
     if( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli) == TositeTyyppi::TILIOTE)
         ui->tositetyyppiCombo->setCurrentIndex(0);
 
-    emit kp()->tositeTallennettu(tunniste, pvm, sarja);
+    emit kp()->tositeTallennettu(tunniste, pvm, sarja, tila);
     tyhjenna();
     emit tositeKasitelty();
 }
@@ -751,14 +751,21 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
         ui->vuosiLabel->setVisible(false);
     }
 
-    if( tosite()->tositetila() >= Tosite::HYLATTY && tosite()->tositetila() <= Tosite::HYVAKSYTTY)
-    {
-        ui->tabWidget->setCurrentWidget(kiertoTab_);
-        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(kiertoTab_), QIcon(":/pic/kierto.svg") );
-    } else {
-        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(kiertoTab_), QIcon(":/pic/kierto-harmaa.svg") );
+    int kiertoIndex = ui->tabWidget->indexOf(kiertoTab_);
+    if( kp()->kierrot()->rowCount()) {
+        if( kiertoIndex < 0)
+            kiertoIndex = ui->tabWidget->insertTab( ui->tabWidget->count()-1, kiertoTab_, QIcon(":/pic/kierto.svg"), tr("Kierto") );
+
+        if( tosite()->tositetila() >= Tosite::HYLATTY && tosite()->tositetila() <= Tosite::HYVAKSYTTY)
+        {
+            ui->tabWidget->setCurrentWidget(kiertoTab_);
+            ui->tabWidget->setTabIcon( kiertoIndex, QIcon(":/pic/kierto.svg") );
+        } else {
+            ui->tabWidget->setTabIcon( kiertoIndex, QIcon(":/pic/kierto-harmaa.svg") );
+        }
+    } else if( kiertoIndex >= 0) {
+        ui->tabWidget->removeTab(kiertoIndex);
     }
-    ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(kiertoTab_), kp()->kierrot()->rowCount() );
 
 }
 

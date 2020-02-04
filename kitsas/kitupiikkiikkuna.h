@@ -105,9 +105,6 @@ protected slots:
      */
     void kirjaaKirjattavienKansiosta();
 
-    void piilotaAlvJosEiVerovelvollinen();
-
-
 protected:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);

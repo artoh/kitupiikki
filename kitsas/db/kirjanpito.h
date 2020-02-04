@@ -324,7 +324,7 @@ signals:
      * @param paiva Tositteen päivämäärä
      * @param sarja Tositesarja
      */
-    void tositeTallennettu(int tunnus, const QDate& paiva, const QString& sarja);
+    void tositeTallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
     void piilotaTallennusWidget();
 
     /**
@@ -420,13 +420,6 @@ public:
      * @since 0.5
      */
     static void asetaInstanssi(Kirjanpito* kp);
-
-    /**
-     * @brief Käytössä oleva tietokantaversio
-     *
-     * Jos yritetään avata uudempaa, tulee virhe
-     */
-    static const int TIETOKANTAVERSIO = 21;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon

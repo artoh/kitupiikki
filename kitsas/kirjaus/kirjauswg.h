@@ -21,6 +21,7 @@
 #include <QWidget>
 #include <QSortFilterProxyModel>
 
+#include "model/tosite.h"
 #include "ui_kirjaus.h"
 #include "naytaliitewg.h"
 
@@ -107,7 +108,7 @@ private slots:
 private slots:    
     void paivita(bool muokattu, int virheet, double debet, double kredit);
     void tallenna(int tilaan);
-    void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString());
+    void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString(), int tila = Tosite::KIRJANPIDOSSA);
     void tallennusEpaonnistui(int virhe);
 
     void tuonti(QVariant* data);

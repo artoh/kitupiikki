@@ -41,7 +41,7 @@ TallennettuWidget::~TallennettuWidget()
     delete ui;
 }
 
-void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sarja)
+void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sarja, int tila)
 {
 
     timer_->start(60000);
@@ -55,6 +55,8 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sar
                                 .arg(tunnus)
                                 .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() )
                                 .arg(sarja));
+    } else {
+        ui->luonnosLabel->setText(tr("Tosite tallennettu tilassa\n") + Tosite::tilateksti(tila));
     }
 
     setVisible(true);

@@ -18,6 +18,7 @@
 #define TALLENNETTUWIDGET_H
 
 #include <QWidget>
+#include "model/tosite.h"
 
 class QTimer;
 
@@ -35,7 +36,7 @@ public:
 
 
 public slots:
-    void nayta(int tunnus, const QDate& paiva, const QString& sarja = QString());
+    void nayta(int tunnus, const QDate& paiva, const QString& sarja = QString(), int tila = Tosite::KIRJANPIDOSSA);
     void piiloon();
 
 private:

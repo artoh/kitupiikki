@@ -23,6 +23,7 @@
 KiertoSelausModel::KiertoSelausModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+
 }
 
 QVariant KiertoSelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -98,6 +99,12 @@ void KiertoSelausModel::lataa()
     KpKysely *kysely = kpk( kaikki_ ? "/kierrot/kaikki" : "/kierrot/tyolista");
     connect( kysely, &KpKysely::vastaus, this, &KiertoSelausModel::saapuu);
     kysely->kysy();
+}
+
+void KiertoSelausModel::naytaKaikki(bool nayta)
+{
+    kaikki_ = nayta;
+    lataa();
 }
 
 void KiertoSelausModel::saapuu(QVariant *data)

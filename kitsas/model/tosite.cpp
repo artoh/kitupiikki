@@ -302,11 +302,7 @@ void Tosite::tallennusValmis(QVariant *variant)
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else
         emit talletettu( id(), tunniste(), pvm(),
-                         sarja());
-
-    // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
-    if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
-        kp()->asetukset()->aseta("EkaTositeKirjattu", true);
+                         sarja(), tositetila());
 }
 
 void Tosite::tallennuksessaVirhe(int virhe)
@@ -316,8 +312,7 @@ void Tosite::tallennuksessaVirhe(int virhe)
 
 void Tosite::liitteetTallennettu()
 {
-    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
-                     data(SARJA).toString());
+    emit talletettu( id(), tunniste(), pvm(), sarja(), tositetila());
 }
 
 QVariantMap Tosite::tallennettava() const

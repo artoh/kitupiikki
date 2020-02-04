@@ -50,6 +50,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void lataa();
+    void naytaKaikki(bool nayta);
 
 protected:
     void saapuu(QVariant* data);

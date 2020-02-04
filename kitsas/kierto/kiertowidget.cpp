@@ -39,9 +39,12 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     connect( ui->hHylkaa, &QPushButton::clicked, [this] { this->valmis(Tosite::HYLATTY); });
 
     connect( ui->polkuCombo, &QComboBox::currentTextChanged, [this] {
-        this->ui->siirraNappi->setVisible( this->ui->polkuCombo->currentData().toInt() != this->tosite_->kierto() );
+        this->ui->siirraNappi->setVisible( this->ui->polkuCombo->currentData().toInt() != this->tosite_->kierto()
+                && this->tosite_->tositetila() >= Tosite::HYLATTY
+                && this->tosite_->tositetila() <= Tosite::HYVAKSYTTY);
     });
     connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
+
 }
 
 KiertoWidget::~KiertoWidget()
@@ -57,7 +60,8 @@ void KiertoWidget::lataaTosite()
 
     int ntila = tosite_ ? tosite_->tositetila() : 0;
 
-    ui->polkuCombo->setCurrentIndex( ui->polkuCombo->findData( tosite_->kierto()  ) );
+
+    ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
     ui->polkuCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN ));
 

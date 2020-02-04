@@ -135,7 +135,7 @@ public:
 
 signals:
     void ladattu();
-    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);
+    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
 

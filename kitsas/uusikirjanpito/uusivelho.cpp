@@ -44,6 +44,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "db/tositetyyppimodel.h"
+#include "sqlite/sqlitemodel.h"
 
 #include <iostream>
 
@@ -103,7 +104,7 @@ QVariantMap UusiVelho::data() const
     if( field("kateissarjaan").toBool())
             asetusMap.insert("kateissarjaan", true);
 
-    asetusMap.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO );
+    asetusMap.insert("KpVersio", SQLiteModel::TIETOKANTAVERSIO );
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
     asetusMap.insert("Luotu", QDateTime::currentDateTime());
     asetusMap.insert("UID", Kirjanpito::satujono(16));

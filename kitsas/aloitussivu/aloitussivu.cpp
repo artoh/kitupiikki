@@ -565,8 +565,8 @@ void AloitusSivu::logoMuuttui()
 
 void AloitusSivu::haeSaldot()
 {
-    if( kp()->yhteysModel() && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS) && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::RAPORTIT)
-            && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS))
+    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS
+                                                                   | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS | YhteysModel::ASETUKSET) )
         return;
 
     QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
@@ -591,7 +591,8 @@ QString AloitusSivu::vinkit()
     }
 
     // Ensin tietokannan alkutoimiin
-    if( !kp()->asetukset()->onko("EkaTositeKirjattu") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
+    int indeksitilikausi = kp()->tilikaudet()->rowCount() > 1 ? 1 : 0;
+    if(kp()->tilikaudet()->tilikausiIndeksilla( indeksitilikausi ).liikevaihto()  )
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");

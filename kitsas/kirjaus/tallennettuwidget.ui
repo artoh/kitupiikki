@@ -59,7 +59,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Tosite tallennettu luonnoksena</string>
+        <string>Tosite tallennettu</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

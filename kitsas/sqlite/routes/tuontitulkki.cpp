@@ -72,7 +72,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
                              "JOIN Tosite ON Vienti.tosite=Tosite.id "
                              "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
                              "WHERE Vienti.tyyppi=%1 AND "
-                             "Vienti.Viite='%2' AND Tosite.tila >= 100")
+                             "Tosite.Viite='%2' AND Tosite.tila >= 100")
                      .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
                      .arg(viite));
         if( kysely.next()) {
@@ -191,7 +191,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
         kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.selite, Tosite.pvm, Tosite.tunniste, Tosite.sarja FROM Vienti "
                              "JOIN Tosite ON Vienti.tosite=Tosite.id "
                              "WHERE Vienti.tyyppi=%1 AND "
-                             "Vienti.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100")
+                             "Tosite.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100")
                      .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
                      .arg(rivi.value("viite").toString())
                      .arg(kumppani.first));

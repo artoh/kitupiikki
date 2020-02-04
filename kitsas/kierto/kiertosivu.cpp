@@ -18,6 +18,8 @@
 #include "ui_kiertosivu.h"
 
 #include "kiertoselausmodel.h"
+#include "db/kirjanpito.h"
+#include "db/yhteysmodel.h"
 
 KiertoSivu::KiertoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -32,6 +34,7 @@ KiertoSivu::KiertoSivu(QWidget *parent) :
     ui->tab->addTab(QIcon(":/pic/kierto-harmaa.svg"),tr("Kaikki"));
 
     connect( ui->view, &QTableView::clicked, this, &KiertoSivu::naytaTosite);
+    connect( ui->tab, &QTabBar::currentChanged, this, &KiertoSivu::vaihdaTab);
 }
 
 KiertoSivu::~KiertoSivu()
@@ -41,11 +44,25 @@ KiertoSivu::~KiertoSivu()
 
 void KiertoSivu::siirrySivulle()
 {
-    model->lataa();
+    if( !kp()->yhteysModel())
+        return;
+    if( !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_SELAAMINEN)) {
+        ui->tab->setCurrentIndex(TYOLISTA);
+        ui->tab->setTabEnabled(KAIKKI, false);
+        model->naytaKaikki(false);
+    } else {
+        ui->tab->setTabEnabled(KAIKKI, true);
+        model->lataa();
+    }
 }
 
 void KiertoSivu::naytaTosite(const QModelIndex &index)
 {
     if( index.isValid())
         emit tositeValittu( index.data(KiertoSelausModel::IdRooli).toInt());
+}
+
+void KiertoSivu::vaihdaTab(int tab)
+{
+    model->naytaKaikki(tab == KAIKKI);
 }

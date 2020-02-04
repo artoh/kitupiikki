@@ -58,6 +58,13 @@ public:
     void reitita(SQLiteKysely *reititettavakysely, const QVariant& data);
     void reitita(SQLiteKysely* reititettavakysely, const QByteArray &ba, const QMap<QString,QString> &meta);
 
+    /**
+     * @brief Käytössä oleva tietokantaversio
+     *
+     * Jos yritetään avata uudempaa, tulee virhe
+     */
+    static const int TIETOKANTAVERSIO = 22;
+
 private slots:
     void lisaaViimeisiin();
 

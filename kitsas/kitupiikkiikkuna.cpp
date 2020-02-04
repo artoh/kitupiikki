@@ -133,7 +133,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), SIGNAL(naytaTosite(int)), this, SLOT(naytaTosite(int)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
-    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::piilotaAlvJosEiVerovelvollinen);
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
@@ -227,13 +227,14 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         sivuaktiot[TULOSTESIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::RAPORTIT ));
         sivuaktiot[ARKISTOSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TILINPAATOS | YhteysModel::BUDJETTI ));
         sivuaktiot[ALVSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::ALV_ILMOITUS ));
+        sivuaktiot[KIERTOSIVU]->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_TARKASTAMINEN) );
     } else {
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
     }
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
-    piilotaAlvJosEiVerovelvollinen();
+    sivuaktiot[ALVSIVU]->setVisible( kp()->asetukset()->onko("AlvVelvollinen") );
     valitseSivu(ALOITUSSIVU);
 }
 
@@ -350,10 +351,7 @@ void KitupiikkiIkkuna::kirjaaKirjattavienKansiosta()
     kirjaussivu->lisaaKirjattavienKansiosta();
 }
 
-void KitupiikkiIkkuna::piilotaAlvJosEiVerovelvollinen()
-{
-    sivuaktiot[ALVSIVU]->setVisible( kp()->asetukset()->onko("AlvVelvollinen") );
-}
+
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
 {

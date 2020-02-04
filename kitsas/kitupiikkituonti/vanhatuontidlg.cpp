@@ -321,7 +321,7 @@ void VanhatuontiDlg::tuo()
 
     // Tietokannan luoneen version tieto
     ui->progressBar->setValue(2);
-    kitsasAsetukset_.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO);
+    kitsasAsetukset_.insert("KpVersio", SQLiteModel::TIETOKANTAVERSIO);
     kitsasAsetukset_.insert("LuotuVersiolla", qApp->applicationVersion());
     kitsasAsetukset_.insert("Nimi", ui->nimiEdit->text());  // Jotta tulee viimeisten luetteloon ;)
 

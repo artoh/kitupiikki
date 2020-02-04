@@ -175,7 +175,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     // Tarkastetaan versio
     if( query.next()) {
         int versio = query.value(0).toInt();
-        if( versio > Kirjanpito::TIETOKANTAVERSIO) {
+        if( versio > TIETOKANTAVERSIO) {
             QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(polku),
                                   tr("Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.\n\n"
                                      "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa ohjelma "
@@ -183,11 +183,26 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                   .arg( qApp->applicationVersion() ));
             tietokanta_.close();
             return false;
-        } else if( versio == 20) {
+        } else if( versio < 22) {
+            if(QMessageBox::question(nullptr, tr("Kirjanpidon päivittäminen"),
+                                     tr("Avataksesi kirjanpidon pitää se päivittää yhteensopivaksi nykyisen version kanssa. Päivityksen jälkeen kirjanpitoa ei voi enää avata varhaisemmilla esiversioilla. "
+                                        "\nPäivitetäänkö kirjanpito nyt?"), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel)!= QMessageBox::Yes) {
+                tietokanta_.close();
+                return false;
+            }
             // Ensimmäisen version jälkeen on lisätty kenttä laskupäivälle
-            query.exec("ALTER TABLE Vienti ADD COLUMN laskupvm DATE");
-            query.exec("UPDATE Vienti SET laskupvm=pvm");
-            query.exec("UPDATE Asetus SET arvo=21 WHERE avain='KpVersio'");
+            query.exec("ALTER TABLE Tosite ADD COLUMN laskupvm DATE");
+            query.exec("ALTER TABLE Tosite ADD COLUMN erapvm DATE");
+            query.exec("ALTER TABLE Tosite ADD COLUMN viite TEXT");
+            query.exec("ALTER TABLE Vienti ADD COLUMN arkistotunnus TEXT");
+            query.exec("UPDATE Asetus SET arvo=22 WHERE avain='KpVersio'");
+            query.exec("UPDATE Tosite SET erapvm =(SELECT MAX(erapvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+            query.exec("UPDATE Tosite SET viite =(SELECT MAX(viite) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+        }
+        if( versio == 21) {
+            query.exec("UPDATE Tosite SET laskupvm =(SELECT MAX(laskupvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+        } else {
+            query.exec("UPDATE Tosite SET laskupvm=pvm");
         }
     } else {
         // Tämä ei ole lainkaan kelvollinen tietokanta

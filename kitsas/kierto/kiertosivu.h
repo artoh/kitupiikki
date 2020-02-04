@@ -29,6 +29,8 @@ class KiertoSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
+    enum { TYOLISTA, KAIKKI};
+
     KiertoSivu(QWidget *parent = nullptr);
     ~KiertoSivu() override;
 
@@ -37,6 +39,7 @@ signals:
     void tositeValittu(int id);
 private:
     void naytaTosite(const QModelIndex& index);
+    void vaihdaTab(int tab);
 
 private:
     Ui::KiertoSivu* ui;
