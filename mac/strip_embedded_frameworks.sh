@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  strip_debug_libs.sh
-#  kitupiikki
+#  kitsas
 #
 #  Created by Petri Aarnio on 08/09/2018.
 #  

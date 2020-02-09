@@ -1,13 +1,13 @@
 #!/bin/sh
 
 #  read_version.sh
-#  kitupiikki
+#  kitsas
 #
 #  Created by Petri Aarnio on 15/09/2018.
 #  
 
 
-VERSIO_H=../kitupiikki/versio.h
+VERSIO_H=../kitsas/versio.h
 #VERSION=`/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Info.plist`
 #BUILD=`/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' Info.plist`
 
