@@ -2,128 +2,150 @@
   "tulos/yleinen": {
     "nimi" : {
       "fi": "Tuloslaskelma",
-      "sv": "Resultbeträkning"
+      "sv": "Resultbeträkning",
+      "en": "Profit and loss accout"
     },
     "muoto": {
       "fi": "Yleinen",
-      "sv": "Allmän"
+      "sv": "Allmän",
+      "en": "General"
     },
     "rivit": [
       {
         "fi": "Liikevaihto",
         "sv": "Omsättning",
+        "en": "Net turnover",
         "M": "bold",
         "L": "30..35 S *"
       },
       {
         "fi": "Valmiiden ja keskeneräisten tuotteiden varastojen muutos",
         "sv": "Förändring av lager av färdiga varor och varor under tillverkning",
+        "en": "Variation in stocks of finished goods and in work in progress",
         "L": "360..362 *",
         "V": 1
       },
       {
         "fi": "Valmistus omaan käyttöön",
         "sv": "Tillverkning för eget bruk",
+        "en": "Work performed by the undertaking for its own purpose and capitalised",
         "L": "363..364 *"
       },
       {
         "fi": "Liiketoiminnan muut tuotot",
         "sv": "Övriga rörelseintäkter",
+        "en": "Other operating income",
         "L": "365..39 *"
       },
       {
         "fi": "Materiaalit ja palvelut",
         "sv": "Material och tjänster",
+        "en": "Raw materials and servicea",
         "L": "4",
         "V": 1
       },
       {
         "fi": "Aineet, tarvikkeet ja tavarat",
         "sv": "Material, förnödenheter och varor",
+        "en": "Raw materials and consumables",
         "L": "40..444",
         "S": 1
       },
       {
         "fi": "Ostot tilikauden aikana",
         "sv": "Inköp under räkenskapsperioden",
+        "en": "Purchaces during the financial year",
         "L": "40..43 *",
         "S": 2
       },
       {
         "fi": "Varastojen lisäys tai vähennys",
         "sv": "Förändring av lager",
+        "en": "Variation in stocks",
         "L": "440..444 *",
         "S": 2
       },
       {
         "fi": "Ulkopuoliset palvelut",
         "sv": "Köpta tjänster",
+        "en": "External services",
         "L": "445..49",
         "S": 1
       },
       {
         "fi": "Henkilöstökulut",
         "sv": "Personalkostnader",
+        "en": "Staff expenses",
         "L": "5..67",
         "V": 1
       },
       {
         "fi": "Palkat ja palkkiot",
         "sv": "Löner och arvoden",
+        "en": "Wages and salaries",
         "L": "5 *",
         "S": 1
       },
       {
         "fi": "Henkilöstösivukulut",
         "sv": "Lönebikostnader",
+        "en": "Social security expenses",
         "L": "60..67",
         "S": 1
       },
       {
         "fi": "Eläkekulut",
         "sv": "Pensionskostnader",
+        "en": "Pension expenses",
         "L": "60..62 *",
         "S": 2
       },
       {
         "fi": "Muut henkilösivukulut",
         "sv": "Övrika lönebikonstnader",
+        "en": "Other social security expenses",
         "L": "63..67 *",
         "S": 2
       },
       {
         "fi": "Poistot ja arvonalentumat",
         "sv": "Avskrivningar och nedskrivningar",
+        "en": "Depreciaition, amortization and reduction in value",
         "L": "68..69",
         "V": 1
       },
       {
         "fi": "Suunnitelman mukaiset poistot",
         "sv": "Avskrivningar enligt plan",
+        "en": "Depeciation and amortization according to plan",
         "L": "68 *",
         "S": 1
       },
       {
         "fi": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
         "sv": "Nedskrivningar av tillgångar bland bestående aktiva",
+        "en": "Reduction in value of noncurrent assets",
         "L": "69..698 *",
         "S": 1
       },
       {
         "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset",
         "sv": "Exceptionella nedskrivningar av rörliga aktiva",
+        "en": "Exceptional reduction in value of current assets",
         "L": "699 *",
         "S": 1
       },
       {
         "fi": "Liiketoiminnan muut kulut",
         "sv": "Övriga rörelsekostnader",
+        "en": "Other operationg expenses",
         "L": "7..8 *",
         "V": 1
       },
       {
         "fi": "Liikevoitto/tappio",
         "sv": "Rörelsevinst/förlust",
+        "en": "Operation profit (loss)",
         "L": "3..8 S",
         "M": "bold",
         "V": 1
@@ -131,53 +153,62 @@
       {
         "fi": "Rahoitustuotot ja -kulut",
         "sv": "Finansiella intäkter och kostnader",
+        "en": "Financial income and expenses",
         "L": "90..96"
       },
       {
         "fi": "Tuotot osuuksista saman konsernin yrityksissä",
         "sv": "Intäkter från andelar i företag inom samma koncern",
+        "en": "Income from group undertaking",
         "L": "900..903 *",
         "S": 1
       },
       {
         "fi": "Tuotot osuuksista omistusyhteysyrityksissä",
         "sv": "Intäkter från andelar i ägarintresseföretag",
+        "en": "Income from participating interests",
         "L": "904..906 *",
         "S": 1
       },
       {
         "fi": "Tuotot muista pysyvien vastaavien sijoituksista",
         "sv": "Intäkter från övriga placeringar bland bestående aktiva",
+        "en": "Income from other investments held as non-current assets",
         "L": "908..914 *",
         "S": 1
       },
       {
         "fi": "Muut korko- ja rahoitustuotot",
         "sv": "Övriga ränteintäkter och finansiella intäkter",
+        "en": "Other interests income and other financial income",
         "L": "91..92 *",
         "S": 1
       },
       {
         "fi": "Arvonalentumiset pysyvien vastaavien sijoituksista",
         "sv": "Nedskrivningar av placeringar bland bestående aktiva",
+        "en": "Reduction in value of investments held as non-current assets",
         "L": "930..936 *",
         "S": 1
       },
       {
         "fi": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista",
         "sv": "Nedskrivningar av finansiella värdepapper bland rörliga aktiva",
+        "en": "Reduction in value of investments held as current assets",
         "L": "937..941 *",
         "S": 1
       },
       {
         "fi": "Korkokulut ja muut rahoituskulut",
         "sv": "Räntekostnader och övriga finansiella kostnader",
+        "en": "Interest and other financial expenses",
         "L": "942..969 *",
         "S": 1
       },
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
         "sv": "Vinst/förlust före bokslutsdispositioner ock skatter",
+        "en": "Profit (loss) before appropriations and taxes",
         "L": "3..97 S",
         "M": "bold",
         "V": 1
@@ -185,42 +216,49 @@
       {
         "fi": "Tilinpäätössiirrot",
         "sv": "bokslutsdispositioner",
+        "en": "Appropriations",
         "L": "98",
         "V": 1
       },
       {
         "fi": "Poistoeron lisäys (-) tai vähennys (+)",
         "sv": "Förändring av avskrivningsdifferens",
+        "en": "Change in cumulative accelerated deprecation",
         "L": "98..983 *",
         "S": 1
       },
       {
         "fi": "Verotusperusteisten varausten lisäys (-) tai vähennys (+)",
         "sv": "Förändring av skattemässiga reserver",
+        "en": "Change in taxation-based reserves",
         "L": "9891 *",
         "S": 1
       },
       {
         "fi": "Saadut (+) tai annetut (-) konserniavustukset",
         "sv": "Koncernbidrag",
+        "en": "Group contribution",
         "L": "972 976 *",
         "S": 1
       },
       {
         "fi": "Tuloverot",
         "sv": "Inkomstskatt",
+        "en": "Income taxes",
         "L": "99..996 *",
         "V": 1
       },
       {
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
+        "en": "Other direct taxes",
         "L": "998..999 *",
         "V": 1
       },
       {
         "fi": "Tilikauden voitto/tappio",
         "sv": "Räkenskapsperiodens vinst/förlust",
+        "en": "Profit (loss) for the financial year",
         "L": "3..9 S",
         "M": "bold",
         "V": 1
@@ -231,79 +269,93 @@
   "tase/PMA": {
     "nimi": {
       "fi": "Tase",
-      "sv": "Balansräkning"
+      "sv": "Balansräkning",
+      "en": "Balance sheet"
     },
     "muoto": {
       "fi": "Pien- ja mikroyritys",
-      "sv": "Små- och mickroföretag"
+      "sv": "Små- och mickroföretag",
+      "en": "Small and micro enterprise"
     },
     "rivit": [
       {
         "fi": "VASTAAVAA",
         "sv": "AKTIVA",
+        "en": "ASSETS",
         "M": "bold"
       },
       {
         "fi": "PYSYVÄT VASTAAVAT",
         "sv": "BESTÅENDE AKTIVA",
+        "en": "NON-CURRENT ASSETS",
         "L": "10..149"
       },
       {
         "fi": "Aineettomat hyödykkeet",
         "sv": "Immateriella tillgånger",
+        "en": "Intangible assets",
         "L": "10 *",
         "S": 1
       },
       {
         "fi": "Aineelliset hyödykkeet",
         "sv": "Materiella tillgånger",
+        "en": "Tangible assets",
         "L": "11..13 *",
         "S": 1
       },
       {
         "fi": "Sijoitukset",
         "sv": "Placeringarna",
+        "en": "Investments",
         "L": "14 *",
         "S": 1
       },
       {
         "fi": "VAIHTUVAT VASTAAVAT",
         "sv": "RÖRLIGA AKTIVA",
+        "en": "CURRENT ASSETS",
         "L": "15..19"
       },
       {
         "fi": "Vaihto-omaisuus",
         "sv": "Omsättningstillgångar",
+        "en": "Stocks",
         "L": "15 *",
         "S": 1
       },
       {
         "fi": "Pitkäaikaiset saatavat",
         "sv": "Långfristiga fordringar",
+        "en": "Long-term debtors",
         "L": "16 *",
         "S": 1
       },
       {
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
+        "en": "Short-term deptors",
         "L": "17..185 *",
         "S": 1
       },
       {
         "fi": "Rahoitusarvopaperit",
         "sv": "Finansiella värdepapper",
+        "en": "Investments",
         "L": "186..189 *",
         "S": 1
       },
       {
         "fi": "Rahat ja pankkisaamiset",
         "sv": "Kassa och bank",
+        "en": "Cash at bank and in hand",
         "L": "19 *",
         "S": 1
       },
       {
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
+        "en": "Assets, total",
         "L": "1",
         "M": "bold",
         "V": 1
@@ -311,35 +363,41 @@
       {
         "fi": "VASTATTAVAA",
         "sv": "PASSIVA",
+        "en": "EQUITY AND LIABILITIES",
         "M": "bold",
         "V": 2
       },
       {
         "fi": "OMA PÄÄOMA",
         "sv": "EGET KAPITAL",
+        "en": "CAPITAL AND RESERVES",
         "L": "20..23"
       },
       {
         "fi": "Osake-, osuus- tai muu vastaava pääoma",
         "sv": "Aktie- eller andelskapital eller annat motsvanrande kapital",
+        "en": "Subsribed capital",
         "L": "200,210,220 *",
         "S": 1
       },
       {
         "fi": "Ylikurssirahasto",
         "sv": "Överkursfond",
+        "en": "Share premium account",
         "L": "202 *",
         "S": 1
       },
       {
         "fi": "Arvonkorotusrahasto",
         "sv": "Uppskrivningsfond",
+        "en": "Revalution reserve",
         "L": "203 *",
         "S": 1
       },
       {
         "fi": "Muut rahastot",
         "sv": "Övrika fonder",
+        "en": "Other reserves",
         "L": "204..209,214 *",
         "S": 1
       },
@@ -361,6 +419,7 @@
       {
         "fi": "Edellisten tilikausien voitto/tappio",
         "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
+        "en": "Retained earnings (loss)",
         "L": "2251..232 *",
         "S": 1
       },
@@ -377,6 +436,7 @@
       {
         "fi": "Tilikauden voitto/tappio",
         "sv": "Räkenskapsperiodens vinst (förlust)",
+        "en": "Profit (loss) for the financial year",
         "L": "2371",
         "S": 1
       },
@@ -392,33 +452,39 @@
       {
         "fi": "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
         "sv": "ACKUMULERADE BOKSLUTSDISPOSITIONER",
+        "en": "APPROPRIATIONS",
         "L": "24 *"
       },
       {
         "fi": "PAKOLLISET VARAUKSET",
         "sv": "AVSÄTTNINGAR",
+        "en": "PROVISIONS",
         "L": "25 *"
       },
       {
         "fi": "VIERAS PÄÄOMA",
         "sv": "FRÄMMANDE KAPITAL",
+        "en": "CREDITORS",
         "L": "26..29"
       },
       {
         "fi": "Pitkäaikainen vieras pääoma",
         "sv": "Långfristiga främmande kapital",
+        "en": "Long-term creditors",
         "L": "26..27 *",
         "S": 1
       },
       {
         "fi": "Lyhytaikainen vieras pääoma",
         "sv": "Kortfristiga främmande kapital",
+        "en": "Short-term creditors",
         "L": "28..29 *",
         "S": 1
       },
       {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
+        "en": "Equity and liabilities, total",
         "L": "2",
         "M": "bold",
         "V": 1
