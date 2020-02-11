@@ -347,5 +347,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { LASKUPVM, "laskupvm"},
     { ERAPVM, "erapvm"},
     { VIITE, "viite"},
-    { KIERTO, "kierto"}
+    { KIERTO, "kierto"},
+    { PORTAALI, "portaali"}
 };

@@ -53,7 +53,7 @@ protected slots:
     void veroprossaMuuttui();
     void alvVahennettavaMuuttui();
     void seliteMuuttui();
-    void maksutapaMuuttui();
+    void maksutapaMuuttui();    
     void vastatiliMuuttui();
     void kohdennusMuuttui();
     void merkkausMuuttui();

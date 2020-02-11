@@ -21,6 +21,7 @@
 #include "db/yhteysmodel.h"
 #include "ui_kierto.h"
 #include "kiertomodel.h"
+#include "laskutus/myyntilaskuntulostaja.h"
 
 KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui( new Ui::Kierto), tosite_(tosite)
@@ -59,7 +60,7 @@ void KiertoWidget::lataaTosite()
 
 
     int ntila = tosite_ ? tosite_->tositetila() : 0;
-
+    ui->ibanLabel->setText( MyyntiLaskunTulostaja::valeilla( tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() ) );
 
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
@@ -97,8 +98,21 @@ void KiertoWidget::lataaTosite()
         if( tila == Tosite::SAAPUNUT) {
             ui->vCheck->show();
             ui->vInfo->show();
-            ui->vInfo->setText( loki->index(i, TositeLoki::KAYTTAJA).data().toString() + "\n" +
-                    loki->index(i, TositeLoki::AIKA).data(Qt::DisplayRole).toDateTime().toString(tr("dd.MM.yyyy klo hh.mm")) );
+            QString info = "";
+            QVariantMap portaali = tosite_->data(Tosite::PORTAALI).toMap();
+            if( !portaali.isEmpty()) {
+                QString info = QString("%1\n%2\n")
+                        .arg(portaali.value("nimi").toString())
+                        .arg(portaali.value("email").toString());
+                if( !portaali.value("puhelin").toString().isEmpty())
+                    info.append(tr("p. %1 \n").arg(portaali.value("puhelin").toString()));
+                info.append( loki->index(i, TositeLoki::AIKA).data(Qt::DisplayRole).toDateTime().toString(tr("dd.MM.yyyy klo hh.mm")) );
+                ui->vInfo->setText(info);
+            } else {
+            ui->vInfo->setText(loki->index(i, TositeLoki::KAYTTAJA).data().toString() + "\n" +
+                        loki->index(i, TositeLoki::AIKA).data(Qt::DisplayRole).toDateTime().toString(tr("dd.MM.yyyy klo hh.mm")));
+            }
+
 
         } else if( tila == Tosite::TARKASTETTU) {
             ui->tCheck->show();

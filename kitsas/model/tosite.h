@@ -56,7 +56,8 @@ public:
         LASKUPVM,
         ERAPVM,
         VIITE,
-        KIERTO
+        KIERTO,
+        PORTAALI
     };
 
     enum Virheet {
