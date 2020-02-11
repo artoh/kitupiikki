@@ -34,7 +34,7 @@ class PilviModel : public YhteysModel
 {
     Q_OBJECT
 public:
-    PilviModel(QObject *parent = nullptr);
+    PilviModel(QObject *parent = nullptr, const QString& token = QString());
 
     enum {
         IdRooli = Qt::UserRole + 1,
@@ -57,7 +57,7 @@ public:
 
     void uusiPilvi(const QVariant& initials);
 
-    bool avaaPilvesta(int pilviId);
+    bool avaaPilvesta(int pilviId, bool siirrossa = false);
 
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;
@@ -68,6 +68,7 @@ public:
     int pilviId() const { return pilviId_;}
     QString pilviosoite() const { return osoite_;}
     QString token() const { return token_; }
+    QString userToken() const { return data_.value("token").toString();}
 
     qlonglong oikeudet() const override { return oikeudet_;}
 

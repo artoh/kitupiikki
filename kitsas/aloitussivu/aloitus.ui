@@ -398,6 +398,17 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="kopioiPilveenNappi">
+               <property name="text">
+                <string>Kopioi kirjanpito pilveen</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QListView" name="pilviView">
                <property name="editTriggers">
                 <set>QAbstractItemView::NoEditTriggers</set>

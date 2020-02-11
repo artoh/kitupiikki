@@ -53,6 +53,7 @@
 #include "maaritys/tilikarttapaivitys.h"
 #include "alv/alvilmoitustenmodel.h"
 #include "kitupiikkituonti/vanhatuontidlg.h"
+#include "pilvi/pilveensiirto.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -112,6 +113,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->tilausButton, &QPushButton::clicked,
              [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
 
+    connect( ui->kopioiPilveenNappi, &QPushButton::clicked, this, &AloitusSivu::siirraPilveen);
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
@@ -221,6 +223,7 @@ void AloitusSivu::kirjanpitoVaihtui()
         pyydaInfo();
 
     ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
+    ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
 
     siirrySivulle();
 }
@@ -576,6 +579,12 @@ void AloitusSivu::haeSaldot()
         connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
         kysely->kysy();
     }
+}
+
+void AloitusSivu::siirraPilveen()
+{
+    PilveenSiirto *siirtoDlg = new PilveenSiirto(this);
+    siirtoDlg->exec();
 }
 
 QString AloitusSivu::vinkit()

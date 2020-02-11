@@ -18,6 +18,9 @@
 #define PILVEENSIIRTO_H
 
 #include <QDialog>
+#include <QQueue>
+
+class PilviModel;
 
 namespace Ui {
 class PilveenSiirto;
@@ -28,11 +31,39 @@ class PilveenSiirto : public QDialog
     Q_OBJECT
 
 public:
+    enum {
+        ALOITUS, KAYNNISSA, VALMIS
+    };
+
     explicit PilveenSiirto(QWidget *parent = nullptr);
-    ~PilveenSiirto();
+    ~PilveenSiirto() override;
+
+    void accept() override;
+
+private:
+    void alustaAlkusivu();
+    void initSaapuu(QVariant* data);
+    void pilviLuotu(QVariant* data);
+    void avaaLuotuPilvi();
+    void kumppaniListaSaapuu(QVariant* data);
+    void kysySeuraavaKumppani();
+    void tallennaKumppani(QVariant* data);
+    void haeTositeLista();
+    void tositeListaSaapuu(QVariant* data);
+    void kysySeuraavaTosite();
+    void tallennaTosite(QVariant* data);
 
 private:
     Ui::PilveenSiirto *ui;
+    PilviModel* pilviModel_;
+
+    int tositelkm_ = 0;
+    int liitelkm_ = 0;
+    int pilviId_ = 0;
+
+    QQueue<int> kumppanit;
+    QQueue<int> tositteet;
+
 };
 
 #endif // PILVEENSIIRTO_H

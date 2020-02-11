@@ -58,6 +58,7 @@ SOURCES += \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
+    $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/myyntiraportteri.cpp \
@@ -302,6 +303,7 @@ HEADERS += \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
     $$PWD/naytin/liitetulostaja.h \
+    $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/myyntiraportteri.h \
@@ -521,6 +523,7 @@ FORMS += \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/maaritys/veromaaritys.ui \
+    $$PWD/pilvi/pilveensiirto.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \

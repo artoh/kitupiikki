@@ -35,8 +35,9 @@
 #include <QFile>
 #include <QNetworkReply>
 
-PilviModel::PilviModel(QObject *parent) :
-    YhteysModel (parent)
+PilviModel::PilviModel(QObject *parent, const QString &token) :
+    YhteysModel (parent),
+    token_(token)
 {
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
@@ -99,7 +100,7 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 
 
 
-bool PilviModel::avaaPilvesta(int pilviId)
+bool PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
 {
 
     for( auto var : data_.value("clouds").toList()) {
@@ -109,9 +110,10 @@ bool PilviModel::avaaPilvesta(int pilviId)
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
             oikeudet_ = oikeudet( map.value("rights").toList() );
-            alusta();
-
-            emit kirjauduttu();
+            if( !siirrossa) {
+                alusta();
+                emit kirjauduttu();
+            }
             return true;
         }
     }
@@ -263,7 +265,7 @@ void PilviModel::pilviLisatty(QVariant *paluu)
 {
     QVariantMap map = paluu->toMap();
     avaaPilvi_ = map.value("id").toInt();
-    paivitaLista();
+    paivitaLista();    
 
 }
 

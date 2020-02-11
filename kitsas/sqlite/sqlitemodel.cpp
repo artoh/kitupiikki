@@ -124,12 +124,13 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvattaessa)
+bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvattaessa, bool asetaAktiiviseksi)
 {
 
     tietokanta_.setDatabaseName( polku );
     tiedostoPolku_.clear();
-    kp()->yhteysAvattu(nullptr);
+    if( asetaAktiiviseksi)
+        kp()->yhteysAvattu(nullptr);
 
     if( !tietokanta_.open())
     {
@@ -227,7 +228,8 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     tiedostoPolku_ = polku;
 
     alusta();
-    lisaaViimeisiin();
+    if( asetaAktiiviseksi)
+        lisaaViimeisiin();
     return true;
 }
 

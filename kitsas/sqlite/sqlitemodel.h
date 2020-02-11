@@ -37,7 +37,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    bool avaaTiedosto(const QString& polku, bool ilmoitavirheestaAvattaessa = true);
+    bool avaaTiedosto(const QString& polku, bool ilmoitavirheestaAvattaessa = true, bool asetaAktiiviseksi = true);
     void lataaViimeiset();
 
     void poistaListalta(const QString& polku);

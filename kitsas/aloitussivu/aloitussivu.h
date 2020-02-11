@@ -87,6 +87,7 @@ private slots:
     void pilviLogout();
     void logoMuuttui();
     void haeSaldot();
+    void siirraPilveen();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
