@@ -411,9 +411,8 @@ void KirjausWg::tallennusEpaonnistui(int virhe)
     ui->tallennaButton->setEnabled(true);
 }
 
-void KirjausWg::tuonti(QVariant *data)
-{
-    QVariantMap map = data->toMap();
+void KirjausWg::tuonti(const QVariantMap& map)
+{    
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
     if( map.value("tositepvm").toDate().isValid()) {

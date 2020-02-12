@@ -143,6 +143,7 @@ void TilausWizard::dataSaapuu()
     setField("postcode", pinfo.value("postcode"));
     setField("town", pinfo.value("town"));
     setField("asviite", pinfo.value("customerref"));
+    setField(("phone"), pinfo.value("phone"));
     if(pinfo.contains("vatnumber"))
     setField("ytunnus", AsiakasToimittajaDlg::alvToY( pinfo.value("vatnumber").toString()));
 
@@ -175,6 +176,8 @@ void TilausWizard::dataSaapuu()
                 payer.insert("postcode", field("postcode").toString());
             if( !field("town").toString().isEmpty())
                 payer.insert("town", field("town").toString());
+            if( !field("phone").toString().isEmpty())
+                payer.insert("phone", field("phone").toString());
             tmap.insert("payer", payer);
         }
         QNetworkRequest request( QUrl( kp()->pilvi()->pilviLoginOsoite() + "/subscription" ));
@@ -194,7 +197,7 @@ void TilausWizard::tilattu()
     if( reply->error() ) {
         qDebug() << reply->readAll();
         QMessageBox::critical(nullptr, tr("Verkkovirhe"), tr("Tilauksen lähettäminen epäonnistui"));
-    } else {
+    } else {        
         kp()->pilvi()->paivitaLista();
         if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
             QMessageBox::information(this, tr("Kiitos tilauksestasi"),
@@ -223,6 +226,7 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     registerField("town", ui->postitoimipaikka);
     registerField("ytunnus", ui->ytunnusEdit);
     registerField( "asviite", ui->asviite);
+    registerField("phone", ui->puhelinEdit);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator(false, this));
     connect( ui->postinumero, &QLineEdit::textChanged,

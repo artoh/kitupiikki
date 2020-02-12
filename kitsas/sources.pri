@@ -195,7 +195,6 @@ SOURCES += \
     tuonti/titotuonti.cpp \
     kirjaus/siirrydlg.cpp \
     tools/kpdateedit.cpp \
-    tuonti/palkkafituonti.cpp \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/laskusivu.cpp \
@@ -240,7 +239,8 @@ SOURCES += \
     laskutus/maksumuistutusdialogi.cpp \
     arkisto/tuloverodialog.cpp  \
     kierto/kiertowidget.cpp \
-    kierto/kiertomuokkausdlg.cpp
+    kierto/kiertomuokkausdlg.cpp \
+    tuonti/tesseracttuonti.cpp
 
 
 HEADERS += \
@@ -440,7 +440,6 @@ HEADERS += \
     tuonti/titotuonti.h \
     kirjaus/siirrydlg.h \
     tools/kpdateedit.h \
-    tuonti/palkkafituonti.h \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
     laskutus/laskusivu.h \
@@ -486,7 +485,8 @@ HEADERS += \
     laskutus/maksumuistutusdialogi.h \
     arkisto/tuloverodialog.h \
     kierto/kiertowidget.h \
-    kierto/kiertomuokkausdlg.h
+    kierto/kiertomuokkausdlg.h\
+    tuonti/tesseracttuonti.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \

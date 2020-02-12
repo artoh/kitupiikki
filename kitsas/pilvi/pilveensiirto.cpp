@@ -34,12 +34,11 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     ui(new Ui::PilveenSiirto),
     pilviModel_(new PilviModel(this, kp()->pilvi()->userToken()))
 {
-    setAttribute(Qt::WA_DeleteOnClose);
 
     ui->setupUi(this);
     alustaAlkusivu();
 
-    connect( ui->buttonBox->button(QDialogButtonBox::Close), &QPushButton::clicked, this, &PilveenSiirto::close);
+    connect( ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &PilveenSiirto::close);
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
 }
 
@@ -50,16 +49,20 @@ PilveenSiirto::~PilveenSiirto()
 
 void PilveenSiirto::accept()
 {
-    ui->rasti1->hide();
-    ui->rasti2->hide();
-    ui->stackedWidget->setCurrentIndex(KAYNNISSA);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    ui->progressBar->setRange(0, tositelkm_ + liitelkm_ + 50);
-    ui->progressBar->setValue(1);
+    if( pilviId_) {
+        close();
+    } else {
+        ui->rasti1->hide();
+        ui->rasti2->hide();
+        ui->stackedWidget->setCurrentIndex(KAYNNISSA);
+        ui->buttonBox->hide();
+        ui->progressBar->setRange(0, tositelkm_ + liitelkm_ + 50);
+        ui->progressBar->setValue(1);
 
-    KpKysely *init = kpk("/init");
-    connect( init, &KpKysely::vastaus, this, &PilveenSiirto::initSaapuu);
-    init->kysy();
+        KpKysely *init = kpk("/init");
+        connect( init, &KpKysely::vastaus, this, &PilveenSiirto::initSaapuu);
+        init->kysy();
+    }
 }
 
 void PilveenSiirto::alustaAlkusivu()
@@ -142,7 +145,41 @@ void PilveenSiirto::avaaLuotuPilvi()
     qDebug() << pilviModel_->pilviosoite();
 
     ui->progressBar->setValue(30);
+    haeRyhmaLista();
 
+}
+
+void PilveenSiirto::haeRyhmaLista()
+{
+    KpKysely *kysely = kpk("/ryhmat");
+    connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::ryhmaListaSaapuu);
+    kysely->kysy();
+}
+
+void PilveenSiirto::ryhmaListaSaapuu(QVariant *data)
+{
+    ryhmat = data->toList();
+    ui->progressBar->setValue(40);
+    tallennaSeuraavaRyhma();
+}
+
+void PilveenSiirto::tallennaSeuraavaRyhma()
+{
+    if( ryhmat.isEmpty()) {
+        haeKumppaniLista();
+        return;
+    }
+    QVariantMap map = ryhmat.takeFirst().toMap();
+    int id = map.take("id").toInt();
+
+    PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/ryhmat/%1").arg(id));
+    connect( tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaRyhma);
+    tallennus->kysy(map);
+}
+
+void PilveenSiirto::haeKumppaniLista()
+{
+    qDebug() << "Hae kumppanilista";
     KpKysely *kaverikysely = kpk("/kumppanit");
     connect( kaverikysely, &KpKysely::vastaus, this, &PilveenSiirto::kumppaniListaSaapuu);
     kaverikysely->kysy();
@@ -167,6 +204,7 @@ void PilveenSiirto::kysySeuraavaKumppani()
         return;
     }
     int id = kumppanit.dequeue();
+    qDebug() << "Kumppani " << id << " jäljellä " << kumppanit.count();
     KpKysely *kaverikysely = kpk(QString("/kumppanit/%1").arg(id));
     connect(kaverikysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaKumppani);
     kaverikysely->kysy();
@@ -176,6 +214,12 @@ void PilveenSiirto::tallennaKumppani(QVariant *data)
 {
     QVariantMap map = data->toMap();
     int id = map.take("id").toInt();
+
+    if( map.value("nimi").toString() == "Verohallinto") {
+        qDebug() << "Verohallinto";
+        kysySeuraavaKumppani();
+        return;
+    }
 
     qDebug() << " tallenna kumppani " << map.value("nimi").toString();
 
@@ -189,42 +233,138 @@ void PilveenSiirto::haeTositeLista()
     ui->rasti1->show();
     ui->vaihe2->setEnabled(true);
 
-    KpKysely *tositteet = kpk("/tositteet");
-    connect( tositteet, &KpKysely::vastaus, this, &PilveenSiirto::tositeListaSaapuu);
-    tositteet->kysy();
-}
-
-void PilveenSiirto::tositeListaSaapuu(QVariant *data)
-{
-    const QVariantList& lista = data->toList();
-    for(auto item:lista) {
-        QVariantMap map = item.toMap();
-        int id = map.value("id").toInt();
-        tositteet.enqueue(id);
-    }
+    QSqlQuery tositeKysely(kp()->sqlite()->tietokanta());
+    tositeKysely.exec("SELECT id FROM tosite ORDER BY id");
+    while( tositeKysely.next())
+        tositteet.enqueue(tositeKysely.value(0).toInt());
+    kysySeuraavaTosite();
 }
 
 void PilveenSiirto::kysySeuraavaTosite()
 {
-    // TODO!!!!!! Pystyttävä hakemaan KAIKKI tositteet (myös luonnokset)
     if( tositteet.isEmpty()) {
+        tallennaLiitteet();
         return;
     }
     int id = tositteet.dequeue();
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
     connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaTosite);
+    kysely->kysy();
 }
 
 void PilveenSiirto::tallennaTosite(QVariant *data)
 {
+
     QVariantMap map = data->toMap();
     int id = map.take("id").toInt();
 
-    qDebug() << "Tosite " << id;
+    map.remove("loki");
+    map.remove("liitteet");
+
+    if( map.contains("lasku")) {
+        // lasku.numero on vanhoissa kirjanpidoissa tyypiltään string
+        QVariantMap laskuMap = map.value("lasku").toMap();
+        laskuMap.insert("numero", laskuMap.value("numero").toInt());
+        QStringList keys = laskuMap.keys();
+        for( auto key : keys) {
+            if( laskuMap.value(key).isNull())
+                laskuMap.remove(key);
+        }
+        map.insert("lasku", laskuMap);
+    }
+
+    qDebug() << "Tosite " << id << " jaljella " << tositteet.count();
 
     PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/tositteet/%1").arg(id));
     connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::kysySeuraavaTosite);
-    tallennus->kysy();
+    connect(tallennus, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
+    tallennus->kysy(map);
     ui->progressBar->setValue( ui->progressBar->value() + 1);
 }
+
+void PilveenSiirto::tallennaLiitteet()
+{
+    ui->rasti2->show();
+    ui->vaihe3->setEnabled(true);
+
+    liitekysely = QSqlQuery( kp()->sqlite()->tietokanta() );
+    liitekysely.exec("SELECT id, nimi, tyyppi, data, tosite, roolinimi FROM Liite "
+                     "WHERE tosite IS NOT NULL OR roolinimi IS NOT NULL");
+    tallennaSeuraavaLiite();
+
+}
+
+void PilveenSiirto::tallennaSeuraavaLiite()
+{
+    if( liitekysely.next()) {
+        QString nimi = liitekysely.value("nimi").toString();
+        QString tyyppi = liitekysely.value("tyyppi").toString();
+        QString rooli = liitekysely.value("roolinimi").toString();
+        QByteArray data = liitekysely.value("data").toByteArray();
+        int tosite = liitekysely.value("tosite").toInt();
+
+        QMap<QString,QString> meta;
+        meta.insert("Content-type", tyyppi);
+        meta.insert("Filename", nimi);
+
+        KpKysely *kysely = rooli.isEmpty() ?
+                    new PilviKysely(pilviModel_, KpKysely::POST, QString("/liitteet/%1").arg(tosite)) :
+                    new PilviKysely(pilviModel_, KpKysely::PUT, QString("/liitteet/%1/%2").arg(tosite).arg(rooli));
+        connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaLiite);
+        connect(kysely, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
+        kysely->lahetaTiedosto(data, meta);
+        ui->progressBar->setValue(ui->progressBar->value()+1);
+
+    } else {
+        valmis();
+    }
+}
+
+void PilveenSiirto::valmis()
+{
+    qDebug() << "VALMIS!!!";
+
+    PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");
+    connect( kysely, &KpKysely::vastaus, this, &PilveenSiirto::infoSaapuu);
+    kysely->kysy();
+}
+
+void PilveenSiirto::infoSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    int tositteita = map.value("tositteita").toInt();
+    qlonglong koko = map.value("koko").toLongLong();
+
+    if( tositteita != tositelkm_) {
+        qDebug() << QString("Tositteita siirretty %1 / %2").arg(tositteita).arg(tositelkm_);
+        siirtoVirhe(0);
+    } else {
+        ui->buttonBox->show();
+        ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();
+        ui->valmisInfo->setText(tr("Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt")
+                                .arg(tositteita)
+                                .arg(koko / 1000000.0 ,0,'f',1 ));
+        ui->stackedWidget->setCurrentIndex(VALMIS);
+        kp()->pilvi()->paivitaLista(pilviId_);
+    }
+}
+
+void PilveenSiirto::siirtoVirhe(int koodi)
+{
+    ui->stackedWidget->setCurrentIndex(VALMIS);
+    ui->buttonBox->show();
+    ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();
+    if( koodi == 302)
+        ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui.\n\n"
+                                    "Kirjanpitoa on mahdollisesti käsitelty sellaisella ohjelman versiolla, "
+                                    "jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on "
+                                    "havaittu pilvipalvelun tarkemmissa tarkastuksissa.\n\n"
+                                    "Tämän kirjanpidon kopioiminen pilveen vaatii kirjanpidon korjaamista "
+                                    "ohjelmiston tuen tai muun asiantuntijan avulla.").arg(koodi));
+    else
+        ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui virheen %1 takia").arg(koodi));
+    pilviModel_->poistaNykyinenPilvi();
+}
+
+
 

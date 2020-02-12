@@ -133,6 +133,7 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     ui->osoiteEdit->setPlainText( map.value("osoite").toString() );
     ui->postinumeroEdit->setText( map.value("postinumero").toString());
     ui->kaupunkiEdit->setText( map.value("kaupunki").toString());
+    ui->puhelinEdit->setText(map.value("puhelin").toString());
 
     ui->ovtEdit->setText( map.value("ovt").toString());
     ui->valittajaEdit->setText(map.value("operaattori").toString());
@@ -274,6 +275,8 @@ void AsiakasToimittajaDlg::accept()
 
     if( !ui->emailEdit->text().isEmpty())
         map.insert("email", ui->emailEdit->text());
+    if( !ui->puhelinEdit->text().isEmpty())
+        map.insert("puhelin", ui->puhelinEdit->text());
 
     QVariantList tililista;
     for(int i=0; i<ui->tilitLista->count(); i++)

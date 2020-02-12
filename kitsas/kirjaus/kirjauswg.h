@@ -111,7 +111,7 @@ private slots:
     void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString(), int tila = Tosite::KIRJANPIDOSSA);
     void tallennusEpaonnistui(int virhe);
 
-    void tuonti(QVariant* data);
+    void tuonti(const QVariantMap &map);
 
     void nollaaTietokannanvaihtuessa();
 

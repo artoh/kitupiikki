@@ -65,6 +65,7 @@ public slots:
     void muistiinpanot();
 
     void poistaListalta();
+    void poistaPilvesta();
 
     /**
      * @brief Pyytää infon päivityksistä
@@ -87,7 +88,7 @@ private slots:
     void pilviLogout();
     void logoMuuttui();
     void haeSaldot();
-    void siirraPilveen();
+    void siirraPilveen();    
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);

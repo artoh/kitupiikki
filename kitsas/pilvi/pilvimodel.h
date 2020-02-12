@@ -63,12 +63,13 @@ public:
                      KpKysely::Metodi metodi = KpKysely::GET) override;
 
     void sulje() override;
-
+    void poistaNykyinenPilvi();
 
     int pilviId() const { return pilviId_;}
     QString pilviosoite() const { return osoite_;}
     QString token() const { return token_; }
     QString userToken() const { return data_.value("token").toString();}
+    QString ocrOsoite() const { return data_.value("ocr").toString();}
 
     qlonglong oikeudet() const override { return oikeudet_;}
 
@@ -82,7 +83,7 @@ public:
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
-    void paivitaLista();
+    void paivitaLista(int avaaPilvi = 0);
 
 
 private:
@@ -90,7 +91,7 @@ private:
     void paivitysValmis(QVariant* paluu);
     void pilviLisatty(QVariant* paluu);
     void tilaaLogo(const QVariantMap& map);
-
+    void poistettu();
 
 signals:
     void kirjauduttu();

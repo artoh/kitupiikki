@@ -19,6 +19,7 @@
 
 #include <QDialog>
 #include <QQueue>
+#include <QSqlQuery>
 
 class PilviModel;
 
@@ -45,13 +46,21 @@ private:
     void initSaapuu(QVariant* data);
     void pilviLuotu(QVariant* data);
     void avaaLuotuPilvi();
+    void haeRyhmaLista();
+    void ryhmaListaSaapuu(QVariant* data);
+    void tallennaSeuraavaRyhma();
+    void haeKumppaniLista();
     void kumppaniListaSaapuu(QVariant* data);
     void kysySeuraavaKumppani();
     void tallennaKumppani(QVariant* data);
     void haeTositeLista();
-    void tositeListaSaapuu(QVariant* data);
     void kysySeuraavaTosite();
     void tallennaTosite(QVariant* data);
+    void tallennaLiitteet();
+    void tallennaSeuraavaLiite();
+    void valmis();
+    void infoSaapuu(QVariant* data);
+    void siirtoVirhe(int koodi);
 
 private:
     Ui::PilveenSiirto *ui;
@@ -63,6 +72,9 @@ private:
 
     QQueue<int> kumppanit;
     QQueue<int> tositteet;
+    QQueue<int> liitteet;
+    QVariantList ryhmat;
+    QSqlQuery liitekysely;
 
 };
 

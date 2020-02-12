@@ -24,13 +24,14 @@
 #include <QFileInfo>
 #include <QMimeData>
 #include <QUrl>
-
+#include <QBuffer>
 #include <QDebug>
 
 #include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
 #include "tuonti/csvtuonti.h"
 #include "tuonti/titotuonti.h"
+#include "tuonti/tesseracttuonti.h"
 
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)
@@ -118,10 +119,20 @@ bool TositeLiitteet::lisaaTiedosto(const QString &polku)
     return lisaa( lueTiedosto(polku), QFileInfo(polku).fileName());
 }
 
-bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedostonnimi)
+bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
 {
     if( liite.isNull())
         return false;
+
+    // Muunnetaan kaikki kuvatiedostot jpg-kuviksi
+    if( KpKysely::tiedostotyyppi(liite) != "image/jpeg") {
+        QImage image = image.fromData(liite);
+        if( !image.isNull()) {
+            QBuffer buffer(&liite);
+            buffer.open(QIODevice::WriteOnly);
+            image.save(&buffer,"JPG");
+        }
+    }
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, tiedostonnimi, liite) );
@@ -144,21 +155,27 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
 
         QString tyyppi = KpKysely::tiedostotyyppi(liite);
         if( tyyppi == "application/pdf") {
-            QVariant tuotu = Tuonti::PdfTuonti::tuo(liite);
-            if( tuotu.toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
+            const QVariantMap &tuotu = Tuonti::PdfTuonti::tuo(liite);
+            if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
                 KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
-                connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::tuonti);
+                connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
                 kysely->kysy(tuotu);
             } else {
-                emit this->tuonti( &tuotu);
+                emit this->tuonti( tuotu);
             }
         } else if(  liite.startsWith("T00322100") ||  tyyppi == "text/csv") {
             QVariant tuotu = liite.startsWith("T00322100") ?
                         Tuonti::TitoTuonti::tuo(liite) :
                         Tuonti::CsvTuonti::tuo(liite);
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
-            connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::tuonti);
+            connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
             kysely->kysy(tuotu);
+        } else if( tyyppi == "image/jpeg") {
+            qDebug() << "image/jpeg laukaistaan Tesseract";
+            Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
+            connect( tesser, &Tuonti::TesserActTuonti::tuotu,
+                     this, &TositeLiitteet::tuonti);
+            tesser->tuo(liite);
         }
     }
 
@@ -212,7 +229,7 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
     }
     else if(!lisatty && data->formats().contains("image/png"))
     {
-        lisaaHeti( data->data("image/png"), tr("liite.png") );
+        lisaaHeti( data->data("image/png"), tr("liite.jpg") );
         return true;
     }
 

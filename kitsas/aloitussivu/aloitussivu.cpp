@@ -114,6 +114,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
              [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
 
     connect( ui->kopioiPilveenNappi, &QPushButton::clicked, this, &AloitusSivu::siirraPilveen);
+    connect( ui->pilviPoistaButton, &QPushButton::clicked, this, &AloitusSivu::poistaPilvesta);
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
@@ -377,6 +378,23 @@ void AloitusSivu::poistaListalta()
     kp()->sqlite()->poistaListalta( kp()->sqlite()->tiedostopolku() );
 }
 
+void AloitusSivu::poistaPilvesta()
+{
+    if( !kp()->onkoHarjoitus()) {
+        QMessageBox::critical(this, tr("Kirjanpidon poistaminen"),
+                              tr("Turvallisuussyistä voit poistaa vain harjoittelutilassa olevan kirjanpidon.\n\n"
+                                 "Poistaaksesi tämän kirjanpidon sinun pitää ensin asettaa Asetukset/Perusvalinnat-sivulla "
+                                 "määritys Harjoituskirjanpito."));
+        return;
+    }
+
+    if( QMessageBox::question(this, tr("Kirjanpidon poistaminen"),
+                              tr("Haluatko todella poistaa tämän kirjanpidon %1 pysyvästi?").arg(kp()->asetus("Nimi")),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
+        return;
+    kp()->pilvi()->poistaNykyinenPilvi();
+}
+
 void AloitusSivu::pyydaInfo()
 {
 
@@ -583,7 +601,7 @@ void AloitusSivu::haeSaldot()
 
 void AloitusSivu::siirraPilveen()
 {
-    PilveenSiirto *siirtoDlg = new PilveenSiirto(this);
+    PilveenSiirto *siirtoDlg = new PilveenSiirto();
     siirtoDlg->exec();
 }
 

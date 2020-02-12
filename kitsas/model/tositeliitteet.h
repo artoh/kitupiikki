@@ -66,7 +66,7 @@ public:
     bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
     bool lisaaTiedosto(const QString& polku);
 
-    bool lisaaHeti(const QByteArray& liite, const QString& tiedostonnimi);
+    bool lisaaHeti(QByteArray liite, const QString& tiedostonnimi);
     bool lisaaHetiTiedosto(const QString& polku);
 
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
@@ -84,7 +84,7 @@ public slots:
 signals:
     void liitteetTallennettu();
     void naytaliite(const QByteArray& data);
-    void tuonti(QVariant *data);
+    void tuonti(const QVariantMap& data);
     void liitettaTallennetaan(bool tallennetaanko);
 
 private slots:

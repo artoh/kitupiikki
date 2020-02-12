@@ -142,6 +142,8 @@
   "LaskuEnnakkotili":"2950",
   "LaskuEnnakkosaatavat":"1715",
   "LaskuEnnakkoALV":"29852",
+  "LaskuMaksumuistutustili":9050,
+  "LaskuViivastyskorkotili": 9050,
   "OletusMyyntitili":"3000",
   "OletusMenotili":"4000",
   "Yleverotili":"7045",

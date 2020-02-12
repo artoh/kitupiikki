@@ -125,7 +125,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if( ui->muistutusCheck->isChecked()) {
         TositeVienti mmvienti;
         mmvienti.setPvm(kp()->paivamaara());
-        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili")); // Tämä asetuksiin
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->muistutusSpin->value());
         kulut+=qRound64(ui->muistutusSpin->value() * 100.0);
@@ -135,7 +135,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmmap.insert("nimike", tulostaja.t("muistutusmaksu"));   // Tähän käännös
         mmmap.insert("myyntikpl",1);
         mmmap.insert("ahinta", ui->muistutusSpin->value());
-        mmmap.insert("tili",9170);
+        mmmap.insert("tili",kp()->asetukset()->luku("LaskuMaksumuistustili",9170));
         rivit.append(mmmap);
     }
 
@@ -172,7 +172,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
 
             TositeVienti korkovienti;
             korkovienti.setPvm( kp()->paivamaara());
-            korkovienti.setTili(9170);
+            korkovienti.setTili(kp()->asetukset()->luku("LaskuViivastyskorkotili",9170));
             korkovienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
             korkovienti.setKredit(vkorkosnt);
             korkovienti.setSelite(selite);
@@ -183,7 +183,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
             komap.insert("nimike", selite);
             komap.insert("myyntikpl", paivat);
             komap.insert("ahinta", (1.00 * peruste * korko / kp()->paivamaara().daysInYear() / 100));
-            komap.insert("tili", 9170);
+            komap.insert("tili", kp()->asetukset()->luku("LaskuViivastyskorkotili",9170));
             rivit.append(komap);
         }
     }

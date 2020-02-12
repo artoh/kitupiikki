@@ -40,7 +40,7 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
     token_(token)
 {
     timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
+    connect(timer_, &QTimer::timeout, [this] {this->paivitaLista(); });
 
 #ifdef KITSAS_DEVEL
     qDebug() << "Sertifikaatti " << QSslSocket::addDefaultCaCertificates(":/aloitus/kitsas.crt");
@@ -130,7 +130,15 @@ void PilviModel::sulje()
     pilviId_ = 0;
     oikeudet_ = 0;
     osoite_.clear();
-    token_.clear();
+    token_ = userToken();
+}
+
+void PilviModel::poistaNykyinenPilvi()
+{
+    QString polku = QString("%1/clouds/%2").arg(pilviLoginOsoite()).arg(pilviId());
+    PilviKysely *poisto = new PilviKysely(this, KpKysely::DELETE, polku);
+    connect( poisto, &KpKysely::vastaus, this, &PilviModel::poistettu);
+    poisto->kysy();
 }
 
 qlonglong PilviModel::oikeudet(const QVariantList &lista)
@@ -192,9 +200,9 @@ void PilviModel::kirjauduUlos()
     kp()->yhteysAvattu(nullptr);
 }
 
-void PilviModel::paivitaLista()
+void PilviModel::paivitaLista(int avaaPilvi)
 {
-    // Päivitetään lista
+    avaaPilvi_ = avaaPilvi;
     PilviKysely *kysely = new PilviKysely(this, KpKysely::GET,
                                           pilviLoginOsoite() + "/login");
     connect( kysely, &KpKysely::vastaus, this, &PilviModel::paivitysValmis);
@@ -291,6 +299,12 @@ void PilviModel::tilaaLogo(const QVariantMap &map)
             }
         }
     });
+}
+
+void PilviModel::poistettu()
+{
+    kp()->yhteysAvattu(nullptr);
+    paivitaLista();    
 }
 
 

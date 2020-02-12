@@ -23,7 +23,7 @@
      <item>
       <widget class="QLabel" name="logoLabel">
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -53,7 +53,9 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Tämä toiminto kopioi nykyisen kirjanpitosi Kitsaan pilveen.</string>
+          <string>Tämä toiminto kopioi nykyisen kirjanpitosi Kitsaan pilveen. Tämän jälkeen kirjanpito varmuuskopioidaan automaattisesti, voit käyttää laskujen kierrätystä ja kirjanpitoa voidaan käsitellä monelta tietokoneelta.
+
+Nykyinen kirjanpitotiedosto jää edelleen tietokoneellesi.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -63,7 +65,7 @@
        <item>
         <widget class="QLabel" name="infoLabel">
          <property name="text">
-          <string> </string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -166,7 +168,7 @@
      <widget class="QWidget" name="page_3">
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="valmisLabel">
          <property name="text">
           <string>Kirjanpitosi on kopioitu Kitsaan pilveen.
 
@@ -174,6 +176,13 @@ Myös paikallinen kirjanpitotiedosto on edelleen jäljellä. Huomaathan, että p
          </property>
          <property name="wordWrap">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="valmisInfo">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -197,7 +206,7 @@ Myös paikallinen kirjanpitotiedosto on edelleen jäljellä. Huomaathan, että p
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
