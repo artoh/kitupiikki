@@ -39,7 +39,8 @@ PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString po
 void PilviKysely::kysy(const QVariant &data)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QUrl url( polku().contains("//") ? polku() :  model->pilviosoite() + polku());
+    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();
+    QUrl url( osoite );
     url.setQuery( urlKysely() );
 
     QNetworkRequest request( url );
@@ -82,7 +83,8 @@ void PilviKysely::kysy(const QVariant &data)
 void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QString>& meta)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QNetworkRequest request( QUrl( model->pilviosoite() + polku() ) );
+    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();
+    QNetworkRequest request( osoite );
 
     request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );

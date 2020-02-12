@@ -32,6 +32,7 @@
 #include "tuonti/csvtuonti.h"
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
+#include "pilvi/pilvimodel.h"
 
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)
@@ -144,7 +145,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
     tallennetaan_ = true;
     emit liitettaTallennetaan(true);
 
-    KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
+    KpKysely* liitekysely = kpk("/liitteet?ocr=json", KpKysely::POST);
     connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant& data, int id) {
             this->liiteLisatty(data, id, liiteIndeksi);
         });
@@ -172,10 +173,14 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
             kysely->kysy(tuotu);
         } else if( tyyppi == "image/jpeg") {
             qDebug() << "image/jpeg laukaistaan Tesseract";
-            Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
-            connect( tesser, &Tuonti::TesserActTuonti::tuotu,
-                     this, &TositeLiitteet::tuonti);
-            tesser->tuo(liite);
+            if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
+                connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
+            } else {
+                Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
+                connect( tesser, &Tuonti::TesserActTuonti::tuotu,
+                         this, &TositeLiitteet::tuonti);
+                tesser->tuo(liite);
+            }
         }
     }
 
