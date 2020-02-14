@@ -108,6 +108,55 @@ QVariant TilikaudetRoute::doDelete(const QString &polku)
     return QVariant();
 }
 
+QVariant TilikaudetRoute::post(const QString &polku, const QVariant &data)
+{
+    if( polku !="numerointi")
+        return QVariant();
+
+    QVariantMap map = data.toMap();
+    QString alkaa = map.value("alkaa").toDate().toString(Qt::ISODate);
+    QString loppuu = map.value("loppuu").toDate().toString(Qt::ISODate);
+
+    QDate alku = map.value("alkaa").toDate();
+    QDate kausialkaa = kp()->tilikaudet()->tilikausiPaivalle(alku).alkaa();
+    bool alusta = alku == kausialkaa;
+
+    QMap<QString,int> numerot;
+
+    QSqlQuery query(db());
+
+    if( !alusta) {
+
+    query.exec(QString("SELECT sarja, MAX(tunniste) FROM Tosite "
+               "WHERE pvm < '%1' AND pvm >= '%2'"
+                "GROUP BY tunniste").arg(alkaa).arg(kausialkaa.toString(Qt::ISODate)));
+    while( query.next()) {
+        int min = query.value(1).toInt() + 1;
+        numerot.insert(query.value(0).toString(), min);
+    }
+    }
+
+
+    query.exec(QString("SELECT id, sarja FROM Tosite "
+               "WHERE pvm BETWEEN '%1' AND '%2' "
+                "ORDER BY sarja, pvm, id").arg(alkaa).arg(loppuu));
+
+    db().transaction();
+    QSqlQuery update(db());
+
+    while( query.next()) {
+        int id = query.value(0).toInt();
+        QString sarja = query.value(1).toString();
+
+        int tunniste =  numerot.contains(sarja) ? numerot.value(sarja) : 1;
+        numerot[sarja] = tunniste + 1;
+        update.exec(QString("UPDATE Tosite SET tunniste=%1 WHERE id=%2")
+                .arg(tunniste).arg(id));
+    }
+    db().commit();
+    return QVariant();
+}
+
 QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 {
     QSqlQuery kysely( db() );

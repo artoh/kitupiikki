@@ -50,6 +50,7 @@
 #include "budjettidlg.h"
 #include "db/yhteysmodel.h"
 
+#include "uudelleennumerointi.h"
 
 #include <zip.h>
 
@@ -71,10 +72,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
     connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
 
-    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit );
-
-
-    ui->numeroiButton->hide();      // Ei käytössä
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit );    
 }
 
 ArkistoSivu::~ArkistoSivu()
@@ -84,6 +82,9 @@ ArkistoSivu::~ArkistoSivu()
 
 void ArkistoSivu::siirrySivulle()
 {
+    if( !kp()->yhteysModel())
+        return;
+
     kp()->tilikaudet()->paivita();
     ui->view->resizeColumnsToContents();
 
@@ -99,10 +100,11 @@ void ArkistoSivu::siirrySivulle()
             break;
         }
     }
-    ui->uusiNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
-    ui->muokkaaNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
-    ui->tilinpaatosNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS));
-    ui->budjettiNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::BUDJETTI));
+    ui->uusiNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->muokkaaNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->tilinpaatosNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TILINPAATOS));
+    ui->budjettiNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::BUDJETTI));
+    ui->numeroiButton->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
 }
 
 void ArkistoSivu::uusiTilikausi()
@@ -242,7 +244,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
                                      kp()->tilitpaatetty() >= kausi.alkaa() );
-        // ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
+        ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
     }
     else
     {
@@ -250,7 +252,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->arkistoNappi->setEnabled(false);
         ui->muokkaaNappi->setEnabled(false);
         ui->aineistoNappi->setEnabled(false);
-        // ui->numeroiButton->setEnabled(false);
+        ui->numeroiButton->setEnabled(false);
     }
 }
 
@@ -320,9 +322,11 @@ void ArkistoSivu::budjetti()
 
 void ArkistoSivu::uudellenNumerointi()
 {
-
-        // TODO
-
+    if( ui->view->currentIndex().isValid())
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        Uudelleennumerointi::numeroiUudelleen(kausi);
+    }
 }
 
 bool ArkistoSivu::teeZip(const QString &polku)

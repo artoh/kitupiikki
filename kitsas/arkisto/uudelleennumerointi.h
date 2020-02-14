@@ -14,26 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TILIKAUDETROUTE_H
-#define TILIKAUDETROUTE_H
+#ifndef UUDELLEENNUMEROINTI_H
+#define UUDELLEENNUMEROINTI_H
 
-#include "../sqliteroute.h"
+#include <QDialog>
+
 #include "db/tilikausi.h"
 
-class TilikaudetRoute : public SQLiteRoute
+namespace Ui {
+class Uudelleennumerointi;
+}
+
+class Uudelleennumerointi : public QDialog
 {
+    Q_OBJECT
+
 public:
-    TilikaudetRoute(SQLiteModel *model);
+    explicit Uudelleennumerointi(QWidget *parent = nullptr);
+    ~Uudelleennumerointi() override;
 
-    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-    QVariant doDelete(const QString &polku) override;
-    QVariant post(const QString &polku, const QVariant &data) override;
+    static void numeroiUudelleen(const Tilikausi& kausi );
 
-protected:
-    QVariant laskelma(const Tilikausi& kausi);
+    void accept() override;
+    void valmis();
 
-    void verolaskelma(const Tilikausi& kausi, QVariantMap& ulos);
+private:
+    Ui::Uudelleennumerointi *ui;
 };
 
-#endif // TILIKAUDETROUTE_H
+#endif // UUDELLEENNUMEROINTI_H
