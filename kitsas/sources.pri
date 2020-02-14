@@ -526,6 +526,7 @@ FORMS += \
     $$PWD/pilvi/pilveensiirto.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
+    $$PWD/tilaus/kiitos.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \

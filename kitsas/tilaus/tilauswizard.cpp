@@ -35,6 +35,7 @@
 
 #include "ui_tilausyhteys.h"
 #include "ui_tilausvahvistus.h"
+#include "ui_kiitos.h"
 
 TilausWizard::TilausWizard() :
     planModel_( new PlanModel(this)),
@@ -200,11 +201,10 @@ void TilausWizard::tilattu()
     } else {        
         kp()->pilvi()->paivitaLista();
         if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
-            QMessageBox::information(this, tr("Kiitos tilauksestasi"),
-                                     tr("Tilauksesi on heti käytettävissä.\n"
-                                        "Saat sähköpostiisi vahvistuksen tilauksesta. \n"
-                                        "Jos sinulle jäi jotain kysyttävää, älä epäröi ottaa yhteyttä "
-                                        "tuki@kitsas.fi"));
+            Ui::Kiitos kiitos;
+            QDialog dlg(this);
+            kiitos.setupUi(&dlg);
+            dlg.exec();
         } else {
             QMessageBox::information(this, tr("Kitsas"),tr("Tilauksesi on päivitetty"));
         }

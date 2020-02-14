@@ -28,7 +28,8 @@ protected:
     {
     public:
         TositeLiite(int id=0, const QString& nimi = QString(),
-                    const QByteArray& sisalto = QByteArray(), const QString& rooli = QString());
+                    const QByteArray& sisalto = QByteArray(), const QString& rooli = QString(),
+                    const QString& polku = QString());
 
         int getLiiteId() const;
         void setLiiteId(int value);
@@ -40,16 +41,18 @@ protected:
 
         QString getRooli() const;
         void setRooli(const QString &rooli);
+        QString getPolku() const { return polku_;}
 
         bool getLiitettava() const;
         void setLiitettava(int id);
 
     protected:
         int liiteId_ = 0;
-        QString nimi_;
+        QString nimi_;        
         QByteArray sisalto_;
         QString rooli_;
-        bool liitettava_ = false;
+        QString polku_;
+        bool liitettava_ = false;        
     };
 
 public:
@@ -62,11 +65,15 @@ public:
 
     void lataa(QVariantList data);
     void clear();
+    /**
+     * @brief Tyhjentää Inboxista siirretyt
+     */
+    void tallennettu();
 
     bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
     bool lisaaTiedosto(const QString& polku);
 
-    bool lisaaHeti(QByteArray liite, const QString& tiedostonnimi);
+    bool lisaaHeti(QByteArray liite, const QString& tiedostonnimi, const QString &polku = QString());
     bool lisaaHetiTiedosto(const QString& polku);
 
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
@@ -101,6 +108,7 @@ private:
     int tositeId_ = -1;
     int tallennuksessa_ = -1;
     bool tallennetaan_ = false;
+    QStringList inboxista_;
 
 };
 

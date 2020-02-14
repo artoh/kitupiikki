@@ -19,12 +19,16 @@
 #include "db/kirjanpito.h"
 
 #include <QFileDialog>
+#include <QSettings>
 
 InboxMaaritys::InboxMaaritys() :
     ui_(new Ui::InboxMaaritys)
 {
     ui_->setupUi(this);
-
+    connect( ui_->valitseNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKansio);
+    connect( ui_->kopioNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKopioKansio);
+    connect( ui_->kopioRadio, &QPushButton::click, [this] { emit this->tallennaKaytossa(this->onkoMuokattu()); });
+    connect( ui_->poistaNappi, &QPushButton::clicked, [this] { this->ui_->kopioEdit->clear(); emit this->tallennaKaytossa(this->onkoMuokattu());});
 }
 
 InboxMaaritys::~InboxMaaritys()
@@ -34,16 +38,47 @@ InboxMaaritys::~InboxMaaritys()
 
 bool InboxMaaritys::tallenna()
 {
-    TallentavaMaaritysWidget::tallenna();
+    QString uid = kp()->asetus("UID");
+    kp()->settings()->beginGroup(uid);
+
+    kp()->settings()->setValue("KirjattavienKansio", ui_->kansioEdit->text());
+    kp()->settings()->setValue("KirjattavienSiirtoKansio", ui_->kopioEdit->text());
+    kp()->settings()->setValue("KirjattavienSiirto", !ui_->poistaRadio->isChecked() );
+    kp()->settings()->endGroup();
+
+
     emit kp()->inboxMuuttui();
     return true;
 }
 
 bool InboxMaaritys::nollaa()
 {
-    ui_->poistaRadio->setChecked( !kp()->asetukset()->onko("KirjattavienKansioSiirto") );
-    ui_->kopioRadio->setEnabled(!kp()->asetukset()->asetus("KirjattavienKansio").isEmpty() );
-    return TallentavaMaaritysWidget::nollaa();
+    QString uid = kp()->asetus("UID");
+    kp()->settings()->beginGroup(uid);
+    ui_->kansioEdit->setText( kp()->settings()->value("KirjattavienKansio").toString() );
+    ui_->kopioEdit->setText( kp()->settings()->value("KirjattavienSiirtoKansio").toString());
+    bool poista = !kp()->settings()->value("KirjattavienSiirto").toBool();
+    ui_->poistaRadio->setChecked( poista );
+    ui_->kopioRadio->setChecked( !poista );
+    kp()->settings()->endGroup();
+    return true;
+}
+
+bool InboxMaaritys::onkoMuokattu()
+{
+    QString uid = kp()->asetus("UID");
+    kp()->settings()->beginGroup(uid);
+    QString kirjattavat = ( kp()->settings()->value("KirjattavienKansio").toString() );
+    QString siirto = ( kp()->settings()->value("KirjattavienSiirtoKansio").toString());
+    bool poista = !kp()->settings()->value("KirjattavienSiirto").toBool();
+    kp()->settings()->endGroup();
+
+
+    return
+        ui_->kansioEdit->text() != kirjattavat ||
+        ui_->kopioEdit->text() != siirto ||
+        ui_->poistaRadio->isChecked() != poista;
+
 }
 
 void InboxMaaritys::valitseKansio()
@@ -54,6 +89,7 @@ void InboxMaaritys::valitseKansio()
         ui_->kansioEdit->setText(kansio);
 
     ui_->kopioRadio->setEnabled(!kp()->asetukset()->asetus("KirjattavienKansio").isEmpty() );
+    emit tallennaKaytossa(onkoMuokattu());
 }
 
 void InboxMaaritys::valitseKopioKansio()
@@ -70,4 +106,5 @@ void InboxMaaritys::valitseKopioKansio()
         ui_->kopioRadio->setEnabled(false);
         ui_->poistaRadio->setChecked(true);
     }
+    emit tallennaKaytossa(onkoMuokattu());
 }

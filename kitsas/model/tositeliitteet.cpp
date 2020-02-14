@@ -26,6 +26,7 @@
 #include <QUrl>
 #include <QBuffer>
 #include <QDebug>
+#include <QSettings>
 
 #include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
@@ -97,8 +98,29 @@ void TositeLiitteet::clear()
     beginResetModel();
     liitteet_.clear();
     tallennetaan_ = false;
+    inboxista_.clear();
     endResetModel();
     emit naytaliite(QByteArray());
+}
+
+void TositeLiitteet::tallennettu()
+{
+    if( !inboxista_.isEmpty()) {
+        if( !kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienSiirto" ).toBool() ) {
+            for(QString tiedosto : inboxista_) {
+                QFile::remove(tiedosto);
+            }
+        } else {
+            QString minne = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienSiirtoKansio" ).toString();
+            QDir kohde(minne);
+            for( QString tiedosto : inboxista_) {
+                QFileInfo info(tiedosto);
+                if( QFile::copy( info.absoluteFilePath(), kohde.absoluteFilePath(info.fileName()) )) {
+                    QFile::remove(info.absoluteFilePath());
+                }
+            }
+        }
+    }
 }
 
 bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString& tiedostonnimi, const QString& rooli)
@@ -120,7 +142,7 @@ bool TositeLiitteet::lisaaTiedosto(const QString &polku)
     return lisaa( lueTiedosto(polku), QFileInfo(polku).fileName());
 }
 
-bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
+bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, const QString& polku)
 {
     if( liite.isNull())
         return false;
@@ -136,7 +158,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
     }
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
-    liitteet_.append( TositeLiite(0, tiedostonnimi, liite) );
+    liitteet_.append( TositeLiite(0, tiedostonnimi, liite, QString(), polku) );
     int liiteIndeksi = liitteet_.count() - 1;
     endInsertRows();
 
@@ -193,6 +215,10 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi)
 
 bool TositeLiitteet::lisaaHetiTiedosto(const QString &polku)
 {
+    QString inbox = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienKansio" ).toString();
+    if( !inbox.isEmpty() && polku.startsWith(inbox))
+        inboxista_.append(polku);
+
     return lisaaHeti( lueTiedosto(polku), QFileInfo(polku).fileName() );
 }
 
@@ -290,8 +316,10 @@ void TositeLiitteet::poista(int indeksi)
         KpKysely* poisto = kpk( QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ), KpKysely::DELETE);
         poisto->kysy();
     }
+    inboxista_.removeAll( liitteet_.at(indeksi).getPolku() );   // Ettei poistu inboxista
+
     beginRemoveRows(QModelIndex(),indeksi, indeksi);
-    liitteet_.removeAt(indeksi);
+    liitteet_.removeAt(indeksi);    
     endRemoveRows();
 }
 
@@ -350,11 +378,12 @@ QByteArray TositeLiitteet::lueTiedosto(const QString &polku)
 
 // ************************************ TOSITELIITE **********************************
 
-TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto, const QString &rooli) :
+TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto, const QString &rooli, const QString &polku) :
     liiteId_(id),
     nimi_(nimi),
     sisalto_(sisalto),
-    rooli_(rooli)
+    rooli_(rooli),
+    polku_(polku)
 {
 
 }

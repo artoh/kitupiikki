@@ -128,7 +128,7 @@ void KirjausSivu::talletaSplitter()
 
 void KirjausSivu::lisaaKirjattavienKansiosta()
 {
-    QDir dir( kp()->asetukset()->asetus("KirjattavienKansio"));
+    QDir dir( kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienKansio" ).toString());
     dir.setFilter( QDir::Files );
     dir.setSorting( QDir::Name );
     QFileInfoList list = dir.entryInfoList();

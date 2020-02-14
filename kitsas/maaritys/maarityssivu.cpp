@@ -68,7 +68,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "", QIcon(":/pic/kierto.svg"),"kierto");
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
-//    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
+    lisaaSivu("Kirjattavien kansio", INBOX,"",QIcon(":/pic/inbox.png"));
     lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));

@@ -300,9 +300,11 @@ void Tosite::tallennusValmis(QVariant *variant)
 
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );
-    else
+    else {
+        liitteet()->tallennettu();
         emit talletettu( id(), tunniste(), pvm(),
                          sarja(), tositetila());
+    }
 }
 
 void Tosite::tallennuksessaVirhe(int virhe)

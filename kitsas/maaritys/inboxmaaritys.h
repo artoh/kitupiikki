@@ -17,7 +17,7 @@
 #ifndef INBOXMAARITYS_H
 #define INBOXMAARITYS_H
 
-#include "tallentavamaarityswidget.h"
+#include "maarityswidget.h"
 
 namespace Ui {
     class InboxMaaritys;
@@ -26,7 +26,7 @@ namespace Ui {
 /**
  * @brief Kirjattavien kansion valinta
  */
-class InboxMaaritys : public TallentavaMaaritysWidget
+class InboxMaaritys : public MaaritysWidget
 {
     Q_OBJECT
 public:
@@ -35,6 +35,7 @@ public:
 
     bool tallenna() override;
     bool nollaa() override;
+    bool onkoMuokattu() override;
 
     QString ohjesivu() override { return "maaritykset/inbox"; }
 
