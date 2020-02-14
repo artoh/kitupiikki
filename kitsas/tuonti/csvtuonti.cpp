@@ -31,6 +31,8 @@
 #include "validator/viitevalidator.h"
 
 #include "ui_tilimuuntodlg.h"
+#include "db/tositetyyppimodel.h"
+#include "model/tositevienti.h"
 
 namespace Tuonti {
 
@@ -121,7 +123,7 @@ QVariantMap CsvTuonti::tuonti(const QByteArray &data)
 
 QVariantMap CsvTuonti::kirjaukset()
 {
-    /*
+
     QMap<QString,int> muuntotaulukko;
 
     if( ui->muuntoRadio->isChecked())
@@ -175,13 +177,17 @@ QVariantMap CsvTuonti::kirjaukset()
         muuntotaulukko = muuntomodel.muunnettu();
 
     }
+    QVariantMap map;
+    map.insert("tyyppi", TositeTyyppi::TUONTI);
+    QVariantList viennit;
+
 
     QRegularExpression numRe("\\d+");
 
     for(int r=1; r < csv_.count(); r++)
     {
+        TositeVienti vienti;
 
-        VientiRivi rivi;
         QString tositetunnus;
         QString selite;
 
@@ -197,11 +203,11 @@ QVariantMap CsvTuonti::kirjaukset()
 
             if( tuonti == PAIVAMAARA )
                 if( muodot_.at(c) == SUOMIPVM)
-                    rivi.pvm = QDate::fromString(tieto, "d.M.yyyy");
+                    vienti.setPvm( QDate::fromString(tieto, "d.M.yyyy"));
                 else if( muodot_.at(c) == ISOPVM )
-                    rivi.pvm = QDate::fromString(tieto, Qt::ISODate);
+                    vienti.setPvm( QDate::fromString(tieto, Qt::ISODate));
                 else
-                    rivi.pvm = QDate::fromString(tieto, Qt::RFC2822Date);
+                    vienti.setPvm( QDate::fromString(tieto, Qt::RFC2822Date));
             else if( tuonti == TOSITETUNNUS)
                 tositetunnus = tieto;
             else if( tuonti == SELITE && !tieto.isEmpty())
@@ -216,55 +222,50 @@ QVariantMap CsvTuonti::kirjaukset()
                 if( nro )
                 {
                     if( muuntotaulukko.isEmpty())
-                        rivi.tili = kp()->tilit()->tiliNumerolla( nro );
+                         vienti.setTili( nro );
                     else
-                        rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
+                        vienti.setTili( muuntotaulukko.value( QString::number(nro)));
                 }
             }
-            else if( tuonti == TILINIMI)
-            {
-                if( !rivi.tili.onkoValidi())
-                    rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
-            }
             else if( tuonti == DEBETEURO)
-                rivi.debetSnt = sentit;
+               vienti.setDebet(sentit);
             else if( tuonti == KREDITEURO)
-                rivi.kreditSnt = sentit;
+                vienti.setKredit(sentit);
             else if( tuonti == RAHAMAARA)
             {
                 if( sentit > 0)
-                    rivi.debetSnt = sentit;
+                    vienti.setDebet(sentit);
                 else
-                    rivi.kreditSnt = 0 - sentit;
+                    vienti.setKredit(0 - sentit);
             }
             else if( tuonti == KOHDENNUS)
-                rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
+                vienti.setKohdennus(tieto.toInt());
             else if( (tuonti == BRUTTOALVP || tuonti == ALVPROSENTTI) && sentit )
             {
-                rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
+                vienti.setAlvProsentti( sentit / 100.0 );
             }
             else if( tuonti == ALVKOODI && sentit)
             {
-                rivi.alvkoodi = static_cast<int>(sentit / 100);
+                vienti.setAlvKoodi(static_cast<int>(sentit / 100));
             }
         }
 
         if( !tositetunnus.isEmpty())
-            rivi.selite = QString("%1 : %2").arg(tositetunnus).arg(selite);
+            vienti.setSelite( QString("%1 : %2").arg(tositetunnus).arg(selite));
         else
-            rivi.selite = selite;
+            vienti.setSelite( selite );
 
-        if( rivi.alvprosentti && !rivi.alvkoodi)
+        if( vienti.alvProsentti() > 1e-5 && !vienti.alvKoodi())
         {
-            if( rivi.debetSnt )
-                rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
-            else if(rivi.kreditSnt)
-                rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
+            if( vienti.debet() > 1e-6 )
+                vienti.setAlvKoodi(AlvKoodi::OSTOT_BRUTTO);
+            else
+                vienti.setAlvKoodi(AlvKoodi::MYYNNIT_BRUTTO);
         }
-
+        viennit.append(vienti);
     }
-    */
-    return QVariantMap();
+    map.insert("viennit", viennit);
+    return map;
 }
 
 QVariantMap CsvTuonti::tiliote()

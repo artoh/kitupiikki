@@ -416,9 +416,14 @@ void KirjausWg::tuonti(const QVariantMap& map)
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
         ui->tositePvmEdit->checkValidity();
     }
-
     if( apuri_)
         apuri_->tuo(map);
+
+    else if( map.value("tyyppi") == TositeTyyppi::TUONTI) {
+        for(auto vienti : map.value("viennit").toList()) {
+            tosite()->viennit()->lisaa( vienti.toMap());
+        }
+    }
 }
 
 void KirjausWg::nollaaTietokannanvaihtuessa()
