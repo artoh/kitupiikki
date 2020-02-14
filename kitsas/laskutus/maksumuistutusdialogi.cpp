@@ -238,7 +238,9 @@ void MaksumuistutusDialogi::tallennaLiite(QVariant *data)
 void MaksumuistutusDialogi::merkkaaMuistutetuksi(const QVariantMap &data)
 {
     QVariantMap muistutettuTila;
-    muistutettuTila.insert("tila", Tosite::MUISTUTETTU);
+    muistutettuTila.insert("tila", Tosite::MUISTUTETTU);    
+
+    // TODOOOO !!!!!
 
     QVariantList lista = data.value("lasku").toMap().value("aiemmat").toList();
     for(auto item : lista) {

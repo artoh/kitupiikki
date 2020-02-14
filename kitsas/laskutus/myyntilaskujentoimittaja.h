@@ -46,7 +46,7 @@ protected slots:
 protected:
     bool tulosta();
     bool tallenna();
-    void merkkaaToimitetuksi(int tositeId);
+    void merkkaaToimitetuksi(int tositeid);
     QString maksutiedot(const QVariantMap& data);
 
     void tilaaSeuraavaLasku();

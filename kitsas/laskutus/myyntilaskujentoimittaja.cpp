@@ -151,6 +151,7 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
         if( !emailvirheita_)
             QMessageBox::critical(nullptr, tr("Sähköpostin lähetys epäonnistui"), tr("Laskujen lähettäminen sähköpostillä epäonnistui. Tarkista sähköpostiasetukset."));
         emailvirheita_ = true;
+        sahkopostilla_.removeFirst();
     } else if( status == Smtp::Connecting || status == Smtp::Sending) {
         return;
     } else if( status == Smtp::Send) {
@@ -254,14 +255,14 @@ bool MyyntiLaskujenToimittaja::tallenna()
     return true;
 }
 
-void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeId)
+void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeid)
 {
-    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::PATCH);
+    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid), KpKysely::PATCH);
     QVariantMap map;
     map.insert("tila", Tosite::LAHETETTYLASKU);
     connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::toimitettu);
     kysely->kysy(map);
-    qDebug() << "toimitettu " << tositeId;
+    qDebug() << "toimitettu " << tositeid;
 }
 
 QString MyyntiLaskujenToimittaja::maksutiedot(const QVariantMap &data)

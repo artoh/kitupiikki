@@ -310,15 +310,12 @@ void AloitusSivu::abouttiarallaa()
 
 void AloitusSivu::infoSaapui()
 {
+    kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
+
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
-    QString info = QString::fromUtf8( reply->readAll() );
-    if( info.startsWith("KITUPIIKKI"))
-    {
-        // Tarkistetaan tunniste, jotta palvelinvirhe ei tuota sontaa näytölle
-        paivitysInfo = info.mid(11);
-        siirrySivulle();
-    }
+    paivitysInfo = QString::fromUtf8( reply->readAll() );
+    siirrySivulle();
     reply->deleteLater();
 }
 
@@ -397,23 +394,33 @@ void AloitusSivu::poistaPilvesta()
 
 void AloitusSivu::pyydaInfo()
 {
-
-    if( ! kp()->settings()->contains("Keksi"))
-    {
-        kp()->settings()->setValue("Keksi", Kirjanpito::satujono(10) );
+    QVariantMap tilasto;
+    if( kp()->settings()->contains("TilastoPaivitetty")) {
+        tilasto.insert("lastasked", kp()->settings()->value("TilastoPaivitetty").toDate());
     }
+    tilasto.insert("application", qApp->applicationName());
+    tilasto.insert("version", qApp->applicationVersion());
+    tilasto.insert("build", KITSAS_BUILD);
+    tilasto.insert("os", QSysInfo::prettyProductName());
 
-    QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
-            .arg( qApp->applicationVersion() )
-            .arg( QSysInfo::prettyProductName())
-            .arg( kp()->settings()->value("Keksi").toString() )
-            .arg( KITSAS_BUILD )
-            .arg( buildDate().toString(Qt::ISODate) )
-            .arg( kp()->settings()->value("Tilikartta").toString());
+    // Lista niistä tilikartoista, joita on käytetty viimeisimmän kuukauden aikana
+    QStringList kartat;
+    kp()->settings()->beginGroup("tilastokartta");
+    for(QString kartta : kp()->settings()->allKeys()) {
+        QDate kaytetty = kp()->settings()->value(kartta).toDate();
+        if( kaytetty > QDate::currentDate().addMonths(-1)) {
+            kartat.append(kartta);
+        }
+    }
+    kp()->settings()->endGroup();
+    tilasto.insert("maps", kartat);
 
-    QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
-    pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
-    QNetworkReply *reply = kp()->networkManager()->get( pyynto );
+    QByteArray ba = QJsonDocument::fromVariant(tilasto).toJson();
+    QString osoite = kp()->pilvi()->pilviLoginOsoite() + "/updateinfo";
+
+    QNetworkRequest pyynto = QNetworkRequest( QUrl(osoite));
+    pyynto.setRawHeader("Content-type","application/json");
+    QNetworkReply *reply = kp()->networkManager()->post(pyynto, ba);
     connect( reply, &QNetworkReply::finished, this, &AloitusSivu::infoSaapui);
 }
 

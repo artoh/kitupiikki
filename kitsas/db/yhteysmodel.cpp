@@ -21,6 +21,7 @@
 #include "kierto/kiertomodel.h"
 
 #include <QDebug>
+#include <QSettings>
 
 YhteysModel::YhteysModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -52,6 +53,13 @@ void YhteysModel::lataaInit(QVariant *reply)
             kp()->tilikaudet()->lataa( iter.value().toList() );
         else if( avain == "kierrot")
             kp()->kierrot()->lataa( iter.value().toList() );
+    }
+
+    // Pidetään yllä tietoa siitä, milloin viimeksi käytetty mitäkin
+    // tilikarttaa, jotta tilikarttojen tilastointi toimii
+    const QString& kartta = kp()->asetukset()->asetus("Tilikartta");
+    if( !kartta.isEmpty()) {
+        kp()->settings()->setValue("tilastokartta/" + kartta, QDate::currentDate());
     }
 }
 

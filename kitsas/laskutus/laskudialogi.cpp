@@ -101,7 +101,6 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( rivit_, &LaskuRivitModel::modelReset, this, &LaskuDialogi::paivitaSumma);
 
     alustaRiviTab();
-    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
     connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::maksuTapaMuuttui);
@@ -130,6 +129,8 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
         ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
     }
+
+    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
 
     if( ryhmalasku )
         alustaRyhmalasku();
@@ -275,8 +276,10 @@ void LaskuDialogi::paivitaLaskutustavat()
     ui->laskutusCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Ei tulosteta"), EITULOSTETA);
 
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
-    if( ui->laskutusCombo->currentIndex() < 0)
+    if( ui->laskutusCombo->currentIndex() < 0) {
+        qDebug() << "Maksutapa ei käytössä";
         ui->laskutusCombo->setCurrentIndex(0);
+    }
 }
 
 void LaskuDialogi::laskutusTapaMuuttui()
@@ -653,7 +656,10 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->email->setText( lasku.value("email").toString() );
     ui->asViiteEdit->setText( lasku.value("asviite").toString() );
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.value("kieli").toString() ) );
-    ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.value("laskutapa").toInt() ));
+
+    int laskutapa = lasku.value("laskutapa").toInt();
+    ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( laskutapa ));
+
     ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.value("maksutapa").toInt() ));
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
     ui->jaksoDate->setDate( lasku.value("jaksopvm").toDate());
