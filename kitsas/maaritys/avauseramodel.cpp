@@ -27,7 +27,9 @@ AvausEraModel::AvausEraModel(QList<AvausEra> erat, QObject *parent)
 QVariant AvausEraModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-        if(section == NIMI)
+        if(section == KUMPPANI)
+            return tr("Asiakas/toimittaja");
+        else if(section == NIMI)
             return tr("Erän nimi");
         else
             return tr("Saldo");
@@ -52,9 +54,14 @@ QVariant AvausEraModel::data(const QModelIndex &index, int role) const
 
     AvausEra era = erat_.at(index.row());
 
+    if( role == Qt::UserRole && index.column() == KUMPPANI)
+        return era.kumppaniId();
+
     if( role == Qt::DisplayRole || role == Qt::EditRole) {
         if( index.column() == NIMI)
             return era.eranimi();
+        else if( index.column() == KUMPPANI)
+                return era.kumppaniNimi();
         else if( role == Qt::DisplayRole)
             return QString("%L1 €").arg( era.saldo() / 100.0, 10,'f',2);
         else
@@ -72,9 +79,15 @@ bool AvausEraModel::setData(const QModelIndex &index, const QVariant &value, int
 
         if( index.column() == NIMI) {
             era.asetaNimi( value.toString() );
-        } else {
+        } else if (index.column() == SALDO){
             era.asetaSaldo( qRound64( value.toDouble() * 100) );
+        } else if( role == Qt::DisplayRole) {
+            era.asetaKumppani( value.toString());
+        } else if( role == Qt::UserRole) {
+            era.asetaKumppani( value.toInt());
         }
+
+
         erat_[index.row()] = era;
         emit dataChanged(index, index, QVector<int>() << role);
 

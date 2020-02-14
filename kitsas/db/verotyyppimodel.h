@@ -62,7 +62,7 @@ namespace AlvKoodi {
  */
 struct VeroTyyppi
 {
-    VeroTyyppi() {;}
+    VeroTyyppi() {}
     VeroTyyppi( AlvKoodi::Koodi uKoodi, const QString& uSelite, const QString& uKuvake = "", bool uNollalaji = false);
 
 

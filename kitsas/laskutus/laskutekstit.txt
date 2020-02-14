@@ -4,23 +4,25 @@ ENlaskuotsikko Invoice
 lpvm Laskun päivämäärä
 ENlpvm Date
 SVlpvm Datum
-vmkt Voittomarginaalijärjestelmä - Käytetyt tavarat
-ENvmkt Margin scheme - Second-hand goods
-vmte Voittomarginaalijärjestelmä - Taide-esineet
-ENvmte Margin scheme - Works of art
-vmka Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet
-ENvmka Margin scheme - Collectors' items and antiques
-yhtmy AVL 72a §: ALV 0% Yhteisömyynti
-ENyhtmy AVL 72a §: VAT 0% Intra Community supply
-palmy AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
-ENpalmy AVL 65 §: Reverse charge, VAT Directive art 44
-rakmy AVL 8 c §: Käännetty verovelvollisuus
-ENrakmy AVL 8 c §: Reverse charge, VAT Directive art 199
+alv13 Voittomarginaalijärjestelmä
+ENalv13 Margin scheme
+alv91 Voittomarginaalijärjestelmä - Käytetyt tavarat
+ENalv91 Margin scheme - Second-hand goods
+alv92 Voittomarginaalijärjestelmä - Taide-esineet
+ENalv92 Margin scheme - Works of art
+alv93 Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet
+ENalv93 Margin scheme - Collectors' items and antiques
+alv14 AVL 72a §: ALV 0% Yhteisömyynti
+ENalv14 AVL 72a §: VAT 0% Intra Community supply
+alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
+ENalv15 AVL 65 §: Reverse charge, VAT Directive art 44
+alv16 AVL 8 c §: Käännetty verovelvollisuus
+ENalv16 AVL 8 c §: Reverse charge, VAT Directive art 199
 alv ALV
 ENalv VAT
 SValv MOMS
-verotonm Veroton myynti
-ENverotonm Tax free sale
+alv0 Veroton myynti
+ENalv0 Tax free sale
 jatkuu Jatkuu...
 ENjatkuu To be continue...
 SVjatkuu Fortsätter...
@@ -38,7 +40,7 @@ ENytunnus Business ID
 SVytunnus FO-nummer
 eialv Myyjä ei arvonlisäverovelvollinen
 ENeialv Seller is not registered for VAT
-SVeialv Säljer har inte registerat för MOMS 
+SVeialv Säljer har inte registerat för MOMS
 kpl kpl
 SVkpl antal
 anetto á netto
@@ -117,7 +119,7 @@ kateinen Käteislasku / Kuitti
 SVkateinen Kvitto
 ENkateinen Cash receipt
 hlasku Hyvityslasku
-SVhlasku Kompensation till faktura  
+SVhlasku Kompensation till faktura
 ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
@@ -126,7 +128,7 @@ muistutusnro Maksumuistutuksen numero
 SVmuistutusnro Betalningspåminnelses nummero
 ENmuistutusnro Number of request for payment
 muistutusmaksu Huomautuskulut
-SVmuistutusmaksu Skriftlig betalningspåminnelse 
+SVmuistutusmaksu Skriftlig betalningspåminnelse
 ENmuistutusmaksu Request for payment fee
 alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
 ENalkuplasku Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
@@ -181,7 +183,7 @@ SVharjoitus ÖVNING
 ENharjoitus TRIAL
 ennakkolasku Ennakkolasku
 SVennakkolasku Förhandsfaktura
-ENennakkolasku Advance Invoice 
-enhyri Ennakkolaskun %1 hyvitys 
+ENennakkolasku Advance Invoice
+enhyri Ennakkolaskun %1 hyvitys
 SVenhyri Kompensation till förhandsfaktura %1
 ENenhyri Compensation for advance invoice %1

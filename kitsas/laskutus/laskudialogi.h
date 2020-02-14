@@ -28,6 +28,7 @@
 
 #include "naytin/esikatseltava.h"
 #include "db/tositetyyppimodel.h"
+#include "db/verotyyppimodel.h"
 
 namespace Ui {
 class LaskuDialogi;
@@ -52,6 +53,7 @@ public:
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
     enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF, EITULOSTETA, POSTITUS, TUOTULASKU };
     enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE };
+    enum Marginaali { KAYTETYT =91, TAIDE =  92, ANTIIKKI=93 };
 
     void lisaaEnnakkoHyvitys(int eraId, double eurot);
     QString asiakkaanAlvTunnus() const { return asAlvTunnus_;}

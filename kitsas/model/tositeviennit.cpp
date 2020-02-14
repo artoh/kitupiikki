@@ -359,7 +359,17 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
     TositeVienti uusi;
 
     Tosite* tosite = qobject_cast<Tosite*>(parent());
-    uusi.setPvm( tosite->data(Tosite::PVM).toDate() );
+    uusi.setPvm( tosite->pvm() );
+
+    if( indeksi > 0){
+        TositeVienti edellinen = viennit_.at(indeksi-1).toMap();
+        Tili tili = kp()->tilit()->tiliNumerolla(edellinen.tili());
+        if( tili.luku("vastatili"))
+            uusi.setTili(tili.luku("vastatili"));
+        uusi.setSelite(edellinen.selite());
+    } else {
+        uusi.setSelite( tosite->otsikko());
+    }
 
     // Pyrkii tasaamaan tilit ;)
 
@@ -374,6 +384,7 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
         uusi.setKredit( dsumma - ksumma);
     else
         uusi.setDebet( ksumma - dsumma );
+
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
     viennit_.insert(indeksi, uusi);

@@ -275,6 +275,9 @@ public:
      */
     QString kaanna(const QString& teksti, const QString& kieli) const;
 
+    void asetaTositeSarjat(const QStringList& sarjat) { tositesarjat_=sarjat;}
+    QStringList tositeSarjat() const { return tositesarjat_;}
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -397,6 +400,8 @@ protected:
     YhteysModel *yhteysModel_;
     TositeTyyppiModel *tositeTyypit_;
     KiertoModel* kiertoModel_;
+
+    QStringList tositesarjat_;
 
     Tulkki* tulkki_;
 

@@ -86,7 +86,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     if( urlquery.hasQueryItem("kitsaslaskut"))
         kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");
 
-    kysymys.append(" ORDER BY vienti.laskupvm, vienti.viite");
+    kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
 
     qDebug() << kysymys;
     QSqlQuery kysely( db());

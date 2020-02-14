@@ -21,6 +21,8 @@
 #include "avauskohdennusmodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
+#include "rekisteri/asiakastoimittajataydentaja.h"
+#include "rekisteri/kumppanivalintadelegaatti.h"
 
 AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
     QDialog(parent),
@@ -33,10 +35,16 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     ui->eraLabel->setVisible(!kohdennukset);
     ui->kohdennusOhje->setVisible(kohdennukset);
 
-    if( kohdennukset )
+    if( kohdennukset ) {
         model = new AvausKohdennusModel(erat, this);
-    else
+        ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);
+    } else {
         model = new AvausEraModel(erat, this);
+        AsiakasToimittajaTaydentaja *model = new AsiakasToimittajaTaydentaja(this);
+        ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
+                                          new KumppaniValintaDelegaatti(model));
+        ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);
+    }
     ui->view->setModel(model);
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
     ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);

@@ -24,6 +24,7 @@
 #include "pvmdelegaatti.h"
 #include "kohdennusdelegaatti.h"
 #include "model/tositeviennit.h"
+#include "model/tosite.h"
 
 #include <QHeaderView>
 #include <QSettings>
@@ -41,11 +42,20 @@ ViennitView::ViennitView(QWidget *parent)
 
     horizontalHeader()->setStretchLastSection(true);
 
+    setFocusPolicy(Qt::StrongFocus);
 
     // Ladataan leveyslista
     QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
     for(int i=0; i < leveysLista.count()-1; i++)
         horizontalHeader()->resizeSection(i, leveysLista.at(i).toInt());
+
+    viewport()->installEventFilter(this);
+}
+
+void ViennitView::setTosite(Tosite *tosite)
+{
+    tosite_ = tosite;
+    setModel( tosite->viennit());
 }
 
 void ViennitView::seuraavaSarake()
@@ -55,7 +65,7 @@ void ViennitView::seuraavaSarake()
         index.column() == model()->columnCount() -1)
     {
         // Lisätään uusi rivi
-        TositeViennit *vientiModel = qobject_cast<TositeViennit*>( model() );
+        TositeViennit *vientiModel = tosite_->viennit();
         vientiModel->lisaaVienti( model()->rowCount() );
         setCurrentIndex( vientiModel->index( model()->rowCount() - 1, TositeViennit::TILI ) );
     }
@@ -75,16 +85,44 @@ void ViennitView::seuraavaSarake()
     else
     {
         // Jos ALV-sarake on piilotettu, niin sen yli hypätään
+        bool kohdennukset = kp()->kohdennukset()->kohdennuksia();
+
         if( isColumnHidden( index.column() + 1) )
+            setCurrentIndex( model()->index( index.row(), index.column() + 2 ) );
+        else if( index.column() == TositeViennit::DEBET && index.data(Qt::EditRole).toDouble() > 1e-5)
+            setCurrentIndex( model()->index( index.row(), index.column() + ( kohdennukset ? 2 : 3) ));
+        else if( index.column() == TositeViennit::KREDIT && !kohdennukset)
             setCurrentIndex( model()->index( index.row(), index.column() + 2 ) );
         else
             setCurrentIndex( model()->index( index.row(), index.column() + 1 ) );
-
     }
 
-    // Vielä hypyt: Täytetystä debetistä kreditin yli
-    // Kohdennuksen yli, jos kohdennuksia ei käytössä
 
+}
+
+bool ViennitView::eventFilter(QObject *watched, QEvent *event)
+{
+    if( watched == viewport() && tosite_ && tosite_->viennit()->muokattavissa()) {
+        if( event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+            if( mouseEvent->button() == Qt::RightButton)
+            {
+                QModelIndex index = indexAt( mouseEvent->pos() );
+                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
+                {
+
+                    tosite_->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
+                                                                                          index.data(TositeViennit::TagiIdListaRooli).toList(),
+                                                                                          mouseEvent->globalPos()) ,
+                                                   TositeViennit::TagiIdListaRooli);
+                    return false;
+                }
+            }
+        }
+    }
+
+    return QTableView::eventFilter(watched, event);
 }
 
 void ViennitView::keyPressEvent(QKeyEvent *event)
@@ -93,6 +131,14 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Tab)
     {
         seuraavaSarake();
+    }
+    else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
+        const QModelIndex index = currentIndex();
+        if( index.row() == model()->rowCount() -1 ) {
+            tosite_->viennit()->lisaaVienti(model()->rowCount());
+        }
+
+        setCurrentIndex( model()->index(index.row()+1, TositeViennit::PVM) );
     }
     else
     {

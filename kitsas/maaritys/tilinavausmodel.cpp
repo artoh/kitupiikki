@@ -302,6 +302,10 @@ bool TilinavausModel::tallenna()
                 vienti.setSelite( era.eranimi() );
             }
             vienti.setKohdennus( era.kohdennus() );
+            if( era.kumppaniId())
+                vienti.setKumppani(era.kumppaniId());
+            else if( !era.kumppaniNimi().isEmpty() )
+                vienti.setKumppani( era.kumppaniNimi());
 
             if( ( tilio.onko( (TiliLaji::VASTAAVAA)) || tilio.onko(TiliLaji::MENO))
                 ^ ( era.saldo() < 0 ) )
@@ -363,6 +367,8 @@ void TilinavausModel::ladattu()
         if( vienti.eraId() )
             era = vienti.selite();
         int kohdennus = vienti.kohdennus();
+        int kumppani = vienti.kumppaniId();
+        QString kumppaninimi = vienti.value("kumppani").toMap().value("nimi").toString();
 
         Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
         qlonglong saldo = tili.onko(TiliLaji::VASTAAVAA) || tili.onko(TiliLaji::MENO) ?
@@ -370,7 +376,7 @@ void TilinavausModel::ladattu()
                     qRound64(vienti.kredit() * 100) - qRound64(vienti.debet() * 100);
 
         QList<AvausEra>& erat = erat_[tilinro];
-        erat.append( AvausEra(saldo, era, kohdennus, vienti.id()) );
+        erat.append( AvausEra(saldo, era, kohdennus, vienti.id(), kumppani, kumppaninimi));
 
     }
     endResetModel();
@@ -394,8 +400,8 @@ qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)
 }
 
 
-AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int vienti) :
-    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti)
+AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi) :
+    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi)
 {
 
 }

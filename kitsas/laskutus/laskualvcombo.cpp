@@ -18,6 +18,7 @@
 
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
+#include "laskudialogi.h"
 
 LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji) :
     QComboBox (parent)
@@ -36,13 +37,13 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji) :
         addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
     }
 
-/*    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
+    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
     {
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuModel::Kaytetyt));
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuModel::Taide));
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuModel::KerailyAntiikki));
+        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuDialogi::KAYTETYT));
+        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuDialogi::TAIDE));
+        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuDialogi::ANTIIKKI));
     }
-*/
+
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {
         setCurrentIndex(3); // Alv 24
     } else {
@@ -50,12 +51,22 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji) :
     }
 }
 
-int LaskuAlvCombo::veroKoodi()
+int LaskuAlvCombo::veroKoodi() const
 {   
+    if( currentData().toInt() % 100 > 90 )
+        return AlvKoodi::MYYNNIT_MARGINAALI;
+
     return currentData().toInt() % 100;
 }
 
-double LaskuAlvCombo::veroProsentti()
+int LaskuAlvCombo::marginaaliKoodi() const
+{
+    if( currentData().toInt() % 100 > 90)
+        return currentData().toInt() % 100;
+    return 0;
+}
+
+double LaskuAlvCombo::veroProsentti() const
 {
     if( veroKoodi() == AlvKoodi::MYYNNIT_NETTO)
         return currentData().toInt() / 100 * 1.0;

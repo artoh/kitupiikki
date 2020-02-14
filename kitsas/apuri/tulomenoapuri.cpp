@@ -311,6 +311,16 @@ void TuloMenoApuri::tiliMuuttui()
             ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
         }
 
+        if( tili.luku("vastatili") && rivit_->rowCount()<2) {
+            int vastatili = tili.luku("vastatili");
+            ui->vastatiliLine->valitseTiliNumerolla(vastatili);
+            int maksutapaind = ui->maksutapaCombo->findData(vastatili, MaksutapaModel::TiliRooli);
+            if( maksutapaind >= 0)
+                ui->maksutapaCombo->setCurrentIndex(vastatili);
+            else
+                ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
+        }
+
         emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
                                   rivit_->index(TmRivit::TILI, rivilla()));
 

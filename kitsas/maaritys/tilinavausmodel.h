@@ -30,22 +30,29 @@
  */
 class AvausEra {
 public:
-    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0, int vienti=0 );
+    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
+             int kumppaniId=0, QString kumppaniNimi=QString());
 
     QString eranimi() const { return eranimi_; }
     int kohdennus() const { return kohdennus_;}
     qlonglong saldo() const { return saldo_; }
     int vienti() const { return vienti_;}
+    int kumppaniId() const { return kumppaniId_;}
+    QString kumppaniNimi() const { return  kumppaniNimi_;}
 
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
     void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
+    void asetaKumppani(int id) { kumppaniId_ = id;}
+    void asetaKumppani(const QString& nimi) { kumppaniNimi_ = nimi;}
 
 protected:
     QString eranimi_;
     int kohdennus_ = 0;
     qlonglong saldo_ = 0l;
     int vienti_ = 0;
+    int kumppaniId_ = 0;
+    QString kumppaniNimi_;
 };
 
 /**

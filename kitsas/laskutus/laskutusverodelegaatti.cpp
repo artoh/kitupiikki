@@ -58,15 +58,8 @@ void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     int koodi = cbox->currentData().toInt();
 
-    if( koodi >= LaskuRivitModel::Kaytetyt)
-    {
-        model->setData(index, koodi, LaskuRivitModel::VoittomarginaaliRooli);
-    }
-    else
-    {
-        model->setData(index, koodi / 100, LaskuRivitModel::AlvProsenttiRooli);
-        model->setData(index, koodi % 100, LaskuRivitModel::AlvKoodiRooli);
-    }
+    model->setData(index, koodi / 100, LaskuRivitModel::AlvProsenttiRooli);
+    model->setData(index, koodi % 100, LaskuRivitModel::AlvKoodiRooli);
 
 }
 

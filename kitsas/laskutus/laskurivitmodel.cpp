@@ -22,6 +22,7 @@
 #include "db/tilinvalintadialogi.h"
 
 #include "model/tositevienti.h"
+#include "laskudialogi.h"
 
 LaskuRivitModel::LaskuRivitModel(QObject *parent, const QVariantList& data)
     : QAbstractTableModel(parent),
@@ -121,8 +122,12 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
                 return tr("AVL 65 §");
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
                 return tr("AVL 72a §");
-            case AlvKoodi::MYYNNIT_MARGINAALI :
-                return "Margin.";
+            case LaskuDialogi::KAYTETYT:
+                return "Margin. tavarat";
+            case LaskuDialogi::TAIDE:
+                return "Margin. taide";
+            case LaskuDialogi::ANTIIKKI:
+                return "Margin. keräily";
             default:
                 return QString("%1 %").arg( map.value("alvprosentti").toDouble() );
             }
@@ -294,6 +299,8 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
         QVariantMap map = rivi.toMap();
         int alvkoodi = map.value("alvkoodi").toInt();
 
+        if( alvkoodi >= LaskuDialogi::KAYTETYT)
+            alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
         if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku)
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
         else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm))

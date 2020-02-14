@@ -133,11 +133,10 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     // Enterillä päiväyksestä eteenpäin
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
-    ui->viennitView->viewport()->installEventFilter(this);
 
     // ---- tästä alkaen uutta ------
     tosite_ = new Tosite(this);
-    ui->viennitView->setModel( tosite_->viennit() );
+    ui->viennitView->setTosite(tosite_);
     ui->lokiView->setModel( tosite_->loki() );
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->lokiView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
@@ -161,7 +160,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
-    connect( ui->sarjaEdit, &QLineEdit::textEdited, [this] { qDebug() << "SE"; this->tosite()->asetaSarja( ui->sarjaEdit->text()); });
+    connect( ui->sarjaCombo, &QComboBox::currentTextChanged, [this] (const QString& teksti)  { this->tosite()->asetaSarja( teksti); });
     connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
@@ -170,15 +169,11 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
     connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
-        this->ui->sarjaEdit->setText(sarja);  });
+        this->ui->sarjaCombo->setCurrentText(sarja);  });
     connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
     connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
     connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
     connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, ui->tallennetaanLabel, &QLabel::setVisible );
-
-
-    ui->viennitView->viewport()->installEventFilter(this);
-    ui->viennitView->setFocusPolicy(Qt::StrongFocus);
 
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
@@ -434,7 +429,9 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     QDate pvm = kp()->paivamaara();
     if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu())
         pvm = kp()->tilikaudet()->kirjanpitoLoppuu();
-    tosite()->asetaPvm(pvm);            
+    tosite()->asetaPvm(pvm);
+    ui->sarjaCombo->clear();
+    ui->sarjaCombo->addItems(kp()->tositeSarjat());
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -485,85 +482,6 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-
-    else if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if( ( keyEvent->key() == Qt::Key_Enter ||
-            keyEvent->key() == Qt::Key_Return ||
-            keyEvent->key() == Qt::Key_Insert ||
-            keyEvent->key() == Qt::Key_Tab) &&
-                keyEvent->modifiers() == Qt::NoModifier )
-        {
-
-            // Insertillä suoraan uusi rivi
-            if(  keyEvent->key() == Qt::Key_Insert )
-            {
-                lisaaRivi();
-            }
-
-            if( ui->viennitView->currentIndex().column() == TositeViennit::SELITE &&
-                ui->viennitView->currentIndex().row() == tosite()->viennit()->rowCount() - 1 )
-            {
-                lisaaRivi();
-                ui->viennitView->setCurrentIndex( tosite()->viennit()->index( tosite()->viennit()->rowCount(QModelIndex())-1, TositeViennit::TILI ) );
-                return true;
-            }
-
-            else if( ui->viennitView->currentIndex().column() == TositeViennit::TILI )
-            {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), TositeViennit::DEBET) );
-                Tili tili = kp()->tilit()->tiliNumerolla( ui->viennitView->currentIndex().data(TositeViennit::TiliNumeroRooli).toInt() );                if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KREDIT) );
-                return true;
-            }
-
-            else if( ui->viennitView->currentIndex().column() == TositeViennit::DEBET)
-            {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KREDIT) );
-                qApp->processEvents();
-
-                if( ui->viennitView->currentIndex().data(TositeViennit::DebetRooli).toInt()  )
-                {
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KOHDENNUS) );
-
-                }
-                return true;
-            }
-            else if( ui->viennitView->currentIndex().column() < TositeViennit::ALV)
-            {
-                // Enterillä pääsee suoraan seuraavalle riville
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), ui->viennitView->currentIndex().column()+1)  );
-                return true;
-            }
-
-
-        }
-    }
-    else if( watched == ui->viennitView->viewport() && tosite()->viennit()->muokattavissa() )
-    {
-        // Merkkaus eli täggäys
-        // Kohdennus-sarakkeessa hiiren oikealla napilla valikko, josta voi valita tägit
-        if( event->type() == QEvent::MouseButtonPress)
-        {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            if( mouseEvent->button() == Qt::RightButton)
-            {
-                QModelIndex index = ui->viennitView->indexAt( mouseEvent->pos() );
-                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
-                {
-
-                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
-                                                                                          index.data(TositeViennit::TagiIdListaRooli).toList(),
-                                                                                          mouseEvent->globalPos()) ,
-                                                   TositeViennit::TagiIdListaRooli);
-                    return false;
-                }
-            }
-        }
-    }
-
-
     return QWidget::eventFilter(watched, event);
 }
 
@@ -724,7 +642,7 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     else
         ui->tunnisteLabel->setText( Tosite::tilateksti(tosite()->tositetila()) );
     ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
-    ui->sarjaEdit->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
+    ui->sarjaCombo->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
 
     if( selaus_ && tosite_->id())
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
@@ -772,7 +690,8 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 
 void KirjausWg::paivitaSarja(bool kateinen)
 {
-    if( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
+    if( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) &&
+         !tosite()->id()   )
         tosite()->asetaSarja( kp()->tositeTyypit()->sarja( tosite_->tyyppi(), kateinen ) ) ;
 }
 

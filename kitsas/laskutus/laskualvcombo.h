@@ -27,8 +27,9 @@ public:
 
     LaskuAlvCombo(QWidget* parent = nullptr, AsiakasVeroLaji asiakasVerolaji = KAIKKI);
 
-    int veroKoodi();
-    double veroProsentti();
+    int veroKoodi() const;
+    int marginaaliKoodi() const;
+    double veroProsentti() const;
 };
 
 #endif // LASKUALVCOMBO_H

@@ -292,21 +292,5 @@ void ErittelyRuudukko::tulostaErittelyOtsikko(QPagedPaintDevice *printer, QPaint
 
 QString ErittelyRuudukko::veroteksti(int verokoodi) const
 {
-    switch (verokoodi) {
-    case AlvKoodi::EIALV:
-        return tulostaja_->t("verotonm");
-    case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
-        return tulostaja_->t("yhtmy");
-    case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
-        return tulostaja_->t("palmy");
-    case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
-        return tulostaja_->t("rakmy");
-/*    case LaskuModel::Kaytetyt:
-        return tulostaja_->t("vmkt");
-    case LaskuModel::Taide:
-        return tulostaja_->t("vmte");
-    case LaskuModel::KerailyAntiikki:
-        return tulostaja_->t("vmka"); */
-    }
-    return "!" + QString::number(verokoodi);
+    return tulostaja_->t(QString("alv%1").arg(verokoodi));
 }

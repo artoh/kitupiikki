@@ -22,6 +22,8 @@
 
 #include <QDebug>
 #include <QSettings>
+#include <QJsonDocument>
+#include <QVariantList>
 
 YhteysModel::YhteysModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -53,6 +55,20 @@ void YhteysModel::lataaInit(QVariant *reply)
             kp()->tilikaudet()->lataa( iter.value().toList() );
         else if( avain == "kierrot")
             kp()->kierrot()->lataa( iter.value().toList() );
+        else if( avain == "tositesarjat") {
+            QStringList lista;
+            for(auto item : iter.value().toList())
+                lista.append(item.toString());            
+            QVariantMap map = QJsonDocument::fromJson( kp()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+            QVariantList values = map.values();
+            for(auto value : values){
+                QString laji = value.toString();
+                if( !lista.contains(laji))
+                    lista.append(laji);
+            }
+
+            kp()->asetaTositeSarjat(lista);
+        }
     }
 
     // Pidetään yllä tietoa siitä, milloin viimeksi käytetty mitäkin

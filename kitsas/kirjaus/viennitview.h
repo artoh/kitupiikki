@@ -19,6 +19,7 @@
 
 #include <QTableView>
 
+class Tosite;
 
 /**
  * @brief Vientiruudukko kirjausnäkymässä
@@ -29,11 +30,18 @@ class ViennitView : public QTableView
 public:
     ViennitView(QWidget *parent = nullptr);
 
+    void setTosite(Tosite* tosite);
+
 protected:
     void seuraavaSarake();
 
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
     void keyPressEvent(QKeyEvent* event) override;
     void closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint) override;
+
+private:
+    Tosite* tosite_ = nullptr;
 };
 
 #endif // VIENNITVIEW_H

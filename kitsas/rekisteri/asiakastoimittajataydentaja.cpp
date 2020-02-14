@@ -44,6 +44,10 @@ QVariant AsiakasToimittajaTaydentaja::data(const QModelIndex &index, int role) c
     {
         return data_.at(index.row()).first;
     }
+    else if( role == Qt::UserRole)
+    {
+        return data_.at(index.row()).second;
+    }
 
     return QVariant();
 }

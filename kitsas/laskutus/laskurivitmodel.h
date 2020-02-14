@@ -28,7 +28,7 @@ class LaskuRivitModel : public QAbstractTableModel
 public:
     enum LaskuSarake
     {
-        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
+        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, TILI, ALV, KOHDENNUS, BRUTTOSUMMA
     };
 
     enum

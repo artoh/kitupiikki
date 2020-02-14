@@ -90,7 +90,7 @@
        <item>
         <widget class="ViennitView" name="viennitView">
          <property name="editTriggers">
-          <set>QAbstractItemView::AllEditTriggers</set>
+          <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
@@ -320,18 +320,15 @@
        <property name="text">
         <string>Tositesarja</string>
        </property>
-       <property name="buddy">
-        <cstring>sarjaEdit</cstring>
-       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="sarjaEdit">
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>16777215</height>
-        </size>
+      <widget class="QComboBox" name="sarjaCombo">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::InsertAlphabetically</enum>
        </property>
       </widget>
      </item>

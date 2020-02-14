@@ -201,15 +201,28 @@
      <item row="10" column="1">
       <widget class="TiliCombo" name="jaksotiliCombo"/>
      </item>
-     <item row="11" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="laajuusLabel">
        <property name="text">
         <string>Tilikartan laajuus</string>
        </property>
+       <property name="buddy">
+        <cstring>laajuusCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QComboBox" name="laajuusCombo"/>
+     </item>
+     <item row="11" column="0">
+      <widget class="QCheckBox" name="vastaCheck">
+       <property name="text">
+        <string>Vastatili</string>
+       </property>
       </widget>
      </item>
      <item row="11" column="1">
-      <widget class="QComboBox" name="laajuusCombo"/>
+      <widget class="TiliCombo" name="vastaCombo"/>
      </item>
     </layout>
    </item>
@@ -282,6 +295,26 @@
    <header location="global">tools/tilicombo.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>numeroEdit</tabstop>
+  <tabstop>nimiList</tabstop>
+  <tabstop>tyyppiCombo</tabstop>
+  <tabstop>ibanLine</tabstop>
+  <tabstop>veroCombo</tabstop>
+  <tabstop>veroSpin</tabstop>
+  <tabstop>poistoaikaSpin</tabstop>
+  <tabstop>poistoprossaSpin</tabstop>
+  <tabstop>poistotiliCombo</tabstop>
+  <tabstop>jaksotiliCombo</tabstop>
+  <tabstop>vastaCheck</tabstop>
+  <tabstop>vastaCombo</tabstop>
+  <tabstop>laajuusCombo</tabstop>
+  <tabstop>taseEratRadio</tabstop>
+  <tabstop>taseEraLuettelo</tabstop>
+  <tabstop>teLiVaRadio</tabstop>
+  <tabstop>teSaldoRadio</tabstop>
+  <tabstop>ohjeTabs</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -291,8 +324,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>258</x>
-     <y>1369</y>
+     <x>267</x>
+     <y>1030</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -307,8 +340,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>285</x>
-     <y>1369</y>
+     <x>294</x>
+     <y>1030</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -56,6 +56,13 @@ QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/
     kysely.exec("select * from Tilikausi order by alkaa");
     map.insert("tilikaudet", resultList(kysely));
 
+    QStringList sarjat;
+    kysely.exec("SELECT DISTINCT sarja FROM Tosite");
+    while( kysely.next())
+        sarjat.append(kysely.value(0).toString());
+    map.insert("tositesarjat", sarjat);
+
+
     map.insert("kierrot", QVariantList());
 
     return map;

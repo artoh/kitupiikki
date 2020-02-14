@@ -48,7 +48,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     ui->veroCombo->setModel( veroproxy_ );
 
     ui->poistotiliCombo->suodataTyypilla("DP", true);
-    ui->ibanLine->setValidator(new IbanValidator());
+    ui->ibanLine->setValidator(new IbanValidator());    
 
     alustalaajuus();
 
@@ -56,6 +56,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->ibanLine, SIGNAL(textEdited(QString) ), this, SLOT( ibanCheck()) );
     connect( ui->numeroEdit, &QLineEdit::textEdited, this, &TilinMuokkausDialog::numeroCheck);
+    connect( ui->vastaCombo, &TiliCombo::tiliValittu, [this] (int tili) { ui->vastaCheck->setChecked(tili); } );
+    connect( ui->vastaCheck, &QCheckBox::clicked, [this] (bool tila) { if(!tila) ui->vastaCombo->setCurrentIndex(-1); } );
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilikartta");});
 
@@ -190,6 +192,10 @@ void TilinMuokkausDialog::lataa()
     ui->teLiVaRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_MUUTOKSET);
     ui->teSaldoRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_SALDOT);
 
+    int vastatili = tili_->luku("vastatili");
+    ui->vastaCheck->setChecked( vastatili );
+    ui->vastaCombo->valitseTili(vastatili);
+
     ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( tili_->laajuus() ) );
 
 
@@ -260,6 +266,8 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 
     ui->jaksotusLabel->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
     ui->jaksotiliCombo->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
+    ui->vastaCheck->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO) );
+    ui->vastaCombo->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
 
     // #46 Alv-velka ja alv-saatava -tileille ei voi tehdä tase-erittelyä, koska tilit tyhjennetään aina
     // kuukauden lopussa alv-kirjauksella, joka ei huomioi tase-eriä
@@ -336,6 +344,10 @@ void TilinMuokkausDialog::accept()
         tili_->setInt("tasaerapoisto", tyyppi == "APT" ? ui->poistoaikaSpin->value() * 12 : 0);
         tili_->setInt("menojaannospoisto", tyyppi == "APM" ? ui->poistoprossaSpin->value() : 0);
         tili_->setInt("poistotili", tyyppi.startsWith("AP") ?  ui->poistotiliCombo->valittuTilinumero() : 0);
+        if( !ui->vastaCheck->isChecked())
+            tili_->unset("vastatili");
+        else
+            tili_->setInt("vastatili", ui->vastaCombo->valittuTilinumero());
 
         if( tili_->onko(TiliLaji::TULOS)) {
             tili_->setInt("jaksotustili", ui->jaksotiliCombo->valittuTilinumero());
