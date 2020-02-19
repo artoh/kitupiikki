@@ -313,9 +313,13 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     }
 
     painter->setFont(QFont("FreeSans",9));
+
+    QString omaOsoite = kp()->asetus("Katuosoite") + "\n" +
+            kp()->asetus("Postinumero") + " " + kp()->asetus("Kaupunki");
+
     QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + ylos,
-                                                       lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Osoite") );
-    painter->drawText(lahettajaosoiteRect, Qt::AlignLeft, kp()->asetus("Osoite") );
+                                                       lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, omaOsoite );
+    painter->drawText(lahettajaosoiteRect, Qt::AlignLeft, omaOsoite );
 
     // Tulostetaan saajan osoite ikkunaan
     painter->setFont(QFont("FreeSans", TEKSTIPT));

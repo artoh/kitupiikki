@@ -24,6 +24,7 @@
 #include <QTextEdit>
 #include <QDateEdit>
 #include <QDoubleSpinBox>
+#include <QPlainTextEdit>
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
 
@@ -143,6 +144,13 @@ bool TallentavaMaaritysWidget::nollaa()
             continue;
         }
 
+        QPlainTextEdit *ptedit = qobject_cast<QPlainTextEdit*>(widget);
+        if( ptedit ) {
+            ptedit->setPlainText( kp()->asetukset()->asetus(asetusavain) );
+            connect( ptedit, &QPlainTextEdit::textChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            continue;
+        }
+
         QDateEdit* tdate = qobject_cast<QDateEdit*>(widget);
         if( tdate) {
             tdate->setDate( kp()->asetukset()->pvm(asetusavain));
@@ -212,6 +220,12 @@ bool TallentavaMaaritysWidget::tallenna()
         QTextEdit *tedit = qobject_cast<QTextEdit*>(widget);
         if( tedit ) {
             asetukset.insert( asetusavain, tedit->toPlainText());
+            continue;
+        }
+
+        QPlainTextEdit *ptedit = qobject_cast<QPlainTextEdit*>(widget);
+        if( ptedit ) {
+            asetukset.insert( asetusavain, ptedit->toPlainText());
             continue;
         }
 
@@ -296,6 +310,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         QTextEdit *tedit = qobject_cast<QTextEdit*>(widget);
         if( tedit ) {
             if( kp()->asetukset()->asetus(asetusavain) != tedit->toPlainText() )
+                return true;
+            continue;
+        }
+
+        QPlainTextEdit *ptedit = qobject_cast<QPlainTextEdit*>(widget);
+        if( ptedit ) {
+            if( kp()->asetukset()->asetus(asetusavain) != ptedit->toPlainText() )
                 return true;
             continue;
         }

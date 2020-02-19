@@ -19,6 +19,7 @@
 #include "ui_uusitiedot.h"
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
+#include "rekisteri/postinumerot.h"
 
 #include "db/kirjanpito.h"
 #include <QNetworkRequest>
@@ -85,7 +86,11 @@ bool TiedotSivu::validatePage()
         velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text());
 
     if( !ui->osoiteEdit->toPlainText().isEmpty())
-        velho->asetukset_.insert("Osoite", ui->osoiteEdit->toPlainText());
+        velho->asetukset_.insert("Katuosoite", ui->osoiteEdit->toPlainText());
+    if( !ui->postinumeroEdit->text().isEmpty())
+        velho->asetukset_.insert("Postinumero", ui->postinumeroEdit->text());
+    if( !ui->kaupunkiEdit->text().isEmpty())
+        velho->asetukset_.insert("Kaupunki", ui->kaupunkiEdit->text());
     if( !ui->kotipaikkaEdit->text().isEmpty())
         velho->asetukset_.insert("Kotipaikka", ui->kotipaikkaEdit->text());
 
@@ -132,8 +137,18 @@ void TiedotSivu::yTietoSaapuu()
     QVariantMap tieto = var.toMap().value("results").toList().value(0).toMap();
     ui->nimiEdit->setText( tieto.value("name").toString() );
     QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
-    ui->osoiteEdit->setPlainText( osoite.value("street").toString() + "\n" +
-        osoite.value("postCode").toString() + " " +  osoite.value("city").toString() );
+
+    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+    ui->postinumeroEdit->setText( osoite.value("postcode").toString());
+    ui->kaupunkiEdit->setText( osoite.value("city").toString());
+
     ui->kotipaikkaEdit->setText( tieto.value("registedOffices").toList().value(0).toMap().value("name").toString() );
 
+}
+
+void TiedotSivu::haeToimipaikka()
+{
+    QString toimipaikka = Postinumerot::toimipaikka( ui->postinumeroEdit->text() );
+    if( !toimipaikka.isEmpty() )
+        ui->kaupunkiEdit->setText(toimipaikka);
 }

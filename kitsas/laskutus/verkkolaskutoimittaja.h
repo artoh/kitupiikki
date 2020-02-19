@@ -14,31 +14,38 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TIEDOTSIVU_H
-#define TIEDOTSIVU_H
+#ifndef VERKKOLASKUTOIMITTAJA_H
+#define VERKKOLASKUTOIMITTAJA_H
 
-#include "uusivelho.h"
-#include <QWizardPage>
+#include <QObject>
+#include <QQueue>
+#include <QVariantMap>
 
-namespace Ui {
-    class UusiTiedot;
-}
-
-class TiedotSivu : public QWizardPage {
+class VerkkolaskuToimittaja : public QObject
+{
     Q_OBJECT
 public:
-    TiedotSivu(UusiVelho *wizard);
-    void initializePage() override;
-    bool validatePage() override;
+    explicit VerkkolaskuToimittaja(QObject *parent = nullptr);
 
-protected slots:
-    void haeytunnarilla();
-    void yTietoSaapuu();
-    void haeToimipaikka();
+    void lisaaLasku(const QVariantMap &lasku);
+    bool toimitaSeuraava();
+
+signals:
+    void toimitettu(int tositeId);
+    void toimitusEpaonnistui();
 
 protected:
-    Ui::UusiTiedot *ui;
-    UusiVelho *velho;
+    void alustaInit();
+    void asiakasSaapuu(const QVariant* data, const QVariantMap &map);
+    void laskuSaapuu(QVariant* data, int tositeId, int laskuId);
+    void virhe(const QString& viesti);
+
+
+protected:
+    QQueue<QVariantMap> laskut_;
+    QVariantMap init_;
+    bool virhe_ = false;
+
 };
 
-#endif // TIEDOTSIVU_H
+#endif // VERKKOLASKUTOIMITTAJA_H

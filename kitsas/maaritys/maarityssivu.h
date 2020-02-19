@@ -48,6 +48,7 @@ public:
     {
         ULKOASU,
         PERUSVALINNAT,
+        YHTEYSTIEDOT,
         KAYTTOOIKEUDET,
         TILIKARTTA,
         KOHDENNUS,

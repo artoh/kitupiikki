@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
+    $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -208,7 +209,6 @@ SOURCES += \
     arkisto/budjettimodel.cpp \
     arkisto/budjettidlg.cpp \
     arkisto/budjettikohdennusproxy.cpp \
-    maaritys/finvoicemaaritys.cpp \
     raportti/budjettivertailu.cpp \
     alv/alvilmoitusdialog.cpp \
     alv/alvilmoitustenmodel.cpp \
@@ -242,7 +242,8 @@ SOURCES += \
     arkisto/tuloverodialog.cpp  \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
-    tuonti/tesseracttuonti.cpp
+    tuonti/tesseracttuonti.cpp \
+    laskutus/verkkolaskutoimittaja.cpp
 
 
 HEADERS += \
@@ -298,6 +299,7 @@ HEADERS += \
     $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
+    $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/tosite.h \
@@ -455,7 +457,6 @@ HEADERS += \
     arkisto/budjettimodel.h \
     arkisto/budjettidlg.h \
     arkisto/budjettikohdennusproxy.h \
-    maaritys/finvoicemaaritys.h \
     versio.h \
     raportti/budjettivertailu.h \
     alv/alvilmoitusdialog.h \
@@ -490,7 +491,8 @@ HEADERS += \
     arkisto/tuloverodialog.h \
     kierto/kiertowidget.h \
     kierto/kiertomuokkausdlg.h\
-    tuonti/tesseracttuonti.h
+    tuonti/tesseracttuonti.h\
+    laskutus/verkkolaskutoimittaja.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -527,7 +529,9 @@ FORMS += \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
+    $$PWD/maaritys/verkkolasku/verkkolasku.ui \
     $$PWD/maaritys/veromaaritys.ui \
+    $$PWD/maaritys/yhteystiedot.ui \
     $$PWD/pilvi/pilveensiirto.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
@@ -593,7 +597,6 @@ FORMS += \
     maaritys/inboxmaaritys.ui \
     arkisto/budjettidlg.ui \
     laskutus/ryhmantuontidlg.ui \
-    maaritys/verkkolaskumaaritys.ui \
     aloitussivu/muistiinpanot.ui \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \

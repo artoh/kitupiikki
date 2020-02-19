@@ -21,6 +21,8 @@
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
 
+#include "verkkolaskutoimittaja.h"
+
 #include "db/kirjanpito.h"
 
 #include <QVariantMap>
@@ -35,9 +37,13 @@
 
 #include "smtp.h"
 
-MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent)
+MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent),
+    verkkolaskutoimittaja_(new VerkkolaskuToimittaja(this))
 {
-
+    connect( verkkolaskutoimittaja_, &VerkkolaskuToimittaja::toimitettu,
+             this, &MyyntiLaskujenToimittaja::merkkaaToimitetuksi);
+    connect( verkkolaskutoimittaja_, &VerkkolaskuToimittaja::toimitusEpaonnistui,
+             this, &MyyntiLaskujenToimittaja::virhe);
 }
 
 bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
@@ -48,14 +54,16 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
     for( QVariantMap lasku : laskut)
     {
         int toimitustapa = lasku.value("lasku").toMap().value("laskutapa").toInt();
-        if( toimitustapa == LaskuDialogi::TULOSTETTAVA)
-            tulostettavat_.append(lasku);
-        else if( toimitustapa == LaskuDialogi::PDF)
+        if( toimitustapa == LaskuDialogi::PDF)
             tallennettavat_.append(lasku);
         else if(toimitustapa == LaskuDialogi::SAHKOPOSTI)
             sahkopostilla_.append(lasku);
+        else if( toimitustapa == LaskuDialogi::VERKKOLASKU)
+            verkkolaskutoimittaja_->lisaaLasku(lasku);
         else if(toimitustapa == LaskuDialogi::EITULOSTETA)
             merkkaaToimitetuksi(lasku.value("id").toInt());
+        else
+            tulostettavat_.append(lasku);
     }
 
     if( !tulostettavat_.isEmpty())
@@ -64,6 +72,8 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
         tallenna();
     if( !sahkopostilla_.isEmpty())
         lahetaSeuraava(Smtp::Unconnected);
+
+    verkkolaskutoimittaja_->toimitaSeuraava();
 
     return true;
 
@@ -80,15 +90,14 @@ void MyyntiLaskujenToimittaja::toimitaLaskut(const QList<int> &tositteet)
 void MyyntiLaskujenToimittaja::toimitettu()
 {    
     toimitetut_++;
-    if( toimitetut_ == laskuja_) {
-        emit laskutToimitettu();
-        emit kp()->kirjanpitoaMuokattu();
-        if( toimitetut_ > 1)
-            emit kp()->onni(tr("%1 laskua toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
-        else
-            emit kp()->onni(tr("Lasku toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
-        deleteLater();
-    }
+    tarkistaValmis();
+
+}
+
+void MyyntiLaskujenToimittaja::virhe()
+{
+    virheita_++;
+    tarkistaValmis();
 }
 
 void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
@@ -151,6 +160,7 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
         if( !emailvirheita_)
             QMessageBox::critical(nullptr, tr("Sähköpostin lähetys epäonnistui"), tr("Laskujen lähettäminen sähköpostillä epäonnistui. Tarkista sähköpostiasetukset."));
         emailvirheita_ = true;
+        virhe();
         sahkopostilla_.removeFirst();
     } else if( status == Smtp::Connecting || status == Smtp::Sending) {
         return;
@@ -210,6 +220,30 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
     }
 }
 
+void MyyntiLaskujenToimittaja::tarkistaValmis()
+{
+    if( toimitetut_ + virheita_ == laskuja_) {
+        emit kp()->kirjanpitoaMuokattu();
+        if( virheita_) {
+            if( toimitetut_ > 0)
+                emit kp()->onni(tr("%1 laskua toimitettu\n%1 laskun toimittaminen epäonnistui\n"
+                                   "Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.")
+                            .arg(toimitetut_)
+                            .arg(virheita_), Kirjanpito::Stop);
+            else
+                emit kp()->onni(tr("Laskujen toimittaminen epäonnistui tai peruttiin.\n"
+                                   "Toimittamatta jääneet laskut löytyyvät Lähetettävät-välilehdeltä."), Kirjanpito::Stop);
+        } else {
+            emit laskutToimitettu();
+            if( toimitetut_ > 1)
+                emit kp()->onni(tr("%1 laskua toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
+            else
+                emit kp()->onni(tr("Lasku toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
+            deleteLater();
+        }
+    }
+}
+
 bool MyyntiLaskujenToimittaja::tulosta()
 {
     QPageLayout vanhaleiska = kp()->printer()->pageLayout();
@@ -232,7 +266,7 @@ bool MyyntiLaskujenToimittaja::tulosta()
             if( i+1 < tulostettavat_.count())
                 kp()->printer()->newPage();
         }
-    }
+    } else { virhe(); }
 
     kp()->printer()->setPageLayout(vanhaleiska);
     return true;
@@ -249,8 +283,12 @@ bool MyyntiLaskujenToimittaja::tallenna()
             if( ulos.open(QIODevice::WriteOnly) ) {
                 ulos.write( MyyntiLaskunTulostaja::pdf(tallennettava) );
                 merkkaaToimitetuksi( tallennettava.value("id").toInt() );
+            } else {
+                virhe();
             }
         }
+    } else {
+        virhe();
     }
     return true;
 }

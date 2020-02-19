@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,31 +14,40 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef FINVOICEMAARITYS_H
-#define FINVOICEMAARITYS_H
+#ifndef VERKKOLASKUMAARITYS_H
+#define VERKKOLASKUMAARITYS_H
 
-#include "tallentavamaarityswidget.h"
+#include "../maarityswidget.h"
 
 namespace Ui {
-    class VerkkolaskuMaaritys;
+    class Finvoicevalinnat;
 }
 
 
-class FinvoiceMaaritys : public TallentavaMaaritysWidget
+class VerkkolaskuMaaritys : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    FinvoiceMaaritys(QWidget *parent = nullptr);
-    ~FinvoiceMaaritys() override;
+
+    enum {
+        EIKAYTOSSA = 0,
+        PAIKALLINEN = 1,
+        INTEGROITU = 2
+    };
+
+    VerkkolaskuMaaritys();
+    ~VerkkolaskuMaaritys() override;
 
     bool tallenna() override;
-    QString ohjesivu() override { return "maaritykset/verkkolasku"; }
+    bool nollaa() override;
+    bool onkoMuokattu() override;
 
-public slots:
+protected:
     void valitseKansio();
+    void valintaMuuttui();
 
 private:
-    Ui::VerkkolaskuMaaritys *ui_;
+    Ui::Finvoicevalinnat *ui;
 };
 
-#endif // FINVOICEMAARITYS_H
+#endif // VERKKOLASKUMAARITYS_H

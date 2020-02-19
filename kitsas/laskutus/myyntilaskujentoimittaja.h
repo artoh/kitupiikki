@@ -21,6 +21,8 @@
 #include <QList>
 #include <QVariantMap>
 
+class VerkkolaskuToimittaja;
+
 class MyyntiLaskujenToimittaja : public QObject
 {
     Q_OBJECT
@@ -36,6 +38,7 @@ signals:
 
 protected slots:
     void toimitettu();
+    void virhe();
 
 protected slots:
     void tositeSaapuu(QVariant* data);
@@ -43,11 +46,13 @@ protected slots:
 
     void lahetaSeuraava(int status);
 
+
 protected:
+    void tarkistaValmis();
     bool tulosta();
     bool tallenna();
-    void merkkaaToimitetuksi(int tositeid);
     QString maksutiedot(const QVariantMap& data);
+    void merkkaaToimitetuksi(int tositeid);
 
     void tilaaSeuraavaLasku();
 
@@ -57,8 +62,10 @@ protected:
     QList<QVariantMap> tulostettavat_;
     QList<QVariantMap> tallennettavat_;
     QList<QVariantMap> sahkopostilla_;
+    VerkkolaskuToimittaja* verkkolaskutoimittaja_;
     int toimitetut_ = 0;
-    int laskuja_ = 0;
+    int virheita_ = 0;
+    int laskuja_ = 0;    
     bool emailvirheita_ = false;
 };
 

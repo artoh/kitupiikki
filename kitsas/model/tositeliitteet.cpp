@@ -352,7 +352,7 @@ void TositeLiitteet::liitesaapuu(QVariant *data)
     emit naytaliite( data->toByteArray() );
 }
 
-void TositeLiitteet::liiteLisatty(const QVariant &data, int liiteId, int liiteIndeksi)
+void TositeLiitteet::liiteLisatty(const QVariant & /*data*/, int liiteId, int liiteIndeksi)
 {
     tallennetaan_ = false;
     emit liitettaTallennetaan(false);

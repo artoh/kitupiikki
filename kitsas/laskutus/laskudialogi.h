@@ -30,6 +30,9 @@
 #include "db/tositetyyppimodel.h"
 #include "db/verotyyppimodel.h"
 
+#include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
+
 namespace Ui {
 class LaskuDialogi;
 }
@@ -72,6 +75,7 @@ private:
 
     void asiakasValittu(int asiakasId);
     void taytaAsiakasTiedot(QVariant* data);
+    void asiakasHaettuLadattaessa(QVariant* data);
     void paivitaLaskutustavat();
     void laskutusTapaMuuttui();
     void maksuTapaMuuttui();
@@ -79,7 +83,7 @@ private:
     QVariantMap data(QString otsikko = QString()) const;
 
     void tallenna(Tosite::Tila moodi);
-    void tallennusValmis(QVariant* vastaus);
+    void tallennusValmis(QVariant* vastaus, bool toimita = false);
 
     int tyyppi() const { return tyyppi_;}
     void ennakkoHyvitysData(int eraid, double eurot, QVariant *data);
@@ -123,6 +127,8 @@ private:
     double aiempiSaldo_ = 0.0;
 
     EnnakkoHyvitysModel* ennakkoModel_;
+    bool verkkolaskutettava_ = false;
+    bool paivitetaanLaskutapoja_ = false;
 };
 
 #endif // UUSILASKUDIALOGI_H

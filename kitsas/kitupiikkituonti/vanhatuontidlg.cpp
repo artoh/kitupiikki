@@ -386,16 +386,27 @@ void VanhatuontiDlg::siirraAsetukset()
 
     QStringList siirrettavat;
     siirrettavat << "AlvVelvollinen" << "AlvKausi" << "Harjoitus" << "Kotipaikka" << "LaskuSeuraavaId" << "LogossaNimi"
-                 << "Nimi" << "Osoite" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
+                 << "Nimi" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
                  << "LaskuIkkuna" << "LaskuIkkunaX" << "LaskuIkkunaY" << "LaskuIkkunaLeveys" << "LaskuIkkunaKorkeus"
                  << "LaskuRF" << "MaksuAlvAlkaa" << "MaksuAlvLoppuu";
 
     // Joitain laskutuksen valintoja voisi myös siirtää
 
 
+
     for(auto siirrettava : siirrettavat)
         if( kitupiikkiAsetukset_.contains(siirrettava))
             map.insert(siirrettava, kitupiikkiAsetukset_.value(siirrettava));
+
+    QStringList osoiteRivit = kitupiikkiAsetukset_.value("Osoite").split('\n');
+    if( osoiteRivit.count() > 1) {
+        map.insert("Katuosoite", osoiteRivit.mid(0, osoiteRivit.count()-1).join('\n') );
+        QString vikarivi = osoiteRivit.last();
+        int vali = vikarivi.indexOf(" ");
+        map.insert("Postinumero", vikarivi.left(vali));
+        map.insert("Kaupunki", vikarivi.mid(vali+1));
+    }
+
 
 
     map.insert("AlvAlkaa", QDate::fromString(kitupiikkiAsetukset_.value("TilitPaatetty"), Qt::ISODate).addDays(1));

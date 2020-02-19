@@ -191,6 +191,11 @@ void AsiakasToimittajaDlg::naytaVerkkolasku()
             ui->yEdit->hasAcceptableInput();
 
     ui->tabWidget->setTabEnabled(VERKKOLASKU, ytunnari);
+    if( ytunnari && ui->ovtEdit->text().isEmpty()) {
+        QString ovt = "0037" + ui->yEdit->text();
+        ovt.remove("-");
+        ui->ovtEdit->setText(ovt);
+    }
 }
 
 void AsiakasToimittajaDlg::taydennaLaskutavat()

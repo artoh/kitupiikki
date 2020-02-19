@@ -36,4 +36,5 @@ bool MaksutapaSivu::nollaa()
 {
     menoModel_->lataa(MaksutapaModel::MENO);
     tuloModel_->lataa(MaksutapaModel::TULO);
+    return true;
 }

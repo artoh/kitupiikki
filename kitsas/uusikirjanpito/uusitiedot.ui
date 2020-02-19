@@ -30,7 +30,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Osoite</string>
+      <string>Katuosoite</string>
      </property>
      <property name="buddy">
       <cstring>osoiteEdit</cstring>
@@ -50,7 +50,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Pankkitili (IBAN)</string>
@@ -60,14 +60,14 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="7" column="1">
     <widget class="QLineEdit" name="tiliLine">
      <property name="placeholderText">
       <string>FI0000000000000000</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="muotoLabel">
      <property name="text">
       <string>Yritysmuoto</string>
@@ -77,10 +77,10 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="8" column="1">
     <widget class="QListWidget" name="muotoList"/>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tilikartan laajuus</string>
@@ -90,10 +90,10 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
     <widget class="QListWidget" name="laajuusList"/>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -119,15 +119,32 @@
    <item row="2" column="1">
     <widget class="QLineEdit" name="ytunnusEdit"/>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Kotipaikka</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="1">
     <widget class="QLineEdit" name="kotipaikkaEdit"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Postiosoite</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
+     <item>
+      <widget class="QLineEdit" name="postinumeroEdit"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="kaupunkiEdit"/>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

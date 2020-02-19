@@ -37,15 +37,16 @@
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
 #include "inboxmaaritys.h"
-#include "finvoicemaaritys.h"
 #include "tilikarttapaivitys.h"
 #include "maksutapasivu.h"
 #include "tositesarjamaaritys.h"
 #include "kayttooikeudet/kayttooikeussivu.h"
+#include "verkkolasku/verkkolaskumaaritys.h"
 #include "../kierto/kiertomaaritys.h"
 
 #include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
+#include "ui_yhteystiedot.h"
 
 #include <QDebug>
 
@@ -57,6 +58,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lisaaSivu(tr("Näyttöfontti"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
+    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
@@ -66,7 +68,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "", QIcon(":/pic/kierto.svg"),"kierto");
-//    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
+    lisaaSivu("Verkkolasku", VERKKOLASKU,"",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
     lisaaSivu("Kirjattavien kansio", INBOX,"",QIcon(":/pic/inbox.png"));
     lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
@@ -196,6 +198,11 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new UlkoasuMaaritys;
     else if( sivu == PERUSVALINNAT)
         nykyinen = new Perusvalinnat;
+    else if( sivu == YHTEYSTIEDOT) {
+        nykyinen = new TallentavaMaaritysWidget;
+        Ui::Yhteystietoni *ui= new Ui::Yhteystietoni;
+        ui->setupUi(nykyinen);
+    }
     else if( sivu == TILINAVAUS)
         nykyinen = new Tilinavaus;
     else if( sivu == TILIKARTTA)
@@ -226,7 +233,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if(sivu == INBOX)
         nykyinen = new InboxMaaritys;
     else if( sivu == VERKKOLASKU)
-        nykyinen = new FinvoiceMaaritys;
+        nykyinen = new VerkkolaskuMaaritys;
     else if( sivu == PAIVITYS)
         nykyinen = new TilikarttaPaivitys;
     else if( sivu == KAYTTOOIKEUDET)

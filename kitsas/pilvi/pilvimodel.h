@@ -70,6 +70,7 @@ public:
     QString token() const { return token_; }
     QString userToken() const { return data_.value("token").toString();}
     QString ocrOsoite() const { return data_.value("ocr").toString();}
+    QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
 
     qlonglong oikeudet() const override { return oikeudet_;}
 
