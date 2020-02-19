@@ -101,7 +101,9 @@ private slots:
 
 protected:
     static QByteArray lueTiedosto(const QString &polku);
-
+    void liitaFinvoice(const QByteArray& data);
+    void finvoiceJsonSaapuu(QVariant *data);
+    void finvoicePdfSaapuu(QVariant* data);
 private:
     QList<TositeLiite> liitteet_;
 

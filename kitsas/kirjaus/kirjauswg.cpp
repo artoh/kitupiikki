@@ -596,7 +596,8 @@ void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
     // Varasto ei toistaiseksi käytössä
     // ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), false);
 
-    if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO || tyyppiKoodi == TositeTyyppi::KULULASKU )
+    if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO
+            || tyyppiKoodi == TositeTyyppi::KULULASKU || tyyppiKoodi == TositeTyyppi::SAAPUNUTVERKKOLASKU)
     {
         apuri_ = new TuloMenoApuri(this, tosite_);
     } else if( tyyppiKoodi == TositeTyyppi::SIIRTO) {

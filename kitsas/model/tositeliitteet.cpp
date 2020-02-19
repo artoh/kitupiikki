@@ -34,6 +34,7 @@
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
 #include "pilvi/pilvimodel.h"
+#include "pilvi/pilvikysely.h"
 
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)
@@ -86,6 +87,16 @@ void TositeLiitteet::lataa(QVariantList data)
                                        map.value("nimi").toString()) );
     }
     endResetModel();
+
+    // Varmistetaan, että ensisijaisesti näytetään laskun kuva, ei
+    // xml-laskua
+    for(int i=0; i < liitteet_.count(); i++) {
+        if( liitteet_.at(i).getNimi().endsWith(".pdf", Qt::CaseInsensitive) ||
+            liitteet_.at(i).getNimi().endsWith(".jpg", Qt::CaseInsensitive) ) {
+            emit nayta(i);
+            return;
+        }
+    }
 
     if( liitteet_.count())
         nayta(0);
@@ -209,6 +220,13 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     QMap<QString,QString> meta;
     meta.insert("Filename", tiedostonnimi);
     liitekysely->lahetaTiedosto(liite, meta);
+
+    if(  kp()->pilvi()->plan() > 0 &&
+            liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") &&
+            liite.contains("<Finvoice")) {
+        liitaFinvoice(liite);
+    }
+
     return true;
 
 }
@@ -375,6 +393,38 @@ QByteArray TositeLiitteet::lueTiedosto(const QString &polku)
     tiedosto.close();
     return ba;
 }
+
+void TositeLiitteet::liitaFinvoice(const QByteArray &data)
+{
+    QMap<QString,QString> meta;
+    meta.insert("Content-type","application/xml;charset=ISO-8859-15");
+
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr ) {
+        PilviKysely* jsonk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                                              kp()->pilvi()->finvoiceOsoite() + "/tojson");
+        connect( jsonk, &PilviKysely::vastaus, this, &TositeLiitteet::finvoiceJsonSaapuu);
+        jsonk->lahetaTiedosto(data, meta);
+    }
+
+    PilviKysely* pdfk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                                         kp()->pilvi()->finvoiceOsoite() +  "/topdf");
+    connect( pdfk, &PilviKysely::vastaus, this, &TositeLiitteet::finvoicePdfSaapuu);
+    pdfk->lahetaTiedosto(data, meta);
+
+}
+
+void TositeLiitteet::finvoiceJsonSaapuu(QVariant *data)
+{
+    emit tuonti(data->toMap());
+}
+
+void TositeLiitteet::finvoicePdfSaapuu(QVariant *data)
+{
+    QByteArray ba = data->toByteArray();
+    lisaaHeti(ba,"lasku.pdf");
+
+}
+
 
 // ************************************ TOSITELIITE **********************************
 

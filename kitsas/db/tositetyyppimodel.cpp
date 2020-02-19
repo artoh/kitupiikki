@@ -34,6 +34,7 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::TULO, tr("Tulo"), "lisaa");
 
     lisaa(TositeTyyppi::KULULASKU, tr("Kululasku"), "tekstisivu", true);
+    lisaa(TositeTyyppi::SAAPUNUTVERKKOLASKU, tr("Saapunut verkkolasku"),"verkkolasku", true);
 
     lisaa(TositeTyyppi::MYYNTILASKU, tr("Myyntilasku"), "lasku", false);
     lisaa(TositeTyyppi::HYVITYSLASKU, tr("Hyvityslasku"), "lasku", false);

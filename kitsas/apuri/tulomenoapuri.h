@@ -83,6 +83,7 @@ private:
     TmRivit* rivit_;
 
     bool menoa_ = false;
+    bool tuonnissa_ = false;
 
     QSortFilterProxyModel* veroFiltteri_;
     MaksutapaModel *maksutapaModel_;

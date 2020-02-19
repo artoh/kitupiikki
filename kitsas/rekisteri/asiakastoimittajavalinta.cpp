@@ -103,15 +103,21 @@ void AsiakasToimittajaValinta::alusta()
 
 void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
 {
-    QString alvtunnari = "FI" + data.value("kumppaniytunnus").toString();
+    QString alvtunnari = data.contains("alvtunnus") ? data.value("alvtunnus").toString() :
+            "FI" + data.value("kumppaniytunnus").toString();
     alvtunnari.remove('-');
 
     if( model_->idAlvTunnuksella( alvtunnari) ) {
         // Valitaan Y-tunnuksella
         combo_->setCurrentIndex( combo_->findData( model_->idAlvTunnuksella(alvtunnari) ) );
-    } else if( combo_->findText( data.value("kumppaninimi").toString() ) > -1) {
+        emit valittu( combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt() );
+    } else if( combo_->findText(
+                   data.contains("kumppaninimi") ?
+                   data.value("kumppaninimi").toString()
+                   : data.value("nimi").toString()) > -1) {
         // Valitaan nimellä
         combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
+        emit valittu( combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt() );
     } else {
         // Siirrytään dialogiin        
         dlg_->tuonti(data);

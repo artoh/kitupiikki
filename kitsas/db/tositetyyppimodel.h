@@ -26,6 +26,7 @@ namespace TositeTyyppi {
         MUU = 0,
         TUONTI = 90,
         MENO = 100,
+        SAAPUNUTVERKKOLASKU=110,
         KULULASKU = 120,
         TULO = 200,
         MYYNTILASKU = 210,

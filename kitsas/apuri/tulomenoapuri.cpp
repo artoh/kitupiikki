@@ -108,19 +108,46 @@ void TuloMenoApuri::otaFokus()
 
 void TuloMenoApuri::tuo(QVariantMap map)
 {
-    if( qAbs(map.value("summa").toDouble()) > 1e-5) {
-        ui->maaraEdit->setValue( map.value("summa").toDouble());
-        emit ui->maaraEdit->textEdited( ui->maaraEdit->text() );
+    tuonnissa_ = true;
+
+    if( map.value("tyyppi").toInt() == TositeTyyppi::SAAPUNUTVERKKOLASKU) {
+
+        QVariantMap lasku = map.value("lasku").toMap();
+        ui->asiakasToimittaja->tuonti( map.value("toimittaja").toMap() );
+        ui->laskuPvm->setDate( lasku.value("pvm").toDate() );
+        ui->erapaivaEdit->setDate( lasku.value("erapvm").toDate());
+        ui->viiteEdit->setText( lasku.value("viite").toString());
+
+        QVariantList alvit = map.value("alv").toList();
+        for(int i=0; i < alvit.count(); i++) {
+            QVariantMap alvi = alvit.value(i).toMap();
+            TositeVienti vienti;
+
+            ui->alvCombo->setCurrentIndex(
+                        ui->alvCombo->findData(alvi.value("alvkoodi")));
+            ui->alvSpin->setValue(alvi.value("alvprosentti").toDouble());
+            ui->verotonEdit->setValue( alvi.value("netto").toDouble() );
+            verotonMuuttui();
+
+            if( i < alvit.count() - 1)
+                lisaaRivi();
+        }
+
+    } else {
+        if( qAbs(map.value("summa").toDouble()) > 1e-5) {
+            ui->maaraEdit->setValue( map.value("summa").toDouble());
+            emit ui->maaraEdit->textEdited( ui->maaraEdit->text() );
+        }
+        if( !map.value("viite").toString().isEmpty())
+            ui->viiteEdit->setText( map.value("viite").toString() );
+
+        if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
+            ui->asiakasToimittaja->tuonti( map );
+
+        if( map.value("erapvm").isValid())
+            ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
+
     }
-    if( !map.value("viite").toString().isEmpty())
-        ui->viiteEdit->setText( map.value("viite").toString() );
-
-    if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
-        ui->asiakasToimittaja->tuonti( map );
-
-    if( map.value("erapvm").isValid())
-        ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
-
     tositteelle();
 }
 
@@ -128,8 +155,8 @@ void TuloMenoApuri::teeReset()
 {
 
     // Haetaan tietoja mallista ;)
-    bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
-                 tosite()->tyyppi() == TositeTyyppi::KULULASKU;
+    bool menoa = tosite()->tyyppi() < TositeTyyppi::TULO;
+    tuonnissa_ = false;
 
     alusta( menoa );
 
@@ -642,7 +669,7 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
 {
     QVariantMap map = data->toMap();
 
-    if(! ui->maaraEdit->asCents() ) {
+    if(! ui->maaraEdit->asCents() || tuonnissa_) {
         if(menoa_  ) {
             if( map.contains("menotili"))
                 ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );

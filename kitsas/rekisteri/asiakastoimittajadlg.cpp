@@ -166,12 +166,19 @@ void AsiakasToimittajaDlg::alustaKielet()
 void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
 {
     QVariantMap uusi;
-    uusi.insert("nimi", map.value("kumppaninimi"));
-    uusi.insert("iban", map.value("iban"));
-    uusi.insert("osoite", map.value("kumppaniosoite"));
-    uusi.insert("postinumero", map.value("kumppanipostinumero"));
-    tauluun( uusi );
-    haeToimipaikka();
+
+    if( map.contains("alvtunnus")) {
+        tauluun(map);
+        return;
+    }
+    else {
+        uusi.insert("nimi", map.value("kumppaninimi"));
+        uusi.insert("iban", map.value("iban"));
+        uusi.insert("osoite", map.value("kumppaniosoite"));
+        uusi.insert("postinumero", map.value("kumppanipostinumero"));
+        tauluun( uusi );
+        haeToimipaikka();
+    }
     ui->yEdit->setText( map.value("kumppaniytunnus").toString());
     if( ui->yEdit->hasAcceptableInput())
         haeYTunnarilla();

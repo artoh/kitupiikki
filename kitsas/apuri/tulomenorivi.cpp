@@ -149,8 +149,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     double netto = this->netto() / 100.0;
     double vero = (this->brutto() - this->netto() ) / 100.0;
 
-    bool menoa = tosite->tyyppi() == TositeTyyppi::MENO ||
-                 tosite->tyyppi() == TositeTyyppi::KULULASKU;
+    bool menoa = tosite->tyyppi() < TositeTyyppi::TULO;
     QDate pvm = tosite->data(Tosite::PVM).toDate();
 
     QString otsikko = selite().isEmpty() ?
