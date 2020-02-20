@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>514</width>
-    <height>542</height>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -152,6 +152,8 @@
   <tabstop>nimiEdit</tabstop>
   <tabstop>ytunnusEdit</tabstop>
   <tabstop>osoiteEdit</tabstop>
+  <tabstop>postinumeroEdit</tabstop>
+  <tabstop>kaupunkiEdit</tabstop>
   <tabstop>kotipaikkaEdit</tabstop>
   <tabstop>tiliLine</tabstop>
   <tabstop>muotoList</tabstop>

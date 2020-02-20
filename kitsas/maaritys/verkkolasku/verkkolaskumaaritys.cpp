@@ -25,6 +25,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "kierto/kiertomodel.h"
+
 VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     MaaritysWidget(),
     ui(new Ui::Finvoicevalinnat)
@@ -63,6 +65,8 @@ bool VerkkolaskuMaaritys::tallenna()
     inits.insert("Operaattori", ui->operaattoriEdit->text());
     kp()->asetukset()->aseta(inits);
 
+    ui->kiertoCombo->setModel(kp()->kierrot());
+
     kp()->settings()->setValue( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID")), ui->hakemistoEdit->text() );
     return true;
 }
@@ -72,7 +76,7 @@ bool VerkkolaskuMaaritys::nollaa()
 {
     int verkkolasku = kp()->asetukset()->luku("FinvoiceKaytossa");
 
-    ui->integroitu->setEnabled( qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
+    ui->integroitu->setEnabled( qobject_cast<PilviModel*>(kp()->yhteysModel()) ||
                                 kp()->pilvi()->plan() > 0);
 
     ui->kaytossaGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
@@ -84,7 +88,12 @@ bool VerkkolaskuMaaritys::nollaa()
     ui->osoiteGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     ui->noutoGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
+    ui->ovtEdit->setText( kp()->asetus("OvtTunnus") );
+    ui->operaattoriEdit->setText( kp()->asetus("Operaattori"));
+
     ui->hakemistoEdit->setText( kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString());
+
+    ui->eiVastaanottoa->setChecked(true);
 
     valintaMuuttui();
 
@@ -113,7 +122,12 @@ void VerkkolaskuMaaritys::valitseKansio()
 
 void VerkkolaskuMaaritys::valintaMuuttui()
 {
+    ui->ivAsetusNappi->setEnabled( ui->integroitu->isChecked() );
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
-    ui->noutoGroup->setVisible( ui->integroitu->isChecked());
+
+    ui->saapuneetKansio->setEnabled( ui->integroitu->isChecked());
+    ui->kiertoRadio->setEnabled( ui->integroitu->isChecked());
+    ui->kiertoCombo->setEnabled( ui->integroitu->isChecked() && ui->kiertoCombo->count());
+    ui->postitusCheck->setEnabled( ui->integroitu->isChecked());
     emit tallennaKaytossa(onkoMuokattu());
 }

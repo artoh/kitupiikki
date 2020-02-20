@@ -35,11 +35,26 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="integroitu">
-        <property name="text">
-         <string>Integroitu verkkolaskutus</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+        <item>
+         <widget class="QRadioButton" name="integroitu">
+          <property name="text">
+           <string>Integroitu verkkolaskutus</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="ivAsetusNappi">
+          <property name="text">
+           <string>Asetukset...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../pic/pic.qrc">
+            <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -154,7 +169,7 @@
       <item>
        <widget class="QRadioButton" name="saapuneetKansio">
         <property name="text">
-         <string>Näytä Saapuneet-kansiossa</string>
+         <string>Nouda ohjelmaa käynnistettäessä</string>
         </property>
        </widget>
       </item>
@@ -173,6 +188,17 @@
        </layout>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="postitusCheck">
+     <property name="text">
+      <string>Käytä postituspalvelua</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../pic/pic.qrc">
+       <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
+     </property>
     </widget>
    </item>
    <item>

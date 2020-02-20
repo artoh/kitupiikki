@@ -116,6 +116,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
 
     muistutus.asetaKumppani( kumppaniId);
 
+
     // Tähän pitäisi lisätä rivit ja viennit
     qlonglong kulut = 0;
     QVariantList rivit;
@@ -137,6 +138,8 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmmap.insert("ahinta", ui->muistutusSpin->value());
         mmmap.insert("tili",kp()->asetukset()->luku("LaskuMaksumuistustili",9170));
         rivit.append(mmmap);
+
+        lasku.insert("muistutusmaksu", ui->muistutusSpin->value());
     }
 
     // Koron laskeminen. Tässä pitäisi huomioida alkuperäinen eräpäivä ja
@@ -185,6 +188,10 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
             komap.insert("ahinta", (1.00 * peruste * korko / kp()->paivamaara().daysInYear() / 100));
             komap.insert("tili", kp()->asetukset()->luku("LaskuViivastyskorkotili",9170));
             rivit.append(komap);
+
+            lasku.insert("korkoalkaa", korkopaiva);
+            lasku.insert("korkoloppuu", kp()->paivamaara());
+            lasku.insert("korko", vkorkosnt / 100.0);
         }
     }
 

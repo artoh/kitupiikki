@@ -33,6 +33,8 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
+
+
 namespace Ui {
 class LaskuDialogi;
 }
@@ -89,7 +91,7 @@ private:
     void ennakkoHyvitysData(int eraid, double eurot, QVariant *data);
 
     void alustaRyhmalasku();
-    void lataa(const QVariantMap& map);
+    void lataa(const QVariantMap& map);    
     void paivitaNakyvat();
     void alustaRiviTab();
 
@@ -97,10 +99,12 @@ private:
     void alustaMaksutavat();
     void ohje();
 
+    qlonglong laskeViivastysKorko() const;
+    void taydennaMaksumuistutuksenData(QVariantMap& map) const;
 
 private:
     LaskuRivitModel *rivit_;
-    Ui::LaskuDialogi *ui;
+    Ui::LaskuDialogi *ui;    
             
     KohdennusDelegaatti *kohdennusDelegaatti;
 

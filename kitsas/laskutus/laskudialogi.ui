@@ -287,7 +287,7 @@ osoite</string>
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="rivit">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
         <normaloff>:/pic/vientilista-aktiivinen.png</normaloff>:/pic/vientilista-aktiivinen.png</iconset>
@@ -396,6 +396,112 @@ osoite</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="maksumuistutus">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/punainenkuori.png</normaloff>:/pic/punainenkuori.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Maksumuistutus</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Avoin määrä</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="mmAvoin">
+           <property name="text">
+            <string>0,00 €</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QCheckBox" name="mmMuistutusCheck">
+           <property name="text">
+            <string>Maksumuistutuksesta peritään</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="KpEuroEdit" name="mmMuistutusMaara"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="mmViivastysCheck">
+           <property name="text">
+            <string>Viivästyskorko ajalle</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="KpDateEdit" name="mmViivastysAlkaa"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KpDateEdit" name="mmViivastysLoppuu"/>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="mmViivastysMaara">
+           <property name="text">
+            <string>0,00 €</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="3">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="mmYhteensa">
+           <property name="text">
+            <string>0,00 €</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>279</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
@@ -421,6 +527,20 @@ osoite</string>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QPlainTextEdit" name="saateEdit"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="loki">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Loki</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QTableView" name="lokiView"/>
        </item>
       </layout>
      </widget>
@@ -593,6 +713,11 @@ osoite</string>
    <extends>QWidget</extends>
    <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

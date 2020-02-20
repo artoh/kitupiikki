@@ -50,6 +50,7 @@
 #include "ennakkohyvitysmodel.h"
 #include "ennakkohyvitysdialogi.h"
 #include "tuotedialogi.h"
+#include "model/tositeloki.h"
 
 #include "db/yhteysmodel.h"
 
@@ -113,6 +114,12 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &LaskuDialogi::maksuTapaMuuttui);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, &LaskuDialogi::ohje);
 
+    connect( ui->mmMuistutusCheck, &QCheckBox::clicked, this, &LaskuDialogi::paivitaSumma);
+    connect( ui->mmMuistutusMaara, &KpEuroEdit::textChanged, this, &LaskuDialogi::paivitaSumma);
+    connect( ui->mmViivastysCheck, &QCheckBox::clicked, this, &LaskuDialogi::paivitaSumma);
+    connect( ui->mmViivastysAlkaa, &KpDateEdit::dateChanged, this, &LaskuDialogi::paivitaSumma);
+    connect( ui->mmViivastysLoppuu, &KpDateEdit::dateChanged, this, &LaskuDialogi::paivitaSumma);
+
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
 
@@ -127,7 +134,14 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
         ui->eraDate->setDate( MyyntiLaskunTulostaja::erapaiva() );
         alustaMaksutavat();
         ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
-        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
+        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );        
+        ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") ) );
+    }
+
+    if( tyyppi_ == TositeTyyppi::MAKSUMUISTUTUS) {
+        ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("rivit") ) );
+    } else {
+        ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     }
 
     connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
@@ -146,14 +160,22 @@ LaskuDialogi::~LaskuDialogi()
 
 void LaskuDialogi::paivitaSumma()
 {
-    ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa() + aiempiSaldo_ ,0,'f',2) );
-    paivitaNapit();
+    if( tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
+        qlonglong summa = laskeViivastysKorko() + qRound64( aiempiSaldo_ * 100 ) +
+                qRound64( ui->mmMuistutusCheck->isChecked() ?  ui->mmMuistutusMaara->value() * 100 : 0);
+        ui->summaLabel->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
+        ui->mmYhteensa->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
+    } else {
+        ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa(),0,'f',2) );
+        paivitaNapit();
+    }
 }
 
 void LaskuDialogi::paivitaNapit()
 {
     bool tallennettavaa = !rivit_->onkoTyhja() &&
-            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() ) ;    
+            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() ) &&
+            tyyppi() != TositeTyyppi::MAKSUMUISTUTUS;
 
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
@@ -470,14 +492,18 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
     map.insert("lasku", lasku);
 
+    if( tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
+        taydennaMaksumuistutuksenData(map);
+    } else {
+
     // Sitten pitäisi arpoa viennit
-    QVariantList viennit;
-    viennit.append( vastakirjaus( pvm, otsikko ) );
-    viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
-                                     otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
+        QVariantList viennit;
+        viennit.append( vastakirjaus( pvm, otsikko ) );
+        viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
+                                         otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 
-    map.insert("viennit", viennit);
-
+        map.insert("viennit", viennit);
+    }
 
     return map;
 }
@@ -593,6 +619,97 @@ void LaskuDialogi::ohje()
     else
         kp()->ohje("laskutus/uusi");
 }
+
+qlonglong LaskuDialogi::laskeViivastysKorko() const
+{
+    if( !ui->mmViivastysCheck->isChecked())
+        return 0;
+
+    QDate mista = ui->mmViivastysAlkaa->date();
+    QDate mihin = ui->mmViivastysLoppuu->date();
+    qlonglong paivat = mista.daysTo(mihin);
+    return qRound64(aiempiSaldo_ * ui->viivkorkoSpin->value() * paivat / mihin.daysInYear());
+}
+
+void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
+{
+    QVariantMap lasku = map.take("lasku").toMap();
+    MyyntiLaskunTulostaja tulostaja(lasku.value("kieli").toString());
+
+    QVariantList rivit;
+    QVariantList viennit;
+    qlonglong kulut = 0;
+
+    if( ui->mmMuistutusCheck->isChecked()) {
+
+        TositeVienti mmvienti;
+        mmvienti.setPvm(kp()->paivamaara());
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
+        mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
+        mmvienti.setKredit(ui->mmMuistutusMaara->value());
+        kulut+=qRound64(ui->mmMuistutusMaara->value() * 100.0);
+        viennit.append(mmvienti);
+
+        QVariantMap mmmap;
+        mmmap.insert("nimike", tulostaja.t("muistutusmaksu"));   // Tähän käännös
+        mmmap.insert("myyntikpl",1);
+        mmmap.insert("ahinta", ui->mmMuistutusMaara->value());
+        mmmap.insert("tili",kp()->asetukset()->luku("LaskuMaksumuistustili",9170));
+        rivit.append(mmmap);
+
+        lasku.insert("muistutusmaksu", ui->mmMuistutusMaara->value());
+    }
+    if( ui->mmViivastysCheck->isChecked()) {
+        QDate korkopaiva = ui->mmViivastysAlkaa->date();
+        QDate loppupaiva = ui->mmViivastysLoppuu->date();
+
+        // Nyt voidaan laskea viivästyskorko
+        if( ui->viivkorkoSpin->value() > 1e-5 && korkopaiva.isValid()) {
+            qlonglong paivat = korkopaiva.daysTo(loppupaiva);
+            qlonglong vkorkosnt = qRound64( aiempiSaldo_ * ui->viivkorkoSpin->value() * paivat / loppupaiva.daysInYear() );
+
+            QString selite = tulostaja.t("viivkorko") +
+                    QString(" %1 - %2")
+                    .arg(korkopaiva.toString("dd.MM.yyyy"))
+                    .arg(loppupaiva.toString("dd.MM.yyyy"));
+
+            TositeVienti korkovienti;
+            korkovienti.setPvm( kp()->paivamaara());
+            korkovienti.setTili(kp()->asetukset()->luku("LaskuViivastyskorkotili",9170));
+            korkovienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
+            korkovienti.setKredit(vkorkosnt);
+            korkovienti.setSelite(selite);
+            kulut += vkorkosnt;
+            viennit.append(korkovienti);
+
+            QVariantMap komap;
+            komap.insert("nimike", selite);
+            komap.insert("myyntikpl", paivat);
+            komap.insert("ahinta", (1.00 * aiempiSaldo_ * ui->viivkorkoSpin->value() / loppupaiva.daysInYear() / 100));
+            komap.insert("tili", kp()->asetukset()->luku("LaskuViivastyskorkotili",9170));
+            rivit.append(komap);
+
+            lasku.insert("korkoalkaa", korkopaiva);
+            lasku.insert("korkoloppuu", loppupaiva);
+            lasku.insert("korko", vkorkosnt / 100.0);
+        }
+    }
+    if( kulut ) {
+        TositeVienti vienti;
+        vienti.setEra(era_);
+        vienti.setPvm(kp()->paivamaara());
+        vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
+        vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
+        vienti.setKumppani(ui->asiakas->id());
+        vienti.setDebet(kulut);
+        viennit.insert(0, vienti);
+    }
+
+    map.insert("rivit", rivit);
+    map.insert("viennit", viennit);
+    map.insert("lasku",lasku);
+}
+
 
 void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
@@ -726,6 +843,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
     ui->lisatietoEdit->setPlainText( map.value("info").toString());
     ui->saateEdit->setPlainText(lasku.value("saate").toString());
+    ui->viivkorkoSpin->setValue( lasku.value("viivkorko").toDouble() );
 
     if( map.value("tila").toInt() > Tosite::LUONNOS)
         ui->luonnosNappi->hide();
@@ -771,6 +889,24 @@ void LaskuDialogi::lataa(const QVariantMap &map)
         }
 
     }
+
+    if( tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
+        double avoin = lasku.value("aiempisaldo").toDouble();
+        ui->mmAvoin->setText(QString("%L1 €").arg( avoin,0,'f',2));
+        double muikkari = lasku.value("muistutusmaksu").toDouble();
+        ui->mmMuistutusCheck->setChecked( muikkari > 1e-5);
+        ui->mmMuistutusMaara->setValue( muikkari );
+        double korko = lasku.value("korko").toDouble();
+        ui->mmViivastysCheck->setChecked( korko > 1e-5);
+        ui->mmViivastysAlkaa->setDate( lasku.value("korkoalkaa").toDate() );
+        ui->mmViivastysLoppuu->setDate( lasku.value("korkoloppuu").toDate() );
+        ui->mmViivastysMaara->setText(QString("%L1 €").arg( korko,0,'f',2));
+
+        qlonglong yht = qRound64( avoin * 100 ) + qRound64( muikkari * 100 ) + qRound64( korko * 100);
+
+        ui->mmYhteensa->setText(QString("%L1 €").arg( yht / 100.0 ,0,'f',2));
+    }
+
     int tila = map.value("tila").toInt();
     ui->luonnosNappi->setVisible( tila == Tosite::LUONNOS );
     ui->tallennaNappi->setVisible( tila < Tosite::KIRJANPIDOSSA );
@@ -779,6 +915,11 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     paivitaNakyvat();
     paivitaNapit();   
 
+    TositeLoki *lokimodel = new TositeLoki(this);
+    lokimodel->lataa(map.value("loki").toList());
+    ui->lokiView->setModel(lokimodel);
+    ui->lokiView->resizeColumnsToContents();
+    ui->lokiView->horizontalHeader()->setSectionResizeMode(TositeLoki::KAYTTAJA, QHeaderView::Stretch);
 }
 
 void LaskuDialogi::paivitaNakyvat()

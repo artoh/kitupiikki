@@ -17,6 +17,7 @@
 #include "tositeloki.h"
 #include "model/tosite.h"
 #include <QDateTime>
+#include <QIcon>
 
 TositeLoki::TositeLoki(QObject *parent)
     : QAbstractTableModel(parent)
@@ -94,6 +95,8 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::UserRole)
         return map.value("data");
+    else if( role == Qt::DecorationRole && index.column() == TILA)
+        return Tosite::tilakuva( map.value("tila").toInt());
 
     return QVariant();
 }
