@@ -33,16 +33,16 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
             kysely.exec(QString("SELECT id,nimi,alvtunnus FROM Kumppani "
                                 "JOIN KumppaniRyhmassa ON Kumppani.id=KumppaniRyhmassa.kumppani "
                                 "WHERE ryhma=%1 ORDER BY nimi").arg(urlquery.queryItemValue("ryhma").toInt()));
+        else if( urlquery.hasQueryItem("alv")) {
+            kysely.exec(QString("SELECT * FROM Kumppani WHERE alvtunnus='%1'").arg(urlquery.queryItemValue("alv")));
+        }
         else
             kysely.exec("SELECT id,nimi,alvtunnus FROM Kumppani ORDER BY nimi");
         return resultList(kysely);
+    } else {
+        kysely.exec(QString("SELECT * FROM Kumppani WHERE id=%1").arg(polku.toInt()));
     }
 
-    // Haetaan tietty kumppani
-    if( polku.toInt())
-        kysely.exec(QString("SELECT * FROM Kumppani WHERE id=%1").arg(polku.toInt()));
-    else
-        kysely.exec(QString("SELECT * FROM Kumppani WHERE alvtunnus='%1'").arg(polku));
 
     QVariantMap kumppani = resultMap(kysely);
     int kumppaniid = kumppani.value("id").toInt();

@@ -52,6 +52,8 @@
 #include "kierto/kiertomodel.h"
 #include "tools/tulkki.h"
 
+#include "tools/finvoicehaku.h"
+
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
     harjoitusPvm( QDate::currentDate()),
@@ -106,6 +108,10 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
             QMessageBox::critical(nullptr, tr("Tilapäishakemiston luominen epäonnistui"),
                                   tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
+    FinvoiceHaku *verkkolaskuhaku = new FinvoiceHaku(this);
+    connect( this, &Kirjanpito::tietokantaVaihtui, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
+    connect( pilvi(), &PilviModel::kirjauduttu, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
+
 }
 
 Kirjanpito::~Kirjanpito()
