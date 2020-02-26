@@ -103,12 +103,13 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
 
     alustaRiviTab();
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
+    connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
     connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::maksuTapaMuuttui);
 
     connect( ui->luonnosNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LUONNOS); });
     connect( ui->tallennaNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::VALMISLASKU);});
-    connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::KIRJANPIDOSSA);});
+    connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LAHETETAAN);});
 
     connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
     connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &LaskuDialogi::maksuTapaMuuttui);
@@ -308,8 +309,10 @@ void LaskuDialogi::paivitaLaskutustavat()
     int nykyinen = ui->laskutusCombo->currentData().toInt();
     ui->laskutusCombo->clear();
 
+    QRegularExpression postiRe("(.*\\w.*\n){2,}(\\d{5})\\s(.+)", QRegularExpression::MultilineOption);
+
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), TULOSTETTAVA);
-    if( ui->osoiteEdit->toPlainText().contains('\n'))
+    if( postiRe.match(ui->osoiteEdit->toPlainText()).hasMatch() )
         ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), POSTITUS);
     if( verkkolaskutettava_)
         ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), VERKKOLASKU);
@@ -713,7 +716,6 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
 
 void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
-    tallennusTila_ = moodi;
 
     QVariantMap map = data();
     map.insert("tila", moodi);
@@ -721,16 +723,13 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
     if( ryhmalasku_ ) {
         ryhmalaskuTab_->model()->tallennaLaskut(map);
     } else {
-        bool toimita = moodi == Tosite::KIRJANPIDOSSA;
-        moodi = moodi != Tosite::KIRJANPIDOSSA ? moodi : Tosite::VALMISLASKU;
-
         KpKysely *kysely;
         if( !tositeId_ )
             kysely = kpk("/tositteet/", KpKysely::POST);
         else
             kysely = kpk( QString("/tositteet/%1").arg(tositeId_), KpKysely::PUT);
 
-        connect( kysely, &KpKysely::vastaus, [this, toimita] (QVariant* data)  { this->tallennusValmis(data, toimita); } );
+        connect( kysely, &KpKysely::vastaus, [this, moodi] (QVariant* data)  { this->tallennusValmis(data, moodi == Tosite::LAHETETAAN); } );
         connect( kysely, &KpKysely::virhe, [this] (int koodi, const QString& selite) { QMessageBox::critical(this, tr("Tallennusvirhe"),
                                                                                                              tr("Laskun tallennus epäonnistui\n%1 %2").arg(koodi).arg(selite)); });
         kysely->kysy( map );

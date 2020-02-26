@@ -146,14 +146,17 @@ void PilveenSiirto::avaaLuotuPilvi()
 
     ui->progressBar->setValue(30);
     haeRyhmaLista();
+    qDebug() << kp()->yhteysModel();
 
 }
 
 void PilveenSiirto::haeRyhmaLista()
 {
     KpKysely *kysely = kpk("/ryhmat");
-    connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::ryhmaListaSaapuu);
-    kysely->kysy();
+    if( kysely ) {
+        connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::ryhmaListaSaapuu);
+        kysely->kysy();
+    }
 }
 
 void PilveenSiirto::ryhmaListaSaapuu(QVariant *data)
@@ -351,6 +354,7 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
 
 void PilveenSiirto::siirtoVirhe(int koodi)
 {
+    qDebug() << "Siirovirhe " << koodi;
     ui->stackedWidget->setCurrentIndex(VALMIS);
     ui->buttonBox->show();
     ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();
@@ -360,7 +364,7 @@ void PilveenSiirto::siirtoVirhe(int koodi)
                                     "jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on "
                                     "havaittu pilvipalvelun tarkemmissa tarkastuksissa.\n\n"
                                     "Tämän kirjanpidon kopioiminen pilveen vaatii kirjanpidon korjaamista "
-                                    "ohjelmiston tuen tai muun asiantuntijan avulla.").arg(koodi));
+                                    "ohjelmiston tuen tai muun asiantuntijan avulla."));
     else
         ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui virheen %1 takia").arg(koodi));
     pilviModel_->poistaNykyinenPilvi();

@@ -30,4 +30,6 @@
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 #define KITSAS_DEVEL
 
+#define KITSAS_API "http://192.168.1.200:5665/api"
+
 #endif // VERSIO_H

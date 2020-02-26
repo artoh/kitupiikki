@@ -32,13 +32,18 @@ public:
 
 signals:
     void toimitettu(int tositeId);
+    void finvoiceToimitettu();
     void toimitusEpaonnistui();
 
 protected:
     void alustaInit();
     void asiakasSaapuu(const QVariant* data, const QVariantMap &map);
     void laskuSaapuu(QVariant* data, int tositeId, int laskuId);
+    void maventaToimitettu(QVariant *data, const QVariantMap& map);
+    void toimitettuTallennettu();
     void virhe(const QString& viesti);
+
+    bool hajoitaOsoite(const QString& osoite, QVariantMap& asiakasMap);
 
 
 protected:

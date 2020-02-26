@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
+    $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/maksutapamodel.cpp \
@@ -299,6 +300,7 @@ HEADERS += \
     $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
+    $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/maksutapamodel.h \
@@ -529,6 +531,7 @@ FORMS += \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
+    $$PWD/maaritys/verkkolasku/maventa.ui \
     $$PWD/maaritys/verkkolasku/verkkolasku.ui \
     $$PWD/maaritys/veromaaritys.ui \
     $$PWD/maaritys/yhteystiedot.ui \

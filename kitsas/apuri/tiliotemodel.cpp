@@ -261,8 +261,8 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 pankki.setTyyppi( TositeVienti::SUORITUS + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::SUORITUS + TositeVienti::KIRJAUS);
             } else if( kp()->tilit()->tili(tili.tili())->onko(TiliLaji::TASE)) {
-                pankki.setTyyppi( TositeVienti::SIIRTO );
-                tili.setTyyppi( TositeVienti::SIIRTO );
+                pankki.setTyyppi( TositeVienti::SIIRTO + TositeVienti::VASTAKIRJAUS);
+                tili.setTyyppi( TositeVienti::SIIRTO + TositeVienti::KIRJAUS );
             } else if( rivi.euro > 0.0 ) {
                 pankki.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::MYYNTI + TositeVienti::KIRJAUS);

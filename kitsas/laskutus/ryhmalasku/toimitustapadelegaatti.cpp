@@ -62,6 +62,9 @@ QString ToimitustapaDelegaatti::toimitustapa(int koodi)
         return tr("PDF");
     case LaskuDialogi::EITULOSTETA:
         return tr("Ei tulosteta");
+    case LaskuDialogi::TUOTULASKU:
+        return tr("Tuotu lasku");
+
     default:
         return QString();
     }

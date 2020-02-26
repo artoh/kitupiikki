@@ -63,6 +63,7 @@
 #include "versio.h"
 
 #include <QSslError>
+#include <QClipboard>
 
 AloitusSivu::AloitusSivu(QWidget *parent) :
     KitupiikkiSivu(parent)
@@ -118,6 +119,9 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
+    connect( ui->tukileikeNappi, &QPushButton::clicked, [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
+
+
     QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
     sqliteproxy->setSourceModel( kp()->sqlite());
     ui->viimeisetView->setModel( sqliteproxy );
@@ -129,9 +133,9 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->palvelinvirheLabel->setVisible(false);
 
     if( kp()->settings()->contains("CloudKey"))
-        QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu(); });
+        QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu();} );
 
-
+    pyydaInfo();
 }
 
 AloitusSivu::~AloitusSivu()
@@ -172,7 +176,6 @@ void AloitusSivu::siirrySivulle()
         ui->selain->setHtml( teksti );
     }
     ui->muistiinpanotNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
-
 }
 
 bool AloitusSivu::poistuSivulta(int /* minne */)
@@ -219,14 +222,11 @@ void AloitusSivu::kirjanpitoVaihtui()
     if( !kp()->asetus("Tilikartta").isEmpty() )
         kp()->settings()->setValue("Tilikartta", kp()->asetus("Tilikartta"));
 
-
-    if( paivitysInfo.isEmpty())
-        pyydaInfo();
-
     ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
     ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
 
     siirrySivulle();
+    tukiInfo();
 }
 
 void AloitusSivu::linkki(const QUrl &linkki)
@@ -310,11 +310,22 @@ void AloitusSivu::abouttiarallaa()
 
 void AloitusSivu::infoSaapui()
 {
-    kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
-
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
-    paivitysInfo = QString::fromUtf8( reply->readAll() );
+    QString info = QString::fromUtf8( reply->readAll() );
+
+    if( info.startsWith("*KITSAS*")) {
+        kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
+        int tahtipaikka = info.indexOf("***");
+        if( tahtipaikka > 0)
+            paivitysInfo = info.mid(tahtipaikka+3);
+    }
+
+
+
+    qDebug() << " Info " << paivitysInfo;
+
+
     siirrySivulle();
     reply->deleteLater();
 }
@@ -471,6 +482,8 @@ void AloitusSivu::kirjauduttu()
     ui->pilviPoistaButton->setVisible( kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
     ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tilaa pilvipalvelut!") );
+
+    tukiInfo();
 }
 
 void AloitusSivu::loginVirhe()
@@ -610,6 +623,37 @@ void AloitusSivu::siirraPilveen()
 {
     PilveenSiirto *siirtoDlg = new PilveenSiirto();
     siirtoDlg->exec();
+}
+
+void AloitusSivu::tukiInfo()
+{
+    bool tilaaja = kp()->pilvi()->plan() > 0;
+    ui->maksutonTukiLabel->setVisible( !tilaaja );
+    ui->maksuTukiLabel->setVisible( tilaaja);
+    ui->tukiOhje->setVisible( tilaaja );
+    ui->tukileikeNappi->setVisible( tilaaja);
+
+    if( tilaaja) {
+        ui->tukiOhje->setPlainText( QString("version: %1 \n"
+                               "os: %2 \n"
+                               "user: %3 \n"
+                               "plan: %4 \n"
+                               "db: %5 \n"
+                               "map: %6 \n"
+                               "mapdate: %7 \n"
+                               "type: %8 \n"
+                               "large: %9 \n"
+                       ).arg(qApp->applicationVersion())
+                        .arg(QSysInfo::prettyProductName())
+                        .arg(kp()->pilvi()->kayttajaEmail())
+                        .arg(kp()->pilvi()->planname())
+                        .arg(kp()->kirjanpitoPolku())
+                        .arg(kp()->asetus("Tilikartta"))
+                        .arg(kp()->asetus("TilikarttaPvm"))
+                        .arg(kp()->asetus("muoto"))
+                        .arg(kp()->asetus("laajuus"))
+        );
+    }
 }
 
 QString AloitusSivu::vinkit()

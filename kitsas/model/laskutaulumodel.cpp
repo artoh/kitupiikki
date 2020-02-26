@@ -205,7 +205,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("laskutapa");
     case SeliteRooli:
         return map.value("selite");
+    case TilaRooli:
+        return map.value("tila");
     }
+
+
     return QVariant();
 }
 

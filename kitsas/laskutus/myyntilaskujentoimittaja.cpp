@@ -44,10 +44,17 @@ MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(pa
              this, &MyyntiLaskujenToimittaja::merkkaaToimitetuksi);
     connect( verkkolaskutoimittaja_, &VerkkolaskuToimittaja::toimitusEpaonnistui,
              this, &MyyntiLaskujenToimittaja::virhe);
+    connect( verkkolaskutoimittaja_, &VerkkolaskuToimittaja::finvoiceToimitettu,
+             this, &MyyntiLaskujenToimittaja::toimitettu);
 }
 
 bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
 {
+   if( kp()->asetus("LaskuIbanit").isEmpty()) {
+       QMessageBox::critical(nullptr, tr("Laskuja ei voi toimittaa"), tr("Laskutustilinumeroita ei ole määritetty"));
+       return false;
+   }
+
    laskuja_ = laskut.count();
 
     // Ensin lajitellaan
@@ -62,6 +69,9 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
             verkkolaskutoimittaja_->lisaaLasku(lasku);
         else if(toimitustapa == LaskuDialogi::EITULOSTETA)
             merkkaaToimitetuksi(lasku.value("id").toInt());
+        else if( toimitustapa == LaskuDialogi::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
+                verkkolaskutoimittaja_->lisaaLasku(lasku);
+        }
         else
             tulostettavat_.append(lasku);
     }

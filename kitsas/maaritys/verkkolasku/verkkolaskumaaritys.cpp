@@ -20,12 +20,14 @@
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 #include "pilvi/pilvimodel.h"
+#include "pilvi/pilvikysely.h"
 #include <QSettings>
 #include <QButtonGroup>
 #include <QFileDialog>
 #include <QMessageBox>
 
 #include "kierto/kiertomodel.h"
+#include "maventadialog.h"
 
 VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     MaaritysWidget(),
@@ -39,6 +41,9 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valitseKansio);
     connect( ui->ovtEdit, &QLineEdit::textEdited, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->operaattoriEdit, &QLineEdit::textEdited, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
+    connect( ui->noutoCheck, &QCheckBox::clicked, this, &VerkkolaskuMaaritys::setFlow);
+    connect(ui->ivAsetusNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::maaritaMaventa);
+    connect( ui->postitusCheck, &QCheckBox::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
 }
 
 VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
@@ -46,10 +51,18 @@ VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
     delete ui;
 }
 
+void VerkkolaskuMaaritys::paivitaMaventa()
+{
+    QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, osoite);
+    connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
+    pk->kysy();
+}
+
 bool VerkkolaskuMaaritys::tallenna()
 {
     int lasku = ui->paikallinen->isChecked() ? PAIKALLINEN :
-                                               ui->integroitu->isChecked() ? INTEGROITU :
+                                               ui->integroitu->isChecked() ? MAVENTA :
                                                                              EIKAYTOSSA;
     if( lasku == PAIKALLINEN && ( ui->ovtEdit->text().length() < 12 ||
                                   ui->operaattoriEdit->text().length() < 4 ||
@@ -59,13 +72,15 @@ bool VerkkolaskuMaaritys::tallenna()
                               tr("Verkkolaskutuksen määritykset ovat puutteelliset."));
         return false;
     }
-    QVariantMap inits;
-    inits.insert("FinvoiceKaytossa", lasku);
-    inits.insert("OvtTunnus", ui->ovtEdit->text());
-    inits.insert("Operaattori", ui->operaattoriEdit->text());
-    kp()->asetukset()->aseta(inits);
 
-    ui->kiertoCombo->setModel(kp()->kierrot());
+    if( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET)) {
+        QVariantMap inits;
+        inits.insert("FinvoiceKaytossa", lasku);
+        inits.insert("OvtTunnus", ui->ovtEdit->text());
+        inits.insert("Operaattori", ui->operaattoriEdit->text());
+        inits.insert("MaventaPostitus", ui->postitusCheck->isChecked());
+        kp()->asetukset()->aseta(inits);
+    }
 
     kp()->settings()->setValue( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID")), ui->hakemistoEdit->text() );
     return true;
@@ -83,19 +98,29 @@ bool VerkkolaskuMaaritys::nollaa()
 
     ui->eiKaytossa->setChecked( verkkolasku == EIKAYTOSSA);
     ui->paikallinen->setChecked( verkkolasku == PAIKALLINEN);
-    ui->integroitu->setChecked( verkkolasku == INTEGROITU);
+    ui->integroitu->setChecked( verkkolasku == MAVENTA);
 
     ui->osoiteGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
-    ui->noutoGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     ui->ovtEdit->setText( kp()->asetus("OvtTunnus") );
     ui->operaattoriEdit->setText( kp()->asetus("Operaattori"));
 
     ui->hakemistoEdit->setText( kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString());
+    ui->postitusCheck->setChecked( kp()->asetukset()->onko("MaventaPostitus") );
 
-    ui->eiVastaanottoa->setChecked(true);
+    ui->noutoCheck->setDisabled(true);
+
 
     valintaMuuttui();
+
+    if( kp()->pilvi()->kayttajaPilvessa()) {
+        ui->kirjauduLabel->hide();
+    } else {
+        ui->kirjauduLabel->show();
+        ui->kaytossaGroup->setEnabled(false);
+        ui->hakemistoGroup->setEnabled(false);
+        ui->maventaGroup->setEnabled(false);
+    }
 
     return true;
 }
@@ -103,12 +128,13 @@ bool VerkkolaskuMaaritys::nollaa()
 bool VerkkolaskuMaaritys::onkoMuokattu()
 {
     int lasku = ui->paikallinen->isChecked() ? PAIKALLINEN :
-                                               ui->integroitu->isChecked() ? INTEGROITU :
+                                               ui->integroitu->isChecked() ? MAVENTA :
                                                                              EIKAYTOSSA;
     return lasku != kp()->asetukset()->luku("FinvoiceKaytossa") ||
            ui->ovtEdit->text() != kp()->asetus("OvtTunnus") ||
            ui->operaattoriEdit->text() != kp()->asetus("Operaattori") ||
-           ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString();
+           ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString() ||
+           ui->postitusCheck->isChecked() != kp()->asetukset()->onko("MaventaPostitus");
 
 }
 
@@ -122,12 +148,70 @@ void VerkkolaskuMaaritys::valitseKansio()
 
 void VerkkolaskuMaaritys::valintaMuuttui()
 {
-    ui->ivAsetusNappi->setEnabled( ui->integroitu->isChecked() );
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
+    ui->maventaGroup->setVisible( ui->integroitu->isChecked());
 
-    ui->saapuneetKansio->setEnabled( ui->integroitu->isChecked());
-    ui->kiertoRadio->setEnabled( ui->integroitu->isChecked());
-    ui->kiertoCombo->setEnabled( ui->integroitu->isChecked() && ui->kiertoCombo->count());
-    ui->postitusCheck->setEnabled( ui->integroitu->isChecked());
+    if( ui->integroitu->isChecked()) {
+        paivitaMaventa();
+    }
+
+    if( !ui->eiKaytossa->isChecked() && ui->ovtEdit->text().isEmpty())
+        ui->ovtEdit->setText("0037" + kp()->asetus("Ytunnus").remove('-'));
+    if( ui->integroitu->isChecked() && ui->operaattoriEdit->text().isEmpty())
+        ui->operaattoriEdit->setText("003721291126");
+
     emit tallennaKaytossa(onkoMuokattu());
+}
+
+void VerkkolaskuMaaritys::maaritaMaventa()
+{
+    MaventaDialog *dlg = new MaventaDialog(this);
+    connect( dlg, &MaventaDialog::liitetty, this, &VerkkolaskuMaaritys::maventaTiedot);
+    dlg->exec();
+    dlg->deleteLater();
+
+}
+
+void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
+{
+    QVariantMap info = data->toMap();
+    qDebug() << info;
+
+    if( info.isEmpty()) {
+        ui->noutoCheck->setEnabled(false);
+        ui->kayttajaLabel->setText(tr("Käyttäjää ei määritelty"));
+    } else {
+        QString txt = QString("%1 %2 \n%3")
+                .arg(info.value("user").toMap().value("first_name").toString())
+                .arg(info.value("user").toMap().value("last_name").toString())
+                .arg(info.value("company").toMap().value("name").toString());
+
+        if( info.value("send_invoice_print").toMap().value("enabled").toBool()) {
+            txt.append("\n\nTulostuspalvelu on käytössä.");
+        } else {
+            txt.append("\n\nTulostuspalvelu ei ole käytössä. Tulostat itse postitettavaksi merkittävät laskut.");
+        }
+
+        QVariantMap virheviestit = info.value("invoice_notifications").toMap().value("on_send_errors").toMap();
+        qDebug() << virheviestit;
+        if( !virheviestit.value("to_user").toBool() && virheviestit.value("to_emails").isNull())
+            txt.append(tr("\n\nEt saa ilmoitusta, jos laskun lähettäminen epäonnistuu. "
+                          "Ota Maventan asetuksissa käyttöön Vastaanota ilmoituksia laskujen lähetysvirheistä."));
+
+        ui->kayttajaLabel->setText(txt);
+        ui->noutoCheck->setChecked( !info.value("flow").toMap().isEmpty() );
+        ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+        ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+
+    }
+}
+
+void VerkkolaskuMaaritys::setFlow(bool on)
+{
+    QString osoite = QString("%1/maventa/%2/flow").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
+    if( !on)
+        pk->lisaaAttribuutti("off","");
+    connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
+    pk->kysy();
 }

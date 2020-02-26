@@ -89,6 +89,7 @@ private slots:
     void logoMuuttui();
     void haeSaldot();
     void siirraPilveen();    
+    void tukiInfo();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);

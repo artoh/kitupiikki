@@ -39,9 +39,12 @@
 #include <QFile>
 #include <QTextStream>
 #include <QFileInfo>
+#include <QCommandLineParser>
 
 #include "ui_tervetuloa.h"
 #include "maaritys/ulkoasumaaritys.h"
+#include "pilvi/pilvimodel.h"
+
 
 
 void lisaaLinuxinKaynnistysValikkoon()
@@ -97,6 +100,18 @@ int main(int argc, char *argv[])
     translator.load("fi.qm",":/tr/");
 
     a.installTranslator(&translator);
+
+    QCommandLineParser parser;
+    parser.addOptions({
+                          {"api",
+                           "Pilvipalvelun osoite",
+                           "url",
+                           KITSAS_API}
+                      });
+    parser.process(a);
+
+    PilviModel::asetaPilviLoginOsoite( parser.value("api") );
+
 
     QStringList argumentit = qApp->arguments();
 
@@ -159,8 +174,8 @@ int main(int argc, char *argv[])
     ikkuna.show();
 
     // Avaa argumenttina olevan tiedostonnimen
-    if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
-        kirjanpito.sqlite()->avaaTiedosto( argumentit.at(1) );
+    if( !parser.positionalArguments().isEmpty() && QFile(parser.positionalArguments().value(0)).exists())
+        kirjanpito.sqlite()->avaaTiedosto( parser.positionalArguments().value(0) );
 
     splash->finish( &ikkuna );
 

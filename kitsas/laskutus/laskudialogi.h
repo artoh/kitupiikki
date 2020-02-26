@@ -122,7 +122,6 @@ private:
     QDate alkupPvm_;
 
     int tyyppi_ = TositeTyyppi::MYYNTILASKU;
-    Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
 
     RyhmalaskuTab *ryhmalaskuTab_ = nullptr;
     bool ryhmalasku_ = false;

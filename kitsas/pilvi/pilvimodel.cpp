@@ -41,10 +41,6 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
 {
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, [this] {this->paivitaLista(); });
-
-#ifdef KITSAS_DEVEL
-    qDebug() << "Sertifikaatti " << QSslSocket::addDefaultCaCertificates(":/aloitus/kitsas.crt");
-#endif
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -86,7 +82,7 @@ int PilviModel::omatPilvet() const
 
 QString PilviModel::pilviLoginOsoite()
 {
-    return "https://192.168.1.200/api";
+    return pilviLoginOsoite__;
 }
 
 void PilviModel::uusiPilvi(const QVariant &initials)
@@ -153,6 +149,11 @@ qlonglong PilviModel::oikeudet(const QVariantList &lista)
         }
     }
     return bittikartta;
+}
+
+void PilviModel::asetaPilviLoginOsoite(const QString &osoite)
+{
+    pilviLoginOsoite__ = osoite;
 }
 
 
@@ -329,3 +330,5 @@ std::map<QString,qlonglong> PilviModel::oikeustunnukset__ = {
     {"Ra", RAPORTIT},
     {"Ks", KIERTO_SELAAMINEN}
 };
+
+QString PilviModel::pilviLoginOsoite__;

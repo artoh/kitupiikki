@@ -6,20 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
-    <height>834</height>
+    <width>970</width>
+    <height>832</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="kirjauduLabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 0);
+font-weight: bold;</string>
+     </property>
+     <property name="text">
+      <string>Kirjaudu Kitsaan pilveen muokataksesi verkkolaskutuksen asetuksia.</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="kaytossaGroup">
      <property name="title">
       <string>Finvoice-verkkolaskut</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QRadioButton" name="eiKaytossa">
         <property name="text">
@@ -35,26 +46,11 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
-        <item>
-         <widget class="QRadioButton" name="integroitu">
-          <property name="text">
-           <string>Integroitu verkkolaskutus</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="ivAsetusNappi">
-          <property name="text">
-           <string>Asetukset...</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
-            <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QRadioButton" name="integroitu">
+        <property name="text">
+         <string>Maventa-verkkolasku</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -148,57 +144,59 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="noutoGroup">
+    <widget class="QGroupBox" name="maventaGroup">
      <property name="title">
-      <string>Verkkolaskujen noutaminen</string>
+      <string>Maventa-verkkolasku</string>
      </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QRadioButton" name="eiVastaanottoa">
-        <property name="text">
-         <string>Verkkolaskujen vastaanotto ei käytössä</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="saapuneetKansio">
-        <property name="text">
-         <string>Nouda ohjelmaa käynnistettäessä</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
         <item>
-         <widget class="QRadioButton" name="kiertoRadio">
+         <widget class="QLabel" name="kayttajaLabel">
           <property name="text">
-           <string>Lisää kiertoon</string>
+           <string>Noudetaan verkkolaskun käyttäjätietoja...</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="kiertoCombo"/>
+         <widget class="QPushButton" name="ivAsetusNappi">
+          <property name="text">
+           <string>Määritä</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../pic/pic.qrc">
+            <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QCheckBox" name="noutoCheck">
+        <property name="text">
+         <string>Nouda saapuneet laskut</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="postitusCheck">
+        <property name="text">
+         <string>Paperilaskujen postitus Maventan kautta</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="postitusCheck">
-     <property name="text">
-      <string>Käytä postituspalvelua</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../../pic/pic.qrc">
-       <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
-     </property>
     </widget>
    </item>
    <item>
@@ -209,7 +207,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>171</height>
+       <height>367</height>
       </size>
      </property>
     </spacer>

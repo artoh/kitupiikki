@@ -21,6 +21,10 @@
 #include "pilvi/pilvikysely.h"
 
 #include "myyntilaskuntulostaja.h"
+#include "maaritys/verkkolasku/verkkolaskumaaritys.h"
+#include "model/tosite.h"
+
+#include "laskudialogi.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -80,15 +84,52 @@ bool VerkkolaskuToimittaja::toimitaSeuraava()
         alustaInit();
 
     QVariantMap map = laskut_.dequeue();
-    int kumppani = map.value("kumppani").toMap().value("id").toInt();
 
-    KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppani));
-    connect( kysely, &KpKysely::vastaus, [this,map] (QVariant* data)
-        { this->asiakasSaapuu(data, map);});
-    connect( kysely, &KpKysely::virhe, [this] {  this->virhe(tr("Asiakkaan tietojen noutaminen epäonnistui"));} );
+    int toimitustapa = map.value("lasku").toMap().value("laskutapa").toInt();
+    if( toimitustapa == LaskuDialogi::POSTITUS) {
 
-    kysely->kysy();
+        // Postituspalvelua käytettäessä toimitaan paikallisen
+        // osoitteen mukaisesti
 
+        QVariantMap lasku = map.value("lasku").toMap();
+        QVariantMap asiakas;
+        if( !hajoitaOsoite(lasku.value("osoite").toString(), asiakas)) {
+            virhe(tr("Postiosoitteen selvittäminen epäonnistui"));
+        }
+
+        if( map.contains("alvtunnus"))
+            asiakas.insert("alvtunnus", map.value("alvtunnus"));
+
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus") + "?route_order=print";
+        QVariantMap pyynto;
+        pyynto.insert("init", init_);
+        pyynto.insert("asiakas", asiakas);
+        pyynto.insert("lasku", map.value("lasku") );
+        pyynto.insert("rivit", map.value("rivit"));
+        qDebug() << pyynto;
+
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                    osoite );
+        connect( pk, &PilviKysely::vastaus, [this, map] (QVariant* data){
+            this->maventaToimitettu(data, map); });
+        connect( pk, &KpKysely::virhe, [this] (int, QString selite) {  this->virhe(selite);} );
+
+        pk->kysy(pyynto);
+
+
+    } else {
+
+        // Verkkkolaskutuksessa haetaan kumppanin tiedot
+        int kumppani = map.value("kumppani").toMap().value("id").toInt();
+
+        KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppani));
+        connect( kysely, &KpKysely::vastaus, [this,map] (QVariant* data)
+            { this->asiakasSaapuu(data, map);});
+        connect( kysely, &KpKysely::virhe, [this] {  this->virhe(tr("Asiakkaan tietojen noutaminen epäonnistui"));} );
+
+        kysely->kysy();
+
+    }
     return true;
 }
 
@@ -102,16 +143,32 @@ void VerkkolaskuToimittaja::asiakasSaapuu(const QVariant *data, const QVariantMa
     pyynto.insert("lasku", map.value("lasku") );
     pyynto.insert("rivit", map.value("rivit"));
 
-    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
+    if( kp()->asetukset()->luku("FinvoicaKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
 
-    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                osoite );
-    connect( pk, &PilviKysely::vastaus, [this, map] (QVariant* data){
-        this->laskuSaapuu(data, map.value("id").toInt(),map.value("lasku").toMap().value("numero").toInt()); });
-    connect( pk, &KpKysely::virhe, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                    osoite );
+        connect( pk, &PilviKysely::vastaus, [this, map] (QVariant* data){
+            this->laskuSaapuu(data, map.value("id").toInt(),map.value("lasku").toMap().value("numero").toInt()); });
+        connect( pk, &KpKysely::virhe, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
+
+        pk->kysy(pyynto);
+
+    } else if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA) {
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
+
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                    osoite );
+        connect( pk, &PilviKysely::vastaus, [this, map] (QVariant* data){
+            this->maventaToimitettu(data, map); });
+        connect( pk, &KpKysely::virhe, [this] (int, QString selite) {  this->virhe(selite);} );
+
+        pk->kysy(pyynto);
+    }
 
 
-    pk->kysy(pyynto);
+
+
 }
 
 void VerkkolaskuToimittaja::laskuSaapuu(QVariant *data, int tositeId, int laskuId)
@@ -134,12 +191,56 @@ void VerkkolaskuToimittaja::laskuSaapuu(QVariant *data, int tositeId, int laskuI
     toimitaSeuraava();
 }
 
+void VerkkolaskuToimittaja::maventaToimitettu(QVariant *data, const QVariantMap &map)
+{
+    QVariantMap tulos = data->toMap();
+    QString maventaId = tulos.value("id").toString();
+
+    QVariantMap tosite(map);
+    tosite.insert("maventaid", maventaId);
+    tosite.insert("tila", Tosite::LAHETETTYLASKU);
+
+    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite.value("id").toInt()), KpKysely::PUT);
+    connect( kysely, &KpKysely::vastaus, this, &VerkkolaskuToimittaja::toimitettuTallennettu);
+    kysely->kysy(tosite);
+}
+
+void VerkkolaskuToimittaja::toimitettuTallennettu()
+{
+    toimitaSeuraava();
+    emit finvoiceToimitettu();
+}
+
 void VerkkolaskuToimittaja::virhe(const QString &viesti)
 {
     if( !virhe_)
         QMessageBox::critical(nullptr, tr("Verkkolaskun toimittaminen epäonnistui"), viesti);
     emit toimitusEpaonnistui();
     virhe_=true;
+}
+
+bool VerkkolaskuToimittaja::hajoitaOsoite(const QString &osoite, QVariantMap &asiakasMap)
+{
+    QRegularExpression postiosoiterivi("(\\d{5})\\s(.+)");
+    QStringList rivit = osoite.split('\n');
+    asiakasMap.insert("nimi", rivit.value(0));
+    QStringList katuosoite;
+    for(int i=1; i < rivit.count(); i++) {
+        QRegularExpressionMatch mats = postiosoiterivi.match(rivit.value(i));
+        if( mats.hasMatch()) {
+            if( i != rivit.count() - 1)
+                return false;
+            asiakasMap.insert("postinumero", mats.captured(1));
+            asiakasMap.insert("kaupunki", mats.captured(2));
+            asiakasMap.insert("osoite", katuosoite.join("\n"));
+            return true;
+
+        } else {
+            katuosoite.append( rivit.value(i));
+        }
+    }
+
+    return false;
 }
 
 

@@ -81,6 +81,8 @@ public:
      */
     static qlonglong oikeudet(const QVariantList& lista);
 
+    static void asetaPilviLoginOsoite(const QString& osoite);
+
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
@@ -112,6 +114,7 @@ private:
 
 private:
     static std::map<QString,qlonglong> oikeustunnukset__;
+    static QString pilviLoginOsoite__;
 };
 
 #endif // PILVIMODEL_H

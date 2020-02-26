@@ -14,44 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERKKOLASKUMAARITYS_H
-#define VERKKOLASKUMAARITYS_H
+#ifndef MAVENTADIALOG_H
+#define MAVENTADIALOG_H
 
-#include "../maarityswidget.h"
+#include <QDialog>
 
 namespace Ui {
-    class Finvoicevalinnat;
-}
+    class MaventaDialog;
+};
 
-
-class VerkkolaskuMaaritys : public MaaritysWidget
+class MaventaDialog : public QDialog
 {
     Q_OBJECT
 public:
+    MaventaDialog(QWidget *parent = nullptr);
 
-    enum {
-        EIKAYTOSSA = 0,
-        PAIKALLINEN = 1,
-        MAVENTA = 2
-    };
+    void accept() override;
 
-    VerkkolaskuMaaritys();
-    ~VerkkolaskuMaaritys() override;
-
-    void paivitaMaventa();
-    bool tallenna() override;
-    bool nollaa() override;
-    bool onkoMuokattu() override;
-
-protected:
-    void valitseKansio();
-    void valintaMuuttui();
-    void maaritaMaventa();
-    void maventaTiedot(QVariant* data);
-    void setFlow(bool on);
+signals:
+    void liitetty(QVariant* info);
 
 private:
-    Ui::Finvoicevalinnat *ui;
+    void vastaus(QVariant* data);
+    void virhe(int koodi);
+    void muokattu();
+
+    Ui::MaventaDialog *ui;
 };
 
-#endif // VERKKOLASKUMAARITYS_H
+#endif // MAVENTADIALOG_H

@@ -180,6 +180,12 @@ void LaskulistaWidget::paivitaNapit()
 
 void LaskulistaWidget::laheta()
 {
+    if( ui->tabs->currentIndex() >= KAIKKI ) {
+        if( QMessageBox::question(this, tr("Laskujen uudelleen lähettäminen"),
+                                  tr("Valitsemasi laskut on lähtetetty. Haluatko lähettää laskut uudelleen?")) != QMessageBox::Yes)
+            return;
+    }
+
     MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
     connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &LaskulistaWidget::paivita );
 

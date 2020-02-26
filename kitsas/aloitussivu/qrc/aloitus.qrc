@@ -3,7 +3,6 @@
         <file>aloitus.css</file>
         <file>tervetuloa.html</file>
         <file>FreeSans.ttf</file>
-        <file>kitsas.crt</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
