@@ -40,14 +40,19 @@ FinvoiceHaku::FinvoiceHaku(QObject *parent) : QObject(parent)
 
 void FinvoiceHaku::haeUudet()
 {
-    if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa() && !hakuPaalla_) {
+    if( kp()->yhteysModel() && kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA &&
+            kp()->pilvi()->kayttajaPilvessa()
+            && !hakuPaalla_) {
         haettuLkm_ = 0;
+        hakuPaalla_ = true;
+        ytunnus_ = kp()->asetus("Ytunnus");
+        aikaleima_ = QDateTime();
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
         PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
         connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::listaSaapuu);
+        connect( haku, &KpKysely::virhe, [this] { this->hakuPaalla_=false;});
         haku->kysy();
-        hakuPaalla_ = true;
-        ytunnus_ = kp()->asetus("Ytunnus");
+
     }
 }
 
@@ -57,6 +62,8 @@ void FinvoiceHaku::listaSaapuu(QVariant *data)
     if( !hakulista_.isEmpty() ) {
         emit kp()->onni(tr("Noudetaan uusia verkkolaskuja"), Kirjanpito::Haetaan);
         haeSeuraava();
+    } else {
+        hakuPaalla_ = false;
     }
 }
 
@@ -175,7 +182,7 @@ void FinvoiceHaku::xmlSaapuu(QVariant *data)
     connect( nykyTosite_, &Tosite::talletettu, this, &FinvoiceHaku::tallennettu );
 
     nykyTosite_->liitteet()->lisaa(data->toByteArray(),"lasku.xml");
-    nykyTosite_->tallenna(Tosite::LUONNOS);    
+    nykyTosite_->tallenna(Tosite::SAAPUNUT);
 }
 
 void FinvoiceHaku::tallennettu()
@@ -192,6 +199,10 @@ void FinvoiceHaku::tallennettu()
         hakuPaalla_ = false;
 
         // Ilmoitetaan, että haettu on
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
+        PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::PUT, osoite);
+        haku->lisaaAttribuutti("lasttime",aikaleima_.toString(Qt::ISODate));
+        haku->kysy();
 
     }
 

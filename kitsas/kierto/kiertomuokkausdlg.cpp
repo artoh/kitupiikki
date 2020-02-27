@@ -76,6 +76,7 @@ void KiertoMuokkausDlg::alusta()
 {
     ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::KULULASKU), tr("Kululasku"), TositeTyyppi::KULULASKU);
     ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::MENO), tr("Ostolasku"), TositeTyyppi::MENO);
+    ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::SAAPUNUTVERKKOLASKU), tr("Verkkolasku"), TositeTyyppi::SAAPUNUTVERKKOLASKU);
 
     ui->tiliCombo->suodataTyypilla("D.*");
     ui->tiliCombo->valitseTili(kp()->asetukset()->luku("OletusMenotili"));
@@ -162,6 +163,7 @@ void KiertoMuokkausDlg::lataa(QVariant *data)
     ui->vastaCombo->valitseTili( map.value("vastatili").toInt());
     ui->kohdennusCombo->valitseKohdennus( map.value("kohdennus").toInt());
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData(map.value("tyyppi").toInt()) );
+    ui->tyyppiCombo->setDisabled( map.value("id").toInt() == 1 );
     model->lataa(map.value("kierto").toList());
 }
 

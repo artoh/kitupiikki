@@ -36,6 +36,7 @@
   "tositesarjat": {
     "0": "X",
     "100": "OL",
+    "110": "OL",
     "120": "KL",
     "200": "ML",
     "210": "ML",
@@ -154,5 +155,7 @@
   "PankkiPalvelumaksutili":"4921",
   "PankkiSaapuvakorko":"9050",
   "PankkiMaksettavakorko":"9150",
-  "VeroOmaverotili":"2986"
+  "VeroOmaverotili":"2986",
+  "AlvVelkatili": "2984",
+  "Ostovelkatili": "2960"
 }

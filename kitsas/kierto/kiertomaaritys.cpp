@@ -89,6 +89,11 @@ void KiertoMaaritys::muokkaa()
 void KiertoMaaritys::poista()
 {
     int id = ui->view->currentIndex().data(KiertoModel::IdRooli).toInt();
+    if( id == 1){
+        QMessageBox::information(this, tr("Verkkomaksujen kierron poistaminen"),
+                              tr("Tämä kierto on verkkolaskujen vastaanottamista varten, eikä sitä voi poistaa."));
+        return;
+    }
     if( id &&
             QMessageBox::question(this, tr("Kierron poistaminen"),
                                   tr("Haluatko todella poistaa kierron %1")

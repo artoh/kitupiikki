@@ -53,6 +53,7 @@ VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
 
 void VerkkolaskuMaaritys::paivitaMaventa()
 {
+    ui->kayttajaLabel->setText(tr("Haetaan käyttäjätietoja..."));
     QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, osoite);
     connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
@@ -78,7 +79,7 @@ bool VerkkolaskuMaaritys::tallenna()
         inits.insert("FinvoiceKaytossa", lasku);
         inits.insert("OvtTunnus", ui->ovtEdit->text());
         inits.insert("Operaattori", ui->operaattoriEdit->text());
-        inits.insert("MaventaPostitus", ui->postitusCheck->isChecked());
+        inits.insert("MaventaPostitus", ui->postitusCheck->isChecked() ? "ON" : "EI");
         kp()->asetukset()->aseta(inits);
     }
 

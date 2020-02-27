@@ -139,7 +139,7 @@ void TiedotSivu::yTietoSaapuu()
     QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
 
     ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
-    ui->postinumeroEdit->setText( osoite.value("postcode").toString());
+    ui->postinumeroEdit->setText( osoite.value("postCode").toString());
     ui->kaupunkiEdit->setText( osoite.value("city").toString());
 
     ui->kotipaikkaEdit->setText( tieto.value("registedOffices").toList().value(0).toMap().value("name").toString() );

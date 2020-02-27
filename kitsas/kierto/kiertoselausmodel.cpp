@@ -83,10 +83,9 @@ QVariant KiertoSelausModel::data(const QModelIndex &index, int role) const
         case TILA: return Tosite::tilakuva(map.value("tila").toInt());
         case KIERTO: return kp()->tositeTyypit()->kuvake(map.value("tyyppi").toInt());
         }
-    } else if( role == Qt::ForegroundRole) {
-        if( index.column() == ERAPVM &&
-                map.value("erapvm").toDate() > kp()->paivamaara())
-            return QColor(Qt::red);
+    } else if( role == Qt::ForegroundRole && index.column() == ERAPVM) {
+        if(  kp()->paivamaara() > map.value("erapvm").toDate())
+            return QColor(Qt::red);                
     } else if( role == IdRooli) {
         return map.value("id").toInt();
     }

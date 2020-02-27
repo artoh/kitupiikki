@@ -62,6 +62,7 @@ void KiertoWidget::lataaTosite()
     int ntila = tosite_ ? tosite_->tositetila() : 0;
     ui->ibanLabel->setText( MyyntiLaskunTulostaja::valeilla( tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() ) );
 
+
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
     ui->polkuCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN ));

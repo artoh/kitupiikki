@@ -134,7 +134,7 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         // UserRolessa on id
         return map.value("id");
     }
-    else if( role == Qt::DecorationRole && index.column()==TUNNISTE )
+    else if( role == Qt::DecorationRole && index.column()==SUMMA )
     {
         if(  map.value("liitteita").toInt() )
             return QIcon(":/pic/liite.png");
@@ -143,6 +143,8 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == TOSITETYYPPI )
         return kp()->tositeTyypit()->kuvake( map.value("tyyppi").toInt() );
+    else if( role == Qt::DecorationRole && index.column() == TUNNISTE )
+        return Tosite::tilakuva(map.value("tila").toInt());
     else if( role == TositeTyyppiRooli)
     {
         return map.value("tyyppi").toInt();
