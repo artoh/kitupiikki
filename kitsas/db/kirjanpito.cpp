@@ -108,7 +108,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
             QMessageBox::critical(nullptr, tr("Tilapäishakemiston luominen epäonnistui"),
                                   tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
-    FinvoiceHaku *verkkolaskuhaku = new FinvoiceHaku(this);
+
+    FinvoiceHaku* verkkolaskuhaku = FinvoiceHaku::init(this);
     connect( this, &Kirjanpito::tietokantaVaihtui, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
     connect( pilvi(), &PilviModel::kirjauduttu, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
 

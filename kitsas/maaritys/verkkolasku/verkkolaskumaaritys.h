@@ -49,6 +49,7 @@ protected:
     void maaritaMaventa();
     void maventaTiedot(QVariant* data);
     void setFlow(bool on);
+    void noudaNyt();
 
 private:
     Ui::Finvoicevalinnat *ui;

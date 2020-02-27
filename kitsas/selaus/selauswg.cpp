@@ -38,9 +38,10 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->setupUi(this);
 
     ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
-    ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
     ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
+    ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
+
 
     model = new SelausModel(this);
     tositeModel = new TositeSelausModel(this);
@@ -326,6 +327,13 @@ void SelausWg::selaa(int kumpi)
 
 void SelausWg::siirrySivulle()
 {
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
+        if( ui->valintaTab->count() == 4)
+            ui->valintaTab->removeTab(SAAPUNEET);
+    } else {
+        if( ui->valintaTab->count() == 3)
+            ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
+    }
 
     selaa( ui->valintaTab->currentIndex() );
 }

@@ -28,6 +28,7 @@
 
 #include "kierto/kiertomodel.h"
 #include "maventadialog.h"
+#include "tools/finvoicehaku.h"
 
 VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     MaaritysWidget(),
@@ -44,6 +45,7 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     connect( ui->noutoCheck, &QCheckBox::clicked, this, &VerkkolaskuMaaritys::setFlow);
     connect(ui->ivAsetusNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::maaritaMaventa);
     connect( ui->postitusCheck, &QCheckBox::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
+    connect( ui->noudaNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::noudaNyt);
 }
 
 VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
@@ -180,6 +182,7 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
 
     if( info.isEmpty()) {
         ui->noutoCheck->setEnabled(false);
+        ui->noudaNappi->setEnabled(false);
         ui->kayttajaLabel->setText(tr("Käyttäjää ei määritelty"));
     } else {
         QString txt = QString("%1 %2 \n%3")
@@ -202,6 +205,8 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         ui->kayttajaLabel->setText(txt);
         ui->noutoCheck->setChecked( !info.value("flow").toMap().isEmpty() );
         ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+        ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS) ||
+                                    kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN));
         ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     }
@@ -215,4 +220,16 @@ void VerkkolaskuMaaritys::setFlow(bool on)
         pk->lisaaAttribuutti("off","");
     connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
     pk->kysy();
+}
+
+void VerkkolaskuMaaritys::noudaNyt()
+{
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
+        QString osoite = QString("%1/maventa/fetch").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
+        connect(pk, &PilviKysely::vastaus, [] { emit kp()->onni("Verkkolaskut päivitetty kiertoon"); });
+        pk->kysy();
+    } else {
+        FinvoiceHaku::instanssi()->haeUudet();
+    }
 }

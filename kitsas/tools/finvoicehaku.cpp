@@ -38,6 +38,13 @@ FinvoiceHaku::FinvoiceHaku(QObject *parent) : QObject(parent)
 
 }
 
+
+FinvoiceHaku *FinvoiceHaku::init(Kirjanpito *kp)
+{
+    instanssi__ = new FinvoiceHaku(kp);
+    return instanssi__;
+}
+
 void FinvoiceHaku::haeUudet()
 {
     if( kp()->yhteysModel() && kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA &&
@@ -208,3 +215,9 @@ void FinvoiceHaku::tallennettu()
 
 }
 
+FinvoiceHaku *FinvoiceHaku::instanssi()
+{
+   return instanssi__;
+}
+
+FinvoiceHaku* FinvoiceHaku::instanssi__ = nullptr;

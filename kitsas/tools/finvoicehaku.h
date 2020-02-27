@@ -21,15 +21,20 @@
 #include <QVariantMap>
 #include <QDateTime>
 
+class Kirjanpito;
+
 class Tosite;
 
 class FinvoiceHaku : public QObject
 {
     Q_OBJECT
 public:
-    explicit FinvoiceHaku(QObject *parent = nullptr);
-
+    static FinvoiceHaku *init(Kirjanpito* kp);
     void haeUudet();
+    static FinvoiceHaku *instanssi();
+
+protected:
+    explicit FinvoiceHaku(QObject *parent = nullptr);
 
 protected:
     void kpVaihtui();
@@ -51,7 +56,9 @@ protected:
     QString ytunnus_;
     QDateTime aikaleima_;
 
+    static FinvoiceHaku* instanssi__;
 signals:
+
 
 };
 

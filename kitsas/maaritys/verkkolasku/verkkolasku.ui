@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QLabel" name="kirjauduLabel">
      <property name="styleSheet">
@@ -148,7 +148,7 @@ font-weight: bold;</string>
      <property name="title">
       <string>Maventa-verkkolasku</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
         <item>
@@ -175,15 +175,30 @@ font-weight: bold;</string>
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="noutoCheck">
-        <property name="text">
-         <string>Nouda saapuneet laskut</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../pic/pic.qrc">
-          <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+        <item>
+         <widget class="QCheckBox" name="noutoCheck">
+          <property name="text">
+           <string>Nouda saapuneet laskut</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../pic/pic.qrc">
+            <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="noudaNappi">
+          <property name="text">
+           <string>Nouda nyt</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../pic/pic.qrc">
+            <normaloff>:/pic/refresh.png</normaloff>:/pic/refresh.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QCheckBox" name="postitusCheck">

@@ -47,10 +47,10 @@ class SelausWg : public KitupiikkiSivu
 
 public:
     enum {
-        TOSITTEET = 0,
-        SAAPUNEET = 1,
-        LUONNOKSET = 2,
-        VIENNIT = 3
+        TOSITTEET = 0,        
+        LUONNOKSET = 1,
+        VIENNIT = 2,
+        SAAPUNEET = 3,
     };
 
     SelausWg(QWidget *parent = nullptr);
