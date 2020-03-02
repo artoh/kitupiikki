@@ -186,11 +186,13 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
                     new Smtp( kp()->settings()->value("SmtpUser").toString(),
                               kp()->settings()->value("SmtpPassword").toString(),
                               kp()->settings()->value("SmtpServer").toString(),
-                              kp()->settings()->value("SmtpPort").toInt() ) :
+                              kp()->settings()->value("SmtpPort").toInt(),
+                              kp()->settings()->value("EmailSSL").toBool()) :
                     new Smtp( kp()->asetus("SmtpUser"),
                               kp()->asetus("SmtpPassword"),
                               kp()->asetus("SmtpServer"),
-                              kp()->asetukset()->luku("SmtpPort"));
+                              kp()->asetukset()->luku("SmtpPort"),
+                              kp()->asetukset()->onko("EmailSSL"));
 
         QVariantMap data = sahkopostilla_.value(0);
         QVariantMap lasku = data.value("lasku").toMap();

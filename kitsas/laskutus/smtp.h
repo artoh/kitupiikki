@@ -35,7 +35,8 @@ class Smtp : public QObject
 
 public:
     Smtp( const QString &user, const QString &pass,
-          const QString &host, int port = 465, int timeout = 30000 );
+          const QString &host, int port = 465,
+          bool encrypted = true, int timeout = 30000 );
     ~Smtp();
 
     void lahetaLiitteella(const QString& from, const QString &to,
@@ -52,6 +53,7 @@ public:
 
 signals:
     void status( SmtpStatus status);
+    void debug(const QString& viesti);
 
 private slots:
     void stateChanged(QAbstractSocket::SocketState socketState);
@@ -59,6 +61,7 @@ private slots:
     void disconnected();
     void connected();
     void readyRead();
+    void timeOut();
 
 private:
     int timeout;
@@ -74,6 +77,7 @@ private:
     int port;
     enum states{Tls, HandShake ,Auth,User,Pass,Rcpt,Mail,Data,Init,Body,Quit,Close};
     int state;
+    bool encrypted;
 
     /**
      * @brief Poimii pelkän osoitteen saajasta

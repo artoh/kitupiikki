@@ -13,12 +13,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QDateTime>
 
 #include <QRandomGenerator>
+#include <QTimer>
 
 #include "smtp.h"
 
 #include "db/kirjanpito.h"
 
-Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int port, int timeout )
+Smtp::Smtp(const QString &user, const QString &pass, const QString &host, int port, bool encrypted, int timeout )
 {
     socket = new QSslSocket(this);
 
@@ -35,7 +36,7 @@ Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int p
     this->host = host;
     this->port = port;
     this->timeout = timeout;
-
+    this->encrypted = encrypted;
 
 }
 
@@ -45,6 +46,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
 {
     emit status(Connecting);
     qApp->processEvents();
+    emit debug(tr("Yhdistetään palvelimen %1 porttiin %2").arg(host).arg(port));
 
     message = "To: " + to + "\n";
     message.append("From: " + from + "\n");
@@ -58,7 +60,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     message.append( mid );
 
     message.append("Date: " + QDateTime::currentDateTime().toString(Qt::RFC2822Date) + "\n" );
-    message.append("X-Mailer: Kitupiikki " + qApp->applicationVersion() + "\n");
+    message.append("X-Mailer: Kitsas " + qApp->applicationVersion() + "\n");
 
     //Let's intitiate multipart MIME with cutting boundary "frontier"
     message.append("MIME-Version: 1.0\n");
@@ -66,7 +68,6 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
 
     message.append( "--frontier\n" );
     message.append( "Content-Type: text/plain; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
-
     message.append(viesti);
 
     message.append("\n\n");
@@ -86,31 +87,18 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     state = Init;
 
     // MUOKATTU: Jos portti on 25, toimitaan ilman SSL:n suojaa !
-    if( port == 25)
-    {
+    if( !encrypted )
+    {        
         socket->connectToHost(host, port);
+        emit debug(tr("Suojaamaton yhteys"));
     }
     else
     {
         socket->connectToHostEncrypted(host, port); //"smtp.gmail.com" and 465 for gmail TLS
+        emit debug(tr("Suojattu yhteys"));
     }
 
-
-    if (!socket->waitForConnected(timeout)) {
-
-        if( state != Close)
-        {
-            QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
-            state = Close;
-            emit status(Failed);
-        }
-        qDebug() << socket->errorString();
-     }
-
-
-    t = new QTextStream( socket );
-    t->setCodec("UTF-8");
-
+    QTimer::singleShot( timeout, this, SLOT(timeOut()) );
 }
 
 Smtp::~Smtp()
@@ -122,6 +110,7 @@ void Smtp::stateChanged(QAbstractSocket::SocketState socketState)
 {
 
     qDebug() <<"stateChanged " << socketState;
+    emit debug(tr("(TILA: %1)").arg(socketState));
 }
 
 void Smtp::errorReceived(QAbstractSocket::SocketError socketError)
@@ -130,9 +119,9 @@ void Smtp::errorReceived(QAbstractSocket::SocketError socketError)
     // something broke.
     if( state != Close)
     {
-        QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
         state = Close;
         emit status( Failed);
+        emit debug(tr("[Virhe] %1").arg(socket->errorString()));
     }
 }
 
@@ -140,11 +129,16 @@ void Smtp::disconnected()
 {
 
     qDebug() <<"disconneted";
+    emit debug(tr("Yhteys suljettu"));
 }
 
 void Smtp::connected()
 {
     qDebug() << "Connected ";
+    emit debug(tr("Yhdistetty"));
+
+    t = new QTextStream( socket );
+    t->setCodec("UTF-8");
 }
 
 void Smtp::readyRead()
@@ -166,6 +160,8 @@ void Smtp::readyRead()
     qDebug() << "Server response code:" <<  responseLine;
     qDebug() << "Server response: " << response;
     qDebug() << "State " << state;
+
+    emit debug(tr("[%1] %2").arg(responseLine).arg(response));
 
     if ( state == Init && responseLine == "220" )
     {
@@ -278,6 +274,7 @@ void Smtp::readyRead()
         // here, we just close.
         state = Close;
         emit status( Send );
+        emit debug(tr("QUIT"));
     }
     else if ( state == Close )
     {
@@ -286,13 +283,22 @@ void Smtp::readyRead()
     }
     else
     {
+        emit status( Failed );
         qDebug() << "BROKEN " << responseLine;
         // something broke.        
-        // QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen:\n\n" ) + response );
         state = Close;
-        // emit status( tr( "Sähköpostin lähetys epäonnistui" ) );
     }
     response = "";
+}
+
+void Smtp::timeOut()
+{
+    if( state == Connecting) {
+        state = Close;
+        emit status(Failed);
+        emit debug(tr("[Virhe] %1").arg(socket->errorString()));
+        deleteLater();
+    }
 }
 
 QString Smtp::poimiPelkkaOsoite(const QString osoite)

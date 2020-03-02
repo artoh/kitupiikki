@@ -29,7 +29,7 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
     ui->polkuCombo->setModel(kp()->kierrot());
 
-    connect( tosite, &Tosite::ladattu, this, &KiertoWidget::lataaTosite);
+    connect( tosite, &Tosite::ladattu, this, &KiertoWidget::lataaTosite);    
 
     connect( ui->vAloita, &QPushButton::clicked, [this] { this->valmis(Tosite::SAAPUNUT); });
 
@@ -68,6 +68,7 @@ void KiertoWidget::lataaTosite()
     ui->polkuCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN ));
 
     ui->vCheck->hide();
+    ui->vInfo->clear();
     ui->vAloita->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN) &&
                              (ntila == Tosite::LUONNOS || ntila < Tosite::SAAPUNUT));
 

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,31 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef EMAILKOKEILU_H
+#define EMAILKOKEILU_H
+
+#include <QDialog>
+
+namespace Ui {
+class EmailKokeilu;
+}
+
+class EmailKokeilu : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit EmailKokeilu(QWidget *parent = nullptr);
+    ~EmailKokeilu();
+
+public slots:
+    void status(int status);
+    void debug(const QString& data);
+    void sekunti();
 
 
-/**
-  @file Kitsaan version määrittely
+private:
+    Ui::EmailKokeilu *ui;
+};
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
-
-#define KITSAS_VERSIO "2.0-pre6"
-#define KITSAS_BUILD  "REV_A1"
-
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-#define KITSAS_DEVEL
-
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
-
-#endif // VERSIO_H
+#endif // EMAILKOKEILU_H

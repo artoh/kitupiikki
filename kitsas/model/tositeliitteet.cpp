@@ -178,7 +178,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     tallennetaan_ = true;
     emit liitettaTallennetaan(true);
 
-    KpKysely* liitekysely = kpk("/liitteet?ocr=json", KpKysely::POST);
+    KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
     connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant& data, int id) {
             this->liiteLisatty(data, id, liiteIndeksi);
         });
@@ -205,6 +205,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
             kysely->kysy(tuotu);
         } else if( tyyppi == "image/jpeg") {
+            liitekysely->lisaaAttribuutti("ocr","json");
             qDebug() << "image/jpeg laukaistaan Tesseract";
             if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
                 connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});

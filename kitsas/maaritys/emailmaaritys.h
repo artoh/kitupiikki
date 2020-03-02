@@ -42,7 +42,7 @@ public:
 public slots:
     void ilmoitaMuokattu();
     void kokeile();
-    void statusmuuttui(int status);
+    void porttiVaihtui(int portti);
 
 private:
     Ui::EMailMaaritys *ui;

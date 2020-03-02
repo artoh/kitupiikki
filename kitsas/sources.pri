@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/emailkokeilu.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
@@ -249,6 +251,7 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
@@ -291,6 +294,7 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/emailkokeilu.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
@@ -508,6 +512,7 @@ RESOURCES += \
     laskutus/lasku.qrc
 
 FORMS += \
+    $$PWD/aloitussivu/luotunnusdialogi.ui \
     $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tilioteapuri.ui \
     $$PWD/apuri/tulomenoapuri.ui \
@@ -523,6 +528,7 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/emailkokeilu.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \

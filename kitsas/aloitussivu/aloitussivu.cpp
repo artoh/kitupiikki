@@ -62,6 +62,8 @@
 #include "tilaus/tilauswizard.h"
 #include "versio.h"
 
+#include "luotunnusdialogi.h"
+
 #include <QSslError>
 #include <QClipboard>
 
@@ -99,8 +101,11 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
     connect( kp()->pilvi(), &PilviModel::loginvirhe, this, &AloitusSivu::loginVirhe);
     connect( ui->logoutButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogout );
-    connect( ui->rekisteroiButton, &QPushButton::clicked, this, &AloitusSivu::rekisteroi);
-    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::rekisteroi);
+    connect( ui->rekisteroiButton, &QPushButton::clicked, [] {
+        LuoTunnusDialogi dialogi;
+        dialogi.exec();
+    });
+    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasana);
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
@@ -311,17 +316,18 @@ void AloitusSivu::abouttiarallaa()
 void AloitusSivu::infoSaapui()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
 
-    QString info = QString::fromUtf8( reply->readAll() );
+    QVariantList lista = QJsonDocument::fromJson( reply->readAll() ).toVariant().toList();
+    paivitysInfo.clear();
 
-    if( info.startsWith("*KITSAS*")) {
-        kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
-        int tahtipaikka = info.indexOf("***");
-        if( tahtipaikka > 0)
-            paivitysInfo = info.mid(tahtipaikka+3);
+    for( auto item : lista) {
+        QVariantMap map = item.toMap();
+        paivitysInfo.append(QString("<table width=100% class=%1><tr><td><h3>%2</h3><p>%3</p></td></tr></table>")
+                            .arg(map.value("type").toString())
+                            .arg(map.value("title").toString())
+                            .arg(map.value("info").toString()));
     }
-
-
 
     qDebug() << " Info " << paivitysInfo;
 
@@ -497,8 +503,7 @@ void AloitusSivu::validoiLoginTiedot()
     ui->loginButton->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
     ui->salaEdit->setEnabled(kelpoEmail_);
     ui->muistaCheck->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
-    ui->salasanaButton->setEnabled(kelpoEmail_);
-    ui->rekisteroiButton->setEnabled(!kelpoEmail_);
+    ui->salasanaButton->setEnabled(kelpoEmail_);    
 }
 
 void AloitusSivu::validoiEmail()
@@ -507,7 +512,7 @@ void AloitusSivu::validoiEmail()
     validoiLoginTiedot();
     ui->palvelinvirheLabel->hide();
 
-    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    QRegularExpression emailRe(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() ) {
         // Tarkistetaan sähköposti ja toimitaan sen mukaan
         QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + ui->emailEdit->text() ));
@@ -547,7 +552,7 @@ void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
     }
 }
 
-void AloitusSivu::rekisteroi()
+void AloitusSivu::vaihdaSalasana()
 {
     QVariantMap map;
 
@@ -560,29 +565,22 @@ void AloitusSivu::rekisteroi()
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
 
     QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
-    connect( reply, &QNetworkReply::finished, this, &AloitusSivu::rekisterointiLahti);
+    connect( reply, &QNetworkReply::finished, this, &AloitusSivu::salasananVaihtoLahti);
 }
 
-void AloitusSivu::rekisterointiLahti()
+void AloitusSivu::salasananVaihtoLahti()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     if( reply->error()) {
-        QMessageBox::critical(this, tr("Rekisteröityminen epäonnistui"),
-            tr("Rekisteröinnin lähettäminen palvelimelle epäonnistui "
+        QMessageBox::critical(this, tr("Salasanan vaihtaminen epäonnistui"),
+            tr("Salasanan vaihtopyynnön lähettäminen palvelimelle epäonnistui "
                "tietoliikennevirheen %1 takia.\n\n"
                "Yritä myöhemmin uudelleen").arg( reply->error() ));
         return;
     }
-    if( ui->rekisteroiButton->isEnabled()) {
-        QMessageBox::information(this, tr("Rekisteröintiviesti lähetetty"),
-                                 tr("Viimeistele rekisteröityminen sähköpostiisi "
-                                    "lähetetyn linkin avulla."));
-        ui->salaEdit->setEnabled(true);
-        ui->rekisteroiButton->setEnabled(false);
-    } else
-        QMessageBox::information(this, tr("Salasanan palauttaminen"),
-                                 tr("Sähköpostiisi on lähetetty linkki, jonka avulla "
-                                    "voit vaihtaa salasanan."));
+    QMessageBox::information(this, tr("Salasanan palauttaminen"),
+                 tr("Sähköpostiisi on lähetetty linkki, jonka avulla "
+                    "voit vaihtaa salasanan."));
 }
 
 void AloitusSivu::pilviLogout()

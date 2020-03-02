@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef LUOTUNNUSDIALOGI_H
+#define LUOTUNNUSDIALOGI_H
 
+#include <QDialog>
+#include <QNetworkReply>
 
-/**
-  @file Kitsaan version määrittely
+namespace Ui {
+class LuoTunnusDialogi;
+}
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+class LuoTunnusDialogi : public QDialog
+{
+    Q_OBJECT
 
-#define KITSAS_VERSIO "2.0-pre6"
-#define KITSAS_BUILD  "REV_A1"
+public:    
+    explicit LuoTunnusDialogi(QWidget *parent = nullptr);
+    ~LuoTunnusDialogi() override;
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-#define KITSAS_DEVEL
+    void accept() override;
+private:
+    enum { OSOITE, ODOTA, VALMIS};
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
+    void tarkastaEmail();
+    void emailTarkistettu();
+    void verkkovirhe(QNetworkReply::NetworkError virhe);
+    void rekisterointiLahti();
 
-#endif // VERSIO_H
+private:
+    Ui::LuoTunnusDialogi *ui;
+};
+
+#endif // LUOTUNNUSDIALOGI_H
