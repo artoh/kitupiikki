@@ -72,7 +72,7 @@ void TilausValintaSivu::paivita()
     QString info;
 
     if( ui->planView->currentIndex().data(PlanModel::PlanRooli) == 0) {
-        ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse maksullinen paketti"));
+        ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti"));
         ui->lisaksiLabel->hide();
         ui->lisaSpin->hide();
         ui->kirjanpidolleLabel->hide();

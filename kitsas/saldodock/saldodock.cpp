@@ -18,6 +18,7 @@
 #include "saldomodel.h"
 
 #include "db/kirjanpito.h"
+#include "db/yhteysmodel.h"
 #include <QTableView>
 #include <QHeaderView>
 #include <QSettings>
@@ -102,7 +103,10 @@ void SaldoDock::paivita()
 
 void SaldoDock::alusta()
 {
-    if( kp()->kirjanpitoPolku().isEmpty()) {
+    if( kp()->yhteysModel() == nullptr ||
+            !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS
+                                                                               | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS + YhteysModel::ASETUKSET) )
+    {
         hide();
     } else {
         setVisible( kp()->settings()->value("SaldoDock").toBool() );
