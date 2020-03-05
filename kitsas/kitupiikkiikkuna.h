@@ -47,6 +47,8 @@ class TallennettuWidget;
 #include "kitupiikkisivu.h"
 #include "db/kirjanpito.h"
 
+
+
 /**
  * @brief Ohjelmiston pääikkuna
  *

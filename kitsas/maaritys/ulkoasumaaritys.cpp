@@ -22,6 +22,7 @@
 
 #include <QSettings>
 #include <QApplication>
+#include "saldodock/saldodock.h"
 
 UlkoasuMaaritys::UlkoasuMaaritys() :
     MaaritysWidget(),
@@ -40,7 +41,7 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->omafontti, &QRadioButton::clicked, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->fonttiCombo, &QFontComboBox::currentFontChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->kokoCombo, &QComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
-
+    connect(ui->saldotCheck, &QCheckBox::clicked, this, &UlkoasuMaaritys::naytaSaldot);
 }
 
 UlkoasuMaaritys::~UlkoasuMaaritys()
@@ -67,6 +68,8 @@ bool UlkoasuMaaritys::nollaa()
     ui->fonttiCombo->setEnabled( !fonttinimi.isEmpty() );
     ui->kokoCombo->setEnabled( !fonttinimi.isEmpty());
 
+    ui->saldotCheck->setChecked( kp()->settings()->value("SaldoDock").toBool() );
+
     return true;
 }
 
@@ -81,6 +84,12 @@ void UlkoasuMaaritys::asetaFontti()
         kp()->settings()->setValue("Fontti", fontti.family());
         kp()->settings()->setValue("FonttiKoko", ui->kokoCombo->currentData().toInt());
     }
+}
+
+void UlkoasuMaaritys::naytaSaldot(bool naytetaanko)
+{
+    kp()->settings()->setValue("SaldoDock", naytetaanko);
+    SaldoDock::dock()->alusta();
 }
 
 QFont UlkoasuMaaritys::oletusfontti__ = QFont();

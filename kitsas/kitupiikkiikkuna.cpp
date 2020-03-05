@@ -66,6 +66,8 @@
 #include "sqlite/sqlitemodel.h"
 #include "pilvi/pilvimodel.h"
 
+#include "saldodock/saldodock.h"
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     tallennettuWidget_( new TallennettuWidget(this)),
     aloitussivu( new AloitusSivu(this)),
@@ -95,6 +97,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     lisaaSivut();
     luoHarjoitusDock();
     luoInboxDock();
+    addDockWidget(Qt::BottomDockWidgetArea, SaldoDock::dock());
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<MAARITYSSIVU;i++)
@@ -421,7 +424,7 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
 void KitupiikkiIkkuna::lisaaSivut()
 {
     // Luodaan vasemman reunan työkalupalkki
-    toolbar = new QToolBar(this);
+    toolbar = new QToolBar(tr("Valikko"), this);
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     // Työkalupalkin namiskat sopeutuvat jonkin verran näytön kokoon, että mahtuvat läppärin näytöllekin
@@ -487,7 +490,7 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
     QWidget *wg = new QWidget;
     wg->setLayout(leiska);
 
-    harjoitusDock = new QDockWidget;
+    harjoitusDock = new QDockWidget(tr("Harjoittelu"));
     harjoitusDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     harjoitusDock->setWidget(wg);
     harjoitusDock->setStyleSheet("background: green; border-bottom-left-radius: 10px;");

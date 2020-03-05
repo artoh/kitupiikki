@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Ohjelman ulkoasu</string>
+      <string>Käyttöliittymä</string>
      </property>
     </widget>
    </item>
@@ -78,6 +78,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="saldotCheck">
+     <property name="text">
+      <string>Saldonäkymä</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/raha2.png</normaloff>:/pic/raha2.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -92,7 +103,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>omafontti</sender>

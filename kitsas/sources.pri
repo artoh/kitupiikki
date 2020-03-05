@@ -83,6 +83,8 @@ SOURCES += \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
+    $$PWD/saldodock/saldodock.cpp \
+    $$PWD/saldodock/saldomodel.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -335,6 +337,8 @@ HEADERS += \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
+    $$PWD/saldodock/saldodock.h \
+    $$PWD/saldodock/saldomodel.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \

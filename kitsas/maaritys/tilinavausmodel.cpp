@@ -93,6 +93,8 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
 
             case SALDO:
             {
+                if( tili.otsikkotaso())
+                    return QVariant();
                 if( tili.onko(TiliLaji::KAUDENTULOS))
                 {
                     qlonglong tulos = 0;

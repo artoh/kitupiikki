@@ -663,7 +663,7 @@
     "laajuus": 1
   },
   {
-    "numero": 1715,
+    "numero": 1705,
     "tyyppi": "AO",
     "nimi": {
       "fi": "Myyntisaamiset ennakkomaksuista"
@@ -1432,6 +1432,7 @@
     "nimi" : {
       "fi": "Eläkemaksuvelka"
     },
+    "laajuus": 3,
     "ohje": {
       "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin."
     }
@@ -1442,6 +1443,7 @@
     "nimi" : {
       "fi": "Ay-jäsenmaksuvelka"
     },
+    "laajuus": 3,
     "ohje": {
       "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin."
     }

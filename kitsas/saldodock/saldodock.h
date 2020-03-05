@@ -14,36 +14,45 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ULKOASUMAARITYS_H
-#define ULKOASUMAARITYS_H
+#ifndef SALDODOCK_H
+#define SALDODOCK_H
 
-#include "maarityswidget.h"
-#include "ui_tuontimaaritys.h"
+#include <QDockWidget>
 
-#include <QFont>
+class SaldoModel;
+class QTableView;
+class QToolButton;
+class QSortFilterProxyModel;
 
-namespace Ui {
-    class Ulkoasu;
-}
-
-class UlkoasuMaaritys : public MaaritysWidget
+class SaldoDock : public QDockWidget
 {
     Q_OBJECT
+
 public:
-    UlkoasuMaaritys();
-    ~UlkoasuMaaritys() override;
+    static SaldoDock* dock();
 
-    bool nollaa() override;
-    bool naytetaankoTallennus() override { return false; }
-
-protected slots:    
-    void asetaFontti();
-    void naytaSaldot(bool naytetaanko);
+    enum { RAHAVARAT, SUOSIKIT, KAIKKI };
+    void alusta();
 
 private:
-    Ui::Ulkoasu *ui;
-public:
-    static QFont oletusfontti__;
+    SaldoDock();
+    void paivita();
+
+protected:
+    void showEvent(QShowEvent* event) override;
+    void setFilter(int index);
+
+private:
+    QTableView* view_;
+    SaldoModel* model_;
+
+    QToolButton *rahavarat_;
+    QToolButton *suosikit_;
+    QToolButton *kaikki_;
+
+    QSortFilterProxyModel *proxy_;
+
+    static SaldoDock* instanssi__;
 };
 
-#endif // ULKOASUMAARITYS_H
+#endif // SALDODOCK_H

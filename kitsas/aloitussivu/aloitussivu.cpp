@@ -451,7 +451,7 @@ void AloitusSivu::saldotSaapuu(QVariant *data)
     txt.append( vinkit() );
 
     // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-    if( kp()->asetukset()->onko("EkaTositeKirjattu") )
+    if( saldot_.count())
         txt.append(summat());
     else
         txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");

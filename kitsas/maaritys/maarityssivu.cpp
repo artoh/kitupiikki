@@ -56,7 +56,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu(tr("Näyttöfontti"), ULKOASU, "", QIcon(":/pic/teksti.png"));
+    lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
     lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "", QIcon(":/pic/asiakkaat.png"),"oikeudet");
