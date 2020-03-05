@@ -73,8 +73,14 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     message.append("\n\n");
     message.append( "--frontier\n" );
     message.append( "Content-Type: application/octet-stream\nContent-Disposition: attachment; filename="+ liitenimi +";\nContent-Transfer-Encoding: base64\n\n" );
-    message.append(liite.toBase64());
-    message.append("\n");
+
+    QByteArray liiteBase64 = liite.toBase64();
+    for(int i = 0; i < liiteBase64.length(); i += 79) {
+        message.append( liiteBase64.mid(i, 79));
+        message.append("\n");
+    }
+
+    qDebug() << message;
 
     message.append( "--frontier--\n" );
 
