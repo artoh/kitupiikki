@@ -116,7 +116,7 @@
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidossa on maksamattomia maksuperusteisia laskuja. Ne muunnetaan laskuperusteisiksi, päivämääränä tämä päivä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidossa on maksamattomia maksuperusteisia laskuja. Näitä laskuja ei tuoda Kitsaan kirjanpitoon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -336,6 +336,20 @@
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidon tuonti on valmis.&lt;/p&gt;&lt;p&gt;Kirjanpito on tuotu uudeksi Kitsaalle sopivaksi tiedostoksi. Kitupiikin tiedosto on edelleen jäljellä vanhassa muodossa. Kitsaassa tehdyt muutokset eivät vaikuta Kitupiikin tiedostoon.&lt;/p&gt;&lt;p&gt;Tarkasta Kitsaaseen siirretty kirjanpito sekä asetukset ennen kuin alat käyttää siirrettyä kirjanpitoa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page">
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Kirjanpidon tuonti onnistui vain osittain&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Kaikkien tositteiden tuonti ei ole onnistunut, ja taseen loppusumma tuodussa kirjanpidossa poikkeaa alkuperäisestä kirjanpidosta.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Useimmiten virhe johtuu siitä, että Kitupiikin kirjanpito on jo päivitetty monta kertaa uudempaan versioon, ja jossain aiemmassa päivityksessä on ollut puutteita.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Alkuperäinen Kitupiikin kirjanpito on edelleen käytössä. Ota siirretty uusi kirjanpito käyttöösi vain, jos voit täydentää sen virheettömäksi. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

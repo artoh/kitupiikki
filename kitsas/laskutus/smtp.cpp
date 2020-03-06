@@ -80,8 +80,6 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
         message.append("\n");
     }
 
-    qDebug() << message;
-
     message.append( "--frontier--\n" );
 
     message.replace( QString::fromLatin1( "\n" ), QString::fromLatin1( "\r\n" ) );

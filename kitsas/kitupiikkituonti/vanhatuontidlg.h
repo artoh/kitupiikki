@@ -38,7 +38,7 @@ public:
     ~VanhatuontiDlg();
 
 protected:
-    enum { VALITSE, VIRHE, VALINNAT, SIJAINTI, ODOTA, VALMIS};
+    enum { VALITSE, VIRHE, VALINNAT, SIJAINTI, ODOTA, VALMIS, SUMMAVIRHE};
 
     void alustaTuonti();
     void tuoTiedostosta();

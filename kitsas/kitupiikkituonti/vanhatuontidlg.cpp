@@ -319,6 +319,11 @@ void VanhatuontiDlg::tuo()
         laskenta += sql.value(0).toInt();
     ui->progressBar->setRange(0, laskenta);
 
+    qlonglong vanhasumma = 0l;
+    sql.exec("SELECT SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE tosite.pvm NOT NULL");
+    if( sql.next())
+        vanhasumma = sql.value(0).toLongLong();
+
     // Tietokannan luoneen version tieto
     ui->progressBar->setValue(2);
     kitsasAsetukset_.insert("KpVersio", SQLiteModel::TIETOKANTAVERSIO);
@@ -375,7 +380,15 @@ void VanhatuontiDlg::tuo()
     kp()->sqlite()->sulje();
     kp()->sqlite()->avaaTiedosto(polku);
 
-    ui->pino->setCurrentIndex(VALMIS);
+    QSqlQuery varmistussql( kp()->sqlite()->tietokanta() );
+    varmistussql.exec("SELECT SUM(debetsnt) FROM Vienti");
+    varmistussql.next();
+    qDebug() << " VANHA " << vanhasumma << " UUSI " << varmistussql.value(0).toLongLong();
+    if( varmistussql.value(0).toLongLong() == vanhasumma)
+        ui->pino->setCurrentIndex(VALMIS);
+    else {
+        ui->pino->setCurrentIndex(SUMMAVIRHE);
+    }
     ui->peruNappi->setEnabled(true);
 }
 
@@ -386,7 +399,7 @@ void VanhatuontiDlg::siirraAsetukset()
 
     QStringList siirrettavat;
     siirrettavat << "AlvVelvollinen" << "AlvKausi" << "Harjoitus" << "Kotipaikka" << "LaskuSeuraavaId" << "LogossaNimi"
-                 << "Nimi" << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
+                 << "Puhelin" << "Tilinavaus" << "TilinavausPvm" << "TilitPaatetty" << "Ytunnus"
                  << "LaskuIkkuna" << "LaskuIkkunaX" << "LaskuIkkunaY" << "LaskuIkkunaLeveys" << "LaskuIkkunaKorkeus"
                  << "LaskuRF" << "MaksuAlvAlkaa" << "MaksuAlvLoppuu";
 
@@ -628,16 +641,13 @@ void VanhatuontiDlg::tallennaAsiakasId(QVariant *data)
 void VanhatuontiDlg::siirraTositteet()
 {
     QSqlQuery tositekysely(kpdb_);
-    tositekysely.exec("SELECT Tosite.id as id, pvm, otsikko, kommentti, tunniste, tosite.json as json, tunnus FROM Tosite JOIN Tositelaji ON Tosite.laji=Tositelaji.id");
+    tositekysely.exec("SELECT Tosite.id as id, pvm, otsikko, kommentti, tunniste, tosite.json as json, tunnus FROM Tosite JOIN Tositelaji ON Tosite.laji=Tositelaji.id WHERE Tosite.pvm NOT NULL");
     QSqlQuery vientikysely(kpdb_);
     QSqlQuery merkkauskysely( kpdb_ );
     while( tositekysely.next()) {
         int tositeid = tositekysely.value("id").toInt();
         Tosite tosite;
-        tosite.setData(Tosite::ID, tositeid);
         QDate pvm = tositekysely.value("pvm").toDate();
-        if( !pvm.isValid())
-            continue;   // Pitää olla päivämäärä
         tosite.asetaPvm(pvm);
         tosite.asetaTyyppi(TositeTyyppi::TUONTI);
         tosite.asetaOtsikko(tositekysely.value("otsikko").toString());
@@ -678,6 +688,7 @@ void VanhatuontiDlg::siirraTositteet()
                 vientiPvm = QDate::currentDate();    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi tällä päivämäärällä
             vienti.setPvm( vientiPvm );
             int tili =  tilimuunto( vientikysely.value("tilinumero").toInt() );
+            qDebug() << " Vienti " << vientiid << " Alkup tili " << vientikysely.value("tilinumero").toInt() << " Muunnettu " << tili;
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
@@ -736,8 +747,10 @@ void VanhatuontiDlg::siirraTositteet()
                 vienti.setTasaerapoisto( vientiJson.value("Tasaerapoisto").toInt() );
 
 
-            if( !tilio.onkoValidi())
+            if( !tilio.onkoValidi()) {
+                qDebug() << " ******* TILIVIRHE ************ " << tili;
                 continue;   // Maksuperusteisten maksunvalvontariviä ei voi lisätä
+            }
             tosite.viennit()->lisaa(vienti);
 
         }

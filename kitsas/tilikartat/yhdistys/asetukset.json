@@ -1,14 +1,16 @@
 {
   "kielet" : {
-      "fi" : { "fi": "suomi", "sv" : "finska"},
-      "sv" : { "fi": "ruotsi", "sv": "svenska"}
+      "fi" : { "fi": "suomi", "sv" : "finska", "en": "Finnish"},
+      "sv" : { "fi": "ruotsi", "sv": "svenska", "en": "Swedish"},
+      "en" : { "fi": "englanti", "sv": "engelska", "en": "English"}
   },
   "kieli": "fi",
   "tpkieli": "fi",
   "muodot": {
     "ry": {
       "fi": "Yhdistys",
-      "sv": "Förening"
+      "sv": "Förening",
+      "en": "Association"
     }
   },
   "laajuudet": {
@@ -127,7 +129,7 @@
     }
   ],
   "tilinpaatosvalinnat" : "toiminnantarkastus",
-  "arkistoraportit" : "tase/PMA,tulos/yhdistys",
+  "arkistoraportit" : "tase/Yleinen,tulos/yhdistys",
   "LaskuSaatavatili" : "1700",
   "LaskuKateistili" : "1900",
   "LaskuMaksuaika" : "14",

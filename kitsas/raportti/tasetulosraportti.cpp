@@ -124,6 +124,7 @@ void TaseTulosRaportti::paivitaKielet()
     for(auto kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
 
 }
 

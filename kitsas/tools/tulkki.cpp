@@ -58,8 +58,7 @@ void Tulkki::alustaKieliCombo(QComboBox *combo)
     lisaaKieli(combo, "sv", "ruotsi");
     lisaaKieli(combo, "en", "englanti");
 
-    combo->setCurrentIndex( combo->findData( kp()->asetukset()->asetus("kieli") ) );
-
+    combo->setCurrentIndex( combo->findData( kp()->asetukset()->asetus("kieli") ) );    
 }
 
 void Tulkki::lisaaKieli(QComboBox *combo, const QString &lyhenne, const QString &nimi)

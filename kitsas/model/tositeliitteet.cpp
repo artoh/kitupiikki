@@ -204,7 +204,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
             connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
             kysely->kysy(tuotu);
-        } else if( tyyppi == "image/jpeg") {
+        } else if( tyyppi == "image/jpeg" && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr ) {
             liitekysely->lisaaAttribuutti("ocr","json");
             qDebug() << "image/jpeg laukaistaan Tesseract";
             if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
@@ -222,7 +222,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     meta.insert("Filename", tiedostonnimi);
     liitekysely->lahetaTiedosto(liite, meta);
 
-    if(  kp()->pilvi()->plan() > 0 &&
+    if(  kp()->pilvi()->plan() > 0 && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&
             liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") &&
             liite.contains("<Finvoice")) {
         liitaFinvoice(liite);
@@ -400,17 +400,10 @@ void TositeLiitteet::liitaFinvoice(const QByteArray &data)
     QMap<QString,QString> meta;
     meta.insert("Content-type","application/xml;charset=ISO-8859-15");
 
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr ) {
-        PilviKysely* jsonk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                                              kp()->pilvi()->finvoiceOsoite() + "/tojson");
-        connect( jsonk, &PilviKysely::vastaus, this, &TositeLiitteet::finvoiceJsonSaapuu);
-        jsonk->lahetaTiedosto(data, meta);
-    }
-
-    PilviKysely* pdfk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                                         kp()->pilvi()->finvoiceOsoite() +  "/topdf");
-    connect( pdfk, &PilviKysely::vastaus, this, &TositeLiitteet::finvoicePdfSaapuu);
-    pdfk->lahetaTiedosto(data, meta);
+    PilviKysely* jsonk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                                          kp()->pilvi()->finvoiceOsoite() + "/tojson");
+    connect( jsonk, &PilviKysely::vastaus, this, &TositeLiitteet::finvoiceJsonSaapuu);
+    jsonk->lahetaTiedosto(data, meta);
 
 }
 
