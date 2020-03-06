@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  libcopy.sh
-#  kitupiikki
+#  kitsas
 #
 #  Created by Petri Aarnio on 28/09/2018.
 #  
@@ -17,7 +17,7 @@ PRINTSUPPORT=$APPDIR/printsupport
 SQLDRIVERS=$APPDIR/sqldrivers
 STYLES=$APPDIR/styles
 
-QT_VERSION=5.13.2
+QT_VERSION=5.14.1
 
 mkdir -p $BEARER/
 mkdir -p $ICONENGINES/

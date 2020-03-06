@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 #include <QDate>
 #include <QList>
+#include <QSet>
 
 /**
  * @brief Yhden tositteen tiedot tositteiden selauksessa
