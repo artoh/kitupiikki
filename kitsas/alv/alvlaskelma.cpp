@@ -788,9 +788,9 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             lisaaKirjausVienti( pois );
 
             TositeVienti veroon;
-            veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVVELKA ).numero() );
+            veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero() );
             veroon.setDebet( vero / 100.0);
-            veroon.setAlvKoodi( AlvKoodi::ALVKIRJAUS + AlvKoodi::OSTOT_BRUTTO);
+            veroon.setAlvKoodi( AlvKoodi::ALVVAHENNYS + AlvKoodi::OSTOT_BRUTTO);
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
             veroon.setSelite(selite);
             veroon.setTyyppi( TositeVienti::BRUTTOOIKAISU );
