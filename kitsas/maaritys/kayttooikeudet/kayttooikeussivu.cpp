@@ -171,6 +171,7 @@ void KayttoOikeusSivu::kaikkiOikeudet()
 {
     for(QCheckBox* box : findChildren<QCheckBox*>())
         box->setChecked(true);
+    tarkastaMuokattu();
 }
 
 
