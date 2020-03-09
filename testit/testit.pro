@@ -16,12 +16,14 @@ LIBS += -lzip
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle
 
-TARGET=kitupiikki-test
 TEMPLATE = app
 
 INCLUDEPATH += $$PWD/../kitsas
 VPATH += $$PWD/../kitsas
 include(../kitsas/sources.pri)
+
+RESOURCES += \
+    data/testidata.qrc
 
 HEADERS += tuontitesti.h \
     kpdateedittesti.h \
@@ -31,12 +33,9 @@ HEADERS += tuontitesti.h \
     tulomenorivitesti.h
 
 SOURCES +=  testit.cpp \
-	kpdateedittesti.cpp \
+        kpdateedittesti.cpp \
 	testiapu.cpp \
 	tilitesti.cpp \
-	tulomenoapuritesti.cpp \
-	tulomenorivitesti.cpp \
-	tuontitesti.cpp
-
-RESOURCES += \
-    data/testidata.qrc
+        tulomenoapuritesti.cpp \
+        tulomenorivitesti.cpp \
+        tuontitesti.cpp

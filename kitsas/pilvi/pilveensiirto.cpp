@@ -123,6 +123,11 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::pilviLuotu);
     kysely->kysy(map);
     ui->progressBar->setValue(10);
+
+    for(auto tk : init.value("tilikaudet").toList()) {
+        QVariantMap tkmap = tk.toMap();
+        tilikaudet.append( tkmap.value("alkaa").toString());
+    }
 }
 
 void PilveenSiirto::pilviLuotu(QVariant *data)
@@ -319,13 +324,31 @@ void PilveenSiirto::tallennaSeuraavaLiite()
         ui->progressBar->setValue(ui->progressBar->value()+1);
 
     } else {
+        tallennaBudjetit();
         valmis();
     }
 }
 
-void PilveenSiirto::valmis()
+void PilveenSiirto::tallennaBudjetit()
 {
-    qDebug() << "VALMIS!!!";
+    for(QString kausi : tilikaudet) {
+        KpKysely *haku = kpk(QString("/budjetti/%1").arg(kausi));
+        haku->lisaaAttribuutti("kohdennukset");
+        connect( haku, &KpKysely::vastaus, [this, kausi] (QVariant *data) { this->tallennaBudjetti(kausi, data); } );
+        haku->kysy();
+    }
+}
+
+void PilveenSiirto::tallennaBudjetti(const QString& tilikausi, QVariant* data) {
+    QVariantMap map = data->toMap();
+    if( !map.isEmpty() ) {
+        KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/budjetti/%1").arg(tilikausi));
+        tallennus->kysy(map);
+    }
+}
+
+void PilveenSiirto::valmis()
+{ 
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");
     connect( kysely, &KpKysely::vastaus, this, &PilveenSiirto::infoSaapuu);

@@ -110,6 +110,7 @@ void TulomenoRivi::setNetto(qlonglong sentit)
 void TulomenoRivi::setNetonVero(qlonglong sentit)
 {
     brutto_ = netto_ + sentit;
+    netto_ = 0;
 }
 
 bool TulomenoRivi::naytaBrutto() const

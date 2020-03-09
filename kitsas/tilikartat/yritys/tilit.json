@@ -5431,7 +5431,8 @@
   "nimi": {
    "fi": "Yksityiskäyttö"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "muodot": ["tmi","ay","ky"]
  },
  {
   "numero": 4350,

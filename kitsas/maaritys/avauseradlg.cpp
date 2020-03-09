@@ -37,14 +37,15 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
 
     if( kohdennukset ) {
         model = new AvausKohdennusModel(erat, this);
-        ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);
-    } else {
+        ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);        
+    } else {        
         model = new AvausEraModel(erat, this);
         AsiakasToimittajaTaydentaja *model = new AsiakasToimittajaTaydentaja(this);
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
                                           new KumppaniValintaDelegaatti(model));
-        ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);
-    }
+        ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);       
+    }    
+
     ui->view->setModel(model);
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
     ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
@@ -53,6 +54,8 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilinavaus"); });
+
+
 }
 
 AvausEraDlg::~AvausEraDlg()
@@ -73,9 +76,10 @@ void AvausEraDlg::paivitaSumma()
 void AvausEraDlg::lisaaTarvittaessa()
 {
     AvausEraModel* avaus = qobject_cast<AvausEraModel*>(model);
-    if( avaus && ui->view->currentIndex().row() == model->rowCount() - 1) {
+    if( avaus && ui->view->currentIndex().row() == model->rowCount() - 1 &&
+           !model->data(ui->view->currentIndex()).toString().isEmpty()  ) {
         QModelIndex current = ui->view->currentIndex();
         avaus->lisaaRivi();
-        ui->view->setCurrentIndex(current.sibling(current.row(), 1));
+        ui->view->setCurrentIndex(current.sibling(current.row(), current.column()+1));
     }
 }

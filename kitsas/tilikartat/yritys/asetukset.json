@@ -1,7 +1,8 @@
 {
   "kielet" : {
-      "fi" : { "fi": "suomi", "sv" : "finska"},
-      "sv" : { "fi": "ruotsi", "sv": "svenska"}
+      "fi" : { "fi": "suomi", "sv" : "finska", "en": "Finnish"},
+      "sv" : { "fi": "ruotsi", "sv": "svenska", "en": "Swedish"},
+      "en" : { "fi": "englanti", "sv": "engelska", "en": "English"}
   },
   "kieli": "fi",
   "tpkieli": "fi",

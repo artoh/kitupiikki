@@ -553,20 +553,24 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
         hae();
 }
 
-void AlvLaskelma::viennitSaapuu(QVariant *viennit)
+void AlvLaskelma::tallennaViennit(const QVariantList &viennit, bool maksuperusteinen)
 {
-    bool maksuperusteinen = kp()->onkoMaksuperusteinenAlv(loppupvm_);
-
     taulu_.koodit.clear();
-
-    QVariantList lista = viennit->toList();
+    QVariantList lista = viennit;
     for(auto item : lista) {
         QVariantMap map = item.toMap();
         if( map.value("alvkoodi").toInt() )
-            taulu_.lisaa(map);        
+            taulu_.lisaa(map);
         if( maksuperusteinen )
             kasitteleMaksuperusteinen(map);
     }
+}
+
+
+void AlvLaskelma::viennitSaapuu(QVariant *viennit)
+{
+    bool maksuperusteinen = kp()->onkoMaksuperusteinenAlv(loppupvm_);
+    tallennaViennit( viennit->toList(), maksuperusteinen);
     // Jos maksuperuste, käsitellään ko. tositteet
     tilaaMaksuperusteisenTosite();
 }

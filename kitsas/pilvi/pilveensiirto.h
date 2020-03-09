@@ -20,6 +20,7 @@
 #include <QDialog>
 #include <QQueue>
 #include <QSqlQuery>
+#include <QString>
 
 class PilviModel;
 
@@ -58,6 +59,8 @@ private:
     void tallennaTosite(QVariant* data);
     void tallennaLiitteet();
     void tallennaSeuraavaLiite();
+    void tallennaBudjetit();
+    void tallennaBudjetti(const QString& tilikausi, QVariant* data);
     void valmis();
     void infoSaapuu(QVariant* data);
     void siirtoVirhe(int koodi);
@@ -75,6 +78,7 @@ private:
     QQueue<int> liitteet;
     QVariantList ryhmat;
     QSqlQuery liitekysely;
+    QStringList tilikaudet;
 
 };
 

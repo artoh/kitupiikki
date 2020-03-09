@@ -94,6 +94,8 @@ public:
 
     void paivitaTilat();
 
+    double saldo(int tilinumero) { return saldot_.value(tilinumero);}
+
 public slots:
     void haeSaldot();
 

@@ -48,7 +48,7 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
             vastaus.insert(kohdennus, kmap);
         }
     } else {
-        kysely.exec(QString("SELECT tili, SUM(euro) as summa FROM Budjetti "
+        kysely.exec(QString("SELECT tili, SUM(sentti) as summa FROM Budjetti "
                             "WHERE tilikausi='%1' GROUP BY tili ORDER BY CAST(tili as text)")
                     .arg(polku) );
         while( kysely.next())

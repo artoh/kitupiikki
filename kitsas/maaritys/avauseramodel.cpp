@@ -19,9 +19,8 @@
 AvausEraModel::AvausEraModel(QList<AvausEra> erat, QObject *parent)
     : AvausEraKantaModel(erat, parent)
 {
-    if( erat_.isEmpty()) {
-        erat_.append(AvausEra());
-    }
+
+    erat_.append(AvausEra());
 }
 
 QVariant AvausEraModel::headerData(int section, Qt::Orientation orientation, int role) const

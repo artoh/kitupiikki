@@ -81,7 +81,8 @@ public slots:
     void kirjaaHuojennus();
     void tallenna();
 
-protected slots:
+protected:
+    void tallennaViennit(const QVariantList& viennit, bool maksuperusteinen=false);
     void viennitSaapuu(QVariant* viennit);
     void laskeHuojennus(QVariant* viennit);
     void tallennusValmis();
@@ -137,6 +138,8 @@ protected:
 
 public:
     static bool debetistaKoodilla(int alvkoodi);
+
+    friend class AlvLaskelmaTest;
 };
 
 #endif // ALVLASKELMA_H

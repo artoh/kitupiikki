@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/testidata">
+        <file>oy.kitsas</file>
+    </qresource>
+</RCC>
