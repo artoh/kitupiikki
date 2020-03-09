@@ -29,7 +29,8 @@ QVariant ToimittajatRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlq
             "Kumppani JOIN ( select kreditsnt, vienti.kumppani, vienti.id as vienti FROM "
             "Vienti JOIN Tosite ON vienti.tosite=tosite.id WHERE vienti.tyyppi=102 AND tosite.tila > 0) as summa ON summa.kumppani = kumppani.id "
             "LEFT OUTER JOIN ( select eraid,sum(debetsnt) as sd, SUM(kreditsnt) AS sk FROM Vienti GROUP BY eraid) AS avoin ON avoin.eraid = summa.vienti LEFT OUTER JOIN ( SELECT a.eraid as eraid, SUM(a.kreditsnt) AS sk, SUM(a.debetsnt) as sd FROM "
-            "Vienti as a JOIN Vienti as b ON a.eraid=b.id WHERE b.erapvm < current_date GROUP BY a.eraid) AS vanha ON vanha.eraid = summa.vienti group by kumppani.id order by kumppani.nimi ");
+            "Vienti as a JOIN Vienti as b ON a.eraid=b.id JOIN tosite AS tb ON tb.id=b.tosite "
+            "WHERE tb.erapvm < current_date GROUP BY a.eraid) AS vanha ON vanha.eraid = summa.vienti group by kumppani.id order by kumppani.nimi ");
     QVariantList lista = resultList(kysely);
 
     for(int i=0; i < lista.count(); i++) {
