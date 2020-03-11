@@ -52,7 +52,7 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
                             "WHERE tilikausi='%1' GROUP BY tili ORDER BY CAST(tili as text)")
                     .arg(polku) );
         while( kysely.next())
-            vastaus.insert(kysely.value(0).toString(), kysely.value(1).toDouble());
+            vastaus.insert(kysely.value(0).toString(), kysely.value(1).toInt() / 100.0);
     }
     return vastaus;
 }

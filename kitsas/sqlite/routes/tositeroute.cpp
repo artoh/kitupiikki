@@ -448,10 +448,12 @@ QVariant TositeRoute::hae(int tositeId)
     return tosite;
 }
 
-QString TositeRoute::viite(const QString &numero)
+QString TositeRoute::viite(QString numero)
 {
     int summa = 0;
     int indeksi = 0;
+
+    numero.append("000");       // #539 Viitenumeroita pidennetään vakioviitteitä varten
 
     for( int i = numero.length() - 1; i > -1; i--) {
         QChar ch = numero.at(i);

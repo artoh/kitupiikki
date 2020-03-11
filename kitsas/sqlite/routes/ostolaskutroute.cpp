@@ -19,6 +19,8 @@
 #include "model/tosite.h"
 #include "model/tositevienti.h"
 
+#include <QDebug>
+
 OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/ostolaskut")
 {
@@ -57,7 +59,6 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     if( urlquery.hasQueryItem("loppupvm"))
         kysymys.append(QString(" AND tosite.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
-    kysymys.append(" ORDER BY pvm, viite");
 
     if( urlquery.hasQueryItem("eraalkupvm"))
         kysymys.append(QString(" AND tosite.erapvm >= '%1' ")
@@ -70,6 +71,9 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
             kysymys.append(QString(" AND tosite.erapvm <= '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
     }
+    kysymys.append(" ORDER BY pvm, viite");
+
+    qDebug() << kysymys;
 
     QSqlQuery kysely(db());
     kysely.exec(kysymys);

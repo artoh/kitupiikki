@@ -184,26 +184,32 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                   .arg( qApp->applicationVersion() ));
             tietokanta_.close();
             return false;
-        } else if( versio < 22) {
+        } else if( versio < TIETOKANTAVERSIO) {
             if(QMessageBox::question(nullptr, tr("Kirjanpidon päivittäminen"),
                                      tr("Avataksesi kirjanpidon pitää se päivittää yhteensopivaksi nykyisen version kanssa. Päivityksen jälkeen kirjanpitoa ei voi enää avata varhaisemmilla esiversioilla. "
                                         "\nPäivitetäänkö kirjanpito nyt?"), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel)!= QMessageBox::Yes) {
                 tietokanta_.close();
                 return false;
             }
-            // Ensimmäisen version jälkeen on lisätty kenttä laskupäivälle
-            query.exec("ALTER TABLE Tosite ADD COLUMN laskupvm DATE");
-            query.exec("ALTER TABLE Tosite ADD COLUMN erapvm DATE");
-            query.exec("ALTER TABLE Tosite ADD COLUMN viite TEXT");
-            query.exec("ALTER TABLE Vienti ADD COLUMN arkistotunnus TEXT");
-            query.exec("UPDATE Asetus SET arvo=22 WHERE avain='KpVersio'");
-            query.exec("UPDATE Tosite SET erapvm =(SELECT MAX(erapvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
-            query.exec("UPDATE Tosite SET viite =(SELECT MAX(viite) FROM Vienti WHERE Vienti.tosite=Tosite.id");
-        }
-        if( versio == 21) {
-            query.exec("UPDATE Tosite SET laskupvm =(SELECT MAX(laskupvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
-        } else {
-            query.exec("UPDATE Tosite SET laskupvm=pvm");
+            // #539 Vakioviitteiden taulun luominen (versiota 2.1 varten)
+            query.exec("CREATE TABLE Vakioviite ( viite integer PRIMARY KEY NOT NULL, tili INTEGER REFERENCES Tili(numero) ON DELETE CASCADE, kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE, "
+                        " otsikko TEXT, alkaen DATE, paattyen DATE, json TEXT) ");
+            if( versio < 22) {
+                // Ensimmäisen version jälkeen on lisätty kenttä laskupäivälle
+                query.exec("ALTER TABLE Tosite ADD COLUMN laskupvm DATE");
+                query.exec("ALTER TABLE Tosite ADD COLUMN erapvm DATE");
+                query.exec("ALTER TABLE Tosite ADD COLUMN viite TEXT");
+                query.exec("ALTER TABLE Vienti ADD COLUMN arkistotunnus TEXT");
+                query.exec("UPDATE Tosite SET erapvm =(SELECT MAX(erapvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+                query.exec("UPDATE Tosite SET viite =(SELECT MAX(viite) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+
+                if( versio == 21) {
+                    query.exec("UPDATE Tosite SET laskupvm =(SELECT MAX(laskupvm) FROM Vienti WHERE Vienti.tosite=Tosite.id");
+                } else {
+                    query.exec("UPDATE Tosite SET laskupvm=pvm");
+                }
+            }
+            query.exec("UPDATE Asetus SET arvo=23 WHERE avain='KpVersio'");
         }
     } else {
         // Tämä ei ole lainkaan kelvollinen tietokanta

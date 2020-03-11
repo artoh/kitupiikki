@@ -33,6 +33,8 @@ Tosite::Tosite(QObject *parent) :
     loki_( new TositeLoki(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
+    connect( viennit_, &TositeViennit::rowsInserted, this, &Tosite::tarkasta );
+    connect( viennit_, &TositeViennit::rowsRemoved, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
 }

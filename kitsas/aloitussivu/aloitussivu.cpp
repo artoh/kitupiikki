@@ -314,25 +314,29 @@ void AloitusSivu::abouttiarallaa()
 }
 
 void AloitusSivu::infoSaapui()
-{
+{    
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
+   if( !reply->error()) {
 
-    QVariantList lista = QJsonDocument::fromJson( reply->readAll() ).toVariant().toList();
-    paivitysInfo.clear();
+        QVariantList lista = QJsonDocument::fromJson( reply->readAll() ).toVariant().toList();
+        paivitysInfo.clear();
 
-    for( auto item : lista) {
-        QVariantMap map = item.toMap();
-        paivitysInfo.append(QString("<table width=100% class=%1><tr><td><h3>%2</h3><p>%3</p></td></tr></table>")
-                            .arg(map.value("type").toString())
-                            .arg(map.value("title").toString())
-                            .arg(map.value("info").toString()));
+
+        kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
+
+        for( auto item : lista) {
+            QVariantMap map = item.toMap();
+            paivitysInfo.append(QString("<table width=100% class=%1><tr><td><h3>%2</h3><p>%3</p></td></tr></table>")
+                                .arg(map.value("type").toString())
+                                .arg(map.value("title").toString())
+                                .arg(map.value("info").toString()));
+        }
+
+        qDebug() << " Info " << paivitysInfo;
+
+        siirrySivulle();
     }
 
-    qDebug() << " Info " << paivitysInfo;
-
-
-    siirrySivulle();
     reply->deleteLater();
 }
 

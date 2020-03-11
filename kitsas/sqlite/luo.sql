@@ -100,7 +100,7 @@ CREATE TABLE Tosite
 	kumppani integer REFERENCES Kumppani(id),
 	laskupvm DATE,
 	erapvm DATE,
-	viite varchar(64),	
+	viite varchar(64),
 	json text
 );
 
@@ -191,3 +191,15 @@ CREATE TABLE Rivi
 );
 
 CREATE INDEX rivi_tosite ON Rivi (tosite);
+
+
+CREATE TABLE Vakioviite
+(
+	viite integer PRIMARY KEY NOT NULL,
+	tili INTEGER REFERENCES Tili(numero) ON DELETE CASCADE,
+	kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE,
+	otsikko TEXT,
+	alkaen DATE,
+	paattyen DATE,
+	json TEXT
+);

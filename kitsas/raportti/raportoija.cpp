@@ -506,7 +506,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
             if( sarakeTyypit_[i] != TOTEUTUNUT)
             {
                 tilausLaskuri_++;
-                KpKysely* kysely = kpk( QString("/budjetti/%1").arg( loppuPaivat_.value(i).toString(Qt::ISODate) ));
+                KpKysely* kysely = kpk( QString("/budjetti/%1").arg( alkuPaivat_.value(i).toString(Qt::ISODate) ));
                 if( kohdennuksella > -1)
                     kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
                 if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTILASKELMA)
@@ -518,8 +518,10 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
             }
         }
     }
-    for(auto kysely : kyselyt)
+    for(auto kysely : kyselyt) {
+        qDebug() << kysely->polku();
         kysely->kysy();
+    }
 
 }
 
