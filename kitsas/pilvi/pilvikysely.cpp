@@ -83,8 +83,11 @@ void PilviKysely::kysy(const QVariant &data)
 void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QString>& meta)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();
-    QNetworkRequest request( osoite );
+    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();    
+
+    QUrl url( osoite );
+    url.setQuery( urlKysely() );
+    QNetworkRequest request( url );
 
     request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
@@ -157,4 +160,6 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
         emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>"), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::InternalServerError)
         emit kp()->onni(tr("<b>Palvelinvirhe %1</b>").arg(koodi), Kirjanpito::Stop);
+    else if( koodi == QNetworkReply::UnknownServerError)
+        emit kp()->onni(tr("<b>Palvelinvirhe</b><br>Palvelu on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
 }

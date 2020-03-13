@@ -375,6 +375,9 @@ osoite</string>
                 <iconset resource="../pic/pic.qrc">
                  <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
                </property>
+               <property name="shortcut">
+                <string>Ctrl+R</string>
+               </property>
               </widget>
              </item>
              <item>
@@ -571,6 +574,9 @@ osoite</string>
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -589,7 +595,7 @@ osoite</string>
          <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
        <property name="shortcut">
-        <string>F12</string>
+        <string>F11</string>
        </property>
        <property name="default">
         <bool>false</bool>
@@ -609,7 +615,7 @@ osoite</string>
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
        <property name="shortcut">
-        <string>F10</string>
+        <string>F5</string>
        </property>
       </widget>
      </item>
@@ -684,6 +690,9 @@ osoite</string>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
        </property>
       </widget>
      </item>

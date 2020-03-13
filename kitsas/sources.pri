@@ -45,6 +45,7 @@ SOURCES += \
     $$PWD/maaritys/emailkokeilu.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
+    $$PWD/maaritys/liitemaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.cpp \
@@ -191,7 +192,6 @@ SOURCES += \
     validator/viitevalidator.cpp \
     validator/ibanvalidator.cpp \
     raportti/laskuraportti.cpp \
-    maaritys/tuontimaarityswidget.cpp \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
     tuonti/tilimuuntomodel.cpp \
@@ -299,6 +299,7 @@ HEADERS += \
     $$PWD/maaritys/emailkokeilu.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
+    $$PWD/maaritys/liitemaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.h \
@@ -445,7 +446,6 @@ HEADERS += \
     validator/viitevalidator.h \
     validator/ibanvalidator.h \
     raportti/laskuraportti.h \
-    maaritys/tuontimaarityswidget.h \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \
     tuonti/tilimuuntomodel.h \
@@ -534,6 +534,7 @@ FORMS += \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/maaritys/emailkokeilu.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
+    $$PWD/maaritys/liitemaaritys.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
@@ -574,7 +575,6 @@ FORMS += \
     db/tilinvalintadialogi.ui \
     maaritys/kohdennukset.ui \
     maaritys/kohdennusdialog.ui \
-    kirjaus/kirjausapuridialog.ui \
     raportti/muokattavaraportti.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \
@@ -600,7 +600,6 @@ FORMS += \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \
     raportti/laskuraportti.ui \
-    maaritys/tuontimaaritys.ui \
     tuonti/csvtuontidlg.ui \
     tuonti/tilimuuntodlg.ui \
     tools/devtool.ui \

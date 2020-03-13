@@ -78,7 +78,7 @@
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
-      apuri_(nullptr),
+      apuri_(nullptr),              
       selaus_(selaus),
       edellinenSeuraava_( qMakePair(0,0))
 {
@@ -90,6 +90,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     liitteetTab_ = ui->tabWidget->widget(LIITTEET);
     varastoTab_ = ui->tabWidget->widget(VARASTO);
     lokiTab_ = ui->tabWidget->widget(LOKI);
+    kiertoTab_ = new KiertoWidget(tosite(), this);
+
 
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
     ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit, this));
@@ -134,8 +136,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
 
-    // ---- tästä alkaen uutta ------
-    tosite_ = new Tosite(this);
+    // ---- tästä alkaen uutta ------    
     ui->viennitView->setTosite(tosite_);
     ui->lokiView->setModel( tosite_->loki() );
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -143,6 +144,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     ui->liiteView->setModel( tosite_->liitteet() );
     ui->liiteView->setDropIndicatorShown(true);
+
+    kiertoTab_->hide();
 
     connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
@@ -188,8 +191,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt());
     tosite()->asetaPvm( ui->tositePvmEdit->date());
 
-    kiertoTab_ = new KiertoWidget(tosite(), this);
-    kiertoTab_->hide();
     connect( kiertoTab_, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
 
 }
@@ -672,8 +673,11 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     }
 
     int kiertoIndex = ui->tabWidget->indexOf(kiertoTab_);
-    if( kp()->kierrot()->rowCount()) {
+    if( kp()->kierrot()->rowCount() && ui->tabWidget->count()) {
         if( kiertoIndex < 0)
+            qDebug() << ui->tabWidget->count();
+            qDebug() << kiertoTab_;
+            qDebug() << QIcon(":/pic/kierto.svg");
             kiertoIndex = ui->tabWidget->insertTab( ui->tabWidget->count()-1, kiertoTab_, QIcon(":/pic/kierto.svg"), tr("Kierto") );
 
         if( tosite()->tositetila() >= Tosite::HYLATTY && tosite()->tositetila() <= Tosite::HYVAKSYTTY)

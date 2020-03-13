@@ -140,9 +140,9 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
-    uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa\tShift+F2"), this);
+    uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa\tCtrl + W"), this);
     connect( uusiKirjausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiKirjausIkkuna()));
-    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F2), this, SLOT(uusiKirjausIkkuna()), nullptr ,Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(uusiKirjausIkkuna()), nullptr ,Qt::ApplicationShortcut);
 
     uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa\tShift+F3"), this );
     connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
@@ -439,14 +439,14 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     aktioryhma = new QActionGroup(this);
     lisaaSivu(tr("Aloita"),":/pic/Possu64.png",tr("Erilaisia ohjattuja toimia"),"Home", ALOITUSSIVU, aloitussivu);
-    lisaaSivu(tr("Uusi \ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"F2", KIRJAUSSIVU, kirjaussivu);
+    lisaaSivu(tr("Uusi \ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"Ctrl+N", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu(tr("Selaa"),":/pic/Paivakirja64.png",tr("Selaa kirjauksia aikajärjestyksessä"),"F3", SELAUSSIVU, selaussivu);
-    lisaaSivu(tr("Kierto"),":/pic/kierto.svg",tr("Käsittele kierrossa olevia laskuja"),"Shift+F5", KIERTOSIVU, kiertosivu);
+    lisaaSivu(tr("Kierto"),":/pic/kierto.svg",tr("Käsittele kierrossa olevia laskuja"),"Ctrl+3", KIERTOSIVU, kiertosivu);
     lisaaSivu(tr("Laskut"),":/pic/lasku.png",tr("Laskuta ja selaa laskuja"),"F4",LASKUTUSSIVU, laskutussivu);
-    lisaaSivu(tr("Raportit"),":/pic/print.png",tr("Tulosta erilaisia raportteja"),"F5", TULOSTESIVU, raporttisivu);
-    lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"F6", ARKISTOSIVU, arkistosivu);
-    lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Shift+F7",ALVSIVU, alvsivu );
-    lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"F7", MAARITYSSIVU, maarityssivu);
+    lisaaSivu(tr("Raportit"),":/pic/print.png",tr("Tulosta erilaisia raportteja"),"Ctrl+5", TULOSTESIVU, raporttisivu);
+    lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
+    lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
+    lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
     if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||

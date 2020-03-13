@@ -548,8 +548,9 @@ void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
         ui->palvelinvirheLabel->setText(tr("<p><b>Verkkoon ei saada yhteyttä</b>"));
     else if(virhe < QNetworkReply::ContentAccessDenied )
         ui->palvelinvirheLabel->setText(tr("<p><b>Palvelinyhteydessä on virhe (%1)</b>").arg(virhe));
-
-    if( virhe < QNetworkReply::ContentAccessDenied) {
+    else if( virhe == QNetworkReply::UnknownServerError)
+        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelu on tilapäisesti poissa käytöstä.</b>"));
+    if( virhe < QNetworkReply::ContentAccessDenied || virhe == QNetworkReply::UnknownServerError) {
 
         ui->palvelinvirheLabel->show();
         QTimer::singleShot(30000, this, &AloitusSivu::validoiEmail);
@@ -672,7 +673,7 @@ QString AloitusSivu::vinkit()
 
     // Ensin tietokannan alkutoimiin
     int indeksitilikausi = kp()->tilikaudet()->rowCount() > 1 ? 1 : 0;
-    if(kp()->tilikaudet()->tilikausiIndeksilla( indeksitilikausi ).liikevaihto()  )
+    if(kp()->tilikaudet()->tilikausiIndeksilla( indeksitilikausi ).liikevaihto() == 0 )
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");

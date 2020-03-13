@@ -135,7 +135,7 @@
              <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
            </property>
            <property name="shortcut">
-            <string>F11</string>
+            <string>Ctrl+S</string>
            </property>
           </widget>
          </item>

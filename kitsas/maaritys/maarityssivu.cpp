@@ -29,13 +29,13 @@
 
 #include "ulkoasumaaritys.h"
 #include "perusvalinnat.h"
+#include "liitemaaritys.h"
 #include "tilinavaus.h"
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
 #include "raportinmuokkaus/raportinmuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
 #include "emailmaaritys.h"
-#include "tuontimaarityswidget.h"
 #include "inboxmaaritys.h"
 #include "tilikarttapaivitys.h"
 #include "maksutapasivu.h"
@@ -59,7 +59,8 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
     lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
-    lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "", QIcon(":/pic/asiakkaat.png"),"oikeudet");
+    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "maaritykset/liitteet", QIcon(":/pic/liite.png"),"liitteet");
+    lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "maaritykset/kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
     lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "maaritykset/tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
@@ -69,7 +70,6 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "", QIcon(":/pic/kierto.svg"),"kierto");
     lisaaSivu("Verkkolasku", VERKKOLASKU,"",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-//    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
     lisaaSivu("Kirjattavien kansio", INBOX,"",QIcon(":/pic/inbox.png"));
     lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
@@ -203,6 +203,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         Ui::Yhteystietoni *ui= new Ui::Yhteystietoni;
         ui->setupUi(nykyinen);
     }
+    else if( sivu == LIITTEET)
+        nykyinen = new LiiteMaaritys;
     else if( sivu == TILINAVAUS)
         nykyinen = new Tilinavaus;
     else if( sivu == TILIKARTTA)
@@ -226,8 +228,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new MaksutapaSivu;
     else if( sivu == TOSITESARJAT)
         nykyinen = new TositesarjaMaaritys;
-    else if( sivu == TUONTI)
-        nykyinen = new TuontiMaaritysWidget;
     else if(sivu == SAHKOPOSTI)
         nykyinen = new EmailMaaritys;
     else if(sivu == INBOX)
@@ -278,6 +278,7 @@ void MaaritysSivu::paivitaNakyvat()
                                    !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
     item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
     item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
+    item( LIITTEET )->setHidden(false); // Liittemääreet aina käytössä
     item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset
 
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());

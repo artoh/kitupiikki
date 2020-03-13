@@ -159,14 +159,26 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         return false;
 
     // Muunnetaan kaikki kuvatiedostot jpg-kuviksi
-    if( KpKysely::tiedostotyyppi(liite) != "image/jpeg") {
-        QImage image = image.fromData(liite);
-        if( !image.isNull()) {
-            QBuffer buffer(&liite);
-            buffer.open(QIODevice::WriteOnly);
-            image.save(&buffer,"JPG");
+    QImage image = image.fromData(liite);
+    if( !image.isNull()) {
+        int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
+        if( image.width() > image.height()) {
+            if( image.width() > koko) {
+                image = image.scaledToWidth(koko);
+            }
+        } else {
+            if( image.height() > koko) {
+                image = image.scaledToHeight(koko);
+            }
         }
+        if( kp()->settings()->value("KuvaMustavalko").toBool()) {
+            image.convertTo(QImage::Format_Grayscale8);
+        }
+        QBuffer buffer(&liite);
+        buffer.open(QIODevice::WriteOnly);
+        image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
     }
+
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, tiedostonnimi, liite, QString(), polku) );
@@ -204,12 +216,11 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
             connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
             kysely->kysy(tuotu);
-        } else if( tyyppi == "image/jpeg" && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr ) {
-            liitekysely->lisaaAttribuutti("ocr","json");
-            qDebug() << "image/jpeg laukaistaan Tesseract";
+        } else if( tyyppi == "image/jpeg" && kp()->settings()->value("OCR").toBool() ) {
             if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
+                liitekysely->lisaaAttribuutti("ocr","json");
                 connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
-            } else {
+            } else if( kp()->pilvi()->plan() ) {
                 Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
                 connect( tesser, &Tuonti::TesserActTuonti::tuotu,
                          this, &TositeLiitteet::tuonti);

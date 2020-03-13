@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,35 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef TUONTIMAARITYSWIDGET_H
-#define TUONTIMAARITYSWIDGET_H
+#ifndef LIITEMAARITYS_H
+#define LIITEMAARITYS_H
 
 #include "maarityswidget.h"
-#include "ui_tuontimaaritys.h"
 
-/**
- * @brief Tuonnin määritykset
- */
-class TuontiMaaritysWidget : public MaaritysWidget
+namespace Ui {
+    class LiiteMaaritys;
+}
+
+class LiiteMaaritys : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    TuontiMaaritysWidget();
-    ~TuontiMaaritysWidget();
+    LiiteMaaritys();
+    ~LiiteMaaritys() override;
 
     bool nollaa() override;
     bool tallenna() override;
     bool onkoMuokattu() override;
+    bool naytetaankoTallennus() override { return true; }
 
-    QString ohjesivu() override { return "kirjaus/tuonti"; }
-
-public slots:
+private:
     void ilmoitaMuokattu();
 
 private:
-    Ui::TuontiMaaritys *ui;
-
+    Ui::LiiteMaaritys *ui;
 };
 
-#endif // TUONTIMAARITYSWIDGET_H
+#endif // LIITEMAARITYS_H

@@ -535,9 +535,6 @@ Tekemällä maksullisen tilaukset saat käyttöösi myös ohjelman sähköpostit
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/uusitiedosto.png</normaloff>:/pic/uusitiedosto.png</iconset>
        </property>
-       <property name="shortcut">
-        <string>Ctrl+N</string>
-       </property>
       </widget>
      </item>
      <item>
