@@ -438,6 +438,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="ocrLabel">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>Teksintunnistus...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="tallennetaanLabel">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 0);</string>

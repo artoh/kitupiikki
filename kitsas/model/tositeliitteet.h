@@ -93,6 +93,7 @@ signals:
     void naytaliite(const QByteArray& data);
     void tuonti(const QVariantMap& data);
     void liitettaTallennetaan(bool tallennetaanko);
+    void ocrKaynnissa(bool onko);
 
 private slots:
     void tallennaSeuraava();

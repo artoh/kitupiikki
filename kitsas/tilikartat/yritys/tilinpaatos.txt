@@ -8,6 +8,8 @@
 @tase/PMA!TASE (TILINPÄÄTÖS)@
 #
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
+#toiminnanalat Toiminnanalojen erittely
+@tulos/yhdistys:K!TOIMINNANALAT (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>

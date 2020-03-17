@@ -21,6 +21,7 @@
 
 #include <QCryptographicHash>
 #include <QDebug>
+#include <QNetworkReply>
 
 LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/liitteet")
@@ -54,7 +55,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
     if( kysely.next())
         return kysely.value(0).toByteArray();
 
-    throw SQLiteVirhe("Liitettä ei löydy",404);
+    throw SQLiteVirhe("Liitettä ei löydy",QNetworkReply::ContentNotFoundError);
 }
 
 QPair<const QVariant, int> LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)

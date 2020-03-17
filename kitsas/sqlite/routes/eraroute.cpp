@@ -238,10 +238,20 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
     // Tulokset
     int betili = kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero();
+    qlonglong edelliset = 0;
     kysely.exec(QString("SELECT SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                 "WHERE vienti.pvm<'%1' AND CAST (tili AS text) >= '3' AND Tosite.tila >= 100").arg(mista.toString(Qt::ISODate)));
     if(kysely.next())
-        ulos.insert(QString("%1S").arg(betili), (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
+        edelliset = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+
+    kysely.exec(QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                "WHERE Vienti.pvm<'%1' AND Vienti.tili=%2 AND Tosite.tila>=100")
+                .arg(mista.toString(Qt::ISODate))
+                .arg(betili));
+    if( kysely.next() )
+        edelliset += kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
+
+    ulos.insert(QString("%1S").arg(betili), edelliset / 100.0 );
 
     int ttili = kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero();
     kysely.exec(QString("SELECT SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "

@@ -184,7 +184,7 @@ void LaskuDialogi::paivitaNapit()
 
     ui->luonnosNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
     ui->tallennaNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
-    ui->valmisNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
+    ui->valmisNappi->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN) && !ryhmalasku_);
 }
 
 
@@ -429,10 +429,12 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
     map.insert("tyyppi",  tyyppi_);
     map.insert("rivit", rivit_->rivit());
 
-    if( !ui->lisatietoEdit->toPlainText().isEmpty())
-        map.insert("info", ui->lisatietoEdit->toPlainText());
-
     QVariantMap lasku;
+
+    if( !ui->lisatietoEdit->toPlainText().isEmpty()) {
+        map.insert("info", ui->lisatietoEdit->toPlainText());
+        lasku.insert("lisatiedot", ui->lisatietoEdit->toPlainText());
+    }
 
     if( laskunnumero_) {
         lasku.insert("numero", laskunnumero_);        

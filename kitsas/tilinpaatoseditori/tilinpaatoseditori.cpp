@@ -95,7 +95,7 @@ void TilinpaatosEditori::uusiTp()
     QStringList valinnat = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
     QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
-    QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
+    QRegularExpression raporttiRe("@(.+)(:\\w*)?[!](.+)@");
     
     QRegularExpression poisRe("-(?<pois>\\w+)");
     poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
@@ -153,7 +153,7 @@ void TilinpaatosEditori::uusiTp()
                 QRegularExpressionMatch rmats = raporttiRe.match(rivi);
                 if( rmats.hasMatch())
                 {
-                    raportit_.append( rmats.captured("raportti") );
+                    raportit_.append( rmats.captured() );
                 }
             }
         }

@@ -143,7 +143,7 @@ void VerkkolaskuToimittaja::asiakasSaapuu(const QVariant *data, const QVariantMa
     pyynto.insert("lasku", map.value("lasku") );
     pyynto.insert("rivit", map.value("rivit"));
 
-    if( kp()->asetukset()->luku("FinvoicaKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
+    if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
 
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,

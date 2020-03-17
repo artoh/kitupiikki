@@ -77,7 +77,6 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     // Raportit
     for(auto rk : kirjoittajat_) {
         writer->newPage();
-        rk.asetaOtsikko(tr("%1 (TILINPÄÄTÖS)").arg(rk.otsikko().toUpper()));
         sivulla += rk.tulosta(writer, &painter, false, sivulla);
     }
 
@@ -175,31 +174,51 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
     painter->restore();
 }
 
-void TilinpaatosTulostaja::tilaaRaportti(const QString &raportinnimi)
+void TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
 {
+    QRegularExpression raporttiRe("@(?<raportti>.+?)(:(?<optiot>\\w*))?[!](?<otsikko>.+)@");
+    QRegularExpressionMatch mats = raporttiRe.match(raporttistr);
+    QString raporttitunnus = mats.captured("raportti");
+    QString optiot = mats.captured("optiot");
+    QString otsikko = mats.captured("otsikko");
+
+    Raportoija::RaportinTyyppi tyyppi = Raportoija::VIRHEELLINEN;
+
+    if( optiot.contains("K"))
+        tyyppi = Raportoija::KOHDENNUSLASKELMA;
+    else if(optiot.contains("P"))
+        tyyppi = Raportoija::PROJEKTILASKELMA;
+    bool erittelyt = optiot.contains("E");
+
     int indeksi = kirjoittajat_.size();
     kirjoittajat_.append(RaportinKirjoittaja());
 
-    Raportoija* raportoija = new Raportoija(raportinnimi, kieli_ , this);
+    Raportoija* raportoija = new Raportoija(raporttitunnus, kieli_ , this, tyyppi);
     Tilikausi edellinen = kp()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
     if( raportoija->onkoTaseraportti()) {
         raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
         if( edellinen.alkaa().isValid())
             raportoija->lisaaTasepaiva( edellinen.paattyy());
+    } else if( optiot.contains("B")) {
+        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::BUDJETTI );
+        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::TOTEUTUNUT );
+        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::BUDJETTIERO );
+        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
     } else {
         raportoija->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
         if( edellinen.alkaa().isValid())
             raportoija->lisaaKausi(edellinen.alkaa(), edellinen.paattyy());
     }
 
-    connect( raportoija, &Raportoija::valmis, [this,indeksi] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk); } );
-    raportoija->kirjoita(false,-1);
+    connect( raportoija, &Raportoija::valmis, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
+    raportoija->kirjoita(erittelyt,-1);
 }
 
 
-void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
+void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk, const QString& otsikko)
 {
+    rk.asetaOtsikko(otsikko);
     kirjoittajat_[raportti] = rk;
     tilattuja_--;
     if( !tilattuja_) {

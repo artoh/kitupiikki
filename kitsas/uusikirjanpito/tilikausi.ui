@@ -34,7 +34,7 @@
       </font>
      </property>
      <property name="title">
-      <string>Ensimmäinen Kitupiikillä pidettävä tilikausi</string>
+      <string>Ensimmäinen Kitsaalla pidettävä tilikausi</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>

@@ -125,11 +125,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
     maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
-    if( maksettava_ > 0)
-        yvRivi(308,tr("Maksettava vero"),maksettava_);
-    else
-        yvRivi(308, tr("Palautettava vero"), maksettava_);
-
+    yvRivi(308, tr("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
     rk.lisaaTyhjaRivi();
 
 }

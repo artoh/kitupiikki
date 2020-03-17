@@ -44,6 +44,7 @@ bool LiiteMaaritys::nollaa()
     ui->ocrCheck->setChecked( kp()->settings()->value("OCR").toBool() );
     ui->ocrCheck->setEnabled( kp()->pilvi()->plan() ||
                               qobject_cast<PilviModel*>(kp()->yhteysModel()) );
+    ui->tilaajilleLabel->setVisible( !ui->ocrCheck->isEnabled() );
     ui->mvCheck->setChecked( kp()->settings()->value("KuvaMustavalko").toBool());
     ui->kokoScroll->setValue( kp()->settings()->value("KuvaKoko",2048).toInt());
     ui->laatuScroll->setValue( kp()->settings()->value("KuvaLaatu", 40).toInt());

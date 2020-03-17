@@ -221,9 +221,10 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
                 liitekysely->lisaaAttribuutti("ocr","json");
                 connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
             } else if( kp()->pilvi()->plan() ) {
+                emit ocrKaynnissa(true);
                 Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
                 connect( tesser, &Tuonti::TesserActTuonti::tuotu,
-                         this, &TositeLiitteet::tuonti);
+                         [this] (const QVariantMap& data) { emit this->tuonti(data); emit ocrKaynnissa(false); });
                 tesser->tuo(liite);
             }
         }

@@ -177,6 +177,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
     connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
     connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, ui->tallennetaanLabel, &QLabel::setVisible );
+    connect( tosite()->liitteet(), &TositeLiitteet::ocrKaynnissa, ui->ocrLabel, &QLabel::setVisible);
 
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
@@ -239,6 +240,7 @@ void KirjausWg::tyhjenna()
     else
         ui->viennitView->hideColumn(TositeViennit::ALV);
     ui->tallennetaanLabel->hide();
+    ui->ocrLabel->hide();
 }
 
 void KirjausWg::valmis()

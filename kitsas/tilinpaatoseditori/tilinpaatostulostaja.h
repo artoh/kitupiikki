@@ -56,7 +56,7 @@ protected:
     void tilaaRaportti(const QString& raportinnimi);
 
 protected slots:
-    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
+    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk, const QString &otsikko);
 
 
 protected:

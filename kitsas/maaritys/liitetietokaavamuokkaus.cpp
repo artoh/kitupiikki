@@ -44,6 +44,8 @@ bool LiitetietokaavaMuokkaus::nollaa()
     for(auto kieli: kp()->asetukset()->kielet()) {
         ui->kieliCombo->addItem(lippu(kieli) , kp()->asetukset()->kieli(kieli), kieli);
     }
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
+
     return true;
 }
 
@@ -87,22 +89,24 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
     for( auto nimi : kp()->asetukset()->avaimet("tulos/"))
         dlgUi.rapottiCombo->addItem( nimi );
 
-    if( dlg.exec() )
+    connect( dlgUi.rapottiCombo, &QComboBox::currentTextChanged, [dlgUi] (const QString& raportti) { dlgUi.groupBox->setEnabled(raportti.startsWith("tulos")); } );
+
+    if( dlg.exec() )        
     {
-        // Since 1.1 Mahdollisuus budjettivertailuun (vain tuloslaskelmassa)
-        QString budjettivertailu = dlgUi.vertailuBox->isChecked() ? "$" : QString();
-
-        if( dlgUi.erittelyCheck->isChecked() )
-            ui->editori->insertPlainText( QString("@%1%3*%2@")
-                                          .arg( dlgUi.rapottiCombo->currentText() )
-                                          .arg( dlgUi.otsikkoLine->text())
-                                          .arg(budjettivertailu));
-        else
-            ui->editori->insertPlainText( QString("@%1%3!%2@")
-                                          .arg( dlgUi.rapottiCombo->currentText() )
-                                          .arg( dlgUi.otsikkoLine->text())
-                                          .arg(budjettivertailu));
-
+        QString optiot;
+        if( dlgUi.erittelyCheck->isChecked())
+            optiot.append("E");
+        if( dlgUi.rapottiCombo->currentText().startsWith("tulos")) {
+            if( dlgUi.kustannuspaikatRadio->isChecked())
+                optiot.append("K");
+            else if( dlgUi.projektitRadio->isChecked())
+                optiot.append("P");
+            if( dlgUi.budjettiCheck->isChecked())
+                optiot.append("B");
+        }
+        ui->editori->insertPlainText(QString("@%1:%2!%3@")
+                                     .arg(dlgUi.rapottiCombo->currentText())
+                                     .arg(optiot)
+                                     .arg(dlgUi.otsikkoLine->text()));
     }
-
 }

@@ -114,4 +114,5 @@ void Budjettivertailu::paivitaKielet()
     for(auto kieli : kielet.keys()) {
         ui->kieliCombo->addItem( lippu(kieli), kp()->asetukset()->kieli(kieli), kieli );
     }
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
 }

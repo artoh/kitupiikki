@@ -128,7 +128,7 @@ void NaytinView::nayta(const QString &teksti)
 Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
 {
     qDebug() << "NaytinView::esikatsele";
-    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava, this);
+    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava, nullptr);
     vaihdaNaytin( naytin );
     return naytin;
 }
