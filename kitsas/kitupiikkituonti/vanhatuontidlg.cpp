@@ -684,11 +684,11 @@ void VanhatuontiDlg::siirraTositteet()
             int vientiid = vientikysely.value("id").toInt();
             vienti.setId( vientiid );
             QDate vientiPvm = vientikysely.value("pvm").toDate();
-            if( !vientiPvm.isValid())
-                vientiPvm = QDate::currentDate();    // Avoimet maksuperusteiset laskut muuutetaan laskuperusteisiksi tällä päivämäärällä
+            int alkuptili = vientikysely.value("tilinumero").toInt();
+            if( alkuptili == 0)
+                vientiPvm = tosite.pvm();    // Maksuperusteiset laskut kirjanpitoon kokonaan maksupäivänä
             vienti.setPvm( vientiPvm );
-            int tili =  tilimuunto( vientikysely.value("tilinumero").toInt() );
-            qDebug() << " Vienti " << vientiid << " Alkup tili " << vientikysely.value("tilinumero").toInt() << " Muunnettu " << tili;
+            int tili =  tilimuunto( alkuptili );
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
