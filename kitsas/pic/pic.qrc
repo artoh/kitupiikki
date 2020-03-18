@@ -172,6 +172,7 @@
         <file>kierto.svg</file>
         <file>kierto-harmaa.svg</file>
         <file>kuvamv.png</file>
+        <file>lilja.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -74,11 +74,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui = new Ui::Aloitus;
     ui->setupUi(this);
 
-    // Tässä julkaisussa pilvi ei käytössä
-#ifndef KITSAS_DEVEL
     ui->tkpilviTab->setTabEnabled(1, false);
-#endif
-
     ui->selain->setOpenLinks(false);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
