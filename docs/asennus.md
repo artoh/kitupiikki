@@ -9,9 +9,9 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.4.5 Windows asennusohjelma (12 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.5/kitupiikki-1.4.5-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
+    <span class="fa fa-windows"></span> [Kitupiikki 1.4.6 Windows asennusohjelma (12 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.6/kitupiikki-1.4.6-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-     <span class="fa fa-windows"></span> [Kitupiikki 1.4.5 Windows suoritettava ohjelma (15 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.5/kitupiikki-1.4.5.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.4.6 Windows suoritettava ohjelma (15 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.6/kitupiikki-1.4.6.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
 
 ## <span class="fa fa-linux"></span> Linux
@@ -29,7 +29,7 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 4. Ensimmäisellä käynnistyskerralla Kitupiikki kysyy, haluatko lisätä ohjelman käynnistysvalikkoon.
 
 
-## <span class="fa fa-apple"></span> Macintosh
+## <span class="fa fa-apple"></span> Mac
 
 Tukee OS X versiota 10.11 ja uudempia.
 
