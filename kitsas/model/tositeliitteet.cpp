@@ -172,7 +172,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             }
         }
         if( kp()->settings()->value("KuvaMustavalko").toBool()) {
-            image.convertTo(QImage::Format_Grayscale8);
+            image = image.convertToFormat(QImage::Format_Grayscale8);
         }
         QBuffer buffer(&liite);
         buffer.open(QIODevice::WriteOnly);
