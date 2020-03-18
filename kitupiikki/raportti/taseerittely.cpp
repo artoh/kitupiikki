@@ -72,18 +72,22 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
     // Haetaan tilit, joissa kirjauksia
     QSqlQuery kysely;
-    QSet<int> tiliSet;
+    QSet<QString> nroSet;
 
-    kysely.exec( QString("select DISTINCT tili.id from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
+    kysely.exec( QString("select DISTINCT tili.nro from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
                          "and pvm <= '%1' order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
     while(kysely.next() )
-        tiliSet.insert( kysely.value(0).toInt());
+        nroSet.insert( kysely.value(0).toString());
 
-    tiliSet.insert( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).id() );
-    tiliSet.insert( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).id());
+    nroSet.insert( QString::number(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero()) );
+    nroSet.insert( QString::number(kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero()));
 
-    QList<int> tiliIdt = tiliSet.toList();
-    qSort( tiliIdt );
+    QList<QString> nroList = nroSet.toList();
+    std::sort(nroList.begin(), nroList.end());
+
+    QList<int> tiliIdt;
+    for(auto listalla : nroList)
+        tiliIdt.append( kp()->tilit()->tiliNumerolla( listalla.toInt() ).id() );
 
     long edYsiluku = 0;
 

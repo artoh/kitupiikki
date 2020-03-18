@@ -15,22 +15,12 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Verkkolaskut&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Finvoice-verkkolaskun käyttöönottaminen edellyttää sopimusta verkkolaskuoperaattorin kanssa. Kitupiikki osaa muodostaa verkkolaskuja, mutta ne on ladattava verkkolaskuoperaattorin palveluun.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QLabel" name="label_5">
      <property name="styleSheet">
       <string notr="true">background-color: rgba(255, 255, 0, 125);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Verkkolaskuominaisuus on keskeneräinen ja ominaisuutta täydennetään myöhemmissä versioissa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Varmista yhteensopivuus oman verkkolaskuoperaattorisi kanssa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Tämän version verkkolaskuominaisuus ei ole yhteensopiva nykyisen verkkolaskustandardin kanssa. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Verkkolasku on käytettävissä uudemman version (Kitsas) lisäominaisuutena.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -50,7 +40,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="osoiteEdit"/>
+      <widget class="QLineEdit" name="osoiteEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
@@ -63,7 +57,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="valittajaEdit"/>
+      <widget class="QLineEdit" name="valittajaEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
@@ -79,6 +77,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLineEdit" name="kansioEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="frame">
           <bool>false</bool>
          </property>
@@ -102,6 +103,9 @@
      </item>
      <item row="3" column="0">
       <widget class="QCheckBox" name="soapBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Kirjoita SOAP-kehys</string>
        </property>
@@ -113,6 +117,9 @@
      </item>
      <item row="4" column="0">
       <widget class="QCheckBox" name="pdfBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Liitä pdf-lasku</string>
        </property>
