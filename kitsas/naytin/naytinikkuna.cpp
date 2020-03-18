@@ -28,7 +28,7 @@
 #include <QDebug>
 
 
-NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
+NaytinIkkuna::NaytinIkkuna() : QMainWindow(nullptr)
 {
     resize(800,600);   
     restoreGeometry( kp()->settings()->value("NaytinIkkuna").toByteArray());
@@ -37,7 +37,6 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
     connect( view_, &NaytinView::sisaltoVaihtunut, this, &NaytinIkkuna::sisaltoMuuttui);
 
     setCentralWidget(view_);
-
     teeToolbar();
 }
 

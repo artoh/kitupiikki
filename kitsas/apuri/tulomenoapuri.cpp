@@ -60,7 +60,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::verotonMuuttui);
 
     ui->alvProssa->addItems(QStringList() << "24,00 %" << "14,00%" << "10,00 %");
-    ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2}).*")));
+    ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2}).*"),this));
     connect( ui->alvProssa, &QComboBox::currentTextChanged, this, &TuloMenoApuri::veroprossaMuuttui);
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::lisaaRivi);

@@ -27,6 +27,8 @@
 #include <QJsonDocument>
 #include <QMessageBox>
 
+#include "rekisteri/postinumerot.h"
+
 TiedotSivu::TiedotSivu(UusiVelho *wizard) :
     ui( new Ui::UusiTiedot),
     velho( wizard )
@@ -40,6 +42,8 @@ TiedotSivu::TiedotSivu(UusiVelho *wizard) :
     registerField("nimi*", ui->nimiEdit);
     registerField("tili", ui->tiliLine);
     registerField("ytunnus", ui->ytunnusEdit);
+
+    connect(ui->postinumeroEdit, &QLineEdit::textEdited, [this] (const QString& numero) { this->ui->kaupunkiEdit->setText( Postinumerot::toimipaikka(numero)); });
 
 }
 

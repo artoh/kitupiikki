@@ -34,7 +34,7 @@ class NaytinIkkuna : public QMainWindow
 {
     Q_OBJECT
 public:
-    NaytinIkkuna(QWidget *parent = nullptr);
+    NaytinIkkuna();
     ~NaytinIkkuna() override;
 
     NaytinView* view() { return view_;}

@@ -47,7 +47,7 @@ private slots:
     void valintaMuuttui();
 
 private:
-    int valittuna_;    
+    int valittuna_=-1;
     QVariantList data_;
     bool latauksessa_ = false;
     int tili_ = 0;
