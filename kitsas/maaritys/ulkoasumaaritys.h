@@ -18,7 +18,6 @@
 #define ULKOASUMAARITYS_H
 
 #include "maarityswidget.h"
-#include "ui_tuontimaaritys.h"
 
 #include <QFont>
 
