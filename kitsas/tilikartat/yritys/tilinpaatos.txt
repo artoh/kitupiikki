@@ -8,8 +8,6 @@
 @tase/PMA!TASE (TILINPÄÄTÖS)@
 #
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
-#toiminnanalat Toiminnanalojen erittely
-@tulos/yhdistys:K!TOIMINNANALAT (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
@@ -44,14 +42,6 @@
 <p>Taseeseen merkitys rahoitusleasing-hankinnat</p>
 #kvstand Laadinnassa käytetty kansainvälisiä tilinpäätösstandadeja
 <p>Laadinnassa on noudatettu .... (kansainväliset tilinpäätösstandardit)</p>
-#maksuperuste -PIEN -ISO Maksuperusteinen tilinpäätös
-<p>Tilinpäätös on laadittu maksuperusteisesti.<p>
-<p>Menettely vaikuttaa tilikauden tulokseen ja taloudelliseen asemaan siten, että ... / Menettelyllä ei ole olennaista merkitystä tilikauden tulokseen ja taloudelliseen asemaan.</p>
-<p>Taseeseen merkitsemättömiä ostovelkoja on XX € ja myyntisaamisia XX €.</p>
-<p>Muutokset vaihto-omaisuudessa:</p>
-<p>Muutokset pysyvissä vastaavissa:</p>
-<p>Vieraan pääoman korkojen suoriteperusteinen määrä:</p>
-<p>Lomapalkkavelan suoriteperusteinen määrä:</p>
 #poik -ISO Poikkeukselliset erät
 <h2>Poikkeukselliset erät</h2>
 <p>Tähän tieto poikkeuksellisista tuottojen ja kulujen määrästä, jos erät ovat olennaisia.</p>
@@ -142,15 +132,9 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>
 <p>
 ##Tilintarkastus
-#tilintarkastus -toiminnantarkastus Tilintarkastusmerkintä
+#tilintarkastus Tilintarkastusmerkintä
 <h2>Tilintarkastusmerkintä</h2>
 <p>Suoritetusta tilintarkastuksesta on tänään annettu kertomus</p>
-<p>____________________  ___. päivänä _________kuuta  _________ </p>
-<p>
-<p>
-#toiminnantarkastus -tilintarkastus Toiminnantarkastusmerkintä
-<h2>Toiminnantarkastusmerkintä</h2>
-<p>Suoritetusta toiminnantarkastuksesta on tänään annettu kertomus</p>
 <p>____________________  ___. päivänä _________kuuta  _________ </p>
 <p>
 <p>

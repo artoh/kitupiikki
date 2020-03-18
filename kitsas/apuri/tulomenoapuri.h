@@ -76,7 +76,8 @@ protected:
     int rivilla() const;
     TulomenoRivi *rivi();
 
-
+    void setAlvProssa(double prosentti);
+    double alvProssa() const;
 
 private:
     Ui::TuloMenoApuri *ui;

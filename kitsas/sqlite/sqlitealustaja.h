@@ -22,6 +22,8 @@
 #include <QVariantMap>
 #include <QSqlQuery>
 
+class QProgressDialog;
+
 class SqliteAlustaja : public QObject
 {
     Q_OBJECT
@@ -49,6 +51,7 @@ protected:
     QSqlQuery tiliKysely;
     QSqlQuery otsikkoKysely;
     QSqlQuery tilikausiKysely;
+    QProgressDialog *progress;
 
 };
 

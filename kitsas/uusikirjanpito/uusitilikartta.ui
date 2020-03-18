@@ -45,7 +45,7 @@
          <string>Elinkeinotoiminta</string>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -63,16 +63,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 0, 0);</string>
-        </property>
-        <property name="text">
-         <string>Testikäyttöön. Tilikartta on testattu puutteellisesti</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QRadioButton" name="yhdistysButton">
         <property name="font">
          <font>
@@ -84,7 +74,7 @@
          <string>Aatteellinen yhdistys tai säätlö</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>

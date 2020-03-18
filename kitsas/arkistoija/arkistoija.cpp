@@ -135,7 +135,7 @@ void Arkistoija::arkistoiRaportit()
     connect( tililuettelo, &TiliKarttaListaaja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tililuettelo.html"); } );
     tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_,
-                           true, true, tilikausi_.paattyy(), false);
+                           true, false, tilikausi_.paattyy(), false);
 
     TositeLuettelo* tositeluettelo = new TositeLuettelo(this);
     connect( tositeluettelo, &TositeLuettelo::valmis,

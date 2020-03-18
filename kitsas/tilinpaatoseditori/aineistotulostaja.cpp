@@ -98,7 +98,7 @@ void AineistoTulostaja::tilaaRaportit()
     TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
     connect( tililuettelo, &TiliKarttaListaaja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(3, rk);});
-    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, true, tilikausi_.paattyy(), false);
+    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, false, tilikausi_.paattyy(), false);
 
     TositeLuettelo* luettelo = new TositeLuettelo(this);
     connect( luettelo, &TositeLuettelo::valmis,

@@ -50,6 +50,7 @@ KiertoMuokkausDlg::KiertoMuokkausDlg(int id, QWidget *parent, bool portaali) :
         this->ui->poistaNappi->setEnabled(index.isValid());
     });
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KiertoMuokkausDlg::poistaRivi);
+    connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/kierto/"); });
 
 }
 

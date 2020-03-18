@@ -197,9 +197,9 @@
           <widget class="QComboBox" name="alvCombo"/>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="alvSpin">
-           <property name="suffix">
-            <string> %</string>
+          <widget class="QComboBox" name="alvProssa">
+           <property name="editable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -441,7 +441,6 @@
   <tabstop>maaraEdit</tabstop>
   <tabstop>verotonEdit</tabstop>
   <tabstop>alvCombo</tabstop>
-  <tabstop>alvSpin</tabstop>
   <tabstop>vahennysCheck</tabstop>
   <tabstop>kohdennusCombo</tabstop>
   <tabstop>merkkauksetCC</tabstop>

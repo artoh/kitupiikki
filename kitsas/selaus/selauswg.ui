@@ -94,6 +94,17 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="paivitaNappi">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/refresh.png</normaloff>:/pic/refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -130,6 +141,8 @@
    <header location="global">tools/kpdateedit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

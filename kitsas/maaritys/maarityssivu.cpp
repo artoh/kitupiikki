@@ -58,7 +58,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
-    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
+    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "", QIcon(":/pic/yhteystiedot.png"),"yhteys");
     lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "maaritykset/liitteet", QIcon(":/pic/liite.png"),"liitteet");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "maaritykset/kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
@@ -68,9 +68,9 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maaritykset/maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
-    lisaaSivu(tr("Laskujen kierto"), KIERTO, "", QIcon(":/pic/kierto.svg"),"kierto");
-    lisaaSivu("Verkkolasku", VERKKOLASKU,"",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-    lisaaSivu("Kirjattavien kansio", INBOX,"",QIcon(":/pic/inbox.png"));
+    lisaaSivu(tr("Laskujen kierto"), KIERTO, "maaritykset/kierto", QIcon(":/pic/kierto.svg"),"kierto");
+    lisaaSivu("Verkkolasku", VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
+    lisaaSivu("Kirjattavien kansio", INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));

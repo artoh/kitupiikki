@@ -59,7 +59,9 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maaraEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::maaraMuuttui);
     connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::verotonMuuttui);
 
-    connect( ui->alvSpin, SIGNAL( valueChanged(double) ), this, SLOT( veroprossaMuuttui()) );
+    ui->alvProssa->addItems(QStringList() << "24,00 %" << "14,00%" << "10,00 %");
+    ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2}).*")));
+    connect( ui->alvProssa, &QComboBox::currentTextChanged, this, &TuloMenoApuri::veroprossaMuuttui);
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::lisaaRivi);
     connect( ui->poistaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::poistaRivi);
@@ -124,8 +126,8 @@ void TuloMenoApuri::tuo(QVariantMap map)
             TositeVienti vienti;
 
             ui->alvCombo->setCurrentIndex(
-                        ui->alvCombo->findData(alvi.value("alvkoodi")));
-            ui->alvSpin->setValue(alvi.value("alvprosentti").toDouble());
+                        ui->alvCombo->findData(alvi.value("alvkoodi")));            
+            setAlvProssa(alvi.value("alvprosentti").toDouble());
             ui->verotonEdit->setValue( alvi.value("netto").toDouble() );
             verotonMuuttui();
 
@@ -335,7 +337,7 @@ void TuloMenoApuri::tiliMuuttui()
                 verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
-            ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
+            setAlvProssa(tili.str("alvprosentti").toDouble() );
         }
 
         if( tili.luku("vastatili") && rivit_->rowCount()<2) {
@@ -373,15 +375,12 @@ void TuloMenoApuri::verolajiMuuttui()
     ui->verotonLabel->setVisible(naytaVeroton);
     ui->verotonEdit->setVisible(naytaVeroton);
 
-    ui->alvSpin->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );
+    ui->alvProssa->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );
     ui->vahennysCheck->setVisible( rivi()->naytaVahennysvalinta());
     ui->vahennysCheck->setChecked( false );
 
-    if( ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() ) {
-        ui->alvSpin->setValue(0.0);
-    } else  {
-        if( ui->alvSpin->value() == 0.0)
-            ui->alvSpin->setValue(24.0);
+    if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 1e-5) {
+        setAlvProssa(24.0);
     }
 
 
@@ -416,7 +415,7 @@ void TuloMenoApuri::verotonMuuttui()
 
 void TuloMenoApuri::veroprossaMuuttui()
 {
-    double verokanta = ui->alvSpin->value();
+    double verokanta = alvProssa();
     rivi()->setAlvprosentti( verokanta  );
     ui->maaraEdit->setCents( rivi()->brutto());
     ui->verotonEdit->setCents( rivi()->netto() );
@@ -559,7 +558,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->tiliEdit->valitseTiliNumerolla( tilinumero );
     tiliMuuttui();
 
-    ui->alvSpin->setValue( rivi->alvprosentti() );
+    setAlvProssa( rivi->alvprosentti());
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
 
     verolajiMuuttui();
@@ -654,6 +653,24 @@ int TuloMenoApuri::rivilla() const
 TulomenoRivi *TuloMenoApuri::rivi()
 {    
     return rivit_->rivi(rivilla());
+}
+
+void TuloMenoApuri::setAlvProssa(double prosentti)
+{
+    ui->alvProssa->setCurrentText(QString("%L1 %").arg(prosentti,0,'f',2));
+}
+
+double TuloMenoApuri::alvProssa() const
+{
+    if(ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
+        return 0.0;
+
+    QString txt = ui->alvProssa->currentText();
+    int vali = txt.indexOf(QRegularExpression("\\D"));
+    if( vali > 0)
+        txt = txt.left(vali);
+    txt.replace(",",".");
+    return txt.toDouble();
 }
 
 void TuloMenoApuri::kumppaniValittu(int kumppaniId)

@@ -26,6 +26,7 @@
 #include <QSqlError>
 #include <QJsonDocument>
 #include <QDate>
+#include <QProgressDialog>
 
 #include "versio.h"
 
@@ -35,15 +36,22 @@ bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &init
 
     QVariantMap initMap = initials.value("init").toMap();
 
-    return( alustaja.alustaTietokanta(polku) &&
+    bool onnistui =  alustaja.alustaTietokanta(polku) &&
             alustaja.teeInit(initMap) &&
-            alustaja.lopputoimet());
+            alustaja.lopputoimet() &&
+            !alustaja.progress->wasCanceled();
 
+    alustaja.progress->close();
+
+    return onnistui;
 }
 
 SqliteAlustaja::SqliteAlustaja() :
     QObject(nullptr)
 {
+    progress = new QProgressDialog(tr("Alustetaan kirjanpitoa..."), tr("Peruuta"),0,10);
+    progress->setMinimumDuration(500);
+
     db = QSqlDatabase::addDatabase("QSQLITE","uusi");
 }
 
@@ -54,11 +62,17 @@ QString SqliteAlustaja::json(const QVariant &var)
 
 bool SqliteAlustaja::alustaTietokanta(const QString &polku)
 {
+
+    progress->setValue(1);
+    qApp->processEvents();
+
     db.setDatabaseName(polku);
     if( !db.open() ){
         QMessageBox::critical(nullptr, tr("Kirjanpidon %1 luominen epäonnistui").arg(polku), tr("Tietokannan luominen epäonnistui seuraavan virheen takia: %1").arg( db.lastError().text() ));
         return false;
     }
+    progress->setValue(2);
+
     // Kirjanpidon luomisen ajaksi synkronointi pois käytöstä
     db.exec("PRAGMA SYNCHRONOUS = OFF");
 
@@ -84,6 +98,7 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
         }
         qApp->processEvents();
     }
+    progress->setValue(4);
 
     asetusKysely = QSqlQuery(db);
     asetusKysely.prepare("INSERT INTO Asetus(avain,arvo) VALUES(?,?)");
@@ -94,7 +109,7 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
     tilikausiKysely = QSqlQuery( db );
     tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,json) VALUES (?,?,?)");
 
-
+    progress->setValue(6);
     return true;
 }
 
@@ -117,7 +132,7 @@ bool SqliteAlustaja::lopputoimet()
 #ifndef KITSAS_DEVEL
     db.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
 #endif
-
+    progress->setValue(10);
     return true;
 }
 
@@ -126,7 +141,7 @@ bool SqliteAlustaja::teeInit(const QVariantMap &initMap)
     kirjoitaAsetukset( initMap.value("asetukset").toMap());
     kirjoitaTilit( initMap.value("tilit").toList());
     kirjoitaTilikaudet( initMap.value("tilikaudet").toList() );
-
+    progress->setValue(8);
     return true;
 }
 
@@ -136,6 +151,7 @@ void SqliteAlustaja::kirjoitaAsetukset(const QVariantMap &asetukset)
     while( iter.hasNext() ) {
         iter.next();
         aseta( iter.key(), iter.value() );
+        qApp->processEvents();
     }
 }
 
@@ -156,6 +172,7 @@ void SqliteAlustaja::kirjoitaTilit(const QVariantList &tililista)
             tiliKysely.addBindValue( json(map) );
             tiliKysely.exec();
         }
+        qApp->processEvents();
 
     }
 }
@@ -170,7 +187,7 @@ void SqliteAlustaja::kirjoitaTilikaudet(const QVariantList &kausilista)
         tilikausiKysely.addBindValue( map.take("alkaa").toDate() );
         tilikausiKysely.addBindValue( map.take("loppuu").toDate() );
         tilikausiKysely.addBindValue( json(map) );
-        tilikausiKysely.exec();
+        tilikausiKysely.exec();        
     }
 }
 
