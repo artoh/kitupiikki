@@ -34,82 +34,92 @@ benchmark: first
 
 compilers: qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp\
 	 qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp\
-	 qrc_lasku.cpp moc_predefs.h moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp\
-	 moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp\
-	 moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp\
-	 moc_jaksottaja.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp\
-	 moc_tositetyyppimodel.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp\
-	 moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp\
-	 moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp\
-	 moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp\
-	 moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp\
-	 moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp\
-	 moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp\
-	 moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp\
-	 moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp\
-	 moc_ulkoasumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp\
-	 moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp\
-	 moc_tositeviennit.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp\
-	 moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp\
-	 moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp\
-	 moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp\
-	 moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp\
-	 moc_maamodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp\
-	 moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp\
-	 moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp\
-	 moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp\
-	 moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp\
-	 moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp\
-	 moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp\
-	 moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp\
-	 moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp\
-	 moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp\
-	 moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp\
-	 moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp\
-	 moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp\
-	 moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp\
-	 moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp\
-	 moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp\
-	 moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp\
-	 moc_muokattavaraportti.cpp moc_onniwidget.cpp moc_raportoija.cpp\
-	 moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp\
-	 moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp\
-	 moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp\
-	 moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp\
-	 moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp\
-	 moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp\
-	 moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp\
-	 moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp\
-	 moc_tuontimaarityswidget.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp\
+	 qrc_lasku.cpp moc_predefs.h moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp\
+	 moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp\
+	 moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp\
+	 moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp\
+	 moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp\
+	 moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp\
+	 moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp\
+	 moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp\
+	 moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp\
+	 moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp\
+	 moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp\
+	 moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp\
+	 moc_tuotedialogi.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp\
+	 moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp\
+	 moc_kayttooikeussivu.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp\
+	 moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp\
+	 moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp\
+	 moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp\
+	 moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp\
+	 moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp\
+	 moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp\
+	 moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp\
+	 moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp\
+	 moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp\
+	 moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp\
+	 moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp\
+	 moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp\
+	 moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp\
+	 moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp\
+	 moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp\
+	 moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp\
+	 moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp\
+	 moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp\
+	 moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp\
+	 moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp\
+	 moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp\
+	 moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp\
+	 moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp\
+	 moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp\
+	 moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp\
+	 moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp\
+	 moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp\
+	 moc_kohdennusdelegaatti.cpp moc_muokattavaraportti.cpp moc_onniwidget.cpp\
+	 moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp\
+	 moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp\
+	 moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp\
+	 moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp\
+	 moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp\
+	 moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp\
+	 moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp\
+	 moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp\
+	 moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp\
 	 moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp\
 	 moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp\
 	 moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp\
 	 moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp\
 	 moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp\
-	 moc_budjettikohdennusproxy.cpp moc_finvoicemaaritys.cpp moc_budjettivertailu.cpp\
-	 moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp\
-	 moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp\
-	 moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp\
-	 moc_eipdfnaytin.cpp moc_viennitview.cpp moc_kpkysely.cpp\
-	 moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp\
-	 moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp\
-	 moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp\
-	 moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h\
-	 ui_siirtoapuri.h ui_arkistohakemistodialogi.h ui_tallennettuwidget.h\
-	 ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h\
-	 ui_laskulistawidget.h ui_tuotedialogi.h ui_maksutapamuokkaus.h\
-	 ui_maksutapasivu.h ui_paivitetaandlg.h ui_raportinmuokkaus.h\
-	 ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h\
-	 ui_tositesarjat.h ui_ulkoasumaaritys.h ui_veromaaritys.h\
-	 ui_pvmvali.h ui_asiakastoimittajadlg.h ui_tilausvahvistus.h\
-	 ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h\
-	 ui_numerointi.h ui_sijainti.h ui_tilikausi.h\
-	 ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h\
-	 ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h\
-	 ui_kirjaus.h ui_tositewg.h ui_selauswg.h\
-	 ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h\
-	 ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h\
-	 ui_kohdennusdialog.h ui_kirjausapuridialog.h ui_muokattavaraportti.h\
+	 moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp\
+	 moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp\
+	 moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp\
+	 moc_kuvaview.cpp moc_pdfview.cpp moc_eipdfnaytin.cpp\
+	 moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp\
+	 moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp\
+	 moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp\
+	 moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp\
+	 moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp\
+	 moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h\
+	 ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h\
+	 ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h\
+	 ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h\
+	 ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h\
+	 ui_tuotedialogi.h ui_emailkokeilu.h ui_kayttooikeudet.h\
+	 ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h\
+	 ui_paivitetaandlg.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h\
+	 ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h\
+	 ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h\
+	 ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h\
+	 ui_pvmvali.h ui_asiakastoimittajadlg.h ui_kiitos.h\
+	 ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h\
+	 ui_paivitys.h ui_numerointi.h ui_sijainti.h\
+	 ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h\
+	 ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h\
+	 ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h\
+	 ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h\
+	 ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h\
+	 ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h\
 	 ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h\
 	 ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h\
 	 ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h\
@@ -118,14 +128,14 @@ compilers: qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp\
 	 ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h\
 	 ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h\
 	 ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h\
-	 ui_tuontimaaritys.h ui_csvtuontidlg.h ui_tilimuuntodlg.h\
-	 ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h\
-	 ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h\
-	 ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h\
-	 ui_verkkolaskumaaritys.h ui_muistiinpanot.h ui_budjettivertailu.h\
-	 ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h\
-	 ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h\
-	 ui_maksumuistutusdialogi.h ui_tuloverodialog.h
+	 ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h\
+	 ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h\
+	 ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h\
+	 ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h\
+	 ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h\
+	 ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h\
+	 ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h\
+	 ui_kiertomuokkausdlg.h
 compiler_rcc_make_all: qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp qrc_lasku.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp qrc_lasku.cpp
@@ -161,6 +171,14 @@ qrc_tilikartat.cpp: ../kitsas/tilikartat/tilikartat.qrc \
 
 qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../../../Qt/5.14.1/clang_64/bin/rcc \
+		../kitsas/pic/pixaby/tarkastettu.svg \
+		../kitsas/pic/pixaby/log-out.svg \
+		../kitsas/pic/pixaby/log-in.svg \
+		../kitsas/pic/pixaby/tarkastus.png \
+		../kitsas/pic/pixaby/hyvaksytty.svg \
+		../kitsas/pic/pixaby/leimasin.png \
+		../kitsas/pic/pixaby/skanneri.png \
+		../kitsas/pic/pixaby/oikealle.png \
 		../kitsas/pic/maksutavat/poista.png \
 		../kitsas/pic/maksutavat/kateinen.png \
 		../kitsas/pic/maksutavat/pankki.png \
@@ -179,6 +197,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/tulosta.png \
 		../kitsas/pic/kansiot.png \
 		../kitsas/pic/asetusloota.png \
+		../kitsas/pic/kierto-harmaa.svg \
 		../kitsas/pic/lukitsematta.png \
 		../kitsas/pic/eikaytossa.png \
 		../kitsas/pic/lihavoi.png \
@@ -215,6 +234,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/apuri64.png \
 		../kitsas/pic/close16.png \
 		../kitsas/pic/dev.png \
+		../kitsas/pic/lilja.png \
 		../kitsas/pic/liite-aktiivinen.png \
 		../kitsas/pic/verkkovirhe.png \
 		../kitsas/pic/eu.png \
@@ -252,6 +272,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/info.png \
 		../kitsas/pic/possukirjaa.png \
 		../kitsas/pic/siirto.png \
+		../kitsas/pic/kuvamv.png \
 		../kitsas/pic/rf.png \
 		../kitsas/pic/euro.png \
 		../kitsas/pic/vasara.png \
@@ -312,6 +333,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/paketti.png \
 		../kitsas/pic/vientilista-aktiivinen.png \
 		../kitsas/pic/vero64.png \
+		../kitsas/pic/kierto.svg \
 		../kitsas/pic/splash.png \
 		../kitsas/pic/kotisivu.png \
 		../kitsas/pic/refresh.png \
@@ -366,6 +388,8 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/liput/sv.png \
 		../kitsas/pic/liput/en.png \
 		../kitsas/pic/freeicons/adminkey.png \
+		../kitsas/pic/freeicons/timantti.svg \
+		../kitsas/pic/freeicons/roskis.png \
 		../kitsas/pic/freeicons/pencil.png \
 		../kitsas/pic/freeicons/edit.png \
 		../kitsas/pic/freeicons/view.png \
@@ -399,11 +423,18 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1y -Wall -Wextra -dM -E -o moc_predefs.h ../../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_muokattavaraportti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_tuontimaarityswidget.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_finvoicemaaritys.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_eipdfnaytin.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp
+compiler_moc_header_make_all: moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_muokattavaraportti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_eipdfnaytin.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp
-	-$(DEL_FILE) moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_muokattavaraportti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_tuontimaarityswidget.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_finvoicemaaritys.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_eipdfnaytin.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp
-	-$(DEL_FILE) moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp
+	-$(DEL_FILE) moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp
+	-$(DEL_FILE) moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_muokattavaraportti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp
+	-$(DEL_FILE) moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_eipdfnaytin.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
+moc_luotunnusdialogi.cpp: ../kitsas/aloitussivu/luotunnusdialogi.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers/QNetworkReply \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/aloitussivu/luotunnusdialogi.h -o moc_luotunnusdialogi.cpp
+
 moc_alvlaskelma.cpp: ../kitsas/alv/alvlaskelma.h \
 		../kitsas/raportti/raportteri.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
@@ -500,6 +531,17 @@ moc_jaksottaja.cpp: ../kitsas/arkisto/jaksottaja.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/arkisto/jaksottaja.h -o moc_jaksottaja.cpp
 
+moc_uudelleennumerointi.cpp: ../kitsas/arkisto/uudelleennumerointi.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../kitsas/db/tilikausi.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDateTime \
+		../kitsas/db/kantavariantti.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/arkisto/uudelleennumerointi.h -o moc_uudelleennumerointi.cpp
+
 moc_arkistohakemistodialogi.cpp: ../kitsas/arkistoija/arkistohakemistodialogi.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
 		moc_predefs.h \
@@ -532,8 +574,44 @@ moc_tositetyyppimodel.cpp: ../kitsas/db/tositetyyppimodel.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/db/tositetyyppimodel.h -o moc_tositetyyppimodel.cpp
 
+moc_kiertomaaritys.cpp: ../kitsas/kierto/kiertomaaritys.h \
+		../kitsas/maaritys/maarityswidget.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertomaaritys.h -o moc_kiertomaaritys.cpp
+
+moc_kiertomodel.cpp: ../kitsas/kierto/kiertomodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertomodel.h -o moc_kiertomodel.cpp
+
+moc_kiertomuokkausmodel.cpp: ../kitsas/kierto/kiertomuokkausmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertomuokkausmodel.h -o moc_kiertomuokkausmodel.cpp
+
+moc_kiertoselausmodel.cpp: ../kitsas/kierto/kiertoselausmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertoselausmodel.h -o moc_kiertoselausmodel.cpp
+
+moc_kiertosivu.cpp: ../kitsas/kierto/kiertosivu.h \
+		../kitsas/kitupiikkisivu.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertosivu.h -o moc_kiertosivu.cpp
+
 moc_tallennettuwidget.cpp: ../kitsas/kirjaus/tallennettuwidget.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		../kitsas/model/tosite.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kirjaus/tallennettuwidget.h -o moc_tallennettuwidget.cpp
@@ -546,8 +624,8 @@ moc_vanhatuontidlg.cpp: ../kitsas/kitupiikkituonti/vanhatuontidlg.h \
 		../kitsas/model/tosite.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../kitsas/model/tositevienti.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
+		../kitsas/model/tositevienti.h \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kitupiikkituonti/vanhatuontidlg.h -o moc_vanhatuontidlg.cpp
@@ -640,10 +718,39 @@ moc_laskutettavatmodel.cpp: ../kitsas/laskutus/ryhmalasku/laskutettavatmodel.h \
 		../kitsas/model/tosite.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		../kitsas/naytin/esikatseltava.h \
 		../kitsas/db/tositetyyppimodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QIcon \
+		../kitsas/db/verotyyppimodel.h \
+		../kitsas/db/kirjanpito.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QMap \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDir \
+		../../../Qt/5.14.1/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QImage \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QStringList \
+		../kitsas/db/tilikausi.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDateTime \
+		../kitsas/db/kantavariantti.h \
+		../kitsas/db/asetusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QHash \
+		../kitsas/db/tilikausimodel.h \
+		../kitsas/db/kohdennusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
+		../kitsas/db/kohdennus.h \
+		../kitsas/db/kielikentta.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariantMap \
+		../kitsas/db/tilityyppimodel.h \
+		../kitsas/db/tilimodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QSet \
+		../kitsas/db/tili.h \
+		../kitsas/db/kpkysely.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QUrlQuery \
+		../kitsas/pilvi/pilvimodel.h \
+		../kitsas/db/yhteysmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/laskutus/ryhmalasku/laskutettavatmodel.h -o moc_laskutettavatmodel.cpp
@@ -794,6 +901,36 @@ moc_avauskohdennusmodel.cpp: ../kitsas/maaritys/avauskohdennusmodel.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/avauskohdennusmodel.h -o moc_avauskohdennusmodel.cpp
 
+moc_emailkokeilu.cpp: ../kitsas/maaritys/emailkokeilu.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/emailkokeilu.h -o moc_emailkokeilu.cpp
+
+moc_kayttooikeusmodel.cpp: ../kitsas/maaritys/kayttooikeudet/kayttooikeusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/kayttooikeudet/kayttooikeusmodel.h -o moc_kayttooikeusmodel.cpp
+
+moc_kayttooikeussivu.cpp: ../kitsas/maaritys/kayttooikeudet/kayttooikeussivu.h \
+		../kitsas/maaritys/maarityswidget.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		../kitsas/maaritys/kayttooikeudet/kayttooikeusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/kayttooikeudet/kayttooikeussivu.h -o moc_kayttooikeussivu.cpp
+
+moc_liitemaaritys.cpp: ../kitsas/maaritys/liitemaaritys.h \
+		../kitsas/maaritys/maarityswidget.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/liitemaaritys.h -o moc_liitemaaritys.cpp
+
 moc_maksutapamuokkaus.cpp: ../kitsas/maaritys/maksutapamuokkaus.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		moc_predefs.h \
@@ -844,11 +981,23 @@ moc_tositesarjamaaritys.cpp: ../kitsas/maaritys/tositesarjamaaritys.h \
 moc_ulkoasumaaritys.cpp: ../kitsas/maaritys/ulkoasumaaritys.h \
 		../kitsas/maaritys/maarityswidget.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		ui_tuontimaaritys.h \
 		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QFont \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/ulkoasumaaritys.h -o moc_ulkoasumaaritys.cpp
+
+moc_maventadialog.cpp: ../kitsas/maaritys/verkkolasku/maventadialog.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/verkkolasku/maventadialog.h -o moc_maventadialog.cpp
+
+moc_verkkolaskumaaritys.cpp: ../kitsas/maaritys/verkkolasku/verkkolaskumaaritys.h \
+		../kitsas/maaritys/maarityswidget.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/verkkolasku/verkkolaskumaaritys.h -o moc_verkkolaskumaaritys.cpp
 
 moc_laskutaulumodel.cpp: ../kitsas/model/laskutaulumodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
@@ -866,6 +1015,7 @@ moc_maksutapamodel.cpp: ../kitsas/model/maksutapamodel.h \
 moc_tosite.cpp: ../kitsas/model/tosite.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/model/tosite.h -o moc_tosite.cpp
@@ -890,6 +1040,15 @@ moc_tositeviennit.cpp: ../kitsas/model/tositeviennit.h \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/model/tositeviennit.h -o moc_tositeviennit.cpp
+
+moc_pilveensiirto.cpp: ../kitsas/pilvi/pilveensiirto.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QQueue \
+		../../../Qt/5.14.1/clang_64/lib/QtSql.framework/Headers/QSqlQuery \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QString \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/pilvi/pilveensiirto.h -o moc_pilveensiirto.cpp
 
 moc_alvraporttiwidget.cpp: ../kitsas/raportti/alvraporttiwidget.h \
 		../kitsas/raportti/raporttiwidget.h \
@@ -1102,6 +1261,20 @@ moc_ryhmavalintalistwidget.cpp: ../kitsas/rekisteri/ryhmavalintalistwidget.h \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/rekisteri/ryhmavalintalistwidget.h -o moc_ryhmavalintalistwidget.cpp
+
+moc_saldodock.cpp: ../kitsas/saldodock/saldodock.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDockWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/saldodock/saldodock.h -o moc_saldodock.cpp
+
+moc_saldomodel.cpp: ../kitsas/saldodock/saldomodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariantList \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/saldodock/saldomodel.h -o moc_saldomodel.cpp
 
 moc_sqlitealustaja.cpp: ../kitsas/sqlite/sqlitealustaja.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
@@ -1354,6 +1527,10 @@ moc_maarityssivu.cpp: ../kitsas/maaritys/maarityssivu.h \
 moc_kirjauswg.cpp: ../kitsas/kirjaus/kirjauswg.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
+		../kitsas/model/tosite.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		ui_kirjaus.h \
 		../kitsas/kirjaus/naytaliitewg.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QStackedWidget \
@@ -1939,6 +2116,7 @@ moc_tositeselausmodel.cpp: ../kitsas/selaus/tositeselausmodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QSet \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/selaus/tositeselausmodel.h -o moc_tositeselausmodel.cpp
@@ -2076,10 +2254,39 @@ moc_laskudialogi.cpp: ../kitsas/laskutus/laskudialogi.h \
 		../kitsas/model/tosite.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDate \
 		../kitsas/naytin/esikatseltava.h \
 		../kitsas/db/tositetyyppimodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QIcon \
+		../kitsas/db/verotyyppimodel.h \
+		../kitsas/db/kirjanpito.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QMap \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDir \
+		../../../Qt/5.14.1/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QImage \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QStringList \
+		../kitsas/db/tilikausi.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDateTime \
+		../kitsas/db/kantavariantti.h \
+		../kitsas/db/asetusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QHash \
+		../kitsas/db/tilikausimodel.h \
+		../kitsas/db/kohdennusmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
+		../kitsas/db/kohdennus.h \
+		../kitsas/db/kielikentta.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariantMap \
+		../kitsas/db/tilityyppimodel.h \
+		../kitsas/db/tilimodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QSet \
+		../kitsas/db/tili.h \
+		../kitsas/db/kpkysely.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QUrlQuery \
+		../kitsas/pilvi/pilvimodel.h \
+		../kitsas/db/yhteysmodel.h \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/laskutus/laskudialogi.h -o moc_laskudialogi.cpp
@@ -2244,14 +2451,6 @@ moc_laskuraportti.cpp: ../kitsas/raportti/laskuraportti.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/raportti/laskuraportti.h -o moc_laskuraportti.cpp
 
-moc_tuontimaarityswidget.cpp: ../kitsas/maaritys/tuontimaarityswidget.h \
-		../kitsas/maaritys/maarityswidget.h \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		ui_tuontimaaritys.h \
-		moc_predefs.h \
-		../../../Qt/5.14.1/clang_64/bin/moc
-	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/tuontimaarityswidget.h -o moc_tuontimaarityswidget.cpp
-
 moc_csvtuonti.cpp: ../kitsas/tuonti/csvtuonti.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QStringList \
 		ui_csvtuontidlg.h \
@@ -2407,10 +2606,8 @@ moc_tallentavamaarityswidget.cpp: ../kitsas/maaritys/tallentavamaarityswidget.h 
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/tallentavamaarityswidget.h -o moc_tallentavamaarityswidget.cpp
 
 moc_inboxmaaritys.cpp: ../kitsas/maaritys/inboxmaaritys.h \
-		../kitsas/maaritys/tallentavamaarityswidget.h \
 		../kitsas/maaritys/maarityswidget.h \
 		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/inboxmaaritys.h -o moc_inboxmaaritys.cpp
@@ -2441,15 +2638,6 @@ moc_budjettikohdennusproxy.cpp: ../kitsas/arkisto/budjettikohdennusproxy.h \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/arkisto/budjettikohdennusproxy.h -o moc_budjettikohdennusproxy.cpp
-
-moc_finvoicemaaritys.cpp: ../kitsas/maaritys/finvoicemaaritys.h \
-		../kitsas/maaritys/tallentavamaarityswidget.h \
-		../kitsas/maaritys/maarityswidget.h \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QList \
-		moc_predefs.h \
-		../../../Qt/5.14.1/clang_64/bin/moc
-	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/maaritys/finvoicemaaritys.h -o moc_finvoicemaaritys.cpp
 
 moc_budjettivertailu.cpp: ../kitsas/raportti/budjettivertailu.h \
 		../kitsas/raportti/raporttiwidget.h \
@@ -2610,6 +2798,7 @@ moc_pilvikysely.cpp: ../kitsas/pilvi/pilvikysely.h \
 		../kitsas/pilvi/pilvimodel.h \
 		../kitsas/db/yhteysmodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		../../../Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers/QNetworkReply \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
@@ -2623,6 +2812,7 @@ moc_pilvimodel.cpp: ../kitsas/pilvi/pilvimodel.h \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QString \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariant \
 		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QUrlQuery \
+		../../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		moc_predefs.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/pilvi/pilvimodel.h -o moc_pilvimodel.cpp
@@ -2723,13 +2913,52 @@ moc_tuloverodialog.cpp: ../kitsas/arkisto/tuloverodialog.h \
 		../../../Qt/5.14.1/clang_64/bin/moc
 	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/arkisto/tuloverodialog.h -o moc_tuloverodialog.cpp
 
+moc_kiertowidget.cpp: ../kitsas/kierto/kiertowidget.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QWidget \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertowidget.h -o moc_kiertowidget.cpp
+
+moc_kiertomuokkausdlg.cpp: ../kitsas/kierto/kiertomuokkausdlg.h \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/kierto/kiertomuokkausdlg.h -o moc_kiertomuokkausdlg.cpp
+
+moc_tesseracttuonti.cpp: ../kitsas/tuonti/tesseracttuonti.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/tuonti/tesseracttuonti.h -o moc_tesseracttuonti.cpp
+
+moc_verkkolaskutoimittaja.cpp: ../kitsas/laskutus/verkkolaskutoimittaja.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QQueue \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariantMap \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/laskutus/verkkolaskutoimittaja.h -o moc_verkkolaskutoimittaja.cpp
+
+moc_finvoicehaku.cpp: ../kitsas/tools/finvoicehaku.h \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QVariantMap \
+		../../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QDateTime \
+		moc_predefs.h \
+		../../../Qt/5.14.1/clang_64/bin/moc
+	/Users/petri/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.14.1/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.14.1/clang_64/lib ../kitsas/tools/finvoicehaku.h -o moc_finvoicehaku.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_arkistohakemistodialogi.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_paivitetaandlg.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_veromaaritys.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_kirjausapuridialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_tuontimaaritys.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_verkkolaskumaaritys.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h
+compiler_uic_make_all: ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_paivitetaandlg.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h ui_kiertomuokkausdlg.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_arkistohakemistodialogi.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_paivitetaandlg.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_veromaaritys.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_kirjausapuridialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_tuontimaaritys.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_verkkolaskumaaritys.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h
+	-$(DEL_FILE) ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_paivitetaandlg.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h
+	-$(DEL_FILE) ui_kiertomuokkausdlg.h
+ui_luotunnusdialogi.h: ../kitsas/aloitussivu/luotunnusdialogi.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/aloitussivu/luotunnusdialogi.ui -o ui_luotunnusdialogi.h
+
 ui_palkkaapuri.h: ../kitsas/apuri/palkkaapuri.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/tools/kpeuroedit.h \
@@ -2763,9 +2992,26 @@ ui_siirtoapuri.h: ../kitsas/apuri/siirtoapuri.ui \
 		../kitsas/tools/eracombo.h
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/apuri/siirtoapuri.ui -o ui_siirtoapuri.h
 
+ui_uudelleennumerointi.h: ../kitsas/arkisto/uudelleennumerointi.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/arkisto/uudelleennumerointi.ui -o ui_uudelleennumerointi.h
+
 ui_arkistohakemistodialogi.h: ../kitsas/arkistoija/arkistohakemistodialogi.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/arkistoija/arkistohakemistodialogi.ui -o ui_arkistohakemistodialogi.h
+
+ui_kiertomaaritys.h: ../kitsas/kierto/kiertomaaritys.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/kierto/kiertomaaritys.ui -o ui_kiertomaaritys.h
+
+ui_kiertosivu.h: ../kitsas/kierto/kiertosivu.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic \
+		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QTabBar
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/kierto/kiertosivu.ui -o ui_kiertosivu.h
+
+ui_kierto.h: ../kitsas/kierto/kierto.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/kierto/kierto.ui -o ui_kierto.h
 
 ui_tallennettuwidget.h: ../kitsas/kirjaus/tallennettuwidget.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
@@ -2796,6 +3042,18 @@ ui_tuotedialogi.h: ../kitsas/laskutus/tuotedialogi.ui \
 		../kitsas/db/tilinvalintaline.h \
 		../kitsas/laskutus/laskualvcombo.h
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/laskutus/tuotedialogi.ui -o ui_tuotedialogi.h
+
+ui_emailkokeilu.h: ../kitsas/maaritys/emailkokeilu.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/emailkokeilu.ui -o ui_emailkokeilu.h
+
+ui_kayttooikeudet.h: ../kitsas/maaritys/kayttooikeudet/kayttooikeudet.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/kayttooikeudet/kayttooikeudet.ui -o ui_kayttooikeudet.h
+
+ui_liitemaaritys.h: ../kitsas/maaritys/liitemaaritys.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/liitemaaritys.ui -o ui_liitemaaritys.h
 
 ui_maksutapamuokkaus.h: ../kitsas/maaritys/maksutapamuokkaus.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
@@ -2834,9 +3092,25 @@ ui_ulkoasumaaritys.h: ../kitsas/maaritys/ulkoasumaaritys.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/ulkoasumaaritys.ui -o ui_ulkoasumaaritys.h
 
+ui_maventa.h: ../kitsas/maaritys/verkkolasku/maventa.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/verkkolasku/maventa.ui -o ui_maventa.h
+
+ui_verkkolasku.h: ../kitsas/maaritys/verkkolasku/verkkolasku.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/verkkolasku/verkkolasku.ui -o ui_verkkolasku.h
+
 ui_veromaaritys.h: ../kitsas/maaritys/veromaaritys.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/veromaaritys.ui -o ui_veromaaritys.h
+
+ui_yhteystiedot.h: ../kitsas/maaritys/yhteystiedot.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/yhteystiedot.ui -o ui_yhteystiedot.h
+
+ui_pilveensiirto.h: ../kitsas/pilvi/pilveensiirto.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/pilvi/pilveensiirto.ui -o ui_pilveensiirto.h
 
 ui_pvmvali.h: ../kitsas/raportti/pvmvali.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
@@ -2846,6 +3120,10 @@ ui_asiakastoimittajadlg.h: ../kitsas/rekisteri/asiakastoimittajadlg.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/rekisteri/ryhmavalintalistwidget.h
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/rekisteri/asiakastoimittajadlg.ui -o ui_asiakastoimittajadlg.h
+
+ui_kiitos.h: ../kitsas/tilaus/kiitos.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/tilaus/kiitos.ui -o ui_kiitos.h
 
 ui_tilausvahvistus.h: ../kitsas/tilaus/tilausvahvistus.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
@@ -2945,13 +3223,6 @@ ui_kohdennusdialog.h: ../kitsas/maaritys/kohdennusdialog.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/kohdennusdialog.ui -o ui_kohdennusdialog.h
 
-ui_kirjausapuridialog.h: ../kitsas/kirjaus/kirjausapuridialog.ui \
-		../../../Qt/5.14.1/clang_64/bin/uic \
-		../../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers/QTabBar \
-		../kitsas/tools/kpdateedit.h \
-		../kitsas/db/tilinvalintaline.h
-	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/kirjaus/kirjausapuridialog.ui -o ui_kirjausapuridialog.h
-
 ui_muokattavaraportti.h: ../kitsas/raportti/muokattavaraportti.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/tools/kohdennuscombo.h
@@ -3005,7 +3276,8 @@ ui_taseeravalintadialogi.h: ../kitsas/kirjaus/taseeravalintadialogi.ui \
 ui_laskudialogi.h: ../kitsas/laskutus/laskudialogi.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/tools/kpdateedit.h \
-		../kitsas/rekisteri/asiakastoimittajavalinta.h
+		../kitsas/rekisteri/asiakastoimittajavalinta.h \
+		../kitsas/tools/kpeuroedit.h
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/laskutus/laskudialogi.ui -o ui_laskudialogi.h
 
 ui_laskumaaritys.h: ../kitsas/maaritys/laskumaaritys.ui \
@@ -3061,11 +3333,6 @@ ui_laskuraportti.h: ../kitsas/raportti/laskuraportti.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/raportti/laskuraportti.ui -o ui_laskuraportti.h
 
-ui_tuontimaaritys.h: ../kitsas/maaritys/tuontimaaritys.ui \
-		../../../Qt/5.14.1/clang_64/bin/uic \
-		../kitsas/db/tilinvalintaline.h
-	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/tuontimaaritys.ui -o ui_tuontimaaritys.h
-
 ui_csvtuontidlg.h: ../kitsas/tuonti/csvtuontidlg.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/tools/tilicombo.h
@@ -3110,10 +3377,6 @@ ui_budjettidlg.h: ../kitsas/arkisto/budjettidlg.ui \
 ui_ryhmantuontidlg.h: ../kitsas/laskutus/ryhmantuontidlg.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/laskutus/ryhmantuontidlg.ui -o ui_ryhmantuontidlg.h
-
-ui_verkkolaskumaaritys.h: ../kitsas/maaritys/verkkolaskumaaritys.ui \
-		../../../Qt/5.14.1/clang_64/bin/uic
-	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/maaritys/verkkolaskumaaritys.ui -o ui_verkkolaskumaaritys.h
 
 ui_muistiinpanot.h: ../kitsas/aloitussivu/muistiinpanot.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic
@@ -3166,6 +3429,12 @@ ui_tuloverodialog.h: ../kitsas/arkisto/tuloverodialog.ui \
 		../../../Qt/5.14.1/clang_64/bin/uic \
 		../kitsas/tools/kpeuroedit.h
 	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/arkisto/tuloverodialog.ui -o ui_tuloverodialog.h
+
+ui_kiertomuokkausdlg.h: ../kitsas/kierto/kiertomuokkausdlg.ui \
+		../../../Qt/5.14.1/clang_64/bin/uic \
+		../kitsas/tools/tilicombo.h \
+		../kitsas/tools/kohdennuscombo.h
+	/Users/petri/Qt/5.14.1/clang_64/bin/uic ../kitsas/kierto/kiertomuokkausdlg.ui -o ui_kiertomuokkausdlg.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
