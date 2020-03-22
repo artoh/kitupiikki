@@ -31,11 +31,11 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 
 ## <span class="fa fa-apple"></span> Mac
 
-Tukee OS X versiota 10.11 ja uudempia.
+Tukee OS X -versiota 10.11 (El Capitan) ja uudempia macOS-käyttöjärjestelmiä.
 
-<span class="fa fa-exclamation-triangle"> </span> macOS Mojavessa Kitupiikki toimii vain vaaleassa näkymässä.
+<span class="fa fa-exclamation-triangle"> </span> macOS 10.14 (Mojave): Kitupiikki toimii vain vaaleassa näkymässä.
 
-<span class="fa fa-exclamation-triangle"> </span> macOS Catalinassa ohjelman käyttö on erikseen sallittava: `Järjestelmän asetukset > Suojaus ja yksityisyys > Yleinen: Apin "Kitupiikki" käynnistäminen estettiin > Avaa kuitenkin`.
+<span class="fa fa-exclamation-triangle"> </span> macOS 10.15 (Catalina): Ohjelman käyttö on erikseen sallittava: `Järjestelmän asetukset > Suojaus ja yksityisyys > Yleinen: Apin "Kitupiikki" käynnistäminen estettiin > Avaa kuitenkin`.
 
 !!! note ""
     <span class="fa fa-apple"></span> [Kitupiikki 1.4.6 macOS asennuspaketti (18 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.4.6/Kitupiikki-1.4.6.dmg)
@@ -44,7 +44,7 @@ Tukee OS X versiota 10.11 ja uudempia.
 2. Avaa asennustiedosto
 3. Vedä avautuneessa ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
 
-Macintosh-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
+Mac-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
 
 
 ## Lähdekoodi
