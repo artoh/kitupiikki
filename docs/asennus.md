@@ -38,7 +38,7 @@ Tukee OS X -versiota 10.11 (El Capitan) ja uudempia macOS-käyttöjärjestelmiä
 <span class="fa fa-exclamation-triangle"> </span> macOS 10.15 (Catalina): Ohjelman käyttö on erikseen sallittava: `Järjestelmän asetukset > Suojaus ja yksityisyys > Yleinen: Apin "Kitupiikki" käynnistäminen estettiin > Avaa kuitenkin`.
 
 !!! note ""
-    <span class="fa fa-apple"></span> [Kitupiikki 1.4.5 macOS asennuspaketti (18 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.4.5/Kitupiikki-1.4.5.dmg)
+    <span class="fa fa-apple"></span> [Kitupiikki 1.4.6 macOS asennuspaketti (18 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.4.6/Kitupiikki-1.4.6.dmg)
 
 1. Lataa yllä oleva asennustiedosto
 2. Avaa asennustiedosto
