@@ -161,6 +161,10 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             return rivi.value("debet").toDouble();
         case KREDIT:
             return rivi.value("kredit").toDouble();
+        case KOHDENNUS:
+            return rivi.kohdennus();
+        case SELITE:
+            return rivi.selite();
         }
         break;
     case Qt::TextAlignmentRole:

@@ -152,6 +152,10 @@ void ViennitView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
 
     if( hint == QAbstractItemDelegate::EditNextItem)
         seuraavaSarake();
-
-    // @TODO: edellinen sarake
+    else if( hint == QAbstractItemDelegate::EditPreviousItem) {
+        if( currentIndex().column() > 0)
+            setCurrentIndex( model()->index( currentIndex().row(), currentIndex().column()-1 ) );
+        else if( currentIndex().row() > 0)
+            setCurrentIndex(model()->index( currentIndex().row()-1, TositeViennit::SELITE));
+    }
 }

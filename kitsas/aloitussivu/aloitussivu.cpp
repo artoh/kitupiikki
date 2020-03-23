@@ -73,8 +73,6 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     ui = new Ui::Aloitus;
     ui->setupUi(this);
-
-    ui->tkpilviTab->setTabEnabled(1, false);
     ui->selain->setOpenLinks(false);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);

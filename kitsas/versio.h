@@ -25,7 +25,7 @@
 */
 
 #define KITSAS_VERSIO "2.0-beta"
-#define KITSAS_BUILD  "C"
+#define KITSAS_BUILD  "cloud"
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
