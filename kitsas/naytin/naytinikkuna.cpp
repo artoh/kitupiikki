@@ -38,6 +38,8 @@ NaytinIkkuna::NaytinIkkuna() : QMainWindow(nullptr)
 
     setCentralWidget(view_);
     teeToolbar();
+
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 NaytinIkkuna::~NaytinIkkuna()
@@ -105,7 +107,6 @@ void NaytinIkkuna::naytaLiite(const QString &hakulauseke)
 void NaytinIkkuna::closeEvent(QCloseEvent *event)
 {
     kp()->settings()->setValue("NaytinIkkuna", saveGeometry());
-    deleteLater();
     event->accept();
 }
 

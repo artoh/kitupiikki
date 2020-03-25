@@ -23,10 +23,12 @@ Naytin::RaporttiNaytin::RaporttiNaytin(const RaportinKirjoittaja &raportti, QObj
     : PrintPreviewNaytin (parent),
       raportti_(new RaportinKirjoittaja(raportti))
 {    
+    qDebug() << "RaporttiNaytin";
 }
 
 Naytin::RaporttiNaytin::~RaporttiNaytin()
 {
+    qDebug() << "~RaporttiNaytin";
     delete raportti_;
 }
 
