@@ -20,6 +20,7 @@
 #include "db/tositetyyppimodel.h"
 #include "db/tilityyppimodel.h"
 #include "model/tositevienti.h"
+#include "model/tositeviennit.h"
 
 TilioteModel::TilioteModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -145,10 +146,15 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole:
         if( index.column() == KOHDENNUS) {
             if( rivi.laskupvm.isValid())
-                return QIcon(":/pic/lasku.png");
+                return QIcon(":/pic/lasku.png");            
         }
+        return QVariant();
 
+    case TositeViennit::TiliNumeroRooli:
+        return rivi.tili;
     }
+
+
     return QVariant();
 }
 

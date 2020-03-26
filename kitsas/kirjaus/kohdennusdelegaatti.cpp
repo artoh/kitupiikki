@@ -46,7 +46,8 @@ QWidget *KohdennusDelegaatti::createEditor(QWidget *parent, const QStyleOptionVi
     }
 
     EraCombo* ec = new EraCombo(parent);
-    ec->lataa( tili->numero() );
+    if( tili )
+        ec->lataa( tili->numero() );
     return ec;
 }
 
