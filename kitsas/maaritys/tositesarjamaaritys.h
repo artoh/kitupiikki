@@ -32,6 +32,8 @@ public:
     bool nollaa() override;
     bool tallenna() override;
 
+    bool naytetaankoTallennus() override { return false; }
+
 protected:
     Ui::Tositesarjat *ui;
 };

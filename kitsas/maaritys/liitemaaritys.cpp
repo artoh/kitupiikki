@@ -41,11 +41,11 @@ LiiteMaaritys::~LiiteMaaritys()
 
 bool LiiteMaaritys::nollaa()
 {
-    ui->ocrCheck->setChecked( kp()->settings()->value("OCR").toBool() );
+    ui->ocrCheck->setChecked( kp()->settings()->value("OCR", false).toBool() );
     ui->ocrCheck->setEnabled( kp()->pilvi()->plan() ||
                               qobject_cast<PilviModel*>(kp()->yhteysModel()) );
     ui->tilaajilleLabel->setVisible( !ui->ocrCheck->isEnabled() );
-    ui->mvCheck->setChecked( kp()->settings()->value("KuvaMustavalko").toBool());
+    ui->mvCheck->setChecked( kp()->settings()->value("KuvaMustavalko",false).toBool());
     ui->kokoScroll->setValue( kp()->settings()->value("KuvaKoko",2048).toInt());
     ui->laatuScroll->setValue( kp()->settings()->value("KuvaLaatu", 40).toInt());
     return true;
@@ -62,8 +62,8 @@ bool LiiteMaaritys::tallenna()
 
 bool LiiteMaaritys::onkoMuokattu()
 {
-    return  ui->ocrCheck->isChecked() != kp()->settings()->value("OCR").toBool() ||
-            ui->mvCheck->isChecked() != kp()->settings()->value("KuvaMustavalko").toBool() ||
+    return  ui->ocrCheck->isChecked() != kp()->settings()->value("OCR",false).toBool() ||
+            ui->mvCheck->isChecked() != kp()->settings()->value("KuvaMustavalko",false).toBool() ||
             ui->kokoScroll->value() != kp()->settings()->value("KuvaKoko", 2048).toInt() ||
             ui->laatuScroll->value() != kp()->settings()->value("KuvaLaatu",40).toInt();
 }
