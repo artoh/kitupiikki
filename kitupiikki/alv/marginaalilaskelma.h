@@ -17,6 +17,7 @@
 #ifndef MARGINAALILASKELMA_H
 #define MARGINAALILASKELMA_H
 
+#include <QDate>
 #include <QList>
 
 /**

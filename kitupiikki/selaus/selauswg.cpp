@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 #include "selausmodel.h"
 #include <QDate>
+#include <QKeyEvent>
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
 #include <QScrollBar>

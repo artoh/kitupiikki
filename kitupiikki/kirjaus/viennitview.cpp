@@ -24,8 +24,7 @@
 #include "pvmdelegaatti.h"
 #include "kohdennusdelegaatti.h"
 
-
-
+#include <QKeyEvent>
 #include <QHeaderView>
 #include <QSettings>
 

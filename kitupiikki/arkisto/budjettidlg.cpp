@@ -21,6 +21,7 @@
 #include "budjettimodel.h"
 #include "budjettikohdennusproxy.h"
 
+#include <QCloseEvent>
 #include <QMessageBox>
 
 BudjettiDlg::BudjettiDlg(QWidget *parent) :

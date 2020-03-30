@@ -16,6 +16,7 @@
 */
 
 #include <QDebug>
+#include <QKeyEvent>
 #include <QTimer>
 #include <QSettings>
 #include <QShortcut>
