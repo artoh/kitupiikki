@@ -558,8 +558,8 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->tiliEdit->valitseTiliNumerolla( tilinumero );
     tiliMuuttui();
 
-    setAlvProssa( rivi->alvprosentti());
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
+    setAlvProssa( rivi->alvprosentti());    
 
     verolajiMuuttui();
     ui->maaraEdit->setCents( rivi->brutto() );
