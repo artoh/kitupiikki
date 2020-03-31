@@ -1,5 +1,5 @@
 {
-  "tulos/yhdistys": {
+  "tulos/yleinen": {
     "nimi": {
       "fi": "Tuloslaskelma",
       "sv": "Resulträkning"
@@ -156,7 +156,7 @@
       }
     ]
   },
-  "tase/Yleinen": {
+  "tase/yleinen": {
     "nimi": {
       "fi": "Tase",
       "sv": "Balansräkning",

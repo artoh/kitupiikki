@@ -5,8 +5,11 @@
 #PIEN
 @tase/PMA!TASE (TILINPÄÄTÖS)@
 #ISO
-@tase/PMA!TASE (TILINPÄÄTÖS)@
-#
+@tase/yleinen!TASE (TILINPÄÄTÖS)@
+##Tuloslaskelma
+#mikrobrutto -I -P Mikroyrityksen lyhyt bruttotuloslaskelma
+@tulos/mikrobrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
+#-mikrobrutto
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO

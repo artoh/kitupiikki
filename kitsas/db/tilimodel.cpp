@@ -327,13 +327,15 @@ void TiliModel::lataa(QVariantList lista)
 
     piilotetut_.clear();
     suosikit_.clear();
+    naytettavat_.clear();
 
     // Samalla ladataan piilotukset ja suosikit
     for(auto piilo: kp()->asetus("piilotilit").split(","))
         piilotetut_.insert(piilo.toInt());
     for(auto suosikki: kp()->asetus("suosikkitilit").split(","))
         suosikit_.insert(suosikki.toInt());
-
+    for(auto naytettava : kp()->asetus("naytetaantilit").split(","))
+        naytettavat_.insert(naytettava.toInt());
 
     paivitaTilat();
 
@@ -348,10 +350,16 @@ void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
         piilotetut_.insert(tili);
     else
         piilotetut_.remove(tili);
+
     if( tila == Tili::TILI_SUOSIKKI)
         suosikit_.insert(tili);
     else
         suosikit_.remove(tili);
+
+    if( tila == Tili::TILI_KAYTOSSA)
+        naytettavat_.insert(tili);
+    else
+        naytettavat_.insert(tili);
 
     // Tallennetaan suosiot
     QStringList piilolista;
@@ -366,6 +374,10 @@ void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
     }
     kp()->asetukset()->aseta("suosikkitilit", suosikkilista.join(","));
 
+    QStringList nayttolista;
+    for(int naytetaan: naytettavat_)
+        nayttolista.append(QString::number((naytetaan)));
+    kp()->asetukset()->aseta("naytetaantilit", nayttolista.join(","));
 
     paivitaTilat();
     emit dataChanged( index(0,0), index(rowCount()-1, SALDO), QVector<int>() << TilaRooli );
@@ -418,6 +430,8 @@ void TiliModel::paivitaTilat()
             tili->asetaTila(Tili::TILI_SUOSIKKI);
         else if( piilotetut_.contains(numero))
             tili->asetaTila(Tili::TILI_PIILOSSA);
+        else if( naytettavat_.contains(numero))
+            tili->asetaTila(Tili::TILI_KAYTOSSA);
         else {
             QVariantList muodot = tili->arvo("muodot").toList();
             if( laajuus >= tili->laajuus() && ( muodot.isEmpty() || muodot.contains(muoto) ))

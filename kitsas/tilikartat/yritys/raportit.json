@@ -263,7 +263,68 @@
         "M": "bold",
         "V": 1
       }
-
+    ]
+  },
+  "tulos/mikrobrutto": {
+    "nimi": {
+      "fi": "Tuloslaskelma"
+    },
+    "muoto": {
+      "fi": "Mikroyrityksen bruttotuloslaskelma"
+    },
+    "rivit": [
+      {
+        "fi": "Bruttotulos",
+        "M": "bold",
+        "L": "3,4 S *"
+      },
+      {
+        "fi": "Henkilöstökulut",
+        "L": "5..67 *",
+        "V": 1
+      },
+      {
+        "fi": "Poistot ja arvonalentumat",
+        "L": "68..69 *"
+      },
+      {
+        "fi": "Liiketoiminnan muut kulut",
+        "L": "7..8 *"
+      },
+      {
+        "fi": "Liikevoitto/tappio",
+        "L": "3..8",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Rahoitustuotot ja -kulut",
+        "L": "90..96 *"
+      },
+      {
+        "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
+        "L": "3..96",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Tilinpäätössiirrot",
+        "L": "98 *"
+      },
+      {
+        "fi": "Tuloverot",
+        "L": "99..996 *"
+      },
+      {
+        "fi": "Muut välittömät verot",
+        "L": "998..999 *"
+      },
+      {
+        "fi": "Tilikauden voitto/tappio",
+        "L": "3..9",
+        "M": "bold",
+        "V": 1
+      }
     ]
   },
   "tase/PMA": {
@@ -491,7 +552,7 @@
       }
     ]
   },
-  "tase/Yleinen": {
+  "tase/yleinen": {
     "nimi": {
       "fi": "Tase",
       "sv": "Balansräkning",

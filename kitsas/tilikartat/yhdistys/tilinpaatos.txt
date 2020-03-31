@@ -5,9 +5,9 @@
 #PIEN
 @tase/PMA!TASE (TILINPÄÄTÖS)@
 #ISO
-@tase/Yleinen!TASE (TILINPÄÄTÖS)@
+@tase/yleinen!TASE (TILINPÄÄTÖS)@
 #
-@tulos/yhdistys!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
 #toiminnanalat Toiminnanalojen erittely
 @tulos/yhdistys:K!TOIMINNANALAT (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>

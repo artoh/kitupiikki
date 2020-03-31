@@ -31,9 +31,9 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     ui->setupUi( raporttiWidget );
 
     paivitaMuodot();
-    paivitaKielet();
+    muotoVaihtui();
 
-    connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaKielet);
+    connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::muotoVaihtui);
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaMuodot);
 
     if( tyyppi() == Raportoija::PROJEKTILASKELMA) {
@@ -105,41 +105,49 @@ void TaseTulosRaportti::esikatsele()
 
 }
 
-void TaseTulosRaportti::paivitaKielet()
-{    
+void TaseTulosRaportti::muotoVaihtui()
+{
+    if( paivitetaan_)
+        return;
+
     QString raportti = ui->muotoCombo->currentData().toString();
-
     QString kaava = kp()->asetukset()->asetus(raportti);
-
-    if( kaava == kaava_ || kaava.isEmpty())
+    if( kaava.isEmpty())
         return;
     kaava_ = kaava;
+    paivitaKielet();
+}
 
-    QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+void TaseTulosRaportti::paivitaKielet()
+{           
+    QJsonDocument doc = QJsonDocument::fromJson( kaava_.toUtf8() );
 
     QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
-
     ui->kieliCombo->clear();
 
     for(auto kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
-
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );    
 }
 
 void TaseTulosRaportti::paivitaMuodot()
 {
+    paivitetaan_ = true;
+
     QStringList muodot;
     if(tyyppi() == Raportoija::TASE )
         muodot = kp()->asetukset()->avaimet("tase/");
     else
-        muodot = kp()->asetukset()->avaimet("tulos/");
+        muodot = kp()->asetukset()->avaimet("tulos/");    
+
+    QString nykymuoto = ui->muotoCombo->currentData().toString();
+    if( nykymuoto.isEmpty())
+        nykymuoto=tyyppi() == Raportoija::TASE ? "tase/yleinen" : "tulos/yleinen";
+
+    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
 
     ui->muotoCombo->clear();
-
-    int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;
-    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
 
     for( auto muoto : muodot ) {
         QString kaava = kp()->asetukset()->asetus(muoto);
@@ -149,7 +157,8 @@ void TaseTulosRaportti::paivitaMuodot()
         ui->muotoCombo->addItem( muotonimi, muoto );
     }
 
-    ui->muotoCombo->setCurrentIndex(nykyinen);
+    ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findData(nykymuoto) );
+    paivitetaan_ = false;
 }
 
 void TaseTulosRaportti::tyhjaraportti()

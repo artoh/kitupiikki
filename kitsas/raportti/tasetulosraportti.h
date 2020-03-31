@@ -33,6 +33,8 @@ public slots:
     void esikatsele() override;
 
 protected slots:
+    void muotoVaihtui();
+
     void paivitaKielet();
     void paivitaMuodot();
     void tyhjaraportti();
@@ -45,7 +47,7 @@ protected:
     Ui::MuokattavaRaportti *ui;
     Raportoija::RaportinTyyppi tyyppi_;
 
-
+    bool paivitetaan_ = false;
 
 };
 
