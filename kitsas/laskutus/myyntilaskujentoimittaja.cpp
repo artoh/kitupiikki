@@ -127,7 +127,7 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 
     QDate erapvm = tosite.erapvm();
     if( erapvm.isValid() ) {
-        if( kp()->paivamaara().daysTo( erapvm ) < kp()->asetukset()->luku("LaskuMaksuaika",0))
+        if( kp()->paivamaara().daysTo( erapvm ) < kp()->asetukset()->luku("LaskuMaksuaika",0) && kp()->asetukset()->onko("LaskuMaksuaikaVahintaan"))
             erapvm = MyyntiLaskunTulostaja::erapaiva();
         tosite.asetaErapvm(erapvm);
         lasku.insert("erapvm", erapvm);

@@ -103,6 +103,29 @@
           </property>
          </widget>
         </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Ensimmäisen laskun numero</string>
+          </property>
+          <property name="buddy">
+           <cstring>ekaLasku</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="ekaLasku">
+          <property name="minimum">
+           <number>1000</number>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+          <property name="Asetus" stdset="0">
+           <string>LaskuNumerointialkaa</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -127,14 +150,14 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Huomautusaika</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="2" column="1">
          <widget class="QSpinBox" name="huomautusSpin">
           <property name="suffix">
            <string> vrk</string>
@@ -144,14 +167,14 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
            <string>Peruskorko</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="peruskorkoSpin">
           <property name="suffix">
            <string> %</string>
@@ -164,26 +187,13 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_9">
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="checkBox">
           <property name="text">
-           <string>Ensimmäisen laskun numero</string>
-          </property>
-          <property name="buddy">
-           <cstring>ekaLasku</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="ekaLasku">
-          <property name="minimum">
-           <number>1000</number>
-          </property>
-          <property name="maximum">
-           <number>999999999</number>
+           <string>Vähimmäismaksuaika</string>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuNumerointialkaa</string>
+           <string>LaskuMaksuaikaVahintaan</string>
           </property>
          </widget>
         </item>
@@ -490,6 +500,29 @@
    <header location="global">tools/checkcombo.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>saatavaCombo</tabstop>
+  <tabstop>kateistili</tabstop>
+  <tabstop>muistutusTili</tabstop>
+  <tabstop>korkoTili</tabstop>
+  <tabstop>ekaLasku</tabstop>
+  <tabstop>maksuaikaSpin</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>huomautusSpin</tabstop>
+  <tabstop>peruskorkoSpin</tabstop>
+  <tabstop>tiliCombo</tabstop>
+  <tabstop>apunimiEdit</tabstop>
+  <tabstop>lyhyetCheck</tabstop>
+  <tabstop>tilisiirtoCheck</tabstop>
+  <tabstop>rfCheck</tabstop>
+  <tabstop>viivakoodiCheck</tabstop>
+  <tabstop>qrCheck</tabstop>
+  <tabstop>ikkunaKuori</tabstop>
+  <tabstop>ySpin</tabstop>
+  <tabstop>xSpin</tabstop>
+  <tabstop>leveysSpin</tabstop>
+  <tabstop>korkeusSpin</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
