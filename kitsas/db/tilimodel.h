@@ -113,6 +113,7 @@ protected:
     QString muoto_;
     QSet<int> piilotetut_;
     QSet<int> suosikit_;
+    QSet<int> naytettavat_;
     QHash<int,double> saldot_;
 
 };
