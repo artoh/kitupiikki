@@ -378,10 +378,11 @@
  },
  {
   "numero": 1135,
-  "tyyppi": "APM",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Väestönsuojat ym. max. 25% tasapoisto"
   },
+  "tasaerapoisto": 240,
   "poistotili": 6860,
   "erittely": 1,
   "laajuus": 3
@@ -588,7 +589,7 @@
  },
  {
   "numero": 1301,
-  "tyyppi": "A",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Maa-ainesten ottopaikat"
   },
@@ -597,39 +598,48 @@
  },
  {
   "numero": 1303,
-  "tyyppi": "A",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Maa- ja vesirakennukset"
   },
   "erittely": 3,
-  "laajuus": 4
+  "laajuus": 4,
+  "alvlaji": 21,
+  "alvprosentti": 24
  },
  {
   "numero": 1305,
-  "tyyppi": "A",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Piha-asfaltit"
   },
   "erittely": 3,
-  "laajuus": 3
+  "laajuus": 3,
+  "alvlaji": 21,
+  "alvprosentti": 24,
+  "tasaerapoisto": 120
  },
  {
   "numero": 1315,
-  "tyyppi": "A",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Elävä käyttöomaisuus"
   },
   "erittely": 3,
-  "laajuus": 4
+  "laajuus": 4,
+  "alvlaji": 21,
+  "alvprosentti": 24
  },
  {
   "numero": 1329,
-  "tyyppi": "A",
+  "tyyppi": "APT",
   "nimi": {
    "fi": "Muut poistokelpoiset aineelliset hyödykkeet"
   },
   "erittely": 3,
-  "laajuus": 4
+  "laajuus": 4,
+  "alvlaji": 21,
+  "alvprosentti": 24
  },
  {
   "numero": 1331,
@@ -9075,7 +9085,7 @@
    "fi": "Ennakkoverot"
   },
   "laajuus": 1,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk", "tmi"]
  },
  {
   "numero": 9910,
@@ -9084,7 +9094,7 @@
    "fi": "Ennakonpidätys työkorvauksista"
   },
   "laajuus": 3,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk", "tmi"]
  },
  {
   "numero": 9920,
@@ -9093,7 +9103,7 @@
    "fi": "Veronhyvitys osingoista"
   },
   "laajuus": 3,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk","tmi"]
  },
  {
   "numero": 9930,
@@ -9102,7 +9112,7 @@
    "fi": "Lähdeverot"
   },
   "laajuus": 3,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk","tmi"]
  },
  {
   "numero": 9940,
@@ -9111,7 +9121,7 @@
    "fi": "Tilikauden verojaksotus"
   },
   "laajuus": 1,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk","tmi"]
  },
  {
   "numero": 9950,
@@ -9120,7 +9130,7 @@
    "fi": "Veronpalautukset / jäännösverot"
   },
   "laajuus": 3,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk","tmi"]
  },
  {
   "numero": 9960,
@@ -9129,7 +9139,7 @@
    "fi": "Muut tuloverot"
   },
   "laajuus": 3,
-  "muodot": ["oy","osk"]
+  "muodot": ["oy","osk","tmi"]
  },
  {
   "numero": 997,
