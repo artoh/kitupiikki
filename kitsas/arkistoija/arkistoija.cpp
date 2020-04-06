@@ -51,6 +51,8 @@ Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
 void Arkistoija::arkistoi()
 {
     if( luoHakemistot() ) {
+        progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, 6 );
+        progressDlg_->setMinimumDuration(250);
         raporttilaskuri_ = 6;
         arkistoiTositteet();
         arkistoiRaportit();
@@ -148,6 +150,7 @@ void Arkistoija::arkistoiRaportit()
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
     QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");
+    progressDlg_->setMaximum( progressDlg_->maximum() + raportit.count() );
     for( auto raportti : raportit) {
         raporttilaskuri_++;
         QString raporttinimi(raportti);
@@ -176,8 +179,8 @@ void Arkistoija::arkistoiTilinpaatos()
     KpKysely *kysely = kpk( QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)) );
 
     connect( kysely, &KpKysely::vastaus, [this] (QVariant* data)
-        { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; this->arkistoiSeuraava();});
-    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; this->arkistoiSeuraava();});
+        { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; this->jotainArkistoitu();});
+    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; this->jotainArkistoitu();});
 
     kysely->kysy();
 }
@@ -219,6 +222,7 @@ void Arkistoija::merkitseArkistoiduksi()
 
     emit arkistoValmis( hakemistoPolku_ );
 
+    qDebug() << "Arkistoitu";
     progressDlg_->deleteLater();
     deleteLater();
 }
@@ -228,27 +232,27 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
     // Lisätään tositteet luetteloon
     QVariantList lista( data->toList() );
 
-    progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, lista.count() + 50 );
+    progressDlg_->setMaximum(lista.count() + 50 );
 
     for( auto tosite : lista ) {
         QVariantMap map = tosite.toMap();
         tositeJono_.append( map );
     }
+    tositeluetteloSaapunut_ = true;
     arkistoitavaTosite_ = 0;
-    arkistoiSeuraava();
+
+    if( tositeJono_.isEmpty())
+        jotainArkistoitu();
+    else
+        arkistoiSeuraavaTosite();
 }
 
-void Arkistoija::arkistoiSeuraava()
+void Arkistoija::jotainArkistoitu()
 {
     qApp->processEvents();
-    if( !keskeytetty_ ) {
-        if( arkistoitavaTosite_ < tositeJono_.count())
-            arkistoiSeuraavaTosite();
-        if( !liiteJono_.isEmpty() )
-            arkistoiSeuraavaLiite();
-        if( liitelaskuri_ < 1 && raporttilaskuri_ < 1)
-            viimeistele();
-    }
+    if( !keskeytetty_ && tositeluetteloSaapunut_ &&
+            arkistoitavaTosite_ >= tositeJono_.count() && !liitelaskuri_  && !raporttilaskuri_ )
+            viimeistele();    
 }
 
 void Arkistoija::arkistoiSeuraavaTosite()
@@ -265,6 +269,10 @@ void Arkistoija::arkistoiSeuraavaTosite()
 
 void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
 {
+    qApp->processEvents();
+    if( keskeytetty_)
+        return;
+
     // Lisätään ensin liitteet luetteloille
     QVariantMap map = data->toMap();
     int liitenro = 1;
@@ -292,12 +300,11 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
     progressDlg_->setValue( progressDlg_->value() + 1);
 
     arkistoitavaTosite_++;
-
     if( arkistoitavaTosite_ < tositeJono_.count())
         arkistoiSeuraavaTosite();
     else if( !liiteJono_.isEmpty() )
         arkistoiSeuraavaLiite();
-    else if( !raporttilaskuri_ )
+    else if( !raporttilaskuri_ && !liitelaskuri_)
         viimeistele();
 
 }
@@ -316,7 +323,11 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
     arkistoiByteArray("liitteet/" + tiedosto, data->toByteArray());
     progressDlg_->setValue(progressDlg_->value() + 1);
     liitelaskuri_--;
-    arkistoiSeuraava();
+
+    if( !liiteJono_.isEmpty())
+        arkistoiSeuraavaLiite();
+    else
+        jotainArkistoitu();
 
 }
 
@@ -328,7 +339,8 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
 
     arkistoiByteArray( tiedosto, txt.toUtf8() );
     raporttilaskuri_--;
-    arkistoiSeuraava();
+    progressDlg_->setValue( progressDlg_->value() + 1);
+    jotainArkistoitu();
 }
 
 void Arkistoija::viimeistele()

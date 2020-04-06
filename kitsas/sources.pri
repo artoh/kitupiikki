@@ -160,7 +160,6 @@ SOURCES += \
     maaritys/kohdennusdialog.cpp \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
-    raportti/muokattavaraportti.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
     raportti/paakirjaraportti.cpp \
@@ -415,7 +414,6 @@ HEADERS += \
     maaritys/kohdennusdialog.h \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
-    raportti/muokattavaraportti.h \
     onniwidget.h \
     raportti/raportoija.h \
     raportti/paakirjaraportti.h \

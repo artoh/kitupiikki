@@ -141,7 +141,7 @@
   ],
   "LaskuTilit" : "1910",
   "tilinpaatosvalinnat" : "",
-  "arkistoraportit" : "tase/PMA,tulos/yleinen",
+  "arkistoraportit" : "tase/yleinen,tulos/yleinen",
   "LaskuSaatavatili" : "1701",
   "LaskuKateistili" : "1900",
   "LaskuMaksuaika" : "14",

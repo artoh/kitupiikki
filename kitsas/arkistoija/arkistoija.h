@@ -51,7 +51,7 @@ protected:
     void kirjoitaHash() const;
     void merkitseArkistoiduksi();
     void tositeLuetteloSaapuu(QVariant* data);
-    void arkistoiSeuraava();
+    void jotainArkistoitu();
     void arkistoiSeuraavaTosite();
     void arkistoiTosite(QVariant* data, int indeksi);
     void arkistoiSeuraavaLiite();
@@ -100,6 +100,7 @@ private:
     int raporttilaskuri_=0;
     int liitelaskuri_ = 0;
     bool keskeytetty_ = false;
+    bool tositeluetteloSaapunut_ = false;
 
 };
 

@@ -34,7 +34,6 @@
 
 #include "db/kirjanpito.h"
 
-#include "muokattavaraportti.h"
 #include "tilikarttaraportti.h"
 #include "budjettivertailu.h"
 #include "paakirjaraportti.h"
@@ -141,8 +140,6 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new PaivakirjaRaportti();
     else if( raporttinimi == "Pääkirja")
         nykyinen = new PaakirjaRaportti();
-    else if( raporttinimi.startsWith("Raportti/"))
-        nykyinen = new MuokattavaRaportti( raporttinimi.mid(9));
     else if( raporttinimi == "Tilikartta")
         nykyinen = new TilikarttaRaportti();
     else if( raporttinimi == "Tositeluettelo")

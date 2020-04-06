@@ -47,6 +47,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->erapaivaEdit->setNull();
 
     ui->maksutapaCombo->setModel( maksutapaModel_ );
+    ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KOHDENNUKSET_PROJEKTIT);
 
     ui->tilellaView->setModel( rivit_);
     ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);

@@ -306,6 +306,7 @@ void Tosite::tallennusValmis(QVariant *variant)
         liitteet()->tallennettu();
         emit talletettu( id(), tunniste(), pvm(),
                          sarja(), tositetila());
+        emit kp()->kirjanpitoaMuokattu();
     }
 }
 

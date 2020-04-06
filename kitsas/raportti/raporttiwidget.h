@@ -28,6 +28,7 @@
 #include "raportinkirjoittaja.h"
 
 class QCheckBox;
+class QLabel;
 
 /**
  * @brief Raportin kantaluokka
@@ -51,27 +52,21 @@ public:
     RaporttiWidget(QWidget *parent = nullptr);
 
 
-    /**
-     * @brief Palauttaa pyydetyn raportin
-     * @arg csvmuoto Kirjoitetaan csv, eli ilman mitään väliotsikoita sun muita
-     * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
-     */
-    virtual RaportinKirjoittaja raportti() { return RaportinKirjoittaja();}
-
-
 signals:
 
 public slots:
     /**
      * @brief Pdf-raportin esikatselu
      */
-    virtual void esikatsele();
+    virtual void esikatsele() = 0;
 
     virtual void nayta(RaportinKirjoittaja rk);
 
+    void esikatselu();
+
 protected:
     QWidget *raporttiWidget;
-
+    QLabel* odotaLabel;
 
 };
 

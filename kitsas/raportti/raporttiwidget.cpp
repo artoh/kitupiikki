@@ -47,7 +47,7 @@
 #include "db/kirjanpito.h"
 
 #include <QSettings>
-
+#include <QLabel>
 
 #include "naytin/naytinikkuna.h"
 
@@ -56,10 +56,16 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 {
         raporttiWidget = new QWidget();
 
+        odotaLabel = new QLabel(tr("Raporttia luodaan..."));
+        odotaLabel->setStyleSheet("background-color: yellow;");
+        odotaLabel->hide();
+
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("Esikatsele"));
         connect( esikatseluBtn, &QPushButton::clicked, this, &RaporttiWidget::esikatsele);
 
         QHBoxLayout *nappiLeiska = new QHBoxLayout;
+        nappiLeiska->addStretch();
+        nappiLeiska->addWidget(odotaLabel);
         nappiLeiska->addStretch();
         nappiLeiska->addWidget(esikatseluBtn);
 
@@ -72,13 +78,14 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 }
 
 
-
-void RaporttiWidget::esikatsele()
-{
-    NaytinIkkuna::naytaRaportti( raportti() );
-}
-
 void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 {
+    odotaLabel->hide();
     NaytinIkkuna::naytaRaportti( rk );
+}
+
+void RaporttiWidget::esikatselu()
+{
+    odotaLabel->show();
+    esikatsele();
 }

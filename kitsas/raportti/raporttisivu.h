@@ -33,6 +33,7 @@
 class QListWidget;
 class QHBoxLayout;
 class QListWidgetItem;
+class QLabel;
 
 /**
  * @brief Raporttien tulostussivu
@@ -70,7 +71,7 @@ protected:
 protected:
     QListWidget *lista;
     QHBoxLayout *wleiska;
-    QWidget *nykyinen;
+    QWidget *nykyinen;    
 
 };
 

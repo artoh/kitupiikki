@@ -79,7 +79,8 @@ void Kohdennus::asetaKuuluu(int kohdennusid)
 QVariantMap Kohdennus::data() const
 {
     QVariantMap map(KantaVariantti::data());
-    map.insert("id", id());
+    if(id())
+        map.insert("id", id());
     map.insert("nimi", nimi_.map());
     map.insert("tyyppi", tyyppi());
     if( tyyppi() == PROJEKTI)
