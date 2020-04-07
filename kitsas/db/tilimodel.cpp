@@ -179,8 +179,10 @@ Tili *TiliModel::lisaaTili(int numero, int otsikkotaso)
     Tili *edellinenotsikko = nullptr;
     for(i=0; i<rowCount()-1; i++) {
         Tili* tili = tiliPIndeksilla(i);
-        if( QString::number(tili->numero()) > nrostr || ( tili->numero() == numero && tili->otsikkotaso() > otsikkotaso)  )
+        if( QString::number(tili->numero()) > nrostr || ( tili->numero() == numero && tili->otsikkotaso() > otsikkotaso)  ) {
+            if(i) i--;
             break;
+        }
         if( tili->otsikkotaso() && ( !otsikkotaso || tili->otsikkotaso() < otsikkotaso))
             edellinenotsikko = tili;
     }
