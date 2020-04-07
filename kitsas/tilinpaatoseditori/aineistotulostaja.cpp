@@ -32,16 +32,19 @@
 
 #include <QPdfWriter>
 #include <QPainter>
+#include <QApplication>
+#include <QDesktopServices>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
 
 }
 
-void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli)
+void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli, bool tallenna)
 {
     tilikausi_ = kausi;
     kieli_ = kieli;
+    tallenna_ = tallenna;
     tilaaRaportit();
 }
 
@@ -123,7 +126,10 @@ void AineistoTulostaja::tilaaLiitteet()
 void AineistoTulostaja::seuraavaLiite()
 {
     if( liitepnt_ == liitteet_.count()) {
-        esikatsele();
+        if( tallenna_)
+            tallennaAineisto();
+        else
+            esikatsele();
     } else {
         int liiteid = liitteet_.value(liitepnt_).toMap().value("id").toInt();
 
@@ -133,6 +139,16 @@ void AineistoTulostaja::seuraavaLiite()
         liitepnt_++;
         liitehaku->kysy();
     }
+}
+
+void AineistoTulostaja::tallennaAineisto()
+{
+    QString polku = kp()->tilapainen( QString("aineisto-%1.pdf").arg(tilikausi_.pitkakausitunnus()) );
+    QPdfWriter writer(polku);
+    writer.setTitle(tr("Kirjanpitoaineisto %1").arg(tilikausi_.kausivaliTekstina()));
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    tulosta(&writer);
+    QDesktopServices::openUrl(QUrl::fromLocalFile(polku));
 }
 
 void AineistoTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
