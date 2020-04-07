@@ -99,10 +99,10 @@ void TilikarttaMuokkaus::muutaTila(Tili::TiliTila tila)
         // Muutetaan kaikki tilit tämän alapuolelta
         for(int i=indeksi+1; i < kp()->tilit()->rowCount(); i++) {
             Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
-            if( tamatili->otsikkotaso() <= tili->otsikkotaso())
-                break;
             if( !tamatili->otsikkotaso())
                 kp()->tilit()->asetaSuosio( tamatili->numero(), tila );
+            else if( tamatili->otsikkotaso() <= tili->otsikkotaso())
+                break;
         }
     } else {
         kp()->tilit()->asetaSuosio( tili->numero(), tila);
