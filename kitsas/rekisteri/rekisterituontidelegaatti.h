@@ -14,37 +14,20 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef REKISTERITUONTIDLG_H
-#define REKISTERITUONTIDLG_H
+#ifndef REKISTERITUONTIDELEGAATTI_H
+#define REKISTERITUONTIDELEGAATTI_H
 
-#include <QDialog>
+#include <QItemDelegate>
 
-class RekisteriTuontiModel;
-class QComboBox;
-
-namespace Ui {
-class RekisteriTuontiDlg;
-}
-
-class RekisteriTuontiDlg : public QDialog
+class RekisteriTuontiDelegaatti : public QItemDelegate
 {
     Q_OBJECT
-
 public:
-    explicit RekisteriTuontiDlg(const QString& tiedosto, QWidget *parent = nullptr);
-    ~RekisteriTuontiDlg() override;
+    RekisteriTuontiDelegaatti(QObject* parent = nullptr);
 
-    void accept() override;
-
-protected:
-    void alustaMaksutavat(QComboBox* combo);
-    void tallennaSeuraava();
-    int maksutapa(const QVariantMap& map);
-
-private:
-    Ui::RekisteriTuontiDlg *ui;
-    RekisteriTuontiModel* model_;
-    QVariantList tallennusLista_;
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 };
 
-#endif // REKISTERITUONTIDLG_H
+#endif // REKISTERITUONTIDELEGAATTI_H

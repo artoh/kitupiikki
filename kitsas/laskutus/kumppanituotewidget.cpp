@@ -28,9 +28,12 @@
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 
+#include "rekisteri/rekisterituontidlg.h"
+
 #include <QDebug>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 
 KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     QWidget(parent),
@@ -54,11 +57,12 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::poista);
     connect( ui->view, &QTableView::doubleClicked, this, &KumppaniTuoteWidget::muokkaa);
 
+    connect( ui->tuoNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::tuo);
+
     ui->muokkaaNappi->setEnabled(false);
     ui->poistaNappi->setEnabled(false);
 
     // Tuonti ja vienti odottaa aikaa tulevaa ...
-    ui->tuoNappi->setVisible(false);
     ui->VieNappi->setVisible(false);
 
 }
@@ -72,7 +76,7 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 {
     valilehti_ = valilehti;
 
-//    ui->tuoNappi->setVisible( valilehti != RYHMAT);
+      ui->tuoNappi->setVisible( valilehti != TUOTTEET);
 //    ui->VieNappi->setVisible( valilehti != RYHMAT);
 
     bool muokkausoikeus = false;
@@ -216,6 +220,19 @@ void KumppaniTuoteWidget::paivita()
 
     ui->view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ilmoitaValinta();
+}
+
+void KumppaniTuoteWidget::tuo()
+{
+    if( valilehti_ != TUOTTEET) {
+        QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuonti csv-tiedostosta"),QString(),
+                                                        tr("Csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
+        if( !tiedosto.isEmpty()) {
+            RekisteriTuontiDlg dlg(tiedosto,this);
+            dlg.exec();
+            paivita();
+        }
+    }
 }
 
 

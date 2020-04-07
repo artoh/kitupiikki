@@ -17,14 +17,94 @@
 #include "rekisterituontidlg.h"
 #include "ui_rekisterituontidlg.h"
 
-RekisteriTuontiDlg::RekisteriTuontiDlg(QWidget *parent) :
+#include "rekisterituontimodel.h"
+#include "rekisterituontidelegaatti.h"
+#include "laskutus/ryhmalasku/kielidelegaatti.h"
+#include "laskutus/laskudialogi.h"
+#include "maamodel.h"
+#include "db/kirjanpito.h"
+#include <QDebug>
+#include <QPushButton>
+
+RekisteriTuontiDlg::RekisteriTuontiDlg(const QString &tiedosto, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::RekisteriTuontiDlg)
+    ui(new Ui::RekisteriTuontiDlg),
+    model_(new RekisteriTuontiModel(this))
 {
     ui->setupUi(this);
+    connect( model_, &RekisteriTuontiModel::otsikkorivit, ui->otsikotCheck, &QCheckBox::setChecked);
+    connect( ui->otsikotCheck, &QCheckBox::clicked, model_, &RekisteriTuontiModel::asetaOtsikkorivi);
+
+    model_->lataaCsv(tiedosto);
+
+    ui->tuontiView->setModel(model_);
+    ui->tuontiView->horizontalHeader()->setSectionResizeMode(RekisteriTuontiModel::MALLI, QHeaderView::Stretch);
+    ui->tuontiView->setItemDelegateForColumn(RekisteriTuontiModel::MUOTO, new RekisteriTuontiDelegaatti(this));
+    ui->ryhmaWidget->valitseRyhmat(QVariantList());
+
+    KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
+    alustaMaksutavat( ui->laskutusCombo );
+    alustaMaksutavat( ui->varaLaskuCombo );
+    ui->maaCombo->setModel( new MaaModel(this));
+    ui->maaCombo->setCurrentIndex( ui->maaCombo->findData("fi", MaaModel::KoodiRooli));
 }
 
 RekisteriTuontiDlg::~RekisteriTuontiDlg()
 {
     delete ui;
+}
+
+void RekisteriTuontiDlg::accept()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    tallennusLista_ = model_->lista();
+    tallennaSeuraava();
+}
+
+void RekisteriTuontiDlg::alustaMaksutavat(QComboBox *combo)
+{
+    combo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), LaskuDialogi::TULOSTETTAVA);
+    combo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), LaskuDialogi::POSTITUS);
+    combo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
+    combo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
+}
+
+void RekisteriTuontiDlg::tallennaSeuraava()
+{
+    if( tallennusLista_.isEmpty()) {
+        QDialog::accept();
+        return;
+    }
+    QVariantMap map = tallennusLista_.takeFirst().toMap();
+    if( !map.contains("maa"))
+        map.insert("maa", ui->maaCombo->currentData(MaaModel::KoodiRooli).toString());
+    if( !map.contains("kieli"))
+        map.insert("kieli", ui->kieliCombo->currentData().toString());
+    QVariantList ryhmat = ui->ryhmaWidget->valitutRyhmat();
+    if( !ryhmat.isEmpty())
+        map.insert("ryhmat", ryhmat);
+    map.insert("laskutapa", maksutapa(map));
+
+    KpKysely *kysely = kpk( "/kumppanit", KpKysely::POST);
+    connect(kysely, &KpKysely::vastaus, this, &RekisteriTuontiDlg::tallennaSeuraava);
+    kysely->kysy(map);
+}
+
+int RekisteriTuontiDlg::maksutapa(const QVariantMap &map)
+{
+    if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::SAHKOPOSTI && map.contains("email"))
+        return LaskuDialogi::SAHKOPOSTI;
+    else if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::VERKKOLASKU && map.contains("ovt"))
+        return LaskuDialogi::VERKKOLASKU;
+    else if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::POSTITUS && map.contains("osoite"))
+        return LaskuDialogi::POSTITUS;
+
+    if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::SAHKOPOSTI && map.contains("email"))
+        return LaskuDialogi::SAHKOPOSTI;
+    else if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::VERKKOLASKU && map.contains("ovt"))
+        return LaskuDialogi::VERKKOLASKU;
+    else if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::POSTITUS && map.contains("osoite"))
+        return LaskuDialogi::POSTITUS;
+
+    return LaskuDialogi::TULOSTETTAVA;
 }
