@@ -82,6 +82,7 @@ SOURCES += \
     $$PWD/rekisteri/kumppanivalintadelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/rekisteri/rekisterituontidlg.cpp \
     $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
     $$PWD/saldodock/saldodock.cpp \
@@ -334,6 +335,7 @@ HEADERS += \
     $$PWD/rekisteri/kumppanivalintadelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/rekisteri/rekisterituontidlg.h \
     $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
     $$PWD/saldodock/saldodock.h \
@@ -547,6 +549,7 @@ FORMS += \
     $$PWD/pilvi/pilveensiirto.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
+    $$PWD/rekisteri/rekisterituontidlg.ui \
     $$PWD/tilaus/kiitos.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
