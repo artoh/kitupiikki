@@ -47,6 +47,8 @@ RekisteriTuontiDlg::RekisteriTuontiDlg(const QString &tiedosto, QWidget *parent)
     alustaMaksutavat( ui->varaLaskuCombo );
     ui->maaCombo->setModel( new MaaModel(this));
     ui->maaCombo->setCurrentIndex( ui->maaCombo->findData("fi", MaaModel::KoodiRooli));
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/rekisteri"); });
 }
 
 RekisteriTuontiDlg::~RekisteriTuontiDlg()
