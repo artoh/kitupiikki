@@ -59,12 +59,15 @@ void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
         rk.tulosta(writer, &painter);
     }
 
+    bool valiennen = true;
+
     // Vielä liitteet
     for( auto rivi : liitteet_) {
         QVariantMap map = rivi.toMap();
         int id = map.value("id").toInt();
-        writer->newPage();
-        LiiteTulostaja::tulostaLiite(writer, &painter, liitedatat_.value(id), map.value("tyyppi").toString(),
+        if(valiennen)
+            writer->newPage();
+        valiennen = LiiteTulostaja::tulostaLiite(writer, &painter, liitedatat_.value(id), map.value("tyyppi").toString(),
                                      map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
     }
     painter.end();

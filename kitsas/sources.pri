@@ -228,7 +228,6 @@ SOURCES += \
     naytin/kuvaview.cpp \
     naytin/scenenaytin.cpp \
     naytin/pdfview.cpp \
-    naytin/eipdfnaytin.cpp \
     tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
     db/kpkysely.cpp \
@@ -482,7 +481,6 @@ HEADERS += \
     naytin/kuvaview.h \
     naytin/scenenaytin.h \
     naytin/pdfview.h \
-    naytin/eipdfnaytin.h \
     tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
     db/kpkysely.h \

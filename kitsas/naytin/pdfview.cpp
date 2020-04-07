@@ -20,6 +20,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPrinter>
 #include <QPainter>
+#include <QGraphicsSimpleTextItem>
 
 Naytin::PdfView::PdfView(const QByteArray &pdf) :
     data_(pdf)
@@ -54,8 +55,17 @@ void Naytin::PdfView::paivita() const
     double leveys = 0.0;
     double leveyteen = width() - 20.0;
 
+    int sivut = pdfDoc->numPages();
+    int naytettavat = sivut < 20 ? sivut : 20;
+
+    if( naytettavat != sivut) {
+        QGraphicsSimpleTextItem *text = scene()->addSimpleText(tr("Tiedostossa on %1 sivua, joista näytetään 20 ensimmäistä. Paina hiiren oikeaa nappia ja valitse Avaa nähdäksesi kokonaan.").arg(sivut), QFont("FreeSans",14));
+        text->setBrush(QBrush(Qt::yellow));
+        ypos += text->boundingRect().height() + 5;
+    }
+
     // Monisivuisen pdf:n sivut pinotaan päällekkäin
-    for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
+    for( int sivu = 0; sivu < naytettavat; sivu++)
     {
         Poppler::Page *pdfSivu = pdfDoc->page(sivu);
 
@@ -81,6 +91,13 @@ void Naytin::PdfView::paivita() const
 
 
         delete pdfSivu;
+    }
+
+    if( naytettavat != sivut) {
+        QGraphicsSimpleTextItem *text = scene()->addSimpleText(tr("Tiedostossa on %1 sivua, joista näytetään 20 ensimmäistä.  Paina hiiren oikeaa nappia ja valitse Avaa nähdäksesi kokonaan.").arg(sivut), QFont("FreeSans",16));
+        text->setBrush(QBrush(Qt::yellow));
+        text->setY(ypos);
+        ypos += text->boundingRect().height() + 5;
     }
 
     scene()->setSceneRect(-5.0, -5.0, leveys + 10.0, ypos + 5.0  );

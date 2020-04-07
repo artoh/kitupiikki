@@ -57,7 +57,6 @@
 
 #include "tuonti/csvtuonti.h"
 #include "naytin/esikatselunaytin.h"
-#include "naytin/eipdfnaytin.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent),
@@ -83,6 +82,8 @@ NaytinView::NaytinView(QWidget *parent)
     tallennaAktio_ = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this);
     connect( tallennaAktio_, &QAction::triggered, this, &NaytinView::tallenna);
 
+    avaaAktio_ = new QAction( QIcon(":/pic/pdf.png"), tr("Avaa"), this);
+    connect( avaaAktio_, &QAction::triggered, this, &NaytinView::avaaOhjelmalla);
 }
 
 NaytinView::~NaytinView()
@@ -97,10 +98,7 @@ void NaytinView::nayta(const QByteArray &data)
 {
     if( data.startsWith("%PDF"))
     {
-        if( kp()->settings()->value("PopplerPois").toBool())
-            vaihdaNaytin( new Naytin::EiPdfNaytin(data));
-        else
-            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::PdfView( data)));
+        vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::PdfView( data)));
     }
     else {
         QImage kuva;
@@ -417,6 +415,7 @@ void NaytinView::contextMenuEvent(QContextMenuEvent *event)
         valikko.addAction(zoomOutAktio_);
         valikko.addSeparator();
     }
+    valikko.addAction(avaaAktio_);
     valikko.addAction(tulostaAktio_);
     valikko.addAction(tallennaAktio_);
 

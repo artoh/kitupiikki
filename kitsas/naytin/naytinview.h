@@ -95,6 +95,7 @@ protected:
     QAction* zoomOutAktio_;
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
+    QAction* avaaAktio_;
 
     QStackedLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
