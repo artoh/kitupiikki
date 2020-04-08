@@ -666,9 +666,7 @@ QString AloitusSivu::vinkit()
     }
 
     // Ensin tietokannan alkutoimiin
-    int indeksitilikausi = kp()->tilikaudet()->rowCount() > 1 ? 1 : 0;
-    if(kp()->tilikaudet()->tilikausiIndeksilla( indeksitilikausi ).liikevaihto() == 0 &&
-            kp()->tilikaudet()->rowCount() < 3)
+    if( saldot_.count() < 2)
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");

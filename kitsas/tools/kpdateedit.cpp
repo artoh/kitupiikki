@@ -74,7 +74,7 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 
 void KpDateEdit::setEnabled(bool enabled)
 {
-    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid()))
+    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool()))
             && enabled)
     {
         setStyleSheet("color: red;");

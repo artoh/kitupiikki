@@ -181,6 +181,9 @@
          <property name="enabled">
           <bool>false</bool>
          </property>
+         <property name="SalliYlitys" stdset="0">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -271,14 +274,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KohdennusCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/kohdennuscombo.h</header>
-  </customwidget>
-  <customwidget>
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
   </customwidget>
   <customwidget>
    <class>KpEuroEdit</class>
