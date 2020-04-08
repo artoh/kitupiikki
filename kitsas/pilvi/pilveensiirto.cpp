@@ -325,7 +325,7 @@ void PilveenSiirto::tallennaSeuraavaLiite()
 
     } else {
         tallennaBudjetit();
-        valmis();
+        tallennaVakioviitteet();
     }
 }
 
@@ -343,6 +343,32 @@ void PilveenSiirto::tallennaBudjetti(const QString& tilikausi, QVariant* data) {
     QVariantMap map = data->toMap();
     if( !map.isEmpty() ) {
         KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/budjetti/%1").arg(tilikausi));
+        tallennus->kysy(map);
+    }
+}
+
+void PilveenSiirto::tallennaVakioviitteet()
+{
+    KpKysely *haku = kpk("/vakioviitteet");
+    connect(haku, &KpKysely::vastaus, this, &PilveenSiirto::vakioViitteetSaapuu);
+    haku->kysy();
+}
+
+void PilveenSiirto::vakioViitteetSaapuu(const QVariant *data)
+{
+    vakioviitteet = data->toList();
+    tallennaSeuraavaVakioViite();
+}
+
+void PilveenSiirto::tallennaSeuraavaVakioViite()
+{
+    if( vakioviitteet.isEmpty())
+        valmis();
+    else {
+        QVariantMap map = vakioviitteet.takeFirst().toMap();
+        int viite = map.value("viite").toInt();
+        KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/vakioviitteet/%1").arg(viite));
+        connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaVakioViite);
         tallennus->kysy(map);
     }
 }
