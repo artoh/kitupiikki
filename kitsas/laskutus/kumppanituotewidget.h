@@ -26,6 +26,7 @@ class KumppaniTuoteWidget;
 class AsiakkaatModel;
 class TuoteModel;
 class QSortFilterProxyModel;
+class VakioViiteModel;
 
 class KumppaniTuoteWidget : public QWidget
 {
@@ -35,7 +36,7 @@ public:
     explicit KumppaniTuoteWidget(QWidget *parent = nullptr);
     ~KumppaniTuoteWidget();
 
-    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET, RYHMAT };
+    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET, VAKIOVIITTEET, RYHMAT };
 
 public slots:
     void nayta(int valilehti);
@@ -59,6 +60,7 @@ private:
 
     QSortFilterProxyModel *proxy_;
     AsiakkaatModel* asiakkaat_;
+    VakioViiteModel* vakioviitteet_;
 
     int valilehti_;
     int ryhma_ = 0;

@@ -102,8 +102,8 @@ void LaskuSivu::paaTab(int indeksi)
     }
 
     kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
-    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
-    ryhmaWidget_->setVisible( indeksi == REKISTERI);
+    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI && indeksi != VAKIOVIITTEET);
+    ryhmaWidget_->setVisible( indeksi == REKISTERI && indeksi != VAKIOVIITTEET);
 
 
     if( indeksi >= REKISTERI )
@@ -111,7 +111,7 @@ void LaskuSivu::paaTab(int indeksi)
     else if( indeksi < REKISTERI)
         kumppaniTuoteWidget_->nayta( indeksi);
 
-    if( indeksi != TUOTTEET && indeksi != REKISTERI)
+    if( indeksi != TUOTTEET && indeksi != REKISTERI && indeksi != VAKIOVIITTEET)
     {
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
@@ -122,9 +122,11 @@ void LaskuSivu::paaTab(int indeksi)
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata asiakkaan nimellä"));
     else if( indeksi == TOIMITTAJA || indeksi == OSTO)
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata toimittajan nimellä"));
-    else if( indeksi == REKISTERI ) {
+    else if( indeksi == REKISTERI )
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata nimellä"));
-    } else
+    else if( indeksi == VAKIOVIITTEET)
+        asiakasSuodatusEdit_->setPlaceholderText("Suodata otsikolla");
+    else
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata tuotteen nimellä"));
 
 
@@ -140,6 +142,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/mies.png"),("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
+    paaTab_->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviitteet"));
 
     asiakasSuodatusEdit_ = new QLineEdit();
     asiakasSuodatusEdit_->setPlaceholderText( tr("Etsi asiakkaan nimellä") );

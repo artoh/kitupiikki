@@ -49,6 +49,7 @@
 #include "routes/ryhmatroute.h"
 #include "routes/tuontitulkki.h"
 #include "routes/inforoute.h"
+#include "routes/vakioviiteroute.h"
 
 #include "versio.h"
 
@@ -77,6 +78,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new RyhmatRoute(this));
     lisaaRoute(new TuontiTulkki(this));
     lisaaRoute(new AlvRoute(this));
+    lisaaRoute(new VakioviiteRoute(this));
     lisaaRoute(new InfoRoute(this));
 }
 

@@ -23,6 +23,8 @@
 
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "rekisteri/ryhmatmodel.h"
+#include "vakioviite/vakioviitemodel.h"
+#include "vakioviite/vakioviitedlg.h"
 #include "tuotedialogi.h"
 
 #include "db/kirjanpito.h"
@@ -39,7 +41,8 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KumppaniTuoteWidget),
     proxy_(new QSortFilterProxyModel(this)),
-    asiakkaat_( new AsiakkaatModel(this))
+    asiakkaat_( new AsiakkaatModel(this)),
+    vakioviitteet_( new VakioViiteModel(this))
 {
     ui->setupUi(this);
 
@@ -76,12 +79,14 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 {
     valilehti_ = valilehti;
 
-      ui->tuoNappi->setVisible( valilehti != TUOTTEET);
+      ui->tuoNappi->setVisible( valilehti == ASIAKKAAT || valilehti == TOIMITTAJAT || valilehti == REKISTERI);
 //    ui->VieNappi->setVisible( valilehti != RYHMAT);
 
     bool muokkausoikeus = false;
     if( valilehti == RYHMAT )
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::RYHMAT);
+    else if( valilehti == VAKIOVIITTEET)
+        muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
     else if(valilehti == TUOTTEET)
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::TUOTTEET);
     else
@@ -140,6 +145,10 @@ void KumppaniTuoteWidget::uusi()
             connect(kysely, &KpKysely::vastaus, kp()->ryhmat(), &RyhmatModel::paivita);
             kysely->kysy(uusiryhma);
         }
+    } else if( valilehti_ == VAKIOVIITTEET ) {
+        VakioViiteDlg dlg(this);
+        dlg.uusi();
+        vakioviitteet_->lataa();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
@@ -165,6 +174,10 @@ void KumppaniTuoteWidget::muokkaa()
             connect(kysely, &KpKysely::vastaus, kp()->ryhmat(), &RyhmatModel::paivita);
             kysely->kysy(muokattu);
         }
+    } else if( valilehti_ == VAKIOVIITTEET) {
+        VakioViiteDlg dlg(this);
+        dlg.muokkaa( ui->view->currentIndex().data(VakioViiteModel::MapRooli).toMap() );
+        vakioviitteet_->lataa();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         dlg->muokkaa( ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt() );
@@ -187,6 +200,13 @@ void KumppaniTuoteWidget::poista()
             connect( kysely, &KpKysely::vastaus, kp()->ryhmat(), &RyhmatModel::paivita);
             kysely->kysy();
         }
+    } else if( valilehti_ == VAKIOVIITTEET) {
+        if( QMessageBox::question(this, tr("Vakioviitteen poistaminen"),tr("Haluatko varmasti poistaa vakioviitteen?")) == QMessageBox::Yes) {
+            int viite = ui->view->currentIndex().data(VakioViiteModel::ViiteRooli).toInt();
+            KpKysely *kysely = kpk(QString("/vakioviitteet/%1").arg(viite), KpKysely::DELETE );
+            connect( kysely, &KpKysely::vastaus, vakioviitteet_, &VakioViiteModel::lataa);
+            kysely->kysy();
+        }
     } else {
         int kid = ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt();
         if( kid ) {
@@ -201,6 +221,8 @@ void KumppaniTuoteWidget::paivita()
 {
     if( valilehti_ == TUOTTEET)
         proxy_->setSourceModel( kp()->tuotteet() );
+    else if( valilehti_ == VAKIOVIITTEET)
+        proxy_->setSourceModel( vakioviitteet_ );
     else if (valilehti_ == RYHMAT) {
         proxy_->setSourceModel( kp()->ryhmat() );
         ui->view->selectRow(0);
@@ -216,7 +238,8 @@ void KumppaniTuoteWidget::paivita()
         asiakkaat_->paivita(AsiakkaatModel::ASIAKKAAT);
     else if( valilehti_ == TOIMITTAJAT)
         asiakkaat_->paivita(AsiakkaatModel::TOIMITTAJAT);
-
+    else if( valilehti_ == VAKIOVIITTEET)
+        vakioviitteet_->lataa();
 
     ui->view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ilmoitaValinta();
@@ -224,7 +247,7 @@ void KumppaniTuoteWidget::paivita()
 
 void KumppaniTuoteWidget::tuo()
 {
-    if( valilehti_ != TUOTTEET) {
+    if( valilehti_ == ASIAKKAAT || valilehti_ == TOIMITTAJAT || valilehti_ == REKISTERI) {
         QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuonti csv-tiedostosta"),QString(),
                                                         tr("Csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
         if( !tiedosto.isEmpty()) {

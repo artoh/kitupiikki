@@ -64,6 +64,15 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
     QString viite = rivi.value("viite").toString();
     if( !viite.isEmpty()) {
 
+        // Etsitään vakioviitettä
+        kysely.exec(QString("SELECT tili, kohdennus, otsikko FROM Vakioviite WHERE viite=%1").arg(viite.toInt()));
+        if( kysely.next()) {
+            rivi.insert("selite", kysely.value("otsikko"));
+            rivi.insert("tili", kysely.value("tili"));
+            rivi.insert("kohdennus", kysely.value("kohdennus"));
+            return;
+        }
+
         // RF-muodossa olevat viitteet muutetaan kansalliseen muotoon
         if( viite.startsWith("RF"))
             viite = viite.mid(4);

@@ -39,6 +39,8 @@ SOURCES += \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
+    $$PWD/laskutus/vakioviite/vakioviitedlg.cpp \
+    $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
@@ -109,6 +111,7 @@ SOURCES += \
     $$PWD/sqlite/routes/tositeroute.cpp \
     $$PWD/sqlite/routes/tuontitulkki.cpp \
     $$PWD/sqlite/routes/tuotteetroute.cpp \
+    $$PWD/sqlite/routes/vakioviiteroute.cpp \
     $$PWD/sqlite/routes/viennitroute.cpp \
     $$PWD/sqlite/sqlitealustaja.cpp \
     $$PWD/sqlite/sqliteroute.cpp \
@@ -294,6 +297,8 @@ HEADERS += \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
     $$PWD/laskutus/tuotedialogi.h \
+    $$PWD/laskutus/vakioviite/vakioviitedlg.h \
+    $$PWD/laskutus/vakioviite/vakioviitemodel.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
@@ -364,6 +369,7 @@ HEADERS += \
     $$PWD/sqlite/routes/tositeroute.h \
     $$PWD/sqlite/routes/tuontitulkki.h \
     $$PWD/sqlite/routes/tuotteetroute.h \
+    $$PWD/sqlite/routes/vakioviiteroute.h \
     $$PWD/sqlite/routes/viennitroute.h \
     $$PWD/sqlite/sqlitealustaja.h \
     $$PWD/sqlite/sqliteroute.h \
@@ -534,6 +540,7 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/emailkokeilu.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/liitemaaritys.ui \

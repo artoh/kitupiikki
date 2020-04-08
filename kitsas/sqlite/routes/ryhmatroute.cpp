@@ -41,12 +41,11 @@ QVariant RyhmatRoute::post(const QString &/*polku*/, const QVariant &data)
     QVariantMap map = data.toMap();
     QVariantMap kopio(map);
 
-    QSqlQuery kysely(db());
+    QSqlQuery kysely(db());    
     kysely.prepare("INSERT INTO Ryhma(nimi,json) VALUES (?,?)");
     kysely.addBindValue(map.take("nimi"));
     kysely.addBindValue(mapToJson(map));
-    if(!kysely.exec()) {
-        db().rollback();
+    if(!kysely.exec()) {        
         throw SQLiteVirhe(kysely);
     }
     kopio.insert("id", kysely.lastInsertId());
@@ -65,8 +64,7 @@ QVariant RyhmatRoute::put(const QString &polku, const QVariant &data)
     kysely.addBindValue(polku.toInt());
     kysely.addBindValue(map.take("nimi"));
     kysely.addBindValue(mapToJson(map));
-    if(!kysely.exec()) {
-        db().rollback();
+    if(!kysely.exec()) {        
         throw SQLiteVirhe(kysely);
     }
     return kopio;
