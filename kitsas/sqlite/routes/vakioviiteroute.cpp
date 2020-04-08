@@ -99,7 +99,7 @@ QString VakioviiteRoute::seuraavaViite()
         if( kysely.value(0).toLongLong())
             viiteluku = kysely.value(0).toLongLong();
     }
-    viiteluku = (viiteluku + 1) / 10;
+    viiteluku = (viiteluku + 10) / 10;
     QString numero = QString::number(viiteluku);
 
     int summa = 0;

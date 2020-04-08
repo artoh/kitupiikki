@@ -16,6 +16,7 @@
 */
 #include "vakioviitedlg.h"
 #include "ui_vakioviitedlg.h"
+#include "db/kirjanpito.h"
 
 VakioViiteDlg::VakioViiteDlg(QWidget *parent) :
     QDialog(parent),
@@ -24,6 +25,7 @@ VakioViiteDlg::VakioViiteDlg(QWidget *parent) :
     ui->setupUi(this);
 
     ui->tiliEdit->suodataTyypilla("C.*");
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/vakioviite");} );
 }
 
 VakioViiteDlg::~VakioViiteDlg()

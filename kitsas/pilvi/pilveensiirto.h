@@ -61,6 +61,9 @@ private:
     void tallennaSeuraavaLiite();
     void tallennaBudjetit();
     void tallennaBudjetti(const QString& tilikausi, QVariant* data);
+    void tallennaVakioviitteet();
+    void vakioViitteetSaapuu(const QVariant* data);
+    void tallennaSeuraavaVakioViite();
     void valmis();
     void infoSaapuu(QVariant* data);
     void siirtoVirhe(int koodi);
@@ -79,6 +82,7 @@ private:
     QVariantList ryhmat;
     QSqlQuery liitekysely;
     QStringList tilikaudet;
+    QVariantList vakioviitteet;
 
 };
 
