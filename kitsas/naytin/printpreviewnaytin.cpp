@@ -23,12 +23,13 @@
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QObject *parent)
     : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer()) }
 {
+
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
 }
 
 Naytin::PrintPreviewNaytin::~PrintPreviewNaytin()
 {
-    widget_->deleteLater();
+    delete widget_;
 }
 
 QWidget *Naytin::PrintPreviewNaytin::widget()

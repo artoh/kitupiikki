@@ -107,7 +107,7 @@ void KpDateEdit::setDefaultDate(const QDate &date)
 
 void KpDateEdit::checkValidity()
 {
-    if( (date() < minimumDate() && minimumDate().isValid()) || (date() > maximumDate() && maximumDate().isValid()) )
+    if( (date() < minimumDate() && minimumDate().isValid()) || (date() > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) )
         setStyleSheet("color: red;");
     else {
         setStyleSheet("");

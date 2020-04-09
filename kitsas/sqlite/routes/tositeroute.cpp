@@ -197,10 +197,10 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     // Tunnisteen hakeminen
     if( !tunniste && tila >= Tosite::KIRJANPIDOSSA) {
         if( sarja.isNull() )
-            kysely.exec( QString("SELECT MAX(tunniste) as tunniste FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL")
+            kysely.exec( QString("SELECT MAX(tunniste) as tunniste FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL AND tila >= 100")
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)));
         else
-            kysely.exec( QString("SELECT MAX(tunniste) as tunniste FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja='%3'")
+            kysely.exec( QString("SELECT MAX(tunniste) as tunniste FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja='%3' AND tila >= 100")
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
         if( kysely.next())
             tunniste = kysely.value("tunniste").toInt() + 1;

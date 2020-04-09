@@ -29,6 +29,7 @@ class AineistoTulostaja : public QObject, public Esikatseltava
     Q_OBJECT
 public:
     AineistoTulostaja(QObject *parent = nullptr);
+    ~AineistoTulostaja() override;
 
     void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi");
 

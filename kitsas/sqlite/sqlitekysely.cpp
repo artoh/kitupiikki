@@ -41,6 +41,7 @@ void SQLiteKysely::kysy(const QVariant &data)
         emit virhe( e.koodi(), e.selitys() );
         qDebug() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
     }
+    deleteLater();
 }
 
 void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString, QString> &meta)

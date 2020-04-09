@@ -178,7 +178,6 @@ int main(int argc, char *argv[])
         kirjanpito.sqlite()->avaaTiedosto( parser.positionalArguments().value(0) );
 
     splash->finish( &ikkuna );
-
     delete splash;
 
     return a.exec();

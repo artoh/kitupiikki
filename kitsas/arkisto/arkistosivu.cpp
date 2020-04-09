@@ -76,7 +76,7 @@ ArkistoSivu::ArkistoSivu()
 }
 
 ArkistoSivu::~ArkistoSivu()
-{
+{    
     delete ui;
 }
 

@@ -128,7 +128,7 @@ QVariant TilikaudetRoute::post(const QString &polku, const QVariant &data)
     if( !alusta) {
 
     query.exec(QString("SELECT sarja, MAX(tunniste) FROM Tosite "
-               "WHERE pvm < '%1' AND pvm >= '%2'"
+               "WHERE pvm < '%1' AND pvm >= '%2' AND tila >= 100 "
                 "GROUP BY tunniste").arg(alkaa).arg(kausialkaa.toString(Qt::ISODate)));
     while( query.next()) {
         int min = query.value(1).toInt() + 1;
@@ -138,7 +138,7 @@ QVariant TilikaudetRoute::post(const QString &polku, const QVariant &data)
 
 
     query.exec(QString("SELECT id, sarja FROM Tosite "
-               "WHERE pvm BETWEEN '%1' AND '%2' "
+               "WHERE pvm BETWEEN '%1' AND '%2' AND tila >= 100 "
                 "ORDER BY sarja, pvm, id").arg(alkaa).arg(loppuu));
 
     db().transaction();

@@ -29,16 +29,25 @@
 
 #include "tilinpaatostulostaja.h"
 #include "naytin/liitetulostaja.h"
+#include "naytin/naytinikkuna.h"
+#include "naytin/naytinview.h"
 
 #include <QPdfWriter>
 #include <QPainter>
 #include <QApplication>
 #include <QDesktopServices>
 #include <QProgressDialog>
+#include <QDebug>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
 
+}
+
+AineistoTulostaja::~AineistoTulostaja()
+{
+    liitedatat_.clear();
+    qDebug() << "~Aineisto";
 }
 
 void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli)
@@ -138,7 +147,10 @@ void AineistoTulostaja::tilaaLiitteet()
 void AineistoTulostaja::seuraavaLiite()
 {
     if( liitepnt_ == liitteet_.count()) {
-            esikatsele();
+        NaytinIkkuna *ikkuna = new NaytinIkkuna();
+        ikkuna->show();
+        setParent(ikkuna);
+        ikkuna->view()->esikatsele(this);
     } else {
         int liiteid = liitteet_.value(liitepnt_).toMap().value("id").toInt();
 

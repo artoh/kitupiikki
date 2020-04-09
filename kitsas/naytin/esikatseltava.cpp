@@ -40,7 +40,7 @@ void Esikatseltava::esikatsele()
     NaytinIkkuna *ikkuna = new NaytinIkkuna();
     ikkuna->show();
 
-    ikkuna->view()->esikatsele(this);
+    ikkuna->view()->esikatsele(this);    
 }
 
 QByteArray Esikatseltava::pdf() const
@@ -53,6 +53,7 @@ QByteArray Esikatseltava::pdf() const
 
     writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
     writer.setTitle( otsikko() );
+    writer.setResolution(1200);
 
     tulosta( &writer );
 
