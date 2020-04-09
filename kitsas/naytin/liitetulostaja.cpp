@@ -38,17 +38,17 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
 {
     Poppler::Document *document = Poppler::Document::loadFromData(data);
     document->setRenderHint(Poppler::Document::TextAntialiasing);
-    document->setRenderHint(Poppler::Document::Antialiasing);
+    document->setRenderHint(Poppler::Document::Antialiasing);        
 
 #ifndef Q_OS_WINDOWS
     document->setRenderBackend(Poppler::Document::ArthurBackend);
+#else
+    document->setRenderBackend(Poppler::Document::SplashBackend);
 #endif
 
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
     {
-        tulostaYlatunniste(painter, pvm, sarja, tunniste);
-
         Poppler::Page *page = document->page(i);
 
         double vaakaResoluutio =  printer->pageLayout().paintRect(QPageLayout::Point).width() / page->pageSizeF().width() * printer->logicalDpiX();
@@ -59,10 +59,14 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
 #ifndef Q_OS_WINDOWS
         page->renderToPainter( painter, resoluutio, resoluutio,
                                            0, 0 - painter->fontMetrics().height() * 2 ,page->pageSize().width(), page->pageSize().height());
+
 #else
-        QImage image = page->renderToImage(resoluutio, resoluutio);
+        QImage image = page->renderToImage(resoluutio, resoluutio);        
         painter->drawImage(0,painter->fontMetrics().height() * 2,image);
 #endif
+
+        tulostaYlatunniste(painter, pvm, sarja, tunniste);
+
 
         if( i < pageCount - 1)
             printer->newPage();       

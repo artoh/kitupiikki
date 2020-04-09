@@ -34,22 +34,26 @@
 #include <QPainter>
 #include <QApplication>
 #include <QDesktopServices>
+#include <QProgressDialog>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
 
 }
 
-void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli, bool tallenna)
+void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli)
 {
     tilikausi_ = kausi;
-    kieli_ = kieli;
-    tallenna_ = tallenna;
+    kieli_ = kieli;    
     tilaaRaportit();
 }
 
 void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
 {
+    QProgressDialog progress(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + liitteet_.count());
+    progress.setMinimumDuration(150);
+
+
     writer->setPageSize( QPdfWriter::A4);
 
     writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
@@ -60,6 +64,10 @@ void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
     for( auto rk : kirjoittajat_) {
         writer->newPage();
         rk.tulosta(writer, &painter);
+        qApp->processEvents();
+        progress.setValue(progress.value() + 1);
+        if( progress.wasCanceled())
+            return;
     }
 
     bool valiennen = true;
@@ -72,6 +80,10 @@ void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
             writer->newPage();
         valiennen = LiiteTulostaja::tulostaLiite(writer, &painter, liitedatat_.value(id), map.value("tyyppi").toString(),
                                      map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
+        qApp->processEvents();
+        progress.setValue(progress.value() + 1);
+        if( progress.wasCanceled())
+            return;
     }
     painter.end();
 }
@@ -126,9 +138,6 @@ void AineistoTulostaja::tilaaLiitteet()
 void AineistoTulostaja::seuraavaLiite()
 {
     if( liitepnt_ == liitteet_.count()) {
-        if( tallenna_)
-            tallennaAineisto();
-        else
             esikatsele();
     } else {
         int liiteid = liitteet_.value(liitepnt_).toMap().value("id").toInt();
@@ -139,16 +148,6 @@ void AineistoTulostaja::seuraavaLiite()
         liitepnt_++;
         liitehaku->kysy();
     }
-}
-
-void AineistoTulostaja::tallennaAineisto()
-{
-    QString polku = kp()->tilapainen( QString("aineisto-%1.pdf").arg(tilikausi_.pitkakausitunnus()) );
-    QPdfWriter writer(polku);
-    writer.setTitle(tr("Kirjanpitoaineisto %1").arg(tilikausi_.kausivaliTekstina()));
-    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
-    tulosta(&writer);
-    QDesktopServices::openUrl(QUrl::fromLocalFile(polku));
 }
 
 void AineistoTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)

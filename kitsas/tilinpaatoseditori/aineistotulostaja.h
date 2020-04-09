@@ -30,7 +30,7 @@ class AineistoTulostaja : public QObject, public Esikatseltava
 public:
     AineistoTulostaja(QObject *parent = nullptr);
 
-    void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi", bool tallennaAineisto = false);
+    void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi");
 
     virtual void tulosta(QPagedPaintDevice *writer) const override;
     virtual QString otsikko() const override;
@@ -43,7 +43,6 @@ protected:
     void tilaaRaportit();
     void tilaaLiitteet();
     void seuraavaLiite();
-    void tallennaAineisto();
 
 protected slots:
     void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
@@ -59,8 +58,7 @@ protected:
     QString kieli_;
 
     int tilattuja_;
-    int liitepnt_ = 0;
-    bool tallenna_ = false;
+    int liitepnt_ = 0;    
 
 };
 

@@ -234,6 +234,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     } else {
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
+        setWindowTitle(tr("Kitsas %1").arg(qApp->applicationVersion()));
     }
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
