@@ -28,19 +28,14 @@ class QProgressDialog;
 class QPagedPaintDevice;
 class QPainter;
 
-class AineistoTulostaja : public QObject, public Esikatseltava
+class AineistoTulostaja : public QObject
 {
     Q_OBJECT
 public:
     AineistoTulostaja(QObject *parent = nullptr);
     ~AineistoTulostaja() override;
 
-    void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi");
-
     void tallennaAineisto(Tilikausi kausi, const QString& kieli = "fi");
-
-    virtual void tulosta(QPagedPaintDevice *writer) override;
-    virtual QString otsikko() const override;
 
 signals:
 
@@ -48,14 +43,11 @@ public slots:
 
 protected:
     void tilaaRaportit();
-    void tilaaLiitteet();
-    void seuraavaLiite();
-
-protected slots:
     void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
+    void tilaaLiitteet();
     void liiteListaSaapuu(QVariant *data);
-    void liiteSaapuu(int liiteid, QVariant* var);
-
+    void liiteSaapuu(int liiteid, QVariant* var);    
+    void tulostaRaportit();
     void tilaaSeuraavaLiite();
     void tulostaLiite(QVariant* data, const QVariantMap& map);
 

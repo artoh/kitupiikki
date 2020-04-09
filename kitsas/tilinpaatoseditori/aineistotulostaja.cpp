@@ -42,6 +42,7 @@
 #include <QSettings>
 #include <QPdfWriter>
 #include <QDesktopServices>
+#include <QRegularExpression>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
@@ -54,15 +55,11 @@ AineistoTulostaja::~AineistoTulostaja()
     qDebug() << "~Aineisto";
 }
 
-void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli)
-{
-    tilikausi_ = kausi;
-    kieli_ = kieli;    
-    tilaaRaportit();
-}
-
 void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 {
+    tilikausi_ = kausi;
+    kieli_ = kieli;
+
     QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
     if( arkistopolku.isEmpty() || !QFile::exists(arkistopolku))
         arkistopolku = ArkistohakemistoDialogi::valitseArkistoHakemisto();
@@ -70,7 +67,9 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
         return;
 
     QDir hakemisto(arkistopolku );
-    polku_ = hakemisto.absoluteFilePath(QString("arkisto%1.pdf").arg(kausi.pitkakausitunnus()));
+    QString nimi = kp()->asetukset()->asetus("Nimi");
+    nimi.replace(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption),"");
+    polku_ = hakemisto.absoluteFilePath(QString("%1-%2.pdf").arg(nimi).arg(kausi.pitkakausitunnus()));
 
     QPdfWriter *writer = new QPdfWriter(polku_);
     writer->setTitle(tr("Kirjanpitoaineisto %1").arg(kausi.kausivaliTekstina()));
@@ -81,24 +80,20 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 
     painter = new QPainter( writer );
     device = writer;
-    tilikausi_ = kausi;
-    kieli_ = kieli;
+
     tilaaRaportit();
 }
 
-void AineistoTulostaja::tulosta(QPagedPaintDevice *writer)
+void AineistoTulostaja::tulostaRaportit()
 {
     progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + liitteet_.count());
     progress->setMinimumDuration(150);
 
-
-
-
     TilinpaatosTulostaja::tulostaKansilehti( painter, "Kirjanpitoaineisto", tilikausi_);
 
     for( auto rk : kirjoittajat_) {
-        writer->newPage();
-        rk.tulosta(writer, painter);
+        device->newPage();
+        rk.tulosta(device, painter);
         qApp->processEvents();
         progress->setValue(progress->value() + 1);
         if( progress->wasCanceled()) {
@@ -108,34 +103,10 @@ void AineistoTulostaja::tulosta(QPagedPaintDevice *writer)
             return;
         }
     }
-    device = writer;
     liitepnt_ = 0;
     tilaaSeuraavaLiite();
-    /*
-
-    bool valiennen = true;
-
-    // Vielä liitteet
-    for( auto rivi : liitteet_) {
-        QVariantMap map = rivi.toMap();
-        int id = map.value("id").toInt();
-        if(valiennen)
-            writer->newPage();
-        valiennen = LiiteTulostaja::tulostaLiite(writer, &painter, liitedatat_.value(id), map.value("tyyppi").toString(),
-                                     map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
-        qApp->processEvents();
-        progress->setValue(progress->value() + 1);
-        if( progress->wasCanceled())
-            return;
-    }
-    painter.end();
-    */
 }
 
-QString AineistoTulostaja::otsikko() const
-{
-    return tr("Kirjanpitoaineisto");
-}
 
 void AineistoTulostaja::tilaaRaportit()
 {
@@ -179,20 +150,6 @@ void AineistoTulostaja::tilaaLiitteet()
     kysely->kysy();
 }
 
-void AineistoTulostaja::seuraavaLiite()
-{
-    if( liitepnt_ == liitteet_.count()) {
-
-    } else {
-        int liiteid = liitteet_.value(liitepnt_).toMap().value("id").toInt();
-
-        KpKysely *liitehaku = kpk(QString("/liitteet/%1").arg(liiteid));
-        connect( liitehaku, &KpKysely::vastaus,
-                 [this, liiteid] (QVariant* data) { this->liiteSaapuu(liiteid, data); });
-        liitepnt_++;
-        liitehaku->kysy();
-    }
-}
 
 void AineistoTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
 {
@@ -206,14 +163,7 @@ void AineistoTulostaja::liiteListaSaapuu(QVariant *data)
 {
     QVariantList lista = data->toList();
     liitteet_ = lista;
-
-    tulosta(device);
-}
-
-void AineistoTulostaja::liiteSaapuu(int liiteid, QVariant *var)
-{
-    liitedatat_.insert(liiteid, var->toByteArray());
-    seuraavaLiite();
+    tulostaRaportit();
 }
 
 void AineistoTulostaja::tilaaSeuraavaLiite()

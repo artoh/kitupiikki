@@ -193,7 +193,7 @@ void TilinPaattaja::mappi()
     QString teksti =  data.mid(data.indexOf("\n")+1);
 
     AineistoTulostaja* tulostaja = new AineistoTulostaja(this);
-    tulostaja->naytaAineisto(tilikausi, kp()->asetus("tpkieli"));
+    tulostaja->tallennaAineisto(tilikausi, kp()->asetus("tpkieli"));
 }
 
 void TilinPaattaja::vahvista()
