@@ -16,6 +16,7 @@
 */
 
 
+#include "arkistoija/arkistohakemistodialogi.h"
 
 #include "aineistotulostaja.h"
 
@@ -38,6 +39,9 @@
 #include <QDesktopServices>
 #include <QProgressDialog>
 #include <QDebug>
+#include <QSettings>
+#include <QPdfWriter>
+#include <QDesktopServices>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
@@ -57,27 +61,57 @@ void AineistoTulostaja::naytaAineisto(Tilikausi kausi, const QString &kieli)
     tilaaRaportit();
 }
 
-void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
+void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 {
-    QProgressDialog progress(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + liitteet_.count());
-    progress.setMinimumDuration(150);
+    QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+    if( arkistopolku.isEmpty() || !QFile::exists(arkistopolku))
+        arkistopolku = ArkistohakemistoDialogi::valitseArkistoHakemisto();
+    if( arkistopolku.isEmpty())
+        return;
 
+    QDir hakemisto(arkistopolku );
+    polku_ = hakemisto.absoluteFilePath(QString("arkisto%1.pdf").arg(kausi.pitkakausitunnus()));
 
+    QPdfWriter *writer = new QPdfWriter(polku_);
+    writer->setTitle(tr("Kirjanpitoaineisto %1").arg(kausi.kausivaliTekstina()));
+    writer->setCreator(tr("Kitsas %1").arg(qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 
     writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
-    QPainter painter( writer );
 
-    TilinpaatosTulostaja::tulostaKansilehti( &painter, "Kirjanpitoaineisto", tilikausi_);
+    painter = new QPainter( writer );
+    device = writer;
+    tilikausi_ = kausi;
+    kieli_ = kieli;
+    tilaaRaportit();
+}
+
+void AineistoTulostaja::tulosta(QPagedPaintDevice *writer)
+{
+    progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + liitteet_.count());
+    progress->setMinimumDuration(150);
+
+
+
+
+    TilinpaatosTulostaja::tulostaKansilehti( painter, "Kirjanpitoaineisto", tilikausi_);
 
     for( auto rk : kirjoittajat_) {
         writer->newPage();
-        rk.tulosta(writer, &painter);
+        rk.tulosta(writer, painter);
         qApp->processEvents();
-        progress.setValue(progress.value() + 1);
-        if( progress.wasCanceled())
+        progress->setValue(progress->value() + 1);
+        if( progress->wasCanceled()) {
+            progress->close();
+            delete painter;
+            delete progress;
             return;
+        }
     }
+    device = writer;
+    liitepnt_ = 0;
+    tilaaSeuraavaLiite();
+    /*
 
     bool valiennen = true;
 
@@ -90,11 +124,12 @@ void AineistoTulostaja::tulosta(QPagedPaintDevice *writer) const
         valiennen = LiiteTulostaja::tulostaLiite(writer, &painter, liitedatat_.value(id), map.value("tyyppi").toString(),
                                      map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
         qApp->processEvents();
-        progress.setValue(progress.value() + 1);
-        if( progress.wasCanceled())
+        progress->setValue(progress->value() + 1);
+        if( progress->wasCanceled())
             return;
     }
     painter.end();
+    */
 }
 
 QString AineistoTulostaja::otsikko() const
@@ -147,10 +182,7 @@ void AineistoTulostaja::tilaaLiitteet()
 void AineistoTulostaja::seuraavaLiite()
 {
     if( liitepnt_ == liitteet_.count()) {
-        NaytinIkkuna *ikkuna = new NaytinIkkuna();
-        ikkuna->show();
-        setParent(ikkuna);
-        ikkuna->view()->esikatsele(this);
+
     } else {
         int liiteid = liitteet_.value(liitepnt_).toMap().value("id").toInt();
 
@@ -174,11 +206,57 @@ void AineistoTulostaja::liiteListaSaapuu(QVariant *data)
 {
     QVariantList lista = data->toList();
     liitteet_ = lista;
-    seuraavaLiite();
+
+    tulosta(device);
 }
 
 void AineistoTulostaja::liiteSaapuu(int liiteid, QVariant *var)
 {
     liitedatat_.insert(liiteid, var->toByteArray());
     seuraavaLiite();
+}
+
+void AineistoTulostaja::tilaaSeuraavaLiite()
+{
+    if( liitepnt_ == liitteet_.count()) {
+        painter->end();
+        QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
+        progress->close();
+        delete progress;
+        delete painter;
+        return;
+    }
+    liitepnt_++;
+    QVariantMap map = liitteet_.value(liitepnt_).toMap();
+    QString tyyppi = map.value("tyyppi").toString();
+    if( tyyppi != "application/pdf" &&
+         tyyppi != "application/pdf")
+    {
+        tilaaSeuraavaLiite();
+        return;
+    }
+
+    int liiteid = map.value("id").toInt();
+    KpKysely *liitehaku = kpk(QString("/liitteet/%1").arg(liiteid));
+    connect( liitehaku, &KpKysely::vastaus,
+             [this, map] (QVariant* data) { this->tulostaLiite(data, map); });
+    liitehaku->kysy();
+}
+
+void AineistoTulostaja::tulostaLiite(QVariant *data, const QVariantMap &map)
+{
+    qApp->processEvents();
+    if( progress->wasCanceled()) {
+        progress->close();
+        delete painter;
+        delete progress;
+        return;
+    }
+
+    QByteArray liite = data->toByteArray();
+    device->newPage();
+    LiiteTulostaja::tulostaLiite(device, painter, liite, map.value("tyyppi").toString(),
+                                         map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
+    progress->setValue(progress->value() + 1);
+    tilaaSeuraavaLiite();
 }

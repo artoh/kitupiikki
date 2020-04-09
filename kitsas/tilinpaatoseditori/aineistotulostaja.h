@@ -24,6 +24,10 @@
 #include "db/tilikausi.h"
 #include "raportti/raportinkirjoittaja.h"
 
+class QProgressDialog;
+class QPagedPaintDevice;
+class QPainter;
+
 class AineistoTulostaja : public QObject, public Esikatseltava
 {
     Q_OBJECT
@@ -33,7 +37,9 @@ public:
 
     void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi");
 
-    virtual void tulosta(QPagedPaintDevice *writer) const override;
+    void tallennaAineisto(Tilikausi kausi, const QString& kieli = "fi");
+
+    virtual void tulosta(QPagedPaintDevice *writer) override;
     virtual QString otsikko() const override;
 
 signals:
@@ -50,6 +56,8 @@ protected slots:
     void liiteListaSaapuu(QVariant *data);
     void liiteSaapuu(int liiteid, QVariant* var);
 
+    void tilaaSeuraavaLiite();
+    void tulostaLiite(QVariant* data, const QVariantMap& map);
 
 protected:
     Tilikausi tilikausi_;
@@ -57,9 +65,14 @@ protected:
     QHash<int,QByteArray> liitedatat_;
     QVariantList liitteet_;
     QString kieli_;
+    QString polku_;
 
     int tilattuja_;
     int liitepnt_ = 0;    
+
+    QProgressDialog* progress;
+    QPagedPaintDevice *device;
+    QPainter *painter = nullptr;
 
 };
 

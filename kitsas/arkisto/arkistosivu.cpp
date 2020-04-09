@@ -134,7 +134,7 @@ void ArkistoSivu::aineisto()
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         AineistoTulostaja *aineisto = new AineistoTulostaja(this);
-        aineisto->naytaAineisto(kausi, kp()->asetus("kieli"));
+        aineisto->tallennaAineisto(kausi, kp()->asetus("kieli"));
     }
 }
 
