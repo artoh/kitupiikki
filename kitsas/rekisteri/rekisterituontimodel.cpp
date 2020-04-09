@@ -20,6 +20,7 @@
 #include <QFileDialog>
 #include <QRegularExpression>
 #include "rekisteri/postinumerot.h"
+#include "asiakastoimittajadlg.h"
 
 RekisteriTuontiModel::RekisteriTuontiModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -183,6 +184,9 @@ QVariantList RekisteriTuontiModel::lista() const
             case POSTIOSOITE:
                 map.insert("postinumero", txt.left(5));
                 map.insert("kaupunki", txt.mid(6));
+                break;
+            case YTUNNUS:
+                map.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv(txt));
                 break;
             }
 

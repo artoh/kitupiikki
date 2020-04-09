@@ -207,6 +207,7 @@ void PilviModel::paivitaLista(int avaaPilvi)
     PilviKysely *kysely = new PilviKysely(this, KpKysely::GET,
                                           pilviLoginOsoite() + "/login");
     connect( kysely, &KpKysely::vastaus, this, &PilviModel::paivitysValmis);
+    connect( kysely, &KpKysely::virhe, this, &PilviModel::kirjauduUlos);
     kysely->kysy();
 }
 
@@ -267,6 +268,7 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         avaaPilvesta( avaaPilvi_);
     avaaPilvi_ = 0;
 
+    timer_->start(6 * 60 * 60 * 1000);  // Tokenin päivitys kuuden tunnin välein
     emit kirjauduttu();
 }
 

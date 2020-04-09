@@ -530,8 +530,8 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
     } else {
         veroFiltteri_->setFilterRegExp( maksuperuste ?
-                                           "^(0|1[4-8])"
-                                           : "^(0|1[1-7])");
+                                           "^(0|1[4-9])"
+                                           : "^(0|1[1-79])");
         if(verokoodi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)

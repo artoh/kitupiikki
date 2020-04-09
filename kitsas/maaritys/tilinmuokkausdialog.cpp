@@ -340,7 +340,10 @@ void TilinMuokkausDialog::accept()
         tili_->asetaLaajuus( ui->laajuusCombo->currentData().toInt());
 
         tili_->setInt("alvlaji", ui->veroCombo->currentData().toInt());
-        tili_->setInt("alvprosentti", ui->veroSpin->value());
+        if( ui->veroSpin->isVisible())
+            tili_->setInt("alvprosentti", ui->veroSpin->value());
+        else
+            tili_->unset("alvprosentti");
         tili_->setInt("tasaerapoisto", tyyppi == "APT" ? ui->poistoaikaSpin->value() * 12 : 0);
         tili_->setInt("menojaannospoisto", tyyppi == "APM" ? ui->poistoprossaSpin->value() : 0);
         tili_->setInt("poistotili", tyyppi.startsWith("AP") ?  ui->poistotiliCombo->valittuTilinumero() : 0);

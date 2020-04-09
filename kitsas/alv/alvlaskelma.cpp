@@ -102,7 +102,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     yvRivi(304, tr("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), taulu_.summa( AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS ));
     yvRivi(305, tr("Vero tavaraostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT + AlvKoodi::ALVKIRJAUS));
-    yvRivi(306,tr("Vero palveluostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOMYYNTI_PALVELUT + AlvKoodi::ALVKIRJAUS));
+    yvRivi(306,tr("Vero palveluostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS));
 
     rk.lisaaTyhjaRivi();
 
