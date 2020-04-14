@@ -483,6 +483,13 @@ void AloitusSivu::kirjauduttu()
                             .arg( pilvia )
                             .arg( pilvetmax ));
 
+    if( kp()->pilvi()->plan() == 0 && kp()->pilvi()->kokeilujakso() >= QDate::currentDate()) {
+        ui->kokeiluLabel->show();
+        ui->kokeiluLabel->setText(tr("Kokeilujakso %1 saakka").arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy")));
+    } else {
+        ui->kokeiluLabel->hide();
+    }
+
     ui->pilviPoistaButton->setVisible( kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
     ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tilaa pilvipalvelut!") );
@@ -656,6 +663,14 @@ void AloitusSivu::tukiInfo()
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
+
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::ALV)) {
+        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
+                          "<h3>Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.</h3>"
+                          "Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "
+                          "Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle. "
+                          "</td></tr></table>"));
+    }
 
 
     if( TilikarttaPaivitys::onkoPaivitettavaa() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) )

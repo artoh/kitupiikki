@@ -50,7 +50,8 @@ void UusiAlkuSivu::initializePage()
 {
     // Voidaanko tallentaa pilveen
     ui->pilveenRadio->setEnabled( kp()->pilvi()->kayttajaPilvessa() &&
-                                  kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax());
+                                  kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax() &&
+                                  kp()->pilvi()->tilausvoimassa() );
 
     if( !kp()->pilvi()->kayttajaPilvessa())
         ui->pilviInfo->setText( tr("Käyttääksesi pilveä luo ensin käyttäjätunnus "
@@ -59,8 +60,7 @@ void UusiAlkuSivu::initializePage()
         ui->pilviInfo->setText( tr("Luodaksesi enemmän kirjanpitoja pilveen sinun "
                                    "on ensin päivitettävä tilauksesi laajempaan."));
     else if( !kp()->pilvi()->plan() )
-        ui->pilviInfo->setText( tr("Voit kokeilla maksutta kirjanpitoa pilvessä 50 tositteen "
-                                   "verran ennen kuin tilaat maksullisen pilvipalvelun."));
+        ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista kirjanpitoa, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
 
     if( kp()->pilvi()->plan())
         ui->tilausNappi->setText( tr("Päivitä tilauksesi"));

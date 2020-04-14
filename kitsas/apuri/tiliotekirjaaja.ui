@@ -188,6 +188,16 @@
        </item>
       </layout>
      </item>
+     <item row="9" column="1">
+      <widget class="QLabel" name="alvVaro">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>Tällä toiminnolla voit tehdä vain arvonlisäverottomia kirjauksia.</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>436</height>
+    <width>636</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,63 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="page_4">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Luomalla käyttäjätunnuksen aloitat Kitsaan pilvipalveluiden maksuttoman kokeilujakson. Saat käyttöösi Kitsaan kaikki ominaisuudet ja voit tallettaa yhden kirjanpidon Kitsaan suomalaiseen pilveen. Toki voit edelleet tallentaa kirjanpitoja myös omalle tietokoneellesi.&lt;/p&gt;&lt;p&gt;Ellet kokeilujakson aikana tee maksullista tilausta, jatkat kokeilujakson jälkeen ilmaiskäyttäjänä. Tällöin myös kokeilujakson aikana pilveen mahdollisesti luomasi kirjanpito poistetaan. &lt;/p&gt;&lt;p&gt;Ennen aloittamista tutustu Kitsaan käyttöehtoihin osoitteessa &lt;a href=&quot;https://kitsas.fi/ehdot&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi/ehdot&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>8</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="ehdotCheck">
+         <property name="text">
+          <string>Hyväksyn pilvipalvelun käyttöehdot</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>9</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="ehtoBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -144,8 +201,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>417</y>
+     <x>112</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -160,8 +217,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>417</y>
+     <x>112</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -176,12 +233,28 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>536</x>
-     <y>393</y>
+     <x>112</x>
+     <y>42</y>
     </hint>
     <hint type="destinationlabel">
      <x>588</x>
      <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ehtoBox</sender>
+   <signal>rejected()</signal>
+   <receiver>LuoTunnusDialogi</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>417</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>582</x>
+     <y>386</y>
     </hint>
    </hints>
   </connection>

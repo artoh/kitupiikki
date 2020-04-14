@@ -20,6 +20,7 @@
 
 #include "db/yhteysmodel.h"
 #include <QPixmap>
+#include <QDate>
 
 class QTimer;
 class QNetworkReply;
@@ -71,6 +72,9 @@ public:
     QString userToken() const { return data_.value("token").toString();}
     QString ocrOsoite() const { return data_.value("ocr").toString();}
     QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
+    QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }
+    bool tilausvoimassa() const { return plan() || kokeilujakso() >= QDate::currentDate();}
+    bool pilviVat() const { return  pilviVat_; }
 
     qlonglong oikeudet() const override { return oikeudet_;}
 
@@ -107,6 +111,7 @@ private:
     QString osoite_;
     QString token_;
     qlonglong oikeudet_ = 0;
+    bool pilviVat_ = true;
 
     QVariantMap data_;
     QTimer *timer_;

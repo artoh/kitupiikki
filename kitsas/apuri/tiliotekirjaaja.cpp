@@ -301,6 +301,15 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoAlkaaEdit->setVisible(jakso);
     ui->jaksoViivaLabel->setVisible(jakso);
     ui->jaksoLoppuuEdit->setVisible(jakso);
+
+    bool vero = tili.luku("alvlaji");
+    ui->alvVaro->setVisible(vero);
+    if( menoa_ )
+        ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
+                                "Kirjaa verolliset tulot tositetyypillä Tulo"));
+    else
+        ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
+                                "Kirjaa verolliset menot tositetyypillä Meno"));
 }
 
 void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selite)

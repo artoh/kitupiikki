@@ -42,7 +42,7 @@ LiiteMaaritys::~LiiteMaaritys()
 bool LiiteMaaritys::nollaa()
 {
     ui->ocrCheck->setChecked( kp()->settings()->value("OCR", false).toBool() );
-    ui->ocrCheck->setEnabled( kp()->pilvi()->plan() ||
+    ui->ocrCheck->setEnabled( kp()->pilvi()->tilausvoimassa() ||
                               qobject_cast<PilviModel*>(kp()->yhteysModel()) );
     ui->tilaajilleLabel->setVisible( !ui->ocrCheck->isEnabled() );
     ui->mvCheck->setChecked( kp()->settings()->value("KuvaMustavalko",false).toBool());

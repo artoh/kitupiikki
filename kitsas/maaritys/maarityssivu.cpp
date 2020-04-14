@@ -280,12 +280,11 @@ void MaaritysSivu::paivitaNakyvat()
     item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
     item( LIITTEET )->setHidden(false); // Liittemääreet aina käytössä
     item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset
+    item( VERKKOLASKU)->setHidden( !kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr );
 
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
         item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä
-
-
 }
 
 

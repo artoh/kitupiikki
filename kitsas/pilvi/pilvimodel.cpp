@@ -106,6 +106,7 @@ bool PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
             oikeudet_ = oikeudet( map.value("rights").toList() );
+            pilviVat_ = map.value("vat").toBool();
             if( !siirrossa) {
                 alusta();
                 emit kirjauduttu();
@@ -239,7 +240,7 @@ void PilviModel::paivitysValmis(QVariant *paluu)
     endResetModel();
 
     kayttajaId_ = data_.value("userId").toInt();
-    token_ = data_.value("token").toString();
+    token_ = data_.value("token").toString();   
 
     if( data_.contains("key"))
     {

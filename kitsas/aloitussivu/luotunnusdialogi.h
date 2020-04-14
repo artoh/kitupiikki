@@ -34,7 +34,7 @@ public:
 
     void accept() override;
 private:
-    enum { OSOITE, ODOTA, VALMIS};
+    enum { EHDOT, OSOITE, ODOTA, VALMIS};
 
     void tarkastaEmail();
     void emailTarkistettu();

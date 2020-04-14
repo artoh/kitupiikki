@@ -31,6 +31,11 @@ LuoTunnusDialogi::LuoTunnusDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->ehtoBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    connect( ui->ehdotCheck, &QCheckBox::clicked, [this] (bool onko) { this->ui->ehtoBox->button(QDialogButtonBox::Ok)->setEnabled(onko);});
+    connect( ui->ehtoBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("pilvi"); });
+    connect( ui->ehtoBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, [this] { this->ui->stackedWidget->setCurrentIndex(OSOITE); });
+
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("pilvi"); });
     connect( ui->osoiteEdit, &QLineEdit::textEdited, this, &LuoTunnusDialogi::tarkastaEmail);

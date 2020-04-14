@@ -338,7 +338,7 @@
                 <item>
                  <widget class="QLabel" name="label">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Luomalla käyttäjätunnuksen pääset käyttämään myös pilvessä olevia toimintoja.&lt;/p&gt;&lt;p&gt;Tunnuksen luominen on maksutonta. Jos haluat käyttöösi myös maksullisia ominaisuuksia, voit tilata ne myöhemmin.&lt;/p&gt;&lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tarjoamme uudelle käyttäjälle 30 päivän maksuttoman kokeilujakson Kitsaan pilviomianisuuksiin.&lt;/p&gt;&lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="wordWrap">
                    <bool>true</bool>
@@ -387,10 +387,26 @@
                <property name="text">
                 <string>TextLabel</string>
                </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="planLabel">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="kokeiluLabel">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(85, 255, 127);</string>
+               </property>
                <property name="text">
                 <string>TextLabel</string>
                </property>
