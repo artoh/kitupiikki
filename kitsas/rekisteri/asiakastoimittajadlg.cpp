@@ -212,7 +212,7 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
     ui->laskutapaCombo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), LaskuDialogi::TULOSTETTAVA);
     if( ui->osoiteEdit->toPlainText().length() > 2 && ui->kaupunkiEdit->text().length() > 1)
         ui->laskutapaCombo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), LaskuDialogi::POSTITUS);
-    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() )
         ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
     if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 6 )

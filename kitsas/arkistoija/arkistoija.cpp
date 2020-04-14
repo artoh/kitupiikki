@@ -289,6 +289,7 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
         liiteNimet_.insert( liiteid, liitenimi );
         liiteJono_.enqueue( liiteid );
         liitelaskuri_++;
+        liitenro++;
     }
     progressDlg_->setMaximum( progressDlg_->maximum() + map.value("liitteet").toList().count() );
 
@@ -493,7 +494,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
     if( indeksi > -1) {
         out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
         out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
-        out << "<script src='../jquery.js'></script>";
+        out << "<script src='../static/jquery.js'></script>";
     }
     out << "</body></html>";
 
@@ -517,8 +518,12 @@ QString Arkistoija::navipalkki(int indeksi) const
         navi.append("../");     // Tositteista palataan päähakemistoon
 
     navi.append("index.html>");
-    if( logo_ )
-        navi.append("<img src=logo.png>");
+    if( logo_ ) {
+        if( indeksi > -1)
+            navi.append("<img src=../logo.png>");
+        else
+            navi.append("<img src=logo.png>");
+    }
     navi.append( kp()->asetus("Nimi") + " ");
 
     if( kp()->onkoHarjoitus())

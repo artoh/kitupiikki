@@ -80,7 +80,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->poistoSpin, SIGNAL(valueChanged(int)), this, SLOT(poistoAikaMuuttuu()));
 
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
-    connect( ui->eraCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( ui->eraCombo, &EraCombo::valittu, this, &TuloMenoApuri::vastatiliMuuttui);
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
 
     connect( ui->viiteEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::tositteelle);

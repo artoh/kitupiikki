@@ -27,7 +27,7 @@ EraCombo::EraCombo(QWidget *parent) :
 
 int EraCombo::valittuEra() const
 {
-    return currentData().toInt();
+    return valittuna_;
 }
 
 QVariantMap EraCombo::eraMap() const
