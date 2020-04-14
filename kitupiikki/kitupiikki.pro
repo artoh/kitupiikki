@@ -19,7 +19,7 @@ windows {
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
-    LIBS += -L/usr/local/opt/libzip -lzip
+    LIBS += -L/usr/local/opt/libzip/lib -lzip
     INCLUDEPATH += /usr/local/include
 }
 
