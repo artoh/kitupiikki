@@ -36,7 +36,7 @@ QVariant TuontiTulkki::post(const QString &/*polku*/, const QVariant &data)
     if( map.value("tyyppi").toInt() == TositeTyyppi::TILIOTE)
         return tiliote(map);    
 
-    return QVariant();
+    return map;
 }
 
 QVariant TuontiTulkki::tiliote( QVariantMap &map)

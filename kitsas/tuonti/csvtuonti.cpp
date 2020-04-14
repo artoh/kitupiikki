@@ -187,6 +187,7 @@ QVariantMap CsvTuonti::kirjaukset()
     for(int r=1; r < csv_.count(); r++)
     {
         TositeVienti vienti;
+        int kreditTili = 0;
 
         QString tositetunnus;
         QString selite;
@@ -216,16 +217,15 @@ QVariantMap CsvTuonti::kirjaukset()
                     selite.append(" ");
                 selite.append(tieto);
             }
-            else if( tuonti == TILINUMERO)
+            else if( tuonti == TILINUMERO || tuonti == DEBETTILI || tuonti == KREDITTILI)
             {
                 int nro = numRe.match(tieto).captured().toInt();
-                if( nro )
-                {
-                    if( muuntotaulukko.isEmpty())
-                         vienti.setTili( nro );
-                    else
-                        vienti.setTili( muuntotaulukko.value( QString::number(nro)));
-                }
+                if(nro && !muuntotaulukko.isEmpty())
+                    nro = muuntotaulukko.value(QString::number(nro));
+                if( tuonti == KREDITTILI)
+                    kreditTili = nro;
+                else
+                    vienti.setTili(nro);
             }
             else if( tuonti == DEBETEURO)
                vienti.setDebet(sentit);
@@ -263,6 +263,14 @@ QVariantMap CsvTuonti::kirjaukset()
                 vienti.setAlvKoodi(AlvKoodi::MYYNNIT_BRUTTO);
         }
         viennit.append(vienti);
+        if( kreditTili) {
+            vienti.setTili(kreditTili);
+            if( vienti.debet() > 1e-5)
+                vienti.setKredit(vienti.debet());
+            else
+                vienti.setDebet(vienti.kredit());
+            viennit.append(vienti);
+        }
     }
     map.insert("viennit", viennit);
     return map;
@@ -514,7 +522,14 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
         return tr("Saajan/Maksajan nimi");
     case KTOKOODI:
         return tr("Tapahtuman lajikoodi");
-
+    case ALVPROSENTTI:
+        return tr("Alv %");
+    case ALVKOODI:
+        return tr("Alvkoodi");
+    case DEBETTILI:
+        return tr("Debet-tili");
+    case KREDITTILI:
+        return tr("Kredit-tili");
     default:
         return QString();
     }

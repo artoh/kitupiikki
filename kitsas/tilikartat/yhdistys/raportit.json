@@ -145,12 +145,12 @@
       {
         "fi": "Tilinpäätössiirrot yhteensä",
         "sv": "Bokslutsdispositioner sammanlagt",
-        "L": "95 =="
+        "L": "95 == S"
       },
       {
         "fi": "Tilikauden ylijäämä (alijäämä)",
         "sv": "Räkenskapsperiodens överskott (underskott)",
-        "L": "= S",
+        "L": "3..9 S",
         "M": "bold",
         "V": 1
       }

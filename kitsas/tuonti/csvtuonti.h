@@ -68,7 +68,9 @@ public:
         ALVPROSENTTI,
         ALVKOODI,
         SAAJAMAKSAJA,
-        KTOKOODI
+        KTOKOODI,
+        DEBETTILI,
+        KREDITTILI
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};

@@ -55,6 +55,8 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         comboon(combo, CsvTuonti::TILINUMERO);
         comboon(combo, CsvTuonti::ALVPROSENTTI);
         comboon(combo, CsvTuonti::ALVKOODI);
+        comboon(combo, CsvTuonti::DEBETTILI);
+        comboon(combo, CsvTuonti::KREDITTILI);
     }
     else if( tuokirjauksia_ &&  tyyppi == CsvTuonti::RAHA)
     {

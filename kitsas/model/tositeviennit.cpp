@@ -403,7 +403,7 @@ TositeVienti TositeViennit::vienti(int indeksi) const
 
 void TositeViennit::lisaa(const TositeVienti &vienti)
 {
-    beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count()+1);
+    beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count());
     viennit_.append(vienti);
     endInsertRows();
 }
