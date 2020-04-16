@@ -231,17 +231,14 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->laajuusLabel->setVisible( !taso_ );
     ui->laajuusCombo->setVisible( !taso_ );
     ui->tyyppiCombo->setVisible( !taso_ );
-    ui->tyyppiLabel->setVisible( !taso_ );
-    ui->ohjeLabel->setVisible(!taso_);
-    ui->ohjeTabs->setVisible(!taso_);
+    ui->tyyppiLabel->setVisible( !taso_ );    
+    ui->tabWidget->setTabEnabled(OHJE, !taso_);
+    ui->tabWidget->setTabEnabled(ERITTELY, tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::ALVSAATAVA) && !tyyppi.onko(TiliLaji::ALVVELKA));
+    ui->tabWidget->setTabEnabled(POISTO, tyyppi.onko(TiliLaji::POISTO));
 
     // Ellei alv-toimintoja käytettävissä, ne piilotetaan
     bool alvKaytossa = ( tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA));
-
-    ui->verolajiLabel->setVisible( alvKaytossa );
-    ui->veroCombo->setVisible( alvKaytossa );
-    ui->veroprosenttiLabel->setVisible( alvKaytossa );
-    ui->veroSpin->setVisible( alvKaytossa);
+    ui->tabWidget->setTabEnabled( ALV, alvKaytossa );
 
     if( tyyppi.onko(TiliLaji::TULO)) {
         veroproxy_->setFilterRegExp("^(0|1[1-7])$");
@@ -268,11 +265,6 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->jaksotiliCombo->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
     ui->vastaCheck->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO) );
     ui->vastaCombo->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
-
-    // #46 Alv-velka ja alv-saatava -tileille ei voi tehdä tase-erittelyä, koska tilit tyhjennetään aina
-    // kuukauden lopussa alv-kirjauksella, joka ei huomioi tase-eriä
-
-    ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::ALVSAATAVA) && !tyyppi.onko(TiliLaji::ALVVELKA));
 
     veroEnablePaivita();
 

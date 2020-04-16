@@ -44,6 +44,14 @@ public:
         UUSITILI
     };
 
+    enum {
+        PERUS,
+        ERITTELY,
+        POISTO,
+        ALV,
+        OHJE
+    };
+
     TilinMuokkausDialog(QWidget* parent, int indeksi, Tila tila);
 
     ~TilinMuokkausDialog();

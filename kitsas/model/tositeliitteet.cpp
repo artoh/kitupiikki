@@ -234,7 +234,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     meta.insert("Filename", tiedostonnimi);
     liitekysely->lahetaTiedosto(liite, meta);
 
-    if(  kp()->pilvi()->plan() > 0 && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&
+    if(  kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&
             liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") &&
             liite.contains("<Finvoice")) {
         liitaFinvoice(liite);
