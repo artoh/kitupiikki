@@ -47,8 +47,8 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::MUISTIO, tr("Muistio"),"kommentti");
     lisaa(TositeTyyppi::LIITETIETO, tr("Liitetieto"), "liite");
 
-    lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
     lisaa(TositeTyyppi::TUONTI, tr("Tuonti"), "tuotiedosto", true);
+    lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
 
     lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa", false);
     lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys", false);

@@ -19,7 +19,7 @@
 
 #include <QPrinter>
 
-Naytin::EsikatseluNaytin::EsikatseluNaytin(Esikatseltava *katseltava, QObject *parent)
+Naytin::EsikatseluNaytin::EsikatseluNaytin(Esikatseltava *katseltava, QWidget *parent)
     : PrintPreviewNaytin (parent),
       esikatseltava_(katseltava)
 {

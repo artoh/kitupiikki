@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
 
 #ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
-#endif
+#endif        
         if( tervetuloDlg.exec() != QDialog::Accepted )
             return 0;
 

@@ -631,7 +631,7 @@ void AloitusSivu::siirraPilveen()
 
 void AloitusSivu::tukiInfo()
 {
-    bool tilaaja = kp()->pilvi()->plan() > 0;
+    bool tilaaja = kp()->pilvi()->tilausvoimassa();
     ui->maksutonTukiLabel->setVisible( !tilaaja );
     ui->maksuTukiLabel->setVisible( tilaaja);
     ui->tukiOhje->setVisible( tilaaja );
@@ -642,6 +642,7 @@ void AloitusSivu::tukiInfo()
                                "os: %2 \n"
                                "user: %3 \n"
                                "plan: %4 \n"
+                               "trial: %10 \n"
                                "db: %5 \n"
                                "map: %6 \n"
                                "mapdate: %7 \n"
@@ -656,6 +657,7 @@ void AloitusSivu::tukiInfo()
                         .arg(kp()->asetus("TilikarttaPvm"))
                         .arg(kp()->asetus("muoto"))
                         .arg(kp()->asetus("laajuus"))
+                        .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
         );
     }
 }

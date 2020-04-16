@@ -31,7 +31,7 @@
 #include <QTextStream>
 #include <QFileInfo>
 
-#include <QStackedLayout>
+#include <QVBoxLayout>
 
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
@@ -60,7 +60,7 @@
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent),
-      leiska_{ new QStackedLayout()}
+      leiska_{ new (QVBoxLayout)}
 {
     setLayout(leiska_);
 
@@ -112,8 +112,9 @@ void NaytinView::nayta(const QByteArray &data)
 
 }
 
-void NaytinView::nayta(const RaportinKirjoittaja& raportti)
+void NaytinView::nayta(RaportinKirjoittaja raportti)
 {
+    qDebug() << "Näytin " << this << " Näytä raportti " << raportti.otsikko();
     vaihdaNaytin( new Naytin::RaporttiNaytin(raportti, this) );
     zoomFit();
 }
@@ -158,7 +159,7 @@ void NaytinView::tulosta()
 
 void NaytinView::sivunAsetukset()
 {
-    QPageSetupDialog dlg(kp()->printer(), this);
+    QPageSetupDialog dlg(naytin_ ? naytin_->printer() : kp()->printer(), this);
     dlg.exec();
     paivita();
 }
@@ -390,6 +391,7 @@ QString NaytinView::html()
 
 void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 {
+    qDebug() << " View " << this << " vaihdetaan näytin " << naytin << " vanha " << naytin_;
     if( naytin_ )
     {
         leiska_->removeWidget( naytin_->widget() );

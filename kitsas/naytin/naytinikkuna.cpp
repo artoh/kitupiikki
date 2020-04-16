@@ -47,7 +47,7 @@ NaytinIkkuna::~NaytinIkkuna()
     qDebug() << "~NaytinIkkuna";
 }
 
-void NaytinIkkuna::naytaRaportti(const RaportinKirjoittaja& raportti)
+void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)
 {
     NaytinIkkuna *ikkuna = new NaytinIkkuna;
     ikkuna->show();

@@ -39,7 +39,7 @@ public:
 
     NaytinView* view() { return view_;}
 
-    static void naytaRaportti(const RaportinKirjoittaja &raportti);
+    static void naytaRaportti(RaportinKirjoittaja raportti);
     static void nayta(const QByteArray &data);
     static void nayta(const QString& teksti);
     static void naytaTiedosto(const QString& tiedostonnimi);

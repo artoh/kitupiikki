@@ -25,6 +25,7 @@
 #include <QPlainTextEdit>
 #include <QJsonDocument>
 #include <QVariant>
+#include <QScreen>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
@@ -159,9 +160,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     if( tila_ == MUOKKAA)
         lataa();
 
-    naytettavienPaivitys();
-
-
+    naytettavienPaivitys();    
+    setMaximumHeight( qApp->screens()[0]->size().height() * 4 / 5 );
 }
 
 TilinMuokkausDialog::~TilinMuokkausDialog()

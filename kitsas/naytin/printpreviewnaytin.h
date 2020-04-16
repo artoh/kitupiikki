@@ -17,8 +17,11 @@
 #ifndef PRINTPREVIEWNAYTIN_H
 #define PRINTPREVIEWNAYTIN_H
 
+#include <QPrinter>
+
 #include "abstraktinaytin.h"
 class QPrintPreviewWidget;
+class QPrinter;
 
 namespace Naytin {
 
@@ -30,7 +33,7 @@ class PrintPreviewNaytin : public AbstraktiNaytin
 {
     Q_OBJECT
 public:
-    PrintPreviewNaytin(QObject* parent = nullptr);
+    PrintPreviewNaytin(QWidget *parent = nullptr);
     virtual ~PrintPreviewNaytin() override;
 
     virtual QString tiedostonMuoto() const override { return tr("pdf-tiedosto (*.pdf)");}
@@ -47,8 +50,11 @@ public slots:
     virtual void zoomOut() override;
     virtual void zoomFit() override;
 
+    virtual QPrinter * printer() override;
+
 protected:
     QPrintPreviewWidget *widget_ ;
+    QPrinter* printer_;
 };
 
 }

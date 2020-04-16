@@ -22,7 +22,7 @@
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
-class QStackedLayout;
+class QVBoxLayout;
 class Esikatseltava;
 
 namespace Naytin {
@@ -55,7 +55,7 @@ public:
 
 public slots:
     void nayta(const QByteArray& data);
-    void nayta(const RaportinKirjoittaja &raportti);
+    void nayta(RaportinKirjoittaja raportti);
     void nayta(const QString& teksti);
 
     Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);
@@ -97,7 +97,7 @@ protected:
     QAction* tallennaAktio_;
     QAction* avaaAktio_;
 
-    QStackedLayout *leiska_;
+    QVBoxLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
     static QString viimeisinPolku__;

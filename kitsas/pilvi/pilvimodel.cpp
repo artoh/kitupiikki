@@ -269,7 +269,7 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         avaaPilvesta( avaaPilvi_);
     avaaPilvi_ = 0;
 
-    timer_->start(6 * 60 * 60 * 1000);  // Tokenin päivitys kuuden tunnin välein
+    timer_->start(4 * 60 * 60 * 1000);  // Tokenin päivitys neljän tunnin välein
     emit kirjauduttu();
 }
 

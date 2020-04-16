@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "abstraktinaytin.h"
-
+#include "db/kirjanpito.h"
 
 
 Naytin::AbstraktiNaytin::AbstraktiNaytin( QObject *parent)
@@ -33,4 +33,9 @@ void Naytin::AbstraktiNaytin::raidoita(bool raidat)
 {
     raidat_ = raidat;
     paivita();
+}
+
+QPrinter *Naytin::AbstraktiNaytin::printer()
+{
+    return kp()->printer();
 }

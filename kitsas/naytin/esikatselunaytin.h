@@ -26,7 +26,7 @@ namespace Naytin {
 class EsikatseluNaytin : public PrintPreviewNaytin
 {
 public:
-    EsikatseluNaytin(Esikatseltava* katseltava, QObject *parent = nullptr);
+    EsikatseluNaytin(Esikatseltava* katseltava, QWidget *parent = nullptr);
     ~EsikatseluNaytin() override;
 
     virtual QString otsikko() const override;

@@ -60,6 +60,7 @@ public slots:
 
     virtual void paivita() const = 0;
     virtual void tulosta(QPrinter* printer) const = 0;
+    virtual QPrinter* printer();
 
     virtual void zoomIn() {}
     virtual void zoomOut() {}

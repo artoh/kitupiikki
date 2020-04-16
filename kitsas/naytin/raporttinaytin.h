@@ -26,7 +26,7 @@ class RaporttiNaytin : public PrintPreviewNaytin
 {
     Q_OBJECT
 public:
-    RaporttiNaytin(const RaportinKirjoittaja& raportti, QObject *parent = nullptr);
+    RaporttiNaytin(RaportinKirjoittaja raportti, QWidget *parent);
     virtual ~RaporttiNaytin() override;
 
     virtual QString otsikko() const override;
@@ -45,7 +45,7 @@ public slots:
     virtual void tulosta(QPrinter* printer) const override;
 
 private:
-    RaportinKirjoittaja* raportti_;
+    RaportinKirjoittaja raportti_;
 };
 
 }

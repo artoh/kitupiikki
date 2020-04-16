@@ -19,17 +19,20 @@
 #include <QPrintPreviewWidget>
 #include "db/kirjanpito.h"
 #include <QDebug>
+#include <QPrinterInfo>
 
-Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QObject *parent)
-    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer()) }
-{
+Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
+    : AbstraktiNaytin (parent)
+{    
+    printer_ = new QPrinter(QPrinterInfo(*kp()->printer()));
+    widget_ = new QPrintPreviewWidget(printer_, parent);
 
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
 }
 
 Naytin::PrintPreviewNaytin::~PrintPreviewNaytin()
-{
-    delete widget_;
+{    
+    delete printer_;
 }
 
 QWidget *Naytin::PrintPreviewNaytin::widget()
@@ -55,4 +58,9 @@ void Naytin::PrintPreviewNaytin::zoomOut()
 void Naytin::PrintPreviewNaytin::zoomFit()
 {
     widget_->fitToWidth();
+}
+
+QPrinter *Naytin::PrintPreviewNaytin::printer()
+{
+    return printer_;
 }
