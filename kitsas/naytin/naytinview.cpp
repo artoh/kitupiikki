@@ -148,11 +148,11 @@ void NaytinView::raidoita(bool raidat)
 
 void NaytinView::tulosta()
 {
-    QPrintDialog printDialog( kp()->printer(), this);
+    QPrintDialog printDialog( printer(), this);
     printDialog.setOptions( QPrintDialog::PrintToFile | QPrintDialog::PrintShowPageSize );
     if( printDialog.exec() && naytin_)
     {
-        naytin_->tulosta( kp()->printer() );
+        naytin_->tulosta( printer() );
     }
 
 }
@@ -215,7 +215,9 @@ void NaytinView::avaaHtml()
 void NaytinView::htmlLeikepoydalle()
 {
     QMimeData *mimeData = new QMimeData;
-    mimeData->setHtml( html() );
+    QString data = html();
+    mimeData->setHtml( data );
+    mimeData->setText( data );
 
     qApp->clipboard()->setMimeData(mimeData);
     kp()->onni(tr("Viety leikepöydälle"), Kirjanpito::Onnistui);
@@ -422,6 +424,11 @@ void NaytinView::contextMenuEvent(QContextMenuEvent *event)
     valikko.addAction(tallennaAktio_);
 
     valikko.exec( event->globalPos() );
+}
+
+QPrinter *NaytinView::printer()
+{
+    return naytin_ ? naytin_->printer() : kp()->printer();
 }
 
 QString NaytinView::viimeisinPolku__ = QDir::homePath();

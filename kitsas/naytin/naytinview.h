@@ -88,7 +88,7 @@ protected:
     void vaihdaNaytin(Naytin::AbstraktiNaytin* naytin);
 
     void contextMenuEvent(QContextMenuEvent *event) override;
-
+    QPrinter *printer();
 
     QAction* zoomAktio_;
     QAction* zoomInAktio_;
@@ -99,6 +99,7 @@ protected:
 
     QVBoxLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
+
 
     static QString viimeisinPolku__;
 

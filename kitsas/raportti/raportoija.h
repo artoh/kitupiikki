@@ -105,7 +105,7 @@ public:
      *
      * @return
      */
-    bool onkoKausiraportti() const  { return tyyppi_ == TULOSLASKELMA || tyyppi_ == KOHDENNUSLASKELMA ; }
+    bool onkoKausiraportti() const  { return tyyppi_ == TULOSLASKELMA || tyyppi_ == KOHDENNUSLASKELMA || tyyppi_ == PROJEKTILASKELMA; }
 
     /**
      * @brief Tulostetaanko raportti taseesta

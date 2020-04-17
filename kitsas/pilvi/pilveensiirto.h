@@ -64,6 +64,9 @@ private:
     void tallennaVakioviitteet();
     void vakioViitteetSaapuu(const QVariant* data);
     void tallennaSeuraavaVakioViite();
+    void tallennaTuotteet();
+    void tuotteetSaapuu(const QVariant* data);
+    void tallennaSeuraavaTuote();
     void valmis();
     void infoSaapuu(QVariant* data);
     void siirtoVirhe(int koodi);
@@ -83,6 +86,7 @@ private:
     QSqlQuery liitekysely;
     QStringList tilikaudet;
     QVariantList vakioviitteet;
+    QVariantList tuotteet_;
 
 };
 

@@ -302,7 +302,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoViivaLabel->setVisible(jakso);
     ui->jaksoLoppuuEdit->setVisible(jakso);
 
-    bool vero = tili.luku("alvlaji");
+    bool vero = tili.luku("alvlaji") && ui->alaTabs->currentIndex() == TULOMENO;
     ui->alvVaro->setVisible(vero);
     if( menoa_ )
         ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"

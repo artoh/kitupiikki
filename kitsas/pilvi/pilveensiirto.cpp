@@ -363,12 +363,38 @@ void PilveenSiirto::vakioViitteetSaapuu(const QVariant *data)
 void PilveenSiirto::tallennaSeuraavaVakioViite()
 {
     if( vakioviitteet.isEmpty())
-        valmis();
+        tallennaTuotteet();
     else {
         QVariantMap map = vakioviitteet.takeFirst().toMap();
         int viite = map.value("viite").toInt();
         KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/vakioviitteet/%1").arg(viite));
         connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaVakioViite);
+        tallennus->kysy(map);
+    }
+}
+
+void PilveenSiirto::tallennaTuotteet()
+{
+    KpKysely *haku = kpk("/tuotteet");
+    connect(haku, &KpKysely::vastaus, this, &PilveenSiirto::tuotteetSaapuu);
+    haku->kysy();
+}
+
+void PilveenSiirto::tuotteetSaapuu(const QVariant *data)
+{
+    tuotteet_ = data->toList();
+    tallennaSeuraavaTuote();
+}
+
+void PilveenSiirto::tallennaSeuraavaTuote()
+{
+    if( tuotteet_.isEmpty())
+        valmis();
+    else {
+        QVariantMap map = tuotteet_.takeFirst().toMap();
+        int id = map.take("id").toInt();
+        KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/tuotteet/%1").arg(id));
+        connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaTuote);
         tallennus->kysy(map);
     }
 }

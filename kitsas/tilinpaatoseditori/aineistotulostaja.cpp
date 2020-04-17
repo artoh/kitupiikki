@@ -176,8 +176,10 @@ void AineistoTulostaja::tilaaSeuraavaLiite()
         delete painter;
         return;
     }
-    liitepnt_++;
+
     QVariantMap map = liitteet_.value(liitepnt_).toMap();
+    liitepnt_++;
+
     QString tyyppi = map.value("tyyppi").toString();
     if( tyyppi != "application/pdf" &&
          tyyppi != "application/pdf")

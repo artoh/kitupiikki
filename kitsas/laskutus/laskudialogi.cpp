@@ -536,6 +536,7 @@ void LaskuDialogi::alustaRiviTab()
     ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
+    kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());
     ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
 
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
