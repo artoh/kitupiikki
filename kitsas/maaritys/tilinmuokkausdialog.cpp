@@ -234,7 +234,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->tyyppiLabel->setVisible( !taso_ );    
     ui->tabWidget->setTabEnabled(OHJE, !taso_);
     ui->tabWidget->setTabEnabled(ERITTELY, tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::ALVSAATAVA) && !tyyppi.onko(TiliLaji::ALVVELKA));
-    ui->tabWidget->setTabEnabled(POISTO, tyyppi.onko(TiliLaji::POISTO));
+    ui->tabWidget->setTabEnabled(POISTO, tyyppi.onko(TiliLaji::POISTETTAVA));
 
     // Ellei alv-toimintoja käytettävissä, ne piilotetaan
     bool alvKaytossa = ( tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA));

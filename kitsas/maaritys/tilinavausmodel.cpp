@@ -128,7 +128,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             case ERITTELY:
             {
                 QList<AvausEra> avaus = erat_.value(tili.numero());
-                if( avaus.count() > 0 && (!avaus.first().eranimi().isEmpty() || avaus.first().kohdennus()) )
+                if( avaus.count() > 0 && (!avaus.first().eranimi().isEmpty() || avaus.last().kohdennus()) )
                     return avaus.count();
             }
         }

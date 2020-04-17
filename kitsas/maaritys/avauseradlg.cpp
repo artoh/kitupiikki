@@ -37,16 +37,18 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
 
     if( kohdennukset ) {
         model = new AvausKohdennusModel(erat, this);
+        ui->view->setModel(model);
         ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);        
     } else {        
         model = new AvausEraModel(erat, this);
+        ui->view->setModel(model);
         AsiakasToimittajaTaydentaja *model = new AsiakasToimittajaTaydentaja(this);
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
                                           new KumppaniValintaDelegaatti(model));
         ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);       
     }    
 
-    ui->view->setModel(model);
+
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
     ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
@@ -55,7 +57,7 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilinavaus"); });
 
-
+    paivitaSumma();
 }
 
 AvausEraDlg::~AvausEraDlg()
