@@ -50,6 +50,7 @@ TiedotSivu::TiedotSivu(UusiVelho *wizard) :
 void TiedotSivu::initializePage()
 {
     // Haetaan muodot
+    ui->muotoList->clear();
     QVariantMap muotoMap = velho->asetukset_.value("muodot").toMap();
     QMapIterator<QString,QVariant> muotoIter(muotoMap);
     while( muotoIter.hasNext()) {
@@ -61,6 +62,7 @@ void TiedotSivu::initializePage()
     ui->muotoList->setCurrentRow(0);
 
     // Haetaan laajuudet
+    ui->laajuusList->clear();
     QVariantMap laajuusMap = velho->asetukset_.value("laajuudet").toMap();
     QMapIterator<QString,QVariant> laajuusIter(laajuusMap);
     while( laajuusIter.hasNext()) {
