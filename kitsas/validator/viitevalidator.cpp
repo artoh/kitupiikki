@@ -54,6 +54,8 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
 
     if( str.length() < 4 )
         return Intermediate;
+    if( str.length() > 20)
+        return Invalid;
 
 
     int tarkaste = str.rightRef(1).toInt();
@@ -78,11 +80,8 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
 
     if (( 10 - summa % 10) % 10 == tarkaste )
         return Acceptable;
-    else if( str.length() < 19)
-        return Intermediate;
     else
-        return Invalid; // Viitenumeron enimmäispituus 20 numeroa
-
+        return Intermediate;
 }
 
 bool ViiteValidator::kelpaako(const QString& input)
