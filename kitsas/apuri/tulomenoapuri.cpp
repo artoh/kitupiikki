@@ -234,7 +234,8 @@ bool TuloMenoApuri::teeTositteelle()
 
     if( summa ) {
         bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
-                     tosite()->tyyppi() == TositeTyyppi::KULULASKU;
+                     tosite()->tyyppi() == TositeTyyppi::KULULASKU ||
+                     tosite()->tyyppi() == TositeTyyppi::SAAPUNUTVERKKOLASKU;
 
         QString otsikko = tosite()->otsikko();
         if( otsikko.isEmpty()) {
