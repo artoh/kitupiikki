@@ -118,16 +118,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.14.1/clang_
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_qmlworkerscript_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3d.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3d_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dassetimport.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dassetimport_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3drender.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3drender_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3druntimerender.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3druntimerender_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dutils.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dutils_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quickcontrols2.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quickcontrols2_private.pri \
@@ -141,10 +131,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.14.1/clang_
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_remoteobjects_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_repparser.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_repparser_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_script.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_script_private.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scripttools.pri \
-		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scripttools_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scxml.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scxml_private.pri \
 		../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_sensors.pri \
@@ -347,16 +333,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.14.1/clang_
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_qmlworkerscript_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_qtmultimediaquicktools_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3d.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3d_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dassetimport.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dassetimport_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3drender.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3drender_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3druntimerender.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3druntimerender_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dutils.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick3dutils_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quick_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quickcontrols2.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_quickcontrols2_private.pri:
@@ -370,10 +346,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.14.1/clang_
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_remoteobjects_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_repparser.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_repparser_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_script.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_script_private.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scripttools.pri:
-../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scripttools_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scxml.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_scxml_private.pri:
 ../../../Qt/5.14.1/clang_64/mkspecs/modules/qt_lib_sensors.pri:
