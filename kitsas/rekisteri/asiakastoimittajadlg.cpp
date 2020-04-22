@@ -26,6 +26,8 @@
 
 #include "db/kirjanpito.h"
 #include "laskutus/ryhmalasku/kielidelegaatti.h"
+#include "maaritys/verkkolasku/verkkolaskumaaritys.h"
+#include "pilvi/pilvikysely.h"
 
 #include <QListWidgetItem>
 
@@ -55,6 +57,9 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->kaupunkiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->ovtEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->valittajaEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+
+    connect( ui->haeNappi, &QPushButton::clicked, this, &AsiakasToimittajaDlg::haeNimella);
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/rekisteri"); });
 
     ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
@@ -192,6 +197,13 @@ void AsiakasToimittajaDlg::lisaaRyhmaan(int ryhma)
     ui->ryhmatWidget->valitseRyhmat( QVariantList() << ryhma );
 }
 
+void AsiakasToimittajaDlg::haeNimella()
+{
+    QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/?name="+ui->nimiEdit->text()));
+    QNetworkReply *reply = kp()->networkManager()->get(request);
+    connect( reply, &QNetworkReply::finished, this, &AsiakasToimittajaDlg::nimellaSaapuu);
+}
+
 void AsiakasToimittajaDlg::naytaVerkkolasku()
 {
     bool ytunnari = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
@@ -202,6 +214,7 @@ void AsiakasToimittajaDlg::naytaVerkkolasku()
         QString ovt = "0037" + ui->yEdit->text();
         ovt.remove("-");
         ui->ovtEdit->setText(ovt);
+        maventalookup();
     }
 }
 
@@ -215,13 +228,63 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() )
         ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
-    if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 6 )
+    if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 6 ) {
         ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
+        if( kp()->asetukset()->onko("FinvoiceSuosi"))
+            laskutapa = LaskuDialogi::VERKKOLASKU;
+    }
 
     int indeksi = ui->laskutapaCombo->findData(laskutapa);
     if( indeksi > 0)
         ui->laskutapaCombo->setCurrentIndex(indeksi);
 
+}
+
+void AsiakasToimittajaDlg::maventalookup()
+{
+    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA &&
+       kp()->pilvi()->kayttajaPilvessa() && ui->valittajaEdit->text().isEmpty())  {
+
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "lookup";
+        QVariantMap pyynto;
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET,
+                    osoite );
+        pk->lisaaAttribuutti("mybid", kp()->asetus("Ytunnus"));
+        if( ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
+                ui->yEdit->hasAcceptableInput())
+            pk->lisaaAttribuutti("bid", ui->yEdit->text());
+        else
+            pk->lisaaAttribuutti("name", ui->nimiEdit->text());
+        connect( pk, &PilviKysely::vastaus, this, &AsiakasToimittajaDlg::maventalookupSaapuu);
+        pk->kysy();
+    }
+}
+
+void AsiakasToimittajaDlg::maventalookupSaapuu(QVariant* data) {
+    if( data->toList().length() == 1) {
+        QVariantMap map=data->toList().first().toMap();
+        ui->ovtEdit->setText( map.value("eia").toString() );
+        ui->valittajaEdit->setText( map.value("operator").toString());
+        if( ui->yEdit->text().isEmpty()) {
+            QString bid = map.value("participant").toMap().value("bid").toString() ;
+            if( bid.startsWith("FI"))
+                bid = alvToY(bid);
+            if( YTunnusValidator::kelpaako(bid))
+                ui->yEdit->setText(bid);
+        }
+        taydennaLaskutavat();
+    }
+}
+
+void AsiakasToimittajaDlg::dataTauluun(const QVariant &data)
+{
+    QVariantMap tieto = data.toMap().value("results").toList().first().toMap();
+    ui->nimiEdit->setText( tieto.value("name").toString() );
+    ui->yEdit->setText(tieto.value("businessId").toString());
+    QVariantMap osoite = tieto.value("addresses").toList().first().toMap();
+    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+    ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
+    ui->kaupunkiEdit->setText( osoite.value("city").toString());
 }
 
 void AsiakasToimittajaDlg::tarkastaTilit()
@@ -349,19 +412,22 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
             show();
         return;
     }
-
-    QVariantMap tieto = var.toMap().value("results").toList().first().toMap();
-
-
-    ui->nimiEdit->setText( tieto.value("name").toString() );
-    QVariantMap osoite = tieto.value("addresses").toList().first().toMap();
-    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
-    ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
-    ui->kaupunkiEdit->setText( osoite.value("city").toString());
+    dataTauluun(var);
 
     if( !isVisible() )
         accept();
 
+}
+
+void AsiakasToimittajaDlg::nimellaSaapuu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
+
+    if( var.toMap().value("results").toList().length() == 1) {
+        dataTauluun(var);
+    }
+    maventalookup();
 }
 
 void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)

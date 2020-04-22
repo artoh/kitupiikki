@@ -44,6 +44,7 @@ public slots:
     void ytunnuksella(const QString& ytunnus);
     void tuonti(const QVariantMap& map);
     void lisaaRyhmaan(int ryhma);
+    void haeNimella();
 
 
 signals:
@@ -63,14 +64,20 @@ private slots:
 
     void accept() override;
     void reject() override;
-    void dataSaapuu(QVariant* data);
+    void dataSaapuu(QVariant* data);    
 
     void haeYTunnarilla();
     void yTietoSaapuu();
+    void nimellaSaapuu();
     void tallennusValmis(QVariant* data);
     void naytaVerkkolasku();
     void taydennaLaskutavat();
 
+    void maventalookup();
+    void maventalookupSaapuu(QVariant * data);
+
+private:
+    void dataTauluun(const QVariant& data);
 
 private:
     Ui::AsiakasToimittajaDlg *ui;

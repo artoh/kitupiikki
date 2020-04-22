@@ -46,6 +46,7 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     connect(ui->ivAsetusNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::maaritaMaventa);
     connect( ui->postitusCheck, &QCheckBox::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->noudaNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::noudaNyt);
+    connect( ui->suosiCheck, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
 }
 
 VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
@@ -82,6 +83,7 @@ bool VerkkolaskuMaaritys::tallenna()
         inits.insert("OvtTunnus", ui->ovtEdit->text());
         inits.insert("Operaattori", ui->operaattoriEdit->text());
         inits.insert("MaventaPostitus", ui->postitusCheck->isChecked() ? "ON" : "EI");
+        inits.insert("FinvoiceSuosi", ui->suosiCheck->isChecked() ? "ON" : "EI");
         kp()->asetukset()->aseta(inits);
     }
 
@@ -112,6 +114,7 @@ bool VerkkolaskuMaaritys::nollaa()
     ui->postitusCheck->setChecked( kp()->asetukset()->onko("MaventaPostitus") );
 
     ui->noutoCheck->setDisabled(true);
+    ui->suosiCheck->setChecked( kp()->asetukset()->onko("FinvoiceSuosi") );
 
 
     valintaMuuttui();
@@ -137,7 +140,8 @@ bool VerkkolaskuMaaritys::onkoMuokattu()
            ui->ovtEdit->text() != kp()->asetus("OvtTunnus") ||
            ui->operaattoriEdit->text() != kp()->asetus("Operaattori") ||
            ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString() ||
-           ui->postitusCheck->isChecked() != kp()->asetukset()->onko("MaventaPostitus");
+           ui->postitusCheck->isChecked() != kp()->asetukset()->onko("MaventaPostitus") ||
+           ui->suosiCheck->isChecked() != kp()->asetukset()->onko("FinvoiceSuosi");
 
 }
 
@@ -153,6 +157,7 @@ void VerkkolaskuMaaritys::valintaMuuttui()
 {
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
     ui->maventaGroup->setVisible( ui->integroitu->isChecked());
+    ui->suosiCheck->setEnabled( !ui->eiKaytossa->isChecked());
 
     if( ui->integroitu->isChecked()) {
         paivitaMaventa();

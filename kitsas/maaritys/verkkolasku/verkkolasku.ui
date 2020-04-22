@@ -215,6 +215,13 @@ font-weight: bold;</string>
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="suosiCheck">
+     <property name="text">
+      <string>Lähetä ensisijaisesti verkkolaskuna</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

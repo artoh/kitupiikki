@@ -488,7 +488,7 @@ void TuloMenoApuri::vastatiliMuuttui()
     ui->tiliInfo->setText( vastatili.nimiNumero());
     ui->saldoInfo->clear();
     KpKysely* kysely = kpk("/saldot");
-    if(kysely) {
+    if( kp()->yhteysModel() &&  vastatilinNumero && kysely) {
         kysely->lisaaAttribuutti("tili", vastatilinNumero);
         kysely->lisaaAttribuutti("pvm", kp()->paivamaara());
         connect( kysely, &KpKysely::vastaus, [this, vastatilinNumero] (QVariant *data) { this->vastaSaldoSaapuu(vastatilinNumero, data);  });
@@ -690,11 +690,9 @@ double TuloMenoApuri::alvProssa() const
 
 void TuloMenoApuri::vastaSaldoSaapuu(int tili, QVariant *data)
 {
-    if( tili == ui->vastatiliLine->valittuTilinumero()) {
-        QVariantMap map = data->toMap();
-        double saldo = map.value(QString::number(tili)).toDouble();
-        ui->saldoInfo->setText(QString("%L1 €").arg(saldo,0,'f',2));
-    }
+    QVariantMap map = data->toMap();
+    double saldo = map.value(QString::number(tili)).toDouble();
+    ui->saldoInfo->setText(QString("%L1 €").arg(saldo,0,'f',2));
 }
 
 void TuloMenoApuri::kumppaniValittu(int kumppaniId)
