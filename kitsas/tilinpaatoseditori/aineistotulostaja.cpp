@@ -22,6 +22,7 @@
 
 #include "db/kirjanpito.h"
 
+#include "raportti/raportoija.h"
 #include "raportti/paakirja.h"
 #include "raportti/paivakirja.h"
 #include "raportti/taseerittelija.h"
@@ -91,9 +92,11 @@ void AineistoTulostaja::tulostaRaportit()
 
     TilinpaatosTulostaja::tulostaKansilehti( painter, "Kirjanpitoaineisto", tilikausi_);
 
+    int sivu = 2;
+
     for( auto rk : kirjoittajat_) {
         device->newPage();
-        rk.tulosta(device, painter);
+        sivu += rk.tulosta(device, painter, false, sivu);
         qApp->processEvents();
         progress->setValue(progress->value() + 1);
         if( progress->wasCanceled()) {
@@ -110,32 +113,44 @@ void AineistoTulostaja::tulostaRaportit()
 
 void AineistoTulostaja::tilaaRaportit()
 {
-    tilattuja_ = 5;
-    kirjoittajat_.resize(5);
+    tilattuja_ = 7;
+    kirjoittajat_.resize(7);
+    QString kieli = "fi";
+
+
+    Raportoija* tase = new Raportoija("tase/yleinen", kieli, this, Raportoija::TASE);
+    tase->lisaaTasepaiva(tilikausi_.paattyy());
+    connect(tase, &Raportoija::valmis, [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(0, rk);});
+    tase->kirjoita(true);
+
+    Raportoija* tulos = new Raportoija("tulos/yleinen", kieli, this, Raportoija::TULOSLASKELMA);
+    tulos->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+    connect(tulos, &Raportoija::valmis, [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(1, rk);});
+    tulos->kirjoita(true);
 
     TaseErittelija *erittely = new TaseErittelija(this);
     connect( erittely, &TaseErittelija::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(0, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(2, rk);});
     erittely->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
 
     Paivakirja *paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(1, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(3, rk);});
     paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
 
     Paakirja *paakirja = new Paakirja(this);
     connect( paakirja, &Paakirja::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(2, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(4, rk);});
     paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
 
     TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
     connect( tililuettelo, &TiliKarttaListaaja::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(3, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(5, rk);});
     tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, false, tilikausi_.paattyy(), false);
 
     TositeLuettelo* luettelo = new TositeLuettelo(this);
     connect( luettelo, &TositeLuettelo::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(4, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(6, rk);});
     luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                        TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::SamaTilikausi |
                        TositeLuettelo::TulostaSummat);
