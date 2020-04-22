@@ -6,7 +6,7 @@
   "kieli": "fi",
   "tpkieli": "fi",
   "muodot": {
-    "ry": {
+    "asoy": {
       "fi": "Asunto-osakeyhtiö",
       "sv": "Bostadsaktiebolag"
     }
@@ -150,8 +150,8 @@
   "Tuloverosiirtovelat":"2990",
   "Tuloverosiirtosaamiset":"1770",
   "PankkiPalvelumaksutili":"7021",
-  "PankkiSaapuvakorko":"9050",
-  "PankkiMaksettavakorko":"9150",
+  "PankkiSaapuvakorko":"9070",
+  "PankkiMaksettavakorko":"9170",
   "VeroOmaverotili":"2986",
   "AlvVelkatili": "2984",
   "Ostovelkatili": "2960"

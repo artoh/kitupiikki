@@ -48,9 +48,9 @@ Raportoija::Raportoija(const QString &raportinNimi, const QString &kieli, QObjec
 
     rk.asetaOtsikko( kmap_.value("nimi").toMap().value(kieli).toString() );
     if( tyyppi == KOHDENNUSLASKELMA)
-        rk.asetaKausiteksti( tr("Kustannuspaikat") );
+        rk.asetaKausiteksti( kaanna("Kustannuspaikat") );
     else if( tyyppi == PROJEKTILASKELMA)
-        rk.asetaKausiteksti( tr("Projektit") );
+        rk.asetaKausiteksti( kaanna("Projektit") );
 
 
 }
@@ -446,13 +446,13 @@ QString Raportoija::sarakeTyyppiTeksti(int sarake)
     switch (sarakeTyypit_.value(sarake))
     {
         case TOTEUTUNUT:
-            return tr("Toteutunut");
+            return kaanna("Toteutunut");
         case BUDJETTI:
-            return tr("Budjetti");
+            return kaanna("Budjetti");
         case BUDJETTIERO:
-            return tr("Budjettiero €");
+            return kaanna("Budjettiero €");
         case TOTEUMAPROSENTTI:
-            return tr("Toteutunut %");
+            return kaanna("Toteutunut %");
     }
     return  QString();
 }

@@ -1656,15 +1656,29 @@
     "laajuus": 2
   },
   {
-    "numero": 5,
+    "numero": 39,
     "tyyppi": "H3",
+    "nimi": {
+      "fi": "Luottotappiot ja oikaisuerät"
+    }
+  },
+  {
+    "numero": 3900,
+    "tyyppi": "CLZ",
+    "nimi": {
+      "fi": "Luottotappiot ja oikaisuerät"
+    }
+  },
+  {
+    "numero": 5,
+    "tyyppi": "H2",
     "nimi": {
       "fi": "Henkilöstökulut"
     }
   },
   {
     "numero": 50,
-    "tyyppi": "H4",
+    "tyyppi": "H3",
     "nimi": {
       "fi": "Palkat ja palkkiot"
     }
@@ -1720,6 +1734,38 @@
     "ohje": {
       "fi": "Työntekijälle annettujen luontoisetujen verotusarvot."
     }
+  },
+  {
+    "numero": 5010,
+    "tyyppi": "DZ",
+    "nimi": {
+      "fi": "Johdon palkat ja palkkiot"
+    },
+    "laajuus": 4
+  },
+  {
+    "numero": 5015,
+    "tyyppi": "DZ",
+    "nimi": {
+      "fi": "Johdon luontoisedut"
+    },
+    "laajuus": 4
+  },
+  {
+    "numero": 5020,
+    "tyyppi": "DZ",
+    "nimi": {
+      "fi": "Osakkaiden ja omistajien palkat ja palkkiot"
+    },
+    "laajuus": 4
+  },
+  {
+    "numero": 5025,
+    "tyyppi": "DZ",
+    "nimi": {
+      "fi": "Osakkaiden ja omistajien luontoisedut"
+    },
+    "laajuus": 4
   },
   {
     "numero": 5040,
@@ -1801,7 +1847,7 @@
   },
   {
     "numero": 6,
-    "tyyppi": "H4",
+    "tyyppi": "H2",
     "nimi": {
       "fi": "Poistot ja arvonalentumat"
     }
@@ -1815,7 +1861,7 @@
     "laajuus": 4
   },
   {
-    "numero": 6001,
+    "numero": 6010,
     "tyyppi": "DPZ",
     "nimi": {
       "fi": "Poistot rakennuksista"
@@ -1823,7 +1869,7 @@
     "laajuus": 4
   },
   {
-    "numero": 6002,
+    "numero": 6020,
     "tyyppi": "DPZ",
     "nimi": {
       "fi": "Poistot koneista ja kalustosta"
@@ -1831,34 +1877,10 @@
     "laajuus": 1
   },
   {
-    "numero": 6003,
+    "numero": 6030,
     "tyyppi": "DPZ",
     "nimi": {
       "fi": "Poistot muista pitkäaikaisista menoista"
-    },
-    "laajuus": 4
-  },
-  {
-    "numero": 6020,
-    "tyyppi": "DZ",
-    "nimi": {
-      "fi": "Arvonalentumat pysyvien vastaavien hyödykkeistä"
-    },
-    "laajuus": 2
-  },
-  {
-    "numero": 6030,
-    "tyyppi": "DZ",
-    "nimi": {
-      "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
-    },
-    "laajuus": 2
-  },
-  {
-    "numero": 6034,
-    "tyyppi": "DZ",
-    "nimi": {
-      "fi": "Varaston arvonalennus"
     },
     "laajuus": 4
   },
@@ -2276,8 +2298,7 @@
     "tyyppi": "H2",
     "nimi": {
       "fi": "Rahoitustuotot ja -kulut"
-    },
-    "mihin": 91
+    }
   },
   {
     "numero": 90,
@@ -2287,23 +2308,29 @@
     }
   },
   {
-    "numero": 9040,
-    "tyyppi": "CZ",
+    "numero": 905,
+    "tyyppi": "H4",
     "nimi": {
-      "fi": "Sijoitustuotot pysyvien vastaavien sijoituksista"
-    },
-    "laajuus": 4
+      "fi": "Osinkotuotot"
+    }
   },
   {
-    "numero": 9041,
+    "numero": 9051,
     "tyyppi": "CZ",
     "nimi": {
       "fi": "Osinkotuotot"
     },
-    "laajuus": 4
+    "laajuus": 2
   },
   {
-    "numero": 9050,
+    "numero": 907,
+    "tyyppi": "H4",
+    "nimi": {
+      "fi": "Korkotuotot"
+    }
+  },
+  {
+    "numero": 9070,
     "tyyppi": "CZ",
     "nimi": {
       "fi": "Korkotuotot"
@@ -2311,12 +2338,50 @@
     "laajuus": 1
   },
   {
-    "numero": 9090,
+    "numero": 909,
+    "tyyppi": "H4",
+    "nimi": {
+      "fi": "Muut rahoitustuotot"
+    }
+  },
+  {
+    "numero": 9091,
     "tyyppi": "CZ",
     "nimi": {
-      "fi": "Muut rahoitustulot"
+      "fi": "Pääomavastikkeet"
     },
-    "laajuus": 4
+    "laajuus": 2
+  },
+  {
+    "numero": 9092,
+    "tyyppi": "CZ",
+    "nimi": {
+      "fi": "Rahastoidut vastikkeet"
+    },
+    "laajuus": 2
+  },
+  {
+    "numero": 9094,
+    "tyyppi": "CZ",
+    "nimi": {
+      "fi": "Lainaosuussuoritukset"
+    },
+    "laajuus": 2
+  },
+  {
+    "numero": 9096,
+    "tyyppi": "CZ",
+    "nimi": {
+      "fi": "Rahastoidut osuudet"
+    },
+    "laajuus": 2
+  },{
+    "numero": 9099,
+    "tyyppi": "CZ",
+    "nimi": {
+      "fi": "Muut rahoitustuotot"
+    },
+    "laajuus": 2
   },
   {
     "numero": 91,
@@ -2326,28 +2391,34 @@
     }
   },
   {
-    "numero": 9140,
-    "tyyppi": "DZ",
+    "numero": 917,
+    "tyyppi": "H4",
     "nimi": {
-      "fi": "Kulut pysyvien vastaavien sijoituksista"
-    },
-    "laajuus": 4
+      "fi": "Korkokulut"
+    }
   },
   {
-    "numero": 9150,
+    "numero": 9170,
     "tyyppi": "DZ",
     "nimi": {
       "fi": "Korkokulut"
     },
-    "laajuus": 1
+    "laajuus": 4
   },
   {
-    "numero": 9190,
+    "numero": 919,
+    "tyyppi": "H4",
+    "nimi": {
+      "fi": "Muut rahoituskulut"
+    }
+  },
+  {
+    "numero": 9199,
     "tyyppi": "DZ",
     "nimi": {
       "fi": "Muut rahoituskulut"
     },
-    "laajuus": 4
+    "laajuus": 1
   },
   {
     "numero": 95,

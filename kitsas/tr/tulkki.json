@@ -53,5 +53,41 @@
   },
   "Kredit €" : {
     "en" : "Credit €"
+  },
+  "Saldo €": {
+    "en": "Balance €"
+  },
+  "PÄÄKIRJA" : {
+    "sv": "HUVUDBOK",
+    "en": "GENERAL LEDGE"
+  },
+  "PÄÄKIRJAN OTE": {
+    "sv": "HUVUDBOKUTDRAG",
+    "en": "EXTRACT FROM GENERAL LEDGE"
+  },
+  "Budjetti" : {
+    "sv": "Budget",
+    "en": "Budget"
+  },
+  "Toteunut": {
+    "sv": "Förverkligad",
+    "en": "Actualised"
+  },
+  "Budjettiero €" : {
+    "sv": "Budgetskillnad €",
+    "en": "Budgetdifference €"
+  },
+  "Toteutunut %" : {
+    "sv": "Förverkligad %",
+    "en": "Actualised %"
+  },
+  "Kustannuspaikat": {
+    "sv": "Konstnadsställen",
+    "en": "Cost centres"
+  },
+  "Projektit": {
+    "sv": "Projekten",
+    "en": "Projects"
   }
+
 }

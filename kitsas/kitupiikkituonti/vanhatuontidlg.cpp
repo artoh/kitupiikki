@@ -181,14 +181,12 @@ void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
         ui->virheLabel->setText(tr("Valitsemaasi tiedosto on tallennettu vanhalla Kitupiikin versiolla.\n\n"
                                    "Tiedosto on ensin avattava uudemmalla Kitupiikin versiolla, jotta se "
                                    "päivittyy uudempaan tiedostomuotoon"));
-    else if( kitupiikkiAsetukset_.value("VakioTilikartta") == "asoy.kpk" )
-        ui->virheLabel->setText(tr("Asunto-osakeyhtiön tilikarttaa ei vielä ole saatavilla Kitsaaseen, "
-                                   "eikä kirjanpito voi siksi tuoda."));
     else if( kitupiikkiAsetukset_.value("VakioTilikartta") != "tilitin.kpk"
-             && kitupiikkiAsetukset_.value("VakioTilikartta") != "yhdistys-1.kpk")
+             && kitupiikkiAsetukset_.value("VakioTilikartta") != "yhdistys-1.kpk"
+             && kitupiikkiAsetukset_.value("VakioTilikartta") != "asoy.kpk")
         ui->virheLabel->setText(tr("Tuontitoiminto ei tue kirjanpitosi tilikarttaa tyyppiä %1 (%2).\n\n"
-                                   "Tuontitoiminto tukee ainoastaa uusimpia elinkeinotoiminnan ja "
-                                   "yhdistyksen tilikarttoja.\n\n"
+                                   "Tuontitoiminto tukee ainoastaa uusimpia elinkeinotoiminnan, "
+                                   "yhdistyksen ja asunto-osakeyhtiön tilikarttoja.\n\n"
                                    "Kirjanpidot, jotka on aloitettu Kitupiikin vanhimmilla versioilla, "
                                    "voi siirtää Kitsaaseen ainoastaan luomalla uuden kirjanpidon ja "
                                    "tekemällä siihen tilinavauksen vanhan kirjanpidon pohjalta.")
@@ -207,6 +205,8 @@ void VanhatuontiDlg::alustaValinnat()
         haeTilikartta(":/tilikartat/yhdistys");
     else if( kitupiikkiTilikartta == "tilitin.kpk")
         haeTilikartta(":/tilikartat/yritys");
+    else if( kitupiikkiTilikartta == "asoy.kpk")
+        haeTilikartta(":/tilikartat/asoy.kpk");
 
     ui->nimiEdit->setText( kitupiikkiAsetukset_.value("Nimi"));
 
@@ -246,6 +246,10 @@ void VanhatuontiDlg::alustaValinnat()
             vanhamuoto = "Osakeyhtiö";
         ui->tilikarttaLabel->setText(tr("Yritys (%1)").arg(vanhamuoto));
         kitsasAsetukset_.insert("muoto", uusimuoto);
+    } else if( kitupiikkiTilikartta == "asoy.kpk") {
+        ui->tilikarttaLabel->setText(tr("Asunto-osakeyhtiö"));
+        kitsasAsetukset_.insert("muoto", "asoy");
+        kitsasAsetukset_.insert("laajuus",2);
     }
 
     ui->laajuusLista->setCurrentRow( kitsasAsetukset_.value("laajuus").toInt() - 1);

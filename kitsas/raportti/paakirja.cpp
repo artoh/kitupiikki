@@ -58,11 +58,11 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
 
     if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
-        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE \n%1").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi()) ) ;
+        rk.asetaOtsikko( QString(kaanna("PÄÄKIRJAN OTE") + "\n%1").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi()) ) ;
     else if( tililta)
-        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE"));
+        rk.asetaOtsikko( kaanna("PÄÄKIRJAN OTE"));
     else
-        rk.asetaOtsikko( "PÄÄKIRJA");
+        rk.asetaOtsikko( kaanna("PÄÄKIRJA"));
 
     rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
@@ -77,14 +77,14 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     rk.lisaaEurosarake();   // Saldo
 
     RaporttiRivi otsikko;
-    otsikko.lisaa("Pvm");
-    otsikko.lisaa("Tosite");
-    otsikko.lisaa("Selite");
+    otsikko.lisaa(kaanna("Pvm"));
+    otsikko.lisaa(kaanna("Tosite"));
+    otsikko.lisaa(kaanna("Selite"));
     if( optiot & TulostaKohdennukset )
         otsikko.lisaa("Kohdennus");
-    otsikko.lisaa("Debet €",1,true);
-    otsikko.lisaa("Kredit €",1,true);
-    otsikko.lisaa("Saldo €",1, true);
+    otsikko.lisaa(kaanna("Debet €"),1,true);
+    otsikko.lisaa(kaanna("Kredit €"),1,true);
+    otsikko.lisaa(kaanna("Saldo €"),1, true);
     rk.lisaaOtsake(otsikko);
 
     saldokysely->kysy();

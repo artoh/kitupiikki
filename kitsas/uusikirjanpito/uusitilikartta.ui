@@ -78,6 +78,19 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QRadioButton" name="asoyButton">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Asunto-osakeyhtiö</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

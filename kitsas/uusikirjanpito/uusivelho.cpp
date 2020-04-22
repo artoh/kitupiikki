@@ -211,6 +211,8 @@ bool UusiVelho::Tilikarttasivu::validatePage()
         velho->lataaKartta(":/tilikartat/yhdistys");
     else if(ui->elinkeinoRadio->isChecked())
         velho->lataaKartta(":/tilikartat/yritys");
+    else if(ui->asoyButton->isChecked())
+        velho->lataaKartta(":/tilikartat/asoy");
 
     return true;
 }

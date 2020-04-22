@@ -73,7 +73,7 @@ void PaakirjaRaportti::haeTilitComboon()
 
 void PaakirjaRaportti::esikatsele()
 {
-    Paakirja *kirja = new Paakirja(this);
+    Paakirja *kirja = new Paakirja(this, ui->kieliCombo->currentData().toString());
     connect( kirja, &Paakirja::valmis, this, &RaporttiWidget::nayta);
 
     int kohdennuksella = -1;
