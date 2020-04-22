@@ -99,6 +99,7 @@ private:
     void pilviLisatty(QVariant* paluu);
     void tilaaLogo(const QVariantMap& map);
     void poistettu();
+    void yritaUudelleenKirjautumista();
 
 signals:
     void kirjauduttu();

@@ -51,7 +51,8 @@ public:
         OtsikkotasoRooli = Qt::UserRole + 5,
         TyyppiRooli = Qt::UserRole + 6,        
         TilaRooli = Qt::UserRole + 8,
-        OhjeRooli = Qt::UserRole + 9
+        OhjeRooli = Qt::UserRole + 9,
+        LajitteluRooli = Qt::UserRole + 10
     };
 
 

@@ -182,7 +182,7 @@ void AineistoTulostaja::tilaaSeuraavaLiite()
 
     QString tyyppi = map.value("tyyppi").toString();
     if( tyyppi != "application/pdf" &&
-         tyyppi != "application/pdf")
+        !tyyppi.startsWith("image/"))
     {
         tilaaSeuraavaLiite();
         return;

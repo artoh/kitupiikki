@@ -86,7 +86,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 } else if(map.contains("viite"))
                     return map.value("viite");
                 else
-                    return kp()->tositeTyypit()->nimi(map.value("tyyppi").toInt());
+                    return QString();
             case PVM:
                 return map.value("pvm").toDate();
             case ERAPVM:

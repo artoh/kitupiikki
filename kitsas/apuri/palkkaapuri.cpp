@@ -35,6 +35,7 @@ PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::otsikkoMuuttui, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::pvmMuuttui, this, &PalkkaApuri::tositteelle);
+    connect( ui->kohdennusCombo, &KohdennusCombo::currentTextChanged, this, &PalkkaApuri::tositteelle);
 
 
     // Luetaan palkkakoodit
@@ -65,6 +66,8 @@ void PalkkaApuri::teeReset()
         eurot.insert(vienti.palkkakoodi(), vienti.debet() > 1e-5 ? vienti.debet() : vienti.kredit());
         if( vienti.palkkakoodi() == "MP" )
             ui->tiliCombo->valitseTili( vienti.tili() );
+        if( vienti.kohdennus() != 0)
+            ui->kohdennusCombo->valitseKohdennus(vienti.kohdennus());
 
     }
 
@@ -82,6 +85,9 @@ void PalkkaApuri::teeReset()
     ui->ayedit->setValue(eurot.value("AY"));
     ui->svedit->setValue(eurot.value("SV"));
     ui->nettoLabel->setText(QString("%L1 €").arg(eurot.value("MP"),10,'f',2));
+
+    ui->kohdennusLabel->setVisible( kp()->kohdennukset()->kohdennuksia() );
+    ui->kohdennusCombo->setVisible( kp()->kohdennukset()->kohdennuksia());
 
 }
 
@@ -148,6 +154,9 @@ void PalkkaApuri::kirjaa(QVariantList &lista, const QString &palkkakoodi, double
             vienti.setDebet( debet );
         else if( kredit > 1e-5)
             vienti.setKredit( kredit );
+
+        if( kp()->tilit()->tiliNumerolla(vienti.tili()).tyyppi().onko(TiliLaji::TULOS))
+            vienti.setKohdennus(ui->kohdennusCombo->kohdennus());
 
         QString riviselite;
         if( !selite.isEmpty()) {

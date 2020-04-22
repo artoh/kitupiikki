@@ -641,9 +641,12 @@ void VanhatuontiDlg::tallennaAsiakasId(QVariant *data)
 void VanhatuontiDlg::siirraTositteet()
 {
     QSqlQuery tositekysely(kpdb_);
+    tositekysely.setForwardOnly(true);
     tositekysely.exec("SELECT Tosite.id as id, pvm, otsikko, kommentti, tunniste, tosite.json as json, tunnus FROM Tosite JOIN Tositelaji ON Tosite.laji=Tositelaji.id WHERE Tosite.pvm NOT NULL");
     QSqlQuery vientikysely(kpdb_);
+    vientikysely.setForwardOnly(true);
     QSqlQuery merkkauskysely( kpdb_ );
+    merkkauskysely.setForwardOnly(true);
     while( tositekysely.next()) {
         int tositeid = tositekysely.value("id").toInt();
         Tosite tosite;
@@ -692,10 +695,10 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
-            if( debetsnt )
-                vienti.setDebet(debetsnt);
+            if( debetsnt > kreditsnt)
+                vienti.setDebet(debetsnt - kreditsnt);
             else if( kreditsnt)
-                vienti.setKredit( kreditsnt );
+                vienti.setKredit( kreditsnt - debetsnt);
             vienti.setSelite( vientikysely.value("selite").toString());
             vienti.setAlvKoodi( vientikysely.value("alvkoodi").toInt());
             vienti.setAlvProsentti( vientikysely.value("alvprosentti").toDouble());
@@ -820,6 +823,7 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
 void VanhatuontiDlg::siirraLiiteet()
 {
     QSqlQuery sql(kpdb_);
+    sql.setForwardOnly(true);
     sql.exec("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id ORDER BY tosite, liiteno ");
     while( sql.next()) {
         int tosite = sql.value(0).toInt();

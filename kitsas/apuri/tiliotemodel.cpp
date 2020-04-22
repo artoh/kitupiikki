@@ -475,6 +475,7 @@ void TilioteModel::teeTuonti()
 
         rivit_.append(rivi);
     }
+    tuotavat_.clear();
 
     // Siivotaan ne, jotka oli kirjattu käsin tililtä
     for(int i=0; i < ennentuontia; i++)

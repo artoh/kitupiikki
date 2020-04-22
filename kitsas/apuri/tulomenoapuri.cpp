@@ -193,13 +193,13 @@ void TuloMenoApuri::teeReset()
                 if( maksutapaind >= 0)
                     ui->maksutapaCombo->setCurrentIndex(maksutapaind);
                 else
-                    ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
-                maksutapaMuuttui();
+                    ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);                
 
                 ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
                 if( vastatili->eritellaankoTase())
                     ui->eraCombo->valitse( vienti.eraId() );
+                maksutapaMuuttui();
             }
 
         } else {
@@ -448,6 +448,8 @@ void TuloMenoApuri::maksutapaMuuttui()
 
     ui->vastatiliLabel->setVisible( !maksutapatili  );
     ui->vastatiliLine->setVisible( !maksutapatili );
+    ui->tiliInfo->setVisible(maksutapatili);
+    ui->saldoInfo->setVisible(maksutapatili);
 
     vastatiliMuuttui();
 
@@ -481,6 +483,17 @@ void TuloMenoApuri::vastatiliMuuttui()
     paivitaVeroFiltterit(tosite()->pvm());
 
     tositteelle();
+
+    int vastatilinNumero = vastatili.numero();
+    ui->tiliInfo->setText( vastatili.nimiNumero());
+    ui->saldoInfo->clear();
+    KpKysely* kysely = kpk("/saldot");
+    if(kysely) {
+        kysely->lisaaAttribuutti("tili", vastatilinNumero);
+        kysely->lisaaAttribuutti("pvm", kp()->paivamaara());
+        connect( kysely, &KpKysely::vastaus, [this, vastatilinNumero] (QVariant *data) { this->vastaSaldoSaapuu(vastatilinNumero, data);  });
+        kysely->kysy();
+    }
 }
 
 void TuloMenoApuri::kohdennusMuuttui()
@@ -673,6 +686,15 @@ double TuloMenoApuri::alvProssa() const
         txt = txt.left(vali);
     txt.replace(",",".");
     return txt.toDouble();
+}
+
+void TuloMenoApuri::vastaSaldoSaapuu(int tili, QVariant *data)
+{
+    if( tili == ui->vastatiliLine->valittuTilinumero()) {
+        QVariantMap map = data->toMap();
+        double saldo = map.value(QString::number(tili)).toDouble();
+        ui->saldoInfo->setText(QString("%L1 €").arg(saldo,0,'f',2));
+    }
 }
 
 void TuloMenoApuri::kumppaniValittu(int kumppaniId)

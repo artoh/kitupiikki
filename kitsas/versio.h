@@ -24,10 +24,10 @@
   Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "2.0-RC"
-#define KITSAS_BUILD  "Al"
+#define KITSAS_VERSIO "2.0-RC.1-1"
+#define KITSAS_BUILD  "DEV"
 
-// #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
+#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
 
 #define KITSAS_API "https://pilvi.kitsas.fi/api"

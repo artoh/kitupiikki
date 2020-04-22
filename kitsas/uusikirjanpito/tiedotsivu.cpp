@@ -108,7 +108,7 @@ bool TiedotSivu::validatePage()
     }
 
     if( IbanValidator::kelpaako(ui->tiliLine->text())) {
-        QString iban = ui->tiliLine->text().remove(QChar(' '));
+        QString iban = ui->tiliLine->text().remove(QRegularExpression("\\W"));
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
                 QVariantMap map = velho->tilit_.at(i).toMap();                

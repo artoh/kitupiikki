@@ -208,7 +208,7 @@ void PilviModel::paivitaLista(int avaaPilvi)
     PilviKysely *kysely = new PilviKysely(this, KpKysely::GET,
                                           pilviLoginOsoite() + "/login");
     connect( kysely, &KpKysely::vastaus, this, &PilviModel::paivitysValmis);
-    connect( kysely, &KpKysely::virhe, this, &PilviModel::kirjauduUlos);
+    connect( kysely, &KpKysely::virhe, this, &PilviModel::yritaUudelleenKirjautumista);
     kysely->kysy();
 }
 
@@ -269,7 +269,7 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         avaaPilvesta( avaaPilvi_);
     avaaPilvi_ = 0;
 
-    timer_->start(4 * 60 * 60 * 1000);  // Tokenin päivitys neljän tunnin välein
+    timer_->start(60 * 60 * 1000);  // Tokenin päivitys tunnin välein
     emit kirjauduttu();
 }
 
@@ -308,7 +308,20 @@ void PilviModel::tilaaLogo(const QVariantMap &map)
 void PilviModel::poistettu()
 {
     kp()->yhteysAvattu(nullptr);
-    paivitaLista();    
+    paivitaLista();
+}
+
+void PilviModel::yritaUudelleenKirjautumista()
+{
+    beginResetModel();
+    data_.clear();
+    kayttajaId_ = 0;
+    oikeudet_ = 0;
+    timer_->stop();
+    endResetModel();
+    kp()->yhteysAvattu(nullptr);
+
+    kirjaudu();
 }
 
 

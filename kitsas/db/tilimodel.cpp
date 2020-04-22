@@ -167,6 +167,12 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             fontti.setBold(true);
         return QVariant( fontti );
     }
+    else if( role == LajitteluRooli) {
+        if( tili->otsikkotaso())
+            return QString("%1/%2").arg(tili->numero()).arg(tili->otsikkotaso(),2,10,QChar('0'));
+        else
+            return QString("%1/XX").arg(tili->numero());
+    }
 
     return QVariant();
 }

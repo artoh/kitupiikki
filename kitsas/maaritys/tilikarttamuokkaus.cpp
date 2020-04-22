@@ -43,6 +43,8 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(naytaProxy);
     proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxy->setSortRole(TiliModel::LajitteluRooli);
+    proxy->sort(0);
 
     ui->view->setModel(proxy);
     ui->view->hideColumn( TiliModel::NRONIMI);
@@ -131,12 +133,14 @@ void TilikarttaMuokkaus::uusiTili()
 {
     TilinMuokkausDialog dlg(this, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row(), TilinMuokkausDialog::UUSITILI );
     dlg.exec();
+    proxy->sort(0);
 }
 
 void TilikarttaMuokkaus::uusiOtsikko()
 {
     TilinMuokkausDialog dlg(this, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row(), TilinMuokkausDialog::UUSIOTSIKKO );
     dlg.exec();
+    proxy->sort(0);
 }
 
 void TilikarttaMuokkaus::suodataTila(int tila)

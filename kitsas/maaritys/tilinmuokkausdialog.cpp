@@ -360,7 +360,7 @@ void TilinMuokkausDialog::accept()
     }
 
     if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) )
-        tili_->set("IBAN", ui->ibanLine->text().remove(QChar(' ')));
+        tili_->set("IBAN", ui->ibanLine->text().remove(QRegularExpression("\\W")));
 
     for(int i=0; i < ui->nimiList->count(); i++)
         tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );

@@ -517,7 +517,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     tapahtuma.insert("pvm",QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt()));
                 }
                 if( tapahtumanrivi == 2) {
-                    QString alku = teksti.left(18);
+                    QString alku = teksti.startsWith("*") ? teksti.mid(1,18) : teksti.left(18);
                     if( IbanValidator::kelpaako(alku)) {
                         tapahtuma.insert("iban", alku);
                         teksti = teksti.mid(18);

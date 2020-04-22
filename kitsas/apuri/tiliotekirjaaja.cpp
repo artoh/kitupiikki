@@ -86,7 +86,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
-
+    connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); });
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -170,6 +170,11 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     muokattavaRivi_ = riviNro;
     TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
 
+    QString saajamaksaja = rivi.saajamaksaja;
+    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\s"));
+    if( valinpaikka > 2)
+        saajamaksaja = saajamaksaja.left(valinpaikka);
+
     ui->ylaTab->setCurrentIndex( rivi.euro < 0 );
 
     if( rivi.era.value("id").toInt() )
@@ -178,11 +183,9 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
              QString::number(rivi.tili).startsWith('2'))
         ui->alaTabs->setCurrentIndex( SIIRTO );
     else
-        ui->alaTabs->setCurrentIndex( TULOMENO );
+        ui->alaTabs->setCurrentIndex(TULOMENO );
 
     ui->kohdennusCombo->valitseKohdennus( rivi.kohdennus );
-
-
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
 
     // Etsitään valittava rivi
@@ -216,7 +219,8 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->jaksoAlkaaEdit->setDate( rivi.jaksoalkaa);
     ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
 
-
+    ui->suodatusEdit->setText( saajamaksaja );
+    suodata(saajamaksaja);
 }
 
 
@@ -353,6 +357,8 @@ void TilioteKirjaaja::suodata(const QString &teksti)
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
         maksuProxy_->setFilterFixedString( teksti );
     }
+    if( ui->maksuView->model()->rowCount())
+        ui->alaTabs->setCurrentIndex(MAKSU);
 }
 
 void TilioteKirjaaja::tyhjenna()

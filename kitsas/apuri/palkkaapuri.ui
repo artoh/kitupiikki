@@ -255,14 +255,14 @@ sosiaalipalkat</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
           <string>Tililtä maksetaan</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QLabel" name="nettoLabel">
          <property name="text">
           <string/>
@@ -281,6 +281,16 @@ sosiaalipalkat</string>
           </sizepolicy>
          </property>
         </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="kohdennusLabel">
+         <property name="text">
+          <string>Kohdennus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="KohdennusCombo" name="kohdennusCombo"/>
        </item>
       </layout>
      </item>
@@ -302,6 +312,11 @@ sosiaalipalkat</string>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
   <customwidget>
    <class>KpEuroEdit</class>
    <extends>QLineEdit</extends>
