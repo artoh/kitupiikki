@@ -161,6 +161,7 @@ public:
     void tulostaYlatunniste(QPainter *painter, int sivu) const;
 
     bool tyhja() const { return rivit_.isEmpty(); }
+    int riveja() const { return  rivit_.count(); }
 
     void asetaKieli(const QString& kieli);
 

@@ -49,7 +49,7 @@
      <item>
       <widget class="QPushButton" name="VieNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Vie</string>
@@ -57,6 +57,30 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/vie.png</normaloff>:/pic/vie.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="raporttiButton">
+       <property name="text">
+        <string>Tulosta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
       </widget>
      </item>

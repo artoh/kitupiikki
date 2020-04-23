@@ -50,6 +50,8 @@ private slots:
     void poista();
     void paivita();
     void tuo();
+    void vie();
+    void raportti();
 
 signals:
     void kumppaniValittu(const QString& nimi);

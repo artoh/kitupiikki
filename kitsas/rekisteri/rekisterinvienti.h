@@ -14,37 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TUOTEDIALOGI_H
-#define TUOTEDIALOGI_H
+#ifndef REKISTERINVIENTI_H
+#define REKISTERINVIENTI_H
 
-#include <QDialog>
+#include <QObject>
+#include <QQueue>
 
-namespace Ui {
-class TuoteDialogi;
-}
+#include "raportti/raportinkirjoittaja.h"
 
-class TuoteDialogi : public QDialog
+class QAbstractItemModel;
+
+class RekisterinVienti : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit TuoteDialogi(QWidget *parent = nullptr);
-    ~TuoteDialogi() override;
-
-public slots:
-    void muokkaa(const QVariantMap& map);
-    void uusi();
-
-    void accept() override;
-
-private slots:
-    void laskeBrutto();
-    void laskeNetto();    
+    static void vieRekisteri(QAbstractItemModel* model, const QString& tiedostonnimi);
+protected:
+    RekisterinVienti(QAbstractItemModel *model, const QString& tiedostonnimi);
+    void haeSeuraava();
+    void kumppaniSaapuu(QVariant* data);
+    void valmis();
 
 private:
-    Ui::TuoteDialogi *ui;
-    int muokattavanaId_ = 0;
-    double brutto_ = 0;
+    QString tiedosto_;
+    QQueue<int> idt_;
+    RaportinKirjoittaja rk_;
+
+
+signals:
+
 };
 
-#endif // TUOTEDIALOGI_H
+#endif // REKISTERINVIENTI_H

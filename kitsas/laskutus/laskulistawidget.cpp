@@ -27,6 +27,9 @@
 #include "maksumuistutusdialogi.h"
 #include <QDebug>
 
+#include "raportti/raportinkirjoittaja.h"
+#include "naytin/naytinikkuna.h"
+
 #include "myyntilaskujentoimittaja.h"
 #include "db/yhteysmodel.h"
 
@@ -82,6 +85,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->vainlaskuNappi, &QPushButton::toggled, this, &LaskulistaWidget::naytaListallaVainLaskut);
+
+    connect( ui->tulostaButton, &QPushButton::clicked, this, &LaskulistaWidget::raportti);
 
     ui->muistutusNappi->hide();
 }
@@ -365,5 +370,42 @@ void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
 
     LaskuDialogi* dlg = new LaskuDialogi(hyvitys);
     dlg->show();
+}
+
+void LaskulistaWidget::raportti()
+{
+    QAbstractItemModel *model = ui->view->model();
+    RaportinKirjoittaja rk;
+
+    if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS)
+        rk.asetaOtsikko(tr("Myyntilaskut"));
+    else if( paalehti_ == OSTO || paalehti_ == TOIMITTAJA)
+        rk.asetaOtsikko(tr("Ostolaskut"));
+
+    for(int i=2; i<model->columnCount(); i++)
+        rk.lisaaEurosarake();
+    rk.lisaaVenyvaSarake();
+
+    RaporttiRivi otsikko;
+    for(int i=0; i<model->columnCount(); i++) {
+        if( i == LaskuTauluModel::LAHETYSTAPA) continue;
+        otsikko.lisaa( model->headerData(i, Qt::Horizontal).toString());
+    }
+    rk.lisaaOtsake(otsikko);
+
+    for(int i=0; i<model->rowCount();i++) {
+        RaporttiRivi rivi;
+        for(int j=0; j<model->columnCount(); j++) {
+            if( j == LaskuTauluModel::LAHETYSTAPA) continue;
+            QString teksti = model->index(i,j).data().toString();
+            if(QDate::fromString(teksti,Qt::ISODate).isValid())
+                rivi.lisaa(QDate::fromString(teksti, Qt::ISODate));
+            else
+                rivi.lisaa(teksti,1, teksti.contains("€"));
+        }
+        rk.lisaaRivi(rivi);
+    }
+
+    NaytinIkkuna::naytaRaportti(rk);
 }
 

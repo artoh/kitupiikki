@@ -79,7 +79,7 @@ protected:
     void setAlvProssa(double prosentti);
     double alvProssa() const;
 
-    void vastaSaldoSaapuu(int tili, QVariant* data);
+    void vastaSaldoSaapuu(QVariant* data);
 
 private:
     Ui::TuloMenoApuri *ui;

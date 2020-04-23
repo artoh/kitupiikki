@@ -254,6 +254,15 @@ void KirjausWg::valmis()
                                      "Tallennatko tositteen ilman vientejä?")) != QMessageBox::Yes)
             return;
     }
+
+    if( !tosite_->viennit()->alvTarkastus()) {
+        if( QMessageBox::question(this, tr("Arvonlisäveron kirjaukset"),
+                                  tr("Arvonlisäveron kirjauksissa on todennäköisesti virhe.\nTallennetaanko tosite silti?\n"),
+                                  QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok)
+            return;
+    }
+
+
     ui->tallennaButton->setEnabled(false);
     ui->tallennetaanLabel->show();
     tosite()->tallenna();

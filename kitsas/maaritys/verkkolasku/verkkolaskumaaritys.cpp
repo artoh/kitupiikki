@@ -97,7 +97,7 @@ bool VerkkolaskuMaaritys::nollaa()
     int verkkolasku = kp()->asetukset()->luku("FinvoiceKaytossa");
 
     ui->integroitu->setEnabled( qobject_cast<PilviModel*>(kp()->yhteysModel()) ||
-                                kp()->pilvi()->plan() > 0);
+                                kp()->pilvi()->tilausvoimassa());
 
     ui->kaytossaGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 

@@ -610,10 +610,6 @@ void AloitusSivu::logoMuuttui()
 
 void AloitusSivu::haeSaldot()
 {
-    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS
-                                                                   | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS | YhteysModel::ASETUKSET) )
-        return;
-
     QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
     KpKysely *kysely = kpk("/saldot");
     if( kysely ) {

@@ -62,6 +62,7 @@ private slots:
     void haettuKopioitavaksi(QVariant* data);
     void teeHyvitysLasku(QVariant *data);
 
+    void raportti();
 
 private:
     Ui::LaskulistaWidget *ui;

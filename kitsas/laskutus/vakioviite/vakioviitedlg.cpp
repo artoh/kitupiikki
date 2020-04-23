@@ -46,7 +46,7 @@ void VakioViiteDlg::uusi()
 {
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
-    ui->tiliEdit->valitseTiliNumerolla(3000);
+    ui->tiliEdit->valitseTiliNumerolla(kp()->asetukset()->luku("OletusMyyntitili"));
     exec();
 }
 

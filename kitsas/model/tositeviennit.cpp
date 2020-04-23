@@ -437,3 +437,30 @@ void TositeViennit::asetaMuokattavissa(bool muokattavissa)
 {
     muokattavissa_ = muokattavissa;
 }
+
+bool TositeViennit::alvTarkastus() const
+{
+   qlonglong alvPerusteella = 0;
+   qlonglong alvKirjattuna = 0;
+   qlonglong vahennysPerusteella = 0;
+   qlonglong vahennysKirjattuna= 0;
+
+   for( auto vienti : viennit_) {
+       TositeVienti tv(vienti.toMap());
+       switch (tv.alvKoodi()) {
+       case AlvKoodi::MYYNNIT_NETTO:
+           alvPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           break;
+       case AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS:
+            alvKirjattuna += qRound64((tv.kredit() - tv.debet()) * 100);
+            break;
+       case AlvKoodi::OSTOT_NETTO:
+           vahennysPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
+           break;
+        case AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS:
+            vahennysKirjattuna += qRound64((tv.debet() - tv.kredit()) * 100);
+       }
+
+   }
+   return alvPerusteella == alvKirjattuna && vahennysPerusteella == vahennysKirjattuna;
+}

@@ -117,6 +117,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
         taso_ = tili_->otsikkotaso();
         ui->numeroEdit->setText( minNumero_ );
         ui->numeroEdit->setReadOnly(true);
+        ui->numeroEdit->setFrame(false);
         if( taso_)
             setWindowTitle(tr("Otsikon muokkaus"));
         if( tili_->tamanOtsikko())

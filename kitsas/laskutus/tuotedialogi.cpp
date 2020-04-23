@@ -54,11 +54,21 @@ void TuoteDialogi::muokkaa(const QVariantMap &map)
     muokattavanaId_ = map.value("id").toInt();
     ui->nimikeEdit->setText( map.value("nimike").toString() );
     ui->yksikkoEdit->setText( map.value("yksikko").toString());
-    ui->nettoEdit->setValue( map.value("ahinta").toDouble());
     ui->alvCombo->setCurrentIndex(
                 ui->alvCombo->findData( map.value("alvkoodi").toInt() +
                                         map.value("alvprosentti").toInt() * 100));
-    laskeBrutto();
+
+    double netto = map.value("ahinta").toDouble();
+    double brutto = netto * ( 100.0 + ui->alvCombo->veroProsentti() ) / 100.0;
+
+    if( qAbs(qRound64(netto * 1000) - qRound64(netto*100)*10) > 0.005 ) {
+        ui->bruttoEdit->setValue(brutto);
+        laskeNetto();
+    } else {
+        ui->nettoEdit->setValue(netto);
+        laskeBrutto();
+    }
+
     ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData( map.value("kohdennus", 0), KohdennusModel::IdRooli ));
@@ -71,7 +81,7 @@ void TuoteDialogi::uusi()
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
 
     ui->yksikkoEdit->setText("kpl");
-    ui->tiliEdit->valitseTiliNumerolla(3000);
+    ui->tiliEdit->valitseTiliNumerolla(kp()->asetukset()->luku("OletusMyyntitili"));
 
     show();
 }
@@ -81,7 +91,12 @@ void TuoteDialogi::accept()
     QVariantMap map;
     map.insert("nimike", ui->nimikeEdit->text());
     map.insert("yksikko", ui->yksikkoEdit->text());
-    map.insert("ahinta", ui->nettoEdit->value());
+    if( brutto_ > 1e-5) {
+        double netto = (100.0 * brutto_) / (100.0 + ui->alvCombo->veroProsentti());
+        map.insert("ahinta", netto);
+    } else {
+        map.insert("ahinta", ui->nettoEdit->value());
+    }
     map.insert("alvkoodi", ui->alvCombo->veroKoodi());
     map.insert("alvprosentti", ui->alvCombo->currentData().toInt() / 100);
     map.insert("alvkoodi", ui->alvCombo->veroKoodi());
@@ -104,13 +119,14 @@ void TuoteDialogi::laskeBrutto()
     bool alv = ui->alvCombo->veroKoodi() == AlvKoodi::MYYNNIT_NETTO;
     ui->bruttoLabel->setVisible(alv);
     ui->bruttoEdit->setVisible(alv);
+    brutto_ = 0;
 }
 
 void TuoteDialogi::laskeNetto()
 {
-    double brutto = ui->bruttoEdit->value();
-    double netto = (100.0 * brutto) / (100.0 + ui->alvCombo->veroProsentti());
-    qDebug() << brutto << "  "  << netto;
+    brutto_ = ui->bruttoEdit->value();
+    double netto = (100.0 * brutto_) / (100.0 + ui->alvCombo->veroProsentti());
+    qDebug() << brutto_ << "  "  << netto;
 
     if( qRound64(netto*100.0) != ui->nettoEdit->asCents())
         ui->nettoEdit->setValue(netto);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1205</width>
-    <height>599</height>
+    <width>1449</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,6 +153,30 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/punainenkuori.png</normaloff>:/pic/punainenkuori.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tulostaButton">
+       <property name="text">
+        <string>Tulosta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
       </widget>
      </item>

@@ -279,8 +279,7 @@ void MaaritysSivu::paivitaNakyvat()
     item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
     item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
     item( LIITTEET )->setHidden(false); // Liittemääreet aina käytössä
-    item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset
-    item( VERKKOLASKU)->setHidden( !kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr );
+    item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset    
 
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)

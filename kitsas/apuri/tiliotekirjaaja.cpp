@@ -253,7 +253,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
         ui->asiakastoimittaja->alusta();
-        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? 4000 : 3000 );    // TODO: Tod. oletukset        
+        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
