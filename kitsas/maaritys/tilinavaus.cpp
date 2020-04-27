@@ -104,7 +104,7 @@ void Tilinavaus::suodata(const QString &suodatusteksti)
 
 void Tilinavaus::erittely(const QModelIndex &index)
 {
-    if( index.data(TilinavausModel::ErittelyRooli).toInt() != TilinavausModel::EI_ERITTELYA) {
+    if( index.data(TilinavausModel::ErittelyRooli).toInt() != TilinavausModel::EI_ERITTELYA && index.column() == TilinavausModel::ERITTELY) {
         int tili = index.data(TilinavausModel::NumeroRooli).toInt();
         AvausEraDlg dlg(tili,
                         index.data(TilinavausModel::ErittelyRooli).toInt() == TilinavausModel::KOHDENNUKSET,

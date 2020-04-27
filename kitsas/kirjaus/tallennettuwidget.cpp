@@ -48,13 +48,14 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sar
 
     ui->tunnisteellaLabel->setVisible( tunnus );
     ui->tunnisteLabel->setVisible( tunnus );
+    ui->kausiLabel->setVisible( tunnus );
     ui->luonnosLabel->setVisible( !tunnus );
 
     if( tunnus ) {
-        ui->tunnisteLabel->setText( QString("%3 %1 / %2")
-                                .arg(tunnus)
-                                .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() )
+        ui->tunnisteLabel->setText( QString("%2 %1 ")
+                                .arg(tunnus)                                
                                 .arg(sarja));
+        ui->kausiLabel->setText("/ " + kp()->tilikausiPaivalle(paiva).pitkakausitunnus() );
     } else {
         ui->luonnosLabel->setText(tr("Tosite tallennettu tilassa\n") + Tosite::tilateksti(tila));
     }

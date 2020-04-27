@@ -47,6 +47,8 @@ TositeluetteloRaportti::TositeluetteloRaportti()
     ui->tositejarjestysRadio->setChecked(true);
     ui->tulostakohdennuksetCheck->setEnabled(false);
 
+    ui->kumppaniCheck->setChecked(true);
+
     Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
@@ -60,6 +62,8 @@ void TositeluetteloRaportti::esikatsele()
       optiot |= TositeLuettelo::RyhmitteleLajeittain;
     if( ui->tulostasummat->isChecked())
         optiot |= TositeLuettelo::TulostaSummat;
+    if( ui->kumppaniCheck->isChecked())
+        optiot |= TositeLuettelo::AsiakasToimittaja;
 
     TositeLuettelo *luettelo = new TositeLuettelo(this);
     connect( luettelo, &TositeLuettelo::valmis, this, &RaporttiWidget::nayta);

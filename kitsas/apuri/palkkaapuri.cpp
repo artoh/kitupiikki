@@ -54,7 +54,9 @@ void PalkkaApuri::otaFokus()
 
 void PalkkaApuri::teeReset()
 {
-    ui->tiliCombo->suodataTyypilla("ARP");
+    ui->tiliCombo->suodataTyypilla("(ARP|BS)");
+    int vastatili = kp()->asetukset()->luku("PalkkaVastatili") ? kp()->asetukset()->luku("PalkkaVastatili") : kp()->tilit()->tiliTyypilla(TiliLaji::PANKKITILI).numero();
+    ui->tiliCombo->valitseTili( vastatili  );
 
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
 
@@ -135,6 +137,8 @@ bool PalkkaApuri::teeTositteelle()
     kirjaa( viennit, "SB", 0, ui->svedit->value(), "Sairausvakuutusmaksu");
 
     tosite()->viennit()->asetaViennit(viennit);
+
+    kp()->asetukset()->aseta("PalkkaVastatili", ui->tiliCombo->valittuTilinumero());
 
     return true;
 }

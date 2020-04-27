@@ -260,7 +260,7 @@ void AloitusSivu::linkki(const QUrl &linkki)
 
 void AloitusSivu::uusiTietokanta()
 {
-    UusiVelho velho;
+    UusiVelho velho( parentWidget() );
     if( velho.exec() ) {
         if( velho.field("pilveen").toBool())
             kp()->pilvi()->uusiPilvi(velho.data());
@@ -679,11 +679,11 @@ QString AloitusSivu::vinkit()
     }
 
     // Ensin tietokannan alkutoimiin
-    if( saldot_.count() < 2)
+    if( saldot_.count() < 3)
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
-        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/perus>perusvalinnat, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
+        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/perus>perusvalinnat, logo ja arvonlisäverovelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
         vinkki.append("<li>Tutustu <a href=ktp:/maaritys/tilit>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset/tilikartta'>(Ohje)</a></li>");
         vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset/kohdennukset'>(Ohje)</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)

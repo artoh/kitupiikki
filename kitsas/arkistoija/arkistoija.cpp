@@ -144,7 +144,8 @@ void Arkistoija::arkistoiRaportit()
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tositeluettelo.html"); } );
     tositeluettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                              TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::TulostaKohdennukset
-                             | TositeLuettelo::SamaTilikausi | TositeLuettelo::TulostaSummat );
+                             | TositeLuettelo::SamaTilikausi | TositeLuettelo::TulostaSummat
+                             | TositeLuettelo::AsiakasToimittaja);
 
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );

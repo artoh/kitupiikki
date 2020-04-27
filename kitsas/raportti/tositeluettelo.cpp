@@ -36,6 +36,8 @@ void TositeLuettelo::kirjoita(const QDate &mista, const QDate &mihin, int optiot
 
     rk.lisaaSarake("ABC1234/99 ");
     rk.lisaaPvmSarake();
+    if( optiot & AsiakasToimittaja)
+        rk.lisaaVenyvaSarake(50);
     rk.lisaaVenyvaSarake();
     rk.lisaaSarake("XXX kpl ");
     rk.lisaaEurosarake();
@@ -44,6 +46,8 @@ void TositeLuettelo::kirjoita(const QDate &mista, const QDate &mihin, int optiot
         RaporttiRivi otsikko;
         otsikko.lisaa(tr("Tosite"));
         otsikko.lisaa(tr("Pvm"));
+        if( optiot & AsiakasToimittaja)
+            otsikko.lisaa("Asiakas/Toimittaja");
         otsikko.lisaa(tr("Otsikko"));
         otsikko.lisaa(tr("Liitteitä"));
         otsikko.lisaa(tr("Summa €"),1,true);
@@ -100,6 +104,8 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
                                 map.value("tunniste").toInt(), optiot_ & SamaTilikausi);
 
         rivi.lisaa( map.value("pvm").toDate() );
+        if( optiot_ & AsiakasToimittaja)
+            rivi.lisaa(map.value("kumppani").toString());
         rivi.lisaa( map.value("otsikko").toString());        
         if( map.value("liitteita").toInt())
             rivi.lisaa( tr("%1 kpl").arg( map.value("liitteita").toInt() ));

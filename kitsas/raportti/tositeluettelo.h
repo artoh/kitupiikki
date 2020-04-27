@@ -33,7 +33,8 @@ public:
            RyhmitteleLajeittain = 0b00010 ,
            TulostaKohdennukset  = 0b00100 ,
            TulostaSummat        = 0b01000 ,
-           SamaTilikausi        = 0b10000
+           SamaTilikausi        = 0b10000,
+           AsiakasToimittaja    = 0b100000
          };
 
 private slots:

@@ -186,9 +186,9 @@ void Tosite::lataaData(QVariant *variant)
 
     emit tyyppiMuuttui( tyyppi());
     emit pvmMuuttui( pvm() );
-    emit otsikkoMuuttui( otsikko() );
-    emit tunnisteMuuttui( tunniste() );
+    emit otsikkoMuuttui( otsikko() );    
     emit sarjaMuuttui( sarja() );
+    emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
 
 

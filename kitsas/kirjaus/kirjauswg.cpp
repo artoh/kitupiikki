@@ -172,7 +172,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
     connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
-        this->ui->sarjaCombo->setCurrentText(sarja);  });
+        this->ui->sarjaCombo->setCurrentText(sarja);
+    });
     connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
     connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
     connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
@@ -552,7 +553,7 @@ void KirjausWg::lisaaLiite(const QString& polku)
 
 void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 {
-      tosite()->liitteet()->lisaa(data, nimi);
+     tosite()->liitteet()->lisaaHeti(data, nimi);
       ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );
      paivitaLiiteNapit();
 
@@ -654,8 +655,9 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
         ui->tunnisteLabel->setText(tr("Uusi tosite"));
     else
         ui->tunnisteLabel->setText( Tosite::tilateksti(tosite()->tositetila()) );
-    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
-    ui->sarjaCombo->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))  );
+    QString sarja = tosite()->sarja();
+    ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) || !sarja.isEmpty() );
+    ui->sarjaCombo->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) || !sarja.isEmpty() );
 
     if( selaus_ && tosite_->id())
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );

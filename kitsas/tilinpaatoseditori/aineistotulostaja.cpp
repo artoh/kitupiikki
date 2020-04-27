@@ -153,7 +153,7 @@ void AineistoTulostaja::tilaaRaportit()
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(6, rk);});
     luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                        TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::SamaTilikausi |
-                       TositeLuettelo::TulostaSummat);
+                       TositeLuettelo::TulostaSummat | TositeLuettelo::AsiakasToimittaja);
 }
 
 void AineistoTulostaja::tilaaLiitteet()

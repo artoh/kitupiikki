@@ -76,7 +76,7 @@ bool TositesarjaMaaritys::nollaa()
 bool TositesarjaMaaritys::tallenna()
 {
     QVariantMap asetukset;
-    asetukset.insert("erisarjaan", ui->eriSarjaan->isChecked());
+    asetukset.insert("erisarjaan", ui->eriSarjaan->isChecked() ? "ON" : "EI");
     asetukset.insert("kateissarjaan", ui->kateisCheck->isChecked());
 
     if( ui->eriSarjaan->isChecked()) {

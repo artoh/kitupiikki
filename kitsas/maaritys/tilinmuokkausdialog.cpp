@@ -238,7 +238,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->tabWidget->setTabEnabled(POISTO, tyyppi.onko(TiliLaji::POISTETTAVA));
 
     // Ellei alv-toimintoja käytettävissä, ne piilotetaan
-    bool alvKaytossa = ( tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA));
+    bool alvKaytossa = ( (tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA)) && kp()->asetukset()->onko(AsetusModel::ALV) );
     ui->tabWidget->setTabEnabled( ALV, alvKaytossa );
 
     if( tyyppi.onko(TiliLaji::TULO)) {

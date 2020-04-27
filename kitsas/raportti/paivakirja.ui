@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>669</width>
-    <height>514</height>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -133,6 +133,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kumppaniCheck">
+     <property name="text">
+      <string>Tulosta asiakas/toimittaja</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="tulostakohdennuksetCheck">
      <property name="text">
       <string>Tulosta kohdennukset</string>
@@ -190,12 +201,14 @@
  <tabstops>
   <tabstop>alkupvm</tabstop>
   <tabstop>loppupvm</tabstop>
-  <tabstop>kohdennusCombo</tabstop>
-  <tabstop>tiliCombo</tabstop>
   <tabstop>kohdennusCheck</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
   <tabstop>tiliBox</tabstop>
+  <tabstop>tiliCombo</tabstop>
+  <tabstop>kieliCombo</tabstop>
   <tabstop>aikajarjestysRadio</tabstop>
   <tabstop>tositejarjestysRadio</tabstop>
+  <tabstop>kumppaniCheck</tabstop>
   <tabstop>tulostakohdennuksetCheck</tabstop>
   <tabstop>ryhmittelelajeittainCheck</tabstop>
   <tabstop>tulostasummat</tabstop>

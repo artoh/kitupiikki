@@ -81,7 +81,7 @@
    <item>
     <widget class="QLabel" name="ibanLabel">
      <property name="text">
-      <string>  </string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -110,7 +110,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="kuva1">
           <property name="text">
            <string/>
           </property>
@@ -179,7 +179,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="kuva2">
           <property name="text">
            <string/>
           </property>
@@ -272,7 +272,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="kuva3">
           <property name="text">
            <string/>
           </property>

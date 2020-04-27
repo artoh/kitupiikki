@@ -48,7 +48,8 @@
 
 #include <iostream>
 
-UusiVelho::UusiVelho()
+UusiVelho::UusiVelho(QWidget *parent) :
+    QWizard(parent)
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
 

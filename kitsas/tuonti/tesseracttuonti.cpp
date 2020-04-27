@@ -26,6 +26,7 @@
 #include "tuontiapu.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikysely.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QProcess>
 #include <QRegularExpression>
@@ -78,7 +79,8 @@ QVariantMap Tuonti::TesserActTuonti::analysoi(const QString &teksti)
     QRegularExpression ytunnusre( R"(\b\d{7}-\d\b)");
     QRegularExpression pvmre( R"(\b([0123]?\d)[.-]([01]?\d)[.-](20[012]\d)\b)");
     QRegularExpression varmaeurore(R"((yht|total|sum).*?[^.](\d{1,5}[.,]\d{2})\D*?$)",
-                                   QRegularExpression::CaseInsensitiveOption | QRegularExpression::MultilineOption);
+                                   QRegularExpression::CaseInsensitiveOption | QRegularExpression::MultilineOption
+                                   | QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression eurore(R"(\b(\d{1,5}[.,]\d{2})\W)");
 
     QRegularExpression viitere(R"((viite|ref).*?\b((RF\d\d)?(\d|\s)*\d\b))",
@@ -129,7 +131,7 @@ QVariantMap Tuonti::TesserActTuonti::analysoi(const QString &teksti)
         while( euroiter.hasNext()) {
             QRegularExpressionMatch match = euroiter.next();
             qlonglong snt = TuontiApu::sentteina( match.captured(1) );
-            if(snt)
+            if(snt && snt > senttia)
                 senttia = snt;
         }
     }
@@ -161,6 +163,12 @@ QVariantMap Tuonti::TesserActTuonti::analysoi(const QString &teksti)
 
     if( senttia )
         tulos.insert("summa", senttia / 100.0);
+
+    if( teksti.contains("käteinen", Qt::CaseInsensitive))
+        tulos.insert("maksutapa","kateinen");
+
+    if( !tulos.isEmpty())
+        tulos.insert("tyyppi", TositeTyyppi::MENO);
 
     return tulos;
 

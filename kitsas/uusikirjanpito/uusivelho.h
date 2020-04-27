@@ -32,7 +32,7 @@ class UusiVelho : public QWizard
 {
     Q_OBJECT
 public:
-    UusiVelho();
+    UusiVelho(QWidget *parent = nullptr);
     enum Sivut { ALOITUS, HARJOITUS, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
     void lataaKartta(const QString& polku);
 

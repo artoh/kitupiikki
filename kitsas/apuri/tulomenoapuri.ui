@@ -457,6 +457,7 @@
  </customwidgets>
  <tabstops>
   <tabstop>maksutapaCombo</tabstop>
+  <tabstop>asiakasToimittaja</tabstop>
   <tabstop>viiteEdit</tabstop>
   <tabstop>laskuPvm</tabstop>
   <tabstop>erapaivaEdit</tabstop>
@@ -466,6 +467,7 @@
   <tabstop>maaraEdit</tabstop>
   <tabstop>verotonEdit</tabstop>
   <tabstop>alvCombo</tabstop>
+  <tabstop>alvProssa</tabstop>
   <tabstop>vahennysCheck</tabstop>
   <tabstop>kohdennusCombo</tabstop>
   <tabstop>merkkauksetCC</tabstop>

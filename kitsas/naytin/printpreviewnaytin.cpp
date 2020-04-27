@@ -24,7 +24,24 @@
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     : AbstraktiNaytin (parent)
 {    
+    // Alustetaan printteri
+    // Vähimmäismarginaalit 1 cm joka suuntaan
+
     printer_ = new QPrinter(QPrinterInfo(*kp()->printer()));
+    printer_->setPageSize(QPrinter::A4);
+
+    QMarginsF margins = printer_->pageLayout().margins(QPageLayout::Millimeter);
+    if( margins.top() < 10)
+        margins.setTop(10);
+    if( margins.left() < 10)
+        margins.setLeft(10);
+    if( margins.right() < 10)
+        margins.setRight(10);
+    if( margins.bottom() < 10)
+        margins.setBottom(10);
+    printer_->setPageMargins(margins,QPageLayout::Millimeter);
+
+
     widget_ = new QPrintPreviewWidget(printer_, parent);
 
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );

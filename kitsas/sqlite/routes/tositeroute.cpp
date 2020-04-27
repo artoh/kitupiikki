@@ -184,7 +184,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
 
-    if( !tunniste ) {
+    if( tunniste ) {
         // Tarkistetaan, pitääkö tunniste hakea uudelleen
         kysely.exec( QString("SELECT sarja, alkaa FROM Tosite JOIN Tilikausi ON Tosite.pvm BETWEEN Tilikausi.alkaa AND Tilikausi.loppuu "
                              "WHERE Tosite.id=%1").arg(tositeid) );

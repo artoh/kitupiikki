@@ -39,6 +39,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     proxyTyyppi = new QSortFilterProxyModel(this);
     proxyTyyppi->setSourceModel(proxyNimi);
     proxyTyyppi->setFilterRole(TiliModel::TyyppiRooli);
+    proxyTyyppi->setSortRole(TiliModel::LajitteluRooli);
+    proxyTyyppi->sort(TiliModel::NUMERO);
 
     proxyTila = new QSortFilterProxyModel(this);
     proxyTila->setSourceModel(proxyTyyppi);

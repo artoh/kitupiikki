@@ -248,7 +248,7 @@ sosiaalipalkat</string>
        <item row="0" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
-          <string>Pankkitili</string>
+          <string>Vastatili</string>
          </property>
          <property name="buddy">
           <cstring>tiliCombo</cstring>

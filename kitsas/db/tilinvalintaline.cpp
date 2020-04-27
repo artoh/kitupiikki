@@ -173,6 +173,8 @@ void TilinvalintaLine::asetaModel(TiliModel *model)
 {
     model_ = model;
     proxyTyyppi_->setSourceModel( model );
+    proxyTila_->setSortRole(TiliModel::LajitteluRooli);
+    proxyTila_->sort(TiliModel::NUMERO);
 }
 
 void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)

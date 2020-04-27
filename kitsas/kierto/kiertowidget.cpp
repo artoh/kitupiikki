@@ -23,6 +23,8 @@
 #include "kiertomodel.h"
 #include "laskutus/myyntilaskuntulostaja.h"
 
+#include <QScreen>
+
 KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui( new Ui::Kierto), tosite_(tosite)
 {
@@ -46,6 +48,13 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     });
     connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
 
+
+    if( qApp->screens().value(0)->size().height() < 1200) {
+        // Jotta käyttökelpoisempi pienellä näytöllä, poistetaan kuvakkeeita näkyviltä
+        ui->kuva1->hide();
+        ui->kuva2->hide();
+        ui->kuva3->hide();
+    }
 }
 
 KiertoWidget::~KiertoWidget()

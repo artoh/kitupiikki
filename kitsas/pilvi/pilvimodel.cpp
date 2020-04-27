@@ -253,12 +253,8 @@ void PilviModel::paivitysValmis(QVariant *paluu)
     QVariantMap map = variant.toMap();    
         if( map.value("id").toInt() == pilviId_ ) {
             osoite_ = map.value("url").toString();
-            token_ = map.value("token").toString();
-            QVariantList oikeudet = map.value("rights").toList();
-            oikeudet_ = 0;
-            for( auto oikeus : oikeudet) {
-                oikeudet += oikeustunnukset__.at(oikeus.toString());
-            }
+            token_ = map.value("token").toString();            
+            oikeudet_ = oikeudet( map.value("rights").toList());
         }
         // Tilataan puuttuvat logot
         if( !logot_.contains(map.value("id").toInt()))
@@ -313,6 +309,8 @@ void PilviModel::poistettu()
 
 void PilviModel::yritaUudelleenKirjautumista()
 {
+    qDebug() << "** Yritä kirjautumista uudelleen ** ";
+
     beginResetModel();
     data_.clear();
     kayttajaId_ = 0;

@@ -49,6 +49,7 @@ PaivakirjaRaportti::PaivakirjaRaportti()
 
     ui->tiliBox->hide();
     ui->tiliCombo->hide();
+    ui->kumppaniCheck->hide();
 
     Tulkki::alustaKieliCombo(ui->kieliCombo);
 }

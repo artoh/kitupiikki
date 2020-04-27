@@ -150,6 +150,12 @@ void TuloMenoApuri::tuo(QVariantMap map)
         if( map.value("erapvm").isValid())
             ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 
+        if( map.value("maksutapa").toString() == "kateinen") {
+            int maksutapaind = ui->maksutapaCombo->findData(kp()->tilit()->tiliTyypilla(TiliLaji::KATEINEN).numero(), MaksutapaModel::TiliRooli);
+            if( maksutapaind >= 0)
+                ui->maksutapaCombo->setCurrentIndex(maksutapaind);
+        }
+
     }
     tositteelle();
 }
