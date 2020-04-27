@@ -68,7 +68,9 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();        // Pvm
-    rk.lisaaSarake("ABC1234/99 "); // Tosite
+    rk.lisaaSarake("ABC1234 "); // Tosite
+    if( optiot & AsiakasToimittaja)
+        rk.lisaaVenyvaSarake();
     rk.lisaaVenyvaSarake();     // Selite
     if( optiot & TulostaKohdennukset)
         rk.lisaaSarake("Kohdennusnimi"); // Kohdennus
@@ -79,9 +81,11 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     RaporttiRivi otsikko;
     otsikko.lisaa(kaanna("Pvm"));
     otsikko.lisaa(kaanna("Tosite"));
+    if( optiot & AsiakasToimittaja)
+        otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
     otsikko.lisaa(kaanna("Selite"));
     if( optiot & TulostaKohdennukset )
-        otsikko.lisaa("Kohdennus");
+        otsikko.lisaa(kaanna("Kohdennus"));
     otsikko.lisaa(kaanna("Debet €"),1,true);
     otsikko.lisaa(kaanna("Kredit €"),1,true);
     otsikko.lisaa(kaanna("Saldo €"),1, true);
@@ -155,6 +159,8 @@ void Paakirja::kirjoitaDatasta()
 
                 rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
                                       optiot_ & SamaTilikausi);
+                if( optiot_ & AsiakasToimittaja)
+                    rr.lisaa( vienti.value("kumppani").toMap().value("nimi").toString() );
                 rr.lisaa( vienti.value("selite").toString());
 
                 if( optiot_ & TulostaKohdennukset)

@@ -26,6 +26,8 @@
 #include "raportti/tilikarttalistaaja.h"
 #include "raportti/tositeluettelo.h"
 
+#include "db/tositetyyppimodel.h"
+
 #include "sqlite/sqlitemodel.h"
 
 #include <QFile>
@@ -40,6 +42,7 @@
 #include <QJsonDocument>
 #include <QSettings>
 #include <QProgressDialog>
+
 
 
 Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
@@ -121,12 +124,14 @@ void Arkistoija::arkistoiRaportit()
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
-    paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy() );
+    paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
+                          Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     Paakirja* paakirja = new Paakirja(this);
     connect( paakirja, &Paakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paakirja.html"); } );
-    paakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy() );
+    paakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
+           Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     TaseErittelija* erittelija = new TaseErittelija(this);
     connect( erittelija, &TaseErittelija::valmis,
@@ -445,21 +450,30 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         out << "</table>";
     }
 
+    int tositetyyppi = tosite.value("tyyppi").toInt();
+
     // Seuraavaksi otsikot
     out << "<table class=tositeotsikot><tr>";
     out << "<td class=paiva>" << tosite.value("pvm").toDate().toString("dd.MM.yyyy") << "</td>";
     out << "<td class=tositeotsikko>" << tosite.value("otsikko").toString() << "</td>";
+    out << "<td class=tositetyyppi>" << ( tositetyyppi ? kp()->tositeTyypit()->nimi(tositetyyppi) : "") << "</td>";
 
-    out << QString("<td class=tositetunnus>%1")
+    out << QString("<td class=tositetunnus>%1</td></tr>")
            .arg(kp()->tositeTunnus( tosite.value("tunniste").toInt(),
                                     tosite.value("pvm").toDate(),
                                     tosite.value("sarja").toString()));
-    out << "</tr></table>";
+    if( tosite.contains("kumppani") )
+        out << "<tr><td></td><td class=tositekumppani>" << tosite.value("kumppani").toMap().value("nimi").toString()
+            << "</td><td colspan=2></td></tr>";
+    out << "</table>";
 
 
     // Viennit
     out << "<table class=viennit>";
-    out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th><th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
+    out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th>";
+    if( tositetyyppi == TositeTyyppi::TILIOTE)
+        out << "<th>Saaja/Maksaja</th>";
+    out << "<th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
 
     for( auto vienti : tosite.value("viennit").toList())    {
         QVariantMap vientiMap = vienti.toMap();
@@ -474,8 +488,10 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         out << "</td><td class=kohdennus>";
         if( vientiMap.value("kohdennus").toInt())
             out << kp()->kohdennukset()->kohdennus( vientiMap.value("kohdennus").toInt() ).nimi();
-
         // TODO: Merkkaukset ja tase-erät
+
+        if( tositetyyppi == TositeTyyppi::TILIOTE)
+            out << "<td class=kumppani>" << vientiMap.value("kumppani").toMap().value("nimi").toInt() << "</kumppani>";
 
         out << "</td><td class=selite>" << vientiMap.value("selite").toString();
         out << "</td><td class=euro>" << ((qAbs(vientiMap.value("debet").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vientiMap.value("debet").toDouble(),0,'f',2) : "");
@@ -491,6 +507,9 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         out << tosite.value("info").toString().toHtmlEscaped().replace("\n","<br>");
         out << "</p>";
     }
+
+
+
 
     if( indeksi > -1) {
         out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);

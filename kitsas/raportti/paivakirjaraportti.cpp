@@ -48,8 +48,7 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     }
 
     ui->tiliBox->hide();
-    ui->tiliCombo->hide();
-    ui->kumppaniCheck->hide();
+    ui->tiliCombo->hide();    
 
     Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
@@ -77,6 +76,8 @@ void PaivakirjaRaportti::esikatsele()
         optiot |= Paivakirja::TulostaKohdennukset;
     if( ui->tulostasummat->isChecked() )
         optiot |= Paivakirja::TulostaSummat;
+    if( ui->kumppaniCheck->isChecked())
+        optiot |= Paivakirja::AsiakasToimittaja;
 
     Paivakirja *kirja = new Paivakirja(this, ui->kieliCombo->currentData().toString());
     connect( kirja, &Paivakirja::valmis, this, &RaporttiWidget::nayta );

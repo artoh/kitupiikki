@@ -136,12 +136,12 @@ void AineistoTulostaja::tilaaRaportit()
     Paivakirja *paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(3, rk);});
-    paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
+    paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(), Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     Paakirja *paakirja = new Paakirja(this);
     connect( paakirja, &Paakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(4, rk);});
-    paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
+    paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(), Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
     connect( tililuettelo, &TiliKarttaListaaja::valmis,

@@ -49,6 +49,8 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
     rk.lisaaSarake("999999 Tilinimi tarkeinteilla");
     if( optiot_ & TulostaKohdennukset)
         rk.lisaaSarake("Kohdennusnimi");
+    if( optiot_ & AsiakasToimittaja)
+        rk.lisaaVenyvaSarake(75);
     rk.lisaaVenyvaSarake();
     rk.lisaaEurosarake();
     rk.lisaaEurosarake();
@@ -60,6 +62,8 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
         otsikko.lisaa(kaanna("Tili"));
         if( optiot_ & TulostaKohdennukset)
             otsikko.lisaa(kaanna("Kohdennus"));
+        if( optiot_ & AsiakasToimittaja)
+            otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
         otsikko.lisaa(kaanna("Selite"));
         otsikko.lisaa(kaanna("Debet €"), 1, true);
         otsikko.lisaa(kaanna("Kredit €"), 1, true);
@@ -144,6 +148,9 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
         if( optiot_ & TulostaKohdennukset )
             rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+
+        if( optiot_ & AsiakasToimittaja)
+            rivi.lisaa( map.value("kumppani").toMap().value("nimi").toString() );
 
         rivi.lisaa( map.value("selite").toString() );
 

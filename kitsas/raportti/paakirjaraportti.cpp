@@ -49,8 +49,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
 
     ui->jarjestysRyhma->hide();
-    ui->ryhmittelelajeittainCheck->hide();
-    ui->kumppaniCheck->hide();
+    ui->ryhmittelelajeittainCheck->hide();    
 
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
@@ -89,6 +88,8 @@ void PaakirjaRaportti::esikatsele()
         optiot |= Paakirja::TulostaKohdennukset;
     if( ui->tulostasummat->isChecked() )
         optiot |= Paakirja::TulostaSummat;
+    if( ui->kumppaniCheck->isChecked())
+        optiot |= Paakirja::AsiakasToimittaja;
 
 
     kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), optiot,

@@ -14,9 +14,11 @@ table.liiteluettelo { margin-top: 0px; border: 1px solid #505050; }
 table.liiteluettelo tr:hover { background-color: #ccc;}
 
 table.tositeotsikot { margin-top: 2em;}
-td.paiva { width: 10em; }
-td.tositeotsikko {  }
-td.tositetunnus { text-align: right;}
+td.paiva { width: 10em; font-weight: bold;}
+td.tositeotsikko { width: 100%; font-weight: bold; }
+td.tositetyyppi { min-width: 8em;}
+td.tositetunnus { text-align: right; min-width: 8em; font-weight: bold;}
+td.tositekumppani {;}
 
 table.viennit { border: 1px solid #505050; }
 table.viennit th, table.viennit td { border-right: 1px solid #505050;}
@@ -24,6 +26,7 @@ table.viennit th { text-align: left; background-color: #e7e7e7; font-weight: nor
 table.viennit td.pvm { min-width: 6em;}
 table.viennit td.tili { min-width: 12em;}
 table.viennit td.kohdennus { min-width: 8em;}
+table.viennit td.kumppani { min-width: 8em;}
 table.viennit td.selite { width: 100%; }
 table.viennit td.euro { text-align: right; min-width: 8em;}
 table.viennit td.erasaldo { border-top: 1px solid #505050;  text-align: right;}

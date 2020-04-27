@@ -88,6 +88,10 @@
   "Projektit": {
     "sv": "Projekten",
     "en": "Projects"
+  },
+  "Asiakas/Toimittaja": {
+    "sv" : "Kund/Säljare",
+    "en" : "Customer/Supplier"
   }
 
 }

@@ -35,7 +35,8 @@ public:
            TulostaKohdennukset  = 0b00100 ,
            TulostaSummat        = 0b01000 ,
            Kohdennuksella       = 0b10000 ,
-           SamaTilikausi       = 0b100000
+           SamaTilikausi       = 0b100000 ,
+           AsiakasToimittaja   =0b1000000
          };
 
 public slots:
