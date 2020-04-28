@@ -426,7 +426,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
     buffer.open(QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
-    writer.setCreator( QString("Kitupiikki %1").arg( qApp->applicationVersion() ) );
+    writer.setCreator( QString("Kitsas %1").arg( qApp->applicationVersion() ) );
     writer.setTitle( otsikko() );
 
     if( tulostaA4 )

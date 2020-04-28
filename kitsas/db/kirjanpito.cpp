@@ -106,7 +106,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
         tempDir_ = new QTemporaryDir( QDir::home().absoluteFilePath("kitsas-XXXXXX")  );
         if( !tempDir_->isValid())
             QMessageBox::critical(nullptr, tr("Tilapäishakemiston luominen epäonnistui"),
-                                  tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
+                                  tr("Kitsas ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
 
     FinvoiceHaku* verkkolaskuhaku = FinvoiceHaku::init(this);
@@ -172,11 +172,11 @@ void Kirjanpito::avaaUrl(const QUrl &url)
     {
         if( url.fileName().endsWith("html"))
             QMessageBox::critical(nullptr, tr("Selaimen käynnistäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
+                                  tr("Kitsas ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
                                      "määritelty oletusselain avaamaan internet-sivuja?\n\n").arg(url.toDisplayString()));
         else
             QMessageBox::critical(nullptr, tr("Tiedoston näyttäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() ));
+                                  tr("Kitsas ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() ));
     }
 }
 

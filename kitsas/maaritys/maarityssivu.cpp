@@ -121,7 +121,7 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
     if( nykyinen && nykyinen->onkoMuokattu())
     {
         // Nykyistä on muokattu eikä tallennettu
-        if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
         }
@@ -151,7 +151,7 @@ void MaaritysSivu::peru()
         if( nykyinen->onkoMuokattu())
         {
             // Jos on muokattu, varmistetaan vielä poistuminen!
-            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
                 return;
             }
@@ -180,7 +180,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         if( nykyinen->onkoMuokattu() )
         {
             // Nykyistä on muokattu eikä tallennettu
-            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
                 nykyItem->setSelected(true);
                 return;
