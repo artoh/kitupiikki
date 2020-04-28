@@ -294,13 +294,14 @@ bool TilinavausModel::tallenna()
                     vienti.setEra( era.vienti() );
                 else {
                     vienti.setEra(-1);
-                    // Ostosaamiset ja velat -kirjataan niin,
-                    // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
-                    if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
-                        vienti.setTyyppi( TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS );
-                    else if( tilio.onko(TiliLaji::OSTOVELKA) )
-                        vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
                 }
+                // Ostosaamiset ja velat -kirjataan niin,
+                // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
+                if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
+                    vienti.setTyyppi( TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS );
+                else if( tilio.onko(TiliLaji::OSTOVELKA) )
+                    vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
+
                 vienti.setSelite( era.eranimi() );
             }
             vienti.setKohdennus( era.kohdennus() );
@@ -318,11 +319,13 @@ bool TilinavausModel::tallenna()
             tosite_->viennit()->lisaa(vienti);
         }
     }
+    // Tallennuksen jälkeen ladataan välittömästi, jotta kumppanirekisteri ajan tasalla
+    connect( tosite_, &Tosite::talletettu, this, &TilinavausModel::lataa);
+
     tosite_->tallenna();
 
     kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 
-    muokattu_ = false;
     return true;
 }
 
@@ -359,6 +362,7 @@ void TilinavausModel::paivitaInfo()
 void TilinavausModel::ladattu()
 {
     beginResetModel();
+    muokattu_ = false;
     TositeViennit* viennit = tosite_->viennit();
     for(int i=0; i < viennit->rowCount(); i++ ) {
         TositeVienti vienti = viennit->vienti(i);

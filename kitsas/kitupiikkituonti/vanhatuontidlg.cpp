@@ -206,7 +206,7 @@ void VanhatuontiDlg::alustaValinnat()
     else if( kitupiikkiTilikartta == "tilitin.kpk")
         haeTilikartta(":/tilikartat/yritys");
     else if( kitupiikkiTilikartta == "asoy.kpk")
-        haeTilikartta(":/tilikartat/asoy.kpk");
+        haeTilikartta(":/tilikartat/asoy");
 
     ui->nimiEdit->setText( kitupiikkiAsetukset_.value("Nimi"));
 
@@ -377,7 +377,6 @@ void VanhatuontiDlg::tuo()
 
 
     siirraTositteet();
-    siirraLiiteet();
 
     // Tietokanta pitää avata vielä uudelleen, jotta päivittää tiedot
     // tietokannasta
@@ -764,6 +763,7 @@ void VanhatuontiDlg::siirraTositteet()
         connect(&tosite, &Tosite::tallennusvirhe, [] (int virhe) { qDebug() << "TOSITEVIRHE " << virhe;});
         tosite.tallenna();
         ui->progressBar->setValue( ui->progressBar->value() + 1 );
+        siirraLiiteet(tositeid, tosite.id());
         qApp->processEvents();
     }
 }
@@ -824,19 +824,32 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
 
 }
 
-void VanhatuontiDlg::siirraLiiteet()
+void VanhatuontiDlg::siirraLiiteet(int vanhaTositeId, int uusiTositeId)
 {
     QSqlQuery sql(kpdb_);
     sql.setForwardOnly(true);
-    sql.exec("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id ORDER BY tosite, liiteno ");
+    sql.exec(QString("SELECT liite.id FROM Liite WHERE tosite=%1 ORDER BY liiteno").arg(vanhaTositeId));
+    while( sql.next()) {
+        siirraLiite( sql.value(0).toInt(), uusiTositeId );
+        ui->progressBar->setValue( ui->progressBar->value() + 1 );
+        qApp->processEvents();
+    }
+}
+
+void VanhatuontiDlg::siirraLiite(int id, int uusiTositeId)
+{
+    QSqlQuery sql(kpdb_);
+    sql.setForwardOnly(true);
+    sql.exec(QString("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE liite.id=%1").arg(id));
     while( sql.next()) {
         int tosite = sql.value(0).toInt();
         QString otsikko = sql.value(1).toString();
         QByteArray data = sql.value(2).toByteArray();
 
         if( sql.value(3).toString().startsWith("{\"Lasku\":") ) {
-            KpKysely* kysely = kpk(QString("/liitteet/%1/lasku").arg(tosite), KpKysely::PUT);
+            KpKysely* kysely = kpk(QString("/liitteet/%1/lasku").arg(uusiTositeId), KpKysely::PUT);
             kysely->lahetaTiedosto(data);
+            delete kysely;
         }
         else if( tosite == 0) {
             // Tilinpäätöksen tallentuminen oikealla roolinimellä
@@ -845,9 +858,11 @@ void VanhatuontiDlg::siirraLiiteet()
 
             KpKysely* kysely = kpk(QString("/liitteet/0/%1").arg(otsikko), KpKysely::PUT);
             kysely->lahetaTiedosto(data);
+            delete kysely;
         } else {
-            KpKysely* kysely = kpk(QString("/liitteet/%1").arg(tosite), KpKysely::POST);
+            KpKysely* kysely = kpk(QString("/liitteet/%1").arg(uusiTositeId), KpKysely::POST);
             kysely->lahetaTiedosto(data);
+            delete kysely;
         }
         ui->progressBar->setValue( ui->progressBar->value() + 1 );
         qApp->processEvents();

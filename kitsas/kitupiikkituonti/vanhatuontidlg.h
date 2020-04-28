@@ -56,9 +56,10 @@ protected:
     void siirraTuotteet();
     void siirraAsiakkaat();
     void tallennaAsiakasId(QVariant* data);
-    void siirraTositteet();
+    void siirraTositteet();    
     void laskuTiedot(const QSqlQuery& vientikysely, Tosite& tosite);
-    void siirraLiiteet();
+    void siirraLiiteet(int vanhaTositeId, int uusiTositeId);
+    void siirraLiite(int id, int uusiTositeId);
     QVariantList tilikaudet() const;
 
     int tilimuunto(int tilinumero) const;
