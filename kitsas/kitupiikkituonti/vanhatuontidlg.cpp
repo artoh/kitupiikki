@@ -43,6 +43,8 @@
 #include "laskutus/laskudialogi.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 
+#include <iostream>
+
 VanhatuontiDlg::VanhatuontiDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::VanhatuontiDlg)
@@ -651,6 +653,8 @@ void VanhatuontiDlg::siirraTositteet()
     QSqlQuery merkkauskysely( kpdb_ );
     merkkauskysely.setForwardOnly(true);
     while( tositekysely.next()) {
+        std::cerr << "T";
+        std::cerr.flush();
         int tositeid = tositekysely.value("id").toInt();
         Tosite tosite;
         QDate pvm = tositekysely.value("pvm").toDate();
@@ -842,6 +846,8 @@ void VanhatuontiDlg::siirraLiite(int id, int uusiTositeId)
     sql.setForwardOnly(true);
     sql.exec(QString("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE liite.id=%1").arg(id));
     while( sql.next()) {
+        std::cerr << "L";
+        std::cerr.flush();
         int tosite = sql.value(0).toInt();
         QString otsikko = sql.value(1).toString();
         QByteArray data = sql.value(2).toByteArray();

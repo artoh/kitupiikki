@@ -124,7 +124,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
                      .arg( qRound64(rivi.value("euro").toDouble() * 100) )
                      .arg( rivi.value("pvm").toDate().toString(Qt::ISODate)) );
 
-        qDebug() << kysely.lastQuery();
+
 
         while( kysely.next()) {
             apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
@@ -230,7 +230,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
                      .arg( qRound64(rivi.value("euro").toDouble() * 100) )
                      .arg( rivi.value("pvm").toDate().toString(Qt::ISODate)) );
 
-        qDebug() << kysely.lastQuery();
+
 
         while( kysely.next()) {
             apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));

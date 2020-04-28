@@ -327,9 +327,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kysely.addBindValue( vientityyppi );
         kysely.addBindValue( arkistotunnus );
 
-        kysely.exec();
-        qDebug() << kysely.lastQuery();
-        qDebug() << kysely.lastError().text();
+        kysely.exec();                
 
 
         if( !vientiid)

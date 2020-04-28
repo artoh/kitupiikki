@@ -293,8 +293,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 }
 
 void Tosite::tallennusValmis(QVariant *variant)
-{
-    qDebug() << "Tosite::tallennusValmis";
+{    
     QVariantMap map = variant->toMap();
     setData(ID, map.value( avaimet__.at(ID) ).toInt() );
     setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());

@@ -73,7 +73,6 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     }
     kysymys.append(" ORDER BY pvm, viite");
 
-    qDebug() << kysymys;
 
     QSqlQuery kysely(db());
     kysely.exec(kysymys);

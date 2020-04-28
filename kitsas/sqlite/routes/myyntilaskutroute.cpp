@@ -32,7 +32,6 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 {
     // Laskutapa on json:n sisällä !
 
-    qDebug() << urlquery.queryItems();
 
     QString kysymys("select tosite.id as tosite, tosite.laskupvm as pvm, tosite.erapvm as erapvm, tosite.viite, tosite.json as json, "
                         "debetsnt as debetia, kreditsnt as kreditia, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
@@ -88,7 +87,6 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
 
-    qDebug() << kysymys;
     QSqlQuery kysely( db());
     kysely.exec(kysymys);
 

@@ -372,8 +372,6 @@ void TulomenoApuriTesti::menonMuodostusTesti()
     TositeVienti vasta = kwg->tosite()->viennit()->vienti(0);
     TositeVienti vienti = kwg->tosite()->viennit()->vienti(1);
 
-    qDebug() << vasta;
-    qDebug() << vienti;
 
     QCOMPARE( vasta.tili(), 1900);
     QCOMPARE( vasta.kredit(), 15.80);

@@ -518,8 +518,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
             }
         }
     }
-    for(auto kysely : kyselyt) {
-        qDebug() << kysely->polku();
+    for(auto kysely : kyselyt) {        
         kysely->kysy();
     }
 

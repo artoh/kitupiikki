@@ -488,7 +488,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 rivilla = rivi;
                 tapahtumanrivi++;
             }
-            qDebug() << tapahtumanrivi << " " << rivi << "," << sarake << "   " << teksti;
+
 
 
             // Vasemmanpuoleisimmassa sarakkeessa Arkistointitunnus ja Saajan tilinumero
@@ -539,10 +539,10 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     // Tältä riviltä poimitaan selite KTO-koodia varten
                     if( ktokoodi(teksti) && !tapahtuma.contains("ktokoodi"))
                         tapahtuma.insert("ktokoodi", ktokoodi(teksti));
-                    qDebug() << "KTO---" << teksti << " " << ktokoodi(teksti);
+
                 } else if( (tapahtumanrivi == 2 && !saajaensin) || (tapahtumanrivi == 1 && saajaensin)) {
                     // Tältä riviltä yritetään poimia saaja
-                    qDebug() << "ES " << teksti;
+
                     if (teksti.contains(seliteRe) && !tapahtuma.contains("saajamaksaja"))
                         tapahtuma.insert("saajamaksaja", teksti.simplified());
                 } else if( teksti.contains("Viite") && teksti.contains(viiteRe) && !tapahtuma.contains("viite")
