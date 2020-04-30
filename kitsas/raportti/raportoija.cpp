@@ -85,8 +85,11 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
         // kohdennus kerrallaan
         QMapIterator<QString,QVariant> kiter(map);
         while( kiter.hasNext()) {
-            kiter.next();
-            QHash<int, QVector<qlonglong> > snt;
+            kiter.next();                        
+
+            int kohdennus = kiter.key().toInt();
+            QHash<int, QVector<qlonglong> > snt = kohdennetut_.value(kohdennus);
+
             QMapIterator<QString,QVariant> iter( kiter.value().toMap() );
             while( iter.hasNext()) {
                 iter.next();
@@ -96,9 +99,10 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
                 if( !snt.contains(tili) )
                     snt.insert(tili, QVector<qlonglong>(  sarakemaara_ ) );
 
-                snt[tili][sarake] = sentit;
+                snt[tili][sarake] = sentit;                    
             }
             kohdennetut_.insert( kiter.key().toInt(), snt );
+
         }
 
 
