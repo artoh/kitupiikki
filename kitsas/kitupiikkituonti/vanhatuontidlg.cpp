@@ -653,8 +653,8 @@ void VanhatuontiDlg::siirraTositteet()
     QSqlQuery merkkauskysely( kpdb_ );
     merkkauskysely.setForwardOnly(true);
     while( tositekysely.next()) {
-        std::cerr << "T";
-        std::cerr.flush();
+        std::cout << "T";
+        std::cout.flush();
         int tositeid = tositekysely.value("id").toInt();
         Tosite tosite;
         QDate pvm = tositekysely.value("pvm").toDate();
@@ -846,8 +846,8 @@ void VanhatuontiDlg::siirraLiite(int id, int uusiTositeId)
     sql.setForwardOnly(true);
     sql.exec(QString("SELECT tosite, liite.otsikko, data, tosite.json FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE liite.id=%1").arg(id));
     while( sql.next()) {
-        std::cerr << "L";
-        std::cerr.flush();
+        std::cout << "L";
+        std::cout.flush();
         int tosite = sql.value(0).toInt();
         QString otsikko = sql.value(1).toString();
         QByteArray data = sql.value(2).toByteArray();
