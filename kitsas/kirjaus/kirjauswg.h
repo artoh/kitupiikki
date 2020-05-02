@@ -105,6 +105,8 @@ private slots:
 
     void naytaLoki();
 
+    void pohjaksi();
+
 private slots:    
     void paivita(bool muokattu, int virheet, double debet, double kredit);
     void tallenna(int tilaan);

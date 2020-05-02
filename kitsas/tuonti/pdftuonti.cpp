@@ -388,7 +388,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
     QRegularExpression viiteRe("((Viite|Reference)\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
-    QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*");
+    QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)+");
     QRegularExpression seliteRe("[A-ö& \\-]{6,}");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.?(?<k>\\d{1,2})\\.?(?<v>\\d{2}\\d{2}?)");
     QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}[\\w\\s]{6,30}\\b");
@@ -405,6 +405,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
     int tapahtumanrivi = -1;
 
     bool saajaensin = false;
+    int riviero = 0;
 
     QVariantMap tapahtuma;
 
@@ -487,8 +488,19 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                         tapahtumanrivi = 0;
                     }
                 }
+                if( tapahtumanrivi == 1)
+                    riviero = rivi - rivilla;
+                else if( tapahtumanrivi > 1 && riviero * 3 / 2 < rivi - rivilla) {
+                    // Tyhjä rivi tapahtuman keskellä, tapahtuma valmistuu
+                    if (tapahtuma.contains("arkistotunnus") && tapahtuma.contains("euro"))
+                        tapahtumat.append(tapahtuma);
+                    tapahtuma.clear();
+                    continue;
+                }
                 rivilla = rivi;
                 tapahtumanrivi++;
+
+
             }
 
 

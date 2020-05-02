@@ -423,6 +423,25 @@ void TositeViennit::tyhjenna()
     asetaViennit(QVariantList());
 }
 
+void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, const QString &uusiOtsikko)
+{
+    beginResetModel();
+    for(int i=0; i < viennit_.count(); i++) {
+        TositeVienti vienti = viennit_.value(i).toMap();
+        vienti.setId(0);
+        int siirto = vienti.pvm().daysTo(pvm);
+        vienti.setPvm( pvm );
+        if( vienti.jaksoalkaa().isValid())
+            vienti.setJaksoalkaa( vienti.jaksoalkaa().addDays(siirto) );
+        if( vienti.jaksoloppuu().isValid())
+            vienti.setJaksoloppuu( vienti.jaksoloppuu().addDays(siirto));
+        if( vienti.selite() == vanhaOtsikko)
+            vienti.setSelite( uusiOtsikko);
+        viennit_[i] = vienti;
+    }
+    endResetModel();
+}
+
 QVariant TositeViennit::tallennettavat() const
 {
     QVariantList ulos;

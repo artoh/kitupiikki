@@ -125,7 +125,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     QMenu *valikko = new QMenu(this);
 //    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
-//    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
+    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(pohjaksi()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
     tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), [this] { this->tosite()->viennit()->tyhjenna(); if(apuri_) apuri_->reset(); });
 
@@ -346,6 +346,16 @@ void KirjausWg::naytaLoki()
     naytin->nayta(data);
 }
 
+void KirjausWg::pohjaksi()
+{
+    QDialog dlg;
+    Ui::KopioiDlg ui;
+    ui.setupUi(&dlg);
+    if( dlg.exec() == QDialog::Accepted) {
+        tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
+    }
+}
+
 
 void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 {
@@ -384,6 +394,8 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
     ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet
                                  && !tosite()->liitteet()->tallennetaanko());
+
+    uudeksiAktio_->setEnabled( !muokattu );
 
     salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
     if( muokattu )

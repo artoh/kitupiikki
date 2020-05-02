@@ -97,6 +97,7 @@ private:
 
     QList<Tilioterivi> rivit_;
     QVariantList tuotavat_;
+    int harmaaLaskuri_ = 0;
 };
 
 #endif // TILIOTEMODEL_H

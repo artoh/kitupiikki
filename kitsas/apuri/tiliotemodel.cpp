@@ -398,10 +398,12 @@ void TilioteModel::tuo(const QVariantList tuotavat)
 
 void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin)
 {
+    harmaaLaskuri_++;
     KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("tili", tili);
     kysely->lisaaAttribuutti("alkupvm", mista);
     kysely->lisaaAttribuutti("loppupvm", mihin);
+
 
     connect( kysely, &KpKysely::vastaus, this, &TilioteModel::harmaatSaapuu);
     kysely->kysy();
@@ -409,6 +411,10 @@ void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin
 
 void TilioteModel::harmaatSaapuu(QVariant *data)
 {
+    harmaaLaskuri_--;
+    if(harmaaLaskuri_)
+        return;
+
     beginResetModel();
 
     // Poistetaan kaikki vanhat harmaat
@@ -437,9 +443,10 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
         rivi.saajamaksaja = map.value("kumppani").toMap().value("nimi").toString();
         rivi.saajamaksajaId = map.value("kumppani").toMap().value("id").toInt();
         rivi.arkistotunnus = map.value("arkistotunnus").toString();
+
         rivi.harmaa = true;
 
-        rivit_.append(rivi);
+        rivit_.insert(0,rivi);
     }
 
     if( !tuotavat_.isEmpty())
@@ -462,6 +469,7 @@ void TilioteModel::teeTuonti()
         rivi.pvm = map.value("pvm").toDate();
         rivi.euro = map.value("euro").toDouble();
         rivi.selite = map.value("selite").toString();
+        rivi.kohdennus = map.value("kohdennus").toInt();
 
         rivi.saajamaksaja = map.value("saajamaksaja").toString();
         rivi.saajamaksajaId = map.value("saajamaksajaid").toInt();

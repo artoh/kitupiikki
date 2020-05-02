@@ -166,6 +166,24 @@ void Tosite::asetaKumppani(const QVariantMap &map)
     setData(KUMPPANI, map);
 }
 
+void Tosite::pohjaksi(const QDate &pvm, const QString &uusiotsikko)
+{
+    viennit_->pohjaksi(pvm, otsikko(), uusiotsikko);
+    liitteet_->clear();
+    loki_->lataa(QVariantList());
+
+    setData(ID, 0);
+    setData(TUNNISTE, 0);
+    setData(OTSIKKO, uusiotsikko);
+    setData(PVM, pvm);
+
+    emit tunnisteMuuttui(0);
+    emit pvmMuuttui(pvm);
+    emit otsikkoMuuttui(uusiotsikko);
+    tarkasta();
+
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));

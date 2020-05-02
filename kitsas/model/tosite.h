@@ -128,6 +128,8 @@ public:
     void asetaKumppani(const QString& nimi);
     void asetaKumppani(const QVariantMap& map);
 
+    void pohjaksi(const QDate& pvm, const QString& uusiotsikko);
+
     /**
      * @brief Tiedot tallennettavassa muodossa
      * @return
@@ -148,6 +150,7 @@ signals:
     void kommenttiMuuttui(const QString& kommentti);
 
     void tarkastaSarja(bool kateinen);
+
 
 public slots:
     void lataa(int tositeid);

@@ -42,7 +42,6 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
       model_(new TilioteModel(this)),
       kirjaaja_(new TilioteKirjaaja(this))
 {
-
     ui->setupUi(this);
 
     ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
@@ -102,12 +101,14 @@ void TilioteApuri::tuo(QVariantMap map)
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
     ui->loppuDate->setDate( map.value("loppupvm").toDate());
     model()->tuo( map.value("tapahtumat").toList() );
-    tiliPvmMuutos();
+
 
     if( map.contains("kausitunnus")) {
         QString tilinimi = kp()->tilit()->tiliIbanilla(map.value("iban").toString()).nimi();
         tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString()).arg(tilinimi));
     }
+
+    lataaHarmaat();
 
     tuodaan_ = false;    
 }
@@ -206,7 +207,8 @@ void TilioteApuri::tiliPvmMuutos()
         return;
 
     // Otsikon päivittäminen
-    lataaHarmaat();
+    if( !tuodaan_)
+        lataaHarmaat();
 
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliCombo->valittuTilinumero() );    
 

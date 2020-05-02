@@ -6,14 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>278</height>
+    <width>438</width>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Arvonlisävero</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kun arvonlisävero kirjataan käsin, on myös kirjaukset alv-velka ja/tai alv-saaminen -tileille kirjattava käsin.&lt;/p&gt;&lt;p&gt;Pyri siksi kirjaamaan kaikki verolliset tulot ja menot tulo- ja menotositteina aina, kuin se suinkin on mahdollista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
