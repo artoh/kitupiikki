@@ -256,9 +256,10 @@ void KirjausWg::valmis()
             return;
     }
 
-    if( !tosite_->viennit()->alvTarkastus()) {
+    QString alvTarkastus = tosite_->viennit()->alvTarkastus();
+    if( !alvTarkastus.isEmpty()) {
         if( QMessageBox::question(this, tr("Arvonlisäveron kirjaukset"),
-                                  tr("Arvonlisäveron kirjauksissa on todennäköisesti virhe.\nTallennetaanko tosite silti?\n"),
+                                  tr("Arvonlisäveron kirjauksissa on todennäköisesti virhe.\nTallennetaanko tosite silti?\n%1").arg(alvTarkastus),
                                   QMessageBox::Ok | QMessageBox::Cancel) != QMessageBox::Ok)
             return;
     }

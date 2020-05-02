@@ -438,7 +438,7 @@ void TositeViennit::asetaMuokattavissa(bool muokattavissa)
     muokattavissa_ = muokattavissa;
 }
 
-bool TositeViennit::alvTarkastus() const
+QString TositeViennit::alvTarkastus() const
 {
    qlonglong alvPerusteella = 0;
    qlonglong alvKirjattuna = 0;
@@ -462,5 +462,11 @@ bool TositeViennit::alvTarkastus() const
        }
 
    }
-   return alvPerusteella == alvKirjattuna && vahennysPerusteella == vahennysKirjattuna;
+   QString palaute;
+   if( alvPerusteella != alvKirjattuna)
+       palaute.append(tr("\nMyynneistä pitäisi tilittää arvonlisäveroa %1 €").arg(alvPerusteella / 100.0, 0, 'f', 2));
+   if( vahennysKirjattuna != vahennysPerusteella)
+       palaute.append(tr("\nOstoista pitäisi vähentää arvonlisäveroa %1 €").arg(vahennysPerusteella / 100.0, 0, 'f', 2));
+
+   return palaute;
 }

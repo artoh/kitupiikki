@@ -89,7 +89,7 @@ public:
     void asetaMuokattavissa(bool muokattavissa);
     bool muokattavissa() const { return muokattavissa_;}
 
-    bool alvTarkastus() const;
+    QString alvTarkastus() const;
 
 private:
     QVariantList viennit_;

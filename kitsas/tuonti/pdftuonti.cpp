@@ -346,9 +346,11 @@ QVariantMap PdfTuonti::tuoPdfTiliote()
         }
     }
 
-
+    QRegularExpression valiReViivalla("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{0,3}-\\W{0,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})");
     QRegularExpression valiRe("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{1,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})");
-    QRegularExpressionMatch valiMats = valiRe.match(kokoteksti);
+    QRegularExpressionMatch valiMats = valiReViivalla.match(kokoteksti);
+    if( !valiMats.hasMatch())
+        valiMats = valiRe.match(kokoteksti);
 
     if( valiMats.hasMatch())
     {
