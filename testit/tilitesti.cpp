@@ -43,7 +43,7 @@ void TiliTesti::cleanupTestCase()
 void TiliTesti::lueTili()
 {
     QByteArray teksti = R"(        {
-                     "IBAN": "FI2112345600000785",
+                     "iban": "FI2112345600000785",
                      "nimi": {
                          "fi": "Pankkitili"
                      },

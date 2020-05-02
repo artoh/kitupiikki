@@ -27,6 +27,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QApplication>
+#include <QJsonDocument>
 
 #include "routes/initroute.h"
 #include "routes/tositeroute.h"
@@ -193,8 +194,21 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                 tietokanta_.close();
                 return false;
             }
-            // #539 Vakioviitteiden taulun luominen (versiota 2.1 varten)
-            query.exec("CREATE TABLE Vakioviite ( viite integer PRIMARY KEY NOT NULL, tili INTEGER REFERENCES Tili(numero) ON DELETE CASCADE, kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE, "
+            // #603 IBAN siirretään omaan tietokantakenttään, jotta säilyy päivitysten ylitse
+            if( versio < 24) {
+                query.exec("ALTER TABLE Tili ADD COLUMN iban VARCHAR(32)");
+                QSqlQuery ibanquery( tietokanta_ );
+                ibanquery.exec("SELECT numero,json FROM Tili WHERE tyyppi='ARP'");
+                while(ibanquery.next()) {
+                    QVariantMap map = QJsonDocument::fromJson(ibanquery.value("json").toByteArray()).toVariant().toMap();
+                    if( map.contains("JSON")) {
+                        query.exec(QString("UPDATE Tili SET IBAN='%1' WHERE numero=%2").arg(ibanquery.value("numero").toInt()).arg(map.value("IBAN").toString()));
+                    }
+                }
+            }
+            // #539 Vakioviitteiden taulun luominen
+            if( versio < 23 )
+                query.exec("CREATE TABLE Vakioviite ( viite integer PRIMARY KEY NOT NULL, tili INTEGER REFERENCES Tili(numero) ON DELETE CASCADE, kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE, "
                         " otsikko TEXT, alkaen DATE, paattyen DATE, json TEXT) ");
             if( versio < 22) {
                 // Ensimmäisen version jälkeen on lisätty kenttä laskupäivälle
@@ -211,7 +225,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                     query.exec("UPDATE Tosite SET laskupvm=pvm");
                 }
             }
-            query.exec("UPDATE Asetus SET arvo=23 WHERE avain='KpVersio'");
+            query.exec(QString("UPDATE Asetus SET arvo=%1 WHERE avain='KpVersio'").arg(TIETOKANTAVERSIO));
         }
     } else {
         // Tämä ei ole lainkaan kelvollinen tietokanta

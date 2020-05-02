@@ -81,7 +81,7 @@ bool TallentavaMaaritysWidget::nollaa()
                 // Alustetaan ibanluettelolla
                 for(int i=0; i < kp()->tilit()->rowCount(); i++) {
                     Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
-                    QString iban = tili->str("IBAN");
+                    QString iban = tili->str("iban");
                     if( tili->tila() && !iban.isEmpty()) {
                         ccombo->addItem(QString("%1 %2").arg(tili->nimi()).arg(iban),
                                         iban,

@@ -927,7 +927,7 @@
             "tyyppi": "ARK"
         },
         {
-            "IBAN": "FI2112345600000785",
+            "iban": "FI2112345600000785",
             "laajuus": 1,
             "nimi": {
                 "fi": "Pankkitili"

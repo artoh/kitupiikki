@@ -112,7 +112,7 @@ bool PalkkaApuri::teeTositteelle()
             qRound64( ui->ateriaEdit->value() * 100);
 
     double maksettavaa = (brutto + korvaukset - vahennykset) / 100.0;
-    kirjaa( viennit, QString(), 0, maksettavaa  , "Maksetut palkat", "MP");
+    kirjaa( viennit, QString(), 0, maksettavaa  , "Palkat", "MP");
     ui->nettoLabel->setText(QString("%L1 €").arg(maksettavaa,10,'f',2));
 
     kirjaa( viennit, "PA", ui->palkkaEdit->value(), 0, "Palkat");

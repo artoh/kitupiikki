@@ -107,7 +107,7 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
     tiliKysely = QSqlQuery( db );
     tiliKysely.prepare("INSERT INTO Tili(numero,tyyppi,json) VALUES(?,?,?)");
     tilikausiKysely = QSqlQuery( db );
-    tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,json) VALUES (?,?,?)");
+    tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,iban,json) VALUES (?,?,?,?)");
 
     progress->setValue(6);
     return true;
@@ -169,6 +169,7 @@ void SqliteAlustaja::kirjoitaTilit(const QVariantList &tililista)
         } else {
             tiliKysely.addBindValue(numero);
             tiliKysely.addBindValue(tyyppi);
+            tiliKysely.addBindValue( map.take("iban"));
             tiliKysely.addBindValue( json(map) );
             tiliKysely.exec();
         }

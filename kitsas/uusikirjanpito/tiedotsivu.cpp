@@ -112,7 +112,7 @@ bool TiedotSivu::validatePage()
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
                 QVariantMap map = velho->tilit_.at(i).toMap();                
-                map.insert("IBAN", iban);
+                map.insert("iban", iban);
                 velho->tilit_[i] = map;
                 break;
             }

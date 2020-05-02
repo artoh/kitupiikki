@@ -47,12 +47,13 @@ QVariant TilitRoute::put(const QString &osoite, const QVariant &data)
         query.addBindValue( mapToJson(map) );
     } else {
         int numero = map.take("numero").toInt();
-        query.prepare("INSERT INTO Tili (numero, tyyppi, json, muokattu) VALUES "
-                      "(?,?,?,CURRENT_TIMESTAMP) "
+        query.prepare("INSERT INTO Tili (numero, tyyppi, iban, json, muokattu) VALUES "
+                      "(?,?,?,?,CURRENT_TIMESTAMP) "
                       "ON CONFLICT(numero) DO UPDATE SET "
-                      "tyyppi=EXCLUDED.tyyppi, json=EXCLUDED.json, muokattu=CURRENT_TIMESTAMP");
+                      "tyyppi=EXCLUDED.tyyppi, iban=EXCLUDED.iban, json=EXCLUDED.json, muokattu=CURRENT_TIMESTAMP");
         query.addBindValue(numero);
         query.addBindValue(tyyppi);
+        query.addBindValue(map.take("iban"));
         query.addBindValue( mapToJson(map) );
     }
     query.exec();

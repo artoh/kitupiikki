@@ -110,7 +110,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         {
         case NRONIMI :
             if( tili->onko(TiliLaji::PANKKITILI))
-                return tili->nimiNumero() + " " + MyyntiLaskunTulostaja::valeilla( tili->str("IBAN") );
+                return tili->nimiNumero() + " " + MyyntiLaskunTulostaja::valeilla( tili->str("iban") );
             return tili->nimiNumero();
         case NUMERO:
             if( tili->otsikkotaso())
@@ -268,7 +268,7 @@ Tili TiliModel::tiliIbanilla(const QString &iban) const
 {
     for(Tili* tili: tiliLista_)
     {
-        if( tili->str("IBAN") == iban)
+        if( tili->str("iban") == iban)
             return *tili;
     }
     return Tili();

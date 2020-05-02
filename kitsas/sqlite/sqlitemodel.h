@@ -63,7 +63,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 23;
+    static const int TIETOKANTAVERSIO = 24;
 
 private slots:
     void lisaaViimeisiin();

@@ -9,6 +9,7 @@ CREATE TABLE Tili
 (
 	numero integer PRIMARY KEY NOT NULL,
 	tyyppi varchar(10) NOT NULL,
+	iban VARCHAR(32),
 	json text,
 	muokattu TIMESTAMP
 );

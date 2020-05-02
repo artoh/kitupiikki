@@ -176,7 +176,7 @@ void TilinMuokkausDialog::lataa()
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
 
-    ui->ibanLine->setText(tili_->str("IBAN"));
+    ui->ibanLine->setText(tili_->str("iban"));
     ui->veroSpin->setValue( tili_->luku("alvprosentti"));
 
     int alvlaji = tili_->luku("alvlaji");
@@ -361,7 +361,7 @@ void TilinMuokkausDialog::accept()
     }
 
     if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) )
-        tili_->set("IBAN", ui->ibanLine->text().remove(QRegularExpression("\\W")));
+        tili_->set("iban", ui->ibanLine->text().remove(QRegularExpression("\\W")));
 
     for(int i=0; i < ui->nimiList->count(); i++)
         tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );

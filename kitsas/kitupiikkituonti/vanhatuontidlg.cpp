@@ -525,7 +525,7 @@ void VanhatuontiDlg::taydennaTilit()
             if( jsonmap.contains("Taseerittely"))
                 tmap.insert("erittely", jsonmap.value("Taseerittely"));
             if( jsonmap.contains("IBAN"))
-                tmap.insert("IBAN", jsonmap.value("IBAN"));
+                tmap.insert("iban", jsonmap.value("IBAN"));
 
             KpKysely *kysely = kpk("/tilit", KpKysely::PUT);
             kysely->kysy(tmap);
