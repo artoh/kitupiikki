@@ -510,6 +510,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         map.insert("viennit", viennit);
     }
 
+    if( kp()->asetukset()->onko("erisarjaan")  )
+        map.insert("sarja", kp()->tositeTyypit()->sarja(tyyppi(), ui->maksuCombo->currentData().toInt() == KATEINEN) );
+
     return map;
 }
 

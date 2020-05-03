@@ -176,6 +176,7 @@ void Tosite::pohjaksi(const QDate &pvm, const QString &uusiotsikko)
     setData(TUNNISTE, 0);
     setData(OTSIKKO, uusiotsikko);
     setData(PVM, pvm);
+    setData(TILA,0);
 
     emit tunnisteMuuttui(0);
     emit pvmMuuttui(pvm);

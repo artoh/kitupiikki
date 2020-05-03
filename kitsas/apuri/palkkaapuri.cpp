@@ -36,7 +36,7 @@ PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::otsikkoMuuttui, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::pvmMuuttui, this, &PalkkaApuri::tositteelle);
     connect( ui->kohdennusCombo, &KohdennusCombo::currentTextChanged, this, &PalkkaApuri::tositteelle);
-
+    connect( tosite, &Tosite::pvmMuuttui, ui->kohdennusCombo, &KohdennusCombo::suodataPaivalla);
 
     // Luetaan palkkakoodit
     palkkatilit_ = QJsonDocument::fromJson( kp()->asetus("palkkatilit").toUtf8() ).toVariant().toMap();
@@ -88,6 +88,7 @@ void PalkkaApuri::teeReset()
     ui->svedit->setValue(eurot.value("SV"));
     ui->nettoLabel->setText(QString("%L1 €").arg(eurot.value("MP"),10,'f',2));
 
+    ui->kohdennusCombo->suodataPaivalla( tosite()->pvm() );
     ui->kohdennusLabel->setVisible( kp()->kohdennukset()->kohdennuksia() );
     ui->kohdennusCombo->setVisible( kp()->kohdennukset()->kohdennuksia());
 

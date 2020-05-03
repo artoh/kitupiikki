@@ -351,8 +351,11 @@ void KirjausWg::pohjaksi()
     QDialog dlg;
     Ui::KopioiDlg ui;
     ui.setupUi(&dlg);
+    ui.pvmEdit->setDate(kp()->paivamaara());
+    ui.otsikkoEdit->setText(tosite()->otsikko());
     if( dlg.exec() == QDialog::Accepted) {
         tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
+
     }
 }
 
@@ -431,6 +434,8 @@ void KirjausWg::tallennusEpaonnistui(int virhe)
 
 void KirjausWg::tuonti(const QVariantMap& map)
 {    
+    if( tosite()->data(Tosite::TILA) >= Tosite::KIRJANPIDOSSA )
+        return;
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
     if( map.value("tositepvm").toDate().isValid()) {

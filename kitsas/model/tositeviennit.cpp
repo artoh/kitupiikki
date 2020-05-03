@@ -464,6 +464,13 @@ QString TositeViennit::alvTarkastus() const
    qlonglong vahennysPerusteella = 0;
    qlonglong vahennysKirjattuna= 0;
 
+   qlonglong eupalveluPerusteella = 0;
+   qlonglong eupalveluVero = 0;
+   qlonglong eutavaraPerusteella = 0;
+   qlonglong eutavaraVero = 0;
+   qlonglong rakennusPerusteella = 0;
+   qlonglong rakennusVero = 0;
+
    for( auto vienti : viennit_) {
        TositeVienti tv(vienti.toMap());
        switch (tv.alvKoodi()) {
@@ -478,6 +485,26 @@ QString TositeViennit::alvTarkastus() const
            break;
         case AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS:
             vahennysKirjattuna += qRound64((tv.debet() - tv.kredit()) * 100);
+           break;
+       case AlvKoodi::YHTEISOHANKINNAT_PALVELUT:
+           eupalveluPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           break;
+       case AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS:
+            eupalveluVero += qRound64((tv.kredit() - tv.debet()) * 100);
+            break;
+       case AlvKoodi::YHTEISOHANKINNAT_TAVARAT:
+           eutavaraPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           break;
+       case AlvKoodi::YHTEISOMYYNTI_TAVARAT + AlvKoodi::ALVKIRJAUS:
+            eutavaraVero += qRound64((tv.kredit() - tv.debet()) * 100);
+            break;
+       case AlvKoodi::RAKENNUSPALVELU_OSTO:
+           rakennusPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           break;
+       case AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS:
+            rakennusVero += qRound64((tv.kredit() - tv.debet()) * 100);
+            break;
+
        }
 
    }
@@ -486,6 +513,13 @@ QString TositeViennit::alvTarkastus() const
        palaute.append(tr("\nMyynneistä pitäisi tilittää arvonlisäveroa %1 €").arg(alvPerusteella / 100.0, 0, 'f', 2));
    if( vahennysKirjattuna != vahennysPerusteella)
        palaute.append(tr("\nOstoista pitäisi vähentää arvonlisäveroa %1 €").arg(vahennysPerusteella / 100.0, 0, 'f', 2));
+   if( eupalveluPerusteella != eupalveluVero)
+       palaute.append(tr("\nPalveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %1 €").arg(eupalveluPerusteella / 100.0, 0, 'f', 2));
+   if( eutavaraPerusteella != eutavaraVero)
+       palaute.append(tr("\nTavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %1 €").arg(eutavaraPerusteella / 100.0, 0, 'f', 2));
+   if( rakennusPerusteella != rakennusVero)
+       palaute.append(tr("\nRakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %1 €").arg(rakennusPerusteella / 100.0, 0, 'f', 2));
+
 
    return palaute;
 }
