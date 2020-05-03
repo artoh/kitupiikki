@@ -108,5 +108,8 @@ void VeroDialogi::lajimuuttuu()
         ui->prossaSpin->setValue( VerotyyppiModel::oletusAlvProsentti() );
 
     ui->kohdentamaton->setEnabled( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO);
+
+    ui->alvVaroitus->setVisible( alvkoodi != AlvKoodi::MYYNNIT_BRUTTO && alvkoodi != AlvKoodi::OSTOT_BRUTTO &&
+                                !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
 }
 

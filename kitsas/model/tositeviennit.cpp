@@ -510,15 +510,15 @@ QString TositeViennit::alvTarkastus() const
    }
    QString palaute;
    if( alvPerusteella != alvKirjattuna)
-       palaute.append(tr("\nMyynneistä pitäisi tilittää arvonlisäveroa %1 €").arg(alvPerusteella / 100.0, 0, 'f', 2));
+       palaute.append(tr("\nMyynneistä pitäisi tilittää arvonlisäveroa %L1 €").arg(alvPerusteella / 100.0, 0, 'f', 2));
    if( vahennysKirjattuna != vahennysPerusteella)
-       palaute.append(tr("\nOstoista pitäisi vähentää arvonlisäveroa %1 €").arg(vahennysPerusteella / 100.0, 0, 'f', 2));
+       palaute.append(tr("\nOstoista pitäisi vähentää arvonlisäveroa %L1 €").arg(vahennysPerusteella / 100.0, 0, 'f', 2));
    if( eupalveluPerusteella != eupalveluVero)
-       palaute.append(tr("\nPalveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %1 €").arg(eupalveluPerusteella / 100.0, 0, 'f', 2));
+       palaute.append(tr("\nPalveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €").arg(eupalveluPerusteella / 100.0, 0, 'f', 2));
    if( eutavaraPerusteella != eutavaraVero)
-       palaute.append(tr("\nTavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %1 €").arg(eutavaraPerusteella / 100.0, 0, 'f', 2));
+       palaute.append(tr("\nTavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €").arg(eutavaraPerusteella / 100.0, 0, 'f', 2));
    if( rakennusPerusteella != rakennusVero)
-       palaute.append(tr("\nRakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %1 €").arg(rakennusPerusteella / 100.0, 0, 'f', 2));
+       palaute.append(tr("\nRakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €").arg(rakennusPerusteella / 100.0, 0, 'f', 2));
 
 
    return palaute;
