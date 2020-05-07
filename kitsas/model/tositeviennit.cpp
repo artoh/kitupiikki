@@ -510,7 +510,7 @@ QString TositeViennit::alvTarkastus() const
            eutavaraPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
            eutavaraMaara++;
            break;
-       case AlvKoodi::YHTEISOMYYNTI_TAVARAT + AlvKoodi::ALVKIRJAUS:
+       case AlvKoodi::YHTEISOHANKINNAT_TAVARAT + AlvKoodi::ALVKIRJAUS:
             eutavaraVero += qRound64((tv.kredit() - tv.debet()) * 100);
             break;
        case AlvKoodi::RAKENNUSPALVELU_OSTO:

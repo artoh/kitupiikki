@@ -371,6 +371,7 @@ void TuloMenoApuri::verolajiMuuttui()
 
     int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
     rivi()->setAlvkoodi(  alvkoodi );
+    emit rivit_->dataChanged(rivit_->index(rivilla(), TmRivit::ALV),rivit_->index(rivilla(), TmRivit::EUROA));
 
     qDebug() << "alvkoodi " << alvkoodi;
 
@@ -383,8 +384,12 @@ void TuloMenoApuri::verolajiMuuttui()
     ui->verotonLabel->setVisible(naytaVeroton);
     ui->verotonEdit->setVisible(naytaVeroton);
 
-    if( !naytaMaara && !rivi()->nettoSyotetty())
-        ui->verotonEdit->setCents(rivi()->brutto());
+    if( !naytaMaara && !rivi()->nettoSyotetty()) {
+        qlonglong maara = rivi()->brutto();
+        ui->verotonEdit->setCents(maara);
+        rivi()->setNetto(maara);
+        emit rivit_->dataChanged(rivit_->index(rivilla(), TmRivit::EUROA),rivit_->index(rivilla(), TmRivit::EUROA));
+    }
 
 
     ui->alvProssa->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );

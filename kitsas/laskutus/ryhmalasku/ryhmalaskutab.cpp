@@ -69,6 +69,11 @@ void RyhmalaskuTab::poista()
         laskutettavat_->poista(indeksi);
 }
 
+void RyhmalaskuTab::suodataRyhma()
+{
+
+}
+
 void RyhmalaskuTab::luoUi()
 {
     laskutettavat_ = new LaskutettavatModel(this);

@@ -87,6 +87,8 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
     connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); });
+
+    ui->asiakastoimittaja->alusta();
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -251,8 +253,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     } else if( tab == TULOMENO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
-        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
-        ui->asiakastoimittaja->alusta();
+        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");        
         ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );

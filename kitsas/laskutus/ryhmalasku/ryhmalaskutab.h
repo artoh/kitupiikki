@@ -37,6 +37,7 @@ protected slots:
     void lisaaKaikki();
     void uusiAsiakas();
     void poista();
+    void suodataRyhma();
 
 protected:
     void luoUi();

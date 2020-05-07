@@ -362,6 +362,7 @@ void TilinavausModel::paivitaInfo()
 void TilinavausModel::ladattu()
 {
     beginResetModel();
+    erat_.clear();
     muokattu_ = false;
     TositeViennit* viennit = tosite_->viennit();
     for(int i=0; i < viennit->rowCount(); i++ ) {

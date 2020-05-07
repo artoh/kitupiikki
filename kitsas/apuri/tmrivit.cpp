@@ -84,9 +84,7 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
         else if( index.column() == EUROA)
         {            
             qlonglong sentit =
-                rivit_.at( index.row() ).naytaBrutto() ?
-                    rivit_.at( index.row() ).brutto() :
-                    rivit_.at( index.row() ).netto() ;
+                    rivit_.at( index.row() ).netto();
 
             if( qAbs(sentit) > 1e-5 )
                return QVariant( QString("%L1 €").arg(sentit / 100.0,0,'f',2));
