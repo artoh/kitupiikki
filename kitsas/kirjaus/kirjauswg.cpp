@@ -302,7 +302,7 @@ void KirjausWg::vientiValittu()
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
-    if( 1 )     // Tarkastettava vielä, onko sallittu
+    if( tosite()->viennit()->muokattavissa() )     // Tarkastettava vielä, onko sallittu
     {
 
         if(indeksi.column() == TositeViennit::ALV )
@@ -400,7 +400,8 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     uudeksiAktio_->setEnabled( !muokattu );
 
-    salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
+    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() ) &&
+                   (tosite_->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite_->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS));
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
 
@@ -585,6 +586,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->otsikkoEdit->setEnabled(sallitaanko);
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
+    ui->lisaaRiviNappi->setEnabled(sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );

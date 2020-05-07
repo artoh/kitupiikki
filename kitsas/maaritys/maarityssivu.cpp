@@ -59,7 +59,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
     lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "", QIcon(":/pic/yhteystiedot.png"),"yhteys");
-    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "maaritykset/liitteet", QIcon(":/pic/liite.png"),"liitteet");
+    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "", QIcon(":/pic/liite.png"),"liitteet");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "maaritykset/kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");

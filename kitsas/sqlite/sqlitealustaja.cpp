@@ -105,9 +105,9 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
     otsikkoKysely = QSqlQuery(db);
     otsikkoKysely.prepare("INSERT INTO Otsikko(numero,taso,json) VALUES (?,?,?)");
     tiliKysely = QSqlQuery( db );
-    tiliKysely.prepare("INSERT INTO Tili(numero,tyyppi,json) VALUES(?,?,?)");
+    tiliKysely.prepare("INSERT INTO Tili(numero,tyyppi,iban,json) VALUES(?,?,?,?)");
     tilikausiKysely = QSqlQuery( db );
-    tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,iban,json) VALUES (?,?,?,?)");
+    tilikausiKysely.prepare("INSERT INTO Tilikausi(alkaa,loppuu,json) VALUES (?,?,?)");
 
     progress->setValue(6);
     return true;

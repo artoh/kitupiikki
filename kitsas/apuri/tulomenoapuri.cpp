@@ -383,6 +383,10 @@ void TuloMenoApuri::verolajiMuuttui()
     ui->verotonLabel->setVisible(naytaVeroton);
     ui->verotonEdit->setVisible(naytaVeroton);
 
+    if( !naytaMaara && !rivi()->nettoSyotetty())
+        ui->verotonEdit->setCents(rivi()->brutto());
+
+
     ui->alvProssa->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );
     ui->vahennysCheck->setVisible( rivi()->naytaVahennysvalinta());
     ui->vahennysCheck->setChecked( false );

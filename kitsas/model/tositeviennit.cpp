@@ -233,6 +233,9 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
 
 bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if( !muokattavissa())
+        return false;
+
     if (data(index, role) != value) {
         if( role == Qt::EditRole) {
 
@@ -461,45 +464,58 @@ QString TositeViennit::alvTarkastus() const
 {
    qlonglong alvPerusteella = 0;
    qlonglong alvKirjattuna = 0;
+   int alvMaara = 0;
+
    qlonglong vahennysPerusteella = 0;
    qlonglong vahennysKirjattuna= 0;
+   int vahennysMaara = 0;
 
    qlonglong eupalveluPerusteella = 0;
    qlonglong eupalveluVero = 0;
+   int eupalveluMaara=0;
+
    qlonglong eutavaraPerusteella = 0;
    qlonglong eutavaraVero = 0;
+   int eutavaraMaara = 0;
+
    qlonglong rakennusPerusteella = 0;
    qlonglong rakennusVero = 0;
+   int rakennusMaara = 0;
 
    for( auto vienti : viennit_) {
        TositeVienti tv(vienti.toMap());
        switch (tv.alvKoodi()) {
        case AlvKoodi::MYYNNIT_NETTO:
            alvPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           alvMaara++;
            break;
        case AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS:
-            alvKirjattuna += qRound64((tv.kredit() - tv.debet()) * 100);
+            alvKirjattuna += qRound64((tv.kredit() - tv.debet()) * 100);            
             break;
        case AlvKoodi::OSTOT_NETTO:
            vahennysPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
+           vahennysMaara++;
            break;
         case AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS:
             vahennysKirjattuna += qRound64((tv.debet() - tv.kredit()) * 100);
            break;
        case AlvKoodi::YHTEISOHANKINNAT_PALVELUT:
-           eupalveluPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           eupalveluPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
+           eupalveluMaara++;
            break;
        case AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS:
             eupalveluVero += qRound64((tv.kredit() - tv.debet()) * 100);
             break;
        case AlvKoodi::YHTEISOHANKINNAT_TAVARAT:
-           eutavaraPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           eutavaraPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
+           eutavaraMaara++;
            break;
        case AlvKoodi::YHTEISOMYYNTI_TAVARAT + AlvKoodi::ALVKIRJAUS:
             eutavaraVero += qRound64((tv.kredit() - tv.debet()) * 100);
             break;
        case AlvKoodi::RAKENNUSPALVELU_OSTO:
-           rakennusPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
+           rakennusPerusteella += qRound64((tv.debet() - tv.kredit()) * tv.alvProsentti());
+           rakennusMaara++;
            break;
        case AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS:
             rakennusVero += qRound64((tv.kredit() - tv.debet()) * 100);
@@ -509,15 +525,15 @@ QString TositeViennit::alvTarkastus() const
 
    }
    QString palaute;
-   if( alvPerusteella != alvKirjattuna)
+   if( qAbs(alvPerusteella-alvKirjattuna) > alvMaara)
        palaute.append(tr("\nMyynneistä pitäisi tilittää arvonlisäveroa %L1 €").arg(alvPerusteella / 100.0, 0, 'f', 2));
-   if( vahennysKirjattuna != vahennysPerusteella)
+   if( qAbs(vahennysKirjattuna-vahennysPerusteella) > vahennysMaara)
        palaute.append(tr("\nOstoista pitäisi vähentää arvonlisäveroa %L1 €").arg(vahennysPerusteella / 100.0, 0, 'f', 2));
-   if( eupalveluPerusteella != eupalveluVero)
+   if( qAbs(eupalveluPerusteella-eupalveluVero) > eupalveluMaara)
        palaute.append(tr("\nPalveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €").arg(eupalveluPerusteella / 100.0, 0, 'f', 2));
-   if( eutavaraPerusteella != eutavaraVero)
+   if( qAbs(eutavaraPerusteella-eutavaraVero) > eutavaraMaara)
        palaute.append(tr("\nTavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €").arg(eutavaraPerusteella / 100.0, 0, 'f', 2));
-   if( rakennusPerusteella != rakennusVero)
+   if( qAbs(rakennusPerusteella-rakennusVero) > rakennusMaara)
        palaute.append(tr("\nRakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €").arg(rakennusPerusteella / 100.0, 0, 'f', 2));
 
 

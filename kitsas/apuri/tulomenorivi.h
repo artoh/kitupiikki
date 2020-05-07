@@ -61,6 +61,8 @@ public:
     qlonglong brutto() const;
     qlonglong netto() const;
 
+    bool nettoSyotetty() const { return netto_; }
+
     void setBrutto(qlonglong sentit);
     void setNetto(qlonglong sentit);
     void setNetonVero(qlonglong sentit);
