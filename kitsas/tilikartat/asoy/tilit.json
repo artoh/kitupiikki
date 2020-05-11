@@ -96,7 +96,7 @@
     "nimi": {
       "fi": "Muut pitkävaikutteiset menot; poistokelpoiset"
     },
-    "poistotili": 6000,
+    "poistotili": 6030,
     "tasaerapoisto": 120,
     "erittely": 3,
     "laajuus": 4
@@ -162,7 +162,7 @@
     "nimi": {
       "fi": "Rakennukset ja rakennelmat 7%"
     },
-    "poistotili": 6001,
+    "poistotili": 6010,
     "erittely": 1,
     "menojaannospoisto": 7,
     "laajuus": 1
@@ -173,7 +173,7 @@
     "nimi": {
       "fi": "Rakennukset ja rakennelmat 4%"
     },
-    "poistotili": 6001,
+    "poistotili": 6010,
     "erittely": 1,
     "menojaannospoisto": 4,
     "laajuus": 4
@@ -184,7 +184,7 @@
     "nimi": {
       "fi": "Rakennelmat 20%"
     },
-    "poistotili": 6001,
+    "poistotili": 6010,
     "erittely": 1,
     "menojaannospoisto": 20,
     "laajuus": 1
@@ -211,7 +211,7 @@
     "nimi": {
       "fi": "Koneet ja kalusto 25%"
     },
-    "poistotili": 6002,
+    "poistotili": 6020,
     "erittely": 1,
     "menojaannospoisto": 25,
     "laajuus": 1
@@ -229,7 +229,7 @@
     "nimi": {
       "fi": "Muuta aineelliset hyödykkeet"
     },
-    "poistotili": 6003,
+    "poistotili": 6030,
     "laajuus": 4
   },
   {

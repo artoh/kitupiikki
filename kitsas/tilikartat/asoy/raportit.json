@@ -45,7 +45,7 @@
       {
         "fi": "Kiinteistön hoitokulut",
         "sv": "Kostnader för fastighetens skötsel",
-        "L": "5,7,8 *"
+        "L": "5,7,8"
       },
       {
         "fi": "Henkilöstökulut",
@@ -621,8 +621,8 @@
       {
         "fi": "Arvonkorotusrahasto",
         "L": "213",
-        "S": 1,
-      }
+        "S": 1
+      },
       {
         "fi": "Muut rahastot",
         "sv": "Övrika fonder",
@@ -632,33 +632,33 @@
       },
       {
         "fi": "Sijoitetun vapaan pääoman rahasto",
-        "L": "221 *",
-        "S": 2,
+        "L": "221 *",
+        "S": 2
       },
       {
         "fi": "Vararahasto",
-        "L": "222 *",
-        "S": 2,
+        "L": "222 *",
+        "S": 2
       },
       {
         "fi": "Lainanlyhennysrahasto",
-        "L": "223 *",
-        "S": 2,
+        "L": "223 *",
+        "S": 2
       },
       {
         "fi": "Perusparannusrahasto",
-        "L": "224 *",
-        "S": 2,
+        "L": "224 *",
+        "S": 2
       },
       {
         "fi": "Käyvän arvon pääoman rahasto",
-        "L": "225 *",
-        "S": 2,
+        "L": "225 *",
+        "S": 2
       },
       {
         "fi": "Muut rahastot",
-        "L": "226 *",
-        "S": 2,
+        "L": "226 *",
+        "S": 2
       },
       {
         "fi": "Edellisten tilikausien ylijäämä/alijäämä",

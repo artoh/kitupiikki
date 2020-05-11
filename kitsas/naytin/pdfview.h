@@ -38,8 +38,13 @@ public slots:
     void paivita() const override;
     void tulosta(QPrinter* printer) const override;
 
+    virtual void zoomIn() override;
+    virtual void zoomOut() override;
+    virtual void zoomFit() override;
+
 protected:
     QByteArray data_;
+    qreal skaala_ = 1.0;
 };
 
 

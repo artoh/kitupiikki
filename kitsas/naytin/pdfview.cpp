@@ -53,7 +53,7 @@ void Naytin::PdfView::paivita() const
 
     double ypos = 0.0;
     double leveys = 0.0;
-    double leveyteen = width() - 20.0;
+    double leveyteen = width() * skaala_ - 20.0;
 
     int sivut = pdfDoc->numPages();
     int naytettavat = sivut < 20 ? sivut : 20;
@@ -140,3 +140,29 @@ void Naytin::PdfView::tulosta(QPrinter *printer) const
     painter.end();
     delete document;
 }
+
+void Naytin::PdfView::zoomIn()
+{
+    if( skaala_ < 0.5)
+        skaala_ += 0.1;
+    else
+        skaala_ += 0.2;
+    paivita();
+}
+
+void Naytin::PdfView::zoomOut()
+{
+    if( skaala_ > 0.5)
+        skaala_ -= 0.2;
+    else if( skaala_ > 0.15)
+        skaala_ -= 0.1;
+    paivita();
+}
+
+void Naytin::PdfView::zoomFit()
+{
+    skaala_ = 1.0;
+    paivita();
+}
+
+

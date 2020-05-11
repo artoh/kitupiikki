@@ -92,6 +92,22 @@
   "Asiakas/Toimittaja": {
     "sv" : "Kund/Säljare",
     "en" : "Customer/Supplier"
+  },
+  "TOSITELUETTELO": {
+    "sv": "VERIFIKATLISTA",
+    "en": "LIST OF DOCUMENTS"
+  },
+  "Otsikko": {
+    "sv": "Överskift",
+    "en": "Subject"
+  },
+  "Liitteitä": {
+    "sv": "Appendix",
+    "en": "Attachments"
+  },
+  "Summa €" : {
+    "sv" : "Totalt €",
+    "en" : "Total €"
   }
 
 }

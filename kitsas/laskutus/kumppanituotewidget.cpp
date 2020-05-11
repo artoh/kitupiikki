@@ -169,10 +169,11 @@ void KumppaniTuoteWidget::muokkaa()
         TuoteDialogi *dlg = new TuoteDialogi(this);
         dlg->muokkaa( ui->view->currentIndex().data(TuoteModel::MapRooli).toMap()  );        
     } else if (valilehti_ == RYHMAT) {
+        int ryhmaid = ui->view->currentIndex().data(RyhmatModel::IdRooli).toInt();
+        if( !ryhmaid) return;
         QString nimi = QInputDialog::getText(this, tr("Muokkaa ryhmää"), tr("Ryhmän nimi"),QLineEdit::Normal,
                                              ui->view->currentIndex().data(Qt::DisplayRole).toString());
-        if( !nimi.isEmpty()) {
-            int ryhmaid = ui->view->currentIndex().data(RyhmatModel::IdRooli).toInt();
+        if( !nimi.isEmpty()) {        
             QVariantMap muokattu;
             muokattu.insert("nimi", nimi);
             KpKysely* kysely = kpk(QString("/ryhmat/%1").arg(ryhmaid), KpKysely::PUT);

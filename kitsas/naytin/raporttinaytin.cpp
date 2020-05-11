@@ -17,6 +17,7 @@
 #include "raporttinaytin.h"
 
 #include <QPainter>
+#include <QPrinter>
 #include <QDebug>
 
 Naytin::RaporttiNaytin::RaporttiNaytin(RaportinKirjoittaja raportti, QWidget *parent)
@@ -48,7 +49,9 @@ QByteArray Naytin::RaporttiNaytin::csv() const
 
 QByteArray Naytin::RaporttiNaytin::data() const
 {
-    return raportti_.pdf( onkoRaidat() );
+    QPageLayout leiska( printer_->pageLayout() );
+    qDebug() << leiska.orientation();
+    return raportti_.pdf( onkoRaidat(), false, &leiska );
 }
 
 QString Naytin::RaporttiNaytin::html() const

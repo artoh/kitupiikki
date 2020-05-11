@@ -65,7 +65,7 @@ void TositeluetteloRaportti::esikatsele()
     if( ui->kumppaniCheck->isChecked())
         optiot |= TositeLuettelo::AsiakasToimittaja;
 
-    TositeLuettelo *luettelo = new TositeLuettelo(this);
+    TositeLuettelo *luettelo = new TositeLuettelo(this, ui->kieliCombo->currentData().toString());
     connect( luettelo, &TositeLuettelo::valmis, this, &RaporttiWidget::nayta);
     luettelo->kirjoita(ui->alkupvm->date(),
                        ui->loppupvm->date(),

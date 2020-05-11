@@ -25,13 +25,12 @@ SiirryDlg::SiirryDlg() :
 {
     ui->setupUi(this);
 
-    if(kp()->asetukset()->onko("Samaansarjaan"))
+    if(!kp()->asetukset()->onko("erisarjaan"))
     {
         ui->tyyppiLabel->hide();
         ui->tyyppiCombo->hide();
     } else {
-        // ui->tyyppiCombo->setModel( kp()->tositelajit() );
-        // ui->tyyppiCombo->setModelColumn( TositelajiModel::TUNNUS);
+        ui->tyyppiCombo->addItems(kp()->tositeSarjat());
     }
 
     ui->nroEdit->setValidator( new QRegularExpressionValidator( QRegularExpression("\\d+")) );
@@ -41,29 +40,39 @@ SiirryDlg::SiirryDlg() :
 
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkista()));
     connect( ui->nroEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkista()));
-    connect( ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkista()));
+    connect( ui->kausiCombo, &QComboBox::currentTextChanged, this, &SiirryDlg::kausiVaihtui);
+
+    kausiVaihtui();
 }
 
 void SiirryDlg::tarkista()
 {
-    QString kysymys;
-
-    if(kp()->asetukset()->onko("Samaansarjaan"))
-    {
-        kysymys = QString("SELECT id FROM tosite WHERE tunniste=%1 AND pvm BETWEEN '%2' AND '%3'")
-                .arg( ui->nroEdit->text().toInt() )
-                .arg( ui->kausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate().toString(Qt::ISODate))
-                .arg( ui->kausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate().toString(Qt::ISODate));
-    } else {
-    }
-
-    QSqlQuery kysely( kysymys );
     tosite = 0;
+    ui->siirryNappi->setEnabled(false);
 
-    if( kysely.next())
-        tosite = kysely.value(0).toInt();
+    for(QVariant var : lista_) {
+        QVariantMap map = var.toMap();
+        if( map.value("sarja").toString() == ui->tyyppiCombo->currentText() &&
+            map.value("tunniste").toString() == ui->nroEdit->text()) {
+            tosite = map.value("id").toInt();
+            ui->siirryNappi->setEnabled(true);
+        }
+    }
+}
 
-    ui->siirryNappi->setEnabled( tosite );
+void SiirryDlg::kausiVaihtui()
+{
+    KpKysely* kysely = kpk("/tositteet");
+    kysely->lisaaAttribuutti("alkupvm", ui->kausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate());
+    kysely->lisaaAttribuutti("loppupvm", ui->kausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate());
+    connect( kysely, &KpKysely::vastaus, this, &SiirryDlg::dataSaapui);
+    kysely->kysy();
+}
+
+void SiirryDlg::dataSaapui(QVariant *data)
+{
+    lista_ = data->toList();
+    tarkista();
 }
 
 int SiirryDlg::tositeId(QDate pvm, const QString& tositelaji)

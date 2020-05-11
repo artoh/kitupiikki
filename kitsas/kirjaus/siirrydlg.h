@@ -34,12 +34,17 @@ protected:
 protected slots:
     void tarkista();
 
+    void kausiVaihtui();
+    void dataSaapui(QVariant* data);
+
 public:
     static int tositeId(QDate pvm, const QString &tositelaji);
 
 protected:
     Ui::SiirryDlg *ui;
     int tosite = 0;
+
+    QVariantList lista_;
 };
 
 #endif // SIIRRYDLG_H

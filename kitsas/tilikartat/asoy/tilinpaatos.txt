@@ -1,15 +1,12 @@
 [fi]
+## ASUNTO-OSAKEYHTIÖN ON LAADITTAVA AINA MYÖS TOIMINTAKERTOMUS
 ## Raportit
-#MIKRO
-@tase/PMA!TASE (TILINPÄÄTÖS)@
-#PIEN
-@tase/PMA!TASE (TILINPÄÄTÖS)@
-#ISO
-@tase/yleinen!TASE (TILINPÄÄTÖS)@
-#
-@tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tase/yleinen:!TASE (TILINPÄÄTÖS)@
+@tulos/yleinen:!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tulos/yleinen:EB!TALOUSARVION TOTEUMA (TILINPÄÄTÖS)@
 #toiminnanalat Toiminnanalojen erittely
 @tulos/yhdistys:K!TOIMINNANALAT (TILINPÄÄTÖS)@
+#
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
@@ -18,7 +15,7 @@ annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
 annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 #ISO
-<b>Yhdistyksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
+<b>Asunto-osakeyhtiöstä on annettava täydet liitetiedot</b>
 <p>Liitetiedot sisältävät ainakin
 <ol><li>tilinpäätöksen esittämistapaa koskevat tiedot</li>
 <li>tilinpäätöksen laatimisperusteet</li>

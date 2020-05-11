@@ -242,7 +242,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->tabWidget->setTabEnabled( ALV, alvKaytossa );
 
     if( tyyppi.onko(TiliLaji::TULO)) {
-        veroproxy_->setFilterRegExp("^(0|1[1-7])$");
+        veroproxy_->setFilterRegExp("^(0|1[1-79])$");
         ui->jaksotiliCombo->suodataTyypilla("AJ", true);
     } else if( tyyppi.onko(TiliLaji::MENO)) {
         veroproxy_->setFilterRegExp("^(0|2[1-7])$");
@@ -360,8 +360,13 @@ void TilinMuokkausDialog::accept()
         }
     }
 
-    if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) )
-        tili_->set("iban", ui->ibanLine->text().remove(QRegularExpression("\\W")));
+    if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
+        QString tilinumero = ui->ibanLine->text().remove(QRegularExpression("\\W"));
+        tili_->set("iban", tilinumero);
+        // Ainoa tilinumero laitetaan myös laskulle
+        if( !kp()->asetukset()->onko("LaskuIbanit"))
+            kp()->asetukset()->aseta("LaskuIbanit", tilinumero);
+    }
 
     for(int i=0; i < ui->nimiList->count(); i++)
         tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
@@ -371,6 +376,8 @@ void TilinMuokkausDialog::accept()
     }    
 
     kp()->tilit()->tallenna(tili_);
+
+
 
     QDialog::accept();
 }

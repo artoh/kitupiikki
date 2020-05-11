@@ -24,7 +24,7 @@ class TositeLuettelo : public Raportteri
 {
     Q_OBJECT
 public:
-    TositeLuettelo(QObject *parent = nullptr);
+    TositeLuettelo(QObject *parent = nullptr, QString kieli="");
 
     void kirjoita(const QDate& mista, const QDate& mihin,
                   int optiot = 0);

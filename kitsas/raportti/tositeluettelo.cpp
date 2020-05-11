@@ -18,8 +18,8 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
-TositeLuettelo::TositeLuettelo(QObject *parent)
-    : Raportteri (parent)
+TositeLuettelo::TositeLuettelo(QObject *parent, QString kieli)
+    : Raportteri (parent, kieli)
 {
 
 }
@@ -30,7 +30,7 @@ void TositeLuettelo::kirjoita(const QDate &mista, const QDate &mihin, int optiot
     kysely->lisaaAttribuutti("alkupvm", mista);
     kysely->lisaaAttribuutti("loppupvm", mihin);
 
-    rk.asetaOtsikko(tr("TOSITELUETTELO"));
+    rk.asetaOtsikko(kaanna("TOSITELUETTELO"));
     rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
@@ -44,13 +44,13 @@ void TositeLuettelo::kirjoita(const QDate &mista, const QDate &mihin, int optiot
 
     {
         RaporttiRivi otsikko;
-        otsikko.lisaa(tr("Tosite"));
-        otsikko.lisaa(tr("Pvm"));
+        otsikko.lisaa(kaanna("Tosite"));
+        otsikko.lisaa(kaanna("Pvm"));
         if( optiot & AsiakasToimittaja)
-            otsikko.lisaa("Asiakas/Toimittaja");
-        otsikko.lisaa(tr("Otsikko"));
-        otsikko.lisaa(tr("Liitteitä"));
-        otsikko.lisaa(tr("Summa €"),1,true);
+            otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
+        otsikko.lisaa(kaanna("Otsikko"));
+        otsikko.lisaa(kaanna("Liitteitä"));
+        otsikko.lisaa(kaanna("Summa €"),1,true);
         rk.lisaaOtsake(otsikko);
     }
 

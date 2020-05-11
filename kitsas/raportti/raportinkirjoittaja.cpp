@@ -419,18 +419,21 @@ QString RaportinKirjoittaja::html(bool linkit) const
     return txt;
 }
 
-QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayout *leiska) const
 {
     QByteArray array;
     QBuffer buffer(&array);
     buffer.open(QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
+
     writer.setCreator( QString("Kitsas %1").arg( qApp->applicationVersion() ) );
     writer.setTitle( otsikko() );
 
     if( tulostaA4 )
         writer.setPageSize( QPdfWriter::A4 );
+    else if( leiska )
+        writer.setPageLayout(*leiska);
     else
         writer.setPageLayout( kp()->printer()->pageLayout() );
 

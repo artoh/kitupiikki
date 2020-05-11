@@ -181,7 +181,7 @@ void Paakirja::kirjoitaDatasta()
                     saldo += qRound64( vienti.value("kredit").toDouble() * 100 );
                 }
 
-                rr.lisaa( saldo);
+                rr.lisaa( saldo,true);
                 rk.lisaaRivi(rr);
 
             }

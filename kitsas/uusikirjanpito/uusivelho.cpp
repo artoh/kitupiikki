@@ -159,7 +159,8 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
     {
         QFile raportit(polku + "/raportit.json");
         if( raportit.open(QIODevice::ReadOnly))
-            map.unite( QJsonDocument::fromJson( raportit.readAll()).toVariant().toMap() );
+            map.unite(QJsonDocument::fromJson( raportit.readAll() ).toVariant().toMap());
+
     }
 
     // Tilinpäätöksen pohja on tekstitiedosto, jossa kielet on merkattu []-tageilla
