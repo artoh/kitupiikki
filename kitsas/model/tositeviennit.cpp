@@ -297,9 +297,18 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
         } else if( role == TositeViennit::EraMapRooli) {
             TositeVienti rivi = vienti(index.row());
             rivi.setEra( value.toMap() );
+            double avoin = value.toMap().value("avoin").toDouble();
+            if( qAbs(avoin) > 1e-5 && qAbs(rivi.debet()) < 1e-5 && qAbs(rivi.kredit()) < 1e-5) {
+                Tili* ptili = kp()->tilit()->tili( rivi.tili() );
+                if( ptili && ptili->onko(TiliLaji::VASTAAVAA))
+                    rivi.setKredit(avoin);
+                else if(ptili && ptili->onko(TiliLaji::VASTATTAVAA))
+                    rivi.setDebet(avoin);
+            }
+
             viennit_[index.row()] = rivi;
 
-            emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
+            emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
         } else if( role == TositeViennit::AlvKoodiRooli) {
             TositeVienti rivi = vienti(index.row());
             rivi.setAlvKoodi( value.toInt());

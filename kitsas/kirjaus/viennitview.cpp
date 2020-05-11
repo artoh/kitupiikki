@@ -77,7 +77,7 @@ void ViennitView::seuraavaSarake()
     {
         // Jos tili on tulotili tai vastattavaa, hypätään suoraan Kreditiin
         Tili tili = kp()->tilit()->tiliNumerolla( currentIndex().data(TositeViennit::TiliNumeroRooli).toInt() );
-        if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
+        if( (tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA)) && qAbs(index.sibling(index.row(), TositeViennit::DEBET).data(Qt::EditRole).toDouble()) < 1e-3)
             setCurrentIndex( model()->index( index.row(), TositeViennit::KREDIT ) );
         else
             setCurrentIndex( model()->index( index.row(), TositeViennit::DEBET ) );
