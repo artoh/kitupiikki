@@ -409,7 +409,15 @@ void VanhatuontiDlg::siirraAsetukset()
                  << "LaskuRF" << "MaksuAlvAlkaa" << "MaksuAlvLoppuu";
 
     // Joitain laskutuksen valintoja voisi myös siirtää
-
+    // Laskutilin numero
+    if( kitupiikkiAsetukset_.contains("LaskuTili")) {
+        QSqlQuery sql( kpdb_);
+        sql.exec(QString("SELECT json FROM Tili WHERE numero=%1 AND tyyppi='ARP'").arg(kitsasAsetukset_.value("LaskuTili").toInt()) );
+        if( sql.next()) {
+            QVariantMap jsonmap = QJsonDocument::fromJson( sql.value("json").toByteArray() ).toVariant().toMap();
+            map.insert("LaskuIbanit", jsonmap.value("IBAN"));
+        }
+    }
 
 
     for(auto siirrettava : siirrettavat)
@@ -526,6 +534,7 @@ void VanhatuontiDlg::taydennaTilit()
                 tmap.insert("erittely", jsonmap.value("Taseerittely"));
             if( jsonmap.contains("IBAN"))
                 tmap.insert("iban", jsonmap.value("IBAN"));
+
 
             KpKysely *kysely = kpk("/tilit", KpKysely::PUT);
             kysely->kysy(tmap);
