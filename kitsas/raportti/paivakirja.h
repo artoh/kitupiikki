@@ -30,13 +30,15 @@ public:
     void kirjoita(const QDate& mista, const QDate& mihin,
                   int optiot = 0, int kohdennuksella = -1);
 
-    enum { TositeJarjestyksessa = 0b00001 ,
-           RyhmitteleLajeittain = 0b00010 ,
-           TulostaKohdennukset  = 0b00100 ,
-           TulostaSummat        = 0b01000 ,
+    enum { TositeJarjestyksessa = 0b1 ,
+           RyhmitteleLajeittain = 0b10 ,
+           TulostaKohdennukset  = 0b100 ,
+           TulostaSummat        = 0b1000 ,
            Kohdennuksella       = 0b10000 ,
-           SamaTilikausi       = 0b100000 ,
-           AsiakasToimittaja   =0b1000000
+           SamaTilikausi        = 0b100000 ,
+           AsiakasToimittaja    = 0b1000000 ,
+           ErittelePaivat       = 0b10000000
+
          };
 
 public slots:

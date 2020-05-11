@@ -68,7 +68,10 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();        // Pvm
-    rk.lisaaSarake("ABC1234 "); // Tosite
+    if( kp()->asetukset()->onko("erisarjaan") )
+        rk.lisaaSarake("ABC1234/99 ");
+    else
+        rk.lisaaSarake("12345");
     if( optiot & AsiakasToimittaja)
         rk.lisaaVenyvaSarake();
     rk.lisaaVenyvaSarake();     // Selite

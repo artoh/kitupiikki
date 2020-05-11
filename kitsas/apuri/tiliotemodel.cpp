@@ -240,7 +240,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
     QVariantList lista;
 
     for(auto rivi : rivit_) {
-        if( qAbs( rivi.euro ) > 1e-5 && rivi.tili ) {
+        if( qAbs( rivi.euro ) > 1e-5  ) {
             TositeVienti pankki;
             TositeVienti tili;
 
@@ -263,7 +263,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             if( rivi.era.value("id").toInt())
                 tili.setEra( rivi.era );
 
-            if( rivi.era.contains("id") && rivi.era.value("id").toInt() > -1) {
+            if( !rivi.tili) {
+                tili.setTyyppi(TositeVienti::KIRJAUS);
+            } else if( rivi.era.contains("id") && rivi.era.value("id").toInt() > -1) {
                 pankki.setTyyppi( TositeVienti::SUORITUS + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::SUORITUS + TositeVienti::KIRJAUS);
             } else if( kp()->tilit()->tili(tili.tili())->onko(TiliLaji::TASE)) {

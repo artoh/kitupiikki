@@ -78,6 +78,8 @@ void PaivakirjaRaportti::esikatsele()
         optiot |= Paivakirja::TulostaSummat;
     if( ui->kumppaniCheck->isChecked())
         optiot |= Paivakirja::AsiakasToimittaja;
+    if( ui->eriPaivatCheck->isChecked() )
+        optiot |= Paivakirja::ErittelePaivat;
 
     Paivakirja *kirja = new Paivakirja(this, ui->kieliCombo->currentData().toString());
     connect( kirja, &Paivakirja::valmis, this, &RaporttiWidget::nayta );

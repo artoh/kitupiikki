@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>669</width>
-    <height>516</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,6 +173,17 @@
      <property name="icon">
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/sum.png</normaloff>:/pic/sum.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="eriPaivatCheck">
+     <property name="text">
+      <string>Erittele päivät tyhjällä rivillä</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/Paivakirja64.png</normaloff>:/pic/Paivakirja64.png</iconset>
      </property>
     </widget>
    </item>

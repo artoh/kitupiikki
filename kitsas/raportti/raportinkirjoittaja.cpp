@@ -314,6 +314,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                " body { font-family: Helvetica; }"
                " h1 { font-weight: normal; }"
                " .lihava { font-weight: bold; } "
+               " tr {vertical-align: top;}"
                " tr.viiva td { border-top: 1px solid black; }"
                " td.oikealle { text-align: right; } "
                " th { text-align: left; color: darkgray;}"

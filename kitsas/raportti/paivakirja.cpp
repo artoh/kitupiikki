@@ -45,8 +45,12 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();
-    rk.lisaaSarake("ABC1234/99 ");
-    rk.lisaaSarake("999999 Tilinimi tarkeinteilla");
+    if( kp()->asetukset()->onko("erisarjaan") )
+        rk.lisaaSarake("ABC1234/99 ");
+    else
+        rk.lisaaSarake("12345");
+
+    rk.lisaaSarake("1234 Arvonlisäverosaamiset");
     if( optiot_ & TulostaKohdennukset)
         rk.lisaaSarake("Kohdennusnimi");
     if( optiot_ & AsiakasToimittaja)
@@ -93,6 +97,7 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
 void Paivakirja::dataSaapuu(QVariant *data)
 {
     QVariantList lista = data->toList();
+    QDate edpaiva;
 
     int edellinentyyppi = 0;
 
@@ -132,7 +137,12 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
 
         RaporttiRivi rivi;
+
         QDate pvm = map.value("pvm").toDate();
+
+        if( (optiot_ & ErittelePaivat) && pvm != edpaiva && edpaiva.isValid())
+            rk.lisaaTyhjaRivi();
+        edpaiva = pvm;
 
         rivi.lisaa( pvm );
 
