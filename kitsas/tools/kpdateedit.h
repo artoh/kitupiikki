@@ -100,6 +100,7 @@ public slots:
      */
     void setEnabled(bool enabled);
 
+
 protected:
     void setDateInternal(const QDate& date);
 

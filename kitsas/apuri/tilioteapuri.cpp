@@ -80,6 +80,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
 
     ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
+    connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
 }
 
 TilioteApuri::~TilioteApuri()
