@@ -16,12 +16,16 @@
 */
 #include "abstraktiview.h"
 
+#include "db/kirjanpito.h"
+#include <QSettings>
 
 Naytin::AbstraktiView::AbstraktiView() :
     QGraphicsView (new QGraphicsScene() )
 {
     setDragMode(QGraphicsView::ScrollHandDrag);
     setBackgroundBrush(QBrush(Qt::darkGray));
+
+    zoomaus_ = kp()->settings()->value("LiiteZoom",100).toInt() / 100.0;
 }
 
 Naytin::AbstraktiView::~AbstraktiView()

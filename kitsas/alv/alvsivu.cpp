@@ -154,7 +154,7 @@ void AlvSivu::riviValittu()
 
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
-                                        index.data(AlvIlmoitustenModel::AlkaaRooli).toDate() > kp()->tilitpaatetty() );
+                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() > kp()->tilitpaatetty() );
 
 }
 

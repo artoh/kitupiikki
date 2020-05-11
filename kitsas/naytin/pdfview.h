@@ -43,8 +43,8 @@ public slots:
     virtual void zoomFit() override;
 
 protected:
-    QByteArray data_;
-    qreal skaala_ = 1.0;
+    QByteArray data_;    
+    qreal skaala_;
 };
 
 

@@ -48,7 +48,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 protected:
-    double zoomaus_ = 1.00;
+    double zoomaus_;
 
 };
 

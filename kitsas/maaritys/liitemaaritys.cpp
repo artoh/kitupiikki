@@ -32,6 +32,7 @@ LiiteMaaritys::LiiteMaaritys() :
     connect( ui->mvCheck, &QCheckBox::clicked, this, &LiiteMaaritys::ilmoitaMuokattu);
     connect( ui->kokoScroll, &QSlider::valueChanged, this, &LiiteMaaritys::ilmoitaMuokattu );
     connect( ui->laatuScroll, &QSlider::valueChanged, this, &LiiteMaaritys::ilmoitaMuokattu );
+    connect( ui->zoomSlider, &QSlider::valueChanged, this, &LiiteMaaritys::ilmoitaMuokattu );
 }
 
 LiiteMaaritys::~LiiteMaaritys()
@@ -48,6 +49,7 @@ bool LiiteMaaritys::nollaa()
     ui->mvCheck->setChecked( kp()->settings()->value("KuvaMustavalko",false).toBool());
     ui->kokoScroll->setValue( kp()->settings()->value("KuvaKoko",2048).toInt());
     ui->laatuScroll->setValue( kp()->settings()->value("KuvaLaatu", 40).toInt());
+    ui->zoomSlider->setValue( kp()->settings()->value("LiiteZoom",100).toInt());
     return true;
 }
 
@@ -57,6 +59,7 @@ bool LiiteMaaritys::tallenna()
     kp()->settings()->setValue("KuvaMustavalko", ui->mvCheck->isChecked());
     kp()->settings()->setValue("KuvaKoko", ui->kokoScroll->value());
     kp()->settings()->setValue("KuvaLaatu", ui->laatuScroll->value());
+    kp()->settings()->setValue("LiiteZoom", ui->zoomSlider->value());
     return true;
 }
 
@@ -65,7 +68,8 @@ bool LiiteMaaritys::onkoMuokattu()
     return  ui->ocrCheck->isChecked() != kp()->settings()->value("OCR",false).toBool() ||
             ui->mvCheck->isChecked() != kp()->settings()->value("KuvaMustavalko",false).toBool() ||
             ui->kokoScroll->value() != kp()->settings()->value("KuvaKoko", 2048).toInt() ||
-            ui->laatuScroll->value() != kp()->settings()->value("KuvaLaatu",40).toInt();
+            ui->laatuScroll->value() != kp()->settings()->value("KuvaLaatu",40).toInt() ||
+            ui->zoomSlider->value() != kp()->settings()->value("LiiteZoom",100).toInt();
 }
 
 void LiiteMaaritys::ilmoitaMuokattu()

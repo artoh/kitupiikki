@@ -21,11 +21,13 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QGraphicsSimpleTextItem>
+#include "db/kirjanpito.h"
+#include <QSettings>
 
 Naytin::PdfView::PdfView(const QByteArray &pdf) :
     data_(pdf)
 {
-
+    skaala_ = kp()->settings()->value("LiiteZoom",100).toInt() / 100.0;
 }
 
 QByteArray Naytin::PdfView::data() const
