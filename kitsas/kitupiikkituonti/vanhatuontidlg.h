@@ -49,6 +49,8 @@ protected:
     void valitseHakemisto();
     void tuo();
 
+    void lisaaIbanit();
+
     void siirraAsetukset();
     void siirraTilikaudet();
     void taydennaTilit();

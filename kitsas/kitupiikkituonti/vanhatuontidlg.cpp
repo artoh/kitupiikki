@@ -336,6 +336,8 @@ void VanhatuontiDlg::tuo()
     kitsasAsetukset_.insert("LuotuVersiolla", qApp->applicationVersion());
     kitsasAsetukset_.insert("Nimi", ui->nimiEdit->text());  // Jotta tulee viimeisten luetteloon ;)
 
+    lisaaIbanit();
+
     QVariantMap initMap;
     initMap.insert("asetukset", kitsasAsetukset_);
     initMap.insert("tilit", kitsasTilit_);
@@ -397,6 +399,26 @@ void VanhatuontiDlg::tuo()
     ui->peruNappi->setEnabled(true);
 }
 
+void VanhatuontiDlg::lisaaIbanit()
+{
+    QSqlQuery sql( kpdb_);
+    sql.exec("SELECT nro, json FROM Tili WHERE tyyppi='ARP'");
+    while( sql.next()) {
+        int numero = sql.value("nro").toInt();
+        QVariantMap jsonmap = QJsonDocument::fromJson( sql.value("json").toByteArray() ).toVariant().toMap();
+        QString iban = jsonmap.value("IBAN").toString();
+        if( !numero || iban.isEmpty())
+            continue;
+        for(int i=0; i < kitsasTilit_.count(); i++) {
+            if( kitsasTilit_.value(i).toMap().value("numero").toInt() == numero) {
+                QVariantMap map = kitsasTilit_.at(i).toMap();
+                map.insert("iban", iban);
+                kitsasTilit_[i] = map;
+            }
+        }
+    }
+}
+
 void VanhatuontiDlg::siirraAsetukset()
 {
     QVariantMap map;
@@ -412,7 +434,7 @@ void VanhatuontiDlg::siirraAsetukset()
     // Laskutilin numero
     if( kitupiikkiAsetukset_.contains("LaskuTili")) {
         QSqlQuery sql( kpdb_);
-        sql.exec(QString("SELECT json FROM Tili WHERE numero=%1 AND tyyppi='ARP'").arg(kitsasAsetukset_.value("LaskuTili").toInt()) );
+        sql.exec(QString("SELECT json FROM Tili WHERE nro=%1 AND tyyppi='ARP'").arg(kitupiikkiAsetukset_.value("LaskuTili").toInt()) );
         if( sql.next()) {
             QVariantMap jsonmap = QJsonDocument::fromJson( sql.value("json").toByteArray() ).toVariant().toMap();
             map.insert("LaskuIbanit", jsonmap.value("IBAN"));
@@ -443,7 +465,7 @@ void VanhatuontiDlg::siirraAsetukset()
 
 
     // Tositteiden numerointiperiaate
-    if( !kitsasAsetukset_.contains("SamaanSarjaan")) {
+    if( !kitupiikkiAsetukset_.contains("SamaanSarjaan")) {
         map.insert("erisarjaan","ON");
         QSqlQuery sql(kpdb_);
         sql.exec("SELECT id FROM Tositelaji WHERE tunnus='K'");
@@ -532,8 +554,6 @@ void VanhatuontiDlg::taydennaTilit()
                 tmap.insert("poistotili", tilimuunto(jsonmap.value("Poistotili").toInt()));
             if( jsonmap.contains("Taseerittely"))
                 tmap.insert("erittely", jsonmap.value("Taseerittely"));
-            if( jsonmap.contains("IBAN"))
-                tmap.insert("iban", jsonmap.value("IBAN"));
 
 
             KpKysely *kysely = kpk("/tilit", KpKysely::PUT);
@@ -591,7 +611,7 @@ void VanhatuontiDlg::siirraAsiakkaat()
     QSet<QString> saajatiedosta;
 
     QSqlQuery sql(kpdb_);
-    sql.exec("SELECT asiakas, json FROM Vienti WHERE asiakas ORDER BY muokattu DESC");
+    sql.exec("SELECT asiakas, json FROM Vienti WHERE asiakas NOT NULL ORDER BY muokattu DESC");
     while( sql.next()) {
         QString nimi = sql.value(0).toString();
         QVariantMap tiedot = QJsonDocument::fromJson(sql.value(1).toByteArray()).toVariant().toMap();
