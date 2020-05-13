@@ -73,6 +73,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     qlonglong lajisumma = 0l;
     qlonglong summa = 0l;
     int edellinentyyppi = 0;
+    QDate edpvm;
 
     QVariantList lista = data->toList();
     for( auto item: lista) {
@@ -99,6 +100,11 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
         }
 
         RaporttiRivi rivi;
+
+        if( (optiot_ & ErittelePaivat) && edpvm.isValid() &&
+                map.value("pvm").toDate() != edpvm)
+            rk.lisaaTyhjaRivi();
+        edpvm = map.value("pvm").toDate();
 
         rivi.lisaaTositeTunnus( map.value("pvm").toDate(), map.value("sarja").toString(),
                                 map.value("tunniste").toInt(), optiot_ & SamaTilikausi);

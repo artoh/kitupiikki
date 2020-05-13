@@ -34,7 +34,8 @@ public:
            TulostaKohdennukset  = 0b00100 ,
            TulostaSummat        = 0b01000 ,
            SamaTilikausi        = 0b10000,
-           AsiakasToimittaja    = 0b100000
+           AsiakasToimittaja    = 0b100000,
+           ErittelePaivat       = 0b1000000
          };
 
 private slots:

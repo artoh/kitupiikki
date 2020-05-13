@@ -220,7 +220,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
                 liitekysely->lisaaAttribuutti("ocr","json");
                 connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
-            } else if( kp()->pilvi()->plan() ) {
+            } else if( kp()->pilvi()->tilausvoimassa() ) {
                 emit ocrKaynnissa(true);
                 Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
                 connect( tesser, &Tuonti::TesserActTuonti::tuotu,
