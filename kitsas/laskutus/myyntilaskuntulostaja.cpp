@@ -545,6 +545,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     painter->drawText( QRectF(0, mm*51.3, mm*19, mm*10), Qt::AlignRight | Qt::AlignVCenter , t("bak"));
     painter->drawText( QRectF(0, mm*62.3, mm*19, mm*8.5), Qt::AlignRight | Qt::AlignHCenter, t("btl"));
     painter->drawText( QRectF(mm * 22, 0, mm*20, mm*10), Qt::AlignLeft, t("iban"));
+    painter->drawText( QRectF(pv + mm * 2, 0, mm*20, mm*10), Qt::AlignLeft, t("bic"));
 
     painter->drawText( QRectF(pv + 2 * mm, mm*53.8, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bvn"));
     painter->drawText( QRectF(pv + 2 * mm, mm*62.3, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bep"));
@@ -582,10 +583,14 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     painter->drawText( QRectF(mm*22, mm*17, osle, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
 
     QString tilinumerot;
-    for(auto iban : ibanit_)
+    QString bicit;
+    for(auto iban : ibanit_) {
         tilinumerot.append(valeilla(iban) + '\n');
+        bicit.append( bicIbanilla(iban) + '\n');
+    }
 
     painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter, tilinumerot );
+    painter->drawText( QRectF(pv+2*mm, 0, osle, mm*17), Qt::AlignVCenter, bicit );
 
     painter->save();
     painter->setFont(QFont("FreeSans", 7));
@@ -659,8 +664,19 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
             painter->drawText(QRectF(mm, 0 + mm, leveys * 2 / 5, rk), t("iban"));
 
             painter->setFont( QFont("FreeSans", 11));
+            QRectF bicRect = painter->boundingRect(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignLeft, bicIbanilla(ibanit_.value(0))+'X');
+            qreal bicPaikka = leveys * 2 / 5 - bicRect.width() - mm;
+
             painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
-            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) );
+            painter->drawText(QRectF(mm, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignLeft, valeilla(ibanit_.value(0)) );
+            painter->drawText(QRectF(bicPaikka, 0, bicPaikka, rk * 2), Qt::AlignBottom | Qt::AlignLeft, bicIbanilla(ibanit_.value(0)) );
+
+            painter->setFont( QFont("FreeSans",8));
+            painter->drawText(QRectF(bicPaikka, 0 + mm, leveys * 2 / 5, rk), t("bic"));
+            painter->drawLine( bicPaikka - mm, 0, bicPaikka - mm, rk * 2);
+
+            painter->drawRect(QRectF(leveys * 2 / 5, 0, leveys / 5, rk * 2));
+
         }
     }
 

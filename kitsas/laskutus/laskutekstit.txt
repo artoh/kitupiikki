@@ -67,6 +67,7 @@ ENbak Signature
 btl Tililtä nro|Från konto nr
 ENbtl From account|no.
 iban IBAN
+bic BIC
 bvn Viitenumero|Ref.nr.
 ENbvn Ref.no.
 bep Eräpäivä|Förfallodag
