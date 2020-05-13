@@ -76,7 +76,8 @@ private:
     QSortFilterProxyModel* proxyTyyppi;
     QSortFilterProxyModel* proxyTila;
 
-    QString tyyppiSuodatin;
+    QString alkuperainenTyyppiSuodatin;
+    QString tyyppiSuodatin;    
     TiliModel* tiliModel;
 
 public:

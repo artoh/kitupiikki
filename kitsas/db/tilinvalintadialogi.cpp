@@ -122,7 +122,8 @@ void TilinValintaDialogi::suodata(const QString &alku)
 
 void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
 {
-    tyyppiSuodatin = regexp;
+    alkuperainenTyyppiSuodatin = regexp;
+    tyyppiSuodatin = alkuperainenTyyppiSuodatin;
     suodata(ui->suodatusEdit->text());
     alaValitseOtsikoita(1);
 }
@@ -136,6 +137,9 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
     }
     else
         proxyTila->setFilterRegExp("[12]");
+
+    tyyppiSuodatin = alkuperainenTyyppiSuodatin;
+    suodata(ui->suodatusEdit->text());
 }
 
 void TilinValintaDialogi::naytaKaikki(bool naytetaanko)
@@ -143,8 +147,12 @@ void TilinValintaDialogi::naytaKaikki(bool naytetaanko)
     if( naytetaanko) {
         ui->suosikitNappi->setChecked(false);
         proxyTila->setFilterFixedString("");
-    } else
+        tyyppiSuodatin = "";
+    } else {
         proxyTila->setFilterRegExp("[12]");
+        tyyppiSuodatin = alkuperainenTyyppiSuodatin;
+    }
+    suodata(ui->suodatusEdit->text());
 }
 
 void TilinValintaDialogi::asetaModel(TiliModel *model)

@@ -63,6 +63,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA, true));
     lisaa(TiliTyyppi("BLM","Maksuperusteisen alv:n kohdentamaton velka", TiliLaji::KOHDENTAMATONALVVELKA, true));
     lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA, true));
+    lisaa(TiliTyyppi("BY","Muut yksityisnostot",TiliLaji::VASTAAVAA));
 
     lisaa(TiliTyyppi("C","Tulot",TiliLaji::TULO));
     lisaa(TiliTyyppi("CL","Liikevaihtotulo (myynti)", TiliLaji::LVTULO));

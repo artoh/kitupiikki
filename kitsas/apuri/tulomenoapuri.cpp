@@ -637,7 +637,7 @@ void TuloMenoApuri::alusta(bool meno)
 
     if(meno) {
         ui->tiliLabel->setText( tr("Meno&tili") );        
-        ui->tiliEdit->suodataTyypilla("(AP|D).*");
+        ui->tiliEdit->suodataTyypilla("(AP|BY|D).*");
         ui->toimittajaLabel->setText( tr("Toimittaja"));
         if( tosite()->tyyppi() == TositeTyyppi::KULULASKU )
             ui->toimittajaLabel->setText( tr("Laskuttaja"));

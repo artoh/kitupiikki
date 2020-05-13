@@ -2654,7 +2654,7 @@
  },
  {
   "numero": 2353,
-  "tyyppi": "B",
+  "tyyppi": "BY",
   "nimi": {
    "fi": "Muut yksityisnostot yhtiömies A"
   },
@@ -2674,7 +2674,7 @@
  },
  {
   "numero": 2357,
-  "tyyppi": "B",
+  "tyyppi": "BY",
   "nimi": {
    "fi": "Muut yksityisnostot  yhtiömies B"
   },
@@ -2714,7 +2714,7 @@
  },
  {
   "numero": 2367,
-  "tyyppi": "B",
+  "tyyppi": "BY",
   "nimi": {
    "fi": "Muut yksityisnostot"
   },
