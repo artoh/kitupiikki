@@ -157,7 +157,7 @@ void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
     // Ladataan asetukset
     QSqlQuery query(kpdb_);
     query.exec("SELECT avain,arvo, muokattu FROM Asetus");
-    if( !query.lastError().isValid()) {
+    if( query.lastError().isValid()) {
         if( query.lastError().text().contains("locked")) {
             ui->virheLabel->setText(tr("Valitsemaasi tietokantaa ei voi avata, koska "
                                     "se on toisen ohjelman käytössä."));

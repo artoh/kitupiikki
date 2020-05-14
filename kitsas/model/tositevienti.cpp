@@ -86,7 +86,7 @@ void TositeVienti::setTili(int tili)
 void TositeVienti::setDebet(double euroa)
 {
     set( DEBET, euroa);
-    if( qAbs(euroa) < 1e-5)
+    if( qAbs(euroa) > 1e-5)
         remove( avaimet__.at(KREDIT) );
 }
 

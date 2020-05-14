@@ -88,14 +88,17 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            if( tila_ < KIRJANPIDOSSA)    // Tila
-                return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
+            if( tila_ < KIRJANPIDOSSA) {   // Tila
+                if( map.value("tila").toInt() == Tosite::LAHETETAAN)
+                    return tr("Lähettäminen epäonnistui");
+                else
+                    return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
+            }
             return kp()->tositeTunnus( map.value("tunniste").toInt(),
                                        map.value("pvm").toDate(),
                                        map.value("sarja").toString(),
                                        samakausi_,
                                        role == Qt::EditRole);
-
         case PVM:
             if( role == Qt::DisplayRole)
                 return QVariant( map.value("pvm").toDate() );

@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QList>
 #include <QVariantMap>
+#include <QQueue>
 
 class VerkkolaskuToimittaja;
 
@@ -53,6 +54,7 @@ protected:
     bool tallenna();
     QString maksutiedot(const QVariantMap& data);
     void merkkaaToimitetuksi(int tositeid);
+    void merkkaaSeuraava();
 
     void tilaaSeuraavaLasku();
 
@@ -62,7 +64,9 @@ protected:
     QList<QVariantMap> tulostettavat_;
     QList<QVariantMap> tallennettavat_;
     QList<QVariantMap> sahkopostilla_;
+    QQueue<int> merkattavat_;
     VerkkolaskuToimittaja* verkkolaskutoimittaja_;
+    bool merkkausMatkalla_ = false;
     int toimitetut_ = 0;
     int virheita_ = 0;
     int laskuja_ = 0;    

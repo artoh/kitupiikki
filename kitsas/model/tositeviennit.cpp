@@ -281,10 +281,12 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                 break;
             case DEBET:
                 rivi.setDebet( value.toDouble() );
+                viennit_[index.row()] = rivi;
                 emit dataChanged(index, index.sibling(index.row(), TositeViennit::KREDIT), QVector<int>() << Qt::EditRole);
                 return true;
             case KREDIT:
                 rivi.setKredit( value.toDouble() );
+                viennit_[index.row()] = rivi;
                 emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
                 return true;
             case KOHDENNUS:
@@ -309,7 +311,6 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             }
 
             viennit_[index.row()] = rivi;
-
             emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
             return true;
         } else if( role == TositeViennit::AlvKoodiRooli) {

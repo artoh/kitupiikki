@@ -99,9 +99,9 @@ void MyyntiLaskujenToimittaja::toimitaLaskut(const QList<int> &tositteet)
 
 void MyyntiLaskujenToimittaja::toimitettu()
 {    
+    merkkausMatkalla_ = false;
     toimitetut_++;
-    tarkistaValmis();
-
+    merkkaaSeuraava();
 }
 
 void MyyntiLaskujenToimittaja::virhe()
@@ -234,7 +234,7 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
 
 void MyyntiLaskujenToimittaja::tarkistaValmis()
 {
-    if( toimitetut_ + virheita_ == laskuja_) {
+    if( toimitetut_ + virheita_ == laskuja_ && merkattavat_.isEmpty()) {
         emit kp()->kirjanpitoaMuokattu();
         if( virheita_) {
             if( toimitetut_ > 0)
@@ -307,12 +307,24 @@ bool MyyntiLaskujenToimittaja::tallenna()
 
 void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeid)
 {
-    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid), KpKysely::PATCH);
-    QVariantMap map;
-    map.insert("tila", Tosite::LAHETETTYLASKU);
-    connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::toimitettu);
-    kysely->kysy(map);
-    qDebug() << "toimitettu " << tositeid;
+    merkattavat_.enqueue(tositeid);
+    merkkaaSeuraava();
+}
+
+void MyyntiLaskujenToimittaja::merkkaaSeuraava()
+{
+    if( merkkausMatkalla_)
+        return;
+    else if( merkattavat_.isEmpty())
+        tarkistaValmis();
+    else {
+        merkkausMatkalla_ = true;
+        KpKysely *kysely = kpk(QString("/tositteet/%1").arg(merkattavat_.dequeue()), KpKysely::PATCH);
+        QVariantMap map;
+        map.insert("tila", Tosite::LAHETETTYLASKU);
+        connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::toimitettu);
+        kysely->kysy(map);
+    }
 }
 
 QString MyyntiLaskujenToimittaja::maksutiedot(const QVariantMap &data)
