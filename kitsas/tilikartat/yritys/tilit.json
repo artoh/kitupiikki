@@ -5247,7 +5247,9 @@
   "nimi": {
    "fi": "Ostot tuonti"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "alvlaji": 27,
+  "alvprosentti": 24  
  },
  {
   "numero": 4140,
@@ -5255,7 +5257,10 @@
   "nimi": {
    "fi": "Tullit, verot ja muut maksut tullattaessa"
   },
-  "laajuus": 3
+  "laajuus": 3,
+  "alvlaji": 27,
+  "alvprosentti": 24
+
  },
  {
   "numero": 415,
