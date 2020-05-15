@@ -48,6 +48,7 @@
 
 #include <QSettings>
 #include <QLabel>
+#include <QApplication>
 
 #include "naytin/naytinikkuna.h"
 
@@ -81,11 +82,16 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 {
     odotaLabel->hide();
-    NaytinIkkuna::naytaRaportti( rk );
+    if( rk.riveja())
+        NaytinIkkuna::naytaRaportti( rk );
+    else
+        QMessageBox::information(this, tr("Ei raportoitavaa"),
+                                 tr("Tekemilläsi valinnoilla muodostuu tyhjä raportti"));
 }
 
 void RaporttiWidget::esikatselu()
 {
     odotaLabel->show();
+    qApp->processEvents();
     esikatsele();
 }

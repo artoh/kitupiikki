@@ -138,6 +138,7 @@ void VanhatuontiDlg::haeTilikartta(const QString &polku)
 void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
 {
     ui->pino->setCurrentIndex(VIRHE);
+    qApp->processEvents();
 
     if( QSqlDatabase::connectionNames().contains("Tuonti"))
         kpdb_ = QSqlDatabase::database("Tuonti", false);
@@ -168,6 +169,7 @@ void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
                                     .arg(tiedostonnimi)
                                     .arg(query.lastError().text()));
         }
+        return;
     }
     while( query.next()) {
         kitupiikkiAsetukset_.insert(query.value(0).toString(), query.value(1).toString());
@@ -653,8 +655,8 @@ void VanhatuontiDlg::siirraAsiakkaat()
         if( tiedot.contains("YTunnus")) {
             asiakasMap.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv(tiedot.value("YTunnus").toString()));
         }
-        if( tiedot.contains("Verkkolaskuosoite")) {
-            asiakasMap.insert("ovt", tiedot.value("Verkkolaskuosoite"));
+        if( tiedot.contains("VerkkolaskuOsoite")) {
+            asiakasMap.insert("ovt", tiedot.value("VerkkolaskuOsoite"));
             asiakasMap.insert("operaattori", tiedot.value("VerkkolaskuValittaja"));
         }
         KpKysely *kysely = kpk("/kumppanit", KpKysely::POST);

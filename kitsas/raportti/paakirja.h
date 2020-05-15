@@ -36,7 +36,8 @@ public:
     enum { TulostaKohdennukset  = 0b00100 ,
            TulostaSummat        = 0b01000 ,
            SamaTilikausi        = 0b10000,
-           AsiakasToimittaja    = 0b100000
+           AsiakasToimittaja    = 0b100000,
+           Kohdennuksella       = 0b1000000
          };
 
 

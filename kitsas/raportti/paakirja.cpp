@@ -35,8 +35,10 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     KpKysely *saldokysely = kpk("/saldot");
     saldokysely->lisaaAttribuutti("pvm",mista);
     saldokysely->lisaaAttribuutti("alkusaldot");
-    if( kohdennuksella > -1)
+    if( kohdennuksella > -1) {
         saldokysely->lisaaAttribuutti("kohdennus", kohdennuksella);
+        saldokysely->lisaaAttribuutti("tuloslaskelma");
+    }
     if( tililta )
         saldokysely->lisaaAttribuutti("tili", tililta);
 
@@ -184,7 +186,8 @@ void Paakirja::kirjoitaDatasta()
                     saldo += qRound64( vienti.value("kredit").toDouble() * 100 );
                 }
 
-                rr.lisaa( saldo,true);
+                if( tili.onko(TiliLaji::TULOS) || !(optiot_ & Kohdennuksella))
+                    rr.lisaa( saldo,true);
                 rk.lisaaRivi(rr);
 
             }
@@ -203,7 +206,9 @@ void Paakirja::kirjoitaDatasta()
 
                 summa.lisaa(debetSumma);
                 summa.lisaa(kreditSumma);
-                summa.lisaa(saldo);
+
+                if( tili.onko(TiliLaji::TULOS) || !(optiot_ & Kohdennuksella))
+                    summa.lisaa(saldo);
 
                 rk.lisaaRivi(summa);
 

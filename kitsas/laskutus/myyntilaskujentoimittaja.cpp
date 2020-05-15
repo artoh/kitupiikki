@@ -238,7 +238,7 @@ void MyyntiLaskujenToimittaja::tarkistaValmis()
         emit kp()->kirjanpitoaMuokattu();
         if( virheita_) {
             if( toimitetut_ > 0)
-                emit kp()->onni(tr("%1 laskua toimitettu\n%1 laskun toimittaminen epäonnistui\n"
+                emit kp()->onni(tr("%1 laskua toimitettu\n%2 laskun toimittaminen epäonnistui\n"
                                    "Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.")
                             .arg(toimitetut_)
                             .arg(virheita_), Kirjanpito::Stop);
