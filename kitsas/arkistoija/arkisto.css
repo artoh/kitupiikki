@@ -8,6 +8,8 @@ nav ul li.kotinappi img { height: 16px; margin-right: 1em;}
 nav ul li a {  text-decoration: none; color: black;}
 nav ul li a:hover { background-color: #eee;}
 
+td a { color: blue;}
+
 table { border-collapse: collapse; width: 100%;}
 
 table.liiteluettelo { margin-top: 0px; border: 1px solid #505050; }

@@ -387,7 +387,8 @@ void TositeLiitteet::liiteLisatty(const QVariant & /*data*/, int liiteId, int li
 {
     tallennetaan_ = false;
     emit liitettaTallennetaan(false);
-    liitteet_[liiteIndeksi].setLiitettava(liiteId);
+    if( liitteet_.size() > liiteIndeksi)
+        liitteet_[liiteIndeksi].setLiitettava(liiteId);
 
 }
 

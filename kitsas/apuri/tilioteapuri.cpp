@@ -94,9 +94,11 @@ void TilioteApuri::tuo(QVariantMap map)
 
     qDebug() << map;
 
-    if( map.contains("iban"))
-        ui->tiliCombo->valitseTili( kp()->tilit()->tiliIbanilla(map.value("iban").toString()).numero() );
-    else if( map.contains("tili"))
+    if( map.contains("iban")) {
+        QString iban = map.value("iban").toString();
+        Tili tili = kp()->tilit()->tiliIbanilla(iban);
+        ui->tiliCombo->valitseTili(tili.numero());
+    } else if( map.contains("tili"))
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );

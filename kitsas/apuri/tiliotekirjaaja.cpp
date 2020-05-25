@@ -309,7 +309,7 @@ void TilioteKirjaaja::tiliMuuttuu()
 
     bool vero = tili.luku("alvlaji") && ui->alaTabs->currentIndex() == TULOMENO;
     ui->alvVaro->setVisible(vero);
-    if( menoa_ )
+    if( !menoa_ )
         ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
                                 "Kirjaa verolliset tulot tositetyypillä Tulo"));
     else

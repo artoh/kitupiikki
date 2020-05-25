@@ -98,12 +98,13 @@ bool Arkistoija::luoHakemistot()
         logo_ = true;
     }
 
+    QFile cssFile(":/arkisto/arkisto.css");
+    cssFile.open(QIODevice::ReadOnly);
+    arkistoiByteArray("static/arkisto.css", cssFile.readAll());
 
-    // Kopioidaan vakitiedostot
-    QFile::copy( ":/arkisto/arkisto.css", hakemisto.absoluteFilePath("static/arkisto.css"));
-    QFile::copy( ":/arkisto/jquery.js", hakemisto.absoluteFilePath("static/jquery.js"));
-//    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
-//    QFile::copy( ":/pic/kitsas150.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
+    QFile jqFile(":/arkisto/jquery.js");
+    jqFile.open(QIODevice::ReadOnly);
+    arkistoiByteArray("static/jquery.js", jqFile.readAll());
 
     return true;
 }
@@ -216,12 +217,47 @@ void Arkistoija::kirjoitaHash() const
 
 void Arkistoija::merkitseArkistoiduksi()
 {
+    RaportinKirjoittaja rk;
+    rk.asetaOtsikko("ARKISTOVARMENNE");
+    rk.lisaaVenyvaSarake(50);
+    rk.lisaaVenyvaSarake();
+
     kp()->settings()->setValue("arkistopvm/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QDateTime::currentDateTime());
     kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
                                hakemistoPolku_);
     kp()->settings()->setValue("arkistosha/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
+
+    rk.lisaaTyhjaRivi();
+    {
+        RaporttiRivi rr;
+        rr.lisaa(tr("Tilikausi"));
+        rr.lisaa(tilikausi_.kausivaliTekstina());
+        rk.lisaaRivi(rr);
+    }
+    {
+        RaporttiRivi rr;
+        rr.lisaa(tr("Arkistoitu"));
+        rr.lisaa(QDateTime::currentDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm.ss"));
+        rk.lisaaRivi(rr);
+    }
+    {
+        RaporttiRivi rr;
+        rr.lisaa(tr("SHA256-tiiviste"));
+        rr.lisaa(QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
+        rk.lisaaRivi(rr);
+    }
+    rk.lisaaTyhjaRivi();
+    {
+        RaporttiRivi rr;
+        rr.lisaa(tr("Sähköisen arkiston muuttumattomuus voidaan varmentaa tällä sivulla olevalla sha256-tiivisteellä "
+                    "ohjelman kotisivulla kitsas.fi olevan ohjeen mukaisesti. Menettely edellyttää, että tämä sivu voidaan "
+                    "säilyttää luotettavasti esimerkiksi siten, että sivu allekirjoitetaan tai muuten varmennetaan "
+                    "niin, ettei muutosten tekeminen ole mahdollista."),2);
+        rk.lisaaRivi(rr);
+    }
+    arkistoiByteArray("arkistovarmenne.pdf", rk.pdf());
 
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
@@ -491,7 +527,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         // TODO: Merkkaukset ja tase-erät
 
         if( tositetyyppi == TositeTyyppi::TILIOTE)
-            out << "<td class=kumppani>" << vientiMap.value("kumppani").toMap().value("nimi").toInt() << "</kumppani>";
+            out << "<td class=kumppani>" << vientiMap.value("kumppani").toMap().value("nimi").toString() << "</kumppani>";
 
         out << "</td><td class=selite>" << vientiMap.value("selite").toString();
         out << "</td><td class=euro>" << ((qAbs(vientiMap.value("debet").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vientiMap.value("debet").toDouble(),0,'f',2) : "");
