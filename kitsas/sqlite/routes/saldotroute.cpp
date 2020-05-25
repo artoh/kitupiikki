@@ -64,7 +64,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                 saldot.insert( tilistr, (kysely.value(2).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 );
         }
 
-        if( !urlquery.hasQueryItem("alkusaldot") && !urlquery.hasQueryItem("tili") ) {
+        if( !urlquery.hasQueryItem("tili") ) {
             // Edellisten tulos
             kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti Join Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
                                 "AND vienti.pvm<'%1' AND Tosite.tila >= 100").arg(kausi.alkaa().toString(Qt::ISODate)));

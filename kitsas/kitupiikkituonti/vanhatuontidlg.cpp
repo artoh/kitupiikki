@@ -592,7 +592,7 @@ void VanhatuontiDlg::siirraKohdennukset()
 void VanhatuontiDlg::siirraTuotteet()
 {
     QSqlQuery sql(kpdb_);
-    sql.exec("SELECT id, nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, kohdennus FROM Tuote");
+    sql.exec("SELECT Tuote.id AS id, nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, kohdennus, Tili.nro AS tili FROM Tuote JOIN Tili ON Tuote.tili=Tili.id");
     while( sql.next()) {
         QVariantMap tmap;
         tmap.insert("nimike", sql.value("nimike"));
@@ -601,6 +601,7 @@ void VanhatuontiDlg::siirraTuotteet()
         tmap.insert("alvkoodi", sql.value("alvkoodi").toInt());
         tmap.insert("alvprosentti", sql.value("alvprosentti").toDouble());
         tmap.insert("kohdennus", sql.value("kohdennus").toInt());
+        tmap.insert("tili", sql.value("tili").toInt());
 
         KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(sql.value("id").toInt()), KpKysely::PUT);
         kysely->kysy(tmap);
