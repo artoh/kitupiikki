@@ -230,7 +230,10 @@ void KirjausWg::poistaRivi()
 
 void KirjausWg::tyhjenna()
 {
-    tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
+    int tyyppi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt();
+    if( tyyppi == TositeTyyppi::TILIOTE)
+        tyyppi = TositeTyyppi::MENO;
+    tosite_->nollaa( ui->tositePvmEdit->date(), tyyppi );
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
     ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
