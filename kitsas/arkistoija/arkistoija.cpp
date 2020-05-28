@@ -201,7 +201,7 @@ void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArra
     tiedosto.close();
 
     shaBytes.append(QCryptographicHash::hash( array, QCryptographicHash::Sha256).toHex());
-    shaBytes.append(" ");
+    shaBytes.append(" *");
     shaBytes.append(tiedostonnimi.toLatin1());
     shaBytes.append("\n");
 }
