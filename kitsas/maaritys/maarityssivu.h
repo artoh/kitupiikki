@@ -64,6 +64,7 @@ public:
         RAPORTIT,
         LIITETIETOKAAVA,        
         VERO,
+        PALKKAKIRJAUS,
         PAIVITYS
 
     };

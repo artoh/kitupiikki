@@ -50,6 +50,7 @@ SOURCES += \
     $$PWD/maaritys/liitemaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
+    $$PWD/maaritys/palkkatilimaaritys.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.cpp \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.cpp \
@@ -309,6 +310,7 @@ HEADERS += \
     $$PWD/maaritys/liitemaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
+    $$PWD/maaritys/palkkatilimaaritys.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.h \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.h \
@@ -549,6 +551,7 @@ FORMS += \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
+    $$PWD/maaritys/palkkatilimaaritys.ui \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.ui \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.ui \
     $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
