@@ -187,8 +187,6 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
 {
-    if( !paluu )
-        edellisetIndeksit.push( pino->currentIndex() );
 
     if( nykysivu && !nykysivu->poistuSivulta(mikasivu))
     {
@@ -197,6 +195,11 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
         sivuaktiot[ pino->currentIndex() ]->setChecked(true);
         return;
     }
+
+    if( !paluu )
+        edellisetIndeksit.push( pino->currentIndex() );
+    else if( !edellisetIndeksit.isEmpty())
+        edellisetIndeksit.pop();
 
     nykysivu = sivut[mikasivu];
     sivuaktiot[mikasivu]->setChecked(true);
@@ -290,6 +293,7 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
     // valitseSivu( KIRJAUSSIVU );
+    edellisetIndeksit.push( pino->currentIndex() );
     pino->setCurrentWidget(kirjaussivu);
     kirjaussivu->naytaTosite(tositeid);
 }
