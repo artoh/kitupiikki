@@ -25,8 +25,10 @@
 #include <QSqlQuery>
 #include <QScrollBar>
 #include <QKeyEvent>
-
+#include <QMenu>
 #include <QDebug>
+
+#include "lisaikkuna.h"
 
 #include "tositeselausmodel.h"
 #include "laskutus/laskudialogi.h"
@@ -94,6 +96,7 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( kp(), &Kirjanpito::tilikausiAvattu, [this] { this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
     connect( ui->paivitaNappi, &QPushButton::clicked, this, &SelausWg::paivita);
 
+    connect( ui->selausView, &QTableView::customContextMenuRequested, this, &SelausWg::contextMenu);
 }
 
 SelausWg::~SelausWg()
@@ -324,6 +327,28 @@ void SelausWg::selaa(int kumpi)
         selaaTositteita();
 
     ui->selausView->setFocus();
+}
+
+void SelausWg::contextMenu(const QPoint &pos)
+{
+    QModelIndex index = ui->selausView->indexAt(pos);
+    QMenu menu;
+    QAction* ikkuna = menu.addAction(QIcon(":/pic/muokkaa.png"),tr("Avaa uudessa ikkunassa"));
+
+    QAction* valittu = menu.exec(ui->selausView->mapToGlobal(pos));
+    if( valittu == ikkuna) {
+        int id = index.data(Qt::UserRole).toInt();
+        if( id ) {
+            int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
+            if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi < TositeTyyppi::SIIRTO) {
+                naytaTositeRivilta(index);
+            } else {
+                LisaIkkuna *ikkuna = new LisaIkkuna;
+                ikkuna->kirjaa(id);
+            }
+        }
+    }
+    // TODO: Avaus
 }
 
 void SelausWg::siirrySivulle()

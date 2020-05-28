@@ -109,6 +109,9 @@
    </item>
    <item>
     <widget class="QTableView" name="selausView">
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>

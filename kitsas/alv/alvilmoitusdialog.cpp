@@ -19,8 +19,8 @@
 #include <QDebug>
 #include <QPrinter>
 #include <QPainter>
-#include <QSqlError>
 
+#include <QPushButton>
 #include <QTextDocument>
 #include <QMessageBox>
 #include "alvilmoitusdialog.h"
@@ -28,6 +28,7 @@
 
 #include "db/kirjanpito.h"
 
+#include "naytin/naytinikkuna.h"
 
 #include "alvlaskelma.h"
 
@@ -36,6 +37,7 @@ AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AlvIlmoitusDialog)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
     connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("alv/tilitys");});
 }
@@ -45,15 +47,23 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
     delete ui;
 }
 
-QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
+
+void AlvIlmoitusDialog::accept()
 {
-    AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
-    AlvLaskelma *laskelma = new AlvLaskelma(dlg);
+    if( ui->huojennusCheck->isChecked())
+        laskelma_->kirjaaHuojennus();
+    laskelma_->tallenna();
 
-    connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
-    laskelma->laske(alkupvm, loppupvm);
+    qApp->processEvents();
+    laskelma_->deleteLater();
 
-    return QDate();   
+    QDialog::accept();
+}
+
+void AlvIlmoitusDialog::reject()
+{
+    laskelma_->deleteLater();
+    QDialog::reject();
 }
 
 
@@ -79,15 +89,16 @@ void AlvIlmoitusDialog::luku(const QString &nimike, qlonglong senttia, bool viiv
 
 void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 {
-    AlvLaskelma *laskelma = qobject_cast<AlvLaskelma*>( sender() );
+    laskelma_ = qobject_cast<AlvLaskelma*>( sender() );
     ui->ilmoitusBrowser->setHtml( rk.html() );    
-    ui->huojennusCheck->setVisible( laskelma->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
-    ui->alarajaInfo->setVisible(laskelma->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+    ui->huojennusCheck->setVisible( laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+    ui->alarajaInfo->setVisible(laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
 
-    if( exec() ) {
-        if( ui->huojennusCheck->isChecked())
-            laskelma->kirjaaHuojennus();
-        laskelma->tallenna();
-    }
+    QPushButton* avaa = ui->buttonBox->addButton(tr("Tulosta"), QDialogButtonBox::ApplyRole);
+    avaa->setIcon(QIcon(":/pic/print.png"));
+    connect( avaa, &QPushButton::clicked, [rk] {NaytinIkkuna::naytaRaportti(rk);});
+
+    show();
+
 }
 

@@ -21,6 +21,8 @@
 #include <QDialog>
 #include "raportti/raportinkirjoittaja.h"
 
+class AlvLaskelma;
+
 namespace Ui {
 class AlvIlmoitusDialog;
 }
@@ -40,14 +42,9 @@ public:
     explicit AlvIlmoitusDialog(QWidget *parent = nullptr);
     ~AlvIlmoitusDialog();
 
-public:
-    /**
-     * @brief Näyttää ilmoitusdialogin ja jos se hyväksytään, tekee kirjaukset
-     * @param alkupvm Ilmoituskauden alkupäivä
-     * @param loppupvm Ilmoituskauden loppupäivä
-     * @return pvm johon asti alv ilmoitettu, tai Null jos ilmoitus perutaan
-     */
-    static QDate teeAlvIlmoitus(QDate alkupvm, QDate loppupvm);
+public:    
+    void accept() override;
+    void reject() override;
 
 private:
 
@@ -70,6 +67,8 @@ private:
 public slots:
     void naytaLaskelma(RaportinKirjoittaja rk);
 
+protected:
+    AlvLaskelma *laskelma_;
 };
 
 #endif // ALVILMOITUSDIALOG_H
