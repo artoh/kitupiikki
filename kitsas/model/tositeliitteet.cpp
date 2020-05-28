@@ -59,10 +59,22 @@ QVariant TositeLiitteet::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole)
     {
-        return liitteet_.at(index.row()).getNimi();
+        TositeLiite liite = liitteet_.value(index.row());
+        if( liite.getNimi().isEmpty())
+            return liite.getRooli();
+        else
+            liite.getNimi();
     }
-    else if( role == Qt::DecorationRole)
+    else if( role == Qt::DecorationRole) {
+        TositeLiite liite = liitteet_.value(index.row());
+        if( liite.getRooli() == "lasku")
+            return QIcon(":/pic/lasku.png");
+        else if( liite.getNimi().endsWith(".pdf"))
+            return QIcon(":/pic/pdf.png");
+        else if( liite.getNimi().endsWith(".jpg"))
+            return QIcon(":/pic/kuva2.png");
         return QIcon(":/pic/tekstisivu.png");
+    }
 
     // FIXME: Implement me!
     return QVariant();
@@ -84,7 +96,9 @@ void TositeLiitteet::lataa(QVariantList data)
         QVariantMap map = item.toMap();
 
         liitteet_.append( TositeLiite( map.value("id").toInt(),
-                                       map.value("nimi").toString()) );
+                                       map.value("nimi").toString(),
+                                       QByteArray(),
+                                       map.value("roolinimi").toString()) );
     }
     endResetModel();
 

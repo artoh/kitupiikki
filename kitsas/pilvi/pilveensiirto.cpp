@@ -384,12 +384,15 @@ void PilveenSiirto::tallennaSeuraavaTuote()
     if( tuotteet_.isEmpty()) {
         // Varmistetaan vielä laskunumeroinnin oikea alkaminen
         QVariantMap map;
-        map.insert("LaskuNumerointialkaa", kp()->asetukset()->luku("LaskuNumerointialkaa"));
-        KpKysely *lst = new PilviKysely(pilviModel_, KpKysely::PATCH, "/asetukset");
-        connect( lst, &KpKysely::vastaus, this, &PilveenSiirto::valmis);
-        connect(lst, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
-        lst->kysy(map);
-        valmis();
+        if( kp()->asetukset()->luku("LaskuSeuraavaId") > kp()->asetukset()->luku("LaskuSeuraavaId")) {
+            map.insert("LaskuNumerointialkaa", kp()->asetukset()->luku("LaskuSeuraavaId"));
+            KpKysely *lst = new PilviKysely(pilviModel_, KpKysely::PATCH, "/asetukset");
+            connect( lst, &KpKysely::vastaus, this, &PilveenSiirto::valmis);
+            connect(lst, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
+            lst->kysy(map);
+        } else {
+            valmis();
+        }
     } else {
         QVariantMap map = tuotteet_.takeFirst().toMap();
         int id = map.take("id").toInt();
