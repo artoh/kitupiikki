@@ -27,6 +27,7 @@
 #include <QBuffer>
 #include <QDebug>
 #include <QSettings>
+#include <QPdfWriter>
 
 #include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
@@ -191,6 +192,18 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         QBuffer buffer(&liite);
         buffer.open(QIODevice::WriteOnly);
         image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
+    } else if ( liite.left(128).contains(QByteArray("<html")) || liite.left(128).contains(QByteArray("<HTML")) ) {
+        QTextDocument doc;
+        doc.setHtml(Tuonti::CsvTuonti::haistettuKoodattu(liite));
+        QByteArray array;
+        QBuffer buffer(&array);
+        buffer.open(QIODevice::WriteOnly);
+        QPdfWriter writer(&buffer);
+        writer.setTitle(tiedostonnimi);
+        writer.setPageSize(QPdfWriter::A4);
+
+        doc.print(&writer);
+        liite = array;
     }
 
 

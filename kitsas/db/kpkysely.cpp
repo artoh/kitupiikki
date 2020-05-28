@@ -76,7 +76,7 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
     else if( ba.startsWith(jpg))
         return("image/jpeg");
     else if( ba.startsWith(QByteArray("<?xml")))
-        return("application/xml");
+        return("application/xml");    
     else if( Tuonti::CsvTuonti::onkoCsv(ba))
         return("text/csv");
 

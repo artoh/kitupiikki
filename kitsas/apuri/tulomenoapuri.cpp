@@ -96,6 +96,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
     connect( tosite, &Tosite::pvmMuuttui, ui->laskuPvm, &KpDateEdit::setDate);
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
+    connect( tosite, &Tosite::eraPvmMuuttui, ui->erapaivaEdit,[this] (const QDate& erapvm) { if(erapvm != ui->erapaivaEdit->date()) ui->erapaivaEdit->setDate(erapvm); } );
     connect( ui->eraCombo, &EraCombo::currentTextChanged, this, &TuloMenoApuri::tositteelle);
 }
 

@@ -128,7 +128,7 @@ public:
     void asetaKumppani(const QString& nimi);
     void asetaKumppani(const QVariantMap& map);
 
-    void pohjaksi(const QDate& pvm, const QString& uusiotsikko);
+    void pohjaksi(const QDate& paiva, const QString& uusiotsikko);
 
     /**
      * @brief Tiedot tallennettavassa muodossa
@@ -147,6 +147,7 @@ signals:
     void tunnisteMuuttui(const int tunniste);
     void sarjaMuuttui(const QString& sarja);
     void tyyppiMuuttui(int tyyppi);
+    void eraPvmMuuttui(const QDate& erapvm);
     void kommenttiMuuttui(const QString& kommentti);
 
     void tarkastaSarja(bool kateinen);
