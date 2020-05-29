@@ -56,7 +56,7 @@ protected slots:
 
     void kysyAlkusumma();
     void alkusummaSaapuu(QVariant *data);
-
+    void naytaHarmaat(bool nayta);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

@@ -121,9 +121,13 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
     }
     case Qt::EditRole :
+    case LajitteluRooli:
         switch ( index.column())
         {
         case PVM:
+            if( LajitteluRooli )
+                return QString("%1 %2").arg(rivi.pvm.toString(Qt::ISODate))
+                                        .arg(rivi.lisaysIndeksi,6,10,QChar('0'));
             return rivi.pvm;
         case TILI:
             return rivi.tili;
@@ -152,7 +156,10 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
     case TositeViennit::TiliNumeroRooli:
         return rivi.tili;
+    case HarmaaRooli:
+        return rivi.harmaa ? "X" : "-";
     }
+
 
 
     return QVariant();
@@ -215,9 +222,10 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-void TilioteModel::lisaaRivi(const TilioteModel::Tilioterivi &rivi)
+void TilioteModel::lisaaRivi(Tilioterivi rivi)
 {
     beginInsertRows( QModelIndex(), rowCount(), rowCount());
+    rivi.lisaysIndeksi = indeksiLaskuri_++;
     rivit_.append(rivi);
     endInsertRows();
 }
@@ -240,6 +248,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
     QVariantList lista;
 
     for(auto rivi : rivit_) {
+        if( rivi.harmaa)
+            continue;
+
         if( qAbs( rivi.euro ) > 1e-5  ) {
             TositeVienti pankki;
             TositeVienti tili;
@@ -387,6 +398,7 @@ void TilioteModel::lataa(const QVariantList &lista)
         rivi.selite = vienti.selite();
         rivi.arkistotunnus = pankki.arkistotunnus();
         rivi.alkuperaisetViennit = vienti.data(TositeVienti::ALKUPVIENNIT).toList();
+        rivi.lisaysIndeksi = indeksiLaskuri_++;
 
         rivit_.append(rivi);
     }
@@ -482,6 +494,7 @@ void TilioteModel::teeTuonti()
         rivi.laskupvm = map.value("era").toMap().value("pvm").toDate();
         rivi.tili = map.value("tili").toInt();
         rivi.tilinumero = map.value("iban").toString();
+        rivi.lisaysIndeksi = indeksiLaskuri_++;
 
         rivit_.append(rivi);
     }
@@ -502,6 +515,7 @@ void TilioteModel::siivoa(int harmaarivi, int myohemmat)
     if( !arkistotunnus.isEmpty()) {
         for(int i=myohemmat; i < rivit_.count(); i++) {
             if( arkistotunnus == rivi(i).arkistotunnus ) {
+                rivit_[harmaarivi].lisaysIndeksi=rivi(i).lisaysIndeksi;
                 rivit_.removeAt(i);
                 return;
             }
@@ -525,6 +539,7 @@ void TilioteModel::siivoa(int harmaarivi, int myohemmat)
     }
 
     if( sopivat.count() == 1) {
+        rivit_[harmaarivi].lisaysIndeksi = rivi(sopivat.first()).lisaysIndeksi;
         rivit_.removeAt( sopivat.first() );
         return;
     }
@@ -540,6 +555,7 @@ void TilioteModel::siivoa(int harmaarivi, int myohemmat)
     }
 
     if( ksopivat.count() == 1) {
+        rivit_[harmaarivi].lisaysIndeksi = rivi(ksopivat.first()).lisaysIndeksi;
         rivit_.removeAt( ksopivat.first() );
     }
 }

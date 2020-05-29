@@ -67,7 +67,7 @@ Tämän jälkeen voit antaa käyttäjälle oikeuden kirjanpitoosi</string>
            </font>
           </property>
           <property name="text">
-           <string>Sähköpostiosoite</string>
+           <string>Lisättävän käyttäjän sähköpostiosoite</string>
           </property>
          </widget>
         </item>

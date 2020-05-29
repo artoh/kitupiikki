@@ -45,6 +45,23 @@
      <item>
       <widget class="KpDateEdit" name="loppuDate"/>
      </item>
+     <item>
+      <widget class="QPushButton" name="harmaaNappi">
+       <property name="whatsThis">
+        <string>Näytä tilille jo kirjatut tapahtumat harmaalla</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

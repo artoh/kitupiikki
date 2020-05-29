@@ -39,6 +39,7 @@ public:
     };
 
     void paivita();
+    QModelIndex lisaa(const QString& email, const QString nimi);
 
 private:
     void listaSaapuu(QVariant* data);
@@ -47,6 +48,7 @@ private:
     class Kayttaja {
     public:
         Kayttaja(const QVariant& data);
+        Kayttaja(const QString& email, const QString& nimi);
         QString nimi() const;
         QString email() const;
         QStringList oikeudet() const;

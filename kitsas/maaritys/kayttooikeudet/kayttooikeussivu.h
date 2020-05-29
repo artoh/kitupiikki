@@ -40,12 +40,12 @@ private:
     void naytaValittu(const QModelIndex &index);
     void malliNollattu();
     void tarkastaNimi();
-    void nollaaNakyma();
     void lisaaKayttaja();
     void tallennaOikeudet();
     void tallennettu();
     void tarkastaMuokattu();
     void kaikkiOikeudet();
+    void poistaOikeudet();
 
     QStringList oikeudetTaulussa() const;
 private:
@@ -53,6 +53,7 @@ private:
     KayttooikeusModel* model;
 
     QString nykyisenEmail_;
+    QString haettuNimi_;
     QStringList oikeudetAlussa_;
 };
 

@@ -74,6 +74,14 @@ void KayttooikeusModel::paivita()
     kysely->kysy();
 }
 
+QModelIndex KayttooikeusModel::lisaa(const QString &email, const QString nimi)
+{
+    beginInsertRows(QModelIndex(), kayttajat_.count(), kayttajat_.count());
+    kayttajat_.append(Kayttaja(email, nimi));
+    endInsertRows();
+    return index(kayttajat_.count()-1,0);
+}
+
 void KayttooikeusModel::listaSaapuu(QVariant *data)
 {
     beginResetModel();
@@ -94,6 +102,12 @@ KayttooikeusModel::Kayttaja::Kayttaja(const QVariant &data)
     for(auto item: list) {
         oikeudet_.append(item.toString());
     }
+}
+
+KayttooikeusModel::Kayttaja::Kayttaja(const QString &email, const QString &nimi)
+{
+    email_ = email;
+    nimi_ = nimi;
 }
 
 QString KayttooikeusModel::Kayttaja::nimi() const

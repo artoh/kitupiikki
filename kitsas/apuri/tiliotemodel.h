@@ -46,6 +46,7 @@ public:
         QDate jaksoalkaa;
         QDate jaksoloppuu;
         QVariantList alkuperaisetViennit;
+        int lisaysIndeksi = 0;
     };
 
 public:
@@ -53,6 +54,11 @@ public:
 
     enum Sarakkeet {
         PVM, SAAJAMAKSAJA, SELITE, TILI, KOHDENNUS, EURO
+    };
+
+    enum {
+        LajitteluRooli = Qt::UserRole + 128,
+        HarmaaRooli = Qt::UserRole+129
     };
 
     // Header:
@@ -72,7 +78,7 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    void lisaaRivi( const Tilioterivi& rivi);
+    void lisaaRivi( Tilioterivi rivi);
     void poistaRivi( int rivi);
     void muokkaaRivi( int rivi, const Tilioterivi& data);
 
@@ -98,6 +104,7 @@ private:
     QList<Tilioterivi> rivit_;
     QVariantList tuotavat_;
     int harmaaLaskuri_ = 0;
+    int indeksiLaskuri_ = 0;
 };
 
 #endif // TILIOTEMODEL_H
