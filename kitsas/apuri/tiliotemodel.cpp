@@ -89,14 +89,22 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
     switch ( role ) {
     case Qt::DisplayRole :
+    case LajitteluRooli:
         switch (index.column()) {
         case PVM:
+            if( role == LajitteluRooli)
+                return QString("%1 %2").arg(rivi.pvm.toString(Qt::ISODate))
+                                        .arg(rivi.lisaysIndeksi,6,10,QChar('0'));
             return rivi.pvm;
         case EURO:
+            if( role == LajitteluRooli)
+                return rivi.euro;
             if( qAbs(rivi.euro) > 1e-5)
                 return QString("%L1 €").arg( rivi.euro ,0,'f',2);
             return QString();
         case TILI:
+            if(rivi.harmaa)
+                return "xxxx";
             return kp()->tilit()->tiliNumerolla( rivi.tili ).nimiNumero();
         case KOHDENNUS:
         {
@@ -120,14 +128,11 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return QVariant();
 
     }
+
     case Qt::EditRole :
-    case LajitteluRooli:
         switch ( index.column())
         {
         case PVM:
-            if( LajitteluRooli )
-                return QString("%1 %2").arg(rivi.pvm.toString(Qt::ISODate))
-                                        .arg(rivi.lisaysIndeksi,6,10,QChar('0'));
             return rivi.pvm;
         case TILI:
             return rivi.tili;
@@ -290,8 +295,13 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 tili.setTyyppi( TositeVienti::OSTO + TositeVienti::KIRJAUS);
             }
 
-            pankki.setSelite( rivi.selite );
-            tili.setSelite( rivi.selite );
+            if( rivi.selite.isEmpty()) {
+                pankki.setSelite(rivi.saajamaksaja);
+                tili.setSelite(rivi.saajamaksaja);
+            } else {
+                pankki.setSelite( rivi.selite );
+                tili.setSelite( rivi.selite );
+            }
 
             tili.setJaksoalkaa( rivi.jaksoalkaa );
             tili.setJaksoloppuu( rivi.jaksoloppuu );
@@ -557,6 +567,21 @@ void TilioteModel::siivoa(int harmaarivi, int myohemmat)
     if( ksopivat.count() == 1) {
         rivit_[harmaarivi].lisaysIndeksi = rivi(ksopivat.first()).lisaysIndeksi;
         rivit_.removeAt( ksopivat.first() );
+        return;
+    }
+
+    QList<int> ssopivat;
+    if( !rivi(harmaarivi).selite.isEmpty()) {
+        for( int sopiva : sopivat) {
+            if( rivi(sopiva).selite == rivi(harmaarivi).selite ) {
+                ssopivat.append(sopiva);
+            }
+        }
+        if( ssopivat.count() == 1) {
+            rivit_[harmaarivi].lisaysIndeksi = rivi(ssopivat.first()).lisaysIndeksi;
+            rivit_.removeAt( ssopivat.first() );
+            return;
+        }
     }
 }
 
