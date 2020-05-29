@@ -39,6 +39,7 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->lisaysNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::lisaaKayttaja);
     connect( ui->tallennaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::tallennaOikeudet);
     connect( ui->kaikkiNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::kaikkiOikeudet);
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::poistaOikeudet);
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         connect(box, &QCheckBox::clicked, this, &KayttoOikeusSivu::tarkastaMuokattu);
@@ -171,6 +172,13 @@ void KayttoOikeusSivu::kaikkiOikeudet()
 {
     for(QCheckBox* box : findChildren<QCheckBox*>())
         box->setChecked(true);
+    tarkastaMuokattu();
+}
+
+void KayttoOikeusSivu::poistaOikeudet()
+{
+    for(QCheckBox* box : findChildren<QCheckBox*>())
+        box->setChecked(false);
     tarkastaMuokattu();
 }
 
