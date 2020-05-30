@@ -61,9 +61,6 @@ QVariantMap CsvTuonti::tuonti(const QByteArray &data)
     if( csv_.count() < 2)
         return QVariantMap();
 
-    QVariantMap tuotu;
-    QVariantList tapahtumat;
-
     ui->tuontiTable->setRowCount( muodot_.count() );
     ui->tiliCombo->suodataTyypilla("ARP");
 

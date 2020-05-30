@@ -34,6 +34,7 @@
 #include "tuonti/csvtuonti.h"
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
+#include "tuonti/palkkafituonti.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikysely.h"
 
@@ -236,6 +237,8 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             } else {
                 emit this->tuonti( tuotu);
             }
+        } else if( tyyppi == "text/csv" && liite.startsWith("T;")) {
+            emit tuonti(PalkkaFiTuonti::tuo(liite));
         } else if(  liite.startsWith("T00322100") ||  tyyppi == "text/csv") {
             QVariant tuotu = liite.startsWith("T00322100") ?
                         Tuonti::TitoTuonti::tuo(liite) :

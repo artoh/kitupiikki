@@ -456,6 +456,10 @@ void KirjausWg::tuonti(const QVariantMap& map)
         apuri_->tuo(map);
 
     else if( map.value("tyyppi") == TositeTyyppi::TUONTI) {
+        if(map.contains("pvm"))
+            tosite()->asetaPvm(map.value("pvm").toDate());
+        if(map.contains("otsikko"))
+            tosite()->asetaOtsikko(map.value("otsikko").toString());
         for(auto vienti : map.value("viennit").toList()) {
             tosite()->viennit()->lisaa( vienti.toMap());
         }
