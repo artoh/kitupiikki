@@ -12,9 +12,9 @@ Comments, variable names, documentations and the software itself are, of course,
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
-Kotisivu ja käyttöohjeet [https://kitupiikki.info](https://kitupiikki.info) sekä uuden version osalta [https://kitsas.fi](kitsas.fi)
+Kotisivu ja käyttöohjeet [https://kitupiikki.info](https://kitupiikki.info) sekä uuden version osalta [kitsas.fi](https://kitsas.fi)
 
-![Kitsas](https://raw.githubusercontent.com/artoh/kitupiikki/kitsas/kitupiikki/pic/kitsas150.png)
+![Kitsas](https://github.com/artoh/kitupiikki/raw/kitsas/kitsas/pic/kitsas150.png)
 
 ## Kitsas on uusi Kitupiikki
 
