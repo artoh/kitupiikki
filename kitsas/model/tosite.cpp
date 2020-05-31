@@ -47,8 +47,9 @@ QVariant Tosite::data(int kentta) const
 void Tosite::setData(int kentta, QVariant arvo)
 {
 
-    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString() &&
-        !data_.value( avaimet__.at(kentta)).toString().isEmpty() ) {
+    if( data_.value( avaimet__.at(kentta)) == arvo ||
+         (data_.value( avaimet__.at(kentta)).toString() == arvo.toString() &&
+        !data_.value( avaimet__.at(kentta)).toString().isEmpty()) ) {
         return;
     }
 
@@ -75,6 +76,8 @@ void Tosite::setData(int kentta, QVariant arvo)
         emit tyyppiMuuttui( arvo.toInt());
     else if( kentta == KOMMENTIT)
         emit kommenttiMuuttui( arvo.toString());
+    else if( kentta == ERAPVM)
+        emit eraPvmMuuttui( arvo.toDate());
 
     tarkasta();
 }
@@ -166,21 +169,22 @@ void Tosite::asetaKumppani(const QVariantMap &map)
     setData(KUMPPANI, map);
 }
 
-void Tosite::pohjaksi(const QDate &pvm, const QString &uusiotsikko)
+void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko)
 {
-    viennit_->pohjaksi(pvm, otsikko(), uusiotsikko);
+    int siirto = pvm().daysTo(paiva);
+
+    viennit_->pohjaksi(paiva, otsikko(), uusiotsikko);
     liitteet_->clear();
     loki_->lataa(QVariantList());
 
     setData(ID, 0);
-    setData(TUNNISTE, 0);
-    setData(OTSIKKO, uusiotsikko);
-    setData(PVM, pvm);
+    setData(TUNNISTE, 0);    
+    asetaOtsikko(uusiotsikko);
+    asetaPvm(paiva);
+    if( erapvm().isValid())
+        asetaErapvm(paiva.addDays(siirto));
     setData(TILA,0);
 
-    emit tunnisteMuuttui(0);
-    emit pvmMuuttui(pvm);
-    emit otsikkoMuuttui(uusiotsikko);
     tarkasta();
 
 }

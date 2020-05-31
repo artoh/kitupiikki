@@ -230,7 +230,10 @@ void KirjausWg::poistaRivi()
 
 void KirjausWg::tyhjenna()
 {
-    tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
+    int tyyppi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt();
+    if( tyyppi == TositeTyyppi::TILIOTE)
+        tyyppi = TositeTyyppi::MENO;
+    tosite_->nollaa( ui->tositePvmEdit->date(), tyyppi );
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
     ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
@@ -385,6 +388,12 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     {
         ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
         ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    } else if( virheet & Tosite::TILIPUUTTUU) {
+        ui->varoTeksti->setText(tr("Tiliöintejä puuttuu"));
+        ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
+    } else if( virheet & Tosite::PVMPUUTTUU) {
+        ui->varoTeksti->setText(tr("Päivämääriä puuttuu"));
+        ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
     }  else if( qAbs(debet) > 1e-5) {
         ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
     }

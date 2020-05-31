@@ -67,7 +67,7 @@ Tämän jälkeen voit antaa käyttäjälle oikeuden kirjanpitoosi</string>
            </font>
           </property>
           <property name="text">
-           <string>Sähköpostiosoite</string>
+           <string>Lisättävän käyttäjän sähköpostiosoite</string>
           </property>
          </widget>
         </item>
@@ -404,6 +404,17 @@ font-weight: bold;</string>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="poistaNappi">
+              <property name="text">
+               <string>Poista oikeudet</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../pic/pic.qrc">
+                <normaloff>:/pic/eikaytossa.png</normaloff>:/pic/eikaytossa.png</iconset>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QPushButton" name="kaikkiNappi">
               <property name="text">

@@ -87,16 +87,6 @@ void PilveenSiirto::alustaAlkusivu()
         ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
                                   "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    } else if( kp()->pilvi()->plan() == 0) {
-        if( tositelkm_ >= 50) {
-            ui->infoLabel->setText(tr("Voidaksesi sijoittaa pilveen kirjanpidon, jossa on enemmän kuin 50 "
-                                      "tositetta, sinun pitää ensin tehdä Kitsaasta maksullinen tilaus."));
-            ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-        } else {
-            ui->infoLabel->setText(tr("Käytössäsi on Kitsaan maksuton tilaus, joka on tarkoitettu pilven "
-                                      "kokeilemiseen. Voit tallentaa kirjanpitoosi enää %1 tositetta lisää "
-                                      "ennen kuin sinun on tehtävä maksullinen tilaus.").arg(50 - tositelkm_));
-        }
     }
 }
 
@@ -138,7 +128,7 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
     qDebug() << "Pilvi luotu " << map.value("id");
     qDebug() << pilviModel_->pilviosoite();
 
-    connect( pilviModel_, &PilviModel::kirjauduttu, this, &PilveenSiirto::avaaLuotuPilvi);
+    connect( pilviModel_, &PilviModel::kirjauduttu, this, &PilveenSiirto::avaaLuotuPilvi);    
     pilviModel_->paivitaLista();
     ui->progressBar->setValue(20);
 }
@@ -233,6 +223,7 @@ void PilveenSiirto::tallennaKumppani(QVariant *data)
 
     PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/kumppanit/%1").arg(id));
     connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::kysySeuraavaKumppani);
+    connect(tallennus, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
     tallennus->kysy(map);
 }
 
@@ -273,6 +264,7 @@ void PilveenSiirto::tallennaTosite(QVariant *data)
         // lasku.numero on vanhoissa kirjanpidoissa tyypiltään string
         QVariantMap laskuMap = map.value("lasku").toMap();
         laskuMap.insert("numero", laskuMap.value("numero").toInt());
+        laskuMap.insert("viivkorko", laskuMap.value("viivkorko").toDouble());
         QStringList keys = laskuMap.keys();
         for( auto key : keys) {
             if( laskuMap.value(key).isNull())
@@ -369,6 +361,7 @@ void PilveenSiirto::tallennaSeuraavaVakioViite()
         int viite = map.value("viite").toInt();
         KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/vakioviitteet/%1").arg(viite));
         connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaVakioViite);
+        connect(tallennus, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
         tallennus->kysy(map);
     }
 }
@@ -388,14 +381,29 @@ void PilveenSiirto::tuotteetSaapuu(const QVariant *data)
 
 void PilveenSiirto::tallennaSeuraavaTuote()
 {
-    if( tuotteet_.isEmpty())
-        valmis();
-    else {
+    if( tuotteet_.isEmpty()) {
+        // Varmistetaan vielä laskunumeroinnin oikea alkaminen
+        QVariantMap map;
+        if( kp()->asetukset()->luku("LaskuSeuraavaId") > kp()->asetukset()->luku("LaskuSeuraavaId")) {
+            map.insert("LaskuNumerointialkaa", kp()->asetukset()->luku("LaskuSeuraavaId"));
+            KpKysely *lst = new PilviKysely(pilviModel_, KpKysely::PATCH, "/asetukset");
+            connect( lst, &KpKysely::vastaus, this, &PilveenSiirto::valmis);
+            connect(lst, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
+            lst->kysy(map);
+        } else {
+            valmis();
+        }
+    } else {
         QVariantMap map = tuotteet_.takeFirst().toMap();
         int id = map.take("id").toInt();
+        if( map.value("tili").toInt()) {
         KpKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/tuotteet/%1").arg(id));
         connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaTuote);
+        connect(tallennus, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
         tallennus->kysy(map);
+        } else {
+            tallennaSeuraavaTuote();
+        }
     }
 }
 
@@ -429,7 +437,7 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
 
 void PilveenSiirto::siirtoVirhe(int koodi)
 {
-    qDebug() << "Siirovirhe " << koodi;
+    qDebug() << "Siirtovirhe " << koodi;
     ui->stackedWidget->setCurrentIndex(VALMIS);
     ui->buttonBox->show();
     ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();

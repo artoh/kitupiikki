@@ -96,6 +96,7 @@ void LaskuSivu::paaTab(int indeksi)
         splitter_->replaceWidget(0, ryhmaWidget_);
         splitter_->replaceWidget(1, kumppaniTuoteWidget_);
         ryhmaWidget_->nayta(KumppaniTuoteWidget::RYHMAT);
+        kumppaniTuoteWidget_->nayta(KumppaniTuoteWidget::REKISTERI);
     } else {
         if( splitter_->widget(1) != laskuWidget_)
             splitter_->replaceWidget(1, laskuWidget_);
@@ -111,7 +112,8 @@ void LaskuSivu::paaTab(int indeksi)
     if( indeksi >= REKISTERI )
         kumppaniTuoteWidget_->nayta( indeksi - 2);    
     else if( indeksi < REKISTERI)
-        kumppaniTuoteWidget_->nayta( indeksi);
+        kumppaniTuoteWidget_->nayta( indeksi);    
+
 
     if( indeksi != TUOTTEET && indeksi != REKISTERI && indeksi != VAKIOVIITTEET)
     {

@@ -79,7 +79,7 @@ public slots:
      */
     void selaa(int kumpi);
 
-
+    void contextMenu(const QPoint& pos);
 public:
     void siirrySivulle() override;
 

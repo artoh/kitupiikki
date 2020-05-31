@@ -36,9 +36,11 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->view, &QListView::clicked, this, &KayttoOikeusSivu::naytaValittu );
     connect( model, &KayttooikeusModel::modelReset, this, &KayttoOikeusSivu::malliNollattu);
     connect( ui->lisaysEdit, &QLineEdit::textEdited, this, &KayttoOikeusSivu::tarkastaNimi);
+    connect( ui->lisaysEdit, &QLineEdit::returnPressed, this, &KayttoOikeusSivu::lisaaKayttaja);
     connect( ui->lisaysNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::lisaaKayttaja);
     connect( ui->tallennaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::tallennaOikeudet);
     connect( ui->kaikkiNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::kaikkiOikeudet);
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::poistaOikeudet);
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         connect(box, &QCheckBox::clicked, this, &KayttoOikeusSivu::tarkastaMuokattu);
@@ -67,75 +69,53 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         box->setChecked( oikeudetAlussa_.contains( box->property("Oikeus").toString() ) );
-    }
-    ui->tallennaNappi->setEnabled(false);
+    }    
+    nykyisenEmail_ = ui->emailLabel->text();
+    tarkastaMuokattu();
 }
 
 void KayttoOikeusSivu::malliNollattu()
 {
-    if( nykyisenEmail_.isEmpty()) {
-        ui->view->selectionModel()->select(model->index(0), QItemSelectionModel::SelectCurrent);
-        naytaValittu(model->index(0));
-
-    } else {
-        for(int i=0; i<model->rowCount(); i++) {
-            const QModelIndex& index = model->index(i);
-            if( index.data(KayttooikeusModel::EmailRooli).toString() == nykyisenEmail_) {
-                ui->view->selectionModel()->select(index, QItemSelectionModel::SelectCurrent);
-                naytaValittu(index);
-                return;
-            }
+    QModelIndex valittava = model->index(0);
+    for(int i=0; i<model->rowCount();i++) {
+        if( model->index(i).data(KayttooikeusModel::EmailRooli).toString() == nykyisenEmail_) {
+            valittava = model->index(i);
+            break;
         }
-
-        ui->view->clearSelection();
-        ui->view->setCurrentIndex(QModelIndex());
-        nollaaNakyma();
     }
+    ui->view->selectionModel()->select(valittava, QItemSelectionModel::SelectCurrent);
+    naytaValittu(valittava);
 }
 
 void KayttoOikeusSivu::tarkastaNimi()
 {
     ui->lisaysNappi->setEnabled(false);
-    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->lisaysEdit->text()).hasMatch() ) {
         KpKysely* kysely = kpk( QString("%1/users/%2")
                                 .arg(kp()->pilvi()->pilviLoginOsoite())
                                 .arg(ui->lisaysEdit->text()));
         connect(kysely, &KpKysely::vastaus, [this] (QVariant* data) {
             this->ui->lisaysNappi->setEnabled( !data->toMap().isEmpty() );
+            haettuNimi_ = data->toMap().value("name").toString();
         });
         kysely->kysy();
     }
 }
 
-void KayttoOikeusSivu::nollaaNakyma()
-{
-    ui->emailLabel->setText(nykyisenEmail_);
-    ui->omistajaLabel->hide();
-    ui->oikeusBox->setEnabled(true);
-    ui->tallennaNappi->setEnabled(false);
-
-    for(QCheckBox* box : findChildren<QCheckBox*>()) {
-        box->setChecked( false );
-    }
-    oikeudetAlussa_.clear();
-    KpKysely* kysely = kpk( QString("%1/users/%2")
-                            .arg(kp()->pilvi()->pilviLoginOsoite())
-                            .arg(nykyisenEmail_) );
-    connect(kysely, &KpKysely::vastaus, [this] (QVariant* data) {
-        this->ui->nimiLabel->setText( data->toMap().value("name").toString() );
-    });
-    kysely->kysy();
-
-
-}
 
 void KayttoOikeusSivu::lisaaKayttaja()
 {
+    if( !ui->lisaysNappi->isEnabled())
+        return;
+
     ui->lisaysNappi->setEnabled(false);
     nykyisenEmail_ = ui->lisaysEdit->text();
     ui->lisaysEdit->clear();
-    malliNollattu();
+    QModelIndex uusi = model->lisaa(nykyisenEmail_, haettuNimi_);
+    ui->view->clearSelection();
+    ui->view->selectionModel()->select(uusi, QItemSelectionModel::SelectCurrent);
+    naytaValittu(  uusi );
 }
 
 void KayttoOikeusSivu::tallennaOikeudet()
@@ -165,12 +145,20 @@ void KayttoOikeusSivu::tallennettu()
 void KayttoOikeusSivu::tarkastaMuokattu()
 {
     ui->tallennaNappi->setEnabled( oikeudetTaulussa() != oikeudetAlussa_ );
+    ui->poistaNappi->setEnabled( !oikeudetTaulussa().isEmpty() );
 }
 
 void KayttoOikeusSivu::kaikkiOikeudet()
 {
     for(QCheckBox* box : findChildren<QCheckBox*>())
         box->setChecked(true);
+    tarkastaMuokattu();
+}
+
+void KayttoOikeusSivu::poistaOikeudet()
+{
+    for(QCheckBox* box : findChildren<QCheckBox*>())
+        box->setChecked(false);
     tarkastaMuokattu();
 }
 

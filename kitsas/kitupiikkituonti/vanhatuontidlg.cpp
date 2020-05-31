@@ -467,8 +467,9 @@ void VanhatuontiDlg::siirraAsetukset()
 
 
     // Tositteiden numerointiperiaate
-    if( !kitupiikkiAsetukset_.contains("SamaanSarjaan")) {
+    if( !kitupiikkiAsetukset_.contains("SamaanSarjaan") && !kitupiikkiAsetukset_.contains("Samaansarjaan")) {
         map.insert("erisarjaan","ON");
+        erisarja_ = true;
         QSqlQuery sql(kpdb_);
         sql.exec("SELECT id FROM Tositelaji WHERE tunnus='K'");
         if( sql.next())
@@ -592,7 +593,7 @@ void VanhatuontiDlg::siirraKohdennukset()
 void VanhatuontiDlg::siirraTuotteet()
 {
     QSqlQuery sql(kpdb_);
-    sql.exec("SELECT id, nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, kohdennus FROM Tuote");
+    sql.exec("SELECT Tuote.id AS id, nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, kohdennus, Tili.nro AS tili FROM Tuote JOIN Tili ON Tuote.tili=Tili.id");
     while( sql.next()) {
         QVariantMap tmap;
         tmap.insert("nimike", sql.value("nimike"));
@@ -601,6 +602,7 @@ void VanhatuontiDlg::siirraTuotteet()
         tmap.insert("alvkoodi", sql.value("alvkoodi").toInt());
         tmap.insert("alvprosentti", sql.value("alvprosentti").toDouble());
         tmap.insert("kohdennus", sql.value("kohdennus").toInt());
+        tmap.insert("tili", sql.value("tili").toInt());
 
         KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(sql.value("id").toInt()), KpKysely::PUT);
         kysely->kysy(tmap);
@@ -693,8 +695,13 @@ void VanhatuontiDlg::siirraTositteet()
         tosite.asetaTyyppi(TositeTyyppi::TUONTI);
         tosite.asetaOtsikko(tositekysely.value("otsikko").toString());
         tosite.setData(Tosite::KOMMENTIT, tositekysely.value("kommentti"));
-        tosite.asetaSarja(tositekysely.value("tunnus").toString());
-        tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
+        if( erisarja_)
+            tosite.asetaSarja(tositekysely.value("tunnus").toString());
+        else
+            tosite.asetaSarja("");
+
+        if( ui->sailytaNumerointiCheck)
+            tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
 
         QVariantMap map = QJsonDocument::fromJson(tositekysely.value("json").toByteArray()).toVariant().toMap();
         if( map.contains("AlvTilitysAlkaa")) {
@@ -818,7 +825,7 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
         riviMap.insert("ahinta", map.value("YksikkohintaSnt").toDouble() / 100.0);
         riviMap.insert("nimike", map.value("Nimike"));
         riviMap.insert("yksikko", map.value("Yksikko"));
-        riviMap.insert("Tili", tilimuunto( map.value("tili").toInt() ));
+        riviMap.insert("tili", tilimuunto( map.value("tili").toInt() ));
         riviMap.insert("kohdennus", map.value("Kohdennus"));
         riviMap.insert("alvkoodi", map.value("Alvkoodi"));
         riviMap.insert("alvprosentti", map.value("Alvprosentti").toDouble());
@@ -848,13 +855,13 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
     else if( kirjausperuste == 3)
         lasku.insert("maksutapa", LaskuDialogi::KATEINEN);
 
-    if( vientiJson.contains("Hyvityslasku"))
+/*    if( vientiJson.contains("Hyvityslasku"))
         tosite.asetaTyyppi( TositeTyyppi::HYVITYSLASKU);
     else if( vientiJson.contains("Maksumuistutus"))
         tosite.asetaTyyppi( TositeTyyppi::MAKSUMUISTUTUS);
     else
         tosite.asetaTyyppi(TositeTyyppi::MYYNTILASKU);
-
+*/
     tosite.setData(Tosite::LASKU, lasku);
 
 }

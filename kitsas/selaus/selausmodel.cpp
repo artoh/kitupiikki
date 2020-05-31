@@ -237,11 +237,13 @@ void SelausModel::tietoSaapuu(QVariant *var)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
         Tili* tili = kp()->tilit()->tili(tiliId);
-        QString tilistr = QString("%1 %2")
-                    .arg(tili->numero())
-                    .arg(tili->nimi());
-        if( !tileilla.contains(tilistr))
-            tileilla.append(tilistr);
+        if(tili) {
+            QString tilistr = QString("%1 %2")
+                        .arg(tili->numero())
+                        .arg(tili->nimi());
+            if( !tileilla.contains(tilistr))
+                tileilla.append(tilistr);
+        }
     }
     tileilla.sort();
 

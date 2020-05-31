@@ -43,6 +43,7 @@
 #include "kayttooikeudet/kayttooikeussivu.h"
 #include "verkkolasku/verkkolaskumaaritys.h"
 #include "../kierto/kiertomaaritys.h"
+#include "palkkatilimaaritys.h"
 
 #include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
@@ -72,6 +73,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Verkkolasku", VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
     lisaaSivu("Kirjattavien kansio", INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu("Palkkakirjaustilit", PALKKAKIRJAUS,"kirjaus/palkka", QIcon(":/pic/yrittaja.png"));
     lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan päivitys", PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");
@@ -240,6 +242,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new KayttoOikeusSivu;
     else if(sivu == KIERTO)
         nykyinen = new KiertoMaaritys;
+    else if(sivu == PALKKAKIRJAUS)
+        nykyinen = new PalkkatiliMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

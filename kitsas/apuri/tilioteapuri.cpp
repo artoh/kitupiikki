@@ -35,6 +35,7 @@
 #include "db/kirjanpito.h"
 
 #include <QDebug>
+#include <QSettings>
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
@@ -52,6 +53,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     proxy_->setSourceModel( model_ );
 
     ui->oteView->setModel(proxy_);
+    proxy_->setSortRole(TilioteModel::LajitteluRooli);
+    proxy_->setFilterRole(TilioteModel::HarmaaRooli);
     ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
     ui->oteView->installEventFilter(this);
 
@@ -75,6 +78,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
 
+    connect( ui->harmaaNappi, &QPushButton::toggled, this, &TilioteApuri::naytaHarmaat);
+    ui->harmaaNappi->setChecked(!kp()->settings()->value("TiliotePiilotaHarmaat",false).toBool());
 
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
@@ -94,9 +99,11 @@ void TilioteApuri::tuo(QVariantMap map)
 
     qDebug() << map;
 
-    if( map.contains("iban"))
-        ui->tiliCombo->valitseTili( kp()->tilit()->tiliIbanilla(map.value("iban").toString()).numero() );
-    else if( map.contains("tili"))
+    if( map.contains("iban")) {
+        QString iban = map.value("iban").toString();
+        Tili tili = kp()->tilit()->tiliIbanilla(iban);
+        ui->tiliCombo->valitseTili(tili.numero());
+    } else if( map.contains("tili"))
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
@@ -264,6 +271,12 @@ void TilioteApuri::alkusummaSaapuu(QVariant* data)
     int tilinumero = ui->tiliCombo->valittuTilinumero();
     alkusaldo_ = map.value(QString::number(tilinumero)).toDouble();
     naytaSummat();
+}
+
+void TilioteApuri::naytaHarmaat(bool nayta)
+{
+    proxy_->setFilterFixedString( nayta ? "" : "-");
+    kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
 
 bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)

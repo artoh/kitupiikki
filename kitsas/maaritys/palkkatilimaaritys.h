@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,29 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef PALKKATILIMAARITYS_H
+#define PALKKATILIMAARITYS_H
 
+#include "maarityswidget.h"
 
-/**
-  @file Kitsaan version määrittely
+namespace Ui {
+    class PalkkatiliMaaritys;
+}
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+class PalkkatiliMaaritys : public MaaritysWidget
+{
+public:
+    PalkkatiliMaaritys();
 
-#define KITSAS_VERSIO "2.0-RC.2"
-#define KITSAS_BUILD  "A"
+public:
+    bool nollaa() override;
+    bool tallenna() override;
+    bool onkoMuokattu() override;
+    QVariantMap taulu() const;
 
-// #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+protected:
+    Ui::PalkkatiliMaaritys* ui;
+    void ilmoitaMuokattu();
+};
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
-
-#endif // VERSIO_H
+#endif // PALKKATILIMAARITYS_H

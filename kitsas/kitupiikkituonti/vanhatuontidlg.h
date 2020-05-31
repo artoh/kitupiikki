@@ -76,6 +76,7 @@ private:
     QHash<int,int> tilinMuunto_;
     QHash<QString,int> asiakasIdt_;
     QHash<QString,QString> tilikausipaivat_;
+    bool erisarja_ = false;
 };
 
 #endif // VANHATUONTIDLG_H
