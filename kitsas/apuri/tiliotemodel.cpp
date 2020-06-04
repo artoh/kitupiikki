@@ -506,6 +506,13 @@ void TilioteModel::teeTuonti()
         rivi.tilinumero = map.value("iban").toString();
         rivi.lisaysIndeksi = indeksiLaskuri_++;
 
+        if( !rivi.tili ) {
+            if( rivi.euro < -1e-5 &&  kp()->asetukset()->onko("TilioteMenoKaytossa"))
+                rivi.tili = kp()->asetukset()->luku("TilioteMenotili");
+            else if( rivi.euro > 1e-5 && kp()->asetukset()->onko("TilioteTuloKaytossa"))
+                rivi.tili = kp()->asetukset()->luku("TilioteTulotili");
+        }
+
         rivit_.append(rivi);
     }
     tuotavat_.clear();

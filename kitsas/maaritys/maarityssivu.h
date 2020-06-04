@@ -55,6 +55,7 @@ public:
         KOHDENNUS,
         TILINAVAUS,
         LASKUTUS,
+        OLETUSTILIT,
         MAKSUTAVAT,
         TOSITESARJAT,
         SAHKOPOSTI,

@@ -45,6 +45,11 @@ TallentavaMaaritysWidget::TallentavaMaaritysWidget(const QString &ohjesivu, QWid
 bool TallentavaMaaritysWidget::nollaa()
 {
     for(QWidget *widget : findChildren<QWidget*>() ) {
+        if( !widget->property("Kaytossa").toString().isEmpty()) {
+            widget->setEnabled( kp()->asetukset()->onko( widget->property("Kaytossa").toString() ) );
+        }
+
+
         QString asetusavain = widget->property("Asetus").toString();
 
         if( asetusavain.isEmpty())

@@ -69,6 +69,9 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
+    rk.lisaaSarake("", RaporttiRivi::CSV);  // Tilin numero
+    rk.lisaaSarake("", RaporttiRivi::CSV);  // Tilin nimi
+
     rk.lisaaPvmSarake();        // Pvm
     if( kp()->asetukset()->onko("erisarjaan") )
         rk.lisaaSarake("ABC1234/99 ");
@@ -84,6 +87,8 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     rk.lisaaEurosarake();   // Saldo
 
     RaporttiRivi otsikko;
+    otsikko.lisaa(kaanna("Tilin numero"));
+    otsikko.lisaa(kaanna("Tilin nimi"));
     otsikko.lisaa(kaanna("Pvm"));
     otsikko.lisaa(kaanna("Tosite"));
     if( optiot & AsiakasToimittaja)
@@ -143,8 +148,9 @@ void Paakirja::kirjoitaDatasta()
         if( tili.onkoValidi())
         {
 
-            RaporttiRivi rivi;
+            RaporttiRivi rivi(RaporttiRivi::EICSV);
             rivi.lihavoi();
+            rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
                                 tili.nimiNumero(), 5);
 
@@ -158,6 +164,9 @@ void Paakirja::kirjoitaDatasta()
             for(const QVariantMap& vienti : iter.value()) {
 
                 RaporttiRivi rr;
+                QString tilinumero = vienti.value("tili").toString();
+                rr.lisaa( tilinumero );
+                rr.lisaa( kp()->tilit()->tili(tilinumero)->nimi(kielikoodi_));
                 rr.lisaa( vienti.value("pvm").toDate() );
 
                 QVariantMap tositeMap = vienti.value("tosite").toMap();
@@ -224,6 +233,7 @@ void Paakirja::kirjoitaDatasta()
         RaporttiRivi summa(RaporttiRivi::EICSV);
         summa.viivaYlle();
         summa.lihavoi();
+        summa.lisaa("",2);
         summa.lisaa(kaanna("Yhteensä"),3);
 
         summa.lisaa(kaikkiDebet);
