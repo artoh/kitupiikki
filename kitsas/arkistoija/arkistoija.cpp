@@ -25,6 +25,8 @@
 #include "raportti/taseerittelija.h"
 #include "raportti/tilikarttalistaaja.h"
 #include "raportti/tositeluettelo.h"
+#include "raportti/laskuraportteri.h"
+#include "raportti/myyntiraportteri.h"
 
 #include "db/tositetyyppimodel.h"
 
@@ -56,7 +58,7 @@ void Arkistoija::arkistoi()
     if( luoHakemistot() ) {
         progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, 6 );
         progressDlg_->setMinimumDuration(250);
-        raporttilaskuri_ = 6;
+        raporttilaskuri_ = 9;
         arkistoiTositteet();
         arkistoiRaportit();
     }
@@ -152,6 +154,21 @@ void Arkistoija::arkistoiRaportit()
                              TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::TulostaKohdennukset
                              | TositeLuettelo::SamaTilikausi | TositeLuettelo::TulostaSummat
                              | TositeLuettelo::AsiakasToimittaja);
+
+    LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
+    connect( myyntilaskut, &LaskuRaportteri::valmis,
+             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myyntilaskut.html");});
+    myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+
+    LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
+    connect( ostolaskut, &LaskuRaportteri::valmis,
+             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"ostolaskut.html");});
+    ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+
+    MyyntiRaportteri* myynnit = new MyyntiRaportteri(this);
+    connect( myynnit, &MyyntiRaportteri::valmis,
+             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myynnit.html");});
+    myynnit->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
 
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
@@ -423,13 +440,17 @@ void Arkistoija::viimeistele()
     out << "<ul><li><a href=paakirja.html>" << tr("Pääkirja") << "</a></li>";
     out << "<li><a href=paivakirja.html>" << tr("Päiväkirja") << "</a></li>";
     out << "<li><a href=tositeluettelo.html>Tositeluettelo</a></li>";
-//    out << "<li><a href=tositepaivakirja.html>" << tr("Tositepäiväkirja") << "</a></li>";
     out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
     out << "</ul><h3>Raportit</h3><ul>";
 
 
     for( auto rnimi : raporttiNimet_)
         out << "<li><a href='" << rnimi.first << "'>" << rnimi.second << "</a></li>";
+
+    out << "</ul><h3>Laskut ja myynti</h3><ul>";
+    out << "<li><a href=myyntilaskut.html>Avoimet myyntilaskut</a></li>";
+    out << "<li><a href=ostolaskut.html>Avoimet ostolaskut</a></li>";
+    out << "<li><a href=myynnit.html>Myydyt tuotteet</a></li>";
 
     out << "</ul>";
 

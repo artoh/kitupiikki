@@ -181,7 +181,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // jotka tällä riville yhdistetty toisiinsa
             for( int ysind = 0; ysind < rivi.leveysSaraketta(i); ysind++ )
             {
-                sarakeleveys += leveydet.at(sarake);
+                sarakeleveys += leveydet.value(sarake);
                 sarake++;
             }
 

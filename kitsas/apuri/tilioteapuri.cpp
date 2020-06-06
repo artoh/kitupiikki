@@ -102,7 +102,8 @@ void TilioteApuri::tuo(QVariantMap map)
     if( map.contains("iban")) {
         QString iban = map.value("iban").toString();
         Tili tili = kp()->tilit()->tiliIbanilla(iban);
-        ui->tiliCombo->valitseTili(tili.numero());
+        if( tili.onko(TiliLaji::PANKKITILI))
+            ui->tiliCombo->valitseTili(tili.numero());
     } else if( map.contains("tili"))
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 

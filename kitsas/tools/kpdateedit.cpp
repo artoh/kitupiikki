@@ -324,7 +324,11 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
             setDate( date().addYears(-1));
     }
 
+    if( dateInEditor_.isNull() && event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9 )
+        setText(kp()->paivamaara() < maxDate_ ?  kp()->paivamaara().toString("dd.MM.yyyy") : maxDate_.toString("dd.MM.yyyy"));
+
     setCursorPosition(pos);
+
 
     QLineEdit::keyPressEvent(event);
 }

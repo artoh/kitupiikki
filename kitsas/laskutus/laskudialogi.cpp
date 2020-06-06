@@ -762,9 +762,10 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus, bool toimita)
 
         MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
         QList<QVariantMap> lista;
-        lista.append(vastaus->toMap());
+        lista.append(map);
         toimittaja->toimitaLaskut(lista);
-    }
+    } else if( map.value("tila").toInt()==Tosite::VALMISLASKU)
+        emit tallennettuValmiina();
 
 }
 
@@ -810,6 +811,7 @@ void LaskuDialogi::alustaRyhmalasku()
     ui->laskutusCombo->hide();
     ui->luonnosNappi->setEnabled(false);
     connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::accept );
+    connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::tallennettuValmiina );
     connect( ryhmalaskuTab_->model(), &LaskutettavatModel::rowsInserted, this, &LaskuDialogi::paivitaNapit);
     setWindowTitle(tr("Ryhmälasku"));
 }

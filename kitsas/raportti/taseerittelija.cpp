@@ -207,6 +207,8 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     QVariantMap emap = era.toMap();
                     RaporttiRivi rr;
 
+                    if( emap.contains("id")) {
+
                     rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID,
                                      emap.value("id").toInt(),
                                      kp()->tositeTunnus(emap.value("tunniste").toInt(),
@@ -214,6 +216,10 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                                                         emap.value("sarja").toString()) );
                     rr.lisaa( emap.value("pvm").toDate());
                     rr.lisaa( emap.value("selite").toString());
+                    } else {
+                        rr.lisaa("",2);
+                        rr.lisaa(kaanna("Erittelemättömät"));
+                    }
                     rr.lisaa(qRound64( emap.value("eur").toDouble() * 100.0 ));
                     rk.lisaaRivi(rr);
                     loppusaldo += qRound64( emap.value("eur").toDouble() * 100.0 );

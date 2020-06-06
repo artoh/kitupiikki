@@ -28,6 +28,7 @@
 #include "raportti/taseerittelija.h"
 #include "raportti/tilikarttalistaaja.h"
 #include "raportti/tositeluettelo.h"
+#include "raportti/laskuraportteri.h"
 
 #include "tilinpaatostulostaja.h"
 #include "naytin/liitetulostaja.h"
@@ -113,8 +114,8 @@ void AineistoTulostaja::tulostaRaportit()
 
 void AineistoTulostaja::tilaaRaportit()
 {
-    tilattuja_ = 7;
-    kirjoittajat_.resize(7);
+    tilattuja_ = 9;
+    kirjoittajat_.resize(tilattuja_);
     QString kieli = "fi";
 
 
@@ -148,9 +149,20 @@ void AineistoTulostaja::tilaaRaportit()
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(5, rk);});
     tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, false, tilikausi_.paattyy(), false);
 
+    LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
+    connect( myyntilaskut, &LaskuRaportteri::valmis,
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(6, rk);});
+    myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+
+    LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
+    connect( ostolaskut, &LaskuRaportteri::valmis,
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(7,rk);});
+    ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+
+
     TositeLuettelo* luettelo = new TositeLuettelo(this);
     connect( luettelo, &TositeLuettelo::valmis,
-             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(6, rk);});
+             [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(8, rk);});
     luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                        TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::SamaTilikausi |
                        TositeLuettelo::TulostaSummat | TositeLuettelo::AsiakasToimittaja);

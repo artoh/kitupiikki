@@ -37,7 +37,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 7;
+    return 8;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -62,6 +62,8 @@ QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int r
             return QVariant("Kredit");
         case KOHDENNUS:
             return QVariant("Kohdennus");
+        case KUMPPANI:
+            return QVariant("Asiakas/Toimittaja");
         case SELITE:
             return QVariant("Selite");
         }
@@ -129,7 +131,13 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 else
                     return QVariant();
             }
-            case SELITE: return map.value("selite");
+            case SELITE:
+                if( map.value("selite").toString() == map.value("kumppani").toMap().value("nimi").toString() )
+                    return QVariant();
+                else
+                    return map.value("selite");
+
+            case KUMPPANI: return map.value("kumppani").toMap().value("nimi");
 
             case KOHDENNUS :
                 QString txt;

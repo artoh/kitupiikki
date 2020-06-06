@@ -505,7 +505,6 @@ void TilioteModel::teeTuonti()
         rivi.tili = map.value("tili").toInt();
         rivi.tilinumero = map.value("iban").toString();
         rivi.lisaysIndeksi = indeksiLaskuri_++;
-
         if( !rivi.tili ) {
             if( rivi.euro < -1e-5 &&  kp()->asetukset()->onko("TilioteMenoKaytossa"))
                 rivi.tili = kp()->asetukset()->luku("TilioteMenotili");

@@ -42,8 +42,10 @@ QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, i
         case MAKSAMATTA: return tr("Maksamatta");
         case ASIAKASTOIMITTAJA:
             if( ostoja_)
-                return tr("Toimittaja/Selite");
-            return tr("Asiakas/Selite");
+                return tr("Toimittaja");
+            return tr("Asiakas");
+        case OTSIKKO:
+            return tr("Selite");
         }
     }
     return QVariant();
@@ -62,7 +64,7 @@ int LaskuTauluModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 7;
+    return 8;
 }
 
 QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
@@ -119,12 +121,17 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 return ToimitustapaDelegaatti::toimitustapa(map.value("laskutapa").toInt());
             }
             case ASIAKASTOIMITTAJA: {
-                QString kumppani = ostoja_ ?
-                            map.value("toimittaja").toString() : map.value("asiakas").toString();
-                return kumppani.isEmpty() ? map.value("selite") : kumppani;
+                return ostoja_ ?
+                            map.value("toimittaja").toString() : map.value("asiakas").toString();                
             }
             case OTSIKKO:
-                return map.value("otsikko").toString();
+            {
+                QString kumppani = ostoja_ ? map.value("toimittaja").toString() : map.value("asiakas").toString();
+                QString selite = map.value("selite").toString();
+                if( kumppani == selite)
+                    return QVariant();
+                return map.value("selite").toString();
+            }
             default:
                 return QVariant();
             }

@@ -76,7 +76,7 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
         }
     }
 
-    kysymys.append("LEFT OUTER JOIN Kumppani ON tosite.kumppani=kumppani.id "
+    kysymys.append("LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
                     "WHERE ");
     kysymys.append( ehdot.join(" AND ") );
     kysymys.append(" ORDER BY " + jarjestys + "Vienti.pvm, Vienti.id ");

@@ -35,7 +35,7 @@ public:
 
     enum SelausSarake
     {
-        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
+        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, KUMPPANI, SELITE
     };
 
     SelausModel(QObject* parent = nullptr);

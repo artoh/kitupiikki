@@ -173,9 +173,13 @@ void Paakirja::kirjoitaDatasta()
 
                 rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
                                       optiot_ & SamaTilikausi);
+
+                QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();
+                QString selite = vienti.value("selite").toString();
+
                 if( optiot_ & AsiakasToimittaja)
-                    rr.lisaa( vienti.value("kumppani").toMap().value("nimi").toString() );
-                rr.lisaa( vienti.value("selite").toString());
+                    rr.lisaa( kumppani );
+                rr.lisaa( optiot_ & AsiakasToimittaja && selite == kumppani ? "" : selite );
 
                 if( optiot_ & TulostaKohdennukset)
                     rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi() );
@@ -204,6 +208,7 @@ void Paakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
+                summa.lisaa("",2);
                 summa.lisaa("",2);
 
                 if( optiot_ & TulostaKohdennukset)

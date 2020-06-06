@@ -88,6 +88,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->tulostaButton, &QPushButton::clicked, this, &LaskulistaWidget::raportti);
 
+    connect( laskut_, &QAbstractTableModel::modelReset, [this] { ui->view->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); } );
+
     ui->muistutusNappi->hide();
 }
 
@@ -213,6 +215,7 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
         LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku);
+        connect( dlg, &LaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
@@ -309,6 +312,7 @@ void LaskulistaWidget::naytaLasku()
 void LaskulistaWidget::naytaDialogi(QVariant *data)
 {
     LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
+    connect( dlg, &LaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
     dlg->show();
 }
 

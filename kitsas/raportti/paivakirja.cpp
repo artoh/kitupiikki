@@ -159,10 +159,12 @@ void Paivakirja::dataSaapuu(QVariant *data)
         if( optiot_ & TulostaKohdennukset )
             rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
 
-        if( optiot_ & AsiakasToimittaja)
-            rivi.lisaa( map.value("kumppani").toMap().value("nimi").toString() );
+        QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
+        QString selite = map.value("selite").toString();
 
-        rivi.lisaa( map.value("selite").toString() );
+        if( optiot_ & AsiakasToimittaja)
+            rivi.lisaa( kumppani );
+        rivi.lisaa( optiot_ & AsiakasToimittaja && selite == kumppani ? "" : selite );
 
         qlonglong debetsnt = qRound64( map.value("debet").toDouble() * 100.0 );
         qlonglong kreditsnt = qRound64( map.value("kredit").toDouble() * 100.0 );
