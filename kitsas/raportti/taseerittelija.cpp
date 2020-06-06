@@ -135,14 +135,14 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
                         poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")));
-                        poistettuRivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ) -
+                        poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
                                              qRound64( eramap.value("eur").toDouble() * 100), true);
                         rk.lisaaRivi(poistettuRivi);
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
                         saldorivi.lisaa( kaanna("Jäljellä %1").arg( mista_.toString("dd.MM.yyyy")));
-                        saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ), true );
+                        saldorivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ), true );
                         saldorivi.viivaYlle();
                         rk.lisaaRivi( saldorivi);
                     }
@@ -181,7 +181,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                 RaporttiRivi saldorivi;
                 saldorivi.lisaa(" ", 2);
                 saldorivi.lisaa( kaanna("Alkusaldo %1").arg( mista_.toString("dd.MM.yyyy")));
-                saldorivi.lisaa( qRound64( map.value("ennnen").toDouble() * 100 ), true );
+                saldorivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ), true );
                 rk.lisaaRivi( saldorivi);
 
                 // Muutokset

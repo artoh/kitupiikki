@@ -269,8 +269,12 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 
    if( kk > 12)
    {
-        kk = kk / 10;
-        setCursorPosition( cursorPosition()+1 );
+       if( kk < 20) {
+           kk = 10;
+       } else {
+            kk = kk / 10;
+            setCursorPosition( cursorPosition()+1 );
+       }
    }
 
     if( !QDate(vv,kk,pp).isValid() )

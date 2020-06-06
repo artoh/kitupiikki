@@ -20,6 +20,7 @@
 
 #include <QDate>
 #include <QDebug>
+#include <QSqlError>
 
 EraRoute::EraRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/erat")
@@ -118,12 +119,13 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
                 QSqlQuery apukysely( db() );
                 qlonglong alkusaldo = 0l;
-                apukysely.exec(QString("SELECT sum(debetsnt), sum(kreditsnt) FROM Viennit JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND pvm<%2 AND Tosite.tila >= 100 ")
+                apukysely.exec(QString("SELECT sum(debetsnt), sum(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Vienti.pvm<'%2' AND Tosite.tila >= 100 ")
                                .arg(eraid).arg(mista.toString(Qt::ISODate)));
-                if( apukysely.next())
+                if( apukysely.next()) {
                     alkusaldo = tili->onko(TiliLaji::VASTAAVAA) ?
                                 apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong() :
                                 apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() ;
+                }
 
                 apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, tosite.id "
                                        "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
@@ -145,7 +147,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                     map.insert("sarja", apukysely.value(4));
                     map.insert("tunniste", apukysely.value(5));
                     map.insert("id", apukysely.value(6).toInt());
-                    map.insert("selite", apukysely.value(2).toDate());
+                    map.insert("selite", apukysely.value(2).toString());
                     map.insert("eur", summa / 100.0);
                     muutosyht += summa;
                     muutokset.append(map);
@@ -157,6 +159,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 era.insert("pvm", erakysely.value(4).toDate());
                 era.insert("sarja",erakysely.value(5));
                 era.insert("tunniste", erakysely.value(6));
+                era.insert("selite", erakysely.value("selite"));
                 era.insert("eur", alkusentit / 100.0);
 
                 QVariantMap emap;
