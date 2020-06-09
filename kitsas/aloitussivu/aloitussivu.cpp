@@ -810,7 +810,7 @@ QString AloitusSivu::summat()
 
         txt.append( QString("<tr><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
-                    .arg(tili->nimiNumero())
+                    .arg(tili->nimiNumero().toHtmlEscaped())
                     .arg(saldo,0,'f',2) );
 
     }

@@ -407,7 +407,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                         txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
                     }
                 }
-                QString tekstia = rivi.teksti(i);
+                QString tekstia = rivi.teksti(i).toHtmlEscaped();
                 tekstia.replace(' ', "&nbsp;");
                 tekstia.replace('\n', "<br>");
 
