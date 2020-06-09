@@ -187,6 +187,14 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     {
         // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
         return QVariant( map.value("tosite").toMap().value("id").toInt() );
+    } else if( role == EtsiRooli) {
+        return QString("%1 %2 %3").arg(kp()->tositeTunnus( map.value("tosite").toMap().value("tunniste").toInt(),
+                                                           map.value("tosite").toMap().value("pvm").toDate(),
+                                                           map.value("tosite").toMap().value("sarja").toString(),
+                                                           samakausi_,
+                                                           role == Qt::EditRole ))
+                .arg(map.value("kumppani").toMap().value("nimi").toString())
+                .arg(map.value("selite").toString());
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )
     {

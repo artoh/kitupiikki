@@ -58,6 +58,7 @@ SelausWg::SelausWg(QWidget *parent) :
     etsiProxy->setSortLocaleAware(true);
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+    etsiProxy->setFilterRole(SelausModel::EtsiRooli);
     etsiProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->selausView->setModel( etsiProxy );

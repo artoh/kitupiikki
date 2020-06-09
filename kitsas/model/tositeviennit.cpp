@@ -135,7 +135,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             QVariantList merkkaukset = rivi.value("merkkaukset").toList();
             for( auto merkkaus : merkkaukset)
                 txt.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() + " " );
-            if( rivi.eraId() == -1 )
+            if( rivi.eraId() == -1 || (rivi.eraId() == rivi.id() && rivi.eraId() > 0))
                 txt.append(tr("Uusi erä"));
             else if( rivi.value("era").toMap().contains("tunniste")  )
             {
@@ -280,12 +280,18 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                 rivi.setSelite( value.toString());
                 break;
             case DEBET:
-                rivi.setDebet( value.toDouble() );
+                if( value.toDouble() < -1e-5)
+                    rivi.setKredit( 0 - value.toDouble());
+                else
+                    rivi.setDebet( value.toDouble() );
                 viennit_[index.row()] = rivi;
                 emit dataChanged(index, index.sibling(index.row(), TositeViennit::KREDIT), QVector<int>() << Qt::EditRole);
                 return true;
             case KREDIT:
-                rivi.setKredit( value.toDouble() );
+                if( value.toDouble() < -1e-5)
+                    rivi.setDebet( 0 - value.toDouble());
+                else
+                    rivi.setKredit( value.toDouble() );
                 viennit_[index.row()] = rivi;
                 emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
                 return true;

@@ -68,6 +68,7 @@ public slots:
     void naytaLaskelma(RaportinKirjoittaja rk);
 
 protected:
+    void laskemaTallennettu();
     AlvLaskelma *laskelma_;
 };
 

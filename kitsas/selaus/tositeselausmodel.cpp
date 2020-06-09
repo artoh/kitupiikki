@@ -136,6 +136,14 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
     {
         // UserRolessa on id
         return map.value("id");
+     } else if( role == EtsiRooli) {
+        return QString("%1 %2 %3").arg(kp()->tositeTunnus( map.value("tunniste").toInt(),
+                                                           map.value("pvm").toDate(),
+                                                           map.value("sarja").toString(),
+                                                           samakausi_,
+                                                           false))
+                .arg(map.value("kumppani").toString())
+                .arg(map.value("otsikko").toString());
     }
     else if( role == Qt::DecorationRole && index.column()==SUMMA )
     {

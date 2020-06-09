@@ -56,6 +56,8 @@ public:
     {
         TositeIdRooli = Qt::UserRole,
         TositeTyyppiRooli = Qt::UserRole + 1,
+        EtsiRooli = Qt::UserRole + 128
+
     };
 
     enum {
