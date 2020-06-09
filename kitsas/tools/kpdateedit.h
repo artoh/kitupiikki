@@ -130,4 +130,12 @@ protected:
 
 };
 
+class KpDateEditDelegaatille : public KpDateEdit {
+    Q_OBJECT
+public:
+    KpDateEditDelegaatille(QWidget *parent = nullptr);
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
+};
+
 #endif // KPDATEEDIT_H

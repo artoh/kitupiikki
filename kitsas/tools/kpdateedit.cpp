@@ -385,3 +385,17 @@ void KpDateEdit::mouseMoveEvent(QMouseEvent *event)
 
     QLineEdit::mouseMoveEvent( event);
 }
+
+KpDateEditDelegaatille::KpDateEditDelegaatille(QWidget *parent)
+    : KpDateEdit(parent)
+{
+
+}
+
+void KpDateEditDelegaatille::keyPressEvent(QKeyEvent *event)
+{
+    if( event->key() == Qt::Key_Up || event->key() == Qt::Key_Down )
+        return QLineEdit::keyPressEvent(event);
+    else
+        KpDateEdit::keyPressEvent(event);
+}
