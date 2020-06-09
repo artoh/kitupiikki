@@ -724,6 +724,15 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
 
     QVariantMap map = data();
+
+    for(QVariant var : map.value("viennit").toList()) {
+        TositeVienti vienti = var.toMap();
+        if( !vienti.tili() ) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"),tr("Tiliöinnit ovat puutteellisia."));
+            return;
+        }
+    }
+
     map.insert("tila", moodi);
 
     if( ryhmalasku_ ) {

@@ -194,12 +194,14 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     avoinProxy_->setFilterFixedString("");
 
     bool maksu = false;
-    for(int i=0; i < avoinProxy_->rowCount(); i++) {
-        if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
-            ui->maksuView->selectRow(i);
-            maksu = true;
-            break;
-        }        
+    if( rivi.era.value("id").toInt()) {
+        for(int i=0; i < avoinProxy_->rowCount(); i++) {
+            if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
+                ui->maksuView->selectRow(i);
+                maksu = true;
+                break;
+            }
+        }
     }
     if( rivi.era.value("id").toInt() && !maksu) {
         ui->alaTabs->setCurrentIndex( SIIRTO );
@@ -222,7 +224,8 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
 
     ui->suodatusEdit->setText( saajamaksaja );
-    suodata(saajamaksaja);
+    if( !saajamaksaja.isEmpty())
+        suodata(saajamaksaja);
 }
 
 
@@ -253,8 +256,10 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     } else if( tab == TULOMENO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
-        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");        
-        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
+        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
+        Tili* valittuna = ui->tiliEdit->tili();
+        if( !valittuna || (menoa_ && !valittuna->onko(TiliLaji::MENO)) || (!menoa_ && !valittuna->onko(TiliLaji::TULO)) )
+            ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
