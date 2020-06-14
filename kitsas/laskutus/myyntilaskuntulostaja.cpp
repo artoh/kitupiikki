@@ -287,7 +287,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     // Lähettäjätiedot
     double vasen = 0.0;
     double ylos = 0.0;
-    bool logossaNimi = kp()->asetukset()->onko("LogossaNimi");
+    bool logossaNimi = kp()->asetukset()->onko("LogossaNimi") && !kp()->logo().size().isEmpty();
 
     if( !kp()->logo().isNull() )
     {
