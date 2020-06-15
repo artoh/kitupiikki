@@ -121,11 +121,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                     RaporttiRivi nimirivi;
                     QVariantMap eramap = map.value("era").toMap();
-                    nimirivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID,
-                                            eramap.value("id").toInt(),
-                                            kp()->tositeTunnus( eramap.value("tunniste").toInt(),
-                                            eramap.value("pvm").toDate(),
-                                            eramap.value("sarja").toString()) );
+                    lisaaTositeTunnus( &nimirivi, eramap);
                     nimirivi.lisaa( eramap.value("pvm").toDate() );
                     nimirivi.lisaa( eramap.value("selite").toString());
                     nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
@@ -151,12 +147,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     for( QVariant muutos : map.value("kausi").toList()) {
                         QVariantMap mmap = muutos.toMap();
                         RaporttiRivi rr;
-
-                        rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID,
-                                         mmap.value("id").toInt(),
-                                         kp()->tositeTunnus(mmap.value("tunniste").toInt(),
-                                                            mmap.value("pvm").toDate(),
-                                                            mmap.value("sarja").toString()) );
+                        lisaaTositeTunnus(&rr, mmap);
                         rr.lisaa( mmap.value("pvm").toDate());
                         rr.lisaa( mmap.value("selite").toString());
                         rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
@@ -188,12 +179,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                 for( QVariant muutos : map.value("kausi").toList()) {
                     QVariantMap mmap = muutos.toMap();
                     RaporttiRivi rr;
-
-                    rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID,
-                                     mmap.value("id").toInt(),
-                                     kp()->tositeTunnus(mmap.value("tunniste").toInt(),
-                                                        mmap.value("pvm").toDate(),
-                                                        mmap.value("sarja").toString()) );
+                    lisaaTositeTunnus(&rr, mmap);
                     rr.lisaa( mmap.value("pvm").toDate());
                     rr.lisaa( mmap.value("selite").toString());
                     rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
@@ -208,14 +194,9 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     RaporttiRivi rr;
 
                     if( emap.contains("id")) {
-
-                    rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID,
-                                     emap.value("id").toInt(),
-                                     kp()->tositeTunnus(emap.value("tunniste").toInt(),
-                                                        emap.value("pvm").toDate(),
-                                                        emap.value("sarja").toString()) );
-                    rr.lisaa( emap.value("pvm").toDate());
-                    rr.lisaa( emap.value("selite").toString());
+                        lisaaTositeTunnus(&rr, emap);
+                        rr.lisaa( emap.value("pvm").toDate());
+                        rr.lisaa( emap.value("selite").toString());
                     } else {
                         rr.lisaa("",2);
                         rr.lisaa(kaanna("Erittelemättömät"));
@@ -246,4 +227,18 @@ void TaseErittelija::dataSaapuu(QVariant *data)
     rk.lisaaTyhjaRivi();
 
     emit valmis(rk);
+}
+
+void TaseErittelija::lisaaTositeTunnus(RaporttiRivi *rivi, const QVariantMap &map)
+{
+    QDate pvm = map.value("pvm").toDate();
+
+    if( pvm < mista_ || pvm > mihin_) {
+        // Tositetta ei ole tässä arkistossa
+        rivi->lisaa( kp()->tositeTunnus(map.value("tunniste").toInt(),
+                                        map.value("pvm").toDate(),
+                                        map.value("sarja").toString()) );
+    } else {
+        rivi->lisaaTositeTunnus(map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
+    }
 }

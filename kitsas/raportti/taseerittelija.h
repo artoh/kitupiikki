@@ -38,6 +38,8 @@ protected slots:
     void dataSaapuu(QVariant *data);
 
 protected:
+    void lisaaTositeTunnus(RaporttiRivi* rivi, const QVariantMap& map);
+
     QDate mista_;
     QDate mihin_;
 };
