@@ -182,7 +182,7 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko)
     asetaOtsikko(uusiotsikko);
     asetaPvm(paiva);
     if( erapvm().isValid())
-        asetaErapvm(paiva.addDays(siirto));
+        asetaErapvm(erapvm().addDays(siirto));
     setData(TILA,0);
 
     tarkasta();
