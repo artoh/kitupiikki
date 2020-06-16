@@ -979,7 +979,7 @@
         "fi": "Käyvän arvon rahasto",
         "sv": "Fond för verkligt vårde",
         "en": "Fair value reserve",
-        "L": "",
+        "L": "99999",
         "S": 2
       },
       {
@@ -1171,14 +1171,14 @@
         "fi": "Siirtovelat",
         "sv": "Resultatregleringar",
         "en": "Accruals and deferred income",
-        "L": "295..297 *",
+        "L": "275 *",
         "S": 2
       },
       {
         "fi": "Lyhytaikainen vieras pääoma",
         "sv": "Kortfristiga främmande kapital",
         "en": "Short-term creditors",
-        "L": "28..29 *",
+        "L": "28..29",
         "S": 1
       },
       {
