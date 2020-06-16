@@ -117,6 +117,9 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
 
 Kirjanpito::~Kirjanpito()
 {
+    if(yhteysModel())
+        yhteysModel()->sulje();
+
     tietokanta_.close();
     delete tempDir_;
     delete printer_;

@@ -48,7 +48,10 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::pvmMuuttui, ui->tililtaMerkkausCC, &CheckCombo::haeMerkkaukset );
     connect( tosite, &Tosite::pvmMuuttui, ui->tililleMerkkausCC, &CheckCombo::haeMerkkaukset );
     connect( tosite, &Tosite::pvmMuuttui, ui->tililtaKohdennusCombo, &KohdennusCombo::suodataPaivalla);
-    connect( tosite, &Tosite::pvmMuuttui, ui->tililleKohdennusCombo, &KohdennusCombo::suodataPaivalla);
+    connect( tosite, &Tosite::pvmMuuttui, ui->tililleKohdennusCombo, &KohdennusCombo::suodataPaivalla);    
+
+    connect( tosite, &Tosite::pvmMuuttui, this, &SiirtoApuri::tositteelle);
+    connect( tosite, &Tosite::otsikkoMuuttui, this, &SiirtoApuri::tositteelle);
 }
 
 SiirtoApuri::~SiirtoApuri()

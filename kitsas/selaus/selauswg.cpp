@@ -83,8 +83,6 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
-    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
-
     connect( proxyModel, &QSortFilterProxyModel::modelReset, ui->selausView, &QTableView::resizeColumnsToContents);
     connect( proxyModel, &QSortFilterProxyModel::modelReset, this, &SelausWg::valitseValittu);
 
@@ -94,7 +92,8 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( etsiProxy, &QSortFilterProxyModel::modelReset , this, &SelausWg::paivitaSuodattimet );
     connect( etsiProxy, &QSortFilterProxyModel::modelReset , [this] { this->paivitaSummat(); });
 
-    connect( kp(), &Kirjanpito::tilikausiAvattu, [this] { this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
+    connect( kp(), &Kirjanpito::tilikausiAvattu, [this] {
+        this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
     connect( ui->paivitaNappi, &QPushButton::clicked, this, &SelausWg::paivita);
 
     connect( ui->selausView, &QTableView::customContextMenuRequested, this, &SelausWg::contextMenu);
