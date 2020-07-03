@@ -555,7 +555,7 @@ void AlvLaskelma::tallennaViennit(const QVariantList &viennit, bool maksuperuste
     QVariantList lista = viennit;
     for(auto item : lista) {
         QVariantMap map = item.toMap();
-        if( map.value("alvkoodi").toInt() )
+        if( map.value("alvkoodi").toInt() && map.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA )
             taulu_.lisaa(map);
         if( maksuperusteinen )
             kasitteleMaksuperusteinen(map);

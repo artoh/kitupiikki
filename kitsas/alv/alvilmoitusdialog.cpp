@@ -102,6 +102,6 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 void AlvIlmoitusDialog::laskemaTallennettu()
 {
     laskelma_->deleteLater();
-    accept();
+    QDialog::accept();
 }
 

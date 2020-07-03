@@ -386,7 +386,7 @@ void TositeLiitteet::poista(int indeksi)
 
 void TositeLiitteet::tallennaSeuraava()
 {
-    while( tallennuksessa_ < liitteet_.count() - 1)
+    if( tallennuksessa_ < liitteet_.count() - 1)
     {
         tallennuksessa_++;
         if( !liitteet_.at(tallennuksessa_).getLiiteId() && !liitteet_.at(tallennuksessa_).getLiitettava())
@@ -403,8 +403,9 @@ void TositeLiitteet::tallennaSeuraava()
             tallennus->lahetaTiedosto( liitteet_.at(tallennuksessa_).getSisalto(), meta );
             return;
         }
+    } else {
+        emit liitteetTallennettu();
     }
-    emit liitteetTallennettu();
 }
 
 void TositeLiitteet::liitesaapuu(QVariant *data)

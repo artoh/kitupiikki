@@ -450,7 +450,7 @@ void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, cons
     beginResetModel();
     for(int i=0; i < viennit_.count(); i++) {
         TositeVienti vienti = viennit_.value(i).toMap();
-        vienti.setId(0);
+        vienti.remove("id");
         int siirto = vienti.pvm().daysTo(pvm);
         vienti.setPvm( pvm );
         if( vienti.jaksoalkaa().isValid())

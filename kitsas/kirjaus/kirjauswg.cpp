@@ -358,7 +358,10 @@ void KirjausWg::pohjaksi()
     ui.otsikkoEdit->setText(tosite()->otsikko());
     if( dlg.exec() == QDialog::Accepted) {
         tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
-
+        if( apuri_) {
+            apuri_->reset();
+            apuri_->tositteelle();
+        }
     }
 }
 

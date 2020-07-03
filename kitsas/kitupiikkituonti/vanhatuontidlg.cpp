@@ -715,7 +715,7 @@ void VanhatuontiDlg::siirraTositteet()
                 QMapIterator<QString,QVariant> iter(voittolukumap);
                 while( iter.hasNext()) {
                     iter.next();
-                    voittoMap.insert(iter.key(), iter.value().toDouble() / 100.0);
+                    voittoMap.insert(iter.key() + ".00", iter.value().toDouble() / 100.0);
                 }
                 alvmap.insert("marginaalialijaama", voittoMap);
             }

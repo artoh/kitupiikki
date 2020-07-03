@@ -41,12 +41,12 @@ public slots:
     virtual bool tositteelle();
 
 protected:
+    void aloitaResetointi();
+    void lopetaResetointi();
+
     virtual void teeReset() = 0;
     virtual bool teeTositteelle() = 0;
 
-
-    void aloitaResetointi();
-    void lopetaResetointi();    
 
 protected:
     Tosite* pTosite_;
