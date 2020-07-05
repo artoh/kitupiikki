@@ -39,6 +39,7 @@ public:
 public slots:
     virtual void reset();
     virtual bool tositteelle();
+    virtual void salliMuokkaus(bool sallitaanko=true);
 
 protected:
     void aloitaResetointi();

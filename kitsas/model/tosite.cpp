@@ -178,15 +178,12 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko)
     loki_->lataa(QVariantList());
 
     setData(ID, 0);
+    setData(TILA, 0);
     setData(TUNNISTE, 0);    
     asetaOtsikko(uusiotsikko);
     asetaPvm(paiva);
     if( erapvm().isValid())
         asetaErapvm(erapvm().addDays(siirto));
-    setData(TILA,0);
-
-    tarkasta();
-
 }
 
 void Tosite::lataa(int tositeid)

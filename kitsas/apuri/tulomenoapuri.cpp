@@ -161,6 +161,21 @@ void TuloMenoApuri::tuo(QVariantMap map)
     tositteelle();
 }
 
+void TuloMenoApuri::salliMuokkaus(bool sallitaanko)
+{
+    for( QObject* object : children()) {
+        QWidget* widget = qobject_cast<QWidget*>(object);
+        if(!widget)
+            continue;
+        if(widget->objectName() == "loppuEdit")
+            widget->setEnabled(ui->alkuEdit->date().isValid() && sallitaanko);
+        else if(widget->objectName() == "tilellaView")
+            widget->setEnabled(true);
+        else
+            widget->setEnabled(sallitaanko);
+    }
+}
+
 void TuloMenoApuri::teeReset()
 {
 

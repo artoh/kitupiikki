@@ -40,6 +40,15 @@ bool ApuriWidget::tositteelle()
     return teeTositteelle();
 }
 
+void ApuriWidget::salliMuokkaus(bool sallitaanko)
+{
+    for( QObject* object : children()) {
+        QWidget* widget = qobject_cast<QWidget*>(object);
+        if(widget)
+            widget->setEnabled(sallitaanko);
+    }
+}
+
 void ApuriWidget::tuo(QVariantMap /*map*/)
 {
 

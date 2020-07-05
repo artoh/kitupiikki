@@ -357,11 +357,13 @@ void KirjausWg::pohjaksi()
     ui.pvmEdit->setDate(kp()->paivamaara());
     ui.otsikkoEdit->setText(tosite()->otsikko());
     if( dlg.exec() == QDialog::Accepted) {
-        tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
         if( apuri_) {
-            apuri_->reset();
-            apuri_->tositteelle();
+            delete apuri_;
+            apuri_ = 0;
         }
+        tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
+        tositeTyyppiVaihtui( tosite()->tyyppi() );
+        tosite()->tarkasta();
     }
 }
 
@@ -615,12 +617,8 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->lisaaRiviNappi->setVisible( !apuri_);
     ui->poistariviNappi->setVisible( !apuri_);
 
-    if( apuri_ && !sallitaanko) {
-        for( QObject* object : apuri_->children()) {
-            QWidget* widget = qobject_cast<QWidget*>(object);
-            if( widget && widget->objectName() != "tilellaView")
-                widget->setEnabled(false);
-        }
+    if( apuri_ ) {
+        apuri_->salliMuokkaus(sallitaanko);
     }
 }
 
