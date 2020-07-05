@@ -123,7 +123,9 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case SAAJAMAKSAJA:
             return rivi.saajamaksaja;
         case SELITE:
-            return  rivi.selite;
+            if( rivi.selite.isEmpty())
+                return tr("Viite ") + rivi.viite;
+            return rivi.selite;
         default:
             return QVariant();
 
@@ -163,7 +165,13 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         return rivi.tili;
     case HarmaaRooli:
         return rivi.harmaa ? "X" : "-";
+    case Qt::ForegroundRole:
+        if( index.column() == SELITE && rivi.selite.isEmpty())
+            return QColor(Qt::darkBlue);
     }
+
+
+
 
 
 
@@ -511,6 +519,7 @@ void TilioteModel::teeTuonti()
             else if( rivi.euro > 1e-5 && kp()->asetukset()->onko("TilioteTuloKaytossa"))
                 rivi.tili = kp()->asetukset()->luku("TilioteTulotili");
         }
+        rivi.viite = map.value("viite").toString();
 
         rivit_.append(rivi);
     }

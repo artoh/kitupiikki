@@ -162,6 +162,9 @@ void AlvLaskelma::kirjaaVerot()
         TositeVienti maksu;
         maksu.setSelite( selite );
         maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        if( vahennys > vero && kp()->asetukset()->onko("AlvPalautusSaatavatilille"))
+            maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).numero() );
+
         maksu.setAlvKoodi( AlvKoodi::TILITYS );
         if( vero > vahennys )
             maksu.setKredit(  vero - vahennys );

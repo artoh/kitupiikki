@@ -107,7 +107,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
     rivi.pvm = ui->pvmEdit->date();
     rivi.euro = ui->euroEdit->value();
 
-    rivi.selite = ui->seliteEdit->text();
+    rivi.selite = ui->seliteEdit->toPlainText();
     rivi.tili = ui->tiliEdit->valittuTilinumero();
     rivi.kohdennus = ui->kohdennusCombo->kohdennus();
     rivi.merkkaukset = ui->merkkausCC->selectedDatas();
@@ -326,7 +326,7 @@ void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selit
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
-    if( ui->seliteEdit->text().isEmpty())
+    if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setText(selite);
     haeAlkuperaisTosite(eraId);
 

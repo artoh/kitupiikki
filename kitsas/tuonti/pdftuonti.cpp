@@ -38,6 +38,7 @@
 
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include "laskutus/myyntilaskuntulostaja.h"
 
 namespace Tuonti {
 
@@ -457,12 +458,12 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
             else if( teksti.contains("Määrä"))
                 maarasarake = sarake;
 
-        } else if(arkistorivi == rivi) {
+        } if(arkistorivi == rivi) {
             if(teksti.contains("Määrä", Qt::CaseInsensitive)) {
                 maarasarake = sarake;
             }
             else if( teksti.contains("Maksunsaaja", Qt::CaseInsensitive) ||
-                     teksti.contains("Saaja/Maksaja")) {
+                     teksti.contains(QRegularExpression("saaja\\s*/\\s*maksaja",QRegularExpression::CaseInsensitiveOption)) ) {
                 saajaensin = true;
                 selityssarake = sarake;
             }
@@ -563,7 +564,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     tapahtuma.insert("arkistotunnus",tunnari);
                     if( teksti.length() > tunnari.length() + 10) {
                         teksti = teksti.mid(tunnari.length() + 1);
-                        sarake += 7;
+                        sarake = selityssarake;
                     }
                 }
                 if( tapahtumanrivi == 2) {
@@ -571,14 +572,14 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     if( IbanValidator::kelpaako(alku)) {
                         tapahtuma.insert("iban", alku);
                         teksti = teksti.mid(18);
-                        sarake += 7;
+                        sarake = selityssarake;
                     }
                 }
             }
 
             // Toisessa sarakkeessa Saaja / Maksaja + Selite
 
-            if( sarake > selityssarake - 25 && sarake < selityssarake + 5) {
+            if( sarake > selityssarake - 25 && sarake < selityssarake + 5 && teksti.length() > 3) {
 
                 // Poistetaan alusta mahdollinen päivämäärä
                 QString alku = teksti.left(teksti.indexOf(' '));
@@ -616,7 +617,9 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                         if( IbanValidator::kelpaako(mats.captured()))
                             tapahtuma.insert("iban",mats.captured(0));
                     } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
-                        if (!tapahtuma.value("selite").toString().isEmpty())
+                        if( teksti == "IBAN" || teksti == "BIC"|| teksti == MyyntiLaskunTulostaja::bicIbanilla(tapahtuma.value("iban").toString()))
+                            ;
+                        else if (!tapahtuma.value("selite").toString().isEmpty())
                             tapahtuma.insert("selite", tapahtuma.value("selite").toString() + " " + teksti);
                         else
                             tapahtuma.insert("selite",teksti);
