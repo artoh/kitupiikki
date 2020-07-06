@@ -123,7 +123,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case SAAJAMAKSAJA:
             return rivi.saajamaksaja;
         case SELITE:
-            if( rivi.selite.isEmpty())
+            if( rivi.selite.isEmpty() && !rivi.viite.isEmpty())
                 return tr("Viite ") + rivi.viite;
             return rivi.selite;
         default:

@@ -579,7 +579,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
             // Toisessa sarakkeessa Saaja / Maksaja + Selite
 
-            if( sarake > selityssarake - 25 && sarake < selityssarake + 5 && teksti.length() > 3) {
+            if( sarake > selityssarake - 25 && sarake < selityssarake + 10 && teksti.length() > 3) {
 
                 // Poistetaan alusta mahdollinen päivämäärä
                 QString alku = teksti.left(teksti.indexOf(' '));
@@ -598,8 +598,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
                     if (teksti.contains(seliteRe) && !tapahtuma.contains("saajamaksaja"))
                         tapahtuma.insert("saajamaksaja", teksti.simplified());
-                } else if( teksti.contains("Viite") && teksti.contains(viiteRe) && !tapahtuma.contains("viite")
-                           && sarake > arkistosarake + 5 && sarake < maarasarake - 5) {
+                } else if(  teksti.contains(viiteRe) && !tapahtuma.contains("viite")) {
                     QRegularExpressionMatch mats = viiteRe.match(teksti);
                     QString ehdokas = mats.captured("viite");
                     if( ViiteValidator::kelpaako(ehdokas)) {
@@ -617,7 +616,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                         if( IbanValidator::kelpaako(mats.captured()))
                             tapahtuma.insert("iban",mats.captured(0));
                     } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
-                        if( teksti == "IBAN" || teksti == "BIC"|| teksti == MyyntiLaskunTulostaja::bicIbanilla(tapahtuma.value("iban").toString()))
+                        QString bic = MyyntiLaskunTulostaja::bicIbanilla(tapahtuma.value("iban").toString());
+                        if( teksti == "IBAN" || teksti == "BIC" || (bic.length() > 4 && teksti.startsWith(bic))  )
                             ;
                         else if (!tapahtuma.value("selite").toString().isEmpty())
                             tapahtuma.insert("selite", tapahtuma.value("selite").toString() + " " + teksti);
