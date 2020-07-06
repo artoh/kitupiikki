@@ -153,7 +153,10 @@ void Paakirja::kirjoitaDatasta()
             rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
                                 tili.nimiNumero(), 5);
-
+            if( optiot_ & TulostaKohdennukset)
+                rivi.lisaa("");
+            if( optiot_ & AsiakasToimittaja)
+                rivi.lisaa("");
             qlonglong saldo =  saldot_.value( tili.numero() );
             rivi.lisaa( saldo );
             rk.lisaaRivi(rivi);
@@ -208,10 +211,11 @@ void Paakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
-                summa.lisaa("",2);
-                summa.lisaa("",2);
+                summa.lisaa("",4);
 
                 if( optiot_ & TulostaKohdennukset)
+                    summa.lisaa("");
+                if( optiot_ & AsiakasToimittaja)
                     summa.lisaa("");
 
                 qlonglong muutos = tili.onko(TiliLaji::VASTAAVAA) ?
@@ -240,6 +244,12 @@ void Paakirja::kirjoitaDatasta()
         summa.lihavoi();
         summa.lisaa("",2);
         summa.lisaa(kaanna("Yhteensä"),3);
+
+        if( optiot_ & TulostaKohdennukset)
+            summa.lisaa("");
+        if( optiot_ & AsiakasToimittaja)
+            summa.lisaa("");
+
 
         summa.lisaa(kaikkiDebet);
         summa.lisaa(kaikkiKredit);

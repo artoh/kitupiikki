@@ -115,6 +115,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
             if( optiot_ & TulostaSummat && edellinentyyppi) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
                 valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+                if( optiot_ & AsiakasToimittaja)
+                    valisumma.lisaa("");
                 valisumma.lisaa( debetvalisumma);
                 valisumma.lisaa(kreditvalisumma);
                 valisumma.viivaYlle();
@@ -184,6 +186,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
     if( optiot_ & TulostaSummat && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
         valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+        if( optiot_ & AsiakasToimittaja)
+            valisumma.lisaa("");
         valisumma.lisaa( debetvalisumma);
         valisumma.lisaa(kreditvalisumma);
         valisumma.viivaYlle();
@@ -194,6 +198,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
         summarivi.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+        if( optiot_ & AsiakasToimittaja)
+            summarivi.lisaa("");
         summarivi.lisaa( debetsumma);
         summarivi.lisaa(kreditsumma);
         summarivi.viivaYlle();

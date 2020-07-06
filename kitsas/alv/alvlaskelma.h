@@ -84,11 +84,13 @@ public slots:
 protected:
     void tallennaViennit(const QVariantList& viennit, bool maksuperusteinen=false);
     void viennitSaapuu(QVariant* viennit);
+    void haeHuojennusJosTarpeen();
     void laskeHuojennus(QVariant* viennit);
     void tallennusValmis();
 
 protected:
     void viimeistele();
+    void viimeViimeistely();
     void hae();
     void lisaaKirjausVienti(TositeVienti vienti);
 

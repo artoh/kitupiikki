@@ -85,7 +85,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
         if( liikevaihto_ < 1000000)
             huojennus_ = verohuojennukseen_;
         else {
-            huojennus_ = verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000;
+            huojennus_ = qRound64(verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000.0);
         }
         if( huojennus_ > verohuojennukseen_)
             huojennus_ = verohuojennukseen_;
@@ -106,6 +106,12 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     rk.lisaaTyhjaRivi();
 
+    yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
+    maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
+    yvRivi(308, tr("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
+
+    rk.lisaaTyhjaRivi();
+
     yvRivi(309, tr("0-verokannan alainen liikevaihto"), taulu_.summa(AlvKoodi::ALV0));
     yvRivi(310, tr("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
     yvRivi(311, tr("Tavaroiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_TAVARAT));
@@ -121,11 +127,6 @@ void AlvLaskelma::kirjoitaYhteenveto()
     yvRivi(316, tr("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
     yvRivi(317, tr("Alarajahuojennuksen määrä"), huojennus());
 
-    rk.lisaaTyhjaRivi();
-
-    yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
-    maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
-    yvRivi(308, tr("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
     rk.lisaaTyhjaRivi();
 
 }
@@ -216,7 +217,10 @@ void AlvLaskelma::kirjoitaErittely()
                     RaporttiRivi rivi;
                     rivi.lisaa( vienti.value("pvm").toDate() );
                     rivi.lisaa( vienti.value("tosite").toMap().value("tunniste").toString() );
-                    rivi.lisaa( vienti.value("selite").toString());
+                    if( vienti.value("selite").toString().isEmpty())
+                        rivi.lisaa( vienti.value("kumppani").toMap().value("nimi").toString());
+                    else
+                        rivi.lisaa( vienti.value("selite").toString());
                     rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
 
                     qlonglong debetsnt = qRound64(vienti.value("debet").toDouble() * 100);
@@ -514,42 +518,7 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
 {
     alkupvm_ = alkupvm;
     loppupvm_ = loppupvm;
-
-    QDate huojennusalku;
-    QDate huojennusloppu;
-
-
-    if( loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() && alkupvm.daysTo(loppupvm) < 32 ) {
-        huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm).alkaa();
-        huojennusloppu = loppupvm;
-    } else if( loppupvm.month() == 12 && loppupvm.day() == 31 && alkupvm.daysTo(loppupvm) > 31) {
-        // Jos alv-kausi muu kuin kuukausi, lasketaan verovuoden mukaisesti
-        huojennusloppu = loppupvm;
-        huojennusalku = QDate(loppupvm.year(),1,1);
-        QDate alvalkaa = kp()->asetukset()->pvm("AlvAlkaa");
-        if( alvalkaa.isValid() && alvalkaa > huojennusalku)
-            huojennusalku = alvalkaa;
-    }
-
-    if( huojennusalku.isValid()) {
-        if( huojennusalku.day() == 1)
-            suhteutuskuukaudet_ = 1;
-        else
-            suhteutuskuukaudet_ = 0;
-        for( QDate pvm = huojennusalku.addMonths(1); pvm < loppupvm; pvm = pvm.addMonths(1))
-            suhteutuskuukaudet_++;
-
-        if( loppupvm.addDays(1).day() != 1)
-            suhteutuskuukaudet_--;
-
-        // Sitten tehdään huojennushaku
-        KpKysely* kysely = kpk("/viennit");
-        kysely->lisaaAttribuutti("alkupvm", huojennusalku);
-        kysely->lisaaAttribuutti("loppupvm", huojennusloppu);
-        connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
-        kysely->kysy();
-    } else
-        hae();
+    hae();
 }
 
 void AlvLaskelma::tallennaViennit(const QVariantList &viennit, bool maksuperusteinen)
@@ -574,12 +543,61 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
     tilaaMaksuperusteisenTosite();
 }
 
+void AlvLaskelma::haeHuojennusJosTarpeen()
+{
+    QDate huojennusalku;
+    QDate huojennusloppu;
+
+
+    if( loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32 ) {
+        huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).alkaa();
+        huojennusloppu = loppupvm_;
+    } else if( loppupvm_.month() == 12 && loppupvm_.day() == 31 && alkupvm_.daysTo(loppupvm_) > 31) {
+        // Jos alv-kausi muu kuin kuukausi, lasketaan verovuoden mukaisesti
+        huojennusloppu = loppupvm_;
+        huojennusalku = QDate(loppupvm_.year(),1,1);
+        QDate alvalkaa = kp()->asetukset()->pvm("AlvAlkaa");
+        if( alvalkaa.isValid() && alvalkaa > huojennusalku)
+            huojennusalku = alvalkaa;
+    }
+
+    if( huojennusalku.isValid()) {
+        if( huojennusalku.day() == 1)
+            suhteutuskuukaudet_ = 1;
+        else
+            suhteutuskuukaudet_ = 0;
+        for( QDate pvm = huojennusalku.addMonths(1); pvm < loppupvm_; pvm = pvm.addMonths(1))
+            suhteutuskuukaudet_++;
+
+        if( loppupvm_.addDays(1).day() != 1)
+            suhteutuskuukaudet_--;
+
+        // Sitten tehdään huojennushaku
+        KpKysely* kysely = kpk("/viennit");
+        kysely->lisaaAttribuutti("alkupvm", huojennusalku);
+        kysely->lisaaAttribuutti("loppupvm", huojennusloppu);
+        connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
+        kysely->kysy();
+    } else {
+        viimeViimeistely();
+    }
+}
+
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 {
     liikevaihto_ = 0;
     verohuojennukseen_ = 0;
 
-    for( QVariant var : viennit->toList() ) {
+    QVariantList lista;
+    for(QVariant var : viennit->toList()) {
+        TositeVienti vienti = var.toMap();
+        if( vienti.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA)
+            lista.append(vienti);
+    }
+
+    lista.append(tosite_->viennit()->vientilLista());
+
+    for( QVariant var : lista ) {
         TositeVienti vienti = var.toMap();
 
         if( vienti.tyyppi() == TositeVienti::BRUTTOOIKAISU)
@@ -605,14 +623,19 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 qlonglong brutto = debet - kredit;
                 qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
                 verohuojennukseen_ -= brutto - netto;
+            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI) {
+                liikevaihto_ += kredit - debet;
             }
         } else if( alvkoodi > 100 && alvkoodi < 200 && vienti.alvProsentti() > 1e-5) {
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
                 alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
-                verohuojennukseen_ += kredit - debet;                                
-            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS ||
-                       alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
+                verohuojennukseen_ += kredit - debet;
+            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
+                qlonglong vero = kredit - debet;
+                verohuojennukseen_ += vero;
+                liikevaihto_ -= vero;
+            } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
                        alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS ) {
                 // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
                 // ja matkatoimistopalvelujen marginaaliverojärjestelmää sovellettaessa liikevaihtoon
@@ -626,7 +649,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 double veroprossa = vienti.alvProsentti();
                 qlonglong liikevaihtoon = qRound64( 100 * vero /  veroprossa);
                 verohuojennukseen_ += vero;
-                liikevaihto_ -= liikevaihtoon;
+                liikevaihto_ += liikevaihtoon;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
@@ -635,7 +658,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
     }
 
     liikevaihto_ = liikevaihto_ * 12 / suhteutuskuukaudet_;
-    hae();
+    viimeViimeistely();
 
 }
 
@@ -647,11 +670,16 @@ void AlvLaskelma::tallennusValmis()
 
 void AlvLaskelma::viimeistele()
 {
-    // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
+
     oikaiseBruttoKirjaukset();
     laskeMarginaaliVerotus(2400);
     laskeMarginaaliVerotus(1400);
     laskeMarginaaliVerotus(1000);
+    haeHuojennusJosTarpeen();
+}
+
+void AlvLaskelma::viimeViimeistely()
+{
     kirjoitaLaskelma();
     kirjaaVerot();
     emit valmis( rk );
@@ -733,8 +761,8 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             qlonglong brutto = tiliIter.value().summa();
             int sadasosaprosentti = myyntiIter.key();
 
-            qlonglong netto = brutto * 10000 / ( 10000 + sadasosaprosentti);
-            qlonglong vero = sadasosaprosentti * netto / 10000;
+            qlonglong netto = qRound64( brutto * 10000.0 / ( 10000.0 + sadasosaprosentti) );
+            qlonglong vero = brutto - netto;
 
             QString selite = tr("Bruttomyyntien oikaisu %3 BRUTTO %L1, NETTO %L2")
                     .arg(brutto / 100.0, 0, 'f', 2 )
@@ -773,8 +801,8 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             qlonglong brutto = tiliIter.value().summa(true);
             int sadasosaprosentti = ostoIter.key();
 
-            qlonglong netto = brutto * 10000 / ( 10000 + sadasosaprosentti);
-            qlonglong vero = sadasosaprosentti * netto / 10000;
+            qlonglong netto = qRound64(brutto * 10000.0 / ( 10000 + sadasosaprosentti));
+            qlonglong vero = brutto - netto;
 
             QString selite = tr("Brutto-ostojen oikaisu %3 BRUTTO %L1, NETTO %L2")
                     .arg(brutto / 100.0, 0, 'f', 2 )

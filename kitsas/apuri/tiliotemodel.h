@@ -90,10 +90,10 @@ public:
     void tuo(const QVariantList tuotavat);
 
 public slots:
-    void lataaHarmaat(int tili, const QDate& mista, const QDate& mihin);
+    void lataaHarmaat(int tili, const QDate& mista, const QDate& mihin, int tositeId);
 
 protected slots:
-    void harmaatSaapuu(QVariant* data);
+    void harmaatSaapuu(QVariant* data, int tositeId);
 
 protected:
     void teeTuonti();

@@ -139,7 +139,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case TILI:
             return rivi.tili;
         case EURO:
-            return qRound64( rivi.euro * 100 );
+            return rivi.euro;
         case KOHDENNUS:
             return rivi.kohdennus;
         case SAAJAMAKSAJA:
@@ -303,13 +303,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 tili.setTyyppi( TositeVienti::OSTO + TositeVienti::KIRJAUS);
             }
 
-            if( rivi.selite.isEmpty()) {
-                pankki.setSelite(rivi.saajamaksaja);
-                tili.setSelite(rivi.saajamaksaja);
-            } else {
-                pankki.setSelite( rivi.selite );
-                tili.setSelite( rivi.selite );
-            }
+
+            pankki.setSelite( rivi.selite );
+            tili.setSelite( rivi.selite );
 
             tili.setJaksoalkaa( rivi.jaksoalkaa );
             tili.setJaksoloppuu( rivi.jaksoloppuu );
@@ -327,6 +323,10 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 pankki.setKumppani( rivi.saajamaksaja);
                 tili.setKumppani( rivi.saajamaksaja );
             }
+
+            if( !rivi.viite.isEmpty())
+                tili.set(TositeVienti::VIITE, rivi.viite);
+
 
             int indeksi = lista.count();
 
@@ -408,6 +408,7 @@ void TilioteModel::lataa(const QVariantList &lista)
         rivi.saajamaksajaId = vienti.value("kumppani").toMap().value("id").toInt();
         rivi.jaksoalkaa = vienti.jaksoalkaa();
         rivi.jaksoloppuu = vienti.jaksoloppuu();
+        rivi.viite = vienti.value("viite").toString();
 
         if( vienti.eraId() ) {
             rivi.laskupvm = vienti.value("era").toMap().value("pvm").toDate();
@@ -428,7 +429,7 @@ void TilioteModel::tuo(const QVariantList tuotavat)
     tuotavat_ = tuotavat;
 }
 
-void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin)
+void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin, int tositeId)
 {
     harmaaLaskuri_++;
     KpKysely *kysely = kpk("/viennit");
@@ -437,11 +438,11 @@ void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin
     kysely->lisaaAttribuutti("loppupvm", mihin);
 
 
-    connect( kysely, &KpKysely::vastaus, this, &TilioteModel::harmaatSaapuu);
+    connect( kysely, &KpKysely::vastaus, [tositeId, this] (QVariant* data) { this->harmaatSaapuu(data, tositeId);});
     kysely->kysy();
 }
 
-void TilioteModel::harmaatSaapuu(QVariant *data)
+void TilioteModel::harmaatSaapuu(QVariant *data, int tositeId)
 {
     harmaaLaskuri_--;
     if(harmaaLaskuri_)
@@ -461,7 +462,7 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
     for(auto listalla : lista) {
         QVariantMap map = listalla.toMap();
 
-        if( map.value("tosite").toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE )
+        if( map.value("tosite").toMap().value("id").toInt() == tositeId )
             continue;       // On jo tiliotteelta
 
         Tilioterivi rivi;

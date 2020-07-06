@@ -416,7 +416,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     uudeksiAktio_->setEnabled( !muokattu );
 
-    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() ) &&
+    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA ) &&
                    (tosite_->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite_->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS));
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
