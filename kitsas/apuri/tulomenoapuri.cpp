@@ -230,7 +230,7 @@ void TuloMenoApuri::teeReset()
 
     }
     if( !rivit_->rowCount())
-        rivit_->lisaaRivi();    
+        rivit_->lisaaRivi(menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili"));
 
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
@@ -316,7 +316,7 @@ bool TuloMenoApuri::teeTositteelle()
 
 void TuloMenoApuri::lisaaRivi()
 {
-    int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntiluku");
+    int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili");
 
     ui->tilellaView->setVisible(true);
     ui->tilellaView->selectRow( rivit_->lisaaRivi(tili) );
@@ -653,8 +653,9 @@ void TuloMenoApuri::alusta(bool meno)
 
     if(meno) {
         ui->tiliLabel->setText( tr("Meno&tili") );        
-        ui->tiliEdit->suodataTyypilla("(AP|BY|D).*");
+        ui->tiliEdit->suodataTyypilla("(AP|BY|D).*");        
         ui->toimittajaLabel->setText( tr("Toimittaja"));
+
         if( tosite()->tyyppi() == TositeTyyppi::KULULASKU )
             ui->toimittajaLabel->setText( tr("Laskuttaja"));
     } else {

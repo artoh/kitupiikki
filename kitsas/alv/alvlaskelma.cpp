@@ -591,7 +591,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
     QVariantList lista;
     for(QVariant var : viennit->toList()) {
         TositeVienti vienti = var.toMap();
-        if( vienti.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA)
+        if( vienti.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA || vienti.value("pvm").toDate() <= alkupvm_)
             lista.append(vienti);
     }
 

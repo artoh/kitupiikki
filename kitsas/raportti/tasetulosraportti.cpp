@@ -98,7 +98,7 @@ void TaseTulosRaportti::esikatsele()
     }
 
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
-    connect( raportoija, &Raportoija::tyhjaraportti, this, &TaseTulosRaportti::tyhjaraportti);
+    connect( raportoija, &Raportoija::tyhjaraportti, [this] () { this->nayta(RaportinKirjoittaja()); });
 
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
@@ -159,12 +159,6 @@ void TaseTulosRaportti::paivitaMuodot()
 
     ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findData(nykymuoto) );
     paivitetaan_ = false;
-}
-
-void TaseTulosRaportti::tyhjaraportti()
-{
-    QMessageBox::information(this, tr("Ei raportoitavaa"),
-                             tr("Tekemilläsi valinnoilla muodostuu tyhjä raportti"));
 }
 
 void TaseTulosRaportti::paivitaUi()

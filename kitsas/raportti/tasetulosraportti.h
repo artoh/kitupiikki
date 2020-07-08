@@ -37,7 +37,6 @@ protected slots:
 
     void paivitaKielet();
     void paivitaMuodot();
-    void tyhjaraportti();
 
 protected:
     Raportoija::RaportinTyyppi tyyppi() const { return tyyppi_;}
