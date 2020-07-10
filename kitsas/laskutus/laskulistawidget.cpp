@@ -155,6 +155,7 @@ void LaskulistaWidget::paivitaNapit()
                                  && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
                                  kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
     ui->kopioiNappi->setEnabled( index.isValid() && tyyppi == TositeTyyppi::MYYNTILASKU && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
+
     ui->hyvitysNappi->setVisible( index.isValid()
                                && tyyppi == TositeTyyppi::MYYNTILASKU
                                && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()

@@ -578,6 +578,8 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
         kysely->lisaaAttribuutti("loppupvm", huojennusloppu);
         connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
         kysely->kysy();
+
+        qDebug() << "Alarajahuojennus " << huojennusalku.toString() << " - " << huojennusloppu.toString() << " suhteutuskuukaudet " << suhteutuskuukaudet_;
     } else {
         viimeViimeistely();
     }
@@ -585,8 +587,10 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 {
-    liikevaihto_ = 0;
-    verohuojennukseen_ = 0;
+    liikevaihto_ = 0;  
+
+    qlonglong veroon = 0;
+    qlonglong vahennys = 0;
 
     QVariantList lista;
     for(QVariant var : viennit->toList()) {
@@ -596,6 +600,8 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
     }
 
     lista.append(tosite_->viennit()->vientilLista());
+
+    qDebug() << " =======HUOJENNUSLASKELMA==================";
 
     for( QVariant var : lista ) {
         TositeVienti vienti = var.toMap();
@@ -607,6 +613,9 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
         qlonglong debet = qRound64( vienti.debet() * 100);
         qlonglong kredit = qRound64( vienti.kredit() * 100);
 
+
+        qDebug() << vienti.pvm().toString("dd.MM.yyyy ") << " D " << vienti.debet() << " K "  << vienti.kredit() << " ALV " << vienti.alvKoodi() << " " << vienti.selite();
+
         if( alvkoodi > 0 && alvkoodi < 100) {
             // Tämä on veron tai vähennyksen peruste
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
@@ -614,27 +623,33 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                     alvkoodi == AlvKoodi::ALV0 ||
                     alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI ) {
                 liikevaihto_ += kredit - debet;
+                qDebug() << " A Liikevaihtoon " << kredit-debet;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 qlonglong brutto = kredit - debet;
                 qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
                 liikevaihto_ += netto;
-                verohuojennukseen_ += brutto - netto;
+                veroon += brutto - netto;
+                qDebug() << " B Liikevaihtoon " << netto << " Veroon " << brutto-netto;
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
                 qlonglong brutto = debet - kredit;
                 qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
-                verohuojennukseen_ -= brutto - netto;
+                vahennys += brutto - netto;
+                qDebug() << " C Vähennys " << brutto-netto;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI) {
                 liikevaihto_ += kredit - debet;
+                qDebug() << " D Liikevaihtoon " << kredit-debet;
             }
         } else if( alvkoodi > 100 && alvkoodi < 200 && vienti.alvProsentti() > 1e-5) {
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
                 alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
-                verohuojennukseen_ += kredit - debet;
+                veroon += kredit - debet;
+                qDebug() << " E Veroon " << kredit-debet;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
                 qlonglong vero = kredit - debet;
-                verohuojennukseen_ += vero;
+                veroon += vero;
                 liikevaihto_ -= vero;
+                qDebug() << "F Liikevaihtoon " << 0 - vero << " Veroon " << vero;
             } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
                        alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS ) {
                 // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
@@ -648,16 +663,30 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 qlonglong vero = kredit - debet;
                 double veroprossa = vienti.alvProsentti();
                 qlonglong liikevaihtoon = qRound64( 100 * vero /  veroprossa);
-                verohuojennukseen_ += vero;
+                veroon += vero;
                 liikevaihto_ += liikevaihtoon;
+                qDebug() << " G Liikevaihtoon " << liikevaihtoon << " Veroon " << vero;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
-            verohuojennukseen_ -= debet - kredit;
+            vahennys += debet - kredit;
+            qDebug() << " H Vähennykseen " << debet-kredit;
         }
     }
 
+    qDebug() << " ================================= ";
+    qDebug() << " Oikeuttava Liikevaihto " << liikevaihto_;
+
+    qDebug() << " Huomioitavat verot " << veroon;
+    qDebug() << " Huomioitavat vähennykset " << vahennys;
+    verohuojennukseen_ = veroon - vahennys;
+
+    qDebug() << " Oikeuttava vero " << verohuojennukseen_;
+
     liikevaihto_ = liikevaihto_ * 12 / suhteutuskuukaudet_;
+
+    qDebug() << " Suhteutettu "<< liikevaihto_;
+
     viimeViimeistely();
 
 }
