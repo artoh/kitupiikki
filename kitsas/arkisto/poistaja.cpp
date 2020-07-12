@@ -98,6 +98,9 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
                         tr("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
                       : tr("Menojäännöspoisto %1").arg(tili->nimiNumero());
 
+            if( map.contains("eraid"))
+                tasevienti.setEra(map.value("eraid").toInt());
+
             tasevienti.setSelite( selite );
             tulosvienti.setSelite( selite );
 

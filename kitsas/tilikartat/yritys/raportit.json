@@ -958,7 +958,7 @@
         "fi": "Sijoitetun oman pääoman rahasto",
         "sv": "Fond för inbetalt fritt eget kapital",
         "en": "Reserve for investes unresticted equity",
-        "L": "204 *",
+        "L": "206 *",
         "S": 2
       },
       {
@@ -972,21 +972,21 @@
         "fi": "Yhtiöjärjestyksen tai sääntöjen mukaiset rahastot",
         "sv": "Fonder enligt bolagsordningen eller stadgarna",
         "en": "Reserves provided for by the articles of association or comparable rules",
-        "L": "206 *",
+        "L": "207 *",
         "S": 2
       },
       {
         "fi": "Käyvän arvon rahasto",
         "sv": "Fond för verkligt vårde",
         "en": "Fair value reserve",
-        "L": "",
+        "L": "99999",
         "S": 2
       },
       {
         "fi": "Muut rahastot",
         "sv": "Övriga fonder",
         "en": "Other reserves",
-        "L": "207 *",
+        "L": "208 *",
         "S": 2
       },
       {
@@ -1171,14 +1171,14 @@
         "fi": "Siirtovelat",
         "sv": "Resultatregleringar",
         "en": "Accruals and deferred income",
-        "L": "295..297 *",
+        "L": "275 *",
         "S": 2
       },
       {
         "fi": "Lyhytaikainen vieras pääoma",
         "sv": "Kortfristiga främmande kapital",
         "en": "Short-term creditors",
-        "L": "28..29 *",
+        "L": "28..29",
         "S": 1
       },
       {

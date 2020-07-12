@@ -124,6 +124,7 @@ void ArkistoSivu::uusiTilikausi()
     {
         Tilikausi uusi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
         uusi.tallenna();
+        emit kp()->tilikausiAvattu();
     }
 
 }
@@ -290,9 +291,11 @@ void ArkistoSivu::muokkaa()
     {
         if( dlgUi.poistaRadio->isChecked()) {
             kausi.poista();
+            emit kp()->tilikausiAvattu();
         } else if( dlgUi.paattyyRadio->isChecked()) {
             kausi.set("loppuu", dlgUi.paattyyDate->date());
             kausi.tallenna();
+            emit kp()->tilikausiAvattu();
         }
         else if( dlgUi.peruLukko->isChecked())
         {

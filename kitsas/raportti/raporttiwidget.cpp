@@ -62,7 +62,7 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
         odotaLabel->hide();
 
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("Esikatsele"));
-        connect( esikatseluBtn, &QPushButton::clicked, this, &RaporttiWidget::esikatsele);
+        connect( esikatseluBtn, &QPushButton::clicked, this, &RaporttiWidget::esikatselu);
 
         QHBoxLayout *nappiLeiska = new QHBoxLayout;
         nappiLeiska->addStretch();
@@ -81,12 +81,12 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 
 void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 {
-    odotaLabel->hide();
     if( rk.riveja())
         NaytinIkkuna::naytaRaportti( rk );
     else
         QMessageBox::information(this, tr("Ei raportoitavaa"),
                                  tr("Tekemilläsi valinnoilla muodostuu tyhjä raportti"));
+    odotaLabel->hide();
 }
 
 void RaporttiWidget::esikatselu()

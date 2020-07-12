@@ -30,19 +30,19 @@ PvmDelegaatti::PvmDelegaatti(KpDateEdit *kantapaivaeditori, QObject *parent) :
 
 QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */ ) const
 {
-    KpDateEdit *edit = new KpDateEdit(parent);
+    KpDateEditDelegaatille *edit = new KpDateEditDelegaatille(parent);
     return edit;
 }
 
 void PvmDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    KpDateEdit *edit = qobject_cast<KpDateEdit*>(editor);
+    KpDateEditDelegaatille *edit = qobject_cast<KpDateEditDelegaatille*>(editor);
     edit->setDate( index.data(Qt::EditRole).toDate());
 }
 
 void PvmDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    KpDateEdit *edit = qobject_cast<KpDateEdit*>(editor);
+    KpDateEditDelegaatille *edit = qobject_cast<KpDateEditDelegaatille*>(editor);
     model->setData(index, edit->date());
 }
 

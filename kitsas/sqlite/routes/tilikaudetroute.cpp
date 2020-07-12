@@ -224,7 +224,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
                 qlonglong laskennallinenpoisto = poistokk ? alkusumma * kuukauttaKulunut / poistokk : 0;
                 if( laskennallinenpoisto > saldo)
                     laskennallinenpoisto = saldo;
-                qlonglong poisto = alkusumma - saldo + laskennallinenpoisto;
+                qlonglong poisto = laskennallinenpoisto - alkusumma + saldo;
                 if( poisto > 0) {
                     QVariantMap map;
                     map.insert("eraid", eraid);

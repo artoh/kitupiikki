@@ -86,7 +86,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
-    connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); });
+    connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); ui->maksuView->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); });
 
     ui->asiakastoimittaja->alusta();
 }
@@ -107,7 +107,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
     rivi.pvm = ui->pvmEdit->date();
     rivi.euro = ui->euroEdit->value();
 
-    rivi.selite = ui->seliteEdit->text();
+    rivi.selite = ui->seliteEdit->toPlainText();
     rivi.tili = ui->tiliEdit->valittuTilinumero();
     rivi.kohdennus = ui->kohdennusCombo->kohdennus();
     rivi.merkkaukset = ui->merkkausCC->selectedDatas();
@@ -194,12 +194,14 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     avoinProxy_->setFilterFixedString("");
 
     bool maksu = false;
-    for(int i=0; i < avoinProxy_->rowCount(); i++) {
-        if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
-            ui->maksuView->selectRow(i);
-            maksu = true;
-            break;
-        }        
+    if( rivi.era.value("id").toInt()) {
+        for(int i=0; i < avoinProxy_->rowCount(); i++) {
+            if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
+                ui->maksuView->selectRow(i);
+                maksu = true;
+                break;
+            }
+        }
     }
     if( rivi.era.value("id").toInt() && !maksu) {
         ui->alaTabs->setCurrentIndex( SIIRTO );
@@ -222,7 +224,8 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
 
     ui->suodatusEdit->setText( saajamaksaja );
-    suodata(saajamaksaja);
+    if( !saajamaksaja.isEmpty())
+        suodata(saajamaksaja);
 }
 
 
@@ -253,8 +256,10 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     } else if( tab == TULOMENO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
-        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");        
-        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
+        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
+        Tili* valittuna = ui->tiliEdit->tili();
+        if( !valittuna || (menoa_ && !valittuna->onko(TiliLaji::MENO)) || (!menoa_ && !valittuna->onko(TiliLaji::TULO)) )
+            ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
@@ -321,7 +326,7 @@ void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selit
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
-    if( ui->seliteEdit->text().isEmpty())
+    if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setText(selite);
     haeAlkuperaisTosite(eraId);
 

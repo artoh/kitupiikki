@@ -106,7 +106,7 @@ void TilinPaattaja::paivitaDialogi()
     connect( kysely, &KpKysely::vastaus, this, &TilinPaattaja::dataSaapuu);
     kysely->kysy();
 
-    KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+    KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::GET);
     connect( tkysely, &KpKysely::vastaus, [this] () {
         this->ui->tulostaNappi->setEnabled(true);
         this->ui->vahvistaNappi->setEnabled(true);

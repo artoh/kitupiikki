@@ -42,7 +42,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl(ui->arkistoEdit->text()) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
-    connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
+    connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistaLogo(); ui->logoLabel->clear(); });
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -130,7 +130,7 @@ void Perusvalinnat::naytaLogo()
         ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaledToHeight(128)));
     }
 
-    ui->poistaLogoNappi->setEnabled( logo.isNull() );
+    ui->poistaLogoNappi->setEnabled( !logo.isNull() );
 }
 
 void Perusvalinnat::avaaHakemisto()

@@ -121,7 +121,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     {
        int leveys = 0;
 
-       if( !sarakkeet_[i].leveysteksti.isEmpty())
+       if( sarakkeet_[i].sarakkeenKaytto == RaporttiRivi::CSV)
+           leveys = 0;
+       else if( !sarakkeet_[i].leveysteksti.isEmpty())
            leveys = painter->fontMetrics().width( sarakkeet_[i].leveysteksti );
        else if( sarakkeet_[i].leveysprossa)
            leveys = sivunleveys * sarakkeet_[i].leveysprossa / 100;
@@ -179,7 +181,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // jotka tällä riville yhdistetty toisiinsa
             for( int ysind = 0; ysind < rivi.leveysSaraketta(i); ysind++ )
             {
-                sarakeleveys += leveydet.at(sarake);
+                sarakeleveys += leveydet.value(sarake);
                 sarake++;
             }
 
@@ -197,9 +199,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
             liput[i] = lippu;
             // Laatikoita ei asemoida korkeussuunnassa, vaan translatella liikutaan
-            laatikot[i] = painter->boundingRect( x, 0,
+            laatikot[i] = sarakeleveys ? painter->boundingRect( x, 0,
                                                 sarakeleveys, sivunkorkeus,
-                                                lippu, teksti );
+                                                lippu, teksti )
+                                       : QRect();
 
             x += sarakeleveys;
             if( laatikot[i].height() > korkeinrivi )
@@ -256,7 +259,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
                         sarakeleveys += leveydet[sarake];
                         sarake++;
                     }
-                    painter->drawText( QRect(x,0,sarakeleveys,rivinkorkeus),
+
+                    if( sarakeleveys)
+                        painter->drawText( QRect(x,0,sarakeleveys,rivinkorkeus),
                                       lippu, teksti );
 
                     x += sarakeleveys;
@@ -287,7 +292,8 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         // Sitten tulostetaan tämä varsinainen rivi
         for( int i=0; i < rivi.sarakkeita(); i++)
         {
-            painter->drawText( laatikot[i], liput[i] , tekstit[i] );
+            if( !laatikot[i].isEmpty())
+                painter->drawText( laatikot[i], liput[i] , tekstit[i] );
         }
         if( rivi.onkoViivaa())  // Viivan tulostaminen rivin ylle
         {
@@ -334,17 +340,20 @@ QString RaportinKirjoittaja::html(bool linkit) const
 
     // Otsikkorivit
     foreach (RaporttiRivi otsikkorivi, otsakkeet_ )
-    {
+    {        
         if( otsikkorivi.kaytto() == RaporttiRivi::CSV)
             continue;
 
         txt.append("<tr>");
+        int sarakkeessa = 0;
         for(int i=0; i < otsikkorivi.sarakkeita(); i++)
         {
-
-            txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
-            txt.append( otsikkorivi.teksti(i));
-            txt.append("</th>");
+            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto != RaporttiRivi::CSV) {
+                txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
+                txt.append( otsikkorivi.teksti(i));
+                txt.append("</th>");
+            }
+            sarakkeessa += otsikkorivi.leveysSaraketta(i);
         }
         txt.append("</tr>\n");
     }
@@ -370,44 +379,49 @@ QString RaportinKirjoittaja::html(bool linkit) const
         if( !rivi.sarakkeita())
             txt.append("<td>&nbsp;</td>"); // Tyhjätkin rivit näkyviin!
 
+        int sarakkeessa = 0;
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
+            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto != RaporttiRivi::CSV) {
 
-            if( rivi.tasattuOikealle(i) )
-                txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
-            else
-                txt.append(QString("<td colspan=%1>").arg(rivi.leveysSaraketta(i)));
+                if( rivi.tasattuOikealle(i) )
+                    txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
+                else
+                    txt.append(QString("<td colspan=%1>").arg(rivi.leveysSaraketta(i)));
 
-            if(linkit)
-            {
-                if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
+                if(linkit)
                 {
-                    // Linkki tositteeseen
-                    txt.append( QString("<a href=\"tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
+                    if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
+                    {
+                        // Linkki tositteeseen
+                        txt.append( QString("<a href=\"tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
+                    }
+                    else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
+                    {
+                        // Linkki tiliin
+                        txt.append( QString("<a href=\"paakirja.html#%2\">").arg( rivi.sarake(i).linkkidata));
+                    }
+                    else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_LINKKI)
+                    {
+                        // Nimiö dataan
+                        txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
+                    }
                 }
-                else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
-                {
-                    // Linkki tiliin
-                    txt.append( QString("<a href=\"paakirja.html#%2\">").arg( rivi.sarake(i).linkkidata));
-                }
-                else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_LINKKI)
-                {
-                    // Nimiö dataan
-                    txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
-                }
+                QString tekstia = rivi.teksti(i).toHtmlEscaped();
+                tekstia.replace(' ', "&nbsp;");
+                tekstia.replace('\n', "<br>");
+
+                txt.append(  tekstia );
+
+                if( linkit && rivi.sarake(i).linkkityyppi )
+                    txt.append("</a>");
+
+                txt.append("&nbsp;</td>");
             }
-            QString tekstia = rivi.teksti(i);
-            tekstia.replace(' ', "&nbsp;");
-            tekstia.replace('\n', "<br>");
-
-            txt.append(  tekstia );
-
-            if( linkit && rivi.sarake(i).linkkityyppi )
-                txt.append("</a>");
-
-            txt.append("&nbsp;</td>");
+            sarakkeessa += rivi.leveysSaraketta(i);
         }
         txt.append("</tr>\n");
+
 
     }
     txt.append("</table>");

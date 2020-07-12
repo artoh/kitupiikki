@@ -16,6 +16,7 @@
 */
 
 #include <QSignalMapper>
+#include <QApplication>
 
 #include <QDebug>
 #include <QScrollBar>
@@ -115,6 +116,8 @@ void TilikarttaMuokkaus::muutaTila(Tili::TiliTila tila)
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 {
     ui->muokkaaNappi->setEnabled( index.isValid());
+    ui->view->scrollTo(ui->view->selectionModel()->selection().indexes().value(0));
+
 
     int tila = index.data(TiliModel::TilaRooli).toInt();
     ui->piilotaNappi->setChecked( tila == 0);
@@ -131,7 +134,12 @@ void TilikarttaMuokkaus::muokkaa()
 
 void TilikarttaMuokkaus::uusiTili()
 {
+    suodataTila(0);
+    ui->view->scrollTo(ui->view->currentIndex(), QAbstractItemView::PositionAtCenter);
+
+    qApp->processEvents();
     TilinMuokkausDialog dlg(this, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row(), TilinMuokkausDialog::UUSITILI );
+
     dlg.exec();
     proxy->sort(0);
 }

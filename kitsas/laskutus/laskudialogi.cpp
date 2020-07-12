@@ -724,6 +724,15 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
 
     QVariantMap map = data();
+
+    for(QVariant var : map.value("viennit").toList()) {
+        TositeVienti vienti = var.toMap();
+        if( !vienti.tili() ) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"),tr("Tiliöinnit ovat puutteellisia."));
+            return;
+        }
+    }
+
     map.insert("tila", moodi);
 
     if( ryhmalasku_ ) {
@@ -762,9 +771,10 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus, bool toimita)
 
         MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
         QList<QVariantMap> lista;
-        lista.append(vastaus->toMap());
+        lista.append(map);
         toimittaja->toimitaLaskut(lista);
-    }
+    } else if( map.value("tila").toInt()==Tosite::VALMISLASKU)
+        emit tallennettuValmiina();
 
 }
 
@@ -810,6 +820,7 @@ void LaskuDialogi::alustaRyhmalasku()
     ui->laskutusCombo->hide();
     ui->luonnosNappi->setEnabled(false);
     connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::accept );
+    connect( ryhmalaskuTab_->model(),  &LaskutettavatModel::tallennettu, this, &LaskuDialogi::tallennettuValmiina );
     connect( ryhmalaskuTab_->model(), &LaskutettavatModel::rowsInserted, this, &LaskuDialogi::paivitaNapit);
     setWindowTitle(tr("Ryhmälasku"));
 }

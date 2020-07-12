@@ -357,8 +357,13 @@ void KirjausWg::pohjaksi()
     ui.pvmEdit->setDate(kp()->paivamaara());
     ui.otsikkoEdit->setText(tosite()->otsikko());
     if( dlg.exec() == QDialog::Accepted) {
+        if( apuri_) {
+            delete apuri_;
+            apuri_ = 0;
+        }
         tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
-
+        tositeTyyppiVaihtui( tosite()->tyyppi() );
+        tosite()->tarkasta();
     }
 }
 
@@ -368,8 +373,10 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     // Yhdistetty varoitusten näyttäjä
     ui->varoKuva->setPixmap(QPixmap());
     ui->varoTeksti->clear();
-
-    if( virheet & Tosite::PVMLUKITTU )
+    if(kp()->tilitpaatetty() == kp()->tilikaudet()->kirjanpitoLoppuu()) {
+        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
+        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    }else if( virheet & Tosite::PVMLUKITTU )
     {
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
         ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
@@ -386,8 +393,8 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
                      .arg(qAbs(debet-kredit),0,'f',2) );
     } else if( virheet & Tosite::EIAVOINTAKUTTA )
     {
-        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
-        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+        ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
+        ui->varoTeksti->setText( tr("Päivämäärälle ei ole\ntilikautta kirjanpidossa."));
     } else if( virheet & Tosite::TILIPUUTTUU) {
         ui->varoTeksti->setText(tr("Tiliöintejä puuttuu"));
         ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
@@ -409,7 +416,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     uudeksiAktio_->setEnabled( !muokattu );
 
-    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() ) &&
+    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA ) &&
                    (tosite_->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite_->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS));
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
@@ -456,6 +463,10 @@ void KirjausWg::tuonti(const QVariantMap& map)
         apuri_->tuo(map);
 
     else if( map.value("tyyppi") == TositeTyyppi::TUONTI) {
+        if(map.contains("pvm"))
+            tosite()->asetaPvm(map.value("pvm").toDate());
+        if(map.contains("otsikko"))
+            tosite()->asetaOtsikko(map.value("otsikko").toString());
         for(auto vienti : map.value("viennit").toList()) {
             tosite()->viennit()->lisaa( vienti.toMap());
         }
@@ -606,12 +617,8 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->lisaaRiviNappi->setVisible( !apuri_);
     ui->poistariviNappi->setVisible( !apuri_);
 
-    if( apuri_ && !sallitaanko) {
-        for( QObject* object : apuri_->children()) {
-            QWidget* widget = qobject_cast<QWidget*>(object);
-            if( widget && widget->objectName() != "tilellaView")
-                widget->setEnabled(false);
-        }
+    if( apuri_ ) {
+        apuri_->salliMuokkaus(sallitaanko);
     }
 }
 

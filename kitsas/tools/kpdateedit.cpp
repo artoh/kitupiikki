@@ -269,8 +269,12 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 
    if( kk > 12)
    {
-        kk = kk / 10;
-        setCursorPosition( cursorPosition()+1 );
+       if( kk < 20) {
+           kk = 10;
+       } else {
+            kk = kk / 10;
+            setCursorPosition( cursorPosition()+1 );
+       }
    }
 
     if( !QDate(vv,kk,pp).isValid() )
@@ -324,7 +328,11 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
             setDate( date().addYears(-1));
     }
 
+    if( dateInEditor_.isNull() && event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9 )
+        setText(kp()->paivamaara() < maxDate_ ?  kp()->paivamaara().toString("dd.MM.yyyy") : maxDate_.toString("dd.MM.yyyy"));
+
     setCursorPosition(pos);
+
 
     QLineEdit::keyPressEvent(event);
 }
@@ -376,4 +384,18 @@ void KpDateEdit::mouseMoveEvent(QMouseEvent *event)
         setCursor( Qt::IBeamCursor);
 
     QLineEdit::mouseMoveEvent( event);
+}
+
+KpDateEditDelegaatille::KpDateEditDelegaatille(QWidget *parent)
+    : KpDateEdit(parent)
+{
+
+}
+
+void KpDateEditDelegaatille::keyPressEvent(QKeyEvent *event)
+{
+    if( event->key() == Qt::Key_Up || event->key() == Qt::Key_Down )
+        return QLineEdit::keyPressEvent(event);
+    else
+        KpDateEdit::keyPressEvent(event);
 }

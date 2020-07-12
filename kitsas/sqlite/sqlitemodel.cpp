@@ -304,6 +304,7 @@ KpKysely *SQLiteModel::kysely(const QString &polku, KpKysely::Metodi metodi)
 
 void SQLiteModel::sulje()
 {
+    tietokanta_.exec("DELETE FROM Liite WHERE tosite IS NULL");
     tietokanta_.close();
 }
 

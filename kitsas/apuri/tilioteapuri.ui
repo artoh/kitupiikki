@@ -66,6 +66,9 @@
    </item>
    <item>
     <widget class="QTableView" name="oteView">
+     <property name="editTriggers">
+      <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>

@@ -49,6 +49,7 @@ private slots:
     void bruttoOsto();
     void nettoMyynti();
     void nettoOsto();
+    void alijaamahyvitys();
     void cleanup();
 
 
@@ -274,6 +275,46 @@ void AlvLaskelmaTest::nettoOsto() {
     QVERIFY( kp()->tilit()->saldo(4000) == -100.0);
     QVERIFY( kp()->tilit()->saldo(1763) == 0.0);
     QVERIFY( kp()->tilit()->saldo(2920) == -24.0);
+
+}
+
+void AlvLaskelmaTest::alijaamahyvitys() {
+    Tosite tosite;
+    tosite.asetaPvm(QDate(2020,01,10));
+    tosite.asetaTyyppi(TositeTyyppi::TULO);
+
+    TositeVienti vasta;
+    vasta.setPvm(QDate(2020,01,10));
+    vasta.setTyyppi(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+    vasta.setDebet(18600.00);
+    vasta.setTili(1910);
+
+    tosite.viennit()->lisaa(vasta);
+
+    TositeVienti myynti;
+    myynti.setPvm(QDate(2020,01,10));
+    myynti.setTyyppi(TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
+    myynti.setTili(3000);
+    myynti.setKredit(18600.00);
+    myynti.setAlvKoodi(AlvKoodi::MYYNNIT_BRUTTO);
+    myynti.setAlvProsentti(24.00);
+
+    tosite.viennit()->lisaa(myynti);
+    tosite.tallenna();
+
+
+    AlvLaskelma laskelma;
+    laskelma.laske(QDate(2020,01,01), QDate(2020,12,31));
+
+    qDebug() << laskelma.tosite_->tallennettava();
+    qDebug() << laskelma.koodattu_;
+
+    QVERIFY( laskelma.koodattu_.value(301) == 360000);
+    QVERIFY( laskelma.koodattu_.value(315) == 1500000);
+    QVERIFY( laskelma.koodattu_.value(316) == 360000);
+    QVERIFY( laskelma.koodattu_.value(317) == 270000);
+    QVERIFY( laskelma.koodattu_.value(308) == 90000);
+    QVERIFY( laskelma.maksettava() == 90000);
 
 }
 

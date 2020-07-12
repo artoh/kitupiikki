@@ -52,12 +52,9 @@ void AlvIlmoitusDialog::accept()
 {
     if( ui->huojennusCheck->isChecked())
         laskelma_->kirjaaHuojennus();
+    connect( laskelma_, &AlvLaskelma::tallennettu, this, &AlvIlmoitusDialog::laskemaTallennettu);
     laskelma_->tallenna();
-
-    qApp->processEvents();
-    laskelma_->deleteLater();
-
-    QDialog::accept();
+    qApp->processEvents();   
 }
 
 void AlvIlmoitusDialog::reject()
@@ -100,5 +97,11 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 
     show();
 
+}
+
+void AlvIlmoitusDialog::laskemaTallennettu()
+{
+    laskelma_->deleteLater();
+    QDialog::accept();
 }
 

@@ -39,14 +39,15 @@ public:
 public slots:
     virtual void reset();
     virtual bool tositteelle();
+    virtual void salliMuokkaus(bool sallitaanko=true);
 
 protected:
+    void aloitaResetointi();
+    void lopetaResetointi();
+
     virtual void teeReset() = 0;
     virtual bool teeTositteelle() = 0;
 
-
-    void aloitaResetointi();
-    void lopetaResetointi();    
 
 protected:
     Tosite* pTosite_;

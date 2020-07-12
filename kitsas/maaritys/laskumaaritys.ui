@@ -96,10 +96,10 @@
         <item row="3" column="1">
          <widget class="TiliCombo" name="korkoTili">
           <property name="Asetus" stdset="0">
-           <string>LaskuViivastyskorkotili</string>
+           <string notr="true">LaskuViivastyskorkotili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string>C</string>
+           <string notr="true">C</string>
           </property>
          </widget>
         </item>

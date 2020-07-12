@@ -161,6 +161,21 @@ void TuloMenoApuri::tuo(QVariantMap map)
     tositteelle();
 }
 
+void TuloMenoApuri::salliMuokkaus(bool sallitaanko)
+{
+    for( QObject* object : children()) {
+        QWidget* widget = qobject_cast<QWidget*>(object);
+        if(!widget)
+            continue;
+        if(widget->objectName() == "loppuEdit")
+            widget->setEnabled(ui->alkuEdit->date().isValid() && sallitaanko);
+        else if(widget->objectName() == "tilellaView")
+            widget->setEnabled(true);
+        else
+            widget->setEnabled(sallitaanko);
+    }
+}
+
 void TuloMenoApuri::teeReset()
 {
 
@@ -215,7 +230,7 @@ void TuloMenoApuri::teeReset()
 
     }
     if( !rivit_->rowCount())
-        rivit_->lisaaRivi();    
+        rivit_->lisaaRivi(menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili"));
 
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
@@ -301,7 +316,7 @@ bool TuloMenoApuri::teeTositteelle()
 
 void TuloMenoApuri::lisaaRivi()
 {
-    int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntiluku");
+    int tili = menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili");
 
     ui->tilellaView->setVisible(true);
     ui->tilellaView->selectRow( rivit_->lisaaRivi(tili) );
@@ -638,8 +653,9 @@ void TuloMenoApuri::alusta(bool meno)
 
     if(meno) {
         ui->tiliLabel->setText( tr("Meno&tili") );        
-        ui->tiliEdit->suodataTyypilla("(AP|BY|D).*");
+        ui->tiliEdit->suodataTyypilla("(AP|BY|D).*");        
         ui->toimittajaLabel->setText( tr("Toimittaja"));
+
         if( tosite()->tyyppi() == TositeTyyppi::KULULASKU )
             ui->toimittajaLabel->setText( tr("Laskuttaja"));
     } else {

@@ -41,6 +41,9 @@ public:
     void otaFokus() override;
     void tuo(QVariantMap map) override;
 
+public slots:
+    void salliMuokkaus(bool sallitaanko = true) override;
+
 protected slots:
     void lisaaRivi();
     void poistaRivi();

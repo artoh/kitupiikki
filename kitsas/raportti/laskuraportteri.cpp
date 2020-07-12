@@ -77,15 +77,20 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
             { return this->lajitteluVertailu(eka, toka);});
 
 
-    rk.asetaOtsikko( optiot_ & Myyntilaskut ? kaanna("MYYNTILASKUT") : kaanna("OSTOLASKUT") );
+    if( optiot_ & VainAvoimet)
+        rk.asetaOtsikko( optiot_ & Myyntilaskut ? kaanna("AVOIMET MYYNTILASKUT") : kaanna("AVOIMET OSTOLASKUT") );
+    else
+        rk.asetaOtsikko( optiot_ & Myyntilaskut ? kaanna("MYYNTILASKUT") : kaanna("OSTOLASKUT") );
+
     rk.asetaKausiteksti( saldopvm_.toString("dd.MM.yyyy"));
 
-    rk.lisaaSarake("XXXXXXXXXXXXXXX");  // Numero / Viite
+    rk.lisaaSarake( optiot_ & NaytaViite ? "XXXXXXXXXXXXXXX" : "XXXXXX");  // Numero / Viite
     rk.lisaaPvmSarake();                // Laskupvm
     rk.lisaaPvmSarake();                // Eräpäivä
     rk.lisaaEurosarake();               // Summa
     rk.lisaaEurosarake();               // Avoinna
     rk.lisaaVenyvaSarake();             // Asiakas
+    rk.lisaaVenyvaSarake();             // Selite
 
     RaporttiRivi otsikko;
     otsikko.lisaa( optiot_ & NaytaViite ? kaanna("Viite") : kaanna("Numero") );
@@ -93,7 +98,8 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
     otsikko.lisaa( kaanna("Eräpvm"));
     otsikko.lisaa( kaanna("Summa"));
     otsikko.lisaa( kaanna("Maksamatta"));
-    otsikko.lisaa( optiot_ & Myyntilaskut ? kaanna("Asiakas/Selite") : kaanna("Toimittaja / Selite"));
+    otsikko.lisaa( optiot_ & Myyntilaskut ? kaanna("Asiakas") : kaanna("Toimittaja"));
+    otsikko.lisaa(kaanna("Selite"));
     rk.lisaaOtsake(otsikko);
 
     qlonglong kokosumma = 0;
@@ -116,7 +122,11 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
         avoinsumma += avoin;
 
         QString asiakastoimittaja = optiot_ & Myyntilaskut ? map.value("asiakas").toString() : map.value("toimittaja").toString();
-        rivi.lisaa( asiakastoimittaja.isEmpty() ? map.value("selite").toString() : asiakastoimittaja);
+        QString selite = map.value("selite").toString();
+
+        rivi.lisaa(asiakastoimittaja);
+        rivi.lisaa(asiakastoimittaja==selite ? "" : selite);
+
         rk.lisaaRivi(rivi);
     }
 
@@ -125,7 +135,7 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
         summarivi.lisaa(kaanna("Yhteensä"), 3);
         summarivi.lisaa(kokosumma);
         summarivi.lisaa(avoinsumma);
-        summarivi.lisaa("");
+        summarivi.lisaa("",2);
         summarivi.viivaYlle();
         rk.lisaaRivi(summarivi);
     }

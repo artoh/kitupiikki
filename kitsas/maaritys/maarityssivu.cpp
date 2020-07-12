@@ -48,6 +48,7 @@
 #include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
 #include "ui_yhteystiedot.h"
+#include "ui_oletustilimaaritys.h"
 
 #include <QDebug>
 
@@ -66,6 +67,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
     lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "maaritykset/tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
     lisaaSivu(tr("Laskutus"), LASKUTUS, "maaritykset/laskutus", QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Oletustilit"),OLETUSTILIT,"",QIcon(":/pic/uusitosite.png"));
     lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maaritykset/maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
@@ -220,6 +222,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if( sivu == LASKUTUS) {
         nykyinen = new TallentavaMaaritysWidget;
         Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
+        ui->setupUi(nykyinen);
+    } else if( sivu == OLETUSTILIT) {
+        nykyinen = new TallentavaMaaritysWidget;
+        Ui::OletusTiliMaaritys *ui = new Ui::OletusTiliMaaritys;
         ui->setupUi(nykyinen);
     } else if( sivu == VERO) {
         nykyinen = new TallentavaMaaritysWidget;

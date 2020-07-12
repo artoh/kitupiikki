@@ -81,7 +81,7 @@ void RaporttiRivi::lisaa(const QDate &pvm)
 
 QString RaporttiRivi::teksti(int sarake)
 {
-    QVariant arvo = sarakkeet_.at(sarake).arvo;
+    QVariant arvo = sarakkeet_.at(sarake).arvo;    
 
     if( arvo.type() == QVariant::LongLong )
     {

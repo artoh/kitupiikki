@@ -25,6 +25,7 @@
 TulomenoRivi::TulomenoRivi(int tili)
 {
     if( tili ) {
+        tilinumero_=tili;
         Tili* tilini = kp()->tilit()->tili(tili);
         if( tilini ) {
             alvkoodi_ = tilini->luku("alvlaji");

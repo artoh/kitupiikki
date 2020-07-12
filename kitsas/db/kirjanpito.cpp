@@ -117,6 +117,9 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
 
 Kirjanpito::~Kirjanpito()
 {
+    if(yhteysModel())
+        yhteysModel()->sulje();
+
     tietokanta_.close();
     delete tempDir_;
     delete printer_;
@@ -205,7 +208,8 @@ void Kirjanpito::asetaLogo(const QImage &logo)
 
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-    logo_.save(&buffer, "PNG");
+    if(!logo.isNull())
+        logo_.save(&buffer, "PNG");
     buffer.close();
 
     KpKysely *kysely = kpk("/liitteet/0/logo", KpKysely::PUT);

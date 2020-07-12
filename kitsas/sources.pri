@@ -128,6 +128,7 @@ SOURCES += \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tools/tulkki.cpp \
+    $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -388,6 +389,7 @@ HEADERS += \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tools/tulkki.h \
+    $$PWD/tuonti/palkkafituonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -550,6 +552,7 @@ FORMS += \
     $$PWD/maaritys/liitemaaritys.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
+    $$PWD/maaritys/oletustilimaaritys.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
     $$PWD/maaritys/palkkatilimaaritys.ui \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.ui \

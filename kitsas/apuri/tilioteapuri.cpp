@@ -83,6 +83,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
+    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::tiliPvmMuutos);
 
     ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
@@ -102,7 +103,8 @@ void TilioteApuri::tuo(QVariantMap map)
     if( map.contains("iban")) {
         QString iban = map.value("iban").toString();
         Tili tili = kp()->tilit()->tiliIbanilla(iban);
-        ui->tiliCombo->valitseTili(tili.numero());
+        if( tili.onko(TiliLaji::PANKKITILI))
+            ui->tiliCombo->valitseTili(tili.numero());
     } else if( map.contains("tili"))
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
@@ -237,7 +239,8 @@ void TilioteApuri::lataaHarmaat()
 {
     model_->lataaHarmaat( ui->tiliCombo->valittuTilinumero(),
                           ui->alkuDate->date(),
-                          ui->loppuDate->date());
+                          ui->loppuDate->date(),
+                          tosite()->id());
     kysyAlkusumma();
 }
 

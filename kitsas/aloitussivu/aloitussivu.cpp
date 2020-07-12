@@ -662,6 +662,19 @@ QString AloitusSivu::vinkit()
 {
     QString vinkki;
 
+    // Mahdollinen varmuuskopio
+    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>(kp()->yhteysModel());
+    QRegularExpression reku("(\\d{2})(\\d{2})(\\d{2}).kitsas");
+    if( sqlite && sqlite->tiedostopolku().contains(reku) ) {
+        QRegularExpressionMatch matsi = reku.match(sqlite->tiedostopolku());
+        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
+                          "<h3>Varmuuskopio käytössä?</h3>"
+                          "Tämä tiedosto on todennäköisesti kirjanpitosi varmuuskopio päivämäärällä <b>%1.%2.20%3.</b> <br>"
+                          "Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi."
+                          "</td></tr></table>")
+                       .arg(matsi.captured(3)).arg(matsi.captured(2)).arg(matsi.captured(1)));
+    }
+
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::ALV)) {
         vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
                           "<h3>Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.</h3>"
@@ -777,6 +790,7 @@ QString AloitusSivu::vinkit()
         }
     }
 
+
     // Viimeisenä muistiinpanot
     if( kp()->asetukset()->onko("Muistiinpanot") )
     {
@@ -810,7 +824,7 @@ QString AloitusSivu::summat()
 
         txt.append( QString("<tr><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
-                    .arg(tili->nimiNumero())
+                    .arg(tili->nimiNumero().toHtmlEscaped())
                     .arg(saldo,0,'f',2) );
 
     }

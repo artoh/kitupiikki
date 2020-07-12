@@ -23,6 +23,7 @@
 #include <QListWidgetItem>
 
 #include <QSortFilterProxyModel>
+#include <QDebug>
 
 KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
     : QDialog(parent),
@@ -42,6 +43,13 @@ KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
 
     connect( ui->alkaaDate, SIGNAL(dateChanged(QDate)), this, SLOT(tarkennaLoppuMinimi()));
 
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(kp()->kohdennukset());
+    proxy->setFilterRole(KohdennusModel::TyyppiRooli);
+    proxy->setFilterRegExp("[01]");
+    proxy->setSortRole(KohdennusModel::NimiRooli);
+    ui->kustannuspaikkaCombo->setModel(proxy);
+
     if( index_ > -1)
         lataa();
     else {
@@ -52,13 +60,6 @@ KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
         }
 
     }
-
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(kp()->kohdennukset());
-    proxy->setFilterRole(KohdennusModel::TyyppiRooli);
-    proxy->setFilterRegExp("[01]");
-    proxy->setSortRole(KohdennusModel::NimiRooli);
-    ui->kustannuspaikkaCombo->setModel(proxy);
 
     tyyppiMuuttuu();
     connect( ui->kustannuspaikkaRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
@@ -113,8 +114,10 @@ void KohdennusDialog::lataa()
     ui->alkaaDate->setDate( kohdennus->alkaa());
     ui->paattyyDate->setDate( kohdennus->paattyy());
 
-    if( ui->projektiRadio->isChecked())
-        ui->kustannuspaikkaCombo->setCurrentIndex( ui->kustannuspaikkaCombo->findData( kohdennus->kuuluu(), KohdennusModel::IdRooli ) );
+    if( ui->projektiRadio->isChecked()) {
+        ui->kustannuspaikkaCombo->setCurrentIndex(
+                    ui->kustannuspaikkaCombo->findData(kohdennus->kuuluu(), KohdennusModel::IdRooli));
+    }
 }
 
 void KohdennusDialog::tallenna()

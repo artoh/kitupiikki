@@ -115,6 +115,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
             if( optiot_ & TulostaSummat && edellinentyyppi) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
                 valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+                if( optiot_ & AsiakasToimittaja)
+                    valisumma.lisaa("");
                 valisumma.lisaa( debetvalisumma);
                 valisumma.lisaa(kreditvalisumma);
                 valisumma.viivaYlle();
@@ -159,10 +161,12 @@ void Paivakirja::dataSaapuu(QVariant *data)
         if( optiot_ & TulostaKohdennukset )
             rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
 
-        if( optiot_ & AsiakasToimittaja)
-            rivi.lisaa( map.value("kumppani").toMap().value("nimi").toString() );
+        QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
+        QString selite = map.value("selite").toString();
 
-        rivi.lisaa( map.value("selite").toString() );
+        if( optiot_ & AsiakasToimittaja)
+            rivi.lisaa( kumppani );
+        rivi.lisaa( optiot_ & AsiakasToimittaja && selite == kumppani ? "" : selite );
 
         qlonglong debetsnt = qRound64( map.value("debet").toDouble() * 100.0 );
         qlonglong kreditsnt = qRound64( map.value("kredit").toDouble() * 100.0 );
@@ -182,6 +186,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
     if( optiot_ & TulostaSummat && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
         valisumma.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+        if( optiot_ & AsiakasToimittaja)
+            valisumma.lisaa("");
         valisumma.lisaa( debetvalisumma);
         valisumma.lisaa(kreditvalisumma);
         valisumma.viivaYlle();
@@ -192,6 +198,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
         summarivi.lisaa(kaanna("Yhteensä"), optiot_ & TulostaKohdennukset ? 5 : 4  );
+        if( optiot_ & AsiakasToimittaja)
+            summarivi.lisaa("");
         summarivi.lisaa( debetsumma);
         summarivi.lisaa(kreditsumma);
         summarivi.viivaYlle();

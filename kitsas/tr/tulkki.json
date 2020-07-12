@@ -108,6 +108,14 @@
   "Summa €" : {
     "sv" : "Totalt €",
     "en" : "Total €"
+  },
+  "Tilin numero": {
+    "sv": "Kontonummer",
+    "en": "Account number"
+  },
+  "Tilin nimi": {
+    "sv": "Kontonamn",
+    "en": "Account name"
   }
 
 }

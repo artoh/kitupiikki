@@ -35,7 +35,12 @@ public:
 
     enum SelausSarake
     {
-        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
+        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, KUMPPANI, SELITE
+    };
+
+    enum {
+        IdRooli = Qt::UserRole,
+        EtsiRooli = Qt::UserRole + 128
     };
 
     SelausModel(QObject* parent = nullptr);

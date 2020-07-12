@@ -102,6 +102,9 @@ private:
     qlonglong laskeViivastysKorko() const;
     void taydennaMaksumuistutuksenData(QVariantMap& map) const;
 
+signals:
+    void tallennettuValmiina();
+
 private:
     LaskuRivitModel *rivit_;
     Ui::LaskuDialogi *ui;    

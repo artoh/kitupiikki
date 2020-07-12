@@ -287,12 +287,14 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     // Lähettäjätiedot
     double vasen = 0.0;
     double ylos = 0.0;
-    bool logossaNimi = kp()->asetukset()->onko("LogossaNimi");
+    bool logossaNimi = kp()->asetukset()->onko("LogossaNimi") && !kp()->logo().size().isEmpty();
 
     if( !kp()->logo().isNull() )
-    {
+    {        
         double logosuhde = (1.0 * kp()->logo().width() ) / kp()->logo().height();
-        double skaala = logossaNimi ? logosuhde : (logosuhde < 5.00 ? logosuhde : 5.00);    // Logon sallittu suhde enintään 5:1
+        double maxsuhde = logossaNimi ? (lahettajaAlue.width() - 5*mm) / (12.5 * mm) :
+                                        (lahettajaAlue.width() / 2) / (12.5 * mm);
+        double skaala = logosuhde > maxsuhde ? maxsuhde : logosuhde ;
 
         if( logossaNimi) {
             painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, 12.5 * mm * skaala, 12.5 * mm ),  kp()->logo()  );

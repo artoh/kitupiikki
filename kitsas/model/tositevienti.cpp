@@ -239,5 +239,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { PALKKAKOODI, "palkkakoodi"},
     { TASAERAPOISTO, "tasaerapoisto"},
     { BRUTTO, "brutto"},
-    { ALKUPVIENNIT, "alkupviennit"}
+    { ALKUPVIENNIT, "alkupviennit"},
+    { VIITE, "viite"}
 };

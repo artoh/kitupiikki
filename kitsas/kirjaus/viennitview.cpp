@@ -134,7 +134,8 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
     }
     else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
         const QModelIndex index = currentIndex();
-        if( index.row() == model()->rowCount() -1 ) {
+        seuraavaSarake();
+        if( index.row() == model()->rowCount() -1 ) {            
             tosite_->viennit()->lisaaVienti(model()->rowCount());
         }
 
