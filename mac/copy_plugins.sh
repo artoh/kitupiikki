@@ -17,7 +17,7 @@ PRINTSUPPORT=$APPDIR/printsupport
 SQLDRIVERS=$APPDIR/sqldrivers
 STYLES=$APPDIR/styles
 
-QT_VERSION=5.14.1
+QT_DIR=/usr/local/opt/qt/plugins
 
 mkdir -p $BEARER/
 mkdir -p $ICONENGINES/
@@ -27,20 +27,20 @@ mkdir -p $PRINTSUPPORT/
 mkdir -p $SQLDRIVERS/
 mkdir -p $STYLES/
 
-cp ~/Qt/$QT_VERSION/clang_64/plugins/bearer/libqgenericbearer.dylib $BEARER
-cp ~/Qt/$QT_VERSION/clang_64/plugins/iconengines/libqsvgicon.dylib $ICONENGINES
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqgif.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqicns.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqico.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqjpeg.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqmacheif.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqmacjp2.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqsvg.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqtga.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqtiff.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqwbmp.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/imageformats/libqwebp.dylib $IMAGEFORMATS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/platforms/libqcocoa.dylib $PLATFORMS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/printsupport/libcocoaprintersupport.dylib $PRINTSUPPORT
-cp ~/Qt/$QT_VERSION/clang_64/plugins/sqldrivers/libqsqlite.dylib $SQLDRIVERS
-cp ~/Qt/$QT_VERSION/clang_64/plugins/styles/libqmacstyle.dylib $STYLES
+cp $QT_DIR/bearer/libqgenericbearer.dylib $BEARER
+cp $QT_DIR/iconengines/libqsvgicon.dylib $ICONENGINES
+cp $QT_DIR/imageformats/libqgif.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqicns.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqico.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqjpeg.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqmacheif.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqmacjp2.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqsvg.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqtga.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqtiff.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqwbmp.dylib $IMAGEFORMATS
+cp $QT_DIR/imageformats/libqwebp.dylib $IMAGEFORMATS
+cp $QT_DIR/platforms/libqcocoa.dylib $PLATFORMS
+cp $QT_DIR/printsupport/libcocoaprintersupport.dylib $PRINTSUPPORT
+cp $QT_DIR/sqldrivers/libqsqlite.dylib $SQLDRIVERS
+cp $QT_DIR/styles/libqmacstyle.dylib $STYLES
