@@ -343,7 +343,7 @@
       <bool>false</bool>
      </property>
      <property name="Asetus" stdset="0">
-      <string>LaskuIkkuna</string>
+      <string notr="true">LaskuIkkuna</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
       <item row="0" column="1">

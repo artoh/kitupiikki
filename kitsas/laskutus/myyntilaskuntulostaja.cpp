@@ -164,7 +164,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     qreal marginaali = 0.0;
     painter->resetTransform();
 
-    bool ikkunakuori = kuoreen & kp()->asetukset()->onko("IkkunaKuori");
+    bool ikkunakuori = kuoreen && kp()->asetukset()->onko("LaskuIkkuna");
 
     if( !map_.value("lasku").toMap().value("numero").toInt() )
     {
