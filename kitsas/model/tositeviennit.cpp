@@ -420,7 +420,7 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
 
 TositeVienti TositeViennit::vienti(int indeksi) const
 {
-    return TositeVienti( viennit_.at(indeksi).toMap() );
+    return TositeVienti( viennit_.value(indeksi).toMap() );
 }
 
 void TositeViennit::lisaa(const TositeVienti &vienti)

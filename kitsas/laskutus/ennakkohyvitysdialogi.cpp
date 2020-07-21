@@ -44,7 +44,7 @@ void EnnakkoHyvitysDialogi::accept()
     LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>( parent() );
     QModelIndex index = ui->view->selectionModel()->selection().indexes().value(0);
     dlg->lisaaEnnakkoHyvitys( index.data(EnnakkoHyvitysModel::EraIdRooli).toInt(),
-                              index.data(EnnakkoHyvitysModel::EuroRooli).toDouble());
+                              ui->euroEdit->value());
     QDialog::accept();
 }
 

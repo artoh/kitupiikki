@@ -122,7 +122,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( ui->mmViivastysLoppuu, &KpDateEdit::dateChanged, this, &LaskuDialogi::paivitaSumma);
 
     paivitaLaskutustavat();
-    ui->jaksoDate->setNull();
+    ui->jaksoDate->setNull();    
 
     ui->viiteLabel->hide();
     ui->viiteText->hide();
@@ -162,21 +162,22 @@ LaskuDialogi::~LaskuDialogi()
 void LaskuDialogi::paivitaSumma()
 {
     if( tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
-        qlonglong summa = laskeViivastysKorko() + qRound64( aiempiSaldo_ * 100 ) +
+        qlonglong viivastyskorko = laskeViivastysKorko();
+        qlonglong summa = viivastyskorko + qRound64( aiempiSaldo_ * 100 ) +
                 qRound64( ui->mmMuistutusCheck->isChecked() ?  ui->mmMuistutusMaara->value() * 100 : 0);
+        ui->mmViivastysMaara->setText( QString("%L1 €").arg( viivastyskorko / 100.0,0,'f',2));
         ui->summaLabel->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
         ui->mmYhteensa->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
     } else {
-        ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa(),0,'f',2) );
-        paivitaNapit();
+        ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa(),0,'f',2) );        
     }
+    paivitaNapit();
 }
 
 void LaskuDialogi::paivitaNapit()
 {
     bool tallennettavaa = !rivit_->onkoTyhja() &&
-            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() ) &&
-            tyyppi() != TositeTyyppi::MAKSUMUISTUTUS;
+            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() );
 
     ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
@@ -503,7 +504,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
     // Sitten pitäisi arpoa viennit
         QVariantList viennit;
-        viennit.append( vastakirjaus( pvm, otsikko ) );
+        QVariantMap vasta = vastakirjaus(pvm, otsikko);
+        if( vasta.value("debet").toDouble() > 1e-5 || vasta.value("kredit").toDouble() > 1e-5)
+            viennit.append( vasta );
         viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                          otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 

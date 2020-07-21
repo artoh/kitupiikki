@@ -219,6 +219,7 @@ void MaksumuistutusDialogi::tallennaSeuraava()
 {
     if( erat_.isEmpty()) {
         emit kp()->kirjanpitoaMuokattu();
+        emit muistutettu();
         QDialog::accept();
     } else {
         QVariantMap muikkari = muodostaMuistutus(erat_.takeFirst());
