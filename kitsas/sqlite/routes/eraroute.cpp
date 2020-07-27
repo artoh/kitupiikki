@@ -243,7 +243,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
             QVariantMap map;
             map.insert("saldo", loppusaldo / 100.0);
             map.insert("kausi", muutokset);
-            map.insert("ennnen", (loppusaldo - muutosyht) / 100.0);
+            map.insert("ennen", (loppusaldo - muutosyht) / 100.0);
             ulos.insert(QString("%1M").arg(tili->numero()), map);
 
         } else {

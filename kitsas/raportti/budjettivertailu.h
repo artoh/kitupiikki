@@ -36,6 +36,7 @@ public slots:
 protected slots:
     void paivitaMuodot();
     void paivitaKielet();
+    void paivitaKausi();
 
 protected:
     Ui::Budjettivertailu *ui;

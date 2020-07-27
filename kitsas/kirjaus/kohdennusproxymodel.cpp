@@ -42,7 +42,7 @@ QVariantList KohdennusProxyModel::tagiValikko(const QDate &pvm, const QVariantLi
     // Valikko tägien valitsemiseen
         QMenu tagvalikko;
 
-        KohdennusProxyModel proxy(nullptr, pvm, -1, MERKKKAUKSET);
+        KohdennusProxyModel proxy(nullptr, pvm, -1, MERKKAUKSET);
         for(int i=0; i < proxy.rowCount(QModelIndex()); i++)
         {
             QModelIndex pInd = proxy.index(i, 0);
@@ -92,9 +92,9 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
 
     if( (naytettavat == KOHDENNUKSET_PROJEKTIT || naytettavat == KUSTANNUSPAIKAT) && tyyppi == Kohdennus::MERKKAUS )
         return false;
-    else if( naytettavat == MERKKKAUKSET && tyyppi != Kohdennus::MERKKAUS)
+    else if( naytettavat == MERKKAUKSET && tyyppi != Kohdennus::MERKKAUS)
         return false;
-    else if( naytettavat == KUSTANNUSPAIKAT && tyyppi == Kohdennus::PROJEKTI)
+    else if( naytettavat == KUSTANNUSPAIKAT && tyyppi != Kohdennus::KUSTANNUSPAIKKA)
         return false;
 
 

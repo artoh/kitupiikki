@@ -36,8 +36,9 @@ Budjettivertailu::Budjettivertailu() :
 
     if( kp()->kohdennukset()->kohdennuksia())
     {
-        ui->kohdennusCombo->setModel( kp()->kohdennukset());
         ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+        ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KOHDENNUKSET_PROJEKTIT);
+        connect(ui->kausiCombo, &QComboBox::currentTextChanged, this, &Budjettivertailu::paivitaKausi);
     }
     else
     {
@@ -47,6 +48,7 @@ Budjettivertailu::Budjettivertailu() :
 
     paivitaMuodot();
     paivitaKielet();
+    paivitaKausi();
 
 }
 
@@ -115,4 +117,10 @@ void Budjettivertailu::paivitaKielet()
         ui->kieliCombo->addItem( lippu(kieli), kp()->asetukset()->kieli(kieli), kieli );
     }
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
+}
+
+void Budjettivertailu::paivitaKausi()
+{
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
+    ui->kohdennusCombo->suodataValilla(kausi.alkaa(), kausi.paattyy());
 }

@@ -88,7 +88,7 @@ QList<int> CheckCombo::selectedInts() const
 
 void CheckCombo::haeMerkkaukset(const QDate &paivalle)
 {
-    KohdennusProxyModel merkkaukset(this, paivalle, -1, KohdennusProxyModel::MERKKKAUKSET);
+    KohdennusProxyModel merkkaukset(this, paivalle, -1, KohdennusProxyModel::MERKKAUKSET);
     QVariantList lista = selectedDatas();
 
     clear();
