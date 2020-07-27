@@ -165,10 +165,14 @@ void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
                             .arg(eraid));
                 eramap = resultMap(kysely);
 
-                kysely.exec(QString("SELECT SUM(debetsnt) as debetit, SUM(kreditsnt) as kreditit FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Tosite.tila >= 100 ").arg(eraid));
-                if( kysely.next())
-                    eramap.insert("saldo", (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0);
-                map.insert("era", eramap);
+                if( eramap.isEmpty()) {
+                    map.remove("era");
+                } else {
+                    kysely.exec(QString("SELECT SUM(debetsnt) as debetit, SUM(kreditsnt) as kreditit FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Tosite.tila >= 100 ").arg(eraid));
+                    if( kysely.next())
+                        eramap.insert("saldo", (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0);
+                    map.insert("era", eramap);
+                }
                 vientilista[i] = map;
             }
         }

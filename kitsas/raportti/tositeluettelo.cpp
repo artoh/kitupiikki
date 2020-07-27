@@ -128,7 +128,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     }
     if( optiot_ & TulostaSummat && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(tr("Yhteensä"), 4);
+        valisumma.lisaa(kaanna("Yhteensä"), 4);
         valisumma.lisaa( lajisumma );
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
@@ -137,7 +137,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     if( optiot_ & TulostaSummat ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(tr("Yhteensä"), 4);
+        summarivi.lisaa(kaanna("Yhteensä"), 4);
         summarivi.lisaa( summa );
         summarivi.viivaYlle();
         summarivi.lihavoi();

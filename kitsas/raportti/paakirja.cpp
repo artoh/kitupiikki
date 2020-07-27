@@ -167,6 +167,7 @@ void Paakirja::kirjoitaDatasta()
             for(const QVariantMap& vienti : iter.value()) {
 
                 RaporttiRivi rr;
+
                 QString tilinumero = vienti.value("tili").toString();
                 rr.lisaa( tilinumero );
                 rr.lisaa( kp()->tilit()->tili(tilinumero)->nimi(kielikoodi_));
@@ -185,7 +186,7 @@ void Paakirja::kirjoitaDatasta()
                 rr.lisaa( optiot_ & AsiakasToimittaja && selite == kumppani ? "" : selite );
 
                 if( optiot_ & TulostaKohdennukset)
-                    rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi() );
+                    rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi(kielikoodi_) );
 
                 rr.lisaa(  vienti.value("debet").toDouble()  );
                 rr.lisaa(  vienti.value("kredit").toDouble()  );
