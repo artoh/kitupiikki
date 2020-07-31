@@ -79,14 +79,16 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
         vienti.setTili( map.value("tili").toInt());
 
-        if( map.contains("debet")) {
+        if( map.value("debet").toDouble() > 1e-5) {
             vienti.setDebet( map.value("debet").toDouble());
             vasta.setKredit( map.value("debet").toDouble());
             vasta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::SIIRTOVELKA).numero() );
-        } else {
+        } else if(map.value("kredit").toDouble() > 1e-5) {
             vienti.setKredit( map.value("kredit").toDouble());
             vasta.setDebet(map.value("kredit").toDouble());
             vasta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::SIIRTOSAATAVA).numero());
+        } else {
+            continue;
         }
 
         vasta.setEra(-1);
@@ -190,7 +192,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         rr.lisaa( map.value("pvm").toDate() );
         rr.lisaa( kp()->tositeTunnus( map.value("tunniste").toInt(),
                                       map.value("pvm").toDate(),
-                                      map.value("sarja").toString(), true ));
+                                      map.value("sarja").toString(), false ));
         rr.lisaa( map.value("selite").toString());
         rr.lisaa( map.value("debet").toDouble());
         rr.lisaa( map.value("kredit").toDouble());

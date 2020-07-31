@@ -505,9 +505,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
     // Sitten pitäisi arpoa viennit
         QVariantList viennit;
-        QVariantMap vasta = vastakirjaus(pvm, otsikko);
-        if( vasta.value("debet").toDouble() > 1e-5 || vasta.value("kredit").toDouble() > 1e-5)
-            viennit.append( vasta );
+        // Laskulla on AINA vastakirjaus, jotta tulee laskuluetteloon ;)
+        QVariantMap vasta = vastakirjaus(pvm, otsikko);        
+        viennit.append( vasta );
         viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                          otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 

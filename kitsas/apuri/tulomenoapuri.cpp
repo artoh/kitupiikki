@@ -212,7 +212,8 @@ void TuloMenoApuri::teeReset()
                 if( maksutapaind >= 0)
                 {
                     // Jotta hyvityslasku saisi oman tyyppinsä
-                    if( maksutapaModel_->index(maksutapaind,0).data(MaksutapaModel::UusiEraRooli).toBool() && vienti.eraId() > 0) {
+                    if( maksutapaModel_->index(maksutapaind,0).data(MaksutapaModel::UusiEraRooli).toBool() && vienti.eraId() > 0 &&
+                            vienti.eraId() != vienti.id()) {
                         for(int i=0; i<maksutapaModel_->rowCount();i++) {
                             QModelIndex indeksi = maksutapaModel_->index(i,0);
                             if( indeksi.data(MaksutapaModel::TiliRooli).toInt() == vastatili->numero() && !indeksi.data(MaksutapaModel::UusiEraRooli).toBool())

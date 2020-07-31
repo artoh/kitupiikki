@@ -174,7 +174,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
 
     QString saajamaksaja = rivi.saajamaksaja;
-    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\s"));
+    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
     if( valinpaikka > 2)
         saajamaksaja = saajamaksaja.left(valinpaikka);
 

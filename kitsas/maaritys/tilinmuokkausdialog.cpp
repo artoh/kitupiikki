@@ -185,7 +185,6 @@ void TilinMuokkausDialog::lataa()
     ui->poistoaikaSpin->setValue( tili_->luku("tasaerapoisto") / 12);  // kk -> vuosi
     ui->poistoprossaSpin->setValue( tili_->luku("menojaannospoisto"));
     ui->poistotiliCombo->valitseTili( tili_->luku("poistotili") );
-    ui->jaksotiliCombo->valitseTili( tili_->luku("jaksotustili"));
 
     int taseEraValinta = tili_->luku("erittely");
     ui->taseEratRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_TAYSI);
@@ -243,10 +242,8 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 
     if( tyyppi.onko(TiliLaji::TULO)) {
         veroproxy_->setFilterRegExp("^(0|1[1-79])$");
-        ui->jaksotiliCombo->suodataTyypilla("AJ", true);
     } else if( tyyppi.onko(TiliLaji::MENO)) {
         veroproxy_->setFilterRegExp("^(0|2[1-7])$");
-        ui->jaksotiliCombo->suodataTyypilla("BJ", true);
     } else
         veroproxy_->setFilterRegExp("");
 
@@ -262,8 +259,6 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->poistotiliLabel->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
     ui->poistotiliCombo->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
 
-    ui->jaksotusLabel->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
-    ui->jaksotiliCombo->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
     ui->vastaCheck->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO) );
     ui->vastaCombo->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
 
@@ -346,7 +341,6 @@ void TilinMuokkausDialog::accept()
             tili_->setInt("vastatili", ui->vastaCombo->valittuTilinumero());
 
         if( tili_->onko(TiliLaji::TULOS)) {
-            tili_->setInt("jaksotustili", ui->jaksotiliCombo->valittuTilinumero());
             tili_->unset("erittely");
         } else {
             if( ui->taseEratRadio->isChecked() )
