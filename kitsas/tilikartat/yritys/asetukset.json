@@ -98,6 +98,11 @@
       "KUVA" : "pankki"
     },
     {
+      "fi" : "Hyvityslasku",
+      "TILI" : 1701,
+      "KUVA" : "poista"
+    },
+    {
       "fi" : "Siirtosaaminen",
       "TILI" : 1849,
       "KUVA" : "siirra",

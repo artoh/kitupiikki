@@ -369,6 +369,8 @@ void TuloMenoApuri::tiliMuuttui()
 
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
             setAlvProssa(tili.str("alvprosentti").toDouble() );
+        } else {
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( AlvKoodi::EIALV, VerotyyppiModel::KoodiRooli) );
         }
 
         if( tili.luku("vastatili") && rivit_->rowCount()<2) {

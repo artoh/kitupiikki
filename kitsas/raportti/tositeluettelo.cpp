@@ -83,7 +83,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
         if( optiot_ & RyhmitteleLajeittain && edellinentyyppi != tamatyyppi) {
             if( optiot_ & TulostaSummat && edellinentyyppi) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
-                valisumma.lisaa(tr("Yhteensä"), 4);
+                valisumma.lisaa( kaanna("Yhteensä"), 4);
                 valisumma.lisaa( lajisumma );
                 valisumma.viivaYlle();
                 rk.lisaaRivi(valisumma);

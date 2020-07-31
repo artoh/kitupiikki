@@ -32,6 +32,7 @@
 #include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include "validator/ytunnusvalidator.h"
 
@@ -176,10 +177,10 @@ void LaskuDialogi::paivitaSumma()
 
 void LaskuDialogi::paivitaNapit()
 {
-    bool tallennettavaa = !rivit_->onkoTyhja() &&
+    bool tallennettavaa = (!rivit_->onkoTyhja() || tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ) &&
             (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() );
 
-    ui->luonnosNappi->setEnabled( tallennettavaa );
+    ui->luonnosNappi->setEnabled( tallennettavaa && laskunnumero_ == 0);
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
 
@@ -655,8 +656,8 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
     if( ui->mmMuistutusCheck->isChecked()) {
 
         TositeVienti mmvienti;
-        mmvienti.setPvm(kp()->paivamaara());
-        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
+        mmvienti.setPvm(kp()->paivamaara());                                                 
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistutustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->mmMuistutusMaara->value());
         kulut+=qRound64(ui->mmMuistutusMaara->value() * 100.0);
@@ -732,6 +733,14 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
         TositeVienti vienti = var.toMap();
         if( !vienti.tili() ) {
             QMessageBox::critical(this, tr("Tallennusvirhe"),tr("Tiliöinnit ovat puutteellisia."));
+            return;
+        } else if( kp()->tilitpaatetty() > vienti.pvm() || kp()->tilikaudet()->kirjanpitoLoppuu() < vienti.pvm()) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"), tr("Päivämäärälle %1 ei ole avointa tilikautta")
+                                  .arg(vienti.pvm().toString("dd.MM.yyyy")));
+            return;
+        } else if( kp()->alvIlmoitukset()->onkoIlmoitettu(vienti.pvm()) && vienti.alvKoodi() != AlvKoodi::EIALV ) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"), tr("Päivämäärälle %1 on jo annettu arvonlisäveroilmoitus")
+                                  .arg(vienti.pvm().toString("dd.MM.yyyy")));
             return;
         }
     }
