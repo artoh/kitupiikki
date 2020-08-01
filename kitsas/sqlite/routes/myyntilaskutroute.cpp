@@ -87,6 +87,8 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
 
+    qDebug() << kysymys;
+
     QSqlQuery kysely( db());
     kysely.exec(kysymys);
 

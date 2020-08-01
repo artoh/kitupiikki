@@ -277,12 +277,12 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
             double jaksotettavaa = 1.0;
             if( vientipvm <= kausi.paattyy() && loppuu.isValid() && alkaa <= kausi.paattyy()) {
-                qlonglong ennen = alkaa.daysTo( kausi.paattyy() );
-                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu );
+                qlonglong ennen = alkaa.daysTo( kausi.paattyy() ) + 1;
+                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu ) - 1;
                 jaksotettavaa = 1.00 * jalkeen / (ennen + jalkeen);
-            } else if( vientipvm > kausi.paattyy() && alkaa < kausi.alkaa() && loppuu.isValid()) {
-                qlonglong ennen = alkaa.daysTo( kausi.alkaa());
-                qlonglong jalkeen = kausi.alkaa().daysTo(loppuu);
+            } else if( vientipvm > kausi.paattyy() && alkaa < kausi.paattyy() && loppuu.isValid()) {
+                qlonglong ennen = alkaa.daysTo( kausi.paattyy()) + 1;
+                qlonglong jalkeen = kausi.paattyy().daysTo(loppuu) - 1;
                 jaksotettavaa = 1.00 * ennen / (ennen + jalkeen);
             }
 

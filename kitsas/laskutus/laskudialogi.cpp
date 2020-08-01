@@ -707,16 +707,17 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
             lasku.insert("korko", vkorkosnt / 100.0);
         }
     }
-    if( kulut ) {
-        TositeVienti vienti;
-        vienti.setEra(era_);
-        vienti.setPvm(kp()->paivamaara());
-        vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
-        vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
-        vienti.setKumppani(ui->asiakas->id());
-        vienti.setDebet(kulut);
-        viennit.insert(0, vienti);
-    }
+
+    // Lisätään aina vastakirjaus, jotta näkyy laskuluettelossa
+
+    TositeVienti vienti;
+    vienti.setEra(era_);
+    vienti.setPvm(kp()->paivamaara());
+    vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
+    vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
+    vienti.setKumppani(ui->asiakas->id());
+    vienti.setDebet(kulut);
+    viennit.insert(0, vienti);
 
     map.insert("rivit", rivit);
     map.insert("viennit", viennit);
