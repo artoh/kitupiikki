@@ -219,6 +219,7 @@ void LaskutettavatModel::lisaaAsiakas(QVariant* data)
                 map.value("kaupunki").toString();
     else
         uusi.osoite = uusi.nimi;
+    uusi.email = map.value("email").toString();
     uusi.kieli = map.value("kieli","FI").toString();
     uusi.alvtunnus = map.value("alvtunnus").toString();
     uusi.lahetystapa = map.value("laskutapa").toInt();

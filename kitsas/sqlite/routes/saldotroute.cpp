@@ -53,7 +53,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         kysymys += QString("'%1' ").arg(pvm.toString(Qt::ISODate));
         if( urlquery.hasQueryItem("tili"))
             kysymys += QString(" AND tili=%1 ").arg(urlquery.queryItemValue("tili").toInt());
-        kysymys += " AND CAST(tili as text) < 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili ";
+        kysymys += " AND CAST(tili as text) < '3' AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili ";
 
         kysely.exec(kysymys);
         while (kysely.next()) {
@@ -71,8 +71,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             if( kysely.next()) {
                 QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
                 double saldo = ( qRound64(saldot.value(edtili).toDouble()*100) + kysely.value(0).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 ;
-                if( qAbs(saldo) > 1e-5)
-                    saldot[edtili] = saldo;
+                saldot[edtili] = saldo;
             }
             // Nykyisen tulos
             kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
