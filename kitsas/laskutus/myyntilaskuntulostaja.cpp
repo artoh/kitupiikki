@@ -164,7 +164,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     qreal marginaali = 0.0;
     painter->resetTransform();
 
-    bool ikkunakuori = kuoreen & kp()->asetukset()->onko("IkkunaKuori");
+    bool ikkunakuori = kuoreen && kp()->asetukset()->onko("LaskuIkkuna");
 
     if( !map_.value("lasku").toMap().value("numero").toInt() )
     {
@@ -807,7 +807,7 @@ QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
 {    
     qlonglong summa = qRound64( laskunSumma_ * 100);
 
-    if( summa <= 0 || summa > 99999999 )  // Ylisuuri tai alipieni laskunsumma
+    if( summa <= 0 || summa > 99999999 || map_.value("lasku").toMap().value("maksutapa").toInt() == LaskuDialogi::KATEINEN)  // Ylisuuri tai alipieni laskunsumma
         return QString();
     if( ibanit_.value(0).isEmpty() || !map_.value("lasku").toMap().value("viite").toInt() || !summa )
         return QString();

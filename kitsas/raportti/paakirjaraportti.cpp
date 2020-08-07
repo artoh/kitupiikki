@@ -50,6 +50,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
     ui->jarjestysRyhma->hide();
     ui->ryhmittelelajeittainCheck->hide();    
+    ui->eriPaivatCheck->hide();
 
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);

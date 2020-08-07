@@ -267,7 +267,8 @@ void LaskulistaWidget::muistuta()
         int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
         erat.append(eraId);
     }
-    new MaksumuistutusDialogi(erat, this);
+    new MaksumuistutusDialogi(erat, this);    
+
 }
 
 void LaskulistaWidget::poista()

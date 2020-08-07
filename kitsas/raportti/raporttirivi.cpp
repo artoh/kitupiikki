@@ -76,7 +76,10 @@ void RaporttiRivi::lisaa(double eurot, bool tulostanollat, bool tulostaplus)
 
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString("dd.MM.yyyy"), 1, false);
+    RaporttiRiviSarake uusi;
+    uusi.arvo = pvm;
+    uusi.teksti = pvm.toString("dd.MM.yyyy");
+    sarakkeet_.append(uusi);
 }
 
 QString RaporttiRivi::teksti(int sarake)

@@ -151,7 +151,8 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
         if( !sana.isEmpty() && sana.at(0).isDigit() && ( alku_.isEmpty() || !alku_.at(0).isNumber()) )
             alku_ = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
 
-        qobject_cast<QWidget*>(parent())->setFocus();
+        if(qobject_cast<QWidget*>(parent()))
+            qobject_cast<QWidget*>(parent())->setFocus();
     }
     else
     {

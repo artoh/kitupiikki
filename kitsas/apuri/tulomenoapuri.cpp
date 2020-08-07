@@ -87,15 +87,12 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->laskuPvm, &KpDateEdit::dateChanged, this, &TuloMenoApuri::tositteelle);
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::tositteelle);
 
-    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
-    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::paivitaVeroFiltterit);
-
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::muuttui, this, &TuloMenoApuri::tositteelle);
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
-    connect( tosite, &Tosite::pvmMuuttui, ui->laskuPvm, &KpDateEdit::setDate);
-    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
+
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::pvmMuuttui);
     connect( tosite, &Tosite::eraPvmMuuttui, ui->erapaivaEdit,[this] (const QDate& erapvm) { if(erapvm != ui->erapaivaEdit->date()) ui->erapaivaEdit->setDate(erapvm); } );
     connect( ui->eraCombo, &EraCombo::currentTextChanged, this, &TuloMenoApuri::tositteelle);
 }
@@ -191,7 +188,7 @@ void TuloMenoApuri::teeReset()
     ui->erapaivaEdit->setNull();
 
     ui->viiteEdit->setText( tosite()->viite());
-    ui->laskuPvm->setDate( tosite()->laskupvm());
+    ui->laskuPvm->setDate( tosite()->laskupvm().isValid() ? tosite()->laskupvm() : tosite()->pvm());
     ui->erapaivaEdit->setDate( tosite()->erapvm());
 
     if( tosite()->kumppani())
@@ -213,7 +210,18 @@ void TuloMenoApuri::teeReset()
 
                 int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
                 if( maksutapaind >= 0)
+                {
+                    // Jotta hyvityslasku saisi oman tyyppinsä
+                    if( maksutapaModel_->index(maksutapaind,0).data(MaksutapaModel::UusiEraRooli).toBool() && vienti.eraId() > 0 &&
+                            vienti.eraId() != vienti.id()) {
+                        for(int i=0; i<maksutapaModel_->rowCount();i++) {
+                            QModelIndex indeksi = maksutapaModel_->index(i,0);
+                            if( indeksi.data(MaksutapaModel::TiliRooli).toInt() == vastatili->numero() && !indeksi.data(MaksutapaModel::UusiEraRooli).toBool())
+                                maksutapaind = i;
+                        }
+                    }
                     ui->maksutapaCombo->setCurrentIndex(maksutapaind);
+                }
                 else
                     ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);                
 
@@ -362,6 +370,8 @@ void TuloMenoApuri::tiliMuuttui()
 
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
             setAlvProssa(tili.str("alvprosentti").toDouble() );
+        } else {
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( AlvKoodi::EIALV, VerotyyppiModel::KoodiRooli) );
         }
 
         if( tili.luku("vastatili") && rivit_->rowCount()<2) {
@@ -417,6 +427,15 @@ void TuloMenoApuri::verolajiMuuttui()
     }
 
 
+    tositteelle();
+}
+
+void TuloMenoApuri::pvmMuuttui(const QDate &pvm)
+{
+    if( !tosite()->laskupvm().isValid())
+        ui->laskuPvm->setDate(pvm);
+    haeKohdennukset();
+    paivitaVeroFiltterit(pvm);
     tositteelle();
 }
 
@@ -491,17 +510,18 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
 
-    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
+    bool eritellankotaso = (vastatili.eritellaankoTase() &&
+             !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) ||
+              tosite()->viennit()->vienti(0).eraId() ;
 
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->lataa( vastatili.numero() , ui->asiakasToimittaja->id());
-    if( (vastatili.eritellaankoTase() || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) && sender() != ui->eraCombo) {
+    if( ( !eritellankotaso || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) && !tosite()->viennit()->vienti(0).eraId() && sender() != ui->eraCombo) {
         ui->eraCombo->valitse(-1);
     }
 
-    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA)) &&
-            ui->eraCombo->valittuEra() == -1;
+    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA)) ;
     ui->viiteLabel->setVisible( laskulle );
     ui->viiteEdit->setVisible( laskulle );
 

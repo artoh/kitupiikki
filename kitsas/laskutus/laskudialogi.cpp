@@ -32,6 +32,7 @@
 #include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include "validator/ytunnusvalidator.h"
 
@@ -122,7 +123,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     connect( ui->mmViivastysLoppuu, &KpDateEdit::dateChanged, this, &LaskuDialogi::paivitaSumma);
 
     paivitaLaskutustavat();
-    ui->jaksoDate->setNull();
+    ui->jaksoDate->setNull();    
 
     ui->viiteLabel->hide();
     ui->viiteText->hide();
@@ -162,23 +163,24 @@ LaskuDialogi::~LaskuDialogi()
 void LaskuDialogi::paivitaSumma()
 {
     if( tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
-        qlonglong summa = laskeViivastysKorko() + qRound64( aiempiSaldo_ * 100 ) +
+        qlonglong viivastyskorko = laskeViivastysKorko();
+        qlonglong summa = viivastyskorko + qRound64( aiempiSaldo_ * 100 ) +
                 qRound64( ui->mmMuistutusCheck->isChecked() ?  ui->mmMuistutusMaara->value() * 100 : 0);
+        ui->mmViivastysMaara->setText( QString("%L1 €").arg( viivastyskorko / 100.0,0,'f',2));
         ui->summaLabel->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
         ui->mmYhteensa->setText( QString("%L1 €").arg( summa / 100.0,0,'f',2) );
     } else {
-        ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa(),0,'f',2) );
-        paivitaNapit();
+        ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa(),0,'f',2) );        
     }
+    paivitaNapit();
 }
 
 void LaskuDialogi::paivitaNapit()
 {
-    bool tallennettavaa = !rivit_->onkoTyhja() &&
-            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() ) &&
-            tyyppi() != TositeTyyppi::MAKSUMUISTUTUS;
+    bool tallennettavaa = (!rivit_->onkoTyhja() || tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ) &&
+            (!ryhmalasku_ || ryhmalaskuTab_->model()->rowCount() );
 
-    ui->luonnosNappi->setEnabled( tallennettavaa );
+    ui->luonnosNappi->setEnabled( tallennettavaa && laskunnumero_ == 0);
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
 
@@ -503,7 +505,9 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
 
     // Sitten pitäisi arpoa viennit
         QVariantList viennit;
-        viennit.append( vastakirjaus( pvm, otsikko ) );
+        // Laskulla on AINA vastakirjaus, jotta tulee laskuluetteloon ;)
+        QVariantMap vasta = vastakirjaus(pvm, otsikko);        
+        viennit.append( vasta );
         viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                          otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
 
@@ -652,8 +656,8 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
     if( ui->mmMuistutusCheck->isChecked()) {
 
         TositeVienti mmvienti;
-        mmvienti.setPvm(kp()->paivamaara());
-        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
+        mmvienti.setPvm(kp()->paivamaara());                                                 
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistutustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->mmMuistutusMaara->value());
         kulut+=qRound64(ui->mmMuistutusMaara->value() * 100.0);
@@ -703,16 +707,17 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
             lasku.insert("korko", vkorkosnt / 100.0);
         }
     }
-    if( kulut ) {
-        TositeVienti vienti;
-        vienti.setEra(era_);
-        vienti.setPvm(kp()->paivamaara());
-        vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
-        vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
-        vienti.setKumppani(ui->asiakas->id());
-        vienti.setDebet(kulut);
-        viennit.insert(0, vienti);
-    }
+
+    // Lisätään aina vastakirjaus, jotta näkyy laskuluettelossa
+
+    TositeVienti vienti;
+    vienti.setEra(era_);
+    vienti.setPvm(kp()->paivamaara());
+    vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
+    vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
+    vienti.setKumppani(ui->asiakas->id());
+    vienti.setDebet(kulut);
+    viennit.insert(0, vienti);
 
     map.insert("rivit", rivit);
     map.insert("viennit", viennit);
@@ -729,6 +734,14 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
         TositeVienti vienti = var.toMap();
         if( !vienti.tili() ) {
             QMessageBox::critical(this, tr("Tallennusvirhe"),tr("Tiliöinnit ovat puutteellisia."));
+            return;
+        } else if( kp()->tilitpaatetty() > vienti.pvm() || kp()->tilikaudet()->kirjanpitoLoppuu() < vienti.pvm()) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"), tr("Päivämäärälle %1 ei ole avointa tilikautta")
+                                  .arg(vienti.pvm().toString("dd.MM.yyyy")));
+            return;
+        } else if( kp()->alvIlmoitukset()->onkoIlmoitettu(vienti.pvm()) && vienti.alvKoodi() != AlvKoodi::EIALV ) {
+            QMessageBox::critical(this, tr("Tallennusvirhe"), tr("Päivämäärälle %1 on jo annettu arvonlisäveroilmoitus")
+                                  .arg(vienti.pvm().toString("dd.MM.yyyy")));
             return;
         }
     }

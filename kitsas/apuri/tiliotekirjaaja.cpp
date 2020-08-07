@@ -83,6 +83,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
     connect( ui->jaksoAlkaaEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::jaksomuuttuu);
 
+
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
@@ -173,7 +174,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
 
     QString saajamaksaja = rivi.saajamaksaja;
-    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\s"));
+    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
     if( valinpaikka > 2)
         saajamaksaja = saajamaksaja.left(valinpaikka);
 
@@ -335,7 +336,7 @@ void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selit
 void TilioteKirjaaja::jaksomuuttuu(const QDate &pvm)
 {
     ui->jaksoLoppuuEdit->setEnabled( pvm.isValid() );
-    ui->jaksoLoppuuEdit->setDateRange( pvm, kp()->tilikaudet()->kirjanpitoLoppuu() );
+    ui->jaksoLoppuuEdit->setDateRange( pvm, kp()->tilikaudet()->kirjanpitoLoppuu().addYears(10) );
     if( !pvm.isValid())
         ui->jaksoLoppuuEdit->setNull();
 }

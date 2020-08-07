@@ -196,7 +196,7 @@ void TilioteApuri::naytaSummat()
     qlonglong otot = 0l;
 
     for(int i=0; i < model_->rowCount(); i++) {
-        qlonglong sentit = model_->data( model_->index(i, TilioteModel::EURO), Qt::EditRole ).toLongLong();
+        qlonglong sentit = qRound64(  model_->data( model_->index(i, TilioteModel::EURO), Qt::EditRole ).toDouble() * 100);
         if( sentit > 0)
             panot += sentit;
         else

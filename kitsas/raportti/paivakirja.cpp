@@ -159,7 +159,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
             continue;   // ei kelvollista tiliä!
 
         if( optiot_ & TulostaKohdennukset )
-            rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+            rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi(kielikoodi_) );
 
         QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
         QString selite = map.value("selite").toString();

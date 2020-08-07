@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>642</width>
-    <height>885</height>
+    <height>967</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -231,7 +231,7 @@
    <item>
     <widget class="QCheckBox" name="summaBox">
      <property name="text">
-      <string>Tulosta summat</string>
+      <string>Tulosta yhteissumma</string>
      </property>
      <property name="checked">
       <bool>true</bool>

@@ -406,7 +406,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             if( vero > 0)
                 verorivi.setKredit(vero);
             else
-                verorivi.setDebet(vero);
+                verorivi.setDebet(0 - vero);
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
             verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
             verorivi.setSelite( otsikko + " ALV " + QString::number(map.value("alvprosentti").toInt()) );

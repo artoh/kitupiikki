@@ -40,7 +40,7 @@ CREATE TABLE Kohdennus
 );
 
 INSERT INTO Kohdennus (id, tyyppi, json ) VALUES
-( 0, 0, '{"nimi":{"fi":"Yleinen","se":"Allmän", "en":"General"}}' );
+( 0, 0, '{"nimi":{"fi":"Yleinen","sv":"Allmän", "en":"General"}}' );
 
 CREATE TABLE Budjetti
 (

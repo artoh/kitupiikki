@@ -79,14 +79,16 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
         vienti.setTili( map.value("tili").toInt());
 
-        if( map.contains("debet")) {
+        if( map.value("debet").toDouble() > 1e-5) {
             vienti.setDebet( map.value("debet").toDouble());
             vasta.setKredit( map.value("debet").toDouble());
             vasta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::SIIRTOVELKA).numero() );
-        } else {
+        } else if(map.value("kredit").toDouble() > 1e-5) {
             vienti.setKredit( map.value("kredit").toDouble());
             vasta.setDebet(map.value("kredit").toDouble());
             vasta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::SIIRTOSAATAVA).numero());
+        } else {
+            continue;
         }
 
         vasta.setEra(-1);
@@ -97,10 +99,10 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         QDate jaksoloppuu = map.value("jaksoloppuu").toDate();
 
         if( jaksoalkaa >= pvm || jaksoloppuu > pvm)
-            vasta.setJaksoalkaa(  jaksoalkaa > pvm ? jaksoalkaa : pvm.addDays(1) );
+            vienti.setJaksoalkaa(  jaksoalkaa > pvm ? jaksoalkaa : pvm.addDays(1) );
 
         if( jaksoloppuu > pvm)
-            vasta.setJaksoloppuu( jaksoloppuu );
+            vienti.setJaksoloppuu( jaksoloppuu );
 
         QString selite = QString("%1 %2")
                 .arg( kp()->tositeTunnus( map.value("tunniste").toInt(),
@@ -190,7 +192,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         rr.lisaa( map.value("pvm").toDate() );
         rr.lisaa( kp()->tositeTunnus( map.value("tunniste").toInt(),
                                       map.value("pvm").toDate(),
-                                      map.value("sarja").toString(), true ));
+                                      map.value("sarja").toString(), false ));
         rr.lisaa( map.value("selite").toString());
         rr.lisaa( map.value("debet").toDouble());
         rr.lisaa( map.value("kredit").toDouble());
@@ -217,6 +219,8 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
     avaus->asetaTyyppi( TositeTyyppi::JAKSOTUS );
     avaus->asetaOtsikko( tr("Tilinavauksen jaksotuskirjaukset"));
 
+    QDate kausipaattyy = kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy();
+
     for(int i=0; i < paatos.viennit()->rowCount(); i++) {
         // Tilinavauksessa samat viennit kuin päätöksessä, mutta vain toisin päin
 
@@ -234,8 +238,13 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
         uusi.setTili( vienti.tili());
         uusi.setKohdennus( vienti.kohdennus() );
         uusi.setEra( vienti.eraId());
-        uusi.setJaksoalkaa( vienti.jaksoalkaa());
-        uusi.setJaksoloppuu( vienti.jaksoloppuu());
+
+        // Jos tarpeen jaksottaa vielä tästä eteenpäin
+        if( vienti.jaksoloppuu() >  kausipaattyy &&
+            vienti.tyyppi() % 10 == TositeVienti::KIRJAUS) {
+            uusi.setJaksoalkaa( pvm );
+            uusi.setJaksoloppuu( vienti.jaksoloppuu());
+        }
 
         if( vienti.kredit() > 1e-5) {
             uusi.setDebet( vienti.kredit());

@@ -25,6 +25,7 @@
 #include <QDateEdit>
 #include <QDoubleSpinBox>
 #include <QPlainTextEdit>
+#include <QGroupBox>
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
 
@@ -163,6 +164,15 @@ bool TallentavaMaaritysWidget::nollaa()
             continue;
         }
 
+        QGroupBox *pgroup = qobject_cast<QGroupBox*>(widget);
+        if( pgroup ) {
+            if( pgroup->isCheckable()) {
+                pgroup->setChecked( kp()->asetukset()->onko(asetusavain) );
+                connect( pgroup, &QGroupBox::toggled, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            }
+            continue;
+        }
+
     }
     alustettu_ = true;
 
@@ -244,6 +254,12 @@ bool TallentavaMaaritysWidget::tallenna()
         if( tdate) {
             asetukset.insert(asetusavain, tdate->date());
             continue;
+        }
+
+        QGroupBox* pgroup = qobject_cast<QGroupBox*>(widget);
+        if( pgroup) {
+            if( pgroup->isCheckable())
+                asetukset.insert(asetusavain, pgroup->isChecked() ? "ON" : QVariant());
         }
 
     }
@@ -336,6 +352,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         QDateEdit* tdate = qobject_cast<QDateEdit*>(widget);
         if( tdate) {
             if( tdate->date() != kp()->asetukset()->pvm(asetusavain))
+                return true;
+            continue;
+        }
+
+        QGroupBox *pgroup = qobject_cast<QGroupBox*>(widget);
+        if( pgroup) {
+            if( kp()->asetukset()->onko(asetusavain) != pgroup->isChecked())
                 return true;
             continue;
         }

@@ -34,6 +34,9 @@ public:
 
     void accept() override;
 
+signals:
+    void muistutettu();
+
 protected:
     void haeEra();
     void eraSaapuu(QVariant* data);

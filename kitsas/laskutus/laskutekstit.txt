@@ -104,6 +104,8 @@ erapvm Eräpäivä
 ENerapvm Due date
 SVerapvm Förfallodag
 maksettu Maksettu
+ENmaksettu Paid
+SVmaksettu Betalat
 hyvnro Hyvityslaskun numero
 SVhyvnro Kompensatiofakturans nummer
 ENhyvnro Number of compensation invoice

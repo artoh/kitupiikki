@@ -257,7 +257,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         kysely.exec(QString("select debetsnt,kreditsnt,tili,selite,jaksoalkaa,jaksoloppuu, kohdennus, tosite.pvm, tosite.sarja, tosite.tunniste, vienti.pvm from vienti "
                             "join tosite on vienti.tosite=tosite.id "
                             "where jaksoalkaa is not null and tosite.tila >= 100 "
-                            "AND vienti.pvm >= '%1' ORDER BY tili, vienti.id")
+                            "AND vienti.pvm >= '%1' AND jaksoalkaa IS NOT NULL ORDER BY tili, vienti.id")
                     .arg(kausi.alkaa().toString(Qt::ISODate)));
         while( kysely.next()) {
             qlonglong debet = kysely.value(0).toLongLong();
@@ -272,15 +272,17 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
                                                   ||  ( loppuu.isValid() && loppuu <= kausi.paattyy())
                                                   || (!loppuu.isValid() && alkaa <= kausi.paattyy() ) ))
                 continue;   // Kokonaan tämän vuoden puolella
+            else if (vientipvm > kausi.paattyy() && alkaa > kausi.paattyy())
+                continue;   // Kokonaan tulevaisuudessa
 
             double jaksotettavaa = 1.0;
             if( vientipvm <= kausi.paattyy() && loppuu.isValid() && alkaa <= kausi.paattyy()) {
-                qlonglong ennen = alkaa.daysTo( kausi.paattyy() );
-                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu );
+                qlonglong ennen = alkaa.daysTo( kausi.paattyy() ) + 1;
+                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu ) - 1;
                 jaksotettavaa = 1.00 * jalkeen / (ennen + jalkeen);
-            } else if( vientipvm > kausi.paattyy() && alkaa < kausi.alkaa() && loppuu.isValid()) {
-                qlonglong ennen = alkaa.daysTo( kausi.alkaa());
-                qlonglong jalkeen = kausi.alkaa().daysTo(loppuu);
+            } else if( vientipvm > kausi.paattyy() && alkaa < kausi.paattyy() && loppuu.isValid()) {
+                qlonglong ennen = alkaa.daysTo( kausi.paattyy()) + 1;
+                qlonglong jalkeen = kausi.paattyy().daysTo(loppuu) - 1;
                 jaksotettavaa = 1.00 * ennen / (ennen + jalkeen);
             }
 

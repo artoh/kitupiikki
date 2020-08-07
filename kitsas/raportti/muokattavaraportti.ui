@@ -348,12 +348,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>86</x>
-     <y>293</y>
+     <x>100</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
-     <x>418</x>
-     <y>295</y>
+     <x>642</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -434,6 +434,22 @@
     <hint type="destinationlabel">
      <x>733</x>
      <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake3Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sarake4Box</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>503</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>684</x>
+     <y>37</y>
     </hint>
    </hints>
   </connection>

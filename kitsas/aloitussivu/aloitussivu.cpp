@@ -644,6 +644,7 @@ void AloitusSivu::tukiInfo()
                                "mapdate: %7 \n"
                                "type: %8 \n"
                                "large: %9 \n"
+                               "%11 \n"
                        ).arg(qApp->applicationVersion())
                         .arg(QSysInfo::prettyProductName())
                         .arg(kp()->pilvi()->kayttajaEmail())
@@ -654,6 +655,12 @@ void AloitusSivu::tukiInfo()
                         .arg(kp()->asetus("muoto"))
                         .arg(kp()->asetus("laajuus"))
                         .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
+                        #ifdef KITSAS_PORTABLE
+                            .arg("portable")
+                         #else
+                            .arg("")
+                        #endif
+
         );
     }
 }

@@ -179,7 +179,7 @@ void KpDateEdit::setDateInternal(const QDate &date)
         setText( date.toString("dd.MM.yyyy") );
         setCursorPosition(pos);
 
-        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) {
+        if( ((date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) && !property("SalliYlitys").toBool()) {
             if( isEnabled())
                 setStyleSheet("color: red;");
             date_ = QDate();            

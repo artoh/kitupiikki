@@ -51,6 +51,7 @@ protected slots:
     void tiliMuuttui();
     void verolajiMuuttui();
 
+    void pvmMuuttui(const QDate& pvm);
     void maaraMuuttui();
     void verotonMuuttui();
     void veroprossaMuuttui();

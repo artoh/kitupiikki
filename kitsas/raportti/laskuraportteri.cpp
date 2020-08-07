@@ -64,6 +64,8 @@ bool LaskuRaportteri::lajitteluVertailu(const QVariant &eka, const QVariant &tok
         return ekaMap.value("asiakas").toString() < tokaMap.value("asiakas").toString();
     else if( optiot_ & LajitteleAsiakas && optiot_ & Ostolaskut)
         return ekaMap.value("toimittaja").toString() < tokaMap.value("toimittaja").toString();
+    else if( optiot_ & LajitteleSumma)
+        return ekaMap.value("summa").toDouble() > tokaMap.value("summa").toDouble();
     else
         return ekaMap.value("pvm").toDate() < tokaMap.value("pvm").toDate();
 }
