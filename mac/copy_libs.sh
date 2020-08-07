@@ -14,7 +14,7 @@ LIBDIR=$APPCONTENTS/Libraries
 mkdir -p $LIBDIR/
 
 #app
-install_name_tool -change /usr/local/opt/poppler/lib/libpoppler.95.dylib @rpath/libpoppler.dylib $APPDIR/$APPNAME
+install_name_tool -change /usr/local/opt/poppler/lib/libpoppler.101.dylib @rpath/libpoppler.dylib $APPDIR/$APPNAME
 install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/$APPNAME
 install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip.dylib $APPDIR/$APPNAME
 
@@ -22,11 +22,12 @@ install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
 chmod +w $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -id @rpath/libpoppler-qt5.dylib $LIBDIR/libpoppler-qt5.dylib
-install_name_tool -change /usr/local/Cellar/poppler/0.85.0/lib/libpoppler.95.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
+install_name_tool -change /usr/local/Cellar/poppler/0.90.1/lib/libpoppler.101.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtGui.framework/Versions/5/QtGui @rpath/QtGui.framework/Versions/5/QtGui $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtXml.framework/Versions/5/QtXml @rpath/QtXml.framework/Versions/5/QtXml $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @rpath/QtCore.framework/Versions/5/QtCore $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/freetype/lib/libfreetype.6.dylib @rpath/libfreetype.dylib $LIBDIR/libpoppler-qt5.dylib
+install_name_tool -change /usr/local/opt/little-cms2/lib/liblcms2.2.dylib @rpath/liblcms2.dylib $LIBDIR/libpoppler-qt5.dylib
 
 #libpoppler
 cp /usr/local/opt/poppler/lib/libpoppler.dylib $LIBDIR
@@ -94,7 +95,7 @@ install_name_tool -id @rpath/liblcms2.dylib $LIBDIR/liblcms2.dylib
 cp /usr/local/opt/nss/lib/libnss3.dylib $LIBDIR
 chmod +w $LIBDIR/libnss3.dylib
 install_name_tool -id @rpath/libnss3.dylib $LIBDIR/libnss3.dylib
-install_name_tool -change /usr/local/Cellar/nss/3.49.2/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libnss3.dylib
+install_name_tool -change /usr/local/Cellar/nss/3.55/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libnss3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplc4.dylib @rpath/libplc4.dylib $LIBDIR/libnss3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplds4.dylib @rpath/libplds4.dylib $LIBDIR/libnss3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libnss3.dylib
@@ -111,8 +112,8 @@ install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4
 cp /usr/local/opt/nss/lib/libsmime3.dylib $LIBDIR
 chmod +w $LIBDIR/libsmime3.dylib
 install_name_tool -id @rpath/libsmime3.dylib $LIBDIR/libsmime3.dylib
-install_name_tool -change /usr/local/Cellar/nss/3.49.2/lib/libnss3.dylib @rpath/libnss3.dylib $LIBDIR/libsmime3.dylib
-install_name_tool -change /usr/local/Cellar/nss/3.49.2/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libsmime3.dylib
+install_name_tool -change /usr/local/Cellar/nss/3.55/lib/libnss3.dylib @rpath/libnss3.dylib $LIBDIR/libsmime3.dylib
+install_name_tool -change /usr/local/Cellar/nss/3.55/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libsmime3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplc4.dylib @rpath/libplc4.dylib $LIBDIR/libsmime3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplds4.dylib @rpath/libplds4.dylib $LIBDIR/libsmime3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libsmime3.dylib
@@ -121,8 +122,8 @@ install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4
 cp /usr/local/opt/nss/lib/libssl3.dylib $LIBDIR
 chmod +w $LIBDIR/libssl3.dylib
 install_name_tool -id @rpath/libssl3.dylib $LIBDIR/libssl3.dylib
-install_name_tool -change /usr/local/Cellar/nss/3.49.2/lib/libnss3.dylib @rpath/libnss3.dylib $LIBDIR/libssl3.dylib
-install_name_tool -change /usr/local/Cellar/nss/3.49.2/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libssl3.dylib
+install_name_tool -change /usr/local/Cellar/nss/3.55/lib/libnss3.dylib @rpath/libnss3.dylib $LIBDIR/libssl3.dylib
+install_name_tool -change /usr/local/Cellar/nss/3.55/lib/libnssutil3.dylib @rpath/libnssutil3.dylib $LIBDIR/libssl3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplc4.dylib @rpath/libplc4.dylib $LIBDIR/libssl3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplds4.dylib @rpath/libplds4.dylib $LIBDIR/libssl3.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libssl3.dylib
@@ -131,13 +132,13 @@ install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr4
 cp /usr/local/opt/nspr/lib/libplds4.dylib $LIBDIR
 chmod +w $LIBDIR/libplds4.dylib
 install_name_tool -id @rpath/libplds4.dylib $LIBDIR/libplds4.dylib
-install_name_tool -change /usr/local/Cellar/nspr/4.25/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libplds4.dylib
+install_name_tool -change /usr/local/Cellar/nspr/4.27/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libplds4.dylib
 
 #libplc4
 cp /usr/local/opt/nspr/lib/libplc4.dylib $LIBDIR
 chmod +w $LIBDIR/libplc4.dylib
 install_name_tool -id @rpath/libplc4.dylib $LIBDIR/libplc4.dylib
-install_name_tool -change /usr/local/Cellar/nspr/4.25/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libplc4.dylib
+install_name_tool -change /usr/local/Cellar/nspr/4.27/lib/libnspr4.dylib @rpath/libnspr4.dylib $LIBDIR/libplc4.dylib
 
 #libnspr4
 cp /usr/local/opt/nspr/lib/libnspr4.dylib $LIBDIR

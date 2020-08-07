@@ -26,8 +26,20 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "NO"
-      disableMainThreadChecker = "YES">
+      disableMainThreadChecker = "YES"
+      shouldUseLaunchSchemeArgsEnv = "NO">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9E73BA301EF4580BE706E2EC"
+               BuildableName = "Qt Test"
+               BlueprintName = "Qt Test"
+               ReferencedContainer = "container:kitsas.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -43,18 +55,8 @@
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E73BA301EF4580BE706E2EC"
-               BuildableName = "Qt Test"
-               BlueprintName = "Qt Test"
-               ReferencedContainer = "container:kitsas.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -86,6 +88,8 @@
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
