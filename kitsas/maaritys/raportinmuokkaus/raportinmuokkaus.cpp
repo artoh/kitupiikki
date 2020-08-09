@@ -40,6 +40,7 @@ RaportinMuokkaus::RaportinMuokkaus(QWidget *parent)
     connect(ui->muokkaaNappi, &QPushButton::clicked, this, &RaportinMuokkaus::muokkaa);
     connect( ui->lisaaEnnenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaEnnen);
     connect( ui->lisaaJalkeenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaJalkeen);
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &RaportinMuokkaus::poista);
     connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &RaportinMuokkaus::paivitaNapit);
 
 }
@@ -148,6 +149,7 @@ void RaportinMuokkaus::poista()
     QModelIndex index = ui->view->currentIndex();
     if( index.isValid())
         model_->poistaRivi(index.row());
+    ilmoitaMuokattu();
 }
 
 QString RaportinMuokkaus::data() const
