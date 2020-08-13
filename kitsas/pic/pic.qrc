@@ -173,6 +173,8 @@
         <file>kierto-harmaa.svg</file>
         <file>kuvamv.png</file>
         <file>lilja.png</file>
+        <file>email32.png</file>
+        <file>inbox32.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

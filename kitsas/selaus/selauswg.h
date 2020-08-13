@@ -71,6 +71,8 @@ public slots:
     void selaaVienteja();
     void selaaTositteita();
 
+    void naytaSaapuneet();
+
     void alkuPvmMuuttui();
 
     /**

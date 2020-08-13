@@ -79,7 +79,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
     connect( ui->kitupiikkituontiNappi, &QPushButton::clicked, this, &AloitusSivu::tuoKitupiikista);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
-    connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
+    connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(haeSaldot()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &AloitusSivu::poistaListalta);
@@ -131,6 +131,11 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->vaaraSalasana->setVisible(false);
     ui->palvelinvirheLabel->setVisible(false);
 
+    ui->inboxFrame->setVisible(false);
+    ui->inboxFrame->installEventFilter(this);
+    ui->outboxFrame->setVisible(false);
+    ui->outboxFrame->installEventFilter(this);
+
     if( kp()->settings()->contains("CloudKey"))
         QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu();} );
 
@@ -154,7 +159,7 @@ void AloitusSivu::siirrySivulle()
 
     if( !sivulla )
     {
-        connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+        connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::haeSaldot);
         sivulla = true;
     }
 
@@ -162,6 +167,7 @@ void AloitusSivu::siirrySivulle()
     if( kp()->yhteysModel() )
     {        
         haeSaldot();
+        haeInOutBox();
     }
     else
     {
@@ -177,9 +183,39 @@ void AloitusSivu::siirrySivulle()
     ui->muistiinpanotNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 }
 
+void AloitusSivu::paivitaSivu()
+{
+    if( kp()->yhteysModel() )
+    {
+        QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
+        txt.append( paivitysInfo );
+
+        txt.append( vinkit() );
+
+        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
+        if( saldot_.count())
+            txt.append(summat());
+        else
+            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+
+        ui->selain->setHtml(txt);
+    }
+    else
+    {
+        QFile tttiedosto(":/aloitus/tervetuloa.html");
+        tttiedosto.open(QIODevice::ReadOnly);
+        QTextStream in(&tttiedosto);
+        in.setCodec("Utf8");
+        QString teksti = in.readAll();
+        teksti.replace("<INFO>", paivitysInfo);
+
+        ui->selain->setHtml( teksti );
+    }
+}
+
 bool AloitusSivu::poistuSivulta(int /* minne */)
 {
-    disconnect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+    disconnect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::haeSaldot);
     sivulla = false;
     return true;
 }
@@ -224,7 +260,6 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
     ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
 
-    siirrySivulle();
     tukiInfo();
 }
 
@@ -328,7 +363,7 @@ void AloitusSivu::infoSaapui()
 
         qDebug() << " Info " << paivitysInfo;
 
-        siirrySivulle();
+        paivitaSivu();
     }
 
     reply->deleteLater();
@@ -375,7 +410,7 @@ void AloitusSivu::muistiinpanot()
     if( dlg.exec() == QDialog::Accepted )
         kp()->asetukset()->aseta("Muistiinpanot", ui.editori->toPlainText());
 
-    siirrySivulle();
+    paivitaSivu();
 }
 
 void AloitusSivu::poistaListalta()
@@ -442,25 +477,43 @@ void AloitusSivu::pyydaInfo()
 void AloitusSivu::saldotSaapuu(QVariant *data)
 {
     saldot_ = data->toMap();
+    paivitaSivu();
+}
 
-    QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-    txt.append( paivitysInfo );
+void AloitusSivu::inboxSaapuu(QVariant *data)
+{
+    QVariantList lista = data->toList();
+    int lkm = lista.count();
 
-    txt.append( vinkit() );
+    ui->inboxFrame->setVisible(lkm);
+    ui->inboxCount->setText(QString::number(lkm));
+}
 
-    // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-    if( saldot_.count())
-        txt.append(summat());
-    else
-        txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+void AloitusSivu::outboxSaapuu(QVariant *data)
+{
+    QVariantList lista = data->toList();
+    int lkm = lista.count();
 
-    ui->selain->setHtml(txt);
+    ui->outboxFrame->setVisible(lkm);
+    ui->outboxCount->setText(QString::number(lkm));
 }
 
 QDate AloitusSivu::buildDate()
 {
     QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
     return QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date);
+}
+
+bool AloitusSivu::eventFilter(QObject *target, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress && target == ui->inboxFrame) {
+        ktpkasky("inbox");
+        return true;
+    } else if (event->type() == QEvent::MouseButtonPress && target == ui->outboxFrame) {
+        ktpkasky("outbox");
+        return true;
+    }
+    return false;
 }
 
 void AloitusSivu::pilviLogin()
@@ -610,11 +663,38 @@ void AloitusSivu::logoMuuttui()
 
 void AloitusSivu::haeSaldot()
 {
-    QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
-    KpKysely *kysely = kpk("/saldot");
+    if(sivulla) {
+        QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
+        KpKysely *kysely = kpk("/saldot");
+        if( kysely ) {
+            kysely->lisaaAttribuutti("pvm", saldopaiva);
+            connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
+            kysely->kysy();
+        }
+    }
+}
+
+void AloitusSivu::haeInOutBox()
+{
+    KpKysely* kysely = kpk("/myyntilaskut");
     if( kysely ) {
-        kysely->lisaaAttribuutti("pvm", saldopaiva);
-        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
+        kysely->lisaaAttribuutti("lahetettava");
+        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::outboxSaapuu);
+        kysely->kysy();
+    }
+
+
+    if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
+        kysely = kpk("/kierrot/tyolista");
+    } else {
+        kysely = kpk("/tositteet");
+        if( kysely ) {
+            kysely->lisaaAttribuutti("saapuneet");
+        }
+    }
+
+    if( kysely ) {
+        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::inboxSaapuu);
         kysely->kysy();
     }
 }

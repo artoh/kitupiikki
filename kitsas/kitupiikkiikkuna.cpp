@@ -322,6 +322,16 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
         else if(kasky == "tilinpaatos")
             arkistosivu->tilinpaatosKasky();
             // Varmistaa, että tilinpäätös kohdistuu oikealle tilikaudelle
+    } else if( kasky == "inbox") {
+        if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
+            valitseSivu(KIERTOSIVU, true);
+        } else {
+            valitseSivu( SELAUSSIVU, true);
+            selaussivu->naytaSaapuneet();
+        }
+    } else if( kasky == "outbox") {
+        valitseSivu(LASKUTUSSIVU);
+        laskutussivu->outbox();
     }
 
 }

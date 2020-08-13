@@ -310,6 +310,11 @@ void SelausWg::selaaTositteita()
     paivita();
 }
 
+void SelausWg::naytaSaapuneet()
+{
+    ui->valintaTab->setCurrentIndex(SAAPUNEET);
+}
+
 void SelausWg::alkuPvmMuuttui()
 {
     // Jos siirrytään toiseen tilikauteen...

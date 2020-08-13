@@ -89,6 +89,12 @@ QString LaskuSivu::ohjeSivunNimi()
 
 }
 
+void LaskuSivu::outbox()
+{
+    paaTab_->setCurrentIndex(MYYNTI);
+    laskuWidget_->alalehti(LaskuSivu::LAHETETTAVAT);
+}
+
 void LaskuSivu::paaTab(int indeksi)
 {
 

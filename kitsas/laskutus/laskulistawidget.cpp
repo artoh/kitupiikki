@@ -124,6 +124,12 @@ void LaskulistaWidget::nayta(int paalehti)
     }
 }
 
+void LaskulistaWidget::alalehti(int alalehti)
+{
+    ui->tabs->setCurrentIndex(alalehti);
+    paivita();
+}
+
 void LaskulistaWidget::paivita()
 {
     int laji = ui->tabs->count() == 5 ? ui->tabs->currentIndex() : ui->tabs->currentIndex() + 2;

@@ -47,8 +47,11 @@ public:
     bool poistuSivulta(int minne) override;
     static QDate buildDate();
 
+    bool eventFilter(QObject* target, QEvent* event) override;
+
 public slots:
     void siirrySivulle() override;
+    void paivitaSivu();
     void kirjanpitoVaihtui();
 
     void linkki(const QUrl& linkki);
@@ -74,6 +77,8 @@ public slots:
 
 protected slots:
     void saldotSaapuu(QVariant* data);
+    void inboxSaapuu(QVariant* data);
+    void outboxSaapuu(QVariant* data);
 
 private slots:
     void pilviLogin();
@@ -88,6 +93,7 @@ private slots:
     void pilviLogout();
     void logoMuuttui();
     void haeSaldot();
+    void haeInOutBox();
     void siirraPilveen();    
     void tukiInfo();
 
@@ -98,6 +104,7 @@ signals:
 protected:
     QString vinkit();
     QString summat();
+
 
 
 

@@ -53,6 +53,7 @@ public:
 
     void siirrySivulle() override;
     QString ohjeSivunNimi() override;
+    void outbox();
 
 public slots:
     void paaTab(int indeksi);

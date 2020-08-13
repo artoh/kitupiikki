@@ -39,6 +39,7 @@ public:
 
 public slots:
     void nayta(int paalehti);
+    void alalehti(int alalehti);
     void paivita();
     void suodataAsiakas(const QString& nimi);
 
