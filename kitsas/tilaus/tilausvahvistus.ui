@@ -36,7 +36,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ole hyvä ja lue &lt;a href=&quot;https://kitupiikki.info&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;käyttöehdot&lt;/span&gt;&lt;/a&gt; ennen tilauksen vahvistamista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ole hyvä ja lue &lt;a href=&quot;https://kitsas.fi/ehdot/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;käyttöehdot&lt;/span&gt;&lt;/a&gt; ennen tilauksen vahvistamista&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

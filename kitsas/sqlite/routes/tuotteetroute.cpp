@@ -60,6 +60,15 @@ QVariant TuotteetRoute::put(const QString &polku, const QVariant &data)
     return jemma;
 }
 
+QVariant TuotteetRoute::doDelete(const QString &polku)
+{
+    QSqlQuery kysely( db() );
+    kysely.exec(QString("DELETE FROM Tuote WHERE id=%1").arg(polku.toInt()));
+    return QVariant();
+}
+
+
+
 QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
 {
     QStringList ehdot;
