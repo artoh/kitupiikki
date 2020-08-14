@@ -192,7 +192,7 @@
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="icon">
@@ -491,6 +491,17 @@
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
                  <normaloff>:/pixaby/log-out.svg</normaloff>:/pixaby/log-out.svg</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="vaihdaSalasanaButton">
+               <property name="text">
+                <string>Vaihda salasana</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/lukittu.png</normaloff>:/pic/lukittu.png</iconset>
                </property>
               </widget>
              </item>

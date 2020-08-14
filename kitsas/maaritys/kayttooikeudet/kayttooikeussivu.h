@@ -46,6 +46,8 @@ private:
     void tarkastaMuokattu();
     void kaikkiOikeudet();
     void poistaOikeudet();
+    void kutsu();
+
 
     QStringList oikeudetTaulussa() const;
 private:

@@ -63,6 +63,7 @@
 #include "versio.h"
 
 #include "luotunnusdialogi.h"
+#include "salasananvaihto.h"
 
 #include <QSslError>
 #include <QClipboard>
@@ -99,7 +100,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
         LuoTunnusDialogi dialogi;
         dialogi.exec();
     });
-    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasana);
+    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaUnohtunutSalasana);
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
@@ -119,6 +120,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
     connect( ui->tukileikeNappi, &QPushButton::clicked, [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
+    connect( ui->vaihdaSalasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasanaUuteen);
 
 
     QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
@@ -532,10 +534,14 @@ void AloitusSivu::kirjauduttu()
     int pilvia = kp()->pilvi()->omatPilvet();
     int pilvetmax = kp()->pilvi()->pilviMax();
 
-    ui->planLabel->setText(  tr("%1\n%2/%3 kirjanpitoa")
+    if (pilvia == 0 && pilvetmax == 0) {
+        ui->planLabel->setText( kp()->pilvi()->planname() );
+    } else {
+        ui->planLabel->setText(  tr("%1\n%2/%3 kirjanpitoa")
                             .arg( kp()->pilvi()->planname())
                             .arg( pilvia )
                             .arg( pilvetmax ));
+    }
 
     if( kp()->pilvi()->plan() == 0 && kp()->pilvi()->kokeilujakso() >= QDate::currentDate()) {
         ui->kokeiluLabel->show();
@@ -612,7 +618,7 @@ void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
     }
 }
 
-void AloitusSivu::vaihdaSalasana()
+void AloitusSivu::vaihdaUnohtunutSalasana()
 {
     QVariantMap map;
 
@@ -744,6 +750,12 @@ void AloitusSivu::tukiInfo()
 
         );
     }
+}
+
+void AloitusSivu::vaihdaSalasanaUuteen()
+{
+    Salasananvaihto dlg(this);
+    dlg.exec();
 }
 
 QString AloitusSivu::vinkit()

@@ -88,7 +88,7 @@ private slots:
     void validoiEmail();
     void emailTarkastettu();
     void verkkovirhe(QNetworkReply::NetworkError virhe);
-    void vaihdaSalasana();
+    void vaihdaUnohtunutSalasana();
     void salasananVaihtoLahti();
     void pilviLogout();
     void logoMuuttui();
@@ -96,6 +96,7 @@ private slots:
     void haeInOutBox();
     void siirraPilveen();    
     void tukiInfo();
+    void vaihdaSalasanaUuteen();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);

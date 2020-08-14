@@ -54,6 +54,7 @@ void LuoTunnusDialogi::accept()
     QVariantMap map;
 
     map.insert("email", ui->osoiteEdit->text());
+    map.insert("name", ui->nimiEdit->text());
     QNetworkAccessManager *mng = kp()->networkManager();
 
     QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users") );

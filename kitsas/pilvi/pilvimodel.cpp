@@ -169,6 +169,7 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
     } else if( kp()->settings()->contains("CloudKey") ) {
         map.insert("email", kp()->settings()->value("CloudEmail") );
         map.insert("key", kp()->settings()->value("CloudKey"));
+        kp()->settings()->remove("CloudKey");
     }
 
     QNetworkAccessManager *mng = kp()->networkManager();
@@ -218,7 +219,7 @@ void PilviModel::kirjautuminenValmis()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
 
-    if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+    if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {        
         emit loginvirhe();
         return;
     }

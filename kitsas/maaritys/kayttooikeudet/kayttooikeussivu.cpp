@@ -18,7 +18,7 @@
 #include "ui_kayttooikeudet.h"
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
-
+#include "kutsudialog.h"
 #include <QSortFilterProxyModel>
 
 KayttoOikeusSivu::KayttoOikeusSivu() :
@@ -41,6 +41,7 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->tallennaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::tallennaOikeudet);
     connect( ui->kaikkiNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::kaikkiOikeudet);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::poistaOikeudet);
+    connect( ui->kutsuButton, &QPushButton::clicked, this, &KayttoOikeusSivu::kutsu);
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         connect(box, &QCheckBox::clicked, this, &KayttoOikeusSivu::tarkastaMuokattu);
@@ -97,9 +98,16 @@ void KayttoOikeusSivu::tarkastaNimi()
                                 .arg(ui->lisaysEdit->text()));
         connect(kysely, &KpKysely::vastaus, [this] (QVariant* data) {
             this->ui->lisaysNappi->setEnabled( !data->toMap().isEmpty() );
+            this->ui->kutsuButton->setEnabled( data->toMap().isEmpty());
             haettuNimi_ = data->toMap().value("name").toString();
         });
+        connect(kysely, &KpKysely::virhe, [this] (int virhe) {
+            this->ui->kutsuButton->setEnabled( virhe == 203);
+        });
         kysely->kysy();
+    } else {
+        ui->lisaysNappi->setEnabled(false);
+        ui->kutsuButton->setEnabled(false);
     }
 }
 
@@ -160,6 +168,15 @@ void KayttoOikeusSivu::poistaOikeudet()
     for(QCheckBox* box : findChildren<QCheckBox*>())
         box->setChecked(false);
     tarkastaMuokattu();
+}
+
+void KayttoOikeusSivu::kutsu()
+{
+    QString email = KutsuDialog::kutsu(ui->lisaysEdit->text());
+    if(!email.isNull()) {
+        ui->lisaysEdit->clear();
+        model->paivita();
+    }
 }
 
 
