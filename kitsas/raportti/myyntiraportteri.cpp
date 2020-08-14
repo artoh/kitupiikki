@@ -59,7 +59,7 @@ void MyyntiRaportteri::dataSaapuu(QVariant *data)
 
     for(const auto& item : lista) {
         const QVariantMap& map = item.toMap();
-        if( !map.contains("tuote")  ) {
+        if( !map.contains("tuote")  || map.value("tuote").toInt() == 0) {
             epatuotteet = map;
             continue;
         }

@@ -261,6 +261,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
 
     tukiInfo();
+    paivitaSivu();
 }
 
 void AloitusSivu::linkki(const QUrl &linkki)

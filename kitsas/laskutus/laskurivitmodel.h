@@ -67,7 +67,7 @@ public:
 
     double yhteensa() const;
     QVariantList viennit(const QDate& pvm = QDate::currentDate(), const QDate& jaksoalkaa = QDate(), const QDate& jaksopaattyy = QDate(),
-                         const QString& otsikko = QString(), bool ennakkolasku = false) const;
+                         const QString& otsikko = QString(), bool ennakkolasku = false, bool kateislasku = false) const;
 
     bool onkoTyhja() const;
 

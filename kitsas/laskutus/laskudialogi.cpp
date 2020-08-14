@@ -509,7 +509,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         QVariantMap vasta = vastakirjaus(pvm, otsikko);        
         viennit.append( vasta );
         viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
-                                         otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU ) );
+                                         otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU,
+                                         ui->maksuCombo->currentData().toInt() == KATEINEN));
 
         map.insert("viennit", viennit);
     }

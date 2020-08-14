@@ -291,7 +291,7 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku) const
+QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku, bool kateislasku) const
 {
     QVariantList lista;
 
@@ -303,7 +303,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
         if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku)
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
-        else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm))
+        else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm) && !kateislasku)
             alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
         if( ennakkolasku )

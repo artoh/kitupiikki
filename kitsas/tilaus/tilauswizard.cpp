@@ -73,7 +73,8 @@ QString TilausWizard::yhteenveto()
                     .arg( valintaSivu_->tilaus(PlanModel::PilviaRooli ).toInt() + field("lisapilvet").toInt() ) );
     if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
 
-        double hinta = valintaSivu_->tilaus(PlanModel::HintaRooli).toDouble();
+        double hinta = valintaSivu_->tilaus(PlanModel::HintaRooli).toDouble() +
+                field("lisapilvet").toInt() * valintaSivu_->tilaus(PlanModel::LisaPilviHinta).toDouble();
 
         txt.append( tr("\n\nHinta %L1 € ").arg( hinta ,0,'f',2 ));
         if( field("puolivuosittain").toBool())
@@ -87,7 +88,7 @@ QString TilausWizard::yhteenveto()
 
         if( hyvitys > 1) {
             txt.append(tr("Ensimmäiseltä laskulta vähennetään nykyistä tilaustasi %L1€, "
-                       "jolloin maksettavaa jää L1€.")
+                       "jolloin maksettavaa jää %L2€.")
                     .arg(hyvitys,0,'f',2)
                     .arg(hinta - hyvitys, 0, 'f', 2) );
         }
