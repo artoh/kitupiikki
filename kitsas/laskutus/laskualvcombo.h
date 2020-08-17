@@ -18,6 +18,7 @@
 #define LASKUALVCOMBO_H
 
 #include <QComboBox>
+#include "db/verotyyppimodel.h"
 
 class LaskuAlvCombo : public QComboBox
 {
@@ -25,7 +26,7 @@ class LaskuAlvCombo : public QComboBox
 public:
     enum AsiakasVeroLaji { KAIKKI, EU, KOTIMAA, YKSITYINEN };
 
-    LaskuAlvCombo(QWidget* parent = nullptr, AsiakasVeroLaji asiakasVerolaji = KAIKKI);
+    LaskuAlvCombo(QWidget* parent = nullptr, AsiakasVeroLaji asiakasVerolaji = KAIKKI, int alvkoodi = AlvKoodi::EIALV );
 
     int veroKoodi() const;
     int marginaaliKoodi() const;

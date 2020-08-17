@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 #include "laskudialogi.h"
 
-LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji) :
+LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, int alvkoodi) :
     QComboBox (parent)
 {
     addItem(QIcon(":/pic/0pros.png"),"0%", QVariant(AlvKoodi::ALV0));
@@ -29,10 +29,10 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji) :
     addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
     addItem(QIcon(":/pic/tyhja.png"),"Veroton", QVariant(AlvKoodi::EIALV ));
 
-    if( asiakasverolaji == KAIKKI || asiakasverolaji == KOTIMAA)
+    if( asiakasverolaji == KAIKKI || asiakasverolaji == KOTIMAA || alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
         addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
 
-    if( asiakasverolaji == EU) {
+    if( asiakasverolaji == EU || alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT || alvkoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT) {
         addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
         addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
     }

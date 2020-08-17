@@ -744,6 +744,19 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
             QMessageBox::critical(this, tr("Tallennusvirhe"), tr("Päivämäärälle %1 on jo annettu arvonlisäveroilmoitus")
                                   .arg(vienti.pvm().toString("dd.MM.yyyy")));
             return;
+        } else if( asiakkaanAlvTunnus().startsWith("FI") && (vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
+                                                             vienti.alvKoodi()==AlvKoodi::YHTEISOMYYNTI_PALVELUT)) {
+
+            QMessageBox::critical(this, tr("Yhteisömyynti"),
+                                  tr("Yhteisömyyntiä ei voi tehdä suomalaiselle asiakkaalle."));
+            return;
+        } else if( asiakkaanAlvTunnus().isEmpty() && (vienti.alvKoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI ||
+                                                      vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
+                                                      vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_PALVELUT)) {
+            QMessageBox::critical(this, tr("Käänteinen arvonlisävero"),
+                                  tr("Käytettäessä käänteistä arvonlisävero on asiakkaalle "
+                                     "määriteltävä alv-tunnus."));
+            return;
         }
     }
 

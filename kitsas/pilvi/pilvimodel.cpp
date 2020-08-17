@@ -170,6 +170,8 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
         map.insert("email", kp()->settings()->value("CloudEmail") );
         map.insert("key", kp()->settings()->value("CloudKey"));
         kp()->settings()->remove("CloudKey");
+    } else {
+        return;
     }
 
     QNetworkAccessManager *mng = kp()->networkManager();

@@ -30,7 +30,7 @@ LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(LaskuDialogi *dialogi) :
 
 }
 
-QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
+QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
     LaskuAlvCombo::AsiakasVeroLaji aslaji = LaskuAlvCombo::EU;
     LaskuDialogi* dlg = qobject_cast<LaskuDialogi*>(this->parent());
@@ -39,7 +39,7 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     else if(dlg->asiakkaanAlvTunnus().startsWith("FI"))
         aslaji = LaskuAlvCombo::KOTIMAA;
 
-    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji);
+    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji, index.data(LaskuRivitModel::AlvKoodiRooli).toInt());
     return cbox;
 }
 
