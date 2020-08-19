@@ -754,7 +754,7 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
                                                       vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                                                       vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_PALVELUT)) {
             QMessageBox::critical(this, tr("Käänteinen arvonlisävero"),
-                                  tr("Käytettäessä käänteistä arvonlisävero on asiakkaalle "
+                                  tr("Käytettäessä käänteistä arvonlisäveroa on asiakkaalle "
                                      "määriteltävä alv-tunnus."));
             return;
         }

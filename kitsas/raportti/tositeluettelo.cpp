@@ -72,7 +72,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
 {
     qlonglong lajisumma = 0l;
     qlonglong summa = 0l;
-    int edellinentyyppi = 0;
+    int edellinentyyppi = -1;
     QDate edpvm;
 
     QVariantList lista = data->toList();
@@ -81,15 +81,15 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
         int tamatyyppi = map.value("tyyppi").toInt();
 
         if( optiot_ & RyhmitteleLajeittain && edellinentyyppi != tamatyyppi) {
-            if( optiot_ & TulostaSummat && edellinentyyppi) {
+            if( optiot_ & TulostaSummat && edellinentyyppi >= 0) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
-                valisumma.lisaa( kaanna("Yhteensä"), 4);
+                valisumma.lisaa( kaanna("Yhteensä"), 5);
                 valisumma.lisaa( lajisumma );
                 valisumma.viivaYlle();
                 rk.lisaaRivi(valisumma);
                 lajisumma = 0l;
             }
-            if( edellinentyyppi )
+            if( edellinentyyppi >= 0)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi laji(RaporttiRivi::EICSV);
@@ -128,7 +128,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     }
     if( optiot_ & TulostaSummat && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(kaanna("Yhteensä"), 4);
+        valisumma.lisaa(kaanna("Yhteensä"), 5);
         valisumma.lisaa( lajisumma );
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
@@ -137,7 +137,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     if( optiot_ & TulostaSummat ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), 4);
+        summarivi.lisaa(kaanna("Yhteensä"), 5);
         summarivi.lisaa( summa );
         summarivi.viivaYlle();
         summarivi.lihavoi();
