@@ -34,111 +34,112 @@ benchmark: first
 
 compilers: qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp\
 	 qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp\
-	 qrc_lasku.cpp moc_predefs.h moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp\
-	 moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp\
-	 moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp\
-	 moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp\
-	 moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp\
-	 moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp\
-	 moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp\
-	 moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp\
-	 moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp\
-	 moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp\
-	 moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp\
-	 moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp\
-	 moc_tuotedialogi.cpp moc_vakioviitedlg.cpp moc_vakioviitemodel.cpp\
-	 moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp\
-	 moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp\
-	 moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp\
-	 moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp\
-	 moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp\
-	 moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp\
-	 moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp\
-	 moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp\
-	 moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp\
-	 moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp\
-	 moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp\
-	 moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp\
-	 moc_ibandelegaatti.cpp moc_maamodel.cpp moc_rekisterinvienti.cpp\
-	 moc_rekisterituontidelegaatti.cpp moc_rekisterituontidlg.cpp moc_rekisterituontimodel.cpp\
-	 moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp\
-	 moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp\
-	 moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp\
-	 moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp\
-	 moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp\
-	 moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp\
-	 moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp\
-	 moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp\
-	 moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp\
-	 moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp\
-	 moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp\
-	 moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp\
-	 moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp\
-	 moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp\
-	 moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp\
-	 moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp\
-	 moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp\
-	 moc_kohdennusdelegaatti.cpp moc_onniwidget.cpp moc_raportoija.cpp\
-	 moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp\
-	 moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp\
-	 moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp\
-	 moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp\
-	 moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp\
-	 moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp\
-	 moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp\
-	 moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp\
-	 moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp\
-	 moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp\
-	 moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp\
-	 moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp\
-	 moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp\
-	 moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp\
-	 moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp\
-	 moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp\
-	 moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp\
-	 moc_pdfview.cpp moc_viennitview.cpp moc_kpkysely.cpp\
-	 moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp\
-	 moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp\
-	 moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp\
-	 moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp\
-	 moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp\
-	 moc_finvoicehaku.cpp ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h\
-	 ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h\
-	 ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h\
-	 ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h\
-	 ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h\
-	 ui_tuotedialogi.h ui_vakioviitedlg.h ui_emailkokeilu.h\
-	 ui_kayttooikeudet.h ui_liitemaaritys.h ui_maksutapamuokkaus.h\
-	 ui_maksutapasivu.h ui_oletustilimaaritys.h ui_paivitetaandlg.h\
-	 ui_palkkatilimaaritys.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h\
-	 ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h\
-	 ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h\
-	 ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h\
-	 ui_pvmvali.h ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h\
-	 ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h\
-	 ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h\
-	 ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h\
-	 ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h\
-	 ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h\
-	 ui_tositewg.h ui_selauswg.h ui_paivakirja.h\
-	 ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h\
-	 ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h\
-	 ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h\
-	 ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h\
-	 ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h\
-	 ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h\
-	 ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h\
-	 ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h\
-	 ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h\
-	 ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h\
-	 ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h\
-	 ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h\
-	 ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h\
-	 ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h\
-	 ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h\
-	 ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h\
-	 ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h\
-	 ui_tuloverodialog.h ui_kiertomuokkausdlg.h
+	 qrc_lasku.cpp moc_predefs.h moc_luotunnusdialogi.cpp moc_salasananvaihto.cpp moc_alvlaskelma.cpp\
+	 moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp\
+	 moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp\
+	 moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp\
+	 moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp\
+	 moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp\
+	 moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp\
+	 moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp\
+	 moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp\
+	 moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp\
+	 moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp\
+	 moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp\
+	 moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_vakioviitedlg.cpp\
+	 moc_vakioviitemodel.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp\
+	 moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp\
+	 moc_kayttooikeussivu.cpp moc_kutsudialog.cpp moc_liitemaaritys.cpp\
+	 moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp\
+	 moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp\
+	 moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp\
+	 moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp\
+	 moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp\
+	 moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp\
+	 moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp\
+	 moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp\
+	 moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp\
+	 moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp\
+	 moc_maamodel.cpp moc_rekisterinvienti.cpp moc_rekisterituontidelegaatti.cpp\
+	 moc_rekisterituontidlg.cpp moc_rekisterituontimodel.cpp moc_ryhmatmodel.cpp\
+	 moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp\
+	 moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp\
+	 moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp\
+	 moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp\
+	 moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp\
+	 moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp\
+	 moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp\
+	 moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp\
+	 moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp\
+	 moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp\
+	 moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp\
+	 moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp\
+	 moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp\
+	 moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp\
+	 moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp\
+	 moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp\
+	 moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp\
+	 moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp\
+	 moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp\
+	 moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp\
+	 moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp\
+	 moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp\
+	 moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp\
+	 moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp\
+	 moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp\
+	 moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp\
+	 moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp\
+	 moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp\
+	 moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp\
+	 moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp\
+	 moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp\
+	 moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp\
+	 moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp\
+	 moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp\
+	 moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp\
+	 moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp\
+	 moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp\
+	 moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp\
+	 moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp\
+	 moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp\
+	 moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp ui_luotunnusdialogi.h ui_salasananvaihto.h ui_palkkaapuri.h\
+	 ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h\
+	 ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h\
+	 ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h\
+	 ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h\
+	 ui_laskulistawidget.h ui_tuotedialogi.h ui_vakioviitedlg.h\
+	 ui_emailkokeilu.h ui_kayttooikeudet.h ui_kutsudialog.h\
+	 ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h\
+	 ui_oletustilimaaritys.h ui_paivitetaandlg.h ui_palkkatilimaaritys.h\
+	 ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h\
+	 ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h\
+	 ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h\
+	 ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h\
+	 ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h ui_kiitos.h\
+	 ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h\
+	 ui_paivitys.h ui_numerointi.h ui_sijainti.h\
+	 ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h\
+	 ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h\
+	 ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h\
+	 ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h\
+	 ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h\
+	 ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h\
+	 ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h\
+	 ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h\
+	 ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h\
+	 ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h\
+	 ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h\
+	 ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h\
+	 ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h\
+	 ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h\
+	 ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h\
+	 ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h\
+	 ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h\
+	 ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h\
+	 ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h\
+	 ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h\
+	 ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h\
+	 ui_kiertomuokkausdlg.h
 compiler_rcc_make_all: qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp qrc_lasku.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_sqlite.cpp qrc_tr.cpp qrc_tilikartat.cpp qrc_pic.cpp qrc_aloitus.cpp qrc_arkisto.cpp qrc_lasku.cpp
@@ -213,6 +214,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/paketti2.png \
 		../kitsas/pic/pankki.png \
 		../kitsas/pic/netto.png \
+		../kitsas/pic/inbox32.png \
 		../kitsas/pic/poista.png \
 		../kitsas/pic/tekstisivu-aktiivinen.png \
 		../kitsas/pic/risuaita.png \
@@ -326,6 +328,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/kommentti-harmaa.png \
 		../kitsas/pic/punainenkuori.png \
 		../kitsas/pic/ikkunakuori.png \
+		../kitsas/pic/email32.png \
 		../kitsas/pic/Diary64.png \
 		../kitsas/pic/kirjalaatikko.png \
 		../kitsas/pic/poistarivi.png \
@@ -427,17 +430,23 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.15.0/clang_64/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1y -Wall -Wextra -dM -E -o moc_predefs.h ../../../Qt/5.15.0/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_vakioviitedlg.cpp moc_vakioviitemodel.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_rekisterinvienti.cpp moc_rekisterituontidelegaatti.cpp moc_rekisterituontidlg.cpp moc_rekisterituontimodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
+compiler_moc_header_make_all: moc_luotunnusdialogi.cpp moc_salasananvaihto.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_vakioviitedlg.cpp moc_vakioviitemodel.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_kutsudialog.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_rekisterinvienti.cpp moc_rekisterituontidelegaatti.cpp moc_rekisterituontidlg.cpp moc_rekisterituontimodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_luotunnusdialogi.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_vakioviitedlg.cpp moc_vakioviitemodel.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_rekisterinvienti.cpp moc_rekisterituontidelegaatti.cpp moc_rekisterituontidlg.cpp moc_rekisterituontimodel.cpp moc_ryhmatmodel.cpp
-	-$(DEL_FILE) moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp moc_inboxmaaritys.cpp moc_inboxlista.cpp
-	-$(DEL_FILE) moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
+	-$(DEL_FILE) moc_luotunnusdialogi.cpp moc_salasananvaihto.cpp moc_alvlaskelma.cpp moc_apuriwidget.cpp moc_laskutaulutilioteproxylla.cpp moc_palkkaapuri.cpp moc_tilioteapuri.cpp moc_tiliotemodel.cpp moc_tmrivit.cpp moc_tulomenoapuri.cpp moc_siirtoapuri.cpp moc_jaksottaja.cpp moc_uudelleennumerointi.cpp moc_arkistohakemistodialogi.cpp moc_arkistoija.cpp moc_tositetyyppimodel.cpp moc_kiertomaaritys.cpp moc_kiertomodel.cpp moc_kiertomuokkausmodel.cpp moc_kiertoselausmodel.cpp moc_kiertosivu.cpp moc_tallennettuwidget.cpp moc_vanhatuontidlg.cpp moc_asiakkaatmodel.cpp moc_ennakkohyvitysdialogi.cpp moc_ennakkohyvitysmodel.cpp moc_kumppanituotewidget.cpp moc_laskualvcombo.cpp moc_laskulistawidget.cpp moc_laskurivitmodel.cpp moc_myyntilaskujentoimittaja.cpp moc_myyntilaskuntulostaja.cpp moc_kielidelegaatti.cpp moc_laskutettavatmodel.cpp moc_ryhmaanasiakkaatproxy.cpp moc_ryhmalaskutab.cpp moc_toimitustapadelegaatti.cpp moc_tuotedialogi.cpp moc_vakioviitedlg.cpp moc_vakioviitemodel.cpp moc_avauserakantamodel.cpp moc_avauseramodel.cpp moc_avauskohdennusmodel.cpp moc_emailkokeilu.cpp moc_kayttooikeusmodel.cpp moc_kayttooikeussivu.cpp moc_kutsudialog.cpp moc_liitemaaritys.cpp moc_maksutapamuokkaus.cpp moc_raportinmuokkaus.cpp moc_raportinmuokkausdialogi.cpp moc_raporttimuokkausmodel.cpp moc_tilikarttapaivitys.cpp moc_tositesarjamaaritys.cpp moc_ulkoasumaaritys.cpp moc_maventadialog.cpp moc_verkkolaskumaaritys.cpp moc_laskutaulumodel.cpp moc_maksutapamodel.cpp moc_tosite.cpp moc_tositeliitteet.cpp moc_tositeloki.cpp moc_tositeviennit.cpp moc_pilveensiirto.cpp moc_alvraporttiwidget.cpp moc_laskuraportteri.cpp moc_myyntiraportteri.cpp moc_paakirja.cpp moc_raportteri.cpp moc_raporttiwidget.cpp moc_taseerittelija.cpp moc_tasetulosraportti.cpp moc_tilikarttalistaaja.cpp moc_tositeluettelo.cpp moc_asiakastoimittajadlg.cpp moc_asiakastoimittajalistamodel.cpp moc_asiakastoimittajataydentaja.cpp moc_ibandelegaatti.cpp moc_maamodel.cpp moc_rekisterinvienti.cpp moc_rekisterituontidelegaatti.cpp moc_rekisterituontidlg.cpp
+	-$(DEL_FILE) moc_rekisterituontimodel.cpp moc_ryhmatmodel.cpp moc_ryhmavalintalistwidget.cpp moc_saldodock.cpp moc_saldomodel.cpp moc_sqlitealustaja.cpp moc_planmodel.cpp moc_tilausvalintasivu.cpp moc_tilauswizard.cpp moc_aineistotulostaja.cpp moc_checkcombo.cpp moc_eracombo.cpp moc_kohdennuscombo.cpp moc_kpeuroedit.cpp moc_kpviiteedit.cpp moc_tilicombo.cpp moc_tulkki.cpp moc_sijaintisivu.cpp moc_tiedotsivu.cpp moc_tilikausisivu.cpp moc_uusialkusivu.cpp moc_uusivelho.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_tositeselausmodel.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_tilinpaatostulostaja.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_laskudialogi.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_tilimuuntomodel.cpp moc_devtool.cpp moc_lisaikkuna.cpp moc_siirrydlg.cpp moc_kpdateedit.cpp moc_myyntiraportti.cpp moc_ytunnusvalidator.cpp moc_laskusivu.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_tallentavamaarityswidget.cpp
+	-$(DEL_FILE) moc_inboxmaaritys.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_tekstinaytin.cpp moc_kuvaview.cpp moc_pdfview.cpp moc_viennitview.cpp moc_kpkysely.cpp moc_sqlitekysely.cpp moc_paivakirja.cpp moc_pilvikysely.cpp moc_pilvimodel.cpp moc_sqlitemodel.cpp moc_tiliotekirjaaja.cpp moc_asiakastoimittajavalinta.cpp moc_avauseradlg.cpp moc_maksutapamuokkausdlg.cpp moc_maksumuistutusdialogi.cpp moc_tuloverodialog.cpp moc_kiertowidget.cpp moc_kiertomuokkausdlg.cpp moc_tesseracttuonti.cpp moc_verkkolaskutoimittaja.cpp moc_finvoicehaku.cpp
 moc_luotunnusdialogi.cpp: ../kitsas/aloitussivu/luotunnusdialogi.h \
 		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
 		../../../Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers/QNetworkReply \
 		moc_predefs.h \
 		../../../Qt/5.15.0/clang_64/bin/moc
 	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/aloitussivu/luotunnusdialogi.h -o moc_luotunnusdialogi.cpp
+
+moc_salasananvaihto.cpp: ../kitsas/aloitussivu/salasananvaihto.h \
+		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		moc_predefs.h \
+		../../../Qt/5.15.0/clang_64/bin/moc
+	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/aloitussivu/salasananvaihto.h -o moc_salasananvaihto.cpp
 
 moc_alvlaskelma.cpp: ../kitsas/alv/alvlaskelma.h \
 		../kitsas/raportti/raportteri.h \
@@ -662,6 +671,9 @@ moc_kumppanituotewidget.cpp: ../kitsas/laskutus/kumppanituotewidget.h \
 
 moc_laskualvcombo.cpp: ../kitsas/laskutus/laskualvcombo.h \
 		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QComboBox \
+		../kitsas/db/verotyyppimodel.h \
+		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
+		../../../Qt/5.15.0/clang_64/lib/QtGui.framework/Headers/QIcon \
 		moc_predefs.h \
 		../../../Qt/5.15.0/clang_64/bin/moc
 	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/laskutus/laskualvcombo.h -o moc_laskualvcombo.cpp
@@ -940,6 +952,12 @@ moc_kayttooikeussivu.cpp: ../kitsas/maaritys/kayttooikeudet/kayttooikeussivu.h \
 		moc_predefs.h \
 		../../../Qt/5.15.0/clang_64/bin/moc
 	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/maaritys/kayttooikeudet/kayttooikeussivu.h -o moc_kayttooikeussivu.cpp
+
+moc_kutsudialog.cpp: ../kitsas/maaritys/kayttooikeudet/kutsudialog.h \
+		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		moc_predefs.h \
+		../../../Qt/5.15.0/clang_64/bin/moc
+	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/maaritys/kayttooikeudet/kutsudialog.h -o moc_kutsudialog.cpp
 
 moc_liitemaaritys.cpp: ../kitsas/maaritys/liitemaaritys.h \
 		../kitsas/maaritys/maarityswidget.h \
@@ -2974,13 +2992,17 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_vakioviitedlg.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_oletustilimaaritys.h ui_paivitetaandlg.h ui_palkkatilimaaritys.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h ui_kiertomuokkausdlg.h
+compiler_uic_make_all: ui_luotunnusdialogi.h ui_salasananvaihto.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_vakioviitedlg.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_kutsudialog.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_oletustilimaaritys.h ui_paivitetaandlg.h ui_palkkatilimaaritys.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h ui_kiertomuokkausdlg.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_luotunnusdialogi.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_vakioviitedlg.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_oletustilimaaritys.h ui_paivitetaandlg.h ui_palkkatilimaaritys.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h ui_tiliotekirjaaja.h ui_uusiharjoitus.h
-	-$(DEL_FILE) ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h ui_kiertomuokkausdlg.h
+	-$(DEL_FILE) ui_luotunnusdialogi.h ui_salasananvaihto.h ui_palkkaapuri.h ui_tilioteapuri.h ui_tulomenoapuri.h ui_siirtoapuri.h ui_uudelleennumerointi.h ui_arkistohakemistodialogi.h ui_kiertomaaritys.h ui_kiertosivu.h ui_kierto.h ui_tallennettuwidget.h ui_vanhatuontidlg.h ui_ennakkohyvitysdialogi.h ui_kumppanituotewidget.h ui_laskulistawidget.h ui_tuotedialogi.h ui_vakioviitedlg.h ui_emailkokeilu.h ui_kayttooikeudet.h ui_kutsudialog.h ui_liitemaaritys.h ui_maksutapamuokkaus.h ui_maksutapasivu.h ui_oletustilimaaritys.h ui_paivitetaandlg.h ui_palkkatilimaaritys.h ui_raportinmuokkaus.h ui_raportinmuokkausdialogi.h ui_raporttinimikedialogi.h ui_tilikarttapaivitys.h ui_tositesarjat.h ui_ulkoasumaaritys.h ui_maventa.h ui_verkkolasku.h ui_veromaaritys.h ui_yhteystiedot.h ui_pilveensiirto.h ui_pvmvali.h ui_asiakastoimittajadlg.h ui_rekisterituontidlg.h ui_kiitos.h ui_tilausvahvistus.h ui_tilausvalinta.h ui_tilausyhteys.h ui_paivitys.h ui_numerointi.h ui_sijainti.h ui_tilikausi.h ui_uusialoitus.h ui_uusiloppu.h ui_uusisijainti.h ui_uusitiedot.h ui_uusitilikartta.h ui_perusvalinnat.h ui_kirjaus.h ui_tositewg.h ui_selauswg.h ui_paivakirja.h ui_tilinavaus.h ui_tilikarttamuokkaus.h ui_tilinmuokkaus.h ui_tilinvalintadialogi.h ui_kohdennukset.h ui_kohdennusdialog.h ui_muokattavaraportti.h ui_onniwidget.h ui_tilikarttaraportti.h ui_aboutdialog.h ui_tpaloitus.h ui_mrichtextedit.h ui_aloitus.h ui_arkisto.h ui_lisaatilikausidlg.h ui_lukitsetilikausi.h ui_verodialogi.h ui_taseeravalintadialogi.h ui_laskudialogi.h ui_laskumaaritys.h ui_emailmaaritys.h ui_laskunmaksudialogi.h ui_tilinpaattaja.h ui_poistaja.h ui_lisaaraporttidialogi.h ui_kaavaeditori.h ui_muokkaatilikausi.h ui_tervetuloa.h ui_arkistonvienti.h ui_csvvientivalinnat.h ui_laskuraportti.h ui_csvtuontidlg.h ui_tilimuuntodlg.h ui_devtool.h ui_maksuperusteinen.h ui_apurivinkki.h ui_numerosiirto.h ui_siirry.h ui_kopioitosite.h ui_inboxmaaritys.h ui_budjettidlg.h ui_ryhmantuontidlg.h ui_muistiinpanot.h ui_budjettivertailu.h ui_alvilmoitusdialog.h ui_arvonlisavero.h
+	-$(DEL_FILE) ui_tiliotekirjaaja.h ui_uusiharjoitus.h ui_avauseradlg.h ui_maksutapamuokkausdlg.h ui_maksumuistutusdialogi.h ui_tuloverodialog.h ui_kiertomuokkausdlg.h
 ui_luotunnusdialogi.h: ../kitsas/aloitussivu/luotunnusdialogi.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/aloitussivu/luotunnusdialogi.ui -o ui_luotunnusdialogi.h
+
+ui_salasananvaihto.h: ../kitsas/aloitussivu/salasananvaihto.ui \
+		../../../Qt/5.15.0/clang_64/bin/uic
+	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/aloitussivu/salasananvaihto.ui -o ui_salasananvaihto.h
 
 ui_palkkaapuri.h: ../kitsas/apuri/palkkaapuri.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic \
@@ -3080,6 +3102,10 @@ ui_emailkokeilu.h: ../kitsas/maaritys/emailkokeilu.ui \
 ui_kayttooikeudet.h: ../kitsas/maaritys/kayttooikeudet/kayttooikeudet.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/maaritys/kayttooikeudet/kayttooikeudet.ui -o ui_kayttooikeudet.h
+
+ui_kutsudialog.h: ../kitsas/maaritys/kayttooikeudet/kutsudialog.ui \
+		../../../Qt/5.15.0/clang_64/bin/uic
+	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/maaritys/kayttooikeudet/kutsudialog.ui -o ui_kutsudialog.h
 
 ui_liitemaaritys.h: ../kitsas/maaritys/liitemaaritys.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic
