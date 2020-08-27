@@ -48,7 +48,6 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->tilitLista, &QListWidget::itemChanged, this, &AsiakasToimittajaDlg::tarkastaTilit);
 
     connect( ui->yEdit, &QLineEdit::textEdited, this, &AsiakasToimittajaDlg::haeYTunnarilla);
-    connect( ui->yEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::haeYTunnarilla);
     connect( ui->yEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::naytaVerkkolasku);
 
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
@@ -278,10 +277,10 @@ void AsiakasToimittajaDlg::maventalookupSaapuu(QVariant* data) {
 
 void AsiakasToimittajaDlg::dataTauluun(const QVariant &data)
 {
-    QVariantMap tieto = data.toMap().value("results").toList().first().toMap();
+    QVariantMap tieto = data.toMap().value("results").toList().value(0).toMap();
     ui->nimiEdit->setText( tieto.value("name").toString() );
     ui->yEdit->setText(tieto.value("businessId").toString());
-    QVariantMap osoite = tieto.value("addresses").toList().first().toMap();
+    QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
     ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
     ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
     ui->kaupunkiEdit->setText( osoite.value("city").toString());

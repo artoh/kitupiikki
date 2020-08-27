@@ -478,7 +478,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     vali->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     toolbar->addWidget(vali);
 
-    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Käsikirja"), this);
+    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Ohje"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
     ohjeAktio->setToolTip("Ohjeet \tF1");
     connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));

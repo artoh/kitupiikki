@@ -27,7 +27,7 @@ SijaintiSivu::SijaintiSivu()
 {
     setTitle("Kirjanpidon sijainti");
 
-    ui = new Ui::SijaintiSivu;
+    ui = new Ui::UusiSijainti;
     ui->setupUi(this);
 
     registerField("tiedosto",ui->tiedostoEdit);

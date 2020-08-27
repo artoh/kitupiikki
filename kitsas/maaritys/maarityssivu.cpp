@@ -58,10 +58,10 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "", QIcon(":/pic/teksti.png"));
+    lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "maaritykset/kayttoliittyma", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
-    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "", QIcon(":/pic/yhteystiedot.png"),"yhteys");
-    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "", QIcon(":/pic/liite.png"),"liitteet");
+    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
+    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "maaritykset/liitteet", QIcon(":/pic/liite.png"),"liitteet");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "maaritykset/kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
@@ -74,8 +74,8 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "maaritykset/kierto", QIcon(":/pic/kierto.svg"),"kierto");
     lisaaSivu("Verkkolasku", VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
     lisaaSivu("Kirjattavien kansio", INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
-    lisaaSivu("Verojen maksu", VERO,"", QIcon(":/pic/vero.png"),"vero");
-    lisaaSivu("Palkkakirjaustilit", PALKKAKIRJAUS,"kirjaus/palkka", QIcon(":/pic/yrittaja.png"));
+    lisaaSivu("Verojen maksu", VERO,"maaritykset/veronmaksu", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu("Palkkakirjaustilit", PALKKAKIRJAUS,"maaritykset/palkkatilit", QIcon(":/pic/yrittaja.png"));
     lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan päivitys", PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");

@@ -20,7 +20,7 @@
 
 #include <QWizardPage>
 
-#include "ui_sijainti.h"
+#include "ui_uusisijainti.h"
 
 /**
  * @brief Uuden kirjanpidon velhon sivu, jossa kysytään tiedoston sijainti
@@ -30,7 +30,7 @@ class SijaintiSivu : public QWizardPage
     Q_OBJECT
 
 protected:
-    Ui::SijaintiSivu *ui;
+    Ui::UusiSijainti *ui;
 public:
     SijaintiSivu();
     ~SijaintiSivu() override;
