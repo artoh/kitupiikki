@@ -579,7 +579,6 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
         connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
         kysely->kysy();
 
-        qDebug() << "Alarajahuojennus " << huojennusalku.toString() << " - " << huojennusloppu.toString() << " suhteutuskuukaudet " << suhteutuskuukaudet_;
     } else {
         viimeViimeistely();
     }

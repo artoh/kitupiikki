@@ -364,8 +364,6 @@ void AloitusSivu::infoSaapui()
                                 .arg(map.value("info").toString()));
         }
 
-        qDebug() << " Info " << paivitysInfo;
-
         paivitaSivu();
     }
 

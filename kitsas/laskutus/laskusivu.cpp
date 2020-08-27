@@ -99,8 +99,12 @@ void LaskuSivu::paaTab(int indeksi)
 {
 
     if( indeksi == REKISTERI) {
-        splitter_->replaceWidget(0, ryhmaWidget_);
-        splitter_->replaceWidget(1, kumppaniTuoteWidget_);
+        if(splitter_->widget(0) != ryhmaWidget_) {
+            splitter_->replaceWidget(0, ryhmaWidget_);
+        }
+        if(splitter_->widget(1) != kumppaniTuoteWidget_) {
+            splitter_->replaceWidget(1, kumppaniTuoteWidget_);
+        }
         ryhmaWidget_->nayta(KumppaniTuoteWidget::RYHMAT);
         kumppaniTuoteWidget_->nayta(KumppaniTuoteWidget::REKISTERI);
     } else {

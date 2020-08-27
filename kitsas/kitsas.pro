@@ -5,6 +5,7 @@
 # määrittelyt. Muokkaa tarvittaessa tiedoston paikallista
 # kopiota
 
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 LIBS += -lpoppler-qt5
 LIBS += -lpoppler
