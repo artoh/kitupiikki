@@ -220,7 +220,7 @@
        <string>Verkkolasku</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="valittajaLabel">
          <property name="text">
           <string>Välittäjätunnus</string>
@@ -230,10 +230,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="valittajaEdit"/>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="valittajaEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="ovtLabel">
          <property name="text">
           <string>Verkkolaskuosoite</string>
@@ -243,10 +247,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="ovtEdit"/>
-       </item>
        <item row="2" column="1">
+        <widget class="QLineEdit" name="ovtEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -258,6 +266,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="yensinOhjeLabel">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>Syötä ensin y-tunnus perustietoihin</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

@@ -63,7 +63,6 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    ui->tabWidget->setTabEnabled(VERKKOLASKU, false);
     alustaKielet();
     taydennaLaskutavat();
 }
@@ -208,7 +207,10 @@ void AsiakasToimittajaDlg::naytaVerkkolasku()
     bool ytunnari = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
             ui->yEdit->hasAcceptableInput();
 
-    ui->tabWidget->setTabEnabled(VERKKOLASKU, ytunnari);
+    ui->yensinOhjeLabel->setVisible(!ytunnari);
+    ui->valittajaEdit->setEnabled(ytunnari);
+    ui->ovtEdit->setEnabled(ytunnari);
+
     if( ytunnari && ui->ovtEdit->text().isEmpty()) {
         QString ovt = "0037" + ui->yEdit->text();
         ovt.remove("-");
