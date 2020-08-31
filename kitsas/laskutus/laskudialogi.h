@@ -102,6 +102,8 @@ private:
     qlonglong laskeViivastysKorko() const;
     void taydennaMaksumuistutuksenData(QVariantMap& map) const;
 
+    void naytaLoki();
+
 signals:
     void tallennettuValmiina();
 
@@ -122,6 +124,7 @@ private:
     int tunniste_ = 0;
     int era_ = 0;
     int alkupLasku_ = 0;
+    int asiakasId_ = 0;
     QDate alkupPvm_;
 
     int tyyppi_ = TositeTyyppi::MYYNTILASKU;

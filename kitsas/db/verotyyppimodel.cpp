@@ -27,7 +27,7 @@ VeroTyyppi::VeroTyyppi(AlvKoodi::Koodi uKoodi, const QString &uSelite, const QSt
 VerotyyppiModel::VerotyyppiModel(QObject *parent)
     : QAbstractListModel( parent)
 {
-    tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton","",true));
+    tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton",":/pic/tyhja.png",true));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti (netto)",":/pic/netto.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto (netto)", ":/pic/netto.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, "Verollinen myynti (maksuperusteinen alv)",":/pic/euro.png"));

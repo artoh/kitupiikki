@@ -80,6 +80,7 @@
 #include <QTableView>
 #include <QHeaderView>
 #include <QPainter>
+#include <QJsonDocument>
 
 LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
@@ -277,10 +278,14 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
             map.value("ovt").toString().length() > 9 &&
             map.value("operaattori").toString().length() > 4;
 
+    int id = map.value("id").toInt();
+
     paivitaLaskutustavat();
 
-    ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
-
+    if( id != asiakasId_) {
+        ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
+        asiakasId_ = id;
+    }
 
     asAlvTunnus_ = map.value("alvtunnus").toString();
     if( asAlvTunnus_.isEmpty())
@@ -307,6 +312,10 @@ void LaskuDialogi::asiakasHaettuLadattaessa(QVariant *data)
 
 void LaskuDialogi::paivitaLaskutustavat()
 {
+    if(paivitetaanLaskutapoja_) {
+        return;
+    }
+
     paivitetaanLaskutapoja_ = true;
     int nykyinen = ui->laskutusCombo->currentData().toInt();
     ui->laskutusCombo->clear();
@@ -325,10 +334,12 @@ void LaskuDialogi::paivitaLaskutustavat()
     ui->laskutusCombo->addItem( QIcon(":/pic/pdf.png"), tr("Tallenna pdf-tiedostoon"), PDF);
     ui->laskutusCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Ei tulosteta"), EITULOSTETA);
 
-    ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
-    if( ui->laskutusCombo->currentIndex() < 0) {
+    int indeksi =   ui->laskutusCombo->findData(nykyinen);
+    if( indeksi < 0) {
         qDebug() << "Maksutapa ei käytössä";
         ui->laskutusCombo->setCurrentIndex(0);
+    } else {
+        ui->laskutusCombo->setCurrentIndex(indeksi);
     }
     paivitetaanLaskutapoja_ = false;
 }
@@ -510,7 +521,8 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         viennit.append( vasta );
         viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                          otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU,
-                                         ui->maksuCombo->currentData().toInt() == KATEINEN));
+                                         ui->maksuCombo->currentData().toInt() == KATEINEN,
+                                         ui->asiakas->id()) );
 
         map.insert("viennit", viennit);
     }
@@ -716,13 +728,26 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
     vienti.setPvm(kp()->paivamaara());
     vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
-    vienti.setKumppani(ui->asiakas->id());
+    if(ui->asiakas->id()) {
+        vienti.setKumppani(ui->asiakas->id());
+    }
     vienti.setDebet(kulut);
     viennit.insert(0, vienti);
+
+    lasku.insert("maksutapa", LASKU);
 
     map.insert("rivit", rivit);
     map.insert("viennit", viennit);
     map.insert("lasku",lasku);
+}
+
+void LaskuDialogi::naytaLoki()
+{
+    NaytinIkkuna *naytin = new NaytinIkkuna();
+    QVariant var = ui->lokiView->currentIndex().data(Qt::UserRole);
+
+    QString data = QString::fromUtf8( QJsonDocument::fromVariant(var).toJson(QJsonDocument::Indented) );
+    naytin->nayta(data);
 }
 
 
@@ -859,7 +884,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     tyyppi_ = map.value("tyyppi").toInt();    
     alustaMaksutavat();
 
-    ui->asiakas->set( map.value("kumppani").toMap().value("id").toInt(),
+    asiakasId_ = map.value("kumppani").toMap().value("id").toInt();
+    ui->asiakas->set( asiakasId_,
                       map.value("kumppani").toMap().value("nimi").toString());
     if(map.contains("kumppani")) {
         ennakkoModel_->lataaErat(map.value("kumppani").toMap().value("id").toInt());
@@ -963,6 +989,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->lokiView->setModel(lokimodel);
     ui->lokiView->resizeColumnsToContents();
     ui->lokiView->horizontalHeader()->setSectionResizeMode(TositeLoki::KAYTTAJA, QHeaderView::Stretch);
+    connect( ui->lokiView, &QTableView::clicked, this, &LaskuDialogi::naytaLoki);
 }
 
 void LaskuDialogi::paivitaNakyvat()

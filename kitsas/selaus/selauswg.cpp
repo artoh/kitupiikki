@@ -106,14 +106,15 @@ SelausWg::~SelausWg()
 
 QPair<int, int> SelausWg::edellinenSeuraava(int tositeId)
 {
-    for(int i=0; i < proxyModel->rowCount(); i++) {
-        if( proxyModel->index(i,0).data(Qt::UserRole).toInt() == tositeId ) {
+    QAbstractItemModel *model = ui->selausView->model();
+    for(int i=0; i < model->rowCount(); i++) {
+        if( model->index(i,0).data(Qt::UserRole).toInt() == tositeId ) {
             int edellinen = 0;
             int seuraava = 0;
             if( i > 0)
-                edellinen = proxyModel->index(i-1,0).data(Qt::UserRole).toInt();
-            if( i < proxyModel->rowCount()-1)
-                seuraava = proxyModel->index(i+1,0).data(Qt::UserRole).toInt();
+                edellinen = model->index(i-1,0).data(Qt::UserRole).toInt();
+            if( i < model->rowCount()-1)
+                seuraava = model->index(i+1,0).data(Qt::UserRole).toInt();
             return qMakePair(edellinen, seuraava);
         }
     }
@@ -281,8 +282,13 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
     paivita();
 
     Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
-
-    ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
+    QString tiliteksti = QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi());
+    int tiliIndeksi = ui->tiliCombo->findText(tiliteksti);
+    if( tiliIndeksi > 0) {
+        ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
+    } else {
+        ui->tiliCombo->setCurrentIndex(0);
+    }
 
 }
 

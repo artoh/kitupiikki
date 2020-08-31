@@ -291,7 +291,7 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku, bool kateislasku) const
+QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku, bool kateislasku, const int asiakasId) const
 {
     QVariantList lista;
 
@@ -346,6 +346,9 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             vienti.setAlvKoodi( alvkoodi );
             vienti.setAlvProsentti( map.value("alvprosentti").toInt());
             vienti.setPvm(pvm);
+            if(asiakasId) {
+                vienti.setKumppani(asiakasId);
+            }
             if( jaksoalkaa.isValid())
                 vienti.setJaksoalkaa(jaksoalkaa);
             if( jaksopaattyy.isValid())
@@ -354,8 +357,10 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             double summa = riviSumma(map);
             if( summa > 0)
                 vienti.setKredit( summa );
-            else
+            else if( summa < 0)
                 vienti.setDebet( 0 - summa);
+            else
+                continue;
 
             vienti.setSelite( otsikko );
             if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI)

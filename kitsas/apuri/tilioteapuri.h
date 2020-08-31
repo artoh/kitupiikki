@@ -38,6 +38,9 @@ public:
 
     TilioteModel* model() { return model_;}
 
+public slots:
+     void salliMuokkaus(bool sallitaanko=true) override;
+
 protected:
     bool teeTositteelle() override;
     void teeReset() override;

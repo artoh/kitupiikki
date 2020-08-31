@@ -89,6 +89,8 @@ public:
 
     void tuo(const QVariantList tuotavat);
 
+    void salliMuokkaus(bool sallittu);
+
 public slots:
     void lataaHarmaat(int tili, const QDate& mista, const QDate& mihin, int tositeId);
 
@@ -105,6 +107,7 @@ private:
     QVariantList tuotavat_;
     int harmaaLaskuri_ = 0;
     int indeksiLaskuri_ = 0;
+    bool muokkausSallittu_ = true;
 };
 
 #endif // TILIOTEMODEL_H

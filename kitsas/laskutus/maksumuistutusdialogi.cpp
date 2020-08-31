@@ -23,6 +23,7 @@
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
 #include "laskudialogi.h"
+#include <QPushButton>
 
 MaksumuistutusDialogi::MaksumuistutusDialogi(QList<int> erat, QWidget *parent) :
     QDialog(parent),
@@ -42,6 +43,7 @@ MaksumuistutusDialogi::~MaksumuistutusDialogi()
 
 void MaksumuistutusDialogi::accept()
 {
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     erat_ = muistutettavat_.keys();
     tallennaSeuraava();
 }
@@ -106,15 +108,20 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     MyyntiLaskunTulostaja tulostaja(lasku.value("kieli").toString());
     muistutus.asetaKommentti( tulostaja.t("muistutusteksti") );
 
+    lasku.insert("alkupNro", lasku.value("numero"));
+    lasku.insert("alkupPvm", lasku.value("pvm"));
     lasku.remove("numero");
     lasku.insert("pvm", kp()->paivamaara());
     lasku.insert("erapvm", ui->eraDate->date()); // TODO: Päivämääräjutut!!!
     lasku.insert("aiemmat", tositteet);
     lasku.insert("saate", tulostaja.t("muistutussaate"));
+    lasku.insert("maksutapa", LaskuDialogi::LASKU);
     if( lasku.value("laskutapa").toInt() == LaskuDialogi::EITULOSTETA)
         lasku.insert("laskutapa", LaskuDialogi::TULOSTETTAVA);
 
-    muistutus.asetaKumppani( kumppaniId);
+    if(kumppaniId) {
+        muistutus.asetaKumppani( kumppaniId);
+    }
 
 
     // Tähän pitäisi lisätä rivit ja viennit
@@ -200,7 +207,9 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     vienti.setPvm(kp()->paivamaara());
     vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
-    vienti.setKumppani(kumppaniId);
+    if(kumppaniId) {
+        vienti.setKumppani(kumppaniId);
+    }
     vienti.setDebet(kulut);
     viennit.insert(0, vienti);
 

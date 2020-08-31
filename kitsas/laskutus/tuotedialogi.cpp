@@ -27,8 +27,7 @@ TuoteDialogi::TuoteDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->kohdennusCombo->setModel( new KohdennusProxyModel(this) );
-    // ui->tiliEdit->suodataTyypilla("C.*");
+    ui->kohdennusCombo->suodataPaivalla(kp()->paivamaara());
 
     bool alv = kp()->asetukset()->onko("AlvVelvollinen");
     ui->alvLabel->setVisible(alv);
@@ -69,7 +68,7 @@ void TuoteDialogi::muokkaa(const QVariantMap &map)
         laskeBrutto();
     }
 
-    ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );
+    ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );    
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData( map.value("kohdennus", 0), KohdennusModel::IdRooli ));
     show();

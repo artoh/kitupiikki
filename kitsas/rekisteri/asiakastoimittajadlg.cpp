@@ -260,16 +260,22 @@ void AsiakasToimittajaDlg::maventalookup()
 }
 
 void AsiakasToimittajaDlg::maventalookupSaapuu(QVariant* data) {
-    if( data->toList().length() == 1) {
-        QVariantMap map=data->toList().first().toMap();
+    QVariantList list = data->toList();
+    for(QVariant var : list) {
+        QVariantMap map=var.toMap();
+        if(map.value("eia").toString().contains(QRegularExpression("\\D"))) {
+            continue;
+        }
         ui->ovtEdit->setText( map.value("eia").toString() );
         ui->valittajaEdit->setText( map.value("operator").toString());
         if( ui->yEdit->text().isEmpty()) {
             QString bid = map.value("participant").toMap().value("bid").toString() ;
             if( bid.startsWith("FI"))
                 bid = alvToY(bid);
-            if( YTunnusValidator::kelpaako(bid))
+            if( YTunnusValidator::kelpaako(bid)) {
                 ui->yEdit->setText(bid);
+                ui->nimiEdit->setText(map.value("participant").toMap().value("name").toString());
+            }
         }
         taydennaLaskutavat();
     }

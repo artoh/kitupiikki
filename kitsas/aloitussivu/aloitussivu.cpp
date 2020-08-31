@@ -224,6 +224,8 @@ bool AloitusSivu::poistuSivulta(int /* minne */)
 
 void AloitusSivu::kirjanpitoVaihtui()
 {
+    saldot_.clear();
+
     bool avoinna = kp()->yhteysModel();
 
     ui->nimiLabel->setVisible(avoinna && !kp()->asetukset()->onko("LogossaNimi") );
@@ -671,7 +673,7 @@ void AloitusSivu::haeSaldot()
     if(sivulla) {
         QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
         KpKysely *kysely = kpk("/saldot");
-        if( kysely ) {
+        if( kysely && saldopaiva.isValid()) {
             kysely->lisaaAttribuutti("pvm", saldopaiva);
             connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
             kysely->kysy();
@@ -681,6 +683,12 @@ void AloitusSivu::haeSaldot()
 
 void AloitusSivu::haeInOutBox()
 {
+    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS)) {
+        ui->inboxFrame->hide();
+        ui->outboxFrame->hide();
+        return;
+    }
+
     KpKysely* kysely = kpk("/myyntilaskut");
     if( kysely ) {
         kysely->lisaaAttribuutti("lahetettava");

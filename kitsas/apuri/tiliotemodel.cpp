@@ -217,7 +217,7 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
 
 Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || !muokkausSallittu_)
         return Qt::NoItemFlags;
 
     if( rivit_.at(index.row()).harmaa)
@@ -427,6 +427,11 @@ void TilioteModel::lataa(const QVariantList &lista)
 void TilioteModel::tuo(const QVariantList tuotavat)
 {
     tuotavat_ = tuotavat;
+}
+
+void TilioteModel::salliMuokkaus(bool sallittu)
+{
+    muokkausSallittu_ = sallittu;
 }
 
 void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin, int tositeId)

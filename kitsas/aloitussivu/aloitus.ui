@@ -409,7 +409,8 @@
                 <item>
                  <widget class="QLabel" name="label">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tarjoamme uudelle käyttäjälle 30 päivän maksuttoman kokeilujakson Kitsaan pilviominaisuuksiin.&lt;/p&gt;&lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tarjoamme uudelle käyttäjälle 30 päivän maksuttoman kokeilujakson Kitsaan pilviominaisuuksiin.&lt;/p&gt;
+&lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="wordWrap">
                    <bool>true</bool>
@@ -508,22 +509,11 @@
              <item>
               <widget class="QPushButton" name="tilausButton">
                <property name="text">
-                <string>Tilaa lisäpalvelut!</string>
+                <string>Tee tilaus</string>
                </property>
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
                  <normaloff>:/freeicons/timantti.svg</normaloff>:/freeicons/timantti.svg</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="kopioiPilveenNappi">
-               <property name="text">
-                <string>Kopioi kirjanpito pilveen</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../pic/pic.qrc">
-                 <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
                </property>
               </widget>
              </item>
@@ -551,6 +541,17 @@
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
                  <normaloff>:/freeicons/roskis.png</normaloff>:/freeicons/roskis.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="kopioiPilveenNappi">
+               <property name="text">
+                <string>Kopioi kirjanpito pilveen</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
                </property>
               </widget>
              </item>

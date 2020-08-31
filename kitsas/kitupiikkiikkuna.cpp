@@ -241,7 +241,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     }
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
-    sivuaktiot[ALVSIVU]->setVisible( kp()->asetukset()->onko("AlvVelvollinen") );
+    sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
     sivuaktiot[ALVSIVU]->setEnabled( qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr || kp()->pilvi()->pilviVat() );
     valitseSivu(ALOITUSSIVU);
 }

@@ -182,7 +182,7 @@ void AsiakasToimittajaValinta::modelLadattu()
 }
 
 void AsiakasToimittajaValinta::setId(int id)
-{
+{    
     id_ = id;
     if( id ) {
         button_->setIcon(QIcon(":/pic/muokkaaasiakas.png"));

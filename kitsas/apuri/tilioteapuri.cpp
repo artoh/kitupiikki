@@ -120,7 +120,17 @@ void TilioteApuri::tuo(QVariantMap map)
 
     lataaHarmaat();
 
-    tuodaan_ = false;    
+    tuodaan_ = false;
+}
+
+void TilioteApuri::salliMuokkaus(bool sallitaanko)
+{
+    for( QObject* object : children()) {
+        QWidget* widget = qobject_cast<QWidget*>(object);
+        if(widget && widget != ui->oteView)
+          widget->setEnabled(sallitaanko);
+    }
+    model_->salliMuokkaus(sallitaanko);
 }
 
 bool TilioteApuri::teeTositteelle()
