@@ -383,6 +383,7 @@ void VanhatuontiDlg::tuo()
 
 
     siirraTositteet();
+    siirraLogo();
 
     // Tietokanta pitää avata vielä uudelleen, jotta päivittää tiedot
     // tietokannasta
@@ -910,6 +911,19 @@ void VanhatuontiDlg::siirraLiite(int id, int uusiTositeId)
         }
         ui->progressBar->setValue( ui->progressBar->value() + 1 );
         qApp->processEvents();
+    }
+}
+
+void VanhatuontiDlg::siirraLogo()
+{
+    QSqlQuery sql(kpdb_);
+    sql.setForwardOnly(true);
+    sql.exec(QString("SELECT data FROM Liite WHERE tosite IS NULL AND otsikko = 'logo'"));
+    if( sql.next()) {
+        QByteArray data = sql.value("data").toByteArray();
+        KpKysely *kysely = kpk("/liitteet/0/logo", KpKysely::PUT);
+        kysely->lahetaTiedosto(data);
+        delete kysely;
     }
 }
 

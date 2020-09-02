@@ -578,7 +578,8 @@
     "erittely": 1,
     "alvlaji": 21,
     "alvprosentti": 24,
-    "laajuus": 3
+    "laajuus": 3,
+    "menojaannospoisto": 25
   },
   {
     "numero": 130,
@@ -594,7 +595,8 @@
       "fi": "Maa-ainesten ottopaikat"
     },
     "erittely": 3,
-    "laajuus": 4
+    "laajuus": 4,
+    "poistotili": 6890
   },
   {
     "numero": 1303,
@@ -605,7 +607,8 @@
     "erittely": 3,
     "laajuus": 4,
     "alvlaji": 21,
-    "alvprosentti": 24
+    "alvprosentti": 24,
+    "poistotili": 6890
   },
   {
     "numero": 1305,
@@ -617,7 +620,8 @@
     "laajuus": 3,
     "alvlaji": 21,
     "alvprosentti": 24,
-    "tasaerapoisto": 120
+    "tasaerapoisto": 120,
+    "poistotili": 6890
   },
   {
     "numero": 1315,
@@ -628,7 +632,8 @@
     "erittely": 3,
     "laajuus": 4,
     "alvlaji": 21,
-    "alvprosentti": 24
+    "alvprosentti": 24,
+    "poistotili": 6890
   },
   {
     "numero": 1329,
@@ -639,7 +644,8 @@
     "erittely": 3,
     "laajuus": 4,
     "alvlaji": 21,
-    "alvprosentti": 24
+    "alvprosentti": 24,
+    "poistotili": 6890
   },
   {
     "numero": 1331,
@@ -5213,7 +5219,9 @@
     "nimi": {
       "fi": "Tavaraostot Ahvenanmaalta"
     },
-    "laajuus": 3
+    "laajuus": 3,
+    "alvlaji": 27,
+    "alvprosentti": 24    
   },
   {
     "numero": 4100,
@@ -5221,7 +5229,9 @@
     "nimi": {
       "fi": "Verot ja muut maksut Ahvenanmaan maahantuonnissa"
     },
-    "laajuus": 3
+    "laajuus": 3,
+    "alvlaji": 27,
+    "alvprosentti": 24    
   },
   {
     "numero": 4110,
@@ -5248,7 +5258,8 @@
       "fi": "Ostot tuonti"
     },
     "laajuus": 3,
-    "alvlaji": 0
+    "alvlaji": 27,
+    "alvprosentti": 24
   },
   {
     "numero": 4140,

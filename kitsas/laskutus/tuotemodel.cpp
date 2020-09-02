@@ -94,6 +94,17 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     
 }
 
+QString TuoteModel::nimike(int id) const
+{
+    for(QVariant rivi: lista_) {
+        QVariantMap map = rivi.toMap();
+        if( map.value("id").toInt() == id) {
+            return map.value("nimike").toString();
+        }
+    }
+    return QString();
+}
+
 
 void TuoteModel::lataa()
 {

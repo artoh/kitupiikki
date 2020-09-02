@@ -552,7 +552,7 @@ void AloitusSivu::kirjauduttu()
 
     ui->pilviPoistaButton->setVisible( kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
-    ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tilaa pilvipalvelut!") );
+    ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tee tilaus") );
 
     tukiInfo();
 }

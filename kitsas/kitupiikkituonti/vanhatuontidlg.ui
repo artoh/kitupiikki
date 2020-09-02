@@ -116,7 +116,7 @@
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidossa on maksamattomia maksuperusteisia laskuja. Nämä laskut tuodaan kirjanpitoon suoriteperusteisina.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;font color=red&gt;Kirjanpidossa on maksamattomia maksuperusteisia laskuja. Näitä laskuja ei tuoda uuteen kirjanpitoon.&lt;/font&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>

@@ -16,6 +16,10 @@
 */
 #include "tuotteetroute.h"
 
+#include "db/kirjanpito.h"
+#include <QJsonDocument>
+#include <QDebug>
+
 TuotteetRoute::TuotteetRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/tuotteet")
 {
@@ -72,14 +76,64 @@ QVariant TuotteetRoute::doDelete(const QString &polku)
 QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
 {
     QStringList ehdot;
+    ehdot << "Tosite.tila >= 100";
     if( urlquery.hasQueryItem("alkupvm"))
         ehdot.append(QString("pvm >= '%1'").arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
         ehdot.append(QString("pvm <= '%1'").arg(urlquery.queryItemValue("loppupvm")));
 
     QSqlQuery kysely( db() );
-    kysely.exec( "SELECT nimike, tuote, sum(myyntikpl) as kpl, sum(ahinta*myyntikpl) as myynti from rivi join tosite on rivi.tosite=tosite.id left outer join tuote on rivi.tuote=tuote.id "
+    QVariantList vastaus;
+
+    kysely.exec( "SELECT tuote, myyntikpl, ahinta, Rivi.json AS json FROM Rivi JOIN Tosite ON Rivi.tosite=Tosite.id "
                  + ( ehdot.isEmpty() ? "" : " WHERE " + ehdot.join(" AND ")  )
-                 +  " group by Tuote order by nimike "  );
-    return resultList( kysely );
+                 +  " ORDER BY tuote"  );
+
+    qDebug() << kysely.lastQuery();
+
+    int tuote = -1;
+    double brutto = 0;
+    double netto = 0;
+    double kpl = 0;
+
+    while( kysely.next() ) {
+        if( tuote != -1 && tuote != kysely.value("tuote").toInt()) {
+            QVariantMap map;
+            map.insert("brutto", brutto);
+            map.insert("kpl", kpl);
+            map.insert("myynti", netto);
+            if(tuote) {
+                map.insert("nimike", kp()->tuotteet()->nimike(tuote));
+                map.insert("tuote", tuote ? tuote : QVariant());
+            }
+            vastaus.append(map);
+            brutto = 0;
+            kpl = 0;
+            netto = 0;
+        }
+        tuote = kysely.value("tuote").toInt();
+        double ahinta = kysely.value("ahinta").toDouble();
+        double maara = kysely.value("myyntikpl").toDouble();
+        QVariantMap jsonMap = QJsonDocument::fromJson(kysely.value("json").toByteArray()).toVariant().toMap();
+        double alennus = jsonMap.value("aleprosentti").toDouble();
+        double alv = jsonMap.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO ? jsonMap.value("alvprosentti").toDouble() : 0;
+
+
+        tuote = kysely.value("tuote").toInt();
+        kpl += maara;
+        netto += maara * ahinta * ( 100.0 - alennus ) / 100.0;
+        brutto += maara * ahinta * ( 100.0 - alennus ) * ( 100 + alv) / 10000.0;
+    }
+    if( tuote != -1) {
+        QVariantMap map;
+        map.insert("brutto", brutto);
+        map.insert("kpl", kpl);
+        map.insert("myynti", netto);
+        if(tuote) {
+            map.insert("nimike", kp()->tuotteet()->nimike(tuote));
+            map.insert("tuote", tuote ? tuote : QVariant());
+        }
+        vastaus.append(map);
+    }
+    return vastaus;
 }

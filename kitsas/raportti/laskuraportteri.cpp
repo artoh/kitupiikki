@@ -133,7 +133,7 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
     }
 
     if( optiot_ & TulostaSummat) {
-        RaporttiRivi summarivi;
+        RaporttiRivi summarivi(RaporttiRivi::EICSV);
         summarivi.lisaa(kaanna("Yhteensä"), 3);
         summarivi.lisaa(kokosumma);
         summarivi.lisaa(avoinsumma);

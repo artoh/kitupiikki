@@ -62,6 +62,8 @@ protected:
     void laskuTiedot(const QSqlQuery& vientikysely, Tosite& tosite);
     void siirraLiiteet(int vanhaTositeId, int uusiTositeId);
     void siirraLiite(int id, int uusiTositeId);
+    void siirraLogo();
+
     QVariantList tilikaudet() const;
 
     int tilimuunto(int tilinumero) const;
