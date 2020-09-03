@@ -43,8 +43,8 @@ public:
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
     void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
-    void asetaKumppani(int id) { kumppaniId_ = id;}
-    void asetaKumppani(const QString& nimi) { kumppaniNimi_ = nimi;}
+    void asetaKumppani(int id) { kumppaniId_ = id; kumppaniNimi_ = QString(); }
+    void asetaKumppani(const QString& nimi) { kumppaniNimi_ = nimi; kumppaniId_=0;}
 
 protected:
     QString eranimi_;

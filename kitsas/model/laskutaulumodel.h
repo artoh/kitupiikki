@@ -63,8 +63,8 @@ public slots:
     void paivita(bool ostoja = false, int valinta = KAIKKI, QDate mista=QDate(), QDate mihin = QDate());
     void paivitaNakyma();
 
-private slots:
-    void tietoSaapuu(QVariant* var);
+protected:
+    virtual void tietoSaapuu(QVariant* var);
 
 protected:
     QVariantList lista_;

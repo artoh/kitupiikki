@@ -61,3 +61,9 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
     emit dataChanged( index(0, MAKSAMATTA),
                       index(rowCount()-1, MAKSAMATTA ));
 }
+
+void LaskuTauluTilioteProxylla::tietoSaapuu(QVariant *var)
+{
+    LaskuTauluModel::tietoSaapuu(var);
+    paivitaSuoritukset();
+}

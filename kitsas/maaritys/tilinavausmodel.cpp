@@ -289,7 +289,7 @@ bool TilinavausModel::tallenna()
 
             Tili tilio = kp()->tilit()->tiliNumerolla(tili);
 
-            if( !era.eranimi().isEmpty()) {
+            if( qAbs(era.saldo())) {
                 if( era.vienti())
                     vienti.setEra( era.vienti() );
                 else {

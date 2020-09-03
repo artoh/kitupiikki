@@ -31,6 +31,8 @@ public:
     void paivitaSuoritukset();
 
 protected:
+    void tietoSaapuu(QVariant* var) override;
+
     TilioteModel* tiliote_;
     QMap<int,double> suoritukset_;
 };

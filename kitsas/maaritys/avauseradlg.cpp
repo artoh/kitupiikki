@@ -42,9 +42,10 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     } else {        
         model = new AvausEraModel(erat, this);
         ui->view->setModel(model);
-        AsiakasToimittajaTaydentaja *model = new AsiakasToimittajaTaydentaja(this);
+        AsiakasToimittajaTaydentaja *taydentaja = new AsiakasToimittajaTaydentaja(this);
+        taydentaja->lataa();
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
-                                          new KumppaniValintaDelegaatti(model));
+                                          new KumppaniValintaDelegaatti(taydentaja));
         ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);       
     }    
 
