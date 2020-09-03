@@ -310,38 +310,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>sarake2Box</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sarake3Box</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>458</x>
-     <y>59</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>605</x>
-     <y>59</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sarake2Box</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sarake3Box</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>458</x>
-     <y>59</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>605</x>
-     <y>59</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>kohdennusCheck</sender>
    <signal>clicked(bool)</signal>
    <receiver>kohdennusCombo</receiver>
@@ -434,22 +402,6 @@
     <hint type="destinationlabel">
      <x>733</x>
      <y>174</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>sarake3Box</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sarake4Box</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>503</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>684</x>
-     <y>37</y>
     </hint>
    </hints>
   </connection>
