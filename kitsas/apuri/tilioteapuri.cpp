@@ -131,6 +131,7 @@ void TilioteApuri::salliMuokkaus(bool sallitaanko)
           widget->setEnabled(sallitaanko);
     }
     model_->salliMuokkaus(sallitaanko);
+    riviValittu();
 }
 
 bool TilioteApuri::teeTositteelle()

@@ -90,6 +90,16 @@ Tili TilinValintaDialogi::valittu() const
     return kp()->tilit()->tiliNumerolla(tiliNumero);
 }
 
+void TilinValintaDialogi::accept()
+{
+    int tiliNumero = ui->view->currentIndex().data(TiliModel::NroRooli).toInt();
+    if (tiliNumero) {
+        emit tiliValittu(tiliNumero);
+    }
+    QDialog::accept();
+}
+
+
 void TilinValintaDialogi::suodata(const QString &alku)
 {
     if( alku.toInt() > 0) {
@@ -163,9 +173,10 @@ void TilinValintaDialogi::asetaModel(TiliModel *model)
 
 void TilinValintaDialogi::valitse(int tilinumero)
 {
+    QString tilistr = QString::number(tilinumero);
     for(int i=0; i < ui->view->model()->rowCount(); i++)
     {
-        if( ui->view->model()->data( ui->view->model()->index(i,0), TiliModel::NroRooli ).toInt() == tilinumero) {
+        if( ui->view->model()->data( ui->view->model()->index(i,0), TiliModel::NroRooli ).toString() >= tilistr) {
 
             ui->view->selectRow(i);
             break;
@@ -239,6 +250,20 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
     return QDialog::eventFilter(object, event);
 }
 
+void TilinValintaDialogi::nayta(const QString &alku, const QString &suodatus)
+{
+    qDebug() << alku;
+
+    if( alku.startsWith("*") ) {
+        valitse( alku.mid(1).toInt());
+    } else {
+        ui->suodatusEdit->setText(alku);
+    }
+    suodataTyyppi(suodatus);
+
+    show();
+    setAttribute(Qt::WA_DeleteOnClose);
+}
 
 
 

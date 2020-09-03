@@ -401,7 +401,7 @@ void TilioteKirjaaja::tarkastaTallennus()
 
 void TilioteKirjaaja::kumppaniValittu(int kumppaniId)
 {
-    if( ui->alaTabs->currentIndex() == TULOMENO ) {
+    if( ui->alaTabs->currentIndex() == TULOMENO && kumppaniId > 0 ) {
         KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
         connect(kysely, &KpKysely::vastaus, this, &TilioteKirjaaja::kumppaniTiedot);
         kysely->kysy();

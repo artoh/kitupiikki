@@ -45,6 +45,9 @@ public:
 
     Tili valittu() const;
 
+    void accept() override;
+
+    void nayta(const QString& alku, const QString& suodatus = QString("[ABCDH]"));
 public slots:
     void suodata(const QString& alku);
     void suodataTyyppi(const QString& regexp);
@@ -52,6 +55,9 @@ public slots:
     void naytaKaikki(bool naytetaanko);
     void asetaModel(TiliModel *model);
     void valitse(int tilinumero);
+
+signals:
+    void tiliValittu(int tili);
 
 protected slots:
     void klikattu(const QModelIndex& index);
@@ -68,7 +74,7 @@ protected slots:
     void alaValitseOtsikoita(int suunta = 1);
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     Ui::TilinValintaDialogi *ui;

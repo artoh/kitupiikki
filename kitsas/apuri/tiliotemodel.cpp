@@ -188,15 +188,19 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                     rivit_[index.row()].pvm = value.toDate();
                 break;
             case TILI: {
-                Tili uusitili;
-                if( value.toInt())
-                    uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-                else if(!value.toString().isEmpty() && value.toString() != " ")
-                    uusitili = TilinValintaDialogi::valitseTili(value.toString());
-                else
-                    uusitili = TilinValintaDialogi::valitseTili( QString());
-                rivit_[ index.row()].tili = uusitili.numero();
-                break;
+                    Tili uusitili;
+                    if( value.toInt()) {
+                        uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+                        rivit_[ index.row()].tili = uusitili.numero();
+                        break;
+                    } else {
+                        TilinValintaDialogi* dlg = new TilinValintaDialogi();
+                        connect(dlg, &TilinValintaDialogi::tiliValittu, [this, index] (int tili) {
+                            this->setData(index, tili);
+                        });
+                        dlg->nayta(value.toString());
+                        return true;
+                    }
                 }
             case EURO:
                 rivit_[ index.row()].euro = value.toDouble() ;
