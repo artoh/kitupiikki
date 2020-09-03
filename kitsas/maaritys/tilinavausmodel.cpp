@@ -310,7 +310,7 @@ bool TilinavausModel::tallenna()
             else if( !era.kumppaniNimi().isEmpty() )
                 vienti.setKumppani( era.kumppaniNimi());
 
-            if( ( tilio.onko( (TiliLaji::VASTAAVAA)) || tilio.onko(TiliLaji::MENO))
+            if( tilio.onko( (TiliLaji::VASTAAVAA))
                 ^ ( era.saldo() < 0 ) )
                 vienti.setDebet( qAbs(era.saldo()) );
             else
@@ -349,10 +349,8 @@ void TilinavausModel::paivitaInfo()
             tasevastaavaa += erasumma( iter.value() );
         else if( tili.onko(TiliLaji::VASTATTAVAA) )
             tasevastattavaa += erasumma(iter.value());
-        else if( tili.onko(TiliLaji::TULO) )
-            tulos += erasumma(iter.value());
-        else if( tili.onko(TiliLaji::MENO) )
-            tulos -= erasumma(iter.value());
+        else if( tili.onko(TiliLaji::TULOS) )
+            tulos += erasumma(iter.value());        
     }
 
     tasevastattavaa += tulos;
@@ -378,7 +376,7 @@ void TilinavausModel::ladattu()
         QString kumppaninimi = vienti.value("kumppani").toMap().value("nimi").toString();
 
         Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
-        qlonglong saldo = tili.onko(TiliLaji::VASTAAVAA) || tili.onko(TiliLaji::MENO) ?
+        qlonglong saldo = tili.onko(TiliLaji::VASTAAVAA)  ?
                     qRound64(vienti.debet() * 100) - qRound64(vienti.kredit() * 100) :
                     qRound64(vienti.kredit() * 100) - qRound64(vienti.debet() * 100);
 
