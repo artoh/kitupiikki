@@ -250,7 +250,7 @@ void MyyntiLaskujenToimittaja::tarkistaValmis()
             if( toimitetut_ > 1)
                 emit kp()->onni(tr("%1 laskua toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
             else
-                emit kp()->onni(tr("Lasku toimitettu").arg(toimitetut_), Kirjanpito::Onnistui);
+                emit kp()->onni(tr("Lasku toimitettu"), Kirjanpito::Onnistui);
             deleteLater();
         }
     }

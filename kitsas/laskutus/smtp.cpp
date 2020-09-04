@@ -170,7 +170,7 @@ void Smtp::readyRead()
     if ( state == Init && responseLine == "220" )
     {
         emit status( Sending );
-        if( port == 25)
+        if( !encrypted )
         {
             // Portti 25 SMTP-protokolla
 
