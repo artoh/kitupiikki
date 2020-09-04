@@ -431,9 +431,8 @@ void TuloMenoApuri::verolajiMuuttui()
 }
 
 void TuloMenoApuri::pvmMuuttui(const QDate &pvm)
-{
-    if( !tosite()->laskupvm().isValid())
-        ui->laskuPvm->setDate(pvm);
+{    
+    ui->laskuPvm->setDate(pvm);
     haeKohdennukset();
     paivitaVeroFiltterit(pvm);
     tositteelle();
