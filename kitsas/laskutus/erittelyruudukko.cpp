@@ -59,7 +59,8 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
     // Sitten itse tiedot
     for(int i=0; i < model_.rowCount(); i++)
     {
-        if( qAbs(model_.data( model_.index(i, LaskuRivitModel::BRUTTOSUMMA), Qt::EditRole ).toDouble()) < 1e-5   )
+        if( qAbs(model_.data( model_.index(i, LaskuRivitModel::BRUTTOSUMMA), Qt::EditRole ).toDouble()) < 1e-5 &&
+                model_.data( model_.index(i, LaskuRivitModel::NIMIKE), Qt::EditRole ).toString().isEmpty() )
             continue;
 
         QStringList rivi;

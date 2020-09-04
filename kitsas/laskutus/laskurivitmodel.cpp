@@ -277,7 +277,7 @@ QVariantList LaskuRivitModel::rivit() const
     for(auto rivi : rivit_)
     {
         QVariantMap map = rivi.toMap();
-        if( qAbs(map.value("ahinta").toDouble()) > 1e-5 && qAbs(map.value("myyntikpl").toDouble()) > 1e-5 )
+        if( (qAbs(map.value("ahinta").toDouble()) > 1e-5 && qAbs(map.value("myyntikpl").toDouble()) > 1e-5 ) || !map.value("nimike").toString().isEmpty() )
             ulos.append(rivi);
     }
     return ulos;
@@ -428,8 +428,10 @@ bool LaskuRivitModel::onkoTyhja() const
     for( auto rivi : rivit_)
     {
         QVariantMap map = rivi.toMap();
-        if( qAbs(map.value("ahinta").toDouble()) > 1e-5 &&
+        if(( qAbs(map.value("ahinta").toDouble()) > 1e-5 &&
             qAbs(map.value("myyntikpl").toDouble()) > 1e-5)
+                || !map.value("nimike").toString().isEmpty()
+                )
             return false;
     }
     return true;
@@ -466,7 +468,7 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
     }
 
     int rivia = rivit_.count();
-    if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble()) < 1e-5 )
+    if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble()) < 1e-5 && rivit_.last().toMap().value("nimike").toString().isEmpty())
     {
         beginInsertRows(QModelIndex(), rivia-1, rivia-1);
         rivit_.insert(rivia-1, rivi);
