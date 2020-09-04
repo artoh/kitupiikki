@@ -37,7 +37,7 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 
 protected:
-    AsiakasToimittajaTaydentaja *model;
+    AsiakasToimittajaTaydentaja *taydentajaModel_;
 };
 
 #endif // KUMPPANIVALINTADELEGAATTI_H

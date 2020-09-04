@@ -179,6 +179,7 @@
   "PankkiMaksettavakorko":"9460",
   "VeroOmaverotili":"2920",
   "Ostovelkatili": "2871",
-  "AlvVelkatili": "2939"
+  "AlvVelkatili": "2939",
+  "AlvPalautusSaatavatilille": true
 
 }

@@ -1477,16 +1477,15 @@
   },
   {
     "numero": 1711,
-    "tyyppi": "AO",
+    "tyyppi": "A",
     "nimi": {
       "fi": "Luottokorttisaamiset"
     },
-    "erittely": 2,
     "laajuus": 3
   },
   {
     "numero": 1713,
-    "tyyppi": "AO",
+    "tyyppi": "A",
     "nimi": {
       "fi": "Pankkikorttisaamiset"
     },

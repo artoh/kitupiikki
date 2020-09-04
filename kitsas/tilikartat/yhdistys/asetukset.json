@@ -165,6 +165,7 @@
   "VeroOmaverotili":"2986",
   "AlvVelkatili": "2984",
   "Ostovelkatili": "2960",
+  "AlvPalautusSaatavatilille": true,
   "PalkkaFiTilit":{
     "2921": 2986,
     "2925": 2989,

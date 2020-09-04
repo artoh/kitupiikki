@@ -22,7 +22,7 @@
 
 KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(AsiakasToimittajaTaydentaja *taydentaja, QWidget *parent) :
     QItemDelegate(parent),
-    model(taydentaja)
+    taydentajaModel_(taydentaja)
 {
 
 }
@@ -31,7 +31,7 @@ QWidget *KumppaniValintaDelegaatti::createEditor(QWidget *parent, const QStyleOp
 {
     QComboBox *combo = new QComboBox(parent);
     combo->setEditable(true);
-    combo->setModel(model);
+    combo->setModel(taydentajaModel_);
     combo->completer()->setCompletionMode(QCompleter::PopupCompletion);
 
     return combo;
@@ -52,8 +52,13 @@ void KumppaniValintaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel
 {
     QComboBox *combo = qobject_cast<QComboBox*>(editor);
 
-    if( combo->currentData(IdRooli).toInt())
-        model->setData(index, combo->currentData(IdRooli).toInt(), IdRooli);
+    QString text = combo->currentText();
+    int id = combo->currentData(NimiRooli).toString() == text
+              ?  combo->currentData(IdRooli).toInt()
+              : 0;
 
-    model->setData(index, combo->currentText(), NimiRooli);
+
+
+    model->setData(index, id, IdRooli);
+    model->setData(index, text, NimiRooli);
 }

@@ -122,7 +122,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     RaporttiRivi nimirivi;
                     QVariantMap eramap = map.value("era").toMap();
                     lisaaTositeTunnus( &nimirivi, eramap);
-                    nimirivi.lisaa( eramap.value("pvm").toDate() );
+                    nimirivi.lisaa( eramap.value("vientipvm").toDate() );
                     nimirivi.lisaa( eramap.value("selite").toString());
                     nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
                     rk.lisaaRivi(nimirivi);
@@ -148,7 +148,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         QVariantMap mmap = muutos.toMap();
                         RaporttiRivi rr;
                         lisaaTositeTunnus(&rr, mmap);
-                        rr.lisaa( mmap.value("pvm").toDate());
+                        rr.lisaa( mmap.value("vientipvm").toDate());
                         rr.lisaa( mmap.value("selite").toString());
                         rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                         rk.lisaaRivi(rr);
@@ -180,7 +180,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     QVariantMap mmap = muutos.toMap();
                     RaporttiRivi rr;
                     lisaaTositeTunnus(&rr, mmap);
-                    rr.lisaa( mmap.value("pvm").toDate());
+                    rr.lisaa( mmap.value("vientipvm").toDate());
                     rr.lisaa( mmap.value("selite").toString());
                     rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                     rk.lisaaRivi(rr);
