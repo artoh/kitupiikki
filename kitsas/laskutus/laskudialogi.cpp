@@ -543,6 +543,7 @@ void LaskuDialogi::alustaRiviTab()
 
     ui->tuoteView->setModel(proxy);
     proxy->setSortLocaleAware(true);
+    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
     ui->tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->tuoteView->setContextMenuPolicy(Qt::CustomContextMenu);
