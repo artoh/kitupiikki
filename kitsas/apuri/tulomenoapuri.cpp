@@ -171,6 +171,7 @@ void TuloMenoApuri::salliMuokkaus(bool sallitaanko)
         else
             widget->setEnabled(sallitaanko);
     }
+        ui->poistaRiviNappi->setEnabled( sallitaanko && rivit_->rowCount() > 1 );
 }
 
 void TuloMenoApuri::teeReset()

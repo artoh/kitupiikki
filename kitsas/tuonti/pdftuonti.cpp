@@ -63,7 +63,7 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
             {}    // Hyvityslaskulle ei automaattista käsittelyä
         else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
             return tuonti.tuoPdfLasku();
-        else if( tuonti.etsi("tiliote",0,30) )
+        else if( tuonti.etsi("tiliote",0,30)  || tuonti.etsi("account statement",0,30))
             return tuonti.tuoPdfTiliote();
 
     }
@@ -388,7 +388,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
     QRegularExpression kirjausPvmRe("\\b(Kirjauspäivä|Entry date)\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
-    QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .,])*\\d+)[,.](?<snt>\\d{2})(?<taka>[+-])?");
+    QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ ,.])*\\d+)[,.](?<snt>\\d{2})(?<taka>[+-])?");
     QRegularExpression viiteRe("((Viite|Reference)\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
     QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)+");
     QRegularExpression seliteRe("[A-ö& \\-]{6,}");
@@ -445,7 +445,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
         if( !taulussa )
         {
-            if( teksti.contains("arkistointitunnus", Qt::CaseInsensitive) || teksti.contains("Filings code", Qt::CaseInsensitive))
+            if( teksti.contains("arkistointitunnus", Qt::CaseInsensitive) || teksti.contains("Filing code", Qt::CaseInsensitive))
             {
                 // Arkistointitunnus-otsake tunnistetaan ja siirrytään tauluun
                 arkistosarake = sarake;
@@ -455,7 +455,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 selityssarake = sarake;
             else if( teksti.contains("Viite"))
                 viitesarake = sarake;
-            else if( teksti.contains("Määrä"))
+            else if( teksti.contains("Määrä") || teksti.contains("Amount"))
                 maarasarake = sarake;
 
         } if(arkistorivi == rivi) {
@@ -463,11 +463,12 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 maarasarake = sarake;
             }
             else if( teksti.contains("Maksunsaaja", Qt::CaseInsensitive) ||
-                     teksti.contains(QRegularExpression("saaja\\s*/\\s*maksaja",QRegularExpression::CaseInsensitiveOption)) ) {
+                     teksti.contains(QRegularExpression("saaja\\s*/\\s*maksaja",QRegularExpression::CaseInsensitiveOption)) ||
+                     teksti.contains(QRegularExpression("payee\\s*/\\s*payer",QRegularExpression::CaseInsensitiveOption))) {
                 saajaensin = true;
                 selityssarake = sarake;
             }
-            else if( teksti.contains("Selitys", Qt::CaseInsensitive))
+            else if( teksti.contains("Selitys", Qt::CaseInsensitive) || teksti.contains("Message", Qt::CaseInsensitive))
             {
                 selityssarake = sarake;
                 saajaensin = false;
@@ -497,7 +498,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     riviIter.next();
                     if (riviIter.key() / 100 != rivi) {
                         break;
-                    } else if( riviIter.key() % 100 >= maarasarake-2 && riviIter.value().contains( rahaRe) ) {
+                    } else if( riviIter.key() % 100 >= maarasarake-10 && riviIter.value().contains( rahaRe) ) {
                         // Tämä on rahamäärä, joten tästä alkaa uusi tilitapahtuma, ja edellinen
                         // tallennetaan
                         if (tapahtuma.contains("arkistotunnus") && tapahtuma.contains("euro"))
@@ -508,7 +509,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                         QRegularExpressionMatch mats = rahaRe.match(riviIter.value());
                         // +/- ennen tai jälkeen
 
-                        if( mats.captured("etu") != mats.captured("taka"))
+                        if( mats.hasMatch() && mats.captured("etu") != mats.captured("taka"))
                         {
                             QString eurot = mats.captured("eur");
                             eurot.replace(QRegularExpression("\\D"),"");
@@ -556,12 +557,23 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 if( tapahtumanrivi == 1 && teksti.contains(arkistoRe) && teksti.count(QRegularExpression("\\d")) > 4)
                 {                    
                     QRegularExpressionMatch mats = arkistoRe.match(teksti);
-                    QString tunnari = mats.captured().left(20);
-                    if( !tunnari.contains("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) &&
+                    QString tunnari =  mats.hasMatch() ? mats.captured().left(20) : "";
+
+                    // Estetään saman arkistotunnuksen käyttäminen kuin aiemmalla rivillä
+                    // jotta erittely ei saa tuplariviä
+
+                    for(auto tarkastettava : tapahtumat) {
+                        if( tarkastettava.toMap().value("arkistotunnus").toString() == tunnari) {
+                            tunnari.clear();
+                        }
+                    }
+
+                    if( !tunnari.isEmpty() &&
+                        !tunnari.contains("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) &&
                         !tunnari.contains("yhteen", Qt::CaseInsensitive) &&
                         !tunnari.contains("alusta", Qt::CaseInsensitive))
+                        tapahtuma.insert("arkistotunnus",tunnari);
 
-                    tapahtuma.insert("arkistotunnus",tunnari);
                     if( teksti.length() > tunnari.length() + 10) {
                         teksti = teksti.mid(tunnari.length() + 1);
                         sarake = selityssarake;
@@ -581,10 +593,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
             if( sarake > selityssarake - 25 && sarake < selityssarake + 10 && teksti.length() > 3) {
 
-                // Poistetaan alusta mahdollinen päivämäärä
-                QString alku = teksti.left(teksti.indexOf(' '));
-                if( alku.contains(QRegularExpression("\\d{2}\\.?\\d{2}")))
-                    teksti = teksti.mid(teksti.indexOf(' ')+1);
+                // Poistetaan alusta mahdollinen päivämäärä               
+                teksti = teksti.replace(QRegularExpression("^(\\w{1,2}\\s?)?\\d{2}\\.?\\d{2}\\.?\\s*"),"");
 
                 if( ( tapahtumanrivi == 1 && !saajaensin) || (tapahtumanrivi == 2 && saajaensin) ||
                         (teksti.contains("PALVELUMAKSU") && tapahtumanrivi == 1)) {
@@ -623,6 +633,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                             tapahtuma.insert("selite", tapahtuma.value("selite").toString() + " " + teksti);
                         else
                             tapahtuma.insert("selite",teksti);
+                    } else {
+                        tapahtuma.insert("selite", teksti.replace(QRegularExpression("viesti",QRegularExpression::CaseInsensitiveOption),"") );
                     }
                 }
             } else if( viitesarake > -1 && sarake > viitesarake - 5 ) {
@@ -711,7 +723,7 @@ void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
             {
                 // Poistetaan numeroiden välissä olevat välit
                 // sekä numeron ja +/- merkin välissä oleva väli
-                // Näin saadaan tilinumerot ja valuutasummat tiiviiksi
+                // Näin saadaan tilinumerot ja valuutasummat tiiviiksi                
 
                 QChar merkki = raaka.at(i);
 

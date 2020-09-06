@@ -138,9 +138,11 @@ int TmRivit::lisaaRivi(int tili)
 
 void TmRivit::poistaRivi(int rivi)
 {
-    beginRemoveRows(QModelIndex(), rivi, rivi);
-    rivit_.removeAt(rivi);
-    endRemoveRows();
+    if(rivi < rowCount() && rowCount() > 1) {
+        beginRemoveRows(QModelIndex(), rivi, rivi);
+        rivit_.removeAt(rivi);
+        endRemoveRows();
+    }
 }
 
 TulomenoRivi *TmRivit::rivi(int indeksi)

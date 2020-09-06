@@ -192,7 +192,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     {
         // Sivulta ei saa poistua!
         // Palautetaan valinta nykyiselle sivulle
-        sivuaktiot[ pino->currentIndex() ]->setChecked(true);
+        sivuaktiot[ edellisetIndeksit.isEmpty() ? pino->currentIndex() : edellisetIndeksit.top()  ]->setChecked(true);
         return;
     }
 
@@ -200,6 +200,10 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
         edellisetIndeksit.push( pino->currentIndex() );
     else if( !edellisetIndeksit.isEmpty())
         edellisetIndeksit.pop();
+
+    if( mikasivu == KIRJAUSSIVU) {
+        edellisetIndeksit.clear();
+    }
 
     nykysivu = sivut[mikasivu];
     sivuaktiot[mikasivu]->setChecked(true);
@@ -279,22 +283,15 @@ void KitupiikkiIkkuna::uusiLasku()
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 {
     int sivu = aktio->data().toInt();
-    if( sivu == KIRJAUSSIVU)
-    {
-        // Kun kirjaussivu valitaan, tyhjennetään edellisten luettelo jottei
-        // tule paluuta kirjauksen jälkeen
-        edellisetIndeksit.clear();
-        valitseSivu(KIRJAUSSIVU, true);
-    }
-    else
-        valitseSivu(sivu);
+    valitseSivu(sivu);
 }
 
 void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
     // valitseSivu( KIRJAUSSIVU );
-    edellisetIndeksit.push( pino->currentIndex() );
+    edellisetIndeksit.push( SELAUSSIVU );
     pino->setCurrentWidget(kirjaussivu);
+    nykysivu = kirjaussivu;
     kirjaussivu->naytaTosite(tositeid);
 }
 

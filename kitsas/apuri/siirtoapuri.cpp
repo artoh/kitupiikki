@@ -62,11 +62,10 @@ SiirtoApuri::~SiirtoApuri()
 bool SiirtoApuri::teeTositteelle()
 {
 
-
     qlonglong senttia = ui->euroEdit->asCents();
 
     QDate pvm = tosite()->data(Tosite::PVM).toDate();    
-    QVariant otsikko = tosite()->data(Tosite::OTSIKKO);
+    QString otsikko = tosite()->otsikko();
 
     QVariantList viennit;
 
@@ -74,7 +73,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setPvm( pvm);
     debet.setTili( ui->tililleEdit->valittuTilinumero());
     debet.setDebet( senttia );
-    debet.set(TositeVienti::SELITE, otsikko);
+    debet.setSelite(otsikko);
     debet.setEra( ui->tililleEraCombo->eraMap());
     debet.setTyyppi( TositeVienti::SIIRTO);
     viennit.append(debet);
@@ -83,7 +82,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setPvm( pvm );
     kredit.setTili( ui->tililtaEdit->valittuTilinumero());
     kredit.setKredit( senttia );
-    kredit.set( TositeVienti::SELITE, otsikko);
+    kredit.setSelite(otsikko);
     kredit.setEra( ui->tililtaEraCombo->eraMap());
     kredit.setTyyppi( TositeVienti::SIIRTO );
     viennit.append(kredit);
