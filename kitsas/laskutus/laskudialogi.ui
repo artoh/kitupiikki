@@ -736,19 +736,37 @@ osoite</string>
  <tabstops>
   <tabstop>osoiteEdit</tabstop>
   <tabstop>email</tabstop>
+  <tabstop>kieliCombo</tabstop>
   <tabstop>laskutusCombo</tabstop>
   <tabstop>maksuCombo</tabstop>
   <tabstop>toimitusDate</tabstop>
   <tabstop>jaksoDate</tabstop>
+  <tabstop>eraDate</tabstop>
+  <tabstop>viivkorkoSpin</tabstop>
   <tabstop>asViiteEdit</tabstop>
-  <tabstop>lisatietoEdit</tabstop>
+  <tabstop>otsikkoEdit</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>tuoteFiltterinEditori</tabstop>
+  <tabstop>tuoteView</tabstop>
+  <tabstop>uusituoteNappi</tabstop>
+  <tabstop>rivitView</tabstop>
+  <tabstop>lisaaRiviNappi</tabstop>
+  <tabstop>poistaRiviNappi</tabstop>
   <tabstop>ohjeNappi</tabstop>
   <tabstop>luonnosNappi</tabstop>
   <tabstop>tallennaNappi</tabstop>
   <tabstop>esikatseluNappi</tabstop>
+  <tabstop>hyvitaEnnakkoNappi</tabstop>
   <tabstop>valmisNappi</tabstop>
   <tabstop>peruNappi</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>mmMuistutusCheck</tabstop>
+  <tabstop>mmMuistutusMaara</tabstop>
+  <tabstop>mmViivastysCheck</tabstop>
+  <tabstop>mmViivastysAlkaa</tabstop>
+  <tabstop>mmViivastysLoppuu</tabstop>
+  <tabstop>saateEdit</tabstop>
+  <tabstop>lokiView</tabstop>
+  <tabstop>lisatietoEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
