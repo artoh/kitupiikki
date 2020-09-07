@@ -30,6 +30,7 @@
 
 #include "db/kirjanpito.h"
 #include "sqlite/sqlitemodel.h"
+#include "pilvi/pilvimodel.h"
 #include "validator/ytunnusvalidator.h"
 
 Perusvalinnat::Perusvalinnat() :
@@ -79,6 +80,9 @@ bool Perusvalinnat::nollaa()
     KpKysely* kokokysely = kpk("/info");
     connect(kokokysely, &KpKysely::vastaus, this, &Perusvalinnat::kokoSaapuu);
     kokokysely->kysy();
+
+    ui->alvCheck->setEnabled(qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr || kp()->pilvi()->pilviVat() );
+
 
     return true;
 }
