@@ -234,6 +234,8 @@ void TuloMenoApuri::teeReset()
             }
 
         } else {
+            if(vienti.selite() == tosite()->otsikko())
+                vienti.setSelite(QString());
             rivit_->lisaa(vienti);
         }
 
