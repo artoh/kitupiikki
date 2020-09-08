@@ -1,4 +1,4 @@
-// Kitupiikin tilikartta 
+// Kitupiikin tilikartta
 [TilikarttaNimi]
 Yhdistys
 [TilikarttaTekija]
@@ -140,7 +140,7 @@ A- 1810 {"Taseerittely":3} Osuudet saman konsernin yrityksissä; rahoitusarvopap
 H4 182 {} Muut osakkeet ja osuudet
 A 1820 {"Taseerittely":3} Osakkeet ja osuudet; rahoitusarvopaperit
 H4 183 {} Muut arvopaperit
-A 1830 {"Taseerittely":3} Joukkovelkakirjat      
+A 1830 {"Taseerittely":3} Joukkovelkakirjat
 A 1831 {"Taseerittely":3} Rahamarkkinainstrumentit
 A 1839 {"Taseerittely":3} Muut rahoitusarvopaperit
 H3 19 {} Rahat ja pankkisaamiset
@@ -150,8 +150,8 @@ H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
 H3 201 {"Asti":202} Sidotut rahastot
 H4 201 {} Omakatteiset rahastot
-B 2011 {"Taseerittely":3} Omakatteinen rahasto 
-H4 202 {} Muut sidotut rahastot     
+B 2011 {"Taseerittely":3} Omakatteinen rahasto
+H4 202 {} Muut sidotut rahastot
 B 2021 {"Taseerittely":3} Muu sidottu rahasto
 H3 204 {} Vapaat rahastot
 B 2041 {"Taseerittely":3} Vapaa rahasto
@@ -356,7 +356,7 @@ D 7520 {} Varainhankinnan sosiaaliturvamaksut
 D 7521 {} Varainhankinnan pakolliset vakuutusmaksut
 D 7522 {} Varainhankinnan muut henkilöstön vakuutusmaksut
 H2 88 {} Yleisavustukset
-CL 8800 {"Kirjausohje":"Tähän kirjataan yhdistyksen toiminnalle annetut yleisavustukset. Avustukset yksittäiseen toiminta-alaan tai tapahtumaan kirjataan varsinaisen toiminnan tuloksi kyseiselle toiminnanalalle."} Saadut yleisavustukset 
+CL 8800 {"Kirjausohje":"Tähän kirjataan yhdistyksen toiminnalle annetut yleisavustukset. Avustukset yksittäiseen toiminta-alaan tai tapahtumaan kirjataan varsinaisen toiminnan tuloksi kyseiselle toiminnanalalle."} Saadut yleisavustukset
 H2 90 {"Asti":91} Rahoitustuotot ja -kulut
 H3 90 {} Rahoitustuotot
 C 9040 {} Sijoitustuotot pysyvien vastaavien sijoituksista
@@ -465,7 +465,7 @@ annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 <p>Yhteenlaskettu määrä pitkäaikaiseen vieraaseen pääomaan kuuluvista veloista, jotka erääntyvät yli viiden vuoden kuluttua</p>
 #vastuut Esineoikeudelliset vakuudet
 <h2>Annetut esineoikeudelliset vakuudet</h2>
-<p>Esineoikeudelliset vakuudet, eriteltyinä käteispanttien, ajoneuvokiinnitysten, yrityskiinnitysten, kiinteistökiinnitysten ja muun 
+<p>Esineoikeudelliset vakuudet, eriteltyinä käteispanttien, ajoneuvokiinnitysten, yrityskiinnitysten, kiinteistökiinnitysten ja muun
 mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #sitoumukset Taseen ulkopuoliset sitoumukset
 <h2>Taseen ulkopuoliset sitoumukset</h2>
@@ -602,19 +602,19 @@ Tilikartan laajuus
 7910 4761
 7920 5005
 5990 5040
-5120 5001
+5120 5000
 [Raportti/Tase/PMA]
 :tase
 
 VASTAAVAA		H bold
 
-PYSYVÄT VASTAAVAT		10..146 
+PYSYVÄT VASTAAVAT		10..146
 Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
+Aineelliset hyödykkeet		11 s4 *
 Sijoitukset		14 s4 *
 OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
+VAIHTUVAT VASTAAVAT		15..19
+Vaihto-omaisuus		15 s4 *
 Pitkäaikaiset saamiset		16 s4 *
 Lyhytaikaiset saamiset		17 s4 *
 Rahoitusarvopaperit		18 s4 *
@@ -625,7 +625,7 @@ Vastaavaa yhteensä		1 bold
 
 VASTATTAVAA		H bold
 
-OMA PÄÄOMA		20..24 
+OMA PÄÄOMA		20..24
 Osake-, osuus- tai muu vastaava pääoma	200 s4 *
 Sidotut rahastot		201,202 s4
 Omakatteiset rahastot		201 s8 *
@@ -638,8 +638,8 @@ Vastuunalaiset yhtiömiehet		211 s4 *
 Yksityistilit tilikaudella		22 s4 *
 Edellisten tilikausien voitto/tappio	2450 s4 *
 Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25
+PAKOLLISET VARAUKSET		26
 VIERAS PÄÄOMA		28..29
 Pitkäaikainen vieras pääoma		28 s4
 Lyhytaikainen vieras pääoma		29 s4
@@ -650,14 +650,14 @@ Vastattavaa yhteensä		2 bold
 :tase
 VASTAAVAA		H bold
 
-PYSYVÄT VASTAAVAT		10..146 
+PYSYVÄT VASTAAVAT		10..146
 Aineettomat hyödykkeet		10 s4
 Kehittämismenot		102 s8 *
 Aineettomat oikeudet		103 s8 *
 Elinkeinoarvo		104 s8 *
 Muut aineettomat oikeudet		106 s8 *
 Ennakkomaksut		107 s8 *
-Aineelliset hyödykkeet		11 s4		
+Aineelliset hyödykkeet		11 s4
 Maa- ja vesialueet		110 s8 *
 Rakennukset ja rakennelmat		111,114 s8 *
 Koneet ja kalusto		116 s8 *
@@ -669,13 +669,13 @@ Osuudet omistusyhteysyrityksistä	143 s8 *
 Saamiset omistusyhteysyrityksiltä	144 s8 *
 Muut osakkeet ja osuudet		145 s8 *
 Muut saamiset		146 s8 *
-Sijoituskiinteistöt		147 s8 *		
+Sijoituskiinteistöt		147 s8 *
 OMAKATTEISTEN RAHASTOJEN VARAT	148 s4
 Osakkeet ja osuudet		1485 s8 *
 Muut saamiset		1486 s8 *
 Rahavarat		1489 s8 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4		
+VAIHTUVAT VASTAAVAT		15..19
+Vaihto-omaisuus		15 s4
 Aineet ja tarvikkeet		151 s8 *
 Keskeneräiset tuotteet		152 s8 *
 Valmiit tuotteet/tavarat		153 s8 *
@@ -691,7 +691,7 @@ Myyntisaamiset		170 s8 *
 Saamiset saman konsernin yrityksiltä	171 s8 *
 Saamiset omistusyhteysyrityksiltä	173 s8 *
 Lainasaamiset		174 s8 *
-Maksamattomat osakkeet/osuudet	176 s8 *
+Muut saamiset	176 s8 *
 Siirtosaamiset		177 s8 *
 Rahoitusarvopaperit		18 s4
 Muut osakkeet ja osuudet		182 s8 *
@@ -703,7 +703,7 @@ Vastaavaa yhteensä		1 bold
 
 VASTATTAVAA		H bold
 
-OMA PÄÄOMA		20..24 
+OMA PÄÄOMA		20..24
 Osake-, osuus- tai muu vastaava pääoma	200 s4 *
 Sidotut rahastot		201,202 s4
 Omakatteiset rahastot		201 s8 *
@@ -721,10 +721,10 @@ Vastuunalaiset yhtiömiehet		211 s4 *
 Yksityistilit tilikaudella		22 s4 *
 Edellisten tilikausien voitto/tappio	2450 s4 *
 Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25
 Poistoero		250 s4 *
 Verotusperäiset varaukset		251 s4 *
-PAKOLLISET VARAUKSET		26	
+PAKOLLISET VARAUKSET		26
 Eläkevaraukset		260 s4 *
 Verovaraukset		261 s4 *
 Muut pakolliset varaukset		269 s4 *
@@ -762,21 +762,21 @@ Kulut
 Henkilöstökulut	5 s4 *
 Poistot	6 s4 *
 Muut kulut	4 s4 *
-Kulut yhteensä	4..6 == S4 
+Kulut yhteensä	4..6 == S4
 
 Tuotto/Kulujäämä	=
 
 Varainhankinta	bold
 Tuotot	7+ S4 *
 Kulut	7- S4 *
-Varainhankinta yhteensä	7 == S4 
+Varainhankinta yhteensä	7 == S4
 
-Tuotto/Kulujäämä	= 
+Tuotto/Kulujäämä	=
 
 Sijoitus- ja rahoitustoiminta	bold
 Tuotot	90 S4 *
 Kulut	91 S4 *
-Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
+Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4
 
 Tuotto/Kulujäämä	=
 
@@ -788,7 +788,7 @@ Tilinpäätössiirrot	bold
 Poistoeron muutos	950 * s4
 Verotusperusteisten varausten muutos	951 * s4
 Konserniavustus	958 * s4
-Tilinpäätössiirrot yhteensä	s4 95 == 
+Tilinpäätössiirrot yhteensä	s4 95 ==
 
 Tilikauden ylijäämä (alijäämä)	= bold
 [Raportti/Toiminnanalat]
@@ -798,7 +798,7 @@ Vastattavaa	2 *
 Tase yhteensä	1..2 viiva
 
 Toimintatulot   	S 3 *
-Toimintakulut	S 4..6  
+Toimintakulut	S 4..6
 Henkilöstökulut	5 * s4
 Poistot 	6 * s4
 Muut kulut  	4 * s4
@@ -892,16 +892,16 @@ AlvVelvollinen=EI
 -287
 -297
 -95
-[Kirjaamisperuste/Suoriteperuste] 
-TuontiOstolaskuPeruste=1 
-[Kirjaamisperuste/Laskuperuste] 
-LaskuKirjausperuste=1 
-TuontiOstolaskuPeruste=2 
+[Kirjaamisperuste/Suoriteperuste]
+TuontiOstolaskuPeruste=1
+[Kirjaamisperuste/Laskuperuste]
+LaskuKirjausperuste=1
+TuontiOstolaskuPeruste=2
 [Kirjaamisperuste/Maksuperuste]
-ML/1910 
-OL/1910 
-LaskuKirjausperuste=2 
-TuontiOstolaskuPeruste=3 
-TuontiOstolaskuTili=1910 
-TilinpaatosValinnat+=maksuperuste 
+ML/1910
+OL/1910
+LaskuKirjausperuste=2
+TuontiOstolaskuPeruste=3
+TuontiOstolaskuTili=1910
+TilinpaatosValinnat+=maksuperuste
 TuontiTiliote=EI

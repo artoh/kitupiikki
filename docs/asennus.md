@@ -44,7 +44,7 @@ Tukee OS X -versiota 10.11 (El Capitan) ja uudempia macOS-käyttöjärjestelmiä
 2. Avaa asennustiedosto
 3. Vedä avautuneessa ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
 
-Mac-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
+Mac-julkaisua ylläpitää Petri Aarnio 
 
 
 ## Lähdekoodi

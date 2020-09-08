@@ -26,8 +26,6 @@ extra:
       link: 'https://github.com/artoh/kitupiikki'
     - type: 'youtube'
       link: 'https://www.youtube.com/channel/UCVNHCMQoNb66OgzuTSfdKqQ'
-    - type: 'comment'
-      link: 'http://palaute.kitupiikki.info'
     - type: 'twitter'
       link: 'https://twitter.com/KitupiikkiInfo'
   search:
@@ -45,7 +43,6 @@ pages:
     - Videot: 'videot.md'
     - Käyttöliittymä: 'ui.md'
     - Tuki: 'tuki.md'
-    - Uutta kohti: 'v2/index.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'

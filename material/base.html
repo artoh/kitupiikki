@@ -136,7 +136,8 @@
           {% endblock %}
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-              {% block content %}
+			  {% include "partials/kitsas.html" %}
+              {% block content %}				
                 {% if page.edit_url %}
                   <a href="{{ page.edit_url }}" title="{{ lang.t('edit.link.title') }}" class="md-icon md-content__icon">&#xE3C9;</a>
                 {% endif %}
