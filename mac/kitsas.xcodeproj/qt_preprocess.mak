@@ -16,7 +16,7 @@ LEX       = flex
 LEXFLAGS  = 
 YACC      = yacc
 YACCFLAGS = -d
-DEFINES       = -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_NO_DEBUG_OUTPUT -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_SVG_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_CORE_LIB
 INCPATH       = -I../kitsas -I. -I/usr/local/include -I../../../Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I../../../Qt/5.15.0/clang_64/mkspecs/macx-clang -F/Users/petri/Qt/5.15.0/clang_64/lib
 DEL_FILE  = rm -f
 MOVE      = mv -f
@@ -1442,7 +1442,7 @@ moc_tulkki.cpp: ../kitsas/tools/tulkki.h \
 
 moc_sijaintisivu.cpp: ../kitsas/uusikirjanpito/sijaintisivu.h \
 		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		ui_sijainti.h \
+		ui_uusisijainti.h \
 		moc_predefs.h \
 		../../../Qt/5.15.0/clang_64/bin/moc
 	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/uusikirjanpito/sijaintisivu.h -o moc_sijaintisivu.cpp
@@ -3086,7 +3086,8 @@ ui_tuotedialogi.h: ../kitsas/laskutus/tuotedialogi.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic \
 		../kitsas/tools/kpeuroedit.h \
 		../kitsas/db/tilinvalintaline.h \
-		../kitsas/laskutus/laskualvcombo.h
+		../kitsas/laskutus/laskualvcombo.h \
+		../kitsas/tools/kohdennuscombo.h
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/laskutus/tuotedialogi.ui -o ui_tuotedialogi.h
 
 ui_vakioviitedlg.h: ../kitsas/laskutus/vakioviite/vakioviitedlg.ui \
@@ -3363,8 +3364,8 @@ ui_emailmaaritys.h: ../kitsas/maaritys/emailmaaritys.ui \
 
 ui_laskunmaksudialogi.h: ../kitsas/laskutus/laskunmaksudialogi.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic \
-		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QTabBar \
 		../kitsas/db/tilinvalintaline.h \
+		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QTabBar \
 		../kitsas/tools/kpdateedit.h
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/laskutus/laskunmaksudialogi.ui -o ui_laskunmaksudialogi.h
 
