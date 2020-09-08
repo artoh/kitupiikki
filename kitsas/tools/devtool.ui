@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DevTool</class>
+ <widget class="QDialog" name="DevTool">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>687</width>
+    <height>620</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Kehittäjän työkalut</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../pic/pic.qrc">
+    <normaloff>:/pic/dev.png</normaloff>:/pic/dev.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tervetuloTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/dev.png</normaloff>:/pic/dev.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Tervetuloa</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../pic/pic.qrc">:/pic/dev.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä tehokkaat - mutta niin kovin huonosti dokumentoidut - työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>290</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="keksiLabel">
+         <property name="text">
+          <string>XXXXXXXXX</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="asetusTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/valilehdet.png</normaloff>:/pic/valilehdet.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Asetukset</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+       <item>
+        <widget class="QListWidget" name="avainLista">
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="avainEdit">
+           <property name="placeholderText">
+            <string>Avain</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="arvoEdit">
+           <property name="placeholderText">
+            <string>Arvo</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="peruNappi">
+             <property name="text">
+              <string>Peru</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="poistaNappi">
+             <property name="text">
+              <string>Poista</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="tallennaAsetusNappi">
+             <property name="text">
+              <string>Tallenna</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>F10</string>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="kyselyTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vasara.png</normaloff>:/pic/vasara.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Kysely</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QRadioButton" name="getRadio">
+           <property name="text">
+            <string>GET</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="postRadio">
+           <property name="text">
+            <string>POST</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="putRadio">
+           <property name="text">
+            <string>PUT</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="patchRadio">
+           <property name="text">
+            <string>PATCH</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="deleteRadio">
+           <property name="text">
+            <string>DELETE</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="kyselyLine">
+         <property name="placeholderText">
+          <string>Kirjoita polku ja paina Enter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QPlainTextEdit" name="jsonInput">
+          <property name="tabStopWidth">
+           <number>10</number>
+          </property>
+         </widget>
+         <widget class="QTextBrowser" name="kyselyBrowser"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/ristinolla.png</normaloff>:/pic/ristinolla.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Ristinolla</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="1">
+        <layout class="QGridLayout" name="peliLeiska"/>
+       </item>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>144</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="uusipeliNappi">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string notr="true">Uudestaan!</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/ristinolla.png</normaloff>:/pic/ristinolla.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>223</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>222</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>144</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="tulosLabel">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>avainLista</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>avainEdit</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>227</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>330</x>
+     <y>62</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>peruNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>avainEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>421</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

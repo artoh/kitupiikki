@@ -1,13 +1,41 @@
 QT += testlib
 
+QT += gui
+QT += widgets
+QT += sql
+QT += printsupport
+QT += network
+QT += svg
+QT += xml
+
+LIBS += -lpoppler-qt5
+LIBS += -lpoppler
+LIBS += -lzip
+
+
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
-HEADERS += ../kitupiikki/validator/ibanvalidator.h \
-    ../kitupiikki/tuonti/tuontiapu.h
+INCLUDEPATH += $$PWD/../kitsas
+VPATH += $$PWD/../kitsas
+include(../kitsas/sources.pri)
 
-SOURCES +=  tst_tuontitesti.cpp \
-    ../kitupiikki/validator/ibanvalidator.cpp \
-    ../kitupiikki/tuonti/tuontiapu.cpp
+RESOURCES += \
+    data/testidata.qrc
+
+HEADERS += tuontitesti.h \
+    kpdateedittesti.h \
+    testiapu.h \
+    tilitesti.h \
+    tulomenoapuritesti.h \
+    tulomenorivitesti.h
+
+SOURCES +=  testit.cpp \
+        kpdateedittesti.cpp \
+	testiapu.cpp \
+	tilitesti.cpp \
+        tulomenoapuritesti.cpp \
+        tulomenorivitesti.cpp \
+        tuontitesti.cpp

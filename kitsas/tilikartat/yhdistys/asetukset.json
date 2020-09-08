@@ -1,0 +1,202 @@
+{
+  "kielet" : {
+      "fi" : { "fi": "suomi", "sv" : "finska", "en": "Finnish"},
+      "sv" : { "fi": "ruotsi", "sv": "svenska", "en": "Swedish"},
+      "en" : { "fi": "englanti", "sv": "engelska", "en": "English"}
+  },
+  "kieli": "fi",
+  "tpkieli": "fi",
+  "muodot": {
+    "ry": {
+      "fi": "Yhdistys",
+      "sv": "Förening",
+      "en": "Association"
+    }
+  },
+  "laajuudet": {
+    "1": {
+      "fi": "Suppea"
+    },
+    "2": {
+      "fi": "Tavallinen, ei palkkoja"
+    },
+    "3": {
+      "fi": "Tavallinen, palkat"
+    },
+    "4": {
+      "fi": "Laaja, kiinteää tai sijoitusomaisuutta"
+    },
+    "5": {
+      "fi": "Elinkeinotoimintaa"
+    },
+    "6": {
+      "fi": "Kaikki tilit, myös konserni"
+    }
+  },
+  "laajuus": "3",
+  "alvlaajuus": "5",
+  "tositesarjat": {
+    "0": "X",
+    "100": "OL",
+    "110": "OL",
+    "120": "KL",
+    "200": "ML",
+    "210": "ML",
+    "214": "ML",
+    "216": "ML",
+    "300": "X",
+    "400": "T",
+    "500": "P",
+    "700": "MT",
+    "800": "LT",
+    "*": "JT",
+    "K": "K"
+  },
+  "palkkatilit": {
+    "EP" : 2986,
+    "SB" : 2986,
+    "AY" : 2988,
+    "KM" : 4741,
+    "PR" : 4751,
+    "AT" : 4761,
+    "PA" : 5000,
+    "LK" : 5002,
+    "PI" : 5003,
+    "LS" : 5004,
+    "LU" : 5005,
+    "LV" : 5040,
+    "EL" : 5100,
+    "SV" : 5120,
+    "TV" : 5122
+  },
+  "maksutavat+": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 1700,
+      "KUVA" : "lasku",
+      "ERA" : -1
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Hyvityslasku",
+      "TILI" : 1700,
+      "KUVA" : "poista"
+    },
+    {
+      "fi" : "Siirtosaaminen",
+      "TILI" : 1770,
+      "KUVA" : "siirra",
+      "ERA" : -1
+    }
+
+  ],
+  "maksutavat-": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 2960,
+      "KUVA" : "lasku",
+      "ERA": -1
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Luottokortti",
+      "TILI" : 2963,
+      "KUVA" : "luottokortti"
+    },
+    {
+      "fi" : "Hyvityslasku",
+      "TILI" : 2960,
+      "KUVA" : "poista"
+    },
+    {
+      "fi" : "Siirtovelka",
+      "TILI" : 2990,
+      "KUVA" : "siirra",
+      "ERA" : -1
+    }
+  ],
+  "tilinpaatosvalinnat" : "toiminnantarkastus",
+  "arkistoraportit" : "tase/yleinen,tulos/yleinen",
+  "LaskuSaatavatili" : "1700",
+  "LaskuKateistili" : "1900",
+  "LaskuMaksuaika" : "14",
+  "LaskuSeuraavaId" : "1000",
+  "LaskuViivakoodi" : true,
+  "LaskuIkkunaX" : "18",
+  "LaskuIkkunaY" : "40",
+  "LaskuIkkunaLeveys" : "95",
+  "LaskuIkkunaKorkeus" : "35",
+  "LaskuQR" : "ON",
+  "AlvKausi" : "1",
+  "AlvHuojennusTili":"7030",
+  "LaskuEnnakkotili":"2950",
+  "LaskuEnnakkosaatavat":"1705",
+  "LaskuEnnakkoALV":"29852",
+  "LaskuMaksumuistutustili":"9050",
+  "LaskuViivastyskorkotili": "9050",
+  "OletusMyyntitili":"3000",
+  "OletusMenotili":"4000",
+  "Yleverotili":"7045",
+  "Tuloveroennakkotili":"7099",
+  "Tuloverojaksotustili":"7099",
+  "Tuloverosiirtovelat":"2990",
+  "Tuloverosiirtosaamiset":"1770",
+  "PankkiPalvelumaksutili":"4921",
+  "PankkiSaapuvakorko":"9050",
+  "PankkiMaksettavakorko":"9150",
+  "VeroOmaverotili":"2986",
+  "AlvVelkatili": "2984",
+  "Ostovelkatili": "2960",
+  "AlvPalautusSaatavatilille": true,
+  "PalkkaFiTilit":{
+    "2921": 2986,
+    "2925": 2989,
+    "2933": 2989,
+    "5100": 5002,
+    "5110": 5002,
+    "5130": 5000,
+    "5180": 5000,
+    "5200": 5003,
+    "5201": 5003,
+    "5420": 5005,
+    "5400": 5005,
+    "5410": 5005,
+    "5430": 5005,
+    "5440": 5005,
+    "5300": 5004,
+    "5310": 5004,
+    "5340": 5004,
+    "5350": 5004,
+    "6140": 5100,
+    "6420": 5122,
+    "7070": 7690,
+    "7120": 7690,
+    "7860": 7690,
+    "7870": 7690,
+    "7880": 7690,
+    "7890": 7690,
+    "7900": 7690,
+    "7910": 7690,
+    "7920": 5005,
+    "5990": 5040,
+    "5120": 5000
+  }
+}

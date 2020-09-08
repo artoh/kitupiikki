@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TuoteDialogi</class>
+ <widget class="QDialog" name="TuoteDialogi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>536</width>
+    <height>438</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tuote</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Nimike</string>
+     </property>
+     <property name="buddy">
+      <cstring>nimikeEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="nimikeEdit"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Yksikkö</string>
+     </property>
+     <property name="buddy">
+      <cstring>yksikkoEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="yksikkoEdit"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Nettohinta</string>
+     </property>
+     <property name="buddy">
+      <cstring>nettoEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="KpEuroEdit" name="nettoEdit"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="alvLabel">
+     <property name="text">
+      <string>Alv</string>
+     </property>
+     <property name="buddy">
+      <cstring>alvCombo</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="LaskuAlvCombo" name="alvCombo"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="bruttoLabel">
+     <property name="text">
+      <string>Bruttohinta</string>
+     </property>
+     <property name="buddy">
+      <cstring>bruttoEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="KpEuroEdit" name="bruttoEdit"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Myyntitili</string>
+     </property>
+     <property name="buddy">
+      <cstring>tiliEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="TilinvalintaLine" name="tiliEdit"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Kohdennus</string>
+     </property>
+     <property name="buddy">
+      <cstring>kohdennusCombo</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="KohdennusCombo" name="kohdennusCombo"/>
+   </item>
+   <item row="7" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>396</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="1">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LaskuAlvCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">laskutus/laskualvcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>TuoteDialogi</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>TuoteDialogi</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>456</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

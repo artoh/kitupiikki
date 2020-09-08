@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/tilikartat">
+        <file>yhdistys/asetukset.json</file>
+        <file>yhdistys/raportit.json</file>
+        <file>yhdistys/tilinpaatos.txt</file>
+        <file>yhdistys/tilit.json</file>
+        <file>yhdistys/tilikartta.json</file>
+        <file>yritys/asetukset.json</file>
+        <file>yritys/raportit.json</file>
+        <file>yritys/tilikartta.json</file>
+        <file>yritys/tilinpaatos.txt</file>
+        <file>yritys/tilit.json</file>
+        <file>yhdistys/muunto.txt</file>
+        <file>yritys/muunto.txt</file>
+        <file>asoy/asetukset.json</file>
+        <file>asoy/raportit.json</file>
+        <file>asoy/tilinpaatos.txt</file>
+        <file>asoy/tilit.json</file>
+        <file>asoy/tilikartta.json</file>		
+    </qresource>
+</RCC>

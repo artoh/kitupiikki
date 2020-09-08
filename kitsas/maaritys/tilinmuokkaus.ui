@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>tilinmuokkausDialog</class>
+ <widget class="QDialog" name="tilinmuokkausDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>661</width>
+    <height>610</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tilin muokkaus</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Perustiedot</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Kuuluu otsikolle</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="infoLabel">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Numero</string>
+           </property>
+           <property name="buddy">
+            <cstring>numeroEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="numeroEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Nimi</string>
+           </property>
+           <property name="buddy">
+            <cstring>nimiList</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QListWidget" name="nimiList">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>120</height>
+            </size>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AllEditTriggers</set>
+           </property>
+           <property name="tabKeyNavigation">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="tyyppiLabel">
+           <property name="text">
+            <string>Tilityyppi</string>
+           </property>
+           <property name="buddy">
+            <cstring>tyyppiCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="tyyppiCombo"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="laajuusLabel">
+           <property name="text">
+            <string>Tilikartan laajuus</string>
+           </property>
+           <property name="buddy">
+            <cstring>laajuusCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QComboBox" name="laajuusCombo"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QCheckBox" name="vastaCheck">
+           <property name="text">
+            <string>Vastatili</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="TiliCombo" name="vastaCombo"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="ibanLabel">
+           <property name="text">
+            <string>IBAN-tilinumero</string>
+           </property>
+           <property name="buddy">
+            <cstring>ibanLine</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="ibanLine">
+           <property name="placeholderText">
+            <string>FI00000000000000</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/format-list-ordered.png</normaloff>:/pic/format-list-ordered.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Erittely</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="teGroup">
+         <property name="title">
+          <string>Tase-erittely</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="taseEratRadio">
+            <property name="text">
+             <string>Täysi erittely tase-erillä</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="taseEraLuettelo">
+            <property name="text">
+             <string>Tase-erien luettelo</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="teLiVaRadio">
+            <property name="text">
+             <string>Lisäykset ja vähennykset</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="teSaldoRadio">
+            <property name="text">
+             <string>Saldo</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>240</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vasara.png</normaloff>:/pic/vasara.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Poisto</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="poistoaikaLabel">
+         <property name="text">
+          <string>Poistoaika</string>
+         </property>
+         <property name="buddy">
+          <cstring>poistoaikaSpin</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="poistoaikaSpin">
+         <property name="suffix">
+          <string> vuotta</string>
+         </property>
+         <property name="maximum">
+          <number>1200</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="poistoprossaLabel">
+         <property name="text">
+          <string>Menojäännöspoisto</string>
+         </property>
+         <property name="buddy">
+          <cstring>poistoprossaSpin</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="poistoprossaSpin">
+         <property name="suffix">
+          <string> %</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="poistotiliLabel">
+         <property name="text">
+          <string>Poistotili</string>
+         </property>
+         <property name="buddy">
+          <cstring>poistotiliCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="TiliCombo" name="poistotiliCombo"/>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>ALV</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="verolajiLabel">
+           <property name="text">
+            <string>Verolaji</string>
+           </property>
+           <property name="buddy">
+            <cstring>veroCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="veroCombo"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="veroprosenttiLabel">
+           <property name="text">
+            <string>Veroprosentti</string>
+           </property>
+           <property name="buddy">
+            <cstring>veroSpin</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="veroSpin">
+           <property name="suffix">
+            <string>%</string>
+           </property>
+           <property name="prefix">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>268</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info.png</normaloff>:/pic/info.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Kirjausohje</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QTabWidget" name="ohjeTabs"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Save</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>numeroEdit</tabstop>
+  <tabstop>nimiList</tabstop>
+  <tabstop>tyyppiCombo</tabstop>
+  <tabstop>veroCombo</tabstop>
+  <tabstop>veroSpin</tabstop>
+  <tabstop>poistoaikaSpin</tabstop>
+  <tabstop>poistoprossaSpin</tabstop>
+  <tabstop>poistotiliCombo</tabstop>
+  <tabstop>laajuusCombo</tabstop>
+  <tabstop>ohjeTabs</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>tilinmuokkausDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>1030</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>tilinmuokkausDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>294</x>
+     <y>1030</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

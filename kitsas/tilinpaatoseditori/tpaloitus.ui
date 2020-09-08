@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TpAloitus</class>
+ <widget class="QDialog" name="TpAloitus">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>849</width>
+    <height>821</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tilinpäätösasiakirjan muodostaminen</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tee tilinpäätökseen tulostuviin tietoihin liittyvät valinnat.&lt;/p&gt;&lt;p&gt;Jos olet tehnyt vahvistetun tilinpäätöksen muulla ohjelmalla, lataa pdf-tiedosto Kitupiikin arkistoon valitsemalla &lt;span style=&quot; font-weight:600;&quot;&gt;Lataa tiedosto&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Tilinpäätöksen kieli</string>
+       </property>
+       <property name="buddy">
+        <cstring>kieliCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="kieliCombo"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Henkilökuntaa keskimäärin</string>
+       </property>
+       <property name="buddy">
+        <cstring>henkilostoSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="henkilostoSpin">
+       <property name="maximum">
+        <number>99999</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="saantoGroup">
+     <property name="title">
+      <string>Tilinpäätöksessä sovellettava säännöstö</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="mikroRadio">
+        <property name="text">
+         <string>Mikroyritys</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="pienRadio">
+        <property name="text">
+         <string>Pienyritys</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="taysRadio">
+        <property name="text">
+         <string>Ei pien- eikä mikroyritys</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="vapaaehtoisLabel">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 85, 0);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pienelle elinkeinonharjoittajalle tilinpäätöksen laatiminen on vapaaehtoista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListView" name="view"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="ohjeNappi">
+       <property name="text">
+        <string>Ohje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="jatkaNappi">
+       <property name="text">
+        <string>&amp;Jatka</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="lataaNappi">
+       <property name="text">
+        <string>&amp;Lataa tiedosto</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/avaatiedosto.png</normaloff>:/pic/avaatiedosto.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="keskeytaNappi">
+       <property name="text">
+        <string>Keskeytä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>jatkaNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TpAloitus</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>247</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>keskeytaNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TpAloitus</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>544</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>177</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

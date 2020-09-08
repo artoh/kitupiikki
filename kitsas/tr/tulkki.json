@@ -1,0 +1,121 @@
+{
+  "suomi" : {
+    "sv" : "finska",
+    "en" : "Finnish"
+  },
+  "ruotsi" : {
+    "sv" : "svenska",
+    "en" : "Swedish"
+  },
+  "englanti" : {
+    "sv" : "engelska",
+    "en" : "English"
+  },
+  "Kotipaikka" : {
+    "sv" : "Hemort",
+    "en" : "Domicile"
+  },
+  "HARJOITUS" : {
+    "sv" : "ÖVNING",
+    "en" : "TRIAL"
+  },
+  "PÄIVÄKIRJA" : {
+    "sv" : "DAGBOK",
+    "en" : "JOURNAL"
+  },
+  "Pvm" : {
+    "sv" : "Datum",
+    "en" : "Date"
+  },
+  "Tosite" : {
+    "sv" : "Verifikat",
+    "en" : "Document"
+  },
+  "Tili" : {
+    "sv" : "Konto",
+    "en" : "Account"
+  },
+  "Kohdennus": {
+    "sv" : "Kostnadställe",
+    "en" : "Cost pool"
+  },
+  "Yhteensä" : {
+    "sv" : "Totalt",
+    "en" : "Total"
+  },
+  "Selite": {
+    "sv" : "Beskrivning",
+    "en" : "Description"
+  },
+  "Sivu %1": {
+    "sv" : "Sida %1",
+    "en" : "Page %1"
+  },
+  "Kredit €" : {
+    "en" : "Credit €"
+  },
+  "Saldo €": {
+    "en": "Balance €"
+  },
+  "PÄÄKIRJA" : {
+    "sv": "HUVUDBOK",
+    "en": "GENERAL LEDGE"
+  },
+  "PÄÄKIRJAN OTE": {
+    "sv": "HUVUDBOKUTDRAG",
+    "en": "EXTRACT FROM GENERAL LEDGE"
+  },
+  "Budjetti" : {
+    "sv": "Budget",
+    "en": "Budget"
+  },
+  "Toteutunut": {
+    "sv": "Förverkligad",
+    "en": "Actualised"
+  },
+  "Budjettiero €" : {
+    "sv": "Budgetskillnad €",
+    "en": "Budgetdifference €"
+  },
+  "Toteutunut %" : {
+    "sv": "Förverkligad %",
+    "en": "Actualised %"
+  },
+  "Kustannuspaikat": {
+    "sv": "Konstnadsställen",
+    "en": "Cost centres"
+  },
+  "Projektit": {
+    "sv": "Projekten",
+    "en": "Projects"
+  },
+  "Asiakas/Toimittaja": {
+    "sv" : "Kund/Säljare",
+    "en" : "Customer/Supplier"
+  },
+  "TOSITELUETTELO": {
+    "sv": "VERIFIKATLISTA",
+    "en": "LIST OF DOCUMENTS"
+  },
+  "Otsikko": {
+    "sv": "Överskift",
+    "en": "Subject"
+  },
+  "Liitteitä": {
+    "sv": "Appendix",
+    "en": "Attachments"
+  },
+  "Summa €" : {
+    "sv" : "Totalt €",
+    "en" : "Total €"
+  },
+  "Tilin numero": {
+    "sv": "Kontonummer",
+    "en": "Account number"
+  },
+  "Tilin nimi": {
+    "sv": "Kontonamn",
+    "en": "Account name"
+  }
+
+}

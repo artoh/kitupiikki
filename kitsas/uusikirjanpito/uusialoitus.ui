@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UusiAloitus</class>
+ <widget class="QWidget" name="UusiAloitus">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>764</width>
+    <height>591</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kitsas on avoimen lähdekoodin helppokäyttöinen kirjanpito-ohjelma. Ohjelma neuvoo sinua niin kirjanpitoa aloitettaessa kuin myös myöhemmissä vaiheissa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="koneelleRadio">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tallenna kirjanpito omalle tietokoneelle</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/laptop.png</normaloff>:/pic/laptop.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpito tallennetaan oman tietokoneesi levylle. Kirjanpitoa voi käyttää vain tältä tietokoneelta, ja sinun pitää huolehtia itse kirjanpitosi varmuuskopioinnista. Voit käyttää ohjelmaa omalla koneella täysin maksutta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="pilveenRadio">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tallenna kirjanpito pilveen</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="pilviLabel">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpito tallennetaan pilveen suomalaiselle palvelimelle. Kirjanpidolla voi olla useampi samanaikainen käyttäjä. Kitsas Oy huolehtii kirjanpidon päivittäisestä varmuuskopioinnista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="pilviInfo">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p/&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="tilausNappi">
+          <property name="text">
+           <string>Tilaa pilvipalvelu</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections/>
+</ui>

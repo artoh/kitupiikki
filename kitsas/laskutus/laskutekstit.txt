@@ -1,0 +1,192 @@
+laskuotsikko Lasku
+SVlaskuotsikko Faktura
+ENlaskuotsikko Invoice
+lpvm Laskun päivämäärä
+ENlpvm Date
+SVlpvm Datum
+alv13 Voittomarginaalijärjestelmä
+ENalv13 Margin scheme
+alv91 Voittomarginaalijärjestelmä - Käytetyt tavarat
+ENalv91 Margin scheme - Second-hand goods
+alv92 Voittomarginaalijärjestelmä - Taide-esineet
+ENalv92 Margin scheme - Works of art
+alv93 Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet
+ENalv93 Margin scheme - Collectors' items and antiques
+alv14 AVL 72a §: ALV 0% Yhteisömyynti
+ENalv14 AVL 72a §: VAT 0% Intra Community supply
+alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
+ENalv15 AVL 65 §: Reverse charge, VAT Directive art 44
+alv16 AVL 8 c §: Käännetty verovelvollisuus
+ENalv16 AVL 8 c §: Reverse charge, VAT Directive art 199
+alv ALV
+ENalv VAT
+SValv MOMS
+alv0 Veroton myynti
+ENalv0 Tax free sale
+jatkuu Jatkuu...
+ENjatkuu To be continue...
+SVjatkuu Fortsätter...
+alvtunnus ALV-tunnus
+ENalvtunnus VAT number
+SValvtunnus MOMS-nummer
+puhelin Puhelin
+ENpuhelin Phone
+SVpuhelin Telefon
+sahkoposti Sähköposti
+ENsahkoposti Email
+SVsahkoposti Email
+ytunnus Y-tunnus
+ENytunnus Business ID
+SVytunnus FO-nummer
+eialv Myyjä ei arvonlisäverovelvollinen
+ENeialv Seller is not registered for VAT
+SVeialv Säljer har inte registerat för MOMS
+kpl kpl
+SVkpl antal
+anetto á netto
+ahinta á hinta
+SVahinta á pris
+netto netto
+vero vero
+SVvero skatt
+ENvero tax
+yhteensa yhteensä
+ENyhteensa total
+SVyhteensa totalt
+Yhteensa Yhteensä
+ENYhteensa Total
+SVYhteensa Totalt
+bst Saajan|tilinumero|Mottagarens|kontonummer
+ENbst Recipient's|account number
+bsa Saaja|Mottagare
+ENbsa Recipient
+bmo Maksajan|nimi ja|osoite|Betalarens|namn och|address
+ENbmo Payer's|name and|address
+bak Allekirjoitus|Underskrift
+ENbak Signature
+btl Tililtä nro|Från konto nr
+ENbtl From account|no.
+iban IBAN
+bic BIC
+bvn Viitenumero|Ref.nr.
+ENbvn Ref.no.
+bep Eräpäivä|Förfallodag
+ENbep Due date
+eur Euro
+behto Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det betalaren angivit.
+ENbehto The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
+btilis TILISIIRTO. GIRERING
+ENbtilis CREDIT TRANSFER
+asviite Asiakkaan viite
+ENasviite Your reference
+SVasviite Kundens referens
+lnro Laskun numero
+ENlnro Invoice number
+SVlnro Fakturans nummer
+pvm Päivämäärä
+ENpvm Date
+SVpvm Datum
+hyvpvm Hyvityksen päivämäärä
+SVhyvpvm Kompensationdatum
+toimpvm Toimituspäivämäärä
+SVtoimpvm Leveransdatum
+ENtoimpvm Date of delivery
+asytunnus Asiakkaan y-tunnus
+SVasytunnus Kundens FO-nummer
+ENasytunnus Customer's Business ID
+asalvtunnus Asiakkaan ALV-tunnus
+ENasalvtunnus Customer's VAT number
+SVasalvtunnus Kundens MOMS-nummer
+viitenro Viitenumero
+ENviitenro Invoice reference number
+SVviitenro Referensnummer
+erapvm Eräpäivä
+ENerapvm Due date
+SVerapvm Förfallodag
+maksettu Maksettu
+ENmaksettu Paid
+SVmaksettu Betalat
+hyvnro Hyvityslaskun numero
+SVhyvnro Kompensatiofakturans nummer
+ENhyvnro Number of compensation invoice
+huomaika Huomautusaika
+SVhuomaika Anmärkningstid
+ENhuomaika Period for complaints
+paivaa päivää
+SVpaivaa dagar
+ENpaivaa days
+viivkorko Viivästyskorko
+SVviivkorko Dröpmålsränta
+ENviivkorko Overdue fine
+kateinen Käteislasku / Kuitti
+SVkateinen Kvitto
+ENkateinen Cash receipt
+hlasku Hyvityslasku
+SVhlasku Kompensation till faktura
+ENhlasku Compensation for invoice
+maksumuistutus MAKSUMUISTUTUS
+SVmaksumuistutus BETALNINGSPÅMINNELSE
+ENmaksumuistutus REQUEST FOR PAYMENT
+muistutusnro Maksumuistutuksen numero
+SVmuistutusnro Betalningspåminnelses nummero
+ENmuistutusnro Number of request for payment
+muistutusmaksu Huomautuskulut
+SVmuistutusmaksu Skriftlig betalningspåminnelse
+ENmuistutusmaksu Request for payment fee
+alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
+ENalkuplasku Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
+SValkuplasku Original faktura|Faktura nummer: %1|Datum: %2|Förfallodag: %3
+aiempimuistutus Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
+SVaiempimuistutus Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3
+ENaiempimuistutus Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
+aiempisaldo Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €
+SVaiempisaldo Obetalada antal om fakturor med följande uppräkning är %L1 €
+ENaiempisaldo The total unpayed amount of invoices detailed below is %L1 €
+veroton veroton
+ENveroton net
+SVveroton netto
+verollinen verollinen
+ENverollinen gross
+SVverollinen brutto
+nimike nimike
+SVnimike produkt
+ENnimike product
+lkm lkm
+SVlkm antal
+ENlkm qty
+virtviiv Virtuaaliviivakoodi
+SVvirtviiv Virtual streckkod
+ENvirtviiv Virtual barcode
+summa Laskun summa
+ENsumma Total
+SVsumma Totalt
+ale% ale%
+SVale% rabatt%
+ENale% discount%
+alennus alennus
+SValennus rabatt
+ENalennus discount
+muistutusteksti Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.
+ENmuistutusteksti According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.
+SVmuistutusteksti Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.
+muistutussaate Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.
+SVmuistutussaate Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.
+ENmuistutussaate According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.
+hyvitysteksti Hyvityslasku laskulle %1, päiväys %2
+SVhyvitysteksti Kompensation för faktura %1, datum %2
+ENhyvitysteksti Compensation for invoice %1, date %2
+mmrivi Laskun %1 avoin saldo
+SVmmrivi Saldo för faktura %1
+ENmmrivi Saldo for invoice %1
+luonnos LUONNOS
+SVluonnos KLADD
+ENluonnos DRAFT
+harjoitus HARJOITUS
+SVharjoitus ÖVNING
+ENharjoitus TRIAL
+ennakkolasku Ennakkolasku
+SVennakkolasku Förhandsfaktura
+ENennakkolasku Advance Invoice
+enhyri Ennakkolaskun %1 hyvitys
+SVenhyri Kompensation till förhandsfaktura %1
+ENenhyri Compensation for advance invoice %1

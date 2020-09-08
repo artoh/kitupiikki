@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Laskuraportti</class>
+ <widget class="QWidget" name="Laskuraportti">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>642</width>
+    <height>967</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QGroupBox" name="tyyppiRadio">
+     <property name="title">
+      <string>Laskutyyppi</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="myyntiRadio">
+        <property name="text">
+         <string>Myyntilaskut</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="ostoRadio">
+        <property name="text">
+         <string>Ostolaskut</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Päivämäärärajaus  </string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QRadioButton" name="rajaaPvm">
+        <property name="text">
+         <string>Laskun päivämäärä</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QRadioButton" name="rajaaEra">
+        <property name="text">
+         <string>Eräpäivä</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QRadioButton" name="tulostaKaikki">
+        <property name="text">
+         <string>Tulosta kaikki</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Alkaen</string>
+        </property>
+        <property name="buddy">
+         <cstring>alkaenPvm</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateEdit" name="alkaenPvm">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Päättyen</string>
+        </property>
+        <property name="buddy">
+         <cstring>paattyenPvm</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDateEdit" name="paattyenPvm">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Saldopäivämäärä</string>
+       </property>
+       <property name="buddy">
+        <cstring>saldoPvm</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="saldoPvm">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="avoimet">
+     <property name="text">
+      <string>Vain avoimet</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Lajittelu</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="lajitteleNumero">
+        <property name="text">
+         <string>Laskun numero</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="lajitteleViite">
+        <property name="text">
+         <string>Viitenumero</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="lajitteleLaskupvm">
+        <property name="text">
+         <string>Laskun päivämäärä</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="lajitteleErapvm">
+        <property name="text">
+         <string>Eräpäivä</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="lajitteleSumma">
+        <property name="text">
+         <string>Laskun summa</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="lajitteleAsiakas">
+        <property name="text">
+         <string>Asiakas</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="naytaViiteCheck">
+     <property name="text">
+      <string>Näytä viitenumero</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="vainKitsas">
+     <property name="text">
+      <string>Vain Kitsaalla laaditut laskut</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="summaBox">
+     <property name="text">
+      <string>Tulosta yhteissumma</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>42</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>tulostaKaikki</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>alkaenPvm</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>189</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tulostaKaikki</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>paattyenPvm</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>407</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

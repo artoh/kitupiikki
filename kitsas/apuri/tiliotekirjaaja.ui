@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TilioteKirjaaja</class>
+ <widget class="QDialog" name="TilioteKirjaaja">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1307</width>
+    <height>765</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tilitapahtuma</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabBar" name="ylaTab" native="true"/>
+   </item>
+   <item>
+    <widget class="QTabBar" name="alaTabs" native="true"/>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="suodatusEdit">
+     <property name="placeholderText">
+      <string>Etsi maksajalla tai viitenumerolla</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="maksuView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>10</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Päivämäärä</string>
+       </property>
+       <property name="buddy">
+        <cstring>pvmEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KpDateEdit" name="pvmEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="asiakasLabel">
+       <property name="text">
+        <string>Asiakas</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Euroa</string>
+       </property>
+       <property name="buddy">
+        <cstring>euroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="KpEuroEdit" name="euroEdit">
+       <property name="toolTip">
+        <string>Kirjaa tililtä otto miinusmerkkisenä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="tiliLabel">
+       <property name="text">
+        <string>Tiliöinti</string>
+       </property>
+       <property name="buddy">
+        <cstring>tiliEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="TilinvalintaLine" name="tiliEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="kohdennusLabel">
+       <property name="text">
+        <string>Kohdennus</string>
+       </property>
+       <property name="buddy">
+        <cstring>kohdennusCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="KohdennusCombo" name="kohdennusCombo"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="merkkausLabel">
+       <property name="text">
+        <string>Merkkaukset</string>
+       </property>
+       <property name="buddy">
+        <cstring>merkkausCC</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="CheckCombo" name="merkkausCC"/>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="seliteLabel">
+       <property name="text">
+        <string>Selite</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="eraLabel">
+       <property name="text">
+        <string>Tase-erä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="EraCombo" name="eraCombo"/>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="jaksotusLabel">
+       <property name="text">
+        <string>Jaksotus</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="KpDateEdit" name="jaksoAlkaaEdit"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="jaksoViivaLabel">
+         <property name="text">
+          <string> -</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KpDateEdit" name="jaksoLoppuuEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="SalliYlitys" stdset="0">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLabel" name="alvVaro">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>Tällä toiminnolla voit tehdä vain arvonlisäverottomia kirjauksia.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QTextEdit" name="seliteEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>120</height>
+        </size>
+       </property>
+       <property name="tabChangesFocus">
+        <bool>true</bool>
+       </property>
+       <property name="acceptRichText">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>17</width>
+       <height>13</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="ohjeNappi">
+       <property name="text">
+        <string>Ohje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okNappi">
+       <property name="text">
+        <string>Kirjaa</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tyhjaaNappi">
+       <property name="text">
+        <string>Tyhjennä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/edit-clear.png</normaloff>:/pic/edit-clear.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="suljeNappi">
+       <property name="text">
+        <string>Sulje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>QTabBar</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>suodatusEdit</tabstop>
+  <tabstop>maksuView</tabstop>
+  <tabstop>pvmEdit</tabstop>
+  <tabstop>asiakastoimittaja</tabstop>
+  <tabstop>euroEdit</tabstop>
+  <tabstop>tiliEdit</tabstop>
+  <tabstop>eraCombo</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
+  <tabstop>merkkausCC</tabstop>
+  <tabstop>seliteEdit</tabstop>
+  <tabstop>jaksoAlkaaEdit</tabstop>
+  <tabstop>jaksoLoppuuEdit</tabstop>
+  <tabstop>ohjeNappi</tabstop>
+  <tabstop>okNappi</tabstop>
+  <tabstop>tyhjaaNappi</tabstop>
+  <tabstop>suljeNappi</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>okNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TilioteKirjaaja</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>924</x>
+     <y>660</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>698</x>
+     <y>636</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>suljeNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TilioteKirjaaja</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1175</x>
+     <y>657</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>815</x>
+     <y>657</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

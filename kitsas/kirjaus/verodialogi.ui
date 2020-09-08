@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VeroDialogi</class>
+ <widget class="QDialog" name="VeroDialogi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>438</width>
+    <height>641</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Arvonlisävero</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="alvVaroitus">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kun arvonlisävero kirjataan käsin, on myös kirjaukset alv-velka ja/tai alv-saaminen -tileille kirjattava käsin.&lt;/p&gt;&lt;p&gt;Pyri siksi kirjaamaan kaikki verolliset tulot ja menot tulo- ja menotositteina aina, kuin se suinkin on mahdollista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Vero&amp;laji</string>
+     </property>
+     <property name="buddy">
+      <cstring>verolajiCombo</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="verolajiCombo"/>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="tyyppiGroup">
+     <property name="title">
+      <string>Kirjaus on</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="veronalainenRadio">
+        <property name="text">
+         <string>Veron&amp;alainen määrä</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="veroRadio">
+        <property name="text">
+         <string>&amp;Veron määrä</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="vahennysRadio">
+        <property name="text">
+         <string>V&amp;ähennettävä määrä</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="kohdentamaton">
+        <property name="text">
+         <string>Kohdentamaton maksuperusteinen alv</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Vero&amp;kanta</string>
+     </property>
+     <property name="buddy">
+      <cstring>prossaSpin</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="prossaSpin">
+     <property name="suffix">
+      <string> %</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>6</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>VeroDialogi</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>294</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>VeroDialogi</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>289</x>
+     <y>294</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

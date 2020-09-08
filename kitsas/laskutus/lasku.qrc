@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/lasku">
+        <file>code128_XL.ttf</file>
+        <file>laskutekstit.txt</file>
+        <file>postcode.json</file>
+    </qresource>
+</RCC>

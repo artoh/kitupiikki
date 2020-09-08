@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Aloitus</class>
+ <widget class="QWidget" name="Aloitus">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1568</width>
+    <height>1038</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,0">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,2,0,0,0,0,2">
+       <item>
+        <widget class="QLabel" name="logoLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>640</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/Possu64.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="nimiLabel">
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tervetuloa</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QFrame" name="inboxFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../pic/pic.qrc">:/pic/inbox32.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="inboxCount">
+            <property name="font">
+             <font>
+              <pointsize>18</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="outboxFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="outboxImage">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="../pic/pic.qrc">:/pic/email32.png</pixmap>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="outboxCount">
+            <property name="font">
+             <font>
+              <pointsize>18</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="pilviKuva">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/cloud.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="tilikausiCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>320</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QComboBox::AdjustToContents</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QTextBrowser" name="selain"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QTabWidget" name="tkpilviTab">
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/laptop.png</normaloff>:/pic/laptop.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Tietokone</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="avaaNappi">
+           <property name="toolTip">
+            <string>Avaa kirjanpitotiedosto    Ctrl + O</string>
+           </property>
+           <property name="text">
+            <string>Avaa kirjanpito</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/avaatiedosto.png</normaloff>:/pic/avaatiedosto.png</iconset>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+O</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListView" name="viimeisetView">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="kitupiikkituontiNappi">
+           <property name="text">
+            <string>Tuo Kitupiikistä</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="varmistaNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Varmuuskopioi</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/talleta.png</normaloff>:/pic/talleta.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="poistaNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Poista luettelosta</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Pilvi</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QStackedWidget" name="pilviPino">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="page">
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QGroupBox" name="groupBox">
+               <property name="title">
+                <string>Kirjaudu</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QLabel" name="palvelinvirheLabel">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 0);</string>
+                  </property>
+                  <property name="text">
+                   <string>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudestaan. </string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="vaaraSalasana">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Salasana on virheellinen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="emailLabel">
+                  <property name="text">
+                   <string>Sähköposti</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>emailEdit</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="emailEdit">
+                  <property name="placeholderText">
+                   <string>Kirjoita ensin osoite</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="salaLabel">
+                  <property name="text">
+                   <string>Salasana</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>salaEdit</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="salaEdit">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="echoMode">
+                   <enum>QLineEdit::Password</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="muistaCheck">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>Muista minut</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="loginButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>Kirjaudu</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../pic/pic.qrc">
+                    <normaloff>:/pixaby/log-in.svg</normaloff>:/pixaby/log-in.svg</iconset>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>true</bool>
+                  </property>
+                  <property name="default">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="salasanaButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>Unohdin salasanan</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../pic/pic.qrc">
+                    <normaloff>:/pic/lukitsematta.png</normaloff>:/pic/lukitsematta.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_2">
+               <property name="title">
+                <string>Uusi käyttäjä</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tarjoamme uudelle käyttäjälle 30 päivän maksuttoman kokeilujakson Kitsaan pilviominaisuuksiin.&lt;/p&gt;
+&lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="openExternalLinks">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="rekisteroiButton">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string>Luo käyttäjätunnus</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../pic/pic.qrc">
+                    <normaloff>:/pic/uusiasiakas.png</normaloff>:/pic/uusiasiakas.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>21</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLabel" name="kayttajaLabel">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="planLabel">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="kokeiluLabel">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(85, 255, 127);</string>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="logoutButton">
+               <property name="text">
+                <string>Kirjaudu ulos</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pixaby/log-out.svg</normaloff>:/pixaby/log-out.svg</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="vaihdaSalasanaButton">
+               <property name="text">
+                <string>Vaihda salasana</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/lukittu.png</normaloff>:/pic/lukittu.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="tilausButton">
+               <property name="text">
+                <string>Tee tilaus</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/timantti.svg</normaloff>:/freeicons/timantti.svg</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QListView" name="pilviView">
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="showDropIndicator" stdset="0">
+                <bool>false</bool>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pilviPoistaButton">
+               <property name="text">
+                <string>Poista kirjanpito</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/freeicons/roskis.png</normaloff>:/freeicons/roskis.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="kopioiPilveenNappi">
+               <property name="text">
+                <string>Kopioi kirjanpito pilveen</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../pic/pic.qrc">
+                 <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tukitab">
+        <attribute name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Tuki</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="maksutonTukiLabel">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ohjeet ja keskustelualue löytyy osoitteesta &lt;a href=&quot;https://ohjeet.kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;ohjeet.kitsas.fi&lt;/span&gt;&lt;/a&gt;. Tekemällä maksullisen tilaukset saat käyttöösi myös ohjelman sähköpostituen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="maksuTukiLabel">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ellet löydä vastausta &lt;a href=&quot;http://ohjeet.kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;ohjesivustolta&lt;/span&gt;&lt;/a&gt;, lähetä sähköpostia osoitteeseen &lt;a href=&quot;mailto:tuki@kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;tuki@kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Nopeuttaaksesi vastauksen saamista, kopioi alla oleva teksti sähköpostiviestiisi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextBrowser" name="tukiOhje">
+           <property name="acceptRichText">
+            <bool>false</bool>
+           </property>
+           <property name="openLinks">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="tukileikeNappi">
+           <property name="text">
+            <string>Kopioi leikepöydälle</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/edit-paste.png</normaloff>:/pic/edit-paste.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="uusiNappi">
+       <property name="toolTip">
+        <string>Aloita uusi kirjanpito   Ctrl+N</string>
+       </property>
+       <property name="text">
+        <string>Uusi kirjanpito</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/uusitiedosto.png</normaloff>:/pic/uusitiedosto.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="muistiinpanotNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Muistiinpanot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kommentti.png</normaloff>:/pic/kommentti.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tietojaNappi">
+       <property name="text">
+        <string>Tietoja</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/info.png</normaloff>:/pic/info.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>salaEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1525</x>
+     <y>711</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1525</x>
+     <y>793</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/aloitus">
+        <file>aloitus.css</file>
+        <file>tervetuloa.html</file>
+        <file>FreeSans.ttf</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

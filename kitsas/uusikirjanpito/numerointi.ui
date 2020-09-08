@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UusiNumerointi</class>
+ <widget class="QWidget" name="UusiNumerointi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>757</width>
+    <height>492</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpidon tositteet voi jakaa eri tositesarjoihin, kuten myyntilaskuihin, ostolaskuihin ja tiliotteisiin.&lt;/p&gt;&lt;p&gt;Haluatko, että kaikki tositteet numeroidaan samaan juoksevaan sarjaan, vai että eri tositelajit numeroidaan jokainen omaan tositesarjaansa?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="samaansarjaan">
+        <property name="text">
+         <string>Numeroi kaikki tositteet samaan juoksevaan numerosarjaan</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/123.png</normaloff>:/pic/123.png</iconset>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="erisarjaan">
+        <property name="text">
+         <string>Numeroi jokainen tositelaji omaan numerosarjaansa</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="kateissarjaan">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Käytä käteistositteille omaa numerosarjaa</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/kateinen.png</normaloff>:/pic/kateinen.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>152</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="640"
+   height="640"
+   id="svg11125"
+   sodipodi:docname="kierto.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1959"
+     inkscape:window-height="1800"
+     id="namedview9"
+     showgrid="false"
+     inkscape:zoom="0.36875"
+     inkscape:cx="578.21429"
+     inkscape:cy="-222.37288"
+     inkscape:window-x="1287"
+     inkscape:window-y="163"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg11125" />
+  <defs
+     id="defs11127">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1185">
+      <stop
+         style="stop-color:#d2dfee;stop-opacity:1"
+         offset="0"
+         id="stop1181" />
+      <stop
+         style="stop-color:#5075a9;stop-opacity:1"
+         offset="1"
+         id="stop1183" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1185"
+       id="radialGradient1187"
+       cx="320"
+       cy="320"
+       fx="320"
+       fy="320"
+       r="310"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0444568,-0.00889136,0.00851259,0.99996377,-16.950203,2.8568292)" />
+  </defs>
+  <circle
+     cx="320"
+     cy="320"
+     r="320"
+     transform="matrix(0.996875,0,0,0.996875,1,0.999679)"
+     style="opacity:1;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#0091ff;stroke-width:2.0062685;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+     id="circle1336" />
+  <circle
+     cx="320"
+     cy="320"
+     r="310"
+     transform="matrix(0.983871,0,0,0.983871,5.16129,5.16129)"
+     style="opacity:1;color:#000000;fill:url(#radialGradient1187);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+     id="circle1338" />
+  <path
+     d="M 457.35846,351.43447 C 469.35847,309.93505 454.63865,254.38829 419.89391,219.85276 L 392.84531,294.13926 L 321.66715,140.9635 L 474.4992,69.501403 L 447.2115,144.63972 C 482.83794,170.52269 507.95876,203.7282 522.54408,244.28616 C 537.3984,284.03714 539.98371,325.5515 530.28506,368.85915 L 457.35846,351.43447"
+     style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+     id="path2816" />
+  <path
+     d="M 258.3794,111.86758 L 278.94232,184.07687 C 228.3719,200.29109 196.39179,233.28739 183.03187,283.05083 L 260.71066,269.3771 L 163.88864,407.71349 L 25.522355,310.81674 L 104.27711,296.97862 C 110.44898,247.43934 127.99321,207.35959 156.89486,176.73938 C 186.00572,144.47534 219.83889,122.8514 258.3794,111.86758"
+     style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+     id="path2818" />
+  <path
+     d="M 170.13522,476.76961 L 222.17015,422.73219 C 258.36446,457.88042 308.41184,469.68616 357.27864,454.24903 L 306.66339,393.7857 L 474.58886,408.47563 L 460.18287,576.9092 L 408.73076,515.53428 C 377.1093,531.12085 331.96355,539.96769 289.01456,533.96021 C 242.82272,526.95148 203.1913,507.88297 170.13522,476.76961"
+     style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+     id="path2820" />
+</svg>

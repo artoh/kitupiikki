@@ -1,0 +1,894 @@
+{
+  "tulos/yleinen": {
+    "nimi": {
+      "fi": "Tuloslaskelma",
+      "sv": "Resulträkning"
+    },
+    "muoto": {
+      "fi": "Asunto-osakeyhtiö",
+      "sv": "Bostadsaktiebolag"
+    },
+    "rivit": [
+      {
+        "fi": "Kiinteistön tuotot",
+        "sv": "Intäkter av fastighet"
+      },
+      {
+        "fi": "Vastikkeet",
+        "sv": "Vederlag",
+        "L": "31 *",
+        "S": 1
+      },
+      {
+        "fi": "Vuokrat",
+        "sv": "Hyror och arrenden",
+        "L": "32 *",
+        "S": 1
+      },
+      {
+        "fi": "Käyttökorvaukset",
+        "sv": "Serviceintäkter",
+        "L": "33 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut kiinteistön tuotot",
+        "sv": "Övrika intäkter av fastigheten",
+        "L": "35 *",
+        "S": 1
+      },
+      {
+        "fi": "Luottotappiot ja oikaisuerät",
+        "sv": "Kreditförluster och korrektivposter",
+        "L": "39 *"
+      },
+      {
+        "fi": "Kiinteistön hoitokulut",
+        "sv": "Kostnader för fastighetens skötsel",
+        "L": "5,7,8"
+      },
+      {
+        "fi": "Henkilöstökulut",
+        "sv": "Personalkostnader",
+        "L": "5 *",
+        "S": 1
+      },
+      {
+        "fi": "Hallinto",
+        "sv": "Förvaltning",
+        "L": "70 *",
+        "S": 1
+      },
+      {
+        "fi": "Käyttö ja huolto",
+        "sv": "Drift och undelhåll",
+        "L": "71 *",
+        "S": 1
+      },
+      {
+        "fi": "Ulkoalueiden hoito",
+        "sv": "Skötsel av gårdområden",
+        "L": "72 *",
+        "S": 1
+      },
+      {
+        "fi": "Siivous",
+        "sv": "Städning",
+        "L": "73 *",
+        "S": 1
+      },
+      {
+        "fi": "Lämmitys",
+        "sv": "Värme",
+        "L": "74 *",
+        "S": 1
+      },
+      {
+        "fi": "Vesi ja jätevesi",
+        "sv": "Vatten och avloppsvatten",
+        "L": "75 *",
+        "S": 1
+      },
+      {
+        "fi": "Sähkö ja kaasu",
+        "sv": "El och gas",
+        "L": "76 *",
+        "S": 1
+      },
+      {
+        "fi": "Jätehuolto",
+        "sv": "Avfallshantering",
+        "L": "77 *",
+        "S": 1
+      },
+      {
+        "fi": "Vahinkovakuutukset",
+        "sv": "Skadeförsäkringar",
+        "L": "78 *",
+        "S": 1
+      },
+      {
+        "fi": "Vuokrat",
+        "sv": "Hyror och arrenden",
+        "L": "79 *",
+        "S": 1
+      },
+      {
+        "fi": "Kiinteistövero",
+        "sv": "Fastighetsskatt",
+        "L": "81 *",
+        "S": 1
+      },
+      {
+        "fi": "Korjaukset",
+        "sv": "Repationerer",
+        "L": "82 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut hoitokulut",
+        "sv": "Övriga skötelkonstaner",
+        "L": "83 *",
+        "S": 1
+      },
+      {
+        "fi": "Oman käytön arvonlisävero",
+        "L": "84 *",
+        "S": 1
+      },
+      {
+        "fi": "Hoitokate",
+        "sv": "Fastighetsbigrad",
+        "L": "3,5,6,7,8",
+        "V": 1,
+        "M": "bold"
+      },
+      {
+        "fi": "Poistot ja arvonalentumiset",
+        "sv": "Avskrivningar och nedskrivningar",
+        "L": "6 *",
+        "V": 1
+      },
+      {
+        "fi": "Rakennuksista ja rakennelmista",
+        "sv": "Byggnader och konstruktioner",
+        "L": "601 *",
+        "S": 1
+      },
+      {
+        "fi": "Koneista ja kalustosta",
+        "sv": "Maskiner och inventarier",
+        "L": "602 *",
+        "S": 1
+      },
+      {
+        "fi": "Muista pitkävaikutteisista menoista",
+        "sv": "Övriga utgifter med lång verkningstid",
+        "L": "600,603 *",
+        "S": 1
+      },
+      {
+        "fi": "Rahoitustuotot ja -kulut",
+        "se": "Finansiella intäkter och kostnader"
+      },
+      {
+        "fi": "Osinkotuotot",
+        "se": "Dividendintäkter",
+        "L": "905 *",
+        "S": 1
+      },
+      {
+        "fi": "Korkotuotot",
+        "se": "Ränteintäkter",
+        "L": "907 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut rahoistustuotot",
+        "sv": "Övrika finansiella intäkter",
+        "L": "909 *",
+        "S": 1
+      },
+      {
+        "fi": "Korkokulut",
+        "sv": "Ränteintäkter",
+        "L": "917 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut rahoituskulut",
+        "sv": "Övrika finansiella intäkter",
+        "L": "919 *",
+        "S": 1
+      },
+      {
+        "fi": "Ylijäämä (alijäämä) ennen tilinpäätössiirtoja ja veroja",
+        "sv": "Överskott (underskott) före bokslutsdispositioner och skatter",
+        "L": "3..91",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Tilinpäätössiirrot",
+        "sv": "Bokslutsdispositioner",
+        "V": 1,
+        "L": "95"
+      },
+      {
+        "fi": "Poistoeron muutos",
+        "sv": "Förändring av avskrivningsdifferens",
+        "L": "950 *",
+        "S": 1
+      },
+      {
+        "fi": "Verotusperusteisten varausten muutos",
+        "se": "Förändring av skattemässiga reserver",
+        "L": "951 *",
+        "S": 1
+      },
+      {
+        "fi": "Konserniavustus",
+        "sv": "Koncernbidrag",
+        "L": "958 *",
+        "S": 1
+      },
+      {
+        "fi": "Tilikauden ylijäämä (alijäämä)",
+        "sv": "Räkenskapsperiodens överskott (underskott)",
+        "L": "3..9 S",
+        "M": "bold",
+        "V": 1
+      }
+    ]
+  },
+  "tase/yleinen": {
+    "nimi": {
+      "fi": "Tase",
+      "sv": "Balansräkning",
+      "en": "Balance sheet"
+    },
+    "muoto": {
+      "fi": "Yleinen",
+      "sv": "Allmän",
+      "en": "General"
+    },
+    "rivit": [
+      {
+        "fi": "VASTAAVAA",
+        "sv": "AKTIVA",
+        "en": "ASSETS",
+        "M": "bold"
+      },
+      {
+        "fi": "PYSYVÄT VASTAAVAT",
+        "sv": "BESTÅENDE AKTIVA",
+        "en": "NON-CURRENT ASSETS",
+        "L": "10..149"
+      },
+      {
+        "fi": "Aineettomat hyödykkeet",
+        "sv": "Immateriella tillgånger",
+        "en": "Intangible assets",
+        "L": "10",
+        "S": 1
+      },
+      {
+        "fi": "Kehittämismenot",
+        "sv": "Utvecklingsutgifter",
+        "en": "Development expenditure",
+        "L": "102 *",
+        "S": 2
+      },
+      {
+        "fi": "Aineettomat oikeudet",
+        "sv": "Immateriella rättigheter",
+        "en": "Intangible rights",
+        "L": "103..104 *",
+        "S": 2
+      },
+      {
+        "fi": "Liikearvo",
+        "sv": "Goodwill",
+        "en": "Goodwill",
+        "L": "105 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut aineettomat hyödykkeet",
+        "sv": "Övriga immaterialla tillgångar",
+        "en": "Other intangible assets",
+        "L": "106..108 *",
+        "S": 2
+      },
+      {
+        "fi": "Ennakkomaksut",
+        "sv": "Förskotssbetalningas",
+        "en": "Advance payments",
+        "L": "109 *",
+        "S": 2
+      },
+      {
+        "fi": "Aineelliset hyödykkeet",
+        "sv": "Materiella tillgånger",
+        "en": "Tangible assets",
+        "L": "11..13",
+        "S": 1
+      },
+      {
+        "fi": "Maa- ja vesialueet",
+        "sv": "Mark- och vattenområden",
+        "en": "Land and waters",
+        "L": "110..111 *",
+        "S": 2
+      },
+      {
+        "fi": "Rakennukset ja rakennelmat",
+        "sv": "Byggnaden och konstruktioner",
+        "en": "Buildings",
+        "L": "112..115 *",
+        "S": 2
+      },
+      {
+        "fi": "Koneet ja kalusto",
+        "sv": "Maskiner och inventarier",
+        "en": "Machinery and equipment",
+        "L": "116 *",
+        "S": 2
+
+      },
+      {
+         "fi": "Muut aineelliset hyödykkeet",
+         "sv": "Övriga materiella tillgånger",
+         "en": "Other tangible assets",
+         "L": "117 *",
+         "S": 2
+      },
+      {
+        "fi": "Ennakkomaksut ja keskeneräiset hankinnat",
+        "sv": "Forskottbetalningar och pågående nyanläggningar",
+        "en": "Advance payments and contruction in progress",
+        "L": "118 *",
+        "S": 2
+      },
+      {
+        "fi": "Sijoitukset",
+        "sv": "Placeringarna",
+        "en": "Investments",
+        "L": "14",
+        "S": 1
+      },
+      {
+        "fi": "Osuudet saman konsernin yrityksissä",
+        "sv": "Andelar i företag inom samma koncern",
+        "en": "Holdings in group undertakings",
+        "L": "141 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset saman konsernin yrityksiltä",
+        "sv": "Fordringar hos företag inom samma koncern",
+        "en": "Amounts owned by group undertakings",
+        "L": "142 *",
+        "S": 2
+      },
+      {
+        "fi": "Osuudet omistusyhteysyrityksissä",
+        "sv": "Andelar i ägarintresseföretag",
+        "en": "Participating interests",
+        "L": "143 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset omistusyhteysyrityksiltä",
+        "sv": "Fordringar hos ägarintresseföretag",
+        "en": "Amounts owned by participating interests undertakings",
+        "L": "144 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut osakkeet ja osuudet",
+        "sv": "Övriga aktier och andelar",
+        "en": "Other shares and similar rights of ownership",
+        "L": "145 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut saamiset",
+        "sv": "Övriga fördringar",
+        "en": "Other debets",
+        "L": "146 *",
+        "S": 2
+      },
+      {
+        "fi": "Sijoituskiinteistöt",
+        "sv": "Placeringarna i fastigheter",
+        "en": "Investments in real estates",
+        "L": "147 *",
+        "S": 2
+      },
+      {
+        "fi": "VAIHTUVAT VASTAAVAT",
+        "sv": "RÖRLIGA AKTIVA",
+        "en": "CURRENT ASSETS",
+        "L": "15..19"
+      },
+      {
+        "fi": "Vaihto-omaisuus",
+        "sv": "Omsättningstillgångar",
+        "en": "Stocks",
+        "L": "15",
+        "S": 1
+      },
+      {
+        "fi": "Aineet ja tarvikkeet",
+        "sv": "Material och förnödenheter",
+        "en": "Raw materials and consumables",
+        "L": "151 *",
+        "S": 2
+      },
+      {
+        "fi": "Keskeneräiset tuotteet",
+        "sv": "Varor under tillverkning",
+        "en": "Work in progress",
+        "L": "152 *",
+        "S": 2
+      },
+      {
+        "fi": "Valmiit tuotteet/tavarat",
+        "sv": "Färdiga produkter/varor",
+        "en": "Finished products/goods",
+        "L": "153 *",
+        "S": 2
+      },
+      {
+        "fi": "Muu vaihto-omaisuus",
+        "sv": "Övriga omsättningstillgångar",
+        "en": "Other stocks",
+        "L": "154 *",
+        "S": 2
+      },
+      {
+        "fi": "Ennakkomaksut",
+        "sv": "Förskottbetalningar",
+        "en": "Advance payments",
+        "L": "155 *",
+        "S": 2
+      },
+      {
+        "fi": "Pitkäaikaiset saatavat",
+        "sv": "Långfristiga fordringar",
+        "en": "Long-term debtors",
+        "L": "16 ",
+        "S": 1
+      },
+      {
+        "fi": "Myyntisaamiset",
+        "sv": "Kundfordringar",
+        "en": "Accounts receivable",
+        "L": "160 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset saman konsernin yrityksiltä",
+        "sv": "Fordringar hos företag inom samma koncern",
+        "en": "Amounts owned by group undertakings",
+        "L": "161 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset omistysyhteysyrityksiltä",
+        "sv": "Fordringar hos ägarintresseföretag",
+        "en": "Amounts owner by participating interest undertakings",
+        "L": "163 *",
+        "S": 2
+      },
+      {
+        "fi": "Lainasaamiset",
+        "sv": "Låneforedeingar",
+        "en": "Loan assets",
+        "L": "164 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut saamiset",
+        "sv": "Övriga fordringar",
+        "en": "Other deptors",
+        "L": "166 *",
+        "S": 2
+      },
+      {
+        "fi": "Siirtosaamiset",
+        "sv": "Resultatregleringar",
+        "en": "Prepayments and accrued income",
+        "L": "167 *",
+        "S": 2
+      },
+      {
+        "fi": "Lyhytaikaiset saamiset",
+        "sv": "Kortfristiga fordringar",
+        "en": "Short-term deptors",
+        "L": "17..185",
+        "S": 1
+      },
+      {
+        "fi": "Myyntisaamiset",
+        "sv": "Kundfordringar",
+        "en": "Accounts receivable",
+        "L": "170 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset saman konsernin yrityksiltä",
+        "sv": "Fordringar hos företag inom samma koncern",
+        "en": "Amounts owned by group undertakings",
+        "L": "171 *",
+        "S": 2
+      },
+      {
+        "fi": "Saamiset omistysyhteysyrityksiltä",
+        "sv": "Fordringar hos ägarintresseföretag",
+        "en": "Amounts owner by participating interest undertakings",
+        "L": "173 *",
+        "S": 2
+      },
+      {
+        "fi": "Lainasaamiset",
+        "sv": "Låneforedeingar",
+        "en": "Loan assets",
+        "L": "174 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut saamiset",
+        "sv": "Övriga fordringar",
+        "en": "Other deptors",
+        "L": "176 *",
+        "S": 2
+      },
+      {
+        "fi": "Siirtosaamiset",
+        "sv": "Resultatregleringar",
+        "en": "Prepayments and accrued income",
+        "L": "177 *",
+        "S": 2
+      },
+      {
+        "fi": "Rahoitusarvopaperit",
+        "sv": "Finansiella värdepapper",
+        "en": "Investments",
+        "L": "181..183",
+        "S": 1
+      },
+      {
+        "fi": "Osuudet saman konsernin yrityksissä",
+        "sv": "Andelar i företag inom samma koncern",
+        "en": "Holdings in group undertakings",
+        "L": "181 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut osakkeet ja osuudet",
+        "sv": "Övriga aktier eller andelar",
+        "en": "Other shares and similar rights of ownership",
+        "L": "182 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut arvopaperit",
+        "sv": "Övriga värdepapper",
+        "en": "Other investments",
+        "L": "183 *",
+        "S": 2
+      },
+      {
+        "fi": "Rahat ja pankkisaamiset",
+        "sv": "Kassa och bank",
+        "en": "Cash at bank and in hand",
+        "L": "19 *",
+        "S": 1
+      },
+      {
+        "fi": "Vastaavaa yhteensä",
+        "sv": "Aktiva sammanlagt",
+        "en": "Assets, total",
+        "L": "1",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "VASTATTAVAA",
+        "sv": "PASSIVA",
+        "en": "EQUITY AND LIABILITIES",
+        "M": "bold",
+        "V": 2
+      },
+      {
+        "fi": "OMA PÄÄOMA",
+        "sv": "EGET KAPITAL",
+        "en": "CAPITAL AND RESERVES",
+        "L": "20..23"
+      },
+      {
+        "fi": "Osakepääoma",
+        "L": "20 *",
+        "S": 1
+      },
+      {
+        "fi": "Rakennusrahasto",
+        "L": "211",
+        "S": 1
+      },
+      {
+        "fi": "Arvonkorotusrahasto",
+        "L": "213",
+        "S": 1
+      },
+      {
+        "fi": "Muut rahastot",
+        "sv": "Övrika fonder",
+        "en": "Other reserves",
+        "S": "1",
+        "L": "22"
+      },
+      {
+        "fi": "Sijoitetun vapaan pääoman rahasto",
+        "L": "221 *",
+        "S": 2
+      },
+      {
+        "fi": "Vararahasto",
+        "L": "222 *",
+        "S": 2
+      },
+      {
+        "fi": "Lainanlyhennysrahasto",
+        "L": "223 *",
+        "S": 2
+      },
+      {
+        "fi": "Perusparannusrahasto",
+        "L": "224 *",
+        "S": 2
+      },
+      {
+        "fi": "Käyvän arvon pääoman rahasto",
+        "L": "225 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut rahastot",
+        "L": "226 *",
+        "S": 2
+      },
+      {
+        "fi": "Edellisten tilikausien ylijäämä/alijäämä",
+        "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
+        "en": "Retained earnings (loss)",
+        "L": "2450 *",
+        "S": 1
+      },
+      {
+        "fi": "Tilikauden ylijäämä/alijäämä",
+        "sv": "Räkenskapsperiodens vinst (förlust)",
+        "en": "Profit (loss) for the financial year",
+        "L": "2460 *",
+        "S": 1
+      },
+      {
+        "fi": "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
+        "sv": "ACKUMULERADE BOKSLUTSDISPOSITIONER",
+        "en": "APPROPRIATIONS",
+        "L": "25"
+      },
+      {
+        "fi": "Poistoero",
+        "sv": "Avskrivningsdifferens",
+        "en": "Cumulative accelerated depreciation",
+        "L": "250 *",
+        "S": 1
+      },
+      {
+        "fi": "Verotusperusteiset varaukset",
+        "sv": "Skattemässiga reserver",
+        "en": "Taxation-based reserves",
+        "L": "251 *",
+        "S": 1
+      },
+      {
+        "fi": "PAKOLLISET VARAUKSET",
+        "sv": "AVSÄTTNINGAR",
+        "en": "PROVISIONS",
+        "L": "26 "
+      },
+      {
+        "fi": "Eläkevaraukset",
+        "sv": "Avsättningar för pensioner",
+        "en": "Provisions for pensions",
+        "L": "260 *",
+        "S": 1
+      },
+      {
+        "fi": "Verovaraukset",
+        "sv": "Skatteavsättningar",
+        "en": "Provisions for deferred tax",
+        "L": "261 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut varaukset",
+        "sv": "Övriga avsättningar",
+        "en": "Other provisions",
+        "L": "262..269 *",
+        "S": 1
+      },
+      {
+        "fi": "VIERAS PÄÄOMA",
+        "sv": "FRÄMMANDE KAPITAL",
+        "en": "CREDITORS",
+        "L": "26..29"
+      },
+      {
+        "fi": "Pitkäaikainen vieras pääoma",
+        "sv": "Långfristiga främmande kapital",
+        "en": "Long-term creditors",
+        "L": "28 *",
+        "S": 1
+      },
+      {
+        "fi": "Joukkovelkakirjalainat",
+        "sv": "Masskuldebrevslån",
+        "en": "Bonds",
+        "L": "281 *",
+        "S": 2
+      },
+      {
+        "fi": "Vaihtovelkakirjalainat",
+        "sv": "Lån mot konvertibla skuldebrev",
+        "en": "Convertible bonds",
+        "L": "282 *",
+        "S": 2
+      },
+      {
+        "fi": "Lainat rahoituslaitoksilta",
+        "sv": "Skulder till kreditinstitut",
+        "en": "Liabilities to credit institutions",
+        "L": "283 *",
+        "S": 2
+      },
+      {
+        "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
+        "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
+        "en": "Premium loans from employee pension institutions",
+        "L": "284 *",
+        "S": 2
+      },
+      {
+        "fi": "Saadut ennakot",
+        "sv": "Erhållna förskott",
+        "en": "Advances received",
+        "L": "285 *",
+        "S": 2
+      },
+      {
+        "fi": "Ostovelat",
+        "sv": "Leverantörsskulder",
+        "en": "Trade creditors",
+        "L": "286 *",
+        "S": 2
+      },
+      {
+        "fi": "Velat saman konsernin yrityksille",
+        "sv": "Skulder till företag inom samma koncern",
+        "en": "Amounts owed to group undertaking",
+        "L":"2870..2874 *",
+        "S": 2
+      },
+      {
+        "fi": "Velat omistusyhteysyrityksille",
+        "sv": "Skulder till ägarintresseföretag",
+        "en": "Amounts owed to participating interest undertaking",
+        "L": "2875..2879 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut velat",
+        "sv": "Övriga skulder",
+        "en": "Other creditors",
+        "L": "288 *",
+        "S": 2
+      },
+      {
+        "fi": "Siirtovelat",
+        "sv": "Resultatregleringar",
+        "en": "Accruals and deferred income",
+        "L": "289 *",
+        "S": 2
+      },
+      {
+        "fi": "Lyhytaikainen vieras pääoma",
+        "sv": "Kortfristiga främmande kapital",
+        "en": "Short-term creditors",
+        "L": "29",
+        "S": 1
+      },
+      {
+        "fi": "Joukkovelkakirjalainat",
+        "sv": "Masskuldebrevslån",
+        "en": "Bonds",
+        "L": "291 *",
+        "S": 2
+      },
+      {
+        "fi": "Vaihtovelkakirjalainat",
+        "sv": "Lån mot konvertibla skuldebrev",
+        "en": "Convertible bonds",
+        "L": "292 *",
+        "S": 2
+      },
+      {
+        "fi": "Lainat rahoituslaitoksilta",
+        "sv": "Skulder till kreditinstitut",
+        "en": "Liabilities to credit institutions",
+        "L": "293 *",
+        "S": 2
+      },
+      {
+        "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
+        "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
+        "en": "Premium loans from employee pension institutions",
+        "L": "294 *",
+        "S": 2
+      },
+      {
+        "fi": "Saadut ennakot",
+        "sv": "Erhållna förskott",
+        "en": "Advances received",
+        "L": "295 *",
+        "S": 2
+      },
+      {
+        "fi": "Ostovelat",
+        "sv": "Leverantörsskulder",
+        "en": "Trade creditors",
+        "L": "296 *",
+        "S": 2
+      },
+      {
+        "fi": "Velat saman konsernin yrityksille",
+        "sv": "Skulder till företag inom samma koncern",
+        "en": "Amounts owed to group undertaking",
+        "L":"2970..2974 *",
+        "S": 2
+      },
+      {
+        "fi": "Velat omistusyhteysyrityksille",
+        "sv": "Skulder till ägarintresseföretag",
+        "en": "Amounts owed to participating interest undertaking",
+        "L": "2975..2979 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut velat",
+        "sv": "Övriga skulder",
+        "en": "Other creditors",
+        "L": "298 *",
+        "S": 2
+      },
+      {
+        "fi": "Siirtovelat",
+        "sv": "Resultatregleringar",
+        "en": "Accruals and deferred income",
+        "L": "299 *",
+        "S": 2
+      },
+      {
+        "fi": "Vastattavaa yhteensä",
+        "sv": "Passiva sammanlagt",
+        "en": "Equity and liabilities, total",
+        "L": "2",
+        "M": "bold",
+        "V": 1
+      }
+    ]
+  }
+}

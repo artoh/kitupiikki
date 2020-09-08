@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/testidata">
+        <file>init.json</file>
+    </qresource>
+</RCC>

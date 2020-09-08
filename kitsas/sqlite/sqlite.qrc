@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/sqlite">
+        <file>luo.sql</file>
+    </qresource>
+</RCC>

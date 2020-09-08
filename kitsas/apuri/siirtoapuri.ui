@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SiirtoApuri</class>
+ <widget class="QWidget" name="SiirtoApuri">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1055</width>
+    <height>344</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Kredit</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="formAlignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="tililtaLabel">
+          <property name="text">
+           <string>Tililtä</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililtaEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="TilinvalintaLine" name="tililtaEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="tililtaKohdennusLabel">
+          <property name="text">
+           <string>Kohdennus</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililtaKohdennusCombo</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="KohdennusCombo" name="tililtaKohdennusCombo"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="tililtaEraLabel">
+          <property name="text">
+           <string>Tase-erä</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililtaEraCombo</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="EraCombo" name="tililtaEraCombo"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="tililtaMerkkausLabel">
+          <property name="text">
+           <string>Merkkaus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CheckCombo" name="tililtaMerkkausCC"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/siirtonuoli.png</pixmap>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="euroLabel">
+           <property name="text">
+            <string>Euroa</string>
+           </property>
+           <property name="buddy">
+            <cstring>euroEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="KpEuroEdit" name="euroEdit"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Debet</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="formAlignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="tililleLabel">
+          <property name="text">
+           <string>Tilille</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililleEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="TilinvalintaLine" name="tililleEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="tililleKohdennusLabel">
+          <property name="text">
+           <string>Kohdennus</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililleKohdennusCombo</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="KohdennusCombo" name="tililleKohdennusCombo"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="tililleEraLabel">
+          <property name="text">
+           <string>Tase-erä</string>
+          </property>
+          <property name="buddy">
+           <cstring>tililleEraCombo</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="EraCombo" name="tililleEraCombo"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="tililleMerkkausLabel">
+          <property name="text">
+           <string>Merkkaus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CheckCombo" name="tililleMerkkausCC"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>122</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections/>
+</ui>

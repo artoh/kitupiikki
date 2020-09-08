@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/arkisto">
-        <file>arkisto.css</file>
-        <file>jquery.js</file>
-        <file>ohje.html</file>
-    </qresource>
-</RCC>
