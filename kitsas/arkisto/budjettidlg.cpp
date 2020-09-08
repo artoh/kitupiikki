@@ -22,7 +22,6 @@
 #include "budjettikohdennusproxy.h"
 #include "kirjaus/eurodelegaatti.h"
 
-#include <QCloseEvent>
 #include <QMessageBox>
 #include <QCloseEvent>
 

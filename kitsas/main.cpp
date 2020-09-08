@@ -100,7 +100,6 @@ int main(int argc, char *argv[])
     translator.load("fi.qm",":/tr/");
 
     a.installTranslator(&translator);
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QCommandLineParser parser;
     parser.addOptions({

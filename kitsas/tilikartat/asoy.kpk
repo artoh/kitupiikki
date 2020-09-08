@@ -363,7 +363,7 @@ ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 [TilinpaatosPohja]
-@Tase!TASE (TILINPÄÄTÖS)@
+@Tase!TASE (TULOSLASKELMA)@
 @Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
 @Tuloslaskelma$!BUDJETTIVERTAILU (TILINPÄÄTÖS)@
 #ISO

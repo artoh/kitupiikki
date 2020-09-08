@@ -17,7 +17,6 @@
 */
 
 #include <QDebug>
-#include <QKeyEvent>
 #include <QSettings>
 #include <QKeyEvent>
 
