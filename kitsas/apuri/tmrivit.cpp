@@ -76,7 +76,8 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
                 return  tilini->nimi() ;
         } else if( index.column() == ALV) {
             double alv = rivit_.at(index.row()).alvprosentti();
-            if( alv < 1e-3)
+            int alvtyyppi = rivit_.at(index.row()).alvkoodi();
+            if( alv < 1e-3 || kp()->alvTyypit()->nollaTyyppi(alvtyyppi))
                 return QVariant();
             else
                 return QString("%1 %").arg(alv,0,'f',0);
