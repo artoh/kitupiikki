@@ -95,7 +95,7 @@
   },
   "TOSITELUETTELO": {
     "sv": "VERIFIKATLISTA",
-    "en": "LIST OF DOCUMENTS"
+    "en": "VOUCER LIST"
   },
   "Otsikko": {
     "sv": "Överskift",
@@ -116,6 +116,10 @@
   "Tilin nimi": {
     "sv": "Kontonamn",
     "en": "Account name"
+  },
+  "TILILUETTELO": {
+    "sv": "KONTOPLAN",
+    "en": "SPECIFICATION OF ACCOUNTS"
   }
 
 }

@@ -2,113 +2,134 @@
   "tulos/yleinen": {
     "nimi": {
       "fi": "Tuloslaskelma",
-      "sv": "Resulträkning"
+      "sv": "Resulträkning",
+      "en": "Income statement"
     },
     "muoto": {
       "fi": "Yhdistys tai säätiö",
-      "sv": "Förening eller stiftelse"
+      "sv": "Förening eller stiftelse",
+      "en": "Association or foundation"
     },
     "rivit": [
       {
         "fi": "Varsinainen toiminta",
         "sv": "Ordinarie verksamhet",
+        "en": "Actual activities",
         "M": "bold"
       },
       {
         "fi": "Tuotot",
         "sv": "Intäkter",
+        "en": "Incomes",
         "L": "3 S*"
       },
       {
         "fi": "Kulut",
-        "sv": "Kostnader"
+        "sv": "Kostnader",
+        "en": "Expenses"
       },
       {
         "fi": "Henkilöstökulut",
         "sv": "Personalkonstnader",
+        "en": "Staff expenditure",
         "L": "5*",
         "S": 1
       },
       {
         "fi": "Poistot",
         "sv": "Avskrivingar",
+        "en": "Depreciations",
         "L": "6*",
         "S": 1
       },
       {
         "fi": "Muut kulut",
         "sv": "Övriga konstnader",
+        "en": "Other expenses",
         "L": "4*",
         "S": 1
       },
       {
         "fi": "Kulut yhteensä",
         "sv": "Konstnader sammanlagt",
+        "en": "Total expenses",
         "L": "4..6 == S",
         "S": 1
       },
       {
         "fi": "Tuotto/kulujäämä",
         "sv": "Överskott/underskott",
+        "en": "Income/expense residure",
         "L": "=",
         "V": 1
       },
       {
         "fi": "Varainhankinta",
         "sv": "Tillförda medel",
+        "en": "Funding activities",
         "M": "bold",
         "V": 1
       },
       {
         "fi": "Tuotot",
         "sv": "Intäkter",
+        "en": "Incomes",
         "L": "7+ S*"
       },
       {
         "fi": "Kulut",
         "sv": "Konstnader",
+        "en": "Expenses",
         "L": "7- S*"
       },
       {
         "fi": "Varainhankinta yhteensä",
         "sv": "Tillförda medel sammanlagt",
+        "en": "Funding activities of funds",
         "L": "7 == S"
       },
       {
         "fi": "Tuotto/kulujäämä",
         "sv": "Överskott/underskott",
+        "en": "Income/expense residure",
         "L": "=",
         "V": 1
       },
       {
         "fi": "Sijoitus- ja rahoitustoiminta",
         "se": "Investerings- och finansieringsverksamhet",
+        "en": "Investment and financing activities",
         "M": "bold"
       },
       {
         "fi": "Tuotot",
         "se": "Intäkter",
+        "en": "Incomes",
         "L": "90 S *"
       },
       {
         "fi": "Kulut",
         "se": "Konstnar",
+        "en": "Expenses",
         "L": "91 S *"
       },
       {
         "fi": "Sijoitus- ja rahoitustoiminta yhteensä",
         "sv": "Investerings- och finansieringsverksamhet sammanlagt",
+        "en": "Total investment och financing activities",
         "L": "90,91 == S"
       },
       {
         "fi": "Tuotto/kulujäämä",
         "sv": "Överskott/underskott",
+        "en": "Income/expense residure",
         "L": "=",
         "V": 1
       },
       {
         "fi": "Yleisavustukset",
         "sv": "Allmänna understödd",
+        "en": "General grants",
         "L": "88 *",
         "M": "bold",
         "V": 1
@@ -116,6 +137,7 @@
       {
         "fi": "Tilikauden tulos",
         "sv": "Räkenskapsperiodens resultat",
+        "en": "Result of the financial period",
         "L": "=",
         "M": "bold",
         "V": 1
@@ -123,6 +145,7 @@
       {
         "fi": "Tlinpäätössiirrot",
         "sv": "Bokslutsdispositioner",
+        "en": "Appropriations",
         "M": "bold",
         "V": 1,
         "L": "95 h"
@@ -130,26 +153,31 @@
       {
         "fi": "Poistoeron muutos",
         "sv": "Förändring av avskrivningsdifferens",
+        "en": "Change in cumulative accelerated deprecation",
         "L": "950 *"
       },
       {
         "fi": "Verotusperusteisten varausten muutos",
         "se": "Förändring av skattemässiga reserver",
+        "en": "Change in taxation-based reserves",
         "L": "951 *"
       },
       {
         "fi": "Konserniavustus",
         "sv": "Koncernbidrag",
+        "en": "Group contribution",
         "L": "958 *"
       },
       {
         "fi": "Tilinpäätössiirrot yhteensä",
         "sv": "Bokslutsdispositioner sammanlagt",
+        "en": "Total appropriations",
         "L": "95 == S"
       },
       {
         "fi": "Tilikauden ylijäämä (alijäämä)",
         "sv": "Räkenskapsperiodens överskott (underskott)",
+        "en": "Profit (loss) for the financial year",
         "L": "3..9 S",
         "M": "bold",
         "V": 1
