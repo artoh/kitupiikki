@@ -46,8 +46,6 @@ ViennitView::ViennitView(QWidget *parent)
 
     // Ladataan leveyslista
     QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
-    for(int i=0; i < leveysLista.count()-1; i++)
-        horizontalHeader()->resizeSection(i, leveysLista.at(i).toInt());
 
     viewport()->installEventFilter(this);
 }

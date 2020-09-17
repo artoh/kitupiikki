@@ -65,7 +65,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="oteView">
+    <widget class="TilioteView" name="oteView">
      <property name="editTriggers">
       <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
      </property>
@@ -172,6 +172,11 @@
    <class>TiliCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilioteView</class>
+   <extends>QTableView</extends>
+   <header location="global">apuri/tilioteview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

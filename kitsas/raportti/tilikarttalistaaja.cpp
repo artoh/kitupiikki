@@ -25,7 +25,8 @@ TiliKarttaListaaja::TiliKarttaListaaja(QObject *parent) : QObject(parent)
 
 }
 
-void TiliKarttaListaaja::kirjoita(TiliKarttaListaaja::KarttaValinta valinta, const Tilikausi &tilikaudelta, bool otsikot, bool tulostatyypit, const QDate &saldopvm, bool kirjausohjeet)
+void TiliKarttaListaaja::kirjoita(TiliKarttaListaaja::KarttaValinta valinta, const Tilikausi &tilikaudelta, bool otsikot, bool tulostatyypit, const QDate &saldopvm, bool kirjausohjeet,
+                                  const QString& kieli)
 {
     valinta_ = valinta;
     tilikausi_ = tilikaudelta;
@@ -33,6 +34,7 @@ void TiliKarttaListaaja::kirjoita(TiliKarttaListaaja::KarttaValinta valinta, con
     tyypit_ = tulostatyypit;
     saldopvm_ = saldopvm;
     kirjausohjeet_ = kirjausohjeet;
+    kieli_ = kieli;
 
     if( saldopvm.isValid() || valinta == KIRJATUT_TILIT) {
         KpKysely *kysely = kpk("/saldot");
@@ -51,7 +53,8 @@ void TiliKarttaListaaja::saldotSaapuu(QVariant *data)
         saldot = data->toMap();
 
     RaportinKirjoittaja rk;
-    rk.asetaOtsikko("TILILUETTELO");
+    rk.asetaKieli(kieli_);
+    rk.asetaOtsikko(tulkkaa("TILILUETTELO",kieli_));
     rk.asetaKausiteksti( tilikausi_.kausivaliTekstina() );
 
     RaporttiRivi otsikko(RaporttiRivi::EICSV);
@@ -61,27 +64,27 @@ void TiliKarttaListaaja::saldotSaapuu(QVariant *data)
     rk.lisaaSarake("12345678"); // Tilinumero
     rk.lisaaVenyvaSarake();
 
-    csvOtsikko.lisaa("Numero");
+    csvOtsikko.lisaa(tulkkaa("Numero", kieli_));
     csvOtsikko.lisaa("Nimi");
     otsikko.lisaa(" ",3);
 
     if( tyypit_ )
     {
         rk.lisaaSarake("Tyyppiteksti pidennyksellä");
-        otsikko.lisaa("Tilin tyyppi");
-        csvOtsikko.lisaa("Tilin tyyppi");
+        otsikko.lisaa(tulkkaa("Tilin tyyppi", kieli_));
+        csvOtsikko.lisaa(tulkkaa("Tilin tyyppi", kieli_));
     }
     if( saldopvm_.isValid())
     {
         rk.lisaaSarake("Saldo XX.XX.XXXX");
-        otsikko.lisaa( tr("Saldo %1").arg(saldopvm_.toString("dd.MM.yyyy")));
-        csvOtsikko.lisaa( tr("Saldo %1").arg(saldopvm_.toString("dd.MM.yyyy")));
+        otsikko.lisaa( tulkkaa("Saldo %1", kieli_).arg(saldopvm_.toString("dd.MM.yyyy")));
+        csvOtsikko.lisaa( tulkkaa("Saldo %1", kieli_).arg(saldopvm_.toString("dd.MM.yyyy")));
     }
     if( kirjausohjeet_)
     {
         rk.lisaaSarake(" ");
-        otsikko.lisaa("Kirjausohjeet");
-        csvOtsikko.lisaa("Kirjausohjeet");
+        otsikko.lisaa(tulkkaa("Kirjausohjeet", kieli_));
+        csvOtsikko.lisaa(tulkkaa("Kirjausohjeet", kieli_));
     }
 
     rk.lisaaOtsake( otsikko);
@@ -140,16 +143,16 @@ void TiliKarttaListaaja::saldotSaapuu(QVariant *data)
         {
 
             csvr.lisaa( QString::number(tili->numero()));
-            csvr.lisaa( tili->nimi() );
+            csvr.lisaa( tili->nimi(kieli_) );
             if( tyypit_ )
-                csvr.lisaa( tr("Otsikko %1").arg(tili->otsikkotaso()));
+                csvr.lisaa( tulkkaa("Otsikko %1", kieli_).arg(tili->otsikkotaso()));
             if( saldopvm_.isValid())
                 csvr.lisaa(" ");
 
             QString nimistr;
             for(int i=0; i < tili->otsikkotaso(); i++)
                 nimistr.append("  ");
-            nimistr.append(tili->nimi());
+            nimistr.append(tili->nimi(kieli_));
             rr.lisaa(nimistr, 3);
 
         }
@@ -163,23 +166,23 @@ void TiliKarttaListaaja::saldotSaapuu(QVariant *data)
             csvr.lisaa( nrostr );
 
 
-            csvr.lisaa( tili->nimi());
+            csvr.lisaa( tili->nimi(kieli_));
 
 
-            QString teksti = tili->nimi();
+            QString teksti = tili->nimi(kieli_);
 
             if( kirjausohjeet_ )
             {
                if( !tili->ohje().isEmpty())
-                    teksti.append("\n" + tili->ohje());
+                    teksti.append("\n" + tili->ohje(kieli_));
             }
 
             rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), teksti );
 
             if( tyypit_)
             {
-                rr.lisaa( tili->tyyppi().kuvaus());
-                csvr.lisaa( tili->tyyppi().kuvaus());
+                rr.lisaa( tulkkaa(tili->tyyppi().kuvaus(), kieli_));
+                csvr.lisaa( tulkkaa(tili->tyyppi().kuvaus(), kieli_));
             }
             if( saldopvm_.isValid())
             {
@@ -190,7 +193,7 @@ void TiliKarttaListaaja::saldotSaapuu(QVariant *data)
         }
         if( kirjausohjeet_ )
         {
-            csvr.lisaa( tili->ohje());
+            csvr.lisaa( tili->ohje(kieli_));
         }
 
         rk.lisaaRivi(rr);

@@ -261,7 +261,7 @@ void TilinValintaDialogi::nayta(const QString &alku, const QString &suodatus)
     }
     suodataTyyppi(suodatus);
 
-    show();
+    exec();
     setAttribute(Qt::WA_DeleteOnClose);
 }
 

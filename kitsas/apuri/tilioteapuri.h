@@ -38,6 +38,9 @@ public:
 
     TilioteModel* model() { return model_;}
 
+    QDate tiliotteenAlkupaiva() const;
+    QDate tiliotteenLoppupaiva() const;
+
 public slots:
      void salliMuokkaus(bool sallitaanko=true) override;
 
@@ -61,8 +64,6 @@ protected slots:
     void alkusummaSaapuu(QVariant *data);
     void naytaHarmaat(bool nayta);
 
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
 private:
     Ui::TilioteApuri *ui;
     TilioteModel *model_;

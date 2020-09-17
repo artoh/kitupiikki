@@ -25,10 +25,6 @@
 #include <QDate>
 #include <QSortFilterProxyModel>
 
-#include "kirjaus/tilidelegaatti.h"
-#include "kirjaus/eurodelegaatti.h"
-#include "kirjaus/kohdennusdelegaatti.h"
-
 #include "kirjaus/kirjauswg.h"
 
 #include "tiliotekirjaaja.h"
@@ -45,18 +41,12 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 {
     ui->setupUi(this);
 
-    ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
-    ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
-    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
-
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( model_ );
 
     ui->oteView->setModel(proxy_);
     proxy_->setSortRole(TilioteModel::LajitteluRooli);
     proxy_->setFilterRole(TilioteModel::HarmaaRooli);
-    ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
-    ui->oteView->installEventFilter(this);
 
     ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
@@ -121,6 +111,16 @@ void TilioteApuri::tuo(QVariantMap map)
     lataaHarmaat();
 
     tuodaan_ = false;
+}
+
+QDate TilioteApuri::tiliotteenAlkupaiva() const
+{
+    return ui->alkuDate->date();
+}
+
+QDate TilioteApuri::tiliotteenLoppupaiva() const
+{
+    return ui->loppuDate->date();
 }
 
 void TilioteApuri::salliMuokkaus(bool sallitaanko)
@@ -293,35 +293,4 @@ void TilioteApuri::naytaHarmaat(bool nayta)
     kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
 
-bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)
-{
-
-    if( watched == ui->oteView && event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if( ( keyEvent->key() == Qt::Key_Enter ||
-            keyEvent->key() == Qt::Key_Return ||
-            keyEvent->key() == Qt::Key_Insert ||
-            keyEvent->key() == Qt::Key_Tab) &&
-                keyEvent->modifiers() == Qt::NoModifier )
-        {
-
-            // Insertillä suoraan uusi rivi
-            if(  keyEvent->key() == Qt::Key_Insert )
-            {
-                lisaaTyhjaRivi();
-            }
-
-            if( ui->oteView->currentIndex().column() == TilioteModel::SELITE &&
-                ui->oteView->currentIndex().row() == model_->rowCount() - 1 )
-            {
-                lisaaTyhjaRivi();
-                ui->oteView->setCurrentIndex( model_->index( model_->rowCount(QModelIndex())-1, TilioteModel::PVM ) );
-                return true;
-            }
-
-        }
-    }
-    return false;
-}
 

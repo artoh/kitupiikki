@@ -22,6 +22,8 @@
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
 
+#include "tilioteapuri.h"
+
 TilioteModel::TilioteModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -143,10 +145,15 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case KOHDENNUS:
             return rivi.kohdennus;
         case SAAJAMAKSAJA:
-            return rivi.saajamaksajaId;
+            return rivi.saajamaksaja;
         case SELITE:
             return rivi.selite;
         }
+    case Qt::UserRole:
+        if(index.column() == SAAJAMAKSAJA) {
+            return rivi.saajamaksajaId;
+        }
+        break;
 
     case Qt::TextAlignmentRole:
         if( index.column()==EURO)
@@ -187,6 +194,9 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                 case PVM :
                     rivit_[index.row()].pvm = value.toDate();
                 break;
+            case SAAJAMAKSAJA:
+                rivit_[index.row()].saajamaksaja = value.toString();
+                break;
             case TILI: {
                     Tili uusitili;
                     if( value.toInt()) {
@@ -194,12 +204,15 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                         rivit_[ index.row()].tili = uusitili.numero();
                         break;
                     } else {
+                        uusitili = TilinValintaDialogi::valitseTili(value.toString());
+                        rivit_[ index.row()].tili = uusitili.numero();
+                        break; /*
                         TilinValintaDialogi* dlg = new TilinValintaDialogi();
                         connect(dlg, &TilinValintaDialogi::tiliValittu, [this, index] (int tili) {
                             this->setData(index, tili);
                         });
                         dlg->nayta(value.toString());
-                        return true;
+                        return true; */
                     }
                 }
             case EURO:
@@ -212,11 +225,44 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                 rivit_[index.row()].selite = value.toString();
             }
         }
+        else if(role == Qt::UserRole && index.column() == SAAJAMAKSAJA) {
+            rivit_[index.row()].saajamaksajaId = value.toInt();
+            emit dataChanged(index, index, QVector<int>() << Qt::UserRole << Qt::DisplayRole << Qt::EditRole);
+            return true;
+        }
+        else if(role == Qt::DisplayRole && index.column() == SAAJAMAKSAJA) {
+            rivit_[index.row()].saajamaksaja = value.toString();
+        }
+
 
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
     return false;
+}
+
+bool TilioteModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
+{
+    QDate paiva = kp()->paivamaara();
+    TilioteApuri *apuri = qobject_cast<TilioteApuri*>(this->parent());
+    if( apuri ) {
+        paiva = apuri->tiliotteenAlkupaiva();
+    }
+
+    if( row > 0) {
+        paiva = rivit_.value(row-1).pvm;
+    }
+
+    beginInsertRows(QModelIndex(), row, row + count - 1);
+    for(int i=0; i < count; i++) {
+        Tilioterivi rivi;
+        rivi.pvm = paiva;
+        rivi.lisaysIndeksi = ++indeksiLaskuri_;
+        rivit_.insert(row + i, rivi);
+    }
+    endInsertRows();
+
+    return true;
 }
 
 Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
@@ -233,8 +279,6 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
         if( !tili.onko(TiliLaji::TULOS))
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
-    if( index.column() == SAAJAMAKSAJA)
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }

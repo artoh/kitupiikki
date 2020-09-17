@@ -19,6 +19,9 @@
 
 #include "tilikarttaraportti.h"
 #include "tilikarttalistaaja.h"
+#include "db/asetusmodel.h"
+#include <QJsonDocument>
+
 
 TilikarttaRaportti::TilikarttaRaportti()
     : RaporttiWidget(nullptr)
@@ -34,6 +37,19 @@ TilikarttaRaportti::TilikarttaRaportti()
 
     ui->saldotDate->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(),
                                   kp()->tilikaudet()->kirjanpitoLoppuu());
+
+
+    // Haetaan combon vaihtoehdot
+    ui->kieliCombo->clear();
+    QVariantMap vemap = QJsonDocument::fromJson( kp()->asetukset()->asetus("kielet").toUtf8() ).toVariant().toMap();
+    QMapIterator<QString,QVariant> viter(vemap);
+    while( viter.hasNext()) {
+        viter.next();
+        KieliKentta kielet(viter.value());
+        ui->kieliCombo->addItem(QIcon(":/liput/" + viter.key() + ".png"), kielet.teksti(), viter.key() );
+    }
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetukset()->asetus("kieli") ) );
+
 }
 
 TilikarttaRaportti::~TilikarttaRaportti()
@@ -64,7 +80,8 @@ void TilikarttaRaportti::esikatsele()
 
     listaaja->kirjoita( valinta, kausi, ui->otsikotCheck->isChecked(),
                         ui->tilityypitCheck->isChecked(), saldopaiva,
-                        ui->kirjausohjeet->isChecked());
+                        ui->kirjausohjeet->isChecked(),
+                        ui->kieliCombo->currentData().toString());
 }
 
 void TilikarttaRaportti::paivitaPaiva()

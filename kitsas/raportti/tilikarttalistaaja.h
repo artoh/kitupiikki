@@ -37,8 +37,8 @@ public:
 
     explicit TiliKarttaListaaja(QObject *parent = nullptr);
     void kirjoita(KarttaValinta valinta, const Tilikausi& tilikaudelta, bool otsikot,
-                  bool tulostatyypit, const QDate& saldopvm, bool kirjausohjeet);
-
+                  bool tulostatyypit, const QDate& saldopvm, bool kirjausohjeet,
+                  const QString& kieli = QString());
 
 signals:
     void valmis(RaportinKirjoittaja rk);
@@ -53,6 +53,7 @@ protected:
     bool tyypit_;
     QDate saldopvm_;
     bool kirjausohjeet_;
+    QString kieli_;
 };
 
 #endif // TILIKARTTALISTAAJA_H

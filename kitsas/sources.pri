@@ -7,6 +7,7 @@ SOURCES += \
     $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
     $$PWD/apuri/tiliotemodel.cpp \
+    $$PWD/apuri/tilioteview.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
@@ -270,6 +271,7 @@ HEADERS += \
     $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tilioteapuri.h \
     $$PWD/apuri/tiliotemodel.h \
+    $$PWD/apuri/tilioteview.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
