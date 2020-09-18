@@ -40,16 +40,22 @@ QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
     QVariantList lista;
 
     QString kysymys("select vienti.eraid as eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite as selite, tosite.pvm as pvm, a.tili as tili, "
-                    "tosite.tunniste as tunniste, tosite.sarja as sarja from  Vienti "
-                    "join Vienti as a on vienti.eraid = a.id JOIN Tosite ON Vienti.Tosite=Tosite.id  WHERE Tosite.tila >= 100 ");
+                    "tosite.tunniste as tunniste, tosite.sarja as sarja, "
+                    "a.kumppani, kumppani.nimi "
+                    "FROM  Vienti "
+                    "JOIN Vienti AS a ON vienti.eraid = a.id JOIN Tosite ON a.Tosite=Tosite.id  "
+                    "LEFT OUTER JOIN Kumppani ON a.kumppani=Kumppani.id "
+                    "WHERE Tosite.tila >= 100 ");
 
     if( urlquery.hasQueryItem("tili"))
-        kysymys.append(QString("AND vienti.tili=%1 ").arg(urlquery.queryItemValue("tili")));
+        kysymys.append(QString("AND a.tili=%1 ").arg(urlquery.queryItemValue("tili")));
     if( urlquery.hasQueryItem("asiakas"))
-        kysymys.append(QString("AND vienti.kumppani=%1 ").arg(urlquery.queryItemValue("asiakas")));
+        kysymys.append(QString("AND a.kumppani=%1 ").arg(urlquery.queryItemValue("asiakas")));
 
     kysymys.append("GROUP BY vienti.eraid "
                    "HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL");
+
+    qDebug() << kysymys;
 
     kysely.exec(kysymys);
     while( kysely.next()) {
@@ -69,6 +75,12 @@ QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
         map.insert("tunniste", kysely.value("tunniste"));
         if( !kysely.value("sarja").toString().isEmpty())
             map.insert("sarja", kysely.value("sarja"));
+        if( kysely.value("kumppani").toInt()) {
+           QVariantMap kumppaniMap;
+           kumppaniMap.insert("nimi", kysely.value("nimi"));
+           kumppaniMap.insert("id", kysely.value("kumppani"));
+           map.insert("kumppani", kumppaniMap);
+        }
         lista.append(map);
     }
     return lista;

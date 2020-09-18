@@ -167,9 +167,13 @@ void TositeVienti::setArkistotunnus(const QString &tunnus)
 
 void TositeVienti::setKumppani(int kumppaniId)
 {
-    QVariantMap kmap;
-    kmap.insert("id", kumppaniId);
-    set( KUMPPANI, kmap );
+    if(!kumppaniId) {
+        remove(avaimet__.at(KUMPPANI));
+    } else {
+        QVariantMap kmap;
+        kmap.insert("id", kumppaniId);
+        set( KUMPPANI, kmap );
+    }
 }
 
 void TositeVienti::setKumppani(const QString &kumppani)

@@ -35,10 +35,10 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
 
-    connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite)
-        {this->eraValittu(false, eraId, avoinna, selite);});
-    connect( ui->tililleEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite)
-        {this->eraValittu(true, eraId, avoinna, selite);});
+    connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite, int kumppani)
+        {this->eraValittu(false, eraId, avoinna, selite, kumppani);});
+    connect( ui->tililleEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite, int kumppani)
+        {this->eraValittu(true, eraId, avoinna, selite, kumppani);});
 
     ui->tililtaMerkkausCC->haeMerkkaukset( tosite->pvm() );
     ui->tililleMerkkausCC->haeMerkkaukset( tosite->pvm() );
@@ -67,6 +67,11 @@ bool SiirtoApuri::teeTositteelle()
     QDate pvm = tosite()->data(Tosite::PVM).toDate();    
     QString otsikko = tosite()->otsikko();
 
+    int kumppani = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
+    if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
+        kumppani = 0;
+
+
     QVariantList viennit;
 
     TositeVienti debet;
@@ -76,6 +81,8 @@ bool SiirtoApuri::teeTositteelle()
     debet.setSelite(otsikko);
     debet.setEra( ui->tililleEraCombo->eraMap());
     debet.setTyyppi( TositeVienti::SIIRTO);
+    debet.setKumppani(kumppani);
+
     viennit.append(debet);
 
     TositeVienti kredit;
@@ -85,6 +92,8 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setSelite(otsikko);
     kredit.setEra( ui->tililtaEraCombo->eraMap());
     kredit.setTyyppi( TositeVienti::SIIRTO );
+    kredit.setKumppani(kumppani);
+
     viennit.append(kredit);
 
     if( !kreditAlkuperaiset_.isEmpty())
@@ -93,6 +102,7 @@ bool SiirtoApuri::teeTositteelle()
         erikoisviennit(debetAlkuperaiset_, senttia / 100.0, viennit);
 
     tosite()->viennit()->asetaViennit(viennit);
+    tosite()->asetaKumppani(kumppani);
 
 
     return true;
@@ -108,7 +118,9 @@ void SiirtoApuri::teeReset()
         ui->euroEdit->setValue( vientilista.at(0).toMap().value("debet").toDouble() );
         ui->tililtaEdit->valitseTiliNumerolla( vientilista.at(1).toMap().value("tili").toInt() );        
         ui->tililleEraCombo->valitse( vientilista.at(0).toMap().value("era").toMap().value("id").toInt() );
-        ui->tililtaEraCombo->valitse( vientilista.at(1).toMap().value("era").toMap().value("id").toInt() );
+        debetKumppani_ = vientilista.at(0).toMap().value("kumppani").toMap().value("id").toInt();
+        ui->tililtaEraCombo->valitse( vientilista.at(1).toMap().value("era").toMap().value("id").toInt() );        
+        kreditKumppani_ = vientilista.at(1).toMap().value("kumppani").toMap().value("id").toInt();
     } else {
         ui->euroEdit->setCents(0);
         ui->tililleEdit->clear();
@@ -249,12 +261,17 @@ void SiirtoApuri::tililleMuuttui()
     paivitaKateislaji();
 }
 
-void SiirtoApuri::eraValittu(bool debet, int eraId, double avoinna, const QString &selite)
+void SiirtoApuri::eraValittu(bool debet, int eraId, double avoinna, const QString &selite, int kumppani)
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(avoinna);
     if( tosite()->otsikko().isEmpty())
         tosite()->asetaOtsikko(selite);
+
+    if(debet)
+        debetKumppani_ = kumppani;
+    else
+        kreditKumppani_ = kumppani;
 
     haeAlkuperaistosite(debet, eraId);
     teeTositteelle();

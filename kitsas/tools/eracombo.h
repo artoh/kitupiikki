@@ -28,7 +28,8 @@ public:
 
     enum {
         AvoinnaRooli = Qt::UserRole + 1,
-        SeliteRooli = Qt::UserRole + 2
+        SeliteRooli = Qt::UserRole + 2,
+        KumppaniRooli = Qt::UserRole + 3
     };
 
     int valittuEra() const;
@@ -39,7 +40,7 @@ public slots:
     void valitse(int eraid);
 
 signals:
-    void valittu(int eraid, double avoinna, const QString& selite);
+    void valittu(int eraid, double avoinna, const QString& selite, int kumppani);
 
 private slots:
     void dataSaapuu(QVariant* data);

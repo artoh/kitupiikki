@@ -39,7 +39,7 @@ public:
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
-    void eraValittu(bool debet, int eraId, double avoinna, const QString& selite);
+    void eraValittu(bool debet, int eraId, double avoinna, const QString& selite, int kumppani);
 
 protected:
     bool teeTositteelle() override;
@@ -54,6 +54,9 @@ private:
     Ui::SiirtoApuri *ui;
     QVariantList kreditAlkuperaiset_;
     QVariantList debetAlkuperaiset_;
+
+    int kreditKumppani_ = 0;
+    int debetKumppani_ = 0;
 
 
 };

@@ -99,14 +99,23 @@ void EraCombo::dataSaapuu(QVariant *data)
         int eraid = map.value("id").toInt();
         data_.append(map);
 
-        addItem( QString("%1 %2 (%3)")
+        QVariantMap kumppaniMap = map.value("kumppani").toMap();
+        QString selite = map.value("selite").toString();
+        QString nimi = kumppaniMap.value("nimi").toString();
+
+        addItem( QString("%1 %4%2 (%L3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
                  .arg(map.value("selite").toString())
-                 .arg(map.value("avoin").toDouble(),0,'f',2),
+                 .arg(map.value("avoin").toDouble(),0,'f',2)
+                 .arg( nimi.isEmpty() || nimi == selite ? "" : nimi + " " ),
                  eraid);
 
-        setItemData( findData(eraid), map.value("avoin"), AvoinnaRooli );
-        setItemData( findData(eraid), map.value("selite").toString(), SeliteRooli);
+        int indeksi = findData(eraid);
+        setItemData( indeksi, map.value("avoin"), AvoinnaRooli );
+        setItemData( indeksi, map.value("selite").toString(), SeliteRooli);
+        if(kumppaniMap.value("id").toInt()) {
+            setItemData( indeksi, kumppaniMap.value("id").toInt(), KumppaniRooli);
+        }
     }
     setCurrentIndex( findData(valittuna_) );
     latauksessa_ = false;
@@ -115,9 +124,13 @@ void EraCombo::dataSaapuu(QVariant *data)
 void EraCombo::vientiSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
+    QString selite = map.value("selite").toString();
+    QString kumppani = map.value("kumppani").toString();
+    QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
+
     addItem( QString("%1 %2")
              .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
-              .arg(map.value("selite").toString()  ),
+              .arg(teksti),
              map.value("id").toInt());
     setCurrentIndex( findData(valittuna_) );
 }
@@ -127,6 +140,6 @@ void EraCombo::valintaMuuttui()
 
     if( !latauksessa_) {
         valittuna_ = currentData().toInt();
-        emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString() );
+        emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString(), currentData(KumppaniRooli).toInt() );
     }
 }
