@@ -129,7 +129,7 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
     if( kursorinpaikka == text().length())
         kursorinpaikka = pilkunpaikka;
 
-    if( event->key() == Qt::Key_Comma)
+    if( event->key() == Qt::Key_Comma || event->key() == Qt::Key_Period )
     {
         int pilkunpaikka = text().indexOf(',');
         if( pilkunpaikka > -1)
