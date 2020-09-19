@@ -61,6 +61,8 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
     connect( kirjauswg, &KirjausWg::avaaLiite, liitewg->liiteView(), &NaytinView::avaaOhjelmalla);
     connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
+    connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaliiteWg::naytaPohjat);
+    connect( liitewg, &NaytaliiteWg::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
 
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }

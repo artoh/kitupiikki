@@ -45,6 +45,8 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
         ehdot.append( QString("( tosite.tila >= %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
     else if( urlquery.hasQueryItem("saapuneet"))
         ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::LUONNOS) );
+    else if( urlquery.hasQueryItem("malli"))
+        ehdot.append(QString("tosite.tila = %1").arg(Tosite::MALLIPOHJA));
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 
@@ -60,6 +62,8 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
         jarjestys = "sarja,tunniste";
     else if( urlquery.queryItemValue("jarjestys") == "tyyppi,pvm")
         jarjestys = "tyyppi,pvm";
+    else if( urlquery.hasQueryItem("malli"))
+        jarjestys = "otsikko";
 
     QString kysymys = "SELECT tosite.id AS id, tosite.pvm AS pvm, tyyppi, tila, tunniste, otsikko, kumppani.nimi as kumppani, tosite.sarja as sarja, "
                       "CAST( (SELECT COUNT(liite.id) FROM Liite WHERE liite.tosite=tosite.id) AS INT) AS liitteita "

@@ -85,7 +85,7 @@ void Tosite::setData(int kentta, QVariant arvo)
 QString Tosite::tilateksti(int tila)
 {
     switch (tila) {
-    case POISTETTU: return tr("Poistettu");
+    case POISTETTU: return tr("Poistettu");        
     case HYLATTY: return tr("Hylätty");
     case SAAPUNUT: return tr("Saapunut");
     case TARKASTETTU: return tr("Tarkastettu");
@@ -202,6 +202,18 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
+    if( data(TILA).toInt() == MALLIPOHJA) {
+        // Mallipohjasta avattaessa vaihdetaan päivämääräksi nykyinen
+        if( erapvm().isValid()) {
+            int maksuaika = pvm().daysTo(erapvm());
+            asetaErapvm( kp()->paivamaara().addDays(maksuaika));
+        }
+        asetaPvm( kp()->paivamaara() );
+        asetaLaskupvm( kp()->paivamaara() );
+        for(int i=0; i <viennit()->rowCount(); i++)
+            viennit()->setData(viennit()->index(i, TositeViennit::PVM), kp()->paivamaara());
+    }
+
     emit ladattu();
 
     emit tyyppiMuuttui( tyyppi());
@@ -221,6 +233,10 @@ void Tosite::lataaData(QVariant *variant)
 
 void Tosite::tallenna(int tilaan)
 {
+    if( data(TILA).toInt() == MALLIPOHJA && tilaan > MALLIPOHJA) {
+        setData(ID, 0);
+    }
+
     setData( TILA, tilaan );
 
     KpKysely* kysely;

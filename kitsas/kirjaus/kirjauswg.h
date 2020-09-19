@@ -137,6 +137,8 @@ signals:
     void avaaLiite();
     void tulostaLiite();
 
+    void naytaPohjat(bool nayta);
+
 protected:
     /**
      * @brief Muokattuja toimintoja
@@ -158,6 +160,7 @@ protected:
     QAction *poistaAktio_;
     QAction *uudeksiAktio_;
     QAction *tyhjennaViennitAktio_;
+    QAction *mallipohjaksiAktio_;
 
     QSortFilterProxyModel *tyyppiProxy_;
 

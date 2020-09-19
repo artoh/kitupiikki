@@ -265,46 +265,44 @@ bool TuloMenoApuri::teeTositteelle()
         summa -= qRound64( map.value("debet",0).toDouble() * 100.0 );
     }
 
-    if( summa ) {
-        bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
-                     tosite()->tyyppi() == TositeTyyppi::KULULASKU ||
-                     tosite()->tyyppi() == TositeTyyppi::SAAPUNUTVERKKOLASKU;
+    bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
+                 tosite()->tyyppi() == TositeTyyppi::KULULASKU ||
+                 tosite()->tyyppi() == TositeTyyppi::SAAPUNUTVERKKOLASKU;
 
-        QString otsikko = tosite()->otsikko();
-        if( otsikko.isEmpty()) {
-            otsikko = ui->asiakasToimittaja->nimi();
-        }
-
-        TositeVienti vasta;
-        if( tosite()->viennit()->rowCount() && tosite()->viennit()->vienti(0).tyyppi() % 100 == TositeVienti::VASTAKIRJAUS)
-            vasta.setId( tosite()->viennit()->vienti(0).id() );
-
-        vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );        
-        vasta.setPvm( tosite()->pvm());
-        Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
-        vasta.insert("tili", vastatili.numero() );
-
-        qDebug() << " Vastatili " << vastatili.numero() << " erittely "  << vastatili.eritellaankoTase() << " Erä " << ui->eraCombo->valittuEra();
-
-        if( vastatili.eritellaankoTase())
-            vasta.setEra(ui->eraCombo->valittuEra() ) ;
-
-        if( summa > 0)
-            vasta.setDebet( summa );
-        else
-            vasta.setKredit( 0 - summa );
-
-        vasta.insert("selite", otsikko);
-
-
-        // Asiakas tai toimittaja
-        if( ui->asiakasToimittaja->id() > 0)
-            vasta.setKumppani( ui->asiakasToimittaja->id() );
-        else if( !ui->asiakasToimittaja->nimi().isEmpty())
-            vasta.setKumppani( ui->asiakasToimittaja->nimi());
-
-        viennit.insert(0, vasta);
+    QString otsikko = tosite()->otsikko();
+    if( otsikko.isEmpty()) {
+        otsikko = ui->asiakasToimittaja->nimi();
     }
+
+    TositeVienti vasta;
+    if( tosite()->viennit()->rowCount() && tosite()->viennit()->vienti(0).tyyppi() % 100 == TositeVienti::VASTAKIRJAUS)
+        vasta.setId( tosite()->viennit()->vienti(0).id() );
+
+    vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );
+    vasta.setPvm( tosite()->pvm());
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
+    vasta.insert("tili", vastatili.numero() );
+
+    qDebug() << " Vastatili " << vastatili.numero() << " erittely "  << vastatili.eritellaankoTase() << " Erä " << ui->eraCombo->valittuEra();
+
+    if( vastatili.eritellaankoTase())
+        vasta.setEra(ui->eraCombo->valittuEra() ) ;
+
+    if( summa > 0)
+        vasta.setDebet( summa );
+    else
+        vasta.setKredit( 0 - summa );
+
+    vasta.insert("selite", otsikko);
+
+
+    // Asiakas tai toimittaja
+    if( ui->asiakasToimittaja->id() > 0)
+        vasta.setKumppani( ui->asiakasToimittaja->id() );
+    else if( !ui->asiakasToimittaja->nimi().isEmpty())
+        vasta.setKumppani( ui->asiakasToimittaja->nimi());
+
+    viennit.insert(0, vasta);
 
     if( ui->asiakasToimittaja->id() > 0)
         tosite()->asetaKumppani( ui->asiakasToimittaja->id() );

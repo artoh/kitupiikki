@@ -126,6 +126,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(pohjaksi()), QKeySequence("Ctrl+T"));
+    mallipohjaksiAktio_ = valikko->addAction(QIcon(":/pic/uusitiedosto.png"), tr("Tallenna mallipohjaksi"), [this] {this->tosite()->tallenna(Tosite::MALLIPOHJA);});
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
     tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), [this] { this->tosite()->viennit()->tyhjenna(); if(apuri_) apuri_->reset(); });
 
@@ -245,6 +246,8 @@ void KirjausWg::tyhjenna()
         ui->viennitView->hideColumn(TositeViennit::ALV);
     ui->tallennetaanLabel->hide();
     ui->ocrLabel->hide();
+
+    emit naytaPohjat(true);
 }
 
 void KirjausWg::valmis()
@@ -252,7 +255,15 @@ void KirjausWg::valmis()
     if( apuri_ )
         apuri_->tositteelle();
 
-    if( !tosite()->viennit()->rowCount() && tosite()->tyyppi() != TositeTyyppi::LIITETIETO) {
+    qlonglong debet = 0l;
+    qlonglong kredit = 0l;
+    for(QVariant item : tosite()->viennit()->viennit().toList()) {
+        TositeVienti vienti = item.toMap();
+        debet += qRound64( vienti.debet() * 100.0 );
+        kredit += qRound64( vienti.kredit() * 100.0 );
+    }
+
+    if( !debet && !kredit && tosite()->tyyppi() != TositeTyyppi::LIITETIETO) {
         if( QMessageBox::question(this, tr("Tositteen tallentaminen"),
                                   tr("Tositteessa ei ole yhtään vientiä.\n"
                                      "Tallennatko tositteen ilman vientejä?")) != QMessageBox::Yes)
@@ -288,7 +299,7 @@ void KirjausWg::poistaTosite()
         KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tosite()->data(Tosite::ID).toInt() ), KpKysely::DELETE );
         connect(kysely, &KpKysely::virhe, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
                                                                         tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( selitys ));});
-        connect(kysely, &KpKysely::vastaus, [this] {this->tyhjenna(); emit this->tositeKasitelty();});
+        connect(kysely, &KpKysely::vastaus, [this] {this->tyhjenna(); emit this->tositeKasitelty(); emit kp()->kirjanpitoaMuokattu();});
 
         kysely->kysy();
     }
@@ -408,6 +419,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
+    mallipohjaksiAktio_->setEnabled( tosite()->data(Tosite::TILA).toInt() <= Tosite::MALLIPOHJA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
     ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
     ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko() && kp()->yhteysModel() );
     ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
@@ -421,6 +433,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
 
+    emit naytaPohjat(!muokattu);
 }
 
 void KirjausWg::tallenna(int tilaan)
@@ -554,8 +567,7 @@ void KirjausWg::paivitaLiiteNapit()
 void KirjausWg::lataaTosite(int id)
 {
     tosite_->lataa(id);
-    return;
-
+    emit naytaPohjat(false);
 }
 
 void KirjausWg::paivitaKommentti(const QString &kommentti)

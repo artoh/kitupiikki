@@ -144,7 +144,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     QVariantList vientilista;
     // Ensin varsinainen vienti
 
-    if( !tilinumero() || qAbs(this->netto()) < 1e-5)
+    if( !tilinumero() )
         return vientilista;
 
     double maara = this->brutto() / 100.0 ;

@@ -71,6 +71,7 @@ public:
 
     enum Tila {
         POISTETTU       = 0,
+        MALLIPOHJA      = 5,
         HYLATTY         = 10,
         SAAPUNUT        = 20,
         TARKASTETTU     = 30,

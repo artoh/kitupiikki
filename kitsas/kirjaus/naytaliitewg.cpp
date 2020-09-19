@@ -34,6 +34,8 @@
 #include "naytaliitewg.h"
 #include "db/kirjanpito.h"
 
+#include "mallipohjamodel.h"
+
 #include "naytin/naytinview.h"
 
 
@@ -52,6 +54,10 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
+
+    ui->malliView->setModel(new MallipohjaModel(this));
+    connect(ui->malliView, &QListView::clicked, [this] (const QModelIndex& index)
+        {emit this->lataaPohja(index.data(Qt::UserRole).toInt());});
 
     setAcceptDrops(true);
     tarkistaLeikepoyta();
@@ -90,6 +96,17 @@ void NaytaliiteWg::leikepoydalta()
         emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/jpg"), tr("liite.jpg") );
     else if( qApp->clipboard()->mimeData()->formats().contains("image/png"))
         emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/png"), tr("liite.png") );
+}
+
+void NaytaliiteWg::naytaPohjat(bool nayta)
+{
+    pohjatNakyvilla_ = nayta;
+    ui->pohjaGroup->setVisible(pohjatNakyvilla_ /* && ui->malliView->model()->rowCount() */);
+}
+
+void NaytaliiteWg::pohjatSaapui()
+{
+
 }
 
 void NaytaliiteWg::tarkistaLeikepoyta()

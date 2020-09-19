@@ -49,11 +49,14 @@ public slots:
     void naytaPdf(const QByteArray& pdfdata);
     void leikepoydalta();
 
+    void naytaPohjat(bool nayta);
+    void pohjatSaapui();
     void tarkistaLeikepoyta();
 
 signals:
     void lisaaLiite(const QString& polku);
     void lisaaLiiteDatalla(const QByteArray& data, const QString& nimi);
+    void lataaPohja(int tositeId);
 
 
 protected:
@@ -65,6 +68,7 @@ protected:
     Ui::TositeWg *ui;
 
     NaytinView *view;
+    bool pohjatNakyvilla_ = true;
 
 };
 
