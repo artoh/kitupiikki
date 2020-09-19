@@ -165,6 +165,8 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         if( index.column() == KOHDENNUS) {
             if( rivi.laskupvm.isValid())
                 return QIcon(":/pic/lasku.png");            
+        } else if( index.column() == EURO) {
+            return (rivit_[index.row()].alvprosentti > 1e-5 ? QIcon(":/pic/lihavoi.png") : QIcon(":/pic/tyhja.png") );
         }
         return QVariant();
 
@@ -176,10 +178,6 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         if( index.column() == SELITE && rivi.selite.isEmpty())
             return QColor(Qt::darkBlue);
     }
-
-
-
-
 
 
     return QVariant();
@@ -229,11 +227,9 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
             rivit_[index.row()].saajamaksajaId = value.toInt();
             emit dataChanged(index, index, QVector<int>() << Qt::UserRole << Qt::DisplayRole << Qt::EditRole);
             return true;
-        }
-        else if(role == Qt::DisplayRole && index.column() == SAAJAMAKSAJA) {
+        } else if(role == Qt::DisplayRole && index.column() == SAAJAMAKSAJA) {
             rivit_[index.row()].saajamaksaja = value.toString();
         }
-
 
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -375,6 +371,11 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             if( !rivi.viite.isEmpty())
                 tili.set(TositeVienti::VIITE, rivi.viite);
 
+            if( rivi.alvprosentti > 1e-5) {
+                tili.setAlvKoodi(AlvKoodi::OSTOT_BRUTTO);
+                tili.setAlvProsentti(rivi.alvprosentti);
+            }
+
 
             int indeksi = lista.count();
 
@@ -460,6 +461,10 @@ void TilioteModel::lataa(const QVariantList &lista)
 
         if( vienti.eraId() ) {
             rivi.laskupvm = vienti.value("era").toMap().value("pvm").toDate();
+        }
+
+        if( vienti.alvKoodi() == AlvKoodi::OSTOT_BRUTTO) {
+            rivi.alvprosentti = vienti.alvProsentti();
         }
 
         rivi.selite = vienti.selite();

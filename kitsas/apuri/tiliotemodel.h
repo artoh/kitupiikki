@@ -47,7 +47,7 @@ public:
         QDate jaksoloppuu;
         QVariantList alkuperaisetViennit;
         int lisaysIndeksi = 0;
-        int alvprosentti = 0;
+        double alvprosentti = 0.0;
     };
 
 public:

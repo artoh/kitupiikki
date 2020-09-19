@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1307</width>
-    <height>765</height>
+    <height>849</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,6 +108,16 @@
      <item row="3" column="1">
       <widget class="TilinvalintaLine" name="tiliEdit"/>
      </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="eraLabel">
+       <property name="text">
+        <string>Tase-erä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="EraCombo" name="eraCombo"/>
+     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
@@ -141,24 +151,30 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="eraLabel">
-       <property name="text">
-        <string>Tase-erä</string>
+     <item row="7" column="1">
+      <widget class="QTextEdit" name="seliteEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>120</height>
+        </size>
+       </property>
+       <property name="tabChangesFocus">
+        <bool>true</bool>
+       </property>
+       <property name="acceptRichText">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="EraCombo" name="eraCombo"/>
-     </item>
-     <item row="9" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="jaksotusLabel">
        <property name="text">
         <string>Jaksotus</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="8" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="KpDateEdit" name="jaksoAlkaaEdit"/>
@@ -182,46 +198,44 @@
        </item>
       </layout>
      </item>
-     <item row="10" column="1">
-      <widget class="QLabel" name="alvVaro">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 0);</string>
-       </property>
+     <item row="9" column="0">
+      <widget class="QLabel" name="alvLabel">
        <property name="text">
-        <string>Tällä toiminnolla voit tehdä vain arvonlisäverottomia kirjauksia.</string>
+        <string>Alv</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QTextEdit" name="seliteEdit">
-       <property name="minimumSize">
+     <item row="9" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
+       <item>
+        <widget class="QComboBox" name="alvCombo"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="alvVaro">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 0);</string>
+         </property>
+         <property name="text">
+          <string>Tällä toiminnolla voit tehdä vain arvonlisäverottomia kirjauksia.</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="10" column="0" colspan="2">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>0</width>
-         <height>120</height>
+         <width>17</width>
+         <height>13</height>
         </size>
        </property>
-       <property name="tabChangesFocus">
-        <bool>true</bool>
-       </property>
-       <property name="acceptRichText">
-        <bool>false</bool>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>17</width>
-       <height>13</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">

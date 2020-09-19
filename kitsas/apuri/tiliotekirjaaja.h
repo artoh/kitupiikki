@@ -48,11 +48,13 @@ public slots:
     void kirjaaUusia();
     void muokkaaRivia(int riviNro);
 
+
 private slots:
     void alaTabMuuttui(int tab);
     void euroMuuttuu();
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();
+    void paivitaAlvInfo();
     void eraValittu(int eraId, double avoinna, const QString& selite);
     void jaksomuuttuu(const QDate& pvm);
 

@@ -47,7 +47,8 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
-    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);    
+    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
+    connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TilioteKirjaaja::paivitaAlvInfo);
 
     maksuProxy_->setSourceModel( laskut_ );
 
@@ -88,6 +89,13 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
     connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); ui->maksuView->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); });
+
+
+    ui->alvCombo->addItem(QIcon(":/pic/tyhja.png"), tr("Veroton"), 0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("24 %"), 24.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("14 %"), 14.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("10 %"), 10.0);
+
 
     ui->asiakastoimittaja->alusta();
 }
@@ -138,10 +146,11 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
         if( rivi.selite.isEmpty())
             rivi.selite = rivi.saajamaksaja;
         rivi.jaksoalkaa = ui->jaksoAlkaaEdit->date();
-        rivi.jaksoloppuu = ui->jaksoLoppuuEdit->date();
+        rivi.jaksoloppuu = ui->jaksoLoppuuEdit->date();                
     }
     rivi.alkuperaisetViennit = alkuperaisRivit_;
 
+    rivi.alvprosentti = ui->alvCombo->isVisible() ? ui->alvCombo->currentData().toDouble() : 0.0;
     return rivi;
 }
 
@@ -223,6 +232,8 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 
     ui->jaksoAlkaaEdit->setDate( rivi.jaksoalkaa);
     ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
+
+    ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(rivi.alvprosentti));
 
     ui->suodatusEdit->setText( saajamaksaja );
     if( !saajamaksaja.isEmpty())
@@ -313,14 +324,28 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoViivaLabel->setVisible(jakso);
     ui->jaksoLoppuuEdit->setVisible(jakso);
 
+    paivitaAlvInfo();
+}
+
+void TilioteKirjaaja::paivitaAlvInfo()
+{
+    Tili tili = ui->tiliEdit->valittuTili();
     bool vero = tili.luku("alvlaji") && ui->alaTabs->currentIndex() == TULOMENO;
+
+    ui->alvLabel->setVisible(false);
+    ui->alvCombo->setVisible(false);
     ui->alvVaro->setVisible(vero);
-    if( !menoa_ )
+
+    if ( !menoa_) {
         ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
                                 "Kirjaa verolliset tulot tositetyypillä Tulo"));
-    else
-        ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
-                                "Kirjaa verolliset menot tositetyypillä Meno"));
+    } else  {
+        ui->alvLabel->setVisible(vero);
+        ui->alvCombo->setVisible(vero);
+        ui->alvVaro->setText(tr("Tiliotteen yhteydessä voit kirjata alv-vähennyksen vain bruttomenettelyllä.\n"
+                                    "Tositteessa on oltava riittävät alv-merkinnät."));
+
+    }
 }
 
 void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selite)
