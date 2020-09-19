@@ -54,8 +54,6 @@ SelausWg::SelausWg(QWidget *parent) :
 
     etsiProxy = new QSortFilterProxyModel(this);
     etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
-    etsiProxy->setFilterKeyColumn( SelausModel::TILI);
-    etsiProxy->setSortLocaleAware(true);
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
     etsiProxy->setFilterRole(SelausModel::EtsiRooli);
@@ -168,10 +166,27 @@ void SelausWg::paivita()
 
 void SelausWg::suodata()
 {
-    if( ui->tiliCombo->currentData().toString() == "*")
-        proxyModel->setFilterFixedString(QString());
-    else
-        proxyModel->setFilterFixedString( ui->tiliCombo->currentText());    
+    QVariant suodatin = ui->tiliCombo->currentData();
+
+    if(suodatin.toString() == "*") {
+        proxyModel->setFilterFixedString("");
+    } else {
+        if( ui->valintaTab->currentIndex() != VIENNIT) {
+            if( suodatin.type() == QVariant::Int) {
+                proxyModel->setFilterRole(Qt::DisplayRole);
+                proxyModel->setFilterKeyColumn(TositeSelausModel::TOSITETYYPPI);
+                proxyModel->setFilterFixedString(ui->tiliCombo->currentText());
+            } else {
+                proxyModel->setFilterRole(TositeSelausModel::TositeSarjaRooli);
+                proxyModel->setFilterRegularExpression(suodatin.toString());
+            }
+        } else {
+            proxyModel->setFilterRole(Qt::DisplayRole);
+            proxyModel->setFilterKeyColumn(SelausModel::TILI);
+            proxyModel->setFilterFixedString(ui->tiliCombo->currentText());
+        }
+    }
+
     paivitaSummat();
 
 
@@ -195,14 +210,26 @@ void SelausWg::paivitaSuodattimet()
         QString valittu = ui->tiliCombo->currentText();
         ui->tiliCombo->clear();
         ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", QVariant("*"));
-        ui->tiliCombo->insertItems(1, model->kaytetytTilit());
+        for(int tiliNro : model->tiliLista()) {
+            Tili* tili = kp()->tilit()->tili(tiliNro);
+            if(tili) {
+                ui->tiliCombo->addItem(tili->nimiNumero(), tiliNro);
+            }
+        }
         ui->tiliCombo->setCurrentText(valittu);
     } else {
         QString valittu = ui->tiliCombo->currentText();
         ui->tiliCombo->clear();
         ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tositteet", QVariant("*"));
         for( int tyyppikoodi : tositeModel->tyyppiLista() ) {
-            ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), kp()->tositeTyypit()->nimi(tyyppikoodi) );
+            ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), kp()->tositeTyypit()->nimi(tyyppikoodi), tyyppikoodi );
+        }
+        QStringList sarjat = tositeModel->sarjaLista();
+        if(!sarjat.isEmpty()) {
+            ui->tiliCombo->insertSeparator(ui->tiliCombo->count());
+            for(QString sarja : sarjat) {
+                ui->tiliCombo->addItem( QIcon(":/pic/tyhja.png"), sarja, sarja );
+            }
         }
 
         ui->tiliCombo->setCurrentText(valittu);

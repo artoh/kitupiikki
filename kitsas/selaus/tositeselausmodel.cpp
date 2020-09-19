@@ -158,7 +158,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         return Tosite::tilakuva(map.value("tila").toInt());
     else if( role == TositeTyyppiRooli)
     {
-        return map.value("tyyppi").toInt();
+        return map.value("tyyppi");
+    } else if( role == TositeSarjaRooli) {
+        return map.value("sarja");
     }
     return QVariant();
 }
@@ -167,6 +169,13 @@ QList<int> TositeSelausModel::tyyppiLista() const
 {
     QList<int> lista = kaytetytTyypit_.toList();
     std::sort( lista.begin(), lista.end() );
+    return lista;
+}
+
+QStringList TositeSelausModel::sarjaLista() const
+{
+    QList<QString> lista = kaytetytSarjat_.toList();
+    std::sort( lista.begin(), lista.end());
     return lista;
 }
 
@@ -195,10 +204,14 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
 {
     beginResetModel();
     kaytetytTyypit_.clear();
+    kaytetytSarjat_.clear();
     lista_ = var->toList();
 
     for( QVariant item : lista_ ) {
-        kaytetytTyypit_.insert( item.toMap().value("tyyppi").toInt() );
+        QVariantMap map = item.toMap();
+        kaytetytTyypit_.insert( map.value("tyyppi").toInt() );
+        if( map.contains("sarja"))
+            kaytetytSarjat_.insert( map.value("sarja").toString());
     }
 
     endResetModel();

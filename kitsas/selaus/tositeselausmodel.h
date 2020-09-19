@@ -56,6 +56,7 @@ public:
     {
         TositeIdRooli = Qt::UserRole,
         TositeTyyppiRooli = Qt::UserRole + 1,
+        TositeSarjaRooli = Qt::UserRole + 6,
         EtsiRooli = Qt::UserRole + 128
 
     };
@@ -75,19 +76,18 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QList<int> tyyppiLista() const;
-
-    QStringList lajiLista() const { return kaytetytLajinimet; }
+    QStringList sarjaLista() const;
 
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu, int tila = KIRJANPIDOSSA);
     void tietoSaapuu(QVariant *var);
 
 protected:
-    QList<TositeSelausRivi> rivit;
-    QStringList kaytetytLajinimet;
+    QList<TositeSelausRivi> rivit;    
 
     QVariantList lista_;
     QSet<int> kaytetytTyypit_;
+    QSet<QString> kaytetytSarjat_;
 
     int tila_ = KIRJANPIDOSSA;
     bool samakausi_ = false;

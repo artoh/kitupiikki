@@ -42,7 +42,7 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
 
 
     lisaa(TositeTyyppi::SIIRTO, tr("Siirto"), "siirra");
-    lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tekstisivu");
+    lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tiliote");
     lisaa(TositeTyyppi::PALKKA, tr("Palkka"), "yrittaja");
     lisaa(TositeTyyppi::MUISTIO, tr("Muistio"),"kommentti");
     lisaa(TositeTyyppi::LIITETIETO, tr("Liitetieto"), "liite");

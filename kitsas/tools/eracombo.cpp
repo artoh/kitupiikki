@@ -100,14 +100,15 @@ void EraCombo::dataSaapuu(QVariant *data)
         data_.append(map);
 
         QVariantMap kumppaniMap = map.value("kumppani").toMap();
-        QString selite = map.value("selite").toString();
-        QString nimi = kumppaniMap.value("nimi").toString();
 
-        addItem( QString("%1 %4%2 (%L3)")
+        QString selite = map.value("selite").toString();
+        QString kumppani = map.value("kumppani").toString();
+        QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
+
+        addItem( QString("%1 %2 (%L3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
-                 .arg(map.value("selite").toString())
-                 .arg(map.value("avoin").toDouble(),0,'f',2)
-                 .arg( nimi.isEmpty() || nimi == selite ? "" : nimi + " " ),
+                 .arg(teksti)
+                 .arg(map.value("avoin").toDouble(),0,'f',2),
                  eraid);
 
         int indeksi = findData(eraid);

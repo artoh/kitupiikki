@@ -221,11 +221,21 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     }
     else if( role == TositeSelausModel::TositeTyyppiRooli) {
         return map.value("tosite").toMap().value("tyyppi").toInt();
+    } else if(role == TiliRooli) {
+        return map.value("tili").toInt();
     }
 
 
     return QVariant();
 }
+
+QList<int> SelausModel::tiliLista() const
+{
+    QList<int> lista = kaytetytTilit_.toList();
+    std::sort(lista.begin(), lista.end());
+    return lista;
+}
+
 
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
@@ -245,23 +255,15 @@ void SelausModel::tietoSaapuu(QVariant *var)
 {
 
     beginResetModel();
-    tileilla.clear();
+    kaytetytTilit_.clear();
     lista_ = var->toList();
 
 
     for(auto rivi : lista_)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
-        Tili* tili = kp()->tilit()->tili(tiliId);
-        if(tili) {
-            QString tilistr = QString("%1 %2")
-                        .arg(tili->numero())
-                        .arg(tili->nimi());
-            if( !tileilla.contains(tilistr))
-                tileilla.append(tilistr);
-        }
+        kaytetytTilit_.insert(tiliId);
     }
-    tileilla.sort();
 
     endResetModel();
 }

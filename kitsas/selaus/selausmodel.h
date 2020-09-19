@@ -40,6 +40,7 @@ public:
 
     enum {
         IdRooli = Qt::UserRole,
+        TiliRooli = Qt::UserRole + 7,
         EtsiRooli = Qt::UserRole + 128
     };
 
@@ -51,7 +52,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    QStringList kaytetytTilit() const { return tileilla; }
+    QList<int> tiliLista() const;
 
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu);
@@ -59,7 +60,7 @@ public slots:
     void tietoSaapuu(QVariant *map);
 
 protected:
-    QStringList tileilla;
+    QSet<int> kaytetytTilit_;
 
     QVariantList lista_;
     bool samakausi_ = false;

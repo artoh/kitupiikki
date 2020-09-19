@@ -175,6 +175,8 @@
         <file>lilja.png</file>
         <file>email32.png</file>
         <file>inbox32.png</file>
+        <file>tiliote.png</file>
+        <file>kululasku.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
