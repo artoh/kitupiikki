@@ -130,7 +130,7 @@ void Tosite::asetaOtsikko(const QString &otsikko)
 
 void Tosite::asetaTyyppi(int tyyppi)
 {
-    asetaSarja( kp()->tositeTyypit()->sarja( tyyppi , viennit()->rowCount() && kp()->tilit()->tiliNumerolla(viennit()->vienti(0).tili() ).onko(TiliLaji::KATEINEN)));
+    // asetaSarja( kp()->tositeTyypit()->sarja( tyyppi , viennit()->rowCount() && kp()->tilit()->tiliNumerolla(viennit()->vienti(0).tili() ).onko(TiliLaji::KATEINEN)));
     setData(TYYPPI, tyyppi);
 }
 
