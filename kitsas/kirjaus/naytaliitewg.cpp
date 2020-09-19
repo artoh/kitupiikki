@@ -55,9 +55,12 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
-    ui->malliView->setModel(new MallipohjaModel(this));
+    MallipohjaModel* model = new MallipohjaModel(this);
+
+    ui->malliView->setModel(model);
     connect(ui->malliView, &QListView::clicked, [this] (const QModelIndex& index)
         {emit this->lataaPohja(index.data(Qt::UserRole).toInt());});
+    connect( model, &MallipohjaModel::modelReset, this, &NaytaliiteWg::pohjatSaapui );
 
     setAcceptDrops(true);
     tarkistaLeikepoyta();
@@ -101,12 +104,12 @@ void NaytaliiteWg::leikepoydalta()
 void NaytaliiteWg::naytaPohjat(bool nayta)
 {
     pohjatNakyvilla_ = nayta;
-    ui->pohjaGroup->setVisible(pohjatNakyvilla_ /* && ui->malliView->model()->rowCount() */);
+    ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount() );
 }
 
 void NaytaliiteWg::pohjatSaapui()
 {
-
+    ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount() );
 }
 
 void NaytaliiteWg::tarkistaLeikepoyta()
