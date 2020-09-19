@@ -174,14 +174,15 @@ void TilioteApuri::teeReset()
 
 void TilioteApuri::lisaaRivi()
 {
-    kirjaaja_->kirjaaUusia();
+    QDate pvm = model()->rowCount()
+            ? model()->index(model()->rowCount(), TilioteModel::PVM).data(Qt::EditRole).toDate()
+            : ui->alkuDate->date();
+    kirjaaja_->kirjaaUusia(pvm);
 }
 
 void TilioteApuri::lisaaTyhjaRivi()
 {
-    TilioteModel::Tilioterivi rivi;
-    rivi.pvm = tosite()->data(Tosite::PVM).toDate();
-    model_->lisaaRivi(rivi);
+    model_->insertRow(model_->rowCount());
 }
 
 void TilioteApuri::riviValittu()

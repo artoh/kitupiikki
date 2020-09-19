@@ -168,10 +168,14 @@ void TilioteKirjaaja::accept()
     }
 }
 
-void TilioteKirjaaja::kirjaaUusia()
+void TilioteKirjaaja::kirjaaUusia(const QDate &pvm)
 {
     setWindowTitle( tr("Kirjaa tiliotteelle"));
     muokattavaRivi_ = -1;
+    if( pvm.isValid()) {
+        ui->pvmEdit->setDate(pvm);
+    }
+
     show();
 }
 

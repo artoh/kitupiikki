@@ -45,7 +45,7 @@ public:
 
 public slots:
     void accept() override;
-    void kirjaaUusia();
+    void kirjaaUusia(const QDate& pvm = QDate());
     void muokkaaRivia(int riviNro);
 
 
