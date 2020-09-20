@@ -37,7 +37,10 @@ protected:
 
         QString getNimi() const;
         void setNimi(const QString &value);
+
         QByteArray getSisalto() const;
+        QByteArray getThumb() const;
+        void setSisalto(const QByteArray& ba);
 
         QString getRooli() const;
         void setRooli(const QString &rooli);
@@ -50,6 +53,7 @@ protected:
         int liiteId_ = 0;
         QString nimi_;        
         QByteArray sisalto_;
+        QByteArray thumb_;
         QString rooli_;
         QString polku_;
         bool liitettava_ = false;        
@@ -97,7 +101,8 @@ signals:
 
 private slots:
     void tallennaSeuraava();
-    void liitesaapuu(QVariant* data);
+    void liitesaapuu(QVariant* data, int indeksi);
+    void liitesaapuuValmiiksi(QVariant* data, int indeksi);
     void liiteLisatty(const QVariant& data, int liiteId, int liiteIndeksi);
 
 protected:

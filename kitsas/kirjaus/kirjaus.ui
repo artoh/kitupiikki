@@ -76,7 +76,13 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>64</width>
+       <height>16</height>
+      </size>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -203,6 +209,9 @@
          </property>
          <property name="viewMode">
           <enum>QListView::IconMode</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

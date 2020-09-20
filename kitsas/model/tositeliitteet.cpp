@@ -28,6 +28,8 @@
 #include <QDebug>
 #include <QSettings>
 #include <QPdfWriter>
+#include <QImage>
+#include <poppler/qt5/poppler-qt5.h>
 
 #include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
@@ -60,16 +62,20 @@ QVariant TositeLiitteet::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if( role == Qt::DisplayRole)
-    {
+    {        
         TositeLiite liite = liitteet_.value(index.row());
         if( liite.getNimi().isEmpty())
             return liite.getRooli();
         else
-            liite.getNimi();
+            return liite.getNimi();
     }
     else if( role == Qt::DecorationRole) {
         TositeLiite liite = liitteet_.value(index.row());
-        if( liite.getRooli() == "lasku")
+        if( !liite.getThumb().isEmpty()) {
+            QPixmap pixmap;
+            pixmap.loadFromData(liite.getThumb(), "PNG");
+            return QIcon(pixmap);
+        } else if( liite.getRooli() == "lasku")
             return QIcon(":/pic/lasku.png");
         else if( liite.getNimi().endsWith(".pdf"))
             return QIcon(":/pic/pdf.png");
@@ -107,9 +113,19 @@ void TositeLiitteet::lataa(QVariantList data)
     // Varmistetaan, että ensisijaisesti näytetään laskun kuva, ei
     // xml-laskua
     for(int i=0; i < liitteet_.count(); i++) {
-        if( liitteet_.at(i).getNimi().endsWith(".pdf", Qt::CaseInsensitive) ||
-            liitteet_.at(i).getNimi().endsWith(".jpg", Qt::CaseInsensitive) ) {
+        QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
+        if( tyyppi == "application/pdf" || tyyppi == "application/jpg")
             emit nayta(i);
+
+            // Haetaan vielä esikatseltavat
+            for(i++; i < liitteet_.count(); i++) {
+                QVariantMap map = data.value(i).toMap();
+                QString tyyppi = map.value("tyyppi").toString();
+                if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
+                    KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
+                    connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+                    kysely->kysy();
+            }
             return;
         }
     }
@@ -362,7 +378,7 @@ void TositeLiitteet::nayta(int indeksi)
         QByteArray sisalto = liitteet_.at(indeksi).getSisalto();
         if(sisalto.isEmpty()) {
             KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ));
-            connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::liitesaapuu);
+            connect( kysely, &KpKysely::vastaus, [this, indeksi] (QVariant* data) {this->liitesaapuu(data, indeksi);});
             kysely->kysy();
         } else {
             emit ( naytaliite(sisalto) );
@@ -408,10 +424,19 @@ void TositeLiitteet::tallennaSeuraava()
     }
 }
 
-void TositeLiitteet::liitesaapuu(QVariant *data)
+void TositeLiitteet::liitesaapuu(QVariant *data, int indeksi)
+{
+    liitesaapuuValmiiksi(data, indeksi);
+    emit naytaliite( data->toByteArray() );
+}
+
+void TositeLiitteet::liitesaapuuValmiiksi(QVariant *data, int indeksi)
 {
     // Tässä voisi myös laittaa liitteen muistiin ;)
-    emit naytaliite( data->toByteArray() );
+    if(liitteet_.count() > indeksi)
+        liitteet_[indeksi].setSisalto(data->toByteArray());
+
+    emit dataChanged(index(indeksi), index(indeksi), QVector<int>() << Qt::DecorationRole);
 }
 
 void TositeLiitteet::liiteLisatty(const QVariant & /*data*/, int liiteId, int liiteIndeksi)
@@ -469,11 +494,10 @@ void TositeLiitteet::finvoicePdfSaapuu(QVariant *data)
 TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto, const QString &rooli, const QString &polku) :
     liiteId_(id),
     nimi_(nimi),
-    sisalto_(sisalto),
     rooli_(rooli),
     polku_(polku)
 {
-
+    setSisalto(sisalto);
 }
 
 int TositeLiitteet::TositeLiite::getLiiteId() const
@@ -499,6 +523,38 @@ void TositeLiitteet::TositeLiite::setNimi(const QString &value)
 QByteArray TositeLiitteet::TositeLiite::getSisalto() const
 {
     return sisalto_;
+}
+
+QByteArray TositeLiitteet::TositeLiite::getThumb() const
+{
+    return thumb_;
+}
+
+void TositeLiitteet::TositeLiite::setSisalto(const QByteArray &ba)
+{
+    sisalto_ = ba;
+
+    QString tyyppi = KpKysely::tiedostotyyppi(ba);
+    if( tyyppi == "application/pdf") {
+        Poppler::Document *pdfDoc = Poppler::Document::loadFromData(ba);
+        if( pdfDoc ) {
+            Poppler::Page *sivu = pdfDoc->page(0);
+            if( sivu) {
+                QImage image = sivu->renderToImage(24,24);
+                QPixmap kuva = QPixmap::fromImage(image.scaled(128,128,Qt::KeepAspectRatio));
+                QBuffer tallennus(&thumb_);
+                tallennus.open(QIODevice::WriteOnly);
+                kuva.save(&tallennus, "PNG");
+            }
+        }
+    } else if( tyyppi.startsWith("image/jpeg")) {
+        QImage image = QImage::fromData(ba, "JPG");
+        QPixmap kuva = QPixmap::fromImage(image.scaled(128,128, Qt::KeepAspectRatio));
+        QBuffer tallennus(&thumb_);
+        tallennus.open(QIODevice::WriteOnly);
+        kuva.save(&tallennus,"PNG");
+    }
+
 }
 
 QString TositeLiitteet::TositeLiite::getRooli() const
