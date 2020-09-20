@@ -172,6 +172,8 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QString("%1/%2").arg(tili->numero()).arg(tili->otsikkotaso(),2,10,QChar('0'));
         else
             return QString("%1/XX").arg(tili->numero());
+    } else if( role == SaldoRooli) {
+        return saldot_.value(tili->numero());
     }
 
     return QVariant();

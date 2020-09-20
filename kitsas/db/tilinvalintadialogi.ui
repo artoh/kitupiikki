@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
-    <height>457</height>
+    <width>1058</width>
+    <height>527</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -74,6 +74,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="saldoButton">
+       <property name="text">
+        <string>&amp;Saldolliset</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/euromerkki.png</normaloff>:/pic/euromerkki.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="kaikkiNappi">
        <property name="text">
         <string>&amp;Kaikki</string>
@@ -81,6 +95,36 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="otsikotButton">
+       <property name="text">
+        <string>Otsikot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/123.png</normaloff>:/pic/123.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>

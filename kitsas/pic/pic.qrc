@@ -177,6 +177,7 @@
         <file>inbox32.png</file>
         <file>tiliote.png</file>
         <file>kululasku.png</file>
+        <file>euromerkki.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

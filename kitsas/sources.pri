@@ -17,6 +17,7 @@ SOURCES += \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
+    $$PWD/db/tilivalintadialogifiltteri.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kierto/kiertomaaritys.cpp \
@@ -282,6 +283,7 @@ HEADERS += \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/db/kielikentta.h \
+    $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kierto/kiertomaaritys.h \

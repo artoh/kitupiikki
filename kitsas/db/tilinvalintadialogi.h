@@ -23,6 +23,7 @@
 
 #include "tili.h"
 #include "tilimodel.h"
+#include "tilivalintadialogifiltteri.h"
 
 namespace Ui {
 class TilinValintaDialogi;
@@ -47,7 +48,7 @@ public:
 
     void accept() override;
 
-    void nayta(const QString& alku, const QString& suodatus = QString("[ABCDH]"));
+//    void nayta(const QString& alku, const QString& suodatus = QString("[ABCDH]"));
 public slots:
     void suodata(const QString& alku);
     void suodataTyyppi(const QString& regexp);
@@ -62,6 +63,8 @@ signals:
 protected slots:
     void klikattu(const QModelIndex& index);
     void valintaMuuttui(const QModelIndex& index);
+    void naytaSaldolliset(bool naytetaanko);
+
     /**
      * @brief Näyttää tilin kirjausohjeen
      * @param tiliId
@@ -77,10 +80,10 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
-    Ui::TilinValintaDialogi *ui;
-    QSortFilterProxyModel* proxyNimi;
-    QSortFilterProxyModel* proxyTyyppi;
-    QSortFilterProxyModel* proxyTila;
+    Ui::TilinValintaDialogi *ui;    
+
+    QSortFilterProxyModel* lajitteluProxy_;
+    TilivalintaDialogiFiltteri* filtteri_;
 
     QString alkuperainenTyyppiSuodatin;
     QString tyyppiSuodatin;    

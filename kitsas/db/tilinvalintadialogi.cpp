@@ -31,23 +31,13 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    proxyNimi = new QSortFilterProxyModel(this);
+    lajitteluProxy_ = new QSortFilterProxyModel(this);
+    filtteri_ = new TilivalintaDialogiFiltteri(this);
+    filtteri_->setSourceModel(lajitteluProxy_);
     asetaModel( kp()->tilit());
-    proxyNimi->setFilterRole( TiliModel::NimiRooli);
-    proxyNimi->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-    proxyTyyppi = new QSortFilterProxyModel(this);
-    proxyTyyppi->setSourceModel(proxyNimi);
-    proxyTyyppi->setFilterRole(TiliModel::TyyppiRooli);
-    proxyTyyppi->setSortRole(TiliModel::LajitteluRooli);
-    proxyTyyppi->sort(TiliModel::NUMERO);
 
-    proxyTila = new QSortFilterProxyModel(this);
-    proxyTila->setSourceModel(proxyTyyppi);
-    proxyTila->setFilterRole(TiliModel::TilaRooli);
-    proxyTila->setFilterRegExp("[12]");
-
-    ui->view->setModel(proxyTila);
+    ui->view->setModel(filtteri_);
     ui->view->setColumnHidden(TiliModel::NRONIMI, true);
 
     ui->view->setColumnHidden(TiliModel::ALV, ! kp()->asetukset()->onko("AlvVelvollinen"));
@@ -69,6 +59,19 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, SLOT(valintaMuuttui(QModelIndex)));
     connect( ui->view, &QTableView::entered,
              this, &TilinValintaDialogi::naytaOhje);
+    connect( ui->saldoButton, &QPushButton::clicked, this, &TilinValintaDialogi::naytaSaldolliset);
+    connect( ui->otsikotButton, &QPushButton::toggled, filtteri_, &TilivalintaDialogiFiltteri::naytaOtsikot);
+
+    int viimetila = kp()->settings()->value("TilinvalintaTila").toInt();
+    if( viimetila == TilivalintaDialogiFiltteri::SUOSIKIT)
+        ui->suosikitNappi->setChecked(true);
+    else if(viimetila == TilivalintaDialogiFiltteri::KAIKKI)
+        ui->kaikkiNappi->setChecked(true);
+    else if(viimetila == TilivalintaDialogiFiltteri::KIRJATTU)
+        ui->saldoButton->setChecked(true);
+    filtteri_->suodataTilalla(viimetila);
+    filtteri_->naytaOtsikot(kp()->settings()->value("TilinvalintaOtsikot", true).toBool());
+
 
     ui->view->setMouseTracking(true);
 
@@ -81,6 +84,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
 TilinValintaDialogi::~TilinValintaDialogi()
 {
     kp()->settings()->setValue("TilinValintaDlg", saveGeometry());
+    kp()->settings()->setValue("TilinvalintaTila", filtteri_->suodatusTila());
+    kp()->settings()->setValue("TilinvalintaOtsikot", ui->otsikotButton->isChecked());
     delete ui;
 }
 
@@ -101,30 +106,8 @@ void TilinValintaDialogi::accept()
 
 
 void TilinValintaDialogi::suodata(const QString &alku)
-{
-    if( alku.toInt() > 0) {
-        proxyNimi->setFilterRole(TiliModel::NroRooli);
-        proxyNimi->setFilterRegExp( "^" + alku  );
-    }
-    else
-    {
-        proxyNimi->setFilterRole(TiliModel::NimiRooli);
-        proxyNimi->setFilterFixedString(alku);
-    }
-
-
-
-    if( tyyppiSuodatin.isEmpty())
-    {
-        if( alku.isEmpty())
-            proxyTyyppi->setFilterFixedString("");
-        else
-            proxyTyyppi->setFilterRegExp("[ABCD].*");
-    }
-    else
-        proxyTyyppi->setFilterRegExp( tyyppiSuodatin );
-
-
+{    
+    filtteri_->suodataTekstilla(alku);
     if( ui->view->selectionModel()->selectedIndexes().isEmpty())
         ui->view->setCurrentIndex( ui->view->model()->index(0,0) );
     alaValitseOtsikoita(1);
@@ -133,8 +116,7 @@ void TilinValintaDialogi::suodata(const QString &alku)
 void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
 {
     alkuperainenTyyppiSuodatin = regexp;
-    tyyppiSuodatin = alkuperainenTyyppiSuodatin;
-    suodata(ui->suodatusEdit->text());
+    filtteri_->suodataTyypilla(regexp);
     alaValitseOtsikoita(1);
 }
 
@@ -143,32 +125,30 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
     if( suodatetaanko)
     {
         ui->kaikkiNappi->setChecked(false);
-        proxyTila->setFilterFixedString("2");
+        ui->saldoButton->setChecked(false);
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::SUOSIKIT);
     }
     else
-        proxyTila->setFilterRegExp("[12]");
-
-    tyyppiSuodatin = alkuperainenTyyppiSuodatin;
-    suodata(ui->suodatusEdit->text());
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAYTOSSA);
 }
 
 void TilinValintaDialogi::naytaKaikki(bool naytetaanko)
 {
     if( naytetaanko) {
         ui->suosikitNappi->setChecked(false);
-        proxyTila->setFilterFixedString("");
-        tyyppiSuodatin = "";
+        ui->saldoButton->setChecked(false);
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAIKKI);
+        filtteri_->suodataTyypilla(".*");
     } else {
-        proxyTila->setFilterRegExp("[12]");
-        tyyppiSuodatin = alkuperainenTyyppiSuodatin;
-    }
-    suodata(ui->suodatusEdit->text());
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAYTOSSA);
+        filtteri_->suodataTyypilla(alkuperainenTyyppiSuodatin);
+    }    
 }
 
 void TilinValintaDialogi::asetaModel(TiliModel *model)
 {
     tiliModel = model;
-    proxyNimi->setSourceModel( model );
+    lajitteluProxy_->setSourceModel( model );
 }
 
 void TilinValintaDialogi::valitse(int tilinumero)
@@ -198,6 +178,19 @@ void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
     ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0
                                   && index.data(TiliModel::TyyppiRooli).toString() != "T");
     naytaOhje( index );
+}
+
+void TilinValintaDialogi::naytaSaldolliset(bool naytetaanko)
+{
+    if( naytetaanko) {
+        ui->suosikitNappi->setChecked(false);
+        ui->kaikkiNappi->setChecked(false);
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KIRJATTU);
+        filtteri_->suodataTyypilla(".*");
+    } else {
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAYTOSSA);
+        filtteri_->suodataTyypilla(alkuperainenTyyppiSuodatin);
+    }
 }
 
 void TilinValintaDialogi::naytaOhje(const QModelIndex &index)
@@ -249,7 +242,7 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
     }
     return QDialog::eventFilter(object, event);
 }
-
+/*
 void TilinValintaDialogi::nayta(const QString &alku, const QString &suodatus)
 {
     qDebug() << alku;
@@ -264,7 +257,7 @@ void TilinValintaDialogi::nayta(const QString &alku, const QString &suodatus)
     exec();
     setAttribute(Qt::WA_DeleteOnClose);
 }
-
+*/
 
 
 
