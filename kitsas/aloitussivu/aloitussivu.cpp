@@ -90,7 +90,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
-    connect( kp(), SIGNAL( perusAsetusMuuttui()), this, SLOT(kirjanpitoVaihtui()));
+    connect( kp()->asetukset(), &AsetusModel::asetusMuuttui, this, &AloitusSivu::kirjanpitoVaihtui);
 
     connect( ui->loginButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogin);
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
@@ -256,6 +256,9 @@ void AloitusSivu::kirjanpitoVaihtui()
                 break;
             }
         }
+    } else {
+        ui->inboxFrame->hide();
+        ui->outboxFrame->hide();
     }
 
     if( !kp()->asetus("Tilikartta").isEmpty() )

@@ -69,6 +69,7 @@ void AsetusModel::aseta(const QVariantMap &map)
             asetukset_.insert( iter.key(), iter.value().toString());
     }
     KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
+    connect(paivitys, &KpKysely::vastaus, this, &AsetusModel::asetusMuuttui);
     paivitys->kysy(map);
 }
 
