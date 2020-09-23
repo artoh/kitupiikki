@@ -107,8 +107,27 @@ void AineistoTulostaja::tulostaRaportit()
             return;
         }
     }
-    liitepnt_ = 0;
-    tilaaSeuraavaLiite();
+
+}
+
+void AineistoTulostaja::tilaaTositeLista()
+{
+    KpKysely *kysely = kpk("/tositteet");
+    kysely->lisaaAttribuutti("alkupvm", tilikausi_.alkaa());
+    kysely->lisaaAttribuutti("loppupvm", tilikausi_.paattyy());
+    connect( kysely, &KpKysely::vastaus, this, &AineistoTulostaja::tositeListaSaapuu);
+    kysely->kysy();
+}
+
+void AineistoTulostaja::tositeListaSaapuu(QVariant *data)
+{
+    tositteet_ = data->toList();
+
+    tulostaRaportit();
+
+    tositepnt_ = 0;
+    tilaaSeuraavaTosite();
+
 }
 
 
@@ -183,7 +202,7 @@ void AineistoTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
     kirjoittajat_[raportti] = rk;
     tilattuja_--;
     if( !tilattuja_)
-        tilaaLiitteet();
+        tilaaTositeLista();
 }
 
 void AineistoTulostaja::liiteListaSaapuu(QVariant *data)
@@ -191,16 +210,15 @@ void AineistoTulostaja::liiteListaSaapuu(QVariant *data)
     QVariantList lista = data->toList();
     liitteet_ = lista;
     tulostaRaportit();
+
+    liitepnt_ = 0;
+    tilaaSeuraavaLiite();
 }
 
 void AineistoTulostaja::tilaaSeuraavaLiite()
 {
     if( liitepnt_ == liitteet_.count()) {
-        painter->end();
-        QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
-        progress->close();
-        delete progress;
-        delete painter;
+        valmis();
         return;
     }
 
@@ -238,4 +256,92 @@ void AineistoTulostaja::tulostaLiite(QVariant *data, const QVariantMap &map)
                                          map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
     progress->setValue(progress->value() + 1);
     tilaaSeuraavaLiite();
+}
+
+void AineistoTulostaja::tilaaSeuraavaTosite()
+{
+    if( tositepnt_ == tositteet_.count()) {
+        valmis();
+    } else {
+        int tositeId = tositteet_.value(tositepnt_).toMap().value("id").toInt();
+        tositepnt_++;
+
+        progress->setValue(progress->value() + 1);
+
+        KpKysely *tositeHaku = kpk(QString("/tositteet/%1").arg(tositeId));
+        connect(tositeHaku, &KpKysely::vastaus, this, &AineistoTulostaja::tositeSaapuu);
+        tositeHaku->kysy();
+    }
+}
+
+void AineistoTulostaja::tositeSaapuu(QVariant *data)
+{
+    qApp->processEvents();
+    if( progress->wasCanceled()) {
+        progress->close();
+        delete painter;
+        delete progress;
+        return;
+    }
+
+    nykyTosite_ = data->toMap();
+
+    QVariantList liitelista = nykyTosite_.value("liitteet").toList();
+    for(auto liite : liitelista) {
+        QVariantMap liiteMap = liite.toMap();
+        QString tyyppi = liiteMap.value("tyyppi").toString();
+        if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
+            liiteJono_.enqueue(qMakePair(liiteMap.value("id").toInt(), tyyppi));
+        }
+    }
+
+    ensisivu_ = true;
+
+    if(liiteJono_.isEmpty()) {
+        // Tulostetaan tarvittaessa muistiotosite
+        tilaaSeuraavaTosite();
+    } else {
+        tilaaLiite();
+    }
+
+}
+
+void AineistoTulostaja::tilaaLiite()
+{
+    if( liiteJono_.isEmpty()) {
+        tilaaSeuraavaTosite();
+    } else {
+        QPair<int,QString> liitetieto = liiteJono_.dequeue();
+        KpKysely *liiteHaku = kpk(QString("/liitteet/%1").arg(liitetieto.first));
+        connect( liiteHaku, &KpKysely::vastaus,
+                 [this, liitetieto] (QVariant* data) { this->tilattuLiiteSaapuu(data, liitetieto.second); });
+        liiteHaku->kysy();
+    }
+}
+
+void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
+{
+    QByteArray ba = data->toByteArray();
+    device->newPage();
+    LiiteTulostaja::tulostaLiite(
+                device, painter,
+                ba,
+                tyyppi,
+                nykyTosite_.value("pvm").toDate(),
+                nykyTosite_.value("sarja").toString(),
+                nykyTosite_.value("tunniste").toInt() );
+
+    ensisivu_ = false;
+    tilaaLiite();
+}
+
+void AineistoTulostaja::valmis()
+{
+    painter->end();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
+    progress->close();
+    delete progress;
+    delete painter;
+    return;
+
 }

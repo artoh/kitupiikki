@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QQueue>
 
 #include "naytin/esikatseltava.h"
 #include "db/tilikausi.h"
@@ -48,8 +49,20 @@ protected:
     void liiteListaSaapuu(QVariant *data);
     void liiteSaapuu(int liiteid, QVariant* var);    
     void tulostaRaportit();
+
+    void tilaaTositeLista();
+    void tositeListaSaapuu(QVariant *data);
+
     void tilaaSeuraavaLiite();
     void tulostaLiite(QVariant* data, const QVariantMap& map);
+
+    void tilaaSeuraavaTosite();
+    void tositeSaapuu(QVariant* data);
+    void tilaaLiite();
+    void tilattuLiiteSaapuu(QVariant* data, const QString& tyyppi);
+
+    void valmis();
+
 
 protected:
     Tilikausi tilikausi_;
@@ -65,6 +78,13 @@ protected:
     QProgressDialog* progress;
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;
+
+    QVariantList tositteet_;
+    QVariantMap nykyTosite_;
+    QQueue<QPair<int,QString>> liiteJono_;
+    bool ensisivu_;
+
+    int tositepnt_ = 0;
 
 };
 
