@@ -476,28 +476,61 @@ QString TositeRoute::viite(QString numero)
 
 int TositeRoute::kumppaniMapista(QVariantMap &map)
 {
+    int kumppaniId = 0;
+
     QVariantMap kumppani = map.take("kumppani").toMap();
     if( kumppani.isEmpty())
         return 0;
 
     if( kumppani.contains("id"))
-        return kumppani.value("id").toInt();
+        kumppaniId = kumppani.value("id").toInt();
 
     const QString& nimi = kumppani.value("nimi").toString();
-    if( nimi.isEmpty() )
+    if( !kumppaniId && nimi.isEmpty() )
         return 0;
 
-    if( kumppaniCache_.contains(nimi))
-        return kumppaniCache_.value(nimi);
+    if( !kumppaniId && kumppaniCache_.contains(nimi))
+        kumppaniId = kumppaniCache_.value(nimi);
 
     QSqlQuery kumppaniKysely( db() );
+
+    if( !kumppaniId && !map.value("alvtunnus").toString().isEmpty()) {
+        kumppaniKysely.exec(QString("SELECT id FROM Kumppani WHERE alvtunnus='%1'").arg(map.value("alvtunnus").toString()));
+        if(kumppaniKysely.next()) {
+            kumppaniId = kumppaniKysely.value("id").toInt();
+        }
+    }
+
+    if( !kumppaniId && !map.value("iban").toList().isEmpty()) {
+        for(QVariant iban : map.value("iban").toList()) {
+            kumppaniKysely.exec(QString("SELECT kumppani FROM KumppaniIban WHERE iban='%1'").arg(iban.toString()));
+            if(kumppaniKysely.next()) {
+                kumppaniId = kumppaniKysely.value("kumppani").toInt();
+                break;
+            }
+        }
+    }
+
     // Kumppani pitää lisätä
-    int id = KumppanitRoute::kumppaninLisays(kumppani, kumppaniKysely) ;
-    if( id ) {
-        kumppaniCache_.insert(nimi, id);
-        return id;
-    } else {
-        db().rollback();
-        throw SQLiteVirhe(kumppaniKysely);
-   }
+    if(!kumppaniId) {
+        kumppaniId = KumppanitRoute::kumppaninLisays(kumppani, kumppaniKysely) ;
+        if( kumppaniId ) {
+            kumppaniCache_.insert(nimi, kumppaniId);
+        } else {
+            db().rollback();
+            throw SQLiteVirhe(kumppaniKysely);
+       }
+    } else if (!map.value("iban").toList().isEmpty()) {
+        kumppaniKysely.prepare("INSERT INTO KumppaniIban (kumppani,iban) VALUES (?,?) ON CONFLICT (iban) DO UPDATE SET kumppani=EXCLUDED.kumppani");
+        for(QVariant var : map.value("iban").toList()) {
+            kumppaniKysely.addBindValue(kumppaniId);
+            kumppaniKysely.addBindValue(var.toString());
+            if(!kumppaniKysely.exec()) {
+                db().rollback();
+                throw SQLiteVirhe(kumppaniKysely);
+            }
+        }
+    }
+
+    return kumppaniId;
 }

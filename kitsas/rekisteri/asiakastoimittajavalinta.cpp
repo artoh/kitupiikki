@@ -78,6 +78,8 @@ QString AsiakasToimittajaValinta::nimi() const
 
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
+    ibanit_.clear();
+
     combo_->lineEdit()->setText(nimi);
     if( id ) {
         ladattu_ = id;
@@ -119,9 +121,12 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
         combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
         emit valittu( combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt() );
     } else {
-        // Siirrytään dialogiin        
+        // Siirrytään dialogiin                
+        // Pitäisikö yrittää vielä tilinumerolla ?
+
         dlg_->tuonti(data);
     }
+    ibanit_ = data.value("iban").toStringList();
 }
 
 void AsiakasToimittajaValinta::valitseAsiakas()
@@ -131,7 +136,7 @@ void AsiakasToimittajaValinta::valitseAsiakas()
 
 void AsiakasToimittajaValinta::nimiMuuttui()
 {
-    setId( combo_->itemData( combo_->findData( combo_->currentText(), Qt::EditRole ) ).toInt() );
+    setId( combo_->itemData( combo_->findData( combo_->currentText(), Qt::EditRole ) ).toInt() );    
 
     // Jos on syötetty y-tunnus, haetaan sillä
     if( YTunnusValidator::kelpaako( combo_->currentText() )) {
@@ -184,6 +189,8 @@ void AsiakasToimittajaValinta::modelLadattu()
 void AsiakasToimittajaValinta::setId(int id)
 {    
     id_ = id;
+    ibanit_.clear();
+
     if( id ) {
         button_->setIcon(QIcon(":/pic/muokkaaasiakas.png"));
         emit valittu(id);

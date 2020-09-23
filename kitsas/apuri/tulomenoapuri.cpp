@@ -297,24 +297,21 @@ bool TuloMenoApuri::teeTositteelle()
 
 
     // Asiakas tai toimittaja
+    QVariantMap kumppaniMap;
     if( ui->asiakasToimittaja->id() > 0)
-        vasta.setKumppani( ui->asiakasToimittaja->id() );
-    else if( !ui->asiakasToimittaja->nimi().isEmpty())
-        vasta.setKumppani( ui->asiakasToimittaja->nimi());
+        kumppaniMap.insert("id", ui->asiakasToimittaja->id());
+    if( !ui->asiakasToimittaja->nimi().isEmpty())
+        kumppaniMap.insert("nimi", ui->asiakasToimittaja->nimi());
+    if( !ui->asiakasToimittaja->ibanit().isEmpty())
+        kumppaniMap.insert("iban", ui->asiakasToimittaja->ibanit());
+
+    tosite()->asetaKumppani(kumppaniMap);
+    vasta.setKumppani(kumppaniMap);
+
 
     if( summa || tosite()->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA) {
         viennit.insert(0, vasta);
     }
-
-    if( ui->asiakasToimittaja->id() > 0) {
-        QVariantMap kmap;
-        kmap.insert("id", ui->asiakasToimittaja->id());
-        kmap.insert("nimi", ui->asiakasToimittaja->nimi());
-        tosite()->asetaKumppani( kmap );
-    } else if( !ui->asiakasToimittaja->nimi().isEmpty())
-        tosite()->asetaKumppani( ui->asiakasToimittaja->nimi() );
-    else
-        tosite()->asetaKumppani( QVariantMap());
 
     tosite()->asetaLaskupvm( ui->laskuPvm->date());
     tosite()->asetaErapvm( ui->erapaivaEdit->date());

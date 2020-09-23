@@ -35,6 +35,7 @@ public:
 
     int id() const { return id_;}
     QString nimi() const;
+    QStringList ibanit() const { return ibanit_;}
 
 signals:
     void valittu(int id);
@@ -69,6 +70,7 @@ protected:
 
     int id_=0;
     int ladattu_=0;
+    QStringList ibanit_;
 };
 
 #endif // ASIAKASTOIMITTAJAVALINTA_H
