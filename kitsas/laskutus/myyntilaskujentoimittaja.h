@@ -21,6 +21,7 @@
 #include <QList>
 #include <QVariantMap>
 #include <QQueue>
+#include <QProgressDialog>
 
 class VerkkolaskuToimittaja;
 
@@ -71,6 +72,7 @@ protected:
     int virheita_ = 0;
     int laskuja_ = 0;    
     bool emailvirheita_ = false;
+    QProgressDialog* dlg_ = nullptr;
 };
 
 #endif // MYYNTILASKUJENTOIMITTAJA_H

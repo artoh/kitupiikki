@@ -34,6 +34,7 @@
 #include <QPrinter>
 #include <QFileDialog>
 #include <QSettings>
+#include <QProgressDialog>
 
 #include "smtp.h"
 
@@ -56,6 +57,9 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
    }
 
    laskuja_ = laskut.count();
+   dlg_ = new QProgressDialog(tr("Toimitetaan laskuja"),"",0,laskut.count());
+   dlg_->setMinimumDuration(1000);
+   dlg_->setCancelButton(nullptr);
 
     // Ensin lajitellaan
     for( QVariantMap lasku : laskut)
@@ -101,12 +105,14 @@ void MyyntiLaskujenToimittaja::toimitettu()
 {    
     merkkausMatkalla_ = false;
     toimitetut_++;
+    dlg_->setValue(toimitetut_ + virheita_);
     merkkaaSeuraava();
 }
 
 void MyyntiLaskujenToimittaja::virhe()
 {
     virheita_++;
+    dlg_->setValue(toimitetut_ + virheita_);
     tarkistaValmis();
 }
 
@@ -235,6 +241,7 @@ void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
 void MyyntiLaskujenToimittaja::tarkistaValmis()
 {
     if( toimitetut_ + virheita_ == laskuja_ && merkattavat_.isEmpty()) {
+
         emit kp()->kirjanpitoaMuokattu();
         if( virheita_) {
             if( toimitetut_ > 0)
