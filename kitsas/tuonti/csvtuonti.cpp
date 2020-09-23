@@ -700,9 +700,10 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = USPVM;
             // Tilinumeron kanssa samaan kenttään on voitu tunkea IBAN-joten kokeillaan
             // myös vähän muokatuilla versioilla
-            else if( IbanValidator::kelpaako(valeitta) ||
+            else if( !valeitta.startsWith("RF") &&
+                     ( IbanValidator::kelpaako(valeitta) ||
                      IbanValidator::kelpaako(valeitta.left(18)) ||
-                     IbanValidator::kelpaako(teksti.left(teksti.indexOf(QChar(' '))) )  )
+                     IbanValidator::kelpaako(teksti.left(teksti.indexOf(QChar(' '))) ))  )
                 muoto = TILI;
             else if( ViiteValidator::kelpaako(valeitta ) )
                 muoto = VIITE;
