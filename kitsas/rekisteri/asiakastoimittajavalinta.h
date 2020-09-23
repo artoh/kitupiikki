@@ -56,6 +56,7 @@ private slots:
     void talletettu(int id, const QString &nimi);
     void modelLadattu();
 
+    void ibanLoytyi(const QVariantMap& tuontiData, QVariant* data);
 
 protected:
     void setId(int id);

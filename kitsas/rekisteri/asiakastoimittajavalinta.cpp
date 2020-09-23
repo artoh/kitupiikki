@@ -20,6 +20,7 @@
 #include "asiakastoimittajadlg.h"
 
 #include "validator/ytunnusvalidator.h"
+#include "db/kirjanpito.h"
 
 #include <QLineEdit>
 #include <QPushButton>
@@ -123,8 +124,16 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
     } else {
         // Siirrytään dialogiin                
         // Pitäisikö yrittää vielä tilinumerolla ?
-
-        dlg_->tuonti(data);
+        if( data.value("iban").toStringList().isEmpty()) {
+            ibanLoytyi(data, nullptr);
+        } else {
+            QString ekaIban = data.value("iban").toStringList().value(0);
+            KpKysely* ibankysely = kpk("/kumppanit");
+            ibankysely->lisaaAttribuutti("iban", ekaIban);
+            connect(ibankysely, &KpKysely::vastaus, [this,data] (QVariant* vastaus) {this->ibanLoytyi(data, vastaus);} );
+            connect(ibankysely, &KpKysely::virhe, [this, data] {this->ibanLoytyi(data, nullptr);});
+            ibankysely->kysy();
+        }
     }
     ibanit_ = data.value("iban").toStringList();
 }
@@ -185,6 +194,18 @@ void AsiakasToimittajaValinta::modelLadattu()
         combo_->setCurrentIndex(indeksi);
     }
 }
+
+void AsiakasToimittajaValinta::ibanLoytyi(const QVariantMap &tuontiData, QVariant *data)
+{
+    QVariantMap map = data ? data->toMap() : QVariantMap();
+    if(map.isEmpty()) {
+        dlg_->tuonti(tuontiData);
+    } else {
+        set(map.value("id").toInt(), map.value("nimi").toString());
+    }
+    ibanit_ = tuontiData.value("iban").toStringList();
+}
+
 
 void AsiakasToimittajaValinta::setId(int id)
 {    
