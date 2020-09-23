@@ -26,6 +26,7 @@ TilikausiSivu::TilikausiSivu(UusiVelho* wizard) :
     setTitle("Tilikauden tiedot");
 
     ui->setupUi(this);
+    ui->eiavaustaVaroitus->setVisible(velho->tilikaudet_.count() == 1);
 
     int tamavuosi = QDate::currentDate().year();
 

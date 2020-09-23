@@ -44,6 +44,7 @@
           <property name="font">
            <font>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
           </property>
@@ -60,6 +61,7 @@
           <property name="font">
            <font>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
           </property>
@@ -73,6 +75,7 @@
           <property name="font">
            <font>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
             <kerning>false</kerning>
            </font>
@@ -90,6 +93,7 @@
           <property name="font">
            <font>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
           </property>
@@ -105,6 +109,7 @@
         <property name="font">
          <font>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
           <kerning>false</kerning>
          </font>
@@ -115,6 +120,17 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="eiavaustaVaroitus">
+     <property name="text">
+      <string>&lt;p&gt;&lt;b&gt;Et voi syöttää ohjelmaan taseen alkusaldoja, koska olet valinnut että toiminta alkaa vasta tästä tilikaudesta.&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Käytä tätä valintaa vain, jos kyseessä on todellakin vasta perustetun yrityksen/yhdistyksen ensimmäinen tilikausi.&lt;/p&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
@@ -216,17 +232,33 @@
  <connections>
   <connection>
    <sender>aloittavaTilikausiCheck</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>groupBox_2</receiver>
-   <slot>setDisabled(bool)</slot>
+   <signal>toggled(bool)</signal>
+   <receiver>eiavaustaVaroitus</receiver>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>280</x>
-     <y>170</y>
+     <x>66</x>
+     <y>318</y>
     </hint>
     <hint type="destinationlabel">
-     <x>272</x>
-     <y>184</y>
+     <x>63</x>
+     <y>381</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aloittavaTilikausiCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>575</y>
     </hint>
    </hints>
   </connection>

@@ -2,39 +2,9 @@ body {
   font-family: sans-serif;
 }
 
-nav ul {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #f3f3f3;
-  list-style: none;
-  border: 1px solid #e7e7e7;
-}
-nav ul li {
-  display: block;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  float: right;
-}
-nav ul li.nappi {
-  width: 6em;
-  text-align: center;
-}
-nav ul li.kotinappi {
-  float: left;
-  vertical-align: middle;
-}
-nav ul li.kotinappi img {
-  height: 16px;
-  margin-right: 1em;
-}
-nav ul li a {
-  text-decoration: none;
-  color: black;
-}
-nav ul li a:hover {
-  background-color: #eee;
+div.kirjanpito {
+  margin-bottom: 20px;
+  color: #444444;
 }
 
 td a {
@@ -72,6 +42,7 @@ td.tositetunnus {
   text-align: right;
   min-width: 8em;
   font-weight: bold;
+  font-size: large;
 }
 td.tositekumppani {
 }
@@ -103,10 +74,12 @@ table.viennit td.kumppani {
 table.viennit td.selite {
   width: 100%;
 }
-table.viennit td.alv {
+
+table.vienni td.alv {
   text-align: right;
   min-width: 6em;
 }
+
 table.viennit td.euro {
   text-align: right;
   min-width: 8em;
@@ -119,8 +92,13 @@ table.viennit tr:hover {
   background-color: #ccc;
 }
 
-table.extra {
+p.info {
+  font-size: 10pt;
   margin-top: 2em;
+}
+
+table.extra {
+  margin-top: 20;
 }
 table.extra td.extrahead {
   min-width: 12em;
@@ -129,10 +107,6 @@ table.extra td.extracol {
   width: 100%;
 }
 
-p.info {
-  font-size: 10pt;
-  margin-top: 2em;
-}
 span.treeni {
   color: green;
 }
@@ -158,9 +132,6 @@ h2.etusivu {
     color: black;
   }
   a.avaaliite {
-    display: none;
-  }
-  #liite {
     display: none;
   }
 }

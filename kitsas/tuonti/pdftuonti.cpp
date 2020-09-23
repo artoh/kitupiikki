@@ -594,7 +594,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
             if( sarake > selityssarake - 25 && sarake < selityssarake + 10 && teksti.length() > 3) {
 
                 // Poistetaan alusta mahdollinen päivämäärä               
-                teksti = teksti.replace(QRegularExpression("^(\\w{1,2}\\s?)?\\d{2}\\.?\\d{2}\\.?\\s*"),"");
+                teksti = teksti.replace(QRegularExpression("^(\\w{1,2}\\s?)?\\d{2}\\.?\\d{2}\\.?(\\d{2})?\\s*"),"");
 
                 if( ( tapahtumanrivi == 1 && !saajaensin) || (tapahtumanrivi == 2 && saajaensin) ||
                         (teksti.contains("PALVELUMAKSU") && tapahtumanrivi == 1)) {

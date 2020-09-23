@@ -2,5 +2,6 @@
     <qresource prefix="/arkisto">
         <file>arkisto.css</file>
         <file>jquery.js</file>
+        <file>print.css</file>
     </qresource>
 </RCC>

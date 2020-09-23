@@ -18,7 +18,7 @@
 
 #include "db/kirjanpito.h"
 #include "model/tositevienti.h"
-
+#include "model/tosite.h"
 
 TmRivit::TmRivit(QObject *parent)
     : QAbstractTableModel(parent)
@@ -162,8 +162,11 @@ QVariantList TmRivit::viennit(Tosite* tosite)
 {
     QVariantList lista;
 
-    for(int i=0; i < rowCount(); i++)
-        lista.append( rivit_.at(i).viennit(tosite) );
+    for(int i=0; i < rowCount(); i++) {
+        const TulomenoRivi& rivi = rivit_.at(i);
+        if( tosite->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA || (rivi.brutto() && rivi.tilinumero() )  )
+            lista.append( rivit_.at(i).viennit(tosite) );
+    }
 
     return lista;
 }

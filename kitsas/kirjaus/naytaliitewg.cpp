@@ -55,6 +55,7 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
+    ui->pohjaGroup->hide();
     MallipohjaModel* model = new MallipohjaModel(this);
 
     ui->malliView->setModel(model);

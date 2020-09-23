@@ -95,7 +95,7 @@ public:
     void tyhjenna() { asetukset_.clear(); }
 
 signals:
-
+    void asetusMuuttui();
 
 
 protected:

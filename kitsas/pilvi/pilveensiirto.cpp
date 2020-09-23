@@ -60,7 +60,7 @@ void PilveenSiirto::accept()
         ui->progressBar->setValue(1);
 
         KpKysely *init = kpk("/init");
-        connect( init, &KpKysely::vastaus, this, &PilveenSiirto::initSaapuu);
+        connect( init, &KpKysely::vastaus, this, &PilveenSiirto::initSaapuu);        
         init->kysy();
     }
 }
@@ -111,6 +111,7 @@ void PilveenSiirto::initSaapuu(QVariant *data)
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::POST, pilviModel_->pilviLoginOsoite() + "/clouds");
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::pilviLuotu);
+    connect( kysely, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
     kysely->kysy(map);
     ui->progressBar->setValue(10);
 
@@ -172,6 +173,7 @@ void PilveenSiirto::tallennaSeuraavaRyhma()
 
     PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/ryhmat/%1").arg(id));
     connect( tallennus, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaRyhma);
+    connect( tallennus, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
     tallennus->kysy(map);
 }
 
@@ -189,7 +191,9 @@ void PilveenSiirto::kumppaniListaSaapuu(QVariant *data)
     for( auto item : lista) {
         QVariantMap map = item.toMap();
         int id = map.value("id").toInt();
-        kumppanit.enqueue(id);
+        QString nimi = map.value("nimi").toString();
+        if(id && !nimi.isEmpty())
+            kumppanit.enqueue(id);
     }
     kysySeuraavaKumppani();
 }

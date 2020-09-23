@@ -76,7 +76,7 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, TilioteModel::PVM));
             return;
         } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-            if(currentIndex().row() == model()->rowCount() - 1) {
+            if(currentIndex().row() == model()->rowCount() - 1 && qAbs(currentIndex().sibling(currentIndex().row(), TilioteModel::EURO).data(Qt::EditRole).toDouble()) > 1e-5) {
                 model()->insertRow(currentIndex().row()+1);
             }
             int uusirivi = currentIndex().row() + 1;

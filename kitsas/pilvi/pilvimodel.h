@@ -100,6 +100,7 @@ private:
     void tilaaLogo(const QVariantMap& map);
     void poistettu();
     void yritaUudelleenKirjautumista();
+    void tarkistaKirjautuminen();
 
 signals:
     void kirjauduttu();
@@ -115,8 +116,10 @@ private:
     bool pilviVat_ = true;
 
     QVariantMap data_;
-    QTimer *timer_;
+    QTimer *timer_;    
     QMap<int,QPixmap> logot_;
+
+    QDateTime tokenUusittu_;
 
 private:
     static std::map<QString,qlonglong> oikeustunnukset__;

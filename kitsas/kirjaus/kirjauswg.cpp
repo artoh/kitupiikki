@@ -337,17 +337,28 @@ void KirjausWg::tulostaTosite()
     // Tilapäinen tositteen tulostus
     // Tähän voisi tulla parempi ;)
 
+    kp()->printer()->setPageOrientation(QPageLayout::Landscape);
+    kp()->printer()->setPageMargins(10,20,10,10,QPrinter::Millimeter);
     QPrintDialog printDialog( kp()->printer(), this);
+
+
+
     if( printDialog.exec() )
     {
-        Arkistoija arkistoija(kp()->tilikaudet()->tilikausiPaivalle(tosite()->pvm()));
-        QByteArray ba = arkistoija.tosite( tosite()->tallennettava() , -1);
+        Arkistoija arkistoija(kp()->tilikaudet()->tilikausiPaivalle(tosite()->pvm()));               
+
+        QByteArray ba = arkistoija.tositeRunko( tosite()->tallennettava(), true);
         QTextDocument doc;
-        QFile css(":/arkisto/arkisto.css");
+        QFile css(":/arkisto/print.css");
         css.open(QIODevice::ReadOnly);
         doc.setDefaultStyleSheet( QString::fromUtf8( css.readAll() ) );
-        doc.setHtml( QString::fromUtf8(ba) );
+
+        QString teksti = "<div class=kirjanpito>" + kp()->asetukset()->asetus("Nimi") + "</div>" + QString::fromUtf8(ba);
+
+        doc.setHtml( teksti );
         doc.print( kp()->printer());
+
+        qDebug() << doc.toHtml("utf8");
     }
 }
 
@@ -438,6 +449,14 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 void KirjausWg::tallenna(int tilaan)
 {
+    if( tosite()->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA && tilaan != Tosite::MALLIPOHJA) {
+        tosite()->setData(Tosite::ID, 0);
+    }
+
+    if( tilaan == Tosite::MALLIPOHJA) {
+        tosite()->setData(Tosite::TILA, Tosite::MALLIPOHJA);
+    }
+
     ui->tallennaButton->setEnabled(false);
     ui->tallennetaanLabel->show();
     if(apuri_)

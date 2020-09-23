@@ -29,6 +29,7 @@
 #include "raportti/myyntiraportteri.h"
 
 #include "db/tositetyyppimodel.h"
+#include "model/tositevienti.h"
 
 #include "sqlite/sqlitemodel.h"
 
@@ -63,6 +64,8 @@ void Arkistoija::arkistoi()
         arkistoiRaportit();
     }
 }
+
+
 
 bool Arkistoija::luoHakemistot()
 {
@@ -468,24 +471,20 @@ void Arkistoija::viimeistele()
 
 }
 
-QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
+QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 {
     QByteArray ba;
     QTextStream out (&ba);
     out.setCodec("utf-8");
 
-    out << "<html><meta charset=\"UTF-8\"><head><title>" << tosite.value("otsikko").toString() << "</title>";
-    out << "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'></head><body>";
-
-    out << navipalkki(indeksi);
-
     const QVariantList& liitteet = tosite.value("liitteet").toList();
+    bool alv = kp()->asetukset()->onko(AsetusModel::ALV);
 
     // LIITTEET
 
     if( liitteet.count() )
     {
-        if( indeksi > -1) {
+        if( !tuloste) {
             // Liitteen laatikko, johon nykyinen liite ladataan
             out << "<iframe width='100%' height='50%' class='liite' id='liite' src='../liitteet/";
             out << liiteNimet_.value( liitteet.value(0).toMap().value("id").toInt() );
@@ -510,7 +509,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
     int tositetyyppi = tosite.value("tyyppi").toInt();
 
     // Seuraavaksi otsikot
-    out << "<table class=tositeotsikot><tr>";
+    out << "<table class=tositeotsikot width=100%><tr>";
     out << "<td class=paiva>" << tosite.value("pvm").toDate().toString("dd.MM.yyyy") << "</td>";
     out << "<td class=tositeotsikko>" << tosite.value("otsikko").toString() << "</td>";
     out << "<td class=tositetyyppi>" << ( tositetyyppi ? kp()->tositeTyypit()->nimi(tositetyyppi) : "") << "</td>";
@@ -526,33 +525,99 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
 
     // Viennit
-    out << "<table class=viennit>";
-    out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th>";
+    out << "<table class=viennit";
+    if(tuloste)
+        out << " border=1 width=100%>";
+    out <<  "><tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th>";
     if( tositetyyppi == TositeTyyppi::TILIOTE)
         out << "<th>Saaja/Maksaja</th>";
-    out << "<th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
+    out << "<th>Selite</th>";
+    if( alv )
+        out << "<th>Alv</th>";
 
-    for( auto vienti : tosite.value("viennit").toList())    {
-        QVariantMap vientiMap = vienti.toMap();
-        Tili* tili = kp()->tilit()->tili( vientiMap.value("tili").toInt() );
+    out << "<th>Debet</th><th>Kredit</th></tr>";
+
+    for( auto vientiItem : tosite.value("viennit").toList())    {
+        TositeVienti vienti = vientiItem.toMap();
+        Tili* tili = kp()->tilit()->tili( vienti.value("tili").toInt() );
         if( !tili)
             continue;
 
-        out << "<tr><td class=pvm>" << vientiMap.value("pvm").toDate().toString("dd.MM.yyyy") ;
+        out << "<tr><td class=pvm>" << vienti.value("pvm").toDate().toString("dd.MM.yyyy") ;
         out << "</td><td class=tili><a href='../paakirja.html#" << tili->numero() << "'>"
             << tili->nimiNumero() << "</a>";
 
-        out << "</td><td class=kohdennus>";
-        if( vientiMap.value("kohdennus").toInt())
-            out << kp()->kohdennukset()->kohdennus( vientiMap.value("kohdennus").toInt() ).nimi();
-        // TODO: Merkkaukset ja tase-erät
+        QStringList klist;
+        // Kohdennukset
+        if( vienti.value("kohdennus").toInt())
+            klist << kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi();
+        // Merkkaukset
+        if( vienti.contains("merkkaukset")) {
+            QStringList merkkausLista;
+            for(QVariant mt : vienti.value("merkkaukset").toList()) {
+                merkkausLista << kp()->kohdennukset()->kohdennus(mt.toInt()).nimi();
+            }
+            klist << merkkausLista.join(", ");
+        }
+        // Tase-erä
+        QVariantMap eraMap = vienti.value("era").toMap();
+        if( !eraMap.isEmpty() && eraMap.value("id").toInt() != vienti.value("id").toInt()) {
+            klist << kp()->tositeTunnus(eraMap.value("tunniste").toInt(),
+                                        eraMap.value("pvm").toDate(),
+                                        eraMap.value("sarja").toString());
+        }
+        // Jaksotus
+        if(vienti.jaksoalkaa().isValid()) {
+            if(vienti.jaksoloppuu().isValid()) {
+                klist << QString("%1 - %2").arg(vienti.jaksoalkaa().toString("dd.MM.yyyy")).arg(vienti.jaksoloppuu().toString("dd.MM.yyyy"));
+            } else {
+                klist << QString("%1").arg(vienti.jaksoalkaa().toString("dd.MM.yyyy"));
+            }
+        }
+        // Tasaeräpoisto
+        if(vienti.tasaerapoisto()) {
+            klist << tr("Poisto %1 v.").arg(vienti.tasaerapoisto() / 12);
+        }
+
+
+        out << "</td><td class=kohdennus>" << klist.join("<br>") << "</td>";
 
         if( tositetyyppi == TositeTyyppi::TILIOTE)
-            out << "<td class=kumppani>" << vientiMap.value("kumppani").toMap().value("nimi").toString() << "</kumppani>";
+            out << "<td class=kumppani>" << vienti.value("kumppani").toMap().value("nimi").toString() << "</kumppani>";
 
-        out << "</td><td class=selite>" << vientiMap.value("selite").toString();
-        out << "</td><td class=euro>" << ((qAbs(vientiMap.value("debet").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vientiMap.value("debet").toDouble(),0,'f',2) : "");
-        out << "</td><td class=euro>" << ((qAbs(vientiMap.value("kredit").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vientiMap.value("kredit").toDouble(),0,'f',2) : "");
+        out << "</td><td class=selite>" << vienti.value("selite").toString() << "</td>";
+
+        if( alv ) {
+            out << "<td class=alv>";
+            int alvkoodi = vienti.value("alvkoodi").toInt();
+            int alvprosentti = vienti.value("alvprosentti").toDouble();
+            if( alvkoodi == AlvKoodi::ALV0) {
+                out << "0 %";
+            } else if( alvkoodi % 100 == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvkoodi % 100 == AlvKoodi::YHTEISOMYYNTI_TAVARAT) {
+                out << "EU";
+            } else if( alvkoodi % 100 == AlvKoodi::RAKENNUSPALVELU_MYYNTI) {
+                out << "R";
+            } else if( alvkoodi % 100 == AlvKoodi::OSTOT_MARGINAALI || alvkoodi % 100 == AlvKoodi::MYYNNIT_MARGINAALI) {
+                out << "MARG";
+            }
+
+            else if( alvprosentti > 1e-5) {
+                if( alvkoodi % 100 == AlvKoodi::MYYNNIT_BRUTTO || alvkoodi % 100 == AlvKoodi::OSTOT_BRUTTO)
+                    out << "B ";
+                else if( alvkoodi % 100 == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi % 100 == AlvKoodi::YHTEISOHANKINNAT_TAVARAT)
+                    out << "EU ";
+                else if( alvkoodi % 100 == AlvKoodi::MAAHANTUONTI)
+                    out << "T ";
+
+                out << QString::number(alvprosentti,'f',0) << " %";
+            }
+
+
+            out << "</td>";
+        }
+
+        out << "<td class=euro>" << ((qAbs(vienti.value("debet").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vienti.value("debet").toDouble(),0,'f',2) : "");
+        out << "</td><td class=euro>" << ((qAbs(vienti.value("kredit").toDouble()) > 1e-5) ?  QString("%L1 €").arg(vienti.value("kredit").toDouble(),0,'f',2) : "");
         out << "</td></tr>\n";
     }
     out << "</table>";
@@ -565,14 +630,46 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         out << "</p>";
     }
 
+    // Lisätiedot
+    QVariantMap laskumap = tosite.value("lasku").toMap();
+
+    out << "<table class=extra>";
+    if( laskumap.contains("numero"))
+        out << "<tr><td class=extrahead>" << "Laskun numero" << "</td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>";
+    if( tosite.contains("laskupvm") && tosite.value("laskupvm") != tosite.value("pvm"))
+        out << "<tr><td class=extrahead>" << tr("Laskun päivämäärä") << "</td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>";
+    if (tosite.contains("erapvm"))
+       out << "<tr><td class=extrahead>" << tr("Eräpäivä") << "</td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>";
+    if (tosite.contains("viite"))
+       out << "<tr><td class=extrahead>" << "Viite" << "</td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>";
 
 
 
-    if( indeksi > -1) {
-        out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
-        out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
-        out << "<script src='../static/jquery.js'></script>";
-    }
+
+    out << "</table>";
+
+    out.flush();
+    return ba;
+
+}
+
+QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
+{
+    QByteArray ba;
+    QTextStream out (&ba);
+    out.setCodec("utf-8");
+
+    out << "<html><meta charset=\"UTF-8\"><head><title>" << tosite.value("otsikko").toString() << "</title>";
+    out << "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'></head><body>";
+
+    out << navipalkki(indeksi);
+
+    out << tositeRunko(tosite, false);
+
+    out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
+    out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
+    out << "<script src='../static/jquery.js'></script>";
+
     out << "</body></html>";
 
     out.flush();

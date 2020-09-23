@@ -40,7 +40,7 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
     token_(token)
 {
     timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, [this] {this->paivitaLista(); });
+    connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -199,6 +199,7 @@ void PilviModel::kirjauduUlos()
     kayttajaId_ = 0;
     oikeudet_ = 0;
     timer_->stop();
+    tokenUusittu_ = QDateTime();
 
     endResetModel();
 
@@ -268,7 +269,9 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         avaaPilvesta( avaaPilvi_);
     avaaPilvi_ = 0;
 
-    timer_->start(60 * 60 * 1000);  // Tokenin päivitys tunnin välein
+    tokenUusittu_ = QDateTime::currentDateTime();
+
+    timer_->start( 15 * 1000);  // Tokenin tarkastus 15 sekuntin välein vanhenemisen varalta
     emit kirjauduttu();
 }
 
@@ -323,6 +326,17 @@ void PilviModel::yritaUudelleenKirjautumista()
     kp()->yhteysAvattu(nullptr);
 
     kirjaudu();
+}
+
+void PilviModel::tarkistaKirjautuminen()
+{
+    // Jos viimeisestä tokenin uusimisesta on yli tunti ja ollaan kirjautuneena,
+    // yritetään uusia token
+
+    if( kayttajaId_ && tokenUusittu_.isValid() && tokenUusittu_.secsTo(QDateTime::currentDateTime()) > 60 * 60 ) {
+        tokenUusittu_ = QDateTime();
+        paivitaLista();
+    }
 }
 
 

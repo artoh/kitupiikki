@@ -42,10 +42,11 @@ public:
     bool onkoMuokattu() override;
     bool alustettu_ = false;
 
-    QString ohjesivu() override { return ohjesivu_; }
+    QString ohjesivu() override { return ohjesivu_; }   
 
 public slots:
     void ilmoitaMuokattu();
+
 
 protected:
     QString ohjesivu_;

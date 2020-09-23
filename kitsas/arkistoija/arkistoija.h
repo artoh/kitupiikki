@@ -36,6 +36,7 @@ public:
     explicit Arkistoija(const Tilikausi& tilikausi, QObject *parent = nullptr);
 
     void arkistoi();
+    QByteArray tositeRunko(const QVariantMap& tosite, bool tuloste);
     QByteArray tosite(const QVariantMap &tosite, int indeksi);
 
 

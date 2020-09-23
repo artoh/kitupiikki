@@ -233,10 +233,6 @@ void Tosite::lataaData(QVariant *variant)
 
 void Tosite::tallenna(int tilaan)
 {
-    if( data(TILA).toInt() == MALLIPOHJA && tilaan > MALLIPOHJA) {
-        setData(ID, 0);
-    }
-
     setData( TILA, tilaan );
 
     KpKysely* kysely;

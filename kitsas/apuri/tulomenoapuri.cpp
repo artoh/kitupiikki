@@ -302,11 +302,16 @@ bool TuloMenoApuri::teeTositteelle()
     else if( !ui->asiakasToimittaja->nimi().isEmpty())
         vasta.setKumppani( ui->asiakasToimittaja->nimi());
 
-    viennit.insert(0, vasta);
+    if( summa || tosite()->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA) {
+        viennit.insert(0, vasta);
+    }
 
-    if( ui->asiakasToimittaja->id() > 0)
-        tosite()->asetaKumppani( ui->asiakasToimittaja->id() );
-    else if( !ui->asiakasToimittaja->nimi().isEmpty())
+    if( ui->asiakasToimittaja->id() > 0) {
+        QVariantMap kmap;
+        kmap.insert("id", ui->asiakasToimittaja->id());
+        kmap.insert("nimi", ui->asiakasToimittaja->nimi());
+        tosite()->asetaKumppani( kmap );
+    } else if( !ui->asiakasToimittaja->nimi().isEmpty())
         tosite()->asetaKumppani( ui->asiakasToimittaja->nimi() );
     else
         tosite()->asetaKumppani( QVariantMap());

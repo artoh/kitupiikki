@@ -2,7 +2,7 @@
   "tulos/yleinen": {
     "nimi" : {
       "fi": "Tuloslaskelma",
-      "sv": "Resultbeträkning",
+      "sv": "Resultaträkning",
       "en": "Profit and loss accout"
     },
     "muoto": {
@@ -498,7 +498,7 @@
         "fi": "Tilikauden voitto/tappio",
         "sv": "Räkenskapsperiodens vinst (förlust)",
         "en": "Profit (loss) for the financial year",
-        "L": "2371",
+        "L": "2371 *",
         "S": 1
       },
       {

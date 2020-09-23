@@ -18,6 +18,7 @@
 
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include "db/yhteysmodel.h"
 
 MallipohjaModel::MallipohjaModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -52,6 +53,9 @@ QVariant MallipohjaModel::data(const QModelIndex &index, int role) const
 
 void MallipohjaModel::haeLista()
 {
+    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS) )
+        return;
+
     KpKysely* kysely = kpk("/tositteet");
     if(kysely) {
         kysely->lisaaAttribuutti("malli");
