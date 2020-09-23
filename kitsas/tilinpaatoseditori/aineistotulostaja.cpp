@@ -53,7 +53,6 @@ AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 
 AineistoTulostaja::~AineistoTulostaja()
 {
-    liitedatat_.clear();
     qDebug() << "~Aineisto";
 }
 
@@ -74,11 +73,11 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
     polku_ = hakemisto.absoluteFilePath(QString("%1-%2.pdf").arg(nimi).arg(kausi.pitkakausitunnus()));
 
     QPdfWriter *writer = new QPdfWriter(polku_);
-    writer->setTitle(tr("Kirjanpitoaineisto %1").arg(kausi.kausivaliTekstina()));
+    writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(kausi.kausivaliTekstina()));
     writer->setCreator(tr("Kitsas %1").arg(qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 
-    writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
+    writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
 
     painter = new QPainter( writer );
     device = writer;
@@ -88,10 +87,7 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 
 void AineistoTulostaja::tulostaRaportit()
 {
-    progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + liitteet_.count());
-    progress->setMinimumDuration(150);
-
-    TilinpaatosTulostaja::tulostaKansilehti( painter, "Kirjanpitoaineisto", tilikausi_);
+    TilinpaatosTulostaja::tulostaKansilehti( painter, tulkkaa("Kirjanpitoaineisto", kieli_), tilikausi_);
 
     int sivu = 2;
 
@@ -122,6 +118,9 @@ void AineistoTulostaja::tilaaTositeLista()
 void AineistoTulostaja::tositeListaSaapuu(QVariant *data)
 {
     tositteet_ = data->toList();
+
+    progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, kirjoittajat_.count() + tositteet_.count());
+    progress->setMinimumDuration(150);
 
     tulostaRaportit();
 
@@ -187,75 +186,12 @@ void AineistoTulostaja::tilaaRaportit()
                        TositeLuettelo::TulostaSummat | TositeLuettelo::AsiakasToimittaja);
 }
 
-void AineistoTulostaja::tilaaLiitteet()
-{
-    KpKysely *kysely = kpk("/liitteet");
-    kysely->lisaaAttribuutti("alkupvm", tilikausi_.alkaa());
-    kysely->lisaaAttribuutti("loppupvm", tilikausi_.paattyy());
-    connect( kysely, &KpKysely::vastaus, this, &AineistoTulostaja::liiteListaSaapuu);
-    kysely->kysy();
-}
-
-
 void AineistoTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
 {
     kirjoittajat_[raportti] = rk;
     tilattuja_--;
     if( !tilattuja_)
         tilaaTositeLista();
-}
-
-void AineistoTulostaja::liiteListaSaapuu(QVariant *data)
-{
-    QVariantList lista = data->toList();
-    liitteet_ = lista;
-    tulostaRaportit();
-
-    liitepnt_ = 0;
-    tilaaSeuraavaLiite();
-}
-
-void AineistoTulostaja::tilaaSeuraavaLiite()
-{
-    if( liitepnt_ == liitteet_.count()) {
-        valmis();
-        return;
-    }
-
-    QVariantMap map = liitteet_.value(liitepnt_).toMap();
-    liitepnt_++;
-
-    QString tyyppi = map.value("tyyppi").toString();
-    if( tyyppi != "application/pdf" &&
-        !tyyppi.startsWith("image/"))
-    {
-        tilaaSeuraavaLiite();
-        return;
-    }
-
-    int liiteid = map.value("id").toInt();
-    KpKysely *liitehaku = kpk(QString("/liitteet/%1").arg(liiteid));
-    connect( liitehaku, &KpKysely::vastaus,
-             [this, map] (QVariant* data) { this->tulostaLiite(data, map); });
-    liitehaku->kysy();
-}
-
-void AineistoTulostaja::tulostaLiite(QVariant *data, const QVariantMap &map)
-{
-    qApp->processEvents();
-    if( progress->wasCanceled()) {
-        progress->close();
-        delete painter;
-        delete progress;
-        return;
-    }
-
-    QByteArray liite = data->toByteArray();
-    device->newPage();
-    LiiteTulostaja::tulostaLiite(device, painter, liite, map.value("tyyppi").toString(),
-                                         map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt());
-    progress->setValue(progress->value() + 1);
-    tilaaSeuraavaLiite();
 }
 
 void AineistoTulostaja::tilaaSeuraavaTosite()
@@ -298,7 +234,17 @@ void AineistoTulostaja::tositeSaapuu(QVariant *data)
     ensisivu_ = true;
 
     if(liiteJono_.isEmpty()) {
-        // Tulostetaan tarvittaessa muistiotosite
+        if(!nykyTosite_.value("info").toString().isEmpty()) {
+            if(painter->transform().dy() > painter->window().height() * 3 / 4)  {
+                device->newPage();
+                painter->resetTransform();
+            } else {
+                painter->drawLine(0,0,painter->window().width(),0);
+                painter->translate(0, painter->fontMetrics().height());
+            }
+            LiiteTulostaja::tulostaMuistiinpanot(device, painter, nykyTosite_);
+
+        }
         tilaaSeuraavaTosite();
     } else {
         tilaaLiite();
@@ -327,9 +273,8 @@ void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi
                 device, painter,
                 ba,
                 tyyppi,
-                nykyTosite_.value("pvm").toDate(),
-                nykyTosite_.value("sarja").toString(),
-                nykyTosite_.value("tunniste").toInt() );
+                nykyTosite_,
+                ensisivu_);
 
     ensisivu_ = false;
     tilaaLiite();

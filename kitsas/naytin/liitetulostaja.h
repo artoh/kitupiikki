@@ -18,6 +18,7 @@
 #define LIITETULOSTAJA_H
 
 #include <QDate>
+#include <QVariantMap>
 
 class QPagedPaintDevice;
 class QPainter;
@@ -26,19 +27,25 @@ class LiiteTulostaja {
 public:
     static bool tulostaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data, const QString& tyyppi,
-                        const QDate& pvm, const QString& sarja, int tunniste);
+                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
 
+    static bool tulostaMuistiinpanot(QPagedPaintDevice *printer, QPainter* painter,
+                                     const QVariantMap& tosite, const QString& kieli = QString());
+
+protected:
     static bool tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
-                        const QDate& pvm, const QString& sarja, int tunniste);
+                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
 
     static bool tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
-                        const QDate& pvm, const QString& sarja, int tunniste);
+                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
 
 
 
-    static void tulostaYlatunniste(QPainter* painter, const QDate& pvm, const QString& sarja, int tunniste);
+    static void tulostaYlatunniste(QPainter* painter, const QVariantMap& tosite, const QString& kieli = QString());
+    static void tulostaAlatunniste(QPainter* painter, const QVariantMap& tosite, const QString& kieli = QString());
+    static void tulostaViennit(QPainter* painter, const QVariantList& viennit, const QString& kieli = QString());
 
 
 };

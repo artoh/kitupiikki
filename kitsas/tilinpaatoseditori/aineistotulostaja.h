@@ -45,16 +45,11 @@ public slots:
 protected:
     void tilaaRaportit();
     void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
-    void tilaaLiitteet();
-    void liiteListaSaapuu(QVariant *data);
-    void liiteSaapuu(int liiteid, QVariant* var);    
+
     void tulostaRaportit();
 
     void tilaaTositeLista();
     void tositeListaSaapuu(QVariant *data);
-
-    void tilaaSeuraavaLiite();
-    void tulostaLiite(QVariant* data, const QVariantMap& map);
 
     void tilaaSeuraavaTosite();
     void tositeSaapuu(QVariant* data);
@@ -67,13 +62,10 @@ protected:
 protected:
     Tilikausi tilikausi_;
     QVector<RaportinKirjoittaja> kirjoittajat_;
-    QHash<int,QByteArray> liitedatat_;
-    QVariantList liitteet_;
     QString kieli_;
     QString polku_;
 
-    int tilattuja_;
-    int liitepnt_ = 0;    
+    int tilattuja_;    
 
     QProgressDialog* progress;
     QPagedPaintDevice *device;
