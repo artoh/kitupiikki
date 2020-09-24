@@ -25,25 +25,26 @@ class QPainter;
 
 class LiiteTulostaja {
 public:
-    static bool tulostaLiite(QPagedPaintDevice *printer, QPainter* painter,
+    static int tulostaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data, const QString& tyyppi,
-                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
+                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString());
 
-    static bool tulostaMuistiinpanot(QPagedPaintDevice *printer, QPainter* painter,
-                                     const QVariantMap& tosite, const QString& kieli = QString());
+    static bool tulostaMuistiinpanot(QPainter* painter,
+                                     const QVariantMap& tosite, int sivu, const QString& kieli = QString());
+    static qreal muistiinpanojenKorkeus(QPainter* painter, const QVariantMap& tosite);
 
 protected:
-    static bool tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
+    static int tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
-                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
+                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString());
 
-    static bool tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
+    static int tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
-                        const QVariantMap& tosite, bool ensisivu, const QString& kieli = QString());
+                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString());
 
 
 
-    static void tulostaYlatunniste(QPainter* painter, const QVariantMap& tosite, const QString& kieli = QString());
+    static void tulostaYlatunniste(QPainter* painter, const QVariantMap& tosite, int sivu, const QString& kieli = QString());
     static void tulostaAlatunniste(QPainter* painter, const QVariantMap& tosite, const QString& kieli = QString());
     static void tulostaViennit(QPainter* painter, const QVariantList& viennit, const QString& kieli = QString());
 

@@ -26,26 +26,26 @@
 #include <QGraphicsPixmapItem>
 #include <QImage>
 
-bool LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, const QString &kieli)
+int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli)
 {
     painter->save();
 
     if( tyyppi == "application/pdf")
-        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, kieli);
+        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
     if( tyyppi.startsWith("image"))
-        return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, kieli);
+        return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
 
     painter->restore();
     return false;
 }
 
-bool LiiteTulostaja::tulostaMuistiinpanot(QPagedPaintDevice *printer, QPainter *painter, const QVariantMap &tosite, const QString &kieli)
+bool LiiteTulostaja::tulostaMuistiinpanot(QPainter *painter, const QVariantMap &tosite, int sivu, const QString &kieli)
 {
     painter->setFont(QFont("FreeSans",10));
     int rivinKorkeus = painter->fontMetrics().height();
     int leveys = painter->window().width();
 
-    tulostaYlatunniste(painter, tosite, kieli);
+    tulostaYlatunniste(painter, tosite, sivu, kieli);
 
     painter->translate(0, rivinKorkeus * 3);
     QString info = tosite.value("info").toString();
@@ -67,7 +67,20 @@ bool LiiteTulostaja::tulostaMuistiinpanot(QPagedPaintDevice *printer, QPainter *
     return true;
 }
 
-bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, const QString& kieli)
+qreal LiiteTulostaja::muistiinpanojenKorkeus(QPainter *painter, const QVariantMap &tosite)
+{
+    painter->setFont(QFont("FreeSans",10));
+    int rivinKorkeus = painter->fontMetrics().height();
+    int leveys = painter->window().width();
+    QString info = tosite.value("info").toString();
+    QRectF infoRect = painter->boundingRect(0,0,leveys, painter->window().height(),Qt::TextWordWrap,info);
+    painter->setFont(QFont("FreeSans",8));
+    int matalaRivi = painter->fontMetrics().height();
+
+    return infoRect.height() + 8 * rivinKorkeus + tosite.value("viennit").toList().count() * matalaRivi;
+}
+
+int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
 {
     Poppler::Document *document = Poppler::Document::loadFromData(data);
     document->setRenderHint(Poppler::Document::TextAntialiasing);
@@ -75,7 +88,7 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
 
     painter->setFont(QFont("FreeSans",8));
     int rivinKorkeus = painter->fontMetrics().height();
-
+    int sivut = 0;
 
 #ifndef Q_OS_WINDOWS
     document->setRenderBackend(Poppler::Document::ArthurBackend);
@@ -90,7 +103,7 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
         Poppler::Page *page = document->page(i);
 
         double vaakaResoluutio =  printer->pageLayout().paintRect(QPageLayout::Point).width() / page->pageSizeF().width() * printer->logicalDpiX();
-        double pystyResoluutio = printer->pageLayout().paintRect(QPageLayout::Point).height() / page->pageSizeF().height()  * printer->logicalDpiY();
+        double pystyResoluutio = (printer->pageLayout().paintRect(QPageLayout::Point).height() * 9 / 10) / page->pageSizeF().height()  * printer->logicalDpiY();
 
         double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
 
@@ -103,7 +116,8 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
         painter->drawImage(0,painter->fontMetrics().height() * 2,image);
 #endif
 
-        tulostaYlatunniste(painter, tosite, kieli);
+        tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
+
         painter->translate(0, resoluutio / 72 * page->pageSize().height() + 2 * rivinKorkeus);
 
         if(ensisivu) {
@@ -117,10 +131,10 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
         delete page;
     }
     delete document;
-    return true;
+    return sivut;
 }
 
-bool LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, const QString& kieli)
+int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
 {
     painter->resetTransform();
     painter->setFont(QFont("FreeSans",8));
@@ -128,6 +142,9 @@ bool LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *
     QRect rect = painter->viewport().adjusted(0,rivinKorkeus * 2,0,rivinKorkeus * 6);
 
     QImage kuva = QImage::fromData(data);
+    if(kuva.isNull()) {
+        return 0;
+    }
 
     QSize size = kuva.size();
     size.scale(rect.size(), Qt::KeepAspectRatio);
@@ -136,31 +153,52 @@ bool LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *
                          size.width(), size.height());
     painter->setWindow(kuva.rect());
     painter->drawImage(0, 0, kuva);
-    painter->restore();
-    painter->save();
+    painter->resetTransform();
 
-    tulostaYlatunniste(painter, tosite, kieli);
+
+
+    tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
     if(ensisivu) {
-        tulostaAlatunniste(painter, tosite, kieli);
+        painter->translate(0, size.height() + 2 * rivinKorkeus);
+        tulostaAlatunniste(painter, tosite, kieli);        
     }
 
 
-    return !kuva.isNull();
+    return 1;
 }
 
-void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &tosite, const QString& kieli)
+void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &tosite, int sivu, const QString& kieli)
 {    
-    painter->save();
+
     painter->setFont(QFont("FreeSans",8));
     int leveys = painter->window().width();
     int korkeus = painter->fontMetrics().height() * 2;
 
-    if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
-    {
+
+    if(!painter->transform().dy()) {
         painter->save();
-        painter->setPen( QPen(Qt::green));
-        painter->setFont( QFont("FreeSans",14));
-        painter->drawText(QRect(leveys / 16 * 10, 0,leveys/4, korkeus ), Qt::AlignHCenter | Qt::AlignVCenter, tulkkaa("HARJOITUS", kieli) );
+        int skorkeus = painter->window().height();
+
+        painter->setPen( QPen(Qt::darkGray));
+        painter->setFont( QFont("FreeSans",8,QFont::Black));
+        painter->translate(0,skorkeus);
+        painter->rotate(270);
+        painter->translate(0,0-korkeus*3/2);
+
+        QString teksti = QString("%1 %2 %3")
+                .arg( kp()->asetukset()->asetus("Nimi") )
+                .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm"))
+                .arg(tulkkaa("sivu %1",kieli).arg(sivu));
+        painter->drawText(QRect(0, 0,skorkeus, korkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, teksti );
+
+        if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
+        {
+            painter->setPen( QPen(Qt::green));
+            painter->setFont( QFont("FreeSans",18,QFont::Black));
+            painter->translate(0, 0-korkeus);
+            painter->drawText(QRect(0, 0,skorkeus, korkeus ), Qt::AlignHCenter | Qt::AlignVCenter, tulkkaa("HARJOITUS", kieli) );
+        }
+
         painter->restore();
     }
 
@@ -169,7 +207,7 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
     QString kumppani = tosite.value("kumppani").toMap().value("nimi").toString();
     QString tunniste = kp()->tositeTunnus( tosite.value("tunniste").toInt(),
                                            tosite.value("pvm").toDate(),
-                                           tosite.value("sarja").toString());
+                                           tosite.value("sarja").toString(),true);
 
     // Pvm
     painter->setFont(QFont("FreeSans",18, QFont::Bold));
@@ -187,7 +225,8 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
     painter->setFont(QFont("FreeSans",9));
     QRectF kumppaniRect(leveys * 3/ 12, korkeus / 2, leveys / 2, korkeus * 3 / 2);
     painter->drawText( kumppaniRect, kumppani, QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
-    painter->restore();
+
+
 
 }
 

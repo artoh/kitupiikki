@@ -75,6 +75,7 @@ protected:
     QVariantMap nykyTosite_;
     QQueue<QPair<int,QString>> liiteJono_;
     bool ensisivu_;
+    int sivu_ = 2;
 
     int tositepnt_ = 0;
 

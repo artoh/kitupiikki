@@ -89,11 +89,11 @@ void AineistoTulostaja::tulostaRaportit()
 {
     TilinpaatosTulostaja::tulostaKansilehti( painter, tulkkaa("Kirjanpitoaineisto", kieli_), tilikausi_);
 
-    int sivu = 2;
+    sivu_ = 2;
 
     for( auto rk : kirjoittajat_) {
         device->newPage();
-        sivu += rk.tulosta(device, painter, false, sivu);
+        sivu_ += rk.tulosta(device, painter, false, sivu_);
         qApp->processEvents();
         progress->setValue(progress->value() + 1);
         if( progress->wasCanceled()) {
@@ -104,6 +104,7 @@ void AineistoTulostaja::tulostaRaportit()
         }
     }
 
+    sivu_--;
 }
 
 void AineistoTulostaja::tilaaTositeLista()
@@ -111,6 +112,7 @@ void AineistoTulostaja::tilaaTositeLista()
     KpKysely *kysely = kpk("/tositteet");
     kysely->lisaaAttribuutti("alkupvm", tilikausi_.alkaa());
     kysely->lisaaAttribuutti("loppupvm", tilikausi_.paattyy());
+    kysely->lisaaAttribuutti("jarjestys","tosite");
     connect( kysely, &KpKysely::vastaus, this, &AineistoTulostaja::tositeListaSaapuu);
     kysely->kysy();
 }
@@ -235,14 +237,15 @@ void AineistoTulostaja::tositeSaapuu(QVariant *data)
 
     if(liiteJono_.isEmpty()) {
         if(!nykyTosite_.value("info").toString().isEmpty()) {
-            if(painter->transform().dy() > painter->window().height() * 3 / 4)  {
+            if(painter->window().height() - painter->transform().dy() < LiiteTulostaja::muistiinpanojenKorkeus(painter, nykyTosite_))  {
                 device->newPage();
                 painter->resetTransform();
+                sivu_++;
             } else {
                 painter->drawLine(0,0,painter->window().width(),0);
                 painter->translate(0, painter->fontMetrics().height());
             }
-            LiiteTulostaja::tulostaMuistiinpanot(device, painter, nykyTosite_);
+            LiiteTulostaja::tulostaMuistiinpanot(painter, nykyTosite_, sivu_, kieli_);
 
         }
         tilaaSeuraavaTosite();
@@ -269,12 +272,14 @@ void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi
 {
     QByteArray ba = data->toByteArray();
     device->newPage();
-    LiiteTulostaja::tulostaLiite(
+    sivu_ += LiiteTulostaja::tulostaLiite(
                 device, painter,
                 ba,
                 tyyppi,
                 nykyTosite_,
-                ensisivu_);
+                ensisivu_,
+                sivu_,
+                kieli_);
 
     ensisivu_ = false;
     tilaaLiite();

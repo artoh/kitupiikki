@@ -129,6 +129,23 @@ table.extra td.extracol {
   width: 100%;
 }
 
+
+table.loki {
+	margin-top: 2em;
+}
+
+table.loki td.lokiaika {
+	min-width: 14em;
+}
+
+table.loki td.lokitila {
+	min-widt: 14em;
+}
+
+table.loki td.lokinimi {
+	width: 100%;
+}
+
 p.info {
   font-size: 10pt;
   margin-top: 2em;

@@ -30,7 +30,7 @@
 
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
-
+#include "model/tosite.h"
 #include "sqlite/sqlitemodel.h"
 
 #include <QFile>
@@ -633,20 +633,28 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     // Lisätiedot
     QVariantMap laskumap = tosite.value("lasku").toMap();
 
-    out << "<table class=extra>";
+    out << "<table class=extra>\n";
     if( laskumap.contains("numero"))
-        out << "<tr><td class=extrahead>" << "Laskun numero" << "</td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>";
+        out << "<tr><td class=extrahead>" << "Laskun numero" << "</td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>\n";
     if( tosite.contains("laskupvm") && tosite.value("laskupvm") != tosite.value("pvm"))
-        out << "<tr><td class=extrahead>" << tr("Laskun päivämäärä") << "</td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>";
+        out << "<tr><td class=extrahead>" << tr("Laskun päivämäärä") << "</td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("erapvm"))
-       out << "<tr><td class=extrahead>" << tr("Eräpäivä") << "</td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>";
+       out << "<tr><td class=extrahead>" << tr("Eräpäivä") << "</td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("viite"))
-       out << "<tr><td class=extrahead>" << "Viite" << "</td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>";
+       out << "<tr><td class=extrahead>" << "Viite" << "</td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>\n";
 
+    out << "</table></table class=loki>\n";
 
-
-
-    out << "</table>";
+    // Loki
+    out << "<table class=loki>";
+    QVariantList lokiLista = tosite.value("loki").toList();
+    for(auto lokiItem : lokiLista) {
+        QVariantMap lokiMap = lokiItem.toMap();
+        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toString("dd.MM.yyyy mm.hh.ss");
+        out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
+        out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
+    }
+    out << "</table>\n";
 
     out.flush();
     return ba;

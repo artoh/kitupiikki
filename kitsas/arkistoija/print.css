@@ -107,6 +107,10 @@ table.extra td.extracol {
   width: 100%;
 }
 
+table.loki {
+	margin-top: 20;
+}
+
 span.treeni {
   color: green;
 }
