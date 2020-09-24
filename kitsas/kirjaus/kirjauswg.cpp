@@ -246,6 +246,7 @@ void KirjausWg::tyhjenna()
         ui->viennitView->hideColumn(TositeViennit::ALV);
     ui->tallennetaanLabel->hide();
     ui->ocrLabel->hide();
+    ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), false);
 
     emit naytaPohjat(true);
 }
@@ -586,6 +587,8 @@ void KirjausWg::paivitaLiiteNapit()
 void KirjausWg::lataaTosite(int id)
 {
     tosite_->lataa(id);
+    ui->idLabel->setText(QString::number(id));
+    ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), true);
     emit naytaPohjat(false);
 }
 
