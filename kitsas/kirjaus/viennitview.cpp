@@ -107,8 +107,7 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
             if( mouseEvent->button() == Qt::RightButton)
             {
                 QModelIndex index = indexAt( mouseEvent->pos() );
-                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
-                {
+                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )  {
 
                     tosite_->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
                                                                                           index.data(TositeViennit::TagiIdListaRooli).toList(),
@@ -116,7 +115,8 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
                                                    TositeViennit::TagiIdListaRooli);
                     return false;
                 }
-            }
+
+            }                            
         }
     }
 
@@ -129,8 +129,7 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Tab)
     {
         seuraavaSarake();
-    }
-    else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
+    } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
         const QModelIndex index = currentIndex();
         seuraavaSarake();
         if( index.row() == model()->rowCount() -1 ) {            
@@ -138,7 +137,11 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
         }
 
         setCurrentIndex( model()->index(index.row()+1, TositeViennit::PVM) );
+    } else if( event->key() == Qt::Key_0 && currentIndex().column() == TositeViennit::ALV) {
+        model()->setData(currentIndex(), AlvKoodi::EIALV, TositeViennit::AlvKoodiRooli);
     }
+
+
     else
     {
         QTableView::keyPressEvent( event );

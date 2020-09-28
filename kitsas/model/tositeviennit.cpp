@@ -320,7 +320,7 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
             return true;
         } else if( role == TositeViennit::AlvKoodiRooli) {
-            TositeVienti rivi = vienti(index.row());
+            TositeVienti rivi = vienti(index.row());            
             rivi.setAlvKoodi( value.toInt());
             viennit_[index.row()] = rivi;
             emit dataChanged(index, index, QVector<int>() << Qt::EditRole);

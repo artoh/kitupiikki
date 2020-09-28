@@ -35,6 +35,8 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     pilviModel_(new PilviModel(this, kp()->pilvi()->userToken()))
 {
 
+    setAttribute(Qt::WA_DeleteOnClose);
+
     ui->setupUi(this);
     alustaAlkusivu();
 
@@ -87,6 +89,18 @@ void PilveenSiirto::alustaAlkusivu()
         ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
                                   "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    }
+
+    kysely.exec("SELECT MAX(LENGTH(data)) FROM Liite");
+    if(kysely.next()) {
+        qlonglong isoinliite = kysely.value(0).toLongLong();
+        if( isoinliite > 10L * 1024 * 1024) {
+            ui->valmisLabel->setText(tr("Kirjanpitoa ei voi siirtää pilveen. \n\n"
+                                        "Kirjanpidossa on yli 10 megatavun kokoisia liitteitä, joita ei voi "
+                                        "tallentaa Kitsaan pilveen."));
+            ui->stackedWidget->setCurrentIndex(VALMIS);
+            ui->buttonBox->button(QDialogButtonBox::Ok)->hide();
+        }
     }
 }
 
@@ -429,13 +443,16 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
         qDebug() << QString("Tositteita siirretty %1 / %2").arg(tositteita).arg(tositelkm_);
         siirtoVirhe(0);
     } else {
+        pilviModel_->sulje();
         ui->buttonBox->show();
         ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();
         ui->valmisInfo->setText(tr("Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt")
                                 .arg(tositteita)
                                 .arg(koko / 1000000.0 ,0,'f',1 ));
         ui->stackedWidget->setCurrentIndex(VALMIS);
+
         kp()->pilvi()->paivitaLista(pilviId_);
+        kp()->pilvi()->avaaPilvesta(pilviId_);
     }
 }
 
@@ -445,7 +462,10 @@ void PilveenSiirto::siirtoVirhe(int koodi)
     ui->stackedWidget->setCurrentIndex(VALMIS);
     ui->buttonBox->show();
     ui->buttonBox->button(QDialogButtonBox::Cancel)->hide();
-    if( koodi == 302)
+    if (koodi == 0)
+        ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui.\n\n"
+                                    "Kaikkia tositteita ei saatu siirrettyä pilveen."));
+    else if( koodi == 302)
         ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui.\n\n"
                                     "Kirjanpitoa on mahdollisesti käsitelty sellaisella ohjelman versiolla, "
                                     "jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on "

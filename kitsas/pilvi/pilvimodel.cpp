@@ -132,6 +132,9 @@ void PilviModel::sulje()
 
 void PilviModel::poistaNykyinenPilvi()
 {
+    if(pilviId() == 0)
+        return;
+
     QString polku = QString("%1/clouds/%2").arg(pilviLoginOsoite()).arg(pilviId());
     PilviKysely *poisto = new PilviKysely(this, KpKysely::DELETE, polku);
     connect( poisto, &KpKysely::vastaus, this, &PilviModel::poistettu);

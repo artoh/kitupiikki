@@ -223,6 +223,13 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         liite = array;
     }
 
+    if( liite.length() > 10 * 1024 * 1024 ) {
+        QMessageBox::critical(nullptr, tr("Liitetiedosto liian suuri"),
+                              tr("Liitetiedostoa ei voi lisätä kirjanpitoon, koska liite on kooltaan liian suuri.\n"
+                                 "Voit lisätä enintään 10 megatavun kokoisen liitteen."));
+        return false;
+    }
+
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, tiedostonnimi, liite, QString(), polku) );

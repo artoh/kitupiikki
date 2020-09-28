@@ -16,6 +16,8 @@
 */
 #include "tositevienti.h"
 
+#include "db/kirjanpito.h"
+
 #include <QDebug>
 
 TositeVienti::TositeVienti(const QVariantMap &vienti) :
@@ -115,6 +117,9 @@ void TositeVienti::setSelite(const QString &selite)
 void TositeVienti::setAlvKoodi(int koodi)
 {
     set( ALVKOODI, koodi);
+    if( kp()->alvTyypit()->nollaTyyppi(koodi) ) {
+        remove( avaimet__.at(ALVPROSENTTI) );
+    }
 }
 
 void TositeVienti::setAlvProsentti(double prosentti)

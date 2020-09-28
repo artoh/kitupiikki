@@ -113,6 +113,9 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
     QVariantList iban = map.take("iban").toList();
     QVariantList ryhmat = map.take("ryhmat").toList();
 
+    map.remove("menotili");
+    map.remove("tulotili");
+
     QSqlQuery kysely(db());
 
     db().transaction();
