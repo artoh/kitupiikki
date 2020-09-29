@@ -98,6 +98,18 @@ SOURCES += \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
     $$PWD/saldodock/saldodock.cpp \
     $$PWD/saldodock/saldomodel.cpp \
+    $$PWD/smtpclient/emailaddress.cpp \
+    $$PWD/smtpclient/mimeattachment.cpp \
+    $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/smtpclient/mimefile.cpp \
+    $$PWD/smtpclient/mimehtml.cpp \
+    $$PWD/smtpclient/mimeinlinefile.cpp \
+    $$PWD/smtpclient/mimemessage.cpp \
+    $$PWD/smtpclient/mimemultipart.cpp \
+    $$PWD/smtpclient/mimepart.cpp \
+    $$PWD/smtpclient/mimetext.cpp \
+    $$PWD/smtpclient/quotedprintable.cpp \
+    $$PWD/smtpclient/smtpclient.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -364,6 +376,20 @@ HEADERS += \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
     $$PWD/saldodock/saldodock.h \
     $$PWD/saldodock/saldomodel.h \
+    $$PWD/smtpclient/SmtpMime \
+    $$PWD/smtpclient/emailaddress.h \
+    $$PWD/smtpclient/mimeattachment.h \
+    $$PWD/smtpclient/mimecontentformatter.h \
+    $$PWD/smtpclient/mimefile.h \
+    $$PWD/smtpclient/mimehtml.h \
+    $$PWD/smtpclient/mimeinlinefile.h \
+    $$PWD/smtpclient/mimemessage.h \
+    $$PWD/smtpclient/mimemultipart.h \
+    $$PWD/smtpclient/mimepart.h \
+    $$PWD/smtpclient/mimetext.h \
+    $$PWD/smtpclient/quotedprintable.h \
+    $$PWD/smtpclient/smtpclient.h \
+    $$PWD/smtpclient/smtpexports.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \

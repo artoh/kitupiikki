@@ -53,6 +53,7 @@ protected:
     void tarkistaValmis();
     bool tulosta();
     bool tallenna();
+    bool laheta();
     QString maksutiedot(const QVariantMap& data);
     void merkkaaToimitetuksi(int tositeid);
     void merkkaaSeuraava();

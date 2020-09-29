@@ -39,6 +39,9 @@ public:
 
     QString ohjesivu() override { return "maaritykset/sahkoposti";}
 
+    static int sslIndeksi(const QString& asetus);
+    static QString sslAsetus(int indeksi);
+
 public slots:
     void ilmoitaMuokattu();
     void kokeile();

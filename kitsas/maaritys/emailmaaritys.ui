@@ -134,10 +134,34 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QCheckBox" name="sslBox">
-        <property name="text">
-         <string>Suojattu yhteys</string>
-        </property>
+       <widget class="QComboBox" name="tyyppiCombo">
+        <item>
+         <property name="text">
+          <string>Suojaamaton yhteys (TCP)</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/lukitsematta.png</normaloff>:/pic/lukitsematta.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Salattu yhteys (SSL)</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/lukittu.png</normaloff>:/pic/lukittu.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Suojattu yhteys (STARTTLS)</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/lukittu.png</normaloff>:/pic/lukittu.png</iconset>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -192,6 +216,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="testiLabel">
+       <property name="text">
+        <string>Testisähköpostia lähetetään...</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="kokeileNappi">

@@ -55,8 +55,11 @@ DevTool::~DevTool()
 }
 
 void DevTool::haeAsetus(const QString &asetus)
-{
-    ui->arvoEdit->setPlainText( kp()->asetukset()->asetus(asetus) );
+{    
+    if(asetus.contains("Password", Qt::CaseInsensitive))
+        ui->arvoEdit->setPlainText("**********");
+    else
+        ui->arvoEdit->setPlainText( kp()->asetukset()->asetus(asetus) );
 }
 
 void DevTool::tallennaAsetus()

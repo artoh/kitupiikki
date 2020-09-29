@@ -26,6 +26,8 @@
 
 #include "emailkokeilu.h"
 
+#include "smtpclient/SmtpMime"
+
 EmailMaaritys::EmailMaaritys() :
     ui(new Ui::EMailMaaritys)
 {
@@ -44,6 +46,8 @@ EmailMaaritys::EmailMaaritys() :
 
     connect( ui->kokeileNappi, SIGNAL(clicked(bool)), this, SLOT(kokeile()));
     connect( ui->porttiSpin, SIGNAL(valueChanged(int)), this, SLOT(porttiVaihtui(int)));
+
+    ui->testiLabel->hide();
 }
 
 EmailMaaritys::~EmailMaaritys()
@@ -69,9 +73,9 @@ bool EmailMaaritys::nollaa()
     ui->sslVaro->setVisible( !ssltuki );
     ui->kayttajaEdit->setEnabled( ssltuki);
     ui->salasanaEdit->setEnabled( ssltuki );
-    ui->sslBox->setEnabled( ssltuki );
+    ui->tyyppiCombo->setEnabled( ssltuki );
     if( !ssltuki)
-        ui->sslBox->setChecked(false);
+        ui->tyyppiCombo->setCurrentIndex(0);
 
     paikallinen_ = !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
 
@@ -83,7 +87,7 @@ bool EmailMaaritys::nollaa()
         ui->emailEdit->setText( kp()->settings()->value("EmailOsoite").toString());
         ui->porttiSpin->setValue( kp()->settings()->value("SmtpPort",QSslSocket::supportsSsl() ? 465 : 25).toInt());
         ui->tkAsetusRadio->setChecked(true);
-        ui->sslBox->setChecked( kp()->settings()->value("EmailSSL").toBool());
+        ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->settings()->value("EmailSSL").toString() ));
     } else {
         ui->palvelinEdit->setText( kp()->asetukset()->asetus("SmtpServer") );
         ui->porttiSpin->setValue( kp()->asetukset()->luku("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25));
@@ -91,10 +95,9 @@ bool EmailMaaritys::nollaa()
         ui->salasanaEdit->setText( kp()->asetukset()->asetus("SmtpPassword"));
         ui->nimiEdit->setText( kp()->asetukset()->asetus("EmailNimi"));
         ui->emailEdit->setText( kp()->asetukset()->asetus("EmailOsoite"));
-        ui->sslBox->setChecked( kp()->asetukset()->onko("EmailSSL") );
+        ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->asetukset()->asetus("EmailSSL") ));
         ui->kpAsetusRadio->setChecked(true);
     }
-
 
 
     ui->maksutiedotRadio->setChecked( kp()->asetukset()->luku("EmailMuoto") > 0 );
@@ -118,7 +121,7 @@ bool EmailMaaritys::tallenna()
         kp()->settings()->setValue("SmtpPassword", ui->salasanaEdit->text());
         kp()->settings()->setValue("EmailNimi", ui->nimiEdit->text());
         kp()->settings()->setValue("EmailOsoite", ui->emailEdit->text());
-        kp()->settings()->setValue("EmailSSL", ui->sslBox->isChecked());
+        kp()->settings()->setValue("EmailSSL", sslAsetus(ui->tyyppiCombo->currentIndex()));
         if( !paikallinen_ )
             kp()->asetukset()->poista("SmtpServer");
     } else {
@@ -128,7 +131,7 @@ bool EmailMaaritys::tallenna()
         kp()->asetukset()->aseta("SmtpPassword", ui->salasanaEdit->text());
         kp()->asetukset()->aseta("EmailNimi", ui->nimiEdit->text());
         kp()->asetukset()->aseta("EmailOsoite", ui->emailEdit->text());
-        kp()->asetukset()->aseta("EmailSSL", ui->sslBox->isChecked());
+        kp()->asetukset()->aseta("EmailSSL", sslAsetus(ui->tyyppiCombo->currentIndex()));
     }
 
     if( !paikallinen_ ) {
@@ -148,7 +151,7 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->settings()->value("SmtpPassword").toString() != ui->salasanaEdit->text() ||            
             kp()->settings()->value("EmailNimi").toString() != ui->nimiEdit->text() ||
             kp()->settings()->value("EmailOsoite").toString() != ui->emailEdit->text() ||
-            kp()->settings()->value("EmailSSL").toBool() != ui->sslBox->isChecked() :
+            kp()->settings()->value("EmailSSL").toString() != sslAsetus(ui->tyyppiCombo->currentIndex()) :
 
             kp()->asetukset()->asetus("SmtpServer") != ui->palvelinEdit->text() ||
             kp()->asetukset()->luku("SmtpPort",465) != ui->porttiSpin->value() ||
@@ -156,13 +159,34 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->asetukset()->asetus("SmtpPassword") != ui->salasanaEdit->text() ||
             kp()->asetukset()->asetus("EmailNimi") != ui->nimiEdit->text() ||
             kp()->asetukset()->asetus("EmailOsoite") != ui->emailEdit->text() ||
-            kp()->asetukset()->onko("EmailSSL") != ui->sslBox->isChecked();
+            kp()->asetukset()->asetus("EmailSSL") != sslAsetus(ui->tyyppiCombo->currentIndex());
+
 
     int emailmuoto = ui->maksutiedotRadio->isChecked() ? 1 : 0;
 
     return muokattu || emailmuoto != kp()->asetukset()->luku("EmailMuoto") ||
             ui->saateEdit->toPlainText() != kp()->asetukset()->asetus("EmailSaate");
 
+}
+
+int EmailMaaritys::sslIndeksi(const QString &asetus)
+{
+    if( asetus == "STARTTLS")
+        return SmtpClient::TlsConnection;
+    else if(asetus == "ON")
+        return SmtpClient::SslConnection;
+    else
+        return SmtpClient::TcpConnection;
+}
+
+QString EmailMaaritys::sslAsetus(int indeksi)
+{
+    switch (indeksi) {
+        case SmtpClient::TcpConnection: return "EI";
+        case SmtpClient::SslConnection: return "ON";
+        case SmtpClient::TlsConnection: return "STARTTLS";
+    }
+    return QString();
 }
 
 void EmailMaaritys::ilmoitaMuokattu()
@@ -172,6 +196,44 @@ void EmailMaaritys::ilmoitaMuokattu()
 
 void EmailMaaritys::kokeile()
 {
+    ui->testiLabel->show();
+    ui->kokeileNappi->setEnabled(false);
+
+    SmtpClient smtp( ui->palvelinEdit->text(), ui->porttiSpin->value(), (SmtpClient::ConnectionType) ui->tyyppiCombo->currentIndex());
+    if( !ui->salasanaEdit->text().isEmpty()) {
+        smtp.setUser(ui->kayttajaEdit->text());
+        smtp.setPassword(ui->salasanaEdit->text());
+    }
+
+    MimeMessage message;
+    message.setSender(new EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
+    message.addRecipient(new EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
+
+    message.setSubject(tr("Kitsaan sähköpostikokeilu"));
+
+    MimeText text;
+    text.setText(tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    message.addPart(&text);
+
+    MimeAttachment attachment(new QFile(":/pic/kitsas350.png"));
+    attachment.setContentType("image/jpeg");
+    message.addPart(&attachment);
+
+    if(!smtp.connectToHost()) {
+        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui").arg(ui->palvelinEdit->text()));
+    } else if( !ui->salasanaEdit->text().isEmpty() && !smtp.login()) {
+        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen kirjautuminen epäonnistui").arg(ui->palvelinEdit->text()));
+    } else if( !smtp.sendMail(message)) {
+        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Virhe sähköpostia lähetettäessä").arg(ui->palvelinEdit->text()));
+    } else {
+        QMessageBox::information(this, tr("Sähköposti lähetetty"), tr("Sähköpostin lähettäminen onnistui"));
+    }
+
+    ui->testiLabel->hide();
+    ui->kokeileNappi->setEnabled(true);
+
+
+    /*
     QString osoite = QString("=?utf-8?B?%1?= <%2>").arg( QString(ui->nimiEdit->text().toUtf8().toBase64()) ).arg(ui->emailEdit->text());
 
     Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value(),
@@ -189,14 +251,16 @@ void EmailMaaritys::kokeile()
     smtp->lahetaLiitteella(osoite, osoite, tr("Kitsaan sähköpostikokeilu"),
                            tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")),
                        "possu.png", kuva.readAll());
-
+    */
 }
 
 void EmailMaaritys::porttiVaihtui(int portti)
 {
     if( portti == 25)
-        ui->sslBox->setChecked(false);
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TcpConnection);
     else if( portti == 465)
-        ui->sslBox->setChecked(true);
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::SslConnection);
+    else if(portti == 587)
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TlsConnection);
 }
 
