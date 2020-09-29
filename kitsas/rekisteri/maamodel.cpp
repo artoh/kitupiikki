@@ -21,7 +21,7 @@ MaaModel::MaaModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     lisaa("fi","Suomi","FI\\d{8}");
-    lisaa("be","Belgia","BE\\d{8}");
+    lisaa("be","Belgia","BE\\d{10}");
     lisaa("bg","Bulgaria","BG\\d{9,10}");
     lisaa("es","Espanja","ES\\w\\d{7}\\w");
     lisaa("nl","Hollanti","NL\\d{9}B\\d{2}");
@@ -38,13 +38,13 @@ MaaModel::MaaModel(QObject *parent)
     lisaa("mt","Malta","MT\\d{8}");
     lisaa("pt","Portugali","PT\\d{9}");
     lisaa("pl","Puola","PL\\d{10}");
-    lisaa("fr","Ranska","FR\\w{2}\\d{9}");
+    lisaa("fr","Ranska","FR\\w{2}\\s?\\d{9}");
     lisaa("ro","Romania","RO\\d{2,10}");
     lisaa("se","Ruotsi","SE\\d{9}01");
     lisaa("de","Saksa","DE\\d{9}");
     lisaa("sk","Slovakia","SL\\d{10}");
     lisaa("si","Slovenia","SI\\d{8}");
-    lisaa("dk","Tanska","DK\\d{8}");
+    lisaa("dk","Tanska","DK\\d{2}\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}");
     lisaa("cz","Tsekki","CZ\\d{8,10}");
     lisaa("hu","Unkari","HU\\d{8}");
     lisaa("ee","Viro","EE\\d{9}");
