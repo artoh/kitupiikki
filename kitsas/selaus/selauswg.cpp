@@ -193,8 +193,9 @@ void SelausWg::suodata()
     // Jos haetaan tilin tapahtumia, näytetään myös tilin loppusaldo
     QString teksti = ui->tiliCombo->currentText();
     int numero = teksti.left(teksti.indexOf(' ')).toInt();
+    saldo_ = 0;
 
-    if( ui->valintaTab->currentIndex() == VIENNIT && numero ) {
+    if( ui->valintaTab->currentIndex() == VIENNIT && numero ) {        
         KpKysely *saldokysely = kpk("/saldot");
         saldokysely->lisaaAttribuutti("pvm",ui->loppuEdit->date());
         saldokysely->lisaaAttribuutti("tili", numero );
@@ -250,20 +251,20 @@ void SelausWg::paivitaSummat(QVariant *data)
         }
 
         if( data && data->toMap().count()) {
-            double saldo = data->toMap().first().toDouble();
+            saldo_ = data->toMap().first().toDouble();
+
+        }
+
+        if( qAbs(saldo_) > 1e-5) {
             ui->summaLabel->setText( tr("Debet %L1 €  Kredit %L2 €\nLoppusaldo %L3 €")
                     .arg( debetSumma,0,'f',2)
                     .arg(kreditSumma,0,'f',2)
-                    .arg(saldo,0,'f',2));
-        } else
-
-        ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
-                .arg( debetSumma,0,'f',2)
-                .arg(kreditSumma,0,'f',2) );
-
-        // Alkusaldon ja loppusaldon käsittely vaatii vielä kyselyn ;)
-
-
+                    .arg(saldo_,0,'f',2));
+        } else {
+            ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
+                    .arg( debetSumma,0,'f',2)
+                    .arg(kreditSumma,0,'f',2) );
+        }
 
 
     } else {

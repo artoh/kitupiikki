@@ -110,6 +110,7 @@ private:
      */
     bool paivitettava = true;
     int valittu_ = 0;
+    double saldo_ = 0;
 
 };
 
