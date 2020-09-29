@@ -27,7 +27,6 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 
-
 #include "validator/ytunnusvalidator.h"
 #include "rekisteri/postinumerot.h"
 #include "rekisteri/asiakastoimittajadlg.h"
@@ -69,8 +68,16 @@ QString TilausWizard::yhteenveto()
 
     txt.append(valintaSivu_->tilaus(PlanModel::InfoRooli).toString());
 
-    txt.append( tr("\nVoit tallentaa pilveen enintään %1 kirjanpitoa.")
+    if( valintaSivu_->tilaus(PlanModel::PlanRooli ).toInt() == PlanModel::TILITOIMISTOPLAN ) {
+        double lisahinta = valintaSivu_->tilaus(PlanModel::LisaPilviHinta).toDouble() /
+                ( field("puolivuosittain").toBool() ? 6 : 12 );
+        txt.append( tr("\nPaketin hintaan sisältyy %1 kirjanpitoa. Lisäkirjanpidoista laskutetaan jälkikäteen "
+                       "%L1 €/kk.").arg(lisahinta,0,'f',2));
+    } else {
+        txt.append( tr("\nVoit tallentaa pilveen enintään %1 kirjanpitoa.")
                     .arg( valintaSivu_->tilaus(PlanModel::PilviaRooli ).toInt() + field("lisapilvet").toInt() ) );
+    }
+
     if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
 
         double hinta = valintaSivu_->tilaus(PlanModel::HintaRooli).toDouble() +
@@ -92,8 +99,13 @@ QString TilausWizard::yhteenveto()
                     .arg(hyvitys,0,'f',2)
                     .arg(hinta - hyvitys, 0, 'f', 2) );
         }
-        txt.append(tr("\nLasku toimitetaan sähköpostilla osoitteeseen %1")
+
+        if(field("sahkopostilla").toBool()) {
+            txt.append(tr("\nLasku toimitetaan sähköpostilla osoitteeseen %1")
                    .arg( field("email").toString() ));
+        } else {
+            txt.append(tr("\nLasku toimitetaan verkkolaskuna"));
+        }
 
         txt.append(tr("\n\nLaskun saajaksi merkitään\n"));
         txt.append( field("name").toString() + "\n");
@@ -139,13 +151,21 @@ void TilausWizard::dataSaapuu()
         setField("email", current_.value("email"));
 
     bool puolivuosittain = current_.value("period").toInt() == 6;
+
     QVariantMap pinfo = current_.value("payer").toMap();
     setField("name", pinfo.value("name").toString());
     setField("address", pinfo.value("address"));
     setField("postcode", pinfo.value("postcode"));
     setField("town", pinfo.value("town"));
     setField("asviite", pinfo.value("customerref"));
-    setField(("phone"), pinfo.value("phone"));
+    setField("phone", pinfo.value("phone"));
+
+    setField("ovt", pinfo.value("ovt"));
+    setField("operator", pinfo.value("operator"));
+
+    setField("sahkopostilla", pinfo.value("operator").toString().isEmpty());
+    setField("verkkolaskulla", !pinfo.value("operator").toString().isEmpty());
+
     if(pinfo.contains("vatnumber"))
     setField("ytunnus", AsiakasToimittajaDlg::alvToY( pinfo.value("vatnumber").toString()));
 
@@ -154,6 +174,11 @@ void TilausWizard::dataSaapuu()
                          current_.value("refund").toDouble(),
                          map.value("cloudgigas").toDouble(),
                          current_.value("extraclouds").toInt());
+
+    if( field("ovt").toString().isEmpty() && !field("ytunnus").toString().isEmpty()) {
+        setField("ovt", "0037" + field("ytunnus").toString());
+    }
+
 
     if( exec() )
     {
@@ -219,8 +244,13 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     ui->setupUi(this);
     setTitle(tr("Laskutustiedot"));
 
-    registerField( "email*", ui->emailEdit );
+    registerField( "email", ui->emailEdit );
     registerField("name*", ui->nimiEdit);
+
+    registerField("sahkopostilla", ui->emailButton);
+    registerField("verkkolaskulla", ui->verkkolaskuButton);
+    registerField("ovt", ui->ovtEdit);
+    registerField("operator", ui->operaattoriEdit);
 
     registerField("address", ui->osoiteEdit,"plainText", SIGNAL(textChanged()));
     registerField("postcode", ui->postinumero);
@@ -233,6 +263,56 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     connect( ui->postinumero, &QLineEdit::textChanged,
              [this] (const QString& numero) { this->ui->postitoimipaikka->setText(Postinumerot::toimipaikka(numero)); });
 
+    connect( ui->ovtEdit, &QLineEdit::textChanged, [this] { this->paivitaY(); emit this->completeChanged(); });
+
+    connect( ui->verkkolaskuButton, &QRadioButton::clicked, this, &TilausWizard::TilausYhteysSivu::verkkolaskulle );
+    connect( ui->emailButton, &QRadioButton::clicked, this, &TilausWizard::TilausYhteysSivu::verkkolaskulle );
+
+    connect( ui->nimiEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
+    connect( ui->emailEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
+    connect( ui->operaattoriEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
+    connect( ui->ytunnusEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
+
+    verkkolaskulle();
+}
+
+bool TilausWizard::TilausYhteysSivu::isComplete() const
+{
+    if( ui->nimiEdit->text().isEmpty())
+        return false;
+    if( ui->emailButton->isChecked()) {
+        QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
+        return emailRe.match( ui->emailEdit->text()).hasMatch();
+    }
+    return ui->ovtEdit->text().length() > 11 &&
+           ui->operaattoriEdit->text().length() > 5 &&
+            YTunnusValidator::kelpaako(ui->ytunnusEdit->text(), false);
+}
+
+void TilausWizard::TilausYhteysSivu::paivitaY()
+{
+    QString ovt = ui->ovtEdit->text();
+    if( ui->ytunnusEdit->text().isEmpty() && ovt.startsWith("0037") && ovt.length() >= 12 ) {
+        QString ytunnus = ovt.mid(4,7) + "-" + ovt.mid(11,1);
+        if( YTunnusValidator::kelpaako(ytunnus)) {
+            ui->ytunnusEdit->setText(ytunnus);
+        }
+    }
+}
+
+void TilausWizard::TilausYhteysSivu::verkkolaskulle()
+{
+    bool onko = ui->verkkolaskuButton->isChecked();
+    ui->emailLabel->setVisible(!onko);
+    ui->emailEdit->setVisible(!onko);
+
+    ui->ovtLabel->setVisible(onko);
+    ui->ovtEdit->setVisible(onko);
+
+    ui->operaattoriEdit->setVisible(onko);
+    ui->operatorLabel->setVisible(onko);
+
+    emit this->completeChanged();
 }
 
 TilausWizard::TilausVahvistusSivu::TilausVahvistusSivu(TilausWizard *velho) :

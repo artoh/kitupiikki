@@ -19,6 +19,7 @@
 #include "ui_uusialoitus.h"
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
+#include "tilaus/planmodel.h"
 
 #include "tilaus/tilauswizard.h"
 
@@ -50,13 +51,13 @@ void UusiAlkuSivu::initializePage()
 {
     // Voidaanko tallentaa pilveen
     ui->pilveenRadio->setEnabled( kp()->pilvi()->kayttajaPilvessa() &&
-                                  kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax() &&
+                                  (kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax() || kp()->pilvi()->plan() == PlanModel::TILITOIMISTOPLAN) &&
                                   kp()->pilvi()->tilausvoimassa() );
 
     if( !kp()->pilvi()->kayttajaPilvessa())
         ui->pilviInfo->setText( tr("Käyttääksesi pilveä luo ensin käyttäjätunnus "
                                    "tai kirjaudu sisään."));
-    else if( kp()->pilvi()->omatPilvet() >= kp()->pilvi()->pilviMax() )
+    else if( kp()->pilvi()->omatPilvet() >= kp()->pilvi()->pilviMax() && kp()->pilvi()->plan() != PlanModel::TILITOIMISTOPLAN)
         ui->pilviInfo->setText( tr("Luodaksesi enemmän kirjanpitoja pilveen sinun "
                                    "on ensin päivitettävä tilauksesi laajempaan."));
     else if( !kp()->pilvi()->plan() )

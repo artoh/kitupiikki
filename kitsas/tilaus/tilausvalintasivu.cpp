@@ -67,12 +67,22 @@ void TilausValintaSivu::paivita()
 {
     int pilvia = ui->planView->currentIndex().data(PlanModel::PilviaRooli).toInt();
     int pilviayht = pilvia + ui->lisaSpin->value();
-
+    double pilvihinta = ui->planView->currentIndex().data(PlanModel::LisaPilviHinta).toDouble();
 
     QString info;
+    int planId = ui->planView->currentIndex().data(PlanModel::PlanRooli).toInt();
 
-    if( ui->planView->currentIndex().data(PlanModel::PlanRooli) == 0) {
+    if( planId == 0) {
         ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti"));
+        ui->lisaksiLabel->hide();
+        ui->lisaSpin->hide();
+        ui->kirjanpidolleLabel->hide();
+        ui->lisahinta->hide();
+    } else if (planId >= PlanModel::TILITOIMISTOID) {
+        double kkhinta = pilvihinta / 12;
+        ui->tilaInfo->setText( tr("Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.\n"
+                                  "Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi")
+                               .arg(pilvia).arg(kkhinta,0,'f',2));
         ui->lisaksiLabel->hide();
         ui->lisaSpin->hide();
         ui->kirjanpidolleLabel->hide();
@@ -87,7 +97,7 @@ void TilausValintaSivu::paivita()
         ui->kirjanpidolleLabel->show();
         ui->lisahinta->show();
 
-        double pilvihinta = ui->planView->currentIndex().data(PlanModel::LisaPilviHinta).toDouble();
+
         ui->lisahinta->setText( tr("%L1 € / kpl").arg( (ui->kuukausiRadio->isChecked() ?
                                                       pilvihinta / 2 : pilvihinta),0,'f',2));
 

@@ -229,7 +229,7 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() )
         ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
-    if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 6 ) {
+    if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 5 ) {
         ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
         if( kp()->asetukset()->onko("FinvoiceSuosi"))
             laskutapa = LaskuDialogi::VERKKOLASKU;

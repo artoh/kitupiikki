@@ -54,7 +54,11 @@ protected:
     class TilausYhteysSivu : public QWizardPage {
     public:
         TilausYhteysSivu();
+        virtual bool isComplete() const override;
     protected:
+        void paivitaY();
+        void verkkolaskulle();
+
         Ui::TilausYhteys *ui;
     };
 

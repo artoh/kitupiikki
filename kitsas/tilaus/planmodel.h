@@ -36,6 +36,8 @@ public:
            InfoRooli = Qt::UserRole + 5
          };
 
+    enum { TILITOIMISTOID = 50 };
+
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
