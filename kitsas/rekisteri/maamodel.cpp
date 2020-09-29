@@ -31,7 +31,7 @@ MaaModel::MaaModel(QObject *parent)
     lisaa("at","Itävalta","ATU\\d{8}");
     lisaa("el","Kreikka","EL\\d{9}");
     lisaa("hr","Kroatia","HR\\d{11}");
-    lisaa("cy","Kypros","CY\\d{8}L");
+    lisaa("cy","Kypros","CY\\d{8}\\w");
     lisaa("lv","Latvia","LV\\d{11}");
     lisaa("lt","Liettua","LT\\d{9,12}");
     lisaa("lu","Luxemburg","LU\\d{8}");
