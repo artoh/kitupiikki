@@ -36,7 +36,7 @@ public:
            InfoRooli = Qt::UserRole + 5
          };
 
-    enum { TILITOIMISTOID = 50 };
+    enum { TILITOIMISTOPLAN = 50 };
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -54,7 +54,7 @@ public:
     void alusta(const QVariantList& plans, bool kuukausittain=false);
 
 public slots:
-    void naytaKuukausittain(bool kuukausittain);
+    void naytaPuolivuosittain(bool puolivuosittain);
 
 private:
     QVariantList plans_;

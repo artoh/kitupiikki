@@ -119,9 +119,9 @@ void PlanModel::alusta(const QVariantList &plans, bool puolivuosittain)
     endResetModel();
 }
 
-void PlanModel::naytaKuukausittain(bool kuukausittain)
+void PlanModel::naytaPuolivuosittain(bool puolivuosittain)
 {
-    puolivuosittain_ = kuukausittain;
+    puolivuosittain_ = puolivuosittain;
     emit dataChanged( index(0, HINTA),
                       index(rowCount()-1, HINTA));
 }

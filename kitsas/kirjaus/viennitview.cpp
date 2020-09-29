@@ -102,11 +102,11 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
 {
     if( watched == viewport() && tosite_ && tosite_->viennit()->muokattavissa()) {
         if( event->type() == QEvent::MouseButtonPress)
-        {
+        {            
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+            QModelIndex index = indexAt( mouseEvent->pos() );
             if( mouseEvent->button() == Qt::RightButton)
-            {
-                QModelIndex index = indexAt( mouseEvent->pos() );
+            {                
                 if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )  {
 
                     tosite_->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
@@ -116,7 +116,11 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
                     return false;
                 }
 
-            }                            
+            }
+            if( index.column() == TositeViennit::ALV) {
+                emit activated(index);
+            }
+
         }
     }
 
@@ -137,12 +141,26 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
         }
 
         setCurrentIndex( model()->index(index.row()+1, TositeViennit::PVM) );
-    } else if( event->key() == Qt::Key_0 && currentIndex().column() == TositeViennit::ALV) {
-        model()->setData(currentIndex(), AlvKoodi::EIALV, TositeViennit::AlvKoodiRooli);
-    }
-
-
-    else
+    } else if( currentIndex().column() == TositeViennit::ALV) {
+        if(event->key() == Qt::Key_0) {
+            model()->setData(currentIndex(), AlvKoodi::EIALV, TositeViennit::AlvKoodiRooli);
+        } else if( event->key() == Qt::Key_Space) {
+            emit activated(currentIndex());
+        } else if( event->key() == Qt::Key_2 || event->key() == Qt::Key_1) {
+            int tilinumero = currentIndex().data(TositeViennit::TiliNumeroRooli).toInt();
+            Tili* tili = kp()->tilit()->tili(tilinumero);
+            double prosentti =
+                    event->key() == Qt::Key_2 ? 24.0 :
+                    currentIndex().data(TositeViennit::AlvProsenttiRooli).toInt() == 14 ? 10 : 14;
+            if(tili) {
+                if(tili->onko(TiliLaji::TULO))
+                    model()->setData(currentIndex(), AlvKoodi::MYYNNIT_BRUTTO, TositeViennit::AlvKoodiRooli);
+                else if(tili->onko(TiliLaji::MENO))
+                    model()->setData(currentIndex(), AlvKoodi::OSTOT_BRUTTO, TositeViennit::AlvKoodiRooli);
+                model()->setData(currentIndex(), prosentti, TositeViennit::AlvProsenttiRooli);
+            }
+        }
+    } else
     {
         QTableView::keyPressEvent( event );
     }
