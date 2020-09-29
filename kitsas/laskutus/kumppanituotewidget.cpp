@@ -200,11 +200,12 @@ void KumppaniTuoteWidget::poista()
             kp()->tuotteet()->poistaTuote(tuoteid);
         }
     } else if( valilehti_ == RYHMAT) {
-        if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {
+        if( QMessageBox::question(this, tr("Ryhmän poistaminen"),tr("Haluatko varmasti poistaa ryhmän?")) == QMessageBox::Yes) {            
             int ryhmaid = ui->view->currentIndex().data(RyhmatModel::IdRooli).toInt();
             KpKysely *kysely = kpk(QString("/ryhmat/%1").arg(ryhmaid), KpKysely::DELETE );
             connect( kysely, &KpKysely::vastaus, kp()->ryhmat(), &RyhmatModel::paivita);
-            kysely->kysy();
+            kysely->kysy();            
+            suodataRyhma(0);
         }
     } else if( valilehti_ == VAKIOVIITTEET) {
         if( QMessageBox::question(this, tr("Vakioviitteen poistaminen"),tr("Haluatko varmasti poistaa vakioviitteen?")) == QMessageBox::Yes) {

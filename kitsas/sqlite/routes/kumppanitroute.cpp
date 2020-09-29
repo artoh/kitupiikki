@@ -29,11 +29,12 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
     if( polku.isEmpty())
     {
-        if( urlquery.hasQueryItem("ryhma"))
+        if( urlquery.hasQueryItem("ryhma")) {
             kysely.exec(QString("SELECT id,nimi,alvtunnus FROM Kumppani "
                                 "JOIN KumppaniRyhmassa ON Kumppani.id=KumppaniRyhmassa.kumppani "
                                 "WHERE ryhma=%1 ORDER BY nimi").arg(urlquery.queryItemValue("ryhma").toInt()));
-        else if( urlquery.hasQueryItem("alv")) {
+            return resultList(kysely);
+        } else if( urlquery.hasQueryItem("alv")) {
             kysely.exec(QString("SELECT * FROM Kumppani WHERE alvtunnus='%1'").arg(urlquery.queryItemValue("alv")));
         } else if(urlquery.hasQueryItem("iban")) {
             kysely.exec(QString("SELECT id, nimi, alvtunnus, json FROM KumppaniIban JOIN Kumppani ON KumppaniIban.kumppani=Kumppani.id "
