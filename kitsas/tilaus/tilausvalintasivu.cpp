@@ -72,13 +72,16 @@ void TilausValintaSivu::paivita()
     QString info;
     int planId = ui->planView->currentIndex().data(PlanModel::PlanRooli).toInt();
 
+    ui->lisahintaInfo->show();
+
     if( planId == 0) {
         ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti"));
         ui->lisaksiLabel->hide();
         ui->lisaSpin->hide();
         ui->kirjanpidolleLabel->hide();
         ui->lisahinta->hide();
-    } else if (planId >= PlanModel::TILITOIMISTOID) {
+        ui->lisahintaInfo->hide();
+    } else if (planId == PlanModel::TILITOIMISTOPLAN) {
         double kkhinta = pilvihinta / 12;
         ui->tilaInfo->setText( tr("Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.\n"
                                   "Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi")
@@ -101,8 +104,8 @@ void TilausValintaSivu::paivita()
         ui->lisahinta->setText( tr("%L1 € / kpl").arg( (ui->kuukausiRadio->isChecked() ?
                                                       pilvihinta / 2 : pilvihinta),0,'f',2));
 
-        ui->lisahintaInfo->setText(tr("Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.").arg( vakiokoko_ * pilviayht,0,'f',1 ));
     }
+    ui->lisahintaInfo->setText(tr("Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.").arg( vakiokoko_ * pilviayht,0,'f',1 ));
 
 
     if( palautus_ > 1.00)
