@@ -59,11 +59,11 @@ BudjettiDlg::~BudjettiDlg()
     delete ui;
 }
 
-void BudjettiDlg::lataa(const QString &kausi)
+void BudjettiDlg::lataa(const QDate& kausi)
 {
-    ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->findData( kausi, TilikausiModel::LyhenneRooli ));
+    ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->findData( kausi, TilikausiModel::AlkaaRooli ));
     ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli) );
-    model_->lataa( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate() );
+    model_->lataa( kausi );
 }
 
 void BudjettiDlg::kausivaihtuu()

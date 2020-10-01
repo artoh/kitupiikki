@@ -25,13 +25,15 @@
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
 #include "maksumuistutusdialogi.h"
-#include <QDebug>
 
 #include "raportti/raportinkirjoittaja.h"
 #include "naytin/naytinikkuna.h"
 
 #include "myyntilaskujentoimittaja.h"
 #include "db/yhteysmodel.h"
+
+#include <QDebug>
+#include <QMessageBox>
 
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     QWidget(parent),

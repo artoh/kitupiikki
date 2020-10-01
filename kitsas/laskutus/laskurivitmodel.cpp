@@ -24,6 +24,8 @@
 #include "model/tositevienti.h"
 #include "laskudialogi.h"
 
+#include <QMessageBox>
+
 LaskuRivitModel::LaskuRivitModel(QObject *parent, const QVariantList& data)
     : QAbstractTableModel(parent),
       rivit_(data)

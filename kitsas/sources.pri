@@ -48,7 +48,6 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
-    $$PWD/maaritys/emailkokeilu.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.cpp \
@@ -205,7 +204,6 @@ SOURCES += \
     laskutus/laskudialogi.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     laskutus/tuotemodel.cpp \
-    laskutus/smtp.cpp \
     maaritys/emailmaaritys.cpp \
     raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
@@ -326,7 +324,6 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
-    $$PWD/maaritys/emailkokeilu.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.h \
@@ -485,7 +482,6 @@ HEADERS += \
     laskutus/laskudialogi.h \
     laskutus/laskutusverodelegaatti.h \
     laskutus/tuotemodel.h \
-    laskutus/smtp.h \
     maaritys/emailmaaritys.h \
     raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
@@ -584,7 +580,6 @@ FORMS += \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
-    $$PWD/maaritys/emailkokeilu.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.ui \
     $$PWD/maaritys/liitemaaritys.ui \

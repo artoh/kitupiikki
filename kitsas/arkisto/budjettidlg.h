@@ -42,7 +42,7 @@ public:
     ~BudjettiDlg() override;
 
 public slots:
-    void lataa(const QString &kausi);
+    void lataa(const QDate& kausi);
     void kausivaihtuu();
     void kohdennusVaihtuu();
     void muokattu(qlonglong summa, qlonglong kokosumma);

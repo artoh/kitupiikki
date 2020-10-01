@@ -23,7 +23,6 @@
 
 #include "tuotemodel.h"
 
-#include "smtp.h"
 #include "model/tosite.h"
 
 #include "naytin/esikatseltava.h"

@@ -18,15 +18,13 @@
 #include <QSettings>
 #include <QSslSocket>
 
-#include "laskutus/smtp.h"
-
 #include "emailmaaritys.h"
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 
-#include "emailkokeilu.h"
-
 #include "smtpclient/SmtpMime"
+#include <QMessageBox>
+
 
 EmailMaaritys::EmailMaaritys() :
     ui(new Ui::EMailMaaritys)
@@ -232,26 +230,6 @@ void EmailMaaritys::kokeile()
     ui->testiLabel->hide();
     ui->kokeileNappi->setEnabled(true);
 
-
-    /*
-    QString osoite = QString("=?utf-8?B?%1?= <%2>").arg( QString(ui->nimiEdit->text().toUtf8().toBase64()) ).arg(ui->emailEdit->text());
-
-    Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value(),
-                           ui->sslBox->isChecked(), 30000);
-
-    EmailKokeilu *kokeilu = new EmailKokeilu(this);
-    connect( smtp, &Smtp::status, kokeilu, &EmailKokeilu::status);
-    connect( smtp, &Smtp::debug, kokeilu, &EmailKokeilu::debug);
-    kokeilu->show();
-
-
-    QFile kuva(":/pic/kitsas350.png");
-    kuva.open(QIODevice::ReadOnly);
-
-    smtp->lahetaLiitteella(osoite, osoite, tr("Kitsaan sähköpostikokeilu"),
-                           tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")),
-                       "possu.png", kuva.readAll());
-    */
 }
 
 void EmailMaaritys::porttiVaihtui(int portti)

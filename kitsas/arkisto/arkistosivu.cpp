@@ -321,7 +321,7 @@ void ArkistoSivu::budjetti()
     BudjettiDlg *dlg = new BudjettiDlg(this);
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
-    dlg->lataa( ui->view->currentIndex().data(TilikausiModel::LyhenneRooli).toString() );
+    dlg->lataa( ui->view->currentIndex().data(TilikausiModel::AlkaaRooli).toDate() );
 }
 
 void ArkistoSivu::uudellenNumerointi()

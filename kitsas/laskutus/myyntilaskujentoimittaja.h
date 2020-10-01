@@ -46,8 +46,6 @@ protected slots:
     void tositeSaapuu(QVariant* data);
     void tositeTallennettu(QVariant* data);
 
-    void lahetaSeuraava(int status);
-
 
 protected:
     void tarkistaValmis();

@@ -38,10 +38,9 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QProgressDialog>
+#include <QMessageBox>
 
 
-
-#include "smtp.h"
 
 MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent),
     verkkolaskutoimittaja_(new VerkkolaskuToimittaja(this))
@@ -176,75 +175,6 @@ void MyyntiLaskujenToimittaja::tositeTallennettu(QVariant *data)
         tilaaSeuraavaLasku();
 }
 
-void MyyntiLaskujenToimittaja::lahetaSeuraava(int status)
-{
-    qDebug() << " **LS ** " << status;
-
-    if( status == Smtp::Failed) {
-        if( !emailvirheita_)
-            QMessageBox::critical(nullptr, tr("Sähköpostin lähetys epäonnistui"), tr("Laskujen lähettäminen sähköpostillä epäonnistui. Tarkista sähköpostiasetukset."));
-        emailvirheita_ = true;
-        virhe();
-        sahkopostilla_.removeFirst();
-    } else if( status == Smtp::Connecting || status == Smtp::Sending) {
-        return;
-    } else if( status == Smtp::Send) {
-        QVariantMap lahetetty = sahkopostilla_.value(0);
-        qDebug() << "Send " << lahetetty.value("id").toInt();
-        merkkaaToimitetuksi( lahetetty.value("id").toInt());
-        sahkopostilla_.removeFirst();
-    }
-
-    if(!sahkopostilla_.isEmpty()) {
-        Smtp *smtp = kp()->asetukset()->asetus("SmtpServer").isEmpty() ?
-                    new Smtp( kp()->settings()->value("SmtpUser").toString(),
-                              kp()->settings()->value("SmtpPassword").toString(),
-                              kp()->settings()->value("SmtpServer").toString(),
-                              kp()->settings()->value("SmtpPort").toInt(),
-                              kp()->settings()->value("EmailSSL").toBool()) :
-                    new Smtp( kp()->asetus("SmtpUser"),
-                              kp()->asetus("SmtpPassword"),
-                              kp()->asetus("SmtpServer"),
-                              kp()->asetukset()->luku("SmtpPort"),
-                              kp()->asetukset()->onko("EmailSSL"));
-
-        QVariantMap data = sahkopostilla_.value(0);
-        QVariantMap lasku = data.value("lasku").toMap();
-
-        QString keneltaNimi = kp()->asetukset()->asetus("SmtpServer").isEmpty() ?
-                    kp()->settings()->value("EmailNimi").toString() :
-                    kp()->asetus("EmailNimi");
-        QString keneltaEmail = kp()->asetukset()->asetus("SmtpServer").isEmpty() ?
-                    kp()->settings()->value("EmailOsoite").toString() :
-                    kp()->asetus("EmailOsoite");
-        QString kenelleNimi = lasku.value("osoite").toString().split('\n').value(0);
-        QString kenelleEmail = lasku.value("email").toString();
-
-        QString kenelta = QString("=?utf-8?b?%1?= <%2>").arg( QString(keneltaNimi.toUtf8().toBase64())  )
-                                                    .arg(keneltaEmail);
-        QString kenelle = QString("=?utf-8?b?%1?= <%2>").arg( QString( kenelleNimi.toUtf8().toBase64()) )
-                                                .arg(kenelleEmail );
-
-        qDebug() << kenelle;
-
-        // Viestirungon hakeminen ja virtuaaliviivakoodin laskeminen ;)
-        QString viesti = lasku.value("saate").toString();
-        if( kp()->asetukset()->luku("EmailMuoto")) {
-            if(!viesti.isEmpty())
-                viesti.append("\n\n");
-            viesti.append( maksutiedot(data) );
-        }
-        MyyntiLaskunTulostaja tulostaja(data);
-        int tyyppi = data.value("tyyppi").toInt();
-
-        QString otsikko = QString("%3 %1 %2").arg(lasku.value("numero").toLongLong()).arg(kp()->asetus("Nimi"))
-                .arg(tyyppi == TositeTyyppi::HYVITYSLASKU ? tulostaja.t("hlasku") :
-                               (tyyppi == TositeTyyppi::MAKSUMUISTUTUS ? tulostaja.t("maksumuistutus") : tulostaja.t("laskuotsikko")));
-
-        connect( smtp, &Smtp::status, this, &MyyntiLaskujenToimittaja::lahetaSeuraava);
-        smtp->lahetaLiitteella(kenelta, kenelle, otsikko, viesti, "lasku.pdf", MyyntiLaskunTulostaja::pdf(data));
-    }
-}
 
 void MyyntiLaskujenToimittaja::tarkistaValmis()
 {
@@ -340,14 +270,14 @@ bool MyyntiLaskujenToimittaja::laheta()
 
     if( !client.connectToHost()) {
         virheita_ += sahkopostilla_.count();
-        QMessageBox::critical(dlg_, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui").arg(server));
+        QMessageBox::critical(dlg_, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
         dlg_->setValue(toimitetut_ + virheita_);
         qApp->processEvents();
         tarkistaValmis();
         return false;
     } else if( !password.isEmpty() && !client.login() ) {
         virheita_ += sahkopostilla_.count();
-        QMessageBox::critical(dlg_, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui").arg(server));
+        QMessageBox::critical(dlg_, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
         dlg_->setValue(toimitetut_ + virheita_);
         qApp->processEvents();
         tarkistaValmis();
