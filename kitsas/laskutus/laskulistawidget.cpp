@@ -344,6 +344,7 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     umap.insert("email", lmap.value("email"));
     umap.insert("toimituspvm", kp()->paivamaara());
     umap.insert("erapvm", kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ));
+    umap.insert("viivkorko", lmap.value("viivkorko"));
     map.insert("lasku", umap);
 
     LaskuDialogi* dlg = new LaskuDialogi(map);
