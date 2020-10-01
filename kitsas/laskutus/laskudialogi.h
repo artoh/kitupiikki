@@ -51,7 +51,7 @@ class LaskuDialogi : public QDialog, public Esikatseltava
     Q_OBJECT
 public:
 
-    LaskuDialogi(const QVariantMap& data = QVariantMap(), bool ryhmalasku = false);
+    LaskuDialogi(const QVariantMap& data = QVariantMap(), bool ryhmalasku = false, int asiakas = 0);
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};

@@ -147,9 +147,16 @@ void LaskulistaWidget::paivita()
     paivitaNapit();
 }
 
-void LaskulistaWidget::suodataAsiakas(const QString &nimi)
+void LaskulistaWidget::suodataAsiakas(const QString &nimi, int asiakas)
 {
-    laskuAsiakasProxy_->setFilterFixedString(nimi);
+    if(asiakas) {
+        laskuAsiakasProxy_->setFilterRole(LaskuTauluModel::AsiakasToimittajaIdRooli);
+        laskuAsiakasProxy_->setFilterRegularExpression(QRegularExpression("^" + QString::number(asiakas) + "$"));
+    } else {
+        laskuAsiakasProxy_->setFilterRole(Qt::DisplayRole);
+        laskuAsiakasProxy_->setFilterFixedString(nimi);
+        asiakas_ = 0;
+    }
 }
 
 void LaskulistaWidget::paivitaNapit()
@@ -223,7 +230,7 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku);
+        LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku, asiakas_);
         connect( dlg, &LaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
         dlg->show();
     } else {

@@ -82,7 +82,7 @@
 #include <QPainter>
 #include <QJsonDocument>
 
-LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
+LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku, int asiakas) :
     rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
     ui( new Ui::LaskuDialogi),
     ryhmalasku_(ryhmalasku),
@@ -148,6 +148,10 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku) :
     }
 
     connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
+
+    if(asiakas) {
+        ui->asiakas->set(asiakas);
+    }
 
     if( ryhmalasku )
         alustaRyhmalasku();
@@ -285,6 +289,10 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     if( id != asiakasId_) {
         ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa", LaskuDialogi::TULOSTETTAVA)));
         asiakasId_ = id;
+    }
+
+    if( map.contains("maksuaika")) {
+        ui->eraDate->setDate(kp()->paivamaara().addDays(map.value("maksuaika").toInt()));
     }
 
     asAlvTunnus_ = map.value("alvtunnus").toString();

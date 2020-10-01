@@ -54,7 +54,7 @@ LaskuSivu::LaskuSivu(QWidget * parent) :
     connect( paaTab_, &QTabBar::currentChanged, this, &LaskuSivu::paaTab );
 
     connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, kumppaniTuoteWidget_, &KumppaniTuoteWidget::suodata);
-    connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, laskuWidget_, &LaskulistaWidget::suodataAsiakas);
+    connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, [this] (const QString& teksti) {this->laskuWidget_->suodataAsiakas(teksti,0);});
     connect( kumppaniTuoteWidget_, &KumppaniTuoteWidget::kumppaniValittu, laskuWidget_, &LaskulistaWidget::suodataAsiakas);
     connect( ryhmaWidget_, &KumppaniTuoteWidget::ryhmaValittu, kumppaniTuoteWidget_, &KumppaniTuoteWidget::suodataRyhma);
 

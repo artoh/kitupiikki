@@ -99,6 +99,7 @@ void AsiakasToimittajaDlg::uusi(const QString &nimi)
 {
     tauluun();    
     ui->nimiEdit->setText(nimi);    
+    ui->maksuaikaSpin->setValue(kp()->asetukset()->luku("LaskuMaksuaika", 14));
     show();
 }
 
@@ -157,6 +158,16 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     if( map.contains("laskutapa"))
         ui->laskutapaCombo->setCurrentIndex( ui->laskutapaCombo->findData( map.value("laskutapa")));
     ui->lisatietoEdit->setPlainText( map.value("lisatiedot").toString());
+
+    if( map.contains("maksuaika")) {
+        ui->maksuaikaCheck->setChecked(true);
+        ui->maksuaikaSpin->setEnabled(true);
+        ui->maksuaikaSpin->setValue(map.value("maksuaika").toInt());
+    } else {
+        ui->maksuaikaCheck->setChecked(false);
+        ui->maksuaikaSpin->setEnabled(false);
+        ui->maksuaikaSpin->setValue(kp()->asetukset()->luku("LaskuMaksuaika", 14));
+    }
 
     tarkastaTilit();
 }
@@ -374,6 +385,9 @@ void AsiakasToimittajaDlg::accept()
         map.insert("ovt", ui->ovtEdit->text());
     if( !ui->valittajaEdit->text().isEmpty())
         map.insert("operaattori", ui->valittajaEdit->text());
+
+    if( ui->maksuaikaCheck->isChecked())
+        map.insert("maksuaika", ui->maksuaikaSpin->value());
 
     QVariantList valitutRyhmat = ui->ryhmatWidget->valitutRyhmat();
     if( !valitutRyhmat.isEmpty())

@@ -54,7 +54,7 @@ private slots:
     void raportti();
 
 signals:
-    void kumppaniValittu(const QString& nimi);
+    void kumppaniValittu(const QString& nimi, int id);
     void ryhmaValittu(int ryhma);
 
 private:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>631</height>
+    <width>817</width>
+    <height>676</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
       <attribute name="title">
        <string>Perustiedot</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
+      <layout class="QFormLayout" name="formLayout_3">
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -182,7 +182,47 @@
        <item row="9" column="1">
         <widget class="QComboBox" name="laskutapaCombo"/>
        </item>
+       <item row="10" column="0">
+        <widget class="QCheckBox" name="maksuaikaCheck">
+         <property name="text">
+          <string>Maksuaika</string>
+         </property>
+        </widget>
+       </item>
        <item row="10" column="1">
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="maksuaikaSpin">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="suffix">
+            <string> vrk</string>
+           </property>
+           <property name="prefix">
+            <string/>
+           </property>
+           <property name="maximum">
+            <number>365</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="11" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -359,8 +399,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>432</x>
-     <y>615</y>
+     <x>445</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -375,12 +415,28 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>500</x>
-     <y>615</y>
+     <x>513</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maksuaikaCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>maksuaikaSpin</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>552</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>553</y>
     </hint>
    </hints>
   </connection>

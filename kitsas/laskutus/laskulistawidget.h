@@ -41,7 +41,7 @@ public slots:
     void nayta(int paalehti);
     void alalehti(int alalehti);
     void paivita();
-    void suodataAsiakas(const QString& nimi);
+    void suodataAsiakas(const QString& nimi, int asiakas = 0);
 
     void paivitaNapit();
 
@@ -74,6 +74,7 @@ private:
     QSortFilterProxyModel *vainLaskuProxy_;
 
     int paalehti_ = 0;
+    int asiakas_ = 0;
 };
 
 #endif // LASKULISTAWIDGET_H

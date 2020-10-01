@@ -123,13 +123,13 @@ void KumppaniTuoteWidget::ilmoitaValinta()
             emit ryhmaValittu( ui->view->selectionModel()->selectedRows(0).value(0).data(RyhmatModel::IdRooli).toInt());
             napitkaytossa = ui->view->selectionModel()->selectedRows(0).value(0).row() > 0;
         } else {
-            emit kumppaniValittu(  ui->view->selectionModel()->selectedRows(0).value(0).data().toString() );
+            emit kumppaniValittu(  ui->view->selectionModel()->selectedRows(0).value(0).data().toString(), ui->view->selectionModel()->selectedRows(0).value(0).data(AsiakkaatModel::IdRooli).toInt());
         }
     } else {
         if( valilehti_ == RYHMAT)
             emit ryhmaValittu(0);
         else
-            emit kumppaniValittu("");
+            emit kumppaniValittu("",0);
         napitkaytossa = false;
     }
     ui->muokkaaNappi->setEnabled( napitkaytossa );
