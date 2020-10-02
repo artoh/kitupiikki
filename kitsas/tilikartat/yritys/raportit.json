@@ -1,6 +1,6 @@
 {
   "tulos/yleinen": {
-    "nimi" : {
+    "nimi": {
       "fi": "Tuloslaskelma",
       "sv": "Resultaträkning",
       "en": "Profit and loss accout"
@@ -102,7 +102,7 @@
       },
       {
         "fi": "Muut henkilösivukulut",
-        "sv": "Övrika lönebikonstnader",
+        "sv": "Övrika lönebikostnader",
         "en": "Other social security expenses",
         "L": "63..67 *",
         "S": 2
@@ -144,7 +144,7 @@
       },
       {
         "fi": "Liikevoitto/tappio",
-        "sv": "Rörelsevinst/förlust",
+        "sv": "Rörelsevinst (-förlust)",
         "en": "Operation profit (loss)",
         "L": "3..8 S",
         "M": "bold",
@@ -207,7 +207,7 @@
       },
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
-        "sv": "Vinst/förlust före bokslutsdispositioner ock skatter",
+        "sv": "Vinst (förlust) före bokslutsdispositioner ock skatter",
         "en": "Profit (loss) before appropriations and taxes",
         "L": "3..97 S",
         "M": "bold",
@@ -215,7 +215,7 @@
       },
       {
         "fi": "Tilinpäätössiirrot",
-        "sv": "bokslutsdispositioner",
+        "sv": "Bokslutsdispositioner",
         "en": "Appropriations",
         "L": "98",
         "V": 1
@@ -257,7 +257,7 @@
       },
       {
         "fi": "Tilikauden voitto/tappio",
-        "sv": "Räkenskapsperiodens vinst/förlust",
+        "sv": "Räkenskapsperiodens vinst (förlust)",
         "en": "Profit (loss) for the financial year",
         "L": "3..9 S",
         "M": "bold",
@@ -267,60 +267,73 @@
   },
   "tulos/mikrobrutto": {
     "nimi": {
-      "fi": "Tuloslaskelma"
+      "fi": "Tuloslaskelma",
+      "sv": "Resultaträkning"
     },
     "muoto": {
-      "fi": "Mikroyrityksen bruttotuloslaskelma"
+      "fi": "Mikroyrityksen bruttotuloslaskelma",
+      "sv": "Mikroföretag bruttoresultaträkning "
     },
     "rivit": [
       {
         "fi": "Bruttotulos",
+        "sv": "Bruttoresultat",
         "M": "bold",
         "L": "3,4 S *"
       },
       {
         "fi": "Henkilöstökulut",
+        "sv": "Personalkostnader",
         "L": "5..67 *",
         "V": 1
       },
       {
         "fi": "Poistot ja arvonalentumat",
+        "sv": "Avskrivningar och nedskrivningar",
         "L": "68..69 *"
       },
       {
         "fi": "Liiketoiminnan muut kulut",
+        "sv": "Övriga rörelsekostnader",
         "L": "7..8 *"
       },
       {
         "fi": "Liikevoitto/tappio",
+        "sv": "Rörelsevinst (-förlust)",
         "L": "3..8",
         "M": "bold",
         "V": 1
       },
       {
         "fi": "Rahoitustuotot ja -kulut",
+        "sv": "Finansiella intäkter och kostnader",
         "L": "90..96 *"
       },
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
+        "sv": "Vinst (förlust) före bokslutsdispositioner och skatter",
         "L": "3..96",
         "M": "bold",
         "V": 1
       },
       {
         "fi": "Tilinpäätössiirrot",
+        "sv": "Bokslutsdispositioner",
         "L": "98 *"
       },
       {
         "fi": "Tuloverot",
+        "sv": "Inkomstskatt",
         "L": "99..996 *"
       },
       {
         "fi": "Muut välittömät verot",
+        "sv": "Övriga direkta skatter",
         "L": "998..999 *"
       },
       {
         "fi": "Tilikauden voitto/tappio",
+        "sv": "Råkenskaperiodens vinst (förlust)",
         "L": "3..9",
         "M": "bold",
         "V": 1
@@ -335,7 +348,7 @@
     },
     "muoto": {
       "fi": "Pien- ja mikroyritys",
-      "sv": "Små- och mickroföretag",
+      "sv": "Små- och mikroföretag",
       "en": "Small and micro enterprise"
     },
     "rivit": [
@@ -353,21 +366,21 @@
       },
       {
         "fi": "Aineettomat hyödykkeet",
-        "sv": "Immateriella tillgånger",
+        "sv": "Immateriella tillgångar",
         "en": "Intangible assets",
         "L": "10 *",
         "S": 1
       },
       {
         "fi": "Aineelliset hyödykkeet",
-        "sv": "Materiella tillgånger",
+        "sv": "Materiella tillgångar",
         "en": "Tangible assets",
         "L": "11..13 *",
         "S": 1
       },
       {
         "fi": "Sijoitukset",
-        "sv": "Placeringarna",
+        "sv": "Placeringar",
         "en": "Investments",
         "L": "14 *",
         "S": 1
@@ -386,8 +399,8 @@
         "S": 1
       },
       {
-        "fi": "Pitkäaikaiset saatavat",
-        "sv": "Långfristiga fordringar",
+        "fi": "Pitkäaikaiset saamiset",
+        "sv": "Långfristiga fordningar",
         "en": "Long-term debtors",
         "L": "16 *",
         "S": 1
@@ -436,7 +449,7 @@
       },
       {
         "fi": "Osake-, osuus- tai muu vastaava pääoma",
-        "sv": "Aktie- eller andelskapital eller annat motsvanrande kapital",
+        "sv": "Aktie- eller andelskapital eller annat motsvarande kapital",
         "en": "Subsribed capital",
         "L": "200,210,220 *",
         "S": 1
@@ -464,16 +477,19 @@
       },
       {
         "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
         "L": " 215..219 *",
         "S": 1
       },
       {
         "fi": "Äänettömät yhtiömiehet",
+        "sv": "Tysta bolagsmännen",
         "L": " 218 *",
         "S": 1
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
+        "sv": "Ansvariga bolagsmännen",
         "L": " 217 *",
         "S": 1
       },
@@ -486,11 +502,13 @@
       },
       {
         "fi": "Pääomavajaus",
+        "sv": "Kapitalunderskott",
         "L": "233 *",
         "S": 1
       },
       {
         "fi": "Yksityistilit tilikaudella",
+        "sv": "Privata räkenskaper under räkenskapsperioden",
         "L": "234..236 *",
         "S": 1
       },
@@ -503,11 +521,13 @@
       },
       {
         "fi": "Pääomalainat",
+        "sv": "Kapitallån",
         "L": "238 *",
         "S": 1
       },
       {
         "fi": "VÄHEMMISTÖOSUUDET",
+        "sv": "MINORITETSANDELAR",
         "L": "239 *"
       },
       {
@@ -578,7 +598,7 @@
       },
       {
         "fi": "Aineettomat hyödykkeet",
-        "sv": "Immateriella tillgånger",
+        "sv": "Immateriella tillgångar",
         "en": "Intangible assets",
         "L": "10",
         "S": 1
@@ -613,14 +633,14 @@
       },
       {
         "fi": "Ennakkomaksut",
-        "sv": "Förskotssbetalningas",
+        "sv": "Förskottsbetalningar",
         "en": "Advance payments",
         "L": "109 *",
         "S": 2
       },
       {
         "fi": "Aineelliset hyödykkeet",
-        "sv": "Materiella tillgånger",
+        "sv": "Materiella tillgångar",
         "en": "Tangible assets",
         "L": "11..13",
         "S": 1
@@ -634,7 +654,7 @@
       },
       {
         "fi": "Rakennukset ja rakennelmat",
-        "sv": "Byggnaden och konstruktioner",
+        "sv": "Byggnader och konstruktioner",
         "en": "Buildings",
         "L": "112..115 *",
         "S": 2
@@ -645,25 +665,24 @@
         "en": "Machinery and equipment",
         "L": "116..12 *",
         "S": 2
-
       },
       {
-         "fi": "Muut aineelliset hyödykkeet",
-         "sv": "Övriga materiella tillgånger",
-         "en": "Other tangible assets",
-         "L": "130..137 *",
-         "S": 2
+        "fi": "Muut aineelliset hyödykkeet",
+        "sv": "Övriga materiella tillgångar",
+        "en": "Other tangible assets",
+        "L": "130..137 *",
+        "S": 2
       },
       {
         "fi": "Ennakkomaksut ja keskeneräiset hankinnat",
-        "sv": "Forskottbetalningar och pågående nyanläggningar",
+        "sv": "Förskottbetalningar och pågående nyanläggningar",
         "en": "Advance payments and contruction in progress",
         "L": "138..139 *",
         "S": 2
       },
       {
         "fi": "Sijoitukset",
-        "sv": "Placeringarna",
+        "sv": "Placeringar",
         "en": "Investments",
         "L": "14",
         "S": 1
@@ -753,13 +772,13 @@
       },
       {
         "fi": "Ennakkomaksut",
-        "sv": "Förskottbetalningar",
+        "sv": "Förskottsbetalningar",
         "en": "Advance payments",
         "L": "155 *",
         "S": 2
       },
       {
-        "fi": "Pitkäaikaiset saatavat",
+        "fi": "Pitkäaikaiset saamiset",
         "sv": "Långfristiga fordringar",
         "en": "Long-term debtors",
         "L": "16 ",
@@ -788,7 +807,7 @@
       },
       {
         "fi": "Lainasaamiset",
-        "sv": "Låneforedeingar",
+        "sv": "Lånefordringar",
         "en": "Loan assets",
         "L": "165 *",
         "S": 2
@@ -844,7 +863,7 @@
       },
       {
         "fi": "Lainasaamiset",
-        "sv": "Låneforedeingar",
+        "sv": "Lånefordringar",
         "en": "Loan assets",
         "L": "175 *",
         "S": 2
@@ -991,16 +1010,19 @@
       },
       {
         "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
         "L": " 215..219",
         "S": 1
       },
       {
         "fi": "Äänettömät yhtiömiehet",
+        "sv": "Tysta bolagsmännen",
         "L": " 218 *",
         "S": 1
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
+        "sv": "Ansvariga bolagsmännen",
         "L": " 217 *",
         "S": 1
       },
@@ -1013,11 +1035,13 @@
       },
       {
         "fi": "Pääomavajaus",
+        "sv": "Kapitalunderskott",
         "L": "233 *",
         "S": 1
       },
       {
         "fi": "Yksityistilit tilikaudella",
+        "sv": "Privata räkenskaper under räkenskapsperioden",
         "L": "234..236 *",
         "S": 1
       },
@@ -1030,11 +1054,13 @@
       },
       {
         "fi": "Pääomalainat",
+        "sv": "Kapitallån",
         "L": "238 *",
         "S": 1
       },
       {
         "fi": "VÄHEMMISTÖOSUUDET",
+        "sv": "MINORITETSANDELAR",
         "L": "239 *"
       },
       {
@@ -1150,7 +1176,7 @@
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
         "en": "Amounts owed to group undertaking",
-        "L":"270 *",
+        "L": "270 *",
         "S": 2
       },
       {
@@ -1234,7 +1260,7 @@
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
         "en": "Amounts owed to group undertaking",
-        "L":"290 *",
+        "L": "290 *",
         "S": 2
       },
       {
