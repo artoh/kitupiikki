@@ -92,8 +92,6 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
 
 #ifndef Q_OS_WINDOWS
     document->setRenderBackend(Poppler::Document::ArthurBackend);
-#else
-    document->setRenderBackend(Poppler::Document::SplashBackend);
 #endif
 
     int pageCount = document->numPages();
@@ -102,23 +100,30 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
         painter->resetTransform();
         Poppler::Page *page = document->page(i);
 
+
+#ifndef Q_OS_WINDOWS
         double vaakaResoluutio =  printer->pageLayout().paintRect(QPageLayout::Point).width() / page->pageSizeF().width() * printer->logicalDpiX();
         double pystyResoluutio = (printer->pageLayout().paintRect(QPageLayout::Point).height() * 9 / 10) / page->pageSizeF().height()  * printer->logicalDpiY();
 
         double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
 
-#ifndef Q_OS_WINDOWS
+
         page->renderToPainter( painter, resoluutio, resoluutio,
                                            0, 0 - rivinKorkeus * 2 ,page->pageSize().width(), page->pageSize().height());
 
+        tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
+        painter->translate(0, resoluutio / 72 * page->pageSize().height() + 2 * rivinKorkeus);
+
 #else
-        QImage image = page->renderToImage(resoluutio, resoluutio);        
-        painter->drawImage(0,painter->fontMetrics().height() * 2,image);
+        QImage image = page->renderToImage(300, 300);
+        QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);
+
+        painter->drawImage(rect, image);
+        tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
+        painter->translate(0, painter->window().height() - 8 * rivinKorkeus);
 #endif
 
-        tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
 
-        painter->translate(0, resoluutio / 72 * page->pageSize().height() + 2 * rivinKorkeus);
 
         if(ensisivu) {
             tulostaAlatunniste(painter, tosite, kieli);

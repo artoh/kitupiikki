@@ -103,10 +103,8 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     {
                         iter.next();
                         Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
-                        if( tili.onko(TiliLaji::TULO) )
+                        if( tili.onko(TiliLaji::TULOS) )
                             tulos += erasumma(iter.value());
-                        else if( tili.onko(TiliLaji::MENO) )
-                            tulos -= erasumma(iter.value());
                     }
                     return QVariant( QString("%L1 €").arg( ( tulos / 100.0 ), 10,'f',2));
                 }
