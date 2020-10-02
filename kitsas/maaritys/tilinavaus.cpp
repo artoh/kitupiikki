@@ -33,7 +33,8 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     proxy->setFilterRole(TilinavausModel::KaytossaRooli);
-    proxy->setFilterFixedString("1");
+    proxy->setFilterFixedString("1");    
+    proxy->setSortRole(TilinavausModel::LajitteluRooli);
 
 
     suodatus = new QSortFilterProxyModel(this);
@@ -152,6 +153,7 @@ void Tilinavaus::siirry(const QString &minne)
 bool Tilinavaus::nollaa()
 {
     model->lataa();
+    proxy->sort(0);
     ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("Henkilosto"));
     emit tallennaKaytossa(onkoMuokattu());
     return true;

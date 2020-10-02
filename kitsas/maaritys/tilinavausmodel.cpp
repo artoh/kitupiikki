@@ -184,6 +184,12 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         return tili.nimi();
     else if( role == NumeroRooli)
         return tili.numero();
+    else if( role == LajitteluRooli) {
+        if( tili.otsikkotaso())
+            return QString("%1/%2").arg(tili.numero()).arg(tili.otsikkotaso(),2,10,QChar('0'));
+        else
+            return QString("%1/XX").arg(tili.numero());
+    }
 
 
     return QVariant();

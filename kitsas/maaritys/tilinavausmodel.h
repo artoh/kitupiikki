@@ -77,7 +77,8 @@ public:
         KaytossaRooli = Qt::UserRole + 1,
         NumeroRooli = Qt::UserRole + 2,
         NimiRooli = Qt::UserRole + 3,
-        ErittelyRooli = Qt::UserRole + 4
+        ErittelyRooli = Qt::UserRole + 4,
+        LajitteluRooli = Qt::UserRole + 11
     };
 
     enum Erittely {
