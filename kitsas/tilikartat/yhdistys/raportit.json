@@ -109,7 +109,7 @@
       },
       {
         "fi": "Kulut",
-        "se": "Konstnar",
+        "se": "Konstnader",
         "en": "Expenses",
         "L": "91 S *"
       },
@@ -128,7 +128,7 @@
       },
       {
         "fi": "Yleisavustukset",
-        "sv": "Allmänna understödd",
+        "sv": "Allmänna understöd",
         "en": "General grants",
         "L": "88 *",
         "M": "bold",
@@ -210,7 +210,7 @@
       },
       {
         "fi": "Aineettomat hyödykkeet",
-        "sv": "Immateriella tillgånger",
+        "sv": "Immateriella tillgångar",
         "en": "Intangible assets",
         "L": "10",
         "S": 1
@@ -245,14 +245,14 @@
       },
       {
         "fi": "Ennakkomaksut",
-        "sv": "Förskotssbetalningas",
+        "sv": "Förskotssbetalningar",
         "en": "Advance payments",
         "L": "109 *",
         "S": 2
       },
       {
         "fi": "Aineelliset hyödykkeet",
-        "sv": "Materiella tillgånger",
+        "sv": "Materiella tillgångar",
         "en": "Tangible assets",
         "L": "11..13",
         "S": 1
@@ -266,7 +266,7 @@
       },
       {
         "fi": "Rakennukset ja rakennelmat",
-        "sv": "Byggnaden och konstruktioner",
+        "sv": "Byggnader och konstruktioner",
         "en": "Buildings",
         "L": "112..115 *",
         "S": 2
@@ -277,25 +277,24 @@
         "en": "Machinery and equipment",
         "L": "116 *",
         "S": 2
-
       },
       {
-         "fi": "Muut aineelliset hyödykkeet",
-         "sv": "Övriga materiella tillgånger",
-         "en": "Other tangible assets",
-         "L": "117 *",
-         "S": 2
+        "fi": "Muut aineelliset hyödykkeet",
+        "sv": "Övriga materiella tillgångar",
+        "en": "Other tangible assets",
+        "L": "117 *",
+        "S": 2
       },
       {
         "fi": "Ennakkomaksut ja keskeneräiset hankinnat",
-        "sv": "Forskottbetalningar och pågående nyanläggningar",
+        "sv": "Förskottbetalningar och pågående nyanläggningar",
         "en": "Advance payments and contruction in progress",
         "L": "118 *",
         "S": 2
       },
       {
         "fi": "Sijoitukset",
-        "sv": "Placeringarna",
+        "sv": "Placeringar",
         "en": "Investments",
         "L": "14",
         "S": 1
@@ -344,14 +343,14 @@
       },
       {
         "fi": "Sijoituskiinteistöt",
-        "sv": "Placeringarna i fastigheter",
+        "sv": "Placeringar i fastigheter",
         "en": "Investments in real estates",
         "L": "147 *",
         "S": 2
       },
       {
         "fi": "OMAKATTEISTEN RAHASTOJEN VARAT",
-        "sv": "KAPITAL AV BUNDNA FONDERNA",
+        "sv": "KAPITAL AV SJÄLVTÄCKANDE FONDER",
         "en": "CAPITAL OF BOUND RESERVER",
         "L": "148..149 *"
       },
@@ -433,7 +432,7 @@
       },
       {
         "fi": "Lainasaamiset",
-        "sv": "Låneforedeingar",
+        "sv": "Lånefordringar",
         "en": "Loan assets",
         "L": "164 *",
         "S": 2
@@ -482,7 +481,7 @@
       },
       {
         "fi": "Lainasaamiset",
-        "sv": "Låneforedeingar",
+        "sv": "Lånefordringar",
         "en": "Loan assets",
         "L": "174 *",
         "S": 2
@@ -559,43 +558,42 @@
       },
       {
         "fi": "Sidotut rahastot",
-        "sv": "Binda fonder",
+        "sv": "Bundna fonder",
         "en": "Bound reserves",
         "S": "1",
         "L": "201..202"
       },
       {
         "fi": "Omakatteiset rahastot",
-        "sv": "Självtackande fonder",
+        "sv": "Självtäckande fonder",
         "en": "Self-suffient reserves",
         "S": 2,
         "L": "201 *"
       },
       {
-         "fi": "Muut sidotut rahastot",
-         "sv": "Övrika binda fonder",
-         "en": "Other bound reserves",
-         "S": 2,
-         "L": "202 *"
-
+        "fi": "Muut sidotut rahastot",
+        "sv": "Övrika bundna fonder",
+        "en": "Other bound reserves",
+        "S": 2,
+        "L": "202 *"
       },
       {
-          "fi": "Vapaa rahasto",
-          "sv": "Fria fonder",
-          "en": "Free reserves",
-          "S": 1,
-          "L": "204"
+        "fi": "Vapaa rahasto",
+        "sv": "Fria fonder",
+        "en": "Free reserves",
+        "S": 1,
+        "L": "204"
       },
       {
-        "fi": "Edellisten tilikausien voitto/tappio",
-        "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
+        "fi": "Edellisten tilikausien ylijäämä (alijäämä)",
+        "sv": "Överskott (underskott) från tidigare räkenskapsperioder",
         "en": "Retained earnings (loss)",
         "L": "2450 *",
         "S": 1
       },
       {
-        "fi": "Tilikauden voitto/tappio",
-        "sv": "Räkenskapsperiodens vinst (förlust)",
+        "fi": "Tilikauden ylijäämä (alijäämä)",
+        "sv": "Räkenskapsperiodens överskott (underskott)",
         "en": "Profit (loss) for the financial year",
         "L": "2460 *",
         "S": 1
@@ -706,7 +704,7 @@
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
         "en": "Amounts owed to group undertaking",
-        "L":"2870..2874 *",
+        "L": "2870..2874 *",
         "S": 2
       },
       {
@@ -783,7 +781,7 @@
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
         "en": "Amounts owed to group undertaking",
-        "L":"2970..2974 *",
+        "L": "2970..2974 *",
         "S": 2
       },
       {
@@ -825,7 +823,7 @@
     },
     "muoto": {
       "fi": "Pien- ja mikroyritys",
-      "sv": "Små- och mickroföretag",
+      "sv": "Små- och mikroföretag",
       "en": "Small and micro enterprise"
     },
     "rivit": [
@@ -843,28 +841,28 @@
       },
       {
         "fi": "Aineettomat hyödykkeet",
-        "sv": "Immateriella tillgånger",
+        "sv": "Immateriella tillgångar",
         "en": "Intangible assets",
         "L": "10",
         "S": 1
       },
       {
         "fi": "Aineelliset hyödykkeet",
-        "sv": "Materiella tillgånger",
+        "sv": "Materiella tillgångar",
         "en": "Tangible assets",
         "L": "11..13",
         "S": 1
       },
       {
         "fi": "Sijoitukset",
-        "sv": "Placeringarna",
+        "sv": "Placeringar",
         "en": "Investments",
         "L": "14",
         "S": 1
       },
       {
         "fi": "OMAKATTEISTEN RAHASTOJEN VARAT",
-        "sv": "KAPITAL AV BUNDNA FONDERNA",
+        "sv": "KAPITAL AV SJÄLVTÄCKANDE FONDER",
         "en": "CAPITAL OF BOUND RESERVER",
         "L": "148 *"
       },
@@ -932,43 +930,42 @@
       },
       {
         "fi": "Sidotut rahastot",
-        "sv": "Binda fonder",
+        "sv": "Bundna fonder",
         "en": "Bound reserves",
         "S": "1",
         "L": "201..202"
       },
       {
         "fi": "Omakatteiset rahastot",
-        "sv": "Självtackande fonder",
+        "sv": "Självtäckande fonder",
         "en": "Self-suffient reserves",
         "S": 2,
         "L": "201 *"
       },
       {
-         "fi": "Muut sidotut rahastot",
-         "sv": "Övrika binda fonder",
-         "en": "Other bound reserves",
-         "S": 2,
-         "L": "202 *"
-
+        "fi": "Muut sidotut rahastot",
+        "sv": "Övrika bundna fonder",
+        "en": "Other bound reserves",
+        "S": 2,
+        "L": "202 *"
       },
       {
-          "fi": "Vapaa rahasto",
-          "sv": "Fria fonder",
-          "en": "Free reserves",
-          "S": 1,
-          "L": "204"
+        "fi": "Vapaat rahastot",
+        "sv": "Fria fonder",
+        "en": "Free reserves",
+        "S": 1,
+        "L": "204"
       },
       {
-        "fi": "Edellisten tilikausien voitto/tappio",
-        "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
+        "fi": "Edellisten tilikausien ylijäämä (alijäämä)",
+        "sv": "Överskott (underskott) från tidigare räkenskapsperioder",
         "en": "Retained earnings (loss)",
         "L": "2450 *",
         "S": 1
       },
       {
-        "fi": "Tilikauden voitto/tappio",
-        "sv": "Räkenskapsperiodens vinst (förlust)",
+        "fi": "Tilikauden yljiäämä (alijäämä)",
+        "sv": "Räkenskapsperiodens överskott (underskott)",
         "en": "Profit (loss) for the financial year",
         "L": "2460 *",
         "S": 1
