@@ -33,7 +33,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     QDate kaudenalku = kausi.alkaa();
     if( urlquery.hasQueryItem("alkupvm"))
         kaudenalku = QDate::fromString( urlquery.queryItemValue("alkupvm"), Qt::ISODate );
-
     if( urlquery.hasQueryItem("kustannuspaikat"))
         return kustannuspaikat( kaudenalku, pvm, false );
     if( urlquery.hasQueryItem("projektit")) {
@@ -43,9 +42,32 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         return kustannuspaikat( kaudenalku, pvm, true, kuuluu );
     }
 
+    QSqlQuery kysely(db());
     QVariantMap saldot;
 
-    QSqlQuery kysely(db());
+
+    if( urlquery.hasQueryItem("tili")) {
+        Tili* tili = kp()->tilit()->tili(urlquery.queryItemValue("tili").toInt());
+        if(tili) {
+            QString kysymys = QString("SELECT sum(debetsnt), sum(kreditsnt) "
+                                      "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                                      "WHERE Vienti.tili = %1 AND Tosite.tila >= 100 AND ").arg(tili->numero()) +
+                   ( tili->onko(TiliLaji::TULOS) ? QString("vienti.pvm BETWEEN '%1' AND '%2").arg(kaudenalku.toString(Qt::ISODate).arg(pvm.toString(Qt::ISODate)))
+                                                 : QString("vienti.pvm <= '%1'").arg(pvm.toString(Qt::ISODate)) );
+            qDebug() << kysymys;
+            kysely.exec(kysymys);
+            if(kysely.next()) {
+                double saldo = tili->onko(TiliLaji::VASTAAVAA)
+                        ? (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0
+                        : (kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0;
+                saldot.insert(urlquery.queryItemValue("tili"), saldo);
+            }
+        }
+        return saldot;
+    }
+
+
+
 
     if( !urlquery.hasQueryItem("tuloslaskelma")) {
         QString kysymys = "SELECT tili, sum(debetsnt), sum(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ";
@@ -64,24 +86,22 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                 saldot.insert( tilistr, (kysely.value(2).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 );
         }
 
-        if( !urlquery.hasQueryItem("tili") ) {
-            // Edellisten tulos
-            kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti Join Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
-                                "AND vienti.pvm<'%1' AND Tosite.tila >= 100").arg(kausi.alkaa().toString(Qt::ISODate)));
-            if( kysely.next()) {
-                QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
-                double saldo = ( qRound64(saldot.value(edtili).toDouble()*100) + kysely.value(0).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 ;
-                saldot[edtili] = saldo;
-            }
-            // Nykyisen tulos
-            kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
-                                "AND vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100")
-                        .arg(kaudenalku.toString(Qt::ISODate))
-                        .arg(pvm.toString(Qt::ISODate)));
-            if( kysely.next()) {
-                QString tulostili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero() ) ;
-                saldot.insert(tulostili, (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
-            }
+        // Edellisten tulos
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti Join Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
+                            "AND vienti.pvm<'%1' AND Tosite.tila >= 100").arg(kausi.alkaa().toString(Qt::ISODate)));
+        if( kysely.next()) {
+            QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
+            double saldo = ( qRound64(saldot.value(edtili).toDouble()*100) + kysely.value(0).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 ;
+            saldot[edtili] = saldo;
+        }
+        // Nykyisen tulos
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
+                            "AND vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100")
+                    .arg(kaudenalku.toString(Qt::ISODate))
+                    .arg(pvm.toString(Qt::ISODate)));
+        if( kysely.next()) {
+            QString tulostili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero() ) ;
+            saldot.insert(tulostili, (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
         }
     }
 
@@ -97,8 +117,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         else
             kysymys += "<=";
         kysymys += QString(" '%1' ").arg(pvm.toString(Qt::ISODate));
-        if( urlquery.hasQueryItem("tili"))
-            kysymys += QString(" AND tili=%1 ").arg(urlquery.queryItemValue("tili"));
         if( urlquery.hasQueryItem("kohdennus"))
             kysymys += QString(" AND (kohdennus.id=%1 OR kohdennus.kuuluu=%1) ").arg(urlquery.queryItemValue("kohdennus"));
         kysymys += QString(" AND vienti.pvm >= '%1' AND CAST(tili as text) >= 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili")

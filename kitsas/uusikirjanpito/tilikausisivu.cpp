@@ -30,16 +30,18 @@ TilikausiSivu::TilikausiSivu(UusiVelho* wizard) :
 
     int tamavuosi = QDate::currentDate().year();
 
-    ui->ekaAlkaa->setDate(QDate(tamavuosi,1,1));
-    ui->ekaPaattyy->setDate(QDate(tamavuosi,12,31));
-
-    ui->edellinenAlkoi->setDate(QDate(tamavuosi-1,1,1));
-    ui->edellinenPaattyi->setDate(QDate(tamavuosi-1,12,31));
-
     connect( ui->ekaAlkaa, SIGNAL(dateChanged(QDate)),
              this, SLOT(alkuPaivaMuuttui(QDate)));
 
     connect( ui->ekaPaattyy, &QDateEdit::dateChanged, this, &TilikausiSivu::loppuPaivaMuuttui);
+    connect( ui->edellinenAlkoi, &QDateEdit::dateChanged, this, &TilikausiSivu::loppuPaivaMuuttui);
+
+    ui->ekaAlkaa->setDate(QDate(tamavuosi,1,1));
+    ui->ekaPaattyy->setDate(QDate(tamavuosi,12,31));
+
+    ui->edellinenAlkoi->setDate(QDate(tamavuosi-1,1,1));
+        ui->edellinenPaattyi->setDate(QDate(tamavuosi-1,12,31));
+
 }
 
 TilikausiSivu::~TilikausiSivu()
@@ -49,7 +51,8 @@ TilikausiSivu::~TilikausiSivu()
 
 bool TilikausiSivu::isComplete() const
 {
-    return( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() < ui->ekaAlkaa->date().addMonths(18)  );
+    return( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() <= ui->ekaAlkaa->date().addMonths(18) &&
+            ui->edellinenAlkoi->date() <= ui->edellinenPaattyi->date() && ui->edellinenPaattyi->date() <= ui->edellinenAlkoi->date().addMonths(18));
 }
 
 bool TilikausiSivu::validatePage()
@@ -94,10 +97,16 @@ void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)
 void TilikausiSivu::loppuPaivaMuuttui()
 {
 
-    if( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() < ui->ekaAlkaa->date().addMonths(18)  )
+    if( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() <= ui->ekaAlkaa->date().addMonths(18)  )
         ui->ekaPaattyy->setStyleSheet("color: black;");
     else
         ui->ekaPaattyy->setStyleSheet("color: red;");
+
+    if( ui->edellinenAlkoi->date() <= ui->edellinenPaattyi->date() && ui->edellinenPaattyi->date() <= ui->edellinenAlkoi->date().addMonths(18) )
+        ui->edellinenAlkoi->setStyleSheet("color: black;");
+    else
+        ui->edellinenAlkoi->setStyleSheet("color: red");
+
 
     emit completeChanged();
 }

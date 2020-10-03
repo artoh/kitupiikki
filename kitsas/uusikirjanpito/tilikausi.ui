@@ -124,6 +124,9 @@
    </item>
    <item>
     <widget class="QLabel" name="eiavaustaVaroitus">
+     <property name="styleSheet">
+      <string notr="true">background-color: yellow;</string>
+     </property>
      <property name="text">
       <string>&lt;p&gt;&lt;b&gt;Et voi syöttää ohjelmaan taseen alkusaldoja, koska olet valinnut että toiminta alkaa vasta tästä tilikaudesta.&lt;/b&gt;&lt;/p&gt;
 &lt;p&gt;Käytä tätä valintaa vain, jos kyseessä on todellakin vasta perustetun yrityksen/yhdistyksen ensimmäinen tilikausi.&lt;/p&gt;</string>
