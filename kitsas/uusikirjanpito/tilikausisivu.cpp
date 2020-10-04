@@ -83,13 +83,10 @@ bool TilikausiSivu::validatePage()
 
 void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)
 {
-    ui->ekaPaattyy->setDate( QDate( date.year(), 12, 31)  );
+    ui->ekaPaattyy->setDate( date.addYears(1).addDays(-1)  );
 
     ui->edellinenPaattyi->setDate( date.addDays(-1));
     ui->edellinenAlkoi->setDate( date.addYears(-1));
-
-    ui->edellinenAlkoi->setMaximumDate(date.addDays(-2));
-    ui->edellinenAlkoi->setMinimumDate(date.addMonths(-18));
 
     loppuPaivaMuuttui();
 }

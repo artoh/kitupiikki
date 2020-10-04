@@ -214,7 +214,7 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
            tr("ALV-saatavien tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
               "annettu alv-ilmoitusta. Jo ilmoitetun saatavan tulisi olla Verosaatavat-tilillä niin, "
               "että tämä tili on tilikauden vaihtuessa ilman saldoa.\n"
-              "Lue Kitupiikin ohjeet arvonlisäverosta."));
+              "Lue Kitsaan ohjeet arvonlisäverosta."));
             alvSaatavaVaroitus = true;
             return false;
     }

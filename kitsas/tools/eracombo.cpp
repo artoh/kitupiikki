@@ -102,8 +102,8 @@ void EraCombo::dataSaapuu(QVariant *data)
         QVariantMap kumppaniMap = map.value("kumppani").toMap();
 
         QString selite = map.value("selite").toString();
-        QString kumppani = map.value("kumppani").toString();
-        QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
+        QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
+        QString teksti = (kumppani.isEmpty() || selite == kumppani) ? selite : kumppani + " " + selite;
 
         addItem( QString("%1 %2 (%L3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
