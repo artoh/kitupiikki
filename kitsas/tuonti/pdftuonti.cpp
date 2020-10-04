@@ -235,6 +235,18 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             }
         }
     }
+
+    int numerosijainti = etsi("Laskun numero");
+    if(!numerosijainti) numerosijainti = etsi("Lasku numero");
+    QRegularExpression lnroRe("^[A-Z]{0,3}\\d{3,20}$");
+    for(QString t : haeLahelta(numerosijainti / 100, numerosijainti % 100, 10, 50)) {
+        if( lnroRe.match(t).hasMatch() ) {
+            data.insert("laskunnumero", t);
+            break;
+        }
+    }
+
+
     if( !data.contains("kumppaninimi") )
     {
         QStringList haetut;
@@ -298,6 +310,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             }
         }
     }
+
 
     if( !ibanit.isEmpty()) {
         QVariantList ibanlista;
@@ -764,7 +777,7 @@ QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)
         if( sy >= y-2 && sy < y + dy &&
             sx >= x-2 && sx < x + dx )
         {
-            int ero =  qRound( std::sqrt(  std::pow( (x - sx), 2) + std::pow( ( y - sy), 2)  ));
+            int ero = qAbs(x-sx) + qAbs(y-sy);
             loydetyt.insert( ero, iter.value());
         }
     }

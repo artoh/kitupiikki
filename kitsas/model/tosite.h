@@ -131,6 +131,9 @@ public:
 
     void pohjaksi(const QDate& paiva, const QString& uusiotsikko);
 
+    void asetaLaskuNumero(const QString& laskunumero);
+    QString laskuNumero() const;
+
     /**
      * @brief Tiedot tallennettavassa muodossa
      * @return
@@ -149,7 +152,7 @@ signals:
     void sarjaMuuttui(const QString& sarja);
     void tyyppiMuuttui(int tyyppi);
     void eraPvmMuuttui(const QDate& erapvm);
-    void kommenttiMuuttui(const QString& kommentti);
+    void kommenttiMuuttui(const QString& kommentti);    
 
     void tarkastaSarja(bool kateinen);
 

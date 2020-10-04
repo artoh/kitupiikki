@@ -186,6 +186,24 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko)
         asetaErapvm(erapvm().addDays(siirto));
 }
 
+void Tosite::asetaLaskuNumero(const QString &laskunumero)
+{
+    QVariantMap map = data_.value("lasku").toMap();
+    if( map.value("numero").toString() != laskunumero) {
+        if(laskunumero.isEmpty())
+            map.remove("numero");
+        else
+            map.insert("numero", laskunumero);
+        data_.insert("lasku", map);
+        tarkasta();
+    }
+}
+
+QString Tosite::laskuNumero() const
+{
+    return data_.value("lasku").toMap().value("numero").toString();
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));

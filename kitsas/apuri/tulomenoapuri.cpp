@@ -91,6 +91,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( ui->laskuNumeroEdit, &QLineEdit::textChanged, tosite, &Tosite::asetaLaskuNumero);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::pvmMuuttui);
     connect( tosite, &Tosite::eraPvmMuuttui, ui->erapaivaEdit,[this] (const QDate& erapvm) { if(erapvm != ui->erapaivaEdit->date()) ui->erapaivaEdit->setDate(erapvm); } );
@@ -118,6 +119,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
         ui->laskuPvm->setDate( lasku.value("pvm").toDate() );
         ui->erapaivaEdit->setDate( lasku.value("erapvm").toDate());
         ui->viiteEdit->setText( lasku.value("viite").toString());
+        ui->laskunnumeroLabel->setText( lasku.value("numero").toString());
 
         QVariantList alvit = map.value("alv").toList();
         for(int i=0; i < alvit.count(); i++) {
@@ -141,6 +143,10 @@ void TuloMenoApuri::tuo(QVariantMap map)
         }
         if( !map.value("viite").toString().isEmpty())
             ui->viiteEdit->setText( map.value("viite").toString() );
+
+        if( !map.value("laskunnumero").toString().isEmpty())
+            ui->laskuNumeroEdit->setText(map.value("laskunnumero").toString());
+
 
         if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
             ui->asiakasToimittaja->tuonti( map );
@@ -186,11 +192,12 @@ void TuloMenoApuri::teeReset()
 
     rivit_->clear();
     ui->viiteEdit->clear();    
-    ui->erapaivaEdit->setNull();
+    ui->erapaivaEdit->setNull();    
 
     ui->viiteEdit->setText( tosite()->viite());
     ui->laskuPvm->setDate( tosite()->laskupvm().isValid() ? tosite()->laskupvm() : tosite()->pvm());
     ui->erapaivaEdit->setDate( tosite()->erapvm());
+    ui->laskuNumeroEdit->setText( tosite()->laskuNumero());
 
     if( tosite()->kumppani())
         ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
@@ -286,7 +293,7 @@ bool TuloMenoApuri::teeTositteelle()
     qDebug() << " Vastatili " << vastatili.numero() << " erittely "  << vastatili.eritellaankoTase() << " Erä " << ui->eraCombo->valittuEra();
 
     if( vastatili.eritellaankoTase())
-        vasta.setEra(ui->eraCombo->valittuEra() ) ;
+        vasta.setEra(ui->eraCombo->valittuEra() ) ;   
 
     if( summa > 0)
         vasta.setDebet( summa );
@@ -529,6 +536,10 @@ void TuloMenoApuri::vastatiliMuuttui()
 
     ui->laskupvmLabel->setVisible( laskulle );
     ui->laskuPvm->setVisible( laskulle );
+
+    ui->laskunnumeroLabel->setVisible(laskulle);
+    ui->laskuNumeroEdit->setVisible(laskulle);
+
     ui->erapaivaLabel->setVisible( laskulle );
     ui->erapaivaEdit->setVisible( laskulle );    
 

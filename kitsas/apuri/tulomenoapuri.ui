@@ -31,85 +31,6 @@
        <item row="0" column="1">
         <widget class="QComboBox" name="maksutapaCombo"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="toimittajaLabel">
-         <property name="text">
-          <string>Toimittaja</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="viiteLabel">
-         <property name="text">
-          <string>&amp;Viite</string>
-         </property>
-         <property name="buddy">
-          <cstring>viiteEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="KpViiteEdit" name="viiteEdit"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="laskupvmLabel">
-         <property name="text">
-          <string>&amp;Laskun pvm</string>
-         </property>
-         <property name="buddy">
-          <cstring>laskuPvm</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="KpDateEdit" name="laskuPvm"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="erapaivaLabel">
-         <property name="text">
-          <string>E&amp;räpäivä</string>
-         </property>
-         <property name="buddy">
-          <cstring>erapaivaEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="KpDateEdit" name="erapaivaEdit"/>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="vastatiliLabel">
-         <property name="text">
-          <string>Vastat&amp;ili</string>
-         </property>
-         <property name="buddy">
-          <cstring>vastatiliLine</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="TilinvalintaLine" name="vastatiliLine"/>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="eraLabel">
-         <property name="text">
-          <string>Tase-erä</string>
-         </property>
-         <property name="buddy">
-          <cstring>eraCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="EraCombo" name="eraCombo"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="AsiakasToimittajaValinta" name="asiakasToimittaja" native="true">
-         <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
@@ -136,6 +57,98 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="toimittajaLabel">
+         <property name="text">
+          <string>Toimittaja</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="AsiakasToimittajaValinta" name="asiakasToimittaja" native="true">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="viiteLabel">
+         <property name="text">
+          <string>&amp;Viite</string>
+         </property>
+         <property name="buddy">
+          <cstring>viiteEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="KpViiteEdit" name="viiteEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="laskunnumeroLabel">
+         <property name="text">
+          <string>Laskun &amp;numero</string>
+         </property>
+         <property name="buddy">
+          <cstring>laskuNumeroEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="laskuNumeroEdit"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="laskupvmLabel">
+         <property name="text">
+          <string>&amp;Laskun pvm</string>
+         </property>
+         <property name="buddy">
+          <cstring>laskuPvm</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="KpDateEdit" name="laskuPvm"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="erapaivaLabel">
+         <property name="text">
+          <string>E&amp;räpäivä</string>
+         </property>
+         <property name="buddy">
+          <cstring>erapaivaEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="KpDateEdit" name="erapaivaEdit"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="vastatiliLabel">
+         <property name="text">
+          <string>Vastat&amp;ili</string>
+         </property>
+         <property name="buddy">
+          <cstring>vastatiliLine</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="TilinvalintaLine" name="vastatiliLine"/>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="eraLabel">
+         <property name="text">
+          <string>Tase-erä</string>
+         </property>
+         <property name="buddy">
+          <cstring>eraCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="EraCombo" name="eraCombo"/>
        </item>
       </layout>
      </item>
@@ -459,6 +472,7 @@
   <tabstop>maksutapaCombo</tabstop>
   <tabstop>asiakasToimittaja</tabstop>
   <tabstop>viiteEdit</tabstop>
+  <tabstop>laskuNumeroEdit</tabstop>
   <tabstop>laskuPvm</tabstop>
   <tabstop>erapaivaEdit</tabstop>
   <tabstop>vastatiliLine</tabstop>

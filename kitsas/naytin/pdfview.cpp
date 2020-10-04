@@ -50,6 +50,9 @@ void Naytin::PdfView::paivita() const
     scene()->clear();
 
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
+    if(!pdfDoc)
+        return;
+
     pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
     pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
 
