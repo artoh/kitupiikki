@@ -64,7 +64,7 @@ QVariant RekisteriTuontiModel::data(const QModelIndex &index, int role) const
         if( index.column() == MALLI ) {
             return csv_.value(0).value(index.row());
         } else {
-            return otsikkoTeksti(sarakkeet_.value(index.row()));
+            return otsikkoTekstini(sarakkeet_.value(index.row()));
         }
     } else if( role == Qt::EditRole) {
         return sarakkeet_.value(index.row());
@@ -265,4 +265,9 @@ void RekisteriTuontiModel::arvaaSarakkeet()
         else if( postiRe.match(txt).hasMatch())
             sarakkeet_[i] = POSTIOSOITE;
     }
+}
+
+QString RekisteriTuontiModel::otsikkoTekstini(int sarake) const
+{
+    return RekisteriTuontiModel::otsikkoTeksti(sarake);
 }

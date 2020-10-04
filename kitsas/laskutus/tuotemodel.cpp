@@ -18,6 +18,8 @@
 #include "tuotemodel.h"
 #include "db/kirjanpito.h"
 
+#include "raportti/raportinkirjoittaja.h"
+
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
@@ -103,6 +105,36 @@ QString TuoteModel::nimike(int id) const
         }
     }
     return QString();
+}
+
+QByteArray TuoteModel::csv() const
+{
+    RaportinKirjoittaja rk(true);
+    RaporttiRivi otsikko;
+    otsikko.lisaa("id");
+    otsikko.lisaa("nimike");
+    otsikko.lisaa("yksikko");
+    otsikko.lisaa("nettohinta");
+    otsikko.lisaa("kohdennus");
+    otsikko.lisaa("tili");
+    otsikko.lisaa("alvkoodi");
+    otsikko.lisaa("alvprosentti");
+    rk.lisaaOtsake(otsikko);
+
+    for(auto item : lista_) {
+        QVariantMap map = item.toMap();
+        RaporttiRivi rivi;
+        rivi.lisaa(map.value("id").toString());
+        rivi.lisaa(map.value("nimike").toString());
+        rivi.lisaa(map.value("yksikko").toString());
+        rivi.lisaa(map.value("ahinta").toString());
+        rivi.lisaa(map.value("kohdennus").toString());
+        rivi.lisaa(map.value("tili").toString());
+        rivi.lisaa(map.value("alvkoodi").toString());
+        rivi.lisaa(map.value("alvprosentti").toString());
+        rk.lisaaRivi(rivi);
+    }
+    return rk.csv();
 }
 
 

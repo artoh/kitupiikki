@@ -35,6 +35,8 @@
 #include "raportti/raportinkirjoittaja.h"
 #include "naytin/naytinikkuna.h"
 
+#include "tuotetuonti/tuotetuontidialogi.h"
+
 #include <QDebug>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -83,9 +85,8 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 {
     valilehti_ = valilehti;
 
-      ui->tuoNappi->setVisible( valilehti == ASIAKKAAT || valilehti == TOIMITTAJAT || valilehti == REKISTERI);
-      ui->VieNappi->setVisible( valilehti == ASIAKKAAT || valilehti == TOIMITTAJAT || valilehti == REKISTERI);
-
+    ui->tuoNappi->setVisible(valilehti != VAKIOVIITTEET);
+    ui->VieNappi->setVisible(valilehti != VAKIOVIITTEET);
 
     bool muokkausoikeus = false;
     if( valilehti == RYHMAT )
@@ -254,24 +255,38 @@ void KumppaniTuoteWidget::paivita()
 
 void KumppaniTuoteWidget::tuo()
 {
-    if( valilehti_ == ASIAKKAAT || valilehti_ == TOIMITTAJAT || valilehti_ == REKISTERI) {
-        QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuonti csv-tiedostosta"),QString(),
-                                                        tr("Csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
-        if( !tiedosto.isEmpty()) {
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuonti csv-tiedostosta"),QString(),
+                                                    tr("Csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
+    if( !tiedosto.isEmpty()) {
+        if( valilehti_ == ASIAKKAAT || valilehti_ == TOIMITTAJAT || valilehti_ == REKISTERI) {
             RekisteriTuontiDlg dlg(tiedosto,this);
             dlg.exec();
             paivita();
+        } else if( valilehti_ == TUOTTEET) {
+            TuoteTuontiDialogi dlg(tiedosto, this);
+            dlg.exec();
         }
     }
 }
 
 void KumppaniTuoteWidget::vie()
 {
-    if( valilehti_ == ASIAKKAAT || valilehti_ == TOIMITTAJAT || valilehti_ == REKISTERI) {
+    if( valilehti_ == ASIAKKAAT || valilehti_ == TOIMITTAJAT || valilehti_ == REKISTERI || valilehti_ == TUOTTEET) {
         QString tiedosto = QFileDialog::getSaveFileName(this, tr("Vienti csv-tiedostoon"), QString(),
                                                         tr("Csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
         if( !tiedosto.isEmpty()) {
-            RekisterinVienti::vieRekisteri(ui->view->model(), tiedosto);
+            if( valilehti_ == TUOTTEET) {
+                QFile file(tiedosto);
+                if(file.open(QIODevice::WriteOnly)) {
+                    file.write(kp()->tuotteet()->csv());
+                    kp()->onni(tr("Tuoterekisteri viety"));
+                } else {
+                    QMessageBox::critical(this, tr("Tuotteiden vienti"),
+                                          tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(tiedosto));
+                }
+            } else {
+                RekisterinVienti::vieRekisteri(ui->view->model(), tiedosto);
+            }
         }
     }
 }

@@ -43,6 +43,9 @@ SOURCES += \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
+    $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.cpp \
+    $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.cpp \
+    $$PWD/laskutus/tuotetuonti/tuotetuontimodel.cpp \
     $$PWD/laskutus/vakioviite/vakioviitedlg.cpp \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
@@ -319,6 +322,9 @@ HEADERS += \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
     $$PWD/laskutus/tuotedialogi.h \
+    $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.h \
+    $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.h \
+    $$PWD/laskutus/tuotetuonti/tuotetuontimodel.h \
     $$PWD/laskutus/vakioviite/vakioviitedlg.h \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
     $$PWD/maaritys/avauserakantamodel.h \

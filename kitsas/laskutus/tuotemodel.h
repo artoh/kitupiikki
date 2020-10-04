@@ -43,6 +43,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     QString nimike(int id) const;
 
+    QByteArray csv() const;
+
 public slots:
     void lataa();
     void paivitaTuote(QVariantMap map);

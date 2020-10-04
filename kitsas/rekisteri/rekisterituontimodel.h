@@ -67,7 +67,7 @@ public:
 
     int lataaCsv(const QString& tiedostonnimi);
 
-    QVariantList lista() const;
+    virtual QVariantList lista() const;
 
 signals:
     void otsikkorivit(bool onko);
@@ -77,9 +77,10 @@ public slots:
     void asetaOtsikkorivi(bool otsikkorivi);
 
 protected:
-    void arvaaSarakkeet();
+    virtual void arvaaSarakkeet();
+    virtual QString otsikkoTekstini(int sarake) const;
+    
 
-private:
     QList<QStringList> csv_;
     QVector<int> sarakkeet_;
     bool otsikkorivi_ = false;

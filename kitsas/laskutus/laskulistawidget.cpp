@@ -124,6 +124,7 @@ void LaskulistaWidget::nayta(int paalehti)
             ui->kopioiNappi->setVisible(false);
         }
     }
+    paivita();
 }
 
 void LaskulistaWidget::alalehti(int alalehti)
