@@ -28,6 +28,7 @@
 #include <QSortFilterProxyModel>
 #include <QDebug>
 #include <QJsonDocument>
+#include <QKeyEvent>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
@@ -96,6 +97,12 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::pvmMuuttui);
     connect( tosite, &Tosite::eraPvmMuuttui, ui->erapaivaEdit,[this] (const QDate& erapvm) { if(erapvm != ui->erapaivaEdit->date()) ui->erapaivaEdit->setDate(erapvm); } );
     connect( ui->eraCombo, &EraCombo::currentTextChanged, this, &TuloMenoApuri::tositteelle);
+
+    ui->maksutapaCombo->installEventFilter(this);
+    ui->laskuNumeroEdit->installEventFilter(this);
+    ui->laskuPvm->installEventFilter(this);
+    ui->viiteEdit->installEventFilter(this);
+    ui->erapaivaEdit->installEventFilter(this);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -758,6 +765,17 @@ void TuloMenoApuri::vastaSaldoSaapuu(QVariant *data)
     QVariantMap map = data->toMap();
     double saldo = map.value(QString::number(ui->vastatiliLine->valittuTilinumero())).toDouble();
     ui->saldoInfo->setText(QString("%L1 €").arg(saldo,0,'f',2));
+}
+
+bool TuloMenoApuri::eventFilter(QObject *target, QEvent *event)
+{
+    if( event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if(keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) {
+            ui->tiliEdit->setFocus();
+        }
+    }
+    return ApuriWidget::eventFilter(target, event);
 }
 
 void TuloMenoApuri::kumppaniValittu(int kumppaniId)

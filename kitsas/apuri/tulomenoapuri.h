@@ -85,6 +85,8 @@ protected:
 
     void vastaSaldoSaapuu(QVariant* data);
 
+    bool eventFilter(QObject *target, QEvent* event) override;
+
 private:
     Ui::TuloMenoApuri *ui;
     TmRivit* rivit_;
