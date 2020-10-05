@@ -243,6 +243,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         palautus.setAlvProsentti( alvprosentti() );
         palautus.setSelite( otsikko );
+        if( !tosite->data(Tosite::KUMPPANI).isNull() )
+            palautus.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
         vientilista.append(palautus);
     }
 
@@ -270,6 +272,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         verorivi.setAlvProsentti( alvprosentti());
         verorivi.setSelite(otsikko);
+        if( !tosite->data(Tosite::KUMPPANI).isNull() )
+            verorivi.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
         vientilista.append(verorivi);
     }
 
@@ -286,6 +290,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         tuonti.setSelite(otsikko);
         tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
+        if( !tosite->data(Tosite::KUMPPANI).isNull() )
+            tuonti.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
         vientilista.append(tuonti);
     }
     // Jos ei oikeuta alv-vähennykseen, kirjataan myös tämä osuus menoksi
@@ -306,6 +312,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             palautus.setKredit( 0 - vero);
 
         palautus.setSelite( otsikko );
+        if( !tosite->data(Tosite::KUMPPANI).isNull() )
+            palautus.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
         vientilista.append(palautus);
     }
 

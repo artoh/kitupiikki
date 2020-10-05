@@ -173,6 +173,10 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
     rk.lisaaOtsake(otsikko);        
 
     int edellinentili = 0;
+    qlonglong debetYht = 0;
+    qlonglong kreditYht = 0;
+
+
     for( auto rivi : jaksotukset) {
         QVariantMap map = rivi.toMap();
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt());
@@ -197,14 +201,31 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         rr.lisaa( map.value("debet").toDouble());
         rr.lisaa( map.value("kredit").toDouble());
         rk.lisaaRivi(rr);
+
+        debetYht += qRound64(100 * map.value("debet").toDouble());
+        kreditYht += qRound64(100 * map.value("kredit").toDouble());
     }
+
+    if( debetYht > 0 || kreditYht > 0) {
+        rk.lisaaTyhjaRivi();
+        RaporttiRivi srivi;
+        srivi.viivaYlle(true);
+        srivi.lisaa(tr("Jaksotukset yhteensä"),3);
+        srivi.lisaa(debetYht);
+        srivi.lisaa(kreditYht);
+        rk.lisaaRivi(srivi);
+        rk.lisaaTyhjaRivi();
+    }
+
 
     if( verovelkasentit ) {
         RaporttiRivi vrivi;
         vrivi.lisaa(tr("Verosaamiseksi kirjattava negatiivinen verovelka"),3);
-        vrivi.lisaa(verovelkasentit);
+        vrivi.lisaa(verovelkasentit);        
         rk.lisaaRivi(vrivi);
     }
+
+
 
     return rk;
 }
