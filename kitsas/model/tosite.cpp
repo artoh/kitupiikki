@@ -283,12 +283,6 @@ void Tosite::tarkasta()
             liitteet()->tallennettaviaLiitteita() ||
             !liitteet()->liitettavat().isEmpty() );
 
-    if(muutettu) {
-        qDebug() << tallennettu_;
-        qDebug() << " ------------------------";
-        qDebug() << talteen;
-    }
-
 
     int virheet = 0;    
     if( !pvm().isValid())

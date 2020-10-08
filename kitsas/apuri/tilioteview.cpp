@@ -39,10 +39,8 @@ TilioteView::TilioteView(QWidget *parent) :
     setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
     setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
 
-    AsiakasToimittajaTaydentaja *taydentaja = new AsiakasToimittajaTaydentaja(this);
-    taydentaja->lataa();
     setItemDelegateForColumn(TilioteModel::SAAJAMAKSAJA,
-                             new KumppaniValintaDelegaatti(taydentaja));
+                             new KumppaniValintaDelegaatti(this));
 
     sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
 

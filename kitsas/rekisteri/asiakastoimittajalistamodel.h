@@ -46,6 +46,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     int idAlvTunnuksella(const QString tunnus) const;
+    int idNimella(const QString& nimi) const;
+
+    static AsiakasToimittajaListaModel *instanssi();
 
 public slots:
     void lataa();
@@ -55,6 +58,8 @@ private slots:
 
 private:
     QList<Item> lista_;
+
+    static AsiakasToimittajaListaModel* instanssi__;
 };
 
 #endif // ASIAKASTOIMITTAJALISTAMODEL_H

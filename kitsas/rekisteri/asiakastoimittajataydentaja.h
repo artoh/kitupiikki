@@ -33,14 +33,18 @@ public:
 
     int haeNimella(const QString& nimi) const;
 
+    static AsiakasToimittajaTaydentaja* instanssi();
+
 public slots:
     void lataa();
+    void nollaa();
 
 private slots:
     void saapuu(QVariant* variant);
 
 private:
     QList<QPair<QString,int>> data_;
+
 };
 
 #endif // ASIAKASTOIMITTAJATAYDENTAJA_H

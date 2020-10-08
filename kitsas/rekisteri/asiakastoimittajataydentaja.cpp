@@ -64,11 +64,22 @@ int AsiakasToimittajaTaydentaja::haeNimella(const QString &nimi) const
     return -1;
 }
 
+
 void AsiakasToimittajaTaydentaja::lataa()
 {
     KpKysely* kysely = kpk("/kumppanit");
-    connect( kysely, &KpKysely::vastaus, this, &AsiakasToimittajaTaydentaja::saapuu);
-    kysely->kysy();
+    if(kysely) {
+        connect( kysely, &KpKysely::vastaus, this, &AsiakasToimittajaTaydentaja::saapuu);
+        kysely->kysy();
+    }
+}
+
+void AsiakasToimittajaTaydentaja::nollaa()
+{
+    beginResetModel();
+    data_.clear();
+    endResetModel();
+    lataa();
 }
 
 void AsiakasToimittajaTaydentaja::saapuu(QVariant *variant)
