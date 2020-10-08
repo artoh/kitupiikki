@@ -5,23 +5,31 @@ lpvm Laskun päivämäärä
 ENlpvm Date
 SVlpvm Datum
 alv13 Voittomarginaalijärjestelmä
+SValv13 Vinstmarginalsystem
 ENalv13 Margin scheme
 alv91 Voittomarginaalijärjestelmä - Käytetyt tavarat
+SValv13 Vinstmarginalsystem - Begagnade varor
 ENalv91 Margin scheme - Second-hand goods
 alv92 Voittomarginaalijärjestelmä - Taide-esineet
+SValv92 Vinstmarginalsystem - Konstverk
 ENalv92 Margin scheme - Works of art
 alv93 Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet
+SValv93 Vinstmarginalsystem - Samlarföremål och antikviteter
 ENalv93 Margin scheme - Collectors' items and antiques
 alv14 AVL 72a §: ALV 0% Yhteisömyynti
+svalv14 AVL 72 a §: Moms 0 % Gemenskapförsäljning
 ENalv14 AVL 72a §: VAT 0% Intra Community supply
 alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
+SValv15 AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44
 ENalv15 AVL 65 §: Reverse charge, VAT Directive art 44
 alv16 AVL 8 c §: Käännetty verovelvollisuus
+SCalv16 AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199
 ENalv16 AVL 8 c §: Reverse charge, VAT Directive art 199
 alv ALV
 ENalv VAT
 SValv MOMS
 alv0 Veroton myynti
+SValv0 Skattefria försäljning 
 ENalv0 Tax free sale
 jatkuu Jatkuu...
 ENjatkuu To be continue...
@@ -34,13 +42,13 @@ ENpuhelin Phone
 SVpuhelin Telefon
 sahkoposti Sähköposti
 ENsahkoposti Email
-SVsahkoposti Email
+SVsahkoposti E-post
 ytunnus Y-tunnus
 ENytunnus Business ID
 SVytunnus FO-nummer
 eialv Myyjä ei arvonlisäverovelvollinen
 ENeialv Seller is not registered for VAT
-SVeialv Säljer har inte registerat för MOMS
+SVeialv Säljare är inte momsskyldig
 kpl kpl
 SVkpl antal
 anetto á netto
@@ -73,7 +81,7 @@ ENbvn Ref.no.
 bep Eräpäivä|Förfallodag
 ENbep Due date
 eur Euro
-behto Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det betalaren angivit.
+behto Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.
 ENbehto The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
 btilis TILISIIRTO. GIRERING
 ENbtilis CREDIT TRANSFER
@@ -105,9 +113,9 @@ ENerapvm Due date
 SVerapvm Förfallodag
 maksettu Maksettu
 ENmaksettu Paid
-SVmaksettu Betalat
+SVmaksettu Betald
 hyvnro Hyvityslaskun numero
-SVhyvnro Kompensatiofakturans nummer
+SVhyvnro Kreditnotans nummer
 ENhyvnro Number of compensation invoice
 huomaika Huomautusaika
 SVhuomaika Anmärkningstid
@@ -116,31 +124,31 @@ paivaa päivää
 SVpaivaa dagar
 ENpaivaa days
 viivkorko Viivästyskorko
-SVviivkorko Dröpmålsränta
+SVviivkorko Dröjsmålsränta
 ENviivkorko Overdue fine
 kateinen Käteislasku / Kuitti
-SVkateinen Kvitto
+SVkateinen Kontantkvitto
 ENkateinen Cash receipt
 hlasku Hyvityslasku
-SVhlasku Kompensation till faktura
+SVhlasku Kreditnota
 ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
 ENmaksumuistutus REQUEST FOR PAYMENT
 muistutusnro Maksumuistutuksen numero
-SVmuistutusnro Betalningspåminnelses nummero
+SVmuistutusnro Betalningspåminnelses nummer
 ENmuistutusnro Number of request for payment
 muistutusmaksu Huomautuskulut
-SVmuistutusmaksu Skriftlig betalningspåminnelse
+SVmuistutusmaksu Betalningspåminnelses avgift
 ENmuistutusmaksu Request for payment fee
 alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
 ENalkuplasku Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
-SValkuplasku Original faktura|Faktura nummer: %1|Datum: %2|Förfallodag: %3
+SValkuplasku Originalfaktura|Fakturas nummer: %1|Datum: %2|Förfallodag: %3
 aiempimuistutus Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
 SVaiempimuistutus Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3
 ENaiempimuistutus Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
 aiempisaldo Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €
-SVaiempisaldo Obetalada antal om fakturor med följande uppräkning är %L1 €
+SVaiempisaldo Obetalda totalsumman från fakturor enligt följande specificering är %L1 €
 ENaiempisaldo The total unpayed amount of invoices detailed below is %L1 €
 veroton veroton
 ENveroton net
@@ -155,7 +163,7 @@ lkm lkm
 SVlkm antal
 ENlkm qty
 virtviiv Virtuaaliviivakoodi
-SVvirtviiv Virtual streckkod
+SVvirtviiv Virtuell streckkod
 ENvirtviiv Virtual barcode
 summa Laskun summa
 ENsumma Total
@@ -179,7 +187,7 @@ mmrivi Laskun %1 avoin saldo
 SVmmrivi Saldo för faktura %1
 ENmmrivi Saldo for invoice %1
 luonnos LUONNOS
-SVluonnos KLADD
+SVluonnos SKISS
 ENluonnos DRAFT
 harjoitus HARJOITUS
 SVharjoitus ÖVNING
@@ -188,5 +196,5 @@ ennakkolasku Ennakkolasku
 SVennakkolasku Förhandsfaktura
 ENennakkolasku Advance Invoice
 enhyri Ennakkolaskun %1 hyvitys
-SVenhyri Kompensation till förhandsfaktura %1
+SVenhyri Kompensation för förhandsfaktura %1
 ENenhyri Compensation for advance invoice %1
