@@ -44,7 +44,7 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     if( urlquery.hasQueryItem("luonnos") )
         ehdot.append( QString("( tosite.tila >= %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
     else if( urlquery.hasQueryItem("saapuneet"))
-        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::LUONNOS) );
+        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::MALLIPOHJA).arg(Tosite::LUONNOS) );
     else if( urlquery.hasQueryItem("malli"))
         ehdot.append(QString("tosite.tila = %1").arg(Tosite::MALLIPOHJA));
     else

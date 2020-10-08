@@ -110,7 +110,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
         qlonglong loppusaldo = kysely.value(1).toLongLong() -
                 kysely.value(2).toLongLong();
-        if( tili->onko(TiliLaji::VASTATTAVAA))
+        if( kysely.value(0).toString().startsWith('2'))
             loppusaldo *= -1;
 
         if( erittelytapa == Tili::TASEERITTELY_TAYSI) {

@@ -267,10 +267,12 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                         if( alvkoodi == AlvKoodi::MYYNNIT_NETTO)
                             alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
                         else if( alvkoodi == AlvKoodi::OSTOT_NETTO)
-                            alvkoodi = AlvKoodi::OSTOT_BRUTTO;
-                        rivi.setAlvKoodi( alvkoodi );
-                        rivi.setAlvProsentti( uusitili.arvo("alvprosentti").toDouble() );
-                        emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
+                            alvkoodi = AlvKoodi::OSTOT_BRUTTO;                        
+                        if( !alvkoodi || !kp()->alvIlmoitukset()->onkoIlmoitettu(rivi.pvm())) {
+                            rivi.setAlvKoodi( alvkoodi );
+                            rivi.setAlvProsentti( uusitili.arvo("alvprosentti").toDouble() );
+                            emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
+                        }
                     }
 
 
