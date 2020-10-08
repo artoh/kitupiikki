@@ -161,6 +161,7 @@ void NaytinView::sivunAsetukset()
 {
     QPageSetupDialog dlg(naytin_ ? naytin_->printer() : kp()->printer(), this);
     dlg.exec();
+    qDebug() << "Orientation " << dlg.printer()->orientation();
     paivita();
 }
 

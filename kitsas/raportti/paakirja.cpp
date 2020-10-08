@@ -76,7 +76,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     if( kp()->asetukset()->onko("erisarjaan") )
         rk.lisaaSarake("ABC1234/99 ");
     else
-        rk.lisaaSarake("12345");
+        rk.lisaaSarake("12345/99");
     if( optiot & AsiakasToimittaja)
         rk.lisaaVenyvaSarake();
     rk.lisaaVenyvaSarake();     // Selite

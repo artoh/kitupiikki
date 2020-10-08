@@ -20,12 +20,14 @@
 #include "db/kirjanpito.h"
 #include <QDebug>
 #include <QPrinterInfo>
+#include <QPdfWriter>
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     : AbstraktiNaytin (parent)
 {    
     // Alustetaan printteri
     // Vähimmäismarginaalit 1 cm joka suuntaan
+
 
     printer_ = new QPrinter(QPrinterInfo(*kp()->printer()));
     printer_->setPageSize(QPrinter::A4);
@@ -59,6 +61,8 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
 
 void Naytin::PrintPreviewNaytin::paivita() const
 {
+    widget_->setOrientation(printer_->orientation());
+    qDebug() << " PPOrientation " << printer_->orientation();
     widget_->updatePreview();
 }
 

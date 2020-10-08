@@ -50,7 +50,7 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
     else
         rk.lisaaSarake("12345");
 
-    rk.lisaaSarake("1234 Arvonlisäverosaamiset");
+    rk.lisaaSarake("1234 ArvonlisäverosaamisetXX");
     if( optiot_ & TulostaKohdennukset)
         rk.lisaaSarake("Kohdennusnimi");
     if( optiot_ & AsiakasToimittaja)

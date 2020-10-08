@@ -133,15 +133,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>QTabBar</class>
    <extends>QWidget</extends>
    <header>QTabBar</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KpDateEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpdateedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -33,7 +33,7 @@ QVariant TositeVienti::data(int kentta) const
 
 void TositeVienti::set(int kentta, const QVariant &arvo)
 {    
-    if( (arvo.toString().isEmpty() || arvo.toString()=="0") && !(arvo.type() == QVariant::Map && !arvo.toMap().isEmpty()))
+    if( (arvo.toString().isEmpty()) && !(arvo.type() == QVariant::Map && !arvo.toMap().isEmpty()))
         remove( avaimet__.at(kentta));
     else
         insert( avaimet__.at(kentta), arvo);
@@ -41,17 +41,9 @@ void TositeVienti::set(int kentta, const QVariant &arvo)
 
 QVariant TositeVienti::tallennettava() const
 {
-    // Tallennettavassa tietoalkioiden (toimittaja, asiakas) tilalla on kyseiset id:t
+    // Tallennettavassa erän tilalla on kyseiset id:t
 
     QVariantMap ulos(*this);
-
-    if( ulos.contains("asiakas") && ulos.value("asiakas").toMap().contains("id"))
-        ulos.insert("asiakas", ulos.value("asiakas").toMap().value("id"));
-
-    if( ulos.contains("toimittaja") && ulos.value("toimittaja").toMap().contains("id"))
-        ulos.insert("toimittaja", ulos.value("toimittaja").toMap().value("id"));
-
-
     return ulos;
 }
 
@@ -116,7 +108,7 @@ void TositeVienti::setSelite(const QString &selite)
 
 void TositeVienti::setAlvKoodi(int koodi)
 {
-    set( ALVKOODI, koodi);
+    set(ALVKOODI, koodi);
     if( kp()->alvTyypit()->nollaTyyppi(koodi) ) {
         remove( avaimet__.at(ALVPROSENTTI) );
     }

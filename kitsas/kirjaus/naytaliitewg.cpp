@@ -88,9 +88,9 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
         setCurrentIndex(0);
     }
     else
-    {
-        setCurrentIndex(1);
+    {        
         view->nayta(pdfdata);
+        setCurrentIndex(1);
     }
 }
 

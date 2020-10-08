@@ -25,6 +25,7 @@
 
 #include <QJsonDocument>
 #include <QDebug>
+#include <QTimer>
 
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
@@ -215,6 +216,7 @@ void Tosite::lataaData(QVariant *variant)
 {
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
+    tallennettu_.clear();
 
     viennit()->asetaViennit( data_.take("viennit").toList() );
     loki()->lataa( data_.take("loki").toList());
@@ -241,11 +243,10 @@ void Tosite::lataaData(QVariant *variant)
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
 
-
-    tallennettu_ = tallennettava();
-
     resetointiKaynnissa_ = false;
     tarkasta();
+
+    QTimer::singleShot(500, this, &Tosite::laitaTalteen);
 
 }
 
@@ -272,10 +273,22 @@ void Tosite::tarkasta()
     if( resetointiKaynnissa_)
         return;
 
+    // Otetaan tallennettu_ 0.5 s singleshotilla talteen
+    // ja verrataan siihen
 
-    bool muutettu = tallennettu_ != tallennettava() ||
+
+    QVariantMap talteen = tallennettava();
+    bool muutettu = !tallennettu_.isEmpty() && (
+            tallennettu_ != tallennettava() ||
             liitteet()->tallennettaviaLiitteita() ||
-            !liitteet()->liitettavat().isEmpty();
+            !liitteet()->liitettavat().isEmpty() );
+
+    if(muutettu) {
+        qDebug() << tallennettu_;
+        qDebug() << " ------------------------";
+        qDebug() << talteen;
+    }
+
 
     int virheet = 0;    
     if( !pvm().isValid())
@@ -367,6 +380,12 @@ void Tosite::tallennuksessaVirhe(int virhe)
 void Tosite::liitteetTallennettu()
 {
     emit talletettu( id(), tunniste(), pvm(), sarja(), tositetila());
+}
+
+void Tosite::laitaTalteen()
+{
+    if (!resetointiKaynnissa_)
+        tallennettu_ = tallennettava();
 }
 
 QVariantMap Tosite::tallennettava() const
