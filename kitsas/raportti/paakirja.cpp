@@ -212,7 +212,8 @@ void Paakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
-                summa.lisaa("",4);
+                summa.lisaa("",2);
+                summa.lisaa("",2);
 
                 if( optiot_ & TulostaKohdennukset)
                     summa.lisaa("");

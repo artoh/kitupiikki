@@ -99,11 +99,18 @@ QString SijaintiSivu::estaTuplaTiedosto(QString tiedosto)
 bool SijaintiSivu::validatePage()
 {
     QFileInfo sijainti(ui->sijaintiEdit->text());
-    if( sijainti.isWritable())
-        return true;
-    QMessageBox::critical(this, tr("Hakemisto ei voi kelpaa"), tr("Valitsemaasi hakemistoon ei voida luoda uutta tiedostoa. "
+    if( !sijainti.isWritable()) {
+        QMessageBox::critical(this, tr("Hakemisto ei voi kelpaa"), tr("Valitsemaasi hakemistoon ei voida luoda uutta tiedostoa. "
                                                                   "Sinulla ei ehkä ole kirjoitusoikeuksia tähän hakemistoon. \n\n"
                                                                   "Ole hyvä ja valitse toinen hakemisto."));
-    return false;
+        return false;
+    }
+    QDir hakemisto(ui->sijaintiEdit->text());
+    if(hakemisto.exists(ui->tiedostoEdit->text())) {
+        QMessageBox::critical(this, tr("Tiedosto on jo olemassa"), tr("Valitsemasi niminen tiedosto on jo olemassa."));
+        return false;
+    }
+
+    return true;
 }
 

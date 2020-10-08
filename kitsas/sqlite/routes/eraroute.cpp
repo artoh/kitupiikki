@@ -279,7 +279,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
     kysely.exec(QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                 "WHERE Vienti.pvm<'%1' AND Vienti.tili=%2 AND Tosite.tila>=100")
-                .arg(mista.toString(Qt::ISODate))
+                .arg(pvm.toString(Qt::ISODate))
                 .arg(betili));
     if( kysely.next() )
         edelliset += kysely.value(1).toLongLong() - kysely.value(0).toLongLong();

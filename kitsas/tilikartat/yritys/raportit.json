@@ -69,7 +69,7 @@
         "fi": "Ulkopuoliset palvelut",
         "sv": "Köpta tjänster",
         "en": "External services",
-        "L": "445..49",
+        "L": "445..49 *",
         "S": 1
       },
       {
@@ -181,7 +181,7 @@
         "fi": "Muut korko- ja rahoitustuotot",
         "sv": "Övriga ränteintäkter och finansiella intäkter",
         "en": "Other interests income and other financial income",
-        "L": "91..92 *",
+        "L": "915..92 *",
         "S": 1
       },
       {
@@ -209,7 +209,7 @@
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
         "sv": "Vinst (förlust) före bokslutsdispositioner ock skatter",
         "en": "Profit (loss) before appropriations and taxes",
-        "L": "3..97 S",
+        "L": "3..96 S",
         "M": "bold",
         "V": 1
       },
@@ -217,35 +217,35 @@
         "fi": "Tilinpäätössiirrot",
         "sv": "Bokslutsdispositioner",
         "en": "Appropriations",
-        "L": "98",
+        "L": "97..98",
         "V": 1
       },
       {
         "fi": "Poistoeron lisäys (-) tai vähennys (+)",
         "sv": "Förändring av avskrivningsdifferens",
         "en": "Change in cumulative accelerated deprecation",
-        "L": "98..983 *",
+        "L": "97 *",
         "S": 1
       },
       {
         "fi": "Verotusperusteisten varausten lisäys (-) tai vähennys (+)",
         "sv": "Förändring av skattemässiga reserver",
         "en": "Change in taxation-based reserves",
-        "L": "9891 *",
+        "L": "980..985 *",
         "S": 1
       },
       {
         "fi": "Saadut (+) tai annetut (-) konserniavustukset",
         "sv": "Koncernbidrag",
         "en": "Group contribution",
-        "L": "972 976 *",
+        "L": "988..989 *",
         "S": 1
       },
       {
         "fi": "Tuloverot",
         "sv": "Inkomstskatt",
         "en": "Income taxes",
-        "L": "99..996 *",
+        "L": "99..997 *",
         "V": 1
       },
       {
@@ -319,12 +319,12 @@
       {
         "fi": "Tilinpäätössiirrot",
         "sv": "Bokslutsdispositioner",
-        "L": "98 *"
+        "L": "97..98 *"
       },
       {
         "fi": "Tuloverot",
         "sv": "Inkomstskatt",
-        "L": "99..996 *"
+        "L": "99..997 *"
       },
       {
         "fi": "Muut välittömät verot",
@@ -1120,7 +1120,7 @@
         "fi": "Pitkäaikainen vieras pääoma",
         "sv": "Långfristiga främmande kapital",
         "en": "Long-term creditors",
-        "L": "26..27 *",
+        "L": "26..27",
         "S": 1
       },
       {
@@ -1163,13 +1163,6 @@
         "sv": "Leverantörsskulder",
         "en": "Trade creditors",
         "L": "267..268 *",
-        "S": 2
-      },
-      {
-        "fi": "Rahoitusvekselit",
-        "sv": "Finansieringsväxlar",
-        "en": "Bills of excange payable",
-        "L": "",
         "S": 2
       },
       {
