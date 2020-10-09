@@ -86,92 +86,6 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     return rivit_.at(index.row()).data(index.column(), role, tila_);
-/*
-
-    QVariantMap map = lista_.at( index.row() ).toMap();
-
-    if( role == Qt::DisplayRole || role == Qt::EditRole)
-    {
-        switch (index.column())
-        {
-
-        case TUNNISTE:
-            if( tila_ < KIRJANPIDOSSA) {   // Tila
-                if( map.value("tila").toInt() == Tosite::LAHETETAAN)
-                    return tr("Lähettäminen epäonnistui");
-                else
-                    return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
-            }
-            return kp()->tositeTunnus( map.value("tunniste").toInt(),
-                                       map.value("pvm").toDate(),
-                                       map.value("sarja").toString(),
-                                       samakausi_,
-                                       role == Qt::EditRole);
-        case PVM:
-            if( role == Qt::DisplayRole)
-                return QVariant( map.value("pvm").toDate() );
-            else
-                return QString("%1 %2").arg( map.value("pvm").toString() ).arg( map.value("id").toInt(), 8, 10, QChar('0') );
-
-        case TOSITETYYPPI:
-            return kp()->tositeTyypit()->nimi( map.value("tyyppi").toInt() ) ;   // TODO: Tyyppikoodien käsittely
-
-        case ASIAKASTOIMITTAJA:
-            return map.value("kumppani");
-
-        case OTSIKKO:
-            return map.value("otsikko");
-
-        case SUMMA:
-            double summa = map.value("summa").toDouble();
-            if( role == Qt::EditRole)
-                return summa;
-            else if( summa > 1e-5 )
-                return QVariant( QString("%L1 €").arg(summa,0,'f',2));
-            else
-                return QVariant();
-        }
-
-    }
-    else if( role == Qt::TextAlignmentRole)
-    {
-        if( index.column() == SUMMA )
-            return QVariant( Qt::AlignRight | Qt::AlignVCenter);
-        else
-            return QVariant( Qt::AlignLeft | Qt::AlignVCenter );
-    }
-    else if( role == Qt::UserRole )
-    {
-        // UserRolessa on id
-        return map.value("id");
-     } else if( role == EtsiRooli) {
-        return QString("%1 %2 %3").arg(kp()->tositeTunnus( map.value("tunniste").toInt(),
-                                                           map.value("pvm").toDate(),
-                                                           map.value("sarja").toString(),
-                                                           samakausi_,
-                                                           false))
-                .arg(map.value("kumppani").toString())
-                .arg(map.value("otsikko").toString());
-    }
-    else if( role == Qt::DecorationRole && index.column()==SUMMA )
-    {
-        if(  map.value("liitteita").toInt() )
-            return QIcon(":/pic/liite.png");
-        else
-            return QIcon(":/pic/tyhja.png");
-    }
-    else if( role == Qt::DecorationRole && index.column() == TOSITETYYPPI )
-        return kp()->tositeTyypit()->kuvake( map.value("tyyppi").toInt() );
-    else if( role == Qt::DecorationRole && index.column() == TUNNISTE )
-        return Tosite::tilakuva(map.value("tila").toInt());
-    else if( role == TositeTyyppiRooli)
-    {
-        return map.value("tyyppi");
-    } else if( role == TositeSarjaRooli) {
-        return map.value("sarja");
-    }
-    return QVariant();
-*/
 }
 
 QList<int> TositeSelausModel::tyyppiLista() const
@@ -267,7 +181,7 @@ void TositeSelausModel::lataaSqlite(SQLiteModel *sqlite, const QDate &alkaa, con
     QSqlQuery kysely(sqlite->tietokanta());
     kysely.exec(kysymys);
     while(kysely.next()) {
-        TositeSelausRivi rivi(kysely);
+        TositeSelausRivi rivi(kysely, samakausi_);
         rivit_.append(rivi);
         kaytetytTyypit_.insert( rivi.getTyyppi() );
         if( !rivi.getSarja().isEmpty() )
@@ -324,7 +238,7 @@ TositeSelausRivi::TositeSelausRivi(QSqlQuery &data, bool samakausi)
 
 }
 
-QVariant TositeSelausRivi::data(int sarake, int role, int tila) const
+QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
 {
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -332,7 +246,7 @@ QVariant TositeSelausRivi::data(int sarake, int role, int tila) const
         {
 
         case TositeSelausModel::TUNNISTE:
-            if( tila < TositeSelausModel::KIRJANPIDOSSA) {   // Tila
+            if( selaustila < TositeSelausModel::KIRJANPIDOSSA) {   // Tila
                 if( tila == Tosite::LAHETETAAN)
                     return TositeSelausModel::tr("Lähettäminen epäonnistui");
                 else

@@ -34,7 +34,7 @@ class TositeSelausRivi
 public:
     TositeSelausRivi(const QVariantMap& data, bool samakausi = false);
     TositeSelausRivi(QSqlQuery& data, bool samakausi=false);
-    QVariant data(int sarake, int role, int tila) const;
+    QVariant data(int sarake, int role, int selaustila) const;
 
     QString getSarja() const { return sarja; }
     int getTyyppi() const { return tositeTyyppi; }
