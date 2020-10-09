@@ -30,12 +30,16 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    static MallipohjaModel *instanssi();
+
 protected:
     void haeLista();
     void listaSaapuu(QVariant* data);
 
 private:
     QVariantList lista_;
+
+    static MallipohjaModel* instanssi__;
 };
 
 #endif // MALLIPOHJAMODEL_H

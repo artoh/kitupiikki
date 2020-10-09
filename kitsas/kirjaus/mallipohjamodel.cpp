@@ -23,7 +23,6 @@
 MallipohjaModel::MallipohjaModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    haeLista();
     connect(kp(), &Kirjanpito::tietokantaVaihtui, this, &MallipohjaModel::haeLista);
     connect(kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &MallipohjaModel::haeLista);
 }
@@ -51,6 +50,15 @@ QVariant MallipohjaModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+MallipohjaModel *MallipohjaModel::instanssi()
+{
+    if( !instanssi__) {
+        instanssi__ = new MallipohjaModel();
+        instanssi__->haeLista();
+    }
+    return instanssi__;
+}
+
 void MallipohjaModel::haeLista()
 {
     if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS) )
@@ -70,3 +78,5 @@ void MallipohjaModel::listaSaapuu(QVariant *data)
     lista_ = data->toList();
     endResetModel();
 }
+
+MallipohjaModel* MallipohjaModel::instanssi__ = nullptr;

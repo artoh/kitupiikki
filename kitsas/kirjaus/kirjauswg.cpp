@@ -445,7 +445,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
 
-    emit naytaPohjat(!muokattu);
+    emit naytaPohjat(!tosite()->liitteet()->rowCount() && !tosite()->id());
 }
 
 void KirjausWg::tallenna(int tilaan)
@@ -586,10 +586,12 @@ void KirjausWg::paivitaLiiteNapit()
 
 void KirjausWg::lataaTosite(int id)
 {
+    qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
     tosite_->lataa(id);
     ui->idLabel->setText(QString::number(id));
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), true);
     emit naytaPohjat(false);
+    qApp->restoreOverrideCursor();
 }
 
 void KirjausWg::paivitaKommentti(const QString &kommentti)

@@ -32,14 +32,8 @@ TositeRoute::TositeRoute(SQLiteModel *model) :
 
 }
 
-QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
+QString TositeRoute::kysymys(const QUrlQuery &urlquery)
 {
-    if( !polku.isEmpty())
-        return hae( polku.toInt() );
-    else if( urlquery.hasQueryItem("vienti"))
-        return hae( 0 - urlquery.queryItemValue("vienti").toInt());
-
-    // Muuten tositteiden lista
     QStringList ehdot;
     if( urlquery.hasQueryItem("luonnos") )
         ehdot.append( QString("( tosite.tila >= %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
@@ -65,24 +59,30 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     else if( urlquery.hasQueryItem("malli"))
         jarjestys = "otsikko";
 
-    QString kysymys = "SELECT tosite.id AS id, tosite.pvm AS pvm, tyyppi, tila, tunniste, otsikko, kumppani.nimi as kumppani, tosite.sarja as sarja, "
-                      "CAST( (SELECT COUNT(liite.id) FROM Liite WHERE liite.tosite=tosite.id) AS INT) AS liitteita "
-                      " FROM Tosite LEFT OUTER JOIN Kumppani on tosite.kumppani=kumppani.id  WHERE ";
+    QString kysymys = "SELECT tosite.id AS id, tosite.pvm AS pvm, tyyppi, tila, tunniste, otsikko, kumppani.nimi as kumppani, "
+                      "tosite.sarja as sarja, liitteita, summa "
+                      " FROM Tosite LEFT OUTER JOIN Kumppani on tosite.kumppani=kumppani.id  "
+                      " LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON tosite.id=lq.tosite "
+                      " LEFT OUTER JOIN (SELECT tosite, SUM(debetsnt) / 100.0 AS summa FROM Vienti GROUP BY tosite) as sq ON tosite.id=sq.tosite "
+                      "WHERE ";
     kysymys.append( ehdot.join(" AND ") + QString(" ORDER BY ") + jarjestys );
+    return kysymys;
+}
+
+QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
+{
+    if( !polku.isEmpty())
+        return hae( polku.toInt() );
+    else if( urlquery.hasQueryItem("vienti"))
+        return hae( 0 - urlquery.queryItemValue("vienti").toInt());
+
+    // Muuten tositteiden lista
 
     QSqlQuery kysely( db());
-    kysely.exec(kysymys);
+    kysely.exec(kysymys(urlquery));
 
     QVariantList tositteet = resultList(kysely);
 
-    // Sitten tätä pitäisi vielä täydentää summalla
-    for(int i=0; i<tositteet.count(); i++) {
-        QVariantMap map = tositteet[i].toMap();
-        kysely.exec(QString("SELECT SUM(debetsnt) FROM Vienti WHERE tosite=%1").arg(map.value("id").toInt()));
-        if( kysely.next() )
-            map.insert("summa", kysely.value(0).toLongLong() / 100.0);
-        tositteet[i]=map;
-    }
     return tositteet;
 }
 
@@ -162,6 +162,8 @@ QVariant TositeRoute::doDelete(const QString &polku)
 
     return QVariant();
 }
+
+
 
 int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 {

@@ -440,7 +440,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
     return txt;
 }
 
-QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayout *leiska) const
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayout *leiska, QPageLayout::Orientation suunta) const
 {
     QByteArray array;
     QBuffer buffer(&array);
@@ -453,10 +453,13 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayo
 
     if( tulostaA4 )
         writer.setPageSize( QPdfWriter::A4 );
-    else if( leiska )
+    else if( leiska ) {
         writer.setPageLayout(*leiska);
-    else
-        writer.setPageLayout( kp()->printer()->pageLayout() );
+    } else
+        writer.setPageLayout( kp()->printer()->pageLayout() );        
+
+    writer.setPageOrientation(suunta);
+
 
     QPainter painter( &writer );
 

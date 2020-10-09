@@ -29,10 +29,11 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     // Vähimmäismarginaalit 1 cm joka suuntaan
 
 
-    printer_ = new QPrinter(QPrinterInfo(*kp()->printer()));
+
+    printer_ = new QPrinter(QPrinter::HighResolution);
     printer_->setPageSize(QPrinter::A4);
 
-    QMarginsF margins = printer_->pageLayout().margins(QPageLayout::Millimeter);
+    QMarginsF margins = kp()->printer()->pageLayout().margins(QPageLayout::Millimeter);
     if( margins.top() < 10)
         margins.setTop(10);
     if( margins.left() < 10)
@@ -41,8 +42,7 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
         margins.setRight(10);
     if( margins.bottom() < 10)
         margins.setBottom(10);
-    printer_->setPageMargins(margins,QPageLayout::Millimeter);
-
+    printer_->setPageMargins(margins,QPageLayout::Millimeter);    
 
     widget_ = new QPrintPreviewWidget(printer_, parent);
 
@@ -59,10 +59,14 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
     return widget_;
 }
 
+void Naytin::PrintPreviewNaytin::asetaSuunta(QPageLayout::Orientation suunta)
+{
+    suunta_ = suunta;
+    printer_->setPageOrientation(suunta);
+}
+
 void Naytin::PrintPreviewNaytin::paivita() const
 {
-    widget_->setOrientation(printer_->orientation());
-    qDebug() << " PPOrientation " << printer_->orientation();
     widget_->updatePreview();
 }
 

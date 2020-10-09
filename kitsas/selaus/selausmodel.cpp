@@ -242,12 +242,13 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
 
     KpKysely *kysely = kpk("/viennit");
-    kysely->lisaaAttribuutti("alkupvm", alkaa);
-    kysely->lisaaAttribuutti("loppupvm", loppuu);
-    connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+    if(kysely) {
+        kysely->lisaaAttribuutti("alkupvm", alkaa);
+        kysely->lisaaAttribuutti("loppupvm", loppuu);
+        connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
-    kysely->kysy();
-
+        kysely->kysy();
+    }
     return;
 }
 

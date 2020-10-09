@@ -139,6 +139,8 @@ void SelausWg::alusta()
     ui->alkuEdit->setDate(nytalkaa);
     ui->loppuEdit->setDate(nytloppuu);
 
+    paivita();
+
 }
 
 void SelausWg::paivita()

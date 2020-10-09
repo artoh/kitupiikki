@@ -21,7 +21,6 @@
 #include "avauskohdennusmodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
-#include "rekisteri/asiakastoimittajataydentaja.h"
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
 AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :

@@ -20,7 +20,6 @@
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
 
-#include "rekisteri/asiakastoimittajataydentaja.h"
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
 #include "tiliotemodel.h"

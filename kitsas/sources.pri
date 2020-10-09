@@ -87,7 +87,6 @@ SOURCES += \
     $$PWD/raportti/tositeluettelo.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
     $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
-    $$PWD/rekisteri/asiakastoimittajataydentaja.cpp \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/kumppanivalintadelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
@@ -366,7 +365,6 @@ HEADERS += \
     $$PWD/raportti/tositeluettelo.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \
     $$PWD/rekisteri/asiakastoimittajalistamodel.h \
-    $$PWD/rekisteri/asiakastoimittajataydentaja.h \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/kumppanivalintadelegaatti.h \
     $$PWD/rekisteri/maamodel.h \

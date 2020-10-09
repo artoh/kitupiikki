@@ -59,7 +59,7 @@ void Tosite::setData(int kentta, QVariant arvo)
         kp()->tilikaudet()->tilikausiPaivalle(arvo.toDate()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle( data_.value( avaimet__.at(PVM) ).toDate() ).alkaa())
         setData( Tosite::TUNNISTE, QVariant() );
 
-    if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
+    if( ((arvo.toString().isEmpty() || arvo.toString()=="0") && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
         ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
     else
@@ -246,12 +246,16 @@ void Tosite::lataaData(QVariant *variant)
     resetointiKaynnissa_ = false;
     tarkasta();
 
-    QTimer::singleShot(500, this, &Tosite::laitaTalteen);
+    QTimer::singleShot(100, this, &Tosite::laitaTalteen);
 
 }
 
 void Tosite::tallenna(int tilaan)
 {
+    if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
+        setData(ID,QVariant());
+    }
+
     setData( TILA, tilaan );
 
     KpKysely* kysely;
