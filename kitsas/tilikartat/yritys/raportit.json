@@ -625,6 +625,13 @@
         "S": 2
       },
       {
+        "fi": "Konserniliikearvo",
+        "sv": "Koncerngoogwill",
+        "en": "Consolidated goodwill",
+        "L": "106 *",
+        "S": 2
+      },
+      {
         "fi": "Muut aineettomat hyödykkeet",
         "sv": "Övriga immaterialla tillgångar",
         "en": "Other intangible assets",
@@ -834,6 +841,13 @@
         "S": 2
       },
       {
+        "fi": "Laskennalliset verosaamiset",
+        "sv": "Uppskjutna skattefordringar",
+        "en": "Deferred tax assets",
+        "L": "169 *",
+        "S": 2
+      },
+      {
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
         "en": "Short-term deptors",
@@ -945,11 +959,32 @@
         "en": "CAPITAL AND RESERVES",
         "L": "20..23"
       },
+      { "fi": "Osakepääoma",
+        "sv": "Aktiekapital",
+        "en": "Capital stock",
+        "S" : "200 *",
+        "L" : 1
+      },
       {
-        "fi": "Osake-, osuus- tai muu vastaava pääoma",
-        "sv": "Aktie- eller andelskapital eller annat motsvanrande kapital",
+        "fi": "Osakeanti",
+        "sv": "Aktieemission",
+        "en": "Capital issue",
+        "S": "201 *",
+        "L": 1
+
+      },
+      {
+        "fi": "Osuuspääoma",
+        "sv": "Andelskapital",
         "en": "Subsribed capital",
-        "L": "200,210,220 *",
+        "L": "210 *",
+        "S": 1
+      },
+      {
+        "fi": "Peruspääoma",
+        "sv": "Grundkapital",
+        "en": "Initial capital",
+        "L": "220 *",
         "S": 1
       },
       {
@@ -1018,19 +1053,19 @@
         "fi": "Äänettömät yhtiömiehet",
         "sv": "Tysta bolagsmännen",
         "L": " 218 *",
-        "S": 1
+        "S": 2
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
         "sv": "Ansvariga bolagsmännen",
         "L": " 217 *",
-        "S": 1
+        "S": 2
       },
       {
         "fi": "Edellisten tilikausien voitto/tappio",
         "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
         "en": "Retained earnings (loss)",
-        "L": "2251..232 *",
+        "L": "225..232 *",
         "S": 1
       },
       {
@@ -1124,9 +1159,9 @@
         "S": 1
       },
       {
-        "fi": "Joukkovelkakirjalainat",
-        "sv": "Masskuldebrevslån",
-        "en": "Bonds",
+        "fi": "Pääomalainat",
+        "sv": "Kapitallån",
+        "en": "Capital loans",
         "L": "260 *",
         "S": 2
       },
@@ -1183,7 +1218,7 @@
         "fi": "Muut velat",
         "sv": "Övriga skulder",
         "en": "Other creditors",
-        "L": "272..274, 277 *",
+        "L": "272..274 *",
         "S": 2
       },
       {
@@ -1201,17 +1236,24 @@
         "S": 1
       },
       {
+        "fi": "Pääomalainat",
+        "sv": "Kapitallån",
+        "en": "Capital loans",
+        "L": "280 *",
+        "S": 2
+      },
+      {
         "fi": "Joukkovelkakirjalainat",
         "sv": "Masskuldebrevslån",
         "en": "Bonds",
-        "L": "280 *",
+        "L": "2810..2815 *",
         "S": 2
       },
       {
         "fi": "Vaihtovelkakirjalainat",
         "sv": "Lån mot konvertibla skuldebrev",
         "en": "Convertible bonds",
-        "L": "281 *",
+        "L": "2817..2819 *",
         "S": 2
       },
       {
@@ -1267,7 +1309,7 @@
         "fi": "Muut velat",
         "sv": "Övriga skulder",
         "en": "Other creditors",
-        "L": "292..294, 298 *",
+        "L": "292..294 *",
         "S": 2
       },
       {
@@ -1276,6 +1318,14 @@
         "en": "Accruals and deferred income",
         "L": "295..297 *",
         "S": 2
+      },
+      {
+        "fi": "Laskennalliset verovelat",
+        "sv": "Upperskjutna skatteskulder",
+        "en": "Deferred tax liabilities",
+        "L": "298 *",
+        "S": 2
+
       },
       {
         "fi": "Vastattavaa yhteensä",

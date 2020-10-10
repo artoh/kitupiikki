@@ -89,9 +89,10 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
     QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, "
                     "selite, vienti.kohdennus as kohdennus, eraid, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
                     "tosite.tyyppi as tosite_tyyppi, tosite.sarja as tosite_sarja, "
-                    "kumppani.nimi as kumppani_nimi "
+                    "kumppani.nimi as kumppani_nimi, liitteita "
                     "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                     "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
+                    "LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON Tosite.id=lq.tosite "
                     "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' ")
             .arg(alkaa.toString(Qt::ISODate))
             .arg(loppuu.toString(Qt::ISODate));
@@ -104,8 +105,10 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
     QSqlQuery kysely( sqlite->tietokanta() );
     kysely.exec(kysymys);
 
+    bool merkkauksia = kp()->kohdennukset()->merkkauksia();
+
     while(kysely.next()) {
-        SelausRivi rivi(kysely, samakausi_, sqlite);
+        SelausRivi rivi(kysely, samakausi_, sqlite, merkkauksia);
         rivit_.append(rivi);
         kaytetytTilit_.insert(rivi.getTili());
     }
@@ -191,6 +194,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
     kredit = data.value("kredit").toDouble();
     kumppani = data.value("kumppani").toMap().value("nimi").toString();
     selite = data.value("selite").toString();
+    liitteita = data.value("liitteita").toInt();
 
     etsi = tositeTunnus + " " + kumppani + " " + selite;
     maksettu = false;
@@ -224,7 +228,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
 
 }
 
-SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite)
+SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia)
 {
     vientiId = data.value("id").toInt();
     tositeId = data.value("tosite_id").toInt();
@@ -244,6 +248,7 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite)
     kredit = data.value("kreditsnt").toDouble() / 100.0;
     kumppani = data.value("kumppani_nimi").toString();
     selite = data.value("selite").toString();
+    liitteita = data.value("liitteita").toInt();
 
     etsi = tositeTunnus + " " + kumppani + " " + selite;
     maksettu = false;
@@ -253,16 +258,20 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite)
     if(kohdennustyyppi)
        kohdennus = kohdennusObj.nimi();
 
+
     QSqlQuery apukysely( sqlite->tietokanta());
-    apukysely.exec(QString("SELECT kohdennus FROM Merkkaus WHERE vienti=%1").arg(vientiId));
-    QStringList tagit;
-    while( apukysely.next()) {
-        tagit.append( kp()->kohdennukset()->kohdennus(apukysely.value(0).toInt()).nimi() );
-    }
-    if( !tagit.isEmpty()) {
-        if(!kohdennus.isEmpty())
-            kohdennus.append(" ");
-        kohdennus.append(tagit.join(", "));
+    if(merkkauksia) {
+
+        apukysely.exec(QString("SELECT kohdennus FROM Merkkaus WHERE vienti=%1").arg(vientiId));
+        QStringList tagit;
+        while( apukysely.next()) {
+            tagit.append( kp()->kohdennukset()->kohdennus(apukysely.value(0).toInt()).nimi() );
+        }
+        if( !tagit.isEmpty()) {
+            if(!kohdennus.isEmpty())
+                kohdennus.append(" ");
+            kohdennus.append(tagit.join(", "));
+        }
     }
 
     int eraid = data.value("eraid").toInt();
@@ -376,6 +385,13 @@ QVariant SelausRivi::data(int sarake, int role) const
     else if( role == Qt::DecorationRole && sarake == SelausModel::PVM)
     {
         return kp()->tositeTyypit()->kuvake(tositeTyyppi);
+    }
+    else if( role == Qt::DecorationRole && sarake==SelausModel::TOSITE )
+    {
+        if(  liitteita )
+            return QIcon(":/pic/liite.png");
+        else
+            return QIcon(":/pic/tyhja.png");
     }
     else if( role == TositeSelausModel::TositeTyyppiRooli) {
         return tositeTyyppi;

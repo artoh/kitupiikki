@@ -32,7 +32,7 @@ class SelausRivi
 {
 public:
      SelausRivi(const QVariantMap& data, bool samakausi = false);
-     SelausRivi(QSqlQuery& data, bool samakausi, SQLiteModel *sqlite);
+     SelausRivi(QSqlQuery& data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia);
 
      QVariant data(int sarake, int role) const;
      int getTili() const { return tili;}
@@ -54,6 +54,7 @@ protected:
     QString selite;
     QString etsi;
     int kohdennustyyppi;
+    bool liitteita;
 };
 
 /**

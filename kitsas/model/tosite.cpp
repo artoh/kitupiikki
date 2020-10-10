@@ -243,10 +243,8 @@ void Tosite::lataaData(QVariant *variant)
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
 
-    resetointiKaynnissa_ = false;
-    tarkasta();
-
-    QTimer::singleShot(100, this, &Tosite::laitaTalteen);
+    QTimer::singleShot(100, this, &Tosite::latausValmis);
+    QTimer::singleShot(500, this, &Tosite::laitaTalteen);
 
 }
 
@@ -276,9 +274,6 @@ void Tosite::tarkasta()
 {
     if( resetointiKaynnissa_)
         return;
-
-    // Otetaan tallennettu_ 0.5 s singleshotilla talteen
-    // ja verrataan siihen
 
 
     QVariantMap talteen = tallennettava();
@@ -384,6 +379,12 @@ void Tosite::laitaTalteen()
 {
     if (!resetointiKaynnissa_)
         tallennettu_ = tallennettava();
+}
+
+void Tosite::latausValmis()
+{
+    resetointiKaynnissa_ = false;
+    tarkasta();
 }
 
 QVariantMap Tosite::tallennettava() const
