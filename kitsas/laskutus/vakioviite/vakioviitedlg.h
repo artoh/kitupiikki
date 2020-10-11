@@ -19,6 +19,8 @@
 
 #include <QDialog>
 
+class VakioViiteModel;
+
 namespace Ui {
 class VakioViiteDlg;
 }
@@ -28,19 +30,22 @@ class VakioViiteDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit VakioViiteDlg(QWidget *parent = nullptr);
+    explicit VakioViiteDlg(VakioViiteModel* model, QWidget *parent = nullptr);
     ~VakioViiteDlg() override;
 
     void muokkaa(const QVariantMap& map);
     void uusi();
+
+    void tarkasta();
 
     void accept() override;
 
 private:
     void tallennettu();
 
+    VakioViiteModel* model_;
+
     Ui::VakioViiteDlg *ui;
-    int muokattavaViite_ = 0;
 };
 
 #endif // VAKIOVIITEDLG_H

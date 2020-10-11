@@ -447,11 +447,24 @@
         "en": "CAPITAL AND RESERVES",
         "L": "20..23"
       },
+      { "fi": "Osakepääoma",
+        "sv": "Aktiekapital",
+        "en": "Capital stock",
+        "L" : "200..201 *",
+        "S" : 1
+      },
       {
-        "fi": "Osake-, osuus- tai muu vastaava pääoma",
-        "sv": "Aktie- eller andelskapital eller annat motsvarande kapital",
+        "fi": "Osuuspääoma",
+        "sv": "Andelskapital",
         "en": "Subsribed capital",
-        "L": "200,210,220 *",
+        "L": "210 *",
+        "S": 1
+      },
+      {
+        "fi": "Peruspääoma",
+        "sv": "Grundkapital",
+        "en": "Initial capital",
+        "L": "220 *",
         "S": 1
       },
       {
@@ -485,13 +498,13 @@
         "fi": "Äänettömät yhtiömiehet",
         "sv": "Tysta bolagsmännen",
         "L": " 218 *",
-        "S": 1
+        "S": 2
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
         "sv": "Ansvariga bolagsmännen",
         "L": " 217 *",
-        "S": 1
+        "S": 2
       },
       {
         "fi": "Edellisten tilikausien voitto/tappio",
@@ -962,16 +975,8 @@
       { "fi": "Osakepääoma",
         "sv": "Aktiekapital",
         "en": "Capital stock",
-        "S" : "200 *",
-        "L" : 1
-      },
-      {
-        "fi": "Osakeanti",
-        "sv": "Aktieemission",
-        "en": "Capital issue",
-        "S": "201 *",
-        "L": 1
-
+        "L" : "200..201 *",
+        "S" : 1
       },
       {
         "fi": "Osuuspääoma",

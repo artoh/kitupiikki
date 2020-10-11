@@ -142,7 +142,7 @@ public:
      * @return
      */
     QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false,
-                   QPageLayout* leiska = nullptr,QPageLayout::Orientation suunta = QPageLayout::Portrait) const;
+                   QPageLayout* leiska = nullptr) const;
 
     /**
      * @brief Palauttaa raportin csv-muodossa

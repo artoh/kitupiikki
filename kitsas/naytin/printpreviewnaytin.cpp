@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QPrinterInfo>
 #include <QPdfWriter>
+#include <QPageSize>
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     : AbstraktiNaytin (parent)
@@ -32,6 +33,7 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
 
     printer_ = new QPrinter(QPrinter::HighResolution);
     printer_->setPageSize(QPrinter::A4);
+    printer_->setOrientation(QPrinter::Portrait);
 
     QMarginsF margins = kp()->printer()->pageLayout().margins(QPageLayout::Millimeter);
     if( margins.top() < 10)
@@ -61,8 +63,15 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
 
 void Naytin::PrintPreviewNaytin::asetaSuunta(QPageLayout::Orientation suunta)
 {
+#ifdef Q_OS_WINDOWS
+    if( suunta_ != suunta) {
+
+        QSizeF pagesize = printer_->pageLayout().pageSize().size(QPageSize::Millimeter);
+        QSizeF rotated = QSizeF(pagesize.height(), pagesize.width());
+        printer_->setPageSize(QPageSize(rotated, QPageSize::Millimeter));
+    }
+#endif
     suunta_ = suunta;
-    printer_->setPageOrientation(suunta);
 }
 
 void Naytin::PrintPreviewNaytin::paivita() const

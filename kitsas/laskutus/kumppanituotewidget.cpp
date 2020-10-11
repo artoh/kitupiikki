@@ -152,7 +152,7 @@ void KumppaniTuoteWidget::uusi()
             kysely->kysy(uusiryhma);
         }
     } else if( valilehti_ == VAKIOVIITTEET ) {
-        VakioViiteDlg dlg(this);
+        VakioViiteDlg dlg(vakioviitteet_, this);
         dlg.uusi();
         vakioviitteet_->lataa();
     } else {
@@ -182,7 +182,7 @@ void KumppaniTuoteWidget::muokkaa()
             kysely->kysy(muokattu);
         }
     } else if( valilehti_ == VAKIOVIITTEET) {
-        VakioViiteDlg dlg(this);
+        VakioViiteDlg dlg(vakioviitteet_, this);
         dlg.muokkaa( ui->view->currentIndex().data(VakioViiteModel::MapRooli).toMap() );
         vakioviitteet_->lataa();
     } else {

@@ -51,7 +51,7 @@ QByteArray Naytin::RaporttiNaytin::data() const
 {
     QPageLayout leiska( printer_->pageLayout() );
     leiska.setOrientation(suunta_);
-    return raportti_.pdf( onkoRaidat(), false, &leiska, suunta_ );
+    return raportti_.pdf( onkoRaidat(), false, &leiska);
 }
 
 QString Naytin::RaporttiNaytin::html() const
