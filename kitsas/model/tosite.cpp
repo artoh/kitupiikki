@@ -218,7 +218,8 @@ void Tosite::lataaData(QVariant *variant)
     data_ = variant->toMap();
     tallennettu_.clear();
 
-    viennit()->asetaViennit( data_.take("viennit").toList() );
+    QVariantList vientilista = data_.take("viennit").toList();
+
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
@@ -230,9 +231,19 @@ void Tosite::lataaData(QVariant *variant)
         }
         asetaPvm( kp()->paivamaara() );
         asetaLaskupvm( kp()->paivamaara() );
-        for(int i=0; i <viennit()->rowCount(); i++)
-            viennit()->setData(viennit()->index(i, TositeViennit::PVM), kp()->paivamaara());
+        for(int i=0; i < vientilista.count(); i++)
+        {
+            TositeVienti vienti = vientilista.at(i).toMap();
+            vienti.setPvm( kp()->paivamaara() );
+            if( vienti.eraId() == vienti.id() ) {
+                vienti.setEra(-1);
+            }
+            vientilista[i] = vienti;
+        }
     }
+    viennit()->asetaViennit( vientilista );
+
+
 
     emit ladattu();
 
