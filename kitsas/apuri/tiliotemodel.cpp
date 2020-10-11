@@ -198,20 +198,20 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
             case TILI: {
                     Tili uusitili;
                     if( value.toInt()) {
-                        uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-                        rivit_[ index.row()].tili = uusitili.numero();
-                        break;
+                        uusitili = kp()->tilit()->tiliNumerolla( value.toInt());                                                
                     } else {
-                        uusitili = TilinValintaDialogi::valitseTili(value.toString());
-                        rivit_[ index.row()].tili = uusitili.numero();
-                        break; /*
-                        TilinValintaDialogi* dlg = new TilinValintaDialogi();
-                        connect(dlg, &TilinValintaDialogi::tiliValittu, [this, index] (int tili) {
-                            this->setData(index, tili);
-                        });
-                        dlg->nayta(value.toString());
-                        return true; */
-                    }
+                        uusitili = TilinValintaDialogi::valitseTili(value.toString());                                               
+                   }
+                   if( uusitili.onkoValidi()) {
+                       rivit_[ index.row()].tili = uusitili.numero();
+
+                       if( uusitili.luku("kohdennus")) {
+                            rivit_[index.row()].kohdennus = uusitili.luku("kohdennus");
+                       }
+                       emit dataChanged(index, index.sibling(index.row(), KOHDENNUS), QVector<int>() << role);
+                       return true;
+                   }
+                   return false;
                 }
             case EURO:
                 rivit_[ index.row()].euro = value.toDouble() ;

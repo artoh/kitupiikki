@@ -274,6 +274,10 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                             emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
                         }
                     }
+                    if( uusitili.luku("kohdennus")) {
+                        rivi.setKohdennus(uusitili.luku("kohdennus"));
+                        emit dataChanged( index.sibling(index.row(), KOHDENNUS), index.sibling(index.row(), KOHDENNUS) );
+                    }
 
 
                     break;

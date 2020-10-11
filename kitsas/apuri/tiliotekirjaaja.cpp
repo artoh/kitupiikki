@@ -328,6 +328,9 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoViivaLabel->setVisible(jakso);
     ui->jaksoLoppuuEdit->setVisible(jakso);
 
+    if(tili.luku("kohdennus"))
+        ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
+
     paivitaAlvInfo();
 }
 

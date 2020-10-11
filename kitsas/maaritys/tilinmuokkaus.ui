@@ -125,7 +125,7 @@
          <item row="5" column="1">
           <widget class="TiliCombo" name="vastaCombo"/>
          </item>
-         <item row="6" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="ibanLabel">
            <property name="text">
             <string>IBAN-tilinumero</string>
@@ -135,12 +135,22 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
+         <item row="7" column="1">
           <widget class="QLineEdit" name="ibanLine">
            <property name="placeholderText">
             <string>FI00000000000000</string>
            </property>
           </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="kohdennusLabel">
+           <property name="text">
+            <string>Kohdennus</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="KohdennusCombo" name="kohdennusKombo"/>
          </item>
         </layout>
        </item>
@@ -387,6 +397,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
   <customwidget>
    <class>TiliCombo</class>
    <extends>QComboBox</extends>

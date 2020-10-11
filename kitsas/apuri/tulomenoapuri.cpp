@@ -401,6 +401,9 @@ void TuloMenoApuri::tiliMuuttui()
                 ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
         }
 
+        if(tili.luku("kohdennus"))
+            ui->kohdennusCombo->valitseKohdennus( tili.luku("kohdennus") );
+
         emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
                                   rivit_->index(TmRivit::TILI, rivilla()));
 
