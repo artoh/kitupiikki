@@ -312,15 +312,14 @@ QVariant SelausRivi::data(int sarake, int role) const
 
             case SelausModel::TILI:
             {
-                Tili *tiliO = kp()->tilit()->tili( tili );
-                if( !tiliO )
+                if( role==Qt::EditRole) {
+                    return tili;
+                } else if(tili) {
+                    return QString("%1 %2").arg(tili).arg(kp()->tilit()->nimi(tili));
+                } else {
                     return QVariant();
-                if( role == Qt::EditRole)
-                    return tiliO->numero();
-                else if( tiliO->numero())
-                    return tiliO->nimiNumero();
-                else
-                    return QVariant();
+                }
+
             }
 
             case SelausModel::DEBET:

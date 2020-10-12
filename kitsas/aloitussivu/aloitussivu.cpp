@@ -927,13 +927,10 @@ QString AloitusSivu::summat()
         iter.next();
         int tilinumero = iter.key().toInt();
         double saldo = iter.value().toDouble();
-        Tili *tili = kp()->tilit()->tili( tilinumero );
-        if( !tili )
-            continue;
 
-        txt.append( QString("<tr><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
+        txt.append( QString("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
-                    .arg(tili->nimiNumero().toHtmlEscaped())
+                    .arg(kp()->tilit()->nimi(tilinumero).toHtmlEscaped())
                     .arg(saldo,0,'f',2) );
 
     }

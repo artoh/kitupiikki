@@ -114,6 +114,7 @@ bool Perusvalinnat::tallenna()
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
     kp()->tilit()->paivitaTilat();
+    kp()->tilit()->paivitaNimet();
 
     return true;
 }

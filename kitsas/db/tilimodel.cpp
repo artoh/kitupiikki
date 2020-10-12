@@ -220,7 +220,8 @@ void TiliModel::tallenna(Tili* tili)
                               : QString("/tilit/%1").arg(tili->numero()),
                             KpKysely::PUT);
     connect( kysely, &KpKysely::vastaus,
-             [this,indeksi] () { emit this->dataChanged(this->index(indeksi,0), this->index(indeksi,SALDO)); });
+             [this,indeksi] () { emit this->dataChanged(this->index(indeksi,0), this->index(indeksi,SALDO));
+                                 this->paivitaNimet();});
     connect( kysely, &KpKysely::virhe,
              [](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Tilin tallentaminen epäonnistui.\n%1").arg(selitys)); } );
 
@@ -274,6 +275,11 @@ Tili TiliModel::tiliIbanilla(const QString &iban) const
             return *tili;
     }
     return Tili();
+}
+
+QString TiliModel::nimi(int numero) const
+{
+    return nimiHash_.value(numero);
 }
 
 
@@ -348,6 +354,7 @@ void TiliModel::lataa(QVariantList lista)
         naytettavat_.insert(naytettava.toInt());
 
     paivitaTilat();
+    paivitaNimet();
 
     endResetModel();
 }
@@ -399,6 +406,15 @@ void TiliModel::haeSaldot()
     saldokysely->lisaaAttribuutti("pvm", kp()->paivamaara());
     connect( saldokysely, &KpKysely::vastaus, this, &TiliModel::saldotSaapuu);
     saldokysely->kysy();
+}
+
+void TiliModel::paivitaNimet()
+{
+    nimiHash_.clear();
+    QString kieli = kp()->asetukset()->asetus("kieli");
+    for(Tili* tili : tiliLista_) {
+        nimiHash_.insert(tili->numero(), tili->nimi(kieli));
+    }
 }
 
 void TiliModel::saldotSaapuu(QVariant *saldot)
