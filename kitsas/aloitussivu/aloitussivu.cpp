@@ -192,13 +192,20 @@ void AloitusSivu::paivitaSivu()
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
         txt.append( paivitysInfo );
 
-        txt.append( vinkit() );
 
-        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-        if( saldot_.count())
-            txt.append(summat());
-        else
+        int saldoja = saldot_.count();
+
+        if( saldoja == 0) {
+            // Lataaminen on kesken..
+            txt.append(tr("<h1>Avataan kirjanpitoa...</h1>"));
+        } else if( saldoja < 3) {
+            // Ei vielä tilejä avattu, possu
+            txt.append( vinkit() );
             txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+        } else {
+            txt.append( vinkit() );
+            txt.append(summat());
+        }
 
         ui->selain->setHtml(txt);
     }
