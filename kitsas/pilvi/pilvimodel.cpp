@@ -177,6 +177,11 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
         return;
     }
 
+    map.insert("application", qApp->applicationName());
+    map.insert("version", qApp->applicationVersion());
+    map.insert("build", KITSAS_BUILD);
+    map.insert("os", QSysInfo::prettyProductName());
+
     QNetworkAccessManager *mng = kp()->networkManager();
 
     // Tähän pilviosoite!

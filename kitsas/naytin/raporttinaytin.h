@@ -41,11 +41,13 @@ public:
 
     virtual bool voikoRaidoittaa() const override { return false;}
 
+
 public slots:
     virtual void tulosta(QPrinter* printer) const override;
 
 private:
     RaportinKirjoittaja raportti_;
+
 };
 
 }

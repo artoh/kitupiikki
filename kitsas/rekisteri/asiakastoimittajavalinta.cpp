@@ -37,7 +37,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     QWidget(parent),
     combo_( new QComboBox(this)),
     button_(new QPushButton(this)),
-    model_( new AsiakasToimittajaListaModel(this)),
+    model_( AsiakasToimittajaListaModel::instanssi()),
     dlg_( new AsiakasToimittajaDlg(this))
 
 {

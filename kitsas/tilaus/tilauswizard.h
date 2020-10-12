@@ -55,6 +55,7 @@ protected:
     public:
         TilausYhteysSivu();
         virtual bool isComplete() const override;
+        virtual void initializePage() override;
     protected:
         void paivitaY();
         void verkkolaskulle();

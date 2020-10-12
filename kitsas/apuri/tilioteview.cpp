@@ -20,7 +20,6 @@
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
 
-#include "rekisteri/asiakastoimittajataydentaja.h"
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
 #include "tiliotemodel.h"
@@ -39,10 +38,8 @@ TilioteView::TilioteView(QWidget *parent) :
     setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
     setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
 
-    AsiakasToimittajaTaydentaja *taydentaja = new AsiakasToimittajaTaydentaja(this);
-    taydentaja->lataa();
     setItemDelegateForColumn(TilioteModel::SAAJAMAKSAJA,
-                             new KumppaniValintaDelegaatti(taydentaja));
+                             new KumppaniValintaDelegaatti(this));
 
     sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
 

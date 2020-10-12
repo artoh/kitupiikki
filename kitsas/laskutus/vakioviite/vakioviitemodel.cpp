@@ -92,6 +92,40 @@ void VakioViiteModel::lataa()
 
 }
 
+bool VakioViiteModel::onkoViitetta(const QString &viite) const
+{
+    for(auto item : lista_) {
+        if(viite == item.toMap().value("viite").toString())
+            return true;
+    }
+    return false;
+}
+
+QString VakioViiteModel::seuraava() const
+{
+    qlonglong viiteluku = lista_.isEmpty() ? 999 : lista_.last().toMap().value("viite").toLongLong();
+    viiteluku = (viiteluku + 10) / 10;
+    QString numero = QString::number(viiteluku);
+
+    int summa = 0;
+    int indeksi = 0;
+    for( int i = numero.length() - 1; i > -1; i--) {
+        QChar ch = numero.at(i);
+        int numero = ch.digitValue();
+
+        if( indeksi % 3 == 0)
+            summa += 7 * numero;
+        else if( indeksi % 3 == 1)
+            summa += 3 * numero;
+        else
+            summa += numero;
+
+        indeksi++;
+    }
+    int tarkaste = ( 10 - summa % 10) % 10;
+    return numero + QString::number(tarkaste);
+}
+
 void VakioViiteModel::dataSaapuu(QVariant *data)
 {
     beginResetModel();

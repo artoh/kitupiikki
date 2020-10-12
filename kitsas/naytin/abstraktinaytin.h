@@ -18,6 +18,7 @@
 #define NAYTINWIDGET_H
 
 #include <QWidget>
+#include <QPageLayout>
 
 class QPrinter;
 
@@ -53,6 +54,8 @@ public:
     virtual bool voikoRaidoittaa() const { return false;}
 
     virtual bool voikoZoomata() const { return false; }
+
+    virtual void asetaSuunta(QPageLayout::Orientation suunta) {};
 
 signals:
 

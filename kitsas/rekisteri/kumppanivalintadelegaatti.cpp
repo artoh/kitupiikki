@@ -15,14 +15,14 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kumppanivalintadelegaatti.h"
-#include "asiakastoimittajataydentaja.h"
+
+#include "asiakastoimittajalistamodel.h"
 
 #include <QComboBox>
 #include <QCompleter>
 
-KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(AsiakasToimittajaTaydentaja *taydentaja, QWidget *parent) :
-    QItemDelegate(parent),
-    taydentajaModel_(taydentaja)
+KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(QWidget *parent) :
+    QItemDelegate(parent)
 {
 
 }
@@ -31,7 +31,7 @@ QWidget *KumppaniValintaDelegaatti::createEditor(QWidget *parent, const QStyleOp
 {
     QComboBox *combo = new QComboBox(parent);
     combo->setEditable(true);
-    combo->setModel(taydentajaModel_);
+    combo->setModel(AsiakasToimittajaListaModel::instanssi());
     combo->completer()->setCompletionMode(QCompleter::PopupCompletion);
 
     return combo;

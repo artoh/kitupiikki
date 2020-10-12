@@ -20,6 +20,8 @@
 #include "db/kirjanpito.h"
 #include <QDebug>
 #include <QPrinterInfo>
+#include <QPdfWriter>
+#include <QPageSize>
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     : AbstraktiNaytin (parent)
@@ -27,10 +29,13 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     // Alustetaan printteri
     // Vähimmäismarginaalit 1 cm joka suuntaan
 
-    printer_ = new QPrinter(QPrinterInfo(*kp()->printer()));
-    printer_->setPageSize(QPrinter::A4);
 
-    QMarginsF margins = printer_->pageLayout().margins(QPageLayout::Millimeter);
+
+    printer_ = new QPrinter(QPrinter::HighResolution);
+    printer_->setPageSize(QPrinter::A4);
+    printer_->setOrientation(QPrinter::Portrait);
+
+    QMarginsF margins = kp()->printer()->pageLayout().margins(QPageLayout::Millimeter);
     if( margins.top() < 10)
         margins.setTop(10);
     if( margins.left() < 10)
@@ -39,8 +44,7 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
         margins.setRight(10);
     if( margins.bottom() < 10)
         margins.setBottom(10);
-    printer_->setPageMargins(margins,QPageLayout::Millimeter);
-
+    printer_->setPageMargins(margins,QPageLayout::Millimeter);    
 
     widget_ = new QPrintPreviewWidget(printer_, parent);
 
@@ -55,6 +59,19 @@ Naytin::PrintPreviewNaytin::~PrintPreviewNaytin()
 QWidget *Naytin::PrintPreviewNaytin::widget()
 {
     return widget_;
+}
+
+void Naytin::PrintPreviewNaytin::asetaSuunta(QPageLayout::Orientation suunta)
+{
+#ifdef Q_OS_WINDOWS
+    if( suunta_ != suunta) {
+
+        QSizeF pagesize = printer_->pageLayout().pageSize().size(QPageSize::Millimeter);
+        QSizeF rotated = QSizeF(pagesize.height(), pagesize.width());
+        printer_->setPageSize(QPageSize(rotated, QPageSize::Millimeter));
+    }
+#endif
+    suunta_ = suunta;
 }
 
 void Naytin::PrintPreviewNaytin::paivita() const

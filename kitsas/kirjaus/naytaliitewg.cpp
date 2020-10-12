@@ -42,29 +42,28 @@
 NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     : QStackedWidget(parent)
 {
-    QWidget *paasivu = new QWidget();
-    ui = new Ui::TositeWg;
+    QWidget *paasivu = new QWidget(this);
+    ui = new Ui::TositeWg();
     ui->setupUi(paasivu);
+    ui->pohjaGroup->setVisible(false);
+
     addWidget(paasivu);
 
     view = new NaytinView(this);
-
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
-    ui->pohjaGroup->hide();
-    MallipohjaModel* model = new MallipohjaModel(this);
-
-    ui->malliView->setModel(model);
+    ui->malliView->setModel(MallipohjaModel::instanssi());
     connect(ui->malliView, &QListView::clicked, [this] (const QModelIndex& index)
         {emit this->lataaPohja(index.data(Qt::UserRole).toInt());});
-    connect( model, &MallipohjaModel::modelReset, this, &NaytaliiteWg::pohjatSaapui );
+    connect( MallipohjaModel::instanssi(), &MallipohjaModel::modelReset, this, &NaytaliiteWg::pohjatSaapui );
 
     setAcceptDrops(true);
     tarkistaLeikepoyta();
+    pohjatSaapui();
 }
 
 NaytaliiteWg::~NaytaliiteWg()
@@ -89,8 +88,8 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
     }
     else
     {
-        setCurrentIndex(1);
         view->nayta(pdfdata);
+        setCurrentIndex(1);
     }
 }
 
@@ -105,12 +104,14 @@ void NaytaliiteWg::leikepoydalta()
 void NaytaliiteWg::naytaPohjat(bool nayta)
 {
     pohjatNakyvilla_ = nayta;
-    ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount() );
+    if(currentIndex() == 0)
+        ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount());
 }
 
 void NaytaliiteWg::pohjatSaapui()
 {
-    ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount() );
+    if(currentIndex() == 0)
+        ui->pohjaGroup->setVisible(pohjatNakyvilla_  && ui->malliView->model()->rowCount());
 }
 
 void NaytaliiteWg::tarkistaLeikepoyta()

@@ -43,6 +43,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;    
 
     void lataa();
+    bool onkoViitetta(const QString& viite) const;
+    QString seuraava() const;
 
 protected:
     void dataSaapuu(QVariant* data);

@@ -102,6 +102,8 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         return 0;     // Ei tulostettavaa !
 
 
+     double mm = printer->width() * 1.00 / printer->widthMM();
+
     int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
 
     QFont fontti("FreeSans", 10 - pienennys );
@@ -115,7 +117,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     QVector<int> leveydet( sarakkeet_.count() );
 
     int tekijayhteensa = 0; // Lasketaan jäävän tilan jako
-    int jaljella = sivunleveys;
+    int jaljella = sivunleveys - sarakkeet_.count() * mm;
 
     for( int i=0; i < sarakkeet_.count(); i++)
     {
@@ -183,6 +185,8 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             {
                 sarakeleveys += leveydet.value(sarake);
                 sarake++;
+                if(ysind)
+                    sarakeleveys += mm;
             }
 
             // Nyt saatu tämän sarakkeen leveys
@@ -204,7 +208,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
                                                 lippu, teksti )
                                        : QRect();
 
-            x += sarakeleveys;
+            x += sarakeleveys + mm;
             if( laatikot[i].height() > korkeinrivi )
                 korkeinrivi = laatikot[i].height();
         }
@@ -258,13 +262,15 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
                     {
                         sarakeleveys += leveydet[sarake];
                         sarake++;
+                        if(ysind)
+                            sarakeleveys += mm;
                     }
 
                     if( sarakeleveys)
                         painter->drawText( QRect(x,0,sarakeleveys,rivinkorkeus),
                                       lippu, teksti );
 
-                    x += sarakeleveys;
+                    x += sarakeleveys + mm;
                 }
                 painter->translate(0, rivinkorkeus);
             } // Otsikkorivi
@@ -447,10 +453,10 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayo
 
     if( tulostaA4 )
         writer.setPageSize( QPdfWriter::A4 );
-    else if( leiska )
+    else if( leiska ) {
         writer.setPageLayout(*leiska);
-    else
-        writer.setPageLayout( kp()->printer()->pageLayout() );
+    } else
+        writer.setPageLayout( kp()->printer()->pageLayout() );        
 
     QPainter painter( &writer );
 

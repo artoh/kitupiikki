@@ -18,8 +18,15 @@
 #include "ui_vakioviitedlg.h"
 #include "db/kirjanpito.h"
 
-VakioViiteDlg::VakioViiteDlg(QWidget *parent) :
+#include <QRegularExpression>
+#include <QPushButton>
+#include <QSettings>
+#include "validator/viitevalidator.h"
+#include "vakioviitemodel.h"
+
+VakioViiteDlg::VakioViiteDlg(VakioViiteModel *model, QWidget *parent) :
     QDialog(parent),
+    model_(model),
     ui(new Ui::VakioViiteDlg)
 {
     ui->setupUi(this);
@@ -34,8 +41,11 @@ VakioViiteDlg::~VakioViiteDlg()
 }
 
 void VakioViiteDlg::muokkaa(const QVariantMap &map)
-{
-    muokattavaViite_ = map.value("viite").toInt();
+{    
+    ui->viiteEdit->setText(map.value("viite").toString());
+    ui->viiteEdit->setReadOnly(true);
+    ui->numerointiGroup->setVisible(false);
+
     ui->otsikkoEdit->setText(map.value("otsikko").toString());
     ui->tiliEdit->valitseTiliNumerolla(map.value("tili").toInt());
     ui->kohdennusCombo->valitseKohdennus(map.value("kohdennus").toInt());
@@ -47,7 +57,24 @@ void VakioViiteDlg::uusi()
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
     ui->tiliEdit->valitseTiliNumerolla(kp()->asetukset()->luku("OletusMyyntitili"));
+    ui->viiteEdit->setText(model_->seuraava());
+
+    ui->valitseRadio->setChecked( kp()->settings()->value("NumeroiVakioviiteItse").toBool() );
+    ui->viiteEdit->setEnabled( ui->valitseRadio->isChecked() );
+
+
+    connect( ui->viiteEdit, &QLineEdit::textChanged, this, &VakioViiteDlg::tarkasta );
+    connect( ui->valitseRadio, &QRadioButton::toggled, ui->viiteEdit, &QLineEdit::setEnabled);
+
     exec();
+}
+
+void VakioViiteDlg::tarkasta()
+{
+    bool kelpo = ViiteValidator::kelpaako(ui->viiteEdit->text()) &&
+            !model_->onkoViitetta(ui->viiteEdit->text());
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
 }
 
 void VakioViiteDlg::accept()
@@ -58,9 +85,13 @@ void VakioViiteDlg::accept()
     map.insert("tili", ui->tiliEdit->valittuTilinumero());
     map.insert("kohdennus", ui->kohdennusCombo->kohdennus());
 
-    KpKysely *kysely = muokattavaViite_ ? kpk(QString("/vakioviitteet/%1").arg(muokattavaViite_), KpKysely::PUT) : kpk("/vakioviitteet", KpKysely::POST);
+    KpKysely *kysely = ui->viiteEdit->isVisible() ? kpk(QString("/vakioviitteet/%1").arg(ui->viiteEdit->text()), KpKysely::PUT) :
+                                                    kpk("/vakioviitteet", KpKysely::POST);
     connect( kysely, &KpKysely::vastaus, this, &VakioViiteDlg::tallennettu );
     kysely->kysy(map);
+
+    if(ui->numerointiGroup->isVisible())
+        kp()->settings()->setValue("NumeroiVakioviiteItse", ui->valitseRadio->isChecked());
 }
 
 void VakioViiteDlg::tallennettu()

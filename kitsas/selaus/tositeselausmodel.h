@@ -22,22 +22,39 @@
 #include <QDate>
 #include <QList>
 #include <QSet>
+#include <QSqlQuery>
+
+class SQLiteModel;
 
 /**
  * @brief Yhden tositteen tiedot tositteiden selauksessa
  */
-struct TositeSelausRivi
+class TositeSelausRivi
 {
+public:
+    TositeSelausRivi(const QVariantMap& data, bool samakausi = false);
+    TositeSelausRivi(QSqlQuery& data, bool samakausi=false);
+    QVariant data(int sarake, int role, int selaustila) const;
+
+    QString getSarja() const { return sarja; }
+    int getTyyppi() const { return tositeTyyppi; }
+
+protected:
+
     int tositeId;
+    int tila;
     QDate pvm;
-    int tositeLaji;
-    int tositeTunniste;
+    int tositeTyyppi;
+    QString tositeTunniste;
+    QString vertailuTunniste;
 
     QString otsikko;
-    qlonglong summa;
+    QString kumppani;
+    double summa;
 
     bool liitteita;
-
+    QString etsiTeksti;
+    QString sarja;
 };
 
 /**
@@ -83,7 +100,9 @@ public slots:
     void tietoSaapuu(QVariant *var);
 
 protected:
-    QList<TositeSelausRivi> rivit;    
+    void lataaSqlite(SQLiteModel* sqlite, const QDate& alkaa, const QDate& loppuu);
+
+    QList<TositeSelausRivi> rivit_;
 
     QVariantList lista_;
     QSet<int> kaytetytTyypit_;

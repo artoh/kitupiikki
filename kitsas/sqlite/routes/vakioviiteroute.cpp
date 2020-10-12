@@ -27,7 +27,7 @@ QVariant VakioviiteRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
 {
     QSqlQuery kysely(db());
     if( polku.isEmpty()) {
-        kysely.exec("SELECT viite, tili, kohdennus, otsikko FROM Vakioviite");
+        kysely.exec("SELECT viite, tili, kohdennus, otsikko FROM Vakioviite ORDER BY viite");
         return resultList(kysely);
     }
 

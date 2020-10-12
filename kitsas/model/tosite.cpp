@@ -25,6 +25,7 @@
 
 #include <QJsonDocument>
 #include <QDebug>
+#include <QTimer>
 
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
@@ -58,7 +59,7 @@ void Tosite::setData(int kentta, QVariant arvo)
         kp()->tilikaudet()->tilikausiPaivalle(arvo.toDate()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle( data_.value( avaimet__.at(PVM) ).toDate() ).alkaa())
         setData( Tosite::TUNNISTE, QVariant() );
 
-    if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
+    if( ((arvo.toString().isEmpty() || arvo.toString()=="0") && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
         ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
     else
@@ -215,8 +216,10 @@ void Tosite::lataaData(QVariant *variant)
 {
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
+    tallennettu_.clear();
 
-    viennit()->asetaViennit( data_.take("viennit").toList() );
+    QVariantList vientilista = data_.take("viennit").toList();
+
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
@@ -228,9 +231,19 @@ void Tosite::lataaData(QVariant *variant)
         }
         asetaPvm( kp()->paivamaara() );
         asetaLaskupvm( kp()->paivamaara() );
-        for(int i=0; i <viennit()->rowCount(); i++)
-            viennit()->setData(viennit()->index(i, TositeViennit::PVM), kp()->paivamaara());
+        for(int i=0; i < vientilista.count(); i++)
+        {
+            TositeVienti vienti = vientilista.at(i).toMap();
+            vienti.setPvm( kp()->paivamaara() );
+            if( vienti.eraId() == vienti.id() ) {
+                vienti.setEra(-1);
+            }
+            vientilista[i] = vienti;
+        }
     }
+    viennit()->asetaViennit( vientilista );
+
+
 
     emit ladattu();
 
@@ -241,16 +254,17 @@ void Tosite::lataaData(QVariant *variant)
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
 
-
-    tallennettu_ = tallennettava();
-
-    resetointiKaynnissa_ = false;
-    tarkasta();
+    QTimer::singleShot(100, this, &Tosite::latausValmis);
+    QTimer::singleShot(500, this, &Tosite::laitaTalteen);
 
 }
 
 void Tosite::tallenna(int tilaan)
 {
+    if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
+        setData(ID,QVariant());
+    }
+
     setData( TILA, tilaan );
 
     KpKysely* kysely;
@@ -273,9 +287,12 @@ void Tosite::tarkasta()
         return;
 
 
-    bool muutettu = tallennettu_ != tallennettava() ||
+    QVariantMap talteen = tallennettava();
+    bool muutettu = !tallennettu_.isEmpty() && (
+            tallennettu_ != tallennettava() ||
             liitteet()->tallennettaviaLiitteita() ||
-            !liitteet()->liitettavat().isEmpty();
+            !liitteet()->liitettavat().isEmpty() );
+
 
     int virheet = 0;    
     if( !pvm().isValid())
@@ -367,6 +384,18 @@ void Tosite::tallennuksessaVirhe(int virhe)
 void Tosite::liitteetTallennettu()
 {
     emit talletettu( id(), tunniste(), pvm(), sarja(), tositetila());
+}
+
+void Tosite::laitaTalteen()
+{
+    if (!resetointiKaynnissa_)
+        tallennettu_ = tallennettava();
+}
+
+void Tosite::latausValmis()
+{
+    resetointiKaynnissa_ = false;
+    tarkasta();
 }
 
 QVariantMap Tosite::tallennettava() const

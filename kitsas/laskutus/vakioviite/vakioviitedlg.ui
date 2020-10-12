@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
-    <height>337</height>
+    <width>542</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Vakioviite</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
@@ -25,8 +25,37 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="numerointiGroup">
+     <property name="title">
+      <string>Numerointi</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="seuraavaRadio">
+        <property name="text">
+         <string>Seuraava viitenumero</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="valitseRadio">
+        <property name="text">
+         <string>Valitse numero itse</string>
+        </property>
+        <property name="autoRepeat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Otsikko</string>
@@ -36,10 +65,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="1" column="1">
       <widget class="QLineEdit" name="otsikkoEdit"/>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Tili</string>
@@ -49,10 +78,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="TilinvalintaLine" name="tiliEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Kohdennus</string>
@@ -62,8 +91,22 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="KohdennusCombo" name="kohdennusCombo"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="viiteLabel">
+       <property name="text">
+        <string>Viitenumero</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="viiteEdit">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

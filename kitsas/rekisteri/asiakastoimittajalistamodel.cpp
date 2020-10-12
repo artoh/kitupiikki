@@ -57,6 +57,27 @@ int AsiakasToimittajaListaModel::idAlvTunnuksella(const QString tunnus) const
     return 0;
 }
 
+int AsiakasToimittajaListaModel::idNimella(const QString &nimi) const
+{
+    for(auto item : lista_) {
+        if( item.nimi == nimi)
+            return item.id;
+    }
+    return 0;
+}
+
+AsiakasToimittajaListaModel *AsiakasToimittajaListaModel::instanssi()
+{
+    if( !instanssi__) {
+        instanssi__ = new AsiakasToimittajaListaModel;
+        instanssi__->lataa();
+
+        connect(kp(), &Kirjanpito::kirjanpitoaMuokattu, instanssi__, &AsiakasToimittajaListaModel::lataa);
+        connect(kp(), &Kirjanpito::tietokantaVaihtui, instanssi__, &AsiakasToimittajaListaModel::lataa);
+    }
+    return instanssi__;
+}
+
 void AsiakasToimittajaListaModel::lataa()
 {
     KpKysely* kysely = kpk("/kumppanit");
@@ -86,3 +107,5 @@ AsiakasToimittajaListaModel::Item::Item(int uId, QString uNimi, QString uAlvtunn
 {
 
 }
+
+AsiakasToimittajaListaModel* AsiakasToimittajaListaModel::instanssi__ = nullptr;

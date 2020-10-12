@@ -21,9 +21,41 @@
 #include <QAbstractTableModel>
 #include <QList>
 #include <QDate>
+#include <QSqlQuery>
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
+
+class SQLiteModel;
+
+class SelausRivi
+{
+public:
+     SelausRivi(const QVariantMap& data, bool samakausi = false);
+     SelausRivi(QSqlQuery& data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia);
+
+     QVariant data(int sarake, int role) const;
+     int getTili() const { return tili;}
+
+protected:
+    int tositeId;
+    int vientiId;
+    QString tositeTunnus;
+    QString vertailuTunnus;
+
+    QDate pvm;
+    int tositeTyyppi;
+    int tili;
+    double debet;
+    double kredit;
+    QString kohdennus;
+    bool maksettu;
+    QString kumppani;
+    QString selite;
+    QString etsi;
+    int kohdennustyyppi;
+    bool liitteita;
+};
 
 /**
  * @brief Selaussivun model vientien selaamiseen
@@ -52,6 +84,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    void lataaSqlite(SQLiteModel *sqlite, const QDate& alkaa, const QDate& loppuu);
+
     QList<int> tiliLista() const;
 
 public slots:
@@ -61,8 +95,9 @@ public slots:
 
 protected:
     QSet<int> kaytetytTilit_;
+    QList<SelausRivi> rivit_;
 
-    QVariantList lista_;
+//    QVariantList lista_;
     bool samakausi_ = false;
 
 };

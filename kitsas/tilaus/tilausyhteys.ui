@@ -195,7 +195,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>emailButton</tabstop>
+  <tabstop>verkkolaskuButton</tabstop>
   <tabstop>emailEdit</tabstop>
+  <tabstop>ovtEdit</tabstop>
+  <tabstop>operaattoriEdit</tabstop>
   <tabstop>nimiEdit</tabstop>
   <tabstop>osoiteEdit</tabstop>
   <tabstop>postinumero</tabstop>

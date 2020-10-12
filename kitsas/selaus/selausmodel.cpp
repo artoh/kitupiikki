@@ -18,11 +18,14 @@
 #include "selausmodel.h"
 
 #include <QSqlQuery>
+#include <QSqlError>
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 #include "tositeselausmodel.h"
 
+#include "sqlite/sqlitemodel.h"
 #include <QDebug>
+
 
 SelausModel::SelausModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -32,7 +35,7 @@ SelausModel::SelausModel(QObject *parent) :
 
 int SelausModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return lista_.count();
+    return rivit_.count();
 }
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
@@ -77,156 +80,44 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    QVariantMap map = lista_.at( index.row()).toMap();
+    return rivit_.at(index.row()).data(index.column(), role);
+}
 
-    if( role == Qt::DisplayRole || role == Qt::EditRole)
-    {
-        switch (index.column())
-        {
-            case TOSITE:
-                return kp()->tositeTunnus( map.value("tosite").toMap().value("tunniste").toInt(),
-                                           map.value("tosite").toMap().value("pvm").toDate(),
-                                           map.value("tosite").toMap().value("sarja").toString(),
-                                           samakausi_,
-                                           role == Qt::EditRole );                            
+void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDate &loppuu)
+{
 
-            case PVM:
-            if( role == Qt::DisplayRole)
-                return QVariant( map.value("pvm").toDate() );
-            else
-                return QString("%1 %2").arg( map.value("pvm").toString() ).arg( map.value("id").toInt(), 8, 10, QChar('0') );
+    QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, "
+                    "selite, vienti.kohdennus as kohdennus, eraid, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
+                    "tosite.tyyppi as tosite_tyyppi, tosite.sarja as tosite_sarja, "
+                    "kumppani.nimi as kumppani_nimi, liitteita "
+                    "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
+                    "LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON Tosite.id=lq.tosite "
+                    "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' ")
+            .arg(alkaa.toString(Qt::ISODate))
+            .arg(loppuu.toString(Qt::ISODate));
 
-            case TILI:
-            {
-                Tili *tili = kp()->tilit()->tili( map.value("tili").toInt() );
-                if( !tili )
-                    return QVariant();
-                if( role == Qt::EditRole)
-                    return tili->numero();
-                else if( tili->numero())
-                    return QVariant( QString("%1 %2").arg(tili->numero()).arg(tili->nimi()) );
-                else
-                    return QVariant();
-            }
+    beginResetModel();
 
-            case DEBET:
-            {
-                double debet = map.value("debet").toDouble();
-                if( role == Qt::EditRole)
-                    return QVariant( debet );
-                else if( qAbs(debet) > 1e-5 )
-                    return QVariant( QString("%L1 €").arg( debet ,0,'f',2));
-                else
-                    return QVariant();
-            }
+    kaytetytTilit_.clear();
+    rivit_.clear();
 
-            case KREDIT:
-            {
-                double kredit = map.value("kredit").toDouble();
+    QSqlQuery kysely( sqlite->tietokanta() );
+    kysely.exec(kysymys);
 
-                if( role == Qt::EditRole)
-                    return QVariant( kredit);
-                else if( qAbs(kredit) > 1e-5 )
-                    return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
-                else
-                    return QVariant();
-            }
-            case SELITE:
-                if( map.value("selite").toString() == map.value("kumppani").toMap().value("nimi").toString() )
-                    return QVariant();
-                else
-                    return map.value("selite");
+    bool merkkauksia = kp()->kohdennukset()->merkkauksia();
 
-            case KUMPPANI: return map.value("kumppani").toMap().value("nimi");
-
-            case KOHDENNUS :
-                QString txt;
-
-                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
-                if( kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
-                    txt = kohdennus.nimi();
-
-                if( map.contains("merkkaukset") )
-                {
-                    QStringList tagilista;
-                    for( auto kohdennusVar : map.value("merkkaukset").toList())
-                    {
-                        int kohdennusId = kohdennusVar.toInt();
-                        tagilista.append( kp()->kohdennukset()->kohdennus(kohdennusId).nimi() );
-                    }
-                    if( !txt.isEmpty())
-                        txt.append(" ");
-                    txt.append(  tagilista.join(", ") );
-                }
-
-                if( map.value("era").toMap().contains("tunniste")  )
-                {
-                    if( map.value("era").toMap().value("tunniste") != map.value("tosite").toMap().value("tunniste") ||
-                        map.value("era").toMap().value("pvm") != map.value("tosite").toMap().value("pvm")) {
-                        if( !txt.isEmpty())
-                            txt.append(" ");
-                        txt.append( QString("%1/%2")
-                                .arg( map.value("era").toMap().value("tunniste").toInt() )
-                                .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
-                    }
-                }
-
-                return txt;
-
-        }
-    }
-    else if( role == Qt::TextAlignmentRole)
-    {
-        if( index.column()==KREDIT || index.column() == DEBET)
-            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-        else
-            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
-
-    }
-    else if( role == Qt::UserRole)
-    {
-        // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
-        return QVariant( map.value("tosite").toMap().value("id").toInt() );
-    } else if( role == EtsiRooli) {
-        return QString("%1 %2 %3").arg(kp()->tositeTunnus( map.value("tosite").toMap().value("tunniste").toInt(),
-                                                           map.value("tosite").toMap().value("pvm").toDate(),
-                                                           map.value("tosite").toMap().value("sarja").toString(),
-                                                           samakausi_,
-                                                           role == Qt::EditRole ))
-                .arg(map.value("kumppani").toMap().value("nimi").toString())
-                .arg(map.value("selite").toString());
-    }
-    else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )
-    {
-        if( map.contains("era") && map.value("era").toMap().value("saldo") == 0 )
-            return QIcon(":/pic/ok.png");
-        Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
-        if(kohdennus.tyyppi())
-            return kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt()).tyyppiKuvake();
-        else
-            return QIcon(":/pic/tyhja.png");
-
-    }
-    else if( role == Qt::DecorationRole && index.column() == TOSITE)
-    {
-        if( map.value("tosite").toMap().value("liitteita").toInt() )
-            return QIcon(":/pic/liite.png");
-        else
-            return QIcon(":/pic/tyhja.png");
-    }
-    else if( role == Qt::DecorationRole && index.column() == PVM)
-    {
-        int tyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
-        return kp()->tositeTyypit()->kuvake(tyyppi);
-    }
-    else if( role == TositeSelausModel::TositeTyyppiRooli) {
-        return map.value("tosite").toMap().value("tyyppi").toInt();
-    } else if(role == TiliRooli) {
-        return map.value("tili").toInt();
+    while(kysely.next()) {
+        SelausRivi rivi(kysely, samakausi_, sqlite, merkkauksia);
+        rivit_.append(rivi);
+        kaytetytTilit_.insert(rivi.getTili());
     }
 
+    qDebug() << kysymys;
+    qDebug() << kysely.lastError().text();
 
-    return QVariant();
+    endResetModel();
+
 }
 
 QList<int> SelausModel::tiliLista() const
@@ -241,13 +132,22 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
     samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
 
-    KpKysely *kysely = kpk("/viennit");
-    kysely->lisaaAttribuutti("alkupvm", alkaa);
-    kysely->lisaaAttribuutti("loppupvm", loppuu);
-    connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+    if( kp()->yhteysModel()) {
 
-    kysely->kysy();
+        SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
+        if( sqlite ) {
+            lataaSqlite(sqlite, alkaa, loppuu);
+        } else {
+            KpKysely *kysely = kpk("/viennit");
+            if(kysely) {
+                kysely->lisaaAttribuutti("alkupvm", alkaa);
+                kysely->lisaaAttribuutti("loppupvm", loppuu);
+                connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
+                kysely->kysy();
+            }
+        }
+    }
     return;
 }
 
@@ -256,14 +156,248 @@ void SelausModel::tietoSaapuu(QVariant *var)
 
     beginResetModel();
     kaytetytTilit_.clear();
-    lista_ = var->toList();
+
+    QVariantList lista = var->toList();
+    rivit_.clear();
 
 
-    for(auto rivi : lista_)
+    for(auto item : lista)
     {
-        int tiliId = rivi.toMap().value("tili").toInt();
-        kaytetytTilit_.insert(tiliId);
+        QVariantMap map = item.toMap();
+        SelausRivi rivi(map, samakausi_);
+        rivit_.append(rivi);
+        kaytetytTilit_.insert(rivi.getTili());
     }
 
     endResetModel();
+}
+
+SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
+{
+    QVariantMap tosite = data.value("tosite").toMap();
+
+    vientiId = data.value("id").toInt();
+    tositeId = tosite.value("id").toInt();
+    tositeTunnus = kp()->tositeTunnus(tosite.value("tunniste").toInt(),
+                                      tosite.value("pvm").toDate(),
+                                      tosite.value("sarja").toString(),
+                                      samakausi);
+    vertailuTunnus = kp()->tositeTunnus(tosite.value("tunniste").toInt(),
+                                        tosite.value("pvm").toDate(),
+                                        tosite.value("sarja").toString(),
+                                        samakausi,
+                                        true);
+    pvm = data.value("pvm").toDate();
+    tositeTyyppi = tosite.value("tyyppi").toInt();
+    tili = data.value("tili").toInt();
+    debet = data.value("debet").toDouble();
+    kredit = data.value("kredit").toDouble();
+    kumppani = data.value("kumppani").toMap().value("nimi").toString();
+    selite = data.value("selite").toString();
+    liitteita = data.value("liitteita").toInt();
+
+    etsi = tositeTunnus + " " + kumppani + " " + selite;
+    maksettu = false;
+
+    Kohdennus kohdennusObj =  kp()->kohdennukset()->kohdennus( data.value("kohdennus").toInt() );
+    kohdennustyyppi = kohdennusObj.tyyppi();
+    if(kohdennustyyppi)
+       kohdennus = kohdennusObj.nimi();
+
+    if( data.contains("merkkaukset")) {
+        QStringList tagit;
+        for( auto merkkausVar : data.value("merkkaukset").toList()) {
+            tagit.append( kp()->kohdennukset()->kohdennus(merkkausVar.toInt()).nimi() );
+        }
+        if( !kohdennus.isEmpty())
+            kohdennus.append(" ");
+        kohdennus.append( tagit.join(", "));
+    }
+    QVariantMap eraMap = data.value("era").toMap();
+    if( eraMap.contains("tunniste")) {
+        if(eraMap.value("id").toInt() != data.value("id").toInt()) {
+            if(!kohdennus.isEmpty())
+                kohdennus.append(" ");
+            kohdennus.append( kp()->tositeTunnus(eraMap.value("tunniste").toInt(),
+                                                 eraMap.value("pvm").toDate(),
+                                                 eraMap.value("sarja").toString(),
+                                                 kp()->tilikaudet()->tilikausiPaivalle(eraMap.value("pvm").toDate()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
+        }
+        maksettu = qAbs(eraMap.value("saldo").toDouble()) < 1e-5;
+    }
+
+}
+
+SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia)
+{
+    vientiId = data.value("id").toInt();
+    tositeId = data.value("tosite_id").toInt();
+    tositeTunnus = kp()->tositeTunnus(data.value("tosite_tunniste").toInt(),
+                                      data.value("tosite_pvm").toDate(),
+                                      data.value("tosite_sarja").toString(),
+                                      samakausi);
+    vertailuTunnus = kp()->tositeTunnus(data.value("tosite_tunniste").toInt(),
+                                        data.value("tosite_pvm").toDate(),
+                                        data.value("tosite_sarja").toString(),
+                                        samakausi,
+                                        true);
+    pvm = data.value("pvm").toDate();
+    tositeTyyppi = data.value("tosite_tyyppi").toInt();
+    tili = data.value("tili").toInt();
+    debet = data.value("debetsnt").toDouble() / 100.0;
+    kredit = data.value("kreditsnt").toDouble() / 100.0;
+    kumppani = data.value("kumppani_nimi").toString();
+    selite = data.value("selite").toString();
+    liitteita = data.value("liitteita").toInt();
+
+    etsi = tositeTunnus + " " + kumppani + " " + selite;
+    maksettu = false;
+
+    Kohdennus kohdennusObj = kp()->kohdennukset()->kohdennus(data.value("kohdennus").toInt());
+    kohdennustyyppi = kohdennusObj.tyyppi();
+    if(kohdennustyyppi)
+       kohdennus = kohdennusObj.nimi();
+
+
+    QSqlQuery apukysely( sqlite->tietokanta());
+    if(merkkauksia) {
+
+        apukysely.exec(QString("SELECT kohdennus FROM Merkkaus WHERE vienti=%1").arg(vientiId));
+        QStringList tagit;
+        while( apukysely.next()) {
+            tagit.append( kp()->kohdennukset()->kohdennus(apukysely.value(0).toInt()).nimi() );
+        }
+        if( !tagit.isEmpty()) {
+            if(!kohdennus.isEmpty())
+                kohdennus.append(" ");
+            kohdennus.append(tagit.join(", "));
+        }
+    }
+
+    int eraid = data.value("eraid").toInt();
+    if( eraid) {
+
+        // Tarkistetaan saldo, onko maksettu
+        apukysely.exec(QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Tosite.tila >= 100").arg(eraid));
+        if(apukysely.next() && apukysely.value(0).toLongLong() == apukysely.value(1).toLongLong())
+            maksettu = true;
+
+        if( eraid != vientiId) {
+            apukysely.exec(QString("SELECT Tosite.tunniste, Tosite.sarja, Tosite.pvm AS pvm FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Vienti.id=%1").arg(eraid));
+            if(apukysely.next()) {
+                if(!kohdennus.isEmpty())
+                    kohdennus.append(" ");
+                kohdennus.append( kp()->tositeTunnus(apukysely.value("tunniste").toInt(),
+                                                     apukysely.value("pvm").toDate(),
+                                                     apukysely.value("sarja").toString(),
+                                                     kp()->tilikaudet()->tilikausiPaivalle(apukysely.value("pvm").toDate()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
+            }
+        }
+    }
+}
+
+QVariant SelausRivi::data(int sarake, int role) const
+{
+    if( role == Qt::DisplayRole || role == Qt::EditRole)
+    {
+        switch (sarake)
+        {
+            case SelausModel::TOSITE:
+                return role == Qt::EditRole ? vertailuTunnus : tositeTunnus;
+            case SelausModel::PVM:
+            if( role == Qt::DisplayRole)
+                return pvm;
+            else
+                return QString("%1 %2").arg( pvm.toString(Qt::ISODate) ).arg( vientiId, 8, 10, QChar('0') );
+
+            case SelausModel::TILI:
+            {
+                if( role==Qt::EditRole) {
+                    return tili;
+                } else if(tili) {
+                    return QString("%1 %2").arg(tili).arg(kp()->tilit()->nimi(tili));
+                } else {
+                    return QVariant();
+                }
+
+            }
+
+            case SelausModel::DEBET:
+            {
+                if( role == Qt::EditRole)
+                    return QVariant( debet );
+                else if( qAbs(debet) > 1e-5 )
+                    return QVariant( QString("%L1 €").arg( debet ,0,'f',2));
+                else
+                    return QVariant();
+            }
+
+            case SelausModel::KREDIT:
+            {
+
+                if( role == Qt::EditRole)
+                    return QVariant( kredit);
+                else if( qAbs(kredit) > 1e-5 )
+                    return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
+                else
+                    return QVariant();
+            }
+            case SelausModel::SELITE:
+                if( selite == kumppani )
+                    return QVariant();
+                else
+                    return selite;
+
+            case SelausModel::KUMPPANI: return kumppani;
+
+            case SelausModel::KOHDENNUS : return kohdennus;
+
+        }
+    }
+    else if( role == Qt::TextAlignmentRole)
+    {
+        if( sarake==SelausModel::KREDIT || sarake == SelausModel::DEBET)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+    else if( role == Qt::UserRole)
+    {
+        // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
+        return tositeId;
+    } else if( role == SelausModel::EtsiRooli) {
+        return etsi;
+    }
+    else if( role == Qt::DecorationRole && sarake == SelausModel::KOHDENNUS )
+    {
+        if(maksettu)
+            return QIcon(":/pic/ok.png");
+        else if( kohdennustyyppi == Kohdennus::KUSTANNUSPAIKKA)
+            return QIcon(":/pic/kohdennus.png");
+        else if( kohdennustyyppi == Kohdennus::PROJEKTI )
+            return QIcon(":/pic/projekti.png");
+        else
+            return QIcon(":/pic/tyhja.png");
+
+    }
+    else if( role == Qt::DecorationRole && sarake == SelausModel::PVM)
+    {
+        return kp()->tositeTyypit()->kuvake(tositeTyyppi);
+    }
+    else if( role == Qt::DecorationRole && sarake==SelausModel::TOSITE )
+    {
+        if(  liitteita )
+            return QIcon(":/pic/liite.png");
+        else
+            return QIcon(":/pic/tyhja.png");
+    }
+    else if( role == TositeSelausModel::TositeTyyppiRooli) {
+        return tositeTyyppi;
+    } else if(role == SelausModel::TiliRooli) {
+        return tili;
+    }
+
+
+    return QVariant();
 }

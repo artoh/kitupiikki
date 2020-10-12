@@ -44,6 +44,7 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
     setDate( kp()->paivamaara() );
     oletuspaiva_ = date();
     setPlaceholderText( tr("pp.kk.vvvv") );
+    setStyleSheet("color: black;");
 
     connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
 }
@@ -74,8 +75,8 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 
 void KpDateEdit::setEnabled(bool enabled)
 {
-    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool()))
-            && enabled)
+    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() ))
+            && enabled && !property("SalliYlitys").toBool())
     {
         setStyleSheet("color: red;");
     } else {

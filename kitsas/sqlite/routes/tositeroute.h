@@ -30,6 +30,8 @@ public:
     QVariant patch(const QString &polku, const QVariant &data) override;
     QVariant doDelete(const QString &polku) override;
 
+    static QString kysymys(const QUrlQuery &urlquery);
+
 protected:
     int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);
     QVariantList lokinpurku(QSqlQuery &kysely) const;

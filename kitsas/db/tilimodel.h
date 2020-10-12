@@ -80,6 +80,8 @@ public:
     Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
     Tili tiliIbanilla(const QString& iban) const;
 
+    QString nimi(int numero) const;
+
     /**
      * @brief Palauttaa ensimmäisen halutun tyyppisen tilin
      * @param luonne
@@ -100,6 +102,7 @@ public:
 
 public slots:
     void haeSaldot();
+    void paivitaNimet();
 
 private slots:
     void saldotSaapuu(QVariant* saldot);    
@@ -111,6 +114,7 @@ protected:
 protected:    
     QList<Tili*> tiliLista_;
     QHash<int,Tili*> nroHash_;
+    QHash<int,QString> nimiHash_;
 
     QString muoto_;
     QSet<int> piilotetut_;

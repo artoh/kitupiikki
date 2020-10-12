@@ -196,6 +196,8 @@ void TilinMuokkausDialog::lataa()
     ui->vastaCheck->setChecked( vastatili );
     ui->vastaCombo->valitseTili(vastatili);
 
+    ui->kohdennusKombo->valitseKohdennus( tili_->luku("kohdennus") );
+
     ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( tili_->laajuus() ) );
 
 
@@ -261,6 +263,9 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 
     ui->vastaCheck->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO) );
     ui->vastaCombo->setVisible(tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
+
+    ui->kohdennusLabel->setVisible(tyyppi.onko(TiliLaji::TULOS) && kp()->kohdennukset()->rowCount());
+    ui->kohdennusKombo->setVisible(tyyppi.onko(TiliLaji::TULOS) && kp()->kohdennukset()->rowCount());
 
     veroEnablePaivita();
 
@@ -362,12 +367,18 @@ void TilinMuokkausDialog::accept()
             kp()->asetukset()->aseta("LaskuIbanit", tilinumero);
     }
 
+    if( tili_->onko(TiliLaji::TULOS))
+        tili_->setInt("kohdennus", ui->kohdennusKombo->kohdennus());
+    else
+        tili_->setInt("kohdennus", 0);
+
     for(int i=0; i < ui->nimiList->count(); i++)
         tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
     for(int i=0; i < ui->ohjeTabs->count(); i++) {
         QPlainTextEdit *edit = qobject_cast<QPlainTextEdit*>( ui->ohjeTabs->widget(i) );
         tili_->asetaOhje( edit->toPlainText(), edit->property("Kielikoodi").toString() );
     }    
+
 
     kp()->tilit()->tallenna(tili_);
 

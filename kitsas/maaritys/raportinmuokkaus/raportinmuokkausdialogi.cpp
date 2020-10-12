@@ -30,7 +30,7 @@ RaportinmuokkausDialogi::RaportinmuokkausDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tilitEdit->setValidator(new QRegularExpressionValidator(
-           QRegularExpression("(\\d{1,8}([.]{2}\\d{1,8})?[+-]?[,\\s]?)*"),this));
+           QRegularExpression("(\\d{1,8}([.]{1,2}\\d{1,8})?[+-]?[,\\s]?)*"),this));
 }
 
 RaportinmuokkausDialogi::~RaportinmuokkausDialogi()

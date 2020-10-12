@@ -50,14 +50,15 @@ QByteArray Naytin::RaporttiNaytin::csv() const
 QByteArray Naytin::RaporttiNaytin::data() const
 {
     QPageLayout leiska( printer_->pageLayout() );
-    qDebug() << leiska.orientation();
-    return raportti_.pdf( onkoRaidat(), false, &leiska );
+    leiska.setOrientation(suunta_);
+    return raportti_.pdf( onkoRaidat(), false, &leiska);
 }
 
 QString Naytin::RaporttiNaytin::html() const
 {
     return raportti_.html();
 }
+
 
 void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {

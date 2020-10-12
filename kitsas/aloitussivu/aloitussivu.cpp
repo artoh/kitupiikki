@@ -192,13 +192,20 @@ void AloitusSivu::paivitaSivu()
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
         txt.append( paivitysInfo );
 
-        txt.append( vinkit() );
 
-        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-        if( saldot_.count())
-            txt.append(summat());
-        else
+        int saldoja = saldot_.count();
+
+        if( saldoja == 0) {
+            // Lataaminen on kesken..
+            txt.append(tr("<h1>Avataan kirjanpitoa...</h1>"));
+        } else if( saldoja < 3) {
+            // Ei vielä tilejä avattu, possu
+            txt.append( vinkit() );
             txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+        } else {
+            txt.append( vinkit() );
+            txt.append(summat());
+        }
 
         ui->selain->setHtml(txt);
     }
@@ -927,13 +934,10 @@ QString AloitusSivu::summat()
         iter.next();
         int tilinumero = iter.key().toInt();
         double saldo = iter.value().toDouble();
-        Tili *tili = kp()->tilit()->tili( tilinumero );
-        if( !tili )
-            continue;
 
-        txt.append( QString("<tr><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
+        txt.append( QString("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
-                    .arg(tili->nimiNumero().toHtmlEscaped())
+                    .arg(kp()->tilit()->nimi(tilinumero).toHtmlEscaped())
                     .arg(saldo,0,'f',2) );
 
     }

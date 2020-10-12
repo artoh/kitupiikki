@@ -26,6 +26,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
+#include <QTimer>
 
 #include "validator/ytunnusvalidator.h"
 #include "rekisteri/postinumerot.h"
@@ -175,7 +176,7 @@ void TilausWizard::dataSaapuu()
                          current_.value("extraclouds").toInt());
 
     if( field("ovt").toString().isEmpty() && !field("ytunnus").toString().isEmpty()) {
-        setField("ovt", "0037" + field("ytunnus").toString());
+        setField("ovt", "0037" + field("ytunnus").toString().remove('-'));
     }
 
 
@@ -190,7 +191,7 @@ void TilausWizard::dataSaapuu()
             tmap.insert("period", field("puolivuosittain").toBool() ? 6 : 12 );
 
             QVariantMap payer;
-            payer.insert("name", field("name"));
+            payer.insert("name", field("name"));            
             payer.insert("email", field("email"));
             if( !field("ytunnus").toString().isEmpty())
                 payer.insert("vatnumber", AsiakasToimittajaDlg::yToAlv(field("ytunnus").toString()));
@@ -204,6 +205,10 @@ void TilausWizard::dataSaapuu()
                 payer.insert("town", field("town").toString());
             if( !field("phone").toString().isEmpty())
                 payer.insert("phone", field("phone").toString());
+            if( field("verkkolaskulla").toBool()) {
+                payer.insert("ovt", field("ovt").toString());
+                payer.insert("operator", field("operator").toString());
+            }
             tmap.insert("payer", payer);
         }
         QNetworkRequest request( QUrl( kp()->pilvi()->pilviLoginOsoite() + "/subscription" ));
@@ -272,7 +277,7 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     connect( ui->operaattoriEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
     connect( ui->ytunnusEdit, &QLineEdit::textChanged, this, &TilausWizard::TilausYhteysSivu::completeChanged);
 
-    verkkolaskulle();
+
 }
 
 bool TilausWizard::TilausYhteysSivu::isComplete() const
@@ -284,8 +289,13 @@ bool TilausWizard::TilausYhteysSivu::isComplete() const
         return emailRe.match( ui->emailEdit->text()).hasMatch();
     }
     return ui->ovtEdit->text().length() > 11 &&
-           ui->operaattoriEdit->text().length() > 5 &&
+           ui->operaattoriEdit->text().length() >= 5 &&
             YTunnusValidator::kelpaako(ui->ytunnusEdit->text(), false);
+}
+
+void TilausWizard::TilausYhteysSivu::initializePage()
+{
+    verkkolaskulle();
 }
 
 void TilausWizard::TilausYhteysSivu::paivitaY()

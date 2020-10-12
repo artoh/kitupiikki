@@ -168,6 +168,8 @@ protected slots:
     void tallennusValmis(QVariant *variant);
     void tallennuksessaVirhe(int virhe);
     void liitteetTallennettu();
+    void laitaTalteen();
+    void latausValmis();
 
 private:
 

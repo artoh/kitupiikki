@@ -141,7 +141,8 @@ public:
      * @param kaytaA4 Tulostaa asetuksista riippumatta A4
      * @return
      */
-    QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false, QPageLayout* leiska = nullptr) const;
+    QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false,
+                   QPageLayout* leiska = nullptr) const;
 
     /**
      * @brief Palauttaa raportin csv-muodossa

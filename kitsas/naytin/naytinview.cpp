@@ -161,6 +161,9 @@ void NaytinView::sivunAsetukset()
 {
     QPageSetupDialog dlg(naytin_ ? naytin_->printer() : kp()->printer(), this);
     dlg.exec();
+    if(naytin_) {
+        naytin_->asetaSuunta(dlg.printer()->orientation() == QPrinter::Portrait ? QPageLayout::Portrait : QPageLayout::Landscape);
+    }
     paivita();
 }
 
@@ -396,6 +399,7 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
     qDebug() << " View " << this << " vaihdetaan näytin " << naytin << " vanha " << naytin_;
     if( naytin_ )
     {
+        naytin_->widget()->hide();
         leiska_->removeWidget( naytin_->widget() );
         naytin_->deleteLater();
         naytin_ = nullptr;

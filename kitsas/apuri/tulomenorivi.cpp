@@ -31,6 +31,7 @@ TulomenoRivi::TulomenoRivi(int tili)
             alvkoodi_ = tilini->luku("alvlaji");
             veroprosentti_ = tilini->luku("alvprosentti");
             poistoaika_ = tilini->luku("menojaannospoisto");
+            kohdennus_ = tilini->luku("kohdennus");
         }
     }
 }
