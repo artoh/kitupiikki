@@ -99,6 +99,8 @@ SOURCES += \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
     $$PWD/saldodock/saldodock.cpp \
     $$PWD/saldodock/saldomodel.cpp \
+    $$PWD/selaus/selausproxymodel.cpp \
+    $$PWD/selaus/tositeselausproxymodel.cpp \
     $$PWD/smtpclient/emailaddress.cpp \
     $$PWD/smtpclient/mimeattachment.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
@@ -377,6 +379,8 @@ HEADERS += \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
     $$PWD/saldodock/saldodock.h \
     $$PWD/saldodock/saldomodel.h \
+    $$PWD/selaus/selausproxymodel.h \
+    $$PWD/selaus/tositeselausproxymodel.h \
     $$PWD/smtpclient/SmtpMime \
     $$PWD/smtpclient/emailaddress.h \
     $$PWD/smtpclient/mimeattachment.h \

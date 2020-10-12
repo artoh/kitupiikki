@@ -593,7 +593,7 @@ void CsvTuonti::paivitaOletukset()
                      otsikko.contains("selitys") ||
                      otsikko.contains("kuvaus"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else if( ((otsikko=="nro" || otsikko=="tilinumero") && muoto == LUKU) ||
+            else if( ((otsikko=="nro" || otsikko=="tilinumero" || otsikko=="tilin numero") && muoto == LUKU) ||
                      (otsikko.contains("tili") && muoto == LUKUTEKSTI) )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
             else if( otsikko == "kohdennus" )

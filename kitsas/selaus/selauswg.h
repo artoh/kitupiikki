@@ -32,7 +32,9 @@
 
 class SelausModel;
 class TositeSelausModel;
-class QSortFilterProxyModel;
+
+#include "tositeselausproxymodel.h"
+#include "selausproxymodel.h"
 
 /**
  * @brief Sivu kirjausten selaamiseen
@@ -68,8 +70,6 @@ public slots:
 
     void selaa(int tilinumero, const Tilikausi &tilikausi);
 
-    void selaaVienteja();
-    void selaaTositteita();
 
     void naytaSaapuneet();
 
@@ -88,7 +88,8 @@ public:
     QString ohjeSivunNimi() override { return "selaus"; }
 
 protected slots:
-    void valitseValittu();
+    void modelResetoitu();
+    void etsi(const QString& teksti);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -102,8 +103,8 @@ private:
     SelausModel *model;
     TositeSelausModel *tositeModel;
 
-    QSortFilterProxyModel *proxyModel;
-    QSortFilterProxyModel *etsiProxy;
+    TositeSelausProxyModel* tositeProxy_;
+    SelausProxyModel* selausProxy_;
 
     /**
      * @brief Pitääkö sivu päivittää ennen sen näyttämistä
@@ -111,7 +112,7 @@ private:
     bool paivitettava = true;
     int valittu_ = 0;
     double saldo_ = 0;
-
+    int selaustili_ = 0;
 };
 
 #endif // SELAUSWG_H

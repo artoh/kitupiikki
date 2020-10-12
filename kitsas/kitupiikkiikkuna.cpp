@@ -185,7 +185,7 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
         kp()->settings()->setValue("Viimeisin", kp()->kirjanpitoPolku() );
 }
 
-void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
+void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu, bool siirry)
 {
 
     if( nykysivu && !nykysivu->poistuSivulta(mikasivu))
@@ -212,7 +212,8 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     pino->setCurrentWidget( nykysivu);
 
     // Laittaa sivun valmiiksi
-    nykysivu->siirrySivulle();
+    if(siirry)
+        nykysivu->siirrySivulle();
 
 }
 
@@ -257,7 +258,7 @@ void KitupiikkiIkkuna::palaaSivulta()
 
 void KitupiikkiIkkuna::selaaTilia(int tilinumero, const Tilikausi& tilikausi)
 {
-    valitseSivu( SELAUSSIVU );
+    valitseSivu( SELAUSSIVU, false, false );
     selaussivu->selaa(tilinumero, tilikausi);
 }
 

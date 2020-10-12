@@ -71,7 +71,7 @@ public slots:
      * @brief Vaihtaa näytettävän sivun
      * @param mikasivu Mikä sivu näytetään (enum)
      */
-    void valitseSivu(int mikasivu, bool paluu = false);
+    void valitseSivu(int mikasivu, bool paluu = false, bool siirry=true);
 
     void kirjanpitoLadattu();
 

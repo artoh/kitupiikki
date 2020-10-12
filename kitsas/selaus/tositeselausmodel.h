@@ -38,6 +38,7 @@ public:
 
     QString getSarja() const { return sarja; }
     int getTyyppi() const { return tositeTyyppi; }
+    QString getEtsi() const { return etsiTeksti;}
 
 protected:
 
@@ -95,6 +96,10 @@ public:
     QList<int> tyyppiLista() const;
     QStringList sarjaLista() const;
 
+    int tyyppi(int rivi) const { return rivit_.at(rivi).getTyyppi();}
+    QString sarja(int rivi) const { return rivit_.at(rivi).getSarja();}
+    QString etsiTeksti(int rivi) const { return rivit_.at(rivi).getEtsi();}
+
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu, int tila = KIRJANPIDOSSA);
     void tietoSaapuu(QVariant *var);
@@ -104,7 +109,6 @@ protected:
 
     QList<TositeSelausRivi> rivit_;
 
-    QVariantList lista_;
     QSet<int> kaytetytTyypit_;
     QSet<QString> kaytetytSarjat_;
 

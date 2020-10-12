@@ -48,29 +48,26 @@ SelausWg::SelausWg(QWidget *parent) :
     model = new SelausModel(this);
     tositeModel = new TositeSelausModel(this);
 
+
     // Proxyä käytetään tilien tai tositelajien suodattamiseen
-    proxyModel = new QSortFilterProxyModel(this);
-    proxyModel->setSourceModel(model);
+    selausProxy_ = new SelausProxyModel(model, this);
+    tositeProxy_ = new TositeSelausProxyModel(tositeModel, this);
 
-    etsiProxy = new QSortFilterProxyModel(this);
-    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
-    etsiProxy->setSourceModel(proxyModel);
-    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
-    etsiProxy->setFilterRole(SelausModel::EtsiRooli);
-    etsiProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    connect( model, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
+    connect( tositeModel, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
 
-    ui->selausView->setModel( etsiProxy );
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
     ui->selausView->verticalHeader()->hide();
+    ui->selausView->setModel(tositeProxy_);
+    ui->selausView->setWordWrap(false);
 
     ui->selausView->sortByColumn(SelausModel::PVM, Qt::AscendingOrder);
-
-    connect( ui->etsiEdit, SIGNAL(textChanged(QString)), etsiProxy, SLOT(setFilterFixedString(QString)));
 
     connect( ui->alkuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->loppuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
+    connect( ui->etsiEdit, &QLineEdit::textChanged, this, &SelausWg::etsi);
     connect( ui->selausView, SIGNAL(clicked(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
     ui->valintaTab->setCurrentIndex(0);     // Oletuksena tositteiden selaus
@@ -81,14 +78,9 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
-    connect( proxyModel, &QSortFilterProxyModel::modelReset, ui->selausView, &QTableView::resizeColumnsToContents);
-    connect( proxyModel, &QSortFilterProxyModel::modelReset, this, &SelausWg::valitseValittu);
 
     ui->selausView->installEventFilter(this);
-    ui->selausView->horizontalHeader()->setStretchLastSection(true);
 
-    connect( etsiProxy, &QSortFilterProxyModel::modelReset , this, &SelausWg::paivitaSuodattimet );
-    connect( etsiProxy, &QSortFilterProxyModel::modelReset , [this] { this->paivitaSummat(); });
 
     connect( kp(), &Kirjanpito::tilikausiAvattu, [this] {
         this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
@@ -152,7 +144,9 @@ void SelausWg::paivita()
 
     if( ui->valintaTab->currentIndex() == VIENNIT )
     {
-        model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
+        if(selaustili_)
+            selausProxy_->suodataTililla(0);
+        model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), selaustili_);
     }
     else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::SAAPUNEET);
@@ -172,38 +166,30 @@ void SelausWg::paivita()
 void SelausWg::suodata()
 {
     QVariant suodatin = ui->tiliCombo->currentData();
+    if( suodatin.isNull())
+        return;
 
-    if(suodatin.toString() == "*") {
-        proxyModel->setFilterFixedString("");
-    } else {
-        if( ui->valintaTab->currentIndex() != VIENNIT) {
-            if( suodatin.type() == QVariant::Int) {
-                proxyModel->setFilterRole(Qt::DisplayRole);
-                proxyModel->setFilterKeyColumn(TositeSelausModel::TOSITETYYPPI);
-                proxyModel->setFilterFixedString(ui->tiliCombo->currentText());
-            } else {
-                proxyModel->setFilterRole(TositeSelausModel::TositeSarjaRooli);
-                proxyModel->setFilterRegularExpression(suodatin.toString());
-            }
+    if( ui->valintaTab->currentIndex() == VIENNIT) {
+        if(selaustili_ && suodatin.isValid() && suodatin.toInt() != selaustili_) {
+            selaustili_ = 0;
+            paivita();
         } else {
-            proxyModel->setFilterRole(Qt::DisplayRole);
-            proxyModel->setFilterKeyColumn(SelausModel::TILI);
-            proxyModel->setFilterFixedString(ui->tiliCombo->currentText());
+            selausProxy_->suodataTililla( suodatin.toInt() );
         }
+    } else {
+        if( suodatin.type() == QVariant::Int )
+            tositeProxy_->suodataTositetyyppi(suodatin.toInt());
+        else
+            tositeProxy_->suodataTositesarja(suodatin.toString());
     }
 
-    paivitaSummat();
-
-
-    // Jos haetaan tilin tapahtumia, näytetään myös tilin loppusaldo
-    QString teksti = ui->tiliCombo->currentText();
-    int numero = teksti.left(teksti.indexOf(' ')).toInt();
+    paivitaSummat();    
     saldo_ = 0;
 
-    if( ui->valintaTab->currentIndex() == VIENNIT && numero ) {        
+    if( ui->valintaTab->currentIndex() == VIENNIT && suodatin.toInt() ) {
         KpKysely *saldokysely = kpk("/saldot");
         saldokysely->lisaaAttribuutti("pvm",ui->loppuEdit->date());
-        saldokysely->lisaaAttribuutti("tili", numero );
+        saldokysely->lisaaAttribuutti("tili", suodatin.toInt() );
         connect( saldokysely, &KpKysely::vastaus, this, &SelausWg::paivitaSummat);
         saldokysely->kysy();
     }
@@ -213,20 +199,25 @@ void SelausWg::paivitaSuodattimet()
 {
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
-        QString valittu = ui->tiliCombo->currentText();
-        ui->tiliCombo->clear();
-        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", QVariant("*"));
-        for(int tiliNro : model->tiliLista()) {
-            Tili* tili = kp()->tilit()->tili(tiliNro);
-            if(tili) {
-                ui->tiliCombo->addItem(tili->nimiNumero(), tiliNro);
+        if(selaustili_) {
+            ui->tiliCombo->clear();
+            ui->tiliCombo->addItem(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)), selaustili_);
+            ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)));
+            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", 0);
+
+        } else {
+            QString valittu = ui->tiliCombo->currentText();
+            ui->tiliCombo->clear();
+            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", 0);
+            for(int tiliNro : model->tiliLista()) {
+                ui->tiliCombo->addItem(QString("%1 %2").arg(tiliNro).arg(kp()->tilit()->nimi(tiliNro)), tiliNro);
             }
+            ui->tiliCombo->setCurrentText(valittu);
         }
-        ui->tiliCombo->setCurrentText(valittu);
     } else {
         QString valittu = ui->tiliCombo->currentText();
         ui->tiliCombo->clear();
-        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tositteet", QVariant("*"));
+        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tositteet", -1);
         for( int tyyppikoodi : tositeModel->tyyppiLista() ) {
             ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), kp()->tositeTyypit()->nimi(tyyppikoodi), tyyppikoodi );
         }
@@ -249,10 +240,12 @@ void SelausWg::paivitaSummat(QVariant *data)
         double debetSumma = 0;
         double kreditSumma = 0;
 
-        for(int i=0; i<proxyModel->rowCount(QModelIndex()); i++)
+        QAbstractItemModel* model = ui->selausView->model();
+
+        for(int i=0; i< model->rowCount(QModelIndex()); i++)
         {
-            debetSumma += proxyModel->index(i, SelausModel::DEBET).data(Qt::EditRole).toDouble();
-            kreditSumma += proxyModel->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble();
+            debetSumma += model->index(i, SelausModel::DEBET).data(Qt::EditRole).toDouble();
+            kreditSumma += model->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble();
         }
 
         if( data && data->toMap().count()) {
@@ -276,9 +269,9 @@ void SelausWg::paivitaSummat(QVariant *data)
 
         // Lasketaan summat
         double summa = 0;
-        for(int i=0; i<proxyModel->rowCount(QModelIndex()); i++)
+        for(int i=0; i<model->rowCount(QModelIndex()); i++)
         {
-            summa += proxyModel->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toDouble();
+            summa += model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toDouble();
         }
         ui->summaLabel->setText( tr("Summa %L1€").arg(summa,0,'f',2));
 
@@ -305,49 +298,18 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
 
 void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
 {
+    selaustili_ = tilinumero;
+
     // Ohjelmallisesti selaa tiettynä tilikautena tiettyä tiliä
     ui->alkuEdit->setDate( tilikausi.alkaa());
     ui->loppuEdit->setDate( tilikausi.paattyy());
 
-    ui->valintaTab->setCurrentIndex(VIENNIT);
-
-
-    paivita();
-
-    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
-    QString tiliteksti = QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi());
-    int tiliIndeksi = ui->tiliCombo->findText(tiliteksti);
-    if( tiliIndeksi > 0) {
-        ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
-    } else {
-        ui->tiliCombo->setCurrentIndex(0);
-    }
-
+    if(ui->valintaTab->currentIndex() != VIENNIT)
+        ui->valintaTab->setCurrentIndex(VIENNIT);
+    else
+        paivita();
 }
 
-void SelausWg::selaaVienteja()
-{
-
-    proxyModel->setSourceModel(model);
-    proxyModel->setFilterKeyColumn( SelausModel::TILI);
-    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
-    etsiProxy->setSourceModel(proxyModel);
-    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
-
-    paivita();
-}
-
-void SelausWg::selaaTositteita()
-{
-
-    proxyModel->setSourceModel(tositeModel);
-    proxyModel->setFilterKeyColumn( TositeSelausModel::TOSITETYYPPI);
-    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
-    etsiProxy->setSourceModel(proxyModel);
-    etsiProxy->setFilterKeyColumn( TositeSelausModel::OTSIKKO );
-
-    paivita();
-}
 
 void SelausWg::naytaSaapuneet()
 {
@@ -365,12 +327,17 @@ void SelausWg::alkuPvmMuuttui()
 
 void SelausWg::selaa(int kumpi)
 {
-    if( kumpi == VIENNIT)
-        selaaVienteja();
-    else
-        selaaTositteita();
+    ui->etsiEdit->clear();
 
+    if( kumpi == VIENNIT) {
+        ui->selausView->setModel(selausProxy_);
+    } else
+        ui->selausView->setModel(tositeProxy_);
+
+    paivita();
     ui->selausView->setFocus();
+//    paivitaSuodattimet();
+//    modelResetoitu();
 }
 
 void SelausWg::contextMenu(const QPoint &pos)
@@ -408,15 +375,44 @@ void SelausWg::siirrySivulle()
     selaa( ui->valintaTab->currentIndex() );
 }
 
-void SelausWg::valitseValittu()
+void SelausWg::modelResetoitu()
 {
-    for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
-        if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
-            ui->selausView->selectRow(i);
-            return;
+    if( ui->selausView->model()) {
+
+        paivitaSummat();
+
+        if( ui->selausView->model()->rowCount() < 250) {
+
+            ui->selausView->resizeColumnToContents(0);
+            if( ui->valintaTab->currentIndex()==VIENNIT) {
+                ui->selausView->resizeColumnToContents(SelausModel::TILI);
+                ui->selausView->resizeColumnToContents(SelausModel::KUMPPANI);
+            } else {
+                   ui->selausView->resizeColumnToContents(TositeSelausModel::TOSITETYYPPI);
+                ui->selausView->resizeColumnToContents(TositeSelausModel::ASIAKASTOIMITTAJA);
+            }
+
         }
+
+        if(valittu_) {
+            for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
+                if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
+                    ui->selausView->selectRow(i);
+                    return;
+                }
+            }
+        }
+        paivitaSuodattimet();
     }
-    ui->selausView->selectRow(0);
+
+}
+
+void SelausWg::etsi(const QString &teksti)
+{
+    if( ui->valintaTab->currentIndex() == VIENNIT)
+        selausProxy_->etsi(teksti);
+    else
+        tositeProxy_->etsi(teksti);
 }
 
 bool SelausWg::eventFilter(QObject *watched, QEvent *event)

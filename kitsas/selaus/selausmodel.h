@@ -36,6 +36,7 @@ public:
 
      QVariant data(int sarake, int role) const;
      int getTili() const { return tili;}
+     QString getEtsi() const { return etsi;}
 
 protected:
     int tositeId;
@@ -84,12 +85,17 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lataaSqlite(SQLiteModel *sqlite, const QDate& alkaa, const QDate& loppuu);
+    void lataaSqlite(SQLiteModel *sqlite, const QDate& alkaa, const QDate& loppuu, int tili=0);
+
+    int tili(int rivi) const;
+    QString etsiTeksti(int rivi) const;
 
     QList<int> tiliLista() const;
 
+    int selaustili() const { return tiliselaus_; }
+
 public slots:
-    void lataa(const QDate& alkaa, const QDate& loppuu);
+    void lataa(const QDate& alkaa, const QDate& loppuu, int tili=0);
 
     void tietoSaapuu(QVariant *map);
 
@@ -99,6 +105,7 @@ protected:
 
 //    QVariantList lista_;
     bool samakausi_ = false;
+    int tiliselaus_ = 0;
 
 };
 

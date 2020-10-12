@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,31 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef SELAUSPROXYMODEL_H
+#define SELAUSPROXYMODEL_H
+
+#include <QSortFilterProxyModel>
+
+#include "selausmodel.h"
+
+class SelausProxyModel : public QSortFilterProxyModel
+{
+public:
+    SelausProxyModel(SelausModel* model, QObject* parent = nullptr);
+
+    void suodataTililla(int tilinumero);
+    void etsi(const QString& teksti);
+
+protected:
+    virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
+
+protected:
+    SelausModel* model_;
+    int tiliSuodatus_ = 0;
+    bool etsiSuodatusKaytossa_ = false;
+    QString etsiSuodatus_;
 
 
-/**
-  @file Kitsaan version määrittely
+};
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
-
-#define KITSAS_VERSIO "2.1-beta.B"
-#define KITSAS_BUILD  "A"
-
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
-
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
-
-#endif // VERSIO_H
+#endif // SELAUSPROXYMODEL_H

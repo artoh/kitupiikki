@@ -83,8 +83,10 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     return rivit_.at(index.row()).data(index.column(), role);
 }
 
-void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDate &loppuu)
+void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDate &loppuu, int tili)
 {
+
+    QString tilistr = tili ? QString(" AND tili=%1").arg(tili) : "";
 
     QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, "
                     "selite, vienti.kohdennus as kohdennus, eraid, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
@@ -93,9 +95,10 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
                     "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                     "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
                     "LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON Tosite.id=lq.tosite "
-                    "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' ")
+                    "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' %3 ORDER BY pvm")
             .arg(alkaa.toString(Qt::ISODate))
-            .arg(loppuu.toString(Qt::ISODate));
+            .arg(loppuu.toString(Qt::ISODate))
+            .arg(tilistr);
 
     beginResetModel();
 
@@ -114,10 +117,21 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
     }
 
     qDebug() << kysymys;
+    qDebug() << rivit_.count() << " RIVIÄ ";
     qDebug() << kysely.lastError().text();
 
     endResetModel();
 
+}
+
+int SelausModel::tili(int rivi) const
+{
+    return rivit_[rivi].getTili();
+}
+
+QString SelausModel::etsiTeksti(int rivi) const
+{
+    return rivit_[rivi].getEtsi();
 }
 
 QList<int> SelausModel::tiliLista() const
@@ -128,20 +142,23 @@ QList<int> SelausModel::tiliLista() const
 }
 
 
-void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
+void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tili)
 {
     samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
+    tiliselaus_ = tili;
 
     if( kp()->yhteysModel()) {
 
         SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
         if( sqlite ) {
-            lataaSqlite(sqlite, alkaa, loppuu);
+            lataaSqlite(sqlite, alkaa, loppuu, tili);
         } else {
             KpKysely *kysely = kpk("/viennit");
             if(kysely) {
                 kysely->lisaaAttribuutti("alkupvm", alkaa);
                 kysely->lisaaAttribuutti("loppupvm", loppuu);
+                if(tili)
+                    kysely->lisaaAttribuutti("tili", tili);
                 connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
                 kysely->kysy();
