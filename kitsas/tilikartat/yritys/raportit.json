@@ -3,7 +3,7 @@
     "nimi": {
       "fi": "Tuloslaskelma",
       "sv": "Resultaträkning",
-      "en": "Profit and loss accout"
+      "en": "Profit and loss account"
     },
     "muoto": {
       "fi": "Yleinen",
@@ -40,7 +40,7 @@
       {
         "fi": "Materiaalit ja palvelut",
         "sv": "Material och tjänster",
-        "en": "Raw materials and servicea",
+        "en": "Raw materials and services",
         "L": "4",
         "V": 1
       },
@@ -117,14 +117,14 @@
       {
         "fi": "Suunnitelman mukaiset poistot",
         "sv": "Avskrivningar enligt plan",
-        "en": "Depeciation and amortization according to plan",
+        "en": "Depreciation and amortization according to plan",
         "L": "68 *",
         "S": 1
       },
       {
         "fi": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
         "sv": "Nedskrivningar av tillgångar bland bestående aktiva",
-        "en": "Reduction in value of noncurrent assets",
+        "en": "Reduction in value of non-current assets",
         "L": "69..698 *",
         "S": 1
       },
@@ -138,14 +138,14 @@
       {
         "fi": "Liiketoiminnan muut kulut",
         "sv": "Övriga rörelsekostnader",
-        "en": "Other operationg expenses",
+        "en": "Other operating expenses",
         "L": "7..8 *",
         "V": 1
       },
       {
         "fi": "Liikevoitto/tappio",
         "sv": "Rörelsevinst (-förlust)",
-        "en": "Operation profit (loss)",
+        "en": "Operating profit (loss)",
         "L": "3..8 S",
         "M": "bold",
         "V": 1
@@ -159,7 +159,7 @@
       {
         "fi": "Tuotot osuuksista saman konsernin yrityksissä",
         "sv": "Intäkter från andelar i företag inom samma koncern",
-        "en": "Income from group undertaking",
+        "en": "Income from group undertakings",
         "L": "900..903 *",
         "S": 1
       },
@@ -268,38 +268,45 @@
   "tulos/mikrobrutto": {
     "nimi": {
       "fi": "Tuloslaskelma",
-      "sv": "Resultaträkning"
+      "sv": "Resultaträkning",
+      "en": "Profit and loss account"
     },
     "muoto": {
       "fi": "Mikroyrityksen bruttotuloslaskelma",
-      "sv": "Mikroföretag bruttoresultaträkning "
+      "sv": "Mikroföretag bruttoresultaträkning ",
+      "en": "Profit and loss account with gross profit for micro company"
     },
     "rivit": [
       {
         "fi": "Bruttotulos",
         "sv": "Bruttoresultat",
+        "en": "Gross profit or loss",
         "M": "bold",
         "L": "3,4 S *"
       },
       {
         "fi": "Henkilöstökulut",
         "sv": "Personalkostnader",
+        "en": "Staff expenses",
         "L": "5..67 *",
         "V": 1
       },
       {
         "fi": "Poistot ja arvonalentumat",
         "sv": "Avskrivningar och nedskrivningar",
+        "en": "Depreciaition, amortization and reduction in value",
         "L": "68..69 *"
       },
       {
         "fi": "Liiketoiminnan muut kulut",
         "sv": "Övriga rörelsekostnader",
+        "en": "Other operating expenses",
         "L": "7..8 *"
       },
       {
         "fi": "Liikevoitto/tappio",
         "sv": "Rörelsevinst (-förlust)",
+        "en": "Operating profit (loss)",
         "L": "3..8",
         "M": "bold",
         "V": 1
@@ -307,11 +314,13 @@
       {
         "fi": "Rahoitustuotot ja -kulut",
         "sv": "Finansiella intäkter och kostnader",
+        "en": "Financial income and expenses",
         "L": "90..96 *"
       },
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
         "sv": "Vinst (förlust) före bokslutsdispositioner och skatter",
+        "en": "Profit (loss) before appropriations and taxes",
         "L": "3..96",
         "M": "bold",
         "V": 1
@@ -319,21 +328,25 @@
       {
         "fi": "Tilinpäätössiirrot",
         "sv": "Bokslutsdispositioner",
+        "en": "Appropriations",
         "L": "97..98 *"
       },
       {
         "fi": "Tuloverot",
         "sv": "Inkomstskatt",
+        "en": "Income taxes",
         "L": "99..997 *"
       },
       {
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
+        "en": "Other direct taxes",
         "L": "998..999 *"
       },
       {
         "fi": "Tilikauden voitto/tappio",
         "sv": "Råkenskaperiodens vinst (förlust)",
+        "en": "Profit (loss) for the financial year",
         "L": "3..9",
         "M": "bold",
         "V": 1
@@ -429,7 +442,7 @@
       {
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
-        "en": "Assets, total",
+        "en": "Total assets",
         "L": "1",
         "M": "bold",
         "V": 1
@@ -437,7 +450,7 @@
       {
         "fi": "VASTATTAVAA",
         "sv": "PASSIVA",
-        "en": "EQUITY AND LIABILITIES",
+        "en": "CAPITAL, RESERVES AND LIABILITIES",
         "M": "bold",
         "V": 2
       },
@@ -447,16 +460,17 @@
         "en": "CAPITAL AND RESERVES",
         "L": "20..23"
       },
-      { "fi": "Osakepääoma",
+      {
+        "fi": "Osakepääoma",
         "sv": "Aktiekapital",
         "en": "Capital stock",
-        "L" : "200..201 *",
-        "S" : 1
+        "L": "200..201 *",
+        "S": 1
       },
       {
         "fi": "Osuuspääoma",
         "sv": "Andelskapital",
-        "en": "Subsribed capital",
+        "en": "Co-operative capital",
         "L": "210 *",
         "S": 1
       },
@@ -491,18 +505,21 @@
       {
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
         "L": " 215..219 *",
         "S": 1
       },
       {
         "fi": "Äänettömät yhtiömiehet",
         "sv": "Tysta bolagsmännen",
+        "en": "Silent partners",
         "L": " 218 *",
         "S": 2
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
         "sv": "Ansvariga bolagsmännen",
+        "en": "General partners",
         "L": " 217 *",
         "S": 2
       },
@@ -516,12 +533,14 @@
       {
         "fi": "Pääomavajaus",
         "sv": "Kapitalunderskott",
+        "en": "Capital shortfall",
         "L": "233 *",
         "S": 1
       },
       {
         "fi": "Yksityistilit tilikaudella",
         "sv": "Privata räkenskaper under räkenskapsperioden",
+        "en": "Private accounts during the financial year",
         "L": "234..236 *",
         "S": 1
       },
@@ -535,12 +554,14 @@
       {
         "fi": "Pääomalainat",
         "sv": "Kapitallån",
+        "en": "Subordinated loans",
         "L": "238 *",
         "S": 1
       },
       {
         "fi": "VÄHEMMISTÖOSUUDET",
         "sv": "MINORITETSANDELAR",
+        "en": "MINORITY SHARES",
         "L": "239 *"
       },
       {
@@ -578,7 +599,7 @@
       {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
-        "en": "Equity and liabilities, total",
+        "en": "Capital, reserves and liabilities, total",
         "L": "2",
         "M": "bold",
         "V": 1
@@ -696,7 +717,7 @@
       {
         "fi": "Ennakkomaksut ja keskeneräiset hankinnat",
         "sv": "Förskottbetalningar och pågående nyanläggningar",
-        "en": "Advance payments and contruction in progress",
+        "en": "Advance payments and construction in progress",
         "L": "138..139 *",
         "S": 2
       },
@@ -717,7 +738,7 @@
       {
         "fi": "Saamiset saman konsernin yrityksiltä",
         "sv": "Fordringar hos företag inom samma koncern",
-        "en": "Amounts owned by group undertakings",
+        "en": "Amounts owed by group undertakings",
         "L": "141 *",
         "S": 2
       },
@@ -731,7 +752,7 @@
       {
         "fi": "Saamiset omistusyhteysyrityksiltä",
         "sv": "Fordringar hos ägarintresseföretag",
-        "en": "Amounts owned by participating interests undertakings",
+        "en": "Amounts owed by participating interest undertakings",
         "L": "143 *",
         "S": 2
       },
@@ -745,7 +766,7 @@
       {
         "fi": "Muut saamiset",
         "sv": "Övriga fördringar",
-        "en": "Other debets",
+        "en": "Other debtors",
         "L": "147..149 *",
         "S": 2
       },
@@ -807,35 +828,35 @@
       {
         "fi": "Myyntisaamiset",
         "sv": "Kundfordringar",
-        "en": "Accounts receivable",
+        "en": "Trade debtors",
         "L": "160..162 *",
         "S": 2
       },
       {
         "fi": "Saamiset saman konsernin yrityksiltä",
         "sv": "Fordringar hos företag inom samma koncern",
-        "en": "Amounts owned by group undertakings",
+        "en": "Amounts owed by group undertakings",
         "L": "163 *",
         "S": 2
       },
       {
         "fi": "Saamiset omistysyhteysyrityksiltä",
         "sv": "Fordringar hos ägarintresseföretag",
-        "en": "Amounts owner by participating interest undertakings",
+        "en": "Amounts owed by participating interest undertakings",
         "L": "164 *",
         "S": 2
       },
       {
         "fi": "Lainasaamiset",
         "sv": "Lånefordringar",
-        "en": "Loan assets",
+        "en": "Loan receivable",
         "L": "165 *",
         "S": 2
       },
       {
         "fi": "Muut saamiset",
         "sv": "Övriga fordringar",
-        "en": "Other deptors",
+        "en": "Other debtors",
         "L": "166 *",
         "S": 2
       },
@@ -863,42 +884,42 @@
       {
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
-        "en": "Short-term deptors",
+        "en": "Short-term debtors",
         "L": "17..185",
         "S": 1
       },
       {
         "fi": "Myyntisaamiset",
         "sv": "Kundfordringar",
-        "en": "Accounts receivable",
+        "en": "Trade debtors",
         "L": "170..172 *",
         "S": 2
       },
       {
         "fi": "Saamiset saman konsernin yrityksiltä",
         "sv": "Fordringar hos företag inom samma koncern",
-        "en": "Amounts owned by group undertakings",
+        "en": "Amounts owed by group undertakings",
         "L": "173 *",
         "S": 2
       },
       {
         "fi": "Saamiset omistysyhteysyrityksiltä",
         "sv": "Fordringar hos ägarintresseföretag",
-        "en": "Amounts owner by participating interest undertakings",
+        "en": "Amounts owed by participating interest undertakings",
         "L": "174 *",
         "S": 2
       },
       {
         "fi": "Lainasaamiset",
         "sv": "Lånefordringar",
-        "en": "Loan assets",
+        "en": "Loan receivable",
         "L": "175 *",
         "S": 2
       },
       {
         "fi": "Muut saamiset",
         "sv": "Övriga fordringar",
-        "en": "Other deptors",
+        "en": "Other debtors",
         "L": "176..177 *",
         "S": 2
       },
@@ -954,7 +975,7 @@
       {
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
-        "en": "Assets, total",
+        "en": "Total assets",
         "L": "1",
         "M": "bold",
         "V": 1
@@ -962,7 +983,7 @@
       {
         "fi": "VASTATTAVAA",
         "sv": "PASSIVA",
-        "en": "EQUITY AND LIABILITIES",
+        "en": "CAPITAL, RESERVES AND LIABILITIES",
         "M": "bold",
         "V": 2
       },
@@ -972,16 +993,17 @@
         "en": "CAPITAL AND RESERVES",
         "L": "20..23"
       },
-      { "fi": "Osakepääoma",
+      {
+        "fi": "Osakepääoma",
         "sv": "Aktiekapital",
         "en": "Capital stock",
-        "L" : "200..201 *",
-        "S" : 1
+        "L": "200..201 *",
+        "S": 1
       },
       {
         "fi": "Osuuspääoma",
         "sv": "Andelskapital",
-        "en": "Subsribed capital",
+        "en": "Co-operative capital",
         "L": "210 *",
         "S": 1
       },
@@ -1016,7 +1038,7 @@
       {
         "fi": "Sijoitetun oman pääoman rahasto",
         "sv": "Fond för inbetalt fritt eget kapital",
-        "en": "Reserve for investes unresticted equity",
+        "en": "Reserve for invested unrestricted equity",
         "L": "206 *",
         "S": 2
       },
@@ -1051,18 +1073,21 @@
       {
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
         "L": " 215..219",
         "S": 1
       },
       {
         "fi": "Äänettömät yhtiömiehet",
         "sv": "Tysta bolagsmännen",
+        "en": "Silent partners",
         "L": " 218 *",
         "S": 2
       },
       {
         "fi": "Vastuunalaiset yhtiömiehet",
         "sv": "Ansvariga bolagsmännen",
+        "en": "General partners",
         "L": " 217 *",
         "S": 2
       },
@@ -1076,12 +1101,14 @@
       {
         "fi": "Pääomavajaus",
         "sv": "Kapitalunderskott",
+        "en": "Capital shortfall",
         "L": "233 *",
         "S": 1
       },
       {
         "fi": "Yksityistilit tilikaudella",
         "sv": "Privata räkenskaper under räkenskapsperioden",
+        "en": "Private accounts during the financial year",
         "L": "234..236 *",
         "S": 1
       },
@@ -1095,12 +1122,14 @@
       {
         "fi": "Pääomalainat",
         "sv": "Kapitallån",
+        "en": "Subordinated loans",
         "L": "238 *",
         "S": 1
       },
       {
         "fi": "VÄHEMMISTÖOSUUDET",
         "sv": "MINORITETSANDELAR",
+        "en": "MINORITY SHARES",
         "L": "239 *"
       },
       {
@@ -1139,7 +1168,7 @@
       {
         "fi": "Verovaraukset",
         "sv": "Skatteavsättningar",
-        "en": "Provisions for deferred tax",
+        "en": "Provisions for taxation",
         "L": "253 *",
         "S": 1
       },
@@ -1166,7 +1195,7 @@
       {
         "fi": "Pääomalainat",
         "sv": "Kapitallån",
-        "en": "Capital loans",
+        "en": "Subordinated loans",
         "L": "260 *",
         "S": 2
       },
@@ -1187,7 +1216,7 @@
       {
         "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
         "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
-        "en": "Premium loans from employee pension institutions",
+        "en": "Loans from pension institutions",
         "L": "265 *",
         "S": 2
       },
@@ -1208,7 +1237,7 @@
       {
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
-        "en": "Amounts owed to group undertaking",
+        "en": "Amounts owed to group undertakings",
         "L": "270 *",
         "S": 2
       },
@@ -1243,7 +1272,7 @@
       {
         "fi": "Pääomalainat",
         "sv": "Kapitallån",
-        "en": "Capital loans",
+        "en": "Subordinated loans",
         "L": "280 *",
         "S": 2
       },
@@ -1271,7 +1300,7 @@
       {
         "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
         "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
-        "en": "Premium loans from employee pension institutions",
+        "en": "Loans from pension institutions",
         "L": "285 *",
         "S": 2
       },
@@ -1292,21 +1321,21 @@
       {
         "fi": "Rahoitusvekselit",
         "sv": "Finansieringsväxlar",
-        "en": "Bills of excange payable",
+        "en": "Bills of exchange payable",
         "L": "289 *",
         "S": 2
       },
       {
         "fi": "Velat saman konsernin yrityksille",
         "sv": "Skulder till företag inom samma koncern",
-        "en": "Amounts owed to group undertaking",
+        "en": "Amounts owed to group undertakings",
         "L": "290 *",
         "S": 2
       },
       {
         "fi": "Velat omistusyhteysyrityksille",
         "sv": "Skulder till ägarintresseföretag",
-        "en": "Amounts owed to participating interest undertaking",
+        "en": "Amounts owed to participating interest undertakings",
         "L": "291 *",
         "S": 2
       },
@@ -1330,12 +1359,11 @@
         "en": "Deferred tax liabilities",
         "L": "298 *",
         "S": 2
-
       },
       {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
-        "en": "Equity and liabilities, total",
+        "en": "Capital, reserves and liabilities, total",
         "L": "2",
         "M": "bold",
         "V": 1
