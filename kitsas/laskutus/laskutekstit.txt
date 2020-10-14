@@ -19,12 +19,12 @@ ENalv93 Margin scheme - Collectors' items and antiques
 alv14 AVL 72a §: ALV 0% Yhteisömyynti
 svalv14 AVL 72 a §: Moms 0 % Gemenskapförsäljning
 ENalv14 AVL 72a §: VAT 0% Intra Community supply
-alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
+alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44
 SValv15 AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44
-ENalv15 AVL 65 §: Reverse charge, VAT Directive art 44
+ENalv15 AVL 65 §: Reverse charge, VAT Directive art. 44
 alv16 AVL 8 c §: Käännetty verovelvollisuus
 SCalv16 AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199
-ENalv16 AVL 8 c §: Reverse charge, VAT Directive art 199
+ENalv16 AVL 8 c §: Reverse charge, VAT Directive art. 199
 alv ALV
 ENalv VAT
 SValv MOMS
@@ -32,7 +32,7 @@ alv0 Veroton myynti
 SValv0 Skattefria försäljning 
 ENalv0 Tax free sale
 jatkuu Jatkuu...
-ENjatkuu To be continue...
+ENjatkuu To be continued...
 SVjatkuu Fortsätter...
 alvtunnus ALV-tunnus
 ENalvtunnus VAT number
@@ -47,14 +47,18 @@ ytunnus Y-tunnus
 ENytunnus Business ID
 SVytunnus FO-nummer
 eialv Myyjä ei arvonlisäverovelvollinen
-ENeialv Seller is not registered for VAT
+ENeialv Seller is not liable to pay VAT
 SVeialv Säljare är inte momsskyldig
 kpl kpl
 SVkpl antal
+ENkpl quantity
 anetto á netto
+ENanetto á net  
 ahinta á hinta
 SVahinta á pris
+ENahinta á price
 netto netto
+ENnetto net
 vero vero
 SVvero skatt
 ENvero tax
@@ -77,7 +81,7 @@ ENbtl From account|no.
 iban IBAN
 bic BIC
 bvn Viitenumero|Ref.nr.
-ENbvn Ref.no.
+ENbvn Ref. No.
 bep Eräpäivä|Förfallodag
 ENbep Due date
 eur Euro
@@ -96,6 +100,7 @@ ENpvm Date
 SVpvm Datum
 hyvpvm Hyvityksen päivämäärä
 SVhyvpvm Kompensationdatum
+ENhyvpvm Date of compensation
 toimpvm Toimituspäivämäärä
 SVtoimpvm Leveransdatum
 ENtoimpvm Date of delivery
@@ -125,13 +130,13 @@ SVpaivaa dagar
 ENpaivaa days
 viivkorko Viivästyskorko
 SVviivkorko Dröjsmålsränta
-ENviivkorko Overdue fine
+ENviivkorko Interest on overdue payments
 kateinen Käteislasku / Kuitti
 SVkateinen Kontantkvitto
 ENkateinen Cash receipt
 hlasku Hyvityslasku
 SVhlasku Kreditnota
-ENhlasku Compensation for invoice
+ENhlasku Compensation invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
 ENmaksumuistutus REQUEST FOR PAYMENT
@@ -185,7 +190,7 @@ SVhyvitysteksti Kompensation för faktura %1, datum %2
 ENhyvitysteksti Compensation for invoice %1, date %2
 mmrivi Laskun %1 avoin saldo
 SVmmrivi Saldo för faktura %1
-ENmmrivi Saldo for invoice %1
+ENmmrivi Open balance for invoice %1
 luonnos LUONNOS
 SVluonnos SKISS
 ENluonnos DRAFT
@@ -194,7 +199,7 @@ SVharjoitus ÖVNING
 ENharjoitus TRIAL
 ennakkolasku Ennakkolasku
 SVennakkolasku Förhandsfaktura
-ENennakkolasku Advance Invoice
+ENennakkolasku Advance invoice
 enhyri Ennakkolaskun %1 hyvitys
 SVenhyri Kompensation för förhandsfaktura %1
 ENenhyri Compensation for advance invoice %1
