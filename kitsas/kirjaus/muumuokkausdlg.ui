@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>995</width>
-    <height>744</height>
+    <width>1037</width>
+    <height>796</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,0,2">
      <item>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
@@ -181,6 +181,27 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
+         <item>
+          <widget class="QLabel" name="alvVaro">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="alvVaroLabel">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Alv-ilmoitus on jo annettu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <layout class="QFormLayout" name="formLayout_2">
          <item row="0" column="1">
@@ -405,7 +426,9 @@
   <tabstop>kirjaaVahennysCheck</tabstop>
   <tabstop>seliteEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

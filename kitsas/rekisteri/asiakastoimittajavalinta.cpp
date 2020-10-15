@@ -77,6 +77,14 @@ QString AsiakasToimittajaValinta::nimi() const
     return combo_->currentText();
 }
 
+QVariantMap AsiakasToimittajaValinta::map() const
+{
+    QVariantMap vmap;
+    vmap.insert("id", id());
+    vmap.insert("nimi", nimi());
+    return vmap;
+}
+
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
     ibanit_.clear();

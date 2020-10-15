@@ -246,5 +246,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { TASAERAPOISTO, "tasaerapoisto"},
     { BRUTTO, "brutto"},
     { ALKUPVIENNIT, "alkupviennit"},
-    { VIITE, "viite"}
+    { VIITE, "viite"},
+    { AALV, "aalv"}
 };

@@ -48,7 +48,8 @@ public:
         PoistoKkRooli = Qt::UserRole + 14,
         TaseErittelyssaRooli = Qt::UserRole + 15,
         TagiIdListaRooli = Qt::UserRole + 22,
-        EraMapRooli = Qt::UserRole + 23
+        EraMapRooli = Qt::UserRole + 23,
+        TyyppiRooli = Qt::UserRole + 24
     };
 
     // Header:
@@ -72,9 +73,13 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+    TositeVienti uusi(int indeksi) const;
     QModelIndex lisaaVienti(int indeksi);
 
+
     TositeVienti vienti(int indeksi) const;
+    void asetaVienti(int indeksi, const TositeVienti& vienti);
+
     void lisaa(const TositeVienti& vienti);
 
     void asetaViennit(QVariantList viennit);
@@ -91,6 +96,8 @@ public:
     bool muokattavissa() const { return muokattavissa_;}
 
     QString alvTarkastus() const;
+
+    void paivitaAalv(int rivi);
 
 private:
     QVariantList viennit_;

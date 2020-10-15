@@ -756,7 +756,7 @@ double TuloMenoApuri::alvProssa() const
         return 0.0;
 
     QString txt = ui->alvProssa->currentText();
-    int vali = txt.indexOf(QRegularExpression("\\D"));
+    int vali = txt.indexOf(QRegularExpression("\\s"));
     if( vali > 0)
         txt = txt.left(vali);
     txt.replace(",",".");

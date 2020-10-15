@@ -204,7 +204,6 @@ SOURCES += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
-    kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     laskutus/laskudialogi.cpp \
     laskutus/laskutusverodelegaatti.cpp \
@@ -487,7 +486,6 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
-    kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     laskutus/laskudialogi.h \
     laskutus/laskutusverodelegaatti.h \
@@ -647,7 +645,6 @@ FORMS += \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
     arkisto/lukitsetilikausi.ui \
-    kirjaus/verodialogi.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \

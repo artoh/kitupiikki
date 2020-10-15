@@ -18,8 +18,11 @@
 #include "ui_muumuokkausdlg.h"
 
 #include "db/verotyyppimodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QSortFilterProxyModel>
+#include <QPushButton>
+#include <QSettings>
 
 MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     QDialog(parent),
@@ -54,6 +57,12 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     connect( ui->perusteRadio, &QRadioButton::toggled, this, &MuuMuokkausDlg::kirjausLajiMuuttui);
 
     connect( ui->jaksoAlkaa, &KpDateEdit::dateChanged, this, &MuuMuokkausDlg::jaksoMuuttui);
+    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &MuuMuokkausDlg::tarkasta );
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    if( kp()->settings()->contains("MuuMuokkausGeo"))
+        restoreGeometry(kp()->settings()->value("MuuMuokkausGeo").toByteArray());
 }
 
 MuuMuokkausDlg::~MuuMuokkausDlg()
@@ -61,10 +70,26 @@ MuuMuokkausDlg::~MuuMuokkausDlg()
     delete ui;
 }
 
+void MuuMuokkausDlg::uusi(const TositeVienti &v)
+{
+    lataa(v);
+
+    QString aalv = kp()->settings()->value("MuuMuokkausAalv").toString();
+    ui->kirjaaVeroCheck->setChecked(aalv.contains("+"));
+    ui->kirjaaVahennysCheck->setChecked(aalv.contains("-"));
+
+    setWindowTitle(tr("Uusi vienti"));
+}
+
+void MuuMuokkausDlg::muokkaa(const TositeVienti &v)
+{
+    lataa(v);
+    setWindowTitle(tr("Muokkaa vientiä"));
+}
+
 void MuuMuokkausDlg::lataa(const TositeVienti &v)
 {
-    ladataan_ = true;
-    setWindowTitle(tr("Muokkaa vientiä"));
+    ladataan_ = true;    
 
     if( v.contains("pvm"))
         ui->pvmEdit->setDate( v.pvm() );
@@ -91,12 +116,16 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     ui->alvlajiCombo->setVisible(naytavero);
     ui->alvGroup->setVisible(naytavero);
 
+
     if(!naytavero) {
         setAlvKoodi(0);
     } else {
         setAlvKoodi(v.alvKoodi());
         setAlvProssa( v.alvProsentti());
     }
+
+    ui->kirjaaVeroCheck->setChecked( v.data(TositeVienti::AALV).toString().contains("+") );
+    ui->kirjaaVahennysCheck->setChecked( v.data(TositeVienti::AALV).toString().contains("-"));
 
     ui->seliteEdit->setPlainText( v.selite());
 
@@ -107,6 +136,70 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
 
     ladataan_ = false;
 
+}
+
+TositeVienti MuuMuokkausDlg::vienti() const
+{
+    return vienti_;
+}
+
+void MuuMuokkausDlg::accept()
+{
+
+    vienti_.setPvm( ui->pvmEdit->date());
+    vienti_.setTili( ui->tiliLine->valittuTilinumero());
+    if( ui->debetRadio->isChecked())
+        vienti_.setDebet( ui->euroEdit->value());
+    else
+        vienti_.setKredit( ui->euroEdit->value());
+
+    if( ui->kohdennusCombo->isVisible())
+        vienti_.setKohdennus( ui->kohdennusCombo->kohdennus());
+    if( ui->merkkausCombo->isVisible())
+        vienti_.setMerkkaukset(ui->merkkausCombo->selectedDatas());
+    if(ui->eraCombo->isVisible())
+        vienti_.setEra(ui->eraCombo->eraMap());
+    if(ui->jaksoAlkaa->date().isValid())
+        vienti_.setJaksoalkaa(ui->jaksoAlkaa->date());
+    if(ui->jaksoLoppuu->date().isValid())
+        vienti_.setJaksoloppuu(ui->jaksoLoppuu->date());
+    if(ui->kumppani->id())
+        vienti_.setKumppani(ui->kumppani->map());
+    vienti_.setSelite(ui->seliteEdit->toPlainText());
+
+    if( ui->alvlajiCombo->isVisible()) {
+        int koodi = ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+        if( koodi >= AlvKoodi::MAKSETTAVAALV)
+            ;
+        else if( ui->veroRadio->isChecked())
+            koodi += AlvKoodi::ALVKIRJAUS;
+        else if( ui->vahennysRadio->isChecked())
+            koodi += AlvKoodi::ALVVAHENNYS;
+        else if( ui->kohdentamatonRadio->isChecked())
+            koodi += AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON;
+
+        vienti_.setAlvKoodi( koodi );
+        if( ui->kantaCombo->isVisible()) {
+            QString txt = ui->kantaCombo->currentText();
+            int vali = txt.indexOf(QRegularExpression("\\s"));
+            if( vali > 0)
+                txt = txt.left(vali);
+            txt.replace(",",".");
+            vienti_.setAlvProsentti(txt.toDouble());
+        }
+    }
+    QString aalv;
+    if( ui->kirjaaVeroCheck->isChecked())
+        aalv = "+";
+    if( ui->kirjaaVahennysCheck->isChecked())
+        aalv += "-";
+    if( !aalv.isEmpty())
+        vienti_.set(TositeVienti::AALV, aalv);
+
+    kp()->settings()->setValue("MuuMuokkausAalv", aalv);
+    kp()->settings()->setValue("MuuMuokkausGeo", saveGeometry());
+
+    QDialog::accept();
 }
 
 void MuuMuokkausDlg::setAlvProssa(double prosentti)
@@ -132,6 +225,11 @@ void MuuMuokkausDlg::pvmMuuttui()
 {
     ui->kohdennusCombo->suodataPaivalla( ui->pvmEdit->date() );
     ui->merkkausCombo->haeMerkkaukset(ui->pvmEdit->date());
+
+    bool alvlukko = kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date());
+    ui->alvVaro->setVisible(alvlukko);
+    ui->alvVaroLabel->setVisible(alvlukko);
+    tarkasta();
 }
 
 void MuuMuokkausDlg::tiliMuuttui()
@@ -162,6 +260,7 @@ void MuuMuokkausDlg::tiliMuuttui()
         if( tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
     }
+    tarkasta();
 
 }
 
@@ -211,7 +310,7 @@ void MuuMuokkausDlg::alvLajiMuuttui()
     ui->kantaCombo->setVisible(!nollalaji);
 
     kirjausLajiMuuttui();
-
+    tarkasta();
 
 }
 
@@ -233,4 +332,14 @@ void MuuMuokkausDlg::kirjausLajiMuuttui()
                                           koodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                                           koodi == AlvKoodi::MAAHANTUONTI ||
                                           koodi == AlvKoodi::RAKENNUSPALVELU_OSTO));
+}
+
+void MuuMuokkausDlg::tarkasta()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
+                ui->tiliLine->valittuTilinumero() &&
+                ui->euroEdit->asCents() &&
+                ( ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() == 0 ||
+                  !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()))
+                );
 }

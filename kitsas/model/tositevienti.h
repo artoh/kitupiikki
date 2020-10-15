@@ -45,7 +45,8 @@ public:
         TASAERAPOISTO,
         BRUTTO,
         ALKUPVIENNIT,
-        VIITE
+        VIITE,
+        AALV
     };
 
     enum VientiTyyppi {

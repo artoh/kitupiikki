@@ -36,6 +36,7 @@ public:
     int id() const { return id_;}
     QString nimi() const;
     QStringList ibanit() const { return ibanit_;}
+    QVariantMap map() const;
 
 signals:
     void valittu(int id);

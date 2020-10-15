@@ -40,6 +40,8 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
     void closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint) override;
 
+    void muokkaa(const QModelIndex& index);
+
 private:
     Tosite* tosite_ = nullptr;
 };

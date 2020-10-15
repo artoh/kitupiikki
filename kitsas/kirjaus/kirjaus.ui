@@ -96,7 +96,7 @@
        <item>
         <widget class="ViennitView" name="viennitView">
          <property name="editTriggers">
-          <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
+          <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::CurrentChanged|QAbstractItemView::SelectedClicked</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>

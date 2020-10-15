@@ -88,12 +88,6 @@ private slots:
     void liiteValinta(const QModelIndex& valittu);
     void poistaLiite();
 
-    /**
-     * @brief Verojen ja tase-erien muokkaus
-     * @param indeksi
-     */
-    void vientivwAktivoitu(QModelIndex indeksi);
-
 
     /**
      * @brief Tositteen tulostaminen

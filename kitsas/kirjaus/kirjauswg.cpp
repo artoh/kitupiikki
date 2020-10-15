@@ -46,8 +46,6 @@
 #include "pvmdelegaatti.h"
 #include "kohdennusdelegaatti.h"
 
-#include "verodialogi.h"
-
 #include "siirrydlg.h"
 
 #include "db/kirjanpito.h"
@@ -314,15 +312,22 @@ void KirjausWg::poistaTosite()
 void KirjausWg::vientiValittu()
 {
     QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
-    ui->poistariviNappi->setEnabled( index.isValid() && tosite()->viennit()->muokattavissa());
-    ui->muokkaaVientiNappi->setEnabled( index.isValid() && tosite()->viennit()->muokattavissa());
+    bool muokattavissa =
+            index.isValid() &&
+            tosite()->viennit()->muokattavissa() &&
+            index.data(TositeViennit::TyyppiRooli).toInt() != TositeVienti::ALVKIRJAUS;
+
+    ui->poistariviNappi->setEnabled( muokattavissa);
+    ui->muokkaaVientiNappi->setEnabled( muokattavissa );
 
 }
 
 void KirjausWg::uusiVienti()
 {
     MuuMuokkausDlg dlg(this);
-    dlg.exec();
+    dlg.uusi( tosite()->viennit()->uusi( ui->viennitView->currentIndex().row() ) );
+    if(dlg.exec() == QDialog::Accepted)
+        tosite()->viennit()->lisaa(dlg.vienti());
 }
 
 void KirjausWg::muokkaaVientia()
@@ -331,26 +336,9 @@ void KirjausWg::muokkaaVientia()
     if(index.isValid() && tosite()->viennit()->muokattavissa()) {
         MuuMuokkausDlg dlg(this);
         TositeVienti vienti = tosite()->viennit()->vienti(index.row());
-        dlg.lataa(vienti);
-        dlg.exec();
-    }
-}
-
-
-void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
-{
-    // Tehdään alv-kirjaus
-    if( tosite()->viennit()->muokattavissa() )     // Tarkastettava vielä, onko sallittu
-    {
-
-        if(indeksi.column() == TositeViennit::ALV )
-        {
-            VeroDialogi verodlg(this);
-            if( verodlg.nayta( indeksi.data(TositeViennit::AlvKoodiRooli).toInt(), indeksi.data(TositeViennit::AlvProsenttiRooli).toInt() ))
-            {
-                tosite()->viennit()->setData(indeksi, verodlg.alvKoodi() , TositeViennit::AlvKoodiRooli);
-                tosite()->viennit()->setData(indeksi, verodlg.alvProsentti() , TositeViennit::AlvProsenttiRooli);
-            }
+        dlg.muokkaa(vienti);
+        if( dlg.exec() == QDialog::Accepted) {
+            tosite()->viennit()->asetaVienti(index.row(), dlg.vienti());
         }
     }
 }
@@ -666,6 +654,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
     ui->lisaaRiviNappi->setEnabled(sallitaanko);
+    ui->lisaaVientiNappi->setEnabled(sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );

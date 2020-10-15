@@ -224,7 +224,11 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
     }
     case TagiIdListaRooli:
         return rivi.data(TositeVienti::MERKKAUKSET);
-
+    case TyyppiRooli:
+        return rivi.tyyppi();
+    case Qt::TextColorRole:
+        if( rivi.tyyppi() == TositeVienti::ALVKIRJAUS)
+            return QColor(Qt::darkGray);
 
     }
 
@@ -263,15 +267,12 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                     } else
                         rivi.setEra( 0);
                     if( kp()->asetukset()->onko(AsetusModel::ALV)) {
-                        int alvkoodi = uusitili.arvo("alvlaji").toInt();
-                        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO)
-                            alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
-                        else if( alvkoodi == AlvKoodi::OSTOT_NETTO)
-                            alvkoodi = AlvKoodi::OSTOT_BRUTTO;                        
+                        int alvkoodi = uusitili.arvo("alvlaji").toInt();                     
                         if( !alvkoodi || !kp()->alvIlmoitukset()->onkoIlmoitettu(rivi.pvm())) {
                             rivi.setAlvKoodi( alvkoodi );
                             rivi.setAlvProsentti( uusitili.arvo("alvprosentti").toDouble() );
                             emit dataChanged( index.sibling(index.row(), ALV), index.sibling(index.row(), ALV) );
+                            paivitaAalv(index.row());
                         }
                     }
                     if( uusitili.luku("kohdennus")) {
@@ -284,7 +285,10 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                 }
             case SELITE:
                 rivi.setSelite( value.toString());
-                break;
+                viennit_[index.row()] = rivi;
+                emit dataChanged(index, index, QVector<int>() << role);
+                paivitaAalv(index.row());
+                return true;
             case DEBET:
                 if( value.toDouble() < -1e-5)
                     rivi.setKredit( 0 - value.toDouble());
@@ -292,6 +296,7 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                     rivi.setDebet( value.toDouble() );
                 viennit_[index.row()] = rivi;
                 emit dataChanged(index, index.sibling(index.row(), TositeViennit::KREDIT), QVector<int>() << Qt::EditRole);
+                paivitaAalv(index.row());
                 return true;
             case KREDIT:
                 if( value.toDouble() < -1e-5)
@@ -300,6 +305,7 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                     rivi.setKredit( value.toDouble() );
                 viennit_[index.row()] = rivi;
                 emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
+                paivitaAalv(index.row());
                 return true;
             case KOHDENNUS:
                 rivi.setKohdennus( value.toInt() );
@@ -329,11 +335,13 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             TositeVienti rivi = vienti(index.row());            
             rivi.setAlvKoodi( value.toInt());
             viennit_[index.row()] = rivi;
+            paivitaAalv(index.row());
             emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
         } else if( role == TositeViennit::AlvProsenttiRooli) {
             TositeVienti rivi = vienti(index.row());
             rivi.setAlvProsentti( value.toDouble() );
             viennit_[index.row()] = rivi;
+            paivitaAalv(index.row());
             emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
         } else if( role == TositeViennit::TagiIdListaRooli) {
             TositeVienti rivi = vienti(index.row());
@@ -352,16 +360,19 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
+    TositeVienti rivi = vienti(index.row());
+
     if( index.column() == ALV)
         return Qt::ItemIsEnabled;
     else if( index.column() == KOHDENNUS )
-    {
-        TositeVienti rivi = vienti(index.row());
+    {    
         Tili tili = kp()->tilit()->tiliNumerolla(rivi.tili());
         if( !tili.onko(TiliLaji::TULOS) && !tili.onko(TiliLaji::POISTETTAVA) &&  !tili.eritellaankoTase())
             return Qt::ItemIsEnabled;
     }
 
+    if( rivi.tyyppi() == TositeVienti::ALVKIRJAUS)
+        return Qt::ItemIsEnabled;
 
     if( muokattavissa_ )
         return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
@@ -386,7 +397,7 @@ bool TositeViennit::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
-QModelIndex TositeViennit::lisaaVienti(int indeksi)
+TositeVienti TositeViennit::uusi(int indeksi) const
 {
     TositeVienti uusi;
 
@@ -394,11 +405,19 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
     uusi.setPvm( tosite->pvm() );
 
     if( indeksi > 0){
-        TositeVienti edellinen = viennit_.at(indeksi-1).toMap();
+        indeksi--;
+        TositeVienti edellinen = viennit_.value(indeksi).toMap();
+        while( edellinen.tyyppi() == TositeVienti::ALVKIRJAUS) {
+            // Jotta saataisiin selite ja vastatili varsinaisesta kirjauksesta
+            // eikä siihen liittyvistä alv-riveistä.
+            indeksi--;
+            edellinen = viennit_.value(indeksi).toMap();
+        }
         Tili tili = kp()->tilit()->tiliNumerolla(edellinen.tili());
         if( tili.luku("vastatili"))
             uusi.setTili(tili.luku("vastatili"));
         uusi.setSelite(edellinen.selite());
+        uusi.setPvm(edellinen.pvm());
     } else {
         uusi.setSelite( tosite->otsikko());
     }
@@ -417,10 +436,17 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
     else
         uusi.setDebet( ksumma - dsumma );
 
+    uusi.set(TositeVienti::AALV, "+-");
+    return uusi;
+}
+
+QModelIndex TositeViennit::lisaaVienti(int indeksi)
+{
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
-    viennit_.insert(indeksi, uusi);
+    viennit_.insert(indeksi, uusi(indeksi));
     endInsertRows();
+    paivitaAalv(indeksi);
     return index(indeksi, 0);
 }
 
@@ -429,11 +455,21 @@ TositeVienti TositeViennit::vienti(int indeksi) const
     return TositeVienti( viennit_.value(indeksi).toMap() );
 }
 
+void TositeViennit::asetaVienti(int indeksi, const TositeVienti &vienti)
+{
+    viennit_[indeksi] = vienti;
+    if( !vienti.tyyppi() )
+        paivitaAalv(indeksi);
+
+    emit dataChanged( index(indeksi, PVM), index(indeksi,SELITE) );
+}
+
 void TositeViennit::lisaa(const TositeVienti &vienti)
 {
     beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count());
     viennit_.append(vienti);
     endInsertRows();
+    paivitaAalv(viennit_.count() - 1);
 }
 
 
@@ -563,4 +599,115 @@ QString TositeViennit::alvTarkastus() const
 
 
    return palaute;
+}
+
+void TositeViennit::paivitaAalv(int rivi)
+{
+    TositeVienti lahde = viennit_.value(rivi).toMap();
+    int alvkoodi = lahde.alvKoodi();
+    double prosentti = lahde.alvProsentti();
+
+    QString aalvtila = lahde.data(TositeVienti::AALV).toString();
+    bool verorivi = aalvtila.contains("+") &&
+            (alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
+             alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI ||
+             alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ||
+             alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
+             alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
+             alvkoodi == AlvKoodi::MAAHANTUONTI ||
+             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) &&
+            prosentti > 1e-5;
+
+    bool vahennysrivi = aalvtila.contains("-") &&
+            (alvkoodi == AlvKoodi::OSTOT_NETTO ||
+             alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
+             alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
+             alvkoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
+             alvkoodi == AlvKoodi::MAAHANTUONTI ||
+             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) ;
+
+    qlonglong dsentit = qRound64( prosentti * lahde.debet() );
+    qlonglong ksentit = qRound64( prosentti * lahde.kredit() );
+
+    rivi++;
+    TositeVienti seuraava = viennit_.value(rivi).toMap();
+    bool onjoVerorivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&
+            seuraava.alvKoodi() > AlvKoodi::ALVKIRJAUS &&
+            seuraava.alvKoodi() < AlvKoodi::ALVVAHENNYS;
+
+    if( verorivi) {
+        TositeVienti vero;
+        vero.setPvm( lahde.pvm() );         
+        vero.setAlvProsentti(prosentti);
+        vero.setDebet(dsentit);
+        vero.setKredit(ksentit);
+        vero.setSelite( QString("%1 ALV %2 %").arg( lahde.selite() ).arg( prosentti,0,'f',2 ) );
+        vero.setTyyppi(TositeVienti::ALVKIRJAUS);
+
+        if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
+            vero.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA ).numero() );
+            vero.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
+            vero.setEra(-1);
+
+        } else if (alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI) {
+            vero.setTili( kp()->asetukset()->luku("LaskuEnnakkoALV") );
+            vero.setAlvKoodi( AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
+            vero.setEra(-1);
+        } else if (alvkoodi == AlvKoodi::MYYNNIT_NETTO) {
+            vero.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+            vero.setAlvKoodi( AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS);
+        } else {
+            vero.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+            vero.setAlvKoodi( alvkoodi + AlvKoodi::ALVKIRJAUS);
+            vero.setDebet( ksentit );
+            vero.setKredit( dsentit );
+        }
+
+        if(!onjoVerorivi)
+            insertRow(rivi);
+        asetaVienti(rivi, vero);
+        rivi++;     // Mahdollinen vähennysrivi tulee tämän jälkeen
+    } else {
+        if( onjoVerorivi)
+            removeRows(rivi, 1);
+    }
+
+
+    bool onjoVahennysrivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&
+            seuraava.alvKoodi() > AlvKoodi::ALVVAHENNYS &&
+            seuraava.alvKoodi() < AlvKoodi::MAKSETTAVAALV;
+
+    if( vahennysrivi ) {
+        TositeVienti vahennys;
+        vahennys.setPvm(lahde.pvm());
+        vahennys.setAlvProsentti(prosentti);
+        vahennys.setDebet(dsentit);
+        vahennys.setKredit(ksentit);
+        vahennys.setSelite(QString("%1 ALV-VÄHENNYS %2 %").arg(lahde.selite()).arg(prosentti,0,'f',2));
+        vahennys.setTyyppi(TositeVienti::ALVKIRJAUS);
+
+        if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
+            vahennys.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVSAATAVA ).numero());
+            vahennys.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_OSTO + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON);
+            vahennys.setEra(-1);
+        } else if( alvkoodi == AlvKoodi::OSTOT_NETTO) {
+            vahennys.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero());
+            vahennys.setAlvKoodi( AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS);
+        } else {
+            vahennys.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero());
+            vahennys.setAlvKoodi( alvkoodi + AlvKoodi::ALVVAHENNYS);
+            vahennys.setDebet( ksentit );
+            vahennys.setKredit( dsentit );
+        }
+
+        if (!onjoVahennysrivi)
+            insertRow(rivi);
+        asetaVienti(rivi, vahennys);
+
+    } else {
+        if( onjoVahennysrivi)
+            removeRows(rivi,1);
+    }
+
+
 }

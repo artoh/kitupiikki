@@ -33,14 +33,19 @@ public:
     explicit MuuMuokkausDlg(QWidget *parent = nullptr);
     ~MuuMuokkausDlg();
 
-    void lataa(const TositeVienti& v);
+    void uusi(const TositeVienti& v);
+    void muokkaa(const TositeVienti& v);
+
     TositeVienti vienti() const;
+
+    void accept() override;
 
 protected:
     enum {
         ALVTAB,
         MUUTAB
     };
+    void lataa(const TositeVienti& v);
 
     void setAlvProssa(double prosentti);
     void setAlvKoodi(int koodi);
@@ -55,10 +60,13 @@ protected:
     void alvLajiMuuttui();
     void kirjausLajiMuuttui();
 
+    void tarkasta();
+
 private:
 
     Ui::MuuMuokkausDlg *ui;
     bool ladataan_ = false;
+    TositeVienti vienti_;
 };
 
 #endif // MUUMUOKKAUSDLG_H

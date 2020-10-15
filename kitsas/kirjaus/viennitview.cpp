@@ -26,6 +26,8 @@
 #include "model/tositeviennit.h"
 #include "model/tosite.h"
 
+#include "muumuokkausdlg.h"
+
 #include <QHeaderView>
 #include <QSettings>
 #include <QKeyEvent>
@@ -47,6 +49,8 @@ ViennitView::ViennitView(QWidget *parent)
     // Ladataan leveyslista
     QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
 
+    connect( this, &QTableView::doubleClicked, this, &ViennitView::muokkaa);
+
     viewport()->installEventFilter(this);
 }
 
@@ -66,8 +70,7 @@ void ViennitView::seuraavaSarake()
         TositeViennit *vientiModel = tosite_->viennit();
         vientiModel->lisaaVienti( model()->rowCount() );
         setCurrentIndex( vientiModel->index( model()->rowCount() - 1, TositeViennit::TILI ) );
-    }
-    else if( index.column() == model()->columnCount() - 1 )
+    } else if( index.column() == model()->columnCount() - 1 )
     {
         setCurrentIndex( model()->index(  index.row()+1 , TositeViennit::PVM ) );
     }
@@ -96,6 +99,11 @@ void ViennitView::seuraavaSarake()
     }
 
 
+    if( currentIndex().data(TositeViennit::TyyppiRooli).toInt() == TositeVienti::ALVKIRJAUS) {
+        setCurrentIndex( currentIndex().sibling( currentIndex().row(), TositeViennit::SELITE  ) );
+        seuraavaSarake();
+    }
+
 }
 
 bool ViennitView::eventFilter(QObject *watched, QEvent *event)
@@ -117,10 +125,6 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
                 }
 
             }
-            if( index.column() == TositeViennit::ALV) {
-                emit activated(index);
-            }
-
         }
     }
 
@@ -134,30 +138,44 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
     {
         seuraavaSarake();
     } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
-        const QModelIndex index = currentIndex();
-        seuraavaSarake();
-        if( index.row() == model()->rowCount() -1 ) {            
-            tosite_->viennit()->lisaaVienti(model()->rowCount());
-        }
+        QModelIndex indeksi = currentIndex();
+        if(indeksi.data(TositeViennit::TiliNumeroRooli).toInt() == 0
+                && indeksi.data(TositeViennit::DebetRooli).toDouble() < 1e-5
+                && indeksi.data(TositeViennit::KreditRooli).toDouble() < 1e-5 ) {
+            muokkaa(currentIndex());
+        } else {
+            while( currentIndex().data(TositeViennit::TyyppiRooli) == TositeVienti::ALVKIRJAUS && currentIndex().row() < model()->rowCount() - 1) {
+                setCurrentIndex( currentIndex().sibling(currentIndex().row()+1, TositeViennit::TILI) );
+            }
+            if( currentIndex().row() == model()->rowCount() -1 ) {
+                tosite_->viennit()->lisaaVienti(model()->rowCount());
+            }
+            if( currentIndex().row() < model()->rowCount() - 1) {
+                setCurrentIndex( model()->index(indeksi.row()+1, TositeViennit::TILI) );
+            }
 
-        setCurrentIndex( model()->index(index.row()+1, TositeViennit::PVM) );
+        }
+    } else if( currentIndex().column() != TositeViennit::SELITE && event->key() == Qt::Key_Space ) {
+        muokkaa( currentIndex());
     } else if( currentIndex().column() == TositeViennit::ALV) {
         if(event->key() == Qt::Key_0) {
             model()->setData(currentIndex(), AlvKoodi::EIALV, TositeViennit::AlvKoodiRooli);
         } else if( event->key() == Qt::Key_Space) {
-            emit activated(currentIndex());
+            muokkaa(currentIndex());
         } else if( event->key() == Qt::Key_2 || event->key() == Qt::Key_1) {
             int tilinumero = currentIndex().data(TositeViennit::TiliNumeroRooli).toInt();
             Tili* tili = kp()->tilit()->tili(tilinumero);
             double prosentti =
                     event->key() == Qt::Key_2 ? 24.0 :
                     currentIndex().data(TositeViennit::AlvProsenttiRooli).toInt() == 14 ? 10 : 14;
-            if(tili) {
+            model()->setData(currentIndex(), prosentti, TositeViennit::AlvProsenttiRooli);
+
+            if(tili && kp()->alvTyypit()->nollaTyyppi(currentIndex().data(TositeViennit::AlvKoodiRooli).toInt())) {
                 if(tili->onko(TiliLaji::TULO))
-                    model()->setData(currentIndex(), AlvKoodi::MYYNNIT_BRUTTO, TositeViennit::AlvKoodiRooli);
+                    model()->setData(currentIndex(), AlvKoodi::MYYNNIT_NETTO, TositeViennit::AlvKoodiRooli);
                 else if(tili->onko(TiliLaji::MENO))
-                    model()->setData(currentIndex(), AlvKoodi::OSTOT_BRUTTO, TositeViennit::AlvKoodiRooli);
-                model()->setData(currentIndex(), prosentti, TositeViennit::AlvProsenttiRooli);
+                    model()->setData(currentIndex(), AlvKoodi::OSTOT_NETTO, TositeViennit::AlvKoodiRooli);
+
             }
         }
     } else
@@ -177,5 +195,17 @@ void ViennitView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
             setCurrentIndex( model()->index( currentIndex().row(), currentIndex().column()-1 ) );
         else if( currentIndex().row() > 0)
             setCurrentIndex(model()->index( currentIndex().row()-1, TositeViennit::SELITE));
+    }
+}
+
+void ViennitView::muokkaa(const QModelIndex &index)
+{
+    if(index.isValid() && tosite_->viennit()->muokattavissa()) {
+        MuuMuokkausDlg dlg(this);
+        TositeVienti vienti = tosite_->viennit()->vienti(index.row());
+        dlg.muokkaa(vienti);
+        if(dlg.exec() == QDialog::Accepted) {
+            tosite_->viennit()->asetaVienti(index.row(), dlg.vienti());
+        }
     }
 }
