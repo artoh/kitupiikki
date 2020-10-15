@@ -87,6 +87,7 @@ public:
     int eraId() const;
     int kumppaniId() const;
     QString kumppaniNimi() const;
+    QVariantMap kumppaniMap() const { return data(KUMPPANI).toMap();}
     QVariantList merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
     int tyyppi() const { return data(TYYPPI).toInt(); }

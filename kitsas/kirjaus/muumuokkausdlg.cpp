@@ -23,6 +23,7 @@
 #include <QSortFilterProxyModel>
 #include <QPushButton>
 #include <QSettings>
+#include <QShortcut>
 
 MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     QDialog(parent),
@@ -63,6 +64,8 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
 
     if( kp()->settings()->contains("MuuMuokkausGeo"))
         restoreGeometry(kp()->settings()->value("MuuMuokkausGeo").toByteArray());
+
+    new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(accept()));
 }
 
 MuuMuokkausDlg::~MuuMuokkausDlg()
@@ -145,6 +148,13 @@ TositeVienti MuuMuokkausDlg::vienti() const
 
 void MuuMuokkausDlg::accept()
 {
+
+   if(!ui->tiliLine->valittuTilinumero() ||
+      !ui->euroEdit->asCents() ||
+      ( ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() &&
+       kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()))
+      )
+       return;
 
     vienti_.setPvm( ui->pvmEdit->date());
     vienti_.setTili( ui->tiliLine->valittuTilinumero());
@@ -259,6 +269,8 @@ void MuuMuokkausDlg::tiliMuuttui()
         setAlvProssa( tili.str("alvprosentti").toDouble());
         if( tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
+        if( tili.onko(TiliLaji::TULO))
+            ui->kreditRadio->setChecked(true);
     }
     tarkasta();
 

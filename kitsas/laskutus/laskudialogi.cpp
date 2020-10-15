@@ -27,7 +27,6 @@
 #include "kirjaus/kohdennusdelegaatti.h"
 #include "kirjaus/tilidelegaatti.h"
 
-#include "kirjaus/verodialogi.h"
 #include "naytin/naytinikkuna.h"
 #include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"

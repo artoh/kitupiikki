@@ -418,6 +418,7 @@ TositeVienti TositeViennit::uusi(int indeksi) const
             uusi.setTili(tili.luku("vastatili"));
         uusi.setSelite(edellinen.selite());
         uusi.setPvm(edellinen.pvm());
+        uusi.setKumppani(edellinen.kumppaniMap());
     } else {
         uusi.setSelite( tosite->otsikko());
     }
@@ -641,6 +642,7 @@ void TositeViennit::paivitaAalv(int rivi)
         vero.setAlvProsentti(prosentti);
         vero.setDebet(dsentit);
         vero.setKredit(ksentit);
+        vero.setKumppani(lahde.kumppaniMap());
         vero.setSelite( QString("%1 ALV %2 %").arg( lahde.selite() ).arg( prosentti,0,'f',2 ) );
         vero.setTyyppi(TositeVienti::ALVKIRJAUS);
 
@@ -682,6 +684,7 @@ void TositeViennit::paivitaAalv(int rivi)
         vahennys.setPvm(lahde.pvm());
         vahennys.setAlvProsentti(prosentti);
         vahennys.setDebet(dsentit);
+        vahennys.setKumppani(lahde.kumppaniMap());
         vahennys.setKredit(ksentit);
         vahennys.setSelite(QString("%1 ALV-VÄHENNYS %2 %").arg(lahde.selite()).arg(prosentti,0,'f',2));
         vahennys.setTyyppi(TositeVienti::ALVKIRJAUS);
