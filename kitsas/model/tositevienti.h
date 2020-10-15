@@ -85,6 +85,7 @@ public:
     QVariantMap era() const;
     int eraId() const;
     int kumppaniId() const;
+    QString kumppaniNimi() const;
     QVariantList merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
     int tyyppi() const { return data(TYYPPI).toInt(); }
@@ -92,6 +93,7 @@ public:
     int tasaerapoisto() const { return data(TASAERAPOISTO).toInt();}
     QDate jaksoalkaa() const { return data(JAKSOALKAA).toDate();}
     QDate jaksoloppuu() const { return data(JAKSOLOPPUU).toDate();}
+
     double brutto() const { return data(BRUTTO).toDouble();}
 
     void setPvm(const QDate& pvm);

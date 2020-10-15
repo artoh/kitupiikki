@@ -76,8 +76,6 @@ int VeroDialogi::nayta(int koodi, int prosentti, bool tyyppilukko)
         ui->vahennysRadio->setChecked(true);
     else if( koodi > AlvKoodi::ALVKIRJAUS)
         ui->veroRadio->setChecked(true);
-
-
     if( koodi < AlvKoodi::MAKSETTAVAALV)
         ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi % 100));
     else

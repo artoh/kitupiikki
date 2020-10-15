@@ -76,7 +76,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -142,6 +142,31 @@
            </property>
            <property name="shortcut">
             <string>Ctrl+S</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="lisaaVientiNappi">
+           <property name="text">
+            <string>Lisää vienti</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="muokkaaVientiNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Muokkaa vientiä</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
            </property>
           </widget>
          </item>
@@ -586,20 +611,24 @@
   <tabstop>otsikkoEdit</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>viennitView</tabstop>
-  <tabstop>kommentitEdit</tabstop>
-  <tabstop>liiteView</tabstop>
-  <tabstop>avaaNappi</tabstop>
-  <tabstop>tulostaLiiteNappi</tabstop>
-  <tabstop>lisaaliiteNappi</tabstop>
-  <tabstop>poistaLiiteNappi</tabstop>
-  <tabstop>lokiView</tabstop>
+  <tabstop>lisaaRiviNappi</tabstop>
+  <tabstop>lisaaVientiNappi</tabstop>
+  <tabstop>muokkaaVientiNappi</tabstop>
+  <tabstop>poistariviNappi</tabstop>
+  <tabstop>sarjaCombo</tabstop>
+  <tabstop>edellinenButton</tabstop>
   <tabstop>seuraavaButton</tabstop>
   <tabstop>tallennaButton</tabstop>
+  <tabstop>lokiView</tabstop>
   <tabstop>valmisNappi</tabstop>
   <tabstop>hylkaaNappi</tabstop>
   <tabstop>valikkoNappi</tabstop>
-  <tabstop>lisaaRiviNappi</tabstop>
-  <tabstop>poistariviNappi</tabstop>
+  <tabstop>kommentitEdit</tabstop>
+  <tabstop>tulostaLiiteNappi</tabstop>
+  <tabstop>lisaaliiteNappi</tabstop>
+  <tabstop>poistaLiiteNappi</tabstop>
+  <tabstop>liiteView</tabstop>
+  <tabstop>avaaNappi</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>

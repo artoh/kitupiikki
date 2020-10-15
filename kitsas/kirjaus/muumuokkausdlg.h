@@ -19,6 +19,8 @@
 
 #include <QDialog>
 
+#include "model/tositevienti.h"
+
 namespace Ui {
 class MuuMuokkausDlg;
 }
@@ -31,8 +33,32 @@ public:
     explicit MuuMuokkausDlg(QWidget *parent = nullptr);
     ~MuuMuokkausDlg();
 
+    void lataa(const TositeVienti& v);
+    TositeVienti vienti() const;
+
+protected:
+    enum {
+        ALVTAB,
+        MUUTAB
+    };
+
+    void setAlvProssa(double prosentti);
+    void setAlvKoodi(int koodi);
+
+
+    void pvmMuuttui();
+    void tiliMuuttui();
+    void kumppaniMuuttui();
+    void eraMuuttui(int eraid, double avoinna, const QString& selite, int kumppani);
+    void jaksoMuuttui();
+
+    void alvLajiMuuttui();
+    void kirjausLajiMuuttui();
+
 private:
+
     Ui::MuuMuokkausDlg *ui;
+    bool ladataan_ = false;
 };
 
 #endif // MUUMUOKKAUSDLG_H

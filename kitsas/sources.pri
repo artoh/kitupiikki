@@ -648,7 +648,6 @@ FORMS += \
     arkisto/lisaatilikausidlg.ui \
     arkisto/lukitsetilikausi.ui \
     kirjaus/verodialogi.ui \
-    kirjaus/taseeravalintadialogi.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \

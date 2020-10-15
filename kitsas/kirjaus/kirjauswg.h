@@ -68,6 +68,8 @@ private slots:
     void hylkaa();
     void poistaTosite();
     void vientiValittu();
+    void uusiVienti();
+    void muokkaaVientia();
 
     void paivitaKommentti(const QString& kommentti);
     void salliMuokkaus(bool sallitaanko);

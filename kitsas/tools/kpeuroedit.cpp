@@ -140,6 +140,9 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
     }
     else if( event->key() == Qt::Key_Minus )
     {
+        if( property("EiMiinus").toBool())
+            return;
+
         miinus_ = !miinus_;
         QString etumerkki = miinus_ ? "−" : "" ;
         setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );

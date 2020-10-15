@@ -75,6 +75,8 @@
 #include "../kierto/kiertowidget.h"
 #include "../kierto/kiertomodel.h"
 
+#include "muumuokkausdlg.h"
+
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
@@ -196,6 +198,9 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( kiertoTab_, &KiertoWidget::tallenna, this, &KirjausWg::tallenna);
 
+    connect( ui->muokkaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::muokkaaVientia);
+    connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::uusiVienti);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -309,8 +314,26 @@ void KirjausWg::poistaTosite()
 void KirjausWg::vientiValittu()
 {
     QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
-    ui->poistariviNappi->setEnabled( index.isValid() );
+    ui->poistariviNappi->setEnabled( index.isValid() && tosite()->viennit()->muokattavissa());
+    ui->muokkaaVientiNappi->setEnabled( index.isValid() && tosite()->viennit()->muokattavissa());
 
+}
+
+void KirjausWg::uusiVienti()
+{
+    MuuMuokkausDlg dlg(this);
+    dlg.exec();
+}
+
+void KirjausWg::muokkaaVientia()
+{
+    QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
+    if(index.isValid() && tosite()->viennit()->muokattavissa()) {
+        MuuMuokkausDlg dlg(this);
+        TositeVienti vienti = tosite()->viennit()->vienti(index.row());
+        dlg.lataa(vienti);
+        dlg.exec();
+    }
 }
 
 
@@ -651,6 +674,8 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
     tosite_->viennit()->asetaMuokattavissa( sallitaanko && !apuri_ );
     ui->lisaaRiviNappi->setVisible( !apuri_);
+    ui->lisaaVientiNappi->setVisible(!apuri_);
+    ui->muokkaaVientiNappi->setVisible(!apuri_);
     ui->poistariviNappi->setVisible( !apuri_);
 
     if( apuri_ ) {

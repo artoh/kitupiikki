@@ -6,16 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1029</width>
-    <height>650</height>
+    <width>995</width>
+    <height>744</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Uusi vienti</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,1">
      <item>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
@@ -26,7 +26,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="KpDateEdit" name="pvmEdit"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
@@ -36,7 +36,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_3"/>
+        <widget class="TilinvalintaLine" name="tiliLine"/>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox">
@@ -47,14 +47,14 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QRadioButton" name="radioButton">
+             <widget class="QRadioButton" name="debetRadio">
               <property name="text">
                <string>Debet</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton_2">
+             <widget class="QRadioButton" name="kreditRadio">
               <property name="text">
                <string>Kredit</string>
               </property>
@@ -63,202 +63,232 @@
            </layout>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="KpEuroEdit" name="euroEdit">
+            <property name="EiMiinus" stdset="0">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="kohdennusLabel">
          <property name="text">
           <string>Kohdennus</string>
          </property>
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QComboBox" name="comboBox"/>
+        <widget class="KohdennusCombo" name="kohdennusCombo"/>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="merkkausLabel">
          <property name="text">
           <string>Merkkaukset</string>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="comboBox_2"/>
+        <widget class="CheckCombo" name="merkkausCombo"/>
        </item>
        <item row="5" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="eraLabel">
          <property name="text">
           <string>Tase-erä</string>
          </property>
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QComboBox" name="comboBox_3"/>
+        <widget class="EraCombo" name="eraCombo"/>
+       </item>
+       <item row="7" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="KpDateEdit" name="jaksoAlkaa"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="jaksoViiva">
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KpDateEdit" name="jaksoLoppuu">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="SalliYlitys" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="jaksoLabel">
+         <property name="text">
+          <string>Jaksotus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="poistoLabel">
+         <property name="text">
+          <string>Poistoaika</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QSpinBox" name="poistoSpin">
+         <property name="suffix">
+          <string> vuotta</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Kumppani</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="AsiakasToimittajaValinta" name="kumppani" native="true"/>
+       </item>
+       <item row="9" column="1">
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="currentIndex">
-        <number>0</number>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QWidget" name="tab">
-        <attribute name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/vero64.png</normaloff>:/pic/vero64.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Arvonlisävero</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <layout class="QFormLayout" name="formLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Verolaji</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboBox_4"/>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QGroupBox" name="groupBox_2">
-             <property name="title">
-              <string>Kirjaus on</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <item>
-               <widget class="QRadioButton" name="radioButton_3">
-                <property name="text">
-                 <string>Veron peruste</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="radioButton_4">
-                <property name="text">
-                 <string>Veron määrä</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="radioButton_5">
-                <property name="text">
-                 <string>Vähennyksen määrä</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="radioButton_6">
-                <property name="text">
-                 <string>Kohdentamaton maksuperusteinen alv</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Verokanta</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QComboBox" name="comboBox_5"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBox">
-           <property name="text">
-            <string>Kirjaa myös vero</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBox_2">
-           <property name="text">
-            <string>Kirjaa myös vähennys</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/Menu-Circles.png</normaloff>:/pic/Menu-Circles.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Lisätiedot</string>
-        </attribute>
-        <layout class="QFormLayout" name="formLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Jaksotus</string>
-           </property>
-          </widget>
-         </item>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
          <item row="0" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QLineEdit" name="lineEdit_5"/>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>-</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_6"/>
-           </item>
-          </layout>
+          <widget class="QComboBox" name="alvlajiCombo"/>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Eräpäivä</string>
+         <item row="1" column="0" colspan="2">
+          <widget class="QGroupBox" name="alvGroup">
+           <property name="title">
+            <string>Kirjaus on</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QRadioButton" name="perusteRadio">
+              <property name="text">
+               <string>Veron peruste</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="veroRadio">
+              <property name="text">
+               <string>Veron määrä</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="vahennysRadio">
+              <property name="text">
+               <string>Vähennyksen määrä</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="kohdentamatonRadio">
+              <property name="text">
+               <string>Kohdentamaton maksuperusteinen alv</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_7"/>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="kantaLabel">
            <property name="text">
-            <string>Viite</string>
+            <string>Verokanta</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="lineEdit_8"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_13">
-           <property name="text">
-            <string>Kumppani</string>
+          <widget class="QComboBox" name="kantaCombo">
+           <property name="editable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QWidget" name="widget" native="true"/>
+         <item row="0" column="0">
+          <widget class="QLabel" name="alvLabel">
+           <property name="text">
+            <string>Verolaji</string>
+           </property>
+          </widget>
          </item>
         </layout>
-       </widget>
-      </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kirjaaVeroCheck">
+         <property name="text">
+          <string>Kirjaa myös vero</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kirjaaVahennysCheck">
+         <property name="text">
+          <string>Kirjaa myös vähennys</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
     </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -267,15 +297,31 @@
        <property name="text">
         <string>Selite</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_4"/>
+      <widget class="QPlainTextEdit" name="seliteEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
+    <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -299,9 +345,67 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../pic/pic.qrc"/>
- </resources>
+ <customwidgets>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>pvmEdit</tabstop>
+  <tabstop>tiliLine</tabstop>
+  <tabstop>debetRadio</tabstop>
+  <tabstop>kreditRadio</tabstop>
+  <tabstop>euroEdit</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
+  <tabstop>merkkausCombo</tabstop>
+  <tabstop>eraCombo</tabstop>
+  <tabstop>poistoSpin</tabstop>
+  <tabstop>jaksoAlkaa</tabstop>
+  <tabstop>jaksoLoppuu</tabstop>
+  <tabstop>alvlajiCombo</tabstop>
+  <tabstop>perusteRadio</tabstop>
+  <tabstop>veroRadio</tabstop>
+  <tabstop>vahennysRadio</tabstop>
+  <tabstop>kohdentamatonRadio</tabstop>
+  <tabstop>kantaCombo</tabstop>
+  <tabstop>kirjaaVeroCheck</tabstop>
+  <tabstop>kirjaaVahennysCheck</tabstop>
+  <tabstop>seliteEdit</tabstop>
+ </tabstops>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -62,6 +62,11 @@ int TositeVienti::kumppaniId() const
     return value("kumppani").toMap().value("id").toInt();
 }
 
+QString TositeVienti::kumppaniNimi() const
+{
+    return value("kumppani").toMap().value("nimi").toString();
+}
+
 QVariantList TositeVienti::merkkaukset() const
 {
     return data(MERKKAUKSET).toList();
