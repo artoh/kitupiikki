@@ -71,6 +71,7 @@ protected slots:
 
     void kumppaniValittu(int kumppaniId);
     void kumppaniTiedot(QVariant* data);
+    void eraValittu(int eraid, double avoinna, const QString& selite, int kumppani);
 
 protected:
     void teeReset() override;

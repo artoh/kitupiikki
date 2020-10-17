@@ -23,6 +23,7 @@ TositeSelausProxyModel::TositeSelausProxyModel(TositeSelausModel *model, QObject
 {
     setSourceModel(model);
     setSortCaseSensitivity(Qt::CaseInsensitive);
+    setSortRole(Qt::EditRole);
 }
 
 void TositeSelausProxyModel::etsi(const QString &teksti)
@@ -37,6 +38,9 @@ void TositeSelausProxyModel::suodataTositetyyppi(int tyyppi)
 {
     if( tyyppi != tyyppiSuodatus_) {
         tyyppiSuodatus_ = tyyppi;
+        sarjaSuodatus_.clear();
+        invalidateFilter();
+    } else if( tyyppi == -1 && !sarjaSuodatus_.isEmpty()) {
         sarjaSuodatus_.clear();
         invalidateFilter();
     }

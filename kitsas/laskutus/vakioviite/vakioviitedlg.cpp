@@ -21,6 +21,8 @@
 #include <QRegularExpression>
 #include <QPushButton>
 #include <QSettings>
+#include <QRegularExpressionValidator>
+
 #include "validator/viitevalidator.h"
 #include "vakioviitemodel.h"
 
@@ -33,6 +35,14 @@ VakioViiteDlg::VakioViiteDlg(VakioViiteModel *model, QWidget *parent) :
 
     ui->tiliEdit->suodataTyypilla("C.*");
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/vakioviite");} );
+    ui->viiteEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[1-9]\\d{3,6}")));
+
+    ui->varoKuva->hide();
+    ui->varoLabel->hide();
+
+    bool onkoKohdennuksia = kp()->kohdennukset()->kohdennuksia();
+    ui->kohdennusLabel->setVisible(onkoKohdennuksia);
+    ui->kohdennusCombo->setVisible(onkoKohdennuksia);
 }
 
 VakioViiteDlg::~VakioViiteDlg()
@@ -65,14 +75,23 @@ void VakioViiteDlg::uusi()
 
     connect( ui->viiteEdit, &QLineEdit::textChanged, this, &VakioViiteDlg::tarkasta );
     connect( ui->valitseRadio, &QRadioButton::toggled, ui->viiteEdit, &QLineEdit::setEnabled);
+    connect( ui->valitseRadio, &QRadioButton::toggled, this, &VakioViiteDlg::tarkasta);
 
     exec();
 }
 
 void VakioViiteDlg::tarkasta()
 {
-    bool kelpo = ViiteValidator::kelpaako(ui->viiteEdit->text()) &&
-            !model_->onkoViitetta(ui->viiteEdit->text());
+    bool onkoviitejo = model_->onkoViitetta(ui->viiteEdit->text());
+
+    bool kelpo =
+            ui->seuraavaRadio->isChecked() || (
+            ViiteValidator::kelpaako(ui->viiteEdit->text()) &&
+            !onkoviitejo );
+
+    bool varoita = ui->valitseRadio->isChecked() && onkoviitejo;
+    ui->varoKuva->setVisible(varoita);
+    ui->varoLabel->setVisible(varoita);
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
 }

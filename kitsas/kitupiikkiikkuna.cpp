@@ -323,11 +323,11 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
         if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
             valitseSivu(KIERTOSIVU, true);
         } else {
-            valitseSivu( SELAUSSIVU, true);
+            valitseSivu( SELAUSSIVU, true,false);
             selaussivu->naytaSaapuneet();
         }
     } else if( kasky == "outbox") {
-        valitseSivu(LASKUTUSSIVU);
+        valitseSivu(LASKUTUSSIVU,false,false);
         laskutussivu->outbox();
     }
 

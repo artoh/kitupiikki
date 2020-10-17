@@ -92,6 +92,9 @@ QString LaskuSivu::ohjeSivunNimi()
 void LaskuSivu::outbox()
 {
     paaTab_->setCurrentIndex(MYYNTI);
+    kumppaniTuoteWidget_->setVisible(false);
+    laskuWidget_->setVisible(true);
+    ryhmaWidget_->setVisible(false);
     laskuWidget_->alalehti(LaskuSivu::LAHETETTAVAT);
 }
 

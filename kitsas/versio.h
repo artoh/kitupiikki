@@ -24,10 +24,10 @@
   Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "2.1-beta.B"
-#define KITSAS_BUILD  "A"
+#define KITSAS_VERSIO "2.1-beta"
+#define KITSAS_BUILD  "B"
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
+// #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
 
 #define KITSAS_API "https://pilvi.kitsas.fi/api"

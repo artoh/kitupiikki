@@ -22,6 +22,7 @@ SelausProxyModel::SelausProxyModel(SelausModel *model, QObject *parent)
 {
     setSourceModel(model);
     setSortCaseSensitivity(Qt::CaseInsensitive);
+    setSortRole(Qt::EditRole);
 }
 
 void SelausProxyModel::suodataTililla(int tilinumero)

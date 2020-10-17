@@ -212,7 +212,8 @@ void SelausWg::paivitaSuodattimet()
             for(int tiliNro : model->tiliLista()) {
                 ui->tiliCombo->addItem(QString("%1 %2").arg(tiliNro).arg(kp()->tilit()->nimi(tiliNro)), tiliNro);
             }
-            ui->tiliCombo->setCurrentText(valittu);
+            if( !valittu.isEmpty())
+                ui->tiliCombo->setCurrentText(valittu);
         }
     } else {
         QString valittu = ui->tiliCombo->currentText();
@@ -229,7 +230,8 @@ void SelausWg::paivitaSuodattimet()
             }
         }
 
-        ui->tiliCombo->setCurrentText(valittu);
+        if( !valittu.isEmpty())
+            ui->tiliCombo->setCurrentText(valittu);
     }
 }
 

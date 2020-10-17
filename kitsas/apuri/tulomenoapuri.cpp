@@ -97,6 +97,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::pvmMuuttui);
     connect( tosite, &Tosite::eraPvmMuuttui, ui->erapaivaEdit,[this] (const QDate& erapvm) { if(erapvm != ui->erapaivaEdit->date()) ui->erapaivaEdit->setDate(erapvm); } );
     connect( ui->eraCombo, &EraCombo::currentTextChanged, this, &TuloMenoApuri::tositteelle);
+    connect( ui->eraCombo, &EraCombo::valittu, this, &TuloMenoApuri::eraValittu);
 
     ui->maksutapaCombo->installEventFilter(this);
     ui->laskuNumeroEdit->installEventFilter(this);
@@ -540,7 +541,9 @@ void TuloMenoApuri::vastatiliMuuttui()
         ui->eraCombo->valitse(-1);
     }
 
-    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA)) ;
+    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA))
+            && vastatili.eritellaankoTase()
+            && ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
     ui->viiteLabel->setVisible( laskulle );
     ui->viiteEdit->setVisible( laskulle );
 
@@ -809,6 +812,12 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
 
     if( !resetoidaanko() )
         teeTositteelle();
+}
+
+void TuloMenoApuri::eraValittu(int /* eraid */, double /* avoinna */, const QString & /*selite*/, int kumppani)
+{
+    if( !ui->asiakasToimittaja->id())
+        ui->asiakasToimittaja->set(kumppani);
 }
 
 QString TuloMenoApuri::viimeMaksutapa__ = QString();

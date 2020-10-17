@@ -137,6 +137,17 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Tab)
     {
         seuraavaSarake();
+    } else if( event->key() == Qt::Key_Backtab) {
+        if( currentIndex().column() == 0) {
+            if( currentIndex().row() > 0) {
+                setCurrentIndex( currentIndex().sibling(currentIndex().row()-1, TositeViennit::SELITE) );
+            }
+        } else {
+            if( isColumnHidden(currentIndex().column()-1))
+                setCurrentIndex( currentIndex().sibling( currentIndex().row(), currentIndex().column() - 2 ) );
+            else
+                setCurrentIndex( currentIndex().sibling( currentIndex().row(), currentIndex().column() - 1 ) );
+        }
     } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
         QModelIndex indeksi = currentIndex();
         if(indeksi.data(TositeViennit::TiliNumeroRooli).toInt() == 0
