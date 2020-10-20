@@ -154,7 +154,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
         if( tili )
-            rivi.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero());
+            rivi.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(kielikoodi_));
         else
             continue;   // ei kelvollista tiliä!
 

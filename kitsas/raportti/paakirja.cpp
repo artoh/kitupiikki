@@ -152,7 +152,7 @@ void Paakirja::kirjoitaDatasta()
             rivi.lihavoi();
             rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
-                                tili.nimiNumero(), 5);
+                                tili.nimiNumero(kielikoodi_), 5);
             if( optiot_ & TulostaKohdennukset)
                 rivi.lisaa("");
             if( optiot_ & AsiakasToimittaja)

@@ -120,5 +120,16 @@
   "TILILUETTELO": {
     "sv": "KONTOPLAN",
     "en": "SPECIFICATION OF ACCOUNTS"
+  },
+  "Tilin tyyppi": {
+    "sv": "Kontotyp",
+    "en": "Type"
+  },
+  "Saldo %1" : {
+    "en": "Balance %1"
+  },
+  "Kirjausohjeet" : {
+    "sv": "Instructoner",
+    "en": "Instructions"
   }
 }

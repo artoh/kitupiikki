@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>675</width>
-    <height>393</height>
+    <height>593</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,8 +78,17 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Tilikartan päivittäminen päivittää tililuettelon, raportit ja tilinpäätöksen pohjatekstit.
-On suositeltavaa varmuuskopioida kirjanpito ennen tilikartan päivittämistä.</string>
+        <string>Tilikartan päivittäminen päivittää tililuettelon, raportit ja tilinpäätöksen pohjatekstit.</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="varmuusLabel">
+       <property name="text">
+        <string>On suositeltavaa varmuuskopioida kirjanpito ennen tilikartan päivittämistä.</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

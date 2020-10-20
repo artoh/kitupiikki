@@ -17,7 +17,30 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valitse, minne kirjanpitosi tallennetaan.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;Huolehdi kirjanpitosi varmuuskopioinnista.&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Varmuuskopioi kirjanpitosi säännöllisesti ja säilytä varmuuskopiota turvallisessa paikassa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Ottaen huomioon tietosuojalainsäädännön, voit ehkä &lt;/span&gt;sijoittaa kirjanpitosi sijaintiin, jonka sisältö varmistetaan automaattisesti pilveen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Valitse, minne kirjanpitosi tallennetaan.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 127);</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Huolehdi kirjanpitosi varmuuskopioinnista.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Varmuuskopioi kirjanpitosi säännöllisesti ja säilytä varmuuskopiota turvallisessa paikassa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Ottaen huomioon tietosuojalainsäädännön, voit ehkä sijoittaa kirjanpitosi sijaintiin, jonka sisältö varmistetaan automaattisesti pilveen.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

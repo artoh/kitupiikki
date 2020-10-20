@@ -20,6 +20,7 @@
 
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
+#include "pilvi/pilvimodel.h"
 #include <QDate>
 
 #include <QJsonDocument>
@@ -47,6 +48,8 @@ bool TilikarttaPaivitys::nollaa()
 
     ui->nykyPvm->setText( nykypvm.toString("dd.MM.yyyy"));
     ui->uusiPvm->setText( uusipvm.toString("dd.MM.yyyy"));
+
+    ui->varmuusLabel->setVisible( !qobject_cast<PilviModel*>( kp()->yhteysModel() ) );
 
     ui->paivitaNappi->setEnabled( uusipvm > nykypvm );
     return true;
