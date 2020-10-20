@@ -28,8 +28,8 @@
     "en": "Date"
   },
   "Tosite": {
-    "sv": "Verifikat",
-    "en": "Voucher"
+    "sv": "Verif.",
+    "en": "Vouch."
   },
   "Tili": {
     "sv": "Konto",
@@ -75,7 +75,7 @@
   },
   "Budjettiero €": {
     "sv": "Budgetskillnad €",
-    "en": "Budgetdifference €"
+    "en": "Difference €"
   },
   "Toteutunut %": {
     "sv": "Förverkligad %",
@@ -102,8 +102,8 @@
     "en": "Heading"
   },
   "Liitteitä": {
-    "sv": "Appendix",
-    "en": "Attachments"
+    "sv": "Append.",
+    "en": "Attachm."
   },
   "Summa €": {
     "sv": "Totalt €",
@@ -125,10 +125,10 @@
     "sv": "Kontotyp",
     "en": "Type"
   },
-  "Saldo %1" : {
+  "Saldo %1": {
     "en": "Balance %1"
   },
-  "Kirjausohjeet" : {
+  "Kirjausohjeet": {
     "sv": "Instructoner",
     "en": "Instructions"
   }
