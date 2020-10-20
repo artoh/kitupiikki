@@ -110,30 +110,34 @@ void TositeLiitteet::lataa(QVariantList data)
     }
     endResetModel();
 
-    // Varmistetaan, että ensisijaisesti näytetään laskun kuva, ei
-    // xml-laskua
-    for(int i=0; i < liitteet_.count(); i++) {
-        QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
-        if( tyyppi == "application/pdf" || tyyppi == "application/jpg")
-            emit nayta(i);
+    if( naytaLiite_ ) {
+        emit naytaliite("*LADATAAN*");
 
-            // Haetaan vielä esikatseltavat
-            for(i++; i < liitteet_.count(); i++) {
-                QVariantMap map = data.value(i).toMap();
-                QString tyyppi = map.value("tyyppi").toString();
-                if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
-                    KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
-                    connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
-                    kysely->kysy();
+        // Varmistetaan, että ensisijaisesti näytetään laskun kuva, ei
+        // xml-laskua
+        for(int i=0; i < liitteet_.count(); i++) {
+            QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
+            if( tyyppi == "application/pdf" || tyyppi == "application/jpg")
+                emit nayta(i);
+
+                // Haetaan vielä esikatseltavat
+                for(i++; i < liitteet_.count(); i++) {
+                    QVariantMap map = data.value(i).toMap();
+                    QString tyyppi = map.value("tyyppi").toString();
+                    if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
+                        KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
+                        connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+                        kysely->kysy();
+                }
+                return;
             }
-            return;
         }
-    }
 
-    if( liitteet_.count())
-        nayta(0);
-    else
-        emit naytaliite(QByteArray());
+        if( liitteet_.count())
+            nayta(0);
+        else
+            emit naytaliite(QByteArray());
+    }
 }
 
 void TositeLiitteet::clear()
@@ -377,6 +381,11 @@ QVariantList TositeLiitteet::liitettavat() const
     return lista;
 }
 
+void TositeLiitteet::naytaLadattuLiite()
+{
+    naytaLiite_ = true;
+}
+
 void TositeLiitteet::nayta(int indeksi)
 {
     if( indeksi < 0)
@@ -584,3 +593,4 @@ void TositeLiitteet::TositeLiite::setLiitettava(int id)
     liitettava_ = true;
     liiteId_ = id;
 }
+

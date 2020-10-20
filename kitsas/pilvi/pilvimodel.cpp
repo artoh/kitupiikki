@@ -99,6 +99,11 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 bool PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
 {
 
+    avataan_ = true;
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &PilviModel::avattu);
+
+    qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+
     for( auto var : data_.value("clouds").toList()) {
         QVariantMap map = var.toMap();
         if( map.value("id").toInt() == pilviId) {
@@ -224,6 +229,18 @@ void PilviModel::paivitaLista(int avaaPilvi)
     kysely->kysy();
 }
 
+void PilviModel::nimiMuuttui()
+{
+    paivitaLista();
+}
+
+void PilviModel::avattu()
+{
+    if( avataan_)
+        qApp->restoreOverrideCursor();
+    avataan_ = false;
+}
+
 
 
 void PilviModel::kirjautuminenValmis()
@@ -243,6 +260,7 @@ void PilviModel::kirjautuminenValmis()
     if( kp()->settings()->value("Viimeisin").toInt() > 0)
         avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
 }
 
 void PilviModel::paivitysValmis(QVariant *paluu)
@@ -332,6 +350,7 @@ void PilviModel::yritaUudelleenKirjautumista()
     timer_->stop();
     endResetModel();
     kp()->yhteysAvattu(nullptr);
+    emit kirjauduttu(); // Jotta etusivu ei näytä kirjautuneelta
 
     kirjaudu();
 }

@@ -61,8 +61,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maaraEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::maaraMuuttui);
     connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::verotonMuuttui);
 
-    ui->alvProssa->addItems(QStringList() << "24,00 %" << "14,00%" << "10,00 %");
-    ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2}).*"),this));
+    ui->alvProssa->addItems(QStringList() << "24,00 %" << "14,00 %" << "10,00 %");
+    ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
     connect( ui->alvProssa, &QComboBox::currentTextChanged, this, &TuloMenoApuri::veroprossaMuuttui);
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::lisaaRivi);
@@ -453,7 +453,8 @@ void TuloMenoApuri::verolajiMuuttui()
 
 void TuloMenoApuri::pvmMuuttui(const QDate &pvm)
 {    
-    ui->laskuPvm->setDate(pvm);
+    if(!resetoidaanko())
+        ui->laskuPvm->setDate(pvm);
     haeKohdennukset();
     paivitaVeroFiltterit(pvm);
     tositteelle();
@@ -759,10 +760,10 @@ double TuloMenoApuri::alvProssa() const
         return 0.0;
 
     QString txt = ui->alvProssa->currentText();
-    int vali = txt.indexOf(QRegularExpression("\\s"));
-    if( vali > 0)
-        txt = txt.left(vali);
     txt.replace(",",".");
+    int vali = txt.indexOf(QRegularExpression("[^\\d\\.]"));
+    if( vali > 0)
+        txt = txt.left(vali);    
     return txt.toDouble();
 }
 

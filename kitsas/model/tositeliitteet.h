@@ -47,7 +47,7 @@ protected:
         QString getPolku() const { return polku_;}
 
         bool getLiitettava() const;
-        void setLiitettava(int id);
+        void setLiitettava(int id);                
 
     protected:
         int liiteId_ = 0;
@@ -88,6 +88,8 @@ public:
     bool tallennetaanko() const { return tallennetaan_;}
     QVariantList liitettavat() const;    
 
+    void naytaLadattuLiite();
+
 public slots:
     void nayta(int indeksi);
     void poista(int indeksi);
@@ -117,6 +119,8 @@ private:
     int tallennuksessa_ = -1;
     bool tallennetaan_ = false;
     QStringList inboxista_;
+
+    bool naytaLiite_ = false;
 
 };
 

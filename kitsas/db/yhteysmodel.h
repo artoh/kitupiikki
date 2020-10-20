@@ -66,8 +66,6 @@ public:
 
 private slots:
     void initSaapuu(QVariant* reply);
-
-
 };
 
 #endif // YHTEYSMODEL_H

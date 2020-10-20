@@ -275,6 +275,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
 
     tukiInfo();
+    haeSaldot();
     paivitaSivu();
 }
 
@@ -538,6 +539,12 @@ void AloitusSivu::kirjauduttu()
 {
 
     ui->salaEdit->clear();
+
+    if( !kp()->pilvi()->kayttajaPilvessa()) {
+        ui->pilviPino->setCurrentIndex(KIRJAUDU);
+        return;
+    }
+
     ui->pilviPino->setCurrentIndex(LISTA);
     ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
 

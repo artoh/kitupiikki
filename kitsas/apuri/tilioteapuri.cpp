@@ -142,6 +142,10 @@ bool TilioteApuri::teeTositteelle()
     tilioteMap.insert("loppupvm", ui->loppuDate->date());
     tilioteMap.insert("tili", ui->tiliCombo->valittuTilinumero());
     tosite()->setData(Tosite::TILIOTE,tilioteMap);
+
+    tosite()->asetaLaskupvm(QDate());
+    tosite()->asetaKumppani(QVariantMap());
+
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData( Tosite::OTSIKKO,
                        tr("Tiliote %1 - %2 %3")

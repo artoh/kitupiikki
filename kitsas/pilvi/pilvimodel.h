@@ -91,7 +91,9 @@ public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
     void paivitaLista(int avaaPilvi = 0);
+    void nimiMuuttui();
 
+    void avattu();
 
 private:
     void kirjautuminenValmis();
@@ -124,6 +126,8 @@ private:
 private:
     static std::map<QString,qlonglong> oikeustunnukset__;
     static QString pilviLoginOsoite__;
+
+    bool avataan_ = true;
 };
 
 #endif // PILVIMODEL_H

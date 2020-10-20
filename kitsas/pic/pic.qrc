@@ -178,6 +178,8 @@
         <file>tiliote.png</file>
         <file>kululasku.png</file>
         <file>euromerkki.png</file>
+        <file>mailfail.png</file>
+        <file>mailok.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

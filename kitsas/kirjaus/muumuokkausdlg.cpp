@@ -46,7 +46,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     ui->merkkausCombo->setVisible(kp()->kohdennukset()->merkkauksia());
 
     ui->kantaCombo->addItems(QStringList() << " 24,00 %" << "14,00 %" << "10,00 %");
-    ui->kantaCombo->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2}).*"),this));
+    ui->kantaCombo->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
 
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &MuuMuokkausDlg::pvmMuuttui);
 
@@ -191,10 +191,10 @@ void MuuMuokkausDlg::accept()
         vienti_.setAlvKoodi( koodi );
         if( ui->kantaCombo->isVisible()) {
             QString txt = ui->kantaCombo->currentText();
-            int vali = txt.indexOf(QRegularExpression("\\s"));
-            if( vali > 0)
-                txt = txt.left(vali);
             txt.replace(",",".");
+            int vali = txt.indexOf(QRegularExpression("[^\\d\\.]"));
+            if( vali > 0)
+                txt = txt.left(vali);            
             vienti_.setAlvProsentti(txt.toDouble());
         }
     }

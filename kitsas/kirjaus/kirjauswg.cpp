@@ -199,6 +199,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->muokkaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::muokkaaVientia);
     connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::uusiVienti);
 
+    tosite()->liitteet()->naytaLadattuLiite();
 }
 
 KirjausWg::~KirjausWg()

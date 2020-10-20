@@ -52,6 +52,10 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     view = new NaytinView(this);
     addWidget(view);
 
+    QLabel* llabel = new QLabel("Ladataan...");
+    llabel->setAlignment(Qt::AlignCenter);
+    addWidget(llabel);
+
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
@@ -82,7 +86,9 @@ void NaytaliiteWg::valitseTiedosto()
 
 void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 {
-    if( pdfdata.isEmpty())
+    if( pdfdata == "*LADATAAN*") {
+        setCurrentIndex(2);
+    } else if( pdfdata.isEmpty())
     {
         setCurrentIndex(0);
     }

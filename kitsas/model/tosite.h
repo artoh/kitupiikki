@@ -80,8 +80,10 @@ public:
         LASKULUONNOS    = 60,
         VALMISLASKU     = 80,
         LAHETETAAN      = 101,
+        LAHETYSVIRHE    = 102,
         KIRJANPIDOSSA   = 100,
         LAHETETTYLASKU  = 110,
+        TOIMITETTULASKU = 113,
         MUISTUTETTU     = 120
     };
 

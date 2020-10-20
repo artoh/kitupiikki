@@ -394,6 +394,15 @@ bool TositeViennit::removeRows(int row, int count, const QModelIndex &parent)
     for(int i=0; i < count; i++)
         viennit_.removeAt(row);
     endRemoveRows();
+    while(row < rowCount()) {
+        if(viennit_.at(row).toMap().value("tyyppi").toInt() == TositeVienti::ALVKIRJAUS) {
+            beginRemoveRows(parent, row, row);
+            viennit_.removeAt(row);
+            endRemoveRows();
+        } else {
+            break;
+        }
+    }
     return true;
 }
 
@@ -623,7 +632,7 @@ void TositeViennit::paivitaAalv(int rivi)
             (alvkoodi == AlvKoodi::OSTOT_NETTO ||
              alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
              alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
-             alvkoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
+             alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
              alvkoodi == AlvKoodi::MAAHANTUONTI ||
              alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) ;
 
@@ -674,7 +683,7 @@ void TositeViennit::paivitaAalv(int rivi)
             removeRows(rivi, 1);
     }
 
-
+    seuraava = viennit_.value(rivi).toMap();
     bool onjoVahennysrivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&
             seuraava.alvKoodi() > AlvKoodi::ALVVAHENNYS &&
             seuraava.alvKoodi() < AlvKoodi::MAKSETTAVAALV;

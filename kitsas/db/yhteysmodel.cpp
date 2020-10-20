@@ -39,8 +39,10 @@ void YhteysModel::alusta()
 }
 
 void YhteysModel::lataaInit(QVariant *reply)
-{
-    QMapIterator<QString, QVariant> iter( reply->toMap() );
+{    
+
+    QVariantMap map = reply->toMap();
+    QMapIterator<QString, QVariant> iter( map );
     while (iter.hasNext()) {
         iter.next();
         QString avain = iter.key();

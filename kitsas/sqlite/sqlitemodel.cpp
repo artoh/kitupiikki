@@ -263,6 +263,8 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 
     qApp->restoreOverrideCursor();
 
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &SQLiteModel::lisaaViimeisiin );
+
     return true;
 }
 
@@ -317,6 +319,8 @@ void SQLiteModel::sulje()
 {
     tietokanta_.exec("DELETE FROM Liite WHERE tosite IS NULL");
     tietokanta_.close();
+    tiedostoPolku_.clear();
+    disconnect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &SQLiteModel::lisaaViimeisiin );
 }
 
 qlonglong SQLiteModel::oikeudet() const
@@ -372,6 +376,9 @@ void SQLiteModel::lisaaViimeisiin()
     // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
     QDir portableDir( kp()->portableDir() );
     QString polku = tiedostopolku();
+
+    if(polku.isEmpty())
+        return;
 
     if( !kp()->portableDir().isEmpty())
         polku = portableDir.relativeFilePath(polku);
