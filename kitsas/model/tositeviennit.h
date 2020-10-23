@@ -30,7 +30,7 @@ public:
 
     enum VientiSarake
     {
-        PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV, SELITE
+        PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV, KUMPPANI, SELITE
     };
 
     enum

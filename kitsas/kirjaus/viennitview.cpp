@@ -25,6 +25,7 @@
 #include "kohdennusdelegaatti.h"
 #include "model/tositeviennit.h"
 #include "model/tosite.h"
+#include "rekisteri/kumppanivalintadelegaatti.h"
 
 #include "muumuokkausdlg.h"
 
@@ -39,6 +40,7 @@ ViennitView::ViennitView(QWidget *parent)
     setItemDelegateForColumn( TositeViennit::DEBET, new EuroDelegaatti(this));
     setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti(this));
     setItemDelegateForColumn( TositeViennit::KOHDENNUS, new KohdennusDelegaatti(this));
+    setItemDelegateForColumn( TositeViennit::KUMPPANI, new KumppaniValintaDelegaatti(this));
 
     setEditTriggers( QTableView::AllEditTriggers );
 

@@ -9,7 +9,7 @@
 
 BUILDIR=build-linux
 QTDIR=~/Qt513/5.13.0/gcc_64
-DISTDIR=dist
+DISTDIR=../dist
 
 export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export ARCH=x86:64

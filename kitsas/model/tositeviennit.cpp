@@ -53,6 +53,8 @@ QVariant TositeViennit::headerData(int section, Qt::Orientation orientation, int
                 return tr("Kohdennus");
             case ALV:
                 return tr("Alv");
+            case KUMPPANI:
+                return tr("Asiakas/Toimittaja");
             case SELITE:
                 return tr("Selite");
         }
@@ -74,7 +76,7 @@ int TositeViennit::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 7;
+    return 8;
 }
 
 QVariant TositeViennit::data(const QModelIndex &index, int role) const
@@ -125,6 +127,8 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                     return QVariant( QString("%1 %").arg( rivi.value("alvprosentti").toInt() ));
             }
         }
+        case KUMPPANI:
+            return rivi.value("kumppani").toMap().value("nimi").toString();
         case SELITE:
             return rivi.value("selite");
         case KOHDENNUS:
@@ -316,7 +320,11 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             }
 
             viennit_[index.row()] = rivi;
-        } else if( role == TositeViennit::EraMapRooli) {
+        } else if( role == Qt::DisplayRole && index.column() == KUMPPANI) {
+            TositeVienti rivi = vienti(index.row());
+            rivi.setKumppani(value.toString());
+            viennit_[index.row()] = rivi;
+        } else if( role == TositeViennit::EraMapRooli && index.column() != KUMPPANI) {
             TositeVienti rivi = vienti(index.row());
             rivi.setEra( value.toMap() );
             double avoin = value.toMap().value("avoin").toDouble();

@@ -176,8 +176,8 @@ void MuuMuokkausDlg::accept()
         vienti_.setJaksoalkaa(ui->jaksoAlkaa->date());
     if(ui->jaksoLoppuu->date().isValid())
         vienti_.setJaksoloppuu(ui->jaksoLoppuu->date());
-    if(ui->kumppani->id())
-        vienti_.setKumppani(ui->kumppani->map());
+    if(ui->kumppani->id() || !ui->kumppani->nimi().isEmpty())
+        vienti_.setKumppani(ui->kumppani->map());    
     vienti_.setSelite(ui->seliteEdit->toPlainText());
 
     if( ui->alvlajiCombo->isVisible()) {

@@ -85,7 +85,12 @@
       "fi" : "Pankkitili",
       "TILI" : 1910,
       "KUVA" : "pankki"
-    },
+    },   
+    {
+      "fi" : "Korttimaksu",
+      "TILI" : 1704,
+      "KUVA" : "luottokortti"
+    },    
     {
       "fi" : "Hyvityslasku",
       "TILI" : 1700,

@@ -734,6 +734,17 @@
     "laajuus": 1
   },
   {
+    "numero": 1704,
+    "tyyppi": "A",
+    "nimi": {
+      "fi": "Korttimaksusaamiset",
+      "sv": "Kreditet för kortbetalning",
+      "en": "Card payments receivables"
+    },
+    "erittely": 1,
+    "laajuus": 1
+  },
+  {
     "numero": 1705,
     "tyyppi": "AO",
     "nimi": {
