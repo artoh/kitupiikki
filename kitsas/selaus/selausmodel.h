@@ -19,6 +19,7 @@
 #define SELAUSMODEL_H
 
 #include <QAbstractTableModel>
+#include <QSet>
 #include <QList>
 #include <QDate>
 #include <QSqlQuery>

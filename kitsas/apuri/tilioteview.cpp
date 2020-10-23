@@ -28,8 +28,8 @@
 #include <QHeaderView>
 #include <QSettings>
 #include <QDebug>
-
 #include <QTimer>
+#include <QKeyEvent>
 
 TilioteView::TilioteView(QWidget *parent) :
     QTableView(parent)
