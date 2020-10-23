@@ -89,9 +89,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return map.value("viite");
                 else {
                     return kp()->tositeTunnus(map.value("tunniste").toInt(),
-                                              map.value("pvm").toDate(),
+                                              map.value("tositepvm").toDate(),
                                               map.value("sarja").toString(),
-                                              true);
+                                              false);
                 }
             case PVM:
                 return map.value("pvm").toDate();
