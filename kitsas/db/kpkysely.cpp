@@ -59,9 +59,9 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
     QByteArray png ;
     png.resize(4);
     png[0] = static_cast<char>( 0x89 );
-    png[1] = 0x50;
-    png[2] = 0x4e;
-    png[3] = 0x47;
+    png[1] = static_cast<char>(0x50 );
+    png[2] = static_cast<char>(0x4e );
+    png[3] = static_cast<char>(0x47);
 
     QByteArray jpg;
     jpg.resize(3);

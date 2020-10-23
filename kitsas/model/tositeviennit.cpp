@@ -452,6 +452,8 @@ TositeVienti TositeViennit::uusi(int indeksi) const
 
 QModelIndex TositeViennit::lisaaVienti(int indeksi)
 {
+    while( viennit_.value(indeksi).toMap().value("tyyppi").toInt() == TositeVienti::ALVKIRJAUS)
+        indeksi++;
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
     viennit_.insert(indeksi, uusi(indeksi));

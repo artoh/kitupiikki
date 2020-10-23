@@ -203,3 +203,7 @@ ENennakkolasku Advance invoice
 enhyri Ennakkolaskun %1 hyvitys
 SVenhyri Kompensation för förhandsfaktura %1
 ENenhyri Compensation for advance invoice %1
+eimaksettavaa Ei maksettavaa
+SVeimaksettavaa Ingen betalbar
+ENeimaksettavaa No payable
+

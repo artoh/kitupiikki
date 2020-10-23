@@ -363,7 +363,7 @@ QString MyyntiLaskujenToimittaja::maksutiedot(const QVariantMap &data)
 
     double yhteensa = data.value("viennit").toList().value(0).toMap().value("debet").toDouble();
     if( yhteensa < 1e-5)
-        return tulostaja.t("Ei maksettavaa");   // Ei maksettavaa
+        return tulostaja.t("eimaksettavaa");   // Ei maksettavaa
 
     QVariantMap lasku = data.value("lasku").toMap();
 

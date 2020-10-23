@@ -130,6 +130,9 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     ui->kirjaaVeroCheck->setChecked( v.data(TositeVienti::AALV).toString().contains("+") );
     ui->kirjaaVahennysCheck->setChecked( v.data(TositeVienti::AALV).toString().contains("-"));
 
+    ui->ostoReskontraRadio->setChecked( v.tyyppi() == TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS );
+    ui->myyntiReskontraRadio->setChecked( v.tyyppi() == TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+
     ui->seliteEdit->setPlainText( v.selite());
 
     if(!tili.onkoValidi())
@@ -206,6 +209,13 @@ void MuuMuokkausDlg::accept()
     if( !aalv.isEmpty())
         vienti_.set(TositeVienti::AALV, aalv);
 
+    if( ui->reskontraGroup->isVisible()) {
+        if( ui->myyntiReskontraRadio->isChecked())
+            vienti_.setTyyppi(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+        else if(ui->ostoReskontraRadio->isChecked())
+            vienti_.setTyyppi(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS);
+    }
+
     kp()->settings()->setValue("MuuMuokkausAalv", aalv);
     kp()->settings()->setValue("MuuMuokkausGeo", saveGeometry());
 
@@ -263,14 +273,24 @@ void MuuMuokkausDlg::tiliMuuttui()
 
     ui->eraCombo->lataa( tili.numero(), ui->kumppani->id() );
 
+    ui->reskontraGroup->setVisible( tili.onko(TiliLaji::TASE));
+
     if( !ladataan_) {
         ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12);
         setAlvKoodi( tili.luku("alvlaji") );
         setAlvProssa( tili.str("alvprosentti").toDouble());
         if( tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
-        if( tili.onko(TiliLaji::TULO))
+
+        if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
             ui->kreditRadio->setChecked(true);
+        else
+            ui->debetRadio->setChecked(true);
+
+        if( tili.onko(TiliLaji::OSTOVELKA))
+            ui->ostoReskontraRadio->setChecked(true);
+        else if(tili.onko(TiliLaji::MYYNTISAATAVA))
+            ui->myyntiReskontraRadio->setChecked(true);
     }
     tarkasta();
 
