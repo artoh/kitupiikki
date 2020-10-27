@@ -84,7 +84,7 @@ public:
 
     void asetaViennit(QVariantList viennit);
     void tyhjenna();
-    void pohjaksi(const QDate& pvm, const QString& vanhaOtsikko, const QString& uusiOtsikko);
+    void pohjaksi(const QDate& pvm, const QString& vanhaOtsikko, const QString& uusiOtsikko, bool sailytaErat = false);
 
     QVariant viennit() const { return viennit_;}
     QVariantList vientilLista() const { return viennit_; }

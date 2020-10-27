@@ -242,7 +242,6 @@ void KirjausWg::tyhjenna()
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
     ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
-    ui->tositePvmEdit->checkValidity();
 
     if( kp()->asetukset()->onko(AsetusModel::ALV))
         ui->viennitView->showColumn(TositeViennit::ALV);
@@ -396,7 +395,7 @@ void KirjausWg::pohjaksi()
             delete apuri_;
             apuri_ = 0;
         }
-        tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text() );
+        tosite_->pohjaksi( ui.pvmEdit->date(), ui.otsikkoEdit->text(), ui.sailytaErat->isChecked() );
         tositeTyyppiVaihtui( tosite()->tyyppi() );
         tosite()->tarkasta();
     }
@@ -502,7 +501,6 @@ void KirjausWg::tuonti(const QVariantMap& map)
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
     if( map.value("tositepvm").toDate().isValid()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
-        ui->tositePvmEdit->checkValidity();
     }
     if( apuri_)
         apuri_->tuo(map);

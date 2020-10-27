@@ -174,11 +174,11 @@ void Tosite::asetaKumppani(const QVariantMap &map)
     setData(KUMPPANI, map);
 }
 
-void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko)
+void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool sailytaerat)
 {
     int siirto = pvm().daysTo(paiva);
 
-    viennit_->pohjaksi(paiva, otsikko(), uusiotsikko);
+    viennit_->pohjaksi(paiva, otsikko(), uusiotsikko, sailytaerat);
     liitteet_->clear();
     loki_->lataa(QVariantList());
 

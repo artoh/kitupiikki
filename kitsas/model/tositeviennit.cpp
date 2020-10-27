@@ -507,11 +507,13 @@ void TositeViennit::tyhjenna()
     asetaViennit(QVariantList());
 }
 
-void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, const QString &uusiOtsikko)
+void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, const QString &uusiOtsikko, bool sailytaErat)
 {
     beginResetModel();
     for(int i=0; i < viennit_.count(); i++) {
         TositeVienti vienti = viennit_.value(i).toMap();
+        if( !sailytaErat && vienti.eraId() == vienti.id())
+            vienti.setEra(-1);
         vienti.remove("id");
         int siirto = vienti.pvm().daysTo(pvm);
         vienti.setPvm( pvm );
@@ -520,7 +522,7 @@ void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, cons
         if( vienti.jaksoloppuu().isValid())
             vienti.setJaksoloppuu( vienti.jaksoloppuu().addDays(siirto));
         if( vienti.selite() == vanhaOtsikko)
-            vienti.setSelite( uusiOtsikko);
+            vienti.setSelite( uusiOtsikko);        
         viennit_[i] = vienti;
     }
     endResetModel();

@@ -601,6 +601,8 @@ void TuloMenoApuri::jaksoAlkaaMuuttui()
     QDate alkupvm = ui->alkuEdit->date();
     rivi()->setJaksoalkaa( alkupvm);
     ui->loppuEdit->setEnabled( alkupvm.isValid() );
+    if(alkupvm.isValid())
+        ui->loppuEdit->setDateRange(alkupvm, QDate());
     tositteelle();
 }
 
@@ -737,7 +739,6 @@ void TuloMenoApuri::alusta(bool meno)
     ui->alvCombo->setVisible(alv);
 
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
-    ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
 
     paivitaVeroFiltterit(tosite()->pvm());
 

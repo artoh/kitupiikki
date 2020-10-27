@@ -181,7 +181,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
     if( jaksoalkaa().isValid())
         vienti.setJaksoalkaa( jaksoalkaa() );
-    if( jaksoalkaa().isValid() && jaksopaattyy().isValid())
+    if( jaksoalkaa().isValid() && jaksopaattyy().isValid() && jaksoalkaa().daysTo(jaksopaattyy()) > 0)
     vienti.setJaksoloppuu( jaksopaattyy());
 
     vienti.setAlvKoodi( verokoodi);

@@ -42,11 +42,10 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
 
     setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
-    oletuspaiva_ = date();
+    oletuspaiva_ = kp()->tilikaudet()->indeksiPaivalle(kp()->paivamaara()) > -1 ? kp()->paivamaara() : kp()->tilitpaatetty().addDays(1) ;
     setPlaceholderText( tr("pp.kk.vvvv") );
     setStyleSheet("color: black;");
 
-    connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
 }
 
 KpDateEdit::~KpDateEdit()
@@ -71,12 +70,13 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 {
     minDate_ = min;
     maxDate_ = max;
+    checkValidity();
 }
 
 void KpDateEdit::setEnabled(bool enabled)
 {
-    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() ))
-            && enabled && !property("SalliYlitys").toBool())
+    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ))
+            && enabled )
     {
         setStyleSheet("color: red;");
     } else {
@@ -108,7 +108,9 @@ void KpDateEdit::setDefaultDate(const QDate &date)
 
 void KpDateEdit::checkValidity()
 {
-    if( (date() < minimumDate() && minimumDate().isValid()) || (date() > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) )
+    if( date().isValid()
+            && ((date() < minimumDate() && minimumDate().isValid())
+                || (date() > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) ))
         setStyleSheet("color: red;");
     else {
         setStyleSheet("");
@@ -180,7 +182,7 @@ void KpDateEdit::setDateInternal(const QDate &date)
         setText( date.toString("dd.MM.yyyy") );
         setCursorPosition(pos);
 
-        if( ((date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) && !property("SalliYlitys").toBool()) {
+        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool())) {
             if( isEnabled())
                 setStyleSheet("color: red;");
             date_ = QDate();            
@@ -209,16 +211,6 @@ void KpDateEdit::setDateFromPopUp(const QDate &date)
 
 void KpDateEdit::editMuuttui(const QString& uusi)
 {
-    if( isNullable() && !date_.isValid() )
-    {
-        if( !uusi.isEmpty() && uusi.at(0).isDigit())
-        {
-            setDateInternal( oletuspaiva_ );
-            editMuuttui( uusi + text().mid(1));            
-        }
-        return;
-    }
-
    // Hyödynnetään tietoa siitä, mikä luku on muuttunut
 
     int pp = uusi.midRef(0,2).toInt();
@@ -330,13 +322,21 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
             setDate( date().addYears(-1));
     }
 
-    if( dateInEditor_.isNull() && event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9 )
-        setText(kp()->paivamaara() < maxDate_ ?  kp()->paivamaara().toString("dd.MM.yyyy") : maxDate_.toString("dd.MM.yyyy"));
+    if( text().isEmpty() && event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9 ) {
+        QString oletusteksti = oletuspaiva_.toString("dd.MM.yyyy");
+        if( maxDate_.isValid() && oletuspaiva_ > maxDate_)
+            oletusteksti = maxDate_.toString("dd.MM.yyyy");
+        else if( minDate_.isValid() && oletuspaiva_ < minDate_)
+            oletusteksti = minDate_.toString("dd.MM.yyyy");
+        setInputMask("00.00.2\\000");
+        setText( QChar( event->key() - Qt::Key_0 + '0'  ) + oletusteksti.mid(1) );
+        oletusteksti = QChar( event->key() - Qt::Key_0 + '0'  ) + oletusteksti.mid(1) ;
+    }
 
     setCursorPosition(pos);
 
-
     QLineEdit::keyPressEvent(event);
+    editMuuttui( text() );
 }
 
 void KpDateEdit::paintEvent(QPaintEvent *event)

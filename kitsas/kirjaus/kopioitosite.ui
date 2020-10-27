@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>158</height>
+    <width>413</width>
+    <height>208</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
    <item row="1" column="1">
     <widget class="QLineEdit" name="otsikkoEdit"/>
    </item>
-   <item row="2" column="1">
+   <item row="3" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -48,7 +48,7 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -60,6 +60,13 @@
    </item>
    <item row="0" column="1">
     <widget class="KpDateEdit" name="pvmEdit"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="sailytaErat">
+     <property name="text">
+      <string>Säilytä tase-erät</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

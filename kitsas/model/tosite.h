@@ -131,7 +131,7 @@ public:
     void asetaKumppani(const QString& nimi);
     void asetaKumppani(const QVariantMap& map);
 
-    void pohjaksi(const QDate& paiva, const QString& uusiotsikko);
+    void pohjaksi(const QDate& paiva, const QString& uusiotsikko, bool sailytaerat = false);
 
     void asetaLaskuNumero(const QString& laskunumero);
     QString laskuNumero() const;
@@ -185,6 +185,7 @@ private:
     TositeLoki* loki_;    
 
     bool resetointiKaynnissa_ = false;
+    bool tallennusKaynnissa_ = false;
 
     static std::map<int,QString> avaimet__;
 };

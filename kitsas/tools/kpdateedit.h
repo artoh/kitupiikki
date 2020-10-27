@@ -106,7 +106,7 @@ protected:
 
 protected slots:    
     void setDateFromPopUp(const QDate& date);
-    void editMuuttui(const QString &uusi);
+    void editMuuttui(const QString &uusipvm);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
