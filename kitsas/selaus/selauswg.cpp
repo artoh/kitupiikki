@@ -126,10 +126,11 @@ void SelausWg::alusta()
     QDate nytloppuu = nytkausi.paattyy();
 
 
-    ui->alkuEdit->setDateRange(alku, loppu);
-    ui->loppuEdit->setDateRange(alku, loppu);
     ui->alkuEdit->setDate(nytalkaa);
     ui->loppuEdit->setDate(nytloppuu);
+    ui->alkuEdit->setDateRange(alku, loppu);
+    ui->loppuEdit->setDateRange(alku, loppu);
+
 
     paivita();
 

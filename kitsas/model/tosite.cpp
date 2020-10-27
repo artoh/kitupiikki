@@ -242,6 +242,7 @@ void Tosite::lataaData(QVariant *variant)
             if( vienti.eraId() == vienti.id() ) {
                 vienti.setEra(-1);
             }
+            vienti.setId(0);
             vientilista[i] = vienti;
         }
     }

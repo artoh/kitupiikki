@@ -38,14 +38,13 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
     nullMahdollinen_(false),
     suljettu_(0)
 {
-    setDateRange( kp()->tilitpaatetty().addDays(1) , kp()->tilikaudet()->kirjanpitoLoppuu()  );
-
     setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
     oletuspaiva_ = kp()->tilikaudet()->indeksiPaivalle(kp()->paivamaara()) > -1 ? kp()->paivamaara() : kp()->tilitpaatetty().addDays(1) ;
     setPlaceholderText( tr("pp.kk.vvvv") );
     setStyleSheet("color: black;");
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KpDateEdit::checkValidity);
 }
 
 KpDateEdit::~KpDateEdit()
@@ -75,15 +74,8 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 
 void KpDateEdit::setEnabled(bool enabled)
 {
-    if( ((dateInEditor_ < minimumDate() && minimumDate().isValid()) || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ))
-            && enabled )
-    {
-        setStyleSheet("color: red;");
-    } else {
-        setStyleSheet("color: black;");
-    }
     QLineEdit::setEnabled(enabled);
-
+    checkValidity();
 }
 
 void KpDateEdit::setNullable(bool enable)
@@ -108,9 +100,10 @@ void KpDateEdit::setDefaultDate(const QDate &date)
 
 void KpDateEdit::checkValidity()
 {
-    if( date().isValid()
-            && ((date() < minimumDate() && minimumDate().isValid())
-                || (date() > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) ))
+    if( dateInEditor_.isValid()
+            && isEnabled()
+            && ((dateInEditor_ < minimumDate() && minimumDate().isValid())
+                || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) ))
         setStyleSheet("color: red;");
     else {
         setStyleSheet("");
@@ -192,6 +185,7 @@ void KpDateEdit::setDateInternal(const QDate &date)
         }
         emit dateChanged(date_);
     }
+
 
     // Kalenteri piilotetaan
     if( kalenteri_)
