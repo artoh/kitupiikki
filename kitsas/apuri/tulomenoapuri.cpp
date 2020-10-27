@@ -232,8 +232,10 @@ void TuloMenoApuri::teeReset()
                             vienti.eraId() != vienti.id()) {
                         for(int i=0; i<maksutapaModel_->rowCount();i++) {
                             QModelIndex indeksi = maksutapaModel_->index(i,0);
-                            if( indeksi.data(MaksutapaModel::TiliRooli).toInt() == vastatili->numero() && !indeksi.data(MaksutapaModel::UusiEraRooli).toBool())
+                            if( indeksi.data(MaksutapaModel::TiliRooli).toInt() == vastatili->numero() && !indeksi.data(MaksutapaModel::UusiEraRooli).toBool()) {
                                 maksutapaind = i;
+                                break;
+                            }
                         }
                     }
                     ui->maksutapaCombo->setCurrentIndex(maksutapaind);
@@ -243,8 +245,12 @@ void TuloMenoApuri::teeReset()
 
                 ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
-                if( vastatili->eritellaankoTase())
-                    ui->eraCombo->valitse( vienti.eraId() );
+                if( vastatili->eritellaankoTase()) {
+                    if(vienti.eraId() == vienti.id())
+                        ui->eraCombo->valitse(-1);
+                    else
+                        ui->eraCombo->valitse( vienti.eraId() );
+                }
                 maksutapaMuuttui();
             }
 
@@ -529,7 +535,8 @@ void TuloMenoApuri::maksutapaMuuttui()
 
 void TuloMenoApuri::vastatiliMuuttui()
 {
-    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
+    int vastatilinumero = ui->vastatiliLine->valittuTilinumero();
+    Tili vastatili = kp()->tilit()->tiliNumerolla( vastatilinumero );
 
     bool eritellankotaso = (vastatili.eritellaankoTase() &&
              !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) ||
@@ -538,7 +545,9 @@ void TuloMenoApuri::vastatiliMuuttui()
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->lataa( vastatili.numero() , ui->asiakasToimittaja->id());
-    if( ( !eritellankotaso || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) && !tosite()->viennit()->vienti(0).eraId() && sender() != ui->eraCombo) {
+    if( ( !eritellankotaso
+          || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool())
+         && !tosite()->viennit()->vienti(0).eraId() && sender() != ui->eraCombo) {
         ui->eraCombo->valitse(-1);
     }
 
@@ -788,10 +797,11 @@ bool TuloMenoApuri::eventFilter(QObject *target, QEvent *event)
 void TuloMenoApuri::kumppaniValittu(int kumppaniId)
 {
     KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
-    connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
-    kysely->kysy();
-
-    ui->eraCombo->lataa(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
+    if(kysely) {
+        connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
+        kysely->kysy();
+        ui->eraCombo->lataa(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
+    }
 }
 
 void TuloMenoApuri::kumppaniTiedot(QVariant *data)

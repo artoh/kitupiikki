@@ -46,6 +46,8 @@ protected:
     void xmlSaapuu(QVariant *data);
     void tallennettu();
 
+    void statusListaSaapuu(QVariant *data);
+    void seuraavaStatus();
 
     Tosite* nykyTosite_;
 
@@ -55,6 +57,8 @@ protected:
     bool hakuPaalla_ = false;
     QString ytunnus_;
     QDateTime aikaleima_;
+
+    QVariantList statusLista_;
 
     static FinvoiceHaku* instanssi__;
 signals:

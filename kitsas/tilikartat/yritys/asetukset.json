@@ -98,6 +98,11 @@
       "KUVA" : "pankki"
     },
     {
+      "fi" : "Luottokortti",
+      "TILI" : 1711,
+      "KUVA" : "luottokortti"
+    },
+    {
       "fi" : "Hyvityslasku",
       "TILI" : 1701,
       "KUVA" : "poista"

@@ -60,6 +60,8 @@ void VerkkolaskuMaaritys::paivitaMaventa()
     QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, osoite);
     connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
+    connect(pk, &PilviKysely::virhe, this, &VerkkolaskuMaaritys::eiTietoja);
+
     pk->kysy();
 }
 
@@ -182,7 +184,7 @@ void VerkkolaskuMaaritys::maaritaMaventa()
 
 void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
 {
-    QVariantMap info = data->toMap();
+    QVariantMap info = data ? data->toMap() : QVariantMap();
     qDebug() << info;
 
     if( info.isEmpty()) {
@@ -215,6 +217,11 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     }
+}
+
+void VerkkolaskuMaaritys::eiTietoja()
+{
+    maventaTiedot(nullptr);
 }
 
 void VerkkolaskuMaaritys::setFlow(bool on)

@@ -123,23 +123,28 @@ void EraCombo::dataSaapuu(QVariant *data)
 }
 
 void EraCombo::vientiSaapuu(QVariant *data)
-{
-    QVariantMap map = data->toMap();
-    QString selite = map.value("selite").toString();
-    QString kumppani = map.value("kumppani").toString();
-    QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
+{        
 
-    addItem( QString("%1 %2")
-             .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
-              .arg(teksti),
-             map.value("id").toInt());
-    setCurrentIndex( findData(valittuna_) );
+    QVariantMap map = data->toMap();
+    int id = map.value("id").toInt();
+    if( findData(id) == -1 ) {
+
+        QString selite = map.value("selite").toString();
+        QString kumppani = map.value("kumppani").toString();
+        QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
+
+        addItem( QString("%1 %2")
+                 .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
+                  .arg(teksti),
+                 map.value("id").toInt());
+        setCurrentIndex( findData(valittuna_) );
+    }
 }
 
 void EraCombo::valintaMuuttui()
 {
 
-    if( !latauksessa_) {
+    if( !latauksessa_ && currentData().toInt() != valittuna_) {
         valittuna_ = currentData().toInt();
         emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString(), currentData(KumppaniRooli).toInt() );
     }

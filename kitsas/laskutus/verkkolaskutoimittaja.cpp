@@ -106,6 +106,7 @@ bool VerkkolaskuToimittaja::toimitaSeuraava()
         pyynto.insert("asiakas", asiakas);
         pyynto.insert("lasku", map.value("lasku") );
         pyynto.insert("rivit", map.value("rivit"));
+        pyynto.insert("docid", map.value("id").toInt());
         qDebug() << pyynto;
 
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
@@ -142,6 +143,7 @@ void VerkkolaskuToimittaja::asiakasSaapuu(const QVariant *data, const QVariantMa
     pyynto.insert("asiakas", asiakas);
     pyynto.insert("lasku", map.value("lasku") );
     pyynto.insert("rivit", map.value("rivit"));
+    pyynto.insert("docid", map.value("id").toInt());
 
     if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
 

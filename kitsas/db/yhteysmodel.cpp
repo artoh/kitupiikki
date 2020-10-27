@@ -25,6 +25,8 @@
 #include <QJsonDocument>
 #include <QVariantList>
 
+#include <QApplication>
+
 YhteysModel::YhteysModel(QObject *parent) :
     QAbstractListModel(parent)
 {
@@ -35,6 +37,7 @@ void YhteysModel::alusta()
 {
     KpKysely *initkysely = kysely("/init");
     connect( initkysely, &KpKysely::vastaus, this, &YhteysModel::initSaapuu );
+    connect( initkysely, &KpKysely::virhe, [] { qApp->restoreOverrideCursor(); });
     initkysely->kysy();
 }
 

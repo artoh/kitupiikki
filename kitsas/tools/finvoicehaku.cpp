@@ -60,6 +60,10 @@ void FinvoiceHaku::haeUudet()
         connect( haku, &KpKysely::virhe, [this] { this->hakuPaalla_=false;});
         haku->kysy();
 
+        QString statusosoite = kp()->pilvi()->finvoiceOsoite() + "/status/" + kp()->asetus("Ytunnus");
+        PilviKysely *statushaku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, statusosoite);
+        connect( statushaku, &KpKysely::vastaus, this, &FinvoiceHaku::statusListaSaapuu);
+        statushaku->kysy();
     }
 }
 
@@ -213,6 +217,36 @@ void FinvoiceHaku::tallennettu()
 
     }
 
+}
+
+void FinvoiceHaku::statusListaSaapuu(QVariant *data)
+{
+    statusLista_ = data->toList();
+    if(statusLista_.count())
+        seuraavaStatus();
+}
+
+void FinvoiceHaku::seuraavaStatus()
+{
+    if( statusLista_.count()) {
+        QVariant kasiteltava = statusLista_.takeLast();
+        QVariantMap map = kasiteltava.toMap();
+
+        int tositeId = map.value("docid").toInt();
+        int status = map.value("status").toInt();
+
+        KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::PATCH);
+        if(kysely) {
+            QVariantMap data;
+            if(status == 1) {
+                data.insert("tila", Tosite::TOIMITETTULASKU);
+            } else if( status == 2) {
+                data.insert("tila", Tosite::LAHETYSVIRHE);
+            }
+            connect(kysely, &KpKysely::vastaus, this, &FinvoiceHaku::seuraavaStatus);
+            kysely->kysy(data);
+        }
+    }
 }
 
 FinvoiceHaku *FinvoiceHaku::instanssi()

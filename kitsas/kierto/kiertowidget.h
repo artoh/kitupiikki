@@ -43,6 +43,7 @@ protected:
 private:
     Ui::Kierto* ui;
     Tosite* tosite_;
+    QString iban_;
 
 };
 

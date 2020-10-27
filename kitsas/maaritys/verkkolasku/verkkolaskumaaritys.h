@@ -48,6 +48,7 @@ protected:
     void valintaMuuttui();
     void maaritaMaventa();
     void maventaTiedot(QVariant* data);
+    void eiTietoja();
     void setFlow(bool on);
     void noudaNyt();
 

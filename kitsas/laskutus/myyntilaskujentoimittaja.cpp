@@ -189,7 +189,7 @@ void MyyntiLaskujenToimittaja::tarkistaValmis()
                             .arg(virheita_), Kirjanpito::Stop);
             else
                 emit kp()->onni(tr("Laskujen toimittaminen epäonnistui tai peruttiin.\n"
-                                   "Toimittamatta jääneet laskut löytyyvät Lähetettävät-välilehdeltä."), Kirjanpito::Stop);
+                                   "Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä."), Kirjanpito::Stop);
         } else {
             emit laskutToimitettu();
             if( toimitetut_ > 1)

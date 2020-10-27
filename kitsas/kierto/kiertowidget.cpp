@@ -48,6 +48,8 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     });
     connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
 
+    connect( ui->kopioiIban, &QToolButton::clicked, ui->ibanLabel, &QLineEdit::copy);
+
 
     if( qApp->screens().value(0)->size().height() < 1200) {
         // Jotta käyttökelpoisempi pienellä näytöllä, poistetaan kuvakkeeita näkyviltä
@@ -69,8 +71,10 @@ void KiertoWidget::lataaTosite()
 
 
     int ntila = tosite_ ? tosite_->tositetila() : 0;
-    ui->ibanLabel->setText( MyyntiLaskunTulostaja::valeilla( tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() ) );
-
+    iban_ = MyyntiLaskunTulostaja::valeilla( tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() );
+    ui->ibanLabel->setText( iban_ );
+    ui->ibanLabel->setVisible(!iban_.isEmpty());
+    ui->kopioiIban->setVisible(!iban_.isEmpty());
 
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
