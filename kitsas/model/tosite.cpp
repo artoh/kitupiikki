@@ -265,6 +265,10 @@ void Tosite::lataaData(QVariant *variant)
 
 void Tosite::tallenna(int tilaan)
 {
+    if( tallennusKaynnissa_)
+        return;
+    tallennusKaynnissa_ = true;
+
     if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
         setData(ID,QVariant());
     }
@@ -378,11 +382,13 @@ void Tosite::tallennusValmis(QVariant *variant)
                          sarja(), tositetila());
         emit kp()->kirjanpitoaMuokattu();
     }
+    tallennusKaynnissa_ = false;
 }
 
 void Tosite::tallennuksessaVirhe(int virhe)
 {
     emit tallennusvirhe(virhe);
+    tallennusKaynnissa_ = false;
 }
 
 void Tosite::liitteetTallennettu()

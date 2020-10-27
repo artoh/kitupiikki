@@ -96,8 +96,6 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("14 %"), 14.0);
     ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("10 %"), 10.0);
 
-
-    ui->asiakastoimittaja->alusta();
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()

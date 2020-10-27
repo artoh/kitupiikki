@@ -106,11 +106,6 @@ void AsiakasToimittajaValinta::clear()
 
 }
 
-void AsiakasToimittajaValinta::alusta()
-{
-    if( isEnabled() )
-        model_->lataa();
-}
 
 void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
 {
@@ -153,7 +148,8 @@ void AsiakasToimittajaValinta::valitseAsiakas()
 
 void AsiakasToimittajaValinta::nimiMuuttui()
 {
-    setId( combo_->itemData( combo_->findData( combo_->currentText(), Qt::EditRole ) ).toInt() );    
+    int id = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
+    setId( id );
 
     // Jos on syötetty y-tunnus, haetaan sillä
     if( YTunnusValidator::kelpaako( combo_->currentText() )) {

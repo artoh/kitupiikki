@@ -739,7 +739,6 @@ void TuloMenoApuri::alusta(bool meno)
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
     ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
 
-    ui->asiakasToimittaja->alusta();
     paivitaVeroFiltterit(tosite()->pvm());
 
 }

@@ -94,7 +94,6 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku, int asiakas
     restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
 
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
-    ui->asiakas->alusta();
 
     connect( ui->esikatseluNappi, &QPushButton::clicked, [this] { this->esikatsele(); });
 
