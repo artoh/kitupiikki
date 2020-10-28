@@ -596,12 +596,11 @@ void KirjausWg::paivitaLiiteNapit()
 
 void KirjausWg::lataaTosite(int id)
 {
-    qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+    kp()->odotusKursori(true);
     tosite_->lataa(id);
     ui->idLabel->setText(QString::number(id));
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), true);
-    emit naytaPohjat(false);
-    qApp->restoreOverrideCursor();
+    emit naytaPohjat(false);    
 }
 
 void KirjausWg::paivitaKommentti(const QString &kommentti)

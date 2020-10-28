@@ -93,8 +93,6 @@ public slots:
     void paivitaLista(int avaaPilvi = 0);
     void nimiMuuttui();
 
-    void avattu();
-
 private:
     void kirjautuminenValmis();
     void paivitysValmis(QVariant* paluu);
@@ -126,8 +124,6 @@ private:
 private:
     static std::map<QString,qlonglong> oikeustunnukset__;
     static QString pilviLoginOsoite__;
-
-    bool avataan_ = true;
 };
 
 #endif // PILVIMODEL_H

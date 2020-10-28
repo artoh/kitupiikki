@@ -36,8 +36,7 @@ YhteysModel::YhteysModel(QObject *parent) :
 void YhteysModel::alusta()
 {
     KpKysely *initkysely = kysely("/init");
-    connect( initkysely, &KpKysely::vastaus, this, &YhteysModel::initSaapuu );
-    connect( initkysely, &KpKysely::virhe, [] { qApp->restoreOverrideCursor(); });
+    connect( initkysely, &KpKysely::vastaus, this, &YhteysModel::initSaapuu );    
     initkysely->kysy();
 }
 
@@ -94,4 +93,5 @@ void YhteysModel::initSaapuu(QVariant *reply)
 {
     lataaInit( reply );
     kp()->yhteysAvattu(this);
+    kp()->odotusKursori(false);
 }

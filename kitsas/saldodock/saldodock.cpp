@@ -104,8 +104,8 @@ void SaldoDock::paivita()
 void SaldoDock::alusta()
 {
     if( kp()->yhteysModel() == nullptr ||
-            !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS
-                                                                               | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS + YhteysModel::ASETUKSET) )
+            !kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS + YhteysModel::TOSITE_LUONNOS + YhteysModel::TOSITE_MUOKKAUS
+                                                                               + YhteysModel::RAPORTIT + YhteysModel::TILINPAATOS + YhteysModel::ASETUKSET) )
     {
         hide();
     } else {

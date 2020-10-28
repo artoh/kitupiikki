@@ -460,4 +460,5 @@ void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)
     QDialog::accept();
 
     emit tallennettu(id, nimi);
+    emit kp()->kirjanpitoaMuokattu();
 }

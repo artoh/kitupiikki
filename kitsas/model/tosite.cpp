@@ -262,6 +262,8 @@ void Tosite::lataaData(QVariant *variant)
     QTimer::singleShot(100, this, &Tosite::latausValmis);
     QTimer::singleShot(500, this, &Tosite::laitaTalteen);
 
+    kp()->odotusKursori(false);
+
 }
 
 void Tosite::tallenna(int tilaan)

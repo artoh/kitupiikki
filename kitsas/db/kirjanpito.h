@@ -278,6 +278,8 @@ public:
     void asetaTositeSarjat(const QStringList& sarjat) { tositesarjat_=sarjat;}
     QStringList tositeSarjat() const { return tositesarjat_;}
 
+
+    void odotusKursori(bool on);
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -344,6 +346,7 @@ signals:
 
     void logoMuuttui();
 
+
 public slots:
     /**
      * @brief Avaa kirjanpitotietokannan
@@ -404,6 +407,8 @@ protected:
     QStringList tositesarjat_;
 
     Tulkki* tulkki_;
+
+    bool waitCursor_ = false;
 
 
 public:

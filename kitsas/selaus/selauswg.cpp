@@ -138,7 +138,7 @@ void SelausWg::alusta()
 
 void SelausWg::paivita()
 {
-    qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+    kp()->odotusKursori(true);
     qApp->processEvents();
     bool lopussa = ui->selausView->verticalScrollBar()->value() >=
             ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
@@ -161,7 +161,7 @@ void SelausWg::paivita()
 
     if( lopussa )
         ui->selausView->verticalScrollBar()->setValue( ui->selausView->verticalScrollBar()->maximum() );    
-    qApp->restoreOverrideCursor();
+    kp()->odotusKursori(false);
 }
 
 void SelausWg::suodata()

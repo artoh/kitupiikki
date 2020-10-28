@@ -292,6 +292,17 @@ QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
     return tulkki_->k(teksti, kieli);
 }
 
+void Kirjanpito::odotusKursori(bool on)
+{
+    if(on && !waitCursor_) {
+        waitCursor_ = true;
+        qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+    } else if(!on && waitCursor_) {
+        waitCursor_ = false;
+        qApp->restoreOverrideCursor();
+    }
+}
+
 bool Kirjanpito::lataaUudelleen()
 {
     return avaaTietokanta(kirjanpitoPolku());

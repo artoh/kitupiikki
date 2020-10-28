@@ -98,10 +98,6 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 
 bool PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
 {
-
-    avataan_ = true;
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &PilviModel::avattu);    
-
     for( auto var : data_.value("clouds").toList()) {
         QVariantMap map = var.toMap();
         if( map.value("id").toInt() == pilviId) {
@@ -111,7 +107,7 @@ bool PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
             oikeudet_ = oikeudet( map.value("rights").toList() );
             pilviVat_ = map.value("vat").toBool();
             if( !siirrossa) {
-                qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+                kp()->odotusKursori(true);
                 alusta();
                 emit kirjauduttu();
             }
@@ -232,14 +228,6 @@ void PilviModel::nimiMuuttui()
 {
     paivitaLista();
 }
-
-void PilviModel::avattu()
-{
-    if( avataan_)
-        qApp->restoreOverrideCursor();
-    avataan_ = false;
-}
-
 
 
 void PilviModel::kirjautuminenValmis()

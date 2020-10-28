@@ -163,4 +163,5 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
         emit kp()->onni(tr("<b>Virhe palvelimella %1</b>").arg(koodi), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::UnknownServerError)
         emit kp()->onni(tr("<b>Palvelinvirhe</b><br>Palvelu on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
+    kp()->odotusKursori(false);
 }

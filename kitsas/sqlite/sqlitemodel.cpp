@@ -130,7 +130,7 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
 bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvattaessa, bool asetaAktiiviseksi)
 {
 
-    qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+    kp()->odotusKursori(true);
 
     tietokanta_.setDatabaseName( polku );
     tiedostoPolku_.clear();
@@ -139,7 +139,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 
     if( !tietokanta_.open())
     {
-        qApp->restoreOverrideCursor();
+        kp()->odotusKursori(false);
         if( ilmoitavirheestaAvattaessa ) {
             QMessageBox::critical(nullptr, tr("Tietokannan avaaminen epäonnistui"),
                                   tr("Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia")
@@ -160,7 +160,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 
     if( query.lastError().isValid() )
     {
-        qApp->restoreOverrideCursor();
+        kp()->odotusKursori(false);
         // Tietokanta on jo käytössä
         if( ilmoitavirheestaAvattaessa )
         {
@@ -184,7 +184,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     if( query.next()) {
         int versio = query.value(0).toInt();
         if( versio > TIETOKANTAVERSIO) {
-            qApp->restoreOverrideCursor();
+            kp()->odotusKursori(false);
             QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(polku),
                                   tr("Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.\n\n"
                                      "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa ohjelma "
@@ -193,14 +193,14 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
             tietokanta_.close();
             return false;
         } else if( versio < TIETOKANTAVERSIO) {
-            qApp->restoreOverrideCursor();
+            kp()->odotusKursori(false);
             if(QMessageBox::question(nullptr, tr("Kirjanpidon päivittäminen"),
                                      tr("Avataksesi kirjanpidon pitää se päivittää yhteensopivaksi nykyisen version kanssa. Päivityksen jälkeen kirjanpitoa ei voi enää avata varhaisemmilla esiversioilla. "
                                         "\nPäivitetäänkö kirjanpito nyt?"), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel)!= QMessageBox::Yes) {
                 tietokanta_.close();
                 return false;
             }
-            qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+            kp()->odotusKursori(false);
             // #603 IBAN siirretään omaan tietokantakenttään, jotta säilyy päivitysten ylitse
             if( versio < 24) {
                 query.exec("ALTER TABLE Tili ADD COLUMN iban VARCHAR(32)");
@@ -236,7 +236,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         }
     } else {
         // Tämä ei ole lainkaan kelvollinen tietokanta
-        qApp->restoreOverrideCursor();
+        kp()->odotusKursori(false);
         QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
                               tr("Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut."));
         qDebug() << tietokanta_.lastError().text();
@@ -259,9 +259,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 
     alusta();
     if( asetaAktiiviseksi)
-        lisaaViimeisiin();
-
-    qApp->restoreOverrideCursor();
+        lisaaViimeisiin();   
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &SQLiteModel::lisaaViimeisiin );
 
