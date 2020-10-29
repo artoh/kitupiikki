@@ -720,8 +720,6 @@ void TositeViennit::paivitaAalv(int rivi)
         } else {
             vahennys.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero());
             vahennys.setAlvKoodi( alvkoodi + AlvKoodi::ALVVAHENNYS);
-            vahennys.setDebet( ksentit );
-            vahennys.setKredit( dsentit );
         }
 
         if (!onjoVahennysrivi)

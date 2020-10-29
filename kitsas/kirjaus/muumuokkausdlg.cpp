@@ -65,6 +65,8 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     if( kp()->settings()->contains("MuuMuokkausGeo"))
         restoreGeometry(kp()->settings()->value("MuuMuokkausGeo").toByteArray());
 
+    ui->kumppani->clear();
+
     new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(accept()));
 }
 
@@ -97,7 +99,9 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     if( v.contains("pvm"))
         ui->pvmEdit->setDate( v.pvm() );
 
-    ui->kumppani->set(v.kumppaniId(), v.kumppaniNimi());
+    if(v.kumppaniId() || !v.kumppaniNimi().isEmpty())
+        ui->kumppani->set(v.kumppaniId(), v.kumppaniNimi());
+
 
     Tili tili;
     tili = kp()->tilit()->tiliNumerolla(v.tili());
@@ -192,14 +196,8 @@ void MuuMuokkausDlg::accept()
             koodi += AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON;
 
         vienti_.setAlvKoodi( koodi );
-        if( ui->kantaCombo->isVisible()) {
-            QString txt = ui->kantaCombo->currentText();
-            txt.replace(",",".");
-            int vali = txt.indexOf(QRegularExpression("[^\\d\\.]"));
-            if( vali > 0)
-                txt = txt.left(vali);            
-            vienti_.setAlvProsentti(txt.toDouble());
-        }
+        vienti_.setAlvProsentti(alvProsentti());
+
     }
     QString aalv;
     if( ui->kirjaaVeroCheck->isChecked())
@@ -314,7 +312,7 @@ void MuuMuokkausDlg::eraMuuttui(int /*eraid*/, double avoinna, const QString& se
     }
     if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setPlainText(selite);
-    if( !ui->kumppani->id())
+    if( !ui->kumppani->id() && kumppani)
         ui->kumppani->set(kumppani);
 }
 
@@ -340,6 +338,9 @@ void MuuMuokkausDlg::alvLajiMuuttui()
     ui->alvGroup->setVisible(!nollalaji);
     ui->kantaLabel->setVisible(!nollalaji);
     ui->kantaCombo->setVisible(!nollalaji);
+
+    if( !nollalaji && alvProsentti() < 1e-5 )
+        ui->kantaCombo->setCurrentText("24,00 %");
 
     kirjausLajiMuuttui();
     tarkasta();
@@ -374,4 +375,18 @@ void MuuMuokkausDlg::tarkasta()
                 ( ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() == 0 ||
                   !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()))
                 );
+}
+
+double MuuMuokkausDlg::alvProsentti() const
+{
+    bool nollalaji = ui->alvlajiCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool();
+    if(nollalaji)
+        return 0.0;
+
+    QString txt = ui->kantaCombo->currentText();
+    txt.replace(",",".");
+    int vali = txt.indexOf(QRegularExpression("[^\\d\\.]"));
+    if( vali > 0)
+        txt = txt.left(vali);
+    return txt.toDouble();
 }

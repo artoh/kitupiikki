@@ -62,6 +62,8 @@ protected:
 
     void tarkasta();
 
+    double alvProsentti() const;
+
 private:
 
     Ui::MuuMuokkausDlg *ui;
