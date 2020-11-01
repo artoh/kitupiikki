@@ -54,6 +54,7 @@
 #include "alv/alvilmoitustenmodel.h"
 #include "kitupiikkituonti/vanhatuontidlg.h"
 #include "pilvi/pilveensiirto.h"
+#include "tilaus/planmodel.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -553,6 +554,11 @@ void AloitusSivu::kirjauduttu()
 
     if (pilvia == 0 && pilvetmax == 0) {
         ui->planLabel->setText( kp()->pilvi()->planname() );
+    } else if( kp()->pilvi()->plan() == PlanModel::TILITOIMISTOPLAN ) {
+        // Tilitoimistoille joustava tilausten enimmäismäärä
+        ui->planLabel->setText(  tr("%1\n%2 kirjanpitoa")
+                            .arg( kp()->pilvi()->planname())
+                            .arg( pilvia ));
     } else {
         ui->planLabel->setText(  tr("%1\n%2/%3 kirjanpitoa")
                             .arg( kp()->pilvi()->planname())

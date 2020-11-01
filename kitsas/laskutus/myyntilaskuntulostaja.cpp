@@ -226,7 +226,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         QString teksti = t(muikkari.value("tyyppi").toInt() == TositeTyyppi::MAKSUMUISTUTUS ?
                                "aiempimuistutus" :
                                "alkuplasku")
-                .arg(muikkarilasku.value("numero").toString())
+                .arg(muikkarilasku.value("numero").toLongLong())
                 .arg(muikkarilasku.value("pvm").toDate().toString("dd.MM.yyyy"))
                 .arg(muikkarilasku.value("erapvm").toDate().toString("dd.MM.yyyy"));
 
@@ -398,7 +398,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     painter->setFont(QFont("FreeSans", TEKSTIPT));
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, lasku.value("pvm").toDate().toString("dd.MM.yyyy") );
-    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, lasku.value("numero").toString() );
+    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, lasku.value("numero").toLongLong() ?  QString::number(lasku.value("numero").toLongLong()) : "" );
 
     QString toimituslaatikkoon = map_.value("lasku").toMap().value("toimituspvm").toDate().toString("dd.MM.yyyy");
     if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)

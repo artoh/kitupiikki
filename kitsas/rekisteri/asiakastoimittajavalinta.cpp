@@ -70,6 +70,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
 
     setFocusProxy( combo_ );
     button_->setFocusPolicy(Qt::NoFocus);
+    clear();
 }
 
 QString AsiakasToimittajaValinta::nimi() const

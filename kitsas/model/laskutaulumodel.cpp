@@ -83,7 +83,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             case NUMERO:
                 if( map.contains("numero")) {
                     if( role == Qt::EditRole)
-                        return QString(" %1").arg(map.value("numero").toInt(),20,10);
+                        return QString(" %1").arg(map.value("numero").toLongLong(),20,10);
+                    if(map.value("numero").toInt())
+                        return map.value("numero").toLongLong();
                     return map.value("numero");
                 } else if(map.contains("viite"))
                     return map.value("viite");
@@ -191,6 +193,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return QIcon(":/pic/varoitus.png");
                 else if(tila == Tosite::LAHETYSVIRHE)
                     return QIcon(":/pic/mailfail.png");
+                else if(tila == Tosite::TOIMITETTULASKU)
+                    return QIcon(":/pic/mailok.png");
 
                 switch (map.value("tyyppi").toInt()) {
                 case TositeTyyppi::MYYNTILASKU:                    
