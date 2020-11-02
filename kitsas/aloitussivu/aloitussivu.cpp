@@ -940,7 +940,9 @@ QString AloitusSivu::summat()
              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
 
 
-    txt.append("<table width=100%>");
+    txt.append("<table width=100% class=saldot>");
+
+    int rivi=0;
 
     QMapIterator<QString,QVariant> iter(saldot_);
     while( iter.hasNext()) {
@@ -948,10 +950,11 @@ QString AloitusSivu::summat()
         int tilinumero = iter.key().toInt();
         double saldo = iter.value().toDouble();
 
-        txt.append( QString("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>")
+        txt.append( QString("<tr class=%4><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
                     .arg(kp()->tilit()->nimi(tilinumero).toHtmlEscaped())
-                    .arg(saldo,0,'f',2) );
+                    .arg(saldo,0,'f',2)
+                    .arg(rivi++ % 4 == 3 ? "tumma" : "vaalea"));
 
     }
     txt.append("</table>");
