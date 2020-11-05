@@ -928,11 +928,11 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     laskunnumero_ = lasku.value("numero").toLongLong();
     alkupLasku_ = lasku.value("alkupNro").toInt();
     alkupPvm_ = lasku.value("alkupPvm").toDate();
-    viite_ = lasku.value("viite").toString();
+    viite_ = map.value("viite").toString();
     tunniste_ = map.value("tunniste").toInt();
     era_ = tyyppi_ == TositeTyyppi::MYYNTILASKU
             ? vienti.value("id").toInt()
-            : lasku.value("era").toInt();
+            : vienti.value("era").toMap().value("id").toInt();
     asAlvTunnus_ = lasku.value("alvtunnus").toString();
     aiemmat_ = lasku.value("aiemmat").toList();
     aiempiSaldo_ = lasku.value("aiempisaldo").toDouble();

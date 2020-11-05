@@ -198,8 +198,11 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
 
     ylaruudukko(printer, painter, ikkunakuori);
 
-    ErittelyRuudukko erittely( map_.value("rivit").toList() , this);
-    erittely.tulostaErittely(printer, painter, marginaali);
+    QVariantList rivit = map_.value("rivit").toList();
+    if( rivit.count() ) {
+        ErittelyRuudukko erittely( rivit, this);
+        erittely.tulostaErittely(printer, painter, marginaali);
+    }
 
     // Maksumuistutuksessa on myös erittely aiemmista laskuista
     double avoinsaldo = map_.value("lasku").toMap().value("aiempisaldo").toDouble();
