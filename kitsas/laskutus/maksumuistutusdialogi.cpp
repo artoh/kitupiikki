@@ -98,7 +98,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     muistutus.asetaTyyppi(TositeTyyppi::MAKSUMUISTUTUS);
     muistutus.asetaPvm(kp()->paivamaara());
     muistutus.setData(Tosite::TILA, Tosite::VALMISLASKU);
-    muistutus.asetaErapvm( ui->eraDate->date());
+    muistutus.asetaErapvm( ui->eraDate->date());    
     QVariantList tositteet = muistutettavat_.value(era);
     QVariantMap amap = tositteet.value(0).toMap();
     QVariantMap eramap = eraMapit_.value(era);
@@ -107,6 +107,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     QVariantMap lasku = amap.value("lasku").toMap();
     MyyntiLaskunTulostaja tulostaja(lasku.value("kieli").toString());
     muistutus.asetaKommentti( tulostaja.t("muistutusteksti") );
+    muistutus.asetaOtsikko( tulostaja.t("mmotsikko").arg(lasku.value("numero").toString()));
 
     lasku.insert("alkupNro", lasku.value("numero"));
     lasku.insert("alkupPvm", lasku.value("pvm"));
@@ -135,7 +136,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmvienti.setPvm(kp()->paivamaara());
         mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
-        mmvienti.setKredit(ui->muistutusSpin->value());
+        mmvienti.setKredit(ui->muistutusSpin->value());        
         kulut+=qRound64(ui->muistutusSpin->value() * 100.0);
         viennit.append(mmvienti);
 
@@ -210,6 +211,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if(kumppaniId) {
         vienti.setKumppani(kumppaniId);
     }
+    vienti.setSelite(muistutus.otsikko());
     vienti.setDebet(kulut);
     viennit.insert(0, vienti);
 

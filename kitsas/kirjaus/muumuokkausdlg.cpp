@@ -68,6 +68,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     ui->kumppani->clear();
 
     new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(accept()));
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("kirjaus/muu"); } );
 }
 
 MuuMuokkausDlg::~MuuMuokkausDlg()
@@ -165,10 +166,15 @@ void MuuMuokkausDlg::accept()
 
     vienti_.setPvm( ui->pvmEdit->date());
     vienti_.setTili( ui->tiliLine->valittuTilinumero());
+
+    double euro = ui->euroEdit->value();
+    if( ui->sisAlvCheck->isVisible() && ui->sisAlvCheck->isChecked())
+        euro = euro / (( 100.0 + alvProsentti()) / 100.0);
+
     if( ui->debetRadio->isChecked())
-        vienti_.setDebet( ui->euroEdit->value());
+        vienti_.setDebet( euro);
     else
-        vienti_.setKredit( ui->euroEdit->value());
+        vienti_.setKredit( euro);
 
     if( ui->kohdennusCombo->isVisible())
         vienti_.setKohdennus( ui->kohdennusCombo->kohdennus());
@@ -341,6 +347,8 @@ void MuuMuokkausDlg::alvLajiMuuttui()
 
     if( !nollalaji && alvProsentti() < 1e-5 )
         ui->kantaCombo->setCurrentText("24,00 %");
+
+    ui->sisAlvCheck->setVisible(!nollalaji);
 
     kirjausLajiMuuttui();
     tarkasta();

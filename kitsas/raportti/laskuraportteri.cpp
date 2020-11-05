@@ -17,6 +17,7 @@
 #include "laskuraportteri.h"
 
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 LaskuRaportteri::LaskuRaportteri(QObject *parent, const QString kielikoodi)
     : Raportteri(parent, kielikoodi)
@@ -109,6 +110,7 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
 
     for(auto item : list) {
         QVariantMap map = item.toMap();
+
         RaporttiRivi rivi;
 
         rivi.lisaa( optiot_ & NaytaViite ? map.value("viite").toString() : map.value("numero").toString());
@@ -121,7 +123,12 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
 
         qlonglong avoin = qRound64( map.value("avoin").toDouble() * 100.0);
         rivi.lisaa( avoin );
-        avoinsumma += avoin;
+
+        int tyyppi = map.value("tyyppi").toInt();
+
+        // Hyvityslaskuja ja maksumuistutuksia ei lisätä avointen summaan, koska ovat jo laskun osalta
+        if( tyyppi != TositeTyyppi::HYVITYSLASKU && tyyppi != TositeTyyppi::MAKSUMUISTUTUS)
+            avoinsumma += avoin;
 
         QString asiakastoimittaja = optiot_ & Myyntilaskut ? map.value("asiakas").toString() : map.value("toimittaja").toString();
         QString selite = map.value("selite").toString();

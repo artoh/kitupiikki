@@ -13,11 +13,11 @@
   <property name="windowTitle">
    <string>Uusi vienti</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,0,1">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <layout class="QFormLayout" name="formLayout_3">
          <item row="0" column="0">
@@ -36,7 +36,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Tili</string>
+            <string>&amp;Tili</string>
            </property>
            <property name="buddy">
             <cstring>tiliLine</cstring>
@@ -53,31 +53,59 @@
          <property name="title">
           <string>Määrä</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="QRadioButton" name="debetRadio">
               <property name="text">
-               <string>Debet</string>
+               <string>&amp;Debet</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QRadioButton" name="kreditRadio">
               <property name="text">
-               <string>Kredit</string>
+               <string>&amp;Kredit</string>
               </property>
              </widget>
             </item>
            </layout>
           </item>
           <item>
-           <widget class="KpEuroEdit" name="euroEdit">
-            <property name="EiMiinus" stdset="0">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="KpEuroEdit" name="euroEdit">
+              <property name="EiMiinus" stdset="0">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="sisAlvCheck">
+                <property name="text">
+                 <string>&amp;Sis. alv</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -87,7 +115,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="kohdennusLabel">
            <property name="text">
-            <string>Kohdennus</string>
+            <string>Koh&amp;dennus</string>
            </property>
            <property name="buddy">
             <cstring>kohdennusCombo</cstring>
@@ -100,7 +128,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="merkkausLabel">
            <property name="text">
-            <string>Merkkaukset</string>
+            <string>Me&amp;rkkaukset</string>
            </property>
            <property name="buddy">
             <cstring>merkkausCombo</cstring>
@@ -113,7 +141,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="eraLabel">
            <property name="text">
-            <string>Tase-erä</string>
+            <string>Tase-&amp;erä</string>
            </property>
            <property name="buddy">
             <cstring>eraCombo</cstring>
@@ -143,7 +171,7 @@
          <item row="4" column="0">
           <widget class="QLabel" name="jaksoLabel">
            <property name="text">
-            <string>Jaksotus</string>
+            <string>&amp;Jaksotus</string>
            </property>
            <property name="buddy">
             <cstring>jaksoAlkaa</cstring>
@@ -229,8 +257,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>17</height>
+           <width>504</width>
+           <height>13</height>
           </size>
          </property>
         </spacer>
@@ -281,21 +309,21 @@
             <item>
              <widget class="QRadioButton" name="perusteRadio">
               <property name="text">
-               <string>Veron peruste</string>
+               <string>Veron &amp;peruste</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QRadioButton" name="veroRadio">
               <property name="text">
-               <string>Veron määrä</string>
+               <string>Veron m&amp;äärä</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QRadioButton" name="vahennysRadio">
               <property name="text">
-               <string>Vähennyksen määrä</string>
+               <string>Vähe&amp;nnyksen määrä</string>
               </property>
              </widget>
             </item>
@@ -312,7 +340,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="kantaLabel">
            <property name="text">
-            <string>Verokanta</string>
+            <string>Verok&amp;anta</string>
            </property>
            <property name="buddy">
             <cstring>kantaCombo</cstring>
@@ -329,7 +357,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="alvLabel">
            <property name="text">
-            <string>Verolaji</string>
+            <string>&amp;Verolaji</string>
            </property>
            <property name="buddy">
             <cstring>alvlajiCombo</cstring>
@@ -387,7 +415,7 @@
      <item>
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Selite</string>
+        <string>&amp;Selite</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -487,12 +515,16 @@
   <tabstop>debetRadio</tabstop>
   <tabstop>kreditRadio</tabstop>
   <tabstop>euroEdit</tabstop>
+  <tabstop>sisAlvCheck</tabstop>
   <tabstop>kohdennusCombo</tabstop>
   <tabstop>merkkausCombo</tabstop>
   <tabstop>eraCombo</tabstop>
   <tabstop>poistoSpin</tabstop>
   <tabstop>jaksoAlkaa</tabstop>
   <tabstop>jaksoLoppuu</tabstop>
+  <tabstop>eiReskontraRadio</tabstop>
+  <tabstop>myyntiReskontraRadio</tabstop>
+  <tabstop>ostoReskontraRadio</tabstop>
   <tabstop>alvlajiCombo</tabstop>
   <tabstop>perusteRadio</tabstop>
   <tabstop>veroRadio</tabstop>

@@ -735,6 +735,7 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
     vienti.setPvm(kp()->paivamaara());
     vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
+    vienti.setSelite(ui->otsikkoEdit->text());
     if(ui->asiakas->id()) {
         vienti.setKumppani(ui->asiakas->id());
     }
