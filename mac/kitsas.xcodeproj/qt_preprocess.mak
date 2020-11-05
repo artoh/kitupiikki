@@ -272,7 +272,6 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/salkku.png \
 		../kitsas/pic/muokkaaasiakas.png \
 		../kitsas/pic/zoom-in.png \
-		../kitsas/pic/tervetuloa.png \
 		../kitsas/pic/zoom-fit-width.png \
 		../kitsas/pic/etsi.png \
 		../kitsas/pic/punainen.png \
@@ -1788,6 +1787,7 @@ moc_selauswg.cpp: ../kitsas/selaus/selauswg.h \
 
 moc_selausmodel.cpp: ../kitsas/selaus/selausmodel.h \
 		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
+		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QSet \
 		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QList \
 		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QDate \
 		../../../Qt/5.15.0/clang_64/lib/QtSql.framework/Headers/QSqlQuery \
