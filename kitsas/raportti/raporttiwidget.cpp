@@ -51,7 +51,7 @@
 #include <QApplication>
 
 #include "naytin/naytinikkuna.h"
-
+#include "db/kirjanpito.h"
 
 RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 {
@@ -81,6 +81,7 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
 
 void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 {
+    kp()->odotusKursori(false);
     if( rk.riveja())
         NaytinIkkuna::naytaRaportti( rk );
     else
@@ -92,6 +93,8 @@ void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 void RaporttiWidget::esikatselu()
 {
     odotaLabel->show();
+    kp()->odotusKursori(true);
+
     qApp->processEvents();
     esikatsele();
 }

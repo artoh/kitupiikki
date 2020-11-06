@@ -417,6 +417,8 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
             verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
             verorivi.setSelite( otsikko + " ALV " + QString::number(map.value("alvprosentti").toInt()) );
+            if(asiakasId)
+                verorivi.setKumppani(asiakasId);
             ulos.append(verorivi);
         } else {
             ulos.append(map);

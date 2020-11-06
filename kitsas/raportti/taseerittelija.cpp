@@ -57,8 +57,8 @@ void TaseErittelija::dataSaapuu(QVariant *data)
         RaporttiRivi otsikko;
         otsikko.lisaa("Tosite");
         otsikko.lisaa("Päivämäärä");
-        otsikko.lisaa("Asiakas/Toimittaja");
         otsikko.lisaa("Selite");
+        otsikko.lisaa("");
         otsikko.lisaa("€",1,true);
         rk.lisaaOtsake(otsikko);
         rk.lisaaRivi();
@@ -187,10 +187,16 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     RaporttiRivi rr;
                     lisaaTositeTunnus(&rr, mmap);
                     rr.lisaa( mmap.value("vientipvm").toDate());
+
                     QString kumppani = mmap.value("kumppani").toString();
                     QString selite = mmap.value("selite").toString();
-                    rr.lisaa( kumppani);
-                    rr.lisaa( selite == kumppani ? "" : selite);
+
+                    if(kumppani.isEmpty() || selite == kumppani) {
+                        rr.lisaa(selite, 2);
+                    } else {
+                        rr.lisaa( kumppani);
+                        rr.lisaa( selite);
+                    }
 
                     rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                     rk.lisaaRivi(rr);
@@ -210,8 +216,12 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         QString kumppani = emap.value("kumppani").toString();
                         QString selite = emap.value("selite").toString();
 
-                        rr.lisaa( kumppani);
-                        rr.lisaa( selite == kumppani ? "" : selite);
+                        if(kumppani.isEmpty() || selite == kumppani) {
+                            rr.lisaa(selite, 2);
+                        } else {
+                            rr.lisaa( kumppani);
+                            rr.lisaa( selite);
+                        }
 
                     } else {
                         rr.lisaa("",2);
