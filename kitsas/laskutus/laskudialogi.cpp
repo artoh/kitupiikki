@@ -733,7 +733,7 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
     TositeVienti vienti;
     vienti.setEra(era_);
     vienti.setPvm(kp()->paivamaara());
-    vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
+    vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
     vienti.setSelite(ui->otsikkoEdit->text());
     if(ui->asiakas->id()) {

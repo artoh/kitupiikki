@@ -51,12 +51,14 @@ void AlvLaskelma::kirjoitaOtsikot()
     rk.lisaaPvmSarake();
     rk.lisaaSarake("TOSITE12345");
     rk.lisaaVenyvaSarake();
+    rk.lisaaVenyvaSarake();
     rk.lisaaSarake("24,00 ");
     rk.lisaaEurosarake();
 
     RaporttiRivi otsikko;
     otsikko.lisaa("Pvm");
     otsikko.lisaa("Tosite");
+    otsikko.lisaa("Asiakas/Toimittaja");
     otsikko.lisaa("Selite");
     otsikko.lisaa("%",1,true);
     otsikko.lisaa("€",1,true);
@@ -67,7 +69,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 {
 
     RaporttiRivi otsikko;
-    otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),4);
+    otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),5);
     otsikko.lihavoi();
     otsikko.asetaKoko(14);
 
@@ -76,7 +78,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     if( kp()->onkoMaksuperusteinenAlv(loppupvm_)) {
         RaporttiRivi rivi;
-        rivi.lisaa(tr("Maksuperusteinen arvonlisävero"),4);
+        rivi.lisaa(tr("Maksuperusteinen arvonlisävero"),5);
         rk.lisaaRivi(rivi);
         rk.lisaaTyhjaRivi();
     }
@@ -179,7 +181,7 @@ void AlvLaskelma::kirjaaVerot()
 void AlvLaskelma::kirjoitaErittely()
 {
     RaporttiRivi otsikko;
-    otsikko.lisaa(tr("Erittely"),4);
+    otsikko.lisaa(tr("Erittely"),5);
     otsikko.lihavoi();
     otsikko.asetaKoko(14);
 
@@ -199,7 +201,7 @@ void AlvLaskelma::kirjoitaErittely()
             double verokanta = kantaIter.key() / 100.0;
 
             RaporttiRivi kantaOtsikko;
-            kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi), 3 );
+            kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi), 4 );
             kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',0));
             kantaOtsikko.lisaa( kantaIter.value().summa(debetistaKoodilla(koodi)) );
             kantaOtsikko.lihavoi();
@@ -217,10 +219,13 @@ void AlvLaskelma::kirjoitaErittely()
                     RaporttiRivi rivi;
                     rivi.lisaa( vienti.value("pvm").toDate() );
                     rivi.lisaa( vienti.value("tosite").toMap().value("tunniste").toString() );
-                    if( vienti.value("selite").toString().isEmpty())
-                        rivi.lisaa( vienti.value("kumppani").toMap().value("nimi").toString());
-                    else
-                        rivi.lisaa( vienti.value("selite").toString());
+
+                    QString selite = vienti.value("selite").toString();
+                    QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();
+
+                    rivi.lisaa(kumppani);
+                    rivi.lisaa(selite == kumppani ? "" : selite);
+
                     rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
 
                     qlonglong debetsnt = qRound64(vienti.value("debet").toDouble() * 100);
@@ -235,7 +240,7 @@ void AlvLaskelma::kirjoitaErittely()
                 }
                 // Tilin summa
                 RaporttiRivi tiliSumma;
-                tiliSumma.lisaa(QString(), 3);
+                tiliSumma.lisaa(QString(), 4);
                 tiliSumma.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
                 tiliSumma.lisaa( tiliIter.value().summa( debetistaKoodilla(koodi) ) );
                 tiliSumma.viivaYlle();
@@ -255,7 +260,7 @@ void AlvLaskelma::yvRivi(int koodi, const QString &selite, qlonglong sentit)
         RaporttiRivi rivi;
         rivi.lisaa(QString(), 1);
         rivi.lisaa( QString::number(koodi));
-        rivi.lisaa(selite, 2);
+        rivi.lisaa(selite, 3);
         rivi.lisaa( sentit);
         rk.lisaaRivi(rivi);
     }

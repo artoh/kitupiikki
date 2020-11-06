@@ -118,8 +118,10 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
             // Tase-erät
             QSqlQuery erakysely(db());
-            erakysely.exec(QString("select vienti.eraid, vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm "
-                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
+            erakysely.exec(QString("select vienti.eraid, vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, "
+                                   "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm "
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                   "WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
                                    "AND Vienti.pvm <= '%2' AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
                            .arg( tili->numero() ).arg(pvm.toString(Qt::ISODate)));
 
@@ -139,8 +141,11 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                                 apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() ;
                 }
 
-                apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm "
-                                       "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
+                apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, "
+                                       "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm, Kumppani.nimi AS kumppani "
+                                       "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                       "LEFT OUTER JOIN Kumppani ON Vienti.kumppani = Kumppani.id "
+                                       "WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
                                        "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
                                .arg(eraid)
                                .arg(mista.toString(Qt::ISODate))
@@ -162,6 +167,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                     map.insert("vientipvm", apukysely.value(7).toDate());
                     map.insert("selite", apukysely.value(2).toString());
                     map.insert("eur", summa / 100.0);
+                    map.insert("kumppani", apukysely.value("kumppani"));
                     muutosyht += summa;
                     muutokset.append(map);
                 }
@@ -204,12 +210,16 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
             }
 
 
-            apukysely.exec(QString("select vienti.eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite, tosite.pvm, tosite.sarja, tosite.tunniste, Vienti.pvm  from  Vienti "
+            apukysely.exec(QString("select vienti.eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite, tosite.pvm, "
+                                   "tosite.sarja, tosite.tunniste, Vienti.pvm, Kumppani.nimi AS Kumppani "
+                                   "FROM Vienti "
                                    "join Vienti as a on vienti.eraid = a.id "
                                    "join Tosite on vienti.tosite=tosite.id "
+                                   "LEFT OUTER JOIN Kumppani ON a.kumppani=Kumppani.id "
                                    "WHERE vienti.tili=%1 AND vienti.pvm <= '%2'  AND Tosite.tila >= 100 GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
                                    "HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL;"
                                    ).arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));
+
             while( apukysely.next()) {
                 QVariantMap era;
                 era.insert("id", apukysely.value(0).toInt());
@@ -218,6 +228,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 era.insert("tunniste", apukysely.value(6));
                 era.insert("vientipvm", apukysely.value(7).toDate());
                 era.insert("selite", apukysely.value(3));
+                era.insert("kumppani", apukysely.value("kumppani"));
                 qlonglong summa = tili->onko(TiliLaji::VASTAAVAA) ?
                             apukysely.value(1).toLongLong() - apukysely.value(2).toLongLong() :
                             apukysely.value(2).toLongLong() - apukysely.value(1).toLongLong() ;
@@ -231,8 +242,11 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
 
             QSqlQuery apukysely( db());
-            apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, Vienti.pvm "
-                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 "
+            apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm, Tosite.sarja, "
+                                   "Tosite.tunniste, Vienti.pvm, Kumppani.nimi AS Kumppani "
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                   "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
+                                   "WHERE Vienti.tili=%1 "
                                    "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY vienti.pvm")
                            .arg(tili->numero())
                            .arg(mista.toString(Qt::ISODate))
@@ -252,6 +266,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 map.insert("tunniste", apukysely.value(5));
                 map.insert("vientipvm", apukysely.value(6).toDate());
                 map.insert("selite", apukysely.value(2).toString());
+                map.insert("kumppani", apukysely.value("kumppani"));
                 map.insert("eur", summa / 100.0);
                 muutosyht += summa;
                 muutokset.append(map);

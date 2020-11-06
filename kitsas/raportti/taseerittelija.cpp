@@ -44,6 +44,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
     rk.lisaaSarake("12345678"); // Tosite
     rk.lisaaPvmSarake();        // Päivämäärä
+    rk.lisaaVenyvaSarake();     // Asiakas/toimittaja
     rk.lisaaVenyvaSarake();     // Selite
     rk.lisaaEurosarake();
 
@@ -56,6 +57,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
         RaporttiRivi otsikko;
         otsikko.lisaa("Tosite");
         otsikko.lisaa("Päivämäärä");
+        otsikko.lisaa("Asiakas/Toimittaja");
         otsikko.lisaa("Selite");
         otsikko.lisaa("€",1,true);
         rk.lisaaOtsake(otsikko);
@@ -77,14 +79,14 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
         if( iter.key().startsWith('2') && !vastattavaa) {
             RaporttiRivi summaRivi;
-            summaRivi.lisaa(kaanna("VASTAAVAA YHTEENSÄ"),3);
+            summaRivi.lisaa(kaanna("VASTAAVAA YHTEENSÄ"),4);
             summaRivi.lisaa(yhteensa);
             rk.lisaaRivi(summaRivi);
             rk.lisaaTyhjaRivi();
             yhteensa = 0;
 
             RaporttiRivi otsikkoRivi;
-            otsikkoRivi.lisaa("VASTATTAVAA",3);
+            otsikkoRivi.lisaa("VASTATTAVAA",4);
             otsikkoRivi.asetaKoko(14);            
             rk.lisaaRivi(otsikkoRivi);            
             vastattavaa = true;
@@ -99,7 +101,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
         if( tyyppi == 'S') {    // VAIN SALDO
             RaporttiRivi rr;
             qlonglong saldo = qRound64(iter.value().toDouble() * 100);
-            rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 3 );
+            rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 4 );
             rr.lisaa( saldo, true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
@@ -109,7 +111,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
             // Nimike
             RaporttiRivi tilinnimi;
-            tilinnimi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 3 );
+            tilinnimi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 4 );
             tilinnimi.lihavoi();
             rk.lisaaRivi(tilinnimi);
 
@@ -123,21 +125,21 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     QVariantMap eramap = map.value("era").toMap();
                     lisaaTositeTunnus( &nimirivi, eramap);
                     nimirivi.lisaa( eramap.value("vientipvm").toDate() );
-                    nimirivi.lisaa( eramap.value("selite").toString());
+                    nimirivi.lisaa( eramap.value("selite").toString(), 2);
                     nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
                     rk.lisaaRivi(nimirivi);
 
                     if( eramap.value("pvm").toDate() < mista_ && map.value("ennen") != eramap.value("eur") ) {
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")));
+                        poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")),2);
                         poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
                                              qRound64( eramap.value("eur").toDouble() * 100), true);
                         rk.lisaaRivi(poistettuRivi);
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
-                        saldorivi.lisaa( kaanna("Jäljellä %1").arg( mista_.toString("dd.MM.yyyy")));
+                        saldorivi.lisaa( kaanna("Jäljellä %1").arg( mista_.toString("dd.MM.yyyy")),2);
                         saldorivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ), true );
                         saldorivi.viivaYlle();
                         rk.lisaaRivi( saldorivi);
@@ -149,14 +151,18 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         RaporttiRivi rr;
                         lisaaTositeTunnus(&rr, mmap);
                         rr.lisaa( mmap.value("vientipvm").toDate());
-                        rr.lisaa( mmap.value("selite").toString());
+                        QString kumppani = mmap.value("kumppani").toString();
+                        QString selite = mmap.value("selite").toString();
+
+                        rr.lisaa( kumppani);
+                        rr.lisaa( selite == kumppani ? "" : selite);
                         rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                         rk.lisaaRivi(rr);
                     }
                     // Loppusaldo
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
-                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin_.toString("dd.MM.yyyy")));
+                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin_.toString("dd.MM.yyyy")),2);
                     loppuRivi.lisaa( qRound64(map.value("saldo").toDouble() * 100.0),true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);
@@ -171,7 +177,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                 RaporttiRivi saldorivi;
                 saldorivi.lisaa(" ", 2);
-                saldorivi.lisaa( kaanna("Alkusaldo %1").arg( mista_.toString("dd.MM.yyyy")));
+                saldorivi.lisaa( kaanna("Alkusaldo %1").arg( mista_.toString("dd.MM.yyyy")),2);
                 saldorivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ), true );
                 rk.lisaaRivi( saldorivi);
 
@@ -181,7 +187,11 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     RaporttiRivi rr;
                     lisaaTositeTunnus(&rr, mmap);
                     rr.lisaa( mmap.value("vientipvm").toDate());
-                    rr.lisaa( mmap.value("selite").toString());
+                    QString kumppani = mmap.value("kumppani").toString();
+                    QString selite = mmap.value("selite").toString();
+                    rr.lisaa( kumppani);
+                    rr.lisaa( selite == kumppani ? "" : selite);
+
                     rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                     rk.lisaaRivi(rr);
                 }
@@ -196,10 +206,16 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     if( emap.contains("id")) {
                         lisaaTositeTunnus(&rr, emap);
                         rr.lisaa( emap.value("pvm").toDate());
-                        rr.lisaa( emap.value("selite").toString());
+
+                        QString kumppani = emap.value("kumppani").toString();
+                        QString selite = emap.value("selite").toString();
+
+                        rr.lisaa( kumppani);
+                        rr.lisaa( selite == kumppani ? "" : selite);
+
                     } else {
                         rr.lisaa("",2);
-                        rr.lisaa(kaanna("Erittelemättömät"));
+                        rr.lisaa(kaanna("Erittelemättömät"),2);
                     }
                     rr.lisaa(qRound64( emap.value("eur").toDouble() * 100.0 ));
                     rk.lisaaRivi(rr);
@@ -210,7 +226,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
             RaporttiRivi vikaRivi;
             vikaRivi.lisaa("", 2);
-            vikaRivi.lisaa(tr("Tilin %1 loppusaldo").arg(tili->numero()));
+            vikaRivi.lisaa(tr("Tilin %1 loppusaldo").arg(tili->numero()),2);
             vikaRivi.lisaa( loppusaldo, true);
             vikaRivi.lihavoi();
             vikaRivi.viivaYlle();
@@ -221,7 +237,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
     }
 
     RaporttiRivi summaRivi;
-    summaRivi.lisaa(kaanna("VASTATTAVAA YHTEENSÄ"),3);
+    summaRivi.lisaa(kaanna("VASTATTAVAA YHTEENSÄ"),4);
     summaRivi.lisaa(yhteensa);
     rk.lisaaRivi(summaRivi);
     rk.lisaaTyhjaRivi();
