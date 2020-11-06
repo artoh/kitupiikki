@@ -47,6 +47,7 @@ protected:
     static void tulostaYlatunniste(QPainter* painter, const QVariantMap& tosite, int sivu, const QString& kieli = QString());
     static void tulostaAlatunniste(QPainter* painter, const QVariantMap& tosite, const QString& kieli = QString());
     static void tulostaViennit(QPainter* painter, const QVariantList& viennit, const QString& kieli = QString());
+    static void tulostaKasittelijat(QPainter *painter, const QVariantList& loki);
 
 
 };

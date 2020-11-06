@@ -18,6 +18,7 @@
 #include "db/kirjanpito.h"
 
 #include "db/tositetyyppimodel.h"
+#include "model/tosite.h"
 
 #include <QPagedPaintDevice>
 #include <QPainter>
@@ -25,6 +26,7 @@
 #include <poppler/qt5/poppler-qt5.h>
 #include <QGraphicsPixmapItem>
 #include <QImage>
+#include <QRegularExpression>
 
 int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli)
 {
@@ -247,8 +249,10 @@ void LiiteTulostaja::tulostaAlatunniste(QPainter *painter, const QVariantMap &to
     QString info = tositetyyppi >= TositeTyyppi::MYYNTILASKU && tositetyyppi <= TositeTyyppi::MAKSUMUISTUTUS ?
                 "" :
                 tosite.value("info").toString();
-    QRectF infoRect = painter->boundingRect(leveys/2+korkeus,0,leveys/2-korkeus, painter->window().height(),Qt::TextWordWrap,info);
+    QRectF infoRect = painter->boundingRect(leveys/2+korkeus,0,leveys*3/8, painter->window().height(),Qt::TextWordWrap,info);
     painter->drawText(infoRect, Qt::TextWordWrap, info);
+
+    tulostaKasittelijat(painter, tosite.value("loki").toList());
 
     // Sitten vielä tulostetaan tiliöintiä, jos mahtuvat
     QVariantList viennit = tosite.value("viennit").toList();
@@ -295,4 +299,53 @@ void LiiteTulostaja::tulostaViennit(QPainter *painter, const QVariantList &vienn
             painter->drawText(QRect(leveys*3/4,0,leveys/4-korkeus/2,korkeus), QString("%L1").arg(kredit,0,'f',2), QTextOption(Qt::AlignRight | Qt::AlignTop));
         }
     }
+}
+
+void LiiteTulostaja::tulostaKasittelijat(QPainter *painter, const QVariantList &loki)
+{
+    QString nimet;
+    QSet<int> idt;
+
+    for(QVariant var : loki) {
+        QVariantMap map = var.toMap();
+        int tila = map.value("tila").toInt();
+        if( tila < Tosite::SAAPUNUT ||
+            tila == Tosite::LUONNOS ||
+            tila == Tosite::LASKULUONNOS )
+            continue;
+
+        int id = map.value("userid").toInt();
+        if( id < 1 || idt.contains(id))
+            continue;
+        idt.insert(id);
+
+        if(!nimet.isEmpty())
+            nimet.append("\n");
+
+        QDateTime aika = map.value("aika").toDateTime();
+        nimet.append(aika.toLocalTime().toString("dd.MM.yy "));
+
+        QString nimi = map.value("nimi").toString();
+        QStringList etukirjaimet = nimi.split(QRegularExpression("\\W", QRegularExpression::UseUnicodePropertiesOption));
+        for(QString osa : etukirjaimet)
+            nimet.append(osa.left(1));
+
+        if( idt.count() > 5)
+            break;
+    }
+
+    if( idt.isEmpty())
+        return;
+
+    painter->setFont(QFont("FreeSans",8));
+
+    int leveys = painter->window().width();
+    qreal ad = painter->fontMetrics().height() / 8;
+    QRectF nimiRect = painter->boundingRect(0,ad*2,leveys/8-ad*16, painter->window().height(),Qt::TextWordWrap,nimet);
+
+    nimiRect.moveRight(leveys);
+
+    painter->drawText(nimiRect, Qt::TextWordWrap, nimet);
+    painter->drawRect(nimiRect.adjusted(-ad,-ad,ad,ad));
+
 }

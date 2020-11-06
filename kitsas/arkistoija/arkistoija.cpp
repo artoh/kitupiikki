@@ -650,7 +650,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     QVariantList lokiLista = tosite.value("loki").toList();
     for(auto lokiItem : lokiLista) {
         QVariantMap lokiMap = lokiItem.toMap();
-        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toString("dd.MM.yyyy hh.mm.ss");
+        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm.ss");
         out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
         out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
     }
