@@ -150,7 +150,7 @@ void TilausWizard::dataSaapuu()
     else
         setField("email", current_.value("email"));
 
-    bool puolivuosittain = current_.value("period").toInt() == 6;
+    bool puolivuosittain = current_.value("months").toInt() == 6;
 
     QVariantMap pinfo = current_.value("payer").toMap();
     setField("name", pinfo.value("name").toString());
@@ -162,6 +162,7 @@ void TilausWizard::dataSaapuu()
 
     setField("ovt", pinfo.value("ovt"));
     setField("operator", pinfo.value("operator"));
+
 
     setField("sahkopostilla", pinfo.value("operator").toString().isEmpty());
     setField("verkkolaskulla", !pinfo.value("operator").toString().isEmpty());

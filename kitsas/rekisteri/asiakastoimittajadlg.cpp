@@ -398,6 +398,7 @@ void AsiakasToimittajaDlg::accept()
                        kpk( "/kumppanit", KpKysely::POST);
 
     connect(kysely, &KpKysely::vastaus, this, &AsiakasToimittajaDlg::tallennusValmis  );
+    kp()->odotusKursori(true);
     kysely->kysy(map);
 
 }
@@ -453,6 +454,7 @@ void AsiakasToimittajaDlg::nimellaSaapuu()
 
 void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)
 {
+    kp()->odotusKursori(false);
     QVariantMap map = data->toMap();
     int id = map.value("id").toInt();
     QString nimi = map.value("nimi").toString();

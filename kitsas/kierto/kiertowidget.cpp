@@ -51,7 +51,7 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     });
     connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
 
-    connect( ui->kopioiIban, &QToolButton::clicked, ui->ibanLabel, &QLineEdit::copy);
+    connect( ui->kopioiIban, &QToolButton::clicked, [this] { qApp->clipboard()->setText(iban_);});
     connect( ui->barCopyButton, &QToolButton::clicked, [this] { qApp->clipboard()->setText(this->kululaskuVirtuaalikoodi());});
 
 
@@ -152,7 +152,8 @@ void KiertoWidget::lataaTosite()
     ui->tOk->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_TARKASTAMINEN) &&
                         (ntila == Tosite::LUONNOS || ntila < Tosite::TARKASTETTU));
     ui->tHylkaa->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_TARKASTAMINEN) &&
-                        (ntila == Tosite::LUONNOS || ntila < Tosite::TARKASTETTU));
+                            !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_HYVAKSYMINEN) &&
+                            (ntila == Tosite::LUONNOS || ntila < Tosite::TARKASTETTU));
 
     ui->hInfo->hide();
     ui->hCheck->hide();

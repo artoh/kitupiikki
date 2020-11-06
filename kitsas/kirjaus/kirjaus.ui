@@ -564,11 +564,11 @@
         <string>Hylkää muutokset Esc</string>
        </property>
        <property name="text">
-        <string>Hylkää</string>
+        <string>Peru</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+         <normaloff>:/pic/close16.png</normaloff>:/pic/close16.png</iconset>
        </property>
        <property name="shortcut">
         <string>Esc</string>

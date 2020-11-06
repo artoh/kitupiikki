@@ -87,7 +87,7 @@ QVariant PlanModel::data(const QModelIndex &index, int role) const
     else if( role == PilviaRooli)
         return map.value("clouds");
     else if( role == LisaPilviHinta)
-        return map.value("extraprice");
+        return puolivuosittain_ ? map.value("extraprice").toDouble() / 2.0 : map.value("extraprice");
     else if( role == InfoRooli)
         return map.value("info");
 
