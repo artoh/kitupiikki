@@ -138,7 +138,8 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmvienti.setPvm(kp()->paivamaara());
         mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
-        mmvienti.setKredit(ui->muistutusSpin->value());        
+        mmvienti.setKredit(ui->muistutusSpin->value());
+        mmvienti.setKumppani(kumppaniId);
         kulut+=qRound64(ui->muistutusSpin->value() * 100.0);
         viennit.append(mmvienti);
 
@@ -189,6 +190,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
             korkovienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
             korkovienti.setKredit(vkorkosnt);
             korkovienti.setSelite(selite);
+            korkovienti.setKumppani(kumppaniId);
             kulut += vkorkosnt;
             viennit.append(korkovienti);
 

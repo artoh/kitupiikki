@@ -681,6 +681,8 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->mmMuistutusMaara->value());
         kulut+=qRound64(ui->mmMuistutusMaara->value() * 100.0);
+        if(ui->asiakas->id())
+            mmvienti.setKumppani(ui->asiakas->id());
         viennit.append(mmvienti);
 
         QVariantMap mmmap;
@@ -712,6 +714,8 @@ void LaskuDialogi::taydennaMaksumuistutuksenData(QVariantMap &map) const
             korkovienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
             korkovienti.setKredit(vkorkosnt);
             korkovienti.setSelite(selite);
+            if(ui->asiakas->id())
+                korkovienti.setKumppani(ui->asiakas->id());
             kulut += vkorkosnt;
             viennit.append(korkovienti);
 
