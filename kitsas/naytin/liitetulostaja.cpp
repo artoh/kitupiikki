@@ -337,7 +337,7 @@ void LiiteTulostaja::tulostaKasittelijat(QPainter *painter, const QVariantList &
     if( idt.isEmpty())
         return;
 
-    painter->setFont(QFont("FreeSans",8));
+    painter->setFont(QFont("FreeSans",6));
 
     int leveys = painter->window().width();
     qreal ad = painter->fontMetrics().height() / 8;
