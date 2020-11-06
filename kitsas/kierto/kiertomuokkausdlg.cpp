@@ -82,6 +82,7 @@ void KiertoMuokkausDlg::alusta()
     ui->tiliCombo->suodataTyypilla("D.*");
     ui->tiliCombo->valitseTili(kp()->asetukset()->luku("OletusMenotili"));
     ui->vastaCombo->suodataTyypilla("(AR.|BO)");
+    ui->vastaCombo->valitseTili(kp()->tilit()->tiliTyypilla(TiliLaji::PANKKITILI).numero());
 
     proxy->setSourceModel(model);
     ui->osallistujaView->setSortingEnabled(true);

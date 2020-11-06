@@ -49,8 +49,10 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
     connect(ui->poistaNappi, &QPushButton::clicked, this, &KiertoMaaritys::poista);
 
     connect(ui->alatunnisteEdit, &QPlainTextEdit::textChanged, this, &KiertoMaaritys::ohjeMuokattu);
+    connect(ui->ocrCheck, &QCheckBox::clicked, this, &KiertoMaaritys::ohjeMuokattu);
     connect(ui->tallennaNappi, &QPushButton::clicked, [this] () {
         kp()->asetukset()->aseta("PortaaliOhje", ui->alatunnisteEdit->toPlainText());
+        kp()->asetukset()->aseta("PortaaliOCR", ui->ocrCheck->isChecked());
         this->ohjeMuokattu();
     });
     connect(ui->PeruNappi, &QPushButton::clicked, this, [this] () {
@@ -110,12 +112,14 @@ bool KiertoMaaritys::nollaa()
 {
     ui->portaaliRyhma->setChecked( kp()->asetukset()->onko("Portaali") );
     ui->alatunnisteEdit->setPlainText( kp()->asetukset()->asetus("PortaaliOhje"));
+    ui->ocrCheck->setChecked( kp()->asetukset()->onko("PortaaliOCR") );
     return true;
 }
 
 void KiertoMaaritys::ohjeMuokattu()
 {
-    bool muokattu = kp()->asetukset()->asetus("PortaaliOhje") != ui->alatunnisteEdit->toPlainText();
+    bool muokattu = kp()->asetukset()->asetus("PortaaliOhje") != ui->alatunnisteEdit->toPlainText() ||
+            ui->ocrCheck->isChecked() != kp()->asetukset()->onko("PortaaliOCR");
     ui->tallennaNappi->setEnabled( muokattu);
     ui->PeruNappi->setEnabled( muokattu );
 }

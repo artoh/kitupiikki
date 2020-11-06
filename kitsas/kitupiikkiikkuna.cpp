@@ -201,10 +201,6 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu, bool siirry)
     else if( !edellisetIndeksit.isEmpty())
         edellisetIndeksit.pop();
 
-    if( mikasivu == KIRJAUSSIVU) {
-        edellisetIndeksit.clear();
-    }
-
     nykysivu = sivut[mikasivu];
     sivuaktiot[mikasivu]->setChecked(true);
 
@@ -288,8 +284,8 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 
 void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
-    // valitseSivu( KIRJAUSSIVU );
-    edellisetIndeksit.push( SELAUSSIVU );
+    // valitseSivu( KIRJAUSSIVU );        
+    edellisetIndeksit.push( pino->currentIndex() == KIERTOSIVU ? KIERTOSIVU : SELAUSSIVU );
     pino->setCurrentWidget(kirjaussivu);
     nykysivu = kirjaussivu;
     kirjaussivu->naytaTosite(tositeid);
@@ -321,7 +317,7 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
             // Varmistaa, että tilinpäätös kohdistuu oikealle tilikaudelle
     } else if( kasky == "inbox") {
         if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
-            valitseSivu(KIERTOSIVU, true);
+            valitseSivu(KIERTOSIVU, true, false);
         } else {
             valitseSivu( SELAUSSIVU, true,false);
             selaussivu->naytaSaapuneet();

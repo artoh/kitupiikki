@@ -140,6 +140,17 @@ ohje</string>
         <item row="1" column="1">
          <widget class="QPlainTextEdit" name="alatunnisteEdit"/>
         </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="ocrCheck">
+          <property name="text">
+           <string>Käytä tekstintunnistusta</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

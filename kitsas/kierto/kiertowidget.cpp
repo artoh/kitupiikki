@@ -232,7 +232,7 @@ void KiertoWidget::lataaTosite()
 
 void KiertoWidget::paivitaViivakoodi()
 {
-    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU || tosite_->viite().isEmpty()))
+    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU && tosite_->viite().isEmpty()))
         ui->viivakoodiLabel->hide();
     else {
         QFont koodifontti( "code128_XL", 36);
