@@ -179,6 +179,8 @@
         <file>euromerkki.png</file>
         <file>mailfail.png</file>
         <file>mailok.png</file>
+        <file>e64.png</file>
+        <file>bar-copy.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
@@ -231,5 +233,6 @@
         <file>pixaby/log-out.svg</file>
         <file>pixaby/hyvaksytty.svg</file>
         <file>pixaby/tarkastettu.svg</file>
+        <file>pixaby/naytto.png</file>
     </qresource>
 </RCC>

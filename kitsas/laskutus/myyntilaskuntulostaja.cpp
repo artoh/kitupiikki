@@ -514,7 +514,7 @@ void MyyntiLaskunTulostaja::tekstiRivinLisays(const QString &rivi, const QString
     }
 }
 
-QChar MyyntiLaskunTulostaja::code128c(int koodattava) const
+QChar MyyntiLaskunTulostaja::code128c(int koodattava)
 {
     if( koodattava < 95)
         return QChar( 32 + koodattava);
@@ -612,7 +612,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
         painter->setFont( koodifontti);
-        QString koodi( code128() );
+        QString koodi( code128(virtuaaliviivakoodi()) );
         painter->drawText( QRectF( mm*10, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
 
         painter->restore();
@@ -720,7 +720,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
         painter->setFont( koodifontti);
-        QString koodi( code128() );
+        QString koodi( code128(virtuaaliviivakoodi()) );
         painter->drawText( QRectF( mm*20, -2.2*rk-mm*15, mm*100, mm*10), Qt::AlignCenter, koodi  );
 
         painter->restore();
@@ -780,7 +780,7 @@ void MyyntiLaskunTulostaja::alustaKaannos(const QString &kieli)
         tekstiRivinLisays( rivi, kieli);
 }
 
-QString MyyntiLaskunTulostaja::code128() const
+QString MyyntiLaskunTulostaja::code128(const QString &koodattava)
 {
     QString koodi;
     koodi.append( QChar(210) );   // Code C aloitusmerkki
@@ -788,7 +788,6 @@ QString MyyntiLaskunTulostaja::code128() const
     int summa = 105;
     int paino = 1;
 
-    QString koodattava = virtuaaliviivakoodi();
     if( koodattava.length() != 54)  // Pitää olla kelpo virtuaalikoodi
         return QString();
 

@@ -107,7 +107,9 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     QVariantMap lasku = amap.value("lasku").toMap();
     MyyntiLaskunTulostaja tulostaja(lasku.value("kieli").toString());
     muistutus.asetaKommentti( tulostaja.t("muistutusteksti") );
-    muistutus.asetaOtsikko( tulostaja.t("mmotsikko").arg(lasku.value("numero").toString()));
+    QString otsikko = tulostaja.t("mmotsikko").arg(lasku.value("numero").toString());
+    muistutus.asetaOtsikko( otsikko );
+    lasku.insert("otsikko", otsikko);
 
     lasku.insert("alkupNro", lasku.value("numero"));
     lasku.insert("alkupPvm", lasku.value("pvm"));
@@ -165,7 +167,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
             else if( tositetyyppi == TositeTyyppi::MAKSUMUISTUTUS)
                 pvm = lasku.value("pvm").toDate();
             if( korkopaiva.isNull() || pvm > korkopaiva)
-                korkopaiva = pvm;
+                korkopaiva = pvm.addDays(1);
             if( lasku.contains("viivkorko"))
                 korko = lasku.value("viivkorko").toDouble();
         }

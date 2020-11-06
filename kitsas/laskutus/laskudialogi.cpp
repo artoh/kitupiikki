@@ -437,10 +437,10 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         laskutettava = ui->osoiteEdit->toPlainText().split('\n').value(0);
     }
 
-    if( ui->otsikkoEdit->text().isEmpty())
-        otsikko = laskutettava;
-    else if(otsikko.isEmpty())
+    if(otsikko.isEmpty())
         otsikko = ui->otsikkoEdit->text();
+    if( otsikko.isEmpty())
+        otsikko = laskutettava;
 
 
     map.insert("otsikko", otsikko);

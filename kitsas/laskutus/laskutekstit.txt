@@ -140,7 +140,7 @@ ENhlasku Compensation invoice
 maksumuistutus MAKSUMUISTUTUS
 SVmaksumuistutus BETALNINGSPÅMINNELSE
 ENmaksumuistutus REQUEST FOR PAYMENT
-mmotsikko Maksumuistuts laskusta %1
+mmotsikko Maksumuistutus laskusta %1
 SVmmotsikko Betalningspåminnelse för faktura %1
 ENmmotsikko Requeat for payment %1
 muistutusnro Maksumuistutuksen numero

@@ -31,14 +31,17 @@ public:
     explicit KiertoWidget(Tosite* tosite, QWidget *parent = nullptr);
     ~KiertoWidget();
 
+    QString kululaskuVirtuaalikoodi() const;
+
 public slots:
     void lataaTosite();    
+    void paivitaViivakoodi();
 
 signals:
     void tallenna(int tilaan);
 
 protected:
-    void valmis(int tilaan);
+    void valmis(int tilaan);        
 
 private:
     Ui::Kierto* ui;

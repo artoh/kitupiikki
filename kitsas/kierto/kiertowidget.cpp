@@ -22,8 +22,11 @@
 #include "ui_kierto.h"
 #include "kiertomodel.h"
 #include "laskutus/myyntilaskuntulostaja.h"
+#include "db/tositetyyppimodel.h"
+#include "model/tositeviennit.h"
 
 #include <QScreen>
+#include <QClipboard>
 
 KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui( new Ui::Kierto), tosite_(tosite)
@@ -49,6 +52,7 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
 
     connect( ui->kopioiIban, &QToolButton::clicked, ui->ibanLabel, &QLineEdit::copy);
+    connect( ui->barCopyButton, &QToolButton::clicked, [this] { qApp->clipboard()->setText(this->kululaskuVirtuaalikoodi());});
 
 
     if( qApp->screens().value(0)->size().height() < 1200) {
@@ -64,17 +68,74 @@ KiertoWidget::~KiertoWidget()
     delete ui;
 }
 
+QString KiertoWidget::kululaskuVirtuaalikoodi() const
+{
+    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU && tosite_->viite().isEmpty()))
+        return QString();
+
+    QString numero = QString::number(tosite_->id() + 1000);
+
+    int summa = 0;
+    int indeksi = 0;
+    for( int i = numero.length() - 1; i > -1; i--) {
+        QChar ch = numero.at(i);
+        int numero = ch.digitValue();
+
+        if( indeksi % 3 == 0)
+            summa += 7 * numero;
+        else if( indeksi % 3 == 1)
+            summa += 3 * numero;
+        else
+            summa += numero;
+
+        indeksi++;
+    }
+    int tarkaste = ( 10 - summa % 10) % 10;
+    QString luotuviite = numero + QString::number(tarkaste);
+
+    QString viite = tosite_->viite().isEmpty() ? luotuviite : tosite_->viite();
+    if(viite.startsWith("RF"))
+        return QString();   // Toistaiseksi ei tueta RF-viitteitä
+
+    QString erapv = tosite_->erapvm().isValid() ? tosite_->erapvm().toString("yyMMdd") : QString("000000");
+
+    qlonglong sntsumma = 0l;
+    for(int i = 0; i < tosite_->viennit()->rowCount(); i++) {
+        sntsumma += qRound64( tosite_->viennit()->vienti(i).kredit() * 100.0 );
+    }
+
+    QString koodi = QString("4 %1 %2 000 %3 %4")
+            .arg( iban_.mid(2,16) )  // Tilinumeron numeerinen osuus
+            .arg( sntsumma, 8, 10, QChar('0') )  // Rahamäärä
+            .arg( viite, 20, QChar('0'))
+            .arg( erapv );
+
+    return koodi.remove(QChar(' '));
+}
+
 void KiertoWidget::lataaTosite()
 {
     if( !kp()->yhteysModel() || !tosite_)
         return;
 
+    if( !tosite_->data(Tosite::PORTAALI).toMap().isEmpty()) {
+        ui->kuva1->setPixmap(QPixmap(":/pixaby/naytto.png"));
+    } else if( tosite_->tyyppi() == TositeTyyppi::SAAPUNUTVERKKOLASKU) {
+        ui->kuva1->setPixmap(QPixmap(":/pic/e64.png"));
+    }
+
 
     int ntila = tosite_ ? tosite_->tositetila() : 0;
-    iban_ = MyyntiLaskunTulostaja::valeilla( tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() );
-    ui->ibanLabel->setText( iban_ );
+    iban_ = tosite_->data(Tosite::PORTAALI).toMap().contains("iban") ?
+                tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() :
+                tosite_->data(Tosite::LASKU).toMap().value("iban").toString();
+
+    ui->ibanLabel->setText( MyyntiLaskunTulostaja::valeilla( iban_) );
     ui->ibanLabel->setVisible(!iban_.isEmpty());
     ui->kopioiIban->setVisible(!iban_.isEmpty());
+    ui->barCopyButton->setVisible(!iban_.isEmpty() && (tosite_->tyyppi() == TositeTyyppi::KULULASKU || !tosite_->viite().isEmpty() ) );
+    paivitaViivakoodi();
+    connect( tosite_, &Tosite::tila, this, &KiertoWidget::paivitaViivakoodi);
 
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
@@ -168,6 +229,20 @@ void KiertoWidget::lataaTosite()
     }
 
 }
+
+void KiertoWidget::paivitaViivakoodi()
+{
+    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU || tosite_->viite().isEmpty()))
+        ui->viivakoodiLabel->hide();
+    else {
+        QFont koodifontti( "code128_XL", 36);
+        koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
+        ui->viivakoodiLabel->setFont(koodifontti);
+        ui->viivakoodiLabel->setText(MyyntiLaskunTulostaja::code128(kululaskuVirtuaalikoodi()));
+        ui->viivakoodiLabel->show();
+    }
+}
+
 
 void KiertoWidget::valmis(int tilaan)
 {

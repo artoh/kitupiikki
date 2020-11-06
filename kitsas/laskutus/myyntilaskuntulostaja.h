@@ -61,6 +61,8 @@ public:
     QString muotoiltuViite() const;
     QString iban() const { return valeilla(ibanit_.value(0));}
 
+    static QString code128(const QString& koodattava);
+
 signals:
 
 public slots:
@@ -78,14 +80,14 @@ protected:
 
 
     QByteArray qrSvg() const;
-    QString code128() const;
+
 
 
 
 protected:
 
     void tekstiRivinLisays(const QString &rivi, const QString &kieli = QString());
-    QChar code128c(int koodattava) const;
+    static QChar code128c(int koodattava);
 
 
     QHash<QString,QString> tekstit_;
