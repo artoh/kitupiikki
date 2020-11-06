@@ -208,7 +208,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     TositeVienti vienti;
     vienti.setEra(era);
     vienti.setPvm(kp()->paivamaara());
-    vienti.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero());
+    vienti.setTili( kp()->asetukset()->luku("LaskuSaatavatili") );
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
     if(kumppaniId) {
         vienti.setKumppani(kumppaniId);
