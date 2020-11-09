@@ -157,16 +157,24 @@ void Tosite::asetaSarja(const QString &sarja)
 
 void Tosite::asetaKumppani(int id)
 {
-    QVariantMap kmap;
-    kmap.insert("id",id);
-    setData(KUMPPANI, kmap);
+    if(id) {
+        QVariantMap kmap;
+        kmap.insert("id",id);
+        setData(KUMPPANI, kmap);
+    } else {
+        data_.remove(avaimet__.at(KUMPPANI));
+    }
 }
 
 void Tosite::asetaKumppani(const QString &nimi)
 {
-    QVariantMap kmap;
-    kmap.insert("nimi", nimi);
-    setData(KUMPPANI, kmap);
+    if(nimi.isEmpty()) {
+        data_.remove(avaimet__.at(KUMPPANI));
+    } else {
+        QVariantMap kmap;
+        kmap.insert("nimi", nimi);
+        setData(KUMPPANI, kmap);
+    }
 }
 
 void Tosite::asetaKumppani(const QVariantMap &map)
