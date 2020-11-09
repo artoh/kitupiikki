@@ -22,6 +22,8 @@
 #include "db/kirjanpito.h"
 #include "model/tositeviennit.h"
 
+#include "db/tilinvalintadialogi.h"
+
 TiliDelegaatti::TiliDelegaatti(QObject *parent) :
     QItemDelegate(parent)
 {
@@ -45,8 +47,26 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 {
     TilinvalintaLineDelegaatille *tilieditor = qobject_cast<TilinvalintaLineDelegaatille*>(editor);
 
-    if( !tilieditor->tilinimiAlkaa().isEmpty())
-        model->setData(index, tilieditor->tilinimiAlkaa() );
+    QString alku = tilieditor->tilinimiAlkaa();
+
+    if( !alku.isEmpty()) {
+
+        TilinValintaDialogi* dlg = new TilinValintaDialogi();
+        if( alku.startsWith("*")) {
+            dlg->valitse(alku.mid(1).toInt());
+        } else {
+            dlg->suodata(alku);
+        }
+
+        int rivi = index.row();
+        int sarake = index.column();
+        connect(dlg, &TilinValintaDialogi::tiliValittu,
+                [model, rivi, sarake] (int tilinumero) { model->setData( model->index(rivi, sarake), tilinumero);} );
+
+        dlg->show();
+
+        // model->setData(index, tilieditor->tilinimiAlkaa() );
+    }
     else
         model->setData(index, tilieditor->valittuTilinumero());
 

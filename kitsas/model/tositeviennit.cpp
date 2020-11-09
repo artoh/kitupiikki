@@ -20,7 +20,6 @@
 #include "db/tili.h"
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
-#include "db/tilinvalintadialogi.h"
 #include "tosite.h"
 #include "alv/alvilmoitustenmodel.h"
 
@@ -259,11 +258,6 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                     Tili uusitili;
                     if( value.toInt())
                         uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-                    else if(!value.toString().isEmpty() && value.toString() != " ")
-                        uusitili = TilinValintaDialogi::valitseTili(value.toString());
-                    else
-                        uusitili = TilinValintaDialogi::valitseTili( QString());
-
                     rivi.setTili( uusitili.numero());
                     if( uusitili.eritellaankoTase()) {
                         rivi.setEra(-1);

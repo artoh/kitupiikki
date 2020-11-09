@@ -16,7 +16,6 @@
 */
 #include "tiliotemodel.h"
 #include "db/kirjanpito.h"
-#include "db/tilinvalintadialogi.h"
 #include "db/tositetyyppimodel.h"
 #include "db/tilityyppimodel.h"
 #include "model/tositevienti.h"
@@ -197,11 +196,6 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                 break;
             case TILI: {
                     Tili uusitili;
-                    if( value.toInt()) {
-                        uusitili = kp()->tilit()->tiliNumerolla( value.toInt());                                                
-                    } else {
-                        uusitili = TilinValintaDialogi::valitseTili(value.toString());                                               
-                   }
                    if( uusitili.onkoValidi()) {
                        rivit_[ index.row()].tili = uusitili.numero();
 
@@ -229,6 +223,8 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
             return true;
         } else if(role == Qt::DisplayRole && index.column() == SAAJAMAKSAJA) {
             rivit_[index.row()].saajamaksaja = value.toString();
+        } else if(role == TositeViennit::TiliNumeroRooli) {
+
         }
 
         emit dataChanged(index, index, QVector<int>() << role);

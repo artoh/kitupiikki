@@ -51,8 +51,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, &TilinValintaDialogi::suodataSuosikit);
     connect( ui->kaikkiNappi, &QPushButton::clicked,
              this, &TilinValintaDialogi::naytaKaikki);
-    connect( ui->suodatusEdit, SIGNAL(textChanged(QString)),
-             this, SLOT(suodata(QString)));
+    connect( ui->suodatusEdit, &QLineEdit::textChanged,
+             this, &TilinValintaDialogi::teeSuodatus);
     connect( ui->view, SIGNAL(clicked(QModelIndex)),
              this, SLOT(klikattu(QModelIndex)));
     connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
@@ -104,8 +104,13 @@ void TilinValintaDialogi::accept()
     QDialog::accept();
 }
 
-
 void TilinValintaDialogi::suodata(const QString &alku)
+{
+    ui->suodatusEdit->setText(alku);
+}
+
+
+void TilinValintaDialogi::teeSuodatus(const QString &alku)
 {    
     filtteri_->suodataTekstilla(alku);
     if( ui->view->selectionModel()->selectedIndexes().isEmpty())
@@ -192,6 +197,7 @@ void TilinValintaDialogi::naytaSaldolliset(bool naytetaanko)
         filtteri_->suodataTyypilla(alkuperainenTyyppiSuodatin);
     }
 }
+
 
 void TilinValintaDialogi::naytaOhje(const QModelIndex &index)
 {

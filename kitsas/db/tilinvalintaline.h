@@ -23,6 +23,7 @@
 #include <QSortFilterProxyModel>
 
 #include "kirjanpito.h"
+#include "kirjaus/tilidelegaatti.h"
 
 
 /**

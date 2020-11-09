@@ -64,6 +64,7 @@ protected slots:
     void klikattu(const QModelIndex& index);
     void valintaMuuttui(const QModelIndex& index);
     void naytaSaldolliset(bool naytetaanko);
+    void teeSuodatus(const QString& teksti);
 
     /**
      * @brief Näyttää tilin kirjausohjeen

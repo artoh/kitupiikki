@@ -188,7 +188,8 @@ void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)
         else
             alku_ = " ";
 
-        qobject_cast<QWidget*>(parent())->setFocus();
+        if(qobject_cast<QWidget*>(parent()))
+            qobject_cast<QWidget*>(parent())->setFocus();
     }
 }
 
