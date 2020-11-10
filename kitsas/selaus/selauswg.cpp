@@ -137,31 +137,32 @@ void SelausWg::alusta()
 }
 
 void SelausWg::paivita()
-{
-    kp()->odotusKursori(true);
+{    
+
     qApp->processEvents();
-    bool lopussa = ui->selausView->verticalScrollBar()->value() >=
+    lopussa_ = ui->selausView->verticalScrollBar()->value() >=
             ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
 
     if( ui->valintaTab->currentIndex() == VIENNIT )
     {
+        kp()->odotusKursori(true);
         if(selaustili_)
             selausProxy_->suodataTililla(0);
         model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), selaustili_);
     }
     else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
+        kp()->odotusKursori(true);
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::SAAPUNEET);
     }
     else if( ui->valintaTab->currentIndex() == TOSITTEET )
     {
+        kp()->odotusKursori(true);
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
     } else if( ui->valintaTab->currentIndex() == LUONNOKSET){
+        kp()->odotusKursori(true);
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::LUONNOKSET);
     }
 
-    if( lopussa )
-        ui->selausView->verticalScrollBar()->setValue( ui->selausView->verticalScrollBar()->maximum() );    
-    kp()->odotusKursori(false);
 }
 
 void SelausWg::suodata()
@@ -384,15 +385,19 @@ void SelausWg::modelResetoitu()
 
         paivitaSummat();
 
-        if( ui->selausView->model()->rowCount() < 250) {
+        if( ui->selausView->model()->rowCount() <= 100) {
 
             ui->selausView->resizeColumnToContents(0);
+
             if( ui->valintaTab->currentIndex()==VIENNIT) {
                 ui->selausView->resizeColumnToContents(SelausModel::TILI);
                 ui->selausView->resizeColumnToContents(SelausModel::KUMPPANI);
+                ui->selausView->resizeColumnToContents(SelausModel::DEBET);
+                ui->selausView->resizeColumnToContents(SelausModel::KREDIT);
             } else {
-                   ui->selausView->resizeColumnToContents(TositeSelausModel::TOSITETYYPPI);
+                ui->selausView->resizeColumnToContents(TositeSelausModel::TOSITETYYPPI);
                 ui->selausView->resizeColumnToContents(TositeSelausModel::ASIAKASTOIMITTAJA);
+                ui->selausView->resizeColumnToContents(TositeSelausModel::SUMMA);
             }
 
         }
@@ -406,7 +411,11 @@ void SelausWg::modelResetoitu()
             }
         }
         paivitaSuodattimet();
+        if( lopussa_ )
+            ui->selausView->verticalScrollBar()->setValue( ui->selausView->verticalScrollBar()->maximum() );
+
     }
+    kp()->odotusKursori(false);
 
 }
 

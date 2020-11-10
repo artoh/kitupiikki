@@ -157,7 +157,7 @@ void Tosite::asetaSarja(const QString &sarja)
 
 void Tosite::asetaKumppani(int id)
 {
-    if(id) {
+    if(id>0) {
         QVariantMap kmap;
         kmap.insert("id",id);
         setData(KUMPPANI, kmap);

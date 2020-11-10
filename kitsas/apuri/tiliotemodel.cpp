@@ -195,7 +195,7 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                 rivit_[index.row()].saajamaksaja = value.toString();
                 break;
             case TILI: {
-                    Tili uusitili;
+                   Tili uusitili = kp()->tilit()->tiliNumerolla(value.toInt());
                    if( uusitili.onkoValidi()) {
                        rivit_[ index.row()].tili = uusitili.numero();
 

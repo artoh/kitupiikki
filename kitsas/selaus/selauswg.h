@@ -113,6 +113,7 @@ private:
     int valittu_ = 0;
     double saldo_ = 0;
     int selaustili_ = 0;
+    bool lopussa_ = false;
 };
 
 #endif // SELAUSWG_H

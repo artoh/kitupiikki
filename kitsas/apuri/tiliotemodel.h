@@ -35,7 +35,7 @@ public:
         int kohdennus = 0;
         QString selite;
         QVariantList merkkaukset;
-        int saajamaksajaId;
+        int saajamaksajaId = 0;
         QString saajamaksaja;
         QString arkistotunnus;
         QString tilinumero;
