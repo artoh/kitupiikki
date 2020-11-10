@@ -53,8 +53,11 @@ SelausWg::SelausWg(QWidget *parent) :
     selausProxy_ = new SelausProxyModel(model, this);
     tositeProxy_ = new TositeSelausProxyModel(tositeModel, this);
 
-    connect( model, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
-    connect( tositeModel, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
+    connect( selausProxy_, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
+    connect( selausProxy_, &QSortFilterProxyModel::dataChanged, this, &SelausWg::modelResetoitu);
+
+    connect( tositeProxy_, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
+    connect( tositeProxy_, &QSortFilterProxyModel::dataChanged, this, &SelausWg::modelResetoitu);
 
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
@@ -139,6 +142,7 @@ void SelausWg::alusta()
 void SelausWg::paivita()
 {    
 
+    qDebug() << "PAIVITA";
     qApp->processEvents();
     lopussa_ = ui->selausView->verticalScrollBar()->value() >=
             ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
@@ -239,12 +243,16 @@ void SelausWg::paivitaSuodattimet()
 
 void SelausWg::paivitaSummat(QVariant *data)
 {
+    qDebug() << "päivitäSummat";
+
+    QAbstractItemModel* model = ui->selausView->model();
+
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
         double debetSumma = 0;
         double kreditSumma = 0;
 
-        QAbstractItemModel* model = ui->selausView->model();
+
 
         for(int i=0; i< model->rowCount(QModelIndex()); i++)
         {
@@ -381,9 +389,12 @@ void SelausWg::siirrySivulle()
 
 void SelausWg::modelResetoitu()
 {
+    qDebug() << "Model resetoitu";
+
     if( ui->selausView->model()) {
 
         paivitaSummat();
+        qApp->processEvents();
 
         if( ui->selausView->model()->rowCount() <= 100) {
 
@@ -405,8 +416,8 @@ void SelausWg::modelResetoitu()
         if(valittu_) {
             for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
                 if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
-                    ui->selausView->selectRow(i);
-                    return;
+                    ui->selausView->selectRow(i);                    
+                    break;
                 }
             }
         }
@@ -416,6 +427,7 @@ void SelausWg::modelResetoitu()
 
     }
     kp()->odotusKursori(false);
+
 
 }
 

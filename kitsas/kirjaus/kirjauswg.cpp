@@ -470,6 +470,7 @@ void KirjausWg::tallenna(int tilaan)
     }
 
     ui->tallennaButton->setEnabled(false);
+    kp()->odotusKursori(true);
     ui->tallennetaanLabel->show();
     if(apuri_)
         apuri_->tositteelle();
@@ -481,6 +482,7 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
     if( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli) == TositeTyyppi::TILIOTE)
         ui->tositetyyppiCombo->setCurrentIndex(0);
 
+    kp()->odotusKursori(false);
     emit kp()->tositeTallennettu(tunniste, pvm, sarja, tila);
     tyhjenna();
     emit tositeKasitelty();

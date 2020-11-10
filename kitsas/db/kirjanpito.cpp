@@ -294,12 +294,15 @@ QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
 
 void Kirjanpito::odotusKursori(bool on)
 {
+    qDebug() << "OK " << on;
     if(on && !waitCursor_) {
         waitCursor_ = true;
         qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
+        qDebug() << "WAIT ";
     } else if(!on && waitCursor_) {
         waitCursor_ = false;
         qApp->restoreOverrideCursor();
+        qDebug() << "READY";
     }
 }
 
