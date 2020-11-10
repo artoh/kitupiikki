@@ -148,7 +148,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     kiertoTab_->hide();
 
-    connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
+    connect( tosite_, &Tosite::tilaTieto, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
 
@@ -200,6 +200,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::uusiVienti);
 
     tosite()->liitteet()->naytaLadattuLiite();
+    connect( tosite(), &Tosite::ladattu, this, &KirjausWg::tositeLadattu);
 }
 
 KirjausWg::~KirjausWg()
@@ -401,6 +402,12 @@ void KirjausWg::pohjaksi()
     }
 }
 
+void KirjausWg::tositeLadattu()
+{
+    if(tosite()->tila() >= Tosite::SAAPUNUT && tosite()->tila() <= Tosite::HYVAKSYTTY)
+        ui->tallennaButton->setText(tr("Tallenna"));
+}
+
 
 void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 {
@@ -461,8 +468,11 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 void KirjausWg::tallenna(int tilaan)
 {
-    if( tosite()->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA && tilaan != Tosite::MALLIPOHJA) {
+    int tila = tosite()->tila();
+    if( tila == Tosite::MALLIPOHJA && tilaan != Tosite::MALLIPOHJA) {
         tosite()->setData(Tosite::ID, 0);
+    } else if(tilaan == Tosite::LUONNOS && tila >= Tosite::SAAPUNUT && tila <= Tosite::HYVAKSYTTY) {
+        tilaan = tila;      // Kierron luonnokset jäävät paikalleen ;)
     }
 
     if( tilaan == Tosite::MALLIPOHJA) {

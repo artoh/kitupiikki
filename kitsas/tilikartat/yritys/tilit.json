@@ -5888,7 +5888,7 @@
   },
   {
     "numero": 5470,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut sairausvakuutuskorvaukset"
     },
@@ -5896,7 +5896,7 @@
   },
   {
     "numero": 5480,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut tapaturmavakuutuskorvaukset"
     },
@@ -6028,7 +6028,7 @@
   },
   {
     "numero": 5770,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut sairausvakuutuskorvaukset"
     },
@@ -6036,7 +6036,7 @@
   },
   {
     "numero": 5780,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut tapaturmavakuutuskorvaukset"
     },
@@ -6168,7 +6168,7 @@
   },
   {
     "numero": 5960,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut sairausvakuutuskorvaukset"
     },
@@ -6176,7 +6176,7 @@
   },
   {
     "numero": 5970,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Saadut tapaturmavakuutuskorvaukset"
     },
@@ -6199,7 +6199,7 @@
   },
   {
     "numero": 5990,
-    "tyyppi": "C",
+    "tyyppi": "D",
     "nimi": {
       "fi": "Luontoisetujen vastatili"
     },

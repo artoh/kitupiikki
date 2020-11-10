@@ -349,7 +349,7 @@ void Tosite::tarkasta()
         virheet |= Tosite::EITASMAA;
 
 
-    emit tila(muutettu, virheet, debet / 100.0, kredit / 100.0);
+    emit tilaTieto(muutettu, virheet, debet / 100.0, kredit / 100.0);
 
 }
 

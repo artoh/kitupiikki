@@ -77,8 +77,7 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
-    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
-    connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
+    connect( kp()->tilikaudet(), &TilikausiModel::modelReset, this, &SelausWg::alusta);
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
 
@@ -142,7 +141,6 @@ void SelausWg::alusta()
 void SelausWg::paivita()
 {    
 
-    qDebug() << "PAIVITA";
     qApp->processEvents();
     lopussa_ = ui->selausView->verticalScrollBar()->value() >=
             ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
@@ -243,21 +241,20 @@ void SelausWg::paivitaSuodattimet()
 
 void SelausWg::paivitaSummat(QVariant *data)
 {
-    qDebug() << "päivitäSummat";
 
     QAbstractItemModel* model = ui->selausView->model();
 
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
-        double debetSumma = 0;
-        double kreditSumma = 0;
+        qlonglong debetSumma = 0;
+        qlonglong kreditSumma = 0;
 
 
 
         for(int i=0; i< model->rowCount(QModelIndex()); i++)
         {
-            debetSumma += model->index(i, SelausModel::DEBET).data(Qt::EditRole).toDouble();
-            kreditSumma += model->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble();
+            debetSumma += qRound64( model->index(i, SelausModel::DEBET).data(Qt::EditRole).toDouble() * 100);
+            kreditSumma += qRound64(model->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble() * 100);
         }
 
         if( data && data->toMap().count()) {
@@ -267,25 +264,25 @@ void SelausWg::paivitaSummat(QVariant *data)
 
         if( qAbs(saldo_) > 1e-5) {
             ui->summaLabel->setText( tr("Debet %L1 €  Kredit %L2 €\nLoppusaldo %L3 €")
-                    .arg( debetSumma,0,'f',2)
-                    .arg(kreditSumma,0,'f',2)
+                    .arg( debetSumma / 100.0,0,'f',2)
+                    .arg(kreditSumma / 100.0,0,'f',2)
                     .arg(saldo_,0,'f',2));
         } else {
             ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
-                    .arg( debetSumma,0,'f',2)
-                    .arg(kreditSumma,0,'f',2) );
+                    .arg( debetSumma / 100.0,0,'f',2)
+                    .arg(kreditSumma / 100.0,0,'f',2) );
         }
 
 
     } else {
 
         // Lasketaan summat
-        double summa = 0;
+        qlonglong summa = 0;
         for(int i=0; i<model->rowCount(QModelIndex()); i++)
         {
-            summa += model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toDouble();
+            summa += qRound64(model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toDouble() * 100);
         }
-        ui->summaLabel->setText( tr("Summa %L1€").arg(summa,0,'f',2));
+        ui->summaLabel->setText( tr("Summa %L1€").arg(summa / 100.0,0,'f',2));
 
     }
 
@@ -389,14 +386,15 @@ void SelausWg::siirrySivulle()
 
 void SelausWg::modelResetoitu()
 {
-    qDebug() << "Model resetoitu";
+
 
     if( ui->selausView->model()) {
 
         paivitaSummat();
         qApp->processEvents();
+        int riveja =  ui->selausView->model()->rowCount();
 
-        if( ui->selausView->model()->rowCount() <= 100) {
+        if( riveja > 0 && riveja <= 100) {
 
             ui->selausView->resizeColumnToContents(0);
 

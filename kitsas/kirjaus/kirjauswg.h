@@ -103,6 +103,8 @@ private slots:
 
     void pohjaksi();
 
+    void tositeLadattu();
+
 private slots:    
     void paivita(bool muokattu, int virheet, double debet, double kredit);
     void tallenna(int tilaan);

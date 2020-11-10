@@ -135,7 +135,7 @@ void KiertoWidget::lataaTosite()
     ui->kopioiIban->setVisible(!iban_.isEmpty());
     ui->barCopyButton->setVisible(!iban_.isEmpty() && (tosite_->tyyppi() == TositeTyyppi::KULULASKU || !tosite_->viite().isEmpty() ) );
     paivitaViivakoodi();
-    connect( tosite_, &Tosite::tila, this, &KiertoWidget::paivitaViivakoodi);
+    connect( tosite_, &Tosite::tilaTieto, this, &KiertoWidget::paivitaViivakoodi);
 
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();

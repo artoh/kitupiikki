@@ -116,6 +116,7 @@ public:
     QDate erapvm() const { return data(ERAPVM).toDate();}
     QString viite() const { return data(VIITE).toString();}
     int kierto() const { return data(KIERTO).toInt();}
+    int tila() const { return data(TILA).toInt();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
@@ -146,7 +147,7 @@ signals:
     void ladattu();
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);
     void tallennusvirhe(int virhe);
-    void tila(bool muokattu, int virheet, double debet, double kredit);
+    void tilaTieto(bool muokattu, int virheet, double debet, double kredit);
 
     void pvmMuuttui(const QDate& pvm);
     void otsikkoMuuttui(const QString& otsikko);

@@ -97,13 +97,13 @@ QVariantMap UusiVelho::data() const
     QVariantMap initMap;
 
     if( field("harjoitus").toBool())
-        asetusMap.insert("Harjoitus", true);
+        asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())
-        asetusMap.insert("erisarjaan", true);
+        asetusMap.insert("erisarjaan", "ON");
 
     if( field("kateissarjaan").toBool())
-            asetusMap.insert("kateissarjaan", true);
+            asetusMap.insert("kateissarjaan", "ON");
 
     asetusMap.insert("KpVersio", SQLiteModel::TIETOKANTAVERSIO );
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
