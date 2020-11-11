@@ -117,8 +117,10 @@ QVariantMap UusiVelho::data() const
     map.insert("name", asetukset_.value("Nimi"));
     map.insert("trial", field("harjoitus").toBool());
     map.insert("init", initMap);
+    if(!field("ytunnus").toString().isEmpty())
+        map.insert("businessid", field("ytunnus").toString());
 
-    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
+//    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
 
     return  map;
 }

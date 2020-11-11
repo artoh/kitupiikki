@@ -290,9 +290,8 @@ void PilviModel::paivitysValmis(QVariant *paluu)
 
 void PilviModel::pilviLisatty(QVariant *paluu)
 {
-    QVariantMap map = paluu->toMap();
-    avaaPilvi_ = map.value("id").toInt();
-    paivitaLista();    
+    QVariantMap map = paluu->toMap();    
+    paivitaLista(map.value("id").toInt());
 
 }
 

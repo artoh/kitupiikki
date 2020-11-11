@@ -861,7 +861,7 @@ void LaskuDialogi::ennakkoHyvitysData(int eraid, double eurot, QVariant *data)
     rivi.insert("ahinta", 0 - eurot);
     int alvkoodi = vienti.value("alvkoodi").toInt();
     rivi.insert("alvkoodi", alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ? AlvKoodi::MYYNNIT_NETTO : alvkoodi );
-    rivi.insert("alvprosentti", vienti.value("alvprosentti"));
+    rivi.insert("alvprosentti", vienti.value("alvprosentti").toDouble());
     rivi.insert("ennakkohyvitys", eraid);
     rivi.insert("nimike", tulostaja.t("enhyri").arg(map.value("lasku").toMap().value("numero").toString()));
     rivit_->lisaaRivi(rivi);
