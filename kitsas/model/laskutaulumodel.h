@@ -45,7 +45,8 @@ public:
          EraPvmRooli = Qt::UserRole + 16,
          LaskutustapaRooli = Qt::UserRole + 17,
          SeliteRooli = Qt::UserRole + 18,
-         TilaRooli = Qt::UserRole + 19};
+         TilaRooli = Qt::UserRole + 19,
+         SummaRooli = Qt::UserRole + 20};
 
     explicit LaskuTauluModel(QObject *parent = nullptr);
 

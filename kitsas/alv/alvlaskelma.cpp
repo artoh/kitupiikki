@@ -218,7 +218,11 @@ void AlvLaskelma::kirjoitaErittely()
                 for(auto vienti : tiliIter.value().viennit) {
                     RaporttiRivi rivi;
                     rivi.lisaa( vienti.value("pvm").toDate() );
-                    rivi.lisaa( vienti.value("tosite").toMap().value("tunniste").toString() );
+                    QVariantMap tositeMap = vienti.value("tosite").toMap();
+                    rivi.lisaa( kp()->tositeTunnus(tositeMap.value("tunniste").toInt(),
+                                tositeMap.value("pvm").toDate(),
+                                tositeMap.value("sarja").toString(),
+                                true));
 
                     QString selite = vienti.value("selite").toString();
                     QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();

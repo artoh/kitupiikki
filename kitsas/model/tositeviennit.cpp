@@ -120,7 +120,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             {
                 if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
                     return tr("VERO");
-                else if(alvkoodi == AlvKoodi::TILITYS)
+                else if(kp()->alvTyypit()->nollaTyyppi(alvkoodi) )
                     return QString();
                 else
                     return QVariant( QString("%1 %").arg( rivi.value("alvprosentti").toInt() ));

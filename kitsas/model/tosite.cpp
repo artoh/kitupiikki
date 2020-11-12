@@ -227,6 +227,7 @@ void Tosite::lataa(int tositeid)
 void Tosite::lataaData(QVariant *variant)
 {
     resetointiKaynnissa_ = true;
+    tallennusKaynnissa_ = false;
     data_ = variant->toMap();
     tallennettu_.clear();
 
@@ -357,6 +358,8 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 {
 
     resetointiKaynnissa_ = true;
+    tallennusKaynnissa_ = false;
+
     data_.clear();
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();

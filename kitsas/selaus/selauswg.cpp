@@ -388,7 +388,7 @@ void SelausWg::modelResetoitu()
 {
 
 
-    if( ui->selausView->model()) {
+    if( ui->selausView->model() && ui->selausView->isVisible()) {
 
         paivitaSummat();
         qApp->processEvents();

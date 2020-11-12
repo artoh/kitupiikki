@@ -935,9 +935,9 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     alkupPvm_ = lasku.value("alkupPvm").toDate();
     viite_ = map.value("viite").toString();
     tunniste_ = map.value("tunniste").toInt();
-    era_ = tyyppi_ == TositeTyyppi::MYYNTILASKU
-            ? vienti.value("id").toInt()
-            : vienti.value("era").toMap().value("id").toInt();
+    era_ = vienti.value("era").toMap().value("id").toInt() > 0
+            ? vienti.value("era").toMap().value("id").toInt()
+            : vienti.value("id").toInt() ;
     asAlvTunnus_ = lasku.value("alvtunnus").toString();
     aiemmat_ = lasku.value("aiemmat").toList();
     aiempiSaldo_ = lasku.value("aiempisaldo").toDouble();

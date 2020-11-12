@@ -194,7 +194,7 @@ void LaskulistaWidget::paivitaNapit()
 
     if( ui->tabs->currentIndex() >= KAIKKI )
         ui->poistaNappi->setEnabled( index.isValid() &&
-                                     index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5
+                                     ( qAbs(index.data( LaskuTauluModel::SummaRooli ).toDouble() - index.data( LaskuTauluModel::AvoinnaRooli ).toDouble()) < 1e-5 || tyyppi != TositeTyyppi::MYYNTILASKU )
                                      && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN)
                                      );
     else
@@ -376,7 +376,13 @@ void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
     lasku.insert("viite", alkuplasku.value("viite"));
     if(alkuplasku.contains("alvtunnus"))
         lasku.insert("alvtunnus", alkuplasku.value("alvtunnus"));
-    lasku.insert("era", alkup.value("viennit").toList().value(0).toMap().value("id").toInt());
+
+    QVariantMap vienti;
+    vienti.insert("id", alkup.value("viennit").toList().value(0).toMap().value("id").toInt());
+    QVariantList viennit;
+    viennit.append(vienti);
+    hyvitys.insert("viennit", viennit);
+
     hyvitys.insert("lasku", lasku);
 
     hyvitys.insert("kumppani", alkup.value("kumppani"));
@@ -390,6 +396,7 @@ void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
         rivit.append(rmap);
     }
     hyvitys.insert("rivit", rivit);
+    hyvitys.insert("viite", alkuplasku.value("viite"));
 
     LaskuDialogi* dlg = new LaskuDialogi(hyvitys);
     dlg->show();
