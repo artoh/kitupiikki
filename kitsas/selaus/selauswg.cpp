@@ -27,6 +27,9 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QDebug>
+#include <QHeaderView>
+#include <QTimer>
+#include <QSettings>
 
 #include "lisaikkuna.h"
 
@@ -62,6 +65,7 @@ SelausWg::SelausWg(QWidget *parent) :
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
     ui->selausView->verticalHeader()->hide();
+    lataaKoon_ = true;
     ui->selausView->setModel(tositeProxy_);
     ui->selausView->setWordWrap(false);
 
@@ -89,6 +93,11 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->paivitaNappi, &QPushButton::clicked, this, &SelausWg::paivita);
 
     connect( ui->selausView, &QTableView::customContextMenuRequested, this, &SelausWg::contextMenu);
+    connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionResized, this, &SelausWg::tallennaKoot);
+    connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionMoved, this, &SelausWg::tallennaKoot);
+
+    ui->selausView->horizontalHeader()->setSectionsMovable(true);
+
 }
 
 SelausWg::~SelausWg()
@@ -337,16 +346,16 @@ void SelausWg::alkuPvmMuuttui()
 void SelausWg::selaa(int kumpi)
 {
     ui->etsiEdit->clear();
+    lataaKoon_=true;
 
     if( kumpi == VIENNIT) {
-        ui->selausView->setModel(selausProxy_);
-    } else
+        ui->selausView->setModel(selausProxy_);        
+    } else {
         ui->selausView->setModel(tositeProxy_);
-
+    }
+    QTimer::singleShot(10, [this] { this->lataaKoot();});
     paivita();
     ui->selausView->setFocus();
-//    paivitaSuodattimet();
-//    modelResetoitu();
 }
 
 void SelausWg::contextMenu(const QPoint &pos)
@@ -386,30 +395,10 @@ void SelausWg::siirrySivulle()
 
 void SelausWg::modelResetoitu()
 {
-
-
     if( ui->selausView->model() && ui->selausView->isVisible()) {
 
         paivitaSummat();
         qApp->processEvents();
-        int riveja =  ui->selausView->model()->rowCount();
-
-        if( riveja > 0 && riveja <= 100) {
-
-            ui->selausView->resizeColumnToContents(0);
-
-            if( ui->valintaTab->currentIndex()==VIENNIT) {
-                ui->selausView->resizeColumnToContents(SelausModel::TILI);
-                ui->selausView->resizeColumnToContents(SelausModel::KUMPPANI);
-                ui->selausView->resizeColumnToContents(SelausModel::DEBET);
-                ui->selausView->resizeColumnToContents(SelausModel::KREDIT);
-            } else {
-                ui->selausView->resizeColumnToContents(TositeSelausModel::TOSITETYYPPI);
-                ui->selausView->resizeColumnToContents(TositeSelausModel::ASIAKASTOIMITTAJA);
-                ui->selausView->resizeColumnToContents(TositeSelausModel::SUMMA);
-            }
-
-        }
 
         if(valittu_) {
             for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
@@ -425,8 +414,6 @@ void SelausWg::modelResetoitu()
 
     }
     kp()->odotusKursori(false);
-
-
 }
 
 void SelausWg::etsi(const QString &teksti)
@@ -435,6 +422,29 @@ void SelausWg::etsi(const QString &teksti)
         selausProxy_->etsi(teksti);
     else
         tositeProxy_->etsi(teksti);
+}
+
+void SelausWg::tallennaKoot()
+{
+    if( lataaKoon_)
+        return;
+    if( ui->valintaTab->currentIndex() == VIENNIT)
+        kp()->settings()->setValue("SelausViennit", ui->selausView->horizontalHeader()->saveState());
+    else
+        kp()->settings()->setValue("SelausTositteet", ui->selausView->horizontalHeader()->saveState());
+}
+
+void SelausWg::lataaKoot()
+{
+    lataaKoon_ = true;
+    if( ui->valintaTab->currentIndex() == VIENNIT ) {
+        if( kp()->settings()->contains("SelausViennit"))
+            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausViennit").toByteArray());
+    } else {
+        if( kp()->settings()->contains("SelausTositteet"))
+            ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausTositteet").toByteArray());
+    }
+    lataaKoon_ = false;
 }
 
 bool SelausWg::eventFilter(QObject *watched, QEvent *event)

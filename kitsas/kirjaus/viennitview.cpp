@@ -32,6 +32,7 @@
 #include <QHeaderView>
 #include <QSettings>
 #include <QKeyEvent>
+#include <QTimer>
 
 ViennitView::ViennitView(QWidget *parent)
     : QTableView (parent)
@@ -48,12 +49,16 @@ ViennitView::ViennitView(QWidget *parent)
 
     setFocusPolicy(Qt::StrongFocus);
 
-    // Ladataan leveyslista
-    QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
-
     connect( this, &QTableView::doubleClicked, this, &ViennitView::muokkaa);
 
     viewport()->installEventFilter(this);
+    QTimer::singleShot(10, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("ViennitRuudukko").toByteArray());});
+    horizontalHeader()->setSectionsMovable(true);
+}
+
+ViennitView::~ViennitView()
+{
+    kp()->settings()->setValue("ViennitRuudukko", horizontalHeader()->saveState());
 }
 
 void ViennitView::setTosite(Tosite *tosite)

@@ -123,7 +123,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                 else if(kp()->alvTyypit()->nollaTyyppi(alvkoodi) )
                     return QString();
                 else
-                    return QVariant( QString("%1 %").arg( rivi.value("alvprosentti").toInt() ));
+                    return QVariant( QString("%1 %").arg( qRound64(rivi.value("alvprosentti").toDouble()) ));
             }
         }
         case KUMPPANI:

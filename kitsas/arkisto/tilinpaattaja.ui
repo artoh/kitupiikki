@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1165</width>
+    <width>1656</width>
     <height>688</height>
    </rect>
   </property>
@@ -115,6 +115,19 @@
           </property>
          </widget>
         </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </item>
       <item row="2" column="0">
@@ -136,7 +149,7 @@
         <item>
          <widget class="QPushButton" name="jaksotusNappi">
           <property name="text">
-           <string>Kirjaa &amp;jaksotukset</string>
+           <string>Kirjaa &amp;jaksotukset...</string>
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
@@ -179,6 +192,39 @@
            <string>Jaksotukset kirjattu</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="jaksoStop">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/stop.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="jaksoAvaa">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Uusi tilikausi avattava ennen jaksotusten tekemistä</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -227,6 +273,19 @@
            <string>Tulovero kirjattu</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>

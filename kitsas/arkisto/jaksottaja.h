@@ -44,6 +44,7 @@ private:
 
 protected slots:
     void kirjaaTilinavaukseen(QVariant* data, const QDate& pvm);
+    void jaksotusValmis();
 
 protected:
     Ui::Poistaja *ui;

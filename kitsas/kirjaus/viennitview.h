@@ -29,6 +29,7 @@ class ViennitView : public QTableView
     Q_OBJECT
 public:
     ViennitView(QWidget *parent = nullptr);
+    ~ViennitView();
 
     void setTosite(Tosite* tosite);
 

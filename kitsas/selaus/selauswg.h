@@ -90,6 +90,8 @@ public:
 protected slots:
     void modelResetoitu();
     void etsi(const QString& teksti);
+    void tallennaKoot();
+    void lataaKoot();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -114,6 +116,7 @@ private:
     double saldo_ = 0;
     int selaustili_ = 0;
     bool lopussa_ = false;
+    bool lataaKoon_ = false;
 };
 
 #endif // SELAUSWG_H

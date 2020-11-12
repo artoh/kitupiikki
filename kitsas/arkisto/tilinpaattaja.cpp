@@ -226,11 +226,15 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     bool jaksotuksetkirjattu = data_.value("jaksotukset").toString() == "kirjattu";
     bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty() &&
             !data_.contains("verosaaminen");
+    bool kppaattyy = kp()->tilikaudet()->kirjanpitoLoppuu() == tilikausi.paattyy();
 
     ui->eiJaksotettavaaLabel->setVisible( !jaksotuksetkirjattu && eijaksotuksia);
     ui->jaksotTehty->setVisible( jaksotuksetkirjattu );
     ui->jaksotKirjattuLabel->setVisible( jaksotuksetkirjattu );
-    ui->jaksotusNappi->setVisible(!jaksotuksetkirjattu && !eijaksotuksia);
+    ui->jaksotusNappi->setVisible(!jaksotuksetkirjattu && !eijaksotuksia && !kppaattyy);
+    ui->jaksoStop->setVisible(kppaattyy && !eijaksotuksia);
+    ui->jaksoAvaa->setVisible(kppaattyy && !eijaksotuksia);
+
 
     bool verokirjattu = data_.value("tulovero").toString() == "kirjattu";
     bool eiverotettavaa = qAbs(data_.value("tulovero").toMap().value("tulo").toDouble()) < 1e-3;

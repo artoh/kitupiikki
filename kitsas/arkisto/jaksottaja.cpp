@@ -275,6 +275,13 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
 
         avaus->viennit()->lisaa(uusi);
     }
-    connect( avaus, &Tosite::talletettu, this, &Jaksottaja::jaksotettu);
+    connect( avaus, &Tosite::talletettu, this, &Jaksottaja::jaksotusValmis);
     avaus->tallenna();
+
+}
+
+void Jaksottaja::jaksotusValmis()
+{
+    emit jaksotettu();
+    deleteLater();
 }
