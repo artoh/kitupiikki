@@ -80,6 +80,6 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
     else if( Tuonti::CsvTuonti::onkoCsv(ba))
         return("text/csv");
 
-    return QString();
+    return "application/octet-stream";
 }
 

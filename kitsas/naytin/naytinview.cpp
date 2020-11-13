@@ -46,6 +46,8 @@
 #include <QImage>
 #include <QApplication>
 
+#include "db/kpkysely.h"
+
 #include "naytin/raporttinaytin.h"
 // #include "naytin/pdfnaytin.h"
 
@@ -106,10 +108,14 @@ void NaytinView::nayta(const QByteArray &data)
         if( !kuva.isNull()) {
             vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::KuvaView(kuva) ));
         } else {
-            vaihdaNaytin( new Naytin::TekstiNaytin( Tuonti::CsvTuonti::haistettuKoodattu(data) ) );
+            QString tyyppi = KpKysely::tiedostotyyppi(data);
+            if(tyyppi != "application/octet-stream") {
+                vaihdaNaytin( new Naytin::TekstiNaytin( Tuonti::CsvTuonti::haistettuKoodattu(data) ) );
+            } else {
+                vaihdaNaytin(nullptr);
+            }
         }
     }
-
 }
 
 void NaytinView::nayta(RaportinKirjoittaja raportti)
@@ -406,7 +412,9 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
     }
 
     naytin_ = naytin;
-    leiska_->addWidget( naytin->widget());
+
+    if(naytin)
+        leiska_->addWidget( naytin->widget());
     qApp->processEvents();
 
     emit sisaltoVaihtunut();

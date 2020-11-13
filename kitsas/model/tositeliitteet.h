@@ -26,7 +26,8 @@ class TositeLiitteet : public QAbstractListModel
 protected:
     class TositeLiite
     {
-    public:
+    public:        
+
         TositeLiite(int id=0, const QString& nimi = QString(),
                     const QByteArray& sisalto = QByteArray(), const QString& rooli = QString(),
                     const QString& polku = QString());
@@ -46,6 +47,8 @@ protected:
         void setRooli(const QString &rooli);
         QString getPolku() const { return polku_;}
 
+        QString setTyyppi() const { return tyyppi_;}
+
         bool getLiitettava() const;
         void setLiitettava(int id);                
 
@@ -56,10 +59,18 @@ protected:
         QByteArray thumb_;
         QString rooli_;
         QString polku_;
+        QString tyyppi_;
         bool liitettava_ = false;        
     };
 
 public:
+
+    enum {
+        SisaltoRooli = Qt::UserRole + 1,
+        NimiRooli = Qt::UserRole + 2,
+        TyyppiRooli = Qt::UserRole + 3
+    };
+
     explicit TositeLiitteet(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

@@ -56,7 +56,7 @@ protected:
     void alustaKielet();
 
 
-private slots:    
+private slots:        
     void tarkastaTilit();
     void maaMuuttui();
     void haeToimipaikka();

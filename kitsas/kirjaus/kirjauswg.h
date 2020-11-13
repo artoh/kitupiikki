@@ -115,6 +115,8 @@ private slots:
 
     void nollaaTietokannanvaihtuessa();
 
+    void avaaLiite();
+
 public:
     Ui::KirjausWg* gui() { return ui;}
 
@@ -132,7 +134,6 @@ signals:
      * Jos ollaan tultu selauksesta, palataan selaukseen
      */
     void tositeKasitelty();
-    void avaaLiite();
     void tulostaLiite();
 
     void naytaPohjat(bool nayta);

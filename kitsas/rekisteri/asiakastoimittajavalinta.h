@@ -67,7 +67,7 @@ protected:
 
     AsiakasToimittajaListaModel* model_;
 
-    AsiakasToimittajaDlg *dlg_;
+    AsiakasToimittajaDlg *dlg_ = nullptr;
 
     int id_=0;
     int ladattu_=0;

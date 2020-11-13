@@ -21,6 +21,7 @@
 #include "pilvimodel.h"
 #include "pilvikysely.h"
 #include "sqlite/sqlitemodel.h"
+#include "tilaus/planmodel.h"
 
 #include <QSqlQuery>
 #include <QImage>
@@ -85,7 +86,7 @@ void PilveenSiirto::alustaAlkusivu()
     kysely.next();
     liitelkm_ = kysely.value(0).toInt();
 
-    if( pilvia >= pilvetMax) {
+    if( pilvia >= pilvetMax && kp()->pilvi()->plan() != PlanModel::TILITOIMISTOPLAN) {
         ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
                                   "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
@@ -320,6 +321,9 @@ void PilveenSiirto::tallennaSeuraavaLiite()
         QString rooli = liitekysely.value("roolinimi").toString();
         QByteArray data = liitekysely.value("data").toByteArray();
         int tosite = liitekysely.value("tosite").toInt();
+
+        if(tyyppi.isEmpty())
+            tyyppi = KpKysely::tiedostotyyppi(data);
 
         QMap<QString,QString> meta;
         meta.insert("Content-type", tyyppi);

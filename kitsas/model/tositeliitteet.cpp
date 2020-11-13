@@ -61,16 +61,16 @@ QVariant TositeLiitteet::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    TositeLiite liite = liitteet_.value(index.row());
     if( role == Qt::DisplayRole)
     {        
-        TositeLiite liite = liitteet_.value(index.row());
+
         if( liite.getNimi().isEmpty())
             return liite.getRooli();
         else
             return liite.getNimi();
     }
     else if( role == Qt::DecorationRole) {
-        TositeLiite liite = liitteet_.value(index.row());
         if( !liite.getThumb().isEmpty()) {
             QPixmap pixmap;
             pixmap.loadFromData(liite.getThumb(), "PNG");
@@ -82,6 +82,12 @@ QVariant TositeLiitteet::data(const QModelIndex &index, int role) const
         else if( liite.getNimi().endsWith(".jpg"))
             return QIcon(":/pic/kuva2.png");
         return QIcon(":/pic/tekstisivu.png");
+    } else if( role == SisaltoRooli) {
+        return liite.getSisalto();
+    } else if( role == NimiRooli) {
+        return liite.getNimi();
+    } else if( role == TyyppiRooli) {
+        return KpKysely::tiedostotyyppi(liite.getSisalto());
     }
 
     // FIXME: Implement me!
@@ -240,7 +246,17 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     int liiteIndeksi = liitteet_.count() - 1;
     endInsertRows();
 
-    emit naytaliite( liite );
+    QString tyyppi = KpKysely::tiedostotyyppi(liite);
+    if(tyyppi == "application/octet-stream") {
+        if(QMessageBox::question(nullptr, tr("Liitetiedoston tyyppiä ei tueta"),
+                              tr("Tätä liitetiedostoa ei voi välttämättä näyttää Kitsaalla eikä sisällyttää arkistoon.\n"
+                                 "Haluatko silti lisätä tämän tiedoston?"),
+                                 QMessageBox::Yes | QMessageBox::No,
+                                 QMessageBox::No) != QMessageBox::Yes)
+        return false;
+    } else {
+        emit naytaliite( liite );
+    }
 
     tallennetaan_ = true;
     emit liitettaTallennetaan(true);
@@ -252,9 +268,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
 
     // Ensimmäisestä liitteestä tuodaan tiedot
-    if( liitteet_.count() == 1) {
-
-        QString tyyppi = KpKysely::tiedostotyyppi(liite);
+    if( liitteet_.count() == 1) {        
         if( tyyppi == "application/pdf") {
             const QVariantMap &tuotu = Tuonti::PdfTuonti::tuo(liite);
             if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {

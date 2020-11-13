@@ -30,14 +30,10 @@
 
 int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli)
 {
-    painter->save();
-
     if( tyyppi == "application/pdf")
         return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
     if( tyyppi.startsWith("image"))
         return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
-
-    painter->restore();
     return false;
 }
 

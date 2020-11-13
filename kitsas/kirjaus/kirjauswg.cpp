@@ -152,7 +152,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
 
-    connect( tosite()->liitteet(), &TositeLiitteet::modelReset, this, &KirjausWg::paivitaLiiteNapit);
+    connect( tosite_->liitteet(), &TositeLiitteet::modelReset, this, &KirjausWg::paivitaLiiteNapit);
+    connect( ui->liiteView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KirjausWg::paivitaLiiteNapit);
     connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::liiteValittu);
 
 
@@ -201,6 +202,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     tosite()->liitteet()->naytaLadattuLiite();
     connect( tosite(), &Tosite::ladattu, this, &KirjausWg::tositeLadattu);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -541,6 +543,24 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     ui->sarjaCombo->addItems(kp()->tositeSarjat());
 }
 
+void KirjausWg::avaaLiite()
+{
+    QByteArray data = ui->liiteView->currentIndex().data(TositeLiitteet::SisaltoRooli).toByteArray();
+    QString nimi = ui->liiteView->currentIndex().data(TositeLiitteet::NimiRooli).toByteArray();
+    QString paate = nimi.mid(nimi.lastIndexOf("."));
+
+    QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX").append(paate) );
+
+    QFile tiedosto( tiedostonnimi);
+    tiedosto.open( QIODevice::WriteOnly);
+    tiedosto.write( data);
+    tiedosto.close();
+
+    if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
+        QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( paate ) );
+
+}
+
 void KirjausWg::siirryTositteeseen()
 {
     int id = SiirryDlg::tositeId( ui->tositePvmEdit->date(), QString() );
@@ -594,12 +614,13 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
 
 void KirjausWg::paivitaLiiteNapit()
 {
-    bool liitteita = tosite()->liitteet()->rowCount(QModelIndex());
+    bool valittu = ui->liiteView->currentIndex().isValid();
 
-    ui->poistaLiiteNappi->setEnabled(liitteita);
-    ui->avaaNappi->setEnabled(liitteita);
+    ui->poistaLiiteNappi->setEnabled(valittu);
+    ui->avaaNappi->setEnabled(valittu);
+    ui->tulostaLiiteNappi->setEnabled(valittu && ui->liiteView->currentIndex().data(TositeLiitteet::TyyppiRooli).toString() != "application/octet-stream");
 
-    if( liitteita )
+    if( tosite_->liitteet()->rowCount() )
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_) , QIcon(":/pic/liite-aktiivinen.png"));
     else
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_), QIcon(":/pic/liite"));
