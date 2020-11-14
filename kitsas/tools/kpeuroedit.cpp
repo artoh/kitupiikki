@@ -155,6 +155,7 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
         {
             setCursorPosition(kursorinpaikka+1);
         }
+        emit textEdited(text());
         return;
     }
     else if( event->key() == Qt::Key_Plus && miinus()) {

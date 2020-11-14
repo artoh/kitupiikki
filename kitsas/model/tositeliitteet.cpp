@@ -197,6 +197,8 @@ bool TositeLiitteet::lisaaTiedosto(const QString &polku)
 
 bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, const QString& polku)
 {
+    QString tnimi = tiedostonnimi;
+
     if( liite.isNull())
         return false;
 
@@ -231,6 +233,8 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
         doc.print(&writer);
         liite = array;
+        tnimi.append(".pdf");
+
     }
 
     if( liite.length() > 10 * 1024 * 1024 ) {
@@ -240,11 +244,6 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         return false;
     }
 
-
-    beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
-    liitteet_.append( TositeLiite(0, tiedostonnimi, liite, QString(), polku) );
-    int liiteIndeksi = liitteet_.count() - 1;
-    endInsertRows();
 
     QString tyyppi = KpKysely::tiedostotyyppi(liite);
     if(tyyppi == "application/octet-stream") {
@@ -257,6 +256,11 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     } else {
         emit naytaliite( liite );
     }
+
+    beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
+    liitteet_.append( TositeLiite(0, tnimi, liite, QString(), polku) );
+    int liiteIndeksi = liitteet_.count() - 1;
+    endInsertRows();
 
     tallennetaan_ = true;
     emit liitettaTallennetaan(true);
@@ -302,7 +306,8 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     }
 
     QMap<QString,QString> meta;
-    meta.insert("Filename", tiedostonnimi);
+    meta.insert("Filename", tnimi);
+    meta.insert("Content-type", tyyppi);
     liitekysely->lahetaTiedosto(liite, meta);
 
     if(  kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&

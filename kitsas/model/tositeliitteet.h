@@ -88,7 +88,7 @@ public:
     bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
     bool lisaaTiedosto(const QString& polku);
 
-    bool lisaaHeti(QByteArray liite, const QString& tiedostonnimi, const QString &polku = QString());
+    bool lisaaHeti(QByteArray liite, const QString &tiedostonnimi, const QString &polku = QString());
     bool lisaaHetiTiedosto(const QString& polku);
 
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;

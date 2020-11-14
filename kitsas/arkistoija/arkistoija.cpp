@@ -483,12 +483,19 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     // LIITTEET
 
     if( liitteet.count() )
-    {
+    {                
         if( !tuloste) {
-            // Liitteen laatikko, johon nykyinen liite ladataan
-            out << "<iframe width='100%' height='50%' class='liite' id='liite' src='../liitteet/";
-            out << liiteNimet_.value( liitteet.value(0).toMap().value("id").toInt() );
-            out <<  "'></iframe>";
+            for( auto liite : liitteet) {
+                const QVariantMap& liitemap = liite.toMap();
+                const QString tyyppi = liitemap.value("tyyppi").toString();
+                if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
+                    // Liitteen laatikko, johon nykyinen liite ladataan
+                    out << "<iframe width='100%' height='50%' class='liite' id='liite' src='../liitteet/";
+                    out << liiteNimet_.value( liitemap.value("id").toInt() );
+                    out <<  "'></iframe>";
+                    break;
+                }
+            }
         }
 
         out << "<table class='liiteluettelo'>";
@@ -497,9 +504,17 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         for( auto liite : liitteet) {
             const QVariantMap& liitemap = liite.toMap();
             const QString liitetiedosto = liiteNimet_.value( liitemap.value("id").toInt() );
-            out << "<tr><td onclick=\"$('#liite').attr('src','../liitteet/"
-                 << liitetiedosto
-                 << "');\">" << liitemap.value("nimi").toString()
+            const QString tyyppi = liitemap.value("tyyppi").toString();
+            const QString nimi = liitemap.value("nimi").toString();
+            const QString rooli = liitemap.value("rooli").toString();
+
+            out << "<tr><td ";
+
+            if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
+                out << "onclick=\"$('#liite').attr('src','../liitteet/"
+                     << liitetiedosto << "');\"";
+            }
+            out << ">" << (nimi.isEmpty() ? rooli : nimi)
                  << "</td><td><a href='../liitteet/" << liitetiedosto
                  << "' class=avaaliite>Avaa</a></td></tr>\n";
         }
@@ -650,7 +665,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     QVariantList lokiLista = tosite.value("loki").toList();
     for(auto lokiItem : lokiLista) {
         QVariantMap lokiMap = lokiItem.toMap();
-        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm.ss");
+        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
         out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
         out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
     }
