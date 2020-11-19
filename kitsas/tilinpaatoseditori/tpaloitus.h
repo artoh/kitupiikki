@@ -53,7 +53,6 @@ private slots:
     void accept();
     void lataaTiedosto();
     void ohje();
-    void tallennaHenkilosto(int maara);
     void lataa();
 
     void tarkistaPMA();

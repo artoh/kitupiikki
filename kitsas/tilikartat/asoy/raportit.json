@@ -606,7 +606,7 @@
         "fi": "OMA PÄÄOMA",
         "sv": "EGET KAPITAL",
         "en": "CAPITAL AND RESERVES",
-        "L": "20..23"
+        "L": "20..24"
       },
       {
         "fi": "Osakepääoma",
@@ -734,7 +734,7 @@
         "fi": "VIERAS PÄÄOMA",
         "sv": "FRÄMMANDE KAPITAL",
         "en": "CREDITORS",
-        "L": "26..29"
+        "L": "28..29"
       },
       {
         "fi": "Pitkäaikainen vieras pääoma",

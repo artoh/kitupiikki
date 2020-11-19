@@ -195,6 +195,14 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
                     model()->setData(currentIndex(), AlvKoodi::OSTOT_NETTO, TositeViennit::AlvKoodiRooli);
 
             }
+        } else if( event->key() == Qt::Key_Asterisk) {
+            double prs= 100 + currentIndex().data(TositeViennit::AlvProsenttiRooli).toDouble();
+            double debet = currentIndex().data(TositeViennit::DebetRooli).toDouble();
+            double kredit = currentIndex().data(TositeViennit::KreditRooli).toDouble();
+            if( prs > 100) {
+                model()->setData(currentIndex().sibling(currentIndex().row(), TositeViennit::DEBET), qRound64( debet * 10000 /  prs) / 100.0);
+                model()->setData(currentIndex().sibling(currentIndex().row(), TositeViennit::KREDIT), qRound64( kredit * 10000 /  prs) / 100.0);
+            }
         }
     } else
     {
