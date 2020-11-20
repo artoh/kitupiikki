@@ -297,8 +297,8 @@ void AineistoTulostaja::valmis()
     if( virhe_) {
         QMessageBox::critical(nullptr, tr("Virhe aineiston muodostamisessa"),
                               tr("Tositteiden muodostamisessa aineistoksi tapahtui virhe.\n\n"
-                                 "Todennäköisesti liitetiedostojen koko yhteensä on liian suuri, jotta niistä ohjelma pystyisi muodostamaan niistä "
-                                 "yhden suuren pdf-tiedoston.\n\n"
+                                 "Todennäköisesti liitetiedostojen koko yhteensä on liian suuri, jotta ohjelma pystyisi muodostamaan niistä kaikista "
+                                 "yhden pdf-tiedoston.\n\n"
                                  "Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkiston."));
     } else {
         QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
