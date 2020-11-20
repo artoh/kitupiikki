@@ -45,6 +45,7 @@
 #include <QPdfWriter>
 #include <QDesktopServices>
 #include <QRegularExpression>
+#include <QMessageBox>
 
 AineistoTulostaja::AineistoTulostaja(QObject *parent) : QObject(parent)
 {
@@ -270,9 +271,10 @@ void AineistoTulostaja::tilaaLiite()
 
 void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
 {
+
     QByteArray ba = data->toByteArray();
     device->newPage();
-    sivu_ += LiiteTulostaja::tulostaLiite(
+    int sivua = LiiteTulostaja::tulostaLiite(
                 device, painter,
                 ba,
                 tyyppi,
@@ -280,6 +282,10 @@ void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi
                 ensisivu_,
                 sivu_,
                 kieli_);
+    if( sivua < 0)
+        virhe_ = true;
+    else
+        sivu_ += sivua;
 
     ensisivu_ = false;
     tilaaLiite();
@@ -288,10 +294,19 @@ void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi
 void AineistoTulostaja::valmis()
 {
     painter->end();
-    QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
+    if( virhe_) {
+        QMessageBox::critical(nullptr, tr("Virhe aineiston muodostamisessa"),
+                              tr("Tositteiden muodostamisessa aineistoksi tapahtui virhe.\n\n"
+                                 "Todennäköisesti liitetiedostojen koko yhteensä on liian suuri, jotta niistä ohjelma pystyisi muodostamaan niistä "
+                                 "yhden suuren pdf-tiedoston.\n\n"
+                                 "Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkiston."));
+    } else {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
+    }
     progress->close();
     delete progress;
     delete painter;
+
     return;
 
 }

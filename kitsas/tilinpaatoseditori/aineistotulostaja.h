@@ -78,6 +78,7 @@ protected:
     int sivu_ = 2;
 
     int tositepnt_ = 0;
+    bool virhe_ = false;
 
 };
 
