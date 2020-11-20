@@ -183,6 +183,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/pixaby/tarkastettu.svg \
 		../kitsas/pic/pixaby/log-out.svg \
 		../kitsas/pic/pixaby/log-in.svg \
+		../kitsas/pic/pixaby/naytto.png \
 		../kitsas/pic/pixaby/tarkastus.png \
 		../kitsas/pic/pixaby/hyvaksytty.svg \
 		../kitsas/pic/pixaby/leimasin.png \
@@ -248,6 +249,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/liite-aktiivinen.png \
 		../kitsas/pic/verkkovirhe.png \
 		../kitsas/pic/eu.png \
+		../kitsas/pic/bar-copy.png \
 		../kitsas/pic/varoitus.png \
 		../kitsas/pic/kaikkitilit.png \
 		../kitsas/pic/talleta.png \
@@ -348,6 +350,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/vero64.png \
 		../kitsas/pic/mailfail.png \
 		../kitsas/pic/kierto.svg \
+		../kitsas/pic/e64.png \
 		../kitsas/pic/splash.png \
 		../kitsas/pic/kotisivu.png \
 		../kitsas/pic/refresh.png \
@@ -2068,6 +2071,8 @@ moc_tilinvalintaline.cpp: ../kitsas/db/tilinvalintaline.h \
 		../kitsas/laskutus/tuotemodel.h \
 		../kitsas/db/kpkysely.h \
 		../../../Qt/5.15.0/clang_64/lib/QtCore.framework/Headers/QUrlQuery \
+		../kitsas/kirjaus/tilidelegaatti.h \
+		../../../Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
 		moc_predefs.h \
 		../../../Qt/5.15.0/clang_64/bin/moc
 	/Users/petri/Qt/5.15.0/clang_64/bin/moc $(DEFINES) --include /Users/petri/git/kitupiikki/mac/moc_predefs.h -I/Users/petri/Qt/5.15.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/usr/local/include -I/Users/petri/Qt/5.15.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.15.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.15.0/clang_64/lib ../kitsas/db/tilinvalintaline.h -o moc_tilinvalintaline.cpp
