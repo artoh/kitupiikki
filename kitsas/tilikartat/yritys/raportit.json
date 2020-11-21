@@ -167,7 +167,7 @@
         "fi": "Tuotot osuuksista omistusyhteysyrityksissä",
         "sv": "Intäkter från andelar i ägarintresseföretag",
         "en": "Income from participating interests",
-        "L": "904..906 *",
+        "L": "904..907 *",
         "S": 1
       },
       {
@@ -252,7 +252,14 @@
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
         "en": "Other direct taxes",
-        "L": "998..999 *",
+        "L": "998 *",
+        "V": 1
+      },
+      {
+        "fi": "Vähemmistöosuudet",
+        "sv": "Minoritetsandelar",
+        "en": "Minority interests",
+        "L": "999 *",
         "V": 1
       },
       {
@@ -509,7 +516,7 @@
         "L": " 215*",
         "S": 1
       },
-      
+
       {
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
