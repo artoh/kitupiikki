@@ -11,7 +11,8 @@
     "rivit": [
       {
         "fi": "Kiinteistön tuotot",
-        "sv": "Intäkter av fastighet"
+        "sv": "Intäkter av fastighet",
+        "L":"3"
       },
       {
         "fi": "Vastikkeet",
@@ -147,7 +148,7 @@
       {
         "fi": "Poistot ja arvonalentumiset",
         "sv": "Avskrivningar och nedskrivningar",
-        "L": "6 *",
+        "L": "6",
         "V": 1
       },
       {
@@ -170,7 +171,8 @@
       },
       {
         "fi": "Rahoitustuotot ja -kulut",
-        "se": "Finansiella intäkter och kostnader"
+        "se": "Finansiella intäkter och kostnader",
+        "L": "90..91"
       },
       {
         "fi": "Osinkotuotot",
@@ -617,13 +619,13 @@
       {
         "fi": "Rakennusrahasto",
         "sv": "Byggnadsfond",
-        "L": "211",
+        "L": "211 *",
         "S": 1
       },
       {
         "fi": "Arvonkorotusrahasto",
         "sv": "Uppskrivningsfond",
-        "L": "213",
+        "L": "213 *",
         "S": 1
       },
       {
@@ -740,7 +742,7 @@
         "fi": "Pitkäaikainen vieras pääoma",
         "sv": "Långfristiga främmande kapital",
         "en": "Long-term creditors",
-        "L": "28 *",
+        "L": "28",
         "S": 1
       },
       {

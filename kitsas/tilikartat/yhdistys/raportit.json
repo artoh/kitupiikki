@@ -578,11 +578,11 @@
         "L": "202 *"
       },
       {
-        "fi": "Vapaa rahasto",
+        "fi": "Vapaat rahastot",
         "sv": "Fria fonder",
         "en": "Free reserves",
         "S": 1,
-        "L": "204"
+        "L": "204 *"
       },
       {
         "fi": "Edellisten tilikausien ylijäämä (alijäämä)",
@@ -655,7 +655,7 @@
         "fi": "Pitkäaikainen vieras pääoma",
         "sv": "Långfristiga främmande kapital",
         "en": "Long-term creditors",
-        "L": "28 *",
+        "L": "28",
         "S": 1
       },
       {
@@ -954,7 +954,7 @@
         "sv": "Fria fonder",
         "en": "Free reserves",
         "S": 1,
-        "L": "204"
+        "L": "204 *"
       },
       {
         "fi": "Edellisten tilikausien ylijäämä (alijäämä)",
