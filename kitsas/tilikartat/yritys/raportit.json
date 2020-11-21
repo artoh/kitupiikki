@@ -506,7 +506,15 @@
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
         "en": "Contributed capital",
-        "L": " 215..219 *",
+        "L": " 215*",
+        "S": 1
+      },
+      
+      {
+        "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
+        "L": " 217..219",
         "S": 1
       },
       {
@@ -1074,7 +1082,14 @@
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
         "en": "Contributed capital",
-        "L": " 215..219",
+        "L": " 215 *",
+        "S": 1
+      },
+      {
+        "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
+        "L": " 217..219",
         "S": 1
       },
       {
