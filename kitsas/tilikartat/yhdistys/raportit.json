@@ -226,28 +226,28 @@
         "fi": "Aineettomat oikeudet",
         "sv": "Immateriella rättigheter",
         "en": "Intangible rights",
-        "L": "103..104 *",
+        "L": "103 *",
         "S": 2
       },
       {
         "fi": "Liikearvo",
         "sv": "Goodwill",
         "en": "Goodwill",
-        "L": "105 *",
+        "L": "104 *",
         "S": 2
       },
       {
         "fi": "Muut aineettomat hyödykkeet",
         "sv": "Övriga immaterialla tillgångar",
         "en": "Other intangible assets",
-        "L": "106..108 *",
+        "L": "106 *",
         "S": 2
       },
       {
         "fi": "Ennakkomaksut",
         "sv": "Förskotssbetalningar",
         "en": "Advance payments",
-        "L": "109 *",
+        "L": "107 *",
         "S": 2
       },
       {
@@ -261,14 +261,14 @@
         "fi": "Maa- ja vesialueet",
         "sv": "Mark- och vattenområden",
         "en": "Land and waters",
-        "L": "110..111 *",
+        "L": "110 *",
         "S": 2
       },
       {
         "fi": "Rakennukset ja rakennelmat",
         "sv": "Byggnader och konstruktioner",
         "en": "Buildings",
-        "L": "112..115 *",
+        "L": "111..115 *",
         "S": 2
       },
       {
@@ -296,7 +296,7 @@
         "fi": "Sijoitukset",
         "sv": "Placeringar",
         "en": "Investments",
-        "L": "14",
+        "L": "14..147",
         "S": 1
       },
       {
@@ -455,7 +455,7 @@
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
         "en": "Short-term debtors",
-        "L": "17..185",
+        "L": "17",
         "S": 1
       },
       {
@@ -504,7 +504,7 @@
         "fi": "Rahoitusarvopaperit",
         "sv": "Finansiella värdepapper",
         "en": "Investments",
-        "L": "181..183",
+        "L": "18",
         "S": 1
       },
       {
@@ -843,28 +843,28 @@
         "fi": "Aineettomat hyödykkeet",
         "sv": "Immateriella tillgångar",
         "en": "Intangible assets",
-        "L": "10",
+        "L": "10 *",
         "S": 1
       },
       {
         "fi": "Aineelliset hyödykkeet",
         "sv": "Materiella tillgångar",
         "en": "Tangible assets",
-        "L": "11..13",
+        "L": "11..13 *",
         "S": 1
       },
       {
         "fi": "Sijoitukset",
         "sv": "Placeringar",
         "en": "Investments",
-        "L": "14",
+        "L": "14..147 *",
         "S": 1
       },
       {
         "fi": "OMAKATTEISTEN RAHASTOJEN VARAT",
         "sv": "KAPITAL AV SJÄLVTÄCKANDE FONDER",
         "en": "CAPITAL OF RESTRICTED FUNDS",
-        "L": "148 *"
+        "L": "148..149 *"
       },
       {
         "fi": "VAIHTUVAT VASTAAVAT",
@@ -876,28 +876,28 @@
         "fi": "Vaihto-omaisuus",
         "sv": "Omsättningstillgångar",
         "en": "Stocks",
-        "L": "15",
+        "L": "15 *",
         "S": 1
       },
       {
-        "fi": "Pitkäaikaiset saatavat",
+        "fi": "Pitkäaikaiset saamiset",
         "sv": "Långfristiga fordringar",
         "en": "Long-term debtors",
-        "L": "16 ",
+        "L": "16 *",
         "S": 1
       },
       {
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
         "en": "Short-term debtors",
-        "L": "17..185",
+        "L": "17 *",
         "S": 1
       },
       {
         "fi": "Rahoitusarvopaperit",
         "sv": "Finansiella värdepapper",
         "en": "Investments",
-        "L": "181..183",
+        "L": "18 *",
         "S": 1
       },
       {
@@ -964,7 +964,7 @@
         "S": 1
       },
       {
-        "fi": "Tilikauden yljiäämä (alijäämä)",
+        "fi": "Tilikauden ylijäämä (alijäämä)",
         "sv": "Räkenskapsperiodens överskott (underskott)",
         "en": "Profit (loss) for the financial year",
         "L": "2460 *",
@@ -974,13 +974,13 @@
         "fi": "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
         "sv": "ACKUMULERADE BOKSLUTSDISPOSITIONER",
         "en": "APPROPRIATIONS",
-        "L": "25"
+        "L": "25 *"
       },
       {
         "fi": "PAKOLLISET VARAUKSET",
         "sv": "AVSÄTTNINGAR",
         "en": "PROVISIONS",
-        "L": "26 "
+        "L": "26 *"
       },
       {
         "fi": "VIERAS PÄÄOMA",
