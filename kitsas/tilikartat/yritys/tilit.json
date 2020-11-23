@@ -3078,7 +3078,50 @@
     "numero": 262,
     "tyyppi": "H4",
     "nimi": {
-      "fi": "Lainat  rahoituslaitoksilta"
+      "fi": "Joukkovelkakirjalainat"
+    }
+  },
+  {
+    "numero": 2612,
+    "tyyppi": "B",
+    "nimi": {
+      "fi": "Pitkäaikaiset joukkovelkakirjalainat"
+    },
+    "erittely": 3,
+    "laajuus": 6
+  },
+  {
+    "numero": 2613,
+    "tyyppi": "B",
+    "nimi": {
+      "fi": "Pitkäaikaiset obligaatiolainat"
+    },
+    "erittely": 3,
+    "laajuus": 6
+  },
+  {
+    "numero": 2614,
+    "tyyppi": "B",
+    "nimi": {
+      "fi": "Pitkäaikaiset debentuurilainat"
+    },
+    "erittely": 3,
+    "laajuus": 6
+  },
+  {
+    "numero": 2615,
+    "tyyppi": "B",
+    "nimi": {
+      "fi": "Muut pitkäaikaiset joukkovelkakirjalainat"
+    },
+    "erittely": 3,
+    "laajuus": 6
+  },
+  {
+    "numero": 262,
+    "tyyppi": "H4",
+    "nimi": {
+      "fi": "Lainat rahoituslaitoksilta"
     }
   },
   {

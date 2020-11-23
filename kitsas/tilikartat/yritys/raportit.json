@@ -348,7 +348,14 @@
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
         "en": "Other direct taxes",
-        "L": "998..999 *"
+        "L": "998 *"
+      },
+      {
+        "fi": "Vähemmistöosuudet",
+        "sv": "Minoritetsandelar",
+        "en": "Minority interests",
+        "L": "999 *",
+        "V": 1
       },
       {
         "fi": "Tilikauden voitto/tappio",
@@ -1051,7 +1058,7 @@
         "S": 1
       },
       {
-        "fi": "Sijoitetun oman pääoman rahasto",
+        "fi": "Sijoitetun vapaan oman pääoman rahasto",
         "sv": "Fond för inbetalt fritt eget kapital",
         "en": "Reserve for invested unrestricted equity",
         "L": "206 *",
@@ -1221,11 +1228,19 @@
         "L": "260 *",
         "S": 2
       },
+
+      {
+        "fi": "Joukkovelkakirjalainat",
+        "sv": "Masskuldebrevslån",
+        "en": "Bonds",
+        "L": "2612..2615 *",
+        "S": 2
+      },
       {
         "fi": "Vaihtovelkakirjalainat",
         "sv": "Lån mot konvertibla skuldebrev",
         "en": "Convertible bonds",
-        "L": "261 *",
+        "L": "2611 *",
         "S": 2
       },
       {
@@ -1254,6 +1269,13 @@
         "sv": "Leverantörsskulder",
         "en": "Trade creditors",
         "L": "267..268 *",
+        "S": 2
+      },
+      {
+        "fi": "Rahoitusvekselit",
+        "sv": "Finansieringsväxlar",
+        "en": "Bills of exchange payable",
+        "L": "269 *",
         "S": 2
       },
       {
