@@ -11,7 +11,8 @@
     "rivit": [
       {
         "fi": "Kiinteistön tuotot",
-        "sv": "Intäkter av fastighet"
+        "sv": "Intäkter av fastighet",
+        "L":"3"
       },
       {
         "fi": "Vastikkeet",
@@ -147,7 +148,7 @@
       {
         "fi": "Poistot ja arvonalentumiset",
         "sv": "Avskrivningar och nedskrivningar",
-        "L": "6 *",
+        "L": "6",
         "V": 1
       },
       {
@@ -170,7 +171,8 @@
       },
       {
         "fi": "Rahoitustuotot ja -kulut",
-        "se": "Finansiella intäkter och kostnader"
+        "se": "Finansiella intäkter och kostnader",
+        "L": "90..91"
       },
       {
         "fi": "Osinkotuotot",
@@ -234,6 +236,19 @@
         "S": 1
       },
       {
+        "fi": "Muut tilinpäätössiirrot",
+        "sv": "Andra bokslutsdispositioner",
+        "L": "959 *",
+        "S": 1
+      },
+      {
+        "fi": "Välittömät verot",
+        "sv": "Direkta skatter",
+        "V": 1,
+        "L": "99 *"
+      },
+
+      {
         "fi": "Tilikauden ylijäämä (alijäämä)",
         "sv": "Räkenskapsperiodens överskott (underskott)",
         "L": "3..9 S",
@@ -284,28 +299,28 @@
         "fi": "Aineettomat oikeudet",
         "sv": "Immateriella rättigheter",
         "en": "Intangible rights",
-        "L": "103..104 *",
+        "L": "103 *",
         "S": 2
       },
       {
         "fi": "Liikearvo",
         "sv": "Goodwill",
         "en": "Goodwill",
-        "L": "105 *",
+        "L": "104 *",
         "S": 2
       },
       {
         "fi": "Muut aineettomat hyödykkeet",
         "sv": "Övriga immaterialla tillgångar",
         "en": "Other intangible assets",
-        "L": "106..108 *",
+        "L": "106 *",
         "S": 2
       },
       {
         "fi": "Ennakkomaksut",
         "sv": "Förskotssbetalningar",
         "en": "Advance payments",
-        "L": "109 *",
+        "L": "107 *",
         "S": 2
       },
       {
@@ -319,14 +334,14 @@
         "fi": "Maa- ja vesialueet",
         "sv": "Mark- och vattenområden",
         "en": "Land and waters",
-        "L": "110..111 *",
+        "L": "110 *",
         "S": 2
       },
       {
         "fi": "Rakennukset ja rakennelmat",
         "sv": "Byggnader och konstruktioner",
         "en": "Buildings",
-        "L": "112..115 *",
+        "L": "111..115 *",
         "S": 2
       },
       {
@@ -455,7 +470,7 @@
         "S": 2
       },
       {
-        "fi": "Pitkäaikaiset saatavat",
+        "fi": "Pitkäaikaiset saamiset",
         "sv": "Långfristiga fordringar",
         "en": "Long-term debtors",
         "L": "16 ",
@@ -476,7 +491,7 @@
         "S": 2
       },
       {
-        "fi": "Saamiset omistysyhteysyrityksiltä",
+        "fi": "Saamiset omistusyhteysyrityksiltä",
         "sv": "Fordringar hos ägarintresseföretag",
         "en": "Amounts owner by participating interest undertakings",
         "L": "163 *",
@@ -507,7 +522,7 @@
         "fi": "Lyhytaikaiset saamiset",
         "sv": "Kortfristiga fordringar",
         "en": "Short-term deptors",
-        "L": "17..185",
+        "L": "17",
         "S": 1
       },
       {
@@ -525,12 +540,13 @@
         "S": 2
       },
       {
-        "fi": "Saamiset omistysyhteysyrityksiltä",
+        "fi": "Saamiset omistusyhteysyrityksiltä",
         "sv": "Fordringar hos ägarintresseföretag",
         "en": "Amounts owner by participating interest undertakings",
         "L": "173 *",
         "S": 2
       },
+
       {
         "fi": "Lainasaamiset",
         "sv": "Lånefordringar",
@@ -556,7 +572,7 @@
         "fi": "Rahoitusarvopaperit",
         "sv": "Finansiella värdepapper",
         "en": "Investments",
-        "L": "181..183",
+        "L": "18",
         "S": 1
       },
       {
@@ -591,7 +607,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Assets, total",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },
@@ -606,7 +622,7 @@
         "fi": "OMA PÄÄOMA",
         "sv": "EGET KAPITAL",
         "en": "CAPITAL AND RESERVES",
-        "L": "20..23"
+        "L": "20..24"
       },
       {
         "fi": "Osakepääoma",
@@ -617,13 +633,13 @@
       {
         "fi": "Rakennusrahasto",
         "sv": "Byggnadsfond",
-        "L": "211",
+        "L": "211 *",
         "S": 1
       },
       {
         "fi": "Arvonkorotusrahasto",
         "sv": "Uppskrivningsfond",
-        "L": "213",
+        "L": "213 *",
         "S": 1
       },
       {
@@ -734,13 +750,13 @@
         "fi": "VIERAS PÄÄOMA",
         "sv": "FRÄMMANDE KAPITAL",
         "en": "CREDITORS",
-        "L": "26..29"
+        "L": "28..29"
       },
       {
         "fi": "Pitkäaikainen vieras pääoma",
         "sv": "Långfristiga främmande kapital",
         "en": "Long-term creditors",
-        "L": "28 *",
+        "L": "28",
         "S": 1
       },
       {
@@ -894,7 +910,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Equity and liabilities, total",
-        "L": "2",
+        "L": "S 2",
         "M": "bold",
         "V": 1
       }

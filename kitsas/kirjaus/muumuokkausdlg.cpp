@@ -124,6 +124,9 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     ui->alvlajiCombo->setVisible(naytavero);
     ui->alvGroup->setVisible(naytavero);
 
+    ui->kohdennusCombo->valitseKohdennus(v.kohdennus());
+    ui->merkkausCombo->setSelectedItems( v.merkkaukset() );
+
 
     if(!naytavero) {
         setAlvKoodi(0);
@@ -139,6 +142,9 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     ui->myyntiReskontraRadio->setChecked( v.tyyppi() == TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
 
     ui->seliteEdit->setPlainText( v.selite());
+
+    ui->jaksoAlkaa->setDate(v.jaksoalkaa());
+    ui->jaksoLoppuu->setDate(v.jaksoloppuu());
 
     if(!tili.onkoValidi())
         tiliMuuttui();

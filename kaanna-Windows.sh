@@ -22,4 +22,4 @@ cp release/kitsas.exe ../$DIST_DIR
 
 cd ../$DIST_DIR
 
-upx -9 -f -o kitsas-X.X.exe kitsas.exe
+./upx -9 -f -o kitsas-X.X.exe kitsas.exe

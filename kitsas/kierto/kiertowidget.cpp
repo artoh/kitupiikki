@@ -122,6 +122,8 @@ void KiertoWidget::lataaTosite()
         ui->kuva1->setPixmap(QPixmap(":/pixaby/naytto.png"));
     } else if( tosite_->tyyppi() == TositeTyyppi::SAAPUNUTVERKKOLASKU) {
         ui->kuva1->setPixmap(QPixmap(":/pic/e64.png"));
+    } else {
+        ui->kuva1->setPixmap(QPixmap(":/pixaby/skanneri.png"));
     }
 
 

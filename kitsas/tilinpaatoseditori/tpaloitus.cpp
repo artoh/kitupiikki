@@ -44,12 +44,16 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     model(nullptr)
 {
     ui->setupUi(this);
-    ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
+
+    int kaudenhenkilosto = kausi.henkilosto();
+    int edellisenhenkilosto = kp()->tilikaudet()->tilikausiPaivalle(kausi.alkaa().addDays(-1)).henkilosto();
+
+    ui->henkilostoSpin->setValue( kaudenhenkilosto ? kaudenhenkilosto : edellisenhenkilosto );
 
     connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
     connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataaTiedosto()));
     connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
-    connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(tallennaHenkilosto(int)));
+    connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(tarkistaPMA()));
 
     connect( ui->mikroRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
     connect( ui->pienRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
@@ -123,13 +127,6 @@ void TpAloitus::lataaTiedosto()
 void TpAloitus::ohje()
 {
     kp()->ohje("tilinpaatos/asiakirja");
-}
-
-void TpAloitus::tallennaHenkilosto(int maara)
-{
-    tilikausi.set("henkilosto", maara);
-    tilikausi.tallenna();
-    tarkistaPMA();
 }
 
 void TpAloitus::tarkistaPMA()
@@ -259,6 +256,9 @@ void TpAloitus::lataa()
 
 void TpAloitus::talleta()
 {
+    tilikausi.set("henkilosto", ui->henkilostoSpin->value());
+    tilikausi.tallenna();
+
     kp()->asetukset()->aseta("kpkieli", ui->kieliCombo->currentData().toString());
 
     QStringList valitut;

@@ -235,13 +235,14 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 
     if( indeksi > -1)
     {
-        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( indeksi );
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( indeksi );        
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
-        ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+        bool paatettava = kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE && ( kausi.tase() || kausi.viimeinenPaivitys().isValid() );
+        ui->tilinpaatosNappi->setEnabled( paatettava );
 
-        ui->arkistoNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
-        ui->vieNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
-        ui->aineistoNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+        ui->arkistoNappi->setEnabled( paatettava );
+        ui->vieNappi->setEnabled( paatettava );
+        ui->aineistoNappi->setEnabled( paatettava );
 
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||

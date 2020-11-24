@@ -458,7 +458,7 @@
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>Tallenna tosite F12</string>
+        <string>Tallenna tosite Ctrl+S</string>
        </property>
        <property name="text">
         <string>Tallenna luonnos</string>
@@ -508,7 +508,7 @@
         <string notr="true">background-color: rgb(255, 255, 0);</string>
        </property>
        <property name="text">
-        <string>Teksintunnistus...</string>
+        <string>Tekstintunnistus...</string>
        </property>
       </widget>
      </item>

@@ -262,9 +262,10 @@ void TilinpaatosEditori::tallenna()
     meta.insert("Filename",tilikausi_.arkistoHakemistoNimi() + ".txt");
     tallennus->lahetaTiedosto(teksti.toUtf8(),meta);
 
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(tilikausi_.paattyy());
     kp()->asetukset()->aseta("tilinpaatos/" + tilikausi_.paattyy().toString(Qt::ISODate), teksti);
-    tilikausi_.set("tilinpaatos", QDateTime::currentDateTime());
-    tilikausi_.tallenna();
+    kausi.set("tilinpaatos", QDateTime::currentDateTime());
+    kausi.tallenna();
 
     TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,  kp()->asetus("tpkieli") ,this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);

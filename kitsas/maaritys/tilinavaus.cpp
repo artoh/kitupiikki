@@ -165,7 +165,7 @@ bool Tilinavaus::tallenna()
     if( model->onkoMuokattu())
         model->tallenna();
 
-    kp()->tilikaudet()->viiteIndeksilla(0).set("Henkilosto", ui->henkilostoSpin->value());
+    kp()->tilikaudet()->viiteIndeksilla(0).set("henkilosto", ui->henkilostoSpin->value());
     kp()->tilikaudet()->viiteIndeksilla(0).tallenna();
 
     emit tallennaKaytossa(onkoMuokattu());
@@ -176,5 +176,5 @@ bool Tilinavaus::tallenna()
 bool Tilinavaus::onkoMuokattu()
 {
     return model->onkoMuokattu() ||
-          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).luku("Henkilosto");
+          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).luku("henkilosto");
 }

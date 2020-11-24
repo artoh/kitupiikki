@@ -52,7 +52,7 @@ PilveenSiirto::~PilveenSiirto()
 
 void PilveenSiirto::accept()
 {
-    if( pilviId_) {
+    if( ui->stackedWidget->currentIndex() == VALMIS) {
         close();
     } else {
         ui->rasti1->hide();

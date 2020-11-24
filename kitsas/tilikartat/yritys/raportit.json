@@ -167,7 +167,7 @@
         "fi": "Tuotot osuuksista omistusyhteysyrityksissä",
         "sv": "Intäkter från andelar i ägarintresseföretag",
         "en": "Income from participating interests",
-        "L": "904..906 *",
+        "L": "904..907 *",
         "S": 1
       },
       {
@@ -252,7 +252,14 @@
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
         "en": "Other direct taxes",
-        "L": "998..999 *",
+        "L": "998 *",
+        "V": 1
+      },
+      {
+        "fi": "Vähemmistöosuudet",
+        "sv": "Minoritetsandelar",
+        "en": "Minority interests",
+        "L": "999 *",
         "V": 1
       },
       {
@@ -341,7 +348,14 @@
         "fi": "Muut välittömät verot",
         "sv": "Övriga direkta skatter",
         "en": "Other direct taxes",
-        "L": "998..999 *"
+        "L": "998 *"
+      },
+      {
+        "fi": "Vähemmistöosuudet",
+        "sv": "Minoritetsandelar",
+        "en": "Minority interests",
+        "L": "999 *",
+        "V": 1
       },
       {
         "fi": "Tilikauden voitto/tappio",
@@ -443,7 +457,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Total assets",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },
@@ -506,7 +520,15 @@
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
         "en": "Contributed capital",
-        "L": " 215..219 *",
+        "L": " 215*",
+        "S": 1
+      },
+
+      {
+        "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
+        "L": " 217..219",
         "S": 1
       },
       {
@@ -600,7 +622,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
-        "L": "2",
+        "L": "S 2",
         "M": "bold",
         "V": 1
       }
@@ -976,7 +998,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Total assets",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },
@@ -1036,7 +1058,7 @@
         "S": 1
       },
       {
-        "fi": "Sijoitetun oman pääoman rahasto",
+        "fi": "Sijoitetun vapaan oman pääoman rahasto",
         "sv": "Fond för inbetalt fritt eget kapital",
         "en": "Reserve for invested unrestricted equity",
         "L": "206 *",
@@ -1074,7 +1096,14 @@
         "fi": "Pääomapanokset",
         "sv": "Kapitalinmatningar",
         "en": "Contributed capital",
-        "L": " 215..219",
+        "L": " 215 *",
+        "S": 1
+      },
+      {
+        "fi": "Pääomapanokset",
+        "sv": "Kapitalinmatningar",
+        "en": "Contributed capital",
+        "L": " 217..219",
         "S": 1
       },
       {
@@ -1199,11 +1228,19 @@
         "L": "260 *",
         "S": 2
       },
+
+      {
+        "fi": "Joukkovelkakirjalainat",
+        "sv": "Masskuldebrevslån",
+        "en": "Bonds",
+        "L": "2612..2615 *",
+        "S": 2
+      },
       {
         "fi": "Vaihtovelkakirjalainat",
         "sv": "Lån mot konvertibla skuldebrev",
         "en": "Convertible bonds",
-        "L": "261 *",
+        "L": "2611 *",
         "S": 2
       },
       {
@@ -1232,6 +1269,13 @@
         "sv": "Leverantörsskulder",
         "en": "Trade creditors",
         "L": "267..268 *",
+        "S": 2
+      },
+      {
+        "fi": "Rahoitusvekselit",
+        "sv": "Finansieringsväxlar",
+        "en": "Bills of exchange payable",
+        "L": "269 *",
         "S": 2
       },
       {
@@ -1364,7 +1408,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
-        "L": "2",
+        "L": "S 2",
         "M": "bold",
         "V": 1
       }

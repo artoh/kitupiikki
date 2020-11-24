@@ -273,7 +273,10 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     ui->osoiteEdit->setPlainText( map.value("nimi").toString() + "\n" +
                                   map.value("osoite").toString() + "\n" +
                                   map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
-    ui->email->setText( map.value("email").toString());
+
+    if( !map.value("email").toString().isEmpty())
+        ui->email->setText( map.value("email").toString());
+
     ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","FI").toString()));
 
     verkkolaskutettava_ =  kp()->asetukset()->luku("FinvoiceKaytossa") &&
