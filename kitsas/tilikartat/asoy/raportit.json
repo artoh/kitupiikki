@@ -607,7 +607,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Assets, total",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },
@@ -910,7 +910,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Equity and liabilities, total",
-        "L": "2",
+        "L": "S 2",
         "M": "bold",
         "V": 1
       }

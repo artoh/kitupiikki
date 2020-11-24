@@ -539,7 +539,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Assets, total",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },
@@ -911,7 +911,7 @@
         "fi": "Vastaavaa yhteensä",
         "sv": "Aktiva sammanlagt",
         "en": "Total assets",
-        "L": "1",
+        "L": "S 1",
         "M": "bold",
         "V": 1
       },

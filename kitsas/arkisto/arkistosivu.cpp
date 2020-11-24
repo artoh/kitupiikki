@@ -237,7 +237,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( indeksi );        
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
-        bool paatettava = kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE && kausi.tase();
+        bool paatettava = kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE && ( kausi.tase() || kausi.viimeinenPaivitys().isValid() );
         ui->tilinpaatosNappi->setEnabled( paatettava );
 
         ui->arkistoNappi->setEnabled( paatettava );
