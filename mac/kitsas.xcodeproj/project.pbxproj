@@ -3273,6 +3273,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Atfos Oy";
 				TargetAttributes = {
 					7F7AB7B89E6423FFC59032F6 = {
 						ProvisioningStyle = Manual;
@@ -3282,7 +3283,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitsas" */;
+			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitsas" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
@@ -4274,7 +4275,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitsas" */ = {
+		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitsas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AA6C32AC930069E80220CF1 /* Debug */,
