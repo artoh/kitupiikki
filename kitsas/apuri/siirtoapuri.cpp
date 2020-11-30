@@ -80,6 +80,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setDebet( senttia );
     debet.setSelite(otsikko);
     debet.setEra( ui->tililleEraCombo->eraMap());
+    debet.setKohdennus( ui->tililleKohdennusCombo->kohdennus());
     debet.setTyyppi( TositeVienti::SIIRTO);
     debet.setKumppani(kumppani);
 
@@ -90,6 +91,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setTili( ui->tililtaEdit->valittuTilinumero());
     kredit.setKredit( senttia );
     kredit.setSelite(otsikko);
+    kredit.setKohdennus( ui->tililtaKohdennusCombo->kohdennus());
     kredit.setEra( ui->tililtaEraCombo->eraMap());
     kredit.setTyyppi( TositeVienti::SIIRTO );
     kredit.setKumppani(kumppani);
