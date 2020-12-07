@@ -53,7 +53,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                                       "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                                       "WHERE Vienti.tili = %1 AND Tosite.tila >= 100 AND ").arg(tili->numero()) +
                    ( tili->onko(TiliLaji::TULOS) ? QString("vienti.pvm BETWEEN '%1' AND '%2").arg(kaudenalku.toString(Qt::ISODate).arg(pvm.toString(Qt::ISODate)))
-                                                 : QString("vienti.pvm <= '%1'").arg(pvm.toString(Qt::ISODate)) );
+                                                 : ( urlquery.hasQueryItem("alkusaldot")  ? QString("vienti.pvm < '%1'").arg(pvm.toString(Qt::ISODate))  :  QString("vienti.pvm <= '%1'").arg(pvm.toString(Qt::ISODate)) ));
             qDebug() << kysymys;
             kysely.exec(kysymys);
             if(kysely.next()) {
