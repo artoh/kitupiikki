@@ -509,9 +509,10 @@ void KirjausWg::tallennusEpaonnistui(int virhe)
 
 void KirjausWg::tuonti(const QVariantMap& map)
 {    
-    if( tosite()->data(Tosite::TILA) >= Tosite::KIRJANPIDOSSA )
+    if( tosite()->tila() >= Tosite::KIRJANPIDOSSA )
         return;
-    if( map.contains("tyyppi"))
+
+    if( map.contains("tyyppi") && !tosite()->viennit()->summa() && tosite()->tila() != Tosite::MALLIPOHJA)
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
     if( map.value("tositepvm").toDate().isValid()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );

@@ -299,10 +299,16 @@ void AsiakasToimittajaDlg::dataTauluun(const QVariant &data)
     QVariantMap tieto = data.toMap().value("results").toList().value(0).toMap();
     ui->nimiEdit->setText( tieto.value("name").toString() );
     ui->yEdit->setText(tieto.value("businessId").toString());
-    QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
-    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
-    ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
-    ui->kaupunkiEdit->setText( osoite.value("city").toString());
+    QVariantList osoitteet = tieto.value("addresses").toList();
+    for(auto item : osoitteet) {
+        QVariantMap osoite = item.toMap();
+        if( osoite.value("endDate").toDate().isValid() )
+            continue;
+        ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+        ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
+        ui->kaupunkiEdit->setText( osoite.value("city").toString());
+        break;
+    }
 }
 
 void AsiakasToimittajaDlg::tarkastaTilit()

@@ -142,13 +142,25 @@ void TiedotSivu::yTietoSaapuu()
 
     QVariantMap tieto = var.toMap().value("results").toList().value(0).toMap();
     ui->nimiEdit->setText( tieto.value("name").toString() );
-    QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
 
-    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
-    ui->postinumeroEdit->setText( osoite.value("postCode").toString());
-    ui->kaupunkiEdit->setText( osoite.value("city").toString());
+    QVariantList osoitteet = tieto.value("addresses").toList();
+    for(auto item : osoitteet) {
+        QVariantMap osoite = item.toMap();
+        if( osoite.value("endDate").toDate().isValid() )
+            continue;
+        ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+        ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
+        ui->kaupunkiEdit->setText( osoite.value("city").toString());
+        break;
+    }
 
-    ui->kotipaikkaEdit->setText( tieto.value("registedOffices").toList().value(0).toMap().value("name").toString() );
+    QVariantList paikat = tieto.value("registeredOffices").toList();
+    for( auto item : paikat) {
+        QVariantMap paikka = item.toMap();
+        if( paikka.value("endDate").toDate().isValid())
+            continue;
+        ui->kotipaikkaEdit->setText( paikka.value("name").toString() );
+    }
 
 }
 

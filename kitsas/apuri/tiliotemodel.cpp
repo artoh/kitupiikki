@@ -192,7 +192,14 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                     rivit_[index.row()].pvm = value.toDate();
                 break;
             case SAAJAMAKSAJA:
-                rivit_[index.row()].saajamaksaja = value.toString();
+                if( value.type() != QVariant::Map) {
+                    rivit_[index.row()].saajamaksaja = value.toString();
+                    rivit_[index.row()].saajamaksajaId = 0;
+                } else {
+                    QVariantMap kmap = value.toMap();
+                    rivit_[index.row()].saajamaksaja = kmap.value("nimi").toString();
+                    rivit_[index.row()].saajamaksajaId = kmap.value("id").toInt();
+                }
                 break;
             case TILI: {
                    Tili uusitili = kp()->tilit()->tiliNumerolla(value.toInt());
@@ -215,14 +222,8 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
                 break;
             case SELITE:
                 rivit_[index.row()].selite = value.toString();
+
             }
-        }
-        else if(role == Qt::UserRole && index.column() == SAAJAMAKSAJA) {
-            rivit_[index.row()].saajamaksajaId = value.toInt();
-            emit dataChanged(index, index, QVector<int>() << Qt::UserRole << Qt::DisplayRole << Qt::EditRole);
-            return true;
-        } else if(role == Qt::DisplayRole && index.column() == SAAJAMAKSAJA) {
-            rivit_[index.row()].saajamaksaja = value.toString();
         } else if(role == TositeViennit::TiliNumeroRooli) {
 
         }
@@ -357,8 +358,11 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             pankki.setArkistotunnus( rivi.arkistotunnus );
 
             if( rivi.saajamaksajaId){
-                pankki.setKumppani(rivi.saajamaksajaId);
-                tili.setKumppani( rivi.saajamaksajaId);
+                QVariantMap kmap;
+                kmap.insert("id", rivi.saajamaksajaId);
+                kmap.insert("nimi", rivi.saajamaksaja);
+                pankki.setKumppani(kmap);
+                tili.setKumppani(kmap);
             } else if( !rivi.saajamaksaja.isEmpty()) {
                 pankki.setKumppani( rivi.saajamaksaja);
                 tili.setKumppani( rivi.saajamaksaja );

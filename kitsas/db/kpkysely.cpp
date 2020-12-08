@@ -79,6 +79,8 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
         return("application/xml");    
     else if( Tuonti::CsvTuonti::onkoCsv(ba))
         return("text/csv");
+    else if( ba.startsWith("T00322100"))
+        return("text/plain");
 
     return "application/octet-stream";
 }

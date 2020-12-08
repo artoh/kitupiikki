@@ -57,7 +57,7 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sar
                                 .arg(sarja));
         ui->kausiLabel->setText("/ " + kp()->tilikausiPaivalle(paiva).pitkakausitunnus() );
     } else if(tila == Tosite::MALLIPOHJA) {
-        ui->luonnosLabel->setText(tr("Tosite tallennettu mallipohjana\n"));
+        ui->luonnosLabel->setText(tr("Tosite tallennettu \nmallipohjana\n"));
     } else {
         ui->luonnosLabel->setText(tr("Tosite tallennettu tilassa\n") + Tosite::tilateksti(tila));
     }

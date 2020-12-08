@@ -305,6 +305,10 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                 emit dataChanged(index.sibling(index.row(), TositeViennit::DEBET), index, QVector<int>() << Qt::EditRole);
                 paivitaAalv(index.row());
                 return true;
+            case KUMPPANI:
+                rivi.setKumppani( value.toMap() );
+                paivitaAalv(index.row());
+                break;
             case KOHDENNUS:
                 rivi.setKohdennus( value.toInt() );
                 break;
@@ -313,10 +317,6 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
 
             }
 
-            viennit_[index.row()] = rivi;
-        } else if( role == Qt::DisplayRole && index.column() == KUMPPANI) {
-            TositeVienti rivi = vienti(index.row());
-            rivi.setKumppani(value.toString());
             viennit_[index.row()] = rivi;
         } else if( role == TositeViennit::EraMapRooli && index.column() != KUMPPANI) {
             TositeVienti rivi = vienti(index.row());
@@ -727,3 +727,18 @@ void TositeViennit::paivitaAalv(int rivi)
 
 
 }
+
+qlonglong TositeViennit::summa() const
+{
+    qlonglong debet = 0;
+    qlonglong kredit = 0;
+
+    for(QVariant vienti : viennit_) {
+        QVariantMap map = vienti.toMap();
+        debet += qRound64( map.value("debet").toDouble() * 100.0 );
+        kredit += qRound64( map.value("kredit").toDouble() * 100.0 );
+    }
+    return kredit > debet ? kredit : debet;
+}
+
+
