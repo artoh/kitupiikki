@@ -617,13 +617,13 @@ FORMS += \
     $$PWD/tilaus/tilausyhteys.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
-    $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \
     $$PWD/uusikirjanpito/uusiloppu.ui \
     $$PWD/uusikirjanpito/uusisijainti.ui \
     $$PWD/uusikirjanpito/uusitiedot.ui \
     $$PWD/uusikirjanpito/uusitilikartta.ui \
+    $$PWD/uusikirjanpito/uusivastuu.ui \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
