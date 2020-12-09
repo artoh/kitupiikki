@@ -120,7 +120,7 @@ void MaaritysSivu::siirrySivulle()
     if( lista->currentItem() && !lista->currentItem()->isHidden() )
         valitseSivu( lista->currentItem());
     else
-        lista->setCurrentItem( lista->item(0) );
+        valitseSivu( lista->item(0) );
 }
 
 bool MaaritysSivu::poistuSivulta(int /* minne */)
@@ -183,9 +183,6 @@ void MaaritysSivu::tallenna()
 
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {
-    if( item == nykyItem)
-        return;
-
 
     if( nykyinen)
     {
