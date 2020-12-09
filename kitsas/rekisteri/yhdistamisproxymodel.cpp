@@ -34,7 +34,7 @@ void YhdistamisProxyModel::suodataNimella(const QString &nimi)
     QStringList raakalista = nimi.split(QRegularExpression("\\W+", QRegularExpression::UseUnicodePropertiesOption));
     nimiPalat_.clear();
     for(QString ehdokas : raakalista) {
-        if( ehdokas.length() > 2)
+        if( ehdokas.length() > 3)
             nimiPalat_.append(ehdokas);
     }
     invalidateFilter();
