@@ -293,6 +293,18 @@ void KirjausWg::valmis()
 
 void KirjausWg::hylkaa()
 {
+    if( (ui->tallennaButton->isEnabled() || ui->valmisNappi->isEnabled()) && tosite()->viennit()->summa()) {
+        if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
+                                  tosite()->tila() <= Tosite::MALLIPOHJA ?
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta tositetta?") :
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta muutoksia?")
+                                  ,
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
+            return;
+        }
+    }
+
+
     tyhjenna();
     emit tositeKasitelty();
 }
