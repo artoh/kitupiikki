@@ -181,6 +181,8 @@
         <file>mailok.png</file>
         <file>e64.png</file>
         <file>bar-copy.png</file>
+        <file>up.png</file>
+        <file>down.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

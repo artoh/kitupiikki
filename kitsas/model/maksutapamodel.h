@@ -44,6 +44,8 @@ public:
     void muutaRivi(int indeksi, QVariantMap rivi);
     void poistaRivi(int indeksi);
 
+    void siirra(int mista, int minne);
+
 public slots:
     void lataa(int tuloVaiMeno);
     void tallenna();

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
-    <height>300</height>
+    <width>823</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
         <string>Lisää </string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
        </property>
       </widget>
@@ -49,7 +49,7 @@
         <string>Muokkaa</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
        </property>
       </widget>
@@ -60,8 +60,30 @@
         <string>Poista</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ylosNappi">
+       <property name="text">
+        <string>Ylöspäin</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/up.png</normaloff>:/pic/up.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="alasNappi">
+       <property name="text">
+        <string>Alaspäin</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/down.png</normaloff>:/pic/down.png</iconset>
        </property>
       </widget>
      </item>
@@ -82,6 +104,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>
