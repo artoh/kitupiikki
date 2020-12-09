@@ -51,6 +51,7 @@
 #include "ui_oletustilimaaritys.h"
 
 #include <QDebug>
+#include <QSizePolicy>
 
 MaaritysSivu::MaaritysSivu() :
     KitupiikkiSivu(nullptr), nykyinen(nullptr), nykyItem(nullptr)
@@ -86,6 +87,7 @@ MaaritysSivu::MaaritysSivu() :
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
+    lista->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding));
 
     sivuleiska = new QVBoxLayout;
     leiska->addLayout(sivuleiska, 1);
