@@ -120,6 +120,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="yhdistaButton">
+       <property name="text">
+        <string>Yhdistä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kopioi.png</normaloff>:/pic/kopioi.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="poistaNappi">
        <property name="text">
         <string>Poista</string>

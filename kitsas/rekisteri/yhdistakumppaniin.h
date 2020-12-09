@@ -14,26 +14,38 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUMPPANITROUTE_H
-#define KUMPPANITROUTE_H
+#ifndef YHDISTAKUMPPANIIN_H
+#define YHDISTAKUMPPANIIN_H
 
-#include "../sqliteroute.h"
+#include <QDialog>
 
-class KumppanitRoute : public SQLiteRoute
+#include "yhdistamisproxymodel.h"
+#include "laskutus/asiakkaatmodel.h"
+
+namespace Ui {
+class YhdistaKumppaniin;
+}
+
+class YhdistaKumppaniin : public QDialog
 {
+    Q_OBJECT
+
 public:
-    KumppanitRoute(SQLiteModel* model);
+    YhdistaKumppaniin(AsiakkaatModel * model, int id, const QString& nimi, QWidget *parent = nullptr);
+    ~YhdistaKumppaniin();
 
-    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant post(const QString &polku, const QVariant &data) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-
-    QVariant doDelete(const QString &polku) override;
-
-    static int kumppaninLisays(QVariantMap &map, QSqlQuery& kysely);
+    void accept() override;
 
 protected:
-    QVariant yhdista(const QVariantMap& data);
+    void suodata(bool onko);
+    void valmis();
+
+private:
+    Ui::YhdistaKumppaniin *ui;
+    YhdistamisProxyModel* proxy;
+
+    int id_;
+    QString nimi_;
 };
 
-#endif // KUMPPANITROUTE_H
+#endif // YHDISTAKUMPPANIIN_H

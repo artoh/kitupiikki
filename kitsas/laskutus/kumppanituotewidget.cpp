@@ -33,6 +33,7 @@
 #include "rekisteri/rekisterituontidlg.h"
 #include "rekisteri/rekisterinvienti.h"
 #include "raportti/raportinkirjoittaja.h"
+#include "rekisteri/yhdistakumppaniin.h"
 #include "naytin/naytinikkuna.h"
 
 #include "tuotetuonti/tuotetuontidialogi.h"
@@ -63,7 +64,9 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     connect( ui->uusiNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::uusi);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::muokkaa);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::poista);
+    connect( ui->yhdistaButton, &QPushButton::clicked, this, &KumppaniTuoteWidget::yhdista);
     connect( ui->view, &QTableView::doubleClicked, this, &KumppaniTuoteWidget::muokkaa);    
+
 
     connect( ui->tuoNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::tuo);
     connect( ui->VieNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::vie);
@@ -101,6 +104,7 @@ void KumppaniTuoteWidget::nayta(int valilehti)
     ui->uusiNappi->setVisible(muokkausoikeus);
     ui->poistaNappi->setVisible(muokkausoikeus);
     ui->muokkaaNappi->setVisible(muokkausoikeus);
+    ui->yhdistaButton->setVisible(muokkausoikeus && valilehti < TUOTTEET);
 
     paivita();
 }
@@ -135,6 +139,7 @@ void KumppaniTuoteWidget::ilmoitaValinta()
     }
     ui->muokkaaNappi->setEnabled( napitkaytossa );
     ui->poistaNappi->setEnabled( napitkaytossa );
+    ui->yhdistaButton->setEnabled( napitkaytossa );
 }
 
 void KumppaniTuoteWidget::uusi()
@@ -330,6 +335,16 @@ void KumppaniTuoteWidget::raportti()
 
     NaytinIkkuna::naytaRaportti(rk);
 
+}
+
+void KumppaniTuoteWidget::yhdista()
+{
+    int kid = ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt();
+    QString nimi = ui->view->currentIndex().data(AsiakkaatModel::NimiRooli).toString();
+
+    YhdistaKumppaniin dlg(asiakkaat_, kid, nimi, this);
+    dlg.exec();
+    paivita();
 }
 
 

@@ -14,26 +14,24 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUMPPANITROUTE_H
-#define KUMPPANITROUTE_H
+#ifndef YHDISTAMISPROXYMODEL_H
+#define YHDISTAMISPROXYMODEL_H
 
-#include "../sqliteroute.h"
+#include <QSortFilterProxyModel>
 
-class KumppanitRoute : public SQLiteRoute
+class YhdistamisProxyModel : public QSortFilterProxyModel
 {
 public:
-    KumppanitRoute(SQLiteModel* model);
+    YhdistamisProxyModel(QObject* parent = nullptr);
 
-    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant post(const QString &polku, const QVariant &data) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-
-    QVariant doDelete(const QString &polku) override;
-
-    static int kumppaninLisays(QVariantMap &map, QSqlQuery& kysely);
+    void asetaId(int id);
+    void suodataNimella(const QString& nimi = QString());
 
 protected:
-    QVariant yhdista(const QVariantMap& data);
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+
+    int id_ = 0;
+    QStringList nimiPalat_;
 };
 
-#endif // KUMPPANITROUTE_H
+#endif // YHDISTAMISPROXYMODEL_H

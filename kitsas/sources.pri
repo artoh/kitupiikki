@@ -98,6 +98,8 @@ SOURCES += \
     $$PWD/rekisteri/rekisterituontimodel.cpp \
     $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
+    $$PWD/rekisteri/yhdistakumppaniin.cpp \
+    $$PWD/rekisteri/yhdistamisproxymodel.cpp \
     $$PWD/saldodock/saldodock.cpp \
     $$PWD/saldodock/saldomodel.cpp \
     $$PWD/selaus/selausproxymodel.cpp \
@@ -378,6 +380,8 @@ HEADERS += \
     $$PWD/rekisteri/rekisterituontimodel.h \
     $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
+    $$PWD/rekisteri/yhdistakumppaniin.h \
+    $$PWD/rekisteri/yhdistamisproxymodel.h \
     $$PWD/saldodock/saldodock.h \
     $$PWD/saldodock/saldomodel.h \
     $$PWD/selaus/selausproxymodel.h \
@@ -611,6 +615,7 @@ FORMS += \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/rekisteri/rekisterituontidlg.ui \
+    $$PWD/rekisteri/yhdistakumppaniin.ui \
     $$PWD/tilaus/kiitos.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
