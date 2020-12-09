@@ -83,7 +83,8 @@ MaaritysSivu::MaaritysSivu() :
 
 
 
-    connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    // connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    connect(lista, &QListWidget::itemClicked, [this] (QListWidgetItem* item) { this->valitseSivu(item); });
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
@@ -128,7 +129,9 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
     {
         // Nykyistä on muokattu eikä tallennettu
         if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
-        {
+        {            
+            nykyItem->setSelected(true);
+            lista->setCurrentItem(nykyItem);
             return false;
         }
     }
@@ -180,6 +183,9 @@ void MaaritysSivu::tallenna()
 
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {
+    if( item == nykyItem)
+        return;
+
 
     if( nykyinen)
     {
@@ -188,7 +194,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
             // Nykyistä on muokattu eikä tallennettu
             if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
-                nykyItem->setSelected(true);
+                lista->selectionModel()->select(  lista->model()->index(nykyItem->data(Qt::UserRole).toInt(),0), QItemSelectionModel::SelectCurrent );
                 return;
             }
         }
