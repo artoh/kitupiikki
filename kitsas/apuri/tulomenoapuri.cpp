@@ -29,6 +29,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QKeyEvent>
+#include <QSettings>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
@@ -341,7 +342,7 @@ bool TuloMenoApuri::teeTositteelle()
     tosite()->viennit()->asetaViennit(viennit);
 
     if(summa)
-        viimeMaksutapa__ = ui->maksutapaCombo->currentText();
+        viimeMaksutapa_ = ui->maksutapaCombo->currentText();
 
     return true;
 }
@@ -726,9 +727,10 @@ void TuloMenoApuri::alusta(bool meno)
     // Alustetaan maksutapacombo
     maksutapaModel_->lataa( meno ? MaksutapaModel::MENO : MaksutapaModel::TULO );
 
-    if( viimeMaksutapa__.length())
-        ui->maksutapaCombo->setCurrentIndex( ui->maksutapaCombo->findText( viimeMaksutapa__ ));
-    if( ui->maksutapaCombo->currentIndex() < 0)
+    int viimeIndeksi = ui->maksutapaCombo->findText( viimeMaksutapa_);
+    if( viimeIndeksi > -1)
+        ui->maksutapaCombo->setCurrentIndex( viimeIndeksi );
+    else
         ui->maksutapaCombo->setCurrentIndex(0);
 
     ui->vastatiliLine->suodataTyypilla("[AB]");
@@ -831,4 +833,3 @@ void TuloMenoApuri::eraValittu(int /* eraid */, double /* avoinna */, const QStr
         ui->asiakasToimittaja->set(kumppani);
 }
 
-QString TuloMenoApuri::viimeMaksutapa__ = QString();
