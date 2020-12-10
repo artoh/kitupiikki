@@ -25,6 +25,7 @@
 #include <QDate>
 #include <QSqlError>
 #include <QDebug>
+#include <QRegularExpression>
 
 TositeRoute::TositeRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/tositteet")
@@ -48,6 +49,20 @@ QString TositeRoute::kysymys(const QUrlQuery &urlquery)
         ehdot.append( QString("tosite.pvm >= '%1'").arg( urlquery.queryItemValue("alkupvm") ));
     if( urlquery.hasQueryItem("loppupvm"))
         ehdot.append( QString("tosite.pvm <= '%1'").arg( urlquery.queryItemValue("loppupvm")));
+
+    if( urlquery.hasQueryItem("pvm"))
+        ehdot.append( QString("tosite.pvm = '%1'").arg(urlquery.queryItemValue("pvm")));
+    if( urlquery.hasQueryItem("kumppani"))
+        ehdot.append( QString("kumppani = %1").arg(urlquery.queryItemValue("kumppani")));
+    if( urlquery.hasQueryItem("tyyppi"))
+        ehdot.append( QString("tosite.tyyppi = %1").arg(urlquery.queryItemValue("tyyppi")));
+    if( urlquery.hasQueryItem("laskupvm"))
+        ehdot.append( QString("tosite.laskupvm = '%1'").arg(urlquery.queryItemValue("laskupvm")));
+    if( urlquery.hasQueryItem("viite"))
+        ehdot.append( QString("tosite.viite = '%1'").arg(urlquery.queryItemValue("viite").remove(QRegularExpression("\\W")).remove("^0+")));
+
+
+
 
     QString jarjestys = "pvm";
     if( urlquery.queryItemValue("jarjestys") == "tyyppi,tosite")

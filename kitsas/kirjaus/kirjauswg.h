@@ -153,6 +153,9 @@ protected:
     void paivitaLiiteNapit();
 
 
+    void tarkastaTuplatJaTallenna(int tila);
+    void tuplaTietoSaapuu(QVariant* data, int tila = Tosite::KIRJANPIDOSSA);
+
 protected:
     Ui::KirjausWg *ui;    
 

@@ -93,7 +93,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi laji(RaporttiRivi::EICSV);
-            laji.lisaa( kp()->tositeTyypit()->nimi(tamatyyppi), 5 );
+            laji.lisaa( kaanna(kp()->tositeTyypit()->nimi(tamatyyppi)), 5 );
             laji.lihavoi();
             rk.lisaaRivi(laji);
             edellinentyyppi = tamatyyppi;

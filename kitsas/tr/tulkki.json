@@ -131,5 +131,82 @@
   "Kirjausohjeet": {
     "sv": "Instructoner",
     "en": "Instructions"
+  },
+  "Meno": {
+    "sv": "Utgift",
+    "en": "Outcome"
+  },
+  "Tulo": {
+    "sv": "Intäkt",
+    "en": "Income"
+  },
+  "Kululasku": {
+    "sv": "Kostnadsräkning",
+    "en": "Bill of costs"
+  }, 
+  "Saapunut verkkolasku": {
+    "sv": "Inkomst online faktura",
+    "en": "Incoming online invoice"
+  },
+  "Myyntilasku": {
+    "sv": "Fölsälningsfaktura",
+    "en": "Sales invoice"    
+  },
+  "Hyvityslasku": {
+    "sv": "Kreditnota",
+    "en": "Credit note"
+
+  },
+  "Maksumuistutus": {
+    "sv": "Betalningspåminnelse",
+    "en": "Payment reminder"
+  },
+  "Siirto": {
+    "sv": "Överföring",
+    "en": "Transfer"
+  },
+  "Tiliote": {
+    "sv": "Kontoutdrag",
+    "en": "Bank statement"
+  },
+  "Palkka": {
+    "sv": "Lön",
+    "en": "Salary"
+  },
+  "Muistio": {
+    "sv": "Annotation",
+    "en": "Memo"
+  },
+  "Liitetieto": {
+    "sv": "Not",
+    "en": "Attachment"
+  },
+  "Tuonti": {
+    "sv": "Import",
+    "en": "Import"
+  },
+  "Muu": {
+    "sv": "Annnan",
+    "en": "Other"
+  },
+  "Tilinavaus": {
+    "sv": "Öppnande av konto",
+    "en": "Opening of an account"
+  },
+  "Alv-laskelma": {
+    "sv": "Moms-beräkning",
+    "en": "VAT calculation"
+  },
+  "Poistolaskelma": {
+    "sv": "Avskrivningsberäkning",
+    "en": "Depreciation allowance calculation"
+  },
+  "Jaksotus": {
+    "sv": "Periodindelning",
+    "en": "Periodization"
+  },
+  "Tulovero": {
+    "sv": "Inkomstskatt",
+    "en": "Income tax"
   }
 }
