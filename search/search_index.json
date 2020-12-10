@@ -127,17 +127,17 @@
         },
         {
             "location": "/tuki/",
-            "text": "K\u00e4ytt\u00e4j\u00e4tuki\n\u00b6\n\n\nKysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistumalla n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun.\n\n\nKirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.\n\n\nPalaute\n\u00b6\n\n\nVoit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta s\u00e4hk\u00f6postilla \nkitupiikki@kitsas.fi\n. Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.",
+            "text": "K\u00e4ytt\u00e4j\u00e4tuki\n\u00b6\n\n\nVoit kirjoittaa kysymyksesi n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun. Keskusteluun voivat vastata niin kehitt\u00e4j\u00e4t kuin muut k\u00e4ytt\u00e4j\u00e4tkin.\n\n\nKirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.\n\n\nPalaute\n\u00b6\n\n\nKehitysty\u00f6 on siirtynyt Kitsas-ohjelmistoon, ja Kitupiikin kehitys on lopetettu. Kiitos kaikesta k\u00e4ytt\u00e4jilt\u00e4 saamastamme palautteesta!",
             "title": "Tuki"
         },
         {
             "location": "/tuki/#kayttajatuki",
-            "text": "Kysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistumalla n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun.  Kirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.",
+            "text": "Voit kirjoittaa kysymyksesi n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun. Keskusteluun voivat vastata niin kehitt\u00e4j\u00e4t kuin muut k\u00e4ytt\u00e4j\u00e4tkin.  Kirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.",
             "title": "K\u00e4ytt\u00e4j\u00e4tuki"
         },
         {
             "location": "/tuki/#palaute",
-            "text": "Voit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta s\u00e4hk\u00f6postilla  kitupiikki@kitsas.fi . Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.",
+            "text": "Kehitysty\u00f6 on siirtynyt Kitsas-ohjelmistoon, ja Kitupiikin kehitys on lopetettu. Kiitos kaikesta k\u00e4ytt\u00e4jilt\u00e4 saamastamme palautteesta!",
             "title": "Palaute"
         },
         {
