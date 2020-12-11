@@ -19,7 +19,7 @@
 
 #include <QWidget>
 
-class QSortFilterProxyModel;
+class LaskuProxyModel;
 class LaskuTauluModel;
 
 namespace Ui {
@@ -56,7 +56,6 @@ private slots:
     void hyvita();
     void muistuta();
     void poista();
-    void naytaListallaVainLaskut(bool nayta);
 
     void naytaLasku();
     void naytaDialogi(QVariant* data);
@@ -69,9 +68,7 @@ private:
     Ui::LaskulistaWidget *ui;
 
     LaskuTauluModel *laskut_;
-    QSortFilterProxyModel *laskuAsiakasProxy_;
-    QSortFilterProxyModel *laskuViiteProxy_;
-    QSortFilterProxyModel *vainLaskuProxy_;
+    LaskuProxyModel *proxy_;
 
     int paalehti_ = 0;
     int asiakas_ = 0;

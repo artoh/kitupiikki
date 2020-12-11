@@ -301,6 +301,7 @@ bool MyyntiLaskujenToimittaja::laheta()
                                (tyyppi == TositeTyyppi::MAKSUMUISTUTUS ? tulostaja.t("maksumuistutus") : tulostaja.t("laskuotsikko")));
 
         MimeMessage message;
+        message.setHeaderEncoding(MimePart::QuotedPrintable);
         message.setSender(new EmailAddress(keneltaEmail, kenelta));
         message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
         message.setSubject(otsikko);
