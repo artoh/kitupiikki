@@ -93,6 +93,10 @@ protected slots:
     void tallennaKoot();
     void lataaKoot();
 
+    void nuoliSelaus(bool seuraava);
+    void tamaKuukausi();
+    void tamaTilikausi();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 

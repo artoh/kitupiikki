@@ -181,6 +181,11 @@ int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
 
 }
 
+bool TilikausiModel::onkoTilikautta(const QDate &paiva) const
+{
+    return indeksiPaivalle(paiva) > -1;
+}
+
 Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
 {
     return kaudet_.value(indeksi, Tilikausi());

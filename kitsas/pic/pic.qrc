@@ -183,6 +183,8 @@
         <file>bar-copy.png</file>
         <file>up.png</file>
         <file>down.png</file>
+        <file>month.png</file>
+        <file>calendar.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
