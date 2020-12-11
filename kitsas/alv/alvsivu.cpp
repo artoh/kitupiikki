@@ -33,9 +33,11 @@
 
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
+#include "ilmoitintuottaja.h"
 
 AlvSivu::AlvSivu() :
-    ui(new Ui::AlvSivu)
+    ui(new Ui::AlvSivu),
+    ilmoitin(new IlmoitinTuottaja(this))
 {
     ui->setupUi(this);
 
@@ -57,6 +59,7 @@ AlvSivu::AlvSivu() :
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
     connect( ui->maksuperusteNappi, SIGNAL(clicked(bool)), this, SLOT(maksuAlv()));
     connect( ui->poistaTilitysNappi, &QPushButton::clicked, this, &AlvSivu::poistaIlmoitus);
+    connect( ui->ilmoitinNappi, &QPushButton::clicked, this, &AlvSivu::tallennaIlmoitinAineisto);
 
 }
 
@@ -155,7 +158,15 @@ void AlvSivu::riviValittu()
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
                                         index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() > kp()->tilitpaatetty() );
+    ui->ilmoitinNappi->setEnabled( index.isValid() && ilmoitin->voikoMuodostaa(index.data(AlvIlmoitustenModel::MapRooli).toMap()));
 
+}
+
+void AlvSivu::tallennaIlmoitinAineisto()
+{
+    int tositeId = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+    if(tositeId)
+        ilmoitin->tallennaAineisto(tositeId);
 }
 
 void AlvSivu::maksuAlv()

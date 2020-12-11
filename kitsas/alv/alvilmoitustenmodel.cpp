@@ -99,6 +99,8 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         return erapaiva( map.value("kausipaattyy").toDate() );
     else if( role == AlkaaRooli)
         return map.value("kausialkaa");
+    else if( role == MapRooli)
+        return map;
 
     return QVariant();
 

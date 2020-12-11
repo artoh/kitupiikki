@@ -72,6 +72,7 @@ public:
     QString userToken() const { return data_.value("token").toString();}
     QString ocrOsoite() const { return data_.value("ocr").toString();}
     QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
+    QString ilmoitinTunnus() const { return data_.value("ilmoitin").toString(); }
     QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }
     bool tilausvoimassa() const { return plan() || kokeilujakso() >= QDate::currentDate();}
     bool pilviVat() const { return  pilviVat_; }

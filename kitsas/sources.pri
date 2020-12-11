@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
     $$PWD/alv/alvlaskelma.cpp \
+    $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
@@ -285,6 +286,7 @@ HEADERS += \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
     $$PWD/alv/alvlaskelma.h \
+    $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/palkkaapuri.h \
