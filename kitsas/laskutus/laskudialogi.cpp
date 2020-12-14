@@ -619,7 +619,7 @@ QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko)
     } else
         vienti.setKredit(0-summa);
 
-    if( era_ ) {
+    if( era_ && maksutapa != KATEINEN) {    // #821 Käteislasku on heti maksettu
         if( tyyppi() == TositeTyyppi::MYYNTILASKU) {
             vienti.insert("id", era_);
         }
