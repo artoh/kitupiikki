@@ -44,6 +44,7 @@ bool IlmoitinTuottaja::voikoMuodostaa(const QVariantMap &map)
     // kausi on normaali
     return !kausiTieto(map).isEmpty() &&
             kp()->pilvi() &&
+            !kp()->pilvi()->ilmoitinTunnus().isEmpty() &&
             ( kp()->pilvi()->tilausvoimassa() ||
               qobject_cast<PilviModel*>(kp()->yhteysModel()));
 }

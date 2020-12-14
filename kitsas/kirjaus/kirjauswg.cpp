@@ -643,19 +643,20 @@ void KirjausWg::paivitaLiiteNapit()
 
 void KirjausWg::tarkastaTuplatJaTallenna(int tila)
 {
-    if( !tosite()->kumppani() )
+    if( !tosite()->kumppani() ) {
         tosite()->tallenna(tila);
-
-    KpKysely *kysely = kpk("/tositteet");
-    kysely->lisaaAttribuutti("kumppani", tosite()->kumppani());
-    kysely->lisaaAttribuutti("laskupvm",tosite()->laskupvm());
-    kysely->lisaaAttribuutti("tyyppi", tosite()->tyyppi());
-    if( !tosite()->laskuNumero().isEmpty())
-        kysely->lisaaAttribuutti("laskunumero", tosite()->laskuNumero());
-    if( !tosite()->viite().isEmpty())
-        kysely->lisaaAttribuutti("viite", tosite()->viite());
-    connect(kysely, &KpKysely::vastaus, [this, tila] (QVariant* data)  { this->tuplaTietoSaapuu(data, tila);});
-    kysely->kysy();
+    } else {
+        KpKysely *kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("kumppani", tosite()->kumppani());
+        kysely->lisaaAttribuutti("laskupvm",tosite()->laskupvm());
+        kysely->lisaaAttribuutti("tyyppi", tosite()->tyyppi());
+        if( !tosite()->laskuNumero().isEmpty())
+            kysely->lisaaAttribuutti("laskunumero", tosite()->laskuNumero());
+        if( !tosite()->viite().isEmpty())
+            kysely->lisaaAttribuutti("viite", tosite()->viite());
+        connect(kysely, &KpKysely::vastaus, [this, tila] (QVariant* data)  { this->tuplaTietoSaapuu(data, tila);});
+        kysely->kysy();
+    }
 }
 
 void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
