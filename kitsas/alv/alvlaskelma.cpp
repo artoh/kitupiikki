@@ -25,8 +25,8 @@
 
 #include <QDebug>
 
-AlvLaskelma::AlvLaskelma(QObject *parent) :
-  Raportteri (parent),
+AlvLaskelma::AlvLaskelma(QObject *parent, const QString kielikoodi) :
+  Raportteri (parent, kielikoodi),
   tosite_( new Tosite(this))
 {
 
@@ -45,7 +45,7 @@ void AlvLaskelma::kirjoitaLaskelma()
 
 void AlvLaskelma::kirjoitaOtsikot()
 {
-    rk.asetaOtsikko( tr("ARVONLISÄVEROLASKELMA"));
+    rk.asetaOtsikko( kaanna("ARVONLISÄVEROLASKELMA"));
     rk.asetaKausiteksti( QString("%1 - %2").arg(alkupvm_.toString("dd.MM.yyyy")).arg(loppupvm_.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();
@@ -56,10 +56,10 @@ void AlvLaskelma::kirjoitaOtsikot()
     rk.lisaaEurosarake();
 
     RaporttiRivi otsikko;
-    otsikko.lisaa("Pvm");
-    otsikko.lisaa("Tosite");
-    otsikko.lisaa("Asiakas/Toimittaja");
-    otsikko.lisaa("Selite");
+    otsikko.lisaa(kaanna("Pvm"));
+    otsikko.lisaa(kaanna("Tosite"));
+    otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
+    otsikko.lisaa(kaanna("Selite"));
     otsikko.lisaa("%",1,true);
     otsikko.lisaa("€",1,true);
     rk.lisaaOtsake(otsikko);
@@ -69,7 +69,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 {
 
     RaporttiRivi otsikko;
-    otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),5);
+    otsikko.lisaa(kaanna("Arvonlisäveroilmoituksen tiedot"),5);
     otsikko.lihavoi();
     otsikko.asetaKoko(14);
 
@@ -78,7 +78,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     if( kp()->onkoMaksuperusteinenAlv(loppupvm_)) {
         RaporttiRivi rivi;
-        rivi.lisaa(tr("Maksuperusteinen arvonlisävero"),5);
+        rivi.lisaa(kaanna("Maksuperusteinen arvonlisävero"),5);
         rk.lisaaRivi(rivi);
         rk.lisaaTyhjaRivi();
     }
@@ -96,38 +96,38 @@ void AlvLaskelma::kirjoitaYhteenveto()
     }
 
     // Kotimaan myynti
-    yvRivi(301, tr("Suoritettava 24%:n vero kotimaan myynnistä"), kotimaanmyyntivero(2400) );
-    yvRivi(302, tr("Suoritettava 14%:n vero kotimaan myynnistä"), kotimaanmyyntivero(1400));
-    yvRivi(303, tr("Suoritettava 10%:n vero kotimaan myynnistä"), kotimaanmyyntivero(1000));
+    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(24), kotimaanmyyntivero(2400) );
+    yvRivi(302, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(14), kotimaanmyyntivero(1400));
+    yvRivi(303, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(10), kotimaanmyyntivero(1000));
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(304, tr("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), taulu_.summa( AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS ));
-    yvRivi(305, tr("Vero tavaraostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT + AlvKoodi::ALVKIRJAUS));
-    yvRivi(306,tr("Vero palveluostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS));
+    yvRivi(304, kaanna("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), taulu_.summa( AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS ));
+    yvRivi(305, kaanna("Vero tavaraostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT + AlvKoodi::ALVKIRJAUS));
+    yvRivi(306,kaanna("Vero palveluostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS));
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
+    yvRivi(307, kaanna("Verokauden vähennettävä vero"), taulu_.summa(200,299));
     maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
-    yvRivi(308, tr("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
+    yvRivi(308, kaanna("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(309, tr("0-verokannan alainen liikevaihto"), taulu_.summa(AlvKoodi::ALV0));
-    yvRivi(310, tr("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
-    yvRivi(311, tr("Tavaroiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_TAVARAT));
-    yvRivi(312, tr("Palveluiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_PALVELUT));
-    yvRivi(313, tr("Tavaraostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT));
-    yvRivi(314, tr("Palveluostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT));
+    yvRivi(309, kaanna("0-verokannan alainen liikevaihto"), taulu_.summa(AlvKoodi::ALV0));
+    yvRivi(310, kaanna("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
+    yvRivi(311, kaanna("Tavaroiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_TAVARAT));
+    yvRivi(312, kaanna("Palveluiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_PALVELUT));
+    yvRivi(313, kaanna("Tavaraostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT));
+    yvRivi(314, kaanna("Palveluostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT));
 
-    yvRivi(318, tr("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
-    yvRivi(319, tr("Rakentamispalveluiden ja metaalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
-    yvRivi(320, tr("Rakentamispalveluiden ja metalliromun ostot"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO));
+    yvRivi(318, kaanna("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
+    yvRivi(319, kaanna("Rakentamispalveluiden ja metaalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
+    yvRivi(320, kaanna("Rakentamispalveluiden ja metalliromun ostot"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO));
 
-    yvRivi(315, tr("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
-    yvRivi(316, tr("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
-    yvRivi(317, tr("Alarajahuojennuksen määrä"), huojennus());
+    yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
+    yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
+    yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
 
     rk.lisaaTyhjaRivi();
 
@@ -138,7 +138,7 @@ void AlvLaskelma::kirjaaVerot()
     qlonglong vero = taulu_.summa(100,199);
     qlonglong vahennys = taulu_.summa(200,299);
 
-    QString selite = tr("Arvonlisävero %1 - %2")
+    QString selite = kaanna("Arvonlisävero %1 - %2")
             .arg( alkupvm_.toString("dd.MM.yyyy") )
             .arg( loppupvm_.toString("dd.MM.yyyy"));
 
@@ -181,7 +181,7 @@ void AlvLaskelma::kirjaaVerot()
 void AlvLaskelma::kirjoitaErittely()
 {
     RaporttiRivi otsikko;
-    otsikko.lisaa(tr("Erittely"),5);
+    otsikko.lisaa(kaanna("Erittely"),5);
     otsikko.lihavoi();
     otsikko.asetaKoko(14);
 
@@ -357,14 +357,15 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
             kohdentamattomasta.setDebet( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-            kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy")).arg(vienti.selite());
+            kohdentamattomasta.setSelite(selite);
             kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
             lisaaKirjausVienti(kohdentamattomasta);
 
             TositeVienti kohdennettuun;
             kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
             kohdennettuun.setKredit(eurot);
-            kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdennettuun.setSelite(selite);
             kohdennettuun.setAlvProsentti(vienti.alvProsentti());
             kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS);
             lisaaKirjausVienti(kohdennettuun);
@@ -375,14 +376,15 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
             kohdentamattomasta.setKredit( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-            kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy")).arg(vienti.selite());
+            kohdentamattomasta.setSelite(selite);
             kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO);
             lisaaKirjausVienti(kohdentamattomasta);
 
             TositeVienti kohdennettuun;
             kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             kohdennettuun.setDebet(eurot);
-            kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdennettuun.setSelite(selite);
             kohdennettuun.setAlvProsentti(vienti.alvProsentti());
             kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_OSTO + AlvKoodi::ALVVAHENNYS);
             lisaaKirjausVienti(kohdennettuun);
@@ -437,8 +439,8 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
-        marginaaliRivi(tr("Voittomarginaalimenettely myynti"),kanta,myynti);
-        marginaaliRivi(tr("Voittomarginaalimenettely ostot"), kanta, ostot);
+        marginaaliRivi(kaanna("Voittomarginaalimenettely myynti"),kanta,myynti);
+        marginaaliRivi(kaanna("Voittomarginaalimenettely ostot"), kanta, ostot);
         if( alijaama )
             marginaaliRivi(tr("Aiempi alijäämä"), kanta, alijaama);
         if( marginaali > 0 || kp()->asetukset()->onko("AlvMatkatoimisto")) {
@@ -457,7 +459,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
             int tili = kirjausIter.key();
             qlonglong tilinmyynti = kirjausIter.value().summa();
 
-            QString selite = tr("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
+            QString selite = kaanna("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
                     .arg(kanta / 100.0, 0, 'f', 2)
                     .arg(tilinmyynti * 100.0 / myynti, 0, 'f', 2);
             TositeVienti tililta;
@@ -727,7 +729,7 @@ void AlvLaskelma::kirjaaHuojennus()
     if( !huojennus() || !kp()->asetukset()->luku("AlvHuojennusTili"))
         return;
 
-    QString selite = tr("Arvonlisäveron alarajahuojennus");
+    QString selite = kaanna("Arvonlisäveron alarajahuojennus");
 
     TositeVienti huojennettava;
     huojennettava.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
@@ -745,7 +747,7 @@ void AlvLaskelma::kirjaaHuojennus()
 void AlvLaskelma::tallenna()
 {
     tosite_->setData( Tosite::PVM, loppupvm_ );
-    tosite_->setData( Tosite::OTSIKKO, tr("Arvonlisäveroilmoitus %1 - %2")
+    tosite_->setData( Tosite::OTSIKKO, kaanna("Arvonlisäveroilmoitus %1 - %2")
                      .arg(alkupvm_.toString("dd.MM.yyyy"))
                      .arg(loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
@@ -801,7 +803,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             qlonglong netto = qRound64( brutto * 10000.0 / ( 10000.0 + sadasosaprosentti) );
             qlonglong vero = brutto - netto;
 
-            QString selite = tr("Bruttomyyntien oikaisu %3 BRUTTO %L1, NETTO %L2")
+            QString selite = kaanna("Bruttomyyntien oikaisu %3 BRUTTO %L1, NETTO %L2")
                     .arg(brutto / 100.0, 0, 'f', 2 )
                     .arg(netto/100.0, 0, 'f', 2)
                     .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
@@ -841,7 +843,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             qlonglong netto = qRound64(brutto * 10000.0 / ( 10000 + sadasosaprosentti));
             qlonglong vero = brutto - netto;
 
-            QString selite = tr("Brutto-ostojen oikaisu %3 BRUTTO %L1, NETTO %L2")
+            QString selite = kaanna("Brutto-ostojen oikaisu %3 BRUTTO %L1, NETTO %L2")
                     .arg(brutto / 100.0, 0, 'f', 2 )
                     .arg(netto/100.0, 0, 'f', 2)
                     .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );

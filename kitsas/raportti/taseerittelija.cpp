@@ -39,7 +39,7 @@ void TaseErittelija::kirjoita(const QDate& mista, const QDate &mihin)
 void TaseErittelija::dataSaapuu(QVariant *data)
 {
     RaportinKirjoittaja rk(false);
-    rk.asetaOtsikko("TASE-ERITTELY");       // Näiden käännöksiin vielä mekanismi ????
+    rk.asetaOtsikko(kaanna("TASE-ERITTELY"));
     rk.asetaKausiteksti(QString("%1 - %2").arg(mista_.toString("dd.MM.yyyy")).arg(mihin_.toString("dd.MM.yyyy")));
 
     rk.lisaaSarake("12345678"); // Tosite
@@ -51,13 +51,13 @@ void TaseErittelija::dataSaapuu(QVariant *data)
     // Lisätään otsikot
     {
         RaporttiRivi yotsikko;
-        yotsikko.lisaa("Tili",3);
+        yotsikko.lisaa(kaanna("Tili"),3);
         rk.lisaaOtsake(yotsikko);
 
         RaporttiRivi otsikko;
-        otsikko.lisaa("Tosite");
-        otsikko.lisaa("Päivämäärä");
-        otsikko.lisaa("Selite");
+        otsikko.lisaa(kaanna("Tosite"));
+        otsikko.lisaa(kaanna("Päivämäärä"));
+        otsikko.lisaa(kaanna("Selite"));
         otsikko.lisaa("");
         otsikko.lisaa("€",1,true);
         rk.lisaaOtsake(otsikko);
@@ -66,7 +66,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
     bool vastattavaa = false;
     RaporttiRivi otsikkoRivi;
-    otsikkoRivi.lisaa("VASTAAVAA",3);
+    otsikkoRivi.lisaa(kaanna("VASTAAVAA"),3);
     otsikkoRivi.asetaKoko(14);
     rk.lisaaRivi(otsikkoRivi);
 
@@ -86,7 +86,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             yhteensa = 0;
 
             RaporttiRivi otsikkoRivi;
-            otsikkoRivi.lisaa("VASTATTAVAA",4);
+            otsikkoRivi.lisaa(kaanna("VASTATTAVAA"),4);
             otsikkoRivi.asetaKoko(14);            
             rk.lisaaRivi(otsikkoRivi);            
             vastattavaa = true;
@@ -162,7 +162,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     // Loppusaldo
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
-                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin_.toString("dd.MM.yyyy")),2);
+                    loppuRivi.lisaa( tr("Loppusaldo %1").arg(mihin_.toString("dd.MM.yyyy")),2);
                     loppuRivi.lisaa( qRound64(map.value("saldo").toDouble() * 100.0),true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);
@@ -236,7 +236,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
             RaporttiRivi vikaRivi;
             vikaRivi.lisaa("", 2);
-            vikaRivi.lisaa(tr("Tilin %1 loppusaldo").arg(tili->numero()),2);
+            vikaRivi.lisaa(kaanna("Tilin %1 loppusaldo").arg(tili->numero()),2);
             vikaRivi.lisaa( loppusaldo, true);
             vikaRivi.lihavoi();
             vikaRivi.viivaYlle();

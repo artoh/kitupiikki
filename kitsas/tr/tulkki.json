@@ -143,14 +143,14 @@
   "Kululasku": {
     "sv": "Kostnadsräkning",
     "en": "Bill of costs"
-  }, 
+  },
   "Saapunut verkkolasku": {
     "sv": "Inkomst online faktura",
     "en": "Incoming online invoice"
   },
   "Myyntilasku": {
     "sv": "Fölsälningsfaktura",
-    "en": "Sales invoice"    
+    "en": "Sales invoice"
   },
   "Hyvityslasku": {
     "sv": "Kreditnota",
@@ -208,5 +208,190 @@
   "Tulovero": {
     "sv": "Inkomstskatt",
     "en": "Income tax"
+  },
+  "TASE-ERITTELY":{
+    "sv": "SPECIFICATION TILL BALANSRÄKNINGEN",
+    "en": "BALANCE SHEET BREAKDOWN"
+  },
+  "VASTAAVAA": {
+    "sv": "AKTIVA",
+    "en": "ASSETS"
+  },
+  "VASTATTAVAA": {
+    "sv": "PASSIVA",
+    "en": "LIABILITIES"
+  },
+  "VASTAAVAA YHTEENSÄ": {
+    "sv": "AKTIVA TOTALT",
+    "en": "ASSETS TOTAL"
+  },
+  "VASTATTAVAA YHTEENSÄ": {
+    "sv": "PASSIVA TOTALT",
+    "en": "LIABILITIES TOTAL"
+  },
+  "Lisäykset/vähennykset %1 saakka": {
+    "sv": "Ökningar/avdrag upp till %1",
+    "en": "Additions/reductions until %1"
+  },
+  "Jäljellä %1": {
+    "sv": "Återstående %1",
+    "en": "Remaining %1"
+  },
+  "Loppusaldo %1": {
+    "sv": "Utgående saldo %1",
+    "en": "Ending balance %1"
+  },
+  "Alkusaldo %1": {
+    "sv": "Ingående saldo %1",
+    "en": "Beginning balance"
+  },
+  "Erittelemättömät": {
+    "sv": "Ospecificerad",
+    "en": "Unspecified"
+  },
+  "Tilin %1 loppusaldo": {
+    "sv": "Utgående saldo på kontot %1",
+    "en": "End balance of account %1"
+  },
+  "AVOIMET MYYNTILASKUT": {
+    "sv": "ÖPPNA KUNDFAKTUROR",
+    "en": "OPEN SALES INVOICES"
+  },
+  "MYYNTILASKUT": {
+    "sv": "KUNDFAKTUROR",
+    "en": "SALES INVOICES"
+  },
+  "AVOIMET OSTOLASKUT": {
+    "sv": "ÖPPNA INKÖPSFAKTUROR",
+    "en": "OPEN PURCHASE INVOICES"
+  },
+  "OSTOLASKUT": {
+    "sv": "INKÖPSFAKTUROR",
+    "en": "PURCHASE INVOICES"
+  },
+  "Numero": {
+    "sv": "Nummer",
+    "en": "Number"
+  },
+  "Laskupvm": {
+    "sv": "Fakturadag",
+    "en": "Invoice date"
+  },
+  "Eräpvm": {
+    "sv": "Förfallogdag",
+    "en": "Due date"
+  },
+  "Maksamatta": {
+    "sv": "Obetald",
+    "en": "Unpaid"
+  },
+  "Päivämäärä": {
+    "sv": "Datum",
+    "en": "Date"
+  },
+  "Asiakas": {
+    "sv": "Kund",
+    "en": "Customer"
+  },
+  "Toimittaja": {
+    "sv": "Säljare",
+    "en": "Supplier"
+  },
+  "Viite": {
+    "sv": "Referens",
+    "en": "Reference"
+  },
+  "Tuote": {
+    "sv": "produkt",
+    "en": "product"
+  },
+  "myynti kpl": {
+    "sv": "försäljning st",
+    "en": "sales pcs"
+  },
+  "keskim. á netto": {
+    "sv": "genomsn á netto",
+    "en": "average á net"
+  },
+  "keskim. á brutto": {
+    "sv": "genomsn á brutto",
+    "en": "average á gross"
+  },
+  "netto yht": {
+    "sv": "totalt netto",
+    "en": "total net"
+  },
+  "brutto yht": {
+    "sv": "totalt brutto",
+    "en": "totalt gross"
+  },
+  "MYYNTI": {
+    "sv": "FÖRSÄLJNING",
+    "en": "SALES"
+  },
+  "ARVONLISÄVEROLASKELMA": {
+    "sv": "MOMSBERÄKNING",
+    "en": "VAT CALCULATION"
+  },
+  "Arvonlisäveroilmoituksen tiedot": {
+    "sv": "Information om momsdeklaration"
+  },
+  "Maksuperusteinen arvonlisävero": {
+    "sv": "Uppskjuten moms"
+  },
+  "Suoritettava %1%:n vero kotimaan myynnistä": {
+    "sv": "Skatt på inhemsk försäljning enligt skattesatserna moms %1 %"
+  },
+  "Vero tavaroiden maahantuonnista EU:n ulkopuolelta": {
+    "sv": "Moms på varuinköp från områden utanför EU"
+  },
+  "Vero tavaraostoista muista EU-maista": {
+    "sv": "Moms på varuinköp från andra EU-länder"
+  },
+  "Vero palveluostoista muista EU-maista": {
+    "sv": "Moms på inköp av tjänster från andra EU-länder"
+  },
+  "Verokauden vähennettävä vero": {
+    "sv": "Moms som ska dras av för skatteperiod"
+  },
+  "Maksettava vero / Palautukseen oikeuttava vero": {
+    "sv": "Moms att betala / Moms som berättingar till återbäring"
+  },
+  "0-verokannan alainen liikevaihto": {
+    "sv": "Omsättning enligt 0-skattesats"
+  },
+  "Tavaroiden maahantuonnit EU:n ulkopuolelta": {
+    "sv": "Import av varor från områden utanför EU"
+  },
+  "Tavaroiden myynnit muihin EU-maihin": {
+    "sv": "Varuförsäljningar till andra EU-länder"
+  },
+  "Palveluiden myynnit muihin EU-maihin": {
+    "sv": "Försäljning av tjänster till andra EU-länder"
+  },
+  "Tavaraostot muista EU-maista": {
+    "sv": "Varuinköp från andra EU-länder"
+  },
+  "Palveluostot muista EU-maista": {
+    "sv": "Inköp av tjänster från andra EU-länder"
+  },
+  "Rakentamispalveluiden ja metaalliromun myynnit" : {
+    "sv": "Försäljningar av byggtjänster och metallskrot"
+  },
+  "Rakentamispalveluiden ja metalliromun ostot" : {
+    "sv": "Inköp av byggtjänster och metallskrot"
+  },
+  "Alarajahuojennukseen oikeuttava liikevaihto": {
+    "sv": "Omsättning som berättigar till lättnad vid den nedre gränsen"
+  },
+  "Alarajahuojennukseen oikeuttava vero" : {
+    "sv": "Skatt som berättigar till lättnad vid den nedre gränsen"
+  },
+  "Alarajahuojennukseen määrä": {
+    "sv": "Beloppet av lättnad vid den nedre gränsen"
+  },
+  "Arvonlisävero %1 - %2": {
+    "sv": "Medvärdesskatt %1 - %2"
   }
+
 }

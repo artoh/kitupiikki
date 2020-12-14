@@ -118,7 +118,7 @@ void AlvSivu::paivitaErapaiva()
 void AlvSivu::ilmoita()
 {
     AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
-    AlvLaskelma *laskelma = new AlvLaskelma(dlg);
+    AlvLaskelma *laskelma = new AlvLaskelma(dlg, kp()->asetukset()->asetus("kieli","fi"));
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);
