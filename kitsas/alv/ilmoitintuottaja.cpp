@@ -45,6 +45,7 @@ bool IlmoitinTuottaja::voikoMuodostaa(const QVariantMap &map)
     return !kausiTieto(map).isEmpty() &&
             kp()->pilvi() &&
             !kp()->pilvi()->ilmoitinTunnus().isEmpty() &&
+            !kp()->asetus("Ytunnus").isEmpty() &&
             ( kp()->pilvi()->tilausvoimassa() ||
               qobject_cast<PilviModel*>(kp()->yhteysModel()));
 }
@@ -131,7 +132,11 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
     while( iter.hasNext()) {
         iter.next();
         int koodi = iter.key().toInt();
-        if( koodi > 317)
+
+        // Jos ei haeta alijäämähuojennusta, niin ei myöskään
+        // ilmoitetan niihin oikeuttavia määriä
+
+        if( (koodi >= 315 && !kooditMap.contains("317")) || koodi > 317)
             break;
         lisaa(koodi, iter.value().toDouble());
     }
