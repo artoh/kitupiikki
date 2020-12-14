@@ -33,10 +33,11 @@ public:
     void aseta(const QVariant& var);
     void aseta(const QString& nimi, const QString& kieli);
     QString teksti(QString kieli = QString()) const;
-    QString kaannos(const QString& kieli) const;
+    QString kaannos(const QString& kieli) const;   
 
     void alustaListWidget(QListWidget *widget);
     void lataa(const QListWidget *widget);
+    void tyhjenna();
 
     QVariantMap map() const;
 

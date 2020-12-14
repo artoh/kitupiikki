@@ -38,6 +38,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="kopioiNappi">
+       <property name="text">
+        <string>Kopioi</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../pic/pic.qrc">
+         <normaloff>:/pic/kopioi.png</normaloff>:/pic/kopioi.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
