@@ -144,3 +144,137 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>____________________  ___. päivänä _________kuuta  _________ </p>
 <p>
 <p>
+[sv]
+##Rapporter
+#MIKRO
+@tase/PMA!BALANSRÄKNING (BOKSLUT)@
+#PIEN
+@tase/PMA!BALANSRÄKNING (BOKSLUT)@
+#ISO
+@tase/yleinen!TASE (TILINPÄÄTÖS)@
+#
+@tulos/yleinen!RESULTATRÄKNING (BOKSLUT)@
+#toiminnanalat Specifikation av verksamhetsområden
+@tulos/yleinen:K!VERKSAMHETSOMRÅDEN (BOKSLUT)@
+<h2>Principer för upprättandet av bokslutet</h2>
+#MIKRO
+<p> Vid uppgörandet av detta bokslut har statsrådets förordning om uppgifter som ska tas upp i små- och mikroföretags bokslut följts.</p>
+#PIEN
+<p> Vid uppgörandet av detta bokslut har statrådets förordning om uppgifter som ska tas upp i små- och mikroföretags bokslut följts.</p>
+#ISO
+<b>För företaget måste fullständiga noter och verksamhetsberättelse uppgöras</b>
+<p>Noterna skall innehålla åtminstone
+<ol><li>noter om presentation av bokslut</li>
+<li>principerna för uppgörandet av bokslutet</li>
+<li>noter till resultaträkningen</li>
+<li>noter till balansräkningen</li>
+<li>noter om värdering till verkligt värde</li>
+<li>uppgifter om inkomstskatter</li>
+<li> Säkerheter, ansvarsförbindelser och arrangemang som inte har tagits med i balansräkningen</li>
+<li>uppgifter om revisorernas arvoden</li>
+<li>transaktioner med närstående parter</li>
+<li>uppgifter om personal och organens medlemmar</li>
+<li>innehav i andra företag</li>
+<li>noter angående en bokföringsskyldig som hör till en koncern </li></ol>
+<p>Därtill skall i noterna ges information om bundna fonder</p>
+##Noter
+#laatimisperuste I bokslutet används alternativa grunder för upprättandet
+<p> Omsättningstillgångar (skiljer sig från FIFO-metoden)</p>
+<p> I balansräkningen aktiverade immateriella rättigheter (anskaffningsutgiften skrivs inte av på 10 år)</p>
+<p> Utvecklingsutgift, affärsvärde och övrig utgift med lång verkningstid (inte kostnadsförd eller avskriven på 10 år)</p>
+<p> Inkomsten av en prestation som kräver lång framställningstid (om inkomsten bokförs enligt färdighetsgrad)</p>
+<p>Finansiella instrument och placeringsfastighet (om värderad till verkligt värde)</p>
+<p> Valutakurs (om man inte använt bokslutsdagens valutakurs)</p>
+<p> Till bestående aktiva tillhörande nyttigheter (till anskaffningsutgiften har räknats annat än rörliga kostnader som härrör från anskaffning och tillverkning)</p>
+<p> Avskrivningar enligt plan på maskiner och inventarier (avviker från maximala tillåtna avskrivningar i beskattningen)</p>
+<p> I balansräkningen upptagna anskaffningar genom finansieringsleasing </p>
+#kvstand Vid uppgörandet har internationella bokslutsstandarder använts
+<p> Vid uppgörandet har internationella bokslutsstandarder använts)</p>
+#poik -ISO Exceptionella poster
+<h2> Exceptionella poster </h2>
+<p> Här information om exceptionella inkomster och utgifter om posterna är väsentliga.</p>
+#jalkeen Uppgifter om väsentliga händelser som inträffat efter räkenskapsperioden
+<h2> Uppgifter om väsentliga händelser som inträffat efter räkenskapsperioden </h2>
+<p> Här uppgifter om väsentliga händelser och deras ekonomiska betydelse </p>
+#kaypa -MIKRO Verkligt värde i noterna
+<h2>Verkligt värde i noterna</h2>
+<ol>
+<li> de viktigaste bakomliggande antagandena för värderingsmodellerna och -metoderna</li>
+<li> det sammanlagda verkliga värdet för varje kategori av finansiella instrument eller andra tillgångar</li>
+<li> de förändringar av värdet på kategorier som redovisas i resultaträkningen och i fonden för verkligt värde </li>
+<li> för varje kategori av derivatinstrument, upplysningar om i vilken omfattning de används</li>
+<li>för varje typ av kategori karaktären samt viktiga villkor som kan påverka belopp, tidpunkt och säkerhet vad gäller framtida kassaflöden </li>
+<li>förändringar i fonden för verkligt värde under räkenskapsperioden </li>
+</ol>
+#johdannaiset Derivativinstrument
+<h2>Derivativinstrument</h2>
+<p>För varje kategori av derivatinstrument, derivatets verkliga värde samt uppgifter om omfattningen och arten av deras användning. </p>
+#pitkalaina Långfristiga lån som förfaller senare än om fem år
+<h2>Långfristiga lån över fem år</h2>
+<p> Det sammanlagda beloppet av till långfristigt främmande kapital hörande skulder som förfaller senare än efter fem år. </p>
+#vastuut Sakrättsliga säkerheter
+<h2> Sakrättsliga säkerheter som ett företag har ställt</h2>
+<p>Sakrättsliga säkerheter som ett målföretag har ställt av sina tillgångar specificerade som handfången pant, fordonsinteckningar, företagsinteckningar, fastighetsinteckningar och eventuella andra slag av realsäkerhet</p>
+#sitoumukset Ekonomiska åtaganden utanför balansräkningen
+<h2> Ekonomiska åtaganden utanför balansräkningen</h2>
+<p> De ekonomiska åtagandena utanför balansräkningen totalt är XXX euro.</p>
+<p> I detta totala belopp ingår....... Därtill.......</p>
+#elake Pensionsansvar som inte överförts till pensionsförsäkringsbolag
+<h2>Pensionsansvar</h2>
+<p> Pensionsansvar som inte överförts till pensionsförsäkringsbolag</p>
+#emoyritys Information om moderbolaget
+<h2>Information om moderbolaget</h2>
+<p> Moderbolagets namn och hemort samt information om den koncern som upprättar koncernbokslutet</p>
+#lahilainat Lån till verkställande direktören och personer inom administrationen samt åtaganden till förmån för dem
+<h2> Lån till verkställande direktören och personer inom administrationen samt åtaganden till förmån för dem</h2>
+<p> I fråga om verkställande direktören, medlemmarna och suppleanterna i styrelsen samt i fråga om personer tillhörande motsvarande förvaltningsorgan ska per förvaltningsorgan i noterna anges</p>
+<ol>
+<li> det sammanlagda beloppet av penninglån som beviljats dem, minskningen och ökningen av beloppet under räkenskapsperioden samt de huvudsakliga räntevillkoren och övriga villkor för lånen</li>
+<li> det sammanlagda beloppet av säkerheter och ansvarsförbindelser som gäller dem och det huvudsakliga innehållet</li>
+<li> pensionsförbindelserna för dessa uppdrag</li>
+</ol>
+#intressi -MIKRO Transaktioner med intressenter
+<h2> Transaktioner med intressenter</h2>
+<p>Juridiska personer som har bestämmande inflytande eller är i partsrelation till företaget, samt Verkställande direktör, medlem eller suppleant av styrelsen samt medlemmar av motsvarande organ</p>
+<ol>
+<li>en beskrivning av transaktionen</li>
+<li>värdet av transaktionen</li>
+<li>uppgift om typen av intresseförhållandet</li>
+<li> annan information avseende transaktionerna som är nödvändig för att bedöma småföretagets ekonomiska ställning </li>
+</ol>
+#HENKILOSTO
+<h2>Personalens storlek</h2>
+@henkilosto@Genomsnittlig personalstorlek
+#muut -MIKRO Information som behövs för att ge en riktig och tillräcklig bild
+<h2>Övrig information</h2>
+<p>Information som behövs för att ge en riktig och tillräcklig bild </p>
+##Bokföring
+#sahko Elektronisk bokföring och arkivering
+<h2>Bokföringsmaterialet</h2>
+<p> Bokföringen är uppgjord med Kitsas-programvaran. Bokslutet, balansspecifikationer, kontoplanen, huvud- och dagböcker samt verifikat i pdf-form är arkiverade i ett elektroniskt arkiv i html-format</p>
+#-sahko
+<h2>Bokföringsmaterialet</h2>
+<p>Redogörelse över bokföringsmaterialet och hur det sparas</p>
+#
+<h2>Underskrifter</h2>
+<p> __________________XX.XX.20XX</p>
+<p>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
+<p>
+<p>
+<p>
+##Revision
+#tilintarkastus Revisionsanteckning
+<h2>Revisionsanteckning</h2>
+<p> Över utförd revision har idag avgetts berättelse</p>
+<p>____________________ ___.  _________ 20XX </p>
+<p>
+<p>
+#toiminnantarkastus -tilintarkastus Förvaltningsrevisionsanteckning
+<h2>Förvaltningsrevisionsanteckning</h2>
+<p>Över utförd förvaltningsrevision har idag avgetts berättelse</p>
+<p>____________________  ___.  _________  20XX </p>
+<p>
+<p>
+
