@@ -124,6 +124,7 @@ void MaksutapaModel::siirra(int mista, int minne)
 {
     lista_.move(mista, minne);
     emit dataChanged(index(mista,0), index(minne,ERA));
+    tallenna();
 }
 
 void MaksutapaModel::lataa(int tuloVaiMeno)
