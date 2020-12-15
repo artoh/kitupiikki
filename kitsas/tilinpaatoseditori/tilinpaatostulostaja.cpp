@@ -226,7 +226,7 @@ void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk, 
     if( !tilattuja_) {
         if( tallenna_) {
             QMap<QString,QString> meta;
-            meta.insert("Filename",QString("%1 %2.pdf").arg(tulkkaa("Tilinpäätös").arg(tilikausi_.pitkakausitunnus()));
+            meta.insert("Filename",QString("%1 %2.pdf").arg(tulkkaa("Tilinpäätös")).arg(tilikausi_.pitkakausitunnus()));
             meta.insert("Content-type","application/pdf");
 
             KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)), KpKysely::PUT);

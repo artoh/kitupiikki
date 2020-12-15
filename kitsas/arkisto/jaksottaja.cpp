@@ -63,7 +63,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
     tosite->asetaPvm( pvm );
     tosite->asetaTyyppi( TositeTyyppi::JAKSOTUS );
-    tosite->asetaOtsikko( tr("Tilinpäätösjaksotukset"));
+    tosite->asetaOtsikko( tulkkaa("Tilinpäätösjaksotukset"));
 
     for( auto jaksotus : jaksotukset) {
         TositeVienti vienti;
@@ -133,7 +133,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         vienti.setKredit(verovelkasentit);
         vasta.setDebet(verovelkasentit);
 
-        QString selite = tr("Negatiivisen verovelan kirjaaminen verosaataviin");
+        QString selite = tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin");
         vienti.setSelite(selite);
         vasta.setSelite(selite);
 
@@ -152,7 +152,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const QVariantList &jaksotukset, qlonglong verovelkasentit)
 {
     RaportinKirjoittaja rk;
-    rk.asetaOtsikko(tr("TILINPÄÄTÖSJAKSOTUKSET"));
+    rk.asetaOtsikko(tulkkaa("TILINPÄÄTÖSJAKSOTUKSET"));
     rk.asetaKausiteksti( kausi.paattyy().toString("dd.MM.yyyy"));
 
     rk.lisaaPvmSarake();
@@ -165,11 +165,11 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
     rk.lisaaOtsake(ylaotsikko);
 
     RaporttiRivi otsikko;
-    otsikko.lisaa("Pvm");
-    otsikko.lisaa("Tunniste");
-    otsikko.lisaa("Selite");
-    otsikko.lisaa("Debet €");
-    otsikko.lisaa("Kredit €");
+    otsikko.lisaa(tulkkaa("Pvm"));
+    otsikko.lisaa(tulkkaa("Tunniste"));
+    otsikko.lisaa(tulkkaa("Selite"));
+    otsikko.lisaa(tulkkaa("Debet €"));
+    otsikko.lisaa(tulkkaa("Kredit €"));
     rk.lisaaOtsake(otsikko);        
 
     int edellinentili = 0;
@@ -210,7 +210,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         rk.lisaaTyhjaRivi();
         RaporttiRivi srivi;
         srivi.viivaYlle(true);
-        srivi.lisaa(tr("Jaksotukset yhteensä"),3);
+        srivi.lisaa(tulkkaa("Jaksotukset yhteensä"),3);
         srivi.lisaa(debetYht);
         srivi.lisaa(kreditYht);
         rk.lisaaRivi(srivi);
@@ -220,7 +220,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
 
     if( verovelkasentit ) {
         RaporttiRivi vrivi;
-        vrivi.lisaa(tr("Verosaamiseksi kirjattava negatiivinen verovelka"),3);
+        vrivi.lisaa(tulkkaa("Verosaamiseksi kirjattava negatiivinen verovelka"),3);
         vrivi.lisaa(verovelkasentit);        
         rk.lisaaRivi(vrivi);
     }
@@ -238,7 +238,7 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
     Tosite* avaus = new Tosite(this);
     avaus->asetaPvm( pvm );
     avaus->asetaTyyppi( TositeTyyppi::JAKSOTUS );
-    avaus->asetaOtsikko( tr("Tilinavauksen jaksotuskirjaukset"));
+    avaus->asetaOtsikko( tulkkaa("Tilinavauksen jaksotuskirjaukset"));
 
     QDate kausipaattyy = kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy();
 

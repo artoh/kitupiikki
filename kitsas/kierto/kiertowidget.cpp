@@ -184,7 +184,7 @@ void KiertoWidget::lataaTosite()
                         .arg(portaali.value("nimi").toString())
                         .arg(portaali.value("email").toString());
                 if( !portaali.value("puhelin").toString().isEmpty())
-                    info.append(tr("p. %1 \n").arg(portaali.value("puhelin").toString()));
+                    info.append(tr("puh. %1 \n").arg(portaali.value("puhelin").toString()));
                 info.append( loki->index(i, TositeLoki::AIKA).data(Qt::DisplayRole).toDateTime().toString(tr("dd.MM.yyyy klo hh.mm")) );
                 ui->vInfo->setText(info);
             } else {

@@ -75,7 +75,7 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 
     QPdfWriter *writer = new QPdfWriter(polku_);
     writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(kausi.kausivaliTekstina()));
-    writer->setCreator(tr("Kitsas %1").arg(qApp->applicationVersion()));
+    writer->setCreator(QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );

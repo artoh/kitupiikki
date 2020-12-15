@@ -72,16 +72,6 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="QLabel" name="keksiLabel">
-         <property name="text">
-          <string>XXXXXXXXX</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="asetusTab">
