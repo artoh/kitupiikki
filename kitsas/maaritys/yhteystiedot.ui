@@ -51,14 +51,14 @@
        <item>
         <widget class="QLineEdit" name="lineEdit">
          <property name="Asetus" stdset="0">
-          <string>Postinumero</string>
+          <string notr="true">Postinumero</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLineEdit" name="lineEdit_2">
          <property name="Asetus" stdset="0">
-          <string>Kaupunki</string>
+          <string notr="true">Kaupunki</string>
          </property>
         </widget>
        </item>
@@ -77,7 +77,7 @@
      <item row="2" column="1">
       <widget class="QLineEdit" name="lineEdit_3">
        <property name="Asetus" stdset="0">
-        <string>Puhelin</string>
+        <string notr="true">Puhelin</string>
        </property>
       </widget>
      </item>
@@ -94,7 +94,7 @@
      <item row="3" column="1">
       <widget class="QLineEdit" name="lineEdit_4">
        <property name="Asetus" stdset="0">
-        <string>Email</string>
+        <string notr="true">Email</string>
        </property>
       </widget>
      </item>
@@ -111,7 +111,7 @@
      <item row="4" column="1">
       <widget class="QLineEdit" name="lineEdit_5">
        <property name="Asetus" stdset="0">
-        <string>Kotisivu</string>
+        <string notr="true">Kotisivu</string>
        </property>
       </widget>
      </item>
@@ -128,7 +128,7 @@
      <item row="5" column="1">
       <widget class="QLineEdit" name="lineEdit_6">
        <property name="Asetus" stdset="0">
-        <string>Kotipaikka</string>
+        <string notr="true">Kotipaikka</string>
        </property>
       </widget>
      </item>
@@ -144,7 +144,38 @@
         <bool>true</bool>
        </property>
        <property name="Asetus" stdset="0">
-        <string>Katuosoite</string>
+        <string notr="true">Katuosoite</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_8">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Yhteystiedot veroa ilmoitettaessa</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Puhelin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEdit_7">
+       <property name="Asetus" stdset="0">
+        <string notr="true">VeroYhteysPuhelin</string>
        </property>
       </widget>
      </item>

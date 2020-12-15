@@ -292,11 +292,9 @@ void ArkistoSivu::muokkaa()
     {
         if( dlgUi.poistaRadio->isChecked()) {
             kausi.poista();
-            emit kp()->tilikausiAvattu();
         } else if( dlgUi.paattyyRadio->isChecked()) {
-            kausi.set("loppuu", dlgUi.paattyyDate->date());
+            kausi.asetaPaattyy(dlgUi.paattyyDate->date());
             kausi.tallenna();
-            emit kp()->tilikausiAvattu();
         }
         else if( dlgUi.peruLukko->isChecked())
         {

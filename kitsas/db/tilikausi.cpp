@@ -151,6 +151,11 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
     kausitunnus_ = kausitunnus;
 }
 
+void Tilikausi::asetaPaattyy(const QDate &pvm)
+{
+    paattyy_ = pvm;
+}
+
 void Tilikausi::tallenna()
 {
     QVariantMap map = data();
@@ -161,6 +166,7 @@ void Tilikausi::tallenna()
 
     KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( alkaa().toString(Qt::ISODate)), KpKysely::PUT );
     QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
+    QObject::connect(kysely, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
     kysely->kysy( map );
 }
 
@@ -168,6 +174,7 @@ void Tilikausi::poista()
 {
     KpKysely *poisto = kpk(QString("/tilikaudet/%1").arg(alkaa().toString(Qt::ISODate)), KpKysely::DELETE);
     QObject::connect(poisto, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
+    QObject::connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
     poisto->kysy();
 
 }
