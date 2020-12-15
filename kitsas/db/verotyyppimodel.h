@@ -93,8 +93,8 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    QString seliteKoodilla(int koodi) const;
-    QString yhdistelmaSeliteKoodilla(int koodi) const;
+    QString seliteKoodilla(int koodi, const QString& kieli = QString()) const;
+    QString yhdistelmaSeliteKoodilla(int koodi, const QString& kieli = QString()) const;
     QIcon kuvakeKoodilla(int koodi) const;
     bool nollaTyyppi(int koodi) const;
 

@@ -201,7 +201,7 @@ void AlvLaskelma::kirjoitaErittely()
             double verokanta = kantaIter.key() / 100.0;
 
             RaporttiRivi kantaOtsikko;
-            kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi), 4 );
+            kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi, kielikoodi_), 4 );
             kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',0));
             kantaOtsikko.lisaa( kantaIter.value().summa(debetistaKoodilla(koodi)) );
             kantaOtsikko.lihavoi();

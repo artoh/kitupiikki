@@ -401,5 +401,84 @@
   },
   "Kirjanpitoaineisto": {
 	"sv": "Bokföringsmaterial"
+  },
+  "Veroton": {
+    "sv": "Skattefri"
+  },
+  "Verollinen myynti (netto)": {
+    "sv": "Skattebelagd försäljning (netto)"
+  },
+  "Verollinen osto (netto)": {
+    "sv": "Skattebelagd inköp (netto)"
+  },
+  "Verollinen myynti (maksuperusteinen alv)": {
+    "sv": "Skattebelagd försäljning (avgiftsbestämd moms)"
+  },
+  "Verollinen osto (maksuperusteinen alv)" : {
+    "sv": "Skattebelagd inköp (avgiftsbestämd moms)"
+  },
+  "Ennakkolasku (myynti)": {
+    "sv": "Förhandsfaktura (försäljning)"
+  },
+  "Verollinen myynti (brutto)": {
+    "sv": "Skattebelagd försäljning (brutto)"
+  },
+  "Verollinen osto (brutto)": {
+    "sv": "Skattebelagd inköp (brutto)"
+  },
+  "Nollaverokannan alainen myynti": {
+    "sv": "Noll skattesats försäljning"
+  },
+  "Voittomarginaalijärjestelmä, myynti": {
+    "sv": "Vinstmarginalsystem, försäljning"
+  },
+  "Voittomarginaalijärjestelmä, osto": {
+    "sv": "Vinstmarginalsystem, inköp"
+  },
+  "Tavaroiden yhteisömyynti": {
+    "sv": "Varuförsäljningar till andra EU-länder"
+  },
+  "Palveluiden yhteisömyynti": {
+    "sv": "Försäljning av tjänster till andra EU-länder"
+  },
+  "Tavaroiden yhteisöhankinnat": {
+    "sv": "Varuinköp från andra EU-länder"
+  },
+  "Palveluiden yhteisöhankinnat": {
+    "sv": "Inköp av tjänster från andra EU-länder"
+  },
+  "Tavaroiden maahantuonti EU:n ulkopuolelta": {
+    "sv": "Import av varor från områden utanför EU"
+  },
+  "Tavaroiden maahantuonti, veron kirjaus": {
+    "sv": "Import av varor, inskriftning av skatt"
+  },
+  "Rakennuspalveluiden myynti": {
+    "sv": "Försäljningar av byggtjänster "
+  },
+  "Rakentamispalveluiden osto": {
+    "sv": "Inköp av byggtjänster"
+  },
+  "Maksettavan arvonlisäveron tilitys": {
+    "sv": "Utförande av merdvärdesskatt"
+  },
+  "Tekninen kirjaus": {
+    "sv": "Teknisk bokföring"
+  },
+  "Vähennyskelvottoman oston veron osuus" : {
+    "sv": "Andel av skatten på icke avdragsgilla köp "
+  },
+  "VERON MÄÄRÄ %1" : {
+    "sv": "BELOPPET AV SKATTEN %1"
+  },
+  "VÄHENNYKSEN MÄÄRÄ %1" : {
+    "sv": "BELOPPET AV AVDRAG %1"
+  },
+  "KOHDENTAMATON MAKSUPERUSTEINEN %1": {
+    "sv": "OFÖRDELADE AVGIFTSBESTÄMD MOMS %1"
+  },
+  "Erittely": {
+    "sv": "Specification"
   }
+
 }

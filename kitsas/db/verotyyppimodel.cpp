@@ -17,6 +17,8 @@
 
 #include "verotyyppimodel.h"
 
+#include "db/kirjanpito.h"
+
 VeroTyyppi::VeroTyyppi(AlvKoodi::Koodi uKoodi, const QString &uSelite, const QString &uKuvake, bool uNollalaji)
     : koodi(uKoodi), selite(uSelite), kuvake( QIcon(uKuvake)), nollalaji(uNollalaji)
 {
@@ -78,28 +80,27 @@ QVariant VerotyyppiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QString VerotyyppiModel::seliteKoodilla(int koodi) const
-{
-    QString alku;
+QString VerotyyppiModel::seliteKoodilla(int koodi, const QString& kieli) const
+{    
 
     foreach (VeroTyyppi tyyppi, tyypit)
     {
         if( tyyppi.koodi == koodi)
-            return alku + tyyppi.selite;
+            return tulkkaa(tyyppi.selite, kieli);
     }
     return QString();
 }
 
-QString VerotyyppiModel::yhdistelmaSeliteKoodilla(int koodi) const
+QString VerotyyppiModel::yhdistelmaSeliteKoodilla(int koodi, const QString& kieli) const
 {
     if( koodi / 100 == 1)
-        return tr("VERON MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100) );
+        return tulkkaa("VERON MÄÄRÄ %1", kieli).arg( seliteKoodilla(koodi % 100, kieli) );
     else if( koodi / 100 == 2)
-        return tr("VÄHENNYKSEN MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100));
+        return tulkkaa("VÄHENNYKSEN MÄÄRÄ %1", kieli).arg( seliteKoodilla(koodi % 100, kieli));
     else if( koodi / 100 == 4)
-        return tr("KOHDENTAMATON MAKSUPERUSTEINEN %1").arg(seliteKoodilla(koodi % 100));
+        return tulkkaa("KOHDENTAMATON MAKSUPERUSTEINEN %1", kieli).arg(seliteKoodilla(koodi % 100, kieli));
     else
-        return seliteKoodilla( koodi );
+        return seliteKoodilla( koodi , kieli);
 }
 
 QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const
