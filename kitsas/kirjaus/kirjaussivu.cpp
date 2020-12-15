@@ -89,7 +89,7 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
 
-        if( QMessageBox::question(this, tr("Kitsas"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        if( QMessageBox::question(this, qApp->applicationName(), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
         }

@@ -162,7 +162,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     // Loppusaldo
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
-                    loppuRivi.lisaa( tr("Loppusaldo %1").arg(mihin_.toString("dd.MM.yyyy")),2);
+                    loppuRivi.lisaa( kaanna("Loppusaldo %1").arg(mihin_.toString("dd.MM.yyyy")),2);
                     loppuRivi.lisaa( qRound64(map.value("saldo").toDouble() * 100.0),true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);

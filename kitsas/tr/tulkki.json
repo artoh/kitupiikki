@@ -479,6 +479,65 @@
   },
   "Erittely": {
     "sv": "Specification"
+  },
+  "Aiempi alijäämä": {
+    "sv": "Tidagare underskott"
+  },
+  "Marginaali": {
+    "sv": "Marginal"
+  },
+  "Alijäämä": {
+    "sv": "Underskott"
+  },
+  "Vero": {
+    "sv": "Skatt"
+  },
+  "TILINPÄÄTÖSJAKSOTUKSET": {
+    "sv": "PERIODINDELNINGAR"
+  },
+  "Jaksotukset yhteensä" : {
+    "sv": "Periodindelningar totalt"
+  },
+  "Verosaamiseksi kirjattava negatiivinen verovelka": {
+    "sv": "Negativ skatteskuld som ska bokföras som skattefordran"
+  },
+  "Tilinavauksen jaksotuskirjaukset": {
+    "sv": "Periodiska poster i kontot öppnande"
+  },
+  "Tilinpäätösjaksotukset": {
+    "sv": "Periodiska poster i bokslutet"
+  },
+  "Suunnitelman mukaiset poistot %1": {
+    "sv": "Avskrivningar enligt plan"
+  },
+  "Tasaeräpoisto %1": {
+    "sv": "Avskrivning med jämna rater %1"
+  },
+  "Menojäännöspoisto %1": {
+    "sv": "Restvärdesavskrivning %1"
+  },
+  "Tili/Pvm": {
+    "sv": "Konto/Datum"
+  },
+  "Nimike/Kohdennus": {
+    "sv": "Position/Konstnandsställe"
+  },
+  "Saldo ennen": {
+    "sv": "Saldo före"
+  },
+  "Sääntö": {
+    "sv": "Regel"
+  },
+  "Poisto": {
+    "sv": "Avskrivning"
+  },
+  "Saldo jälkeen": {
+    "sv": "Saldo efter"
+  },
+  "%1 v": {
+    "sv": "%1 år"
+  },
+  "%1 kpl": {
+    "sv": "%1 st"
   }
-
 }

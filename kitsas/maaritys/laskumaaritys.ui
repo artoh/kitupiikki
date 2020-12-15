@@ -45,10 +45,10 @@
         <item row="0" column="1">
          <widget class="TiliCombo" name="saatavaCombo">
           <property name="Asetus" stdset="0">
-           <string>LaskuSaatavatili</string>
+           <string notr="true">LaskuSaatavatili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string>AO</string>
+           <string notr="true">AO</string>
           </property>
          </widget>
         </item>
@@ -62,10 +62,10 @@
         <item row="1" column="1">
          <widget class="TiliCombo" name="kateistili">
           <property name="Asetus" stdset="0">
-           <string>LaskuKateistili</string>
+           <string notr="true">LaskuKateistili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string>ARK</string>
+           <string notr="true">ARK</string>
           </property>
          </widget>
         </item>
@@ -79,10 +79,10 @@
         <item row="2" column="1">
          <widget class="TiliCombo" name="muistutusTili">
           <property name="Asetus" stdset="0">
-           <string>LaskuMaksumuistutustili</string>
+           <string notr="true">LaskuMaksumuistutustili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string>C</string>
+           <string notr="true">C</string>
           </property>
          </widget>
         </item>
@@ -122,7 +122,7 @@
            <number>999999999</number>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuNumerointialkaa</string>
+           <string notr="true">LaskuNumerointialkaa</string>
           </property>
          </widget>
         </item>
@@ -146,7 +146,7 @@
            <string> vrk</string>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuMaksuaika</string>
+           <string notr="true">LaskuMaksuaika</string>
           </property>
          </widget>
         </item>
@@ -163,7 +163,7 @@
            <string> vrk</string>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuHuomautusaika</string>
+           <string notr="true">LaskuHuomautusaika</string>
           </property>
          </widget>
         </item>
@@ -183,7 +183,7 @@
            <number>1</number>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuPeruskorko</string>
+           <string notr="true">LaskuPeruskorko</string>
           </property>
          </widget>
         </item>
@@ -193,7 +193,7 @@
            <string>Vähimmäismaksuaika</string>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuMaksuaikaVahintaan</string>
+           <string notr="true">LaskuMaksuaikaVahintaan</string>
           </property>
          </widget>
         </item>
@@ -240,7 +240,7 @@
         <item row="1" column="1">
          <widget class="QLineEdit" name="apunimiEdit">
           <property name="Asetus" stdset="0">
-           <string>LaskuAputoiminimi</string>
+           <string notr="true">LaskuAputoiminimi</string>
           </property>
          </widget>
         </item>
@@ -260,7 +260,7 @@
               <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
             </property>
             <property name="Asetus" stdset="0">
-             <string>LaskuTilisiirto</string>
+             <string notr="true">LaskuTilisiirto</string>
             </property>
            </widget>
           </item>
@@ -274,7 +274,7 @@
               <normaloff>:/pic/rf.png</normaloff>:/pic/rf.png</iconset>
             </property>
             <property name="Asetus" stdset="0">
-             <string>LaskuRF</string>
+             <string notr="true">LaskuRF</string>
             </property>
            </widget>
           </item>
@@ -292,7 +292,7 @@
               <normaloff>:/pic/viivakoodi.png</normaloff>:/pic/viivakoodi.png</iconset>
             </property>
             <property name="Asetus" stdset="0">
-             <string>LaskuViivakoodi</string>
+             <string notr="true">LaskuViivakoodi</string>
             </property>
            </widget>
           </item>
@@ -306,7 +306,7 @@
               <normaloff>:/pic/qr.png</normaloff>:/pic/qr.png</iconset>
             </property>
             <property name="Asetus" stdset="0">
-             <string>LaskuQR</string>
+             <string notr="true">LaskuQR</string>
             </property>
            </widget>
           </item>
@@ -320,7 +320,7 @@
    <item>
     <widget class="QGroupBox" name="ikkunaKuori">
      <property name="title">
-      <string>Ikkunakuori</string>
+      <string notr="true">Ikkunakuori</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -359,7 +359,7 @@
            <number>40</number>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuIkkunaY</string>
+           <string notr="true">LaskuIkkunaY</string>
           </property>
          </widget>
         </item>
@@ -386,7 +386,7 @@
            <number>18</number>
           </property>
           <property name="Asetus" stdset="0">
-           <string>LaskuIkkunaX</string>
+           <string notr="true">LaskuIkkunaX</string>
           </property>
          </widget>
         </item>
@@ -423,7 +423,7 @@
             <number>95</number>
            </property>
            <property name="Asetus" stdset="0">
-            <string>LaskuIkkunaLeveys</string>
+            <string notr="true">LaskuIkkunaLeveys</string>
            </property>
           </widget>
          </item>
@@ -449,7 +449,7 @@
             <number>35</number>
            </property>
            <property name="Asetus" stdset="0">
-            <string>LaskuIkkunaKorkeus</string>
+            <string notr="true">LaskuIkkunaKorkeus</string>
            </property>
           </widget>
          </item>

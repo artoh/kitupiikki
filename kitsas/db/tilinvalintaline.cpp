@@ -66,7 +66,7 @@ void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 {
     if( tili.onkoValidi())
     {
-        setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+        setText( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
         setCursorPosition(0);
     }
     else

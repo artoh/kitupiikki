@@ -442,12 +442,12 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
         marginaaliRivi(kaanna("Voittomarginaalimenettely myynti"),kanta,myynti);
         marginaaliRivi(kaanna("Voittomarginaalimenettely ostot"), kanta, ostot);
         if( alijaama )
-            marginaaliRivi(tr("Aiempi alijäämä"), kanta, alijaama);
+            marginaaliRivi(kaanna("Aiempi alijäämä"), kanta, alijaama);
         if( marginaali > 0 || kp()->asetukset()->onko("AlvMatkatoimisto")) {
-            marginaaliRivi(tr("Marginaali"), kanta, marginaali);
-            marginaaliRivi(tr("Vero"),kanta,vero);
+            marginaaliRivi(kaanna("Marginaali"), kanta, marginaali);
+            marginaaliRivi(kaanna("Vero"),kanta,vero);
         } else if( marginaali < 0) {
-            marginaaliRivi(tr("Alijäämä"), kanta, 0-marginaali);
+            marginaaliRivi(kaanna("Alijäämä"), kanta, 0-marginaali);
         }
     }
 

@@ -289,6 +289,8 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
 
 QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
 {
+    if( kieli.isNull())
+        return tulkki_->k(teksti, asetus("kieli"));
     return tulkki_->k(teksti, kieli);
 }
 

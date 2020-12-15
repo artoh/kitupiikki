@@ -58,7 +58,7 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
         Tosite *poistotosite = new Tosite(this);
         poistotosite->asetaPvm( kausi.paattyy() );
         poistotosite->asetaTyyppi( TositeTyyppi::POISTOLASKELMA );
-        poistotosite->asetaOtsikko( tr("Suunnitelman mukaiset poistot %1").arg(kausi.kausivaliTekstina()));
+        poistotosite->asetaOtsikko( tulkkaa("Suunnitelman mukaiset poistot %1").arg(kausi.kausivaliTekstina()));
 
         poistotosite->liitteet()->lisaa( ehdotus.pdf(), "poistolaskelma.pdf", "poistolaskelma");
 
@@ -95,8 +95,8 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
             tulosvienti.setKohdennus( map.value("kohdennus").toInt());
 
             QString selite = map.contains("eraid") ?
-                        tr("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
-                      : tr("Menojäännöspoisto %1").arg(tili->nimiNumero());
+                        tulkkaa("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
+                      : tulkkaa("Menojäännöspoisto %1").arg(tili->nimiNumero());
 
             if( map.contains("eraid"))
                 tasevienti.setEra(map.value("eraid").toInt());
@@ -133,12 +133,12 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
     kirjoittaja.lisaaEurosarake();
 
     RaporttiRivi otsikko;
-    otsikko.lisaa("Tili/Pvm");
-    otsikko.lisaa("Nimike/Kohdennus");
-    otsikko.lisaa("Saldo ennen",1, true);
-    otsikko.lisaa("Sääntö", 1, true);
-    otsikko.lisaa("Poisto",1,true);
-    otsikko.lisaa("Saldo jälkeen",1,true);
+    otsikko.lisaa(tulkkaa("Tili/Pvm"));
+    otsikko.lisaa(tulkkaa("Nimike/Kohdennus"));
+    otsikko.lisaa(tulkkaa("Saldo ennen"),1, true);
+    otsikko.lisaa(tulkkaa("Sääntö"), 1, true);
+    otsikko.lisaa(tulkkaa("Poisto"),1,true);
+    otsikko.lisaa(tulkkaa("Saldo jälkeen"),1,true);
     kirjoittaja.lisaaOtsake(otsikko);
 
     int edellinentili = 0;
@@ -166,7 +166,7 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
             rr.lisaa( map.value("pvm").toDate());
             rr.lisaa( map.value("nimike").toString() );
             rr.lisaa( map.value("ennen").toDouble() );
-            rr.lisaa( QString("%1 v").arg(map.value("poistoaika").toInt() / 12));
+            rr.lisaa( tulkkaa("%1 v").arg(map.value("poistoaika").toInt() / 12));
             rr.lisaa( map.value("poisto").toDouble());
             rr.lisaa( map.value("ennen").toDouble() - map.value("poisto").toDouble());
             kirjoittaja.lisaaRivi(rr);
