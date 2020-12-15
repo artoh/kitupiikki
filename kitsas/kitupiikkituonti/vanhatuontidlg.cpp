@@ -741,6 +741,17 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
+
+            if( debetsnt < 0) {
+                kreditsnt -= debetsnt;
+                debetsnt = 0;
+            }
+
+            if( kreditsnt < 0) {
+                debetsnt -= kreditsnt;
+                kreditsnt = 0;
+            }
+
             if( debetsnt > kreditsnt)
                 vienti.setDebet(debetsnt - kreditsnt);
             else if( kreditsnt)
