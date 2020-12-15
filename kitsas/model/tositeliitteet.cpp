@@ -315,8 +315,9 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     meta.insert("Content-type", tyyppi);
     liitekysely->lahetaTiedosto(liite, meta);
 
-    if(  kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&
-            liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") &&
+    if(  kp()->pilvi()->tilausvoimassa() &&
+            (liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") ||
+            (liite.startsWith("<SOAP-ENV:"))) &&
             liite.contains("<Finvoice")) {
         liitaFinvoice(liite);
     }

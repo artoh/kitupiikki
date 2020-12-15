@@ -183,6 +183,7 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
 
     if( map.contains("alvtunnus")) {
         tauluun(map);
+        accept();
         return;
     }
     else {

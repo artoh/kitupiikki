@@ -132,7 +132,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
         ui->laskuPvm->setDate( lasku.value("pvm").toDate() );
         ui->erapaivaEdit->setDate( lasku.value("erapvm").toDate());
         ui->viiteEdit->setText( lasku.value("viite").toString());
-        ui->laskunnumeroLabel->setText( lasku.value("numero").toString());
+        ui->laskuNumeroEdit->setText( lasku.value("numero").toString());
 
         QVariantList alvit = map.value("alv").toList();
         for(int i=0; i < alvit.count(); i++) {

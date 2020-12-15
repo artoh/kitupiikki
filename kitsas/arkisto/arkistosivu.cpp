@@ -278,8 +278,9 @@ void ArkistoSivu::muokkaa()
 
     // Saa poistaa vain, ellei yhtään kirjausta
     dlgUi.poistaRadio->setEnabled( viimepaiva.isNull() && kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
-    dlgUi.paattyyRadio->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
-    dlgUi.peruLukko->setEnabled( kp()->tilitpaatetty() >= kausi.alkaa() );
+    dlgUi.paattyyRadio->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() &&
+                                    kp()->tilitpaatetty() < kausi.alkaa() );
+    dlgUi.peruLukko->setEnabled( kp()->tilitpaatetty() == kausi.paattyy() );
     dlgUi.peruLukko->setChecked( kausi.paattyy() != kp()->tilikaudet()->kirjanpitoLoppuu() );
 
     if( !viimepaiva.isValid() )

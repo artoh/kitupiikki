@@ -50,6 +50,9 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
 
     QVariantMap kumppani = resultMap(kysely);
+    if(kumppani.isEmpty())
+        return QVariantMap();
+
     int kumppaniid = kumppani.value("id").toInt();
 
     // Tilit
