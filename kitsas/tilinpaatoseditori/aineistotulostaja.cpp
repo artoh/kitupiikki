@@ -88,7 +88,7 @@ void AineistoTulostaja::tallennaAineisto(Tilikausi kausi, const QString &kieli)
 
 void AineistoTulostaja::tulostaRaportit()
 {
-    TilinpaatosTulostaja::tulostaKansilehti( painter, tulkkaa("Kirjanpitoaineisto", kieli_), tilikausi_);
+    TilinpaatosTulostaja::tulostaKansilehti( painter, tulkkaa("Kirjanpitoaineisto", kieli_), tilikausi_, kieli_);
 
     sivu_ = 2;
 
@@ -137,7 +137,7 @@ void AineistoTulostaja::tilaaRaportit()
 {
     tilattuja_ = 9;
     kirjoittajat_.resize(tilattuja_);
-    QString kieli = "fi";
+    QString kieli = kieli_;
 
 
     Raportoija* tase = new Raportoija("tase/yleinen", kieli, this, Raportoija::TASE);
@@ -150,17 +150,17 @@ void AineistoTulostaja::tilaaRaportit()
     connect(tulos, &Raportoija::valmis, [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(1, rk);});
     tulos->kirjoita(true);
 
-    TaseErittelija *erittely = new TaseErittelija(this);
+    TaseErittelija *erittely = new TaseErittelija(this, kieli);
     connect( erittely, &TaseErittelija::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(2, rk);});
     erittely->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
 
-    Paivakirja *paivakirja = new Paivakirja(this);
+    Paivakirja *paivakirja = new Paivakirja(this, kieli);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(3, rk);});
     paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(), Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
-    Paakirja *paakirja = new Paakirja(this);
+    Paakirja *paakirja = new Paakirja(this, kieli);
     connect( paakirja, &Paakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(4, rk);});
     paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(), Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
@@ -168,20 +168,20 @@ void AineistoTulostaja::tilaaRaportit()
     TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
     connect( tililuettelo, &TiliKarttaListaaja::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(5, rk);});
-    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, false, tilikausi_.paattyy(), false);
+    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_, true, false, tilikausi_.paattyy(), false, kieli);
 
-    LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
+    LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this, kieli);
     connect( myyntilaskut, &LaskuRaportteri::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(6, rk);});
     myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
 
-    LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
+    LaskuRaportteri* ostolaskut = new LaskuRaportteri(this, kieli);
     connect( ostolaskut, &LaskuRaportteri::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(7,rk);});
     ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
 
 
-    TositeLuettelo* luettelo = new TositeLuettelo(this);
+    TositeLuettelo* luettelo = new TositeLuettelo(this, kieli);
     connect( luettelo, &TositeLuettelo::valmis,
              [this] (RaportinKirjoittaja rk) { this->raporttiSaapuu(8, rk);});
     luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),

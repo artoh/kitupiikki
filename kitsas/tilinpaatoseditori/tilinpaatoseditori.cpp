@@ -144,8 +144,8 @@ void TilinpaatosEditori::uusiTp()
         else if( rivi.startsWith('@') && tulosta)
         {
             // Näillä tulostetaan erityisiä kenttiä
-            if( rivi == "@henkilosto@")
-                teksti.append( henkilostotaulukko());
+            if( rivi.startsWith("@henkilosto@"))
+                teksti.append( henkilostotaulukko(rivi.mid(12)));
             else if( rivi == "@tulos@")
                 teksti.append( QString(" %L1 € ").arg( tilikausi_.tulos() ) );
             else
@@ -218,7 +218,7 @@ void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 
 }
 
-QString TilinpaatosEditori::henkilostotaulukko()
+QString TilinpaatosEditori::henkilostotaulukko(const QString &teksti)
 {
     Tilikausi verrokki;
     if( kp()->tilikaudet()->indeksiPaivalle( tilikausi_.paattyy()))
@@ -228,7 +228,7 @@ QString TilinpaatosEditori::henkilostotaulukko()
     if( verrokki.alkaa().isValid() )
         txt.append( QString("<td align=center>%1</td>").arg(verrokki.kausivaliTekstina()) );
 
-    txt.append(tr("</tr><tr><td>Henkilöstöä keskimäärin</td><td align=center>%1</td>").arg( kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.paattyy() ).henkilosto()));
+    txt.append(tr("</tr><tr><td>%1</td><td align=center>%2</td>").arg(teksti).arg( kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.paattyy() ).henkilosto()));
     if( verrokki.alkaa().isValid())
         txt.append( QString("<td align=center>%1</td>").arg(verrokki.henkilosto()));
     txt.append("</tr></table>");

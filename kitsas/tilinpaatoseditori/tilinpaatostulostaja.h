@@ -43,7 +43,7 @@ public:
     virtual void tulosta(QPagedPaintDevice *writer) const override;
     virtual QString otsikko() const override;
 
-    static void tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi);
+    static void tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli);
 
 signals:
     void tallennettu();

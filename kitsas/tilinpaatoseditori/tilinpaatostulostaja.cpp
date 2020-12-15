@@ -71,7 +71,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
     QPainter painter( writer );
 
-    tulostaKansilehti( &painter, "Tilinpäätös", tilikausi_);
+    tulostaKansilehti( &painter, tulkkaa("Tilinpäätös", kieli_) , tilikausi_, kieli_);
     int sivulla = 1;
 
     // Raportit
@@ -85,7 +85,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     painter.setFont( QFont("FreeSans",10));
     int rivinkorkeus = painter.fontMetrics().height();
     RaportinKirjoittaja kirjoittaja;
-    kirjoittaja.asetaOtsikko("TILINPÄÄTÖS");
+    kirjoittaja.asetaOtsikko(tulkkaa("Tilinpäätös", kieli_).toUpper() );
     kirjoittaja.asetaKausiteksti( tilikausi_.kausivaliTekstina());
 
     QTextDocument doc;
@@ -120,7 +120,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 
 QString TilinpaatosTulostaja::otsikko() const
 {
-    return tr("Tilinpäätös %1").arg(tilikausi_.kausivaliTekstina());
+    return QString("%1 %2").arg(tulkkaa("Tilinpäätös", kieli_)).arg(tilikausi_.kausivaliTekstina());
 }
 
 void TilinpaatosTulostaja::tilaaRaportit()
@@ -132,7 +132,7 @@ void TilinpaatosTulostaja::tilaaRaportit()
 }
 
 
-void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi)
+void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli)
 {
 
     painter->save();
@@ -167,8 +167,10 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
     QString omaOsoite = kp()->asetus("Katuosoite") + "\n" +
             kp()->asetus("Postinumero") + " " + kp()->asetus("Kaupunki");
     painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, omaOsoite);
-    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, Kirjanpito::tr("Y-tunnus: %1").arg(kp()->asetukset()->asetus("Ytunnus")));
-    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, Kirjanpito::tr("Kotipaikka: %1").arg(kp()->asetukset()->asetus("Kotipaikka")));
+    if( !kp()->asetus("Ytunnus").isEmpty())
+        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Y-tunnus", kieli)).arg(kp()->asetukset()->asetus("Ytunnus")));
+    if( !kp()->asetus("Kotipaikka").isEmpty())
+        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Kotipaikka", kieli)).arg(kp()->asetukset()->asetus("Kotipaikka")));
 
 
     painter->restore();

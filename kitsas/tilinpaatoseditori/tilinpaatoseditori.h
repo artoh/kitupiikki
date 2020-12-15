@@ -75,7 +75,7 @@ protected:
      * @brief Taulukko, jossa tämän ja edellisen tilikauden henkilöstömäärä
      * @return
      */
-    QString henkilostotaulukko();
+    QString henkilostotaulukko(const QString& teksti);
 
 
 protected:

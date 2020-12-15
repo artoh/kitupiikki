@@ -259,7 +259,7 @@ void TpAloitus::talleta()
     tilikausi.set("henkilosto", ui->henkilostoSpin->value());
     tilikausi.tallenna();
 
-    kp()->asetukset()->aseta("kpkieli", ui->kieliCombo->currentData().toString());
+    kp()->asetukset()->aseta("tpkieli", ui->kieliCombo->currentData().toString());
 
     QStringList valitut;
     for(int i=0; i < model->rowCount(QModelIndex()); i++)

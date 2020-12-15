@@ -392,6 +392,14 @@
   },
   "Arvonlisävero %1 - %2": {
     "sv": "Medvärdesskatt %1 - %2"
+  },
+  "Tilinpäätös": {
+	"sv": "Bokslut"
+  },
+  "Y-tunnus": {
+	"sv": "FO-nummer"
+  },
+  "Kirjanpitoaineisto": {
+	"sv": "Bokföringsmaterial"
   }
-
 }
