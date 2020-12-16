@@ -123,19 +123,27 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                     RaporttiRivi nimirivi;
                     QVariantMap eramap = map.value("era").toMap();
-                    lisaaTositeTunnus( &nimirivi, eramap);
-                    nimirivi.lisaa( eramap.value("vientipvm").toDate() );
-                    nimirivi.lisaa( eramap.value("selite").toString(), 2);
-                    nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
+                    if( eramap.isEmpty()) {
+                        nimirivi.lisaa("",2);
+                        nimirivi.lisaa(kaanna("Erittelemättömät"),3);
+                    } else {
+                        lisaaTositeTunnus( &nimirivi, eramap);
+                        nimirivi.lisaa( eramap.value("vientipvm").toDate() );
+                        nimirivi.lisaa( eramap.value("selite").toString(), 2);
+                        nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
+                    }
                     rk.lisaaRivi(nimirivi);
 
-                    if( eramap.value("pvm").toDate() < mista_ && map.value("ennen") != eramap.value("eur") ) {
-                        RaporttiRivi poistettuRivi;
-                        poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")),2);
-                        poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
-                                             qRound64( eramap.value("eur").toDouble() * 100), true);
-                        rk.lisaaRivi(poistettuRivi);
+                    if( (eramap.isEmpty() || eramap.value("pvm").toDate() < mista_ ) && qAbs( map.value("ennen").toDouble() - eramap.value("eur").toDouble()) > 1e-5 &&
+                        qAbs(map.value("ennen").toDouble()) > 1e-5) {
+                        if( !eramap.isEmpty()) {
+                            RaporttiRivi poistettuRivi;
+                            poistettuRivi.lisaa(" ",2);
+                            poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")),2);
+                            poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
+                                                 qRound64( eramap.value("eur").toDouble() * 100), true);
+                            rk.lisaaRivi(poistettuRivi);
+                        }
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
@@ -154,8 +162,12 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         QString kumppani = mmap.value("kumppani").toString();
                         QString selite = mmap.value("selite").toString();
 
-                        rr.lisaa( kumppani);
-                        rr.lisaa( selite == kumppani ? "" : selite);
+                        if(kumppani.isEmpty() || selite == kumppani) {
+                            rr.lisaa(selite, 2);
+                        } else {
+                            rr.lisaa( kumppani);
+                            rr.lisaa( selite);
+                        }
                         rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                         rk.lisaaRivi(rr);
                     }

@@ -189,6 +189,56 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 emap.insert("saldo", ( alkusaldo + muutosyht) / 100.0);
                 erat.append(emap);
             }
+
+            // Vielä erittelemättömät tase-erät, ennen tilikautta
+            erakysely.exec(QString("select sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk "
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                   "WHERE Vienti.tili=%1 AND Vienti.eraid IS NULL "
+                                   "AND Vienti.pvm < '%2' AND Tosite.tila >= 100")
+                           .arg( tili->numero() ).arg(mista.toString(Qt::ISODate)));
+            qlonglong erittelematonAlku = 0;
+            qlonglong erittelematonKausi = 0;
+            QVariantList erittelematonKaudella;
+
+            if( erakysely.next()) {
+                erittelematonAlku = tili->onko(TiliLaji::VASTAAVAA) ?
+                            erakysely.value(0).toLongLong() - erakysely.value(1).toLongLong() :
+                            erakysely.value(1).toLongLong() - erakysely.value(0).toLongLong() ;
+            }
+            erakysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, "
+                                   "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm, Kumppani.nimi AS kumppani "
+                                   "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                   "LEFT OUTER JOIN Kumppani ON Vienti.kumppani = Kumppani.id "
+                                   "WHERE Vienti.tili=%1 AND Vienti.eraid IS NULL "
+                                   "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
+                           .arg( tili->numero())
+                           .arg(mista.toString(Qt::ISODate))
+                           .arg(pvm.toString(Qt::ISODate)));
+
+            while(erakysely.next()) {
+                QVariantMap map;
+                qlonglong summa = tili->onko(TiliLaji::VASTAAVAA) ?
+                            erakysely.value(0).toLongLong() - erakysely.value(1).toLongLong() :
+                            erakysely.value(1).toLongLong() - erakysely.value(0).toLongLong() ;
+                map.insert("pvm", erakysely.value(3).toDate());
+                map.insert("sarja", erakysely.value(4));
+                map.insert("tunniste", erakysely.value(5));
+                map.insert("id", erakysely.value(6).toInt());
+                map.insert("vientipvm", erakysely.value(7).toDate());
+                map.insert("selite", erakysely.value(2).toString());
+                map.insert("eur", summa / 100.0);
+                map.insert("kumppani", erakysely.value("kumppani"));
+                erittelematonKausi += summa;
+                erittelematonKaudella.append(map);
+            }
+            if( erittelematonAlku || erittelematonKausi) {
+                QVariantMap emap;
+                emap.insert("ennen", erittelematonAlku / 100.0);
+                emap.insert("kausi", erittelematonKaudella);
+                emap.insert("saldo", ( erittelematonAlku + erittelematonKausi) / 100.0);
+                erat.append(emap);
+            }
+
             ulos.insert( QString("%1T").arg(tili->numero()), erat);
 
 
