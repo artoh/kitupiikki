@@ -154,12 +154,14 @@ void TiedotSivu::yTietoSaapuu()
         break;
     }
 
-    QVariantList paikat = tieto.value("registeredOffices").toList();
+    QVariantList paikat = tieto.value("registedOffices").toList();
     for( auto item : paikat) {
         QVariantMap paikka = item.toMap();
-        if( paikka.value("endDate").toDate().isValid())
+        if( paikka.value("endDate").toDate().isValid() )
             continue;
-        ui->kotipaikkaEdit->setText( paikka.value("name").toString() );
+        // Tähän voidaan myöhemmin tehdä täsmääminen kielivalinnan kanssa ;)
+        QString kotipaikka = paikka.value("name").toString();
+        ui->kotipaikkaEdit->setText( kotipaikka.toUpper().left(1) + kotipaikka.toLower().mid(1) );
     }
 
 }
