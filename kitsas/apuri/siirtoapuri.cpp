@@ -127,10 +127,16 @@ void SiirtoApuri::teeReset()
         ui->tililleEdit->valitseTiliNumerolla( debetMap.value("tili").toInt() );
         ui->euroEdit->setValue( debetMap.value("debet").toDouble() );
         ui->tililtaEdit->valitseTiliNumerolla( kreditMap.value("tili").toInt() );
-        ui->tililleEraCombo->valitse( debetMap.value("id").toInt() );
+
+        int tililleEra = debetMap.value("era").toMap().value("id").toInt();
+        ui->tililleEraCombo->valitse(tililleEra);
+
+        int tililtaEra = kreditMap.value("era").toMap().value("id").toInt();
+        ui->tililtaEraCombo->valitse(tililtaEra);
+
         debetKumppani_ = debetMap.value("kumppani").toMap().value("id").toInt();
-        ui->tililtaEraCombo->valitse( kreditMap.value("era").toMap().value("id").toInt() );
         kreditKumppani_ = kreditMap.value("kumppani").toMap().value("id").toInt();
+
         ui->tililleKohdennusCombo->valitseKohdennus( debetMap.value("kohdennus").toInt());
         ui->tililtaKohdennusCombo->valitseKohdennus( kreditMap.value("kohdennus").toInt());
         ui->tililleMerkkausCC->setSelectedItems( debetMap.value("merkkaukset").toList());
