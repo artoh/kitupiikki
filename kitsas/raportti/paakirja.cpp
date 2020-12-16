@@ -144,6 +144,7 @@ void Paakirja::kirjoitaDatasta()
     while( iter.hasNext()) {
         iter.next();
 
+
         Tili tili = kp()->tilit()->tiliNumerolla(iter.key());
         if( tili.onkoValidi())
         {
@@ -158,6 +159,11 @@ void Paakirja::kirjoitaDatasta()
             if( optiot_ & AsiakasToimittaja)
                 rivi.lisaa("");
             qlonglong saldo =  saldot_.value( tili.numero() );
+
+            // #827 Ei näytä tyhjää otsikkoriviä esimerkiksi tilikauden tulokselle
+            if( iter.value().isEmpty() && !saldo)
+                continue;
+
             rivi.lisaa( saldo );
             rk.lisaaRivi(rivi);
 
