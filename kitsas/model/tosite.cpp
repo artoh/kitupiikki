@@ -439,7 +439,7 @@ QVariantMap Tosite::tallennettava() const
         for(int i=1; i < viennit_->rowCount(); i++) {
             QString tamanKumppani = viennit_->vienti(i).kumppaniNimi();
             int tamanKumppaniId = viennit_->vienti(i).kumppaniId();
-            if( (!tamanKumppani.isEmpty() && tamanKumppani != knimi) ||
+            if( ((!tamanKumppani.isEmpty() || tyyppi() == TositeTyyppi::TILIOTE  ) && tamanKumppani != knimi) ||
                 (tamanKumppaniId && tamanKumppaniId != kid))
             {                
                 knimi.clear();
