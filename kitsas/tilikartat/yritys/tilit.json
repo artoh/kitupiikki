@@ -1723,7 +1723,7 @@
         "tyyppi": "AO",
         "nimi": {
             "fi": "Siirtyvät myyntisaamiset/selvittelytili",
-            "sv": "Siirtyvät försäljningsfordringar/avräkningskonto"
+            "sv": "Transitoriska försäljningsfordringar/avräkningskonto"
         },
         "erittely": 2,
         "laajuus": 3
@@ -3563,7 +3563,7 @@
         "tyyppi": "B",
         "nimi": {
             "fi": "Muut pitkäaikaiset joukkovelkakirjalainat",
-            "en": "Övriga långfristiga masskuldebrevslån"
+            "sv": "Övriga långfristiga masskuldebrevslån"
         },
         "erittely": 3,
         "laajuus": 6
@@ -8828,7 +8828,7 @@
         "tyyppi": "D",
         "nimi": {
             "fi": "Patentit, mallisuoja ja tavaramerkit",
-            "sv": "Patentit, mönsterskydd och varumärken"
+            "sv": "Patent, mönsterskydd och varumärken"
         },
         "alvlaji": 21,
         "alvprosentti": 24,
