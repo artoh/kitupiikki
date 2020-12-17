@@ -333,6 +333,9 @@ osoite</string>
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
              </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
           </layout>
@@ -385,6 +388,9 @@ osoite</string>
                <property name="shortcut">
                 <string>Ctrl+R</string>
                </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -395,6 +401,9 @@ osoite</string>
                <property name="icon">
                 <iconset resource="../pic/pic.qrc">
                  <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -570,6 +579,9 @@ osoite</string>
        <property name="shortcut">
         <string>F1</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -586,6 +598,9 @@ osoite</string>
        </property>
        <property name="shortcut">
         <string>Ctrl+S</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -606,6 +621,9 @@ osoite</string>
        </property>
        <property name="shortcut">
         <string>F11</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
        </property>
        <property name="default">
         <bool>false</bool>
@@ -650,6 +668,9 @@ osoite</string>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -707,6 +728,9 @@ osoite</string>
        <property name="shortcut">
         <string>F12</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -720,6 +744,9 @@ osoite</string>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

@@ -92,6 +92,8 @@ void RaportinMuokkaus::muokkaaNimikkeet()
     nimi_.alustaListWidget(ui.nimiView);
     muoto_.alustaListWidget(ui.muotoView);
 
+    connect( ui.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/raportit/"); });
+
     if( dlg.exec() == QDialog::Accepted) {
         nimi_.lataa(ui.nimiView);
         muoto_.lataa(ui.muotoView);
@@ -131,6 +133,7 @@ void RaportinMuokkaus::kopioiRaportti()
     muoto_.tyhjenna();
 
     kp()->asetukset()->aseta(uusiTunnus, data());
+    nollaa();
     ui->raporttiCombo->setCurrentText(uusiTunnus);
     muokkaaNimikkeet();
 }
