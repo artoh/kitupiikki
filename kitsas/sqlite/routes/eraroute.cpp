@@ -245,20 +245,6 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
         } else if( erittelytapa == Tili::TASEERITTELY_LISTA) {
             QSqlQuery apukysely( db() );
             QVariantList erat;
-            apukysely.exec(QString("SELECT sum(Vienti.debetsnt) as sd, SUM(Vienti.kreditsnt) as sk FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
-                           "WHERE Vienti.tili=%1 AND Vienti.eraid IS NULL AND Vienti.pvm < '%2' AND Tosite.tila >= 100")
-                           .arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));
-            if( apukysely.next()) {
-                qlonglong summa = tili->onko(TiliLaji::VASTAAVAA) ?
-                            apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong() :
-                            apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() ;
-                if( summa ) {
-                    QVariantMap erittelematon;
-                    erittelematon.insert("eur", summa/100.0);
-                    erat.append(erittelematon);
-                }
-            }
-
 
             apukysely.exec(QString("select vienti.eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite, tosite.pvm, "
                                    "tosite.sarja, tosite.tunniste, Vienti.pvm, Kumppani.nimi AS Kumppani "
@@ -285,7 +271,22 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 era.insert("eur", summa / 100.0);
                 erat.append(era);
             }
-            QVariantMap emap;
+
+            // Erittelemättömät loppuun
+            apukysely.exec(QString("SELECT sum(Vienti.debetsnt) as sd, SUM(Vienti.kreditsnt) as sk FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                           "WHERE Vienti.tili=%1 AND Vienti.eraid IS NULL AND Vienti.pvm < '%2' AND Tosite.tila >= 100")
+                           .arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));
+            if( apukysely.next()) {
+                qlonglong summa = tili->onko(TiliLaji::VASTAAVAA) ?
+                            apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong() :
+                            apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() ;
+                if( summa ) {
+                    QVariantMap erittelematon;
+                    erittelematon.insert("eur", summa/100.0);
+                    erat.append(erittelematon);
+                }
+            }
+
             ulos.insert(QString("%1E").arg(tili->numero()), erat);
 
         } else if( erittelytapa == Tili::TASEERITTELY_MUUTOKSET) {

@@ -223,7 +223,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                     if( emap.contains("id")) {
                         lisaaTositeTunnus(&rr, emap);
-                        rr.lisaa( emap.value("pvm").toDate());
+                        rr.lisaa( emap.value("vientipvm").toDate());
 
                         QString kumppani = emap.value("kumppani").toString();
                         QString selite = emap.value("selite").toString();

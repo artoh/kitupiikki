@@ -372,6 +372,9 @@ osoite</string>
              </item>
              <item>
               <widget class="QPushButton" name="lisaaRiviNappi">
+               <property name="toolTip">
+                <string>Lisää uusi rivi   Ctrl+R</string>
+               </property>
                <property name="text">
                 <string>Lisää rivi</string>
                </property>
@@ -571,6 +574,9 @@ osoite</string>
      </item>
      <item>
       <widget class="QPushButton" name="luonnosNappi">
+       <property name="toolTip">
+        <string>Tallenna luonnos   Ctrl+S</string>
+       </property>
        <property name="text">
         <string>Tallenna luonnoksena</string>
        </property>
@@ -589,7 +595,7 @@ osoite</string>
         <bool>false</bool>
        </property>
        <property name="toolTip">
-        <string>Tallenna lasku   F10</string>
+        <string>Tallenna lasku   F11</string>
        </property>
        <property name="text">
         <string>T&amp;allenna valmiina</string>
@@ -609,7 +615,7 @@ osoite</string>
      <item>
       <widget class="QPushButton" name="esikatseluNappi">
        <property name="toolTip">
-        <string>Näytä lasku  F10</string>
+        <string>Näytä lasku  F5</string>
        </property>
        <property name="text">
         <string>Nä&amp;ytä</string>
@@ -685,6 +691,9 @@ osoite</string>
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="toolTip">
+        <string>Tallenna ja toimita   F12</string>
+       </property>
        <property name="toolTipDuration">
         <number>0</number>
        </property>
@@ -702,6 +711,9 @@ osoite</string>
      </item>
      <item>
       <widget class="QPushButton" name="peruNappi">
+       <property name="toolTip">
+        <string>Poistu tallentamatta</string>
+       </property>
        <property name="text">
         <string>Peru</string>
        </property>
@@ -722,15 +734,15 @@ osoite</string>
    <header location="global">tools/kpdateedit.h</header>
   </customwidget>
   <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>AsiakasToimittajaValinta</class>
    <extends>QWidget</extends>
    <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KpEuroEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

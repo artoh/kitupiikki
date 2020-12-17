@@ -131,7 +131,7 @@
          <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="toolTip">
-            <string>Lisää uusi vienti F11</string>
+            <string>Lisää uusi vientirivi F11</string>
            </property>
            <property name="text">
             <string>Lisää rivi</string>
@@ -147,6 +147,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="lisaaVientiNappi">
+           <property name="toolTip">
+            <string>Lisää vienti valintataululla</string>
+           </property>
            <property name="text">
             <string>Lisää vienti</string>
            </property>
@@ -539,6 +542,9 @@
       <widget class="QPushButton" name="valmisNappi">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Tallenna valmiina    F12</string>
        </property>
        <property name="text">
         <string>Valmis</string>
