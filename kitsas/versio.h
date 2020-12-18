@@ -25,9 +25,9 @@
 */
 
 #define KITSAS_VERSIO "2.2-beta"
-#define KITSAS_BUILD  "G"
+#define KITSAS_BUILD  "H"
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
+// #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
 
 #define KITSAS_API "https://pilvi.kitsas.fi/api"
