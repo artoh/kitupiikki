@@ -191,11 +191,13 @@ void TpAloitus::lataa()
                 QString avain = emats.captured("avain");
                 QString ehtolause = emats.captured("arvo");
 
-                ehtotulosta =  kp()->asetukset()->asetus(avain).contains(QRegularExpression(ehtolause));
+                ehtotulosta =  kp()->asetukset()->asetus(avain).contains(QRegularExpression(ehtolause));                
             }
             else
                 // Jos ?-alkava rivi ei kelpo, niin tulostaa joka tapauksessa
                 ehtotulosta = true;
+
+            continue;
         }
         if( !ehtotulosta)
             continue;

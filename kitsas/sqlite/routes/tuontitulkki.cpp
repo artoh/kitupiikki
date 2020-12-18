@@ -208,7 +208,8 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
         while( kysely.next()) {
             // Jos erä on jo maksettu, ei se kelpaa
            apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
-           if( apukysely.next() && apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() < qRound64(rivi.value("euro").toDouble() * 100) )
+           if( apukysely.next() &&  (apukysely.value(1).toLongLong() != qRound64(rivi.value("euro").toDouble() * -100) ||
+                   apukysely.value(0).toLongLong() != 0l ))
                continue;
 
            QVariantMap eramap;
@@ -240,7 +241,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
 
         while( kysely.next()) {
             apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
-            if( apukysely.next() && apukysely.value(1).toLongLong() == qRound64(rivi.value("euro").toDouble() * 100) &&
+            if( apukysely.next() && apukysely.value(1).toLongLong() == qRound64(rivi.value("euro").toDouble() * -100) &&
                     apukysely.value(0).toLongLong() == 0l) {
                 if(!tili) {
                     era.insert("id", kysely.value(0));
