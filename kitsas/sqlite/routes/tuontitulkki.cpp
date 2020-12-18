@@ -193,6 +193,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
     else if( rivi.value("ktokoodi").toInt() == 740)
         rivi.insert("tili", kp()->asetukset()->luku("PankkiMaksettavakorko"));
     else if( kumppani.first){
+        QSqlQuery apukysely( db() );
 
         // 1) Viitemaksun etsiminen
         QSqlQuery kysely( db() );
@@ -200,11 +201,16 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
         kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.selite, Tosite.pvm, Tosite.tunniste, Tosite.sarja FROM Vienti "
                              "JOIN Tosite ON Vienti.tosite=Tosite.id "
                              "WHERE Vienti.tyyppi=%1 AND "
-                             "Tosite.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100")
+                             "Tosite.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
                      .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
                      .arg(rivi.value("viite").toString())
                      .arg(kumppani.first));
-        if( kysely.next()) {
+        while( kysely.next()) {
+            // Jos erä on jo maksettu, ei se kelpaa
+           apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
+           if( apukysely.next() && apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() < qRound64(rivi.value("euro").toDouble() * 100) )
+               continue;
+
            QVariantMap eramap;
            eramap.insert("id", kysely.value(0));
            eramap.insert("pvm", kysely.value(3));
@@ -216,7 +222,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
            return;
         }
         // 2) Viitteettömän erän etsiminen
-        QSqlQuery apukysely( db() );
+
         int tili = 0;
         QDate pvm;
         QVariantMap era;
