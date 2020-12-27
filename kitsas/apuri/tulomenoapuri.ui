@@ -101,7 +101,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="erapaivaLabel">
          <property name="text">
-          <string>E&amp;räpäivä</string>
+          <string>&amp;Eräpäivä</string>
          </property>
          <property name="buddy">
           <cstring>erapaivaEdit</cstring>
@@ -114,7 +114,7 @@
        <item row="6" column="0">
         <widget class="QLabel" name="viiteLabel">
          <property name="text">
-          <string>&amp;Viite</string>
+          <string>Viite</string>
          </property>
          <property name="buddy">
           <cstring>viiteEdit</cstring>
@@ -140,7 +140,7 @@
        <item row="8" column="0">
         <widget class="QLabel" name="eraLabel">
          <property name="text">
-          <string>Tase-erä</string>
+          <string>Tase&amp;-erä</string>
          </property>
          <property name="buddy">
           <cstring>eraCombo</cstring>
@@ -194,7 +194,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="maaraLabel">
          <property name="text">
-          <string>Mää&amp;rä</string>
+          <string>M&amp;äärä</string>
          </property>
          <property name="buddy">
           <cstring>maaraEdit</cstring>
@@ -338,7 +338,7 @@
        <item row="9" column="0">
         <widget class="QLabel" name="seliteLabel">
          <property name="text">
-          <string>&amp;R&amp;iviselite</string>
+          <string>R&amp;iviselite</string>
          </property>
          <property name="buddy">
           <cstring>seliteEdit</cstring>
@@ -383,8 +383,11 @@
          <property name="focusPolicy">
           <enum>Qt::TabFocus</enum>
          </property>
+         <property name="toolTip">
+          <string>Lisää rivin   Ins</string>
+         </property>
          <property name="text">
-          <string>Lisää &amp;rivi</string>
+          <string>Lisää rivi</string>
          </property>
          <property name="icon">
           <iconset resource="../pic/pic.qrc">

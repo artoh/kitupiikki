@@ -57,8 +57,9 @@ void KumppaniValintaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel
               ?  combo->currentData(IdRooli).toInt()
               : 0;
 
+    QVariantMap kumppaniMap;
+    if(id) kumppaniMap.insert("id", id);
+    kumppaniMap.insert("nimi", text);
 
-
-    model->setData(index, id, IdRooli);
-    model->setData(index, text, NimiRooli);
+    model->setData(index, kumppaniMap, Qt::EditRole);
 }

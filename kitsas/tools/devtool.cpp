@@ -42,8 +42,6 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->kyselyLine, &QLineEdit::returnPressed, this, &DevTool::kysely);
 
     ui->avainLista->setCurrentRow(0);
-    ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());
-
 
     alustaRistinolla();
 

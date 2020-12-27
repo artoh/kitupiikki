@@ -30,7 +30,7 @@
    <item>
     <widget class="QLabel" name="eraLabel">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Merkitse tilillä olevat erä avaavasta taseesta&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Merkitse tilillä olevat erät avaavasta taseesta</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -40,7 +40,7 @@
    <item>
     <widget class="QLabel" name="kohdennusOhje">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Merkitse edellisen tilikauden tulos eri kohdennuksille jaoteltuna&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>Merkitse edellisen tilikauden tulos eri kohdennuksille jaoteltuna</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

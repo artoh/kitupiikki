@@ -96,12 +96,22 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionResized, this, &SelausWg::tallennaKoot);
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionMoved, this, &SelausWg::tallennaKoot);
 
+    connect( ui->edellinenNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(false); });
+    connect( ui->seuraavaNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(true);});
+    connect( ui->kuukausiNappi, &QPushButton::clicked, this, &SelausWg::tamaKuukausi);
+    connect( ui->tilikausiButton, &QPushButton::clicked, this, &SelausWg::tamaTilikausi);
+
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
 
 }
 
 SelausWg::~SelausWg()
 {
+    QDate alkupvm = ui->alkuEdit->date();
+    QDate loppupvm = ui->loppuEdit->date();
+
+    kp()->settings()->setValue("SelaaKuukausittain", alkupvm.day() == 1 && loppupvm.addDays(1).day() == 1);
+
     delete ui;
 }
 
@@ -132,10 +142,10 @@ void SelausWg::alusta()
         pvm = loppu;
 
     Tilikausi nytkausi = Kirjanpito::db()->tilikaudet()->tilikausiPaivalle( pvm );
+    bool kuukausittain = kp()->settings()->value("SelaaKuukausittain").toBool();
 
-    QDate nytalkaa = nytkausi.alkaa();
-    QDate nytloppuu = nytkausi.paattyy();
-
+    QDate nytalkaa = kuukausittain ? QDate(pvm.year(), pvm.month(), 1) : nytkausi.alkaa();
+    QDate nytloppuu = kuukausittain ? QDate(pvm.year(), pvm.month(), pvm.daysInMonth() )  : nytkausi.paattyy();
 
     ui->alkuEdit->setDate(nytalkaa);
     ui->loppuEdit->setDate(nytloppuu);
@@ -149,6 +159,8 @@ void SelausWg::alusta()
 
 void SelausWg::paivita()
 {    
+    QDate alkupvm = ui->alkuEdit->date();
+    QDate loppupvm = ui->loppuEdit->date();
 
     qApp->processEvents();
     lopussa_ = ui->selausView->verticalScrollBar()->value() >=
@@ -159,7 +171,7 @@ void SelausWg::paivita()
         kp()->odotusKursori(true);
         if(selaustili_)
             selausProxy_->suodataTililla(0);
-        model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), selaustili_);
+        model->lataa( alkupvm, loppupvm, selaustili_);
     }
     else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
         kp()->odotusKursori(true);
@@ -171,7 +183,39 @@ void SelausWg::paivita()
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
     } else if( ui->valintaTab->currentIndex() == LUONNOKSET){
         kp()->odotusKursori(true);
-        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::LUONNOKSET);
+        tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::LUONNOKSET);
+    }
+
+    bool naytaSelaus = false;
+
+    if( alkupvm.day() == 1 && loppupvm.addDays(1).day() == 1 && alkupvm.daysTo(loppupvm) < 32) {
+        // Selattavana on kokonainen kuukausi
+        naytaSelaus = true;
+        ui->kuukausiNappi->setVisible(false);
+        ui->tilikausiButton->setVisible(true);
+
+        ui->edellinenNappi->setToolTip(tr("Edellinen kuukausi"));
+        ui->seuraavaNappi->setToolTip(tr("Seuraava kuukausi"));
+    } else {
+        ui->kuukausiNappi->setVisible(true);
+
+        Tilikausi tilikausi = kp()->tilikaudet()->tilikausiPaivalle(alkupvm);
+        if( alkupvm == tilikausi.alkaa() && loppupvm == tilikausi.paattyy()) {
+            // Selattavana on kokonainen tilikausi
+            ui->tilikausiButton->setVisible(false);
+            naytaSelaus = true;
+            ui->edellinenNappi->setToolTip(tr("Edellinen tilikausi"));
+            ui->seuraavaNappi->setToolTip(tr("Seuraava tilikausi"));
+        } else {
+            ui->tilikausiButton->setVisible(true);
+        }
+    }
+
+    ui->edellinenNappi->setVisible(naytaSelaus);
+    ui->seuraavaNappi->setVisible(naytaSelaus);
+    if( naytaSelaus ) {
+        ui->edellinenNappi->setEnabled( kp()->tilikaudet()->onkoTilikautta(alkupvm.addDays(-1)) );
+        ui->seuraavaNappi->setEnabled( kp()->tilikaudet()->onkoTilikautta(loppupvm.addDays(1)));
     }
 
 }
@@ -445,6 +489,50 @@ void SelausWg::lataaKoot()
             ui->selausView->horizontalHeader()->restoreState(kp()->settings()->value("SelausTositteet").toByteArray());
     }
     lataaKoon_ = false;
+}
+
+void SelausWg::nuoliSelaus(bool seuraava)
+{
+    QDate alku = ui->alkuEdit->date();
+    QDate loppu = ui->loppuEdit->date();
+
+    if( alku.day() == 1 && loppu.addDays(1).day() == 1 && alku.daysTo(loppu) < 32) {
+        // Kuukausittain
+        if( seuraava ) {
+            alku = alku.addMonths(1);
+            loppu = alku.addMonths(1).addDays(-1);
+        } else {
+            loppu = alku.addDays(-1);
+            alku = alku.addMonths(-1);
+        }
+    } else {
+        // Tilikausittain
+        Tilikausi kausi = Kirjanpito::db()->tilikaudet()->tilikausiPaivalle( seuraava ? loppu.addDays(1) : alku.addDays(-1) );
+        alku = kausi.alkaa();
+        loppu = kausi.paattyy();
+    }
+
+    ui->alkuEdit->setDate(alku);
+    ui->loppuEdit->setDate(loppu);
+    paivita();
+}
+
+void SelausWg::tamaKuukausi()
+{
+    QDate pvm = ui->alkuEdit->date();
+    ui->alkuEdit->setDate(QDate(pvm.year(), pvm.month(), 1));
+    ui->loppuEdit->setDate(QDate(pvm.year(), pvm.month(), pvm.daysInMonth()));
+    paivita();
+}
+
+void SelausWg::tamaTilikausi()
+{
+    Tilikausi tilikausi = kp()->tilikausiPaivalle(ui->alkuEdit->date());
+    if(tilikausi.alkaa().isValid()) {
+        ui->alkuEdit->setDate(tilikausi.alkaa());
+        ui->loppuEdit->setDate(tilikausi.paattyy());
+        paivita();
+    }
 }
 
 bool SelausWg::eventFilter(QObject *watched, QEvent *event)

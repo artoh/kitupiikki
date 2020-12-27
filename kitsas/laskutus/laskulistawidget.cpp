@@ -18,7 +18,6 @@
 #include "ui_laskulistawidget.h"
 
 #include "model/laskutaulumodel.h"
-#include <QSortFilterProxyModel>
 
 #include "db/kirjanpito.h"
 #include "laskudialogi.h"
@@ -32,6 +31,9 @@
 #include "myyntilaskujentoimittaja.h"
 #include "db/yhteysmodel.h"
 
+#include "laskuproxymodel.h"
+
+
 #include <QDebug>
 #include <QMessageBox>
 
@@ -39,28 +41,22 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LaskulistaWidget),
     laskut_(new LaskuTauluModel(this)),
-    laskuAsiakasProxy_(new QSortFilterProxyModel(this)),
-    laskuViiteProxy_(new QSortFilterProxyModel(this)),
-    vainLaskuProxy_( new QSortFilterProxyModel(this))
+    proxy_(new LaskuProxyModel(this))
+
 {
     ui->setupUi(this);
 
     ui->tabs->addTab(QIcon(":/pic/kaytossa.png"),tr("&Kirjanpidossa"));
     ui->tabs->addTab(QIcon(":/pic/keltainen.png"),tr("&Avoimet"));
     ui->tabs->addTab(QIcon(":/pic/punainen.png"),tr("&Erääntyneet"));
+    ui->tabs->setCurrentIndex(1);   // Oletuksena avoimet
 
-    laskuAsiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    laskuAsiakasProxy_->setFilterKeyColumn(LaskuTauluModel::ASIAKASTOIMITTAJA);
-    laskuAsiakasProxy_->setSourceModel( laskut_ );
-
-    laskuViiteProxy_->setSourceModel( laskuAsiakasProxy_ );
-    vainLaskuProxy_->setSourceModel( laskuViiteProxy_);
-    vainLaskuProxy_->setFilterRole(LaskuTauluModel::TyyppiRooli);
-    vainLaskuProxy_->setSortRole(Qt::EditRole);
-    ui->view->setModel( vainLaskuProxy_ );
+    proxy_->setSourceModel( laskut_ );
+    ui->view->setModel( proxy_ );
 
     connect( ui->viiteEdit, &QLineEdit::textEdited,
-             laskuViiteProxy_, &QSortFilterProxyModel::setFilterFixedString);
+             proxy_, &LaskuProxyModel::suodataNumerolla);
+
     connect( ui->alkupvm, &KpDateEdit::dateChanged, this, &LaskulistaWidget::paivita);
     connect( ui->loppupvm, &KpDateEdit::dateChanged, this, &LaskulistaWidget::paivita);
     connect( ui->tabs, &QTabBar::currentChanged, this, &LaskulistaWidget::paivita);
@@ -86,7 +82,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
-    connect( ui->vainlaskuNappi, &QPushButton::toggled, this, &LaskulistaWidget::naytaListallaVainLaskut);
+    connect( ui->vainlaskuNappi, &QPushButton::toggled, proxy_, &LaskuProxyModel::suodataLaskut);
 
     connect( ui->tulostaButton, &QPushButton::clicked, this, &LaskulistaWidget::raportti);
 
@@ -112,7 +108,6 @@ void LaskulistaWidget::nayta(int paalehti)
             ui->vainlaskuNappi->setVisible(true);
             ui->lahetaNappi->setVisible(true);
             ui->kopioiNappi->setVisible(true);
-            naytaListallaVainLaskut(ui->vainlaskuNappi->isChecked());
         }
     } else {
         if( ui->tabs->count() == 5) {
@@ -151,11 +146,9 @@ void LaskulistaWidget::paivita()
 void LaskulistaWidget::suodataAsiakas(const QString &nimi, int asiakas)
 {
     if(asiakas) {
-        laskuAsiakasProxy_->setFilterRole(LaskuTauluModel::AsiakasToimittajaIdRooli);
-        laskuAsiakasProxy_->setFilterRegularExpression(QRegularExpression("^" + QString::number(asiakas) + "$"));
+        proxy_->suodataKumppani(asiakas);
     } else {
-        laskuAsiakasProxy_->setFilterRole(Qt::DisplayRole);
-        laskuAsiakasProxy_->setFilterFixedString(nimi);
+        proxy_->suodataTekstilla(nimi);
         asiakas_ = 0;
     }
 }
@@ -305,14 +298,6 @@ void LaskulistaWidget::poista()
         }
     }
 
-}
-
-void LaskulistaWidget::naytaListallaVainLaskut(bool nayta)
-{
-    if( nayta )
-        vainLaskuProxy_->setFilterRegularExpression("21.");
-    else
-        vainLaskuProxy_->setFilterFixedString("");
 }
 
 void LaskulistaWidget::naytaLasku()

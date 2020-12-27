@@ -72,7 +72,7 @@ public:
      * @param raportinNimi Asetuksissa oleva raportin nimi
      */
     Raportoija(const QString& raportinNimi,
-               const QString& kieli = "fi",               
+               const QString& kieli = "fi",
                QObject* parent = nullptr,
                RaportinTyyppi tyyppi = VIRHEELLINEN);
     ~Raportoija() override;

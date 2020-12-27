@@ -27,7 +27,7 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, i
     addItem(QIcon(":/pic/netto.png"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
     addItem(QIcon(":/pic/netto.png"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
     addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
-    addItem(QIcon(":/pic/tyhja.png"),"Veroton", QVariant(AlvKoodi::EIALV ));
+    addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), QVariant(AlvKoodi::EIALV ));
 
     if( asiakasverolaji == KAIKKI || asiakasverolaji == KOTIMAA || alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
         addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
@@ -39,9 +39,9 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, i
 
     if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
     {
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuDialogi::KAYTETYT));
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuDialogi::TAIDE));
-        addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuDialogi::ANTIIKKI));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(LaskuDialogi::KAYTETYT));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(LaskuDialogi::TAIDE));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(LaskuDialogi::ANTIIKKI));
     }
 
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {

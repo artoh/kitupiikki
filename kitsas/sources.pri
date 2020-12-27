@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
     $$PWD/alv/alvlaskelma.cpp \
+    $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
+    $$PWD/laskutus/laskuproxymodel.cpp \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
@@ -98,6 +100,8 @@ SOURCES += \
     $$PWD/rekisteri/rekisterituontimodel.cpp \
     $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/rekisteri/ryhmavalintalistwidget.cpp \
+    $$PWD/rekisteri/yhdistakumppaniin.cpp \
+    $$PWD/rekisteri/yhdistamisproxymodel.cpp \
     $$PWD/saldodock/saldodock.cpp \
     $$PWD/saldodock/saldomodel.cpp \
     $$PWD/selaus/selausproxymodel.cpp \
@@ -282,6 +286,7 @@ HEADERS += \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
     $$PWD/alv/alvlaskelma.h \
+    $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/palkkaapuri.h \
@@ -315,6 +320,7 @@ HEADERS += \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskulistawidget.h \
+    $$PWD/laskutus/laskuproxymodel.h \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
@@ -378,6 +384,8 @@ HEADERS += \
     $$PWD/rekisteri/rekisterituontimodel.h \
     $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/rekisteri/ryhmavalintalistwidget.h \
+    $$PWD/rekisteri/yhdistakumppaniin.h \
+    $$PWD/rekisteri/yhdistamisproxymodel.h \
     $$PWD/saldodock/saldodock.h \
     $$PWD/saldodock/saldomodel.h \
     $$PWD/selaus/selausproxymodel.h \
@@ -611,19 +619,20 @@ FORMS += \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/rekisteri/rekisterituontidlg.ui \
+    $$PWD/rekisteri/yhdistakumppaniin.ui \
     $$PWD/tilaus/kiitos.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
-    $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \
     $$PWD/uusikirjanpito/uusiloppu.ui \
     $$PWD/uusikirjanpito/uusisijainti.ui \
     $$PWD/uusikirjanpito/uusitiedot.ui \
     $$PWD/uusikirjanpito/uusitilikartta.ui \
+    $$PWD/uusikirjanpito/uusivastuu.ui \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \

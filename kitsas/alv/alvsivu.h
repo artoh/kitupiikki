@@ -23,9 +23,13 @@
 #include "../kitupiikkisivu.h"
 #include "alvilmoitustenmodel.h"
 
+
+
 namespace Ui {
 class AlvSivu;
 }
+
+class IlmoitinTuottaja;
 
 /**
  * @brief Arvonlisäveromääritysten sivu, jolla tehdään alv-tilitys
@@ -49,12 +53,14 @@ public slots:
     void naytaIlmoitus();
     void poistaIlmoitus();
     void riviValittu();
+    void tallennaIlmoitinAineisto();
     void maksuAlv();
-    void paivitaMaksuAlvTieto();  
+    void paivitaMaksuAlvTieto();     
 
 
 private:
     Ui::AlvSivu *ui;
+    IlmoitinTuottaja *ilmoitin;
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
     bool alustaa_ = true;

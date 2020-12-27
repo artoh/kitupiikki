@@ -50,6 +50,9 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
 
     QVariantMap kumppani = resultMap(kysely);
+    if(kumppani.isEmpty())
+        return QVariantMap();
+
     int kumppaniid = kumppani.value("id").toInt();
 
     // Tilit
@@ -82,9 +85,14 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
     return kumppani;
 }
 
-QVariant KumppanitRoute::post(const QString &/*polku*/, const QVariant &data)
+QVariant KumppanitRoute::post(const QString &polku, const QVariant &data)
 {
+
     QVariantMap map = data.toMap();
+
+    if(polku == "yhdista")
+        return yhdista(map);
+
     QVariantMap kopio(map);
 
     QSqlQuery kysely(db());
@@ -205,4 +213,21 @@ int KumppanitRoute::kumppaninLisays(QVariantMap &map, QSqlQuery &kysely)
     }
     return id;
 
+}
+
+QVariant KumppanitRoute::yhdista(const QVariantMap& data)
+{
+    int vanha = data.value("vanha").toInt();
+    int uusi = data.value("uusi").toInt();
+
+    QSqlQuery kysely(db());
+    db().transaction();
+
+    kysely.exec(QString("UPDATE Vienti SET kumppani=%1 WHERE kumppani=%2").arg(uusi).arg(vanha));
+    kysely.exec(QString("UPDATE Tosite SET kumppani=%1 WHERE kumppani=%3").arg(uusi).arg(vanha));
+    kysely.exec(QString("DELETE FROM KumppaniIban WHERE kumppani=%1").arg(vanha));
+    kysely.exec(QString("DELETE FROM Kumppani WHERE id=%1").arg(vanha));
+
+    db().commit();
+    return QVariant();
 }

@@ -130,7 +130,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi ryhma(RaporttiRivi::EICSV);
-            ryhma.lisaa( kp()->tositeTyypit()->nimi(tositetyyppi),4 );
+            ryhma.lisaa( kaanna(kp()->tositeTyypit()->nimi(tositetyyppi)),4 );
             ryhma.lihavoi();
             rk.lisaaRivi(ryhma);
 

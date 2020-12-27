@@ -165,10 +165,15 @@ void TositeLiitteet::tallennettu()
             }
         } else {
             QString minne = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienSiirtoKansio" ).toString();
-            QDir kohde(minne);
-            for( QString tiedosto : inboxista_) {
+            QDir kohde(minne);           
+            for( QString tiedosto : inboxista_) {                
                 QFileInfo info(tiedosto);
-                if( QFile::copy( info.absoluteFilePath(), kohde.absoluteFilePath(info.fileName()) )) {
+                // #809 Jos tiedosto on jo, nimetään se hiljaisesti uudelleen
+                QString tnimi = info.fileName();
+                for(int yritys=1; kohde.exists(tnimi) && yritys < 1000; yritys++) {
+                    tnimi = QString("%1_%2.%3").arg(info.baseName()).arg(yritys).arg(info.completeSuffix());
+                }
+                if( QFile::copy( info.absoluteFilePath(), kohde.absoluteFilePath(tnimi) )) {
                     QFile::remove(info.absoluteFilePath());
                 }
             }
@@ -310,8 +315,9 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     meta.insert("Content-type", tyyppi);
     liitekysely->lahetaTiedosto(liite, meta);
 
-    if(  kp()->pilvi()->tilausvoimassa() && qobject_cast<PilviModel*>(kp()->yhteysModel()) == nullptr  &&
-            liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") &&
+    if(  kp()->pilvi()->tilausvoimassa() &&
+            (liite.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") ||
+            (liite.startsWith("<SOAP-ENV:"))) &&
             liite.contains("<Finvoice")) {
         liitaFinvoice(liite);
     }

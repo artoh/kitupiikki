@@ -51,6 +51,7 @@
 #include "ui_oletustilimaaritys.h"
 
 #include <QDebug>
+#include <QSizePolicy>
 
 MaaritysSivu::MaaritysSivu() :
     KitupiikkiSivu(nullptr), nykyinen(nullptr), nykyItem(nullptr)
@@ -82,10 +83,12 @@ MaaritysSivu::MaaritysSivu() :
 
 
 
-    connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    // connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    connect(lista, &QListWidget::itemClicked, [this] (QListWidgetItem* item) { this->valitseSivu(item); });
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
+    lista->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding));
 
     sivuleiska = new QVBoxLayout;
     leiska->addLayout(sivuleiska, 1);
@@ -117,7 +120,7 @@ void MaaritysSivu::siirrySivulle()
     if( lista->currentItem() && !lista->currentItem()->isHidden() )
         valitseSivu( lista->currentItem());
     else
-        lista->setCurrentItem( lista->item(0) );
+        valitseSivu( lista->item(0) );
 }
 
 bool MaaritysSivu::poistuSivulta(int /* minne */)
@@ -126,7 +129,9 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
     {
         // Nykyistä on muokattu eikä tallennettu
         if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
-        {
+        {            
+            nykyItem->setSelected(true);
+            lista->setCurrentItem(nykyItem);
             return false;
         }
     }
@@ -186,7 +191,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
             // Nykyistä on muokattu eikä tallennettu
             if( QMessageBox::question(this, tr("Kitsas"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
-                nykyItem->setSelected(true);
+                lista->selectionModel()->select(  lista->model()->index(nykyItem->data(Qt::UserRole).toInt(),0), QItemSelectionModel::SelectCurrent );
                 return;
             }
         }

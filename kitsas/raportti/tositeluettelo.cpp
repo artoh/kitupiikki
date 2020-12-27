@@ -93,7 +93,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi laji(RaporttiRivi::EICSV);
-            laji.lisaa( kp()->tositeTyypit()->nimi(tamatyyppi), 5 );
+            laji.lisaa( kaanna(kp()->tositeTyypit()->nimi(tamatyyppi)), 5 );
             laji.lihavoi();
             rk.lisaaRivi(laji);
             edellinentyyppi = tamatyyppi;
@@ -114,7 +114,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
             rivi.lisaa(map.value("kumppani").toString());
         rivi.lisaa( map.value("otsikko").toString());        
         if( map.value("liitteita").toInt())
-            rivi.lisaa( tr("%1 kpl").arg( map.value("liitteita").toInt() ));
+            rivi.lisaa( kaanna("%1 kpl").arg( map.value("liitteita").toInt() ));
         else
             rivi.lisaa("");
         qlonglong euro = qRound64( map.value("summa").toDouble() * 100.0 );

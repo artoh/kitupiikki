@@ -80,8 +80,7 @@ void KirjausSivu::siirrySivulle()
 bool KirjausSivu::poistuSivulta(int minne)
 {
     if( ((kirjausWg()->gui()->tallennaButton->isEnabled() && kirjausWg()->gui()->tallennaButton->isVisible() ) || kirjausWg()->gui()->valmisNappi->isEnabled() ) &&
-            kirjausWg()->tosite()->viennit()->rowCount() &&
-            kirjausWg()->tosite()->data(Tosite::TILA).toInt() > Tosite::LUONNOS)
+            kirjausWg()->tosite()->viennit()->rowCount() )
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {
@@ -90,7 +89,7 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
 
-        if( QMessageBox::question(this, tr("Kitsas"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        if( QMessageBox::question(this, qApp->applicationName(), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
         }

@@ -18,6 +18,7 @@
 #include "taseerittely.h"
 #include "taseerittelija.h"
 #include <QSqlQuery>
+#include "tools/tulkki.h"
 
 #include <QDebug>
 
@@ -32,6 +33,8 @@ TaseErittely::TaseErittely() :
 
     ui->alkaa->setDate( kausi.alkaa());
     ui->paattyy->setDate( kausi.paattyy());
+
+    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 TaseErittely::~TaseErittely()
@@ -41,7 +44,7 @@ TaseErittely::~TaseErittely()
 
 void TaseErittely::esikatsele()
 {
-    TaseErittelija* erittelija = new TaseErittelija(this);
+    TaseErittelija* erittelija = new TaseErittelija(this, ui->kieliCombo->currentData().toString());
     connect( erittelija, &TaseErittelija::valmis, this, &TaseErittely::nayta);
     erittelija->kirjoita( ui->alkaa->date(), ui->paattyy->date() );
 }

@@ -141,7 +141,7 @@ public:
     QString pitkakausitunnus() const { return kausitunnus_; }
 
     void asetaKausitunnus(const QString& kausitunnus);
-
+    void asetaPaattyy(const QDate& pvm);
 
     void tallenna();
     void poista();

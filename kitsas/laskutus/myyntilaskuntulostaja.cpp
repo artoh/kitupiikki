@@ -389,10 +389,9 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("huomaika"));
 
     // Viivästyskorko-laatikko vain, jos viivästyskorko määritelty ja laskulla maksettavaa
-    double yhteensa = rivit_.yhteensa();
     double viivkorko = map_.value("lasku").toMap().value("viivkorko").toDouble();
 
-    if( yhteensa > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )  // TODO: Tämä vakio!!
+    if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )  // TODO: Tämä vakio!!
     {
         painter->drawText(QRectF( puoliviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("viivkorko"));
         painter->drawLine(QLineF(puoliviiva, pv+rk, puoliviiva, pv+rk*2));
@@ -437,7 +436,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         } else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
 
-        if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 )
+        if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )
         {
             painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(viivkorko,0,'f',1) );
         }

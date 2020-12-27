@@ -191,11 +191,13 @@ void TpAloitus::lataa()
                 QString avain = emats.captured("avain");
                 QString ehtolause = emats.captured("arvo");
 
-                ehtotulosta =  kp()->asetukset()->asetus(avain).contains(QRegularExpression(ehtolause));
+                ehtotulosta =  kp()->asetukset()->asetus(avain).contains(QRegularExpression(ehtolause));                
             }
             else
                 // Jos ?-alkava rivi ei kelpo, niin tulostaa joka tapauksessa
                 ehtotulosta = true;
+
+            continue;
         }
         if( !ehtotulosta)
             continue;
@@ -259,7 +261,7 @@ void TpAloitus::talleta()
     tilikausi.set("henkilosto", ui->henkilostoSpin->value());
     tilikausi.tallenna();
 
-    kp()->asetukset()->aseta("kpkieli", ui->kieliCombo->currentData().toString());
+    kp()->asetukset()->aseta("tpkieli", ui->kieliCombo->currentData().toString());
 
     QStringList valitut;
     for(int i=0; i < model->rowCount(QModelIndex()); i++)

@@ -39,7 +39,7 @@ void TaseErittelija::kirjoita(const QDate& mista, const QDate &mihin)
 void TaseErittelija::dataSaapuu(QVariant *data)
 {
     RaportinKirjoittaja rk(false);
-    rk.asetaOtsikko("TASE-ERITTELY");       // Näiden käännöksiin vielä mekanismi ????
+    rk.asetaOtsikko(kaanna("TASE-ERITTELY"));
     rk.asetaKausiteksti(QString("%1 - %2").arg(mista_.toString("dd.MM.yyyy")).arg(mihin_.toString("dd.MM.yyyy")));
 
     rk.lisaaSarake("12345678"); // Tosite
@@ -51,13 +51,13 @@ void TaseErittelija::dataSaapuu(QVariant *data)
     // Lisätään otsikot
     {
         RaporttiRivi yotsikko;
-        yotsikko.lisaa("Tili",3);
+        yotsikko.lisaa(kaanna("Tili"),3);
         rk.lisaaOtsake(yotsikko);
 
         RaporttiRivi otsikko;
-        otsikko.lisaa("Tosite");
-        otsikko.lisaa("Päivämäärä");
-        otsikko.lisaa("Selite");
+        otsikko.lisaa(kaanna("Tosite"));
+        otsikko.lisaa(kaanna("Päivämäärä"));
+        otsikko.lisaa(kaanna("Selite"));
         otsikko.lisaa("");
         otsikko.lisaa("€",1,true);
         rk.lisaaOtsake(otsikko);
@@ -66,7 +66,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
     bool vastattavaa = false;
     RaporttiRivi otsikkoRivi;
-    otsikkoRivi.lisaa("VASTAAVAA",3);
+    otsikkoRivi.lisaa(kaanna("VASTAAVAA"),3);
     otsikkoRivi.asetaKoko(14);
     rk.lisaaRivi(otsikkoRivi);
 
@@ -86,7 +86,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             yhteensa = 0;
 
             RaporttiRivi otsikkoRivi;
-            otsikkoRivi.lisaa("VASTATTAVAA",4);
+            otsikkoRivi.lisaa(kaanna("VASTATTAVAA"),4);
             otsikkoRivi.asetaKoko(14);            
             rk.lisaaRivi(otsikkoRivi);            
             vastattavaa = true;
@@ -123,19 +123,27 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                     RaporttiRivi nimirivi;
                     QVariantMap eramap = map.value("era").toMap();
-                    lisaaTositeTunnus( &nimirivi, eramap);
-                    nimirivi.lisaa( eramap.value("vientipvm").toDate() );
-                    nimirivi.lisaa( eramap.value("selite").toString(), 2);
-                    nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
+                    if( eramap.isEmpty()) {
+                        nimirivi.lisaa("",2);
+                        nimirivi.lisaa(kaanna("Erittelemättömät"),3);
+                    } else {
+                        lisaaTositeTunnus( &nimirivi, eramap);
+                        nimirivi.lisaa( eramap.value("vientipvm").toDate() );
+                        nimirivi.lisaa( eramap.value("selite").toString(), 2);
+                        nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
+                    }
                     rk.lisaaRivi(nimirivi);
 
-                    if( eramap.value("pvm").toDate() < mista_ && map.value("ennen") != eramap.value("eur") ) {
-                        RaporttiRivi poistettuRivi;
-                        poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")),2);
-                        poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
-                                             qRound64( eramap.value("eur").toDouble() * 100), true);
-                        rk.lisaaRivi(poistettuRivi);
+                    if( (eramap.isEmpty() || eramap.value("pvm").toDate() < mista_ ) && qAbs( map.value("ennen").toDouble() - eramap.value("eur").toDouble()) > 1e-5 &&
+                        qAbs(map.value("ennen").toDouble()) > 1e-5) {
+                        if( !eramap.isEmpty()) {
+                            RaporttiRivi poistettuRivi;
+                            poistettuRivi.lisaa(" ",2);
+                            poistettuRivi.lisaa( kaanna("Lisäykset/vähennykset %1 saakka").arg( mista_.addDays(-1).toString("dd.MM.yyyy")),2);
+                            poistettuRivi.lisaa( qRound64( map.value("ennen").toDouble() * 100 ) -
+                                                 qRound64( eramap.value("eur").toDouble() * 100), true);
+                            rk.lisaaRivi(poistettuRivi);
+                        }
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
@@ -154,15 +162,19 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                         QString kumppani = mmap.value("kumppani").toString();
                         QString selite = mmap.value("selite").toString();
 
-                        rr.lisaa( kumppani);
-                        rr.lisaa( selite == kumppani ? "" : selite);
+                        if(kumppani.isEmpty() || selite == kumppani) {
+                            rr.lisaa(selite, 2);
+                        } else {
+                            rr.lisaa( kumppani);
+                            rr.lisaa( selite);
+                        }
                         rr.lisaa(qRound64( mmap.value("eur").toDouble() * 100.0 ));
                         rk.lisaaRivi(rr);
                     }
                     // Loppusaldo
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
-                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin_.toString("dd.MM.yyyy")),2);
+                    loppuRivi.lisaa( kaanna("Loppusaldo %1").arg(mihin_.toString("dd.MM.yyyy")),2);
                     loppuRivi.lisaa( qRound64(map.value("saldo").toDouble() * 100.0),true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);
@@ -211,7 +223,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
                     if( emap.contains("id")) {
                         lisaaTositeTunnus(&rr, emap);
-                        rr.lisaa( emap.value("pvm").toDate());
+                        rr.lisaa( emap.value("vientipvm").toDate());
 
                         QString kumppani = emap.value("kumppani").toString();
                         QString selite = emap.value("selite").toString();
@@ -236,7 +248,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 
             RaporttiRivi vikaRivi;
             vikaRivi.lisaa("", 2);
-            vikaRivi.lisaa(tr("Tilin %1 loppusaldo").arg(tili->numero()),2);
+            vikaRivi.lisaa(kaanna("Tilin %1 loppusaldo").arg(tili->numero()),2);
             vikaRivi.lisaa( loppusaldo, true);
             vikaRivi.lihavoi();
             vikaRivi.viivaYlle();

@@ -65,7 +65,7 @@ protected:
 
 
 public:
-    explicit AlvLaskelma(QObject *parent = nullptr);
+    explicit AlvLaskelma(QObject *parent = nullptr, const QString kielikoodi = QString());
     ~AlvLaskelma() override;
 
     void kirjoitaLaskelma();

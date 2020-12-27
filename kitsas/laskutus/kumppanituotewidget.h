@@ -52,6 +52,7 @@ private slots:
     void tuo();
     void vie();
     void raportti();
+    void yhdista();
 
 signals:
     void kumppaniValittu(const QString& nimi, int id);

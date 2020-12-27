@@ -117,7 +117,7 @@ void TuloveroDialog::accept()
         siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtovelat",2968));
         siirtovienti.setKredit(ui->jaaveroaEdit->asCents());
     } else {
-        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtosaamiset",1873));
+        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtosaamiset",1813));
         siirtovienti.setDebet(0 - ui->jaaveroaEdit->asCents());
     }
     siirtovienti.setSelite(selite);

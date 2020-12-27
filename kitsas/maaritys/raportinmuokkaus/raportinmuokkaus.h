@@ -46,6 +46,8 @@ protected:
     void paivitaNapit(const QModelIndex& index);
     void ilmoitaMuokattu();
 
+    void kopioiRaportti();
+
     void lisaaEnnen();
     void lisaaJalkeen();
     void poista();

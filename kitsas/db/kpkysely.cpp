@@ -75,10 +75,12 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
         return("image/png");
     else if( ba.startsWith(jpg))
         return("image/jpeg");
-    else if( ba.startsWith(QByteArray("<?xml")))
+    else if( ba.startsWith(QByteArray("<?xml")) ||  ba.startsWith(QByteArray("<SOAP-ENV")))
         return("application/xml");    
     else if( Tuonti::CsvTuonti::onkoCsv(ba))
         return("text/csv");
+    else if( ba.startsWith("T00322100"))
+        return("text/plain");
 
     return "application/octet-stream";
 }

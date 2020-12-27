@@ -98,7 +98,7 @@ private:
     QSortFilterProxyModel* veroFiltteri_;
     MaksutapaModel *maksutapaModel_;
 
-    static QString viimeMaksutapa__;
+    QString viimeMaksutapa_;
 
 };
 

@@ -31,6 +31,9 @@ public:
     QVariant doDelete(const QString &polku) override;
 
     static int kumppaninLisays(QVariantMap &map, QSqlQuery& kysely);
+
+protected:
+    QVariant yhdista(const QVariantMap& data);
 };
 
 #endif // KUMPPANITROUTE_H

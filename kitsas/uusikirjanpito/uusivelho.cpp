@@ -21,6 +21,7 @@
 #include "ui_uusitiedot.h"
 #include "ui_uusiloppu.h"
 #include "ui_numerointi.h"
+#include "ui_uusivastuu.h"
 
 #include "db/kielikentta.h"
 
@@ -56,6 +57,13 @@ UusiVelho::UusiVelho(QWidget *parent) :
 
     addPage( new UusiAlkuSivu );
     addPage( new Harjoitussivu );
+
+    QWizardPage *vastuusivu = new QWizardPage;
+    Ui::Uusivastuu *vastuuUi = new Ui::Uusivastuu;
+    vastuuUi->setupUi(vastuusivu);
+    vastuusivu->setTitle(tr("Vastuu kirjanpidosta"));
+    addPage( vastuusivu );
+
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
@@ -134,6 +142,9 @@ QString UusiVelho::polku() const
 
 int UusiVelho::nextId() const
 {
+    if( currentId() == HARJOITUS &&
+            field("harjoitus").toBool())
+        return TILIKARTTA;
 
     if( currentId() == NUMEROINTI &&
             field("pilveen").toBool())
@@ -200,6 +211,7 @@ UusiVelho::Harjoitussivu::Harjoitussivu() :
     setTitle(tr("Harjoitus vai todellinen?"));
     registerField("harjoitus", ui->harjoitusButton);
 }
+
 
 UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
     ui ( new Ui::UusiTilikartta),

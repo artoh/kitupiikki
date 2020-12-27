@@ -33,6 +33,8 @@ MaksutapaMuokkaus::MaksutapaMuokkaus(QWidget *parent) :
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::muokkaa);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::poista);
     connect( ui->view, &QTableView::clicked, this, &MaksutapaMuokkaus::paivitaNapit);    
+    connect( ui->ylosNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::ylos);
+    connect( ui->alasNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::alas);
     paivitaNapit();
 }
 
@@ -77,7 +79,26 @@ void MaksutapaMuokkaus::poista()
 
 void MaksutapaMuokkaus::paivitaNapit()
 {
-    bool kaytossa = ui->view->currentIndex().isValid() && ui->view->currentIndex().row() < ui->view->model()->rowCount()-1;
+    int rivi = ui->view->currentIndex().isValid() ? ui->view->currentIndex().row() : INT16_MAX;
+    bool kaytossa = ui->view->currentIndex().isValid() && rivi < ui->view->model()->rowCount()-1;
     ui->muokkaaNappi->setEnabled(kaytossa);
     ui->poistaNappi->setEnabled(kaytossa);
+    ui->ylosNappi->setEnabled(kaytossa && rivi > 0 && rivi < ui->view->model()->rowCount() - 1);
+    ui->alasNappi->setEnabled(kaytossa && rivi < ui->view->model()->rowCount() - 2);
+}
+
+void MaksutapaMuokkaus::ylos()
+{
+    int rivi = ui->view->currentIndex().row();
+    model_->siirra(rivi, rivi-1);
+    ui->view->setCurrentIndex(model_->index(rivi-1,0));
+    paivitaNapit();
+}
+
+void MaksutapaMuokkaus::alas()
+{
+    int rivi = ui->view->currentIndex().row();
+    model_->siirra(rivi, rivi+1);
+    ui->view->setCurrentIndex(model_->index(rivi+1,0));
+    paivitaNapit();
 }

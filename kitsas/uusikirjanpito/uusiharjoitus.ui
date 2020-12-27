@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>741</width>
-    <height>443</height>
+    <width>765</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Olet ryhtymässä varsinaiseen kirjanpitolain mukaiseen kirjanpitoon. Vaikka ohjelma opastaa eri vaiheissa, on kirjanpidon ymmärtäminen kuitenkin tarpeen. Suositeltavaa on myös kokeilla ohjelmaa ensin harjoitustilassa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Olet ryhtymässä varsinaiseen kirjanpitolain mukaiseen kirjanpitoon. Vaikka ohjelma opastaa eri vaiheissa, on kirjanpidon osaaminen kuitenkin tarpeen. Suositeltavaa on myös kokeilla ohjelmaa ensin harjoitustilassa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

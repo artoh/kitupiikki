@@ -486,7 +486,7 @@ QVariantMap LaskuDialogi::data(QString otsikko) const
         lasku.insert("toimituspvm", ui->toimitusDate->date());
     if( ui->jaksoDate->date().isValid())
         lasku.insert("jaksopvm", ui->jaksoDate->date());
-    if( rivit_->yhteensa() > 1e-3 &&
+    if( (rivit_->yhteensa() > 1e-3 || tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ) &&
             ui->maksuCombo->currentData().toInt() != KATEINEN) {
         lasku.insert("erapvm", ui->eraDate->date());
         map.insert("erapvm", ui->eraDate->date());
@@ -619,7 +619,7 @@ QVariantMap LaskuDialogi::vastakirjaus(const QDate& pvm, const QString &otsikko)
     } else
         vienti.setKredit(0-summa);
 
-    if( era_ ) {
+    if( era_ && maksutapa != KATEINEN) {    // #821 Käteislasku on heti maksettu
         if( tyyppi() == TositeTyyppi::MYYNTILASKU) {
             vienti.insert("id", era_);
         }

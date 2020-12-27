@@ -288,11 +288,24 @@ void KirjausWg::valmis()
 
     ui->tallennaButton->setEnabled(false);
     ui->tallennetaanLabel->show();
-    tosite()->tallenna();
+
+    tarkastaTuplatJaTallenna(Tosite::KIRJANPIDOSSA);
 }
 
 void KirjausWg::hylkaa()
 {
+    if( (ui->tallennaButton->isEnabled() || ui->valmisNappi->isEnabled()) && tosite()->viennit()->summa()) {
+        if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
+                                  tosite()->tila() <= Tosite::MALLIPOHJA ?
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta tositetta?") :
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta muutoksia?")
+                                  ,
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
+            return;
+        }
+    }
+
+
     tyhjenna();
     emit tositeKasitelty();
 }
@@ -486,7 +499,8 @@ void KirjausWg::tallenna(int tilaan)
     ui->tallennetaanLabel->show();
     if(apuri_)
         apuri_->tositteelle();
-    this->tosite_->tallenna(tilaan);
+
+    tarkastaTuplatJaTallenna(tilaan);
 }
 
 void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const QString& sarja, int tila)
@@ -509,9 +523,10 @@ void KirjausWg::tallennusEpaonnistui(int virhe)
 
 void KirjausWg::tuonti(const QVariantMap& map)
 {    
-    if( tosite()->data(Tosite::TILA) >= Tosite::KIRJANPIDOSSA )
+    if( tosite()->tila() >= Tosite::KIRJANPIDOSSA )
         return;
-    if( map.contains("tyyppi"))
+
+    if( map.contains("tyyppi") && !tosite()->viennit()->summa() && tosite()->tila() != Tosite::MALLIPOHJA)
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
     if( map.value("tositepvm").toDate().isValid()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
@@ -624,6 +639,61 @@ void KirjausWg::paivitaLiiteNapit()
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_) , QIcon(":/pic/liite-aktiivinen.png"));
     else
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_), QIcon(":/pic/liite"));
+}
+
+void KirjausWg::tarkastaTuplatJaTallenna(int tila)
+{
+    if( !tosite()->kumppani() ) {
+        tosite()->tallenna(tila);
+    } else {
+        KpKysely *kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("kumppani", tosite()->kumppani());
+        kysely->lisaaAttribuutti("laskupvm",tosite()->laskupvm());
+        kysely->lisaaAttribuutti("tyyppi", tosite()->tyyppi());
+        if( !tosite()->laskuNumero().isEmpty())
+            kysely->lisaaAttribuutti("laskunumero", tosite()->laskuNumero());
+        if( !tosite()->viite().isEmpty())
+            kysely->lisaaAttribuutti("viite", tosite()->viite());
+        connect(kysely, &KpKysely::vastaus, [this, tila] (QVariant* data)  { this->tuplaTietoSaapuu(data, tila);});
+        kysely->kysy();
+    }
+}
+
+void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
+{
+    QVariantList lista = data->toList();
+    QString tuplat;
+
+    qlonglong summa = tosite()->viennit()->summa();
+
+    for(auto item : lista) {
+        QVariantMap map = item.toMap();
+        if( map.value("id").toInt() == tosite()->id()) {
+            // Sallii aina saman tositteen muokkaamisen
+            tosite()->tallenna(tila);
+            return;
+        }
+        if( qRound64(map.value("summa").toDouble() * 100) != summa)
+            continue;
+        tuplat.append(QString("%1 %2 \n")
+                      .arg(kp()->tositeTunnus(map.value("tunniste").toInt(),
+                                              map.value("pvm").toDate(),
+                                              map.value("sarja").toString(), true))
+                      .arg(map.value("otsikko").toString()));
+    }
+
+    if( !tuplat.isEmpty()) {
+        ui->tallennetaanLabel->hide();
+        int vastaus = QMessageBox::question(this, tr("Tosite saattaa olla jo kirjattu"),
+                              tr("Kirjanpidosta löytyy jo samankaltainen tosite \n\n%1 \n"
+                                 "Tallennetaanko tosite silti?").arg(tuplat),
+                              QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Cancel);
+        if( vastaus == QMessageBox::No)
+            tyhjenna();
+        if( vastaus != QMessageBox::Yes)
+            return;
+    }
+    tosite()->tallenna(tila);
 }
 
 

@@ -20,6 +20,7 @@
 
 #include "ui_pvmvali.h"
 #include "db/kirjanpito.h"
+#include "tools/tulkki.h"
 
 MyyntiRaportti::MyyntiRaportti()
 {
@@ -32,6 +33,7 @@ MyyntiRaportti::MyyntiRaportti()
 
     ui->alkaa->setDate(kausi.alkaa());
     ui->paattyy->setDate(kausi.paattyy());
+    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 MyyntiRaportti::~MyyntiRaportti()
@@ -41,7 +43,7 @@ MyyntiRaportti::~MyyntiRaportti()
 
 void MyyntiRaportti::esikatsele()
 {
-    MyyntiRaportteri *myynti = new MyyntiRaportteri(this);
+    MyyntiRaportteri *myynti = new MyyntiRaportteri(this, ui->kieliCombo->currentData().toString());
     connect( myynti, &MyyntiRaportteri::valmis, this, &RaporttiWidget::nayta);
     myynti->kirjoita(ui->alkaa->date(), ui->paattyy->date());
 }

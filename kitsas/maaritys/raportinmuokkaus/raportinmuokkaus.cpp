@@ -25,6 +25,7 @@
 #include <QJsonDocument>
 #include <QDialog>
 #include <QHeaderView>
+#include <QInputDialog>
 
 RaportinMuokkaus::RaportinMuokkaus(QWidget *parent)
     : MaaritysWidget(parent),
@@ -41,6 +42,7 @@ RaportinMuokkaus::RaportinMuokkaus(QWidget *parent)
     connect( ui->lisaaEnnenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaEnnen);
     connect( ui->lisaaJalkeenNappi, &QPushButton::clicked, this, &RaportinMuokkaus::lisaaJalkeen);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &RaportinMuokkaus::poista);
+    connect( ui->kopioiNappi, &QPushButton::clicked, this, &RaportinMuokkaus::kopioiRaportti);
     connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &RaportinMuokkaus::paivitaNapit);
 
 }
@@ -90,6 +92,8 @@ void RaportinMuokkaus::muokkaaNimikkeet()
     nimi_.alustaListWidget(ui.nimiView);
     muoto_.alustaListWidget(ui.muotoView);
 
+    connect( ui.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/raportit/"); });
+
     if( dlg.exec() == QDialog::Accepted) {
         nimi_.lataa(ui.nimiView);
         muoto_.lataa(ui.muotoView);
@@ -116,6 +120,22 @@ void RaportinMuokkaus::paivitaNapit(const QModelIndex &index)
 void RaportinMuokkaus::ilmoitaMuokattu()
 {
     emit tallennaKaytossa(onkoMuokattu());
+}
+
+void RaportinMuokkaus::kopioiRaportti()
+{
+    QString uusi = QInputDialog::getText(this, tr("Raportin kopioiminen"), tr("Anna uuden raportin tunnus. \nTunnusta ei näytetä käyttäjälle"));
+    if( uusi.isEmpty())
+        return;
+    QString nykyinen = ui->raporttiCombo->currentText();
+    QString alkuosa = nykyinen.left(nykyinen.indexOf("/"));
+    QString uusiTunnus = alkuosa + "/" + uusi;
+    muoto_.tyhjenna();
+
+    kp()->asetukset()->aseta(uusiTunnus, data());
+    nollaa();
+    ui->raporttiCombo->setCurrentText(uusiTunnus);
+    muokkaaNimikkeet();
 }
 
 void RaportinMuokkaus::lisaaEnnen()

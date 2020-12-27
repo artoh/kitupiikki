@@ -98,6 +98,7 @@ public:
     QString alvTarkastus() const;
 
     void paivitaAalv(int rivi);
+    qlonglong summa() const;
 
 private:
     QVariantList viennit_;

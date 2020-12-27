@@ -98,6 +98,11 @@ void KieliKentta::lataa(const QListWidget *widget)
     }
 }
 
+void KieliKentta::tyhjenna()
+{
+    tekstit_.clear();
+}
+
 QVariantMap KieliKentta::map() const
 {
     QVariantMap out;

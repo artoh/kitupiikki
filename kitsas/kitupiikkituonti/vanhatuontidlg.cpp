@@ -681,7 +681,7 @@ void VanhatuontiDlg::siirraTositteet()
 {
     QSqlQuery tositekysely(kpdb_);
     tositekysely.setForwardOnly(true);
-    tositekysely.exec("SELECT Tosite.id as id, pvm, otsikko, kommentti, tunniste, tosite.json as json, tunnus FROM Tosite JOIN Tositelaji ON Tosite.laji=Tositelaji.id WHERE Tosite.pvm NOT NULL");
+    tositekysely.exec("SELECT Tosite.id as id, pvm, otsikko, kommentti, tunniste, tosite.json as json, tunnus, Tosite.laji AS laji FROM Tosite JOIN Tositelaji ON Tosite.laji=Tositelaji.id WHERE Tosite.pvm NOT NULL");
     QSqlQuery vientikysely(kpdb_);
     vientikysely.setForwardOnly(true);
     QSqlQuery merkkauskysely( kpdb_ );
@@ -705,7 +705,7 @@ void VanhatuontiDlg::siirraTositteet()
             tosite.setData(Tosite::TUNNISTE, tositekysely.value("tunniste"));
 
         QVariantMap map = QJsonDocument::fromJson(tositekysely.value("json").toByteArray()).toVariant().toMap();
-        if( map.contains("AlvTilitysAlkaa")) {
+        if( map.contains("AlvTilitysAlkaa") && tositekysely.value("laji").toInt() == 0) {
             QVariantMap alvmap;
             alvmap.insert("kausialkaa", map.value("AlvTilitysAlkaa"));
             alvmap.insert("kausipaattyy", map.value("AlvTilitysPaattyy"));
@@ -741,6 +741,17 @@ void VanhatuontiDlg::siirraTositteet()
             vienti.setTili( tili );
             qlonglong debetsnt = vientikysely.value("debetsnt").toLongLong();
             qlonglong kreditsnt = vientikysely.value("kreditsnt").toLongLong();
+
+            if( debetsnt < 0) {
+                kreditsnt -= debetsnt;
+                debetsnt = 0;
+            }
+
+            if( kreditsnt < 0) {
+                debetsnt -= kreditsnt;
+                kreditsnt = 0;
+            }
+
             if( debetsnt > kreditsnt)
                 vienti.setDebet(debetsnt - kreditsnt);
             else if( kreditsnt)

@@ -16,6 +16,7 @@
 */
 #include "alvraporttiwidget.h"
 #include "alv/alvlaskelma.h"
+#include "tools/tulkki.h"
 
 AlvRaporttiWidget::AlvRaporttiWidget() :
     RaporttiWidget(nullptr),
@@ -28,6 +29,8 @@ AlvRaporttiWidget::AlvRaporttiWidget() :
 
     ui->alkaa->setDate(alku);
     ui->paattyy->setDate( alku.addMonths(1).addDays(-1)  );
+
+    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 AlvRaporttiWidget::~AlvRaporttiWidget()
@@ -37,7 +40,7 @@ AlvRaporttiWidget::~AlvRaporttiWidget()
 
 void AlvRaporttiWidget::esikatsele()
 {
-    AlvLaskelma *laskelma = new AlvLaskelma(this);
+    AlvLaskelma *laskelma = new AlvLaskelma(this, ui->kieliCombo->currentData().toString());
     connect( laskelma, &AlvLaskelma::valmis, this, &RaporttiWidget::nayta);
     laskelma->laske( ui->alkaa->date(), ui->paattyy->date());
 }

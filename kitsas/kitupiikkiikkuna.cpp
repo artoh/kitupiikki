@@ -87,7 +87,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
-    setWindowTitle( tr("Kitsas %1").arg(qApp->applicationVersion()));
+    setWindowTitle( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
 
     kirjaussivu =  new KirjausSivu(this, selaussivu);
 

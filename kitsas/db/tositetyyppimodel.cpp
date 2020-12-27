@@ -30,31 +30,31 @@ TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QStrin
 TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     : QAbstractListModel (parent)
 {
-    lisaa(TositeTyyppi::MENO, tr("Meno"), "poista");
-    lisaa(TositeTyyppi::TULO, tr("Tulo"), "lisaa");
+    lisaa(TositeTyyppi::MENO, "Meno", "poista");
+    lisaa(TositeTyyppi::TULO, "Tulo", "lisaa");
 
-    lisaa(TositeTyyppi::KULULASKU, tr("Kululasku"), "tekstisivu", true);
-    lisaa(TositeTyyppi::SAAPUNUTVERKKOLASKU, tr("Saapunut verkkolasku"),"verkkolasku", true);
+    lisaa(TositeTyyppi::KULULASKU, "Kululasku", "tekstisivu", true);
+    lisaa(TositeTyyppi::SAAPUNUTVERKKOLASKU, "Saapunut verkkolasku","verkkolasku", true);
 
-    lisaa(TositeTyyppi::MYYNTILASKU, tr("Myyntilasku"), "lasku", false);
-    lisaa(TositeTyyppi::HYVITYSLASKU, tr("Hyvityslasku"), "lasku", false);
-    lisaa(TositeTyyppi::MAKSUMUISTUTUS, tr("Maksumuistutus"), "lasku", false);
+    lisaa(TositeTyyppi::MYYNTILASKU, "Myyntilasku", "lasku", false);
+    lisaa(TositeTyyppi::HYVITYSLASKU, "Hyvityslasku", "lasku", false);
+    lisaa(TositeTyyppi::MAKSUMUISTUTUS, "Maksumuistutus", "lasku", false);
 
 
-    lisaa(TositeTyyppi::SIIRTO, tr("Siirto"), "siirra");
-    lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tiliote");
-    lisaa(TositeTyyppi::PALKKA, tr("Palkka"), "yrittaja");
-    lisaa(TositeTyyppi::MUISTIO, tr("Muistio"),"kommentti");
-    lisaa(TositeTyyppi::LIITETIETO, tr("Liitetieto"), "liite");
+    lisaa(TositeTyyppi::SIIRTO, "Siirto", "siirra");
+    lisaa(TositeTyyppi::TILIOTE, "Tiliote", "tiliote");
+    lisaa(TositeTyyppi::PALKKA, "Palkka", "yrittaja");
+    lisaa(TositeTyyppi::MUISTIO, "Muistio","kommentti");
+    lisaa(TositeTyyppi::LIITETIETO, "Liitetieto", "liite");
 
-    lisaa(TositeTyyppi::TUONTI, tr("Tuonti"), "tuotiedosto", true);
-    lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
+    lisaa(TositeTyyppi::TUONTI, "Tuonti", "tuotiedosto", true);
+    lisaa(TositeTyyppi::MUU, "Muu", "tyhja");
 
-    lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa", false);
-    lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys", false);
-    lisaa(TositeTyyppi::POISTOLASKELMA, tr("Poistolaskelma"), "kirjalaatikko", false);
-    lisaa(TositeTyyppi::JAKSOTUS, tr("Jaksotus"), "ratas", false);
-    lisaa(TositeTyyppi::TULOVERO, tr("Tulovero"), "verotilitys", false);
+    lisaa(TositeTyyppi::TILINAVAUS, "Tilinavaus", "rahaa", false);
+    lisaa(TositeTyyppi::ALVLASKELMA, "Alv-laskelma", "verotilitys", false);
+    lisaa(TositeTyyppi::POISTOLASKELMA, "Poistolaskelma", "kirjalaatikko", false);
+    lisaa(TositeTyyppi::JAKSOTUS, "Jaksotus", "ratas", false);
+    lisaa(TositeTyyppi::TULOVERO, "Tulovero", "verotilitys", false);
 }
 
 int TositeTyyppiModel::rowCount(const QModelIndex & /* parent */) const

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
+    <width>1099</width>
     <height>459</height>
    </rect>
   </property>
@@ -36,7 +36,53 @@
       </spacer>
      </item>
      <item>
-      <widget class="KpDateEdit" name="alkuEdit"/>
+      <widget class="QPushButton" name="edellinenNappi">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/edellinen.png</normaloff>:/pic/edellinen.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="kuukausiNappi">
+       <property name="toolTip">
+        <string>Tämä kuukausi</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/month.png</normaloff>:/pic/month.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tilikausiButton">
+       <property name="toolTip">
+        <string>Tämä tilikausi</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/calendar.png</normaloff>:/pic/calendar.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KpDateEdit" name="alkuEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label">
@@ -46,7 +92,25 @@
       </widget>
      </item>
      <item>
-      <widget class="KpDateEdit" name="loppuEdit"/>
+      <widget class="KpDateEdit" name="loppuEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="seuraavaNappi">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/seuraava.png</normaloff>:/pic/seuraava.png</iconset>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_3">
@@ -79,6 +143,9 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
@@ -96,6 +163,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="paivitaNappi">
+       <property name="toolTip">
+        <string>Päivitä</string>
+       </property>
        <property name="text">
         <string/>
        </property>

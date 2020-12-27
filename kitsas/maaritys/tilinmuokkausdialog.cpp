@@ -333,7 +333,7 @@ void TilinMuokkausDialog::accept()
         tili_->asetaLaajuus( ui->laajuusCombo->currentData().toInt());
 
         tili_->setInt("alvlaji", ui->veroCombo->currentData().toInt());
-        if( ui->veroSpin->isVisible())
+        if( !ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
             tili_->setInt("alvprosentti", ui->veroSpin->value());
         else
             tili_->unset("alvprosentti");

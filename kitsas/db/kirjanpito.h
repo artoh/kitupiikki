@@ -273,7 +273,7 @@ public:
      * @param kieli Kielikoodi (fi, sv, en)
      * @return Käännetty teksti
      */
-    QString kaanna(const QString& teksti, const QString& kieli) const;
+    QString kaanna(const QString& teksti, const QString& kieli = QString()) const;
 
     void asetaTositeSarjat(const QStringList& sarjat) { tositesarjat_=sarjat;}
     QStringList tositeSarjat() const { return tositesarjat_;}
@@ -494,6 +494,6 @@ QIcon lippu(const QString& kielikoodi);
  * @param kieli Kielikoodi (fi, sv, en)
  * @return Käännetty teksti
  */
-QString tulkkaa(const QString& teksti, const QString& kieli);
+QString tulkkaa(const QString& teksti, const QString& kieli = QString());
 
 #endif // KIRJANPITO_H

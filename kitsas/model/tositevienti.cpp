@@ -79,7 +79,10 @@ void TositeVienti::setPvm(const QDate &pvm)
 
 void TositeVienti::setTili(int tili)
 {
-    set( TILI, tili);
+    if(tili)
+        set( TILI, tili);
+    else
+        remove(avaimet__.at(TILI));
 }
 
 void TositeVienti::setDebet(double euroa)
