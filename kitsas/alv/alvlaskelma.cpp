@@ -84,10 +84,11 @@ void AlvLaskelma::kirjoitaYhteenveto()
     }
 
     if( suhteutuskuukaudet_ ) {
-        if( liikevaihto_ < 1000000)
+        int huojennusraja = huojennusalku_ < QDate(2021,1,1) ? 1000000 : 1500000 ;
+        if( liikevaihto_ < huojennusraja)
             huojennus_ = verohuojennukseen_;
         else {
-            huojennus_ = qRound64(verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000.0);
+            huojennus_ = qRound64(verohuojennukseen_ - ( (liikevaihto_ - huojennusraja) * verohuojennukseen_ ) / (3000000.0 - huojennusraja ));
         }
         if( huojennus_ > verohuojennukseen_)
             huojennus_ = verohuojennukseen_;
@@ -556,28 +557,27 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
 
 void AlvLaskelma::haeHuojennusJosTarpeen()
 {
-    QDate huojennusalku;
     QDate huojennusloppu;
 
 
     if( loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32 ) {
-        huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).alkaa();
+        huojennusalku_ = kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).alkaa();
         huojennusloppu = loppupvm_;
     } else if( loppupvm_.month() == 12 && loppupvm_.day() == 31 && alkupvm_.daysTo(loppupvm_) > 31) {
         // Jos alv-kausi muu kuin kuukausi, lasketaan verovuoden mukaisesti
         huojennusloppu = loppupvm_;
-        huojennusalku = QDate(loppupvm_.year(),1,1);
+        huojennusalku_ = QDate(loppupvm_.year(),1,1);
         QDate alvalkaa = kp()->asetukset()->pvm("AlvAlkaa");
-        if( alvalkaa.isValid() && alvalkaa > huojennusalku)
-            huojennusalku = alvalkaa;
+        if( alvalkaa.isValid() && alvalkaa > huojennusalku_)
+            huojennusalku_ = alvalkaa;
     }
 
-    if( huojennusalku.isValid()) {
-        if( huojennusalku.day() == 1)
+    if( huojennusalku_.isValid()) {
+        if( huojennusalku_.day() == 1)
             suhteutuskuukaudet_ = 1;
         else
             suhteutuskuukaudet_ = 0;
-        for( QDate pvm = huojennusalku.addMonths(1); pvm < loppupvm_; pvm = pvm.addMonths(1))
+        for( QDate pvm = huojennusalku_.addMonths(1); pvm < loppupvm_; pvm = pvm.addMonths(1))
             suhteutuskuukaudet_++;
 
         if( loppupvm_.addDays(1).day() != 1)
@@ -585,7 +585,7 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 
         // Sitten tehdään huojennushaku
         KpKysely* kysely = kpk("/viennit");
-        kysely->lisaaAttribuutti("alkupvm", huojennusalku);
+        kysely->lisaaAttribuutti("alkupvm", huojennusalku_);
         kysely->lisaaAttribuutti("loppupvm", huojennusloppu);
         connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
         kysely->kysy();
