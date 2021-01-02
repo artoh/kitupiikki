@@ -260,6 +260,7 @@ bool MyyntiLaskujenToimittaja::laheta()
     int tyyppi = EmailMaaritys::sslIndeksi( kpasetus ? kp()->asetukset()->asetus("EmailSSL") : kp()->settings()->value("EmailSSL").toString() );
     QString kenelta = kpasetus ? kp()->asetukset()->asetus("EmailNimi") : kp()->settings()->value("EmailNimi").toString();
     QString keneltaEmail = kpasetus ? kp()->asetukset()->asetus("EmailOsoite") : kp()->settings()->value("EmailOsoite").toString();
+    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus("EmailKopio") : kp()->settings()->value("EmailKopio").toString();
 
 
     SmtpClient client(server, port, (SmtpClient::ConnectionType) tyyppi);
@@ -304,6 +305,8 @@ bool MyyntiLaskujenToimittaja::laheta()
         message.setHeaderEncoding(MimePart::QuotedPrintable);
         message.setSender(new EmailAddress(keneltaEmail, kenelta));
         message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
+        if( !kopioEmail.isEmpty())
+            message.addBcc(new EmailAddress(kopioEmail));
         message.setSubject(otsikko);
 
         QString viesti = lasku.value("saate").toString();

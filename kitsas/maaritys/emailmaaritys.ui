@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>698</width>
-    <height>1059</height>
+    <width>733</width>
+    <height>1237</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -274,6 +274,27 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Laskukopio osoitteeseen</string>
+       </property>
+       <property name="buddy">
+        <cstring>kopioEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="kopioEdit">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <spacer name="verticalSpacer">

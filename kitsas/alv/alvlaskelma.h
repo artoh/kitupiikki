@@ -115,6 +115,7 @@ protected:
 protected:
     QDate alkupvm_;
     QDate loppupvm_;
+    QDate huojennusalku_;
 
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
