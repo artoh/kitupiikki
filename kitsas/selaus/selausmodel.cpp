@@ -152,7 +152,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tili)
         SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
         if( sqlite ) {
             lataaSqlite(sqlite, alkaa, loppuu, tili);
-        } else {
+        } else if( !ladataan_){
             KpKysely *kysely = kpk("/viennit");
             if(kysely) {
                 kysely->lisaaAttribuutti("alkupvm", alkaa);
@@ -160,6 +160,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tili)
                 if(tili)
                     kysely->lisaaAttribuutti("tili", tili);
                 connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+                ladataan_ = true;
 
                 kysely->kysy();
             }
@@ -187,6 +188,7 @@ void SelausModel::tietoSaapuu(QVariant *var)
     }
 
     endResetModel();
+    ladataan_ = false;
 }
 
 SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)

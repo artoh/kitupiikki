@@ -114,7 +114,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
         SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
         if( sqlite ) {
             lataaSqlite(sqlite, alkaa, loppuu);
-        } else {
+        } else if(!ladataan_){
             KpKysely *kysely = kpk("/tositteet");
             kysely->lisaaAttribuutti("alkupvm", alkaa);
             kysely->lisaaAttribuutti("loppupvm", loppuu);
@@ -124,6 +124,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
                 kysely->lisaaAttribuutti("saapuneet", QString());
 
             connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
+            ladataan_ = true;
             kysely->kysy();
         }
     }
@@ -149,6 +150,7 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
     }
 
     endResetModel();
+    ladataan_ = false;
 }
 
 void TositeSelausModel::lataaSqlite(SQLiteModel *sqlite, const QDate &alkaa, const QDate &loppuu)

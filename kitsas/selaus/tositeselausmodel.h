@@ -114,6 +114,7 @@ protected:
 
     int tila_ = KIRJANPIDOSSA;
     bool samakausi_ = false;
+    bool ladataan_ = false;
 
 };
 
