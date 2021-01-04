@@ -914,7 +914,7 @@ QString AloitusSivu::vinkit()
                 {
                     vinkki.append("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
                 }
-                vinkki.append("<p>Katso <a href=ohje:/tilikaudet/tilinpaatos>ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>");
+                vinkki.append("<p>Katso <a href=\"ohje:/tilinpaatos/aloittaminen/\">ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>");
             }
         }
     }
