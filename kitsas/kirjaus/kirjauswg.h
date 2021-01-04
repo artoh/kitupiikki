@@ -52,12 +52,16 @@ public:
 
     Tosite* tosite() { return tosite_;}
 
+
 public slots:
     void lataaTosite(int id);
     void lisaaLiite(const QString &polku);
     void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
 
     void tyhjenna();
+
+private:
+    enum MuokkausSallinta { Lukittu = 0, AlvLukittu = 1, Sallittu = 2};
 
 private slots:
 
@@ -71,8 +75,9 @@ private slots:
     void uusiVienti();
     void muokkaaVientia();
 
-    void paivitaKommentti(const QString& kommentti);
-    void salliMuokkaus(bool sallitaanko);
+    void paivitaKommentti(const QString& kommentti);    
+
+    void salliMuokkaus(MuokkausSallinta sallitaanko);
 
     void vaihdaTositeTyyppi();
     void tositeTyyppiVaihtui(int tyyppiKoodi);

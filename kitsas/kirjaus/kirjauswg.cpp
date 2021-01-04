@@ -468,13 +468,14 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
     ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko() && kp()->yhteysModel() );
     ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
-    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet
+    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && (!virheet || virheet == Tosite::PVMALV)
                                  && !tosite()->liitteet()->tallennetaanko());
 
     uudeksiAktio_->setEnabled( !muokattu );
 
-    salliMuokkaus( (!( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA ) &&
-                   (tosite_->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite_->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS));
+    salliMuokkaus( tosite()->tila() < Tosite::KIRJANPIDOSSA && (tosite_->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite_->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS) ?
+                       Sallittu :
+                       ( virheet & Tosite::PVMLUKITTU ? Lukittu : (virheet & Tosite::PVMALV ? AlvLukittu : Sallittu) ));
     if( muokattu )
         emit kp()->piilotaTallennusWidget();
 
@@ -746,30 +747,30 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 
 }
 
-void KirjausWg::salliMuokkaus(bool sallitaanko)
+void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
 {
-    ui->tositePvmEdit->setEnabled(sallitaanko);
-    ui->tositetyyppiCombo->setEnabled(sallitaanko);
-    ui->kommentitEdit->setEnabled(sallitaanko);
-    ui->otsikkoEdit->setEnabled(sallitaanko);
-    ui->lisaaliiteNappi->setEnabled(sallitaanko);
-    ui->poistaLiiteNappi->setEnabled(sallitaanko);
-    ui->lisaaRiviNappi->setEnabled(sallitaanko);
-    ui->lisaaVientiNappi->setEnabled(sallitaanko);
+    ui->tositePvmEdit->setEnabled(sallitaanko == Sallittu);
+    ui->tositetyyppiCombo->setEnabled(sallitaanko == Sallittu);
+    ui->kommentitEdit->setEnabled(sallitaanko != Lukittu);
+    ui->otsikkoEdit->setEnabled(sallitaanko == Sallittu);
+    ui->lisaaliiteNappi->setEnabled(sallitaanko != Lukittu);
+    ui->poistaLiiteNappi->setEnabled(sallitaanko == Sallittu);
+    ui->lisaaRiviNappi->setEnabled(sallitaanko == Sallittu);
+    ui->lisaaVientiNappi->setEnabled(sallitaanko == Sallittu);
 
-    if(sallitaanko)
+    if(sallitaanko == Sallittu)
         ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
         ui->tositePvmEdit->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    tosite_->viennit()->asetaMuokattavissa( sallitaanko && !apuri_ );
+    tosite_->viennit()->asetaMuokattavissa( sallitaanko == Sallittu && !apuri_ );
     ui->lisaaRiviNappi->setVisible( !apuri_);
     ui->lisaaVientiNappi->setVisible(!apuri_);
     ui->muokkaaVientiNappi->setVisible(!apuri_);
     ui->poistariviNappi->setVisible( !apuri_);
 
     if( apuri_ ) {
-        apuri_->salliMuokkaus(sallitaanko);
+        apuri_->salliMuokkaus(sallitaanko == Sallittu);
     }
 }
 

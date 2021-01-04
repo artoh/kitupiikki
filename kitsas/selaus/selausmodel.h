@@ -107,6 +107,7 @@ protected:
 //    QVariantList lista_;
     bool samakausi_ = false;
     int tiliselaus_ = 0;
+    bool ladataan_ = false;
 
 };
 
