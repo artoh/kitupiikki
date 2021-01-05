@@ -32,6 +32,8 @@ public:
     ~KiertoWidget();
 
     QString kululaskuVirtuaalikoodi() const;
+    QByteArray kululaskuQr() const;
+    QString luotuviite() const;
 
 public slots:
     void lataaTosite();    
