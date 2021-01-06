@@ -71,7 +71,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Aatteellinen yhdistys tai säätlö</string>
+         <string>Aatteellinen yhdistys tai säätiö</string>
         </property>
         <property name="checked">
          <bool>false</bool>
