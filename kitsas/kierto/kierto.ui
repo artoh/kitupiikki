@@ -452,19 +452,6 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_6">
      <item>
-      <spacer name="verticalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QSvgWidget" name="svgWidget" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -474,8 +461,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>250</width>
-         <height>250</height>
+         <width>150</width>
+         <height>150</height>
         </size>
        </property>
       </widget>

@@ -168,6 +168,41 @@
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="testiLabel">
+       <property name="text">
+        <string>Testisähköpostia lähetetään...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="kokeileNappi">
+       <property name="text">
+        <string>Kokeile</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/email.png</normaloff>:/pic/email.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Viestien lähettäjä</string>
@@ -203,39 +238,32 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="testiLabel">
+    <layout class="QFormLayout" name="formLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>Testisähköpostia lähetetään...</string>
+        <string>Laskukopio osoitteeseen</string>
+       </property>
+       <property name="buddy">
+        <cstring>kopioEdit</cstring>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="kokeileNappi">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="kopioEdit">
        <property name="text">
-        <string>Kokeile</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/email.png</normaloff>:/pic/email.png</iconset>
+        <string/>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_3">
@@ -276,27 +304,6 @@
     </widget>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout_3">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Laskukopio osoitteeseen</string>
-       </property>
-       <property name="buddy">
-        <cstring>kopioEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="kopioEdit">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -311,6 +318,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tkAsetusRadio</tabstop>
+  <tabstop>kpAsetusRadio</tabstop>
+  <tabstop>palvelinEdit</tabstop>
+  <tabstop>porttiSpin</tabstop>
+  <tabstop>tyyppiCombo</tabstop>
+  <tabstop>kayttajaEdit</tabstop>
+  <tabstop>salasanaEdit</tabstop>
+  <tabstop>kokeileNappi</tabstop>
+  <tabstop>nimiEdit</tabstop>
+  <tabstop>emailEdit</tabstop>
+  <tabstop>kopioEdit</tabstop>
+  <tabstop>maksutiedotRadio</tabstop>
+  <tabstop>saateRadio</tabstop>
+  <tabstop>saateEdit</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
