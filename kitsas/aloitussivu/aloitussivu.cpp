@@ -242,6 +242,9 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->varmistaNappi->setEnabled(avoinna);
     ui->muistiinpanotNappi->setEnabled(avoinna);
     ui->poistaNappi->setEnabled( avoinna );
+    ui->pilviPoistaButton->setVisible( avoinna &&
+                                       qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
+                                       kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
     if( avoinna )
     {
@@ -572,8 +575,6 @@ void AloitusSivu::kirjauduttu()
     } else {
         ui->kokeiluLabel->hide();
     }
-
-    ui->pilviPoistaButton->setVisible( kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );
 
     ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tee tilaus") );
 

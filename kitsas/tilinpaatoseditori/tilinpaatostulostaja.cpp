@@ -30,6 +30,7 @@
 
 #include <QDebug>
 #include <QApplication>
+#include <QMessageBox>
 
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
@@ -183,6 +184,13 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
     QString raporttitunnus = mats.captured("raportti");
     QString optiot = mats.captured("optiot");
     QString otsikko = mats.captured("otsikko");
+
+    if( !kp()->asetukset()->onko(raporttitunnus)) {
+        QMessageBox::critical(nullptr, tr("Virheellinen tilinpäätöskaava"),
+                              tr("Tilinpäätöskaavan asetuksiin sisältyy raportti %1 jota ei ole olemassa.\n"
+                                 "Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.").arg(raporttitunnus));
+        return;
+    }
 
     Raportoija::RaportinTyyppi tyyppi = Raportoija::VIRHEELLINEN;
 
