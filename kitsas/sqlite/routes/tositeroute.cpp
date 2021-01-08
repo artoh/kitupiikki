@@ -20,6 +20,7 @@
 
 #include "model/tosite.h"
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QJsonDocument>
 #include <QDate>
@@ -227,7 +228,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
             tunniste = kysely.value("tunniste").toInt() + 1;
     }
     // Laskun numero ja viite
-    if( map.contains("lasku") && map.value("lasku").toMap().value("numero").toLongLong() == 0l && tila >= Tosite::KIRJANPIDOSSA &&
+    if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::KIRJANPIDOSSA &&
+            tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
             viennit.count()) {
         // LaskuSeuraavaId käsitellään käsin, jotta ei tule päällekkäisiä numeroita
         // vaikka olisi monta instanssia.
