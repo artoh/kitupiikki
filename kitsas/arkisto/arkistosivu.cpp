@@ -51,6 +51,7 @@
 #include "db/yhteysmodel.h"
 
 #include "uudelleennumerointi.h"
+#include "tilikausimuokkausdlg.h"
 
 #include <zip.h>
 
@@ -243,11 +244,8 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->arkistoNappi->setEnabled( paatettava );
         ui->vieNappi->setEnabled( paatettava );
         ui->aineistoNappi->setEnabled( paatettava );
-
-        // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
-        ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
-                                     kp()->tilitpaatetty() >= kausi.alkaa() );
         ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
+        ui->muokkaaNappi->setEnabled( true );
     }
     else
     {
@@ -267,11 +265,18 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
 
 void ArkistoSivu::muokkaa()
 {
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
+
+    TilikausiMuokkausDlg *muokkaus = new TilikausiMuokkausDlg(this);
+    muokkaus->muokkaa(kausi);
+
+    return;
+
     QDialog dlg;
     Ui::MuokkaaTilikausi dlgUi;
     dlgUi.setupUi(&dlg);
 
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
+
 
     // Selvitetään, mikä on viimeisin kirjaus
     QDate viimepaiva = kausi.pvm("viimeinen");

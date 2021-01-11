@@ -63,8 +63,9 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
             map.insert("liikevaihto", QString::number((kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0, 'f', 2));
 
         // Kauden viimeinen tosite
-        kysely.exec(QString("SELECT MAX(pvm) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' WHERE Tosite.tila >= 100")
+        kysely.exec(QString("SELECT MAX(pvm) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100")
                     .arg(map.value("alkaa").toString()).arg(map.value("loppuu").toString()) );
+        qDebug() << kysely.lastQuery();
         if( kysely.next())
             map.insert("viimeinen", kysely.value(0));
 

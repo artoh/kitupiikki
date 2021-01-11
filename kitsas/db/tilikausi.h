@@ -141,9 +141,10 @@ public:
     QString pitkakausitunnus() const { return kausitunnus_; }
 
     void asetaKausitunnus(const QString& kausitunnus);
+    void asetaAlkaa(const QDate& pvm);
     void asetaPaattyy(const QDate& pvm);
 
-    void tallenna();
+    void tallenna(const QDate& pvm = QDate());
     void poista();
 
     QVariantMap data() const;

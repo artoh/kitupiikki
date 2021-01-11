@@ -151,20 +151,21 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
     kausitunnus_ = kausitunnus;
 }
 
+void Tilikausi::asetaAlkaa(const QDate &pvm)
+{
+    alkaa_ = pvm;
+}
+
 void Tilikausi::asetaPaattyy(const QDate &pvm)
 {
     paattyy_ = pvm;
 }
 
-void Tilikausi::tallenna()
+void Tilikausi::tallenna(const QDate &pvm)
 {
     QVariantMap map = data();
-    map.remove("tase");
-    map.remove("tulos");
-    map.remove("liikevaihto");
-    map.remove("viimeinen");
 
-    KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( alkaa().toString(Qt::ISODate)), KpKysely::PUT );
+    KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( pvm.isValid() ? pvm.toString(Qt::ISODate) : alkaa().toString(Qt::ISODate)), KpKysely::PUT );
     QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
     QObject::connect(kysely, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
     kysely->kysy( map );
@@ -184,6 +185,11 @@ QVariantMap Tilikausi::data() const
     QVariantMap map = KantaVariantti::data();
     map.insert("alkaa", alkaa_);
     map.insert("loppuu", paattyy_);
+
+    map.remove("tase");
+    map.remove("tulos");
+    map.remove("liikevaihto");
+    map.remove("viimeinen");
     return map;
 }
 
