@@ -82,14 +82,14 @@ void TilikausiMuokkausDlg::accept()
     Tilikausi uusi = kausi_;
     uusi.asetaAlkaa(ui->loppuuEdit->date());
     uusi.asetaPaattyy(ui->loppuuEdit->date());
-    uusi.set("henkilosta", ui->henkilostoSpin->value());
+    uusi.set("henkilosto", ui->henkilostoSpin->value());
     if( !ui->lukittuCheck)
         uusi.unset("vahvistettu");
 
     uusi.tallenna(kausi_.alkaa());
 
     // Lukitseminen/lukituksen poisto
-    if( ui->lukittuCheck) {
+    if( ui->lukittuCheck->isChecked()) {
         if( kp()->tilitpaatetty() < kausi_.paattyy() )
             kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
     } else {

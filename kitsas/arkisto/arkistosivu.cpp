@@ -33,7 +33,6 @@
 #include "db/kirjanpito.h"
 #include "ui_lisaatilikausidlg.h"
 #include "ui_lukitsetilikausi.h"
-#include "ui_muokkaatilikausi.h"
 
 #include "ui_arkistonvienti.h"
 
@@ -271,54 +270,6 @@ void ArkistoSivu::muokkaa()
     muokkaus->muokkaa(kausi);
 
     return;
-
-    QDialog dlg;
-    Ui::MuokkaaTilikausi dlgUi;
-    dlgUi.setupUi(&dlg);
-
-
-
-    // Selvitetään, mikä on viimeisin kirjaus
-    QDate viimepaiva = kausi.pvm("viimeinen");
-
-    // Saa poistaa vain, ellei yhtään kirjausta
-    dlgUi.poistaRadio->setEnabled( viimepaiva.isNull() && kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
-    dlgUi.paattyyRadio->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() &&
-                                    kp()->tilitpaatetty() < kausi.alkaa() );
-    dlgUi.peruLukko->setEnabled( kp()->tilitpaatetty() == kausi.paattyy() );
-    dlgUi.peruLukko->setChecked( kausi.paattyy() != kp()->tilikaudet()->kirjanpitoLoppuu() );
-
-    if( !viimepaiva.isValid() )
-        viimepaiva = kausi.alkaa().addDays(1);
-
-    dlgUi.paattyyDate->setDateRange( viimepaiva, kausi.alkaa().addMonths(19).addDays(-1) );
-    dlgUi.paattyyDate->setDate( kausi.paattyy() );
-
-    if( dlg.exec())
-    {
-        if( dlgUi.poistaRadio->isChecked()) {
-            kausi.poista();
-        } else if( dlgUi.paattyyRadio->isChecked()) {
-            kausi.asetaPaattyy(dlgUi.paattyyDate->date());
-            kausi.tallenna();
-        }
-        else if( dlgUi.peruLukko->isChecked())
-        {
-            if( QMessageBox::warning(this, tr("Tilikauden lukitsemisen peruminen"),
-                                     tr("Oletko varma, että haluat perua tilikauden lukitsemisen?\n\n"
-                                        "Kaikki tilinpäätökseen liittyvät toimet on tehtävä uudelleen ja tilinpäätös on mahdollisesti "
-                                        "myös vahvistettava uudelleen.\n\n"
-                                        "Kirjanpitolaki 2. luku 7§ 2 mom:\n"
-                                        "Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa tai poistaa "
-                                        "tilinpäätöksen laatimisen jälkeen."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
-                return;
-
-            kp()->asetukset()->aseta("TilitPaatetty", kausi.alkaa().addDays(-1));
-            kausi.unset("vahvistettu");
-            kausi.tallenna();
-        }
-    }
-
 }
 
 void ArkistoSivu::budjetti()

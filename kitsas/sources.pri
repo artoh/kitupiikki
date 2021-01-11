@@ -665,7 +665,6 @@ FORMS += \
     arkisto/poistaja.ui \
     maaritys/lisaaraporttidialogi.ui \
     maaritys/kaavaeditori.ui \
-    arkisto/muokkaatilikausi.ui \
     aloitussivu/tervetuloa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \
