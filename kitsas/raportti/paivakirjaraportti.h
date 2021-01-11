@@ -36,6 +36,8 @@ public:
 protected:
     Ui::Paivakirja *ui;
 
+    void paivitaKohdennukset();
+
 public slots:
     virtual void esikatsele() override;
 

@@ -53,7 +53,7 @@ PaakirjaRaportti::PaakirjaRaportti()
     ui->eriPaivatCheck->hide();
 
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
-    connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
+    connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);    
     haeTilitComboon();
 
     Tulkki::alustaKieliCombo(ui->kieliCombo);
@@ -62,6 +62,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
 void PaakirjaRaportti::haeTilitComboon()
 {
+    ui->kohdennusCombo->suodataValilla( ui->alkupvm->date(), ui->loppupvm->date() );
 
     // Tässä pitäisi ehkä sittenkin käyttää summia ;)
     KpKysely *kysely = kpk("/saldot");

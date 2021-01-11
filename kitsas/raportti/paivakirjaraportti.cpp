@@ -50,12 +50,22 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui->tiliBox->hide();
     ui->tiliCombo->hide();    
 
+    connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaivakirjaRaportti::paivitaKohdennukset);
+    connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaivakirjaRaportti::paivitaKohdennukset);
+
+    paivitaKohdennukset();
+
     Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 PaivakirjaRaportti::~PaivakirjaRaportti()
 {
     delete ui;
+}
+
+void PaivakirjaRaportti::paivitaKohdennukset()
+{
+    ui->kohdennusCombo->suodataValilla(ui->alkupvm->date(), ui->loppupvm->date());
 }
 
 void PaivakirjaRaportti::esikatsele()
