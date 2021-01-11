@@ -146,6 +146,8 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     ui->jaksoAlkaa->setDate(v.jaksoalkaa());
     ui->jaksoLoppuu->setDate(v.jaksoloppuu());
 
+    ui->poistoSpin->setValue( v.tasaerapoisto() / 12 );
+
     if(!tili.onkoValidi())
         tiliMuuttui();
 
@@ -211,6 +213,10 @@ void MuuMuokkausDlg::accept()
         vienti_.setAlvProsentti(alvProsentti());
 
     }
+
+    if( ui->poistoSpin->isVisible())
+        vienti_.setTasaerapoisto(ui->poistoSpin->value() * 12);
+
     QString aalv;
     if( ui->kirjaaVeroCheck->isChecked())
         aalv = "+";
