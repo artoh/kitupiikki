@@ -30,5 +30,12 @@ QVariant InfoRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
     QVariantMap map;
     QFileInfo info( kp()->sqlite()->tiedostopolku() );
     map.insert("koko", info.size());
+
+    QSqlQuery kysely(db());
+    kysely.exec("SELECT COUNT(id) FROM Tosite");
+    if(kysely.next())
+        map.insert("tositteita", kysely.value(0).toInt());
+
     return map;
+
 }

@@ -96,6 +96,7 @@ private slots:
     void haeInOutBox();
     void siirraPilveen();    
     void tukiInfo();
+    void lisaTukiInfo(QVariant *data);
     void vaihdaSalasanaUuteen();
 
 signals:

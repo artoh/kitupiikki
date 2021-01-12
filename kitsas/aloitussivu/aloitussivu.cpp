@@ -779,7 +779,19 @@ void AloitusSivu::tukiInfo()
                         #endif
 
         );
+        KpKysely* kysely = kpk("/info");
+        if(kysely) {
+            connect(kysely, &KpKysely::vastaus, this, &AloitusSivu::lisaTukiInfo);
+            kysely->kysy();
+        }
     }
+}
+
+void AloitusSivu::lisaTukiInfo(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    QString lisaInfo = QString::fromLatin1(QJsonDocument::fromVariant(map).toJson());
+    ui->tukiOhje->append(lisaInfo);
 }
 
 void AloitusSivu::vaihdaSalasanaUuteen()
