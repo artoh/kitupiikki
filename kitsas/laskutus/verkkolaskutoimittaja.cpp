@@ -95,6 +95,7 @@ bool VerkkolaskuToimittaja::toimitaSeuraava()
         QVariantMap asiakas;
         if( !hajoitaOsoite(lasku.value("osoite").toString(), asiakas)) {
             virhe(tr("Postiosoitteen selvittäminen epäonnistui"));
+            return toimitaSeuraava();
         }
 
         if( map.contains("alvtunnus"))
@@ -225,6 +226,7 @@ bool VerkkolaskuToimittaja::hajoitaOsoite(const QString &osoite, QVariantMap &as
 {
     QRegularExpression postiosoiterivi("(\\d{5})\\s(.+)");
     QStringList rivit = osoite.split('\n');
+    rivit.removeAll("");
     asiakasMap.insert("nimi", rivit.value(0));
     QStringList katuosoite;
     for(int i=1; i < rivit.count(); i++) {
