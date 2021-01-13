@@ -21,6 +21,8 @@
 #include <QJsonDocument>
 #include <QVariant>
 #include <QDebug>
+#include <QSqlTableModel>
+#include <QSqlRecord>
 
 TilikaudetRoute::TilikaudetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/tilikaudet")
@@ -87,17 +89,33 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
 QVariant TilikaudetRoute::put(const QString &polku, const QVariant &data)
 {
     QVariantMap map = data.toMap();
-    QDate alkaa = QDate::fromString(polku, Qt::ISODate);
-    QDate loppuu = map.take("loppuu").toDate();
-    map.remove("alkaa");
 
-    QSqlQuery kysely(db());
-    kysely.prepare("INSERT INTO Tilikausi (alkaa,loppuu,json) VALUES (?,?,?) "
-                   "ON CONFLICT (alkaa) DO UPDATE SET loppuu=EXCLUDED.loppuu, json=EXCLUDED.json");
-    kysely.addBindValue(alkaa);
-    kysely.addBindValue(loppuu);
-    kysely.addBindValue( mapToJson(map) );
-    kysely.exec();
+    QDate vanhaAlkaa = QDate::fromString(polku, Qt::ISODate);
+    QDate loppuu = map.take("loppuu").toDate();
+    QDate uusiAlkaa = map.take("alkaa").toDate();
+
+    if(vanhaAlkaa == uusiAlkaa) {
+        QSqlQuery kysely(db());
+        kysely.prepare("INSERT INTO Tilikausi (alkaa,loppuu,json) VALUES (?,?,?) "
+                       "ON CONFLICT (alkaa) DO UPDATE SET loppuu=EXCLUDED.loppuu, json=EXCLUDED.json");
+        kysely.addBindValue(uusiAlkaa);
+        kysely.addBindValue(loppuu);
+        kysely.addBindValue( mapToJson(map) );
+        kysely.exec();
+    } else {
+        QSqlTableModel model( nullptr, db() );
+        model.setTable("Tilikausi");
+        model.setFilter(QString("alkaa = '%1'").arg(vanhaAlkaa.toString(Qt::ISODate)));
+        model.select();
+        if(model.rowCount() == 1) {
+            QSqlRecord record = model.record(0);
+            record.setValue("alkaa", uusiAlkaa);
+            record.setValue("loppuu", loppuu);
+            record.setValue("json", mapToJson(map));
+            model.setRecord(0, record);
+            model.submitAll();
+        }
+    }
 
     return QVariant();
 }

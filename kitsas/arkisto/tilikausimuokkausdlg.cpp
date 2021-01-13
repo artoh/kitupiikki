@@ -80,7 +80,7 @@ void TilikausiMuokkausDlg::accept()
             return;
     }
     Tilikausi uusi = kausi_;
-    uusi.asetaAlkaa(ui->loppuuEdit->date());
+    uusi.asetaAlkaa(ui->alkaaEdit->date());
     uusi.asetaPaattyy(ui->loppuuEdit->date());
     uusi.set("henkilosto", ui->henkilostoSpin->value());
     if( !ui->lukittuCheck)
