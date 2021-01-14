@@ -129,7 +129,8 @@ void TilinpaatosTulostaja::tilaaRaportit()
     tilattuja_ = raportit_.count();
     // Tilaa halutut raportit, jotta ne saadaan käyttöön
     for(QString raportti : raportit_)
-        tilaaRaportti(raportti);
+        if(!tilaaRaportti(raportti))
+            return;
 }
 
 
@@ -177,7 +178,7 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
     painter->restore();
 }
 
-void TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
+bool TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
 {
     QRegularExpression raporttiRe("@(?<raportti>.+?)(:(?<optiot>\\w*))?[!](?<otsikko>.+)@");
     QRegularExpressionMatch mats = raporttiRe.match(raporttistr);
@@ -189,7 +190,7 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
         QMessageBox::critical(nullptr, tr("Virheellinen tilinpäätöskaava"),
                               tr("Tilinpäätöskaavan asetuksiin sisältyy raportti %1 jota ei ole olemassa.\n"
                                  "Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.").arg(raporttitunnus));
-        return;
+        return false;
     }
 
     Raportoija::RaportinTyyppi tyyppi = Raportoija::VIRHEELLINEN;
@@ -223,6 +224,7 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
 
     connect( raportoija, &Raportoija::valmis, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
     raportoija->kirjoita(erittelyt,-1);
+    return true;
 }
 
 

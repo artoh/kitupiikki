@@ -48,12 +48,13 @@ void TilikausiMuokkausDlg::muokkaa(Tilikausi kausi)
 
     QDate lukituspaiva = kp()->tilitpaatetty();
 
-    ui->lukittuCheck->setChecked( lukituspaiva >= kausi.paattyy() );
-    ui->lukittuCheck->setEnabled( lukituspaiva == kausi.paattyy() );
+    ui->lukittuCheck->setChecked( lukituspaiva >= kausi.alkaa() );
+    ui->lukittuCheck->setEnabled( kp()->tilikaudet()->tilikausiPaivalle(lukituspaiva).alkaa() == kausi.alkaa() ||
+                                  (!kp()->tilikaudet()->tilikausiPaivalle(lukituspaiva).alkaa().isValid() &&
+                                   lukituspaiva > kausi.alkaa()));
 
     ui->avausCheck->setChecked( kausi.paattyy() == kp()->asetukset()->pvm("TilinavausPvm"));
-    ui->avausCheck->setEnabled( kp()->tilikaudet()->tilikausiIndeksilla(0).paattyy() == kausi.paattyy() &&
-                                kausi.paattyy() == kp()->asetukset()->pvm("TilinavausPvm"));
+    ui->avausCheck->setEnabled( kp()->tilikaudet()->tilikausiIndeksilla(0).paattyy() == kausi.paattyy() );
 
     pbtn = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista tilikausi"));
     ui->buttonBox->addButton(pbtn, QDialogButtonBox::ActionRole);
@@ -183,7 +184,8 @@ void TilikausiMuokkausDlg::poista()
         if( QMessageBox::warning(this, tr("Tilikauden poistaminen"),
                                  tr("Oletko varma, että haluat poistaa tilikauden?\n\n"
                                     "Tilikauden tositteita ei poisteta, mutta ne jäävät "
-                                    "virheellisesti tilikausien ulkopuolelle"), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
+                                    "virheellisesti tilikausien ulkopuolelle eivätkä näy käyttäjälle "
+                                    "ennen kuin niille on lisätty tilikausi."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
             return;
     }
     kausi_.poista();

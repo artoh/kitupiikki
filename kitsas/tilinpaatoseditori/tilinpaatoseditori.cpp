@@ -175,8 +175,15 @@ void TilinpaatosEditori::lataa()
 void TilinpaatosEditori::tekstiSaapuu(QVariant *data)
 {
     QString teksti = QString::fromUtf8(data->toByteArray());    
+    QString raporttirivi = teksti.left( teksti.indexOf("\n"));
+    QRegularExpression raporttiRe("@.*?@");
+    QRegularExpressionMatchIterator matsi = raporttiRe.globalMatch(raporttirivi);
+    raportit_.clear();
+    while(matsi.hasNext()) {
+        QRegularExpressionMatch mats = matsi.next();
+        raportit_.append(mats.captured());
+    }
 
-    raportit_ = teksti.left( teksti.indexOf("\n")).split(" ");
     editori_->setText( teksti.mid(teksti.indexOf("\n")+1));
     tallennettu_ = editori_->toHtml();
 }

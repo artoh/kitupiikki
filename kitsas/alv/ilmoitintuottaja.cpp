@@ -65,7 +65,7 @@ QVariantList IlmoitinTuottaja::kausiTieto(const QVariantMap &map)
         return QVariantList() << "V" << alkaa.year();
     }
     // Kuukausi
-    else if( loppuu.day() == loppuu.daysInMonth()) {
+    else if( alkaa.month() == loppuu.month()  ) {
         return QVariantList() << "K" << alkaa.year() << alkaa.month();
     }
     // Mahdolliset vuosineljännekset
@@ -102,9 +102,6 @@ void IlmoitinTuottaja::tositeSaapuu(QVariant *data)
                                  tr("Ilmoitinainesto tallennettu tiedostoon %1.\n"
                                     "Voit lähettää sen verottajalle ilmoitin.fi-palvelulla.")
                                  .arg(filename));
-    } else {
-        QMessageBox::critical(nullptr, tr("Ilmoitinaineiston muodostaminen"),
-                              tr("Ilmoitinaineiston muodostaminen epäonnistui"));
     }
 }
 
@@ -113,8 +110,11 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
     txt_.clear();
 
     QVariantList kausitieto = kausiTieto(data);
-    if( kausitieto.isEmpty())
+    if( kausitieto.isEmpty()) {
+        QMessageBox::critical(nullptr, tr("Ilmoitinaineiston muodostaminen"),
+                              tr("Ilmoitinaineiston muodostaminen epäonnistui"));
         return false;
+    }
 
     lisaa(0, "VSRALVKV");
     lisaa(198, QDateTime::currentDateTime().toString("ddMMyyyyhhmmss"));
@@ -128,6 +128,13 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
     lisaa(53, kausitieto.value(1).toString());
 
     QVariantMap kooditMap = data.value("koodit").toMap();
+
+    if(kooditMap.isEmpty()) {
+        QMessageBox::information(nullptr, tr("Ilmoitinaineiston muodostaminen"),
+                              tr("Kaudelle ei löydy alv-aineistoa. Tee alv-ilmoitus OmaVero-palvelussa. "));
+        return false;
+    }
+
     QMapIterator<QString,QVariant> iter(kooditMap);
     while( iter.hasNext()) {
         iter.next();

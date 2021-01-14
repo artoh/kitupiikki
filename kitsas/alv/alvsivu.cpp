@@ -34,6 +34,7 @@
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 #include "ilmoitintuottaja.h"
+#include "pilvi/pilvimodel.h"
 
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu),
@@ -81,6 +82,9 @@ void AlvSivu::siirrySivulle()
 
     ui->kausiCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     ui->maksuperusteNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
+
+    ui->ilmoitinNappi->setVisible( kp()->pilvi() && !kp()->pilvi()->ilmoitinTunnus().isEmpty() );
+
     alustaa_ = false;
 
 }
@@ -158,7 +162,8 @@ void AlvSivu::riviValittu()
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
                                         index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() > kp()->tilitpaatetty() );
-    ui->ilmoitinNappi->setEnabled( index.isValid() && ilmoitin->voikoMuodostaa(index.data(AlvIlmoitustenModel::MapRooli).toMap()));
+    ui->ilmoitinNappi->setEnabled( index.isValid() &&
+                                   ilmoitin->voikoMuodostaa(index.data(AlvIlmoitustenModel::MapRooli).toMap()));
 
 }
 
