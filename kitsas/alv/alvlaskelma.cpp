@@ -123,7 +123,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
     yvRivi(314, kaanna("Palveluostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT));
 
     yvRivi(318, kaanna("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
-    yvRivi(319, kaanna("Rakentamispalveluiden ja metaalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
+    yvRivi(319, kaanna("Rakentamispalveluiden ja metalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
     yvRivi(320, kaanna("Rakentamispalveluiden ja metalliromun ostot"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO));
 
     yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
