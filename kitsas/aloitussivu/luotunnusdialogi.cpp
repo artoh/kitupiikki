@@ -39,6 +39,7 @@ LuoTunnusDialogi::LuoTunnusDialogi(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("pilvi"); });
     connect( ui->osoiteEdit, &QLineEdit::textEdited, this, &LuoTunnusDialogi::tarkastaEmail);
+    connect( ui->nimiEdit, &QLineEdit::textEdited, [this] { ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( ui->nimiEdit->text().length() > 3 && !ui->kaytossaLabel->isVisible() );} );
 
     ui->kaytossaLabel->hide();
     ui->verkkovirheLabel->hide();
@@ -92,7 +93,7 @@ void LuoTunnusDialogi::emailTarkistettu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     bool kaytossa =  (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) ;
     ui->kaytossaLabel->setVisible(kaytossa);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!kaytossa);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!kaytossa && ui->nimiEdit->text().length() > 2);
 }
 
 void LuoTunnusDialogi::verkkovirhe(QNetworkReply::NetworkError virhe)
