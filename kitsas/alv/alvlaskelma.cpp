@@ -693,7 +693,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
     qDebug() << " Oikeuttava vero " << verohuojennukseen_;
 
-    liikevaihto_ = liikevaihto_ * 12 / suhteutuskuukaudet_;
+    liikevaihto_ = liikevaihto_ * 12 / (suhteutuskuukaudet_ ? suhteutuskuukaudet_ : 1);
 
     qDebug() << " Suhteutettu "<< liikevaihto_;
 
