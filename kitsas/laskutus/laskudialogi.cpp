@@ -99,6 +99,7 @@ LaskuDialogi::LaskuDialogi(const QVariantMap& data, bool ryhmalasku, int asiakas
 
     connect( rivit_, &LaskuRivitModel::dataChanged, this, &LaskuDialogi::paivitaSumma);
     connect( rivit_, &LaskuRivitModel::rowsInserted, this, &LaskuDialogi::paivitaSumma);
+    connect( rivit_, &LaskuRivitModel::rowsRemoved, this, &LaskuDialogi::paivitaSumma);
     connect( rivit_, &LaskuRivitModel::modelReset, this, &LaskuDialogi::paivitaSumma);
 
     alustaRiviTab();
