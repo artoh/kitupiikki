@@ -139,8 +139,10 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->outboxFrame->setVisible(false);
     ui->outboxFrame->installEventFilter(this);
 
-    if( kp()->settings()->contains("CloudKey"))
+    if( kp()->settings()->contains("CloudKey")) {
+        ui->pilviPino->setCurrentIndex(SISAANTULO);
         QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu();} );
+    }
 
     pyydaInfo();
 }
@@ -540,8 +542,7 @@ void AloitusSivu::pilviLogin()
 }
 
 void AloitusSivu::kirjauduttu()
-{
-
+{    
     ui->salaEdit->clear();
 
     if( !kp()->pilvi()->kayttajaPilvessa()) {
@@ -583,6 +584,7 @@ void AloitusSivu::kirjauduttu()
 
 void AloitusSivu::loginVirhe()
 {
+    ui->pilviPino->setCurrentIndex(KIRJAUDU);
     ui->vaaraSalasana->setVisible(!ui->salaEdit->text().isEmpty());
     ui->salaEdit->clear();
 }
