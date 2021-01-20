@@ -605,5 +605,38 @@
   },
   "Luonnos": {
     "sv": "Utkast"
+  },
+  "Alv": {
+    "sv": "Moms"
+  },
+  "Hylätty": {
+    "sv": "Avslagen"
+  },
+  "Saapunut": {
+    "sv": "Anlände"
+  },
+  "Tarkastettu": {
+    "sv": "Kollad"
+  },
+  "Hyväksytty": {
+    "sv": "Accepterad"
+  },
+  "Valmis": {
+    "sv": "Färdig"
+  },
+  "Lähetetään": {
+    "sv": "Överförs"
+  },
+  "Lähetetty": {
+    "sv": "Skeppas"
+  },
+  "Muistutettu": {
+    "sv": "Påminde"
+  },
+  "Toimitettu": {
+    "sv": "Levererad"
+  },
+  "Epäonnistui": {
+    "sv": "Misslyckades"
   }
 }
