@@ -86,19 +86,19 @@ void Tosite::setData(int kentta, QVariant arvo)
 QString Tosite::tilateksti(int tila)
 {
     switch (tila) {
-    case POISTETTU: return tr("Poistettu");        
-    case HYLATTY: return tr("Hylätty");
-    case SAAPUNUT: return tr("Saapunut");
-    case TARKASTETTU: return tr("Tarkastettu");
-    case HYVAKSYTTY: return tr("Hyväksytty");
-    case LUONNOS: case LASKULUONNOS: return tr("Luonnos");
-    case VALMISLASKU: return tr("Lähettämättä");
-    case KIRJANPIDOSSA: return tr("Kirjanpidossa");
-    case LAHETETAAN: return tr("Lähetetään");
-    case LAHETETTYLASKU: return tr("Lähetetty");
-    case MUISTUTETTU: return tr("Muistutettu");
-    case TOIMITETTULASKU: return tr("Toimitettu");
-    case LAHETYSVIRHE: return tr("Epäonnistui");
+    case POISTETTU: return tulkkaa("Poistettu");
+    case HYLATTY: return tulkkaa("Hylätty");
+    case SAAPUNUT: return tulkkaa("Saapunut");
+    case TARKASTETTU: return tulkkaa("Tarkastettu");
+    case HYVAKSYTTY: return tulkkaa("Hyväksytty");
+    case LUONNOS: case LASKULUONNOS: return tulkkaa("Luonnos");
+    case VALMISLASKU: return tulkkaa("Lähettämättä");
+    case KIRJANPIDOSSA: return tulkkaa("Kirjanpidossa");
+    case LAHETETAAN: return tulkkaa("Lähetetään");
+    case LAHETETTYLASKU: return tulkkaa("Lähetetty");
+    case MUISTUTETTU: return tulkkaa("Muistutettu");
+    case TOIMITETTULASKU: return tulkkaa("Toimitettu");
+    case LAHETYSVIRHE: return tulkkaa("Epäonnistui");
     }
     return QString();
 }

@@ -23,6 +23,9 @@
     "sv": "DAGBOK",
     "en": "JOURNAL"
   },
+  "Päiväkirja": {
+    "sv": "Dagbok"
+  },
   "Pvm": {
     "sv": "Datum",
     "en": "Date"
@@ -61,6 +64,9 @@
     "sv": "HUVUDBOK",
     "en": "GENERAL LEDGER"
   },
+  "Pääkirja": {
+    "sv": "Huvudbok"
+  },
   "PÄÄKIRJAN OTE": {
     "sv": "HUVUDBOKUTDRAG",
     "en": "EXTRACT FROM GENERAL LEDGER"
@@ -97,6 +103,9 @@
     "sv": "VERIFIKATLISTA",
     "en": "VOUCHER LIST"
   },
+  "Tositeluettelo": {
+    "sv": "Verifikatista"
+  },
   "Otsikko": {
     "sv": "Rubrik",
     "en": "Heading"
@@ -120,6 +129,9 @@
   "TILILUETTELO": {
     "sv": "KONTOPLAN",
     "en": "SPECIFICATION OF ACCOUNTS"
+  },
+  "Tililuettelo": {
+    "sv": "Kontoplan"
   },
   "Tilin tyyppi": {
     "sv": "Kontotyp",
@@ -213,6 +225,9 @@
     "sv": "SPECIFICATION TILL BALANSRÄKNINGEN",
     "en": "BALANCE SHEET BREAKDOWN"
   },
+  "Tase-erittely": {
+    "sv": "Specification till balansräkningen"
+  },
   "VASTAAVAA": {
     "sv": "AKTIVA",
     "en": "ASSETS"
@@ -257,6 +272,9 @@
     "sv": "ÖPPNA KUNDFAKTUROR",
     "en": "OPEN SALES INVOICES"
   },
+  "Avoimet myyntilaskut": {
+    "sv": "Öppna kundfakturor"
+  },
   "MYYNTILASKUT": {
     "sv": "KUNDFAKTUROR",
     "en": "SALES INVOICES"
@@ -264,6 +282,9 @@
   "AVOIMET OSTOLASKUT": {
     "sv": "ÖPPNA INKÖPSFAKTUROR",
     "en": "OPEN PURCHASE INVOICES"
+  },
+  "Avoimet ostolaskut": {
+    "sv": "Öppna inköpsfakturor"
   },
   "OSTOLASKUT": {
     "sv": "INKÖPSFAKTUROR",
@@ -539,5 +560,50 @@
   },
   "%1 kpl": {
     "sv": "%1 st"
+  },
+  "Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2": {
+    "sv": "Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet"
+  },
+  "Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä": {
+    "sv": "Arkivets oändlighet kan övervakas med en sha256 sigill"
+  },
+  "Kirjanpito on vielä keskeneräinen.": {
+    "sv": "Redovisningen är fortfarande oavslutad."
+  },
+  "Kirjanpito arkistoitu": {
+    "sv": "Bokföring arkiverad"
+  },
+  "Kirjanpitoarkisto": {
+    "sv": "Bokföringarkiv"
+  },
+  "Kirjanpito": {
+    "sv": "Bokföring"
+  },
+  "Raportit": {
+    "sv": "Rapporter"
+  },
+  "Laskut ja myynti": {
+    "sv": "Räkningar och försäljning"
+  },
+  "Myydyt tuotteet": {
+    "sv": "Säljda produkter"
+  },
+  "Edellinen": {
+    "sv": "Föregående"
+  },
+  "Seuraava": {
+    "sv": "Följande"
+  },
+  "Laskun numero": {
+    "sv": "Faktura nummer"
+  },
+  "Tositteen täydet tiedot": {
+    "sv": "Fullständig information om verifikatet"
+  },
+  "Kirjanpidossa": {
+    "sv": "Redovisas"
+  },
+  "Luonnos": {
+    "sv": "Utkast"
   }
 }
