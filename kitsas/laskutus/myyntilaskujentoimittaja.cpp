@@ -167,8 +167,13 @@ void MyyntiLaskujenToimittaja::tositeTallennettu(QVariant *data)
     KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
     QMap<QString,QString> meta;
     meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
+    connect( liitetallennus, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::liiteTallennettu);
     liitetallennus->lahetaTiedosto(liite, meta);
 
+}
+
+void MyyntiLaskujenToimittaja::liiteTallennettu()
+{
     if( tilattavat_.isEmpty())
         toimitaLaskut( toimitettavat_ );
     else

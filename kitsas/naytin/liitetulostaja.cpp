@@ -213,7 +213,7 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
         QString teksti = QString("%1 %2 %3")
                 .arg( kp()->asetukset()->asetus("Nimi") )
                 .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm"))
-                .arg(tulkkaa("sivu %1",kieli).arg(sivu));
+                .arg(tulkkaa("Sivu %1",kieli).arg(sivu));
         painter->drawText(QRect(0, 0,skorkeus, korkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, teksti );
 
         if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
