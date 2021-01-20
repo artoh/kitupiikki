@@ -826,7 +826,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti pois;
             pois.setTili(tili);
-            pois.setDebet( vero / 100.0 );
+            if( vero >= 0)
+                pois.setDebet( vero / 100.0 );
+            else
+                pois.setKredit(-vero/100.0);
             pois.setAlvKoodi( AlvKoodi::MYYNNIT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
             pois.setTyyppi(TositeVienti::BRUTTOOIKAISU);
@@ -835,7 +838,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti veroon;
             veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVVELKA ).numero() );
-            veroon.setKredit( vero / 100.0);
+            if(vero >= 0)
+                veroon.setKredit( vero / 100.0);
+            else
+                veroon.setDebet( -vero / 100.0);
             veroon.setAlvKoodi( AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_BRUTTO);
             veroon.setTyyppi( TositeVienti::BRUTTOOIKAISU );
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
