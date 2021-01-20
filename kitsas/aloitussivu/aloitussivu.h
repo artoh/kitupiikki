@@ -117,7 +117,7 @@ protected:
      */
     QString paivitysInfo;
 
-    enum PilviPino { KIRJAUDU, LISTA };
+    enum PilviPino { KIRJAUDU, LISTA, SISAANTULO };
 
 protected:
     Ui::Aloitus *ui;

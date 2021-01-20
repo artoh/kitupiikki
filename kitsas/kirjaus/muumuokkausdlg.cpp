@@ -276,8 +276,8 @@ void MuuMuokkausDlg::tiliMuuttui()
     ui->kohdennusLabel->setVisible( kohdennuksia && (tili.onko(TiliLaji::TULOS) || tili.onko(TiliLaji::POISTETTAVA)));
     ui->kohdennusCombo->setVisible( kohdennuksia && (tili.onko(TiliLaji::TULOS) || tili.onko(TiliLaji::POISTETTAVA)));
 
-    ui->eraLabel->setVisible( tili.eritellaankoTase() );
-    ui->eraCombo->setVisible( tili.eritellaankoTase() );
+    ui->eraLabel->setVisible( tili.onko(TiliLaji::TASE) );
+    ui->eraCombo->setVisible( tili.onko(TiliLaji::TASE) );
 
     ui->poistoLabel->setVisible( tili.onko(TiliLaji::TASAERAPOISTO));
     ui->poistoSpin->setVisible( tili.onko(TiliLaji::TASAERAPOISTO));
