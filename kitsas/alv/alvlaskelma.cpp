@@ -731,11 +731,27 @@ void AlvLaskelma::kirjaaHuojennus()
 
     QString selite = kaanna("Arvonlisäveron alarajahuojennus");
 
-    TositeVienti huojennettava;
-    huojennettava.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
-    huojennettava.setSelite( selite );
-    huojennettava.setDebet( huojennus() );
-    lisaaKirjausVienti( huojennettava );
+    qlonglong kaudenvero = taulu_.summa(100,199) - taulu_.summa(200,299);
+    if( kaudenvero > 0 && kp()->asetukset()->onko("AlvPalautusSaatavatilille") && huojennus() > kaudenvero) {
+        TositeVienti huojennusVerolta;
+        huojennusVerolta.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero()  );
+        huojennusVerolta.setSelite( selite );
+        huojennusVerolta.setDebet( kaudenvero );
+        lisaaKirjausVienti( huojennusVerolta );
+
+        TositeVienti huojennusSaatavaan;
+        huojennusSaatavaan.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).numero()  );
+        huojennusSaatavaan.setSelite( selite );
+        huojennusSaatavaan.setDebet( huojennus() - kaudenvero );
+        lisaaKirjausVienti( huojennusSaatavaan );
+
+    } else {
+        TositeVienti huojennettava;
+        huojennettava.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        huojennettava.setSelite( selite );
+        huojennettava.setDebet( huojennus() );
+        lisaaKirjausVienti( huojennettava );
+    }
 
     TositeVienti huojentaja;
     huojentaja.setTili( kp()->asetukset()->luku("AlvHuojennusTili") );
