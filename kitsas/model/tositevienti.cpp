@@ -33,7 +33,8 @@ QVariant TositeVienti::data(int kentta) const
 
 void TositeVienti::set(int kentta, const QVariant &arvo)
 {    
-    if( (arvo.toString().isEmpty()) && !(arvo.type() == QVariant::Map && !arvo.toMap().isEmpty()))
+    if( (arvo.toString().isEmpty()) && !(arvo.type() == QVariant::Map && !arvo.toMap().isEmpty()) &&
+        !(arvo.type() == QVariant::List && !arvo.toList().isEmpty()))
         remove( avaimet__.at(kentta));
     else
         insert( avaimet__.at(kentta), arvo);
