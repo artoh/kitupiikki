@@ -182,6 +182,8 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt());
         if( !tili)
             continue;
+        if( qAbs(map.value("debet").toDouble()) < 1e-5 && qAbs(map.value("kredit").toDouble() < 1e-5))
+            continue;
 
         if( tili->numero() != edellinentili) {
             rk.lisaaRivi();
