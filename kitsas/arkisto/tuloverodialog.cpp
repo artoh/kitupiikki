@@ -39,6 +39,7 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
     connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
+    connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/tulovero");});
@@ -153,8 +154,10 @@ void TuloveroDialog::paivitaTulos()
 
 void TuloveroDialog::paivitaVero()
 {
-    if( ui->tulosEdit->value() > 1e-5)
-        ui->veroEdit->setValue(0.2 * ui->tulosEdit->value());
+    double tulos = ui->tulosEdit->value() - ui->tappioEdit->value();
+
+    if( tulos > 1e-5)
+        ui->veroEdit->setValue(0.2 * tulos);
     else
         ui->veroEdit->setValue(0);
     paivitaJaannos();
