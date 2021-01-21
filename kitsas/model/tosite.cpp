@@ -231,6 +231,15 @@ void Tosite::lataaData(QVariant *variant)
     data_ = variant->toMap();
     tallennettu_.clear();
 
+    // Kun poistettu tunniste palautetaan, ei sillä voi olla tunnistetta
+    // jotta ei mene päällekkäin
+    if( tila() == Tila::POISTETTU) {
+        data_.remove("tunniste");
+        tallennettu_.insert("palautettu",QVariant());
+    } else {
+        QTimer::singleShot(500, this, &Tosite::laitaTalteen);
+    }
+
     QVariantList vientilista = data_.take("viennit").toList();
 
     loki()->lataa( data_.take("loki").toList());
@@ -256,9 +265,6 @@ void Tosite::lataaData(QVariant *variant)
         }
     }
     viennit()->asetaViennit( vientilista );
-
-
-
     emit ladattu();
 
     emit tyyppiMuuttui( tyyppi());
@@ -269,7 +275,7 @@ void Tosite::lataaData(QVariant *variant)
     emit kommenttiMuuttui( kommentti());
 
     QTimer::singleShot(100, this, &Tosite::latausValmis);
-    QTimer::singleShot(500, this, &Tosite::laitaTalteen);
+
 
     kp()->odotusKursori(false);
 

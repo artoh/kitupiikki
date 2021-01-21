@@ -82,7 +82,8 @@ public:
     enum {
         SAAPUNEET = 1,
         LUONNOKSET = 2,
-        KIRJANPIDOSSA = 3
+        KIRJANPIDOSSA = 3,
+        POISTETUT = 4
     };
 
     TositeSelausModel(QObject* parent = nullptr);

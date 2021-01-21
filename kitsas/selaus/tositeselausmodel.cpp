@@ -122,6 +122,8 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
                 kysely->lisaaAttribuutti("luonnos", QString());
             else if( tila == SAAPUNEET)
                 kysely->lisaaAttribuutti("saapuneet", QString());
+            else if( tila == POISTETUT)
+                kysely->lisaaAttribuutti("poistetut", QString());
 
             connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
             ladataan_ = true;
@@ -160,6 +162,8 @@ void TositeSelausModel::lataaSqlite(SQLiteModel *sqlite, const QDate &alkaa, con
         ehdot.append( QString("( tosite.tila >= %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
     else if( tila_ == SAAPUNEET)
         ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::MALLIPOHJA).arg(Tosite::LUONNOS) );
+    else if( tila_ == POISTETUT)
+        ehdot.append("tosite.tila = 0");
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 

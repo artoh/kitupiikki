@@ -45,6 +45,7 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
     ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
+    ui->valintaTab->addTab(QIcon(":/pic/roskis.png"), tr("&Poistetut"));
     ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
 
 
@@ -184,6 +185,9 @@ void SelausWg::paivita()
     } else if( ui->valintaTab->currentIndex() == LUONNOKSET){
         kp()->odotusKursori(true);
         tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::LUONNOKSET);
+    } else if( ui->valintaTab->currentIndex() == POISTETUT) {
+        kp()->odotusKursori(true);
+        tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::POISTETUT);
     }
 
     bool naytaSelaus = false;
@@ -427,12 +431,16 @@ void SelausWg::contextMenu(const QPoint &pos)
 void SelausWg::siirrySivulle()
 {
     if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
-        if( ui->valintaTab->count() == 4)
+        if( ui->valintaTab->count() == SAAPUNEET + 1)
             ui->valintaTab->removeTab(SAAPUNEET);
     } else {
-        if( ui->valintaTab->count() == 3)
+        if( ui->valintaTab->count() == SAAPUNEET)
             ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
     }
+
+    ui->valintaTab->setTabEnabled(POISTETUT, kp()->yhteysModel() &&
+                                 ( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS) ||
+                                   kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS)));
 
     selaa( ui->valintaTab->currentIndex() );
 }

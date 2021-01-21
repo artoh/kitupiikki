@@ -43,6 +43,8 @@ QString TositeRoute::kysymys(const QUrlQuery &urlquery)
         ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::MALLIPOHJA).arg(Tosite::LUONNOS) );
     else if( urlquery.hasQueryItem("malli"))
         ehdot.append(QString("tosite.tila = %1").arg(Tosite::MALLIPOHJA));
+    else if( urlquery.hasQueryItem("poistetut"))
+        ehdot.append("tosite.tila = 0");
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 
