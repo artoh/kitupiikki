@@ -119,8 +119,8 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
             // Tase-erät
             QSqlQuery erakysely(db());
             erakysely.exec(QString("select vienti.eraid, vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, "
-                                   "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm "
-                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  "
+                                   "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm, Kumppani.nimi AS kumppaninimi "
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
                                    "WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
                                    "AND Vienti.pvm <= '%2' AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
                            .arg( tili->numero() ).arg(pvm.toString(Qt::ISODate)));
@@ -142,7 +142,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 }
 
                 apukysely.exec(QString("select vienti.debetsnt, vienti.kreditsnt, vienti.selite, Tosite.pvm as pvm, Tosite.sarja, "
-                                       "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm, Kumppani.nimi AS kumppani "
+                                       "Tosite.tunniste, tosite.id, Vienti.pvm as vientipvm, Kumppani.nimi AS kumppaninimi "
                                        "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  "
                                        "LEFT OUTER JOIN Kumppani ON Vienti.kumppani = Kumppani.id "
                                        "WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
@@ -180,6 +180,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 era.insert("sarja",erakysely.value(5));
                 era.insert("tunniste", erakysely.value(6));
                 era.insert("selite", erakysely.value("selite"));
+                era.insert("kumppani", erakysely.value("kumppaninimi"));
                 era.insert("eur", alkusentit / 100.0);
 
                 QVariantMap emap;

@@ -129,7 +129,17 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     } else {
                         lisaaTositeTunnus( &nimirivi, eramap);
                         nimirivi.lisaa( eramap.value("vientipvm").toDate() );
-                        nimirivi.lisaa( eramap.value("selite").toString(), 2);
+
+                        QString kumppani = eramap.value("kumppani").toString();
+                        QString selite = eramap.value("selite").toString();
+
+                        if(kumppani.isEmpty() || selite == kumppani) {
+                            nimirivi.lisaa(selite, 2);
+                        } else {
+                            nimirivi.lisaa( kumppani);
+                            nimirivi.lisaa( selite);
+                        }
+
                         nimirivi.lisaa( qRound64( eramap.value("eur").toDouble() * 100));
                     }
                     rk.lisaaRivi(nimirivi);
