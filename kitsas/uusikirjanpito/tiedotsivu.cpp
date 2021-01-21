@@ -89,7 +89,7 @@ bool TiedotSivu::validatePage()
 
     velho->asetukset_.insert("Nimi", ui->nimiEdit->text());
     if( !ui->ytunnusEdit->text().isEmpty())
-        velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text());
+        velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text().simplified());
 
     if( !ui->osoiteEdit->toPlainText().isEmpty())
         velho->asetukset_.insert("Katuosoite", ui->osoiteEdit->toPlainText());
