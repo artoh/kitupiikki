@@ -91,9 +91,7 @@ void PaakirjaRaportti::esikatsele()
     if( ui->tulostasummat->isChecked() )
         optiot |= Paakirja::TulostaSummat;
     if( ui->kumppaniCheck->isChecked())
-        optiot |= Paakirja::AsiakasToimittaja;
-    if( kp()->tilikausiPaivalle(ui->alkupvm->date()).alkaa() == kp()->tilikausiPaivalle(ui->loppupvm->date()).alkaa())
-        optiot |= Paakirja::SamaTilikausi;
+        optiot |= Paakirja::AsiakasToimittaja;    
 
 
     kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), optiot,

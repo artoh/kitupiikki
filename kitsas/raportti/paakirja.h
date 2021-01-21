@@ -34,8 +34,7 @@ public:
                   int tililta = 0);
 
     enum { TulostaKohdennukset  = 0b00100 ,
-           TulostaSummat        = 0b01000 ,
-           SamaTilikausi        = 0b10000,
+           TulostaSummat        = 0b01000 ,           
            AsiakasToimittaja    = 0b100000,
            Kohdennuksella       = 0b1000000
          };
@@ -58,6 +57,7 @@ protected:
 
     int optiot_;
     Tilikausi oletustilikausi_;
+    bool samatilikausi_ = true;
 };
 
 #endif // PAAKIRJA_H

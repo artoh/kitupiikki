@@ -31,6 +31,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
 {
     saapuneet_ = 0;
     optiot_ = optiot;
+    oletustilikausi_ = kp()->tilikaudet()->tilikausiPaivalle(mista);
 
     KpKysely *saldokysely = kpk("/saldot");
     saldokysely->lisaaAttribuutti("pvm",mista);
@@ -128,6 +129,9 @@ void Paakirja::viennitSaapuu(QVariant *data)
         QVariantMap map = vienti.toMap();
         int tili = map.value("tili").toInt();
         data_[tili].append(map);
+
+        if( !oletustilikausi_.kuuluuko( map.value("tosite").toMap().value("pvm").toDate() ))
+            samatilikausi_ = false;
     }
 
     if( ++saapuneet_ > 1)
@@ -182,7 +186,7 @@ void Paakirja::kirjoitaDatasta()
                 QVariantMap tositeMap = vienti.value("tosite").toMap();
 
                 rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
-                                      optiot_ & SamaTilikausi);
+                                      samatilikausi_);
 
                 QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();
                 QString selite = vienti.value("selite").toString();

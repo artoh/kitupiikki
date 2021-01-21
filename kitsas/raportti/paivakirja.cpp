@@ -27,11 +27,7 @@ Paivakirja::Paivakirja(QObject *parent, const QString &kielikoodi) : Raportteri(
 void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int kohdennuksella)
 {
     optiot_ = optiot;
-
-    if( kp()->tilikausiPaivalle(mista).alkaa() == kp()->tilikausiPaivalle(mihin).alkaa())
-        optiot_ |= SamaTilikausi;
-
-
+    oletustilikausi_ = kp()->tilikausiPaivalle(mista);
 
     if( kohdennuksella > -1 ) {
         // Tulostetaan vain yhdestä kohdennuksesta
@@ -107,6 +103,12 @@ void Paivakirja::dataSaapuu(QVariant *data)
     qlonglong debetvalisumma = 0;
     qlonglong kreditvalisumma = 0;
 
+    for( auto item : lista) {
+        QVariantMap map = item.toMap();
+        if( !oletustilikausi_.kuuluuko( map.value("tosite").toMap().value("pvm").toDate() ))
+            samatilikausi_ = false;
+    }
+
     for(auto item : lista) {
         QVariantMap map = item.toMap();
 
@@ -150,7 +152,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
         // Ei toisteta turhaan tilikauden tunnusta
         QVariantMap tositemap = map.value("tosite").toMap();
-        rivi.lisaaTositeTunnus( tositemap.value("pvm").toDate(), tositemap.value("sarja").toString(), tositemap.value("tunniste").toInt(), optiot_ & SamaTilikausi );
+        rivi.lisaaTositeTunnus( tositemap.value("pvm").toDate(), tositemap.value("sarja").toString(), tositemap.value("tunniste").toInt(), samatilikausi_ );
 
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
         if( tili )

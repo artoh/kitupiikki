@@ -193,3 +193,8 @@ QVariantMap Tilikausi::data() const
     return map;
 }
 
+bool Tilikausi::kuuluuko(const QDate &pvm) const
+{
+    return pvm >= alkaa_ && pvm <= paattyy_;
+}
+

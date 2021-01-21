@@ -149,6 +149,8 @@ public:
 
     QVariantMap data() const;
 
+    bool kuuluuko(const QDate& pvm) const;
+
 protected:
     QDate alkaa_;
     QDate paattyy_;
