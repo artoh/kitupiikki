@@ -416,7 +416,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                 QString tekstia = rivi.teksti(i).toHtmlEscaped();
                 // Jotta selitteestä ei ole kohtuuttoman pitkä ja toisaalta
                 // pvm-selite katkeile, ollaan valmiita katkomaan selitettä
-                if( sarakkeet_.value(sarakkeessa).jakotekija)
+                if( !sarakkeet_.value(sarakkeessa).jakotekija)
                     tekstia.replace(' ', "&nbsp;");
                 tekstia.replace('\n', "<br>");
 
@@ -434,9 +434,9 @@ QString RaportinKirjoittaja::html(bool linkit) const
 
     }
     txt.append("</table>");
-    txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
+    txt.append("<p class=tulostettu>" + kaanna("Tulostettu") + " " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
-        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa</span>");
+        txt.append("<br><span class=treeni>" + kaanna("Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa") + "</span>");
 
     txt.append("</p></body></html>\n");
 
