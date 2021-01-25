@@ -61,6 +61,7 @@ public:
 
     void lisaaEnnakkoHyvitys(int eraId, double eurot);
     QString asiakkaanAlvTunnus() const { return asAlvTunnus_;}
+    int maksutapa() const;
 
 private:
     void paivitaSumma();
