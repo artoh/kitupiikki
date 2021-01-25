@@ -29,22 +29,19 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, i
     addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
     addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), QVariant(AlvKoodi::EIALV ));
 
-    if( !ennakkolasku) {
+    if( asiakasverolaji == KAIKKI || asiakasverolaji == KOTIMAA || alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
+        addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
 
-        if( asiakasverolaji == KAIKKI || asiakasverolaji == KOTIMAA || alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
-            addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
+    if( asiakasverolaji == EU || alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT || alvkoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT) {
+        addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
+        addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
+    }
 
-        if( asiakasverolaji == EU || alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT || alvkoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT) {
-            addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
-            addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
-        }
-
-        if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
-        {
-            addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(LaskuDialogi::KAYTETYT));
-            addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(LaskuDialogi::TAIDE));
-            addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(LaskuDialogi::ANTIIKKI));
-        }
+    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()) && !ennakkolasku)
+    {
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(LaskuDialogi::KAYTETYT));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(LaskuDialogi::TAIDE));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(LaskuDialogi::ANTIIKKI));
     }
 
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {
