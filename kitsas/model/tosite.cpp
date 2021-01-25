@@ -341,7 +341,7 @@ void Tosite::tarkasta()
 
         if( !kp()->tilit()->tili(vienti.tili()))
             virheet |= Tosite::TILIPUUTTUU;
-        if( vienti.alvKoodi() && kp()->alvIlmoitukset()->onkoIlmoitettu(pvm))
+        if( vienti.alvKoodi() && kp()->alvIlmoitukset()->onkoIlmoitettu(pvm) && tyyppi() != TositeTyyppi::ALVLASKELMA)
             virheet |= Tosite::PVMALV;
         if( !vienti.pvm().isValid())
             virheet |= Tosite::PVMPUUTTUU;
