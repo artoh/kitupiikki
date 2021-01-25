@@ -414,7 +414,10 @@ QString RaportinKirjoittaja::html(bool linkit) const
                     }
                 }
                 QString tekstia = rivi.teksti(i).toHtmlEscaped();
-                tekstia.replace(' ', "&nbsp;");
+                // Jotta selitteestä ei ole kohtuuttoman pitkä ja toisaalta
+                // pvm-selite katkeile, ollaan valmiita katkomaan selitettä
+                if( sarakkeet_.value(sarakkeessa).jakotekija)
+                    tekstia.replace(' ', "&nbsp;");
                 tekstia.replace('\n', "<br>");
 
                 txt.append(  tekstia );
