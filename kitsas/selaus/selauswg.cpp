@@ -224,9 +224,8 @@ void SelausWg::paivita()
         ui->seuraavaNappi->setEnabled( kp()->tilikaudet()->onkoTilikautta(loppupvm.addDays(1)));
     }
 
-    // Huomio käytettävissä vain tositteita pilvessä selattaessa
-    ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT &&
-            qobject_cast<PilviModel*>(kp()->yhteysModel()));
+    // Huomio käytettävissä vain tositteita selattaessa
+    ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT);
 
 }
 
