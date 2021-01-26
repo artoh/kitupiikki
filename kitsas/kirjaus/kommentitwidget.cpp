@@ -38,6 +38,7 @@ KommentitWidget::KommentitWidget(Tosite *tosite, QWidget *parent)
     edit_ = new QPlainTextEdit();
     edit_->setPlaceholderText(tr("Kirjoita lisättävä kommentti tähän"));
     button_ = new QPushButton(QIcon(":/pic/kupla-harmaa.png"), tr("Kommentoi"));
+    button_->setAutoDefault(true);
 
     QHBoxLayout *leiska = new QHBoxLayout();
     leiska->addWidget(edit_);
@@ -78,20 +79,25 @@ void KommentitWidget::lataa()
 
     bool eka = true;
 
+    QString txt="<html><body>";
+
     for(auto &item: lista){
         if(!eka)
-            browser_->insertHtml("<hr>");
+            txt.append("<hr>");
 
         QVariantMap map = item.toMap();
         QString nimi = map.value("nimi").toString();
         QString aika = map.value("aika").toDateTime().toString("dd.MM.yyyy hh.mm");
         QString teksti = map.value("teksti").toString().toHtmlEscaped();
 
-        browser_->insertHtml(QString("<h3>%1 %2</h3><br>").arg(nimi).arg(aika));
-        browser_->insertHtml(QString("<p>%1 </p>").arg(teksti));
+        txt.append(QString("<h3>%1 %2</h3>").arg(nimi).arg(aika));
+        txt.append(QString("<p>%1</p>").arg(teksti));
         eka = false;
     }
     emit kommentteja(!lista.isEmpty());
+    txt.append("</body></html");
+    browser_->setHtml(txt);
+    browser_->scrollToAnchor("loppu");
 }
 
 void KommentitWidget::paivita()
@@ -111,7 +117,7 @@ void KommentitWidget::tallenna()
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite_->id()), KpKysely::POST);
     QVariantMap map;
-    map.insert("teksti", edit_->toPlainText());
+    map.insert("teksti", edit_->toPlainText().replace("\n","<br>"));
     button_->setEnabled(false);
     connect(kysely, &KpKysely::vastaus, this, &KommentitWidget::tallennettu);
     kysely->kysy(map);
@@ -119,10 +125,14 @@ void KommentitWidget::tallenna()
 
 void KommentitWidget::tallennettu()
 {
+    QString uusi;
     if(!browser_->toHtml().isEmpty())
-        browser_->insertHtml("<hr>");
-    browser_->insertHtml(tr("<h3>%1 %2</h3><br>").arg( kp()->pilvi()->kayttajaNimi() ).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
-    browser_->insertHtml(QString("<p>%1</p>").arg(edit_->toPlainText()));
+        uusi = "<hr>";
+    uusi.append(QString("<h3>%1 %2</h3>").arg( kp()->pilvi()->kayttajaNimi() ).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    uusi.append(QString("<p>%1</p></body>").arg(edit_->toPlainText().replace("\n","<br>")));
+
+    browser_->setHtml( browser_->toHtml().replace("</body>", uusi) );
+
     emit kommentteja(true);
 
     edit_->clear();
