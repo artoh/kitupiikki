@@ -55,7 +55,13 @@ void TositeSelausProxyModel::suodataTositesarja(const QString &sarja)
     }
 }
 
-bool TositeSelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+void TositeSelausProxyModel::suodataHuomio(bool onko)
+{
+    huomioSuodatus_ = onko;
+    invalidateFilter();
+}
+
+bool TositeSelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex& /*source_parent */) const
 {
     if( tyyppiSuodatus_ > -1) {
         if(model_->tyyppi(source_row) != tyyppiSuodatus_)
@@ -69,5 +75,8 @@ bool TositeSelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex 
         if( !model_->etsiTeksti(source_row).contains(etsiSuodatus_, Qt::CaseInsensitive))
             return false;
     }
+    if( huomioSuodatus_ && !model_->huomio(source_row) )
+        return false;
+
     return true;
 }

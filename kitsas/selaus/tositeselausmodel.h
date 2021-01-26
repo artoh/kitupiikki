@@ -39,6 +39,7 @@ public:
     QString getSarja() const { return sarja; }
     int getTyyppi() const { return tositeTyyppi; }
     QString getEtsi() const { return etsiTeksti;}
+    bool getHuomio() const { return huomio;}
 
 protected:
 
@@ -56,6 +57,8 @@ protected:
     bool liitteita;
     QString etsiTeksti;
     QString sarja;
+
+    bool huomio;
 };
 
 /**
@@ -100,6 +103,7 @@ public:
     int tyyppi(int rivi) const { return rivit_.at(rivi).getTyyppi();}
     QString sarja(int rivi) const { return rivit_.at(rivi).getSarja();}
     QString etsiTeksti(int rivi) const { return rivit_.at(rivi).getEtsi();}
+    bool huomio(int rivi) const { return rivit_.at(rivi).getHuomio();}
 
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu, int tila = KIRJANPIDOSSA);

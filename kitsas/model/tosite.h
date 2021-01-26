@@ -57,7 +57,8 @@ public:
         ERAPVM,
         VIITE,
         KIERTO,
-        PORTAALI
+        PORTAALI,
+        HUOMIO
     };
 
     enum Virheet {
@@ -117,6 +118,7 @@ public:
     QString viite() const { return data(VIITE).toString();}
     int kierto() const { return data(KIERTO).toInt();}
     int tila() const { return data(TILA).toInt();}
+    bool huomio() const { return data_.contains(avaimet__.at(HUOMIO)); }
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
@@ -131,6 +133,7 @@ public:
     void asetaKumppani(int id);
     void asetaKumppani(const QString& nimi);
     void asetaKumppani(const QVariantMap& map);
+    void asetaHuomio(bool onko);
 
     void pohjaksi(const QDate& paiva, const QString& uusiotsikko, bool sailytaerat = false);
 
@@ -158,6 +161,7 @@ signals:
     void kommenttiMuuttui(const QString& kommentti);    
 
     void tarkastaSarja(bool kateinen);
+    void huomioMuuttui(bool onko);
 
 
 public slots:

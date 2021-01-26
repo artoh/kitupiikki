@@ -139,6 +139,24 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="huomioButton">
+       <property name="toolTip">
+        <string>Näytä vain tositteet, joissa huomiomerkki</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/harmaahuomio.png</normaloff>
+         <normalon>:/pic/huomio.png</normalon>:/pic/harmaahuomio.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

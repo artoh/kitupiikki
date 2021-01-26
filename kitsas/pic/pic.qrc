@@ -187,6 +187,7 @@
         <file>calendar.png</file>
         <file>huomio.png</file>
         <file>huomioliite.png</file>
+        <file>harmaahuomio.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

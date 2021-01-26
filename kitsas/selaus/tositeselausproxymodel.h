@@ -29,6 +29,7 @@ public:
     void etsi(const QString& teksti);
     void suodataTositetyyppi(int tyyppi);
     void suodataTositesarja(const QString& sarja);
+    void suodataHuomio(bool onko);
 
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
@@ -39,6 +40,7 @@ protected:
     int tyyppiSuodatus_ = -1;
     QString sarjaSuodatus_;
     QString etsiSuodatus_;
+    bool huomioSuodatus_ = false;
 
 
 };

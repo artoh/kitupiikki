@@ -182,6 +182,16 @@ void Tosite::asetaKumppani(const QVariantMap &map)
     setData(KUMPPANI, map);
 }
 
+void Tosite::asetaHuomio(bool onko)
+{
+    if(onko)
+        data_.insert(avaimet__.at(HUOMIO), true);
+    else
+        data_.remove(avaimet__.at(HUOMIO));
+    emit huomioMuuttui(onko);
+    tarkasta();
+}
+
 void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool sailytaerat)
 {
     int siirto = pvm().daysTo(paiva);
@@ -273,6 +283,7 @@ void Tosite::lataaData(QVariant *variant)
     emit sarjaMuuttui( sarja() );
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
+    emit huomioMuuttui( huomio());
 
     QTimer::singleShot(100, this, &Tosite::latausValmis);
 
@@ -481,5 +492,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ERAPVM, "erapvm"},
     { VIITE, "viite"},
     { KIERTO, "kierto"},
-    { PORTAALI, "portaali"}
+    { PORTAALI, "portaali"},
+    { HUOMIO, "huomio"}
 };

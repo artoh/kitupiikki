@@ -168,6 +168,7 @@ protected:
     QAction *uudeksiAktio_;
     QAction *tyhjennaViennitAktio_;
     QAction *mallipohjaksiAktio_;
+    QAction *huomioAktio_;
 
     QSortFilterProxyModel *tyyppiProxy_;
 

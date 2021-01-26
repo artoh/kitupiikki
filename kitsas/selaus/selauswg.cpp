@@ -102,6 +102,8 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->kuukausiNappi, &QPushButton::clicked, this, &SelausWg::tamaKuukausi);
     connect( ui->tilikausiButton, &QPushButton::clicked, this, &SelausWg::tamaTilikausi);
 
+    connect( ui->huomioButton, &QPushButton::toggled, tositeProxy_, &TositeSelausProxyModel::suodataHuomio);
+
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
 
 }
@@ -221,6 +223,10 @@ void SelausWg::paivita()
         ui->edellinenNappi->setEnabled( kp()->tilikaudet()->onkoTilikautta(alkupvm.addDays(-1)) );
         ui->seuraavaNappi->setEnabled( kp()->tilikaudet()->onkoTilikautta(loppupvm.addDays(1)));
     }
+
+    // Huomio käytettävissä vain tositteita pilvessä selattaessa
+    ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT &&
+            qobject_cast<PilviModel*>(kp()->yhteysModel()));
 
 }
 

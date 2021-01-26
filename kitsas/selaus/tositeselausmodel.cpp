@@ -217,6 +217,7 @@ TositeSelausRivi::TositeSelausRivi(const QVariantMap &data, bool samakausi)
     kumppani = data.value("kumppani").toString();
     summa = data.value("summa").toDouble();
     liitteita = data.value("liitteita").toInt();
+    huomio = data.value("huomio").toBool();
     etsiTeksti = tositeTunniste + " " + kumppani + " " + otsikko;
 }
 
@@ -240,6 +241,7 @@ TositeSelausRivi::TositeSelausRivi(QSqlQuery &data, bool samakausi)
     kumppani = data.value("kumppani").toString();
     summa = data.value("summa").toDouble();
     liitteita = data.value("liitteita").toInt();
+    huomio = false; // SQL ei näytä huomioita listalla
     etsiTeksti = tositeTunniste + " " + kumppani + " " + otsikko;
 
 }
@@ -300,8 +302,12 @@ QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
     }
     else if( role == Qt::DecorationRole && sarake==TositeSelausModel::SUMMA )
     {
-        if(  liitteita )
+        if(  liitteita && !huomio)
             return QIcon(":/pic/liite.png");
+        else if( huomio && !liitteita)
+            return QIcon(":/pic/huomio.png");
+        else if(liitteita && huomio)
+            return QIcon(":/pic/huomioliite.png");
         else
             return QIcon(":/pic/tyhja.png");
     }
