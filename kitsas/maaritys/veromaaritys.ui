@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>521</width>
-    <height>300</height>
+    <width>929</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -59,13 +59,42 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="text">
-      <string>Kirjaa arvonlisäveron palautus verosaatavien tilille</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Arvonlisäveron kirjaus arvonlisäveroilmoituksen yhteydessä</string>
      </property>
-     <property name="Asetus" stdset="0">
-      <string notr="true">AlvPalautusSaatavatilille</string>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Kirjaa aina Verovelat-tilille</string>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string notr="true">AlvSuoraanVerovelkaan</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="saatavaRadio">
+        <property name="text">
+         <string>Kirjaa maksettavat Verovelat-tilille ja palautukset Verosaatavat-tilille</string>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string notr="true">AlvPalautusSaatavatilille</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="maksutili">
+        <property name="text">
+         <string>Kirjaa Maksettava alv/Palautettava alv -tileille</string>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string notr="true">AlvMaksutilinKautta</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

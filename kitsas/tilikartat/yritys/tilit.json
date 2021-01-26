@@ -1921,6 +1921,17 @@
         "laajuus": 1
     },
     {
+        "numero": 1762,
+        "tyyppi": "AS",
+        "nimi": {
+            "fi": "Palautettava arvonlisävero",
+            "sv": "Återbetalningsbar moms"
+        },
+        "erittely": 2,
+        "laajuus": 1
+        
+    },
+    {
         "numero": 1763,
         "tyyppi": "AL",
         "nimi": {
@@ -4496,6 +4507,17 @@
             "sv": "Förskottsinnehållningsskuld"
         },
         "laajuus": 6
+    },
+    {
+        "numero": 2922,
+        "tyyppi": "BS",
+        "nimi": {
+            "fi": "Maksettava arvonlisävero",
+            "sv": "Betalbar moms"
+        },
+        "laajuus": 1,
+        "erittely": 2,
+        "ohje": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä."
     },
     {
         "numero": 2923,

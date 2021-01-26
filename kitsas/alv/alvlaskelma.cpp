@@ -165,9 +165,17 @@ void AlvLaskelma::kirjaaVerot()
     if( vero != vahennys) {
         TositeVienti maksu;
         maksu.setSelite( selite );
-        maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
-        if( vahennys > vero && kp()->asetukset()->onko("AlvPalautusSaatavatilille"))
+        if( vero > vahennys && kp()->asetukset()->onko("AlvMaksutilinKautta") &&
+                kp()->asetukset()->luku("AlvMaksettava")) {
+            maksu.setTili( kp()->asetukset()->luku("AlvMaksettava") );
+        } else if( vahennys > vero && kp()->asetukset()->onko("AlvMaksutilinKautta") &&
+                   kp()->asetukset()->luku("AlvPalautettava")) {
+            maksu.setTili( kp()->asetukset()->luku("AlvPalautettava"));
+        } else if( vahennys > vero && kp()->asetukset()->onko("AlvPalautusSaatavaTilille")) {
             maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).numero() );
+        } else {
+            maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        }
 
         maksu.setAlvKoodi( AlvKoodi::TILITYS );
         if( vero > vahennys )
@@ -216,7 +224,7 @@ void AlvLaskelma::kirjoitaErittely()
                 tiliOtsikko.lisaa( kp()->tilit()->tiliNumerolla( tiliIter.key() ).nimiNumero(), 4 );
                 rk.lisaaRivi(tiliOtsikko);
 
-                for(auto vienti : tiliIter.value().viennit) {
+                for(auto& vienti : tiliIter.value().viennit) {
                     RaporttiRivi rivi;
                     rivi.lisaa( vienti.value("pvm").toDate() );
                     QVariantMap tositeMap = vienti.value("tosite").toMap();
@@ -255,7 +263,7 @@ void AlvLaskelma::kirjoitaErittely()
         }
     }
     // Marginaalierittely
-    for( RaporttiRivi rivi : marginaaliRivit_)
+    for( RaporttiRivi& rivi : marginaaliRivit_)
         rk.lisaaRivi(rivi);
 }
 
@@ -347,7 +355,7 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
     TositeVienti vasta = viennit.value(0).toMap();
     qlonglong vastasentit = qRound64( vasta.kredit() * 100.0 ) - qRound64( vasta.debet() * 100.0);
 
-    for(QVariant item : viennit) {
+    for(QVariant& item : viennit) {
         TositeVienti vienti = item.toMap();
         if( qAbs(vienti.era().value("saldo").toDouble()) < 1e-5) {
             // Jos vero on jo maksettu, ei makseta uudelleen...
@@ -411,7 +419,7 @@ void AlvLaskelma::tilaaNollausLista(const QDate &pvm)
 void AlvLaskelma::nollaaMaksuperusteisetErat(QVariant *variant, const QDate& pvm)
 {
     QVariantList list = variant->toList();
-    for( auto item : list) {
+    for( auto& item : list) {
         QVariantMap map = item.toMap();
         if( map.value("pvm").toDate() > pvm)
             continue;
@@ -537,7 +545,7 @@ void AlvLaskelma::tallennaViennit(const QVariantList &viennit, bool maksuperuste
 {
     taulu_.koodit.clear();
     QVariantList lista = viennit;
-    for(auto item : lista) {
+    for(auto& item : lista) {
         QVariantMap map = item.toMap();
         if( map.value("alvkoodi").toInt() && map.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA )
             taulu_.lisaa(map);
@@ -965,7 +973,7 @@ void AlvLaskelma::TiliTaulu::lisaa(const QVariantMap &rivi)
 qlonglong AlvLaskelma::TiliTaulu::summa(bool debetista) const
 {
     qlonglong s = 0;
-    for( auto vienti : viennit ) {
+    for( auto& vienti : viennit ) {
         if( debetista ) {
             s += qRound64( vienti.value("debet").toDouble() * 100.0 );
             s -= qRound64( vienti.value("kredit").toDouble() * 100.0);
