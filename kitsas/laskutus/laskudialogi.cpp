@@ -798,7 +798,7 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
                                   tr("Käytettäessä käänteistä arvonlisäveroa on asiakkaalle "
                                      "määriteltävä alv-tunnus."));
             return;
-        } else if( (vienti.alvKoodi() == AlvKoodi::MYYNNIT_MARGINAALI && ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU) {
+        } else if( (vienti.alvKoodi() == AlvKoodi::MYYNNIT_MARGINAALI && ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU)) {
             QMessageBox::critical(this, tr("Marginaaliveromenettely"),
                                   tr("Käytettäessä marginaaliveromenetteyä ei Kitsaalla voi laatia ennakkolaskua"));
             return;
