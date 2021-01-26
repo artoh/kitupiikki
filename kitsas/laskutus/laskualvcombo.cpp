@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 #include "laskudialogi.h"
 
-LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, int alvkoodi) :
+LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, int alvkoodi, bool ennakkolasku) :
     QComboBox (parent)
 {
     addItem(QIcon(":/pic/0pros.png"),"0%", QVariant(AlvKoodi::ALV0));
@@ -37,7 +37,7 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, i
         addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
     }
 
-    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
+    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()) && !ennakkolasku)
     {
         addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(LaskuDialogi::KAYTETYT));
         addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(LaskuDialogi::TAIDE));

@@ -300,16 +300,16 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
     for(auto rivi : rivit()) {
         QVariantMap map = rivi.toMap();
         int alvkoodi = map.value("alvkoodi").toInt();
+        int alvprosentti = map.value("alvprosentti").toInt();
 
-        if( alvkoodi >= LaskuDialogi::KAYTETYT)
+        if( alvkoodi >= LaskuDialogi::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
-        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku)
+            alvprosentti = 24;  // Marginaalilaskuilla käytössä vain 24% alv-prosentti
+        } if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku) {
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
-        else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm) && !kateislasku)
-            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
-
-        if( ennakkolasku )
-            map.insert("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
+             map.insert("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
+        } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm) && !kateislasku)
+            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;                  
 
         bool vanhaan = false;
 
@@ -346,7 +346,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             vienti.setTili( map.value("tili").toInt() );
             vienti.setKohdennus( map.value("kohdennus").toInt());
             vienti.setAlvKoodi( alvkoodi );
-            vienti.setAlvProsentti( map.value("alvprosentti").toInt());
+            vienti.setAlvProsentti( alvprosentti);
             vienti.setPvm(pvm);
             if(asiakasId) {
                 vienti.setKumppani(asiakasId);

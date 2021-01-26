@@ -798,6 +798,10 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
                                   tr("Käytettäessä käänteistä arvonlisäveroa on asiakkaalle "
                                      "määriteltävä alv-tunnus."));
             return;
+        } else if( (vienti.alvKoodi() == AlvKoodi::MYYNNIT_MARGINAALI && ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU)) {
+            QMessageBox::critical(this, tr("Marginaaliveromenettely"),
+                                  tr("Käytettäessä marginaaliveromenetteyä ei Kitsaalla voi laatia ennakkolaskua"));
+            return;
         }
     }
 
@@ -844,6 +848,11 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus, bool toimita)
     } else if( map.value("tila").toInt()==Tosite::VALMISLASKU)
         emit tallennettuValmiina();
 
+}
+
+int LaskuDialogi::maksutapa() const
+{
+    return ui->maksuCombo->currentData().toInt();
 }
 
 void LaskuDialogi::ennakkoHyvitysData(int eraid, double eurot, QVariant *data)
