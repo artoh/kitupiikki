@@ -185,6 +185,8 @@
         <file>down.png</file>
         <file>month.png</file>
         <file>calendar.png</file>
+        <file>huomio.png</file>
+        <file>huomioliite.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
