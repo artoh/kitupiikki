@@ -76,7 +76,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -206,7 +206,7 @@
        <item>
         <widget class="QPlainTextEdit" name="kommentitEdit">
          <property name="placeholderText">
-          <string>Kirjoita tähän tositteeseen liittyvät kommentit</string>
+          <string>Kirjoita tähän tositteeseen liittyvät muistiinpanot</string>
          </property>
         </widget>
        </item>

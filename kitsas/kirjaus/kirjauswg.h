@@ -33,6 +33,7 @@ class SelausWg;
 class Tosite;
 class ApuriWidget;
 class KiertoWidget;
+class KommentitWidget;
 
 /**
  * @brief Kirjausten muokkaus
@@ -48,7 +49,7 @@ public:
     KirjausWg(QWidget *parent=nullptr, SelausWg* selaus = nullptr);
     ~KirjausWg();
 
-    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, VARASTO, LOKI } ;
+    enum Valilehdet { VIENNIT, MUISTIINPANOT, LIITTEET, VARASTO, LOKI } ;
 
     Tosite* tosite() { return tosite_;}
 
@@ -121,6 +122,7 @@ private slots:
     void nollaaTietokannanvaihtuessa();
 
     void avaaLiite();
+    void naytaKommenttimerkki(bool onko);
 
 public:
     Ui::KirjausWg* gui() { return ui;}
@@ -176,11 +178,13 @@ protected:
     ApuriWidget* apuri_;
 
     QWidget* viennitTab_;
-    QWidget* kommentitTab_;
+    QWidget* memoTab_;
     QWidget* liitteetTab_;
     QWidget* varastoTab_;
     QWidget* lokiTab_;
     KiertoWidget* kiertoTab_;
+    KommentitWidget* kommentitTab_;
+
 
     SelausWg* selaus_;
     QPair<int,int> edellinenSeuraava_;

@@ -170,6 +170,16 @@ font-weight: bold;</string>
                   </widget>
                  </item>
                  <item>
+                  <widget class="QCheckBox" name="check_Tk">
+                   <property name="text">
+                    <string>Kommentointi</string>
+                   </property>
+                   <property name="Oikeus" stdset="0">
+                    <string notr="true">Tk</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QCheckBox" name="checkBox_3">
                    <property name="text">
                     <string>Luonnoksen laatiminen</string>
@@ -474,6 +484,34 @@ font-weight: bold;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lisaysEdit</tabstop>
+  <tabstop>lisaysNappi</tabstop>
+  <tabstop>kutsuButton</tabstop>
+  <tabstop>view</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>check_Tk</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>checkBox_4</tabstop>
+  <tabstop>checkBox_5</tabstop>
+  <tabstop>checkBox_6</tabstop>
+  <tabstop>checkBox_15</tabstop>
+  <tabstop>checkBox_16</tabstop>
+  <tabstop>checkBox_7</tabstop>
+  <tabstop>checkBox_8</tabstop>
+  <tabstop>checkBox_9</tabstop>
+  <tabstop>checkBox_14</tabstop>
+  <tabstop>checkBox_17</tabstop>
+  <tabstop>checkBox_10</tabstop>
+  <tabstop>checkBox_11</tabstop>
+  <tabstop>checkBox_12</tabstop>
+  <tabstop>checkBox_13</tabstop>
+  <tabstop>oikeusBox</tabstop>
+  <tabstop>poistaNappi</tabstop>
+  <tabstop>kaikkiNappi</tabstop>
+  <tabstop>tallennaNappi</tabstop>
+ </tabstops>
  <resources>
   <include location="../../pic/pic.qrc"/>
  </resources>

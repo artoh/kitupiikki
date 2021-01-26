@@ -27,6 +27,7 @@ SOURCES += \
     $$PWD/kierto/kiertomuokkausmodel.cpp \
     $$PWD/kierto/kiertoselausmodel.cpp \
     $$PWD/kierto/kiertosivu.cpp \
+    $$PWD/kirjaus/kommentitwidget.cpp \
     $$PWD/kirjaus/mallipohjamodel.cpp \
     $$PWD/kirjaus/muumuokkausdlg.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
@@ -312,6 +313,7 @@ HEADERS += \
     $$PWD/kierto/kiertomuokkausmodel.h \
     $$PWD/kierto/kiertoselausmodel.h \
     $$PWD/kierto/kiertosivu.h \
+    $$PWD/kirjaus/kommentitwidget.h \
     $$PWD/kirjaus/mallipohjamodel.h \
     $$PWD/kirjaus/muumuokkausdlg.h \
     $$PWD/kirjaus/tallennettuwidget.h \
@@ -592,6 +594,7 @@ FORMS += \
     $$PWD/kierto/kiertomaaritys.ui \
     $$PWD/kierto/kiertosivu.ui \
     $$PWD/kierto/kierto.ui \
+    $$PWD/kirjaus/KommenttiWidget.ui \
     $$PWD/kirjaus/muumuokkausdlg.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \

@@ -188,6 +188,8 @@
         <file>huomio.png</file>
         <file>huomioliite.png</file>
         <file>harmaahuomio.png</file>
+        <file>kupla-harmaa.png</file>
+        <file>kupla.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

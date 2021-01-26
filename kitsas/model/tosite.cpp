@@ -75,7 +75,7 @@ void Tosite::setData(int kentta, QVariant arvo)
         emit sarjaMuuttui( arvo.toString());
     else if( kentta == TYYPPI)
         emit tyyppiMuuttui( arvo.toInt());
-    else if( kentta == KOMMENTIT)
+    else if( kentta == LISATIEDOT)
         emit kommenttiMuuttui( arvo.toString());
     else if( kentta == ERAPVM)
         emit eraPvmMuuttui( arvo.toDate());
@@ -147,7 +147,7 @@ void Tosite::asetaPvm(const QDate &pvm)
 
 void Tosite::asetaKommentti(const QString &kommentti)
 {
-    setData(KOMMENTIT, kommentti);
+    setData(LISATIEDOT, kommentti);
 }
 
 void Tosite::asetaSarja(const QString &sarja)
@@ -343,7 +343,7 @@ void Tosite::tarkasta()
     qlonglong debet = 0;
     qlonglong kredit = 0;
 
-    for(QVariant item : viennit()->viennit().toList()) {
+    for(QVariant &item : viennit()->viennit().toList()) {
         TositeVienti vienti = item.toMap();
         QDate pvm = vienti.pvm();
 
@@ -392,6 +392,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     emit tunnisteMuuttui( tunniste() );
     emit sarjaMuuttui( sarja() );
     emit kommenttiMuuttui( kommentti());
+    emit huomioMuuttui(huomio());
 
     resetointiKaynnissa_ = false;
     tarkasta();
@@ -482,7 +483,7 @@ std::map<int,QString> Tosite::avaimet__ = {
     { TUNNISTE, "tunniste"},
     { OTSIKKO, "otsikko"},
     { KUMPPANI, "kumppani" },
-    { KOMMENTIT, "info"},
+    { LISATIEDOT, "info"},
     { ALV, "alv"},
     { SARJA, "sarja"},
     { TILIOTE, "tiliote"},
@@ -493,5 +494,7 @@ std::map<int,QString> Tosite::avaimet__ = {
     { VIITE, "viite"},
     { KIERTO, "kierto"},
     { PORTAALI, "portaali"},
-    { HUOMIO, "huomio"}
+    { HUOMIO, "huomio"},
+    { KOMMENTTI, "kommentti"},
+    { KOMMENTIT, "kommentit"}
 };

@@ -72,8 +72,10 @@
 #include "db/yhteysmodel.h"
 #include "../kierto/kiertowidget.h"
 #include "../kierto/kiertomodel.h"
+#include "kommentitwidget.h"
 
 #include "muumuokkausdlg.h"
+#include "pilvi/pilvimodel.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
@@ -86,11 +88,12 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->setupUi(this);
 
     viennitTab_ = ui->tabWidget->widget(VIENNIT);
-    kommentitTab_ = ui->tabWidget->widget(KOMMENTIT);
+    memoTab_ = ui->tabWidget->widget(MUISTIINPANOT);
     liitteetTab_ = ui->tabWidget->widget(LIITTEET);
     varastoTab_ = ui->tabWidget->widget(VARASTO);
     lokiTab_ = ui->tabWidget->widget(LOKI);
     kiertoTab_ = new KiertoWidget(tosite(), this);
+    kommentitTab_ = new KommentitWidget(tosite(), this);
 
 
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
@@ -210,6 +213,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     tosite()->liitteet()->naytaLadattuLiite();
     connect( tosite(), &Tosite::ladattu, this, &KirjausWg::tositeLadattu);
+
+    connect(kommentitTab_, &KommentitWidget::kommentteja, this, &KirjausWg::naytaKommenttimerkki);
 
 }
 
@@ -548,7 +553,7 @@ void KirjausWg::tuonti(const QVariantMap& map)
             tosite()->asetaPvm(map.value("pvm").toDate());
         if(map.contains("otsikko"))
             tosite()->asetaOtsikko(map.value("otsikko").toString());
-        for(auto vienti : map.value("viennit").toList()) {
+        for(auto &vienti : map.value("viennit").toList()) {
             tosite()->viennit()->lisaa( vienti.toMap());
         }
     }
@@ -565,6 +570,14 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
     tosite()->asetaPvm(pvm);
     ui->sarjaCombo->clear();
     ui->sarjaCombo->addItems(kp()->tositeSarjat());
+
+    int kommentitIndex = ui->tabWidget->indexOf(kommentitTab_);
+    bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+    if( pilvessa && kommentitIndex < 0)
+        ui->tabWidget->insertTab( ui->tabWidget->count()-1, kommentitTab_, QIcon(":/pic/kupla-harmaa.png"), tr("Kommentit") );
+    else if( !pilvessa && kommentitIndex > 0)
+        ui->tabWidget->removeTab(kommentitIndex);
+
 }
 
 void KirjausWg::avaaLiite()
@@ -583,6 +596,14 @@ void KirjausWg::avaaLiite()
     if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
         QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( paate ) );
 
+}
+
+void KirjausWg::naytaKommenttimerkki(bool onko)
+{
+    int indeksi = ui->tabWidget->indexOf(kommentitTab_);
+    if( indeksi > 0) {
+        ui->tabWidget->setTabIcon(indeksi, QIcon(onko ? ":/pic/kupla.png" : ":/pic/kupla-harmaa.png"));
+    }
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -717,7 +738,7 @@ void KirjausWg::lataaTosite(int id)
 
 void KirjausWg::paivitaKommentti(const QString &kommentti)
 {
-    int kommenttiIndeksi = ui->tabWidget->indexOf(kommentitTab_);
+    int kommenttiIndeksi = ui->tabWidget->indexOf(memoTab_);
 
     if( kommentti.isEmpty())
     {
@@ -885,9 +906,6 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     int kiertoIndex = ui->tabWidget->indexOf(kiertoTab_);
     if( kp()->kierrot()->rowCount() && ui->tabWidget->count()) {
         if( kiertoIndex < 0)
-            qDebug() << ui->tabWidget->count();
-            qDebug() << kiertoTab_;
-            qDebug() << QIcon(":/pic/kierto.svg");
             kiertoIndex = ui->tabWidget->insertTab( ui->tabWidget->count()-1, kiertoTab_, QIcon(":/pic/kierto.svg"), tr("Kierto") );
 
         if( tosite()->tositetila() >= Tosite::HYLATTY && tosite()->tositetila() <= Tosite::HYVAKSYTTY)

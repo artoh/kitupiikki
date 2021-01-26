@@ -47,7 +47,7 @@ public:
         TUNNISTE,
         OTSIKKO,
         KUMPPANI,
-        KOMMENTIT,
+        LISATIEDOT,
         ALV,
         SARJA,
         TILIOTE,
@@ -58,7 +58,9 @@ public:
         VIITE,
         KIERTO,
         PORTAALI,
-        HUOMIO
+        HUOMIO,
+        KOMMENTIT,
+        KOMMENTTI
     };
 
     enum Virheet {
@@ -110,7 +112,7 @@ public:
     int kumppani() const { return data(KUMPPANI).toMap().value("id").toInt();}
     QString kumppaninimi() const { return data(KUMPPANI).toMap().value("nimi").toString();}
     int tunniste() const { return data(TUNNISTE).toInt();}
-    QString kommentti() const { return data(KOMMENTIT).toString();}
+    QString kommentti() const { return data(LISATIEDOT).toString();}
     QString sarja() const { return data(SARJA).toString();}
     int tositetila() const { return data(TILA).toInt();}
     QDate laskupvm() const { return data(LASKUPVM).toDate();}

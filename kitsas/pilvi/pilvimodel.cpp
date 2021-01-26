@@ -372,7 +372,8 @@ std::map<QString,qlonglong> PilviModel::oikeustunnukset__ = {
     {"Xt", TUOTTEET},
     {"Xr", RYHMAT},
     {"Ra", RAPORTIT},
-    {"Ks", KIERTO_SELAAMINEN}
+    {"Ks", KIERTO_SELAAMINEN},
+    {"Tk", TOSITE_KOMMENTTI}
 };
 
 QString PilviModel::pilviLoginOsoite__;

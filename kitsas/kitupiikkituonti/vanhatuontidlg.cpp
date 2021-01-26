@@ -695,7 +695,7 @@ void VanhatuontiDlg::siirraTositteet()
         tosite.asetaPvm(pvm);
         tosite.asetaTyyppi(TositeTyyppi::TUONTI);
         tosite.asetaOtsikko(tositekysely.value("otsikko").toString());
-        tosite.setData(Tosite::KOMMENTIT, tositekysely.value("kommentti"));
+        tosite.setData(Tosite::LISATIEDOT, tositekysely.value("kommentti"));
         if( erisarja_)
             tosite.asetaSarja(tositekysely.value("tunnus").toString());
         else
