@@ -792,8 +792,9 @@ void AloitusSivu::tukiInfo()
 void AloitusSivu::lisaTukiInfo(QVariant *data)
 {
     QVariantMap map = data->toMap();
-    QString lisaInfo = QString::fromLatin1(QJsonDocument::fromVariant(map).toJson());
-    ui->tukiOhje->append(lisaInfo);
+    for(QString& avain : map.keys()) {
+        ui->tukiOhje->append(avain + ": " + map.value(avain).toString());
+    }
 }
 
 void AloitusSivu::vaihdaSalasanaUuteen()
