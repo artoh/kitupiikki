@@ -82,6 +82,8 @@ void TuoteDialogi::uusi()
     ui->yksikkoEdit->setText("kpl");
     ui->tiliEdit->valitseTiliNumerolla(kp()->asetukset()->luku("OletusMyyntitili"));
 
+    muokattavanaId_ = 0;
+
     show();
 }
 
