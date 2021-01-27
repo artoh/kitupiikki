@@ -684,7 +684,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
 
     // Loki
-    out << "<h3>" << tulkkaa("muokkaukset") << "</h3>";
+    out << "<h3>" << tulkkaa("Muokkaukset") << "</h3>";
     out << "<table class=loki>";
     QVariantList lokiLista = tosite.value("loki").toList();
     for(auto &lokiItem : lokiLista) {
