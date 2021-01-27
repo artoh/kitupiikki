@@ -490,7 +490,8 @@ void VanhatuontiDlg::siirraTilikaudet()
     while( sql.next()) {        
         KpKysely *kysely = kpk(QString("/tilikaudet/%1").arg(sql.value(0).toDate().toString(Qt::ISODate)), KpKysely::PUT);
         QVariantMap map;
-        map.insert("loppuu", sql.value(1));
+        map.insert("alkaa", sql.value(0));
+        map.insert("loppuu", sql.value(1));       
 
         QVariantMap jsonMap = QJsonDocument::fromJson( sql.value(2).toByteArray() ).toVariant().toMap();
         map.insert("arkisto", jsonMap.value("Arkistoitu"));
@@ -522,7 +523,7 @@ void VanhatuontiDlg::taydennaTilit()
 
         bool loytyi = false;
         if( sql.value("muokattu").isNull()) {
-            for( auto item : kitsasTilit_) {
+            for( auto& item : kitsasTilit_) {
                 QVariantMap tmap = item.toMap();
                 if( (!tyyppi.startsWith('H') || tyyppi == tmap.value("tyyppi").toString() )
                      && numero == tmap.value("numero").toInt() ) {
