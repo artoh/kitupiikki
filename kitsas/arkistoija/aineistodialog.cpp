@@ -245,7 +245,6 @@ void AineistoDialog::tulostaRaportit()
         device->newPage();
         sivu_ += rk.tulosta(device, painter, false, sivu_);
         progress->setValue(progress->value() + 5);
-        qDebug() << "Raportti tulostetaan " << progress->value() << " / " << progress->maximum();
         qApp->processEvents();
     }
 }
@@ -258,6 +257,7 @@ void AineistoDialog::tositeListaSaapuu(QVariant *data)
     tositepnt_ = 0;
 
     tulostaRaportit();
+    painter->translate(0, painter->window().height() - painter->transform().dy());
     tilaaSeuraavaTosite();
 }
 
@@ -318,7 +318,8 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
 
     if( tulostaErillinen ) {
         // Tulostetaan tiliöinti- ja muistiinpano-osio erikseen
-        // Tämä pitää vielä tehdä ;)
+        sivu_ += LiiteTulostaja::tulostaTiedot(device, painter, nykyTosite_,
+                                               sivu_, kieli_, ui->muistiinpanotCheck->isChecked(), ui->tilioinnitCheck->isChecked());
     }
 
     if( liiteJono_.isEmpty()) {

@@ -28,6 +28,7 @@
 #include <QImage>
 #include <QRegularExpression>
 
+#include <QDebug>
 
 int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli)
 {
@@ -77,6 +78,93 @@ qreal LiiteTulostaja::muistiinpanojenKorkeus(QPainter *painter, const QVariantMa
     int matalaRivi = painter->fontMetrics().height();
 
     return infoRect.height() + 8 * rivinKorkeus + tosite.value("viennit").toList().count() * matalaRivi;
+}
+
+int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
+                                  const QVariantMap &tosite, int sivu, const QString &kieli,
+                                  bool naytaInfo, bool naytaViennit)
+{
+    QString muistiinpanot = naytaInfo ? tosite.value("info").toString() : QString() ;
+    QVariantList viennit = naytaViennit ? tosite.value("viennit").toList() : QVariantList();
+    QVariantList loki = tosite.value("loki").toList();
+
+    int sivua = 0;
+
+    painter->setFont(QFont("FreeSans",8));
+    int leveys = painter->window().width();
+    int sivunKorkeus = painter->window().height();
+    int rivinkorkeus = painter->fontMetrics().height();
+
+    if( viennit.isEmpty()) {
+        QRect mpRect = painter->boundingRect(0,0,leveys*7/8, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
+        int mpkorkeus = mpRect.height();
+        int korkeus = rivinkorkeus * 3 + mpkorkeus > 5 * rivinkorkeus ? mpkorkeus : 5 * rivinkorkeus;
+        if(sivunKorkeus - painter->transform().dy() < korkeus) {
+            printer->newPage();
+            painter->resetTransform();
+            sivu++; sivua++;
+        }
+        tulostaYlatunniste(painter, tosite, sivu, kieli);
+        painter->translate(0, rivinkorkeus * 3);
+
+        mpRect = painter->boundingRect(0,0,leveys*7/8, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
+        painter->drawText(mpRect, Qt::TextWordWrap, muistiinpanot);
+
+        tulostaKasittelijat(painter, loki);
+        painter->translate(0, korkeus + rivinkorkeus * 2);
+    } else {
+        // Varauduttava pätkimään vientejä. Kuitenkin ensin ylätunniste ja koko sivun levyinen kommentti
+
+        QRect mpRect = painter->boundingRect(0,0,leveys, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
+        qDebug() << muistiinpanot;
+
+        int mpkorkeus = mpRect.height() + 5 * rivinkorkeus;
+        int vkorkeus = viennit.count() < 15 ? viennit.count() * rivinkorkeus : rivinkorkeus * 11;
+        int korkeus = vkorkeus > mpkorkeus ? vkorkeus : mpkorkeus;
+
+        if(sivunKorkeus - painter->transform().dy() < korkeus) {
+            printer->newPage();
+            painter->resetTransform();
+            sivu++; sivua++;
+        }
+        tulostaYlatunniste(painter, tosite, sivu, kieli);
+        painter->translate(0, rivinkorkeus * 3);
+
+        mpRect = painter->boundingRect(0,0,leveys, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
+        painter->drawText(mpRect, Qt::TextWordWrap, muistiinpanot);
+        painter->drawRect(mpRect);
+
+        painter->translate(0, mpRect.height() + rivinkorkeus);
+        tulostaKasittelijat(painter, loki);
+
+        // Nyt sitten tarvittaessa pätkitään moneen osaan tätä
+        while(!viennit.isEmpty()) {
+            int siirto = painter->transform().dy() + rivinkorkeus * 2;
+            QVariantList mahtuu;
+
+            qDebug() << "Siirto " << siirto << "Korkeus " << sivunKorkeus;
+
+            while( siirto < sivunKorkeus && !viennit.isEmpty()) {
+                mahtuu.append(viennit.takeFirst());
+                siirto += rivinkorkeus;
+            }
+            painter->translate(0, (mahtuu.count() + 2) * rivinkorkeus);
+
+            qDebug() << "Mahtuu " << mahtuu.count() << " / " << viennit.count();
+
+            tulostaViennit(painter, mahtuu, kieli);
+            if( !viennit.isEmpty()) {
+                printer->newPage();
+                painter->resetTransform();
+                sivu++; sivua++;
+                tulostaYlatunniste(painter, tosite, sivu, kieli);
+                painter->translate(0, rivinkorkeus * 3);
+                qDebug() << " Uusi sivu " << sivu << " trans " << painter->transform().dy();
+            }
+        }
+    }
+    return sivua;
+
 }
 
 int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
@@ -243,12 +331,13 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
     QRectF tunnisteRect(leveys * 9 / 12, 0, leveys * 3 / 12, korkeus);
     painter->drawText( tunnisteRect, tunniste, QTextOption(Qt::AlignRight | Qt::AlignTop) );
 
-    painter->setFont(QFont("FreeSans",9, QFont::Bold));
-    QRectF otsikkoRect(leveys * 3 / 12, 0, leveys / 2, korkeus );
+    painter->setFont(QFont("FreeSans",9, QFont::Bold));    
+    QRectF otsikkoRect=painter->boundingRect(leveys * 3 / 12, 0, leveys / 2, korkeus, Qt::TextWordWrap, otsikko );
     painter->drawText( otsikkoRect, otsikko, QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
+    int otsikkokorkeus = otsikkoRect.height();
 
     painter->setFont(QFont("FreeSans",9));
-    QRectF kumppaniRect(leveys * 3/ 12, korkeus / 2, leveys / 2, korkeus * 3 / 2);
+    QRectF kumppaniRect(leveys * 3/ 12, otsikkokorkeus > korkeus / 2 ? otsikkokorkeus : korkeus / 2 , leveys / 2, korkeus * 3 / 2);
     painter->drawText( kumppaniRect, kumppani, QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
 
 
@@ -346,7 +435,7 @@ void LiiteTulostaja::tulostaKasittelijat(QPainter *painter, const QVariantList &
         QString nimi = map.value("nimi").toString();
         QStringList etukirjaimet = nimi.split(QRegularExpression("\\W", QRegularExpression::UseUnicodePropertiesOption));
         for(QString& osa : etukirjaimet)
-            nimet.append(osa.left(1));
+            nimet.append(osa.leftRef(1));
 
         if( idt.count() > 5)
             break;

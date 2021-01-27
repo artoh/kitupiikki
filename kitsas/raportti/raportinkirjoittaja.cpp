@@ -217,9 +217,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         {
             // Sivu tulee täyteen
             printer->newPage();
+            painter->resetTransform();
             sivu++;
-            rivilla = 0;
-            painter->restore();
+            rivilla = 0;            
         }
 
         if( painter->transform().dy() < 0.1 )
