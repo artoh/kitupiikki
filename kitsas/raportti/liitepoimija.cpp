@@ -120,7 +120,7 @@ void LiitePoimija::seuraavaLiite()
 void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
 {
     QByteArray ba = data->toByteArray();
-    if( painter->transform().dy())
+    if( ekatulostettu_ )
         device->newPage();
 
     LiiteTulostaja::tulostaLiite(
@@ -131,6 +131,8 @@ void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
                 false,
                 -1000,
                 kieli_);
+
+    ekatulostettu_ = true;
 
     seuraavaLiite();
 }

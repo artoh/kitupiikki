@@ -51,6 +51,7 @@ private:
 
     QString kieli_;
     QString tiedosto_;
+    bool ekatulostettu_ = false;
 
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;

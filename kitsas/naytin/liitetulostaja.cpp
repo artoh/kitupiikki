@@ -296,7 +296,7 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
     painter->drawText( tunnisteRect, tunniste, QTextOption(Qt::AlignRight | Qt::AlignTop) );
 
     painter->setFont(QFont("FreeSans",9, QFont::Bold));    
-    QRectF otsikkoRect=painter->boundingRect(leveys * 3 / 12, 0, leveys / 2, korkeus, Qt::TextWordWrap, otsikko );
+    QRectF otsikkoRect=painter->boundingRect(leveys * 3 / 12, 0, leveys / 2, korkeus, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, otsikko );
     painter->drawText( otsikkoRect, otsikko, QTextOption(Qt::AlignHCenter | Qt::AlignTop) );
     int otsikkokorkeus = otsikkoRect.height();
 
