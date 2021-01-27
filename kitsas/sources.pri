@@ -16,6 +16,7 @@ SOURCES += \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
+    $$PWD/arkistoija/aineistodialog.cpp \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
@@ -302,6 +303,7 @@ HEADERS += \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \
+    $$PWD/arkistoija/aineistodialog.h \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/db/kielikentta.h \
@@ -590,6 +592,7 @@ FORMS += \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkisto/tilikausimuokkausdlg.ui \
     $$PWD/arkisto/uudelleennumerointi.ui \
+    $$PWD/arkistoija/aineistodialog.ui \
     $$PWD/arkistoija/arkistohakemistodialogi.ui \
     $$PWD/kierto/kiertomaaritys.ui \
     $$PWD/kierto/kiertosivu.ui \

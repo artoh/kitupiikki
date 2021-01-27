@@ -52,6 +52,8 @@
 #include "uudelleennumerointi.h"
 #include "tilikausimuokkausdlg.h"
 
+#include "arkistoija/aineistodialog.h"
+
 #include <zip.h>
 
 ArkistoSivu::ArkistoSivu()
@@ -133,10 +135,9 @@ void ArkistoSivu::aineisto()
 {
     if( ui->view->currentIndex().isValid())
     {
+        AineistoDialog *aineisto = new AineistoDialog();
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );        
-
-        AineistoTulostaja *aineisto = new AineistoTulostaja(this);
-        aineisto->tallennaAineisto(kausi, kp()->asetus("kieli"));
+        aineisto->aineisto(kausi.alkaa());
     }
 }
 
