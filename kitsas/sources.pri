@@ -83,6 +83,8 @@ SOURCES += \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
+    $$PWD/raportti/liitepoimija.cpp \
+    $$PWD/raportti/liitepoiminta.cpp \
     $$PWD/raportti/myyntiraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
@@ -148,7 +150,6 @@ SOURCES += \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
-    $$PWD/tilinpaatoseditori/aineistotulostaja.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
@@ -370,6 +371,8 @@ HEADERS += \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laskuraportteri.h \
+    $$PWD/raportti/liitepoimija.h \
+    $$PWD/raportti/liitepoiminta.h \
     $$PWD/raportti/myyntiraportteri.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
@@ -437,7 +440,6 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
-    $$PWD/tilinpaatoseditori/aineistotulostaja.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/kohdennuscombo.h \

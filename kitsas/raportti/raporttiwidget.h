@@ -60,9 +60,9 @@ public slots:
      */
     virtual void esikatsele() = 0;
 
-    virtual void nayta(RaportinKirjoittaja rk);
+    virtual void nayta(RaportinKirjoittaja rk);    
 
-    void esikatselu();
+    void esikatselu();    
 
 protected:
     QWidget *raporttiWidget;

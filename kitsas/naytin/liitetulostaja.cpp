@@ -192,7 +192,7 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
             ensisivu = false;
         }
 
-        if( i < pageCount - 1)
+        if( i < pageCount - 1 )
             printer->newPage();       
 
         delete page;
@@ -258,10 +258,14 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
         painter->rotate(270);
         painter->translate(0,0-korkeus*3/2);
 
-        QString teksti = QString("%1 %2 %3")
+
+        QString teksti = sivu > 0 ? QString("%1 %2 %3")
                 .arg( kp()->asetukset()->asetus("Nimi") )
                 .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm"))
-                .arg(tulkkaa("Sivu %1",kieli).arg(sivu));
+                .arg(tulkkaa("Sivu %1",kieli).arg(sivu)) :
+                QString("%1 %2")
+                                .arg( kp()->asetukset()->asetus("Nimi") )
+                                .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm"));
         painter->drawText(QRect(0, 0,skorkeus, korkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, teksti );
 
         if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )

@@ -40,6 +40,8 @@
 #include "tasetulosraportti.h"
 #include "alvraporttiwidget.h"
 
+#include "liitepoiminta.h"
+
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(nullptr)
 {
@@ -106,6 +108,8 @@ void RaporttiSivu::siirrySivulle()
     if( kp()->asetukset()->onko("AlvVelvollinen") )
         lisaaRaportti("Arvonlisäveron erittely", "AlvErittely", ":/pic/vero.png");
 
+    lisaaRaportti("Tositekooste", "Tositekooste", ":/pic/arkisto64.png");
+
     lista->setCurrentItem(lista->item(0));
 }
 
@@ -162,6 +166,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TaseTulosRaportti(Raportoija::PROJEKTILASKELMA);
     else if( raporttinimi == "AlvErittely")
         nykyinen = new AlvRaporttiWidget();
+    else if( raporttinimi == "Tositekooste")
+        nykyinen = new LiitePoiminta();
 
 
     if( nykyinen )

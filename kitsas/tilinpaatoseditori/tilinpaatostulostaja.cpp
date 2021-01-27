@@ -136,7 +136,11 @@ void TilinpaatosTulostaja::tilaaRaportit()
 
 void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli)
 {
+    tulostaKansilehti(painter, otsikko, kausi.kausivaliTekstina(), kieli);
+}
 
+void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &otsikko, const QString &alaotsikko, const QString &kieli)
+{
     painter->save();
     painter->setFont(QFont("FreeSans",24,QFont::Bold));
 
@@ -163,7 +167,7 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
 
     painter->setFont(QFont("FreeSans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
-    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , kausi.kausivaliTekstina());
+    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus*4 ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , alaotsikko);
 
     painter->setFont(QFont("FreeSans",12));
     QString omaOsoite = kp()->asetus("Katuosoite") + "\n" +

@@ -188,10 +188,6 @@ void TilinPaattaja::esikatsele()
 
 void TilinPaattaja::mappi()
 {
-    QString data = tilikausi.str("tilinpaatosteksti");
-    QStringList raportit = data.left( data.indexOf("\n")).split(" ");
-    QString teksti =  data.mid(data.indexOf("\n")+1);
-
     AineistoDialog* aineisto = new AineistoDialog();
     aineisto->aineisto(tilikausi.alkaa(), kp()->asetus("tpkieli"));
 }

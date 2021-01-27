@@ -39,7 +39,6 @@
 #include "arkistoija/arkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
-#include "tilinpaatoseditori/aineistotulostaja.h"
 
 #include "tilinpaattaja.h"
 
