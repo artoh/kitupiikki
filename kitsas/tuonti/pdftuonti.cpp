@@ -422,6 +422,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
     int tapahtumanrivi = -1;
 
     bool saajaensin = false;
+    bool pvmloydetty = false;
+    bool arkistosarakkeessa = false;
     int riviero = 0;
 
     bool jatkuutauko = false;
@@ -514,10 +516,16 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     } else if( riviIter.key() % 100 >= maarasarake-10 && riviIter.value().contains( rahaRe) ) {
                         // Tämä on rahamäärä, joten tästä alkaa uusi tilitapahtuma, ja edellinen
                         // tallennetaan
-                        if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro"))
+                        if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro") &&
+                                (tapahtuma.contains("arkistotunnus") || (pvmloydetty &&
+                                ( arkistosarakkeessa || (arkistosarake > viitesarake && arkistosarake > 30)) )))
                             tapahtumat.append(tapahtuma);
                         else
                             qDebug() << "*ET*" << tapahtuma;
+
+                        pvmloydetty = false;
+                        arkistosarakkeessa = false;
+
                         tapahtuma.clear();
 
                         // Tallennetaan euromäärä
@@ -567,12 +575,15 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     if( paiva.isValid())
                         tapahtuma.insert("pvm",paiva);
                 }
+                if( pvmRe.match(teksti).hasMatch())
+                    pvmloydetty = true;
             }
             if( sarake < arkistosarake + 5 && sarake > arkistosarake - 5) {
                 if( tapahtumanrivi == 1 && teksti.contains(arkistoRe) && teksti.count(QRegularExpression("\\d")) > 4)
                 {                    
                     QRegularExpressionMatch mats = arkistoRe.match(teksti);
                     QString tunnari =  mats.hasMatch() ? mats.captured().left(20) : "";
+                    arkistosarakkeessa = true;
 
                     // Estetään saman arkistotunnuksen käyttäminen kuin aiemmalla rivillä
                     // jotta erittely ei saa tuplariviä. Kuitenkin vain jos tunnari on riittävän pitkä
@@ -687,7 +698,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
         }
     }  // Tekstien iterointi
     // Tarvittaessa viimeisen lisäys
-    if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro"))
+    if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro") &&
+            ( tapahtuma.contains("arkistotunnus") || ( pvmloydetty && (arkistosarakkeessa || ( arkistosarake > viitesarake && arkistosarake > 30) ) )  ))
         tapahtumat.append(tapahtuma);
     return tapahtumat;
 }
