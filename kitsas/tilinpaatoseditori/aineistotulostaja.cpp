@@ -92,7 +92,7 @@ void AineistoTulostaja::tulostaRaportit()
 
     sivu_ = 2;
 
-    for( auto rk : kirjoittajat_) {
+    for( auto& rk : kirjoittajat_) {
         device->newPage();
         sivu_ += rk.tulosta(device, painter, false, sivu_);
         qApp->processEvents();
@@ -101,6 +101,8 @@ void AineistoTulostaja::tulostaRaportit()
             progress->close();
             delete painter;
             delete progress;
+            painter = nullptr;
+            progress = nullptr;
             return;
         }
     }
@@ -205,7 +207,8 @@ void AineistoTulostaja::tilaaSeuraavaTosite()
         int tositeId = tositteet_.value(tositepnt_).toMap().value("id").toInt();
         tositepnt_++;
 
-        progress->setValue(progress->value() + 1);
+        if(progress)
+            progress->setValue(progress->value() + 1);
 
         KpKysely *tositeHaku = kpk(QString("/tositteet/%1").arg(tositeId));
         connect(tositeHaku, &KpKysely::vastaus, this, &AineistoTulostaja::tositeSaapuu);
@@ -216,17 +219,18 @@ void AineistoTulostaja::tilaaSeuraavaTosite()
 void AineistoTulostaja::tositeSaapuu(QVariant *data)
 {
     qApp->processEvents();
-    if( progress->wasCanceled()) {
+    if( progress && progress->wasCanceled()) {
         progress->close();
         delete painter;
         delete progress;
+        progress = nullptr;
         return;
     }
 
     nykyTosite_ = data->toMap();
 
     QVariantList liitelista = nykyTosite_.value("liitteet").toList();
-    for(auto liite : liitelista) {
+    for(auto &liite : liitelista) {
         QVariantMap liiteMap = liite.toMap();
         QString tyyppi = liiteMap.value("tyyppi").toString();
         if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
@@ -293,6 +297,9 @@ void AineistoTulostaja::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi
 
 void AineistoTulostaja::valmis()
 {
+    if(!painter)
+        return;
+
     painter->end();
     if( virhe_) {
         QMessageBox::critical(nullptr, tr("Virhe aineiston muodostamisessa"),
@@ -303,9 +310,13 @@ void AineistoTulostaja::valmis()
     } else {
         QDesktopServices::openUrl(QUrl::fromLocalFile(polku_));
     }
-    progress->close();
-    delete progress;
+    if(progress) {
+        progress->close();
+        delete progress;
+        progress = nullptr;
+    }
     delete painter;
+    painter = nullptr;
 
     return;
 
