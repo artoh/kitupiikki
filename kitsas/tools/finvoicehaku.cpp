@@ -56,14 +56,14 @@ void FinvoiceHaku::haeUudet()
         hakuPaalla_ = true;
         ytunnus_ = kp()->asetus("Ytunnus");
         aikaleima_ = QDateTime();
-        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus").simplified();
         PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
         connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::listaSaapuu);
         connect( haku, &KpKysely::virhe, [this] { this->hakuPaalla_=false;});
         haku->kysy();
 
         // Haetaan myös statustiedot
-        QString statusosoite = kp()->pilvi()->finvoiceOsoite() + "/status/" + kp()->asetus("Ytunnus");
+        QString statusosoite = kp()->pilvi()->finvoiceOsoite() + "/status/" + kp()->asetus("Ytunnus").simplified();
         PilviKysely *statushaku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, statusosoite);
         connect( statushaku, &KpKysely::vastaus, this, &FinvoiceHaku::statusListaSaapuu);
         statushaku->kysy();
@@ -139,7 +139,7 @@ void FinvoiceHaku::kumppaniSaapuu(QVariant *data, const QVariantMap json)
     nykyTosite_->viennit()->lisaa(vasta);
 
     QVariantList alvit = json.value("alv").toList();
-    for(auto alvi : alvit) {
+    for(auto& alvi : alvit) {
         QVariantMap alvmap = alvi.toMap();
         TositeVienti netto;
         netto.setPvm(pvm);

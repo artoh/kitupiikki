@@ -129,21 +129,37 @@ table.extra td.extracol {
   width: 100%;
 }
 
-
-table.loki {
-	margin-top: 2em;
+h3 {
+	font-size: 100%;
+	font-weight: bold;
+	margin-bottom: 2px;
+	margin-top: 1em;
 }
+
 
 table.loki td.lokiaika {
 	min-width: 14em;
 }
 
 table.loki td.lokitila {
-	min-widt: 14em;
+	min-width: 14em;
 }
 
 table.loki td.lokinimi {
 	width: 100%;
+}
+
+
+table.kommentit td.aika {
+	min-width: 14em;
+}
+
+table.kommentit td.nimi {
+	min-width: 14em;
+}
+
+table.kommentit td.teksti {
+	width: 100%
 }
 
 p.info {

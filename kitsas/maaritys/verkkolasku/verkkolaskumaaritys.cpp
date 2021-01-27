@@ -226,7 +226,7 @@ void VerkkolaskuMaaritys::eiTietoja()
 
 void VerkkolaskuMaaritys::setFlow(bool on)
 {
-    QString osoite = QString("%1/maventa/%2/flow").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+    QString osoite = QString("%1/maventa/%2/flow").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus").simplified());
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
     if( !on)
         pk->lisaaAttribuutti("off","");

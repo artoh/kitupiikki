@@ -347,7 +347,7 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
     // Lisätään ensin liitteet luetteloille
     QVariantMap map = data->toMap();
     int liitenro = 1;
-    for( auto liite : map.value("liitteet").toList()) {
+    for( auto &liite : map.value("liitteet").toList()) {
         QVariantMap liitemap = liite.toMap();
         QString tnimi = liitemap.value("nimi").toString();
         int liiteid = liitemap.value("id").toInt();
@@ -495,7 +495,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     if( liitteet.count() )
     {                
         if( !tuloste) {
-            for( auto liite : liitteet) {
+            for( auto &liite : liitteet) {
                 const QVariantMap& liitemap = liite.toMap();
                 const QString tyyppi = liitemap.value("tyyppi").toString();
                 if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
@@ -511,7 +511,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         out << "<table class='liiteluettelo'>";
 
         // luettelo
-        for( auto liite : liitteet) {
+        for( auto &liite : liitteet) {
             const QVariantMap& liitemap = liite.toMap();
             const QString liitetiedosto = liiteNimet_.value( liitemap.value("id").toInt() );
             const QString tyyppi = liitemap.value("tyyppi").toString();
@@ -562,7 +562,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
     out << "<th>" << tulkkaa("Debet") << "</th><th>" << tulkkaa("Kredit") << "</th></tr>";
 
-    for( auto vientiItem : tosite.value("viennit").toList())    {
+    for( auto &vientiItem : tosite.value("viennit").toList())    {
         TositeVienti vienti = vientiItem.toMap();
         Tili* tili = kp()->tilit()->tili( vienti.value("tili").toInt() );
         if( !tili)
@@ -579,7 +579,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         // Merkkaukset
         if( vienti.contains("merkkaukset")) {
             QStringList merkkausLista;
-            for(QVariant mt : vienti.value("merkkaukset").toList()) {
+            for(QVariant &mt : vienti.value("merkkaukset").toList()) {
                 merkkausLista << kp()->kohdennukset()->kohdennus(mt.toInt()).nimi();
             }
             klist << merkkausLista.join(", ");
@@ -647,15 +647,14 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     }
     out << "</table>";
 
-    // Kommentit
+    // Lisätiedot
     if( !tosite.value("info").toString().isEmpty())
     {
-        out << "<p class=kommentti>";
+        out << "<p class=lisatieto>";
         out << tosite.value("info").toString().toHtmlEscaped().replace("\n","<br>");
         out << "</p>";
     }
 
-    // Lisätiedot
     QVariantMap laskumap = tosite.value("lasku").toMap();
 
     out << "<table class=extra>\n";
@@ -670,11 +669,26 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
     out << "</table></table class=loki>\n";
 
+    // Kommentit
+    QVariantList kommenttiLista = tosite.value("kommentit").toList();
+    if(!kommenttiLista.isEmpty()) {
+        out << "<h3>" << tulkkaa("Kommentit") << "</h3>";
+        out << "<table class=kommentit>";
+        for(auto& item: kommenttiLista) {
+            QVariantMap map = item.toMap();
+            out << "<tr><td class=aika>" << map.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
+            out << "</td><td class=nimi>" << map.value("nimi").toString();
+            out << "</td><td class=teksti>" << map.value("teksti").toString() << "</td></tr>\n";
+        }
+    }
+
+
     // Loki
+    out << "<h3>" << tulkkaa("muokkaukset") << "</h3>";
     out << "<table class=loki>";
     QVariantList lokiLista = tosite.value("loki").toList();
-    for(auto lokiItem : lokiLista) {
-        QVariantMap lokiMap = lokiItem.toMap();
+    for(auto &lokiItem : lokiLista) {
+        QVariantMap lokiMap = lokiItem.toMap();        
         out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
         out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
         out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
