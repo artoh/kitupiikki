@@ -23,7 +23,7 @@
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
-#include "tilinpaatoseditori/aineistotulostaja.h"
+#include "arkistoija/aineistodialog.h"
 
 #include "ui_tilinpaattaja.h"
 #include "ui_lukitsetilikausi.h"
@@ -192,8 +192,8 @@ void TilinPaattaja::mappi()
     QStringList raportit = data.left( data.indexOf("\n")).split(" ");
     QString teksti =  data.mid(data.indexOf("\n")+1);
 
-    AineistoTulostaja* tulostaja = new AineistoTulostaja(this);
-    tulostaja->tallennaAineisto(tilikausi, kp()->asetus("tpkieli"));
+    AineistoDialog* aineisto = new AineistoDialog();
+    aineisto->aineisto(tilikausi.alkaa(), kp()->asetus("tpkieli"));
 }
 
 void TilinPaattaja::vahvista()

@@ -41,7 +41,7 @@ public:
     explicit AineistoDialog(QWidget *parent = nullptr);
     ~AineistoDialog();
 
-    void aineisto(const QDate& pvm);
+    void aineisto(const QDate& pvm, const QString& kieli = QString());
 
     void accept() override;
 

@@ -31,7 +31,7 @@ public:
 
     static bool tulostaMuistiinpanot(QPainter* painter,
                                      const QVariantMap& tosite, int sivu, const QString& kieli = QString());
-    static qreal muistiinpanojenKorkeus(QPainter* painter, const QVariantMap& tosite);
+
     static int tulostaTiedot(QPagedPaintDevice *printer, QPainter* painter, const QVariantMap& tosite, int sivu, const QString& kieli = "fi",
                              bool naytaInfo=true, bool naytaViennit=true);
 

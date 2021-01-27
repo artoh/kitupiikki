@@ -39,46 +39,6 @@ int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, 
     return 0;
 }
 
-bool LiiteTulostaja::tulostaMuistiinpanot(QPainter *painter, const QVariantMap &tosite, int sivu, const QString &kieli)
-{
-    painter->setFont(QFont("FreeSans",10));
-    int rivinKorkeus = painter->fontMetrics().height();
-    int leveys = painter->window().width();
-
-    tulostaYlatunniste(painter, tosite, sivu, kieli);
-
-    painter->translate(0, rivinKorkeus * 3);
-    QString info = tosite.value("info").toString();
-    QRectF infoRect = painter->boundingRect(0,0,leveys, painter->window().height(),Qt::TextWordWrap,info);
-    painter->drawText(infoRect, Qt::TextWordWrap, info);
-
-    painter->setFont(QFont("FreeSans",8));
-    int tilinKorkeus = painter->fontMetrics().height();
-
-
-    painter->translate(leveys / 4, infoRect.height() + rivinKorkeus * 2);
-    QVariantList viennit = tosite.value("viennit").toList();
-    if(viennit.count() > 0 && (viennit.count() + 1) * tilinKorkeus < painter->window().height() - painter->transform().dy() )
-    {
-        tulostaViennit(painter, viennit, kieli);
-    }
-    painter->translate(-leveys/4, rivinKorkeus * 4);
-
-    return true;
-}
-
-qreal LiiteTulostaja::muistiinpanojenKorkeus(QPainter *painter, const QVariantMap &tosite)
-{
-    painter->setFont(QFont("FreeSans",10));
-    int rivinKorkeus = painter->fontMetrics().height();
-    int leveys = painter->window().width();
-    QString info = tosite.value("info").toString();
-    QRectF infoRect = painter->boundingRect(0,0,leveys, painter->window().height(),Qt::TextWordWrap,info);
-    painter->setFont(QFont("FreeSans",8));
-    int matalaRivi = painter->fontMetrics().height();
-
-    return infoRect.height() + 8 * rivinKorkeus + tosite.value("viennit").toList().count() * matalaRivi;
-}
 
 int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
                                   const QVariantMap &tosite, int sivu, const QString &kieli,

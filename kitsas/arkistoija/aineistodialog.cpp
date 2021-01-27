@@ -66,10 +66,12 @@ AineistoDialog::~AineistoDialog()
     delete ui;
 }
 
-void AineistoDialog::aineisto(const QDate &pvm)
+void AineistoDialog::aineisto(const QDate &pvm, const QString &kieli)
 {
     ui->tilikausiCombo->setCurrentIndex(kp()->tilikaudet()->indeksiPaivalle(pvm));
     paivitaNimi();
+    if(!kieli.isEmpty())
+        ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(kieli));
 
     show();
 }
