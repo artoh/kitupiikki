@@ -88,7 +88,7 @@ void KommentitWidget::lataa()
         QVariantMap map = item.toMap();
         QString nimi = map.value("nimi").toString();
         QString aika = map.value("aika").toDateTime().toString("dd.MM.yyyy hh.mm");
-        QString teksti = map.value("teksti").toString().toHtmlEscaped();
+        QString teksti = map.value("teksti").toString().toHtmlEscaped().replace("\n","<br>");
 
         txt.append(QString("<h3>%1 %2</h3>").arg(nimi).arg(aika));
         txt.append(QString("<p>%1</p>").arg(teksti));
@@ -117,7 +117,7 @@ void KommentitWidget::tallenna()
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite_->id()), KpKysely::POST);
     QVariantMap map;
-    map.insert("teksti", edit_->toPlainText().replace("\n","<br>"));
+    map.insert("teksti", edit_->toPlainText());
     button_->setEnabled(false);
     connect(kysely, &KpKysely::vastaus, this, &KommentitWidget::tallennettu);
     kysely->kysy(map);
@@ -126,7 +126,7 @@ void KommentitWidget::tallenna()
 void KommentitWidget::tallennettu()
 {
     QString uusi;
-    if(!browser_->toHtml().isEmpty())
+    if(!browser_->toPlainText().isEmpty())
         uusi = "<hr>";
     uusi.append(QString("<h3>%1 %2</h3>").arg( kp()->pilvi()->kayttajaNimi() ).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     uusi.append(QString("<p>%1</p></body>").arg(edit_->toPlainText().replace("\n","<br>")));
