@@ -52,8 +52,8 @@ int main(int /* argc */, char * /* argv */[]) {
                 oikein++;
             } else {
                 vaarin++;
-                cout << " ************************* " << tiedosto.toStdString() << " ***************************\n";
-                cout << QString("PANOT %L1 / %L2  (%L5) OTOT %L3 / %L4 (%L6) \n")
+                cout << "\n ************************* " << tiedosto.toStdString() << " ***************************\n";
+                cout << QString(" PANOT %L1 / %L2  (%L5) OTOT %L3 / %L4 (%L6) \n\n")
                         .arg(panot / 100.0, 0, 'f',2)
                         .arg(ppanot / 100.0,0, 'f',2)
                         .arg(otot / 100.0,0, 'f',2)
@@ -66,7 +66,7 @@ int main(int /* argc */, char * /* argv */[]) {
                     QVariantMap tmap = item.toMap();
                     cout << QString("%1 %L2  %3 %4 %5 \n")
                             .arg(tmap.value("pvm").toDate().toString("dd.MM."))
-                            .arg(tmap.value("euro").toDouble(), 8, 'f', 2)
+                            .arg(tmap.value("euro").toDouble(), 12, 'f', 2)
                             .arg(tmap.value("saajamaksaja").toString(),-40)
                             .arg(tmap.value("viite").toString(), -10)
                             .arg(tmap.value("selite").toString())
@@ -77,6 +77,6 @@ int main(int /* argc */, char * /* argv */[]) {
             }
         }
     }
-    cout << " Onnistui " << oikein << " / " << oikein + vaarin << "\n";
+    cout << "\n\n Onnistui " << oikein << " / " << oikein + vaarin << "\n";
 
 }

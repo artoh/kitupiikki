@@ -516,12 +516,10 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     } else if( riviIter.key() % 100 >= maarasarake-10 && riviIter.value().contains( rahaRe) ) {
                         // Tämä on rahamäärä, joten tästä alkaa uusi tilitapahtuma, ja edellinen
                         // tallennetaan
-                        if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro") &&
+                        if (tapahtuma.value("pvm").toDate().isValid() && qAbs(tapahtuma.value("euro").toDouble()) > 1e-3 &&
                                 (tapahtuma.contains("arkistotunnus") || (pvmloydetty &&
                                 ( arkistosarakkeessa || (arkistosarake > viitesarake && arkistosarake > 30)) )))
                             tapahtumat.append(tapahtuma);
-                        else
-                            qDebug() << "*ET*" << tapahtuma;
 
                         pvmloydetty = false;
                         arkistosarakkeessa = false;
@@ -549,7 +547,8 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     riviero = rivi - rivilla;
                 else if( tapahtumanrivi > 1 && riviero * 3 / 2 < rivi - rivilla) {
                     // Tyhjä rivi tapahtuman keskellä, tapahtuma valmistuu
-                    if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro"))
+                    if (tapahtuma.value("pvm").toDate().isValid() && qAbs(tapahtuma.value("euro").toDouble()) > 1e-5 &&
+                            ( tapahtuma.contains("arkistotunnus") || ( pvmloydetty && (arkistosarakkeessa || ( arkistosarake > viitesarake && arkistosarake > 30) ) )  ))
                         tapahtumat.append(tapahtuma);
                     tapahtuma.clear();
                     continue;
@@ -698,7 +697,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
         }
     }  // Tekstien iterointi
     // Tarvittaessa viimeisen lisäys
-    if (tapahtuma.value("pvm").toDate().isValid() && tapahtuma.contains("euro") &&
+    if (tapahtuma.value("pvm").toDate().isValid() && qAbs(tapahtuma.value("euro").toDouble()) > 1e-5 &&
             ( tapahtuma.contains("arkistotunnus") || ( pvmloydetty && (arkistosarakkeessa || ( arkistosarake > viitesarake && arkistosarake > 30) ) )  ))
         tapahtumat.append(tapahtuma);
     return tapahtumat;
