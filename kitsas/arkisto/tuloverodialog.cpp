@@ -34,9 +34,8 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     ui->veroEdit->setReadOnly(true);
     ui->yleveroEdit->setReadOnly(true);
 
-    connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
-    connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
-    connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
+    connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);    
+    connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
     connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
@@ -130,7 +129,7 @@ void TuloveroDialog::accept()
 
 void TuloveroDialog::paivitaYlevero()
 {
-    double tulo = ui->tuloEdit->value();
+    double tulo = ui->tuloEdit->value() - ui->vahennysEdit->value();
     if( tulo < 50000)
         ui->yleveroEdit->setValue(0);
     else if( tulo >= 867143)
