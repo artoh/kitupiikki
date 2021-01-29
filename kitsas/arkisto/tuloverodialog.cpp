@@ -29,17 +29,15 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TuloveroDialog)
 {
-    ui->setupUi(this);
-
-    ui->veroEdit->setReadOnly(true);
-    ui->yleveroEdit->setReadOnly(true);
+    ui->setupUi(this);   
 
     connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);    
     connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
     connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
+    connect( ui->vahennysYhteensa, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
     connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
-    connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
+    connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/tulovero");});
 

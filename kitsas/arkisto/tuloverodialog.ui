@@ -45,7 +45,7 @@
      <item row="4" column="1">
       <widget class="KpEuroEdit" name="vahennysYhteensa">
        <property name="readOnly">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -96,7 +96,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Verotettava tulo yhteensä</string>
+        <string>Veronalainen tulo yhteensä</string>
        </property>
        <property name="buddy">
         <cstring>tuloEdit</cstring>
