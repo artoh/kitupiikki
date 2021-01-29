@@ -144,7 +144,8 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 
                 if( kohdennus.tyyppi() == Kohdennus::PROJEKTI) {
                     RaporttiRivi kprivi;
-                    kprivi.lisaa( kp()->kohdennukset()->kohdennus( kohdennus.kuuluu() ).nimi( kieli_ ), 2 );
+                    int kustannuspaikka = kohdennus.kuuluu();
+                    kprivi.lisaa( kp()->kohdennukset()->kohdennus( kustannuspaikka ).nimi( kieli_ ), 2 );
                     rk.lisaaRivi( kprivi);
                 }
 
@@ -242,7 +243,7 @@ void Raportoija::kirjoitaDatasta()
 
     QVariantList rivilista = kmap_.value("rivit").toList();
 
-    for(QVariant riviVariant : rivilista)
+    for(QVariant& riviVariant : rivilista)
     {
         QVariantMap map = riviVariant.toMap();
 

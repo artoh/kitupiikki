@@ -29,7 +29,7 @@ class LiitePoimija : public QObject
 {
     Q_OBJECT
 public:
-    LiitePoimija(const QString kieli, QObject *parent = nullptr);
+    LiitePoimija(const QString kieli, int dpi = 175, QObject *parent = nullptr);
 
     void poimi(const QDate& alkaa, const QDate& paattyy, int tili=-1, int kohdennus=-1);
 
@@ -52,6 +52,7 @@ private:
     QString kieli_;
     QString tiedosto_;
     bool ekatulostettu_ = false;
+    int dpi_ = 175;
 
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;

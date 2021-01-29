@@ -27,8 +27,8 @@
 
 #include "tools/tulkki.h"
 
-LiitePoimija::LiitePoimija(const QString kieli, QObject *parent)
-    : QObject(parent), kieli_(kieli)
+LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
+    : QObject(parent), kieli_(kieli), dpi_(dpi)
 {
     tiedosto_ = kp()->tilapainen("Tositekooste-%1.pdf").arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"));
 }
@@ -130,7 +130,8 @@ void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
                 nykyTosite_,
                 false,
                 -1000,
-                kieli_);
+                kieli_,
+                dpi_);
 
     ekatulostettu_ = true;
 

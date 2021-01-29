@@ -17,15 +17,25 @@
 #include "liitepoiminta.h"
 #include "liitepoimija.h"
 
+#include "db/kirjanpito.h"
+#include <QSettings>
+
 LiitePoiminta::LiitePoiminta() : PaakirjaRaportti()
 {
     ui->kumppaniCheck->hide();
     ui->tulostakohdennuksetCheck->hide();
     ui->tulostasummat->hide();
+
+    ui->laatuLabel->show();
+    ui->laatuSlider->show();
+
+    ui->laatuSlider->setValue(kp()->settings()->value("AineistoLaatu", 175).toInt());
 }
 
 void LiitePoiminta::esikatsele()
 {
+    kp()->settings()->setValue("AineistoLaatu", ui->laatuSlider->value());
+
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())
         kohdennuksella = ui->kohdennusCombo->kohdennus();
@@ -36,4 +46,5 @@ void LiitePoiminta::esikatsele()
     LiitePoimija *poimija = new LiitePoimija(ui->kieliCombo->currentData().toString());
     connect( poimija, &LiitePoimija::valmis, [this]  {this->odotaLabel->hide();});
     poimija->poimi(ui->alkupvm->date(), ui->loppupvm->date(), tililta, kohdennuksella);
+
 }

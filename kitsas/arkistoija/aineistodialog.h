@@ -46,6 +46,9 @@ public:
     void accept() override;
 
 private:
+    void lataaDialogi();
+    void tallennaDialogi();
+
     void paivitaNimi();
     void vaihdaNimi();
 
@@ -73,7 +76,7 @@ private:
 
     int tilattuja_ = 0;
     int valmiita_ = 0;
-    bool tilauskesken_ = true;
+    bool tilauskesken_ = false;
 
     QVariantList tositteet_;
     QVariantMap nykyTosite_;

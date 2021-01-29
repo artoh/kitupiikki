@@ -115,28 +115,28 @@ void Naytin::PdfView::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
     Poppler::Document *document = Poppler::Document::loadFromData(data_);
+    if( !document) {
+        return;
+    }
 
-#ifndef Q_OS_WINDOWS
-    document->setRenderBackend(Poppler::Document::ArthurBackend);
-#endif
+    document->setRenderHint(Poppler::Document::TextAntialiasing);
+    document->setRenderHint(Poppler::Document::Antialiasing);
+
 
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
     {
         Poppler::Page *page = document->page(i);
+        if( !page ) {
+            delete document;
+            return;
+        }
 
-        double vaakaResoluutio = printer->pageRect(QPrinter::Point).width() / page->pageSizeF().width() * printer->resolution();
-        double pystyResoluutio = printer->pageRect(QPrinter::Point).height() / page->pageSizeF().height() * printer->resolution();
-
-        double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
-
-#ifndef Q_OS_WINDOWS
-        page->renderToPainter( &painter, resoluutio, resoluutio,
-                                           0, 0, page->pageSize().width(), page->pageSize().height());
-#else
+        double resoluutio = 300.0;
         QImage image = page->renderToImage(resoluutio, resoluutio);
-        painter.drawImage(0,0,image);
-#endif
+        QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
+        painter.drawPixmap(painter.window(), kuva);
+
         if( i < pageCount - 1)
             printer->newPage();
 

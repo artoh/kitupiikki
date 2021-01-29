@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1012</width>
-    <height>781</height>
+    <height>917</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Kirjanpitoaineiston muodostaminen</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
     <widget class="QLabel" name="label_4">
      <property name="text">
@@ -94,13 +94,16 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="raportitGroup">
          <property name="title">
           <string>Raportit</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -204,21 +207,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="tililuetteloGroup">
          <property name="title">
           <string>Tililuettelo</string>
          </property>
          <property name="checkable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QRadioButton" name="eitlRadio">
-            <property name="text">
-             <string>Ei tililuetteloa</string>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QRadioButton" name="kaikkitlRadio">
             <property name="text">
@@ -247,21 +243,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_3">
+        <widget class="QGroupBox" name="tiedotGrop">
          <property name="title">
-          <string>Tositteet</string>
+          <string>Tositteiden tiedot</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QCheckBox" name="liitteetCheck">
-            <property name="text">
-             <string>Tositteiden liitteet</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QCheckBox" name="muistiinpanotCheck">
             <property name="text">
@@ -283,6 +272,59 @@
            <widget class="QCheckBox" name="kaikkiCheck">
             <property name="text">
              <string>Kaikkien tositteiden tiedot</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="liitteetGroup">
+         <property name="title">
+          <string>Liitteet</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Kuvanlaatu</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="dpiSlider">
+            <property name="minimum">
+             <number>75</number>
+            </property>
+            <property name="maximum">
+             <number>425</number>
+            </property>
+            <property name="singleStep">
+             <number>25</number>
+            </property>
+            <property name="pageStep">
+             <number>50</number>
+            </property>
+            <property name="value">
+             <number>175</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="invertedAppearance">
+             <bool>false</bool>
+            </property>
+            <property name="invertedControls">
+             <bool>false</bool>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBothSides</enum>
+            </property>
+            <property name="tickInterval">
+             <number>50</number>
             </property>
            </widget>
           </item>
@@ -344,11 +386,9 @@
   <tabstop>myyntilaskutCheck</tabstop>
   <tabstop>ostolaskutCheck</tabstop>
   <tabstop>tositeluetteloCheck</tabstop>
-  <tabstop>eitlRadio</tabstop>
   <tabstop>kaikkitlRadio</tabstop>
   <tabstop>laajuustlRadio</tabstop>
   <tabstop>kirjauksettlRadio</tabstop>
-  <tabstop>liitteetCheck</tabstop>
   <tabstop>muistiinpanotCheck</tabstop>
   <tabstop>tilioinnitCheck</tabstop>
   <tabstop>kaikkiCheck</tabstop>

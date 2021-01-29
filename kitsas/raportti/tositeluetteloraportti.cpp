@@ -42,6 +42,8 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
     ui->tiliBox->hide();
     ui->tiliCombo->hide();
+    ui->laatuLabel->hide();
+    ui->laatuSlider->hide();
 
     ui->ryhmittelelajeittainCheck->setChecked(true);
     ui->tositejarjestysRadio->setChecked(true);

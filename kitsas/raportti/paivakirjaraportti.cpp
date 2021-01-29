@@ -48,7 +48,9 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     }
 
     ui->tiliBox->hide();
-    ui->tiliCombo->hide();    
+    ui->tiliCombo->hide();
+    ui->laatuLabel->hide();
+    ui->laatuSlider->hide();
 
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaivakirjaRaportti::paivitaKohdennukset);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaivakirjaRaportti::paivitaKohdennukset);

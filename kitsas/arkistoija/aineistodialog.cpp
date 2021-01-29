@@ -44,6 +44,8 @@
 #include "raportti/tositeluettelo.h"
 #include "raportti/laskuraportteri.h"
 
+#include "db/tositetyyppimodel.h"
+
 #include "tilinpaatoseditori/tilinpaatostulostaja.h"
 #include "naytin/liitetulostaja.h"
 
@@ -55,6 +57,8 @@ AineistoDialog::AineistoDialog(QWidget *parent) :
     ui->tilikausiCombo->setModel(kp()->tilikaudet());
 
     Tulkki::alustaKieliCombo(ui->kieliCombo);
+
+    lataaDialogi();
 
     connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AineistoDialog::paivitaNimi);
     connect( ui->tiedostoNappi, &QPushButton::clicked, this, &AineistoDialog::vaihdaNimi);
@@ -80,6 +84,8 @@ void AineistoDialog::accept()
 {
     QDialog::accept();
 
+    tallennaDialogi();
+
     progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, 200);
     progress->setMinimumDuration(10);
 
@@ -100,7 +106,60 @@ void AineistoDialog::accept()
     painter->setFont(QFont("FreeSans",8));
     rivinkorkeus_ = painter->fontMetrics().height();
 
-    tilaaRaportit();
+    if( ui->raportitGroup->isChecked()) {
+        tilaaRaportit();
+    }
+    jatkaTositelistaan();
+
+}
+
+void AineistoDialog::lataaDialogi()
+{
+    ui->dpiSlider->setValue(kp()->settings()->value("AineistoLaatu", 175).toInt());
+
+    ui->raportitGroup->setChecked(kp()->settings()->value("AineistoRaportit", true).toBool());
+    ui->taseCheck->setChecked(kp()->settings()->value("AineistoTase", true).toBool());
+    ui->tuloslaskelmaCheck->setChecked(kp()->settings()->value("AineistoTulos", true).toBool());
+    ui->erittelyCheck->setChecked(kp()->settings()->value("AineistoErittely", true).toBool());
+    ui->paivakirjaCheck->setChecked(kp()->settings()->value("AineistoPaivakirja", true).toBool());
+    ui->paakirjaCheck->setChecked(kp()->settings()->value("AineistoPaakirja", true).toBool());
+    ui->myyntilaskutCheck->setChecked(kp()->settings()->value("AineistoMyynti", true).toBool());
+    ui->ostolaskutCheck->setChecked(kp()->settings()->value("AineistoOstot", true).toBool());
+    ui->tositeluetteloCheck->setChecked(kp()->settings()->value("AineistoLuettelo", true).toBool());
+
+    int tluettelo = kp()->settings()->value("AineistoTililuetteloTaso", 2).toInt();
+    ui->tililuetteloGroup->setChecked(kp()->settings()->value("AineistoTililuettelo", true).toBool());
+    ui->kaikkitlRadio->setChecked(tluettelo == 3);
+    ui->laajuustlRadio->setChecked(tluettelo == 2);
+    ui->kirjauksettlRadio->setChecked(tluettelo == 1);
+
+    ui->tiedotGrop->setChecked(kp()->settings()->value("AineistoTiedot", true).toBool());
+    ui->muistiinpanotCheck->setChecked(kp()->settings()->value("AineistoMuistiinpanot", true).toBool());
+    ui->tilioinnitCheck->setChecked(kp()->settings()->value("AineistoTilioinnit", true).toBool());
+    ui->kaikkiCheck->setChecked(kp()->settings()->value("AineistoKaikkitositteet", true).toBool());
+    ui->liitteetGroup->setChecked(kp()->settings()->value("AineistoLiitteet", true).toBool());
+}
+
+void AineistoDialog::tallennaDialogi()
+{
+    kp()->settings()->setValue("AineistoLaatu", ui->dpiSlider->value());
+    kp()->settings()->setValue("AineistoRaportit", ui->raportitGroup->isChecked() );
+    kp()->settings()->setValue("AineistoTase", ui->taseCheck->isChecked() );
+    kp()->settings()->setValue("AineistoTulos", ui->tuloslaskelmaCheck->isChecked());
+    kp()->settings()->setValue("AineistoErittely", ui->erittelyCheck->isChecked());
+    kp()->settings()->setValue("AineistoPaivakirja", ui->paivakirjaCheck->isChecked());
+    kp()->settings()->setValue("AineistoPaakirja", ui->paakirjaCheck->isChecked());
+    kp()->settings()->setValue("AineistoMyynti", ui->myyntilaskutCheck->isChecked());
+    kp()->settings()->setValue("AineistoOstot", ui->ostolaskutCheck->isChecked());
+    kp()->settings()->setValue("AineistoLuettelo", ui->tositeluetteloCheck->isChecked());
+
+    kp()->settings()->setValue("AineistoTililuetteloTaso", ui->kaikkitlRadio->isChecked() ? 3 : ( ui->kirjauksettlRadio->isChecked() ? 1 : 2) );
+    kp()->settings()->setValue("AineistoTililuettelo", ui->tililuetteloGroup->isChecked());
+    kp()->settings()->setValue("AineistoTiedot", ui->tiedotGrop->isChecked());
+    kp()->settings()->setValue("AineistoMuistiinpanot", ui->muistiinpanotCheck->isChecked());
+    kp()->settings()->setValue("AineistoTilioinnit", ui->tilioinnitCheck->isChecked());
+    kp()->settings()->setValue("AineistoKaikkitositteet", ui->kaikkiCheck->isChecked());
+    kp()->settings()->setValue("AineistoLiitteet", ui->liitteetGroup->isChecked());
 
 }
 
@@ -172,7 +231,7 @@ void AineistoDialog::tilaaRaportit()
         tilattuja++;
     }
 
-    if( !ui->eitlRadio->isChecked()) {
+    if( ui->tililuetteloGroup->isChecked()) {
         TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
         connect( tililuettelo, &TiliKarttaListaaja::valmis,
                  [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
@@ -212,7 +271,7 @@ void AineistoDialog::tilaaRaportit()
     progress->setMaximum(tilattuja_ * 30);
     tilauskesken_ = false;
 
-    jatkaTositelistaan();
+
 }
 
 void AineistoDialog::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
@@ -294,34 +353,43 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
 
     nykyTosite_ = data->toMap();
 
-    QVariantList liitelista = nykyTosite_.value("liitteet").toList();
-    for(auto &liite : liitelista) {
-        QVariantMap liiteMap = liite.toMap();
-        QString tyyppi = liiteMap.value("tyyppi").toString();
-        if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
-            liiteJono_.enqueue(qMakePair(liiteMap.value("id").toInt(), tyyppi));
+    if( ui->liitteetGroup->isChecked()) {
+
+        QVariantList liitelista = nykyTosite_.value("liitteet").toList();
+        for(auto &liite : liitelista) {
+            QVariantMap liiteMap = liite.toMap();
+            QString tyyppi = liiteMap.value("tyyppi").toString();
+            if( tyyppi == "application/pdf" || tyyppi == "image/jpeg") {
+                liiteJono_.enqueue(qMakePair(liiteMap.value("id").toInt(), tyyppi));
+            }
         }
+
     }
 
     // Liitteet, muistiinpanot, täydet, kaikkien tiedot
     // Selvitetään, onko liitteitä ja onko muistiinpanoja
     // Mahtuvatko liitteet, muistiinpanot ja viennit jne.
 
-    QString muistiinpanot = nykyTosite_.value("info").toString();
+    int tyyppi = nykyTosite_.value("tyyppi").toInt();
+    // Laskuissa muistiinpanot ovat tulostettuina joten niitä ei tarvitse toistaa aineistoissa
+    QString muistiinpanot =  tyyppi < TositeTyyppi::MYYNTILASKU || tyyppi > TositeTyyppi::MAKSUMUISTUTUS ?  nykyTosite_.value("info").toString() : QString();
     int vienteja = nykyTosite_.value("viennit").toList().count();
     QRectF infoRectPuolikkaalla = painter->boundingRect(0,0, painter->window().width() / 2, painter->window().height(),Qt::TextWordWrap, muistiinpanot);
 
-    bool tulostaErillinen = ( ui->kaikkiCheck->isChecked() && liiteJono_.isEmpty() ) ||
+    bool tulostaErillinen = ui->tiedotGrop->isChecked() && (
+                            ( ui->kaikkiCheck->isChecked() && liiteJono_.isEmpty() ) ||
                             ( ui->tilioinnitCheck->isChecked() && vienteja > 6) ||
-                            ( ui->muistiinpanotCheck->isChecked() && (infoRectPuolikkaalla.height() > rivinkorkeus_ * 7 || liiteJono_.isEmpty()));
+                            ( ui->muistiinpanotCheck->isChecked() && (infoRectPuolikkaalla.height() > rivinkorkeus_ * 7 || liiteJono_.isEmpty()) && !muistiinpanot.isEmpty()) );
 
 
-    tulostaAlatunniste_ = !tulostaErillinen;
+    tulostaAlatunniste_ = !tulostaErillinen && ui->tiedotGrop->isChecked();
 
     if( tulostaErillinen ) {
         // Tulostetaan tiliöinti- ja muistiinpano-osio erikseen
         sivu_ += LiiteTulostaja::tulostaTiedot(device, painter, nykyTosite_,
-                                               sivu_, kieli_, ui->muistiinpanotCheck->isChecked(), ui->tilioinnitCheck->isChecked());
+                                               sivu_, kieli_,
+                                               ui->muistiinpanotCheck->isChecked() && !muistiinpanot.isEmpty(),
+                                               ui->tilioinnitCheck->isChecked());
     }
 
     if( liiteJono_.isEmpty()) {
@@ -356,7 +424,8 @@ void AineistoDialog::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
                 nykyTosite_,
                 tulostaAlatunniste_,
                 sivu_,
-                kieli_);
+                kieli_,
+                ui->dpiSlider->value());
     if( sivua < 0)
         virhe_ = true;
     else

@@ -30,10 +30,10 @@
 
 #include <QDebug>
 
-int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli)
+int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli, int resoluutio)
 {
     if( tyyppi == "application/pdf")
-        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
+        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli, resoluutio);
     if( tyyppi.startsWith("image"))
         return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
     return 0;
@@ -127,7 +127,7 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
 
 }
 
-int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
+int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli, int resoluutio)
 {
     Poppler::Document *document = Poppler::Document::loadFromData(data);
     if( !document) {
@@ -141,10 +141,6 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
     int rivinKorkeus = painter->fontMetrics().height();
     int sivut = 0;
 
-#ifndef Q_OS_WINDOWS
-    document->setRenderBackend(Poppler::Document::ArthurBackend);
-#endif
-
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
     {
@@ -157,28 +153,14 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
 
         try {
 
+            QImage image = page->renderToImage(resoluutio, resoluutio);
+            QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
-/*#ifndef Q_OS_WINDOWS
-            double vaakaResoluutio =  printer->pageLayout().paintRect(QPageLayout::Point).width() / page->pageSizeF().width() * printer->logicalDpiX();
-            double pystyResoluutio = (printer->pageLayout().paintRect(QPageLayout::Point).height() * 9 / 10) / page->pageSizeF().height()  * printer->logicalDpiY();
-
-            double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
-
-
-            page->renderToPainter( painter, resoluutio, resoluutio,
-                                               0, 0 - rivinKorkeus * 2 ,page->pageSize().width(), page->pageSize().height());
-
-            tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
-            painter->translate(0, resoluutio / 72 * page->pageSize().height() + 2 * rivinKorkeus);
-
-#else */
-            QImage image = page->renderToImage(300, 300);
             QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);
+            painter->drawPixmap(rect, kuva);
 
-            painter->drawImage(rect, image);
             tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
-            painter->translate(0, painter->window().height() - 8 * rivinKorkeus);
-// #endif
+            painter->translate(0, painter->window().height() - ( ensisivu ? 8 : 1 ) * rivinKorkeus);
 
         }
             catch (std::bad_alloc&) {
@@ -230,6 +212,8 @@ int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *p
         if(ensisivu) {
             painter->translate(0, size.height() + 2 * rivinKorkeus);
             tulostaAlatunniste(painter, tosite, kieli);
+        } else {
+            painter->translate(0, painter->window().height() - painter->transform().dy());
         }
 
     }
@@ -265,7 +249,7 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &to
                 .arg(tulkkaa("Sivu %1",kieli).arg(sivu)) :
                 QString("%1 %2")
                                 .arg( kp()->asetukset()->asetus("Nimi") )
-                                .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm"));
+                                .arg(QDateTime::currentDateTime().toString("dd.MM.yyyy"));
         painter->drawText(QRect(0, 0,skorkeus, korkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, teksti );
 
         if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )

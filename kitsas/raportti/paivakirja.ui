@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>669</width>
-    <height>557</height>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,6 +95,41 @@
      </item>
      <item row="4" column="1">
       <widget class="QComboBox" name="kieliCombo"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="laatuLabel">
+       <property name="text">
+        <string>Kuvanlaatu</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSlider" name="laatuSlider">
+       <property name="minimum">
+        <number>75</number>
+       </property>
+       <property name="maximum">
+        <number>425</number>
+       </property>
+       <property name="singleStep">
+        <number>25</number>
+       </property>
+       <property name="pageStep">
+        <number>50</number>
+       </property>
+       <property name="value">
+        <number>175</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::TicksBothSides</enum>
+       </property>
+       <property name="tickInterval">
+        <number>50</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

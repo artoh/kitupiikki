@@ -27,7 +27,8 @@ class LiiteTulostaja {
 public:
     static int tulostaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data, const QString& tyyppi,
-                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString());
+                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString(),
+                        int resoluutio = 200);
 
     static bool tulostaMuistiinpanot(QPainter* painter,
                                      const QVariantMap& tosite, int sivu, const QString& kieli = QString());
@@ -38,7 +39,8 @@ public:
 protected:
     static int tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
-                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString());
+                        const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString(),
+                        int resoluutio = 200);
 
     static int tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
