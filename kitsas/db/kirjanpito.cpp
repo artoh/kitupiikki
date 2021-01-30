@@ -332,7 +332,7 @@ Kirjanpito *Kirjanpito::db()
 void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
 {
     instanssi__ = kp;
-    kp->pilvi()->kirjaudu();
+//    kp->pilvi()->kirjaudu();
     kp->sqlite()->lataaViimeiset();
 }
 

@@ -141,6 +141,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     if( kp()->settings()->contains("CloudKey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
+        qApp->processEvents();
         QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu();} );
     }
 
