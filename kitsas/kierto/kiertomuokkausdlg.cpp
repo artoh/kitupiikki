@@ -78,6 +78,7 @@ void KiertoMuokkausDlg::alusta()
     ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::KULULASKU), tr("Kululasku"), TositeTyyppi::KULULASKU);
     ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::MENO), tr("Ostolasku"), TositeTyyppi::MENO);
     ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::SAAPUNUTVERKKOLASKU), tr("Verkkolasku"), TositeTyyppi::SAAPUNUTVERKKOLASKU);
+    ui->tyyppiCombo->addItem(kp()->tositeTyypit()->kuvake(TositeTyyppi::TULO), tr("Tulotosite"), TositeTyyppi::TULO);
 
     ui->tiliCombo->suodataTyypilla("D.*");
     ui->tiliCombo->valitseTili(kp()->asetukset()->luku("OletusMenotili"));
