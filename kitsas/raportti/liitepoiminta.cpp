@@ -45,6 +45,7 @@ void LiitePoiminta::esikatsele()
 
     LiitePoimija *poimija = new LiitePoimija(ui->kieliCombo->currentData().toString());
     connect( poimija, &LiitePoimija::valmis, [this]  {this->odotaLabel->hide();});
+    connect( poimija, &LiitePoimija::tyhja, [this] {this->nayta(RaportinKirjoittaja());} );
     poimija->poimi(ui->alkupvm->date(), ui->loppupvm->date(), tililta, kohdennuksella);
 
 }

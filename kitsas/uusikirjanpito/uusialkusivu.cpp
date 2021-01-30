@@ -60,7 +60,7 @@ void UusiAlkuSivu::initializePage()
     else if( kp()->pilvi()->omatPilvet() >= kp()->pilvi()->pilviMax() && kp()->pilvi()->plan() != PlanModel::TILITOIMISTOPLAN)
         ui->pilviInfo->setText( tr("Luodaksesi enemmän kirjanpitoja pilveen sinun "
                                    "on ensin päivitettävä tilauksesi laajempaan."));
-    else if( !kp()->pilvi()->plan() )
+    else if( !kp()->pilvi()->plan() && kp()->pilvi()->tilausvoimassa())
         ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista kirjanpitoa, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
 
     if( kp()->pilvi()->plan())

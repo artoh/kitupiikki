@@ -556,7 +556,9 @@ void AloitusSivu::kirjauduttu()
     int pilvia = kp()->pilvi()->omatPilvet();
     int pilvetmax = kp()->pilvi()->pilviMax();
 
-    if (pilvia == 0 && pilvetmax == 0) {
+    if( !kp()->pilvi()->tilausvoimassa()) {
+        ui->planLabel->setText(tr("Ei voimassaolevaa omaa tilausta.\n"));
+    } else if (pilvia == 0 && pilvetmax == 0) {
         ui->planLabel->setText( kp()->pilvi()->planname() );
     } else if( kp()->pilvi()->plan() == PlanModel::TILITOIMISTOPLAN ) {
         // Tilitoimistoille joustava tilausten enimmäismäärä
