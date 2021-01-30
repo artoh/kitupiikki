@@ -134,15 +134,22 @@ void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
                 dpi_);
 
     ekatulostettu_ = true;
+    tulostettu_++;
 
     seuraavaLiite();
 }
 
 void LiitePoimija::tehty()
 {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(tiedosto_));
+
     delete painter;
     painter = nullptr;
-    emit valmis();
-    kp()->odotusKursori(false);
+
+    if(tulostettu_) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(tiedosto_));
+        emit valmis();
+        kp()->odotusKursori(false);
+    } else {
+        emit tyhja();
+    }
 }

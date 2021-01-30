@@ -102,17 +102,14 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
             int siirto = painter->transform().dy() + rivinkorkeus * 2;
             QVariantList mahtuu;
 
-            qDebug() << "Siirto " << siirto << "Korkeus " << sivunKorkeus;
-
             while( siirto < sivunKorkeus && !viennit.isEmpty()) {
                 mahtuu.append(viennit.takeFirst());
                 siirto += rivinkorkeus;
-            }
-            painter->translate(0, (mahtuu.count() + 2) * rivinkorkeus);
-
-            qDebug() << "Mahtuu " << mahtuu.count() << " / " << viennit.count();
+            }            
 
             tulostaViennit(painter, mahtuu, kieli);
+            painter->translate(0, 4 * rivinkorkeus);
+
             if( !viennit.isEmpty()) {
                 printer->newPage();
                 painter->resetTransform();

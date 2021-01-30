@@ -43,6 +43,7 @@ protected:
 
 signals:
     void valmis();
+    void tyhja();
 
 private:
     QQueue<int> tositeJono_;
@@ -53,6 +54,7 @@ private:
     QString tiedosto_;
     bool ekatulostettu_ = false;
     int dpi_ = 175;
+    int tulostettu_ = 0;
 
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;
