@@ -16,6 +16,7 @@
 */
 #include "kiertomodel.h"
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QIcon>
 
@@ -39,12 +40,14 @@ QVariant KiertoModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    QVariantMap item = lista_.value(index.row()).toMap();
+
     if( role == Qt::DisplayRole || role == Qt::EditRole) {
-        return lista_.at(index.row()).second;
+        return item.value("id");
     } else if( role == IdRooli) {
-        return lista_.at(index.row()).first;
+        return item.value("nimi");
     } else if( role == Qt::DecorationRole) {
-        return QIcon(":/pic/kierto.svg");
+        return kp()->tositeTyypit()->kuvake(item.value("tositetyyppi").toInt());
     }
 
     return QVariant();
@@ -52,33 +55,22 @@ QVariant KiertoModel::data(const QModelIndex &index, int role) const
 
 QString KiertoModel::nimi(int id) const
 {
-    for(auto item : lista_) {
-        if( item.first == id)
-            return item.second;
+    for(auto& item : lista_) {
+        if( item.toMap().value("id") == id)
+            return item.toMap().value("nimi").toString();
     }
     return QString();
 }
 
 void KiertoModel::lataaData(QVariant *lista)
 {
-    const QVariantList& list = lista->toList();
-    beginResetModel();
-    lista_.clear();
-    for(auto item : list) {
-        const QVariantMap& map = item.toMap();
-        lista_.append(qMakePair(map.value("id").toInt(), map.value("nimi").toString()));
-    }
-    endResetModel();
+    lataa(lista->toList());
 }
 
 void KiertoModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
-    lista_.clear();
-    for(auto item : lista) {
-        const QVariantMap& map = item.toMap();
-        lista_.append(qMakePair(map.value("id").toInt(), map.value("nimi").toString()));
-    }
+    lista_ = lista;
     endResetModel();
 }
 

@@ -37,6 +37,7 @@ public:
     void accept() override;
 
 private:
+    void tyyppiMuuttuu();
     void tallennettu();
     void alusta();
     void kayttajatSaapuu(QVariant* data);

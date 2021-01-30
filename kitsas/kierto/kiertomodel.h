@@ -31,6 +31,8 @@ public:
         IdRooli = Qt::UserRole
     };
 
+    enum { ID, NIMI, TYYPPI};
+
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
@@ -40,7 +42,7 @@ public:
     void paivita();
 
 private:
-    QList<QPair<int,QString>> lista_;
+    QList<QVariantList> lista_;
 };
 
 #endif // KIERTOMODEL_H

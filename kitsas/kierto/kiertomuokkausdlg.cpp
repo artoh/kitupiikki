@@ -68,6 +68,19 @@ void KiertoMuokkausDlg::accept()
     tallennus->kysy(data());
 }
 
+void KiertoMuokkausDlg::tyyppiMuuttuu()
+{
+    if( ui->tyyppiCombo->currentData().toInt() == TositeTyyppi::TULO) {
+        ui->tiliCombo->suodataTyypilla("C.*");
+        if( kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).onko(TiliLaji::MENO))
+            ui->tiliCombo->valitseTili(kp()->asetukset()->luku("OletusTulotili"));
+    } else {
+        ui->tiliCombo->suodataTyypilla("D.*");
+        if( kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).onko(TiliLaji::TULO))
+            ui->tiliCombo->valitseTili(kp()->asetukset()->luku("OletusMenotili"));
+    }
+}
+
 void KiertoMuokkausDlg::tallennettu()
 {
     QDialog::accept();
@@ -105,6 +118,7 @@ void KiertoMuokkausDlg::alusta()
     } else {
         setWindowTitle(tr("Uusi kierto"));
     }
+    connect( ui->tyyppiCombo, &QComboBox::currentTextChanged, this, &KiertoMuokkausDlg::tyyppiMuuttuu);
 }
 
 void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
@@ -113,7 +127,7 @@ void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
     const QVariantList& lista = data->toList();
     ui->osallistujaCombo->clear();
     int comboIndeksi = 0;
-    for(auto item : lista) {
+    for(auto &item : lista) {
         const QVariantMap& map = item.toMap();
         qlonglong oikeudet = PilviModel::oikeudet(map.value("rights").toList());
         if( oikeudet & (YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::TOSITE_MUOKKAUS)) {
