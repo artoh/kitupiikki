@@ -161,6 +161,8 @@
   "AlvVelkatili": "2984",
   "Ostovelkatili": "2960",
   "AlvPalautusSaatavatilille": true,
+  "AlvMaksettava": "2982",
+  "AlvPalautettava": "1764",      
   "PalkkaFiTilit":{
     "2921": 2986,
     "2925": 2989,

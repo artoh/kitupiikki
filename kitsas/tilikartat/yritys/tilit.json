@@ -1929,7 +1929,7 @@
         },
         "erittely": 2,
         "laajuus": 1
-        
+
     },
     {
         "numero": 1763,
@@ -9727,7 +9727,7 @@
     },
     {
         "numero": 9240,
-        "tyyppi": "C",
+        "tyyppi": "CZ",
         "nimi": {
             "fi": "Palautettava yhteisökorko/palautuskorko",
             "sv": "Samfundsränta som skall återbäras"

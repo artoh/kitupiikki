@@ -85,12 +85,12 @@
       "fi" : "Pankkitili",
       "TILI" : 1910,
       "KUVA" : "pankki"
-    },   
+    },
     {
       "fi" : "Korttimaksu",
       "TILI" : 1704,
       "KUVA" : "luottokortti"
-    },    
+    },
     {
       "fi" : "Hyvityslasku",
       "TILI" : 1700,
@@ -171,6 +171,8 @@
   "AlvVelkatili": "2984",
   "Ostovelkatili": "2960",
   "AlvPalautusSaatavatilille": true,
+  "AlvMaksettava": "2982",
+  "AlvPalautettava": "1764",
   "PalkkaFiTilit":{
     "2921": 2986,
     "2925": 2989,
