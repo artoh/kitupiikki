@@ -157,6 +157,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->liiteView->setDropIndicatorShown(true);
 
     kiertoTab_->hide();
+    kommentitTab_->hide();
 
     connect( tosite_, &Tosite::tilaTieto, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
