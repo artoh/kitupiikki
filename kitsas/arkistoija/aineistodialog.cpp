@@ -115,8 +115,6 @@ void AineistoDialog::accept()
 
 void AineistoDialog::lataaDialogi()
 {
-    ui->dpiSlider->setValue(kp()->settings()->value("AineistoLaatu", 175).toInt());
-
     ui->raportitGroup->setChecked(kp()->settings()->value("AineistoRaportit", true).toBool());
     ui->taseCheck->setChecked(kp()->settings()->value("AineistoTase", true).toBool());
     ui->tuloslaskelmaCheck->setChecked(kp()->settings()->value("AineistoTulos", true).toBool());
@@ -142,7 +140,6 @@ void AineistoDialog::lataaDialogi()
 
 void AineistoDialog::tallennaDialogi()
 {
-    kp()->settings()->setValue("AineistoLaatu", ui->dpiSlider->value());
     kp()->settings()->setValue("AineistoRaportit", ui->raportitGroup->isChecked() );
     kp()->settings()->setValue("AineistoTase", ui->taseCheck->isChecked() );
     kp()->settings()->setValue("AineistoTulos", ui->tuloslaskelmaCheck->isChecked());

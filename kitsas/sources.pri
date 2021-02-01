@@ -19,6 +19,7 @@ SOURCES += \
     $$PWD/arkistoija/aineistodialog.cpp \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
+    $$PWD/arkistoija/laatuslider.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tilivalintadialogifiltteri.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
@@ -307,6 +308,7 @@ HEADERS += \
     $$PWD/arkistoija/aineistodialog.h \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
+    $$PWD/arkistoija/laatuslider.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \

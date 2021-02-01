@@ -104,32 +104,7 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QSlider" name="laatuSlider">
-       <property name="minimum">
-        <number>75</number>
-       </property>
-       <property name="maximum">
-        <number>425</number>
-       </property>
-       <property name="singleStep">
-        <number>25</number>
-       </property>
-       <property name="pageStep">
-        <number>50</number>
-       </property>
-       <property name="value">
-        <number>175</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="tickPosition">
-        <enum>QSlider::TicksBothSides</enum>
-       </property>
-       <property name="tickInterval">
-        <number>50</number>
-       </property>
-      </widget>
+      <widget class="LaatuSlider" name="laatuSlider" native="true"/>
      </item>
     </layout>
    </item>
@@ -238,6 +213,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>LaatuSlider</class>
+   <extends>QWidget</extends>
+   <header location="global">arkistoija/laatuslider.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>KohdennusCombo</class>
    <extends>QComboBox</extends>

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef LAATUSLIDER_H
+#define LAATUSLIDER_H
 
+#include <QWidget>
 
-/**
-  @file Kitsaan version määrittely
+class QLabel;
+class QSlider;
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+class LaatuSlider : public QWidget
+{
+    Q_OBJECT
+public:
+    LaatuSlider(QWidget *parent = nullptr);
 
-#define KITSAS_VERSIO "2.3-beta"
-#define KITSAS_BUILD  "E"
+    int value() const;
+    void setValue(int dpi);
+    void update();
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+signals:
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
+private:
+    void updateLabel();
 
-#endif // VERSIO_H
+    QLabel* label;
+    QSlider* slider;
+    int dpi_;
+};
+
+#endif // LAATUSLIDER_H
