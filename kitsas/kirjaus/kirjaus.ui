@@ -456,6 +456,27 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="huomioMerkki">
+       <property name="toolTip">
+        <string>Asettaa huomiomerkin</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/harmaahuomio.png</normaloff>
+         <normalon>:/pic/huomio.png</normalon>:/pic/harmaahuomio.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+H</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="tallennaButton">
        <property name="enabled">
         <bool>false</bool>
@@ -475,29 +496,6 @@
        </property>
        <property name="default">
         <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="huomioMerkki">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/huomio.png</pixmap>
        </property>
       </widget>
      </item>

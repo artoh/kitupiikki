@@ -128,12 +128,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     QMenu *valikko = new QMenu(this);
     valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
 
-    huomioAktio_ = new QAction(QIcon(":/pic/huomio.png"), tr("Huomiomerkki\tCtrl+H"));
-    huomioAktio_->setShortcut(QKeySequence("Ctrl+H"));
-    huomioAktio_->setCheckable(true);
-    connect(huomioAktio_, &QAction::triggered, tosite(), &Tosite::asetaHuomio);
-    valikko->addAction(huomioAktio_);
-
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(pohjaksi()), QKeySequence("Ctrl+T"));
     mallipohjaksiAktio_ = valikko->addAction(QIcon(":/pic/uusitiedosto.png"), tr("Tallenna mallipohjaksi"), [this] {this->tosite()->tallenna(Tosite::MALLIPOHJA);});
@@ -196,8 +190,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::nollaaTietokannanvaihtuessa);
-    connect( tosite(), &Tosite::huomioMuuttui, huomioAktio_, &QAction::setChecked);
-    connect( tosite(), &Tosite::huomioMuuttui, ui->huomioMerkki, &QLabel::setVisible);
+    connect( tosite(), &Tosite::huomioMuuttui, ui->huomioMerkki, &QToolButton::setChecked);
+    connect( ui->huomioMerkki, &QToolButton::toggled, tosite(), &Tosite::asetaHuomio);
 
     // Tilapäisesti poistetaan Varasto
     // Voitaisiin tehdä niinkin, että poistetaan ja lisätään tarvittaessa ;)
@@ -787,7 +781,7 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     ui->poistaLiiteNappi->setEnabled(sallitaanko == Sallittu);
     ui->lisaaRiviNappi->setEnabled(sallitaanko == Sallittu);
     ui->lisaaVientiNappi->setEnabled(sallitaanko == Sallittu);
-    huomioAktio_->setEnabled( sallitaanko != Lukittu);
+    ui->huomioMerkki->setEnabled( sallitaanko != Lukittu);
 
     if(sallitaanko == Sallittu)
         ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
