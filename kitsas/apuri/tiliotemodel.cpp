@@ -301,7 +301,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
 {
     QVariantList lista;
 
-    for(auto rivi : rivit_) {
+    for(auto &rivi : rivit_) {
         if( rivi.harmaa)
             continue;
 
@@ -382,11 +382,16 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             // Erikoisrivit
             // Vastaava käsittely pitäisi lisätä myös Siirto-tositteille
             double osuusErasta = 0.0;
-            for(auto item : rivi.alkuperaisetViennit) {
+            for(auto &item: rivi.alkuperaisetViennit) {
                 TositeVienti evienti(item.toMap());
                 if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS && qAbs(rivi.euro) > 1e-5) {
                     osuusErasta = qAbs( rivi.euro / (evienti.debet() - evienti.kredit()) );
-                } else if( evienti.alvKoodi() / 100 == 4) {
+                }
+            }
+            for(auto &item : rivi.alkuperaisetViennit) {
+                TositeVienti evienti(item.toMap());
+                if( evienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS
+                        &&  evienti.alvKoodi() / 100 == 4) {
                     // Maksuperusteinen kohdentamaton
                     qlonglong sentit = qRound64( osuusErasta * (evienti.kredit() - evienti.debet()) * 100.0);
                     TositeVienti mpDebet;

@@ -190,11 +190,16 @@ void SiirtoApuri::tositeSaapuu(bool debet, QVariant *data)
 void SiirtoApuri::erikoisviennit(const QVariantList& alkupviennit, double eurot, QVariantList &viennit)
 {
     double osuusErasta = 0.0;
-    for(const auto& item : alkupviennit) {
+    for(auto &item: alkupviennit) {
         TositeVienti evienti(item.toMap());
         if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS && qAbs(eurot) > 1e-5) {
             osuusErasta = qAbs( eurot / (evienti.debet() - evienti.kredit()) );
-        } else if( evienti.alvKoodi() / 100 == 4) {
+        }
+    }
+    for(const auto& item : alkupviennit) {
+        TositeVienti evienti(item.toMap());
+        if( evienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS
+                &&  evienti.alvKoodi() / 100 == 4) {
             // Maksuperusteinen kohdentamaton
             qlonglong sentit = qRound64( osuusErasta * (evienti.kredit() - evienti.debet()) * 100.0);
             TositeVienti mpDebet;
