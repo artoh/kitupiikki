@@ -98,9 +98,10 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
 
 int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
 {
-    if( rivit_.isEmpty())
-        return 0;     // Ei tulostettavaa !
-
+    if( rivit_.isEmpty()) {
+        tulostaYlatunniste( painter,alkusivunumero);
+        return 1;     // Ei tulostettavaa !
+    }
 
      double mm = printer->width() * 1.00 / printer->widthMM();
 

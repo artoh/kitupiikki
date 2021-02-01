@@ -42,7 +42,7 @@ public:
     void paivita();
 
 private:
-    QList<QVariantList> lista_;
+    QVariantList lista_;
 };
 
 #endif // KIERTOMODEL_H

@@ -76,9 +76,11 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     int sivulla = 1;
 
     // Raportit
-    for(auto rk : kirjoittajat_) {
-        writer->newPage();
-        sivulla += rk.tulosta(writer, &painter, false, sivulla);
+    for(auto& rk : kirjoittajat_) {
+        if( rk.riveja()) {
+            writer->newPage();
+            sivulla += rk.tulosta(writer, &painter, false, sivulla);
+        }
     }
 
 
@@ -227,6 +229,7 @@ bool TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
     }
 
     connect( raportoija, &Raportoija::valmis, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
+    connect( raportoija, &Raportoija::tyhjaraportti, [this,indeksi,otsikko] { this->raporttiSaapuu(indeksi, RaportinKirjoittaja(), otsikko); } );
     raportoija->kirjoita(erittelyt,-1);
     return true;
 }

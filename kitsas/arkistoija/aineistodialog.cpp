@@ -195,6 +195,7 @@ void AineistoDialog::tilaaRaportit()
         Raportoija* tase = new Raportoija("tase/yleinen", kieli_, this, Raportoija::TASE);
         tase->lisaaTasepaiva(tilikausi_.paattyy());
         connect(tase, &Raportoija::valmis, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
+        connect(tase, &Raportoija::tyhjaraportti, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
         tase->kirjoita(true);
         tilattuja++;
     }
@@ -203,6 +204,7 @@ void AineistoDialog::tilaaRaportit()
         Raportoija* tulos = new Raportoija("tulos/yleinen", kieli_, this, Raportoija::TULOSLASKELMA);
         tulos->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
         connect(tulos, &Raportoija::valmis, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
+        connect(tulos, &Raportoija::tyhjaraportti, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
         tulos->kirjoita(true);
         tilattuja++;
     }
@@ -279,7 +281,7 @@ void AineistoDialog::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
     kirjoittajat_[raportti] = rk;
     valmiita_++;
     progress->setValue(progress->value() + 5);
-    qDebug() << "Raportti saapuu " << progress->value() << " / " << progress->maximum();
+    qDebug() << "Raportti saapuu " << raportti << " " << rk.otsikko() << " (" << rk.riveja() << " riviä) " << progress->value() << " / " << progress->maximum();
     jatkaTositelistaan();
 }
 
@@ -303,6 +305,8 @@ void AineistoDialog::tulostaRaportit()
 
     kirjoittajat_.resize(tilattuja_);
     for( auto& rk : kirjoittajat_) {
+        if( !rk.riveja() )
+            continue;
         device->newPage();
         sivu_ += rk.tulosta(device, painter, false, sivu_);
         progress->setValue(progress->value() + 5);
