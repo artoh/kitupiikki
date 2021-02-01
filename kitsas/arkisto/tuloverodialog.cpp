@@ -31,14 +31,21 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
 {
     ui->setupUi(this);   
 
-    connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);    
-    connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
-    connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVahennys);
-    connect( ui->vahennysYhteensa, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
-    connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
-    connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
+
+    connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
+    connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
+
+    connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
+    connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
+
+    connect( ui->ennenYlea, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
+    connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
+
+    connect( ui->ylenJalkeen, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
+
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
+
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/tulovero");});
 
     setAttribute(Qt::WA_DeleteOnClose);
@@ -56,8 +63,9 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
     ui->tuloEdit->setValue( verolaskelma.value("tulo").toDouble());
     ui->vahennysEdit->setValue( verolaskelma.value("vahennys").toDouble());
     ui->maksetutEdit->setValue( verolaskelma.value("ennakko").toDouble());
-    paivitaYlevero();
-    paivitaVahennys();
+
+    paivitaTulos();
+
 }
 
 void TuloveroDialog::accept()
@@ -125,33 +133,41 @@ void TuloveroDialog::accept()
     tosite->tallenna();
 }
 
+
+void TuloveroDialog::paivitaTulos()
+{
+    ui->tulosEdit->setValue( ui->tuloEdit->value() - ui->vahennysEdit->value());
+    paivitaEnnenYlea();
+}
+
+void TuloveroDialog::paivitaEnnenYlea()
+{
+    ui->ennenYlea->setValue(ui->tulosEdit->value() - ui->tappioEdit->value());
+    paivitaYlevero();
+}
+
 void TuloveroDialog::paivitaYlevero()
 {
-    double tulo = ui->tuloEdit->value() - ui->vahennysEdit->value();
+    double tulo = ui->ennenYlea->value();
     if( tulo < 50000)
         ui->yleveroEdit->setValue(0);
     else if( tulo >= 867143)
         ui->yleveroEdit->setValue(3000);
     else
         ui->yleveroEdit->setValue(140+(0.0035*tulo));
-    paivitaVahennys();
+    paivitaYlenjalkeen();
 }
 
-void TuloveroDialog::paivitaVahennys()
+void TuloveroDialog::paivitaYlenjalkeen()
 {
-    ui->vahennysYhteensa->setValue( ui->vahennysEdit->value() + ui->yleveroEdit->value());
-    paivitaTulos();
-}
-
-void TuloveroDialog::paivitaTulos()
-{
-    ui->tulosEdit->setValue( ui->tuloEdit->value() - ui->vahennysYhteensa->value());
+    ui->ylenJalkeen->setValue(ui->ennenYlea->value() - ui->yleveroEdit->value());
     paivitaVero();
 }
 
+
 void TuloveroDialog::paivitaVero()
 {
-    double tulos = ui->tulosEdit->value() - ui->tappioEdit->value();
+    double tulos = ui->ylenJalkeen->value();
 
     if( tulos > 1e-5)
         ui->veroEdit->setValue(0.2 * tulos);

@@ -40,11 +40,13 @@ signals:
     void tallennettu();
 
 protected slots:
-    void paivitaYlevero();
-    void paivitaVahennys();
     void paivitaTulos();
+    void paivitaEnnenYlea();
+    void paivitaYlevero();
+    void paivitaYlenjalkeen();
     void paivitaVero();
     void paivitaJaannos();
+
     void kirjattu();
 
 private:
