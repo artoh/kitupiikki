@@ -58,7 +58,9 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
     if( viennit.isEmpty()) {
         QRect mpRect = painter->boundingRect(0,0,leveys*7/8, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
         int mpkorkeus = mpRect.height();
-        int korkeus = rivinkorkeus * 3 + mpkorkeus > 5 * rivinkorkeus ? mpkorkeus : 5 * rivinkorkeus;
+        int vientikorkeus = viennit.isEmpty() ? 0 :
+                                                (viennit.count() < 8 ? viennit.count() * rivinkorkeus : 6 * rivinkorkeus);
+        int korkeus = (rivinkorkeus * 3 + mpkorkeus > 5 * rivinkorkeus ? mpkorkeus : 5 * rivinkorkeus) + vientikorkeus;
         if(sivunKorkeus - painter->transform().dy() < korkeus) {
             printer->newPage();
             painter->resetTransform();
@@ -176,6 +178,8 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
 
         delete page;
     }
+    painter->translate(0, painter->window().height() - painter->transform().dy());
+
     delete document;
     return sivut;
 }
@@ -208,9 +212,8 @@ int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *p
         tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
         if(ensisivu) {
             painter->translate(0, size.height() + 2 * rivinKorkeus);
-            tulostaAlatunniste(painter, tosite, kieli);
         } else {
-            painter->translate(0, painter->window().height() - painter->transform().dy());
+
         }
 
     }
@@ -218,6 +221,7 @@ int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *p
         return -1;
     }
 
+    painter->translate(0, painter->window().height() - painter->transform().dy());
     return 1;
 }
 
