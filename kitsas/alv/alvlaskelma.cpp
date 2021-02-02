@@ -764,7 +764,7 @@ void AlvLaskelma::kirjaaHuojennus()
 
     } else {
         TositeVienti huojennettava;
-        huojennettava.setTili( maksutilinkautta ? kp()->asetukset()->luku("AlvMaksettava") : kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        huojennettava.setTili( maksutilinkautta ? kp()->asetukset()->luku("AlvMaksettava") : kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).numero() );
         huojennettava.setSelite( selite );
         huojennettava.setDebet( huojennus() );
         lisaaKirjausVienti( huojennettava );
@@ -889,7 +889,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti pois;
             pois.setTili(tili);
-            pois.setKredit( vero / 100.0 );
+            if( vero >= 0)
+                pois.setKredit( vero / 100.0 );
+            else
+                pois.setKredit( 0 - vero / 100.0 );
             pois.setAlvKoodi( AlvKoodi::OSTOT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
             pois.setSelite(selite);
@@ -898,7 +901,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti veroon;
             veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero() );
-            veroon.setDebet( vero / 100.0);
+            if( vero >= 0)
+                veroon.setDebet( vero / 100.0);
+            else
+                veroon.setKredit( 0 - vero / 100.0);
             veroon.setAlvKoodi( AlvKoodi::ALVVAHENNYS + AlvKoodi::OSTOT_BRUTTO);
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
             veroon.setSelite(selite);

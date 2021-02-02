@@ -149,12 +149,13 @@ void TuloveroDialog::paivitaEnnenYlea()
 void TuloveroDialog::paivitaYlevero()
 {
     double tulo = ui->ennenYlea->value();
+
     if( tulo < 50000)
         ui->yleveroEdit->setValue(0);
-    else if( tulo >= 867143)
+    else if( tulo >= 867142)
         ui->yleveroEdit->setValue(3000);
     else
-        ui->yleveroEdit->setValue(140+(0.0035*tulo));
+        ui->yleveroEdit->setValue(140+(0.0035*(tulo - 50000)));
     paivitaYlenjalkeen();
 }
 
