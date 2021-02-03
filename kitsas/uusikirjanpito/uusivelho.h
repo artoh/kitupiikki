@@ -22,10 +22,13 @@
 #include <QVariantMap>
 
 namespace Ui {
+    class Varmista;
     class UusiHarjoitus;
+    class Uusivastuu;
     class UusiTilikartta;
     class UusiTilikausi;
     class UusiNumerointi;
+    class UusiLoppu;
 }
 
 class UusiVelho : public QWizard
@@ -33,7 +36,7 @@ class UusiVelho : public QWizard
     Q_OBJECT
 public:
     UusiVelho(QWidget *parent = nullptr);
-    enum Sivut { ALOITUS, HARJOITUS, VASTUU, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
+    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
     void lataaKartta(const QString& polku);
 
     QVariantMap data() const;
@@ -48,12 +51,26 @@ public:
     static QVariantMap asetukset( const QString& polku);
 
 protected:
+    class VarmistaSivu : public QWizardPage {
+    public:
+        VarmistaSivu();
+    protected:
+        Ui::Varmista *ui;
+    };
+
 
     class Harjoitussivu : public QWizardPage {
     public:
         Harjoitussivu();
     protected:
         Ui::UusiHarjoitus *ui;
+    };
+
+    class VastuuSivu : public QWizardPage {
+    public:
+        VastuuSivu();
+    protected:
+        Ui::Uusivastuu *ui;
     };
 
     class Tilikarttasivu : public QWizardPage {
@@ -70,6 +87,14 @@ protected:
         NumerointiSivu();
     protected:
         Ui::UusiNumerointi *ui;
+    };
+
+    class LoppuSivu : public QWizardPage {
+    public:
+        LoppuSivu();
+        void initializePage() override;
+    protected:
+        Ui::UusiLoppu* ui;
     };
 
 };

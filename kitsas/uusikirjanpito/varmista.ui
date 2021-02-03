@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Varmista</class>
+ <widget class="QWidget" name="Varmista">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>525</width>
+    <height>413</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Olet valinnut, että kirjanpitosi tallennetaan omalla tietokoneellasi olevaan tiedostoon.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Huolehdi tämän tiedoston varmuuskopioinnista. &lt;/span&gt;Jos tietokoneellasi oleva tiedosto vahingoittuu, saattaa kaikki kirjanpidon parissa tekemäsi työ tuhoutua pysyvästi. &lt;/p&gt;&lt;p&gt;Pidä varmuuskopiosi jatkuvasti ajan tasalla ja säilytä niitä turvallisessa paikassa niin, että ne ovat käytettävissä, vaikka kaikki omalla tietokoneellasi olevat tiedot häviäisivät.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

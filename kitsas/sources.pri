@@ -646,6 +646,7 @@ FORMS += \
     $$PWD/uusikirjanpito/uusitiedot.ui \
     $$PWD/uusikirjanpito/uusitilikartta.ui \
     $$PWD/uusikirjanpito/uusivastuu.ui \
+    $$PWD/uusikirjanpito/varmista.ui \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \

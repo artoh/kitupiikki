@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>386</height>
+    <width>634</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Ottaen huomioon tietosuojalainsäädännön, voit ehkä sijoittaa kirjanpitosi sijaintiin, jonka sisältö varmistetaan automaattisesti pilveen.</string>
+      <string>Jos kirjanpitosi sisältää henkilötietoja, huomio EU:n tietosuojalainsäädäntö tietojen tallentamisessa ja käsittelyssä. Tällaista tiedostoa ei pääsääntöisesti saa tallentaa pilvipalveluun, joka sijaitsee ETA-alueen ulkopuolella.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

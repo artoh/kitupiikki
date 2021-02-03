@@ -22,6 +22,7 @@
 #include "ui_uusiloppu.h"
 #include "ui_numerointi.h"
 #include "ui_uusivastuu.h"
+#include "ui_varmista.h"
 
 #include "db/kielikentta.h"
 
@@ -56,25 +57,15 @@ UusiVelho::UusiVelho(QWidget *parent) :
 
 
     addPage( new UusiAlkuSivu );
+    addPage( new VarmistaSivu );
     addPage( new Harjoitussivu );
-
-    QWizardPage *vastuusivu = new QWizardPage;
-    Ui::Uusivastuu *vastuuUi = new Ui::Uusivastuu;
-    vastuuUi->setupUi(vastuusivu);
-    vastuusivu->setTitle(tr("Vastuu kirjanpidosta"));
-    addPage( vastuusivu );
-
+    addPage( new VastuuSivu );
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
     addPage( new NumerointiSivu );
     addPage( new SijaintiSivu );
-
-    QWizardPage *loppusivu = new QWizardPage;
-    Ui::UusiLoppu *loppuUi = new Ui::UusiLoppu;
-    loppuUi->setupUi(loppusivu);
-    loppusivu->setTitle( tr("Valmis"));
-    addPage( loppusivu );
+    addPage( new LoppuSivu );
 
     setOption(HaveHelpButton, true);
     connect(this, &UusiVelho::helpRequested, [] { kp()->ohje("aloitus/uusi"); });
@@ -142,6 +133,10 @@ QString UusiVelho::polku() const
 
 int UusiVelho::nextId() const
 {
+    if( currentId() == ALOITUS &&
+            field("pilveen").toBool())
+        return HARJOITUS;
+
     if( currentId() == HARJOITUS &&
             field("harjoitus").toBool())
         return TILIKARTTA;
@@ -241,4 +236,40 @@ UusiVelho::NumerointiSivu::NumerointiSivu()
     setTitle(tr("Tositteiden numerointi"));
     registerField("erisarjaan", ui->erisarjaan);
     registerField("kateissarjaan", ui->kateissarjaan);
+}
+
+UusiVelho::VarmistaSivu::VarmistaSivu() :
+    ui( new Ui::Varmista)
+{
+    ui->setupUi(this);
+    setTitle(tr("Huolehdi kirjanpitosi varmuuskopioinnista"));
+}
+
+UusiVelho::VastuuSivu::VastuuSivu() :
+    ui( new Ui::Uusivastuu)
+{
+    ui->setupUi(this);
+    setTitle(tr("Vastuu kirjanpidosta"));
+}
+
+UusiVelho::LoppuSivu::LoppuSivu() :
+    ui( new Ui::UusiLoppu)
+{
+    ui->setupUi(this);
+    setTitle(tr("Valmis"));
+}
+
+void UusiVelho::LoppuSivu::initializePage()
+{
+    ui->koneLabel->setText(tr("<p>Kirjanpitosi tallennetaan tietokoneellesi hakemistoon <tt>%1</tt> "
+                              "tiedostoon <tt>%2</tt></p>"
+                              "<p><b>Muista tiedostosi sijainti</b>, jotta pystyt avaamaan sen myöhemmin.</p>"
+                              "<p><b>Huolehdi jatkuvasti tämän tiedoston varmuuskopioinnista!</b>")
+                           .arg(field("sijainti").toString())
+                           .arg(field("tiedosto").toString()));
+
+    bool pilveen = field("pilveen").toBool();
+    ui->pilviLabel->setVisible(pilveen);
+    ui->koneLabel->setVisible(!pilveen);
+
 }

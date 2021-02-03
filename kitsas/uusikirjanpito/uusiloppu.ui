@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>593</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,26 @@
      </property>
      <property name="wordWrap">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="pilviLabel">
+     <property name="text">
+      <string>Kirjanpitosi tallennetaan Kitsas Oy:n Suomessa sijaitsevalle palvelimelle. Kaiken varalta kirjanpitosi varmuuskopioidaan joka päivä. Pääset kirjanpitoosi, kun olet kirjautunut Kitsaan käyttäjätunnuksellasi ja sinulla on toimiva nettiyhteys.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="koneLabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 127);</string>
+     </property>
+     <property name="text">
+      <string>x</string>
      </property>
     </widget>
    </item>
