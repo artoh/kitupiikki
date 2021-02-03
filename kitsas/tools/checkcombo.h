@@ -40,6 +40,8 @@ public:
     QVariantList selectedDatas() const;
     QList<int> selectedInts() const;
 
+    void setPlaceholderText(const QString& text);
+
 signals:
     void valintaMuuttui();
 

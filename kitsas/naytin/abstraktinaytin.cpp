@@ -35,6 +35,11 @@ void Naytin::AbstraktiNaytin::raidoita(bool raidat)
     paivita();
 }
 
+void Naytin::AbstraktiNaytin::asetaSuunta(QPageLayout::Orientation /*suunta*/)
+{
+
+}
+
 QPrinter *Naytin::AbstraktiNaytin::printer()
 {
     return kp()->printer();

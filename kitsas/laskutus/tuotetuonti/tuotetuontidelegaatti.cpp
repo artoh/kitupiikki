@@ -25,7 +25,7 @@ TuoteTuontiDelegaatti::TuoteTuontiDelegaatti(QObject *parent)
 
 }
 
-QWidget *TuoteTuontiDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *TuoteTuontiDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
 {
     QComboBox *combo = new QComboBox(parent);
 

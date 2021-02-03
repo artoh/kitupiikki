@@ -86,6 +86,11 @@ QList<int> CheckCombo::selectedInts() const
     return selected;
 }
 
+void CheckCombo::setPlaceholderText(const QString &text)
+{
+    lineEdit()->setPlaceholderText(text);
+}
+
 void CheckCombo::haeMerkkaukset(const QDate &paivalle)
 {
     KohdennusProxyModel merkkaukset(this, paivalle, -1, KohdennusProxyModel::MERKKAUKSET);

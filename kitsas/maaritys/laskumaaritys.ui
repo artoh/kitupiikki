@@ -219,11 +219,17 @@
         </item>
         <item row="0" column="1">
          <widget class="CheckCombo" name="tiliCombo">
+          <property name="placeholderText">
+           <string/>
+          </property>
           <property name="Asetus" stdset="0">
            <string notr="true">LaskuIbanit</string>
           </property>
           <property name="Ibanit" stdset="0">
            <bool>true</bool>
+          </property>
+          <property name="TyhjaTeksti" stdset="0">
+           <string>Lisää IBAN ensin pankkitilin tietoihin muokkaamalla Tililuetteloa</string>
           </property>
          </widget>
         </item>

@@ -55,7 +55,7 @@ public:
 
     virtual bool voikoZoomata() const { return false; }
 
-    virtual void asetaSuunta(QPageLayout::Orientation suunta) {};
+    virtual void asetaSuunta(QPageLayout::Orientation suunta);
 
 signals:
 

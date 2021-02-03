@@ -93,9 +93,11 @@ bool TallentavaMaaritysWidget::nollaa()
                                         iban,
                                         Qt::Unchecked);
                     }
+                    if( !ccombo->count() )
+                        ccombo->setPlaceholderText( ccombo->property("TyhjaTeksti").toString() );
                 }
                 QVariantList valitut;
-                for(auto iban : kp()->asetus(asetusavain).split(','))
+                for(auto &iban : kp()->asetus(asetusavain).split(','))
                     valitut.append(iban);
                 ccombo->setSelectedItems(valitut);
                 QTimer::singleShot(50, ccombo, &CheckCombo::updateText);
@@ -214,7 +216,7 @@ bool TallentavaMaaritysWidget::tallenna()
         if( ccombo )
         {
             QStringList lista;
-            for(auto item : ccombo->selectedDatas())
+            for(auto &item : ccombo->selectedDatas())
                 lista.append(item.toString());
             asetukset.insert(asetusavain, lista.join(','));
             continue;
@@ -307,7 +309,7 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         if( ccombo )
         {
             QStringList lista;
-            for(auto item : ccombo->selectedDatas())
+            for(auto &item : ccombo->selectedDatas())
                 lista.append(item.toString());
             if( kp()->asetukset()->asetus(asetusavain) != lista.join(','))
                 return true;
