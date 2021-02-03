@@ -229,7 +229,7 @@
            <bool>true</bool>
           </property>
           <property name="TyhjaTeksti" stdset="0">
-           <string>Lisää IBAN ensin pankkitilin tietoihin muokkaamalla Tililuetteloa</string>
+           <string>Lisää IBAN ensin pankkitilin tietoihin kohdassa Tililuettelo</string>
           </property>
          </widget>
         </item>
