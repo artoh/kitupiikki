@@ -147,20 +147,28 @@ void AlvLaskelma::kirjaaVerot()
         TositeVienti verot;
         verot.setSelite(selite);
         verot.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
-        verot.setDebet( vero / 100.0 );
+        if(vero >= 0)
+            verot.setDebet( vero );
+        else
+            verot.setKredit( 0 - vero);
         verot.setAlvKoodi( AlvKoodi::TILITYS );
 
-        lisaaKirjausVienti(verot);
+        if(vero)
+            lisaaKirjausVienti(verot);
     }
     if( vahennys )
     {
         TositeVienti vahennysRivi;
         vahennysRivi.setSelite(selite);
         vahennysRivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero() );
-        vahennysRivi.setKredit( vahennys / 100.0  );
+        if( vahennys > 0)
+            vahennysRivi.setKredit( vahennys );
+        else
+            vahennysRivi.setDebet( 0 - vahennys );
         vahennysRivi.setAlvKoodi( AlvKoodi::TILITYS);
 
-        lisaaKirjausVienti( vahennysRivi );
+        if(vahennys)
+            lisaaKirjausVienti( vahennysRivi );
     }
     if( vero != vahennys) {
         TositeVienti maksu;
@@ -892,7 +900,8 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             if( vero >= 0)
                 pois.setKredit( vero / 100.0 );
             else
-                pois.setKredit( 0 - vero / 100.0 );
+                pois.setDebet( 0 - vero / 100.0 );
+
             pois.setAlvKoodi( AlvKoodi::OSTOT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
             pois.setSelite(selite);

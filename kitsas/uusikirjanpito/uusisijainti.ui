@@ -40,7 +40,7 @@
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Jos kirjanpitosi sisältää henkilötietoja, huomio EU:n tietosuojalainsäädäntö tietojen tallentamisessa ja käsittelyssä. Tällaista tiedostoa ei pääsääntöisesti saa tallentaa pilvipalveluun, joka sijaitsee ETA-alueen ulkopuolella.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Jos kirjanpitosi sisältää henkilötietoja, huomioi EU:n tietosuojalainsäädäntö tietojen tallentamisessa ja käsittelyssä. Tällaista tiedostoa ei pääsääntöisesti saa tallentaa pilvipalveluun, joka sijaitsee ETA-alueen ulkopuolella.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

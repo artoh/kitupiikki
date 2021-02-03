@@ -38,7 +38,7 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
     connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
 
-    connect( ui->ennenYlea, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
+    connect( ui->ennenYlea, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
     connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
 
     connect( ui->ylenJalkeen, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);

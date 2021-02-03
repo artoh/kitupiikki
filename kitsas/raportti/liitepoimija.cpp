@@ -24,6 +24,7 @@
 #include <QPainter>
 #include <QApplication>
 #include <QDesktopServices>
+#include <QTimer>
 
 #include "tools/tulkki.h"
 
@@ -141,12 +142,14 @@ void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
 
 void LiitePoimija::tehty()
 {
-
+    painter->end();
     delete painter;
+
     painter = nullptr;
+    QString tnimi = tiedosto_;
 
     if(tulostettu_) {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(tiedosto_));
+        QTimer::singleShot(250, [tnimi] {QDesktopServices::openUrl(QUrl::fromLocalFile(tnimi));});
         emit valmis();
         kp()->odotusKursori(false);
     } else {
