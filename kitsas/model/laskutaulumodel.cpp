@@ -258,7 +258,7 @@ void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin
 
 void LaskuTauluModel::paivitaNakyma()
 {
-    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS))
+    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS | YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS))
         return;
 
 
