@@ -19,6 +19,7 @@
 #include "db/tositetyyppimodel.h"
 
 #include <QIcon>
+#include <QDebug>
 
 KiertoModel::KiertoModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -40,12 +41,12 @@ QVariant KiertoModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    QVariantMap item = lista_.value(index.row()).toMap();
+    QVariantMap item = lista_.value(index.row()).toMap();    
 
     if( role == Qt::DisplayRole || role == Qt::EditRole) {
-        return item.value("id");
-    } else if( role == IdRooli) {
         return item.value("nimi");
+    } else if( role == IdRooli) {
+        return item.value("id");
     } else if( role == Qt::DecorationRole) {
         return kp()->tositeTyypit()->kuvake(item.value("tositetyyppi").toInt());
     }
@@ -70,7 +71,7 @@ void KiertoModel::lataaData(QVariant *lista)
 void KiertoModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
-    lista_ = lista;
+    lista_ = lista;    
     endResetModel();
 }
 
