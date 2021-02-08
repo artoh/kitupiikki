@@ -166,6 +166,9 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
+    if( combo_->currentText().isEmpty())
+        clear();
+
     if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ) ) {
         if(property("MuokkaaUusi").toBool() )
             muokkaa();
