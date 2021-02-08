@@ -48,7 +48,9 @@ QVariant KiertoModel::data(const QModelIndex &index, int role) const
     } else if( role == IdRooli) {
         return item.value("id");
     } else if( role == Qt::DecorationRole) {
-        return kp()->tositeTyypit()->kuvake(item.value("tositetyyppi").toInt());
+        int tositetyyppi = item.value("tositetyyppi").toInt();
+        qDebug() << item.value("nimi") << " " << tositetyyppi;
+        return kp()->tositeTyypit()->kuvake(tositetyyppi);
     }
 
     return QVariant();

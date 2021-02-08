@@ -118,7 +118,7 @@ Tili KantaTilinvalintaLine::valittuTili() const
         if( !tili.otsikkotaso())
         {
             QString nroTxt = QString::number( tili.numero() );
-            if( nroTxt.startsWith(sana))
+            if( nroTxt.startsWith(sana) && tili.tila())
             {
                 return tili;
             }
@@ -127,11 +127,18 @@ Tili KantaTilinvalintaLine::valittuTili() const
     return Tili();
 }
 
+
 Tili *KantaTilinvalintaLine::tili() const
 {
     return kp()->tilit()->tili( valittuTilinumero() );
 }
 
+
+void KantaTilinvalintaLine::focusOutEvent(QFocusEvent *event)
+{
+    setText(valittuTili().nimiNumero());
+    QLineEdit::focusOutEvent(event);
+}
 
 
 TilinvalintaLineDelegaatille::TilinvalintaLineDelegaatille(QWidget *parent) :
@@ -244,3 +251,5 @@ void TilinvalintaLine::mousePressEvent(QMouseEvent *event)
         }
     }
 }
+
+

@@ -54,6 +54,7 @@ protected:
 
     void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 
 };
 
@@ -95,7 +96,7 @@ public slots:
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;    
     TiliModel *model_;
 };
 
