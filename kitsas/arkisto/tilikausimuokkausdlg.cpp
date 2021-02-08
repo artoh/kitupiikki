@@ -102,7 +102,7 @@ void TilikausiMuokkausDlg::accept()
     if( ui->avausCheck->isChecked()) {
         kp()->asetukset()->aseta("TilinavausPvm", uusi.paattyy());
         if( kp()->asetukset()->luku("Tilinavaus") == 0)
-            kp()->asetukset()->aseta("Tilinavaus",1);
+            kp()->asetukset()->aseta("Tilinavaus", uusi.paattyy() < kp()->tilitpaatetty() ? 1 : 2);
     } else if( kp()->asetukset()->pvm("TilinavausPvm") == kausi_.paattyy()) {
         kp()->asetukset()->poista("TilinavausPvm");
         kp()->asetukset()->poista("Tilinavaus");

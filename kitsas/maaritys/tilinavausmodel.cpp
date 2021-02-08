@@ -281,7 +281,7 @@ bool TilinavausModel::tallenna()
         iter.next();
         int tili = iter.key();
 
-        for(auto era : iter.value()) {
+        for(auto &era : iter.value()) {
 
             TositeVienti vienti;
             vienti.setPvm( tosite_->pvm() );
@@ -326,7 +326,10 @@ bool TilinavausModel::tallenna()
     // Tallennuksen jälkeen ladataan välittömästi, jotta kumppanirekisteri ajan tasalla
     connect( tosite_, &Tosite::talletettu, this, &TilinavausModel::lataa);
 
-    tosite_->tallenna();
+    tosite_->asetaTyyppi(TositeTyyppi::TILINAVAUS);
+    tosite_->asetaPvm(kp()->asetukset()->pvm("TilinavausPvm"));
+
+    tosite_->tallenna(Tosite::KIRJANPIDOSSA);
 
     kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 
@@ -335,7 +338,12 @@ bool TilinavausModel::tallenna()
 
 void TilinavausModel::lataa()
 {
-    tosite_->lataa(1);
+    KpKysely* kysely = kpk("/tositteet");
+    kysely->lisaaAttribuutti("tyyppi", TositeTyyppi::TILINAVAUS);
+    if(kysely) {
+        connect(kysely, &KpKysely::vastaus, this, &TilinavausModel::idTietoSaapuu);
+        kysely->kysy();
+    }
 }
 
 void TilinavausModel::paivitaInfo()
@@ -398,6 +406,15 @@ void TilinavausModel::ladattu()
             break;
         }
     paivitaInfo();
+}
+
+void TilinavausModel::idTietoSaapuu(QVariant *data)
+{
+    QVariantList lista = data->toList();
+    if( !lista.isEmpty()) {
+        QVariantMap map = lista.first().toMap();
+        tosite_->lataa(map.value("id").toInt());
+    }
 }
 
 qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)

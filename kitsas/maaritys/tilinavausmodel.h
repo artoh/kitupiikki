@@ -112,7 +112,10 @@ public slots:
     void ladattu();
 
 protected:
+    void idTietoSaapuu(QVariant* data);
+
     static qlonglong erasumma(const QList<AvausEra>& erat);
+
 
 signals:
     void tilasto(qlonglong vastaava, qlonglong vastattava, qlonglong tulos);
