@@ -111,7 +111,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
 
                 QList<AvausEra> avaus = erat_.value(tili.numero());
                 qlonglong saldo = 0;
-                for( auto rivi : avaus)
+                for( auto &rivi : avaus)
                     saldo += rivi.saldo();
 
                 if( role == Qt::EditRole)
@@ -244,7 +244,7 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
     if( kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::TULOS))
     {
         // Päivitetään kauden tulosta
-        dataChanged( index.sibling(kaudenTulosIndeksi_, SALDO),
+        emit dataChanged( index.sibling(kaudenTulosIndeksi_, SALDO),
                      index.sibling(kaudenTulosIndeksi_, SALDO));
     }
 
@@ -296,7 +296,7 @@ bool TilinavausModel::tallenna()
             if( qAbs(era.saldo())) {
                 if( era.vienti())
                     vienti.setEra( era.vienti() );
-                else {
+                else if( tilio.eritellaankoTase()) {
                     vienti.setEra(-1);
                 }
                 // Ostosaamiset ja velat -kirjataan niin,
@@ -420,7 +420,7 @@ void TilinavausModel::idTietoSaapuu(QVariant *data)
 qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)
 {
     qlonglong summa = 0l;
-    for( auto era : erat)
+    for( auto &era : erat)
         summa += era.saldo();
     return summa;
 }
