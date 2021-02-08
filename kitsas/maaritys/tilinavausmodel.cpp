@@ -294,11 +294,14 @@ bool TilinavausModel::tallenna()
             Tili tilio = kp()->tilit()->tiliNumerolla(tili);
 
             if( qAbs(era.saldo())) {
-                if( era.vienti())
+                if( era.vienti()) {
                     vienti.setEra( era.vienti() );
-                else if( tilio.eritellaankoTase()) {
+                } else if( tilio.eritellaankoTase()) {
                     vienti.setEra(-1);
+                } else {
+                    vienti.setEra(0);
                 }
+
                 // Ostosaamiset ja velat -kirjataan niin,
                 // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
                 if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
@@ -328,6 +331,7 @@ bool TilinavausModel::tallenna()
 
     tosite_->asetaTyyppi(TositeTyyppi::TILINAVAUS);
     tosite_->asetaPvm(kp()->asetukset()->pvm("TilinavausPvm"));
+    tosite_->asetaOtsikko( tulkkaa("Tilinavaus") );
 
     tosite_->tallenna(Tosite::KIRJANPIDOSSA);
 
@@ -430,4 +434,10 @@ AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int v
     eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi)
 {
 
+}
+
+void AvausEra::asetaKumppani(const QVariantMap &map)
+{
+    kumppaniId_ = map.value("id").toInt();
+    kumppaniNimi_ = map.value("nimi").toString();
 }

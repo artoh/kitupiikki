@@ -80,12 +80,10 @@ bool AvausEraModel::setData(const QModelIndex &index, const QVariant &value, int
             era.asetaNimi( value.toString() );
         } else if (index.column() == SALDO){
             era.asetaSaldo( qRound64( value.toDouble() * 100) );
-        } else if( role == Qt::DisplayRole) {
-            era.asetaKumppani( value.toString());
-        } else if( role == Qt::UserRole) {
-            era.asetaKumppani( value.toInt());
         }
-
+        else if( index.column() == KUMPPANI) {
+            era.asetaKumppani( value.toMap());
+        }
 
         erat_[index.row()] = era;
         emit dataChanged(index, index, QVector<int>() << role);

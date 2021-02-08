@@ -49,9 +49,7 @@ void TilikausiMuokkausDlg::muokkaa(Tilikausi kausi)
     QDate lukituspaiva = kp()->tilitpaatetty();
 
     ui->lukittuCheck->setChecked( lukituspaiva >= kausi.alkaa() );
-    ui->lukittuCheck->setEnabled( kp()->tilikaudet()->tilikausiPaivalle(lukituspaiva).alkaa() == kausi.alkaa() ||
-                                  (!kp()->tilikaudet()->tilikausiPaivalle(lukituspaiva).alkaa().isValid() &&
-                                   lukituspaiva > kausi.alkaa()));
+    ui->lukittuCheck->setEnabled( true );
 
     ui->avausCheck->setChecked( kausi.paattyy() == kp()->asetukset()->pvm("TilinavausPvm"));
     ui->avausCheck->setEnabled( kp()->tilikaudet()->tilikausiIndeksilla(0).paattyy() == kausi.paattyy() );
