@@ -59,7 +59,10 @@ void Arkistoija::arkistoi()
     if( luoHakemistot() ) {
         progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, 6 );
         progressDlg_->setMinimumDuration(250);
-        raporttilaskuri_ = 9;
+
+        QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");
+        raporttilaskuri_ = 9 + raportit.count();
+
         arkistoiTositteet();
         arkistoiRaportit();
     }
@@ -176,10 +179,11 @@ void Arkistoija::arkistoiRaportit()
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
-    QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");
+    QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");    
     progressDlg_->setMaximum( progressDlg_->maximum() + raportit.count() );
+
+
     for( auto raportti : raportit) {
-        raporttilaskuri_++;
         QString raporttinimi(raportti);
         raporttinimi = raporttinimi.replace(QRegularExpression("\\W"),"").toLower().append(".html");
         Raportoija *raportoija = new Raportoija( raportti, kp()->asetus("kieli"), this);
@@ -291,6 +295,7 @@ void Arkistoija::merkitseArkistoiduksi()
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 
+    progressDlg_->close();
     emit arkistoValmis( hakemistoPolku_ );
 
     qDebug() << "Arkistoitu";
@@ -320,6 +325,8 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
 
 void Arkistoija::jotainArkistoitu()
 {
+    qDebug() << " Tosite " << arkistoitavaTosite_ << " / " << tositeJono_.count() << " Liitteet " << liitelaskuri_ << " Raportit " << raporttilaskuri_ ;
+
     qApp->processEvents();
     if( !keskeytetty_ && tositeluetteloSaapunut_ &&
             arkistoitavaTosite_ >= tositeJono_.count() && !liitelaskuri_  && !raporttilaskuri_ )
@@ -477,8 +484,13 @@ void Arkistoija::viimeistele()
 
 
     out << "</body></html>";
-    merkitseArkistoiduksi();
 
+    tiedosto.flush();
+    tiedosto.close();
+
+    qDebug() << " Arkistoitu";
+
+    merkitseArkistoiduksi();
 }
 
 QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
