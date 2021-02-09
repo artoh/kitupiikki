@@ -134,16 +134,20 @@ void TpAloitus::tarkistaPMA()
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi.alkaa().addDays(-1) );
 
 
-    if( kp()->asetukset()->asetus("muoto") == "tmi" )
+    if( kp()->asetukset()->asetus("muoto") == "tmi" &&
+            tilikausi.pieniElinkeinonharjoittaja() < 2 &&
+            edellinen.pieniElinkeinonharjoittaja() < 2)
     {
-        // Elinkeinonharjoittajalla vähän toisenlainen
+        // Elinkeinonharjoittajalla vähän toisenlainen        
         ui->saantoGroup->setVisible(false);
-        ui->vapaaehtoisLabel->setVisible( tilikausi.pieniElinkeinonharjoittaja() < 2 &&
-                                          edellinen.pieniElinkeinonharjoittaja() < 2);
+        ui->vapaaehtoisLabel->setVisible( true );
+        ui->mikroRadio->setChecked(true);
+
     }
     else
     {
         ui->vapaaehtoisLabel->setVisible(false);
+
 
         int pienuus = tilikausi.pienuus();
         if( edellinen.pienuus() > pienuus)
