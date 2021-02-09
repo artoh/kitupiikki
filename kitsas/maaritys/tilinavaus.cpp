@@ -154,7 +154,7 @@ bool Tilinavaus::nollaa()
 {
     model->lataa();
     proxy->sort(0);
-    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("Henkilosto"));
+    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("henkilosto"));
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -165,8 +165,10 @@ bool Tilinavaus::tallenna()
     if( model->onkoMuokattu())
         model->tallenna();
 
-    kp()->tilikaudet()->viiteIndeksilla(0).set("henkilosto", ui->henkilostoSpin->value());
-    kp()->tilikaudet()->viiteIndeksilla(0).tallenna();
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kp()->asetukset()->pvm("TilinavausPvm"));
+    kausi.set("henkilosto", ui->henkilostoSpin->value());
+    kausi.tallenna();
+
 
     emit tallennaKaytossa(onkoMuokattu());
 

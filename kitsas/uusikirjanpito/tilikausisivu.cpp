@@ -67,6 +67,9 @@ bool TilikausiSivu::validatePage()
         velho->tilikaudet_.append(vanha);
         velho->asetukset_.insert("Tilinavaus",2);
         velho->asetukset_.insert("TilinavausPvm", ui->edellinenPaattyi->date());
+    } else {
+        velho->asetukset_.remove("Tilinavaus");
+        velho->asetukset_.remove("TilinavausPvm");
     }
 
     QVariantMap uusi;

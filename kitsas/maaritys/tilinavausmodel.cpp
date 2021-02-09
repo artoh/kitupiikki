@@ -274,6 +274,12 @@ bool TilinavausModel::tallenna()
 {
     tosite_->viennit()->tyhjenna();
 
+    tosite_->asetaTyyppi(TositeTyyppi::TILINAVAUS);
+    tosite_->asetaPvm(kp()->asetukset()->pvm("TilinavausPvm"));
+    tosite_->asetaOtsikko( tulkkaa("Tilinavaus") );
+
+    Q_ASSERT(tosite_->pvm().isValid());
+
     QMapIterator<int, QList<AvausEra>> iter(erat_);
 
     while( iter.hasNext()) {
@@ -327,11 +333,7 @@ bool TilinavausModel::tallenna()
         }
     }
     // Tallennuksen jälkeen ladataan välittömästi, jotta kumppanirekisteri ajan tasalla
-    connect( tosite_, &Tosite::talletettu, this, &TilinavausModel::lataa);
-
-    tosite_->asetaTyyppi(TositeTyyppi::TILINAVAUS);
-    tosite_->asetaPvm(kp()->asetukset()->pvm("TilinavausPvm"));
-    tosite_->asetaOtsikko( tulkkaa("Tilinavaus") );
+    connect( tosite_, &Tosite::talletettu, this, &TilinavausModel::lataa);    
 
     tosite_->tallenna(Tosite::KIRJANPIDOSSA);
 

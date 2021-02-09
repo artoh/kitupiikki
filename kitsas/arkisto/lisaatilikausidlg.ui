@@ -7,13 +7,30 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>235</height>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Lisää uusi tilikausi</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QRadioButton" name="alkuRadio">
+     <property name="text">
+      <string>Lisää tilikausi alkuun</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="loppuRadio">
+     <property name="text">
+      <string>Lisää tilikausi loppuun</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -49,6 +66,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="avausCheck">
+     <property name="text">
+      <string>Tilikausi on tilinavaus</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -82,8 +106,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>261</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -98,8 +122,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>329</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

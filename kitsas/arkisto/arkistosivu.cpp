@@ -31,7 +31,8 @@
 
 #include "arkistosivu.h"
 #include "db/kirjanpito.h"
-#include "ui_lisaatilikausidlg.h"
+#include "uusitilikausidlg.h"
+
 #include "ui_lukitsetilikausi.h"
 
 #include "ui_arkistonvienti.h"
@@ -110,24 +111,8 @@ void ArkistoSivu::siirrySivulle()
 
 void ArkistoSivu::uusiTilikausi()
 {
-    Ui::UusiTilikausiDlg dlgUi;
-    QDialog dlg;
-    dlgUi.setupUi( &dlg );
-
-    QDate edellinen = kp()->tilikaudet()->kirjanpitoLoppuu();
-    dlgUi.alkaaEdit->setDate( edellinen.addDays(1) );
-
-    dlgUi.paattyyEdit->setMinimumDate( edellinen.addDays(2) );
-    dlgUi.paattyyEdit->setMaximumDate( edellinen.addMonths(18));
-    dlgUi.paattyyEdit->setDate( edellinen.addYears(1));
-
-    if( dlg.exec() )
-    {
-        Tilikausi uusi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
-        uusi.tallenna();
-        emit kp()->tilikausiAvattu();
-    }
-
+    UusiTilikausiDlg dlg;
+    dlg.exec();
 }
 
 void ArkistoSivu::aineisto()

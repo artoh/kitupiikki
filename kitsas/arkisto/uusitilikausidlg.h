@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,29 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef UUSITILIKAUSIDLG_H
+#define UUSITILIKAUSIDLG_H
+
+#include <QDialog>
+
+namespace Ui {
+    class UusiTilikausiDlg;
+}
 
 
-/**
-  @file Kitsaan version määrittely
+class UusiTilikausiDlg : public QDialog
+{
+    Q_OBJECT
+public:
+    UusiTilikausiDlg(QWidget* parent = nullptr);
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+    void accept() override;
 
-#define KITSAS_VERSIO "2.3-RC"
-#define KITSAS_BUILD  "E"
+private:
+    void alkuun();
+    void loppuun();
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+    Ui::UusiTilikausiDlg* ui;
+};
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
-
-#endif // VERSIO_H
+#endif // UUSITILIKAUSIDLG_H

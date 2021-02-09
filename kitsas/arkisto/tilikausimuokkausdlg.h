@@ -44,6 +44,7 @@ protected:
     void puralukko();
     void muutaAvaus();
     void poista();
+    void tilinavausId(QVariant* data);
 
 private:
     Ui::TilikausiMuokkausDlg *ui;
@@ -51,6 +52,7 @@ private:
 
     Tilikausi kausi_;
     QDate alkuperainenAlkupaiva_;
+    int tilinavausId_ = 0;
 
 };
 

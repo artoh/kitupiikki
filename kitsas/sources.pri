@@ -16,6 +16,7 @@ SOURCES += \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
+    $$PWD/arkisto/uusitilikausidlg.cpp \
     $$PWD/arkistoija/aineistodialog.cpp \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
@@ -305,6 +306,7 @@ HEADERS += \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \
+    $$PWD/arkisto/uusitilikausidlg.h \
     $$PWD/arkistoija/aineistodialog.h \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \

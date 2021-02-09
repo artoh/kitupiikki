@@ -82,7 +82,7 @@ void TilikausiMuokkausDlg::accept()
     uusi.asetaAlkaa(ui->alkaaEdit->date());
     uusi.asetaPaattyy(ui->loppuuEdit->date());
     uusi.set("henkilosto", ui->henkilostoSpin->value());
-    if( !ui->lukittuCheck)
+    if( !ui->lukittuCheck->isChecked())
         uusi.unset("vahvistettu");
 
     uusi.tallenna(kausi_.alkaa());
@@ -98,12 +98,14 @@ void TilikausiMuokkausDlg::accept()
 
     // Tilinavaus
     if( ui->avausCheck->isChecked()) {
-        kp()->asetukset()->aseta("TilinavausPvm", uusi.paattyy());
-        if( kp()->asetukset()->luku("Tilinavaus") == 0)
-            kp()->asetukset()->aseta("Tilinavaus", uusi.paattyy() < kp()->tilitpaatetty() ? 1 : 2);
+        kp()->asetukset()->aseta("TilinavausPvm", uusi.paattyy());        
+        kp()->asetukset()->aseta("Tilinavaus", uusi.paattyy() < kp()->tilitpaatetty() ? 1 : 2);
     } else if( kp()->asetukset()->pvm("TilinavausPvm") == kausi_.paattyy()) {
         kp()->asetukset()->poista("TilinavausPvm");
         kp()->asetukset()->poista("Tilinavaus");
+        KpKysely *poisto = kpk(QString("/tositteet/%1").arg(tilinavausId_), KpKysely::DELETE);
+        connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::kirjanpitoaMuokattu);
+        poisto->kysy();
     }
     QDialog::accept();
 
@@ -167,7 +169,7 @@ void TilikausiMuokkausDlg::muutaAvaus()
         }
     } else if(kp()->asetukset()->pvm("TilinavausPvm") == kausi_.paattyy()) {
         if( QMessageBox::warning(this, tr("Tilinavauksen poistaminen"),
-                                 tr("Haluatko merkitä, että tämä tilikausi ei ole tilinavaus?\nSinun on vielä erikseen poistettava tilinavaustosite."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
+                                 tr("Haluatko merkitä, että tämä tilikausi ei ole tilinavaus?\nValinta poistaa myös tilinavauksen."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
             ui->avausCheck->setChecked(true);
     }
 }
@@ -188,4 +190,13 @@ void TilikausiMuokkausDlg::poista()
     }
     kausi_.poista();
     QDialog::accept();
+}
+
+void TilikausiMuokkausDlg::tilinavausId(QVariant *data)
+{
+    QVariantList lista = data->toList();
+    if( !lista.isEmpty()) {
+        QVariantMap map = lista.first().toMap();
+        tilinavausId_ = map.value("id").toInt();
+    }
 }
