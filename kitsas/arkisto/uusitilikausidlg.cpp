@@ -38,8 +38,10 @@ void UusiTilikausiDlg::accept()
 
         kp()->asetukset()->aseta("Tilinavaus", 2);
         kp()->asetukset()->aseta("TilinavausPvm", avauspvm);
-        if( !kp()->tilitpaatetty().isValid() || kp()->tilitpaatetty() < avauspvm)
-            kp()->asetukset()->aseta("TilitPaatetty", avauspvm);
+        if( ui->alkuRadio->isChecked()) {
+            // Jos lisätään alkuun, muuttaa se tilikauden lukitsemista
+            kp()->asetukset()->aseta("TilitPaatetty", ui->avausCheck->isChecked() ? ui->alkaaEdit->date().addDays(-1) : ui->paattyyEdit->date());
+        }
     }
     Tilikausi uusi(ui->alkaaEdit->date(), ui->paattyyEdit->date());
     uusi.tallenna();

@@ -101,11 +101,7 @@ void TilikausiMuokkausDlg::accept()
         kp()->asetukset()->aseta("TilinavausPvm", uusi.paattyy());        
         kp()->asetukset()->aseta("Tilinavaus", uusi.paattyy() < kp()->tilitpaatetty() ? 1 : 2);
     } else if( kp()->asetukset()->pvm("TilinavausPvm") == kausi_.paattyy()) {
-        kp()->asetukset()->poista("TilinavausPvm");
-        kp()->asetukset()->poista("Tilinavaus");
-        KpKysely *poisto = kpk(QString("/tositteet/%1").arg(tilinavausId_), KpKysely::DELETE);
-        connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::kirjanpitoaMuokattu);
-        poisto->kysy();
+        poistaTilinavaus();
     }
     QDialog::accept();
 
@@ -159,6 +155,17 @@ void TilikausiMuokkausDlg::puralukko()
     pbtn->setEnabled( !ui->lukittuCheck->isChecked() );
 }
 
+void TilikausiMuokkausDlg::poistaTilinavaus()
+{
+    kp()->asetukset()->poista("TilinavausPvm");
+    kp()->asetukset()->poista("Tilinavaus");
+    if(tilinavausId_) {
+        KpKysely *poisto = kpk(QString("/tositteet/%1").arg(tilinavausId_), KpKysely::DELETE);
+        connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::kirjanpitoaMuokattu);
+        poisto->kysy();
+    }
+}
+
 void TilikausiMuokkausDlg::muutaAvaus()
 {
     if( ui->avausCheck->isChecked()) {
@@ -187,6 +194,9 @@ void TilikausiMuokkausDlg::poista()
                                     "virheellisesti tilikausien ulkopuolelle eivätkä näy käyttäjälle "
                                     "ennen kuin niille on lisätty tilikausi."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
             return;
+    }
+    if( kausi_.paattyy() == kp()->asetukset()->pvm("TilinavausPvm")) {
+        poistaTilinavaus();
     }
     kausi_.poista();
     QDialog::accept();
