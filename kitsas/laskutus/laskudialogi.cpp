@@ -771,8 +771,8 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
     if( tositeId_) {
         // Varoitetaan jos ollaan muokkaamassa olemassa olevaa laskua
-        if( QMessageBox::question(this, tr("Laskun tallentaminen"), tr("Laskun muokkaaminen korvaa vanhan laskun muokatulla ja laskun päivämääräksi tulee tämä päivä.\n"
-                                                                   "Muokkaa laskua vain, jos olet lähettämässä asiakkaallesi korvaavan laskun.\n"
+        if( QMessageBox::question(this, tr("Laskun tallentaminen"), tr("Laskun muokkaaminen korvaa vanhan laskun muokatulla ja laskun päivämääräksi tulee tämänpäiväinen päivämäärä.\n\n"
+                                                                   "Muokkaa laskua vain, jos olet lähettämässä asiakkaallesi korvaavan laskun.\n\n"
                                                                    "Haluatko jatkaa?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes ) {
             return;
         }
