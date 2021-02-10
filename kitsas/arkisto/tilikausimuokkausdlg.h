@@ -42,8 +42,9 @@ public:
 protected:
     void tarkastaKausi();
     void puralukko();
+    void poistaTilinavaus();
     void muutaAvaus();
-    void poista();
+    void poista();    
     void tilinavausId(QVariant* data);
 
 private:

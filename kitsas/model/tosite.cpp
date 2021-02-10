@@ -246,8 +246,6 @@ void Tosite::lataaData(QVariant *variant)
     if( tila() == Tila::POISTETTU) {
         data_.remove("tunniste");
         tallennettu_.insert("palautettu",QVariant());
-    } else {
-        QTimer::singleShot(500, this, &Tosite::laitaTalteen);
     }
 
     QVariantList vientilista = data_.take("viennit").toList();
@@ -286,6 +284,9 @@ void Tosite::lataaData(QVariant *variant)
     emit huomioMuuttui( huomio());
 
     QTimer::singleShot(100, this, &Tosite::latausValmis);
+    if( tila() != Tila::POISTETTU) {
+        QTimer::singleShot(250, this, &Tosite::laitaTalteen);
+    }
 
 
     kp()->odotusKursori(false);
