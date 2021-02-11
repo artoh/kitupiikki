@@ -2412,7 +2412,7 @@
     },
     {
         "numero": 1940,
-        "tyyppi": "A",
+        "tyyppi": "ARP",
         "nimi": {
             "fi": "Pankkitili 4",
             "sv": "Bankkonto 4"
@@ -2448,7 +2448,7 @@
     },
     {
         "numero": 1970,
-        "tyyppi": "A",
+        "tyyppi": "ARP",
         "nimi": {
             "fi": "Sijoitustili",
             "sv": "Placeringskonto"
@@ -2457,7 +2457,7 @@
     },
     {
         "numero": 1984,
-        "tyyppi": "A",
+        "tyyppi": "ARP",
         "nimi": {
             "fi": "Valuuttatili",
             "sv": "Valutakonto"

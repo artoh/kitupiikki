@@ -92,7 +92,7 @@ void TilikausiMuokkausDlg::accept()
         if( kp()->tilitpaatetty() < kausi_.paattyy() )
             kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
     } else {
-        if( kp()->tilitpaatetty() == kausi_.paattyy() )
+        if( kp()->tilitpaatetty() >= kausi_.paattyy() )
             kp()->asetukset()->aseta("TilitPaatetty", uusi.alkaa().addDays(-1));
     }
 

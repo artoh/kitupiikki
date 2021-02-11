@@ -82,7 +82,7 @@ void TilausValintaSivu::paivita()
     if( planId == 0) {
         ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti"));
     } else if (planId == PlanModel::TILITOIMISTOPLAN) {
-        double kkhinta = pilvihinta / 12;
+        double kkhinta = pilvihinta / (ui->vuosiRadio->isChecked() ? 12 : 6);
         ui->tilaInfo->setText( tr("Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.\n"
                                   "Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi")
                                .arg(pilvia).arg(kkhinta,0,'f',2));
