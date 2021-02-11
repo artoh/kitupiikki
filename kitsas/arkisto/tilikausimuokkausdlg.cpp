@@ -89,11 +89,11 @@ void TilikausiMuokkausDlg::accept()
 
     // Lukitseminen/lukituksen poisto
     if( ui->lukittuCheck->isChecked()) {
-        if( kp()->tilitpaatetty() < kausi_.paattyy() )
-            kp()->asetukset()->aseta("TilitPaatetty", uusi.paattyy());
+        if( !(kp()->tilitpaatetty() > kausi_.paattyy() ))
+            kp()->asetukset()->aseta("TilitPaatetty", kausi_.paattyy());
     } else {
         if( kp()->tilitpaatetty() >= kausi_.paattyy() )
-            kp()->asetukset()->aseta("TilitPaatetty", uusi.alkaa().addDays(-1));
+            kp()->asetukset()->aseta("TilitPaatetty", kausi_.alkaa().addDays(-1));
     }
 
     // Tilinavaus

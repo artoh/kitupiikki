@@ -193,7 +193,7 @@ void ArkistoSivu::tilinpaatos()
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
 
-        if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
+        if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU && kp()->tilitpaatetty() >= kausi.paattyy() )
         {        
             NaytinIkkuna::naytaLiite(0, QString("TP_%1").arg(kausi.paattyy().toString(Qt::ISODate)) );
         }
