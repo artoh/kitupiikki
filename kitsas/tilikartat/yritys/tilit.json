@@ -3035,7 +3035,7 @@
     },
     {
         "numero": 2351,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityisnostot rahana yhtiömies A",
             "sv": "Privata uttag kontant bolagsman A"
@@ -3063,7 +3063,7 @@
     },
     {
         "numero": 2355,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityisnostot rahana yhtiömies B",
             "sv": "Privat bruk kontant bolagsman B"
@@ -3091,7 +3091,7 @@
     },
     {
         "numero": 2361,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityissijoitukset rahana",
             "sv": "Privata insättningar kontant"
@@ -3104,7 +3104,7 @@
     },
     {
         "numero": 2363,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Muut yksityissijoitukset",
             "sv": "Övriga privata insättningar"
@@ -3117,7 +3117,7 @@
     },
     {
         "numero": 2365,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityisnostot rahana",
             "sv": "Privata uttag kontant"
