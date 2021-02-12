@@ -190,6 +190,7 @@
         <file>harmaahuomio.png</file>
         <file>kupla-harmaa.png</file>
         <file>kupla.png</file>
+        <file>about.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
