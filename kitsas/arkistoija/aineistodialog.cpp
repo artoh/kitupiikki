@@ -421,8 +421,7 @@ void AineistoDialog::tilaaLiite()
 
 void AineistoDialog::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
 {
-    QByteArray ba = data->toByteArray();
-    device->newPage();
+    QByteArray ba = data->toByteArray();    
     int sivua = LiiteTulostaja::tulostaLiite(
                 device, painter,
                 ba,

@@ -187,7 +187,7 @@ void TuloveroDialog::kirjattu()
     QDialog::accept();
     QMessageBox::information(this, tr("Tuloveron kirjaus tallennettu"),
                              tr("Tuloverot on kirjattu.\n"
-                                "Liitä veroilmoitus ja mahdolliset verolaskelmasi "
-                                "kirjanpitoaineistoon."));
+                                "Säilytä veroilmoitus ja mahdolliset verolaskelmasi "
+                                "kirjanpitosi yhteydessä."));
     emit tallennettu();
 }

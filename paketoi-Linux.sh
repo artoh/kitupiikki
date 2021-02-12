@@ -13,7 +13,7 @@ DISTDIR=../dist
 
 export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export ARCH=x86:64
-export VERSION=2.3-RC-G
+export VERSION=2.3
 
 rm -R $BUILDIR
 mkdir -p $BUILDIR 

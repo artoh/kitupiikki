@@ -137,6 +137,8 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
     document->setRenderHint(Poppler::Document::Antialiasing);        
 
     painter->setFont(QFont("FreeSans",8));
+    printer->newPage();
+
     int rivinKorkeus = painter->fontMetrics().height();
     int sivut = 0;
 
@@ -184,45 +186,47 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
     return sivut;
 }
 
-int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
-{
-    painter->resetTransform();
+int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)
+{    
     painter->setFont(QFont("FreeSans",8));
     int rivinKorkeus = painter->fontMetrics().height();
-    QRect rect = painter->viewport().adjusted(0,rivinKorkeus * 2,0,rivinKorkeus * 6);
+
+    int sivua = 0;
 
     try {
 
         QImage kuva = QImage::fromData(data);
         if(kuva.isNull()) {
             return 0;
+        }        
+
+        QImage scaled = kuva.scaled(painter->window().width(), painter->window().height() - 12 * rivinKorkeus, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+
+        if( (painter->transform().dy() + scaled.height() + rivinKorkeus * 12) > painter->window().height() ) {
+
+            printer->newPage();
+            painter->resetTransform();
+            sivu++; sivua++;
         }
-
-        QSize size = kuva.size();
-        size.scale(rect.size(), Qt::KeepAspectRatio);
-        painter->save();
-        painter->setViewport( rect.x(), rect.y(),
-                             size.width(), size.height());
-        painter->setWindow(kuva.rect());
-        painter->drawImage(0, 0, kuva);
-        painter->resetTransform();
-
-
 
         tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
-        if(ensisivu) {
-            painter->translate(0, size.height() + 2 * rivinKorkeus);
-        } else {
+        painter->translate(0, rivinKorkeus * 3);
 
+        painter->drawImage(0,0,scaled);
+        painter->translate(0, scaled.height() + rivinKorkeus );
+
+        if(ensisivu) {            
+            tulostaAlatunniste(painter, tosite, kieli);
+            painter->translate(0, 2 * rivinKorkeus);
         }
-
+        painter->translate(0, 2 * rivinKorkeus);
     }
         catch (std::bad_alloc&) {
         return -1;
     }
 
-    painter->translate(0, painter->window().height() - painter->transform().dy());
-    return 1;
+    return sivua;
 }
 
 void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QVariantMap &tosite, int sivu, const QString& kieli)

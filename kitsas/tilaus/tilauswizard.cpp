@@ -69,7 +69,9 @@ QString TilausWizard::yhteenveto()
 
     txt.append(valintaSivu_->tilaus(PlanModel::InfoRooli).toString());
 
-    if( valintaSivu_->tilaus(PlanModel::PlanRooli ).toInt() == PlanModel::TILITOIMISTOPLAN ) {
+    bool tilitoimisto = valintaSivu_->tilaus(PlanModel::PlanRooli ).toInt() == PlanModel::TILITOIMISTOPLAN;
+
+    if( tilitoimisto ) {
         double lisahinta = valintaSivu_->tilaus(PlanModel::LisaPilviHinta).toDouble() / (field("puolivuosittain").toBool() ? 6.0 : 12.0);
         txt.append( tr("\nPaketin hintaan sisältyy %1 kirjanpitoa. Lisäkirjanpidoista laskutetaan jälkikäteen "
                        "%L2 €/kk.").arg( valintaSivu_->tilaus(PlanModel::PilviaRooli ).toInt() ).arg(lisahinta,0,'f',2));
@@ -81,7 +83,7 @@ QString TilausWizard::yhteenveto()
     if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
 
         double hinta = valintaSivu_->tilaus(PlanModel::HintaRooli).toDouble() +
-                field("lisapilvet").toInt() * valintaSivu_->tilaus(PlanModel::LisaPilviHinta).toDouble();
+                (tilitoimisto ? 0 : field("lisapilvet").toInt() * valintaSivu_->tilaus(PlanModel::LisaPilviHinta).toDouble() );
 
         txt.append( tr("\n\nHinta %L1 € ").arg( hinta ,0,'f',2 ));
         if( field("puolivuosittain").toBool())
