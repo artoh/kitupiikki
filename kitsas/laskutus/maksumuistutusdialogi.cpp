@@ -69,7 +69,7 @@ void MaksumuistutusDialogi::eraSaapuu(QVariant *data)
     int eraid = eramap.value("id").toInt();
     eraMapit_.insert(eraid, eramap);
 
-    for(auto item : lista) {
+    for(auto &item : lista) {
         QVariantMap lmap = item.toMap();
         int id = lmap.value("tosite").toMap().value("id").toInt();
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
@@ -136,7 +136,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if( ui->muistutusCheck->isChecked()) {
         TositeVienti mmvienti;
         mmvienti.setPvm(kp()->paivamaara());
-        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistustili",9170)); // Tämä asetuksiin
+        mmvienti.setTili(kp()->asetukset()->luku("LaskuMaksumuistutustili",9170)); // Tämä asetuksiin
         mmvienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::KIRJAUS);
         mmvienti.setKredit(ui->muistutusSpin->value());
         mmvienti.setKumppani(kumppaniId);
@@ -147,7 +147,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
         mmmap.insert("nimike", tulostaja.t("muistutusmaksu"));   // Tähän käännös
         mmmap.insert("myyntikpl",1);
         mmmap.insert("ahinta", ui->muistutusSpin->value());
-        mmmap.insert("tili",kp()->asetukset()->luku("LaskuMaksumuistustili",9170));
+        mmmap.insert("tili",kp()->asetukset()->luku("LaskuMaksumuistutustili",9170));
         rivit.append(mmmap);
 
         lasku.insert("muistutusmaksu", ui->muistutusSpin->value());
@@ -158,7 +158,7 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     if( ui->korkoCheck->isChecked()) {
         double korko = 0.0;
         QDate korkopaiva;
-        for(auto tosite : tositteet) {
+        for(auto &tosite : tositteet) {
             QVariantMap map = tosite.toMap();
             int tositetyyppi = map.value("tyyppi").toInt();
             QVariantMap lasku = map.value("lasku").toMap();
