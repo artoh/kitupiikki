@@ -115,7 +115,7 @@ public:
     QString kommentti() const { return data(LISATIEDOT).toString();}
     QString sarja() const { return data(SARJA).toString();}
     int tositetila() const { return data(TILA).toInt();}
-    QDate laskupvm() const { return data(LASKUPVM).toDate();}
+    QDate laskupvm() const { if(data(LASKUPVM).toDate().isValid()) return data(LASKUPVM).toDate(); else return pvm();}
     QDate erapvm() const { return data(ERAPVM).toDate();}
     QString viite() const { return data(VIITE).toString();}
     int kierto() const { return data(KIERTO).toInt();}
