@@ -435,6 +435,8 @@
 		CB932E2323EF044200167D0B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC380CB5EA55D2073F2E1052 /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB932E2623EF137300167D0B /* libpoppler.101.0.0.dylib in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB932E2523EF137300167D0B /* libpoppler.101.0.0.dylib */; };
 		CB932E2B23EFD62000167D0B /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB932E2A23EFD62000167D0B /* Images.xcassets */; };
+		CB97421B25DADDE5005472AE /* moc_uusitilikausidlg.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB97421A25DADDE5005472AE /* moc_uusitilikausidlg.cpp */; };
+		CB97421E25DADE93005472AE /* uusitilikausidlg.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB97421D25DADE93005472AE /* uusitilikausidlg.cpp */; };
 		CBA38F362427E630009178F9 /* kayttooikeussivu.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBA38F322427E630009178F9 /* kayttooikeussivu.cpp */; };
 		CBA38F372427E630009178F9 /* kayttooikeusmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBA38F342427E630009178F9 /* kayttooikeusmodel.cpp */; };
 		CBA38F3C2427E651009178F9 /* liitemaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBA38F382427E651009178F9 /* liitemaaritys.cpp */; };
@@ -1386,6 +1388,9 @@
 		CB9240462541ECD900907CFD /* tuotetuontimodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tuotetuontimodel.cpp; path = ../kitsas/laskutus/tuotetuonti/tuotetuontimodel.cpp; sourceTree = "<group>"; };
 		CB932E2523EF137300167D0B /* libpoppler.101.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpoppler.101.0.0.dylib; path = ../../../../../usr/local/Cellar/poppler/0.90.1/lib/libpoppler.101.0.0.dylib; sourceTree = "<group>"; };
 		CB932E2A23EFD62000167D0B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kitsas/Images.xcassets; sourceTree = "<group>"; };
+		CB97421A25DADDE5005472AE /* moc_uusitilikausidlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_uusitilikausidlg.cpp; sourceTree = "<group>"; };
+		CB97421C25DADE93005472AE /* uusitilikausidlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uusitilikausidlg.h; path = ../kitsas/arkisto/uusitilikausidlg.h; sourceTree = "<group>"; };
+		CB97421D25DADE93005472AE /* uusitilikausidlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uusitilikausidlg.cpp; path = ../kitsas/arkisto/uusitilikausidlg.cpp; sourceTree = "<group>"; };
 		CBA38F322427E630009178F9 /* kayttooikeussivu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kayttooikeussivu.cpp; path = ../kitsas/maaritys/kayttooikeudet/kayttooikeussivu.cpp; sourceTree = "<group>"; };
 		CBA38F332427E630009178F9 /* kayttooikeusmodel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kayttooikeusmodel.h; path = ../kitsas/maaritys/kayttooikeudet/kayttooikeusmodel.h; sourceTree = "<group>"; };
 		CBA38F342427E630009178F9 /* kayttooikeusmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kayttooikeusmodel.cpp; path = ../kitsas/maaritys/kayttooikeudet/kayttooikeusmodel.cpp; sourceTree = "<group>"; };
@@ -1899,6 +1904,7 @@
 		25B08E2869634E9BCBA333A2 /* Generated Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CB97421A25DADDE5005472AE /* moc_uusitilikausidlg.cpp */,
 				CBBA045425CB1CED00A17C1E /* moc_aineistodialog.cpp */,
 				CBBA045525CB1CED00A17C1E /* moc_kommentitwidget.cpp */,
 				CBBA045925CB1CEE00A17C1E /* moc_laatuslider.cpp */,
@@ -2817,6 +2823,8 @@
 		A15B792D3F2F6D050323CE8C /* arkisto */ = {
 			isa = PBXGroup;
 			children = (
+				CB97421D25DADE93005472AE /* uusitilikausidlg.cpp */,
+				CB97421C25DADE93005472AE /* uusitilikausidlg.h */,
 				CBA38F842427E7EE009178F9 /* uudelleennumerointi.cpp */,
 				CBA38F832427E7EE009178F9 /* uudelleennumerointi.h */,
 				2BD7FF9970E7628840D131F1 /* jaksottaja.cpp */,
@@ -3523,6 +3531,7 @@
 				31446635347DB3640363593B /* jaksottaja.cpp in Compile Sources */,
 				2B4EED0C7DF0C28512C100DF /* arkistohakemistodialogi.cpp in Compile Sources */,
 				D8EB49AABB7802B358F3CABB /* arkistoija.cpp in Compile Sources */,
+				CB97421E25DADE93005472AE /* uusitilikausidlg.cpp in Compile Sources */,
 				CB92403A2541EBA200907CFD /* moc_smtpclient.cpp in Compile Sources */,
 				CB5919F92482165E003F2397 /* moc_rekisterinvienti.cpp in Compile Sources */,
 				F52866FD5A716753B7F4614A /* kielikentta.cpp in Compile Sources */,
@@ -3807,6 +3816,7 @@
 				7311BEB3960AA6C05EAD64BA /* moc_apuriwidget.cpp in Compile Sources */,
 				CBA38F362427E630009178F9 /* kayttooikeussivu.cpp in Compile Sources */,
 				5F98F8265C63AEA458290D58 /* moc_laskutaulutilioteproxylla.cpp in Compile Sources */,
+				CB97421B25DADDE5005472AE /* moc_uusitilikausidlg.cpp in Compile Sources */,
 				CE7489B6C6C6CB6B9E7B4F14 /* moc_palkkaapuri.cpp in Compile Sources */,
 				B69FD343B957053620DA5BF9 /* moc_tilioteapuri.cpp in Compile Sources */,
 				CBA38F7A2427E750009178F9 /* moc_verkkolaskutoimittaja.cpp in Compile Sources */,
@@ -4310,13 +4320,13 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.3-beta";
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4339,14 +4349,14 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = "2.3-beta";
+				MARKETING_VERSION = 2.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
