@@ -103,6 +103,9 @@
               <pointsize>18</pointsize>
              </font>
             </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
             <property name="text">
              <string>0</string>
             </property>
@@ -311,8 +314,11 @@
                 </item>
                 <item>
                  <widget class="QLabel" name="vaaraSalasana">
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 0, 0);</string>
+                  </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Salasana on virheellinen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>Salasana on virheellinen</string>
                   </property>
                  </widget>
                 </item>

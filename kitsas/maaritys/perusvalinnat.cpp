@@ -143,7 +143,7 @@ void Perusvalinnat::naytaLogo()
 void Perusvalinnat::avaaHakemisto()
 {
     QFileInfo info( ui->sijaintiLabel->text() );
-    kp()->avaaUrl( info.dir().absolutePath() );
+    kp()->avaaUrl( QUrl("file://" + info.dir().absolutePath(), QUrl::TolerantMode));
 }
 
 void Perusvalinnat::vaihdaArkistoHakemisto()
