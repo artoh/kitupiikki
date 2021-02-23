@@ -79,13 +79,17 @@ void InboxLista::paivita()
                 Poppler::Document *pdfDoc = Poppler::Document::load( info.absoluteFilePath());
                 if( pdfDoc )
                 {
-                    Poppler::Page *pdfSivu = pdfDoc->page(0);
-                    if( pdfSivu )
-                    {
-                        kuva = pdfSivu->thumbnail();
-                        if( kuva.isNull())
-                            kuva = pdfSivu->renderToImage(24,24);
-                        delete pdfSivu;
+                    if( pdfDoc->isLocked()) {
+                        kuva.load(":/pic/lukittupdf.png");
+                    } else {
+                        Poppler::Page *pdfSivu = pdfDoc->page(0);
+                        if( pdfSivu )
+                        {
+                            kuva = pdfSivu->thumbnail();
+                            if( kuva.isNull())
+                                kuva = pdfSivu->renderToImage(24,24);
+                            delete pdfSivu;
+                        }
                     }
                     delete pdfDoc;
                 }

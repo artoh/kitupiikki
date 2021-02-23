@@ -578,7 +578,7 @@ void TositeLiitteet::TositeLiite::setSisalto(const QByteArray &ba)
     QString tyyppi = KpKysely::tiedostotyyppi(ba);
     if( tyyppi == "application/pdf") {
         Poppler::Document *pdfDoc = Poppler::Document::loadFromData(ba);
-        if( pdfDoc ) {
+        if( pdfDoc && !pdfDoc->isLocked()) {
             Poppler::Page *sivu = pdfDoc->page(0);
             if( sivu) {
                 QImage image = sivu->renderToImage(24,24);

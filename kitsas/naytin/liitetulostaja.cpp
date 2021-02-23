@@ -133,6 +133,14 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
         return -1;
     }
 
+    if( document->isLocked()) {
+        delete document;
+        if(ensisivu)
+            return tulostaTiedot(printer, painter, tosite, sivu, kieli, true, true);
+        else
+            return 0;
+    }
+
     document->setRenderHint(Poppler::Document::TextAntialiasing);
     document->setRenderHint(Poppler::Document::Antialiasing);        
 

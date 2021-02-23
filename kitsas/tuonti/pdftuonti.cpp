@@ -55,7 +55,7 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data );
     PdfTuonti tuonti;
 
-    if( pdfDoc )
+    if( pdfDoc && !pdfDoc->isLocked() )
     {
         tuonti.haeTekstit(pdfDoc);
 

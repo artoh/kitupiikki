@@ -191,6 +191,7 @@
         <file>kupla-harmaa.png</file>
         <file>kupla.png</file>
         <file>about.png</file>
+        <file>lukittupdf.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

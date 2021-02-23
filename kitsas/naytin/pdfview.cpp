@@ -53,6 +53,13 @@ void Naytin::PdfView::paivita() const
     if(!pdfDoc)
         return;
 
+    if( pdfDoc->isLocked() ) {
+        QGraphicsSimpleTextItem *text = scene()->addSimpleText(tr("Tiedosto on salakirjoitettu"), QFont("FreeSans",14));
+        text->setBrush(QBrush(Qt::yellow));
+        delete pdfDoc;
+        return;
+    }
+
     pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
     pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
 

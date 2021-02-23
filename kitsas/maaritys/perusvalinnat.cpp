@@ -41,7 +41,7 @@ Perusvalinnat::Perusvalinnat() :
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
-    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl(ui->arkistoEdit->text()) ); });
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistaLogo(); ui->logoLabel->clear(); });
 
