@@ -395,12 +395,7 @@ Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkis
     <name>AloitusSivu</name>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="204"/>
-        <source>&lt;h1&gt;Avataan kirjanpitoa...&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="355"/>
-        <source>&lt;b&gt;Versio %1&lt;/b&gt;&lt;br&gt;Käännetty %2</source>
+        <source>Avataan kirjanpitoa...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -737,19 +732,6 @@ Ottaaksesi maksuperusteisen arvonlisäveron käyttöön lisää tarvittavat tili
     <message>
         <location filename="../alv/alvsivu.cpp" line="245"/>
         <source>%1 - %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ApuriVinkki</name>
-    <message>
-        <location filename="../kirjaus/apurivinkki.ui" line="14"/>
-        <source>Apurivinkki</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../kirjaus/apurivinkki.ui" line="54"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Kirjaa Apurilla&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Tee kaikki mahdolliset kirjaukset käyttämällä Kirjausapuria. Näin kaikki kirjaukseen liittyvät tiedot tulevat kerralla oikein!&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:2px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Syötä tositteen päivämäärä ja otsikko&lt;/li&gt;&lt;li style=&quot; margin-top:2px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Valitse tositelaji&lt;/li&gt;&lt;li style=&quot; margin-top:2px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Paina &lt;span style=&quot; font-weight:600;&quot;&gt;F9&lt;/span&gt; tai valitse &lt;span style=&quot; font-weight:600;&quot;&gt;Kirjausapuri&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br/&gt;Katso &lt;a href=&quot;https://kitupiikki.info/kirjaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kirjausohjeet&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1770,14 +1752,6 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
     <message>
         <location filename="../maaritys/verkkolasku/verkkolasku.ui" line="220"/>
         <source>Lähetä ensisijaisesti verkkolaskuna</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Form</name>
-    <message>
-        <location filename="../kirjaus/KommenttiWidget.ui" line="16"/>
-        <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -603,7 +603,6 @@ FORMS += \
     $$PWD/kierto/kiertomaaritys.ui \
     $$PWD/kierto/kiertosivu.ui \
     $$PWD/kierto/kierto.ui \
-    $$PWD/kirjaus/KommenttiWidget.ui \
     $$PWD/kirjaus/muumuokkausdlg.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
@@ -686,7 +685,6 @@ FORMS += \
     tuonti/tilimuuntodlg.ui \
     tools/devtool.ui \
     maaritys/maksuperusteinen.ui \
-    kirjaus/apurivinkki.ui \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \

@@ -201,7 +201,7 @@ void AloitusSivu::paivitaSivu()
 
         if( saldoja == 0) {
             // Lataaminen on kesken..
-            txt.append(tr("<h1>Avataan kirjanpitoa...</h1>"));
+            txt.append("<h1>" + tr("Avataan kirjanpitoa...") + "</h1>");
         } else if( saldoja < 3) {
             // Ei vielä tilejä avattu, possu
             txt.append( vinkit() );
@@ -352,7 +352,7 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
+    QString versioteksti = QString("<b>Versio %1</b><br>Käännetty %2")
             .arg( qApp->applicationVersion())
             .arg( buildDate().toString("dd.MM.yyyy"));
 
