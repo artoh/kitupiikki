@@ -66,6 +66,8 @@
 #include "luotunnusdialogi.h"
 #include "salasananvaihto.h"
 
+#include "tools/kitsaslokimodel.h"
+
 #include <QSslError>
 #include <QClipboard>
 
@@ -122,6 +124,8 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( ui->tukileikeNappi, &QPushButton::clicked, [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
     connect( ui->vaihdaSalasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasanaUuteen);
+
+    connect( ui->bugiNappi, &QPushButton::clicked, [] { KitsasLokiModel::instanssi()->copyAll(); });
 
 
     QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);

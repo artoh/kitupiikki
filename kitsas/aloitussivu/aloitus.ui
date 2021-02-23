@@ -663,6 +663,17 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="bugiNappi">
+           <property name="text">
+            <string>Virheenjäljitystiedot leikepöydälle</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/bug.png</normaloff>:/pic/bug.png</iconset>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>
