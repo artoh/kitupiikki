@@ -27,6 +27,7 @@
 #include <QClipboard>
 
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 
 KitsasLokiModel::KitsasLokiModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -171,14 +172,16 @@ void KitsasLokiModel::copyAll()
 {
     QString txt = QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") + "\n";
 
-    txt.append(QString("%1 %2 \n%3 \n%4 %5 %6 %7 \n\n"
+    txt.append(QString("%1 %2 @%8\n%3 \n%4 %5 %6 %7 \n\n"
                            ).arg(qApp->applicationVersion())
                             .arg(QSysInfo::prettyProductName())
                             .arg(kp()->kirjanpitoPolku())
                             .arg(kp()->asetus("Tilikartta"))
                             .arg(kp()->asetus("TilikarttaPvm"))
                             .arg(kp()->asetus("muoto"))
-                            .arg(kp()->asetus("laajuus")) );
+                            .arg(kp()->asetus("laajuus"))
+                            .arg(kp()->pilvi()->kayttajaPilvessa())
+               );
 
     for(const LokiRivi& rivi : loki_) {
 
