@@ -21,15 +21,42 @@
 #include <QTextStream>
 #include <QDateTime>
 
+#include <QPixmap>
+#include <QIcon>
+
+#include <QClipboard>
+
+#include "db/kirjanpito.h"
+
 KitsasLokiModel::KitsasLokiModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 
 }
 
+QIcon KitsasLokiModel::colorFilledIcon(const QColor &color)
+{
+    QPixmap pixmap(QSize(32,32));
+    pixmap.fill(color);
+    return QIcon(pixmap);
+}
+
+QColor KitsasLokiModel::levelColor(QtMsgType type)
+{
+    switch (type) {
+        case QtDebugMsg: return Qt::black;
+        case QtInfoMsg: return Qt::blue;
+        case QtWarningMsg: return Qt::yellow;
+        case QtCriticalMsg: return Qt::red;
+        case QtFatalMsg: return Qt::darkRed;
+        default: return Qt::gray;
+    }
+}
+
+
 void KitsasLokiModel::alusta()
 {
-    instanssi__ = new KitsasLokiModel(qApp);
+    instanssi__ = new KitsasLokiModel(nullptr);
     qInstallMessageHandler(KitsasLokiModel::messageHandler);
 }
 
@@ -71,7 +98,14 @@ void KitsasLokiModel::setLoggingToFile(const QString &filename)
 
 QVariant KitsasLokiModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
+    if( orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        switch (section) {
+            case FILE: return tr("Tiedosto");
+            case LINE: return tr("Rivi");
+            case MESSAGE: return tr("Viesti");
+        }
+    }
+    return QVariant();
 }
 
 int KitsasLokiModel::rowCount(const QModelIndex &parent) const
@@ -87,7 +121,7 @@ int KitsasLokiModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return 3;
 }
 
 QVariant KitsasLokiModel::data(const QModelIndex &index, int role) const
@@ -95,15 +129,72 @@ QVariant KitsasLokiModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    int row = loki_.count() - index.row() - 1;
+
+    if( role == Qt::DisplayRole) {
+        switch (index.column()) {
+        case FILE: {
+            QString fname = loki_.value(row).fileName();
+            QString nameonly = fname.mid( fname.lastIndexOf('/') + 1 );
+            return nameonly;
+        }
+        case LINE: {
+            int line = loki_.value(row).line();
+            return line ? line : QVariant();
+        }
+        case MESSAGE:
+            return loki_.value(row).message();
+        }
+    }
+    else if( role == Qt::DecorationRole && index.column() == MESSAGE) {
+        return colorFilledIcon( levelColor( loki_.value(row).type() ) );
+    }
     return QVariant();
 }
 
 void KitsasLokiModel::append(const KitsasLokiModel::LokiRivi &rivi)
-{
-    beginInsertRows( QModelIndex(), loki_.count(), loki_.count());
+{    
+    if( loki_.count() > MAXLINES * 5 / 4) {
+        beginResetModel();
+        QList<LokiRivi>::iterator iter(loki_.begin());
+        iter += MAXLINES  / 4;
+        loki_.erase(loki_.begin(), iter);
+        endResetModel();
+    }
+
+    beginInsertRows( QModelIndex(), 0, 0);
     loki_.append(rivi);
     endInsertRows();
+}
+
+void KitsasLokiModel::copyAll()
+{
+    QString txt = QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") + "\n";
+
+    txt.append(QString("%1 %2 \n%3 \n%4 %5 %6 %7 \n\n"
+                           ).arg(qApp->applicationVersion())
+                            .arg(QSysInfo::prettyProductName())
+                            .arg(kp()->kirjanpitoPolku())
+                            .arg(kp()->asetus("Tilikartta"))
+                            .arg(kp()->asetus("TilikarttaPvm"))
+                            .arg(kp()->asetus("muoto"))
+                            .arg(kp()->asetus("laajuus")) );
+
+    for(const LokiRivi& rivi : loki_) {
+
+        QString fname = rivi.fileName();
+        QString nameonly = fname.mid( fname.lastIndexOf('/') + 1 );
+
+        txt.append(fname.isEmpty() ? QString("%1 %2\n").arg(levelText(rivi.type())).arg(rivi.message())  :
+            QString("%1 [%2:%3] %4\n")
+                .arg(levelText(rivi.type()))
+                .arg(nameonly)
+                .arg(rivi.line())
+                .arg(rivi.message()) );
+    }
+
+    qApp->clipboard()->setText(txt);
+
 }
 
 QString KitsasLokiModel::levelText(QtMsgType type)
@@ -119,6 +210,11 @@ QString KitsasLokiModel::levelText(QtMsgType type)
 }
 
 KitsasLokiModel* KitsasLokiModel::instanssi__ = nullptr;
+KitsasLokiModel::LokiRivi::LokiRivi()
+{
+
+}
+
 KitsasLokiModel::LokiRivi::LokiRivi(QtMsgType type, const QMessageLogContext &context, const QString &message) :
     type_{type}, file_{context.file}, funktio_{context.function}, line_{context.line}, message_{message}
 {

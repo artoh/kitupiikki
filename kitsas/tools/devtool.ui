@@ -23,54 +23,58 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tervetuloTab">
+     <widget class="QWidget" name="lokiTab">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
-        <normaloff>:/pic/dev.png</normaloff>:/pic/dev.png</iconset>
+        <normaloff>:/pic/bug.png</normaloff>:/pic/bug.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Tervetuloa</string>
+       <string>Loki</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+        <widget class="QTableView" name="lokiView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string/>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="pixmap">
-            <pixmap resource="../pic/pic.qrc">:/pic/dev.png</pixmap>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
            </property>
-          </widget>
+          </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QPushButton" name="copyButton">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä tehokkaat - mutta niin kovin huonosti dokumentoidut - työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>Leikepöydälle</string>
            </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-           <property name="openExternalLinks">
-            <bool>true</bool>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/edit-copy.png</normaloff>:/pic/edit-copy.png</iconset>
            </property>
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>290</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

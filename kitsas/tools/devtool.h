@@ -49,6 +49,8 @@ protected slots:
     void uusiPeli();
     void peliNapautus(int ruutu);
 
+    void lokiLeikepoydalle();
+
 protected:
     /**
      * @brief Tarkastaa voiton ja ilmoittaa tuloksen

@@ -25,6 +25,7 @@ class KitsasLokiModel : public QAbstractTableModel
 
     class LokiRivi {
     public:
+        LokiRivi();
         LokiRivi(QtMsgType type, const QMessageLogContext& context, const QString& message);
         QtMsgType type() const { return type_;}
         QString fileName() const { return file_;}
@@ -39,7 +40,12 @@ class KitsasLokiModel : public QAbstractTableModel
         QString message_;
     };
 
+
 public:
+
+    enum {FILE, LINE, MESSAGE};
+    enum {MAXLINES = 1024};
+
     static void alusta();
     static KitsasLokiModel* instanssi() { return instanssi__;};
     static void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& message);
@@ -56,12 +62,16 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void append(const LokiRivi& rivi);
+    void copyAll();
 
 private:
     static QString levelText(QtMsgType type);
 
     KitsasLokiModel(QObject *parent = nullptr);
     static KitsasLokiModel* instanssi__;
+
+    static QIcon colorFilledIcon(const QColor& color);
+    static QColor levelColor(QtMsgType type);
 
     QString filename_;
     QList<LokiRivi> loki_;

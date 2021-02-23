@@ -18,6 +18,8 @@
 #include <QSettings>
 #include <QJsonDocument>
 #include <QVariant>
+#include <QClipboard>
+#include <QTableView>
 
 #include "devtool.h"
 #include "ui_devtool.h"
@@ -26,6 +28,7 @@
 
 #include "db/kpkysely.h"
 
+#include "kitsaslokimodel.h"
 
 DevTool::DevTool(QWidget *parent) :
     QDialog(parent),
@@ -39,9 +42,13 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaAsetus()));
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
-    connect( ui->kyselyLine, &QLineEdit::returnPressed, this, &DevTool::kysely);
+    connect( ui->kyselyLine, &QLineEdit::returnPressed, this, &DevTool::kysely);    
 
     ui->avainLista->setCurrentRow(0);
+
+    ui->lokiView->setModel(KitsasLokiModel::instanssi());
+    connect( ui->lokiView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &DevTool::lokiLeikepoydalle );
+    connect( ui->copyButton, &QPushButton::clicked, [] {KitsasLokiModel::instanssi()->copyAll();});
 
     alustaRistinolla();
 
@@ -216,6 +223,16 @@ void DevTool::peliNapautus(int ruutu)
     peliRuudut_[siirto] = 2;
     tarkastaVoitto();
 
+}
+
+void DevTool::lokiLeikepoydalle()
+{
+    int rivi = ui->lokiView->currentIndex().row();
+    QModelIndex index = ui->lokiView->currentIndex().sibling(rivi, KitsasLokiModel::MESSAGE);
+    QString message = ui->lokiView->model()->data(index, Qt::DisplayRole).toString();
+
+    if(!message.isEmpty())
+        qApp->clipboard()->setText(message);
 }
 
 int DevTool::voitonTarkastaja(const QVector<int>& taulu)
