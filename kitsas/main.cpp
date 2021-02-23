@@ -45,6 +45,7 @@
 #include "maaritys/ulkoasumaaritys.h"
 #include "pilvi/pilvimodel.h"
 
+#include "tools/kitsaslokimodel.h"
 
 
 void lisaaLinuxinKaynnistysValikkoon()
@@ -73,6 +74,7 @@ void lisaaLinuxinKaynnistysValikkoon()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    KitsasLokiModel::alusta();
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
@@ -106,12 +108,16 @@ int main(int argc, char *argv[])
                           {"api",
                            "Pilvipalvelun osoite",
                            "url",
-                           KITSAS_API}
+                           KITSAS_API},
+                          {"log",
+                          "Lokitiedosto",
+                          "tiedostopolku",
+                          QString()}
                       });
     parser.process(a);
 
     PilviModel::asetaPilviLoginOsoite( parser.value("api") );
-
+    KitsasLokiModel::setLoggingToFile( parser.value("log") );
 
     QStringList argumentit = qApp->arguments();
 

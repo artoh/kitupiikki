@@ -154,6 +154,7 @@ SOURCES += \
     $$PWD/tilaus/tilauswizard.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
+    $$PWD/tools/kitsaslokimodel.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
@@ -446,6 +447,7 @@ HEADERS += \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
+    $$PWD/tools/kitsaslokimodel.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/kpviiteedit.h \
