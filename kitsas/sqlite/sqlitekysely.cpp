@@ -39,7 +39,7 @@ void SQLiteKysely::kysy(const QVariant &data)
         model->reitita(this, data);
     } catch ( SQLiteVirhe &e ) {
         emit virhe( e.koodi(), e.selitys() );
-        qDebug() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
+        qWarning() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
     }
     deleteLater();
 }
@@ -57,7 +57,7 @@ void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString, QStr
         model->reitita(this, ba, omameta);
     } catch ( SQLiteVirhe &e ) {
         emit virhe( e.koodi(), e.selitys() );
-        qDebug() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
+        qWarning() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
     }
 }
 

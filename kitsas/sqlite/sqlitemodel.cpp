@@ -345,13 +345,15 @@ bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initia
 
 void SQLiteModel::reitita(SQLiteKysely* reititettavakysely, const QVariant &data)
 {
+    qInfo() << reititettavakysely->polku() + " " + reititettavakysely->urlKysely().toString();
+
     for( SQLiteRoute* route : routes_) {
         if( reititettavakysely->polku().startsWith( route->polku() ) ) {
             reititettavakysely->vastaa(route->route( reititettavakysely, data));
             return;
         }
     }
-    qDebug() << " *** Kyselyä " << reititettavakysely->polku() << " ei reititetty ***";
+    qWarning() << " *** Kyselyä " << reititettavakysely->polku() << " ei reititetty ***";
     emit reititettavakysely->virhe(404);
 }
 

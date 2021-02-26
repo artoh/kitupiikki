@@ -38,6 +38,8 @@ protected slots:
     void paivitaKielet();
     void paivitaMuodot();
 
+    void paivitaKohdennusPaivat();
+
 protected:
     Raportoija::RaportinTyyppi tyyppi() const { return tyyppi_;}
     void paivitaUi();

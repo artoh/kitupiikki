@@ -46,6 +46,8 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
+    } else {
+        ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
     }
 
     QStringList tyyppiLista;
@@ -63,6 +65,17 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     connect( ui->alkaa2Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
     connect( ui->alkaa3Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
     connect( ui->alkaa4Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+
+    for(QObject* widget : ui->pvmKehys->children()) {
+        QDateEdit* date = qobject_cast<QDateEdit*>(widget);
+        if(date)
+            connect(date, &QDateEdit::dateChanged, this, &TaseTulosRaportti::paivitaKohdennusPaivat);
+        else {
+            QCheckBox* box = qobject_cast<QCheckBox*>(widget);
+            if(box)
+                connect(box, &QCheckBox::toggled, this, &TaseTulosRaportti::paivitaKohdennusPaivat);
+        }
+    }
 
     paivitaUi();
 }
@@ -159,6 +172,21 @@ void TaseTulosRaportti::paivitaMuodot()
 
     ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findData(nykymuoto) );
     paivitetaan_ = false;
+}
+
+void TaseTulosRaportti::paivitaKohdennusPaivat()
+{
+    QDate pienin = ui->alkaa1Date->date();
+    QDate isoin = ui->loppuu1Date->date();
+
+    if( ui->sarake2Box->isChecked() && ui->alkaa2Date->date() < pienin) pienin = ui->alkaa2Date->date();
+    if( ui->sarake3Box->isChecked() && ui->alkaa3Date->date() < pienin) pienin = ui->alkaa3Date->date();
+    if( ui->sarake4Box->isChecked() && ui->alkaa4Date->date() < pienin) pienin = ui->alkaa4Date->date();
+    if( ui->sarake2Box->isChecked() && ui->loppuu2Date->date() > isoin) isoin = ui->loppuu2Date->date();
+    if( ui->sarake3Box->isChecked() && ui->loppuu3Date->date() > isoin) isoin = ui->loppuu3Date->date();
+    if( ui->sarake4Box->isChecked() && ui->loppuu4Date->date() > isoin) isoin = ui->loppuu4Date->date();
+
+    ui->kohdennusCombo->suodataValilla(pienin, isoin);
 }
 
 void TaseTulosRaportti::paivitaUi()
