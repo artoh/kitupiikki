@@ -312,6 +312,7 @@ bool MyyntiLaskujenToimittaja::laheta()
         message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
         if( !kopioEmail.isEmpty())
             message.addBcc(new EmailAddress(kopioEmail));
+
         message.setSubject(otsikko);
 
         QString viesti = lasku.value("saate").toString();
@@ -329,6 +330,7 @@ bool MyyntiLaskujenToimittaja::laheta()
 
         QString filename = tulostaja.t("laskuotsikko").toLower() + lasku.value("numero").toString() + ".pdf";
         MimeAttachment attachment(MyyntiLaskunTulostaja::pdf(data), filename);
+        attachment.setContentType("application/pdf");
         message.addPart(&attachment);
 
         if(client.sendMail(message)) {
