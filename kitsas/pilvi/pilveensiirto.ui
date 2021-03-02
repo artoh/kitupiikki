@@ -172,7 +172,7 @@ Nykyinen kirjanpitotiedosto jää edelleen tietokoneellesi.</string>
          <property name="text">
           <string>Kirjanpitosi on kopioitu Kitsaan pilveen.
 
-Myös paikallinen kirjanpitotiedosto on edelleen jäljellä. Huomaathan, että paikalliseen kirjanpitoon tehdyt muokkaukset eivät muuta pilvessä olevaa kirjanpitoa.</string>
+Myös paikallinen kirjanpitotiedosto on edelleen jäljellä. Huomaathan, että paikalliseen kirjanpitoon tehdyt muokkaukset eivät muuta pilvessä olevaa kirjanpitoa. Pilvessä olevaa kirjanpitoa ei voi myöskään voi muuntaa takaisin paikalliseksi kirjanpitotiedostoksi.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
