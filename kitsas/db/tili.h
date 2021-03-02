@@ -24,7 +24,7 @@
 #include "tilityyppimodel.h"
 
 #include "kantavariantti.h"
-#include "kielikentta.h"
+#include "kieli/monikielinen.h"
 
 
 /**
@@ -132,8 +132,8 @@ protected:
     int tila_;
     int ylaotsikkoId_;
 
-    KieliKentta nimi_;
-    KieliKentta ohje_;
+    Monikielinen nimi_;
+    Monikielinen ohje_;
     int laajuus_ = 0;
 
     Tili* tamanOtsikko_ = nullptr;

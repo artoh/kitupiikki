@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tiedotsivu.h"
-#include "db/kielikentta.h"
+#include "kieli/monikielinen.h"
 #include "ui_uusitiedot.h"
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
@@ -55,7 +55,7 @@ void TiedotSivu::initializePage()
     QMapIterator<QString,QVariant> muotoIter(muotoMap);
     while( muotoIter.hasNext()) {
         muotoIter.next();
-        KieliKentta kk( muotoIter.value() );
+        Monikielinen kk( muotoIter.value() );
         QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->muotoList);
         item->setData(Qt::UserRole, muotoIter.key());
     }
@@ -67,7 +67,7 @@ void TiedotSivu::initializePage()
     QMapIterator<QString,QVariant> laajuusIter(laajuusMap);
     while( laajuusIter.hasNext()) {
         laajuusIter.next();
-        KieliKentta kk( laajuusIter.value() );
+        Monikielinen kk( laajuusIter.value() );
         QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->laajuusList);
         item->setData(Qt::UserRole, laajuusIter.key());
     }

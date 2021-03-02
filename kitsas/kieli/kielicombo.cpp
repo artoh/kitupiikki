@@ -20,9 +20,10 @@
 
 #include <QIcon>
 
-KieliCombo::KieliCombo()
+KieliCombo::KieliCombo(QWidget *parent) :
+    QComboBox(parent)
 {
-
+    alusta();
 }
 
 void KieliCombo::alusta()

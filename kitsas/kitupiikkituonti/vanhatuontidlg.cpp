@@ -32,7 +32,7 @@
 #include <QDate>
 
 #include "uusikirjanpito/uusivelho.h"
-#include "db/kielikentta.h"
+#include "kieli/monikielinen.h"
 #include "db/kirjanpito.h"
 #include "sqlite/sqlitemodel.h"
 #include "db/tositetyyppimodel.h"
@@ -219,7 +219,7 @@ void VanhatuontiDlg::alustaValinnat()
     QMapIterator<QString,QVariant> laajuusIter(laajuusMap);
     while( laajuusIter.hasNext()) {
         laajuusIter.next();
-        KieliKentta kk( laajuusIter.value() );
+        Monikielinen kk( laajuusIter.value() );
         QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->laajuusLista);
         item->setData(Qt::UserRole, laajuusIter.key());
     }

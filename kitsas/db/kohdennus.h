@@ -23,7 +23,7 @@
 #include <QIcon>
 
 #include "kantavariantti.h"
-#include "kielikentta.h"
+#include "kieli/monikielinen.h"
 
 /**
  * @brief Kirjauksen kohdennus kustannuspaikalle tai projektiin
@@ -67,7 +67,7 @@ public:
 protected:
     int id_=0;
     int tyyppi_=0;
-    KieliKentta nimi_;
+    Monikielinen nimi_;
     int kuuluu_=0;
     int vienteja_=0;
 };

@@ -21,7 +21,6 @@
 #include "tositeluetteloraportti.h"
 #include "tositeluettelo.h"
 
-#include "tools/tulkki.h"
 
 TositeluetteloRaportti::TositeluetteloRaportti()
     : RaporttiWidget(nullptr)
@@ -51,7 +50,6 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
     ui->kumppaniCheck->setChecked(true);
 
-    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 

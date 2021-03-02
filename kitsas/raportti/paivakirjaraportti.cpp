@@ -25,7 +25,7 @@
 #include "paivakirja.h"
 #include "naytin/naytinikkuna.h"
 #include <QDebug>
-#include "tools/tulkki.h"
+
 
 PaivakirjaRaportti::PaivakirjaRaportti()
     : RaporttiWidget(nullptr)
@@ -57,7 +57,7 @@ PaivakirjaRaportti::PaivakirjaRaportti()
 
     paivitaKohdennukset();
 
-    Tulkki::alustaKieliCombo(ui->kieliCombo);
+
 }
 
 PaivakirjaRaportti::~PaivakirjaRaportti()

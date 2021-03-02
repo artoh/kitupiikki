@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tallentavamaarityswidget.h"
-#include "db/kirjanpito.h"
+#include "kieli/monikielinen.h"
 
 #include <QLineEdit>
 #include <QAbstractButton>
@@ -28,8 +28,8 @@
 #include <QGroupBox>
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
+#include "db/kirjanpito.h"
 
-#include "db/kielikentta.h"
 #include <QJsonDocument>
 #include <QVariant>
 #include "validator/viitevalidator.h"
@@ -118,7 +118,7 @@ bool TallentavaMaaritysWidget::nollaa()
                 QMapIterator<QString,QVariant> viter(vemap);
                 while( viter.hasNext()) {
                     viter.next();
-                    KieliKentta kielet(viter.value());
+                    Monikielinen kielet(viter.value());
                     if(liput)
                         combo->addItem(QIcon(":/liput/" + viter.key() + ".png"), kielet.teksti(), viter.key() );
                     else

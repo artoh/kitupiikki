@@ -18,7 +18,7 @@
 
 #include <QJsonDocument>
 #include "db/kirjanpito.h"
-#include "db/kielikentta.h"
+#include "kieli/monikielinen.h"
 #include <QDebug>
 
 MaksutapaModel::MaksutapaModel(QObject *parent)
@@ -73,7 +73,7 @@ QVariant MaksutapaModel::data(const QModelIndex &index, int role) const
     QVariantMap map = lista_.value(index.row()).toMap();
     if( role == Qt::DisplayRole || role == Qt::EditRole) {
         if( index.column() == NIMI) {
-            KieliKentta kk( map );
+            Monikielinen kk( map );
             return kk.teksti();
         } else if( index.column() == TILI) {
             return kp()->tilit()->tiliNumerolla( map.value("TILI").toInt() ).nimiNumero();

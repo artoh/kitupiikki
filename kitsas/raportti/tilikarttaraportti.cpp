@@ -21,6 +21,7 @@
 #include "tilikarttalistaaja.h"
 #include "db/asetusmodel.h"
 #include <QJsonDocument>
+#include "kieli/monikielinen.h"
 
 
 TilikarttaRaportti::TilikarttaRaportti()
@@ -45,7 +46,7 @@ TilikarttaRaportti::TilikarttaRaportti()
     QMapIterator<QString,QVariant> viter(vemap);
     while( viter.hasNext()) {
         viter.next();
-        KieliKentta kielet(viter.value());
+        Monikielinen kielet(viter.value());
         ui->kieliCombo->addItem(QIcon(":/liput/" + viter.key() + ".png"), kielet.teksti(), viter.key() );
     }
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetukset()->asetus("kieli") ) );

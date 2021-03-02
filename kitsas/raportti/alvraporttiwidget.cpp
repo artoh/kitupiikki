@@ -30,7 +30,6 @@ AlvRaporttiWidget::AlvRaporttiWidget() :
     ui->alkaa->setDate(alku);
     ui->paattyy->setDate( alku.addMonths(1).addDays(-1)  );
 
-    Tulkki::alustaKieliCombo(ui->kieliCombo);
 }
 
 AlvRaporttiWidget::~AlvRaporttiWidget()

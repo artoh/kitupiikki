@@ -56,8 +56,6 @@ AineistoDialog::AineistoDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->tilikausiCombo->setModel(kp()->tilikaudet());
 
-    Tulkki::alustaKieliCombo(ui->kieliCombo);
-
     lataaDialogi();
 
     connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AineistoDialog::paivitaNimi);

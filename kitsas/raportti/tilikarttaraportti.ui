@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>466</height>
+    <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,7 +153,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="kieliCombo">
+      <widget class="KieliCombo" name="kieliCombo">
        <property name="Vaihtoehdot" stdset="0">
         <string/>
        </property>
@@ -176,6 +176,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KieliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">kieli/kielicombo.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

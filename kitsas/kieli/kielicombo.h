@@ -25,7 +25,7 @@ class KieliCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    KieliCombo();
+    KieliCombo(QWidget* parent = nullptr);
 
     void alusta();
     QString kieli() const;

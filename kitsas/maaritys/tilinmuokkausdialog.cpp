@@ -31,6 +31,7 @@
 #include "db/tilimodel.h"
 #include "db/tilinvalintaline.h"
 #include "validator/ibanvalidator.h"
+#include "kieli/monikielinen.h"
 
 
 TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila)
@@ -278,7 +279,7 @@ void TilinMuokkausDialog::alustalaajuus()
     QMapIterator<QString,QVariant> iter(laajamap);
     while (iter.hasNext()) {
         iter.next();
-        KieliKentta kk(iter.value());
+        Monikielinen kk(iter.value());
         ui->laajuusCombo->addItem( kk.teksti(), iter.key() );
     }
     ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( kp()->asetus("laajuus") ) );

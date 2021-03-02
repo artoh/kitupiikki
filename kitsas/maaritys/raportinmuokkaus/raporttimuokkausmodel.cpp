@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "raporttimuokkausmodel.h"
-#include "db/kielikentta.h"
+#include "kieli/monikielinen.h"
 
 #include <QFont>
 #include <QRegularExpression>
@@ -67,7 +67,7 @@ QVariant RaporttiMuokkausModel::data(const QModelIndex &index, int role) const
             QString sstr;
             for(int i=0; i < sisennys; i++)
                 sstr.append("    ");
-            KieliKentta kk(map);
+            Monikielinen kk(map);
             return sstr + kk.teksti();
         }
         case TYYPPI: {

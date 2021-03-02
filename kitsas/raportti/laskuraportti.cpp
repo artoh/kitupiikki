@@ -21,7 +21,7 @@
 #include "laskuraportti.h"
 #include "db/kirjanpito.h"
 #include "laskuraportteri.h"
-#include "tools/tulkki.h"
+
 
 LaskuRaportti::LaskuRaportti()
 {
@@ -33,7 +33,7 @@ LaskuRaportti::LaskuRaportti()
     ui->saldoPvm->setDate( kp()->paivamaara() );
 
     connect( ui->myyntiRadio, SIGNAL(toggled(bool)), this, SLOT(tyyppivaihtuu()));
-    Tulkki::alustaKieliCombo(ui->kieliCombo);
+
 }
 
 LaskuRaportti::~LaskuRaportti()
