@@ -53,7 +53,8 @@ public:
         TilaRooli = Qt::UserRole + 8,
         OhjeRooli = Qt::UserRole + 9,
         LajitteluRooli = Qt::UserRole + 10,
-        SaldoRooli = Qt::UserRole + 12
+        SaldoRooli = Qt::UserRole + 12,
+        TilaValintaRooli = Qt::UserRole + 13
     };
 
 

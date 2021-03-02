@@ -198,13 +198,13 @@
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/eikaytossa.png</normaloff>:/pic/eikaytossa.png</iconset>
+         <normaloff>:/pic/piilotettu.png</normaloff>:/pic/piilotettu.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
        <property name="autoExclusive">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -215,12 +215,26 @@
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
+         <normaloff>:/pic/keltainen.png</normaloff>:/pic/keltainen.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
        <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="naytaNappi">
+       <property name="text">
+        <string>Nä&amp;ytä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
+       </property>
+       <property name="checkable">
         <bool>true</bool>
        </property>
       </widget>
@@ -238,7 +252,7 @@
         <bool>true</bool>
        </property>
        <property name="autoExclusive">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

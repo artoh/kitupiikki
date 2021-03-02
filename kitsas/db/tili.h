@@ -104,6 +104,7 @@ public:
         TILI_PIILOSSA = 0,
         TILI_KAYTOSSA = 1,
         TILI_SUOSIKKI = 2,
+        TILI_NORMAALI = 3
     };
 
     /**

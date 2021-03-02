@@ -142,11 +142,11 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::DecorationRole && index.column() == NIMI)
     {
         if( tili->tila() == 0)
-            return QIcon(":/pic/eikaytossa.png");
+            return piilotetut_.contains(tili->numero()) ? QIcon(":/pic/piilotettu.png") : QIcon(":/pic/eikaytossa.png");
         else if( tili->tila() == 2)
             return QIcon(":/pic/tahti.png");
         else
-            return QIcon(":/pic/tyhja.png");
+            return naytettavat_.contains(tili->numero()) ? QIcon(":/pic/kaytossa.png") :  QIcon(":/pic/tyhja.png");
     }
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
@@ -174,6 +174,17 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QString("%1/XX").arg(tili->numero());
     } else if( role == SaldoRooli) {
         return saldot_.value(tili->numero());
+    } else if( role == TilaValintaRooli) {
+        if( piilotetut_.contains(tili->numero()))
+            return Tili::TILI_PIILOSSA;
+        else if( naytettavat_.contains(tili->numero()))
+            return Tili::TILI_KAYTOSSA;
+        else if( suosikit_.contains(tili->numero()))
+            return Tili::TILI_SUOSIKKI;
+        else return Tili::TILI_NORMAALI;
+    } else if( role == Qt::TextColorRole) {
+        if( !tili->tila())
+            return QColor(Qt::darkGray);
     }
 
     return QVariant();
@@ -376,7 +387,7 @@ void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
     if( tila == Tili::TILI_KAYTOSSA)
         naytettavat_.insert(tili);
     else
-        naytettavat_.insert(tili);
+        naytettavat_.remove(tili);
 
     // Tallennetaan suosiot
     QStringList piilolista;
