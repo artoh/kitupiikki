@@ -36,8 +36,9 @@
  * tästä luokasta)
  *
  */
-class Kielet final
+class Kielet : public QObject
 {    
+    Q_OBJECT
 
 private:
     Kielet(const QString& tiedostonnimi);
@@ -45,6 +46,7 @@ private:
 public:
     static void alustaKielet(const QString& kaannostiedostonnimi);
     static Kielet* instanssi();
+    virtual ~Kielet();
 
 public slots:
     void asetaKielet(const QString &json);
@@ -54,6 +56,9 @@ public:
     QString kaanna(const QString &avain, const QString &kieli = QString())  const;
     QList<Kieli> kielet() const;
     QString nykyinen() const;
+
+signals:
+    void kieliVaihtui(const QString& kieli);
 
 private:
     QHash<QString,QMap<QString,QString>> kaannokset_;

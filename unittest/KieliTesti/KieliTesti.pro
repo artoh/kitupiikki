@@ -14,5 +14,7 @@ SOURCES +=  tst_monikielinen.cpp \
     kieli/kieli.cpp \
     kieli/kielet.cpp
 
+HEADERS += kieli/kielet.h
+
 RESOURCES += \
     ../data/testidata.qrc

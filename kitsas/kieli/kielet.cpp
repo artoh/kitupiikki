@@ -52,6 +52,11 @@ Kielet *Kielet::instanssi()
     return instanssi__;
 }
 
+Kielet::~Kielet()
+{
+
+}
+
 
 void Kielet::asetaKielet(const QString &json)
 {
@@ -67,6 +72,7 @@ void Kielet::asetaKielet(const QString &json)
 void Kielet::valitseKieli(const QString &kieli)
 {
     nykykieli_ = kieli;
+    emit kieliVaihtui(kieli);
 }
 
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const
