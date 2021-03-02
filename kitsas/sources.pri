@@ -21,7 +21,6 @@ SOURCES += \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
     $$PWD/arkistoija/laatuslider.cpp \
-    $$PWD/db/kielikentta.cpp \
     $$PWD/db/tilivalintadialogifiltteri.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
@@ -164,7 +163,6 @@ SOURCES += \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/tilicombo.cpp \
-    $$PWD/tools/tulkki.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
@@ -317,7 +315,6 @@ HEADERS += \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/arkistoija/laatuslider.h \
-    $$PWD/db/kielikentta.h \
     $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
@@ -463,7 +460,6 @@ HEADERS += \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/tilicombo.h \
-    $$PWD/tools/tulkki.h \
     $$PWD/tuonti/palkkafituonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \

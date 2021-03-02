@@ -17,7 +17,6 @@
 #include "aineistodialog.h"
 #include "ui_aineistodialog.h"
 
-#include "tools/tulkki.h"
 #include "db/kirjanpito.h"
 #include <QSettings>
 #include <QFileDialog>

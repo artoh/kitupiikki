@@ -16,7 +16,6 @@
 */
 #include "alvraporttiwidget.h"
 #include "alv/alvlaskelma.h"
-#include "tools/tulkki.h"
 
 AlvRaporttiWidget::AlvRaporttiWidget() :
     RaporttiWidget(nullptr),
