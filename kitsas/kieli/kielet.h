@@ -23,6 +23,19 @@
 
 #include "monikielinen.h"
 
+/**
+ * @brief Kielipalvelut
+ *
+ * Tämä luokka huolehtii tulkkaamisesta sekä kielen
+ * vaihtamisesta.
+ *
+ * Kielet on ainokainen, joka pitää alustaa ohjelman
+ * alkaessa komennolla alustakielet
+ *
+ * Monikielinen tarjoaa kielikentät (ja on riippuvainen
+ * tästä luokasta)
+ *
+ */
 class Kielet final
 {    
 
