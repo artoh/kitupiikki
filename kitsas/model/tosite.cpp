@@ -139,10 +139,18 @@ void Tosite::asetaTyyppi(int tyyppi)
     setData(TYYPPI, tyyppi);
 }
 
-void Tosite::asetaPvm(const QDate &pvm)
+void Tosite::asetaPvm(const QDate &paivamaara)
 {
-    if( data_.value("pvm").toDate() != pvm)
-        setData(PVM, pvm);
+    if( pvm() != paivamaara) {
+        for(int i=0; i < viennit_->rowCount(); i++) {
+            if( viennit_->vienti(i).pvm() == pvm()) {
+                TositeVienti vienti = viennit_->vienti(i);
+                vienti.setPvm(paivamaara);
+                viennit_->asetaVienti(i, vienti);
+            }
+        }
+        setData(PVM, paivamaara);
+    }
 }
 
 void Tosite::asetaKommentti(const QString &kommentti)

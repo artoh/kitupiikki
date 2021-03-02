@@ -124,7 +124,7 @@ public:
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
-    void asetaPvm(const QDate& pvm);
+    void asetaPvm(const QDate& paivamaara);
     void asetaKommentti(const QString& kommentti);
     void asetaSarja(const QString& sarja);
     void asetaLaskupvm(const QDate& pvm) { setData(LASKUPVM, pvm);}
