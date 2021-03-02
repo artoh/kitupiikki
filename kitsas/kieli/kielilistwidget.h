@@ -27,9 +27,9 @@ class KieliListWidget : public QListWidget
 {
     Q_OBJECT
 public:
-    KieliListWidget();
+    KieliListWidget(QWidget* parent = nullptr);
 
-    void lataa(const AbstraktiMonikielinen& monikielinen, const AbstraktiKielet* kielet);
+    void lataa(const AbstraktiMonikielinen& monikielinen);
     Monikielinen tekstit() const;
 };
 

@@ -89,14 +89,15 @@ void RaportinMuokkaus::muokkaaNimikkeet()
     QDialog dlg(this);
     ui.setupUi(&dlg);
 
-    nimi_.alustaListWidget(ui.nimiView);
-    muoto_.alustaListWidget(ui.muotoView);
+    ui.nimiView->lataa(nimi_);
+    ui.muotoView->lataa(muoto_);
+
 
     connect( ui.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/raportit/"); });
 
     if( dlg.exec() == QDialog::Accepted) {
-        nimi_.lataa(ui.nimiView);
-        muoto_.lataa(ui.muotoView);
+        nimi_ = ui.nimiView->tekstit();
+        muoto_ = ui.muotoView->tekstit();
         emit tallennaKaytossa(onkoMuokattu());
     }
 
@@ -130,7 +131,7 @@ void RaportinMuokkaus::kopioiRaportti()
     QString nykyinen = ui->raporttiCombo->currentText();
     QString alkuosa = nykyinen.left(nykyinen.indexOf("/"));
     QString uusiTunnus = alkuosa + "/" + uusi;
-    muoto_.tyhjenna();
+    muoto_ = Monikielinen();
 
     kp()->asetukset()->aseta(uusiTunnus, data());
     nollaa();

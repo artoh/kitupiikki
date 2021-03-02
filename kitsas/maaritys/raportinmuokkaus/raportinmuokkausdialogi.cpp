@@ -24,6 +24,9 @@
 
 #include <QDebug>
 
+#include "kieli/monikielinen.h"
+#include "db/kirjanpito.h"
+
 RaportinmuokkausDialogi::RaportinmuokkausDialogi(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RaportinmuokkausDialogi)
@@ -64,14 +67,15 @@ QVariantMap RaportinmuokkausDialogi::uusi()
 
 void RaportinmuokkausDialogi::lataa(const QVariantMap &data)
 {
-    KieliKentta kk;
+    Monikielinen kk;
     QMapIterator<QString,QVariant> iter(data);
     while( iter.hasNext()) {
         iter.next();        
         if( iter.key().at(0).isLower())
             kk.aseta(iter.value().toString(), iter.key());
     }
-    kk.alustaListWidget(ui->nimike);
+    ui->nimike->lataa(kk);
+
 
     QString kaava = data.value("L").toString();
     QString muoto = data.value("M").toString();
@@ -95,15 +99,13 @@ void RaportinmuokkausDialogi::lataa(const QVariantMap &data)
 }
 
 void RaportinmuokkausDialogi::alustaKielet()
-{
-    KieliKentta kk;
-    kk.alustaListWidget(ui->nimike);
+{    
+    ui->nimike->lataa(Monikielinen());
 }
 
 QVariantMap RaportinmuokkausDialogi::data() const
-{
-    KieliKentta kk;
-    kk.lataa(ui->nimike);
+{    
+    Monikielinen kk = ui->nimike->tekstit();
     QVariantMap map(kk.map());
 
     if( ui->sisennysSpin->value())

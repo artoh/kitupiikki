@@ -17,6 +17,7 @@
 #include "monikielinen.h"
 
 #include <QJsonDocument>
+#include "kielet.h"
 
 Monikielinen::Monikielinen()
 {
@@ -59,9 +60,10 @@ void Monikielinen::aseta(const QString &nimi, const QString &kieli)
 
 QString Monikielinen::teksti(const QString &kieli) const
 {
-    if( kieli.isEmpty()) {
-        if( tekstit_.contains(oletuskieli__)) {
-            return tekstit_.value(oletuskieli__);
+    if( kieli.isEmpty() && Kielet::instanssi()) {
+        const QString& oletus = Kielet::instanssi()->nykyinen();
+        if( tekstit_.contains(oletus)) {
+            return tekstit_.value(oletus);
         }
     } else if( tekstit_.contains(kieli)) {
         return tekstit_.value(kieli);
@@ -88,10 +90,3 @@ QVariantMap Monikielinen::map() const
     }
     return out;
 }
-
-void Monikielinen::asetaOletuskieli(const QString &kieli)
-{
-    oletuskieli__ = kieli;
-}
-
-QString Monikielinen::oletuskieli__ = QString();

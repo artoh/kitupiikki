@@ -25,8 +25,8 @@ SOURCES += \
     $$PWD/db/tilivalintadialogifiltteri.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
-    $$PWD/kieli/abstraktikielet.cpp \
     $$PWD/kieli/kielet.cpp \
+    $$PWD/kieli/kieli.cpp \
     $$PWD/kieli/kielicombo.cpp \
     $$PWD/kieli/kielilistwidget.cpp \
     $$PWD/kieli/monikielinen.cpp \
@@ -321,9 +321,9 @@ HEADERS += \
     $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
-    $$PWD/kieli/abstraktikielet.h \
     $$PWD/kieli/abstraktimonikielinen.h \
     $$PWD/kieli/kielet.h \
+    $$PWD/kieli/kieli.h \
     $$PWD/kieli/kielicombo.h \
     $$PWD/kieli/kielilistwidget.h \
     $$PWD/kieli/monikielinen.h \

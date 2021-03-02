@@ -17,27 +17,38 @@
 #ifndef KIELET_H
 #define KIELET_H
 
-#include "abstraktikielet.h"
+#include <QObject>
+#include <QHash>
+#include "kieli.h"
+
 #include "monikielinen.h"
 
-#include <QHash>
+class Kielet final
+{    
 
-class Kielet : public AbstraktiKielet
-{
-public:
+private:
     Kielet(const QString& tiedostonnimi);
 
 public:
-    virtual void asetaKielet(const QString &json) override;
-    virtual void valitseKieli(const QString &kieli) override;
-    virtual QString kaanna(const QString &avain, const QString &kieli = QString())  const override;
-    virtual QList<Kieli> kielet() const override;
-    virtual QString nykyinen() const override;
+    static void alustaKielet(const QString& kaannostiedostonnimi);
+    static Kielet* instanssi();
+
+public slots:
+    void asetaKielet(const QString &json);
+    void valitseKieli(const QString &kieli);
+
+public:
+    QString kaanna(const QString &avain, const QString &kieli = QString())  const;
+    QList<Kieli> kielet() const;
+    QString nykyinen() const;
 
 private:
     QHash<QString,QMap<QString,QString>> kaannokset_;
     QList<QPair<QString,Monikielinen>> kielet_;
     QString nykykieli_;
+
+private:
+    static Kielet* instanssi__;
 
 };
 

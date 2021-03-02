@@ -33,11 +33,9 @@ public:
     virtual QString kaannos(const QString &kieli) const override;
     virtual QVariantMap map() const override;
 
-    static void asetaOletuskieli(const QString& kieli);
 protected:
     QMap<QString,QString> tekstit_;
 
-    static QString oletuskieli__;
 };
 
 #endif // MONIKIELINEN_H

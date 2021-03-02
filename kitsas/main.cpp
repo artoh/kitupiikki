@@ -30,6 +30,7 @@
 
 #include "kitupiikkiikkuna.h"
 #include "versio.h"
+#include "kieli/kielet.h"
 
 #include <QDebug>
 #include <QDir>
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     KitsasLokiModel::alusta();
+    Kielet::alustaKielet(":/tr/tulkki.json");
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));

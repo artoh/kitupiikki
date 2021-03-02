@@ -16,7 +16,7 @@
 */
 #include "kielicombo.h"
 
-#include "abstraktikielet.h"
+#include "kielet.h"
 
 #include <QIcon>
 
@@ -25,15 +25,15 @@ KieliCombo::KieliCombo()
 
 }
 
-void KieliCombo::alusta(const AbstraktiKielet *kielet)
+void KieliCombo::alusta()
 {
     clear();
-    auto lista = kielet->kielet();
+    auto lista = Kielet::instanssi()->kielet();
     for(auto const &kieli : lista) {
         addItem(QIcon(kieli.lippu()), kieli.nimi(), kieli.lyhenne());
     }
 
-    setCurrentIndex( findData( kielet->nykyinen() ) );
+    setCurrentIndex( findData( Kielet::instanssi()->nykyinen() ) );
 }
 
 QString KieliCombo::kieli() const

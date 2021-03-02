@@ -39,7 +39,7 @@ private slots:
 
 MonikielinenTest::MonikielinenTest()
 {
-
+    Kielet::alustaKielet(":/testidata/tulkki.json");
 }
 
 MonikielinenTest::~MonikielinenTest()
@@ -70,17 +70,16 @@ void MonikielinenTest::test_jsonista()
 void MonikielinenTest::test_oletus()
 {
     Monikielinen m(QString(R"({"fi":"Suomeksi","sv":"Ruotsiksi"})"));
-    m.asetaOletuskieli("sv");
+    Kielet::instanssi()->valitseKieli("sv");
     QCOMPARE(m.teksti(), QString("Ruotsiksi"));
 }
 
 void MonikielinenTest::test_kielet()
-{
-    Kielet kielet(":/testidata/tulkki.json");
-    kielet.asetaKielet(QString(R"({"fi":{"fi":"suomi","sv":"finska"},"sv":{"fi":"ruotsi","sv":"svenska"}})"));
-    QCOMPARE( kielet.kielet().count(), 2);
-    kielet.valitseKieli("sv");
-    QCOMPARE( kielet.kielet().value(0).nimi(), "finska");
+{    
+    Kielet::instanssi()->asetaKielet(QString(R"({"fi":{"fi":"suomi","sv":"finska"},"sv":{"fi":"ruotsi","sv":"svenska"}})"));
+    QCOMPARE( Kielet::instanssi()->kielet().count(), 2);
+    Kielet::instanssi()->valitseKieli("fi");
+    QCOMPARE( Kielet::instanssi()->kielet().value(1).nimi(), "ruotsi");
 }
 
 QTEST_APPLESS_MAIN(MonikielinenTest)

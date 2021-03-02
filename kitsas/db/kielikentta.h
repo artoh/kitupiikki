@@ -21,6 +21,8 @@
 #include <QMap>
 #include <QVariantMap>
 
+#include "kieli/monikielinen.h"
+
 class QListWidget;
 
 class KieliKentta
@@ -35,14 +37,12 @@ public:
     QString teksti(QString kieli = QString()) const;
     QString kaannos(const QString& kieli) const;   
 
-    void alustaListWidget(QListWidget *widget);
-    void lataa(const QListWidget *widget);
     void tyhjenna();
 
     QVariantMap map() const;
 
 protected:
-    QMap<QString,QString> tekstit_;
+    Monikielinen moni_;
 };
 
 #endif // KIELIKENTTA_H

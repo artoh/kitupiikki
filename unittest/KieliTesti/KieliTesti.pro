@@ -11,7 +11,7 @@ VPATH += $$PWD/../../kitsas
 
 SOURCES +=  tst_monikielinen.cpp \
     kieli/monikielinen.cpp \
-    kieli/abstraktikielet.cpp \
+    kieli/kieli.cpp \
     kieli/kielet.cpp
 
 RESOURCES += \

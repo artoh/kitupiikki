@@ -33,6 +33,8 @@
 #include "pilvi/pilvimodel.h"
 #include "validator/ytunnusvalidator.h"
 
+#include "kieli/kielet.h"
+
 Perusvalinnat::Perusvalinnat() :
     TallentavaMaaritysWidget(nullptr),
     ui(new Ui::Perusvalinnat)
@@ -110,13 +112,15 @@ void Perusvalinnat::poistaLogo()
 
 bool Perusvalinnat::tallenna()
 {
-    ui->ytunnusEdit->setText(ui->ytunnusEdit->text().simplified());
+    ui->ytunnusEdit->setText(ui->ytunnusEdit->text().simplified());    
 
     // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
     kp()->tilit()->paivitaTilat();
     kp()->tilit()->paivitaNimet();
+
+    Kielet::instanssi()->valitseKieli( kp()->asetukset()->asetus("kieli") );
 
     return true;
 }

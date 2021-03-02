@@ -14,7 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "abstraktikielet.h"
+#include "kieli.h"
 
 Kieli::Kieli()
 {
@@ -47,4 +47,3 @@ const QString Kieli::lippu() const
 {
     return ":/liput/" + lyhenne() + ".png";
 }
-

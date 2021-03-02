@@ -18,7 +18,8 @@
 #define RAPORTINMUOKKAUS_H
 
 #include "../maarityswidget.h"
-#include "db/kielikentta.h"
+
+#include "kieli/monikielinen.h"
 
 namespace Ui {
     class RaportinMuokkaus;
@@ -56,8 +57,8 @@ protected:
 
     Ui::RaportinMuokkaus* ui;
     RaporttiMuokkausModel* model_;
-    KieliKentta nimi_;
-    KieliKentta muoto_;
+    Monikielinen nimi_;
+    Monikielinen muoto_;
 
 };
 

@@ -14,8 +14,8 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ABSTRAKTIKIELET_H
-#define ABSTRAKTIKIELET_H
+#ifndef KIELI_H
+#define KIELI_H
 
 #include <QString>
 
@@ -33,16 +33,4 @@ private:
     QString nimi_;
 };
 
-
-class AbstraktiKielet {
-public:
-    virtual void asetaKielet(const QString& json) = 0;
-    virtual void valitseKieli(const QString& kieli) = 0;
-
-    virtual QString kaanna(const QString& avain, const QString& kieli = QString()) const = 0;
-    virtual QList<Kieli> kielet() const = 0;
-    virtual QString nykyinen() const = 0;
-
-};
-
-#endif // ABSTRAKTIKIELET_H
+#endif // KIELI_H

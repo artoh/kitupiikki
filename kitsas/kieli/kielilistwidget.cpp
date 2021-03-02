@@ -17,17 +17,18 @@
 #include "kielilistwidget.h"
 
 #include "monikielinen.h"
-#include "abstraktikielet.h"
+#include "kielet.h"
 
-KieliListWidget::KieliListWidget()
+KieliListWidget::KieliListWidget(QWidget *parent) :
+    QListWidget(parent)
 {
 
 }
 
-void KieliListWidget::lataa(const AbstraktiMonikielinen &monikielinen, const AbstraktiKielet *kielet)
+void KieliListWidget::lataa(const AbstraktiMonikielinen &monikielinen)
 {
     clear();
-    for( const Kieli& kieli : kielet->kielet()) {
+    for( const Kieli& kieli : Kielet::instanssi()->kielet()) {
         QString kaannos = monikielinen.kaannos(kieli.lyhenne());
         QListWidgetItem* item = new QListWidgetItem( QIcon(kieli.lippu()), kaannos , this  );
         item->setData(Qt::UserRole, kieli.lyhenne());

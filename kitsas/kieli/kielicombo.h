@@ -27,7 +27,7 @@ class KieliCombo : public QComboBox
 public:
     KieliCombo();
 
-    void alusta(const AbstraktiKielet* kielet);
+    void alusta();
     QString kieli() const;
 };
 

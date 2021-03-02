@@ -53,10 +53,11 @@
 #include "tools/tulkki.h"
 
 #include "tools/finvoicehaku.h"
+#include "kieli/kielet.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
-    harjoitusPvm( QDate::currentDate()),
+    harjoitusPvm( QDate::currentDate()),    
     asetusModel_(new AsetusModel(this)),
     tiliModel_( new TiliModel(this)),
     tilikaudetModel_(new TilikausiModel( this)),
@@ -72,8 +73,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),
     tositeTyypit_( new TositeTyyppiModel(this)),
-    kiertoModel_( new KiertoModel(this)),
-    tulkki_( new Tulkki(":/tr/tulkki.json", this))
+    kiertoModel_( new KiertoModel(this))
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -289,9 +289,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
 
 QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
 {
-    if( kieli.isNull())
-        return tulkki_->k(teksti, asetus("kieli"));
-    return tulkki_->k(teksti, kieli);
+    return Kielet::instanssi()->kaanna(teksti, kieli);
 }
 
 void Kirjanpito::odotusKursori(bool on)

@@ -26,90 +26,42 @@ KieliKentta::KieliKentta()
 
 }
 
-KieliKentta::KieliKentta(const QVariant &var)
+KieliKentta::KieliKentta(const QVariant &var) :
+    moni_(var)
 {
-    aseta( var );
 }
 
-KieliKentta::KieliKentta(const QString &var)
+KieliKentta::KieliKentta(const QString &var) :
+    moni_(var)
 {
-    QJsonDocument doc = QJsonDocument::fromJson( var.toUtf8() );
-    aseta( doc.toVariant());
 }
 
 void KieliKentta::aseta(const QVariant &var)
 {
-    tekstit_.clear();
-    if( !var.toMap().isEmpty() ) {
-        QMapIterator<QString,QVariant> iter(var.toMap());
-        while( iter.hasNext()) {
-            iter.next();
-            tekstit_.insert( iter.key(), iter.value().toString());
-        }
-    } else if(!var.toString().isEmpty()) {
-        tekstit_.insert("fi", var.toString());
-    }
+    moni_.aseta(var);
 }
 
 void KieliKentta::aseta(const QString &nimi, const QString &kieli)
 {
-    if( nimi.isEmpty())
-        tekstit_.remove(kieli);
-    else
-        tekstit_.insert(kieli, nimi);
+    moni_.aseta(nimi, kieli);
 }
 
 QString KieliKentta::teksti( QString kieli) const
 {
-    if( kieli.isEmpty())
-        kieli = kp()->asetus("kieli");
-    if( tekstit_.contains(kieli))
-        return tekstit_.value(kieli);
-    if( tekstit_.contains("fi"))
-        return tekstit_.value("fi");
-    if( !tekstit_.isEmpty())
-        return tekstit_.first();
-    return QString();
+    return moni_.teksti(kieli);
 }
 
 QString KieliKentta::kaannos(const QString &kieli) const
 {
-    return tekstit_.value(kieli);
-}
-
-void KieliKentta::alustaListWidget(QListWidget *widget)
-{
-    widget->clear();
-    for( QString kieli : kp()->asetukset()->kielet()) {
-        QString kaannos = tekstit_.value(kieli);
-        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), kaannos , widget  );
-        item->setData(Qt::UserRole, kieli);
-        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    }
-}
-
-void KieliKentta::lataa(const QListWidget *widget)
-{
-    tekstit_.clear();
-    for(int i=0; i < widget->count(); i++) {
-        QListWidgetItem *item = widget->item(i);
-        if( !item->text().isEmpty() )
-            tekstit_.insert(item->data(Qt::UserRole).toString(), item->text());
-    }
+    return moni_.kaannos(kieli);
 }
 
 void KieliKentta::tyhjenna()
 {
-    tekstit_.clear();
+    moni_ = Monikielinen();
 }
 
 QVariantMap KieliKentta::map() const
 {
-    QVariantMap out;
-    QMapIterator<QString,QString> iter(tekstit_);
-    while( iter.hasNext()) {
-        iter.next();
-        out.insert( iter.key(), iter.value());
-    }
-    return out;
+    return moni_.map();
 }

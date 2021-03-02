@@ -31,6 +31,8 @@
 #include "kirjanpito.h"
 #include "kielikentta.h"
 
+#include "kieli/kielet.h"
+
 AsetusModel::AsetusModel(QObject *parent)
     :   QObject(parent)
 {
@@ -199,10 +201,22 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     return vastaus;
 }
 
+QStringList AsetusModel::kielet() const
+{
+    QStringList lista;
+    for(const auto &kieli : Kielet::instanssi()->kielet()) {
+        lista.append(kieli.nimi());
+    }
+    return lista;
+}
+
 QString AsetusModel::kieli(const QString &lyhenne) const
 {
-    KieliKentta kentta(kieliMap_.value(lyhenne));
-    return kentta.teksti();
+    for( const auto &kieli : Kielet::instanssi()->kielet()) {
+        if( kieli.lyhenne() == lyhenne)
+            return kieli.nimi();
+    }
+    return QString();
 }
 
 
@@ -216,8 +230,8 @@ void AsetusModel::lataa(const QVariantMap &lista)
     }
 
     // Ladataan kielet
-    kieliMap_ = QJsonDocument::fromJson( asetus("kielet").toUtf8() ).toVariant().toMap();
-    kielet_ = kieliMap_.keys();        
+    Kielet::instanssi()->asetaKielet( asetus("kielet") );
+    Kielet::instanssi()->valitseKieli(asetus("kieli"));
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {

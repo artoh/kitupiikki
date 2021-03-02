@@ -41,6 +41,17 @@ Kielet::Kielet(const QString &tiedostonnimi)
     }
 }
 
+void Kielet::alustaKielet(const QString &kaannostiedostonnimi)
+{
+    instanssi__ = new Kielet(kaannostiedostonnimi);
+    qInfo() << "Kielet alustettu " << kaannostiedostonnimi;
+}
+
+Kielet *Kielet::instanssi()
+{
+    return instanssi__;
+}
+
 
 void Kielet::asetaKielet(const QString &json)
 {
@@ -56,7 +67,6 @@ void Kielet::asetaKielet(const QString &json)
 void Kielet::valitseKieli(const QString &kieli)
 {
     nykykieli_ = kieli;
-    Monikielinen::asetaOletuskieli(kieli);
 }
 
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const
@@ -82,3 +92,6 @@ QString Kielet::nykyinen() const
 {
     return nykykieli_;
 }
+
+Kielet* Kielet::instanssi__ = nullptr;
+

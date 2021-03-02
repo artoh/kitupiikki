@@ -51,6 +51,7 @@
 
 #include "kpkysely.h"
 
+
 class QPrinter;
 class QSettings;
 
@@ -64,7 +65,6 @@ class AlvIlmoitustenModel;
 class KiertoModel;
 
 class QNetworkAccessManager;
-class Tulkki;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -173,7 +173,7 @@ public:
     TuoteModel *tuotteet() const { return tuotteet_; }    
     RyhmatModel *ryhmat() const { return ryhmat_;}
     AlvIlmoitustenModel *alvIlmoitukset() const { return alvIlmoitukset_;}
-    KiertoModel *kierrot() const { return kiertoModel_; }
+    KiertoModel *kierrot() const { return kiertoModel_; }    
 
     /**
      * @brief Sql-tietokanta
@@ -376,6 +376,7 @@ protected:
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
 
+
     AsetusModel *asetusModel_;
     TiliModel *tiliModel_;
     TilikausiModel *tilikaudetModel_;
@@ -406,7 +407,7 @@ protected:
 
     QStringList tositesarjat_;
 
-    Tulkki* tulkki_;
+
 
     bool waitCursor_ = false;
 

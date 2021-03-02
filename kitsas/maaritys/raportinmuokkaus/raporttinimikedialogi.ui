@@ -26,7 +26,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="nimiView"/>
+        <widget class="KieliListWidget" name="nimiView"/>
        </item>
       </layout>
      </item>
@@ -40,7 +40,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="muotoView"/>
+        <widget class="KieliListWidget" name="muotoView"/>
        </item>
       </layout>
      </item>
@@ -58,6 +58,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KieliListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">kieli/kielilistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
