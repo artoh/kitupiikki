@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/testidata">
         <file>oy.kitsas</file>
+        <file alias="tulkki.json">../../kitsas/tr/tulkki.json</file>
     </qresource>
 </RCC>

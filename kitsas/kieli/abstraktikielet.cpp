@@ -16,6 +16,11 @@
 */
 #include "abstraktikielet.h"
 
+Kieli::Kieli()
+{
+
+}
+
 Kieli::Kieli(const QString &lyhenne, const QString &nimi) :
     lyhenne_(lyhenne), nimi_(nimi)
 {

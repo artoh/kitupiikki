@@ -21,6 +21,7 @@
 
 class Kieli final {
 public:
+    Kieli();
     Kieli(const QString& lyhenne, const QString& nimi);
 
     const QString lyhenne() const;

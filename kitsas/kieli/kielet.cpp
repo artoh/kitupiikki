@@ -19,6 +19,8 @@
 #include <QFile>
 #include <QJsonDocument>
 
+#include <QDebug>
+
 Kielet::Kielet(const QString &tiedostonnimi)
 {
     QFile file(tiedostonnimi);
