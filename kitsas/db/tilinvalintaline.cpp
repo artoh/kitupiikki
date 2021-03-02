@@ -108,13 +108,20 @@ void KantaTilinvalintaLine::mouseMoveEvent(QMouseEvent *event)
 
 Tili KantaTilinvalintaLine::valittuTili() const
 {
-    QString sana = text().left( text().indexOf(' '));
+    QString sana = text().left( text().indexOf(QRegularExpression("\\D")));
     if( sana.isEmpty() || !sana.at(0).isDigit() )
         return Tili();
 
-    for( int i=0; i < kp()->tilit()->rowCount( QModelIndex()); i++)
+    // Aina jos syötetty kelpo tilinumero niin se hyväksytään
+    int numero = sana.toInt();
+    Tili nrotili = kp()->tilit()->tiliNumerolla(numero);
+    if(nrotili.onkoValidi())
+        return nrotili;
+
+
+    for( int i=0; i < proxyTila_->rowCount( QModelIndex()); i++)
     {
-        Tili tili = kp()->tilit()->tiliIndeksilla(i);
+        Tili tili = kp()->tilit()->tiliNumerolla(proxyTila_->data(proxyTila_->index(i, 0), TiliModel::NroRooli).toInt());
         if( !tili.otsikkotaso())
         {
             QString nroTxt = QString::number( tili.numero() );
