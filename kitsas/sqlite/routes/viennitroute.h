@@ -26,6 +26,9 @@ public:
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant vienti(int id);
+
+protected:
+    void taydennaVastatilit(QVariantList& lista);
 };
 
 #endif // VIENNITROUTE_H

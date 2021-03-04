@@ -85,6 +85,10 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
     kysely.exec(kysymys);
 
     QVariantList viennit = resultList(kysely);
+
+    if( urlquery.hasQueryItem("vastatilit"))
+        taydennaVastatilit(viennit);
+
     taydennaEratJaMerkkaukset(viennit);
     return viennit;
 
@@ -98,4 +102,30 @@ QVariant ViennitRoute::vienti(int id)
     kysely.exec(kysymys);
 
     return resultMap(kysely);
+}
+
+void ViennitRoute::taydennaVastatilit(QVariantList &lista)
+{
+    QSqlQuery kysely(db());
+
+    for(int i=0; i < lista.count(); i++) {
+        QVariantMap vienti = lista[i].toMap();
+        int tili = vienti.value("tili").toInt();
+        QVariantMap tosite = vienti.value("tosite").toMap();
+        int tositeId = tosite.value("id").toInt();
+
+        QVariantList vastatilit;
+        kysely.exec(QString("SELECT tili FROM Vienti WHERE tosite=%1 AND tili <> %2").arg(tositeId).arg(tili));
+        while(kysely.next()) {
+            int vastatili = kysely.value(0).toInt();
+            if( !vastatilit.contains(vastatili)) {
+                vastatilit.append(vastatili);
+            }
+        }
+        if(!vastatilit.isEmpty()) {
+            vienti.insert("vastatilit", vastatilit);
+            lista[i] = vienti;
+        }
+    }
+
 }
