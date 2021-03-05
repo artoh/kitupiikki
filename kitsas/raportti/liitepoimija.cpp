@@ -26,8 +26,6 @@
 #include <QDesktopServices>
 #include <QTimer>
 
-#include "tools/tulkki.h"
-
 LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
     : QObject(parent), kieli_(kieli), dpi_(dpi)
 {

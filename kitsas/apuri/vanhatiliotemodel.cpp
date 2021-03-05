@@ -14,7 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "tiliotemodel.h"
+#include "vanhatiliotemodel.h"
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 #include "db/tilityyppimodel.h"
@@ -23,12 +23,12 @@
 
 #include "tilioteapuri.h"
 
-TilioteModel::TilioteModel(QObject *parent)
+VanhaTilioteModel::VanhaTilioteModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 }
 
-QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant VanhaTilioteModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     // FIXME: Implement me!
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal)
@@ -53,7 +53,7 @@ QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int 
     return QVariant();
 }
 
-bool TilioteModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+bool VanhaTilioteModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
 {
     if (value != headerData(section, orientation, role)) {
         // FIXME: Implement me!
@@ -64,7 +64,7 @@ bool TilioteModel::setHeaderData(int section, Qt::Orientation orientation, const
 }
 
 
-int TilioteModel::rowCount(const QModelIndex &parent) const
+int VanhaTilioteModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -72,7 +72,7 @@ int TilioteModel::rowCount(const QModelIndex &parent) const
     return rivit_.count();
 }
 
-int TilioteModel::columnCount(const QModelIndex &parent) const
+int VanhaTilioteModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -80,7 +80,7 @@ int TilioteModel::columnCount(const QModelIndex &parent) const
     return 6;
 }
 
-QVariant TilioteModel::data(const QModelIndex &index, int role) const
+QVariant VanhaTilioteModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -182,7 +182,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool VanhaTilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
 
@@ -234,7 +234,7 @@ bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int 
     return false;
 }
 
-bool TilioteModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
+bool VanhaTilioteModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
 {
     QDate paiva = kp()->paivamaara();
     TilioteApuri *apuri = qobject_cast<TilioteApuri*>(this->parent());
@@ -258,7 +258,7 @@ bool TilioteModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
     return true;
 }
 
-Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
+Qt::ItemFlags VanhaTilioteModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid() || !muokkausSallittu_)
         return Qt::NoItemFlags;
@@ -276,7 +276,7 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-void TilioteModel::lisaaRivi(Tilioterivi rivi)
+void VanhaTilioteModel::lisaaRivi(Tilioterivi rivi)
 {
     beginInsertRows( QModelIndex(), rowCount(), rowCount());
     rivi.lisaysIndeksi = indeksiLaskuri_++;
@@ -284,20 +284,20 @@ void TilioteModel::lisaaRivi(Tilioterivi rivi)
     endInsertRows();
 }
 
-void TilioteModel::poistaRivi(int rivi)
+void VanhaTilioteModel::poistaRivi(int rivi)
 {
     beginRemoveRows(QModelIndex(), rivi, rivi);
     rivit_.removeAt(rivi);
     endRemoveRows();
 }
 
-void TilioteModel::muokkaaRivi(int rivi, const TilioteModel::Tilioterivi &data)
+void VanhaTilioteModel::muokkaaRivi(int rivi, const VanhaTilioteModel::Tilioterivi &data)
 {
     rivit_[rivi] = data;
     emit dataChanged( index(rivi,PVM), index(rivi,SELITE) );
 }
 
-QVariantList TilioteModel::viennit(int tilinumero) const
+QVariantList VanhaTilioteModel::viennit(int tilinumero) const
 {
     QVariantList lista;
 
@@ -435,7 +435,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
     return lista;
 }
 
-void TilioteModel::lataa(const QVariantList &lista)
+void VanhaTilioteModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
     rivit_.clear();
@@ -482,17 +482,17 @@ void TilioteModel::lataa(const QVariantList &lista)
     endResetModel();
 }
 
-void TilioteModel::tuo(const QVariantList tuotavat)
+void VanhaTilioteModel::tuo(const QVariantList tuotavat)
 {
     tuotavat_ = tuotavat;
 }
 
-void TilioteModel::salliMuokkaus(bool sallittu)
+void VanhaTilioteModel::salliMuokkaus(bool sallittu)
 {
     muokkausSallittu_ = sallittu;
 }
 
-void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin, int tositeId)
+void VanhaTilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin, int tositeId)
 {
     harmaaLaskuri_++;
     KpKysely *kysely = kpk("/viennit");
@@ -505,7 +505,7 @@ void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin
     kysely->kysy();
 }
 
-void TilioteModel::harmaatSaapuu(QVariant *data, int tositeId)
+void VanhaTilioteModel::harmaatSaapuu(QVariant *data, int tositeId)
 {
     harmaaLaskuri_--;
     if(harmaaLaskuri_)
@@ -551,7 +551,7 @@ void TilioteModel::harmaatSaapuu(QVariant *data, int tositeId)
     endResetModel();
 }
 
-void TilioteModel::teeTuonti()
+void VanhaTilioteModel::teeTuonti()
 {
     // Lisätään ensin kaikki listalle
     // ja sitten käydään vielä läpi harmaat ja tehdään niiden kautta poistamiset
@@ -595,7 +595,7 @@ void TilioteModel::teeTuonti()
             siivoa(i, ennentuontia);
 }
 
-void TilioteModel::siivoa(int harmaarivi, int myohemmat)
+void VanhaTilioteModel::siivoa(int harmaarivi, int myohemmat)
 {
     // Yritetään ensin arkistotunnuksella
     // Näin pitäisi löytyä tuplasti tiliotteelta tuodut

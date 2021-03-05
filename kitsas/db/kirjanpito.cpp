@@ -50,7 +50,6 @@
 #include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
 #include "kierto/kiertomodel.h"
-#include "tools/tulkki.h"
 
 #include "tools/finvoicehaku.h"
 #include "kieli/kielet.h"
@@ -236,24 +235,9 @@ QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
             .arg(vuositunnus);
 }
 
-QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu)
+QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu) const
 {
-
-    if( vertailu)
-        return QString("%1 %2 %3")
-                .arg(sarja)
-                .arg( tilikaudet()->tilikausiPaivalle(pvm).pitkakausitunnus() )
-                .arg( tunniste, 8, 10, QChar('0')  );
-
-    if( samakausi )
-        return QString("%1%2")
-                .arg(sarja)
-                .arg(tunniste);
-
-    return QString("%1%2/%3")
-            .arg(sarja)
-            .arg(tunniste)
-            .arg( tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() );
+    return tilikaudet()->tositeTunnus(tunniste, pvm, sarja, samakausi, vertailu);
 }
 
 

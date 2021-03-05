@@ -6,13 +6,17 @@ SOURCES += \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
+    $$PWD/apuri/tiliote/tilioteharmaarivi.cpp \
+    $$PWD/apuri/tiliote/tiliotekirjausrivi.cpp \
+    $$PWD/apuri/tiliote/tiliotemodel.cpp \
+    $$PWD/apuri/tiliote/tilioterivi.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
-    $$PWD/apuri/tiliotemodel.cpp \
     $$PWD/apuri/tilioteview.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
     $$PWD/apuri/tulomenorivi.cpp \
+    $$PWD/apuri/vanhatiliotemodel.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
@@ -300,13 +304,17 @@ HEADERS += \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/palkkaapuri.h \
+    $$PWD/apuri/tiliote/tilioteharmaarivi.h \
+    $$PWD/apuri/tiliote/tiliotekirjausrivi.h \
+    $$PWD/apuri/tiliote/tiliotemodel.h \
+    $$PWD/apuri/tiliote/tilioterivi.h \
     $$PWD/apuri/tilioteapuri.h \
-    $$PWD/apuri/tiliotemodel.h \
     $$PWD/apuri/tilioteview.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
     $$PWD/apuri/tulomenorivi.h \
+    $$PWD/apuri/vanhatiliotemodel.h \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \
@@ -315,6 +323,7 @@ HEADERS += \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/arkistoija/laatuslider.h \
+    $$PWD/db/kitsasinterface.h \
     $$PWD/db/tilivalintadialogifiltteri.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \

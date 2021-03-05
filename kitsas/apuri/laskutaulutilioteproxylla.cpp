@@ -15,15 +15,15 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "laskutaulutilioteproxylla.h"
-#include "tiliotemodel.h"
+#include "tiliote/tiliotemodel.h"
 
 LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteModel *tiliote) :
     LaskuTauluModel (parent), tiliote_(tiliote)
 {
-    connect( tiliote, &TilioteModel::dataChanged, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &TilioteModel::rowsInserted, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &TilioteModel::rowsRemoved, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &TilioteModel::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &VanhaTilioteModel::dataChanged, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &VanhaTilioteModel::rowsInserted, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &VanhaTilioteModel::rowsRemoved, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &VanhaTilioteModel::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
 }
 
 QVariant LaskuTauluTilioteProxylla::data(const QModelIndex &index, int role) const
@@ -48,7 +48,7 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
 
     suoritukset_.clear();
     for(int i=0; i < tiliote_->rowCount(); i++) {
-        TilioteModel::Tilioterivi rivi = tiliote_->rivi(i);
+        VanhaTilioteModel::Tilioterivi rivi = tiliote_->rivi(i);
         if( !rivi.era.isEmpty() && !rivi.harmaa) {
             double suoritus = ostoja_ ?
                         0.0 - rivi.euro :

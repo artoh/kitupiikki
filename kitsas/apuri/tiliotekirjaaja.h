@@ -19,7 +19,7 @@
 
 #include <QDialog>
 
-#include "tiliotemodel.h"
+#include "tiliote/tiliotemodel.h"
 
 class LaskuTauluTilioteProxylla;
 class TilioteApuri;
@@ -41,7 +41,7 @@ public:
 
     void asetaPvm(const QDate& pvm);
 
-    TilioteModel::Tilioterivi rivi();
+    VanhaTilioteModel::Tilioterivi rivi();
 
 public slots:
     void accept() override;

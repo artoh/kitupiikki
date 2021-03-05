@@ -24,8 +24,6 @@
 #include "ui_uusivastuu.h"
 #include "ui_varmista.h"
 
-#include "db/kielikentta.h"
-
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>

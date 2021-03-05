@@ -225,6 +225,25 @@ void TilikausiModel::lataa(const QVariantList &lista)
     endResetModel();
 }
 
+QString TilikausiModel::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu) const
+{
+    if( vertailu)
+        return QString("%1 %2 %3")
+                .arg(sarja)
+                .arg( tilikausiPaivalle(pvm).pitkakausitunnus() )
+                .arg( tunniste, 8, 10, QChar('0')  );
+
+    if( samakausi )
+        return QString("%1%2")
+                .arg(sarja)
+                .arg(tunniste);
+
+    return QString("%1%2/%3")
+            .arg(sarja)
+            .arg(tunniste)
+            .arg( tilikausiPaivalle(pvm).kausitunnus() );
+}
+
 
 void TilikausiModel::paivita()
 {

@@ -16,7 +16,6 @@
 */
 #include "raportinmuokkausdialogi.h"
 #include "ui_raportinmuokkausdialogi.h"
-#include "db/kielikentta.h"
 
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>

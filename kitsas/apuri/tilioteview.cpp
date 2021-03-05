@@ -22,7 +22,7 @@
 
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
-#include "tiliotemodel.h"
+#include "vanhatiliotemodel.h"
 #include "db/kirjanpito.h"
 
 #include <QHeaderView>
@@ -34,14 +34,14 @@
 TilioteView::TilioteView(QWidget *parent) :
     QTableView(parent)
 {
-    setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
-    setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
-    setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
+    setItemDelegateForColumn( VanhaTilioteModel::TILI, new TiliDelegaatti(this) );
+    setItemDelegateForColumn( VanhaTilioteModel::EURO, new EuroDelegaatti(this) );
+    setItemDelegateForColumn( VanhaTilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
 
-    setItemDelegateForColumn(TilioteModel::SAAJAMAKSAJA,
+    setItemDelegateForColumn(VanhaTilioteModel::SAAJAMAKSAJA,
                              new KumppaniValintaDelegaatti(this));
 
-    sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
+    sortByColumn(VanhaTilioteModel::PVM, Qt::AscendingOrder);
 
     setFocusPolicy(Qt::StrongFocus);
     horizontalHeader()->setStretchLastSection(true);
@@ -59,7 +59,7 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_Insert) {
         model()->insertRow(currentIndex().row()+1);
-        setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, TilioteModel::PVM));
+        setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, VanhaTilioteModel::PVM));
         return;
     } else if( ( event->key() == Qt::Key_Enter ||
         event->key() == Qt::Key_Return ||
@@ -67,13 +67,13 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Tab) &&
             event->modifiers() == Qt::NoModifier )  {
 
-        if( currentIndex().column() == TilioteModel::EURO &&
+        if( currentIndex().column() == VanhaTilioteModel::EURO &&
             currentIndex().row() == model()->rowCount() - 1) {
             model()->insertRow(currentIndex().row()+1);
-            setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, TilioteModel::PVM));
+            setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, VanhaTilioteModel::PVM));
             return;
         } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-            if(currentIndex().row() == model()->rowCount() - 1 && qAbs(currentIndex().sibling(currentIndex().row(), TilioteModel::EURO).data(Qt::EditRole).toDouble()) > 1e-5) {
+            if(currentIndex().row() == model()->rowCount() - 1 && qAbs(currentIndex().sibling(currentIndex().row(), VanhaTilioteModel::EURO).data(Qt::EditRole).toDouble()) > 1e-5) {
                 model()->insertRow(currentIndex().row()+1);
             }
             int uusirivi = currentIndex().row() + 1;
@@ -91,11 +91,11 @@ void TilioteView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
 {
     QTableView::closeEditor(editor, QAbstractItemDelegate::NoHint);
     if( hint == QAbstractItemDelegate::EditNextItem) {
-        if( currentIndex().column() == TilioteModel::EURO) {
+        if( currentIndex().column() == VanhaTilioteModel::EURO) {
             if( currentIndex().row() == model()->rowCount() + 1) {
                 model()->insertRow(currentIndex().row() + 1);
             }
-            setCurrentIndex(currentIndex().sibling(currentIndex().row() + 1, TilioteModel::PVM));
+            setCurrentIndex(currentIndex().sibling(currentIndex().row() + 1, VanhaTilioteModel::PVM));
         } else {
             setCurrentIndex(currentIndex().sibling(currentIndex().row(), currentIndex().column() + 1));
         }
@@ -104,7 +104,7 @@ void TilioteView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
         if( currentIndex().column() > 0)
             setCurrentIndex( model()->index( currentIndex().row(), currentIndex().column()-1 ) );
         else if( currentIndex().row() > 0)
-            setCurrentIndex(model()->index( currentIndex().row()-1, TilioteModel::EURO));
+            setCurrentIndex(model()->index( currentIndex().row()-1, VanhaTilioteModel::EURO));
     }
 
 }
@@ -114,7 +114,7 @@ void TilioteView::currentChanged(const QModelIndex &current, const QModelIndex &
 
     qDebug() << previous.row() << "--->" << current.row() << " @ " << lastValidIndex_.row();
 
-    if(!previous.isValid() && lastValidIndex_.isValid() && current.row() == 0 && current.column() == 0 && lastValidIndex_.column() == TilioteModel::TILI) {
+    if(!previous.isValid() && lastValidIndex_.isValid() && current.row() == 0 && current.column() == 0 && lastValidIndex_.column() == VanhaTilioteModel::TILI) {
         setCurrentIndex(current.sibling(lastValidIndex_.row(), lastValidIndex_.column()));
     } else {
         if(current.isValid()) {

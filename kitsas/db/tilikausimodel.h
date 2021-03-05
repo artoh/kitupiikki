@@ -75,6 +75,8 @@ public:
 
     void lataa(const QVariantList& lista);
 
+    QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;
+
 public slots:
     void paivita();
     void paivitaKausitunnukset();

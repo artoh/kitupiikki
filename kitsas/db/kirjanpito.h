@@ -51,6 +51,8 @@
 
 #include "kpkysely.h"
 
+#include "kitsasinterface.h"
+
 
 class QPrinter;
 class QSettings;
@@ -73,7 +75,7 @@ class QNetworkAccessManager;
  *
  *
  */
-class Kirjanpito : public QObject
+class Kirjanpito : public QObject, public KitsasInterface
 {
     Q_OBJECT
 
@@ -126,25 +128,25 @@ public:
      * @brief Asetusten model
      * @return
      */
-    AsetusModel *asetukset() const { return asetusModel_; }
+    AsetusModel *asetukset() const override { return asetusModel_; }
 
     /**
      * @brief Tilien model
      * @return
      */
-    TiliModel *tilit() const { return tiliModel_; }
+    TiliModel *tilit() const override { return tiliModel_; }
 
     /**
      * @brief Tilikausien model
      * @return
      */
-    TilikausiModel *tilikaudet() const { return tilikaudetModel_; }
+    TilikausiModel *tilikaudet() const override { return tilikaudetModel_; }
 
     /**
      * @brief Kohdennusten eli kustannuspaikkojen ja projektien model
      * @return
      */
-    KohdennusModel *kohdennukset() const { return kohdennukset_; }
+    KohdennusModel *kohdennukset() const override { return kohdennukset_; }
 
     /**
      * @brief Palauttaa alv-kirjauksen tyypit sisältävän modelin
@@ -170,10 +172,10 @@ public:
      * Tuoteluettelosta voidaan laskutuksessa valita valmiita tuotteita
      * @return
      */
-    TuoteModel *tuotteet() const { return tuotteet_; }    
-    RyhmatModel *ryhmat() const { return ryhmat_;}
-    AlvIlmoitustenModel *alvIlmoitukset() const { return alvIlmoitukset_;}
-    KiertoModel *kierrot() const { return kiertoModel_; }    
+    TuoteModel *tuotteet() const override { return tuotteet_; }
+    RyhmatModel *ryhmat() const override { return ryhmat_;}
+    AlvIlmoitustenModel *alvIlmoitukset() const override { return alvIlmoitukset_;}
+    KiertoModel *kierrot() const override { return kiertoModel_; }
 
     /**
      * @brief Sql-tietokanta
@@ -244,7 +246,7 @@ public:
      * @brief Yhteys taustajärjestelmään
      * @return
      */
-    YhteysModel* yhteysModel() { return yhteysModel_; }
+    YhteysModel* yhteysModel() override { return yhteysModel_; }
 
 
     /**
@@ -256,7 +258,7 @@ public:
      */
     [[deprecated]]  QString tositeTunnus(int tunniste, const QDate& pvm, bool vertailu = false);
 
-    QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false);
+    QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const override;
 
 
     /**
@@ -273,7 +275,7 @@ public:
      * @param kieli Kielikoodi (fi, sv, en)
      * @return Käännetty teksti
      */
-    QString kaanna(const QString& teksti, const QString& kieli = QString()) const;
+    QString kaanna(const QString& teksti, const QString& kieli = QString()) const override;
 
     void asetaTositeSarjat(const QStringList& sarjat) { tositesarjat_=sarjat;}
     QStringList tositeSarjat() const { return tositesarjat_;}

@@ -29,7 +29,6 @@
 #include "tili.h"
 #include "tilityyppimodel.h"
 #include "kirjanpito.h"
-#include "kielikentta.h"
 
 #include "laskutus/myyntilaskuntulostaja.h"
 

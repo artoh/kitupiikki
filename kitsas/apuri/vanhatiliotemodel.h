@@ -14,14 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TILIOTEMODEL_H
-#define TILIOTEMODEL_H
+#ifndef VANHATILIOTEMODEL_H
+#define VANHATILIOTEMODEL_H
 
 #include <QAbstractTableModel>
 
 #include <QDate>
 
-class TilioteModel : public QAbstractTableModel
+class VanhaTilioteModel : public QAbstractTableModel
 {
     Q_OBJECT
 
@@ -51,7 +51,7 @@ public:
     };
 
 public:
-    explicit TilioteModel(QObject *parent = nullptr);
+    explicit VanhaTilioteModel(QObject *parent = nullptr);
 
     enum Sarakkeet {
         PVM, SAAJAMAKSAJA, SELITE, TILI, KOHDENNUS, EURO
@@ -85,7 +85,7 @@ public:
     void poistaRivi( int rivi);
     void muokkaaRivi( int rivi, const Tilioterivi& data);
 
-    Tilioterivi rivi(int rivi) const { return rivit_.at(rivi); }
+    Tilioterivi rivi(int rivi) const { return Tilioterivi(); }
 
     QVariantList viennit(int tilinumero) const;
     void lataa(const QVariantList& lista);
@@ -113,4 +113,4 @@ private:
     bool muokkausSallittu_ = true;
 };
 
-#endif // TILIOTEMODEL_H
+#endif // VANHATILIOTEMODEL_H

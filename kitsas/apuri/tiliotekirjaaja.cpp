@@ -108,9 +108,9 @@ void TilioteKirjaaja::asetaPvm(const QDate &pvm)
     ui->pvmEdit->setDate(pvm);
 }
 
-TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
+VanhaTilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 {
-    TilioteModel::Tilioterivi rivi;
+    VanhaTilioteModel::Tilioterivi rivi;
     rivi.pvm = ui->pvmEdit->date();
     rivi.euro = ui->euroEdit->value();
 
@@ -182,7 +182,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     setWindowTitle(tr("Muokkaa tiliotekirjausta"));
 
     muokattavaRivi_ = riviNro;
-    TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
+    VanhaTilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
 
     QString saajamaksaja = rivi.saajamaksaja;
     int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));

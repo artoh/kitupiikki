@@ -24,8 +24,6 @@
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
 
-#include "db/kielikentta.h"
-
 /**
  * @brief Yhtä tiliä muokkaava dialogi
  */

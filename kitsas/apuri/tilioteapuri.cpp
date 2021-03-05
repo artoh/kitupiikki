@@ -16,7 +16,7 @@
 */
 #include "tilioteapuri.h"
 #include "ui_tilioteapuri.h"
-#include "tiliotemodel.h"
+#include "vanhatiliotemodel.h"
 
 #include "tiliotekirjaaja.h"
 #include "model/tosite.h"
@@ -30,13 +30,15 @@
 #include "tiliotekirjaaja.h"
 #include "db/kirjanpito.h"
 
+#include "tiliote/tiliotemodel.h"
+
 #include <QDebug>
 #include <QSettings>
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
       ui( new Ui::TilioteApuri),
-      model_(new TilioteModel(this)),
+      model_(new TilioteModel(this, kp())),
       kirjaaja_(new TilioteKirjaaja(this))
 {
     ui->setupUi(this);
@@ -45,8 +47,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     proxy_->setSourceModel( model_ );
 
     ui->oteView->setModel(proxy_);
-    proxy_->setSortRole(TilioteModel::LajitteluRooli);
-    proxy_->setFilterRole(TilioteModel::HarmaaRooli);
+    proxy_->setSortRole(TilioteRivi::LajitteluRooli);
+    proxy_->setFilterRole(TilioteRivi::TilaRooli);
 
     ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
@@ -58,10 +60,10 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect(ui->muokkaaNappi, &QPushButton::clicked, this, &TilioteApuri::muokkaa);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &TilioteApuri::poista);
 
-    connect( model_, &TilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
-    connect( model_, &TilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
-    connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
-    connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
+    connect( model_, &VanhaTilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
+    connect( model_, &VanhaTilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
+    connect( model_, &VanhaTilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
+    connect( model_, &VanhaTilioteModel::modelReset, this, &TilioteApuri::tositteelle);
 
     connect( ui->alkuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
@@ -77,6 +79,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
+
 }
 
 TilioteApuri::~TilioteApuri()
@@ -136,7 +139,7 @@ void TilioteApuri::salliMuokkaus(bool sallitaanko)
 
 bool TilioteApuri::teeTositteelle()
 {
-    tosite()->viennit()->asetaViennit( model_->viennit(  ui->tiliCombo->valittuTilinumero() ) );
+    tosite()->viennit()->asetaViennit( model_->viennit() );
     QVariantMap tilioteMap;
     tilioteMap.insert("alkupvm", ui->alkuDate->date());
     tilioteMap.insert("loppupvm", ui->loppuDate->date());
@@ -163,6 +166,8 @@ void TilioteApuri::teeReset()
     const QVariantList& viennit = tosite()->viennit()->vientilLista();
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
+
+        model_->asetaTilinumero(ekarivi.tili());
         ui->tiliCombo->valitseTili(ekarivi.tili());
     }
     QVariantMap tilioteMap = tosite()->data(Tosite::TILIOTE).toMap();
@@ -171,6 +176,7 @@ void TilioteApuri::teeReset()
         ui->alkuDate->setDate( tilioteMap.value("alkupvm").toDate());
         ui->loppuDate->setDate( tilioteMap.value("loppupvm").toDate() );
     }
+
     model_->lataa(viennit);
     if( kp()->yhteysModel())
         lataaHarmaat();
@@ -179,7 +185,7 @@ void TilioteApuri::teeReset()
 void TilioteApuri::lisaaRivi()
 {
     QDate pvm = model()->rowCount()
-            ? model()->index(model()->rowCount(), TilioteModel::PVM).data(Qt::EditRole).toDate()
+            ? model()->index(model()->rowCount(), VanhaTilioteModel::PVM).data(Qt::EditRole).toDate()
             : ui->alkuDate->date();
     kirjaaja_->kirjaaUusia(pvm);
 }
@@ -212,7 +218,7 @@ void TilioteApuri::naytaSummat()
     qlonglong otot = 0l;
 
     for(int i=0; i < model_->rowCount(); i++) {
-        qlonglong sentit = qRound64(  model_->data( model_->index(i, TilioteModel::EURO), Qt::EditRole ).toDouble() * 100);
+        qlonglong sentit = qRound64(  model_->data( model_->index(i, VanhaTilioteModel::EURO), Qt::EditRole ).toDouble() * 100);
         if( sentit > 0)
             panot += sentit;
         else
@@ -253,11 +259,10 @@ void TilioteApuri::tiliPvmMuutos()
 
 void TilioteApuri::lataaHarmaat()
 {
-    model_->lataaHarmaat( ui->tiliCombo->valittuTilinumero(),
-                          ui->alkuDate->date(),
-                          ui->loppuDate->date(),
-                          tosite()->id());
+    model_->lataaHarmaat( ui->alkuDate->date(),
+                          ui->loppuDate->date());
     kysyAlkusumma();
+    proxy_->sort(TilioteModel::PVM);
 }
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)
@@ -294,7 +299,7 @@ void TilioteApuri::alkusummaSaapuu(QVariant* data)
 
 void TilioteApuri::naytaHarmaat(bool nayta)
 {
-    proxy_->setFilterFixedString( nayta ? "" : "-");
+    proxy_->setFilterFixedString( nayta ? "A" : "AA");
     kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
 
