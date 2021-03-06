@@ -25,18 +25,24 @@ class TilioteKirjausRivi : public TilioteRivi
 public:
     TilioteKirjausRivi();
     TilioteKirjausRivi(const QVariantList& data, TilioteModel* model);
+    TilioteKirjausRivi(const QVariantMap& tuonti, TilioteModel* model);
 
     QVariant riviData(int sarake, int role) const;
 
     void peita(bool onko) { peitetty_ = onko;}
     bool peitetty() const { return peitetty_;}
+    bool tuotu() const { return tuotu_;}
 
     QList<TositeVienti> viennit() const;
     TositeVienti pankkivienti() const;
     QVariantList tallennettavat() const;
 
-protected:
+
+protected:    
+    void paivitaTyyppi();
+
     bool peitetty_ = false;
+    bool tuotu_ = false;
 
     QList<TositeVienti> viennit_;
 };

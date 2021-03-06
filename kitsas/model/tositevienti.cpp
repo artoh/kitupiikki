@@ -98,6 +98,19 @@ void TositeVienti::setDebet(qlonglong senttia)
     setDebet( senttia / 100.0);
 }
 
+void TositeVienti::setDebet(const QString &euroa)
+{
+    if( euroa.startsWith('-')) {
+        set( KREDIT, euroa.mid(1));
+        remove( avaimet__.at(DEBET));
+
+    } else {
+        set( DEBET, euroa);
+        if( euroa.toDouble() > 1e-5)
+            remove( avaimet__.at(KREDIT));
+    }
+}
+
 void TositeVienti::setKredit(double euroa)
 {
     set( KREDIT, euroa );
@@ -108,6 +121,18 @@ void TositeVienti::setKredit(double euroa)
 void TositeVienti::setKredit(qlonglong senttia)
 {
     setKredit( senttia / 100.0);
+}
+
+void TositeVienti::setKredit(const QString &euroa)
+{
+    if( euroa.startsWith('-')) {
+        set(DEBET, euroa.mid(1));
+        remove( avaimet__.at(KREDIT));
+    } else {
+        set( KREDIT, euroa);
+        if( euroa.toDouble() > 1e-5)
+            remove( avaimet__.at(DEBET));
+    }
 }
 
 void TositeVienti::setSelite(const QString &selite)
@@ -222,6 +247,11 @@ void TositeVienti::setBrutto(double brutto)
 void TositeVienti::setBrutto(qlonglong brutto)
 {
     setBrutto( brutto / 100.0);
+}
+
+void TositeVienti::setViite(const QString &viite)
+{
+    set( VIITE, viite);
 }
 
 

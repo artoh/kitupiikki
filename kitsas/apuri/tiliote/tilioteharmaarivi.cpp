@@ -77,7 +77,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
 
     case Qt::TextColorRole:
-        return QColor(Qt::darkGray);
+        return QColor(Qt::darkGreen);
     case TilaRooli:
         return "AH";
     }

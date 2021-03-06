@@ -95,6 +95,7 @@ public:
     int tasaerapoisto() const { return data(TASAERAPOISTO).toInt();}
     QDate jaksoalkaa() const { return data(JAKSOALKAA).toDate();}
     QDate jaksoloppuu() const { return data(JAKSOLOPPUU).toDate();}
+    QString viite() const { return data(VIITE).toString();}
 
     double brutto() const { return data(BRUTTO).toDouble();}
 
@@ -102,8 +103,10 @@ public:
     void setTili(int tili);
     void setDebet(double euroa);
     void setDebet(qlonglong senttia);
+    void setDebet(const QString& euroa);
     void setKredit(double euroa);
     void setKredit(qlonglong senttia);
+    void setKredit(const QString& euroa);
     void setSelite(const QString& selite);
     void setAlvKoodi(int koodi);
     void setAlvProsentti(double prosentti);
@@ -123,6 +126,7 @@ public:
     void setId(int id);
     void setBrutto(double brutto);
     void setBrutto(qlonglong brutto);
+    void setViite(const QString& viite);
 
 private:
     static std::map<int,QString> avaimet__;

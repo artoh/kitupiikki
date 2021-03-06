@@ -64,6 +64,10 @@ public:
 
     QVariantList viennit() const;
 
+    void tuo(const QVariantList tuotavat);
+
+    QPair<qlonglong,qlonglong> summat() const;
+
 protected:
     void harmaatSaapuu(QVariant* data);
     void peita(int harmaaIndeksi, int kirjausIndeksi);

@@ -157,6 +157,28 @@ QVariantList TilioteModel::viennit() const
     return ulos;
 }
 
+void TilioteModel::tuo(const QVariantList tuotavat)
+{
+    for(const auto& tuotava : tuotavat) {
+        kirjausRivit_.append(TilioteKirjausRivi(tuotava.toMap(), this));
+    }
+}
+
+QPair<qlonglong, qlonglong> TilioteModel::summat() const
+{
+    qlonglong panot = 0l, otot = 0l;
+    for(const auto& rivi : kirjausRivit_) {
+        if( rivi.peitetty()) continue;
+        panot += qRound64( rivi.pankkivienti().debet() * 100.0 );
+        otot += qRound64( rivi.pankkivienti().kredit() * 100.0 );
+    }
+    for(const auto& rivi : harmaatRivit_) {
+        panot += qRound64( rivi.vienti().debet() * 100.0 );
+        otot += qRound64( rivi.vienti().kredit() * 100.0 );
+    }
+    return qMakePair(panot, otot);
+}
+
 void TilioteModel::harmaatSaapuu(QVariant *data)
 {
     harmaaLaskuri_--;
@@ -166,7 +188,7 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
     beginResetModel();
     harmaatRivit_.clear();
 
-    for(auto const& vienti : data->toList()) {
+    for (const auto& vienti : data->toList()) {
         QVariantMap map = vienti.toMap();
         if(map.value("tosite").toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE)
             continue;
@@ -205,7 +227,7 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
 
     for(int ki=0; ki < kirjausRivit_.count(); ki++) {
         const TilioteKirjausRivi& rivi = kirjausRivit_.at(ki);
-        if( rivi.peitetty()) continue;
+        if( rivi.peitetty()  || !rivi.tuotu() ) continue;
         const TositeVienti& kirjaus = rivi.pankkivienti();
         if( kirjaus.pvm() == harmaa.pvm() &&
             qAbs(kirjaus.debet() - harmaa.debet()) < 1e-5 &&

@@ -101,6 +101,8 @@ void TilioteApuri::tuo(QVariantMap map)
     } else if( map.contains("tili"))
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
+    model()->asetaTilinumero(ui->tiliCombo->valittuTilinumero());
+
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
     ui->loppuDate->setDate( map.value("loppupvm").toDate());
     model()->tuo( map.value("tapahtumat").toList() );
@@ -139,6 +141,7 @@ void TilioteApuri::salliMuokkaus(bool sallitaanko)
 
 bool TilioteApuri::teeTositteelle()
 {
+    model()->asetaTilinumero(ui->tiliCombo->valittuTilinumero());
     tosite()->viennit()->asetaViennit( model_->viennit() );
     QVariantMap tilioteMap;
     tilioteMap.insert("alkupvm", ui->alkuDate->date());
@@ -214,16 +217,10 @@ void TilioteApuri::poista()
 
 void TilioteApuri::naytaSummat()
 {
-    qlonglong panot = 0l;
-    qlonglong otot = 0l;
+    QPair<qlonglong, qlonglong> muutos = model()->summat();
+    qlonglong panot = muutos.first;
+    qlonglong otot = muutos.second;
 
-    for(int i=0; i < model_->rowCount(); i++) {
-        qlonglong sentit = qRound64(  model_->data( model_->index(i, VanhaTilioteModel::EURO), Qt::EditRole ).toDouble() * 100);
-        if( sentit > 0)
-            panot += sentit;
-        else
-            otot += qAbs(sentit);
-    }
     double loppusaldo = alkusaldo_ + (panot - otot) / 100.0;
 
     ui->infoLabel->setText(tr("Alkusaldo %L3 € \tPanot %L1 € \tOtot %L2 € \tLoppusaldo %L4 €")
@@ -299,7 +296,7 @@ void TilioteApuri::alkusummaSaapuu(QVariant* data)
 
 void TilioteApuri::naytaHarmaat(bool nayta)
 {
-    proxy_->setFilterFixedString( nayta ? "A" : "AA");
+    proxy_->setFilterFixedString( nayta ? "" : "AA");
     kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
 
