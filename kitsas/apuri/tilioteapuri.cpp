@@ -296,7 +296,7 @@ void TilioteApuri::alkusummaSaapuu(QVariant* data)
 
 void TilioteApuri::naytaHarmaat(bool nayta)
 {
-    proxy_->setFilterFixedString( nayta ? "" : "AA");
+    proxy_->setFilterFixedString( nayta ? "A" : "AA");
     kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
 
