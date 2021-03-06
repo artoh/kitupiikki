@@ -44,29 +44,36 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    // Editable:
     bool setData(const QModelIndex &index, const QVariant &value,
                  int role = Qt::EditRole) override;
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    int lisaaRivi(const QDate& pvm);
+    int lisaaRivi(const TilioteKirjausRivi &rivi);
+    void poistaRivi(const int indeksi);
+    void asetaRivi(int indeksi, const QList<TositeVienti> &viennit);
+    TilioteKirjausRivi rivi(const int indeksi) const;
 
     void lataa(const QVariantList &lista);
 
-    KitsasInterface* kitsas() const { return kitsasInterface_;}
 
     void asetaTilinumero(int tilinumero);
-    int tilinumero() const { return tili_;}
+    int tilinumero() const { return tili_;}   
 
-    int lisaysIndeksi();
-
+    void tuo(const QVariantList tuotavat);
     void lataaHarmaat(const QDate& mista, const QDate& mihin);
 
     QVariantList viennit() const;
 
-    void tuo(const QVariantList tuotavat);
 
     QPair<qlonglong,qlonglong> summat() const;
+
+    void salliMuokkaus(bool sallittu);
+
+    KitsasInterface* kitsas() const { return kitsasInterface_;}
+    int lisaysIndeksi();
+
 
 protected:
     void harmaatSaapuu(QVariant* data);
@@ -81,7 +88,7 @@ private:
     int lisaysIndeksi_ = 0;
     int tili_ = 0;
     int harmaaLaskuri_ = 0;
-
+    bool muokkausSallittu_ = true;
 
     KitsasInterface* kitsasInterface_;
 };

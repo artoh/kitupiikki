@@ -75,11 +75,14 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
 
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-
     case Qt::TextColorRole:
         return QColor(Qt::darkGreen);
     case TilaRooli:
         return "AH";
+    case TositeIdRooli:
+        return vienti_.value("tosite").toMap().value("id").toInt();
+    case LisaysIndeksiRooli:
+        return lisaysIndeksi();
     }
 
 

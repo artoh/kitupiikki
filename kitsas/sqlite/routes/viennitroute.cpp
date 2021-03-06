@@ -56,7 +56,7 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
         jarjestys = "Tosite.tyyppi,Tosite.sarja,Tosite.tunniste,";
 
 
-    QString kysymys("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, alvkoodi, alvprosentti, "
+    QString kysymys("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, alvkoodi, alvprosentti, arkistotunnus, "
                     "selite, vienti.kohdennus as kohdennus, eraid as era_id, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
                     "tosite.tyyppi as tosite_tyyppi, tosite.sarja as tosite_sarja, kumppani.id as kumppani_id, "
                     "kumppani.nimi as kumppani_nimi, vienti.tyyppi as tyyppi,"

@@ -21,7 +21,7 @@
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
 
-#include "tilioteapuri.h"
+#include "tiliote/tilioteapuri.h"
 
 VanhaTilioteModel::VanhaTilioteModel(QObject *parent)
     : QAbstractTableModel(parent)

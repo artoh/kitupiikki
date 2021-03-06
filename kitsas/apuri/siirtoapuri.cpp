@@ -87,6 +87,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setMerkkaukset( ui->tililleMerkkausCC->selectedDatas() );
     debet.setTyyppi( TositeVienti::SIIRTO);
     debet.setKumppani(kumppani);
+    debet.setArkistotunnus(debetArkistoTunnus_);
 
     viennit.append(debet);
 
@@ -100,6 +101,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setEra( ui->tililtaEraCombo->eraMap());
     kredit.setTyyppi( TositeVienti::SIIRTO );
     kredit.setKumppani(kumppani);
+    kredit.setArkistotunnus(kreditArkistoTunnus_);
 
     viennit.append(kredit);
 
@@ -121,8 +123,8 @@ void SiirtoApuri::teeReset()
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
     if( vientilista.count() >= 2 )
     {
-        QVariantMap debetMap = vientilista.at(0).toMap();
-        QVariantMap kreditMap = vientilista.at(1).toMap();
+        TositeVienti debetMap = vientilista.at(0).toMap();
+        TositeVienti kreditMap = vientilista.at(1).toMap();
 
         ui->tililleEdit->valitseTiliNumerolla( debetMap.value("tili").toInt() );
         ui->euroEdit->setValue( debetMap.value("debet").toDouble() );
@@ -134,8 +136,11 @@ void SiirtoApuri::teeReset()
         int tililtaEra = kreditMap.value("era").toMap().value("id").toInt();
         ui->tililtaEraCombo->valitse(tililtaEra);
 
-        debetKumppani_ = debetMap.value("kumppani").toMap().value("id").toInt();
-        kreditKumppani_ = kreditMap.value("kumppani").toMap().value("id").toInt();
+        debetKumppani_ =  debetMap.kumppaniId();
+        kreditKumppani_ =  kreditMap.kumppaniId();
+
+        debetArkistoTunnus_ = debetMap.arkistotunnus();
+        kreditArkistoTunnus_ = kreditMap.arkistotunnus();
 
         ui->tililleKohdennusCombo->valitseKohdennus( debetMap.value("kohdennus").toInt());
         ui->tililtaKohdennusCombo->valitseKohdennus( kreditMap.value("kohdennus").toInt());

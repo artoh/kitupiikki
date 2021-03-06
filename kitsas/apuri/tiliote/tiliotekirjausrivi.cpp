@@ -24,6 +24,8 @@
 #include "db/asetusmodel.h"
 #include "db/tili.h"
 
+#include <QRandomGenerator>
+
 TilioteKirjausRivi::TilioteKirjausRivi()
 {
 
@@ -71,7 +73,10 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     pankki.setKumppani(kumppani);
     tapahtuma.setKumppani(kumppani);
 
-    pankki.setArkistotunnus(tuonti.value("arkistotunnus").toString());
+    const QString& arkistotunnus = tuonti.value("arkistotunnus").toString();
+    pankki.setArkistotunnus( arkistotunnus.length() > 10 ? arkistotunnus : pseudoarkistotunnus() );
+
+
     tapahtuma.setEra(tuonti.value("era").toMap());
 
     int tilinumero = tuonti.value("tili").toInt();
@@ -90,6 +95,26 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 
     viennit_ << pankki << tapahtuma;
     paivitaTyyppi();
+}
+
+TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
+    TilioteRivi(model)
+{
+    TositeVienti pankki;
+    TositeVienti tapahtuma;
+
+    pankki.setPvm(pvm);
+    tapahtuma.setPvm(pvm);
+    pankki.setTili(model->tilinumero());
+    pankki.setArkistotunnus(pseudoarkistotunnus());
+
+    viennit_ << pankki << tapahtuma;
+}
+
+TilioteKirjausRivi::TilioteKirjausRivi(const QList<TositeVienti> &viennit, TilioteModel *model) :
+    TilioteRivi(model), viennit_(viennit)
+{
+
 }
 
 QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
@@ -144,6 +169,25 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             return QVariant();
         }
 
+    case Qt::EditRole:
+        switch (sarake) {
+        case PVM:
+            return ekavienti.pvm();
+        case TILI:
+            return ekavienti.tili();
+        case EURO:
+            return pankkivienti().debet() > 1e-5 ? pankkivienti().debet() : 0 - pankkivienti().kredit();
+        case KOHDENNUS:
+            return ekavienti.kohdennus();
+        case SAAJAMAKSAJA:
+            return ekavienti.kumppaniMap();
+        case SELITE:
+            return ekavienti.selite();
+        }
+
+    case Qt::UserRole:
+        return sarake == SAAJAMAKSAJA ? ekavienti.kumppaniId() : QVariant();
+
     case LajitteluRooli:
         return QString("%1 %2").arg(ekavienti.pvm().toString(Qt::ISODate))
                                 .arg(lisaysIndeksi(),6,10,QChar('0'));
@@ -153,10 +197,67 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         return peitetty() ? "-" : "AA";
     case Qt::TextColorRole:
         return peitetty() ? QColor(Qt::magenta) : QVariant();
+    case LisaysIndeksiRooli:
+        return lisaysIndeksi();
     default:
         return QVariant();
     }
 
+}
+
+bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
+{
+    if( riviData(sarake, Qt::EditRole) == value || viennit_.count() < 2)
+        return false;
+
+    switch (sarake) {
+    case PVM:
+        for(int i=0; i < viennit_.count(); i++)
+            viennit_[i].setPvm(value.toDate());
+        break;
+    case SAAJAMAKSAJA:
+        for(int i=0; i < viennit_.count(); i++)
+            viennit_[i].setKumppani(value.toMap());
+        break;
+    case TILI: {
+        viennit_[1].setTili(value.toInt());
+        const Tili* tili = model()->kitsas()->tilit()->tili(value.toInt());
+        if( tili && tili->luku("kohdennus"))
+            viennit_[1].setKohdennus(tili->luku("kohdennus"));
+        break;
+    }
+    case KOHDENNUS:
+        for(int i=1; i < viennit_.count(); i++)
+            viennit_[i].setKohdennus(value.toInt());
+        break;
+    case SELITE:
+        for(int i=0; i < viennit_.count(); i++)
+            viennit_[i].setSelite(value.toString());
+        break;
+    case EURO:
+        viennit_[0].setKredit(0.0);
+        viennit_[0].setDebet(value.toString());
+        viennit_[1].setDebet(0.0);
+        viennit_[1].setKredit(value.toString());
+        break;
+    }
+    paivitaTyyppi();
+    return true;
+}
+
+Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
+{
+    if( sarake == TILI && viennit_.value(1).eraId())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+    if( sarake == EURO && viennit_.count() != 2)
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+    const Tili* tili = model()->kitsas()->tilit()->tili(viennit_.value(1).tili());
+    if( sarake == KOHDENNUS && ( (tili && tili->onko(TiliLaji::TASE)) || !model()->kitsas()->kohdennukset()->kohdennuksia()) )
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
 QList<TositeVienti> TilioteKirjausRivi::viennit() const
@@ -178,11 +279,22 @@ QVariantList TilioteKirjausRivi::tallennettavat() const
     return ulos;
 }
 
+void TilioteKirjausRivi::asetaPankkitili(int tili)
+{
+    if(!viennit_.isEmpty())
+        viennit_[0].setTili(tili);
+}
+
+void TilioteKirjausRivi::asetaViennit(const QList<TositeVienti> &viennit)
+{
+    viennit_ = viennit;
+}
+
 
 void TilioteKirjausRivi::paivitaTyyppi()
 {
     int tyyppi = 0;
-    const Tili* tili = model()->kitsas()->tilit()->tili( pankkivienti().tili() );
+    const Tili* tili = model()->kitsas()->tilit()->tili( viennit_.value(1).tili() );
 
     if( viennit_.value(0).eraId() > 0) {
         tyyppi = TositeVienti::SUORITUS;
@@ -201,6 +313,20 @@ void TilioteKirjausRivi::paivitaTyyppi()
             viennit_[i].setTyyppi(TositeVienti::KIRJAUS + tyyppi);
         }
     }
+}
+
+QString TilioteKirjausRivi::pseudoarkistotunnus() const
+{
+    const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+
+    QString tunnus = "@" + QString::number(lisaysIndeksi()) ;
+    for(int i=0; i<16; ++i)
+    {
+       int index = QRandomGenerator::global()->generate() % merkit.length() ;
+       QChar nextChar = merkit.at(index);
+       tunnus.append(nextChar);
+    }
+    return tunnus;
 }
 
 

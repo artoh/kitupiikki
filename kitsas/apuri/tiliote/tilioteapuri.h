@@ -17,7 +17,7 @@
 #ifndef TILIOTEAPURI_H
 #define TILIOTEAPURI_H
 
-#include "apuriwidget.h"
+#include "../apuriwidget.h"
 
 class TilioteModel;
 
@@ -49,12 +49,13 @@ protected:
     void teeReset() override;
 
 protected slots:
-    void lisaaRivi();
-    void lisaaTyhjaRivi();
+    void lisaaRivi(bool dialogi = false);
+
     void riviValittu();
     void muokkaa();
     void poista();
     void naytaSummat();
+    void naytaTosite();
 
     void tiliPvmMuutos();
     void lataaHarmaat();

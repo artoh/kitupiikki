@@ -22,7 +22,7 @@
 
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
-#include "vanhatiliotemodel.h"
+#include "tiliotemodel.h"
 #include "db/kirjanpito.h"
 
 #include <QHeaderView>
@@ -34,18 +34,18 @@
 TilioteView::TilioteView(QWidget *parent) :
     QTableView(parent)
 {
-    setItemDelegateForColumn( VanhaTilioteModel::TILI, new TiliDelegaatti(this) );
-    setItemDelegateForColumn( VanhaTilioteModel::EURO, new EuroDelegaatti(this) );
-    setItemDelegateForColumn( VanhaTilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
+    setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
+    setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
+    setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
 
-    setItemDelegateForColumn(VanhaTilioteModel::SAAJAMAKSAJA,
+    setItemDelegateForColumn(TilioteModel::SAAJAMAKSAJA,
                              new KumppaniValintaDelegaatti(this));
 
-    sortByColumn(VanhaTilioteModel::PVM, Qt::AscendingOrder);
+    sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
 
     setFocusPolicy(Qt::StrongFocus);
-    horizontalHeader()->setStretchLastSection(true);
 
+    QTimer::singleShot(15, [this] {this->horizontalHeader()->setSectionResizeMode( TilioteRivi::SELITE, QHeaderView::Stretch );});
     QTimer::singleShot(10, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("TilioteRuudukko").toByteArray());});
 
 }
@@ -53,6 +53,14 @@ TilioteView::TilioteView(QWidget *parent) :
 TilioteView::~TilioteView()
 {
     kp()->settings()->setValue("TilioteRuudukko", horizontalHeader()->saveState());
+}
+
+void TilioteView::setModel(QAbstractItemModel *model)
+{
+//    connect( model, &QAbstractTableModel::modelAboutToBeReset, this, &TilioteView::ennenResetia);
+//    connect( model, &QAbstractTableModel::modelReset, this, &TilioteView::resetinJalkeen);
+
+    QTableView::setModel(model);
 }
 
 void TilioteView::keyPressEvent(QKeyEvent *event)
@@ -111,16 +119,39 @@ void TilioteView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
 
 void TilioteView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-
+/*
     qDebug() << previous.row() << "--->" << current.row() << " @ " << lastValidIndex_.row();
 
-    if(!previous.isValid() && lastValidIndex_.isValid() && current.row() == 0 && current.column() == 0 && lastValidIndex_.column() == VanhaTilioteModel::TILI) {
+    if(!previous.isValid() && lastValidIndex_.isValid() && current.row() == 0 && current.column() == 0 && lastValidIndex_.column() == TilioteModel::TILI) {
         setCurrentIndex(current.sibling(lastValidIndex_.row(), lastValidIndex_.column()));
     } else {
         if(current.isValid()) {
             lastValidIndex_ = current;
         }
         QTableView::currentChanged(current, previous);
+    }*/
+}
+
+void TilioteView::ennenResetia()
+{
+    lisaysIndeksi_ = selectionModel()->currentIndex().data(TilioteRivi::LisaysIndeksiRooli).toInt();
+}
+
+void TilioteView::resetinJalkeen()
+{
+    qDebug() << "Reset " << lisaysIndeksi_;
+
+    if( lisaysIndeksi_) {
+        for(int i=0; i < model()->rowCount(); i++) {
+            const QModelIndex& index = model()->index(i, TilioteRivi::SELITE);
+            if(index.data(TilioteRivi::LisaysIndeksiRooli).toInt() == lisaysIndeksi_) {
+                setCurrentIndex(index);
+
+                qDebug() << index.data();
+
+                break;
+            }
+        }
     }
 }
 

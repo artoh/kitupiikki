@@ -16,7 +16,7 @@
 */
 #include "tilioteapuri.h"
 #include "ui_tilioteapuri.h"
-#include "vanhatiliotemodel.h"
+#include "../vanhatiliotemodel.h"
 
 #include "tiliotekirjaaja.h"
 #include "model/tosite.h"
@@ -30,7 +30,11 @@
 #include "tiliotekirjaaja.h"
 #include "db/kirjanpito.h"
 
-#include "tiliote/tiliotemodel.h"
+#include "tiliotemodel.h"
+
+#include "lisaikkuna.h"
+#include "kirjaus/kirjaussivu.h"
+#include "kirjaus/kirjauswg.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -53,12 +57,14 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
 
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TilioteApuri::lisaaRivi);
-    connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, this, &TilioteApuri::lisaaTyhjaRivi );
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this]  {this->lisaaRivi(true);} );
+    connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, [this] {this->lisaaRivi(false);} );
+
     connect( ui->oteView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(riviValittu()));
     connect(ui->muokkaaNappi, &QPushButton::clicked, this, &TilioteApuri::muokkaa);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &TilioteApuri::poista);
+    connect(ui->tositeNappi, &QPushButton::clicked, this, &TilioteApuri::naytaTosite);
 
     connect( model_, &VanhaTilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
     connect( model_, &VanhaTilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
@@ -77,7 +83,6 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::tiliPvmMuutos);
 
-    ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
 
 }
@@ -185,23 +190,25 @@ void TilioteApuri::teeReset()
         lataaHarmaat();
 }
 
-void TilioteApuri::lisaaRivi()
+void TilioteApuri::lisaaRivi(bool dialogi)
 {
-    QDate pvm = model()->rowCount()
-            ? model()->index(model()->rowCount(), VanhaTilioteModel::PVM).data(Qt::EditRole).toDate()
+    const QModelIndex& index = ui->oteView->currentIndex();
+    QDate pvm = index.isValid()
+            ? index.sibling(index.row(), TilioteRivi::PVM).data(Qt::EditRole).toDate()
             : ui->alkuDate->date();
-    kirjaaja_->kirjaaUusia(pvm);
-}
 
-void TilioteApuri::lisaaTyhjaRivi()
-{
-    model_->insertRow(model_->rowCount());
+    if(dialogi)
+        kirjaaja_->kirjaaUusia(pvm);
+    else
+        model()->lisaaRivi(pvm);
 }
 
 void TilioteApuri::riviValittu()
 {
-    ui->muokkaaNappi->setEnabled( ui->oteView->currentIndex().isValid() );
-    ui->poistaNappi->setEnabled( ui->oteView->currentIndex().isValid());
+    bool muokattavaRivi = ui->oteView->currentIndex().data(TilioteRivi::TilaRooli).toString() == "AA" ;
+    ui->muokkaaNappi->setEnabled( muokattavaRivi );
+    ui->poistaNappi->setEnabled( muokattavaRivi );
+    ui->tositeNappi->setEnabled( ui->oteView->selectionModel()->currentIndex().isValid() );
 }
 
 void TilioteApuri::muokkaa()
@@ -229,6 +236,44 @@ void TilioteApuri::naytaSummat()
                            .arg(alkusaldo_,0,'f',2)
                            .arg(loppusaldo,0,'f',2));
 }
+
+void TilioteApuri::naytaTosite()
+{
+    const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
+    LisaIkkuna* ikkuna = new LisaIkkuna;
+    if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
+        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
+    } else {
+        const int omaIndeksi = proxy_->mapToSource(index).row();
+        const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
+
+        KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
+        Tosite* tosite = sivu->kirjausWg()->tosite();
+        tosite->viennit()->asetaViennit( rivi.tallennettavat() );
+
+        const TositeVienti& pankki = rivi.pankkivienti();
+        tosite->asetaPvm(pankki.pvm());
+        tosite->asetaKumppani(pankki.kumppaniMap());
+        tosite->asetaOtsikko(pankki.selite());
+        tosite->asetaViite(pankki.viite());
+
+        switch (pankki.tyyppi() - TositeVienti::VASTAKIRJAUS) {
+        case TositeVienti::MYYNTI:
+            tosite->asetaTyyppi(TositeTyyppi::TULO);
+            break;
+        case TositeVienti::OSTO:
+            tosite->asetaTyyppi(TositeTyyppi::MENO);
+            break;
+        case TositeVienti::SIIRTO:
+        case TositeVienti::SUORITUS:
+            tosite->asetaTyyppi(TositeTyyppi::SIIRTO);
+            break;
+        }
+
+        connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
+    }
+}
+
 
 void TilioteApuri::tiliPvmMuutos()
 {

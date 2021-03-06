@@ -99,6 +99,7 @@ private:
     MaksutapaModel *maksutapaModel_;
 
     QString viimeMaksutapa_;
+    QString arkistotunnus_;
 
 };
 

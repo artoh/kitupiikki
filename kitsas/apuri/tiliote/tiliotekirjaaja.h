@@ -19,7 +19,7 @@
 
 #include <QDialog>
 
-#include "tiliote/tiliotemodel.h"
+#include "tiliotemodel.h"
 
 class LaskuTauluTilioteProxylla;
 class TilioteApuri;

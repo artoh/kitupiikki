@@ -4,14 +4,15 @@ SOURCES += \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
-    $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
+    $$PWD/apuri/tiliote/laskutaulutilioteproxylla.cpp \
+    $$PWD/apuri/tiliote/tilioteapuri.cpp \
     $$PWD/apuri/tiliote/tilioteharmaarivi.cpp \
+    $$PWD/apuri/tiliote/tiliotekirjaaja.cpp \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.cpp \
     $$PWD/apuri/tiliote/tiliotemodel.cpp \
     $$PWD/apuri/tiliote/tilioterivi.cpp \
-    $$PWD/apuri/tilioteapuri.cpp \
-    $$PWD/apuri/tilioteview.cpp \
+    $$PWD/apuri/tiliote/tilioteview.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
@@ -283,7 +284,6 @@ SOURCES += \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
     sqlite/sqlitemodel.cpp \
-    apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
     maaritys/avauseradlg.cpp\
     maaritys/maksutapamuokkausdlg.cpp\
@@ -302,14 +302,15 @@ HEADERS += \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \
-    $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/palkkaapuri.h \
+    $$PWD/apuri/tiliote/laskutaulutilioteproxylla.h \
+    $$PWD/apuri/tiliote/tilioteapuri.h \
     $$PWD/apuri/tiliote/tilioteharmaarivi.h \
+    $$PWD/apuri/tiliote/tiliotekirjaaja.h \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.h \
     $$PWD/apuri/tiliote/tiliotemodel.h \
     $$PWD/apuri/tiliote/tilioterivi.h \
-    $$PWD/apuri/tilioteapuri.h \
-    $$PWD/apuri/tilioteview.h \
+    $$PWD/apuri/tiliote/tilioteview.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
@@ -586,7 +587,6 @@ HEADERS += \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
     sqlite/sqlitemodel.h \
-    apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
     maaritys/avauseradlg.h\
     maaritys/maksutapamuokkausdlg.h \
@@ -611,7 +611,8 @@ FORMS += \
     $$PWD/aloitussivu/luotunnusdialogi.ui \
     $$PWD/aloitussivu/salasananvaihto.ui \
     $$PWD/apuri/palkkaapuri.ui \
-    $$PWD/apuri/tilioteapuri.ui \
+    $$PWD/apuri/tiliote/tilioteapuri.ui \
+    $$PWD/apuri/tiliote/tiliotekirjaaja.ui \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkisto/tilikausimuokkausdlg.ui \
@@ -713,7 +714,6 @@ FORMS += \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
-    apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
     maaritys/avauseradlg.ui\
     maaritys/maksutapamuokkausdlg.ui\

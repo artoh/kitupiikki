@@ -26,15 +26,20 @@ public:
     TilioteView(QWidget *parent);
     ~TilioteView();
 
+    void setModel(QAbstractItemModel* model) override;
+
 protected:
     void keyPressEvent(QKeyEvent* event) override;
     void closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint) override;
     void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
 
-    void lisaaTyhjaRivi();
+    void ennenResetia();
+    void resetinJalkeen();
 
 private:
     QModelIndex lastValidIndex_;
+    int lisaysIndeksi_ = 0;
+
 };
 
 #endif // TILIOTEVIEW_H

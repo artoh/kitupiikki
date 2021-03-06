@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "laskutaulutilioteproxylla.h"
-#include "tiliote/tiliotemodel.h"
+#include "tiliotemodel.h"
 
 LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteModel *tiliote) :
     LaskuTauluModel (parent), tiliote_(tiliote)

@@ -86,20 +86,61 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
 bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
-        emit dataChanged(index, index, QVector<int>() << role);
-        return true;
+    if( index.row() < kirjausRivit_.count()) {
+        if( kirjausRivit_[index.row()].setRiviData(index.column(), value)) {
+            emit dataChanged(
+                        index.sibling(index.row(), TilioteRivi::PVM),
+                        index.sibling(index.row(), TilioteRivi::EURO),
+                        QVector<int>() << role);
+            return true;
+        }
     }
     return false;
 }
 
 Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || !muokkausSallittu_)
         return Qt::NoItemFlags;    
 
-    return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable; // FIXME: Implement me!
+    if( index.row() < kirjausRivit_.count())
+        return kirjausRivit_.at(index.row()).riviFlags(index.column());
+
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+int TilioteModel::lisaaRivi(const QDate &pvm)
+{
+    return lisaaRivi(TilioteKirjausRivi(pvm, this));
+}
+
+int TilioteModel::lisaaRivi(const TilioteKirjausRivi &rivi)
+{
+    int indeksi = kirjausRivit_.count();
+    beginInsertRows(QModelIndex(), indeksi, indeksi);
+    kirjausRivit_.append( rivi );
+    endInsertRows();
+    return indeksi;
+}
+
+void TilioteModel::poistaRivi(const int indeksi)
+{
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    kirjausRivit_.removeAt(indeksi);
+    endRemoveRows();
+}
+
+void TilioteModel::asetaRivi(int indeksi, const QList<TositeVienti> &viennit)
+{
+    kirjausRivit_[indeksi].asetaViennit(viennit);
+    emit dataChanged( index(indeksi, TilioteRivi::PVM),
+                      index(indeksi, TilioteRivi::EURO),
+                      QVector<int>() << Qt::EditRole);
+}
+
+TilioteKirjausRivi TilioteModel::rivi(const int indeksi) const
+{
+    return kirjausRivit_.value(indeksi);
 }
 
 void TilioteModel::lataa(const QVariantList &lista)
@@ -126,6 +167,8 @@ void TilioteModel::lataa(const QVariantList &lista)
 void TilioteModel::asetaTilinumero(int tilinumero)
 {
     tili_ = tilinumero;
+    for(int i=0; i < kirjausRivit_.count(); i++)
+        kirjausRivit_[i].asetaPankkitili(tilinumero);
 }
 
 int TilioteModel::lisaysIndeksi()
@@ -177,6 +220,11 @@ QPair<qlonglong, qlonglong> TilioteModel::summat() const
         otot += qRound64( rivi.vienti().kredit() * 100.0 );
     }
     return qMakePair(panot, otot);
+}
+
+void TilioteModel::salliMuokkaus(bool sallittu)
+{
+    muokkausSallittu_ = sallittu;
 }
 
 void TilioteModel::harmaatSaapuu(QVariant *data)

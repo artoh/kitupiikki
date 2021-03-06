@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>924</width>
-    <height>499</height>
+    <width>1262</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,7 +54,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
        </property>
        <property name="checkable">
@@ -109,13 +109,40 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="tositeNappi">
+       <property name="text">
+        <string>&amp;Tosite...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../pic/pic.qrc">
+         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="lisaaRiviNappi">
        <property name="text">
         <string>&amp;Kirjaa tilitapahtumia...</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+        <iconset resource="../../pic/pic.qrc">
+         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
       </widget>
      </item>
@@ -128,7 +155,7 @@
         <string>&amp;Muokkaa..</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
        </property>
       </widget>
@@ -136,10 +163,10 @@
      <item>
       <widget class="QPushButton" name="lisaaTyhjaBtn">
        <property name="text">
-        <string>Lisää &amp;tyhjä rivi</string>
+        <string>Lisää t&amp;yhjä rivi</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
        </property>
       </widget>
@@ -153,7 +180,7 @@
         <string>Poista rivi</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
        </property>
       </widget>
@@ -176,11 +203,11 @@
   <customwidget>
    <class>TilioteView</class>
    <extends>QTableView</extends>
-   <header location="global">apuri/tilioteview.h</header>
+   <header location="global">apuri/tiliote/tilioteview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../pic/pic.qrc"/>
+  <include location="../../pic/pic.qrc"/>
  </resources>
  <connections/>
 </ui>

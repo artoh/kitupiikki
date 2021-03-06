@@ -57,6 +57,8 @@ private:
 
     int kreditKumppani_ = 0;
     int debetKumppani_ = 0;
+    QString debetArkistoTunnus_;
+    QString kreditArkistoTunnus_;
 
 
 };

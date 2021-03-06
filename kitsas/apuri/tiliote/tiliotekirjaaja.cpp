@@ -159,7 +159,7 @@ void TilioteKirjaaja::accept()
             apuri()->model()->muokkaaRivi( muokattavaRivi_, rivi());
             QDialog::accept();
         } else {
-            apuri()->model()->lisaaRivi( rivi());
+            // apuri()->model()->lisaaRivi( rivi());
         }
 
         tyhjenna();

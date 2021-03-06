@@ -22,12 +22,16 @@
 
 class TilioteKirjausRivi : public TilioteRivi
 {
-public:
+public:        
     TilioteKirjausRivi();
     TilioteKirjausRivi(const QVariantList& data, TilioteModel* model);
     TilioteKirjausRivi(const QVariantMap& tuonti, TilioteModel* model);
+    TilioteKirjausRivi(const QDate& pvm, TilioteModel* model);
+    TilioteKirjausRivi(const QList<TositeVienti>& viennit, TilioteModel* model);
 
     QVariant riviData(int sarake, int role) const;
+    bool setRiviData(int sarake, const QVariant& value);
+    Qt::ItemFlags riviFlags(int sarake) const;
 
     void peita(bool onko) { peitetty_ = onko;}
     bool peitetty() const { return peitetty_;}
@@ -37,12 +41,18 @@ public:
     TositeVienti pankkivienti() const;
     QVariantList tallennettavat() const;
 
+    void asetaPankkitili(int tili);
+    void asetaViennit(const QList<TositeVienti> &viennit);
+
+    QString pseudoarkistotunnus() const;
 
 protected:    
     void paivitaTyyppi();
 
     bool peitetty_ = false;
     bool tuotu_ = false;
+
+
 
     QList<TositeVienti> viennit_;
 };

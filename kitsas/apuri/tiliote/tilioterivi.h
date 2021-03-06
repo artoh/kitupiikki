@@ -33,7 +33,9 @@ public:
 
     enum {
         LajitteluRooli = Qt::UserRole + 1,
-        TilaRooli = Qt::UserRole + 2
+        TilaRooli = Qt::UserRole + 2,
+        TositeIdRooli = Qt::UserRole + 3,
+        LisaysIndeksiRooli = Qt::UserRole + 4
     };
 
 

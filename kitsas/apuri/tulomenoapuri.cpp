@@ -212,7 +212,7 @@ void TuloMenoApuri::teeReset()
     ui->erapaivaEdit->setDate( tosite()->erapvm());
     ui->laskuNumeroEdit->setText( tosite()->laskuNumero());
 
-    if( tosite()->kumppani())
+    if( tosite()->kumppani() || !tosite()->kumppaninimi().isEmpty())
         ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
     else
         ui->asiakasToimittaja->clear();
@@ -257,6 +257,8 @@ void TuloMenoApuri::teeReset()
                         ui->eraCombo->valitse( vienti.eraId() );
                 }
                 maksutapaMuuttui();
+                if( !vienti.arkistotunnus().isEmpty())
+                    arkistotunnus_ = vienti.arkistotunnus();
             }
 
         } else {
@@ -319,8 +321,9 @@ bool TuloMenoApuri::teeTositteelle()
     else
         vasta.setKredit( 0 - summa );
 
-    vasta.insert("selite", otsikko);
-
+    vasta.setSelite(otsikko);
+    if( !arkistotunnus_.isEmpty())
+        vasta.setArkistotunnus(arkistotunnus_);
 
     // Asiakas tai toimittaja
     QVariantMap kumppaniMap;

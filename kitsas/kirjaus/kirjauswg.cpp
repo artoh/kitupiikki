@@ -58,7 +58,7 @@
 
 #include "apuri/tulomenoapuri.h"
 #include "apuri/siirtoapuri.h"
-#include "apuri/tilioteapuri.h"
+#include "apuri/tiliote/tilioteapuri.h"
 #include "apuri/palkkaapuri.h"
 #include "model/tosite.h"
 #include "model/tositeliitteet.h"
