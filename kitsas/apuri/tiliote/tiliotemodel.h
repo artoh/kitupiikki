@@ -26,46 +26,35 @@
 
 class KitsasInterface;
 
-class TilioteModel : public VanhaTilioteModel
-        //QAbstractTableModel
+class TilioteModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
     explicit TilioteModel(QObject *parent, KitsasInterface* kitsasInterface);
 
-    // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
-    // Basic functionality:
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-
     bool setData(const QModelIndex &index, const QVariant &value,
                  int role = Qt::EditRole) override;
-
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
     int lisaaRivi(const QDate& pvm);
-    int lisaaRivi(const TilioteKirjausRivi &rivi);
+    int lisaaRivi(const TilioteKirjausRivi &rivi);    
     void poistaRivi(const int indeksi);
-    void asetaRivi(int indeksi, const QList<TositeVienti> &viennit);
+    void asetaRivi(int indeksi, const TilioteKirjausRivi &rivi);
     TilioteKirjausRivi rivi(const int indeksi) const;
 
     void lataa(const QVariantList &lista);
-
-
-    void asetaTilinumero(int tilinumero);
-    int tilinumero() const { return tili_;}   
-
     void tuo(const QVariantList tuotavat);
     void lataaHarmaat(const QDate& mista, const QDate& mihin);
 
-    QVariantList viennit() const;
+    int tilinumero() const { return tili_;}
+    void asetaTilinumero(int tilinumero);
 
+    QVariantList viennit() const;
 
     QPair<qlonglong,qlonglong> summat() const;
 
@@ -73,7 +62,6 @@ public:
 
     KitsasInterface* kitsas() const { return kitsasInterface_;}
     int lisaysIndeksi();
-
 
 protected:
     void harmaatSaapuu(QVariant* data);

@@ -304,7 +304,7 @@ void TilioteApuri::lataaHarmaat()
     model_->lataaHarmaat( ui->alkuDate->date(),
                           ui->loppuDate->date());
     kysyAlkusumma();
-    proxy_->sort(TilioteModel::PVM);
+    proxy_->sort(TilioteRivi::PVM);
 }
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)

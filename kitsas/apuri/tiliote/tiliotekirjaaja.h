@@ -20,6 +20,7 @@
 #include <QDialog>
 
 #include "tiliotemodel.h"
+#include "tiliotekirjausrivi.h"
 
 class LaskuTauluTilioteProxylla;
 class TilioteApuri;
@@ -39,9 +40,7 @@ public:
     TilioteKirjaaja( TilioteApuri* apuri );
     ~TilioteKirjaaja() override;
 
-    void asetaPvm(const QDate& pvm);
-
-    VanhaTilioteModel::Tilioterivi rivi();
+    void asetaPvm(const QDate& pvm);    
 
 public slots:
     void accept() override;
@@ -72,10 +71,15 @@ private slots:
 
 
 private:
-    TilioteApuri* apuri();
+    TilioteApuri* apuri() const;
+    void lataa();
+    void paivita();
 
-private:
+private:    
     Ui::TilioteKirjaaja *ui;
+
+    int riviIndeksi_ = -1;
+    TilioteKirjausRivi rivi_;
 
     int menoa_ = false;
 
@@ -84,8 +88,8 @@ private:
 
     LaskuTauluTilioteProxylla *laskut_;
 
-    int muokattavaRivi_ = -1;
     QVariantList alkuperaisRivit_;
+
 };
 
 #endif // TILIOTEKIRJAAJA_H

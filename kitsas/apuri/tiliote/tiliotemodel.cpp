@@ -23,11 +23,11 @@
 #include "db/yhteysmodel.h"
 #include "db/kpkysely.h"
 #include "db/tositetyyppimodel.h"
+#include "tilioterivi.h"
 
 TilioteModel::TilioteModel(QObject *parent, KitsasInterface *kitsasInterface)
-    : VanhaTilioteModel(parent),
-      kitsasInterface_(kitsasInterface)
-    // : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent),
+      kitsasInterface_(kitsasInterface)    
 {
 }
 
@@ -37,17 +37,17 @@ QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int 
     {
         switch (section)
         {
-        case PVM:
+        case TilioteRivi::PVM:
             return tr("Pvm");
-        case EURO:
+        case TilioteRivi::EURO:
             return tr("Euro");
-        case TILI:
+        case TilioteRivi::TILI:
             return tr("Tili");
-        case KOHDENNUS:
+        case TilioteRivi::KOHDENNUS:
             return tr("Kohdennus");
-        case SAAJAMAKSAJA:
+        case TilioteRivi::SAAJAMAKSAJA:
             return tr("Saaja/Maksaja");
-        case SELITE:
+        case TilioteRivi::SELITE:
             return tr("Selite");
 
         }
@@ -130,9 +130,9 @@ void TilioteModel::poistaRivi(const int indeksi)
     endRemoveRows();
 }
 
-void TilioteModel::asetaRivi(int indeksi, const QList<TositeVienti> &viennit)
+void TilioteModel::asetaRivi(int indeksi, const TilioteKirjausRivi& rivi)
 {
-    kirjausRivit_[indeksi].asetaViennit(viennit);
+    kirjausRivit_[indeksi] = rivi;
     emit dataChanged( index(indeksi, TilioteRivi::PVM),
                       index(indeksi, TilioteRivi::EURO),
                       QVector<int>() << Qt::EditRole);

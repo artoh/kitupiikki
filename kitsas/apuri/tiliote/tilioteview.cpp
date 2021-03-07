@@ -23,6 +23,7 @@
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
 #include "tiliotemodel.h"
+#include "tilioterivi.h"
 #include "db/kirjanpito.h"
 
 #include <QHeaderView>
@@ -34,14 +35,14 @@
 TilioteView::TilioteView(QWidget *parent) :
     QTableView(parent)
 {
-    setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti(this) );
-    setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti(this) );
-    setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti(this) );
+    setItemDelegateForColumn( TilioteRivi::TILI, new TiliDelegaatti(this) );
+    setItemDelegateForColumn( TilioteRivi::EURO, new EuroDelegaatti(this) );
+    setItemDelegateForColumn( TilioteRivi::KOHDENNUS, new KohdennusDelegaatti(this) );
 
-    setItemDelegateForColumn(TilioteModel::SAAJAMAKSAJA,
+    setItemDelegateForColumn(TilioteRivi::SAAJAMAKSAJA,
                              new KumppaniValintaDelegaatti(this));
 
-    sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
+    sortByColumn(TilioteRivi::PVM, Qt::AscendingOrder);
 
     setFocusPolicy(Qt::StrongFocus);
 

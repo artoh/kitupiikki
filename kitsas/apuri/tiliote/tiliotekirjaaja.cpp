@@ -92,9 +92,9 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
 
     ui->alvCombo->addItem(QIcon(":/pic/tyhja.png"), tr("Veroton"), 0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("24 %"), 24.0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("14 %"), 14.0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("10 %"), 10.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("24 %"), 24.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("14 %"), 14.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("10 %"), 10.0);
 
 }
 
@@ -108,60 +108,17 @@ void TilioteKirjaaja::asetaPvm(const QDate &pvm)
     ui->pvmEdit->setDate(pvm);
 }
 
-VanhaTilioteModel::Tilioterivi TilioteKirjaaja::rivi()
-{
-    VanhaTilioteModel::Tilioterivi rivi;
-    rivi.pvm = ui->pvmEdit->date();
-    rivi.euro = ui->euroEdit->value();
-
-    rivi.selite = ui->seliteEdit->toPlainText();
-    rivi.tili = ui->tiliEdit->valittuTilinumero();
-    rivi.kohdennus = ui->kohdennusCombo->kohdennus();
-    rivi.merkkaukset = ui->merkkausCC->selectedDatas();
-
-
-    if( ui->alaTabs->currentIndex() == MAKSU) {
-        QModelIndex index = ui->maksuView->currentIndex();
-
-        rivi.saajamaksaja = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
-        rivi.saajamaksajaId = index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt();
-
-
-        rivi.era = index.data(LaskuTauluModel::EraMapRooli).toMap();
-        rivi.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
-        rivi.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
-        if( rivi.selite.isEmpty())
-            rivi.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
-        if( rivi.selite.isEmpty())
-            rivi.selite = index.data(LaskuTauluModel::SeliteRooli).toString();
-
-    } else {
-        rivi.saajamaksajaId = ui->asiakastoimittaja->id();
-        rivi.saajamaksaja = ui->asiakastoimittaja->nimi();
-        rivi.era = ui->eraCombo->eraMap();
-        rivi.laskupvm = ui->eraCombo->eraMap().value("pvm").toDate();
-
-        if( rivi.selite.isEmpty())
-            rivi.selite = rivi.saajamaksaja;
-        rivi.jaksoalkaa = ui->jaksoAlkaaEdit->date();
-        rivi.jaksoloppuu = ui->jaksoLoppuuEdit->date();                
-    }
-    rivi.alkuperaisetViennit = alkuperaisRivit_;
-
-    rivi.alvprosentti = ui->alvCombo->isVisible() ? ui->alvCombo->currentData().toDouble() : 0.0;
-    return rivi;
-}
 
 void TilioteKirjaaja::accept()
 {
-    if( ui->okNappi->isEnabled() ) {        
-        if( muokattavaRivi_ > -1) {
-            apuri()->model()->muokkaaRivi( muokattavaRivi_, rivi());
+    if( ui->okNappi->isEnabled() ) {
+        paivita();
+        if( riviIndeksi_ > -1) {
+            apuri()->model()->asetaRivi(riviIndeksi_, rivi_);
             QDialog::accept();
         } else {
-            // apuri()->model()->lisaaRivi( rivi());
+            apuri()->model()->lisaaRivi(rivi_);
         }
-
         tyhjenna();
     }
 }
@@ -169,11 +126,8 @@ void TilioteKirjaaja::accept()
 void TilioteKirjaaja::kirjaaUusia(const QDate &pvm)
 {
     setWindowTitle( tr("Kirjaa tiliotteelle"));
-    muokattavaRivi_ = -1;
-    if( pvm.isValid()) {
-        ui->pvmEdit->setDate(pvm);
-    }
-
+    riviIndeksi_ = -1;
+    rivi_ = TilioteKirjausRivi(pvm, apuri()->model());
     show();
 }
 
@@ -181,65 +135,11 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 {
     setWindowTitle(tr("Muokkaa tiliotekirjausta"));
 
-    muokattavaRivi_ = riviNro;
-    VanhaTilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
+    riviIndeksi_ = riviNro;
+    rivi_ = apuri()->model()->rivi(riviNro);
 
-    QString saajamaksaja = rivi.saajamaksaja;
-    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
-    if( valinpaikka > 2)
-        saajamaksaja = saajamaksaja.left(valinpaikka);
-
-    ui->ylaTab->setCurrentIndex( rivi.euro < 0 );
-
-    if( rivi.era.value("id").toInt() )
-        ui->alaTabs->setCurrentIndex( MAKSU );
-    else if( QString::number(rivi.tili).startsWith('1') ||
-             QString::number(rivi.tili).startsWith('2'))
-        ui->alaTabs->setCurrentIndex( SIIRTO );
-    else
-        ui->alaTabs->setCurrentIndex(TULOMENO );
-
-    ui->kohdennusCombo->valitseKohdennus( rivi.kohdennus );
-    ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
-
-    // Etsitään valittava rivi
-    avoinProxy_->setFilterFixedString("");
-
-    bool maksu = false;
-    if( rivi.era.value("id").toInt()) {
-        for(int i=0; i < avoinProxy_->rowCount(); i++) {
-            if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
-                ui->maksuView->selectRow(i);
-                maksu = true;
-                break;
-            }
-        }
-    }
-    if( rivi.era.value("id").toInt() && !maksu) {
-        ui->alaTabs->setCurrentIndex( SIIRTO );
-    }
-
-    ui->eraCombo->valitse( rivi.era.value("id").toInt() );
-
-    // MerkkausCC
-    ui->merkkausCC->haeMerkkaukset( rivi.pvm );
-    ui->merkkausCC->setSelectedItems( rivi.merkkaukset );
-
-    ui->asiakastoimittaja->set( rivi.saajamaksajaId,
-                                rivi.saajamaksaja);
-
-    ui->pvmEdit->setDate( rivi.pvm );
-    ui->euroEdit->setValue( rivi.euro );
-    ui->seliteEdit->setText( rivi.selite );
-
-    ui->jaksoAlkaaEdit->setDate( rivi.jaksoalkaa);
-    ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
-
-    ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(rivi.alvprosentti));
-
-    ui->suodatusEdit->setText( saajamaksaja );
-    if( !saajamaksaja.isEmpty())
-        suodata(saajamaksaja);
+    lataa();
+    show();
 }
 
 
@@ -464,7 +364,131 @@ void TilioteKirjaaja::tositeSaapuu(QVariant *data)
     alkuperaisRivit_ = map.value("viennit").toList();
 }
 
-TilioteApuri *TilioteKirjaaja::apuri()
+TilioteApuri *TilioteKirjaaja::apuri() const
 {
     return qobject_cast<TilioteApuri*>( parent() );
+}
+
+void TilioteKirjaaja::lataa()
+{
+
+    const TositeVienti& pankki = rivi_.pankkivienti();
+    const TositeVienti& tapatuma = rivi_.viennit().value(1);
+    const int tili = tapatuma.tili();
+
+    QString saajamaksaja = pankki.kumppaniNimi();
+    int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
+    if( valinpaikka > 2)
+        saajamaksaja = saajamaksaja.left(valinpaikka);
+
+    double euro = pankki.debet() > 1e-5 ? pankki.debet() : pankki.kredit();
+
+    ui->ylaTab->setCurrentIndex( euro < 0 );
+
+    if( tapatuma.eraId() )
+        ui->alaTabs->setCurrentIndex( MAKSU );
+    else if( QString::number(tili).startsWith('1') ||
+             QString::number(tili).startsWith('2'))
+        ui->alaTabs->setCurrentIndex( SIIRTO );
+    else
+        ui->alaTabs->setCurrentIndex(TULOMENO );
+
+    ui->kohdennusCombo->valitseKohdennus( tapatuma.kohdennus() );
+    ui->tiliEdit->valitseTiliNumerolla( tili );
+
+    // Etsitään valittava rivi
+    avoinProxy_->setFilterFixedString("");
+
+    bool maksu = false;
+    if( tapatuma.eraId()) {
+        for(int i=0; i < avoinProxy_->rowCount(); i++) {
+            if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == tapatuma.eraId()) {
+                ui->maksuView->selectRow(i);
+                maksu = true;
+                break;
+            }
+        }
+    }
+    if( tapatuma.eraId() && !maksu) {
+        ui->alaTabs->setCurrentIndex( SIIRTO );
+    }
+
+    ui->eraCombo->valitse( tapatuma.eraId() );
+
+    // MerkkausCC
+    ui->merkkausCC->haeMerkkaukset( tapatuma.pvm() );
+    ui->merkkausCC->setSelectedItems( tapatuma.merkkaukset() );
+
+    ui->asiakastoimittaja->set( pankki.kumppaniId(),
+                                pankki.kumppaniNimi());
+
+    ui->pvmEdit->setDate( pankki.pvm() );
+    ui->euroEdit->setValue( euro );
+    ui->seliteEdit->setText( pankki.selite() );
+
+    ui->jaksoAlkaaEdit->setDate( tapatuma.jaksoalkaa() );
+    ui->jaksoLoppuuEdit->setDate( tapatuma.jaksoloppuu() );
+
+    ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(tapatuma.alvProsentti()));
+
+    ui->suodatusEdit->setText( saajamaksaja );
+    if( !saajamaksaja.isEmpty())
+        suodata(saajamaksaja);
+}
+
+void TilioteKirjaaja::paivita()
+{
+    TositeVienti pankki = rivi_.pankkivienti();
+    TositeVienti tapahtuma = rivi_.viennit().value(1);
+
+    pankki.setPvm(ui->pvmEdit->date());
+    tapahtuma.setPvm(ui->pvmEdit->date());
+
+    pankki.setDebet( ui->euroEdit->value());
+    tapahtuma.setKredit( ui->euroEdit->value());
+
+    pankki.setSelite( ui->seliteEdit->toPlainText());
+    tapahtuma.setSelite( ui->seliteEdit->toPlainText());
+
+    tapahtuma.setKohdennus(ui->kohdennusCombo->kohdennus());
+    tapahtuma.setMerkkaukset(ui->merkkausCC->selectedDatas());
+
+    QVariantMap kumppani;
+
+
+    if( ui->alaTabs->currentIndex() == MAKSU) {
+        QModelIndex index = ui->maksuView->currentIndex();
+
+        kumppani.insert("nimi",index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString());
+        kumppani.insert("id",index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt());
+
+        tapahtuma.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
+        tapahtuma.setTili( index.data(LaskuTauluModel::TiliRooli).toInt());
+        if( tapahtuma.selite().isEmpty())
+                tapahtuma.setSelite(index.data(LaskuTauluModel::SeliteRooli).toString());
+
+    } else {
+        kumppani = ui->asiakastoimittaja->map();
+        tapahtuma.setEra( ui->eraCombo->eraMap() );
+        tapahtuma.setJaksoalkaa( ui->jaksoAlkaaEdit->date() );
+        tapahtuma.setJaksoloppuu( ui->jaksoLoppuuEdit->date() );
+        tapahtuma.setTili( ui->tiliEdit->valittuTilinumero());
+
+    }
+
+    pankki.setKumppani(kumppani);
+    tapahtuma.setKumppani(kumppani);
+
+    double alvprosentti = ui->alvCombo->isVisible() ? ui->alvCombo->currentData().toDouble() : 0.0;
+    if( alvprosentti > 1e-5) {
+        tapahtuma.setAlvKoodi( menoa_ ? AlvKoodi::OSTOT_BRUTTO : AlvKoodi::MYYNNIT_BRUTTO);
+        tapahtuma.setAlvProsentti(alvprosentti);
+    } else {
+        tapahtuma.setAlvKoodi( AlvKoodi::EIALV);
+        tapahtuma.setAlvProsentti(0);
+    }
+
+    QList<TositeVienti> rivit;
+    rivit << pankki << tapahtuma;
+    rivi_.asetaViennit(rivit);
 }
