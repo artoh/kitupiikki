@@ -216,7 +216,8 @@
           <string notr="true">background-color: rgb(255, 255, 0);</string>
          </property>
          <property name="text">
-          <string>Tällä toiminnolla voit tehdä vain arvonlisäverottomia kirjauksia.</string>
+          <string>Tiliotteelta voit kirjata arvonlisäveron vain bruttomenettelyllä. 
+Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
          </property>
         </widget>
        </item>
@@ -245,7 +246,7 @@
         <string>Ohje</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
        </property>
       </widget>
@@ -269,7 +270,7 @@
         <string>Kirjaa</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
        </property>
        <property name="shortcut">
@@ -286,7 +287,7 @@
         <string>Tyhjennä</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/edit-clear.png</normaloff>:/pic/edit-clear.png</iconset>
        </property>
       </widget>
@@ -297,7 +298,7 @@
         <string>Sulje</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
        </property>
       </widget>
@@ -369,7 +370,7 @@
   <tabstop>suljeNappi</tabstop>
  </tabstops>
  <resources>
-  <include location="../pic/pic.qrc"/>
+  <include location="../../pic/pic.qrc"/>
  </resources>
  <connections>
   <connection>

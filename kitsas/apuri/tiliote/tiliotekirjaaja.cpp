@@ -235,22 +235,14 @@ void TilioteKirjaaja::tiliMuuttuu()
 void TilioteKirjaaja::paivitaAlvInfo()
 {
     Tili tili = ui->tiliEdit->valittuTili();
-    bool vero = tili.luku("alvlaji") && ui->alaTabs->currentIndex() == TULOMENO;
+    int alvlaji = tili.luku("alvlaji");
+    bool vero = ui->alaTabs->currentIndex() == TULOMENO &&
+            ( alvlaji == AlvKoodi::MYYNNIT_NETTO | alvlaji == AlvKoodi::MYYNNIT_BRUTTO ||
+              alvlaji == AlvKoodi::OSTOT_NETTO | alvlaji == AlvKoodi::OSTOT_BRUTTO);
 
-    ui->alvLabel->setVisible(false);
-    ui->alvCombo->setVisible(false);
+    ui->alvLabel->setVisible(vero);
+    ui->alvCombo->setVisible(vero);
     ui->alvVaro->setVisible(vero);
-
-    if ( !menoa_) {
-        ui->alvVaro->setText(tr("Tällä toiminnolla voit tehdä vain verottomia kirjauksia.\n"
-                                "Kirjaa verolliset tulot tositetyypillä Tulo"));
-    } else  {
-        ui->alvLabel->setVisible(vero);
-        ui->alvCombo->setVisible(vero);
-        ui->alvVaro->setText(tr("Tiliotteen yhteydessä voit kirjata alv-vähennyksen vain bruttomenettelyllä.\n"
-                                    "Tositteessa on oltava riittävät alv-merkinnät."));
-
-    }
 }
 
 void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selite)
@@ -479,9 +471,11 @@ void TilioteKirjaaja::paivita()
     pankki.setKumppani(kumppani);
     tapahtuma.setKumppani(kumppani);
 
+    Tili tili = ui->tiliEdit->valittuTili();
+    int alvlaji = tili.luku("alvlaji");
     double alvprosentti = ui->alvCombo->isVisible() ? ui->alvCombo->currentData().toDouble() : 0.0;
     if( alvprosentti > 1e-5) {
-        tapahtuma.setAlvKoodi( menoa_ ? AlvKoodi::OSTOT_BRUTTO : AlvKoodi::MYYNNIT_BRUTTO);
+        tapahtuma.setAlvKoodi( alvlaji == AlvKoodi::OSTOT_BRUTTO || alvlaji == AlvKoodi::OSTOT_NETTO ? AlvKoodi::OSTOT_BRUTTO : AlvKoodi::MYYNNIT_BRUTTO);
         tapahtuma.setAlvProsentti(alvprosentti);
     } else {
         tapahtuma.setAlvKoodi( AlvKoodi::EIALV);

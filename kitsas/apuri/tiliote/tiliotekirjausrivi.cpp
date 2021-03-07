@@ -195,10 +195,12 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case TilaRooli:
         return peitetty() ? "-" : "AA";
-    case Qt::TextColorRole:
-        return peitetty() ? QColor(Qt::magenta) : QVariant();
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
+    case Qt::DecorationRole:
+        if(sarake == TILI && !ekavienti.tili())
+            return QIcon(":/pic/varo.png");
+        return QVariant();
     default:
         return QVariant();
     }
@@ -288,6 +290,7 @@ void TilioteKirjausRivi::asetaPankkitili(int tili)
 void TilioteKirjausRivi::asetaViennit(const QList<TositeVienti> &viennit)
 {
     viennit_ = viennit;
+    paivitaTyyppi();
 }
 
 
