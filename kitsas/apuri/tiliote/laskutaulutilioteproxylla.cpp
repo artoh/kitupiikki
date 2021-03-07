@@ -48,15 +48,12 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
 
     suoritukset_.clear();
     for(int i=0; i < tiliote_->rowCount(); i++) {
-        VanhaTilioteModel::Tilioterivi rivi = tiliote_->rivi(i);
-        if( !rivi.era.isEmpty() && !rivi.harmaa) {
-            double suoritus = ostoja_ ?
-                        0.0 - rivi.euro :
-                        rivi.euro;
-            int eraid = rivi.era.value("id").toInt();
-            suoritukset_.insert( eraid,
-                                 suoritus + suoritukset_.value( eraid ));
-        }
+        const QModelIndex& index = tiliote_->index(i, TilioteRivi::EURO);
+        const int eraId = index.data(TilioteRivi::EraIdRooli).toInt();
+        const double euro = index.data(TilioteRivi::EuroRooli).toInt();
+
+        double suoritus  = ostoja_ ? 0.0 - euro : euro;
+        suoritukset_.insert( eraId, suoritus + suoritukset_.value(eraId));
     }
     emit dataChanged( index(0, MAKSAMATTA),
                       index(rowCount()-1, MAKSAMATTA ));

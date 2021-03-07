@@ -201,6 +201,10 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         if(sarake == TILI && !ekavienti.tili())
             return QIcon(":/pic/varo.png");
         return QVariant();
+    case EraIdRooli:
+        return ekavienti.eraId();
+    case EuroRooli:
+        return pankkivienti().debet() - pankkivienti().kredit();
     default:
         return QVariant();
     }

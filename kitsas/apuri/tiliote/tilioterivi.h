@@ -35,7 +35,9 @@ public:
         LajitteluRooli = Qt::UserRole + 1,
         TilaRooli = Qt::UserRole + 2,
         TositeIdRooli = Qt::UserRole + 3,
-        LisaysIndeksiRooli = Qt::UserRole + 4
+        LisaysIndeksiRooli = Qt::UserRole + 4,
+        EraIdRooli = Qt::UserRole + 5,
+        EuroRooli = Qt::UserRole + 6
     };
 
 

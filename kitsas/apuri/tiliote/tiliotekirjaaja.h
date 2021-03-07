@@ -24,6 +24,7 @@
 
 class LaskuTauluTilioteProxylla;
 class TilioteApuri;
+class TilioteViennit;
 
 class QSortFilterProxyModel;
 
@@ -69,19 +70,28 @@ private slots:
     void haeAlkuperaisTosite(int eraId);
     void tositeSaapuu(QVariant *data);
 
+    void lisaaVienti();
+    void poistaVienti();
+    void paivitaVientiNakyma();
+
 
 private:
     TilioteApuri* apuri() const;
-    void lataa();
-    void paivita();
+    void lataa(const TilioteKirjausRivi& rivi);
+    void lataaNakymaan();
+
+    void riviVaihtuu(const QModelIndex &current, const QModelIndex &previous);
+    void naytaRivi();
+    void tallennaRivi();
+    TilioteKirjausRivi tallennettava() const;
+
 
 private:    
     Ui::TilioteKirjaaja *ui;
 
     int riviIndeksi_ = -1;
-    TilioteKirjausRivi rivi_;
-
     int menoa_ = false;
+    int nykyVientiRivi_ = 0;
 
     QSortFilterProxyModel* maksuProxy_;    
     QSortFilterProxyModel* avoinProxy_;
@@ -89,6 +99,9 @@ private:
     LaskuTauluTilioteProxylla *laskut_;
 
     QVariantList alkuperaisRivit_;
+
+    TositeVienti pankkiVienti_;
+    TilioteViennit* viennit_;
 
 };
 

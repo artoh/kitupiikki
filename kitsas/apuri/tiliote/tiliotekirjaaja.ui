@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1307</width>
-    <height>849</height>
+    <width>1375</width>
+    <height>899</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,193 +50,258 @@
     </widget>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Päivämäärä</string>
-       </property>
-       <property name="buddy">
-        <cstring>pvmEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="KpDateEdit" name="pvmEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="asiakasLabel">
-       <property name="text">
-        <string>Asiakas</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true">
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Euroa</string>
-       </property>
-       <property name="buddy">
-        <cstring>euroEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="KpEuroEdit" name="euroEdit">
-       <property name="toolTip">
-        <string>Kirjaa tililtä otto miinusmerkkisenä</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="tiliLabel">
-       <property name="text">
-        <string>Tiliöinti</string>
-       </property>
-       <property name="buddy">
-        <cstring>tiliEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="TilinvalintaLine" name="tiliEdit"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="eraLabel">
-       <property name="text">
-        <string>Tase-erä</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="EraCombo" name="eraCombo"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="kohdennusLabel">
-       <property name="text">
-        <string>Kohdennus</string>
-       </property>
-       <property name="buddy">
-        <cstring>kohdennusCombo</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="KohdennusCombo" name="kohdennusCombo"/>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="merkkausLabel">
-       <property name="text">
-        <string>Merkkaukset</string>
-       </property>
-       <property name="buddy">
-        <cstring>merkkausCC</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="CheckCombo" name="merkkausCC"/>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="seliteLabel">
-       <property name="text">
-        <string>Selite</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QTextEdit" name="seliteEdit">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>120</height>
-        </size>
-       </property>
-       <property name="tabChangesFocus">
-        <bool>true</bool>
-       </property>
-       <property name="acceptRichText">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="jaksotusLabel">
-       <property name="text">
-        <string>Jaksotus</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="KpDateEdit" name="jaksoAlkaaEdit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="jaksoViivaLabel">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,1">
+     <item>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string> -</string>
+          <string>Päivämäärä</string>
+         </property>
+         <property name="buddy">
+          <cstring>pvmEdit</cstring>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="KpDateEdit" name="jaksoLoppuuEdit">
-         <property name="enabled">
-          <bool>false</bool>
+       <item row="0" column="1">
+        <widget class="KpDateEdit" name="pvmEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="asiakasLabel">
+         <property name="text">
+          <string>Asiakas</string>
          </property>
-         <property name="SalliYlitys" stdset="0">
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Euroa</string>
+         </property>
+         <property name="buddy">
+          <cstring>euroEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="KpEuroEdit" name="euroEdit">
+         <property name="toolTip">
+          <string>Kirjaa tililtä otto miinusmerkkisenä</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="tiliLabel">
+         <property name="text">
+          <string>Tiliöinti</string>
+         </property>
+         <property name="buddy">
+          <cstring>tiliEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="TilinvalintaLine" name="tiliEdit"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="eraLabel">
+         <property name="text">
+          <string>Tase-erä</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="EraCombo" name="eraCombo"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="kohdennusLabel">
+         <property name="text">
+          <string>Kohdennus</string>
+         </property>
+         <property name="buddy">
+          <cstring>kohdennusCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="KohdennusCombo" name="kohdennusCombo"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="merkkausLabel">
+         <property name="text">
+          <string>Merkkaukset</string>
+         </property>
+         <property name="buddy">
+          <cstring>merkkausCC</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="CheckCombo" name="merkkausCC"/>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="seliteLabel">
+         <property name="text">
+          <string>Selite</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QTextEdit" name="seliteEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>120</height>
+          </size>
+         </property>
+         <property name="tabChangesFocus">
           <bool>true</bool>
          </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="jaksotusLabel">
+         <property name="text">
+          <string>Jaksotus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="KpDateEdit" name="jaksoAlkaaEdit"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="jaksoViivaLabel">
+           <property name="text">
+            <string> -</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KpDateEdit" name="jaksoLoppuuEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="SalliYlitys" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="alvLabel">
+         <property name="text">
+          <string>Alv</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
+         <item>
+          <widget class="QComboBox" name="alvCombo"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="alvVaro">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>Tiliotteelta voit kirjata arvonlisäveron vain bruttomenettelyllä. 
+Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="11" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="lisaaVientiNappi">
+           <property name="text">
+            <string>Lisää vienti</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="poistaVientiNappi">
+           <property name="text">
+            <string>Poista vienti</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="1">
+        <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
         </widget>
        </item>
       </layout>
      </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="alvLabel">
-       <property name="text">
-        <string>Alv</string>
+     <item>
+      <widget class="QTableView" name="viennitView">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
-       <item>
-        <widget class="QComboBox" name="alvCombo"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="alvVaro">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 255, 0);</string>
-         </property>
-         <property name="text">
-          <string>Tiliotteelta voit kirjata arvonlisäveron vain bruttomenettelyllä. 
-Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="10" column="0" colspan="2">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>17</width>
-         <height>13</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>17</width>
+       <height>13</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -354,8 +419,6 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
  <tabstops>
   <tabstop>suodatusEdit</tabstop>
   <tabstop>maksuView</tabstop>
-  <tabstop>pvmEdit</tabstop>
-  <tabstop>asiakastoimittaja</tabstop>
   <tabstop>euroEdit</tabstop>
   <tabstop>tiliEdit</tabstop>
   <tabstop>eraCombo</tabstop>

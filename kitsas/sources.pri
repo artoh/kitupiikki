@@ -12,6 +12,7 @@ SOURCES += \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.cpp \
     $$PWD/apuri/tiliote/tiliotemodel.cpp \
     $$PWD/apuri/tiliote/tilioterivi.cpp \
+    $$PWD/apuri/tiliote/tilioteviennit.cpp \
     $$PWD/apuri/tiliote/tilioteview.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
@@ -310,6 +311,7 @@ HEADERS += \
     $$PWD/apuri/tiliote/tiliotekirjausrivi.h \
     $$PWD/apuri/tiliote/tiliotemodel.h \
     $$PWD/apuri/tiliote/tilioterivi.h \
+    $$PWD/apuri/tiliote/tilioteviennit.h \
     $$PWD/apuri/tiliote/tilioteview.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
