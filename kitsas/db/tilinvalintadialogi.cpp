@@ -51,6 +51,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, &TilinValintaDialogi::suodataSuosikit);
     connect( ui->kaikkiNappi, &QPushButton::clicked,
              this, &TilinValintaDialogi::naytaKaikki);
+    connect( ui->hyvitysNappi, &QPushButton::clicked,
+             this, &TilinValintaDialogi::naytaHyvitys);
     connect( ui->suodatusEdit, &QLineEdit::textChanged,
              this, &TilinValintaDialogi::teeSuodatus);
     connect( ui->view, SIGNAL(clicked(QModelIndex)),
@@ -72,8 +74,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     filtteri_->suodataTilalla(viimetila);
     filtteri_->naytaOtsikot(kp()->settings()->value("TilinvalintaOtsikot", true).toBool());
 
-
     ui->view->setMouseTracking(true);
+    ui->hyvitysNappi->setVisible(false);
 
     ui->suodatusEdit->installEventFilter(this);
     restoreGeometry( kp()->settings()->value("TilinValintaDlg").toByteArray());
@@ -122,6 +124,11 @@ void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
 {
     alkuperainenTyyppiSuodatin = regexp;
     filtteri_->suodataTyypilla(regexp);
+
+    if(alkuperainenTyyppiSuodatin == "(AP|D).*" ||
+       alkuperainenTyyppiSuodatin == "(AP|C).*")
+        ui->hyvitysNappi->setVisible(true);
+
     alaValitseOtsikoita(1);
 }
 
@@ -131,6 +138,7 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
     {
         ui->kaikkiNappi->setChecked(false);
         ui->saldoButton->setChecked(false);
+        ui->hyvitysNappi->setChecked(false);
         filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::SUOSIKIT);
     }
     else
@@ -142,12 +150,29 @@ void TilinValintaDialogi::naytaKaikki(bool naytetaanko)
     if( naytetaanko) {
         ui->suosikitNappi->setChecked(false);
         ui->saldoButton->setChecked(false);
+        ui->hyvitysNappi->setChecked(false);
         filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAIKKI);
         filtteri_->suodataTyypilla(".*");
     } else {
         filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAYTOSSA);
         filtteri_->suodataTyypilla(alkuperainenTyyppiSuodatin);
-    }    
+    }
+}
+
+void TilinValintaDialogi::naytaHyvitys(bool naytetaanko)
+{
+    if( naytetaanko) {
+        ui->suosikitNappi->setChecked(false);
+        ui->saldoButton->setChecked(false);
+        ui->kaikkiNappi->setChecked(false);
+        if( alkuperainenTyyppiSuodatin == "(AP|D).*")
+            filtteri_->suodataTyypilla("(AP|C).*");
+        else
+            filtteri_->suodataTyypilla("(AP|D).*");
+    } else {
+        filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KAYTOSSA);
+        filtteri_->suodataTyypilla(alkuperainenTyyppiSuodatin);
+    }
 }
 
 void TilinValintaDialogi::asetaModel(TiliModel *model)
@@ -190,6 +215,7 @@ void TilinValintaDialogi::naytaSaldolliset(bool naytetaanko)
     if( naytetaanko) {
         ui->suosikitNappi->setChecked(false);
         ui->kaikkiNappi->setChecked(false);
+        ui->hyvitysNappi->setChecked(false);
         filtteri_->suodataTilalla(TilivalintaDialogiFiltteri::KIRJATTU);
         filtteri_->suodataTyypilla(".*");
     } else {

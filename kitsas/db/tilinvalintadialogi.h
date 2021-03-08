@@ -54,8 +54,9 @@ public slots:
     void suodataTyyppi(const QString& regexp);
     void suodataSuosikit(bool suodatetaanko);
     void naytaKaikki(bool naytetaanko);
+    void naytaHyvitys(bool naytetaanko);
     void asetaModel(TiliModel *model);
-    void valitse(int tilinumero);
+    void valitse(int tilinumero);    
 
 signals:
     void tiliValittu(int tili);

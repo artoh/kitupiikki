@@ -36,7 +36,8 @@ class TilioteKirjaaja : public QDialog
 {
     Q_OBJECT    
 public:
-    enum AlaTab { MAKSU, TULOMENO, SIIRTO, PIILOSSA };
+    enum YlaTab { TILILLE, TILILTA};
+    enum AlaTab { MAKSU, TULOMENO, HYVITYS, SIIRTO, PIILOSSA };
 
     TilioteKirjaaja( TilioteApuri* apuri );
     ~TilioteKirjaaja() override;

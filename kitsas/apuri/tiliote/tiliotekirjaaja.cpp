@@ -44,6 +44,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Laskun maksu"));
     ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
+    ui->alaTabs->addTab(QIcon(":/pic/edit-undo.png"), tr("Hyvitys"));
     ui->alaTabs->addTab(QIcon(":/pic/siirra.png"), tr("Siirto"));
 
 
@@ -167,14 +168,14 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->tiliLabel->setVisible( tab != MAKSU && tab != PIILOSSA);
     ui->tiliEdit->setVisible( tab != MAKSU && tab != PIILOSSA);
 
-    ui->kohdennusLabel->setVisible( tab == TULOMENO && kp()->kohdennukset()->kohdennuksia() );
-    ui->kohdennusCombo->setVisible( tab == TULOMENO&& kp()->kohdennukset()->kohdennuksia() );    
+    ui->kohdennusLabel->setVisible( tab != MAKSU && kp()->kohdennukset()->kohdennuksia() );
+    ui->kohdennusCombo->setVisible( tab != MAKSU && kp()->kohdennukset()->kohdennuksia() );
 
     ui->merkkausLabel->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab == TULOMENO || tab==SIIRTO);
-    ui->asiakastoimittaja->setVisible( tab == TULOMENO || tab==SIIRTO);
+    ui->asiakasLabel->setVisible( tab != MAKSU);
+    ui->asiakastoimittaja->setVisible( tab != MAKSU);
 
     ui->seliteLabel->setVisible(tab != MAKSU);
     ui->seliteEdit->setVisible( tab != MAKSU);
@@ -182,13 +183,15 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     if( tab == MAKSU ) {
         laskut_->lataaAvoimet( menoa_ );
 
-    } else if( tab == TULOMENO ) {
-        ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
-        ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
-        ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
+    } else if( tab == TULOMENO || tab == HYVITYS) {
+        bool menotili = (ui->ylaTab->currentIndex() == TILILTA) ^ (tab == HYVITYS);
+
+        ui->tiliLabel->setText( menotili ? tr("Menotili") : tr("Tulotili"));
+        ui->asiakasLabel->setText( menotili ? tr("Toimittaja") : tr("Asiakas"));
+        ui->tiliEdit->suodataTyypilla( menotili ? "D.*" : "C.*");
         Tili* valittuna = ui->tiliEdit->tili();
-        if( !valittuna || (menoa_ && !valittuna->onko(TiliLaji::MENO)) || (!menoa_ && !valittuna->onko(TiliLaji::TULO)) )
-            ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
+        if( !valittuna || (menotili && !valittuna->onko(TiliLaji::MENO)) || (!menotili && !valittuna->onko(TiliLaji::TULO)) )
+            ui->tiliEdit->valitseTiliNumerolla(  menotili ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
@@ -238,7 +241,8 @@ void TilioteKirjaaja::tiliMuuttuu()
     }
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
-            ui->alaTabs->currentIndex() == TULOMENO;
+            (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS);
+
     ui->jaksotusLabel->setVisible(jakso);
     ui->jaksoAlkaaEdit->setVisible(jakso);
     ui->jaksoViivaLabel->setVisible(jakso);
@@ -254,7 +258,7 @@ void TilioteKirjaaja::paivitaAlvInfo()
 {
     Tili tili = ui->tiliEdit->valittuTili();
     int alvlaji = tili.luku("alvlaji");
-    bool vero = ui->alaTabs->currentIndex() == TULOMENO &&
+    bool vero = (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS) &&
             ( alvlaji == AlvKoodi::MYYNNIT_NETTO | alvlaji == AlvKoodi::MYYNNIT_BRUTTO ||
               alvlaji == AlvKoodi::OSTOT_NETTO | alvlaji == AlvKoodi::OSTOT_BRUTTO);
 
@@ -444,8 +448,14 @@ void TilioteKirjaaja::lataaNakymaan()
     else if( QString::number(tili).startsWith('1') ||
              QString::number(tili).startsWith('2'))
         ui->alaTabs->setCurrentIndex( SIIRTO );
-    else
-        ui->alaTabs->setCurrentIndex(TULOMENO );
+    else {
+        if( (tapahtuma.tyyppi() == TositeVienti::OSTO + TositeVienti::KIRJAUS && euro > 0) ||
+            (tapahtuma.tyyppi() == TositeVienti::MYYNTI + TositeVienti::KIRJAUS && euro < 0)) {
+            ui->alaTabs->setCurrentIndex(HYVITYS);
+        } else {
+            ui->alaTabs->setCurrentIndex(TULOMENO );
+        }
+    }
 
     // Etsitään valittava rivi
     avoinProxy_->setFilterFixedString("");
@@ -586,7 +596,7 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava() const
 
         viennit << pankki << siirto;
     } else {
-        int tyyppi = ui->ylaTab->currentIndex() ? TositeVienti::OSTO : TositeVienti::MYYNTI;
+        int tyyppi = ui->ylaTab->currentIndex() ^ (ui->alaTabs->currentIndex() == HYVITYS) ? TositeVienti::OSTO : TositeVienti::MYYNTI;
         pankki.setTyyppi( tyyppi + TositeVienti::VASTAKIRJAUS );
         pankki.setSelite( viennit_->vienti(0).selite() );
         pankki.setKumppani( ui->asiakastoimittaja->map());
