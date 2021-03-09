@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/tr">
         <file>tulkki.json</file>
-        <file>fi.qm</file>
+        <file>kitsas_sv.qm</file>
+        <file>qt_fi.qm</file>
+        <file>qt_sv.qm</file>
     </qresource>
 </RCC>

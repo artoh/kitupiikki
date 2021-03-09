@@ -28,6 +28,37 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Kieli</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QRadioButton" name="fiKieli">
+        <property name="text">
+         <string>suomi</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/liput/fi.png</normaloff>:/liput/fi.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="svKieli">
+        <property name="text">
+         <string>ruotsi</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/liput/se.png</normaloff>:/liput/se.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Kirjasin</string>

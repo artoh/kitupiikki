@@ -20,6 +20,8 @@
 #include <QJsonDocument>
 
 #include <QDebug>
+#include <QApplication>
+#include <QSettings>
 
 Kielet::Kielet(const QString &tiedostonnimi)
 {
@@ -39,6 +41,15 @@ Kielet::Kielet(const QString &tiedostonnimi)
             kaannokset_[iter.key()].insert(kiter.key(), kiter.value().toString());
         }
     }
+    QStringList systeemiKielet = QLocale::system().uiLanguages();
+    QString systeemiKieli = systeemiKielet.value(0).contains("sv") ? "sv" : "fi";
+    QSettings settings;
+    QString valintaKieli = settings.value("uiKieli").toString();
+
+    valitseUiKieli(valintaKieli.isEmpty() ? systeemiKieli : valintaKieli );
+
+    qApp->installTranslator(&appTranslator_);
+    qApp->installTranslator(&qtTranslator_);
 }
 
 void Kielet::alustaKielet(const QString &kaannostiedostonnimi)
@@ -75,6 +86,16 @@ void Kielet::valitseKieli(const QString &kieli)
     emit kieliVaihtui(kieli);
 }
 
+void Kielet::valitseUiKieli(const QString &kieli)
+{
+    uiKieli_ = kieli;
+    appTranslator_.load("kitsas_" + kieli + ".qm", ":/tr/");
+    qtTranslator_.load("qt_" + kieli + ".qm", ":/tr/");
+
+    QSettings settings;
+    settings.setValue("uiKieli", kieli);
+}
+
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const
 {
     const QMap<QString,QString> map  = kaannokset_.value(avain);
@@ -97,6 +118,11 @@ QList<Kieli> Kielet::kielet() const
 QString Kielet::nykyinen() const
 {
     return nykykieli_;
+}
+
+QString Kielet::uiKieli() const
+{
+    return uiKieli_;
 }
 
 Kielet* Kielet::instanssi__ = nullptr;

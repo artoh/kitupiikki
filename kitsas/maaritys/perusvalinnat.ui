@@ -73,10 +73,10 @@
      <item row="2" column="1">
       <widget class="QComboBox" name="muotoCombo">
        <property name="Asetus" stdset="0">
-        <string>muoto</string>
+        <string notr="true">muoto</string>
        </property>
        <property name="Vaihtoehdot" stdset="0">
-        <string>muodot</string>
+        <string notr="true">muodot</string>
        </property>
       </widget>
      </item>
@@ -90,10 +90,10 @@
      <item row="3" column="1">
       <widget class="QComboBox" name="laajuusCombo">
        <property name="Asetus" stdset="0">
-        <string>laajuus</string>
+        <string notr="true">laajuus</string>
        </property>
        <property name="Vaihtoehdot" stdset="0">
-        <string>laajuudet</string>
+        <string notr="true">laajuudet</string>
        </property>
       </widget>
      </item>
@@ -107,10 +107,10 @@
      <item row="4" column="1">
       <widget class="QComboBox" name="kieliCombo">
        <property name="Asetus" stdset="0">
-        <string>kieli</string>
+        <string notr="true">kieli</string>
        </property>
        <property name="Vaihtoehdot" stdset="0">
-        <string>kielet</string>
+        <string notr="true">kielet</string>
        </property>
        <property name="Liput" stdset="0">
         <bool>true</bool>
