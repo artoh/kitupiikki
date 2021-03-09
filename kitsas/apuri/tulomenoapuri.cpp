@@ -625,8 +625,9 @@ void TuloMenoApuri::poistoAikaMuuttuu()
 
 void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
 {
-    bool maksuperuste = kp()->onkoMaksuperusteinenAlv(pvm) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
-                                                        || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
+    bool maksuperuste = kp()->onkoMaksuperusteinenAlv(pvm) &&
+            ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA) || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA) )
+                && ui->vastatiliLine->valittuTili().eritellaankoTase() ;
     int verokoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
     if( menoa_) {
         veroFiltteri_->setFilterRegExp(  maksuperuste ?
