@@ -66,6 +66,7 @@ SOURCES += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.cpp \
     $$PWD/laskutus/vakioviite/vakioviitedlg.cpp \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
+    $$PWD/laskutus/viitenumero.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
@@ -367,6 +368,7 @@ HEADERS += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.h \
     $$PWD/laskutus/vakioviite/vakioviitedlg.h \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
+    $$PWD/laskutus/viitenumero.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \

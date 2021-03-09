@@ -125,8 +125,6 @@ protected:
 
     bool muokattu_;
     int kaudenTulosIndeksi_ = 0;
-    bool alvVelkaVaroitus = false;
-    bool alvSaatavaVaroitus = false;
 };
 
 #endif // TILINAVAUSMODEL_H

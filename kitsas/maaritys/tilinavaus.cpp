@@ -154,7 +154,7 @@ bool Tilinavaus::nollaa()
 {
     model->lataa();
     proxy->sort(0);
-    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("henkilosto"));
+    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).henkilosto());
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -178,5 +178,5 @@ bool Tilinavaus::tallenna()
 bool Tilinavaus::onkoMuokattu()
 {
     return model->onkoMuokattu() ||
-          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).luku("henkilosto");
+          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).henkilosto();
 }
