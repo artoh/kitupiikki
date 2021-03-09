@@ -132,3 +132,4 @@ void KiertoMaaritys::paivitaNapit(const QModelIndex& index)
     ui->muokkaaNappi->setEnabled( index.isValid());
     ui->poistaNappi->setEnabled( index.isValid());
 }
+
