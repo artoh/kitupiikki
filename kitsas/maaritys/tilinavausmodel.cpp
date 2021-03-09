@@ -208,28 +208,6 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
 {
     int tilinro = kp()->tilit()->tiliIndeksilla( index.row()).numero() ;
 
-    if(kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::ALVSAATAVA ) && !alvSaatavaVaroitus)
-    {
-        QMessageBox::critical(nullptr, tr("ALV-saatavien tili"),
-           tr("ALV-saatavien tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
-              "annettu alv-ilmoitusta. Jo ilmoitetun saatavan tulisi olla Verosaatavat-tilillä niin, "
-              "että tämä tili on tilikauden vaihtuessa ilman saldoa.\n"
-              "Lue Kitsaan ohjeet arvonlisäverosta."));
-            alvSaatavaVaroitus = true;
-            return false;
-    }
-    if(kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::ALVVELKA ) && !alvVelkaVaroitus)
-    {
-        QMessageBox::critical(nullptr, tr("ALV-velkojen tili"),
-           tr("ALV-velkojen tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
-              "annettu alv-ilmoitusta. Jo ilmoitetun velan tulisi olla Verovelat-tilillä niin, "
-              "että tämä tili on tilikauden vaihtuessa ilman saldoa.\n"
-              "Lue Kitupiikin ohjeet arvonlisäverosta."));
-            alvVelkaVaroitus = true;
-            return false;
-    }
-
-
     if( qAbs(value.toDouble()) > 1e-5) {
         AvausEra rivi( qRound64( value.toDouble() * 100) );
         QList<AvausEra> lista;
