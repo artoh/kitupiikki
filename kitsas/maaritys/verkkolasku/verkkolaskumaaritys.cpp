@@ -121,15 +121,6 @@ bool VerkkolaskuMaaritys::nollaa()
 
     valintaMuuttui();
 
-    if( kp()->pilvi()->kayttajaPilvessa()) {
-        ui->kirjauduLabel->hide();
-    } else {
-        ui->kirjauduLabel->show();
-        ui->kaytossaGroup->setEnabled(false);
-        ui->hakemistoGroup->setEnabled(false);
-        ui->maventaGroup->setEnabled(false);
-    }
-
     QStringList vaaditutYhteystiedot;
     vaaditutYhteystiedot << "Kotipaikka" << "Kaupunki" << "Postinumero" << "Katuosoite";
     bool puuttuu = false;
@@ -138,6 +129,18 @@ bool VerkkolaskuMaaritys::nollaa()
             puuttuu = true;
     ui->yhteystietovirheLabel->setVisible(puuttuu);
 
+
+    if( kp()->pilvi()->kayttajaPilvessa()) {
+        ui->kirjauduLabel->hide();
+    }
+
+    if( !kp()->pilvi()->kayttajaPilvessa() || puuttuu)
+    {
+        ui->kirjauduLabel->show();
+        ui->kaytossaGroup->setEnabled(false);
+        ui->hakemistoGroup->setEnabled(false);
+        ui->maventaGroup->setEnabled(false);
+    }    
 
     return true;
 }
