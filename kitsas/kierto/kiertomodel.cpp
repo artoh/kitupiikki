@@ -23,7 +23,7 @@
 
 KiertoModel::KiertoModel(QObject *parent)
     : QAbstractListModel(parent)
-{
+{    
 }
 
 int KiertoModel::rowCount(const QModelIndex &parent) const
@@ -74,6 +74,14 @@ void KiertoModel::lataa(const QVariantList &lista)
     beginResetModel();
     lista_ = lista;    
     endResetModel();
+
+    int portaalissa = 0;
+    for(const auto& item : lista_) {
+        const QVariantMap &map = item.toMap();
+            if( map.value("portaalissa").toBool())
+                portaalissa++;
+    }
+    emit kiertojaPortaalissa(portaalissa > 0);
 }
 
 void KiertoModel::paivita()
