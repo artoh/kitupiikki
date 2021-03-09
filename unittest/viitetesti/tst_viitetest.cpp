@@ -76,6 +76,7 @@ void ViiteTest::tunnista_asiakas()
     ViiteNumero asiakas("RF06 3012 396");
     QCOMPARE( asiakas.tyyppi(), ViiteNumero::ASIAKAS);
     QCOMPARE( asiakas.numero(), 123);
+    QCOMPARE( asiakas.eraId(), -1233);
 }
 
 

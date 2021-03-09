@@ -120,6 +120,13 @@ qlonglong ViiteNumero::numero() const
     return kanta().toLongLong();
 }
 
+int ViiteNumero::eraId() const
+{
+    if( tyyppi() == ASIAKAS || tyyppi() == KOHDE)
+        return 0 - ( kanta().toInt() * 10 + tyyppi());
+    return VIRHEELLINEN;
+}
+
 QString ViiteNumero::laskeTarkaste(const QString &pohja)
 {
     int summa = 0;

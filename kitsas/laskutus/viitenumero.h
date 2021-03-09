@@ -44,6 +44,7 @@ public:
 
     QString kanta() const;
     qlonglong numero() const;
+    int eraId() const;
 
     static QString laskeTarkaste(const QString& pohja);
 
