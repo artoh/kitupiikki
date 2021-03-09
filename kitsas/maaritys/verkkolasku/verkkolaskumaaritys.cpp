@@ -130,6 +130,15 @@ bool VerkkolaskuMaaritys::nollaa()
         ui->maventaGroup->setEnabled(false);
     }
 
+    QStringList vaaditutYhteystiedot;
+    vaaditutYhteystiedot << "Kotipaikka" << "Kaupunki" << "Postinumero" << "Katuosoite";
+    bool puuttuu = false;
+    for(const auto& tieto : vaaditutYhteystiedot)
+        if( kp()->asetukset()->asetus(tieto).length() < 2 )
+            puuttuu = true;
+    ui->yhteystietovirheLabel->setVisible(puuttuu);
+
+
     return true;
 }
 
