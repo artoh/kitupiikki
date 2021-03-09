@@ -694,7 +694,6 @@ FORMS += \
     tuonti/tilimuuntodlg.ui \
     tools/devtool.ui \
     maaritys/maksuperusteinen.ui \
-    kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
     maaritys/inboxmaaritys.ui \
