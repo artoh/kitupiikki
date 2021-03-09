@@ -181,7 +181,7 @@ void TilioteModel::tilaaAlkuperaisTosite(int rivinLisaysIndeksi, int eraId)
     KpKysely *kysely = kitsas()->yhteysModel()->kysely("/tositteet");
     kysely->lisaaAttribuutti("vienti", eraId);
     connect( kysely, &KpKysely::vastaus,
-             [this, rivinLisaysIndeksi] (QVariant* data) { this->alkuperaisTositeSaapuu(rivinLisaysIndeksi, data); } );
+             [this, rivinLisaysIndeksi, eraId] (QVariant* data) { this->alkuperaisTositeSaapuu(rivinLisaysIndeksi, data, eraId); } );
     kysely->kysy();
 }
 
@@ -336,11 +336,11 @@ void TilioteModel::peitaHarmailla()
     }
 }
 
-void TilioteModel::alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant *data)
+void TilioteModel::alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant *data, int eraId)
 {
     for(int i=0; i < kirjausRivit_.count(); i++) {
         if( kirjausRivit_.at(i).lisaysIndeksi() == lisaysIndeksi) {
-            kirjausRivit_[i].alkuperaistositeSaapuu(data);
+            kirjausRivit_[i].alkuperaistositeSaapuu(data, eraId);
             break;
         }
     }

@@ -16,7 +16,6 @@
 */
 #include "tilioteapuri.h"
 #include "ui_tilioteapuri.h"
-#include "../vanhatiliotemodel.h"
 
 #include "tiliotekirjaaja.h"
 #include "model/tosite.h"
@@ -66,10 +65,10 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect(ui->poistaNappi, &QPushButton::clicked, this, &TilioteApuri::poista);
     connect(ui->tositeNappi, &QPushButton::clicked, this, &TilioteApuri::naytaTosite);
 
-    connect( model_, &VanhaTilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
-    connect( model_, &VanhaTilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
-    connect( model_, &VanhaTilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
-    connect( model_, &VanhaTilioteModel::modelReset, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
 
     connect( ui->alkuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);

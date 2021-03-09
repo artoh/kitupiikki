@@ -17,11 +17,31 @@
 #ifndef TAYDENNYSVIENNIT_H
 #define TAYDENNYSVIENNIT_H
 
+#include "model/tositevienti.h"
+#include <QList>
+
+class KitsasInterface;
 
 class TaydennysViennit
 {
 public:
-    TaydennysViennit();
+    TaydennysViennit(KitsasInterface *interface);
+
+    void asetaEra(int eraId, QVariantList alkuperaisviennit);
+    int eraId() const { return eraId_;}
+
+    QList<TositeVienti> paivita(const QList<TositeVienti> omatViennit);
+
+    QList<TositeVienti> viennit() const;
+
+    static void asetaKitsas(KitsasInterface* interface);
+
+private:
+    QList<TositeVienti> alkuperaiset_;
+    int eraId_ = 0;
+    QList <TositeVienti> taydennys_;
+
+    KitsasInterface* kitsasInterface_;
 };
 
 #endif // TAYDENNYSVIENNIT_H

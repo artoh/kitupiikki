@@ -27,13 +27,14 @@
 
 #include <QRandomGenerator>
 
-TilioteKirjausRivi::TilioteKirjausRivi()
+TilioteKirjausRivi::TilioteKirjausRivi() :
+    taydennys_(nullptr)
 {
 
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QVariantList &data, TilioteModel *model) :
-    TilioteRivi(model)
+    TilioteRivi(model), taydennys_(model->kitsas())
 {
     for(auto const &vienti : data) {
         viennit_.append(TositeVienti(vienti.toMap()));
@@ -41,7 +42,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantList &data, TilioteModel *m
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *model) :
-    TilioteRivi(model), tuotu_(true)
+    TilioteRivi(model), tuotu_(true), taydennys_(model->kitsas())
 {
     TositeVienti pankki;
     TositeVienti tapahtuma;
@@ -101,7 +102,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
-    TilioteRivi(model)
+    TilioteRivi(model), taydennys_(model->kitsas())
 {
     TositeVienti pankki;
     TositeVienti tapahtuma;
@@ -115,7 +116,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QList<TositeVienti> &viennit, TilioteModel *model) :
-    TilioteRivi(model), viennit_(viennit)
+    TilioteRivi(model), viennit_(viennit), taydennys_(model->kitsas())
 {
 
 }
@@ -163,9 +164,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             }
 
         }
-        case EURO: {
-            const TositeVienti& vasta = viennit_.value(0);
-            double summa = vasta.debet() - vasta.kredit();
+        case EURO: {            
+            const double summa = pankkivienti().debet() - pankkivienti().kredit();
             return qAbs(summa) > 1e-5 ? QString("%L1 €").arg( summa,0,'f',2) : QVariant();
             }
         default:
@@ -190,7 +190,27 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
 
     case Qt::UserRole:
         return sarake == SAAJAMAKSAJA ? ekavienti.kumppaniId() : QVariant();
-
+    case Qt::DecorationRole:
+        if(sarake == KOHDENNUS && viennit_.count() == 2) {
+            if( ekavienti.kohdennus()) {
+                return model()->kitsas()->kohdennukset()->kohdennus( ekavienti.kohdennus() ).tyyppiKuvake();
+            }
+        } else if( sarake == EURO) {
+            const int koodi = pankkivienti().tyyppi() - TositeVienti::VASTAKIRJAUS;
+            const qlonglong summa = pankkivienti().debetSnt() - pankkivienti().kreditSnt();
+            if( !summa ) return QVariant();
+            if( koodi == TositeVienti::MYYNTI ) {
+                return summa > 0 ? QIcon(":/pic/lisaa.png") : QIcon(":/pic/edit-undo.png");
+            } else if( koodi == TositeVienti::OSTO) {
+                return summa < 0 ? QIcon(":/pic/poista.png") : QIcon(":/pic/edit-undo.png");
+            } else if( koodi == TositeVienti::SIIRTO) {
+                return QIcon(":/pic/siirra.png");
+            } else if( koodi == TositeVienti::SUORITUS) {
+                return QIcon(":/pic/lasku.png");
+            }
+        } else if(sarake == TILI && !ekavienti.tili())
+            return QIcon(":/pic/varo.png");
+        return QIcon(":/pic/tyhja.png");
     case LajitteluRooli:
         return QString("%1 %2").arg(ekavienti.pvm().toString(Qt::ISODate))
                                 .arg(lisaysIndeksi(),6,10,QChar('0'));
@@ -200,10 +220,6 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
-    case Qt::DecorationRole:
-        if(sarake == TILI && !ekavienti.tili())
-            return QIcon(":/pic/varo.png");
-        return QVariant();
     case EraIdRooli:
         return ekavienti.eraId();
     case EuroRooli:
@@ -311,9 +327,9 @@ void TilioteKirjausRivi::paivitaTyyppi()
         tyyppi = TositeVienti::SUORITUS;
     } else if( tili && tili->onko(TiliLaji::TASE) ) {
         tyyppi = TositeVienti::SIIRTO;
-    } else if( pankkivienti().debet() > 1e-5 ) {
+    } else if( tili && tili->onko(TiliLaji::TULO) ) {
         tyyppi = TositeVienti::MYYNTI;
-    } else if( pankkivienti().kredit() > 1e-5) {
+    } else if( tili && tili->onko(TiliLaji::MENO)) {
         tyyppi = TositeVienti::OSTO;
     }
 
@@ -331,10 +347,21 @@ void TilioteKirjausRivi::paivitaErikoisrivit()
     const TositeVienti& vienti = viennit_.value(1);
     const int eraId =  vienti.eraId();
     if( eraId > 0 && qAbs(vienti.kredit() - vienti.debet()) > 1e-5) {
-        if( eraId == haettuEra_)
-            ; // PäivitäRivit
+        if( eraId == taydennys_.eraId() )
+            sijoitaErikoisrivit();
         else
             model()->tilaaAlkuperaisTosite( lisaysIndeksi(), eraId );
+    }
+}
+
+void TilioteKirjausRivi::sijoitaErikoisrivit()
+{
+    const QList<TositeVienti>& taydennys = taydennys_.paivita(viennit_);
+    if(!taydennys.isEmpty()) {
+        QList<TositeVienti> uudet;
+        uudet << viennit_.value(0) << viennit_.value(1);
+        uudet << taydennys;
+        viennit_ = uudet;
     }
 }
 
@@ -352,44 +379,11 @@ QString TilioteKirjausRivi::pseudoarkistotunnus() const
     return tunnus;
 }
 
-void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data)
+void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data, int eraId)
 {
-    // TaydennysViennit
-    // paivita(QList<TositeVienti>, QVariantList)
-    // taydennysViennit
-
-    const TositeVienti &omavienti = viennit_.value(1);
-
-    const qlonglong omatSentit = qRound64(omavienti.kredit() * 100.0) - qRound64( omavienti.debet() * 100.0);
-    if( !omatSentit) return;
-    double osuusErasta = 0.0;
-
-    QVariantMap tosite(data->toMap());
-    QVariantList alkuperaisViennit = tosite.value("viennit").toList();
-
-    for(const auto& item: alkuperaisViennit) {
-        TositeVienti evienti(item.toMap());
-        if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
-            const qlonglong eSentit = qRound64( evienti.debet() * 100 ) - qRound64( evienti.kredit() * 100);
-            osuusErasta = omatSentit / eSentit;
-            break;
-        }
-    }
-    if( qAbs(osuusErasta) < 1e-5) return;
-
-    QList<TositeVienti> uudetViennit;
-    uudetViennit << pankkivienti() << omavienti;
-
-    for( const auto& item : alkuperaisViennit) {
-        TositeVienti eVienti(item.toMap());
-        if( eVienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS &&
-            eVienti.alvKoodi() / 100 == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON / 100 ) {
-            // Tämä tarvitsee maksuperusteisen suoritusrivit
-
-        }
-
-    }
-
+    const QVariantList lista = data->toMap().value("viennit").toList();
+    taydennys_.asetaEra(eraId, lista);
+    sijoitaErikoisrivit();
 }
 
 

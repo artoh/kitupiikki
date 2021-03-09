@@ -19,6 +19,7 @@
 
 #include "tilioterivi.h"
 #include "model/tositevienti.h"
+#include "taydennysviennit.h"
 
 class TilioteKirjausRivi : public TilioteRivi
 {
@@ -45,19 +46,19 @@ public:
     void asetaViennit(const QList<TositeVienti> &viennit);
 
     QString pseudoarkistotunnus() const;
-    void alkuperaistositeSaapuu(QVariant* data);
+    void alkuperaistositeSaapuu(QVariant* data, int eraId);
 
 protected:    
     void paivitaTyyppi();
     void paivitaErikoisrivit();
+    void sijoitaErikoisrivit();
 
     bool peitetty_ = false;
     bool tuotu_ = false;
 
     QList<TositeVienti> viennit_;
 
-    int haettuEra_ = 0;
-    QList<TositeVienti> alkuperaisViennit_;
+    TaydennysViennit taydennys_;
 };
 
 #endif // TILIOTEKIRJAUSRIVI_H

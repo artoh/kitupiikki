@@ -48,6 +48,16 @@ QVariant TositeVienti::tallennettava() const
     return ulos;
 }
 
+qlonglong TositeVienti::debetSnt() const
+{
+    return qRound64( debet() * 100.0);
+}
+
+qlonglong TositeVienti::kreditSnt() const
+{
+    return qRound64( kredit() * 100.0);
+}
+
 QVariantMap TositeVienti::era() const
 {
     return value("era").toMap();

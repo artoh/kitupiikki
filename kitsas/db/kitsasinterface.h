@@ -30,6 +30,7 @@ class AlvIlmoitustenModel;
 class KiertoModel;
 class QSettings;
 class YhteysModel;
+class TositeTyyppiModel;
 
 /**
  * @brief Rajapinta keskeisten modeleiden saavuttamiseen
@@ -55,10 +56,15 @@ public:
     virtual KiertoModel* kierrot() const { return nullptr;}
     virtual QSettings* settings() const { return nullptr;}
     virtual YhteysModel* yhteysModel() { return nullptr;}
+    virtual TositeTyyppiModel* tositeTyypit() const { return nullptr;}
 
-    virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const { return QString();}
-    virtual QString kaanna(const QString& teksti, const QString& kieli = QString()) const {return teksti; }
+
+    virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;
+    virtual QString kaanna(const QString& teksti, const QString& kieli = QString()) const;
 
 };
+
+inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pvm*/, const QString &/*sarja*/, bool /*samakausi*/, bool /*vertailu*/) const { return QString();}
+inline QString KitsasInterface::kaanna(const QString &teksti, const QString &/*kieli*/) const {return teksti; }
 
 #endif // KITSASINTERFACE_H

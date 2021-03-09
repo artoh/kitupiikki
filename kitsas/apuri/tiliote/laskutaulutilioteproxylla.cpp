@@ -20,10 +20,10 @@
 LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteModel *tiliote) :
     LaskuTauluModel (parent), tiliote_(tiliote)
 {
-    connect( tiliote, &VanhaTilioteModel::dataChanged, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &VanhaTilioteModel::rowsInserted, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &VanhaTilioteModel::rowsRemoved, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
-    connect( tiliote, &VanhaTilioteModel::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &TilioteModel::dataChanged, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &TilioteModel::rowsInserted, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &TilioteModel::rowsRemoved, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( tiliote, &TilioteModel::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
 }
 
 QVariant LaskuTauluTilioteProxylla::data(const QModelIndex &index, int role) const

@@ -22,7 +22,6 @@
 #include "tiliotekirjausrivi.h"
 #include "tilioteharmaarivi.h"
 
-#include "../vanhatiliotemodel.h"
 
 class KitsasInterface;
 
@@ -70,7 +69,7 @@ protected:
     void peita(int harmaaIndeksi, int kirjausIndeksi);
     void peitaHarmailla(int harmaaIndeksi);
     void peitaHarmailla();
-    void alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant* data);
+    void alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant* data, int eraId);
 
 private:
     QList<TilioteKirjausRivi> kirjausRivit_;

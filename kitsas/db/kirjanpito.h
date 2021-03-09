@@ -158,7 +158,7 @@ public:
      * @brief Tositteiden tyyppien model
      * @return
      */
-    TositeTyyppiModel *tositeTyypit() const { return  tositeTyypit_;}
+    virtual TositeTyyppiModel *tositeTyypit() const { return  tositeTyypit_;}
 
     /**
      * @brief Palauttaa tilityypit sisältävän modelin

@@ -21,6 +21,7 @@
 
 #include "db/tilimodel.h"
 #include "db/tilikausimodel.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QColor>
 
@@ -83,6 +84,13 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         return vienti_.value("tosite").toMap().value("id").toInt();
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
+    case Qt::DecorationRole:
+        if( sarake == KOHDENNUS) {
+            const QVariantMap& tosite = vienti_.value("tosite").toMap();
+            return model()->kitsas()->tositeTyypit()->kuvake( tosite.value("tyyppi").toInt() );
+        } else {
+            return QVariant();
+        }
     }
 
 

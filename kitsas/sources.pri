@@ -19,7 +19,6 @@ SOURCES += \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
     $$PWD/apuri/tulomenorivi.cpp \
-    $$PWD/apuri/vanhatiliotemodel.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
@@ -319,7 +318,6 @@ HEADERS += \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
     $$PWD/apuri/tulomenorivi.h \
-    $$PWD/apuri/vanhatiliotemodel.h \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \

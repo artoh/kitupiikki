@@ -78,7 +78,9 @@ public:
     int alvkoodi() const { return data(ALVKOODI).toInt();}
     int tili() const { return data(TILI).toInt();}
     double debet() const { return data(DEBET).toDouble();}
+    qlonglong debetSnt() const;
     double kredit() const { return data(KREDIT).toDouble();}
+    qlonglong kreditSnt() const;
     int alvKoodi() const { return data(ALVKOODI).toInt();}
     double alvProsentti() const { return data(ALVPROSENTTI).toDouble();}
     int kohdennus() const { return  data(KOHDENNUS).toInt();}

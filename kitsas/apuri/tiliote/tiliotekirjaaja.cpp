@@ -259,8 +259,8 @@ void TilioteKirjaaja::paivitaAlvInfo()
     Tili tili = ui->tiliEdit->valittuTili();
     int alvlaji = tili.luku("alvlaji");
     bool vero = (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS) &&
-            ( alvlaji == AlvKoodi::MYYNNIT_NETTO | alvlaji == AlvKoodi::MYYNNIT_BRUTTO ||
-              alvlaji == AlvKoodi::OSTOT_NETTO | alvlaji == AlvKoodi::OSTOT_BRUTTO);
+            ( alvlaji == AlvKoodi::MYYNNIT_NETTO || alvlaji == AlvKoodi::MYYNNIT_BRUTTO ||
+              alvlaji == AlvKoodi::OSTOT_NETTO || alvlaji == AlvKoodi::OSTOT_BRUTTO);
 
     ui->alvLabel->setVisible(vero);
     ui->alvCombo->setVisible(vero);
@@ -318,6 +318,7 @@ void TilioteKirjaaja::tyhjenna()
     ui->maksuView->clearSelection();
     ui->pvmEdit->setFocus();
     ui->merkkausCC->haeMerkkaukset( pankkiVienti_.pvm()  );
+    ui->euroEdit->clear();
 
     viennit_->tyhjenna();
     viennit_->lisaaVienti(TositeVienti());
@@ -427,7 +428,7 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
 
 void TilioteKirjaaja::lataaNakymaan()
 {
-    const TositeVienti& tapahtuma = viennit_->vienti(1);
+    const TositeVienti& tapahtuma = viennit_->vienti(0);
     const int tili = tapahtuma.tili();
 
     ui->pvmEdit->setDate(pankkiVienti_.pvm());
@@ -438,7 +439,7 @@ void TilioteKirjaaja::lataaNakymaan()
     if( valinpaikka > 2)
         saajamaksaja = saajamaksaja.left(valinpaikka);
 
-    double euro = pankkiVienti_.debet() > 1e-5 ? pankkiVienti_.debet() : 0 - pankkiVienti_.kredit();
+    double euro = pankkiVienti_.debet() - pankkiVienti_.kredit();
     ui->ylaTab->setCurrentIndex( euro < 0 );
 
     if( tapahtuma.tyyppi() == TositeVienti::SIIRTO + TositeVienti::KIRJAUS)
