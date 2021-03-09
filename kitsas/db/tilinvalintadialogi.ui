@@ -102,20 +102,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="hyvitysNappi">
-       <property name="text">
-        <string>Hyvitys</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/edit-undo.png</normaloff>:/pic/edit-undo.png</iconset>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
