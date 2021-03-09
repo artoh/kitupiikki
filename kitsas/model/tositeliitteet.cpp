@@ -234,6 +234,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         buffer.open(QIODevice::WriteOnly);
         QPdfWriter writer(&buffer);
         writer.setTitle(tiedostonnimi);
+        writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
         writer.setPageSize(QPdfWriter::A4);
 
         doc.print(&writer);

@@ -91,6 +91,7 @@ void AineistoDialog::accept()
     tilikausi_ = kp()->tilikaudet()->tilikausiIndeksilla(ui->tilikausiCombo->currentIndex());
 
     QPdfWriter *writer = new QPdfWriter(ui->tiedostoEdit->text());
+    writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(tilikausi_.kausivaliTekstina()));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
