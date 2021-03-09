@@ -63,11 +63,14 @@ public:
     KitsasInterface* kitsas() const { return kitsasInterface_;}
     int lisaysIndeksi();
 
+    void tilaaAlkuperaisTosite(int lisaysIndeksi, int eraId);
+
 protected:
     void harmaatSaapuu(QVariant* data);
     void peita(int harmaaIndeksi, int kirjausIndeksi);
     void peitaHarmailla(int harmaaIndeksi);
     void peitaHarmailla();
+    void alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant* data);
 
 private:
     QList<TilioteKirjausRivi> kirjausRivit_;

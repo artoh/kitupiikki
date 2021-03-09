@@ -45,16 +45,19 @@ public:
     void asetaViennit(const QList<TositeVienti> &viennit);
 
     QString pseudoarkistotunnus() const;
+    void alkuperaistositeSaapuu(QVariant* data);
 
 protected:    
     void paivitaTyyppi();
+    void paivitaErikoisrivit();
 
     bool peitetty_ = false;
     bool tuotu_ = false;
 
-
-
     QList<TositeVienti> viennit_;
+
+    int haettuEra_ = 0;
+    QList<TositeVienti> alkuperaisViennit_;
 };
 
 #endif // TILIOTEKIRJAUSRIVI_H

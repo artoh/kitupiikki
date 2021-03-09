@@ -23,6 +23,7 @@
 #include "db/kohdennusmodel.h"
 #include "db/asetusmodel.h"
 #include "db/tili.h"
+#include "db/verotyyppimodel.h"
 
 #include <QRandomGenerator>
 
@@ -94,7 +95,9 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
         pankki.setViite(viite);
 
     viennit_ << pankki << tapahtuma;
+
     paivitaTyyppi();
+    paivitaErikoisrivit();
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
@@ -253,7 +256,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
 
 Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
 {
-    if( sarake == TILI && viennit_.value(1).eraId())
+    if( viennit_.value(1).eraId() && sarake != PVM && sarake != SAAJAMAKSAJA && sarake != SELITE )
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
     if( sarake == EURO && viennit_.count() != 2)
@@ -295,6 +298,7 @@ void TilioteKirjausRivi::asetaViennit(const QList<TositeVienti> &viennit)
 {
     viennit_ = viennit;
     paivitaTyyppi();
+    paivitaErikoisrivit();
 }
 
 
@@ -322,6 +326,18 @@ void TilioteKirjausRivi::paivitaTyyppi()
     }
 }
 
+void TilioteKirjausRivi::paivitaErikoisrivit()
+{
+    const TositeVienti& vienti = viennit_.value(1);
+    const int eraId =  vienti.eraId();
+    if( eraId > 0 && qAbs(vienti.kredit() - vienti.debet()) > 1e-5) {
+        if( eraId == haettuEra_)
+            ; // PäivitäRivit
+        else
+            model()->tilaaAlkuperaisTosite( lisaysIndeksi(), eraId );
+    }
+}
+
 QString TilioteKirjausRivi::pseudoarkistotunnus() const
 {
     const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
@@ -334,6 +350,46 @@ QString TilioteKirjausRivi::pseudoarkistotunnus() const
        tunnus.append(nextChar);
     }
     return tunnus;
+}
+
+void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data)
+{
+    // TaydennysViennit
+    // paivita(QList<TositeVienti>, QVariantList)
+    // taydennysViennit
+
+    const TositeVienti &omavienti = viennit_.value(1);
+
+    const qlonglong omatSentit = qRound64(omavienti.kredit() * 100.0) - qRound64( omavienti.debet() * 100.0);
+    if( !omatSentit) return;
+    double osuusErasta = 0.0;
+
+    QVariantMap tosite(data->toMap());
+    QVariantList alkuperaisViennit = tosite.value("viennit").toList();
+
+    for(const auto& item: alkuperaisViennit) {
+        TositeVienti evienti(item.toMap());
+        if( evienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
+            const qlonglong eSentit = qRound64( evienti.debet() * 100 ) - qRound64( evienti.kredit() * 100);
+            osuusErasta = omatSentit / eSentit;
+            break;
+        }
+    }
+    if( qAbs(osuusErasta) < 1e-5) return;
+
+    QList<TositeVienti> uudetViennit;
+    uudetViennit << pankkivienti() << omavienti;
+
+    for( const auto& item : alkuperaisViennit) {
+        TositeVienti eVienti(item.toMap());
+        if( eVienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS &&
+            eVienti.alvKoodi() / 100 == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON / 100 ) {
+            // Tämä tarvitsee maksuperusteisen suoritusrivit
+
+        }
+
+    }
+
 }
 
 
