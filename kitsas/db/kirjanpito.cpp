@@ -50,7 +50,6 @@
 #include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
 #include "kierto/kiertomodel.h"
-#include "tools/tulkki.h"
 
 #include "tools/finvoicehaku.h"
 #include "kieli/kielet.h"

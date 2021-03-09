@@ -29,7 +29,6 @@
 
 #include "kpkysely.h"
 #include "kirjanpito.h"
-#include "kielikentta.h"
 
 #include "kieli/kielet.h"
 
