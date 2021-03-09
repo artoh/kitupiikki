@@ -63,6 +63,9 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
     });
 
     connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &KiertoMaaritys::paivitaNapit);
+    connect( kp()->kierrot(), &KiertoModel::kiertojaPortaalissa, ui->eiPortaalissaLabel, &QLabel::setHidden );
+    kp()->kierrot()->paivita();
+
 }
 
 KiertoMaaritys::~KiertoMaaritys()
@@ -129,3 +132,4 @@ void KiertoMaaritys::paivitaNapit(const QModelIndex& index)
     ui->muokkaaNappi->setEnabled( index.isValid());
     ui->poistaNappi->setEnabled( index.isValid());
 }
+

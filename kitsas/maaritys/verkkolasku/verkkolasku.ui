@@ -26,6 +26,19 @@ font-weight: bold;</string>
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="yhteystietovirheLabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string>Yhteystietosi ovat puutteelliset. Et voi muodostaa verkkolaskuja, ellei osoitetta ja kotipaikkaa ole määritelty.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="kaytossaGroup">
      <property name="title">
       <string>Finvoice-verkkolaskut</string>

@@ -40,7 +40,7 @@ private:
     void poista();
 
     void ohjeMuokattu();
-    void paivitaNapit(const QModelIndex& index);
+    void paivitaNapit(const QModelIndex& index);    
 
     Ui::KiertoMaaritys *ui;
 };

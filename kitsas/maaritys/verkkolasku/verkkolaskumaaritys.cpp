@@ -121,14 +121,26 @@ bool VerkkolaskuMaaritys::nollaa()
 
     valintaMuuttui();
 
+    QStringList vaaditutYhteystiedot;
+    vaaditutYhteystiedot << "Kotipaikka" << "Kaupunki" << "Postinumero" << "Katuosoite";
+    bool puuttuu = false;
+    for(const auto& tieto : vaaditutYhteystiedot)
+        if( kp()->asetukset()->asetus(tieto).length() < 2 )
+            puuttuu = true;
+    ui->yhteystietovirheLabel->setVisible(puuttuu);
+
+
     if( kp()->pilvi()->kayttajaPilvessa()) {
         ui->kirjauduLabel->hide();
-    } else {
+    }
+
+    if( !kp()->pilvi()->kayttajaPilvessa() || puuttuu)
+    {
         ui->kirjauduLabel->show();
         ui->kaytossaGroup->setEnabled(false);
         ui->hakemistoGroup->setEnabled(false);
         ui->maventaGroup->setEnabled(false);
-    }
+    }    
 
     return true;
 }

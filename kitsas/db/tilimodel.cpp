@@ -30,6 +30,7 @@
 #include "tilityyppimodel.h"
 #include "kirjanpito.h"
 
+
 #include "laskutus/myyntilaskuntulostaja.h"
 
 TiliModel::TiliModel(QObject *parent) :

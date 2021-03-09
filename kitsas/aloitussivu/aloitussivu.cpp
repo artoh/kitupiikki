@@ -397,32 +397,50 @@ void AloitusSivu::infoSaapui()
 void AloitusSivu::varmuuskopioi()
 {
     QString tiedosto = kp()->sqlite()->tiedostopolku();
+    bool onnistui = false;
 
     // Suljetaan tiedostoyhteys, jotta saadaan varmasti varmuuskopioitua kaikki
+    const QString& asetusAvain = kp()->asetukset()->asetus("UID") + "_varmistuspolku";
+    const QString varmuushakemisto = kp()->settings()->value( asetusAvain, QDir::homePath()).toString();
+
     kp()->sqlite()->sulje();
 
     QFileInfo info(tiedosto);
+
     QString polku = QString("%1/%2-%3.kitsas")
-            .arg(QDir::homePath())
+            .arg(varmuushakemisto)
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
     QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitsas)") );
+
+
     if( tiedostoon == tiedosto)
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
-        return;
+        tiedostoon.clear();
     }
+
+    if( QFile::exists(tiedostoon))
+        QFile::remove(tiedostoon);
+
     if( !tiedostoon.isEmpty() )
     {
         QFile kirjanpito( tiedosto);
-        if( kirjanpito.copy(tiedostoon) )
+        if( kirjanpito.copy(tiedostoon) ) {
             QMessageBox::information(this, kp()->asetukset()->asetus("Nimi"), tr("Kirjanpidon varmuuskopiointi onnistui."));
-        else
+            onnistui = true;
+        } else {
             QMessageBox::critical(this, tr("Virhe"), tr("Tiedoston varmuuskopiointi epäonnistui."));
+        }
     }
     // Avataan tiedosto uudestaan
     kp()->sqlite()->avaaTiedosto(tiedosto);
+    if( onnistui ) {
+        QFileInfo varmuusinfo(tiedostoon);
+        kp()->settings()->setValue( asetusAvain, varmuusinfo.absolutePath() );
+        kp()->asetukset()->aseta("Varmuuskopioitu", QDateTime::currentDateTime().toString(Qt::ISODate));
+    }
 }
 
 void AloitusSivu::muistiinpanot()

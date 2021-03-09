@@ -41,6 +41,9 @@ public:
     void lataa(const QVariantList &lista);
     void paivita();
 
+signals:
+    void kiertojaPortaalissa(bool onko);
+
 private:
     QVariantList lista_;
 };

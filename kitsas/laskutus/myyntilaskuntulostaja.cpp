@@ -49,6 +49,7 @@ QByteArray MyyntiLaskunTulostaja::pdf(const QVariantMap &lasku, bool ikkunakuore
     buffer.open(QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
+    writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer.setPageSize( QPdfWriter::A4);
     writer.setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
     QPainter painter(&writer);

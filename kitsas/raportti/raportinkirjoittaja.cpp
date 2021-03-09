@@ -452,6 +452,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayo
 
     QPdfWriter writer(&buffer);
 
+    writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer.setCreator( QString("Kitsas %1").arg( qApp->applicationVersion() ) );
     writer.setTitle( otsikko() );
 
