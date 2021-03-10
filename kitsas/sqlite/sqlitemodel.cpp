@@ -28,6 +28,7 @@
 #include <QSqlQuery>
 #include <QApplication>
 #include <QJsonDocument>
+#include <QRegularExpression>
 
 #include "routes/initroute.h"
 #include "routes/tositeroute.h"
@@ -122,6 +123,9 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     if( role == Qt::ForegroundRole) {
         if( map.value("harjoitus").toBool())
             return QColor(Qt::darkGreen);
+        const QString& polku = map.value("polku").toString();
+        if( polku.contains(QRegularExpression("\\d{6}")) )
+            return QColor(Qt::darkMagenta);
     }
 
     return QVariant();
