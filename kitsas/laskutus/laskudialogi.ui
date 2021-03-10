@@ -111,7 +111,7 @@ osoite</string>
           <string>Laskutus</string>
          </property>
          <property name="buddy">
-          <cstring>laskutusCombo</cstring>
+          <cstring>maksuCombo</cstring>
          </property>
         </widget>
        </item>
@@ -132,6 +132,9 @@ osoite</string>
         <widget class="QLabel" name="tarkeLabel">
          <property name="text">
           <string>Valvonta</string>
+         </property>
+         <property name="buddy">
+          <cstring>valvontaCombo</cstring>
          </property>
         </widget>
        </item>
@@ -171,10 +174,13 @@ osoite</string>
          <property name="text">
           <string>Laskun pvm</string>
          </property>
+         <property name="buddy">
+          <cstring>lineEdit</cstring>
+         </property>
         </widget>
        </item>
        <item row="3" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1,2">
          <item>
           <widget class="KpDateEdit" name="lineEdit"/>
          </item>
@@ -182,6 +188,9 @@ osoite</string>
           <widget class="QLabel" name="label_6">
            <property name="text">
             <string>Maksuaika</string>
+           </property>
+           <property name="buddy">
+            <cstring>spinBox</cstring>
            </property>
           </widget>
          </item>
@@ -211,7 +220,7 @@ osoite</string>
         </widget>
        </item>
        <item row="4" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,1,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,1,2">
          <item>
           <widget class="KpDateEdit" name="eraDate"/>
          </item>
@@ -588,6 +597,9 @@ osoite</string>
              <property name="text">
               <string>Tilaaja</string>
              </property>
+             <property name="buddy">
+              <cstring>tilaajaEdit</cstring>
+             </property>
             </widget>
            </item>
            <item row="0" column="1">
@@ -597,6 +609,9 @@ osoite</string>
             <widget class="QLabel" name="label_10">
              <property name="text">
               <string>Myyjä</string>
+             </property>
+             <property name="buddy">
+              <cstring>myyjaEdit</cstring>
              </property>
             </widget>
            </item>
@@ -612,6 +627,9 @@ osoite</string>
              <property name="text">
               <string>Tilauspäivä</string>
              </property>
+             <property name="buddy">
+              <cstring>tilausPvm</cstring>
+             </property>
             </widget>
            </item>
            <item row="0" column="1">
@@ -621,6 +639,9 @@ osoite</string>
             <widget class="QLabel" name="label_9">
              <property name="text">
               <string>Tilaajan tilausnumero</string>
+             </property>
+             <property name="buddy">
+              <cstring>tilausnumeroEdit</cstring>
              </property>
             </widget>
            </item>
@@ -663,6 +684,9 @@ osoite</string>
              <widget class="QLabel" name="label_13">
               <property name="text">
                <string>Laskutusjakso</string>
+              </property>
+              <property name="buddy">
+               <cstring>spinBox_3</cstring>
               </property>
              </widget>
             </item>
@@ -707,6 +731,9 @@ osoite</string>
               <property name="text">
                <string>Laskutus</string>
               </property>
+              <property name="buddy">
+               <cstring>spinBox_2</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="1">
@@ -743,6 +770,9 @@ osoite</string>
                <widget class="QLabel" name="label_12">
                 <property name="text">
                  <string>päättyy</string>
+                </property>
+                <property name="buddy">
+                 <cstring>toistoPaattyyPvm</cstring>
                 </property>
                </widget>
               </item>
@@ -1119,8 +1149,8 @@ osoite</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1587</x>
-     <y>808</y>
+     <x>1672</x>
+     <y>1166</y>
     </hint>
     <hint type="destinationlabel">
      <x>1629</x>

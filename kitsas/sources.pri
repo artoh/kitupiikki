@@ -52,6 +52,7 @@ SOURCES += \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
+    $$PWD/laskutus/laskurividialogi.cpp \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
@@ -354,6 +355,7 @@ HEADERS += \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
+    $$PWD/laskutus/laskurividialogi.h \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
@@ -632,6 +634,7 @@ FORMS += \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
+    $$PWD/laskutus/laskurividialogi.ui \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
