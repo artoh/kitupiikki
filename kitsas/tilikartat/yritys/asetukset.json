@@ -30,22 +30,28 @@
   },
   "laajuudet": {
     "1": {
-      "fi": "Suppea, ei varastoa"
+      "fi": "Suppea, ei varastoa",
+      "sv": "Kort, utan lager"
     },
     "2": {
-      "fi": "Suppea, varastolla"
+      "fi": "Suppea, varastolla",
+      "sv": "Kort, med lager"
     },
     "3": {
-      "fi": "Tavallinen"
+      "fi": "Tavallinen",
+      "sv": "Normal"
     },
     "4": {
-      "fi": "Laaja, ei konsernitilejä"
+      "fi": "Laaja, ei konsernitilejä",
+      "sv": "Omfattande, utan koncernkonton"
     },
     "5": {
-      "fi": "Laaja, myös konsernitilit"
+      "fi": "Laaja, myös konsernitilit",
+      "sv": "Omfattande, med koncernkonton"
     },
     "6": {
-      "fi": "Kaikki tilit"
+      "fi": "Kaikki tilit",
+      "sv": "Alla konton"
     }
   },
   "laajuus": "3",
