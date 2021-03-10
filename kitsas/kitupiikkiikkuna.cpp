@@ -57,7 +57,7 @@
 #include "onniwidget.h"
 
 #include "lisaikkuna.h"
-#include "laskutus/laskudialogi.h"
+#include "laskutus/vanhalaskudialogi.h"
 #include "kirjaus/siirrydlg.h"
 
 #include "tools/inboxlista.h"

@@ -22,7 +22,7 @@
 #include "db/kirjanpito.h"
 #include "laskualvcombo.h"
 #include "laskurivitmodel.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 
 LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(LaskuDialogi *dialogi) :
     QItemDelegate(dialogi)

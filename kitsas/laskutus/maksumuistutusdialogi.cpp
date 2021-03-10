@@ -22,7 +22,7 @@
 #include "myyntilaskuntulostaja.h"
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 #include <QPushButton>
 
 MaksumuistutusDialogi::MaksumuistutusDialogi(QList<int> erat, QWidget *parent) :

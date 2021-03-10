@@ -24,7 +24,7 @@
 #include "maaritys/verkkolasku/verkkolaskumaaritys.h"
 #include "model/tosite.h"
 
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 
 #include <QDebug>
 #include <QSettings>

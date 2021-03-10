@@ -34,7 +34,7 @@
 #include "lisaikkuna.h"
 
 #include "tositeselausmodel.h"
-#include "laskutus/laskudialogi.h"
+#include "laskutus/vanhalaskudialogi.h"
 
 SelausWg::SelausWg(QWidget *parent) :
     KitupiikkiSivu(parent),

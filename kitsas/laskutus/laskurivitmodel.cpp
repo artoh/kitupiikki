@@ -22,7 +22,7 @@
 #include "db/tilinvalintadialogi.h"
 
 #include "model/tositevienti.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 
 #include <QMessageBox>
 
@@ -31,6 +31,13 @@ LaskuRivitModel::LaskuRivitModel(QObject *parent, const QVariantList& data)
       rivit_(data)
 {
     lisaaRivi();
+}
+
+void LaskuRivitModel::lataa(const QVariantList &data)
+{
+    beginResetModel();
+    rivit_ = data;
+    endResetModel();
 }
 
 QVariant LaskuRivitModel::headerData(int section, Qt::Orientation orientation, int role) const

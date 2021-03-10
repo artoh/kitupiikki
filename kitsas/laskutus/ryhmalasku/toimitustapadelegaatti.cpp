@@ -17,7 +17,7 @@
 #include "toimitustapadelegaatti.h"
 
 #include <QComboBox>
-#include "../laskudialogi.h"
+#include "../vanhalaskudialogi.h"
 #include "laskutettavatmodel.h"
 
 ToimitustapaDelegaatti::ToimitustapaDelegaatti(QObject *parent) :

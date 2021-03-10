@@ -193,6 +193,7 @@
         <file>about.png</file>
         <file>lukittupdf.png</file>
         <file>piilotettu.png</file>
+        <file>talo.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

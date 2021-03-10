@@ -146,7 +146,7 @@ public:
      * @brief Tiedot tallennettavassa muodossa
      * @return
      */
-    QVariantMap tallennettava() const;
+    virtual QVariantMap tallennettava() const;
 
 signals:
     void ladattu();
@@ -168,7 +168,7 @@ signals:
 
 public slots:
     void lataa(int tositeid);
-    void lataaData(QVariant *variant);
+    virtual void lataaData(QVariant *variant);
     void tallenna(int tilaan = Tosite::KIRJANPIDOSSA);
     void tarkasta();
     void nollaa(const QDate& pvm, int tyyppi);

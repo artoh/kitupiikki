@@ -18,7 +18,7 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 #include "validator/ibanvalidator.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 #include "erittelyruudukko.h"
 
 #include "nayukiQR/QrCode.hpp"

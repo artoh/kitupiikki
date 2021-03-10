@@ -129,7 +129,7 @@ osoite</string>
         </layout>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="tarkeLabel">
+        <widget class="QLabel" name="valvontaLabel">
          <property name="text">
           <string>Valvonta</string>
          </property>
@@ -190,12 +190,12 @@ osoite</string>
             <string>Maksuaika</string>
            </property>
            <property name="buddy">
-            <cstring>spinBox</cstring>
+            <cstring>maksuaikaSpin</cstring>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="maksuaikaSpin">
            <property name="suffix">
             <string> pv</string>
            </property>
@@ -336,7 +336,7 @@ osoite</string>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="rivit">
       <attribute name="icon">
@@ -863,7 +863,7 @@ osoite</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="saate">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
         <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>

@@ -46,6 +46,7 @@ public:
     };
 
     LaskuRivitModel(QObject *parent = nullptr, const QVariantList& data = QVariantList());
+    void lataa(const QVariantList& data);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

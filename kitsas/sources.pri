@@ -49,7 +49,9 @@ SOURCES += \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
+    $$PWD/laskutus/lasku.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
+    $$PWD/laskutus/laskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
     $$PWD/laskutus/laskurividialogi.cpp \
@@ -67,6 +69,7 @@ SOURCES += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.cpp \
     $$PWD/laskutus/vakioviite/vakioviitedlg.cpp \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
+    $$PWD/laskutus/vanhalaskudialogi.cpp \
     $$PWD/laskutus/viitenumero.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
@@ -227,7 +230,6 @@ SOURCES += \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
     db/tilityyppimodel.cpp \
-    laskutus/laskudialogi.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     laskutus/tuotemodel.cpp \
     maaritys/emailmaaritys.cpp \
@@ -352,7 +354,9 @@ HEADERS += \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
     $$PWD/laskutus/kumppanituotewidget.h \
+    $$PWD/laskutus/lasku.h \
     $$PWD/laskutus/laskualvcombo.h \
+    $$PWD/laskutus/laskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
     $$PWD/laskutus/laskurividialogi.h \
@@ -370,6 +374,7 @@ HEADERS += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.h \
     $$PWD/laskutus/vakioviite/vakioviitedlg.h \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
+    $$PWD/laskutus/vanhalaskudialogi.h \
     $$PWD/laskutus/viitenumero.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
@@ -532,7 +537,6 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
     db/tilityyppimodel.h \
-    laskutus/laskudialogi.h \
     laskutus/laskutusverodelegaatti.h \
     laskutus/tuotemodel.h \
     maaritys/emailmaaritys.h \

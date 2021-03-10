@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "myyntilaskujentoimittaja.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 #include "myyntilaskuntulostaja.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"

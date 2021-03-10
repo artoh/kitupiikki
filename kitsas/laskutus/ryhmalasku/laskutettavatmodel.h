@@ -19,7 +19,7 @@
 
 #include <QAbstractTableModel>
 
-#include "../laskudialogi.h"
+#include "../vanhalaskudialogi.h"
 
 class LaskutettavatModel : public QAbstractTableModel
 {

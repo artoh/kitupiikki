@@ -17,7 +17,7 @@
 #include "laskutaulumodel.h"
 
 #include "db/kirjanpito.h"
-#include "laskutus/laskudialogi.h"
+#include "laskutus/vanhalaskudialogi.h"
 #include "laskutus/ryhmalasku/toimitustapadelegaatti.h"
 #include "db/yhteysmodel.h"
 

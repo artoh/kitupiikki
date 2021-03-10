@@ -20,7 +20,7 @@
 #include "model/laskutaulumodel.h"
 
 #include "db/kirjanpito.h"
-#include "laskudialogi.h"
+#include "vanhalaskudialogi.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
 #include "maksumuistutusdialogi.h"
@@ -171,11 +171,11 @@ void LaskulistaWidget::paivitaNapit()
                                && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
     ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
     ui->muokkaaNappi->setEnabled( index.isValid() &&
-                                  (laskutustapa != LaskuDialogi::TUOTULASKU ||
+                                  (laskutustapa != VanhaLaskuDialogi::TUOTULASKU ||
                                    tyyppi == TositeTyyppi::MYYNTILASKU));
     ui->muistutusNappi->setVisible( index.isValid() && (tyyppi == TositeTyyppi::MYYNTILASKU
                                                         || ( tyyppi == TositeTyyppi::MAKSUMUISTUTUS &&
-                                                             laskutustapa != LaskuDialogi::TUOTULASKU))
+                                                             laskutustapa != VanhaLaskuDialogi::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
                                     && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5
                                     && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
@@ -224,8 +224,8 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        LaskuDialogi *dlg = new LaskuDialogi(QVariantMap(), ryhmalasku, asiakas_);
-        connect( dlg, &LaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
+        VanhaLaskuDialogi *dlg = new VanhaLaskuDialogi(QVariantMap(), ryhmalasku, asiakas_);
+        connect( dlg, &VanhaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
@@ -314,8 +314,8 @@ void LaskulistaWidget::naytaLasku()
 
 void LaskulistaWidget::naytaDialogi(QVariant *data)
 {
-    LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
-    connect( dlg, &LaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
+    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(data->toMap());
+    connect( dlg, &VanhaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
     dlg->show();
 }
 
@@ -340,7 +340,7 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     umap.insert("viivkorko", lmap.value("viivkorko"));
     map.insert("lasku", umap);
 
-    LaskuDialogi* dlg = new LaskuDialogi(map);
+    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(map);
     dlg->show();
 }
 
@@ -383,7 +383,7 @@ void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
     hyvitys.insert("rivit", rivit);
     hyvitys.insert("viite", alkuplasku.value("viite"));
 
-    LaskuDialogi* dlg = new LaskuDialogi(hyvitys);
+    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(hyvitys);
     dlg->show();
 }
 

@@ -40,7 +40,7 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
-#include "laskutus/laskudialogi.h"
+#include "laskutus/lasku.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 
 #include <iostream>
@@ -859,14 +859,14 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
     lasku.insert("numero", vientikysely.value("viite"));
     lasku.insert("erapvm", vientikysely.value("erapvm"));
     lasku.insert("pvm", vientikysely.value("laskupvm"));
-    lasku.insert("laskutapa", LaskuDialogi::TUOTULASKU);
+    lasku.insert("laskutapa", Lasku::TUOTULASKU);
 
-    lasku.insert("maksutapa", LaskuDialogi::LASKU);
+    lasku.insert("maksutapa", Lasku::LASKU);
     int kirjausperuste = vientiJson.value("Kirjausperuste").toInt();
     if( kirjausperuste == 0)
-        lasku.insert("maksutapa", LaskuDialogi::SUORITEPERUSTE);
+        lasku.insert("maksutapa", Lasku::SUORITEPERUSTE);
     else if( kirjausperuste == 3)
-        lasku.insert("maksutapa", LaskuDialogi::KATEINEN);
+        lasku.insert("maksutapa", Lasku::KATEINEN);
 
 /*    if( vientiJson.contains("Hyvityslasku"))
         tosite.asetaTyyppi( TositeTyyppi::HYVITYSLASKU);
