@@ -3,6 +3,7 @@
         <file>aloitus.css</file>
         <file>tervetuloa.html</file>
         <file>FreeSans.ttf</file>
+        <file>svenska.html</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

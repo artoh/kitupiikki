@@ -18,8 +18,8 @@ touch ../kitsas/versio.h
 
 $MXE_DIR/usr/i686-w64-mingw32.static/qt5/bin/qmake ../kitsas/kitsas.pro "CONFIG += release"
 make -j 6
-cp release/kitsas.exe ../$DIST_DIR
+cp release/kitsas.exe ../$DIST_DIR/
+cp release/kitsas.exe ../$DIST_DIR/kitsas-$1.exe
 
-cd ../$DIST_DIR
-
-./upx -9 -f -o kitsas-X.X.exe kitsas.exe
+# cd ../$DIST_DIR
+# ./upx -9 -f -o kitsas-X.X.exe kitsas.exe

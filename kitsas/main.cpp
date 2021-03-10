@@ -167,10 +167,9 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_LINUX
         // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
         if( tervetuloUi.valikkoonCheck->isChecked())
-            lisaaLinuxinKaynnistysValikkoon();
-        Kielet::instanssi()->valitseUiKieli( tervetuloUi.svKieli->isChecked() ? "sv" : "fi" );
-
+            lisaaLinuxinKaynnistysValikkoon();        
 #endif
+        Kielet::instanssi()->valitseUiKieli( tervetuloUi.svKieli->isChecked() ? "sv" : "fi" );
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;

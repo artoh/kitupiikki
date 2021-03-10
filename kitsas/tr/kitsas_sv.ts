@@ -19,7 +19,7 @@
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="14"/>
         <source>Tietoja Kitsaasta</source>
-        <translation type="unfinished"></translation>
+        <translation>Om Kitsas</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="45"/>
@@ -31,7 +31,7 @@ palaute@kitsas.fi</source>
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="54"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ohjelmaa saa käyttää, kopioida, levittää ja muokata maksutta GNU General Public License 3:n ehtojen mukaisesti, katso tarkemmin &lt;a href=&quot;https://ohjeet.kitsas.fi/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://ohjeet.kitsas.fi/lisenssi&lt;/span&gt;&lt;/a&gt;, jossa myös tiedot ohjelman käyttämien avoimen lähdekoodin komponenttien käyttöehdoista. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ohjelmalla ei ole mitään takuuta!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;Copyright © Arto Hyvättinen och Kitsas Oy 2019 - 2020&lt;br/&gt;palaute@kitsas.fi&lt;/p&gt;&lt;p&gt;Programmet får  avgiftsfritt användas, kopieras, spridas och redigeras enligt villkoren för GNU General Public License 3, se närmare &lt;a href=&quot;https://ohjeet.kitsas.fi/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://ohjeet.kitsas.fi/lisenssi&lt;/span&gt;&lt;/a&gt;Här finns också information om de villkor som finns för de komponenter programmet använder . &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Programmet har ingen garanti!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="82"/>
@@ -7297,7 +7297,7 @@ ID: n visas inte för användaren</translation>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="102"/>
         <source>Tase-erittely</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Balansspecifikation</translation>
     </message>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="103"/>
@@ -11221,7 +11221,7 @@ Bifoga skattedeklarationen och möjliga skattekalkyler till ditt bokföringsmate
     <message>
         <location filename="../uusikirjanpito/uusisijainti.ui" line="43"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Jos kirjanpitosi sisältää henkilötietoja, huomioi EU:n tietosuojalainsäädäntö tietojen tallentamisessa ja käsittelyssä. Tällaista tiedostoa ei pääsääntöisesti saa tallentaa pilvipalveluun, joka sijaitsee ETA-alueen ulkopuolella.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Om dina konton innehåller personuppgifter ska du ta hänsyn till EU:s dataskyddslagar när du lagrar och behandlar uppgifter. Som regel kan en sådan fil inte lagras på en molntjänst utanför EES.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Ottaen huomioon tietosuojalainsäädännön, voit ehkä sijoittaa kirjanpitosi sijaintiin, jonka sisältö varmistetaan automaattisesti pilveen.</source>

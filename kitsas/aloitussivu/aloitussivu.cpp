@@ -182,7 +182,7 @@ void AloitusSivu::siirrySivulle()
     }
     else
     {
-        QFile tttiedosto(":/aloitus/tervetuloa.html");
+        QFile tttiedosto( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
         tttiedosto.open(QIODevice::ReadOnly);
         QTextStream in(&tttiedosto);
         in.setCodec("Utf8");

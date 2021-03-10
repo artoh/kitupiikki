@@ -12,16 +12,20 @@
       "sv": "Aktiebolag"
     },
     "osk" : {
-      "fi": "Osuuskunta"
+      "fi": "Osuuskunta",
+      "sv": "Andelslag"
     },
     "ay" : {
-      "fi": "Avoin yhtiö"
+      "fi": "Avoin yhtiö",
+      "sv": "Handelsbolag"
     },
     "tmi" : {
-      "fi": "Elinkeinonharjoittaja"
+      "fi": "Elinkeinonharjoittaja",
+      "sv": "Näringsidkare"
     },
     "ky" : {
-      "fi": "Kommandiittiyhtiö"
+      "fi": "Kommandiittiyhtiö",
+      "sv": "Kommanditbolag"
     }
   },
   "laajuudet": {
@@ -83,32 +87,38 @@
   "maksutavat+": [
     {
       "fi" : "Lasku",
+      "sv" : "Faktura",
       "TILI" : 1701,
       "KUVA" : "lasku",
       "ERA" : -1
     },
     {
       "fi" : "Käteinen",
+      "sv" : "Kontant",
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
+      "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Luottokortti",
+      "sv" : "Kreditkort",
       "TILI" : 1711,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
+      "sv" : "Kreditnota",
       "TILI" : 1701,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtosaaminen",
+      "sv" : "Resultatreglering",
       "TILI" : 1849,
       "KUVA" : "siirra",
       "ERA" : -1
@@ -118,32 +128,38 @@
   "maksutavat-": [
     {
       "fi" : "Lasku",
+      "sv" : "Faktura",
       "TILI" : 2871,
       "KUVA" : "lasku",
       "ERA": -1
     },
     {
       "fi" : "Käteinen",
+      "sv" : "Kontant",
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
+      "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Luottokortti",
+      "sv" : "Kreditkort",
       "TILI" : 2882,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
+      "sv" : "Kreditnota",
       "TILI" : 2871,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtovelka",
+      "sv" : "Resultatreglering",
       "TILI" : 2979,
       "KUVA" : "siirra",
       "ERA" : -1
@@ -187,5 +203,5 @@
   "AlvVelkatili": "2939",
   "AlvPalautusSaatavatilille": true,
   "AlvMaksettava": "2922",
-  "AlvPalautettava": "1762"  
+  "AlvPalautettava": "1762"
 }
