@@ -82,8 +82,15 @@ void Kielet::asetaKielet(const QString &json)
 
 void Kielet::valitseKieli(const QString &kieli)
 {
-    nykykieli_ = kieli;
-    emit kieliVaihtui(kieli);
+    if( kieli.isEmpty() && kieliKoodit().contains(uiKieli())) {
+            nykykieli_ = uiKieli_;
+    } else if ( kieliKoodit().contains(kieli)) {
+        nykykieli_ = kieli;
+    } else {
+        nykykieli_ = kieliKoodit().value(0);
+    }
+
+    emit kieliVaihtui(nykykieli_);
 }
 
 void Kielet::valitseUiKieli(const QString &kieli)
@@ -113,6 +120,15 @@ QList<Kieli> Kielet::kielet() const
         palautettava.append(Kieli(kieli.first, kieli.second.teksti()) );
     }
     return palautettava;
+}
+
+QStringList Kielet::kieliKoodit() const
+{
+    QStringList koodit;
+    for(auto const & kieli : kielet_) {
+        koodit.append(kieli.first);
+    }
+    return koodit;
 }
 
 QString Kielet::nykyinen() const

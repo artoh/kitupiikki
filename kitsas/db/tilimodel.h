@@ -103,7 +103,6 @@ public:
 
 public slots:
     void haeSaldot();
-    void paivitaNimet();
 
 private slots:
     void saldotSaapuu(QVariant* saldot);    
@@ -115,7 +114,6 @@ protected:
 protected:    
     QList<Tili*> tiliLista_;
     QHash<int,Tili*> nroHash_;
-    QHash<int,QString> nimiHash_;
 
     QString muoto_;
     QSet<int> piilotetut_;

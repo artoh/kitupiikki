@@ -44,6 +44,7 @@ RaportinMuokkaus::RaportinMuokkaus(QWidget *parent)
     connect( ui->poistaNappi, &QPushButton::clicked, this, &RaportinMuokkaus::poista);
     connect( ui->kopioiNappi, &QPushButton::clicked, this, &RaportinMuokkaus::kopioiRaportti);
     connect(ui->view->selectionModel(), &QItemSelectionModel::currentChanged, this, &RaportinMuokkaus::paivitaNapit);
+    connect(ui->view, &QTableView::doubleClicked, this, &RaportinMuokkaus::muokkaa);
 
 }
 

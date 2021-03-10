@@ -59,6 +59,7 @@ public slots:
 public:
     QString kaanna(const QString &avain, const QString &kieli = QString())  const;
     QList<Kieli> kielet() const;
+    QStringList kieliKoodit() const;
     QString nykyinen() const;
     QString uiKieli() const;
 

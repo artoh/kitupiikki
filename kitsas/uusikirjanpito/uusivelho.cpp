@@ -109,11 +109,6 @@ QVariantMap UusiVelho::data() const
     asetusMap.insert("Luotu", QDateTime::currentDateTime());
     asetusMap.insert("UID", Kirjanpito::satujono(16));
 
-    const QString& uiKieli = Kielet::instanssi()->uiKieli();
-    const QVariantMap& kielet = asetusMap.value("kielet").toMap();
-    if( kielet.contains(uiKieli))
-        asetusMap.insert("kieli", uiKieli);
-
     initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
     initMap.insert("tilikaudet", tilikaudet_);

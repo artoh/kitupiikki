@@ -229,8 +229,7 @@ void AsetusModel::lataa(const QVariantMap &lista)
     }
 
     // Ladataan kielet
-    Kielet::instanssi()->asetaKielet( asetus("kielet") );
-    Kielet::instanssi()->valitseKieli(asetus("kieli"));
+    Kielet::instanssi()->asetaKielet( asetus("kielet") );    
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {

@@ -59,6 +59,7 @@ Perusvalinnat::~Perusvalinnat()
 bool Perusvalinnat::nollaa()
 {
     TallentavaMaaritysWidget::nollaa();
+
     naytaLogo();
     connect( ui->laajuusCombo, &QComboBox::currentTextChanged, this, &Perusvalinnat::alvilaajuudesta);
 
@@ -87,6 +88,12 @@ bool Perusvalinnat::nollaa()
 
 
     return true;
+}
+
+bool Perusvalinnat::onkoMuokattu()
+{
+    return TallentavaMaaritysWidget::onkoMuokattu() ||
+            ui->kieliCombo->kieli() != Kielet::instanssi()->nykyinen();
 }
 
 void Perusvalinnat::vaihdaLogo()
@@ -118,9 +125,9 @@ bool Perusvalinnat::tallenna()
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
     kp()->tilit()->paivitaTilat();
-    kp()->tilit()->paivitaNimet();
 
-    Kielet::instanssi()->valitseKieli( kp()->asetukset()->asetus("kieli") );
+    Kielet::instanssi()->valitseKieli( ui->kieliCombo->kieli() );
+    kp()->settings()->setValue( kp()->asetukset()->asetus("UID") + "/kieli", ui->kieliCombo->kieli() );
 
     return true;
 }

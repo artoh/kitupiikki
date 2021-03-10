@@ -54,21 +54,21 @@ QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int r
         switch (section)
         {
         case TOSITE:
-            return QVariant("Tosite");
+            return tr("Tosite");
         case PVM :
-            return QVariant("Pvm");
+            return tr("Pvm");
         case TILI:
-            return QVariant("Tili");
+            return tr("Tili");
         case DEBET :
-            return QVariant("Debet");
+            return tr("Debet");
         case KREDIT:
-            return QVariant("Kredit");
+            return tr("Kredit");
         case KOHDENNUS:
-            return QVariant("Kohdennus");
+            return tr("Kohdennus");
         case KUMPPANI:
-            return QVariant("Asiakas/Toimittaja");
+            return tr("Asiakas/Toimittaja");
         case SELITE:
-            return QVariant("Selite");
+            return tr("Selite");
         }
     }
 

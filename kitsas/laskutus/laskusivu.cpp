@@ -156,7 +156,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myynnit"));
     paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostot") );
     paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),tr("&Rekisteri"));
-    paaTab_->addTab(QIcon(":/pic/mies.png"),("&Asiakkaat"));
+    paaTab_->addTab(QIcon(":/pic/mies.png"),tr("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
     paaTab_->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviitteet"));

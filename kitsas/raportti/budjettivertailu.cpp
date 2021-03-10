@@ -21,6 +21,7 @@
 #include <QJsonDocument>
 
 #include "raportoija.h"
+#include "kieli/kielet.h"
 
 Budjettivertailu::Budjettivertailu() :
     RaporttiWidget(nullptr)
@@ -116,7 +117,7 @@ void Budjettivertailu::paivitaKielet()
     for(auto kieli : kielet.keys()) {
         ui->kieliCombo->addItem( lippu(kieli), kp()->asetukset()->kieli(kieli), kieli );
     }
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() ) );
 }
 
 void Budjettivertailu::paivitaKausi()

@@ -42,6 +42,7 @@ public:
     QString ohjesivu() override { return "maaritykset/perusvalinnat";}
 
     bool nollaa() override;
+    bool onkoMuokattu() override;
 
 public slots:
     void vaihdaLogo();

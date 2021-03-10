@@ -42,7 +42,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="organisaatioEdit">
        <property name="Asetus" stdset="0">
-        <string>Nimi</string>
+        <string notr="true">Nimi</string>
        </property>
       </widget>
      </item>
@@ -59,7 +59,7 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="ytunnusEdit">
        <property name="Asetus" stdset="0">
-        <string>Ytunnus</string>
+        <string notr="true">Ytunnus</string>
        </property>
       </widget>
      </item>
@@ -105,17 +105,7 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QComboBox" name="kieliCombo">
-       <property name="Asetus" stdset="0">
-        <string notr="true">kieli</string>
-       </property>
-       <property name="Vaihtoehdot" stdset="0">
-        <string notr="true">kielet</string>
-       </property>
-       <property name="Liput" stdset="0">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="KieliCombo" name="kieliCombo"/>
      </item>
     </layout>
    </item>
@@ -442,6 +432,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KieliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">kieli/kielicombo.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>organisaatioEdit</tabstop>
   <tabstop>ytunnusEdit</tabstop>

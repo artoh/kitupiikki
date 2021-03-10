@@ -47,19 +47,19 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
         switch (section)
         {
         case KAUSI :
-            return QVariant("Tilikausi");
+            return tr("Tilikausi");
         case LIIKEVAIHTO:
             return tr("Liikevaihto");
         case TASE:
             return tr("Tase");
         case TULOS:
-            return QVariant("Yli/alijäämä");
+            return tr("Yli/alijäämä");
         case ARKISTOITU:
-            return QVariant("Arkistoitu");
+            return tr("Arkistoitu");
         case TILINPAATOS:
-            return QVariant("Tilinpäätös");
+            return tr("Tilinpäätös");
         case LYHENNE:
-            return QVariant("Tunnus");
+            return QString("Tunnus");
         }
     }
     return QVariant();

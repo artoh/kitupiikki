@@ -67,6 +67,7 @@
 #include "salasananvaihto.h"
 
 #include "tools/kitsaslokimodel.h"
+#include "kieli/kielet.h"
 
 #include <QSslError>
 #include <QClipboard>
@@ -400,7 +401,7 @@ void AloitusSivu::varmuuskopioi()
     bool onnistui = false;
 
     // Suljetaan tiedostoyhteys, jotta saadaan varmasti varmuuskopioitua kaikki
-    const QString& asetusAvain = kp()->asetukset()->asetus("UID") + "_varmistuspolku";
+    const QString& asetusAvain = kp()->asetukset()->asetus("UID") + "/varmistuspolku";
     const QString varmuushakemisto = kp()->settings()->value( asetusAvain, QDir::homePath()).toString();
 
     kp()->sqlite()->sulje();
@@ -495,6 +496,7 @@ void AloitusSivu::pyydaInfo()
     tilasto.insert("version", qApp->applicationVersion());
     tilasto.insert("build", KITSAS_BUILD);
     tilasto.insert("os", QSysInfo::prettyProductName());
+    tilasto.insert("language", Kielet::instanssi()->uiKieli());
 
     // Lista niistä tilikartoista, joita on käytetty viimeisimmän kuukauden aikana
     QStringList kartat;
@@ -865,13 +867,13 @@ QString AloitusSivu::vinkit()
     if( saldot_.count() < 3)
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
-        vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
-        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/perus>perusvalinnat, logo ja arvonlisäverovelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
-        vinkki.append("<li>Tutustu <a href=ktp:/maaritys/tilit>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset/tilikartta'>(Ohje)</a></li>");
-        vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset/kohdennukset'>(Ohje)</a></li>");
+        vinkki.append("<h3>" + tr("Kirjanpidon aloittaminen") + "</h3><ol>");
+        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat, logo ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/maaritykset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/maaritykset/tilikartta'>(" + tr("Ohje") + ")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/maaritykset/kohdennukset'>(" + tr("Ohje") + ")</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)
-            vinkki.append("<li>Tee <a href=ktp:/maaritys/tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");
-        vinkki.append("<li>Voit aloittaa <a href=ktp:/kirjaa>kirjausten tekemisen</a> <a href='ohje:/kirjaus'>(Ohje)</a></li>");
+            vinkki.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");
+        vinkki.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li>");
         vinkki.append("</ol></td></tr></table>");
 
     }
@@ -949,13 +951,13 @@ QString AloitusSivu::vinkit()
 
                 if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
                 {
-                    vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>");
+                    vinkki.append(tr("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>)"));
                 }
                 else
                 {
-                    vinkki.append("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
+                    vinkki.append(tr("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>"));
                 }
-                vinkki.append("<p>Katso <a href=\"ohje:/tilinpaatos/aloittaminen/\">ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>");
+                vinkki.append(tr("<p>Katso <a href=\"ohje:/tilinpaatos/aloittaminen/\">ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>"));
             }
         }
     }

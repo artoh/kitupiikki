@@ -19,6 +19,7 @@
 #include "db/kpkysely.h"
 #include "db/kirjanpito.h"
 #include "kierto/kiertomodel.h"
+#include "kieli/kielet.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -74,6 +75,9 @@ void YhteysModel::lataaInit(QVariant *reply)
             kp()->asetaTositeSarjat(lista);
         }
     }
+
+    Kielet::instanssi()->valitseKieli( kp()->settings()->value( kp()->asetukset()->asetus("UID") + "/kieli" ).toString() );
+
 
     // Pidetään yllä tietoa siitä, milloin viimeksi käytetty mitäkin
     // tilikarttaa, jotta tilikarttojen tilastointi toimii

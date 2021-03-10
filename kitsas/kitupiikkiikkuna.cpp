@@ -484,7 +484,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
 void KitupiikkiIkkuna::luoHarjoitusDock()
 {
-    QLabel *teksti = new QLabel("<b>Harjoittelutila käytössä</b> Voit nopeuttaa ajan kulumista");
+    QLabel *teksti = new QLabel("<b>" + tr("Harjoittelutila käytössä") + "</b> " + tr("Voit nopeuttaa ajan kulumista"));
     teksti->setStyleSheet("color: white;");
 
     QDateEdit *pvmedit = new QDateEdit;

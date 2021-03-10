@@ -73,13 +73,13 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "maaritykset/kierto", QIcon(":/pic/kierto.svg"),"kierto");
-    lisaaSivu("Verkkolasku", VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-    lisaaSivu("Kirjattavien kansio", INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
-    lisaaSivu("Verojen maksu", VERO,"maaritykset/veronmaksu", QIcon(":/pic/vero.png"),"vero");
-    lisaaSivu("Palkkakirjaustilit", PALKKAKIRJAUS,"maaritykset/palkkatilit", QIcon(":/pic/yrittaja.png"));
-    lisaaSivu("Raportit", RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
-    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
-    lisaaSivu("Tilikartan päivitys", PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");
+    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
+    lisaaSivu(tr("Kirjattavien kansio"), INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
+    lisaaSivu(tr("Verojen maksu"), VERO,"maaritykset/veronmaksu", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"maaritykset/palkkatilit", QIcon(":/pic/yrittaja.png"));
+    lisaaSivu(tr("Raportit"), RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
+    lisaaSivu(tr("Tilinpäätöksen malli"), LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu(tr("Tilikartan päivitys"), PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");
 
 
 
