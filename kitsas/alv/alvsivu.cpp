@@ -43,9 +43,9 @@ AlvSivu::AlvSivu() :
 {
     ui->setupUi(this);
 
-    ui->kausiCombo->addItem("Kuukausi",1);
-    ui->kausiCombo->addItem("Neljännesvuosi",3);
-    ui->kausiCombo->addItem("Vuosi", 12);
+    ui->kausiCombo->addItem(tr("Kuukausi"),1);
+    ui->kausiCombo->addItem(tr("Neljännesvuosi"),3);
+    ui->kausiCombo->addItem(tr("Vuosi"), 12);
     ui->ilmoituksetView->setModel( kp()->alvIlmoitukset() );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);

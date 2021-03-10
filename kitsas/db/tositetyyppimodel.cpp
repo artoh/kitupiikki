@@ -67,7 +67,7 @@ QVariant TositeTyyppiModel::data(const QModelIndex &index, int role) const
     TositeTyyppiTietue tietue = tyypit_.value(index.row());
 
     if( role == Qt::DisplayRole || role == NimiRooli)
-        return tietue.nimi;
+        return tulkkaa(tietue.nimi);
     else if( role == KoodiRooli )
         return tietue.koodi;
     else if( role == Qt::DecorationRole)
