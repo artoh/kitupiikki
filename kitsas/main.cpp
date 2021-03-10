@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("Kitsas");
     a.setApplicationVersion(KITSAS_VERSIO);
     a.setOrganizationDomain("kitsas.fi");
-    a.setOrganizationName("Kitsas Oy");
+    a.setOrganizationName("Kitsas oy");
 
     KitsasLokiModel::alusta();
     Kielet::alustaKielet(":/tr/tulkki.json");
