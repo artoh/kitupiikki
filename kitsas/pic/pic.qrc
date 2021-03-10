@@ -43,7 +43,6 @@
         <file>uusikirja.png</file>
         <file>salkku.png</file>
         <file>salkkupossu.png</file>
-        <file>splash.png</file>
         <file>lukittu.png</file>
         <file>lukitsematta.png</file>
         <file>arkisto64.png</file>
@@ -193,6 +192,8 @@
         <file>about.png</file>
         <file>lukittupdf.png</file>
         <file>piilotettu.png</file>
+        <file>splash_sv.png</file>
+        <file>splash_fi.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

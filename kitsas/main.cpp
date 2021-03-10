@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;
-    splash->setPixmap( QPixmap(":/pic/splash.png"));
+    splash->setPixmap( QPixmap(":/pic/splash_" + Kielet::instanssi()->uiKieli() + ".png"));
     splash->show();
 
 

@@ -947,11 +947,11 @@ QString AloitusSivu::vinkit()
                     && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
             {
                 vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
-                              "<h3><a href=ktp:/tilinpaatos>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
+                              "<h3><a href=ktp:/tilinpaatos>" + tr("Aika laatia tilinpäätös tilikaudelle %1").arg(kausi.kausivaliTekstina()) +  "</a></h3>"));
 
                 if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
                 {
-                    vinkki.append(tr("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>)"));
+                    vinkki.append(tr("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>"));
                 }
                 else
                 {
