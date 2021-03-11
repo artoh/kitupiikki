@@ -39,7 +39,7 @@ class LaskuDialogi;
 }
 
 class KohdennusDelegaatti;
-class LaskuRivitModel;
+class TositeRivit;
 class RyhmalaskuTab;
 class EnnakkoHyvitysModel;
 
@@ -108,8 +108,8 @@ signals:
     void tallennettuValmiina();
 
 private:
-    LaskuRivitModel *rivit_;
-    Ui::LaskuDialogi *ui;    
+    TositeRivit *rivit_;
+    Ui::LaskuDialogi *ui;
             
     KohdennusDelegaatti *kohdennusDelegaatti;
 

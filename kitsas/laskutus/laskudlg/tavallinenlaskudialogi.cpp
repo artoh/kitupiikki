@@ -14,25 +14,28 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "laskudialogi.h"
+#include "tavallinenlaskudialogi.h"
 #include "ui_laskudialogi.h"
 
+#include "model/tosite.h"
+
 #include "db/kirjanpito.h"
+
 #include "db/tositetyyppimodel.h"
 
-#include "ennakkohyvitysmodel.h"
-#include "ryhmalasku/kielidelegaatti.h"
-#include "laskurivitmodel.h"
+#include "../ennakkohyvitysmodel.h"
+#include "../ryhmalasku/kielidelegaatti.h"
+#include "model/tositerivit.h"
 #include "model/tositeloki.h"
-#include "tuotedialogi.h"
+#include "../tuotedialogi.h"
 
-#include "laskutusverodelegaatti.h"
+#include "../laskutusverodelegaatti.h"
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
 #include "kirjaus/tilidelegaatti.h"
 
 #include "naytin/naytinikkuna.h"
-#include "viitenumero.h"
+#include "../viitenumero.h"
 
 #include <QJsonDocument>
 #include <QMenu>
@@ -40,11 +43,14 @@
 #include <QSortFilterProxyModel>
 
 
-LaskuDialogi::LaskuDialogi(QWidget *parent) :
-    QDialog(parent), ui( new Ui::LaskuDialogi),
+TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent) :
+    QDialog(parent),
+    ui( new Ui::LaskuDialogi),
+    tosite_(tosite),
     ennakkoModel_(new EnnakkoHyvitysModel(this))
 {
     ui->setupUi(this);
+    tosite_->setParent(this);
 
     setAttribute(Qt::WA_DeleteOnClose);
     resize(800,600);
@@ -55,28 +61,13 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
 }
 
-LaskuDialogi::~LaskuDialogi() {
+TavallinenLaskuDialogi::~TavallinenLaskuDialogi() {
     kp()->settings()->setValue("LaskuDialogi", saveGeometry());
     delete ui;
 }
 
-void LaskuDialogi::lataa(const QVariantMap &data)
-{
-    QVariant variant(data);
-    lasku_.lataaData(&variant);
-}
 
-void LaskuDialogi::lataa(const int tositeId)
-{
-    lasku_.lataa(tositeId);
-}
-
-void LaskuDialogi::asetaAsiakas(const int asiakas)
-{
-    ui->asiakas->set(asiakas);
-}
-
-void LaskuDialogi::alustaUi()
+void TavallinenLaskuDialogi::alustaUi()
 {
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
     ui->jaksoDate->setNull();
@@ -93,7 +84,7 @@ void LaskuDialogi::alustaUi()
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
     ui->tabWidget->setTabEnabled( lokiIndex, false);
 
-    ui->lokiView->setModel(lasku_.loki());
+    ui->lokiView->setModel( tosite_->loki() );
     poistaLiikaTab();
 
     paivitaLaskutustavat();
@@ -101,7 +92,7 @@ void LaskuDialogi::alustaUi()
     alustaValvonta();
 }
 
-void LaskuDialogi::alustaRivitTab()
+void TavallinenLaskuDialogi::alustaRivitTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel( kp()->tuotteet() );
@@ -113,65 +104,64 @@ void LaskuDialogi::alustaRivitTab()
     ui->tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->tuoteView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect( ui->tuoteView, &QTableView::customContextMenuRequested,
-             this, &LaskuDialogi::tuotteidenKonteksiValikko);
+             this, &TavallinenLaskuDialogi::tuotteidenKonteksiValikko);
 
 
-    ui->rivitView->setModel(lasku_.rivit());
+    ui->rivitView->setModel(tosite()->rivit());
 
-    ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuRivitModel::NIMIKE, QHeaderView::Stretch);
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::AHINTA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
+    ui->rivitView->horizontalHeader()->setSectionResizeMode(TositeRivit::NIMIKE, QHeaderView::Stretch);
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
     kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::KOHDENNUS, kohdennusDelegaatti );
 
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
     connect( ui->tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
 
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti(this));
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::BRUTTOSUMMA, new EuroDelegaatti());
+//    ui->rivitView->setItemDelegateForColumn(TositeRivit::ALV, new LaskutusVeroDelegaatti(this));
 
-    ui->rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    ui->rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
+    ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
     connect( ui->uusituoteNappi, &QPushButton::clicked, [this] { (new TuoteDialogi(this))->uusi(); } );
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->lasku_.rivit()->lisaaRivi();} );
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->tosite()->rivit()->lisaaRivi();} );
     connect( ui->poistaRiviNappi, &QPushButton::clicked, [this] {
         if( this->ui->rivitView->currentIndex().isValid())
-                this->lasku_.rivit()->poistaRivi( ui->rivitView->currentIndex().row());
+                this->tosite()->rivit()->poistaRivi( ui->rivitView->currentIndex().row());
     });
 
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,3);
 
     connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->lasku_.rivit()->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
+        { this->tosite()->rivit()->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
 }
 
-void LaskuDialogi::poistaLiikaTab()
+void TavallinenLaskuDialogi::poistaLiikaTab()
 {
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
 }
 
-void LaskuDialogi::teeConnectit()
+void TavallinenLaskuDialogi::teeConnectit()
 {
-    connect( &lasku_, &Lasku::ladattu, this, &LaskuDialogi::tositteelta);
-    connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, this, &LaskuDialogi::asiakasMuuttui);
-    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasMuuttui);
+    connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, this, &TavallinenLaskuDialogi::asiakasMuuttui);
+    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &TavallinenLaskuDialogi::asiakasMuuttui);
 
-    connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
-    connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
-    connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
-    connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::maksuTapaMuuttui);
-    connect( ui->valvontaCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::valvontaMuuttui);
+    connect( ui->email, &QLineEdit::textChanged, this, &TavallinenLaskuDialogi::paivitaLaskutustavat);
+    connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &TavallinenLaskuDialogi::paivitaLaskutustavat);
+    connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &TavallinenLaskuDialogi::laskutusTapaMuuttui);
+    connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &TavallinenLaskuDialogi::maksuTapaMuuttui);
+    connect( ui->valvontaCombo, &QComboBox::currentTextChanged, this, &TavallinenLaskuDialogi::valvontaMuuttui);
 }
 
-void LaskuDialogi::alustaMaksutavat()
+void TavallinenLaskuDialogi::alustaMaksutavat()
 {
     ui->maksuCombo->clear();
     ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), Lasku::LASKU);
-    if( lasku_.tyyppi() == TositeTyyppi::MYYNTILASKU) {
+    if( tosite()->tyyppi() == TositeTyyppi::MYYNTILASKU) {
         ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), Lasku::KATEINEN);
         ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), Lasku::ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), Lasku::SUORITEPERUSTE);
@@ -180,7 +170,7 @@ void LaskuDialogi::alustaMaksutavat()
     }
 }
 
-void LaskuDialogi::alustaValvonta()
+void TavallinenLaskuDialogi::alustaValvonta()
 {
     ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
     ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
@@ -189,7 +179,7 @@ void LaskuDialogi::alustaValvonta()
     ui->valvontaCombo->addItem(QIcon(":/pic/eikaytossa.png"), tr("Valvomaton"), Lasku::VALVOMATON);
 }
 
-void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
+void TavallinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 {
     QModelIndex index = ui->tuoteView->indexAt(pos);
     int tuoteid = index.data(TuoteModel::IdRooli).toInt();
@@ -207,32 +197,39 @@ void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
         menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
 }
 
-void LaskuDialogi::tositteelta()
+void TavallinenLaskuDialogi::tositteelta()
 {
-    ui->asiakas->set( lasku_.kumppani(), lasku_.kumppaninimi() );
+    const Lasku& lasku = tosite()->constLasku();
 
-    ui->osoiteEdit->setPlainText(lasku_.osoite());
-    ui->email->setText( lasku_.email());
+    ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi() );
+
+    ui->osoiteEdit->setPlainText( lasku.osoite());
+    ui->email->setText( lasku.email());
 
 
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
-    ui->tabWidget->setTabEnabled( lokiIndex, lasku_.loki()->rowCount() );
+    ui->tabWidget->setTabEnabled( lokiIndex, tosite()->loki()->rowCount() );
 
 }
 
-void LaskuDialogi::asiakasMuuttui()
+void TavallinenLaskuDialogi::asiakasMuuttui()
 {
-    const int asiakasId = ui->asiakas->id();
+    const int asiakasId = ui->asiakas->nimi().isEmpty() ? 0 :  ui->asiakas->id();
     ui->osoiteEdit->setEnabled( asiakasId == 0);
-    if( asiakasId && asiakasId != ladattuAsiakas_.value("id").toInt()) {
+    if( asiakasId && asiakasId != asiakasId_) {
         KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(asiakasId) );
-        connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::taytaAsiakasTiedot);
+        connect( kysely, &KpKysely::vastaus, this, &TavallinenLaskuDialogi::taytaAsiakasTiedot);
         kysely->kysy();
+    } else if( !asiakasId && asiakasId_) {
+        ladattuAsiakas_.clear();
+        ui->osoiteEdit->clear();
+        ui->email->clear();
+        paivitaLaskutustavat();
     }
-    ladattuAsiakas_.clear();
+    asiakasId_ = asiakasId;
 }
 
-void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
+void TavallinenLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 {
     QVariantMap map = data->toMap();
     ladattuAsiakas_ = map;
@@ -243,8 +240,6 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 
     ui->email->setText( map.value("email").toString());
     ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","FI").toString()));
-
-    int id = map.value("id").toInt();
 
     paivitaLaskutustavat();
     const int laskutapaIndeksi = map.contains("laskutapa") ? ui->laskutusCombo->findData(map.value("laskutapa", -1)) : -1;
@@ -263,7 +258,7 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
         ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 8.0 );
 }
 
-void LaskuDialogi::paivitaLaskutustavat()
+void TavallinenLaskuDialogi::paivitaLaskutustavat()
 {
     if(paivitetaanLaskutapoja_) {
         return;
@@ -271,8 +266,6 @@ void LaskuDialogi::paivitaLaskutustavat()
     paivitetaanLaskutapoja_ = true;
     int nykyinen = ui->laskutusCombo->currentData().toInt();
     ui->laskutusCombo->clear();
-
-    QRegularExpression postiRe("(.*\\w.*\n){2,}(\\d{5})\\s(.+)", QRegularExpression::MultilineOption);
 
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), Lasku::TULOSTETTAVA);
 
@@ -300,10 +293,12 @@ void LaskuDialogi::paivitaLaskutustavat()
     } else {
         ui->laskutusCombo->setCurrentIndex(indeksi);
     }
+
+    paivitaViiteRivi();
     paivitetaanLaskutapoja_ = false;
 }
 
-void LaskuDialogi::laskutusTapaMuuttui()
+void TavallinenLaskuDialogi::laskutusTapaMuuttui()
 {
     int laskutustapa = ui->laskutusCombo->currentData().toInt();
     if( laskutustapa == Lasku::SAHKOPOSTI)
@@ -332,44 +327,56 @@ void LaskuDialogi::laskutusTapaMuuttui()
     ui->tabWidget->setTabEnabled( saateIndex, laskutustapa == Lasku::SAHKOPOSTI);
 }
 
-void LaskuDialogi::maksuTapaMuuttui()
+void TavallinenLaskuDialogi::maksuTapaMuuttui()
 {
     int maksutapa = ui->maksuCombo->currentData().toInt();
 
-    ui->valvontaLabel->setVisible( maksutapa == Lasku::LASKU );
-    ui->valvontaCombo->setVisible( maksutapa == Lasku::LASKU );
+    ui->valvontaLabel->setVisible( maksutapa == Lasku::LASKU || maksutapa == Lasku::KUUKAUSITTAINEN);
+    ui->valvontaCombo->setVisible( maksutapa == Lasku::LASKU || maksutapa == Lasku::KUUKAUSITTAINEN);
     valvontaMuuttui();
 
 
     ui->eraLabel->setVisible( maksutapa != Lasku::KATEINEN );
-    ui->eraDate->setVisible( maksutapa != Lasku::KATEINEN );
+    ui->eraDate->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
+
+    ui->maksuaikaLabel->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
+    ui->maksuaikaSpin->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
+
+
+    ui->toistoErapaivaSpin->setVisible( maksutapa == Lasku::KUUKAUSITTAINEN);
     ui->viivkorkoLabel->setVisible( maksutapa != Lasku::KATEINEN );
     ui->viivkorkoSpin->setVisible( maksutapa != Lasku::KATEINEN );
 
     ui->hyvitaEnnakkoNappi->setVisible( maksutapa != Lasku::ENNAKKOLASKU
-                                        && lasku_.tyyppi() == TositeTyyppi::MYYNTILASKU &&
+                                        && tosite()->tyyppi() == TositeTyyppi::MYYNTILASKU &&
                                         ennakkoModel_->rowCount());
 
-    lasku_.rivit()->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == Lasku::ENNAKKOLASKU);
+    tosite()->rivit()->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == Lasku::ENNAKKOLASKU);
 
     ui->toimituspvmLabel->setVisible(maksutapa != Lasku::ENNAKKOLASKU);
     ui->toimitusDate->setVisible(maksutapa != Lasku::ENNAKKOLASKU);
     ui->jaksoViivaLabel->setVisible(maksutapa != Lasku::ENNAKKOLASKU);
     ui->jaksoDate->setVisible( maksutapa != Lasku::ENNAKKOLASKU);
+
+    int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
+    ui->tabWidget->setTabEnabled( toistoIndex, maksutapa == Lasku::LASKU || maksutapa == Lasku::KUUKAUSITTAINEN);
+
+    ui->toimituspvmLabel->setText( maksutapa == Lasku::KUUKAUSITTAINEN ? tr("Laskut ajalla") : tr("Toimituspäivä") );
+
 }
 
-void LaskuDialogi::valvontaMuuttui()
+void TavallinenLaskuDialogi::valvontaMuuttui()
 {
     const int valvonta = ui->valvontaCombo->isVisible() ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
     ui->tarkeCombo->setVisible( valvonta == Lasku::HUONEISTO || valvonta == Lasku::VAKIO );
     paivitaViiteRivi();
 }
 
-void LaskuDialogi::paivitaViiteRivi()
+void TavallinenLaskuDialogi::paivitaViiteRivi()
 {
-    ViiteNumero viite( lasku_.viite() );
+    ViiteNumero viite( tosite()->viite() );
     const int valvonta = ui->valvontaCombo->isVisible() ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
-    if( valvonta == !Lasku::ASIAKAS && ladattuAsiakas_.isEmpty()) {
+    if( valvonta == Lasku::ASIAKAS && !ladattuAsiakas_.isEmpty()) {
         viite = ViiteNumero(ViiteNumero::ASIAKAS, ladattuAsiakas_.value("id").toInt());
     }
 
@@ -378,7 +385,7 @@ void LaskuDialogi::paivitaViiteRivi()
     ui->viiteText->setText(viite.valeilla());
 }
 
-void LaskuDialogi::naytaLoki()
+void TavallinenLaskuDialogi::naytaLoki()
 {
     NaytinIkkuna *naytin = new NaytinIkkuna();
     QVariant var = ui->lokiView->currentIndex().data(Qt::UserRole);

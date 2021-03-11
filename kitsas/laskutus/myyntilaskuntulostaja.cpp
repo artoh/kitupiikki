@@ -185,7 +185,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     }
 
 
-    if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != LaskuDialogi::KATEINEN &&
+    if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != Lasku::KATEINEN &&
             kp()->asetukset()->onko("LaskuTilisiirto"))
     {
         painter->translate( 0, painter->window().height() - mm * 95 );
@@ -392,7 +392,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     // Viivästyskorko-laatikko vain, jos viivästyskorko määritelty ja laskulla maksettavaa
     double viivkorko = map_.value("lasku").toMap().value("viivkorko").toDouble();
 
-    if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )  // TODO: Tämä vakio!!
+    if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != Lasku::KATEINEN )  // TODO: Tämä vakio!!
     {
         painter->drawText(QRectF( puoliviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("viivkorko"));
         painter->drawLine(QLineF(puoliviiva, pv+rk, puoliviiva, pv+rk*2));
@@ -406,7 +406,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     QString toimituslaatikkoon = map_.value("lasku").toMap().value("toimituspvm").toDate().toString("dd.MM.yyyy");
     if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
         toimituslaatikkoon = lasku.value("erapvm").toDate().toString("dd.MM.yyyy");
-    else if (lasku.value("maksutapa").toInt() == LaskuDialogi::ENNAKKOLASKU)
+    else if (lasku.value("maksutapa").toInt() == Lasku::ENNAKKOLASKU)
         toimituslaatikkoon = "XX.XX.XXXX";
     else if( lasku.contains("jaksopvm"))
         toimituslaatikkoon = QString("%1 - %2").arg(lasku.value("toimituspvm").toDate().toString("dd.MM.yyyy"))
@@ -417,7 +417,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
 
     int maksutapa = map_.value("lasku").toMap().value("maksutapa").toInt();
 
-    if( maksutapa == LaskuDialogi::KATEINEN )
+    if( maksutapa == Lasku::KATEINEN )
     {
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  t("kateinen") );
     }
@@ -432,12 +432,12 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
             painter->setFont( QFont("FreeSans", TEKSTIPT+2,QFont::Black));
             painter->drawText(QRectF( keskiviiva + mm, pv - rk*2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  t("maksumuistutus") );
             painter->setFont(QFont("FreeSans", TEKSTIPT));
-        } else if( maksutapa == LaskuDialogi::ENNAKKOLASKU) {
+        } else if( maksutapa == Lasku::ENNAKKOLASKU) {
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("ennakkolasku") );
         } else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
 
-        if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )
+        if( laskunSumma_ > 0.0 &&  viivkorko > 1e-5 && map_.value("lasku").toMap().value("maksutapa").toInt() != Lasku::KATEINEN )
         {
             painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(viivkorko,0,'f',1) );
         }
@@ -653,7 +653,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
         painter->setFont( QFont("FreeSans", 11));
 
 
-        if( map_.value("lasku").toMap().value("maksutapa").toInt()  == LaskuDialogi::KATEINEN )
+        if( map_.value("lasku").toMap().value("maksutapa").toInt()  == Lasku::KATEINEN )
         {
             painter->drawText(QRectF(leveys * 3 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, t("maksettu"));
         }
@@ -715,7 +715,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
     // Viivakoodi
     if( kp()->asetukset()->onko("LaskuViivakoodi") && !kp()->asetukset()->onko("LaskuTilisiirto")
-            && laskunSumma_ > 0 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuDialogi::KATEINEN )
+            && laskunSumma_ > 0 && map_.value("lasku").toMap().value("maksutapa").toInt() != Lasku::KATEINEN )
     {
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
@@ -809,7 +809,7 @@ QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
 {    
     qlonglong summa = qRound64( laskunSumma_ * 100);
 
-    if( summa <= 0 || summa > 99999999 || map_.value("lasku").toMap().value("maksutapa").toInt() == LaskuDialogi::KATEINEN)  // Ylisuuri tai alipieni laskunsumma
+    if( summa <= 0 || summa > 99999999 || map_.value("lasku").toMap().value("maksutapa").toInt() == Lasku::KATEINEN)  // Ylisuuri tai alipieni laskunsumma
         return QString();
     if( ibanit_.value(0).isEmpty() || !map_.value("lasku").toMap().value("viite").toInt() || !summa )
         return QString();

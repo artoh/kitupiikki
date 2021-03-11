@@ -65,10 +65,10 @@ void RekisteriTuontiDlg::accept()
 
 void RekisteriTuontiDlg::alustaMaksutavat(QComboBox *combo)
 {
-    combo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), LaskuDialogi::TULOSTETTAVA);
-    combo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), LaskuDialogi::POSTITUS);
-    combo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
-    combo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
+    combo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), Lasku::TULOSTETTAVA);
+    combo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), Lasku::POSTITUS);
+    combo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), Lasku::SAHKOPOSTI);
+    combo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
 }
 
 void RekisteriTuontiDlg::tallennaSeuraava()
@@ -95,19 +95,19 @@ void RekisteriTuontiDlg::tallennaSeuraava()
 
 int RekisteriTuontiDlg::maksutapa(const QVariantMap &map)
 {
-    if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::SAHKOPOSTI && map.contains("email"))
-        return LaskuDialogi::SAHKOPOSTI;
-    else if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::VERKKOLASKU && map.contains("ovt"))
-        return LaskuDialogi::VERKKOLASKU;
-    else if( ui->laskutusCombo->currentData().toInt() == LaskuDialogi::POSTITUS && map.contains("osoite"))
-        return LaskuDialogi::POSTITUS;
+    if( ui->laskutusCombo->currentData().toInt() == Lasku::SAHKOPOSTI && map.contains("email"))
+        return Lasku::SAHKOPOSTI;
+    else if( ui->laskutusCombo->currentData().toInt() == Lasku::VERKKOLASKU && map.contains("ovt"))
+        return Lasku::VERKKOLASKU;
+    else if( ui->laskutusCombo->currentData().toInt() == Lasku::POSTITUS && map.contains("osoite"))
+        return Lasku::POSTITUS;
 
-    if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::SAHKOPOSTI && map.contains("email"))
-        return LaskuDialogi::SAHKOPOSTI;
-    else if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::VERKKOLASKU && map.contains("ovt"))
-        return LaskuDialogi::VERKKOLASKU;
-    else if( ui->varaLaskuCombo->currentData().toInt() == LaskuDialogi::POSTITUS && map.contains("osoite"))
-        return LaskuDialogi::POSTITUS;
+    if( ui->varaLaskuCombo->currentData().toInt() == Lasku::SAHKOPOSTI && map.contains("email"))
+        return Lasku::SAHKOPOSTI;
+    else if( ui->varaLaskuCombo->currentData().toInt() == Lasku::VERKKOLASKU && map.contains("ovt"))
+        return Lasku::VERKKOLASKU;
+    else if( ui->varaLaskuCombo->currentData().toInt() == Lasku::POSTITUS && map.contains("osoite"))
+        return Lasku::POSTITUS;
 
-    return LaskuDialogi::TULOSTETTAVA;
+    return Lasku::TULOSTETTAVA;
 }

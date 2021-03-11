@@ -57,7 +57,7 @@
 #include "onniwidget.h"
 
 #include "lisaikkuna.h"
-#include "laskutus/vanhalaskudialogi.h"
+#include "laskutus/laskudlg/laskudialogitehdas.h"
 #include "kirjaus/siirrydlg.h"
 
 #include "tools/inboxlista.h"
@@ -272,8 +272,7 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi();
-    dlg->show();
+    LaskuDialogiTehdas::myyntilasku();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)

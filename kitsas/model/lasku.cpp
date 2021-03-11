@@ -15,23 +15,18 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "lasku.h"
-#include "laskurivitmodel.h"
+#include "tositerivit.h"
 
-Lasku::Lasku(QObject *parent)
-    : Tosite(parent)
+Lasku::Lasku()
+    : KantaVariantti()
 {
 
 }
 
-void Lasku::lataaData(QVariant *variant)
+Lasku::Lasku(const QVariantMap &data) :
+    KantaVariantti(data)
 {
-    QVariantMap map = variant->toMap();
 
-    data_ = map.take("lasku").toMap();
-    rivit_->lataa( map.take("rivit").toList() );
-
-    QVariant tositteelle( map );
-    Tosite::lataaData( &tositteelle );
 }
 
 QDate Lasku::oikaiseErapaiva(QDate erapvm)

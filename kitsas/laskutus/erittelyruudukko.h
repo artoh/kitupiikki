@@ -20,7 +20,7 @@
 #include <QList>
 #include <QPainter>
 
-#include "laskurivitmodel.h"
+#include "model/tositerivit.h"
 
 class MyyntiLaskunTulostaja;
 class QPagedPaintDevice;
@@ -49,7 +49,7 @@ private:
     QList<Qt::AlignmentFlag> tasaukset_;
     QMap<int,qlonglong> verokannat_;
 
-    LaskuRivitModel model_;
+    TositeRivit model_;
     MyyntiLaskunTulostaja *tulostaja_;
 
 

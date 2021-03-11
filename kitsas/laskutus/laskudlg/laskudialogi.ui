@@ -14,7 +14,7 @@
    <string>Lasku</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../pic/pic.qrc">
+   <iconset resource="../../pic/pic.qrc">
     <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1,0">
@@ -170,7 +170,7 @@ osoite</string>
         </layout>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="laskunPvmLabel">
          <property name="text">
           <string>Laskun pvm</string>
          </property>
@@ -185,7 +185,7 @@ osoite</string>
           <widget class="KpDateEdit" name="lineEdit"/>
          </item>
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="maksuaikaLabel">
            <property name="text">
             <string>Maksuaika</string>
            </property>
@@ -220,9 +220,25 @@ osoite</string>
         </widget>
        </item>
        <item row="4" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,1,2">
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,2,1,2">
          <item>
           <widget class="KpDateEdit" name="eraDate"/>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="toistoErapaivaSpin">
+           <property name="suffix">
+            <string>. päivä</string>
+           </property>
+           <property name="prefix">
+            <string>kuukauden </string>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>31</number>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="viivkorkoLabel">
@@ -306,7 +322,7 @@ osoite</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+            <pixmap resource="../../pic/pic.qrc">:/pic/ok.png</pixmap>
            </property>
           </widget>
          </item>
@@ -336,11 +352,11 @@ osoite</string>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="rivit">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/vientilista-aktiivinen.png</normaloff>:/pic/vientilista-aktiivinen.png</iconset>
       </attribute>
       <attribute name="title">
@@ -377,7 +393,7 @@ osoite</string>
               <string>Uusi tuote</string>
              </property>
              <property name="icon">
-              <iconset resource="../pic/pic.qrc">
+              <iconset resource="../../pic/pic.qrc">
                <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
              </property>
              <property name="autoDefault">
@@ -429,7 +445,7 @@ osoite</string>
                 <string>Lisää rivi</string>
                </property>
                <property name="icon">
-                <iconset resource="../pic/pic.qrc">
+                <iconset resource="../../pic/pic.qrc">
                  <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
                </property>
                <property name="shortcut">
@@ -446,7 +462,7 @@ osoite</string>
                 <string>Rivin lisätiedot..</string>
                </property>
                <property name="icon">
-                <iconset resource="../pic/pic.qrc">
+                <iconset resource="../../pic/pic.qrc">
                  <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
                </property>
               </widget>
@@ -457,7 +473,7 @@ osoite</string>
                 <string>Poista rivi</string>
                </property>
                <property name="icon">
-                <iconset resource="../pic/pic.qrc">
+                <iconset resource="../../pic/pic.qrc">
                  <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
                </property>
                <property name="autoDefault">
@@ -475,7 +491,7 @@ osoite</string>
      </widget>
      <widget class="QWidget" name="maksumuistutus">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/punainenkuori.png</normaloff>:/pic/punainenkuori.png</iconset>
       </attribute>
       <attribute name="title">
@@ -581,7 +597,7 @@ osoite</string>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/Menu-Circles.png</normaloff>:/pic/Menu-Circles.png</iconset>
       </attribute>
       <attribute name="title">
@@ -657,9 +673,9 @@ osoite</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="toistoTab">
+     <widget class="QWidget" name="toisto">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/refresh.png</normaloff>:/pic/refresh.png</iconset>
       </attribute>
       <attribute name="title">
@@ -827,7 +843,7 @@ osoite</string>
                <string>Tallenna muutokset toistumiseen</string>
               </property>
               <property name="icon">
-               <iconset resource="../pic/pic.qrc">
+               <iconset resource="../../pic/pic.qrc">
                 <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
               </property>
              </widget>
@@ -838,7 +854,7 @@ osoite</string>
                <string>Lopeta toistuvat laskut</string>
               </property>
               <property name="icon">
-               <iconset resource="../pic/pic.qrc">
+               <iconset resource="../../pic/pic.qrc">
                 <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
               </property>
              </widget>
@@ -865,7 +881,7 @@ osoite</string>
      </widget>
      <widget class="QWidget" name="saate">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
       </attribute>
       <attribute name="title">
@@ -886,7 +902,7 @@ osoite</string>
      </widget>
      <widget class="QWidget" name="loki">
       <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
+       <iconset resource="../../pic/pic.qrc">
         <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
       </attribute>
       <attribute name="title">
@@ -908,7 +924,7 @@ osoite</string>
         <string>Ohje</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
        </property>
        <property name="shortcut">
@@ -928,7 +944,7 @@ osoite</string>
         <string>Tallenna luonnoksena</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
        <property name="shortcut">
@@ -951,7 +967,7 @@ osoite</string>
         <string>T&amp;allenna valmiina</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
        <property name="shortcut">
@@ -974,7 +990,7 @@ osoite</string>
         <string>Nä&amp;ytä</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
        <property name="shortcut">
@@ -1001,7 +1017,7 @@ osoite</string>
         <string>Hyvitä ennakko</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
        <property name="autoDefault">
@@ -1057,7 +1073,7 @@ osoite</string>
         <string>Tallenna ja tulosta</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
        </property>
        <property name="shortcut">
@@ -1077,7 +1093,7 @@ osoite</string>
         <string>Peru</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
        </property>
        <property name="autoDefault">
@@ -1139,7 +1155,7 @@ osoite</string>
   <tabstop>lisatietoEdit</tabstop>
  </tabstops>
  <resources>
-  <include location="../pic/pic.qrc"/>
+  <include location="../../pic/pic.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -19,6 +19,8 @@
 #include "tositeviennit.h"
 #include "tositeliitteet.h"
 #include "tositeloki.h"
+#include "tositerivit.h"
+
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 #include "alv/alvilmoitustenmodel.h"
@@ -31,7 +33,8 @@ Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
     liitteet_(new TositeLiitteet(this)),
-    loki_( new TositeLoki(this))
+    loki_( new TositeLoki(this)),
+    rivit_( new TositeRivit(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::rowsInserted, this, &Tosite::tarkasta );
@@ -242,11 +245,11 @@ void Tosite::lataa(int tositeid)
     kysely->kysy();
 }
 
-void Tosite::lataaData(QVariant *variant)
+void Tosite::lataa(const QVariantMap &map)
 {
     resetointiKaynnissa_ = true;
     tallennusKaynnissa_ = false;
-    data_ = variant->toMap();
+    data_ = map;
     tallennettu_.clear();
 
     // Kun poistettu tunniste palautetaan, ei sillä voi olla tunnistetta
@@ -260,6 +263,9 @@ void Tosite::lataaData(QVariant *variant)
 
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
+    rivit()->lataa( data_.take("rivit").toList());
+    lasku_ = Lasku( data_.take("lasku").toMap());
+
 
     if( data(TILA).toInt() == MALLIPOHJA) {
         // Mallipohjasta avattaessa vaihdetaan päivämääräksi nykyinen
@@ -285,7 +291,7 @@ void Tosite::lataaData(QVariant *variant)
 
     emit tyyppiMuuttui( tyyppi());
     emit pvmMuuttui( pvm() );
-    emit otsikkoMuuttui( otsikko() );    
+    emit otsikkoMuuttui( otsikko() );
     emit sarjaMuuttui( sarja() );
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
@@ -298,8 +304,13 @@ void Tosite::lataaData(QVariant *variant)
 
 
     kp()->odotusKursori(false);
-
 }
+
+void Tosite::lataaData(QVariant *variant)
+{
+    lataa( variant->toMap());
+}
+
 
 void Tosite::tallenna(int tilaan)
 {
@@ -455,6 +466,14 @@ QVariantMap Tosite::tallennettava() const
     QVariantMap map(data_);
     map.insert("viennit", viennit_->tallennettavat());
 
+    const QVariantList& rivit = rivit_->viennit(*this);
+    if(!rivit.isEmpty())
+        map.insert("rivit", rivit);
+
+    if( !lasku_.data().isEmpty())
+        map.insert("lasku", lasku_.data() );
+
+
     if( map.value("otsikko").toString().isEmpty() && viennit_->rowCount())
         map.insert("otsikko", viennit_->vienti(0).selite());
 
@@ -496,8 +515,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ALV, "alv"},
     { SARJA, "sarja"},
     { TILIOTE, "tiliote"},
-    { LASKU, "lasku"},
-    { RIVIT, "rivit"},
     { LASKUPVM, "laskupvm"},
     { ERAPVM, "erapvm"},
     { VIITE, "viite"},

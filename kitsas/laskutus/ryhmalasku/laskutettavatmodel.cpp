@@ -19,6 +19,7 @@
 #include "../myyntilaskuntulostaja.h"
 #include "kielidelegaatti.h"
 #include "toimitustapadelegaatti.h"
+#include "model/lasku.h"
 
 LaskutettavatModel::LaskutettavatModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -86,15 +87,15 @@ QVariant LaskutettavatModel::data(const QModelIndex &index, int role) const
             return ToimitustapaDelegaatti::icon(laskutettava.lahetystapa);
     } else if( role == LahetysTavatRooli) {
         QVariantList lista;
-        lista << LaskuDialogi::TULOSTETTAVA;
+        lista << Lasku::TULOSTETTAVA;
         if( !laskutettava.email.isEmpty())
-            lista << LaskuDialogi::SAHKOPOSTI;
+            lista << Lasku::SAHKOPOSTI;
         if( laskutettava.osoite.contains('\n'))
-            lista << LaskuDialogi::POSTITUS;
+            lista << Lasku::POSTITUS;
         if( !laskutettava.ovttunnus.isEmpty())
-            lista << LaskuDialogi::VERKKOLASKU;
-        lista << LaskuDialogi::PDF;
-        lista << LaskuDialogi::EITULOSTETA;
+            lista << Lasku::VERKKOLASKU;
+        lista << Lasku::PDF;
+        lista << Lasku::EITULOSTETA;
         return lista;
     }
 

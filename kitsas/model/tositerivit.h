@@ -14,14 +14,16 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef LASKURIVITMODEL_H
-#define LASKURIVITMODEL_H
+#ifndef TOSITERIVIT_H
+#define TOSITERIVIT_H
 
 #include <QAbstractTableModel>
 #include <QVariantList>
 #include <QDate>
 
-class LaskuRivitModel : public QAbstractTableModel
+#include "tosite.h"
+
+class TositeRivit : public QAbstractTableModel
 {
     Q_OBJECT
 
@@ -45,7 +47,7 @@ public:
         KerailyAntiikki = 330024
     };
 
-    LaskuRivitModel(QObject *parent = nullptr, const QVariantList& data = QVariantList());
+    TositeRivit(QObject *parent = nullptr, const QVariantList& data = QVariantList());
     void lataa(const QVariantList& data);
 
     // Header:
@@ -67,8 +69,7 @@ public:
     QVariantList rivit() const;
 
     double yhteensa() const;
-    QVariantList viennit(const QDate& pvm = QDate::currentDate(), const QDate& jaksoalkaa = QDate(), const QDate& jaksopaattyy = QDate(),
-                         const QString& otsikko = QString(), bool ennakkolasku = false, bool kateislasku = false, const int asiakasId = 0) const;
+    QVariantList viennit(const Tosite& tosite) const;
 
     bool onkoTyhja() const;
 
@@ -87,4 +88,4 @@ private:
     bool ennakkolasku_ = false;
 };
 
-#endif // LASKURIVITMODEL_H
+#endif // TOSITERIVIT_H

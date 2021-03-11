@@ -37,7 +37,7 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
 
         int veroprossa = qRound(map.value("alvprosentti").toDouble() * 100);
         int verokoodi = map.value("alvkoodi").toInt();
-        qlonglong brutto = qRound( LaskuRivitModel::riviSumma( map ) * 100);
+        qlonglong brutto = qRound( TositeRivit::riviSumma( map ) * 100);
         int avain = verokoodi * 10000 + veroprossa;
 
         verokannat_.insert( avain, verokannat_.value(avain, 0) + brutto );
@@ -59,23 +59,23 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
     // Sitten itse tiedot
     for(int i=0; i < model_.rowCount(); i++)
     {
-        if( qAbs(model_.data( model_.index(i, LaskuRivitModel::BRUTTOSUMMA), Qt::EditRole ).toDouble()) < 1e-5 &&
-                model_.data( model_.index(i, LaskuRivitModel::NIMIKE), Qt::EditRole ).toString().isEmpty() )
+        if( qAbs(model_.data( model_.index(i, TositeRivit::BRUTTOSUMMA), Qt::EditRole ).toDouble()) < 1e-5 &&
+                model_.data( model_.index(i, TositeRivit::NIMIKE), Qt::EditRole ).toString().isEmpty() )
             continue;
 
         QStringList rivi;
 
-        rivi.append( model_.data( model_.index(i, LaskuRivitModel::NIMIKE), Qt::DisplayRole ).toString() );
-        rivi.append( model_.data( model_.index(i, LaskuRivitModel::MAARA), Qt::DisplayRole ).toString() );
-        rivi.append( model_.data( model_.index(i, LaskuRivitModel::YKSIKKO), Qt::DisplayRole ).toString() );
-        rivi.append( model_.data( model_.index(i, LaskuRivitModel::AHINTA), Qt::DisplayRole ).toString() );
+        rivi.append( model_.data( model_.index(i, TositeRivit::NIMIKE), Qt::DisplayRole ).toString() );
+        rivi.append( model_.data( model_.index(i, TositeRivit::MAARA), Qt::DisplayRole ).toString() );
+        rivi.append( model_.data( model_.index(i, TositeRivit::YKSIKKO), Qt::DisplayRole ).toString() );
+        rivi.append( model_.data( model_.index(i, TositeRivit::AHINTA), Qt::DisplayRole ).toString() );
 
         if( alennuksia )
-            rivi.append(model_.data( model_.index(i, LaskuRivitModel::ALE), Qt::DisplayRole ).toString() );
+            rivi.append(model_.data( model_.index(i, TositeRivit::ALE), Qt::DisplayRole ).toString() );
         if( verokannat_.count() > 1)
-            rivi.append( model_.data( model_.index(i, LaskuRivitModel::ALV), Qt::DisplayRole ).toString() );
+            rivi.append( model_.data( model_.index(i, TositeRivit::ALV), Qt::DisplayRole ).toString() );
 
-        rivi.append( model_.data( model_.index(i, LaskuRivitModel::BRUTTOSUMMA), Qt::DisplayRole ).toString() );
+        rivi.append( model_.data( model_.index(i, TositeRivit::BRUTTOSUMMA), Qt::DisplayRole ).toString() );
 
         ruudut_.append(rivi);
     }

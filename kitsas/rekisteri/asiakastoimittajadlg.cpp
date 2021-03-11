@@ -235,16 +235,16 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
 {
     int laskutapa = ui->laskutapaCombo->currentData().toInt();
     ui->laskutapaCombo->clear();
-    ui->laskutapaCombo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), LaskuDialogi::TULOSTETTAVA);
+    ui->laskutapaCombo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), Lasku::TULOSTETTAVA);
     if( ui->osoiteEdit->toPlainText().length() > 2 && ui->kaupunkiEdit->text().length() > 1)
-        ui->laskutapaCombo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), LaskuDialogi::POSTITUS);
+        ui->laskutapaCombo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), Lasku::POSTITUS);
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() )
-        ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
+        ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), Lasku::SAHKOPOSTI);
     if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 5 ) {
-        ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
+        ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
         if( kp()->asetukset()->onko("FinvoiceSuosi"))
-            laskutapa = LaskuDialogi::VERKKOLASKU;
+            laskutapa = Lasku::VERKKOLASKU;
     }
 
     int indeksi = ui->laskutapaCombo->findData(laskutapa);

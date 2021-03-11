@@ -163,7 +163,7 @@ void KiertoWidget::lataaTosite()
     int ntila = tosite_ ? tosite_->tositetila() : 0;
     iban_ = tosite_->data(Tosite::PORTAALI).toMap().contains("iban") ?
                 tosite_->data(Tosite::PORTAALI).toMap().value("iban").toString() :
-                tosite_->data(Tosite::LASKU).toMap().value("iban").toString();
+                tosite_->lasku().iban();
 
     ui->ibanLabel->setText( MyyntiLaskunTulostaja::valeilla( iban_) );
     ui->ibanLabel->setVisible(!iban_.isEmpty());

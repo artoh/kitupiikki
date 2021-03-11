@@ -86,7 +86,7 @@ bool VerkkolaskuToimittaja::toimitaSeuraava()
     QVariantMap map = laskut_.dequeue();
 
     int toimitustapa = map.value("lasku").toMap().value("laskutapa").toInt();
-    if( toimitustapa == LaskuDialogi::POSTITUS) {
+    if( toimitustapa == Lasku::POSTITUS) {
 
         // Postituspalvelua käytettäessä toimitaan paikallisen
         // osoitteen mukaisesti

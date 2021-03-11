@@ -198,11 +198,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
 
                 switch (map.value("tyyppi").toInt()) {
                 case TositeTyyppi::MYYNTILASKU:                    
-                    if( map.value("maksutapa").toInt() == LaskuDialogi::KATEINEN )
+                    if( map.value("maksutapa").toInt() == Lasku::KATEINEN )
                         return QIcon(":/pic/kateinen.png");
-                    else if( map.value("maksutapa").toInt() == LaskuDialogi::ENNAKKOLASKU)
+                    else if( map.value("maksutapa").toInt() == Lasku::ENNAKKOLASKU)
                         return QIcon(":/pic/ennakkolasku.png");
-                    else if( map.value("maksutapa").toInt() == LaskuDialogi::SUORITEPERUSTE)
+                    else if( map.value("maksutapa").toInt() == Lasku::SUORITEPERUSTE)
                         return QIcon(":/pic/suorite.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:

@@ -19,11 +19,12 @@
 
 #include <QObject>
 #include <QHash>
+#include <QMap>
 
 class QPagedPaintDevice;
 class QPainter;
 
-#include "laskurivitmodel.h"
+#include "model/tositerivit.h"
 
 class MyyntiLaskunTulostaja : public QObject
 {
@@ -92,7 +93,7 @@ protected:
 
     QHash<QString,QString> tekstit_;
     QVariantMap map_;
-    LaskuRivitModel rivit_;
+    TositeRivit rivit_;
     double laskunSumma_ = 0.0;
 
     QStringList ibanit_;

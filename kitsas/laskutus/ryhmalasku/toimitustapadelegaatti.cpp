@@ -50,19 +50,19 @@ void ToimitustapaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
 QString ToimitustapaDelegaatti::toimitustapa(int koodi)
 {
     switch (koodi) {
-    case LaskuDialogi::TULOSTETTAVA:
+    case Lasku::TULOSTETTAVA:
         return tr("Tulosta");
-    case LaskuDialogi::SAHKOPOSTI:
+    case Lasku::SAHKOPOSTI:
         return tr("Sähköposti");
-    case LaskuDialogi::POSTITUS:
+    case Lasku::POSTITUS:
         return tr("Postitus");
-    case LaskuDialogi::VERKKOLASKU:
+    case Lasku::VERKKOLASKU:
         return tr("Verkkolasku");
-    case LaskuDialogi::PDF:
+    case Lasku::PDF:
         return tr("PDF");
-    case LaskuDialogi::EITULOSTETA:
+    case Lasku::EITULOSTETA:
         return tr("Ei tulosteta");
-    case LaskuDialogi::TUOTULASKU:
+    case Lasku::TUOTULASKU:
         return tr("Tuotu lasku");
 
     default:
@@ -74,19 +74,19 @@ QString ToimitustapaDelegaatti::toimitustapa(int koodi)
 QIcon ToimitustapaDelegaatti::icon(int koodi)
 {
     switch (koodi) {
-    case LaskuDialogi::TULOSTETTAVA:
+    case Lasku::TULOSTETTAVA:
         return QIcon(":/pic/tulosta.png");
-    case LaskuDialogi::SAHKOPOSTI:
+    case Lasku::SAHKOPOSTI:
         return QIcon(":/pic/email.png");
-    case LaskuDialogi::POSTITUS:
+    case Lasku::POSTITUS:
         return QIcon(":/pic/mail.png");
-    case LaskuDialogi::VERKKOLASKU:
+    case Lasku::VERKKOLASKU:
         return QIcon(":/pic/verkkolasku.png");
-    case LaskuDialogi::PDF:
+    case Lasku::PDF:
         return QIcon(":/pic/pdf.png");
-    case LaskuDialogi::EITULOSTETA:
+    case Lasku::EITULOSTETA:
         return QIcon(":/pic/tyhja.png");
-    case LaskuDialogi::TUOTULASKU:
+    case Lasku::TUOTULASKU:
         return QIcon(":/pic/tuotiedosto.png");
     default:
         return QIcon(":/tyhja.png");

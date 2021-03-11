@@ -61,10 +61,12 @@ public:
 
     virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;
     virtual QString kaanna(const QString& teksti, const QString& kieli = QString()) const;
+    virtual QDate paivamaara() const;
 
 };
 
 inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pvm*/, const QString &/*sarja*/, bool /*samakausi*/, bool /*vertailu*/) const { return QString();}
 inline QString KitsasInterface::kaanna(const QString &teksti, const QString &/*kieli*/) const {return teksti; }
+inline QDate KitsasInterface::paivamaara() const { return QDate::currentDate(); }
 
 #endif // KITSASINTERFACE_H

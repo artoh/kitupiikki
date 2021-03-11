@@ -35,7 +35,7 @@
 
 #include "validator/ytunnusvalidator.h"
 
-#include "laskurivitmodel.h"
+#include "model/tositerivit.h"
 #include "model/tositevienti.h"
 
 #include "myyntilaskuntulostaja.h"
@@ -82,7 +82,7 @@
 #include <QJsonDocument>
 
 VanhaLaskuDialogi::VanhaLaskuDialogi(const QVariantMap& data, bool ryhmalasku, int asiakas) :
-    rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
+    rivit_(new TositeRivit(this, data.value("rivit").toList())),
     ui( new Ui::LaskuDialogi),
     ryhmalasku_(ryhmalasku),
     ennakkoModel_(new EnnakkoHyvitysModel(this))
@@ -97,10 +97,10 @@ VanhaLaskuDialogi::VanhaLaskuDialogi(const QVariantMap& data, bool ryhmalasku, i
 
     connect( ui->esikatseluNappi, &QPushButton::clicked, [this] { this->esikatsele(); });
 
-    connect( rivit_, &LaskuRivitModel::dataChanged, this, &VanhaLaskuDialogi::paivitaSumma);
-    connect( rivit_, &LaskuRivitModel::rowsInserted, this, &VanhaLaskuDialogi::paivitaSumma);
-    connect( rivit_, &LaskuRivitModel::rowsRemoved, this, &VanhaLaskuDialogi::paivitaSumma);
-    connect( rivit_, &LaskuRivitModel::modelReset, this, &VanhaLaskuDialogi::paivitaSumma);
+    connect( rivit_, &TositeRivit::dataChanged, this, &VanhaLaskuDialogi::paivitaSumma);
+    connect( rivit_, &TositeRivit::rowsInserted, this, &VanhaLaskuDialogi::paivitaSumma);
+    connect( rivit_, &TositeRivit::rowsRemoved, this, &VanhaLaskuDialogi::paivitaSumma);
+    connect( rivit_, &TositeRivit::modelReset, this, &VanhaLaskuDialogi::paivitaSumma);
 
     alustaRiviTab();
     connect( ui->email, &QLineEdit::textChanged, this, &VanhaLaskuDialogi::paivitaLaskutustavat);
@@ -112,7 +112,7 @@ VanhaLaskuDialogi::VanhaLaskuDialogi(const QVariantMap& data, bool ryhmalasku, i
     connect( ui->tallennaNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::VALMISLASKU);});
     connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LAHETETAAN);});
 
-    connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
+//    connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
     connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &VanhaLaskuDialogi::maksuTapaMuuttui);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, &VanhaLaskuDialogi::ohje);
 
@@ -529,11 +529,11 @@ QVariantMap VanhaLaskuDialogi::data(QString otsikko) const
         // Laskulla on AINA vastakirjaus, jotta tulee laskuluetteloon ;)
         QVariantMap vasta = vastakirjaus(pvm, otsikko);        
         viennit.append( vasta );
-        viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
+/*        viennit.append( rivit_->viennit( pvm, ui->toimitusDate->date(), ui->jaksoDate->date(),
                                          otsikko, ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU,
                                          ui->maksuCombo->currentData().toInt() == KATEINEN,
                                          ui->asiakas->id()) );
-
+*/
         map.insert("viennit", viennit);
     }
 
@@ -562,22 +562,22 @@ void VanhaLaskuDialogi::alustaRiviTab()
 
     ui->rivitView->setModel(rivit_);
 
-    ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuRivitModel::NIMIKE, QHeaderView::Stretch);
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::AHINTA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
+    ui->rivitView->horizontalHeader()->setSectionResizeMode(TositeRivit::NIMIKE, QHeaderView::Stretch);
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
     kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::KOHDENNUS, kohdennusDelegaatti );
 
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
     connect( ui->tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
 
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti(this));
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::BRUTTOSUMMA, new EuroDelegaatti());
+//    ui->rivitView->setItemDelegateForColumn(TositeRivit::ALV, new LaskutusVeroDelegaatti(this));
 
-    ui->rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    ui->rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
+    ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
     connect( ui->uusituoteNappi, &QPushButton::clicked, this, &VanhaLaskuDialogi::lisaaTuote);
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->rivit_->lisaaRivi();} );

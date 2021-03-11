@@ -14,7 +14,7 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "laskurivitmodel.h"
+#include "tositerivit.h"
 
 #include "db/verotyyppimodel.h"
 #include "db/kohdennus.h"
@@ -22,25 +22,25 @@
 #include "db/tilinvalintadialogi.h"
 
 #include "model/tositevienti.h"
-#include "vanhalaskudialogi.h"
+#include "lasku.h"
 
 #include <QMessageBox>
 
-LaskuRivitModel::LaskuRivitModel(QObject *parent, const QVariantList& data)
+TositeRivit::TositeRivit(QObject *parent, const QVariantList& data)
     : QAbstractTableModel(parent),
       rivit_(data)
 {
     lisaaRivi();
 }
 
-void LaskuRivitModel::lataa(const QVariantList &data)
+void TositeRivit::lataa(const QVariantList &data)
 {
     beginResetModel();
     rivit_ = data;
     endResetModel();
 }
 
-QVariant LaskuRivitModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TositeRivit::headerData(int section, Qt::Orientation orientation, int role) const
 {
 
     if( role == Qt::DisplayRole)
@@ -76,7 +76,7 @@ QVariant LaskuRivitModel::headerData(int section, Qt::Orientation orientation, i
 }
 
 
-int LaskuRivitModel::rowCount(const QModelIndex &parent) const
+int TositeRivit::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -84,14 +84,14 @@ int LaskuRivitModel::rowCount(const QModelIndex &parent) const
     return rivit_.count();
 }
 
-int LaskuRivitModel::columnCount(const QModelIndex &parent) const
+int TositeRivit::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
     return 9;
 }
 
-QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
+QVariant TositeRivit::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -131,11 +131,11 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
                 return tr("AVL 65 §");
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
                 return tr("AVL 72a §");
-            case LaskuDialogi::KAYTETYT:
+            case Lasku::KAYTETYT:
                 return "Margin. tavarat";
-            case LaskuDialogi::TAIDE:
+            case Lasku::TAIDE:
                 return "Margin. taide";
-            case LaskuDialogi::ANTIIKKI:
+            case Lasku::ANTIIKKI:
                 return "Margin. keräily";
             default:
                 return QString("%1 %").arg( map.value("alvprosentti").toDouble() );
@@ -188,7 +188,7 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool LaskuRivitModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
         QVariantMap map = rivit_.at(index.row()).toMap();
@@ -270,7 +270,7 @@ bool LaskuRivitModel::setData(const QModelIndex &index, const QVariant &value, i
     return false;
 }
 
-Qt::ItemFlags LaskuRivitModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TositeRivit::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -280,7 +280,7 @@ Qt::ItemFlags LaskuRivitModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-QVariantList LaskuRivitModel::rivit() const
+QVariantList TositeRivit::rivit() const
 {
     QVariantList ulos;
     for(auto rivi : rivit_)
@@ -292,7 +292,7 @@ QVariantList LaskuRivitModel::rivit() const
     return ulos;
 }
 
-double LaskuRivitModel::yhteensa() const
+double TositeRivit::yhteensa() const
 {
     double summa = 0;
     for(auto rivi : rivit_)
@@ -300,22 +300,27 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko, bool ennakkolasku, bool kateislasku, const int asiakasId) const
+QVariantList TositeRivit::viennit(const Tosite &tosite) const
 {
     QVariantList lista;
+    const Lasku& lasku = tosite.constLasku();
+    const QDate pvm = lasku.maksutapa() == Lasku::SUORITEPERUSTE
+            ? lasku.toimituspvm()
+            : tosite.laskupvm();
 
     for(auto rivi : rivit()) {
         QVariantMap map = rivi.toMap();
+
         int alvkoodi = map.value("alvkoodi").toInt();
         int alvprosentti = map.value("alvprosentti").toInt();
 
-        if( alvkoodi >= LaskuDialogi::KAYTETYT) {
+        if( alvkoodi >= Lasku::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
             alvprosentti = 24;  // Marginaalilaskuilla käytössä vain 24% alv-prosentti
-        } if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && ennakkolasku) {
+        } if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && lasku.maksutapa() == Lasku::ENNAKKOLASKU) {
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
              map.insert("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
-        } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv(pvm) && !kateislasku)
+        } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv( pvm ) && lasku.maksutapa() != Lasku::KATEINEN)
             alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;                  
 
         bool vanhaan = false;
@@ -354,14 +359,15 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             vienti.setKohdennus( map.value("kohdennus").toInt());
             vienti.setAlvKoodi( alvkoodi );
             vienti.setAlvProsentti( alvprosentti);
-            vienti.setPvm(pvm);
-            if(asiakasId) {
-                vienti.setKumppani(asiakasId);
+            vienti.setPvm( pvm );
+            if( tosite.kumppani()) {
+                vienti.setKumppani( tosite.kumppani() ) ;
             }
-            if( jaksoalkaa.isValid())
-                vienti.setJaksoalkaa(jaksoalkaa);
-            if( jaksopaattyy.isValid())
-                vienti.setJaksoloppuu(jaksopaattyy);
+
+            if( lasku.toimituspvm().isValid() )
+                vienti.setJaksoalkaa( lasku.toimituspvm() );
+            if( lasku.jaksopvm().isValid() )
+                vienti.setJaksoloppuu( lasku.jaksopvm());
 
             double summa = riviSumma(map);
             if( summa > 0)
@@ -371,7 +377,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             else
                 continue;
 
-            vienti.setSelite( otsikko );
+            vienti.setSelite( tosite.otsikko() );
             if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI)
                 vienti.setEra(-1);
             else if( map.contains("ennakkohyvitys"))
@@ -402,7 +408,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             ulos.append(map);
 
             TositeVienti verorivi;
-            verorivi.setPvm(pvm);
+            verorivi.setPvm( pvm );
 
             // TODO: Maksuperusteinen ALV ja Ennakkolaskutus
             if( alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI ) {
@@ -423,9 +429,9 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
                 verorivi.setDebet(0 - vero);
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
             verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
-            verorivi.setSelite( otsikko + " ALV " + QString::number(map.value("alvprosentti").toInt()) );
-            if(asiakasId)
-                verorivi.setKumppani(asiakasId);
+            verorivi.setSelite( tosite.otsikko() + " ALV " + QString::number(map.value("alvprosentti").toInt()) );
+            if( tosite.kumppani())
+                verorivi.setKumppani(tosite.kumppani());
             ulos.append(verorivi);
         } else {
             ulos.append(map);
@@ -434,7 +440,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
     return ulos;
 }
 
-bool LaskuRivitModel::onkoTyhja() const
+bool TositeRivit::onkoTyhja() const
 {
     for( auto rivi : rivit_)
     {
@@ -448,9 +454,9 @@ bool LaskuRivitModel::onkoTyhja() const
     return true;
 }
 
-void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
+void TositeRivit::lisaaRivi(QVariantMap rivi)
 {
-    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>(parent());
+/*    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>(parent());
     if (!rivi.isEmpty() && dlg && dlg->asiakkaanAlvTunnus().isEmpty() &&
             (rivi.value("alvkoodi").toInt() == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
              rivi.value("alvkoodi").toInt() == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
@@ -465,7 +471,7 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
 
         return;
     }
-
+*/
     if( !rivi.contains("myyntikpl"))
         rivi.insert("myyntikpl", 1.0);
     if( !rivi.contains("tili")) {
@@ -492,14 +498,14 @@ void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
     endInsertRows();
 }
 
-void LaskuRivitModel::poistaRivi(int rivi)
+void TositeRivit::poistaRivi(int rivi)
 {
     beginRemoveRows(QModelIndex(), rivi, rivi);
     rivit_.removeAt(rivi);
     endRemoveRows();
 }
 
-void LaskuRivitModel::asetaEnnakkolasku(bool ennakkoa)
+void TositeRivit::asetaEnnakkolasku(bool ennakkoa)
 {
     beginResetModel();
     ennakkolasku_ = ennakkoa;
@@ -509,7 +515,7 @@ void LaskuRivitModel::asetaEnnakkolasku(bool ennakkoa)
 
 
 
-double LaskuRivitModel::riviSumma(QVariantMap map)
+double TositeRivit::riviSumma(QVariantMap map)
 {
     double maara = map.value("myyntikpl",1).toDouble();
     double ahinta = map.value("ahinta").toDouble();

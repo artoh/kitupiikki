@@ -49,13 +49,12 @@ SOURCES += \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
-    $$PWD/laskutus/lasku.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
-    $$PWD/laskutus/laskudialogi.cpp \
+    $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
+    $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
     $$PWD/laskutus/laskurividialogi.cpp \
-    $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
@@ -89,11 +88,13 @@ SOURCES += \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
+    $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
+    $$PWD/model/tositerivit.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
@@ -354,13 +355,12 @@ HEADERS += \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
     $$PWD/laskutus/kumppanituotewidget.h \
-    $$PWD/laskutus/lasku.h \
     $$PWD/laskutus/laskualvcombo.h \
-    $$PWD/laskutus/laskudialogi.h \
+    $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
+    $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
     $$PWD/laskutus/laskurividialogi.h \
-    $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
@@ -394,11 +394,13 @@ HEADERS += \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
+    $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
+    $$PWD/model/tositerivit.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
     $$PWD/naytin/liitetulostaja.h \
@@ -611,11 +613,11 @@ HEADERS += \
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
     $$PWD/tr/tr.qrc \
-    tilikartat/tilikartat.qrc \
-    pic/pic.qrc \
-    aloitussivu/qrc/aloitus.qrc \
-    arkistoija/arkisto.qrc \
-    laskutus/lasku.qrc
+    $$PWD/tilikartat/tilikartat.qrc \
+    $$PWD/pic/pic.qrc \
+    $$PWD/aloitussivu/qrc/aloitus.qrc \
+    $$PWD/arkistoija/arkisto.qrc \
+    $$PWD/laskutus/lasku.qrc
 
 FORMS += \
     $$PWD/aloitussivu/luotunnusdialogi.ui \
@@ -637,6 +639,7 @@ FORMS += \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
     $$PWD/laskutus/kumppanituotewidget.ui \
+    $$PWD/laskutus/laskudlg/laskudialogi.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/laskurividialogi.ui \
     $$PWD/laskutus/tuotedialogi.ui \
@@ -699,7 +702,6 @@ FORMS += \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
     arkisto/lukitsetilikausi.ui \
-    laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \
     laskutus/laskunmaksudialogi.ui \

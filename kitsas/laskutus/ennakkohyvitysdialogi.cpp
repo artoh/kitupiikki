@@ -16,13 +16,12 @@
 */
 #include "ennakkohyvitysdialogi.h"
 #include "ui_ennakkohyvitysdialogi.h"
-#include "laskudialogi.h"
 #include "ennakkohyvitysmodel.h"
 
 #include <QPushButton>
 
-EnnakkoHyvitysDialogi::EnnakkoHyvitysDialogi(LaskuDialogi *dlg, EnnakkoHyvitysModel *model) :
-    QDialog(dlg),
+EnnakkoHyvitysDialogi::EnnakkoHyvitysDialogi( EnnakkoHyvitysModel *model) :
+    QDialog(),
     ui(new Ui::EnnakkoHyvitysDialogi)
 {
     ui->setupUi(this);
@@ -41,10 +40,10 @@ EnnakkoHyvitysDialogi::~EnnakkoHyvitysDialogi()
 
 void EnnakkoHyvitysDialogi::accept()
 {
-    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>( parent() );
+//    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>( parent() );
     QModelIndex index = ui->view->selectionModel()->selection().indexes().value(0);
-    dlg->lisaaEnnakkoHyvitys( index.data(EnnakkoHyvitysModel::EraIdRooli).toInt(),
-                              ui->euroEdit->value());
+//    dlg->lisaaEnnakkoHyvitys( index.data(EnnakkoHyvitysModel::EraIdRooli).toInt(),
+//                              ui->euroEdit->value());
     QDialog::accept();
 }
 

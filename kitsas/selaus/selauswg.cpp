@@ -32,9 +32,10 @@
 #include <QSettings>
 
 #include "lisaikkuna.h"
-
+#include "db/yhteysmodel.h"
+#include "pilvi/pilvimodel.h"
 #include "tositeselausmodel.h"
-#include "laskutus/vanhalaskudialogi.h"
+#include "laskutus/laskudlg/laskudialogitehdas.h"
 
 SelausWg::SelausWg(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -356,12 +357,7 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
     int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
 
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi < TositeTyyppi::SIIRTO) {
-        KpKysely *kysely = kpk( QString("/tositteet/%1").arg(id));
-        connect( kysely, &KpKysely::vastaus, [](QVariant* data) {
-            LaskuDialogi* dlg = new LaskuDialogi( data->toMap()  );
-            dlg->show();
-        });
-        kysely->kysy();
+        LaskuDialogiTehdas::naytaLasku(id);
     } else
         emit tositeValittu( id );
     valittu_ = id;

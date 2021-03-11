@@ -114,7 +114,7 @@ public:
      * tilinpäätökseen tms. liittyviä toimia
      * @return Päivämäärä
      */
-    QDate paivamaara() const;
+    virtual QDate paivamaara() const override;
 
     /**
      * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata

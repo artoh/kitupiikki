@@ -14,34 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ENNAKKOHYVITYSDIALOGI_H
-#define ENNAKKOHYVITYSDIALOGI_H
+#ifndef LASKUDIALOGITEHDAS_H
+#define LASKUDIALOGITEHDAS_H
 
-#include <QDialog>
-#include <QItemSelection>
+#include <QObject>
 
-namespace Ui {
-class EnnakkoHyvitysDialogi;
-}
+class KitsasInterface;
 
-class EnnakkoHyvitysModel;
-class LaskuDialogi;
-
-class EnnakkoHyvitysDialogi : public QDialog
+class LaskuDialogiTehdas : public QObject
 {
     Q_OBJECT
 
+protected:
+    LaskuDialogiTehdas(KitsasInterface* kitsas= nullptr, QObject* parent = nullptr);
+
 public:
-    explicit EnnakkoHyvitysDialogi(EnnakkoHyvitysModel *model);
-    ~EnnakkoHyvitysDialogi() override;
+    static void kaynnista(KitsasInterface* interface, QObject *parent);
 
-    void accept() override;
+    static void naytaLasku(int tositeId);
+    static void myyntilasku(int asiakasId = 0);
 
-private slots:
-    void riviValittu(const QItemSelection& valinta);
+protected:
+    void tositeLadattu();
+    KitsasInterface* kitsas_ = nullptr;
 
-private:
-    Ui::EnnakkoHyvitysDialogi *ui;    
+    static LaskuDialogiTehdas* instanssi__;
+    static QDate paivamaara();
+
+signals:
+
 };
 
-#endif // ENNAKKOHYVITYSDIALOGI_H
+#endif // LASKUDIALOGITEHDAS_H

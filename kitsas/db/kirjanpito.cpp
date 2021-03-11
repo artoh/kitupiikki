@@ -53,6 +53,7 @@
 
 #include "tools/finvoicehaku.h"
 #include "kieli/kielet.h"
+#include "laskutus/laskudlg/laskudialogitehdas.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -112,13 +113,14 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     connect( this, &Kirjanpito::tietokantaVaihtui, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
     connect( pilvi(), &PilviModel::kirjauduttu, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
 
+    LaskuDialogiTehdas::kaynnista(this, this);
+
 }
 
 Kirjanpito::~Kirjanpito()
 {
-    if(yhteysModel())
-        yhteysModel()->sulje();
-
+    pilviModel_->sulje();
+    sqliteModel_->sulje();
     tietokanta_.close();
     delete tempDir_;
     delete printer_;

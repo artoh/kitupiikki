@@ -24,6 +24,7 @@
 #include "model/tositeviennit.h"
 #include "vanhalaskudialogi.h"
 #include <QPushButton>
+#include "model/lasku.h"
 
 MaksumuistutusDialogi::MaksumuistutusDialogi(QList<int> erat, QWidget *parent) :
     QDialog(parent),
@@ -118,9 +119,9 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
     lasku.insert("erapvm", ui->eraDate->date()); // TODO: Päivämääräjutut!!!
     lasku.insert("aiemmat", tositteet);
     lasku.insert("saate", tulostaja.t("muistutussaate"));
-    lasku.insert("maksutapa", LaskuDialogi::LASKU);
-    if( lasku.value("laskutapa").toInt() == LaskuDialogi::EITULOSTETA)
-        lasku.insert("laskutapa", LaskuDialogi::TULOSTETTAVA);
+    lasku.insert("maksutapa", Lasku::LASKU);
+    if( lasku.value("laskutapa").toInt() == Lasku::EITULOSTETA)
+        lasku.insert("laskutapa", Lasku::TULOSTETTAVA);
 
     if(kumppaniId) {
         muistutus.asetaKumppani( kumppaniId);
@@ -221,7 +222,8 @@ QVariantMap MaksumuistutusDialogi::muodostaMuistutus(int era)
 
     lasku.insert("aiempisaldo", eramap.value("saldo"));
 
-    muistutus.setData(Tosite::LASKU, lasku);
+// @TODO!
+//    muistutus.setData(Tosite::LASKU, lasku);
     QVariantMap tm = muistutus.tallennettava();
     if( !rivit.isEmpty())
         tm.insert("rivit", rivit);

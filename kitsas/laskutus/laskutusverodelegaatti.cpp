@@ -21,10 +21,10 @@
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
 #include "laskualvcombo.h"
-#include "laskurivitmodel.h"
+#include "model/tositerivit.h"
 #include "vanhalaskudialogi.h"
 
-LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(LaskuDialogi *dialogi) :
+LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(VanhaLaskuDialogi *dialogi) :
     QItemDelegate(dialogi)
 {
 
@@ -33,22 +33,22 @@ LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(LaskuDialogi *dialogi) :
 QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
     LaskuAlvCombo::AsiakasVeroLaji aslaji = LaskuAlvCombo::EU;
-    LaskuDialogi* dlg = qobject_cast<LaskuDialogi*>(this->parent());
+    VanhaLaskuDialogi* dlg = qobject_cast<VanhaLaskuDialogi*>(this->parent());
     if( dlg->asiakkaanAlvTunnus().isEmpty())
         aslaji = LaskuAlvCombo::YKSITYINEN;
     else if(dlg->asiakkaanAlvTunnus().startsWith("FI"))
         aslaji = LaskuAlvCombo::KOTIMAA;
-    bool ennakkolasku = dlg->maksutapa() == LaskuDialogi::ENNAKKOLASKU;
+    bool ennakkolasku = dlg->maksutapa() == VanhaLaskuDialogi::ENNAKKOLASKU;
 
-    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji, index.data(LaskuRivitModel::AlvKoodiRooli).toInt(), ennakkolasku);
+    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji, index.data(TositeRivit::AlvKoodiRooli).toInt(), ennakkolasku);
     return cbox;
 }
 
 void LaskutusVeroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    int koodi = index.data(LaskuRivitModel::AlvProsenttiRooli).toInt() * 100 + index.data(LaskuRivitModel::AlvKoodiRooli).toInt();
-    if( index.data(LaskuRivitModel::VoittomarginaaliRooli).toInt())
-        koodi = index.data(LaskuRivitModel::VoittomarginaaliRooli).toInt();
+    int koodi = index.data(TositeRivit::AlvProsenttiRooli).toInt() * 100 + index.data(TositeRivit::AlvKoodiRooli).toInt();
+    if( index.data(TositeRivit::VoittomarginaaliRooli).toInt())
+        koodi = index.data(TositeRivit::VoittomarginaaliRooli).toInt();
 
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     cbox->setCurrentIndex( cbox->findData(koodi) );
@@ -59,8 +59,8 @@ void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     int koodi = cbox->currentData().toInt();
 
-    model->setData(index, koodi / 100, LaskuRivitModel::AlvProsenttiRooli);
-    model->setData(index, koodi % 100, LaskuRivitModel::AlvKoodiRooli);
+    model->setData(index, koodi / 100, TositeRivit::AlvProsenttiRooli);
+    model->setData(index, koodi % 100, TositeRivit::AlvKoodiRooli);
 
 }
 

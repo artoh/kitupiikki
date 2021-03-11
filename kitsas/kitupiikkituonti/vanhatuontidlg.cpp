@@ -40,7 +40,8 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
-#include "laskutus/lasku.h"
+#include "model/tositerivit.h"
+#include "model/lasku.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 
 #include <iostream>
@@ -846,27 +847,25 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
         rivit.append(riviMap);
     }
 
-    tosite.setData(Tosite::RIVIT, rivit);
+    tosite.rivit()->lataa(rivit);
 
     QVariantMap lasku;
-    lasku.insert("osoite", vientiJson.value("Osoite"));
-    lasku.insert("email", vientiJson.value("Email"));
-    lasku.insert("asviite", vientiJson.value("AsiakkaanViite"));
-    if( !vientiJson.value("YTunnus").toString().isEmpty())
-        lasku.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv(vientiJson.value("YTunnus").toString()));
-    lasku.insert("kieli", vientiJson.value("Kieli"));
-    lasku.insert("viivkorko", vientiJson.value("Viivastyskorko"));
-    lasku.insert("numero", vientikysely.value("viite"));
-    lasku.insert("erapvm", vientikysely.value("erapvm"));
-    lasku.insert("pvm", vientikysely.value("laskupvm"));
-    lasku.insert("laskutapa", Lasku::TUOTULASKU);
+    tosite.lasku().setOsoite(vientiJson.value("Osoite").toString());
+    tosite.lasku().setEmail(vientiJson.value("Email").toString());
+    tosite.lasku().setAsiakasViite(vientiJson.value("AsiakkaanViite").toString());
+    tosite.lasku().setKieli(vientiJson.value("Kieli").toString());
+    tosite.lasku().setViivastyskorko(vientiJson.value("Viivastyskorko").toDouble());
+    tosite.lasku().setNumero(vientikysely.value("viite").toString());
+    tosite.lasku().setErapaiva( vientikysely.value("erapvm").toDate());
+    tosite.lasku().setLaskunpaiva(vientikysely.value("laskupvm").toDate());
+    tosite.lasku().setLahetystapa(Lasku::TUOTULASKU);
 
     lasku.insert("maksutapa", Lasku::LASKU);
     int kirjausperuste = vientiJson.value("Kirjausperuste").toInt();
     if( kirjausperuste == 0)
-        lasku.insert("maksutapa", Lasku::SUORITEPERUSTE);
+        tosite.lasku().setMaksutapa(Lasku::SUORITEPERUSTE);
     else if( kirjausperuste == 3)
-        lasku.insert("maksutapa", Lasku::KATEINEN);
+        tosite.lasku().setMaksutapa(Lasku::KATEINEN);
 
 /*    if( vientiJson.contains("Hyvityslasku"))
         tosite.asetaTyyppi( TositeTyyppi::HYVITYSLASKU);
@@ -875,7 +874,6 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
     else
         tosite.asetaTyyppi(TositeTyyppi::MYYNTILASKU);
 */
-    tosite.setData(Tosite::LASKU, lasku);
 
 }
 

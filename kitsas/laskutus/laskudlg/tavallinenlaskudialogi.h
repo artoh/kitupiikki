@@ -14,12 +14,13 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef LASKUDIALOGI_H
-#define LASKUDIALOGI_H
-
-#include "lasku.h"
+#ifndef TAVALLINENLASKUDIALOGI_H
+#define TAVALLINENLASKUDIALOGI_H
 
 #include <QDialog>
+#include <QVariantMap>
+
+class Tosite;
 
 namespace Ui {
 class LaskuDialogi;
@@ -28,18 +29,16 @@ class LaskuDialogi;
 class Lasku;
 class EnnakkoHyvitysModel;
 
-class LaskuDialogi : public QDialog
+class TavallinenLaskuDialogi : public QDialog
 {
     Q_OBJECT
 public:
-    LaskuDialogi(QWidget* parent = nullptr);
-    ~LaskuDialogi() override;
-
-    void lataa(const QVariantMap& data);
-    void lataa(const int tositeId);
-    void asetaAsiakas(const int asiakas);
+    TavallinenLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
+    ~TavallinenLaskuDialogi() override;
 
 protected:
+    Tosite* tosite() { return tosite_;}
+
     void alustaUi();
     void alustaRivitTab();
     virtual void poistaLiikaTab();
@@ -63,13 +62,15 @@ protected:
 
 protected:
     Ui::LaskuDialogi *ui;
-    Lasku lasku_;
+    Tosite* tosite_;
+
     EnnakkoHyvitysModel* ennakkoModel_;
 
+    int asiakasId_;
     QVariantMap ladattuAsiakas_;
 
     bool paivitetaanLaskutapoja_ = false;
 };
 
 
-#endif // LASKUDIALOGI_H
+#endif // TAVALLINENLASKUDIALOGI_H

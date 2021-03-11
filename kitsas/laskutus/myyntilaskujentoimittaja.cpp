@@ -69,15 +69,15 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
     for( QVariantMap lasku : laskut)
     {
         int toimitustapa = lasku.value("lasku").toMap().value("laskutapa").toInt();
-        if( toimitustapa == LaskuDialogi::PDF)
+        if( toimitustapa == Lasku::PDF)
             tallennettavat_.append(lasku);
-        else if(toimitustapa == LaskuDialogi::SAHKOPOSTI)
+        else if(toimitustapa == Lasku::SAHKOPOSTI)
             sahkopostilla_.append(lasku);
-        else if( toimitustapa == LaskuDialogi::VERKKOLASKU)
+        else if( toimitustapa == Lasku::VERKKOLASKU)
             verkkolaskutoimittaja_->lisaaLasku(lasku);
-        else if(toimitustapa == LaskuDialogi::EITULOSTETA)
+        else if(toimitustapa == Lasku::EITULOSTETA)
             merkkaaToimitetuksi(lasku.value("id").toInt());
-        else if( toimitustapa == LaskuDialogi::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
+        else if( toimitustapa == Lasku::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
                 verkkolaskutoimittaja_->lisaaLasku(lasku);
         }
         else
@@ -131,8 +131,9 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
 
     // Toimitettaessa lasku päivitetään laskun päivämäärä
     // sekä eräpäivä (jos maksuaika jäämässä määriteltyä lyhyemmäksi)
-    QVariantMap lasku = tosite.data(Tosite::LASKU).toMap();
-    lasku.insert("pvm", kp()->paivamaara());
+
+//    QVariantMap lasku = tosite.data(Tosite::LASKU).toMap();
+//    lasku.insert("pvm", kp()->paivamaara());
 
     QVariantList viennit = tosite.viennit()->vientilLista();
     TositeVienti vienti = viennit.value(0).toMap();
@@ -143,12 +144,13 @@ void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
         if( kp()->paivamaara().daysTo( erapvm ) < kp()->asetukset()->luku("LaskuMaksuaika",0) && kp()->asetukset()->onko("LaskuMaksuaikaVahintaan"))
             erapvm = MyyntiLaskunTulostaja::erapaiva();
         tosite.asetaErapvm(erapvm);
-        lasku.insert("erapvm", erapvm);
+        tosite.lasku().setErapaiva(erapvm);
+
     }
     viennit[0] = vienti;
     tosite.viennit()->asetaViennit(viennit);
 
-    tosite.setData(Tosite::LASKU, lasku);
+//    tosite.setData(Tosite::LASKU, lasku);
 
 
     KpKysely *tallennuskysely = kpk(QString("/tositteet/%1").arg(tosite.id()), KpKysely::PUT);

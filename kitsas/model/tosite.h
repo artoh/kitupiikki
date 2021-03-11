@@ -23,11 +23,14 @@
 #include <map>
 #include <QDate>
 
+#include "lasku.h"
+
 class TositeViennit;
 class TositeLiitteet;
 class TositeLoki;
 class Asiakas;
 class Toimittaja;
+class TositeRivit;
 
 /**
  * @brief Kirjanpitotosite
@@ -51,8 +54,6 @@ public:
         ALV,
         SARJA,
         TILIOTE,
-        LASKU,
-        RIVIT,
         LASKUPVM,
         ERAPVM,
         VIITE,
@@ -91,7 +92,7 @@ public:
     };
 
 
-    explicit Tosite(QObject *parent = nullptr);
+    Tosite(QObject *parent = nullptr);
 
     QVariant data(int kentta) const;
     void setData(int kentta, QVariant arvo);
@@ -99,6 +100,9 @@ public:
     TositeViennit* viennit() { return viennit_; }
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
+    TositeRivit* rivit() { return rivit_;}
+    Lasku& lasku() { return lasku_;}
+    Lasku constLasku() const { return lasku_;}
 
     bool resetoidaanko() const { return resetointiKaynnissa_; }
 
@@ -168,7 +172,8 @@ signals:
 
 public slots:
     void lataa(int tositeid);
-    virtual void lataaData(QVariant *variant);
+    void lataa(const QVariantMap& map);
+    void lataaData(QVariant *variant);
     void tallenna(int tilaan = Tosite::KIRJANPIDOSSA);
     void tarkasta();
     void nollaa(const QDate& pvm, int tyyppi);
@@ -190,6 +195,9 @@ private:
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;    
+    TositeRivit* rivit_;
+
+    Lasku lasku_;
 
     bool resetointiKaynnissa_ = false;
     bool tallennusKaynnissa_ = false;
