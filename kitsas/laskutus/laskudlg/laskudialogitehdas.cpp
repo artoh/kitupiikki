@@ -17,6 +17,7 @@
 #include "laskudialogitehdas.h"
 
 #include "model/tosite.h"
+#include "kantalaskudialogi.h"
 #include "tavallinenlaskudialogi.h"
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
@@ -49,14 +50,14 @@ void LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->asetaKumppani(asiakasId);
     tosite->asetaLaskupvm( paivamaara() );
 
-    TavallinenLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
+    KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();
 }
 
 void LaskuDialogiTehdas::tositeLadattu()
 {
     Tosite* tosite = qobject_cast<Tosite*>(sender());
-    TavallinenLaskuDialogi* dlg = nullptr;
+    KantaLaskuDialogi* dlg = nullptr;
 
     if( tosite->tyyppi() == TositeTyyppi::MYYNTILASKU )
         dlg = new TavallinenLaskuDialogi(tosite);

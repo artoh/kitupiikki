@@ -17,60 +17,16 @@
 #ifndef TAVALLINENLASKUDIALOGI_H
 #define TAVALLINENLASKUDIALOGI_H
 
-#include <QDialog>
-#include <QVariantMap>
+#include "kantalaskudialogi.h"
 
-class Tosite;
-
-namespace Ui {
-class LaskuDialogi;
-}
-
-class Lasku;
-class EnnakkoHyvitysModel;
-
-class TavallinenLaskuDialogi : public QDialog
+class TavallinenLaskuDialogi : public KantaLaskuDialogi
 {
     Q_OBJECT
 public:
-    TavallinenLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
-    ~TavallinenLaskuDialogi() override;
+    TavallinenLaskuDialogi(Tosite* tosite, QWidget *parent = nullptr);
 
-protected:
-    Tosite* tosite() { return tosite_;}
-
+private:
     void alustaUi();
-    void alustaRivitTab();
-    virtual void poistaLiikaTab();
-    void teeConnectit();
-    void alustaMaksutavat();
-    void alustaValvonta();
-
-    void tuotteidenKonteksiValikko(QPoint pos);
-
-    void tositteelta();
-    void asiakasMuuttui();
-    void taytaAsiakasTiedot(QVariant* data);
-
-    void paivitaLaskutustavat();
-    void laskutusTapaMuuttui();
-    void maksuTapaMuuttui();
-    void valvontaMuuttui();
-    void paivitaViiteRivi();
-
-    void naytaLoki();
-
-protected:
-    Ui::LaskuDialogi *ui;
-    Tosite* tosite_;
-
-    EnnakkoHyvitysModel* ennakkoModel_;
-
-    int asiakasId_;
-    QVariantMap ladattuAsiakas_;
-
-    bool paivitetaanLaskutapoja_ = false;
 };
-
 
 #endif // TAVALLINENLASKUDIALOGI_H

@@ -54,6 +54,7 @@
 #include "tools/finvoicehaku.h"
 #include "kieli/kielet.h"
 #include "laskutus/laskudlg/laskudialogitehdas.h"
+#include "laskutus/vakioviite/vakioviitemodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -67,11 +68,12 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     tuotteet_( new TuoteModel(this)),
     ryhmat_( new RyhmatModel(this)),
     alvIlmoitukset_( new AlvIlmoitustenModel(this)),
+    vakioviitteet_( new VakioViiteModel(this)),
     tempDir_(nullptr),
     portableDir_(portableDir),
     pilviModel_(new PilviModel(this)),
     sqliteModel_( new SQLiteModel(this)),
-    yhteysModel_(nullptr),
+    yhteysModel_(nullptr),        
     tositeTyypit_( new TositeTyyppiModel(this)),
     kiertoModel_( new KiertoModel(this))
 {
@@ -112,6 +114,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     FinvoiceHaku* verkkolaskuhaku = FinvoiceHaku::init(this);
     connect( this, &Kirjanpito::tietokantaVaihtui, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
     connect( pilvi(), &PilviModel::kirjauduttu, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
+
+    connect( this, &Kirjanpito::tietokantaVaihtui, vakioviitteet_, &VakioViiteModel::lataa);
 
     LaskuDialogiTehdas::kaynnista(this, this);
 

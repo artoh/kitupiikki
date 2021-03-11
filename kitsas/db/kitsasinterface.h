@@ -31,6 +31,7 @@ class KiertoModel;
 class QSettings;
 class YhteysModel;
 class TositeTyyppiModel;
+class VakioViiteModel;
 
 /**
  * @brief Rajapinta keskeisten modeleiden saavuttamiseen
@@ -57,6 +58,7 @@ public:
     virtual QSettings* settings() const { return nullptr;}
     virtual YhteysModel* yhteysModel() { return nullptr;}
     virtual TositeTyyppiModel* tositeTyypit() const { return nullptr;}
+    virtual VakioViiteModel* vakioViitteet() const { return nullptr;}
 
 
     virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;

@@ -67,6 +67,7 @@ class AlvIlmoitustenModel;
 class KiertoModel;
 
 class QNetworkAccessManager;
+class VakioViiteModel;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -280,6 +281,7 @@ public:
     void asetaTositeSarjat(const QStringList& sarjat) { tositesarjat_=sarjat;}
     QStringList tositeSarjat() const { return tositesarjat_;}
 
+    VakioViiteModel* vakioViitteet() const override { return vakioviitteet_; }
 
     void odotusKursori(bool on);
 signals:
@@ -388,6 +390,8 @@ protected:
     TuoteModel *tuotteet_;
     RyhmatModel *ryhmat_;
     AlvIlmoitustenModel *alvIlmoitukset_;
+    VakioViiteModel *vakioviitteet_;
+
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;

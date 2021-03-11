@@ -48,8 +48,10 @@ SOURCES += \
     $$PWD/laskutus/asiakkaatmodel.cpp \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
+    $$PWD/laskutus/huoneisto/huoneistomodel.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
+    $$PWD/laskutus/laskudlg/kantalaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
@@ -354,8 +356,10 @@ HEADERS += \
     $$PWD/laskutus/asiakkaatmodel.h \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
+    $$PWD/laskutus/huoneisto/huoneistomodel.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
+    $$PWD/laskutus/laskudlg/kantalaskudialogi.h \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
