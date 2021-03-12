@@ -5,4 +5,5 @@ SUBDIRS = kitsas/kitsas.pro \
 	unittest/KieliTesti \
 	unittest/ValidatorTest \
 	testit/testit.pro \
+	unittest/eurotest \
 	unittest/viitetesti
