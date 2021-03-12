@@ -23,6 +23,8 @@
 
 #include "nayukiQR/QrCode.hpp"
 
+#include "iban.h"
+
 #include <QFile>
 #include <QTextStream>
 #include <QSvgRenderer>
@@ -757,7 +759,7 @@ QString MyyntiLaskunTulostaja::muotoiltuViite() const
     if( kp()->asetukset()->onko("LaskuRF"))
     {
         QString rf= "RF00" + viite;
-        int tarkiste = 98 - IbanValidator::ibanModulo( rf );
+        int tarkiste = 98 - Iban::ibanModulo( rf );
         return valeilla( QString("RF%1%2").arg(tarkiste,2,10,QChar('0')).arg(rf.mid(4)));
     }
     else

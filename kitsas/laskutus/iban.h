@@ -17,11 +17,29 @@
 #ifndef IBAN_H
 #define IBAN_H
 
+#include <QString>
 
 class Iban
 {
 public:
     Iban();
+    Iban(const QString& tilinumero);
+
+    QString bic() const;
+    QString valeilla() const;
+    QString valeitta() const;
+
+    static QString lisaaValit(const QString& iban);
+
+    /**
+     * @brief Laskee IBAN-muotoisen numeron tarkasteen (mod 97)
+     * @param iban
+     * @return Tarkastenumero, tai -1 jos virheellinen
+     */
+    static int ibanModulo(const QString& iban);
+
+private:
+    QString tilinumero_;
 };
 
 #endif // IBAN_H

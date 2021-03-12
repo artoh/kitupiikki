@@ -17,6 +17,7 @@
 
 #include "viitevalidator.h"
 #include "ibanvalidator.h"
+#include "../laskutus/iban.h"
 
 ViiteValidator::ViiteValidator(QObject *parent)
     : QValidator(parent)
@@ -40,7 +41,7 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
 
     if( str.startsWith("RF"))
     {
-        if( IbanValidator::ibanModulo(str) == 1)
+        if( Iban::ibanModulo(str) == 1)
             return Acceptable;
         else
             return Intermediate;

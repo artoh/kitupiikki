@@ -10,8 +10,9 @@ INCLUDEPATH += $$PWD/../../kitsas
 VPATH += $$PWD/../../kitsas
 
 SOURCES +=  tst_viitetest.cpp \
-    laskutus/viitenumero.cpp \
-    validator/ibanvalidator.cpp
+    laskutus/viitenumero.cpp \    
+    laskutus/iban.cpp
 
 HEADERS += laskutus/viitenumero.h \
-    validator/ibanvalidator.h
+    laskutus.iban.h \
+

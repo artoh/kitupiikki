@@ -16,6 +16,7 @@
 */
 
 #include "ibanvalidator.h"
+#include "../laskutus/iban.h"
 
 #include <sstream>
 
@@ -53,7 +54,7 @@ QValidator::State IbanValidator::kelpo(const QString &input)
     if( str.length() > 32)
         return Invalid;
 
-    if( ibanModulo( str ) == 1)
+    if( Iban::ibanModulo( str ) == 1)
         return Acceptable;
     else if( input.startsWith("FI"))
         return Invalid;         // Suomalainen IBAN täsmälleen 18 merkkiä
@@ -66,45 +67,4 @@ bool IbanValidator::kelpaako(const QString &input)
     return kelpo(input) == Acceptable;
 }
 
-int IbanValidator::ibanModulo(const QString &iban)
-{
-    // Siirretään neljä ensimmäistä merkkiä loppuun
-    QString siirto = iban.mid(4) + iban.left(4);
 
-    // Muunnetaan kirjaimet numeropareiksi
-    QString apu;
-    for( QChar merkki : siirto)
-    {
-        if( merkki.isDigit() )
-            apu.append(merkki);
-        else if( merkki.isUpper())
-            apu.append( QString("%1").arg( static_cast<int>( merkki.toLatin1() ) - 55 , 2, 10, QChar('0')  ) );
-        else
-            return -1;
-    }
-
-    QString eka = apu.left(9);
-    qlonglong luku = eka.toLongLong();
-    int jaannos = luku % 97;
-
-    if( apu.length() < 10 )
-        return jaannos;
-
-   apu.remove(0,9);
-
-   while( apu.length() )
-   {
-       QString tama = QString("%1").arg( jaannos , 2, 10, QChar('0')  );
-       tama.append( apu.leftRef(7));
-       luku = tama.toLongLong();
-       jaannos = luku % 97;
-
-       if( apu.length() > 6)
-           apu.remove(0,7);
-       else
-           apu.clear();
-   }
-
-    return jaannos;
-
-}

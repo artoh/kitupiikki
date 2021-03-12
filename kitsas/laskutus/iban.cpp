@@ -85,10 +85,12 @@ QString Iban::valeitta() const
 
 QString Iban::lisaaValit(const QString &iban)
 {
-    QString palautettava(iban);
-    for(int i=0; i < palautettava.length(); i++)
+    QString raaka(iban);
+    QString palautettava;
+
+    for(int i=0; i < raaka.length(); i++)
     {
-        palautettava.append(palautettava.at(i));
+        palautettava.append(raaka.at(i));
         if( i % 4 == 3)
             palautettava.append(QChar(' '));
     }

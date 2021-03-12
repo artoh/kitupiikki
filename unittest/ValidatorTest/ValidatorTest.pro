@@ -7,6 +7,8 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES +=  tst_validatortest.cpp \
-    ../../kitsas/validator/ibanvalidator.cpp
+    ../../kitsas/validator/ibanvalidator.cpp \
+    ../../kitsas/laskutus/iban.cpp
 
-HEADERS += ../../kitsas/validator/ibanvalidator.h
+HEADERS += ../../kitsas/validator/ibanvalidator.h \
+    ../../kitsas/laskutus/iban.h

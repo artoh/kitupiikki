@@ -40,12 +40,8 @@ public:
      */
     static bool kelpaako(const QString& input);
 
-    /**
-     * @brief Laskee IBAN-muotoisen numeron tarkasteen (mod 97)
-     * @param iban
-     * @return Tarkastenumero, tai -1 jos virheellinen
-     */
-    static int ibanModulo(const QString& iban);
+
+
 };
 
 #endif // IBANVALIDATOR_H

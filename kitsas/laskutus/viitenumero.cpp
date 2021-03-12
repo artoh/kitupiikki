@@ -16,6 +16,7 @@
 */
 #include "viitenumero.h"
 #include "validator/ibanvalidator.h"
+#include "iban.h"
 
 ViiteNumero::ViiteNumero()
 {
@@ -99,10 +100,10 @@ QString ViiteNumero::valeilla() const
 QString ViiteNumero::rfviite() const
 {
     QString raaka = "RF00" + viitenumero_;
-    int tarkiste = 98 - IbanValidator::ibanModulo( raaka );
+    int tarkiste = 98 - Iban::ibanModulo( raaka );
     QString tarkasteella =  QString("RF%1%2").arg(tarkiste,2,10,QChar('0')).arg(raaka.mid(4));
 
-    return ibanValeilla(tarkasteella);
+    return Iban::lisaaValit(tarkasteella);
 }
 
 QString ViiteNumero::kanta() const
@@ -142,17 +143,6 @@ QString ViiteNumero::laskeTarkaste(const QString &pohja)
     return QString::number(( 10 - summa % 10) % 10);
 }
 
-QString ViiteNumero::ibanValeilla(const QString &iban)
-{
-    QString palautettava(iban);
-    for(int i=0; i < palautettava.length(); i++)
-    {
-        palautettava.append(palautettava.at(i));
-        if( i % 4 == 3)
-            palautettava.append(QChar(' '));
-    }
-    return palautettava;
-}
 
 ViiteNumero::ViiteNumeroTyyppi ViiteNumero::tyyppiMerkista(const QString &merkki)
 {
