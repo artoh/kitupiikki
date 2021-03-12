@@ -49,6 +49,7 @@ SOURCES += \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/huoneisto/huoneistomodel.cpp \
+    $$PWD/laskutus/iban.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.cpp \
@@ -358,6 +359,7 @@ HEADERS += \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
     $$PWD/laskutus/huoneisto/huoneistomodel.h \
+    $$PWD/laskutus/iban.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.h \
