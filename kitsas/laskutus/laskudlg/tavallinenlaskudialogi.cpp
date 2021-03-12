@@ -26,6 +26,8 @@ TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->jaksoDate, &KpDateEdit::dateChanged, this, &TavallinenLaskuDialogi::paivitaToistojakso);
     connect( ui->maksuCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &TavallinenLaskuDialogi::paivitaToistojakso);
 
+    ui->toistoPvmPaattyy->setNull();
+
     toistoTositteelta();
 }
 

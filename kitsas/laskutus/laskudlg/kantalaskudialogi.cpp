@@ -96,7 +96,7 @@ void KantaLaskuDialogi::alustaUi()
 {
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
     ui->jaksoDate->setNull();
-    ui->toistoPvmPaattyy->setNull();
+    ui->tilausPvm->setNull();
 
     ui->maksuaikaSpin->setValue(kp()->asetukset()->luku("LaskuMaksuaika",14) );
     ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );

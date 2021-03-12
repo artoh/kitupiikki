@@ -36,6 +36,8 @@
 #include <QBuffer>
 #include <QApplication>
 
+#include "tulostus/laskuntietolaatikko.h"
+
 bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
     MyyntiLaskunTulostaja tulostaja( lasku );
@@ -483,6 +485,18 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         painter->drawText( lisatietoIkkunanalle, Qt::TextWordWrap, lisatieto);
         ikkunakorkeus += rk/2 + lisatietoIkkunanalle.height();
     }
+
+    painter->save();
+    LaskunTietoLaatikko laatikko(kp());
+    Tosite tosite;
+    tosite.lataa(map_);
+    painter->translate(0, painter->window().width() / 2);
+
+    laatikko.lataa( tosite );
+    laatikko.laskeLaatikko( painter, painter->window().width() / 2);
+
+    laatikko.piirra( painter );
+    painter->restore();
 
     painter->translate(0, ruutukorkeus > ikkunakorkeus ? ruutukorkeus + rk : ikkunakorkeus + rk);
 
