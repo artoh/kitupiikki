@@ -23,7 +23,7 @@ alv15 AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44
 SValv15 AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44
 ENalv15 AVL 65 §: Reverse charge, VAT Directive art. 44
 alv16 AVL 8 c §: Käännetty verovelvollisuus
-SCalv16 AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199
+SValv16 AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199
 ENalv16 AVL 8 c §: Reverse charge, VAT Directive art. 199
 alv ALV
 ENalv VAT
