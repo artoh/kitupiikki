@@ -27,12 +27,7 @@
 #include "../ryhmalasku/kielidelegaatti.h"
 #include "model/tositerivit.h"
 #include "model/tositeloki.h"
-#include "../tuotedialogi.h"
-
-#include "../laskutusverodelegaatti.h"
-#include "kirjaus/eurodelegaatti.h"
-#include "kirjaus/kohdennusdelegaatti.h"
-#include "kirjaus/tilidelegaatti.h"
+#include "model/tositeviennit.h"
 
 #include "naytin/naytinikkuna.h"
 #include "../viitenumero.h"
@@ -40,11 +35,13 @@
 #include "../vakioviite/vakioviitemodel.h"
 #include "../huoneisto/huoneistomodel.h"
 
-#include <QJsonDocument>
-#include <QMenu>
-#include <QSettings>
-#include <QSortFilterProxyModel>
+#include "../myyntilaskuntulostaja.h"
 
+#include <QJsonDocument>
+#include <QSettings>
+
+#include <QPdfWriter>
+#include <QPainter>
 
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
@@ -64,6 +61,8 @@ KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     alustaUi();
     teeConnectit();
 
+    tositteelta();
+
 }
 
 KantaLaskuDialogi::~KantaLaskuDialogi() {
@@ -71,16 +70,33 @@ KantaLaskuDialogi::~KantaLaskuDialogi() {
     delete ui;
 }
 
+QString KantaLaskuDialogi::asiakkaanAlvTunnus() const
+{
+    return ladattuAsiakas_.value("alvtunnus").toString();
+}
+
+int KantaLaskuDialogi::maksutapa() const
+{
+    return ui->maksuCombo->currentData().toInt();
+}
+
+void KantaLaskuDialogi::tulosta(QPagedPaintDevice *printer) const
+{
+    printer->setPageSize( QPdfWriter::A4);
+    printer->setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
+
+    QPainter painter( printer);
+    MyyntiLaskunTulostaja::tulosta( tosite_->tallennettava() , printer, &painter, true );
+
+    painter.end();
+}
+
 
 void KantaLaskuDialogi::alustaUi()
 {
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
     ui->jaksoDate->setNull();
-
-    ui->viiteLabel->hide();
-    ui->viiteText->hide();
-    ui->maksettuCheck->hide();
-    ui->infoLabel->hide();
+    ui->toistoPvmPaattyy->setNull();
 
     ui->maksuaikaSpin->setValue(kp()->asetukset()->luku("LaskuMaksuaika",14) );
     ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
@@ -92,56 +108,14 @@ void KantaLaskuDialogi::alustaUi()
     ui->lokiView->setModel( tosite_->loki() );
 
     paivitaLaskutustavat();
+    laskutusTapaMuuttui();
     alustaMaksutavat();
-    alustaValvonta();
+    alustaRivitTab();
 }
 
 void KantaLaskuDialogi::alustaRivitTab()
 {
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel( kp()->tuotteet() );
 
-    ui->tuoteView->setModel(proxy);
-    proxy->setSortLocaleAware(true);
-    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
-    ui->tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
-    ui->tuoteView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect( ui->tuoteView, &QTableView::customContextMenuRequested,
-             this, &KantaLaskuDialogi::tuotteidenKonteksiValikko);
-
-
-    ui->rivitView->setModel(tosite()->rivit());
-
-    ui->rivitView->horizontalHeader()->setSectionResizeMode(TositeRivit::NIMIKE, QHeaderView::Stretch);
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
-
-    KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
-    kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::KOHDENNUS, kohdennusDelegaatti );
-
-    connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
-    connect( ui->tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
-
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::BRUTTOSUMMA, new EuroDelegaatti());
-//    ui->rivitView->setItemDelegateForColumn(TositeRivit::ALV, new LaskutusVeroDelegaatti(this));
-
-    ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
-
-    connect( ui->uusituoteNappi, &QPushButton::clicked, [this] { (new TuoteDialogi(this))->uusi(); } );
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->tosite()->rivit()->lisaaRivi();} );
-    connect( ui->poistaRiviNappi, &QPushButton::clicked, [this] {
-        if( this->ui->rivitView->currentIndex().isValid())
-                this->tosite()->rivit()->poistaRivi( ui->rivitView->currentIndex().row());
-    });
-
-    ui->splitter->setStretchFactor(0,1);
-    ui->splitter->setStretchFactor(1,3);
-
-    connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->tosite()->rivit()->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
 }
 
 
@@ -155,7 +129,13 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::laskutusTapaMuuttui);
     connect( ui->maksuCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::maksuTapaMuuttui);
     connect( ui->valvontaCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::valvontaMuuttui);
-    connect( ui->tarkeCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::paivitaViiteRivi);
+    connect( ui->tarkeCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &KantaLaskuDialogi::paivitaViiteRivi);
+
+    connect( ui->laskuPvm, &KpDateEdit::dateChanged, this, &KantaLaskuDialogi::laskeEraPaiva);
+    connect( ui->maksuaikaSpin, qOverload<int>(&QSpinBox::valueChanged), this, &KantaLaskuDialogi::laskeEraPaiva );
+    connect( ui->eraDate, &KpDateEdit::dateChanged, this, &KantaLaskuDialogi::laskeMaksuaika);
+
+    connect( ui->esikatseluNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::naytaEsikatselu);
 }
 
 void KantaLaskuDialogi::alustaMaksutavat()
@@ -171,45 +151,153 @@ void KantaLaskuDialogi::alustaMaksutavat()
     }
 }
 
-void KantaLaskuDialogi::alustaValvonta()
+void KantaLaskuDialogi::paivitaValvonnat()
 {
+    if(paivitysKaynnissa_) return;
+    paivitysKaynnissa_ = true;
+    int nykyinen = ui->valvontaCombo->currentData().toInt();
+    ui->valvontaCombo->clear();
+
     ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
-    ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
-    ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
-    ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
+
+    if( !ladattuAsiakas_.isEmpty()) ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
+    if( huoneistot_->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
+    if( kp()->vakioViitteet()->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
     ui->valvontaCombo->addItem(QIcon(":/pic/eikaytossa.png"), tr("Valvomaton"), Lasku::VALVOMATON);
-}
 
-void KantaLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
-{
-    QModelIndex index = ui->tuoteView->indexAt(pos);
-    int tuoteid = index.data(TuoteModel::IdRooli).toInt();
-    QVariantMap tuoteMap = index.data(TuoteModel::MapRooli).toMap();
+    int indeksi = ui->valvontaCombo->findData(nykyinen);
+    ui->valvontaCombo->setCurrentIndex(indeksi > -1 ? indeksi : 0);
 
-    QMenu *menu = new QMenu(this);
-    menu->addAction(QIcon(":/pic/muokkaa.png"), tr("Muokkaa"), [this, tuoteMap] {
-        TuoteDialogi* dlg = new TuoteDialogi(this);
-        dlg->muokkaa( tuoteMap );
-    });
-    menu->addAction(QIcon(":/pic/refresh.png"), tr("Päivitä luettelo"), [] {
-        kp()->tuotteet()->lataa();
-    });
-    if( tuoteid )
-        menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
+    paivitysKaynnissa_ = false;
+    valvontaMuuttui();
 }
 
 void KantaLaskuDialogi::tositteelta()
 {
+    tositteeltaKaynnissa_ = true;
     const Lasku& lasku = tosite()->constLasku();
-
-    ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi() );
-
-    ui->osoiteEdit->setPlainText( lasku.osoite());
-    ui->email->setText( lasku.email());
-
+    if( tosite()->kumppani()) {
+        ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi());
+    } else {
+        ui->osoiteEdit->setPlainText( lasku.osoite() );
+        jatkaTositteelta();
+    }
 
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
     ui->tabWidget->setTabEnabled( lokiIndex, tosite()->loki()->rowCount() );
+
+    QVariantMap era = tosite()->viennit()->vienti(0).era();
+    bool maksettu = (!era.isEmpty() && qAbs( era.value("saldo").toDouble()) < 1e-5);
+    ui->maksettuCheck->setVisible(maksettu);
+    if( maksettu ) {
+        ui->infoLabel->setText( tr("Maksettu "));
+        ui->infoLabel->setStyleSheet("color: green;");
+    } else {
+        for(int i=0; i < tosite()->loki()->rowCount(); i++) {
+            const QModelIndex& lokissa = tosite()->loki()->index(i, 0);
+            const int tila = lokissa.data(TositeLoki::TilaRooli).toInt();
+            const QDateTime aika = lokissa.data(TositeLoki::AikaRooli).toDateTime();
+
+            if( tila == Tosite::TOIMITETTULASKU) {
+                ui->infoLabel->setText( tr("Toimitettu %1").arg( aika.toString("dd.MM.yyyy hh.mm") ));
+                break;
+            } else if( tila == Tosite::LAHETETTYLASKU) {
+                ui->infoLabel->setText( tr("Lähetetty %1").arg( aika.toString("dd.MM.yyyy hh.mm") ));
+                break;
+            }
+        }
+    }
+    paivitaViiteRivi();
+}
+
+void KantaLaskuDialogi::jatkaTositteelta()
+{
+    const Lasku& lasku = tosite()->constLasku();
+    ui->email->setText( lasku.email());
+    ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.maksutapa() ) );
+    ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.lahetystapa() ) );
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );
+    ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ) );
+
+    ViiteNumero viite( lasku.viite() );
+    if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO )
+        ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.numero() ) );
+
+    ui->toimitusDate->setDate( lasku.toimituspvm() );
+    ui->jaksoDate->setDate( lasku.jaksopvm() );
+    ui->eraDate->setDate( lasku.erapvm() );
+    laskeMaksuaika();
+    ui->toistoErapaivaSpin->setValue( lasku.toistuvanErapaiva());
+
+    ui->viivkorkoSpin->setValue( lasku.viivastyskorko() );
+    ui->asViiteEdit->setText( lasku.asiakasViite());
+    ui->otsikkoEdit->setText( lasku.otsikko() );
+
+    ui->tilaajaEdit->setText( lasku.tilaaja());
+    ui->myyjaEdit->setText( lasku.myyja());
+    ui->tilausPvm->setDate( lasku.tilausPvm());
+    ui->tilausnumeroEdit->setText( lasku.tilausNumero());
+
+    ui->lisatietoEdit->setPlainText( lasku.lisatiedot() );
+    ui->erittelyTextEdit->setPlainText( lasku.erittely().join('\n') );
+
+    ui->saateEdit->setPlainText( lasku.saate() );
+    ui->saateMaksutiedotCheck->setChecked( lasku.saatteessaMaksutiedot());
+
+    tositteeltaKaynnissa_ = false;
+}
+
+void KantaLaskuDialogi::tositteelle()
+{
+    tosite()->asetaKumppani( ladattuAsiakas_ );
+    tosite()->lasku().setOsoite( ui->osoiteEdit->toPlainText() );
+    tosite()->lasku().setEmail( ui->email->text() );
+
+    tosite()->lasku().setMaksutapa( maksutapa() );
+    tosite()->lasku().setLahetystapa( ui->laskutusCombo->currentData().toInt());
+    tosite()->lasku().setKieli( ui->kieliCombo->currentData().toString() );
+
+    ViiteNumero viite( tosite()->lasku().viite() );
+    const int valvonta = ui->valvontaCombo->currentData().toInt();
+    const qlonglong tarke = ui->tarkeCombo->currentData().toLongLong();
+
+    tosite()->lasku().setValvonta( valvonta );
+    if( valvonta == Lasku::VAKIOVIITE)
+        viite = ViiteNumero( ViiteNumero::VAKIOVIITE, tarke );
+    else if( valvonta == Lasku::HUONEISTO)
+        viite = ViiteNumero( ViiteNumero::HUONEISTO, tarke);
+
+    tosite()->asetaViite( viite.viite() );
+    tosite()->lasku().setViite( viite.viite() );
+
+    tosite()->lasku().setToimituspvm( ui->toimitusDate->date() );
+    tosite()->lasku().setJaksopvm( ui->jaksoDate->date() );
+
+    tosite()->asetaErapvm(maksutapa() != Lasku::KUUKAUSITTAINEN
+                                   ? ui->eraDate->date()
+                                   : QDate());
+    tosite()->lasku().setErapaiva( tosite()->erapvm() );
+
+    tosite()->lasku().setToistuvanErapaiva( maksutapa() == Lasku::KUUKAUSITTAINEN
+                                            ? ui->toistoErapaivaSpin->value()
+                                            : 0 );
+
+    tosite()->lasku().setViivastyskorko( ui->viivkorkoSpin->value() );
+    tosite()->lasku().setAsiakasViite( ui->asViiteEdit->text());
+
+    tosite()->asetaOtsikko( ui->otsikkoEdit->text() );
+    tosite()->lasku().setOsoite( ui->otsikkoEdit->text() );
+
+    tosite()->lasku().setTilaaja( ui->tilaajaEdit->text() );
+    tosite()->lasku().setMyyja( ui->myyjaEdit->text() );
+    tosite()->lasku().setTilausPvm( ui->tilausPvm->date() );
+    tosite()->lasku().setTilausNumero( ui->tilausnumeroEdit->text());
+
+    tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
+    tosite()->lasku().setErittely( ui->erittelyTextEdit->toPlainText().split("\n") );
+
+    tosite()->lasku().setSaate( ui->saateEdit->toPlainText() );
+    tosite()->lasku().setSaatteessaMaksutiedot( ui->saateMaksutiedotCheck->isChecked() );
 
 }
 
@@ -257,14 +345,17 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     else
         // Yrityksen viivästyskorko on peruskorko + 8 %
         ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 8.0 );
+
+    if( tositteeltaKaynnissa_ )
+        jatkaTositteelta();
 }
 
 void KantaLaskuDialogi::paivitaLaskutustavat()
 {
-    if(paivitetaanLaskutapoja_) {
+    if(paivitysKaynnissa_) {
         return;
     }
-    paivitetaanLaskutapoja_ = true;
+    paivitysKaynnissa_ = true;
     int nykyinen = ui->laskutusCombo->currentData().toInt();
     ui->laskutusCombo->clear();
 
@@ -295,8 +386,11 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
         ui->laskutusCombo->setCurrentIndex(indeksi);
     }
 
-    paivitaViiteRivi();
-    paivitetaanLaskutapoja_ = false;
+    paivitysKaynnissa_ = false;
+    laskutusTapaMuuttui();
+    maksuTapaMuuttui();
+    paivitaValvonnat();
+
 }
 
 void KantaLaskuDialogi::laskutusTapaMuuttui()
@@ -359,24 +453,22 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
     ui->jaksoViivaLabel->setVisible(maksutapa != Lasku::ENNAKKOLASKU);
     ui->jaksoDate->setVisible( maksutapa != Lasku::ENNAKKOLASKU);
 
-    int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
-    ui->tabWidget->setTabEnabled( toistoIndex, maksutapa == Lasku::LASKU || maksutapa == Lasku::KUUKAUSITTAINEN);
-
     ui->toimituspvmLabel->setText( maksutapa == Lasku::KUUKAUSITTAINEN ? tr("Laskut ajalla") : tr("Toimituspäivä") );
-
 }
 
 void KantaLaskuDialogi::valvontaMuuttui()
 {
+    if( paivitysKaynnissa_ ) return;
     const int valvonta = ui->valvontaCombo->isVisible() ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
     ui->tarkeCombo->setVisible( valvonta == Lasku::HUONEISTO || valvonta == Lasku::VAKIOVIITE );
-    if( valvonta == Lasku::VAKIOVIITE )
+    if( valvonta == Lasku::VAKIOVIITE && ui->tarkeCombo->model() != kp()->vakioViitteet())
         ui->tarkeCombo->setModel( kp()->vakioViitteet() );
-    else if( valvonta == Lasku::HUONEISTO)
+    else if( valvonta == Lasku::HUONEISTO && ui->tarkeCombo->model() != huoneistot_)
         ui->tarkeCombo->setModel( huoneistot_ );
 
     paivitaViiteRivi();
 }
+
 
 void KantaLaskuDialogi::paivitaViiteRivi()
 {
@@ -388,9 +480,33 @@ void KantaLaskuDialogi::paivitaViiteRivi()
         viite = ViiteNumero( ui->tarkeCombo->currentData(VakioViiteModel::ViiteRooli).toString() );
     }
 
-    ui->viiteLabel->setVisible( viite.tyyppi());
+    ui->rivitView->setColumnHidden(TositeRivit::TILI, valvonta == Lasku::VAKIOVIITE);
+
     ui->viiteText->setVisible( viite.tyyppi());
+
+    ui->eiViitettaLabel->setVisible(  viite.tyyppi() == ViiteNumero::VIRHEELLINEN );
     ui->viiteText->setText(viite.valeilla());
+}
+
+void KantaLaskuDialogi::laskeEraPaiva()
+{
+    if( paivitysKaynnissa_ ) return;
+    paivitysKaynnissa_ = true;
+
+    QDate pvm = ui->laskuPvm->date().addDays(ui->maksuaikaSpin->value());
+    ui->eraDate->setDate( Lasku::oikaiseErapaiva(pvm) );
+
+    paivitysKaynnissa_ = false;
+}
+
+void KantaLaskuDialogi::laskeMaksuaika()
+{
+    if( paivitysKaynnissa_ ) return;
+    paivitysKaynnissa_ = true;
+
+    ui->maksuaikaSpin->setValue( ui->laskuPvm->date().daysTo( ui->eraDate->date() ) );
+
+    paivitysKaynnissa_ = false;
 }
 
 void KantaLaskuDialogi::naytaLoki()
@@ -400,4 +516,10 @@ void KantaLaskuDialogi::naytaLoki()
 
     QString data = QString::fromUtf8( QJsonDocument::fromVariant(var).toJson(QJsonDocument::Indented) );
     naytin->nayta(data);
+}
+
+void KantaLaskuDialogi::naytaEsikatselu()
+{
+    tositteelle();
+    esikatsele();
 }

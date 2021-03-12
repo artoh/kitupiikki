@@ -20,7 +20,7 @@
 
 #include <QItemDelegate>
 
-class VanhaLaskuDialogi;
+class KantaLaskuDialogi;
 
 /**
  * @brief The Laskutuslomakkeen verovalinta
@@ -28,7 +28,7 @@ class VanhaLaskuDialogi;
 class LaskutusVeroDelegaatti : public QItemDelegate
 {
 public:
-    LaskutusVeroDelegaatti(VanhaLaskuDialogi* dialogi);
+    LaskutusVeroDelegaatti(KantaLaskuDialogi* dialogi);
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

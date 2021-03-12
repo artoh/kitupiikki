@@ -57,8 +57,7 @@ private slots:
     void muistuta();
     void poista();
 
-    void naytaLasku();
-    void naytaDialogi(QVariant* data);
+    void naytaLasku();    
     void haettuKopioitavaksi(QVariant* data);
     void teeHyvitysLasku(QVariant *data);
 

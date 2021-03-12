@@ -28,7 +28,7 @@ public:
         LASKU = 1,
         VAKIOVIITE = 2,
         ASIAKAS = 3,
-        KOHDE = 4
+        HUONEISTO = 4
     };
 
     ViiteNumero();

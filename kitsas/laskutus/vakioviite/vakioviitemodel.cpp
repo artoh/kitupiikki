@@ -77,6 +77,8 @@ QVariant VakioViiteModel::data(const QModelIndex &index, int role) const
         return map;
     } else if( role == ViiteRooli) {
         return map.value("viite");
+    } else if( role == TilinumeroRooli) {
+        return  map.value("tili");
     }
 
     return QVariant();

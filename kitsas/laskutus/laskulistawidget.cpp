@@ -20,7 +20,6 @@
 #include "model/laskutaulumodel.h"
 
 #include "db/kirjanpito.h"
-#include "vanhalaskudialogi.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
 #include "maksumuistutusdialogi.h"
@@ -32,7 +31,9 @@
 #include "db/yhteysmodel.h"
 
 #include "laskuproxymodel.h"
-
+#include "laskudlg/laskudialogitehdas.h"
+#include "laskudlg/kantalaskudialogi.h"
+#include "model/lasku.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -171,11 +172,11 @@ void LaskulistaWidget::paivitaNapit()
                                && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
     ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
     ui->muokkaaNappi->setEnabled( index.isValid() &&
-                                  (laskutustapa != VanhaLaskuDialogi::TUOTULASKU ||
+                                  (laskutustapa != Lasku::TUOTULASKU ||
                                    tyyppi == TositeTyyppi::MYYNTILASKU));
     ui->muistutusNappi->setVisible( index.isValid() && (tyyppi == TositeTyyppi::MYYNTILASKU
                                                         || ( tyyppi == TositeTyyppi::MAKSUMUISTUTUS &&
-                                                             laskutustapa != VanhaLaskuDialogi::TUOTULASKU))
+                                                             laskutustapa != Lasku::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
                                     && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5
                                     && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
@@ -217,16 +218,14 @@ void LaskulistaWidget::alusta()
 
 void LaskulistaWidget::uusilasku(bool ryhmalasku)
 {
-    if( kp()->paivamaara() <= kp()->tilitpaatetty() ||
-        kp()->paivamaara() > kp()->tilikaudet()->kirjanpitoLoppuu()) {
-        QMessageBox::critical(this, tr("Laskua ei voi luoda"), tr("Et voi luoda uutta laskua, koska nykyiselle päivälle ei ole avoinna olevaa tilikautta"));
+    if( kp()->tilitpaatetty() == kp()->tilikaudet()->kirjanpitoLoppuu() ) {
+        QMessageBox::critical(this, tr("Laskua ei voi luoda"), tr("Kirjanpidossa ei ole avoinna olevaa tilikautta"));
         return;
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        VanhaLaskuDialogi *dlg = new VanhaLaskuDialogi(QVariantMap(), ryhmalasku, asiakas_);
-        connect( dlg, &VanhaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
-        dlg->show();
+        KantaLaskuDialogi *dlg = LaskuDialogiTehdas::myyntilasku(asiakas_);
+        connect( dlg, &KantaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
         lisa->kirjaa(-1, TositeTyyppi::TULO);
@@ -240,9 +239,7 @@ void LaskulistaWidget::muokkaa()
     int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
 
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS) {
-        KpKysely *kysely = kpk( QString("/tositteet/%1").arg(tositeId));
-        connect( kysely, &KpKysely::vastaus, this, &LaskulistaWidget::naytaDialogi);
-        kysely->kysy();
+        LaskuDialogiTehdas::naytaLasku(tositeId);
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
         lisa->naytaTosite(tositeId);
@@ -312,18 +309,11 @@ void LaskulistaWidget::naytaLasku()
     }
 }
 
-void LaskulistaWidget::naytaDialogi(QVariant *data)
-{
-    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(data->toMap());
-    connect( dlg, &VanhaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
-    dlg->show();
-}
-
 void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
 {
     QVariantMap map = data->toMap();
     map.remove("id");
-    map.insert("tila", Tosite::LUONNOS);
+//    map.insert("tila", Tosite::LUONNOS);
     map.remove("viennit");
     map.remove("loki");
     QVariantMap lmap = map.take("lasku").toMap();
@@ -340,8 +330,8 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     umap.insert("viivkorko", lmap.value("viivkorko"));
     map.insert("lasku", umap);
 
-    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(map);
-    dlg->show();
+//    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(map);
+//    dlg->show();
 }
 
 void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
@@ -383,8 +373,8 @@ void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
     hyvitys.insert("rivit", rivit);
     hyvitys.insert("viite", alkuplasku.value("viite"));
 
-    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(hyvitys);
-    dlg->show();
+//    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(hyvitys);
+//    dlg->show();
 }
 
 void LaskulistaWidget::raportti()

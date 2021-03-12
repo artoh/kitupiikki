@@ -53,10 +53,12 @@ SOURCES += \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
+    $$PWD/laskutus/laskudlg/laskurividialogi.cpp \
+    $$PWD/laskutus/laskudlg/laskutusverodelegaatti.cpp \
+    $$PWD/laskutus/laskudlg/rivillinenlaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
-    $$PWD/laskutus/laskurividialogi.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
@@ -233,7 +235,6 @@ SOURCES += \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
     db/tilityyppimodel.cpp \
-    laskutus/laskutusverodelegaatti.cpp \
     laskutus/tuotemodel.cpp \
     maaritys/emailmaaritys.cpp \
     raportti/taseerittely.cpp \
@@ -361,10 +362,12 @@ HEADERS += \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.h \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
+    $$PWD/laskutus/laskudlg/laskurividialogi.h \
+    $$PWD/laskutus/laskudlg/laskutusverodelegaatti.h \
+    $$PWD/laskutus/laskudlg/rivillinenlaskudialogi.h \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
-    $$PWD/laskutus/laskurividialogi.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
@@ -543,7 +546,6 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
     db/tilityyppimodel.h \
-    laskutus/laskutusverodelegaatti.h \
     laskutus/tuotemodel.h \
     maaritys/emailmaaritys.h \
     raportti/taseerittely.h \
@@ -644,8 +646,8 @@ FORMS += \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskudlg/laskudialogi.ui \
+    $$PWD/laskutus/laskudlg/laskurividialogi.ui \
     $$PWD/laskutus/laskulistawidget.ui \
-    $$PWD/laskutus/laskurividialogi.ui \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \

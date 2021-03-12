@@ -17,16 +17,20 @@
 #ifndef TAVALLINENLASKUDIALOGI_H
 #define TAVALLINENLASKUDIALOGI_H
 
-#include "kantalaskudialogi.h"
+#include "rivillinenlaskudialogi.h"
 
-class TavallinenLaskuDialogi : public KantaLaskuDialogi
+class TavallinenLaskuDialogi : public RivillinenLaskuDialogi
 {
     Q_OBJECT
 public:
     TavallinenLaskuDialogi(Tosite* tosite, QWidget *parent = nullptr);
 
-private:
-    void alustaUi();
+protected:
+    void tositteelle() override;
+
+    void toistoTositteelta();
+    void paivitaToistojakso();
+
 };
 
 #endif // TAVALLINENLASKUDIALOGI_H

@@ -25,35 +25,37 @@ ViiteNumero::ViiteNumero()
 ViiteNumero::ViiteNumero(const QString &viite) :
     viitenumero_(viite)
 {
-    QString siivottu = viite;
-    siivottu.remove(" ");
+    if( viite.length() > 2 ) {
 
-    const QString pohja = siivottu.startsWith("RF")
-              ? siivottu.mid(4, siivottu.length()-5)
-              : siivottu.left(siivottu.length() - 1);
+        QString siivottu = viite;
+        siivottu.remove(" ");
 
-    if( pohja.length() < 6 ) {
-        // Lyhyt vakioviite
-        tyyppi_ = VAKIOVIITE;
-        kanta_ = pohja;
-    } else if( pohja.endsWith("000")) {
-        // Vanha viite
-        tyyppi_ = LASKU;
-        kanta_ = pohja.left( pohja.length() - 3 );
-    } else if(pohja.endsWith('9')) {
-        // Lyhyt viite
-        tyyppi_ = tyyppiMerkista( pohja.at(0) );
-        for(int i=1; i < pohja.length(); i++) {
-            if( pohja.at(i) != '0') {
-                kanta_ = pohja.mid(i, pohja.length() - i - 1);
-                break;
+        const QString pohja = siivottu.startsWith("RF")
+                  ? siivottu.mid(4, siivottu.length()-5)
+                  : siivottu.left(siivottu.length() - 1);
+
+        if( pohja.length() < 6 ) {
+            // Lyhyt vakioviite
+            tyyppi_ = VAKIOVIITE;
+            kanta_ = pohja;
+        } else if( pohja.endsWith("000")) {
+            // Vanha viite
+            tyyppi_ = LASKU;
+            kanta_ = pohja.left( pohja.length() - 3 );
+        } else if(pohja.endsWith('9')) {
+            // Lyhyt viite
+            tyyppi_ = tyyppiMerkista( pohja.at(0) );
+            for(int i=1; i < pohja.length(); i++) {
+                if( pohja.at(i) != '0') {
+                    kanta_ = pohja.mid(i, pohja.length() - i - 1);
+                    break;
+                }
             }
+        } else {
+            tyyppi_ = tyyppiMerkista(pohja.right(1));
+            kanta_ = pohja.left( pohja.length() - 1);
         }
-    } else {
-        tyyppi_ = tyyppiMerkista(pohja.right(1));
-        kanta_ = pohja.left( pohja.length() - 1);
     }
-
 }
 
 ViiteNumero::ViiteNumero(ViiteNumero::ViiteNumeroTyyppi tyyppi, qlonglong kanta)
@@ -122,7 +124,7 @@ qlonglong ViiteNumero::numero() const
 
 int ViiteNumero::eraId() const
 {
-    if( tyyppi() == ASIAKAS || tyyppi() == KOHDE)
+    if( tyyppi() == ASIAKAS || tyyppi() == HUONEISTO)
         return 0 - ( kanta().toInt() * 10 + tyyppi());
     return VIRHEELLINEN;
 }
@@ -156,7 +158,7 @@ ViiteNumero::ViiteNumeroTyyppi ViiteNumero::tyyppiMerkista(const QString &merkki
     else if( merkki == "3")
         return ASIAKAS;
     else if( merkki == "4")
-        return KOHDE;
+        return HUONEISTO;
     else
         return VIRHEELLINEN;
 }

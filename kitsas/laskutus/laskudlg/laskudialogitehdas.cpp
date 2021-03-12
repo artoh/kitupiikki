@@ -43,7 +43,7 @@ void LaskuDialogiTehdas::naytaLasku(int tositeId)
     tosite->lataa(tositeId);
 }
 
-void LaskuDialogiTehdas::myyntilasku(int asiakasId)
+KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
 {
     Tosite* tosite = new Tosite();
     tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
@@ -52,6 +52,7 @@ void LaskuDialogiTehdas::myyntilasku(int asiakasId)
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();
+    return dlg;
 }
 
 void LaskuDialogiTehdas::tositeLadattu()

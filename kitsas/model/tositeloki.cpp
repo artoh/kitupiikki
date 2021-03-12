@@ -95,6 +95,10 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::UserRole)
         return map.value("data");
+    else if( role == TilaRooli)
+        return map.value("tila");
+    else if( role == AikaRooli)
+        return map.value("aika");
     else if( role == Qt::DecorationRole && index.column() == TILA)
         return Tosite::tilakuva( map.value("tila").toInt());
 

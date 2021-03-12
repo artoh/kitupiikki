@@ -20,7 +20,7 @@
 
 #include "vanhalaskudialogi.h"
 #include "ui_laskudialogi.h"
-#include "laskutusverodelegaatti.h"
+#include "laskudlg/laskutusverodelegaatti.h"
 #include "ryhmantuontidlg.h"
 
 #include "kirjaus/eurodelegaatti.h"

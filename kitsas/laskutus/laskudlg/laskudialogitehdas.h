@@ -20,6 +20,7 @@
 #include <QObject>
 
 class KitsasInterface;
+class KantaLaskuDialogi;
 
 class LaskuDialogiTehdas : public QObject
 {
@@ -32,7 +33,7 @@ public:
     static void kaynnista(KitsasInterface* interface, QObject *parent);
 
     static void naytaLasku(int tositeId);
-    static void myyntilasku(int asiakasId = 0);
+    static KantaLaskuDialogi* myyntilasku(int asiakasId = 0);
 
 protected:
     void tositeLadattu();

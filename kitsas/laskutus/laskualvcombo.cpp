@@ -18,7 +18,7 @@
 
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
-#include "vanhalaskudialogi.h"
+#include "model/lasku.h"
 
 LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, int alvkoodi, bool ennakkolasku) :
     QComboBox (parent)
@@ -39,9 +39,9 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent, AsiakasVeroLaji asiakasverolaji, i
 
     if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()) && !ennakkolasku)
     {
-        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(VanhaLaskuDialogi::KAYTETYT));
-        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(VanhaLaskuDialogi::TAIDE));
-        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(VanhaLaskuDialogi::ANTIIKKI));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - käytetyt tavarat"), QVariant(Lasku::KAYTETYT));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - taide-esineet"), QVariant(Lasku::TAIDE));
+        addItem(QIcon(":/pic/marginaali.png"),tr("Voittomarginaalimenettely - keräily- ja antiikkiesineet"), QVariant(Lasku::ANTIIKKI));
     }
 
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {

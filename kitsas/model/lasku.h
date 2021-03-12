@@ -60,6 +60,9 @@ public:
     QString saate() const { return str("saate");}
     void setSaate(const QString& saate) { set("saate", saate);}
 
+    bool saatteessaMaksutiedot() const { return luku("saatemaksutiedot") > 0;}
+    void setSaatteessaMaksutiedot(bool onko) { if(onko) set("saatemaksutiedot", 1); else unset("toistohinnastonmukaan"); }
+
     int valvonta() const { return luku("valvonta");}
     void setValvonta(int valvonta) { set("valvonta", valvonta);}
 
@@ -94,7 +97,7 @@ public:
     void setTilaaja(const QString& tilaaja) { set("tilaaja", tilaaja);}
 
     QDate tilausPvm() const { return pvm("tilauspvm");}
-    void setTilausPvm(const QString& tilauspvm) { set("tilauspvm", tilauspvm);}
+    void setTilausPvm(const QDate& tilauspvm) { set("tilauspvm", tilauspvm);}
 
     QString sopimusnumero() const { return str("sopimusnumero");}
     void setSopimusnumero(const QString& numero) { set("sopimusnumero",  numero);}
@@ -145,6 +148,11 @@ public:
     QString viite() const { return str("viite");}
     void setViite(const QString& viite) { set("viite", viite);}
 
+    QString myyja() const { return str("myyja");}
+    void setMyyja(const QString& myyja) { set("myyja", myyja);}
+
+    int toistuvanErapaiva() const { return luku("toistuvanerapaiva");}
+    void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}
 
     static QDate oikaiseErapaiva(QDate erapvm);
 

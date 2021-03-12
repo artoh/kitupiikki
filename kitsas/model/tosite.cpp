@@ -466,7 +466,7 @@ QVariantMap Tosite::tallennettava() const
     QVariantMap map(data_);
     map.insert("viennit", viennit_->tallennettavat());
 
-    const QVariantList& rivit = rivit_->viennit(*this);
+    const QVariantList& rivit = rivit_->rivit();
     if(!rivit.isEmpty())
         map.insert("rivit", rivit);
 

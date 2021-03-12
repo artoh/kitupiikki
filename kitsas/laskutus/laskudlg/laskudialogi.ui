@@ -175,14 +175,14 @@ osoite</string>
           <string>Laskun pvm</string>
          </property>
          <property name="buddy">
-          <cstring>lineEdit</cstring>
+          <cstring>laskuPvm</cstring>
          </property>
         </widget>
        </item>
        <item row="3" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1,2">
          <item>
-          <widget class="KpDateEdit" name="lineEdit"/>
+          <widget class="KpDateEdit" name="laskuPvm"/>
          </item>
          <item>
           <widget class="QLabel" name="maksuaikaLabel">
@@ -273,7 +273,11 @@ osoite</string>
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLineEdit" name="asViiteEdit"/>
+        <widget class="QLineEdit" name="asViiteEdit">
+         <property name="maxLength">
+          <number>70</number>
+         </property>
+        </widget>
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label">
@@ -296,7 +300,7 @@ osoite</string>
         </widget>
        </item>
        <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0">
          <item>
           <widget class="QLabel" name="viiteText">
            <property name="font">
@@ -307,6 +311,16 @@ osoite</string>
            </property>
            <property name="text">
             <string>00000</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="eiViitettaLabel">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(112, 112, 112);</string>
+           </property>
+           <property name="text">
+            <string>Lasku saa viitenumeron vasta kun se tallennetaan.</string>
            </property>
           </widget>
          </item>
@@ -328,8 +342,11 @@ osoite</string>
          </item>
          <item>
           <widget class="QLabel" name="infoLabel">
-           <property name="text">
-            <string>Lähetetty 12.2.2019</string>
+           <property name="minimumSize">
+            <size>
+             <width>20</width>
+             <height>0</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -352,7 +369,7 @@ osoite</string>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="rivit">
       <attribute name="icon">
@@ -619,7 +636,11 @@ osoite</string>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="tilaajaEdit"/>
+            <widget class="QLineEdit" name="tilaajaEdit">
+             <property name="maxLength">
+              <number>35</number>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_10">
@@ -632,7 +653,11 @@ osoite</string>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="myyjaEdit"/>
+            <widget class="QLineEdit" name="myyjaEdit">
+             <property name="maxLength">
+              <number>35</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -662,14 +687,43 @@ osoite</string>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="tilausnumeroEdit"/>
+            <widget class="QLineEdit" name="tilausnumeroEdit">
+             <property name="maxLength">
+              <number>70</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="lisatietoEdit"/>
+        <widget class="QPlainTextEdit" name="lisatietoEdit">
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
+         <property name="backgroundVisible">
+          <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Lisätiedot laskun alussa</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="erittelyTextEdit">
+         <property name="font">
+          <font>
+           <family>Courier</family>
+          </font>
+         </property>
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
+         <property name="placeholderText">
+          <string>Erittely laskun lopussa</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -683,7 +737,7 @@ osoite</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="toistoGroup">
          <property name="title">
           <string>Luo toimitusjakson päättyessä uusi lasku</string>
          </property>
@@ -702,14 +756,14 @@ osoite</string>
                <string>Laskutusjakso</string>
               </property>
               <property name="buddy">
-               <cstring>spinBox_3</cstring>
+               <cstring>toistoJaksoSpin</cstring>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_14">
               <item>
-               <widget class="QSpinBox" name="spinBox_3">
+               <widget class="QSpinBox" name="toistoJaksoSpin">
                 <property name="suffix">
                  <string> kuukautta</string>
                 </property>
@@ -748,14 +802,14 @@ osoite</string>
                <string>Laskutus</string>
               </property>
               <property name="buddy">
-               <cstring>spinBox_2</cstring>
+               <cstring>toistoLaskuaikaSpin</cstring>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_12">
               <item>
-               <widget class="QSpinBox" name="spinBox_2">
+               <widget class="QSpinBox" name="toistoLaskuaikaSpin">
                 <property name="suffix">
                  <string> päivää</string>
                 </property>
@@ -764,9 +818,12 @@ osoite</string>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_9">
                 <item>
-                 <widget class="QRadioButton" name="radioButton">
+                 <widget class="QRadioButton" name="toistoEnnenRadio">
                   <property name="text">
                    <string>ennen edellisen jakson päättymistä</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                   <property name="autoRepeat">
                    <bool>true</bool>
@@ -774,7 +831,7 @@ osoite</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_2">
+                 <widget class="QRadioButton" name="toistoJalkeenRadio">
                   <property name="text">
                    <string>edellisen jakson päättymisen jälkeen</string>
                   </property>
@@ -788,12 +845,12 @@ osoite</string>
                  <string>päättyy</string>
                 </property>
                 <property name="buddy">
-                 <cstring>toistoPaattyyPvm</cstring>
+                 <cstring>toistoPvmPaattyy</cstring>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="KpDateEdit" name="toistoPaattyyPvm"/>
+               <widget class="KpDateEdit" name="toistoPvmPaattyy"/>
               </item>
               <item>
                <spacer name="horizontalSpacer_7">
@@ -813,7 +870,7 @@ osoite</string>
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="toistoHinnastoCheck">
             <property name="text">
              <string>Laskuta hinnaston mukaisesti</string>
             </property>
@@ -849,7 +906,7 @@ osoite</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="lopetaToistoNappi">
               <property name="text">
                <string>Lopeta toistuvat laskut</string>
               </property>
@@ -889,10 +946,14 @@ osoite</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QPlainTextEdit" name="saateEdit"/>
+        <widget class="QPlainTextEdit" name="saateEdit">
+         <property name="placeholderText">
+          <string>Sähköpostin viestiosan sisältö</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="saateMaksutiedotCheck">
          <property name="text">
           <string>Näytä sähköpostiviestissä maksutiedot</string>
          </property>

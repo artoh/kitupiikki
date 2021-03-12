@@ -20,6 +20,8 @@
 #include <QDialog>
 #include <QVariantMap>
 
+#include "naytin/esikatseltava.h"
+
 class Tosite;
 
 class HuoneistoModel;
@@ -31,34 +33,49 @@ class LaskuDialogi;
 class Lasku;
 class EnnakkoHyvitysModel;
 
-class KantaLaskuDialogi : public QDialog
+class KantaLaskuDialogi : public QDialog, public Esikatseltava
 {
     Q_OBJECT
 public:
     KantaLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
     ~KantaLaskuDialogi() override;
 
+    QString asiakkaanAlvTunnus() const;
+    int maksutapa() const;
+
+    void tulosta(QPagedPaintDevice* printer) const override;
+
+signals:
+    void tallennettuValmiina();
+
 protected:
     Tosite* tosite() { return tosite_;}
 
     void teeConnectit();
     void alustaMaksutavat();
-    void alustaValvonta();
-
-    void tuotteidenKonteksiValikko(QPoint pos);
 
     void tositteelta();
+    void jatkaTositteelta();
+
+    virtual void tositteelle();
+
     void asiakasMuuttui();
     void taytaAsiakasTiedot(QVariant* data);
 
     void paivitaLaskutustavat();
+    void paivitaValvonnat();
     void laskutusTapaMuuttui();
     void maksuTapaMuuttui();
     void valvontaMuuttui();
+    void paivitaToistojakso();
     void paivitaViiteRivi();
+
+    void laskeEraPaiva();
+    void laskeMaksuaika();
 
     void naytaLoki();
 
+    void naytaEsikatselu();
 private:
     void alustaUi();
     void alustaRivitTab();
@@ -69,10 +86,11 @@ protected:
 
     EnnakkoHyvitysModel* ennakkoModel_;
 
-    int asiakasId_;
+    int asiakasId_ = 0;
     QVariantMap ladattuAsiakas_;
 
-    bool paivitetaanLaskutapoja_ = false;
+    bool paivitysKaynnissa_ = false;
+    bool tositteeltaKaynnissa_ = false;
 
 private:
     HuoneistoModel* huoneistot_;

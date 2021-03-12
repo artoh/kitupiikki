@@ -74,7 +74,7 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
         switch (index.column()) {
         case NIMI: return map.value("nimi");
         case VIITE: {
-                ViiteNumero viite(ViiteNumero::KOHDE, map.value("id").toInt());
+                ViiteNumero viite(ViiteNumero::HUONEISTO, map.value("id").toInt());
                 return viite.valeilla();
             }
         case ASUKAS:
@@ -83,7 +83,7 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
     }
 
     if( role == ViiteRooli) {
-        ViiteNumero viite(ViiteNumero::KOHDE, map.value("id").toInt());
+        ViiteNumero viite(ViiteNumero::HUONEISTO, map.value("id").toInt());
         return viite.viite();
     }
 

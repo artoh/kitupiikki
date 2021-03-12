@@ -28,6 +28,12 @@ public:
         AIKA, KAYTTAJA, TILA
     };
 
+    enum {
+        DataRooli = Qt::UserRole,
+        TilaRooli = Qt::UserRole + 1,
+        AikaRooli = Qt::UserRole + 2
+    };
+
     explicit TositeLoki(QObject *parent = nullptr);
 
     void lataa(const QVariant& data);

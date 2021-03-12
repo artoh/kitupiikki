@@ -20,11 +20,11 @@
 #include <QComboBox>
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
-#include "laskualvcombo.h"
+#include "../laskualvcombo.h"
 #include "model/tositerivit.h"
-#include "vanhalaskudialogi.h"
+#include "kantalaskudialogi.h"
 
-LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(VanhaLaskuDialogi *dialogi) :
+LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(KantaLaskuDialogi *dialogi) :
     QItemDelegate(dialogi)
 {
 
@@ -33,12 +33,12 @@ LaskutusVeroDelegaatti::LaskutusVeroDelegaatti(VanhaLaskuDialogi *dialogi) :
 QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
     LaskuAlvCombo::AsiakasVeroLaji aslaji = LaskuAlvCombo::EU;
-    VanhaLaskuDialogi* dlg = qobject_cast<VanhaLaskuDialogi*>(this->parent());
+    KantaLaskuDialogi* dlg = qobject_cast<KantaLaskuDialogi*>(this->parent());
     if( dlg->asiakkaanAlvTunnus().isEmpty())
         aslaji = LaskuAlvCombo::YKSITYINEN;
     else if(dlg->asiakkaanAlvTunnus().startsWith("FI"))
         aslaji = LaskuAlvCombo::KOTIMAA;
-    bool ennakkolasku = dlg->maksutapa() == VanhaLaskuDialogi::ENNAKKOLASKU;
+    bool ennakkolasku = dlg->maksutapa() == Lasku::ENNAKKOLASKU;
 
     QComboBox *cbox = new LaskuAlvCombo(parent, aslaji, index.data(TositeRivit::AlvKoodiRooli).toInt(), ennakkolasku);
     return cbox;

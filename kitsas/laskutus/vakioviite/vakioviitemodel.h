@@ -28,7 +28,8 @@ public:
 
     enum {
       MapRooli = Qt::UserRole,
-      ViiteRooli = Qt::UserRole + 1
+      ViiteRooli = Qt::UserRole + 1,
+      TilinumeroRooli = Qt::UserRole + 2
     };
 
     explicit VakioViiteModel(QObject *parent = nullptr);
