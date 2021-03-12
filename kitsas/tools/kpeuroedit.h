@@ -26,18 +26,22 @@
  * @since 2.0
  */
 
+#include "model/euro.h"
+
 class KpEuroEdit : public QLineEdit
 {
     Q_OBJECT
 public:
     KpEuroEdit(QWidget* parent = nullptr);
 
-    qlonglong asCents() { return miinus_ ? 0 - cents_ : cents_; }
-    double value() { return asCents() / 100.0; }
+    qlonglong asCents() const { return miinus_ ? 0 - cents_ : cents_; }
+    double value() const { return asCents() / 100.0; }
+    Euro euro() const { return Euro( asCents() );}
 
     bool miinus() { return miinus_;}
 
 public slots:
+    void setEuro(const Euro& euro);
     void setCents(qlonglong cents);
     void setValue(double euros);
     void setMiinus(bool miinus);
@@ -45,6 +49,7 @@ public slots:
 
 signals:
     void sntMuuttui(qlonglong snt);
+    void euroMuuttui(const Euro& euro);
 
 protected slots:
     void edited(const QString& newtext);

@@ -125,6 +125,11 @@ void TositeVienti::setDebet(const QString &euroa)
     }
 }
 
+void TositeVienti::setDebet(const Euro &euroa)
+{
+    setDebet( euroa.toString() );
+}
+
 void TositeVienti::setKredit(double euroa)
 {
     if( euroa < 0) {
@@ -151,6 +156,11 @@ void TositeVienti::setKredit(const QString &euroa)
         if( euroa.toDouble() > 1e-5)
             remove( avaimet__.at(DEBET));
     }
+}
+
+void TositeVienti::setKredit(const Euro &euroa)
+{
+    setKredit( euroa.toString() );
 }
 
 void TositeVienti::setSelite(const QString &selite)

@@ -18,6 +18,7 @@
 #define KANTAVARIANTTI_H
 
 #include <QVariant>
+#include "model/euro.h"
 
 /**
  * @brief QVariant-pohjaisten luokkien kantaluokka
@@ -32,8 +33,13 @@ public:
     int luku(const QString& avain) const;
     double dbl(const QString& avain) const;
     QDate pvm(const QString& avain) const;
+    Euro euro(const QString& avain) const;
+
     void clear();
+
     void set(const QString& avain, const QVariant& arvo);
+
+    void setEuro(const QString& avain, const Euro& arvo);
     void setStr(const QString& avain,  const QString &arvo);
     void setInt(const QString& avain, int arvo);
     void unset(const QString& avain);
