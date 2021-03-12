@@ -109,8 +109,8 @@ public:
     QStringList erittely() const { return arvo("erittely").toStringList();}
     void setErittely(const QStringList& erittely) { set("erittely", erittely);}
 
-    double summa() const { return dbl("summa");}
-    void setSumma(const double summa) { set("summa", summa);}
+    Euro summa() const { return euro("summa");}
+    void setSumma(const Euro& summa) { setEuro("summa", summa);}
 
     double muistutusmaksu() const { return dbl("muistutusmaksu");}
     void setMuistutusmaksu(const double maksu) { set("muistutusmaksu", maksu);}

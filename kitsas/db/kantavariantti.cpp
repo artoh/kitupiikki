@@ -48,6 +48,11 @@ QDate KantaVariantti::pvm(const QString &avain) const
     return arvo(avain).toDate();
 }
 
+Euro KantaVariantti::euro(const QString &avain) const
+{
+    return Euro::fromVariant( arvo(avain) );
+}
+
 void KantaVariantti::clear()
 {
     data_.clear();
@@ -56,6 +61,11 @@ void KantaVariantti::clear()
 void KantaVariantti::set(const QString &avain, const QVariant &arvo)
 {
     data_.insert(avain, arvo);
+}
+
+void KantaVariantti::set(const QString &avain, const Euro &arvo)
+{
+    data_.insert(avain, arvo.toVariant());
 }
 
 void KantaVariantti::setInt(const QString &avain, int arvo)

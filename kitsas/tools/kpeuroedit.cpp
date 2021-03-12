@@ -36,6 +36,11 @@ KpEuroEdit::KpEuroEdit(QWidget *parent) :
     connect(this, &KpEuroEdit::textEdited, this, &KpEuroEdit::edited);
 }
 
+void KpEuroEdit::setEuro(const Euro &euro)
+{
+    setCents( euro.cents());
+}
+
 void KpEuroEdit::clear()
 {
     // Kun tyhjennetään, säilyy miinustieto, jotta
@@ -44,7 +49,9 @@ void KpEuroEdit::clear()
     QString etumerkki = miinus_ ? "−" : "" ;
     setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
     setClearButtonEnabled( false );
+
     emit sntMuuttui(cents_);
+    emit euroMuuttui( 0 );
 
 }
 
@@ -97,7 +104,8 @@ void KpEuroEdit::edited(const QString &newtext)
         sentit *= 10;
 
     cents_ = eurosa.toLongLong() * 100 + sentit;
-    emit sntMuuttui(cents_);
+    emit sntMuuttui( asCents() );
+    emit euroMuuttui( euro() );
 
     setClearButtonEnabled(cents_);
 
