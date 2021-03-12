@@ -21,6 +21,8 @@
 #include <QDate>
 #include <map>
 
+#include "euro.h"
+
 class TositeVienti : public QVariantMap
 {
 public:
@@ -77,10 +79,15 @@ public:
     QDate pvm() const { return  data(PVM).toDate();}
     int alvkoodi() const { return data(ALVKOODI).toInt();}
     int tili() const { return data(TILI).toInt();}
+
     double debet() const { return data(DEBET).toDouble();}
     qlonglong debetSnt() const;
+    Euro debetEuro() const { return Euro::fromVariant(data(DEBET)); }
+
     double kredit() const { return data(KREDIT).toDouble();}
     qlonglong kreditSnt() const;
+    Euro kreditEuro() const { return Euro::fromVariant(data(KREDIT));}
+
     int alvKoodi() const { return data(ALVKOODI).toInt();}
     double alvProsentti() const { return data(ALVPROSENTTI).toDouble();}
     int kohdennus() const { return  data(KOHDENNUS).toInt();}
@@ -103,12 +110,17 @@ public:
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
+
     void setDebet(double euroa);
     void setDebet(qlonglong senttia);
     void setDebet(const QString& euroa);
+    void setDebet(const Euro& euroa);
+
     void setKredit(double euroa);
     void setKredit(qlonglong senttia);
     void setKredit(const QString& euroa);
+    void setKredit(const Euro& euroa);
+
     void setSelite(const QString& selite);
     void setAlvKoodi(int koodi);
     void setAlvProsentti(double prosentti);
