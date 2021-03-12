@@ -19,6 +19,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QImage>
 
 class AsetusModel;
 class TiliModel;
@@ -64,11 +65,14 @@ public:
     virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;
     virtual QString kaanna(const QString& teksti, const QString& kieli = QString()) const;
     virtual QDate paivamaara() const;
+    virtual QImage logo() const;
+    virtual bool onkoHarjoitus() const { return true; }
 
 };
 
 inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pvm*/, const QString &/*sarja*/, bool /*samakausi*/, bool /*vertailu*/) const { return QString();}
 inline QString KitsasInterface::kaanna(const QString &teksti, const QString &/*kieli*/) const {return teksti; }
 inline QDate KitsasInterface::paivamaara() const { return QDate::currentDate(); }
+inline QImage KitsasInterface::logo() const { return QImage();}
 
 #endif // KITSASINTERFACE_H

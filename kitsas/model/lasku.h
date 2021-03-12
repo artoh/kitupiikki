@@ -19,6 +19,7 @@
 
 #include "db/kantavariantti.h"
 #include <QDate>
+#include "laskutus/iban.h"
 
 class TositeRivit;
 
@@ -37,10 +38,10 @@ public:
     Lasku(const QVariantMap& data);
 
     QString email() const { return str("email");}
-    void setEmail(const QString& email) { set("email",email);}
+    void setEmail(const QString& email) { setStr("email",email);}
 
     QString kieli() const { return str("kieli");}
-    void setKieli(const QString& kieli) { set("kieli", kieli);}
+    void setKieli(const QString& kieli) { setStr("kieli", kieli);}
 
     int maksutapa() const { return luku("maksutapa");}
     void setMaksutapa(int maksutapa) { set("maksutapa", maksutapa);}
@@ -49,16 +50,16 @@ public:
     void setLahetystapa(int lahetystapa) { set("lahetystapa", lahetystapa);}
 
     QString numero() const { return str("numero");}
-    void setNumero(const QString& numero) { set("numero", numero);}
+    void setNumero(const QString& numero) { setStr("numero", numero);}
 
     QString osoite() const { return str("osoite");}
-    void setOsoite(const QString& osoite) { set("osoite", osoite);}
+    void setOsoite(const QString& osoite) { setStr("osoite", osoite);}
 
     QString otsikko() const { return str("otsikko");}
-    void setOtsikko(const QString& otsikko) { set("otsikko", otsikko);}
+    void setOtsikko(const QString& otsikko) { setStr("otsikko", otsikko);}
 
     QString saate() const { return str("saate");}
-    void setSaate(const QString& saate) { set("saate", saate);}
+    void setSaate(const QString& saate) { setStr("saate", saate);}
 
     bool saatteessaMaksutiedot() const { return luku("saatemaksutiedot") > 0;}
     void setSaatteessaMaksutiedot(bool onko) { if(onko) set("saatemaksutiedot", 1); else unset("toistohinnastonmukaan"); }
@@ -88,22 +89,22 @@ public:
     void setAiempiSaldo(const double saldo) { set("aiempisaldo", saldo);}
 
     QString asiakasViite() const { return str("asviite");}
-    void setAsiakasViite(const QString& viite) { set("asviite", viite);}
+    void setAsiakasViite(const QString& viite) { setStr("asviite", viite);}
 
     QString tilausNumero() const { return str("tilausnumero");}
     void setTilausNumero(const QString& tilausnumero) { set("tilausnumero", tilausnumero);}
 
     QString tilaaja() const { return str("tilaaja");}
-    void setTilaaja(const QString& tilaaja) { set("tilaaja", tilaaja);}
+    void setTilaaja(const QString& tilaaja) { setStr("tilaaja", tilaaja);}
 
     QDate tilausPvm() const { return pvm("tilauspvm");}
     void setTilausPvm(const QDate& tilauspvm) { set("tilauspvm", tilauspvm);}
 
     QString sopimusnumero() const { return str("sopimusnumero");}
-    void setSopimusnumero(const QString& numero) { set("sopimusnumero",  numero);}
+    void setSopimusnumero(const QString& numero) { setStr("sopimusnumero",  numero);}
 
     QString lisatiedot() const { return str("lisatiedot");}
-    void setLisatiedot(const QString& lisatiedot) { set("lisatiedot", lisatiedot);}
+    void setLisatiedot(const QString& lisatiedot) { setStr("lisatiedot", lisatiedot);}
 
     QStringList erittely() const { return arvo("erittely").toStringList();}
     void setErittely(const QStringList& erittely) { set("erittely", erittely);}
@@ -146,13 +147,15 @@ public:
     void setErapaiva(const QDate& erapaiva) { set("erapvm", erapaiva);}
 
     QString viite() const { return str("viite");}
-    void setViite(const QString& viite) { set("viite", viite);}
+    void setViite(const QString& viite) { setStr("viite", viite);}
 
     QString myyja() const { return str("myyja");}
-    void setMyyja(const QString& myyja) { set("myyja", myyja);}
+    void setMyyja(const QString& myyja) { setStr("myyja", myyja);}
 
     int toistuvanErapaiva() const { return luku("toistuvanerapaiva");}
     void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}
+
+    QString virtuaaliviivakoodi(const Iban& iban, bool rf = false) const;
 
     static QDate oikaiseErapaiva(QDate erapvm);
 

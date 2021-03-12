@@ -106,7 +106,7 @@ public:
      * @brief Käytetäänkö harjoittelutilassa
      * @return tosi, jos harjoitellaan
      */
-    bool onkoHarjoitus() const { return asetukset()->onko("Harjoitus"); }
+    bool onkoHarjoitus() const override { return asetukset()->onko("Harjoitus"); }
 
     /**
      * @brief Nykyinen tai harjoittelutilassa muokattu päivämäärä

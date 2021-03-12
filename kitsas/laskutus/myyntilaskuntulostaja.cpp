@@ -37,6 +37,7 @@
 #include <QApplication>
 
 #include "tulostus/laskuntietolaatikko.h"
+#include "tulostus/laskunosoitealue.h"
 
 bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
@@ -169,6 +170,8 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     qreal marginaali = 0.0;
     painter->resetTransform();
 
+
+
     bool ikkunakuori = kuoreen && kp()->asetukset()->onko("LaskuIkkuna");
 
     if( !map_.value("lasku").toMap().value("numero").toInt() )
@@ -201,7 +204,28 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     }
     painter->resetTransform();
 
-    ylaruudukko(printer, painter, ikkunakuori);
+    painter->save();
+    LaskunOsoiteAlue osoitteet(kp());
+    LaskunTietoLaatikko laatikko(kp());
+    Tosite tosite;
+
+    tosite.lataa(map_);
+
+
+    osoitteet.lataa( tosite );
+    laatikko.lataa( tosite );
+
+    osoitteet.laske(painter, printer);
+    laatikko.laskeLaatikko( painter, painter->window().width() / 2);
+
+    osoitteet.piirra(painter);
+    painter->translate(painter->window().width() / 2, 0);
+    laatikko.piirra( painter );
+    painter->restore();
+    painter->translate(0, osoitteet.korkeus() > laatikko.korkeus() ?
+                          osoitteet.korkeus() : laatikko.korkeus());
+
+    // ylaruudukko(printer, painter, ikkunakuori);
 
     QVariantList rivit = map_.value("rivit").toList();
     if( rivit.count() ) {
@@ -487,15 +511,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     }
 
     painter->save();
-    LaskunTietoLaatikko laatikko(kp());
-    Tosite tosite;
-    tosite.lataa(map_);
-    painter->translate(0, painter->window().width() / 2);
-
-    laatikko.lataa( tosite );
-    laatikko.laskeLaatikko( painter, painter->window().width() / 2);
-
-    laatikko.piirra( painter );
     painter->restore();
 
     painter->translate(0, ruutukorkeus > ikkunakorkeus ? ruutukorkeus + rk : ikkunakorkeus + rk);

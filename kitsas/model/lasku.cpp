@@ -36,8 +36,7 @@ QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
     ViiteNumero viitenumero(viite());
 
     if( sentit <= 0 || sentit > 99999999
-            || viitenumero.tyyppi() == ViiteNumero::VIRHEELLINEN
-            || !erapvm().isValid()) return QString();
+            || viitenumero.tyyppi() == ViiteNumero::VIRHEELLINEN) return QString();
 
     QString koodi = rf ?
                 QString("5 %1 %2 %3 %4 %5")
@@ -45,13 +44,13 @@ QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
                        .arg(sentit, 8, 10, QChar('0'))
                        .arg(viitenumero.rfviite().mid(2,2) )
                        .arg(viitenumero.rfviite().remove(' ').mid(4),21,QChar('0'))
-                       .arg(erapvm().toString("yyMMdd"))
+                       .arg( erapvm().isValid() ? erapvm().toString("yyMMdd") : "000000")
               :
               QString("4 %1 %2 000 %3 %4")
                 .arg( iban.valeitta().mid(2,16) )  // Tilinumeron numeerinen osuus
                 .arg( sentit, 8, 10, QChar('0') )  // Rahamäärä
                 .arg( viitenumero.viite(), 20, QChar('0'))
-                .arg( erapvm().toString("yyMMdd"));
+                .arg( erapvm().isValid() ? erapvm().toString("yyMMdd") : "000000");
 
     return koodi.remove(QChar(' '));
 }

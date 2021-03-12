@@ -49,6 +49,10 @@ Perusvalinnat::Perusvalinnat() :
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Logo nimen vieressä"),"VIERESSA");
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Logo nimen yläpuolella"),"YLLA");
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Näytä vain logo"),"VAINLOGO");
+
 }
 
 Perusvalinnat::~Perusvalinnat()
@@ -97,7 +101,7 @@ void Perusvalinnat::vaihdaLogo()
         QImage uusilogo;
         uusilogo.load( tiedostopolku );
         kp()->asetaLogo(uusilogo);
-        naytaLogo();
+        naytaLogo();        
     }
 
 }
@@ -106,6 +110,7 @@ void Perusvalinnat::poistaLogo()
 {
     kp()->asetaLogo(QImage());
     ui->poistaLogoNappi->setEnabled( false );
+    ui->logonSijaintiCombo->setEnabled(false);
     naytaLogo();
 }
 
@@ -137,8 +142,10 @@ void Perusvalinnat::naytaLogo()
     QImage logo = kp()->logo();
     if( logo.isNull()) {
         ui->logoLabel->clear();
+        ui->logonSijaintiCombo->setEnabled(false);
     } else {
         ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaledToHeight(128)));
+        ui->logonSijaintiCombo->setEnabled(true);
     }
 
     ui->poistaLogoNappi->setEnabled( !logo.isNull() );

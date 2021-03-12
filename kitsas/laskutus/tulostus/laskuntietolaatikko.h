@@ -18,11 +18,11 @@
 #define LASKUNTIETOLAATIKKO_H
 
 #include "model/tosite.h"
-
+#include <QRectF>
 
 class KitsasInterface;
 class QPainter;
-class QPagedPainterDevice;
+
 
 class LaskunTietoLaatikko
 {
@@ -32,13 +32,18 @@ public:
     qreal laskeLaatikko(QPainter* painter, qreal leveys);
     void piirra(QPainter* painter);
 
-protected:
+    qreal korkeus() const { return laatikko_.bottom();}
+    qreal leveys() const { return laatikko_.width();}
+
+
+protected:    
     void piirraLaatikko( QPainter *painter);
     void piirraTekstit( QPainter *painter );
+    void piirraHarjoitus( QPainter *painter );
+
 
     void lisaa(const QString& avain, const QString& arvo);
-    void lisaa(const QString& avain, const QDate& pvm);
-
+    void lisaa(const QString& avain, const QDate& pvm);    
 
 
 private:
@@ -58,11 +63,11 @@ private:
 
     int fonttikoko_ = 10;
 
-    int leveys_ = 0;
-    int otsikkoleveys_ = 0;
-    int korkeus_ = 0;
+    int otsikkoleveys_ = 0;    
+    QRectF laatikko_;
 
     QList<TietoRivi> rivit_;
+    QString otsikko_;
 
 };
 

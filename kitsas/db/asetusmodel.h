@@ -43,7 +43,13 @@ public:
     enum Asetukset {
         ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */,
         ERISARJAAN /** Tositteet numeroidaan sarjoittain */,
-        KATEISSARJAAN /** Käteistositteet omaan sarjaansa */
+        KATEISSARJAAN /** Käteistositteet omaan sarjaansa */,
+        NIMI /** Oman organisaation nimi */,
+        KATUOSOITE /** Oma katuosoite */,
+        POSTINUMERO /** Oma postinumero */,
+        KAUPUNKI /** Oma postitoimipaikka */,
+        APUTOIMINIMI /** Laskulle tulostuva aputoiminimi */,
+        LOGONSIJAINTI /** Logon sijainti */
     };
 
 
@@ -53,7 +59,7 @@ public:
      * @return asetus, tai String() jos asetusta ei ole
      */
     QString asetus(const QString& avain, const QString oletus = QString()) const { return asetukset_.value(avain, oletus); }
-    QString asetus(int avain, const QString& oletus) const;
+    QString asetus(int avain, const QString& oletus = QString()) const;
 
     void aseta(const QString& avain, const QString& arvo);
     void aseta(const QVariantMap& map);
@@ -78,6 +84,8 @@ public:
     void aseta(const QString& avain, const QStringList& arvo);
 
     int luku(const QString& avain, int oletusarvo = 0) const;
+    int luku(int tunnus, int oletusarvo = 0) const;
+
     qulonglong isoluku(const QString &avain, qulonglong oletusarvo = 0) const;
     void aseta(const QString &avain, int luku);
     void aseta(const QString& avain, qulonglong luku);

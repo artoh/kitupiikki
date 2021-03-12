@@ -33,14 +33,17 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
     const Lasku& lasku = tosite.constLasku();
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
 
+    if( tosite.tyyppi() == TositeTyyppi::MYYNTILASKU)
+        otsikko_ = kitsas_->kaanna("laskuotsikko", kieli_);
+
     kieli_ = lasku.kieli().toLower();
 
     lisaa("lpvm", lasku.laskunpaiva());
     lisaa("lnro", lasku.numero());
 
     if( lasku.jaksopvm().isValid()) {
-        lisaa("toimpvm", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy")
-                                           .arg( lasku.jaksopvm().toString("dd.MM.yyyy"))));
+        lisaa("toimpvm", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
+                                           .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
     } else {
         lisaa("toimpvm", lasku.toimituspvm());
     }
@@ -74,10 +77,8 @@ void LaskunTietoLaatikko::lisaa(const QString &avain, const QDate &pvm)
 
 qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
 {
-    leveys_ = leveys;
-
     painter->save();
-    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Bold) );
+    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
     const QFontMetrics& metrics = painter->fontMetrics();
     const int rivilisa = metrics.xHeight() / 5;
 
@@ -92,20 +93,29 @@ qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
     int tekstileveys = leveys - otsikkoleveys_ - metrics.horizontalAdvance("Mi");
     QRect tietoLaskuRect(0,0,tekstileveys, painter->window().height());
 
-    korkeus_ = metrics.horizontalAdvance("ii");
+    qreal laatikonKorkeus = metrics.horizontalAdvance("ii");
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
 
     for(const auto& rivi: rivit_) {
-        korkeus_ += painter->boundingRect( tietoLaskuRect, Qt::TextWordWrap, rivi.tieto() ).height() + rivilisa;
+        laatikonKorkeus += painter->boundingRect( tietoLaskuRect, Qt::TextWordWrap, rivi.tieto() ).height() + rivilisa;
     }
-    korkeus_ -= rivilisa;
+    laatikonKorkeus -= rivilisa;
 
     painter->restore();
-    return korkeus_;
+
+    painter->setFont( QFont("FreeSans", fonttikoko_ + 6, QFont::Bold) );
+    const QFontMetrics& otsikkoMetrics = painter->fontMetrics();
+
+    laatikko_ = QRectF(0, otsikkoMetrics.height(), leveys, laatikonKorkeus);
+
+    return korkeus();
 }
 
 void LaskunTietoLaatikko::piirra(QPainter *painter)
 {
+    if( kitsas_->onkoHarjoitus())
+        piirraHarjoitus(painter);
+
     piirraLaatikko(painter);
     piirraTekstit(painter);
 }
@@ -115,15 +125,14 @@ void LaskunTietoLaatikko::piirraLaatikko(QPainter *painter)
     painter->save();
 
     painter->setPen( Qt::NoPen );
-    painter->setBrush( QBrush( QColor(230,230,230)) );
-    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Bold) );
-    const QFontMetrics& metrics = painter->fontMetrics();
-    painter->drawRect( QRect(0,0,otsikkoleveys_, korkeus_));
+    painter->setBrush( QBrush( QColor(230,230,230)) );   
+    painter->drawRect( QRect(laatikko_.x(), laatikko_.y(),otsikkoleveys_, laatikko_.height()));
 
     painter->setBrush( Qt::NoBrush );
-    painter->setPen( QPen(QBrush(Qt::darkGray),
-                          0.3 * painter->device()->width() / painter->device()->widthMM()  ) );
-    painter->drawRect( QRect(0,0,leveys_, korkeus_) );
+
+    const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
+    painter->setPen( QPen(QBrush(Qt::darkGray), 0.3 * mm  ) );
+    painter->drawRect( laatikko_ );
 
     painter->restore();
 }
@@ -131,25 +140,41 @@ void LaskunTietoLaatikko::piirraLaatikko(QPainter *painter)
 void LaskunTietoLaatikko::piirraTekstit(QPainter *painter)
 {
     painter->save();
+    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Bold) );
+    QRectF laatikonYlla(0,0,laatikko_.width(),laatikko_.height());
+    painter->drawText(laatikonYlla, otsikko_);
+
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
     const QFontMetrics& metrics = painter->fontMetrics();
-    const int tietoleveys = leveys_ - otsikkoleveys_ - metrics.horizontalAdvance("Mi");
-    const int tietoAlku = otsikkoleveys_ + metrics.horizontalAdvance("M");
+    const int tietoleveys = laatikko_.width() - otsikkoleveys_ - metrics.horizontalAdvance("Mi");
+    const int tietoAlku = laatikko_.x() + otsikkoleveys_ + metrics.horizontalAdvance("M");
     const int marginaali = metrics.horizontalAdvance("i");
     const int rivilisa = metrics.xHeight() / 5;
 
-    qreal y = marginaali;
+    qreal y = laatikko_.y() + marginaali;
 
     for(const auto& rivi : rivit_) {
-        QRectF otsikkoRect(marginaali,y,leveys_, korkeus_);
+        QRectF otsikkoRect(laatikko_.x() + marginaali, y,
+                           laatikko_.width(), laatikko_.height());
         painter->drawText( otsikkoRect, rivi.otsikko() );
 
-        QRectF tietoLaskuRect(tietoAlku, y, tietoleveys, korkeus_);
+        QRectF tietoLaskuRect(tietoAlku, y, tietoleveys, laatikko_.height());
         QRectF tietoRect = painter->boundingRect( tietoLaskuRect, Qt::TextWordWrap, rivi.tieto() );
         painter->drawText( tietoRect, rivi.tieto() );
         y += tietoRect.height() + rivilisa;
     }
 
+    painter->restore();
+}
+
+void LaskunTietoLaatikko::piirraHarjoitus(QPainter *painter)
+{
+    painter->save();
+    QRect harjoitusRect(0, 0, laatikko_.width(), laatikko_.y());
+    painter->setPen( QPen(Qt::green ));
+    painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
+    painter->drawText( harjoitusRect, Qt::AlignRight | Qt::AlignTop,
+                       kitsas_->kaanna("HARJOITUS", kieli_));
     painter->restore();
 }
 

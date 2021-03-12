@@ -159,16 +159,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="logossaNimiBox">
-          <property name="text">
-           <string>Logossa organisaation nimi</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
-          </property>
+         <widget class="QComboBox" name="logonSijaintiCombo">
           <property name="Asetus" stdset="0">
-           <string>LogossaNimi</string>
+           <string notr="true">LogonSijainti</string>
           </property>
          </widget>
         </item>

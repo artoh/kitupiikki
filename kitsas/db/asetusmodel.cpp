@@ -162,6 +162,11 @@ int AsetusModel::luku(const QString &avain, int oletusarvo) const
         return oletusarvo;
 }
 
+int AsetusModel::luku(int tunnus, int oletusarvo) const
+{
+    return luku( avaimet__.at(tunnus));
+}
+
 qulonglong AsetusModel::isoluku(const QString &avain, qulonglong oletusarvo) const
 {
     if( asetukset_.contains(avain))
@@ -236,5 +241,11 @@ void AsetusModel::lataa(const QVariantMap &lista)
 std::map<int,QString> AsetusModel::avaimet__ = {
     { ALV, "AlvVelvollinen" },
     { ERISARJAAN, "erisarjaan"},
-    { KATEISSARJAAN, "kateissarjaan"}
+    { KATEISSARJAAN, "kateissarjaan"},
+    { NIMI, "Nimi"},
+    { KATUOSOITE, "Katuosoite"},
+    { POSTINUMERO, "Postinumero"},
+    { KAUPUNKI, "Kaupunki"},
+    { APUTOIMINIMI, "Aputoiminimi"},
+    { LOGONSIJAINTI, "LogonSijainti"}
 };

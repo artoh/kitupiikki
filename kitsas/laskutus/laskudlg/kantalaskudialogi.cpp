@@ -286,7 +286,7 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setAsiakasViite( ui->asViiteEdit->text());
 
     tosite()->asetaOtsikko( ui->otsikkoEdit->text() );
-    tosite()->lasku().setOsoite( ui->otsikkoEdit->text() );
+    tosite()->lasku().setOtsikko(ui->otsikkoEdit->text() );
 
     tosite()->lasku().setTilaaja( ui->tilaajaEdit->text() );
     tosite()->lasku().setMyyja( ui->myyjaEdit->text() );
