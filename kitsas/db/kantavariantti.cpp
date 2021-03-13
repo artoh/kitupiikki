@@ -30,6 +30,14 @@ QVariant KantaVariantti::arvo(const QString &avain) const
 
 QString KantaVariantti::str(const QString &avain) const
 {
+    // Koska JSON käsittää kaikki luvut desimaalilukuina, esitetään
+    // kaikki doublet merkkijonoissa kokonaislukuina
+    const QVariant& variant = data_.value(avain);
+
+    if( variant.type() == QVariant::Double) {
+        return QString::number( variant.toLongLong() );
+    }
+
     return arvo(avain).toString();
 }
 
