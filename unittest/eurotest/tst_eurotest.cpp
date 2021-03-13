@@ -27,21 +27,28 @@ public:
     ~EuroTest();
 
 private slots:
+    void initTestCase();
     void string_to_euro();
     void qlonglong_to_string();
     void euro_to_qstring();
     void euro_eq_qstring();
     void qvariant_to_euro();
+    void euro_qvariant();
 };
 
 EuroTest::EuroTest()
 {
-
+    qRegisterMetaTypeStreamOperators<Euro>("Euro");
 }
 
 EuroTest::~EuroTest()
 {
 
+}
+
+void EuroTest::initTestCase()
+{
+    qRegisterMetaTypeStreamOperators<Euro>("Euro");
 }
 
 void EuroTest::string_to_euro()
@@ -76,7 +83,6 @@ void EuroTest::qlonglong_to_string()
 
 void EuroTest::euro_to_qstring()
 {
-    qRegisterMetaTypeStreamOperators<Euro>("Euro");
     Euro euro1(12345);
 
     QString str;
@@ -98,6 +104,11 @@ void EuroTest::qvariant_to_euro()
     Euro euro;
     euro << variant;
     QCOMPARE(euro.cents(), 12350);
+}
+
+void EuroTest::euro_qvariant()
+{
+
 }
 
 

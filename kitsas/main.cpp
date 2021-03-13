@@ -47,6 +47,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "tools/kitsaslokimodel.h"
+#include "model/euro.h"
 
 
 void lisaaLinuxinKaynnistysValikkoon()
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     KitsasLokiModel::alusta();
     Kielet::alustaKielet(":/tr/tulkki.json");
+
+    qRegisterMetaTypeStreamOperators<Euro>("Euro");
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));

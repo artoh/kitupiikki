@@ -20,6 +20,8 @@
 #include <QDebug>
 #include <QSqlError>
 
+#include "model/euro.h"
+
 SQLiteRoute::SQLiteRoute(SQLiteModel *model, const QString &polku)
     : model_(model), polku_(polku)
 {
@@ -118,7 +120,7 @@ QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
                 map.insert(ryhma, rmap);
             }
             else if( kenttanimi.endsWith("snt")) {
-                map.insert( kenttanimi.left( kenttanimi.length() - 3 ), tietue.value(i).toLongLong() / 100.0 );
+                map.insert( kenttanimi.left( kenttanimi.length() - 3 ), Euro( tietue.value(i).toLongLong() ).toString() );
             }
             else if( kenttanimi != "json")
                 map.insert( kenttanimi, tietue.value(i) );

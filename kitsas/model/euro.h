@@ -22,6 +22,8 @@
 #include <QString>
 #include <QDataStream>
 #include <QVariant>
+#include <QDebug>
+
 
 class Euro
 {
@@ -70,5 +72,6 @@ QDataStream& operator<<(QDataStream &out, const Euro &euro);
 QDataStream& operator>>(QDataStream &in, Euro &euro);
 
 QString& operator<<(QString& out, const Euro& euro);
+QDebug operator<<(QDebug debug, const Euro& euro);
 
 #endif // EURO_H
