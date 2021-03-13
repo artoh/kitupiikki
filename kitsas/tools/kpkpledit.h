@@ -14,27 +14,38 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KPVIITEEDIT_H
-#define KPVIITEEDIT_H
+#ifndef KPKPLEDIT_H
+#define KPKPLEDIT_H
 
 #include <QLineEdit>
-#include "laskutus/viitenumero.h"
 
-
-class ViiteValidator;
-
-class KpViiteEdit : public QLineEdit
+/**
+ * @brief Kappalemäärän muokkausrivi
+ *
+ * Mahdollistaa äärivaltaisen tarkan desimaaliluvun
+ * kirjoittamisen ja tallentamisen merkkijonona.
+ *
+ * Näytettäessä käytetään desimaalipilkkua mutta
+ * tallennettaessa desimaalipistettä.
+ *
+ * Syötettäessä sallitaan
+ * - numerot
+ * - yksi desimaalipiste tai -pilkku
+ * - +/- merkit vaihtavat etumerkkiä
+ *
+ */
+class KpKplEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    KpViiteEdit(QWidget* parent = nullptr);
+    KpKplEdit(QWidget* parent = nullptr);
 
-    ViiteNumero viite();
-    void setViite(const ViiteNumero& viite);
+    void setText(const QString& value);
+    QString text() const;
+    double kpl() const;
+
 protected:
-    void paintEvent(QPaintEvent *event) override;
-
-    ViiteValidator* validator_;
+    void keyPressEvent(QKeyEvent* event);
 };
 
-#endif // KPVIITEEDIT_H
+#endif // KPKPLEDIT_H

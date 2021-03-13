@@ -14,27 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KPVIITEEDIT_H
-#define KPVIITEEDIT_H
+#ifndef KAPPALEDELEGAATTI_H
+#define KAPPALEDELEGAATTI_H
 
-#include <QLineEdit>
-#include "laskutus/viitenumero.h"
+#include <QItemDelegate>
 
-
-class ViiteValidator;
-
-class KpViiteEdit : public QLineEdit
+class KappaleDelegaatti : public QItemDelegate
 {
-    Q_OBJECT
 public:
-    KpViiteEdit(QWidget* parent = nullptr);
+    KappaleDelegaatti(QWidget *parent = nullptr);
 
-    ViiteNumero viite();
-    void setViite(const ViiteNumero& viite);
-protected:
-    void paintEvent(QPaintEvent *event) override;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
-    ViiteValidator* validator_;
+
 };
 
-#endif // KPVIITEEDIT_H
+#endif // KAPPALEDELEGAATTI_H

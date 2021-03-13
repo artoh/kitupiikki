@@ -659,6 +659,23 @@ osoite</string>
              </property>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Huomautusaika</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="huomautusaikaSpin">
+             <property name="suffix">
+              <string> päivää</string>
+             </property>
+             <property name="maximum">
+              <number>365</number>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -688,6 +705,20 @@ osoite</string>
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="tilausnumeroEdit">
+             <property name="maxLength">
+              <number>70</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Sopimusnumero</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="sopimusNumeroEdit">
              <property name="maxLength">
               <number>70</number>
              </property>

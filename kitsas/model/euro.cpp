@@ -15,7 +15,6 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "euro.h"
-#include <QDebug>
 
 Euro::Euro()
 {
@@ -111,6 +110,11 @@ bool Euro::operator==(const QString& other)
     return this->cents() == stringToCents(other);
 }
 
+Euro Euro::operator*(const Euro &other)
+{
+    qlonglong cents = cents_ * other.cents();
+    return Euro(cents);
+}
 
 Euro Euro::fromVariant(const QVariant &variant)
 {
@@ -135,6 +139,21 @@ Euro &Euro::operator<<(const QString &string)
 {
     cents_ = stringToCents(string);
     return *this;
+}
+
+Euro::operator double() const
+{
+    return toDouble();
+}
+
+Euro::operator QVariant() const
+{
+    return toVariant();
+}
+
+Euro::operator QString() const
+{
+    return toString();
 }
 
 Euro& Euro::operator<<(const QVariant& variant) {
@@ -182,10 +201,38 @@ QString& operator<<(QString& out, const Euro& euro) {
     return out;
 }
 
+QDebug operator<<(QDebug debug, const Euro& euro) {
+    debug.nospace() << euro.display();
+    return debug.maybeSpace();
+}
 
 
 bool operator==(const Euro& a, const Euro& b) {
     return a.cents() == b.cents();
+}
+
+Euro operator*(const Euro& a, const int b) {
+    return Euro( a.cents() * b);
+}
+
+Euro operator*(const int a, const Euro& b) {
+    return Euro( a * b.cents() );
+}
+
+Euro operator*(const Euro& a, const double b) {
+    return Euro( qRound64( a.cents() * b) );
+}
+
+Euro operator*(const double a, const Euro& b) {
+    return Euro( qRound64( a * b.cents() ));
+}
+
+Euro operator/(const Euro& a, const int b) {
+    return Euro( qRound64( a.cents() * 1.0 / b )  );
+}
+
+Euro operator/(const Euro& a, const double b) {
+    return Euro( qRound64( a.cents() / b ));
 }
 
 

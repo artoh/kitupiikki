@@ -20,6 +20,7 @@
 #include "db/kantavariantti.h"
 #include <QDate>
 #include "laskutus/iban.h"
+#include "laskutus/viitenumero.h"
 
 class TositeRivit;
 
@@ -146,11 +147,14 @@ public:
     QDate erapvm() const { return pvm("erapvm");}
     void setErapaiva(const QDate& erapaiva) { set("erapvm", erapaiva);}
 
-    QString viite() const { return str("viite");}
-    void setViite(const QString& viite) { setStr("viite", viite);}
+    ViiteNumero viite() const { return ViiteNumero(str("viite"));}
+    void setViite(const ViiteNumero& viite) { setStr("viite", viite.viite());}
 
     QString myyja() const { return str("myyja");}
     void setMyyja(const QString& myyja) { setStr("myyja", myyja);}
+
+    int huomautusAika() const { return luku("huomautusaika");}
+    void setHuomautusAika(const int paivaa) { set("huomautusaika", huomautusAika());}
 
     int toistuvanErapaiva() const { return luku("toistuvanerapaiva");}
     void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}

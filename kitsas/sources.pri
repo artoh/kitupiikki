@@ -53,6 +53,7 @@ SOURCES += \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.cpp \
+    $$PWD/laskutus/laskudlg/kappaledelegaatti.cpp \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
     $$PWD/laskutus/laskudlg/laskurividialogi.cpp \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.cpp \
@@ -77,6 +78,7 @@ SOURCES += \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
     $$PWD/laskutus/vanhalaskudialogi.cpp \
     $$PWD/laskutus/viitenumero.cpp \
+    $$PWD/laskutus/yksikkomodel.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
@@ -181,6 +183,7 @@ SOURCES += \
     $$PWD/tools/kitsaslokimodel.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
+    $$PWD/tools/kpkpledit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
@@ -366,6 +369,7 @@ HEADERS += \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.h \
+    $$PWD/laskutus/laskudlg/kappaledelegaatti.h \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
     $$PWD/laskutus/laskudlg/laskurividialogi.h \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.h \
@@ -390,6 +394,7 @@ HEADERS += \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
     $$PWD/laskutus/vanhalaskudialogi.h \
     $$PWD/laskutus/viitenumero.h \
+    $$PWD/laskutus/yksikkomodel.h \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
@@ -496,6 +501,7 @@ HEADERS += \
     $$PWD/tools/kitsaslokimodel.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
+    $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/palkkafituonti.h \

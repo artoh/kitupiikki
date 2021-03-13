@@ -237,12 +237,14 @@ void KantaLaskuDialogi::jatkaTositteelta()
     ui->myyjaEdit->setText( lasku.myyja());
     ui->tilausPvm->setDate( lasku.tilausPvm());
     ui->tilausnumeroEdit->setText( lasku.tilausNumero());
+    ui->huomautusaikaSpin->setValue( lasku.huomautusAika() );
+    ui->sopimusNumeroEdit->setText( lasku.sopimusnumero());
 
     ui->lisatietoEdit->setPlainText( lasku.lisatiedot() );
     ui->erittelyTextEdit->setPlainText( lasku.erittely().join('\n') );
 
     ui->saateEdit->setPlainText( lasku.saate() );
-    ui->saateMaksutiedotCheck->setChecked( lasku.saatteessaMaksutiedot());
+    ui->saateMaksutiedotCheck->setChecked( lasku.saatteessaMaksutiedot());        
 
     tositteeltaKaynnissa_ = false;
 }
@@ -292,6 +294,8 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setMyyja( ui->myyjaEdit->text() );
     tosite()->lasku().setTilausPvm( ui->tilausPvm->date() );
     tosite()->lasku().setTilausNumero( ui->tilausnumeroEdit->text());
+    tosite()->lasku().setHuomautusAika( ui->huomautusaikaSpin->value());
+    tosite()->lasku().setSopimusnumero( ui->sopimusNumeroEdit->text());
 
     tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
     tosite()->lasku().setErittely( ui->erittelyTextEdit->toPlainText().split("\n") );

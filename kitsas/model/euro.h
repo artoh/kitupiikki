@@ -50,11 +50,17 @@ public:
 
     bool operator==(const QString& other);
 
+    Euro operator*(const Euro& other);
+
     static Euro fromVariant(const QVariant& variant);
     static Euro fromDouble(const double euro);
 
     Euro& operator<<(const QString& string);
     Euro& operator<<(const QVariant& variant);
+
+    operator QString() const;
+    operator QVariant() const;
+    operator double() const;
 
 private:
     static qlonglong stringToCents(const QString& euroString);
@@ -67,6 +73,13 @@ private:
 Q_DECLARE_METATYPE(Euro);
 
 bool operator==(const Euro& a, const Euro& b);
+Euro operator*(const Euro& a, const int b);
+Euro operator*(const int a, const Euro& b);
+Euro operator*(const Euro& a, const double b);
+Euro operator*(const double a, const Euro& b);
+
+Euro operator/(const Euro& a, const int b);
+Euro operator/(const Euro& a, const float b);
 
 QDataStream& operator<<(QDataStream &out, const Euro &euro);
 QDataStream& operator>>(QDataStream &in, Euro &euro);

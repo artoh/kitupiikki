@@ -22,6 +22,7 @@
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
 #include "kirjaus/tilidelegaatti.h"
+#include "kappaledelegaatti.h"
 
 #include "../tuotedialogi.h"
 
@@ -83,6 +84,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->horizontalHeader()->setSectionResizeMode(TositeRivit::NIMIKE, QHeaderView::Stretch);
     ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::MAARA, new KappaleDelegaatti);
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
     kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());

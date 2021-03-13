@@ -33,7 +33,7 @@ private slots:
     void euro_to_qstring();
     void euro_eq_qstring();
     void qvariant_to_euro();
-    void euro_qvariant();
+    void euroSumma();
 };
 
 EuroTest::EuroTest()
@@ -106,10 +106,15 @@ void EuroTest::qvariant_to_euro()
     QCOMPARE(euro.cents(), 12350);
 }
 
-void EuroTest::euro_qvariant()
+void EuroTest::euroSumma()
 {
+    Euro euro1(1200);
+    Euro euro2(2450);
+    Euro summa = euro1 + euro2;
 
+    QCOMPARE(summa.cents(), 3650);
 }
+
 
 
 QTEST_APPLESS_MAIN(EuroTest)

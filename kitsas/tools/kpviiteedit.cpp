@@ -23,7 +23,17 @@ KpViiteEdit::KpViiteEdit(QWidget *parent) :
     QLineEdit(parent),
     validator_(new ViiteValidator(this))
 {
-//    connect( this, &QLineEdit::textChanged, [this] {this->repaint();});
+
+}
+
+ViiteNumero KpViiteEdit::viite()
+{
+    return ViiteNumero( text() );
+}
+
+void KpViiteEdit::setViite(const ViiteNumero &viite)
+{
+    setText( viite.valeilla() );
 }
 
 void KpViiteEdit::paintEvent(QPaintEvent *event)
