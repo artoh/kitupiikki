@@ -41,11 +41,6 @@ public:
         VoittomarginaaliRooli = Qt::UserRole + 10
     };
 
-    enum Voittomarginaalisyy {
-        Kaytetyt = 310024,
-        Taide = 320024,
-        KerailyAntiikki = 330024
-    };
 
     TositeRivit(QObject *parent = nullptr, const QVariantList& data = QVariantList());
     void lataa(const QVariantList& data);

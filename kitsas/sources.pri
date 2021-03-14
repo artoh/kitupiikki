@@ -45,6 +45,7 @@ SOURCES += \
     $$PWD/kirjaus/muumuokkausdlg.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/kitupiikkituonti/vanhatuontidlg.cpp \
+    $$PWD/laskutus/alennustyyppimodel.cpp \
     $$PWD/laskutus/asiakkaatmodel.cpp \
     $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/ennakkohyvitysmodel.cpp \
@@ -104,6 +105,7 @@ SOURCES += \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
+    $$PWD/model/tositerivi.cpp \
     $$PWD/model/tositerivit.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
@@ -361,6 +363,7 @@ HEADERS += \
     $$PWD/kirjaus/muumuokkausdlg.h \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/kitupiikkituonti/vanhatuontidlg.h \
+    $$PWD/laskutus/alennustyyppimodel.h \
     $$PWD/laskutus/asiakkaatmodel.h \
     $$PWD/laskutus/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/ennakkohyvitysmodel.h \
@@ -420,6 +423,7 @@ HEADERS += \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
+    $$PWD/model/tositerivi.h \
     $$PWD/model/tositerivit.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \

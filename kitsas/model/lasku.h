@@ -154,7 +154,7 @@ public:
     void setMyyja(const QString& myyja) { setStr("myyja", myyja);}
 
     int huomautusAika() const { return luku("huomautusaika");}
-    void setHuomautusAika(const int paivaa) { set("huomautusaika", huomautusAika());}
+    void setHuomautusAika(const int paivaa) { set("huomautusaika", paivaa);}
 
     int toistuvanErapaiva() const { return luku("toistuvanerapaiva");}
     void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}
