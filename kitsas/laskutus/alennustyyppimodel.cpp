@@ -45,7 +45,7 @@ AlennusTyyppiModel::AlennusTyyppiModel(QObject *parent)
 
 int AlennusTyyppiModel::rowCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
+    if (parent.isValid())
         return 0;
 
     return alennusTyypit_.count();

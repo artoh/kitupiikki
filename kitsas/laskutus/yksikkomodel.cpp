@@ -68,6 +68,16 @@ QVariant YksikkoModel::data(const QModelIndex &index, int role) const
     }
 }
 
+QString YksikkoModel::nimi(const QString &unKoodi) const
+{
+    for( const auto& yksikko: yksikot_) {
+        if( yksikko.unKoodi() == unKoodi) {
+            return yksikko.nimi();
+        }
+    }
+    return QString();
+}
+
 void YksikkoModel::lisaa(const QString &UNkoodi, const QString &nimi)
 {
     yksikot_.append(Yksikko(UNkoodi, nimi));

@@ -23,9 +23,10 @@
 #include "kirjaus/kohdennusdelegaatti.h"
 #include "kirjaus/tilidelegaatti.h"
 #include "kappaledelegaatti.h"
-
+#include "yksikkodelegaatti.h"
 #include "../tuotedialogi.h"
 
+#include "laskurividialogi.h"
 
 #include "db/kirjanpito.h"
 
@@ -41,6 +42,8 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( tosite->rivit(), &TositeRivit::rowsInserted, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::rowsRemoved, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::modelReset, this, &RivillinenLaskuDialogi::paivitaSumma);
+
+    connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     paivitaSumma();
@@ -64,6 +67,17 @@ void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
         menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
 }
 
+void RivillinenLaskuDialogi::rivinLisaTiedot()
+{
+    LaskuRiviDialogi dlg(this);
+
+    // Alustaminen
+
+    dlg.exec();
+
+    // Käsittely
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -85,6 +99,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::MAARA, new KappaleDelegaatti);
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::YKSIKKO, new YksikkoDelegaatti);
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
     kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());

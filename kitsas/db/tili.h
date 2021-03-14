@@ -56,6 +56,9 @@ public:
 
     int laajuus() const { return laajuus_;}
 
+    int alvlaji() const { return luku("alvlaji");}
+    double alvprosentti() const { return dbl("alvprosentti");}
+
     /**
      * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n
      * @return

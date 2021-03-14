@@ -14,25 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RIVILLINENLASKUDIALOGI_H
-#define RIVILLINENLASKUDIALOGI_H
+#ifndef YKSIKKOCOMBO_H
+#define YKSIKKOCOMBO_H
 
-#include "kantalaskudialogi.h"
+#include <QComboBox>
+#include "../yksikkomodel.h"
 
-class RivillinenLaskuDialogi : public KantaLaskuDialogi
+class YksikkoCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
+    YksikkoCombo(QWidget* parent = nullptr);
+
+    void setYksikko(const QString& yksikko);
+    void setUNkoodi(const QString& koodi);
+
+    QString yksikko() const;
+    QString unKoodi() const;
 
 protected:
-    void tuotteidenKonteksiValikko(QPoint pos);
-    void rivinLisaTiedot();
+    void focusOutEvent(QFocusEvent *e) override;
 
-private:
-    void alustaRiviTab();
-    void paivitaSumma();
+    void valittu();
+    void mika();
+
+    YksikkoModel yksikot_;
 
 };
 
-#endif // RIVILLINENLASKUDIALOGI_H
+#endif // YKSIKKOCOMBO_H

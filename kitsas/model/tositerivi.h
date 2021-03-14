@@ -70,7 +70,7 @@ public:
     QString jalkitoimitusKpl() const { return str("jalkitoimitus");}
     void setJalkitoimitusKpl(const QString& kpl) { setStr("jalkitoimitus", kpl);}
 
-    QString laskutetaanKpl() const { return str("toimitetaan");}
+    QString laskutetaanKpl() const { return str("laskutetaan");}
     void setLaskutetaanKpl(const QString& kpl) { setStr("laskutetaan", kpl);}
 
     QString unKoodi() const { return str("unkoodi");}

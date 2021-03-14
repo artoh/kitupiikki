@@ -32,7 +32,7 @@ Lasku::Lasku(const QVariantMap &data) :
 
 QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
 {
-    qlonglong sentit = qRound64( summa() * 100.0);
+    qlonglong sentit = summa().cents();
     ViiteNumero viitenumero(viite());
 
     if( sentit <= 0 || sentit > 99999999

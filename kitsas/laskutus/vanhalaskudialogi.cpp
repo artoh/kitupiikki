@@ -487,7 +487,7 @@ QVariantMap VanhaLaskuDialogi::data(QString otsikko) const
         lasku.insert("toimituspvm", ui->toimitusDate->date());
     if( ui->jaksoDate->date().isValid())
         lasku.insert("jaksopvm", ui->jaksoDate->date());
-    if( (rivit_->yhteensa() > 1e-3 || tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ) &&
+    if( (rivit_->yhteensa().cents() || tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ) &&
             ui->maksuCombo->currentData().toInt() != KATEINEN) {
         lasku.insert("erapvm", ui->eraDate->date());
         map.insert("erapvm", ui->eraDate->date());

@@ -17,11 +17,15 @@
 #include "laskurividialogi.h"
 #include "ui_laskurividialogi.h"
 
+#include "../alennustyyppimodel.h"
+
 LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LaskuRiviDialogi)
 {
     ui->setupUi(this);
+
+    ui->alennusSyyCombo->setModel(new AlennusTyyppiModel);
 }
 
 LaskuRiviDialogi::~LaskuRiviDialogi()

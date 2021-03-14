@@ -21,22 +21,28 @@
 TositeRivi::TositeRivi(const QVariantMap &data)
     : KantaVariantti(data)
 {
-
+    if( laskutetaanKpl().isEmpty() && qAbs(myyntiKpl()) > 1e-5 )
+        setLaskutetaanKpl( QString("%1").arg(myyntiKpl(),0, 'f', 2) );
+    if( !bruttoYhteensa().cents())
+        laskeYhteensa();
 }
 
 Euro TositeRivi::laskeYhteensa()
 {
-    const double nettoA = aNetto() * myyntiKpl();
-
-    const double nettoB = aleProsentti() ?
-                ( 100.0 - aleProsentti() ) * nettoA / 100.0 :
-                nettoA - euroAlennus().toDouble();
+    const double netto = aNetto() * myyntiKpl();
 
     const double vero = alvkoodi() < Lasku::KAYTETYT ?
-                alvProsentti() * nettoB / 100.0 :
+                alvProsentti() * netto / 100.0 :
                 0 ;
 
-    Euro tulos = Euro::fromDouble( nettoB + vero);
+    const double brutto = netto + vero;
+
+    const double alennettu = aleProsentti() ?
+                ( 100.0 - aleProsentti() ) * brutto / 100.0 :
+                brutto - euroAlennus().toDouble();
+
+
+    Euro tulos = Euro::fromDouble( alennettu);
     setBruttoYhteensa( tulos );
     return tulos;
 }
@@ -45,15 +51,16 @@ double TositeRivi::laskeYksikko()
 {
     const double brutto = bruttoYhteensa().toDouble();
 
-    const double nettoB = alvkoodi() < Lasku::KAYTETYT ?
-                100 * brutto / ( 100 + alvProsentti()) :
-                brutto;
+    const double alentamaton = aleProsentti() ?
+                100 * brutto / ( 100 - aleProsentti()) :
+                brutto + euroAlennus().toDouble();
 
-    const double nettoA = aleProsentti() ?
-                100 * nettoB / ( 100 - aleProsentti()) :
-                nettoB + euroAlennus().toDouble();
+    const double netto = alvkoodi() < Lasku::KAYTETYT ?
+                100 * alentamaton / ( 100 + alvProsentti()) :
+                alentamaton;
 
-    const double ahinta = nettoA / myyntiKpl();
+
+    const double ahinta = netto / myyntiKpl();
     setANetto(ahinta);
     return ahinta;
 }

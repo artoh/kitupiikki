@@ -36,6 +36,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;    
+    QString nimi(const QString& unKoodi) const;
 
 protected:
     void lisaa(const QString& UNkoodi, const QString& nimi);

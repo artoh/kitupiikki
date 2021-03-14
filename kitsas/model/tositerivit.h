@@ -22,6 +22,9 @@
 #include <QDate>
 
 #include "tosite.h"
+#include "tositerivi.h"
+
+#include "laskutus/yksikkomodel.h"
 
 class TositeRivit : public QAbstractTableModel
 {
@@ -38,7 +41,8 @@ public:
         TiliNumeroRooli = Qt::UserRole + 3,
         AlvKoodiRooli = Qt::UserRole + 5,
         AlvProsenttiRooli = Qt::UserRole + 6,
-        VoittomarginaaliRooli = Qt::UserRole + 10
+        VoittomarginaaliRooli = Qt::UserRole + 10,
+        UNkoodiRooli = Qt::UserRole + 256
     };
 
 
@@ -63,7 +67,7 @@ public:
 
     QVariantList rivit() const;
 
-    double yhteensa() const;
+    Euro yhteensa() const;
     QVariantList viennit(const Tosite& tosite) const;
 
     bool onkoTyhja() const;
@@ -73,13 +77,12 @@ public slots:
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
 
-public:
-    static double riviSumma(QVariantMap map);
-    static double riviVero(QVariantMap map);
-
 
 private:
-    QVariantList rivit_;
+    QList<TositeRivi> rivit_;
+
+    YksikkoModel yksikkoModel_;
+
     bool ennakkolasku_ = false;
 };
 

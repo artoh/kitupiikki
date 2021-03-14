@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Laskurivin tiedot</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
    <item row="0" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -86,7 +86,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QComboBox" name="yksikkoCombo">
+       <widget class="YksikkoCombo" name="yksikkoCombo">
         <property name="editable">
          <bool>true</bool>
         </property>
@@ -167,7 +167,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="alvCombo"/>
+       <widget class="LaskuAlvCombo" name="alvCombo"/>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_7">
@@ -274,6 +274,16 @@
    <class>KpKplEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpkpledit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>YksikkoCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">laskutus/laskudlg/yksikkocombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LaskuAlvCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">laskutus/laskualvcombo.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

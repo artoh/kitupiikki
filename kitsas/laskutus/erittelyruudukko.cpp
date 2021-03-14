@@ -37,7 +37,7 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
 
         int veroprossa = qRound(map.value("alvprosentti").toDouble() * 100);
         int verokoodi = map.value("alvkoodi").toInt();
-        qlonglong brutto = qRound( TositeRivit::riviSumma( map ) * 100);
+        qlonglong brutto = 0 ; //qRound( TositeRivit::riviSumma( map ) * 100);
         int avain = verokoodi * 10000 + veroprossa;
 
         verokannat_.insert( avain, verokannat_.value(avain, 0) + brutto );

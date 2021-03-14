@@ -14,25 +14,23 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RIVILLINENLASKUDIALOGI_H
-#define RIVILLINENLASKUDIALOGI_H
+#ifndef YKSIKKODELEGAATTI_H
+#define YKSIKKODELEGAATTI_H
 
-#include "kantalaskudialogi.h"
+#include <QItemDelegate>
+#include "../yksikkomodel.h"
 
-class RivillinenLaskuDialogi : public KantaLaskuDialogi
+class YksikkoDelegaatti : public QItemDelegate
 {
-    Q_OBJECT
 public:
-    RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
+    YksikkoDelegaatti(QObject* parent = nullptr);
 
-protected:
-    void tuotteidenKonteksiValikko(QPoint pos);
-    void rivinLisaTiedot();
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
-private:
-    void alustaRiviTab();
-    void paivitaSumma();
+
 
 };
 
-#endif // RIVILLINENLASKUDIALOGI_H
+#endif // YKSIKKODELEGAATTI_H
