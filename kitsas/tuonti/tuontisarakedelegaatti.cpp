@@ -44,6 +44,7 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     QComboBox *combo = new QComboBox(parent);
 
     int tyyppi = index.data(CsvTuonti::TyyppiRooli).toInt();
+    int nykyinen = index.data(Qt::EditRole).toInt();
 
     comboon(combo, CsvTuonti::EITUODA);
 
@@ -69,7 +70,7 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     {
         comboon(combo, CsvTuonti::RAHAMAARA);
     }
-    else if( !tuokirjauksia_ && tyyppi == CsvTuonti::VIITE)
+    else if( !tuokirjauksia_ && ( tyyppi == CsvTuonti::VIITE || nykyinen == CsvTuonti::VIITE))
         comboon(combo, CsvTuonti::VIITENRO);
     else if( !tuokirjauksia_ && tyyppi == CsvTuonti::TILI )
         comboon(combo, CsvTuonti::IBAN);
