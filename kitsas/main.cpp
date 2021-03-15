@@ -21,7 +21,6 @@
 #include <QSplashScreen>
 #include <QTextCodec>
 #include <QIcon>
-#include <QTranslator>
 #include <QFontDatabase>
 #include <QFont>
 
@@ -76,6 +75,11 @@ void lisaaLinuxinKaynnistysValikkoon()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName("Kitsas");
+    a.setApplicationVersion(KITSAS_VERSIO);
+    a.setOrganizationDomain("kitsas.fi");
+    a.setOrganizationName("Kitsas oy");
+
     KitsasLokiModel::alusta();
     Kielet::alustaKielet(":/tr/tulkki.json");
 
@@ -88,11 +92,7 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
     
-    a.setApplicationName("Kitsas");
-    a.setApplicationVersion(KITSAS_VERSIO);
-    a.setOrganizationDomain("kitsas.fi");
-    
-    a.setOrganizationName("Kitsas oy");
+
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 #endif
@@ -102,11 +102,6 @@ int main(int argc, char *argv[])
 
     // Qt:n vakioiden kääntämiseksi
     // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
-
-    QTranslator translator;
-    translator.load("fi.qm",":/tr/");
-
-    a.installTranslator(&translator);
 
     QCommandLineParser parser;
     parser.addOptions({
@@ -160,6 +155,10 @@ int main(int argc, char *argv[])
         tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
+        if( Kielet::instanssi()->uiKieli() == "sv")
+            tervetuloUi.svKieli->setChecked(true);
+        else
+            tervetuloUi.fiKieli->setChecked(true);
 
 
 #ifndef Q_OS_LINUX
@@ -171,13 +170,13 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_LINUX
         // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
         if( tervetuloUi.valikkoonCheck->isChecked())
-            lisaaLinuxinKaynnistysValikkoon();
-
+            lisaaLinuxinKaynnistysValikkoon();        
 #endif
+        Kielet::instanssi()->valitseUiKieli( tervetuloUi.svKieli->isChecked() ? "sv" : "fi" );
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;
-    splash->setPixmap( QPixmap(":/pic/splash.png"));
+    splash->setPixmap( QPixmap(":/pic/splash_" + Kielet::instanssi()->uiKieli() + ".png"));
     splash->show();
 
 

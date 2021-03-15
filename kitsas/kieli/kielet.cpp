@@ -20,6 +20,8 @@
 #include <QJsonDocument>
 
 #include <QDebug>
+#include <QApplication>
+#include <QSettings>
 
 Kielet::Kielet(const QString &tiedostonnimi)
 {
@@ -39,6 +41,15 @@ Kielet::Kielet(const QString &tiedostonnimi)
             kaannokset_[iter.key()].insert(kiter.key(), kiter.value().toString());
         }
     }
+    QStringList systeemiKielet = QLocale::system().uiLanguages();
+    QString systeemiKieli = systeemiKielet.value(0).contains("sv") ? "sv" : "fi";
+    QSettings settings;
+    QString valintaKieli = settings.value("uiKieli").toString();
+
+    valitseUiKieli(valintaKieli.isEmpty() ? systeemiKieli : valintaKieli );
+
+    qApp->installTranslator(&appTranslator_);
+    qApp->installTranslator(&qtTranslator_);
 }
 
 void Kielet::alustaKielet(const QString &kaannostiedostonnimi)
@@ -71,8 +82,25 @@ void Kielet::asetaKielet(const QString &json)
 
 void Kielet::valitseKieli(const QString &kieli)
 {
-    nykykieli_ = kieli;
-    emit kieliVaihtui(kieli);
+    if( kieli.isEmpty() && kieliKoodit().contains(uiKieli())) {
+            nykykieli_ = uiKieli_;
+    } else if ( kieliKoodit().contains(kieli)) {
+        nykykieli_ = kieli;
+    } else {
+        nykykieli_ = kieliKoodit().value(0);
+    }
+
+    emit kieliVaihtui(nykykieli_);
+}
+
+void Kielet::valitseUiKieli(const QString &kieli)
+{
+    uiKieli_ = kieli;
+    appTranslator_.load("kitsas_" + kieli + ".qm", ":/tr/");
+    qtTranslator_.load("qt_" + kieli + ".qm", ":/tr/");
+
+    QSettings settings;
+    settings.setValue("uiKieli", kieli);
 }
 
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const
@@ -94,9 +122,23 @@ QList<Kieli> Kielet::kielet() const
     return palautettava;
 }
 
+QStringList Kielet::kieliKoodit() const
+{
+    QStringList koodit;
+    for(auto const & kieli : kielet_) {
+        koodit.append(kieli.first);
+    }
+    return koodit;
+}
+
 QString Kielet::nykyinen() const
 {
     return nykykieli_;
+}
+
+QString Kielet::uiKieli() const
+{
+    return uiKieli_;
 }
 
 Kielet* Kielet::instanssi__ = nullptr;

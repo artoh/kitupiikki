@@ -270,7 +270,7 @@ void SelausWg::paivitaSuodattimet()
             ui->tiliCombo->clear();
             ui->tiliCombo->addItem(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)), selaustili_);
             ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)));
-            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", 0);
+            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),tr("Kaikki tilit"), 0);
 
         } else {
             QString valittu = ui->tiliCombo->currentText();
@@ -285,9 +285,9 @@ void SelausWg::paivitaSuodattimet()
     } else {
         QString valittu = ui->tiliCombo->currentText();
         ui->tiliCombo->clear();
-        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tositteet", -1);
+        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),tr("Kaikki tositteet"), -1);
         for( int tyyppikoodi : tositeModel->tyyppiLista() ) {
-            ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), kp()->tositeTyypit()->nimi(tyyppikoodi), tyyppikoodi );
+            ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), tulkkaa(kp()->tositeTyypit()->nimi(tyyppikoodi)), tyyppikoodi );
         }
         QStringList sarjat = tositeModel->sarjaLista();
         if(!sarjat.isEmpty()) {

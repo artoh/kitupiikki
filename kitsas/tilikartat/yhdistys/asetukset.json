@@ -15,22 +15,28 @@
   },
   "laajuudet": {
     "1": {
-      "fi": "Suppea"
+      "fi": "Suppea",
+      "sv": "Kort"
     },
     "2": {
-      "fi": "Tavallinen, ei palkkoja"
+      "fi": "Tavallinen, ei palkkoja",
+      "sv": "Normal, utan löner"
     },
     "3": {
-      "fi": "Tavallinen, palkat"
+      "fi": "Tavallinen, palkat",
+      "sv": "Normal, med löner"
     },
     "4": {
-      "fi": "Laaja, kiinteää tai sijoitusomaisuutta"
+      "fi": "Laaja, kiinteää tai sijoitusomaisuutta",
+      "sv": "Omfattande"
     },
     "5": {
-      "fi": "Elinkeinotoimintaa"
+      "fi": "Elinkeinotoimintaa",
+      "sv": "Omfattande, med näringsverksamhet"
     },
     "6": {
-      "fi": "Kaikki tilit, myös konserni"
+      "fi": "Kaikki tilit, myös konserni",
+      "sv": "Alla konton, även koncernkonton"
     }
   },
   "laajuus": "3",
@@ -72,32 +78,38 @@
   "maksutavat+": [
     {
       "fi" : "Lasku",
+      "sv" : "Faktura",        
       "TILI" : 1700,
       "KUVA" : "lasku",
       "ERA" : -1
     },
     {
       "fi" : "Käteinen",
+      "sv" : "Kontant",        
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
+      "sv" : "Bankkonto",       
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Korttimaksu",
+      "sv" : "Kreditkort",      
       "TILI" : 1704,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
+      "sv" : "Kreditnota",      
       "TILI" : 1700,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtosaaminen",
+      "sv" : "Resultatreglering",      
       "TILI" : 1770,
       "KUVA" : "siirra",
       "ERA" : -1
@@ -107,32 +119,38 @@
   "maksutavat-": [
     {
       "fi" : "Lasku",
+      "sv" : "Faktura",      
       "TILI" : 2960,
       "KUVA" : "lasku",
       "ERA": -1
     },
     {
       "fi" : "Käteinen",
+      "sv" : "Kontant",      
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
+      "sv" : "Bankkonto",      
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Luottokortti",
+      "sv" : "Kreditkort",      
       "TILI" : 2963,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
+      "sv" : "Kreditnota",      
       "TILI" : 2960,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtovelka",
+      "sv" : "Resultatreglering",      
       "TILI" : 2990,
       "KUVA" : "siirra",
       "ERA" : -1

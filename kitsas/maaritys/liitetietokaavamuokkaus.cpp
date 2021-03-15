@@ -40,18 +40,12 @@ LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
 
 bool LiitetietokaavaMuokkaus::nollaa()
 {
-    ui->kieliCombo->clear();
-    for(auto kieli: kp()->asetukset()->kielet()) {
-        ui->kieliCombo->addItem(lippu(kieli) , kp()->asetukset()->kieli(kieli), kieli);
-    }
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );
-
-    return true;
+    lataa();
 }
 
 bool LiitetietokaavaMuokkaus::tallenna()
 {
-    QString kieli = ui->kieliCombo->currentData().toString();
+    QString kieli = ui->kieliCombo->kieli();
     kp()->asetukset()->aseta("tppohja/" + kieli, ui->editori->toPlainText() );
     ui->editori->document()->setModified(false);
     ilmoitaOnkoMuokattu();
@@ -65,7 +59,7 @@ bool LiitetietokaavaMuokkaus::onkoMuokattu()
 
 void LiitetietokaavaMuokkaus::lataa()
 {
-    QString kieli = ui->kieliCombo->currentData().toString();
+    QString kieli = ui->kieliCombo->kieli();
     ui->editori->setPlainText( kp()->asetukset()->asetus("tppohja/" + kieli) );
 }
 

@@ -1,0 +1,187 @@
+key,fi,sv,en
+suomi,,finska,Finnish
+ruotsi,,svenska,Swedish
+englanti,,engelska,English
+Kotipaikka,,Hemort,Domicile
+HARJOITUS,,ÖVNING,TRIAL
+PÄIVÄKIRJA,,DAGBOK,JOURNAL
+Päiväkirja,,Dagbok,
+Pvm,,Datum,Date
+Tosite,,Verif.,Vouch.
+Tili,,Konto,Account
+Kohdennus,,Hänförs till,Allocation
+Yhteensä,,Totalt,Total
+Selite,,Beskrivning,Description
+Sivu %1,,Sidan %1,Page %1
+Kredit €,,,Credit €
+Saldo €,,,Balance €
+PÄÄKIRJA,,HUVUDBOK,GENERAL LEDGER
+Pääkirja,,Huvudbok,
+PÄÄKIRJAN OTE,,HUVUDBOKUTDRAG,EXTRACT FROM GENERAL LEDGER
+Budjetti,,Budget,Budget
+Toteutunut,,Förverkligad,Actualised
+Budjettiero €,,Budgetskillnad €,Difference €
+Toteutunut %,,Förverkligad %,Realized %
+Kustannuspaikat,,Konstnadsställen,Cost pools
+Projektit,,Projekt,Projects
+Asiakas/Toimittaja,,Kund/Säljare,Customer/Supplier
+TOSITELUETTELO,,VERIFIKATLISTA,VOUCHER LIST
+Tositeluettelo,,Verifikatlista,
+Otsikko,,Rubrik,Heading
+Liitteitä,,Append.,Attachm.
+Summa €,,Totalt €,Total €
+Tilin numero,,Kontonummer,Account number
+Tilin nimi,,Kontonamn,Account name
+TILILUETTELO,,KONTOPLAN,SPECIFICATION OF ACCOUNTS
+Tililuettelo,,Kontoplan,
+Tilin tyyppi,,Kontotyp,Type
+Saldo %1,,,Balance %1
+Kirjausohjeet,,Instructoner,Instructions
+Meno,,Utgift,Outcome
+Tulo,,Intäkt,Income
+Kululasku,,Kostnadsräkning,Bill of costs
+Saapunut verkkolasku,,Inkomst online faktura,Incoming online invoice
+Myyntilasku,,Fölsälningsfaktura,Sales invoice
+Hyvityslasku,,Kreditnota,Credit note
+Maksumuistutus,,Betalningspåminnelse,Payment reminder
+Siirto,,Överföring,Transfer
+Tiliote,,Kontoutdrag,Bank statement
+Palkka,,Lön,Salary
+Muistio,,Annotation,Memo
+Liitetieto,,Not,Attachment
+Tuonti,,Import,Import
+Muu,,Annan,Other
+Tilinavaus,,Öppnande av konto,Opening of an account
+Alv-laskelma,,Moms-beräkning,VAT calculation
+Poistolaskelma,,Avskrivningsberäkning,Depreciation allowance calculation
+Jaksotus,,Periodindelning,Periodization
+Tulovero,,Inkomstskatt,Income tax
+TASE-ERITTELY,,SPECIFICATION TILL BALANSRÄKNINGEN,BALANCE SHEET BREAKDOWN
+Tase-erittely,,Specification till balansräkningen,
+VASTAAVAA,,AKTIVA,ASSETS
+VASTATTAVAA,,PASSIVA,LIABILITIES
+VASTAAVAA YHTEENSÄ,,AKTIVA TOTALT,ASSETS TOTAL
+VASTATTAVAA YHTEENSÄ,,PASSIVA TOTALT,LIABILITIES TOTAL
+Lisäykset/vähennykset %1 saakka,,Ökningar/avdrag upp till %1,Additions/reductions until %1
+Jäljellä %1,,Återstående %1,Remaining %1
+Loppusaldo %1,,Utgående saldo %1,Ending balance %1
+Alkusaldo %1,,Ingående saldo %1,Beginning balance
+Erittelemättömät,,Ospecificerad,Unspecified
+Tilin %1 loppusaldo,,Utgående saldo på kontot %1,End balance of account %1
+AVOIMET MYYNTILASKUT,,ÖPPNA KUNDFAKTUROR,OPEN SALES INVOICES
+Avoimet myyntilaskut,,Öppna kundfakturor,
+MYYNTILASKUT,,KUNDFAKTUROR,SALES INVOICES
+AVOIMET OSTOLASKUT,,ÖPPNA INKÖPSFAKTUROR,OPEN PURCHASE INVOICES
+Avoimet ostolaskut,,Öppna inköpsfakturor,
+OSTOLASKUT,,INKÖPSFAKTUROR,PURCHASE INVOICES
+Numero,,Nummer,Number
+Laskupvm,,Fakturadag,Invoice date
+Eräpvm,,Förfallogdag,Due date
+Maksamatta,,Obetald,Unpaid
+Päivämäärä,,Datum,Date
+Asiakas,,Kund,Customer
+Toimittaja,,Säljare,Supplier
+Viite,,Referens,Reference
+Tuote,,produkt,product
+myynti kpl,,försäljning st,sales pcs
+keskim. á netto,,genomsn á netto,average á net
+keskim. á brutto,,genomsn á brutto,average á gross
+netto yht,,totalt netto,total net
+brutto yht,,totalt brutto,totalt gross
+MYYNTI,,FÖRSÄLJNING,SALES
+ARVONLISÄVEROLASKELMA,,MOMSBERÄKNING,VAT CALCULATION
+Arvonlisäveroilmoituksen tiedot,,Information om momsdeklaration,
+Maksuperusteinen arvonlisävero,,Uppskjuten moms,
+Suoritettava %1%:n vero kotimaan myynnistä,,Skatt på inhemsk försäljning enligt skattesatserna moms %1 %,
+Vero tavaroiden maahantuonnista EU:n ulkopuolelta,,Moms på varuinköp från områden utanför EU,
+Vero tavaraostoista muista EU-maista,,Moms på varuinköp från andra EU-länder,
+Vero palveluostoista muista EU-maista,,Moms på inköp av tjänster från andra EU-länder,
+Verokauden vähennettävä vero,,Moms som ska dras av för skatteperiod,
+Maksettava vero / Palautukseen oikeuttava vero,,Moms att betala / Moms som berättingar till återbäring,
+0-verokannan alainen liikevaihto,,Omsättning enligt 0-skattesats,
+Tavaroiden maahantuonnit EU:n ulkopuolelta,,Import av varor från områden utanför EU,
+Tavaroiden myynnit muihin EU-maihin,,Varuförsäljningar till andra EU-länder,
+Palveluiden myynnit muihin EU-maihin,,Försäljning av tjänster till andra EU-länder,
+Tavaraostot muista EU-maista,,Varuinköp från andra EU-länder,
+Palveluostot muista EU-maista,,Inköp av tjänster från andra EU-länder,
+Rakentamispalveluiden ja metaalliromun myynnit,,Försäljningar av byggtjänster och metallskrot,
+Rakentamispalveluiden ja metalliromun ostot,,Inköp av byggtjänster och metallskrot,
+Alarajahuojennukseen oikeuttava liikevaihto,,Omsättning som berättigar till lättnad vid den nedre gränsen,
+Alarajahuojennukseen oikeuttava vero,,Skatt som berättigar till lättnad vid den nedre gränsen,
+Alarajahuojennukseen määrä,,Beloppet av lättnad vid den nedre gränsen,
+Arvonlisävero %1 - %2,,Medvärdesskatt %1 - %2,
+Tilinpäätös,,Bokslut,
+Y-tunnus,,FO-nummer,
+Kirjanpitoaineisto,,Bokföringsmaterial,
+Veroton,,Skattefri,
+Verollinen myynti (netto),,Skattebelagd försäljning (netto),
+Verollinen osto (netto),,Skattebelagd inköp (netto),
+Verollinen myynti (maksuperusteinen alv),,Skattebelagd försäljning (avgiftsbestämd moms),
+Verollinen osto (maksuperusteinen alv),,Skattebelagd inköp (avgiftsbestämd moms),
+Ennakkolasku (myynti),,Förhandsfaktura (försäljning),
+Verollinen myynti (brutto),,Skattebelagd försäljning (brutto),
+Verollinen osto (brutto),,Skattebelagd inköp (brutto),
+Nollaverokannan alainen myynti,,Noll skattesats försäljning,
+"Voittomarginaalijärjestelmä, myynti",,"Vinstmarginalsystem, försäljning",
+"Voittomarginaalijärjestelmä, osto",,"Vinstmarginalsystem, inköp",
+Tavaroiden yhteisömyynti,,Varuförsäljningar till andra EU-länder,
+Palveluiden yhteisömyynti,,Försäljning av tjänster till andra EU-länder,
+Tavaroiden yhteisöhankinnat,,Varuinköp från andra EU-länder,
+Palveluiden yhteisöhankinnat,,Inköp av tjänster från andra EU-länder,
+Tavaroiden maahantuonti EU:n ulkopuolelta,,Import av varor från områden utanför EU,
+"Tavaroiden maahantuonti, veron kirjaus",,"Import av varor, inskriftning av skatt",
+Rakennuspalveluiden myynti,,Försäljningar av byggtjänster ,
+Rakentamispalveluiden osto,,Inköp av byggtjänster,
+Maksettavan arvonlisäveron tilitys,,Utförande av merdvärdesskatt,
+Tekninen kirjaus,,Teknisk bokföring,
+Vähennyskelvottoman oston veron osuus,,Andel av skatten på icke avdragsgilla köp ,
+VERON MÄÄRÄ %1,,BELOPPET AV SKATTEN %1,
+VÄHENNYKSEN MÄÄRÄ %1,,BELOPPET AV AVDRAG %1,
+KOHDENTAMATON MAKSUPERUSTEINEN %1,,OFÖRDELADE AVGIFTSBESTÄMD MOMS %1,
+Erittely,,Specification,
+Aiempi alijäämä,,Tidagare underskott,
+Marginaali,,Marginal,
+Alijäämä,,Underskott,
+Vero,,Skatt,
+TILINPÄÄTÖSJAKSOTUKSET,,PERIODINDELNINGAR,
+Jaksotukset yhteensä,,Periodindelningar totalt,
+Verosaamiseksi kirjattava negatiivinen verovelka,,Negativ skatteskuld som ska bokföras som skattefordran,
+Tilinavauksen jaksotuskirjaukset,,Periodiska poster i kontot öppnande,
+Tilinpäätösjaksotukset,,Periodiska poster i bokslutet,
+Suunnitelman mukaiset poistot %1,,Avskrivningar enligt plan,
+Tasaeräpoisto %1,,Avskrivning med jämna rater %1,
+Menojäännöspoisto %1,,Restvärdesavskrivning %1,
+Tili/Pvm,,Konto/Datum,
+Nimike/Kohdennus,,Position/Konstnandsställe,
+Saldo ennen,,Saldo före,
+Sääntö,,Regel,
+Poisto,,Avskrivning,
+Saldo jälkeen,,Saldo efter,
+%1 v,,%1 år,
+%1 kpl,,%1 st,
+Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2,,Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet,
+Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä,,Arkivets oändlighet kan övervakas med en sha256 sigill,
+Kirjanpito on vielä keskeneräinen.,,Redovisningen är fortfarande oavslutad.,
+Kirjanpito arkistoitu,,Bokföring arkiverad,
+Kirjanpitoarkisto,,Bokföringarkiv,
+Kirjanpito,,Bokföring,
+Raportit,,Rapporter,
+Laskut ja myynti,,Räkningar och försäljning,
+Myydyt tuotteet,,Säljda produkter,
+Edellinen,,Föregående,
+Seuraava,,Följande,
+Laskun numero,,Faktura nummer,
+Tositteen täydet tiedot,,Fullständig information om verifikatet,
+Kirjanpidossa,,Redovisas,
+Luonnos,,Utkast,
+Alv,,Moms,
+Hylätty,,Avslagen,
+Saapunut,,Anlände,
+Tarkastettu,,Kollad,
+Hyväksytty,,Accepterad,
+Valmis,,Färdig,
+Lähetetään,,Överförs,
+Lähetetty,,Skeppas,
+Muistutettu,,Påminde,
+Toimitettu,,Levererad,
+Epäonnistui,,Misslyckades,

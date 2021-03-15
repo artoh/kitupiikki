@@ -22,7 +22,9 @@
 
 #include <QSettings>
 #include <QApplication>
+#include "kieli/kielet.h"
 #include "saldodock/saldodock.h"
+#include <QMessageBox>
 
 UlkoasuMaaritys::UlkoasuMaaritys() :
     MaaritysWidget(),
@@ -42,6 +44,9 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect(ui->fonttiCombo, &QFontComboBox::currentFontChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->kokoCombo, &QComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->saldotCheck, &QCheckBox::clicked, this, &UlkoasuMaaritys::naytaSaldot);
+
+    connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
+    connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
 }
 
 UlkoasuMaaritys::~UlkoasuMaaritys()
@@ -68,6 +73,9 @@ bool UlkoasuMaaritys::nollaa()
     ui->fonttiCombo->setEnabled( !fonttinimi.isEmpty() );
     ui->kokoCombo->setEnabled( !fonttinimi.isEmpty());
 
+    ui->fiKieli->setChecked( Kielet::instanssi()->uiKieli() == "fi" );
+    ui->svKieli->setChecked( Kielet::instanssi()->uiKieli() == "sv" );
+
     ui->saldotCheck->setChecked( kp()->settings()->value("SaldoDock").toBool() );
 
     return true;
@@ -90,6 +98,17 @@ void UlkoasuMaaritys::naytaSaldot(bool naytetaanko)
 {
     kp()->settings()->setValue("SaldoDock", naytetaanko);
     SaldoDock::dock()->alusta();
+}
+
+void UlkoasuMaaritys::vaihdaKieli()
+{
+    if( ui->svKieli->isChecked())
+        Kielet::instanssi()->valitseUiKieli("sv");
+    else
+        Kielet::instanssi()->valitseUiKieli("fi");
+    QMessageBox::information(this, tr("Kieli vaihdettu"),
+                             tr("Käynnistä kielen vaihtamisen jälkeen ohjelma uudelleen, "
+                                "jotta valitsemasi kieli tulee käyttöön kaikissa näkymissä."));
 }
 
 QFont UlkoasuMaaritys::oletusfontti__ = QFont();

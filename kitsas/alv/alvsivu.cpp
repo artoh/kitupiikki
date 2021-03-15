@@ -35,6 +35,7 @@
 #include "db/yhteysmodel.h"
 #include "ilmoitintuottaja.h"
 #include "pilvi/pilvimodel.h"
+#include "kieli/kielet.h"
 
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu),
@@ -42,9 +43,9 @@ AlvSivu::AlvSivu() :
 {
     ui->setupUi(this);
 
-    ui->kausiCombo->addItem("Kuukausi",1);
-    ui->kausiCombo->addItem("Neljännesvuosi",3);
-    ui->kausiCombo->addItem("Vuosi", 12);
+    ui->kausiCombo->addItem(tr("Kuukausi"),1);
+    ui->kausiCombo->addItem(tr("Neljännesvuosi"),3);
+    ui->kausiCombo->addItem(tr("Vuosi"), 12);
     ui->ilmoituksetView->setModel( kp()->alvIlmoitukset() );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -122,7 +123,7 @@ void AlvSivu::paivitaErapaiva()
 void AlvSivu::ilmoita()
 {
     AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
-    AlvLaskelma *laskelma = new AlvLaskelma(dlg, kp()->asetukset()->asetus("kieli","fi"));
+    AlvLaskelma *laskelma = new AlvLaskelma(dlg, Kielet::instanssi()->nykyinen());
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);

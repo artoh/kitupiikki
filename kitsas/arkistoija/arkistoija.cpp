@@ -32,7 +32,7 @@
 #include "model/tositevienti.h"
 #include "model/tosite.h"
 #include "sqlite/sqlitemodel.h"
-
+#include "kieli/kielet.h"
 #include <QFile>
 #include <QTextStream>
 #include <QFileInfo>
@@ -186,7 +186,7 @@ void Arkistoija::arkistoiRaportit()
     for( auto raportti : raportit) {
         QString raporttinimi(raportti);
         raporttinimi = raporttinimi.replace(QRegularExpression("\\W"),"").toLower().append(".html");
-        Raportoija *raportoija = new Raportoija( raportti, kp()->asetus("kieli"), this);
+        Raportoija *raportoija = new Raportoija( raportti, Kielet::instanssi()->nykyinen(), this);
         connect( raportoija, &Raportoija::valmis,
                  [this, raporttinimi] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk, raporttinimi); } );
         if( raportoija->onkoTaseraportti()) {

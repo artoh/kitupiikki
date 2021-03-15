@@ -64,9 +64,9 @@ void RaporttiSivu::siirrySivulle()
     // Laitetaan valinnat listaan
     lista->clear();
 
-    lisaaRaportti("Päiväkirja","Päiväkirja",":/pic/Paivakirja64.png");
-    lisaaRaportti("Pääkirja","Pääkirja",":/pic/Diary64.png");
-    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
+    lisaaRaportti(tr("Päiväkirja"),"Päiväkirja",":/pic/Paivakirja64.png");
+    lisaaRaportti(tr("Pääkirja"),"Pääkirja",":/pic/Diary64.png");
+    lisaaRaportti(tr("Tositeluettelo"),"Tositeluettelo",":/pic/dokumentti.png");
     lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
     lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
 
@@ -97,18 +97,18 @@ void RaporttiSivu::siirrySivulle()
         lisaaRaportti( nimi.mid(9), nimi, ":/pic/tekstisivu.png");
     }
 
-    lisaaRaportti("Budjettivertailu","Budjettivertailu",":/pic/raha2.png");
+    lisaaRaportti(tr("Budjettivertailu"),"Budjettivertailu",":/pic/raha2.png");
 
-    lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
-    lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
+    lisaaRaportti(tr("Tase-erittely"),"TaseErittely",":/pic/valilehdet.png");
+    lisaaRaportti(tr("Tililuettelo"),"Tilikartta",":/pic/valilehdet.png");
 
-    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
-    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
+    lisaaRaportti(tr("Laskut"), "Laskut", ":/pic/lasku.png");
+    lisaaRaportti(tr("Myynti"),"Myynti",":/pic/suorite.png");
 
     if( kp()->asetukset()->onko("AlvVelvollinen") )
-        lisaaRaportti("Arvonlisäveron erittely", "AlvErittely", ":/pic/vero.png");
+        lisaaRaportti(tr("Arvonlisäveron erittely"), "AlvErittely", ":/pic/vero.png");
 
-    lisaaRaportti("Tositekooste", "Tositekooste", ":/pic/arkisto64.png");
+    lisaaRaportti(tr("Tositekooste"), "Tositekooste", ":/pic/arkisto64.png");
 
     lista->setCurrentItem(lista->item(0));
 }

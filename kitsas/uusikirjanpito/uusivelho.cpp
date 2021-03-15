@@ -47,6 +47,8 @@
 #include "sqlite/sqlitemodel.h"
 
 #include <iostream>
+#include "kieli/kielet.h"
+
 
 UusiVelho::UusiVelho(QWidget *parent) :
     QWizard(parent)

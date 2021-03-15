@@ -38,6 +38,7 @@ public:
 protected slots:    
     void asetaFontti();
     void naytaSaldot(bool naytetaanko);
+    void vaihdaKieli();
 
 private:
     Ui::Ulkoasu *ui;

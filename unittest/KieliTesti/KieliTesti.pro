@@ -1,5 +1,5 @@
-QT += testlib
-QT -= gui
+QT += testlib widgets
+QT -=
 
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle

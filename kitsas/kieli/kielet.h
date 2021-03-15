@@ -19,6 +19,8 @@
 
 #include <QObject>
 #include <QHash>
+#include <QTranslator>
+
 #include "kieli.h"
 
 #include "monikielinen.h"
@@ -51,11 +53,15 @@ public:
 public slots:
     void asetaKielet(const QString &json);
     void valitseKieli(const QString &kieli);
+    void valitseUiKieli(const QString& kieli);
+
 
 public:
     QString kaanna(const QString &avain, const QString &kieli = QString())  const;
     QList<Kieli> kielet() const;
+    QStringList kieliKoodit() const;
     QString nykyinen() const;
+    QString uiKieli() const;
 
 signals:
     void kieliVaihtui(const QString& kieli);
@@ -64,6 +70,10 @@ private:
     QHash<QString,QMap<QString,QString>> kaannokset_;
     QList<QPair<QString,Monikielinen>> kielet_;
     QString nykykieli_;
+    QString uiKieli_;
+
+    QTranslator appTranslator_;
+    QTranslator qtTranslator_;
 
 private:
     static Kielet* instanssi__;

@@ -16,6 +16,7 @@
 */
 #include "tasetulosraportti.h"
 #include "db/kirjanpito.h"
+#include "kieli/kielet.h"
 
 #include <QJsonDocument>
 #include <QStringListModel>
@@ -141,7 +142,9 @@ void TaseTulosRaportti::paivitaKielet()
     for(auto kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("kieli") ) );    
+    int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
+    if( kieliIndeksi > -1)
+        ui->kieliCombo->setCurrentIndex( kieliIndeksi );
 }
 
 void TaseTulosRaportti::paivitaMuodot()

@@ -22,7 +22,7 @@
 #include "db/asetusmodel.h"
 #include <QJsonDocument>
 #include "kieli/monikielinen.h"
-
+#include "kieli/kielet.h"
 
 TilikarttaRaportti::TilikarttaRaportti()
     : RaporttiWidget(nullptr)
@@ -49,7 +49,10 @@ TilikarttaRaportti::TilikarttaRaportti()
         Monikielinen kielet(viter.value());
         ui->kieliCombo->addItem(QIcon(":/liput/" + viter.key() + ".png"), kielet.teksti(), viter.key() );
     }
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetukset()->asetus("kieli") ) );
+
+    int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
+    if( kieliIndeksi > -1)
+        ui->kieliCombo->setCurrentIndex( kieliIndeksi );
 
 }
 
