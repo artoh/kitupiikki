@@ -26,6 +26,7 @@ InboxMaaritys::InboxMaaritys() :
 {
     ui_->setupUi(this);
     connect( ui_->valitseNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKansio);
+    connect( ui_->poistaNappi, &QPushButton::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu()); });
     connect( ui_->kopioNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKopioKansio);
     connect( ui_->kopioRadio, &QPushButton::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu()); });
     connect( ui_->poistaRadio , &QPushButton::clicked, [this] { this->ui_->kopioEdit->clear(); emit this->tallennaKaytossa(this->onkoMuokattu());});
