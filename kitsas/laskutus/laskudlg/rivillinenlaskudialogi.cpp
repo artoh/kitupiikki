@@ -43,10 +43,24 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( tosite->rivit(), &TositeRivit::rowsRemoved, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::modelReset, this, &RivillinenLaskuDialogi::paivitaSumma);
 
+    connect( ui->rivitView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &RivillinenLaskuDialogi::paivitaRiviNapit);
+
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     paivitaSumma();
+}
+
+LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
+{
+    const QString& alvtunnus = asiakkaanAlvTunnus();
+
+    if( alvtunnus.isEmpty())
+        return LaskuAlvCombo::YKSITYINEN ;
+    else if( alvtunnus.startsWith("FI"))
+        return LaskuAlvCombo::KOTIMAA;
+    else
+        return LaskuAlvCombo::EU;
 }
 
 void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
@@ -71,11 +85,23 @@ void RivillinenLaskuDialogi::rivinLisaTiedot()
 {
     LaskuRiviDialogi dlg(this);
 
-    // Alustaminen
+    int riviIndeksi = ui->rivitView->currentIndex().row();
 
-    dlg.exec();
+    const TositeRivi& rivi = tosite()->rivit()->rivi( riviIndeksi );
+    dlg.lataa( rivi, ui->laskuPvm->date(), asiakasverolaji(),
+               maksutapa() == Lasku::ENNAKKOLASKU, kp() );
 
-    // Käsittely
+    if( dlg.exec() == QDialog::Accepted) {
+        tosite()->rivit()->asetaRivi(riviIndeksi, dlg.rivi());
+    }
+}
+
+void RivillinenLaskuDialogi::paivitaRiviNapit()
+{
+    const QModelIndex& index = ui->rivitView->currentIndex();
+
+    ui->lisaaRiviNappi->setEnabled( index.isValid() );
+    ui->poistaRiviNappi->setEnabled( index.isValid() );
 }
 
 void RivillinenLaskuDialogi::alustaRiviTab()

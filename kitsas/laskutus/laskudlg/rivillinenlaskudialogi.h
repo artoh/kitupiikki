@@ -18,16 +18,19 @@
 #define RIVILLINENLASKUDIALOGI_H
 
 #include "kantalaskudialogi.h"
+#include "../laskualvcombo.h"
 
 class RivillinenLaskuDialogi : public KantaLaskuDialogi
 {
     Q_OBJECT
 public:
     RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
+    LaskuAlvCombo::AsiakasVeroLaji asiakasverolaji() const;
 
 protected:
     void tuotteidenKonteksiValikko(QPoint pos);
     void rivinLisaTiedot();
+    void paivitaRiviNapit();
 
 private:
     void alustaRiviTab();

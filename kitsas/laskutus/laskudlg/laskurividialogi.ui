@@ -121,7 +121,7 @@
        <widget class="TilinvalintaLine" name="tiliEdit"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="kohdennusLabel">
         <property name="text">
          <string>Kohdennus</string>
         </property>
@@ -131,7 +131,7 @@
        <widget class="KohdennusCombo" name="kohdennusCombo"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="merkkausLabel">
         <property name="text">
          <string>Merkkaukset</string>
         </property>
@@ -232,7 +232,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit"/>
+       <widget class="QPlainTextEdit" name="lisatietoEdit"/>
       </item>
      </layout>
     </widget>

@@ -40,7 +40,8 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         aslaji = LaskuAlvCombo::KOTIMAA;
     bool ennakkolasku = dlg->maksutapa() == Lasku::ENNAKKOLASKU;
 
-    QComboBox *cbox = new LaskuAlvCombo(parent, aslaji, index.data(TositeRivit::AlvKoodiRooli).toInt(), ennakkolasku);
+    LaskuAlvCombo *cbox = new LaskuAlvCombo(parent);
+    cbox->alusta(aslaji, index.data(TositeRivit::AlvKoodiRooli).toInt(), ennakkolasku);
     return cbox;
 }
 

@@ -72,6 +72,9 @@ public:
 
     bool onkoTyhja() const;
 
+    TositeRivi rivi(int indeksi) const;
+    void asetaRivi(int indeksi, const TositeRivi& rivi);
+
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
     void poistaRivi(int rivi);

@@ -40,6 +40,9 @@ public:
     QString nimike() const { return str("nimike");}
     void setNimike(const QString& nimike) { setStr("nimike", nimike);}
 
+    QString kuvaus() const { return str("kuvaus");}
+    void setKuvaus(const QString& kuvaus) { setStr("kuvaus", kuvaus);}
+
     QString yksikko() const { return str("yksikko");}
     void setYksikko(const QString& yksikko) { setStr("yksikko", yksikko);}
 
@@ -64,6 +67,9 @@ public:
     Euro euroAlennus() const { return Euro(str("euroalennus"));}
     void setEuroAlennus(const Euro& euro) { setStr("euroalennus", euro);}
 
+    int alennusSyy() const { return luku("alennussyy");}
+    void setAlennusSyy(const int syy) { set("alennussyy", syy);}
+
     QString toimitettuKpl() const { return str("toimitettu");}
     void setToimitettuKpl(const QString& kpl) { setStr("toimitettu", kpl);}
 
@@ -78,6 +84,9 @@ public:
 
     Euro bruttoYhteensa() const { return Euro( str("brutto") );}
     void setBruttoYhteensa(const Euro& euro) { setStr("brutto", euro); }
+
+    QString lisatiedot() const { return str("lisatiedot");}
+    void setLisatiedot(const QString& tiedot) { setStr("lisatiedot", tiedot);}
 
     Euro laskeYhteensa();
     double laskeYksikko();

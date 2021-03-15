@@ -469,6 +469,18 @@ bool TositeRivit::onkoTyhja() const
     return true;
 }
 
+TositeRivi TositeRivit::rivi(int indeksi) const
+{
+    return rivit_.at(indeksi);
+}
+
+void TositeRivit::asetaRivi(int indeksi, const TositeRivi &rivi)
+{
+    rivit_[indeksi] = rivi;
+    emit dataChanged( index(indeksi, NIMIKE),
+                      index(indeksi, BRUTTOSUMMA));
+}
+
 void TositeRivit::lisaaRivi(QVariantMap rivi)
 {
 /*    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>(parent());

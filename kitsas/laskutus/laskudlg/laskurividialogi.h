@@ -19,20 +19,40 @@
 
 #include <QDialog>
 
+#include "model/tositerivi.h"
+#include "../laskualvcombo.h"
+
 namespace Ui {
 class LaskuRiviDialogi;
 }
+
+class KitsasInterface;
 
 class LaskuRiviDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit LaskuRiviDialogi(QWidget *parent = nullptr);
+    explicit LaskuRiviDialogi(QWidget *parent);
     ~LaskuRiviDialogi();
+
+    void lataa(const TositeRivi& rivi, const QDate& pvm,
+               LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, bool ennakkolasku,
+               KitsasInterface *interface);
+
+    TositeRivi rivi() const;
+
+protected:
+    void anettoMuokattu();
+    void paivitaBrutto();
+    void paivitaAleProsentti();
+    void paivitaEuroAlennus();
+    void paivitaAHinta();
 
 private:
     Ui::LaskuRiviDialogi *ui;
+
+    double anetto_;
 };
 
 #endif // LASKURIVIDIALOGI_H
