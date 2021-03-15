@@ -633,7 +633,7 @@ void CsvTuonti::paivitaOletukset()
             }
             else if( muoto == TILI)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, IBAN);
-            else if( muoto == VIITE)
+            else if( muoto == VIITE || otsikko.contains("viite", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, VIITENRO);
             else if( muoto == LUKU && otsikko.contains("laji", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KTOKOODI);
