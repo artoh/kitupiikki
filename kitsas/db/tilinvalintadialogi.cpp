@@ -274,7 +274,7 @@ Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppi
     if( model )
         dlg.asetaModel( model );
 
-    if( alku.left(1) == '*')
+    if( alku.left(1) == '*' || alku.left(1) == ' ' )
     {
         // Jos alku on * + numero, etsitään tili kyseisellä numerolla
         dlg.valitse( alku.mid(1).toInt());
