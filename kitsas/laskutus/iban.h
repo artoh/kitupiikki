@@ -26,6 +26,7 @@ public:
     Iban(const QString& tilinumero);
 
     QString bic() const;
+    QString pankki() const;
     QString valeilla() const;
     QString valeitta() const;
 

@@ -37,8 +37,12 @@ public:
     qreal korkeus() const { return korkeus_;}
     qreal leveys() const { return  leveys_;}
 
+    QString vastaanottaja() const { return vastaanottaja_;}
+
 protected:
     QRect kuorenIkkuna(QPagedPaintDevice *device) const;
+
+    bool isoIkkuna() const;
 
 private:
     KitsasInterface *kitsas_;

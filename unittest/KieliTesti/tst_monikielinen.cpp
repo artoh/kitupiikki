@@ -69,6 +69,7 @@ void MonikielinenTest::test_jsonista()
 
 void MonikielinenTest::test_oletus()
 {
+    Kielet::instanssi()->asetaKielet(QString(R"({"fi":"Suomeksi","sv":"Ruotsiksi"})"));
     Monikielinen m(QString(R"({"fi":"Suomeksi","sv":"Ruotsiksi"})"));
     Kielet::instanssi()->valitseKieli("sv");
     QCOMPARE(m.teksti(), QString("Ruotsiksi"));

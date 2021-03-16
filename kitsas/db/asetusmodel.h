@@ -49,7 +49,19 @@ public:
         POSTINUMERO /** Oma postinumero */,
         KAUPUNKI /** Oma postitoimipaikka */,
         APUTOIMINIMI /** Laskulle tulostuva aputoiminimi */,
-        LOGONSIJAINTI /** Logon sijainti */
+        LOGONSIJAINTI /** Logon sijainti */,
+        LASKUIKKUNAKORKEUS,
+        PUHELIN,
+        EMAIL,
+        KOTISIVU,
+        KOTIPAIKKA,
+        YTUNNUS,
+        LASKUIBANIT,
+        LASKURF,
+        LASKUQR,
+        LASKUVIIVAKOODI,
+        LASKUVIRTUAALIVIIVAKOODI,
+        LASKUTILISIIRTO
     };
 
 

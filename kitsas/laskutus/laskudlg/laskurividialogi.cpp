@@ -32,7 +32,7 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &LaskuRiviDialogi::anettoMuokattu );
     connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &LaskuRiviDialogi::paivitaBrutto);
     connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &LaskuRiviDialogi::paivitaAleProsentti);
-    connect( ui->euroAleEdit, &KpEuroEdit::textEdited, this, &LaskuRiviDialogi::paivitaBrutto);
+    connect( ui->euroAleEdit, &KpEuroEdit::textEdited, this, &LaskuRiviDialogi::paivitaEuroAlennus);
     connect( ui->laskutetaanEdit, &QLineEdit::textEdited, this, &LaskuRiviDialogi::paivitaBrutto);
 }
 
@@ -44,6 +44,9 @@ LaskuRiviDialogi::~LaskuRiviDialogi()
 void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, bool ennakkolasku,
                              KitsasInterface* interface)
 {
+    alepaivitys_ = true;
+    alkuperainen_ = rivi;
+
     ui->nimikeEdit->setText( rivi.nimike() );
     ui->kuvausEdit->setText( rivi.kuvaus());
 
@@ -59,7 +62,8 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->verotonEdit->setValue( rivi.aNetto() );
     anetto_ = rivi.aNetto();
 
-    ui->alvCombo->alusta( asiakasVerolaji, rivi.alvkoodi(), ennakkolasku, pvm); // TODOTODOTODO
+    ui->alvCombo->alusta( asiakasVerolaji, rivi.alvkoodi(), ennakkolasku, pvm);
+    ui->alvCombo->aseta( rivi.alvkoodi(), rivi.alvProsentti());
 
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili() );
 
@@ -76,8 +80,10 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->merkkausCombo->haeMerkkaukset(pvm);
     ui->merkkausCombo->setSelectedItems( rivi.merkkaukset() );
 
-    ui->alennusSpin->setValue( rivi.aleProsentti() );
-    ui->euroAleEdit->setEuro( rivi.euroAlennus() );
+    aleprossa_ = rivi.aleProsentti();
+    euroale_ = rivi.euroAlennus();
+    ui->alennusSpin->setValue(aleprossa_);
+    ui->euroAleEdit->setValue(euroale_);
 
     if( rivi.alennusSyy())
         ui->alennusSyyCombo->setCurrentIndex(
@@ -85,13 +91,15 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
 
     ui->lisatietoEdit->setPlainText( rivi.lisatiedot() );
 
-    ui->verollinenEdit->setValue( rivi.bruttoYhteensa());
+    paivitaBrutto();
+    alepaivitys_ = false;
+
 
 }
 
 TositeRivi LaskuRiviDialogi::rivi() const
 {
-    TositeRivi rivi;
+    TositeRivi rivi(alkuperainen_);
     rivi.setNimike( ui->nimikeEdit->text() );
     rivi.setKuvaus( ui->kuvausEdit->text());
 
@@ -110,10 +118,12 @@ TositeRivi LaskuRiviDialogi::rivi() const
     rivi.setKohdennus( ui->kohdennusCombo->kohdennus() );
     rivi.setMerkkaukset( ui->merkkausCombo->selectedDatas());
 
-    rivi.setAleProsentti( ui->alennusSpin->value());
-    rivi.setEuroAlennus( ui->euroAleEdit->text());
+    rivi.setAleProsentti( aleprossa_);
+    rivi.setEuroAlennus( euroale_);
     rivi.setAlennusSyy( ui->alennusSyyCombo->currentData().toInt() );
     rivi.setLisatiedot( ui->lisatietoEdit->toPlainText());
+
+    rivi.setBruttoYhteensa( ui->verollinenEdit->euro() );
 
     return rivi;
 }
@@ -128,19 +138,42 @@ void LaskuRiviDialogi::paivitaBrutto()
 {
     TositeRivi trivi(rivi());
     trivi.laskeYhteensa();
-    ui->verollinenEdit->setEuro(trivi.bruttoYhteensa());
+    ui->verollinenEdit->setEuro(trivi.bruttoYhteensa());    
 }
 
 void LaskuRiviDialogi::paivitaAleProsentti()
 {
-    ui->euroAleEdit->setCents(0);
-    paivitaBrutto();
+    if(!alepaivitys_) {
+        aleprossa_ = ui->alennusSpin->value();
+        euroale_ = Euro(0);
+        laskeAlennus();
+    }
 }
 
 void LaskuRiviDialogi::paivitaEuroAlennus()
 {
-    ui->alennusSpin->setValue(0);
+    if( !alepaivitys_) {
+        aleprossa_ = 0.0;
+        euroale_ = ui->euroAleEdit->euro();
+        laskeAlennus();
+    }
+}
+
+void LaskuRiviDialogi::laskeAlennus()
+{
+    alepaivitys_ = true;
+
+    TositeRivi laskuri(rivi());
+    if( aleprossa_ ) {
+        ui->euroAleEdit->setValue( aleprossa_ * laskuri.aNetto() * laskuri.myyntiKpl() / 100.0 );
+    } else if( qAbs(anetto_) > 1e-5 ) {
+        ui->alennusSpin->setValue( euroale_.cents() / ( laskuri.aNetto() * laskuri.myyntiKpl() ) );
+    } else {
+        ui->alennusSpin->setValue(0.0);
+    }
     paivitaBrutto();
+
+    alepaivitys_ = false;
 }
 
 void LaskuRiviDialogi::paivitaAHinta()
@@ -148,5 +181,7 @@ void LaskuRiviDialogi::paivitaAHinta()
     TositeRivi trivi(rivi());
     trivi.laskeYksikko();
     anetto_ = trivi.aNetto();
+
     ui->verotonEdit->setValue( trivi.aNetto() );
+
 }

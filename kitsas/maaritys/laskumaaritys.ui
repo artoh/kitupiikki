@@ -316,6 +316,20 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_2">
+            <property name="text">
+             <string>Virtuaaliviivakoodi</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../pic/pic.qrc">
+              <normaloff>:/pic/123.png</normaloff>:/pic/123.png</iconset>
+            </property>
+            <property name="Asetus" stdset="0">
+             <string notr="true">LaskuVirtuaaliViivakoodi</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -482,14 +496,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TiliCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/tilicombo.h</header>
-  </customwidget>
-  <customwidget>
    <class>CheckCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

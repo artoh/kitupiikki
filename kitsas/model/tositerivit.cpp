@@ -143,11 +143,11 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
                 return tr("AVL 72a §");
             case Lasku::KAYTETYT:
-                return "Margin. tavarat";
+                return tr("Margin. tavarat","Marginaaliverotus käytetyt tavarat/ Lyhyt teksti laskunäkymässä");
             case Lasku::TAIDE:
-                return "Margin. taide";
+                return tr("Margin. taide","Marginaaliverotus taide-esineet/ Lyhyt teksti laskunäkymässä");
             case Lasku::ANTIIKKI:
-                return "Margin. keräily";
+                return tr("Margin. keräily","Marginaaliverotus keräily- ja antiikkiesineet/ Lyhyt teksti laskunäkymässä");
             default:
                 return QString("%1 %").arg( rivi.alvProsentti() );
             }
@@ -264,10 +264,10 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 rivit_[r].laskeYksikko();
             }
         } else if( role == AlvKoodiRooli) {
-            rivit_[r].setAlvKoodi(value.toDouble());
+            rivit_[r].setAlvKoodi(value.toInt());
             rivit_[r].laskeYhteensa();
         } else if( role == AlvProsenttiRooli) {
-            rivit_[r].setAleProsentti(value.toDouble());
+            rivit_[r].setAlvProsentti(value.toDouble());
             rivit_[r].laskeYhteensa();
         } else if( role == UNkoodiRooli) {
             rivit_[r].setUNkoodi(value.toString());

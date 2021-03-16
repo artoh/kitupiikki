@@ -33,7 +33,7 @@ QString Iban::bic() const
     if( !tilinumero_.startsWith("FI"))
         return QString();
 
-    // Elokuun 2017 tilanteen mukaan
+    // Elokuun 2020 tilanteen mukaan
     QString tunnus = tilinumero_.mid(4);
 
     if( tunnus.startsWith("405") || tunnus.startsWith("497"))
@@ -70,6 +70,26 @@ QString Iban::bic() const
         return "SWEDFIHH";
 
     // Tuntematon pankkikoodi
+    return QString();
+}
+
+QString Iban::pankki() const
+{
+    QString b = bic();
+    if( b == "HELSFIHH") return "Aktia";
+    else if( b == "BIGKFIH1") return "Bigbank";
+    else if( b == "CITIFIHX") return "Citibank";
+    else if( b == "DABAFIHH" || b == "DABAFIHX" ) return "Danske Bank";
+    else if( b == "DNBAFIHX") return "DnB NOR Bank";
+    else if( b == "HANDFIHH") return "Handelsbanken";
+    else if( b == "HOLVFIHH") return "Holvi";
+    else if( b == "NDEAFIHH") return "Nordea";
+    else if( b == "ITELFIHH") return "Säästöpankki";
+    else if( b == "OKOYFIHH") return "Osuuspankki";
+    else if( b == "POPFFI22") return "POP Pankki";
+    else if( b == "SBANFIHH") return "S-Pankki";
+    else if( b == "ESSEFIHX") return "Swedbank";
+    else if( b == "AABAFI22") return "Ålandsbanken";
     return QString();
 }
 

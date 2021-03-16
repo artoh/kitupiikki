@@ -104,6 +104,12 @@ void RivillinenLaskuDialogi::paivitaRiviNapit()
     ui->poistaRiviNappi->setEnabled( index.isValid() );
 }
 
+void RivillinenLaskuDialogi::tositteelle()
+{
+    KantaLaskuDialogi::tositteelle();
+    tosite()->lasku().setSumma( tosite()->rivit()->yhteensa() );
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);

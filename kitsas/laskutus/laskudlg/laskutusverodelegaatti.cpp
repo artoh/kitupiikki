@@ -47,21 +47,19 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 
 void LaskutusVeroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    int koodi = index.data(TositeRivit::AlvProsenttiRooli).toInt() * 100 + index.data(TositeRivit::AlvKoodiRooli).toInt();
-    if( index.data(TositeRivit::VoittomarginaaliRooli).toInt())
-        koodi = index.data(TositeRivit::VoittomarginaaliRooli).toInt();
+    int koodi = index.data(TositeRivit::AlvKoodiRooli).toInt();
+    double prosentti = index.data(TositeRivit::AlvProsenttiRooli).toDouble();
 
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
-    cbox->setCurrentIndex( cbox->findData(koodi) );
+    cbox->aseta(koodi, prosentti);
 }
 
 void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
-    int koodi = cbox->currentData().toInt();
+    LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);    
 
-    model->setData(index, koodi / 100, TositeRivit::AlvProsenttiRooli);
-    model->setData(index, koodi % 100, TositeRivit::AlvKoodiRooli);
+    model->setData(index, cbox->veroProsentti() , TositeRivit::AlvProsenttiRooli);
+    model->setData(index, cbox->veroKoodi(), TositeRivit::AlvKoodiRooli);
 
 }
 

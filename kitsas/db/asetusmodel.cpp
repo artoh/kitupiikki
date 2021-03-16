@@ -246,5 +246,17 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { POSTINUMERO, "Postinumero"},
     { KAUPUNKI, "Kaupunki"},
     { APUTOIMINIMI, "Aputoiminimi"},
-    { LOGONSIJAINTI, "LogonSijainti"}
+    { LOGONSIJAINTI, "LogonSijainti"},
+    { LASKUIKKUNAKORKEUS, "LaskuIkkunaKorkeus"},
+    { PUHELIN, "Puhelin" },
+    { EMAIL, "Email" },
+    { KOTISIVU, "Kotisivu" },
+    { KOTIPAIKKA, "Kotipaikka" },
+    { YTUNNUS, "Ytunnus"},
+    { LASKUIBANIT, "LaskuIbanit"},
+    { LASKURF, "LaskuRF"},
+    { LASKUQR, "LaskuQR"},
+    { LASKUVIIVAKOODI, "LaskuViivakoodi"},
+    { LASKUVIRTUAALIVIIVAKOODI, "LaskuVirtuaaliViivakoodi"},
+    { LASKUTILISIIRTO, "LaskuTilisiirto"}
 };

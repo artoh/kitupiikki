@@ -35,8 +35,10 @@ LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
                 kitsas->asetukset()->asetus(AsetusModel::NIMI) :
                 aputoiminimi;
     }
-    lahettajaOsoite_ = asetukset->asetus(AsetusModel::KATUOSOITE) + "\n" +
-            asetukset->asetus(AsetusModel::POSTINUMERO) + " " + asetukset->asetus(AsetusModel::KAUPUNKI);
+    lahettajaOsoite_ = isoIkkuna() ?
+            asetukset->asetus(AsetusModel::KATUOSOITE) + "\n" +
+            asetukset->asetus(AsetusModel::POSTINUMERO) + " " + asetukset->asetus(AsetusModel::KAUPUNKI)
+              : QString();
 
 }
 
@@ -74,7 +76,6 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
     int sivunLeveys = painter->window().width();
 
     const QRectF ikkuna = kuorenIkkuna(device);
-    const bool isoikkuna = !ikkuna.isNull() && kitsas_->asetukset()->luku("LaskuIkkunaKorkeus") > 55;
 
     const QImage& logo = kitsas_->logo();
     const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI) : QString();
@@ -82,7 +83,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 
     QRectF lahettajaAlue =
             ikkuna.isNull() ? QRectF(0, 0 , sivunLeveys / 2 - 10 * mm, 28 * mm ) :
-            ( isoikkuna ? QRect( ikkuna.x(), ikkuna.y(), ikkuna.width(), 25 * mm )
+            ( isoIkkuna() ? QRect( ikkuna.x(), ikkuna.y(), ikkuna.width(), 25 * mm )
                         : QRect( 0, 0, sivunLeveys / 2, ikkuna.y() - 10 * mm  ));
 
     painter->setFont( QFont("FreeSans", logonSijainti == "YLLA" ? fonttikoko_ + 2 : fonttikoko_ + 4) );
@@ -142,7 +143,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         vastaanottajaRect_ = painter->boundingRect( alue,  vastaanottaja_ );
         korkeus_ = vastaanottajaRect_.bottom() + 5 * mm;
     } else {
-        vastaanottajaRect_ = isoikkuna ?
+        vastaanottajaRect_ = isoIkkuna() ?
                     QRect( ikkuna.x(), ikkuna.y() + 28 * mm,
                            ikkuna.width(), ikkuna.height() - 28 * mm)
                   : ikkuna;
@@ -150,6 +151,8 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         korkeus_ = ikkuna.bottom() + 15 * mm;
     }
 
+    painter->setPen(QPen(Qt::darkYellow));
+    painter->drawRect( lahettajanOsoiteRect_ );
     painter->setPen(QPen(Qt::blue));
     painter->drawRect( lahettajaAlue );
     painter->setPen(QPen(Qt::red));
@@ -194,5 +197,10 @@ QRect LaskunOsoiteAlue::kuorenIkkuna(QPagedPaintDevice *device) const
     return QRect( (asetukset->luku("LaskuIkkunaX", 0) - device->pageLayout().margins(QPageLayout::Millimeter).left() ) * mm,
                    (asetukset->luku("LaskuIkkunaY",0) - device->pageLayout().margins(QPageLayout::Millimeter).top()) * mm,
                    asetukset->luku("LaskuIkkunaLeveys",90) * mm,
-                   asetukset->luku("LaskuIkkunaKorkeus",30) * mm);
+                  asetukset->luku("LaskuIkkunaKorkeus",30) * mm);
+}
+
+bool LaskunOsoiteAlue::isoIkkuna() const
+{
+    return kitsas_->asetukset()->luku(AsetusModel::LASKUIKKUNAKORKEUS) > 55;
 }

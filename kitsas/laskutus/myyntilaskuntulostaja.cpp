@@ -38,6 +38,7 @@
 
 #include "tulostus/laskuntietolaatikko.h"
 #include "tulostus/laskunosoitealue.h"
+#include "tulostus/laskunalaosa.h"
 
 bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
 {
@@ -152,10 +153,10 @@ MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *pa
     ibanit_( kp()->asetus("LaskuIbanit").split(',') )
 {
     alustaKaannos( map_.value("lasku").toMap().value("kieli").toString() );
-
+/*
     laskunSumma_ = ( qRound64( rivit_.yhteensa() * 100.0 ) +
                      qRound64( map.value("lasku").toMap().value("aiempisaldo").toDouble() * 100.0)
-                    ) / 100.0;
+                    ) / 100.0; */
 }
 
 MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QString &kieli, QObject *parent) :
@@ -171,7 +172,7 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
     painter->resetTransform();
 
 
-
+/*
     bool ikkunakuori = kuoreen && kp()->asetukset()->onko("LaskuIkkuna");
 
     if( !map_.value("lasku").toMap().value("numero").toInt() )
@@ -191,7 +192,6 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         painter->restore();
     }
 
-
     if( laskunSumma_ > 0.0 && map_.value("lasku").toMap().value("maksutapa") != Lasku::KATEINEN &&
             kp()->asetukset()->onko("LaskuTilisiirto"))
     {
@@ -203,10 +203,10 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
         marginaali += alatunniste(printer, painter);
     }
     painter->resetTransform();
-
-    painter->save();
+*/
     LaskunOsoiteAlue osoitteet(kp());
     LaskunTietoLaatikko laatikko(kp());
+    LaskunAlaosa alaosa(kp());
     Tosite tosite;
 
     tosite.lataa(map_);
@@ -214,16 +214,20 @@ void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painte
 
     osoitteet.lataa( tosite );
     laatikko.lataa( tosite );
+    alaosa.lataa( tosite.lasku(), osoitteet.vastaanottaja() );
+    alaosa.laske(painter);
+    alaosa.piirra( painter, tosite.lasku());
 
+    painter->save();
     osoitteet.laske(painter, printer);
-    laatikko.laskeLaatikko( painter, painter->window().width() / 2);
-
+    laatikko.laskeLaatikko( painter, painter->window().width() / 2);    
     osoitteet.piirra(painter);
     painter->translate(painter->window().width() / 2, 0);
     laatikko.piirra( painter );
     painter->restore();
     painter->translate(0, osoitteet.korkeus() > laatikko.korkeus() ?
                           osoitteet.korkeus() : laatikko.korkeus());
+
 
     // ylaruudukko(printer, painter, ikkunakuori);
 

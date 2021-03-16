@@ -56,19 +56,17 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
     }
 }
 
-int LaskuAlvCombo::veroKoodi() const
-{   
-    if( currentData().toInt() % 100 > 90 )
-        return AlvKoodi::MYYNNIT_MARGINAALI;
-
-    return currentData().toInt() % 100;
+void LaskuAlvCombo::aseta(int alvkoodi, double alvprosentti)
+{
+    int koodi = alvkoodi + qRound(alvprosentti) * 100;
+    int indeksi = findData( koodi );
+    if(indeksi > -1)
+        setCurrentIndex( indeksi );
 }
 
-int LaskuAlvCombo::marginaaliKoodi() const
-{
-    if( currentData().toInt() % 100 > 90)
-        return currentData().toInt() % 100;
-    return 0;
+int LaskuAlvCombo::veroKoodi() const
+{   
+    return currentData().toInt() % 100;
 }
 
 double LaskuAlvCombo::veroProsentti() const

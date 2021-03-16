@@ -34,8 +34,9 @@ public:
     void alusta(AsiakasVeroLaji asiakasVerolaji = KAIKKI, int alvkoodi = AlvKoodi::EIALV,
                 bool ennakkolasku = false, const QDate& pvm = QDate());
 
+    void aseta(int alvkoodi, double alvprosentti = 0.0);
+
     int veroKoodi() const;
-    int marginaaliKoodi() const;
     double veroProsentti() const;
 };
 

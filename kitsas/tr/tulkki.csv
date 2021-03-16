@@ -185,3 +185,82 @@ Lähetetty,,Skeppas,
 Muistutettu,,Påminde,
 Toimitettu,,Levererad,
 Epäonnistui,,Misslyckades,
+alkuplasku,Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Originalfaktura|Fakturas nummer: %1|Datum: %2|Förfallodag: %3,Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
+toimpvm,Toimituspäivämäärä,Leveransdatum,Date of delivery
+muistutusnro,Maksumuistutuksen numero,Betalningspåminnelses nummer,Number of request for payment
+asviite,Asiakkaan viite,Kundens referens,Your reference
+maksumuistutus,MAKSUMUISTUTUS,BETALNINGSPÅMINNELSE,REQUEST FOR PAYMENT
+hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
+yhteensa,yhteensä,totalt,total
+mmrivi,Laskun %1 avoin saldo,Saldo för faktura %1,Open balance for invoice %1
+anetto,á netto,,á net  
+kateinen,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
+muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+eimaksettavaa,Ei maksettavaa,Ingen betalbar,No payable
+luonnos,LUONNOS,SKISS,DRAFT
+alv,ALV,MOMS,VAT
+btl,Tililtä nro|Från konto nr,,From account|no.
+btilis,TILISIIRTO. GIRERING,,CREDIT TRANSFER
+pvm,Päivämäärä,Datum,Date
+bvn,Viitenumero|Ref.nr.,,Ref. No.
+huomaika,Huomautusaika,Anmärkningstid,Period for complaints
+svalv14,AVL 72 a §: Moms 0 % Gemenskapförsäljning,,
+lkm,lkm,antal,qty
+muistutusmaksu,Huomautuskulut,Betalningspåminnelses avgift,Request for payment fee
+alv0,Veroton myynti,Skattefria försäljning ,Tax free sale
+alvtunnus,ALV-tunnus,MOMS-nummer,VAT number
+paivaa,päivää,dagar,days
+veroton,veroton,netto,net
+erapvm,Eräpäivä,Förfallodag,Due date
+bic,BIC,,
+viivkorko,Viivästyskorko,Dröjsmålsränta,Interest on overdue payments
+maksettu,Maksettu,Betald,Paid
+laskuotsikko,Lasku,Faktura,Invoice
+muistutusteksti,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+asytunnus,Asiakkaan y-tunnus,Kundens FO-nummer,Customer's Business ID
+jatkuu,Jatkuu...,Fortsätter...,To be continued...
+puhelin,Puhelin,Telefon,Phone
+eur,Euro,,
+ale%,ale%,rabatt%,discount%
+lnro,Laskun numero,Fakturans nummer,Invoice number
+bst,Saajan|tilinumero|Mottagarens|kontonummer,,Recipient's|account number
+virtviiv,Virtuaaliviivakoodi,Virtuell streckkod,Virtual barcode
+alv91,Voittomarginaalijärjestelmä - Käytetyt tavarat,,Margin scheme - Second-hand goods
+bmo,Maksajan|nimi ja|osoite|Betalarens|namn och|address,,Payer's|name and|address
+alv93,Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet,Vinstmarginalsystem - Samlarföremål och antikviteter,Margin scheme - Collectors' items and antiques
+alv92,Voittomarginaalijärjestelmä - Taide-esineet,Vinstmarginalsystem - Konstverk,Margin scheme - Works of art
+alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44","AVL 65 §: Reverse charge, VAT Directive art. 44"
+alv14,AVL 72a §: ALV 0% Yhteisömyynti,,AVL 72a §: VAT 0% Intra Community supply
+alv16,AVL 8 c §: Käännetty verovelvollisuus,"AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199","AVL 8 c §: Reverse charge, VAT Directive art. 199"
+iban,IBAN,,
+aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
+alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem - Begagnade varor,Margin scheme
+lpvm,Laskun päivämäärä,Datum,Date
+viitenro,Viitenumero,Referensnummer,Invoice reference number
+hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kompensation för faktura %1, datum %2","Compensation for invoice %1, date %2"
+hyvpvm,Hyvityksen päivämäärä,Kompensationdatum,Date of compensation
+sahkoposti,Sähköposti,E-post,Email
+bsa,Saaja|Mottagare,,Recipient
+vero,vero,skatt,tax
+ahinta,á hinta,á pris,á price
+ennakkolasku,Ennakkolasku,Förhandsfaktura,Advance invoice
+enhyri,Ennakkolaskun %1 hyvitys,Kompensation för förhandsfaktura %1,Compensation for advance invoice %1
+alennus,alennus,rabatt,discount
+summa,Laskun summa,Totalt,Total
+hlasku,Hyvityslasku,Kreditnota,Compensation invoice
+ytunnus,Y-tunnus,FO-nummer,Business ID
+verollinen,verollinen,brutto,gross
+mmotsikko,Maksumuistutus laskusta %1,Betalningspåminnelse för faktura %1,Requeat for payment %1
+Yhteensa,Yhteensä,Totalt,Total
+eialv,Myyjä ei arvonlisäverovelvollinen,Säljare är inte momsskyldig,Seller is not liable to pay VAT
+behto,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.,,The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
+harjoitus,HARJOITUS,ÖVNING,TRIAL
+aiempisaldo,Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €,Obetalda totalsumman från fakturor enligt följande specificering är %L1 €,The total unpayed amount of invoices detailed below is %L1 €
+asalvtunnus,Asiakkaan ALV-tunnus,Kundens MOMS-nummer,Customer's VAT number
+netto,netto,,net
+nimike,nimike,produkt,product
+bep,Eräpäivä|Förfallodag,,Due date
+kpl,kpl,antal,quantity
+bak,Allekirjoitus|Underskrift,,Signature
+kotisivu,Kotisivu,,
+pankki,Pankki,,

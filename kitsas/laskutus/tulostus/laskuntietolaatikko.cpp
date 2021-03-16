@@ -58,7 +58,7 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
     lisaa("tilausnro", lasku.tilausNumero());
 
     if( lasku.viivastyskorko() > 1e-3)
-        lisaa("viivkorko", QString("%1 %").arg(lasku.viivastyskorko(),0,'f',1));
+        lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));
 
 }
 

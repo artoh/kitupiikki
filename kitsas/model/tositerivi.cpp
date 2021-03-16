@@ -31,36 +31,32 @@ Euro TositeRivi::laskeYhteensa()
 {
     const double netto = aNetto() * myyntiKpl();
 
+    const double alennettu = aleProsentti() ?
+                ( 100.0 - aleProsentti() ) * netto / 100.0 :
+                netto - euroAlennus().toDouble();
+
     const double vero = alvkoodi() < Lasku::KAYTETYT ?
-                alvProsentti() * netto / 100.0 :
+                alvProsentti() * alennettu / 100.0 :
                 0 ;
 
-    const double brutto = netto + vero;
-
-    const double alennettu = aleProsentti() ?
-                ( 100.0 - aleProsentti() ) * brutto / 100.0 :
-                brutto - euroAlennus().toDouble();
-
-
-    Euro tulos = Euro::fromDouble( alennettu);
-    setBruttoYhteensa( tulos );
-    return tulos;
+    const double brutto = alennettu + vero;
+    setBruttoYhteensa( Euro::fromDouble(brutto) );
+    return brutto;
 }
 
 double TositeRivi::laskeYksikko()
 {
     const double brutto = bruttoYhteensa().toDouble();
 
-    const double alentamaton = aleProsentti() ?
-                100 * brutto / ( 100 - aleProsentti()) :
-                brutto + euroAlennus().toDouble();
-
     const double netto = alvkoodi() < Lasku::KAYTETYT ?
-                100 * alentamaton / ( 100 + alvProsentti()) :
-                alentamaton;
+                100 * brutto / ( 100 + alvProsentti()) :
+                brutto;
 
+    const double alentamaton = aleProsentti() ?
+                100 * netto / ( 100 - aleProsentti()) :
+                netto + euroAlennus().toDouble();
 
-    const double ahinta = netto / myyntiKpl();
+    const double ahinta = alentamaton / myyntiKpl();
     setANetto(ahinta);
     return ahinta;
 }

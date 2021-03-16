@@ -71,6 +71,9 @@ SOURCES += \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.cpp \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
+    $$PWD/laskutus/tulostus/laskuinfolaatikko.cpp \
+    $$PWD/laskutus/tulostus/laskumaksulaatikko.cpp \
+    $$PWD/laskutus/tulostus/laskunalaosa.cpp \
     $$PWD/laskutus/tulostus/laskunosoitealue.cpp \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
@@ -391,6 +394,9 @@ HEADERS += \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.h \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
+    $$PWD/laskutus/tulostus/laskuinfolaatikko.h \
+    $$PWD/laskutus/tulostus/laskumaksulaatikko.h \
+    $$PWD/laskutus/tulostus/laskunalaosa.h \
     $$PWD/laskutus/tulostus/laskunosoitealue.h \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.h \
     $$PWD/laskutus/tuotedialogi.h \

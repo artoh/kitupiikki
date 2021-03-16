@@ -14,29 +14,28 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RIVILLINENLASKUDIALOGI_H
-#define RIVILLINENLASKUDIALOGI_H
+#ifndef LASKUINFOLAATIKKO_H
+#define LASKUINFOLAATIKKO_H
 
-#include "kantalaskudialogi.h"
-#include "../laskualvcombo.h"
+#include <QList>
+#include <QRectF>
 
-class RivillinenLaskuDialogi : public KantaLaskuDialogi
+class QPainter;
+
+class LaskuInfoLaatikko
 {
-    Q_OBJECT
 public:
-    RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
-    LaskuAlvCombo::AsiakasVeroLaji asiakasverolaji() const;
+    LaskuInfoLaatikko();
+    void lisaa(const QString& otsikko, const QString& teksti);
+    qreal laskeKoko(QPainter* painter, qreal leveys);
+    void piirra(QPainter* painter, qreal x, qreal y);
 
-protected:
-    void tuotteidenKonteksiValikko(QPoint pos);
-    void rivinLisaTiedot();
-    void paivitaRiviNapit();
-    void tositteelle() override;
-
+    QSizeF koko() const { return koko_;}
 private:
-    void alustaRiviTab();
-    void paivitaSumma();
+    QList<QPair<QString,QString>> tekstit_;
+    QSizeF koko_;
 
+    const qreal pistekoko_ = 8;
 };
 
-#endif // RIVILLINENLASKUDIALOGI_H
+#endif // LASKUINFOLAATIKKO_H

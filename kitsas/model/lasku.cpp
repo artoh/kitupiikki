@@ -55,6 +55,26 @@ QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
     return koodi.remove(QChar(' '));
 }
 
+QString Lasku::QRkooditieto(const Iban &iban, const QString &nimi, bool rf) const
+{
+    // Esitettävä tieto
+    QString data("BCD\n001\n1\nSCT\n");
+
+    Iban tilinumero(iban);
+
+    QString bic = tilinumero.bic();
+    if( bic.isEmpty())
+        return QByteArray();
+    data.append(bic + "\n");
+    data.append(nimi + "\n");
+    data.append(iban.valeitta() + "\n");
+    data.append( QString("EUR%1\n\n").arg( summa().toString() ));
+    data.append(( rf ? viite().rfviite() : viite().viite() ).remove(QChar(' ')) + "\n\n");
+    if( erapvm().isValid())
+        data.append( QString("ReqdExctnDt/%1").arg( erapvm().toString(Qt::ISODate) ));
+    return data;
+}
+
 QDate Lasku::oikaiseErapaiva(QDate erapvm)
 {
     while( erapvm.dayOfWeek() > 5 ||

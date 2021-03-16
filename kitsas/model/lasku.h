@@ -160,6 +160,7 @@ public:
     void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}
 
     QString virtuaaliviivakoodi(const Iban& iban, bool rf = false) const;
+    QString QRkooditieto(const Iban& iban, const QString& nimi, bool rf=false) const;
 
     static QDate oikaiseErapaiva(QDate erapvm);
 

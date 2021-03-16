@@ -42,17 +42,23 @@ public:
 
     TositeRivi rivi() const;
 
-protected:
+protected:    
+
     void anettoMuokattu();
     void paivitaBrutto();
     void paivitaAleProsentti();
     void paivitaEuroAlennus();
+    void laskeAlennus();
     void paivitaAHinta();
 
 private:
     Ui::LaskuRiviDialogi *ui;
 
-    double anetto_;
+    TositeRivi alkuperainen_;
+    double anetto_ = 0.0;
+    double aleprossa_ = 0.0;
+    Euro euroale_;
+    bool alepaivitys_ = false;
 };
 
 #endif // LASKURIVIDIALOGI_H
