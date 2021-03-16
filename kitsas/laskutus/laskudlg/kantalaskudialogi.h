@@ -47,6 +47,7 @@ public:
 
 signals:
     void tallennettuValmiina();
+    void alvTunnusVaihtui(const QString alvtunnus);
 
 protected:
     Tosite* tosite() { return tosite_;}

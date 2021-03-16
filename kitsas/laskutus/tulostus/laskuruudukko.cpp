@@ -14,32 +14,9 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RIVILLINENLASKUDIALOGI_H
-#define RIVILLINENLASKUDIALOGI_H
+#include "laskuruudukko.h"
 
-#include "kantalaskudialogi.h"
-#include "../laskualvcombo.h"
-
-class RivillinenLaskuDialogi : public KantaLaskuDialogi
+LaskuRuudukko::LaskuRuudukko()
 {
-    Q_OBJECT
-public:
-    RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
-    LaskuAlvCombo::AsiakasVeroLaji asiakasverolaji() const;
 
-protected:
-    void tuotteidenKonteksiValikko(QPoint pos);
-    void rivinLisaTiedot();
-    void paivitaRiviNapit();
-    void tositteelle() override;
-    void paivitaBruttoNappi(const QString& alvtunnus);
-    void paivitaBruttolaskenta(bool onko);
-
-
-private:
-    void alustaRiviTab();
-    void paivitaSumma();
-
-};
-
-#endif // RIVILLINENLASKUDIALOGI_H
+}

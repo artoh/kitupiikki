@@ -27,7 +27,7 @@
 #include <QMessageBox>
 
 TositeRivit::TositeRivit(QObject *parent, const QVariantList& data)
-    : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent), alvtaulu_(this)
 {
     for(const auto& variant : data) {
         rivit_.append( TositeRivi( variant.toMap()) );
@@ -265,7 +265,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
             }
         } else if( role == AlvKoodiRooli) {
             rivit_[r].setAlvKoodi(value.toInt());
-            rivit_[r].laskeYhteensa();
+            rivit_[r].laskeYhteensa();            
         } else if( role == AlvProsenttiRooli) {
             rivit_[r].setAlvProsentti(value.toDouble());
             rivit_[r].laskeYhteensa();

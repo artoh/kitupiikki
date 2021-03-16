@@ -322,6 +322,7 @@ void KantaLaskuDialogi::asiakasMuuttui()
         ui->osoiteEdit->clear();
         ui->email->clear();
         paivitaLaskutustavat();
+        emit alvTunnusVaihtui(QString());
     }
     asiakasId_ = asiakasId;
 }
@@ -356,6 +357,8 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 
     if( tositteeltaKaynnissa_ )
         jatkaTositteelta();
+
+    emit alvTunnusVaihtui( asiakkaanAlvTunnus() );
 }
 
 void KantaLaskuDialogi::paivitaLaskutustavat()

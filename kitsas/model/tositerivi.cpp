@@ -27,7 +27,7 @@ TositeRivi::TositeRivi(const QVariantMap &data)
         laskeYhteensa();
 }
 
-Euro TositeRivi::laskeYhteensa()
+double TositeRivi::nettoYhteensa() const
 {
     const double netto = aNetto() * myyntiKpl();
 
@@ -35,6 +35,12 @@ Euro TositeRivi::laskeYhteensa()
                 ( 100.0 - aleProsentti() ) * netto / 100.0 :
                 netto - euroAlennus().toDouble();
 
+    return alennettu;
+}
+
+Euro TositeRivi::laskeYhteensa()
+{
+    const double alennettu = nettoYhteensa();
     const double vero = alvkoodi() < Lasku::KAYTETYT ?
                 alvProsentti() * alennettu / 100.0 :
                 0 ;

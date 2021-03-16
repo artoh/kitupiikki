@@ -85,6 +85,8 @@ public:
     Euro bruttoYhteensa() const { return Euro( str("brutto") );}
     void setBruttoYhteensa(const Euro& euro) { setStr("brutto", euro); }
 
+    double nettoYhteensa() const;
+
     QString lisatiedot() const { return str("lisatiedot");}
     void setLisatiedot(const QString& tiedot) { setStr("lisatiedot", tiedot);}
 

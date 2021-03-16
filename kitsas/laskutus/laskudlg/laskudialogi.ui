@@ -300,7 +300,7 @@ osoite</string>
         </widget>
        </item>
        <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0,0">
          <item>
           <widget class="QLabel" name="viiteText">
            <property name="font">
@@ -347,6 +347,23 @@ osoite</string>
              <width>20</width>
              <height>0</height>
             </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="bruttoButton">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/lihavoi.png</normaloff>:/pic/lihavoi.png</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

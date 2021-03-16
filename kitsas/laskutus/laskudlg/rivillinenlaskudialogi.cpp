@@ -110,6 +110,17 @@ void RivillinenLaskuDialogi::tositteelle()
     tosite()->lasku().setSumma( tosite()->rivit()->yhteensa() );
 }
 
+void RivillinenLaskuDialogi::paivitaBruttoNappi(const QString &alvtunnus)
+{
+    ui->bruttoButton->setChecked( alvtunnus.isEmpty() );
+}
+
+void RivillinenLaskuDialogi::paivitaBruttolaskenta(bool onko)
+{
+    tosite()->rivit()->alvtaulu()->asetaBruttoPeruste(onko);
+    paivitaSumma();
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -162,5 +173,6 @@ void RivillinenLaskuDialogi::alustaRiviTab()
 
 void RivillinenLaskuDialogi::paivitaSumma()
 {
-    ui->summaLabel->setText( QString("%L1 €").arg( tosite()->rivit()->yhteensa(),0,'f',2) );
+    tosite()->rivit()->alvtaulu()->paivita();
+    ui->summaLabel->setText( tosite()->rivit()->alvtaulu()->brutto().display() );
 }

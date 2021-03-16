@@ -162,6 +162,10 @@ public:
     QString virtuaaliviivakoodi(const Iban& iban, bool rf = false) const;
     QString QRkooditieto(const Iban& iban, const QString& nimi, bool rf=false) const;
 
+    bool bruttoVerolaskenta() const { return str("verolaskenta") != "NETTO";}
+    void setBruttoVerolaskenta(bool onko) { if(onko) set("verolaskenta", onko ? "BRUTTO" : "NETTO"); }
+
+
     static QDate oikaiseErapaiva(QDate erapvm);
 
 };

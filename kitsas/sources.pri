@@ -77,6 +77,7 @@ SOURCES += \
     $$PWD/laskutus/tulostus/laskunosoitealue.cpp \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.cpp \
     $$PWD/laskutus/tulostus/laskuntulostaja.cpp \
+    $$PWD/laskutus/tulostus/laskuruudukko.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
     $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.cpp \
     $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.cpp \
@@ -112,6 +113,7 @@ SOURCES += \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositerivi.cpp \
+    $$PWD/model/tositerivialv.cpp \
     $$PWD/model/tositerivit.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
@@ -401,6 +403,7 @@ HEADERS += \
     $$PWD/laskutus/tulostus/laskunosoitealue.h \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.h \
     $$PWD/laskutus/tulostus/laskuntulostaja.h \
+    $$PWD/laskutus/tulostus/laskuruudukko.h \
     $$PWD/laskutus/tuotedialogi.h \
     $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.h \
     $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.h \
@@ -436,6 +439,7 @@ HEADERS += \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositerivi.h \
+    $$PWD/model/tositerivialv.h \
     $$PWD/model/tositerivit.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
