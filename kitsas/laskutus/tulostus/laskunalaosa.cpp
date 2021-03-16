@@ -109,12 +109,9 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
                            0);
         tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0);
     }
-    painter->drawRect(0, 0, tunnuslaatikko_.koko().width(), yhteysKorkeus_);
     painter->translate(0,  yhteysKorkeus_ + mm * 3 );
 
     if( tilisiirto_) {
-        // painter->resetTransform();
-        // painter->translate( 0, painter->window().height() - 95 * mm );
         piirraTilisiirto(painter, lasku);
     }
     painter->restore();

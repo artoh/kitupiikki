@@ -76,6 +76,7 @@ SOURCES += \
     $$PWD/laskutus/tulostus/laskunalaosa.cpp \
     $$PWD/laskutus/tulostus/laskunosoitealue.cpp \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.cpp \
+    $$PWD/laskutus/tulostus/laskuntulostaja.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
     $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.cpp \
     $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.cpp \
@@ -399,6 +400,7 @@ HEADERS += \
     $$PWD/laskutus/tulostus/laskunalaosa.h \
     $$PWD/laskutus/tulostus/laskunosoitealue.h \
     $$PWD/laskutus/tulostus/laskuntietolaatikko.h \
+    $$PWD/laskutus/tulostus/laskuntulostaja.h \
     $$PWD/laskutus/tuotedialogi.h \
     $$PWD/laskutus/tuotetuonti/tuotetuontidelegaatti.h \
     $$PWD/laskutus/tuotetuonti/tuotetuontidialogi.h \

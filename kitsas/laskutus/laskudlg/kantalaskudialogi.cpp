@@ -35,7 +35,7 @@
 #include "../vakioviite/vakioviitemodel.h"
 #include "../huoneisto/huoneistomodel.h"
 
-#include "../myyntilaskuntulostaja.h"
+#include "../tulostus/laskuntulostaja.h"
 
 #include <QJsonDocument>
 #include <QSettings>
@@ -86,8 +86,9 @@ void KantaLaskuDialogi::tulosta(QPagedPaintDevice *printer) const
     printer->setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
 
     QPainter painter( printer);
-    MyyntiLaskunTulostaja::tulosta( tosite_->tallennettava() , printer, &painter, true );
 
+    LaskunTulostaja tulostaja( kp());
+    tulostaja.tulosta( tosite_, printer, &painter);
     painter.end();
 }
 
