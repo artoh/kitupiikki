@@ -88,7 +88,10 @@ void KantaLaskuDialogi::tulosta(QPagedPaintDevice *printer) const
     QPainter painter( printer);
 
     LaskunTulostaja tulostaja( kp());
-    tulostaja.tulosta( tosite_, printer, &painter);
+    Tosite tulostettava;
+    tulostettava.lataa(tosite_->tallennettava());
+
+    tulostaja.tulosta(tulostettava, printer, &painter);
     painter.end();
 }
 

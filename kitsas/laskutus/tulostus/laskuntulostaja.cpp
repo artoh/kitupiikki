@@ -45,7 +45,7 @@ void LaskunTulostaja::tulosta(const Tosite &tosite, QPagedPaintDevice *printer, 
     LaskunAlaosa alaosa( kitsas_ );
 
     if( tosite.laskuNumero().isEmpty())
-        tulostaLuonnos(painter, lasku.kieli());
+        tulostaLuonnos(painter, lasku.kieli().toLower());
 
     osoiteosa.lataa(tosite);
     laatikko.lataa(tosite);
@@ -64,7 +64,7 @@ void LaskunTulostaja::tulosta(const Tosite &tosite, QPagedPaintDevice *printer, 
 
     painter->save();
     osoiteosa.piirra(painter);
-    painter->translate(0, sivunleveys - laatikkoleveys);
+    painter->translate(sivunleveys - laatikkoleveys, 0);
     laatikko.piirra(painter);
     painter->restore();
 
