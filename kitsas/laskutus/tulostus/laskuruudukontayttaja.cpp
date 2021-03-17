@@ -40,15 +40,19 @@ void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
 {
     const TositeRivi& ekarivi = tosite.rivit()->rivi(0);
     int alvkoodi = ekarivi.alvkoodi();
-    double alvProsentti = ekarivi.aleProsentti();
+    int alvPromille = qRound( ekarivi.aleProsentti() * 10);
 
     for( int i = 0; i < tosite.rivit()->rowCount(); i++) {
         const TositeRivi& rivi = tosite.rivit()->rivi(i);
 
-        if( rivi.alvkoodi() != alvkoodi ||
-            qAbs( rivi.aleProsentti() - alvProsentti) > 1e-5) {
+        int rivinAlvkoodi = rivi.alvkoodi();
+        int rivinAlvPromille = qRound( rivi.alvProsentti() * 10);
+
+        if( rivinAlvkoodi != alvkoodi ||
+            rivinAlvPromille != alvPromille ) {
             alvSarake_ = true;
         }
+
         if( rivi.aleProsentti() > 1e-3 || rivi.euroAlennus().cents()) {
             aleSarake_ = true;
         }
