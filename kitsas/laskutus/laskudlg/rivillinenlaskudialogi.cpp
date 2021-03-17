@@ -49,6 +49,8 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     paivitaSumma();
+
+    ui->bruttoButton->setChecked( tosite->lasku().bruttoVerolaskenta() );
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
@@ -108,6 +110,7 @@ void RivillinenLaskuDialogi::tositteelle()
 {
     KantaLaskuDialogi::tositteelle();
     tosite()->lasku().setSumma( tosite()->rivit()->yhteensa() );
+    tosite()->lasku().setBruttoVerolaskenta( ui->bruttoButton->isChecked());
 }
 
 void RivillinenLaskuDialogi::paivitaBruttoNappi(const QString &alvtunnus)

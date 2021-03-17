@@ -82,9 +82,9 @@ void TositeriviAlv::paivita()
         for(int j=0; j < tiedot_.count(); j++) {
             if( alvkoodi(j) == alvKoodi &&
                 qAbs( veroprosentti(j) - alvProsentti  ) < 1e-5) {
-                tiedot_[i].lisaaNettoon( rivi.nettoYhteensa() );
+                tiedot_[j].lisaaNettoon( rivi.nettoYhteensa() );
                 if( bruttoPeruste())
-                    tiedot_[i].lisaaBruttoon(rivi.bruttoYhteensa());
+                    tiedot_[j].lisaaBruttoon(rivi.bruttoYhteensa());
                 break;
             }
         }

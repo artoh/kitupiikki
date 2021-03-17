@@ -14,39 +14,43 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef LASKUNTULOSTAJA_H
-#define LASKUNTULOSTAJA_H
+#ifndef LASKURUUDUKONTAYTTAJA_H
+#define LASKURUUDUKONTAYTTAJA_H
 
 #include "model/tosite.h"
+#include "tulostusruudukko.h"
+#include "model/tositerivi.h"
 
-#include <QObject>
+#include <QList>
 
 class KitsasInterface;
-class QPagedPaintDevice;
-class QPainter;
 
-class LaskunTulostaja : public QObject
+class LaskuRuudukonTayttaja
 {
-    Q_OBJECT
 public:
-    explicit LaskunTulostaja(KitsasInterface* kitsas, QObject *parent = nullptr);
+    LaskuRuudukonTayttaja(KitsasInterface* kitsas);
 
-    void tulosta(Tosite &tosite,
-                 QPagedPaintDevice* printer,
-                 QPainter* painter);
-
-    QByteArray pdf( Tosite& tosite);
-
-signals:
-
-protected:
-    void tulostaLuonnos(QPainter* painter, const QString& kieli);
+    TulostusRuudukko tayta(Tosite &tosite);
 
 private:
-    KitsasInterface *kitsas_;
+    void tutkiSarakkeet(Tosite& tosite);
 
+    void kirjoitaSarakkeet();
+    void lisaaSarake(const QString& koodi, Qt::AlignmentFlag tasaus = Qt::AlignLeft);
 
+    void taytaSarakkeet(Tosite& tosite);
+    QString nimikesarake(const TositeRivi& rivi);
+private:
 
+    KitsasInterface* kitsas_;
+
+    bool alvSarake_ = false;
+    bool aleSarake_ = false;
+
+    TulostusRuudukko ruudukko_;
+    QString kieli_;
 };
 
-#endif // LASKUNTULOSTAJA_H
+
+
+#endif // LASKURUUDUKONTAYTTAJA_H

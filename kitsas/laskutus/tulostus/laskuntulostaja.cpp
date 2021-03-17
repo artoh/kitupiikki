@@ -28,7 +28,7 @@
 #include "laskuntietolaatikko.h"
 #include "laskunosoitealue.h"
 #include "laskunalaosa.h"
-
+#include "laskuruudukontayttaja.h"
 
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
     : QObject(parent), kitsas_(kitsas)
@@ -36,7 +36,7 @@ LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
 
 }
 
-void LaskunTulostaja::tulosta(const Tosite &tosite, QPagedPaintDevice *printer, QPainter *painter)
+void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPainter *painter)
 {
     const Lasku& lasku = tosite.constLasku();
 
@@ -85,10 +85,15 @@ void LaskunTulostaja::tulosta(const Tosite &tosite, QPagedPaintDevice *printer, 
 
     // Sitten pitäisi alkaa tulostaa riveja niin paljon kun mahtuu
 
+    LaskuRuudukonTayttaja tayttaja( kitsas_ );
+    TulostusRuudukko riviosa = tayttaja.tayta(tosite);
+    riviosa.asetaLeveys(painter->window().width());
+    riviosa.piirra(painter, printer,
+                   painter->window().height() - alaosanKorkeus - painter->fontMetrics().height() * 4);
 
 }
 
-QByteArray LaskunTulostaja::pdf(const Tosite &tosite)
+QByteArray LaskunTulostaja::pdf(Tosite &tosite)
 {
     QByteArray array;
     QBuffer buffer(&array);

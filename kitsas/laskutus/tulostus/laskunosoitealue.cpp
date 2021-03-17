@@ -161,7 +161,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
     painter->drawRect( ikkuna );
     painter->setPen(QPen(Qt::black));
 
-    leveys_ = ikkuna.isNull() ? lahettajaAlue.width() : ikkuna.right() + 10 * mm;
+    leveys_ = ikkuna.isNull() ? lahettajaAlue.right() : ikkuna.right() + 10 * mm;
     return korkeus();
 }
 
