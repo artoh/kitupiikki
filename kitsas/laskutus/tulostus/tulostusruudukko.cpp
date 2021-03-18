@@ -41,10 +41,14 @@ void TulostusRuudukko::lisaaSummaRivi(const QString &otsikko, const QString &sum
 
 void TulostusRuudukko::laske(QPainter *painter)
 {
+    if( rivit_.isEmpty())
+        return;
+
     painter->save();
     // Lasketaan ensin jokaiselle sarakkeeelle sarakkeen viemä tila
     // Aloitetaan otsikoista
     painter->setFont(QFont("FreeSans", pistekoko_ - 1, QFont::Normal));
+
     for(int c=0; c < sarakkeet_.count(); c++) {
         qreal leveys = painter->fontMetrics().horizontalAdvance( sarakkeet_.at(c).otsikko() );
         if( leveys > sarakkeet_[c].leveys()) {
@@ -85,12 +89,13 @@ void TulostusRuudukko::laske(QPainter *painter)
 
     if( vahimmaisLeveys_ > sarakkeet_.at(0).leveys() + loppusarakeleveys) {
         sarakkeet_[0].asetaLeveys( vahimmaisLeveys_ - loppusarakeleveys );
-    } else if( enimmaisLeveys_ > 0 && enimmaisLeveys_ > sarakkeet_.at(0).leveys() + loppusarakeleveys ) {
+    }
+    if( enimmaisLeveys_ > 0 && enimmaisLeveys_ < sarakkeet_.at(0).leveys() + loppusarakeleveys ) {
         sarakkeet_[0].asetaLeveys( enimmaisLeveys_ - loppusarakeleveys );
     }
     qreal kokonaisleveys = loppusarakeleveys + sarakkeet_.at(0).leveys();
 
-    painter->setFont(QFont("FreeSans", pistekoko_ - 1, QFont::Normal));
+    painter->setFont(QFont("FreeSans", pistekoko_, QFont::Normal));
     qreal rivinkorkeus = painter->fontMetrics().height();
     QRectF mittaRect(0, 0, sarakkeet_.value(0).leveys(), painter->window().height());
 
@@ -100,8 +105,9 @@ void TulostusRuudukko::laske(QPainter *painter)
         painter->setFont(QFont("FreeSans", pistekoko_, rivit_.at(r).lihava() ? QFont::Bold : QFont::Normal));
         QRectF rect = painter->boundingRect(mittaRect, rivit_.at(r).teksti(0));
         qreal korkeus = rect.height() > rivinkorkeus ? rect.height() : rivinkorkeus;
-        rivit_[r].asetaKorkeus(korkeus + 2 * ivali_);
-        kokonaiskorkeus += korkeus + ivali_;
+        korkeus = korkeus + 2 * ivali_;
+        rivit_[r].asetaKorkeus(korkeus );
+        kokonaiskorkeus += korkeus;
     }
     painter->setFont(QFont("FreeSans", pistekoko_, QFont::Normal));
 
@@ -116,12 +122,15 @@ void TulostusRuudukko::laske(QPainter *painter)
     painter->restore();
 }
 
-void TulostusRuudukko::piirra(QPainter *painter, QPagedPaintDevice *device, qreal alaMarginaali, SivunVaihtaja *vaihtaja)
+qreal TulostusRuudukko::piirra(QPainter *painter, QPagedPaintDevice *device, qreal alaMarginaali, SivunVaihtaja *vaihtaja)
 {
+    qreal marginaali = alaMarginaali > 0 ? alaMarginaali : painter->window().height();
+    if( rivit_.isEmpty())
+        return marginaali;
+
     if( !koko_.isValid())
         laske(painter);
 
-    qreal marginaali = alaMarginaali > 0 ? alaMarginaali : painter->window().height();
     piirraOtsikko(painter);
     for(int r=0; r < rivit_.count(); r++ ) {
         const Rivi& rivi = rivit_.at(r);
@@ -143,27 +152,29 @@ void TulostusRuudukko::piirra(QPainter *painter, QPagedPaintDevice *device, qrea
         piirraRivi(rivi, painter);
     }
     piiraSummaRivit(painter);
+    return marginaali;
 }
 
 void TulostusRuudukko::piirraOtsikko(QPainter *painter)
 {
     painter->save();
     painter->setFont(QFont("FreeSans", pistekoko_ - 1, QFont::Normal));
+    const double rivinkorkeus = painter->fontMetrics().height();
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
     painter->setPen( QPen(QBrush(QColor(230,230,230)), 0.15 * mm  ) );
     painter->setBrush( QBrush( QColor(230,230,230)) );
-    painter->drawRect( QRect(0, 0, koko_.width(), painter->fontMetrics().height() + 2 * ivali_ ));
+    painter->drawRect( QRect(0, 0, koko_.width(), rivinkorkeus + 2 * ivali_ ));
     painter->setBrush( Qt::NoBrush );
     painter->setPen( QPen(Qt::black) );
 
     qreal x = ivali_;
     for(const auto &sarake : sarakkeet_ ) {
-        painter->drawText( QRectF(x, ivali_, sarake.leveys(), painter->fontMetrics().height()),
+        painter->drawText( QRectF(x, ivali_, sarake.leveys(), rivinkorkeus),
                            sarake.otsikko());
         x+= sarake.leveys() + sarakevali_;
     }
     painter->restore();
-    painter->translate(0, painter->fontMetrics().height() + ivali_ * 2);
+    painter->translate(0, rivinkorkeus + ivali_ * 2);
 }
 
 void TulostusRuudukko::piirraRivi(const Rivi &rivi, QPainter *painter)
@@ -179,13 +190,13 @@ void TulostusRuudukko::piirraRivi(const Rivi &rivi, QPainter *painter)
 
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
     painter->setPen( QPen(QBrush(QColor(230,230,230)), 0.15 * mm  ) );
-    const qreal viivay = rivi.korkeus() + ivali_ * 2;
+    const qreal viivay = rivi.korkeus();
     painter->drawLine(0, viivay, koko_.width(), viivay);
     painter->drawLine(0, 0 - ivali_ * 2, 0, viivay);
     painter->drawLine(koko_.width(), 0 - ivali_ * 2, koko_.width(), viivay);
 
     painter->restore();
-    painter->translate(0, rivi.korkeus() + ivali_ * 2);
+    painter->translate(0, rivi.korkeus());
 }
 
 void TulostusRuudukko::piiraSummaRivit(QPainter *painter)

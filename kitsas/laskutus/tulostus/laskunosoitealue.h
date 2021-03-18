@@ -61,6 +61,7 @@ private:
 
     qreal korkeus_;
     qreal leveys_;
+    qreal nimiFonttiKoko_;
 };
 
 #endif // LASKUNOSOITEALUE_H

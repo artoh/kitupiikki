@@ -58,12 +58,19 @@ qreal LaskunAlaosa::laske(QPainter *painter)
         leveys = leveys / 3;
 
     yhteysKorkeus_ = osoitelaatikko_.laskeKoko(painter, leveys);
-    qreal yhteyslaatikkoKorkeus = yhteyslaatikko_.laskeKoko(painter, leveys);
-    if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
-    qreal tunnuskorkeus = tunnuslaatikko_.laskeKoko(painter, leveys);
-    if( tunnuskorkeus > yhteysKorkeus_) yhteysKorkeus_ = tunnuskorkeus;
-    if( viivakoodi_ && !tilisiirto_ && yhteysKorkeus_ < 20 * mm)
-        yhteysKorkeus_ = 20 * mm;
+
+    if( viivakoodi_ && !tilisiirto_) {
+        qreal yhteyslaatikkoKorkeus = yhteyslaatikko_.laskeKoko(painter, leveys) +
+                                      tunnuslaatikko_.laskeKoko(painter, leveys);
+        if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
+        if( yhteysKorkeus_ < 20 * mm)
+            yhteysKorkeus_ = 20 * mm;
+    } else {
+        qreal yhteyslaatikkoKorkeus = yhteyslaatikko_.laskeKoko(painter, leveys);
+        if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
+        qreal tunnuskorkeus = tunnuslaatikko_.laskeKoko(painter, leveys);
+        if( tunnuskorkeus > yhteysKorkeus_) yhteysKorkeus_ = tunnuskorkeus;
+    }
 
     alaosaKorkeus_ = maksuKorkeus_ + yhteysKorkeus_ +
         ( tilisiirto_ ? mm * 95 : 0) +
@@ -100,7 +107,16 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
 
     if( viivakoodi_ && !tilisiirto_) {
         osoitelaatikko_.piirra(painter, mm * 110, 0);
-        yhteyslaatikko_.piirra(painter, leveys - yhteyslaatikko_.koko().width(), 0);
+
+        qreal yhteyslaatikkoLeveys = yhteyslaatikko_.koko().width();
+        qreal tunnuslaatikkoLeveys = tunnuslaatikko_.koko().width();
+        qreal leveampi = yhteyslaatikkoLeveys > tunnuslaatikkoLeveys ?
+                    yhteyslaatikkoLeveys :
+                    tunnuslaatikkoLeveys;
+
+        yhteyslaatikko_.piirra(painter, leveys - leveampi, 0);
+        tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height());
+
         piirraViivakoodi(painter, QRectF(mm*5, mm*5, mm*100, mm*13), lasku);
     } else {
         osoitelaatikko_.piirra(painter, 0, 0);
@@ -116,6 +132,30 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
     }
     painter->restore();
 
+}
+
+qreal LaskunAlaosa::alatunniste(QPainter *painter)
+{
+    qreal korkeus = osoitelaatikko_.koko().height();
+    if( yhteyslaatikko_.koko().height() > korkeus) korkeus = yhteyslaatikko_.koko().height();
+    if( tunnuslaatikko_.koko().height() > korkeus) korkeus = tunnuslaatikko_.koko().height();
+
+    painter->save();
+    painter->translate(0, painter->window().height() - korkeus - painter->transform().dy());
+
+    qreal leveys = painter->window().width();
+
+    osoitelaatikko_.piirra(painter, 0, 0);
+    yhteyslaatikko_.piirra(painter,
+                       leveys / 3 +  (leveys / 3  -  yhteyslaatikko_.koko().width()) / 2,
+                       0);
+    tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0);
+
+    painter->setFont(QFont("FreeSans", 9));
+    qreal rivinkorkeus = painter->fontMetrics().height();
+
+    painter->restore();
+    return painter->window().height() - korkeus + rivinkorkeus * 2;
 }
 
 void LaskunAlaosa::lataaIbanit()
@@ -179,7 +219,8 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
     else if( lasku.maksutapa() == Lasku::KATEINEN)
         maksulaatikko_.lisaa( kaanna("erapvm"), kaanna("maksettu"));
 
-    maksulaatikko_.lisaa(kaanna("Yhteensa"), lasku.summa().display(), Qt::AlignLeft, true);
+    if( lasku.maksutapa() != Lasku::KUUKAUSITTAINEN)
+        maksulaatikko_.lisaa(kaanna("Yhteensa"), lasku.summa().display(), Qt::AlignLeft, true);
 
 }
 
@@ -194,10 +235,7 @@ void LaskunAlaosa::lisaaYhteys(const int &asetusavain, const QString &kaannosava
 
 void LaskunAlaosa::lisaaTunnukseen(const QString &avain, const QString &teksti)
 {
-    if( !tilisiirto_ && viivakoodi_)
-        yhteyslaatikko_.lisaa( kaanna(avain), teksti );
-    else
-        tunnuslaatikko_.lisaa( kaanna(avain), teksti );
+    tunnuslaatikko_.lisaa( kaanna(avain), teksti );
 }
 
 void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)

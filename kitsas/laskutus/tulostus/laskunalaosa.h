@@ -37,6 +37,8 @@ public:
     qreal laske(QPainter* painter);
     void piirra(QPainter* painter, const Lasku &lasku);
 
+    qreal alatunniste(QPainter* painter);
+
 private:
     void lataaIbanit();
     QString kaanna(const QString& avain) const;

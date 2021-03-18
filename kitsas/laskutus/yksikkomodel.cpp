@@ -38,6 +38,7 @@ YksikkoModel::YksikkoModel(QObject *parent)
     lisaa("KWH", tr("Kilowattitunti"));
     lisaa("MTK", tr("Neliömetri"));
     lisaa("MTQ", tr("Kuutiometri"));
+    lisaa("E21", tr("Osake"));
     lisaa("ZP", tr("Sivu"));
 }
 

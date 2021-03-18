@@ -36,7 +36,7 @@ public:
     double toDouble() const;
     QString toString() const;
     QString local() const;
-    QString display() const;
+    QString display(bool naytaNolla = true) const;
     QVariant toVariant() const;
 
     Euro operator+(const Euro& other);

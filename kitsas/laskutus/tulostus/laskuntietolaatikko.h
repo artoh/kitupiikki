@@ -35,15 +35,21 @@ public:
     qreal korkeus() const { return laatikko_.bottom();}
     qreal leveys() const { return laatikko_.width();}
 
+    void ylatunniste(QPainter *painter);
 
 protected:    
     void piirraLaatikko( QPainter *painter);
     void piirraTekstit( QPainter *painter );
     void piirraHarjoitus( QPainter *painter );
+    void piirraTulostusPaiva(QPainter *painter);
 
 
     void lisaa(const QString& avain, const QString& arvo);
     void lisaa(const QString& avain, const QDate& pvm);    
+
+    void ylatunnisteNimialue(QPainter* painter);
+    void ylatunnisteOtsikko(QPainter* painter);
+    void ylatunnistePvmalue(QPainter* painter);
 
 
 private:
@@ -62,6 +68,8 @@ private:
     QString kieli_;
 
     int fonttikoko_ = 10;
+
+    qreal rivinKorkeus_;
 
     int otsikkoleveys_ = 0;    
     QRectF laatikko_;

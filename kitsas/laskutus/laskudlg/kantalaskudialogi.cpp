@@ -264,14 +264,11 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setKieli( ui->kieliCombo->currentData().toString() );
 
     ViiteNumero viite( tosite()->lasku().viite() );
-    const int valvonta = ui->valvontaCombo->currentData().toInt();
-    const qlonglong tarke = ui->tarkeCombo->currentData().toLongLong();
+    const int valvonta = ui->valvontaCombo->currentData().toInt();    
 
     tosite()->lasku().setValvonta( valvonta );
-    if( valvonta == Lasku::VAKIOVIITE)
-        viite = ViiteNumero( ViiteNumero::VAKIOVIITE, tarke );
-    else if( valvonta == Lasku::HUONEISTO)
-        viite = ViiteNumero( ViiteNumero::HUONEISTO, tarke);
+    if( valvonta == Lasku::VAKIOVIITE || valvonta == Lasku::HUONEISTO)
+        viite = ui->tarkeCombo->currentData(HuoneistoModel::ViiteRooli).toString();
 
     tosite()->asetaViite( viite.viite() );
     tosite()->lasku().setViite( viite.viite() );

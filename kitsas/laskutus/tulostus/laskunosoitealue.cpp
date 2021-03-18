@@ -82,31 +82,37 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 
 
     QRectF lahettajaAlue =
-            ikkuna.isNull() ? QRectF(0, 0 , sivunLeveys / 2 - 10 * mm, 28 * mm ) :
+            ikkuna.isNull() ? QRectF(0, 0 , sivunLeveys / 2 - 10 * mm, 35 * mm ) :
             ( isoIkkuna() ? QRect( ikkuna.x(), ikkuna.y(), ikkuna.width(), 25 * mm )
                         : QRect( 0, 0, sivunLeveys / 2, ikkuna.y() - 10 * mm  ));
 
-    painter->setFont( QFont("FreeSans", logonSijainti == "YLLA" ? fonttikoko_ + 2 : fonttikoko_ + 4) );
-    nimiRect_ = painter->boundingRect( lahettajaAlue, nimi_ );
+    nimiFonttiKoko_ = isoIkkuna() ? fonttikoko_ + 1 :
+                                    ( logo.isNull() ? fonttikoko_ + 4 : fonttikoko_ + 2);
+
+    painter->setFont( QFont("FreeSans", nimiFonttiKoko_));
+
+    nimiRect_ = painter->boundingRect( lahettajaAlue, Qt::TextWordWrap, nimi_ );
 
     painter->setFont( QFont("FreeSans", fonttikoko_ - 1) );
     lahettajanOsoiteRect_ = painter->boundingRect(lahettajaAlue, lahettajaOsoite_ );
-
+    qreal logoMaxKorkeus = mm * 20;
 
     if( logonSijainti.isEmpty()) {
         // Ei logoa
         nimiRect_.moveTo( lahettajaAlue.x(), lahettajaAlue.y() );
         lahettajanOsoiteRect_.moveTo( lahettajaAlue.x(), lahettajaAlue.y() + nimiRect_.height() );
-    } else if( logonSijainti == "VAINLOGO") {
+    } else if( logonSijainti == "VAINLOGO") {        
+        qreal lkorkeus = lahettajaAlue.height() - lahettajanOsoiteRect_.height();
         QSize size = logo.scaled(lahettajaAlue.width(),
-                                 lahettajaAlue.height() - lahettajanOsoiteRect_.height(),
+                                 qMin(logoMaxKorkeus, lkorkeus),
                                  Qt::KeepAspectRatio ).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
                             size.width(), size.height());
         lahettajanOsoiteRect_.moveTo(lahettajaAlue.x(), lahettajaAlue.y() + logoRect_.height());
     } else if( logonSijainti == "YLLA") {
+        qreal lkorkeus = lahettajaAlue.height() - nimiRect_.height() - lahettajanOsoiteRect_.height();
         QSize size = logo.scaled(lahettajaAlue.width(),
-                                 lahettajaAlue.height() - nimiRect_.height() - lahettajanOsoiteRect_.height(),
+                                 qMin(logoMaxKorkeus, lkorkeus),
                                  Qt::KeepAspectRatio).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
                             size.width(), size.height());
@@ -120,7 +126,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         qreal tekstienKorkeus = nimiRect_.height() + lahettajanOsoiteRect_.height();
 
         QSize size = logo.scaled(jaljella,
-                                 tekstienKorkeus > 18 * mm ? tekstienKorkeus : 18 * mm,
+                                 qMax(tekstienKorkeus, logoMaxKorkeus),
                                  Qt::KeepAspectRatio).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
                             size.width(), size.height());
@@ -150,17 +156,6 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 
         korkeus_ = ikkuna.bottom() + 15 * mm;
     }
-
-    painter->setPen(QPen(Qt::darkYellow));
-    painter->drawRect( lahettajanOsoiteRect_ );
-    painter->setPen(QPen(Qt::blue));
-    painter->drawRect( lahettajaAlue );
-    painter->setPen(QPen(Qt::red));
-    painter->drawRect( vastaanottajaRect_ );
-    painter->setPen(QPen(Qt::magenta));
-    painter->drawRect( ikkuna );
-    painter->setPen(QPen(Qt::black));
-
     leveys_ = ikkuna.isNull() ? lahettajaAlue.right() : ikkuna.right() + 10 * mm;
     return korkeus();
 }
@@ -171,11 +166,12 @@ void LaskunOsoiteAlue::piirra(QPainter *painter)
 
     const QImage& logo = kitsas_->logo();
     const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI) : QString();
-    painter->setFont( QFont("FreeSans", logonSijainti == "YLLA" ? fonttikoko_ + 2 : fonttikoko_ + 4) );
+
+    painter->setFont( QFont("FreeSans", nimiFonttiKoko_ ) );
 
     painter->drawImage( logoRect_, kitsas_->logo() );
     if(!nimi_.isEmpty())
-        painter->drawText( nimiRect_, nimi_);
+        painter->drawText( nimiRect_, Qt::TextWordWrap, nimi_);
 
     painter->setFont( QFont("FreeSans", fonttikoko_ - 1) );
     painter->drawText( lahettajanOsoiteRect_, lahettajaOsoite_ );

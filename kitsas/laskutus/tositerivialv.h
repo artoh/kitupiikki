@@ -18,7 +18,7 @@
 #define TOSITERIVIALV_H
 
 #include <QMap>
-#include "euro.h"
+#include "model/euro.h"
 
 class TositeRivit;
 
@@ -26,7 +26,9 @@ class TositeRivit;
 class TositeriviAlv
 {
 public:
-    TositeriviAlv(TositeRivit* rivit);
+    TositeriviAlv(TositeRivit* rivit = nullptr);
+
+    void yhdistaRiveihin(TositeRivit* rivit);
 
     Euro netto(int indeksi = -1) const;
     Euro vero(int indeksi = -1) const;
@@ -39,6 +41,7 @@ public:
 
     void paivita();
     QList<int> indeksitKaytossa() const;
+    bool veroton() const;
 
 protected:
     class AlvTieto {

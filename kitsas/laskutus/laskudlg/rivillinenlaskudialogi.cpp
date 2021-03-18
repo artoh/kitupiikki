@@ -34,7 +34,7 @@
 #include <QMenu>
 
 RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
-    : KantaLaskuDialogi(tosite, parent)
+    : KantaLaskuDialogi(tosite, parent), alv_(tosite->rivit())
 {
     alustaRiviTab();
 
@@ -46,11 +46,13 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->rivitView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &RivillinenLaskuDialogi::paivitaRiviNapit);
 
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
+    connect( ui->bruttoButton, &QPushButton::toggled, this, &RivillinenLaskuDialogi::paivitaBruttolaskenta);
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     paivitaSumma();
 
     ui->bruttoButton->setChecked( tosite->lasku().bruttoVerolaskenta() );
+    ui->bruttoButton->setVisible( kp()->asetukset()->onko(AsetusModel::ALV) );
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
@@ -109,7 +111,10 @@ void RivillinenLaskuDialogi::paivitaRiviNapit()
 void RivillinenLaskuDialogi::tositteelle()
 {
     KantaLaskuDialogi::tositteelle();
-    tosite()->lasku().setSumma( tosite()->rivit()->yhteensa() );
+
+    alvTaulu()->paivita();
+    tosite()->lasku().setSumma( alvTaulu()->brutto()  );
+
     tosite()->lasku().setBruttoVerolaskenta( ui->bruttoButton->isChecked());
 }
 
@@ -120,7 +125,7 @@ void RivillinenLaskuDialogi::paivitaBruttoNappi(const QString &alvtunnus)
 
 void RivillinenLaskuDialogi::paivitaBruttolaskenta(bool onko)
 {
-    tosite()->rivit()->alvtaulu()->asetaBruttoPeruste(onko);
+    alvTaulu()->asetaBruttoPeruste(onko);
     paivitaSumma();
 }
 
@@ -176,6 +181,6 @@ void RivillinenLaskuDialogi::alustaRiviTab()
 
 void RivillinenLaskuDialogi::paivitaSumma()
 {
-    tosite()->rivit()->alvtaulu()->paivita();
-    ui->summaLabel->setText( tosite()->rivit()->alvtaulu()->brutto().display() );
+    alvTaulu()->paivita();
+    ui->summaLabel->setText( alvTaulu()->brutto().display() );
 }

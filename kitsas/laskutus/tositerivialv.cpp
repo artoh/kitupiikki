@@ -16,8 +16,8 @@
 */
 #include "tositerivialv.h"
 #include "db/verotyyppimodel.h"
-#include "tositerivit.h"
-#include "lasku.h"
+#include "model/tositerivit.h"
+#include "model/lasku.h"
 
 TositeriviAlv::TositeriviAlv(TositeRivit *rivit) :
     rivit_(rivit)
@@ -25,14 +25,19 @@ TositeriviAlv::TositeriviAlv(TositeRivit *rivit) :
     tiedot_ << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 24.0)
             << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 14.0)
             << AlvTieto(AlvKoodi::MYYNNIT_NETTO, 10.0)
-            << AlvTieto(AlvKoodi::EIALV, 14.0)
-            << AlvTieto(AlvKoodi::ALV0, 14.0)
+            << AlvTieto(AlvKoodi::EIALV, 0.0)
+            << AlvTieto(AlvKoodi::ALV0, 0.0)
             << AlvTieto(AlvKoodi::RAKENNUSPALVELU_MYYNTI, 0.0)
             << AlvTieto(AlvKoodi::YHTEISOMYYNTI_PALVELUT, 0.0)
             << AlvTieto(AlvKoodi::YHTEISOMYYNTI_TAVARAT, 0.0)
             << AlvTieto(Lasku::KAYTETYT, 0.0)
             << AlvTieto(Lasku::TAIDE, 0.0)
             << AlvTieto(Lasku::ANTIIKKI, 0.0);
+}
+
+void TositeriviAlv::yhdistaRiveihin(TositeRivit *rivit)
+{
+    rivit_ = rivit;
 }
 
 Euro TositeriviAlv::netto(int indeksi) const
@@ -82,7 +87,7 @@ void TositeriviAlv::paivita()
         for(int j=0; j < tiedot_.count(); j++) {
             if( alvkoodi(j) == alvKoodi &&
                 qAbs( veroprosentti(j) - alvProsentti  ) < 1e-5) {
-                tiedot_[j].lisaaNettoon( rivi.nettoYhteensa() );
+                tiedot_[j].lisaaNettoon( Euro::fromDouble(rivi.nettoYhteensa()) );
                 if( bruttoPeruste())
                     tiedot_[j].lisaaBruttoon(rivi.bruttoYhteensa());
                 break;
@@ -116,6 +121,15 @@ QList<int> TositeriviAlv::indeksitKaytossa() const
     return lista;
 }
 
+bool TositeriviAlv::veroton() const
+{
+    for(auto tieto : tiedot_) {
+        if( tieto.netto().cents() && tieto.verokoodi() != AlvKoodi::EIALV )
+            return false;
+    }
+    return true;
+}
+
 TositeriviAlv::AlvTieto::AlvTieto()
 {
 
@@ -134,6 +148,8 @@ void TositeriviAlv::AlvTieto::paivita(bool bruttoperuste)
     else if( verokoodi_ == AlvKoodi::MYYNNIT_NETTO ) {
         vero_ = Euro( netto_.toDouble() *  veroProsentinSadasosat_ / 10000.0 );
         brutto_ = netto_ + vero_;
+    } else {
+        brutto_ = netto_;
     }
 
 }

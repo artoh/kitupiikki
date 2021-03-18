@@ -71,6 +71,7 @@ SOURCES += \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.cpp \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.cpp \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.cpp \
+    $$PWD/laskutus/tositerivialv.cpp \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.cpp \
     $$PWD/laskutus/tulostus/laskumaksulaatikko.cpp \
     $$PWD/laskutus/tulostus/laskunalaosa.cpp \
@@ -114,7 +115,6 @@ SOURCES += \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositerivi.cpp \
-    $$PWD/model/tositerivialv.cpp \
     $$PWD/model/tositerivit.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
@@ -371,6 +371,7 @@ HEADERS += \
     $$PWD/kirjaus/mallipohjamodel.h \
     $$PWD/kirjaus/muumuokkausdlg.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/kitsas.h \
     $$PWD/kitupiikkituonti/vanhatuontidlg.h \
     $$PWD/laskutus/alennustyyppimodel.h \
     $$PWD/laskutus/asiakkaatmodel.h \
@@ -398,6 +399,7 @@ HEADERS += \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.h \
     $$PWD/laskutus/ryhmalasku/ryhmalaskutab.h \
     $$PWD/laskutus/ryhmalasku/toimitustapadelegaatti.h \
+    $$PWD/laskutus/tositerivialv.h \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.h \
     $$PWD/laskutus/tulostus/laskumaksulaatikko.h \
     $$PWD/laskutus/tulostus/laskunalaosa.h \
@@ -441,7 +443,6 @@ HEADERS += \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositerivi.h \
-    $$PWD/model/tositerivialv.h \
     $$PWD/model/tositerivit.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \

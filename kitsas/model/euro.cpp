@@ -61,8 +61,11 @@ QString Euro::local() const
     return QString("%L1").arg( cents_ / 100.0, 0, 'f', 2);
 }
 
-QString Euro::display() const
+QString Euro::display(bool naytaNolla) const
 {
+    if( !cents_ && !naytaNolla)
+        return QString();
+
     return QString("%L1 €").arg( cents_ / 100.0, 0, 'f', 2);
 }
 

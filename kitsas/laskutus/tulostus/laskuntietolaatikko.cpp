@@ -17,6 +17,7 @@
 #include "laskuntietolaatikko.h"
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
+#include "db/asetusmodel.h"
 
 #include <QDebug>
 #include <QPainter>
@@ -75,11 +76,60 @@ void LaskunTietoLaatikko::lisaa(const QString &avain, const QDate &pvm)
         lisaa( avain, pvm.toString("dd.MM.yyyy"));
 }
 
+void LaskunTietoLaatikko::ylatunnisteNimialue(QPainter *painter)
+{
+    const QImage& logo = kitsas_->logo();
+    const QString logonSijainti = kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI);
+    const qreal sivunleveys = painter->window().width();
+
+    const QImage skaalattu = logo.scaled( logonSijainti == "VAINLOGO" ? sivunleveys / 2 : sivunleveys / 4 ,
+                                          rivinKorkeus_ * 2,
+                                          Qt::KeepAspectRatio );
+
+    painter->drawImage(QRect(0,0,skaalattu.size().width(), skaalattu.size().height()), skaalattu);
+
+    if( logo.isNull() && logonSijainti != "VAINLOGO" && logonSijainti != "YLLA"){
+        const QString aputoiminimi = kitsas_->asetukset()->asetus(AsetusModel::APUTOIMINIMI);
+        const QString& nimi = aputoiminimi.isEmpty() ?
+                    kitsas_->asetukset()->asetus(AsetusModel::NIMI) :
+                    aputoiminimi;
+        painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
+        const qreal x = logo.isNull() ? 0 : logo.size().width() + painter->fontMetrics().horizontalAdvance("M");
+        const QRectF nimiRect(x, 0, sivunleveys / 2 - x, rivinKorkeus_ * 2);
+        painter->drawText(nimiRect, Qt::AlignLeft | Qt::AlignVCenter, nimi );
+    }
+}
+
+void LaskunTietoLaatikko::ylatunnisteOtsikko(QPainter *painter)
+{
+    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Bold) );
+    const qreal sivunleveys = painter->window().width();
+    QRectF oRect(sivunleveys / 2, 0, sivunleveys/4, rivinKorkeus_ * 2);
+    painter->drawText(oRect, Qt::AlignLeft | Qt::AlignVCenter, otsikko_ );
+}
+
+void LaskunTietoLaatikko::ylatunnistePvmalue(QPainter *painter)
+{
+    const qreal sivunleveys = painter->window().width();
+    QRectF pRect(0, 0, sivunleveys, rivinKorkeus_ * 2);
+    if( kitsas_->onkoHarjoitus()) {
+        painter->setPen( QPen(Qt::green ));
+        painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
+        painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
+                           kitsas_->kaanna("HARJOITUS", kieli_));
+    } else {
+        painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
+        painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
+                           QDate::currentDate().toString("dd.MM.yyyy"));
+    }
+}
+
 qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
 {
     painter->save();
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
     const QFontMetrics& metrics = painter->fontMetrics();
+    rivinKorkeus_ = metrics.height();
     const int rivilisa = metrics.xHeight() / 5;
 
     QRect otsikkoLaskuRect(0,0,leveys,painter->window().height());
@@ -115,9 +165,21 @@ void LaskunTietoLaatikko::piirra(QPainter *painter)
 {
     if( kitsas_->onkoHarjoitus())
         piirraHarjoitus(painter);
+    else
+        piirraTulostusPaiva(painter);
 
     piirraLaatikko(painter);
     piirraTekstit(painter);
+}
+
+void LaskunTietoLaatikko::ylatunniste(QPainter *painter)
+{
+    painter->save();
+    ylatunnisteNimialue(painter);
+    ylatunnisteOtsikko(painter);
+    ylatunnistePvmalue(painter);
+    painter->restore();
+    painter->translate(0, rivinKorkeus_ * 3.5);
 }
 
 void LaskunTietoLaatikko::piirraLaatikko(QPainter *painter)
@@ -175,6 +237,16 @@ void LaskunTietoLaatikko::piirraHarjoitus(QPainter *painter)
     painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
     painter->drawText( harjoitusRect, Qt::AlignRight | Qt::AlignTop,
                        kitsas_->kaanna("HARJOITUS", kieli_));
+    painter->restore();
+}
+
+void LaskunTietoLaatikko::piirraTulostusPaiva(QPainter *painter)
+{
+    painter->save();
+    QRect harjoitusRect(0, 0, laatikko_.width(), laatikko_.y());
+    painter->setFont(QFont("FreeSans", fonttikoko_));
+    painter->drawText( harjoitusRect, Qt::AlignRight | Qt::AlignTop,
+                       QDate::currentDate().toString("dd.MM.yyyy"));
     painter->restore();
 }
 

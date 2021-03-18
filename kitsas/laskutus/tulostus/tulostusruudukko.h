@@ -48,7 +48,7 @@ public:
 
     void laske(QPainter* painter);
 
-    void piirra(QPainter* painter, QPagedPaintDevice* device,
+    qreal piirra(QPainter* painter, QPagedPaintDevice* device,
                 qreal alaMarginaali = -1, SivunVaihtaja* vaihtaja = nullptr);        
 
     QSizeF koko() const { return koko_;}

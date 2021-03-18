@@ -21,41 +21,7 @@
 #include <QAbstractListModel>
 #include <QIcon>
 
-
-namespace AlvKoodi {
-    /**
-     * @brief Viennin alv-kirjauksen laji
-     */
-    enum Koodi
-    {
-        EIALV = 0,
-        ALV0 = 19,
-        MYYNNIT_NETTO = 11,
-        OSTOT_NETTO = 21,
-        MYYNNIT_BRUTTO = 12,
-        OSTOT_BRUTTO = 22,
-        MYYNNIT_MARGINAALI = 13,
-        OSTOT_MARGINAALI = 23,
-        YHTEISOMYYNTI_TAVARAT = 14,
-        YHTEISOHANKINNAT_TAVARAT = 24,
-        YHTEISOMYYNTI_PALVELUT = 15,
-        YHTEISOHANKINNAT_PALVELUT = 25,
-        RAKENNUSPALVELU_MYYNTI = 16,
-        RAKENNUSPALVELU_OSTO = 26,
-        MAAHANTUONTI = 27,
-        MAKSUPERUSTEINEN_MYYNTI = 18,
-        MAKSUPERUSTEINEN_OSTO = 28,
-        ENNAKKOLASKU_MYYNTI = 51,
-        ALVKIRJAUS = 100,
-        ALVVAHENNYS = 200,
-        MAKSUPERUSTEINEN_KOHDENTAMATON = 400,
-        MAKSETTAVAALV = 900,
-        TILITYS = 901,
-        MAAHANTUONTI_VERO = 927,
-        VAHENNYSKELVOTON = 932
-    };
-
-};
+#include "kitsas.h"
 
 /**
  * @brief Alv-verolajit

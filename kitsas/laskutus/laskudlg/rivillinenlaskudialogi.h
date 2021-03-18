@@ -19,6 +19,7 @@
 
 #include "kantalaskudialogi.h"
 #include "../laskualvcombo.h"
+#include "../tositerivialv.h"
 
 class RivillinenLaskuDialogi : public KantaLaskuDialogi
 {
@@ -35,10 +36,14 @@ protected:
     void paivitaBruttoNappi(const QString& alvtunnus);
     void paivitaBruttolaskenta(bool onko);
 
+    TositeriviAlv* alvTaulu() { return &alv_;}
 
 private:
     void alustaRiviTab();
-    void paivitaSumma();
+    void paivitaSumma();    
+
+private:
+    TositeriviAlv alv_;
 
 };
 

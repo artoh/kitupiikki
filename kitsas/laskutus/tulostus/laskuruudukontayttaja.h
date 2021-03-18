@@ -20,9 +20,11 @@
 #include "model/tosite.h"
 #include "tulostusruudukko.h"
 #include "model/tositerivi.h"
+#include "../tositerivialv.h"
 
 #include <QList>
 
+class QPainter;
 class KitsasInterface;
 
 class LaskuRuudukonTayttaja
@@ -31,6 +33,8 @@ public:
     LaskuRuudukonTayttaja(KitsasInterface* kitsas);
 
     TulostusRuudukko tayta(Tosite &tosite);
+    TulostusRuudukko alvRuudukko(QPainter* painter);
+    TulostusRuudukko kuukausiRuudukko(const Lasku& lasku, QPainter* painter);
 
 private:
     void tutkiSarakkeet(Tosite& tosite);
@@ -41,13 +45,16 @@ private:
     void taytaSarakkeet(Tosite& tosite);
     QString nimikesarake(const TositeRivi& rivi);
 
-    void taytaSummat(Tosite& tosite);
+    void taytaSummat();
 private:
 
     KitsasInterface* kitsas_;
 
+    TositeriviAlv alv_;
+
     bool alvSarake_ = false;
     bool aleSarake_ = false;
+    bool bruttolaskenta_ = false;
 
     TulostusRuudukko ruudukko_;
     QString kieli_;

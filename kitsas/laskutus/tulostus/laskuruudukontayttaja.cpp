@@ -16,10 +16,15 @@
 */
 #include "laskuruudukontayttaja.h"
 
+#include "kitsas.h"
+
 #include "model/lasku.h"
 #include "model/tositerivit.h"
 #include "model/tositerivi.h"
 #include "db/kitsasinterface.h"
+#include "db/asetusmodel.h"
+
+#include <QPainter>
 
 LaskuRuudukonTayttaja::LaskuRuudukonTayttaja(KitsasInterface *kitsas) :
     kitsas_(kitsas)
@@ -30,11 +35,114 @@ LaskuRuudukonTayttaja::LaskuRuudukonTayttaja(KitsasInterface *kitsas) :
 TulostusRuudukko LaskuRuudukonTayttaja::tayta(Tosite &tosite)
 {
     kieli_ = tosite.lasku().kieli().toLower();
+    bruttolaskenta_ = tosite.lasku().bruttoVerolaskenta();
+
+    alv_.yhdistaRiveihin( tosite.rivit());
+    alv_.asetaBruttoPeruste( bruttolaskenta_ );
+    alv_.paivita();
+
+    if( tosite.rivit()->rowCount() == 0)
+        return TulostusRuudukko();
+
     tutkiSarakkeet(tosite);
     kirjoitaSarakkeet();
     taytaSarakkeet(tosite);
-    taytaSummat(tosite);
+    taytaSummat();
     return ruudukko_;
+}
+
+TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
+{
+    painter->save();
+    painter->setFont(QFont("FreeSans", 10));
+    qreal vahintaan = painter->fontMetrics().horizontalAdvance("1 000,00 e");
+
+    painter->restore();
+
+    // Verottomalle ei tulosteta myöskään alv-erittelyä
+    if( alv_.veroton() )
+        return TulostusRuudukko();
+
+    bool vainSumma = !alv_.vero().cents();
+
+    TulostusRuudukko veroruudukko;
+    veroruudukko.lisaaSarake("");
+
+    if( vainSumma ) {
+        veroruudukko.lisaaSarake( "", Qt::AlignRight, vahintaan );
+    } else {
+        veroruudukko.lisaaSarake( kitsas_->kaanna("netto", kieli_), Qt::AlignRight, vahintaan );
+        veroruudukko.lisaaSarake( kitsas_->kaanna("vero", kieli_), Qt::AlignRight, vahintaan );
+        veroruudukko.lisaaSarake( kitsas_->kaanna("brutto", kieli_), Qt::AlignRight, vahintaan );
+    }
+
+    QList<int> indeksit = alv_.indeksitKaytossa();
+    for(int indeksi : indeksit) {
+        int verokoodi = alv_.alvkoodi(indeksi);
+        QStringList tekstit;
+
+        if( verokoodi == AlvKoodi::MYYNNIT_NETTO) {
+            tekstit << QString("%1 %L2 %").arg(kitsas_->kaanna("alv", kieli_))
+                                        .arg(alv_.veroprosentti(indeksi),0,'f',2);
+        } else {
+            tekstit << kitsas_->kaanna( QString("alv%1").arg(verokoodi), kieli_ );
+        }
+
+        tekstit << alv_.netto(indeksi).display();
+        if( !vainSumma ) {
+            tekstit << alv_.vero(indeksi).display(false);
+            tekstit << alv_.brutto(indeksi).display();
+        }
+        veroruudukko.lisaaRivi(tekstit);
+    }
+
+    if( indeksit.count() > 1) {
+        QStringList stekstit;
+        stekstit << kitsas_->kaanna("Yhteensa", kieli_ );
+        stekstit << alv_.netto().display();
+        if( !vainSumma) {
+            stekstit << alv_.vero().display();
+            stekstit << alv_.brutto().display();
+        }
+        veroruudukko.lisaaRivi(stekstit, true);
+    }
+
+    return veroruudukko;
+}
+
+TulostusRuudukko LaskuRuudukonTayttaja::kuukausiRuudukko(const Lasku &lasku, QPainter *painter)
+{
+    QDate alkaa = lasku.toimituspvm();
+    QDate paattyy = lasku.jaksopvm();
+    int erapaiva = lasku.toistuvanErapaiva();
+
+    if( !alkaa.isValid() || !paattyy.isValid() || !erapaiva || paattyy < alkaa)
+        return TulostusRuudukko();
+
+    painter->setFont(QFont("FreeSans", 10));
+    qreal euroleveys = painter->fontMetrics().horizontalAdvance("10 000,00 e");
+
+    TulostusRuudukko toistot;
+    toistot.lisaaSarake( kitsas_->kaanna("erapvm", kieli_) );
+    toistot.lisaaSarake( kitsas_->kaanna("viitenro", kieli_) );
+    toistot.lisaaSarake( kitsas_->kaanna("maksettavaa", kieli_), Qt::AlignRight, euroleveys );
+
+    if( alkaa.day() > erapaiva)
+        alkaa = alkaa.addMonths(1);
+
+    while( alkaa <= paattyy) {
+        QStringList tekstit;
+        tekstit << QString("%1.%2.%3").arg(erapaiva, 2, 10, QChar('0'))
+                                      .arg(alkaa.month(), 2, 10, QChar('0'))
+                                      .arg(alkaa.year());
+        tekstit << ( kitsas_->asetukset()->onko(AsetusModel::LASKURF) ?
+                       lasku.viite().rfviite() : lasku.viite().valeilla() );
+        tekstit << alv_.brutto().display();
+        toistot.lisaaRivi(tekstit);
+        alkaa = alkaa.addMonths(1);
+    }
+    return toistot;
+
 }
 
 void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
@@ -93,6 +201,12 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
             tekstit << rivit->index(i, TositeRivit::ALE).data().toString();
         if( alvSarake_)
             tekstit << rivit->index(i, TositeRivit::ALV).data().toString();
+        if( bruttolaskenta_ ) {
+            tekstit << rivi.bruttoYhteensa().display();
+        } else {
+            tekstit << Euro::fromDouble( rivi.nettoYhteensa() ).display();
+        }
+
         tekstit << rivit->index(i, TositeRivit::BRUTTOSUMMA).data().toString();
 
         ruudukko_.lisaaRivi(tekstit);
@@ -106,8 +220,14 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
     return txt;
 }
 
-void LaskuRuudukonTayttaja::taytaSummat(Tosite &tosite)
+void LaskuRuudukonTayttaja::taytaSummat()
 {
-    ruudukko_.lisaaSummaRivi( kitsas_->kaanna("yhteensa", kieli_), tosite.rivit()->yhteensa().display() );
+    if( alv_.vero().cents() && !bruttolaskenta_ ) {
+        ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVeroton", kieli_), alv_.netto().display() );
+        ruudukko_.lisaaSummaRivi( kitsas_->kaanna("Vero", kieli_), alv_.vero().display() );
+        ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVerollinen", kieli_), alv_.brutto().display());
+    } else {
+        ruudukko_.lisaaSummaRivi( kitsas_->kaanna("Yhteensa", kieli_), alv_.brutto().display() );
+    }
 }
 

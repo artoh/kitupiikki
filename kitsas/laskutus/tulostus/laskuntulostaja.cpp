@@ -27,32 +27,37 @@
 #include "db/kitsasinterface.h"
 #include "laskuntietolaatikko.h"
 #include "laskunosoitealue.h"
-#include "laskunalaosa.h"
 #include "laskuruudukontayttaja.h"
 
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
-    : QObject(parent), kitsas_(kitsas)
+    : QObject(parent), kitsas_(kitsas), tietoLaatikko_(kitsas), alaOsa_(kitsas)
 {
 
 }
 
 void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPainter *painter)
-{
-    const Lasku& lasku = tosite.constLasku();
+{    
 
-    LaskunOsoiteAlue osoiteosa( kitsas_ );
-    LaskunTietoLaatikko laatikko( kitsas_ );
-    LaskunAlaosa alaosa( kitsas_ );
+    const Lasku& lasku = tosite.constLasku();
+    kieli_ = lasku.kieli().toLower();
 
     if( tosite.laskuNumero().isEmpty())
-        tulostaLuonnos(painter, lasku.kieli().toLower());
+        tulostaLuonnos(painter);
+
+    painter->setFont(QFont("FreeSans", 10));
+    qreal rivinkorkeus = painter->fontMetrics().height();
+
+
+    LaskunOsoiteAlue osoiteosa( kitsas_ );    
+
 
     osoiteosa.lataa(tosite);
-    laatikko.lataa(tosite);
-    alaosa.lataa(lasku, osoiteosa.vastaanottaja());
+    tietoLaatikko_.lataa(tosite);
+    alaOsa_.lataa(lasku, osoiteosa.vastaanottaja());
 
-    qreal alaosanKorkeus = alaosa.laske(painter);
-    alaosa.piirra(painter, lasku);
+    qreal alalaita = painter->window().height() - alaOsa_.laske(painter) - rivinkorkeus * 2;
+
+    alaOsa_.piirra(painter, lasku);
 
     osoiteosa.laske(painter, printer);
 
@@ -60,21 +65,20 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     qreal laatikkoleveys = osoiteosa.leveys() > sivunleveys
             ? sivunleveys - osoiteosa.leveys()
             : sivunleveys / 2;
-    laatikko.laskeLaatikko(painter, laatikkoleveys);
+    tietoLaatikko_.laskeLaatikko(painter, laatikkoleveys);
 
     painter->save();
     osoiteosa.piirra(painter);
     painter->translate(sivunleveys - laatikkoleveys, 0);
-    laatikko.piirra(painter);
+    tietoLaatikko_.piirra(painter);
     painter->restore();
 
-    painter->translate(0, osoiteosa.korkeus() > laatikko.korkeus() ?
-                          osoiteosa.korkeus() : laatikko.korkeus());
-
-    painter->setFont(QFont("FreeSans", 10));
-    painter->translate( 0, painter->fontMetrics().height() * 0.5 );
+    painter->translate(0, osoiteosa.korkeus() > tietoLaatikko_.korkeus() ?
+                          osoiteosa.korkeus() : tietoLaatikko_.korkeus());
+    painter->translate( 0, rivinkorkeus * 0.5 );
 
     if( !lasku.lisatiedot().isEmpty() ) {
+        painter->setFont(QFont("FreeSans", 10));
         QRectF lisaRect = painter->boundingRect( QRectF(0,0,sivunleveys,sivunleveys),
                                                  Qt::TextWordWrap,
                                                  lasku.lisatiedot());
@@ -88,9 +92,34 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     LaskuRuudukonTayttaja tayttaja( kitsas_ );
     TulostusRuudukko riviosa = tayttaja.tayta(tosite);
     riviosa.asetaLeveys(painter->window().width());
-    riviosa.piirra(painter, printer,
-                   painter->window().height() - alaosanKorkeus - painter->fontMetrics().height() * 4);
+    alalaita = riviosa.piirra(painter, printer,
+                   alalaita, this);
 
+    TulostusRuudukko veroRuudukko = tayttaja.alvRuudukko(painter);
+    veroRuudukko.asetaLeveys( sivunleveys / 4, sivunleveys * 3 / 4 );
+
+    veroRuudukko.asetaPistekoko(8);
+
+    if( painter->transform().dy() + veroRuudukko.koko().height() >= alalaita) {
+        alalaita = vaihdaSivua(painter, printer);
+        veroRuudukko.piirra(painter, printer, alalaita, this);
+    } else {
+        painter->translate(0, rivinkorkeus - riviosa.summaKoko().height() );
+        veroRuudukko.piirra(painter, printer);
+        if( (riviosa.summaKoko().height() ) > veroRuudukko.koko().height() ) {
+            painter->translate(0, riviosa.summaKoko().height() - veroRuudukko.koko().height() + rivinkorkeus);
+        }
+    }
+    painter->translate(0, 1.5 * rivinkorkeus);
+
+    if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN) {
+        TulostusRuudukko kuukaudet = tayttaja.kuukausiRuudukko(lasku, painter);
+        if( painter->transform().dy() + kuukaudet.koko().height() >= alalaita )
+            alalaita = vaihdaSivua(painter, printer);
+        alalaita = kuukaudet.piirra(painter, printer, alalaita, this);
+        painter->translate(0, 1.5 * rivinkorkeus);
+    }
+    tulostaErittely( lasku.erittely(), painter, printer, alalaita);
 }
 
 QByteArray LaskunTulostaja::pdf(Tosite &tosite)
@@ -115,12 +144,40 @@ QByteArray LaskunTulostaja::pdf(Tosite &tosite)
     return array;
 }
 
-void LaskunTulostaja::tulostaLuonnos(QPainter *painter, const QString& kieli)
+void LaskunTulostaja::tulostaLuonnos(QPainter *painter)
 {
     painter->save();
     painter->setPen( QPen( Qt::lightGray));
     painter->setFont( QFont("FreeSans",60,QFont::Black));
     painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignCenter,
-                      kitsas_->kaanna("luonnos", kieli) );
+                      kitsas_->kaanna("luonnos", kieli_) );
     painter->restore();
+}
+
+
+qreal LaskunTulostaja::vaihdaSivua(QPainter *painter, QPagedPaintDevice *device)
+{
+    painter->save();
+    painter->setFont( QFont("FreeSans",10));
+    QRectF jatkuuRect(0, 0, painter->window().width(), painter->fontMetrics().height() );
+    painter->drawText(jatkuuRect, Qt::AlignRight, kitsas_->kaanna("jatkuu", kieli_));
+    painter->restore();
+    device->newPage();
+    painter->resetTransform();
+    tietoLaatikko_.ylatunniste(painter);
+    return alaOsa_.alatunniste(painter);
+}
+
+qreal LaskunTulostaja::tulostaErittely(const QStringList &erittely, QPainter *painter, QPagedPaintDevice *device, qreal alalaita)
+{
+    painter->setFont(QFont("FreeMono", 9));
+    QRectF oRect(0, 0, painter->window().width(), painter->fontMetrics().height());
+
+    for( const auto& rivi : erittely) {
+        if( painter->transform().dy() > alalaita)
+            alalaita = vaihdaSivua(painter, device);
+        painter->drawText(oRect, rivi);
+        painter->translate(0, oRect.height());
+    }
+    return alalaita;
 }

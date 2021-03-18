@@ -18,14 +18,16 @@
 #define LASKUNTULOSTAJA_H
 
 #include "model/tosite.h"
-
+#include "tulostusruudukko.h"
+#include "laskuntietolaatikko.h"
+#include "laskunalaosa.h"
 #include <QObject>
 
 class KitsasInterface;
 class QPagedPaintDevice;
 class QPainter;
 
-class LaskunTulostaja : public QObject
+class LaskunTulostaja : public QObject, public SivunVaihtaja
 {
     Q_OBJECT
 public:
@@ -37,15 +39,20 @@ public:
 
     QByteArray pdf( Tosite& tosite);
 
+public:
+    virtual qreal vaihdaSivua(QPainter *painter, QPagedPaintDevice *device) override;
+    qreal tulostaErittely(const QStringList& erittely, QPainter *painter, QPagedPaintDevice *device, qreal alalaita);    
+
 signals:
 
 protected:
-    void tulostaLuonnos(QPainter* painter, const QString& kieli);
+    void tulostaLuonnos(QPainter* painter);
 
 private:
     KitsasInterface *kitsas_;
-
-
+    LaskunTietoLaatikko tietoLaatikko_;
+    LaskunAlaosa alaOsa_;
+    QString kieli_;
 
 };
 

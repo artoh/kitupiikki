@@ -27,7 +27,7 @@
 #include <QMessageBox>
 
 TositeRivit::TositeRivit(QObject *parent, const QVariantList& data)
-    : QAbstractTableModel(parent), alvtaulu_(this)
+    : QAbstractTableModel(parent)
 {
     for(const auto& variant : data) {
         rivit_.append( TositeRivi( variant.toMap()) );

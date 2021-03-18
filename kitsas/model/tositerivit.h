@@ -21,7 +21,6 @@
 #include <QVariantList>
 #include <QDate>
 
-#include "tositerivialv.h"
 #include "tosite.h"
 #include "tositerivi.h"
 #include "laskutus/yksikkomodel.h"
@@ -78,7 +77,6 @@ public:
     TositeRivi rivi(int indeksi) const;
     void asetaRivi(int indeksi, const TositeRivi& rivi);
 
-    TositeriviAlv* alvtaulu() { return &alvtaulu_;}
 
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
@@ -90,7 +88,6 @@ private:
     QList<TositeRivi> rivit_;
 
     YksikkoModel yksikkoModel_;
-    TositeriviAlv alvtaulu_;
 
     bool ennakkolasku_ = false;
 };
