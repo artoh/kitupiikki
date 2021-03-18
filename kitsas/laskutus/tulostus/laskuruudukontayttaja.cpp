@@ -33,6 +33,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::tayta(Tosite &tosite)
     tutkiSarakkeet(tosite);
     kirjoitaSarakkeet();
     taytaSarakkeet(tosite);
+    taytaSummat(tosite);
     return ruudukko_;
 }
 
@@ -103,5 +104,10 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
     QString txt = rivi.nimike();
     // TODO Kaikki tarpeellinen ;)
     return txt;
+}
+
+void LaskuRuudukonTayttaja::taytaSummat(Tosite &tosite)
+{
+    ruudukko_.lisaaSummaRivi( kitsas_->kaanna("yhteensa", kieli_), tosite.rivit()->yhteensa().display() );
 }
 

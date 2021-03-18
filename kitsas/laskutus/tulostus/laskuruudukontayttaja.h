@@ -40,6 +40,8 @@ private:
 
     void taytaSarakkeet(Tosite& tosite);
     QString nimikesarake(const TositeRivi& rivi);
+
+    void taytaSummat(Tosite& tosite);
 private:
 
     KitsasInterface* kitsas_;

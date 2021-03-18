@@ -44,12 +44,15 @@ public:
 
     void lisaaRivi(const QStringList& tekstit, bool lihava = false);
 
+    void lisaaSummaRivi(const QString& otsikko, const QString& summa);
+
     void laske(QPainter* painter);
 
     void piirra(QPainter* painter, QPagedPaintDevice* device,
-                qreal alaMarginaali = -1, SivunVaihtaja* vaihtaja = nullptr);
+                qreal alaMarginaali = -1, SivunVaihtaja* vaihtaja = nullptr);        
 
     QSizeF koko() const { return koko_;}
+    QSizeF summaKoko() const { return summakoko_;}
 
 protected:
 
@@ -91,11 +94,13 @@ protected:
 protected:
     void piirraOtsikko(QPainter* painter);
     void piirraRivi(const Rivi& rivi, QPainter* painter);
+    void piiraSummaRivit(QPainter* painter);
 
 
 private:
     QList<Sarake> sarakkeet_;
     QList<Rivi> rivit_;
+    QList<QPair<QString,QString>> summarivit_;
 
     qreal vahimmaisLeveys_ = -1;
     qreal enimmaisLeveys_ = -1;
@@ -105,7 +110,8 @@ private:
     qreal sarakevali_;
     qreal ivali_;
 
-    QSizeF koko_;
+    QSizeF summakoko_;
+    QSizeF koko_;        
 
 };
 
