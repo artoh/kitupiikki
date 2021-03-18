@@ -21,7 +21,7 @@
 #include "tavallinenlaskudialogi.h"
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
-
+#include "kieli/kielet.h"
 
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
@@ -49,6 +49,7 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
     tosite->asetaKumppani(asiakasId);
     tosite->asetaLaskupvm( paivamaara() );
+    tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();

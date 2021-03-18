@@ -125,14 +125,14 @@ void Perusvalinnat::poistaLogo()
 bool Perusvalinnat::tallenna()
 {
     ui->ytunnusEdit->setText(ui->ytunnusEdit->text().simplified());    
+    const QString& kieli = ui->kieliCombo->kieli();
 
     // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
-    kp()->tilit()->paivitaTilat();
-
-    Kielet::instanssi()->valitseKieli( ui->kieliCombo->kieli() );
-    kp()->settings()->setValue( kp()->asetukset()->asetus("UID") + "/kieli", ui->kieliCombo->kieli() );
+    kp()->tilit()->paivitaTilat();        
+    Kielet::instanssi()->valitseKieli( kieli );
+    kp()->settings()->setValue( kp()->asetukset()->asetus("UID") + "/kieli", kieli );
 
     return true;
 }
