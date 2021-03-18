@@ -67,6 +67,7 @@ public:
     virtual QDate paivamaara() const;
     virtual QImage logo() const;
     virtual bool onkoHarjoitus() const { return true; }
+    virtual bool onkoMaksuperusteinenAlv(const QDate& paiva) const;
 
 };
 
@@ -74,5 +75,6 @@ inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pv
 inline QString KitsasInterface::kaanna(const QString &teksti, const QString &/*kieli*/) const {return teksti; }
 inline QDate KitsasInterface::paivamaara() const { return QDate::currentDate(); }
 inline QImage KitsasInterface::logo() const { return QImage();}
+inline bool KitsasInterface::onkoMaksuperusteinenAlv(const QDate &/*paiva*/) const { return false; }
 
 #endif // KITSASINTERFACE_H

@@ -254,7 +254,7 @@ void KirjausWg::tyhjenna()
     ui->tositetyyppiCombo->setFocus();
     ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    if( kp()->asetukset()->onko(AsetusModel::ALV))
+    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
         ui->viennitView->showColumn(TositeViennit::ALV);
     else
         ui->viennitView->hideColumn(TositeViennit::ALV);
@@ -869,8 +869,8 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     else
         ui->tunnisteLabel->setText( Tosite::tilateksti(tosite()->tositetila()) );
     QString sarja = tosite()->sarja();
-    ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) || !sarja.isEmpty() );
-    ui->sarjaCombo->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) || !sarja.isEmpty() );
+    ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
+    ui->sarjaCombo->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
 
     if( selaus_ && tosite_->id())
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
@@ -918,7 +918,7 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 
 void KirjausWg::paivitaSarja(bool kateinen)
 {
-    if( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) &&
+    if( (kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan)) &&
          !tosite()->id()   )
         tosite()->asetaSarja( kp()->tositeTyypit()->sarja( tosite_->tyyppi(), kateinen ) ) ;
 }

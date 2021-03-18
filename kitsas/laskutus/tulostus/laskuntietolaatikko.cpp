@@ -79,7 +79,7 @@ void LaskunTietoLaatikko::lisaa(const QString &avain, const QDate &pvm)
 void LaskunTietoLaatikko::ylatunnisteNimialue(QPainter *painter)
 {
     const QImage& logo = kitsas_->logo();
-    const QString logonSijainti = kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI);
+    const QString logonSijainti = kitsas_->asetukset()->asetus(AsetusModel::Logonsijainti);
     const qreal sivunleveys = painter->window().width();
 
     const QImage skaalattu = logo.scaled( logonSijainti == "VAINLOGO" ? sivunleveys / 2 : sivunleveys / 4 ,
@@ -89,9 +89,9 @@ void LaskunTietoLaatikko::ylatunnisteNimialue(QPainter *painter)
     painter->drawImage(QRect(0,0,skaalattu.size().width(), skaalattu.size().height()), skaalattu);
 
     if( logo.isNull() && logonSijainti != "VAINLOGO" && logonSijainti != "YLLA"){
-        const QString aputoiminimi = kitsas_->asetukset()->asetus(AsetusModel::APUTOIMINIMI);
+        const QString aputoiminimi = kitsas_->asetukset()->asetus(AsetusModel::Aputoiminimi);
         const QString& nimi = aputoiminimi.isEmpty() ?
-                    kitsas_->asetukset()->asetus(AsetusModel::NIMI) :
+                    kitsas_->asetukset()->asetus(AsetusModel::OrganisaatioNimi) :
                     aputoiminimi;
         painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
         const qreal x = logo.isNull() ? 0 : logo.size().width() + painter->fontMetrics().horizontalAdvance("M");

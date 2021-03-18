@@ -264,7 +264,7 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                         emit dataChanged( index.sibling(index.row(), KOHDENNUS), index.sibling(index.row(), KOHDENNUS) );
                     } else
                         rivi.setEra( 0);
-                    if( kp()->asetukset()->onko(AsetusModel::ALV)) {
+                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
                         int alvkoodi = uusitili.arvo("alvlaji").toInt();                     
                         if( !alvkoodi || !kp()->alvIlmoitukset()->onkoIlmoitettu(rivi.pvm())) {
                             rivi.setAlvKoodi( alvkoodi );

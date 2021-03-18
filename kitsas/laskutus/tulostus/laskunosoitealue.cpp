@@ -29,15 +29,15 @@ LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
     const AsetusModel* asetukset = kitsas->asetukset();
 
     if( kitsas->logo().size().isEmpty() ||
-        asetukset->asetus(AsetusModel::LOGONSIJAINTI) != "VAINLOGO" ) {
-        const QString& aputoiminimi = asetukset->asetus(AsetusModel::APUTOIMINIMI);
+        asetukset->asetus(AsetusModel::Logonsijainti) != "VAINLOGO" ) {
+        const QString& aputoiminimi = asetukset->asetus(AsetusModel::Aputoiminimi);
         nimi_ = aputoiminimi.isEmpty() ?
-                kitsas->asetukset()->asetus(AsetusModel::NIMI) :
+                kitsas->asetukset()->asetus(AsetusModel::OrganisaatioNimi) :
                 aputoiminimi;
     }
     lahettajaOsoite_ = isoIkkuna() ?
-            asetukset->asetus(AsetusModel::KATUOSOITE) + "\n" +
-            asetukset->asetus(AsetusModel::POSTINUMERO) + " " + asetukset->asetus(AsetusModel::KAUPUNKI)
+            asetukset->asetus(AsetusModel::Katuosoite) + "\n" +
+            asetukset->asetus(AsetusModel::Postinumero) + " " + asetukset->asetus(AsetusModel::Kaupunki)
               : QString();
 
 }
@@ -78,7 +78,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
     const QRectF ikkuna = kuorenIkkuna(device);
 
     const QImage& logo = kitsas_->logo();
-    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI) : QString();
+    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::Logonsijainti) : QString();
 
 
     QRectF lahettajaAlue =
@@ -165,7 +165,7 @@ void LaskunOsoiteAlue::piirra(QPainter *painter)
     painter->save();
 
     const QImage& logo = kitsas_->logo();
-    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::LOGONSIJAINTI) : QString();
+    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::Logonsijainti) : QString();
 
     painter->setFont( QFont("FreeSans", nimiFonttiKoko_ ) );
 
@@ -198,5 +198,5 @@ QRect LaskunOsoiteAlue::kuorenIkkuna(QPagedPaintDevice *device) const
 
 bool LaskunOsoiteAlue::isoIkkuna() const
 {
-    return kitsas_->asetukset()->luku(AsetusModel::LASKUIKKUNAKORKEUS) > 55;
+    return kitsas_->asetukset()->luku(AsetusModel::LaskuIkkunaKorkeus) > 55;
 }

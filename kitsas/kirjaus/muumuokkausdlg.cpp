@@ -117,7 +117,7 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
         ui->euroEdit->setValue(v.debet());
     }
 
-    bool naytavero = kp()->asetukset()->onko(AsetusModel::ALV);
+    bool naytavero = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
 
     ui->line->setVisible(naytavero);
     ui->alvLabel->setVisible(naytavero);

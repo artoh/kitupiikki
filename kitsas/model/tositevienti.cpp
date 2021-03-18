@@ -178,6 +178,11 @@ void TositeVienti::setAlvKoodi(int koodi)
 
 void TositeVienti::setAlvProsentti(double prosentti)
 {
+    set(ALVPROSENTTI, QString("%1").arg(prosentti,0,'f',2));
+}
+
+void TositeVienti::setAlvProsentti(const QString &prosentti)
+{
     set( ALVPROSENTTI, prosentti);
 }
 

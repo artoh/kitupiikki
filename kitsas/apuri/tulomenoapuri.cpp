@@ -56,7 +56,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     ui->tilellaView->setModel( rivit_);
     ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
-    if( !kp()->asetukset()->onko(AsetusModel::ALV))
+    if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
         ui->tilellaView->hideColumn(TmRivit::ALV);
 
 
@@ -389,7 +389,7 @@ void TuloMenoApuri::tiliMuuttui()
             poistoAikaMuuttuu();
         }
 
-        if( kp()->asetukset()->onko(AsetusModel::ALV) )
+        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
         {
             int verotyyppi = tili.luku("alvlaji");
             bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
@@ -744,7 +744,7 @@ void TuloMenoApuri::alusta(bool meno)
     ui->vastatiliLine->suodataTyypilla("[AB]");
     maksutapaMuuttui();
 
-    bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
+    bool alv = kp()->asetukset()->onko( AsetusModel::AlvVelvollinen );
     ui->alvLabel->setVisible(alv);
     ui->alvCombo->setVisible(alv);
 

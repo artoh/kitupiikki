@@ -135,7 +135,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::kuukausiRuudukko(const Lasku &lasku, QPa
         tekstit << QString("%1.%2.%3").arg(erapaiva, 2, 10, QChar('0'))
                                       .arg(alkaa.month(), 2, 10, QChar('0'))
                                       .arg(alkaa.year());
-        tekstit << ( kitsas_->asetukset()->onko(AsetusModel::LASKURF) ?
+        tekstit << ( kitsas_->asetukset()->onko(AsetusModel::LaskuRF) ?
                        lasku.viite().rfviite() : lasku.viite().valeilla() );
         tekstit << alv_.brutto().display();
         toistot.lisaaRivi(tekstit);

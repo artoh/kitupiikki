@@ -164,7 +164,7 @@ int AsetusModel::luku(const QString &avain, int oletusarvo) const
 
 int AsetusModel::luku(int tunnus, int oletusarvo) const
 {
-    return luku( avaimet__.at(tunnus));
+    return luku( avaimet__.at(tunnus), oletusarvo);
 }
 
 qulonglong AsetusModel::isoluku(const QString &avain, qulonglong oletusarvo) const
@@ -238,25 +238,29 @@ void AsetusModel::lataa(const QVariantMap &lista)
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {
-    { ALV, "AlvVelvollinen" },
-    { ERISARJAAN, "erisarjaan"},
-    { KATEISSARJAAN, "kateissarjaan"},
-    { NIMI, "Nimi"},
-    { KATUOSOITE, "Katuosoite"},
-    { POSTINUMERO, "Postinumero"},
-    { KAUPUNKI, "Kaupunki"},
-    { APUTOIMINIMI, "Aputoiminimi"},
-    { LOGONSIJAINTI, "LogonSijainti"},
-    { LASKUIKKUNAKORKEUS, "LaskuIkkunaKorkeus"},
-    { PUHELIN, "Puhelin" },
-    { EMAIL, "Email" },
-    { KOTISIVU, "Kotisivu" },
-    { KOTIPAIKKA, "Kotipaikka" },
-    { YTUNNUS, "Ytunnus"},
-    { LASKUIBANIT, "LaskuIbanit"},
-    { LASKURF, "LaskuRF"},
-    { LASKUQR, "LaskuQR"},
-    { LASKUVIIVAKOODI, "LaskuViivakoodi"},
-    { LASKUVIRTUAALIVIIVAKOODI, "LaskuVirtuaaliViivakoodi"},
-    { LASKUTILISIIRTO, "LaskuTilisiirto"}
+    { AlvVelvollinen, "AlvVelvollinen" },
+    { EriSarjaan, "erisarjaan"},
+    { KateisSarjaan, "kateissarjaan"},
+    { OrganisaatioNimi, "Nimi"},
+    { Katuosoite, "Katuosoite"},
+    { Postinumero, "Postinumero"},
+    { Kaupunki, "Kaupunki"},
+    { Aputoiminimi, "Aputoiminimi"},
+    { Logonsijainti, "LogonSijainti"},
+    { LaskuIkkunaKorkeus, "LaskuIkkunaKorkeus"},
+    { Puhelin, "Puhelin" },
+    { Email, "Email" },
+    { Kotisivu, "Kotisivu" },
+    { Kotipaikka, "Kotipaikka" },
+    { Ytunnus, "Ytunnus"},
+    { LaskuIbanit, "LaskuIbanit"},
+    { LaskuRF, "LaskuRF"},
+    { LaskuQR, "LaskuQR"},
+    { LaskuViivakoodi, "LaskuViivakoodi"},
+    { LaskuVirtuaaliviivakoodi, "LaskuVirtuaaliViivakoodi"},
+    { LaskuTilisiirto, "LaskuTilisiirto"},
+    { LaskuKateistili, "LaskuKateistili"},
+    { LaskuEnnakkosaatavaTili, "LaskuEnnakkoSaatavatili"},
+    { LaskuSaatavaTili, "LaskuSaatavatili"},
+    { EnnakkoAlvTili, "LaskuEnnakkoALV"}
 };

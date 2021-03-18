@@ -251,7 +251,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 if( uusitili.onkoValidi() && (uusitili.alvlaji() == AlvKoodi::EIALV ||
                                               uusitili.alvlaji() == AlvKoodi::MYYNNIT_NETTO ) ) {
                     rivit_[r].setTili(uusitili.numero());
-                    if( kp()->asetukset()->onko(AsetusModel::ALV)) {
+                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
                         rivit_[r].setAlvKoodi( uusitili.alvlaji() );
                         rivit_[r].setAlvProsentti( uusitili.alvprosentti() );
                         rivit_[r].laskeYhteensa();
@@ -505,7 +505,7 @@ void TositeRivit::lisaaRivi(QVariantMap rivi)
         int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
         rivi.insert("tili", uusitili);
         Tili *tili = kp()->tilit()->tili(uusitili);
-        if(tili && kp()->asetukset()->onko(AsetusModel::ALV)) {
+        if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
             rivi.insert("alvkoodi", tili->arvo("alvlaji").toInt());
             rivi.insert("alvprosentti", tili->arvo("alvprosentti").toDouble());
         }

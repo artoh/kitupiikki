@@ -500,7 +500,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     out.setCodec("utf-8");
 
     const QVariantList& liitteet = tosite.value("liitteet").toList();
-    bool alv = kp()->asetukset()->onko(AsetusModel::ALV);
+    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
 
     // LIITTEET
 

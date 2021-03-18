@@ -42,7 +42,7 @@ QVariantList TuoteTuontiModel::lista() const
 {
     QVariantList lista;
 
-    bool alvvelvollisuus = kp()->asetukset()->onko(AsetusModel::ALV);
+    bool alvvelvollisuus = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
     
     for(int r = otsikkorivi_ ? 1 : 0 ; r < csv_.count(); r++) {
         QVariantMap map;

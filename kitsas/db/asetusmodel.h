@@ -41,27 +41,32 @@ public:
     explicit AsetusModel(QObject *parent);
 
     enum Asetukset {
-        ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */,
-        ERISARJAAN /** Tositteet numeroidaan sarjoittain */,
-        KATEISSARJAAN /** Käteistositteet omaan sarjaansa */,
-        NIMI /** Oman organisaation nimi */,
-        KATUOSOITE /** Oma katuosoite */,
-        POSTINUMERO /** Oma postinumero */,
-        KAUPUNKI /** Oma postitoimipaikka */,
-        APUTOIMINIMI /** Laskulle tulostuva aputoiminimi */,
-        LOGONSIJAINTI /** Logon sijainti */,
-        LASKUIKKUNAKORKEUS,
-        PUHELIN,
-        EMAIL,
-        KOTISIVU,
-        KOTIPAIKKA,
-        YTUNNUS,
-        LASKUIBANIT,
-        LASKURF,
-        LASKUQR,
-        LASKUVIIVAKOODI,
-        LASKUVIRTUAALIVIIVAKOODI,
-        LASKUTILISIIRTO
+        AlvVelvollinen /** AlvVelvollinen - Maksaa arvonlisäveroa */,
+        EriSarjaan /** Tositteet numeroidaan sarjoittain */,
+        KateisSarjaan /** Käteistositteet omaan sarjaansa */,
+        OrganisaatioNimi /** Oman organisaation nimi */,
+        Katuosoite /** Oma katuosoite */,
+        Postinumero /** Oma postinumero */,
+        Kaupunki /** Oma postitoimipaikka */,
+        Aputoiminimi /** Laskulle tulostuva aputoiminimi */,
+        Logonsijainti /** Logon sijainti */,
+        LaskuIkkunaKorkeus,
+        Puhelin,
+        Email,
+        Kotisivu,
+        Kotipaikka,
+        Ytunnus,
+        LaskuIbanit,
+        LaskuRF,
+        LaskuQR,
+        LaskuViivakoodi,
+        LaskuVirtuaaliviivakoodi,
+        LaskuTilisiirto,
+        LaskuKateistili,
+        LaskuEnnakkosaatavaTili,
+        LaskuSaatavaTili,
+        EnnakkoAlvTili
+
     };
 
 

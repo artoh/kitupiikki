@@ -97,10 +97,10 @@ QString TositeTyyppiModel::sarja(int koodi, bool kateinen) const
 {
     QVariantMap sarjamap = QJsonDocument::fromJson( kp()->asetukset()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
 
-    if( kateinen && kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
+    if( kateinen && kp()->asetukset()->onko(AsetusModel::KateisSarjaan))
         return sarjamap.value("K","K").toString();
 
-    if( !kp()->asetukset()->onko(AsetusModel::ERISARJAAN))
+    if( !kp()->asetukset()->onko(AsetusModel::EriSarjaan))
         return QString();
 
     if( koodi >= 1000)

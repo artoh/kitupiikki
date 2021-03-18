@@ -222,7 +222,7 @@ public:
      * @param paiva
      * @return
      */
-    bool onkoMaksuperusteinenAlv(const QDate& paiva) const;
+    bool onkoMaksuperusteinenAlv(const QDate& paiva) const override;
 
     /**
      * @brief Palauttaa logon

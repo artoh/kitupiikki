@@ -15,8 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositeroute.h"
-
 #include "kumppanitroute.h"
+
+#include "kitsas.h"
 
 #include "model/tosite.h"
 #include "db/kirjanpito.h"
@@ -359,7 +360,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
             vientiid = kysely.lastInsertId().toInt();
 
         // Uusi erä käyttöön
-        if( eraid < 0)
+        if( eraid == Kitsas::UUSI_ERA)
             kysely.exec(QString("UPDATE Vienti SET eraid=%1 WHERE id=%1").arg(vientiid) );
 
         if( vientiid )

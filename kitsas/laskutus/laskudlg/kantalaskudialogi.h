@@ -77,6 +77,11 @@ protected:
     void naytaLoki();
 
     void naytaEsikatselu();
+    void tallenna(int tilaan);
+
+    void tallennettu(QVariant* vastaus);
+    void liiteTallennettu(QVariantMap tosite);
+
 private:
     void alustaUi();
     void alustaRivitTab();

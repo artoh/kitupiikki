@@ -124,6 +124,7 @@ public:
     void setSelite(const QString& selite);
     void setAlvKoodi(int koodi);
     void setAlvProsentti(double prosentti);
+    void setAlvProsentti(const QString& prosentti);
     void setKohdennus(int kohdennus);
     void setMerkkaukset( QVariantList merkkaukset);
     void setJaksoalkaa( const QDate& pvm);

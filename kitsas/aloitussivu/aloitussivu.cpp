@@ -847,7 +847,7 @@ QString AloitusSivu::vinkit()
                        .arg(matsi.captured(3)).arg(matsi.captured(2)).arg(matsi.captured(1)));
     }
 
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::ALV)) {
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
         vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
                           "<h3>Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.</h3>"
                           "Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "

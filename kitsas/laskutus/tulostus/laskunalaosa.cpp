@@ -30,9 +30,9 @@ LaskunAlaosa::LaskunAlaosa(KitsasInterface *interface) :
 {
     lataaIbanit();
 
-    viivakoodi_ = interface_->asetukset()->onko(AsetusModel::LASKUVIIVAKOODI);
-    tilisiirto_ = interface_->asetukset()->onko(AsetusModel::LASKUTILISIIRTO);
-    virtuaaliviivakoodi_ = interface_->asetukset()->onko(AsetusModel::LASKUVIRTUAALIVIIVAKOODI);
+    viivakoodi_ = interface_->asetukset()->onko(AsetusModel::LaskuViivakoodi);
+    tilisiirto_ = interface_->asetukset()->onko(AsetusModel::LaskuTilisiirto);
+    virtuaaliviivakoodi_ = interface_->asetukset()->onko(AsetusModel::LaskuVirtuaaliviivakoodi);
 }
 
 void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja)
@@ -97,7 +97,7 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
 
     if( virtuaaliviivakoodi_ ) {
         const QString vvk = kaanna("virtviiv") + " " + lasku.virtuaaliviivakoodi( ibanit_.value(0),
-                                                                                  interface_->asetukset()->onko(AsetusModel::LASKURF));
+                                                                                  interface_->asetukset()->onko(AsetusModel::LaskuRF));
         QRectF vvkr = painter->boundingRect(QRect(0, 0, leveys, mm *10), vvk);
         painter->drawText(vvkr, vvk);
         painter->translate(0, vvkr.height());
@@ -161,7 +161,7 @@ qreal LaskunAlaosa::alatunniste(QPainter *painter)
 void LaskunAlaosa::lataaIbanit()
 {
     const AsetusModel* asetukset = interface_->asetukset();
-    QStringList ibanLista = asetukset->asetus(AsetusModel::LASKUIBANIT).split(",");
+    QStringList ibanLista = asetukset->asetus(AsetusModel::LaskuIbanit).split(",");
 
     for(const auto& ibanteksti : ibanLista) {
         Iban iban(ibanteksti);
@@ -180,22 +180,22 @@ void LaskunAlaosa::lataaYhteystiedot()
 {
     const AsetusModel* asetukset = interface_->asetukset();
 
-    lahettaja_ = asetukset->asetus(AsetusModel::NIMI) + "\n" +
-            asetukset->asetus(AsetusModel::KATUOSOITE) + "\n" +
-            asetukset->asetus(AsetusModel::POSTINUMERO) + " " + asetukset->asetus(AsetusModel::KAUPUNKI);
+    lahettaja_ = asetukset->asetus(AsetusModel::OrganisaatioNimi) + "\n" +
+            asetukset->asetus(AsetusModel::Katuosoite) + "\n" +
+            asetukset->asetus(AsetusModel::Postinumero) + " " + asetukset->asetus(AsetusModel::Kaupunki);
 
     osoitelaatikko_.lisaa(QString(), lahettaja_);
 
-    lisaaYhteys(AsetusModel::KOTISIVU, "kotisivu");
-    lisaaYhteys(AsetusModel::PUHELIN, "puhelin");
-    lisaaYhteys(AsetusModel::EMAIL, "sahkoposti");
-    lisaaYhteys(AsetusModel::KOTIPAIKKA, "kotipaikka");
+    lisaaYhteys(AsetusModel::Kotisivu, "kotisivu");
+    lisaaYhteys(AsetusModel::Puhelin, "puhelin");
+    lisaaYhteys(AsetusModel::Email, "sahkoposti");
+    lisaaYhteys(AsetusModel::Kotipaikka, "kotipaikka");
 
 
-    const QString& ytunnus = asetukset->asetus(AsetusModel::YTUNNUS);
+    const QString& ytunnus = asetukset->asetus(AsetusModel::Ytunnus);
     if( !ytunnus.isEmpty())
         lisaaTunnukseen( kaanna("ytunnus"), ytunnus );
-    if( asetukset->onko(AsetusModel::ALV))
+    if( asetukset->onko(AsetusModel::AlvVelvollinen))
         lisaaTunnukseen(kaanna("alvtunnus"), "FI"+ytunnus.left(7)+ytunnus.right(1));
     else
         lisaaTunnukseen(QString(), kaanna("eialv"));
@@ -210,7 +210,7 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
     maksulaatikko_.lisaa( kaanna("bic"), bicit_.join("\n"));
 
     if( lasku.viite().tyyppi() != ViiteNumero::VIRHEELLINEN)
-        maksulaatikko_.lisaa( kaanna("viitenro"), asetukset->onko(AsetusModel::LASKURF)
+        maksulaatikko_.lisaa( kaanna("viitenro"), asetukset->onko(AsetusModel::LaskuRF)
                           ? lasku.viite().rfviite() :
                             lasku.viite().valeilla());
 
@@ -245,11 +245,11 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
 
     // QR-koodi
-    if( interface_->asetukset()->onko(AsetusModel::LASKUQR))
+    if( interface_->asetukset()->onko(AsetusModel::LaskuQR))
     {
         QString data = lasku.QRkooditieto( ibanit_.value(0),
-                                           interface_->asetukset()->asetus(AsetusModel::NIMI),
-                                           interface_->asetukset()->onko(AsetusModel::LASKURF) );
+                                           interface_->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
+                                           interface_->asetukset()->onko(AsetusModel::LaskuRF) );
         if( !data.isEmpty() ) {
             qrcodegen::QrCode qrTieto = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::QUARTILE);
             QSvgRenderer qrr( QByteArray::fromStdString( qrTieto.toSvgString(1) ) );
@@ -300,7 +300,7 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     painter->drawText(QRectF( mm*22, mm * 33, osle, mm * 25), Qt::TextWordWrap,  vastaanottaja_ );
 
     painter->drawText( QRectF(viervi + 2 * mm, mm * 53.8 ,loppu - viervi - 4*mm, mm*7.5), Qt::AlignLeft | Qt::AlignVCenter,
-                       interface_->asetukset()->onko(AsetusModel::LASKURF) ? lasku.viite().rfviite() : lasku.viite().valeilla() );
+                       interface_->asetukset()->onko(AsetusModel::LaskuRF) ? lasku.viite().rfviite() : lasku.viite().valeilla() );
 
     painter->drawText( QRectF(viervi + 2 * mm , mm*62.3, eurv - viervi - 4 * mm , mm*7.5), Qt::AlignLeft | Qt::AlignVCenter, lasku.erapvm().toString("dd.MM.yyyy") );
     painter->drawText( QRectF(eurv, mm*62.3, loppu - eurv - 10 * mm, mm*7.5), Qt::AlignRight | Qt::AlignVCenter, lasku.summa().display() );
@@ -333,7 +333,7 @@ void LaskunAlaosa::piirraViivakoodi(QPainter *painter, const QRectF &rect, const
     koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
     painter->setFont( koodifontti);
     QString koodi( code128( lasku.virtuaaliviivakoodi( ibanit_.value(0),
-                                                       interface_->asetukset()->onko(AsetusModel::LASKURF)) ) );
+                                                       interface_->asetukset()->onko(AsetusModel::LaskuRF)) ) );
     painter->drawText( rect, Qt::AlignCenter, koodi  );
 
     painter->restore();

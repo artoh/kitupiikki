@@ -52,4 +52,10 @@ namespace AlvKoodi {
 
 };
 
+namespace Kitsas {
+    enum {
+        UUSI_ERA = -1
+    };
+}
+
 #endif // KITSAS_H

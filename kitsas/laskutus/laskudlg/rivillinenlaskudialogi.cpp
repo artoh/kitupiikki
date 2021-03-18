@@ -52,7 +52,7 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     paivitaSumma();
 
     ui->bruttoButton->setChecked( tosite->lasku().bruttoVerolaskenta() );
-    ui->bruttoButton->setVisible( kp()->asetukset()->onko(AsetusModel::ALV) );
+    ui->bruttoButton->setVisible( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
