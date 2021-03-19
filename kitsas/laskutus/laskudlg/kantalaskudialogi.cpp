@@ -115,13 +115,9 @@ void KantaLaskuDialogi::alustaUi()
     paivitaLaskutustavat();
     laskutusTapaMuuttui();
     alustaMaksutavat();
-    alustaRivitTab();
 }
 
-void KantaLaskuDialogi::alustaRivitTab()
-{
 
-}
 
 
 void KantaLaskuDialogi::teeConnectit()
@@ -225,21 +221,28 @@ void KantaLaskuDialogi::jatkaTositteelta()
 {
     const Lasku& lasku = tosite()->constLasku();
     ui->email->setText( lasku.email());
-    ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.maksutapa() ) );
+
+    ui->maksuCombo->setCurrentIndex( lasku.maksutapa() );
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.lahetystapa() ) );
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );
-    ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ) );
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );    
+
+    int valvonta = lasku.valvonta();
+    int indeksi = ui->valvontaCombo->findData(lasku.valvonta());
+    ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ));
+
 
     ViiteNumero viite( lasku.viite() );
-    if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO )
-        ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.numero() ) );
-    paivitaViiteRivi();
+    if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO ) {
+        QString yksviite = ui->tarkeCombo->model()->index(0,0).data(HuoneistoModel::ViiteRooli).toString();
+        int indeksi = ui->tarkeCombo->findData( viite.viite() , HuoneistoModel::ViiteRooli);
+        ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.viite(), HuoneistoModel::ViiteRooli ) );
+    }
 
     ui->toimitusDate->setDate( lasku.toimituspvm() );
     ui->jaksoDate->setDate( lasku.jaksopvm() );
     ui->eraDate->setDate( lasku.erapvm() );
     laskeMaksuaika();
-    ui->toistoErapaivaSpin->setValue( lasku.toistuvanErapaiva());
+    ui->toistoErapaivaSpin->setValue( lasku.toistuvanErapaiva() ? lasku.toistuvanErapaiva() : 4);
 
     ui->viivkorkoSpin->setValue( lasku.viivastyskorko() );
     ui->asViiteEdit->setText( lasku.asiakasViite());
@@ -259,6 +262,7 @@ void KantaLaskuDialogi::jatkaTositteelta()
     ui->saateMaksutiedotCheck->setChecked( lasku.saatteessaMaksutiedot());        
 
     tositteeltaKaynnissa_ = false;
+    paivitaViiteRivi();
 }
 
 void KantaLaskuDialogi::tositteelle()
@@ -277,7 +281,7 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setKieli( ui->kieliCombo->currentData().toString() );
 
     ViiteNumero viite( tosite()->lasku().viite() );
-    const int valvonta = ui->valvontaCombo->currentData().toInt();    
+    const int valvonta = ui->valvontaCombo->currentData().toInt();
 
     tosite()->lasku().setValvonta( valvonta );
     if( valvonta == Lasku::VAKIOVIITE || valvonta == Lasku::HUONEISTO) {
@@ -413,7 +417,6 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
     paivitysKaynnissa_ = false;
     laskutusTapaMuuttui();
     maksuTapaMuuttui();
-    paivitaValvonnat();
 
 }
 
@@ -478,12 +481,16 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
     ui->jaksoDate->setVisible( maksutapa != Lasku::ENNAKKOLASKU);
 
     ui->toimituspvmLabel->setText( maksutapa == Lasku::KUUKAUSITTAINEN ? tr("Laskut ajalla") : tr("Toimituspäivä") );
+    paivitaValvonnat();
 }
 
 void KantaLaskuDialogi::valvontaMuuttui()
 {
     if( paivitysKaynnissa_ ) return;
-    const int valvonta = ui->valvontaCombo->isVisible() ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
+
+    bool valvontakaytossa = maksutapa() != Lasku::SUORITEPERUSTE && maksutapa() != Lasku::KATEINEN;
+
+    const int valvonta = valvontakaytossa ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
     ui->tarkeCombo->setVisible( valvonta == Lasku::HUONEISTO || valvonta == Lasku::VAKIOVIITE );
     if( valvonta == Lasku::VAKIOVIITE && ui->tarkeCombo->model() != kp()->vakioViitteet())
         ui->tarkeCombo->setModel( kp()->vakioViitteet() );

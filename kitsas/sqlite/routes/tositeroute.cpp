@@ -251,10 +251,10 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);
 
-        if( !map.contains("viite") ) {
+        if( viitenro.isEmpty()) {
             ViiteNumero viite(ViiteNumero::LASKU, laskunumero);
             laskumap.insert("viite", viite.viite() );
-            map.insert("viite", viite.viite());
+            viitenro = viite.viite();
         }
         map.insert("lasku", laskumap);
     }

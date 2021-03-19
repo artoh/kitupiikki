@@ -41,7 +41,7 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     const Lasku& lasku = tosite.constLasku();
     kieli_ = lasku.kieli().toLower();
 
-    if( tosite.laskuNumero().isEmpty())
+    if( lasku.numero().isEmpty())
         tulostaLuonnos(painter);
 
     painter->setFont(QFont("FreeSans", 10));

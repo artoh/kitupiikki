@@ -65,6 +65,7 @@ protected:
 
     void paivitaLaskutustavat();
     void paivitaValvonnat();
+
     void laskutusTapaMuuttui();
     void maksuTapaMuuttui();
     void valvontaMuuttui();

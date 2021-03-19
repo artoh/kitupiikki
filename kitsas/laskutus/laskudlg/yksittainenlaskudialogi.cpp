@@ -52,7 +52,7 @@ void YksittainenLaskuDialogi::tallennettu(QVariant *vastaus)
 
     KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(tallennettuTosite.id()), KpKysely::PUT);
     QMap<QString,QString> meta;
-    meta.insert("Filename", QString("lasku%1.pdf").arg( tosite()->laskuNumero() ) );
+    meta.insert("Filename", QString("lasku%1.pdf").arg( tosite()->lasku().numero()  ) );
 
     QVariantMap data = tallennettuTosite.tallennettava();
 
