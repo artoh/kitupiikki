@@ -81,7 +81,6 @@ public:
         TARKASTETTU     = 30,
         HYVAKSYTTY      = 40,
         LUONNOS         = 50,
-        LASKULUONNOS    = 60,
         VALMISLASKU     = 80,
         LAHETETAAN      = 101,
         LAHETYSVIRHE    = 102,
@@ -156,7 +155,8 @@ public:
 
 signals:
     void ladattu();
-    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);
+    void tositeTallennettu(QVariant* data);
+    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);    
     void tallennusvirhe(int virhe);
     void tilaTieto(bool muokattu, int virheet, double debet, double kredit);
 
@@ -176,6 +176,7 @@ public slots:
     void lataa(int tositeid);
     void lataa(const QVariantMap& map);
     void lataaData(QVariant *variant);
+    void tallennaLiitteitta(int tilaan = Tosite::KIRJANPIDOSSA);
     void tallenna(int tilaan = Tosite::KIRJANPIDOSSA);
     void tarkasta();
     void nollaa(const QDate& pvm, int tyyppi);

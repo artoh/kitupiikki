@@ -77,10 +77,10 @@ protected:
     void naytaLoki();
 
     void naytaEsikatselu();
-    void tallenna(int tilaan);
+    virtual void tallenna(int tilaan) = 0;
+    virtual bool tarkasta();
 
-    void tallennettu(QVariant* vastaus);
-    void liiteTallennettu(QVariantMap tosite);
+    void salliTallennus(bool sallinta);
 
 private:
     void alustaUi();

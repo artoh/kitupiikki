@@ -25,8 +25,8 @@
 #include "kappaledelegaatti.h"
 #include "yksikkodelegaatti.h"
 #include "../tuotedialogi.h"
-
 #include "laskurividialogi.h"
+#include "rivivientigeneroija.h"
 
 #include "db/kirjanpito.h"
 
@@ -34,7 +34,7 @@
 #include <QMenu>
 
 RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
-    : KantaLaskuDialogi(tosite, parent), alv_(tosite->rivit())
+    : YksittainenLaskuDialogi(tosite, parent), alv_(tosite->rivit())
 {
     alustaRiviTab();
 
@@ -129,6 +129,12 @@ void RivillinenLaskuDialogi::paivitaBruttolaskenta(bool onko)
     paivitaSumma();
 }
 
+void RivillinenLaskuDialogi::valmisteleTallennus()
+{
+    RiviVientiGeneroija rivigeneroija(kp());
+    rivigeneroija.generoiViennit(tosite_);
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -183,4 +189,5 @@ void RivillinenLaskuDialogi::paivitaSumma()
 {
     alvTaulu()->paivita();
     ui->summaLabel->setText( alvTaulu()->brutto().display() );
+    salliTallennus( !tosite()->rivit()->onkoTyhja() );
 }

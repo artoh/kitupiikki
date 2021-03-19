@@ -48,7 +48,7 @@ public:
     void setMaksutapa(int maksutapa) { set("maksutapa", maksutapa);}
 
     int lahetystapa() const { return luku("laskutapa");}
-    void setLahetystapa(int lahetystapa) { set("lahetystapa", lahetystapa);}
+    void setLahetystapa(int lahetystapa) { set("laskutapa", lahetystapa);}
 
     QString numero() const { return str("numero");}
     void setNumero(const QString& numero) { setStr("numero", numero);}

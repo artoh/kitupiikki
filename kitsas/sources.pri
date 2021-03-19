@@ -63,6 +63,7 @@ SOURCES += \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/yksikkocombo.cpp \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.cpp \
+    $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
@@ -392,6 +393,7 @@ HEADERS += \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.h \
     $$PWD/laskutus/laskudlg/yksikkocombo.h \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.h \
+    $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \

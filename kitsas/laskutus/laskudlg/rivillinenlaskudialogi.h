@@ -17,11 +17,11 @@
 #ifndef RIVILLINENLASKUDIALOGI_H
 #define RIVILLINENLASKUDIALOGI_H
 
-#include "kantalaskudialogi.h"
+#include "yksittainenlaskudialogi.h"
 #include "../laskualvcombo.h"
 #include "../tositerivialv.h"
 
-class RivillinenLaskuDialogi : public KantaLaskuDialogi
+class RivillinenLaskuDialogi : public YksittainenLaskuDialogi
 {
     Q_OBJECT
 public:
@@ -35,6 +35,8 @@ protected:
     void tositteelle() override;
     void paivitaBruttoNappi(const QString& alvtunnus);
     void paivitaBruttolaskenta(bool onko);
+
+    void valmisteleTallennus() override;
 
     TositeriviAlv* alvTaulu() { return &alv_;}
 

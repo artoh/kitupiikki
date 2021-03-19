@@ -23,6 +23,8 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
+#include "laskutus/viitenumero.h"
+
 #include <QJsonDocument>
 #include <QDate>
 #include <QSqlError>
@@ -248,8 +250,12 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         QVariantMap laskumap = map.value("lasku").toMap();
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);
-        viitenro = laskumap.value("viite", viite(QString::number(laskunumero))).toString();
-        laskumap.insert("viite", viitenro );
+
+        if( !map.contains("viite") ) {
+            ViiteNumero viite(ViiteNumero::LASKU, laskunumero);
+            laskumap.insert("viite", viite.viite() );
+            map.insert("viite", viite.viite());
+        }
         map.insert("lasku", laskumap);
     }
 
@@ -470,30 +476,6 @@ QVariant TositeRoute::hae(int tositeId)
     tosite.insert("loki", lokinpurku(kysely));
 
     return tosite;
-}
-
-QString TositeRoute::viite(QString numero)
-{
-    int summa = 0;
-    int indeksi = 0;
-
-    numero.append("000");       // #539 Viitenumeroita pidennetään vakioviitteitä varten
-
-    for( int i = numero.length() - 1; i > -1; i--) {
-        QChar ch = numero.at(i);
-        int numero = ch.digitValue();
-
-        if( indeksi % 3 == 0)
-            summa += 7 * numero;
-        else if( indeksi % 3 == 1)
-            summa += 3 * numero;
-        else
-            summa += numero;
-
-        indeksi++;
-    }
-    int tarkaste = ( 10 - summa % 10) % 10;
-    return numero + QString::number(tarkaste);
 }
 
 int TositeRoute::kumppaniMapista(QVariantMap &map)

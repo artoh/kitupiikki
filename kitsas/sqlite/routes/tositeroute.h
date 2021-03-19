@@ -38,8 +38,6 @@ protected:
 
     QVariant hae(int tositeId);
 
-    static QString viite(QString numero);
-
     /**
      * @brief Käsittelee Kumppanin map:in
      *

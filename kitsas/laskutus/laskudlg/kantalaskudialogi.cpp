@@ -34,12 +34,7 @@
 
 #include "../vakioviite/vakioviitemodel.h"
 #include "../huoneisto/huoneistomodel.h"
-
 #include "../tulostus/laskuntulostaja.h"
-#include "rivivientigeneroija.h"
-
-#include "../myyntilaskujentoimittaja.h"
-#include "laskudialogitehdas.h"
 
 #include <QJsonDocument>
 #include <QSettings>
@@ -115,6 +110,7 @@ void KantaLaskuDialogi::alustaUi()
     ui->tabWidget->setTabEnabled( lokiIndex, false);
 
     ui->lokiView->setModel( tosite_->loki() );
+    ui->lokiView->horizontalHeader()->setSectionResizeMode(TositeLoki::KAYTTAJA, QHeaderView::Stretch);
 
     paivitaLaskutustavat();
     laskutusTapaMuuttui();
@@ -145,9 +141,11 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->eraDate, &KpDateEdit::dateChanged, this, &KantaLaskuDialogi::laskeMaksuaika);
 
     connect( ui->esikatseluNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::naytaEsikatselu);
-    connect( ui->luonnosNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LASKULUONNOS); } );
+    connect( ui->luonnosNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LUONNOS); } );
     connect( ui->tallennaNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::VALMISLASKU); } );
     connect( ui->valmisNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LAHETETAAN); } );
+
+    connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
 
 }
 
@@ -235,6 +233,7 @@ void KantaLaskuDialogi::jatkaTositteelta()
     ViiteNumero viite( lasku.viite() );
     if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO )
         ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.numero() ) );
+    paivitaViiteRivi();
 
     ui->toimitusDate->setDate( lasku.toimituspvm() );
     ui->jaksoDate->setDate( lasku.jaksopvm() );
@@ -282,10 +281,9 @@ void KantaLaskuDialogi::tositteelle()
 
     tosite()->lasku().setValvonta( valvonta );
     if( valvonta == Lasku::VAKIOVIITE || valvonta == Lasku::HUONEISTO) {
-        QString vnro = ui->tarkeCombo->currentData(HuoneistoModel::ViiteRooli).toString();
-        viite = ViiteNumero(viite);
+        QString viitenumero = ui->tarkeCombo->currentData(HuoneistoModel::ViiteRooli).toString();
+        viite = ViiteNumero(viitenumero);
     }
-
 
     tosite()->asetaViite( viite );
     tosite()->lasku().setViite( viite );
@@ -550,60 +548,19 @@ void KantaLaskuDialogi::naytaEsikatselu()
     esikatsele();
 }
 
-void KantaLaskuDialogi::tallenna(int tilaan)
+bool KantaLaskuDialogi::tarkasta()
 {
-    // Tarkastukset
-    tositteelle();
-    tosite_->asetaTila(tilaan);
-    RiviVientiGeneroija rivigeneroija(kp());
-    rivigeneroija.generoiViennit(tosite_);
-
-    KpKysely* kysely;
-    if( tosite()->id()) {
-        kysely = kpk( QString("/tositteet/%1").arg(tosite()->id()), KpKysely::PUT);
-    } else {
-        kysely = kpk("/tositteet", KpKysely::PUT);
-    }
-    connect( kysely, &KpKysely::vastaus, [this] (QVariant* data)  { this->tallennettu(data); } );
-    connect( kysely, &KpKysely::virhe, [this] (int koodi, const QString& selite) { QMessageBox::critical(this, tr("Tallennusvirhe"),
-                                                                                                         tr("Laskun tallennus epäonnistui\n%1 %2").arg(koodi).arg(selite)); });
-    kysely->kysy( tosite()->tallennettava() );
+    return true;
 }
 
-void KantaLaskuDialogi::tallennettu(QVariant *vastaus)
+void KantaLaskuDialogi::salliTallennus(bool sallinta)
 {
-    Tosite tallennettuTosite;
-    tallennettuTosite.lataaData(vastaus);
-
-    LaskunTulostaja tulostaja(kp());
-    QByteArray liite = tulostaja.pdf(tallennettuTosite);
-
-    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(tallennettuTosite.id()), KpKysely::PUT);
-    QMap<QString,QString> meta;
-    meta.insert("Filename", QString("lasku%1.pdf").arg( tosite()->laskuNumero() ) );
-
-    QVariantMap data = tallennettuTosite.tallennettava();
-
-    connect( liitetallennus, &KpKysely::vastaus, [this,  data] { this->liiteTallennettu(data); });
-    liitetallennus->lahetaTiedosto(liite, meta);
-
+    ui->valmisNappi->setEnabled(sallinta);
+    ui->tallennaNappi->setEnabled(sallinta);
 }
 
-void KantaLaskuDialogi::liiteTallennettu(QVariantMap tosite)
-{
-    // Nyt tallennus on saatettu loppuun saakka!
-    // Tähän vielä laskun toimittaminen
 
-    QDialog::accept();
-    emit kp()->kirjanpitoaMuokattu();
 
-    int tila = tosite_->tila();
-    if( tila == Tosite::LAHETETAAN) {
-        MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
-        QList<QVariantMap> lista;
-        lista << tosite;
-        toimittaja->toimitaLaskut(lista);
-    }
-}
+
 
 

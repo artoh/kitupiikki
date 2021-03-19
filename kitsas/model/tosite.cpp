@@ -94,7 +94,7 @@ QString Tosite::tilateksti(int tila)
     case SAAPUNUT: return tulkkaa("Saapunut");
     case TARKASTETTU: return tulkkaa("Tarkastettu");
     case HYVAKSYTTY: return tulkkaa("Hyväksytty");
-    case LUONNOS: case LASKULUONNOS: return tulkkaa("Luonnos");
+    case LUONNOS: return tulkkaa("Luonnos");
     case VALMISLASKU: return tulkkaa("Lähettämättä");
     case KIRJANPIDOSSA: return tulkkaa("Kirjanpidossa");
     case LAHETETAAN: return tulkkaa("Lähetetään");
@@ -309,6 +309,22 @@ void Tosite::lataa(const QVariantMap &map)
 void Tosite::lataaData(QVariant *variant)
 {
     lataa( variant->toMap());
+}
+
+void Tosite::tallennaLiitteitta(int tilaan)
+{
+    asetaTila( tilaan );
+
+    KpKysely* kysely;
+    if( !id() )
+        kysely = kpk( "/tositteet/", KpKysely::POST);
+    else
+        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
+
+    connect(kysely, &KpKysely::vastaus, this, &Tosite::tositeTallennettu  );
+    connect(kysely, &KpKysely::virhe, this, &Tosite::tallennusvirhe);
+
+    kysely->kysy( tallennettava() );
 }
 
 

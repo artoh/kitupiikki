@@ -378,8 +378,7 @@ void LiiteTulostaja::tulostaKasittelijat(QPainter *painter, const QVariantList &
         QVariantMap map = var.toMap();
         int tila = map.value("tila").toInt();
         if( tila < Tosite::SAAPUNUT ||
-            tila == Tosite::LUONNOS ||
-            tila == Tosite::LASKULUONNOS )
+            tila == Tosite::LUONNOS  )
             continue;
 
         int id = map.value("userid").toInt();

@@ -238,6 +238,9 @@ osoite</string>
            <property name="maximum">
             <number>31</number>
            </property>
+           <property name="value">
+            <number>4</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -300,7 +303,7 @@ osoite</string>
         </widget>
        </item>
        <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0,0,0">
          <item>
           <widget class="QLabel" name="viiteText">
            <property name="font">
@@ -349,6 +352,19 @@ osoite</string>
             </size>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="bruttoButton">
@@ -1067,7 +1083,7 @@ osoite</string>
      <item>
       <widget class="QPushButton" name="tallennaNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="toolTip">
         <string>Tallenna lasku   F11</string>
@@ -1170,7 +1186,7 @@ osoite</string>
      <item>
       <widget class="QPushButton" name="valmisNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="toolTip">
         <string>Tallenna ja toimita   F12</string>
