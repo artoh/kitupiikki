@@ -24,7 +24,7 @@ class YksikkoCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    YksikkoCombo(QWidget* parent = nullptr);
+    YksikkoCombo(QWidget* parent = nullptr, bool editable = true);
 
     void setYksikko(const QString& yksikko);
     void setUNkoodi(const QString& koodi);

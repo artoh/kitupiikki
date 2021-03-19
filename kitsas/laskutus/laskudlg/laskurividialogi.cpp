@@ -108,6 +108,12 @@ TositeRivi LaskuRiviDialogi::rivi() const
     rivi.setLaskutetaanKpl( ui->laskutetaanEdit->text());
     rivi.setMyyntiKpl( ui->laskutetaanEdit->text().toDouble() );
 
+    if( ui->yksikkoCombo->unKoodi().isEmpty())
+        rivi.setYksikko(ui->yksikkoCombo->yksikko());
+    else
+        rivi.setUNkoodi(ui->yksikkoCombo->unKoodi());
+
+
     rivi.setANetto(anetto_);
     rivi.setAlvKoodi( ui->alvCombo->veroKoodi() );
     rivi.setAlvProsentti( ui->alvCombo->veroProsentti());

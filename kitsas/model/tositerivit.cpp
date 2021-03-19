@@ -198,6 +198,8 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
         return rivi.alvkoodi();
     else if( role == TiliNumeroRooli )
         return rivi.tili();
+    else if( role == UNkoodiRooli)
+        return rivi.unKoodi();
     else if( role == Qt::DecorationRole && index.column() == ALV) {
         return kp()->alvTyypit()->kuvakeKoodilla(rivi.alvkoodi());
     }

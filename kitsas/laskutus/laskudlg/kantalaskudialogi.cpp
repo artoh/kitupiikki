@@ -226,15 +226,12 @@ void KantaLaskuDialogi::jatkaTositteelta()
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.lahetystapa() ) );
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );    
 
-    int valvonta = lasku.valvonta();
-    int indeksi = ui->valvontaCombo->findData(lasku.valvonta());
     ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ));
 
 
     ViiteNumero viite( lasku.viite() );
     if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO ) {
         QString yksviite = ui->tarkeCombo->model()->index(0,0).data(HuoneistoModel::ViiteRooli).toString();
-        int indeksi = ui->tarkeCombo->findData( viite.viite() , HuoneistoModel::ViiteRooli);
         ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.viite(), HuoneistoModel::ViiteRooli ) );
     }
 
@@ -284,9 +281,11 @@ void KantaLaskuDialogi::tositteelle()
     const int valvonta = ui->valvontaCombo->currentData().toInt();
 
     tosite()->lasku().setValvonta( valvonta );
-    if( valvonta == Lasku::VAKIOVIITE || valvonta == Lasku::HUONEISTO) {
+    if( valvonta == Lasku::VAKIOVIITE  || valvonta == Lasku::HUONEISTO) {
         QString viitenumero = ui->tarkeCombo->currentData(HuoneistoModel::ViiteRooli).toString();
         viite = ViiteNumero(viitenumero);
+    } else if ( valvonta == Lasku::ASIAKAS) {
+        viite = ViiteNumero(ViiteNumero::ASIAKAS, ui->asiakas->id() );
     }
 
     tosite()->asetaViite( viite );
@@ -319,7 +318,10 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setSopimusnumero( ui->sopimusNumeroEdit->text());
 
     tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
-    tosite()->lasku().setErittely( ui->erittelyTextEdit->toPlainText().split("\n") );
+    if( ui->erittelyTextEdit->toPlainText().length())
+        tosite()->lasku().setErittely( ui->erittelyTextEdit->toPlainText().split("\n") );
+    else
+        tosite()->lasku().setErittely(QStringList());
 
     tosite()->lasku().setSaate( ui->saateEdit->toPlainText() );
     tosite()->lasku().setSaatteessaMaksutiedot( ui->saateMaksutiedotCheck->isChecked() );

@@ -21,10 +21,10 @@
 
 #include <QDebug>
 
-YksikkoCombo::YksikkoCombo(QWidget *parent)
+YksikkoCombo::YksikkoCombo(QWidget *parent, bool editable)
     : QComboBox(parent)
 {
-    setEditable(true);
+    setEditable(editable);
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(&yksikot_);
@@ -45,6 +45,7 @@ void YksikkoCombo::setYksikko(const QString &yksikko)
 
 void YksikkoCombo::setUNkoodi(const QString &koodi)
 {
+    qDebug() << "setUN " << koodi;
     setCurrentIndex( findData(koodi) );
 }
 
@@ -59,6 +60,7 @@ QString YksikkoCombo::yksikko() const
 
 QString YksikkoCombo::unKoodi() const
 {
+    qDebug() << "UN " << currentData(YksikkoModel::UNKoodiRooli).toString();
     return currentData(YksikkoModel::UNKoodiRooli).toString();
 }
 
@@ -66,12 +68,13 @@ void YksikkoCombo::focusOutEvent(QFocusEvent *e)
 {
     QComboBox::focusOutEvent(e);
 
-    if( currentIndex() > -1)
+    if( currentIndex() > -1 && isEditable())
         lineEdit()->setText( currentData(Qt::DisplayRole).toString() );
 }
 
 void YksikkoCombo::valittu()
 {
-    setEditText( currentData(Qt::DisplayRole).toString() );
+    if(isEditable())
+        setEditText( currentData(Qt::DisplayRole).toString() );
 }
 

@@ -77,6 +77,16 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
                           osoiteosa.korkeus() : tietoLaatikko_.korkeus());
     painter->translate( 0, rivinkorkeus * 0.5 );
 
+    if( !lasku.otsikko().isEmpty()) {
+        painter->setFont(QFont("FreeSans", 10, QFont::Bold));
+        QRectF oRect = painter->boundingRect( QRectF(0,0,sivunleveys,sivunleveys),
+                                                 Qt::TextWordWrap,
+                                                 lasku.otsikko());
+        painter->drawText( oRect, Qt::TextWordWrap, lasku.otsikko() );
+        painter->translate(0, oRect.height());
+        painter->translate( 0, painter->fontMetrics().height() * 0.5 );
+    }
+
     if( !lasku.lisatiedot().isEmpty() ) {
         painter->setFont(QFont("FreeSans", 10));
         QRectF lisaRect = painter->boundingRect( QRectF(0,0,sivunleveys,sivunleveys),

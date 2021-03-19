@@ -108,7 +108,7 @@ public:
     void setLisatiedot(const QString& lisatiedot) { setStr("lisatiedot", lisatiedot);}
 
     QStringList erittely() const { return arvo("erittely").toStringList();}
-    void setErittely(const QStringList& erittely) { set("erittely", erittely);}
+    void setErittely(const QStringList& erittely) { if(erittely.isEmpty()) unset("erittely"); else set("erittely", erittely);}
 
     Euro summa() const { return euro("summa");}
     void setSumma(const Euro& summa) { setEuro("summa", summa);}
