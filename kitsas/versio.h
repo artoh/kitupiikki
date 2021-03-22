@@ -25,10 +25,10 @@
 */
 
 #define KITSAS_VERSIO "2.3.1"
-#define KITSAS_BUILD  "B"
+#define KITSAS_BUILD  "C"
 
 // #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+#define KITSAS_DEVEL
 
 #define KITSAS_API "https://pilvi.kitsas.fi/api"
 
