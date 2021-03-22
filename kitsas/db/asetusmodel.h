@@ -20,7 +20,6 @@
 
 #include <QObject>
 #include <QHash>
-#include <QSqlDatabase>
 #include <QDateTime>
 #include <QVariant>
 

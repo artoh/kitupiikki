@@ -590,7 +590,7 @@ void VanhaLaskuDialogi::alustaRiviTab()
     ui->splitter->setStretchFactor(1,3);
 
     connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->rivit_->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
+        { this->rivit_->lisaaTuote( index.data(TuoteModel::MapRooli).toMap() ); }  );
 
 }
 
@@ -876,6 +876,7 @@ void VanhaLaskuDialogi::ennakkoHyvitysData(int eraid, double eurot, QVariant *da
     }
 
     MyyntiLaskunTulostaja tulostaja(ui->kieliCombo->currentData().toString());
+    /*
     rivi.insert("tili", vienti.value("tili"));
     rivi.insert("era", eraid);
     rivi.insert("myyntikpl",1);
@@ -886,6 +887,7 @@ void VanhaLaskuDialogi::ennakkoHyvitysData(int eraid, double eurot, QVariant *da
     rivi.insert("ennakkohyvitys", eraid);
     rivi.insert("nimike", tulostaja.t("enhyri").arg(map.value("lasku").toMap().value("numero").toString()));
     rivit_->lisaaRivi(rivi);
+    */
 }
 
 void VanhaLaskuDialogi::alustaRyhmalasku()

@@ -47,6 +47,7 @@ public:
 
     int idAlvTunnuksella(const QString tunnus) const;
     int idNimella(const QString& nimi) const;
+    QString nimi(int id) const;
 
     static AsiakasToimittajaListaModel *instanssi();
 

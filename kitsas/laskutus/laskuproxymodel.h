@@ -26,8 +26,10 @@ public:
 
     void suodataNumerolla(const QString& numero);
     void suodataTekstilla(const QString& teksti);
+    void suodataViittella(const QString& viite);
     void suodataLaskut(bool vainLaskut);
     void suodataKumppani(int kumppani);
+    void suodataViiteTyypilla(int viitetyyppi);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
@@ -35,7 +37,10 @@ protected:
     int kumppani_ = 0;
     QString numero_;
     QString teksti_;
+    QString viite_;
     bool vainLaskut_ = false;
+    int viitetyyppi_ = 0;
+
 
 };
 

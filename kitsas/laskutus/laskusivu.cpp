@@ -27,6 +27,8 @@
 #include "kumppanituotewidget.h"
 #include "laskulistawidget.h"
 
+#include "viitenumero.h"
+
 #include <QTabBar>
 #include <QSplitter>
 #include <QTableView>
@@ -56,6 +58,7 @@ LaskuSivu::LaskuSivu(QWidget * parent) :
     connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, kumppaniTuoteWidget_, &KumppaniTuoteWidget::suodata);
     connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, [this] (const QString& teksti) {this->laskuWidget_->suodataAsiakas(teksti,0);});
     connect( kumppaniTuoteWidget_, &KumppaniTuoteWidget::kumppaniValittu, laskuWidget_, &LaskulistaWidget::suodataAsiakas);
+    connect( kumppaniTuoteWidget_, &KumppaniTuoteWidget::viiteValittu, laskuWidget_, &LaskulistaWidget::suodataViite);
     connect( ryhmaWidget_, &KumppaniTuoteWidget::ryhmaValittu, kumppaniTuoteWidget_, &KumppaniTuoteWidget::suodataRyhma);
 
 }
@@ -128,7 +131,7 @@ void LaskuSivu::paaTab(int indeksi)
         kumppaniTuoteWidget_->nayta( indeksi);    
 
 
-    if( indeksi != TUOTTEET && indeksi != REKISTERI && indeksi != VAKIOVIITTEET)
+    if( indeksi==MYYNTI || indeksi==OSTO || indeksi==ASIAKAS || indeksi == TOIMITTAJA)
     {
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
@@ -141,9 +144,13 @@ void LaskuSivu::paaTab(int indeksi)
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata toimittajan nimellä"));
     else if( indeksi == REKISTERI )
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata nimellä"));
-    else if( indeksi == VAKIOVIITTEET)
-        asiakasSuodatusEdit_->setPlaceholderText("Suodata otsikolla");
-    else
+    else if( indeksi == VAKIOVIITTEET) {
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata otsikolla"));
+        laskuWidget_->suodataViiteTyyppi(ViiteNumero::VAKIOVIITE);
+    } else if( indeksi == HUONEISTOT) {
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata huoneistotunnuksella"));
+        laskuWidget_->suodataViiteTyyppi(ViiteNumero::HUONEISTO);
+    } else
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata tuotteen nimellä"));
 
 
@@ -160,6 +167,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
     paaTab_->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviitteet"));
+    paaTab_->addTab(QIcon(":/pic/talo.png"), tr("&Huoneistot"));
 
     asiakasSuodatusEdit_ = new QLineEdit();
     asiakasSuodatusEdit_->setPlaceholderText( tr("Etsi asiakkaan nimellä") );

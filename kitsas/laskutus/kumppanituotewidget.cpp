@@ -27,6 +27,8 @@
 #include "vakioviite/vakioviitedlg.h"
 #include "tuotedialogi.h"
 
+#include "huoneisto/huoneistomodel.h"
+
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
 
@@ -37,6 +39,7 @@
 #include "naytin/naytinikkuna.h"
 
 #include "tuotetuonti/tuotetuontidialogi.h"
+#include "huoneisto/huoneistodialog.h"
 
 #include <QDebug>
 #include <QInputDialog>
@@ -48,7 +51,8 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     ui(new Ui::KumppaniTuoteWidget),
     proxy_(new QSortFilterProxyModel(this)),
     asiakkaat_( new AsiakkaatModel(this)),
-    vakioviitteet_( new VakioViiteModel(this))
+    vakioviitteet_( kp()->vakioViitteet()),
+    huoneistot_( kp()->huoneistot() )
 {
     ui->setupUi(this);
 
@@ -94,7 +98,7 @@ void KumppaniTuoteWidget::nayta(int valilehti)
     bool muokkausoikeus = false;
     if( valilehti == RYHMAT )
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::RYHMAT);
-    else if( valilehti == VAKIOVIITTEET)
+    else if( valilehti == VAKIOVIITTEET || valilehti == HUONEISTOT)
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
     else if(valilehti == TUOTTEET)
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::TUOTTEET);
@@ -127,6 +131,8 @@ void KumppaniTuoteWidget::ilmoitaValinta()
         if( valilehti_ == RYHMAT) {
             emit ryhmaValittu( ui->view->selectionModel()->selectedRows(0).value(0).data(RyhmatModel::IdRooli).toInt());
             napitkaytossa = ui->view->selectionModel()->selectedRows(0).value(0).row() > 0;
+        } else if( valilehti_ == HUONEISTOT) {
+            emit viiteValittu( ui->view->selectionModel()->selectedRows(0).value(0).data(HuoneistoModel::ViiteRooli).toString() );
         } else {
             emit kumppaniValittu(  ui->view->selectionModel()->selectedRows(0).value(0).data().toString(), ui->view->selectionModel()->selectedRows(0).value(0).data(AsiakkaatModel::IdRooli).toInt());
         }
@@ -160,6 +166,9 @@ void KumppaniTuoteWidget::uusi()
         VakioViiteDlg dlg(vakioviitteet_, this);
         dlg.uusi();
         vakioviitteet_->lataa();
+    } else if( valilehti_ == HUONEISTOT) {
+        HuoneistoDialog dlg(this);
+        dlg.exec();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
@@ -190,6 +199,10 @@ void KumppaniTuoteWidget::muokkaa()
         VakioViiteDlg dlg(vakioviitteet_, this);
         dlg.muokkaa( ui->view->currentIndex().data(VakioViiteModel::MapRooli).toMap() );
         vakioviitteet_->lataa();
+    } else if( valilehti_ == HUONEISTOT) {
+        HuoneistoDialog dlg(this);
+        dlg.lataa( ui->view->currentIndex().data(HuoneistoModel::IdRooli).toInt() );
+        dlg.exec();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         dlg->muokkaa( ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt() );
@@ -239,6 +252,8 @@ void KumppaniTuoteWidget::paivita()
     else if (valilehti_ == RYHMAT) {
         proxy_->setSourceModel( kp()->ryhmat() );
         ui->view->selectRow(0);
+    } else if( valilehti_ == HUONEISTOT) {
+        proxy_->setSourceModel( huoneistot_ );
     } else
         proxy_->setSourceModel( asiakkaat_);
 
@@ -284,7 +299,7 @@ void KumppaniTuoteWidget::vie()
                 QFile file(tiedosto);
                 if(file.open(QIODevice::WriteOnly)) {
                     file.write(kp()->tuotteet()->csv());
-                    kp()->onni(tr("Tuoterekisteri viety"));
+                    emit kp()->onni(tr("Tuoterekisteri viety"));
                 } else {
                     QMessageBox::critical(this, tr("Tuotteiden vienti"),
                                           tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(tiedosto));

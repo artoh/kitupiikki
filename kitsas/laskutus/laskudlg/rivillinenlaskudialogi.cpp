@@ -182,7 +182,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->splitter->setStretchFactor(1,3);
 
     connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->tosite()->rivit()->lisaaRivi( index.data(TuoteModel::TuoteMapRooli).toMap() ); }  );
+        { this->tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap() ) ; }  );
 }
 
 void RivillinenLaskuDialogi::paivitaSumma()

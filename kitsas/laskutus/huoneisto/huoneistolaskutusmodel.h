@@ -14,83 +14,64 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TOSITERIVIT_H
-#define TOSITERIVIT_H
+#ifndef HUONEISTOLASKUTUSMODEL_H
+#define HUONEISTOLASKUTUSMODEL_H
 
 #include <QAbstractTableModel>
-#include <QVariantList>
-#include <QDate>
 
-#include "tosite.h"
-#include "tositerivi.h"
-#include "laskutus/yksikkomodel.h"
-#include "laskutus/tuote.h"
+class KitsasInterface;
+class YksikkoModel;
 
-
-class TositeRivit : public QAbstractTableModel
+class HuoneistoLaskutusModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    enum LaskuSarake
-    {
-        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, TILI, ALV, KOHDENNUS, BRUTTOSUMMA
-    };
+    enum { NIMI, MAARA, YKSIKKO};
 
-    enum
-    {
-        TiliNumeroRooli = Qt::UserRole + 3,
-        AlvKoodiRooli = Qt::UserRole + 5,
-        AlvProsenttiRooli = Qt::UserRole + 6,
-        UNkoodiRooli = Qt::UserRole + 256
-    };
-
-
-    TositeRivit(QObject *parent = nullptr, const QVariantList& data = QVariantList());
-    void lataa(const QVariantList& data);
+    explicit HuoneistoLaskutusModel(KitsasInterface* kitsas, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    // Editable:
     bool setData(const QModelIndex &index, const QVariant &value,
                  int role = Qt::EditRole) override;
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    QVariantList rivit() const;
+    void lataa(const QVariantList& lista);
+    QVariantList list() const;
 
-
-
-    Euro yhteensa() const;
-    QVariantList viennit(const Tosite& tosite) const;
-
-    bool onkoTyhja() const;
-
-    TositeRivi rivi(int indeksi) const;
-    void asetaRivi(int indeksi, const TositeRivi& rivi);
-
-
-public slots:
-    void lisaaRivi(TositeRivi rivi = TositeRivi());
-    void lisaaTuote(const Tuote& tuote);
+    void lisaaTuote(int tuote);
     void poistaRivi(int rivi);
-    void asetaEnnakkolasku(bool ennakkoa);
-
 
 private:
-    QList<TositeRivi> rivit_;
+    class HuoneistoLaskutettava {
+    public:
+        HuoneistoLaskutettava();
+        HuoneistoLaskutettava(int tuoteId, const QString& lkm);
+        HuoneistoLaskutettava(const QVariantMap& map);
 
-    YksikkoModel yksikkoModel_;
+        int tuoteId() const { return tuoteId_;}
+        QString lkm() const { return lkm_;}
+        void setLkm(const QString& lkm) { lkm_ = lkm;}
 
-    bool ennakkolasku_ = false;
+        QVariantMap map() const;
+
+    private:
+        int tuoteId_;
+        QString lkm_;
+    };
+
+    QList<HuoneistoLaskutettava> laskutettavat_;
+    KitsasInterface* kitsas_;
+    YksikkoModel* yksikot_;
 };
 
-#endif // TOSITERIVIT_H
+#endif // HUONEISTOLASKUTUSMODEL_H

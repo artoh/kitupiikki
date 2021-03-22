@@ -27,6 +27,7 @@ class AsiakkaatModel;
 class TuoteModel;
 class QSortFilterProxyModel;
 class VakioViiteModel;
+class HuoneistoModel;
 
 class KumppaniTuoteWidget : public QWidget
 {
@@ -36,7 +37,7 @@ public:
     explicit KumppaniTuoteWidget(QWidget *parent = nullptr);
     ~KumppaniTuoteWidget();
 
-    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET, VAKIOVIITTEET, RYHMAT };
+    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET, VAKIOVIITTEET, HUONEISTOT, RYHMAT };
 
 public slots:
     void nayta(int valilehti);
@@ -56,6 +57,7 @@ private slots:
 
 signals:
     void kumppaniValittu(const QString& nimi, int id);
+    void viiteValittu(const QString& viite);
     void ryhmaValittu(int ryhma);
 
 private:
@@ -64,6 +66,7 @@ private:
     QSortFilterProxyModel *proxy_;
     AsiakkaatModel* asiakkaat_;
     VakioViiteModel* vakioviitteet_;
+    HuoneistoModel* huoneistot_;
 
     int valilehti_;
     int ryhma_ = 0;

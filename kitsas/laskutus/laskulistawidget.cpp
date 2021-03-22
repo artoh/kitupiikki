@@ -154,6 +154,16 @@ void LaskulistaWidget::suodataAsiakas(const QString &nimi, int asiakas)
     }
 }
 
+void LaskulistaWidget::suodataViite(const QString &viite)
+{
+    proxy_->suodataViittella(viite);
+}
+
+void LaskulistaWidget::suodataViiteTyyppi(int viitetyyppi)
+{
+    proxy_->suodataViiteTyypilla(viitetyyppi);
+}
+
 void LaskulistaWidget::paivitaNapit()
 {
     QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);

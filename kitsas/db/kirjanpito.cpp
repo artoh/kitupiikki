@@ -55,6 +55,7 @@
 #include "kieli/kielet.h"
 #include "laskutus/laskudlg/laskudialogitehdas.h"
 #include "laskutus/vakioviite/vakioviitemodel.h"
+#include "laskutus/huoneisto/huoneistomodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -69,6 +70,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     ryhmat_( new RyhmatModel(this)),
     alvIlmoitukset_( new AlvIlmoitustenModel(this)),
     vakioviitteet_( new VakioViiteModel(this)),
+    huoneistot_( new HuoneistoModel(this)),
     tempDir_(nullptr),
     portableDir_(portableDir),
     pilviModel_(new PilviModel(this)),

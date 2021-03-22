@@ -19,8 +19,6 @@
 #define TILIKAUSIMODEL_H
 
 #include <QAbstractTableModel>
-#include <QSqlDatabase>
-
 #include "tilikausi.h"
 
 /**

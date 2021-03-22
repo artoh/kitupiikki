@@ -48,7 +48,7 @@ public:
     LaskuSivu(QWidget* parent = nullptr);
     ~LaskuSivu() override;
 
-    enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET, VAKIOVIITTEET };
+    enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET, VAKIOVIITTEET, HUONEISTOT };
     enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle() override;

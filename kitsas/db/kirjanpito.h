@@ -28,10 +28,8 @@
 #include <QObject>
 #include <QMap>
 #include <QDir>
-#include <QSqlDatabase>
 #include <QDate>
 #include <QTemporaryDir>
-#include <QImage>
 #include <QStringList>
 
 #include "tilikausi.h"
@@ -159,7 +157,7 @@ public:
      * @brief Tositteiden tyyppien model
      * @return
      */
-    virtual TositeTyyppiModel *tositeTyypit() const { return  tositeTyypit_;}
+    virtual TositeTyyppiModel *tositeTyypit() const override { return  tositeTyypit_;}
 
     /**
      * @brief Palauttaa tilityypit sisältävän modelin
@@ -228,7 +226,7 @@ public:
      * @brief Palauttaa logon
      * @return
      */
-    QImage logo() const { return logo_;}
+    QImage logo() const override { return logo_;}
 
     /**
      * @brief Asettaa kirjanpidon logon
@@ -240,7 +238,7 @@ public:
      * @brief QSettings käyttäjäkohtaisille asetuksille
      * @return
      */
-    QSettings* settings() { return settings_;}
+    QSettings* settings() const override { return settings_;}
 
 
     /**
@@ -282,6 +280,7 @@ public:
     QStringList tositeSarjat() const { return tositesarjat_;}
 
     VakioViiteModel* vakioViitteet() const override { return vakioviitteet_; }
+    HuoneistoModel* huoneistot() const override { return huoneistot_;}
 
     void odotusKursori(bool on);
 signals:
@@ -391,6 +390,7 @@ protected:
     RyhmatModel *ryhmat_;
     AlvIlmoitustenModel *alvIlmoitukset_;
     VakioViiteModel *vakioviitteet_;
+    HuoneistoModel *huoneistot_;
 
     QPrinter *printer_;
 

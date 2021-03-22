@@ -20,15 +20,21 @@
 #include <QAbstractTableModel>
 #include <QVariantList>
 
+#include "model/euro.h"
+#include "laskutus/viitenumero.h"
+
+#include "db/kitsasinterface.h"
+
+
 class HuoneistoModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
 
-    enum HuoneistoSarake { NIMI, VIITE, ASUKAS };
+    enum HuoneistoSarake { NIMI, ASIAKAS, LASKUT, MAKSUT, AVOIN };
     enum {
-        MapRooli = Qt::UserRole,
+        IdRooli = Qt::UserRole,
         ViiteRooli = Qt::UserRole + 1
     };
 
@@ -44,8 +50,34 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    void paivita();
+
+protected:
+    void lataa(QVariant* data);
+
 private:
-    QVariantList huoneistot_;
+    class HuoneistoTieto {
+    public:
+        HuoneistoTieto();
+        HuoneistoTieto(int id, const QString& nimi, int asiakas,
+                       const Euro& laskutettu, const Euro& maksettu);
+
+        int id() const;
+        QString nimi() const;
+        int asiakas() const;
+        Euro laskutettu() const;
+        Euro maksettu() const;
+        ViiteNumero viite() const;
+
+    private:
+        int id_ = 0;
+        QString nimi_;
+        int asiakas_ = 0;
+        Euro laskutettu_;
+        Euro maksettu_;
+    };
+
+    QList<HuoneistoTieto> huoneistot_;
 };
 
 #endif // HUONEISTOMODEL_H

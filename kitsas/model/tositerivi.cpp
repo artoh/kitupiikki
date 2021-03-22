@@ -15,8 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositerivi.h"
-
 #include "lasku.h"
+
 
 TositeRivi::TositeRivi(const QVariantMap &data)
     : KantaVariantti(data)
@@ -25,6 +25,10 @@ TositeRivi::TositeRivi(const QVariantMap &data)
         setLaskutetaanKpl( QString("%1").arg(myyntiKpl(),0, 'f', 2) );
     if( !bruttoYhteensa().cents())
         laskeYhteensa();
+    if (yksikko().isEmpty() && unKoodi().isEmpty()) {
+        setUNkoodi("C62");
+    }
+
 }
 
 double TositeRivi::nettoYhteensa() const

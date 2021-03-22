@@ -19,6 +19,8 @@
 #include "model/laskutaulumodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "viitenumero.h"
+
 LaskuProxyModel::LaskuProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
@@ -38,6 +40,12 @@ void LaskuProxyModel::suodataTekstilla(const QString &teksti)
     invalidateFilter();
 }
 
+void LaskuProxyModel::suodataViittella(const QString &viite)
+{
+    viite_ = viite;
+    invalidateFilter();
+}
+
 void LaskuProxyModel::suodataLaskut(bool vainLaskut)
 {
     vainLaskut_ = vainLaskut;
@@ -47,6 +55,12 @@ void LaskuProxyModel::suodataLaskut(bool vainLaskut)
 void LaskuProxyModel::suodataKumppani(int kumppani)
 {
     kumppani_ = kumppani;
+    invalidateFilter();
+}
+
+void LaskuProxyModel::suodataViiteTyypilla(int viitetyyppi)
+{
+    viitetyyppi_ = viitetyyppi;
     invalidateFilter();
 }
 
@@ -70,6 +84,16 @@ bool LaskuProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source
     if( vainLaskut_ && !idx.data(LaskuTauluModel::OstoLaskutTieto).toBool()) {
         int tyyppi = idx.data(LaskuTauluModel::TyyppiRooli).toInt();
         if( tyyppi < TositeTyyppi::MYYNTILASKU || tyyppi > TositeTyyppi::MAKSUMUISTUTUS)
+            return false;
+    }
+
+    if( !viite_.isEmpty() &&
+        idx.data(LaskuTauluModel::ViiteRooli).toString() != viite_ )
+        return false;
+
+    if( viitetyyppi_ ) {
+        ViiteNumero viite( idx.data(LaskuTauluModel::ViiteRooli).toString() );
+        if( viite.tyyppi() != viitetyyppi_ )
             return false;
     }
 

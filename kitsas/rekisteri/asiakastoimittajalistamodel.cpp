@@ -66,6 +66,15 @@ int AsiakasToimittajaListaModel::idNimella(const QString &nimi) const
     return 0;
 }
 
+QString AsiakasToimittajaListaModel::nimi(int id) const
+{
+    for( const auto& item : lista_) {
+        if( item.id == id)
+            return item.nimi;
+    }
+    return QString();
+}
+
 AsiakasToimittajaListaModel *AsiakasToimittajaListaModel::instanssi()
 {
     if( !instanssi__) {

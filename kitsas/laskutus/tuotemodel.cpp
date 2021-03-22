@@ -18,6 +18,8 @@
 #include "tuotemodel.h"
 #include "db/kirjanpito.h"
 
+#include "yksikkomodel.h"
+
 #include "raportti/raportinkirjoittaja.h"
 
 #include <QSqlQuery>
@@ -32,7 +34,7 @@ TuoteModel::TuoteModel(QObject *parent) :
 
 int TuoteModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return lista_.count();
+    return tuotteet_.count();
 }
 
 int TuoteModel::columnCount(const QModelIndex & /* parent */) const
@@ -61,22 +63,21 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
     
-    const QVariantMap &map = lista_.at(index.row()).toMap();
+    const Tuote &tuote = tuotteet_.at(index.row()).toMap();
     if( role == Qt::DisplayRole)
     {
         if( index.column() == NIMIKE )
-            return map.value("nimike");
+            return tuote.nimike();
         else if( index.column() == NETTO)
-        {
-            double netto = map.value("ahinta").toDouble();
-            return QString("%L1 €").arg( netto ,0,'f',2);
+        {            
+            return QString("%L1 €").arg( tuote.ahinta() ,0,'f',2);
         }
         else if(index.column() == BRUTTO)
         {
-            double netto = map.value("ahinta").toDouble();
+            double netto = tuote.ahinta();
 
-            double alvprossa = map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO ?
-                    map.value("alvprosentti").toDouble() : 0.0;
+            double alvprossa = tuote.alvkoodi() == AlvKoodi::MYYNNIT_NETTO ?
+                    tuote.alvprosentti() : 0.0;
 
             double brutto = netto * (100 + alvprossa) / 100.0;
 
@@ -84,24 +85,19 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
         }
     }
     else if( role == IdRooli)
-        return map.value("id").toInt();
+        return tuote.id();
     else if( role == MapRooli)
-        return map;
-    else if( role == TuoteMapRooli) {
-        QVariantMap tmap(map);
-        tmap.insert("tuote", tmap.take("id").toInt());
-        return tmap;
-    }
+        return tuote.toMap();
+
     return QVariant();
     
 }
 
 QString TuoteModel::nimike(int id) const
 {
-    for(QVariant rivi: lista_) {
-        QVariantMap map = rivi.toMap();
-        if( map.value("id").toInt() == id) {
-            return map.value("nimike").toString();
+    for(const auto& rivi: tuotteet_) {
+        if( rivi.id() == id) {
+            return rivi.nimike();
         }
     }
     return QString();
@@ -121,20 +117,28 @@ QByteArray TuoteModel::csv() const
     otsikko.lisaa("alvprosentti");
     rk.lisaaOtsake(otsikko);
 
-    for(auto item : lista_) {
-        QVariantMap map = item.toMap();
+    for(const auto& tuote : tuotteet_) {
         RaporttiRivi rivi;
-        rivi.lisaa(map.value("id").toString());
-        rivi.lisaa(map.value("nimike").toString());
-        rivi.lisaa(map.value("yksikko").toString());
-        rivi.lisaa(map.value("ahinta").toString());
-        rivi.lisaa(map.value("kohdennus").toString());
-        rivi.lisaa(map.value("tili").toString());
-        rivi.lisaa(map.value("alvkoodi").toString());
-        rivi.lisaa(map.value("alvprosentti").toString());
+        rivi.lisaa(QString::number(tuote.id()));
+        rivi.lisaa(tuote.nimike());
+        rivi.lisaa(tuote.yksikko().isEmpty() ? tuote.unKoodi() : tuote.yksikko());
+        rivi.lisaa(Euro::fromDouble(tuote.ahinta()).toString());
+        rivi.lisaa(QString::number(tuote.kohdennus()));
+        rivi.lisaa(QString::number(tuote.tili()));
+        rivi.lisaa(QString::number(tuote.alvkoodi()));
+        rivi.lisaa(QString::number(tuote.alvprosentti()));
         rk.lisaaRivi(rivi);
     }
     return rk.csv();
+}
+
+Tuote TuoteModel::tuote(int id) const
+{
+    for(const auto& item : tuotteet_) {
+        if( item.id() == id)
+            return item;
+    }
+    return Tuote();
 }
 
 
@@ -147,13 +151,13 @@ void TuoteModel::lataa()
     }
 }
 
-void TuoteModel::paivitaTuote(QVariantMap map)
-{
-    KpKysely *kysely = map.contains("id") ?
-                kpk(QString("/tuotteet/%1").arg(map.value("id").toInt()), KpKysely::PUT) :
+void TuoteModel::paivitaTuote(Tuote tuote)
+{    
+    KpKysely *kysely = tuote.id() ?
+                kpk(QString("/tuotteet/%1").arg(tuote.id()), KpKysely::PUT) :
                 kpk("/tuotteet", KpKysely::POST);
     connect( kysely, &KpKysely::vastaus, this, &TuoteModel::muokattu);
-    kysely->kysy(map);
+    kysely->kysy(tuote.toMap());
 }
 
 void TuoteModel::poistaTuote(int id)
@@ -161,10 +165,10 @@ void TuoteModel::poistaTuote(int id)
     KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(id), KpKysely::DELETE);
     kysely->kysy();
 
-    for(int i=0; i<lista_.count(); i++) {
-        if( lista_.at(i).toMap().value("id").toInt() == id) {
+    for(int i=0; i<tuotteet_.count(); i++) {
+        if( tuotteet_.at(i).id() == id) {
             beginRemoveRows(QModelIndex(),i,i);
-            lista_.removeAt(i);
+            tuotteet_.removeAt(i);
             endRemoveRows();
             return;
         }
@@ -175,23 +179,26 @@ void TuoteModel::poistaTuote(int id)
 void TuoteModel::dataSaapuu(QVariant *data)
 {
     beginResetModel();
-    lista_ = data->toList();
+    tuotteet_.clear();
+    for(const auto& item : data->toList()) {
+        tuotteet_.append(Tuote(item.toMap()));
+    }
     endResetModel();
 }
 
 void TuoteModel::muokattu(QVariant *data)
 {
-    QVariantMap map = data->toMap();
-    int id = map.value("id").toInt();
-    for(int i=0; i<lista_.count(); i++) {
-        if( lista_.at(i).toMap().value("id").toInt() == id) {
-            lista_[i] = map;
+    Tuote tuote( data->toMap());
+    int id = tuote.id();
+    for(int i=0; i<tuotteet_.count(); i++) {
+        if( tuotteet_.at(i).id() == id) {
+            tuotteet_[i] = tuote;
             emit dataChanged( index(i,0), index(i,BRUTTO) );
             return;
         }
     }
     // Ei löytynyt, lisätään
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    lista_.append(map);
+    tuotteet_.append(tuote);
     endInsertRows();
 }
