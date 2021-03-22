@@ -126,7 +126,6 @@ public:
     void setKorkoLoppuu(const QDate& pvm) { set("korkoloppuu", pvm);}
 
     QString iban() const { return str("iban");}
-    QString maventaId() const { return str("maventaid");}
 
     // Päivä jolloin seuraava toistolasku lähtee
     QDate toistoPvm() const { return pvm("toistopvm");}

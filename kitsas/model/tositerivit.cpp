@@ -483,7 +483,7 @@ void TositeRivit::asetaRivi(int indeksi, const TositeRivi &rivi)
                       index(indeksi, BRUTTOSUMMA));
 }
 
-void TositeRivit::lisaaRivi(QVariantMap rivi)
+void TositeRivit::lisaaRivi(QVariantMap map)
 {
 /*    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>(parent());
     if (!rivi.isEmpty() && dlg && dlg->asiakkaanAlvTunnus().isEmpty() &&
@@ -501,16 +501,23 @@ void TositeRivit::lisaaRivi(QVariantMap rivi)
         return;
     }
 */
-    if( !rivi.contains("myyntikpl"))
-        rivi.insert("myyntikpl", 1.0);
-    if( !rivi.contains("tili")) {
+    TositeRivi rivi(map);
+
+    if( !rivi.myyntiKpl()) {
+        rivi.setMyyntiKpl(1.0);
+        rivi.setLaskutetaanKpl("1");
+    }
+    if( !rivi.tili()) {
         int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
-        rivi.insert("tili", uusitili);
+        rivi.setTili(uusitili);
         Tili *tili = kp()->tilit()->tili(uusitili);
         if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
-            rivi.insert("alvkoodi", tili->arvo("alvlaji").toInt());
-            rivi.insert("alvprosentti", tili->arvo("alvprosentti").toDouble());
+            rivi.setAlvKoodi( tili->alvlaji() );
+            rivi.setAlvProsentti( tili->alvprosentti());
         }
+    }
+    if (rivi.yksikko().isEmpty() && rivi.unKoodi().isEmpty()) {
+        rivi.setUNkoodi("C62");
     }
 
 //    int rivia = rivit_.count();
