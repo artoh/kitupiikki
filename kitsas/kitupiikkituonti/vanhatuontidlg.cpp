@@ -916,7 +916,10 @@ void VanhatuontiDlg::siirraLiite(int id, int uusiTositeId)
             delete kysely;
         } else {
             KpKysely* kysely = kpk(QString("/liitteet/%1").arg(uusiTositeId), KpKysely::POST);
-            kysely->lahetaTiedosto(data);
+            QMap<QString,QString> meta;
+            QVariantMap map = QJsonDocument::fromJson(sql.value(3).toByteArray()).toVariant().toMap();
+            meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
+            kysely->lahetaTiedosto(data, meta);
             delete kysely;
         }
         ui->progressBar->setValue( ui->progressBar->value() + 1 );
