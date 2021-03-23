@@ -84,6 +84,8 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
         return viite.viite();
     } else if( role == IdRooli ) {
         return tieto.id();
+    } else if( role == Qt::TextAlignmentRole && index.column() >= LASKUT) {
+        return Qt::AlignRight;
     }
 
     // FIXME: Implement me!

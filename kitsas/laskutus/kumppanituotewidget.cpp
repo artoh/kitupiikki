@@ -114,6 +114,10 @@ void KumppaniTuoteWidget::nayta(int valilehti)
     ui->laskutaNappi->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN)
                                  && valilehti == HUONEISTOT);
 
+    ui->view->setSelectionMode( valilehti == HUONEISTOT ?
+                                QTableView::MultiSelection :
+                                QTableView::SingleSelection);
+
     paivita();
 }
 
@@ -150,6 +154,7 @@ void KumppaniTuoteWidget::ilmoitaValinta()
     ui->muokkaaNappi->setEnabled( napitkaytossa );
     ui->poistaNappi->setEnabled( napitkaytossa );
     ui->yhdistaButton->setEnabled( napitkaytossa );
+    ui->laskutaNappi->setEnabled( napitkaytossa );
 }
 
 void KumppaniTuoteWidget::uusi()
@@ -333,6 +338,7 @@ void KumppaniTuoteWidget::raportti()
     case REKISTERI: rk.asetaOtsikko(tr("Rekisteri")); break;
     case RYHMAT: rk.asetaOtsikko(tr("Ryhmät")); break;
     case VAKIOVIITTEET: rk.asetaOtsikko(tr("Vakioviitteet")); break;
+    case HUONEISTOT: rk.asetaOtsikko(tr("Huoneistot")); break;
     }
 
     rk.lisaaVenyvaSarake();
@@ -340,6 +346,11 @@ void KumppaniTuoteWidget::raportti()
         rk.lisaaSarake("XXXXXXXX");
         rk.lisaaVenyvaSarake(50);
         rk.lisaaSarake("Kohdennusnimipitkä");
+    } else if (valilehti_ == HUONEISTOT) {
+        rk.lisaaVenyvaSarake();
+        rk.lisaaEurosarake();
+        rk.lisaaEurosarake();
+        rk.lisaaEurosarake();
     } else {
         for(int i=1; i<model->columnCount();i++)
             rk.lisaaEurosarake();
