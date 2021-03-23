@@ -94,8 +94,8 @@ void KumppaniTuoteWidget::nayta(int valilehti)
 {
     valilehti_ = valilehti;
 
-    ui->tuoNappi->setVisible(valilehti != VAKIOVIITTEET);
-    ui->VieNappi->setVisible(valilehti != VAKIOVIITTEET);
+    ui->tuoNappi->setVisible(valilehti != VAKIOVIITTEET && valilehti != HUONEISTOT);
+    ui->VieNappi->setVisible(valilehti != VAKIOVIITTEET && valilehti != HUONEISTOT);
 
     bool muokkausoikeus = false;
     if( valilehti == RYHMAT )
@@ -115,7 +115,7 @@ void KumppaniTuoteWidget::nayta(int valilehti)
                                  && valilehti == HUONEISTOT);
 
     ui->view->setSelectionMode( valilehti == HUONEISTOT ?
-                                QTableView::MultiSelection :
+                                QTableView::ExtendedSelection :
                                 QTableView::SingleSelection);
 
     paivita();

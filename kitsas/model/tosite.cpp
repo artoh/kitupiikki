@@ -43,6 +43,7 @@ Tosite::Tosite(QObject *parent) :
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
 }
 
+
 QVariant Tosite::data(int kentta) const
 {
     return data_.value( avaimet__.at(kentta) );
@@ -416,8 +417,10 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     data_.clear();
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();
-    data_.insert( avaimet__.at(PVM), pvm );
-    data_.insert( avaimet__.at(TYYPPI), tyyppi);
+
+    asetaPvm(pvm);
+    asetaTyyppi(tyyppi);
+
     emit ladattu();
 
     tallennettu_ = tallennettava();

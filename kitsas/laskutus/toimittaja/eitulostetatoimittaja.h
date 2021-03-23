@@ -14,23 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "vastikelaskutus.h"
-#include "ui_vastikelaskutus.h"
+#ifndef EITULOSTETATOIMITTAJA_H
+#define EITULOSTETATOIMITTAJA_H
 
-VastikeLaskutus::VastikeLaskutus(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::VastikeLaskutus)
+#include "abstraktitoimittaja.h"
+
+class EiTulostetaToimittaja : public AbstraktiToimittaja
 {
-    ui->setupUi(this);
+    Q_OBJECT
+public:
+    EiTulostetaToimittaja(QObject* parent = nullptr);
 
-    QDate date = QDate::currentDate();
-    date = date.addMonths(1);
-    date = date.addDays( 1 - date.day() );
-    ui->jaksoAlkaa->setDate(date);
-    ui->jaksoLoppuu->setDate( date.addMonths(12).addDays(-1) );
-}
+protected:
+    virtual void toimita() override;
+};
 
-VastikeLaskutus::~VastikeLaskutus()
-{
-    delete ui;
-}
+#endif // EITULOSTETATOIMITTAJA_H

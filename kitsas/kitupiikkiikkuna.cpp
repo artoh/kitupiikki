@@ -67,6 +67,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "saldodock/saldodock.h"
+#include "laskutus/toimittaja/laskuntoimittaja.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     tallennettuWidget_( new TallennettuWidget(this)),
@@ -164,6 +165,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), &Kirjanpito::tositeTallennettu, tallennettuWidget_, &TallennettuWidget::nayta);
     connect( kp(), &Kirjanpito::piilotaTallennusWidget, tallennettuWidget_, &TallennettuWidget::piiloon);
 
+    LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()

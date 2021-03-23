@@ -23,6 +23,8 @@
 
 #include "../myyntilaskujentoimittaja.h"
 
+#include "laskutus/toimittaja/laskuntoimittaja.h"
+
 #include <QMessageBox>
 
 YksittainenLaskuDialogi::YksittainenLaskuDialogi(Tosite *tosite, QWidget *parent)
@@ -70,9 +72,12 @@ void YksittainenLaskuDialogi::liiteTallennettu(QVariantMap tosite)
 
     int tila = tosite_->tila();
     if( tila == Tosite::LAHETETAAN) {
+        LaskunToimittaja::toimita(tosite);
+/*
         MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
         QList<QVariantMap> lista;
         lista << tosite;
         toimittaja->toimitaLaskut(lista);
+*/
     }
 }

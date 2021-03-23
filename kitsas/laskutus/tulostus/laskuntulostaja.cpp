@@ -36,7 +36,8 @@ LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
 }
 
 void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPainter *painter)
-{    
+{
+    painter->resetTransform();
 
     const Lasku& lasku = tosite.constLasku();
     kieli_ = lasku.kieli().toLower();

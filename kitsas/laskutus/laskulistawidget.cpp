@@ -19,6 +19,8 @@
 
 #include "model/laskutaulumodel.h"
 
+#include "toimittaja/laskuntoimittaja.h"
+
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
@@ -215,11 +217,12 @@ void LaskulistaWidget::laheta()
     connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &LaskulistaWidget::paivita );
 
     QModelIndexList lista = ui->view->selectionModel()->selectedRows();
-    QList<int> idt;
+    // QList<int> idt;
     for( auto item : lista)
-        idt.append( item.data(LaskuTauluModel::TositeIdRooli).toInt() );
+        LaskunToimittaja::toimita(item.data(LaskuTauluModel::TositeIdRooli).toInt());
+        // idt.append( item.data(LaskuTauluModel::TositeIdRooli).toInt() );
 
-    toimittaja->toimitaLaskut( idt);
+    //toimittaja->toimitaLaskut( idt);
 
 }
 
