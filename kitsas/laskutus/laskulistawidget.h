@@ -30,7 +30,7 @@ class LaskulistaWidget : public QWidget
 {
     Q_OBJECT
 
-    enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET };
+    enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET, VAKIOVIITE, HUONEISTO };
     enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
 public:
@@ -42,8 +42,7 @@ public slots:
     void alalehti(int alalehti);
     void paivita();
     void suodataAsiakas(const QString& nimi, int asiakas = 0);
-    void suodataViite(const QString& viite);
-    void suodataViiteTyyppi(int viitetyyppi);
+    void suodataViite(const QString& viite);    
 
     void paivitaNapit();
 

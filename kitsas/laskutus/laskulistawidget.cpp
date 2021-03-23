@@ -100,6 +100,7 @@ LaskulistaWidget::~LaskulistaWidget()
 void LaskulistaWidget::nayta(int paalehti)
 {
     paalehti_ = paalehti;
+    proxy_->nollaaSuodatus();
 
     if( paalehti == MYYNTI || paalehti == ASIAKAS) {
         if( ui->tabs->count() < 5) {
@@ -120,6 +121,13 @@ void LaskulistaWidget::nayta(int paalehti)
             ui->kopioiNappi->setVisible(false);
         }
     }
+
+    if(paalehti == HUONEISTO) {
+        proxy_->suodataViiteTyypilla(ViiteNumero::HUONEISTO);
+    } else if( paalehti == VAKIOVIITE) {
+        proxy_->suodataViiteTyypilla(ViiteNumero::VAKIOVIITE);
+    }
+
     paivita();
 }
 
@@ -157,11 +165,6 @@ void LaskulistaWidget::suodataAsiakas(const QString &nimi, int asiakas)
 void LaskulistaWidget::suodataViite(const QString &viite)
 {
     proxy_->suodataViittella(viite);
-}
-
-void LaskulistaWidget::suodataViiteTyyppi(int viitetyyppi)
-{
-    proxy_->suodataViiteTyypilla(viitetyyppi);
 }
 
 void LaskulistaWidget::paivitaNapit()

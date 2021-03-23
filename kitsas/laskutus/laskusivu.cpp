@@ -132,9 +132,9 @@ void LaskuSivu::paaTab(int indeksi)
 
 
     if( indeksi==MYYNTI || indeksi==OSTO || indeksi==ASIAKAS || indeksi == TOIMITTAJA)
-    {
-        laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
+    {                
         laskuWidget_->nayta( indeksi );
+        laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->paivita();
     }
 
@@ -145,11 +145,9 @@ void LaskuSivu::paaTab(int indeksi)
     else if( indeksi == REKISTERI )
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata nimellä"));
     else if( indeksi == VAKIOVIITTEET) {
-        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata otsikolla"));
-        laskuWidget_->suodataViiteTyyppi(ViiteNumero::VAKIOVIITE);
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata otsikolla"));        
     } else if( indeksi == HUONEISTOT) {
-        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata huoneistotunnuksella"));
-        laskuWidget_->suodataViiteTyyppi(ViiteNumero::HUONEISTO);
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata huoneistotunnuksella"));        
     } else
         asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata tuotteen nimellä"));
 

@@ -30,6 +30,7 @@ public:
     void suodataLaskut(bool vainLaskut);
     void suodataKumppani(int kumppani);
     void suodataViiteTyypilla(int viitetyyppi);
+    void nollaaSuodatus();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

@@ -53,7 +53,7 @@ int HuoneistoModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 3;
+    return 5;
     // FIXME: Implement me!
 }
 
@@ -67,7 +67,7 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole) {
         switch (index.column()) {
-        case NIMI: tieto.nimi();
+        case NIMI: return tieto.nimi();
         case ASIAKAS:
             return AsiakasToimittajaListaModel::instanssi()->nimi( tieto.asiakas() );
         case LASKUT:
@@ -79,11 +79,11 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
             return avoin.display(false);
         }
     }
-    }
-
-    if( role == ViiteRooli) {
+    } else if( role == ViiteRooli) {
         ViiteNumero viite(ViiteNumero::HUONEISTO, tieto.id());
         return viite.viite();
+    } else if( role == IdRooli ) {
+        return tieto.id();
     }
 
     // FIXME: Implement me!
@@ -101,13 +101,14 @@ void HuoneistoModel::paivita()
 void HuoneistoModel::lataa(QVariant *data)
 {
     beginResetModel();
+    huoneistot_.clear();
     QVariantList lista = data->toList();
     for(const auto& item : lista) {
         QVariantMap map = item.toMap();
         huoneistot_.append( HuoneistoTieto( map.value("id").toInt(),
                                             map.value("nimi").toString(),
                                             map.value("asiakas").toInt(),
-                                            map.value("laskut").toString(),
+                                            map.value("laskutettu").toString(),
                                             map.value("maksettu").toString()));
     }
     endResetModel();

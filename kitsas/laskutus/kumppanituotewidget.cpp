@@ -233,6 +233,13 @@ void KumppaniTuoteWidget::poista()
             connect( kysely, &KpKysely::vastaus, vakioviitteet_, &VakioViiteModel::lataa);
             kysely->kysy();
         }
+    } else if( valilehti_ == HUONEISTOT) {
+        if( QMessageBox::question(this, tr("Huoneiston poistaminen"),tr("Haluatko varmasti poistaa huoneiston?")) == QMessageBox::Yes) {
+            int viite = ui->view->currentIndex().data(HuoneistoModel::IdRooli).toInt();
+            KpKysely *kysely = kpk(QString("/huoneistot/%1").arg(viite), KpKysely::DELETE );
+            connect( kysely, &KpKysely::vastaus, huoneistot_, &HuoneistoModel::paivita);
+            kysely->kysy();
+        }
     } else {
         int kid = ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt();
         if( kid ) {
@@ -254,6 +261,7 @@ void KumppaniTuoteWidget::paivita()
         ui->view->selectRow(0);
     } else if( valilehti_ == HUONEISTOT) {
         proxy_->setSourceModel( huoneistot_ );
+        huoneistot_->paivita();
     } else
         proxy_->setSourceModel( asiakkaat_);
 

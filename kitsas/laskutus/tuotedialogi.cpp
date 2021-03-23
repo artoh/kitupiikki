@@ -48,16 +48,19 @@ TuoteDialogi::~TuoteDialogi()
     delete ui;
 }
 
-void TuoteDialogi::muokkaa(const QVariantMap &map)
+void TuoteDialogi::muokkaa(const Tuote &tuote)
 {
-    muokattavanaId_ = map.value("id").toInt();
-    ui->nimikeEdit->setText( map.value("nimike").toString() );
-    ui->yksikkoEdit->setText( map.value("yksikko").toString());
-    ui->alvCombo->setCurrentIndex(
-                ui->alvCombo->findData( map.value("alvkoodi").toInt() +
-                                        map.value("alvprosentti").toInt() * 100));
+    muokattavanaId_ = tuote.id();
+    ui->nimikeEdit->setText( tuote.nimike() );
 
-    double netto = map.value("ahinta").toDouble();
+    if( tuote.unKoodi().isEmpty())
+        ui->yksikkoCombo->setYksikko(tuote.yksikko());
+    else
+        ui->yksikkoCombo->setUNkoodi(tuote.unKoodi());
+
+    ui->alvCombo->aseta( tuote.alvkoodi(), tuote.alvprosentti() );
+
+    double netto = tuote.ahinta();
     double brutto = netto * ( 100.0 + ui->alvCombo->veroProsentti() ) / 100.0;
 
     if( qAbs(qRound64(netto * 1000) - qRound64(netto*100)*10) > 0.005 ) {
@@ -68,9 +71,9 @@ void TuoteDialogi::muokkaa(const QVariantMap &map)
         laskeBrutto();
     }
 
-    ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );    
-    ui->kohdennusCombo->setCurrentIndex(
-                ui->kohdennusCombo->findData( map.value("kohdennus", 0), KohdennusModel::IdRooli ));
+    ui->tiliEdit->valitseTiliNumerolla( tuote.tili() );
+    ui->kohdennusCombo->valitseKohdennus( tuote.kohdennus() );
+
     show();
 }
 
@@ -79,7 +82,7 @@ void TuoteDialogi::uusi()
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
 
-    ui->yksikkoEdit->setText("kpl");
+    ui->yksikkoCombo->setUNkoodi("C62");
     ui->tiliEdit->valitseTiliNumerolla(kp()->asetukset()->luku("OletusMyyntitili"));
 
     muokattavanaId_ = 0;
@@ -89,25 +92,26 @@ void TuoteDialogi::uusi()
 
 void TuoteDialogi::accept()
 {
-    QVariantMap map;
-    map.insert("nimike", ui->nimikeEdit->text());
-    map.insert("yksikko", ui->yksikkoEdit->text());
+    Tuote tuote;
+    tuote.setId( muokattavanaId_ );
+    tuote.setNimike( ui->nimikeEdit->text() );
+    if( ui->yksikkoCombo->unKoodi().isEmpty())
+        tuote.setYksikko( ui->yksikkoCombo->yksikko() );
+    else
+        tuote.setUnKoodi( ui->yksikkoCombo->unKoodi());
+
     if( brutto_ > 1e-5) {
         double netto = (100.0 * brutto_) / (100.0 + ui->alvCombo->veroProsentti());
-        map.insert("ahinta", netto);
+        tuote.setAhinta(netto);
     } else {
-        map.insert("ahinta", ui->nettoEdit->value());
+        tuote.setAhinta(ui->nettoEdit->value());
     }
-    map.insert("alvkoodi", ui->alvCombo->veroKoodi());
-    map.insert("alvprosentti", ui->alvCombo->currentData().toInt() / 100);
-    map.insert("alvkoodi", ui->alvCombo->veroKoodi());
-    map.insert("tili", ui->tiliEdit->valittuTilinumero());
-    map.insert("kohdennus", ui->kohdennusCombo->currentData(KohdennusModel::IdRooli));
+    tuote.setAlvkoodi( ui->alvCombo->veroKoodi());
+    tuote.setAlvprosentti( ui->alvCombo->veroProsentti());
+    tuote.setTili( ui->tiliEdit->valittuTilinumero());
+    tuote.setKohdennus( ui->kohdennusCombo->kohdennus());
 
-    if( muokattavanaId_ )
-        map.insert("id", muokattavanaId_);
-
-    kp()->tuotteet()->paivitaTuote(map);
+    kp()->tuotteet()->paivitaTuote(tuote);
     QDialog::accept();
 }
 

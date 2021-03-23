@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>602</height>
+    <width>911</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,17 +61,24 @@
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <widget class="QWidget" name="">
+         <property name="childrenCollapsible">
+          <bool>false</bool>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QLineEdit" name="tuoteSuodatus"/>
+            <widget class="QLineEdit" name="tuoteSuodatus">
+             <property name="placeholderText">
+              <string>Suodata tuotteita</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QListView" name="tuoteView"/>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QTableView" name="laskuView"/>
@@ -95,6 +102,10 @@
               <widget class="QPushButton" name="poistaNappi">
                <property name="text">
                 <string>Poista rivi</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../pic/pic.qrc">
+                 <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
                </property>
               </widget>
              </item>

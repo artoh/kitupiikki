@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>573</height>
+    <width>1279</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,6 +57,17 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/vie.png</normaloff>:/pic/vie.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="laskutaNappi">
+       <property name="text">
+        <string>Laskuta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
        </property>
       </widget>
      </item>

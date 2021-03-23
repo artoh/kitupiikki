@@ -64,6 +64,15 @@ void LaskuProxyModel::suodataViiteTyypilla(int viitetyyppi)
     invalidateFilter();
 }
 
+void LaskuProxyModel::nollaaSuodatus()
+{
+    numero_.clear();
+    viite_.clear();
+    kumppani_ = 0;
+    viitetyyppi_ = 0;
+    invalidateFilter();
+}
+
 bool LaskuProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     QModelIndex idx = sourceModel()->index(source_row, 0, source_parent);

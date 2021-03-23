@@ -99,8 +99,8 @@ Qt::ItemFlags HuoneistoLaskutusModel::flags(const QModelIndex &index) const
 {
     if( !index.isValid())
         return Qt::NoItemFlags;
-    if( index.row() == MAARA)
-        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    if( index.column() == MAARA)
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEnabled | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index) | Qt::ItemIsEnabled;
 }
@@ -108,6 +108,7 @@ Qt::ItemFlags HuoneistoLaskutusModel::flags(const QModelIndex &index) const
 void HuoneistoLaskutusModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
+    laskutettavat_.clear();
     for( const auto& item : lista)
         laskutettavat_.append( HuoneistoLaskutettava(item.toMap()) );
     endResetModel();
@@ -148,14 +149,14 @@ HuoneistoLaskutusModel::HuoneistoLaskutettava::HuoneistoLaskutettava(int tuoteId
 
 HuoneistoLaskutusModel::HuoneistoLaskutettava::HuoneistoLaskutettava(const QVariantMap &map)
 {
-    tuoteId_ = map.value("id").toInt();
+    tuoteId_ = map.value("tuote").toInt();
     lkm_ = map.value("lkm").toString();
 }
 
 QVariantMap HuoneistoLaskutusModel::HuoneistoLaskutettava::map() const
 {
     QVariantMap map;
-    map.insert("id", tuoteId_);
+    map.insert("tuote", tuoteId_);
     map.insert("lkm", lkm_);
     return map;
 }

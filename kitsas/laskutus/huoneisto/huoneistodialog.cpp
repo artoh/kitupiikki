@@ -32,6 +32,10 @@ HuoneistoDialog::HuoneistoDialog(QWidget *parent) :
 
     ui->laskuView->setModel(huoneisto_.laskutus());
     ui->laskuView->setItemDelegateForColumn( HuoneistoLaskutusModel::MAARA, new KappaleDelegaatti );
+    ui->laskuView->horizontalHeader()->setSectionResizeMode( HuoneistoLaskutusModel::NIMI, QHeaderView::Stretch );
+
+    ui->splitter->setStretchFactor(0, 1);
+    ui->splitter->setStretchFactor(1, 2);
 
     proxy_->setSourceModel(kp()->tuotteet());
     proxy_->setSortRole(Qt::DisplayRole);
@@ -45,8 +49,10 @@ HuoneistoDialog::HuoneistoDialog(QWidget *parent) :
 
     connect( ui->tuoteSuodatus, &QLineEdit::textChanged, proxy_, &QSortFilterProxyModel::setFilterFixedString);
     connect( ui->tuoteView, &QTableView::clicked, this, &HuoneistoDialog::lisaaTuote);
-    connect( ui->laskuView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &HuoneistoDialog::valintaMuuttui);
+    connect( ui->laskuView->selectionModel(), &QItemSelectionModel::currentChanged, this, &HuoneistoDialog::valintaMuuttui);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &HuoneistoDialog::poistaRivi);
+
+    valintaMuuttui();
 }
 
 HuoneistoDialog::~HuoneistoDialog()
@@ -88,11 +94,11 @@ void HuoneistoDialog::lisaaTuote()
 
 void HuoneistoDialog::valintaMuuttui()
 {
-    ui->poistaNappi->setEnabled( ui->laskuView->currentIndex().isValid() );
+    ui->poistaNappi->setVisible( ui->laskuView->currentIndex().row() > -1 );
 }
 
 void HuoneistoDialog::poistaRivi()
 {
-    int rivi = proxy_->mapToSource( ui->laskuView->currentIndex() ).row();
+    int rivi = ui->laskuView->currentIndex().row();
     huoneisto_.laskutus()->poistaRivi(rivi);
 }

@@ -106,11 +106,11 @@ void Kielet::valitseUiKieli(const QString &kieli)
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const
 {
     const QMap<QString,QString> map  = kaannokset_.value(avain);
-    if( map.isEmpty())
-        return avain;
-    if(kieli.isEmpty())
+    if( map.contains(kieli))
+        return map.value(kieli);
+    if( map.contains(nykykieli_))
         return map.value(nykykieli_);
-    return map.value(kieli, avain);
+    return avain;
 }
 
 QList<Kieli> Kielet::kielet() const
