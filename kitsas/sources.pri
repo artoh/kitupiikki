@@ -80,6 +80,7 @@ SOURCES += \
     $$PWD/laskutus/toimittaja/abstraktitoimittaja.cpp \
     $$PWD/laskutus/toimittaja/eitulostetatoimittaja.cpp \
     $$PWD/laskutus/toimittaja/laskuntoimittaja.cpp \
+    $$PWD/laskutus/toimittaja/sahkopostitoimittaja.cpp \
     $$PWD/laskutus/toimittaja/tulostustoimittaja.cpp \
     $$PWD/laskutus/tositerivialv.cpp \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.cpp \
@@ -419,6 +420,7 @@ HEADERS += \
     $$PWD/laskutus/toimittaja/abstraktitoimittaja.h \
     $$PWD/laskutus/toimittaja/eitulostetatoimittaja.h \
     $$PWD/laskutus/toimittaja/laskuntoimittaja.h \
+    $$PWD/laskutus/toimittaja/sahkopostitoimittaja.h \
     $$PWD/laskutus/toimittaja/tulostustoimittaja.h \
     $$PWD/laskutus/tositerivialv.h \
     $$PWD/laskutus/tulostus/laskuinfolaatikko.h \
