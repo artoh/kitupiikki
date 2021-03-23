@@ -40,6 +40,7 @@
 
 #include "tuotetuonti/tuotetuontidialogi.h"
 #include "huoneisto/huoneistodialog.h"
+#include "huoneisto/vastikelaskutus.h"
 
 #include <QDebug>
 #include <QInputDialog>
@@ -75,6 +76,7 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     connect( ui->tuoNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::tuo);
     connect( ui->VieNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::vie);
     connect( ui->raporttiButton, &QPushButton::clicked, this, &KumppaniTuoteWidget::raportti);
+    connect( ui->laskutaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::laskuta);
 
     ui->muokkaaNappi->setEnabled(false);
     ui->poistaNappi->setEnabled(false);
@@ -109,6 +111,8 @@ void KumppaniTuoteWidget::nayta(int valilehti)
     ui->poistaNappi->setVisible(muokkausoikeus);
     ui->muokkaaNappi->setVisible(muokkausoikeus);
     ui->yhdistaButton->setVisible(muokkausoikeus && valilehti < TUOTTEET);
+    ui->laskutaNappi->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN)
+                                 && valilehti == HUONEISTOT);
 
     paivita();
 }
@@ -368,6 +372,12 @@ void KumppaniTuoteWidget::yhdista()
     YhdistaKumppaniin dlg(asiakkaat_, kid, nimi, this);
     dlg.exec();
     paivita();
+}
+
+void KumppaniTuoteWidget::laskuta()
+{
+    VastikeLaskutus vastikeDlg(this);
+    vastikeDlg.exec();
 }
 
 

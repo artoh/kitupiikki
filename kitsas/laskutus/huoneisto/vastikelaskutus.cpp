@@ -14,39 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TUOTEDIALOGI_H
-#define TUOTEDIALOGI_H
+#include "vastikelaskutus.h"
+#include "ui_vastikelaskutus.h"
 
-#include <QDialog>
-
-#include "tuote.h"
-
-namespace Ui {
-class TuoteDialogi;
+VastikeLaskutus::VastikeLaskutus(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::VastikeLaskutus)
+{
+    ui->setupUi(this);
 }
 
-class TuoteDialogi : public QDialog
+VastikeLaskutus::~VastikeLaskutus()
 {
-    Q_OBJECT
-
-public:
-    explicit TuoteDialogi(QWidget *parent = nullptr);
-    ~TuoteDialogi() override;
-
-public slots:
-    void muokkaa(const Tuote& tuote);
-    void uusi();
-
-    void accept() override;
-
-private slots:
-    void laskeBrutto();
-    void laskeNetto();    
-
-private:
-    Ui::TuoteDialogi *ui;
-    int muokattavanaId_ = 0;
-    double brutto_ = 0;
-};
-
-#endif // TUOTEDIALOGI_H
+    delete ui;
+}

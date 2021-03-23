@@ -504,6 +504,7 @@ void TositeRivit::lisaaTuote(const Tuote &tuote)
 {
     TositeRivi rivi;
     rivi.setTuote(tuote.id());
+    rivi.setNimike(tuote.nimike());
 
     if( !tuote.unKoodi().isEmpty())
         rivi.setUNkoodi( tuote.unKoodi());

@@ -53,6 +53,7 @@ SOURCES += \
     $$PWD/laskutus/huoneisto/huoneistodialog.cpp \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.cpp \
     $$PWD/laskutus/huoneisto/huoneistomodel.cpp \
+    $$PWD/laskutus/huoneisto/vastikelaskutus.cpp \
     $$PWD/laskutus/iban.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
@@ -387,6 +388,7 @@ HEADERS += \
     $$PWD/laskutus/huoneisto/huoneistodialog.h \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.h \
     $$PWD/laskutus/huoneisto/huoneistomodel.h \
+    $$PWD/laskutus/huoneisto/vastikelaskutus.h \
     $$PWD/laskutus/iban.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
@@ -694,6 +696,7 @@ FORMS += \
     $$PWD/kitupiikkituonti/vanhatuontidlg.ui \
     $$PWD/laskutus/ennakkohyvitysdialogi.ui \
     $$PWD/laskutus/huoneisto/huoneistodialog.ui \
+    $$PWD/laskutus/huoneisto/vastikelaskutus.ui \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskudlg/laskudialogi.ui \
     $$PWD/laskutus/laskudlg/laskurividialogi.ui \

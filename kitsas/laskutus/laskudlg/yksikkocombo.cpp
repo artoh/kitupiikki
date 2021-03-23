@@ -47,6 +47,8 @@ void YksikkoCombo::setUNkoodi(const QString &koodi)
 {
     qDebug() << "setUN " << koodi;
     setCurrentIndex( findData(koodi) );
+    if( isEditable() )
+        setEditText( yksikot_.nimi(koodi) );
 }
 
 QString YksikkoCombo::yksikko() const

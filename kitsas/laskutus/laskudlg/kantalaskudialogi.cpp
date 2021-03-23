@@ -49,7 +49,7 @@ KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     ui( new Ui::LaskuDialogi),
     tosite_(tosite),
     ennakkoModel_(new EnnakkoHyvitysModel(this)),
-    huoneistot_(new HuoneistoModel(this))
+    huoneistot_( kp()->huoneistot() )
 {
     ui->setupUi(this);
     tosite_->setParent(this);
