@@ -30,8 +30,8 @@ QVariant HuoneistoModel::headerData(int section, Qt::Orientation orientation, in
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-        case NIMI: return tr("Nimi");        
-        case ASIAKAS: return tr("Asukas");
+        case NIMI: return tr("Nimi");
+        case ASIAKAS: return tr("Asiakas");
         case LASKUT: return tr("Laskutettu");
         case MAKSUT: return tr("Maksettu");
         case AVOIN: return tr("Avoinna");
@@ -86,6 +86,8 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
         return tieto.id();
     } else if( role == Qt::TextAlignmentRole && index.column() >= LASKUT) {
         return Qt::AlignRight;
+    } else if( role == NimiRooli || role == TekstiRooli) {
+        return tieto.nimi();
     }
 
     // FIXME: Implement me!
@@ -115,6 +117,7 @@ void HuoneistoModel::lataa(QVariant *data)
     }
     endResetModel();
 }
+
 
 HuoneistoModel::HuoneistoTieto::HuoneistoTieto()
 {

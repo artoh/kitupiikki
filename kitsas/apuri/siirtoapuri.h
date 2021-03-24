@@ -20,6 +20,7 @@
 #include "apuriwidget.h"
 
 #include <QVariantMap>
+#include "model/euro.h"
 
 namespace Ui {
 class SiirtoApuri;
@@ -39,7 +40,7 @@ public:
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
-    void eraValittu(bool debet, int eraId, double avoinna, const QString& selite, int kumppani);
+    void eraValittu(bool debet, int eraId, Euro avoinna, const QString& selite, int kumppani);
 
 protected:
     bool teeTositteelle() override;

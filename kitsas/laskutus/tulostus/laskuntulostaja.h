@@ -38,12 +38,14 @@ public:
                  QPainter* painter);
 
     QByteArray pdf( Tosite& tosite);
+    void tallennaLaskuLiite( Tosite& tosite);
 
 public:
     virtual qreal vaihdaSivua(QPainter *painter, QPagedPaintDevice *device) override;
     qreal tulostaErittely(const QStringList& erittely, QPainter *painter, QPagedPaintDevice *device, qreal alalaita);    
 
 signals:
+    void laskuLiiteTallennettu();
 
 protected:
     void tulostaLuonnos(QPainter* painter);

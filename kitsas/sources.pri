@@ -203,6 +203,11 @@ SOURCES += \
     $$PWD/tilaus/tilauswizard.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
+    $$PWD/tools/eraeranvalintadialog.cpp \
+    $$PWD/tools/eranvalintadialog.cpp \
+    $$PWD/tools/eranvalintamodel.cpp \
+    $$PWD/tools/eraproxymodel.cpp \
+    $$PWD/tools/huoneistoeranvalintadialog.cpp \
     $$PWD/tools/kitsaslokimodel.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
@@ -545,6 +550,11 @@ HEADERS += \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
+    $$PWD/tools/eraeranvalintadialog.h \
+    $$PWD/tools/eranvalintadialog.h \
+    $$PWD/tools/eranvalintamodel.h \
+    $$PWD/tools/eraproxymodel.h \
+    $$PWD/tools/huoneistoeranvalintadialog.h \
     $$PWD/tools/kitsaslokimodel.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
@@ -740,6 +750,7 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/tools/eranvalintadialog.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \

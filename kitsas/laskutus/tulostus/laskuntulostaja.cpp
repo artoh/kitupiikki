@@ -29,6 +29,8 @@
 #include "laskunosoitealue.h"
 #include "laskuruudukontayttaja.h"
 
+#include "db/yhteysmodel.h"
+
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
     : QObject(parent), kitsas_(kitsas), tietoLaatikko_(kitsas), alaOsa_(kitsas)
 {
@@ -153,6 +155,20 @@ QByteArray LaskunTulostaja::pdf(Tosite &tosite)
     buffer.close();
 
     return array;
+}
+
+void LaskunTulostaja::tallennaLaskuLiite(Tosite &tosite)
+{
+    const QByteArray lasku = pdf(tosite);
+
+    KpKysely *tallennus = kitsas_->yhteysModel()->kysely( QString("/liitteet/%1/lasku").arg(tosite.id()), KpKysely::PUT );
+    QMap<QString,QString> meta;
+    meta.insert("Filename", QString("lasku%1.pdf").arg(tosite.lasku().numero()));
+
+    connect( tallennus, &KpKysely::vastaus, this, &LaskunTulostaja::laskuLiiteTallennettu);
+    tallennus->lahetaTiedosto(lasku, meta);
+
+    deleteLater();
 }
 
 void LaskunTulostaja::tulostaLuonnos(QPainter *painter)

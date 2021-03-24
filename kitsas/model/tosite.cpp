@@ -320,7 +320,7 @@ void Tosite::tallennaLiitteitta(int tilaan)
     if( !id() )
         kysely = kpk( "/tositteet/", KpKysely::POST);
     else
-        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
+        kysely = kpk( QString("/tositteet/%1").arg( id() ), KpKysely::PUT);
 
     connect(kysely, &KpKysely::vastaus, this, &Tosite::tositeTallennettu  );
     connect(kysely, &KpKysely::virhe, this, &Tosite::tallennusvirhe);
@@ -440,8 +440,8 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 
 void Tosite::tallennusValmis(QVariant *variant)
 {    
-    QVariantMap map = variant->toMap();
-    setData(ID, map.value( avaimet__.at(ID) ).toInt() );
+    QVariantMap map = variant->toMap();        
+    setData(ID, map.value( avaimet__.at(ID) ).toInt() );            
     setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());
     asetaSarja(map.value(avaimet__.at(SARJA)).toString());
 

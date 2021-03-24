@@ -19,133 +19,144 @@
 
 #include <QDebug>
 
+#include "laskutus/viitenumero.h"
+
+#include "rekisteri/asiakastoimittajalistamodel.h"
+#include "huoneistoeranvalintadialog.h"
+#include "eraeranvalintadialog.h"
+
 EraCombo::EraCombo(QWidget *parent) :
     QComboBox (parent)
 {
-    connect( this, &QComboBox::currentTextChanged, this, &EraCombo::valintaMuuttui);
+    connect( this, qOverload<int>(&EraCombo::currentIndexChanged),
+             this, &EraCombo::vaihtui);
 }
 
 int EraCombo::valittuEra() const
 {
-    return valittuna_;
+    return eraId_;
 }
 
 QVariantMap EraCombo::eraMap() const
 {
-    int valittuna = currentData().toInt();
-    if( !valittuna )
-        return QVariantMap();
-    if( valittuna == -1) {
-        QVariantMap map;
-        map.insert("id",-1);
-        return map;
-    }
-    for( auto item : data_) {
-        QVariantMap map = item.toMap();
-        if( map.value("id").toInt() == valittuna)
-            return map;
-    }
-    return QVariantMap();
+    QVariantMap map;
+    map.insert("id", eraId_);
+    if(!eraNimi_.isEmpty())
+        map.insert("selite", eraNimi_);
+    if( eraSaldo_.cents() && eraId_ > 0)
+        map.insert("avoin", eraSaldo_.toString());
+    return map;
 }
 
-void EraCombo::lataa(int tili, int asiakas)
+void EraCombo::asetaTili(int tili, int asiakas)
 {
-    if( tili && (tili != tili_ || asiakas != asiakas_))
-    {
-        tili_ = tili;   // Jää välimuistiin jotta ei ladattaisi jatkuvasti
-        asiakas_ = asiakas;
-        KpKysely* kysely = kpk("/erat");
-        if( kysely ) {
-            kysely->lisaaAttribuutti("tili", QString::number(tili));
-            if( asiakas > 0)
-                kysely->lisaaAttribuutti("asiakas",QString::number(asiakas));
-
-            connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
-            kysely->kysy();
-        }
-    }
+    tili_ = tili;
+    asiakas_ = asiakas;
+    asiakasNimi_ = asiakas ? AsiakasToimittajaListaModel::instanssi()->nimi(asiakas) : QString();
+    paivita();
 }
 
-void EraCombo::valitse(int eraid)
+void EraCombo::valitseUusiEra()
 {
-    valittuna_ = eraid;
-
-    int indeksi = findData( valittuna_ );
-    if( indeksi > -1)
-        setCurrentIndex( findData(valittuna_) );
-    else if( eraid > 0){
-        // Tilataan erän tiedot
-        KpKysely* kysely = kpk(QString("/viennit/%1").arg(eraid));
-        if( kysely ) {
-            connect(kysely, &KpKysely::vastaus, this, &EraCombo::vientiSaapuu);
-            kysely->kysy();
-        }
-    }
+    eraId_ = -1;
 }
 
-void EraCombo::dataSaapuu(QVariant *data)
+void EraCombo::valitse(const QVariantMap &eraMap)
 {
-    latauksessa_ = true;
+    eraId_ = eraMap.value("id").toInt();
+    eraNimi_ = eraMap.value("selite").toString();
+
+    asiakas_ = eraMap.value("asiakas").toMap().value("id").toInt();
+    asiakasNimi_ = eraMap.value("asiakas").toMap().value("nimi").toString();
+
+    eraSaldo_ = Euro::fromVariant(eraMap.value("avoin"));
+    eranPaiva_ = eraMap.value("pvm").toDate();
+    paivita();
+}
+
+void EraCombo::paivita()
+{
+    paivitetaan_ = true;
     clear();
 
-    addItem( tr("Ei tase-erää"), 0);
-    addItem(tr("Uusi tase-erä"), -1);
-
-    QVariantList lista = data->toList();
-    data_ = lista;
-
-    for(auto item : lista) {
-        QVariantMap map = item.toMap();
-        int eraid = map.value("id").toInt();
-        data_.append(map);
-
-        QVariantMap kumppaniMap = map.value("kumppani").toMap();
-
-        QString selite = map.value("selite").toString();
-        QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
-        QString teksti = (kumppani.isEmpty() || selite == kumppani) ? selite : kumppani + " " + selite;
-
-        addItem( QString("%1 %2 (%L3)")
-                 .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
-                 .arg(teksti)
-                 .arg(map.value("avoin").toDouble(),0,'f',2),
-                 eraid);
-
-        int indeksi = findData(eraid);
-        setItemData( indeksi, map.value("avoin"), AvoinnaRooli );
-        setItemData( indeksi, map.value("selite").toString(), SeliteRooli);
-        if(kumppaniMap.value("id").toInt()) {
-            setItemData( indeksi, kumppaniMap.value("id").toInt(), KumppaniRooli);
+    if( eraId_ > 0 ) {
+        if( eraSaldo_.cents()) {
+            addItem(QIcon(":/pic/lasku.png"), QString("%1 %2 %3 (%4)")
+                    .arg(eranPaiva_.toString("dd.MM.yyyy"))
+                    .arg(eraNimi_)
+                    .arg(asiakasNimi_)
+                    .arg(eraSaldo_.display()), eraId_);
+        } else {
+            addItem(QIcon(":/pic/ok.png"), QString("%1 %2 %3")
+                    .arg(eranPaiva_.toString("dd.MM.yyyy"))
+                    .arg(eraNimi_)
+                    .arg(asiakasNimi_), eraId_);
+        }
+    } else if( eraId_ < -10) {
+        if( eraId_ % 10 == -3) {
+            addItem(QIcon(":/pic/mies.png"), eraNimi_, eraId_);
+        } else if( eraId_ % 10 == -4) {
+            addItem(QIcon(":/pic/talo.png"), eraNimi_, eraId_);
         }
     }
-    setCurrentIndex( findData(valittuna_) );
-    latauksessa_ = false;
-}
 
-void EraCombo::vientiSaapuu(QVariant *data)
-{        
+    addItem(QIcon(":/pic/tyhja.png"), tr("Ei tase-erää"), 0);
+    addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), -1);
+    addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), -2);
 
-    QVariantMap map = data->toMap();
-    int id = map.value("id").toInt();
-    if( findData(id) == -1 ) {
-
-        QString selite = map.value("selite").toString();
-        QString kumppani = map.value("kumppani").toString();
-        QString teksti = kumppani.isEmpty() || selite == kumppani ? selite : kumppani + " " + selite;
-
-        addItem( QString("%1 %2")
-                 .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
-                  .arg(teksti),
-                 map.value("id").toInt());
-        setCurrentIndex( findData(valittuna_) );
+    if( asiakas_ ) {
+        QString nimi = AsiakasToimittajaListaModel::instanssi()->nimi(asiakas_);
+        addItem(QIcon(":/pic/mies.png"), nimi, -3);
     }
+    addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), -4);
+
+
+    setCurrentIndex( findData(eraId_) );
+
+    paivitetaan_ = false;
 }
 
-void EraCombo::valintaMuuttui()
+void EraCombo::vaihtui()
 {
-
-    if( !latauksessa_ && currentData().toInt() != valittuna_) {
-        valittuna_ = currentData().toInt();
-        emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString(), currentData(KumppaniRooli).toInt() );
+    int indeksi = currentIndex();
+    if( indeksi < 0 || paivitetaan_) {
+        return;
     }
+    int vanhaEra = eraId_;
+
+    int era = currentData().toInt();
+    if( era == -1) {
+      eraId_ = -1;
+      eraSaldo_ = 0;
+      eraNimi_.clear();
+      asiakas_ = 0;
+    } else if(era == 0) {
+      eraId_ = 0;
+      eraNimi_.clear();
+      eraSaldo_ = 0;
+      asiakas_ = 0;
+    } else if( era == -2) {
+        EraEranValintaDialog dlg(tili_, asiakas_, eraId_, this);
+        if( dlg.exec() == QDialog::Accepted) {
+            valitse( dlg.valittu());
+        }
+
+    } else if( era == -3) {
+        ViiteNumero hloViite(ViiteNumero::ASIAKAS, asiakas_);
+        eraId_ = hloViite.eraId();
+        eraNimi_ = asiakasNimi_;
+        eraSaldo_ = 0;
+    } else if( era == -4) {
+        HuoneistoEranValintaDialog dlg(eraId_ / -10, this);
+        if( dlg.exec() == QDialog::Accepted) {
+            valitse( dlg.valittu() );
+        }
+    }
+
+    if( vanhaEra != eraId_)
+        emit valittu(eraId_, eraSaldo_, eraNimi_, asiakas_);
+
+    paivita();
 }
+
+

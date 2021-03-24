@@ -130,10 +130,14 @@ void SiirtoApuri::teeReset()
         ui->euroEdit->setValue( debetMap.value("debet").toDouble() );
         ui->tililtaEdit->valitseTiliNumerolla( kreditMap.value("tili").toInt() );
 
-        int tililleEra = debetMap.value("era").toMap().value("id").toInt();
+        QVariantMap tililleEra = debetMap.value("era").toMap();
+        tililleEra.insert("selite", debetMap.selite());
+        tililleEra.insert("kumppani", debetMap.kumppaniMap());
         ui->tililleEraCombo->valitse(tililleEra);
 
-        int tililtaEra = kreditMap.value("era").toMap().value("id").toInt();
+        QVariantMap tililtaEra = kreditMap.value("era").toMap();
+        tililtaEra.insert("selite", kreditMap.selite());
+        tililtaEra.insert("kumppani", kreditMap.kumppaniMap());
         ui->tililtaEraCombo->valitse(tililtaEra);
 
         debetKumppani_ =  debetMap.kumppaniId();
@@ -262,7 +266,7 @@ void SiirtoApuri::tililtaMuuttui()
     ui->tililtaEraLabel->setVisible(erat);
     ui->tililtaEraCombo->setVisible(erat);
     if( erat )
-        ui->tililtaEraCombo->lataa( tili.numero() );
+        ui->tililtaEraCombo->asetaTili( tili.numero() );
 
     tositteelle();
     paivitaKateislaji();
@@ -285,15 +289,15 @@ void SiirtoApuri::tililleMuuttui()
     ui->tililleEraLabel->setVisible(erat);
     ui->tililleEraCombo->setVisible(erat);
     if( erat )
-        ui->tililleEraCombo->lataa(tili.numero());
+        ui->tililleEraCombo->asetaTili(tili.numero());
 
     tositteelle();
     paivitaKateislaji();
 }
 
-void SiirtoApuri::eraValittu(bool debet, int eraId, double avoinna, const QString &selite, int kumppani)
+void SiirtoApuri::eraValittu(bool debet, int eraId, Euro avoinna, const QString &selite, int kumppani)
 {
-    if( !ui->euroEdit->asCents() && avoinna > 1e-5)
+    if( !ui->euroEdit->asCents() && avoinna.cents())
         ui->euroEdit->setValue(avoinna);
     if( tosite()->otsikko().isEmpty())
         tosite()->asetaOtsikko(selite);

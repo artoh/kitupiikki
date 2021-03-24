@@ -15,17 +15,16 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QComboBox>
 #include "db/kirjanpito.h"
 
 #include <QDebug>
 
+#include "tools/kohdennuscombo.h"
+
 #include "kohdennusdelegaatti.h"
-#include "kohdennusproxymodel.h"
 #include "model/tositeviennit.h"
 #include "db/kirjanpito.h"
 
-#include "tools/eracombo.h"
 
 KohdennusDelegaatti::KohdennusDelegaatti(QObject *parent) :
     QItemDelegate(parent),
@@ -38,47 +37,32 @@ QWidget *KohdennusDelegaatti::createEditor(QWidget *parent, const QStyleOptionVi
 {
     Tili* tili = kp()->tilit()->tili( index.data(TositeViennit::TiliNumeroRooli).toInt() );
     if( tili && ( tili->onko(TiliLaji::TULOS) || tili->onko(TiliLaji::POISTETTAVA))) {
-
-        QComboBox *cbox = new QComboBox(parent);
-        cbox->setModel( model );
-        cbox->setModelColumn( KohdennusModel::NIMI);
+        KohdennusCombo* cbox = new KohdennusCombo(parent);
         return cbox;
     }
+    return nullptr;
 
-    EraCombo* ec = new EraCombo(parent);
-    if( tili )
-        ec->lataa( tili->numero() );
-    return ec;
 }
 
 void KohdennusDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    EraCombo *ec = qobject_cast<EraCombo*>(editor);
-    if( ec ) {
-        ec->valitse( index.data(TositeViennit::EraIdRooli).toInt() );
-    } else {
-       QComboBox *cbox = qobject_cast<QComboBox*>(editor);
-       model->asetaKohdennus( index.data( Qt::EditRole).toInt() );
 
-        if( kohdennusPaiva.isValid())
-            model->asetaPaiva( kohdennusPaiva);
-        else
-            model->asetaPaiva( index.data( TositeViennit::PvmRooli ).toDate() );
+    KohdennusCombo* cbox = qobject_cast<KohdennusCombo*>(editor);
 
-        cbox->setCurrentIndex( cbox->findData( index.data( Qt::EditRole).toInt(), KohdennusModel::IdRooli ));
-    }
+    if( kohdennusPaiva.isValid())
+        cbox->suodataPaivalla( kohdennusPaiva );
+    else
+        cbox->suodataPaivalla(index.data( TositeViennit::PvmRooli ).toDate() );
+
+    cbox->valitseKohdennus( index.data( Qt::EditRole).toInt() );
 
 }
 
 void KohdennusDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    EraCombo *ec = qobject_cast<EraCombo*>(editor);
-    if( ec )  {
-        model->setData(index, ec->eraMap(), TositeViennit::EraMapRooli);
-    } else {
-        QComboBox *cbox = qobject_cast<QComboBox*>(editor);
-        model->setData( index, cbox->currentData(KohdennusModel::IdRooli).toInt(), Qt::EditRole);
-    }
+    KohdennusCombo *cbox = qobject_cast<KohdennusCombo*>(editor);
+    model->setData( index, cbox->kohdennus(), Qt::EditRole);
+
 }
 
 void KohdennusDelegaatti::asetaKohdennusPaiva(const QDate &paiva)

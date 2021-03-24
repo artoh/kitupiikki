@@ -18,6 +18,7 @@
 #define TULOMENOAPURI_H
 
 #include "apuriwidget.h"
+#include "model/euro.h"
 
 class QSortFilterProxyModel;
 class TmRivit;
@@ -71,7 +72,7 @@ protected slots:
 
     void kumppaniValittu(int kumppaniId);
     void kumppaniTiedot(QVariant* data);
-    void eraValittu(int eraid, double avoinna, const QString& selite, int kumppani);
+    void eraValittu(int eraid, Euro avoinna, const QString& selite, int kumppani);
 
 protected:
     void teeReset() override;

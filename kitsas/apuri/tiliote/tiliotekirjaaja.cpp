@@ -237,7 +237,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->eraLabel->setVisible(erat);
     ui->eraCombo->setVisible(erat);
     if( erat ) {
-        ui->eraCombo->lataa(tili.numero());
+        ui->eraCombo->asetaTili(tili.numero());
     }
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
@@ -267,10 +267,10 @@ void TilioteKirjaaja::paivitaAlvInfo()
     ui->alvVaro->setVisible(vero);
 }
 
-void TilioteKirjaaja::eraValittu(int eraId, double avoinna, const QString &selite)
+void TilioteKirjaaja::eraValittu(int eraId, Euro avoinna, const QString &selite)
 {
-    if( !ui->euroEdit->asCents() && avoinna > 1e-5)
-        ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
+    if( !ui->euroEdit->asCents() && avoinna.cents())
+        ui->euroEdit->setEuro(menoa_ ? Euro(0) - avoinna : avoinna);
     if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setText(selite);
     haeAlkuperaisTosite(eraId);
@@ -503,7 +503,7 @@ void TilioteKirjaaja::naytaRivi()
     if(vienti.tili())
         ui->tiliEdit->valitseTiliNumerolla( vienti.tili() );
 
-    ui->eraCombo->valitse( vienti.eraId());
+    ui->eraCombo->valitse( vienti.era());
     ui->kohdennusCombo->valitseKohdennus( vienti.kohdennus() );
     ui->merkkausCC->setSelectedItems( vienti.merkkaukset() );
     ui->seliteEdit->setText( vienti.selite() );

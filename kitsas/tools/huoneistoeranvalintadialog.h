@@ -14,46 +14,25 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ERACOMBO_H
-#define ERACOMBO_H
+#ifndef HUONEISTOERANVALINTADIALOG_H
+#define HUONEISTOERANVALINTADIALOG_H
 
-#include <QComboBox>
-#include <QDate>
-#include "model/euro.h"
+#include "eranvalintadialog.h"
 
-class EraCombo : public QComboBox
+class HuoneistoEranValintaDialog : public EranValintaDialog
 {
     Q_OBJECT
 public:
-    EraCombo(QWidget *parent = nullptr);
+    HuoneistoEranValintaDialog(int nykyinen = 0, QWidget* parent = nullptr);
 
-    int valittuEra() const;
-    QVariantMap eraMap() const;
-
-public slots:
-    void asetaTili(int tili, int asiakas=0);
-    void valitseUusiEra();
-    void valitse(const QVariantMap& eraMap);
+    QVariantMap valittu() const override;
 
 protected:
-    void paivita();
-    void vaihtui();
+    void paivitaNykyinen() override;
 
-signals:
-    void valittu(int eraid, Euro avoinna, const QString& selite, int kumppani);
-
-private:        
-    int eraId_=-1;
-    QString eraNimi_;
-    Euro eraSaldo_;
-    QDate eranPaiva_;
-
-    int tili_ = 0;
-    int asiakas_ = 0;
-    QString asiakasNimi_;
-
-    bool paivitetaan_ = false;
+private:
+    int nykyinen_ = 0;
 
 };
 
-#endif // ERACOMBO_H
+#endif // HUONEISTOERANVALINTADIALOG_H

@@ -287,7 +287,7 @@ void MuuMuokkausDlg::tiliMuuttui()
     ui->jaksoViiva->setVisible(tili.onko(TiliLaji::TULOS));
     ui->jaksoLoppuu->setVisible(tili.onko(TiliLaji::TULOS));
 
-    ui->eraCombo->lataa( tili.numero(), ui->kumppani->id() );
+    ui->eraCombo->asetaTili( tili.numero(), ui->kumppani->id() );
 
     ui->reskontraGroup->setVisible( tili.onko(TiliLaji::TASE));
 
@@ -315,14 +315,14 @@ void MuuMuokkausDlg::tiliMuuttui()
 void MuuMuokkausDlg::kumppaniMuuttui()
 {
     if( ui->eraCombo->isVisible())
-        ui->eraCombo->lataa(ui->tiliLine->valittuTilinumero(), ui->kumppani->id());
+        ui->eraCombo->asetaTili(ui->tiliLine->valittuTilinumero(), ui->kumppani->id());
 }
 
-void MuuMuokkausDlg::eraMuuttui(int /*eraid*/, double avoinna, const QString& selite, int kumppani)
+void MuuMuokkausDlg::eraMuuttui(int /*eraid*/, Euro avoinna, const QString& selite, int kumppani)
 {
     if( !ui->euroEdit->asCents()) {
-        ui->euroEdit->setValue(qAbs(avoinna));
-        if( avoinna > 0) {
+        ui->euroEdit->setCents(qAbs(avoinna.cents()));
+        if( avoinna.cents() > 0) {
             ui->debetRadio->setChecked(true);
         } else {
             ui->kreditRadio->setChecked(true);

@@ -252,9 +252,9 @@ void TuloMenoApuri::teeReset()
 
                 if( vastatili->eritellaankoTase()) {
                     if(vienti.eraId() == vienti.id())
-                        ui->eraCombo->valitse(-1);
+                        ui->eraCombo->valitseUusiEra();
                     else
-                        ui->eraCombo->valitse( vienti.eraId() );
+                        ui->eraCombo->valitse( vienti.era() );
                 }
                 maksutapaMuuttui();
                 if( !vienti.arkistotunnus().isEmpty())
@@ -552,11 +552,11 @@ void TuloMenoApuri::vastatiliMuuttui()
 
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
-    ui->eraCombo->lataa( vastatili.numero() , ui->asiakasToimittaja->id());
+    ui->eraCombo->asetaTili( vastatili.numero() , ui->asiakasToimittaja->id());
     if( ( !eritellankotaso
           || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool())
          && !tosite()->viennit()->vienti(0).eraId() && sender() != ui->eraCombo) {
-        ui->eraCombo->valitse(-1);
+        ui->eraCombo->valitseUusiEra();
     }
 
     bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA))
@@ -810,7 +810,7 @@ void TuloMenoApuri::kumppaniValittu(int kumppaniId)
     if(kysely) {
         connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
         kysely->kysy();
-        ui->eraCombo->lataa(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
+        ui->eraCombo->asetaTili(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
     }
 }
 
@@ -835,7 +835,7 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
         teeTositteelle();
 }
 
-void TuloMenoApuri::eraValittu(int /* eraid */, double /* avoinna */, const QString & /*selite*/, int kumppani)
+void TuloMenoApuri::eraValittu(int /* eraid */, Euro /* avoinna */, const QString & /*selite*/, int kumppani)
 {
     if( !ui->asiakasToimittaja->id())
         ui->asiakasToimittaja->set(kumppani);

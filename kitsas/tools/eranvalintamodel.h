@@ -14,34 +14,22 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef HUONEISTOMODEL_H
-#define HUONEISTOMODEL_H
+#ifndef ERANVALINTAMODEL_H
+#define ERANVALINTAMODEL_H
 
 #include <QAbstractTableModel>
 #include <QVariantList>
 
-#include "model/euro.h"
-#include "laskutus/viitenumero.h"
-
-#include "db/kitsasinterface.h"
-
-
-class HuoneistoModel : public QAbstractTableModel
+class EranValintaModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
+    enum { PVM, KUMPPANI, SELITE, SALDO };
+    enum { IdRooli = Qt::UserRole+10, MapRooli = Qt::UserRole+11,
+         PvmRooli = Qt::UserRole+12, TekstiRooli = Qt::UserRole + 13};
 
-    enum HuoneistoSarake { NIMI, ASIAKAS, LASKUT, MAKSUT, AVOIN };
-    enum {
-        IdRooli = Qt::UserRole,
-        ViiteRooli = Qt::UserRole + 1,
-        NimiRooli = Qt::UserRole + 2,
-        TekstiRooli = Qt::UserRole + 13
-    };
-
-
-    explicit HuoneistoModel(QObject *parent = nullptr);
+    explicit EranValintaModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -52,34 +40,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    void paivita();
-
+    void lataa(int tili, int asiakas);
+    void paivita(bool avoimet = true);
 protected:
-    void lataa(QVariant* data);    
+    void eratSaapuu(const QVariant* data);
+    int tili_ = 0;
+    int asiakas_ = 0;
 
 private:
-    class HuoneistoTieto {
-    public:
-        HuoneistoTieto();
-        HuoneistoTieto(int id, const QString& nimi, int asiakas,
-                       const Euro& laskutettu, const Euro& maksettu);
-
-        int id() const;
-        QString nimi() const;
-        int asiakas() const;
-        Euro laskutettu() const;
-        Euro maksettu() const;
-        ViiteNumero viite() const;
-
-    private:
-        int id_ = 0;
-        QString nimi_;
-        int asiakas_ = 0;
-        Euro laskutettu_;
-        Euro maksettu_;
-    };
-
-    QList<HuoneistoTieto> huoneistot_;
+    QVariantList erat_;
 };
 
-#endif // HUONEISTOMODEL_H
+#endif // ERANVALINTAMODEL_H

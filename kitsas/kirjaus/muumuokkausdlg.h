@@ -54,7 +54,7 @@ protected:
     void pvmMuuttui();
     void tiliMuuttui();
     void kumppaniMuuttui();
-    void eraMuuttui(int eraid, double avoinna, const QString& selite, int kumppani);
+    void eraMuuttui(int eraid, Euro avoinna, const QString& selite, int kumppani);
     void jaksoMuuttui();
 
     void alvLajiMuuttui();
