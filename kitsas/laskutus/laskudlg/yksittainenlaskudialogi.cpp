@@ -48,18 +48,13 @@ void YksittainenLaskuDialogi::tallennettu(QVariant *vastaus)
 {
     Tosite tallennettuTosite;
     tallennettuTosite.lataaData(vastaus);
-
-    LaskunTulostaja tulostaja(kp());
-    QByteArray liite = tulostaja.pdf(tallennettuTosite);
-
-    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(tallennettuTosite.id()), KpKysely::PUT);
-    QMap<QString,QString> meta;
-    meta.insert("Filename", QString("lasku%1.pdf").arg( tosite()->lasku().numero()  ) );
-
     QVariantMap data = tallennettuTosite.tallennettava();
 
-    connect( liitetallennus, &KpKysely::vastaus, [this,  data] { this->liiteTallennettu(data); });
-    liitetallennus->lahetaTiedosto(liite, meta);
+    LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
+
+    connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
+            [this, data] { this->liiteTallennettu(data); } );
+    tulostaja->tallennaLaskuLiite(tallennettuTosite);
 }
 
 void YksittainenLaskuDialogi::liiteTallennettu(QVariantMap tosite)
