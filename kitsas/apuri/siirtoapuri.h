@@ -35,12 +35,13 @@ public:
     virtual ~SiirtoApuri() override;
 
 
-    void otaFokus() override;
+    void otaFokus() override;    
 
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
     void eraValittu(bool debet, int eraId, Euro avoinna, const QString& selite, int kumppani);
+    void laskunmaksu();
 
 protected:
     bool teeTositteelle() override;

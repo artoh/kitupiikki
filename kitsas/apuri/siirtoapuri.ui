@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>344</height>
+    <height>417</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,14 +187,37 @@
      </property>
     </spacer>
    </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="laskuNappi">
+       <property name="text">
+        <string>&amp;Laskun maksu</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KohdennusCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/kohdennuscombo.h</header>
-  </customwidget>
   <customwidget>
    <class>KpEuroEdit</class>
    <extends>QLineEdit</extends>
@@ -204,6 +227,11 @@
    <class>CheckCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
   </customwidget>
   <customwidget>
    <class>TilinvalintaLine</class>

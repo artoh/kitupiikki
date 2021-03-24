@@ -25,6 +25,8 @@
 #include "tilioteapuri.h"
 #include "model/tosite.h"
 #include "db/kirjanpito.h"
+#include "laskutus/vakioviite/vakioviitemodel.h"
+#include "../siirtoapuri.h"
 
 #include <QShortcut>
 
@@ -36,82 +38,23 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     laskut_( new LaskuTauluTilioteProxylla(this, apuri->model())),
     viennit_( new TilioteViennit(kp(), this))
 {
-    ui->setupUi(this);
-    ui->viennitView->setModel(viennit_);
-
-    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilille"));
-    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililtä"));
-
-    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Laskun maksu"));
-    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
-    ui->alaTabs->addTab(QIcon(":/pic/edit-undo.png"), tr("Hyvitys"));
-    ui->alaTabs->addTab(QIcon(":/pic/siirra.png"), tr("Siirto"));
-
-
-    alaTabMuuttui(0);
-
-    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
-    connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
-    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
-    connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TilioteKirjaaja::paivitaAlvInfo);
-
-    maksuProxy_->setSourceModel( laskut_ );
-
-
-    avoinProxy_->setSourceModel(maksuProxy_);
-    avoinProxy_->setFilterRole(Qt::DisplayRole);
-    avoinProxy_->setFilterKeyColumn(LaskuTauluModel::MAKSAMATTA);
-    avoinProxy_->setFilterFixedString("€");
-
-
-    ui->maksuView->setModel(avoinProxy_);
-    ui->maksuView->setSortingEnabled(true);
-    avoinProxy_->setDynamicSortFilter(true);
-    ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
-    connect( ui->maksuView, &QTableView::clicked , this, &TilioteKirjaaja::valitseLasku);
-    connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
-
-    connect( ui->suljeNappi, &QPushButton::clicked,
-             this, &TilioteKirjaaja::tyhjenna);
-
-    connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->merkkausCC, &CheckCombo::haeMerkkaukset);
-    connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->kohdennusCombo, &KohdennusCombo::suodataPaivalla);
-
+    alusta();
     ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
-    tyhjenna();
 
-    connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &TilioteKirjaaja::tarkastaTallennus);
-    connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+}
 
-    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
-    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
-    connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
-    connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
-    connect( ui->jaksoAlkaaEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::jaksomuuttuu);
-
-
-    connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
-    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
-    connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
-    connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); ui->maksuView->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); });
-
-    // connect(ui->viennitView, &QTableView::clicked, this, &TilioteKirjaaja::tallennaRivi);
-    connect(ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tallennaRivi);
-    connect(ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tallennaRivi);
-
-    connect( ui->viennitView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &TilioteKirjaaja::riviVaihtuu);
-
-    connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::lisaaVienti);
-    connect( ui->poistaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::poistaVienti);
-    connect( viennit_, &TilioteViennit::modelReset, this, &TilioteKirjaaja::paivitaVientiNakyma);
-    connect( viennit_, &TilioteViennit::rowsInserted, this, &TilioteKirjaaja::paivitaVientiNakyma);
-    connect( viennit_, &TilioteViennit::rowsRemoved, this, &TilioteKirjaaja::paivitaVientiNakyma);
-
-    ui->alvCombo->addItem(QIcon(":/pic/tyhja.png"), tr("Veroton"), 0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("24 %"), 24.0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("14 %"), 14.0);
-    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("10 %"), 10.0);
-
+TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
+    QDialog(apuri),
+    ui(new Ui::TilioteKirjaaja),
+    maksuProxy_(new QSortFilterProxyModel(this)),
+    avoinProxy_( new QSortFilterProxyModel(this)),
+    laskut_( new LaskuTauluModel(this)),
+    viennit_( new TilioteViennit(kp(), this))
+{
+    alusta();
+    ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
+    ui->alaTabs->hide();
+    ui->alaTabs->setCurrentIndex(MAKSU);
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -162,25 +105,26 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 void TilioteKirjaaja::alaTabMuuttui(int tab)
 {
 
-    ui->suodatusEdit->setVisible( tab == MAKSU  );
-    ui->maksuView->setVisible( tab == MAKSU );
+    ui->suodatusEdit->setVisible( tab == MAKSU || tab==VAKIOVIITE );
+    ui->maksuView->setVisible( tab == MAKSU || tab == VAKIOVIITE );
 
-    ui->tiliLabel->setVisible( tab != MAKSU && tab != PIILOSSA);
-    ui->tiliEdit->setVisible( tab != MAKSU && tab != PIILOSSA);
+    ui->tiliLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE && tab != PIILOSSA);
+    ui->tiliEdit->setVisible( tab != MAKSU && tab != VAKIOVIITE && tab != PIILOSSA);
 
-    ui->kohdennusLabel->setVisible( tab != MAKSU && kp()->kohdennukset()->kohdennuksia() );
-    ui->kohdennusCombo->setVisible( tab != MAKSU && kp()->kohdennukset()->kohdennuksia() );
+    ui->kohdennusLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE && kp()->kohdennukset()->kohdennuksia() );
+    ui->kohdennusCombo->setVisible( tab != MAKSU && tab != VAKIOVIITE && kp()->kohdennukset()->kohdennuksia() );
 
     ui->merkkausLabel->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab != MAKSU);
-    ui->asiakastoimittaja->setVisible( tab != MAKSU);
+    ui->asiakasLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE);
+    ui->asiakastoimittaja->setVisible( tab != MAKSU && tab != VAKIOVIITE);
 
-    ui->seliteLabel->setVisible(tab != MAKSU);
-    ui->seliteEdit->setVisible( tab != MAKSU);
+    ui->seliteLabel->setVisible(tab != MAKSU && tab != VAKIOVIITE);
+    ui->seliteEdit->setVisible( tab != MAKSU && tab != VAKIOVIITE);
 
     if( tab == MAKSU ) {
+        ui->maksuView->setModel(avoinProxy_);
         laskut_->lataaAvoimet( menoa_ );
 
     } else if( tab == TULOMENO || tab == HYVITYS) {
@@ -197,7 +141,11 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
         ui->tiliEdit->suodataTyypilla( "[AB].*");
 
+    } else if( tab == VAKIOVIITE) {
+        ui->maksuView->setModel( kp()->vakioViitteet() );
     }
+
+
     tiliMuuttuu();
     paivitaVientiNakyma();
 
@@ -217,10 +165,14 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
         ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
         ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
+        if( ui->alaTabs->count() > VAKIOVIITE)
+            ui->alaTabs->removeTab(VAKIOVIITE);
     } else {
         ui->alaTabs->setTabText(MAKSU, tr("Saapuva maksu"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
         ui->alaTabs->setTabText(TULOMENO, tr("Tulo"));
+        if( ui->alaTabs->count() == VAKIOVIITE )
+            ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"));
     }
     alaTabMuuttui( ui->alaTabs->currentIndex() );
 
@@ -273,7 +225,7 @@ void TilioteKirjaaja::eraValittu(int eraId, Euro avoinna, const QString &selite)
         ui->euroEdit->setEuro(menoa_ ? Euro(0) - avoinna : avoinna);
     if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setText(selite);
-    haeAlkuperaisTosite(eraId);
+//    haeAlkuperaisTosite(eraId);
 
 }
 
@@ -293,7 +245,7 @@ void TilioteKirjaaja::valitseLasku()
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
 
-        haeAlkuperaisTosite( index.data(LaskuTauluModel::EraIdRooli).toInt() );
+//        haeAlkuperaisTosite( index.data(LaskuTauluModel::EraIdRooli).toInt() );
     }
 }
 
@@ -403,6 +355,85 @@ void TilioteKirjaaja::paivitaVientiNakyma()
     ui->lisaaVientiNappi->setVisible(alatabu == TULOMENO);
     ui->poistaVientiNappi->setVisible( viennit_->rowCount() > 1 && alatabu == TULOMENO);
     ui->viennitView->setVisible(viennit_->rowCount() > 1 && alatabu == TULOMENO);
+}
+
+void TilioteKirjaaja::alusta()
+{
+    ui->setupUi(this);
+    ui->viennitView->setModel(viennit_);
+
+    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilille"));
+    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililtä"));
+
+    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Laskun maksu"));
+    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
+    ui->alaTabs->addTab(QIcon(":/pic/edit-undo.png"), tr("Hyvitys"));
+    ui->alaTabs->addTab(QIcon(":/pic/siirra.png"), tr("Siirto"));
+
+
+    alaTabMuuttui(0);
+
+    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
+    connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
+    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
+    connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TilioteKirjaaja::paivitaAlvInfo);
+
+    maksuProxy_->setSourceModel( laskut_ );
+
+
+    avoinProxy_->setSourceModel(maksuProxy_);
+    avoinProxy_->setFilterRole(Qt::DisplayRole);
+    avoinProxy_->setFilterKeyColumn(LaskuTauluModel::MAKSAMATTA);
+    avoinProxy_->setFilterFixedString("€");
+
+
+    ui->maksuView->setModel(avoinProxy_);
+    ui->maksuView->setSortingEnabled(true);
+    avoinProxy_->setDynamicSortFilter(true);
+    ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
+    connect( ui->maksuView, &QTableView::clicked , this, &TilioteKirjaaja::valitseLasku);
+    connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
+
+    connect( ui->suljeNappi, &QPushButton::clicked,
+             this, &TilioteKirjaaja::tyhjenna);
+
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->merkkausCC, &CheckCombo::haeMerkkaukset);
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->kohdennusCombo, &KohdennusCombo::suodataPaivalla);
+
+
+    tyhjenna();
+
+    connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
+    connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
+    connect( ui->jaksoAlkaaEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::jaksomuuttuu);
+
+
+    connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
+    connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
+    connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, [this] { this->suodata(this->ui->suodatusEdit->text()); ui->maksuView->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); });
+
+    // connect(ui->viennitView, &QTableView::clicked, this, &TilioteKirjaaja::tallennaRivi);
+    connect(ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tallennaRivi);
+    connect(ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tallennaRivi);
+
+    connect( ui->viennitView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &TilioteKirjaaja::riviVaihtuu);
+
+    connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::lisaaVienti);
+    connect( ui->poistaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::poistaVienti);
+    connect( viennit_, &TilioteViennit::modelReset, this, &TilioteKirjaaja::paivitaVientiNakyma);
+    connect( viennit_, &TilioteViennit::rowsInserted, this, &TilioteKirjaaja::paivitaVientiNakyma);
+    connect( viennit_, &TilioteViennit::rowsRemoved, this, &TilioteKirjaaja::paivitaVientiNakyma);
+
+    ui->alvCombo->addItem(QIcon(":/pic/tyhja.png"), tr("Veroton"), 0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("24 %"), 24.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("14 %"), 14.0);
+    ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("10 %"), 10.0);
 }
 
 TilioteApuri *TilioteKirjaaja::apuri() const

@@ -23,6 +23,8 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 
+#include "tiliote/tiliotekirjaaja.h"
+
 #include <QDebug>
 
 SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
@@ -55,6 +57,8 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->tililtaKohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &SiirtoApuri::tositteelle);
     connect( ui->tililleKohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &SiirtoApuri::tositteelle);
+
+    connect( ui->laskuNappi, &QPushButton::clicked, this, &SiirtoApuri::laskunmaksu);
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -249,6 +253,7 @@ void SiirtoApuri::otaFokus()
     ui->tililtaEdit->setFocus(Qt::TabFocusReason);
 }
 
+
 void SiirtoApuri::tililtaMuuttui()
 {
     Tili tili = ui->tililtaEdit->valittuTili();
@@ -309,5 +314,12 @@ void SiirtoApuri::eraValittu(bool debet, int eraId, Euro avoinna, const QString 
 
     haeAlkuperaistosite(debet, eraId);
     teeTositteelle();
+}
+
+void SiirtoApuri::laskunmaksu()
+{
+    TilioteKirjaaja kirjaaja(this);
+    kirjaaja.exec();
+
 }
 

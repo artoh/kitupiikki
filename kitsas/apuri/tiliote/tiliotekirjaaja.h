@@ -23,10 +23,12 @@
 #include "tiliotekirjausrivi.h"
 
 class LaskuTauluTilioteProxylla;
+class LaskuTauluModel;
 class TilioteApuri;
 class TilioteViennit;
 
 class QSortFilterProxyModel;
+class SiirtoApuri;
 
 namespace Ui {
 class TilioteKirjaaja;
@@ -37,9 +39,11 @@ class TilioteKirjaaja : public QDialog
     Q_OBJECT    
 public:
     enum YlaTab { TILILLE, TILILTA};
-    enum AlaTab { MAKSU, TULOMENO, HYVITYS, SIIRTO, PIILOSSA };
+    enum AlaTab { MAKSU, TULOMENO, HYVITYS, SIIRTO, VAKIOVIITE, PIILOSSA };
 
     TilioteKirjaaja( TilioteApuri* apuri );
+    TilioteKirjaaja( SiirtoApuri* apuri);
+
     ~TilioteKirjaaja() override;
 
     void asetaPvm(const QDate& pvm);    
@@ -77,6 +81,8 @@ private slots:
 
 
 private:
+    void alusta();
+
     TilioteApuri* apuri() const;
     void lataa(const TilioteKirjausRivi& rivi);
     void lataaNakymaan();
@@ -97,7 +103,7 @@ private:
     QSortFilterProxyModel* maksuProxy_;    
     QSortFilterProxyModel* avoinProxy_;
 
-    LaskuTauluTilioteProxylla *laskut_;
+    LaskuTauluModel *laskut_;
 
     QVariantList alkuperaisRivit_;
 
