@@ -16,6 +16,7 @@
 */
 #include "maamodel.h"
 #include <QIcon>
+#include <QDebug>
 
 MaaModel::MaaModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -83,6 +84,30 @@ QVariant MaaModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+MaaModel *MaaModel::instanssi()
+{
+    if( !instanssi__)
+        instanssi__ = new MaaModel();
+    return instanssi__;
+}
+
+QString MaaModel::muotoiltuOsoite(const QVariantMap &kumppani) const
+{
+    const QString& nimi = kumppani.value("nimi").toString();
+    const QString& osoite = kumppani.value("osoite").toString();
+    const QString postinumero = kumppani.value("postinumero").toString();
+    const QString& kaupunki = kumppani.value("kaupunki").toString();
+    const QString& maa = kumppani.value("maa").toString();
+
+    if( maa != "fi")
+        qWarning() << "Osoite maahan " << maa;
+
+    // TODO: Ulkomaiset osoitteet
+    return nimi + "\n" +
+           osoite + "\n" +
+           postinumero + " " + kaupunki;
+}
+
 void MaaModel::lisaa(const QString &koodi, const QString &nimi, const QString &regexp)
 {
     maat_.append( Maa(koodi, nimi, regexp) );
@@ -96,3 +121,5 @@ MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString &alv
 {
 
 }
+
+MaaModel* MaaModel::instanssi__ = nullptr;

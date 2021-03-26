@@ -43,6 +43,8 @@
 #include <QPainter>
 #include <QMessageBox>
 
+#include "rekisteri/maamodel.h"
+
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
@@ -351,9 +353,7 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     QVariantMap map = data->toMap();
     ladattuAsiakas_ = map;
 
-    ui->osoiteEdit->setPlainText( map.value("nimi").toString() + "\n" +
-                                  map.value("osoite").toString() + "\n" +
-                                  map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
+    ui->osoiteEdit->setPlainText( MaaModel::instanssi()->muotoiltuOsoite(map));
 
     ui->email->setText( map.value("email").toString());
     ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","FI").toString()));

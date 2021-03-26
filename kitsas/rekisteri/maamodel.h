@@ -54,10 +54,17 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    static MaaModel *instanssi();
+    QString muotoiltuOsoite(const QVariantMap& kumppani) const;
+
 private:
     void lisaa(const QString& koodi, const QString& nimi, const QString& regexp);
 
     QList<Maa> maat_;
+
+    static MaaModel* instanssi__;
 };
+
+
 
 #endif // MAAMODEL_H
