@@ -234,8 +234,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     }
     // Laskun numero ja viite
     if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::KIRJANPIDOSSA &&
-            tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
-            viennit.count()) {
+            tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS) {
         // LaskuSeuraavaId käsitellään käsin, jotta ei tule päällekkäisiä numeroita
         // vaikka olisi monta instanssia.
         qulonglong laskunumero = 0;

@@ -194,14 +194,14 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
         QStringList tekstit;
 
         tekstit << nimikesarake(rivi);
-        tekstit << rivit->index(i, TositeRivit::MAARA).data().toString();
-        tekstit << rivit->index(i, TositeRivit::YKSIKKO).data().toString();
-        tekstit << rivit->index(i, TositeRivit::AHINTA).data().toString();
+        tekstit << rivi.laskutetaanKpl();
+        tekstit << yksikkosarake(rivi);
+        tekstit << ahintasarake(rivi);
         if( aleSarake_)
             tekstit << rivit->index(i, TositeRivit::ALE).data().toString();
         if( alvSarake_)
             tekstit << rivit->index(i, TositeRivit::ALV).data().toString();
-        if( bruttolaskenta_ ) {
+        if( bruttolaskenta_ || qAbs(rivi.aNetto()) < 1e-5 ) {
             tekstit << rivi.bruttoYhteensa().display();
         } else {
             tekstit << Euro::fromDouble( rivi.nettoYhteensa() ).display();
@@ -213,9 +213,48 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
     }
 }
 
+QString LaskuRuudukonTayttaja::yksikkosarake(const TositeRivi &rivi)
+{
+    if( rivi.unKoodi().isEmpty())
+        return rivi.yksikko();
+    else
+        return kitsas_->kaanna("UN_" + rivi.unKoodi(), kieli_);
+}
+
+QString LaskuRuudukonTayttaja::ahintasarake(const TositeRivi &rivi)
+{
+    double ahinta = rivi.aNetto();
+    if( qAbs(ahinta) < 1e-5)
+        return QString();
+    return QString("%L1").arg(ahinta,0,'f',2);
+}
+
 QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
 {
     QString txt = rivi.nimike();
+
+    if( !rivi.toimitettuKpl().isEmpty() || !rivi.jalkitoimitusKpl().isEmpty()) {
+        txt.append("\n");
+        if(!rivi.toimitettuKpl().isEmpty())
+            txt.append(QString("%1 %2 %3 ")
+                       .arg(kitsas_->kaanna("toimitettu", kieli_))
+                       .arg(rivi.toimitettuKpl())
+                       .arg(yksikkosarake(rivi)));
+        if(!rivi.jalkitoimitusKpl().isEmpty())
+            txt.append(QString("%1 %2 %3 ")
+                       .arg(kitsas_->kaanna("jalkitoimitus", kieli_))
+                       .arg(rivi.jalkitoimitusKpl())
+                       .arg(yksikkosarake(rivi)));
+    }
+
+    if( !rivi.kuvaus().isEmpty()) {
+        txt.append("\n" + rivi.kuvaus());
+    }
+
+    if( !rivi.lisatiedot().isEmpty())
+        txt.append("\n" + rivi.lisatiedot());
+
+
     // TODO Kaikki tarpeellinen ;)
     return txt;
 }

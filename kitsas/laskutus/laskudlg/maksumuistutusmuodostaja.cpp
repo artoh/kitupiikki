@@ -26,6 +26,8 @@
 #include "db/asetusmodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include <QDebug>
+
 MaksumuistutusMuodostaja::MaksumuistutusMuodostaja(KitsasInterface *kitsas)
     : kitsas_(kitsas)
 {
@@ -38,6 +40,9 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
                                                     const QDate &korkoAlkaa, const QDate &korkoLoppuu,
                                                     double korko)
 {
+    qDebug() << " Korko "  << korkoAlkaa.toString() << " - " << korkoLoppuu.toString() << " " << korko << " %";
+
+
     tosite->rivit()->lataa(QVariantList());
     tosite->viennit()->tyhjenna();
     aiempiSaldo(tosite, korkoSaldo);
@@ -66,7 +71,7 @@ void MaksumuistutusMuodostaja::aiempiSaldo(Tosite *tosite, Euro aiempiSaldo)
         aiempi.setANetto(0.0);
         aiempi.setUNkoodi(QString());
         aiempi.setAlvKoodi(0);
-        aiempi.setAleProsentti(0.0);
+        aiempi.setAlvProsentti(0.0);
         aiempi.setBruttoYhteensa( aiempiSaldo );
         tosite->rivit()->lisaaRivi(aiempi);
     }
@@ -104,9 +109,9 @@ void MaksumuistutusMuodostaja::kirjaaKorko(Tosite *tosite, Euro korkosaldo, cons
     double paivakorko = paivaKorko(alkupvm, loppupvm, korko, korkosaldo);
     qlonglong paivat = alkupvm.daysTo(loppupvm);
     Euro yhteensa = Euro::fromDouble( paivaKorko(alkupvm, loppupvm, korko, korkosaldo) * paivat );
-    const QString& kieli = tosite->lasku().kieli();
+    const QString& kieli = tosite->lasku().kieli().toLower();
 
-    if( yhteensa ) {
+    if( yhteensa.cents() ) {
         QString selite = kitsas_->kaanna("viivkorko", kieli) +
                 QString(" %1 - %2")
                 .arg(alkupvm.toString("dd.MM.yyyy"))

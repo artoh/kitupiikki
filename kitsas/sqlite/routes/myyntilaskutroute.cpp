@@ -51,36 +51,40 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         kysymys.append("HAVING SUM(kreditsnt) <> SUM(debetsnt) OR sum(kreditsnt) IS NULL ");
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
-            "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1"
-            " AND ( tosite.tila ").arg( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
+            "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1")
+            .arg( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
+
+    QString ehdot = " AND ( tosite.tila ";
 
     if( urlquery.hasQueryItem("luonnos"))
-        kysymys.append(QString(" = %1 ").arg( Tosite::LUONNOS ));
+        ehdot.append(QString(" = %1 ").arg( Tosite::LUONNOS ));
     else if( urlquery.hasQueryItem("lahetettava"))
-        kysymys.append(QString(" = %1 OR tosite.tila = %2 OR tosite.tila = %3 ").arg( Tosite::VALMISLASKU ).arg(Tosite::LAHETETAAN).arg(Tosite::LAHETYSVIRHE));
+        ehdot.append(QString(" = %1 OR tosite.tila = %2 OR tosite.tila = %3 ").arg( Tosite::VALMISLASKU ).arg(Tosite::LAHETETAAN).arg(Tosite::LAHETYSVIRHE));
     else
-        kysymys.append(QString(" >= %1 ").arg( Tosite::KIRJANPIDOSSA ));
-    kysymys.append(") ");
+        ehdot.append(QString(" >= %1 ").arg( Tosite::KIRJANPIDOSSA ));
+    ehdot.append(") ");
 
     if( urlquery.hasQueryItem("alkupvm"))
-        kysymys.append(QString(" AND tosite.laskupvm >= '%1' ")
+        ehdot.append(QString(" AND tosite.laskupvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));    
     if( urlquery.hasQueryItem("loppupvm"))
-        kysymys.append(QString(" AND tosite.laskupvm <= '%1' ")
+        ehdot.append(QString(" AND tosite.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
 
     if( urlquery.hasQueryItem("eraalkupvm"))
-        kysymys.append(QString(" AND tosite.erapvm >= '%1' ")
+        ehdot.append(QString(" AND tosite.erapvm >= '%1' ")
                        .arg(urlquery.queryItemValue("eraalkupvm")));
 
     if( urlquery.hasQueryItem("eraloppupvm")) {
         if( urlquery.hasQueryItem("eraantynyt"))
-            kysymys.append(QString(" AND tosite.erapvm < '%1' ")
+            ehdot.append(QString(" AND tosite.erapvm < '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
         else
-            kysymys.append(QString(" AND tosite.erapvm <= '%1' ")
+            ehdot.append(QString(" AND tosite.erapvm <= '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
     }
+
+    kysymys.append(ehdot);
 
     if( urlquery.hasQueryItem("kitsaslaskut"))
         kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");
@@ -105,10 +109,41 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
             map.insert("numero", laskumap.value("numero"));
         if( laskumap.contains("maksutapa"))
             map.insert("maksutapa", laskumap.value("maksutapa"));
+        if( laskumap.contains("valvonta"))
+            map.insert("valvonta", laskumap.value("valvonta"));
 
         map.insert("avoin", ds - ks);
         map.insert("summa", (map.take("debetia").toLongLong() - map.take("kreditia").toLongLong()) / 100.0);
         lista[i] = map;
+    }
+
+    // Lisäksi haetaan valvomattomat laskut (Vakioviite ja Valvomaton)
+    if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt")) {
+        kysymys = "SELECT Tosite.id, Kumppani.id, Kumppani.nimi, Tosite.json, Tosite.tyyppi "
+                   "FROM Tosite LEFT OUTER JOIN Kumppani ON Tosite.kumppani=Kumppani.id "
+                  "WHERE Tosite.tyyppi >= 210 AND Tosite.tyyppi <= 219 " + ehdot;
+        kysely.exec(kysymys);
+        while( kysely.next()) {
+            QVariantMap lasku = QJsonDocument::fromJson( kysely.value(3).toByteArray() ).toVariant().toMap().value("lasku").toMap();
+            int valvonta = lasku.value("valvonta").toInt();
+            if( valvonta == Lasku::VAKIOVIITE || valvonta == Lasku::VALVOMATON) {
+                QVariantMap ulos;
+                ulos.insert("tosite", kysely.value(0));
+                ulos.insert("pvm", lasku.value("pvm"));
+                ulos.insert("erapvm", lasku.value("erapvm"));
+                ulos.insert("viite", lasku.value("viite"));
+                ulos.insert("asiakas", kysely.value(2) );
+                ulos.insert("asiakasid", kysely.value(1) );
+                ulos.insert("tyyppi", kysely.value(4));
+                ulos.insert("laskutapa", lasku.value("laskutapa"));
+                ulos.insert("numero", lasku.value("numero"));
+                ulos.insert("maksutapa", lasku.value("maksutapa"));
+                ulos.insert("valvonta", lasku.value("valvonta"));
+                ulos.insert("selite", lasku.value("otsikko"));
+                ulos.insert("summa", lasku.value("summa"));
+                lista.append(ulos);
+            }
+        }
     }
 
     return lista;

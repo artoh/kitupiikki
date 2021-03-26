@@ -144,6 +144,11 @@ Euro &Euro::operator<<(const QString &string)
     return *this;
 }
 
+Euro::operator bool() const
+{
+    return cents_ != 0l;
+}
+
 Euro::operator double() const
 {
     return toDouble();

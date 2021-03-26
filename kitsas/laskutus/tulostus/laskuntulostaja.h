@@ -49,6 +49,8 @@ signals:
 
 protected:
     void tulostaLuonnos(QPainter* painter);
+    qreal tulostaRuudukko(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita, bool tulostaKuukaudet = true);
+    qreal muistutettavatLaskut(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita);
 
 private:
     KitsasInterface *kitsas_;

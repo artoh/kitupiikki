@@ -194,7 +194,7 @@ hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
 yhteensa,yhteensä,totalt,total
 mmrivi,Laskun %1 avoin saldo,Saldo för faktura %1,Open balance for invoice %1
 anetto,á netto,,á net  
-kateinen,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
+kateislasku,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
 muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
 eimaksettavaa,Ei maksettavaa,Ingen betalbar,No payable
 luonnos,LUONNOS,SKISS,DRAFT
@@ -268,3 +268,26 @@ hyvityslasku,Hyvityslasku,,
 hyvitettavaNumero,Hyvitettävän laskun numero,,
 hyvitettavaPvm,Hyvitettävän laskun pvm,,
 hyvPvm,Hyvityslaskun pvm,,
+muistutuspvm,Maksumuistutuksen pvm,,
+UN_C62,kpl,,
+UN_NPK,pkt,,
+UN_IE,hlö,,
+UN_KGM,kg,,
+UN_LTR,l,,
+UN_ANN,v,,
+UN_MON,kk,,
+UN_DAY,pv,,
+UN_HUR,h,,
+UN_MIN,min,,
+UN_LH,h,,
+UN_ACT,yks,,
+UN_E50,yks,,
+UN_E51,krt,,
+UN_KMT,km,,
+UN_KWH,kWh,,
+UN_MTK,m2,,
+UN_MTQ,m3,,
+UN_E21,osaketta,,
+UN_ZP,sivua,,
+toimitettu,Toimitettu,,
+jalkitoimitus,Jälkitoimitus,,

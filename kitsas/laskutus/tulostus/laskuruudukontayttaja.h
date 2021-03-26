@@ -43,6 +43,8 @@ private:
     void lisaaSarake(const QString& koodi, Qt::AlignmentFlag tasaus = Qt::AlignLeft);
 
     void taytaSarakkeet(Tosite& tosite);
+    QString yksikkosarake(const TositeRivi& rivi);
+    QString ahintasarake(const TositeRivi& rivi);
     QString nimikesarake(const TositeRivi& rivi);
 
     void taytaSummat();

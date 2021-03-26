@@ -168,7 +168,8 @@ void KantaLaskuDialogi::paivitaValvonnat()
     int nykyinen = ui->valvontaCombo->currentData().toInt();
     ui->valvontaCombo->clear();
 
-    ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
+    if( maksutapa() != Lasku::KUUKAUSITTAINEN)
+        ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
 
     if( !ladattuAsiakas_.isEmpty()) ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
     if( huoneistot_->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);

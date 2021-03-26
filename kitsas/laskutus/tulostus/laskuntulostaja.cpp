@@ -30,6 +30,7 @@
 #include "laskuruudukontayttaja.h"
 
 #include "db/yhteysmodel.h"
+#include "db/tositetyyppimodel.h"
 
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
     : QObject(parent), kitsas_(kitsas), tietoLaatikko_(kitsas), alaOsa_(kitsas)
@@ -101,37 +102,12 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     }
 
     // Sitten pitäisi alkaa tulostaa riveja niin paljon kun mahtuu
+    alalaita = tulostaRuudukko(tosite, painter, printer, alalaita);
 
-    LaskuRuudukonTayttaja tayttaja( kitsas_ );
-    TulostusRuudukko riviosa = tayttaja.tayta(tosite);
-    riviosa.asetaLeveys(painter->window().width());
-    alalaita = riviosa.piirra(painter, printer,
-                   alalaita, this);
+    // Maksumuikkarille aiempia
+    if( tosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS)
+        alalaita = muistutettavatLaskut(tosite, painter, printer, alalaita);
 
-    TulostusRuudukko veroRuudukko = tayttaja.alvRuudukko(painter);
-    veroRuudukko.asetaLeveys( sivunleveys / 4, sivunleveys * 3 / 4 );
-
-    veroRuudukko.asetaPistekoko(8);
-
-    if( painter->transform().dy() + veroRuudukko.koko().height() >= alalaita) {
-        alalaita = vaihdaSivua(painter, printer);
-        veroRuudukko.piirra(painter, printer, alalaita, this);
-    } else {
-        painter->translate(0, rivinkorkeus - riviosa.summaKoko().height() );
-        veroRuudukko.piirra(painter, printer);
-        if( (riviosa.summaKoko().height() ) > veroRuudukko.koko().height() ) {
-            painter->translate(0, riviosa.summaKoko().height() - veroRuudukko.koko().height() + rivinkorkeus);
-        }
-    }
-    painter->translate(0, 1.5 * rivinkorkeus);
-
-    if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN) {
-        TulostusRuudukko kuukaudet = tayttaja.kuukausiRuudukko(lasku, painter);
-        if( painter->transform().dy() + kuukaudet.koko().height() >= alalaita )
-            alalaita = vaihdaSivua(painter, printer);
-        alalaita = kuukaudet.piirra(painter, printer, alalaita, this);
-        painter->translate(0, 1.5 * rivinkorkeus);
-    }
     tulostaErittely( lasku.erittely(), painter, printer, alalaita);
 }
 
@@ -181,6 +157,78 @@ void LaskunTulostaja::tulostaLuonnos(QPainter *painter)
     painter->restore();
 }
 
+qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPagedPaintDevice *device, qreal alalaita, bool tulostaKuukaudet)
+{
+    // Sitten pitäisi alkaa tulostaa riveja niin paljon kun mahtuu
+
+    LaskuRuudukonTayttaja tayttaja( kitsas_ );
+    TulostusRuudukko riviosa = tayttaja.tayta(tosite);
+    riviosa.asetaLeveys(painter->window().width(), painter->window().width());
+    alalaita = riviosa.piirra(painter, device,
+                   alalaita, this);
+
+    qreal sivunleveys = painter->window().width();
+    painter->setFont(QFont("FreeSans", 10));
+    qreal rivinkorkeus = painter->fontMetrics().height();
+
+    TulostusRuudukko veroRuudukko = tayttaja.alvRuudukko(painter);
+    veroRuudukko.asetaLeveys( sivunleveys / 4, sivunleveys * 3 / 4 );
+
+    veroRuudukko.asetaPistekoko(8);
+
+    if( painter->transform().dy() + veroRuudukko.koko().height() >= alalaita) {
+        alalaita = vaihdaSivua(painter, device);
+        veroRuudukko.piirra(painter, device, alalaita, this);
+    } else {
+        painter->translate(0, rivinkorkeus - riviosa.summaKoko().height() );
+        veroRuudukko.piirra(painter, device);
+        if( (riviosa.summaKoko().height() ) > veroRuudukko.koko().height() ) {
+            painter->translate(0, riviosa.summaKoko().height() - veroRuudukko.koko().height() + rivinkorkeus);
+        }
+    }
+    painter->translate(0, 1.5 * rivinkorkeus);
+    const Lasku& lasku = tosite.constLasku();
+
+    if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN && tulostaKuukaudet) {
+        TulostusRuudukko kuukaudet = tayttaja.kuukausiRuudukko(lasku, painter);
+        if( painter->transform().dy() + kuukaudet.koko().height() >= alalaita )
+            alalaita = vaihdaSivua(painter, device);
+        alalaita = kuukaudet.piirra(painter, device, alalaita, this);
+        painter->translate(0, 1.5 * rivinkorkeus);
+    }
+
+
+    return alalaita;
+}
+
+qreal LaskunTulostaja::muistutettavatLaskut(Tosite &tosite, QPainter *painter, QPagedPaintDevice *device, qreal alalaita)
+{
+    qreal sivunleveys = painter->window().width();
+
+    QVariantList aiemmat = tosite.lasku().aiemmat();
+    for(const auto& item : aiemmat) {
+        QVariantMap aiempiMap = item.toMap();
+        Tosite aiempiTosite;
+        aiempiTosite.lataa(aiempiMap);
+
+        QString teksti = kitsas_->kaanna( aiempiTosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ?
+                                              "aiempimuistutus" : "alkuplasku", kieli_)
+                .arg( aiempiTosite.lasku().numero() )
+                .arg( aiempiTosite.lasku().laskunpaiva().toString("dd.MM.yyyy") )
+                .arg( aiempiTosite.erapvm().toString("dd.MM.yyyy")).replace("|","\n");
+
+        painter->setFont(QFont("FreeSans", 10));
+        QRectF trect = painter->boundingRect(QRectF(0, 0, sivunleveys, painter->fontMetrics().height() * 8), teksti );
+        if( painter->transform().dy() + trect.height() > alalaita - painter->fontMetrics().height() * 6 )
+            alalaita = vaihdaSivua(painter, device);
+        painter->drawText( trect, teksti );
+        painter->translate(0, trect.height() + painter->fontMetrics().height() * 1.5);
+
+        alalaita = tulostaRuudukko(aiempiTosite, painter, device, alalaita, false);
+    }
+    return alalaita;
+}
+
 
 qreal LaskunTulostaja::vaihdaSivua(QPainter *painter, QPagedPaintDevice *device)
 {
@@ -205,6 +253,7 @@ qreal LaskunTulostaja::tulostaErittely(const QStringList &erittely, QPainter *pa
             alalaita = vaihdaSivua(painter, device);
         painter->drawText(oRect, rivi);
         painter->translate(0, oRect.height());
-    }
+    }        
+
     return alalaita;
 }

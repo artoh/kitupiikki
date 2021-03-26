@@ -1,1005 +1,1092 @@
 {
-  "suomi": {
-    "sv": "finska",
-    "en": "Finnish"
-  },
-  "ruotsi": {
-    "sv": "svenska",
-    "en": "Swedish"
-  },
-  "englanti": {
-    "sv": "engelska",
-    "en": "English"
-  },
-  "Kotipaikka": {
-    "sv": "Hemort",
-    "en": "Domicile"
-  },
-  "HARJOITUS": {
-    "sv": "ÖVNING",
-    "en": "TRIAL"
-  },
-  "PÄIVÄKIRJA": {
-    "sv": "DAGBOK",
-    "en": "JOURNAL"
-  },
-  "Päiväkirja": {
-    "sv": "Dagbok"
-  },
-  "Pvm": {
-    "sv": "Datum",
-    "en": "Date"
-  },
-  "Tosite": {
-    "sv": "Verif.",
-    "en": "Vouch."
-  },
-  "Tili": {
-    "sv": "Konto",
-    "en": "Account"
-  },
-  "Kohdennus": {
-    "sv": "Hänförs till",
-    "en": "Allocation"
-  },
-  "Yhteensä": {
-    "sv": "Totalt",
-    "en": "Total"
-  },
-  "Selite": {
-    "sv": "Beskrivning",
-    "en": "Description"
-  },
-  "Sivu %1": {
-    "sv": "Sidan %1",
-    "en": "Page %1"
-  },
-  "Kredit €": {
-    "en": "Credit €"
-  },
-  "Saldo €": {
-    "en": "Balance €"
-  },
-  "PÄÄKIRJA": {
-    "sv": "HUVUDBOK",
-    "en": "GENERAL LEDGER"
-  },
-  "Pääkirja": {
-    "sv": "Huvudbok"
-  },
-  "PÄÄKIRJAN OTE": {
-    "sv": "HUVUDBOKUTDRAG",
-    "en": "EXTRACT FROM GENERAL LEDGER"
-  },
-  "Budjetti": {
-    "sv": "Budget",
-    "en": "Budget"
-  },
-  "Toteutunut": {
-    "sv": "Förverkligad",
-    "en": "Actualised"
-  },
-  "Budjettiero €": {
-    "sv": "Budgetskillnad €",
-    "en": "Difference €"
-  },
-  "Toteutunut %": {
-    "sv": "Förverkligad %",
-    "en": "Realized %"
-  },
-  "Kustannuspaikat": {
-    "sv": "Konstnadsställen",
-    "en": "Cost pools"
-  },
-  "Projektit": {
-    "sv": "Projekt",
-    "en": "Projects"
-  },
-  "Asiakas/Toimittaja": {
-    "sv": "Kund/Säljare",
-    "en": "Customer/Supplier"
-  },
-  "TOSITELUETTELO": {
-    "sv": "VERIFIKATLISTA",
-    "en": "VOUCHER LIST"
-  },
-  "Tositeluettelo": {
-    "sv": "Verifikatlista"
-  },
-  "Otsikko": {
-    "sv": "Rubrik",
-    "en": "Heading"
-  },
-  "Liitteitä": {
-    "sv": "Append.",
-    "en": "Attachm."
-  },
-  "Summa €": {
-    "sv": "Totalt €",
-    "en": "Total €"
-  },
-  "Tilin numero": {
-    "sv": "Kontonummer",
-    "en": "Account number"
-  },
-  "Tilin nimi": {
-    "sv": "Kontonamn",
-    "en": "Account name"
-  },
-  "TILILUETTELO": {
-    "sv": "KONTOPLAN",
-    "en": "SPECIFICATION OF ACCOUNTS"
-  },
-  "Tililuettelo": {
-    "sv": "Kontoplan"
-  },
-  "Tilin tyyppi": {
-    "sv": "Kontotyp",
-    "en": "Type"
-  },
-  "Saldo %1": {
-    "en": "Balance %1"
-  },
-  "Kirjausohjeet": {
-    "sv": "Instructoner",
-    "en": "Instructions"
-  },
-  "Meno": {
-    "sv": "Utgift",
-    "en": "Outcome"
-  },
-  "Tulo": {
-    "sv": "Intäkt",
-    "en": "Income"
-  },
-  "Kululasku": {
-    "sv": "Kostnadsräkning",
-    "en": "Bill of costs"
-  },
-  "Saapunut verkkolasku": {
-    "sv": "Inkomst online faktura",
-    "en": "Incoming online invoice"
-  },
-  "Myyntilasku": {
-    "sv": "Fölsälningsfaktura",
-    "en": "Sales invoice"
-  },
-  "Hyvityslasku": {
-    "sv": "Kreditnota",
-    "en": "Credit note"
-  },
-  "Maksumuistutus": {
-    "sv": "Betalningspåminnelse",
-    "en": "Payment reminder"
-  },
-  "Siirto": {
-    "sv": "Överföring",
-    "en": "Transfer"
-  },
-  "Tiliote": {
-    "sv": "Kontoutdrag",
-    "en": "Bank statement"
-  },
-  "Palkka": {
-    "sv": "Lön",
-    "en": "Salary"
-  },
-  "Muistio": {
-    "sv": "Annotation",
-    "en": "Memo"
-  },
-  "Liitetieto": {
-    "sv": "Not",
-    "en": "Attachment"
-  },
-  "Tuonti": {
-    "sv": "Import",
-    "en": "Import"
-  },
-  "Muu": {
-    "sv": "Annan",
-    "en": "Other"
-  },
-  "Tilinavaus": {
-    "sv": "Öppnande av konto",
-    "en": "Opening of an account"
-  },
-  "Alv-laskelma": {
-    "sv": "Moms-beräkning",
-    "en": "VAT calculation"
-  },
-  "Poistolaskelma": {
-    "sv": "Avskrivningsberäkning",
-    "en": "Depreciation allowance calculation"
-  },
-  "Jaksotus": {
-    "sv": "Periodindelning",
-    "en": "Periodization"
-  },
-  "Tulovero": {
-    "sv": "Inkomstskatt",
-    "en": "Income tax"
-  },
-  "TASE-ERITTELY": {
-    "sv": "SPECIFICATION TILL BALANSRÄKNINGEN",
-    "en": "BALANCE SHEET BREAKDOWN"
-  },
-  "Tase-erittely": {
-    "sv": "Specification till balansräkningen"
-  },
-  "VASTAAVAA": {
-    "sv": "AKTIVA",
-    "en": "ASSETS"
-  },
-  "VASTATTAVAA": {
-    "sv": "PASSIVA",
-    "en": "LIABILITIES"
-  },
-  "VASTAAVAA YHTEENSÄ": {
-    "sv": "AKTIVA TOTALT",
-    "en": "ASSETS TOTAL"
-  },
-  "VASTATTAVAA YHTEENSÄ": {
-    "sv": "PASSIVA TOTALT",
-    "en": "LIABILITIES TOTAL"
-  },
-  "Lisäykset/vähennykset %1 saakka": {
-    "sv": "Ökningar/avdrag upp till %1",
-    "en": "Additions/reductions until %1"
-  },
-  "Jäljellä %1": {
-    "sv": "Återstående %1",
-    "en": "Remaining %1"
-  },
-  "Loppusaldo %1": {
-    "sv": "Utgående saldo %1",
-    "en": "Ending balance %1"
-  },
-  "Alkusaldo %1": {
-    "sv": "Ingående saldo %1",
-    "en": "Beginning balance"
-  },
-  "Erittelemättömät": {
-    "sv": "Ospecificerad",
-    "en": "Unspecified"
-  },
-  "Tilin %1 loppusaldo": {
-    "sv": "Utgående saldo på kontot %1",
-    "en": "End balance of account %1"
-  },
-  "AVOIMET MYYNTILASKUT": {
-    "sv": "ÖPPNA KUNDFAKTUROR",
-    "en": "OPEN SALES INVOICES"
-  },
-  "Avoimet myyntilaskut": {
-    "sv": "Öppna kundfakturor"
-  },
-  "MYYNTILASKUT": {
-    "sv": "KUNDFAKTUROR",
-    "en": "SALES INVOICES"
-  },
-  "AVOIMET OSTOLASKUT": {
-    "sv": "ÖPPNA INKÖPSFAKTUROR",
-    "en": "OPEN PURCHASE INVOICES"
-  },
-  "Avoimet ostolaskut": {
-    "sv": "Öppna inköpsfakturor"
-  },
-  "OSTOLASKUT": {
-    "sv": "INKÖPSFAKTUROR",
-    "en": "PURCHASE INVOICES"
-  },
-  "Numero": {
-    "sv": "Nummer",
-    "en": "Number"
-  },
-  "Laskupvm": {
-    "sv": "Fakturadag",
-    "en": "Invoice date"
-  },
-  "Eräpvm": {
-    "sv": "Förfallogdag",
-    "en": "Due date"
-  },
-  "Maksamatta": {
-    "sv": "Obetald",
-    "en": "Unpaid"
-  },
-  "Päivämäärä": {
-    "sv": "Datum",
-    "en": "Date"
-  },
-  "Asiakas": {
-    "sv": "Kund",
-    "en": "Customer"
-  },
-  "Toimittaja": {
-    "sv": "Säljare",
-    "en": "Supplier"
-  },
-  "Viite": {
-    "sv": "Referens",
-    "en": "Reference"
-  },
-  "Tuote": {
-    "sv": "produkt",
-    "en": "product"
-  },
-  "myynti kpl": {
-    "sv": "försäljning st",
-    "en": "sales pcs"
-  },
-  "keskim. á netto": {
-    "sv": "genomsn á netto",
-    "en": "average á net"
-  },
-  "keskim. á brutto": {
-    "sv": "genomsn á brutto",
-    "en": "average á gross"
-  },
-  "netto yht": {
-    "sv": "totalt netto",
-    "en": "total net"
-  },
-  "brutto yht": {
-    "sv": "totalt brutto",
-    "en": "totalt gross"
-  },
-  "MYYNTI": {
-    "sv": "FÖRSÄLJNING",
-    "en": "SALES"
-  },
-  "ARVONLISÄVEROLASKELMA": {
-    "sv": "MOMSBERÄKNING",
-    "en": "VAT CALCULATION"
-  },
-  "Arvonlisäveroilmoituksen tiedot": {
-    "sv": "Information om momsdeklaration"
-  },
-  "Maksuperusteinen arvonlisävero": {
-    "sv": "Uppskjuten moms"
-  },
-  "Suoritettava %1%:n vero kotimaan myynnistä": {
-    "sv": "Skatt på inhemsk försäljning enligt skattesatserna moms %1 %"
-  },
-  "Vero tavaroiden maahantuonnista EU:n ulkopuolelta": {
-    "sv": "Moms på varuinköp från områden utanför EU"
-  },
-  "Vero tavaraostoista muista EU-maista": {
-    "sv": "Moms på varuinköp från andra EU-länder"
-  },
-  "Vero palveluostoista muista EU-maista": {
-    "sv": "Moms på inköp av tjänster från andra EU-länder"
-  },
-  "Verokauden vähennettävä vero": {
-    "sv": "Moms som ska dras av för skatteperiod"
-  },
-  "Maksettava vero / Palautukseen oikeuttava vero": {
-    "sv": "Moms att betala / Moms som berättingar till återbäring"
-  },
-  "0-verokannan alainen liikevaihto": {
-    "sv": "Omsättning enligt 0-skattesats"
-  },
-  "Tavaroiden maahantuonnit EU:n ulkopuolelta": {
-    "sv": "Import av varor från områden utanför EU"
-  },
-  "Tavaroiden myynnit muihin EU-maihin": {
-    "sv": "Varuförsäljningar till andra EU-länder"
-  },
-  "Palveluiden myynnit muihin EU-maihin": {
-    "sv": "Försäljning av tjänster till andra EU-länder"
-  },
-  "Tavaraostot muista EU-maista": {
-    "sv": "Varuinköp från andra EU-länder"
-  },
-  "Palveluostot muista EU-maista": {
-    "sv": "Inköp av tjänster från andra EU-länder"
-  },
-  "Rakentamispalveluiden ja metaalliromun myynnit": {
-    "sv": "Försäljningar av byggtjänster och metallskrot"
-  },
-  "Rakentamispalveluiden ja metalliromun ostot": {
-    "sv": "Inköp av byggtjänster och metallskrot"
-  },
-  "Alarajahuojennukseen oikeuttava liikevaihto": {
-    "sv": "Omsättning som berättigar till lättnad vid den nedre gränsen"
-  },
-  "Alarajahuojennukseen oikeuttava vero": {
-    "sv": "Skatt som berättigar till lättnad vid den nedre gränsen"
-  },
-  "Alarajahuojennukseen määrä": {
-    "sv": "Beloppet av lättnad vid den nedre gränsen"
-  },
-  "Arvonlisävero %1 - %2": {
-    "sv": "Medvärdesskatt %1 - %2"
-  },
-  "Tilinpäätös": {
-    "sv": "Bokslut"
-  },
-  "Y-tunnus": {
-    "sv": "FO-nummer"
-  },
-  "Kirjanpitoaineisto": {
-    "sv": "Bokföringsmaterial"
-  },
-  "Veroton": {
-    "sv": "Skattefri"
-  },
-  "Verollinen myynti (netto)": {
-    "sv": "Skattebelagd försäljning (netto)"
-  },
-  "Verollinen osto (netto)": {
-    "sv": "Skattebelagd inköp (netto)"
-  },
-  "Verollinen myynti (maksuperusteinen alv)": {
-    "sv": "Skattebelagd försäljning (avgiftsbestämd moms)"
-  },
-  "Verollinen osto (maksuperusteinen alv)": {
-    "sv": "Skattebelagd inköp (avgiftsbestämd moms)"
-  },
-  "Ennakkolasku (myynti)": {
-    "sv": "Förhandsfaktura (försäljning)"
-  },
-  "Verollinen myynti (brutto)": {
-    "sv": "Skattebelagd försäljning (brutto)"
-  },
-  "Verollinen osto (brutto)": {
-    "sv": "Skattebelagd inköp (brutto)"
-  },
-  "Nollaverokannan alainen myynti": {
-    "sv": "Noll skattesats försäljning"
-  },
-  "Voittomarginaalijärjestelmä, myynti": {
-    "sv": "Vinstmarginalsystem, försäljning"
-  },
-  "Voittomarginaalijärjestelmä, osto": {
-    "sv": "Vinstmarginalsystem, inköp"
-  },
-  "Tavaroiden yhteisömyynti": {
-    "sv": "Varuförsäljningar till andra EU-länder"
-  },
-  "Palveluiden yhteisömyynti": {
-    "sv": "Försäljning av tjänster till andra EU-länder"
-  },
-  "Tavaroiden yhteisöhankinnat": {
-    "sv": "Varuinköp från andra EU-länder"
-  },
-  "Palveluiden yhteisöhankinnat": {
-    "sv": "Inköp av tjänster från andra EU-länder"
-  },
-  "Tavaroiden maahantuonti EU:n ulkopuolelta": {
-    "sv": "Import av varor från områden utanför EU"
-  },
-  "Tavaroiden maahantuonti, veron kirjaus": {
-    "sv": "Import av varor, inskriftning av skatt"
-  },
-  "Rakennuspalveluiden myynti": {
-    "sv": "Försäljningar av byggtjänster "
-  },
-  "Rakentamispalveluiden osto": {
-    "sv": "Inköp av byggtjänster"
-  },
-  "Maksettavan arvonlisäveron tilitys": {
-    "sv": "Utförande av merdvärdesskatt"
-  },
-  "Tekninen kirjaus": {
-    "sv": "Teknisk bokföring"
-  },
-  "Vähennyskelvottoman oston veron osuus": {
-    "sv": "Andel av skatten på icke avdragsgilla köp "
-  },
-  "VERON MÄÄRÄ %1": {
-    "sv": "BELOPPET AV SKATTEN %1"
-  },
-  "VÄHENNYKSEN MÄÄRÄ %1": {
-    "sv": "BELOPPET AV AVDRAG %1"
-  },
-  "KOHDENTAMATON MAKSUPERUSTEINEN %1": {
-    "sv": "OFÖRDELADE AVGIFTSBESTÄMD MOMS %1"
-  },
-  "Erittely": {
-    "sv": "Specification"
-  },
-  "Aiempi alijäämä": {
-    "sv": "Tidagare underskott"
-  },
-  "Marginaali": {
-    "sv": "Marginal"
-  },
-  "Alijäämä": {
-    "sv": "Underskott"
-  },
-  "Vero": {
-    "sv": "Skatt"
-  },
-  "TILINPÄÄTÖSJAKSOTUKSET": {
-    "sv": "PERIODINDELNINGAR"
-  },
-  "Jaksotukset yhteensä": {
-    "sv": "Periodindelningar totalt"
-  },
-  "Verosaamiseksi kirjattava negatiivinen verovelka": {
-    "sv": "Negativ skatteskuld som ska bokföras som skattefordran"
-  },
-  "Tilinavauksen jaksotuskirjaukset": {
-    "sv": "Periodiska poster i kontot öppnande"
-  },
-  "Tilinpäätösjaksotukset": {
-    "sv": "Periodiska poster i bokslutet"
-  },
-  "Suunnitelman mukaiset poistot %1": {
-    "sv": "Avskrivningar enligt plan"
-  },
-  "Tasaeräpoisto %1": {
-    "sv": "Avskrivning med jämna rater %1"
-  },
-  "Menojäännöspoisto %1": {
-    "sv": "Restvärdesavskrivning %1"
-  },
-  "Tili/Pvm": {
-    "sv": "Konto/Datum"
-  },
-  "Nimike/Kohdennus": {
-    "sv": "Position/Konstnandsställe"
-  },
-  "Saldo ennen": {
-    "sv": "Saldo före"
-  },
-  "Sääntö": {
-    "sv": "Regel"
-  },
-  "Poisto": {
-    "sv": "Avskrivning"
-  },
-  "Saldo jälkeen": {
-    "sv": "Saldo efter"
-  },
-  "%1 v": {
-    "sv": "%1 år"
-  },
-  "%1 kpl": {
-    "sv": "%1 st"
-  },
-  "Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2": {
-    "sv": "Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet"
-  },
-  "Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä": {
-    "sv": "Arkivets oändlighet kan övervakas med en sha256 sigill"
-  },
-  "Kirjanpito on vielä keskeneräinen.": {
-    "sv": "Redovisningen är fortfarande oavslutad."
-  },
-  "Kirjanpito arkistoitu": {
-    "sv": "Bokföring arkiverad"
-  },
-  "Kirjanpitoarkisto": {
-    "sv": "Bokföringarkiv"
-  },
-  "Kirjanpito": {
-    "sv": "Bokföring"
-  },
-  "Raportit": {
-    "sv": "Rapporter"
-  },
-  "Laskut ja myynti": {
-    "sv": "Räkningar och försäljning"
-  },
-  "Myydyt tuotteet": {
-    "sv": "Säljda produkter"
-  },
-  "Edellinen": {
-    "sv": "Föregående"
-  },
-  "Seuraava": {
-    "sv": "Följande"
-  },
-  "Laskun numero": {
-    "sv": "Faktura nummer"
-  },
-  "Tositteen täydet tiedot": {
-    "sv": "Fullständig information om verifikatet"
-  },
-  "Kirjanpidossa": {
-    "sv": "Redovisas"
-  },
-  "Luonnos": {
-    "sv": "Utkast"
-  },
-  "Alv": {
-    "sv": "Moms"
-  },
-  "Hylätty": {
-    "sv": "Avslagen"
-  },
-  "Saapunut": {
-    "sv": "Anlände"
-  },
-  "Tarkastettu": {
-    "sv": "Kollad"
-  },
-  "Hyväksytty": {
-    "sv": "Accepterad"
-  },
-  "Valmis": {
-    "sv": "Färdig"
-  },
-  "Lähetetään": {
-    "sv": "Överförs"
-  },
-  "Lähetetty": {
-    "sv": "Skeppas"
-  },
-  "Muistutettu": {
-    "sv": "Påminde"
-  },
-  "Toimitettu": {
-    "sv": "Levererad"
-  },
-  "Epäonnistui": {
-    "sv": "Misslyckades"
-  },
-  "alkuplasku": {
-    "fi": "Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
-    "en": "Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3",
-    "sv": "Originalfaktura|Fakturas nummer: %1|Datum: %2|Förfallodag: %3"
-  },
-  "toimpvm": {
-    "fi": "Toimituspäivämäärä",
-    "en": "Date of delivery",
-    "sv": "Leveransdatum"
-  },
-  "muistutusnro": {
-    "fi": "Maksumuistutuksen numero",
-    "en": "Number of request for payment",
-    "sv": "Betalningspåminnelses nummer"
-  },
-  "asviite": {
-    "fi": "Asiakkaan viite",
-    "en": "Your reference",
-    "sv": "Kundens referens"
-  },
-  "maksumuistutus": {
-    "fi": "MAKSUMUISTUTUS",
-    "en": "REQUEST FOR PAYMENT",
-    "sv": "BETALNINGSPÅMINNELSE"
-  },
-  "hyvnro": {
-    "fi": "Hyvityslaskun numero",
-    "en": "Number of compensation invoice",
-    "sv": "Kreditnotans nummer"
-  },
-  "yhteensa": {
-    "fi": "yhteensä",
-    "en": "total",
-    "sv": "totalt"
-  },
-  "mmrivi": {
-    "fi": "Laskun %1 avoin saldo",
-    "en": "Open balance for invoice %1",
-    "sv": "Saldo för faktura %1"
-  },
-  "anetto": {
-    "fi": "á netto",
-    "en": "á net  "
-  },
-  "kateinen": {
-    "fi": "Käteislasku / Kuitti",
-    "en": "Cash receipt",
-    "sv": "Kontantkvitto"
-  },
-  "muistutussaate": {
-    "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
-    "en": "According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.",
-    "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss."
-  },
-  "eimaksettavaa": {
-    "fi": "Ei maksettavaa",
-    "en": "No payable",
-    "sv": "Ingen betalbar"
-  },
-  "luonnos": {
-    "fi": "LUONNOS",
-    "en": "DRAFT",
-    "sv": "SKISS"
-  },
-  "alv": {
-    "fi": "ALV",
-    "en": "VAT",
-    "sv": "MOMS"
-  },
-  "btl": {
-    "fi": "Tililtä nro|Från konto nr",
-    "en": "From account|no."
-  },
-  "btilis": {
-    "fi": "TILISIIRTO. GIRERING",
-    "en": "CREDIT TRANSFER"
-  },
-  "pvm": {
-    "fi": "Päivämäärä",
-    "en": "Date",
-    "sv": "Datum"
-  },
-  "bvn": {
-    "fi": "Viitenumero|Ref.nr.",
-    "en": "Ref. No."
-  },
-  "huomaika": {
-    "fi": "Huomautusaika",
-    "en": "Period for complaints",
-    "sv": "Anmärkningstid"
-  },
-  "svalv14": {
-    "fi": "AVL 72 a §: Moms 0 % Gemenskapförsäljning"
-  },
-  "lkm": {
-    "fi": "lkm",
-    "en": "qty",
-    "sv": "antal"
-  },
-  "muistutusmaksu": {
-    "fi": "Huomautuskulut",
-    "en": "Request for payment fee",
-    "sv": "Betalningspåminnelses avgift"
-  },
-  "alv0": {
-    "fi": "Veroton myynti",
-    "en": "Tax free sale",
-    "sv": "Skattefria försäljning "
-  },
-  "alvtunnus": {
-    "fi": "ALV-tunnus",
-    "en": "VAT number",
-    "sv": "MOMS-nummer"
-  },
-  "paivaa": {
-    "fi": "päivää",
-    "en": "days",
-    "sv": "dagar"
-  },
-  "veroton": {
-    "fi": "veroton",
-    "en": "net",
-    "sv": "netto"
-  },
-  "erapvm": {
-    "fi": "Eräpäivä",
-    "en": "Due date",
-    "sv": "Förfallodag"
-  },
-  "bic": {
-    "fi": "BIC"
-  },
-  "viivkorko": {
-    "fi": "Viivästyskorko",
-    "en": "Interest on overdue payments",
-    "sv": "Dröjsmålsränta"
-  },
-  "maksettu": {
-    "fi": "Maksettu",
-    "en": "Paid",
-    "sv": "Betald"
-  },
-  "laskuotsikko": {
-    "fi": "Lasku",
-    "en": "Invoice",
-    "sv": "Faktura"
-  },
-  "muistutusteksti": {
-    "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
-    "en": "According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.",
-    "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss."
-  },
-  "asytunnus": {
-    "fi": "Asiakkaan y-tunnus",
-    "en": "Customer's Business ID",
-    "sv": "Kundens FO-nummer"
-  },
-  "jatkuu": {
-    "fi": "Jatkuu...",
-    "en": "To be continued...",
-    "sv": "Fortsätter..."
-  },
-  "puhelin": {
-    "fi": "Puhelin",
-    "en": "Phone",
-    "sv": "Telefon"
-  },
-  "eur": {
-    "fi": "Euro"
-  },
-  "ale%": {
-    "fi": "ale%",
-    "en": "discount%",
-    "sv": "rabatt%"
-  },
-  "lnro": {
-    "fi": "Laskun numero",
-    "en": "Invoice number",
-    "sv": "Fakturans nummer"
-  },
-  "bst": {
-    "fi": "Saajan|tilinumero|Mottagarens|kontonummer",
-    "en": "Recipient's|account number"
-  },
-  "virtviiv": {
-    "fi": "Virtuaaliviivakoodi",
-    "en": "Virtual barcode",
-    "sv": "Virtuell streckkod"
-  },
-  "alv91": {
-    "fi": "Voittomarginaalijärjestelmä - Käytetyt tavarat",
-    "en": "Margin scheme - Second-hand goods"
-  },
-  "bmo": {
-    "fi": "Maksajan|nimi ja|osoite|Betalarens|namn och|address",
-    "en": "Payer's|name and|address"
-  },
-  "alv93": {
-    "fi": "Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet",
-    "en": "Margin scheme - Collectors' items and antiques",
-    "sv": "Vinstmarginalsystem - Samlarföremål och antikviteter"
-  },
-  "alv92": {
-    "fi": "Voittomarginaalijärjestelmä - Taide-esineet",
-    "en": "Margin scheme - Works of art",
-    "sv": "Vinstmarginalsystem - Konstverk"
-  },
-  "alv15": {
-    "fi": "AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44",
-    "en": "AVL 65 §: Reverse charge, VAT Directive art. 44",
-    "sv": "AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44"
-  },
-  "alv14": {
-    "fi": "AVL 72a §: ALV 0% Yhteisömyynti",
-    "en": "AVL 72a §: VAT 0% Intra Community supply"
-  },
-  "alv16": {
-    "fi": "AVL 8 c §: Käännetty verovelvollisuus",
-    "en": "AVL 8 c §: Reverse charge, VAT Directive art. 199",
-    "sv": "AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199"
-  },
-  "iban": {
-    "fi": "IBAN"
-  },
-  "aiempimuistutus": {
-    "fi": "Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
-    "en": "Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3",
-    "sv": "Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3"
-  },
-  "alv13": {
-    "fi": "Voittomarginaalijärjestelmä",
-    "en": "Margin scheme",
-    "sv": "Vinstmarginalsystem - Begagnade varor"
-  },
-  "lpvm": {
-    "fi": "Laskun päivämäärä",
-    "en": "Date",
-    "sv": "Datum"
-  },
-  "viitenro": {
-    "fi": "Viitenumero",
-    "en": "Invoice reference number",
-    "sv": "Referensnummer"
-  },
-  "hyvitysteksti": {
-    "fi": "Hyvityslasku laskulle %1, päiväys %2",
-    "en": "Compensation for invoice %1, date %2",
-    "sv": "Kompensation för faktura %1, datum %2"
-  },
-  "hyvpvm": {
-    "fi": "Hyvityksen päivämäärä",
-    "en": "Date of compensation",
-    "sv": "Kompensationdatum"
-  },
-  "sahkoposti": {
-    "fi": "Sähköposti",
-    "en": "Email",
-    "sv": "E-post"
-  },
-  "bsa": {
-    "fi": "Saaja|Mottagare",
-    "en": "Recipient"
-  },
-  "vero": {
-    "fi": "vero",
-    "en": "tax",
-    "sv": "skatt"
-  },
-  "ahinta": {
-    "fi": "á hinta",
-    "en": "á price",
-    "sv": "á pris"
-  },
-  "ennakkolasku": {
-    "fi": "Ennakkolasku",
-    "en": "Advance invoice",
-    "sv": "Förhandsfaktura"
-  },
-  "enhyri": {
-    "fi": "Ennakkolaskun %1 hyvitys",
-    "en": "Compensation for advance invoice %1",
-    "sv": "Kompensation för förhandsfaktura %1"
-  },
-  "alennus": {
-    "fi": "alennus",
-    "en": "discount",
-    "sv": "rabatt"
-  },
-  "summa": {
-    "fi": "Laskun summa",
-    "en": "Total",
-    "sv": "Totalt"
-  },
-  "hlasku": {
-    "fi": "Hyvityslasku",
-    "en": "Compensation invoice",
-    "sv": "Kreditnota"
-  },
-  "ytunnus": {
-    "fi": "Y-tunnus",
-    "en": "Business ID",
-    "sv": "FO-nummer"
-  },
-  "verollinen": {
-    "fi": "verollinen",
-    "en": "gross",
-    "sv": "brutto"
-  },
-  "mmotsikko": {
-    "fi": "Maksumuistutus laskusta %1",
-    "en": "Requeat for payment %1",
-    "sv": "Betalningspåminnelse för faktura %1"
-  },
-  "Yhteensa": {
-    "fi": "Yhteensä",
-    "en": "Total",
-    "sv": "Totalt"
-  },
-  "eialv": {
-    "fi": "Myyjä ei arvonlisäverovelvollinen",
-    "en": "Seller is not liable to pay VAT",
-    "sv": "Säljare är inte momsskyldig"
-  },
-  "behto": {
-    "fi": "Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.",
-    "en": "The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer."
-  },
-  "harjoitus": {
-    "fi": "HARJOITUS",
-    "en": "TRIAL",
-    "sv": "ÖVNING"
-  },
-  "aiempisaldo": {
-    "fi": "Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €",
-    "en": "The total unpayed amount of invoices detailed below is %L1 €",
-    "sv": "Obetalda totalsumman från fakturor enligt följande specificering är %L1 €"
-  },
-  "asalvtunnus": {
-    "fi": "Asiakkaan ALV-tunnus",
-    "en": "Customer's VAT number",
-    "sv": "Kundens MOMS-nummer"
-  },
-  "netto": {
-    "fi": "netto",
-    "en": "net"
-  },
-  "nimike": {
-    "fi": "nimike",
-    "en": "product",
-    "sv": "produkt"
-  },
-  "bep": {
-    "fi": "Eräpäivä|Förfallodag",
-    "en": "Due date"
-  },
-  "kpl": {
-    "fi": "kpl",
-    "en": "quantity",
-    "sv": "antal"
-  },
-  "bak": {
-    "fi": "Allekirjoitus|Underskrift",
-    "en": "Signature"
-  }
+    "suomi": {
+        "sv": "finska",
+        "en": "Finnish"
+    },
+    "ruotsi": {
+        "sv": "svenska",
+        "en": "Swedish"
+    },
+    "englanti": {
+        "sv": "engelska",
+        "en": "English"
+    },
+    "Kotipaikka": {
+        "sv": "Hemort",
+        "en": "Domicile"
+    },
+    "HARJOITUS": {
+        "sv": "ÖVNING",
+        "en": "TRIAL"
+    },
+    "PÄIVÄKIRJA": {
+        "sv": "DAGBOK",
+        "en": "JOURNAL"
+    },
+    "Päiväkirja": {
+        "sv": "Dagbok"
+    },
+    "Pvm": {
+        "sv": "Datum",
+        "en": "Date"
+    },
+    "Tosite": {
+        "sv": "Verif.",
+        "en": "Vouch."
+    },
+    "Tili": {
+        "sv": "Konto",
+        "en": "Account"
+    },
+    "Kohdennus": {
+        "sv": "Hänförs till",
+        "en": "Allocation"
+    },
+    "Yhteensä": {
+        "sv": "Totalt",
+        "en": "Total"
+    },
+    "Selite": {
+        "sv": "Beskrivning",
+        "en": "Description"
+    },
+    "Sivu %1": {
+        "sv": "Sidan %1",
+        "en": "Page %1"
+    },
+    "Kredit €": {
+        "en": "Credit €"
+    },
+    "Saldo €": {
+        "en": "Balance €"
+    },
+    "PÄÄKIRJA": {
+        "sv": "HUVUDBOK",
+        "en": "GENERAL LEDGER"
+    },
+    "Pääkirja": {
+        "sv": "Huvudbok"
+    },
+    "PÄÄKIRJAN OTE": {
+        "sv": "HUVUDBOKUTDRAG",
+        "en": "EXTRACT FROM GENERAL LEDGER"
+    },
+    "Budjetti": {
+        "sv": "Budget",
+        "en": "Budget"
+    },
+    "Toteutunut": {
+        "sv": "Förverkligad",
+        "en": "Actualised"
+    },
+    "Budjettiero €": {
+        "sv": "Budgetskillnad €",
+        "en": "Difference €"
+    },
+    "Toteutunut %": {
+        "sv": "Förverkligad %",
+        "en": "Realized %"
+    },
+    "Kustannuspaikat": {
+        "sv": "Konstnadsställen",
+        "en": "Cost pools"
+    },
+    "Projektit": {
+        "sv": "Projekt",
+        "en": "Projects"
+    },
+    "Asiakas/Toimittaja": {
+        "sv": "Kund/Säljare",
+        "en": "Customer/Supplier"
+    },
+    "TOSITELUETTELO": {
+        "sv": "VERIFIKATLISTA",
+        "en": "VOUCHER LIST"
+    },
+    "Tositeluettelo": {
+        "sv": "Verifikatlista"
+    },
+    "Otsikko": {
+        "sv": "Rubrik",
+        "en": "Heading"
+    },
+    "Liitteitä": {
+        "sv": "Append.",
+        "en": "Attachm."
+    },
+    "Summa €": {
+        "sv": "Totalt €",
+        "en": "Total €"
+    },
+    "Tilin numero": {
+        "sv": "Kontonummer",
+        "en": "Account number"
+    },
+    "Tilin nimi": {
+        "sv": "Kontonamn",
+        "en": "Account name"
+    },
+    "TILILUETTELO": {
+        "sv": "KONTOPLAN",
+        "en": "SPECIFICATION OF ACCOUNTS"
+    },
+    "Tililuettelo": {
+        "sv": "Kontoplan"
+    },
+    "Tilin tyyppi": {
+        "sv": "Kontotyp",
+        "en": "Type"
+    },
+    "Saldo %1": {
+        "en": "Balance %1"
+    },
+    "Kirjausohjeet": {
+        "sv": "Instructoner",
+        "en": "Instructions"
+    },
+    "Meno": {
+        "sv": "Utgift",
+        "en": "Outcome"
+    },
+    "Tulo": {
+        "sv": "Intäkt",
+        "en": "Income"
+    },
+    "Kululasku": {
+        "sv": "Kostnadsräkning",
+        "en": "Bill of costs"
+    },
+    "Saapunut verkkolasku": {
+        "sv": "Inkomst online faktura",
+        "en": "Incoming online invoice"
+    },
+    "Myyntilasku": {
+        "sv": "Fölsälningsfaktura",
+        "en": "Sales invoice"
+    },
+    "Hyvityslasku": {
+        "sv": "Kreditnota",
+        "en": "Credit note"
+    },
+    "Maksumuistutus": {
+        "sv": "Betalningspåminnelse",
+        "en": "Payment reminder"
+    },
+    "Siirto": {
+        "sv": "Överföring",
+        "en": "Transfer"
+    },
+    "Tiliote": {
+        "sv": "Kontoutdrag",
+        "en": "Bank statement"
+    },
+    "Palkka": {
+        "sv": "Lön",
+        "en": "Salary"
+    },
+    "Muistio": {
+        "sv": "Annotation",
+        "en": "Memo"
+    },
+    "Liitetieto": {
+        "sv": "Not",
+        "en": "Attachment"
+    },
+    "Tuonti": {
+        "sv": "Import",
+        "en": "Import"
+    },
+    "Muu": {
+        "sv": "Annan",
+        "en": "Other"
+    },
+    "Tilinavaus": {
+        "sv": "Öppnande av konto",
+        "en": "Opening of an account"
+    },
+    "Alv-laskelma": {
+        "sv": "Moms-beräkning",
+        "en": "VAT calculation"
+    },
+    "Poistolaskelma": {
+        "sv": "Avskrivningsberäkning",
+        "en": "Depreciation allowance calculation"
+    },
+    "Jaksotus": {
+        "sv": "Periodindelning",
+        "en": "Periodization"
+    },
+    "Tulovero": {
+        "sv": "Inkomstskatt",
+        "en": "Income tax"
+    },
+    "TASE-ERITTELY": {
+        "sv": "SPECIFICATION TILL BALANSRÄKNINGEN",
+        "en": "BALANCE SHEET BREAKDOWN"
+    },
+    "Tase-erittely": {
+        "sv": "Specification till balansräkningen"
+    },
+    "VASTAAVAA": {
+        "sv": "AKTIVA",
+        "en": "ASSETS"
+    },
+    "VASTATTAVAA": {
+        "sv": "PASSIVA",
+        "en": "LIABILITIES"
+    },
+    "VASTAAVAA YHTEENSÄ": {
+        "sv": "AKTIVA TOTALT",
+        "en": "ASSETS TOTAL"
+    },
+    "VASTATTAVAA YHTEENSÄ": {
+        "sv": "PASSIVA TOTALT",
+        "en": "LIABILITIES TOTAL"
+    },
+    "Lisäykset/vähennykset %1 saakka": {
+        "sv": "Ökningar/avdrag upp till %1",
+        "en": "Additions/reductions until %1"
+    },
+    "Jäljellä %1": {
+        "sv": "Återstående %1",
+        "en": "Remaining %1"
+    },
+    "Loppusaldo %1": {
+        "sv": "Utgående saldo %1",
+        "en": "Ending balance %1"
+    },
+    "Alkusaldo %1": {
+        "sv": "Ingående saldo %1",
+        "en": "Beginning balance"
+    },
+    "Erittelemättömät": {
+        "sv": "Ospecificerad",
+        "en": "Unspecified"
+    },
+    "Tilin %1 loppusaldo": {
+        "sv": "Utgående saldo på kontot %1",
+        "en": "End balance of account %1"
+    },
+    "AVOIMET MYYNTILASKUT": {
+        "sv": "ÖPPNA KUNDFAKTUROR",
+        "en": "OPEN SALES INVOICES"
+    },
+    "Avoimet myyntilaskut": {
+        "sv": "Öppna kundfakturor"
+    },
+    "MYYNTILASKUT": {
+        "sv": "KUNDFAKTUROR",
+        "en": "SALES INVOICES"
+    },
+    "AVOIMET OSTOLASKUT": {
+        "sv": "ÖPPNA INKÖPSFAKTUROR",
+        "en": "OPEN PURCHASE INVOICES"
+    },
+    "Avoimet ostolaskut": {
+        "sv": "Öppna inköpsfakturor"
+    },
+    "OSTOLASKUT": {
+        "sv": "INKÖPSFAKTUROR",
+        "en": "PURCHASE INVOICES"
+    },
+    "Numero": {
+        "sv": "Nummer",
+        "en": "Number"
+    },
+    "Laskupvm": {
+        "sv": "Fakturadag",
+        "en": "Invoice date"
+    },
+    "Eräpvm": {
+        "sv": "Förfallogdag",
+        "en": "Due date"
+    },
+    "Maksamatta": {
+        "sv": "Obetald",
+        "en": "Unpaid"
+    },
+    "Päivämäärä": {
+        "sv": "Datum",
+        "en": "Date"
+    },
+    "Asiakas": {
+        "sv": "Kund",
+        "en": "Customer"
+    },
+    "Toimittaja": {
+        "sv": "Säljare",
+        "en": "Supplier"
+    },
+    "Viite": {
+        "sv": "Referens",
+        "en": "Reference"
+    },
+    "Tuote": {
+        "sv": "produkt",
+        "en": "product"
+    },
+    "myynti kpl": {
+        "sv": "försäljning st",
+        "en": "sales pcs"
+    },
+    "keskim. á netto": {
+        "sv": "genomsn á netto",
+        "en": "average á net"
+    },
+    "keskim. á brutto": {
+        "sv": "genomsn á brutto",
+        "en": "average á gross"
+    },
+    "netto yht": {
+        "sv": "totalt netto",
+        "en": "total net"
+    },
+    "brutto yht": {
+        "sv": "totalt brutto",
+        "en": "totalt gross"
+    },
+    "MYYNTI": {
+        "sv": "FÖRSÄLJNING",
+        "en": "SALES"
+    },
+    "ARVONLISÄVEROLASKELMA": {
+        "sv": "MOMSBERÄKNING",
+        "en": "VAT CALCULATION"
+    },
+    "Arvonlisäveroilmoituksen tiedot": {
+        "sv": "Information om momsdeklaration"
+    },
+    "Maksuperusteinen arvonlisävero": {
+        "sv": "Uppskjuten moms"
+    },
+    "Suoritettava %1%:n vero kotimaan myynnistä": {
+        "sv": "Skatt på inhemsk försäljning enligt skattesatserna moms %1 %"
+    },
+    "Vero tavaroiden maahantuonnista EU:n ulkopuolelta": {
+        "sv": "Moms på varuinköp från områden utanför EU"
+    },
+    "Vero tavaraostoista muista EU-maista": {
+        "sv": "Moms på varuinköp från andra EU-länder"
+    },
+    "Vero palveluostoista muista EU-maista": {
+        "sv": "Moms på inköp av tjänster från andra EU-länder"
+    },
+    "Verokauden vähennettävä vero": {
+        "sv": "Moms som ska dras av för skatteperiod"
+    },
+    "Maksettava vero / Palautukseen oikeuttava vero": {
+        "sv": "Moms att betala / Moms som berättingar till återbäring"
+    },
+    "0-verokannan alainen liikevaihto": {
+        "sv": "Omsättning enligt 0-skattesats"
+    },
+    "Tavaroiden maahantuonnit EU:n ulkopuolelta": {
+        "sv": "Import av varor från områden utanför EU"
+    },
+    "Tavaroiden myynnit muihin EU-maihin": {
+        "sv": "Varuförsäljningar till andra EU-länder"
+    },
+    "Palveluiden myynnit muihin EU-maihin": {
+        "sv": "Försäljning av tjänster till andra EU-länder"
+    },
+    "Tavaraostot muista EU-maista": {
+        "sv": "Varuinköp från andra EU-länder"
+    },
+    "Palveluostot muista EU-maista": {
+        "sv": "Inköp av tjänster från andra EU-länder"
+    },
+    "Rakentamispalveluiden ja metaalliromun myynnit": {
+        "sv": "Försäljningar av byggtjänster och metallskrot"
+    },
+    "Rakentamispalveluiden ja metalliromun ostot": {
+        "sv": "Inköp av byggtjänster och metallskrot"
+    },
+    "Alarajahuojennukseen oikeuttava liikevaihto": {
+        "sv": "Omsättning som berättigar till lättnad vid den nedre gränsen"
+    },
+    "Alarajahuojennukseen oikeuttava vero": {
+        "sv": "Skatt som berättigar till lättnad vid den nedre gränsen"
+    },
+    "Alarajahuojennukseen määrä": {
+        "sv": "Beloppet av lättnad vid den nedre gränsen"
+    },
+    "Arvonlisävero %1 - %2": {
+        "sv": "Medvärdesskatt %1 - %2"
+    },
+    "Tilinpäätös": {
+        "sv": "Bokslut"
+    },
+    "Y-tunnus": {
+        "sv": "FO-nummer"
+    },
+    "Kirjanpitoaineisto": {
+        "sv": "Bokföringsmaterial"
+    },
+    "Veroton": {
+        "sv": "Skattefri"
+    },
+    "Verollinen myynti (netto)": {
+        "sv": "Skattebelagd försäljning (netto)"
+    },
+    "Verollinen osto (netto)": {
+        "sv": "Skattebelagd inköp (netto)"
+    },
+    "Verollinen myynti (maksuperusteinen alv)": {
+        "sv": "Skattebelagd försäljning (avgiftsbestämd moms)"
+    },
+    "Verollinen osto (maksuperusteinen alv)": {
+        "sv": "Skattebelagd inköp (avgiftsbestämd moms)"
+    },
+    "Ennakkolasku (myynti)": {
+        "sv": "Förhandsfaktura (försäljning)"
+    },
+    "Verollinen myynti (brutto)": {
+        "sv": "Skattebelagd försäljning (brutto)"
+    },
+    "Verollinen osto (brutto)": {
+        "sv": "Skattebelagd inköp (brutto)"
+    },
+    "Nollaverokannan alainen myynti": {
+        "sv": "Noll skattesats försäljning"
+    },
+    "Voittomarginaalijärjestelmä, myynti": {
+        "sv": "Vinstmarginalsystem, försäljning"
+    },
+    "Voittomarginaalijärjestelmä, osto": {
+        "sv": "Vinstmarginalsystem, inköp"
+    },
+    "Tavaroiden yhteisömyynti": {
+        "sv": "Varuförsäljningar till andra EU-länder"
+    },
+    "Palveluiden yhteisömyynti": {
+        "sv": "Försäljning av tjänster till andra EU-länder"
+    },
+    "Tavaroiden yhteisöhankinnat": {
+        "sv": "Varuinköp från andra EU-länder"
+    },
+    "Palveluiden yhteisöhankinnat": {
+        "sv": "Inköp av tjänster från andra EU-länder"
+    },
+    "Tavaroiden maahantuonti EU:n ulkopuolelta": {
+        "sv": "Import av varor från områden utanför EU"
+    },
+    "Tavaroiden maahantuonti, veron kirjaus": {
+        "sv": "Import av varor, inskriftning av skatt"
+    },
+    "Rakennuspalveluiden myynti": {
+        "sv": "Försäljningar av byggtjänster "
+    },
+    "Rakentamispalveluiden osto": {
+        "sv": "Inköp av byggtjänster"
+    },
+    "Maksettavan arvonlisäveron tilitys": {
+        "sv": "Utförande av merdvärdesskatt"
+    },
+    "Tekninen kirjaus": {
+        "sv": "Teknisk bokföring"
+    },
+    "Vähennyskelvottoman oston veron osuus": {
+        "sv": "Andel av skatten på icke avdragsgilla köp "
+    },
+    "VERON MÄÄRÄ %1": {
+        "sv": "BELOPPET AV SKATTEN %1"
+    },
+    "VÄHENNYKSEN MÄÄRÄ %1": {
+        "sv": "BELOPPET AV AVDRAG %1"
+    },
+    "KOHDENTAMATON MAKSUPERUSTEINEN %1": {
+        "sv": "OFÖRDELADE AVGIFTSBESTÄMD MOMS %1"
+    },
+    "Erittely": {
+        "sv": "Specification"
+    },
+    "Aiempi alijäämä": {
+        "sv": "Tidagare underskott"
+    },
+    "Marginaali": {
+        "sv": "Marginal"
+    },
+    "Alijäämä": {
+        "sv": "Underskott"
+    },
+    "Vero": {
+        "sv": "Skatt"
+    },
+    "TILINPÄÄTÖSJAKSOTUKSET": {
+        "sv": "PERIODINDELNINGAR"
+    },
+    "Jaksotukset yhteensä": {
+        "sv": "Periodindelningar totalt"
+    },
+    "Verosaamiseksi kirjattava negatiivinen verovelka": {
+        "sv": "Negativ skatteskuld som ska bokföras som skattefordran"
+    },
+    "Tilinavauksen jaksotuskirjaukset": {
+        "sv": "Periodiska poster i kontot öppnande"
+    },
+    "Tilinpäätösjaksotukset": {
+        "sv": "Periodiska poster i bokslutet"
+    },
+    "Suunnitelman mukaiset poistot %1": {
+        "sv": "Avskrivningar enligt plan"
+    },
+    "Tasaeräpoisto %1": {
+        "sv": "Avskrivning med jämna rater %1"
+    },
+    "Menojäännöspoisto %1": {
+        "sv": "Restvärdesavskrivning %1"
+    },
+    "Tili/Pvm": {
+        "sv": "Konto/Datum"
+    },
+    "Nimike/Kohdennus": {
+        "sv": "Position/Konstnandsställe"
+    },
+    "Saldo ennen": {
+        "sv": "Saldo före"
+    },
+    "Sääntö": {
+        "sv": "Regel"
+    },
+    "Poisto": {
+        "sv": "Avskrivning"
+    },
+    "Saldo jälkeen": {
+        "sv": "Saldo efter"
+    },
+    "%1 v": {
+        "sv": "%1 år"
+    },
+    "%1 kpl": {
+        "sv": "%1 st"
+    },
+    "Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2": {
+        "sv": "Detta elektroniska arkiv för redovisning skapades %1 med version %2 av Kitsas-programmet"
+    },
+    "Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä": {
+        "sv": "Arkivets oändlighet kan övervakas med en sha256 sigill"
+    },
+    "Kirjanpito on vielä keskeneräinen.": {
+        "sv": "Redovisningen är fortfarande oavslutad."
+    },
+    "Kirjanpito arkistoitu": {
+        "sv": "Bokföring arkiverad"
+    },
+    "Kirjanpitoarkisto": {
+        "sv": "Bokföringarkiv"
+    },
+    "Kirjanpito": {
+        "sv": "Bokföring"
+    },
+    "Raportit": {
+        "sv": "Rapporter"
+    },
+    "Laskut ja myynti": {
+        "sv": "Räkningar och försäljning"
+    },
+    "Myydyt tuotteet": {
+        "sv": "Säljda produkter"
+    },
+    "Edellinen": {
+        "sv": "Föregående"
+    },
+    "Seuraava": {
+        "sv": "Följande"
+    },
+    "Laskun numero": {
+        "sv": "Faktura nummer"
+    },
+    "Tositteen täydet tiedot": {
+        "sv": "Fullständig information om verifikatet"
+    },
+    "Kirjanpidossa": {
+        "sv": "Redovisas"
+    },
+    "Luonnos": {
+        "sv": "Utkast"
+    },
+    "Alv": {
+        "sv": "Moms"
+    },
+    "Hylätty": {
+        "sv": "Avslagen"
+    },
+    "Saapunut": {
+        "sv": "Anlände"
+    },
+    "Tarkastettu": {
+        "sv": "Kollad"
+    },
+    "Hyväksytty": {
+        "sv": "Accepterad"
+    },
+    "Valmis": {
+        "sv": "Färdig"
+    },
+    "Lähetetään": {
+        "sv": "Överförs"
+    },
+    "Lähetetty": {
+        "sv": "Skeppas"
+    },
+    "Muistutettu": {
+        "sv": "Påminde"
+    },
+    "Toimitettu": {
+        "sv": "Levererad"
+    },
+    "Epäonnistui": {
+        "sv": "Misslyckades"
+    },
+    "alkuplasku": {
+        "fi": "Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
+        "sv": "Originalfaktura|Fakturas nummer: %1|Datum: %2|Förfallodag: %3",
+        "en": "Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3"
+    },
+    "toimpvm": {
+        "fi": "Toimituspäivämäärä",
+        "sv": "Leveransdatum",
+        "en": "Date of delivery"
+    },
+    "muistutusnro": {
+        "fi": "Maksumuistutuksen numero",
+        "sv": "Betalningspåminnelses nummer",
+        "en": "Number of request for payment"
+    },
+    "asviite": {
+        "fi": "Asiakkaan viite",
+        "sv": "Kundens referens",
+        "en": "Your reference"
+    },
+    "maksumuistutus": {
+        "fi": "MAKSUMUISTUTUS",
+        "sv": "BETALNINGSPÅMINNELSE",
+        "en": "REQUEST FOR PAYMENT"
+    },
+    "hyvnro": {
+        "fi": "Hyvityslaskun numero",
+        "sv": "Kreditnotans nummer",
+        "en": "Number of compensation invoice"
+    },
+    "yhteensa": {
+        "fi": "yhteensä",
+        "sv": "totalt",
+        "en": "total"
+    },
+    "mmrivi": {
+        "fi": "Laskun %1 avoin saldo",
+        "sv": "Saldo för faktura %1",
+        "en": "Open balance for invoice %1"
+    },
+    "anetto": {
+        "fi": "á netto",
+        "en": "á net  "
+    },
+    "kateislasku": {
+        "fi": "Käteislasku / Kuitti",
+        "sv": "Kontantkvitto",
+        "en": "Cash receipt"
+    },
+    "muistutussaate": {
+        "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
+        "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.",
+        "en": "According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+    },
+    "eimaksettavaa": {
+        "fi": "Ei maksettavaa",
+        "sv": "Ingen betalbar",
+        "en": "No payable"
+    },
+    "luonnos": {
+        "fi": "LUONNOS",
+        "sv": "SKISS",
+        "en": "DRAFT"
+    },
+    "alv": {
+        "fi": "ALV",
+        "sv": "MOMS",
+        "en": "VAT"
+    },
+    "btl": {
+        "fi": "Tililtä nro|Från konto nr",
+        "en": "From account|no."
+    },
+    "btilis": {
+        "fi": "TILISIIRTO. GIRERING",
+        "en": "CREDIT TRANSFER"
+    },
+    "pvm": {
+        "fi": "Päivämäärä",
+        "sv": "Datum",
+        "en": "Date"
+    },
+    "bvn": {
+        "fi": "Viitenumero|Ref.nr.",
+        "en": "Ref. No."
+    },
+    "huomaika": {
+        "fi": "Huomautusaika",
+        "sv": "Anmärkningstid",
+        "en": "Period for complaints"
+    },
+    "svalv14": {
+        "fi": "AVL 72 a §: Moms 0 % Gemenskapförsäljning"
+    },
+    "lkm": {
+        "fi": "lkm",
+        "sv": "antal",
+        "en": "qty"
+    },
+    "muistutusmaksu": {
+        "fi": "Huomautuskulut",
+        "sv": "Betalningspåminnelses avgift",
+        "en": "Request for payment fee"
+    },
+    "alv0": {
+        "fi": "Veroton myynti",
+        "sv": "Skattefria försäljning ",
+        "en": "Tax free sale"
+    },
+    "alvtunnus": {
+        "fi": "ALV-tunnus",
+        "sv": "MOMS-nummer",
+        "en": "VAT number"
+    },
+    "paivaa": {
+        "fi": "päivää",
+        "sv": "dagar",
+        "en": "days"
+    },
+    "veroton": {
+        "fi": "veroton",
+        "sv": "netto",
+        "en": "net"
+    },
+    "erapvm": {
+        "fi": "Eräpäivä",
+        "sv": "Förfallodag",
+        "en": "Due date"
+    },
+    "bic": {
+        "fi": "BIC"
+    },
+    "viivkorko": {
+        "fi": "Viivästyskorko",
+        "sv": "Dröjsmålsränta",
+        "en": "Interest on overdue payments"
+    },
+    "maksettu": {
+        "fi": "Maksettu",
+        "sv": "Betald",
+        "en": "Paid"
+    },
+    "laskuotsikko": {
+        "fi": "Lasku",
+        "sv": "Faktura",
+        "en": "Invoice"
+    },
+    "muistutusteksti": {
+        "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
+        "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.",
+        "en": "According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+    },
+    "asytunnus": {
+        "fi": "Asiakkaan y-tunnus",
+        "sv": "Kundens FO-nummer",
+        "en": "Customer's Business ID"
+    },
+    "jatkuu": {
+        "fi": "Jatkuu...",
+        "sv": "Fortsätter...",
+        "en": "To be continued..."
+    },
+    "puhelin": {
+        "fi": "Puhelin",
+        "sv": "Telefon",
+        "en": "Phone"
+    },
+    "eur": {
+        "fi": "Euro"
+    },
+    "ale%": {
+        "fi": "ale%",
+        "sv": "rabatt%",
+        "en": "discount%"
+    },
+    "lnro": {
+        "fi": "Laskun numero",
+        "sv": "Fakturans nummer",
+        "en": "Invoice number"
+    },
+    "bst": {
+        "fi": "Saajan|tilinumero|Mottagarens|kontonummer",
+        "en": "Recipient's|account number"
+    },
+    "virtviiv": {
+        "fi": "Virtuaaliviivakoodi",
+        "sv": "Virtuell streckkod",
+        "en": "Virtual barcode"
+    },
+    "alv91": {
+        "fi": "Voittomarginaalijärjestelmä - Käytetyt tavarat",
+        "en": "Margin scheme - Second-hand goods"
+    },
+    "bmo": {
+        "fi": "Maksajan|nimi ja|osoite|Betalarens|namn och|address",
+        "en": "Payer's|name and|address"
+    },
+    "alv93": {
+        "fi": "Voittomarginaalijärjestelmä - Keräily- ja antiikkiesineet",
+        "sv": "Vinstmarginalsystem - Samlarföremål och antikviteter",
+        "en": "Margin scheme - Collectors' items and antiques"
+    },
+    "alv92": {
+        "fi": "Voittomarginaalijärjestelmä - Taide-esineet",
+        "sv": "Vinstmarginalsystem - Konstverk",
+        "en": "Margin scheme - Works of art"
+    },
+    "alv15": {
+        "fi": "AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44",
+        "sv": "AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44",
+        "en": "AVL 65 §: Reverse charge, VAT Directive art. 44"
+    },
+    "alv14": {
+        "fi": "AVL 72a §: ALV 0% Yhteisömyynti",
+        "en": "AVL 72a §: VAT 0% Intra Community supply"
+    },
+    "alv16": {
+        "fi": "AVL 8 c §: Käännetty verovelvollisuus",
+        "sv": "AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199",
+        "en": "AVL 8 c §: Reverse charge, VAT Directive art. 199"
+    },
+    "iban": {
+        "fi": "IBAN"
+    },
+    "aiempimuistutus": {
+        "fi": "Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
+        "sv": "Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3",
+        "en": "Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3"
+    },
+    "alv13": {
+        "fi": "Voittomarginaalijärjestelmä",
+        "sv": "Vinstmarginalsystem - Begagnade varor",
+        "en": "Margin scheme"
+    },
+    "lpvm": {
+        "fi": "Laskun päivämäärä",
+        "sv": "Datum",
+        "en": "Date"
+    },
+    "viitenro": {
+        "fi": "Viitenumero",
+        "sv": "Referensnummer",
+        "en": "Invoice reference number"
+    },
+    "hyvitysteksti": {
+        "fi": "Hyvityslasku laskulle %1, päiväys %2",
+        "sv": "Kompensation för faktura %1, datum %2",
+        "en": "Compensation for invoice %1, date %2"
+    },
+    "hyvpvm": {
+        "fi": "Hyvityksen päivämäärä",
+        "sv": "Kompensationdatum",
+        "en": "Date of compensation"
+    },
+    "sahkoposti": {
+        "fi": "Sähköposti",
+        "sv": "E-post",
+        "en": "Email"
+    },
+    "bsa": {
+        "fi": "Saaja|Mottagare",
+        "en": "Recipient"
+    },
+    "vero": {
+        "fi": "vero",
+        "sv": "skatt",
+        "en": "tax"
+    },
+    "ahinta": {
+        "fi": "á hinta",
+        "sv": "á pris",
+        "en": "á price"
+    },
+    "ennakkolasku": {
+        "fi": "Ennakkolasku",
+        "sv": "Förhandsfaktura",
+        "en": "Advance invoice"
+    },
+    "enhyri": {
+        "fi": "Ennakkolaskun %1 hyvitys",
+        "sv": "Kompensation för förhandsfaktura %1",
+        "en": "Compensation for advance invoice %1"
+    },
+    "alennus": {
+        "fi": "alennus",
+        "sv": "rabatt",
+        "en": "discount"
+    },
+    "summa": {
+        "fi": "Laskun summa",
+        "sv": "Totalt",
+        "en": "Total"
+    },
+    "hlasku": {
+        "fi": "Hyvityslasku",
+        "sv": "Kreditnota",
+        "en": "Compensation invoice"
+    },
+    "ytunnus": {
+        "fi": "Y-tunnus",
+        "sv": "FO-nummer",
+        "en": "Business ID"
+    },
+    "verollinen": {
+        "fi": "verollinen",
+        "sv": "brutto",
+        "en": "gross"
+    },
+    "mmotsikko": {
+        "fi": "Maksumuistutus laskusta %1",
+        "sv": "Betalningspåminnelse för faktura %1",
+        "en": "Requeat for payment %1"
+    },
+    "Yhteensa": {
+        "fi": "Yhteensä",
+        "sv": "Totalt",
+        "en": "Total"
+    },
+    "eialv": {
+        "fi": "Myyjä ei arvonlisäverovelvollinen",
+        "sv": "Säljare är inte momsskyldig",
+        "en": "Seller is not liable to pay VAT"
+    },
+    "behto": {
+        "fi": "Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det kontonummer som betalaren angivit.",
+        "en": "The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer."
+    },
+    "harjoitus": {
+        "fi": "HARJOITUS",
+        "sv": "ÖVNING",
+        "en": "TRIAL"
+    },
+    "aiempisaldo": {
+        "fi": "Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €",
+        "sv": "Obetalda totalsumman från fakturor enligt följande specificering är %L1 €",
+        "en": "The total unpayed amount of invoices detailed below is %L1 €"
+    },
+    "asalvtunnus": {
+        "fi": "Asiakkaan ALV-tunnus",
+        "sv": "Kundens MOMS-nummer",
+        "en": "Customer's VAT number"
+    },
+    "netto": {
+        "fi": "netto",
+        "en": "net"
+    },
+    "nimike": {
+        "fi": "nimike",
+        "sv": "produkt",
+        "en": "product"
+    },
+    "bep": {
+        "fi": "Eräpäivä|Förfallodag",
+        "en": "Due date"
+    },
+    "kpl": {
+        "fi": "kpl",
+        "sv": "antal",
+        "en": "quantity"
+    },
+    "bak": {
+        "fi": "Allekirjoitus|Underskrift",
+        "en": "Signature"
+    },
+    "kotisivu": {
+        "fi": "Kotisivu"
+    },
+    "pankki": {
+        "fi": "Pankki"
+    },
+    "hyvityslasku": {
+        "fi": "Hyvityslasku"
+    },
+    "hyvitettavaNumero": {
+        "fi": "Hyvitettävän laskun numero"
+    },
+    "hyvitettavaPvm": {
+        "fi": "Hyvitettävän laskun pvm"
+    },
+    "hyvPvm": {
+        "fi": "Hyvityslaskun pvm"
+    },
+    "muistutuspvm": {
+        "fi": "Maksumuistutuksen pvm"
+    },
+    "UN_C62": {
+        "fi": "kpl"
+    },
+    "UN_NPK": {
+        "fi": "pkt"
+    },
+    "UN_IE": {
+        "fi": "hlö"
+    },
+    "UN_KGM": {
+        "fi": "kg"
+    },
+    "UN_LTR": {
+        "fi": "l"
+    },
+    "UN_ANN": {
+        "fi": "v"
+    },
+    "UN_MON": {
+        "fi": "kk"
+    },
+    "UN_DAY": {
+        "fi": "pv"
+    },
+    "UN_HUR": {
+        "fi": "h"
+    },
+    "UN_MIN": {
+        "fi": "min"
+    },
+    "UN_LH": {
+        "fi": "h"
+    },
+    "UN_ACT": {
+        "fi": "yks"
+    },
+    "UN_E50": {
+        "fi": "yks"
+    },
+    "UN_E51": {
+        "fi": "krt"
+    },
+    "UN_KMT": {
+        "fi": "km"
+    },
+    "UN_KWH": {
+        "fi": "kWh"
+    },
+    "UN_MTK": {
+        "fi": "m²"
+    },
+    "UN_MTQ": {
+        "fi": "m³"
+    },
+    "UN_E21": {
+        "fi": "osaketta"
+    },
+    "UN_ZP": {
+        "fi": "sivua"
+    },
+    "toimitettu": {
+        "fi": "Toimitettu"
+    },
+    "jalkitoimitus": {
+        "fi": "Jälkitoimitus"
+    }
 }

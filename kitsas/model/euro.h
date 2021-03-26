@@ -61,6 +61,7 @@ public:
     operator QString() const;
     operator QVariant() const;
     operator double() const;
+    operator bool() const;
 
 private:
     static qlonglong stringToCents(const QString& euroString);

@@ -42,8 +42,18 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
         lisaa("hyvnro", lasku.numero());
         lisaa("hyvitettavaPvm", QString::number(lasku.alkuperaisNumero()));
         lisaa("hyvitettavanPvm", lasku.alkuperaisPvm());
+    } else if( tosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS) {
+        otsikko_ = kitsas_->kaanna("maksumuistutus", kieli_);
+        lisaa("muistutuspvm", lasku.laskunpaiva());
+        lisaa("muistutusnro", lasku.numero());
     } else {
-        otsikko_ = kitsas_->kaanna("laskuotsikko", kieli_);
+        if( lasku.maksutapa() == Lasku::KATEINEN)
+            otsikko_ = kitsas_->kaanna("kateislasku", kieli_);
+        else if( lasku.maksutapa() == Lasku::ENNAKKOLASKU)
+            otsikko_ = kitsas_->kaanna("ennakkolasku", kieli_);
+        else
+            otsikko_ = kitsas_->kaanna("laskuotsikko", kieli_);
+
         lisaa("lpvm", lasku.laskunpaiva());
         lisaa("lnro", lasku.numero());
 

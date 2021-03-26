@@ -90,7 +90,8 @@ void TulostusRuudukko::laske(QPainter *painter)
     if( vahimmaisLeveys_ > sarakkeet_.at(0).leveys() + loppusarakeleveys) {
         sarakkeet_[0].asetaLeveys( vahimmaisLeveys_ - loppusarakeleveys );
     }
-    if( enimmaisLeveys_ > 0 && enimmaisLeveys_ < sarakkeet_.at(0).leveys() + loppusarakeleveys ) {
+    if( enimmaisLeveys_ > 0 &&
+        enimmaisLeveys_ < sarakkeet_.at(0).leveys() + loppusarakeleveys ) {
         sarakkeet_[0].asetaLeveys( enimmaisLeveys_ - loppusarakeleveys );
     }
     qreal kokonaisleveys = loppusarakeleveys + sarakkeet_.at(0).leveys();
