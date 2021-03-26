@@ -38,11 +38,17 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
                                                     const QDate &korkoAlkaa, const QDate &korkoLoppuu,
                                                     double korko)
 {
+    tosite->rivit()->lataa(QVariantList());
+    tosite->viennit()->tyhjenna();
+    aiempiSaldo(tosite, korkoSaldo);
+
     Euro yhteensa = maksumuistus + laskeKorko( korkoSaldo, korkoAlkaa, korkoLoppuu, korko );
     vastakirjaus(tosite, yhteensa, eraId, pvm);
 
     muistutusMaksu(tosite, maksumuistus, pvm);
     kirjaaKorko(tosite, korkoSaldo, korkoAlkaa, korkoLoppuu, korko, pvm);
+
+    tosite->lasku().setSumma( korkoSaldo + yhteensa );
 }
 
 Euro MaksumuistutusMuodostaja::laskeKorko(Euro korkoSaldo, const QDate &korkoAlkaa, const QDate &korkoLoppuu, double korko)
@@ -50,6 +56,20 @@ Euro MaksumuistutusMuodostaja::laskeKorko(Euro korkoSaldo, const QDate &korkoAlk
     double paivakorko = paivaKorko(korkoAlkaa, korkoLoppuu, korko, korkoSaldo);
     qlonglong paivat = korkoAlkaa.daysTo(korkoLoppuu);
     return Euro::fromDouble( paivat * paivakorko );
+}
+
+void MaksumuistutusMuodostaja::aiempiSaldo(Tosite *tosite, Euro aiempiSaldo)
+{
+    if(aiempiSaldo.cents()) {
+        TositeRivi aiempi;
+        aiempi.setNimike( kitsas_->kaanna("mmrivi").arg(tosite->lasku().numero()) );
+        aiempi.setANetto(0.0);
+        aiempi.setUNkoodi(QString());
+        aiempi.setAlvKoodi(0);
+        aiempi.setAleProsentti(0.0);
+        aiempi.setBruttoYhteensa( aiempiSaldo );
+        tosite->rivit()->lisaaRivi(aiempi);
+    }
 }
 
 void MaksumuistutusMuodostaja::muistutusMaksu(Tosite *tosite, Euro maksu, const QDate& pvm)
@@ -110,6 +130,8 @@ void MaksumuistutusMuodostaja::kirjaaKorko(Tosite *tosite, Euro korkosaldo, cons
         rivi.setANetto( paivakorko );
         rivi.setBruttoYhteensa( yhteensa );
         rivi.setTili(kitsas_->asetukset()->luku("LaskuViivastyskorkotili",9170));
+
+        tosite->rivit()->lisaaRivi(rivi);
     }
 
     tosite->lasku().setKorkoAlkaa(alkupvm);

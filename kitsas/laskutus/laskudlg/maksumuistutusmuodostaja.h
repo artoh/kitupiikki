@@ -43,6 +43,7 @@ public:
                     double korko = 0.0);
 
 protected:
+    void aiempiSaldo(Tosite *tosite, Euro aiempiSaldo);
     void muistutusMaksu(Tosite* tosite, Euro maksu, const QDate& pvm);
     void kirjaaKorko(Tosite* tosite, Euro korkosaldo,
                const QDate& alkupvm, const QDate& loppupvm,

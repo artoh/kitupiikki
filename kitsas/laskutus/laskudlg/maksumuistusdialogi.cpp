@@ -66,6 +66,7 @@ void MaksumuistusDialogi::paivitaSumma()
     Euro yhteensa = tosite()->constLasku().aiempiSaldo() +
             ( ui->mmMuistutusCheck->isChecked() ? Euro::fromDouble( ui->mmMuistutusMaara->value() ) : Euro(0) ) +
             korko;
+    ui->mmViivastysMaara->setText( korko.display() );
     ui->mmYhteensa->setText( yhteensa.display() );
 }
 
