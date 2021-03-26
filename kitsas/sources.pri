@@ -310,7 +310,6 @@ SOURCES += \
     alv/alvilmoitusdialog.cpp \
     alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp \
-    laskutus/erittelyruudukko.cpp \
     naytin/abstraktinaytin.cpp \
     naytin/printpreviewnaytin.cpp \
     naytin/raporttinaytin.cpp \
@@ -659,7 +658,6 @@ HEADERS += \
     alv/alvilmoitusdialog.h \
     alv/alvilmoitustenmodel.h \
     alv/alvsivu.h \
-    laskutus/erittelyruudukko.h \
     naytin/abstraktinaytin.h \
     naytin/printpreviewnaytin.h \
     naytin/raporttinaytin.h \

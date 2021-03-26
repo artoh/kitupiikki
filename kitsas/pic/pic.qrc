@@ -195,6 +195,7 @@
         <file>talo.png</file>
         <file>splash_sv.png</file>
         <file>splash_fi.png</file>
+        <file>kuu.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

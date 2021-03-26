@@ -28,8 +28,6 @@
 
 #include "raportti/raportinkirjoittaja.h"
 #include "naytin/naytinikkuna.h"
-
-#include "myyntilaskujentoimittaja.h"
 #include "db/yhteysmodel.h"
 
 #include "laskuproxymodel.h"
@@ -213,11 +211,8 @@ void LaskulistaWidget::paivitaNapit()
 
 void LaskulistaWidget::laheta()
 {
-    MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
-    connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &LaskulistaWidget::paivita );
-
     QModelIndexList lista = ui->view->selectionModel()->selectedRows();
-    for( auto item : lista)
+    for( auto item : lista)        
         LaskunToimittaja::toimita(item.data(LaskuTauluModel::TositeIdRooli).toInt());
 }
 

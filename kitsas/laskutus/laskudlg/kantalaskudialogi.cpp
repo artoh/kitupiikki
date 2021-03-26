@@ -157,7 +157,7 @@ void KantaLaskuDialogi::alustaMaksutavat()
         ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), Lasku::ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), Lasku::SUORITEPERUSTE);
 
-        ui->maksuCombo->addItem(QIcon(":/pic/refresh.png"), tr("Kuukausittainen lasku"), Lasku::KUUKAUSITTAINEN);
+        ui->maksuCombo->addItem(QIcon(":/pic/kuu.svg"), tr("Kuukausittainen lasku"), Lasku::KUUKAUSITTAINEN);
     }
 }
 

@@ -17,9 +17,12 @@
 #include "laskutaulumodel.h"
 
 #include "db/kirjanpito.h"
-#include "laskutus/vanhalaskudialogi.h"
 #include "laskutus/ryhmalasku/toimitustapadelegaatti.h"
 #include "db/yhteysmodel.h"
+
+#include "model/tosite.h"
+#include "model/lasku.h"
+#include "db/tositetyyppimodel.h"
 
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -204,6 +207,14 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                         return QIcon(":/pic/ennakkolasku.png");
                     else if( map.value("maksutapa").toInt() == Lasku::SUORITEPERUSTE)
                         return QIcon(":/pic/suorite.png");
+                    else if( map.value("maksutapa").toInt() == Lasku::KUUKAUSITTAINEN)
+                        return QIcon(":/pic/kuu.svg");
+                    else if( map.value("valvonta").toInt() == Lasku::ASIAKAS)
+                        return QIcon(":/pic/mies.png");
+                    else if( map.value("valvonta").toInt() == Lasku::VAKIOVIITE)
+                        return QIcon(":/pic/viivakoodi.png");
+                    else if(map.value("valvonta").toInt() == Lasku::VALVOMATON)
+                        return QIcon(":/pic/eikaytossa.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:
                     return QIcon(":/pic/poista.png");

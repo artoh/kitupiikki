@@ -16,7 +16,6 @@
 */
 #include "laskutettavatmodel.h"
 #include "db/kirjanpito.h"
-#include "../myyntilaskuntulostaja.h"
 #include "kielidelegaatti.h"
 #include "toimitustapadelegaatti.h"
 #include "model/lasku.h"
@@ -187,7 +186,7 @@ void LaskutettavatModel::laskuTallennettu(const QVariantMap &tallennettava, int 
 {
     // Tallennetaan ensin liite
     QVariantMap map = vastaus->toMap();
-
+/*
     QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
     KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
     QMap<QString,QString> meta;
@@ -199,7 +198,7 @@ void LaskutettavatModel::laskuTallennettu(const QVariantMap &tallennettava, int 
     } else {
         emit tallennettu();
         emit kp()->kirjanpitoaMuokattu();
-    }
+    } */
 }
 
 void LaskutettavatModel::lisaaAsiakas(QVariant* data)

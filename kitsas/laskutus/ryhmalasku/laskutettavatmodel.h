@@ -18,8 +18,7 @@
 #define LASKUTETTAVATMODEL_H
 
 #include <QAbstractTableModel>
-
-#include "../vanhalaskudialogi.h"
+#include <QSet>
 
 class LaskutettavatModel : public QAbstractTableModel
 {

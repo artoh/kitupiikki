@@ -38,7 +38,7 @@
 
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
-#include "laskutus/myyntilaskuntulostaja.h"
+#include "laskutus/iban.h"
 
 namespace Tuonti {
 
@@ -662,7 +662,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                                simple.contains("maksajan viite", Qt::CaseInsensitive)) {
                         continue;
                     } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
-                        QString bic = MyyntiLaskunTulostaja::bicIbanilla(tapahtuma.value("iban").toString());
+                        QString bic = Iban(tapahtuma.value("iban").toString()).bic();
                         if( teksti == "IBAN" || teksti == "BIC" || (bic.length() > 4 && teksti.startsWith(bic))  )
                             ;
                         else if (!tapahtuma.value("selite").toString().isEmpty())

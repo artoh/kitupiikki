@@ -31,7 +31,7 @@
 #include "kirjanpito.h"
 #include "kieli/kielet.h"
 
-#include "laskutus/myyntilaskuntulostaja.h"
+#include "laskutus/iban.h"
 
 TiliModel::TiliModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -110,7 +110,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         {
         case NRONIMI :
             if( tili->onko(TiliLaji::PANKKITILI))
-                return tili->nimiNumero() + " " + MyyntiLaskunTulostaja::valeilla( tili->str("iban") );
+                return tili->nimiNumero() + " " + Iban( tili->str("iban") ).valeilla();
             return tili->nimiNumero();
         case NUMERO:
             if( tili->otsikkotaso())

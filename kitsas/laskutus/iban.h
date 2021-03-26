@@ -30,6 +30,8 @@ public:
     QString valeilla() const;
     QString valeitta() const;
 
+    bool isEmpty() const { return tilinumero_.isEmpty();}
+
     static QString lisaaValit(const QString& iban);
 
     /**

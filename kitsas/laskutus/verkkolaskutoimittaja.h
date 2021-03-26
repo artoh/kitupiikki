@@ -43,7 +43,6 @@ protected:
     void toimitettuTallennettu();
     void virhe(const QString& viesti);
 
-    bool hajoitaOsoite(const QString& osoite, QVariantMap& asiakasMap);
 
 
 protected:

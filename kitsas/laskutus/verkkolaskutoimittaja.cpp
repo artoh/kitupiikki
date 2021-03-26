@@ -20,11 +20,9 @@
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "pilvi/pilvikysely.h"
 
-#include "myyntilaskuntulostaja.h"
 #include "maaritys/verkkolasku/verkkolaskumaaritys.h"
 #include "model/tosite.h"
-
-#include "vanhalaskudialogi.h"
+#include "laskutus/iban.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -52,10 +50,10 @@ void VerkkolaskuToimittaja::alustaInit()
     init_.insert("kaupunki", kp()->asetus("Kaupunki"));
 
     QVariantList tilit;
-    for(QString iban : kp()->asetus("LaskuIbanit").split(',')) {
+    for(Iban iban : kp()->asetus("LaskuIbanit").split(',')) {
         QVariantMap tili;
-        tili.insert("iban", iban);
-        tili.insert("bic", MyyntiLaskunTulostaja::bicIbanilla(iban));
+        tili.insert("iban", iban.valeitta());
+        tili.insert("bic", iban.bic());
         tilit.append(tili);
     }
     init_.insert("tilit", tilit);
@@ -93,7 +91,8 @@ bool VerkkolaskuToimittaja::toimitaSeuraava()
 
         QVariantMap lasku = map.value("lasku").toMap();
         QVariantMap asiakas;
-        if( !hajoitaOsoite(lasku.value("osoite").toString(), asiakas)) {
+        if( true) {
+            // Postiosoitetta ei enää hajoiteta
             virhe(tr("Postiosoitteen selvittäminen epäonnistui"));
             return toimitaSeuraava();
         }
@@ -222,30 +221,6 @@ void VerkkolaskuToimittaja::virhe(const QString &viesti)
     virhe_=true;
 }
 
-bool VerkkolaskuToimittaja::hajoitaOsoite(const QString &osoite, QVariantMap &asiakasMap)
-{
-    QRegularExpression postiosoiterivi("(\\d{5})\\s(.+)");
-    QStringList rivit = osoite.split('\n');
-    rivit.removeAll("");
-    asiakasMap.insert("nimi", rivit.value(0));
-    QStringList katuosoite;
-    for(int i=1; i < rivit.count(); i++) {
-        QRegularExpressionMatch mats = postiosoiterivi.match(rivit.value(i));
-        if( mats.hasMatch()) {
-            if( i != rivit.count() - 1)
-                return false;
-            asiakasMap.insert("postinumero", mats.captured(1));
-            asiakasMap.insert("kaupunki", mats.captured(2));
-            asiakasMap.insert("osoite", katuosoite.join("\n"));
-            return true;
-
-        } else {
-            katuosoite.append( rivit.value(i));
-        }
-    }
-
-    return false;
-}
 
 
 

@@ -15,10 +15,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ibandelegaatti.h"
-#include "laskutus/myyntilaskuntulostaja.h"
 
 #include <QLineEdit>
 #include "validator/ibanvalidator.h"
+#include "laskutus/iban.h"
 
 #include <QPainter>
 
@@ -37,7 +37,7 @@ void IbanDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &option
     if( teksti.isEmpty()) {
         teksti = tr("Napsauta lisätäksesi tili");
     } else {
-        teksti = MyyntiLaskunTulostaja::valeilla(teksti);
+        teksti = Iban(teksti).valeilla();
     }
     drawDisplay(painter, option, option.rect, teksti);
     drawFocus(painter, option, option.rect);

@@ -21,7 +21,6 @@
 #include "db/kirjanpito.h"
 #include "../tulostus/laskuntulostaja.h"
 
-#include "../myyntilaskujentoimittaja.h"
 
 #include "laskutus/toimittaja/laskuntoimittaja.h"
 

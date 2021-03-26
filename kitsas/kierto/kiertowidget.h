@@ -18,6 +18,7 @@
 #define KIERTOWIDGET_H
 
 #include <QWidget>
+#include "laskutus/iban.h"
 
 class Tosite;
 namespace Ui {
@@ -48,7 +49,7 @@ protected:
 private:
     Ui::Kierto* ui;
     Tosite* tosite_;
-    QString iban_;
+    Iban iban_;
 
 };
 
