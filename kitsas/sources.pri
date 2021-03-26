@@ -75,8 +75,6 @@ SOURCES += \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
-    $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
-    $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.cpp \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.cpp \
@@ -103,7 +101,6 @@ SOURCES += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.cpp \
     $$PWD/laskutus/vakioviite/vakioviitedlg.cpp \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
-    $$PWD/laskutus/vanhalaskudialogi.cpp \
     $$PWD/laskutus/viitenumero.cpp \
     $$PWD/laskutus/yksikkomodel.cpp \
     $$PWD/maaritys/avauserakantamodel.cpp \
@@ -424,8 +421,6 @@ HEADERS += \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskuproxymodel.h \
-    $$PWD/laskutus/myyntilaskujentoimittaja.h \
-    $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.h \
     $$PWD/laskutus/ryhmalasku/ryhmaanasiakkaatproxy.h \
@@ -452,7 +447,6 @@ HEADERS += \
     $$PWD/laskutus/tuotetuonti/tuotetuontimodel.h \
     $$PWD/laskutus/vakioviite/vakioviitedlg.h \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
-    $$PWD/laskutus/vanhalaskudialogi.h \
     $$PWD/laskutus/viitenumero.h \
     $$PWD/laskutus/yksikkomodel.h \
     $$PWD/maaritys/avauserakantamodel.h \
