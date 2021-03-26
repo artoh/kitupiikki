@@ -34,20 +34,27 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
     const Lasku& lasku = tosite.constLasku();
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
 
-    if( tosite.tyyppi() == TositeTyyppi::MYYNTILASKU)
-        otsikko_ = kitsas_->kaanna("laskuotsikko", kieli_);
-
     kieli_ = lasku.kieli().toLower();
 
-    lisaa("lpvm", lasku.laskunpaiva());
-    lisaa("lnro", lasku.numero());
-
-    if( lasku.jaksopvm().isValid()) {
-        lisaa("toimpvm", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
-                                           .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
+    if( tosite.tyyppi() == TositeTyyppi::HYVITYSLASKU) {
+        otsikko_ = kitsas_->kaanna("hyvityslasku", kieli_);
+        lisaa("hyvPvm", lasku.laskunpaiva());
+        lisaa("hyvnro", lasku.numero());
+        lisaa("hyvitettavaPvm", QString::number(lasku.alkuperaisNumero()));
+        lisaa("hyvitettavanPvm", lasku.alkuperaisPvm());
     } else {
-        lisaa("toimpvm", lasku.toimituspvm());
+        otsikko_ = kitsas_->kaanna("laskuotsikko", kieli_);
+        lisaa("lpvm", lasku.laskunpaiva());
+        lisaa("lnro", lasku.numero());
+
+        if( lasku.jaksopvm().isValid()) {
+            lisaa("toimpvm", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
+                                               .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
+        } else {
+            lisaa("toimpvm", lasku.toimituspvm());
+        }
     }
+
 
     lisaa("asalvtunnus", kumppani.value("alvtunnus").toString());
     lisaa("asviite", lasku.asiakasViite());

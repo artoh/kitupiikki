@@ -19,9 +19,14 @@
 #include "model/tosite.h"
 #include "kantalaskudialogi.h"
 #include "tavallinenlaskudialogi.h"
+#include "hyvityslaskudialogi.h"
+
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
 #include "kieli/kielet.h"
+#include "db/asetusmodel.h"
+#include "model/tositerivi.h"
+#include "model/tositerivit.h"
 
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
@@ -50,10 +55,18 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->asetaKumppani(asiakasId);
     tosite->asetaLaskupvm( paivamaara() );
     tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
+    tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();
     return dlg;
+}
+
+void LaskuDialogiTehdas::hyvityslasku(int hyvitettavaTositeId)
+{
+    Tosite* tosite = new Tosite(instanssi__);
+    connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::hyvitettavaLadattu);
+    tosite->lataa(hyvitettavaTositeId);
 }
 
 void LaskuDialogiTehdas::tositeLadattu()
@@ -61,12 +74,52 @@ void LaskuDialogiTehdas::tositeLadattu()
     Tosite* tosite = qobject_cast<Tosite*>(sender());
     KantaLaskuDialogi* dlg = nullptr;
 
-    if( tosite->tyyppi() == TositeTyyppi::MYYNTILASKU )
-        dlg = new TavallinenLaskuDialogi(tosite);
+    switch (tosite->tyyppi()) {
+        case TositeTyyppi::MYYNTILASKU:
+            dlg = new TavallinenLaskuDialogi(tosite);
+        break;
+        case TositeTyyppi::HYVITYSLASKU:
+            dlg = new HyvitysLaskuDialogi(tosite);
+        break;
+    }
 
     if( dlg )
         dlg->show();
 
+}
+
+void LaskuDialogiTehdas::hyvitettavaLadattu()
+{
+    Tosite* hyvitettava = qobject_cast<Tosite*>(sender());
+    const Lasku& hyvitettavaLasku = hyvitettava->constLasku();
+
+    Tosite* uusi = new Tosite(instanssi__);
+    uusi->asetaTyyppi( TositeTyyppi::HYVITYSLASKU );
+
+    uusi->lasku().setKieli( hyvitettavaLasku.kieli() );
+    uusi->lasku().setLahetystapa( hyvitettavaLasku.lahetystapa() );
+    uusi->lasku().setAlkuperaisNumero( hyvitettavaLasku.numero().toLongLong() );
+    uusi->lasku().setOsoite( hyvitettavaLasku.osoite() );
+    uusi->lasku().setEmail( hyvitettavaLasku.email() );
+    uusi->lasku().setAlkuperaisPvm( hyvitettavaLasku.laskunpaiva() );
+    uusi->asetaViite( hyvitettavaLasku.viite() );
+    uusi->lasku().setViite( hyvitettavaLasku.viite() );
+    uusi->asetaKumppani( hyvitettava->kumppani() );
+
+    TositeRivit* rivit = hyvitettava->rivit();
+    for(int r=0; r < rivit->rowCount(); r++) {
+        TositeRivi rivi = rivit->rivi(r);
+        const QString& kpl = rivi.laskutetaanKpl();
+        rivi.setLaskutetaanKpl( kpl.startsWith("-") ? kpl.mid(1) : "-" + kpl );
+        rivi.setMyyntiKpl( 0 - rivi.myyntiKpl() );
+        rivi.laskeYhteensa();
+        uusi->rivit()->lisaaRivi(rivi);
+    }
+
+    HyvitysLaskuDialogi* dlg = new HyvitysLaskuDialogi(uusi);
+    dlg->show();
+
+    hyvitettava->deleteLater();
 }
 
 QDate LaskuDialogiTehdas::paivamaara()

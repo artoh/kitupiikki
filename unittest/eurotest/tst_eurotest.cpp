@@ -33,6 +33,7 @@ private slots:
     void euro_to_qstring();
     void euro_eq_qstring();
     void qvariant_to_euro();
+    void neq_double_to_euro();
     void euroSumma();
 };
 
@@ -104,6 +105,13 @@ void EuroTest::qvariant_to_euro()
     Euro euro;
     euro << variant;
     QCOMPARE(euro.cents(), 12350);
+}
+
+void EuroTest::neq_double_to_euro()
+{
+    Euro euro = Euro::fromDouble(-123.45);
+    QCOMPARE( euro.cents(), -12345);
+    QCOMPARE( euro, Euro("-123.45"));
 }
 
 void EuroTest::euroSumma()

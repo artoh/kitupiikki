@@ -82,6 +82,7 @@ protected:
     virtual bool tarkasta();
 
     void salliTallennus(bool sallinta);
+    virtual QString ohje() { return "laskutus/uusi"; }
 
 private:
     void alustaUi();

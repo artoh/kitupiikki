@@ -31,6 +31,8 @@ public:
                Qt::AlignmentFlag tasaus = Qt::AlignLeft, bool lihava = false);
     qreal laske(QPainter* painter, qreal leveys);
     void piirra(QPainter* painter, qreal x, qreal y);
+    QSizeF koko() const { return koko_;}
+    int sarakkeita() const { return sarakkeet_.count();}
 
 private:
     class LaatikkoSarake{
@@ -42,6 +44,7 @@ private:
         QSizeF koko() const {return koko_;}
         void piirra(QPainter* painter, qreal x, qreal y) const;
         QSizeF laske(QPainter* painter);
+        Qt::AlignmentFlag tasaus() const { return tasaus_;}
 
     private:
         QString otsikko_;

@@ -264,3 +264,6 @@ kpl,kpl,antal,quantity
 bak,Allekirjoitus|Underskrift,,Signature
 kotisivu,Kotisivu,,
 pankki,Pankki,,
+hyvityslasku,Hyvityslasku,,
+hyvitettavaNumero,Hyvitettävän laskun numero,,
+hyvitettavaPvm,Hyvitettävän laskun pvm,,

@@ -60,7 +60,6 @@ private slots:
 
     void naytaLasku();    
     void haettuKopioitavaksi(QVariant* data);
-    void teeHyvitysLasku(QVariant *data);
 
     void raportti();
 

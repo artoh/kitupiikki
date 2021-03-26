@@ -144,6 +144,7 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->valmisNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LAHETETAAN); } );
 
     connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
+    connect( ui->ohjeNappi, &QPushButton::clicked, [this] { kp()->ohje( this->ohje() ); });
 
 }
 
@@ -269,7 +270,6 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->asetaPvm( maksutapa() == Lasku::SUORITEPERUSTE ?
                         ui->toimitusDate->date() :
                         ui->laskuPvm->date());
-    tosite()->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
 
     tosite()->asetaKumppani( ladattuAsiakas_ );
     tosite()->lasku().setOsoite( ui->osoiteEdit->toPlainText() );

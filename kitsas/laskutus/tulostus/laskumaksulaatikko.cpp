@@ -63,7 +63,11 @@ void LaskuMaksuLaatikko::piirra(QPainter *painter, qreal x, qreal y)
     int ileveys = painter->fontMetrics().horizontalAdvance("i");
 
     x += ileveys;
-    y += ileveys;
+    y += ileveys;        
+
+    if( sarakkeita() == 1 && sarakkeet_.at(0).tasaus() == Qt::AlignRight) {
+        x += koko_.width() - 2 * ileveys - sarakkeet_.at(0).koko().width();
+    }
 
     for( const auto& sarake : sarakkeet_) {
         sarake.piirra(painter, x, y);

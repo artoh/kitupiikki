@@ -262,5 +262,7 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { LaskuKateistili, "LaskuKateistili"},
     { LaskuEnnakkosaatavaTili, "LaskuEnnakkoSaatavatili"},
     { LaskuSaatavaTili, "LaskuSaatavatili"},
-    { EnnakkoAlvTili, "LaskuEnnakkoALV"}
+    { EnnakkoAlvTili, "LaskuEnnakkoALV"},
+    { LaskuMaksuaika, "LaskuMaksuaika"}
+
 };

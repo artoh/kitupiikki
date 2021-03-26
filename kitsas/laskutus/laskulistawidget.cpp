@@ -276,9 +276,7 @@ void LaskulistaWidget::hyvita()
 {
     int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     if( tositeId ) {
-        KpKysely* kysely = kpk( QString("/tositteet/%1").arg(tositeId));
-        connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::teeHyvitysLasku);
-        kysely->kysy();
+        LaskuDialogiTehdas::hyvityslasku(tositeId);
     }
 }
 
@@ -350,48 +348,6 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
 //    dlg->show();
 }
 
-void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
-{
-    QVariantMap alkup = data->toMap();
-    QVariantMap hyvitys;
-
-
-    QVariantMap alkuplasku = alkup.value("lasku").toMap();
-    QVariantMap lasku;
-    lasku.insert("kieli", alkuplasku.value("kieli"));
-    lasku.insert("laskutapa", alkuplasku.value("laskutapa"));
-    lasku.insert("alkupNro", alkuplasku.value("numero"));
-    lasku.insert("osoite", alkuplasku.value("osoite"));
-    lasku.insert("email", alkuplasku.value("email"));
-    lasku.insert("alkupPvm", alkup.value("pvm"));
-    lasku.insert("viite", alkuplasku.value("viite"));
-    if(alkuplasku.contains("alvtunnus"))
-        lasku.insert("alvtunnus", alkuplasku.value("alvtunnus"));
-
-    QVariantMap vienti;
-    vienti.insert("id", alkup.value("viennit").toList().value(0).toMap().value("id").toInt());
-    QVariantList viennit;
-    viennit.append(vienti);
-    hyvitys.insert("viennit", viennit);
-
-    hyvitys.insert("lasku", lasku);
-
-    hyvitys.insert("kumppani", alkup.value("kumppani"));
-    hyvitys.insert("tyyppi", TositeTyyppi::HYVITYSLASKU);
-
-    QVariantList alkuprivit = alkup.value("rivit").toList();
-    QVariantList rivit;
-    for( auto item : alkuprivit) {
-        QVariantMap rmap = item.toMap();
-        rmap.insert("myyntikpl", 0-rmap.value("myyntikpl").toDouble());
-        rivit.append(rmap);
-    }
-    hyvitys.insert("rivit", rivit);
-    hyvitys.insert("viite", alkuplasku.value("viite"));
-
-//    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(hyvitys);
-//    dlg->show();
-}
 
 void LaskulistaWidget::raportti()
 {

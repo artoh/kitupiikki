@@ -14,38 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef LASKUDIALOGITEHDAS_H
-#define LASKUDIALOGITEHDAS_H
+#ifndef HYVITYSLASKUDIALOGI_H
+#define HYVITYSLASKUDIALOGI_H
 
-#include <QObject>
+#include "rivillinenlaskudialogi.h"
 
-class KitsasInterface;
-class KantaLaskuDialogi;
-
-class LaskuDialogiTehdas : public QObject
+class HyvitysLaskuDialogi : public RivillinenLaskuDialogi
 {
     Q_OBJECT
-
-protected:
-    LaskuDialogiTehdas(KitsasInterface* kitsas= nullptr, QObject* parent = nullptr);
-
 public:
-    static void kaynnista(KitsasInterface* interface, QObject *parent);
-
-    static void naytaLasku(int tositeId);
-    static KantaLaskuDialogi* myyntilasku(int asiakasId = 0);
-    static void hyvityslasku(int hyvitettavaTositeId);
+    HyvitysLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
 
 protected:
-    void tositeLadattu();
-    void hyvitettavaLadattu();
-    KitsasInterface* kitsas_ = nullptr;
-
-    static LaskuDialogiTehdas* instanssi__;
-    static QDate paivamaara();
-
-signals:
-
+    QString ohje() override { return "laskutus/hyvitys";}
 };
 
-#endif // LASKUDIALOGITEHDAS_H
+#endif // HYVITYSLASKUDIALOGI_H

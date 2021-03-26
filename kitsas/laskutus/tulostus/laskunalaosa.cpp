@@ -50,16 +50,19 @@ qreal LaskunAlaosa::laske(QPainter *painter)
     qreal leveys = painter->window().width();
     painter->setFont(QFont("FreeSans", 9));
 
-    maksuKorkeus_ = maksulaatikko_.laske(painter, leveys);
+    maksuKorkeus_ = maksulaatikko_.laske(painter,
+            maksulaatikko_.sarakkeita() > 2
+            ? leveys
+            : leveys / 3);
 
     if( viivakoodi_ && !tilisiirto_)
         leveys = (leveys - 120 * mm) / 2;
     else
-        leveys = leveys / 3;
+        leveys = leveys / 4;
 
     yhteysKorkeus_ = osoitelaatikko_.laskeKoko(painter, leveys);
 
-    if( viivakoodi_ && !tilisiirto_) {
+    if( viivakoodi_ && !tilisiirto_ && maksulaatikko_.sarakkeita() > 2  ) {
         qreal yhteyslaatikkoKorkeus = yhteyslaatikko_.laskeKoko(painter, leveys) +
                                       tunnuslaatikko_.laskeKoko(painter, leveys);
         if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
@@ -96,16 +99,21 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
 
 
     if( virtuaaliviivakoodi_ ) {
-        const QString vvk = kaanna("virtviiv") + " " + lasku.virtuaaliviivakoodi( ibanit_.value(0),
-                                                                                  interface_->asetukset()->onko(AsetusModel::LaskuRF));
+        const QString& koodi = lasku.virtuaaliviivakoodi( ibanit_.value(0),
+                                                          interface_->asetukset()->onko(AsetusModel::LaskuRF));
+
+        const QString vvk = kaanna("virtviiv") + " " + koodi;
         QRectF vvkr = painter->boundingRect(QRect(0, 0, leveys, mm *10), vvk);
-        painter->drawText(vvkr, vvk);
-        painter->translate(0, vvkr.height());
+        if( !koodi.isEmpty() ) {
+            painter->drawText(vvkr, vvk);
+        }
+        painter->translate(0, vvkr.height());        
     }
-    maksulaatikko_.piirra(painter, 0, 0);
+
+    maksulaatikko_.piirra(painter, leveys - maksulaatikko_.koko().width(), 0);
     painter->translate(0, maksuKorkeus_ + painter->fontMetrics().horizontalAdvance("ii"));
 
-    if( viivakoodi_ && !tilisiirto_) {
+    if( viivakoodi_ && !tilisiirto_ && maksulaatikko_.sarakkeita() > 2) {
         osoitelaatikko_.piirra(painter, mm * 110, 0);
 
         qreal yhteyslaatikkoLeveys = yhteyslaatikko_.koko().width();
@@ -205,6 +213,9 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
 {
     const AsetusModel* asetukset = interface_->asetukset();
 
+    if( lasku.maksutapa() != Lasku::KATEINEN &&
+             lasku.summa().cents() > 0) {
+
     maksulaatikko_.lisaa( kaanna("pankki"), pankit_.join("\n"));
     maksulaatikko_.lisaa( kaanna("iban"), ibanit_.join("\n") );
     maksulaatikko_.lisaa( kaanna("bic"), bicit_.join("\n"));
@@ -213,11 +224,13 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
         maksulaatikko_.lisaa( kaanna("viitenro"), asetukset->onko(AsetusModel::LaskuRF)
                           ? lasku.viite().rfviite() :
                             lasku.viite().valeilla());
+    }
 
-    if( lasku.erapvm().isValid())
-        maksulaatikko_.lisaa( kaanna("erapvm"), lasku.erapvm().toString("dd.MM.yyyy"));
-    else if( lasku.maksutapa() == Lasku::KATEINEN)
+    if( lasku.maksutapa() == Lasku::KATEINEN)
         maksulaatikko_.lisaa( kaanna("erapvm"), kaanna("maksettu"));
+    else if( lasku.erapvm().isValid() && lasku.summa().cents() > 0)
+        maksulaatikko_.lisaa( kaanna("erapvm"), lasku.erapvm().toString("dd.MM.yyyy"));
+
 
     if( lasku.maksutapa() != Lasku::KUUKAUSITTAINEN)
         maksulaatikko_.lisaa(kaanna("Yhteensa"), lasku.summa().display(), Qt::AlignLeft, true);

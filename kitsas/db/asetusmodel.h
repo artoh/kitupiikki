@@ -64,7 +64,8 @@ public:
         LaskuKateistili,
         LaskuEnnakkosaatavaTili,
         LaskuSaatavaTili,
-        EnnakkoAlvTili
+        EnnakkoAlvTili,
+        LaskuMaksuaika
 
     };
 

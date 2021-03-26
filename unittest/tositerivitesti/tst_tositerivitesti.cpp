@@ -31,6 +31,7 @@ private slots:
     void summa2();
     void summa3();
     void summa4();
+    void hyvitys1();
 
     void ahinta1();
 
@@ -88,6 +89,16 @@ void TositeRiviTesti::summa4()
     rivi.laskeYhteensa();
 
     QCOMPARE( "450.00", rivi.bruttoYhteensa() );
+}
+
+void TositeRiviTesti::hyvitys1()
+{
+    TositeRivi rivi;
+    rivi.setANetto(100.0);
+    rivi.setMyyntiKpl(-1.0);
+    rivi.laskeYhteensa();
+
+    QCOMPARE("-100.00", rivi.bruttoYhteensa());
 }
 
 void TositeRiviTesti::ahinta1()

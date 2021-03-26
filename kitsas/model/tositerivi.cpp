@@ -50,7 +50,8 @@ Euro TositeRivi::laskeYhteensa()
                 0 ;
 
     const double brutto = alennettu + vero;
-    setBruttoYhteensa( Euro::fromDouble(brutto) );
+    const Euro bruttoEuro = Euro::fromDouble(brutto);
+    setBruttoYhteensa( bruttoEuro );
     return brutto;
 }
 
