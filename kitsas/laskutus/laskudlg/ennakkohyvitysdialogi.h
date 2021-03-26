@@ -19,6 +19,7 @@
 
 #include <QDialog>
 #include <QItemSelection>
+#include "model/euro.h"
 
 namespace Ui {
 class EnnakkoHyvitysDialogi;
@@ -32,10 +33,11 @@ class EnnakkoHyvitysDialogi : public QDialog
     Q_OBJECT
 
 public:
-    explicit EnnakkoHyvitysDialogi(EnnakkoHyvitysModel *model);
+    explicit EnnakkoHyvitysDialogi(EnnakkoHyvitysModel *model, QWidget* parent = nullptr);
     ~EnnakkoHyvitysDialogi() override;
 
-    void accept() override;
+    int eraId() const;
+    Euro euro() const;
 
 private slots:
     void riviValittu(const QItemSelection& valinta);

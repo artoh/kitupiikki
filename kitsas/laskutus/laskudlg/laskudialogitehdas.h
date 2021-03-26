@@ -21,6 +21,7 @@
 
 class KitsasInterface;
 class KantaLaskuDialogi;
+class Tosite;
 
 class LaskuDialogiTehdas : public QObject
 {
@@ -34,11 +35,15 @@ public:
 
     static void naytaLasku(int tositeId);
     static KantaLaskuDialogi* myyntilasku(int asiakasId = 0);
+    static KantaLaskuDialogi* ryhmalasku();
     static void hyvityslasku(int hyvitettavaTositeId);
+    static void kopioi(int tositeId);
 
 protected:
+    void naytaDialogi(Tosite* tosite);
     void tositeLadattu();
     void hyvitettavaLadattu();
+    void ladattuKopioitavaksi();
     KitsasInterface* kitsas_ = nullptr;
 
     static LaskuDialogiTehdas* instanssi__;

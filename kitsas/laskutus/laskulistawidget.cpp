@@ -24,7 +24,7 @@
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
-#include "maksumuistutusdialogi.h"
+#include "laskudlg/uusimaksumuistutusdialogi.h"
 
 #include "raportti/raportinkirjoittaja.h"
 #include "naytin/naytinikkuna.h"
@@ -217,13 +217,8 @@ void LaskulistaWidget::laheta()
     connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &LaskulistaWidget::paivita );
 
     QModelIndexList lista = ui->view->selectionModel()->selectedRows();
-    // QList<int> idt;
     for( auto item : lista)
         LaskunToimittaja::toimita(item.data(LaskuTauluModel::TositeIdRooli).toInt());
-        // idt.append( item.data(LaskuTauluModel::TositeIdRooli).toInt() );
-
-    //toimittaja->toimitaLaskut( idt);
-
 }
 
 void LaskulistaWidget::alusta()
@@ -240,7 +235,9 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
     }
 
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
-        KantaLaskuDialogi *dlg = LaskuDialogiTehdas::myyntilasku(asiakas_);
+        KantaLaskuDialogi *dlg = ryhmalasku ?
+                    LaskuDialogiTehdas::ryhmalasku() :
+                    LaskuDialogiTehdas::myyntilasku(asiakas_);
         connect( dlg, &KantaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
@@ -266,9 +263,7 @@ void LaskulistaWidget::kopioi()
 {
     int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     if( tositeId ) {
-        KpKysely* kysely = kpk( QString("/tositteet/%1").arg(tositeId));
-        connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::haettuKopioitavaksi);
-        kysely->kysy();
+        LaskuDialogiTehdas::kopioi(tositeId);
     }
 }
 
@@ -287,8 +282,8 @@ void LaskulistaWidget::muistuta()
         int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
         erat.append(eraId);
     }
-    new MaksumuistutusDialogi(erat, this);    
-
+    UusiMaksumuistutusDialogi* dlg = new UusiMaksumuistutusDialogi(erat, this);
+    dlg->kaynnista();
 }
 
 void LaskulistaWidget::poista()
@@ -322,32 +317,6 @@ void LaskulistaWidget::naytaLasku()
         lisa->naytaTosite(tositeId);
     }
 }
-
-void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
-{
-    QVariantMap map = data->toMap();
-    map.remove("id");
-//    map.insert("tila", Tosite::LUONNOS);
-    map.remove("viennit");
-    map.remove("loki");
-    QVariantMap lmap = map.take("lasku").toMap();
-
-    QVariantMap umap;
-    umap.insert("kieli", lmap.value("kieli"));
-    umap.insert("laskutapa", lmap.value("laskutapa"));
-    umap.insert("maksutapa", lmap.value("maksutapa"));
-    umap.insert("otsikko", lmap.value("otsikko"));
-    umap.insert("osoite", lmap.value("osoite"));
-    umap.insert("email", lmap.value("email"));
-    umap.insert("toimituspvm", kp()->paivamaara());
-    umap.insert("erapvm", kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ));
-    umap.insert("viivkorko", lmap.value("viivkorko"));
-    map.insert("lasku", umap);
-
-//    VanhaLaskuDialogi* dlg = new VanhaLaskuDialogi(map);
-//    dlg->show();
-}
-
 
 void LaskulistaWidget::raportti()
 {

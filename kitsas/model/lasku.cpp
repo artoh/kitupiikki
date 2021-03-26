@@ -30,6 +30,11 @@ Lasku::Lasku(const QVariantMap &data) :
 
 }
 
+void Lasku::kopioi(const Lasku &lasku)
+{
+    data_ = lasku.data();
+}
+
 QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
 {
     qlonglong sentit = summa().cents();

@@ -14,8 +14,8 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef MAKSUMUISTUTUSDIALOGI_H
-#define MAKSUMUISTUTUSDIALOGI_H
+#ifndef UUSIMAKSUMUISTUTUSDIALOGI_H
+#define UUSIMAKSUMUISTUTUSDIALOGI_H
 
 #include <QDialog>
 #include <QMap>
@@ -24,24 +24,24 @@ namespace Ui {
 class MaksumuistutusDialogi;
 }
 
-class MaksumuistutusDialogi : public QDialog
+class UusiMaksumuistutusDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    MaksumuistutusDialogi(QList<int> erat, QWidget *parent = nullptr);
-    ~MaksumuistutusDialogi() override;
+    UusiMaksumuistutusDialogi(QList<int> erat, QWidget *parent = nullptr);
+    ~UusiMaksumuistutusDialogi() override;
 
+    void kaynnista();
     void accept() override;
 
 signals:
     void muistutettu();
 
 protected:
-    void haeEra();
     void eraSaapuu(QVariant* data);
     void tositeSaapuu(int era, QVariant* data);
-    QVariantMap muodostaMuistutus(int era);
+    void tallennaMuistutus(int era);
 
     void tallennaSeuraava();
     void tallennaLiite(QVariant* data);
@@ -56,4 +56,4 @@ private:
     QList<QVariantMap> muistutukset_;
 };
 
-#endif // MAKSUMUISTUTUSDIALOGI_H
+#endif // UUSIMAKSUMUISTUTUSDIALOGI_H

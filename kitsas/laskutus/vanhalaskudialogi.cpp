@@ -47,8 +47,7 @@
 #include "ryhmalasku/ryhmalaskutab.h"
 #include "ryhmalasku/laskutettavatmodel.h"
 #include "ryhmalasku/kielidelegaatti.h"
-#include "ennakkohyvitysmodel.h"
-#include "ennakkohyvitysdialogi.h"
+
 #include "tuotedialogi.h"
 #include "model/tositeloki.h"
 
@@ -84,8 +83,7 @@
 VanhaLaskuDialogi::VanhaLaskuDialogi(const QVariantMap& data, bool ryhmalasku, int asiakas) :
     rivit_(new TositeRivit(this, data.value("rivit").toList())),
     ui( new Ui::LaskuDialogi),
-    ryhmalasku_(ryhmalasku),
-    ennakkoModel_(new EnnakkoHyvitysModel(this))
+    ryhmalasku_(ryhmalasku)
 {
     ui->setupUi(this);
 
@@ -113,7 +111,7 @@ VanhaLaskuDialogi::VanhaLaskuDialogi(const QVariantMap& data, bool ryhmalasku, i
     connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LAHETETAAN);});
 
 //    connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, [this] { EnnakkoHyvitysDialogi *dlg = new EnnakkoHyvitysDialogi(this, this->ennakkoModel_); dlg->show(); });
-    connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &VanhaLaskuDialogi::maksuTapaMuuttui);
+//    connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &VanhaLaskuDialogi::maksuTapaMuuttui);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, &VanhaLaskuDialogi::ohje);
 
     connect( ui->mmMuistutusCheck, &QCheckBox::clicked, this, &VanhaLaskuDialogi::paivitaSumma);
@@ -265,7 +263,7 @@ void VanhaLaskuDialogi::asiakasValittu(int asiakasId)
     KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(asiakasId) );
     connect( kysely, &KpKysely::vastaus, this, &VanhaLaskuDialogi::taytaAsiakasTiedot);
     kysely->kysy();
-    ennakkoModel_->lataaErat(asiakasId);
+    // ennakkoModel_->lataaErat(asiakasId);
 }
 
 void VanhaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
@@ -401,9 +399,6 @@ void VanhaLaskuDialogi::maksuTapaMuuttui()
     ui->viivkorkoLabel->setVisible( maksutapa != KATEINEN );
     ui->viivkorkoSpin->setVisible( maksutapa != KATEINEN );
 
-    ui->hyvitaEnnakkoNappi->setVisible( maksutapa != ENNAKKOLASKU
-                                        && tyyppi() == TositeTyyppi::MYYNTILASKU &&
-                                        ennakkoModel_->rowCount());
 
     rivit_->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == ENNAKKOLASKU);
 
@@ -923,7 +918,7 @@ void VanhaLaskuDialogi::lataa(const QVariantMap &map)
     ui->asiakas->set( asiakasId_,
                       map.value("kumppani").toMap().value("nimi").toString());
     if(map.contains("kumppani")) {
-        ennakkoModel_->lataaErat(map.value("kumppani").toMap().value("id").toInt());
+//        ennakkoModel_->lataaErat(map.value("kumppani").toMap().value("id").toInt());
         KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(map.value("kumppani").toMap().value("id").toInt()) );
         connect( kysely, &KpKysely::vastaus, this, &VanhaLaskuDialogi::asiakasHaettuLadattaessa);
         kysely->kysy();

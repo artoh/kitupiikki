@@ -20,6 +20,8 @@
 #include "kantalaskudialogi.h"
 #include "tavallinenlaskudialogi.h"
 #include "hyvityslaskudialogi.h"
+#include "ryhmalaskudialogi.h"
+#include "maksumuistusdialogi.h"
 
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
@@ -62,6 +64,18 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     return dlg;
 }
 
+KantaLaskuDialogi *LaskuDialogiTehdas::ryhmalasku()
+{
+    Tosite* tosite = new Tosite();
+    tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
+    tosite->asetaLaskupvm( paivamaara() );
+    tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
+
+    RyhmaLaskuDialogi *dlg = new RyhmaLaskuDialogi(tosite);
+    dlg->show();
+    return dlg;
+}
+
 void LaskuDialogiTehdas::hyvityslasku(int hyvitettavaTositeId)
 {
     Tosite* tosite = new Tosite(instanssi__);
@@ -69,23 +83,36 @@ void LaskuDialogiTehdas::hyvityslasku(int hyvitettavaTositeId)
     tosite->lataa(hyvitettavaTositeId);
 }
 
-void LaskuDialogiTehdas::tositeLadattu()
+void LaskuDialogiTehdas::kopioi(int tositeId)
 {
-    Tosite* tosite = qobject_cast<Tosite*>(sender());
+    Tosite* tosite = new Tosite(instanssi__);
+    connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::ladattuKopioitavaksi);
+    tosite->lataa(tositeId);
+}
+
+void LaskuDialogiTehdas::naytaDialogi(Tosite *tosite)
+{
     KantaLaskuDialogi* dlg = nullptr;
 
     switch (tosite->tyyppi()) {
-        case TositeTyyppi::MYYNTILASKU:
-            dlg = new TavallinenLaskuDialogi(tosite);
+    case TositeTyyppi::HYVITYSLASKU:
+        dlg = new HyvitysLaskuDialogi(tosite);
         break;
-        case TositeTyyppi::HYVITYSLASKU:
-            dlg = new HyvitysLaskuDialogi(tosite);
+    case TositeTyyppi::MAKSUMUISTUTUS:
+        dlg = new MaksumuistusDialogi(tosite);
         break;
+    default:
+        dlg = new TavallinenLaskuDialogi(tosite);
     }
 
     if( dlg )
         dlg->show();
+}
 
+void LaskuDialogiTehdas::tositeLadattu()
+{
+    Tosite* tosite = qobject_cast<Tosite*>(sender());
+    naytaDialogi( tosite );
 }
 
 void LaskuDialogiTehdas::hyvitettavaLadattu()
@@ -120,6 +147,25 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
     dlg->show();
 
     hyvitettava->deleteLater();
+}
+
+void LaskuDialogiTehdas::ladattuKopioitavaksi()
+{
+    Tosite* tosite = qobject_cast<Tosite*>(sender());
+
+    tosite->setData(Tosite::ID, 0);
+    tosite->asetaTila(Tosite::POISTETTU);
+
+    tosite->lasku().setNumero(QString());
+    tosite->asetaLaskupvm( paivamaara() );
+    tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
+
+    ViiteNumero viite( tosite->viite());
+    if( viite.tyyppi() != ViiteNumero::ASIAKAS && viite.tyyppi() != ViiteNumero::HUONEISTO) {
+        tosite->asetaViite(QString());
+    }
+
+    naytaDialogi( tosite );
 }
 
 QDate LaskuDialogiTehdas::paivamaara()

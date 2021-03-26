@@ -47,8 +47,6 @@ SOURCES += \
     $$PWD/kitupiikkituonti/vanhatuontidlg.cpp \
     $$PWD/laskutus/alennustyyppimodel.cpp \
     $$PWD/laskutus/asiakkaatmodel.cpp \
-    $$PWD/laskutus/ennakkohyvitysdialogi.cpp \
-    $$PWD/laskutus/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/huoneisto/huoneisto.cpp \
     $$PWD/laskutus/huoneisto/huoneistodialog.cpp \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.cpp \
@@ -57,15 +55,21 @@ SOURCES += \
     $$PWD/laskutus/iban.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
+    $$PWD/laskutus/laskudlg/ennakkohyvitysdialogi.cpp \
+    $$PWD/laskutus/laskudlg/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/laskudlg/hyvityslaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/kappaledelegaatti.cpp \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.cpp \
     $$PWD/laskutus/laskudlg/laskurividialogi.cpp \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.cpp \
+    $$PWD/laskutus/laskudlg/maksumuistusdialogi.cpp \
+    $$PWD/laskutus/laskudlg/maksumuistutusmuodostaja.cpp \
     $$PWD/laskutus/laskudlg/rivillinenlaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/rivivientigeneroija.cpp \
+    $$PWD/laskutus/laskudlg/ryhmalaskudialogi.cpp \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.cpp \
+    $$PWD/laskutus/laskudlg/uusimaksumuistutusdialogi.cpp \
     $$PWD/laskutus/laskudlg/yksikkocombo.cpp \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.cpp \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.cpp \
@@ -332,7 +336,6 @@ SOURCES += \
     rekisteri/asiakastoimittajavalinta.cpp \
     maaritys/avauseradlg.cpp\
     maaritys/maksutapamuokkausdlg.cpp\
-    laskutus/maksumuistutusdialogi.cpp \
     arkisto/tuloverodialog.cpp  \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
@@ -393,8 +396,6 @@ HEADERS += \
     $$PWD/kitupiikkituonti/vanhatuontidlg.h \
     $$PWD/laskutus/alennustyyppimodel.h \
     $$PWD/laskutus/asiakkaatmodel.h \
-    $$PWD/laskutus/ennakkohyvitysdialogi.h \
-    $$PWD/laskutus/ennakkohyvitysmodel.h \
     $$PWD/laskutus/huoneisto/huoneisto.h \
     $$PWD/laskutus/huoneisto/huoneistodialog.h \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.h \
@@ -403,15 +404,21 @@ HEADERS += \
     $$PWD/laskutus/iban.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
+    $$PWD/laskutus/laskudlg/ennakkohyvitysdialogi.h \
+    $$PWD/laskutus/laskudlg/ennakkohyvitysmodel.h \
     $$PWD/laskutus/laskudlg/hyvityslaskudialogi.h \
     $$PWD/laskutus/laskudlg/kantalaskudialogi.h \
     $$PWD/laskutus/laskudlg/kappaledelegaatti.h \
     $$PWD/laskutus/laskudlg/laskudialogitehdas.h \
     $$PWD/laskutus/laskudlg/laskurividialogi.h \
     $$PWD/laskutus/laskudlg/laskutusverodelegaatti.h \
+    $$PWD/laskutus/laskudlg/maksumuistusdialogi.h \
+    $$PWD/laskutus/laskudlg/maksumuistutusmuodostaja.h \
     $$PWD/laskutus/laskudlg/rivillinenlaskudialogi.h \
     $$PWD/laskutus/laskudlg/rivivientigeneroija.h \
+    $$PWD/laskutus/laskudlg/ryhmalaskudialogi.h \
     $$PWD/laskutus/laskudlg/tavallinenlaskudialogi.h \
+    $$PWD/laskutus/laskudlg/uusimaksumuistutusdialogi.h \
     $$PWD/laskutus/laskudlg/yksikkocombo.h \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.h \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.h \
@@ -681,7 +688,6 @@ HEADERS += \
     rekisteri/asiakastoimittajavalinta.h \
     maaritys/avauseradlg.h\
     maaritys/maksutapamuokkausdlg.h \
-    laskutus/maksumuistutusdialogi.h \
     arkisto/tuloverodialog.h \
     kierto/kiertowidget.h \
     kierto/kiertomuokkausdlg.h\
@@ -724,6 +730,7 @@ FORMS += \
     $$PWD/laskutus/laskudlg/laskurividialogi.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/laskutus/uusimaksumuistutusdialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.ui \
@@ -811,6 +818,5 @@ FORMS += \
     uusikirjanpito/uusiharjoitus.ui \
     maaritys/avauseradlg.ui\
     maaritys/maksutapamuokkausdlg.ui\
-    laskutus/maksumuistutusdialogi.ui\
     arkisto/tuloverodialog.ui \
     kierto/kiertomuokkausdlg.ui

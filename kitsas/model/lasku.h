@@ -37,6 +37,7 @@ public:
 
     Lasku();
     Lasku(const QVariantMap& data);
+    void kopioi(const Lasku& lasku);
 
     QString email() const { return str("email");}
     void setEmail(const QString& email) { setStr("email",email);}
@@ -86,8 +87,8 @@ public:
     QVariantList aiemmat() const { return arvo("aiemmat").toList(); }
     void setAiemmat(const QVariantList& aiemmat) { set("aiemmat", aiemmat);}
 
-    double aiempiSaldo() const { return dbl("aiempisaldo");}
-    void setAiempiSaldo(const double saldo) { set("aiempisaldo", saldo);}
+    Euro aiempiSaldo() const { return Euro::fromVariant(arvo("aiempisaldo"));}
+    void setAiempiSaldo(const Euro saldo) { set("aiempisaldo", saldo);}
 
     QString asiakasViite() const { return str("asviite");}
     void setAsiakasViite(const QString& viite) { setStr("asviite", viite);}
@@ -113,10 +114,10 @@ public:
     Euro summa() const { return euro("summa");}
     void setSumma(const Euro& summa) { setEuro("summa", summa);}
 
-    double muistutusmaksu() const { return dbl("muistutusmaksu");}
-    void setMuistutusmaksu(const double maksu) { set("muistutusmaksu", maksu);}
+    Euro muistutusmaksu() const { return Euro::fromVariant(arvo("muistutusmaksu"));}
+    void setMuistutusmaksu(const Euro maksu) { setStr("muistutusmaksu", maksu);}
 
-    double korkoEuroa() const { return dbl("korko");}
+    Euro korkoEuroa() const { return Euro::fromVariant(arvo("korko"));}
     void setKorko(double euroa) { set("korko", euroa);}
 
     QDate korkoAlkaa() const { return pvm("korkoalkaa");}

@@ -135,7 +135,6 @@ private:
     QVariantList aiemmat_;
     double aiempiSaldo_ = 0.0;
 
-    EnnakkoHyvitysModel* ennakkoModel_;
     bool verkkolaskutettava_ = false;
     bool paivitetaanLaskutapoja_ = false;
 };

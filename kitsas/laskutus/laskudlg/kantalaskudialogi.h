@@ -31,8 +31,6 @@ class LaskuDialogi;
 }
 
 class Lasku;
-class EnnakkoHyvitysModel;
-
 class KantaLaskuDialogi : public QDialog, public Esikatseltava
 {
     Q_OBJECT
@@ -60,14 +58,14 @@ protected:
 
     virtual void tositteelle();
 
-    void asiakasMuuttui();
+    virtual void asiakasMuuttui();
     void taytaAsiakasTiedot(QVariant* data);
 
     void paivitaLaskutustavat();
     void paivitaValvonnat();
 
     void laskutusTapaMuuttui();
-    void maksuTapaMuuttui();
+    virtual void maksuTapaMuuttui();
     void valvontaMuuttui();
     void paivitaToistojakso();
     void paivitaViiteRivi();
@@ -91,8 +89,6 @@ private:
 protected:
     Ui::LaskuDialogi *ui;
     Tosite* tosite_;
-
-    EnnakkoHyvitysModel* ennakkoModel_;
 
     int asiakasId_ = 0;
     QVariantMap ladattuAsiakas_;

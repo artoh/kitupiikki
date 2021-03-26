@@ -14,31 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TAVALLINENLASKUDIALOGI_H
-#define TAVALLINENLASKUDIALOGI_H
+#ifndef RYHMALASKUDIALOGI_H
+#define RYHMALASKUDIALOGI_H
 
 #include "rivillinenlaskudialogi.h"
 
-class EnnakkoHyvitysModel;
+class RyhmalaskuTab;
 
-class TavallinenLaskuDialogi : public RivillinenLaskuDialogi
+class RyhmaLaskuDialogi : public RivillinenLaskuDialogi
 {
     Q_OBJECT
 public:
-    TavallinenLaskuDialogi(Tosite* tosite, QWidget *parent = nullptr);
+    RyhmaLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
 
 protected:
-    void tositteelle() override;
-
-    void toistoTositteelta();
-    void paivitaToistojakso();
-
-    void asiakasMuuttui() override;
-    void maksuTapaMuuttui() override;
-    void hyvitaEnnakko();
-    void ennakkoTietoSaapuu(QVariant* data, int eraId, Euro euro);
-
-    EnnakkoHyvitysModel* ennakkoModel_;
+    RyhmalaskuTab* ryhmalaskuTab_;
 };
 
-#endif // TAVALLINENLASKUDIALOGI_H
+#endif // RYHMALASKUDIALOGI_H

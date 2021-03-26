@@ -76,11 +76,17 @@ QVariant EnnakkoHyvitysModel::data(const QModelIndex &index, int role) const
 
 void EnnakkoHyvitysModel::lataaErat(int asiakasId)
 {
-    KpKysely *kysely = kpk("/erat");
-    kysely->lisaaAttribuutti("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
-    kysely->lisaaAttribuutti("asiakas", asiakasId);
-    connect(kysely, &KpKysely::vastaus, this, &EnnakkoHyvitysModel::eratSaapuu);
-    kysely->kysy();
+    if( asiakasId ) {
+        KpKysely *kysely = kpk("/erat");
+        kysely->lisaaAttribuutti("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
+        kysely->lisaaAttribuutti("asiakas", asiakasId);
+        connect(kysely, &KpKysely::vastaus, this, &EnnakkoHyvitysModel::eratSaapuu);
+        kysely->kysy();
+    } else {
+        beginResetModel();
+        lista_.clear();
+        endResetModel();
+    }
 }
 
 void EnnakkoHyvitysModel::eratSaapuu(const QVariant *data)

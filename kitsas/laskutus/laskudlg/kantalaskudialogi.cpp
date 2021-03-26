@@ -23,7 +23,6 @@
 
 #include "db/tositetyyppimodel.h"
 
-#include "../ennakkohyvitysmodel.h"
 #include "../ryhmalasku/kielidelegaatti.h"
 #include "model/tositerivit.h"
 #include "model/tositeloki.h"
@@ -50,7 +49,6 @@ KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
     ui( new Ui::LaskuDialogi),
     tosite_(tosite),
-    ennakkoModel_(new EnnakkoHyvitysModel(this)),
     huoneistot_( kp()->huoneistot() )
 {
     ui->setupUi(this);
@@ -113,6 +111,8 @@ void KantaLaskuDialogi::alustaUi()
 
     ui->lokiView->setModel( tosite_->loki() );
     ui->lokiView->horizontalHeader()->setSectionResizeMode(TositeLoki::KAYTTAJA, QHeaderView::Stretch);
+
+    ui->hyvitaEnnakkoNappi->setVisible(false);
 
     paivitaLaskutustavat();
     laskutusTapaMuuttui();
@@ -448,7 +448,7 @@ void KantaLaskuDialogi::laskutusTapaMuuttui()
     }
 
     int saateIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("saate") );
-    ui->tabWidget->setTabEnabled( saateIndex, laskutustapa == Lasku::SAHKOPOSTI);
+    ui->tabWidget->setTabEnabled( saateIndex, laskutustapa == Lasku::SAHKOPOSTI || !ui->laskutusCombo->isVisible());
 }
 
 void KantaLaskuDialogi::maksuTapaMuuttui()
@@ -470,10 +470,6 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
     ui->toistoErapaivaSpin->setVisible( maksutapa == Lasku::KUUKAUSITTAINEN);
     ui->viivkorkoLabel->setVisible( maksutapa != Lasku::KATEINEN );
     ui->viivkorkoSpin->setVisible( maksutapa != Lasku::KATEINEN );
-
-    ui->hyvitaEnnakkoNappi->setVisible( maksutapa != Lasku::ENNAKKOLASKU
-                                        && tosite()->tyyppi() == TositeTyyppi::MYYNTILASKU &&
-                                        ennakkoModel_->rowCount());
 
     tosite()->rivit()->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == Lasku::ENNAKKOLASKU);
 

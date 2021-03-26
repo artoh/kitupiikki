@@ -20,8 +20,8 @@
 
 #include <QPushButton>
 
-EnnakkoHyvitysDialogi::EnnakkoHyvitysDialogi( EnnakkoHyvitysModel *model) :
-    QDialog(),
+EnnakkoHyvitysDialogi::EnnakkoHyvitysDialogi(EnnakkoHyvitysModel *model, QWidget *parent) :
+    QDialog(parent),
     ui(new Ui::EnnakkoHyvitysDialogi)
 {
     ui->setupUi(this);
@@ -38,13 +38,15 @@ EnnakkoHyvitysDialogi::~EnnakkoHyvitysDialogi()
     delete ui;
 }
 
-void EnnakkoHyvitysDialogi::accept()
+int EnnakkoHyvitysDialogi::eraId() const
 {
-//    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>( parent() );
-    QModelIndex index = ui->view->selectionModel()->selection().indexes().value(0);
-//    dlg->lisaaEnnakkoHyvitys( index.data(EnnakkoHyvitysModel::EraIdRooli).toInt(),
-//                              ui->euroEdit->value());
-    QDialog::accept();
+    const QModelIndex &index = ui->view->selectionModel()->selection().indexes().value(0);
+    return index.data(EnnakkoHyvitysModel::EraIdRooli).toInt();
+}
+
+Euro EnnakkoHyvitysDialogi::euro() const
+{
+    return ui->euroEdit->euro();
 }
 
 void EnnakkoHyvitysDialogi::riviValittu(const QItemSelection &valinta)

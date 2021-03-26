@@ -14,31 +14,24 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TAVALLINENLASKUDIALOGI_H
-#define TAVALLINENLASKUDIALOGI_H
+#ifndef MAKSUMUISTUSDIALOGI_H
+#define MAKSUMUISTUSDIALOGI_H
 
-#include "rivillinenlaskudialogi.h"
+#include "yksittainenlaskudialogi.h"
+#include "maksumuistutusmuodostaja.h"
 
-class EnnakkoHyvitysModel;
-
-class TavallinenLaskuDialogi : public RivillinenLaskuDialogi
+class MaksumuistusDialogi : public YksittainenLaskuDialogi
 {
     Q_OBJECT
 public:
-    TavallinenLaskuDialogi(Tosite* tosite, QWidget *parent = nullptr);
+    MaksumuistusDialogi(Tosite* tosite, QWidget* parent = nullptr);
 
 protected:
-    void tositteelle() override;
+    void lataa();
+    void paivitaSumma();
+    void valmisteleTallennus() override;
 
-    void toistoTositteelta();
-    void paivitaToistojakso();
-
-    void asiakasMuuttui() override;
-    void maksuTapaMuuttui() override;
-    void hyvitaEnnakko();
-    void ennakkoTietoSaapuu(QVariant* data, int eraId, Euro euro);
-
-    EnnakkoHyvitysModel* ennakkoModel_;
+    MaksumuistutusMuodostaja muodostaja_;
 };
 
-#endif // TAVALLINENLASKUDIALOGI_H
+#endif // MAKSUMUISTUSDIALOGI_H
