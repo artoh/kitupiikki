@@ -80,7 +80,7 @@ public:
 
 public slots:
     void lisaaRivi(TositeRivi rivi = TositeRivi());
-    void lisaaTuote(const Tuote& tuote);
+    void lisaaTuote(const Tuote& tuote, const QString &lkm = "1");
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
 

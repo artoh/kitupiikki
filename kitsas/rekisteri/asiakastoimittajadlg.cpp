@@ -22,8 +22,7 @@
 
 #include "ibandelegaatti.h"
 #include "validator/ytunnusvalidator.h"
-#include "laskutus/vanhalaskudialogi.h"
-
+#include "model/lasku.h"
 #include "db/kirjanpito.h"
 #include "laskutus/ryhmalasku/kielidelegaatti.h"
 #include "maaritys/verkkolasku/verkkolaskumaaritys.h"

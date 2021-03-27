@@ -387,8 +387,18 @@ void KumppaniTuoteWidget::yhdista()
 
 void KumppaniTuoteWidget::laskuta()
 {
-    VastikeLaskutus vastikeDlg(this);
-    vastikeDlg.exec();
+    if( valilehti_ == HUONEISTOT) {
+        VastikeLaskutus* vastikeDlg = new VastikeLaskutus(this);
+        if(vastikeDlg->exec() == QDialog::Accepted) {
+            QSet<int> huoneistot;
+            for(auto item : ui->view->selectionModel()->selectedIndexes()) {
+                huoneistot.insert( item.data(HuoneistoModel::IdRooli).toInt() );
+            }
+            vastikeDlg->laskuta( huoneistot.toList() );
+        } else {
+            vastikeDlg->deleteLater();
+        }
+    }
 }
 
 

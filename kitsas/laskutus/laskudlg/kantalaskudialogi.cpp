@@ -102,9 +102,9 @@ void KantaLaskuDialogi::alustaUi()
     ui->jaksoDate->setNull();
     ui->tilausPvm->setNull();
 
-    ui->maksuaikaSpin->setValue(kp()->asetukset()->luku("LaskuMaksuaika",14) );
-    ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
-    ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
+    ui->maksuaikaSpin->setValue(kp()->asetukset()->luku(AsetusModel::LaskuMaksuaika,14) );
+    ui->saateEdit->setPlainText( kp()->asetukset()->asetus(AsetusModel::EmailSaate) );
+    ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
 
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
     ui->tabWidget->setTabEnabled( lokiIndex, false);
@@ -565,8 +565,7 @@ void KantaLaskuDialogi::salliTallennus(bool sallinta)
     ui->tallennaNappi->setEnabled(sallinta);
 }
 
-
-
-
-
-
+QString KantaLaskuDialogi::otsikko() const
+{
+    return tr("Lasku %1").arg(tosite_->lasku().numero());
+}

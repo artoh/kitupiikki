@@ -20,7 +20,7 @@
 #include "rekisterituontimodel.h"
 #include "rekisterituontidelegaatti.h"
 #include "laskutus/ryhmalasku/kielidelegaatti.h"
-#include "laskutus/vanhalaskudialogi.h"
+#include "model/lasku.h"
 #include "maamodel.h"
 #include "db/kirjanpito.h"
 #include <QDebug>

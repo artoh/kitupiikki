@@ -18,6 +18,7 @@
 #include "db/tositetyyppimodel.h"
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
+#include "laskutus/huoneisto/huoneistomodel.h"
 
 #include <QDebug>
 #include <QPainter>
@@ -57,8 +58,8 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
         lisaa("lpvm", lasku.laskunpaiva());
         lisaa("lnro", lasku.numero());
 
-        if( lasku.jaksopvm().isValid()) {
-            lisaa("toimpvm", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
+        if( lasku.jaksopvm().isValid()) {           
+            lisaa( "laskutusjakso", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
                                                .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
         } else {
             lisaa("toimpvm", lasku.toimituspvm());
@@ -77,6 +78,12 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
 
     if( lasku.viivastyskorko() > 1e-3)
         lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));
+    if( lasku.valvonta() == Lasku::HUONEISTO) {
+        ViiteNumero viite( lasku.viite() );
+        int huoneistoId = viite.numero();
+        const QString& huoneistoTunnus = kitsas_->huoneistot()->tunnus(huoneistoId);
+        lisaa("huoneisto", huoneistoTunnus);
+    }
 
 }
 
@@ -132,13 +139,14 @@ void LaskunTietoLaatikko::ylatunnistePvmalue(QPainter *painter)
     if( kitsas_->onkoHarjoitus()) {
         painter->setPen( QPen(Qt::green ));
         painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
-        painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
+        painter->drawText( pRect, Qt::AlignHCenter | Qt::AlignVCenter,
                            kitsas_->kaanna("HARJOITUS", kieli_));
-    } else {
-        painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
-        painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
-                           QDate::currentDate().toString("dd.MM.yyyy"));
     }
+
+    painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
+    painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
+                       kitsas_->paivamaara().toString("dd.MM.yyyy"));
+
 }
 
 qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
@@ -182,9 +190,8 @@ void LaskunTietoLaatikko::piirra(QPainter *painter)
 {
     if( kitsas_->onkoHarjoitus())
         piirraHarjoitus(painter);
-    else
-        piirraTulostusPaiva(painter);
 
+    piirraTulostusPaiva(painter);
     piirraLaatikko(painter);
     piirraTekstit(painter);
 }
@@ -252,7 +259,7 @@ void LaskunTietoLaatikko::piirraHarjoitus(QPainter *painter)
     QRect harjoitusRect(0, 0, laatikko_.width(), laatikko_.y());
     painter->setPen( QPen(Qt::green ));
     painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
-    painter->drawText( harjoitusRect, Qt::AlignRight | Qt::AlignTop,
+    painter->drawText( harjoitusRect, Qt::AlignHCenter | Qt::AlignTop,
                        kitsas_->kaanna("HARJOITUS", kieli_));
     painter->restore();
 }
@@ -263,7 +270,7 @@ void LaskunTietoLaatikko::piirraTulostusPaiva(QPainter *painter)
     QRect harjoitusRect(0, 0, laatikko_.width(), laatikko_.y());
     painter->setFont(QFont("FreeSans", fonttikoko_));
     painter->drawText( harjoitusRect, Qt::AlignRight | Qt::AlignTop,
-                       QDate::currentDate().toString("dd.MM.yyyy"));
+                       kitsas_->paivamaara().toString("dd.MM.yyyy"));
     painter->restore();
 }
 

@@ -102,6 +102,16 @@ void HuoneistoModel::paivita()
     kysely->kysy();
 }
 
+QString HuoneistoModel::tunnus(int id) const
+{
+    for( const auto& item : huoneistot_) {
+        if( item.id() == id) {
+            return item.nimi();
+        }
+    }
+    return QString();
+}
+
 void HuoneistoModel::lataa(QVariant *data)
 {
     beginResetModel();

@@ -500,7 +500,7 @@ void TositeRivit::lisaaRivi(TositeRivi rivi)
     endInsertRows();
 }
 
-void TositeRivit::lisaaTuote(const Tuote &tuote)
+void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm)
 {
     TositeRivi rivi;
     rivi.setTuote(tuote.id());
@@ -511,11 +511,16 @@ void TositeRivit::lisaaTuote(const Tuote &tuote)
     else if( !tuote.yksikko().isEmpty())
         rivi.setYksikko( tuote.yksikko() );
 
+    rivi.setLaskutetaanKpl( lkm );
+    rivi.setMyyntiKpl( lkm.toDouble());
+
     rivi.setANetto( tuote.ahinta() );
     rivi.setTili( tuote.tili() );
     rivi.setKohdennus( tuote.kohdennus() );
     rivi.setAlvKoodi( tuote.alvkoodi() );
     rivi.setAleProsentti( tuote.alvprosentti() );
+
+    rivi.laskeYhteensa();
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
     rivit_.append(rivi);

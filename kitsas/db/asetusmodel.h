@@ -65,7 +65,9 @@ public:
         LaskuEnnakkosaatavaTili,
         LaskuSaatavaTili,
         EnnakkoAlvTili,
-        LaskuMaksuaika
+        LaskuMaksuaika,
+        EmailSaate,
+        LaskuPeruskorko
 
     };
 

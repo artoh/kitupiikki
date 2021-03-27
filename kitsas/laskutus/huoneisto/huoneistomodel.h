@@ -53,6 +53,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void paivita();
+    QString tunnus(int id) const;
 
 protected:
     void lataa(QVariant* data);    

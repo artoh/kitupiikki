@@ -191,7 +191,7 @@ muistutusnro,Maksumuistutuksen numero,Betalningspåminnelses nummer,Number of re
 asviite,Asiakkaan viite,Kundens referens,Your reference
 maksumuistutus,MAKSUMUISTUTUS,BETALNINGSPÅMINNELSE,REQUEST FOR PAYMENT
 hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
-yhteensa,yhteensä,totalt,total
+yhteensa,Yhteensä,totalt,total
 mmrivi,Laskun %1 avoin saldo,Saldo för faktura %1,Open balance for invoice %1
 anetto,á netto,,á net  
 kateislasku,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
@@ -205,7 +205,7 @@ pvm,Päivämäärä,Datum,Date
 bvn,Viitenumero|Ref.nr.,,Ref. No.
 huomaika,Huomautusaika,Anmärkningstid,Period for complaints
 svalv14,AVL 72 a §: Moms 0 % Gemenskapförsäljning,,
-lkm,lkm,antal,qty
+lkm,Määrä,antal,qty
 muistutusmaksu,Huomautuskulut,Betalningspåminnelses avgift,Request for payment fee
 alv0,Veroton myynti,Skattefria försäljning ,Tax free sale
 alvtunnus,ALV-tunnus,MOMS-nummer,VAT number
@@ -221,7 +221,7 @@ asytunnus,Asiakkaan y-tunnus,Kundens FO-nummer,Customer's Business ID
 jatkuu,Jatkuu...,Fortsätter...,To be continued...
 puhelin,Puhelin,Telefon,Phone
 eur,Euro,,
-ale%,ale%,rabatt%,discount%
+ale%,Alennus,rabatt%,discount%
 lnro,Laskun numero,Fakturans nummer,Invoice number
 bst,Saajan|tilinumero|Mottagarens|kontonummer,,Recipient's|account number
 virtviiv,Virtuaaliviivakoodi,Virtuell streckkod,Virtual barcode
@@ -241,7 +241,7 @@ hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kompensation för faktur
 hyvpvm,Hyvityksen päivämäärä,Kompensationdatum,Date of compensation
 sahkoposti,Sähköposti,E-post,Email
 bsa,Saaja|Mottagare,,Recipient
-vero,vero,skatt,tax
+vero,Vero,skatt,tax
 ahinta,á hinta,á pris,á price
 ennakkolasku,Ennakkolasku,Förhandsfaktura,Advance invoice
 enhyri,Ennakkolaskun %1 hyvitys,Kompensation för förhandsfaktura %1,Compensation for advance invoice %1
@@ -257,8 +257,8 @@ behto,Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vai
 harjoitus,HARJOITUS,ÖVNING,TRIAL
 aiempisaldo,Alemman erittelyn mukaisista laskuista on maksamatta yhteensä %L1 €,Obetalda totalsumman från fakturor enligt följande specificering är %L1 €,The total unpayed amount of invoices detailed below is %L1 €
 asalvtunnus,Asiakkaan ALV-tunnus,Kundens MOMS-nummer,Customer's VAT number
-netto,netto,,net
-nimike,nimike,produkt,product
+netto,Veroton,,net
+nimike,Nimike,produkt,product
 bep,Eräpäivä|Förfallodag,,Due date
 kpl,kpl,antal,quantity
 bak,Allekirjoitus|Underskrift,,Signature
@@ -291,3 +291,7 @@ UN_E21,osaketta,,
 UN_ZP,sivua,,
 toimitettu,Toimitettu,,
 jalkitoimitus,Jälkitoimitus,,
+huoneisto,Huoneisto,,
+verollinen,Verollinen,,
+veroton,Veroton,,
+laskutusjakso,Laskutusjakso,,

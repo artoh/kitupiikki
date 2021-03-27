@@ -17,7 +17,6 @@
 
 #include "laskusivu.h"
 
-#include "vanhalaskudialogi.h"
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"

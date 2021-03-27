@@ -42,7 +42,7 @@ void RiviVientiGeneroija::generoiViennit(Tosite *tosite)
     asetaEraId();
     tosite->viennit()->tyhjenna();
 
-    const Lasku& lasku = tosite_->constLasku();
+    Lasku& lasku = tosite_->lasku();
     if( lasku.valvonta() == Lasku::VAKIOVIITE ||
         lasku.valvonta() == Lasku::VALVOMATON )
         return;     // Ei vientejä!
@@ -57,6 +57,9 @@ void RiviVientiGeneroija::generoiViennit(Tosite *tosite)
     } else {
         generoiViennit(tosite->pvm());
     }
+
+    if( !lasku.summa() )
+        lasku.setSumma( alv_.brutto() );
 
 }
 

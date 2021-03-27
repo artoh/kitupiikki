@@ -42,6 +42,7 @@ public:
     int maksutapa() const;
 
     void tulosta(QPagedPaintDevice* printer) const override;
+    virtual QString otsikko() const override;
 
 signals:
     void tallennettuValmiina();
@@ -80,7 +81,7 @@ protected:
     virtual bool tarkasta();
 
     void salliTallennus(bool sallinta);
-    virtual QString ohje() { return "laskutus/uusi"; }
+    virtual QString ohje() { return "laskutus/uusi"; }    
 
 private:
     void alustaUi();
@@ -98,6 +99,10 @@ protected:
 
 private:
     HuoneistoModel* huoneistot_;
+
+
+
+
 };
 
 

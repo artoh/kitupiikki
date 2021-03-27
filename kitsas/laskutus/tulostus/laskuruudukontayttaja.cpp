@@ -71,9 +71,9 @@ TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
     if( vainSumma ) {
         veroruudukko.lisaaSarake( "", Qt::AlignRight, vahintaan );
     } else {
-        veroruudukko.lisaaSarake( kitsas_->kaanna("netto", kieli_), Qt::AlignRight, vahintaan );
+        veroruudukko.lisaaSarake( kitsas_->kaanna("veroton", kieli_), Qt::AlignRight, vahintaan );
         veroruudukko.lisaaSarake( kitsas_->kaanna("vero", kieli_), Qt::AlignRight, vahintaan );
-        veroruudukko.lisaaSarake( kitsas_->kaanna("brutto", kieli_), Qt::AlignRight, vahintaan );
+        veroruudukko.lisaaSarake( kitsas_->kaanna("verollinen", kieli_), Qt::AlignRight, vahintaan );
     }
 
     QList<int> indeksit = alv_.indeksitKaytossa();
@@ -175,7 +175,7 @@ void LaskuRuudukonTayttaja::kirjoitaSarakkeet()
     lisaaSarake("");    // Yksikkö
     lisaaSarake("anetto", Qt::AlignRight);
     if( aleSarake_ )
-        lisaaSarake("ale%", Qt::AlignRight);
+        lisaaSarake("ale", Qt::AlignRight);
     if( alvSarake_)
         lisaaSarake("alv",Qt::AlignRight);
     lisaaSarake("yhteensa", Qt::AlignRight);

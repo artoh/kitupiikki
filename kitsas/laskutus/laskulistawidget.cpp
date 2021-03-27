@@ -142,7 +142,6 @@ void LaskulistaWidget::paivita()
     int laji = ui->tabs->count() == 5 ? ui->tabs->currentIndex() : ui->tabs->currentIndex() + 2;
 
 //    ui->view->setColumnHidden( LaskuTauluModel::NUMERO,  laji < KAIKKI);
-    ui->view->setColumnHidden( LaskuTauluModel::PVM, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::MAKSAMATTA, laji < KAIKKI);
     ui->view->setColumnHidden( LaskuTauluModel::LAHETYSTAPA, laji >= KAIKKI );
 

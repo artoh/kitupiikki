@@ -67,11 +67,6 @@ void YksittainenLaskuDialogi::liiteTallennettu(QVariantMap tosite)
     int tila = tosite_->tila();
     if( tila == Tosite::LAHETETAAN) {
         LaskunToimittaja::toimita(tosite);
-/*
-        MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
-        QList<QVariantMap> lista;
-        lista << tosite;
-        toimittaja->toimitaLaskut(lista);
-*/
+
     }
 }
