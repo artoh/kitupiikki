@@ -48,17 +48,16 @@ void TavallinenLaskuDialogi::tositteelle()
 
     int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
     if( ui->tabWidget->isTabEnabled(toistoIndex) && ui->toistoGroup->isChecked()) {
-        tosite()->lasku().setToistoJaksoPituus( ui->toistoJaksoSpin->value() );
-
         const int paivat = ui->toistoEnnenRadio->isChecked() ?
                     0 - ui->toistoLaskuaikaSpin->value() :
                     0 + ui->toistoLaskuaikaSpin->value();
+        QDate seuraava = ui->jaksoDate->date().addDays(paivat);
 
-        tosite()->lasku().setToistoPvm( ui->jaksoDate->date().addDays( paivat ) );
-        tosite()->lasku().setToistoHinnastonMukaan( ui->toistoHinnastoCheck->isChecked() );
+        tosite()->lasku().setToisto( seuraava, ui->toistoJaksoSpin->value(),
+                                     ui->toistoHinnastoCheck->isChecked(), ui->toistoPvmPaattyy->date());
 
     } else {
-        tosite()->lasku().setToistoPvm( QDate());
+        tosite()->lasku().lopetaToisto();
     }
 
 }

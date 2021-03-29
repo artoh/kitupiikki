@@ -35,6 +35,22 @@ void Lasku::kopioi(const Lasku &lasku)
     data_ = lasku.data();
 }
 
+void Lasku::setToisto(const QDate &pvm, const int jaksoKuukautta, bool hinnastolla, const QDate &loppuu)
+{
+    set("toisto", toistoMap(pvm, jaksoKuukautta, hinnastolla, loppuu));
+}
+
+QVariantMap Lasku::toistoMap(const QDate &pvm, const int jaksoKuukautta, bool hinnastolla, const QDate &loppuu)
+{
+    QVariantMap map;
+    map.insert("pvm", pvm);
+    map.insert("jaksonpituus", jaksoKuukautta);
+    map.insert("hinnastolla", hinnastolla);
+    if( loppuu.isValid())
+        map.insert("loppuu", loppuu);
+    return map;
+}
+
 QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
 {
     qlonglong sentit = summa().cents();
