@@ -141,10 +141,18 @@ void PilviModel::poistaNykyinenPilvi()
     poisto->kysy();
 }
 
+QString PilviModel::ilmoitinTunnus() const
+{
+#ifdef KITSAS_DEVEL
+    return "3093902-7_KI";
+#endif
+    return data_.value("ilmoitin").toString();
+}
+
 qlonglong PilviModel::oikeudet(const QVariantList &lista)
 {
     qlonglong bittikartta = 0;
-    for(auto oikeus : lista) {
+    for(const auto& oikeus : lista) {
         try {
             bittikartta += oikeustunnukset__.at(oikeus.toString());
         } catch( std::out_of_range )
