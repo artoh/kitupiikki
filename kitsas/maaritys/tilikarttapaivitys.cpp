@@ -57,10 +57,10 @@ bool TilikarttaPaivitys::nollaa()
 
 QDate TilikarttaPaivitys::paivitysPvm()
 {
-    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
-    QFile kartta(polku + "/tilikartta.json");
+    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta") + ".kitsaskartta";
+    QFile kartta(polku);
     if( kartta.open(QIODevice::ReadOnly))
-        return  QJsonDocument::fromJson( kartta.readAll() ).toVariant().toMap().value("TilikarttaPvm").toDate();
+        return  QJsonDocument::fromJson( kartta.readAll() ).toVariant().toMap().value("asetukset").toMap().value("TilikarttaPvm").toDate();
     return QDate();
 }
 
@@ -84,9 +84,8 @@ void TilikarttaPaivitys::paivita()
     KpKysely *kysely = kpk("/init", KpKysely::PATCH);
 
     connect( kysely, &KpKysely::vastaus, this, &TilikarttaPaivitys::paivitetty);
-    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
-
-    kysely->kysy( lataaPaivitys( polku ) );
+    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta") + ".kitsaskartta";
+    kysely->kysy( UusiVelho::kartta(polku) );
 }
 
 void TilikarttaPaivitys::paivitetty()

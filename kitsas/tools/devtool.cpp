@@ -20,6 +20,8 @@
 #include <QVariant>
 #include <QClipboard>
 #include <QTableView>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "devtool.h"
 #include "ui_devtool.h"
@@ -49,6 +51,7 @@ DevTool::DevTool(QWidget *parent) :
     ui->lokiView->setModel(KitsasLokiModel::instanssi());
     connect( ui->lokiView->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &DevTool::lokiLeikepoydalle );
     connect( ui->copyButton, &QPushButton::clicked, [] {KitsasLokiModel::instanssi()->copyAll();});
+    connect( ui->vieNappi, &QPushButton::clicked, this, &DevTool::vie);
 
     alustaRistinolla();
 
@@ -235,6 +238,19 @@ void DevTool::lokiLeikepoydalle()
         qApp->clipboard()->setText(message);
 }
 
+void DevTool::vie()
+{
+    QString nimi = ui->tilikarttaNimi->text().toLower().replace(QRegularExpression("\\W"),"") + ".kitsaskartta";
+
+    QString tiedosto = QFileDialog::getSaveFileName(this, QString(), nimi,
+                                                    tr("Kitsaan tilikartta (*.kitsaskartta)","kitsaskartta on tiedostopääte - älä käännä!"));
+    if( !tiedosto.isEmpty()) {
+        KpKysely* kysely = kpk("/init");
+        connect(kysely, &KpKysely::vastaus, [this, tiedosto] (QVariant* data) {this->vieKartta(data, tiedosto);}  );
+        kysely->kysy();
+    }
+}
+
 int DevTool::voitonTarkastaja(const QVector<int>& taulu)
 {
     QStringList rivit;
@@ -268,6 +284,43 @@ int DevTool::voittajaRivilla(const QVector<int>& taulu, int a, int b, int c) con
         return taulu.at(a);
     else
         return 0;
+}
+
+void DevTool::vieKartta(QVariant *init, const QString &tiedosto)
+{
+    QVariantMap map = init->toMap();
+
+    for(const auto& avain :  QStringList { "kierrot", "kohdennukset", "tilikaudet", "tositesarjat"})
+        map.remove(avain);
+
+    QVariantMap asetukset = map.value("asetukset").toMap();
+    for(const auto& avain : QStringList{"AlvAlkaa", "LaskuAputoiminimi", "LaskuIbanit", "LaskuNumerointialkaa",
+        "Nimi", "Tilinavaus", "TilinavausPvm", "TilitPaatetty", "UID", "KpVersio", "Harjoitus",
+        "Luotu", "LuotuVersiolla"})
+        asetukset.remove(avain);
+
+    for(const auto& avain : asetukset.keys()) {
+        QString arvo = asetukset.value(avain).toString();
+        QJsonDocument json = QJsonDocument::fromJson( arvo.toUtf8() );
+        if( json.isArray() || json.isObject())
+            asetukset.insert(avain, json.toVariant());
+    }
+
+    asetukset.insert("Tilikartta", ui->tilikarttaNimi->text());
+    asetukset.insert("TilikarttaTekija", ui->tilikarttaTekija->text());
+    asetukset.insert("TilikarttaPvm", QDate::currentDate().toString(Qt::ISODate));
+    map.insert("asetukset", asetukset);
+
+    QFile file(tiedosto);
+    if( file.open(QIODevice::WriteOnly)) {
+        file.write( QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
+        QMessageBox::information(this, tr("Tilikartan vieminen onnistui"),
+                                 tr("Tilikartta viety tiedostoon %1").arg(tiedosto));
+    } else {
+        QMessageBox::critical(this, tr("Tilikartan vieminen epäonnistui"),
+                                     tr("Tiedostoon %1 ei voitu kirjoittaa").arg(tiedosto));
+    }
+
 }
 
 void DevTool::alustaRistinolla()

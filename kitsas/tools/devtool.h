@@ -50,6 +50,7 @@ protected slots:
     void peliNapautus(int ruutu);
 
     void lokiLeikepoydalle();
+    void vie();
 
 protected:
     /**
@@ -63,6 +64,8 @@ protected:
      */
     int voitonTarkastaja(const QVector<int> &taulu);
     int voittajaRivilla(const QVector<int> &taulu, int a, int b, int c) const;
+
+    void vieKartta(QVariant* init, const QString& tiedosto);
 
 protected:
     void alustaRistinolla();

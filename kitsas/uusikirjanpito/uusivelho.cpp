@@ -28,9 +28,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QMessageBox>
 
 #include <QDebug>
 #include <QPixmap>
+#include <QFileDialog>
 
 #include "uusialkusivu.h"
 #include "tilikausisivu.h"
@@ -72,21 +74,36 @@ UusiVelho::UusiVelho(QWidget *parent) :
 
 }
 
-void UusiVelho::lataaKartta(const QString &polku)
+bool UusiVelho::lataaKartta(const QString &polku)
 {
-    asetukset_ = asetukset(polku);
+    QVariantMap map = kartta(polku);
+    if( map.isEmpty())
+        return false;
+    QVariantMap asetukset = map.value("asetukset").toMap();
+    if( !asetukset.contains("KitsasVersio"))
+        return false;
+    asetukset_ = asetukset;
+    tilit_ = map.value("tilit").toList();
+    return true;
+}
 
-    // Tilit oma json-tiedosto
-    {
-        QFile tilit(polku + "/tilit.json");
-        if( tilit.open(QIODevice::ReadOnly) ) {
-            QJsonParseError error;
-            QJsonDocument doc = QJsonDocument::fromJson(tilit.readAll(), &error);
-            QVariant variant = doc.toVariant();
-            tilit_ = variant.toList();
+QVariantMap UusiVelho::kartta(const QString &polku)
+{
+    QFile kartta( polku );
+    if( kartta.open(QIODevice::ReadOnly)) {
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(kartta.readAll(), &error);
+        if( error.error ) {
+            QMessageBox::critical(nullptr, tr("Tilikartan lukeminen epäonnistui"),
+                                  tr("Virheellinen tilikarttatiedosto") + "\n" + error.errorString());
+            return QVariantMap();
+        } else {
+            QVariantMap map = doc.toVariant().toMap();
+            return map;
         }
     }
-
+    QMessageBox::critical(nullptr, tr("Tilikartan lukeminen epäonnistui"), tr("Tilikarttatiedostoa %1 ei voi avata").arg(polku));
+    return QVariantMap();
 }
 
 QVariantMap UusiVelho::data() const
@@ -214,18 +231,31 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
 {
     ui->setupUi(this);
     setTitle( tr("Tilikartta"));
+    connect( ui->tiedostoNappi, &QPushButton::clicked, this, &Tilikarttasivu::tiedostosta );
 }
 
 bool UusiVelho::Tilikarttasivu::validatePage()
 {
-    if( ui->yhdistysButton->isChecked() )
-        velho->lataaKartta(":/tilikartat/yhdistys");
+    if( velho->ladattu())
+        return true;
+    else if( ui->yhdistysButton->isChecked() )
+        return velho->lataaKartta(":/tilikartat/yhdistys.kitsaskartta");
     else if(ui->elinkeinoRadio->isChecked())
-        velho->lataaKartta(":/tilikartat/yritys");
+        return velho->lataaKartta(":/tilikartat/yritys.kitsaskartta");
     else if(ui->asoyButton->isChecked())
-        velho->lataaKartta(":/tilikartat/asoy");
+        return velho->lataaKartta(":/tilikartat/asoy.kitsaskartta");
+    else
+        return false;
+}
 
-    return true;
+void UusiVelho::Tilikarttasivu::tiedostosta()
+{
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilikarttatiedoston"), QString(),
+                                                    tr("Kitsaan tilikartta (*.kitsaskartta)",".kitsaskartta on tiedostopääte - älä käännä sitä"));
+    if( !tiedosto.isEmpty() ) {
+        if( velho->lataaKartta(tiedosto) );
+            wizard()->next();
+    }
 }
 
 

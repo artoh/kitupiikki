@@ -55,6 +55,12 @@ TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
     ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
     ui->alaTabs->hide();
     ui->alaTabs->setCurrentIndex(MAKSU);
+
+    ui->tiliLabel->setText(tr("Vastatili"));
+    ui->tiliLabel->setVisible(true);
+    ui->tiliEdit->setVisible(true);
+    ui->tiliEdit->suodataTyypilla("AR.*");
+    ui->tiliEdit->valitseTili( kp()->tilit()->tiliTyypilla(TiliLaji::PANKKITILI) );
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -68,17 +74,23 @@ void TilioteKirjaaja::asetaPvm(const QDate &pvm)
 }
 
 
+
+
 void TilioteKirjaaja::accept()
 {
     if( ui->okNappi->isEnabled() ) {
-        tallennaRivi();
-        if( riviIndeksi_ > -1) {
-            apuri()->model()->asetaRivi(riviIndeksi_, tallennettava());
+        if( !apuri()) {
             QDialog::accept();
         } else {
-            apuri()->model()->lisaaRivi(tallennettava());
+            tallennaRivi();
+            if( riviIndeksi_ > -1) {
+                apuri()->model()->asetaRivi(riviIndeksi_, tallennettava());
+                QDialog::accept();
+            } else {
+                apuri()->model()->lisaaRivi(tallennettava());
+            }
+            tyhjenna();
         }
-        tyhjenna();
     }
 }
 
@@ -554,6 +566,7 @@ void TilioteKirjaaja::naytaRivi()
     nykyVientiRivi_ = rivi;
 }
 
+
 void TilioteKirjaaja::tallennaRivi()
 {
     const int rivi = nykyVientiRivi_;
@@ -581,12 +594,15 @@ void TilioteKirjaaja::tallennaRivi()
     viennit_->asetaVienti(rivi, vienti);
 }
 
-TilioteKirjausRivi TilioteKirjaaja::tallennettava() const
+QList<TositeVienti> TilioteKirjaaja::viennit() const
 {
-    QList<TositeVienti> viennit;
+    QList<TositeVienti> vientiLista;
 
     TositeVienti pankki(pankkiVienti_);
     pankki.setPvm( ui->pvmEdit->date() );
+
+    if( !apuri() ) // Kun tätä käytetään siirtoapurissa, saadaan pankkitili tästä
+        pankki.setTili( ui->tiliEdit->valittuTilinumero() );
 
     if ( ui->alaTabs->currentIndex() == MAKSU ) {
         TositeVienti suoritus;
@@ -608,7 +624,10 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava() const
         suoritus.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
         suoritus.setTili( index.data(LaskuTauluModel::TiliRooli).toInt());
 
-        viennit << pankki << suoritus;
+        pankki.setDebet( ui->euroEdit->value() );
+        suoritus.setKredit( ui->euroEdit->value());
+
+        vientiLista << pankki << suoritus;
     } else if( ui->alaTabs->currentIndex() == SIIRTO ) {
         TositeVienti siirto;
         siirto.setPvm(pankki.pvm());
@@ -626,28 +645,35 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava() const
         pankki.setDebet( ui->euroEdit->value() );
         siirto.setKredit( ui->euroEdit->value());
 
-        viennit << pankki << siirto;
+        vientiLista << pankki << siirto;
     } else {
         int tyyppi = ui->ylaTab->currentIndex() ^ (ui->alaTabs->currentIndex() == HYVITYS) ? TositeVienti::OSTO : TositeVienti::MYYNTI;
         pankki.setTyyppi( tyyppi + TositeVienti::VASTAKIRJAUS );
         pankki.setSelite( viennit_->vienti(0).selite() );
         pankki.setKumppani( ui->asiakastoimittaja->map());
         pankki.setDebet( viennit_->summa() );
-        viennit << pankki;
+        vientiLista << pankki;
         for(const auto& vienti : viennit_->viennit()) {
             TositeVienti tapahtuma(vienti);
             tapahtuma.setPvm(pankki.pvm());
             tapahtuma.setTyyppi(tyyppi + TositeVienti::KIRJAUS);
             if(tapahtuma.debet() > 1e-5 || tapahtuma.kredit() > 1e-5)
-                viennit << tapahtuma;
+                vientiLista << tapahtuma;
         }
     }
+    return vientiLista;
+}
+
+TilioteKirjausRivi TilioteKirjaaja::tallennettava() const
+{
+    QList<TositeVienti> vientiLista = viennit();
 
     TilioteKirjausRivi kirjaus =
             riviIndeksi_ < 0
-            ? TilioteKirjausRivi( pankki.pvm(), apuri()->model() )
+            ? TilioteKirjausRivi(  vientiLista.value(0).pvm(), apuri()->model() )
             : apuri()->model()->rivi(riviIndeksi_);
-    kirjaus.asetaViennit(viennit);
+
+    kirjaus.asetaViennit(vientiLista);
     return kirjaus;
 }
 

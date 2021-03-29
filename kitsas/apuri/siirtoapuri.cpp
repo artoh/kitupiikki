@@ -319,7 +319,16 @@ void SiirtoApuri::eraValittu(bool debet, int eraId, Euro avoinna, const QString 
 void SiirtoApuri::laskunmaksu()
 {
     TilioteKirjaaja kirjaaja(this);
-    kirjaaja.exec();
-
+    if( kirjaaja.exec() == QDialog::Accepted) {
+        // Tehdään jotain vientilistalla ???
+        QVariantList lista;
+        for(const auto& item : kirjaaja.viennit()) {
+            lista.append(item);
+        }
+        if( lista.at(0).toMap().value("kredit").toDouble() > 1e-5)
+            lista.swapItemsAt(0,1);
+        tosite()->viennit()->asetaViennit(lista);
+        reset();
+    }
 }
 

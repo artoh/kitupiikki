@@ -16,6 +16,9 @@
         <file>asoy/raportit.json</file>
         <file>asoy/tilinpaatos.txt</file>
         <file>asoy/tilit.json</file>
-        <file>asoy/tilikartta.json</file>		
+        <file>asoy/tilikartta.json</file>
+        <file>yhdistys.kitsaskartta</file>
+        <file>yritys.kitsaskartta</file>
+        <file>asoy.kitsaskartta</file>
     </qresource>
 </RCC>

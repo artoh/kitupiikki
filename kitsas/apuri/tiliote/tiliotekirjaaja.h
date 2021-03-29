@@ -47,6 +47,7 @@ public:
     ~TilioteKirjaaja() override;
 
     void asetaPvm(const QDate& pvm);    
+    QList<TositeVienti> viennit() const;
 
 public slots:
     void accept() override;

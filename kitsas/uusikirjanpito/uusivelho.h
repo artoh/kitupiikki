@@ -37,7 +37,9 @@ class UusiVelho : public QWizard
 public:
     UusiVelho(QWidget *parent = nullptr);
     enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
-    void lataaKartta(const QString& polku);
+    bool lataaKartta(const QString& polku);
+    static QVariantMap kartta(const QString& polku);
+    bool ladattu() const { return !tilit_.isEmpty();}
 
     QVariantMap data() const;
     QString polku() const;
@@ -78,6 +80,7 @@ protected:
         Tilikarttasivu(UusiVelho *wizard);
         bool validatePage() override;
     protected:
+        void tiedostosta();
         Ui::UusiTilikartta *ui;
         UusiVelho *velho;
     };
