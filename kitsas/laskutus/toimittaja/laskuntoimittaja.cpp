@@ -162,6 +162,7 @@ void LaskunToimittaja::tarkastaValmis()
 
     if( !kaynnissa) {
         hide();
+        emit kp()->kirjanpitoaMuokattu();
 
         if( onnistuneet_ && !epaonnistuneet_) {
             if( onnistuneet_ == 1) {

@@ -253,11 +253,9 @@ void TilioteKirjaaja::valitseLasku()
 {
     QModelIndex index = ui->maksuView->currentIndex();
 
-    if( index.isValid()) {
+    if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
-
-//        haeAlkuperaisTosite( index.data(LaskuTauluModel::EraIdRooli).toInt() );
     }
 }
 
@@ -446,6 +444,8 @@ void TilioteKirjaaja::alusta()
     ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("24 %"), 24.0);
     ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("14 %"), 14.0);
     ui->alvCombo->addItem(QIcon(":/pic/lihavoi.png"), QString("10 %"), 10.0);
+
+    ylaTabMuuttui( ui->ylaTab->currentIndex() );
 }
 
 TilioteApuri *TilioteKirjaaja::apuri() const
@@ -624,8 +624,8 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         suoritus.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
         suoritus.setTili( index.data(LaskuTauluModel::TiliRooli).toInt());
 
-        pankki.setDebet( ui->euroEdit->value() );
-        suoritus.setKredit( ui->euroEdit->value());
+        pankki.setDebet( ui->euroEdit->euro() );
+        suoritus.setKredit( ui->euroEdit->euro());
 
         vientiLista << pankki << suoritus;
     } else if( ui->alaTabs->currentIndex() == SIIRTO ) {
@@ -642,10 +642,29 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         siirto.setEra( ui->eraCombo->eraMap());
         siirto.setMerkkaukset( ui->merkkausCC->selectedDatas());
 
-        pankki.setDebet( ui->euroEdit->value() );
-        siirto.setKredit( ui->euroEdit->value());
+        pankki.setDebet( ui->euroEdit->euro() );
+        siirto.setKredit( ui->euroEdit->euro());
 
         vientiLista << pankki << siirto;
+    } else if( ui->alaTabs->currentIndex() == VAKIOVIITE) {
+        TositeVienti maksu;
+        maksu.setPvm( pankki.pvm());
+        pankki.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+        maksu.setTyyppi( TositeVienti::MYYNTI + TositeVienti::KIRJAUS );
+
+        QModelIndex index = ui->maksuView->currentIndex();
+        const QVariantMap& map = index.data(VakioViiteModel::MapRooli).toMap();
+        pankki.setSelite(map.value("otsikko").toString());
+        maksu.setSelite(map.value("otsikko").toString());
+        maksu.setTili( map.value("tili").toInt());
+        maksu.setKohdennus( map.value("kohdennus").toInt());
+        pankki.setViite( map.value("viite").toString() );
+
+        pankki.setDebet( ui->euroEdit->euro() );
+        maksu.setKredit( ui->euroEdit->euro());
+
+        vientiLista << pankki << maksu;
+
     } else {
         int tyyppi = ui->ylaTab->currentIndex() ^ (ui->alaTabs->currentIndex() == HYVITYS) ? TositeVienti::OSTO : TositeVienti::MYYNTI;
         pankki.setTyyppi( tyyppi + TositeVienti::VASTAKIRJAUS );
