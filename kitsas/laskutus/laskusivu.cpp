@@ -27,6 +27,7 @@
 #include "laskulistawidget.h"
 
 #include "viitenumero.h"
+#include "pilvi/pilvimodel.h"
 
 #include <QTabBar>
 #include <QSplitter>
@@ -71,6 +72,8 @@ LaskuSivu::~LaskuSivu()
 
 void LaskuSivu::siirrySivulle()
 {
+    paaTab_->setTabEnabled( HUONEISTOT, qobject_cast<PilviModel*>(kp()->yhteysModel()) );
+
     paaTab( paaTab_->currentIndex() );
 }
 
@@ -163,7 +166,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/mies.png"),tr("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
-    paaTab_->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviitteet"));
+    paaTab_->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviitteet"));        
     paaTab_->addTab(QIcon(":/pic/talo.png"), tr("&Huoneistot"));
 
     asiakasSuodatusEdit_ = new QLineEdit();

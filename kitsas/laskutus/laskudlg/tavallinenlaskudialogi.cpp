@@ -25,6 +25,7 @@
 #include "model/tositerivi.h"
 #include "model/tositerivit.h"
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 
 TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     : RivillinenLaskuDialogi(tosite, parent),
@@ -101,6 +102,13 @@ void TavallinenLaskuDialogi::toistoTositteelta()
 
 void TavallinenLaskuDialogi::paivitaToistojakso()
 {
+    int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
+    bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+    if(!pilvessa) {
+        ui->tabWidget->setTabEnabled(toistoIndex, false);
+        return;
+    }
+
     QDate alku = ui->toimitusDate->date();
     const QDate& loppu = ui->jaksoDate->date();
     int kk = 0;
@@ -117,7 +125,6 @@ void TavallinenLaskuDialogi::paivitaToistojakso()
     }
 
     int maksutapa = ui->maksuCombo->currentData().toInt();
-    int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
     ui->tabWidget->setTabEnabled( toistoIndex,
                 ( maksutapa == Lasku::LASKU || maksutapa == Lasku::KUUKAUSITTAINEN)
                 && kk > 0);

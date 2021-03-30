@@ -43,7 +43,7 @@
 #include <QMessageBox>
 
 #include "rekisteri/maamodel.h"
-
+#include "pilvi/pilvimodel.h"
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
@@ -171,7 +171,10 @@ void KantaLaskuDialogi::paivitaValvonnat()
     if( maksutapa() != Lasku::KUUKAUSITTAINEN)
         ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
 
-    if( !ladattuAsiakas_.isEmpty()) ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
+    bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+
+
+    if( !ladattuAsiakas_.isEmpty() && pilvessa ) ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
     if( huoneistot_->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
     if( kp()->vakioViitteet()->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
     ui->valvontaCombo->addItem(QIcon(":/pic/eikaytossa.png"), tr("Valvomaton"), Lasku::VALVOMATON);
