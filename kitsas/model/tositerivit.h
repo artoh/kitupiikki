@@ -67,10 +67,7 @@ public:
 
     QVariantList rivit() const;
 
-
-
-    Euro yhteensa() const;
-    QVariantList viennit(const Tosite& tosite) const;
+    Euro yhteensa() const;    
 
     bool onkoTyhja() const;
 

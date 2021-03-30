@@ -40,6 +40,11 @@ void Lasku::setToisto(const QDate &pvm, const int jaksoKuukautta, bool hinnastol
     set("toisto", toistoMap(pvm, jaksoKuukautta, hinnastolla, loppuu));
 }
 
+void Lasku::lopetaToisto()
+{
+    unset("toisto");
+}
+
 QVariantMap Lasku::toistoMap(const QDate &pvm, const int jaksoKuukautta, bool hinnastolla, const QDate &loppuu)
 {
     QVariantMap map;

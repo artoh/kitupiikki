@@ -37,9 +37,20 @@ TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ennakkoModel_, &EnnakkoHyvitysModel::modelReset, this, &TavallinenLaskuDialogi::maksuTapaMuuttui);
     connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, this, &TavallinenLaskuDialogi::hyvitaEnnakko);
 
+    connect( ui->toistoGroup, &QGroupBox::toggled, this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoLaskuaikaSpin, qOverload<int>(&QSpinBox::valueChanged), this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoErapaivaSpin, qOverload<int>(&QSpinBox::valueChanged), this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoEnnenRadio, &QRadioButton::toggled, this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoPvmPaattyy, &KpDateEdit::dateChanged, this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoHinnastoCheck, &QRadioButton::toggled, this, &TavallinenLaskuDialogi::paivitaNapit);
+
+    connect( ui->tallennaToistoNappi, &QPushButton::clicked, this, &TavallinenLaskuDialogi::tallennaToisto);
+    connect( ui->lopetaToistoNappi, &QPushButton::clicked, this, &TavallinenLaskuDialogi::lopetaToisto);
+
     ui->toistoPvmPaattyy->setNull();
 
-    toistoTositteelta();
+    toistoTositteelta();    
+    merkkaaTallennettu();
 }
 
 void TavallinenLaskuDialogi::tositteelle()
@@ -48,18 +59,23 @@ void TavallinenLaskuDialogi::tositteelle()
 
     int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
     if( ui->tabWidget->isTabEnabled(toistoIndex) && ui->toistoGroup->isChecked()) {
-        const int paivat = ui->toistoEnnenRadio->isChecked() ?
-                    0 - ui->toistoLaskuaikaSpin->value() :
-                    0 + ui->toistoLaskuaikaSpin->value();
-        QDate seuraava = ui->jaksoDate->date().addDays(paivat);
 
-        tosite()->lasku().setToisto( seuraava, ui->toistoJaksoSpin->value(),
+
+        tosite()->lasku().setToisto( toistoPvm(), ui->toistoJaksoSpin->value(),
                                      ui->toistoHinnastoCheck->isChecked(), ui->toistoPvmPaattyy->date());
 
     } else {
         tosite()->lasku().lopetaToisto();
     }
 
+}
+
+QDate TavallinenLaskuDialogi::toistoPvm() const
+{
+    const int paivat = ui->toistoEnnenRadio->isChecked() ?
+                0 - ui->toistoLaskuaikaSpin->value() :
+                0 + ui->toistoLaskuaikaSpin->value();
+    return ui->jaksoDate->date().addDays(paivat);
 }
 
 
@@ -163,5 +179,56 @@ void TavallinenLaskuDialogi::ennakkoTietoSaapuu(QVariant *data, int eraId, Euro 
             tosite()->rivit()->lisaaRivi(rivi);
         }
     }
+}
+
+void TavallinenLaskuDialogi::tallennaToisto()
+{
+    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite()->id()), KpKysely::PATCH);
+    connect( kysely, &KpKysely::vastaus, [this]  {this->merkkaaTallennettu(); this->paivitaNapit();});
+    QVariantMap map;
+    map.insert("laskutoisto", Lasku::toistoMap( toistoPvm(), ui->toistoJaksoSpin->value(),
+                                           ui->toistoHinnastoCheck->isChecked(), ui->toistoPvmPaattyy->date() ));
+    kysely->kysy( map );
+}
+
+void TavallinenLaskuDialogi::lopetaToisto()
+{
+    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite()->id()), KpKysely::PATCH);
+    connect( kysely, &KpKysely::vastaus, [this]  {this->ui->toistoGroup->setChecked(false);
+                                                  this->merkkaaTallennettu();});
+    QVariantMap map;
+    map.insert("laskutoisto", QVariant());
+    kysely->kysy( map );
+}
+
+void TavallinenLaskuDialogi::merkkaaTallennettu()
+{
+    tallennettuKaytossa_ = ui->toistoGroup->isChecked();
+    tallennettuJakso_ = ui->toistoJaksoSpin->value();
+    tallennettuLaskutus_ = ui->toistoLaskuaikaSpin->value();
+    tallennettuEnnen_ = ui->toistoEnnenRadio->isChecked();
+    tallennettuPaattyy_ = ui->toistoPvmPaattyy->date();
+    tallennettuHinnastolla_ = ui->toistoHinnastoCheck->isChecked();
+    paivitaNapit();
+}
+
+bool TavallinenLaskuDialogi::onkoTallennettu()
+{
+    if( !ui->toistoGroup->isChecked() && !tallennettuKaytossa_)
+        return true;
+    else
+        return tallennettuKaytossa_ == ui->toistoGroup->isChecked() &&
+                tallennettuJakso_ == ui->toistoJaksoSpin->value() &&
+                tallennettuLaskutus_ == ui->toistoLaskuaikaSpin->value() &&
+                tallennettuEnnen_ == ui->toistoEnnenRadio->isChecked() &&
+                ( (!tallennettuPaattyy_.isValid() && !ui->toistoPvmPaattyy->date().isValid())
+                  || tallennettuPaattyy_ == ui->toistoPvmPaattyy->date() ) &&
+                tallennettuHinnastolla_ == ui->toistoHinnastoCheck->isChecked();
+}
+
+void TavallinenLaskuDialogi::paivitaNapit()
+{
+    ui->tallennaNappi->setEnabled( !onkoTallennettu() && ui->toistoGroup->isChecked() );
+    ui->lopetaToistoNappi->setEnabled( tallennettuKaytossa_ );
 }
 

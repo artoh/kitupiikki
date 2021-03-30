@@ -29,6 +29,7 @@ public:
 
 protected:
     void tositteelle() override;
+    QDate toistoPvm() const;
 
     void toistoTositteelta();
     void paivitaToistojakso();
@@ -38,7 +39,21 @@ protected:
     void hyvitaEnnakko();
     void ennakkoTietoSaapuu(QVariant* data, int eraId, Euro euro);
 
+    void tallennaToisto();
+    void lopetaToisto();
+
     EnnakkoHyvitysModel* ennakkoModel_;
+
+    void merkkaaTallennettu();
+    bool onkoTallennettu();
+    void paivitaNapit();
+
+    bool tallennettuKaytossa_ = false;
+    int tallennettuJakso_ = 0;
+    int tallennettuLaskutus_ = 0;
+    bool tallennettuEnnen_ = false;
+    bool tallennettuHinnastolla_ = false;
+    QDate tallennettuPaattyy_;
 };
 
 #endif // TAVALLINENLASKUDIALOGI_H

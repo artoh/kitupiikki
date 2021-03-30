@@ -170,25 +170,10 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
                                  );
 
 
-    connect( muistutus, &Tosite::tositeTallennettu, this, &UusiMaksumuistutusDialogi::tallennaLiite );
-    muistutus->tallennaLiitteitta( Tosite::VALMISLASKU );
+    connect( muistutus, &Tosite::laskuTallennettu, this, &UusiMaksumuistutusDialogi::merkkaaMuistutetuksi );
+    muistutus->tallennaLasku( Tosite::VALMISLASKU );
 }
 
-
-
-void UusiMaksumuistutusDialogi::tallennaLiite(QVariant *data)
-{
-    Tosite tallennettu;
-    QVariantMap map = data->toMap();
-
-    tallennettu.lataa(map);
-
-
-    LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
-    connect( tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
-             [this, map] { this->merkkaaMuistutetuksi(map);});
-    tulostaja->tallennaLaskuLiite(tallennettu);
-}
 
 void UusiMaksumuistutusDialogi::merkkaaMuistutetuksi(const QVariantMap &data)
 {

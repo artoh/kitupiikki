@@ -128,18 +128,14 @@ public:
 
     QString iban() const { return str("iban");}
 
+    void setToisto(const QDate& pvm, const int jaksoKuukautta, bool hinnastolla = true, const QDate& loppuu = QDate());
+    void lopetaToisto();
+    static QVariantMap toistoMap(const QDate& pvm, const int jaksoKuukautta, bool hinnastolla = true, const QDate& loppuu = QDate());
     // Päivä jolloin seuraava toistolasku lähtee
-    QDate toistoPvm() const { return pvm("toistopvm");}
-    void setToistoPvm(const QDate& pvm) { set("toistopvm", pvm);}
-
-    QDate toistoLoppuu() const { return pvm("toistoloppuu");}
-    void setToistoLoppuu(const QDate& pvm) { set("toistoloppuu", pvm);}
-
-    int toistoJaksoPituus() const { return luku("toistojaksopituus");}
-    void setToistoJaksoPituus(const int kuukautta) { set("toistojaksopituus", kuukautta);}
-
-    bool toistoHinnastonMukaan() const { return luku("toistohinnastonmukaan");}
-    void setToistoHinnastonMukaan(bool onko) { if(onko) set("toistohinnastonmukaan", 1); else unset("toistohinnastonmukaan"); }
+    QDate toistoPvm() const { return arvo("toisto").toMap().value("pvm").toDate();  }
+    QDate toistoLoppuu() const { return arvo("toisto").toMap().value("loppuu").toDate();}
+    int toistoJaksoPituus() const { return arvo("toisto").toMap().value("jaksonpituus").toInt();}
+    bool toistoHinnastonMukaan() const { return arvo("toisto").toMap().value("hinnastolla").toBool();}
 
     QDate laskunpaiva() const { return pvm("pvm");}
     void setLaskunpaiva(const QDate& pvm) { set("pvm", pvm);}

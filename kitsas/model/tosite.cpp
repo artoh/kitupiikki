@@ -25,6 +25,8 @@
 #include "db/tositetyyppimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 
+#include "laskutus/tulostus/laskuntulostaja.h"
+
 #include <QJsonDocument>
 #include <QDebug>
 #include <QTimer>
@@ -312,7 +314,7 @@ void Tosite::lataaData(QVariant *variant)
     lataa( variant->toMap());
 }
 
-void Tosite::tallennaLiitteitta(int tilaan)
+void Tosite::tallennaLasku(int tilaan)
 {
     asetaTila( tilaan );
 
@@ -322,7 +324,7 @@ void Tosite::tallennaLiitteitta(int tilaan)
     else
         kysely = kpk( QString("/tositteet/%1").arg( id() ), KpKysely::PUT);
 
-    connect(kysely, &KpKysely::vastaus, this, &Tosite::tositeTallennettu  );
+    connect(kysely, &KpKysely::vastaus, this, &Tosite::tallennaLaskuliite  );
     connect(kysely, &KpKysely::virhe, this, &Tosite::tallennusvirhe);
 
     kysely->kysy( tallennettava() );
@@ -477,6 +479,17 @@ void Tosite::latausValmis()
 {
     resetointiKaynnissa_ = false;
     tarkasta();
+}
+
+void Tosite::tallennaLaskuliite(QVariant *data)
+{
+    lataaData(data);
+    QVariantMap map = tallennettava();
+
+    LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
+    connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
+            [this, map] { emit this->laskuTallennettu(map); } );
+    tulostaja->tallennaLaskuLiite(*this);
 }
 
 QVariantMap Tosite::tallennettava() const

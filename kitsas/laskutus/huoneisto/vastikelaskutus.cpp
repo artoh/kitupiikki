@@ -22,7 +22,7 @@
 #include "laskutus/tuotemodel.h"
 #include "model/tositerivit.h"
 #include "laskutus/laskudlg/rivivientigeneroija.h"
-#include "laskutus/tulostus/laskuntulostaja.h"
+
 
 #include <QPushButton>
 #include <QProgressDialog>
@@ -39,7 +39,7 @@ VastikeLaskutus::VastikeLaskutus(QWidget *parent) :
     ui->jaksoAlkaa->setDate(date);
     ui->jaksoLoppuu->setDate( date.addMonths(12).addDays(-1) );
 
-    connect( &tosite_, &Tosite::tositeTallennettu, this, &VastikeLaskutus::tallennettu);
+    connect( &tosite_, &Tosite::laskuTallennettu, this, &VastikeLaskutus::laskutaSeuraava);
 }
 
 void VastikeLaskutus::laskuta(const QList<int> &huoneistot)
@@ -93,7 +93,7 @@ void VastikeLaskutus::asiakasSaapuu(QVariant *data)
     asetaAsiakas( data->toMap());
     lisaaTuotteet();
 
-    tosite_.tallennaLiitteitta(Tosite::VALMISLASKU);
+    tosite_.tallennaLasku(Tosite::VALMISLASKU);
 }
 
 void VastikeLaskutus::alustaTosite()
@@ -144,13 +144,3 @@ void VastikeLaskutus::lisaaTuotteet()
     riviGeneroija.generoiViennit(&tosite_);
 }
 
-void VastikeLaskutus::tallennettu(QVariant *data)
-{
-    Tosite tallennettu;
-    tallennettu.lataaData(data);
-
-    LaskunTulostaja *tulostaja = new LaskunTulostaja(kp());
-    connect( tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
-             this, &VastikeLaskutus::laskutaSeuraava);
-    tulostaja->tallennaLaskuLiite(tallennettu);
-}

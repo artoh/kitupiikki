@@ -44,7 +44,6 @@ protected:
     void tallennaMuistutus(int era);
 
     void tallennaSeuraava();
-    void tallennaLiite(QVariant* data);
     void merkkaaMuistutetuksi(const QVariantMap& data);
 
 private:

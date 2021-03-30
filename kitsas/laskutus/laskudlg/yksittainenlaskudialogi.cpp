@@ -29,7 +29,7 @@
 YksittainenLaskuDialogi::YksittainenLaskuDialogi(Tosite *tosite, QWidget *parent)
     : KantaLaskuDialogi(tosite, parent)
 {
-    connect( tosite, &Tosite::tositeTallennettu, this, &YksittainenLaskuDialogi::tallennettu);
+    connect( tosite, &Tosite::laskuTallennettu, this, &YksittainenLaskuDialogi::tallennettu);
     connect( tosite, &Tosite::tallennusvirhe, [this] () { QMessageBox::critical(this, tr("Tallennusvirhe"),
                                                                                       tr("Laskun tallennus epäonnistui")); });
 }
@@ -39,24 +39,11 @@ void YksittainenLaskuDialogi::tallenna(int tilaan)
     if( tarkasta() ) {
         tositteelle();
         valmisteleTallennus();
-        tosite_->tallennaLiitteitta(tilaan);
+        tosite_->tallennaLasku(tilaan);
     }
 }
 
-void YksittainenLaskuDialogi::tallennettu(QVariant *vastaus)
-{
-    Tosite tallennettuTosite;
-    tallennettuTosite.lataaData(vastaus);
-    QVariantMap data = tallennettuTosite.tallennettava();
-
-    LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
-
-    connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
-            [this, data] { this->liiteTallennettu(data); } );
-    tulostaja->tallennaLaskuLiite(tallennettuTosite);
-}
-
-void YksittainenLaskuDialogi::liiteTallennettu(QVariantMap tosite)
+void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
 {
     // Nyt tallennus on saatettu loppuun saakka!
     // Tähän vielä laskun toimittaminen

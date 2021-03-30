@@ -14,23 +14,40 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef YKSITTAINENLASKUDIALOGI_H
-#define YKSITTAINENLASKUDIALOGI_H
+#ifndef LASKUNUUSINTA_H
+#define LASKUNUUSINTA_H
 
-#include "kantalaskudialogi.h"
+#include <QObject>
+#include <QTimer>
+#include <QQueue>
 
-class YksittainenLaskuDialogi : public KantaLaskuDialogi
+class Tosite;
+
+class LaskunUusinta : public QObject
 {
     Q_OBJECT
 public:
-    YksittainenLaskuDialogi(Tosite * tosite, QWidget* parent = nullptr);
+    LaskunUusinta(QObject *parent = nullptr);
 
-protected:
-    void tallenna(int tilaan) override;
-    void tallennettu(QVariantMap tosite);
+signals:
 
-    virtual void valmisteleTallennus() = 0;
+private:
+    void ajastaUusita();
+    void uusiLaskut();
+    void listaSaapuu(QVariant* lista);
+    void uusiSeuraava();
+    void uusittavaLadattu();
+    void paivitaHinnat();
+    void asiakasSaapuu(QVariant* asiakas);
+    void jatkaTallentamaan();
+    void laskuUusittu();
 
+    QTimer timer_;
+    QQueue<int> jono_;
+
+    Tosite* tosite_;
+    Tosite* uusi_;
+    bool busy_ = false;
 };
 
-#endif // YKSITTAINENLASKUDIALOGI_H
+#endif // LASKUNUUSINTA_H

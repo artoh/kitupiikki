@@ -155,7 +155,7 @@ public:
 
 signals:
     void ladattu();
-    void tositeTallennettu(QVariant* data);
+    void laskuTallennettu(QVariantMap data);
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);    
     void tallennusvirhe(int virhe);
     void tilaTieto(bool muokattu, int virheet, double debet, double kredit);
@@ -176,7 +176,7 @@ public slots:
     void lataa(int tositeid);
     void lataa(const QVariantMap& map);
     void lataaData(QVariant *variant);
-    void tallennaLiitteitta(int tilaan = Tosite::KIRJANPIDOSSA);
+    void tallennaLasku(int tilaan = Tosite::KIRJANPIDOSSA);
     void tallenna(int tilaan = Tosite::KIRJANPIDOSSA);
     void tarkasta();
     void nollaa(const QDate& pvm, int tyyppi);
@@ -187,6 +187,8 @@ protected slots:
     void liitteetTallennettu();
     void laitaTalteen();
     void latausValmis();
+
+    void tallennaLaskuliite(QVariant* data);
 
 private:
 

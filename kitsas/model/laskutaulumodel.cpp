@@ -226,10 +226,15 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             } else if( index.column() == LAHETYSTAPA) {
                 return ToimitustapaDelegaatti::icon(map.value("laskutapa").toInt());
             } else if( index.column() == ERAPVM) {
-            if( map.value("tila").toInt() == Tosite::MUISTUTETTU)
-                return QIcon(":/pic/punainenkuori.png");
-            else
-                return QIcon(":/pic/tyhja.png");
+                if( map.value("tila").toInt() == Tosite::MUISTUTETTU)
+                    return QIcon(":/pic/punainenkuori.png");
+                else
+                    return QIcon(":/pic/tyhja.png");
+            } else if( index.column() == PVM) {
+                if( map.value("toistopvm").isNull())
+                    return QIcon(":/pic/tyhja.png");
+                else
+                    return QIcon(":/pic/refresh.png");
             }
         }
         return QVariant();

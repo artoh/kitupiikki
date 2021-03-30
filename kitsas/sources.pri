@@ -74,6 +74,7 @@ SOURCES += \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.cpp \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
+    $$PWD/laskutus/laskunuusinta.cpp \
     $$PWD/laskutus/laskuproxymodel.cpp \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.cpp \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.cpp \
@@ -419,6 +420,7 @@ HEADERS += \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.h \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
+    $$PWD/laskutus/laskunuusinta.h \
     $$PWD/laskutus/laskuproxymodel.h \
     $$PWD/laskutus/ryhmalasku/kielidelegaatti.h \
     $$PWD/laskutus/ryhmalasku/laskutettavatmodel.h \
