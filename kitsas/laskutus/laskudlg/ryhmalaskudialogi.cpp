@@ -19,9 +19,15 @@
 
 #include "ui_laskudialogi.h"
 
+#include "model/tosite.h"
+#include "db/kirjanpito.h"
+
+#include <QMessageBox>
+
 RyhmaLaskuDialogi::RyhmaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     RivillinenLaskuDialogi(tosite, parent),
-    ryhmalaskuTab_(new RyhmalaskuTab)
+    ryhmalaskuTab_(new RyhmalaskuTab),
+    tallennusTosite_(new Tosite(this))
 {
     setWindowTitle(tr("Ryhmälasku"));
 
@@ -45,3 +51,41 @@ RyhmaLaskuDialogi::RyhmaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     ui->luonnosNappi->hide();
 
 }
+
+void RyhmaLaskuDialogi::tallenna(int /* tilaan */)
+{
+    jono_ = ryhmalaskuTab_->model()->laskutettavat();
+    if( jono_.isEmpty()) {
+        QMessageBox::information(this, tr("Ryhmälasku"),
+                                 tr("Lisää ensin laskun saajat Laskutettavat-välilehdelle."));
+    } else {
+        tositteelle();
+        tallennaSeuraava();
+    }
+}
+
+void RyhmaLaskuDialogi::tallennaSeuraava()
+{
+    if( jono_.isEmpty()) {
+        // Kaikki tallennettu
+        emit kp()->onni(tr("Laskut tallennettu Lähtevät-kansioon"));
+        emit kp()->kirjanpitoaMuokattu();
+        QDialog::accept();
+        return;
+    }
+    LaskutettavatModel::Laskutettava nykyinen = jono_.takeLast();
+
+    tallennusTosite_->lataa(tosite()->tallennettava());
+
+    tallennusTosite_->lasku().setLahetystapa(nykyinen.lahetystapa());
+    tallennusTosite_->lasku().setKieli( nykyinen.kieli() );
+    tallennusTosite_->asetaKumppani( nykyinen.map() );
+    tallennusTosite_->lasku().setEmail( nykyinen.email() );
+    tallennusTosite_->lasku().setOsoite( nykyinen.osoite() );
+
+    valmisteleTallennus();
+
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &RyhmaLaskuDialogi::tallennaSeuraava);
+    tallennusTosite_->tallennaLasku(Tosite::VALMISLASKU);
+}
+

@@ -190,6 +190,11 @@ void KantaLaskuDialogi::tositteelta()
 {
     tositteeltaKaynnissa_ = true;
     const Lasku& lasku = tosite()->constLasku();
+
+    ui->toimitusDate->setDate( lasku.toimituspvm() );
+    ui->jaksoDate->setDate( lasku.jaksopvm() );
+    ui->eraDate->setDate( tosite()->erapvm() );
+
     if( tosite()->kumppani()) {
         ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi());
     } else {
@@ -242,9 +247,6 @@ void KantaLaskuDialogi::jatkaTositteelta()
         ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.viite(), HuoneistoModel::ViiteRooli ) );
     }
 
-    ui->toimitusDate->setDate( lasku.toimituspvm() );
-    ui->jaksoDate->setDate( lasku.jaksopvm() );
-    ui->eraDate->setDate( lasku.erapvm() );
     laskeMaksuaika();
     ui->toistoErapaivaSpin->setValue( lasku.toistuvanErapaiva() ? lasku.toistuvanErapaiva() : 4);
 

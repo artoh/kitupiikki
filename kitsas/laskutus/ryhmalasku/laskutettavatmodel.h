@@ -23,17 +23,29 @@
 class LaskutettavatModel : public QAbstractTableModel
 {
     Q_OBJECT
-private:
-    struct Laskutettava {
-        int kumppaniId = 0;
-        QString nimi;
-        QString osoite;
-        QString email;
-        QString alvtunnus;
-        QString ovttunnus;
-        QString valittaja;
-        QString kieli;
-        int lahetystapa = 0;
+public:
+    class Laskutettava {
+    public:
+        Laskutettava();
+        Laskutettava(const QVariantMap& map);
+
+        QString kieli() const;
+        void setKieli(const QString &kieli);
+        int lahetystapa() const;
+        void setLahetystapa(const int lahetystapa);
+
+        QVariantList lahetystavat() const;
+        QString nimi() const;
+        QString email() const;
+        QString osoite() const;
+        QVariantMap map() const;
+        int id() const;
+
+    protected:
+        QString kieli_;
+        int lahetystapa_;
+        QVariantMap kumppani_;
+
     };
 
 
@@ -59,8 +71,9 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    void tallennaLaskut(const QVariantMap& data);
     bool onkoKumppania(int kumppaniId) const;
+
+    QList<Laskutettava> laskutettavat() const;
 
 public slots:
     void lisaa(int kumppaniId);
@@ -69,10 +82,6 @@ public slots:
 
 signals:
     void tallennettu();
-
-protected slots:
-    void tallennaLasku(const QVariantMap& tallennettava, int indeksi);
-    void laskuTallennettu(const QVariantMap& tallennettava, int indeksi, QVariant* vastaus);
 
 private:
     QList<Laskutettava> laskutettavat_;

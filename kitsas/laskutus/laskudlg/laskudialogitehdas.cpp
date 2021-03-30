@@ -72,6 +72,7 @@ KantaLaskuDialogi *LaskuDialogiTehdas::ryhmalasku()
     tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
     tosite->asetaLaskupvm( paivamaara() );
     tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
+    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
 
     RyhmaLaskuDialogi *dlg = new RyhmaLaskuDialogi(tosite);
     dlg->show();

@@ -18,6 +18,8 @@
 #define RYHMALASKUDIALOGI_H
 
 #include "rivillinenlaskudialogi.h"
+#include "laskutus/ryhmalasku/laskutettavatmodel.h"
+#include <QList>
 
 class RyhmalaskuTab;
 
@@ -28,7 +30,13 @@ public:
     RyhmaLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
 
 protected:
+    void tallenna(int tilaan) override;
+
+    void tallennaSeuraava();
+
+    QList<LaskutettavatModel::Laskutettava> jono_;
     RyhmalaskuTab* ryhmalaskuTab_;
+    Tosite* tallennusTosite_;
 };
 
 #endif // RYHMALASKUDIALOGI_H

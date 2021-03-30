@@ -19,6 +19,7 @@
 #include "kielidelegaatti.h"
 #include "toimitustapadelegaatti.h"
 #include "model/lasku.h"
+#include "rekisteri/maamodel.h"
 
 LaskutettavatModel::LaskutettavatModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -63,53 +64,41 @@ QVariant LaskutettavatModel::data(const QModelIndex &index, int role) const
     if( role == Qt::DisplayRole) {        
         switch (index.column()) {
         case NIMI:
-            return laskutettava.nimi;
+            return laskutettava.nimi();
         case KIELI:
-            return KieliDelegaatti::kieliKoodilla(laskutettava.kieli);
+            return KieliDelegaatti::kieliKoodilla(laskutettava.kieli());
         case LAHETYSTAPA:       
-            return ToimitustapaDelegaatti::toimitustapa(laskutettava.lahetystapa);
+            return ToimitustapaDelegaatti::toimitustapa(laskutettava.lahetystapa());
         }
     } else if( role == Qt::EditRole) {
 
         switch (index.column()) {
         case NIMI:
-            return laskutettava.nimi;
+            return laskutettava.nimi();
         case KIELI:
-            return laskutettava.kieli;
+            return laskutettava.kieli();
         case LAHETYSTAPA:
-            return laskutettava.lahetystapa;
+            return laskutettava.lahetystapa();
         }
     } else if( role == Qt::DecorationRole) {
         if( index.column() == KIELI)
-            return QIcon(QString(":/liput/%1.png").arg(laskutettava.kieli.toLower()));
+            return QIcon(QString(":/liput/%1.png").arg(laskutettava.kieli().toLower()));
         else if(index.column() == LAHETYSTAPA)
-            return ToimitustapaDelegaatti::icon(laskutettava.lahetystapa);
+            return ToimitustapaDelegaatti::icon(laskutettava.lahetystapa());
     } else if( role == LahetysTavatRooli) {
-        QVariantList lista;
-        lista << Lasku::TULOSTETTAVA;
-        if( !laskutettava.email.isEmpty())
-            lista << Lasku::SAHKOPOSTI;
-        if( laskutettava.osoite.contains('\n'))
-            lista << Lasku::POSTITUS;
-        if( !laskutettava.ovttunnus.isEmpty())
-            lista << Lasku::VERKKOLASKU;
-        lista << Lasku::PDF;
-        lista << Lasku::EITULOSTETA;
-        return lista;
+        return laskutettava.lahetystavat();
     }
 
-    // FIXME: Implement me!
     return QVariant();
 }
 
 bool LaskutettavatModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
         if( index.column() == KIELI && role == Qt::EditRole)
-            laskutettavat_[index.row()].kieli = value.toString();
+            laskutettavat_[index.row()].setKieli(value.toString());
         else if( index.column() == LAHETYSTAPA && role == Qt::EditRole)
-            laskutettavat_[index.row()].lahetystapa = value.toInt();
+            laskutettavat_[index.row()].setLahetystapa(value.toInt());
 
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -127,15 +116,18 @@ Qt::ItemFlags LaskutettavatModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-void LaskutettavatModel::tallennaLaskut(const QVariantMap &data)
-{
-    if( rowCount())
-        tallennaLasku(data, 0);
-}
 
 bool LaskutettavatModel::onkoKumppania(int kumppaniId) const
 {
     return kumppaniIdt_.contains(kumppaniId);
+}
+
+QList<LaskutettavatModel::Laskutettava> LaskutettavatModel::laskutettavat() const
+{
+    QList<Laskutettava> lista;
+    for(const auto& item : laskutettavat_)
+        lista.append(item);
+    return lista;
 }
 
 void LaskutettavatModel::lisaa(int kumppaniId)
@@ -145,88 +137,15 @@ void LaskutettavatModel::lisaa(int kumppaniId)
     kysely->kysy();
 }
 
-void LaskutettavatModel::tallennaLasku(const QVariantMap &tallennettava, int indeksi)
-{
-    Laskutettava laskutettava = laskutettavat_.value(indeksi);
-    QVariantMap data(tallennettava);
-    QVariantMap lasku = data.value("lasku").toMap();
-    QVariantMap kumppaniMap;
-
-    kumppaniMap.insert("id", laskutettava.kumppaniId);
-
-
-    if( laskutettava.kumppaniId)
-        data.insert("kumppani", kumppaniMap);
-
-    lasku.insert("osoite", laskutettava.osoite);
-    if( !laskutettava.alvtunnus.isEmpty())
-        lasku.insert("alvtunnus", laskutettava.alvtunnus);
-    lasku.insert("kieli", laskutettava.kieli.toUpper());
-    lasku.insert("laskutapa", laskutettava.lahetystapa);
-    if( !laskutettava.email.isEmpty())
-        lasku.insert("email", laskutettava.email);
-
-    data.insert("lasku", lasku);
-
-    QVariantList viennit = data.value("viennit").toList();
-    QVariantList uusiviennit;
-    for(auto item : viennit) {
-        QVariantMap map = item.toMap();
-        map.insert("kumppani",kumppaniMap);
-        uusiviennit.append(map);
-    }
-    data.insert("viennit", uusiviennit);
-
-    KpKysely* kysely = kpk("/tositteet", KpKysely::POST);
-    connect( kysely, &KpKysely::vastaus, [this, tallennettava, indeksi] (QVariant *vastaus) { this->laskuTallennettu(tallennettava, indeksi, vastaus);} );
-    kysely->kysy(data);
-}
-
-void LaskutettavatModel::laskuTallennettu(const QVariantMap &tallennettava, int indeksi, QVariant *vastaus)
-{
-    // Tallennetaan ensin liite
-    QVariantMap map = vastaus->toMap();
-/*
-    QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
-    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
-    QMap<QString,QString> meta;
-    meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
-    liitetallennus->lahetaTiedosto(liite, meta);
-
-    if( indeksi < rowCount() - 1) {
-        tallennaLasku(tallennettava, indeksi+1);
-    } else {
-        emit tallennettu();
-        emit kp()->kirjanpitoaMuokattu();
-    } */
-}
-
 void LaskutettavatModel::lisaaAsiakas(QVariant* data)
 {
     QVariantMap map = data->toMap();
-    Laskutettava uusi;
-
-    uusi.kumppaniId = map.value("id").toInt();
-
-    if(uusi.kumppaniId && kumppaniIdt_.contains(uusi.kumppaniId))
+    Laskutettava uusi(map);
+    if( kumppaniIdt_.contains(uusi.id())) {
         return;
+    }
+    kumppaniIdt_.insert(uusi.id());
 
-    uusi.nimi = map.value("nimi").toString();
-    if( map.contains("osoite"))
-        uusi.osoite = uusi.nimi + "\n" +
-                map.value("osoite").toString() + "\n" +
-                map.value("postinumero").toString() + " " +
-                map.value("kaupunki").toString();
-    else
-        uusi.osoite = uusi.nimi;
-    uusi.email = map.value("email").toString();
-    uusi.kieli = map.value("kieli","FI").toString();
-    uusi.alvtunnus = map.value("alvtunnus").toString();
-    uusi.lahetystapa = map.value("laskutapa").toInt();
-    uusi.ovttunnus = map.value("ovt").toString();
-    uusi.valittaja = map.value("operaattori").toString();
-    if( uusi.kumppaniId)
-        kumppaniIdt_.insert(uusi.kumppaniId);
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     laskutettavat_.append(uusi);
     endInsertRows();
@@ -234,10 +153,87 @@ void LaskutettavatModel::lisaaAsiakas(QVariant* data)
 
 void LaskutettavatModel::poista(int indeksi)
 {
-    int id = laskutettavat_.value(indeksi).kumppaniId;
-    if(id)
-        kumppaniIdt_.remove(id);
+    kumppaniIdt_.remove(laskutettavat_.value(indeksi).id());
+
     beginRemoveRows(QModelIndex(), indeksi, indeksi);
     laskutettavat_.removeAt(indeksi);
     endRemoveRows();
+}
+
+
+LaskutettavatModel::Laskutettava::Laskutettava()
+{
+
+}
+
+LaskutettavatModel::Laskutettava::Laskutettava(const QVariantMap &map) :
+    kumppani_(map)
+{
+    lahetystapa_ = map.value("laskutapa", Lasku::POSTITUS).toInt();
+    kieli_ = map.value("kieli","FI").toString();
+}
+
+
+QString LaskutettavatModel::Laskutettava::kieli() const
+{
+    return kieli_;
+}
+
+void LaskutettavatModel::Laskutettava::setKieli(const QString &kieli)
+{
+    kieli_ = kieli;
+}
+
+int LaskutettavatModel::Laskutettava::lahetystapa() const
+{
+    return lahetystapa_;
+}
+
+void LaskutettavatModel::Laskutettava::setLahetystapa(const int lahetystapa)
+{
+    lahetystapa_ = lahetystapa;
+}
+
+
+QVariantList LaskutettavatModel::Laskutettava::lahetystavat() const
+{
+    QVariantList lista;
+    lista << Lasku::TULOSTETTAVA;
+    if( email().contains("@"))
+        lista << Lasku::SAHKOPOSTI;
+    if( kumppani_.value("osoite").toString().length() > 3 &&
+        kumppani_.value("postinumero").toString().length() > 3 &&
+        kumppani_.value("kaupunki").toString().length() > 1)
+        lista << Lasku::POSTITUS;
+    if( kumppani_.value("ovt").toString().length() > 5 &&
+        kumppani_.value("operaattori").toString().length() > 3)
+        lista << Lasku::VERKKOLASKU;
+    lista << Lasku::PDF;
+    lista << Lasku::EITULOSTETA;
+    return lista;
+}
+
+QString LaskutettavatModel::Laskutettava::nimi() const
+{
+    return kumppani_.value("nimi").toString();
+}
+
+QString LaskutettavatModel::Laskutettava::email() const
+{
+    return kumppani_.value("email").toString();
+}
+
+QString LaskutettavatModel::Laskutettava::osoite() const
+{
+    return MaaModel::instanssi()->muotoiltuOsoite(kumppani_);
+}
+
+QVariantMap LaskutettavatModel::Laskutettava::map() const
+{
+    return kumppani_;
+}
+
+int LaskutettavatModel::Laskutettava::id() const
+{
+    return kumppani_.value("id").toInt();
 }
