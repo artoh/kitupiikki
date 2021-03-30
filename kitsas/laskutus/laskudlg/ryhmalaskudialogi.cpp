@@ -21,6 +21,7 @@
 
 #include "model/tosite.h"
 #include "db/kirjanpito.h"
+#include "rivivientigeneroija.h"
 
 #include <QMessageBox>
 
@@ -83,7 +84,8 @@ void RyhmaLaskuDialogi::tallennaSeuraava()
     tallennusTosite_->lasku().setEmail( nykyinen.email() );
     tallennusTosite_->lasku().setOsoite( nykyinen.osoite() );
 
-    valmisteleTallennus();
+    RiviVientiGeneroija rivigeneroija(kp());
+    rivigeneroija.generoiViennit(tallennusTosite_);
 
     connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &RyhmaLaskuDialogi::tallennaSeuraava);
     tallennusTosite_->tallennaLasku(Tosite::VALMISLASKU);
