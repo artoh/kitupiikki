@@ -64,7 +64,6 @@ protected:
     Ui::onniWidget *ui;
 
     bool noutoKaynnissa_ = false;
-    bool liiteKaynnissa_ = false;
 
     static LaskunToimittaja* instanssi__;
 
@@ -75,9 +74,9 @@ protected:
     int onnistuneet_ = 0;
     int epaonnistuneet_ = 0;
 
-    QMap<int, AbstraktiToimittaja*> toimittajat_;
+    Tosite* tallennusTosite_ = nullptr;
 
-    LaskunTulostaja* tulostaja_;
+    QMap<int, AbstraktiToimittaja*> toimittajat_;
 
 };
 

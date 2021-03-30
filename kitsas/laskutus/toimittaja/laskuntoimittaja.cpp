@@ -27,8 +27,7 @@
 
 #include <QMessageBox>
 
-LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent),
-    tulostaja_(new LaskunTulostaja(kp(), this))
+LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent)
 {
     ui = new Ui::onniWidget;
     ui->setupUi(this);
@@ -100,17 +99,11 @@ void LaskunToimittaja::laskuSaapuu(QVariant *data)
 }
 
 void LaskunToimittaja::tallennaLiite()
-{
-    liiteKaynnissa_ = true;
-    Tosite tosite;
-    tosite.lataa(tositteet_.head());
-    QByteArray liite = tulostaja_->pdf(tosite);
-
-    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(tosite.id()), KpKysely::PUT);
-    QMap<QString,QString> meta;
-    meta.insert("Filename", QString("lasku%1.pdf").arg( tosite.lasku().numero() ));
-    connect( liitetallennus, &KpKysely::vastaus, this, &LaskunToimittaja::liiteTallennettu);
-    liitetallennus->lahetaTiedosto(liite, meta);
+{    
+    tallennusTosite_ = new Tosite(this);
+    tallennusTosite_->lataa(tositteet_.head());
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
+    tallennusTosite_->tallennaLasku();
 }
 
 void LaskunToimittaja::liiteTallennettu()
@@ -124,7 +117,8 @@ void LaskunToimittaja::liiteTallennettu()
     toimittaja->lisaaLasku(tositteet_.head());
     tositteet_.dequeue();
 
-    liiteKaynnissa_ = false;
+    tallennusTosite_->deleteLater();
+    tallennusTosite_ = nullptr;
     silmukka();
 }
 
@@ -132,7 +126,7 @@ void LaskunToimittaja::silmukka()
 {
     if( !noutoKaynnissa_ && !haettavat_.isEmpty())
         haeLasku();
-    if( !liiteKaynnissa_ && !tositteet_.isEmpty())
+    if( !tallennusTosite_ && !tositteet_.isEmpty())
         tallennaLiite();
 
     show();
@@ -155,8 +149,8 @@ void LaskunToimittaja::virhe(const QString virhe)
 
 void LaskunToimittaja::tarkastaValmis()
 {
-    bool kaynnissa = liiteKaynnissa_ | noutoKaynnissa_;
-    for(auto toimittaja : toimittajat_) {
+    bool kaynnissa = tallennusTosite_ || noutoKaynnissa_;
+    for(const auto& toimittaja : toimittajat_) {
         kaynnissa |= !toimittaja->vapaa();
     }
 
