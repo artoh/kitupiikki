@@ -105,7 +105,7 @@ void LaskunToimittaja::tallennaLiite()
     tallennusTosite_ = new Tosite(this);
     tallennusTosite_->lataa(tositteet_.head());
     connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
-    tallennusTosite_->tallennaLasku();
+    tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 
 void LaskunToimittaja::liiteTallennettu()
@@ -169,17 +169,19 @@ void LaskunToimittaja::tarkastaValmis()
         } else if( epaonnistuneet_) {
             QStringList virhelista = virheet_.toList();
             if( onnistuneet_ > 0) {
-                QMessageBox::critical(this,
+                QMessageBox::critical(nullptr,
                                       tr("Laskujen toimittaminen epäonnistui"),
                                       tr("%1 laskua toimitettu\n%2 laskun toimittaminen epäonnistui") + "\n" +
-                                      tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.")
+                                      tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.") +
+                                      QString("\n")
                                       .arg(onnistuneet_)
                                       .arg(epaonnistuneet_)
                              + virhelista.join("\n")) ;
             } else {
-                QMessageBox::critical(this,
+                QMessageBox::critical(nullptr,
                                       tr("Laskujen toimittaminen epäonnistui"),
-                                      tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.")
+                                      tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.") +
+                                      QString("\n")
                                       .arg(onnistuneet_)
                                       .arg(epaonnistuneet_)
                              + virhelista.join("\n")) ;

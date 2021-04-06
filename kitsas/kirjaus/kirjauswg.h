@@ -20,6 +20,7 @@
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
+#include <QInputDialog>
 
 #include "model/tosite.h"
 #include "ui_kirjaus.h"
@@ -123,6 +124,7 @@ private slots:
 
     void avaaLiite();
     void naytaKommenttimerkki(bool onko);
+    void vaihdaTunniste();
 
 public:
     Ui::KirjausWg* gui() { return ui;}

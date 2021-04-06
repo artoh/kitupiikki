@@ -24,7 +24,7 @@
   Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "3.0-DEVEL"
+#define KITSAS_VERSIO "3.0-alpha"
 #define KITSAS_BUILD  "A"
 
 // #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)

@@ -23,7 +23,18 @@ class FinvoiceToimittaja : public AbstraktiToimittaja
 {
     Q_OBJECT
 public:
-    FinvoiceToimittaja();
+    FinvoiceToimittaja(QObject* parent);
+
+protected:
+    virtual void toimita() override;
+
+    void alustaInit();
+
+    void kumppaniSaapuu(QVariant* kumppani);
+    void laskuSaapuu(QVariant* data);
+    void maventaToimitettu(QVariant* data);
+
+    QVariantMap init_;
 };
 
 #endif // FINVOICETOIMITTAJA_H

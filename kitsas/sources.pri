@@ -338,7 +338,6 @@ SOURCES += \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
     tuonti/tesseracttuonti.cpp \
-    laskutus/verkkolaskutoimittaja.cpp \
     tools/finvoicehaku.cpp
 
 
@@ -688,7 +687,6 @@ HEADERS += \
     kierto/kiertowidget.h \
     kierto/kiertomuokkausdlg.h\
     tuonti/tesseracttuonti.h\
-    laskutus/verkkolaskutoimittaja.h\
     tools/finvoicehaku.h
 
 RESOURCES += \

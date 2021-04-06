@@ -77,6 +77,7 @@ void AbstraktiToimittaja::peru()
 
 void AbstraktiToimittaja::tarkastaJono()
 {
+    timer_.stop();
     if( !jono_.isEmpty()) {
         toimita();
     }
