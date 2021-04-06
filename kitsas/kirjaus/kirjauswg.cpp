@@ -133,6 +133,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     mallipohjaksiAktio_ = valikko->addAction(QIcon(":/pic/uusitiedosto.png"), tr("Tallenna mallipohjaksi"), [this] {this->tosite()->tallenna(Tosite::MALLIPOHJA);});
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
     tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), [this] { this->tosite()->viennit()->tyhjenna(); if(apuri_) apuri_->reset(); });
+    valikko->addAction(QIcon(":/pic/123.png"), tr("Vaihda tunnistenumero"), [this] { this->vaihdaTunniste();});
 
     ui->valikkoNappi->setMenu( valikko );
 
@@ -598,6 +599,17 @@ void KirjausWg::naytaKommenttimerkki(bool onko)
     int indeksi = ui->tabWidget->indexOf(kommentitTab_);
     if( indeksi > 0) {
         ui->tabWidget->setTabIcon(indeksi, QIcon(onko ? ":/pic/kupla.png" : ":/pic/kupla-harmaa.png"));
+    }
+}
+
+void KirjausWg::vaihdaTunniste()
+{
+    bool ok;
+    int tunniste = QInputDialog::getInt(this, tr("Valitse tositenumero"), tr("Uusi tositenumero:\n" "Ohjelma ei tarkasta tositenumeroa!"),
+                                        tosite()->tunniste(), 1, 999999, 1, &ok);
+    if( ok ) {
+        tosite()->setData(Tosite::TUNNISTE, tunniste);
+        tunnisteVaihtui(tunniste);
     }
 }
 
