@@ -24,6 +24,7 @@
 #include "eitulostetatoimittaja.h"
 #include "tulostustoimittaja.h"
 #include "sahkopostitoimittaja.h"
+#include "finvoicetoimittaja.h"
 
 #include <QMessageBox>
 
@@ -43,6 +44,7 @@ LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent)
     rekisteroiToimittaja(Lasku::TULOSTETTAVA, new TulostusToimittaja(this));
     rekisteroiToimittaja(Lasku::EITULOSTETA, new EiTulostetaToimittaja(this));
     rekisteroiToimittaja(Lasku::SAHKOPOSTI, new SahkopostiToimittaja(this));
+    rekisteroiToimittaja(Lasku::VERKKOLASKU, new FinvoiceToimittaja(this));
 }
 
 
