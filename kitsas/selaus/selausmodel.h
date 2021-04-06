@@ -26,6 +26,7 @@
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
+#include "model/euro.h"
 
 class SQLiteModel;
 
@@ -48,8 +49,8 @@ protected:
     QDate pvm;
     int tositeTyyppi;
     int tili;
-    double debet;
-    double kredit;
+    Euro debet;
+    Euro kredit;
     QString kohdennus;
     bool maksettu;
     QString kumppani;
@@ -75,7 +76,7 @@ public:
     enum {
         IdRooli = Qt::UserRole,
         TiliRooli = Qt::UserRole + 7,
-        EtsiRooli = Qt::UserRole + 128
+        EtsiRooli = Qt::UserRole + 128,
     };
 
     SelausModel(QObject* parent = nullptr);

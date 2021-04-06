@@ -35,6 +35,7 @@ class TositeSelausModel;
 
 #include "tositeselausproxymodel.h"
 #include "selausproxymodel.h"
+#include "model/euro.h"
 
 /**
  * @brief Sivu kirjausten selaamiseen
@@ -118,7 +119,7 @@ private:
      */
     bool paivitettava = true;
     int valittu_ = 0;
-    double saldo_ = 0;
+    Euro saldo_;
     int selaustili_ = 0;
     bool lopussa_ = false;
     bool lataaKoon_ = false;

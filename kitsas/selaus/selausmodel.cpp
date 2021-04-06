@@ -116,9 +116,6 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
         kaytetytTilit_.insert(rivi.getTili());
     }
 
-    qDebug() << kysymys;
-    qDebug() << rivit_.count() << " RIVIÄ ";
-    qDebug() << kysely.lastError().text();
 
     endResetModel();
 
@@ -209,8 +206,8 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
     pvm = data.value("pvm").toDate();
     tositeTyyppi = tosite.value("tyyppi").toInt();
     tili = data.value("tili").toInt();
-    debet = data.value("debet").toDouble();
-    kredit = data.value("kredit").toDouble();
+    debet = data.value("debet").toString();
+    kredit = data.value("kredit").toString();
     kumppani = data.value("kumppani").toMap().value("nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
@@ -263,8 +260,8 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     pvm = data.value("pvm").toDate();
     tositeTyyppi = data.value("tosite_tyyppi").toInt();
     tili = data.value("tili").toInt();
-    debet = data.value("debetsnt").toDouble() / 100.0;
-    kredit = data.value("kreditsnt").toDouble() / 100.0;
+    debet = data.value("debetsnt").toLongLong();
+    kredit = data.value("kreditsnt").toLongLong();
     kumppani = data.value("kumppani_nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
@@ -344,22 +341,18 @@ QVariant SelausRivi::data(int sarake, int role) const
             case SelausModel::DEBET:
             {
                 if( role == Qt::EditRole)
-                    return QVariant( debet );
-                else if( qAbs(debet) > 1e-5 )
-                    return QVariant( QString("%L1 €").arg( debet ,0,'f',2));
+                    return debet.cents();
                 else
-                    return QVariant();
+                    return debet.display(false);
             }
 
             case SelausModel::KREDIT:
             {
 
                 if( role == Qt::EditRole)
-                    return QVariant( kredit);
-                else if( qAbs(kredit) > 1e-5 )
-                    return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
+                    return kredit.cents();
                 else
-                    return QVariant();
+                    return kredit.display(false);
             }
             case SelausModel::SELITE:
                 if( selite == kumppani )
@@ -372,8 +365,7 @@ QVariant SelausRivi::data(int sarake, int role) const
             case SelausModel::KOHDENNUS : return kohdennus;
 
         }
-    }
-    else if( role == Qt::TextAlignmentRole)
+    } else if( role == Qt::TextAlignmentRole)
     {
         if( sarake==SelausModel::KREDIT || sarake == SelausModel::DEBET)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);

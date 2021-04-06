@@ -143,7 +143,7 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
     rivit_.clear();
     rivit_.reserve(lista.count());
 
-    for( QVariant item : lista ) {
+    for( const auto& item : lista ) {
         QVariantMap map = item.toMap();
         TositeSelausRivi rivi(map, samakausi_);
         rivit_.append(rivi);
@@ -175,7 +175,7 @@ void TositeSelausModel::lataaSqlite(SQLiteModel *sqlite, const QDate &alkaa, con
                       "tosite.sarja as sarja, liitteita, summa, Tosite.json AS json"
                       " FROM Tosite LEFT OUTER JOIN Kumppani on tosite.kumppani=kumppani.id  "
                       " LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON tosite.id=lq.tosite "
-                      " LEFT OUTER JOIN (SELECT tosite, SUM(debetsnt) / 100.0 AS summa FROM Vienti GROUP BY tosite) as sq ON tosite.id=sq.tosite "
+                      " LEFT OUTER JOIN (SELECT tosite, SUM(debetsnt) AS summa FROM Vienti GROUP BY tosite) as sq ON tosite.id=sq.tosite "
                       "WHERE ";
     kysymys.append( ehdot.join(" AND "));
 
@@ -216,7 +216,7 @@ TositeSelausRivi::TositeSelausRivi(const QVariantMap &data, bool samakausi)
                                           true);
     otsikko = data.value("otsikko").toString();
     kumppani = data.value("kumppani").toString();
-    summa = data.value("summa").toDouble();
+    summa = data.value("summa").toString();
     liitteita = data.value("liitteita").toInt();
     huomio = data.value("huomio").toBool();
     etsiTeksti = tositeTunniste + " " + kumppani + " " + otsikko;
@@ -240,7 +240,7 @@ TositeSelausRivi::TositeSelausRivi(QSqlQuery &data, bool samakausi)
                                           true);
     otsikko = data.value("otsikko").toString();
     kumppani = data.value("kumppani").toString();
-    summa = data.value("summa").toDouble();
+    summa = data.value("summa").toLongLong();
     liitteita = data.value("liitteita").toInt();
     QJsonDocument json = QJsonDocument::fromJson(data.value("json").toByteArray());
     huomio = json["huomio"].toBool();
@@ -280,11 +280,9 @@ QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
 
         case TositeSelausModel::SUMMA:
             if( role == Qt::EditRole)
-                return summa;
-            else if( summa > 1e-5 )
-                return QVariant( QString("%L1 €").arg(summa,0,'f',2));
+                return summa.cents();
             else
-                return QVariant();
+                return summa.display(false);
         }
 
     }

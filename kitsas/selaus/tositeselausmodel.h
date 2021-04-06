@@ -24,6 +24,8 @@
 #include <QSet>
 #include <QSqlQuery>
 
+#include "model/euro.h"
+
 class SQLiteModel;
 
 /**
@@ -52,7 +54,7 @@ protected:
 
     QString otsikko;
     QString kumppani;
-    double summa;
+    Euro summa;
 
     bool liitteita;
     QString etsiTeksti;

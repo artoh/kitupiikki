@@ -77,7 +77,8 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->loppuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
     connect( ui->etsiEdit, &QLineEdit::textChanged, this, &SelausWg::etsi);
-    connect( ui->selausView, SIGNAL(clicked(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
+
+    connect( ui->selausView, &QTableView::clicked, this, &SelausWg::naytaTositeRivilta);
 
     ui->valintaTab->setCurrentIndex(0);     // Oletuksena tositteiden selaus
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
@@ -309,43 +310,43 @@ void SelausWg::paivitaSummat(QVariant *data)
 
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
-        qlonglong debetSumma = 0;
-        qlonglong kreditSumma = 0;
+        Euro debetSumma = 0;
+        Euro kreditSumma = 0;
 
 
 
         for(int i=0; i< model->rowCount(QModelIndex()); i++)
         {
-            debetSumma += qRound64( model->index(i, SelausModel::DEBET).data(Qt::EditRole).toDouble() * 100);
-            kreditSumma += qRound64(model->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble() * 100);
+            debetSumma +=  model->index(i, SelausModel::DEBET).data(Qt::EditRole).toLongLong();
+            kreditSumma += model->index(i, SelausModel::KREDIT).data(Qt::EditRole).toLongLong();
         }
 
         if( data && data->toMap().count()) {
-            saldo_ = data->toMap().first().toDouble();
+            saldo_ = data->toMap().first().toString();
 
         }
 
-        if( qAbs(saldo_) > 1e-5) {
+        if( saldo_ ) {
             ui->summaLabel->setText( tr("Debet %L1 €  Kredit %L2 €\nLoppusaldo %L3 €")
-                    .arg( debetSumma / 100.0,0,'f',2)
-                    .arg(kreditSumma / 100.0,0,'f',2)
-                    .arg(saldo_,0,'f',2));
+                    .arg( debetSumma.display())
+                    .arg(kreditSumma.display())
+                    .arg(saldo_.display()));
         } else {
             ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
-                    .arg( debetSumma / 100.0,0,'f',2)
-                    .arg(kreditSumma / 100.0,0,'f',2) );
+                    .arg( debetSumma.display() )
+                    .arg( kreditSumma.display()) );
         }
 
 
     } else {
 
         // Lasketaan summat
-        qlonglong summa = 0;
+        Euro summa = 0;
         for(int i=0; i<model->rowCount(QModelIndex()); i++)
         {
-            summa += qRound64(model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toDouble() * 100);
+            summa += model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toLongLong();
         }
-        ui->summaLabel->setText( tr("Summa %L1€").arg(summa / 100.0,0,'f',2));
+        ui->summaLabel->setText( tr("Summa %L1€").arg(summa.display()));
 
     }
 
