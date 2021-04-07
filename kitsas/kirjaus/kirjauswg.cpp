@@ -49,8 +49,6 @@
 #include "siirrydlg.h"
 
 #include "db/kirjanpito.h"
-
-#include "ui_numerosiirto.h"
 #include "naytin/naytinikkuna.h"
 #include "ui_kopioitosite.h"
 

@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "uusimaksumuistutusdialogi.h"
-#include "ui_maksumuistutusdialogi.h"
+#include "ui_uusimaksumuistutusdialogi.h"
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 #include "db/tositetyyppimodel.h"
