@@ -96,12 +96,13 @@ bool LaskuProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source
             return false;
     }
 
+    const QString& viiteNumero = idx.data(LaskuTauluModel::ViiteRooli).toString();
     if( !viite_.isEmpty() &&
-        idx.data(LaskuTauluModel::ViiteRooli).toString() != viite_ )
+         viiteNumero != viite_ )
         return false;
 
     if( viitetyyppi_ ) {
-        ViiteNumero viite( idx.data(LaskuTauluModel::ViiteRooli).toString() );
+        ViiteNumero viite( viiteNumero );
         if( viite.tyyppi() != viitetyyppi_ )
             return false;
     }

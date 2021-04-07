@@ -107,7 +107,7 @@ void KumppaniTuoteWidget::nayta(int valilehti)
     else
         muokkausoikeus = kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS |
                                                            YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN);
-    ui->uusiNappi->setVisible(muokkausoikeus);
+    ui->uusiNappi->setVisible(muokkausoikeus && valilehti != ASIAKKAAT && valilehti != TOIMITTAJAT);
     ui->poistaNappi->setVisible(muokkausoikeus);
     ui->muokkaaNappi->setVisible(muokkausoikeus);
     ui->yhdistaButton->setVisible(muokkausoikeus && valilehti < TUOTTEET);

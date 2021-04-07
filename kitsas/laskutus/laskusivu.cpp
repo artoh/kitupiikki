@@ -123,17 +123,18 @@ void LaskuSivu::paaTab(int indeksi)
     }
 
     kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
-    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI && indeksi != VAKIOVIITTEET);
-    ryhmaWidget_->setVisible( indeksi == REKISTERI && indeksi != VAKIOVIITTEET);
+    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI );
+    ryhmaWidget_->setVisible( indeksi == REKISTERI );
 
 
     if( indeksi >= REKISTERI )
         kumppaniTuoteWidget_->nayta( indeksi - 2);    
     else if( indeksi < REKISTERI)
-        kumppaniTuoteWidget_->nayta( indeksi);    
+        kumppaniTuoteWidget_->nayta( indeksi);
 
 
-    if( indeksi==MYYNTI || indeksi==OSTO || indeksi==ASIAKAS || indeksi == TOIMITTAJA)
+
+    if( indeksi!=REKISTERI && indeksi != TUOTTEET)
     {                
         laskuWidget_->nayta( indeksi );
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );

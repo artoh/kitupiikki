@@ -42,7 +42,7 @@ public slots:
     void alalehti(int alalehti);
     void paivita();
     void suodataAsiakas(const QString& nimi, int asiakas = 0);
-    void suodataViite(const QString& viite);    
+    void suodataViite(const QString& viite);
 
     void paivitaNapit();
 
