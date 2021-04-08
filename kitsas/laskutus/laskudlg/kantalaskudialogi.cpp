@@ -375,10 +375,10 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 
     if( map.value("alvtunnus").toString().isEmpty())
         // Yksityishenkilön viivästyskorko on peruskorko + 7 %
-        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 7.0 );
+        ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
     else
         // Yrityksen viivästyskorko on peruskorko + 8 %
-        ui->viivkorkoSpin->setValue( kp()->asetus("LaskuPeruskorko").toDouble() + 8.0 );
+        ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 8.0 );
 
     if( tositteeltaKaynnissa_ )
         jatkaTositteelta();

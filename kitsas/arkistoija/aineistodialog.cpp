@@ -160,10 +160,10 @@ void AineistoDialog::paivitaNimi()
 {
     if(!nimivaihdettu_) {
         QDir hakemisto;
-        QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+        QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetukset()->asetus(AsetusModel::UID)).toString();
         if( !arkistopolku.isEmpty() && QFile::exists(arkistopolku))
             hakemisto.cd(arkistopolku);
-        QString nimi = kp()->asetukset()->asetus("Nimi");
+        QString nimi = kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi);
         nimi.replace(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption),"");
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->tilikausiCombo->currentIndex());
         ui->tiedostoEdit->setText(hakemisto.absoluteFilePath(QString("%1-%2.pdf").arg(nimi).arg(kausi.pitkakausitunnus())));

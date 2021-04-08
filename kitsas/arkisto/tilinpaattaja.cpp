@@ -189,7 +189,8 @@ void TilinPaattaja::esikatsele()
 void TilinPaattaja::mappi()
 {
     AineistoDialog* aineisto = new AineistoDialog();
-    aineisto->aineisto(tilikausi.alkaa(), kp()->asetus("tpkieli"));
+    aineisto->aineisto(tilikausi.alkaa(),
+                       kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli));
 }
 
 void TilinPaattaja::vahvista()
@@ -234,8 +235,9 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
 
     bool verokirjattu = data_.value("tulovero").toString() == "kirjattu";
     bool eiverotettavaa = qAbs(data_.value("tulovero").toMap().value("tulo").toDouble()) < 1e-3;
-    bool vaaramuoto = kp()->asetus("muoto") == "ay" || kp()->asetus("muoto") == "ky"
-            || kp()->asetus("muoto") == "tmi";
+    const QString& muoto = kp()->asetukset()->asetus(AsetusModel::Muoto);
+    bool vaaramuoto = muoto == "ay" || muoto == "ky"
+            || muoto == "tmi";
 
     if( vaaramuoto )
         ui->eiveroaLabel->setText(tr("Tuloverotus yrittäjän verotuksessa"));

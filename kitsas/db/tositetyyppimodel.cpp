@@ -95,7 +95,7 @@ bool TositeTyyppiModel::onkolisattavissa(int koodi) const
 
 QString TositeTyyppiModel::sarja(int koodi, bool kateinen) const
 {
-    QVariantMap sarjamap = QJsonDocument::fromJson( kp()->asetukset()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+    QVariantMap sarjamap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Tositesarjat).toUtf8() ).toVariant().toMap();
 
     if( kateinen && kp()->asetukset()->onko(AsetusModel::KateisSarjaan))
         return sarjamap.value("K","K").toString();

@@ -34,15 +34,15 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 
 void SahkopostiToimittaja::toimita()
 {
-    bool kpasetus = !kp()->asetukset()->asetus("SmtpServer").isEmpty();
-    QString server = kpasetus ? kp()->asetukset()->asetus("SmtpServer") : kp()->settings()->value("SmtpServer").toString();
-    int port = kpasetus ? kp()->asetukset()->asetus("SmtpPort").toInt() : kp()->settings()->value("SmtpPort").toInt();
-    QString user = kpasetus ? kp()->asetukset()->asetus("SmtpUser") : kp()->settings()->value("SmtpUser").toString();
-    QString password = kpasetus ? kp()->asetukset()->asetus("SmtpPassword") : kp()->settings()->value("SmtpPassword").toString();
-    int tyyppi = EmailMaaritys::sslIndeksi( kpasetus ? kp()->asetukset()->asetus("EmailSSL") : kp()->settings()->value("EmailSSL").toString() );
-    QString kenelta = kpasetus ? kp()->asetukset()->asetus("EmailNimi") : kp()->settings()->value("EmailNimi").toString();
-    QString keneltaEmail = kpasetus ? kp()->asetukset()->asetus("EmailOsoite") : kp()->settings()->value("EmailOsoite").toString();
-    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus("EmailKopio") : kp()->settings()->value("EmailKopio").toString();
+    bool kpasetus = !kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty();
+    QString server = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpServer) : kp()->settings()->value("SmtpServer").toString();
+    int port = kpasetus ? kp()->asetukset()->luku(AsetusModel::SmtpPort) : kp()->settings()->value("SmtpPort").toInt();
+    QString user = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpUser) : kp()->settings()->value("SmtpUser").toString();
+    QString password = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpPassword) : kp()->settings()->value("SmtpPassword").toString();
+    int tyyppi = EmailMaaritys::sslIndeksi( kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailSSL) : kp()->settings()->value("EmailSSL").toString() );
+    QString kenelta = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailNimi) : kp()->settings()->value("EmailNimi").toString();
+    QString keneltaEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailOsoite) : kp()->settings()->value("EmailOsoite").toString();
+    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailKopio) : kp()->settings()->value("EmailKopio").toString();
 
 
     SmtpClient client(server, port, (SmtpClient::ConnectionType) tyyppi);

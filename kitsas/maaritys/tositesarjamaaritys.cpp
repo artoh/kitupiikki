@@ -28,11 +28,11 @@ TositesarjaMaaritys::TositesarjaMaaritys() :
 
 bool TositesarjaMaaritys::nollaa()
 {
-    ui->eriSarjaan->setChecked( kp()->asetukset()->onko("erisarjaan") );
+    ui->eriSarjaan->setChecked( kp()->asetukset()->onko(AsetusModel::EriSarjaan) );
     ui->samaRadio->setChecked( !ui->eriSarjaan->isChecked());
-    ui->kateisCheck->setChecked( kp()->asetukset()->onko("kateissarjaan") );
+    ui->kateisCheck->setChecked( kp()->asetukset()->onko(AsetusModel::KateisSarjaan) );
 
-    QVariantMap map = QJsonDocument::fromJson( kp()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+    QVariantMap map = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Tositesarjat).toUtf8() ).toVariant().toMap();
     ui->kateisLine->setText( map.value("K").toString() );
 
     ui->view->setColumnCount(2);

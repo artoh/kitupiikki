@@ -45,17 +45,17 @@ Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
 
 QDateTime Tilikausi::arkistoitu() const
 {
-    return kp()->settings()->value("arkistopvm/" + kp()->asetus("UID") + "-" + arkistoHakemistoNimi()).toDateTime();
+    return kp()->settings()->value("arkistopvm/" + kp()->asetukset()->uid() + "-" + arkistoHakemistoNimi()).toDateTime();
 }
 
 QString Tilikausi::arkistopolku() const
 {
-    return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID") + "-" + arkistoHakemistoNimi()).toString();
+    return kp()->settings()->value("arkistopolku/" + kp()->asetukset()->uid() + "-" + arkistoHakemistoNimi()).toString();
 }
 
 QString Tilikausi::uusiArkistopolku() const
 {
-    return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString() + "/" + arkistoHakemistoNimi();
+    return kp()->settings()->value("arkistopolku/" + kp()->asetukset()->uid() ).toString() + "/" + arkistoHakemistoNimi();
 }
 
 QDateTime Tilikausi::viimeinenPaivitys() const

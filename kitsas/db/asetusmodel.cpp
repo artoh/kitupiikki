@@ -38,6 +38,11 @@ AsetusModel::AsetusModel(QObject *parent)
 
 }
 
+QString AsetusModel::asetus(const QString &avain, const QString oletus) const
+{
+    return asetukset_.value(avain, oletus);
+}
+
 QString AsetusModel::asetus(int avain, const QString &oletus) const
 {
     return asetus( avaimet__.at(avain), oletus);
@@ -84,11 +89,21 @@ void AsetusModel::poista(const QString &avain)
     aseta(avain, QString());
 }
 
+void AsetusModel::poista(int tunnus)
+{
+    poista( avaimet__.at(tunnus) );
+}
+
 QDate AsetusModel::pvm(const QString &avain, const QDate oletus) const
 {
     if( !asetukset_.contains(avain) )
         return oletus;
     return QDate::fromString( asetus(avain), Qt::ISODate );
+}
+
+QDate AsetusModel::pvm(int tunnus, const QDate &oletus) const
+{
+    return pvm( avaimet__.at(tunnus), oletus);
 }
 
 void AsetusModel::aseta(const QString& avain, const QDate &pvm)
@@ -184,6 +199,14 @@ void AsetusModel::aseta(const QString& avain, int luku)
         aseta(avain, QString::number(luku));
 }
 
+void AsetusModel::aseta(int tunnus, int luku)
+{
+    if( !luku)
+        poista(tunnus);
+    else
+        aseta(tunnus, QString::number(luku));
+}
+
 void AsetusModel::aseta(const QString &avain, qulonglong luku)
 {
     if( !luku)
@@ -260,11 +283,44 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { LaskuVirtuaaliviivakoodi, "LaskuVirtuaaliViivakoodi"},
     { LaskuTilisiirto, "LaskuTilisiirto"},
     { LaskuKateistili, "LaskuKateistili"},
-    { LaskuEnnakkosaatavaTili, "LaskuEnnakkoSaatavatili"},
+    { LaskuEnnakkosaatavaTili, "LaskuEnnakkosaatavat"},
     { LaskuSaatavaTili, "LaskuSaatavatili"},
     { EnnakkoAlvTili, "LaskuEnnakkoALV"},
     { LaskuMaksuaika, "LaskuMaksuaika"},
     { EmailSaate, "EmailSaate"},
-    { LaskuPeruskorko, "LaskuPeruskorko"}
-
+    { LaskuPeruskorko, "LaskuPeruskorko"},
+    { LaskuEnnakkoTili, "LaskuEnnakkotili"},
+    { UID, "UID"},
+    { Muistiinpanot, "Muistiinpanot"},
+    { AlvKausi, "AlvKausi"},
+    { ArkistoRaportit, "arkistoraportit"},
+    { Muoto, "muoto"},
+    { Laajuus, "laajuus"},
+    { Tositesarjat, "tositesarjat"},
+    { Tilikartta, "tilikartta"},
+    { SmtpServer, "SmtpServer"},
+    { SmtpPort, "SmtpPort"},
+    { SmtpUser, "SmtpUser"},
+    { SmtpPassword, "SmtpPassword"},
+    { EmailSSL, "EmailSSL"},
+    { EmailNimi, "EmailNimi"},
+    { EmailOsoite, "EmailOsoite"},
+    { EmailKopio, "EmailKopio"},
+    { EmailMuoto, "EmailMuoto"},
+    { TilinpaatosValinnat, "tilinpaatosvalinnat"},
+    { TilinpaatosKieli, "tpkieli" },
+    { VeroYhteysPuhelin, "VeroYhteysPuhelin"},
+    { Palkkatilit, "palkkatilit"},
+    { OvtTunnnus, "OvtTunnus"},
+    { Operaattori, "Operaattori"},
+    { TilikarttaPvm, "TilikarttaPvm"},
+    { VakioTilikartta, "VakioTilikartta"},
+    { FinvoiceKaytossa, "FinvoiceKaytossa"},
+    { VeroTuloViite, "VeroTuloViite"},
+    { PalkkaFiTilit, "PalkkaFiTilit"},
+    { Piilotilit, "piilotilit"},
+    { Suosikkitilit, "suosikkitilit"},
+    { Naytetaantilit, "naytetaantilit"},
+    { Laajuudet, "laajuudet"},
+    { OletusMenotili, "OletusMenotili"}
 };

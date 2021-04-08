@@ -52,7 +52,8 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
 
 void TilinpaatosEditori::esikatselu()
 {    
-    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,  kp()->asetus("tpkieli")  ,this);
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(),
+                                                        raportit_,  kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli)  ,this);
     tp->nayta();
 }
 
@@ -90,9 +91,9 @@ void TilinpaatosEditori::luoPalkit()
 
 void TilinpaatosEditori::uusiTp()
 {
-    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetus("tpkieli"));
+    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli));
 
-    QStringList valinnat = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
+    QStringList valinnat = kp()->asetukset()->asetus(AsetusModel::TilinpaatosValinnat).split(",");
     QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression raporttiRe("@(.+)(:\\w*)?[!](.+)@");
@@ -274,7 +275,8 @@ void TilinpaatosEditori::tallenna()
     kausi.set("tilinpaatos", QDateTime::currentDateTime());
     kausi.tallenna();
 
-    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,  kp()->asetus("tpkieli") ,this);
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,
+                                                        kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ,this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
     connect( tp, &TilinpaatosTulostaja::tallennettu, [] { kp()->onni(tr("Tilinpäätös tallennettu")); });
     tp->tallenna();

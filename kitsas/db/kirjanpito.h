@@ -85,16 +85,6 @@ public:
     enum Onni { Onnistui = 0, Verkkovirhe = 2, Stop=3, Haetaan = 4 };
 
     /**
-     * @brief Kirjanpidon asetuksen palauttaminen
-     *
-     * @deprecated Käytä asetukset()->asetus()
-     *
-     * @param avain
-     * @return Asetuksen arvo
-     */
-    QString asetus(const QString& avain) const;
-
-    /**
      * @brief Polku kirjanpitotiedostoon
      * @return
      */

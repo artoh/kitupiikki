@@ -88,7 +88,7 @@ void Budjettivertailu::paivitaMuodot()
     QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
 
     for( auto muoto : muodot ) {
-        QString kaava = kp()->asetukset()->asetus(muoto);
+        QString kaava = kp()->asetukset()->asetus(AsetusModel::Muoto);
         QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
         QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
         QString muotonimi = map.value( kieli ).toString();

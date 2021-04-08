@@ -54,16 +54,17 @@ void FinvoiceHaku::haeUudet()
         // Haetaan uudet laskut, jos on paikallinen kirjanpito ja siinä Finvoice
         haettuLkm_ = 0;
         hakuPaalla_ = true;
-        ytunnus_ = kp()->asetus("Ytunnus");
+        ytunnus_ = kp()->asetukset()->ytunnus().simplified();
         aikaleima_ = QDateTime();
-        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus").simplified();
+
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_;
         PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
         connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::listaSaapuu);
         connect( haku, &KpKysely::virhe, [this] { this->hakuPaalla_=false;});
         haku->kysy();
 
         // Haetaan myös statustiedot
-        QString statusosoite = kp()->pilvi()->finvoiceOsoite() + "/status/" + kp()->asetus("Ytunnus").simplified();
+        QString statusosoite = kp()->pilvi()->finvoiceOsoite() + "/status/" + ytunnus_;
         PilviKysely *statushaku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, statusosoite);
         connect( statushaku, &KpKysely::vastaus, this, &FinvoiceHaku::statusListaSaapuu);
         statushaku->kysy();
@@ -89,7 +90,7 @@ void FinvoiceHaku::haeSeuraava()
 
     nykyTosite_->asetaTyyppi(TositeTyyppi::SAAPUNUTVERKKOLASKU);    
 
-    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus") + "/" + nykyinen_.value("id").toString();
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_ + "/" + nykyinen_.value("id").toString();
     PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
     haku->lisaaAttribuutti("format","JSON");
     connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::jsonSaapuu);
@@ -146,7 +147,7 @@ void FinvoiceHaku::kumppaniSaapuu(QVariant *data, const QVariantMap json)
         netto.setDebet(alvmap.value("netto").toDouble());
         netto.setAlvKoodi( alvmap.value("alvkoodi").toInt());
         netto.setAlvProsentti( alvmap.value("alvprosentti").toDouble());
-        netto.setTili( kmap.value("menotili", kp()->asetus("OletusMenotili")).toInt() );
+        netto.setTili( kmap.value("menotili", kp()->asetukset()->asetus(AsetusModel::OletusMenotili)).toInt() );
         netto.setTyyppi( TositeVienti::OSTO + TositeVienti::KIRJAUS );
         nykyTosite_->viennit()->lisaa(netto);
 
@@ -167,7 +168,7 @@ void FinvoiceHaku::kumppaniSaapuu(QVariant *data, const QVariantMap json)
     ostolasku.insert("iban", lasku.value("iban"));
     ostolasku.insert("maventaid", nykyinen_.value("id"));
 
-    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus") + "/" + nykyinen_.value("id").toString();
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_ + "/" + nykyinen_.value("id").toString();
     PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
     haku->lisaaAttribuutti("format","ORIGINAL_OR_GENERATED_IMAGE");
     connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::kuvaSaapuu);
@@ -179,7 +180,7 @@ void FinvoiceHaku::kuvaSaapuu(QVariant *data)
 {
     nykyTosite_->liitteet()->lisaa(data->toByteArray(),"lasku.pdf");
 
-    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus") + "/" + nykyinen_.value("id").toString();
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_ + "/" + nykyinen_.value("id").toString();
     PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
     haku->lisaaAttribuutti("format","XML");
     connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::xmlSaapuu);
@@ -188,7 +189,7 @@ void FinvoiceHaku::kuvaSaapuu(QVariant *data)
 
 void FinvoiceHaku::xmlSaapuu(QVariant *data)
 {
-    if( ytunnus_ != kp()->asetus("Ytunnus")) {
+    if( ytunnus_ != kp()->asetukset()->ytunnus() ) {
         hakulista_.clear();
         hakuPaalla_ = false;
         return;
@@ -213,7 +214,7 @@ void FinvoiceHaku::tallennettu()
         hakuPaalla_ = false;
 
         // Ilmoitetaan, että haettu on
-        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_;
         PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::PUT, osoite);
         haku->lisaaAttribuutti("lasttime",aikaleima_.toString(Qt::ISODate));
         haku->kysy();

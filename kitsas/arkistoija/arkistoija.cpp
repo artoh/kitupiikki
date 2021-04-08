@@ -60,7 +60,7 @@ void Arkistoija::arkistoi()
         progressDlg_ = new QProgressDialog(tr("Arkistoidaan kirjanpitoa"), tr("Peruuta"), 0, 6 );
         progressDlg_->setMinimumDuration(250);
 
-        QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");
+        QStringList raportit = kp()->asetukset()->asetus(AsetusModel::ArkistoRaportit).split(",");
         raporttilaskuri_ = 9 + raportit.count();
 
         arkistoiTositteet();
@@ -73,7 +73,7 @@ void Arkistoija::arkistoi()
 bool Arkistoija::luoHakemistot()
 {
 
-    QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+    QString arkistopolku = kp()->settings()->value("arkistopolku/" + kp()->asetukset()->asetus(AsetusModel::UID)).toString();
     if( arkistopolku.isEmpty() || !QFile::exists(arkistopolku))
         arkistopolku = ArkistohakemistoDialogi::valitseArkistoHakemisto();
     if( arkistopolku.isEmpty())
@@ -179,7 +179,7 @@ void Arkistoija::arkistoiRaportit()
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
-    QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");    
+    QStringList raportit = kp()->asetukset()->asetus(AsetusModel::ArkistoRaportit).split(",");
     progressDlg_->setMaximum( progressDlg_->maximum() + raportit.count() );
 
 
@@ -246,11 +246,13 @@ void Arkistoija::merkitseArkistoiduksi()
     rk.lisaaVenyvaSarake(50);
     rk.lisaaVenyvaSarake();
 
-    kp()->settings()->setValue("arkistopvm/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+    const QString& uid = kp()->asetukset()->asetus(AsetusModel::UID);
+
+    kp()->settings()->setValue("arkistopvm/" + uid + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QDateTime::currentDateTime());
-    kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+    kp()->settings()->setValue("arkistopolku/" + uid + "-" + tilikausi_.arkistoHakemistoNimi(),
                                hakemistoPolku_);
-    kp()->settings()->setValue("arkistosha/" + kp()->asetus("UID") + "-" + tilikausi_.arkistoHakemistoNimi(),
+    kp()->settings()->setValue("arkistosha/" + uid + "-" + tilikausi_.arkistoHakemistoNimi(),
                                QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()));
 
     rk.lisaaTyhjaRivi();
@@ -433,7 +435,7 @@ void Arkistoija::viimeistele()
     out.setCodec("UTF-8");
 
     out << "<html><meta charset=\"UTF-8\"><head><title>";
-    out << kp()->asetus("Nimi") + " arkisto";
+    out << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " arkisto";
     out << "</title><link rel='stylesheet' type='text/css' href='static/arkisto.css'></head><body>";
 
     out << navipalkki();
@@ -441,7 +443,7 @@ void Arkistoija::viimeistele()
     if(logo_)
         out << "<img src=logo.png class=logo>";
 
-    out << "<h1 class=etusivu>" << kp()->asetus("Nimi") << "</h1>";
+    out << "<h1 class=etusivu>" << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) << "</h1>";
     out << "<h2 class=etusivu>" << tulkkaa("Kirjanpitoarkisto") << "<br>" ;
     out << tilikausi_.kausivaliTekstina();
     out << "</h2>";
@@ -757,7 +759,7 @@ QString Arkistoija::navipalkki(int indeksi) const
         else
             navi.append("<img src=logo.png>");
     }
-    navi.append( kp()->asetus("Nimi") + " ");
+    navi.append( kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " ");
 
     if( kp()->onkoHarjoitus())
         navi.append("<span class=treeni>" + tulkkaa("HARJOITUS") + "</span> ");

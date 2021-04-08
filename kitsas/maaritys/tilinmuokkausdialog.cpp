@@ -276,14 +276,14 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 
 void TilinMuokkausDialog::alustalaajuus()
 {
-    QVariantMap laajamap = QJsonDocument::fromJson( kp()->asetus("laajuudet").toUtf8() ).toVariant().toMap();
+    QVariantMap laajamap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Laajuudet).toUtf8() ).toVariant().toMap();
     QMapIterator<QString,QVariant> iter(laajamap);
     while (iter.hasNext()) {
         iter.next();
         Monikielinen kk(iter.value());
         ui->laajuusCombo->addItem( kk.teksti(), iter.key() );
     }
-    ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( kp()->asetus("laajuus") ) );
+    ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( kp()->asetukset()->asetus(AsetusModel::Laajuus) ) );
 }
 
 

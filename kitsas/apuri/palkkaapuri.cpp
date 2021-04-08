@@ -39,7 +39,7 @@ PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::pvmMuuttui, ui->kohdennusCombo, &KohdennusCombo::suodataPaivalla);
 
     // Luetaan palkkakoodit
-    palkkatilit_ = QJsonDocument::fromJson( kp()->asetus("palkkatilit").toUtf8() ).toVariant().toMap();
+    palkkatilit_ = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Palkkatilit).toUtf8() ).toVariant().toMap();
 }
 
 PalkkaApuri::~PalkkaApuri()

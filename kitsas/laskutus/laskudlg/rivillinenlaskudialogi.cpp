@@ -53,6 +53,8 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
 
     ui->bruttoButton->setChecked( tosite->lasku().bruttoVerolaskenta() );
     ui->bruttoButton->setVisible( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
+
+    tosite->rivit()->lisaaRivi();
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
@@ -182,7 +184,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->splitter->setStretchFactor(1,3);
 
     connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap() ) ; }  );
+        { this->tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap()) ; }  );
 }
 
 void RivillinenLaskuDialogi::paivitaSumma()

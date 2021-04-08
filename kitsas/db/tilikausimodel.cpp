@@ -100,7 +100,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
                      kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 )
 
             {
-                if(  kp()->asetus("muoto") == "tmi" && kausi.pieniElinkeinonharjoittaja() < 1 )
+                if(  kp()->asetukset()->asetus(AsetusModel::Muoto) == "tmi" && kausi.pieniElinkeinonharjoittaja() < 1 )
                     return tr("Ei pakollinen");
                 else
                     return tr("Aika laatia!");

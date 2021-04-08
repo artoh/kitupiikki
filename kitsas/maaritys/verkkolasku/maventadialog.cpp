@@ -39,7 +39,7 @@ void MaventaDialog::accept()
     QVariantMap map;
     map.insert("apikey", ui->api->text().trimmed());
     map.insert("clientid", ui->uuid->text().trimmed());
-    QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+    QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus));
     PilviKysely *pk= new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
     connect( pk, &PilviKysely::vastaus, this, &MaventaDialog::vastaus);
     pk->kysy(map);

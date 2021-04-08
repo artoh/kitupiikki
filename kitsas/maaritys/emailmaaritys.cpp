@@ -78,7 +78,7 @@ bool EmailMaaritys::nollaa()
 
     paikallinen_ = !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
 
-    if( kp()->asetukset()->asetus("SmtpServer").isEmpty() || paikallinen_) {
+    if( kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty() || paikallinen_) {
         ui->palvelinEdit->setText( kp()->settings()->value("SmtpServer").toString() );
         ui->kayttajaEdit->setText( kp()->settings()->value("SmtpUser").toString());
         ui->salasanaEdit->setText( kp()->settings()->value("SmtpPassword").toString());
@@ -89,14 +89,14 @@ bool EmailMaaritys::nollaa()
         ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->settings()->value("EmailSSL").toString() ));
         ui->kopioEdit->setText(kp()->settings()->value("EmailKopio").toString());
     } else {
-        ui->palvelinEdit->setText( kp()->asetukset()->asetus("SmtpServer") );
-        ui->porttiSpin->setValue( kp()->asetukset()->luku("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25));
-        ui->kayttajaEdit->setText( kp()->asetukset()->asetus("SmtpUser"));
-        ui->salasanaEdit->setText( kp()->asetukset()->asetus("SmtpPassword"));
-        ui->nimiEdit->setText( kp()->asetukset()->asetus("EmailNimi"));
-        ui->emailEdit->setText( kp()->asetukset()->asetus("EmailOsoite"));
-        ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->asetukset()->asetus("EmailSSL") ));
-        ui->kopioEdit->setText(kp()->asetukset()->asetus("EmailKopio"));
+        ui->palvelinEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpServer) );
+        ui->porttiSpin->setValue( kp()->asetukset()->luku(AsetusModel::SmtpPort, QSslSocket::supportsSsl() ? 465 : 25));
+        ui->kayttajaEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpUser));
+        ui->salasanaEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpPassword));
+        ui->nimiEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailNimi));
+        ui->emailEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailOsoite));
+        ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->asetukset()->asetus(AsetusModel::EmailSSL) ));
+        ui->kopioEdit->setText(kp()->asetukset()->asetus(AsetusModel::EmailKopio));
         ui->kpAsetusRadio->setChecked(true);
     }
 
@@ -127,14 +127,14 @@ bool EmailMaaritys::tallenna()
         if( !paikallinen_ )
             kp()->asetukset()->poista("SmtpServer");
     } else {
-        kp()->asetukset()->aseta("SmtpServer", ui->palvelinEdit->text());
-        kp()->asetukset()->aseta("SmtpPort", ui->porttiSpin->value());
-        kp()->asetukset()->aseta("SmtpUser", ui->kayttajaEdit->text());
-        kp()->asetukset()->aseta("SmtpPassword", ui->salasanaEdit->text());
-        kp()->asetukset()->aseta("EmailNimi", ui->nimiEdit->text());
-        kp()->asetukset()->aseta("EmailOsoite", ui->emailEdit->text());
-        kp()->asetukset()->aseta("EmailKopio", ui->kopioEdit->text());
-        kp()->asetukset()->aseta("EmailSSL", sslAsetus(ui->tyyppiCombo->currentIndex()));
+        kp()->asetukset()->aseta(AsetusModel::SmtpServer, ui->palvelinEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::SmtpPort, ui->porttiSpin->value());
+        kp()->asetukset()->aseta(AsetusModel::SmtpUser, ui->kayttajaEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::SmtpPassword, ui->salasanaEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::EmailNimi, ui->nimiEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::EmailOsoite, ui->emailEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::EmailKopio, ui->kopioEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::EmailSSL, sslAsetus(ui->tyyppiCombo->currentIndex()));
     }
 
     if( !paikallinen_ ) {
@@ -157,20 +157,20 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->settings()->value("EmailKopio").toString() != ui->kopioEdit->text() ||
             kp()->settings()->value("EmailSSL").toString() != sslAsetus(ui->tyyppiCombo->currentIndex()) :
 
-            kp()->asetukset()->asetus("SmtpServer") != ui->palvelinEdit->text() ||
-            kp()->asetukset()->luku("SmtpPort",465) != ui->porttiSpin->value() ||
-            kp()->asetukset()->asetus("SmtpUser") != ui->kayttajaEdit->text() ||
-            kp()->asetukset()->asetus("SmtpPassword") != ui->salasanaEdit->text() ||
-            kp()->asetukset()->asetus("EmailNimi") != ui->nimiEdit->text() ||
-            kp()->asetukset()->asetus("EmailOsoite") != ui->emailEdit->text() ||
-            kp()->asetukset()->asetus("EmailKopio") != ui->kopioEdit->text() ||
-            kp()->asetukset()->asetus("EmailSSL") != sslAsetus(ui->tyyppiCombo->currentIndex());
+            kp()->asetukset()->asetus(AsetusModel::SmtpServer) != ui->palvelinEdit->text() ||
+            kp()->asetukset()->luku(AsetusModel::SmtpPort,465) != ui->porttiSpin->value() ||
+            kp()->asetukset()->asetus(AsetusModel::SmtpUser) != ui->kayttajaEdit->text() ||
+            kp()->asetukset()->asetus(AsetusModel::SmtpPassword) != ui->salasanaEdit->text() ||
+            kp()->asetukset()->asetus(AsetusModel::EmailNimi) != ui->nimiEdit->text() ||
+            kp()->asetukset()->asetus(AsetusModel::EmailOsoite) != ui->emailEdit->text() ||
+            kp()->asetukset()->asetus(AsetusModel::EmailKopio) != ui->kopioEdit->text() ||
+            kp()->asetukset()->asetus(AsetusModel::EmailSSL) != sslAsetus(ui->tyyppiCombo->currentIndex());
 
 
     int emailmuoto = ui->maksutiedotRadio->isChecked() ? 1 : 0;
 
-    return muokattu || emailmuoto != kp()->asetukset()->luku("EmailMuoto") ||
-            ui->saateEdit->toPlainText() != kp()->asetukset()->asetus("EmailSaate");
+    return muokattu || emailmuoto != kp()->asetukset()->luku( AsetusModel::EmailMuoto) ||
+            ui->saateEdit->toPlainText() != kp()->asetukset()->asetus(AsetusModel::EmailSaate);
 
 }
 

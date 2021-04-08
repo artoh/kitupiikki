@@ -23,6 +23,10 @@ TositeRivi::TositeRivi(const QVariantMap &data)
 {
     if( laskutetaanKpl().isEmpty() && qAbs(myyntiKpl()) > 1e-5 )
         setLaskutetaanKpl( QString("%1").arg(myyntiKpl(),0, 'f', 2) );
+    else if( laskutetaanKpl().isEmpty()) {
+        setLaskutetaanKpl("1");
+        setMyyntiKpl(1.0);
+    }
     if( !bruttoYhteensa().cents())
         laskeYhteensa();
     if (yksikko().isEmpty() && unKoodi().isEmpty()) {

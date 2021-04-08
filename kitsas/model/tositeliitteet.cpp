@@ -159,12 +159,12 @@ void TositeLiitteet::clear()
 void TositeLiitteet::tallennettu()
 {
     if( !inboxista_.isEmpty()) {
-        if( !kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienSiirto" ).toBool() ) {
+        if( !kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirto" ).toBool() ) {
             for(QString tiedosto : inboxista_) {
                 QFile::remove(tiedosto);
             }
         } else {
-            QString minne = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienSiirtoKansio" ).toString();
+            QString minne = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirtoKansio" ).toString();
             QDir kohde(minne);           
             for( QString tiedosto : inboxista_) {                
                 QFileInfo info(tiedosto);
@@ -329,7 +329,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
 bool TositeLiitteet::lisaaHetiTiedosto(const QString &polku)
 {
-    QString inbox = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienKansio" ).toString();
+    QString inbox = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienKansio" ).toString();
     if( !inbox.isEmpty() && polku.startsWith(inbox))
         inboxista_.append(polku);
 

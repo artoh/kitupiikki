@@ -45,7 +45,7 @@ bool IlmoitinTuottaja::voikoMuodostaa(const QVariantMap &map)
     return !kausiTieto(map).isEmpty() &&
             kp()->pilvi() &&
             !kp()->pilvi()->ilmoitinTunnus().isEmpty() &&
-            !kp()->asetus("Ytunnus").isEmpty() &&
+            !kp()->asetukset()->asetus(AsetusModel::Ytunnus).isEmpty() &&
             ( kp()->pilvi()->tilausvoimassa() ||
               qobject_cast<PilviModel*>(kp()->yhteysModel()));
 }
@@ -120,7 +120,7 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
     lisaa(198, QDateTime::currentDateTime().toString("ddMMyyyyhhmmss"));
     lisaa(14, kp()->pilvi()->ilmoitinTunnus());
     lisaa(48, qApp->applicationName());
-    lisaa(10, kp()->asetus("Ytunnus"));
+    lisaa(10, kp()->asetukset()->asetus(AsetusModel::Ytunnus));
 
     lisaa(50, kausitieto.value(0).toString());
     if( kausitieto.count() > 2)
@@ -165,8 +165,8 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
             continue;
         lisaa(koodi, iter.value().toDouble());
     }
-    if( kp()->asetukset()->onko("VeroYhteysPuhelin") )
-        lisaa(42, kp()->asetus("VeroYhteysPuhelin"));
+    if( kp()->asetukset()->onko(AsetusModel::VeroYhteysPuhelin) )
+        lisaa(42, kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
     txt_.append("999:1");
 
     return true;

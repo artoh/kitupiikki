@@ -97,7 +97,7 @@ bool TallentavaMaaritysWidget::nollaa()
                         ccombo->setPlaceholderText( ccombo->property("TyhjaTeksti").toString() );
                 }
                 QVariantList valitut;
-                for(auto &iban : kp()->asetus(asetusavain).split(','))
+                for(auto &iban : kp()->asetukset()->asetus(asetusavain).split(','))
                     valitut.append(iban);
                 ccombo->setSelectedItems(valitut);
                 QTimer::singleShot(50, ccombo, &CheckCombo::updateText);
@@ -346,7 +346,7 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
 
         QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
         if( dspin ) {
-            if( qAbs(kp()->asetus(asetusavain).toDouble() - dspin->value() ) > 1e-3 )
+            if( qAbs(kp()->asetukset()->asetus(asetusavain).toDouble() - dspin->value() ) > 1e-3 )
                 return true;
             continue;
         }

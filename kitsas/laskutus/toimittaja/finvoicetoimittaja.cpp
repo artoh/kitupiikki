@@ -55,17 +55,19 @@ void FinvoiceToimittaja::toimita()
 
 void FinvoiceToimittaja::alustaInit()
 {
-    init_.insert("ovt", kp()->asetus("OvtTunnus"));
-    init_.insert("operaattori", kp()->asetus("Operaattori"));
-    init_.insert("nimi", kp()->asetus("Nimi"));
-    init_.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv( kp()->asetus("Ytunnus") ) );
-    init_.insert("kotipaikka", kp()->asetus("Kotipaikka"));
-    init_.insert("osoite", kp()->asetus("Katuosoite"));
-    init_.insert("postinumero", kp()->asetus("Postinumero"));
-    init_.insert("kaupunki", kp()->asetus("Kaupunki"));
+    const AsetusModel* asetukset = kp()->asetukset();
+
+    init_.insert("ovt", asetukset->asetus(AsetusModel::OvtTunnnus));
+    init_.insert("operaattori", asetukset->asetus(AsetusModel::Operaattori));
+    init_.insert("nimi", asetukset->asetus(AsetusModel::OrganisaatioNimi));
+    init_.insert("alvtunnus", AsiakasToimittajaDlg::yToAlv( asetukset->asetus(AsetusModel::Ytunnus) ) );
+    init_.insert("kotipaikka", asetukset->asetus(AsetusModel::Kotipaikka));
+    init_.insert("osoite", asetukset->asetus(AsetusModel::Katuosoite));
+    init_.insert("postinumero", asetukset->asetus(AsetusModel::Postinumero));
+    init_.insert("kaupunki", asetukset->asetus(AsetusModel::Kaupunki));
 
     QVariantList tilit;
-    for(const Iban iban : kp()->asetus("LaskuIbanit").split(',')) {
+    for(const Iban iban : asetukset->asetus(AsetusModel::LaskuIbanit).split(',')) {
         QVariantMap tili;
         tili.insert("iban", iban.valeitta());
         tili.insert("bic", iban.bic());
@@ -110,7 +112,7 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
         pk->kysy(pyynto);
 
     } else if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA) {
-        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetus("Ytunnus");
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetukset()->asetus(AsetusModel::Ytunnus);
 
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                     osoite );
@@ -126,7 +128,7 @@ void FinvoiceToimittaja::laskuSaapuu(QVariant *data)
 {
     QByteArray lasku = data->toByteArray();
 
-    QString hakemisto = kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString();
+    QString hakemisto = kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID))).toString();
     QString tnimi = QString("%1/lasku%2.xml")
             .arg(hakemisto)
             .arg(tositeMap().value("lasku").toMap().value("numero").toLongLong(),8,10,QChar('0'));

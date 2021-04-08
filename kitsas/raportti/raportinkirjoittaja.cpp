@@ -127,7 +127,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
        if( sarakkeet_[i].sarakkeenKaytto == RaporttiRivi::CSV)
            leveys = 0;
        else if( !sarakkeet_[i].leveysteksti.isEmpty())
-           leveys = painter->fontMetrics().width( sarakkeet_[i].leveysteksti );
+           leveys = painter->fontMetrics().horizontalAdvance( sarakkeet_[i].leveysteksti );
        else if( sarakkeet_[i].leveysprossa)
            leveys = sivunleveys * sarakkeet_[i].leveysprossa / 100;
        else
@@ -341,7 +341,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                "</head><body>");
 
     txt.append("<h1>" + otsikko() + "</h1>");
-    txt.append("<p>" + kp()->asetukset()->asetus("Nimi") + "<br>");
+    txt.append("<p>" + kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + "<br>");
     txt.append( kausiteksti() + "</p>");
     txt.append("<table width=100%><thead>\n");
 
@@ -521,7 +521,8 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
 
-    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : Kirjanpito::db()->asetus("Nimi");
+    QString nimi = kp()->asetukset()->asetus(AsetusModel::Logonsijainti) == "VAINLOGO" ?
+                QString() : kp()->asetukset()->nimi();
     QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
@@ -531,7 +532,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
         double skaalattu = skaala < 5.0 ? skaala : 5.0;
         painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
-        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");        
+        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().horizontalAdvance("A");
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
@@ -552,7 +553,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         painter->restore();
     }
 
-    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
+    QString ytunnus = kp()->asetukset()->ytunnus() ;
     painter->drawText(QRect(vasenreunus,nimiRect.height(),sivunleveys/3, rivinkorkeus ), Qt::AlignLeft, ytunnus );
 
     painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );    

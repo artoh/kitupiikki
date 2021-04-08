@@ -361,11 +361,11 @@ void TiliModel::lataa(QVariantList lista)
     naytettavat_.clear();
 
     // Samalla ladataan piilotukset ja suosikit
-    for(auto piilo: kp()->asetus("piilotilit").split(","))
+    for(auto piilo: kp()->asetukset()->asetus(AsetusModel::Piilotilit).split(","))
         piilotetut_.insert(piilo.toInt());
-    for(auto suosikki: kp()->asetus("suosikkitilit").split(","))
+    for(auto suosikki: kp()->asetukset()->asetus(AsetusModel::Suosikkitilit).split(","))
         suosikit_.insert(suosikki.toInt());
-    for(auto naytettava : kp()->asetus("naytetaantilit").split(","))
+    for(auto naytettava : kp()->asetukset()->asetus(AsetusModel::Naytetaantilit).split(","))
         naytettavat_.insert(naytettava.toInt());
 
     paivitaTilat();
@@ -448,8 +448,8 @@ void TiliModel::tyhjenna()
 void TiliModel::paivitaTilat()
 {
 
-    int laajuus = kp()->asetukset()->luku("laajuus",3);
-    QString muoto = kp()->asetukset()->asetus("muoto");
+    int laajuus = kp()->asetukset()->luku(AsetusModel::Laajuus,3);
+    QString muoto = kp()->asetukset()->asetus(AsetusModel::Muoto);
 
     for(Tili* tili : tiliLista_) {
         if( tili->otsikkotaso()) {

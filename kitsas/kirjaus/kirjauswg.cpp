@@ -388,7 +388,7 @@ void KirjausWg::tulostaTosite()
         css.open(QIODevice::ReadOnly);
         doc.setDefaultStyleSheet( QString::fromUtf8( css.readAll() ) );
 
-        QString teksti = "<div class=kirjanpito>" + kp()->asetukset()->asetus("Nimi") + "</div>" + QString::fromUtf8(ba);
+        QString teksti = "<div class=kirjanpito>" + kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + "</div>" + QString::fromUtf8(ba);
 
         doc.setHtml( teksti );
         doc.print( kp()->printer());

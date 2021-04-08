@@ -134,10 +134,6 @@ Kirjanpito::~Kirjanpito()
     delete printer_;
 }
 
-QString Kirjanpito::asetus(const QString &avain) const
-{
-    return asetukset()->asetus(avain);
-}
 
 QString Kirjanpito::kirjanpitoPolku()
 {

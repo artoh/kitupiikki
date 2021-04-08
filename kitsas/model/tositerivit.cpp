@@ -42,7 +42,6 @@ void TositeRivit::lataa(const QVariantList &data)
     for(const auto& variant : data) {
         rivit_.append( TositeRivi( variant.toMap()) );
     }
-
     endResetModel();
 }
 
@@ -301,7 +300,7 @@ Qt::ItemFlags TositeRivit::flags(const QModelIndex &index) const
 QVariantList TositeRivit::rivit() const
 {
     QVariantList ulos;
-    for(const auto& rivi : rivit_)
+    for(auto rivi : rivit_)
     {
         if( rivi.bruttoYhteensa().cents() || !rivi.nimike().isEmpty())
             ulos.append( rivi.data() );
@@ -350,6 +349,10 @@ void TositeRivit::lisaaRivi(TositeRivi rivi)
             rivi.setAlvProsentti( tili->alvprosentti());
         }
     }
+    if( qAbs(rivi.myyntiKpl()) < 1e-5) {
+        rivi.setMyyntiKpl(1.0);
+        rivi.setLaskutetaanKpl("1");
+    }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
     rivit_.append(rivi);
@@ -374,12 +377,16 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm)
     rivi.setTili( tuote.tili() );
     rivi.setKohdennus( tuote.kohdennus() );
     rivi.setAlvKoodi( tuote.alvkoodi() );
-    rivi.setAleProsentti( tuote.alvprosentti() );
+    rivi.setAlvProsentti( tuote.alvprosentti() );
 
     rivi.laskeYhteensa();
 
-    beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
-    rivit_.append(rivi);
+    int indeksi = rivit_.count();
+    if(indeksi > 0 && !rivit_.at(indeksi - 1).bruttoYhteensa() )
+        indeksi = indeksi - 1;
+
+    beginInsertRows( QModelIndex(), indeksi, indeksi );
+    rivit_.insert(indeksi, rivi);
     endInsertRows();
 }
 

@@ -57,7 +57,7 @@ VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
 void VerkkolaskuMaaritys::paivitaMaventa()
 {
     ui->kayttajaLabel->setText(tr("Haetaan käyttäjätietoja..."));
-    QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+    QString osoite = QString("%1/maventa/%2").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus));
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, osoite);
     connect(pk, &PilviKysely::vastaus, this, &VerkkolaskuMaaritys::maventaTiedot);
     connect(pk, &PilviKysely::virhe, this, &VerkkolaskuMaaritys::eiTietoja);
@@ -89,7 +89,7 @@ bool VerkkolaskuMaaritys::tallenna()
         kp()->asetukset()->aseta(inits);
     }
 
-    kp()->settings()->setValue( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID")), ui->hakemistoEdit->text() );
+    kp()->settings()->setValue( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID)), ui->hakemistoEdit->text() );
     return true;
 }
 
@@ -109,10 +109,10 @@ bool VerkkolaskuMaaritys::nollaa()
 
     ui->osoiteGroup->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
-    ui->ovtEdit->setText( kp()->asetus("OvtTunnus") );
-    ui->operaattoriEdit->setText( kp()->asetus("Operaattori"));
+    ui->ovtEdit->setText( kp()->asetukset()->asetus(AsetusModel::OvtTunnnus) );
+    ui->operaattoriEdit->setText( kp()->asetukset()->asetus(AsetusModel::Operaattori));
 
-    ui->hakemistoEdit->setText( kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString());
+    ui->hakemistoEdit->setText( kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID))).toString());
     ui->postitusCheck->setChecked( kp()->asetukset()->onko("MaventaPostitus") );
 
     ui->noutoCheck->setDisabled(true);
@@ -150,10 +150,10 @@ bool VerkkolaskuMaaritys::onkoMuokattu()
     int lasku = ui->paikallinen->isChecked() ? PAIKALLINEN :
                                                ui->integroitu->isChecked() ? MAVENTA :
                                                                              EIKAYTOSSA;
-    return lasku != kp()->asetukset()->luku("FinvoiceKaytossa") ||
-           ui->ovtEdit->text() != kp()->asetus("OvtTunnus") ||
-           ui->operaattoriEdit->text() != kp()->asetus("Operaattori") ||
-           ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetus("UID"))).toString() ||
+    return lasku != kp()->asetukset()->luku(AsetusModel::FinvoiceKaytossa) ||
+           ui->ovtEdit->text() != kp()->asetukset()->asetus(AsetusModel::OvtTunnnus) ||
+           ui->operaattoriEdit->text() != kp()->asetukset()->asetus(AsetusModel::Operaattori) ||
+           ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID))).toString() ||
            ui->postitusCheck->isChecked() != kp()->asetukset()->onko("MaventaPostitus") ||
            ui->suosiCheck->isChecked() != kp()->asetukset()->onko("FinvoiceSuosi");
 
@@ -178,7 +178,7 @@ void VerkkolaskuMaaritys::valintaMuuttui()
     }
 
     if( !ui->eiKaytossa->isChecked() && ui->ovtEdit->text().isEmpty())
-        ui->ovtEdit->setText("0037" + kp()->asetus("Ytunnus").remove('-'));
+        ui->ovtEdit->setText("0037" + kp()->asetukset()->asetus(AsetusModel::Ytunnus).remove('-'));
     if( ui->integroitu->isChecked() && ui->operaattoriEdit->text().isEmpty())
         ui->operaattoriEdit->setText("003721291126");
 
@@ -238,7 +238,7 @@ void VerkkolaskuMaaritys::eiTietoja()
 
 void VerkkolaskuMaaritys::setFlow(bool on)
 {
-    QString osoite = QString("%1/maventa/%2/flow").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus").simplified());
+    QString osoite = QString("%1/maventa/%2/flow").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus).simplified());
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
     if( !on)
         pk->lisaaAttribuutti("off","");
@@ -249,7 +249,7 @@ void VerkkolaskuMaaritys::setFlow(bool on)
 void VerkkolaskuMaaritys::noudaNyt()
 {
     if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
-        QString osoite = QString("%1/maventa/fetch").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetus("Ytunnus"));
+        QString osoite = QString("%1/maventa/fetch").arg(kp()->pilvi()->finvoiceOsoite()).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus));
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
         connect(pk, &PilviKysely::vastaus, [] { emit kp()->onni("Verkkolaskut päivitetty kiertoon"); });
         pk->kysy();

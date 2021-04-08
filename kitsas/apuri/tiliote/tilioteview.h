@@ -31,7 +31,6 @@ public:
 protected:
     void keyPressEvent(QKeyEvent* event) override;
     void closeEditor(QWidget* editor, QAbstractItemDelegate::EndEditHint hint) override;
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
 
     void ennenResetia();
     void resetinJalkeen();

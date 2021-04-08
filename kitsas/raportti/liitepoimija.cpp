@@ -36,7 +36,7 @@ void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int
 {
     QPdfWriter *writer = new QPdfWriter(tiedosto_);
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-    writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetus("Nimi")).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi()).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 

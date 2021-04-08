@@ -61,7 +61,7 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
         if( lasku.jaksopvm().isValid()) {           
             lisaa( "laskutusjakso", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
                                                .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
-        } else {
+        } else if( lasku.maksutapa() != Lasku::ENNAKKOLASKU) {
             lisaa("toimpvm", lasku.toimituspvm());
         }
     }

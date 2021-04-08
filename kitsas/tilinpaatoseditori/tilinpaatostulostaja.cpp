@@ -165,20 +165,20 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &o
         painter->drawImage( QRectF((sivunleveys - leveys) / 2, sivunkorkeus / 3 - rivinkorkeus * 4, leveys , korkeus),
                               kp()->logo() );
     }
-    painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));
+    painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi));
 
     painter->setFont(QFont("FreeSans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus*4 ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , alaotsikko);
 
     painter->setFont(QFont("FreeSans",12));
-    QString omaOsoite = kp()->asetus("Katuosoite") + "\n" +
-            kp()->asetus("Postinumero") + " " + kp()->asetus("Kaupunki");
+    QString omaOsoite = kp()->asetukset()->asetus(AsetusModel::Katuosoite) + "\n" +
+            kp()->asetukset()->asetus(AsetusModel::Postinumero) + " " + kp()->asetukset()->asetus(AsetusModel::Kaupunki);
     painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, omaOsoite);
-    if( !kp()->asetus("Ytunnus").isEmpty())
-        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Y-tunnus", kieli)).arg(kp()->asetukset()->asetus("Ytunnus")));
-    if( !kp()->asetus("Kotipaikka").isEmpty())
-        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Kotipaikka", kieli)).arg(kp()->asetukset()->asetus("Kotipaikka")));
+    if( !kp()->asetukset()->asetus(AsetusModel::Ytunnus).isEmpty())
+        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Y-tunnus", kieli)).arg(kp()->asetukset()->asetus(AsetusModel::Ytunnus)));
+    if( !kp()->asetukset()->asetus(AsetusModel::Kotipaikka).isEmpty())
+        painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, QString("%1: %2").arg(tulkkaa("Kotipaikka", kieli)).arg(kp()->asetukset()->asetus(AsetusModel::Kotipaikka)));
 
 
     painter->restore();

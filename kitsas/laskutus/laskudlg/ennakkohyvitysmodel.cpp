@@ -78,7 +78,7 @@ void EnnakkoHyvitysModel::lataaErat(int asiakasId)
 {
     if( asiakasId ) {
         KpKysely *kysely = kpk("/erat");
-        kysely->lisaaAttribuutti("tili", kp()->asetukset()->luku("LaskuEnnakkotili"));
+        kysely->lisaaAttribuutti("tili", kp()->asetukset()->luku(AsetusModel::LaskuEnnakkoTili));
         kysely->lisaaAttribuutti("asiakas", asiakasId);
         connect(kysely, &KpKysely::vastaus, this, &EnnakkoHyvitysModel::eratSaapuu);
         kysely->kysy();

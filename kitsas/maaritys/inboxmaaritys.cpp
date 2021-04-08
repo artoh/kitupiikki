@@ -39,7 +39,7 @@ InboxMaaritys::~InboxMaaritys()
 
 bool InboxMaaritys::tallenna()
 {
-    QString uid = kp()->asetus("UID");
+    QString uid = kp()->asetukset()->asetus(AsetusModel::UID);
     kp()->settings()->beginGroup(uid);
 
     kp()->settings()->setValue("KirjattavienKansio", ui_->kansioEdit->text());
@@ -54,7 +54,7 @@ bool InboxMaaritys::tallenna()
 
 bool InboxMaaritys::nollaa()
 {
-    QString uid = kp()->asetus("UID");
+    QString uid = kp()->asetukset()->asetus(AsetusModel::UID);
     kp()->settings()->beginGroup(uid);
     ui_->kansioEdit->setText( kp()->settings()->value("KirjattavienKansio").toString() );
     ui_->kopioEdit->setText( kp()->settings()->value("KirjattavienSiirtoKansio").toString());
@@ -67,7 +67,7 @@ bool InboxMaaritys::nollaa()
 
 bool InboxMaaritys::onkoMuokattu()
 {
-    QString uid = kp()->asetus("UID");
+    QString uid = kp()->asetukset()->asetus(AsetusModel::UID);
     kp()->settings()->beginGroup(uid);
     QString kirjattavat = ( kp()->settings()->value("KirjattavienKansio").toString() );
     QString siirto = ( kp()->settings()->value("KirjattavienSiirtoKansio").toString());

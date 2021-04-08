@@ -67,7 +67,8 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
         ui->kieliCombo->addItem(QIcon(":/liput/" + koodi + ".png"), kielitxt, koodi);
     }
     // Sitten pitäisi valita nykyinen kieli
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("tpkieli") ) );
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData(
+                                         kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ) );
 
     tarkistaPMA();
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TpAloitus::lataa);

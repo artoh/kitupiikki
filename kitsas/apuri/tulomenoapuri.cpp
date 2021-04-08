@@ -40,7 +40,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->setupUi(this);
 
     // Viimeisin maksutapa säilyy jotta maksuperusteinen elämä on helpompaa
-    viimeMaksutapa_ = kp()->settings()->value( kp()->asetus("UID") + "/ViimeMaksutapa" ).toString();
+    viimeMaksutapa_ = kp()->settings()->value( kp()->asetukset()->asetus(AsetusModel::UID) + "/ViimeMaksutapa" ).toString();
 
     veroFiltteri_ = new QSortFilterProxyModel(this);
     veroFiltteri_->setFilterRole( VerotyyppiModel::KoodiTekstiRooli);
@@ -112,7 +112,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
 TuloMenoApuri::~TuloMenoApuri()
 {
-    kp()->settings()->setValue(kp()->asetus("UID") + "/ViimeMaksutapa", viimeMaksutapa_);
+    kp()->settings()->setValue(kp()->asetukset()->asetus(AsetusModel::UID) + "/ViimeMaksutapa", viimeMaksutapa_);
     delete ui;
 }
 

@@ -177,7 +177,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
     // Tunnistetaan viitenumerosta, onko oma-aloitteista veroa vai ennakkoveroa
     if( rivi.value("saajamaksaja").toString().toUpper() == "VEROHALLINTO") {
         QString viite = rivi.value("viite").toString();
-        if( kp()->asetus("VeroTuloViite").endsWith(viite)) {
+        if( kp()->asetukset()->asetus(AsetusModel::VeroTuloViite).endsWith(viite)) {
             rivi.insert("tili", kp()->asetukset()->luku("Tuloveroennakkotili"));
             return;
         } else {

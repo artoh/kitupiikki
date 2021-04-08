@@ -26,6 +26,7 @@
 #include "db/asetusmodel.h"
 #include "db/tilimodel.h"
 
+
 #include "kitsas.h"
 
 
@@ -117,9 +118,9 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
 
     if( maksutapa == Lasku::KATEINEN) {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuKateistili) );
-    } else if( maksutapa == Lasku::ENNAKKOLASKU) {
+    } else if (maksutapa == Lasku::ENNAKKOLASKU) {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuEnnakkosaatavaTili) );
-    } else {
+    }  else {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuSaatavaTili));
     }
 
@@ -140,8 +141,13 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
     QMap<QString,Euro> eurot;
     for(int i=0; i < tosite_->rivit()->rowCount(); i++) {
         const TositeRivi& rivi = tosite_->rivit()->rivi(i);
+        Euro rivisumma = Euro::fromDouble(rivi.nettoYhteensa());
+        if( !rivisumma)
+            continue;
+
+        int tili = lasku.maksutapa() == Lasku::ENNAKKOLASKU ? kitsas_->asetukset()->luku(AsetusModel::LaskuEnnakkoTili) :  rivi.tili();
         QString str = QString("%1/%2/%3/%4")
-                .arg(rivi.tili())
+                .arg(tili)
                 .arg(rivi.kohdennus())
                 .arg(rivi.alvkoodi())
                 .arg(rivi.alvProsentti(),0,'f',2);
@@ -149,7 +155,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
             str.append(QString("/%1").arg(merkkaus.toString()));
         }
         Euro aiempi = eurot.value(str);
-        eurot.insert(str, aiempi + Euro::fromDouble(rivi.nettoYhteensa()));
+        eurot.insert(str, aiempi + rivisumma);
     }
 
     // Sitten puretaan nämä kirjauksiksi

@@ -64,10 +64,44 @@ public:
         LaskuKateistili,
         LaskuEnnakkosaatavaTili,
         LaskuSaatavaTili,
-        EnnakkoAlvTili,
+        EnnakkoAlvTili,        
         LaskuMaksuaika,
         EmailSaate,
-        LaskuPeruskorko
+        LaskuPeruskorko,
+        LaskuEnnakkoTili,
+        UID,
+        Muistiinpanot,
+        AlvKausi,
+        ArkistoRaportit,
+        Muoto,
+        Laajuus,
+        Tositesarjat,
+        Tilikartta,
+        SmtpServer,
+        SmtpPort,
+        SmtpUser,
+        SmtpPassword,
+        EmailNimi,
+        EmailOsoite,
+        EmailKopio,
+        EmailSSL,
+        EmailMuoto,
+        TilinpaatosValinnat,
+        TilinpaatosKieli,
+        VeroYhteysPuhelin,
+        Palkkatilit,
+        OvtTunnnus,
+        Operaattori,
+        TilikarttaPvm,
+        VakioTilikartta,
+        FinvoiceKaytossa,
+        VeroTuloViite,
+        PalkkaFiTilit,
+        Piilotilit,
+        Suosikkitilit,
+        Naytetaantilit,
+        Laajuudet,
+        OletusMenotili
 
     };
 
@@ -77,7 +111,7 @@ public:
      * @param avain Haettava avain
      * @return asetus, tai String() jos asetusta ei ole
      */
-    QString asetus(const QString& avain, const QString oletus = QString()) const { return asetukset_.value(avain, oletus); }
+    QString asetus(const QString& avain, const QString oletus = QString()) const;
     QString asetus(int avain, const QString& oletus = QString()) const;
 
     void aseta(const QString& avain, const QString& arvo);
@@ -89,8 +123,11 @@ public:
      * @param avain
      */
     void poista(const QString& avain);
+    void poista(int tunnus);
 
     QDate pvm(const QString& avain, const QDate oletus = QDate()) const;
+    QDate pvm(int tunnus, const QDate& oletus = QDate()) const;
+
     void aseta(const QString &avain, const QDate& pvm);
 
     bool onko(const QString& avain) const;
@@ -107,6 +144,7 @@ public:
 
     qulonglong isoluku(const QString &avain, qulonglong oletusarvo = 0) const;
     void aseta(const QString &avain, int luku);
+    void aseta(int tunnus, int luku);
     void aseta(const QString& avain, qulonglong luku);
 
     /**
@@ -121,6 +159,10 @@ public:
 
     void lataa(const QVariantMap &lista);
     void tyhjenna() { asetukset_.clear(); }
+
+    QString nimi() const { return asetus(AsetusModel::OrganisaatioNimi);}
+    QString ytunnus() const { return asetus(AsetusModel::Ytunnus);}
+    QString uid() const { return asetus(AsetusModel::UID);}
 
 signals:
     void asetusMuuttui();

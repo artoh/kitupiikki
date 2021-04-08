@@ -29,7 +29,7 @@ PalkkatiliMaaritys::PalkkatiliMaaritys()
 
 bool PalkkatiliMaaritys::nollaa()
 {
-    QVariantMap palkkatilit = QJsonDocument::fromJson( kp()->asetus("palkkatilit").toUtf8() ).toVariant().toMap();
+    QVariantMap palkkatilit = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Palkkatilit).toUtf8() ).toVariant().toMap();
 
     for( TiliCombo* tcombo : findChildren<TiliCombo*>() )  {
         QString koodi = tcombo->property("pkoodi").toString();
@@ -52,7 +52,7 @@ bool PalkkatiliMaaritys::tallenna()
 bool PalkkatiliMaaritys::onkoMuokattu()
 {
     QString asetus = QString::fromUtf8(QJsonDocument::fromVariant(taulu()).toJson(QJsonDocument::Compact));
-    QString verrokki = QString::fromUtf8(QJsonDocument::fromJson(kp()->asetus("palkkatilit").toUtf8()).toJson(QJsonDocument::Compact));
+    QString verrokki = QString::fromUtf8(QJsonDocument::fromJson(kp()->asetukset()->asetus(AsetusModel::Palkkatilit).toUtf8()).toJson(QJsonDocument::Compact));
     qDebug() << asetus;
     qDebug() << verrokki;
     return asetus != verrokki;

@@ -24,14 +24,7 @@
 
 PalkkaFiTuonti::PalkkaFiTuonti()
 {
-    QString a = kp()->asetus("PalkkaFiTilit");
-    QByteArray ba = a.toUtf8();
-    QJsonParseError error;
-    QJsonDocument doc = QJsonDocument::fromJson(ba, &error);
-    qDebug() << error.errorString();
-    QVariant var = doc.toVariant();
-    QVariantMap map = var.toMap();
-    muunto_ = QJsonDocument::fromJson( kp()->asetus("PalkkaFiTilit").toUtf8() ).toVariant().toMap();
+    muunto_ = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::PalkkaFiTilit).toUtf8() ).toVariant().toMap();
 }
 
 QVariantMap PalkkaFiTuonti::tuo(const QByteArray &data)

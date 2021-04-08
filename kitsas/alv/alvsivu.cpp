@@ -73,7 +73,7 @@ AlvSivu::~AlvSivu()
 void AlvSivu::siirrySivulle()
 {
     alustaa_ = true;
-    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
+    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus(AsetusModel::AlvKausi) ) );
     riviValittu();      // Jotta napit harmaantuvat
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
     paivitaMaksuAlvTieto();

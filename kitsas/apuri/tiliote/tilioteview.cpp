@@ -118,21 +118,6 @@ void TilioteView::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHin
 
 }
 
-void TilioteView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
-{
-/*
-    qDebug() << previous.row() << "--->" << current.row() << " @ " << lastValidIndex_.row();
-
-    if(!previous.isValid() && lastValidIndex_.isValid() && current.row() == 0 && current.column() == 0 && lastValidIndex_.column() == TilioteModel::TILI) {
-        setCurrentIndex(current.sibling(lastValidIndex_.row(), lastValidIndex_.column()));
-    } else {
-        if(current.isValid()) {
-            lastValidIndex_ = current;
-        }
-        QTableView::currentChanged(current, previous);
-    }*/
-}
-
 void TilioteView::ennenResetia()
 {
     lisaysIndeksi_ = selectionModel()->currentIndex().data(TilioteRivi::LisaysIndeksiRooli).toInt();

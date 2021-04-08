@@ -231,7 +231,7 @@ void TilioteKirjaaja::paivitaAlvInfo()
     ui->alvVaro->setVisible(vero);
 }
 
-void TilioteKirjaaja::eraValittu(int eraId, Euro avoinna, const QString &selite)
+void TilioteKirjaaja::eraValittu(int /*eraId*/, Euro avoinna, const QString &selite)
 {
     if( !ui->euroEdit->asCents() && avoinna.cents())
         ui->euroEdit->setEuro(menoa_ ? Euro(0) - avoinna : avoinna);

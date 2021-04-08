@@ -52,7 +52,7 @@ KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi)
     connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));    
     ohjesivu = sivu->ohjeSivunNimi();
 
-    setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetus("Nimi")));
+    setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetukset()->nimi()));
 
     return sivu;
 }
@@ -67,7 +67,7 @@ void LisaIkkuna::selaa()
 
     ohjesivu = sivu->ohjeSivunNimi();
     connect( sivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)));
-    setWindowTitle(tr("%1 - Selaus").arg(kp()->asetus("Nimi")));
+    setWindowTitle(tr("%1 - Selaus").arg(kp()->asetukset()->nimi()));
     new QShortcut( QKeySequence(Qt::Key_Escape), this, SLOT(close()));
 }
 

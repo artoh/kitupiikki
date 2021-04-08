@@ -45,7 +45,7 @@ void InboxLista::alusta()
 {
     if( !polku_.isEmpty())
         vahti_->removePath(polku_);
-    polku_ = kp()->settings()->value( kp()->asetus("UID") + "/KirjattavienKansio" ).toString();
+    polku_ = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienKansio" ).toString();
     if( !polku_.isEmpty())
         vahti_->addPath(polku_);
 

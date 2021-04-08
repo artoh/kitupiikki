@@ -44,13 +44,13 @@ ArkistohakemistoDialogi::ArkistohakemistoDialogi(QWidget *parent) :
             ui->nimiEdit->setText(nimi);
         }
     } else {
-        QString nimi = kp()->asetukset()->asetus("Nimi");
+        QString nimi = kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi);
         nimi.replace(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption),"");
         ui->sijaintiEdit->setText( QDir::homePath() );
         ui->nimiEdit->setText(nimi);
     }
 
-    QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+    QString polku = kp()->settings()->value("arkistopolku/" + kp()->asetukset()->asetus(AsetusModel::UID)).toString();
     if( !polku.isEmpty()) {
         QFileInfo info(polku);
         if( info.isDir()) {
@@ -76,7 +76,7 @@ QString ArkistohakemistoDialogi::valitseArkistoHakemisto(QWidget *parent)
     if( dlg.exec() == Accepted)
         return dlg.polku();
     else
-        return kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString();
+        return kp()->settings()->value("arkistopolku/" + kp()->asetukset()->asetus(AsetusModel::UID)).toString();
 }
 
 void ArkistohakemistoDialogi::accept()
@@ -85,7 +85,7 @@ void ArkistohakemistoDialogi::accept()
     dir.mkdir(ui->nimiEdit->text());
     if( dir.cd(ui->nimiEdit->text())) {
         polku_ = dir.absolutePath();
-        kp()->settings()->setValue("arkistopolku/" + kp()->asetus("UID"), polku_);
+        kp()->settings()->setValue("arkistopolku/" + kp()->asetukset()->asetus(AsetusModel::UID), polku_);
         QDialog::accept();
     } else {
         QMessageBox::critical(this, tr("Virhe"),tr("Arkistohakemiston luominen epäonnistui."));

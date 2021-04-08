@@ -253,7 +253,7 @@ void UusiVelho::Tilikarttasivu::tiedostosta()
     QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilikarttatiedoston"), QString(),
                                                     tr("Kitsaan tilikartta (*.kitsaskartta)",".kitsaskartta on tiedostopääte - älä käännä sitä"));
     if( !tiedosto.isEmpty() ) {
-        if( velho->lataaKartta(tiedosto) );
+        if( velho->lataaKartta(tiedosto) )
             wizard()->next();
     }
 }

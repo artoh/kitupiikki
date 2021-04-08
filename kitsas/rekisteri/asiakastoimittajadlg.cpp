@@ -261,7 +261,7 @@ void AsiakasToimittajaDlg::maventalookup()
         QVariantMap pyynto;
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET,
                     osoite );
-        pk->lisaaAttribuutti("mybid", kp()->asetus("Ytunnus"));
+        pk->lisaaAttribuutti("mybid", kp()->asetukset()->ytunnus());
         if( ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
                 ui->yEdit->hasAcceptableInput())
             pk->lisaaAttribuutti("bid", ui->yEdit->text());

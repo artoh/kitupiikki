@@ -85,6 +85,8 @@ void TavallinenLaskuDialogi::toistoTositteelta()
     const Lasku& lasku = tosite()->constLasku();
     const QDate& toistopaiva = lasku.toistoPvm();
 
+    paivitaToistojakso();
+
     ui->toistoGroup->setChecked( toistopaiva.isValid() );
     if( lasku.toistoPvm().isValid() ) {
         ui->toistoJaksoSpin->setValue( lasku.toistoJaksoPituus() );

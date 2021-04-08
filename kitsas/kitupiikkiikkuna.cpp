@@ -220,10 +220,12 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 {
     if( kp()->yhteysModel() )
     {
+        const QString& nimi = kp()->asetukset()->nimi();
+
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
+            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(nimi).arg( qApp->applicationVersion() ));
         else
-            setWindowTitle( tr("%1 - Kitsas %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
+            setWindowTitle( tr("%1 - Kitsas %2").arg(nimi).arg(qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 

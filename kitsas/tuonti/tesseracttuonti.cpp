@@ -93,7 +93,7 @@ QVariantMap Tuonti::TesserActTuonti::analysoi(const QString &teksti)
         QRegularExpressionMatch match = ytunnusiter.next();
         QString ytunnari = match.captured();
 
-        if( ytunnari != kp()->asetus("Ytunnus") &&
+        if( ytunnari != kp()->asetukset()->ytunnus() &&
             YTunnusValidator::kelpaako(ytunnari))
         {
             tulos.insert("kumppaniytunnus", ytunnari);

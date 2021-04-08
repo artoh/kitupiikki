@@ -388,7 +388,7 @@ void SQLiteModel::lisaaViimeisiin()
         polku = portableDir.relativeFilePath(polku);
 
     map.insert("polku", tiedostopolku() );
-    map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
+    map.insert("nimi", kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) );
     if( !kp()->logo().isNull())
         map.insert("logo", kp()->logo().scaled(16,16,Qt::KeepAspectRatio));
     map.insert("harjoitus", kp()->onkoHarjoitus());

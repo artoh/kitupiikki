@@ -258,7 +258,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     if( avoinna )
     {
         // Kirjanpito avattu
-        ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
+        ui->nimiLabel->setText( kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi));
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
@@ -281,8 +281,8 @@ void AloitusSivu::kirjanpitoVaihtui()
         ui->outboxFrame->hide();
     }
 
-    if( !kp()->asetus("Tilikartta").isEmpty() )
-        kp()->settings()->setValue("Tilikartta", kp()->asetus("Tilikartta"));
+    if( !kp()->asetukset()->asetus(AsetusModel::Tilikartta).isEmpty() )
+        kp()->settings()->setValue("Tilikartta", kp()->asetukset()->asetus(AsetusModel::Tilikartta));
 
     ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
     ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
@@ -402,7 +402,7 @@ void AloitusSivu::varmuuskopioi()
     bool onnistui = false;
 
     // Suljetaan tiedostoyhteys, jotta saadaan varmasti varmuuskopioitua kaikki
-    const QString& asetusAvain = kp()->asetukset()->asetus("UID") + "/varmistuspolku";
+    const QString& asetusAvain = kp()->asetukset()->asetus(AsetusModel::UID) + "/varmistuspolku";
     const QString varmuushakemisto = kp()->settings()->value( asetusAvain, QDir::homePath()).toString();
 
     kp()->sqlite()->sulje();
@@ -430,7 +430,7 @@ void AloitusSivu::varmuuskopioi()
     {
         QFile kirjanpito( tiedosto);
         if( kirjanpito.copy(tiedostoon) ) {
-            QMessageBox::information(this, kp()->asetukset()->asetus("Nimi"), tr("Kirjanpidon varmuuskopiointi onnistui."));
+            QMessageBox::information(this, kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi), tr("Kirjanpidon varmuuskopiointi onnistui."));
             onnistui = true;
         } else {
             QMessageBox::critical(this, tr("Virhe"), tr("Tiedoston varmuuskopiointi epäonnistui."));
@@ -451,9 +451,9 @@ void AloitusSivu::muistiinpanot()
     Ui::Muistiinpanot ui;
     ui.setupUi(&dlg);
 
-    ui.editori->setPlainText( kp()->asetukset()->asetus("Muistiinpanot") );
+    ui.editori->setPlainText( kp()->asetukset()->asetus(AsetusModel::Muistiinpanot) );
     if( dlg.exec() == QDialog::Accepted )
-        kp()->asetukset()->aseta("Muistiinpanot", ui.editori->toPlainText());
+        kp()->asetukset()->aseta(AsetusModel::Muistiinpanot, ui.editori->toPlainText());
 
     paivitaSivu();
 }
@@ -481,7 +481,7 @@ void AloitusSivu::poistaPilvesta()
     }
 
     if( QMessageBox::question(this, tr("Kirjanpidon poistaminen"),
-                              tr("Haluatko todella poistaa tämän kirjanpidon %1 pysyvästi?").arg(kp()->asetus("Nimi")),
+                              tr("Haluatko todella poistaa tämän kirjanpidon %1 pysyvästi?").arg(kp()->asetukset()->nimi()),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
     kp()->pilvi()->poistaNykyinenPilvi();
@@ -797,10 +797,10 @@ void AloitusSivu::tukiInfo()
                         .arg(kp()->pilvi()->kayttajaEmail())
                         .arg(kp()->pilvi()->planname())
                         .arg(kp()->kirjanpitoPolku())
-                        .arg(kp()->asetus("Tilikartta"))
-                        .arg(kp()->asetus("TilikarttaPvm"))
-                        .arg(kp()->asetus("muoto"))
-                        .arg(kp()->asetus("laajuus"))
+                        .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
+                        .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy"))
+                        .arg(kp()->asetukset()->asetus(AsetusModel::Muoto))
+                        .arg(kp()->asetukset()->asetus(AsetusModel::Laajuus))
                         .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
                         #ifdef KITSAS_PORTABLE
                             .arg("portable")
@@ -968,7 +968,7 @@ QString AloitusSivu::vinkit()
     if( kp()->asetukset()->onko("Muistiinpanot") )
     {
         vinkki.append(" <table class=memo width=100%><tr><td><pre>");
-        vinkki.append( kp()->asetukset()->asetus("Muistiinpanot"));
+        vinkki.append( kp()->asetukset()->asetus(AsetusModel::Muistiinpanot));
         vinkki.append("</pre></td></tr></table");
     }
 

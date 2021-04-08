@@ -39,21 +39,6 @@ TilikarttaRaportti::TilikarttaRaportti()
     ui->saldotDate->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(),
                                   kp()->tilikaudet()->kirjanpitoLoppuu());
 
-
-    // Haetaan combon vaihtoehdot
-    ui->kieliCombo->clear();
-    QVariantMap vemap = QJsonDocument::fromJson( kp()->asetukset()->asetus("kielet").toUtf8() ).toVariant().toMap();
-    QMapIterator<QString,QVariant> viter(vemap);
-    while( viter.hasNext()) {
-        viter.next();
-        Monikielinen kielet(viter.value());
-        ui->kieliCombo->addItem(QIcon(":/liput/" + viter.key() + ".png"), kielet.teksti(), viter.key() );
-    }
-
-    int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
-    if( kieliIndeksi > -1)
-        ui->kieliCombo->setCurrentIndex( kieliIndeksi );
-
 }
 
 TilikarttaRaportti::~TilikarttaRaportti()

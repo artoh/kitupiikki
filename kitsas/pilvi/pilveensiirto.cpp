@@ -70,7 +70,7 @@ void PilveenSiirto::accept()
 
 void PilveenSiirto::alustaAlkusivu()
 {
-    ui->nimiLabel->setText( kp()->asetus("Nimi") );
+    ui->nimiLabel->setText( kp()->asetukset()->nimi() );
     if( !kp()->logo().isNull())
         ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(32,32,Qt::KeepAspectRatio)) );
 
@@ -117,8 +117,8 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     init.insert("kohdennukset", kohdennukset);
 
     QVariantMap map;
-    map.insert("name", kp()->asetus("Nimi"));
-    map.insert("businessid", kp()->asetus("Ytunnus"));
+    map.insert("name", kp()->asetukset()->nimi());
+    map.insert("businessid", kp()->asetukset()->ytunnus());
     map.insert("trial", kp()->onkoHarjoitus());
     map.insert("init", init);
 

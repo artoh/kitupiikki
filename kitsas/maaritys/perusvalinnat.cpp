@@ -79,11 +79,11 @@ bool Perusvalinnat::nollaa()
     }    
 
     ui->karttaInfo->setText( QString("%1 %2")
-                             .arg(kp()->asetus("Tilikartta"))
-                             .arg(kp()->asetukset()->pvm("TilikarttaPvm").toString("dd.MM.yyyy")));
+                             .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
+                             .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy")));
     ui->alvAlkaaEdit->setEnabled( ui->alvCheck->isChecked());
 
-    ui->arkistoEdit->setText(kp()->settings()->value("arkistopolku/" + kp()->asetus("UID")).toString());
+    ui->arkistoEdit->setText(kp()->settings()->value("arkistopolku/" + kp()->asetukset()->uid()).toString());
     ui->avaaArkistoNappi->setEnabled( !ui->arkistoEdit->text().isEmpty() );
 
     KpKysely* kokokysely = kpk("/info");
@@ -135,7 +135,7 @@ bool Perusvalinnat::tallenna()
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
     kp()->tilit()->paivitaTilat();        
     Kielet::instanssi()->valitseKieli( kieli );
-    kp()->settings()->setValue( kp()->asetukset()->asetus("UID") + "/kieli", kieli );
+    kp()->settings()->setValue( kp()->asetukset()->asetus(AsetusModel::UID) + "/kieli", kieli );
 
     return true;
 }

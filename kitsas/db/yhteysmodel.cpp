@@ -64,7 +64,7 @@ void YhteysModel::lataaInit(QVariant *reply)
             QStringList lista;
             for(auto& item : iter.value().toList())
                 lista.append(item.toString());            
-            QVariantMap map = QJsonDocument::fromJson( kp()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+            QVariantMap map = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::Tositesarjat).toUtf8() ).toVariant().toMap();
             QVariantList values = map.values();
             for(auto& value : values){
                 QString laji = value.toString();
@@ -76,12 +76,12 @@ void YhteysModel::lataaInit(QVariant *reply)
         }
     }
 
-    Kielet::instanssi()->valitseKieli( kp()->settings()->value( kp()->asetukset()->asetus("UID") + "/kieli" ).toString() );
+    Kielet::instanssi()->valitseKieli( kp()->settings()->value( kp()->asetukset()->asetus(AsetusModel::UID) + "/kieli" ).toString() );
 
 
     // Pidetään yllä tietoa siitä, milloin viimeksi käytetty mitäkin
     // tilikarttaa, jotta tilikarttojen tilastointi toimii
-    const QString& kartta = kp()->asetukset()->asetus("Tilikartta");
+    const QString& kartta = kp()->asetukset()->asetus(AsetusModel::Tilikartta);
     if( !kartta.isEmpty()) {
         kp()->settings()->setValue("tilastokartta/" + kartta, QDate::currentDate());
     }
