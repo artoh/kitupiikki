@@ -39,13 +39,14 @@ Perusvalinnat::Perusvalinnat() :
     TallentavaMaaritysWidget(nullptr),
     ui(new Ui::Perusvalinnat)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistaLogo(); ui->logoLabel->clear(); });
+    connect( ui->kieliCombo, &KieliCombo::currentTextChanged, this, &Perusvalinnat::ilmoitaMuokattu);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -63,6 +64,7 @@ Perusvalinnat::~Perusvalinnat()
 bool Perusvalinnat::nollaa()
 {
     TallentavaMaaritysWidget::nollaa();
+    kieli_ = Kielet::instanssi()->nykyinen();
 
     naytaLogo();
     connect( ui->laajuusCombo, &QComboBox::currentTextChanged, this, &Perusvalinnat::alvilaajuudesta);
@@ -97,7 +99,7 @@ bool Perusvalinnat::nollaa()
 bool Perusvalinnat::onkoMuokattu()
 {
     return TallentavaMaaritysWidget::onkoMuokattu() ||
-            ui->kieliCombo->kieli() != Kielet::instanssi()->nykyinen();
+            ui->kieliCombo->kieli() != kieli_;
 }
 
 void Perusvalinnat::vaihdaLogo()
@@ -126,6 +128,7 @@ bool Perusvalinnat::tallenna()
 {
     ui->ytunnusEdit->setText(ui->ytunnusEdit->text().simplified());    
     const QString& kieli = ui->kieliCombo->kieli();
+    kieli_ = kieli;
 
     // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
     TallentavaMaaritysWidget::tallenna();

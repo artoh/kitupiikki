@@ -95,6 +95,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
     connect( kp()->asetukset(), &AsetusModel::asetusMuuttui, this, &AloitusSivu::kirjanpitoVaihtui);
+    connect( Kielet::instanssi(), &Kielet::kieliVaihtui, this, &AloitusSivu::haeSaldot );
 
     connect( ui->loginButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogin);
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
