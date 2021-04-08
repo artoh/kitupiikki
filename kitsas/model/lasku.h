@@ -39,7 +39,7 @@ public:
     Lasku(const QVariantMap& data);
     void kopioi(const Lasku& lasku);
 
-    QString email() const { return str("email");}
+    QString email() const { return str("email").trimmed();}
     void setEmail(const QString& email) { setStr("email",email);}
 
     QString kieli() const { return str("kieli");}

@@ -161,7 +161,7 @@ QVariantList RekisteriTuontiModel::lista() const
                 map.insert("kaupunki", txt);
                 break;
             case SAHKOPOSTI:
-                map.insert("email", txt);
+                map.insert("email", txt.trimmed());
                 break;
             case PUHELIN:
                 map.insert("puhelin", txt);
