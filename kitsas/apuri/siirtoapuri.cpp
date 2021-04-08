@@ -303,7 +303,7 @@ void SiirtoApuri::tililleMuuttui()
 void SiirtoApuri::eraValittu(bool debet, int eraId, Euro avoinna, const QString &selite, int kumppani)
 {
     if( !ui->euroEdit->asCents() && avoinna.cents())
-        ui->euroEdit->setValue(avoinna);
+        ui->euroEdit->setEuro(avoinna);
     if( tosite()->otsikko().isEmpty())
         tosite()->asetaOtsikko(selite);
 
@@ -325,6 +325,8 @@ void SiirtoApuri::laskunmaksu()
         for(const auto& item : kirjaaja.viennit()) {
             lista.append(item);
         }
+        if( tosite()->otsikko().isEmpty())
+            tosite()->asetaOtsikko( lista.at(0).toMap().value("selite").toString() );
         if( lista.at(0).toMap().value("kredit").toDouble() > 1e-5)
             lista.swapItemsAt(0,1);
         tosite()->viennit()->asetaViennit(lista);
