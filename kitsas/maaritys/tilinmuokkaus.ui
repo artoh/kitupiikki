@@ -68,7 +68,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QListWidget" name="nimiList">
+          <widget class="KieliListWidget" name="nimiList">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
@@ -406,6 +406,11 @@
    <class>TiliCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KieliListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">kieli/kielilistwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

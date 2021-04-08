@@ -24,7 +24,7 @@ class AbstraktiMonikielinen
 public:    
 
     virtual void aseta(const QVariant& var) = 0;
-    virtual void aseta(const QString& nimi, const QString& kieli) = 0;
+    virtual void aseta(const QString& nimi, const QString& kieli) = 0;    
 
     virtual QString teksti(const QString& kieli = QString()) const = 0;
     virtual QString kaannos(const QString& kieli) const = 0;

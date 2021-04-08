@@ -58,6 +58,11 @@ void Monikielinen::aseta(const QString &nimi, const QString &kieli)
         tekstit_.insert(kieli, nimi);
 }
 
+void Monikielinen::aseta(const Monikielinen &kielinen)
+{
+    tekstit_ = kielinen.tekstit_;
+}
+
 QString Monikielinen::teksti(const QString &kieli) const
 {
     if( kieli.isEmpty() && Kielet::instanssi()) {

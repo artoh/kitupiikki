@@ -80,7 +80,6 @@ protected slots:
     void viennitSaapuu(QVariant* data);
 
 protected:
-    void alustaNimet();
     void alustaOhjeet();
     void alustalaajuus();
 

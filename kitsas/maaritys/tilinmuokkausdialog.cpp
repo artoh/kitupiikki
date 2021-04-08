@@ -32,6 +32,7 @@
 #include "db/tilinvalintaline.h"
 #include "validator/ibanvalidator.h"
 #include "kieli/monikielinen.h"
+#include "kieli/kielet.h"
 
 
 TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila)
@@ -147,8 +148,6 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
 
     }
 
-    // Nimitaulu
-    alustaNimet();
 
     if( minNumero_.startsWith("1"))
         proxy_->setFilterFixedString("A");
@@ -201,6 +200,8 @@ void TilinMuokkausDialog::lataa()
 
     ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( tili_->laajuus() ) );
 
+
+    ui->nimiList->lataa(tili_->nimiKielinen());
 
 }
 
@@ -373,13 +374,16 @@ void TilinMuokkausDialog::accept()
     else
         tili_->setInt("kohdennus", 0);
 
+    tili_->set("nimi",ui->nimiList->tekstit().map());
+
+    tili_->nimiKielinen().aseta( ui->nimiList->tekstit() );
+
     for(int i=0; i < ui->nimiList->count(); i++)
         tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
     for(int i=0; i < ui->ohjeTabs->count(); i++) {
         QPlainTextEdit *edit = qobject_cast<QPlainTextEdit*>( ui->ohjeTabs->widget(i) );
         tili_->asetaOhje( edit->toPlainText(), edit->property("Kielikoodi").toString() );
-    }    
-
+    }       
 
     kp()->tilit()->tallenna(tili_);
 
@@ -405,24 +409,15 @@ void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
 }
 
 
-void TilinMuokkausDialog::alustaNimet()
-{
-    for(QString kieli : kp()->asetukset()->kielet()) {        
-        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), tili_ ? tili_->nimiKaannos(kieli) : "" , ui->nimiList  );
-        item->setData(Qt::UserRole, kieli);
-        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    }
-}
-
 void TilinMuokkausDialog::alustaOhjeet()
 {
-    for( QString kieli : kp()->asetukset()->kielet()) {
+    for( const auto& kieli : Kielet::instanssi()->kielet()) {
         QPlainTextEdit* edit = new QPlainTextEdit;
         if( tili_ ) {
-            edit->setPlainText( tili_->ohjeKaannos(kieli) );            
+            edit->setPlainText( tili_->ohjeKaannos(kieli.lyhenne()) );
         }
-        edit->setProperty("Kielikoodi", kieli);
-        ui->ohjeTabs->addTab(edit,lippu(kieli),kp()->asetukset()->kieli(kieli));
+        edit->setProperty("Kielikoodi", kieli.lyhenne());
+        ui->ohjeTabs->addTab(edit,QIcon(kieli.lippu()), kieli.nimi());
     }
 }
 
