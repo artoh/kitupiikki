@@ -77,7 +77,7 @@ void Kielet::asetaKielet(const QString &json)
     while(iter.hasNext()) {
         iter.next();
         kielet_.append(qMakePair(iter.key(), Monikielinen(iter.value())));
-    }
+    }    
 }
 
 void Kielet::valitseKieli(const QString &kieli)
@@ -98,6 +98,9 @@ void Kielet::valitseUiKieli(const QString &kieli)
     uiKieli_ = kieli;
     appTranslator_.load("kitsas_" + kieli + ".qm", ":/tr/");
     qtTranslator_.load("qt_" + kieli + ".qm", ":/tr/");
+
+    qDebug() << "AppTranslator " << appTranslator_.isEmpty();
+    qDebug() << "QtTranslator " << qtTranslator_.isEmpty();
 
     QSettings settings;
     settings.setValue("uiKieli", kieli);

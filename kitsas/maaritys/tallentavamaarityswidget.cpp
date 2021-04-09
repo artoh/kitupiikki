@@ -126,7 +126,7 @@ bool TallentavaMaaritysWidget::nollaa()
                 }
             }
 
-            combo->setCurrentIndex( combo->findData( kp()->asetukset()->asetus(asetusavain) ) );
+            combo->setCurrentIndex( combo->findData( kp()->asetukset()->asetus(asetusavain, widget->property("Oletus").toString()) ) );
             connect( combo, &QComboBox::currentTextChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
             continue;
         }

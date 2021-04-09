@@ -37,6 +37,13 @@ void KieliCombo::alusta()
     setCurrentIndex( findData( Kielet::instanssi()->nykyinen() ) );
 }
 
+void KieliCombo::valitse(const QString &kielikoodi)
+{
+    int index = findData( kielikoodi );
+    if( index > -1)
+        setCurrentIndex( index );
+}
+
 QString KieliCombo::kieli() const
 {
     return currentData().toString();

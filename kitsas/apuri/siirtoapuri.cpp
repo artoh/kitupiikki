@@ -325,9 +325,12 @@ void SiirtoApuri::laskunmaksu()
         for(const auto& item : kirjaaja.viennit()) {
             lista.append(item);
         }
+        TositeVienti eka = lista.at(0).toMap();
+
+        tosite()->asetaPvm(eka.pvm());
         if( tosite()->otsikko().isEmpty())
-            tosite()->asetaOtsikko( lista.at(0).toMap().value("selite").toString() );
-        if( lista.at(0).toMap().value("kredit").toDouble() > 1e-5)
+            tosite()->asetaOtsikko( eka.selite() );
+        if( eka.kreditEuro() )
             lista.swapItemsAt(0,1);
         tosite()->viennit()->asetaViennit(lista);
         reset();

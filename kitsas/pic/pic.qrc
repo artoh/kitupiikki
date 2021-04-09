@@ -196,6 +196,8 @@
         <file>splash_sv.png</file>
         <file>splash_fi.png</file>
         <file>kuu.svg</file>
+        <file>logovieressa.png</file>
+        <file>logoylla.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

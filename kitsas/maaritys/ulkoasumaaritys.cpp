@@ -47,6 +47,7 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
 
     connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
+    connect( ui->tilikarttaKieli, &KieliCombo::currentTextChanged, this, &UlkoasuMaaritys::vaihdaTilikarttaKieli);
 }
 
 UlkoasuMaaritys::~UlkoasuMaaritys()
@@ -76,6 +77,8 @@ bool UlkoasuMaaritys::nollaa()
     ui->fiKieli->setChecked( Kielet::instanssi()->uiKieli() == "fi" );
     ui->svKieli->setChecked( Kielet::instanssi()->uiKieli() == "sv" );
 
+    ui->tilikarttaKieli->valitse( Kielet::instanssi()->nykyinen() );
+
     ui->saldotCheck->setChecked( kp()->settings()->value("SaldoDock").toBool() );
 
     return true;
@@ -102,13 +105,26 @@ void UlkoasuMaaritys::naytaSaldot(bool naytetaanko)
 
 void UlkoasuMaaritys::vaihdaKieli()
 {
-    if( ui->svKieli->isChecked())
+    if( ui->svKieli->isChecked()) {
         Kielet::instanssi()->valitseUiKieli("sv");
-    else
+        ui->tilikarttaKieli->valitse("sv");
+    } else {
         Kielet::instanssi()->valitseUiKieli("fi");
+        ui->tilikarttaKieli->valitse("fi");
+    }
     QMessageBox::information(this, tr("Kieli vaihdettu"),
                              tr("Käynnistä kielen vaihtamisen jälkeen ohjelma uudelleen, "
                                 "jotta valitsemasi kieli tulee käyttöön kaikissa näkymissä."));
+}
+
+void UlkoasuMaaritys::vaihdaTilikarttaKieli()
+{
+    Kielet::instanssi()->valitseKieli( ui->tilikarttaKieli->kieli() );
+    QString kieliAvain = kp()->asetukset()->uid() + "/kieli";
+    if( ui->tilikarttaKieli->kieli() == Kielet::instanssi()->uiKieli())
+        kp()->settings()->remove(kieliAvain);
+    else
+        kp()->settings()->setValue(kieliAvain, ui->tilikarttaKieli->kieli());
 }
 
 QFont UlkoasuMaaritys::oletusfontti__ = QFont();

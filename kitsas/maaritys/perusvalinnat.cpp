@@ -46,13 +46,12 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistaLogo(); ui->logoLabel->clear(); });
-    connect( ui->kieliCombo, &KieliCombo::currentTextChanged, this, &Perusvalinnat::ilmoitaMuokattu);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Logo nimen vieressä"),"VIERESSA");
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Logo nimen yläpuolella"),"YLLA");
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/tyhja.png"),tr("Näytä vain logo"),"VAINLOGO");
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/logovieressa.png"),tr("Logo nimen vieressä"),"VIERESSA");
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/logoylla.png"),tr("Logo nimen yläpuolella"),"YLLA");
+    ui->logonSijaintiCombo->addItem(QIcon(":/pic/Possu64.png"),tr("Näytä vain logo"),"VAINLOGO");
 
 }
 
@@ -64,7 +63,6 @@ Perusvalinnat::~Perusvalinnat()
 bool Perusvalinnat::nollaa()
 {
     TallentavaMaaritysWidget::nollaa();
-    kieli_ = Kielet::instanssi()->nykyinen();
 
     naytaLogo();
     connect( ui->laajuusCombo, &QComboBox::currentTextChanged, this, &Perusvalinnat::alvilaajuudesta);
@@ -98,8 +96,7 @@ bool Perusvalinnat::nollaa()
 
 bool Perusvalinnat::onkoMuokattu()
 {
-    return TallentavaMaaritysWidget::onkoMuokattu() ||
-            ui->kieliCombo->kieli() != kieli_;
+    return TallentavaMaaritysWidget::onkoMuokattu() ;
 }
 
 void Perusvalinnat::vaihdaLogo()
@@ -127,15 +124,11 @@ void Perusvalinnat::poistaLogo()
 bool Perusvalinnat::tallenna()
 {
     ui->ytunnusEdit->setText(ui->ytunnusEdit->text().simplified());    
-    const QString& kieli = ui->kieliCombo->kieli();
-    kieli_ = kieli;
 
     // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
     kp()->tilit()->paivitaTilat();        
-    Kielet::instanssi()->valitseKieli( kieli );
-    kp()->settings()->setValue( kp()->asetukset()->asetus(AsetusModel::UID) + "/kieli", kieli );
 
     return true;
 }
@@ -154,7 +147,7 @@ void Perusvalinnat::naytaLogo()
         ui->logoLabel->clear();
         ui->logonSijaintiCombo->setEnabled(false);
     } else {
-        ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaledToHeight(128)));
+        ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaled(128,128*3,Qt::KeepAspectRatio, Qt::SmoothTransformation)));
         ui->logonSijaintiCombo->setEnabled(true);
     }
 

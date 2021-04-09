@@ -64,7 +64,6 @@ private:
     Ui::Perusvalinnat *ui;
     QImage uusilogo;
     bool poistalogo = false;
-    QString kieli_;
 };
 
 #endif // PERUSVALINNAT_H

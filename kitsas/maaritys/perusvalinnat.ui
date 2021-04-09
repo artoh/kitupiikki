@@ -97,16 +97,6 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Kieli</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="KieliCombo" name="kieliCombo"/>
-     </item>
     </layout>
    </item>
    <item>
@@ -114,9 +104,9 @@
      <property name="title">
       <string>Logo</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="logoLabel">
           <property name="sizePolicy">
@@ -149,16 +139,30 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="logonSijaintiCombo">
-          <property name="Asetus" stdset="0">
-           <string notr="true">LogonSijainti</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Logon sijainti</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="logonSijaintiCombo">
+            <property name="Asetus" stdset="0">
+             <string notr="true">LogonSijainti</string>
+            </property>
+            <property name="Oletus" stdset="0">
+             <string notr="true">VIERESSA</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
@@ -177,6 +181,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="vaihdaLogoNappi">
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Vaihda</string>
           </property>
@@ -188,6 +198,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="poistaLogoNappi">
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
            <string>Poista</string>
           </property>
@@ -248,6 +264,12 @@
      </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="hakemistoNappi">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Avaa hakemisto</string>
        </property>
@@ -281,6 +303,12 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QPushButton" name="vaihdaArkistoNappi">
+         <property name="minimumSize">
+          <size>
+           <width>64</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>Vaihda</string>
          </property>
@@ -292,6 +320,12 @@
        </item>
        <item>
         <widget class="QPushButton" name="avaaArkistoNappi">
+         <property name="minimumSize">
+          <size>
+           <width>64</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>Avaa</string>
          </property>
@@ -425,13 +459,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KieliCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">kieli/kielicombo.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>organisaatioEdit</tabstop>
   <tabstop>ytunnusEdit</tabstop>
@@ -452,12 +479,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>110</x>
-     <y>789</y>
+     <x>124</x>
+     <y>707</y>
     </hint>
     <hint type="destinationlabel">
-     <x>378</x>
-     <y>772</y>
+     <x>432</x>
+     <y>710</y>
     </hint>
    </hints>
   </connection>

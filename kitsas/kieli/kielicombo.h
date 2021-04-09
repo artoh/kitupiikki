@@ -28,6 +28,7 @@ public:
     KieliCombo(QWidget* parent = nullptr);
 
     void alusta();
+    void valitse(const QString& kielikoodi);
     QString kieli() const;
 };
 

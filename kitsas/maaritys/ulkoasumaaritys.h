@@ -39,6 +39,7 @@ protected slots:
     void asetaFontti();
     void naytaSaldot(bool naytetaanko);
     void vaihdaKieli();
+    void vaihdaTilikarttaKieli();
 
 private:
     Ui::Ulkoasu *ui;
