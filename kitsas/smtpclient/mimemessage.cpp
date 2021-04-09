@@ -16,11 +16,19 @@
   See the LICENSE file for more details.
 */
 
+#include <QApplication>
+
 #include "mimemessage.h"
 
 #include <QDateTime>
 #include "quotedprintable.h"
 #include <typeinfo>
+
+#include <QRandomGenerator>
+#include <QDebug>
+
+#include "db/kirjanpito.h"
+#include "db/asetusmodel.h"
 
 /* [1] Constructors and Destructors */
 MimeMessage::MimeMessage(bool createAutoMimeContent) :
@@ -294,14 +302,24 @@ QString MimeMessage::toString()
         mime += "References: <" + mInReplyTo + ">\r\n";
     }
 
-#if QT_VERSION_MAJOR < 5 //Qt4 workaround since RFC2822Date isn't defined
-    mime += QString("Date: %1\r\n").arg(QDateTime::currentDateTime().toString("dd MMM yyyy hh:mm:ss +/-TZ"));
-#else //Qt5 supported
+    /* ---- Message ID --- */
+    QString osoite = sender->getAddress() ;
+    QString domain = osoite.mid( osoite.indexOf('@') );
+
+    QString mid = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch(),16) + "." +
+            QString::number(QRandomGenerator::global()->generate64(),16) + "." +
+            QString::number(kp()->asetukset()->ytunnus().left(7).toLongLong(),16) + domain ;
+    mime += "Message-Id: <" + mid + ">\r\n";
+
     mime += QString("Date: %1\r\n").arg(QDateTime::currentDateTime().toString(Qt::RFC2822Date));
-#endif //support RFC2822Date
+
+    mime += "X-Mailer: Kitsas " + qApp->applicationVersion() + "\r\n";
 
     mime += content->toString();
-    return mime;
+
+    qDebug() << mime;
+
+    return mime;        
 }
 
 /* [3] --- */

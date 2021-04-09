@@ -394,23 +394,6 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm)
     endInsertRows();
 }
 
-/*    LaskuDialogi *dlg = qobject_cast<LaskuDialogi*>(parent());
-    if (!rivi.isEmpty() && dlg && dlg->asiakkaanAlvTunnus().isEmpty() &&
-            (rivi.value("alvkoodi").toInt() == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
-             rivi.value("alvkoodi").toInt() == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
-             rivi.value("alvkoodi").toInt() == AlvKoodi::RAKENNUSPALVELU_MYYNTI)) {
-
-        QMessageBox::critical(dlg, tr("Käänteinen arvonlisävero"),
-                              tr("Olet lisäämässä tuotetta, jolle sovelletaan käänteistä arvonlisäveroa. "
-                                 "Käänteinen arvonlisävero on käytettävissä vain myytäessä yritykselle, "
-                                 "jolla on alv-tunnus.\n\n"
-                                 "Valitse ensin asiakas ja varmista, että asiakkaalle on tallennettu "
-                                 "alv-tunnus."));
-
-        return;
-    }
-*/    
-
 
 void TositeRivit::poistaRivi(int rivi)
 {

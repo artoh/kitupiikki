@@ -118,7 +118,7 @@ QByteArray LaskunTulostaja::pdf(Tosite &tosite)
     buffer.open( QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
-    writer.setPdfVersion(QPagedPaintDevice::PdfVersion_1_4);
+    writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer.setPageSize( QPdfWriter::A4);
     writer.setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
     QPainter painter(&writer);

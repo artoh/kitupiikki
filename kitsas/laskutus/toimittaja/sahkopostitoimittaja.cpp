@@ -42,7 +42,8 @@ void SahkopostiToimittaja::toimita()
     int tyyppi = EmailMaaritys::sslIndeksi( kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailSSL) : kp()->settings()->value("EmailSSL").toString() );
     QString kenelta = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailNimi) : kp()->settings()->value("EmailNimi").toString();
     QString keneltaEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailOsoite) : kp()->settings()->value("EmailOsoite").toString();
-    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailKopio) : kp()->settings()->value("EmailKopio").toString();
+    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailKopio) :
+                                    kp()->settings()->value("EmailKopio").toString();
 
 
     SmtpClient client(server, port, (SmtpClient::ConnectionType) tyyppi);
@@ -78,6 +79,7 @@ void SahkopostiToimittaja::toimita()
     message.setHeaderEncoding(MimePart::QuotedPrintable);
     message.setSender(new EmailAddress(keneltaEmail, kenelta));
     message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
+
     if( !kopioEmail.isEmpty())
         message.addBcc(new EmailAddress(kopioEmail));
 

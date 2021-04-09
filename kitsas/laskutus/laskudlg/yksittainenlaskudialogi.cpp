@@ -52,8 +52,9 @@ void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
     emit kp()->kirjanpitoaMuokattu();
 
     int tila = tosite_->tila();
-    if( tila == Tosite::LAHETETAAN) {
+    if( tila == Tosite::LAHETETAAN) {        
         LaskunToimittaja::toimita(tosite);
 
     }
 }
+

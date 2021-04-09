@@ -40,6 +40,8 @@ protected:
 
     TositeriviAlv* alvTaulu() { return &alv_;}
 
+    bool tarkasta() override;
+
 private:
     void alustaRiviTab();
     void paivitaSumma();    

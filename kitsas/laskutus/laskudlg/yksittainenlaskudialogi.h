@@ -29,8 +29,9 @@ protected:
     void tallenna(int tilaan) override;
     void tallennettu(QVariantMap tosite);
 
-    virtual void valmisteleTallennus() = 0;
+    virtual void valmisteleTallennus() = 0;        
 
 };
+
 
 #endif // YKSITTAINENLASKUDIALOGI_H

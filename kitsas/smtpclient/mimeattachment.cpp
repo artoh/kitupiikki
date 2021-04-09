@@ -41,7 +41,13 @@ MimeAttachment::~MimeAttachment()
 
 void MimeAttachment::prepare()
 {
-    this->header += "Content-disposition: attachment\r\n";
+    this->header += "Content-disposition: attachment";
+
+    if( !cName.isEmpty() )
+        header += "; filename=\"" +  cName + "\"";
+
+    header += "\r\n";
+
 
     /* !!! IMPORTANT !!! */
     MimeFile::prepare();

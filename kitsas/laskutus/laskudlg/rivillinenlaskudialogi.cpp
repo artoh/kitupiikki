@@ -32,6 +32,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QMenu>
+#include <QMessageBox>
 
 RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     : YksittainenLaskuDialogi(tosite, parent), alv_(tosite->rivit())
@@ -135,6 +136,33 @@ void RivillinenLaskuDialogi::valmisteleTallennus()
 {
     RiviVientiGeneroija rivigeneroija(kp());
     rivigeneroija.generoiViennit(tosite_);
+}
+
+bool RivillinenLaskuDialogi::tarkasta()
+{
+    const QString& alvtunnus = ladattuAsiakas_.value("alvtunnus").toString();
+
+    for(int c=0; c < tosite()->rivit()->rowCount(); c++) {
+        const TositeRivi& rivi = tosite()->rivit()->rivi(c);
+        if( !rivi.bruttoYhteensa() )
+            continue;
+        if( rivi.alvkoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI && !alvtunnus.startsWith("FI")) {
+            QMessageBox::critical(this, tr("Käänteinen arvonlisävero"),
+                                  tr("Rakennuspalveluiden myynti voidaan laskuttaa vain "
+                                     "suomalaiselta yritykseltä, jolla on Y-tunnus"));
+            return false;
+        }
+        if( ( rivi.alvkoodi() == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
+              rivi.alvkoodi() == AlvKoodi::YHTEISOMYYNTI_TAVARAT) &&
+              (alvtunnus.isEmpty() || alvtunnus.startsWith("FI"))) {
+            QMessageBox::critical(this, tr("Yhteisömyynti"),
+                                  tr("Yhteisömyynti voidaan laskuttaa vain "
+                                     "toiseen EU-maahan"));
+            return false;
+        }
+    }
+
+    return YksittainenLaskuDialogi::tarkasta();
 }
 
 void RivillinenLaskuDialogi::alustaRiviTab()

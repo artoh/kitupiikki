@@ -16,6 +16,8 @@
 */
 #include "yksikkomodel.h"
 
+//
+
 YksikkoModel::YksikkoModel(QObject *parent)
     : QAbstractListModel(parent)
 {

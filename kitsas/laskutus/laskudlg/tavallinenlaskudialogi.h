@@ -54,6 +54,8 @@ protected:
     bool tallennettuEnnen_ = false;
     bool tallennettuHinnastolla_ = false;
     QDate tallennettuPaattyy_;
+
+    bool tarkasta() override;
 };
 
 #endif // TAVALLINENLASKUDIALOGI_H

@@ -89,7 +89,7 @@ void LaskunToimittaja::haeLasku()
 {
     noutoKaynnissa_ = true;
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg(haettavat_.dequeue()));
-    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::laskuSaapuu );
+    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::laskuSaapuu, Qt::QueuedConnection );
     kysely->kysy();
 }
 
@@ -104,7 +104,7 @@ void LaskunToimittaja::tallennaLiite()
 {    
     tallennusTosite_ = new Tosite(this);
     tallennusTosite_->lataa(tositteet_.head());
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu, Qt::QueuedConnection);
     tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 

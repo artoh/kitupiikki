@@ -42,7 +42,7 @@ Tosite::Tosite(QObject *parent) :
     connect( viennit_, &TositeViennit::rowsInserted, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::rowsRemoved, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
-    connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
+    connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu, Qt::QueuedConnection);
 }
 
 
@@ -487,8 +487,8 @@ void Tosite::tallennaLaskuliite(QVariant *data)
     QVariantMap map = tallennettava();
 
     LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
-    connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu,
-            [this, map] { emit this->laskuTallennettu(map); } );
+    connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu, kp(),
+            [this, map] { emit this->laskuTallennettu(map); }, Qt::QueuedConnection );
     tulostaja->tallennaLaskuLiite(*this);
 }
 

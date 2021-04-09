@@ -88,7 +88,7 @@ void LaskuDialogiTehdas::hyvityslasku(int hyvitettavaTositeId)
 
 void LaskuDialogiTehdas::kopioi(int tositeId)
 {
-    Tosite* tosite = new Tosite(instanssi__);
+    Tosite* tosite = new Tosite(instanssi__);    
     connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::ladattuKopioitavaksi);
     tosite->lataa(tositeId);
 }
@@ -115,12 +115,16 @@ void LaskuDialogiTehdas::naytaDialogi(Tosite *tosite)
 void LaskuDialogiTehdas::tositeLadattu()
 {
     Tosite* tosite = qobject_cast<Tosite*>(sender());
+    disconnect(tosite, &Tosite::ladattu, nullptr, nullptr);
+
     naytaDialogi( tosite );
 }
 
 void LaskuDialogiTehdas::hyvitettavaLadattu()
 {
     Tosite* hyvitettava = qobject_cast<Tosite*>(sender());
+    disconnect(hyvitettava, &Tosite::ladattu, nullptr, nullptr);
+
     const Lasku& hyvitettavaLasku = hyvitettava->constLasku();
 
     Tosite* uusi = new Tosite(instanssi__);
@@ -155,6 +159,7 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
 void LaskuDialogiTehdas::ladattuKopioitavaksi()
 {
     Tosite* tosite = qobject_cast<Tosite*>(sender());
+    disconnect(tosite, &Tosite::ladattu, nullptr, nullptr);
 
     tosite->setData(Tosite::ID, 0);
     tosite->asetaTila(Tosite::POISTETTU);

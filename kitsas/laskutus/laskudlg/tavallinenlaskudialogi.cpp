@@ -27,6 +27,8 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
+#include <QMessageBox>
+
 TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     : RivillinenLaskuDialogi(tosite, parent),
       ennakkoModel_(new EnnakkoHyvitysModel(this))
@@ -240,5 +242,17 @@ void TavallinenLaskuDialogi::paivitaNapit()
 {
     ui->tallennaNappi->setEnabled( !onkoTallennettu() && ui->toistoGroup->isChecked() );
     ui->lopetaToistoNappi->setEnabled( tallennettuKaytossa_ );
+}
+
+bool TavallinenLaskuDialogi::tarkasta()
+{
+    if( maksutapa() == Lasku::ENNAKKOLASKU && !asiakasId_ ) {
+        QMessageBox::critical(this, tr("Ennakkolasku"),
+                              tr("Ennakkolasku voidaan laatia vain asiakasrekisterissä "
+                                 "olevalle asiakkaalle. Lisää ensin asiakas rekisteriin"));
+        return false;
+    }
+
+    return RivillinenLaskuDialogi::tarkasta();
 }
 
