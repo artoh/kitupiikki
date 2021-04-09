@@ -302,8 +302,11 @@ QVariantList TositeRivit::rivit() const
     QVariantList ulos;
     for(auto rivi : rivit_)
     {
-        if( rivi.bruttoYhteensa().cents() || !rivi.nimike().isEmpty())
-            ulos.append( rivi.data() );
+        if( rivi.bruttoYhteensa().cents() || !rivi.nimike().isEmpty()) {
+            auto map = rivi.data();
+            if( ennakkolasku_ ) rivi.unset("myyntikpl");    // Ennakkolaskutetut tuotteet eivät näy varastossa
+            ulos.append( map );
+        }
     }
     return ulos;
 }

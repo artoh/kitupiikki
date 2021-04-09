@@ -68,6 +68,8 @@ QString Iban::bic() const
         return "ESSEFIHX";
     else if( tunnus.startsWith("38"))
         return "SWEDFIHH";
+    else if(tunnus.startsWith("798"))
+        return "VPAYFIH2";
 
     // Tuntematon pankkikoodi
     return QString();
@@ -88,8 +90,10 @@ QString Iban::pankki() const
     else if( b == "OKOYFIHH") return "Osuuspankki";
     else if( b == "POPFFI22") return "POP Pankki";
     else if( b == "SBANFIHH") return "S-Pankki";
-    else if( b == "ESSEFIHX") return "Swedbank";
+    else if( b == "ESSEFIHX") return "SEB";
     else if( b == "AABAFI22") return "Ålandsbanken";
+    else if( b == "SWEDFIHH") return "Swedbank";
+    else if( b == "VPAYFIH2") return "Viva Payment";
     return QString();
 }
 

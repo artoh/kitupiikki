@@ -213,6 +213,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                         return QIcon(":/pic/mies.png");
                     else if( map.value("valvonta").toInt() == Lasku::VAKIOVIITE)
                         return QIcon(":/pic/viivakoodi.png");
+                    else if( map.value("valvonta").toInt() == Lasku::HUONEISTO)
+                        return QIcon(":/pic/talo.png");
                     else if(map.value("valvonta").toInt() == Lasku::VALVOMATON)
                         return QIcon(":/pic/eikaytossa.png");
                     return QIcon(":/pic/lasku.png");

@@ -59,8 +59,8 @@ void RiviVientiGeneroija::generoiViennit(Tosite *tosite)
         generoiViennit(tosite->pvm());
     }
 
-    if( !lasku.summa() )
-        lasku.setSumma( alv_.brutto() );
+
+    lasku.setSumma( alv_.brutto() );
 
 }
 
@@ -72,6 +72,7 @@ void RiviVientiGeneroija::asetaEraId()
         vastaVientiId_ = tosite_->viennit()->vienti(0).id();
 
     int valvonta = lasku.valvonta();
+
     if( valvonta == Lasku::ASIAKAS || valvonta == Lasku::HUONEISTO) {
         eraId_ = lasku.viite().eraId();
     } else if( lasku.maksutapa() == Lasku::KATEINEN ) {
@@ -115,7 +116,8 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
 {
     TositeVienti vienti;
     vienti.setPvm( pvm );
-    vienti.setId(vastaVientiId_);
+    if(eraId_ > 0)
+        vienti.setId(vastaVientiId_);
 
     const Lasku& lasku = tosite_->constLasku();
     const AsetusModel* asetukset = kitsas_->asetukset();

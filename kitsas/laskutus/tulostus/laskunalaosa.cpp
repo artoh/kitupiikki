@@ -76,7 +76,7 @@ qreal LaskunAlaosa::laske(QPainter *painter)
     }
 
     alaosaKorkeus_ = maksuKorkeus_ + yhteysKorkeus_ +
-        ( tilisiirto_ ? mm * 95 : 0) +
+        ( tilisiirto_ ? mm * 95 : mm * 5) +
         ( virtuaaliviivakoodi_ ? painter->fontMetrics().height() : 0 );
 
     qDebug() << " window " << painter->window().height()
@@ -224,6 +224,10 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
         maksulaatikko_.lisaa( kaanna("viitenro"), asetukset->onko(AsetusModel::LaskuRF)
                           ? lasku.viite().rfviite() :
                             lasku.viite().valeilla());
+    } else {
+        tilisiirto_ = false;
+        viivakoodi_ = false;
+        virtuaaliviivakoodi_ = false;
     }
 
     if( lasku.maksutapa() == Lasku::KATEINEN)
@@ -233,7 +237,7 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
 
 
     if( lasku.maksutapa() != Lasku::KUUKAUSITTAINEN)
-        maksulaatikko_.lisaa(kaanna("Yhteensa"), lasku.summa().display(), Qt::AlignLeft, true);
+        maksulaatikko_.lisaa(kaanna("Yhteensa"), lasku.summa().display(), Qt::AlignRight, true);
 
 }
 

@@ -37,7 +37,7 @@ TositeRivi::TositeRivi(const QVariantMap &data)
 
 double TositeRivi::nettoYhteensa() const
 {
-    const double netto = aNetto() * myyntiKpl();
+    const double netto = aNetto() * laskutetaanKpl().toDouble();
 
     const double alennettu = aleProsentti() ?
                 ( 100.0 - aleProsentti() ) * netto / 100.0 :
@@ -71,7 +71,7 @@ double TositeRivi::laskeYksikko()
                 100 * netto / ( 100 - aleProsentti()) :
                 netto + euroAlennus().toDouble();
 
-    const double ahinta = alentamaton / myyntiKpl();
+    const double ahinta = alentamaton / laskutetaanKpl().toDouble();
     setANetto(ahinta);
     return ahinta;
 }
