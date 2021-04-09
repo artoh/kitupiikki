@@ -68,12 +68,16 @@ void RiviVientiGeneroija::asetaEraId()
 {
     const Lasku& lasku = tosite_->constLasku();
 
+    if( tosite_->viennit()->rowCount())
+        vastaVientiId_ = tosite_->viennit()->vienti(0).id();
+
     int valvonta = lasku.valvonta();
     if( valvonta == Lasku::ASIAKAS || valvonta == Lasku::HUONEISTO) {
         eraId_ = lasku.viite().eraId();
     } else if( lasku.maksutapa() == Lasku::KATEINEN ) {
         eraId_ = 0;
-    } else if( tosite_->viennit()->rowCount()) {
+    } else if( tosite_->viennit()->rowCount() &&
+               tosite_->viennit()->vienti(0).eraId()) {
         eraId_ = tosite_->viennit()->vienti(0).eraId();
     } else {
         eraId_ = Kitsas::UUSI_ERA;
@@ -111,6 +115,7 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
 {
     TositeVienti vienti;
     vienti.setPvm( pvm );
+    vienti.setId(vastaVientiId_);
 
     const Lasku& lasku = tosite_->constLasku();
     const AsetusModel* asetukset = kitsas_->asetukset();
@@ -146,9 +151,10 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
             continue;
 
         int tili = lasku.maksutapa() == Lasku::ENNAKKOLASKU ? kitsas_->asetukset()->luku(AsetusModel::LaskuEnnakkoTili) :  rivi.tili();
+        int kohdennus = rivi.ennakkoEra() ? 0 - rivi.ennakkoEra() : rivi.kohdennus();
         QString str = QString("%1/%2/%3/%4")
                 .arg(tili)
-                .arg(rivi.kohdennus())
+                .arg(kohdennus)
                 .arg(rivi.alvkoodi())
                 .arg(rivi.alvProsentti(),0,'f',2);
         for( auto& merkkaus : rivi.merkkaukset()) {
@@ -168,7 +174,12 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
         vienti.setTyyppi(TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
         vienti.setPvm( pvm );
         vienti.setTili( strlist.takeFirst().toInt() );
-        vienti.setKohdennus( strlist.takeFirst().toInt());
+        int kohdennus = strlist.takeFirst().toInt();
+        if( kohdennus < 0) {
+            vienti.setEra( 0 - kohdennus);
+        } else {
+            vienti.setKohdennus( kohdennus );
+        }
 
         int alvkoodi = strlist.takeFirst().toInt();
         int alvprosentti = strlist.takeFirst().toDouble();
@@ -179,9 +190,10 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
         } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO &&
                    lasku.maksutapa() == Lasku::ENNAKKOLASKU) {
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
+            vienti.setEra(-1);  // Ennakkolaskujen erät seurannassa
         } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO &&
                  kitsas_->onkoMaksuperusteinenAlv(pvm)) {
-            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;            
         }
 
         vienti.setAlvKoodi(alvkoodi);
@@ -197,6 +209,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
         vienti.setKredit( iter.value() );
         vienti.setSelite( lasku.otsikko() );
         vienti.setKumppani( tosite_->kumppani() );
+
 
         if( lasku.maksutapa() != Lasku::KUUKAUSITTAINEN) {
             vienti.setJaksoalkaa( lasku.toimituspvm() );

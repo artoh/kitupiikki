@@ -47,6 +47,7 @@ private:
     Tosite* tosite_ = nullptr;
 
     int eraId_ = 0;
+    int vastaVientiId_ = 0;
 };
 
 #endif // RIVIVIENTIGENEROIJA_H

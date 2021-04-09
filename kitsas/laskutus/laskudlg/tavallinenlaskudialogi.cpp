@@ -157,8 +157,8 @@ void TavallinenLaskuDialogi::hyvitaEnnakko()
         const int eraId = dlg.eraId();
         const Euro euro = dlg.euro();
 
-        KpKysely* kysely = kpk("/tositeet");
-        kysely->lisaaAttribuutti("vienti", dlg.eraId());
+        KpKysely* kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("vienti", eraId);
         connect( kysely, &KpKysely::vastaus,
                  [this, eraId, euro] (QVariant* data)
                     { this->ennakkoTietoSaapuu(data, eraId, euro); });
@@ -175,6 +175,7 @@ void TavallinenLaskuDialogi::ennakkoTietoSaapuu(QVariant *data, int eraId, Euro 
         if( vienti.eraId() == eraId) {
             TositeRivi rivi;
             rivi.setTili( vienti.tili() );
+            rivi.setEnnakkoEra( eraId );
             rivi.setMyyntiKpl(1.0);
             rivi.setLaskutetaanKpl("1");
             rivi.setANetto( 0 - euro.toDouble() );

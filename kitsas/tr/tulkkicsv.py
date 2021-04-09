@@ -13,7 +13,7 @@ with open("tulkki.json") as f:
         for key in data:
             l = data[key]
             if "fi" not in l:
-                l["fi"] = ""
+                l["fi"] = key
             if "sv" not in l:
                 l["sv"] = ""
             if "en" not in l:

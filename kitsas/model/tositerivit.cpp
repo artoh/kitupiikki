@@ -354,8 +354,12 @@ void TositeRivit::lisaaRivi(TositeRivi rivi)
         rivi.setLaskutetaanKpl("1");
     }
 
-    beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
-    rivit_.append(rivi);
+    int indeksi = rivit_.count();
+    if(indeksi > 0 && !rivit_.at(indeksi - 1).bruttoYhteensa() )
+        indeksi = indeksi - 1;
+
+    beginInsertRows( QModelIndex(), indeksi, indeksi );
+    rivit_.insert(indeksi, rivi);
     endInsertRows();
 }
 

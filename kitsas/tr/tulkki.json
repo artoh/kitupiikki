@@ -24,7 +24,8 @@
         "en": "JOURNAL"
     },
     "Päiväkirja": {
-        "sv": "Dagbok"
+        "sv": "Dagbok",
+        "en": "Journal"
     },
     "Pvm": {
         "sv": "Datum",
@@ -65,7 +66,8 @@
         "en": "GENERAL LEDGER"
     },
     "Pääkirja": {
-        "sv": "Huvudbok"
+        "sv": "Huvudbok",
+        "en": "General ledger"
     },
     "PÄÄKIRJAN OTE": {
         "sv": "HUVUDBOKUTDRAG",
@@ -104,7 +106,8 @@
         "en": "VOUCHER LIST"
     },
     "Tositeluettelo": {
-        "sv": "Verifikatlista"
+        "sv": "Verifikatlista",
+        "en": "Voucher list"
     },
     "Otsikko": {
         "sv": "Rubrik",
@@ -131,7 +134,8 @@
         "en": "SPECIFICATION OF ACCOUNTS"
     },
     "Tililuettelo": {
-        "sv": "Kontoplan"
+        "sv": "Kontoplan",
+        "en": "Specification of accounts"
     },
     "Tilin tyyppi": {
         "sv": "Kontotyp",
@@ -225,7 +229,8 @@
         "en": "BALANCE SHEET BREAKDOWN"
     },
     "Tase-erittely": {
-        "sv": "Specification till balansräkningen"
+        "sv": "Specification till balansräkningen",
+        "en": "Balance sheet breakdown"
     },
     "VASTAAVAA": {
         "sv": "AKTIVA",
@@ -272,7 +277,8 @@
         "en": "OPEN SALES INVOICES"
     },
     "Avoimet myyntilaskut": {
-        "sv": "Öppna kundfakturor"
+        "sv": "Öppna kundfakturor",
+        "en": "Open sales invoices"
     },
     "MYYNTILASKUT": {
         "sv": "KUNDFAKTUROR",
@@ -283,7 +289,8 @@
         "en": "OPEN PURCHASE INVOICES"
     },
     "Avoimet ostolaskut": {
-        "sv": "Öppna inköpsfakturor"
+        "sv": "Öppna inköpsfakturor",
+        "en": "Open purchase invoices"
     },
     "OSTOLASKUT": {
         "sv": "INKÖPSFAKTUROR",
@@ -669,9 +676,9 @@
         "en": "Number of compensation invoice"
     },
     "yhteensa": {
-        "fi": "yhteensä",
-        "sv": "totalt",
-        "en": "total"
+        "fi": "Yhteensä",
+        "sv": "Totalt",
+        "en": "Total"
     },
     "mmrivi": {
         "fi": "Laskun %1 avoin saldo",
@@ -729,11 +736,8 @@
         "sv": "Anmärkningstid",
         "en": "Period for complaints"
     },
-    "svalv14": {
-        "fi": "AVL 72 a §: Moms 0 % Gemenskapförsäljning"
-    },
     "lkm": {
-        "fi": "lkm",
+        "fi": "Määrä",
         "sv": "antal",
         "en": "qty"
     },
@@ -758,9 +762,9 @@
         "en": "days"
     },
     "veroton": {
-        "fi": "veroton",
-        "sv": "netto",
-        "en": "net"
+        "fi": "Veroton",
+        "sv": "Utan skatt",
+        "en": "Excluding VAT"
     },
     "erapvm": {
         "fi": "Eräpäivä",
@@ -809,7 +813,7 @@
         "fi": "Euro"
     },
     "ale%": {
-        "fi": "ale%",
+        "fi": "Alennus",
         "sv": "rabatt%",
         "en": "discount%"
     },
@@ -829,6 +833,7 @@
     },
     "alv91": {
         "fi": "Voittomarginaalijärjestelmä - Käytetyt tavarat",
+        "sv": "Vinstmarginalsystem - Begagnade varor",
         "en": "Margin scheme - Second-hand goods"
     },
     "bmo": {
@@ -852,6 +857,7 @@
     },
     "alv14": {
         "fi": "AVL 72a §: ALV 0% Yhteisömyynti",
+        "sv": "AVL 72 a §: Moms 0 % Gemenskapförsäljning",
         "en": "AVL 72a §: VAT 0% Intra Community supply"
     },
     "alv16": {
@@ -902,8 +908,8 @@
         "en": "Recipient"
     },
     "vero": {
-        "fi": "vero",
-        "sv": "skatt",
+        "fi": "Vero",
+        "sv": "Skatt",
         "en": "tax"
     },
     "ahinta": {
@@ -922,7 +928,6 @@
         "en": "Compensation for advance invoice %1"
     },
     "alennus": {
-        "fi": "alennus",
         "sv": "rabatt",
         "en": "discount"
     },
@@ -942,14 +947,14 @@
         "en": "Business ID"
     },
     "verollinen": {
-        "fi": "verollinen",
-        "sv": "brutto",
-        "en": "gross"
+        "fi": "Verollinen",
+        "sv": "Med skatten",
+        "en": "Includes VAT"
     },
     "mmotsikko": {
         "fi": "Maksumuistutus laskusta %1",
         "sv": "Betalningspåminnelse för faktura %1",
-        "en": "Requeat for payment %1"
+        "en": "Request for payment %1"
     },
     "Yhteensa": {
         "fi": "Yhteensä",
@@ -981,112 +986,181 @@
         "en": "Customer's VAT number"
     },
     "netto": {
-        "fi": "netto",
-        "en": "net"
+        "fi": "Veroton",
+        "sv": "Utan skatt",
+        "en": "Excludes VAT"
     },
     "nimike": {
-        "fi": "nimike",
+        "fi": "Nimike",
         "sv": "produkt",
-        "en": "product"
+        "en": "Item"
     },
     "bep": {
         "fi": "Eräpäivä|Förfallodag",
         "en": "Due date"
     },
     "kpl": {
-        "fi": "kpl",
-        "sv": "antal",
-        "en": "quantity"
+        "fi": "Kpl",
+        "sv": "Antal",
+        "en": "Quantity"
     },
     "bak": {
         "fi": "Allekirjoitus|Underskrift",
         "en": "Signature"
     },
     "kotisivu": {
-        "fi": "Kotisivu"
+        "fi": "Kotisivu",
+        "sv": "Hemsida",
+        "en": "Homepage"
     },
     "pankki": {
-        "fi": "Pankki"
+        "fi": "Pankki",
+        "sv": "Bank",
+        "en": "Bank"
     },
     "hyvityslasku": {
-        "fi": "Hyvityslasku"
+        "fi": "Hyvityslasku",
+        "sv": "Kreditnota",
+        "en": "Credit note"
     },
     "hyvitettavaNumero": {
-        "fi": "Hyvitettävän laskun numero"
+        "fi": "Hyvitettävän laskun numero",
+        "sv": "Krediterbart faktureringsnummer",
+        "en": "Credable invoice number"
     },
     "hyvitettavaPvm": {
-        "fi": "Hyvitettävän laskun pvm"
+        "fi": "Hyvitettävän laskun pvm",
+        "sv": "Krediterbart faktureringsdatum",
+        "en": "Credable invoice date"
     },
     "hyvPvm": {
-        "fi": "Hyvityslaskun pvm"
+        "fi": "Hyvityslaskun pvm",
+        "sv": "Kreditnotans datum",
+        "en": "Date of credit note"
     },
     "muistutuspvm": {
-        "fi": "Maksumuistutuksen pvm"
+        "fi": "Maksumuistutuksen pvm",
+        "sv": "Betalningsåminnelses datum",
+        "en": "Date of request for payment"
     },
     "UN_C62": {
-        "fi": "kpl"
+        "fi": "kpl",
+        "sv": "st",
+        "en": "pcs"
     },
     "UN_NPK": {
-        "fi": "pkt"
+        "fi": "pkt",
+        "sv": "förpackningar",
+        "en": "packets"
     },
     "UN_IE": {
-        "fi": "hlö"
+        "fi": "hlö",
+        "sv": "personer",
+        "en": "persons"
     },
     "UN_KGM": {
-        "fi": "kg"
+        "fi": "kg",
+        "sv": "kg",
+        "en": "kg"
     },
     "UN_LTR": {
-        "fi": "l"
+        "fi": "l",
+        "sv": "l",
+        "en": "litre"
     },
     "UN_ANN": {
-        "fi": "v"
+        "fi": "v",
+        "sv": "år",
+        "en": "ann"
     },
     "UN_MON": {
-        "fi": "kk"
+        "fi": "kk",
+        "sv": "mån",
+        "en": "mon"
     },
     "UN_DAY": {
-        "fi": "pv"
+        "fi": "pv",
+        "sv": "dag",
+        "en": "day"
     },
     "UN_HUR": {
-        "fi": "h"
+        "fi": "h",
+        "sv": "h",
+        "en": "hour"
     },
     "UN_MIN": {
-        "fi": "min"
+        "fi": "min",
+        "sv": "min",
+        "en": "min"
     },
     "UN_LH": {
-        "fi": "h"
+        "fi": "h",
+        "sv": "h",
+        "en": "hour"
     },
     "UN_ACT": {
-        "fi": "yks"
+        "fi": "yks",
+        "sv": "enhet",
+        "en": "unit"
     },
     "UN_E50": {
-        "fi": "yks"
+        "fi": "yks",
+        "sv": "enhet",
+        "en": "unit"
     },
     "UN_E51": {
-        "fi": "krt"
+        "fi": "krt",
+        "sv": "gång",
+        "en": "job"
     },
     "UN_KMT": {
-        "fi": "km"
+        "fi": "km",
+        "sv": "km",
+        "en": "km"
     },
     "UN_KWH": {
-        "fi": "kWh"
+        "fi": "kWh",
+        "sv": "kWh",
+        "en": "kWh"
     },
     "UN_MTK": {
-        "fi": "m²"
+        "fi": "m2",
+        "sv": "m2",
+        "en": "m2"
     },
     "UN_MTQ": {
-        "fi": "m³"
+        "fi": "m3",
+        "sv": "m3",
+        "en": "m3"
     },
     "UN_E21": {
-        "fi": "osaketta"
+        "fi": "osaketta",
+        "sv": "aktier",
+        "en": "share"
     },
     "UN_ZP": {
-        "fi": "sivua"
+        "fi": "sivua",
+        "sv": "sidor",
+        "en": "pages"
     },
     "toimitettu": {
-        "fi": "Toimitettu"
+        "fi": "Toimitettu",
+        "sv": "Levererad",
+        "en": "Delivered"
     },
     "jalkitoimitus": {
-        "fi": "Jälkitoimitus"
+        "fi": "Jälkitoimitus",
+        "sv": "Efterleverans",
+        "en": "Subsequent delivery"
+    },
+    "huoneisto": {
+        "fi": "Huoneisto",
+        "sv": "Lågenhet",
+        "en": "Flat"
+    },
+    "laskutusjakso": {
+        "fi": "Räkningsperiod",
+        "sv": "Fakturingsperiod",
+        "en": "Invoicing period"
     }
 }

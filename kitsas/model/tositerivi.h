@@ -90,6 +90,9 @@ public:
     QString lisatiedot() const { return str("lisatiedot");}
     void setLisatiedot(const QString& tiedot) { setStr("lisatiedot", tiedot);}
 
+    int ennakkoEra() const { return luku("ennakkoera");}
+    void setEnnakkoEra(const int era) { set("ennakkoera", era); }
+
     Euro laskeYhteensa();
     double laskeYksikko();
 };

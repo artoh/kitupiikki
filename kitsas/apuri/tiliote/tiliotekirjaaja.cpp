@@ -126,8 +126,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->kohdennusLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE && kp()->kohdennukset()->kohdennuksia() );
     ui->kohdennusCombo->setVisible( tab != MAKSU && tab != VAKIOVIITE && kp()->kohdennukset()->kohdennuksia() );
 
-    ui->merkkausLabel->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
-    ui->merkkausCC->setVisible(  tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
+    ui->merkkausLabel->setVisible(  tab != MAKSU && tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
+    ui->merkkausCC->setVisible(  tab != MAKSU && tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
 
     ui->asiakasLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE);
     ui->asiakastoimittaja->setVisible( tab != MAKSU && tab != VAKIOVIITE);

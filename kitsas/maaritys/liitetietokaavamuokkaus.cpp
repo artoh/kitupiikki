@@ -41,6 +41,7 @@ LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
 bool LiitetietokaavaMuokkaus::nollaa()
 {
     lataa();
+    return true;
 }
 
 bool LiitetietokaavaMuokkaus::tallenna()
