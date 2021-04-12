@@ -21,6 +21,9 @@
 
 #include "ui_laskudialogi.h"
 
+#include "rivivientigeneroija.h"
+#include "db/kirjanpito.h"
+
 
 HyvitysLaskuDialogi::HyvitysLaskuDialogi(Tosite *tosite, QWidget *parent) :
     RivillinenLaskuDialogi(tosite, parent)
@@ -41,4 +44,15 @@ HyvitysLaskuDialogi::HyvitysLaskuDialogi(Tosite *tosite, QWidget *parent) :
 
     int toistoIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("toisto") );
     ui->tabWidget->removeTab(toistoIndex);
+}
+
+void HyvitysLaskuDialogi::asetaEra(int eraId)
+{
+    eraId_ = eraId;
+}
+
+void HyvitysLaskuDialogi::valmisteleTallennus()
+{
+    RiviVientiGeneroija rivigeneroija(kp());
+    rivigeneroija.generoiViennit(tosite_, eraId_);
 }

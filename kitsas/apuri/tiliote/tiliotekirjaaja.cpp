@@ -129,15 +129,15 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->merkkausLabel->setVisible(  tab != MAKSU && tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab != MAKSU && tab != SIIRTO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab != MAKSU && tab != VAKIOVIITE);
-    ui->asiakastoimittaja->setVisible( tab != MAKSU && tab != VAKIOVIITE);
+    ui->asiakasLabel->setVisible( tab != MAKSU );
+    ui->asiakastoimittaja->setVisible( tab != MAKSU );
 
     ui->seliteLabel->setVisible(tab != MAKSU && tab != VAKIOVIITE);
     ui->seliteEdit->setVisible( tab != MAKSU && tab != VAKIOVIITE);
 
     if( tab == MAKSU ) {
         ui->maksuView->setModel(avoinProxy_);
-        laskut_->lataaAvoimet( menoa_ );
+        laskut_->lataaAvoimetMaksettavat( menoa_ );
 
     } else if( tab == TULOMENO || tab == HYVITYS) {
         bool menotili = (ui->ylaTab->currentIndex() == TILILTA) ^ (tab == HYVITYS);
@@ -656,8 +656,10 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         const QVariantMap& map = index.data(VakioViiteModel::MapRooli).toMap();
         pankki.setSelite(map.value("otsikko").toString());
         maksu.setSelite(map.value("otsikko").toString());
+        pankki.setKumppani( ui->asiakastoimittaja->map() );
         maksu.setTili( map.value("tili").toInt());
         maksu.setKohdennus( map.value("kohdennus").toInt());
+        maksu.setKumppani( ui->asiakastoimittaja->map() );
         pankki.setViite( map.value("viite").toString() );
 
         pankki.setDebet( ui->euroEdit->euro() );

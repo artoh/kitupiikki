@@ -36,11 +36,11 @@ RiviVientiGeneroija::RiviVientiGeneroija(KitsasInterface *kitsas) :
 
 }
 
-void RiviVientiGeneroija::generoiViennit(Tosite *tosite)
+void RiviVientiGeneroija::generoiViennit(Tosite *tosite, int eraId)
 {
     tosite_ = tosite;
 
-    asetaEraId();
+    asetaEraId(eraId);
     tosite->viennit()->tyhjenna();
 
     Lasku& lasku = tosite_->lasku();
@@ -64,8 +64,13 @@ void RiviVientiGeneroija::generoiViennit(Tosite *tosite)
 
 }
 
-void RiviVientiGeneroija::asetaEraId()
+void RiviVientiGeneroija::asetaEraId(int eraId)
 {
+    if(eraId) {
+        eraId_ = eraId;
+        return;
+    }
+
     const Lasku& lasku = tosite_->constLasku();
 
     if( tosite_->viennit()->rowCount())

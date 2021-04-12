@@ -41,6 +41,8 @@ TuoteDialogi::TuoteDialogi(QWidget *parent) :
              this, &TuoteDialogi::laskeBrutto);
     connect( ui->bruttoEdit, &KpEuroEdit::textEdited,
              this, &TuoteDialogi::laskeNetto);
+
+    ui->alvCombo->alusta();
 }
 
 TuoteDialogi::~TuoteDialogi()

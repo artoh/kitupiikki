@@ -84,13 +84,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
             case NUMERO:
-                if( map.contains("numero")) {
+                if( !map.value("numero").toString().isEmpty()) {
                     if( role == Qt::EditRole)
-                        return QString(" %1").arg(map.value("numero").toLongLong(),20,10);
-                    if(map.value("numero").toInt())
-                        return map.value("numero").toLongLong();
+                        return QString(" %1").arg(map.value("numero").toString(), 20, '0');
                     return map.value("numero");
-                } else if(map.contains("viite"))
+                } else if(!map.value("viite").toString().isEmpty())
                     return map.value("viite");
                 else if(map.value("tunniste").toInt()){
                     return kp()->tositeTunnus(map.value("tunniste").toInt(),
@@ -260,9 +258,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void LaskuTauluModel::lataaAvoimet(bool ostoja)
+void LaskuTauluModel::lataaAvoimetMaksettavat(bool ostoja)
 {
-    paivita(ostoja, AVOIMET );
+    paivita(ostoja, MAKSETTAVAT );
 }
 
 void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin)
@@ -295,6 +293,8 @@ void LaskuTauluModel::paivitaNakyma()
 
     if( valinta_ == AVOIMET)
         kysely->lisaaAttribuutti("avoin",QString());
+    else if(valinta_ == MAKSETTAVAT)
+        kysely->lisaaAttribuutti("avoin","maksut");
     else if( valinta_ == ERAANTYNEET) {
         kysely->lisaaAttribuutti("eraantynyt");
         kysely->lisaaAttribuutti("eraloppupvm", kp()->paivamaara() );

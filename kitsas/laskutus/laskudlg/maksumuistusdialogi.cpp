@@ -39,6 +39,7 @@ MaksumuistusDialogi::MaksumuistusDialogi(Tosite *tosite, QWidget *parent) :
     connect( ui->mmViivastysAlkaa, &KpDateEdit::dateChanged, this, &MaksumuistusDialogi::paivitaSumma);
     connect( ui->mmViivastysLoppuu, &KpDateEdit::dateChanged, this, &MaksumuistusDialogi::paivitaSumma);
 
+    setWindowTitle(tr("Maksumuistutus %1").arg(tosite->lasku().numero()));
 }
 
 void MaksumuistusDialogi::lataa()

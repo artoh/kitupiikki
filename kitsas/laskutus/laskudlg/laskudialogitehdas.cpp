@@ -29,7 +29,8 @@
 #include "db/asetusmodel.h"
 #include "model/tositerivi.h"
 #include "model/tositerivit.h"
-
+#include "model/tositeviennit.h"
+#include "model/tositevienti.h"
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
     QObject(parent),
@@ -151,6 +152,7 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
     }
 
     HyvitysLaskuDialogi* dlg = new HyvitysLaskuDialogi(uusi);
+    dlg->asetaEra( hyvitettava->viennit()->vienti(0).eraId() );
     dlg->show();
 
     hyvitettava->deleteLater();

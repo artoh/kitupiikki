@@ -137,6 +137,9 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
                                           lasku.lahetystapa());
 
 
+    lasku.setErittely(QStringList());
+    lasku.setLisatiedot( tulkkaa("muistutusteksti", kieli) );
+
     Euro saldo = Euro::fromVariant(eramap.value("saldo"));
     lasku.setAiempiSaldo( saldo );
     muistutus->lasku().kopioi(lasku);

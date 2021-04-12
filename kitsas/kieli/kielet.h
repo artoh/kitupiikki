@@ -73,7 +73,7 @@ private:
     QString uiKieli_;
 
     QTranslator appTranslator_;
-    QTranslator qtTranslator_;
+    QTranslator qtBaseTranslator_;
 
 private:
     static Kielet* instanssi__;

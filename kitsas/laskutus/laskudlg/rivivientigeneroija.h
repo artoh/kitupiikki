@@ -27,10 +27,10 @@ class RiviVientiGeneroija
 public:
     RiviVientiGeneroija(KitsasInterface* kitsas);
 
-    void generoiViennit(Tosite* tosite);
+    void generoiViennit(Tosite* tosite, int eraId = 0);
 
 protected:
-    void asetaEraId();
+    void asetaEraId(int eraId);
 
     void generoiKuukausittaisetLaskut();
     void generoiViennit(const QDate& pvm);

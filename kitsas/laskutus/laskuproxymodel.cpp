@@ -97,6 +97,7 @@ bool LaskuProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source
     }
 
     const QString& viiteNumero = idx.data(LaskuTauluModel::ViiteRooli).toString();
+
     if( !viite_.isEmpty() &&
          viiteNumero != viite_ )
         return false;
@@ -105,6 +106,7 @@ bool LaskuProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source
         ViiteNumero viite( viiteNumero );
         if( viite.tyyppi() != viitetyyppi_ )
             return false;
+
     }
 
     return true;

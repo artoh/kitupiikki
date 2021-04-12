@@ -25,7 +25,7 @@ class LaskuTauluModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    enum LaskuValinta { LUONNOS, LAHETETTAVA, KAIKKI, AVOIMET, ERAANTYNEET };
+    enum LaskuValinta { LUONNOS, LAHETETTAVA, KAIKKI, AVOIMET, ERAANTYNEET, MAKSETTAVAT };
     enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, LAHETYSTAPA, MAKSAMATTA, ASIAKASTOIMITTAJA, OTSIKKO };
 
 
@@ -62,7 +62,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 public slots:
-    void lataaAvoimet(bool ostoja = false);
+    void lataaAvoimetMaksettavat(bool ostoja = false);
     void paivita(bool ostoja = false, int valinta = KAIKKI, QDate mista=QDate(), QDate mihin = QDate());
     void paivitaNakyma();
 

@@ -25,8 +25,13 @@ class HyvitysLaskuDialogi : public RivillinenLaskuDialogi
 public:
     HyvitysLaskuDialogi(Tosite* tosite, QWidget* parent = nullptr);
 
+    void asetaEra(int eraId);
+
 protected:
     QString ohje() override { return "laskutus/hyvitys";}
+    void valmisteleTallennus() override;
+
+    int eraId_ = 0;
 };
 
 #endif // HYVITYSLASKUDIALOGI_H
