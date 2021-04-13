@@ -50,22 +50,19 @@ KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
     proxy->setSortRole(KohdennusModel::NimiRooli);
     ui->kustannuspaikkaCombo->setModel(proxy);
 
-    if( index_ > -1)
+    if( index > -1)
         lataa();
-    else {
-        for(QString kieli : kp()->asetukset()->kielet() ) {
-            QListWidgetItem* item = new QListWidgetItem( lippu(kieli), "" , ui->nimiList);
-            item->setData(Qt::UserRole, kieli);
-            item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
-        }
-
-    }
+    else
+        ui->nimiList->lataa(Monikielinen());
 
     tyyppiMuuttuu();
     connect( ui->kustannuspaikkaRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
     connect( ui->projektiRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
     connect( ui->tagRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/kohdennukset");});
+
+
+
 }
 
 KohdennusDialog::~KohdennusDialog()
@@ -104,11 +101,9 @@ void KohdennusDialog::lataa()
     ui->projektiRadio->setChecked(kohdennus->tyyppi() == Kohdennus::PROJEKTI );
     ui->tagRadio->setChecked(kohdennus->tyyppi() == Kohdennus::MERKKAUS );
 
-    for(QString kieli : kp()->asetukset()->kielet() ) {
-        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), kohdennus->kaannos(kieli) , ui->nimiList );
-        item->setData(Qt::UserRole, kieli);
-        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    }
+
+    ui->nimiList->lataa( kohdennus->nimiKielinen() );
+
 
     ui->maaraaikainenCheck->setChecked( kohdennus->alkaa().isValid() );
     ui->alkaaDate->setDate( kohdennus->alkaa());
@@ -132,8 +127,8 @@ void KohdennusDialog::tallenna()
 
     Kohdennus* kohdennus = index_ > 0 ? kp()->kohdennukset()->pkohdennus(index_) : kp()->kohdennukset()->lisaa( tyyppi );
 
-    for(int i=0; i < ui->nimiList->count(); i++)
-        kohdennus->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
+    kohdennus->nimiKielinen().aseta( ui->nimiList->tekstit() );
+
     kohdennus->asetaTyyppi(tyyppi);
     kohdennus->asetaAlkaa( ui->maaraaikainenCheck->isChecked() ? ui->alkaaDate->date() : QDate());
     kohdennus->asetaPaattyy( ui->maaraaikainenCheck->isChecked() ? ui->paattyyDate->date() : QDate());

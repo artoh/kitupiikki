@@ -63,6 +63,7 @@ public:
     void asetaPaattyy(const QDate& pvm) { set("paattyy", pvm);}
 
     QVariantMap data() const;
+    Monikielinen& nimiKielinen() { return nimi_; }
 
 protected:
     int id_=0;

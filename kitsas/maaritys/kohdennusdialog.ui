@@ -150,7 +150,7 @@
       <widget class="QComboBox" name="kustannuspaikkaCombo"/>
      </item>
      <item row="0" column="1">
-      <widget class="QListWidget" name="nimiList">
+      <widget class="KieliListWidget" name="nimiList">
        <property name="editTriggers">
         <set>QAbstractItemView::AllEditTriggers</set>
        </property>
@@ -187,6 +187,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KieliListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">kieli/kielilistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
