@@ -87,7 +87,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 if( !map.value("numero").toString().isEmpty()) {
                     if( role == Qt::EditRole)
                         return QString(" %1").arg(map.value("numero").toString(), 20, '0');
-                    return map.value("numero");
+                    return map.value("numero").toDouble() > 1e-5 ? QString::number(map.value("numero").toDouble(),'f',0) : map.value("numero");
                 } else if(!map.value("viite").toString().isEmpty())
                     return map.value("viite");
                 else if(map.value("tunniste").toInt()){

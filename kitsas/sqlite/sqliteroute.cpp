@@ -64,7 +64,7 @@ QPair<const QVariant, int> SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaK
 
 QVariant SQLiteRoute::get(const QString & polku, const QUrlQuery& /*urlquery*/)
 {
-    qDebug() << "* Ei reititetty: GET " << polku ;
+    qWarning() << "* Ei reititetty: GET " << polku ;
     return QVariant();
 }
 
@@ -122,8 +122,9 @@ QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
             else if( kenttanimi.endsWith("snt")) {
                 map.insert( kenttanimi.left( kenttanimi.length() - 3 ), Euro( tietue.value(i).toLongLong() ).toString() );
             }
-            else if( kenttanimi != "json")
-                map.insert( kenttanimi, tietue.value(i) );
+            else if( kenttanimi != "json") {
+                map.insert( kenttanimi, tietue.value(i));
+            }
         }
         lista.append(map);
     }

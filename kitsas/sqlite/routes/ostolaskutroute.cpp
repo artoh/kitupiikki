@@ -19,6 +19,8 @@
 #include "model/tosite.h"
 #include "model/tositevienti.h"
 
+#include "model/euro.h"
+
 #include <QDebug>
 
 OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
@@ -27,10 +29,10 @@ OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
 
 }
 
-QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
-{
+QString OstolaskutRoute::sqlKysymys(const QUrlQuery &urlquery, bool hyvitys) const {
+
     QString kysymys("select tosite.id as tosite, tosite.viite as viite,tosite.laskupvm as pvm, tosite.erapvm as erapvm, "
-                    "kreditsnt as summasnt, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
+                    "COALESCE(kreditsnt,0) - COALESCE(debetsnt,0) as summasnt, q.avoinsnt AS avoinsnt, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
                     "vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tyyppi, tosite.pvm as tositepvm "
                     "from Tosite JOIN "
                     "Vienti ON vienti.tosite=tosite.id ");
@@ -38,7 +40,7 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" LEFT OUTER ");
 
-    kysymys.append("JOIN ( SELECT eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 ");
+    kysymys.append("JOIN ( SELECT eraid, COALESCE(SUM(kreditsnt),0) - COALESCE(SUM(debetsnt),0) as avoinsnt FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 ");
 
     if( urlquery.hasQueryItem("saldopvm"))
         kysymys.append(QString(" AND Vienti.pvm <= '%1' ").arg(urlquery.queryItemValue("saldopvm")));
@@ -46,16 +48,17 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     kysymys.append("GROUP BY eraid");
 
     if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append(" HAVING sum(kreditsnt) <> sum(debetsnt) OR sum(debetsnt) IS NULL ");
+        kysymys.append(QString(" HAVING COALESCE(SUM(kreditsnt),0) %1 COALESCE(SUM(debetsnt),0) ")
+                .arg( urlquery.queryItemValue("avoin")=="maksut" ? ( hyvitys ? ">" : "<" ) : "<>" ));
     kysymys.append(QString(")  AS q  ON vienti.eraid=q.eraid LEFT OUTER JOIN "
                            "Kumppani ON vienti.kumppani=kumppani.id "
                            "WHERE vienti.tyyppi=%1 AND tosite.tila >= %2")
-                           .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
+                           .arg(hyvitys ? TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS : TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
                            .arg(Tosite::KIRJANPIDOSSA) );
 
     if( urlquery.hasQueryItem("alkupvm"))
         kysymys.append(QString(" AND tosite.laskupvm >= '%1' ")
-                       .arg(urlquery.queryItemValue("alkupvm")));    
+                       .arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
         kysymys.append(QString(" AND tosite.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
@@ -71,22 +74,26 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
             kysymys.append(QString(" AND tosite.erapvm <= '%1' ")
                        .arg(urlquery.queryItemValue("eraloppupvm")));
     }
-    kysymys.append(" ORDER BY pvm, viite");
+    if( urlquery.queryItemValue("avoin")=="maksut")
+        kysymys.append(" AND Vienti.eraid=Vienti.id ");
 
+    kysymys.append(" ORDER BY pvm, viite");
+    qDebug() << kysymys;
+    return kysymys;
+}
+
+
+QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
+{
 
     QSqlQuery kysely(db());
-    kysely.exec(kysymys);
-
+    kysely.exec(sqlKysymys(urlquery, false));
     QVariantList lista = resultList(kysely);
 
-    for(int i=0; i < lista.count(); i++) {
-        QVariantMap map = lista.at(i).toMap();
-        double ds = map.take("ds").toLongLong() / 100.0;
-        double ks = map.take("ks").toLongLong() / 100.0;
-        map.insert("avoin", ks - ds);
-        lista[i] = map;
+    if( urlquery.queryItemValue("avoin") == "maksut") {
+        kysely.exec(sqlKysymys(urlquery, true));
+        lista.append(resultList(kysely));
     }
-
 
     return lista;
 }

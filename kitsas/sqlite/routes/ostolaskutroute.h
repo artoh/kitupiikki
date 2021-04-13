@@ -24,6 +24,9 @@ class OstolaskutRoute : public SQLiteRoute
 public:
     OstolaskutRoute(SQLiteModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+
+private:
+    QString sqlKysymys(const QUrlQuery &urlquery, bool hyvitys = false) const;
 };
 
 #endif // OSTOLASKUTROUTE_H

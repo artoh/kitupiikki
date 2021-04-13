@@ -28,32 +28,11 @@ MyyntilaskutRoute::MyyntilaskutRoute(SQLiteModel *model)
 
 }
 
+
+
 QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
     // Laskutapa on json:n sisällä !
-
-
-    QString kysymys("select tosite.id as tosite, tosite.laskupvm as pvm, tosite.erapvm as erapvm, tosite.viite, tosite.json as json, "
-                        "debetsnt as debetia, kreditsnt as kreditia, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
-                        "tosite.tyyppi as tyyppi, vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tila as tila, tosite.pvm as tositepvm  "
-                        "FROM tosite JOIN Vienti ON vienti.tosite=tosite.id ");
-
-    if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append("LEFT OUTER ");
-
-    kysymys.append("JOIN (select eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 ");
-
-    if( urlquery.hasQueryItem("saldopvm"))
-        kysymys.append(QString(" AND Vienti.pvm <= '%1' ").arg(urlquery.queryItemValue("saldopvm")));
-
-    kysymys.append(" GROUP BY eraid ");
-    if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
-        kysymys.append("HAVING SUM(kreditsnt) <> SUM(debetsnt) OR sum(kreditsnt) IS NULL ");
-
-    kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
-            "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1")
-            .arg( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
-
     QString ehdot = " AND ( tosite.tila ";
 
     if( urlquery.hasQueryItem("luonnos"))
@@ -66,7 +45,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     if( urlquery.hasQueryItem("alkupvm"))
         ehdot.append(QString(" AND tosite.laskupvm >= '%1' ")
-                       .arg(urlquery.queryItemValue("alkupvm")));    
+                       .arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
         ehdot.append(QString(" AND tosite.laskupvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
@@ -84,19 +63,18 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
                        .arg(urlquery.queryItemValue("eraloppupvm")));
     }
 
-    kysymys.append(ehdot);
-
-    if( urlquery.hasQueryItem("kitsaslaskut"))
-        kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");
-
-    kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
-
-    qDebug() << kysymys;
 
     QSqlQuery kysely( db());
-    kysely.exec(kysymys);
-
+    kysely.exec(sqlKysymys(urlquery, ehdot, false));
     QVariantList lista = resultList(kysely);
+
+    if( urlquery.queryItemValue("avoin") == "myynnit") {
+        kysely.exec(sqlKysymys(urlquery, ehdot, true));
+        lista.append( resultList(kysely) );
+    }
+
+
+
     for(int i=0; i < lista.count(); i++) {
         QVariantMap map = lista.at(i).toMap();
         double ds = map.take("ds").toLongLong() / 100.0;
@@ -106,20 +84,18 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         if( laskumap.contains("laskutapa"))
             map.insert("laskutapa", laskumap.value("laskutapa"));
         if( laskumap.contains("numero"))
-            map.insert("numero", laskumap.value("numero"));
+            map.insert("numero", laskumap.value("numero").toString());
         if( laskumap.contains("maksutapa"))
             map.insert("maksutapa", laskumap.value("maksutapa"));
         if( laskumap.contains("valvonta"))
             map.insert("valvonta", laskumap.value("valvonta"));
 
-        map.insert("avoin", ds - ks);
-        map.insert("summa", (map.take("debetia").toLongLong() - map.take("kreditia").toLongLong()) / 100.0);
         lista[i] = map;
     }
 
     // Lisäksi haetaan valvomattomat laskut (Vakioviite ja Valvomaton)
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt")) {
-        kysymys = "SELECT Tosite.id, Kumppani.id, Kumppani.nimi, Tosite.json, Tosite.tyyppi "
+        QString kysymys = "SELECT Tosite.id, Kumppani.id, Kumppani.nimi, Tosite.json, Tosite.tyyppi "
                    "FROM Tosite LEFT OUTER JOIN Kumppani ON Tosite.kumppani=Kumppani.id "
                   "WHERE Tosite.tyyppi >= 210 AND Tosite.tyyppi <= 219 " + ehdot;
         kysely.exec(kysymys);
@@ -147,4 +123,43 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     }
 
     return lista;
+}
+
+QString MyyntilaskutRoute::sqlKysymys(const QUrlQuery &urlquery, const QString &ehdot, bool hyvitys) const
+{
+
+    QString kysymys("select tosite.id as tosite, tosite.laskupvm as pvm, tosite.erapvm as erapvm, tosite.viite, tosite.json as json, "
+                        "COALESCE(debetsnt,0) - COALESCE(kreditsnt,0) AS summasnt, avoinsnt, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
+                        "tosite.tyyppi as tyyppi, vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tila as tila, tosite.pvm as tositepvm  "
+                        "FROM tosite JOIN Vienti ON vienti.tosite=tosite.id ");
+
+    if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
+        kysymys.append("LEFT OUTER ");
+
+    kysymys.append("JOIN (select eraid,  COALESCE(SUM(debetsnt),0) - COALESCE(SUM(kreditsnt),0) AS avoinsnt FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 ");
+
+    if( urlquery.hasQueryItem("saldopvm"))
+        kysymys.append(QString(" AND Vienti.pvm <= '%1' ").arg(urlquery.queryItemValue("saldopvm")));
+
+    kysymys.append(" GROUP BY eraid ");
+    if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
+        kysymys.append(QString(" HAVING COALESCE(SUM(kreditsnt),0) %1 COALESCE(SUM(debetsnt),0) ")
+                .arg( urlquery.queryItemValue("avoin")=="maksut" ? ( hyvitys ? "<" : ">" ) : "<>" ));
+
+    kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
+            "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1")
+            .arg( hyvitys ? TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS : TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS) );
+
+
+    kysymys.append(ehdot);
+
+    if( urlquery.hasQueryItem("kitsaslaskut"))
+        kysymys.append(" AND tosite.tyyppi >= 210 AND tosite.tyyppi <= 219 ");
+    if( urlquery.queryItemValue("avoin") == "myynnit")
+        kysymys.append(" AND Vienti.eraid=Vienti.id ");
+
+    kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
+
+    qDebug() << kysymys;
+    return kysymys;
 }
