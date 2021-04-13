@@ -35,7 +35,7 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->tililtaEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililtaMuuttui);
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
-    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
+    connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &SiirtoApuri::tositteelle);
 
     connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite, int kumppani)
         {this->eraValittu(false, eraId, avoinna, selite, kumppani);});

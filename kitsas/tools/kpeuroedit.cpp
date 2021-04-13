@@ -65,6 +65,7 @@ void KpEuroEdit::setCents(qlonglong cents)
 
     setClearButtonEnabled( cents );
     emit sntMuuttui(cents_);
+    emit euroMuuttui( cents_ );
 }
 
 void KpEuroEdit::setValue(double euros)
@@ -104,6 +105,7 @@ void KpEuroEdit::edited(const QString &newtext)
         sentit *= 10;
 
     cents_ = eurosa.toLongLong() * 100 + sentit;
+
     emit sntMuuttui( asCents() );
     emit euroMuuttui( euro() );
 
