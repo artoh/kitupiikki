@@ -20,6 +20,7 @@
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
 #include "model/tosite.h"
+#include "model/euro.h";
 
 #include <QJsonDocument>
 #include <QVariant>
@@ -60,12 +61,12 @@ void PalkkaApuri::teeReset()
 
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
 
-    QMap<QString,double> eurot;
+    QMap<QString,Euro> eurot;
 
     for(const QVariant& item : vientilista) {
         TositeVienti vienti(item.toMap());
 
-        eurot.insert(vienti.palkkakoodi(), vienti.debet() > 1e-5 ? vienti.debet() : vienti.kredit());
+        eurot.insert(vienti.palkkakoodi(), vienti.debetEuro() ? vienti.debetEuro() : vienti.kreditEuro());
         if( vienti.palkkakoodi() == "MP" )
             ui->tiliCombo->valitseTili( vienti.tili() );
         if( vienti.kohdennus() != 0)
@@ -73,20 +74,21 @@ void PalkkaApuri::teeReset()
 
     }
 
-    ui->palkkaEdit->setValue( eurot.value("PA") );
-    ui->palkkioEdit->setValue(eurot.value("PI"));
-    ui->lisaEdit->setValue(eurot.value("LK"));
-    ui->lomaEdit->setValue(eurot.value("LS"));
-    ui->luontoisEdit->setValue(eurot.value("LU"));
-    ui->kmEdit->setValue(eurot.value("KM"));
-    ui->paivarahaEdit->setValue(eurot.value("PR"));
-    ui->ateriaEdit->setValue(eurot.value("AT"));
-    ui->pidatysEdit->setValue(eurot.value("EP"));
-    ui->elakeEdit->setValue(eurot.value("EL"));
-    ui->tvredit->setValue(eurot.value("TV"));
-    ui->ayedit->setValue(eurot.value("AY"));
-    ui->svedit->setValue(eurot.value("SV"));
-    ui->nettoLabel->setText(QString("%L1 €").arg(eurot.value("MP"),10,'f',2));
+    ui->palkkaEdit->setEuro(eurot.value("PA") );
+    ui->palkkioEdit->setEuro(eurot.value("PI"));
+    ui->lisaEdit->setEuro(eurot.value("LK"));
+    ui->lomaEdit->setEuro(eurot.value("LS"));
+    ui->luontoisEdit->setEuro(eurot.value("LU"));
+    ui->kmEdit->setEuro(eurot.value("KM"));
+    ui->paivarahaEdit->setEuro(eurot.value("PR"));
+    ui->ateriaEdit->setEuro(eurot.value("AT"));
+    ui->pidatysEdit->setEuro(eurot.value("EP"));
+    ui->elakeEdit->setEuro(eurot.value("EL"));
+    ui->tvredit->setEuro(eurot.value("TV"));
+    ui->ayedit->setEuro(eurot.value("AY"));
+    ui->uoedit->setEuro(eurot.value("UO"));
+    ui->svedit->setEuro(eurot.value("SV"));
+    ui->nettoLabel->setText( eurot.value("MP").display());
 
     ui->kohdennusCombo->suodataPaivalla( tosite()->pvm() );
     ui->kohdennusLabel->setVisible( kp()->kohdennukset()->kohdennuksia() );
@@ -98,44 +100,47 @@ bool PalkkaApuri::teeTositteelle()
 {
     QVariantList viennit;
 
-    qlonglong brutto = qRound64( ui->palkkaEdit->value() * 100 ) +
-            qRound64( ui->palkkioEdit->value() * 100) +
-            qRound64( ui->lisaEdit->value() * 100) +
-            qRound64( ui->lomaEdit->value() * 100);
+    Euro brutto = ui->palkkaEdit->euro() +
+            ui->palkkioEdit->euro() +
+            ui->lisaEdit->euro() +
+            ui->lomaEdit->euro();
 
-    qlonglong vahennykset = qRound64( ui->pidatysEdit->value() * 100 ) +
-            qRound64( ui->elakeEdit->value() * 100) +
-            qRound64( ui->tvredit->value() * 100) +
-            qRound64( ui->ayedit->value() * 100);
+    Euro vahennykset = ui->pidatysEdit->euro() +
+            ui->elakeEdit->euro() +
+            ui->tvredit->euro() +
+            ui->ayedit->euro() +
+            ui->uoedit->euro();
 
-    qlonglong korvaukset = qRound64( ui->kmEdit->value() * 100) +
-            qRound64( ui->paivarahaEdit->value() * 100) +
-            qRound64( ui->ateriaEdit->value() * 100);
+    Euro korvaukset = ui->kmEdit->euro() +
+            ui->paivarahaEdit->euro() +
+            ui->ateriaEdit->euro();
 
-    double maksettavaa = (brutto + korvaukset - vahennykset) / 100.0;
+
+    double maksettavaa = (brutto + korvaukset - vahennykset);
     kirjaa( viennit, QString(), 0, maksettavaa  , "Palkat", "MP");
     ui->nettoLabel->setText(QString("%L1 €").arg(maksettavaa,10,'f',2));
 
-    kirjaa( viennit, "PA", ui->palkkaEdit->value(), 0, "Palkat");
-    kirjaa( viennit, "PI", ui->palkkioEdit->value(), 0, "Palkkiot");
-    kirjaa( viennit, "LK", ui->lisaEdit->value(), 0, "Lisät");
-    kirjaa( viennit, "LS", ui->lomaEdit->value(), 0, "Loma-ajan ja sos.palkat");
+    kirjaa( viennit, "PA", ui->palkkaEdit->euro(), 0, "Palkat");
+    kirjaa( viennit, "PI", ui->palkkioEdit->euro(), 0, "Palkkiot");
+    kirjaa( viennit, "LK", ui->lisaEdit->euro(), 0, "Lisät");
+    kirjaa( viennit, "LS", ui->lomaEdit->euro(), 0, "Loma-ajan ja sos.palkat");
 
 
-    kirjaa( viennit, "LU", ui->luontoisEdit->value(), 0, "Luontoisedut");
-    kirjaa( viennit, "LV", 0, ui->luontoisEdit->value());
+    kirjaa( viennit, "LU", ui->luontoisEdit->euro(), 0, "Luontoisedut");
+    kirjaa( viennit, "LV", 0, ui->luontoisEdit->euro());
 
-    kirjaa( viennit, "KM", ui->kmEdit->value(), 0, "Km-korvaukset");
-    kirjaa( viennit, "PR", ui->paivarahaEdit->value(), 0, "Päivärahat");
-    kirjaa( viennit, "AT", ui->ateriaEdit->value(), 0, "Ateriakorvaukset");
+    kirjaa( viennit, "KM", ui->kmEdit->euro(), 0, "Km-korvaukset");
+    kirjaa( viennit, "PR", ui->paivarahaEdit->euro(), 0, "Päivärahat");
+    kirjaa( viennit, "AT", ui->ateriaEdit->euro(), 0, "Ateriakorvaukset");
 
-    kirjaa( viennit, "EP", 0, ui->pidatysEdit->value(), "Ennakonpidätys");
-    kirjaa( viennit, "EL", 0, ui->elakeEdit->value(), "Työntekijöiden eläkevakuutusmaksut");
-    kirjaa( viennit, "TV", 0, ui->tvredit->value(), "Työntekijöiden TVR-maksut");
-    kirjaa( viennit, "AY", 0, ui->ayedit->value(), "Ay-jäsenmaksut");
+    kirjaa( viennit, "EP", 0, ui->pidatysEdit->euro(), "Ennakonpidätys");
+    kirjaa( viennit, "EL", 0, ui->elakeEdit->euro(), "Työntekijöiden eläkevakuutusmaksut");
+    kirjaa( viennit, "TV", 0, ui->tvredit->euro(), "Työntekijöiden TVR-maksut");
+    kirjaa( viennit, "AY", 0, ui->ayedit->euro(), "Ay-jäsenmaksut");
+    kirjaa( viennit, "UO", 0, ui->uoedit->euro(), "Ulosottotilitykset");
 
-    kirjaa( viennit, "SV", ui->svedit->value(), 0, "Sairausvakuutusmaksu");
-    kirjaa( viennit, "SB", 0, ui->svedit->value(), "Sairausvakuutusmaksu");
+    kirjaa( viennit, "SV", ui->svedit->euro(), 0, "Sairausvakuutusmaksu");
+    kirjaa( viennit, "SB", 0, ui->svedit->euro(), "Sairausvakuutusmaksu");
 
     tosite()->viennit()->asetaViennit(viennit);
 
@@ -144,10 +149,10 @@ bool PalkkaApuri::teeTositteelle()
     return true;
 }
 
-void PalkkaApuri::kirjaa(QVariantList &lista, const QString &palkkakoodi, double debet, double kredit,
+void PalkkaApuri::kirjaa(QVariantList &lista, const QString &palkkakoodi, const Euro& debet, const Euro& kredit,
                          const QString& selite, const QString& tallennuskoodi)
 {
-    if( debet > 1e-5 || kredit > 1e-5) {
+    if( debet || kredit ) {
         TositeVienti vienti;
         vienti.setPvm( tosite()->pvm() );
 
@@ -155,9 +160,9 @@ void PalkkaApuri::kirjaa(QVariantList &lista, const QString &palkkakoodi, double
             vienti.setTili( ui->tiliCombo->valittuTilinumero() );
         else
             vienti.setTili( palkkatilit_.value(palkkakoodi).toInt() );
-        if( debet > 1e-5 )
+        if( debet )
             vienti.setDebet( debet );
-        else if( kredit > 1e-5)
+        else if( kredit)
             vienti.setKredit( kredit );
 
         if( kp()->tilit()->tiliNumerolla(vienti.tili()).tyyppi().onko(TiliLaji::TULOS))

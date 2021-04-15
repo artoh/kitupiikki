@@ -37,5 +37,5 @@ kartta = {
     "tilit": tilit
 }
 
-with open(sys.argv[1] + ".kartta", "w") as out:
+with open(sys.argv[1] + ".kitsaskartta", "w") as out:
     json.dump(kartta, out, ensure_ascii=False)
