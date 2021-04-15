@@ -20,6 +20,7 @@
 #include <QDialog>
 
 #include "model/tositevienti.h"
+#include "model/eramap.h"
 
 namespace Ui {
 class MuuMuokkausDlg;
@@ -54,7 +55,7 @@ protected:
     void pvmMuuttui();
     void tiliMuuttui();
     void kumppaniMuuttui();
-    void eraMuuttui(int eraid, Euro avoinna, const QString& selite, int kumppani);
+    void eraMuuttui(EraMap era);
     void jaksoMuuttui();
 
     void alvLajiMuuttui();

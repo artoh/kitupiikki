@@ -21,6 +21,7 @@
 
 #include "tiliotemodel.h"
 #include "tiliotekirjausrivi.h"
+#include "model/eramap.h"
 
 class LaskuTauluTilioteProxylla;
 class LaskuTauluModel;
@@ -61,7 +62,7 @@ private slots:
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();
     void paivitaAlvInfo();
-    void eraValittu(int eraId, Euro avoinna, const QString& selite);
+    void eraValittu(EraMap era);
     void jaksomuuttuu(const QDate& pvm);
 
     void valitseLasku();

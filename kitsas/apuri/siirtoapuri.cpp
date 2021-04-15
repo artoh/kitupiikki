@@ -37,10 +37,10 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &SiirtoApuri::tositteelle);
 
-    connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite, int kumppani)
-        {this->eraValittu(false, eraId, avoinna, selite, kumppani);});
-    connect( ui->tililleEraCombo, &EraCombo::valittu, [this] (int eraId, double avoinna, const QString& selite, int kumppani)
-        {this->eraValittu(true, eraId, avoinna, selite, kumppani);});
+    connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (EraMap era)
+        {this->eraValittu(false, era);});
+    connect( ui->tililleEraCombo, &EraCombo::valittu, [this] (EraMap era)
+        {this->eraValittu(true, era);});
 
     ui->tililtaMerkkausCC->haeMerkkaukset( tosite->pvm() );
     ui->tililleMerkkausCC->haeMerkkaukset( tosite->pvm() );
@@ -59,6 +59,7 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleKohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &SiirtoApuri::tositteelle);
 
     connect( ui->laskuNappi, &QPushButton::clicked, this, &SiirtoApuri::laskunmaksu);
+    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &SiirtoApuri::tositteelle);
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -77,6 +78,8 @@ bool SiirtoApuri::teeTositteelle()
     int kumppani = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
     if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
         kumppani = 0;
+    if( ui->asiakas->id())
+        kumppani = ui->asiakas->id();
 
 
     QVariantList viennit;
@@ -85,8 +88,8 @@ bool SiirtoApuri::teeTositteelle()
     debet.setPvm( pvm);
     debet.setTili( ui->tililleEdit->valittuTilinumero());
     debet.setDebet( senttia );
-    debet.setSelite(otsikko);
-    debet.setEra( ui->tililleEraCombo->eraMap());
+    debet.setSelite(otsikko);    
+    debet.setEra( ui->tililleEdit->valittuTili().eritellaankoTase() ?  ui->tililleEraCombo->eraMap() : EraMap::EiEraa);
     debet.setKohdennus( ui->tililleKohdennusCombo->kohdennus());
     debet.setMerkkaukset( ui->tililleMerkkausCC->selectedDatas() );
     debet.setTyyppi( TositeVienti::SIIRTO);
@@ -102,7 +105,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setSelite(otsikko);
     kredit.setKohdennus( ui->tililtaKohdennusCombo->kohdennus());
     kredit.setMerkkaukset( ui->tililtaMerkkausCC->selectedDatas());
-    kredit.setEra( ui->tililtaEraCombo->eraMap());
+    kredit.setEra( ui->tililtaEdit->valittuTili().eritellaankoTase() ? ui->tililtaEraCombo->eraMap() : EraMap::EiEraa);
     kredit.setTyyppi( TositeVienti::SIIRTO );
     kredit.setKumppani(kumppani);
     kredit.setArkistotunnus(kreditArkistoTunnus_);
@@ -146,6 +149,11 @@ void SiirtoApuri::teeReset()
 
         debetKumppani_ =  debetMap.kumppaniId();
         kreditKumppani_ =  kreditMap.kumppaniId();
+
+        int kumppani = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
+        if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
+            kumppani = 0;
+        ui->asiakas->set(kumppani);
 
         debetArkistoTunnus_ = debetMap.arkistotunnus();
         kreditArkistoTunnus_ = kreditMap.arkistotunnus();
@@ -300,19 +308,25 @@ void SiirtoApuri::tililleMuuttui()
     paivitaKateislaji();
 }
 
-void SiirtoApuri::eraValittu(bool debet, int eraId, Euro avoinna, const QString &selite, int kumppani)
+void SiirtoApuri::eraValittu(bool debet, EraMap era)
 {
-    if( !ui->euroEdit->asCents() && avoinna.cents())
-        ui->euroEdit->setEuro(avoinna);
+    if( !ui->euroEdit->asCents() && era.saldo())
+        ui->euroEdit->setEuro( era.saldo() );
     if( tosite()->otsikko().isEmpty())
-        tosite()->asetaOtsikko(selite);
+        tosite()->asetaOtsikko( era.nimi() );
 
     if(debet)
-        debetKumppani_ = kumppani;
+        debetKumppani_ = era.kumppaniId();
     else
-        kreditKumppani_ = kumppani;
+        kreditKumppani_ = era.kumppaniId();
 
-    haeAlkuperaistosite(debet, eraId);
+    int kumppaniId = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
+    if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
+        kumppaniId = 0;
+    if(kumppaniId)
+        ui->asiakas->set(kumppaniId);
+
+    haeAlkuperaistosite(debet, era.id());
     teeTositteelle();
 }
 

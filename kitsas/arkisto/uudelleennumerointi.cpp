@@ -18,6 +18,7 @@
 #include "ui_uudelleennumerointi.h"
 
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 
 Uudelleennumerointi::Uudelleennumerointi(QWidget *parent) :
     QDialog(parent),
@@ -40,6 +41,8 @@ void Uudelleennumerointi::numeroiUudelleen(const Tilikausi &kausi)
     numerointi.ui->alkuPvm->setDateRange(kausi.alkaa(), kausi.paattyy());
     numerointi.ui->loppuPvm->setDateRange(kausi.alkaa(), kausi.paattyy());
 
+    numerointi.ui->oteBox->setVisible( qobject_cast<PilviModel*>(kp()->yhteysModel()) );
+
     numerointi.exec();
 
 }
@@ -49,6 +52,8 @@ void Uudelleennumerointi::accept()
     QVariantMap map;
     map.insert("alkaa", ui->alkuPvm->date());
     map.insert("loppuu", ui->loppuPvm->date());
+    if( ui->oteBox->isChecked())
+        map.insert("tiliote","ensin");
 
     KpKysely *kysely = kpk("/tilikaudet/numerointi", KpKysely::POST);
     connect( kysely, &KpKysely::vastaus, this, &Uudelleennumerointi::valmis);

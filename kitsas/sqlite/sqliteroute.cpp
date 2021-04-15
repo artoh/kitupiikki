@@ -162,7 +162,7 @@ void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
             QVariantMap eramap = map.value("era").toMap();
             int eraid = eramap.value("id").toInt();
             if( eraid ) {
-                kysely.exec(QString("SELECT Vienti.id as id, Tosite.tunniste as tunniste, Tosite.sarja as sarja, Tosite.pvm as pvm "
+                kysely.exec(QString("SELECT Vienti.id as id, Tosite.tunniste as tunniste, Tosite.sarja as sarja, Tosite.pvm as pvm, Tosite.tyyppi as tositetyyppi "
                                     "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                                     "WHERE Vienti.id=%1")
                             .arg(eraid));

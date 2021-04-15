@@ -183,6 +183,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             era.insert("tunniste", map.value("tunniste"));
             era.insert("sarja", map.value("sarja"));
             era.insert("saldo", map.value("avoin"));
+            era.insert("tositetyyppi", map.value("tyyppi"));
             return era;
         }
     case NumeroRooli:

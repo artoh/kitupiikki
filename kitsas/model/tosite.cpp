@@ -206,6 +206,11 @@ void Tosite::asetaHuomio(bool onko)
     tarkasta();
 }
 
+void Tosite::asetaTilioterivi(int rivi)
+{
+    setData(TILIOTERIVI, rivi);
+}
+
 void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool sailytaerat)
 {
     int siirto = pvm().daysTo(paiva);
@@ -554,5 +559,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { PORTAALI, "portaali"},
     { HUOMIO, "huomio"},
     { KOMMENTTI, "kommentti"},
-    { KOMMENTIT, "kommentit"}
+    { KOMMENTIT, "kommentit"},
+    { TILIOTERIVI, "tilioterivi"}
 };

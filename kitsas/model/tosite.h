@@ -61,7 +61,8 @@ public:
         PORTAALI,
         HUOMIO,
         KOMMENTIT,
-        KOMMENTTI
+        KOMMENTTI,
+        TILIOTERIVI
     };
 
     enum Virheet {
@@ -141,6 +142,7 @@ public:
     void asetaKumppani(const QString& nimi);
     void asetaKumppani(const QVariantMap& map);
     void asetaHuomio(bool onko);
+    void asetaTilioterivi(int rivi);
 
     void pohjaksi(const QDate& paiva, const QString& uusiotsikko, bool sailytaerat = false);
 

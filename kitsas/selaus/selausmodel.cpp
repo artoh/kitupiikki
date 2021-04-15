@@ -23,6 +23,8 @@
 #include "db/tositetyyppimodel.h"
 #include "tositeselausmodel.h"
 
+#include "model/eramap.h"
+
 #include "sqlite/sqlitemodel.h"
 #include <QDebug>
 
@@ -213,10 +215,11 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
     liitteita = data.value("liitteita").toInt();
 
     etsi = tositeTunnus + " " + kumppani + " " + selite;
-    maksettu = false;
 
     Kohdennus kohdennusObj =  kp()->kohdennukset()->kohdennus( data.value("kohdennus").toInt() );
     kohdennustyyppi = kohdennusObj.tyyppi();
+    kohdennuskuvake = kohdennusObj.tyyppiKuvake();
+
     if(kohdennustyyppi)
        kohdennus = kohdennusObj.nimi();
 
@@ -229,17 +232,24 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
             kohdennus.append(" ");
         kohdennus.append( tagit.join(", "));
     }
-    QVariantMap eraMap = data.value("era").toMap();
-    if( eraMap.contains("tunniste")) {
-        if(eraMap.value("id").toInt() != data.value("id").toInt()) {
-            if(!kohdennus.isEmpty())
+    EraMap era = data.value("era").toMap();
+    if( era.eratyyppi() == EraMap::Lasku) {
+        kohdennuskuvake = era.saldo() ? kp()->tositeTyypit()->kuvake( era.tositetyyppi() ) : QIcon(":/pic/ok.png");
+        if( era.id() != data.value("id").toInt()) {
+           if(!kohdennus.isEmpty())
                 kohdennus.append(" ");
-            kohdennus.append( kp()->tositeTunnus(eraMap.value("tunniste").toInt(),
-                                                 eraMap.value("pvm").toDate(),
-                                                 eraMap.value("sarja").toString(),
-                                                 kp()->tilikaudet()->tilikausiPaivalle(eraMap.value("pvm").toDate()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
-        }
-        maksettu = qAbs(eraMap.value("saldo").toDouble()) < 1e-5;
+            kohdennus.append( kp()->tositeTunnus(era.tunniste(),
+                                                 era.pvm(),
+                                                 era.sarja(),
+                                                 kp()->tilikaudet()->tilikausiPaivalle(era.pvm()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
+        }        
+    } else if( era.eratyyppi() == EraMap::Asiakas) {
+        kohdennuskuvake = QIcon(":/pic/mies.png");
+    } else if( era.eratyyppi() == EraMap::Huoneisto) {
+        kohdennuskuvake = QIcon(":/pic/talo.png");
+        if(!kohdennus.isEmpty())
+             kohdennus.append(" ");
+        kohdennus.append(era.huoneistoNimi());
     }
 
 }
@@ -267,10 +277,10 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     liitteita = data.value("liitteita").toInt();
 
     etsi = tositeTunnus + " " + kumppani + " " + selite;
-    maksettu = false;
 
     Kohdennus kohdennusObj = kp()->kohdennukset()->kohdennus(data.value("kohdennus").toInt());
     kohdennustyyppi = kohdennusObj.tyyppi();
+    kohdennuskuvake = kohdennusObj.tyyppiKuvake();
     if(kohdennustyyppi)
        kohdennus = kohdennusObj.nimi();
 
@@ -293,22 +303,23 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     int eraid = data.value("eraid").toInt();
     if( eraid) {
 
-        // Tarkistetaan saldo, onko maksettu
-        apukysely.exec(QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Tosite.tila >= 100").arg(eraid));
-        if(apukysely.next() && apukysely.value(0).toLongLong() == apukysely.value(1).toLongLong())
-            maksettu = true;
-
         if( eraid != vientiId) {
-            apukysely.exec(QString("SELECT Tosite.tunniste, Tosite.sarja, Tosite.pvm AS pvm FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Vienti.id=%1").arg(eraid));
+            apukysely.exec(QString("SELECT Tosite.tyyppi, Tosite.tunniste, Tosite.sarja, Tosite.pvm AS pvm FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Vienti.id=%1").arg(eraid));
             if(apukysely.next()) {
                 if(!kohdennus.isEmpty())
                     kohdennus.append(" ");
+                kohdennuskuvake = kp()->tositeTyypit()->kuvake(apukysely.value("tyyppi").toInt());
                 kohdennus.append( kp()->tositeTunnus(apukysely.value("tunniste").toInt(),
                                                      apukysely.value("pvm").toDate(),
                                                      apukysely.value("sarja").toString(),
                                                      kp()->tilikaudet()->tilikausiPaivalle(apukysely.value("pvm").toDate()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
             }
         }
+
+        // Tarkistetaan saldo, onko maksettu
+        apukysely.exec(QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Tosite.tila >= 100").arg(eraid));
+        if(apukysely.next() && apukysely.value(0).toLongLong() == apukysely.value(1).toLongLong())
+            kohdennuskuvake = QIcon(":/pic/ok.png");
     }
 }
 
@@ -382,15 +393,7 @@ QVariant SelausRivi::data(int sarake, int role) const
     }
     else if( role == Qt::DecorationRole && sarake == SelausModel::KOHDENNUS )
     {
-        if(maksettu)
-            return QIcon(":/pic/ok.png");
-        else if( kohdennustyyppi == Kohdennus::KUSTANNUSPAIKKA)
-            return QIcon(":/pic/kohdennus.png");
-        else if( kohdennustyyppi == Kohdennus::PROJEKTI )
-            return QIcon(":/pic/projekti.png");
-        else
-            return QIcon(":/pic/tyhja.png");
-
+        return QIcon(kohdennuskuvake);
     }
     else if( role == Qt::DecorationRole && sarake == SelausModel::PVM)
     {

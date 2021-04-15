@@ -536,7 +536,7 @@ void KirjausWg::tuonti(const QVariantMap& map)
 
     if( map.contains("tyyppi") && !tosite()->viennit()->summa() && tosite()->tila() != Tosite::MALLIPOHJA)
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
-    if( map.value("tositepvm").toDate().isValid()) {
+    if( map.value("tositepvm").toDate().isValid() && !tosite()->viennit()->summa()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
     }
     if( apuri_)

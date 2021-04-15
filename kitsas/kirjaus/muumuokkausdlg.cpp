@@ -318,20 +318,20 @@ void MuuMuokkausDlg::kumppaniMuuttui()
         ui->eraCombo->asetaTili(ui->tiliLine->valittuTilinumero(), ui->kumppani->id());
 }
 
-void MuuMuokkausDlg::eraMuuttui(int /*eraid*/, Euro avoinna, const QString& selite, int kumppani)
+void MuuMuokkausDlg::eraMuuttui(EraMap era)
 {
     if( !ui->euroEdit->asCents()) {
-        ui->euroEdit->setCents(qAbs(avoinna.cents()));
-        if( avoinna.cents() > 0) {
+        ui->euroEdit->setCents(qAbs(era.saldo().cents()));
+        if( era.saldo().cents() > 0) {
             ui->debetRadio->setChecked(true);
         } else {
             ui->kreditRadio->setChecked(true);
         }
     }
     if( ui->seliteEdit->toPlainText().isEmpty())
-        ui->seliteEdit->setPlainText(selite);
-    if( !ui->kumppani->id() && kumppani)
-        ui->kumppani->set(kumppani);
+        ui->seliteEdit->setPlainText(era.nimi());
+    if( !ui->kumppani->id() && era.kumppaniId())
+        ui->kumppani->set(era.kumppaniId());
 }
 
 void MuuMuokkausDlg::jaksoMuuttui()

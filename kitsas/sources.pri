@@ -123,6 +123,7 @@ SOURCES += \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
+    $$PWD/model/eramap.cpp \
     $$PWD/model/euro.cpp \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
@@ -469,6 +470,7 @@ HEADERS += \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
+    $$PWD/model/eramap.h \
     $$PWD/model/euro.h \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \

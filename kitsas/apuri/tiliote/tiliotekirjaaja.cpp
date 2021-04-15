@@ -231,12 +231,12 @@ void TilioteKirjaaja::paivitaAlvInfo()
     ui->alvVaro->setVisible(vero);
 }
 
-void TilioteKirjaaja::eraValittu(int /*eraId*/, Euro avoinna, const QString &selite)
+void TilioteKirjaaja::eraValittu(EraMap era)
 {
-    if( !ui->euroEdit->asCents() && avoinna.cents())
-        ui->euroEdit->setEuro(menoa_ ? Euro(0) - avoinna : avoinna);
+    if( !ui->euroEdit->asCents() && era.saldo())
+        ui->euroEdit->setEuro(menoa_ ? Euro(0) - era.saldo() : era.saldo());
     if( ui->seliteEdit->toPlainText().isEmpty())
-        ui->seliteEdit->setText(selite);
+        ui->seliteEdit->setText(era.nimi());
 //    haeAlkuperaisTosite(eraId);
 
 }

@@ -40,7 +40,7 @@ QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
     QVariantList lista;
 
     QString kysymys("select vienti.eraid as eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite as selite, tosite.pvm as pvm, a.tili as tili, "
-                    "tosite.tunniste as tunniste, tosite.sarja as sarja, "
+                    "tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tositetyyppi, "
                     "a.kumppani, kumppani.nimi "
                     "FROM  Vienti "
                     "JOIN Vienti AS a ON vienti.eraid = a.id JOIN Tosite ON a.Tosite=Tosite.id  "

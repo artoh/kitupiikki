@@ -19,6 +19,7 @@
 
 #include "apuriwidget.h"
 #include "model/euro.h"
+#include "model/eramap.h"
 
 class QSortFilterProxyModel;
 class TmRivit;
@@ -72,7 +73,7 @@ protected slots:
 
     void kumppaniValittu(int kumppaniId);
     void kumppaniTiedot(QVariant* data);
-    void eraValittu(int eraid, Euro avoinna, const QString& selite, int kumppani);
+    void eraValittu(EraMap era);
 
 protected:
     void teeReset() override;

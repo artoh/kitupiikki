@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1">
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
@@ -106,6 +106,20 @@
          </item>
          <item row="0" column="1">
           <widget class="KpEuroEdit" name="euroEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Asiakas/toimittaja</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="AsiakasToimittajaValinta" name="asiakas" native="true">
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -243,7 +257,26 @@
    <extends>QComboBox</extends>
    <header>tools/eracombo.h</header>
   </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tililtaEdit</tabstop>
+  <tabstop>tililtaKohdennusCombo</tabstop>
+  <tabstop>tililtaMerkkausCC</tabstop>
+  <tabstop>tililtaEraCombo</tabstop>
+  <tabstop>euroEdit</tabstop>
+  <tabstop>asiakas</tabstop>
+  <tabstop>tililleEdit</tabstop>
+  <tabstop>tililleKohdennusCombo</tabstop>
+  <tabstop>tililleMerkkausCC</tabstop>
+  <tabstop>tililleEraCombo</tabstop>
+  <tabstop>laskuNappi</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

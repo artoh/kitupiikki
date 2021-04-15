@@ -24,6 +24,8 @@
 #include "rekisteri/asiakastoimittajalistamodel.h"
 #include "huoneistoeranvalintadialog.h"
 #include "eraeranvalintadialog.h"
+#include "laskutus/huoneisto/huoneistomodel.h"
+#include "db/tositetyyppimodel.h"
 
 EraCombo::EraCombo(QWidget *parent) :
     QComboBox (parent)
@@ -34,18 +36,12 @@ EraCombo::EraCombo(QWidget *parent) :
 
 int EraCombo::valittuEra() const
 {
-    return eraId_;
+    return era_.value("id").toInt();
 }
 
-QVariantMap EraCombo::eraMap() const
+EraMap EraCombo::eraMap() const
 {
-    QVariantMap map;
-    map.insert("id", eraId_);
-    if(!eraNimi_.isEmpty())
-        map.insert("selite", eraNimi_);
-    if( eraSaldo_.cents() && eraId_ > 0)
-        map.insert("avoin", eraSaldo_.toString());
-    return map;
+    return era_;
 }
 
 void EraCombo::asetaTili(int tili, int asiakas)
@@ -58,19 +54,13 @@ void EraCombo::asetaTili(int tili, int asiakas)
 
 void EraCombo::valitseUusiEra()
 {
-    eraId_ = -1;
+    era_.clear();
+    era_.insert("id",-1);
 }
 
-void EraCombo::valitse(const QVariantMap &eraMap)
+void EraCombo::valitse(const EraMap &eraMap)
 {
-    eraId_ = eraMap.value("id").toInt();
-    eraNimi_ = eraMap.value("selite").toString();
-
-    asiakas_ = eraMap.value("asiakas").toMap().value("id").toInt();
-    asiakasNimi_ = eraMap.value("asiakas").toMap().value("nimi").toString();
-
-    eraSaldo_ = Euro::fromVariant(eraMap.value("avoin"));
-    eranPaiva_ = eraMap.value("pvm").toDate();
+    era_ = eraMap;
     paivita();
 }
 
@@ -79,39 +69,38 @@ void EraCombo::paivita()
     paivitetaan_ = true;
     clear();
 
-    if( eraId_ > 0 ) {
-        if( eraSaldo_.cents()) {
-            addItem(QIcon(":/pic/lasku.png"), QString("%1 %2 %3 (%4)")
-                    .arg(eranPaiva_.toString("dd.MM.yyyy"))
-                    .arg(eraNimi_)
-                    .arg(asiakasNimi_)
-                    .arg(eraSaldo_.display()), eraId_);
-        } else {
-            addItem(QIcon(":/pic/ok.png"), QString("%1 %2 %3")
-                    .arg(eranPaiva_.toString("dd.MM.yyyy"))
-                    .arg(eraNimi_)
-                    .arg(asiakasNimi_), eraId_);
+    if( era_.eratyyppi() == EraMap::Lasku ) {
+        QString txt = QString("%1 %2 %3")
+                .arg(era_.pvm().toString("dd.MM.yyyy"))
+                .arg(era_.nimi())
+                .arg(era_.kumppaniNimi());
+
+        if( era_.saldo() ) {
+            txt.append(" (" + era_.saldo().display() + ")");
         }
-    } else if( eraId_ < -10) {
-        if( eraId_ % 10 == -3) {
-            addItem(QIcon(":/pic/mies.png"), eraNimi_, eraId_);
-        } else if( eraId_ % 10 == -4) {
-            addItem(QIcon(":/pic/talo.png"), eraNimi_, eraId_);
-        }
+
+        addItem( era_.saldo() ? kp()->tositeTyypit()->kuvake(era_.tositetyyppi())
+                       : QIcon(":/pic/ok.png"),
+                 txt,
+                 era_ );
+    } else if( era_.eratyyppi() == EraMap::Asiakas) {
+        addItem(QIcon(":/pic/mies.png"), era_.value("asiakas").toMap().value("nimi").toString(), era_);
+    } else if( era_.contains("huoneisto")) {
+        addItem(QIcon(":/pic/talo.png"), era_.value("huoneisto").toMap().value("nimi").toString(), era_);
     }
 
-    addItem(QIcon(":/pic/tyhja.png"), tr("Ei tase-erää"), 0);
-    addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), -1);
-    addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), -2);
+    addItem(QIcon(":/pic/tyhja.png"), tr("Ei tase-erää"), EraMap(EraMap::EiEraa));
+    addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), EraMap(EraMap::Uusi));
+    addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), EraMap(EraMap::Valitse));
 
     if( asiakas_ ) {
         QString nimi = AsiakasToimittajaListaModel::instanssi()->nimi(asiakas_);
-        addItem(QIcon(":/pic/mies.png"), nimi, -3);
+        addItem(QIcon(":/pic/mies.png"),  asiakasNimi_, EraMap::AsiakasEra(asiakas_, asiakasNimi_) );
     }
-    addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), -4);
+    if( kp()->huoneistot()->rowCount() )
+        addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), EraMap(EraMap::Huoneisto));
 
-
-    setCurrentIndex( findData(eraId_) );
+    setCurrentIndex( findData(era_) );
 
     paivitetaan_ = false;
 }
@@ -122,41 +111,29 @@ void EraCombo::vaihtui()
     if( indeksi < 0 || paivitetaan_) {
         return;
     }
-    int vanhaEra = eraId_;
 
-    int era = currentData().toInt();
-    if( era == -1) {
-      eraId_ = -1;
-      eraSaldo_ = 0;
-      eraNimi_.clear();
-      asiakas_ = 0;
-    } else if(era == 0) {
-      eraId_ = 0;
-      eraNimi_.clear();
-      eraSaldo_ = 0;
-      asiakas_ = 0;
-    } else if( era == -2) {
-        EraEranValintaDialog dlg(tili_, asiakas_, eraId_, this);
+    int vanhaId = era_.id();
+    EraMap uusi = currentData().toMap();
+
+    if( uusi.id() == EraMap::Valitse ) {
+        EraEranValintaDialog dlg(tili_, asiakas_, era_.id(), this);
         if( dlg.exec() == QDialog::Accepted) {
             valitse( dlg.valittu());
-        }
-
-    } else if( era == -3) {
-        ViiteNumero hloViite(ViiteNumero::ASIAKAS, asiakas_);
-        eraId_ = hloViite.eraId();
-        eraNimi_ = asiakasNimi_;
-        eraSaldo_ = 0;
-    } else if( era == -4) {
-        HuoneistoEranValintaDialog dlg(eraId_ / -10, this);
+        }     
+    } else if( uusi.id() == EraMap::Huoneisto) {
+        HuoneistoEranValintaDialog dlg(era_.huoneistoId(), this);
         if( dlg.exec() == QDialog::Accepted) {
             valitse( dlg.valittu() );
         }
+    } else {
+        era_ = uusi;
     }
 
-    if( vanhaEra != eraId_)
-        emit valittu(eraId_, eraSaldo_, eraNimi_, asiakas_);
+    if( vanhaId != era_.id())
+        emit valittu( era_);
 
     paivita();
 }
+
 
 

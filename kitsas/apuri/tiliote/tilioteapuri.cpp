@@ -155,6 +155,7 @@ bool TilioteApuri::teeTositteelle()
 
     tosite()->asetaLaskupvm(QDate());
     tosite()->asetaKumppani(QVariantMap());
+    tosite()->asetaTilioterivi(0);
 
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData( Tosite::OTSIKKO,
@@ -255,20 +256,25 @@ void TilioteApuri::naytaTosite()
         tosite->asetaKumppani(pankki.kumppaniMap());
         tosite->asetaOtsikko(pankki.selite());
         tosite->asetaViite(pankki.viite());
+        tosite->asetaTilioterivi( omaIndeksi );
 
-        switch (pankki.tyyppi() - TositeVienti::VASTAKIRJAUS) {
-        case TositeVienti::MYYNTI:
-            tosite->asetaTyyppi(TositeTyyppi::TULO);
-            break;
-        case TositeVienti::OSTO:
-            tosite->asetaTyyppi(TositeTyyppi::MENO);
-            break;
-        case TositeVienti::SIIRTO:
-        case TositeVienti::SUORITUS:
-            tosite->asetaTyyppi(TositeTyyppi::SIIRTO);
-            break;
+        // TODO: Oletuksena tulo / meno etumerkin mukaisesti
+        if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS) {
+            tosite->asetaTyyppi( pankki.debetEuro() ? TositeTyyppi::TULO : TositeTyyppi::MENO );
+        } else {
+            switch (pankki.tyyppi() - TositeVienti::VASTAKIRJAUS) {
+            case TositeVienti::MYYNTI:
+                tosite->asetaTyyppi(TositeTyyppi::TULO);
+                break;
+            case TositeVienti::OSTO:
+                tosite->asetaTyyppi(TositeTyyppi::MENO);
+                break;
+            case TositeVienti::SIIRTO:
+            case TositeVienti::SUORITUS:
+                tosite->asetaTyyppi(TositeTyyppi::SIIRTO);
+                break;
+            }
         }
-
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }
 }

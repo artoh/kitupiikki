@@ -20,6 +20,7 @@
 #include <QComboBox>
 #include <QDate>
 #include "model/euro.h"
+#include "model/eramap.h"
 
 class EraCombo : public QComboBox
 {
@@ -28,31 +29,30 @@ public:
     EraCombo(QWidget *parent = nullptr);
 
     int valittuEra() const;
-    QVariantMap eraMap() const;
+    EraMap eraMap() const;
 
 public slots:
     void asetaTili(int tili, int asiakas=0);
     void valitseUusiEra();
-    void valitse(const QVariantMap& eraMap);
+    void valitse(const EraMap& eraMap);
 
 protected:
     void paivita();
     void vaihtui();
 
 signals:
-    void valittu(int eraid, Euro avoinna, const QString& selite, int kumppani);
+    void valittu(QVariantMap eraMap);
 
 private:        
-    int eraId_=-1;
-    QString eraNimi_;
-    Euro eraSaldo_;
-    QDate eranPaiva_;
+    EraMap era_;
 
     int tili_ = 0;
+
     int asiakas_ = 0;
     QString asiakasNimi_;
 
     bool paivitetaan_ = false;
+
 
 };
 

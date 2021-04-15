@@ -24,6 +24,7 @@
 #include "db/asetusmodel.h"
 #include "db/tili.h"
 #include "db/verotyyppimodel.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QRandomGenerator>
 
@@ -156,13 +157,16 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
                 return model()->kitsas()->kohdennukset()->kohdennus( ekavienti.kohdennus() ).nimi();
             } else if(ekavienti.eraId()) {
                 const QVariantMap& eraMap = ekavienti.era();
-                return model()->kitsas()->tositeTunnus(eraMap.value("tunniste").toInt(),
+                int eraId = eraMap.value("id").toInt();
+                if( eraId > 0) {
+                    return model()->kitsas()->tositeTunnus(eraMap.value("tunniste").toInt(),
                                                        eraMap.value("pvm").toDate(),
                                                        eraMap.value("sarja").toString());
-            } else {
-                return QVariant();
+                } else if( eraMap.contains("huoneisto")) {
+                    return eraMap.value("huoneisto").toMap().value("nimi").toString();
+                }
             }
-
+            return QVariant();
         }
         case EURO: {            
             const double summa = pankkivienti().debet() - pankkivienti().kredit();
@@ -194,6 +198,12 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         if(sarake == KOHDENNUS && viennit_.count() == 2) {
             if( ekavienti.kohdennus()) {
                 return model()->kitsas()->kohdennukset()->kohdennus( ekavienti.kohdennus() ).tyyppiKuvake();
+            } else if(ekavienti.era().contains("huoneisto")) {
+                return QIcon(":/pic/talo.png");
+            } else if( ekavienti.era().contains("asiakas")) {
+                return QIcon(":/pic/mies.png"); // Asiakaskohtainen lasku
+            } else if( ekavienti.eraId() > 0) {
+                return model()->kitsas()->tositeTyypit()->kuvake( ekavienti.era().value("tositetyyppi").toInt() );
             }
         } else if( sarake == EURO) {
             const int koodi = pankkivienti().tyyppi() - TositeVienti::VASTAKIRJAUS;

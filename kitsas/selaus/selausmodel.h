@@ -52,7 +52,7 @@ protected:
     Euro debet;
     Euro kredit;
     QString kohdennus;
-    bool maksettu;
+    QIcon kohdennuskuvake;
     QString kumppani;
     QString selite;
     QString etsi;

@@ -150,21 +150,22 @@ void TuloMenoApuri::tuo(QVariantMap map)
         }
 
     } else {
-        if( qAbs(map.value("summa").toDouble()) > 1e-5) {
+        if( qAbs(map.value("summa").toDouble()) > 1e-5 && !ui->maaraEdit->euro()) {
             ui->maaraEdit->setValue( map.value("summa").toDouble());
             emit ui->maaraEdit->textEdited( ui->maaraEdit->text() );
         }
-        if( !map.value("viite").toString().isEmpty())
+        if( !map.value("viite").toString().isEmpty() && ui->viiteEdit->text().isEmpty())
             ui->viiteEdit->setText( map.value("viite").toString() );
 
-        if( !map.value("laskunnumero").toString().isEmpty())
+        if( !map.value("laskunnumero").toString().isEmpty() && ui->laskuNumeroEdit->text().isEmpty())
             ui->laskuNumeroEdit->setText(map.value("laskunnumero").toString());
 
 
-        if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
+        if(( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
+                && !ui->asiakasToimittaja->id())
             ui->asiakasToimittaja->tuonti( map );
 
-        if( map.value("erapvm").isValid())
+        if( map.value("erapvm").isValid() && !ui->maaraEdit->euro())
             ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 
         if( map.value("maksutapa").toString() == "kateinen") {
@@ -835,9 +836,9 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
         teeTositteelle();
 }
 
-void TuloMenoApuri::eraValittu(int /* eraid */, Euro /* avoinna */, const QString & /*selite*/, int kumppani)
+void TuloMenoApuri::eraValittu( EraMap era)
 {
     if( !ui->asiakasToimittaja->id())
-        ui->asiakasToimittaja->set(kumppani);
+        ui->asiakasToimittaja->set(era.kumppaniId());
 }
 

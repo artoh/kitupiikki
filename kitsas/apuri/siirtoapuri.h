@@ -21,6 +21,7 @@
 
 #include <QVariantMap>
 #include "model/euro.h"
+#include "model/eramap.h"
 
 namespace Ui {
 class SiirtoApuri;
@@ -40,7 +41,7 @@ public:
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
-    void eraValittu(bool debet, int eraId, Euro avoinna, const QString& selite, int kumppani);
+    void eraValittu(bool debet, EraMap era);
     void laskunmaksu();
 
 protected:
