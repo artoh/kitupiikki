@@ -18,7 +18,7 @@
 #define PALKKAAVUSTAJA_H
 
 #include "apuriwidget.h"
-
+#include "model/euro.h"
 #include <QVariantMap>
 
 namespace Ui {
@@ -41,7 +41,7 @@ protected:
 
 
     void kirjaa(QVariantList& lista, const QString& palkkakoodi,
-                double debet = 0.0, double kredit=0.0, const QString& selite = QString(), const QString& tallennuskoodi = QString());
+                const Euro& debet, const Euro& kredit=0.0, const QString& selite = QString(), const QString& tallennuskoodi = QString());
 
 private:
     Ui::PalkkaApuri *ui;

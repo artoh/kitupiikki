@@ -20,7 +20,7 @@
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
 #include "model/tosite.h"
-#include "model/euro.h";
+#include "model/euro.h"
 
 #include <QJsonDocument>
 #include <QVariant>
@@ -116,7 +116,7 @@ bool PalkkaApuri::teeTositteelle()
             ui->ateriaEdit->euro();
 
 
-    double maksettavaa = (brutto + korvaukset - vahennykset);
+    Euro maksettavaa = brutto + korvaukset - vahennykset;
     kirjaa( viennit, QString(), 0, maksettavaa  , "Palkat", "MP");
     ui->nettoLabel->setText(QString("%L1 €").arg(maksettavaa,10,'f',2));
 
