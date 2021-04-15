@@ -68,7 +68,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     kysely.exec(sqlKysymys(urlquery, ehdot, false));
     QVariantList lista = resultList(kysely);
 
-    if( urlquery.queryItemValue("avoin") == "myynnit") {
+    if( urlquery.queryItemValue("avoin") == "maksut") {
         kysely.exec(sqlKysymys(urlquery, ehdot, true));
         lista.append( resultList(kysely) );
     }
@@ -144,7 +144,7 @@ QString MyyntilaskutRoute::sqlKysymys(const QUrlQuery &urlquery, const QString &
     kysymys.append(" GROUP BY eraid ");
     if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(QString(" HAVING COALESCE(SUM(kreditsnt),0) %1 COALESCE(SUM(debetsnt),0) ")
-                .arg( urlquery.queryItemValue("avoin")=="maksut" ? ( hyvitys ? "<" : ">" ) : "<>" ));
+                .arg( urlquery.queryItemValue("avoin")=="maksut" ? "<" : "<>" ));
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
             "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1")

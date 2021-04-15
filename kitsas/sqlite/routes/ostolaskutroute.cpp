@@ -49,7 +49,7 @@ QString OstolaskutRoute::sqlKysymys(const QUrlQuery &urlquery, bool hyvitys) con
 
     if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(QString(" HAVING COALESCE(SUM(kreditsnt),0) %1 COALESCE(SUM(debetsnt),0) ")
-                .arg( urlquery.queryItemValue("avoin")=="maksut" ? ( hyvitys ? ">" : "<" ) : "<>" ));
+                .arg( urlquery.queryItemValue("avoin")=="maksut" ?  ">" : "<>" ));
     kysymys.append(QString(")  AS q  ON vienti.eraid=q.eraid LEFT OUTER JOIN "
                            "Kumppani ON vienti.kumppani=kumppani.id "
                            "WHERE vienti.tyyppi=%1 AND tosite.tila >= %2")

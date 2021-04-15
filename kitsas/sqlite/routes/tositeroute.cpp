@@ -505,7 +505,7 @@ int TositeRoute::kumppaniMapista(QVariantMap &map)
     }
 
     if( !kumppaniId && !map.value("iban").toList().isEmpty()) {
-        for(QVariant iban : map.value("iban").toList()) {
+        for(const QVariant iban : map.value("iban").toList()) {
             kumppaniKysely.exec(QString("SELECT kumppani FROM KumppaniIban WHERE iban='%1'").arg(iban.toString()));
             if(kumppaniKysely.next()) {
                 kumppaniId = kumppaniKysely.value("kumppani").toInt();
@@ -513,6 +513,14 @@ int TositeRoute::kumppaniMapista(QVariantMap &map)
             }
         }
     }
+
+    if( !kumppaniId && !nimi.contains("'")) {
+        kumppaniKysely.exec(QString("SELECT id FROM Kumppani WHERE nimi='%1'").arg(nimi));
+        if(kumppaniKysely.next()) {
+            kumppaniId = kumppaniKysely.value("id").toInt();
+        }
+    }
+
 
     // Kumppani pitää lisätä
     if(!kumppaniId) {

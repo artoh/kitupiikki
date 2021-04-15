@@ -637,8 +637,10 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 } else if( (tapahtumanrivi == 2 && !saajaensin) || (tapahtumanrivi == 1 && saajaensin)) {
                     // Tältä riviltä yritetään poimia saaja
 
-                    if (teksti.contains(seliteRe) && !tapahtuma.contains("saajamaksaja"))
+                    if (teksti.contains(seliteRe) && !tapahtuma.contains("saajamaksaja")) {
+                        teksti = teksti.replace(QRegularExpression("^[\\W\\d]*"),"");
                         tapahtuma.insert("saajamaksaja", teksti.simplified());
+                    }
                 } else if(  teksti.contains(viiteRe) && !tapahtuma.contains("viite")) {
                     QRegularExpressionMatch mats = viiteRe.match(teksti);
                     QString ehdokas = mats.captured("viite");
@@ -659,10 +661,12 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                         if( IbanValidator::kelpaako(mats.captured()))
                             tapahtuma.insert("iban",mats.captured(0));
                     } else if( simple.contains("notprovided", Qt::CaseInsensitive) ||
-                               simple.contains("maksajan viite", Qt::CaseInsensitive)) {
+                               simple.contains("maksajan viite", Qt::CaseInsensitive) ||
+                               simple.contains("varmentaja", Qt::CaseInsensitive)) {
                         continue;
                     } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
                         QString bic = Iban(tapahtuma.value("iban").toString()).bic();
+                        teksti = teksti.replace(QRegularExpression("^[\\W\\d]*"),"");
                         if( teksti == "IBAN" || teksti == "BIC" || (bic.length() > 4 && teksti.startsWith(bic))  )
                             ;
                         else if (!tapahtuma.value("selite").toString().isEmpty())

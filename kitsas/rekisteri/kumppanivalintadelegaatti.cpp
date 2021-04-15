@@ -20,6 +20,7 @@
 
 #include <QComboBox>
 #include <QCompleter>
+#include <QLineEdit>
 
 KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(QWidget *parent) :
     QItemDelegate(parent)
@@ -52,7 +53,7 @@ void KumppaniValintaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel
 {
     QComboBox *combo = qobject_cast<QComboBox*>(editor);
 
-    QString text = combo->currentText();
+    QString text = combo->lineEdit()->text();
     int id = combo->currentData(NimiRooli).toString() == text
               ?  combo->currentData(IdRooli).toInt()
               : 0;
