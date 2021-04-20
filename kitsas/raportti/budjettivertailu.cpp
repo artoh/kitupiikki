@@ -73,6 +73,8 @@ void Budjettivertailu::esikatsele()
     raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
 
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
+    connect( raportoija, &Raportoija::tyhjaraportti, [this] () { this->nayta(RaportinKirjoittaja()); });
+
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
 
@@ -83,16 +85,13 @@ void Budjettivertailu::paivitaMuodot()
     QStringList muodot = kp()->asetukset()->avaimet("tulos/");
 
     ui->muotoCombo->clear();
+    int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;    
 
-    int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;
-    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
-
-    for( auto muoto : muodot ) {
-        QString kaava = kp()->asetukset()->asetus(AsetusModel::Muoto);
-        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
-        QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
-        QString muotonimi = map.value( kieli ).toString();
-        ui->muotoCombo->addItem( muotonimi, muoto );
+    for( const auto& muoto : muodot ) {
+        QString kaava = kp()->asetukset()->asetus(muoto);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );        
+        Monikielinen muotoKielinen(doc.toVariant().toMap().value("muoto"));
+        ui->muotoCombo->addItem( muotoKielinen.kaannos(ui->kieliCombo->kieli()), muoto );
     }
 
     ui->muotoCombo->setCurrentIndex(nykyinen);

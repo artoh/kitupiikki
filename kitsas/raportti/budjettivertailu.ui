@@ -90,11 +90,16 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QComboBox" name="kieliCombo"/>
+    <widget class="KieliCombo" name="kieliCombo"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KieliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">kieli/kielicombo.h</header>
+  </customwidget>
   <customwidget>
    <class>KohdennusCombo</class>
    <extends>QComboBox</extends>

@@ -135,7 +135,7 @@ Euro Euro::fromVariant(const QVariant &variant)
 
 Euro Euro::fromDouble(const double euro)
 {
-    return Euro( qlonglong(euro * 100.0));
+    return Euro( qRound64(euro * 100.0));
 }
 
 Euro &Euro::operator<<(const QString &string)

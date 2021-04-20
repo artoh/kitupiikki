@@ -98,6 +98,7 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->selausView, &QTableView::customContextMenuRequested, this, &SelausWg::contextMenu);
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionResized, this, &SelausWg::tallennaKoot);
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionMoved, this, &SelausWg::tallennaKoot);
+    connect( ui->selausView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, this, &SelausWg::tallennaKoot);
 
     connect( ui->edellinenNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(false); });
     connect( ui->seuraavaNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(true);});

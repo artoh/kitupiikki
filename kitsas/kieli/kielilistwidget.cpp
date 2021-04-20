@@ -22,7 +22,7 @@
 KieliListWidget::KieliListWidget(QWidget *parent) :
     QListWidget(parent)
 {
-
+    lataa(Monikielinen());
 }
 
 void KieliListWidget::lataa(const AbstraktiMonikielinen &monikielinen)

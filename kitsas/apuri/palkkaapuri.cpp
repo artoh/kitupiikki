@@ -118,7 +118,7 @@ bool PalkkaApuri::teeTositteelle()
 
     Euro maksettavaa = brutto + korvaukset - vahennykset;
     kirjaa( viennit, QString(), 0, maksettavaa  , "Palkat", "MP");
-    ui->nettoLabel->setText(QString("%L1 €").arg(maksettavaa,10,'f',2));
+    ui->nettoLabel->setText(maksettavaa.display());
 
     kirjaa( viennit, "PA", ui->palkkaEdit->euro(), 0, "Palkat");
     kirjaa( viennit, "PI", ui->palkkioEdit->euro(), 0, "Palkkiot");

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>972</width>
-    <height>795</height>
+    <width>982</width>
+    <height>791</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,6 +146,9 @@ Ilmoitathan kaikista havaitsemistasi virheistä.</string>
     <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
