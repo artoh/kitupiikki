@@ -18,6 +18,7 @@
 #define TUOTE_H
 
 #include <QVariantMap>
+#include "kieli/monikielinen.h"
 
 class Tuote
 {
@@ -30,8 +31,12 @@ public:
     int id() const;
     void setId(int id);
 
-    QString nimike() const;
+    QString nimike(const QString& kieli = QString()) const;
     void setNimike(const QString &nimike);
+    void setNimike(const Monikielinen& nimike);
+
+    Monikielinen &nimiKielinen();
+    Monikielinen constKielinen() const;
 
     QString yksikko() const;
     void setYksikko(const QString &yksikko);
@@ -64,6 +69,7 @@ private:
     int tili_;
     int alvkoodi_;
     double alvprosentti_;
+    Monikielinen nimikielinen_;
 };
 
 #endif // TUOTE_H

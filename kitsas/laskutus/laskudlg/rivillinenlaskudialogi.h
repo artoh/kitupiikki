@@ -41,6 +41,7 @@ protected:
     TositeriviAlv* alvTaulu() { return &alv_;}
 
     bool tarkasta() override;
+    virtual void lisaaTuote(const QModelIndex& index);
 
 private:
     void alustaRiviTab();

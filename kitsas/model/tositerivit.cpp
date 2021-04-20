@@ -366,11 +366,11 @@ void TositeRivit::lisaaRivi(TositeRivi rivi)
     endInsertRows();
 }
 
-void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm)
+void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QString kieli)
 {
     TositeRivi rivi;
     rivi.setTuote(tuote.id());
-    rivi.setNimike(tuote.nimike());
+    rivi.setNimike(tuote.nimike(kieli));
 
     if( !tuote.unKoodi().isEmpty())
         rivi.setUNkoodi( tuote.unKoodi());

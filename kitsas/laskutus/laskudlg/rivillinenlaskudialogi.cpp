@@ -165,6 +165,12 @@ bool RivillinenLaskuDialogi::tarkasta()
     return YksittainenLaskuDialogi::tarkasta();
 }
 
+void RivillinenLaskuDialogi::lisaaTuote(const QModelIndex &index)
+{
+    tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap(), "1",
+                                   ui->kieliCombo->currentData().toString().toLower() );
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -211,8 +217,8 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,3);
 
-    connect( ui->tuoteView, &QTableView::clicked, [this] (const QModelIndex& index)
-        { this->tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap()) ; }  );
+    connect( ui->tuoteView, &QTableView::clicked, this, &RivillinenLaskuDialogi::lisaaTuote);
+
 }
 
 void RivillinenLaskuDialogi::paivitaSumma()

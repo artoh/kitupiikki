@@ -138,7 +138,7 @@ void VastikeLaskutus::lisaaTuotteet()
         int tuoteId = map.value("tuote").toInt();
 
         Tuote tuote = kp()->tuotteet()->tuote(tuoteId);
-        tosite_.rivit()->lisaaTuote(tuote, lkm);
+        tosite_.rivit()->lisaaTuote(tuote, lkm, tosite_.constLasku().kieli());
     }
     RiviVientiGeneroija riviGeneroija(kp());
     riviGeneroija.generoiViennit(&tosite_);

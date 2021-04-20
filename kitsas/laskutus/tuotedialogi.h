@@ -34,7 +34,7 @@ public:
     ~TuoteDialogi() override;
 
 public slots:
-    void muokkaa(const Tuote& tuote);
+    void muokkaa(const Tuote &tuote);
     void uusi();
 
     void accept() override;

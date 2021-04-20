@@ -53,7 +53,7 @@ TuoteDialogi::~TuoteDialogi()
 void TuoteDialogi::muokkaa(const Tuote &tuote)
 {
     muokattavanaId_ = tuote.id();
-    ui->nimikeEdit->setText( tuote.nimike() );
+    ui->nimikeList->lataa( tuote.constKielinen());
 
     if( tuote.unKoodi().isEmpty())
         ui->yksikkoCombo->setYksikko(tuote.yksikko());
@@ -96,7 +96,7 @@ void TuoteDialogi::accept()
 {
     Tuote tuote;
     tuote.setId( muokattavanaId_ );
-    tuote.setNimike( ui->nimikeEdit->text() );
+    tuote.nimiKielinen().aseta( ui->nimikeList->tekstit());
     if( ui->yksikkoCombo->unKoodi().isEmpty())
         tuote.setYksikko( ui->yksikkoCombo->yksikko() );
     else

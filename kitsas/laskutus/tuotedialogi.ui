@@ -19,13 +19,7 @@
      <property name="text">
       <string>Nimike</string>
      </property>
-     <property name="buddy">
-      <cstring>nimikeEdit</cstring>
-     </property>
     </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="nimikeEdit"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -125,18 +119,21 @@
    <item row="1" column="1">
     <widget class="YksikkoCombo" name="yksikkoCombo"/>
    </item>
+   <item row="0" column="1">
+    <widget class="KieliListWidget" name="nimikeList"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KpEuroEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpeuroedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KohdennusCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
   <customwidget>
    <class>TilinvalintaLine</class>
@@ -152,6 +149,11 @@
    <class>LaskuAlvCombo</class>
    <extends>QComboBox</extends>
    <header location="global">laskutus/laskualvcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KieliListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">kieli/kielilistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
