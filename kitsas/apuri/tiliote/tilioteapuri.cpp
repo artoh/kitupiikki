@@ -249,14 +249,13 @@ void TilioteApuri::naytaTosite()
 
         KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
         Tosite* tosite = sivu->kirjausWg()->tosite();
-        tosite->viennit()->asetaViennit( rivi.tallennettavat() );
 
         const TositeVienti& pankki = rivi.pankkivienti();
         tosite->asetaPvm(pankki.pvm());
         tosite->asetaKumppani(pankki.kumppaniMap());
         tosite->asetaOtsikko(pankki.selite());
         tosite->asetaViite(pankki.viite());
-        tosite->asetaTilioterivi( omaIndeksi );
+        tosite->asetaTilioterivi( omaIndeksi );        
 
         // TODO: Oletuksena tulo / meno etumerkin mukaisesti
         if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS) {
@@ -275,6 +274,12 @@ void TilioteApuri::naytaTosite()
                 break;
             }
         }
+
+        tosite->viennit()->asetaViennit( rivi.tallennettavat( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS ?
+                                                               ( pankki.debetEuro() ? TositeVienti::MYYNTI : TositeVienti::OSTO) :
+                                                                 pankki.tyyppi() ) );
+        sivu->kirjausWg()->apuri()->reset();
+
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }
 }

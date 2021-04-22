@@ -53,7 +53,7 @@ public:
     enum Valilehdet { VIENNIT, MUISTIINPANOT, LIITTEET, VARASTO, LOKI } ;
 
     Tosite* tosite() { return tosite_;}
-
+    ApuriWidget* apuri() { return apuri_;}
 
 public slots:
     void lataaTosite(int id);

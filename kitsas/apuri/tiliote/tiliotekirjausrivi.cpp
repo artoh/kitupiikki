@@ -305,10 +305,12 @@ TositeVienti TilioteKirjausRivi::pankkivienti() const
     return viennit_.value(0);
 }
 
-QVariantList TilioteKirjausRivi::tallennettavat() const
+QVariantList TilioteKirjausRivi::tallennettavat(int tyyppi) const
 {
     QVariantList ulos;
-    for(auto const& vienti : viennit_) {
+    for(auto vienti : viennit_) {
+        // Meno- ja tulotositteelle siirrettäessä varmistetaan oikea tyyppi
+        vienti.setTyyppi( vienti.tyyppi() + tyyppi );
         ulos << vienti;
     }
     return ulos;
