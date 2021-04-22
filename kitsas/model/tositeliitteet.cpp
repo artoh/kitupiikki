@@ -278,7 +278,10 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
 
     // Ensimmäisestä liitteestä tuodaan tiedot
-    if( liitteet_.count() == 1) {        
+    Tosite* tosite = qobject_cast<Tosite*>(parent());
+    Q_ASSERT(tosite);
+
+    if( liitteet_.count() == 1 && !tosite->tilioterivi()) {
         if( tyyppi == "application/pdf") {
             const QVariantMap &tuotu = Tuonti::PdfTuonti::tuo(liite);
             if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {

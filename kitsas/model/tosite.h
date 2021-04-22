@@ -125,6 +125,7 @@ public:
     int kierto() const { return data(KIERTO).toInt();}
     int tila() const { return data(TILA).toInt();}
     bool huomio() const { return data_.contains(avaimet__.at(HUOMIO)); }
+    int tilioterivi() const { return data(TILIOTERIVI).toInt();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
