@@ -167,7 +167,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
 void TilioteKirjaaja::euroMuuttuu()
 {   
-   ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0 );
+   if( ui->euroEdit->euro())
+      ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0 );
 }
 
 void TilioteKirjaaja::ylaTabMuuttui(int tab)
@@ -285,7 +286,7 @@ void TilioteKirjaaja::tyhjenna()
     viennit_->tyhjenna();
     viennit_->lisaaVienti(TositeVienti());
 
-    lataaNakymaan();
+//    lataaNakymaan();
     nykyVientiRivi_ = 0;
     ui->viennitView->selectRow(0);
 
