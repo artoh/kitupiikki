@@ -249,6 +249,8 @@ summa,Laskun summa,Totalt,Total
 hlasku,Hyvityslasku,Kreditnota,Compensation invoice
 ytunnus,Y-tunnus,FO-nummer,Business ID
 verollinen,Verollinen,Med skatten,Includes VAT
+YhteensaVeroton,Veroton yhteensä,Totalt utan skatten,Total excludes VAT
+YhteensaVerollinen,Verollinen yhteensä,Totalt med skatten,Total includes VAT
 mmotsikko,Maksumuistutus laskusta %1,Betalningspåminnelse för faktura %1,Request for payment %1
 Yhteensa,Yhteensä,Totalt,Total
 eialv,Myyjä ei arvonlisäverovelvollinen,Säljare är inte momsskyldig,Seller is not liable to pay VAT

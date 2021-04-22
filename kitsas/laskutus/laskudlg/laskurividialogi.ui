@@ -7,50 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>922</width>
-    <height>852</height>
+    <height>1120</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Laskurivin tiedot</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
-   <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Tuotetiedot</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Nimike</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="nimikeEdit">
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Kuvaus</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="kuvausEdit">
-        <property name="maxLength">
-         <number>512</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
@@ -143,41 +106,21 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="groupBox_3">
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="groupBox_7">
      <property name="title">
-      <string>Hinnoittelu</string>
+      <string>Arvonlisävero</string>
      </property>
-     <layout class="QFormLayout" name="formLayout_3">
+     <layout class="QFormLayout" name="formLayout_6">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Veroton yksikköhinta</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="KpEuroEdit" name="verotonEdit"/>
-      </item>
-      <item row="1" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Arvonlisävero</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="1">
        <widget class="LaskuAlvCombo" name="alvCombo"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Verollinen yhteishinta</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="KpEuroEdit" name="verollinenEdit"/>
       </item>
      </layout>
     </widget>
@@ -185,13 +128,13 @@
    <item row="2" column="1">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
-      <string>Alennus nettohinnasta</string>
+      <string>Alennus</string>
      </property>
      <layout class="QFormLayout" name="formLayout_4">
       <item row="0" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>Alennusprosentti</string>
+         <string>Prosentti</string>
         </property>
        </widget>
       </item>
@@ -205,27 +148,74 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Euromääräinen alennus</string>
+         <string>Veroton</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="KpEuroEdit" name="euroAleEdit"/>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>Alennuksen syy</string>
+         <string>Syy</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="alennusSyyCombo"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Verollinen</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="alennusSyyCombo"/>
+       <widget class="KpEuroEdit" name="bruttoAleEdit"/>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="0" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Tuotetiedot</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Nimike</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="nimikeEdit">
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Kuvaus</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="kuvausEdit">
+        <property name="maxLength">
+         <number>512</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_6">
      <property name="title">
       <string>Lisätiedot</string>
@@ -237,7 +227,36 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
+   <item row="3" column="1">
+    <widget class="QGroupBox" name="groupBox_8">
+     <property name="title">
+      <string>Yhteishinta</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_7">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Veroton</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="KpEuroEdit" name="nettoYhteensa"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Verollinen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="KpEuroEdit" name="verollinenEdit"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -245,6 +264,35 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Yksikköhinta</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Veroton</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="KpEuroEdit" name="verotonEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Verollinen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="KpEuroEdit" name="aBrutto"/>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

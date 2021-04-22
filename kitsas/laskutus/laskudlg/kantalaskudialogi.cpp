@@ -113,6 +113,7 @@ void KantaLaskuDialogi::alustaUi()
     ui->lokiView->horizontalHeader()->setSectionResizeMode(TositeLoki::KAYTTAJA, QHeaderView::Stretch);
 
     ui->hyvitaEnnakkoNappi->setVisible(false);
+    ui->riviTyyppiCombo->setVisible(false);
 
     paivitaLaskutustavat();
     laskutusTapaMuuttui();

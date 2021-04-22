@@ -27,26 +27,36 @@ TositeRivi::TositeRivi(const QVariantMap &data)
         setLaskutetaanKpl("1");
         setMyyntiKpl(1.0);
     }
-    if( !bruttoYhteensa().cents())
-        laskeYhteensa();
+
     if (yksikko().isEmpty() && unKoodi().isEmpty()) {
         setUNkoodi("C62");
     }
-
 }
 
-double TositeRivi::nettoYhteensa() const
+double TositeRivi::aBrutto() const
 {
-    const double netto = aNetto() * laskutetaanKpl().toDouble();
-
-    const double alennettu = aleProsentti() ?
-                ( 100.0 - aleProsentti() ) * netto / 100.0 :
-                netto - euroAlennus().toDouble();
-
-    return alennettu;
+    const double vero = alvkoodi() < Lasku::KAYTETYT ?
+                alvProsentti() * aNetto() / 100.0 :
+                0;
+    return aNetto() + vero;
 }
 
-Euro TositeRivi::laskeYhteensa()
+void TositeRivi::setABrutto(const double hinta)
+{
+    if( alvkoodi() < Lasku::KAYTETYT)
+        setANetto( 100 * hinta / (100 + alvProsentti())  );
+    else
+        setANetto(hinta);
+}
+
+double TositeRivi::bruttoEuroAlennus() const
+{
+    const double vero = alvkoodi() < Lasku::KAYTETYT ?
+                alvProsentti() * euroAlennus() / 100.0 : 0;
+    return euroAlennus() + vero;
+}
+
+Euro TositeRivi::bruttoYhteensa() const
 {
     const double alennettu = nettoYhteensa();
     const double vero = alvkoodi() < Lasku::KAYTETYT ?
@@ -54,24 +64,36 @@ Euro TositeRivi::laskeYhteensa()
                 0 ;
 
     const double brutto = alennettu + vero;
-    const Euro bruttoEuro = Euro::fromDouble(brutto);
-    setBruttoYhteensa( bruttoEuro );
-    return brutto;
+    return Euro::fromDouble(brutto);
 }
 
-double TositeRivi::laskeYksikko()
+void TositeRivi::setBruttoYhteensa(const Euro &euro)
 {
-    const double brutto = bruttoYhteensa().toDouble();
+    const double brutto = euro.toDouble();
 
     const double netto = alvkoodi() < Lasku::KAYTETYT ?
                 100 * brutto / ( 100 + alvProsentti()) :
                 brutto;
+    setNettoYhteensa(netto);
+}
 
+void TositeRivi::setNettoYhteensa(const double netto)
+{
     const double alentamaton = aleProsentti() ?
                 100 * netto / ( 100 - aleProsentti()) :
-                netto + euroAlennus().toDouble();
+                netto + euroAlennus();
 
-    const double ahinta = alentamaton / laskutetaanKpl().toDouble();
+    const double ahinta = alentamaton / myyntiKpl();
     setANetto(ahinta);
-    return ahinta;
+}
+
+double TositeRivi::nettoYhteensa() const
+{
+    const double netto = aNetto() * myyntiKpl();
+
+    const double alennettu = aleProsentti() ?
+                ( 100.0 - aleProsentti() ) * netto / 100.0 :
+                netto - euroAlennus();
+
+    return alennettu;
 }

@@ -186,8 +186,7 @@ void TavallinenLaskuDialogi::ennakkoTietoSaapuu(QVariant *data, int eraId, Euro 
             rivi.setAlvProsentti( vienti.alvProsentti() );
             rivi.setNimike(
                         tulkkaa("enhyri", tosite()->lasku().kieli())
-                            .arg(haettu.lasku().numero()));
-            rivi.laskeYhteensa();
+                            .arg(haettu.lasku().numero()));            
             tosite()->rivit()->lisaaRivi(rivi);
         }
     }

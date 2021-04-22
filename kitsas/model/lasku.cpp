@@ -101,6 +101,16 @@ QString Lasku::QRkooditieto(const Iban &iban, const QString &nimi, bool rf) cons
     return data;
 }
 
+Lasku::Rivityyppi Lasku::riviTyyppi() const
+{
+    int tyyppi = luku("rivityyppi");
+    if( tyyppi == Rivityyppi::NETTORIVIT)
+        return Rivityyppi::NETTORIVIT;
+    else if( tyyppi == Rivityyppi::PITKATRIVIT)
+        return Rivityyppi::PITKATRIVIT;
+    return Rivityyppi::BRUTTORIVIT;
+}
+
 QDate Lasku::oikaiseErapaiva(QDate erapvm)
 {
     while( erapvm.dayOfWeek() > 5 ||

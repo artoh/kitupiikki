@@ -57,6 +57,7 @@ private:
     bool alvSarake_ = false;
     bool aleSarake_ = false;
     bool bruttolaskenta_ = false;
+    bool pitkatrivit_ = false;
 
     TulostusRuudukko ruudukko_;
     QString kieli_;

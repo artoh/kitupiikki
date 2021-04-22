@@ -303,7 +303,7 @@ osoite</string>
         </widget>
        </item>
        <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0">
          <item>
           <widget class="QLabel" name="viiteText">
            <property name="font">
@@ -353,45 +353,18 @@ osoite</string>
            </property>
           </widget>
          </item>
-         <item>
-          <spacer name="horizontalSpacer_8">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="bruttoButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="../../pic/pic.qrc">
-             <normaloff>:/pic/lihavoi.png</normaloff>:/pic/lihavoi.png</iconset>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item row="1" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,2">
+        <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,1,1">
          <item>
           <widget class="QComboBox" name="valvontaCombo"/>
          </item>
          <item>
           <widget class="QComboBox" name="tarkeCombo"/>
+         </item>
+         <item>
+          <widget class="QComboBox" name="riviTyyppiCombo"/>
          </item>
         </layout>
        </item>
@@ -503,6 +476,23 @@ osoite</string>
                </property>
                <property name="autoDefault">
                 <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="uusiRiviNappi">
+               <property name="toolTip">
+                <string>Näyttää uuden rivin lisäysikkunan  Ctrl+E</string>
+               </property>
+               <property name="text">
+                <string>Uusi rivi...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../pic/pic.qrc">
+                 <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+E</string>
                </property>
               </widget>
              </item>

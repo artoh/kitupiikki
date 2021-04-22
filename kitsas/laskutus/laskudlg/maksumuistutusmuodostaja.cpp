@@ -93,8 +93,7 @@ void MaksumuistutusMuodostaja::muistutusMaksu(Tosite *tosite, Euro maksu, const 
         rivi.setMyyntiKpl(1.0);
         rivi.setLaskutetaanKpl("1");
         rivi.setANetto( maksu.toDouble() );
-        rivi.setTili( kitsas_->asetukset()->luku("LaskuMaksumuistutustili",9170));
-        rivi.laskeYhteensa();
+        rivi.setTili( kitsas_->asetukset()->luku("LaskuMaksumuistutustili",9170));        
         tosite->rivit()->lisaaRivi(rivi);
 
         tosite->lasku().setMuistutusmaksu( maksu );

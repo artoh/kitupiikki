@@ -142,8 +142,7 @@ void LaskuRiviDialogi::anettoMuokattu()
 
 void LaskuRiviDialogi::paivitaBrutto()
 {
-    TositeRivi trivi(rivi());
-    trivi.laskeYhteensa();
+    TositeRivi trivi(rivi());    
     ui->verollinenEdit->setEuro(trivi.bruttoYhteensa());    
 }
 
@@ -184,8 +183,7 @@ void LaskuRiviDialogi::laskeAlennus()
 
 void LaskuRiviDialogi::paivitaAHinta()
 {
-    TositeRivi trivi(rivi());
-    trivi.laskeYksikko();
+    TositeRivi trivi(rivi());    
     anetto_ = trivi.aNetto();
 
     ui->verotonEdit->setValue( trivi.aNetto() );

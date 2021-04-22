@@ -38,22 +38,21 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     : YksittainenLaskuDialogi(tosite, parent), alv_(tosite->rivit())
 {
     alustaRiviTab();
+    alustaRiviTyypit();
 
     connect( tosite->rivit(), &TositeRivit::dataChanged, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::rowsInserted, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::rowsRemoved, this, &RivillinenLaskuDialogi::paivitaSumma);
     connect( tosite->rivit(), &TositeRivit::modelReset, this, &RivillinenLaskuDialogi::paivitaSumma);
+    connect( ui->riviTyyppiCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &RivillinenLaskuDialogi::riviTyyppiVaihtui);
 
     connect( ui->rivitView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &RivillinenLaskuDialogi::paivitaRiviNapit);
 
+    connect( ui->uusiRiviNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::uusiRivi);
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
-    connect( ui->bruttoButton, &QPushButton::toggled, this, &RivillinenLaskuDialogi::paivitaBruttolaskenta);
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
     paivitaSumma();
-
-    ui->bruttoButton->setChecked( tosite->lasku().bruttoVerolaskenta() );
-    ui->bruttoButton->setVisible( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
 
     tosite->rivit()->lisaaRivi();
 }
@@ -68,6 +67,17 @@ LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
         return LaskuAlvCombo::KOTIMAA;
     else
         return LaskuAlvCombo::EU;
+}
+
+Lasku::Rivityyppi RivillinenLaskuDialogi::rivityyppi() const
+{
+    int tyyppi = ui->riviTyyppiCombo->currentData().toInt();
+    if( tyyppi == Lasku::NETTORIVIT)
+        return Lasku::NETTORIVIT;
+    else if( tyyppi == Lasku::PITKATRIVIT)
+        return Lasku::PITKATRIVIT;
+    else
+        return Lasku::BRUTTORIVIT;
 }
 
 void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
@@ -86,6 +96,17 @@ void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
     });
     if( tuoteid )
         menu->popup( ui->tuoteView->viewport()->mapToGlobal(pos));
+}
+
+void RivillinenLaskuDialogi::uusiRivi()
+{
+    TositeRivi rivi;
+    LaskuRiviDialogi dlg(this);
+    dlg.lataa(rivi, ui->laskuPvm->date(), asiakasverolaji(),
+              maksutapa() == Lasku::ENNAKKOLASKU, kp());
+    if( dlg.exec() == QDialog::Accepted ) {
+        tosite()->rivit()->lisaaRivi(rivi);
+    }
 }
 
 void RivillinenLaskuDialogi::rivinLisaTiedot()
@@ -115,22 +136,13 @@ void RivillinenLaskuDialogi::tositteelle()
 {
     KantaLaskuDialogi::tositteelle();
 
+
+    tosite()->lasku().setRiviTyyppi( rivityyppi() );
+
     alvTaulu()->paivita();
     tosite()->lasku().setSumma( alvTaulu()->brutto()  );
-
-    tosite()->lasku().setBruttoVerolaskenta( ui->bruttoButton->isChecked());
 }
 
-void RivillinenLaskuDialogi::paivitaBruttoNappi(const QString &alvtunnus)
-{
-    ui->bruttoButton->setChecked( alvtunnus.isEmpty() );
-}
-
-void RivillinenLaskuDialogi::paivitaBruttolaskenta(bool onko)
-{
-    alvTaulu()->asetaBruttoPeruste(onko);
-    paivitaSumma();
-}
 
 void RivillinenLaskuDialogi::valmisteleTallennus()
 {
@@ -171,6 +183,19 @@ void RivillinenLaskuDialogi::lisaaTuote(const QModelIndex &index)
                                    ui->kieliCombo->currentData().toString().toLower() );
 }
 
+void RivillinenLaskuDialogi::vaihdaRivilajia(const QString &asiakkaanAlvTunnus)
+{
+    if( !asiakkaanAlvTunnus.isEmpty() &&
+        ui->riviTyyppiCombo->currentData().toInt() == Lasku::BRUTTORIVIT)
+        ui->riviTyyppiCombo->setCurrentIndex( ui->riviTyyppiCombo->findData(Lasku::NETTORIVIT) );
+}
+
+void RivillinenLaskuDialogi::riviTyyppiVaihtui()
+{
+    paivitaSumma();
+    tosite()->rivit()->asetaBruttolaskenta( rivityyppi() == Lasku::BRUTTORIVIT );
+}
+
 void RivillinenLaskuDialogi::alustaRiviTab()
 {
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -201,10 +226,10 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
     connect( ui->tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
 
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::BRUTTOSUMMA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::YHTEENSA, new EuroDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::ALV, new LaskutusVeroDelegaatti(this));
 
-    ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
     ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
     connect( ui->uusituoteNappi, &QPushButton::clicked, [this] { (new TuoteDialogi(this))->uusi(); } );
@@ -221,9 +246,29 @@ void RivillinenLaskuDialogi::alustaRiviTab()
 
 }
 
+void RivillinenLaskuDialogi::alustaRiviTyypit()
+{
+    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) ) {
+        ui->riviTyyppiCombo->setVisible(true);
+        ui->riviTyyppiCombo->addItem(QIcon(":/pic/netto.png"), tr("Verottomat rivit"), Lasku::NETTORIVIT);
+        ui->riviTyyppiCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("Verolliset rivit"), Lasku::BRUTTORIVIT);
+
+        ui->riviTyyppiCombo->addItem(QIcon(":/pic/vientilista.png"), tr("Pitkät rivit"), Lasku::PITKATRIVIT);
+
+        ui->riviTyyppiCombo->setCurrentIndex( ui->riviTyyppiCombo->findData( tosite()->lasku().riviTyyppi() ) );
+    }
+    riviTyyppiVaihtui();
+}
+
 void RivillinenLaskuDialogi::paivitaSumma()
 {
     alvTaulu()->paivita();
-    ui->summaLabel->setText( alvTaulu()->brutto().display() );
+
+    if( rivityyppi() == Lasku::BRUTTORIVIT)
+        ui->summaLabel->setText( QString("<b>%1</b>").arg(alvTaulu()->brutto().display() ));
+    else ui->summaLabel->setText( tr("%1 + ALV %2 = <b>%3</b>")
+                                  .arg(alvTaulu()->netto().display())
+                                  .arg(alvTaulu()->vero().display())
+                                  .arg(alvTaulu()->brutto().display()) );
     salliTallennus( !tosite()->rivit()->onkoTyhja() );
 }

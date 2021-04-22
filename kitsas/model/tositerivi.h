@@ -35,7 +35,9 @@ public:
     void setOstoKpl(const double kpl) { set("ostokpl", kpl);}
 
     double aNetto() const { return dbl("ahinta");}
+    double aBrutto() const;
     void setANetto(const double hinta) { set("ahinta", hinta);}
+    void setABrutto(const double hinta);
 
     QString nimike() const { return str("nimike");}
     void setNimike(const QString& nimike) { setStr("nimike", nimike);}
@@ -64,8 +66,10 @@ public:
     double aleProsentti() const { return dbl("aleprosentti");}
     void setAleProsentti(const double prosentti) { set("aleprosentti", prosentti);}
 
-    Euro euroAlennus() const { return Euro(str("euroalennus"));}
-    void setEuroAlennus(const Euro& euro) { setStr("euroalennus", euro);}
+    /** Euroalennus nettona */
+    double euroAlennus() const { return Euro(str("euroalennus"));}
+    void setEuroAlennus(const double euro) { set("euroalennus", euro ); }
+    double bruttoEuroAlennus() const;
 
     int alennusSyy() const { return luku("alennussyy");}
     void setAlennusSyy(const int syy) { set("alennussyy", syy);}
@@ -82,8 +86,9 @@ public:
     QString unKoodi() const { return str("unkoodi");}
     void setUNkoodi(const QString& koodi) { setStr("unkoodi", koodi);}
 
-    Euro bruttoYhteensa() const { return Euro( str("brutto") );}
-    void setBruttoYhteensa(const Euro& euro) { setStr("brutto", euro); }
+    Euro bruttoYhteensa() const;
+    void setBruttoYhteensa(const Euro& euro);
+    void setNettoYhteensa(const double netto);
 
     double nettoYhteensa() const;
 
@@ -93,8 +98,6 @@ public:
     int ennakkoEra() const { return luku("ennakkoera");}
     void setEnnakkoEra(const int era) { set("ennakkoera", era); }
 
-    Euro laskeYhteensa();
-    double laskeYksikko();
 };
 
 #endif // TOSITERIVI_H

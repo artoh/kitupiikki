@@ -146,8 +146,7 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
         TositeRivi rivi = rivit->rivi(r);
         const QString& kpl = rivi.laskutetaanKpl();
         rivi.setLaskutetaanKpl( kpl.startsWith("-") ? kpl.mid(1) : "-" + kpl );
-        rivi.setMyyntiKpl( 0 - rivi.myyntiKpl() );
-        rivi.laskeYhteensa();
+        rivi.setMyyntiKpl( 0 - rivi.myyntiKpl() );        
         uusi->rivit()->lisaaRivi(rivi);
     }
 

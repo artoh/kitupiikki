@@ -35,7 +35,8 @@ LaskuRuudukonTayttaja::LaskuRuudukonTayttaja(KitsasInterface *kitsas) :
 TulostusRuudukko LaskuRuudukonTayttaja::tayta(Tosite &tosite)
 {
     kieli_ = tosite.lasku().kieli().toLower();
-    bruttolaskenta_ = tosite.lasku().bruttoVerolaskenta();
+    bruttolaskenta_ = tosite.lasku().riviTyyppi() == Lasku::BRUTTORIVIT;
+    pitkatrivit_ = tosite.lasku().riviTyyppi() == Lasku::PITKATRIVIT;
 
     alv_.yhdistaRiveihin( tosite.rivit());
     alv_.asetaBruttoPeruste( bruttolaskenta_ );
@@ -148,8 +149,9 @@ TulostusRuudukko LaskuRuudukonTayttaja::kuukausiRuudukko(const Lasku &lasku, QPa
 void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
 {
     const TositeRivi& ekarivi = tosite.rivit()->rivi(0);
+
     int alvkoodi = ekarivi.alvkoodi();
-    int alvPromille = qRound( ekarivi.aleProsentti() * 10);
+    int alvPromille = qRound( ekarivi.alvProsentti() * 10);
 
     for( int i = 0; i < tosite.rivit()->rowCount(); i++) {
         const TositeRivi& rivi = tosite.rivit()->rivi(i);
@@ -162,7 +164,7 @@ void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
             alvSarake_ = true;
         }
 
-        if( rivi.aleProsentti() > 1e-3 || rivi.euroAlennus().cents()) {
+        if( rivi.aleProsentti() > 1e-3 || rivi.euroAlennus() > 1e-3) {
             aleSarake_ = true;
         }
     }
@@ -173,11 +175,15 @@ void LaskuRuudukonTayttaja::kirjoitaSarakkeet()
     lisaaSarake("nimike");
     lisaaSarake("lkm",Qt::AlignRight); //Määrä
     lisaaSarake("");    // Yksikkö
-    lisaaSarake("anetto", Qt::AlignRight);
+    lisaaSarake(bruttolaskenta_ ? "ahinta" : "anetto", Qt::AlignRight);
     if( aleSarake_ )
         lisaaSarake("ale", Qt::AlignRight);
-    if( alvSarake_)
+    if( pitkatrivit_)
+        lisaaSarake("veroton", Qt::AlignRight);
+    if( alvSarake_ | pitkatrivit_)
         lisaaSarake("alv",Qt::AlignRight);
+    if( pitkatrivit_ )
+        lisaaSarake("vero", Qt::AlignRight);
     lisaaSarake("yhteensa", Qt::AlignRight);
 }
 
@@ -199,15 +205,19 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
         tekstit << ahintasarake(rivi);
         if( aleSarake_)
             tekstit << rivit->index(i, TositeRivit::ALE).data().toString();
-        if( alvSarake_)
+        if( pitkatrivit_)
+            tekstit << Euro::fromDouble(rivi.nettoYhteensa()).display();
+        if( alvSarake_ || pitkatrivit_)
             tekstit << rivit->index(i, TositeRivit::ALV).data().toString();
-        if( bruttolaskenta_ || qAbs(rivi.aNetto()) < 1e-5 ) {
+        if( pitkatrivit_)
+            tekstit << ( rivi.bruttoYhteensa() - Euro::fromDouble(rivi.nettoYhteensa()) ).display();
+        if( bruttolaskenta_ || pitkatrivit_ ) {
             tekstit << rivi.bruttoYhteensa().display();
         } else {
             tekstit << Euro::fromDouble( rivi.nettoYhteensa() ).display();
         }
 
-        tekstit << rivit->index(i, TositeRivit::BRUTTOSUMMA).data().toString();
+        tekstit << rivit->index(i, TositeRivit::YHTEENSA).data().toString();
 
         ruudukko_.lisaaRivi(tekstit);
     }
@@ -223,7 +233,7 @@ QString LaskuRuudukonTayttaja::yksikkosarake(const TositeRivi &rivi)
 
 QString LaskuRuudukonTayttaja::ahintasarake(const TositeRivi &rivi)
 {
-    double ahinta = rivi.aNetto();
+    double ahinta = bruttolaskenta_ ? rivi.aBrutto() : rivi.aNetto();
     if( qAbs(ahinta) < 1e-5)
         return QString();
     return QString("%L1").arg(ahinta,0,'f',2);
@@ -261,7 +271,7 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
 
 void LaskuRuudukonTayttaja::taytaSummat()
 {
-    if( alv_.vero().cents() && !bruttolaskenta_ ) {
+    if( alv_.vero().cents() ) {
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVeroton", kieli_), alv_.netto().display() );
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("Vero", kieli_), alv_.vero().display() );
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVerollinen", kieli_), alv_.brutto().display());

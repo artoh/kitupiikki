@@ -20,6 +20,7 @@
 #include "yksittainenlaskudialogi.h"
 #include "../laskualvcombo.h"
 #include "../tositerivialv.h"
+#include "model/lasku.h"
 
 class RivillinenLaskuDialogi : public YksittainenLaskuDialogi
 {
@@ -28,13 +29,14 @@ public:
     RivillinenLaskuDialogi(Tosite* tosite, QWidget* parent);
     LaskuAlvCombo::AsiakasVeroLaji asiakasverolaji() const;
 
+    Lasku::Rivityyppi rivityyppi() const;
+
 protected:
     void tuotteidenKonteksiValikko(QPoint pos);
+    void uusiRivi();
     void rivinLisaTiedot();
     void paivitaRiviNapit();
     void tositteelle() override;
-    void paivitaBruttoNappi(const QString& alvtunnus);
-    void paivitaBruttolaskenta(bool onko);
 
     void valmisteleTallennus() override;
 
@@ -43,8 +45,12 @@ protected:
     bool tarkasta() override;
     virtual void lisaaTuote(const QModelIndex& index);
 
+    void vaihdaRivilajia(const QString& asiakkaanAlvTunnus );
+    void riviTyyppiVaihtui();
+
 private:
     void alustaRiviTab();
+    void alustaRiviTyypit();
     void paivitaSumma();    
 
 private:

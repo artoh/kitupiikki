@@ -34,7 +34,7 @@ class TositeRivit : public QAbstractTableModel
 public:
     enum LaskuSarake
     {
-        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, TILI, ALV, KOHDENNUS, BRUTTOSUMMA
+        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, TILI, ALV, KOHDENNUS, YHTEENSA
     };
 
     enum
@@ -80,6 +80,7 @@ public slots:
     void lisaaTuote(const Tuote& tuote, const QString &lkm = "1", const QString kieli=QString());
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
+    void asetaBruttolaskenta(bool brutto);
 
 
 private:
@@ -88,6 +89,7 @@ private:
     YksikkoModel yksikkoModel_;
 
     bool ennakkolasku_ = false;
+    bool bruttoLaskenta_ = false;
 };
 
 #endif // TOSITERIVIT_H

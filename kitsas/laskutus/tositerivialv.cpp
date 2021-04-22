@@ -89,7 +89,7 @@ void TositeriviAlv::paivita()
                 qAbs( veroprosentti(j) - alvProsentti  ) < 1e-5) {
                 tiedot_[j].lisaaNettoon( Euro::fromDouble(rivi.nettoYhteensa()) );
                 if( bruttoPeruste())
-                    tiedot_[j].lisaaBruttoon(rivi.bruttoYhteensa());
+                    tiedot_[j].lisaaBruttoon( rivi.bruttoYhteensa());
                 break;
             }
         }
@@ -146,7 +146,7 @@ void TositeriviAlv::AlvTieto::paivita(bool bruttoperuste)
     if( bruttoperuste )
         vero_ = brutto_ - netto_;
     else if( verokoodi_ == AlvKoodi::MYYNNIT_NETTO ) {
-        vero_ = Euro( netto_.toDouble() *  veroProsentinSadasosat_ / 10000.0 );
+        vero_ = Euro( netto_.toDouble() *  veroProsentinSadasosat_ / 100.0 );
         brutto_ = netto_ + vero_;
     } else {
         brutto_ = netto_;

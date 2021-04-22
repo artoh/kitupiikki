@@ -27,12 +27,14 @@ public:
     ~TositeRiviTesti();
 
 private slots:
+    void nettosumma1();
     void summa1();
     void summa2();
     void summa3();
     void summa4();
     void hyvitys1();
 
+    void ahintanetto1();
     void ahinta1();
 
 };
@@ -47,14 +49,22 @@ TositeRiviTesti::~TositeRiviTesti()
 
 }
 
+void TositeRiviTesti::nettosumma1()
+{
+    TositeRivi rivi;
+    rivi.setANetto(10.0);
+    rivi.setMyyntiKpl(5.0);
+
+    QCOMPARE( Euro::fromDouble(rivi.nettoYhteensa()).cents(), 5000  );
+}
+
 void TositeRiviTesti::summa1()
 {
     TositeRivi rivi;
     rivi.setANetto(10.0);
     rivi.setMyyntiKpl(5.0);
-    rivi.laskeYhteensa();
 
-    QCOMPARE( "50.00", rivi.bruttoYhteensa() );
+    QCOMPARE( rivi.bruttoYhteensa().cents(), 5000 );
 }
 
 void TositeRiviTesti::summa2()
@@ -64,9 +74,8 @@ void TositeRiviTesti::summa2()
     rivi.setMyyntiKpl(10.0);
     rivi.setAlvKoodi(11);
     rivi.setAlvProsentti(24.0);
-    rivi.laskeYhteensa();
 
-    QCOMPARE( "124.00", rivi.bruttoYhteensa() );
+    QCOMPARE(rivi.bruttoYhteensa().cents(), 12400 );
 }
 
 void TositeRiviTesti::summa3()
@@ -75,9 +84,8 @@ void TositeRiviTesti::summa3()
     rivi.setANetto(100.0);
     rivi.setMyyntiKpl(10.0);
     rivi.setAleProsentti(25);
-    rivi.laskeYhteensa();
 
-    QCOMPARE( "750.00", rivi.bruttoYhteensa() );
+    QCOMPARE( rivi.bruttoYhteensa().cents(), 75000 );
 }
 
 void TositeRiviTesti::summa4()
@@ -86,9 +94,8 @@ void TositeRiviTesti::summa4()
     rivi.setANetto(50.0);
     rivi.setMyyntiKpl(10);
     rivi.setEuroAlennus(Euro("50.00"));
-    rivi.laskeYhteensa();
 
-    QCOMPARE( "450.00", rivi.bruttoYhteensa() );
+    QCOMPARE( rivi.bruttoYhteensa(), Euro(45000) );
 }
 
 void TositeRiviTesti::hyvitys1()
@@ -96,21 +103,27 @@ void TositeRiviTesti::hyvitys1()
     TositeRivi rivi;
     rivi.setANetto(100.0);
     rivi.setMyyntiKpl(-1.0);
-    rivi.laskeYhteensa();
 
-    QCOMPARE("-100.00", rivi.bruttoYhteensa());
+    QCOMPARE(rivi.bruttoYhteensa().cents(),-10000);
+}
+
+void TositeRiviTesti::ahintanetto1()
+{
+    TositeRivi rivi;
+    rivi.setMyyntiKpl(5.0);
+    rivi.setNettoYhteensa(100.0);
+    QCOMPARE( Euro::fromDouble(rivi.aNetto()).cents(), 2000);
 }
 
 void TositeRiviTesti::ahinta1()
 {
-    TositeRivi rivi;
-    rivi.setBruttoYhteensa(Euro("124.00"));
+    TositeRivi rivi;    
     rivi.setAlvKoodi(11);
     rivi.setAlvProsentti(24.0);
     rivi.setMyyntiKpl(2.0);
-    rivi.laskeYksikko();
+    rivi.setBruttoYhteensa(Euro("124.00"));
 
-    QVERIFY( qAbs( rivi.aNetto() - 50.00 ) < 1e-5 );
+    QCOMPARE( Euro::fromDouble(rivi.aNetto()).cents(), 5000);
 }
 
 
