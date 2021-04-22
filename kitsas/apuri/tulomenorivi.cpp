@@ -123,7 +123,7 @@ bool TulomenoRivi::naytaBrutto() const
 {
     return !( alvkoodi() == AlvKoodi::RAKENNUSPALVELU_OSTO || alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_TAVARAT
                                  || alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi() == AlvKoodi::MAAHANTUONTI
-                                 || alvkoodi() == AlvKoodi::MAAHANTUONTI_VERO)  ;
+                                 || alvkoodi() == AlvKoodi::MAAHANTUONTI_VERO || alvkoodi() == AlvKoodi::MAAHANTUONTI_PALVELUT)  ;
 
 }
 
@@ -141,7 +141,8 @@ bool TulomenoRivi::naytaVahennysvalinta() const
             alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
             alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
             alvkoodi() == AlvKoodi::MAAHANTUONTI ||
-            alvkoodi() == AlvKoodi::MAAHANTUONTI_VERO;
+            alvkoodi() == AlvKoodi::MAAHANTUONTI_VERO ||
+            alvkoodi() == AlvKoodi::MAAHANTUONTI_PALVELUT;
 }
 
 QVariantList TulomenoRivi::viennit(Tosite* tosite) const
@@ -206,7 +207,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
                              verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || verokoodi== AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
                              verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-                             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI
+                             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
+                             verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
                         ) ? netto : maara;
 
     if( menoa ) {
@@ -226,7 +228,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     // ALV-SAAMINEN
     if( verokoodi == AlvKoodi::OSTOT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
           ((verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI )
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI || verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
            &&  alvvahennys() ) ) {
 
         TositeVienti palautus;
@@ -256,7 +258,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     // Alv-veron kirjaaminen
     if( verokoodi == AlvKoodi::MYYNNIT_NETTO || verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI ||
             verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI )
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
+            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
     {
         TositeVienti verorivi;
         verorivi.setTyyppi( TositeVienti::MYYNTI + TositeVienti::ALVKIRJAUS );
@@ -301,7 +304,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     }
     // Jos ei oikeuta alv-vähennykseen, kirjataan myös tämä osuus menoksi
     if( (verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI )
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
+            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
            &&  !alvvahennys()  ) {
 
         TositeVienti palautus;

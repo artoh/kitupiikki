@@ -631,7 +631,8 @@ void TositeViennit::paivitaAalv(int rivi)
              alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
              alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
              alvkoodi == AlvKoodi::MAAHANTUONTI ||
-             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) &&
+             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
+             alvkoodi == AlvKoodi::MAAHANTUONTI_PALVELUT) &&
             prosentti > 1e-5;
 
     bool vahennysrivi = aalvtila.contains("-") &&
@@ -640,7 +641,8 @@ void TositeViennit::paivitaAalv(int rivi)
              alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
              alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
              alvkoodi == AlvKoodi::MAAHANTUONTI ||
-             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) ;
+             alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
+             alvkoodi == AlvKoodi::MAAHANTUONTI_PALVELUT) ;
 
     qlonglong dsentit = qRound64( prosentti * lahde.debet() );
     qlonglong ksentit = qRound64( prosentti * lahde.kredit() );

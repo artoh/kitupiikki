@@ -377,14 +377,16 @@ void MuuMuokkausDlg::kirjausLajiMuuttui()
                                        koodi==AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
                                        koodi==AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                                        koodi==AlvKoodi::MAAHANTUONTI ||
-                                       koodi==AlvKoodi::RAKENNUSPALVELU_OSTO));
+                                       koodi==AlvKoodi::RAKENNUSPALVELU_OSTO ||
+                                       koodi==AlvKoodi::MAAHANTUONTI_PALVELUT));
     ui->kirjaaVahennysCheck->setVisible( ui->perusteRadio->isCheckable() &&
                                         ( koodi == AlvKoodi::OSTOT_NETTO ||
                                           koodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
                                           koodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
                                           koodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                                           koodi == AlvKoodi::MAAHANTUONTI ||
-                                          koodi == AlvKoodi::RAKENNUSPALVELU_OSTO));
+                                          koodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
+                                          koodi == AlvKoodi::MAAHANTUONTI_PALVELUT));
 }
 
 void MuuMuokkausDlg::tarkasta()

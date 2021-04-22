@@ -251,5 +251,6 @@
         <file>pixaby/hyvaksytty.svg</file>
         <file>pixaby/tarkastettu.svg</file>
         <file>pixaby/naytto.png</file>
+        <file>pixaby/globe.png</file>
     </qresource>
 </RCC>

@@ -635,8 +635,8 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
     int verokoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
     if( menoa_) {
         veroFiltteri_->setFilterRegExp(  maksuperuste ?
-                                            "^(0|2[4-8]|927)"
-                                            : "^(0|2[1-7]|927)");
+                                            "^(0|2[4-9]|927)"
+                                            : "^(0|2[1-79]|927)");
         if( verokoodi == AlvKoodi::OSTOT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         else if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && !maksuperuste)
