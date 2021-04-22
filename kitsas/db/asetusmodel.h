@@ -101,7 +101,8 @@ public:
         Suosikkitilit,
         Naytetaantilit,
         Laajuudet,
-        OletusMenotili
+        OletusMenotili,
+        LaskuRiviTyyppi
 
     };
 

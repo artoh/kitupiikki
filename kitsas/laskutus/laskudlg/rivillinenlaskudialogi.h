@@ -31,6 +31,8 @@ public:
 
     Lasku::Rivityyppi rivityyppi() const;
 
+    static void alustaRivityyppiCombo(QComboBox *combo);
+
 protected:
     void tuotteidenKonteksiValikko(QPoint pos);
     void uusiRivi();

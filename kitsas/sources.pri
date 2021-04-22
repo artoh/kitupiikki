@@ -111,6 +111,7 @@ SOURCES += \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.cpp \
+    $$PWD/maaritys/laskumaaritys.cpp \
     $$PWD/maaritys/liitemaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
@@ -458,6 +459,7 @@ HEADERS += \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.h \
+    $$PWD/maaritys/laskumaaritys.h \
     $$PWD/maaritys/liitemaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \

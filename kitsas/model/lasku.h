@@ -33,8 +33,7 @@ public:
     enum Maksutapa { LASKU, KATEINEN, ENNAKKOLASKU, SUORITEPERUSTE, KUUKAUSITTAINEN };
     enum Valvonta { LASKUVALVONTA = 0, VAKIOVIITE = 2, ASIAKAS = 3, HUONEISTO = 4, VALVOMATON = 99 };
     enum Marginaali { KAYTETYT =91, TAIDE =  92, ANTIIKKI=93 };
-    enum Rivityyppi { BRUTTORIVIT = 0, NETTORIVIT = 1, PITKATRIVIT = 2 } ;
-
+    enum Rivityyppi { NETTORIVIT = 0, BRUTTORIVIT = 1, PITKATRIVIT = 2 } ;
 
     Lasku();
     Lasku(const QVariantMap& data);

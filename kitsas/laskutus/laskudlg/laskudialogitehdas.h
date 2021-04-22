@@ -19,6 +19,8 @@
 
 #include <QObject>
 
+#include "model/lasku.h"
+
 class KitsasInterface;
 class KantaLaskuDialogi;
 class Tosite;
@@ -44,6 +46,9 @@ protected:
     void tositeLadattu();
     void hyvitettavaLadattu();
     void ladattuKopioitavaksi();
+
+    static Lasku::Rivityyppi oletusRiviTyyppi();
+
     KitsasInterface* kitsas_ = nullptr;
 
     static LaskuDialogiTehdas* instanssi__;

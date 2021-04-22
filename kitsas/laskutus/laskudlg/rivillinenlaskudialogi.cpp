@@ -80,6 +80,7 @@ Lasku::Rivityyppi RivillinenLaskuDialogi::rivityyppi() const
         return Lasku::BRUTTORIVIT;
 }
 
+
 void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 {
     QModelIndex index = ui->tuoteView->indexAt(pos);
@@ -246,15 +247,19 @@ void RivillinenLaskuDialogi::alustaRiviTab()
 
 }
 
+void RivillinenLaskuDialogi::alustaRivityyppiCombo(QComboBox *combo)
+{
+    combo->addItem(QIcon(":/pic/netto.png"), tr("Verottomat rivit"), Lasku::NETTORIVIT);
+    combo->addItem(QIcon(":/pic/lihavoi.png"), tr("Verolliset rivit"), Lasku::BRUTTORIVIT);
+    combo->addItem(QIcon(":/pic/vientilista.png"), tr("Pitkät rivit"), Lasku::PITKATRIVIT);
+}
+
+
 void RivillinenLaskuDialogi::alustaRiviTyypit()
 {
     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) ) {
         ui->riviTyyppiCombo->setVisible(true);
-        ui->riviTyyppiCombo->addItem(QIcon(":/pic/netto.png"), tr("Verottomat rivit"), Lasku::NETTORIVIT);
-        ui->riviTyyppiCombo->addItem(QIcon(":/pic/lihavoi.png"), tr("Verolliset rivit"), Lasku::BRUTTORIVIT);
-
-        ui->riviTyyppiCombo->addItem(QIcon(":/pic/vientilista.png"), tr("Pitkät rivit"), Lasku::PITKATRIVIT);
-
+        alustaRivityyppiCombo(ui->riviTyyppiCombo);
         ui->riviTyyppiCombo->setCurrentIndex( ui->riviTyyppiCombo->findData( tosite()->lasku().riviTyyppi() ) );
     }
     riviTyyppiVaihtui();

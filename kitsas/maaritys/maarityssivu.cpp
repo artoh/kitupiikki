@@ -44,8 +44,8 @@
 #include "verkkolasku/verkkolaskumaaritys.h"
 #include "../kierto/kiertomaaritys.h"
 #include "palkkatilimaaritys.h"
+#include "laskumaaritys.h"
 
-#include "ui_laskumaaritys.h"
 #include "ui_veromaaritys.h"
 #include "ui_yhteystiedot.h"
 #include "ui_oletustilimaaritys.h"
@@ -225,9 +225,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if( sivu == LIITETIETOKAAVA)
         nykyinen = new LiitetietokaavaMuokkaus;
     else if( sivu == LASKUTUS) {
-        nykyinen = new TallentavaMaaritysWidget;
-        Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
-        ui->setupUi(nykyinen);
+        nykyinen = new LaskuMaaritys;
     } else if( sivu == OLETUSTILIT) {
         nykyinen = new TallentavaMaaritysWidget;
         Ui::OletusTiliMaaritys *ui = new Ui::OletusTiliMaaritys;

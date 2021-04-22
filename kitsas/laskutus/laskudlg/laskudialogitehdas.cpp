@@ -60,7 +60,8 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->asetaLaskupvm( paivamaara() );
     tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
     tosite->asetaErapvm( Lasku::oikaiseErapaiva( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) ) );
-    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
+    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );            
+    tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();
@@ -74,6 +75,7 @@ KantaLaskuDialogi *LaskuDialogiTehdas::ryhmalasku()
     tosite->asetaLaskupvm( paivamaara() );
     tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
     tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
+    tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
 
     RyhmaLaskuDialogi *dlg = new RyhmaLaskuDialogi(tosite);
     dlg->show();
@@ -140,6 +142,7 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
     uusi->asetaViite( hyvitettavaLasku.viite() );
     uusi->lasku().setViite( hyvitettavaLasku.viite() );
     uusi->asetaKumppani( hyvitettava->kumppani() );
+    uusi->lasku().setRiviTyyppi( hyvitettavaLasku.riviTyyppi() );
 
     TositeRivit* rivit = hyvitettava->rivit();
     for(int r=0; r < rivit->rowCount(); r++) {
@@ -175,6 +178,17 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
     }
 
     naytaDialogi( tosite );
+}
+
+Lasku::Rivityyppi LaskuDialogiTehdas::oletusRiviTyyppi()
+{
+    int tyyppi = instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuRiviTyyppi);
+    if( tyyppi == Lasku::BRUTTORIVIT)
+        return Lasku::BRUTTORIVIT;
+    else if( tyyppi == Lasku::PITKATRIVIT)
+        return Lasku::PITKATRIVIT;
+    else
+        return Lasku::NETTORIVIT;
 }
 
 QDate LaskuDialogiTehdas::paivamaara()
