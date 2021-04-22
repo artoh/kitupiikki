@@ -175,16 +175,22 @@ void TilioteApuri::teeReset()
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
 
-        model_->asetaTilinumero(ekarivi.tili());
-        ui->tiliCombo->valitseTili(ekarivi.tili());
+        if( kp()->tilit()->tiliNumerolla(ekarivi.tili()).onko(TiliLaji::PANKKITILI)) {
+            model_->asetaTilinumero(ekarivi.tili());
+            ui->tiliCombo->valitseTili(ekarivi.tili());
+        }
     }
     QVariantMap tilioteMap = tosite()->data(Tosite::TILIOTE).toMap();
     if( !tilioteMap.isEmpty()) {
         ui->tiliCombo->valitseTili( tilioteMap.value("tili").toInt() );
         ui->alkuDate->setDate( tilioteMap.value("alkupvm").toDate());
         ui->loppuDate->setDate( tilioteMap.value("loppupvm").toDate() );
+    } else {
+        ui->loppuDate->setDate(tosite()->pvm());
+        ui->alkuDate->setDate( tosite()->pvm().addDays(1).addMonths(-1) );
     }
 
+    model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
     model_->lataa(viennit);
     if( kp()->yhteysModel())
         lataaHarmaat();
