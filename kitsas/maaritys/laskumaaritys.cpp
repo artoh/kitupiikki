@@ -17,6 +17,7 @@
 #include "laskumaaritys.h"
 #include "ui_laskumaaritys.h"
 #include "laskutus/laskudlg/rivillinenlaskudialogi.h"
+#include "db/kirjanpito.h"
 
 LaskuMaaritys::LaskuMaaritys() :
     TallentavaMaaritysWidget(nullptr),
@@ -24,4 +25,8 @@ LaskuMaaritys::LaskuMaaritys() :
 {
     ui->setupUi(this);
     RivillinenLaskuDialogi::alustaRivityyppiCombo( ui->riviCombo );
+
+    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    ui->laskuriviLabel->setVisible(alv);
+    ui->riviCombo->setVisible(alv);
 }

@@ -176,14 +176,7 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
         case AHINTA:
             return bruttoLaskenta_ ? rivi.aBrutto() : rivi.aNetto();
         case ALE:
-            if( rivi.aleProsentti()) {
-                return rivi.aleProsentti();
-            } else if( qAbs(rivi.euroAlennus()) > 1e-5 && rivi.bruttoYhteensa()) {
-                    return ( 100 *  rivi.euroAlennus() /
-                             (rivi.euroAlennus() + rivi.bruttoYhteensa().toDouble() ) );
-            } else {
-                return QVariant();
-            }
+            return rivi.laskettuAleProsentti();
         case KOHDENNUS:
             return rivi.kohdennus();
         case TILI:

@@ -41,7 +41,7 @@ qlonglong Euro::cents() const
 
 double Euro::toDouble() const
 {
-    return qRound64(cents_ / 100.0);
+    return cents_ / 100.0;
 }
 
 QString Euro::toString() const

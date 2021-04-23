@@ -29,11 +29,19 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
 
     ui->alennusSyyCombo->setModel(new AlennusTyyppiModel);    
 
-    connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &LaskuRiviDialogi::anettoMuokattu );
-    connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &LaskuRiviDialogi::paivitaBrutto);
-    connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &LaskuRiviDialogi::paivitaAleProsentti);
-    connect( ui->euroAleEdit, &KpEuroEdit::textEdited, this, &LaskuRiviDialogi::paivitaEuroAlennus);
-    connect( ui->laskutetaanEdit, &QLineEdit::textEdited, this, &LaskuRiviDialogi::paivitaBrutto);
+    connect( ui->laskutetaanEdit, &KpKplEdit::textEdited, this, &LaskuRiviDialogi::maaraMuutos );
+    connect( ui->alvCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &LaskuRiviDialogi::veroMuutos );
+
+    connect( ui->aNetto, &KpEuroEdit::euroMuuttui, [this] (Euro euro) { if(!paivitys_) rivi_.setANetto(euro.toDouble()); paivita(); } );
+    connect( ui->aBrutto, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setABrutto(euro.toDouble()); paivita(); } );
+
+    connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), [this] (double prossat) { if(!paivitys_) { rivi_.setEuroAlennus(0); rivi_.setAleProsentti(prossat); paivita(); }} );
+
+    connect( ui->euroAleEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setEuroAlennus(euro.toDouble()); paivita(); }} );
+    connect( ui->bruttoAleEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setBruttoEuroAlennus(euro.toDouble()); paivita(); }} );
+
+    connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
+    connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
 }
 
 LaskuRiviDialogi::~LaskuRiviDialogi()
@@ -44,8 +52,7 @@ LaskuRiviDialogi::~LaskuRiviDialogi()
 void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, bool ennakkolasku,
                              KitsasInterface* interface)
 {
-    alepaivitys_ = true;
-    alkuperainen_ = rivi;
+    rivi_ = rivi;
 
     ui->nimikeEdit->setText( rivi.nimike() );
     ui->kuvausEdit->setText( rivi.kuvaus());
@@ -58,9 +65,6 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
         ui->yksikkoCombo->setYksikko( rivi.yksikko());
     else
         ui->yksikkoCombo->setUNkoodi(rivi.unKoodi());
-
-    ui->verotonEdit->setValue( rivi.aNetto() );
-    anetto_ = rivi.aNetto();
 
     ui->alvCombo->alusta( asiakasVerolaji, rivi.alvkoodi(), ennakkolasku, pvm);
     ui->alvCombo->aseta( rivi.alvkoodi(), rivi.alvProsentti());
@@ -80,112 +84,83 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->merkkausCombo->haeMerkkaukset(pvm);
     ui->merkkausCombo->setSelectedItems( rivi.merkkaukset() );
 
-    aleprossa_ = rivi.aleProsentti();
-    euroale_ = rivi.euroAlennus();
-    ui->alennusSpin->setValue(aleprossa_);
-    ui->euroAleEdit->setValue(euroale_);
-
     if( rivi.alennusSyy())
         ui->alennusSyyCombo->setCurrentIndex(
                     ui->alennusSyyCombo->findData(rivi.alennusSyy()) );
 
     ui->lisatietoEdit->setPlainText( rivi.lisatiedot() );
 
-    paivitaBrutto();
-    alepaivitys_ = false;
-
-
+    paivita();
 }
 
-TositeRivi LaskuRiviDialogi::rivi() const
+TositeRivi LaskuRiviDialogi::rivi()
 {
-    TositeRivi rivi(alkuperainen_);
-    rivi.setNimike( ui->nimikeEdit->text() );
-    rivi.setKuvaus( ui->kuvausEdit->text());
+    rivi_.setNimike( ui->nimikeEdit->text());
+    rivi_.setKuvaus( ui->kuvausEdit->text());
 
-    rivi.setToimitettuKpl( ui->toimitettuEdit->text());
-    rivi.setJalkitoimitusKpl( ui->jalkitoimitusEdit->text());
-    rivi.setLaskutetaanKpl( ui->laskutetaanEdit->text());
-    rivi.setMyyntiKpl( ui->laskutetaanEdit->text().toDouble() );
+    rivi_.setToimitettuKpl( ui->toimitettuEdit->text());
+    rivi_.setJalkitoimitusKpl( ui->jalkitoimitusEdit->text());
 
     if( ui->yksikkoCombo->unKoodi().isEmpty())
-        rivi.setYksikko(ui->yksikkoCombo->yksikko());
+        rivi_.setYksikko(ui->yksikkoCombo->yksikko());
     else
-        rivi.setUNkoodi(ui->yksikkoCombo->unKoodi());
+        rivi_.setUNkoodi(ui->yksikkoCombo->unKoodi());
 
 
-    rivi.setANetto(anetto_);
-    rivi.setAlvKoodi( ui->alvCombo->veroKoodi() );
-    rivi.setAlvProsentti( ui->alvCombo->veroProsentti());
+    rivi_.setTili( ui->tiliEdit->valittuTilinumero());
+    rivi_.setKohdennus( ui->kohdennusCombo->kohdennus() );
+    rivi_.setMerkkaukset( ui->merkkausCombo->selectedDatas());
 
-    rivi.setBruttoYhteensa( ui->verollinenEdit->text());
+    rivi_.setAlennusSyy( ui->alennusSyyCombo->currentData().toInt() );
+    rivi_.setLisatiedot( ui->lisatietoEdit->toPlainText());
 
-    rivi.setTili( ui->tiliEdit->valittuTilinumero());
-    rivi.setKohdennus( ui->kohdennusCombo->kohdennus() );
-    rivi.setMerkkaukset( ui->merkkausCombo->selectedDatas());
 
-    rivi.setAleProsentti( aleprossa_);
-    rivi.setEuroAlennus( euroale_);
-    rivi.setAlennusSyy( ui->alennusSyyCombo->currentData().toInt() );
-    rivi.setLisatiedot( ui->lisatietoEdit->toPlainText());
-
-    rivi.setBruttoYhteensa( ui->verollinenEdit->euro() );
-
-    return rivi;
+    return rivi_;
 }
 
-void LaskuRiviDialogi::anettoMuokattu()
+void LaskuRiviDialogi::paivita()
 {
-    anetto_ = ui->verotonEdit->value();
-    paivitaBrutto();
+    if(paivitys_)
+        return;
+
+    paivitys_ = true;
+
+    if(  qAbs( ui->aNetto->value() - rivi_.aNetto() ) > 0.005)
+        ui->aNetto->setValue( rivi_.aNetto() );
+
+    if( qAbs( ui->aBrutto->value() - rivi_.aBrutto()) > 0.005)
+        ui->aBrutto->setValue( rivi_.aBrutto() );
+
+    if( qAbs( ui->alennusSpin->value() - rivi_.laskettuAleProsentti()) > 0.005)
+        ui->alennusSpin->setValue( rivi_.laskettuAleProsentti() );
+
+    if( qAbs( ui->euroAleEdit->value() - rivi_.laskennallinenEuroAlennus()) > 0.005)
+        ui->euroAleEdit->setValue( rivi_.laskennallinenEuroAlennus() );
+
+    if( qAbs( ui->bruttoAleEdit->value() - rivi_.laskennallinenBruttoEuroAlennus()) > 0.005)
+        ui->bruttoAleEdit->setValue( rivi_.laskennallinenBruttoEuroAlennus() );
+
+    if( qAbs( ui->nettoYhteensa->value() - rivi_.nettoYhteensa() ) > 0.005)
+        ui->nettoYhteensa->setValue( rivi_.nettoYhteensa() );
+
+    if( ui->verollinenEdit->euro().cents() != rivi_.bruttoYhteensa().cents())
+        ui->verollinenEdit->setEuro( rivi_.bruttoYhteensa() );
+
+    paivitys_ = false;
 }
 
-void LaskuRiviDialogi::paivitaBrutto()
+void LaskuRiviDialogi::maaraMuutos()
 {
-    TositeRivi trivi(rivi());    
-    ui->verollinenEdit->setEuro(trivi.bruttoYhteensa());    
+    rivi_.setLaskutetaanKpl( ui->laskutetaanEdit->text() );
+    rivi_.setMyyntiKpl( ui->laskutetaanEdit->kpl() );
+    paivita();
+
 }
 
-void LaskuRiviDialogi::paivitaAleProsentti()
+void LaskuRiviDialogi::veroMuutos()
 {
-    if(!alepaivitys_) {
-        aleprossa_ = ui->alennusSpin->value();
-        euroale_ = Euro(0);
-        laskeAlennus();
-    }
+    rivi_.setAlvKoodi( ui->alvCombo->veroKoodi() );
+    rivi_.setAlvProsentti( ui->alvCombo->veroProsentti());
+    paivita();
 }
 
-void LaskuRiviDialogi::paivitaEuroAlennus()
-{
-    if( !alepaivitys_) {
-        aleprossa_ = 0.0;
-        euroale_ = ui->euroAleEdit->euro();
-        laskeAlennus();
-    }
-}
-
-void LaskuRiviDialogi::laskeAlennus()
-{
-    alepaivitys_ = true;
-
-    TositeRivi laskuri(rivi());
-    if( aleprossa_ ) {
-        ui->euroAleEdit->setValue( aleprossa_ * laskuri.aNetto() * laskuri.myyntiKpl() / 100.0 );
-    } else if( qAbs(anetto_) > 1e-5 ) {
-        ui->alennusSpin->setValue( euroale_.cents() / ( laskuri.aNetto() * laskuri.myyntiKpl() ) );
-    } else {
-        ui->alennusSpin->setValue(0.0);
-    }
-    paivitaBrutto();
-
-    alepaivitys_ = false;
-}
-
-void LaskuRiviDialogi::paivitaAHinta()
-{
-    TositeRivi trivi(rivi());    
-    anetto_ = trivi.aNetto();
-
-    ui->verotonEdit->setValue( trivi.aNetto() );
-
-}

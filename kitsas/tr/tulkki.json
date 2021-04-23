@@ -951,6 +951,16 @@
         "sv": "Med skatten",
         "en": "Includes VAT"
     },
+    "YhteensaVeroton": {
+        "fi": "Veroton yhteensä",
+        "sv": "Totalt utan skatten",
+        "en": "Total excludes VAT"
+    },
+    "YhteensaVerollinen": {
+        "fi": "Verollinen yhteensä",
+        "sv": "Totalt med skatten",
+        "en": "Total includes VAT"
+    },
     "mmotsikko": {
         "fi": "Maksumuistutus laskusta %1",
         "sv": "Betalningspåminnelse för faktura %1",

@@ -40,25 +40,19 @@ public:
                LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, bool ennakkolasku,
                KitsasInterface *interface);
 
-    TositeRivi rivi() const;
+    TositeRivi rivi();
 
 protected:    
-
-    void anettoMuokattu();
-    void paivitaBrutto();
-    void paivitaAleProsentti();
-    void paivitaEuroAlennus();
-    void laskeAlennus();
-    void paivitaAHinta();
+    void paivita();
+    void maaraMuutos();
+    void veroMuutos();
 
 private:
     Ui::LaskuRiviDialogi *ui;
 
-    TositeRivi alkuperainen_;
-    double anetto_ = 0.0;
-    double aleprossa_ = 0.0;
-    Euro euroale_;
-    bool alepaivitys_ = false;
+    TositeRivi rivi_;
+
+    bool paivitys_ = false;
 };
 
 #endif // LASKURIVIDIALOGI_H

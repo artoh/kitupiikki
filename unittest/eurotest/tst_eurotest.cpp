@@ -34,7 +34,9 @@ private slots:
     void euro_eq_qstring();
     void qvariant_to_euro();
     void neq_double_to_euro();
+    void euro_to_dbl();
     void euroSumma();
+    void euro_to_bool();
 };
 
 EuroTest::EuroTest()
@@ -114,6 +116,13 @@ void EuroTest::neq_double_to_euro()
     QCOMPARE( euro, Euro("-123.45"));
 }
 
+void EuroTest::euro_to_dbl()
+{
+    Euro euro("12345.67");
+    QVERIFY( qAbs(euro.toDouble() - 12345.67) < 1e-5 );
+}
+
+
 void EuroTest::euroSumma()
 {
     Euro euro1(1200);
@@ -121,6 +130,14 @@ void EuroTest::euroSumma()
     Euro summa = euro1 + euro2;
 
     QCOMPARE(summa.cents(), 3650);
+}
+
+void EuroTest::euro_to_bool()
+{
+    Euro euro1(123);
+    QVERIFY(euro1);
+    Euro euro2(0);
+    QVERIFY(!euro2);
 }
 
 

@@ -65,11 +65,15 @@ public:
 
     double aleProsentti() const { return dbl("aleprosentti");}
     void setAleProsentti(const double prosentti) { set("aleprosentti", prosentti);}
+    double laskettuAleProsentti() const;
 
     /** Euroalennus nettona */
-    double euroAlennus() const { return Euro(str("euroalennus"));}
+    double euroAlennus() const { return dbl("euroalennus");}
     void setEuroAlennus(const double euro) { set("euroalennus", euro ); }
     double bruttoEuroAlennus() const;
+    void setBruttoEuroAlennus(const double euro);
+    double laskennallinenEuroAlennus() const;
+    double laskennallinenBruttoEuroAlennus() const;
 
     int alennusSyy() const { return luku("alennussyy");}
     void setAlennusSyy(const int syy) { set("alennussyy", syy);}

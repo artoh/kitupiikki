@@ -49,11 +49,49 @@ void TositeRivi::setABrutto(const double hinta)
         setANetto(hinta);
 }
 
+double TositeRivi::laskettuAleProsentti() const
+{
+    if( qAbs(aleProsentti()) > 1e-5 )
+        return aleProsentti();
+    else if( euroAlennus() > 1e-5 && nettoYhteensa() > 1e-5)
+        return (   100 * euroAlennus()  / ( euroAlennus() + nettoYhteensa())  );
+    else
+        return 0;
+}
+
 double TositeRivi::bruttoEuroAlennus() const
 {
     const double vero = alvkoodi() < Lasku::KAYTETYT ?
                 alvProsentti() * euroAlennus() / 100.0 : 0;
     return euroAlennus() + vero;
+}
+
+void TositeRivi::setBruttoEuroAlennus(const double euro)
+{
+    if( alvkoodi() < Lasku::KAYTETYT)
+        setEuroAlennus(100 * euro / ( 100 + alvProsentti()));
+    else
+        setEuroAlennus(euro);
+}
+
+double TositeRivi::laskennallinenEuroAlennus() const
+{
+    if( euroAlennus() )
+        return euroAlennus();
+    else if( aleProsentti())
+        return aNetto() * myyntiKpl() * aleProsentti() / 100.0;
+    else
+        return 0;
+}
+
+double TositeRivi::laskennallinenBruttoEuroAlennus() const
+{
+    if( bruttoEuroAlennus())
+        return bruttoEuroAlennus();
+    else if( aleProsentti())
+        return aBrutto() * myyntiKpl() * aleProsentti() / 100.0;
+    else
+        return 0;
 }
 
 Euro TositeRivi::bruttoYhteensa() const

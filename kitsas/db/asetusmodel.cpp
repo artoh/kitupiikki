@@ -323,5 +323,6 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { Naytetaantilit, "naytetaantilit"},
     { Laajuudet, "laajuudet"},
     { OletusMenotili, "OletusMenotili"},
-    { LaskuRiviTyyppi, "LaskuRiviTyyppi"}
+    { LaskuRiviTyyppi, "LaskuRiviTyyppi"},
+    { OletusMyyntitili, "OletusMyyntitili"}
 };

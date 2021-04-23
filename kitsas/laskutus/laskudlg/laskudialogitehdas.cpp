@@ -182,6 +182,9 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
 
 Lasku::Rivityyppi LaskuDialogiTehdas::oletusRiviTyyppi()
 {
+    if( !instanssi__->kitsas_->asetukset()->onko(AsetusModel::AlvVelvollinen))
+        return Lasku::BRUTTORIVIT;
+
     int tyyppi = instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuRiviTyyppi);
     if( tyyppi == Lasku::BRUTTORIVIT)
         return Lasku::BRUTTORIVIT;

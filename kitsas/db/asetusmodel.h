@@ -102,7 +102,8 @@ public:
         Naytetaantilit,
         Laajuudet,
         OletusMenotili,
-        LaskuRiviTyyppi
+        LaskuRiviTyyppi,
+        OletusMyyntitili
 
     };
 

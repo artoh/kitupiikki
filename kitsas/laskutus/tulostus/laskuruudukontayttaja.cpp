@@ -271,7 +271,7 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
 
 void LaskuRuudukonTayttaja::taytaSummat()
 {
-    if( alv_.vero().cents() ) {
+    if( alv_.vero().cents() && !bruttolaskenta_ && !pitkatrivit_ ) {
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVeroton", kieli_), alv_.netto().display() );
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("Vero", kieli_), alv_.vero().display() );
         ruudukko_.lisaaSummaRivi( kitsas_->kaanna("YhteensaVerollinen", kieli_), alv_.brutto().display());

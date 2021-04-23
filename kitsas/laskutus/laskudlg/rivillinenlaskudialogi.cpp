@@ -52,9 +52,10 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
 
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
-    paivitaSumma();
+    paivitaSumma();    
 
     tosite->rivit()->lisaaRivi();
+    paivitaRiviNapit();
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
@@ -102,6 +103,12 @@ void RivillinenLaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 void RivillinenLaskuDialogi::uusiRivi()
 {
     TositeRivi rivi;
+    rivi.setTili( kp()->asetukset()->luku(AsetusModel::OletusMyyntitili) );
+    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) ) {
+        rivi.setAlvKoodi(AlvKoodi::MYYNNIT_NETTO);
+        rivi.setAlvProsentti(24.0);
+    }
+
     LaskuRiviDialogi dlg(this);
     dlg.lataa(rivi, ui->laskuPvm->date(), asiakasverolaji(),
               maksutapa() == Lasku::ENNAKKOLASKU, kp());
@@ -112,9 +119,12 @@ void RivillinenLaskuDialogi::uusiRivi()
 
 void RivillinenLaskuDialogi::rivinLisaTiedot()
 {
+    if( !ui->rivitView->currentIndex().isValid() )
+        return;
+
     LaskuRiviDialogi dlg(this);
 
-    int riviIndeksi = ui->rivitView->currentIndex().row();
+    int riviIndeksi = ui->rivitView->currentIndex().row();    
 
     const TositeRivi& rivi = tosite()->rivit()->rivi( riviIndeksi );
     dlg.lataa( rivi, ui->laskuPvm->date(), asiakasverolaji(),
@@ -129,7 +139,7 @@ void RivillinenLaskuDialogi::paivitaRiviNapit()
 {
     const QModelIndex& index = ui->rivitView->currentIndex();
 
-    ui->lisaaRiviNappi->setEnabled( index.isValid() );
+    ui->riviLisatiedotNappi->setEnabled( index.isValid() );
     ui->poistaRiviNappi->setEnabled( index.isValid() );
 }
 
@@ -269,7 +279,9 @@ void RivillinenLaskuDialogi::paivitaSumma()
 {
     alvTaulu()->paivita();
 
-    if( rivityyppi() == Lasku::BRUTTORIVIT)
+    if( !alvTaulu()->brutto() )
+        ui->summaLabel->clear();
+    else if( rivityyppi() == Lasku::BRUTTORIVIT)
         ui->summaLabel->setText( QString("<b>%1</b>").arg(alvTaulu()->brutto().display() ));
     else ui->summaLabel->setText( tr("%1 + ALV %2 = <b>%3</b>")
                                   .arg(alvTaulu()->netto().display())
