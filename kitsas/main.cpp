@@ -151,7 +151,8 @@ int main(int argc, char *argv[])
     {
         QDialog tervetuloDlg;
         Ui::TervetuloDlg tervetuloUi;
-        tervetuloUi.setupUi(&tervetuloDlg);
+        tervetuloUi.setupUi(&tervetuloDlg);        
+
         tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
@@ -159,7 +160,6 @@ int main(int argc, char *argv[])
             tervetuloUi.svKieli->setChecked(true);
         else
             tervetuloUi.fiKieli->setChecked(true);
-
 
 #ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);

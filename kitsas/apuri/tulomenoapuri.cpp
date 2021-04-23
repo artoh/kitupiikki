@@ -650,6 +650,8 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
     }
+    if( ui->alvCombo->currentIndex() < 0)
+        ui->alvCombo->setCurrentIndex(0);
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
