@@ -45,6 +45,7 @@ KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
 
     taydennin->setCompletionMode( QCompleter::UnfilteredPopupCompletion);
     setCompleter(taydennin);
+
 }
 
 int KantaTilinvalintaLine::valittuTilinumero() const
@@ -87,6 +88,7 @@ void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
     proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
     proxyTyyppi_->setFilterRegExp(regexp);
 }
+
 
 void KantaTilinvalintaLine::paintEvent(QPaintEvent *event)
 {
@@ -204,6 +206,8 @@ void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)
 
         if(qobject_cast<QWidget*>(parent()))
             qobject_cast<QWidget*>(parent())->setFocus();
+    } else {
+        setCursorPosition(0);
     }
 }
 
@@ -256,6 +260,8 @@ void TilinvalintaLine::mousePressEvent(QMouseEvent *event)
         {
             valitseTili( valittu);
         }
+    } else {
+        setCursorPosition(0);
     }
 }
 
