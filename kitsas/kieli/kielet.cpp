@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <QApplication>
 #include <QSettings>
+#include <QLocale>
 
 Kielet::Kielet(const QString &tiedostonnimi)
 {
@@ -104,6 +105,9 @@ void Kielet::valitseUiKieli(const QString &kieli)
 
     QSettings settings;
     settings.setValue("uiKieli", kieli);
+
+    QLocale::setDefault(QLocale(kieli=="sv" ? QLocale::Swedish : QLocale::Finnish,
+                                QLocale::Finland));
 }
 
 QString Kielet::kaanna(const QString &avain, const QString &kieli) const

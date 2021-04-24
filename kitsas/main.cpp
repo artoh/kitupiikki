@@ -17,7 +17,6 @@
 
 #include <QApplication>
 #include <QGuiApplication>
-#include <QLocale>
 #include <QSplashScreen>
 #include <QTextCodec>
 #include <QIcon>
@@ -32,44 +31,20 @@
 #include "kieli/kielet.h"
 
 #include <QDebug>
-#include <QDir>
+
 #include <QStyleFactory>
 #include <QSettings>
-#include <QDialog>
-#include <QFile>
-#include <QTextStream>
+
 #include <QFileInfo>
 #include <QCommandLineParser>
 
-#include "ui_tervetuloa.h"
+#include "aloitussivu/tervetulodialogi.h"
 #include "maaritys/ulkoasumaaritys.h"
 #include "pilvi/pilvimodel.h"
 
 #include "tools/kitsaslokimodel.h"
 #include "model/euro.h"
 
-
-void lisaaLinuxinKaynnistysValikkoon()
-{
-    // Poistetaan vanha, jotta päivittyisi
-    QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
-    // Kopioidaan kuvake
-    QDir::home().mkpath( ".local/share/icons" );
-    QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png"));
-    // Lisätään työpöytätiedosto
-    QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
-    desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    QTextStream out(&desktop);
-    out.setCodec("UTF-8");
-
-    out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitsas " << qApp->applicationVersion() << "\n";
-    out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png") << "\n";
-    out << "Exec=" << qApp->applicationFilePath() << "\n";
-    out << "TryExec=" << qApp->applicationFilePath() << "\n";
-    out << "GenericName=Kirjanpito\n";
-    out << Kirjanpito::tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
-    out << "Categories=Office;Finance;Qt;\nTerminal=false";
-}
 
 
 int main(int argc, char *argv[])
@@ -82,7 +57,6 @@ int main(int argc, char *argv[])
 
     KitsasLokiModel::alusta();
     Kielet::alustaKielet(":/tr/tulkki.json");
-
     qRegisterMetaTypeStreamOperators<Euro>("Euro");
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
@@ -98,10 +72,6 @@ int main(int argc, char *argv[])
 #endif
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-    QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
-
-    // Qt:n vakioiden kääntämiseksi
-    // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
 
     QCommandLineParser parser;
     parser.addOptions({
@@ -149,36 +119,14 @@ int main(int argc, char *argv[])
     // Jos versio on muuttunut, näytetään tervetulodialogi    
     if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
     {
-        QDialog tervetuloDlg;
-        Ui::TervetuloDlg tervetuloUi;
-        tervetuloUi.setupUi(&tervetuloDlg);        
-
-        tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
-        tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
-        tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
-        if( Kielet::instanssi()->uiKieli() == "sv")
-            tervetuloUi.svKieli->setChecked(true);
-        else
-            tervetuloUi.fiKieli->setChecked(true);
-
-#ifndef Q_OS_LINUX
-    tervetuloUi.valikkoonCheck->setVisible(false);
-#endif        
-        if( tervetuloDlg.exec() != QDialog::Accepted )
+        TervetuloDialogi tervetuloa;
+        if( tervetuloa.exec() != QDialog::Accepted)
             return 0;
-
-#ifdef Q_OS_LINUX
-        // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
-        if( tervetuloUi.valikkoonCheck->isChecked())
-            lisaaLinuxinKaynnistysValikkoon();        
-#endif
-        Kielet::instanssi()->valitseUiKieli( tervetuloUi.svKieli->isChecked() ? "sv" : "fi" );
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash_" + Kielet::instanssi()->uiKieli() + ".png"));
     splash->show();
-
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();

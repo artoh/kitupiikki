@@ -112,6 +112,7 @@ void UlkoasuMaaritys::vaihdaKieli()
         Kielet::instanssi()->valitseUiKieli("fi");
         ui->tilikarttaKieli->valitse("fi");
     }
+
     QMessageBox::information(this, tr("Kieli vaihdettu"),
                              tr("Käynnistä kielen vaihtamisen jälkeen ohjelma uudelleen, "
                                 "jotta valitsemasi kieli tulee käyttöön kaikissa näkymissä."));

@@ -1,6 +1,7 @@
 SOURCES += \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
+    $$PWD/aloitussivu/tervetulodialogi.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
@@ -346,6 +347,7 @@ SOURCES += \
 HEADERS += \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
+    $$PWD/aloitussivu/tervetulodialogi.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \

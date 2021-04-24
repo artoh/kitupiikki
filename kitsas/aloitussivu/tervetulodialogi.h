@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,31 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef TERVETULODIALOGI_H
+#define TERVETULODIALOGI_H
 
+#include <QDialog>
 
-/**
-  @file Kitsaan version määrittely
+namespace Ui {
+    class TervetuloDlg;
+}
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+class TervetuloDialogi : public QDialog
+{
+    Q_OBJECT
+public:
+    TervetuloDialogi();
+    void accept() override;
 
-#define KITSAS_VERSIO "3.0-alfa-2"
-#define KITSAS_BUILD  "A"
+protected:
+    void kieliVaihtui();
+    void paivitaVersio();
+    QString valittuKieli() const;
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-#define KITSAS_DEVEL
+    void linuxKaynnistysValikkoon();
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
+private:
+    Ui::TervetuloDlg *ui;
+};
 
-#endif // VERSIO_H
+#endif // TERVETULODIALOGI_H
