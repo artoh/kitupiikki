@@ -136,7 +136,7 @@ QDate Tosite::pvm() const
 
 void Tosite::asetaOtsikko(const QString &otsikko)
 {
-    setData(OTSIKKO, otsikko);
+    setData(OTSIKKO, otsikko.trimmed());
 }
 
 void Tosite::asetaTyyppi(int tyyppi)

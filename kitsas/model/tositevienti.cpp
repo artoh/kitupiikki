@@ -165,7 +165,7 @@ void TositeVienti::setKredit(const Euro &euroa)
 
 void TositeVienti::setSelite(const QString &selite)
 {
-    set( SELITE, selite);
+    set( SELITE, selite.trimmed());
 }
 
 void TositeVienti::setAlvKoodi(int koodi)

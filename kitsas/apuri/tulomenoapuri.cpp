@@ -401,6 +401,11 @@ void TuloMenoApuri::tiliMuuttui()
             if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
                 verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
+            // Varmistetaan, että verotyyppi säilyy
+            QString filtteri = veroFiltteri_->filterRegExp().pattern();
+            QString uusifiltteri = filtteri.left( filtteri.length() - 1 ) + "|" + QString::number(verotyyppi) + ")";
+            veroFiltteri_->setFilterRegExp( uusifiltteri );
+
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
             setAlvProssa(tili.str("alvprosentti").toDouble() );
         } else {
@@ -650,8 +655,6 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
     }
-    if( ui->alvCombo->currentIndex() < 0)
-        ui->alvCombo->setCurrentIndex(0);
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)

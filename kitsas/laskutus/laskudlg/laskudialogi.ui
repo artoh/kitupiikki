@@ -1241,18 +1241,55 @@ osoite</string>
  <tabstops>
   <tabstop>osoiteEdit</tabstop>
   <tabstop>email</tabstop>
-  <tabstop>kieliCombo</tabstop>
-  <tabstop>laskutusCombo</tabstop>
   <tabstop>maksuCombo</tabstop>
+  <tabstop>laskutusCombo</tabstop>
+  <tabstop>kieliCombo</tabstop>
+  <tabstop>valvontaCombo</tabstop>
+  <tabstop>tarkeCombo</tabstop>
+  <tabstop>riviTyyppiCombo</tabstop>
   <tabstop>toimitusDate</tabstop>
   <tabstop>jaksoDate</tabstop>
+  <tabstop>laskuPvm</tabstop>
+  <tabstop>maksuaikaSpin</tabstop>
   <tabstop>eraDate</tabstop>
+  <tabstop>toistoErapaivaSpin</tabstop>
+  <tabstop>viivkorkoSpin</tabstop>
+  <tabstop>asViiteEdit</tabstop>
+  <tabstop>otsikkoEdit</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>tuoteFiltterinEditori</tabstop>
+  <tabstop>tuoteView</tabstop>
   <tabstop>uusituoteNappi</tabstop>
   <tabstop>rivitView</tabstop>
   <tabstop>lisaaRiviNappi</tabstop>
+  <tabstop>uusiRiviNappi</tabstop>
+  <tabstop>riviLisatiedotNappi</tabstop>
   <tabstop>poistaRiviNappi</tabstop>
+  <tabstop>mmMuistutusCheck</tabstop>
+  <tabstop>mmMuistutusMaara</tabstop>
+  <tabstop>mmViivastysCheck</tabstop>
+  <tabstop>mmViivastysAlkaa</tabstop>
+  <tabstop>mmViivastysLoppuu</tabstop>
+  <tabstop>tilaajaEdit</tabstop>
+  <tabstop>tilausPvm</tabstop>
+  <tabstop>myyjaEdit</tabstop>
+  <tabstop>tilausnumeroEdit</tabstop>
+  <tabstop>huomautusaikaSpin</tabstop>
+  <tabstop>sopimusNumeroEdit</tabstop>
+  <tabstop>lisatietoEdit</tabstop>
+  <tabstop>erittelyTextEdit</tabstop>
+  <tabstop>toistoGroup</tabstop>
+  <tabstop>toistoJaksoSpin</tabstop>
+  <tabstop>toistoLaskuaikaSpin</tabstop>
+  <tabstop>toistoEnnenRadio</tabstop>
+  <tabstop>toistoJalkeenRadio</tabstop>
+  <tabstop>toistoPvmPaattyy</tabstop>
+  <tabstop>toistoHinnastoCheck</tabstop>
+  <tabstop>tallennaToistoNappi</tabstop>
+  <tabstop>lopetaToistoNappi</tabstop>
+  <tabstop>saateEdit</tabstop>
+  <tabstop>saateMaksutiedotCheck</tabstop>
+  <tabstop>lokiView</tabstop>
   <tabstop>ohjeNappi</tabstop>
   <tabstop>luonnosNappi</tabstop>
   <tabstop>tallennaNappi</tabstop>
@@ -1260,14 +1297,6 @@ osoite</string>
   <tabstop>hyvitaEnnakkoNappi</tabstop>
   <tabstop>valmisNappi</tabstop>
   <tabstop>peruNappi</tabstop>
-  <tabstop>mmMuistutusCheck</tabstop>
-  <tabstop>mmMuistutusMaara</tabstop>
-  <tabstop>mmViivastysCheck</tabstop>
-  <tabstop>mmViivastysAlkaa</tabstop>
-  <tabstop>mmViivastysLoppuu</tabstop>
-  <tabstop>saateEdit</tabstop>
-  <tabstop>lokiView</tabstop>
-  <tabstop>lisatietoEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../../pic/pic.qrc"/>

@@ -817,6 +817,11 @@
         "sv": "rabatt%",
         "en": "discount%"
     },
+    "ale": {
+        "fi": "Alennus",
+        "sv": "Rabatt",
+        "en": "Discount"
+    },
     "lnro": {
         "fi": "Laskun numero",
         "sv": "Fakturans nummer",
@@ -1134,14 +1139,14 @@
         "en": "kWh"
     },
     "UN_MTK": {
-        "fi": "m2",
-        "sv": "m2",
-        "en": "m2"
+        "fi": "m²",
+        "sv": "m²",
+        "en": "m²"
     },
     "UN_MTQ": {
-        "fi": "m3",
-        "sv": "m3",
-        "en": "m3"
+        "fi": "m³",
+        "sv": "m³",
+        "en": "m³"
     },
     "UN_E21": {
         "fi": "osaketta",

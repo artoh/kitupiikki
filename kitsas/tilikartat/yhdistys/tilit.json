@@ -1754,6 +1754,20 @@
         "laajuus": 1
     },
     {
+        "numero": 2998,
+        "tyyppi": "BJ",
+        "nimi": {
+            "fi": "Käyttämättömät avustukset",
+            "sv": "Oanvända bidrag",
+            "en": "Unused grants"
+        },
+        "erittely": 2,
+        "laajuus": 2,
+        "ohje": {
+            "fi": "Tähän kirjataan tilikauden aikana käyttämättä jääneet avustukset, jotka siirretään käytettäväksi seuraavan tilikauden aikana."
+        }
+    },    
+    {
         "numero": 3,
         "tyyppi": "H1",
         "nimi": {

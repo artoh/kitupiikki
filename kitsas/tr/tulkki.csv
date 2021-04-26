@@ -221,6 +221,7 @@ jatkuu,Jatkuu...,Fortsätter...,To be continued...
 puhelin,Puhelin,Telefon,Phone
 eur,Euro,,
 ale%,Alennus,rabatt%,discount%
+ale,Alennus,Rabatt,Discount
 lnro,Laskun numero,Fakturans nummer,Invoice number
 bst,Saajan|tilinumero|Mottagarens|kontonummer,,Recipient's|account number
 virtviiv,Virtuaaliviivakoodi,Virtuell streckkod,Virtual barcode
@@ -286,8 +287,8 @@ UN_E50,yks,enhet,unit
 UN_E51,krt,gång,job
 UN_KMT,km,km,km
 UN_KWH,kWh,kWh,kWh
-UN_MTK,m2,m2,m2
-UN_MTQ,m3,m3,m3
+UN_MTK,m²,m²,m²
+UN_MTQ,m³,m³,m³
 UN_E21,osaketta,aktier,share
 UN_ZP,sivua,sidor,pages
 toimitettu,Toimitettu,Levererad,Delivered
