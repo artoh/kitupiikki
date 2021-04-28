@@ -242,9 +242,9 @@ void FinvoiceHaku::seuraavaStatus()
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::PATCH);
         if(kysely) {
             QVariantMap data;
-            if(status == 1) {
+            if(status == SEND_OK) {
                 data.insert("tila", Tosite::TOIMITETTULASKU);
-            } else if( status == 2) {
+            } else if( status == SEND_FAILED ) {
                 data.insert("tila", Tosite::LAHETYSVIRHE);
             }
             connect(kysely, &KpKysely::vastaus, this, &FinvoiceHaku::seuraavaStatus);

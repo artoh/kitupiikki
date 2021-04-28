@@ -79,7 +79,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    QString nimi(int koodi) const;
+    QString nimi(int koodi, const QString& kieli = QString()) const;
     QIcon kuvake(int koodi) const;
     bool onkolisattavissa(int koodi) const;
     QString sarja(int koodi, bool kateinen = false) const;

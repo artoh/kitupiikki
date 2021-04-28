@@ -68,7 +68,7 @@ QVariant VerotyyppiModel::data(const QModelIndex &index, int role) const
     VeroTyyppi tyyppi = tyypit.value(index.row());
 
     if( role == Qt::DisplayRole || role == SeliteRooli)
-        return tyyppi.selite;
+        return kp()->kaanna(tyyppi.selite);
     else if( role == KoodiRooli)
         return tyyppi.koodi;
     else if( role == KoodiTekstiRooli )

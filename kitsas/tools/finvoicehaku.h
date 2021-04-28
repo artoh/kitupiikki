@@ -33,6 +33,8 @@ public:
     void haeUudet();
     static FinvoiceHaku *instanssi();
 
+    enum Status { SEND_OK = 1, SEND_FAILED = 2 } ;
+
 protected:
     explicit FinvoiceHaku(QObject *parent = nullptr);
 

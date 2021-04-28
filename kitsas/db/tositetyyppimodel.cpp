@@ -78,9 +78,9 @@ QVariant TositeTyyppiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QString TositeTyyppiModel::nimi(int koodi) const
+QString TositeTyyppiModel::nimi(int koodi, const QString &kieli) const
 {
-    return map_.value(koodi).nimi;
+    return kp()->kaanna(map_.value(koodi).nimi, kieli);
 }
 
 QIcon TositeTyyppiModel::kuvake(int koodi) const
