@@ -24,6 +24,7 @@
 #include "db/tositetyyppimodel.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "model/maksutapamodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
@@ -390,26 +391,28 @@ void TuloMenoApuri::tiliMuuttui()
             poistoAikaMuuttuu();
         }
 
-        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
-        {
-            int verotyyppi = tili.luku("alvlaji");
-            bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
-                                                                || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
+        if( !kp()->alvIlmoitukset()->onkoIlmoitettu(tosite()->pvm())) {
+            if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
+            {
+                int verotyyppi = tili.luku("alvlaji");
+                bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
+                                                                    || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
 
-            if( verotyyppi == AlvKoodi::OSTOT_NETTO && maksuperuste)
-                verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
-            if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
-                verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+                if( verotyyppi == AlvKoodi::OSTOT_NETTO && maksuperuste)
+                    verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
+                if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
+                    verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
-            // Varmistetaan, että verotyyppi säilyy
-            QString filtteri = veroFiltteri_->filterRegExp().pattern();
-            QString uusifiltteri = filtteri.left( filtteri.length() - 1 ) + "|" + QString::number(verotyyppi) + ")";
-            veroFiltteri_->setFilterRegExp( uusifiltteri );
+                // Varmistetaan, että verotyyppi säilyy
+                QString filtteri = veroFiltteri_->filterRegExp().pattern();
+                QString uusifiltteri = filtteri.left( filtteri.length() - 1 ) + "|" + QString::number(verotyyppi) + ")";
+                veroFiltteri_->setFilterRegExp( uusifiltteri );
 
-            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
-            setAlvProssa(tili.str("alvprosentti").toDouble() );
-        } else {
-            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( AlvKoodi::EIALV, VerotyyppiModel::KoodiRooli) );
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
+                setAlvProssa(tili.str("alvprosentti").toDouble() );
+            } else {
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( AlvKoodi::EIALV, VerotyyppiModel::KoodiRooli) );
+            }
         }
 
         if( tili.luku("vastatili") && rivit_->rowCount()<2) {

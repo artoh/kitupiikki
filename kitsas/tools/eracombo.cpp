@@ -100,7 +100,8 @@ void EraCombo::paivita()
     if( kp()->huoneistot()->rowCount() )
         addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), EraMap(EraMap::Huoneisto));
 
-    setCurrentIndex( findData(era_) );
+    int indeksi = findData(era_);
+    setCurrentIndex( indeksi > -1 ? indeksi : 0 );
 
     paivitetaan_ = false;
 }

@@ -60,6 +60,7 @@ void RyhmaLaskuDialogi::tallenna(int /* tilaan */)
         QMessageBox::information(this, tr("Ryhmälasku"),
                                  tr("Lisää ensin laskun saajat Laskutettavat-välilehdelle."));
     } else {
+        ui->tallennaNappi->setEnabled(false);
         tositteelle();
         tallennaSeuraava();
     }

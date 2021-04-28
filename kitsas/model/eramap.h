@@ -36,7 +36,7 @@ public:
     QString kumppaniNimi() const { return value("kumppani").toMap().value("nimi").toString(); }
     int kumppaniId() const { return value("kumppani").toMap().value("id").toInt(); }
     int tositetyyppi() const { return value("tositetyyppi").toInt(); }
-    Euro saldo() const { return Euro(value("saldo").toString());}
+    Euro saldo() const { return Euro(value("avoin").toString());}
     QString asiakasNimi() const { return value("asiakas").toMap().value("nimi").toString();}
     QString huoneistoNimi() const { return value("huoneisto").toMap().value("nimi").toString();}
     int huoneistoId() const { return eratyyppi() == Huoneisto ?  id() / -10 : 0; }

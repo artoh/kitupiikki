@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "yksittainenlaskudialogi.h"
+#include "ui_laskudialogi.h"
 
 #include "model/tosite.h"
 #include "rivivientigeneroija.h"
@@ -37,6 +38,8 @@ YksittainenLaskuDialogi::YksittainenLaskuDialogi(Tosite *tosite, QWidget *parent
 void YksittainenLaskuDialogi::tallenna(int tilaan)
 {
     if( tarkasta() ) {
+        ui->tallennaNappi->setEnabled(false);
+        ui->luonnosNappi->setEnabled(false);
         tositteelle();
         valmisteleTallennus();
         tosite_->tallennaLasku(tilaan);

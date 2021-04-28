@@ -91,8 +91,7 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->selausView->installEventFilter(this);
 
 
-    connect( kp(), &Kirjanpito::tilikausiAvattu, [this] {
-        this->ui->loppuEdit->setDateRange(kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu()); });
+    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
     connect( ui->paivitaNappi, &QPushButton::clicked, this, &SelausWg::paivita);
 
     connect( ui->selausView, &QTableView::customContextMenuRequested, this, &SelausWg::contextMenu);
