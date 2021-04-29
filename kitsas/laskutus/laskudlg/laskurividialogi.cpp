@@ -102,7 +102,7 @@ TositeRivi LaskuRiviDialogi::rivi()
     rivi_.setJalkitoimitusKpl( ui->jalkitoimitusEdit->text());
 
     if( ui->yksikkoCombo->unKoodi().isEmpty())
-        rivi_.setYksikko(ui->yksikkoCombo->yksikko());
+        rivi_.setYksikko( ui->yksikkoCombo->yksikko());
     else
         rivi_.setUNkoodi(ui->yksikkoCombo->unKoodi());
 

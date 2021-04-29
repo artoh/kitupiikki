@@ -37,10 +37,10 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
     ui->view->setModel(proxy);
 
     QString osoite = kp()->pilvi()->pilviLoginOsoite();
-    osoite = osoite.left(osoite.lastIndexOf('/'));
+    osoite = osoite.replace("api","portaali");
 
 
-    ui->osoiteEdit->setText( QString("%1/portaali/%2")
+    ui->osoiteEdit->setText( QString("%1/%2")
                               .arg(osoite)
                               .arg(kp()->pilvi()->pilviId()));
 

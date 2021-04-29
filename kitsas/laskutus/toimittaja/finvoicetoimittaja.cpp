@@ -22,6 +22,7 @@
 #include <QSettings>
 #include "model/lasku.h"
 #include "db/tositetyyppimodel.h"
+#include "model/tositerivi.h"
 
 FinvoiceToimittaja::FinvoiceToimittaja(QObject *parent) :
     AbstraktiToimittaja(parent)
@@ -86,9 +87,11 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
 
     Lasku lasku = tositeMap().value("lasku").toMap();
     int tyyppi = tositeMap().value("tyyppi").toInt();
+
+
     if( lasku.maksutapa() == Lasku::KATEINEN)
         lasku.set("tyyppi", "KUITTI");
-    if( tyyppi == TositeTyyppi::HYVITYSLASKU)
+    else if( tyyppi == TositeTyyppi::HYVITYSLASKU)
         lasku.set("tyyppi", "HYVITYSLASKU");
     else if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
         lasku.set("tyyppi", "MAKSUMUISTUTUS");
@@ -98,7 +101,16 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
         lasku.set("tyyppi", "LASKU");
 
     pyynto.insert("lasku", lasku.data() );
-    pyynto.insert("rivit", tositeMap().value("rivit"));
+
+    QVariantList rivit;
+    for(const auto& item : tositeMap().value("rivit").toList()) {
+        TositeRivi rivi = item.toMap();
+        if( !rivi.unKoodi().isEmpty() )
+            rivi.setYksikko( kp()->kaanna("UN_" + rivi.unKoodi(), lasku.kieli().toLower()) );
+        rivit.append(rivi.data());
+    }
+
+    pyynto.insert("rivit", rivit);
     pyynto.insert("docid", tositeMap().value("id").toInt());
 
     if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {

@@ -301,7 +301,10 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setViite( viite );
 
     tosite()->lasku().setLaskunpaiva( ui->laskuPvm->date());
-    tosite()->lasku().setToimituspvm( ui->toimitusDate->date() );
+
+    if( maksutapa() != Lasku::ENNAKKOLASKU)
+        tosite()->lasku().setToimituspvm( ui->toimitusDate->date() );
+
     tosite()->lasku().setJaksopvm( ui->jaksoDate->date() );
 
     tosite()->asetaErapvm(maksutapa() != Lasku::KUUKAUSITTAINEN
@@ -407,7 +410,9 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
 
     if( kp()->asetukset()->luku("FinvoiceKaytossa") &&
         ladattuAsiakas_.value("ovt").toString().length() > 9 &&
-        ladattuAsiakas_.value("operaattori").toString().length() > 4 )
+        ladattuAsiakas_.value("operaattori").toString().length() > 4 &&
+        maksutapa() != Lasku::KATEINEN &&
+        maksutapa() != Lasku::KUUKAUSITTAINEN)
         ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
 
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
@@ -423,9 +428,11 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
         ui->laskutusCombo->setCurrentIndex(indeksi);
     }
 
-    paivitysKaynnissa_ = false;
     laskutusTapaMuuttui();
     maksuTapaMuuttui();
+    paivitysKaynnissa_ = false;
+    paivitaValvonnat();
+
 
 }
 
@@ -486,6 +493,8 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
     ui->jaksoDate->setVisible( maksutapa != Lasku::ENNAKKOLASKU);
 
     ui->toimituspvmLabel->setText( maksutapa == Lasku::KUUKAUSITTAINEN ? tr("Laskut ajalla") : tr("Toimituspäivä") );
+
+    paivitaLaskutustavat();
     paivitaValvonnat();
 }
 
