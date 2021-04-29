@@ -123,19 +123,20 @@ void TositeLiitteet::lataa(QVariantList data)
         // xml-laskua
         for(int i=0; i < liitteet_.count(); i++) {
             QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
-            if( tyyppi == "application/pdf" || tyyppi == "application/jpg")
-                emit nayta(i);
+            if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
+                    emit nayta(i);
 
-                // Haetaan vielä esikatseltavat
-                for(i++; i < liitteet_.count(); i++) {
-                    QVariantMap map = data.value(i).toMap();
-                    QString tyyppi = map.value("tyyppi").toString();
-                    if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
-                        KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
-                        connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
-                        kysely->kysy();
+                    // Haetaan vielä esikatseltavat lopuista liitteistä
+                    for(i++; i < liitteet_.count(); i++) {
+                        QVariantMap map = data.value(i).toMap();
+                        QString tyyppi = map.value("tyyppi").toString();
+                        if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
+                            KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
+                            connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+                            kysely->kysy();
+                    }
+                    return;
                 }
-                return;
             }
         }
 

@@ -259,7 +259,9 @@ QVariantMap CsvTuonti::kirjaukset()
             else
                 vienti.setAlvKoodi(AlvKoodi::MYYNNIT_BRUTTO);
         }
-        viennit.append(vienti);
+        if(vienti.tili())
+            viennit.append(vienti);
+
         if( kreditTili) {
             vienti.setTili(kreditTili);
             if( vienti.debet() > 1e-5)
