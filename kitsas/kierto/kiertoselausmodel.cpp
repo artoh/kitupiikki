@@ -76,7 +76,10 @@ QVariant KiertoSelausModel::data(const QModelIndex &index, int role) const
                 return map.value("summa").toDouble();
             return QString("%L1 €").arg(map.value("summa").toDouble(),0,'f',2);
         case KUMPPANI: return map.value("kumppaninimi");
-        case OTSIKKO: return map.value("otsikko");
+        case OTSIKKO: {
+            if( map.value("otsikko").toString().isEmpty() && !map.value("laskunumero").toString().isEmpty())
+                return tr("Lasku %1").arg(map.value("laskunumero").toString());
+            return map.value("otsikko"); }
         }
     } else if( role == Qt::DecorationRole) {
         switch (index.column()) {

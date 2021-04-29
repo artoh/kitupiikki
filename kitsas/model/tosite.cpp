@@ -310,7 +310,6 @@ void Tosite::lataa(const QVariantMap &map)
         QTimer::singleShot(250, this, &Tosite::laitaTalteen);
     }
 
-
     kp()->odotusKursori(false);
 }
 
@@ -368,9 +367,9 @@ void Tosite::tarkasta()
         return;
 
 
-    QVariantMap talteen = tallennettava();
-    bool muutettu = !tallennettu_.isEmpty() && (
-            tallennettu_ != tallennettava() ||
+    const QVariantMap& talteen = tallennettava();
+    muutettu_ = !tallennettu_.isEmpty() && (
+            tallennettu_ != talteen ||
             liitteet()->tallennettaviaLiitteita() ||
             !liitteet()->liitettavat().isEmpty() );
 
@@ -411,7 +410,7 @@ void Tosite::tarkasta()
         virheet |= Tosite::EITASMAA;
 
 
-    emit tilaTieto(muutettu, virheet, debet / 100.0, kredit / 100.0);
+    emit tilaTieto(muutettu_, virheet, debet / 100.0, kredit / 100.0);
 
 }
 

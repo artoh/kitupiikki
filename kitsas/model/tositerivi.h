@@ -64,12 +64,12 @@ public:
     void setAlvProsentti(const double prosentti) { set("alvprosentti", prosentti);}
 
     double aleProsentti() const { return dbl("aleprosentti");}
-    void setAleProsentti(const double prosentti) { set("aleprosentti", prosentti);}
+    void setAleProsentti(const double prosentti);
     double laskettuAleProsentti() const;
 
     /** Euroalennus nettona */
     double euroAlennus() const { return dbl("euroalennus");}
-    void setEuroAlennus(const double euro) { set("euroalennus", euro ); }
+    void setEuroAlennus(const double euro);
     double bruttoEuroAlennus() const;
     void setBruttoEuroAlennus(const double euro);
     double laskennallinenEuroAlennus() const;

@@ -80,7 +80,7 @@ void KirjausSivu::siirrySivulle()
 bool KirjausSivu::poistuSivulta(int minne)
 {
     if( ((kirjausWg()->gui()->tallennaButton->isEnabled() && kirjausWg()->gui()->tallennaButton->isVisible() ) || kirjausWg()->gui()->valmisNappi->isEnabled() ) &&
-            kirjausWg()->tosite()->viennit()->rowCount() )
+            kirjausWg()->tosite()->viennit()->rowCount() && kirjausWg()->tosite()->muutettu() )
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {

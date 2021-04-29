@@ -714,6 +714,11 @@
         "sv": "MOMS",
         "en": "VAT"
     },
+    "alvp": {
+        "fi": "Arvonlisävero",
+        "sv": "MOMS",
+        "en": "VAT"
+    },
     "btl": {
         "fi": "Tililtä nro|Från konto nr",
         "en": "From account|no."
@@ -912,15 +917,15 @@
         "fi": "Saaja|Mottagare",
         "en": "Recipient"
     },
-    "vero": {
-        "fi": "Vero",
-        "sv": "Skatt",
-        "en": "tax"
-    },
     "ahinta": {
         "fi": "á hinta",
         "sv": "á pris",
         "en": "á price"
+    },
+    "hinta": {
+        "fi": "Hinta",
+        "sv": "Pris",
+        "en": "Price"
     },
     "ennakkolasku": {
         "fi": "Ennakkolasku",
@@ -957,12 +962,12 @@
         "en": "Includes VAT"
     },
     "YhteensaVeroton": {
-        "fi": "Veroton yhteensä",
+        "fi": "Yhteensä veroton",
         "sv": "Totalt utan skatten",
         "en": "Total excludes VAT"
     },
     "YhteensaVerollinen": {
-        "fi": "Verollinen yhteensä",
+        "fi": "Yhteensä verollinen",
         "sv": "Totalt med skatten",
         "en": "Total includes VAT"
     },

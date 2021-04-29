@@ -49,6 +49,14 @@ void TositeRivi::setABrutto(const double hinta)
         setANetto(hinta);
 }
 
+void TositeRivi::setAleProsentti(const double prosentti)
+{
+    if( qAbs(prosentti) < 1e-3)
+        remove("aleprosentti");
+    else
+        set("aleprosentti", prosentti);
+}
+
 double TositeRivi::laskettuAleProsentti() const
 {
     if( qAbs(aleProsentti()) > 1e-5 )
@@ -57,6 +65,14 @@ double TositeRivi::laskettuAleProsentti() const
         return (   100 * euroAlennus()  / ( euroAlennus() + nettoYhteensa())  );
     else
         return 0;
+}
+
+void TositeRivi::setEuroAlennus(const double euro)
+{
+    if( qAbs(euro) < 1e-3)
+        remove("euroalennus");
+    else
+        set("euroalennus", euro );
 }
 
 double TositeRivi::bruttoEuroAlennus() const

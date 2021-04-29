@@ -73,7 +73,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
         veroruudukko.lisaaSarake( "", Qt::AlignRight, vahintaan );
     } else {
         veroruudukko.lisaaSarake( kitsas_->kaanna("veroton", kieli_), Qt::AlignRight, vahintaan );
-        veroruudukko.lisaaSarake( kitsas_->kaanna("vero", kieli_), Qt::AlignRight, vahintaan );
+        veroruudukko.lisaaSarake( kitsas_->kaanna("Vero", kieli_), Qt::AlignRight, vahintaan );
         veroruudukko.lisaaSarake( kitsas_->kaanna("verollinen", kieli_), Qt::AlignRight, vahintaan );
     }
 
@@ -175,7 +175,7 @@ void LaskuRuudukonTayttaja::kirjoitaSarakkeet()
     lisaaSarake("nimike");
     lisaaSarake("lkm",Qt::AlignRight); //Määrä
     lisaaSarake("");    // Yksikkö
-    lisaaSarake(bruttolaskenta_ ? "ahinta" : "anetto", Qt::AlignRight);
+    lisaaSarake("hinta", Qt::AlignRight);
     if( aleSarake_ )
         lisaaSarake("ale", Qt::AlignRight);
     if( pitkatrivit_)

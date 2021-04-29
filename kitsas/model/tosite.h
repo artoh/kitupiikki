@@ -105,6 +105,7 @@ public:
     Lasku constLasku() const { return lasku_;}
 
     bool resetoidaanko() const { return resetointiKaynnissa_; }
+    bool muutettu() const { return muutettu_;}
 
     static QString tilateksti(int tila);
     static QIcon tilakuva(int tila);
@@ -199,6 +200,7 @@ private:
 private:
     QVariantMap data_;
     QVariantMap tallennettu_;
+    bool muutettu_ = false;
 
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;

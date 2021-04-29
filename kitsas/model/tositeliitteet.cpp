@@ -106,8 +106,8 @@ void TositeLiitteet::lataa(QVariantList data)
     liitteet_.clear();    
     tallennetaan_ = false;
 
-    for( QVariant item : data) {
-        QVariantMap map = item.toMap();
+    for( const auto& item : data) {
+        const QVariantMap& map = item.toMap();
 
         liitteet_.append( TositeLiite( map.value("id").toInt(),
                                        map.value("nimi").toString(),
@@ -124,7 +124,7 @@ void TositeLiitteet::lataa(QVariantList data)
         for(int i=0; i < liitteet_.count(); i++) {
             QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
             if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
-                    emit nayta(i);
+                    nayta(i);
 
                     // Haetaan vielä esikatseltavat lopuista liitteistä
                     for(i++; i < liitteet_.count(); i++) {
@@ -134,16 +134,17 @@ void TositeLiitteet::lataa(QVariantList data)
                             KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
                             connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
                             kysely->kysy();
+                        }
+
                     }
                     return;
                 }
-            }
-        }
+            }        
 
         if( liitteet_.count())
             nayta(0);
         else
-            emit naytaliite(QByteArray());
+            emit naytaliite(QByteArray());        
     }
 }
 

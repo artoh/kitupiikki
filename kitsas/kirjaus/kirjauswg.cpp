@@ -301,7 +301,8 @@ void KirjausWg::valmis()
 
 void KirjausWg::hylkaa()
 {
-    if( (ui->tallennaButton->isEnabled() || ui->valmisNappi->isEnabled()) && tosite()->viennit()->summa()) {
+    if( (ui->tallennaButton->isEnabled() || ui->valmisNappi->isEnabled())
+            && tosite()->viennit()->summa() && tosite()->muutettu() ) {
         if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
                                   tosite()->tila() <= Tosite::MALLIPOHJA ?
                                     tr("Haluatko keskeyttää kirjauksen tallentamatta tositetta?") :

@@ -72,7 +72,7 @@ void TulostusRuudukko::laske(QPainter *painter)
     int viimeSarakeIndeksi = sarakkeet_.count() - 1;
 
     for(const auto& summarivi : summarivit_) {
-        painter->setFont(QFont("FreeSans", pistekoko_, QFont::Normal));
+        painter->setFont(QFont("FreeSans", pistekoko_, QFont::Bold));
         qreal soleveys = painter->fontMetrics().horizontalAdvance( summarivi.first);
         if( soleveys > summaleveys )
             summaleveys = soleveys;
@@ -215,7 +215,12 @@ void TulostusRuudukko::piiraSummaRivit(QPainter *painter)
                       viimeSarakeLeveys,
                       painter->fontMetrics().height() );
 
-    for(const auto& summarivi : summarivit_) {
+    for(int r=0; r < summarivit_.count(); r++) {
+        const auto& summarivi = summarivit_.at(r);
+        // Alin summarivi eli kokonaissumma on lihavoitu
+        if( r == summarivit_.count() - 1)
+            painter->setFont(QFont("FreeSans", pistekoko_, QFont::Bold));
+
         painter->drawText( otsikkoRect, summarivi.first );
         painter->drawText( summaRect, Qt::AlignRight, summarivi.second);
         painter->translate(0, otsikkoRect.height() + ivali_ * 2);

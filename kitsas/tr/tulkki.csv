@@ -142,7 +142,7 @@ Erittely,Erittely,Specification,
 Aiempi alijäämä,Aiempi alijäämä,Tidagare underskott,
 Marginaali,Marginaali,Marginal,
 Alijäämä,Alijäämä,Underskott,
-Vero,Vero,Skatt,
+Vero,Vero,Skatt,Tax
 TILINPÄÄTÖSJAKSOTUKSET,TILINPÄÄTÖSJAKSOTUKSET,PERIODINDELNINGAR,
 Jaksotukset yhteensä,Jaksotukset yhteensä,Periodindelningar totalt,
 Verosaamiseksi kirjattava negatiivinen verovelka,Verosaamiseksi kirjattava negatiivinen verovelka,Negativ skatteskuld som ska bokföras som skattefordran,
@@ -199,6 +199,7 @@ muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydä
 eimaksettavaa,Ei maksettavaa,Ingen betalbar,No payable
 luonnos,LUONNOS,SKISS,DRAFT
 alv,ALV,MOMS,VAT
+alvp,Arvonlisävero,MOMS,VAT
 btl,Tililtä nro|Från konto nr,,From account|no.
 btilis,TILISIIRTO. GIRERING,,CREDIT TRANSFER
 pvm,Päivämäärä,Datum,Date
@@ -241,8 +242,8 @@ hyvitysteksti,"Hyvityslasku laskulle %1, päiväys %2","Kompensation för faktur
 hyvpvm,Hyvityksen päivämäärä,Kompensationdatum,Date of compensation
 sahkoposti,Sähköposti,E-post,Email
 bsa,Saaja|Mottagare,,Recipient
-vero,Vero,Skatt,tax
 ahinta,á hinta,á pris,á price
+hinta,Hinta,Pris,Price
 ennakkolasku,Ennakkolasku,Förhandsfaktura,Advance invoice
 enhyri,Ennakkolaskun %1 hyvitys,Kompensation för förhandsfaktura %1,Compensation for advance invoice %1
 alennus,alennus,rabatt,discount
@@ -250,8 +251,8 @@ summa,Laskun summa,Totalt,Total
 hlasku,Hyvityslasku,Kreditnota,Compensation invoice
 ytunnus,Y-tunnus,FO-nummer,Business ID
 verollinen,Verollinen,Med skatten,Includes VAT
-YhteensaVeroton,Veroton yhteensä,Totalt utan skatten,Total excludes VAT
-YhteensaVerollinen,Verollinen yhteensä,Totalt med skatten,Total includes VAT
+YhteensaVeroton,Yhteensä veroton,Totalt utan skatten,Total excludes VAT
+YhteensaVerollinen,Yhteensä verollinen,Totalt med skatten,Total includes VAT
 mmotsikko,Maksumuistutus laskusta %1,Betalningspåminnelse för faktura %1,Request for payment %1
 Yhteensa,Yhteensä,Totalt,Total
 eialv,Myyjä ei arvonlisäverovelvollinen,Säljare är inte momsskyldig,Seller is not liable to pay VAT
