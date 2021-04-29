@@ -51,9 +51,9 @@ void KiertoSivu::siirrySivulle()
         ui->tab->setTabEnabled(KAIKKI, false);
         model->naytaKaikki(false);
     } else {
-        ui->tab->setTabEnabled(KAIKKI, true);
-        model->lataa();
+        ui->tab->setTabEnabled(KAIKKI, true);       
     }
+    model->lataa();
 }
 
 void KiertoSivu::naytaTosite(const QModelIndex &index)

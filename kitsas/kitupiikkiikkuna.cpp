@@ -321,6 +321,7 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
     } else if( kasky == "inbox") {
         if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
             valitseSivu(KIERTOSIVU, true, false);
+            kiertosivu->siirrySivulle();
         } else {
             valitseSivu( SELAUSSIVU, true,false);
             selaussivu->naytaSaapuneet();
