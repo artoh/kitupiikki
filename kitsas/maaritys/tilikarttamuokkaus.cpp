@@ -77,6 +77,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     connect(ui->siirryEdit, SIGNAL(textChanged(QString)),this, SLOT(siirry(QString)));
 
     suodataTila(1);
+    riviValittu(QModelIndex());
 }
 
 TilikarttaMuokkaus::~TilikarttaMuokkaus()
@@ -122,13 +123,26 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
     ui->view->scrollTo(ui->view->selectionModel()->selection().indexes().value(0));
 
 
-    int tila = index.data(TiliModel::TilaValintaRooli).toInt();
+    if( index.isValid() ) {
+        ui->piilotaNappi->setEnabled(true);
+        ui->normaaliNappi->setEnabled(true);
+        ui->naytaNappi->setEnabled(true);
+        ui->suosikitNappi->setEnabled(true);
 
-    ui->piilotaNappi->setChecked( tila == Tili::TILI_PIILOSSA);
-    ui->normaaliNappi->setChecked( tila == Tili::TILI_NORMAALI);
-    ui->naytaNappi->setChecked( tila == Tili::TILI_KAYTOSSA);
-    ui->suosikkiNappi->setChecked( tila == Tili::TILI_SUOSIKKI);
-    qApp->processEvents();
+        int tila = index.data(TiliModel::TilaValintaRooli).toInt();
+
+        ui->piilotaNappi->setChecked( tila == Tili::TILI_PIILOSSA);
+        ui->normaaliNappi->setChecked( tila == Tili::TILI_NORMAALI);
+        ui->naytaNappi->setChecked( tila == Tili::TILI_KAYTOSSA);
+        ui->suosikkiNappi->setChecked( tila == Tili::TILI_SUOSIKKI);
+    } else {
+        ui->piilotaNappi->setEnabled(false);
+        ui->normaaliNappi->setEnabled(false);
+        ui->naytaNappi->setEnabled(false);
+        ui->suosikitNappi->setEnabled(false);
+    }
+
+
 
 }
 
