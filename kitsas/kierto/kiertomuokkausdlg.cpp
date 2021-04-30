@@ -130,7 +130,7 @@ void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
     for(auto &item : lista) {
         const QVariantMap& map = item.toMap();
         qlonglong oikeudet = PilviModel::oikeudet(map.value("rights").toList());
-        if( oikeudet & (YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::TOSITE_MUOKKAUS)) {
+        if( oikeudet & (YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::TOSITE_MUOKKAUS)) {
             ui->osallistujaCombo->addItem(map.value("name").toString(), map.value("userid"));
             ui->osallistujaCombo->setItemData(comboIndeksi++, oikeudet, Qt::UserRole + 1);
             kayttajat.insert(map.value("userid").toInt(), map.value("name").toString());

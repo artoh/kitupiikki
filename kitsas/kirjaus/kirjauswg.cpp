@@ -476,7 +476,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
     ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko() && kp()->yhteysModel() );
     ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
-    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && (!virheet || virheet == Tosite::PVMALV)
+    ui->valmisNappi->setEnabled( (muokattu || ( tosite_->tila() && tosite_->tila() < Tosite::KIRJANPIDOSSA  )) && (!virheet || virheet == Tosite::PVMALV)
                                  && !tosite()->liitteet()->tallennetaanko());
 
     uudeksiAktio_->setEnabled( !muokattu );

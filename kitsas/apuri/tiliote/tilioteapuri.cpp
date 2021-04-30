@@ -219,8 +219,14 @@ void TilioteApuri::riviValittu()
 
 void TilioteApuri::muokkaa()
 {
-    kirjaaja_->show();
-    kirjaaja_->muokkaaRivia( proxy_->mapToSource( ui->oteView->currentIndex()).row()  );
+    const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
+    if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
+        LisaIkkuna* ikkuna = new LisaIkkuna;
+        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
+    } else {
+        kirjaaja_->show();
+        kirjaaja_->muokkaaRivia( proxy_->mapToSource( index ).row()  );
+    }
 }
 
 void TilioteApuri::poista()
