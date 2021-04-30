@@ -299,7 +299,7 @@ void TilioteApuri::naytaTosite()
 
 void TilioteApuri::tiliPvmMuutos()
 {
-    if( tosite()->resetoidaanko() )
+    if( tosite()->resetoidaanko() || paivanlaitto_ )
         return;
 
     // Otsikon päivittäminen
@@ -332,8 +332,10 @@ void TilioteApuri::lataaHarmaat()
 void TilioteApuri::laitaPaivat(const QDate &pvm)
 {
     if( pvm != ui->loppuDate->date() && pvm.isValid()) {
+        paivanlaitto_ = true;
         ui->loppuDate->setDate(pvm);
         ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
+        paivanlaitto_ = false;
         tiliPvmMuutos();
     }
 }

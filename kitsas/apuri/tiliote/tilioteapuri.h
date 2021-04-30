@@ -73,6 +73,7 @@ private:
     QSortFilterProxyModel *proxy_;
     double alkusaldo_;
     bool tuodaan_ = false;
+    bool paivanlaitto_ = false;
 };
 
 #endif // TILIOTEAPURI_H
