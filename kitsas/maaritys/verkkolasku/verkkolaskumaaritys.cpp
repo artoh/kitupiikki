@@ -40,6 +40,7 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     connect( ui->paikallinen, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
     connect( ui->integroitu, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valitseKansio);
+    connect( ui->soapCheck, &QCheckBox::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->ovtEdit, &QLineEdit::textEdited, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->operaattoriEdit, &QLineEdit::textEdited, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->noutoCheck, &QCheckBox::clicked, this, &VerkkolaskuMaaritys::setFlow);
@@ -86,6 +87,7 @@ bool VerkkolaskuMaaritys::tallenna()
         inits.insert("Operaattori", ui->operaattoriEdit->text());
         inits.insert("MaventaPostitus", ui->postitusCheck->isChecked() ? "ON" : "EI");
         inits.insert("FinvoiceSuosi", ui->suosiCheck->isChecked() ? "ON" : "EI");
+        inits.insert("FinvoiceSOAP", ui->soapCheck->isChecked() ? "ON" : "EI");
         kp()->asetukset()->aseta(inits);
     }
 
@@ -113,6 +115,7 @@ bool VerkkolaskuMaaritys::nollaa()
     ui->operaattoriEdit->setText( kp()->asetukset()->asetus(AsetusModel::Operaattori));
 
     ui->hakemistoEdit->setText( kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID))).toString());
+    ui->soapCheck->setChecked( kp()->asetukset()->onko("FinvoiceSOAP") );
     ui->postitusCheck->setChecked( kp()->asetukset()->onko("MaventaPostitus") );
 
     ui->noutoCheck->setDisabled(true);
@@ -155,7 +158,8 @@ bool VerkkolaskuMaaritys::onkoMuokattu()
            ui->operaattoriEdit->text() != kp()->asetukset()->asetus(AsetusModel::Operaattori) ||
            ui->hakemistoEdit->text() != kp()->settings()->value( QString("FinvoiceHakemisto/%1").arg(kp()->asetukset()->asetus(AsetusModel::UID))).toString() ||
            ui->postitusCheck->isChecked() != kp()->asetukset()->onko("MaventaPostitus") ||
-           ui->suosiCheck->isChecked() != kp()->asetukset()->onko("FinvoiceSuosi");
+           ui->suosiCheck->isChecked() != kp()->asetukset()->onko("FinvoiceSuosi") ||
+           ui->soapCheck->isChecked() != kp()->asetukset()->onko("FinvoiceSOAP");
 
 }
 

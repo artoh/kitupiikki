@@ -76,7 +76,8 @@ public:
 
 
 public slots:
-    void lisaaRivi(TositeRivi rivi = TositeRivi());
+    void lisaaRivi();
+    void lisaaRivi(TositeRivi rivi);
     void lisaaTuote(const Tuote& tuote, const QString &lkm = "1", const QString kieli=QString());
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);

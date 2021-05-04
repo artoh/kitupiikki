@@ -17,7 +17,7 @@
 #include "apuriwidget.h"
 #include "model/tosite.h"
 #include <QDebug>
-
+#include "model/tositeviennit.h"
 
 ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pTosite_(pTosite)
 {
@@ -57,7 +57,15 @@ void ApuriWidget::tuo(QVariantMap /*map*/)
 bool ApuriWidget::resetoidaanko() const
 {
     return resetointiKaynnissa_ ||
-           pTosite_->resetoidaanko();
+            pTosite_->resetoidaanko();
+}
+
+void ApuriWidget::asetaViennit(const QVariantList &viennit)
+{
+    resetointiKaynnissa_ = true;
+    tosite()->viennit()->asetaViennit(viennit);
+    teeReset();
+    resetointiKaynnissa_ = false;
 }
 
 void ApuriWidget::aloitaResetointi()

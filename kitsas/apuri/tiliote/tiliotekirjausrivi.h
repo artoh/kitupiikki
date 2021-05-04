@@ -48,6 +48,8 @@ public:
     QString pseudoarkistotunnus() const;
     void alkuperaistositeSaapuu(QVariant* data, int eraId);
 
+    void asetaLisaysIndeksi(const int indeksi) override;
+
 protected:    
     void paivitaTyyppi();
     void paivitaErikoisrivit();

@@ -40,6 +40,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
 {
     switch (role) {
     case Qt::DisplayRole:
+    case Qt::EditRole:
         switch (sarake) {
         case PVM:
             return vienti_.pvm();
@@ -69,6 +70,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
             double euro = vienti_.contains("debet") ? vienti_.debet() : 0 - vienti_.kredit();
             return qAbs(euro) > 1e-5 ? QString("%L1 €").arg( euro ,0,'f',2) : QVariant();
         }
+        return QVariant();
     }
     case LajitteluRooli:
         return QString("%1 %2").arg(vienti_.pvm().toString(Qt::ISODate))
@@ -84,7 +86,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         return vienti_.value("tosite").toMap().value("id").toInt();
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
-    case Qt::DecorationRole:
+    case Qt::DecorationRole:        
         if( sarake == KOHDENNUS) {
             const QVariantMap& tosite = vienti_.value("tosite").toMap();
             return model()->kitsas()->tositeTyypit()->kuvake( tosite.value("tyyppi").toInt() );

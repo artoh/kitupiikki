@@ -35,6 +35,7 @@ public:
     virtual void tuo(QVariantMap map);
 
     bool resetoidaanko() const;
+    void asetaViennit(const QVariantList& viennit);
 
 public slots:
     virtual void reset();

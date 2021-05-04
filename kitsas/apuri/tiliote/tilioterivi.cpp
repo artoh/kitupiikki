@@ -17,6 +17,11 @@
 #include "tilioterivi.h"
 #include "tiliotemodel.h"
 
+TilioteRivi::~TilioteRivi()
+{
+
+}
+
 TilioteRivi::TilioteRivi()
 {
 

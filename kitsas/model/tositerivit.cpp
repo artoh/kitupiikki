@@ -333,22 +333,26 @@ void TositeRivit::asetaRivi(int indeksi, const TositeRivi &rivi)
                       index(indeksi, YHTEENSA));
 }
 
-void TositeRivit::lisaaRivi(TositeRivi rivi)
+void TositeRivit::lisaaRivi()
 {
-    if( !rivi.tili()) {
-        int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
-        rivi.setTili(uusitili);
-        Tili *tili = kp()->tilit()->tili(uusitili);
-        if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
-            rivi.setAlvKoodi( tili->alvlaji() );
-            rivi.setAlvProsentti( tili->alvprosentti());
-        }
-    }
-    if( qAbs(rivi.myyntiKpl()) < 1e-5) {
-        rivi.setMyyntiKpl(1.0);
-        rivi.setLaskutetaanKpl("1");
+    TositeRivi rivi;
+
+    int uusitili = kp()->asetukset()->luku("OletusMyyntitili",3000);
+    rivi.setTili(uusitili);
+    Tili *tili = kp()->tilit()->tili(uusitili);
+    if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+        rivi.setAlvKoodi( tili->alvlaji() );
+        rivi.setAlvProsentti( tili->alvprosentti());
     }
 
+    rivi.setMyyntiKpl(1.0);
+    rivi.setLaskutetaanKpl("1");
+
+    lisaaRivi(rivi);
+}
+
+void TositeRivit::lisaaRivi(TositeRivi rivi)
+{
     int indeksi = rivit_.count();
     if(indeksi > 0 && !rivit_.at(indeksi - 1).bruttoYhteensa() )
         indeksi = indeksi - 1;

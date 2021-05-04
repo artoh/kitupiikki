@@ -83,14 +83,16 @@ public:
     void lisaa(const TositeVienti& vienti);
 
     void asetaViennit(QVariantList viennit);
+    void asetaViennit(QList<TositeVienti> viennit);
     void tyhjenna();
     void pohjaksi(const QDate& pvm, const QString& vanhaOtsikko, const QString& uusiOtsikko, bool sailytaErat = false);
 
-    QVariant viennit() const { return viennit_;}
-    QVariantList vientilLista() const { return viennit_; }
+    QList<TositeVienti> viennit() const { return viennit_;}
+
+    QVariantList vientilLista() const;
 
 
-    QVariant tallennettavat() const;
+    QVariantList tallennettavat() const;
 
     void asetaMuokattavissa(bool muokattavissa);
     bool muokattavissa() const { return muokattavissa_;}
@@ -101,7 +103,7 @@ public:
     qlonglong summa() const;
 
 private:
-    QVariantList viennit_;
+    QList<TositeVienti> viennit_;
     bool muokattavissa_ = true;
 
 };

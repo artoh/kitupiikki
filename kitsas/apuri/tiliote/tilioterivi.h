@@ -26,6 +26,7 @@ class TilioteModel;
 class TilioteRivi
 {
 public:
+    virtual ~TilioteRivi();
 
     enum Sarakkeet {
         PVM, SAAJAMAKSAJA, SELITE, TILI, KOHDENNUS, EURO
@@ -45,7 +46,7 @@ public:
     TilioteRivi(TilioteModel* model);
 
     int lisaysIndeksi() const { return lisaysIndeksi_;}
-    void asetaLisaysIndeksi(const int indeksi);
+    virtual void asetaLisaysIndeksi(const int indeksi);
 
 protected:
     TilioteModel* model() const { return model_;}

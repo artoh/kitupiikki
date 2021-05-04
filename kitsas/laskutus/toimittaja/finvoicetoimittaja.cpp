@@ -118,6 +118,7 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                     osoite );
+        if( kp()->asetukset()->onko("FinvoiceSOAP")) pk->lisaaAttribuutti("soap");
         connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::laskuSaapuu);
         connect( pk, &KpKysely::virhe, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
 

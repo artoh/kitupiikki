@@ -171,9 +171,9 @@ bool TilioteApuri::teeTositteelle()
 void TilioteApuri::teeReset()
 {
     kirjaaja_->close();
-    const QVariantList& viennit = tosite()->viennit()->vientilLista();
+    const auto& viennit = tosite()->viennit()->viennit();
     if( viennit.count() > 1) {
-        TositeVienti ekarivi = viennit.first().toMap();
+        TositeVienti ekarivi = viennit.first();
 
         if( kp()->tilit()->tiliNumerolla(ekarivi.tili()).onko(TiliLaji::PANKKITILI)) {
             model_->asetaTilinumero(ekarivi.tili());
@@ -191,7 +191,7 @@ void TilioteApuri::teeReset()
     }
 
     model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
-    model_->lataa(viennit);
+    model_->lataa(tosite()->viennit()->tallennettavat() );
     if( kp()->yhteysModel())
         lataaHarmaat();
 }
@@ -252,6 +252,9 @@ void TilioteApuri::naytaSummat()
 void TilioteApuri::naytaTosite()
 {
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
+    if( !index.isValid())
+        return;
+
     LisaIkkuna* ikkuna = new LisaIkkuna;
     if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
         ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
@@ -287,10 +290,9 @@ void TilioteApuri::naytaTosite()
             }
         }
 
-        tosite->viennit()->asetaViennit( rivi.tallennettavat( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS ?
+        sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS ?
                                                                ( pankki.debetEuro() ? TositeVienti::MYYNTI : TositeVienti::OSTO) :
-                                                                 pankki.tyyppi() ) );
-        sivu->kirjausWg()->apuri()->reset();
+                                                                 0 ) );
 
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }

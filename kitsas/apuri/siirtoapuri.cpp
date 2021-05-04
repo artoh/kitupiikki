@@ -127,11 +127,12 @@ bool SiirtoApuri::teeTositteelle()
 
 void SiirtoApuri::teeReset()
 {
-    QVariantList vientilista = tosite()->viennit()->viennit().toList();
-    if( vientilista.count() >= 2 )
+    auto viennit = tosite()->viennit()->viennit();
+
+    if( viennit.count() >= 2 )
     {
-        TositeVienti debetMap = vientilista.at(0).toMap();
-        TositeVienti kreditMap = vientilista.at(1).toMap();
+        TositeVienti debetMap = viennit.at(0);
+        TositeVienti kreditMap = viennit.at(1);
 
         ui->tililleEdit->valitseTiliNumerolla( debetMap.value("tili").toInt() );
         ui->euroEdit->setValue( debetMap.value("debet").toDouble() );

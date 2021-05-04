@@ -419,6 +419,8 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
  <tabstops>
   <tabstop>suodatusEdit</tabstop>
   <tabstop>maksuView</tabstop>
+  <tabstop>pvmEdit</tabstop>
+  <tabstop>asiakastoimittaja</tabstop>
   <tabstop>euroEdit</tabstop>
   <tabstop>tiliEdit</tabstop>
   <tabstop>eraCombo</tabstop>
@@ -427,6 +429,10 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
   <tabstop>seliteEdit</tabstop>
   <tabstop>jaksoAlkaaEdit</tabstop>
   <tabstop>jaksoLoppuuEdit</tabstop>
+  <tabstop>alvCombo</tabstop>
+  <tabstop>lisaaVientiNappi</tabstop>
+  <tabstop>poistaVientiNappi</tabstop>
+  <tabstop>viennitView</tabstop>
   <tabstop>ohjeNappi</tabstop>
   <tabstop>okNappi</tabstop>
   <tabstop>tyhjaaNappi</tabstop>

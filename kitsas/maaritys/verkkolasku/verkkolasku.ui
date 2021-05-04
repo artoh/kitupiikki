@@ -153,6 +153,13 @@ font-weight: bold;</string>
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QCheckBox" name="soapCheck">
+        <property name="text">
+         <string>Lisää SOAP-kehys</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

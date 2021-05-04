@@ -273,7 +273,7 @@ hyvitettavaPvm,Hyvitettävän laskun pvm,Krediterbart faktureringsdatum,Credable
 hyvPvm,Hyvityslaskun pvm,Kreditnotans datum,Date of credit note
 muistutuspvm,Maksumuistutuksen pvm,Betalningsåminnelses datum,Date of request for payment
 UN_C62,kpl,st,pcs
-UN_NPK,pkt,förpackningar,packets
+UN_NMP,pkt,förpackningar,packets
 UN_IE,hlö,personer,persons
 UN_KGM,kg,kg,kg
 UN_LTR,l,l,litre

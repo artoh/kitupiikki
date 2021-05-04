@@ -67,11 +67,9 @@ void MaksumuistutusMuodostaja::aiempiSaldo(Tosite *tosite, Euro aiempiSaldo)
 {
     if(aiempiSaldo.cents()) {
         TositeRivi aiempi;
-        aiempi.setNimike( kitsas_->kaanna("mmrivi").arg(tosite->lasku().numero()) );
-        aiempi.setANetto(0.0);
-        aiempi.setUNkoodi(QString());
-        aiempi.setAlvKoodi(0);
-        aiempi.setAlvProsentti(0.0);
+        aiempi.setNimike( kitsas_->kaanna("mmrivi").arg(tosite->lasku().alkuperaisNumero()) );
+        aiempi.setANetto(0.0);       
+
         aiempi.setBruttoYhteensa( aiempiSaldo );
         tosite->rivit()->lisaaRivi(aiempi);
     }

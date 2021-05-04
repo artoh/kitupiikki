@@ -348,6 +348,7 @@ void TilioteKirjaaja::lisaaVienti()
     uusi.setSelite( pankkiVienti_.selite() );
     viennit_->lisaaVienti(uusi);
     ui->viennitView->selectRow(viennit_->rowCount()-1);
+    ui->euroEdit->setMiinus(menoa_);
 }
 
 void TilioteKirjaaja::poistaVienti()
@@ -576,7 +577,7 @@ void TilioteKirjaaja::tallennaRivi()
 
     TositeVienti vienti;
     vienti.setTili( ui->tiliEdit->valittuTilinumero());
-    vienti.setSelite( ui->seliteEdit->toPlainText());
+    vienti.setSelite( ui->seliteEdit->toPlainText());    
     vienti.setKohdennus( ui->kohdennusCombo->kohdennus());
     vienti.setMerkkaukset( ui->merkkausCC->selectedDatas());
     vienti.setEra( ui->eraCombo->eraMap());
@@ -619,6 +620,7 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         QVariantMap kumppani;
         kumppani.insert("nimi",index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString());
         kumppani.insert("id",index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt());
+
         pankki.setKumppani(kumppani);
         suoritus.setKumppani(kumppani);
 
@@ -634,9 +636,11 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         siirto.setPvm(pankki.pvm());
         pankki.setTyyppi(TositeVienti::SIIRTO + TositeVienti::VASTAKIRJAUS);
         siirto.setTyyppi(TositeVienti::SIIRTO + TositeVienti::KIRJAUS);
+        siirto.setTili( ui->tiliEdit->valittuTilinumero() );
 
         pankki.setSelite( ui->seliteEdit->toPlainText());
         siirto.setSelite( ui->seliteEdit->toPlainText());
+
         pankki.setKumppani( ui->asiakastoimittaja->map());
         siirto.setKumppani( ui->asiakastoimittaja->map());
 
@@ -658,6 +662,7 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         pankki.setSelite(map.value("otsikko").toString());
         maksu.setSelite(map.value("otsikko").toString());
         pankki.setKumppani( ui->asiakastoimittaja->map() );
+
         maksu.setTili( map.value("tili").toInt());
         maksu.setKohdennus( map.value("kohdennus").toInt());
         maksu.setKumppani( ui->asiakastoimittaja->map() );
@@ -678,6 +683,7 @@ QList<TositeVienti> TilioteKirjaaja::viennit() const
         for(const auto& vienti : viennit_->viennit()) {
             TositeVienti tapahtuma(vienti);
             tapahtuma.setPvm(pankki.pvm());
+            tapahtuma.setKumppani( ui->asiakastoimittaja->map() );
             tapahtuma.setTyyppi(tyyppi + TositeVienti::KIRJAUS);
             if(tapahtuma.debet() > 1e-5 || tapahtuma.kredit() > 1e-5)
                 vientiLista << tapahtuma;

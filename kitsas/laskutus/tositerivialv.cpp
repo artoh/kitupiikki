@@ -146,7 +146,7 @@ void TositeriviAlv::AlvTieto::paivita(bool bruttoperuste)
     if( bruttoperuste )
         vero_ = brutto_ - netto_;
     else if( verokoodi_ == AlvKoodi::MYYNNIT_NETTO ) {
-        vero_ = Euro( netto_.toDouble() *  veroProsentinSadasosat_ / 100.0 );
+        vero_ = Euro( qRound64(netto_.toDouble() *  veroProsentinSadasosat_ / 100.0) );
         brutto_ = netto_ + vero_;
     } else {
         brutto_ = netto_;

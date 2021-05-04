@@ -114,8 +114,10 @@ int TilioteModel::lisaaRivi(const QDate &pvm)
     return lisaaRivi(TilioteKirjausRivi(pvm, this));
 }
 
-int TilioteModel::lisaaRivi(const TilioteKirjausRivi &rivi)
+int TilioteModel::lisaaRivi(TilioteKirjausRivi rivi)
 {
+    rivi.asetaLisaysIndeksi( lisaysIndeksi() );
+
     int indeksi = kirjausRivit_.count();
     beginInsertRows(QModelIndex(), indeksi, indeksi);
     kirjausRivit_.append( rivi );

@@ -59,12 +59,11 @@ void PalkkaApuri::teeReset()
     int vastatili = kp()->asetukset()->luku("PalkkaVastatili") ? kp()->asetukset()->luku("PalkkaVastatili") : kp()->tilit()->tiliTyypilla(TiliLaji::PANKKITILI).numero();
     ui->tiliCombo->valitseTili( vastatili  );
 
-    QVariantList vientilista = tosite()->viennit()->viennit().toList();
 
     QMap<QString,Euro> eurot;
 
-    for(const QVariant& item : vientilista) {
-        TositeVienti vienti(item.toMap());
+    for(const auto& vienti : tosite()->viennit()->viennit()) {
+
 
         eurot.insert(vienti.palkkakoodi(), vienti.debetEuro() ? vienti.debetEuro() : vienti.kreditEuro());
         if( vienti.palkkakoodi() == "MP" )

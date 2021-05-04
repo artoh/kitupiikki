@@ -219,13 +219,12 @@ void TuloMenoApuri::teeReset()
     else
         ui->asiakasToimittaja->clear();
 
-    QVariantList vientiLista = tosite()->viennit()->viennit().toList();
 
-    for( auto item : tosite()->viennit()->viennit().toList()) {
+    for( auto vienti : tosite()->viennit()->viennit() ) {
 
         // Jos vastakirjaus käsitellään itse
         // Muuten riveille
-        TositeVienti vienti( item.toMap() );
+
 
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
             Tili* vastatili = kp()->tilit()->tili( vienti.tili());
@@ -662,7 +661,9 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
-    aloitaResetointi();
+    bool resetoinnissa = resetoidaanko();
+    if(!resetoinnissa) aloitaResetointi();
+
     int rivilla = index.row();
 
     TulomenoRivi* rivi = rivit_->rivi(rivilla);
@@ -699,7 +700,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->seliteEdit->setText( rivi->selite() );
 
     haeKohdennukset();
-    lopetaResetointi();
+    if(!resetoinnissa) lopetaResetointi();
 }
 
 void TuloMenoApuri::haeKohdennukset()

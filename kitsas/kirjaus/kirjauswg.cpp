@@ -271,8 +271,7 @@ void KirjausWg::valmis()
 
     qlonglong debet = 0l;
     qlonglong kredit = 0l;
-    for(QVariant item : tosite()->viennit()->viennit().toList()) {
-        TositeVienti vienti = item.toMap();
+    for(const auto& vienti: tosite()->viennit()->viennit()) {
         debet += qRound64( vienti.debet() * 100.0 );
         kredit += qRound64( vienti.kredit() * 100.0 );
     }

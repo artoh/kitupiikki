@@ -386,8 +386,7 @@ void Tosite::tarkasta()
     qlonglong debet = 0;
     qlonglong kredit = 0;
 
-    for(QVariant &item : viennit()->viennit().toList()) {
-        TositeVienti vienti = item.toMap();
+    for(const auto& vienti : viennit()->viennit() ) {
         QDate pvm = vienti.pvm();
 
         debet += qRound64( vienti.debet() * 100.0 );

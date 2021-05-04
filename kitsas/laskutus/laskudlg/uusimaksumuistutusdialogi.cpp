@@ -125,8 +125,8 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
     lasku.setOtsikko(otsikko);
     muistutus->asetaKumppani( alkuperainenTosite.kumppani() );
 
-    lasku.setNumero(QString());
     lasku.setAlkuperaisNumero( lasku.numero().toLongLong() );
+    lasku.setNumero(QString());
     lasku.setAlkuperaisPvm( lasku.laskunpaiva() );
     lasku.setLaskunpaiva( kp()->paivamaara() );
     lasku.setErapaiva( ui->eraDate->date() );

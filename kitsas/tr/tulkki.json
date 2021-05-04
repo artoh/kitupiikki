@@ -517,7 +517,8 @@
         "sv": "Underskott"
     },
     "Vero": {
-        "sv": "Skatt"
+        "sv": "Skatt",
+        "en": "Tax"
     },
     "TILINPÄÄTÖSJAKSOTUKSET": {
         "sv": "PERIODINDELNINGAR"
@@ -1068,7 +1069,7 @@
         "sv": "st",
         "en": "pcs"
     },
-    "UN_NPK": {
+    "UN_NMP": {
         "fi": "pkt",
         "sv": "förpackningar",
         "en": "packets"

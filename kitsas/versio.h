@@ -30,6 +30,6 @@
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 #define KITSAS_DEVEL
 
-#define KITSAS_API "https://pilvi.kitsas.fi/api"
+#define KITSAS_API "https://api.kitsas.fi"
 
 #endif // VERSIO_H

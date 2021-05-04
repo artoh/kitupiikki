@@ -397,7 +397,7 @@ bool TositeViennit::removeRows(int row, int count, const QModelIndex &parent)
         viennit_.removeAt(row);
     endRemoveRows();
     while(row < rowCount()) {
-        if(viennit_.at(row).toMap().value("tyyppi").toInt() == TositeVienti::ALVKIRJAUS) {
+        if(viennit_.at(row).tyyppi() == TositeVienti::ALVKIRJAUS) {
             beginRemoveRows(parent, row, row);
             viennit_.removeAt(row);
             endRemoveRows();
@@ -417,12 +417,12 @@ TositeVienti TositeViennit::uusi(int indeksi) const
 
     if( indeksi > 0){
         indeksi--;
-        TositeVienti edellinen = viennit_.value(indeksi).toMap();
+        TositeVienti edellinen = viennit_.value(indeksi);
         while( edellinen.tyyppi() == TositeVienti::ALVKIRJAUS) {
             // Jotta saataisiin selite ja vastatili varsinaisesta kirjauksesta
             // eikä siihen liittyvistä alv-riveistä.
             indeksi--;
-            edellinen = viennit_.value(indeksi).toMap();
+            edellinen = viennit_.value(indeksi);
         }
         Tili tili = kp()->tilit()->tiliNumerolla(edellinen.tili());
         if( tili.luku("vastatili"))
@@ -439,7 +439,7 @@ TositeVienti TositeViennit::uusi(int indeksi) const
     qlonglong dsumma = 0;
     qlonglong ksumma = 0;
     for(int i=0; i < rowCount(); i++) {
-        TositeVienti tvienti( viennit_.at(i).toMap());
+        TositeVienti tvienti = viennit_.at(i);
         dsumma += qRound64( tvienti.debet() * 100 );
         ksumma += qRound64 ( tvienti.kredit() * 100);
     }
@@ -454,7 +454,7 @@ TositeVienti TositeViennit::uusi(int indeksi) const
 
 QModelIndex TositeViennit::lisaaVienti(int indeksi)
 {
-    while( viennit_.value(indeksi).toMap().value("tyyppi").toInt() == TositeVienti::ALVKIRJAUS)
+    while( viennit_.value(indeksi).tyyppi() == TositeVienti::ALVKIRJAUS)
         indeksi++;
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
@@ -466,7 +466,7 @@ QModelIndex TositeViennit::lisaaVienti(int indeksi)
 
 TositeVienti TositeViennit::vienti(int indeksi) const
 {
-    return TositeVienti( viennit_.value(indeksi).toMap() );
+    return viennit_.value(indeksi);
 }
 
 void TositeViennit::asetaVienti(int indeksi, const TositeVienti &vienti)
@@ -488,12 +488,21 @@ void TositeViennit::lisaa(const TositeVienti &vienti)
 
 
 void TositeViennit::asetaViennit(QVariantList viennit)
+{    
+    QList<TositeVienti> tlista;
+    for(const auto& item : viennit) {
+        tlista.append( TositeVienti(item.toMap()) );
+    }
+    asetaViennit(tlista);
+
+}
+
+void TositeViennit::asetaViennit(QList<TositeVienti> viennit)
 {
     beginResetModel();
     viennit_ = viennit;
     // Erätietojen siivoaminen ja sijoittaminen välimuistiin
     endResetModel();
-
 }
 
 void TositeViennit::tyhjenna()
@@ -505,29 +514,33 @@ void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, cons
 {
     beginResetModel();
     for(int i=0; i < viennit_.count(); i++) {
-        TositeVienti vienti = viennit_.value(i).toMap();
-        if( !sailytaErat && vienti.eraId() == vienti.id())
-            vienti.setEra(-1);
-        vienti.remove("id");
-        int siirto = vienti.pvm().daysTo(pvm);
-        vienti.setPvm( pvm );
-        if( vienti.jaksoalkaa().isValid())
-            vienti.setJaksoalkaa( vienti.jaksoalkaa().addDays(siirto) );
-        if( vienti.jaksoloppuu().isValid())
-            vienti.setJaksoloppuu( vienti.jaksoloppuu().addDays(siirto));
-        if( vienti.selite() == vanhaOtsikko)
-            vienti.setSelite( uusiOtsikko);        
-        viennit_[i] = vienti;
+        TositeVienti tvienti =  vienti(i);
+        if( !sailytaErat && tvienti.eraId() == tvienti.id())
+            tvienti.setEra(-1);
+        tvienti.remove("id");
+        int siirto = tvienti.pvm().daysTo(pvm);
+        tvienti.setPvm( pvm );
+        if( tvienti.jaksoalkaa().isValid())
+            tvienti.setJaksoalkaa( tvienti.jaksoalkaa().addDays(siirto) );
+        if( tvienti.jaksoloppuu().isValid())
+            tvienti.setJaksoloppuu( tvienti.jaksoloppuu().addDays(siirto));
+        if( tvienti.selite() == vanhaOtsikko)
+            tvienti.setSelite( uusiOtsikko);
+        viennit_[i] = tvienti;
     }
     endResetModel();
 }
 
-QVariant TositeViennit::tallennettavat() const
+QVariantList TositeViennit::vientilLista() const
+{
+
+}
+
+QVariantList TositeViennit::tallennettavat() const
 {
     QVariantList ulos;
-    for( auto vienti : viennit_) {
-        TositeVienti tv(vienti.toMap());
-        ulos.append( tv.tallennettava());
+    for( const auto& vienti : viennit_) {
+        ulos.append( vienti.tallennettava());
     }
     return ulos;
 }
@@ -559,8 +572,7 @@ QString TositeViennit::alvTarkastus() const
    qlonglong rakennusVero = 0;
    int rakennusMaara = 0;
 
-   for( auto vienti : viennit_) {
-       TositeVienti tv(vienti.toMap());
+   for( const auto& tv : viennit_) {
        switch (tv.alvKoodi()) {
        case AlvKoodi::MYYNNIT_NETTO:
            alvPerusteella += qRound64((tv.kredit() - tv.debet()) * tv.alvProsentti());
@@ -619,7 +631,7 @@ QString TositeViennit::alvTarkastus() const
 
 void TositeViennit::paivitaAalv(int rivi)
 {
-    TositeVienti lahde = viennit_.value(rivi).toMap();
+    const TositeVienti& lahde = viennit_.value(rivi);
     int alvkoodi = lahde.alvKoodi();
     double prosentti = lahde.alvProsentti();
 
@@ -648,7 +660,7 @@ void TositeViennit::paivitaAalv(int rivi)
     qlonglong ksentit = qRound64( prosentti * lahde.kredit() );
 
     rivi++;
-    TositeVienti seuraava = viennit_.value(rivi).toMap();
+    TositeVienti seuraava = viennit_.value(rivi);
     bool onjoVerorivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&
             seuraava.alvKoodi() > AlvKoodi::ALVKIRJAUS &&
             seuraava.alvKoodi() < AlvKoodi::ALVVAHENNYS;
@@ -691,7 +703,7 @@ void TositeViennit::paivitaAalv(int rivi)
             removeRows(rivi, 1);
     }
 
-    seuraava = viennit_.value(rivi).toMap();
+    seuraava = viennit_.value(rivi);
     bool onjoVahennysrivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&
             seuraava.alvKoodi() > AlvKoodi::ALVVAHENNYS &&
             seuraava.alvKoodi() < AlvKoodi::MAKSETTAVAALV;

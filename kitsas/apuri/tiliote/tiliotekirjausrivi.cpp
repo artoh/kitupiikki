@@ -123,16 +123,16 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QList<TositeVienti> &viennit, Tilio
 }
 
 QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
-{    
+{        
     const TositeVienti& ekavienti = viennit_.value(1);
 
     switch (role) {
     case Qt::DisplayRole:
         switch (sarake) {
         case PVM:
-            return ekavienti.pvm();
+            return pankkivienti().pvm();
         case SAAJAMAKSAJA:
-            return ekavienti.kumppaniNimi();
+            return pankkivienti().kumppaniNimi();
         case SELITE:
             if(ekavienti.selite().isEmpty())
                 return pankkivienti().viite();
@@ -204,6 +204,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
                 return QIcon(":/pic/mies.png"); // Asiakaskohtainen lasku
             } else if( ekavienti.eraId() > 0) {
                 return model()->kitsas()->tositeTyypit()->kuvake( ekavienti.era().value("tositetyyppi").toInt() );
+            } else {
+                return QIcon(":/pic/tyhja.png");
             }
         } else if( sarake == EURO) {
             const int koodi = pankkivienti().tyyppi() - TositeVienti::VASTAKIRJAUS;
@@ -218,9 +220,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             } else if( koodi == TositeVienti::SUORITUS) {
                 return QIcon(":/pic/lasku.png");
             }
-        } else if(sarake == TILI && !ekavienti.tili())
-            return QIcon(":/pic/varo.png");
-        return QIcon(":/pic/tyhja.png");
+        }
+        return QVariant();
     case LajitteluRooli:
         return QString("%1 %2").arg(ekavienti.pvm().toString(Qt::ISODate))
                                 .arg(lisaysIndeksi(),6,10,QChar('0'));
@@ -309,8 +310,9 @@ QVariantList TilioteKirjausRivi::tallennettavat(int tyyppi) const
 {
     QVariantList ulos;
     for(auto vienti : viennit_) {
-        // Meno- ja tulotositteelle siirrettäessä varmistetaan oikea tyyppi
-        vienti.setTyyppi( vienti.tyyppi() + tyyppi );
+        // Meno- ja tulotositteelle siirrettäessä varmistetaan oikea tyyppi        
+        if( tyyppi )
+            vienti.setTyyppi( vienti.tyyppi() % 100 + tyyppi );
         ulos << vienti;
     }
     return ulos;
@@ -335,7 +337,7 @@ void TilioteKirjausRivi::paivitaTyyppi()
     int tyyppi = 0;
     const Tili* tili = model()->kitsas()->tilit()->tili( viennit_.value(1).tili() );
 
-    if( viennit_.value(0).eraId() > 0) {
+    if( viennit_.value(1).eraId() > 0) {
         tyyppi = TositeVienti::SUORITUS;
     } else if( tili && tili->onko(TiliLaji::TASE) ) {
         tyyppi = TositeVienti::SIIRTO;
@@ -379,12 +381,14 @@ void TilioteKirjausRivi::sijoitaErikoisrivit()
 
 QString TilioteKirjausRivi::pseudoarkistotunnus() const
 {
-    const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    const QString merkit("abcdefghijklmnopqrstuvwxyz0123456789");
 
-    QString tunnus = "@" + QString::number(lisaysIndeksi()) ;
+    QString tunnus =QString("@%1-%2-")
+            .arg(lisaysIndeksi(),4,10,QChar('0'))
+            .arg(QDateTime::currentMSecsSinceEpoch(),12,16,QChar('0'));
     for(int i=0; i<16; ++i)
     {
-       int index = QRandomGenerator::global()->generate() % merkit.length() ;
+       int index = QRandomGenerator::global()->bounded(merkit.length()-1);
        QChar nextChar = merkit.at(index);
        tunnus.append(nextChar);
     }
@@ -396,6 +400,13 @@ void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data, int eraId)
     const QVariantList lista = data->toMap().value("viennit").toList();
     taydennys_.asetaEra(eraId, lista);
     sijoitaErikoisrivit();
+}
+
+void TilioteKirjausRivi::asetaLisaysIndeksi(const int indeksi)
+{
+    TilioteRivi::asetaLisaysIndeksi(indeksi);
+    if( !viennit_.isEmpty())
+        viennit_[0].setArkistotunnus( pseudoarkistotunnus() );
 }
 
 
