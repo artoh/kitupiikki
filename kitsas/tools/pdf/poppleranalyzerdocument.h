@@ -14,24 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef POPPLERRENDERERDOCUMENT_H
-#define POPPLERRENDERERDOCUMENT_H
+#ifndef POPPLERANALYZERDOCUMENT_H
+#define POPPLERANALYZERDOCUMENT_H
 
-#include "pdftoolkit.h"
-#include <poppler/qt5/poppler-qt5.h>
 
-class PopplerRendererDocument : public PdfRendererDocument
+class PopplerAnalyzerDocument : public PdfAnalyzerDocument
 {
 public:
-    PopplerRendererDocument(const QByteArray& data);
-    ~PopplerRendererDocument();
-
-    virtual int pageCount() override;
-    virtual QImage page(int page, double xres, double yres) override;
-    virtual bool locked() const override;
-
-private:
-    Poppler::Document *pdfDoc_ = nullptr;
+    PopplerAnalyzerDocument();
 };
 
-#endif // POPPLERRENDERERDOCUMENT_H
+#endif // POPPLERANALYZERDOCUMENT_H

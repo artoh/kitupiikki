@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2019 Arto Hyvättinen
+   Copyright (C) 2021 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ class PdfAnalyzerPage;
  * Popplerille ja muille pdf-kirjastoille
  */
 class PdfAnalyzerDocument {
+public:
     virtual int pageCount() = 0;
     virtual PdfAnalyzerPage page(int page) = 0;
 };
@@ -44,21 +45,23 @@ class PdfAnalyzerDocument {
  */
 class PdfRendererDocument {
 public:
+    virtual ~PdfRendererDocument();
     virtual int pageCount() = 0;
-    virtual QImage page(int page, double xres = 72.0, double yres = 72.0);
+    virtual QImage page(int page, double xres = 72.0, double yres = 72.0) = 0;
+    virtual bool locked() const { return false; }
 };
 
 /**
  * @brief Pdf:n käsittelyiden käärintä
  *
  * Tämän toteutuksessa palautetaan #ifdefien avulla
- * kulloinkin käytössä olevat luokat
+ * oikean toteutuksen mukaiset luokat
  *
  */
 class PdfToolkit {
 public:
-    static PdfRendererDocument renderer(const QByteArray& data);
-    static PdfAnalyzerDocument analyzer(const QByteArray& data);
+    static PdfRendererDocument* renderer(const QByteArray& data);
+    static PdfAnalyzerDocument* analyzer(const QByteArray& data);
 };
 
 

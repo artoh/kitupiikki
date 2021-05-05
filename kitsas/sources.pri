@@ -222,6 +222,8 @@ SOURCES += \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/pdf/pdfanalyzerpage.cpp \
     $$PWD/tools/pdf/pdfanalyzertext.cpp \
+    $$PWD/tools/pdf/pdftoolkit.cpp \
+    $$PWD/tools/pdf/poppleranalyzerdocument.cpp \
     $$PWD/tools/pdf/popplerrendererdocument.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
@@ -574,9 +576,10 @@ HEADERS += \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
-    $$PWD/tools/pdf/pdfToolkit.h \
     $$PWD/tools/pdf/pdfanalyzerpage.h \
     $$PWD/tools/pdf/pdfanalyzertext.h \
+    $$PWD/tools/pdf/pdftoolkit.h \
+    $$PWD/tools/pdf/poppleranalyzerdocument.h \
     $$PWD/tools/pdf/popplerrendererdocument.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/palkkafituonti.h \
