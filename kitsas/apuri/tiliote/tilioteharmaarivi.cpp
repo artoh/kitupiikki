@@ -39,11 +39,15 @@ TilioteHarmaaRivi::TilioteHarmaaRivi(const QVariantMap &data, TilioteModel *mode
 QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
 {
     switch (role) {
-    case Qt::DisplayRole:
-    case Qt::EditRole:
+    case Qt::DisplayRole:    
+    case LajitteluRooli:
         switch (sarake) {
         case PVM:
-            return vienti_.pvm();
+            if(role == LajitteluRooli) {
+                return QString("%1 %2").arg(vienti_.pvm().toString(Qt::ISODate))
+                                        .arg(lisaysIndeksi(),6,10,QChar('0'));
+            } else
+                return vienti_.pvm();
         case SAAJAMAKSAJA:
             return vienti_.kumppaniNimi();
         case SELITE:
@@ -72,10 +76,6 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         }
         return QVariant();
     }
-    case LajitteluRooli:
-        return QString("%1 %2").arg(vienti_.pvm().toString(Qt::ISODate))
-                                .arg(lisaysIndeksi(),6,10,QChar('0'));
-
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case Qt::TextColorRole:

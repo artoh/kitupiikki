@@ -211,10 +211,12 @@ void TilioteApuri::lisaaRivi(bool dialogi)
 
 void TilioteApuri::riviValittu()
 {
-    bool muokattavaRivi = ui->oteView->currentIndex().data(TilioteRivi::TilaRooli).toString() == "AA" ;
+    const QModelIndex& index = ui->oteView->currentIndex();
+    bool muokattavaRivi = index.data(TilioteRivi::TilaRooli).toString() == "AA" ;
     ui->muokkaaNappi->setEnabled( muokattavaRivi );
     ui->poistaNappi->setEnabled( muokattavaRivi );
-    ui->tositeNappi->setEnabled( ui->oteView->selectionModel()->currentIndex().isValid() );
+    ui->tositeNappi->setEnabled( index.isValid() &&
+                                 !index.sibling(index.row(), TilioteKirjausRivi::EURO).data(Qt::DisplayRole).toString().isEmpty());
 }
 
 void TilioteApuri::muokkaa()
@@ -279,16 +281,17 @@ void TilioteApuri::naytaTosite()
             switch (pankki.tyyppi() - TositeVienti::VASTAKIRJAUS) {
             case TositeVienti::MYYNTI:
                 tosite->asetaTyyppi(TositeTyyppi::TULO);
-                break;
-            case TositeVienti::OSTO:
-                tosite->asetaTyyppi(TositeTyyppi::MENO);
-                break;
+                break;            
             case TositeVienti::SIIRTO:
             case TositeVienti::SUORITUS:
                 tosite->asetaTyyppi(TositeTyyppi::SIIRTO);
                 break;
+            default:
+                tosite->asetaTyyppi(TositeTyyppi::MENO);
+                break;
             }
         }
+
 
         sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS ?
                                                                ( pankki.debetEuro() ? TositeVienti::MYYNTI : TositeVienti::OSTO) :

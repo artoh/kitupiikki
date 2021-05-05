@@ -128,9 +128,14 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
 
     switch (role) {
     case Qt::DisplayRole:
+    case LajitteluRooli:
         switch (sarake) {
         case PVM:
-            return pankkivienti().pvm();
+            if( role == LajitteluRooli) {
+                return QString("%1 %2").arg(pankkivienti().pvm().toString(Qt::ISODate))
+                                        .arg(lisaysIndeksi(),6,10,QChar('0'));
+            } else
+                return pankkivienti().pvm();
         case SAAJAMAKSAJA:
             return pankkivienti().kumppaniNimi();
         case SELITE:
@@ -176,9 +181,9 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             return QVariant();
         }
 
-    case Qt::EditRole:
+    case Qt::EditRole:       
         switch (sarake) {
-        case PVM:
+        case PVM:           
             return ekavienti.pvm();
         case TILI:
             return ekavienti.tili();
@@ -222,9 +227,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             }
         }
         return QVariant();
-    case LajitteluRooli:
-        return QString("%1 %2").arg(ekavienti.pvm().toString(Qt::ISODate))
-                                .arg(lisaysIndeksi(),6,10,QChar('0'));
+
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case TilaRooli:
