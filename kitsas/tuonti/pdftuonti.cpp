@@ -40,6 +40,10 @@
 #include "db/tositetyyppimodel.h"
 #include "laskutus/iban.h"
 
+#include "tools/pdf/pdftoolkit.h"
+#include "tools/pdf/pdfanalyzerpage.h"
+#include "tools/pdf/pdfanalyzertext.h"
+
 namespace Tuonti {
 
 
@@ -50,26 +54,19 @@ PdfTuonti::PdfTuonti()
 }
 
 QVariantMap PdfTuonti::tuo(const QByteArray &data)
-{
-
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data );
+{    
     PdfTuonti tuonti;
 
-    if( pdfDoc && !pdfDoc->isLocked() )
-    {
-        tuonti.haeTekstit(pdfDoc);
+    tuonti.haeTekstit(data);
 
-        if( tuonti.etsi("hyvityslasku",0,30))
-            {}    // Hyvityslaskulle ei automaattista käsittelyä
-        else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
-            return tuonti.tuoPdfLasku();
-        else if( tuonti.etsi("tiliote",0,30)  || tuonti.etsi("account statement",0,30))
-            return tuonti.tuoPdfTiliote();
-
-    }
-
-    delete pdfDoc;
-    return QVariantMap();
+    if( tuonti.etsi("hyvityslasku",0,30))
+        {}    // Hyvityslaskulle ei automaattista käsittelyä
+    else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
+        return tuonti.tuoPdfLasku();
+    else if( tuonti.etsi("tiliote",0,30)  || tuonti.etsi("account statement",0,30))
+        return tuonti.tuoPdfTiliote();
+    else
+        return QVariantMap();
 }
 
 QVariantMap PdfTuonti::tuoPdfLasku()
@@ -730,21 +727,54 @@ int PdfTuonti::ktokoodi(const QString &teksti)
 }
 
 
-void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
+void PdfTuonti::haeTekstit(const QByteArray &data)
 {
     // Tuottaa taulukon, jossa pdf-tiedoston tekstit suhteellisessa koordinaatistossa
 
-    for(int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
-    {
-        Poppler::Page *pdfSivu = pdfDoc->page(sivu);
-        if( !pdfSivu)   // Jos sivu ei ole kelpo
-            continue;
+    PdfAnalyzerDocument *pdfDoc = PdfToolkit::analyzer(data);
 
-        qreal leveysKerroin = 100.0 / pdfSivu->pageSizeF().width();
-        qreal korkeusKerroin = 200.0 / pdfSivu->pageSizeF().height();
+    for(int sivu = 0; sivu < pdfDoc->pageCount(); sivu++)
+    {
+        PdfAnalyzerPage pdfSivu = pdfDoc->page(sivu);
+
+        qreal leveysKerroin = 100.0 / pdfSivu.size().width();
+        qreal korkeusKerroin = 200.0 / pdfSivu.size().height();
 
         QSet<Poppler::TextBox*> kasitellyt;
+        PdfAnalyzerText *text = pdfSivu.firstText();
 
+        while(text) {
+            int sijainti = sivu * 20000 +
+                    int( text->boundingRect().y() * korkeusKerroin) * 100 +
+                    int( text->boundingRect().x() * leveysKerroin);
+            QString raaka = text->text().simplified();
+
+            QString tulos;
+            for(int i = 0; i < raaka.length(); i++)
+            {
+                // Poistetaan numeroiden välissä olevat välit
+                // sekä numeron ja +/- merkin välissä oleva väli
+                // Näin saadaan tilinumerot ja valuutasummat tiiviiksi
+
+                QChar merkki = raaka.at(i);
+
+                if( i > 0 && i < raaka.length() - 1 && merkki.isSpace())
+                {
+                    QChar ennen = raaka.at(i-1);
+                    QChar jalkeen = raaka.at(i+1);
+
+                    if( (ennen.isDigit() || jalkeen.isDigit()) &&
+                        (ennen.isDigit() || ennen == '-' || ennen == '+') &&
+                        (jalkeen.isDigit() || jalkeen == '-' || jalkeen == '+') )
+                        continue;
+                }
+                tulos.append(merkki);
+            }
+
+            tekstit_.insert(sijainti, tulos );
+            text = text->next();
+        }
+/*
         for( Poppler::TextBox* box : pdfSivu->textList())
         {
             if( kasitellyt.contains(box))
@@ -793,10 +823,11 @@ void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
             }
 
             tekstit_.insert(sijainti, tulos );
-
         }
-        delete pdfSivu;
+*/
+
     }
+    delete pdfDoc;
 }
 
 QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)

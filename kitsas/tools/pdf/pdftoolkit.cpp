@@ -33,3 +33,8 @@ PdfRendererDocument::~PdfRendererDocument()
 {
 
 }
+
+PdfAnalyzerDocument::~PdfAnalyzerDocument()
+{
+
+}

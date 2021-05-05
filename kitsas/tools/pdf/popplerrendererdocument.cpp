@@ -40,7 +40,7 @@ int PopplerRendererDocument::pageCount()
         return 0;
 }
 
-QImage PopplerRendererDocument::page(int page, double xres, double yres)
+QImage PopplerRendererDocument::renderPage(int page, double resolution)
 {
     if( !pdfDoc_ || locked())
         return QImage();
@@ -49,7 +49,7 @@ QImage PopplerRendererDocument::page(int page, double xres, double yres)
     if( !pdfSivu)
         return QImage();
 
-    return pdfSivu->renderToImage(xres, yres);
+    return pdfSivu->renderToImage(resolution, resolution);
 }
 
 bool PopplerRendererDocument::locked() const

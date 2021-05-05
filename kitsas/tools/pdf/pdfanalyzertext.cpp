@@ -16,8 +16,8 @@
 */
 #include "pdfanalyzertext.h"
 
-PdfAnalyzerText::PdfAnalyzerText(QRectF boundingRect, QString text, bool spaceAfter) :
-    boundingRect_(boundingRect), text_(text), spaceAfter_(spaceAfter)
+PdfAnalyzerText::PdfAnalyzerText(QRectF boundingRect, QString text) :
+    boundingRect_(boundingRect), text_(text)
 {
 
 }

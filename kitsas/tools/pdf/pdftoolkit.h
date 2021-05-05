@@ -33,8 +33,10 @@ class PdfAnalyzerPage;
  */
 class PdfAnalyzerDocument {
 public:
+    virtual ~PdfAnalyzerDocument();
     virtual int pageCount() = 0;
     virtual PdfAnalyzerPage page(int page) = 0;
+    virtual QString title() const = 0;
 };
 
 /**
@@ -47,7 +49,7 @@ class PdfRendererDocument {
 public:
     virtual ~PdfRendererDocument();
     virtual int pageCount() = 0;
-    virtual QImage page(int page, double xres = 72.0, double yres = 72.0) = 0;
+    virtual QImage renderPage(int page, double resolution = 72.0) = 0;
     virtual QImage renderPageToWidth(int page, double width) = 0;
     virtual bool locked() const { return false; }
 };

@@ -23,7 +23,7 @@
 #include <QPagedPaintDevice>
 #include <QPainter>
 
-#include <poppler/qt5/poppler-qt5.h>
+#include "tools/pdf/pdftoolkit.h"
 #include <QGraphicsPixmapItem>
 #include <QImage>
 #include <QRegularExpression>
@@ -128,12 +128,9 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
 
 int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli, int resoluutio)
 {
-    Poppler::Document *document = Poppler::Document::loadFromData(data);
-    if( !document) {
-        return -1;
-    }
+    PdfRendererDocument *document = PdfToolkit::renderer(data);
 
-    if( document->isLocked()) {
+    if( document->locked()) {
         delete document;
         if(ensisivu)
             return tulostaTiedot(printer, painter, tosite, sivu, kieli, true, true);
@@ -141,8 +138,6 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
             return 0;
     }
 
-    document->setRenderHint(Poppler::Document::TextAntialiasing);
-    document->setRenderHint(Poppler::Document::Antialiasing);        
 
     painter->setFont(QFont("FreeSans",8));
     printer->newPage();
@@ -150,19 +145,13 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
     int rivinKorkeus = painter->fontMetrics().height();
     int sivut = 0;
 
-    int pageCount = document->numPages();
+    int pageCount = document->pageCount();
     for(int i=0; i < pageCount; i++)
     {
         painter->resetTransform();
-        Poppler::Page *page = document->page(i);
-        if( !page ) {
-            delete document;
-            return -1;
-        }
-
         try {
 
-            QImage image = page->renderToImage(resoluutio, resoluutio);
+            QImage image = document->renderPage(i, resoluutio);
             QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
             QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);
@@ -172,8 +161,7 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
             painter->translate(0, painter->window().height() - ( ensisivu ? 8 : 1 ) * rivinKorkeus);
 
         }
-            catch (std::bad_alloc&) {
-            delete page;
+            catch (std::bad_alloc&) {            
             delete document;
             return -1;
         }
@@ -184,9 +172,7 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
         }
 
         if( i < pageCount - 1 )
-            printer->newPage();       
-
-        delete page;
+            printer->newPage();               
     }
     painter->translate(0, painter->window().height() - painter->transform().dy());
 

@@ -27,7 +27,7 @@
 #include <QSettings>
 #include <QMouseEvent>
 
-#include <poppler/qt5/poppler-qt5.h>
+#include "tools/pdf/pdftoolkit.h"
 
 InboxLista::InboxLista()
 {
@@ -76,23 +76,18 @@ void InboxLista::paivita()
             if( tiedostonimi.endsWith(".pdf") && !kp()->settings()->value("PopplerPois").toBool())
             {
                 QImage kuva;
-                Poppler::Document *pdfDoc = Poppler::Document::load( info.absoluteFilePath());
-                if( pdfDoc )
-                {
-                    if( pdfDoc->isLocked()) {
+                QFile tiedosto( info.absoluteFilePath());
+                if( tiedosto.open(QFile::ReadOnly) ) {
+                    QByteArray sisalto = tiedosto.readAll();
+                    PdfRendererDocument* pdfDoc = PdfToolkit::renderer( sisalto );
+                    if( pdfDoc->locked()) {
                         kuva.load(":/pic/lukittupdf.png");
                     } else {
-                        Poppler::Page *pdfSivu = pdfDoc->page(0);
-                        if( pdfSivu )
-                        {
-                            kuva = pdfSivu->thumbnail();
-                            if( kuva.isNull())
-                                kuva = pdfSivu->renderToImage(24,24);
-                            delete pdfSivu;
-                        }
+                        kuva = pdfDoc->renderPage(0, 24.0);
                     }
                     delete pdfDoc;
                 }
+
                 if( kuva.isNull())
                 {
                     item->setIcon(QIcon(":/pic/pdf.png"));

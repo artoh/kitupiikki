@@ -24,17 +24,23 @@ class PdfAnalyzerText;
 class PdfAnalyzerPage
 {
 public:
-    PdfAnalyzerPage();
+    PdfAnalyzerPage(QSizeF size = QSizeF());
     ~PdfAnalyzerPage();
 
     PdfAnalyzerText* firstText() const;
+    QSizeF size() const { return size_;}
 
     void addText(const QRectF& boundingRect,
-                 const QString& text,
-                 bool spaceAfter);
+                 const QString& text);
+    void setSize(const QSizeF size);
+
+    static inline double mmToPoints(double mm);
+    static inline double pointsTomm(double points);
+
 private:
     PdfAnalyzerText* first_ = nullptr;
     PdfAnalyzerText* last_ = nullptr;
+    QSizeF size_;
 };
 
 #endif // PDFANALYZERPAGE_H

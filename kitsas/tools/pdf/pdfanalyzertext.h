@@ -24,19 +24,16 @@ class PdfAnalyzerText
 {
 public:
     PdfAnalyzerText(QRectF boundingRect,
-                    QString text,
-                    bool spaceAfter);
+                    QString text);
 
     QRectF boundingRect() const { return boundingRect_;}
     QString text() const { return text_;}
-    bool spaceAfter() const { return spaceAfter_;}
     PdfAnalyzerText* next() const { return next_;}
 
     void setNext(PdfAnalyzerText* next);
 private:
     QRectF boundingRect_;
     QString text_;
-    bool spaceAfter_;
     PdfAnalyzerText* next_ = nullptr;
 
 };

@@ -30,7 +30,7 @@ PopplerAnalyzerDocument::~PopplerAnalyzerDocument()
 
 int PopplerAnalyzerDocument::pageCount()
 {
-    if(pdfDoc_)
+    if(pdfDoc_ && !pdfDoc_->isLocked())
         return pdfDoc_->numPages();
     else
         return 0;
@@ -44,15 +44,36 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
 
         Poppler::Page *sivu = pdfDoc_->page(page);
         if( sivu) {
-            for( const auto tbox : sivu->textList() ) {
-                // Pitäisikö koordinaatit muuttaa millimetreiksi ???
-                result.addText( tbox->boundingBox(),
-                                tbox->text(),
-                                tbox->hasSpaceAfter());
+            result.setSize( sivu->pageSizeF() );
+
+            auto lista = sivu->textList();
+            for(int i=0; i < lista.count(); i++) {
+                QRectF rect = lista.at(i)->boundingBox();
+                QString txt = lista.at(i)->text();
+                if( lista.at(i)->hasSpaceAfter() )
+                    txt.append(" ");
+
+                while(lista.at(i)->nextWord()) {
+                    i++;
+                    rect = rect.united( lista.at(i)->boundingBox() );
+                    txt.append(lista.at(i)->text());
+                    if( lista.at(i)->hasSpaceAfter() )
+                        txt.append(" ");
+                }
+                result.addText( rect, txt);
+
             }
             delete sivu;
         }
     }
 
     return result;
+}
+
+QString PopplerAnalyzerDocument::title() const
+{
+    if( pdfDoc_)
+        return pdfDoc_->title();
+    else
+        return QString();
 }

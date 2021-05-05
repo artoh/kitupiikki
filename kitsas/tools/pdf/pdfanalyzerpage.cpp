@@ -17,7 +17,8 @@
 #include "pdfanalyzerpage.h"
 #include "pdfanalyzertext.h"
 
-PdfAnalyzerPage::PdfAnalyzerPage()
+PdfAnalyzerPage::PdfAnalyzerPage(QSizeF size) :
+    size_(size)
 {
 
 }
@@ -37,12 +38,27 @@ PdfAnalyzerText *PdfAnalyzerPage::firstText() const
     return first_;
 }
 
-void PdfAnalyzerPage::addText(const QRectF &boundingRect, const QString &text, bool spaceAfter)
+void PdfAnalyzerPage::addText(const QRectF &boundingRect, const QString &text)
 {
-    PdfAnalyzerText* newText = new PdfAnalyzerText(boundingRect, text, spaceAfter);
+    PdfAnalyzerText* newText = new PdfAnalyzerText(boundingRect, text);
     if( !first_ )
         first_ = newText;
     if( last_ )
         last_->setNext(newText);
     last_ = newText;
+}
+
+void PdfAnalyzerPage::setSize(const QSizeF size)
+{
+    size_ = size;
+}
+
+double PdfAnalyzerPage::mmToPoints(double mm)
+{
+    return mm * 72 / 25.4;
+}
+
+double PdfAnalyzerPage::pointsTomm(double points)
+{
+    return points * 25.4 / 72;
 }

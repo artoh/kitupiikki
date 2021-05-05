@@ -28,6 +28,8 @@ public:
 
     virtual int pageCount() override;
     virtual PdfAnalyzerPage page(int page) override;
+    virtual QString title() const override;
+
 
 private:
     Poppler::Document *pdfDoc_ = nullptr;

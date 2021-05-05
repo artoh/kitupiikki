@@ -16,7 +16,6 @@
 */
 #include "pdfview.h"
 
-#include <poppler/qt5/poppler-qt5.h>
 #include <QGraphicsPixmapItem>
 #include <QPrinter>
 #include <QPainter>
@@ -39,8 +38,8 @@ QByteArray Naytin::PdfView::data() const
 
 QString Naytin::PdfView::otsikko() const
 {
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
-    QString otsikkoni = pdfDoc->info("Title") ;
+    PdfAnalyzerDocument *pdfDoc = PdfToolkit::analyzer(data_);
+    QString otsikkoni = pdfDoc->title();
     delete pdfDoc;
     return otsikkoni;
 }
@@ -112,33 +111,19 @@ void Naytin::PdfView::paivita() const
 void Naytin::PdfView::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
-    Poppler::Document *document = Poppler::Document::loadFromData(data_);
-    if( !document) {
-        return;
-    }
+    PdfRendererDocument *document = PdfToolkit::renderer(data_);
 
-    document->setRenderHint(Poppler::Document::TextAntialiasing);
-    document->setRenderHint(Poppler::Document::Antialiasing);
-
-
-    int pageCount = document->numPages();
+    int pageCount = document->pageCount();
     for(int i=0; i < pageCount; i++)
     {
-        Poppler::Page *page = document->page(i);
-        if( !page ) {
-            delete document;
-            return;
-        }
-
         double resoluutio = 300.0;
-        QImage image = page->renderToImage(resoluutio, resoluutio);
+        QImage image = document->renderPage(i, resoluutio);
         QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
         painter.drawPixmap(painter.window(), kuva);
 
         if( i < pageCount - 1)
             printer->newPage();
 
-        delete page;
     }
     painter.end();
     delete document;

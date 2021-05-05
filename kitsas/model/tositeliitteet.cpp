@@ -16,7 +16,7 @@
 */
 #include "tositeliitteet.h"
 #include "db/kirjanpito.h"
-
+#include "tools/pdf/pdftoolkit.h"
 
 #include <QIcon>
 #include <QFile>
@@ -29,7 +29,6 @@
 #include <QSettings>
 #include <QPdfWriter>
 #include <QImage>
-#include <poppler/qt5/poppler-qt5.h>
 
 #include "db/tositetyyppimodel.h"
 #include "tuonti/pdftuonti.h"
@@ -583,17 +582,14 @@ void TositeLiitteet::TositeLiite::setSisalto(const QByteArray &ba)
 
     QString tyyppi = KpKysely::tiedostotyyppi(ba);
     if( tyyppi == "application/pdf") {
-        Poppler::Document *pdfDoc = Poppler::Document::loadFromData(ba);
-        if( pdfDoc && !pdfDoc->isLocked()) {
-            Poppler::Page *sivu = pdfDoc->page(0);
-            if( sivu) {
-                QImage image = sivu->renderToImage(24,24);
-                QPixmap kuva = QPixmap::fromImage(image.scaled(128,128,Qt::KeepAspectRatio));
-                QBuffer tallennus(&thumb_);
-                tallennus.open(QIODevice::WriteOnly);
-                kuva.save(&tallennus, "PNG");
-            }
-        }
+        PdfRendererDocument* pdfDoc = PdfToolkit::renderer(ba);
+        QImage image = pdfDoc->renderPage(0, 24.0);
+        delete pdfDoc;
+        QPixmap kuva = QPixmap::fromImage(image.scaled(128,128,Qt::KeepAspectRatio));
+        QBuffer tallennus(&thumb_);
+        tallennus.open(QIODevice::WriteOnly);
+        kuva.save(&tallennus, "PNG");
+
     } else if( tyyppi.startsWith("image/jpeg")) {
         QImage image = QImage::fromData(ba, "JPG");
         QPixmap kuva = QPixmap::fromImage(image.scaled(128,128, Qt::KeepAspectRatio));

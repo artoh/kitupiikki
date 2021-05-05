@@ -68,7 +68,7 @@ protected:
      * @brief Hakee pdf-dokumentit tekstit taulukkoon
      * @param pdfDoc
      */
-    void haeTekstit(Poppler::Document *pdfDoc);
+    void haeTekstit(const QByteArray &data);
 
     /**
      * @brief Hakee lähimpiä merkkijonoja

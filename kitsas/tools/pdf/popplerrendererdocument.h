@@ -27,7 +27,7 @@ public:
     ~PopplerRendererDocument();
 
     virtual int pageCount() override;
-    virtual QImage page(int page, double xres, double yres) override;
+    virtual QImage renderPage(int page, double resolution) override;
     virtual QImage renderPageToWidth(int page, double width) override;
     virtual bool locked() const override;
 
