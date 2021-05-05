@@ -293,9 +293,7 @@ void TilioteApuri::naytaTosite()
         }
 
 
-        sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS ?
-                                                               ( pankki.debetEuro() ? TositeVienti::MYYNTI : TositeVienti::OSTO) :
-                                                                 0 ) );
+        sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( tosite->tyyppi() ) );
 
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }

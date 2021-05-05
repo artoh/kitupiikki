@@ -131,8 +131,8 @@ void SiirtoApuri::teeReset()
 
     if( viennit.count() >= 2 )
     {
-        TositeVienti debetMap = viennit.at(0);
-        TositeVienti kreditMap = viennit.at(1);
+        TositeVienti debetMap = viennit.at(0).debetEuro() ? viennit.at(0) : viennit.at(1);
+        TositeVienti kreditMap =  viennit.at(1).kreditEuro() ? viennit.at(1) : viennit.at(0);
 
         ui->tililleEdit->valitseTiliNumerolla( debetMap.value("tili").toInt() );
         ui->euroEdit->setValue( debetMap.value("debet").toDouble() );
