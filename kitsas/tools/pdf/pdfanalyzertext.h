@@ -19,23 +19,37 @@
 
 #include <QRectF>
 #include <QString>
+#include <QList>
+
+class PdfAnalyzerWord
+{
+public:
+    PdfAnalyzerWord();
+    PdfAnalyzerWord(const QRectF& rect, const QString& text, bool spaceAfter_);
+
+    QRectF boundingRect() const { return boundingRect_;}
+    QString text() const { return text_;}
+    bool hasSpaceAfter() const { return spaceAfter_;}
+
+private:
+    QRectF boundingRect_;
+    QString text_;
+    bool spaceAfter_;
+};
+
 
 class PdfAnalyzerText
 {
 public:
-    PdfAnalyzerText(QRectF boundingRect,
-                    QString text);
+    PdfAnalyzerText();
 
-    QRectF boundingRect() const { return boundingRect_;}
-    QString text() const { return text_;}
-    PdfAnalyzerText* next() const { return next_;}
+    QRectF boundingRect() const;
+    QString text() const;
 
-    void setNext(PdfAnalyzerText* next);
+    void addWord(const QRectF& rect, const QString& text, bool spaceAfter = false);
 private:
-    QRectF boundingRect_;
-    QString text_;
-    PdfAnalyzerText* next_ = nullptr;
-
+    QList<PdfAnalyzerWord> words_;
+    PdfAnalyzerText* next_;
 };
 
 #endif // PDFANALYZERTEXT_H

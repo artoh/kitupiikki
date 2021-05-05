@@ -25,32 +25,23 @@ PdfAnalyzerPage::PdfAnalyzerPage(QSizeF size) :
 
 PdfAnalyzerPage::~PdfAnalyzerPage()
 {
-    PdfAnalyzerText* text = firstText();
-    while( text ) {
-        PdfAnalyzerText* next = text->next();
-        delete text;
-        text = next;
-    }
+
 }
 
-PdfAnalyzerText *PdfAnalyzerPage::firstText() const
-{
-    return first_;
-}
 
-void PdfAnalyzerPage::addText(const QRectF &boundingRect, const QString &text)
+QList<PdfAnalyzerText> PdfAnalyzerPage::textList()
 {
-    PdfAnalyzerText* newText = new PdfAnalyzerText(boundingRect, text);
-    if( !first_ )
-        first_ = newText;
-    if( last_ )
-        last_->setNext(newText);
-    last_ = newText;
+    return textList_;
 }
 
 void PdfAnalyzerPage::setSize(const QSizeF size)
 {
     size_ = size;
+}
+
+void PdfAnalyzerPage::addText(PdfAnalyzerText text)
+{
+    textList_.append(text);
 }
 
 double PdfAnalyzerPage::mmToPoints(double mm)

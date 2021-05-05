@@ -740,14 +740,13 @@ void PdfTuonti::haeTekstit(const QByteArray &data)
         qreal leveysKerroin = 100.0 / pdfSivu.size().width();
         qreal korkeusKerroin = 200.0 / pdfSivu.size().height();
 
-        QSet<Poppler::TextBox*> kasitellyt;
-        PdfAnalyzerText *text = pdfSivu.firstText();
+        QSet<Poppler::TextBox*> kasitellyt;        
 
-        while(text) {
+        for(const auto& text : pdfSivu.textList()){
             int sijainti = sivu * 20000 +
-                    int( text->boundingRect().y() * korkeusKerroin) * 100 +
-                    int( text->boundingRect().x() * leveysKerroin);
-            QString raaka = text->text().simplified();
+                    int( text.boundingRect().y() * korkeusKerroin) * 100 +
+                    int( text.boundingRect().x() * leveysKerroin);
+            QString raaka = text.text().simplified();
 
             QString tulos;
             for(int i = 0; i < raaka.length(); i++)
@@ -772,7 +771,6 @@ void PdfTuonti::haeTekstit(const QByteArray &data)
             }
 
             tekstit_.insert(sijainti, tulos );
-            text = text->next();
         }
 /*
         for( Poppler::TextBox* box : pdfSivu->textList())

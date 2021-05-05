@@ -16,13 +16,45 @@
 */
 #include "pdfanalyzertext.h"
 
-PdfAnalyzerText::PdfAnalyzerText(QRectF boundingRect, QString text) :
-    boundingRect_(boundingRect), text_(text)
+
+PdfAnalyzerWord::PdfAnalyzerWord()
 {
 
 }
 
-void PdfAnalyzerText::setNext(PdfAnalyzerText *next)
+PdfAnalyzerWord::PdfAnalyzerWord(const QRectF &rect, const QString &text, bool spaceAfter_) :
+    boundingRect_(rect), text_(text), spaceAfter_(spaceAfter_)
 {
-    next_ = next;
+
+}
+
+
+PdfAnalyzerText::PdfAnalyzerText()
+{
+
+}
+
+QRectF PdfAnalyzerText::boundingRect() const
+{
+    QRectF rect;
+    for( const auto& word : words_) {
+        rect = rect.united(word.boundingRect());
+    }
+    return rect;
+}
+
+QString PdfAnalyzerText::text() const
+{
+    QString text;
+    for( const auto& word: words_) {
+        text.append(word.text());
+        if( word.hasSpaceAfter())
+            text.append(" ");
+    }
+    return text;
+}
+
+void PdfAnalyzerText::addWord(const QRectF &rect, const QString &text, bool spaceAfter)
+{
+    words_.append(PdfAnalyzerWord(rect, text, spaceAfter));
 }

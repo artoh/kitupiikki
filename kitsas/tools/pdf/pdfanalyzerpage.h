@@ -18,8 +18,9 @@
 #define PDFANALYZERPAGE_H
 
 #include <QRectF>
+#include <QList>
+#include "pdfanalyzertext.h"
 
-class PdfAnalyzerText;
 
 class PdfAnalyzerPage
 {
@@ -27,19 +28,17 @@ public:
     PdfAnalyzerPage(QSizeF size = QSizeF());
     ~PdfAnalyzerPage();
 
-    PdfAnalyzerText* firstText() const;
     QSizeF size() const { return size_;}
-
-    void addText(const QRectF& boundingRect,
-                 const QString& text);
     void setSize(const QSizeF size);
+
+    void addText(PdfAnalyzerText text);
+    QList<PdfAnalyzerText> textList();
 
     static inline double mmToPoints(double mm);
     static inline double pointsTomm(double points);
 
 private:
-    PdfAnalyzerText* first_ = nullptr;
-    PdfAnalyzerText* last_ = nullptr;
+    QList<PdfAnalyzerText> textList_;
     QSizeF size_;
 };
 

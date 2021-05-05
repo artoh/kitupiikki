@@ -48,19 +48,17 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
 
             auto lista = sivu->textList();
             for(int i=0; i < lista.count(); i++) {
-                QRectF rect = lista.at(i)->boundingBox();
-                QString txt = lista.at(i)->text();
-                if( lista.at(i)->hasSpaceAfter() )
-                    txt.append(" ");
-
-                while(lista.at(i)->nextWord()) {
-                    i++;
-                    rect = rect.united( lista.at(i)->boundingBox() );
-                    txt.append(lista.at(i)->text());
-                    if( lista.at(i)->hasSpaceAfter() )
-                        txt.append(" ");
+                auto ptr = lista.at(i);
+                PdfAnalyzerText text;
+                while(ptr) {
+                    text.addWord( ptr->boundingBox(),
+                                  ptr->text(),
+                                  ptr->hasSpaceAfter());
+                    ptr = ptr->nextWord();
+                    if( ptr )
+                        i++;
                 }
-                result.addText( rect, txt);
+                result.addText(text);
 
             }
             delete sivu;
