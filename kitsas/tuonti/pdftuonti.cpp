@@ -65,8 +65,8 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
         return tuonti.tuoPdfLasku();
     else if( tuonti.etsi("tiliote",0,30)  || tuonti.etsi("account statement",0,30))
         return tuonti.tuoPdfTiliote();
-    else
-        return QVariantMap();
+
+    return QVariantMap();
 }
 
 QVariantMap PdfTuonti::tuoPdfLasku()
