@@ -24,6 +24,8 @@
 #include "db/kirjanpito.h"
 #include <QSettings>
 
+#include "tools/pdf/pdftoolkit.h"
+
 Naytin::PdfView::PdfView(const QByteArray &pdf) :
     data_(pdf)
 {
@@ -49,25 +51,24 @@ void Naytin::PdfView::paivita() const
     scene()->setBackgroundBrush(QBrush(Qt::gray));
     scene()->clear();
 
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
-    if(!pdfDoc)
-        return;
+    PdfRendererDocument* renderer = PdfToolkit::renderer(data_);
 
-    if( pdfDoc->isLocked() ) {
+//    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
+//    if(!pdfDoc)
+//        return;
+
+    if( renderer->locked() ) {
         QGraphicsSimpleTextItem *text = scene()->addSimpleText(tr("Tiedosto on salakirjoitettu"), QFont("FreeSans",14));
         text->setBrush(QBrush(Qt::yellow));
-        delete pdfDoc;
+        delete renderer;
         return;
     }
-
-    pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
-    pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
 
     double ypos = 0.0;
     double leveys = 0.0;
     double leveyteen = width() * skaala_ - 20.0;
 
-    int sivut = pdfDoc->numPages();
+    int sivut = renderer->pageCount();
     int naytettavat = sivut < 20 ? sivut : 20;
 
     if( naytettavat != sivut) {
@@ -78,16 +79,8 @@ void Naytin::PdfView::paivita() const
 
     // Monisivuisen pdf:n sivut pinotaan päällekkäin
     for( int sivu = 0; sivu < naytettavat; sivu++)
-    {
-        Poppler::Page *pdfSivu = pdfDoc->page(sivu);
-
-        if( !pdfSivu )
-            continue;
-
-        double pdfleveys = pdfSivu->pageSizeF().width();
-        double skaala = leveyteen / pdfleveys * 72.0;
-
-        QImage image = pdfSivu->renderToImage(skaala, skaala);
+    {        
+        QImage image = renderer->renderPageToWidth(sivu, leveyteen);
         QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
         scene()->addRect(2, ypos+2, kuva.width(), kuva.height(), QPen(Qt::NoPen), QBrush(Qt::black) );
@@ -101,8 +94,6 @@ void Naytin::PdfView::paivita() const
 
         ypos += kuva.height() + 10.0;
 
-
-        delete pdfSivu;
     }
 
     if( naytettavat != sivut) {
@@ -114,7 +105,7 @@ void Naytin::PdfView::paivita() const
 
     scene()->setSceneRect(-5.0, -5.0, leveys + 10.0, ypos + 5.0  );
 
-    delete pdfDoc;
+    delete renderer;
 
 }
 

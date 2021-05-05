@@ -28,10 +28,13 @@ public:
 
     virtual int pageCount() override;
     virtual QImage page(int page, double xres, double yres) override;
+    virtual QImage renderPageToWidth(int page, double width) override;
     virtual bool locked() const override;
 
 private:
     Poppler::Document *pdfDoc_ = nullptr;
+
+
 };
 
 #endif // POPPLERRENDERERDOCUMENT_H

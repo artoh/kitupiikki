@@ -48,6 +48,7 @@ public:
     virtual ~PdfRendererDocument();
     virtual int pageCount() = 0;
     virtual QImage page(int page, double xres = 72.0, double yres = 72.0) = 0;
+    virtual QImage renderPageToWidth(int page, double width) = 0;
     virtual bool locked() const { return false; }
 };
 

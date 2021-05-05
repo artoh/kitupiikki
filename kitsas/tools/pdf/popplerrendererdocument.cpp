@@ -21,6 +21,9 @@
 PopplerRendererDocument::PopplerRendererDocument(const QByteArray &data)
 {
     pdfDoc_ = Poppler::Document::loadFromData(data);
+
+    pdfDoc_->setRenderHint(Poppler::Document::TextAntialiasing);
+    pdfDoc_->setRenderHint(Poppler::Document::Antialiasing);
 }
 
 PopplerRendererDocument::~PopplerRendererDocument()
@@ -55,4 +58,20 @@ bool PopplerRendererDocument::locked() const
         return pdfDoc_->isLocked();
     else
         return false;
+}
+
+
+QImage PopplerRendererDocument::renderPageToWidth(int page, double width)
+{
+    if( !pdfDoc_ || locked())
+        return QImage();
+
+    Poppler::Page *pdfSivu = pdfDoc_->page(page);
+    if( !pdfSivu)
+        return QImage();
+
+    double pdfleveys = pdfSivu->pageSizeF().width();
+    double skaala = width / pdfleveys * 72.0;
+
+    return pdfSivu->renderToImage(skaala, skaala);
 }

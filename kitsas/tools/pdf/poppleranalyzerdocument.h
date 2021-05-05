@@ -17,11 +17,22 @@
 #ifndef POPPLERANALYZERDOCUMENT_H
 #define POPPLERANALYZERDOCUMENT_H
 
+#include "pdftoolkit.h"
+#include <poppler/qt5/poppler-qt5.h>
 
 class PopplerAnalyzerDocument : public PdfAnalyzerDocument
 {
 public:
-    PopplerAnalyzerDocument();
+    PopplerAnalyzerDocument(const QByteArray& data);
+    ~PopplerAnalyzerDocument();
+
+    virtual int pageCount() override;
+    virtual PdfAnalyzerPage page(int page) override;
+
+private:
+    Poppler::Document *pdfDoc_ = nullptr;
+
+
 };
 
 #endif // POPPLERANALYZERDOCUMENT_H
