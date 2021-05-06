@@ -19,6 +19,7 @@
 
 #include <QList>
 #include <QSizeF>
+#include <QPainter>
 
 class QPainter;
 
