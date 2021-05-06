@@ -20,7 +20,7 @@
 #include <QList>
 #include <QSizeF>
 
-class Painter;
+class QPainter;
 
 
 class LaskuMaksuLaatikko

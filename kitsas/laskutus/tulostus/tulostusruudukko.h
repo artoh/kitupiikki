@@ -19,6 +19,7 @@
 
 #include <QString>
 #include <QList>
+#include <QSizeF>
 
 class QPainter;
 class QPagedPaintDevice;
