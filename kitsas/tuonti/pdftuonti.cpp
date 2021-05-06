@@ -44,6 +44,8 @@
 #include "tools/pdf/pdfanalyzerpage.h"
 #include "tools/pdf/pdfanalyzertext.h"
 
+#include "pdftiliote/pdftiliotetuonti.h"
+
 namespace Tuonti {
 
 
@@ -63,8 +65,15 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
         {}    // Hyvityslaskulle ei automaattista käsittelyä
     else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
         return tuonti.tuoPdfLasku();
-    else if( tuonti.etsi("tiliote",0,30)  || tuonti.etsi("account statement",0,30))
-        return tuonti.tuoPdfTiliote();
+    else if( tuonti.etsi("tiliote",0,100)  || tuonti.etsi("account statement",0,30))
+    {
+       PdfAnalyzerDocument* doc = PdfToolkit::analyzer(data);
+       PdfTilioteTuonti tilioteTuonti;
+       QVariantMap tulos = tilioteTuonti.tuo(doc->allPages());
+       delete doc;
+       return tulos;
+    }
+    //    return tuonti.tuoPdfTiliote();
 
     return QVariantMap();
 }
@@ -742,35 +751,38 @@ void PdfTuonti::haeTekstit(const QByteArray &data)
 
         QSet<Poppler::TextBox*> kasitellyt;        
 
-        for(const auto& text : pdfSivu.textList()){
-            int sijainti = sivu * 20000 +
-                    int( text.boundingRect().y() * korkeusKerroin) * 100 +
-                    int( text.boundingRect().x() * leveysKerroin);
-            QString raaka = text.text().simplified();
+        for(const auto& row : pdfSivu.rows()) {
 
-            QString tulos;
-            for(int i = 0; i < raaka.length(); i++)
-            {
-                // Poistetaan numeroiden välissä olevat välit
-                // sekä numeron ja +/- merkin välissä oleva väli
-                // Näin saadaan tilinumerot ja valuutasummat tiiviiksi
+            for(const auto& text : row.textList()){
+                int sijainti = sivu * 20000 +
+                        int( text.boundingRect().y() * korkeusKerroin) * 100 +
+                        int( text.boundingRect().x() * leveysKerroin);
+                QString raaka = text.text().simplified();
 
-                QChar merkki = raaka.at(i);
-
-                if( i > 0 && i < raaka.length() - 1 && merkki.isSpace())
+                QString tulos;
+                for(int i = 0; i < raaka.length(); i++)
                 {
-                    QChar ennen = raaka.at(i-1);
-                    QChar jalkeen = raaka.at(i+1);
+                    // Poistetaan numeroiden välissä olevat välit
+                    // sekä numeron ja +/- merkin välissä oleva väli
+                    // Näin saadaan tilinumerot ja valuutasummat tiiviiksi
 
-                    if( (ennen.isDigit() || jalkeen.isDigit()) &&
-                        (ennen.isDigit() || ennen == '-' || ennen == '+') &&
-                        (jalkeen.isDigit() || jalkeen == '-' || jalkeen == '+') )
-                        continue;
+                    QChar merkki = raaka.at(i);
+
+                    if( i > 0 && i < raaka.length() - 1 && merkki.isSpace())
+                    {
+                        QChar ennen = raaka.at(i-1);
+                        QChar jalkeen = raaka.at(i+1);
+
+                        if( (ennen.isDigit() || jalkeen.isDigit()) &&
+                            (ennen.isDigit() || ennen == '-' || ennen == '+') &&
+                            (jalkeen.isDigit() || jalkeen == '-' || jalkeen == '+') )
+                            continue;
+                    }
+                    tulos.append(merkki);
                 }
-                tulos.append(merkki);
-            }
 
-            tekstit_.insert(sijainti, tulos );
+                tekstit_.insert(sijainti, tulos );
+            }
         }
 /*
         for( Poppler::TextBox* box : pdfSivu->textList())

@@ -29,27 +29,28 @@ PdfAnalyzerPage::~PdfAnalyzerPage()
 }
 
 
-QList<PdfAnalyzerText> PdfAnalyzerPage::textList()
-{
-    return textList_;
-}
 
 void PdfAnalyzerPage::setSize(const QSizeF size)
 {
     size_ = size;
 }
 
-void PdfAnalyzerPage::addText(PdfAnalyzerText text)
+QList<PdfAnalyzerRow> PdfAnalyzerPage::rows() const
 {
-    textList_.append(text);
+    return rows_;
 }
 
-double PdfAnalyzerPage::mmToPoints(double mm)
+void PdfAnalyzerPage::addRow(const PdfAnalyzerRow &row)
 {
-    return mm * 72 / 25.4;
+    if( rows_.isEmpty() || row.boundingRect().y() > rows_.last().boundingRect().y()) {
+        rows_.append(row);
+    } else {
+        for(int i=0; i < rows_.count(); i++) {
+            if( rows_.at(i).boundingRect().y() < row.boundingRect().y()) {
+                rows_.insert(i, row);
+                return;
+            }
+        }
+    }
 }
 
-double PdfAnalyzerPage::pointsTomm(double points)
-{
-    return points * 25.4 / 72;
-}

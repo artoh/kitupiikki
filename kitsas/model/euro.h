@@ -54,6 +54,7 @@ public:
 
     static Euro fromVariant(const QVariant& variant);
     static Euro fromDouble(const double euro);
+    static Euro fromString(QString euroString);
 
     Euro& operator<<(const QString& string);
     Euro& operator<<(const QVariant& variant);

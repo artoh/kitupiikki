@@ -20,25 +20,44 @@
 #include <QRectF>
 #include <QList>
 #include "pdfanalyzertext.h"
+#include "pdfanalyzerrow.h"
 
-
+/**
+ * @brief The Pdf:n sivun tekstit
+ */
 class PdfAnalyzerPage
 {
 public:
     PdfAnalyzerPage(QSizeF size = QSizeF());
     ~PdfAnalyzerPage();
 
+    /**
+     * @brief Sivun koko
+     * @return Sivukoko pisteinä ( 1/72 tuumaa)
+     */
     QSizeF size() const { return size_;}
     void setSize(const QSizeF size);
 
-    void addText(PdfAnalyzerText text);
-    QList<PdfAnalyzerText> textList();
+    /**
+     * @brief Sivun tekstirivit
+     *
+     * Rivit pidetään järjestyksessä alhaalta ylöspäin.
+     * Sivun marginaalissa mahdollisesti olevaa pystysuoraa tekstiä ei sisällytetä
+     * riveihin.
+     *
+     * @return Tekstirivit
+     */
+    QList<PdfAnalyzerRow> rows() const;
 
-    static inline double mmToPoints(double mm);
-    static inline double pointsTomm(double points);
+    /**
+     * @brief Lisää rivin
+     * @param row
+     */
+    void addRow(const PdfAnalyzerRow& row);
+
 
 private:
-    QList<PdfAnalyzerText> textList_;
+    QList<PdfAnalyzerRow> rows_;
     QSizeF size_;
 };
 

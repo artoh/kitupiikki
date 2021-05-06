@@ -17,6 +17,10 @@
 #include "poppleranalyzerdocument.h"
 #include "pdfanalyzerpage.h"
 
+#include <iostream>
+
+#include <QMap>
+
 PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
 {
     pdfDoc_ = Poppler::Document::loadFromData(data);
@@ -37,35 +41,63 @@ int PopplerAnalyzerDocument::pageCount()
 }
 
 PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
-{
+{   
     PdfAnalyzerPage result;
-
     if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
         Poppler::Page *sivu = pdfDoc_->page(page);
+        QMap<int,PdfAnalyzerRow> rows;
+
         if( sivu) {
             result.setSize( sivu->pageSizeF() );
 
-            auto lista = sivu->textList();
+            auto lista = sivu->textList();            
             for(int i=0; i < lista.count(); i++) {
-                auto ptr = lista.at(i);
+                auto ptr = lista.at(i);                
                 PdfAnalyzerText text;
                 while(ptr) {
                     text.addWord( ptr->boundingBox(),
                                   ptr->text(),
                                   ptr->hasSpaceAfter());
+
                     ptr = ptr->nextWord();
                     if( ptr )
                         i++;
                 }
-                result.addText(text);
+                int indeksi = qRound( text.boundingRect().top() );
+                if( rows.contains(indeksi-1) )
+                    indeksi = indeksi -1;
+                else if( rows.contains(indeksi+1))
+                    indeksi = indeksi + 1;
 
-            }
+                // Jätetään pois sivumarginaalia
+                if( text.boundingRect().right() > 25)
+                    rows[indeksi].addText(text);
+            }            
             delete sivu;
         }
-    }
+
+        QMapIterator<int,PdfAnalyzerRow> iter(rows);
+        while(iter.hasNext()) {
+            iter.next();
+            result.addRow(iter.value());
+
+//            std::cerr << iter.key() << "   ";
+//            for(auto text: iter.value().textList() )
+//                std::cerr << text.text().toStdString() << " # ";
+//            std::cerr << "\n";
+        }
+    }    
 
     return result;
+}
+
+QList<PdfAnalyzerPage> PopplerAnalyzerDocument::allPages()
+{
+    QList<PdfAnalyzerPage> pages;
+    for(int i=0; i < pageCount(); i++)
+        pages.append( page(i) );
+    return pages;
 }
 
 QString PopplerAnalyzerDocument::title() const

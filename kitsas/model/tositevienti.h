@@ -45,10 +45,10 @@ public:
         TYYPPI,
         PALKKAKOODI,
         TASAERAPOISTO,
-        BRUTTO,
         ALKUPVIENNIT,
         VIITE,
-        AALV
+        AALV,
+        OSTOPVM
     };
 
     enum VientiTyyppi {
@@ -105,8 +105,7 @@ public:
     QDate jaksoalkaa() const { return data(JAKSOALKAA).toDate();}
     QDate jaksoloppuu() const { return data(JAKSOLOPPUU).toDate();}
     QString viite() const { return data(VIITE).toString();}
-
-    double brutto() const { return data(BRUTTO).toDouble();}
+    QDate ostopvm() const { return data(OSTOPVM).toDate(); }
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -139,9 +138,8 @@ public:
     void setPalkkakoodi(const QString& palkkakoodi);
     void setTasaerapoisto(int kuukautta);
     void setId(int id);
-    void setBrutto(double brutto);
-    void setBrutto(qlonglong brutto);
     void setViite(const QString& viite);
+    void setOstoPvm(const QDate& pvm);
 
 private:
     static std::map<int,QString> avaimet__;

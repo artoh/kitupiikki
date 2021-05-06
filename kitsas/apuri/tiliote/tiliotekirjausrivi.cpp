@@ -95,6 +95,9 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     const QString& viite = tuonti.value("viite").toString();
     if( !viite.isEmpty() )
         pankki.setViite(viite);
+    const QDate& ostopvm = tuonti.value("ostopvm").toDate();
+    if( ostopvm.isValid())
+        pankki.setOstoPvm(ostopvm);
 
     viennit_ << pankki << tapahtuma;
 
@@ -139,8 +142,11 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         case SAAJAMAKSAJA:
             return pankkivienti().kumppaniNimi();
         case SELITE:
-            if(ekavienti.selite().isEmpty())
+            if(ekavienti.selite().isEmpty()) {
+                if( pankkivienti().viite().isEmpty() && pankkivienti().ostopvm().isValid())
+                    return QString("[%1]").arg(pankkivienti().ostopvm().toString("dd.MM.yyyy"));
                 return pankkivienti().viite();
+            }
             return ekavienti.selite();
         case TILI:
         {
@@ -230,6 +236,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
 
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
+    case Qt::TextColorRole:
+        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QColor(Qt::blue) : QColor(Qt::black));
     case TilaRooli:
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:

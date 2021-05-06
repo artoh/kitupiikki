@@ -221,12 +221,17 @@ SOURCES += \
     $$PWD/tools/kpkpledit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/pdf/pdfanalyzerpage.cpp \
+    $$PWD/tools/pdf/pdfanalyzerrow.cpp \
     $$PWD/tools/pdf/pdfanalyzertext.cpp \
+    $$PWD/tools/pdf/pdfanalyzerword.cpp \
     $$PWD/tools/pdf/pdftoolkit.cpp \
     $$PWD/tools/pdf/poppleranalyzerdocument.cpp \
     $$PWD/tools/pdf/popplerrendererdocument.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
+    $$PWD/tuonti/pdftiliote/oterivi.cpp \
+    $$PWD/tuonti/pdftiliote/pdftiliotetuonti.cpp \
+    $$PWD/tuonti/pdftiliote/tilioteotsake.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -577,12 +582,17 @@ HEADERS += \
     $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/pdf/pdfanalyzerpage.h \
+    $$PWD/tools/pdf/pdfanalyzerrow.h \
     $$PWD/tools/pdf/pdfanalyzertext.h \
+    $$PWD/tools/pdf/pdfanalyzerword.h \
     $$PWD/tools/pdf/pdftoolkit.h \
     $$PWD/tools/pdf/poppleranalyzerdocument.h \
     $$PWD/tools/pdf/popplerrendererdocument.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/palkkafituonti.h \
+    $$PWD/tuonti/pdftiliote/oterivi.h \
+    $$PWD/tuonti/pdftiliote/pdftiliotetuonti.h \
+    $$PWD/tuonti/pdftiliote/tilioteotsake.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \

@@ -14,28 +14,11 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef POPPLERANALYZERDOCUMENT_H
-#define POPPLERANALYZERDOCUMENT_H
+#include "pdfanalyzerword.h"
 
-#include "pdftoolkit.h"
-#include <poppler/qt5/poppler-qt5.h>
 
-class PopplerAnalyzerDocument : public PdfAnalyzerDocument
+PdfAnalyzerWord::PdfAnalyzerWord(const QRectF &rect, const QString &text, bool spaceAfter_) :
+    boundingRect_(rect), text_(text), spaceAfter_(spaceAfter_)
 {
-public:
-    PopplerAnalyzerDocument(const QByteArray& data);
-    ~PopplerAnalyzerDocument();
 
-    virtual int pageCount() override;
-    virtual PdfAnalyzerPage page(int page) override;
-    virtual QList<PdfAnalyzerPage> allPages() override;
-    virtual QString title() const override;
-
-
-private:
-    Poppler::Document *pdfDoc_ = nullptr;
-
-
-};
-
-#endif // POPPLERANALYZERDOCUMENT_H
+}

@@ -272,19 +272,14 @@ void TositeVienti::setId(int id)
     set( ID, id);
 }
 
-void TositeVienti::setBrutto(double brutto)
-{
-    set( BRUTTO, brutto);
-}
-
-void TositeVienti::setBrutto(qlonglong brutto)
-{
-    setBrutto( brutto / 100.0);
-}
-
 void TositeVienti::setViite(const QString &viite)
 {
     set( VIITE, viite);
+}
+
+void TositeVienti::setOstoPvm(const QDate &pvm)
+{
+    set( OSTOPVM, pvm);
 }
 
 
@@ -311,8 +306,8 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { TYYPPI, "tyyppi"},
     { PALKKAKOODI, "palkkakoodi"},
     { TASAERAPOISTO, "tasaerapoisto"},
-    { BRUTTO, "brutto"},
     { ALKUPVIENNIT, "alkupviennit"},
     { VIITE, "viite"},
-    { AALV, "aalv"}
+    { AALV, "aalv"},
+    { OSTOPVM, "ostopvm"}
 };

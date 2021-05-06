@@ -37,6 +37,9 @@ private slots:
     void euro_to_dbl();
     void euroSumma();
     void euro_to_bool();
+    void str1();
+    void str2();
+    void neg_to_str();
 };
 
 EuroTest::EuroTest()
@@ -138,6 +141,28 @@ void EuroTest::euro_to_bool()
     QVERIFY(euro1);
     Euro euro2(0);
     QVERIFY(!euro2);
+}
+
+void EuroTest::str1()
+{
+    Euro euro = Euro::fromString("1 234,56 -");
+    QCOMPARE(euro.cents(), -123456);
+    Euro euro2 = Euro::fromString("- 7 654,32");
+    QCOMPARE(euro2.cents(), -765432);
+}
+
+void EuroTest::str2()
+{
+    Euro euro = Euro::fromString("1 234,56 +");
+    QCOMPARE(euro.cents(), 123456);
+    Euro euro2 = Euro::fromString("+ 7 654,32");
+    QCOMPARE(euro2.cents(), 765432);
+}
+
+void EuroTest::neg_to_str()
+{
+    Euro euro = Euro(-65);
+    QCOMPARE(euro.toString(),"-0.65");
 }
 
 

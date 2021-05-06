@@ -74,7 +74,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
             double euro = vienti_.contains("debet") ? vienti_.debet() : 0 - vienti_.kredit();
             return qAbs(euro) > 1e-5 ? QString("%L1 €").arg( euro ,0,'f',2) : QVariant();
         }
-        return QVariant();
+        default: return QVariant();
     }
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);

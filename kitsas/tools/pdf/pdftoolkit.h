@@ -34,8 +34,26 @@ class PdfAnalyzerPage;
 class PdfAnalyzerDocument {
 public:
     virtual ~PdfAnalyzerDocument();
+    /**
+     * @brief Tiedoston sivumäärä
+     * @return Tiedostossa sivuja
+     */
     virtual int pageCount() = 0;
+    /**
+     * @brief Purkaa sivun sisällön
+     * @param page Sivunumero, alkaen nollasta
+     * @return Olio, joka sisältää sivun tekstit
+     */
     virtual PdfAnalyzerPage page(int page) = 0;
+    /**
+     * @brief Purkaa kaikkien sivujen tekstit
+     * @return Lista olioista, joissa sivujen tekstit
+     */
+    virtual QList<PdfAnalyzerPage> allPages() = 0;
+    /**
+     * @brief Pdf:n otsikko (title)
+     * @return Otsikko
+     */
     virtual QString title() const = 0;
 };
 
@@ -48,9 +66,29 @@ public:
 class PdfRendererDocument {
 public:
     virtual ~PdfRendererDocument();
+    /**
+     * @brief Tiedoston sivumäärä
+     * @return Tiedostossa sivuja
+     */
     virtual int pageCount() = 0;
+    /**
+     * @brief Renderöi sivun QImageen
+     * @param page Sivunumero, alkaa nollasta
+     * @param resolution Resoluutio (dpi)
+     * @return QImage, johon pdf renderöity
+     */
     virtual QImage renderPage(int page, double resolution = 72.0) = 0;
+    /**
+     * @brief Renderöi sivun QImageen, jonka leveys määritelty
+     * @param page Sivunumero, alkaa nollasta
+     * @param width Tuotettavan kuvan leveys
+     * @return QImage, johon pdf renderöity
+     */
     virtual QImage renderPageToWidth(int page, double width) = 0;
+    /**
+     * @brief Onko tiedosto lukittu (salasanasuojauksen takia)
+     * @return Tosi, jos tiedostoa ei voi käsitellä
+     */
     virtual bool locked() const { return false; }
 };
 

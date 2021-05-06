@@ -17,39 +17,49 @@
 #ifndef PDFANALYZERTEXT_H
 #define PDFANALYZERTEXT_H
 
+#include "pdfanalyzerword.h"
 #include <QRectF>
 #include <QString>
 #include <QList>
 
-class PdfAnalyzerWord
-{
-public:
-    PdfAnalyzerWord();
-    PdfAnalyzerWord(const QRectF& rect, const QString& text, bool spaceAfter_);
-
-    QRectF boundingRect() const { return boundingRect_;}
-    QString text() const { return text_;}
-    bool hasSpaceAfter() const { return spaceAfter_;}
-
-private:
-    QRectF boundingRect_;
-    QString text_;
-    bool spaceAfter_;
-};
-
-
+/**
+ * @brief Yksi tekstielementti
+ */
 class PdfAnalyzerText
 {
 public:
     PdfAnalyzerText();
 
+    /**
+     * @brief Tekstielementtiä ympäröivä suorakaide pisteinä (1/72 tuumaa)
+     * @return Ympäröivä suorakaide
+     */
     QRectF boundingRect() const;
+    /**
+     * @brief Tekstielementin sisältö yhtenä merkkijonona
+     * @return Teksti
+     */
     QString text() const;
 
+    /**
+     * @brief Tekstielementin sanat
+     *
+     * Sanat ovat järjestyksessä vasemmalta oikealle
+     *
+     * @return Sanat
+     */
+    QList<PdfAnalyzerWord> words() const { return words_;}
+
+    /**
+     * @brief Lisää yksittäisen sanan
+     * @param rect Ympröivä suorakaide
+     * @param text Sana
+     * @param spaceAfter Tuleeko sanan jälkeen välilyönti
+     */
     void addWord(const QRectF& rect, const QString& text, bool spaceAfter = false);
 private:
-    QList<PdfAnalyzerWord> words_;
-    PdfAnalyzerText* next_;
+    QList<PdfAnalyzerWord> words_;    
 };
+
 
 #endif // PDFANALYZERTEXT_H

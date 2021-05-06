@@ -107,6 +107,15 @@ QString Iban::valeitta() const
     return tilinumero_;
 }
 
+bool Iban::isValid() const
+{
+    if( tilinumero_.startsWith("FI") && tilinumero_.length() != 18)
+        return false;
+    if( tilinumero_.length() < 10)
+        return false;
+    return ibanModulo(tilinumero_) == 1;
+}
+
 QString Iban::lisaaValit(const QString &iban)
 {
     QString raaka(iban);
@@ -128,7 +137,7 @@ int Iban::ibanModulo(const QString &iban)
 
     // Muunnetaan kirjaimet numeropareiksi
     QString apu;
-    for( QChar merkki : siirto)
+    for( const QChar merkki : siirto)
     {
         if( merkki.isDigit() )
             apu.append(merkki);

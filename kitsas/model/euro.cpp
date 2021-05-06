@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "euro.h"
+#include <QRegularExpression>
 
 Euro::Euro()
 {
@@ -46,13 +47,14 @@ double Euro::toDouble() const
 
 QString Euro::toString() const
 {
-    const qlonglong euros = cents_ / 100;
+    const qlonglong euros = qAbs(cents_ / 100);
     const int extraCents = qAbs(cents_ % 100);
+    QString merkki = cents_ < 0 ? "-" : "";
 
     if( extraCents < 10) {
-        return QString::number(euros) + ".0" + QString::number(extraCents);
+        return merkki + QString::number(euros) + ".0" + QString::number(extraCents);
     } else {
-        return QString::number(euros) + "." + QString::number(extraCents);
+        return merkki + QString::number(euros) + "." + QString::number(extraCents);
     }
 }
 
@@ -136,6 +138,16 @@ Euro Euro::fromVariant(const QVariant &variant)
 Euro Euro::fromDouble(const double euro)
 {
     return Euro( qRound64(euro * 100.0));
+}
+
+Euro Euro::fromString(QString euroString)
+{
+    bool miinus = euroString.contains('-');
+    euroString.remove(QRegularExpression("([+-]|\\s)"));
+    euroString.replace(',','.');
+    if(miinus)
+        euroString = "-" + euroString;
+    return Euro(euroString);
 }
 
 Euro &Euro::operator<<(const QString &string)

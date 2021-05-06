@@ -17,18 +17,6 @@
 #include "pdfanalyzertext.h"
 
 
-PdfAnalyzerWord::PdfAnalyzerWord()
-{
-
-}
-
-PdfAnalyzerWord::PdfAnalyzerWord(const QRectF &rect, const QString &text, bool spaceAfter_) :
-    boundingRect_(rect), text_(text), spaceAfter_(spaceAfter_)
-{
-
-}
-
-
 PdfAnalyzerText::PdfAnalyzerText()
 {
 
@@ -56,5 +44,14 @@ QString PdfAnalyzerText::text() const
 
 void PdfAnalyzerText::addWord(const QRectF &rect, const QString &text, bool spaceAfter)
 {
-    words_.append(PdfAnalyzerWord(rect, text, spaceAfter));
+    if( words_.isEmpty() || words_.last().boundingRect().left() < rect.left() ) {
+        words_.append(PdfAnalyzerWord(rect, text, spaceAfter));
+    } else {
+        for(int i=0; i < words_.count(); i++ ) {
+            if( rect.left() < words_.at(i).boundingRect().left()) {
+                words_.insert(i, PdfAnalyzerWord(rect, text, spaceAfter));
+                return;
+            }
+        }
+    }
 }
