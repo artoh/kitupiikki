@@ -56,15 +56,6 @@ protected:
     QVariantMap tuoPdfLasku();
 
     /**
-     * @brief Tuo pdf-muodossa olevan tiliotteen
-     */
-    QVariantMap tuoPdfTiliote();
-
-    QVariantList tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
-
-    int ktokoodi(const QString& teksti);
-
-    /**
      * @brief Hakee pdf-dokumentit tekstit taulukkoon
      * @param pdfDoc
      */
