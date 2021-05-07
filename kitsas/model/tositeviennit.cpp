@@ -531,10 +531,6 @@ void TositeViennit::pohjaksi(const QDate &pvm, const QString &vanhaOtsikko, cons
     endResetModel();
 }
 
-QVariantList TositeViennit::vientilLista() const
-{
-
-}
 
 QVariantList TositeViennit::tallennettavat() const
 {

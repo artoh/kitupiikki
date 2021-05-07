@@ -84,15 +84,15 @@ void AlvLaskelma::kirjoitaYhteenveto()
     }
 
     if( suhteutuskuukaudet_ ) {
-        int huojennusraja = huojennusalku_ < QDate(2021,1,1) ? 1000000 : 1500000 ;
+        Euro huojennusraja = huojennusalku_ < QDate(2021,1,1) ? Euro("10000") : Euro("15000") ;
         if( liikevaihto_ < huojennusraja)
             huojennus_ = verohuojennukseen_;
         else {
-            huojennus_ = qRound64(verohuojennukseen_ - ( (liikevaihto_ - huojennusraja) * verohuojennukseen_ ) / (3000000.0 - huojennusraja ));
+            huojennus_ = verohuojennukseen_ - ( (liikevaihto_ - huojennusraja) * verohuojennukseen_ ) / ( Euro("30000") - huojennusraja );
         }
         if( huojennus_ > verohuojennukseen_)
             huojennus_ = verohuojennukseen_;
-        if( huojennus_ < 0)
+        if( huojennus_ < Euro(0) )
             huojennus_ = 0;
     }
 
@@ -136,8 +136,8 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
 void AlvLaskelma::kirjaaVerot()
 {
-    qlonglong vero = taulu_.summa(100,199);
-    qlonglong vahennys = taulu_.summa(200,299);
+    Euro vero = taulu_.summa(100,199);
+    Euro vahennys = taulu_.summa(200,299);
 
     QString selite = kaanna("Arvonlisävero %1 - %2")
             .arg( alkupvm_.toString("dd.MM.yyyy") )
@@ -147,10 +147,10 @@ void AlvLaskelma::kirjaaVerot()
         TositeVienti verot;
         verot.setSelite(selite);
         verot.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
-        if(vero >= 0)
+        if(vero > Euro(0))
             verot.setDebet( vero );
         else
-            verot.setKredit( 0 - vero);
+            verot.setKredit( Euro(0) - vero);
         verot.setAlvKoodi( AlvKoodi::TILITYS );
 
         if(vero)
@@ -161,10 +161,10 @@ void AlvLaskelma::kirjaaVerot()
         TositeVienti vahennysRivi;
         vahennysRivi.setSelite(selite);
         vahennysRivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero() );
-        if( vahennys > 0)
+        if( vahennys > Euro::Zero)
             vahennysRivi.setKredit( vahennys );
         else
-            vahennysRivi.setDebet( 0 - vahennys );
+            vahennysRivi.setDebet( Euro::Zero - vahennys );
         vahennysRivi.setAlvKoodi( AlvKoodi::TILITYS);
 
         if(vahennys)
@@ -234,7 +234,7 @@ void AlvLaskelma::kirjoitaErittely()
 
                 for(auto& vienti : tiliIter.value().viennit) {
                     RaporttiRivi rivi;
-                    rivi.lisaa( vienti.value("pvm").toDate() );
+                    rivi.lisaa( vienti.value("pvm").toDate() );                    
                     QVariantMap tositeMap = vienti.value("tosite").toMap();
                     rivi.lisaa( kp()->tositeTunnus(tositeMap.value("tunniste").toInt(),
                                 tositeMap.value("pvm").toDate(),
@@ -249,13 +249,14 @@ void AlvLaskelma::kirjoitaErittely()
 
                     rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
 
-                    qlonglong debetsnt = qRound64(vienti.value("debet").toDouble() * 100);
-                    qlonglong kreditsnt = qRound64( vienti.value("kredit").toDouble() * 100);
+
+                    Euro debet = Euro::fromVariant(vienti.value("debet"));
+                    Euro kredit = Euro::fromVariant(vienti.value("kredit"));
 
                     if( debetistaKoodilla( koodi ) )
-                        rivi.lisaa( debetsnt - kreditsnt );
+                        rivi.lisaa( debet - kredit );
                     else
-                        rivi.lisaa( kreditsnt - debetsnt );
+                        rivi.lisaa( kredit - debet );
 
                     rk.lisaaRivi( rivi );
                 }
@@ -275,21 +276,21 @@ void AlvLaskelma::kirjoitaErittely()
         rk.lisaaRivi(rivi);
 }
 
-void AlvLaskelma::yvRivi(int koodi, const QString &selite, qlonglong sentit)
+void AlvLaskelma::yvRivi(int koodi, const QString &selite, Euro euro)
 {
-    if( sentit ) {
+    if( euro ) {
         RaporttiRivi rivi;
         rivi.lisaa(QString(), 1);
         rivi.lisaa( QString::number(koodi));
         rivi.lisaa(selite, 3);
-        rivi.lisaa( sentit);
+        rivi.lisaa( euro);
         rk.lisaaRivi(rivi);
     }
-    if( koodi && sentit)
-        koodattu_.insert(koodi, sentit);
+    if( koodi && euro)
+        koodattu_.insert(koodi, euro);
 }
 
-qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
+Euro AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
 {
     return taulu_.koodit.value(AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
@@ -319,8 +320,8 @@ void AlvLaskelma::tilaaMaksuperusteisenTosite()
         while (!maksuperusteTositteet_.isEmpty()) {
             int tosite = maksuperusteTositteet_.takeLast();
             int era = maksuperusteiset_.value(tosite).first;
-            qlonglong saldo = maksuperusteiset_.value(tosite).second;
-            if( !nollatutErat_.contains(era) && qAbs(saldo) > 1e-5)
+            Euro saldo = maksuperusteiset_.value(tosite).second;
+            if( !nollatutErat_.contains(era) && saldo )
                 break;
         }
         if( !tosite)
@@ -357,12 +358,12 @@ void AlvLaskelma::kasitteleMaksuperusteinen(const QVariantMap &map)
     }
 }
 
-void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
+void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, Euro euro)
 {
     QVariantMap map = variant->toMap();
     QVariantList viennit = map.value("viennit").toList();
     TositeVienti vasta = viennit.value(0).toMap();
-    qlonglong vastasentit = qRound64( vasta.kredit() * 100.0 ) - qRound64( vasta.debet() * 100.0);
+    Euro vastaeuro = vasta.kreditEuro() - vasta.debetEuro();
 
     for(QVariant& item : viennit) {
         TositeVienti vienti = item.toMap();
@@ -370,8 +371,8 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
             // Jos vero on jo maksettu, ei makseta uudelleen...
         } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
             TositeVienti kohdentamattomasta;
-            kohdentamattomasta.setTili(vienti.tili());
-            double eurot = qRound64(vienti.kredit() * 100 * sentit / vastasentit) / 100.0;
+            kohdentamattomasta.setTili(vienti.tili());            
+            Euro eurot = vienti.kreditEuro() * euro / vastaeuro;
             kohdentamattomasta.setDebet( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
@@ -390,7 +391,7 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
         } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
             TositeVienti kohdentamattomasta;
             kohdentamattomasta.setTili(vienti.tili());
-            double eurot = qRound64(vienti.debet() * 100 * sentit / vastasentit) / 100.0;
+            Euro eurot = vienti.debetEuro() * euro / vastaeuro;
             kohdentamattomasta.setKredit( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
@@ -445,15 +446,15 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 {
     KoodiTaulu taulu = taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI);
     KantaTaulu ktaulu = taulu.kannat.value(kanta);
-    qlonglong myynti = ktaulu.summa();
+    Euro myynti = ktaulu.summa();
 
     KoodiTaulu ostotaulu = taulu_.koodit.value(AlvKoodi::OSTOT_MARGINAALI);
     KantaTaulu oktaulu = ostotaulu.kannat.value(kanta);
-    qlonglong ostot = oktaulu.summa(true);
-    qlonglong alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
+    Euro ostot = oktaulu.summa(true);
+    Euro alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
 
-    qlonglong marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
-    qlonglong vero = qRound64(marginaali * 1.00 * kanta / (10000 + kanta));
+    Euro marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
+    Euro vero = Euro::fromDouble((marginaali.toDouble() * 1.00 * kanta / (100 + kanta)));
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
@@ -461,32 +462,32 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
         marginaaliRivi(kaanna("Voittomarginaalimenettely ostot"), kanta, ostot);
         if( alijaama )
             marginaaliRivi(kaanna("Aiempi alijäämä"), kanta, alijaama);
-        if( marginaali > 0 || kp()->asetukset()->onko("AlvMatkatoimisto")) {
+        if( marginaali > Euro::Zero || kp()->asetukset()->onko("AlvMatkatoimisto")) {
             marginaaliRivi(kaanna("Marginaali"), kanta, marginaali);
             marginaaliRivi(kaanna("Vero"),kanta,vero);
-        } else if( marginaali < 0) {
-            marginaaliRivi(kaanna("Alijäämä"), kanta, 0-marginaali);
+        } else if( marginaali < Euro::Zero) {
+            marginaaliRivi(kaanna("Alijäämä"), kanta, Euro::Zero -marginaali);
         }
     }
 
-    if( vero > 0 || (vero < 0 && kp()->asetukset()->onko("AlvMatkatoimisto"))) {
+    if( vero > Euro::Zero || (vero < Euro::Zero && kp()->asetukset()->onko("AlvMatkatoimisto"))) {
         // Marginaalivero kirjataan kaikille marginaalitileille
         QMapIterator<int,TiliTaulu> kirjausIter(ktaulu.tilit);
         while( kirjausIter.hasNext()) {
             kirjausIter.next();
             int tili = kirjausIter.key();
-            qlonglong tilinmyynti = kirjausIter.value().summa();
+            Euro tilinmyynti = kirjausIter.value().summa();
 
             QString selite = kaanna("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
                     .arg(kanta / 100.0, 0, 'f', 2)
                     .arg(tilinmyynti * 100.0 / myynti, 0, 'f', 2);
             TositeVienti tililta;
             tililta.setTili(tili);
-            double eurot = qRound64(tilinmyynti * 1.0 / myynti * vero )/ 100.0;
-            if( eurot > 0)
+            Euro eurot = Euro(tilinmyynti.toDouble() / myynti.toDouble() * vero.toDouble());
+            if( eurot > Euro::Zero)
                 tililta.setDebet( eurot );
             else
-                tililta.setKredit( 0-eurot);
+                tililta.setKredit( Euro::Zero-eurot);
 
             tililta.setAlvProsentti(kanta / 100.0);
             tililta.setSelite(selite);
@@ -496,24 +497,24 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 
             TositeVienti tilille;
             tilille.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
-            if( eurot > 0)
+            if( eurot > Euro::Zero)
                 tilille.setKredit( eurot );
             else
-                tilille.setDebet( 0-eurot);
+                tilille.setDebet( Euro::Zero-eurot);
             tilille.setAlvProsentti( kanta / 100.0);
             tilille.setSelite( selite );
             tilille.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS);
             lisaaKirjausVienti(tilille);
         }
 
-    } else if( marginaali < 0) {
+    } else if( marginaali < Euro::Zero) {
         // Marginaaliveron alijäämä laitetaan muistiin
-        marginaaliAlijaamat_.insert( QString::number(kanta / 100,'f',2), (0 - marginaali) / 100.0);
+        marginaaliAlijaamat_.insert( QString::number(kanta / 100,'f',2), Euro::Zero - marginaali);
     }
 
 }
 
-void AlvLaskelma::marginaaliRivi(const QString selite, int kanta, qlonglong summa)
+void AlvLaskelma::marginaaliRivi(const QString selite, int kanta, Euro summa)
 {
     RaporttiRivi rr;
     rr.lisaa("",2);
@@ -614,31 +615,33 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 {
+    // TÄMÄ AIHEUTTAA OHJELMAN KAATUMISEN !!!!!!!!!!!
+
     liikevaihto_ = 0;  
 
-    qlonglong veroon = 0;
-    qlonglong vahennys = 0;
+    Euro veroon;
+    Euro vahennys;
 
-    QVariantList lista;
-    for(QVariant var : viennit->toList()) {
+    QList<TositeVienti> lista;
+
+    for(const auto& var : viennit->toList()) {
         TositeVienti vienti = var.toMap();
         if( vienti.value("tosite").toMap().value("tyyppi").toInt() != TositeTyyppi::ALVLASKELMA || vienti.value("pvm").toDate() <= alkupvm_)
             lista.append(vienti);
     }
 
-    lista.append(tosite_->viennit()->vientilLista());
+    lista.append(tosite_->viennit()->viennit());
 
     qDebug() << " =======HUOJENNUSLASKELMA==================";
 
-    for( QVariant var : lista ) {
-        TositeVienti vienti = var.toMap();
+    for( TositeVienti vienti : lista ) {
 
         if( vienti.tyyppi() == TositeVienti::BRUTTOOIKAISU)
             continue;
 
         int alvkoodi = vienti.alvKoodi();
-        qlonglong debet = qRound64( vienti.debet() * 100);
-        qlonglong kredit = qRound64( vienti.kredit() * 100);
+        Euro debetEuro = vienti.debetEuro();
+        Euro kreditEuro = vienti.kreditEuro();
 
 
         qDebug() << vienti.pvm().toString("dd.MM.yyyy ") << " D " << vienti.debet() << " K "  << vienti.kredit() << " ALV " << vienti.alvKoodi() << " " << vienti.selite();
@@ -649,31 +652,31 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                     alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                     alvkoodi == AlvKoodi::ALV0 ||
                     alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI ) {
-                liikevaihto_ += kredit - debet;
-                qDebug() << " A Liikevaihtoon " << kredit-debet;
+                liikevaihto_ += kreditEuro - debetEuro;
+                qDebug() << " A Liikevaihtoon " << kreditEuro-debetEuro;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
-                qlonglong brutto = kredit - debet;
-                qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                Euro brutto = kreditEuro - debetEuro;
+                Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
                 liikevaihto_ += netto;
                 veroon += brutto - netto;
                 qDebug() << " B Liikevaihtoon " << netto << " Veroon " << brutto-netto;
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
-                qlonglong brutto = debet - kredit;
-                qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                Euro brutto = debetEuro - kreditEuro;
+                Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
                 vahennys += brutto - netto;
                 qDebug() << " C Vähennys " << brutto-netto;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI) {
-                liikevaihto_ += kredit - debet;
-                qDebug() << " D Liikevaihtoon " << kredit-debet;
+                liikevaihto_ += kreditEuro - debetEuro;
+                qDebug() << " D Liikevaihtoon " << kreditEuro-debetEuro;
             }
         } else if( alvkoodi > 100 && alvkoodi < 200 && vienti.alvProsentti() > 1e-5) {
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
                 alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
-                veroon += kredit - debet;
-                qDebug() << " E Veroon " << kredit-debet;
+                veroon += kreditEuro - debetEuro;
+                qDebug() << " E Veroon " << kreditEuro-debetEuro;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
-                qlonglong vero = kredit - debet;
+                qlonglong vero = kreditEuro - debetEuro;
                 veroon += vero;
                 liikevaihto_ -= vero;
                 qDebug() << "F Liikevaihtoon " << 0 - vero << " Veroon " << vero;
@@ -687,17 +690,17 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 // Maksuperusteisessa alvissa veron peruste voi olla kirjattu toiselle verokaudelle, joten
                 // se joudutaan laskemaan samoin verokirjauksesta
 
-                qlonglong vero = kredit - debet;
+                Euro vero = kreditEuro - debetEuro;
                 double veroprossa = vienti.alvProsentti();
-                qlonglong liikevaihtoon = qRound64( 100 * vero /  veroprossa);
+                qlonglong liikevaihtoon = Euro::fromDouble( 100 * vero.toDouble() /  veroprossa);
                 veroon += vero;
                 liikevaihto_ += liikevaihtoon;
                 qDebug() << " G Liikevaihtoon " << liikevaihtoon << " Veroon " << vero;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
-            vahennys += debet - kredit;
-            qDebug() << " H Vähennykseen " << debet-kredit;
+            vahennys += debetEuro - kreditEuro;
+            qDebug() << " H Vähennykseen " << debetEuro-kreditEuro;
         }
     }
 
@@ -750,8 +753,8 @@ void AlvLaskelma::kirjaaHuojennus()
 
     bool maksutilinkautta = ( kp()->asetukset()->onko("AlvMaksutilinKautta") && kp()->asetukset()->luku("AlvMaksettava") && kp()->asetukset()->luku("AlvPalautettava") );
 
-    qlonglong kaudenvero = taulu_.summa(100,199) - taulu_.summa(200,299);
-    if( kaudenvero > 0 &&
+    Euro kaudenvero = taulu_.summa(100,199) - taulu_.summa(200,299);
+    if( kaudenvero > Euro::Zero &&
             ( kp()->asetukset()->onko("AlvPalautusSaatavatilille") || maksutilinkautta ) &&
             huojennus() > kaudenvero) {
         TositeVienti huojennusVerolta;
@@ -798,10 +801,10 @@ void AlvLaskelma::tallenna()
 
     QVariantMap lisat;
     QVariantMap koodit;
-    QMapIterator<int,qlonglong> iter(koodattu_);
+    QMapIterator<int,Euro> iter(koodattu_);
     while( iter.hasNext()) {
         iter.next();
-        koodit.insert( QString::number( iter.key() ), iter.value() / 100.0 );
+        koodit.insert( QString::number( iter.key() ), iter.value().cents());
     }
     if( kp()->onkoMaksuperusteinenAlv(loppupvm_))
         koodit.insert("337",1);
@@ -810,7 +813,7 @@ void AlvLaskelma::tallenna()
     lisat.insert("kausialkaa", alkupvm_);
     lisat.insert("kausipaattyy", loppupvm_);
     lisat.insert("erapvm", AlvIlmoitustenModel::erapaiva(loppupvm_));
-    lisat.insert("maksettava", maksettava() / 100.0);    
+    lisat.insert("maksettava", maksettava());
     if( !marginaaliAlijaamat_.isEmpty() )
         lisat.insert("marginaalialijaama", marginaaliAlijaamat_);
     tosite_->setData( Tosite::ALV, lisat);
@@ -839,23 +842,23 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
         {
             tiliIter.next();
             int tili = tiliIter.key();
-            qlonglong brutto = tiliIter.value().summa();
+            Euro brutto = tiliIter.value().summa();
             int sadasosaprosentti = myyntiIter.key();
 
-            qlonglong netto = qRound64( brutto * 10000.0 / ( 10000.0 + sadasosaprosentti) );
-            qlonglong vero = brutto - netto;
+            Euro netto = Euro::fromDouble( brutto.toDouble() * 10000.0 / ( 10000.0 + sadasosaprosentti) );
+            Euro vero = brutto - netto;
 
-            QString selite = kaanna("Bruttomyyntien oikaisu %3 BRUTTO %L1, NETTO %L2")
-                    .arg(brutto / 100.0, 0, 'f', 2 )
-                    .arg(netto/100.0, 0, 'f', 2)
+            QString selite = kaanna("Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2")
+                    .arg(brutto.display(true) )
+                    .arg(netto.display(true) )
                     .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
 
             TositeVienti pois;
             pois.setTili(tili);
-            if( vero >= 0)
-                pois.setDebet( vero / 100.0 );
+            if( vero > Euro::Zero)
+                pois.setDebet( vero);
             else
-                pois.setKredit(-vero/100.0);
+                pois.setKredit(Euro::Zero - vero);
             pois.setAlvKoodi( AlvKoodi::MYYNNIT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
             pois.setTyyppi(TositeVienti::BRUTTOOIKAISU);
@@ -864,10 +867,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti veroon;
             veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVVELKA ).numero() );
-            if(vero >= 0)
-                veroon.setKredit( vero / 100.0);
+            if(vero > Euro::Zero)
+                veroon.setKredit( vero);
             else
-                veroon.setDebet( -vero / 100.0);
+                veroon.setDebet(Euro::Zero - vero);
             veroon.setAlvKoodi( AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_BRUTTO);
             veroon.setTyyppi( TositeVienti::BRUTTOOIKAISU );
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
@@ -885,23 +888,23 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
         {
             tiliIter.next();
             int tili = tiliIter.key();
-            qlonglong brutto = tiliIter.value().summa(true);
+            Euro brutto = tiliIter.value().summa(true);
             int sadasosaprosentti = ostoIter.key();
 
-            qlonglong netto = qRound64(brutto * 10000.0 / ( 10000 + sadasosaprosentti));
-            qlonglong vero = brutto - netto;
+            Euro netto = Euro::fromDouble(brutto.toDouble() * 10000.0 / ( 10000 + sadasosaprosentti));
+            Euro vero = brutto - netto;
 
-            QString selite = kaanna("Brutto-ostojen oikaisu %3 BRUTTO %L1, NETTO %L2")
-                    .arg(brutto / 100.0, 0, 'f', 2 )
-                    .arg(netto/100.0, 0, 'f', 2)
+            QString selite = kaanna("Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2")
+                    .arg(brutto.display(true))
+                    .arg(netto.display(true))
                     .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
 
             TositeVienti pois;
             pois.setTili(tili);
-            if( vero >= 0)
-                pois.setKredit( vero / 100.0 );
+            if( vero > Euro::Zero)
+                pois.setKredit( vero);
             else
-                pois.setDebet( 0 - vero / 100.0 );
+                pois.setDebet( Euro::Zero - vero);
 
             pois.setAlvKoodi( AlvKoodi::OSTOT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
@@ -911,10 +914,10 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
             TositeVienti veroon;
             veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVSAATAVA ).numero() );
-            if( vero >= 0)
-                veroon.setDebet( vero / 100.0);
+            if( vero > Euro::Zero)
+                veroon.setDebet( vero);
             else
-                veroon.setKredit( 0 - vero / 100.0);
+                veroon.setKredit( Euro::Zero - vero );
             veroon.setAlvKoodi( AlvKoodi::ALVVAHENNYS + AlvKoodi::OSTOT_BRUTTO);
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
             veroon.setSelite(selite);
@@ -937,12 +940,12 @@ void AlvLaskelma::AlvTaulu::lisaa(const QVariantMap &rivi)
     koodit[koodi].lisaa(rivi);
 }
 
-qlonglong AlvLaskelma::AlvTaulu::summa(int koodista, int koodiin)
+Euro AlvLaskelma::AlvTaulu::summa(int koodista, int koodiin)
 {
     if( !koodiin)
         koodiin = koodista;
 
-    qlonglong s = 0;
+    Euro s = 0;
     QMapIterator<int,KoodiTaulu> iter(koodit);
     while( iter.hasNext()) {
         iter.next();
@@ -960,9 +963,9 @@ void AlvLaskelma::KoodiTaulu::lisaa(const QVariantMap &rivi)
     kannat[kanta].lisaa(rivi);
 }
 
-qlonglong AlvLaskelma::KoodiTaulu::summa(bool debetista) const
+Euro AlvLaskelma::KoodiTaulu::summa(bool debetista) const
 {
-    qlonglong s = 0;
+    Euro s;
     QMapIterator<int,KantaTaulu> iter(kannat);
     while( iter.hasNext()) {
         iter.next();
@@ -979,9 +982,9 @@ void AlvLaskelma::KantaTaulu::lisaa(const QVariantMap &rivi)
     tilit[tili].lisaa(rivi);
 }
 
-qlonglong AlvLaskelma::KantaTaulu::summa(bool debetista) const
+Euro AlvLaskelma::KantaTaulu::summa(bool debetista) const
 {
-    qlonglong s = 0;
+    Euro s;
     QMapIterator<int,TiliTaulu> iter(tilit);
     while( iter.hasNext()) {
         iter.next();
@@ -995,16 +998,16 @@ void AlvLaskelma::TiliTaulu::lisaa(const QVariantMap &rivi)
     viennit.append(rivi);
 }
 
-qlonglong AlvLaskelma::TiliTaulu::summa(bool debetista) const
+Euro AlvLaskelma::TiliTaulu::summa(bool debetista) const
 {
-    qlonglong s = 0;
+    Euro s = 0;
     for( auto& vienti : viennit ) {
         if( debetista ) {
-            s += qRound64( vienti.value("debet").toDouble() * 100.0 );
-            s -= qRound64( vienti.value("kredit").toDouble() * 100.0);
+            s += Euro::fromVariant(vienti.value("debet"));
+            s -= Euro::fromVariant(vienti.value("kredit").toDouble());
         } else {
-            s -= qRound64( vienti.value("debet").toDouble() * 100.0 );
-            s += qRound64( vienti.value("kredit").toDouble() * 100.0);
+            s -= Euro::fromVariant( vienti.value("debet").toDouble());
+            s += Euro::fromVariant( vienti.value("kredit").toDouble());
         }
     }
     return s;

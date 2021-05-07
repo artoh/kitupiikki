@@ -39,26 +39,26 @@ protected:
     struct TiliTaulu {
         QList<QVariantMap> viennit;
         void lisaa(const QVariantMap& rivi);
-        qlonglong summa(bool debetista = false) const;
+        Euro summa(bool debetista = false) const;
     };
 
     struct KantaTaulu {
         void lisaa(const QVariantMap& rivi);
-        qlonglong summa(bool debetista = false) const;
+        Euro summa(bool debetista = false) const;
 
         QMap<int, TiliTaulu> tilit;
     };
 
     struct KoodiTaulu {
         void lisaa(const QVariantMap& rivi);
-        qlonglong summa(bool debetista = false) const;
+        Euro summa(bool debetista = false) const;
 
         QMap<int, KantaTaulu> kannat;
     };
 
     struct AlvTaulu {
         void lisaa(const QVariantMap& rivi);
-        qlonglong summa(int koodista, int koodiin = 0);
+        Euro summa(int koodista, int koodiin = 0);
 
         QMap<int, KoodiTaulu> koodit;
     };
@@ -70,8 +70,8 @@ public:
 
     void kirjoitaLaskelma();
 
-    qlonglong maksettava() const { return maksettava_;}
-    qlonglong huojennus() const { return huojennus_;}
+    Euro maksettava() const { return maksettava_;}
+    Euro huojennus() const { return huojennus_;}
 
 signals:
     void tallennettu();
@@ -100,17 +100,17 @@ protected:
     void kirjoitaYhteenveto();
     void kirjaaVerot();
     void kirjoitaErittely();
-    void yvRivi(int koodi, const QString& selite, qlonglong sentit);
-    qlonglong kotimaanmyyntivero(int prosentinsadasosa);
+    void yvRivi(int koodi, const QString& selite, Euro euro);
+    Euro kotimaanmyyntivero(int prosentinsadasosa);
 
     void tilaaMaksuperusteisenTosite();
     void kasitteleMaksuperusteinen(const QVariantMap& map);
-    void maksuperusteTositesaapuu(QVariant* variant, qlonglong sentit);
+    void maksuperusteTositesaapuu(QVariant* variant, Euro euro);
     void tilaaNollausLista(const QDate& pvm);
     void nollaaMaksuperusteisetErat(QVariant* variant, const QDate &pvm);
 
     void laskeMarginaaliVerotus(int kanta);
-    void marginaaliRivi(const QString selite, int kanta, qlonglong summa);
+    void marginaaliRivi(const QString selite, int kanta, Euro summa);
 
 protected:
     QDate alkupvm_;
@@ -118,20 +118,20 @@ protected:
     QDate huojennusalku_;
 
     AlvTaulu taulu_;
-    QMap<int,qlonglong> koodattu_;
+    QMap<int,Euro> koodattu_;
 
-    QHash<int,QPair<int,qlonglong>> maksuperusteiset_;
+    QHash<int,QPair<int,Euro>> maksuperusteiset_;
     QList<int> maksuperusteTositteet_;
-    QList<QPair<int,qlonglong>> nollattavatErat_;
+    QList<QPair<int,Euro>> nollattavatErat_;
     QSet<int> nollatutErat_;
     int nollattavatHaut_ = 2;
 
-    qlonglong maksettava_ = 0l;
+    Euro maksettava_;
 
-    qlonglong liikevaihto_ = 0l;
-    qlonglong verohuojennukseen_ = 0l;
+    Euro liikevaihto_;
+    Euro verohuojennukseen_;
     int suhteutuskuukaudet_ = 12;
-    qlonglong huojennus_ = 0;
+    Euro huojennus_;
 
     QList<RaporttiRivi> marginaaliRivit_;
     QVariantMap marginaaliAlijaamat_;

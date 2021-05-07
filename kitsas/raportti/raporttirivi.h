@@ -23,6 +23,8 @@
 #include <QList>
 #include <QVariant>
 
+#include "model/euro.h"
+
 /**
  * @brief Yhden raportin sarakkeen tiedot, RaporttiRivin käyttöön
  */
@@ -100,6 +102,7 @@ public:
      */
     void lisaa(qlonglong sentit, bool tulostanollat = false, bool tulostaplus = false);
     void lisaa(double eurot, bool tulostanollat = false, bool tulostaplus = false);
+    void lisaa(const Euro& eurot, bool tulostanollat = false, bool tulostaplus = false);
     /**
      * @brief Lisää päivämäärän
      * @param pvm Päivämäärä QDate:na

@@ -632,7 +632,8 @@ void AloitusSivu::validoiEmail()
     ui->palvelinvirheLabel->hide();
 
     QRegularExpression emailRe(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)");
-    if( emailRe.match( ui->emailEdit->text()).hasMatch() ) {
+    const QString& sahkopostiosoite = ui->emailEdit->text();
+    if( emailRe.match( sahkopostiosoite ).hasMatch() ) {
         // Tarkistetaan sähköposti ja toimitaan sen mukaan
         QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + ui->emailEdit->text() ));
         request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());

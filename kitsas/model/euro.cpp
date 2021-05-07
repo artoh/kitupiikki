@@ -76,13 +76,13 @@ QVariant Euro::toVariant() const
     return QVariant( toString() );
 }
 
-Euro Euro::operator+(const Euro &other)
+Euro Euro::operator+(const Euro &other) const
 {
     qlonglong sum = this->cents() + other.cents();
     return Euro(sum);
 }
 
-Euro Euro::operator -(const Euro &other)
+Euro Euro::operator -(const Euro &other) const
 {
     qlonglong sub = this->cents() - other.cents();
     return Euro(sub);
@@ -100,24 +100,25 @@ Euro &Euro::operator-=(const Euro &other)
     return *this;
 }
 
-bool Euro::operator<(const Euro &other)
+bool Euro::operator<(const Euro &other) const
 {
     return this->cents() < other.cents();
 }
 
-bool Euro::operator>(const Euro &other)
+bool Euro::operator>(const Euro &other) const
 {
     return this->cents() > other.cents();
 }
 
-bool Euro::operator==(const QString& other)
-{
-    return this->cents() == stringToCents(other);
-}
-
-Euro Euro::operator*(const Euro &other)
+Euro Euro::operator*(const Euro &other) const
 {
     qlonglong cents = cents_ * other.cents();
+    return Euro(cents);
+}
+
+Euro Euro::operator/(const Euro &other) const
+{
+    qlonglong cents = qRound64( 1.0 * cents_ / other.cents() );
     return Euro(cents);
 }
 
@@ -155,6 +156,12 @@ Euro &Euro::operator<<(const QString &string)
     cents_ = stringToCents(string);
     return *this;
 }
+
+Euro::operator qlonglong() const
+{
+    return cents_;
+}
+
 
 Euro::operator bool() const
 {
@@ -231,6 +238,10 @@ bool operator==(const Euro& a, const Euro& b) {
     return a.cents() == b.cents();
 }
 
+bool operator!=(const Euro& a, const Euro& b) {
+    return a.cents() != b.cents();
+}
+
 Euro operator*(const Euro& a, const int b) {
     return Euro( a.cents() * b);
 }
@@ -255,4 +266,5 @@ Euro operator/(const Euro& a, const double b) {
     return Euro( qRound64( a.cents() / b ));
 }
 
+const Euro Euro::Zero = Euro(0);
 

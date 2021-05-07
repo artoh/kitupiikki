@@ -29,6 +29,7 @@
 #include "../../kitsas/db/verotyyppimodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "../../kitsas/kieli/kielet.h"
 #include "../../kitsas/alv/alvlaskelma.h"
 #include "sqlite/sqlitemodel.h"
 
@@ -69,7 +70,8 @@ AlvLaskelmaTest::~AlvLaskelmaTest()
 void AlvLaskelmaTest::initTestCase() {
     char *argv[] = {"Test"};
     int argc = 1;
-    QApplication *app = new QApplication(argc, argv);
+    new QApplication(argc, argv);
+    Kielet::alustaKielet(":/tr/tulkki.json");
     kp()->asetaInstanssi(new Kirjanpito());
 }
 
@@ -115,15 +117,16 @@ void AlvLaskelmaTest::bruttoMyynti()
     qDebug() << laskelma.tosite_->tallennettava();
     qDebug() << laskelma.koodattu_;
 
-    QVERIFY( laskelma.koodattu_.value(301) == 2400);
-    QVERIFY( laskelma.koodattu_.value(308) == 2400);
-    QVERIFY( laskelma.maksettava() == 2400);
+
+    QCOMPARE( laskelma.koodattu_.value(301).cents(), 2400);
+    QCOMPARE( laskelma.koodattu_.value(308).cents(), 2400);
+    QCOMPARE( laskelma.maksettava().cents(), 2400);
 
     laskelma.tallenna();
     kp()->tilit()->haeSaldot();
 
-    QVERIFY( kp()->tilit()->saldo(3000) == 100.0);
-    QVERIFY( kp()->tilit()->saldo(2920) == 24.0);
+    QCOMPARE( kp()->tilit()->saldo(3000), 100.0);
+    QCOMPARE( kp()->tilit()->saldo(2920), 24.0);
 
 }
 
@@ -159,15 +162,15 @@ void AlvLaskelmaTest::bruttoOsto()
 
     qDebug() << laskelma.koodattu_;
 
-    QVERIFY( laskelma.koodattu_.value(307) == 2400);
-    QVERIFY( laskelma.koodattu_.value(308) == -2400);
-    QVERIFY( laskelma.maksettava() == -2400);
+    QCOMPARE( laskelma.koodattu_.value(307).cents(), 2400);
+    QCOMPARE( laskelma.koodattu_.value(308).cents(), -2400);
+    QCOMPARE( laskelma.maksettava().cents(), -2400);
 
     laskelma.tallenna();
     kp()->tilit()->haeSaldot();
 
-    QVERIFY( kp()->tilit()->saldo(4000) == -100.0);
-    QVERIFY( kp()->tilit()->saldo(2920) == -24.0);
+    QCOMPARE(kp()->tilit()->saldo(4000), -100.0);
+    QCOMPARE( kp()->tilit()->saldo(2920), -24.0);
 }
 
 void AlvLaskelmaTest::nettoMyynti() {
@@ -211,16 +214,16 @@ void AlvLaskelmaTest::nettoMyynti() {
     qDebug() << laskelma.tosite_->tallennettava();
     qDebug() << laskelma.koodattu_;
 
-    QVERIFY( laskelma.koodattu_.value(301) == 2400);
-    QVERIFY( laskelma.koodattu_.value(308) == 2400);
-    QVERIFY( laskelma.maksettava() == 2400);
+    QCOMPARE( laskelma.koodattu_.value(301).cents(),2400);
+    QCOMPARE( laskelma.koodattu_.value(308).cents(), 2400);
+    QCOMPARE( laskelma.maksettava().cents(), 2400);
 
     laskelma.tallenna();
     kp()->tilit()->haeSaldot();
 
-    QVERIFY( kp()->tilit()->saldo(3000) == 100.0);
-    QVERIFY( kp()->tilit()->saldo(2939) == 0.0);
-    QVERIFY( kp()->tilit()->saldo(2920) == 24.0);
+    QCOMPARE( kp()->tilit()->saldo(3000), 100.0);
+    QCOMPARE( kp()->tilit()->saldo(2939), 0.0);
+    QCOMPARE( kp()->tilit()->saldo(2920), 24.0);
 
 }
 
@@ -265,16 +268,16 @@ void AlvLaskelmaTest::nettoOsto() {
     qDebug() << laskelma.tosite_->tallennettava();
     qDebug() << laskelma.koodattu_;
 
-    QVERIFY( laskelma.koodattu_.value(307) == 2400);
-    QVERIFY( laskelma.koodattu_.value(308) == -2400);
-    QVERIFY( laskelma.maksettava() == -2400);
+    QCOMPARE( laskelma.koodattu_.value(307).cents(), 2400);
+    QCOMPARE( laskelma.koodattu_.value(308).cents(), -2400);
+    QCOMPARE( laskelma.maksettava().cents(), -2400);
 
     laskelma.tallenna();
     kp()->tilit()->haeSaldot();
 
-    QVERIFY( kp()->tilit()->saldo(4000) == -100.0);
-    QVERIFY( kp()->tilit()->saldo(1763) == 0.0);
-    QVERIFY( kp()->tilit()->saldo(2920) == -24.0);
+    QCOMPARE( kp()->tilit()->saldo(4000), -100.0);
+    QCOMPARE( kp()->tilit()->saldo(1763), 0.0);
+    QCOMPARE( kp()->tilit()->saldo(2920), -24.0);
 
 }
 
@@ -309,12 +312,12 @@ void AlvLaskelmaTest::alijaamahyvitys() {
     qDebug() << laskelma.tosite_->tallennettava();
     qDebug() << laskelma.koodattu_;
 
-    QVERIFY( laskelma.koodattu_.value(301) == 360000);
-    QVERIFY( laskelma.koodattu_.value(315) == 1500000);
-    QVERIFY( laskelma.koodattu_.value(316) == 360000);
-    QVERIFY( laskelma.koodattu_.value(317) == 270000);
-    QVERIFY( laskelma.koodattu_.value(308) == 90000);
-    QVERIFY( laskelma.maksettava() == 90000);
+    QCOMPARE( laskelma.koodattu_.value(301).cents(), 360000);
+    QCOMPARE( laskelma.koodattu_.value(315).cents(), 1500000);
+    QCOMPARE( laskelma.koodattu_.value(316).cents(), 360000);
+    QCOMPARE( laskelma.koodattu_.value(317).cents(), 270000);
+    QCOMPARE( laskelma.koodattu_.value(308).cents(), 90000);
+    QCOMPARE( laskelma.maksettava().cents(),90000);
 
 }
 

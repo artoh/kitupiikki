@@ -72,8 +72,10 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     alvIlmoitukset_( new AlvIlmoitustenModel(this)),
     vakioviitteet_( new VakioViiteModel(this)),
     huoneistot_( new HuoneistoModel(this)),
-    tempDir_(nullptr),
+    printer_(new QPrinter(QPrinter::HighResolution)),
+    tempDir_(new QTemporaryDir(QDir::temp().absoluteFilePath("kitsas-XXXXXX"))),
     portableDir_(portableDir),
+    networkManager_(new QNetworkAccessManager(this)),
     pilviModel_(new PilviModel(this)),
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),        
@@ -89,10 +91,6 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
         settings_ = new QSettings(portable.absoluteFilePath("kitsas.ini"),QSettings::IniFormat, this);
     }
 
-    networkManager_ = new QNetworkAccessManager(this);
-
-    printer_ = new QPrinter(QPrinter::HighResolution);
-
     // Jos järjestelmässä ei ole yhtään tulostinta, otetaan käyttöön pdf-tulostus jotta
     // saadaan dialogit
 
@@ -102,8 +100,6 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
 
-
-    tempDir_ = new QTemporaryDir(QDir::temp().absoluteFilePath("kitsas-XXXXXX"));
     if( !tempDir_->isValid())
     {
         delete tempDir_;

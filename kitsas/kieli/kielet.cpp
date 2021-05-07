@@ -69,7 +69,6 @@ Kielet::~Kielet()
 
 }
 
-
 void Kielet::asetaKielet(const QString &json)
 {
     kielet_.clear();

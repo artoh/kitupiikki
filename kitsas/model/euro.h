@@ -33,24 +33,23 @@ public:
     Euro(const QString& euroString);
 
     qlonglong cents() const;
-    double toDouble() const;
+    double toDouble() const;    
     QString toString() const;
     QString local() const;
     QString display(bool naytaNolla = true) const;
     QVariant toVariant() const;
 
-    Euro operator+(const Euro& other);
-    Euro operator-(const Euro& other);
+    Euro operator+(const Euro& other) const;
+    Euro operator-(const Euro& other) const;
 
     Euro& operator+=(const Euro& other);
     Euro& operator-=(const Euro& other);
 
-    bool operator<(const Euro& other);
-    bool operator>(const Euro& other);
+    bool operator<(const Euro& other) const;
+    bool operator>(const Euro& other) const;
 
-    bool operator==(const QString& other);
-
-    Euro operator*(const Euro& other);
+    Euro operator*(const Euro& other) const;
+    Euro operator/(const Euro& other) const;
 
     static Euro fromVariant(const QVariant& variant);
     static Euro fromDouble(const double euro);
@@ -63,9 +62,12 @@ public:
     operator QVariant() const;
     operator double() const;
     operator bool() const;
+    operator qlonglong() const;
+
+    static const Euro Zero;
 
 private:
-    static qlonglong stringToCents(const QString& euroString);
+    static qlonglong stringToCents(const QString& euroString);    
 
 
 private:
@@ -75,6 +77,8 @@ private:
 Q_DECLARE_METATYPE(Euro);
 
 bool operator==(const Euro& a, const Euro& b);
+bool operator!=(const Euro& a, const Euro& b);
+
 Euro operator*(const Euro& a, const int b);
 Euro operator*(const int a, const Euro& b);
 Euro operator*(const Euro& a, const double b);

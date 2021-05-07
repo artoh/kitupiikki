@@ -238,7 +238,8 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
     if( ui->osoiteEdit->toPlainText().length() > 2 && ui->kaupunkiEdit->text().length() > 1)
         ui->laskutapaCombo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), Lasku::POSTITUS);
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
-    if( emailRe.match( ui->emailEdit->text()).hasMatch() )
+    const QString& spostiosoite = ui->emailEdit->text();
+    if( emailRe.match( spostiosoite ).hasMatch() )
         ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), Lasku::SAHKOPOSTI);
     if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 5 ) {
         ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);

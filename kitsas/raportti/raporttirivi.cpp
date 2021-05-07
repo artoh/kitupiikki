@@ -74,6 +74,11 @@ void RaporttiRivi::lisaa(double eurot, bool tulostanollat, bool tulostaplus)
     lisaa( qRound64( eurot * 100.0), tulostanollat, tulostaplus);
 }
 
+void RaporttiRivi::lisaa(const Euro &eurot, bool tulostanollat, bool tulostaplus)
+{
+    lisaa( eurot.cents(), tulostanollat, tulostaplus );
+}
+
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
     RaporttiRiviSarake uusi;

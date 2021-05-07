@@ -74,11 +74,9 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     }
 
 
-
     for(int i=0; i < lista.count(); i++) {
         QVariantMap map = lista.at(i).toMap();
-        double ds = map.take("ds").toLongLong() / 100.0;
-        double ks = map.take("ks").toLongLong() / 100.0;
+
 
         QVariantMap laskumap = map.take("lasku").toMap();
         if( laskumap.contains("laskutapa"))

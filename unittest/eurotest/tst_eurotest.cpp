@@ -31,7 +31,6 @@ private slots:
     void string_to_euro();
     void qlonglong_to_string();
     void euro_to_qstring();
-    void euro_eq_qstring();
     void qvariant_to_euro();
     void neq_double_to_euro();
     void euro_to_dbl();
@@ -40,6 +39,7 @@ private slots:
     void str1();
     void str2();
     void neg_to_str();
+    void euro_eq_euro();
 };
 
 EuroTest::EuroTest()
@@ -95,13 +95,6 @@ void EuroTest::euro_to_qstring()
     str << euro1;
 
     QCOMPARE(str, "123.45");
-}
-
-void EuroTest::euro_eq_qstring()
-{
-    Euro euro1("-785.52");
-    QVERIFY( euro1 == "-785.52" );
-
 }
 
 void EuroTest::qvariant_to_euro()
@@ -163,6 +156,18 @@ void EuroTest::neg_to_str()
 {
     Euro euro = Euro(-65);
     QCOMPARE(euro.toString(),"-0.65");
+}
+
+void EuroTest::euro_eq_euro()
+{
+    Euro a("5.12");
+    Euro b("5.12");
+    Euro c("-1.12");
+    Euro d("0.12");
+
+    QVERIFY( a == b );
+    QVERIFY(a != c);
+    QVERIFY(c != d);
 }
 
 

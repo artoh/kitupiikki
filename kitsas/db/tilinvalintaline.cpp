@@ -110,7 +110,11 @@ void KantaTilinvalintaLine::mouseMoveEvent(QMouseEvent *event)
 
 Tili KantaTilinvalintaLine::valittuTili() const
 {
-    QString sana = text().left( text().indexOf(QRegularExpression("\\D")));
+    const QString& teksti = text();
+    QRegularExpression eiTekstiRe("\\D");
+    int eiNumeroIndeksi = teksti.indexOf(eiTekstiRe);
+
+    QString sana = teksti.left(eiNumeroIndeksi);
     if( sana.isEmpty() || !sana.at(0).isDigit() )
         return Tili();
 

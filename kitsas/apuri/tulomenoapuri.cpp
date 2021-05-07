@@ -790,7 +790,8 @@ double TuloMenoApuri::alvProssa() const
 
     QString txt = ui->alvProssa->currentText();
     txt.replace(",",".");
-    int vali = txt.indexOf(QRegularExpression("[^\\d\\.]"));
+    QRegularExpression valiRe("[^\\d\\.]");
+    int vali = txt.indexOf(valiRe);
     if( vali > 0)
         txt = txt.left(vali);    
     return txt.toDouble();

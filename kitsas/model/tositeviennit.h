@@ -88,10 +88,6 @@ public:
     void pohjaksi(const QDate& pvm, const QString& vanhaOtsikko, const QString& uusiOtsikko, bool sailytaErat = false);
 
     QList<TositeVienti> viennit() const { return viennit_;}
-
-    QVariantList vientilLista() const;
-
-
     QVariantList tallennettavat() const;
 
     void asetaMuokattavissa(bool muokattavissa);
