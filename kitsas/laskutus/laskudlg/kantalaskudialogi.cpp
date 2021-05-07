@@ -301,6 +301,7 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setViite( viite );
 
     tosite()->lasku().setLaskunpaiva( ui->laskuPvm->date());
+    tosite()->asetaLaskupvm(ui->laskuPvm->date());
 
     if( maksutapa() != Lasku::ENNAKKOLASKU)
         tosite()->lasku().setToimituspvm( ui->toimitusDate->date() );
