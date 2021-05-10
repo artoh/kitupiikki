@@ -513,8 +513,7 @@ QVariantMap Tosite::tallennettava() const
         map.insert("otsikko", viennit_->vienti(0).selite());
 
     if( tyyppi() < TositeTyyppi::MENO ||
-        tyyppi() > TositeTyyppi::TILIOTE ||
-        tyyppi() == TositeTyyppi::SIIRTO) {
+        tyyppi() >= TositeTyyppi::SIIRTO ) {
         map.remove("kumppani");
     }
 

@@ -58,8 +58,8 @@ private:
     QVariantList kreditAlkuperaiset_;
     QVariantList debetAlkuperaiset_;
 
-    int kreditKumppani_ = 0;
-    int debetKumppani_ = 0;
+    QVariantMap kreditKumppani_;
+    QVariantMap debetKumppani_;
     QString debetArkistoTunnus_;
     QString kreditArkistoTunnus_;
 
