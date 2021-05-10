@@ -512,8 +512,14 @@ QVariantMap Tosite::tallennettava() const
     if( map.value("otsikko").toString().isEmpty() && viennit_->rowCount())
         map.insert("otsikko", viennit_->vienti(0).selite());
 
+    if( tyyppi() < TositeTyyppi::MENO ||
+        tyyppi() > TositeTyyppi::TILIOTE ||
+        tyyppi() == TositeTyyppi::SIIRTO) {
+        map.remove("kumppani");
+    }
+
     // Jos kaikilla vienneillä on sama kumppani, liitetään se tositteeseen
-    if( kumppani() == 0 && viennit_->rowCount() ) {        
+    if( !map.contains("kumppani") && viennit_->rowCount() ) {
         QString knimi = viennit_->vienti(0).kumppaniNimi();
         int kid = viennit_->vienti(0).kumppaniId();
 

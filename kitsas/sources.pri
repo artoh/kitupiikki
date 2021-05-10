@@ -716,6 +716,7 @@ HEADERS += \
     tools/finvoicehaku.h
 
 RESOURCES += \
+    $$PWD/rekisteri/rekisteri.qrc \
     $$PWD/sqlite/sqlite.qrc \
     $$PWD/tr/tr.qrc \
     $$PWD/tilikartat/tilikartat.qrc \

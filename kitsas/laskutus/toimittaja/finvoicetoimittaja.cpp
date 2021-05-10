@@ -23,6 +23,7 @@
 #include "model/lasku.h"
 #include "db/tositetyyppimodel.h"
 #include "model/tositerivi.h"
+#include "rekisteri/maamodel.h"
 
 FinvoiceToimittaja::FinvoiceToimittaja(QObject *parent) :
     AbstraktiToimittaja(parent)
@@ -80,6 +81,8 @@ void FinvoiceToimittaja::alustaInit()
 void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
 {
     QVariantMap asiakas = kumppani->toMap();
+    MaaModel::Maa maa = MaaModel::instanssi()->maaKoodilla(asiakas.value("maa").toString());
+    asiakas.insert("maanimi", maa.englanniksi());
 
     QVariantMap pyynto;
     pyynto.insert("init", init_);

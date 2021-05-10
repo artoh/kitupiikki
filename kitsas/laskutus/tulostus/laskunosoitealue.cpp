@@ -17,6 +17,7 @@
 #include "laskunosoitealue.h"
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
+#include "rekisteri/maamodel.h"
 
 #include <QVariantMap>
 #include <QPainter>
@@ -49,18 +50,8 @@ void LaskunOsoiteAlue::lataa(const Tosite &tosite)
         const Lasku& lasku = tosite.constLasku();
         vastaanottaja_ = lasku.osoite();
     } else {
-        const QString& nimi = kumppani.value("nimi").toString();
-        const QString& osoite = kumppani.value("osoite").toString();
-        const QString& postinumero = kumppani.value("postinumero").toString();
-        const QString& kaupunki = kumppani.value("kaupunki").toString();
-        const QString& maa = kumppani.value("maa").toString();
 
-        vastaanottaja_ = nimi + "\n" +
-                         osoite + "\n" +
-                         postinumero + " " + kaupunki;
-
-        if( maa != "fi")
-            vastaanottaja_ += maa;  // TODO ! MAAN NIMI MODELISTA ???
+        vastaanottaja_ = MaaModel::instanssi()->muotoiltuOsoite(kumppani);
     }
 
     tulostettava_ = tosite.constLasku().lahetystapa() == Lasku::TULOSTETTAVA ||

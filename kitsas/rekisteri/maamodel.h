@@ -24,21 +24,23 @@ class MaaModel : public QAbstractListModel
 {
     Q_OBJECT
 
-protected:
+public:
     class Maa {
     public:
-        Maa(const QString& koodi, const QString& nimi, const QString& alvreg);
+        Maa(const QString& koodi, const QString& nimi, const QString englanniksi, const QString& alvreg = QString());
 
         QString koodi() const { return koodi_;}
         QString nimi() const { return nimi_;}
         QString alvreg() const { return alvreg_;}
         QIcon icon() const { return icon_;}
+        QString englanniksi() const { return englanniksi_;}
 
     protected:
         QString nimi_;
         QString koodi_;
         QString alvreg_;
         QIcon icon_;
+        QString englanniksi_;
     };
 
 public:
@@ -47,7 +49,7 @@ public:
     enum {
         KoodiRooli = Qt::UserRole,
         AlvRegExpRooli = Qt::UserRole + 1
-    };
+    };    
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -57,8 +59,10 @@ public:
     static MaaModel *instanssi();
     QString muotoiltuOsoite(const QVariantMap& kumppani) const;
 
+    Maa maaKoodilla(const QString& koodi) const;
+
 private:
-    void lisaa(const QString& koodi, const QString& nimi, const QString& regexp);
+    void lataa();
 
     QList<Maa> maat_;
 
