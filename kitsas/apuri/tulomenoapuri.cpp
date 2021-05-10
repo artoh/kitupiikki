@@ -132,7 +132,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
         ui->asiakasToimittaja->tuonti( map.value("toimittaja").toMap() );
         ui->laskuPvm->setDate( lasku.value("pvm").toDate() );
         ui->erapaivaEdit->setDate( lasku.value("erapvm").toDate());
-        ui->viiteEdit->setText( lasku.value("viite").toString());
+        ui->viiteEdit->setText( lasku.value("viite").toString().remove(QRegularExpression("^0+")));
         ui->laskuNumeroEdit->setText( lasku.value("numero").toString());
 
         QVariantList alvit = map.value("alv").toList();
@@ -143,16 +143,22 @@ void TuloMenoApuri::tuo(QVariantMap map)
             ui->alvCombo->setCurrentIndex(
                         ui->alvCombo->findData(alvi.value("alvkoodi")));            
             setAlvProssa(alvi.value("alvprosentti").toDouble());
-            ui->verotonEdit->setValue( alvi.value("netto").toDouble() );
-            verotonMuuttui();
+
+            Euro netto( alvi.value("netto").toString());
+            Euro vero( alvi.value("vero").toString());
+            Euro brutto = netto + vero;
+
+            ui->maaraEdit->setEuro(brutto);
+            emit ui->maaraEdit->textEdited( ui->maaraEdit->text());
 
             if( i < alvit.count() - 1)
                 lisaaRivi();
         }
 
     } else {
-        if( qAbs(map.value("summa").toDouble()) > 1e-5 && !ui->maaraEdit->euro()) {
-            ui->maaraEdit->setValue( map.value("summa").toDouble());
+        Euro summa( map.value("summa").toString());
+        if( summa && !ui->maaraEdit->euro()) {
+            ui->maaraEdit->setEuro(summa);
             emit ui->maaraEdit->textEdited( ui->maaraEdit->text() );
         }
         if( !map.value("viite").toString().isEmpty() && ui->viiteEdit->text().isEmpty())
