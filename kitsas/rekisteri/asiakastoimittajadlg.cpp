@@ -136,6 +136,7 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     ui->osoiteEdit->setPlainText( map.value("osoite").toString() );
     ui->postinumeroEdit->setText( map.value("postinumero").toString());
     ui->kaupunkiEdit->setText( map.value("kaupunki").toString());
+    ui->osavaltioEdit->setText(map.value("osavaltio").toString());
     ui->puhelinEdit->setText(map.value("puhelin").toString());
 
     ui->ovtEdit->setText( map.value("ovt").toString());
@@ -327,11 +328,18 @@ void AsiakasToimittajaDlg::tarkastaTilit()
 
 void AsiakasToimittajaDlg::maaMuuttui()
 {
-    QString maa = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString();
+    QString maa = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString();   
+    QString alvReg = ui->maaCombo->currentData(MaaModel::AlvRegExpRooli).toString();
+
     ui->yLabel->setVisible( maa == "fi");
-    ui->yEdit->setVisible( maa == "fi");
-    ui->alvlabel->setVisible( maa != "fi");
-    ui->alvEdit->setVisible( maa != "fi");
+    ui->yEdit->setVisible( maa == "fi");    
+
+    ui->alvlabel->setVisible( maa != "fi" && !alvReg.isEmpty());
+    ui->alvEdit->setVisible( maa != "fi" && !alvReg.isEmpty());
+
+    ui->osavaltioLabel->setVisible( maa != "fi");
+    ui->osavaltioEdit->setVisible( maa != "fi");
+
     ui->alvEdit->setValidator( new QRegularExpressionValidator(QRegularExpression( ui->maaCombo->currentData(MaaModel::AlvRegExpRooli).toString() ), this) );
 }
 
@@ -372,6 +380,8 @@ void AsiakasToimittajaDlg::accept()
 
     if( !ui->kaupunkiEdit->text().isEmpty())
         map.insert("kaupunki", ui->kaupunkiEdit->text());
+    if( !ui->osavaltioEdit->text().isEmpty() && ui->osavaltioEdit->isVisible())
+        map.insert("osavaltio", ui->osavaltioEdit->text());
 
     if( !ui->emailEdit->text().isEmpty())
         map.insert("email", ui->emailEdit->text());

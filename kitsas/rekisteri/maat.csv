@@ -1,0 +1,249 @@
+Afganistan;AFGHANISTAN;AF
+Ahvenanmaa;ÅLAND ISLANDS;AX
+Alankomaat;NETHERLANDS;NL;ES\\w\\d{7}\\w
+Alankomaiden Karibia;BONAIRE, SINT EUSTATIUS AND SABA;BQ
+Albania;ALBANIA;AL
+Algeria;ALGERIA;DZ
+Amerikan Samoa;AMERICAN SAMOA;AS
+Andorra;ANDORRA;AD
+Angola;ANGOLA;AO
+Anguilla;ANGUILLA;AI
+Antarktis;ANTARCTICA;AQ
+Antigua ja Barbuda;ANTIGUA AND BARBUDA;AG
+Arabiemiirikunnat;UNITED ARAB EMIRATES;AE
+Argentiina;ARGENTINA;AR
+Armenia;ARMENIA;AM
+Aruba;ARUBA;AW
+Australia;AUSTRALIA;AU
+Azerbaidžan;AZERBAIJAN;AZ
+Bahama;BAHAMAS;BS
+Bahrain;BAHRAIN;BH
+Bangladesh;BANGLADESH;BD
+Barbados;BARBADOS;BB
+Belgia;BELGIUM;BE;BE\\d{10}
+Belize;BELIZE;BZ
+Benin;BENIN;BJ
+Bermuda;BERMUDA;BM
+Bhutan;BHUTAN;BT
+Bolivia;BOLIVIA, PLURINATIONAL STATE OF;BO
+Bosnia ja Hertsegovina;BOSNIA AND HERZEGOVINA;BA
+Botswana;BOTSWANA;BW
+Bouvet’nsaari;BOUVET ISLAND;BV
+Brasilia;BRAZIL;BR
+Brittiläinen Intian valtameren alue;BRITISH INDIAN OCEAN TERRITORY;IO
+Brittiläiset Neitsytsaaret;VIRGIN ISLANDS, BRITISH;VG
+Brunei;BRUNEI DARUSSALAM;BN
+Bulgaria;BULGARIA;BG;BG\\d{9,10}
+Burkina Faso;BURKINA FASO;BF
+Burundi;BURUNDI;BI
+Caymansaaret;CAYMAN ISLANDS;KY
+Chile;CHILE;CL
+Cookinsaaret;COOK ISLANDS;CK
+Costa Rica;COSTA RICA;CR
+Curaçao;CURAÇAO;CW
+Djibouti;DJIBOUTI;DJ
+Dominica;DOMINICA;DM
+Dominikaaninen tasavalta;DOMINICAN REPUBLIC;DO
+Ecuador;ECUADOR;EC
+Egypti;EGYPT;EG
+El Salvador;EL SALVADOR;SV
+Eritrea;ERITREA;ER
+Espanja;SPAIN;ES;ES\\w\\d{7}\\w
+Etiopia;ETHIOPIA;ET
+Etelä-Afrikka;SOUTH AFRICA;ZA
+Etelä-Georgia ja Eteläiset Sandwichsaaret;SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS;GS
+Etelä-Sudan;SOUTH SUDAN;SS
+Falklandinsaaret;FALKLAND ISLANDS (MALVINAS);FK
+Färsaaret;FAROE ISLANDS;FO
+Fidži;FIJI;FJ
+Filippiinit;PHILIPPINES;PH
+Gabon;GABON;GA
+Gambia;GAMBIA;GM
+Georgia;GEORGIA;GE
+Ghana;GHANA;GH
+Gibraltar;GIBRALTAR;GI
+Grenada;GRENADA;GD
+Grönlanti;GREENLAND;GL
+Guadeloupe;GUADELOUPE;GP
+Guam;GUAM;GU
+Guatemala;GUATEMALA;GT
+Guernsey;GUERNSEY;GG
+Guinea;GUINEA;GN
+Guinea-Bissau;GUINEA-BISSAU;GW
+Guyana;GUYANA;GY
+Haiti;HAITI;HT
+Heard ja McDonaldinsaaret;HEARD ISLAND AND MCDONALD ISLANDS;HM
+Honduras;HONDURAS;HN
+Hongkong;HONG KONG;HK
+Indonesia;INDONESIA;ID
+Intia;INDIA;IN
+Irak;IRAQ;IQ
+Iran;IRAN, ISLAMIC REPUBLIC OF;IR
+Irlanti;IRELAND;IE
+Islanti;ICELAND;IS;IE\\w{8,9}
+Israel;ISRAEL;IL
+Italia;ITALY;IT;IT\\d{11}
+Itä-Timor;TIMOR-LESTE;TL
+Itävalta;AUSTRIA;AT;ATU\\d{8}
+Jamaika;JAMAICA;JM
+Japani;JAPAN;JP
+Jemen;YEMEN;YE
+Jersey;JERSEY;JE
+Jordania;JORDAN;JO
+Joulusaari;CHRISTMAS ISLAND;CX
+Kambodža;CAMBODIA;KH
+Kamerun;CAMEROON;CM
+Kanada;CANADA;CA
+Kap Verde;CABO VERDE;CV
+Kazakstan;KAZAKHSTAN;KZ
+Kenia;KENYA;KE
+Keski-Afrikan tasavalta;CENTRAL AFRICAN REPUBLIC;CF
+Kiina;CHINA;CN
+Kirgisia;KYRGYZSTAN;KG
+Kiribati;KIRIBATI;KI
+Kolumbia;COLOMBIA;CO
+Komorit;COMOROS;KM
+Kongon demokraattinen tasavalta;CONGO, DEMOCRATIC REPUBLIC OF THE;CD
+Kongon tasavalta;CONGO;CG
+Kookossaaret;COCOS (KEELING) ISLANDS;CC
+Korean demokraattinen kansantasavalta;KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF;KP
+Korean tasavalta;KOREA, REPUBLIC OF;KR
+Kreikka;GREECE;GR;EL\\d{9}
+Kroatia;CROATIA;HR;HR\\d{11}
+Kuuba;CUBA;CU
+Kuwait;KUWAIT;KW
+Kypros;CYPRUS;CY;CY\\d{8}\\w
+Laos;LAO PEOPLE'S DEMOCRATIC REPUBLIC;LA
+Latvia;LATVIA;LV;LV\\d{11}
+Lesotho;LESOTHO;LS
+Libanon;LEBANON;LB
+Liberia;LIBERIA;LR
+Libya;LIBYA;LY
+Liechtenstein;LIECHTENSTEIN;LI
+Liettua;LITHUANIA;LT;LT\\d{9,12}
+Luxemburg;LUXEMBOURG;LU;LU\\d{8}
+Länsi-Sahara;WESTERN SAHARA;EH
+Macao;MACAO;MO
+Madagaskar;MADAGASCAR;MG
+Malawi;MALAWI;MW
+Malediivit;MALDIVES;MV
+Malesia;MALAYSIA;MY
+Mali;MALI;ML
+Malta;MALTA;MT;MT\\d{8}
+Mansaari;ISLE OF MAN;IM
+Marokko;MOROCCO;MA
+Marshallinsaaret;MARSHALL ISLANDS;MH
+Martinique;MARTINIQUE;MQ
+Mauritania;MAURITANIA;MR
+Mauritius;MAURITIUS;MU
+Mayotte;MAYOTTE;YT
+Meksiko;MEXICO;MX
+Mikronesian liittovaltio;MICRONESIA, FEDERATED STATES OF;FM
+Moldova;MOLDOVA, REPUBLIC OF;MD
+Monaco;MONACO;MC
+Mongolia;MONGOLIA;MN
+Montenegro;MONTENEGRO;ME
+Montserrat;MONTSERRAT;MS
+Mosambik;MOZAMBIQUE;MZ
+Myanmar;MYANMAR;MM
+Namibia;NAMIBIA;NA
+Nauru;NAURU;NR
+Nepal;NEPAL;NP
+Nicaragua;NICARAGUA;NI
+Niger;NIGER;NE
+Nigeria;NIGERIA;NG
+Niue;NIUE;NU
+Norfolkinsaari;NORFOLK ISLAND;NF
+Norja;NORWAY;NO
+Norsunluurannikko;CÔTE D'IVOIRE;CI
+Oman;OMAN;OM
+Pakistan;PAKISTAN;PK
+Palau;PALAU;PW
+Palestiina;PALESTINE, STATE OF;PS
+Panama;PANAMA;PA
+Papua-Uusi-Guinea;PAPUA NEW GUINEA;PG
+Paraguay;PARAGUAY;PY
+Peru;PERU;PE
+Pohjois-Mariaanit;NORTHERN MARIANA ISLANDS;MP
+Pitcairn;PITCAIRN;PN
+Pohjois-Makedonia;NORTH MACEDONIA;MK
+Portugali;PORTUGAL;PT;PT\\d{9}
+Puerto Rico;PUERTO RICO;PR
+Puola;POLAND;PL;PL\\d{10}
+Päiväntasaajan Guinea;EQUATORIAL GUINEA;GQ
+Qatar;QATAR;QA
+Ranska;FRANCE;FR;FR\\w{2}\\s?\\d{9}
+Ranskan eteläiset alueet;FRENCH SOUTHERN TERRITORIES;TF
+Ranskan Guayana;FRENCH GUIANA;GF
+Ranskan Polynesia;FRENCH POLYNESIA;PF
+Réunion;RÉUNION;RE
+Romania;ROMANIA;RO;RO\\d{2,10}
+Ruanda;RWANDA;RW
+Ruotsi;SWEDEN;SE;SE\\d{9}01
+Saint Barthélemy;SAINT BARTHÉLEMY;BL
+Saint Helena, Ascension ja Tristan da Cunha;SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA;SH
+Saint Kitts ja Nevis;SAINT KITTS AND NEVIS;KN
+Saint Lucia;SAINT LUCIA;LC
+Saint Martin (Ranska);SAINT MARTIN (FRENCH PART);MF
+Saint-Pierre ja Miquelon;SAINT PIERRE AND MIQUELON;PM
+Saint Vincent ja Grenadiinit;SAINT VINCENT AND THE GRENADINES;VC
+Saksa;GERMANY;DE;DE\\d{9}
+Salomonsaaret;SOLOMON ISLANDS;SB
+Sambia;ZAMBIA;ZM
+Samoa;SAMOA;WS
+San Marino;SAN MARINO;SM
+São Tomé ja Príncipe;SAO TOME AND PRINCIPE;ST
+Saudi-Arabia;SAUDI ARABIA;SA
+Senegal;SENEGAL;SN
+Serbia;SERBIA;RS
+Seychellit;SEYCHELLES;SC
+Sierra Leone;SIERRA LEONE;SL
+Singapore;SINGAPORE;SG
+Sint Maarten (Alankomaat);SINT MAARTEN (DUTCH PART);SX
+Slovakia;SLOVAKIA;SK;SL\\d{10}
+Slovenia;SLOVENIA;SI;SI\\d{8}
+Somalia;SOMALIA;SO
+Sri Lanka;SRI LANKA;LK
+Sudan;SUDAN;SD
+Suomi;FINLAND;FI
+Suriname;SURINAME;SR
+Svalbard ja Jan Mayen;SVALBARD AND JAN MAYEN;SJ
+Swazimaa;ESWATINI;SZ
+Sveitsi;SWITZERLAND;CH
+Syyria;SYRIAN ARAB REPUBLIC;SY
+Tadžikistan;TAJIKISTAN;TJ
+Taiwan;TAIWAN;TW
+Tansania;TANZANIA, UNITED REPUBLIC OF;TZ
+Tanska;DENMARK;DK;DK\\d{2}\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}
+Thaimaa;THAILAND;TH
+Togo;TOGO;TG
+Tokelau;TOKELAU;TK
+Tonga;TONGA;TO
+Trinidad ja Tobago;TRINIDAD AND TOBAGO;TT
+Tšad;CHAD;TD
+Tšekki;CZECHIA;CZ;CZ\\d{8,10}
+Tunisia;TUNISIA;TN
+Turkki;TURKEY;TR
+Turkmenistan;TURKMENISTAN;TM
+Turks- ja Caicossaaret;TURKS AND CAICOS ISLANDS;TC
+Tuvalu;TUVALU;TV
+Uganda;UGANDA;UG
+Ukraina;UKRAINE;UA
+Unkari;HUNGARY;HU;HU\\d{8}
+Uruguay;URUGUAY;UY
+Uusi-Kaledonia;NEW CALEDONIA;NC
+Uusi-Seelanti;NEW ZEALAND;NZ
+Uzbekistan;UZBEKISTAN;UZ
+Valko-Venäjä;BELARUS;BY
+Vanuatu;VANUATU;VU
+Vatikaanivaltio (Pyhä istuin);HOLY SEE;VA
+Venezuela;VENEZUELA, BOLIVARIAN REPUBLIC OF;VE
+Venäjä;RUSSIAN FEDERATION;RU
+Vietnam;VIET NAM;VN
+Viro;ESTONIA;EE;EE\\d{9}
+Wallis ja Futunasaaret;WALLIS AND FUTUNA;WF
+Yhdistynyt kuningaskunta;UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND;GB
+Yhdysvallat;UNITED STATES OF AMERICA;US
+Yhdysvaltain Neitsytsaaret;VIRGIN ISLANDS, U.S.;VI
+Yhdysvaltain pienet erillissaaret;UNITED STATES MINOR OUTLYING ISLANDS;UM
+Zimbabwe;ZIMBABWE;ZW

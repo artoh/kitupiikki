@@ -18,39 +18,14 @@
 #include <QIcon>
 #include <QDebug>
 
+#include <QFile>
+#include <QTextStream>
+
+
 MaaModel::MaaModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    lisaa("fi","Suomi","FI\\d{8}");
-    lisaa("be","Belgia","BE\\d{10}");
-    lisaa("bg","Bulgaria","BG\\d{9,10}");
-    lisaa("es","Espanja","ES\\w\\d{7}\\w");
-    lisaa("nl","Hollanti","NL\\d{9}B\\d{2}");
-    lisaa("ie","Irlanti","IE\\w{8,9}");
-    lisaa("gb","Iso-Britannia","GB\\w{5,12}");
-    lisaa("ie","Italia","IT\\d{11}");
-    lisaa("at","Itävalta","ATU\\d{8}");
-    lisaa("el","Kreikka","EL\\d{9}");
-    lisaa("hr","Kroatia","HR\\d{11}");
-    lisaa("cy","Kypros","CY\\d{8}\\w");
-    lisaa("lv","Latvia","LV\\d{11}");
-    lisaa("lt","Liettua","LT\\d{9,12}");
-    lisaa("lu","Luxemburg","LU\\d{8}");
-    lisaa("mt","Malta","MT\\d{8}");
-    lisaa("pt","Portugali","PT\\d{9}");
-    lisaa("pl","Puola","PL\\d{10}");
-    lisaa("fr","Ranska","FR\\w{2}\\s?\\d{9}");
-    lisaa("ro","Romania","RO\\d{2,10}");
-    lisaa("se","Ruotsi","SE\\d{9}01");
-    lisaa("de","Saksa","DE\\d{9}");
-    lisaa("sk","Slovakia","SL\\d{10}");
-    lisaa("si","Slovenia","SI\\d{8}");
-    lisaa("dk","Tanska","DK\\d{2}\\s?\\d{2}\\s?\\d{2}\\s?\\d{2}");
-    lisaa("cz","Tsekki","CZ\\d{8,10}");
-    lisaa("hu","Unkari","HU\\d{8}");
-    lisaa("ee","Viro","EE\\d{9}");
-    lisaa("","EU:n ulkopuolella","");
-
+    lataa();
 }
 
 
@@ -97,29 +72,71 @@ QString MaaModel::muotoiltuOsoite(const QVariantMap &kumppani) const
     const QString& osoite = kumppani.value("osoite").toString();
     const QString postinumero = kumppani.value("postinumero").toString();
     const QString& kaupunki = kumppani.value("kaupunki").toString();
+    const QString& osavaltio = kumppani.value("osavaltio").toString();
     const QString& maa = kumppani.value("maa").toString();
+    const Maa& maaData = maaKoodilla(maa);
+    const QString& maaNimi = maaData.englanniksi();
 
-    if( maa != "fi")
-        qWarning() << "Osoite maahan " << maa;
 
-    // TODO: Ulkomaiset osoitteet
-    return nimi + "\n" +
-           osoite + "\n" +
-           postinumero + " " + kaupunki;
+    if( maa == "gb" || maa=="in" || maa=="ir" || maa == "iq" || maa=="ie" || maa=="nz" || maa=="pk" ||
+        maa == "ru" || maa=="sg" || maa=="kr" || maa == "lk" || maa=="th")
+        return nimi + "\n" + osoite + "\n" + kaupunki + "\n" +
+                (!osavaltio.isEmpty() ? osavaltio + "\n" : "" ) + postinumero + "\n" + maaNimi;
+    else if(maa == "au" || maa == "ca" || maa == "tw" || maa == "us")
+        return nimi + "\n" + osoite + "\n" + kaupunki +  " " + osavaltio + " " + postinumero + "\n" + maaNimi;
+    else if( maa == "id")
+        return nimi + "\n" + osoite + "\n" + kaupunki + "\n" + osavaltio + " " + postinumero + "\n" + maaNimi;
+
+
+    // Yleinen osoitetyyppi on eurooppalainen ;)
+
+    QString txt = nimi + "\n" +
+                  osoite + "\n" +
+                  (postinumero.isEmpty() ? "" : postinumero + " " )+ kaupunki;
+
+    if( osavaltio.isEmpty())
+        txt += "\n" + osavaltio;
+
+    if( maa != "fi" ) {
+        txt += "\n" + maaNimi;
+    }
+    return txt;
 }
 
-void MaaModel::lisaa(const QString &koodi, const QString &nimi, const QString &regexp)
+MaaModel::Maa MaaModel::maaKoodilla(const QString &koodi) const
 {
-    maat_.append( Maa(koodi, nimi, regexp) );
+    for(auto maa : maat_)
+        if(maa.koodi() == koodi)
+            return maa;
+    return Maa("","","");
 }
 
-MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString &alvreg) :
-    nimi_(nimi),
-    koodi_(koodi),
-    alvreg_(alvreg),
-    icon_( QIcon(":/liput/" + koodi + ".png"))
+void MaaModel::lataa()
 {
-
+    QFile maat(":/rekisteri/maat.csv");
+    maat.open(QFile::ReadOnly);
+    QTextStream in(&maat);
+    in.setCodec("UTF-8");
+    while(!in.atEnd()) {
+        QStringList list = in.readLine().split(";");
+        if( list.length() >= 3) {
+            maat_.append(Maa(list.value(2).toLower(),
+                             list.value(0),
+                             list.value(1),
+                             list.value(3)));
+        }
+    }
 }
+
 
 MaaModel* MaaModel::instanssi__ = nullptr;
+
+MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString englanniksi, const QString &alvreg) :
+        nimi_(nimi),
+        koodi_(koodi),
+        alvreg_(alvreg),
+        englanniksi_(englanniksi)
+{
+    QIcon icon(":/liput/" + koodi + ".png");
+    icon_ = icon.isNull() ? QIcon(":/pic/tyhja.png") : icon;
+}

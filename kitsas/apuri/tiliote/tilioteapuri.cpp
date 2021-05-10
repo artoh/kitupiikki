@@ -294,6 +294,7 @@ void TilioteApuri::naytaTosite()
 
 
         sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( tosite->tyyppi() ) );
+        sivu->kirjausWg()->apuri()->tositteelle();
 
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }

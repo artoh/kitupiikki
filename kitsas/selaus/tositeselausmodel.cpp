@@ -127,6 +127,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
                 kysely->lisaaAttribuutti("poistetut", QString());
 
             connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
+            connect(kysely, &KpKysely::virhe, this, &TositeSelausModel::latausVirhe);
             ladataan_ = true;
             kysely->kysy();
         }
@@ -153,6 +154,11 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
     }
 
     endResetModel();
+    ladataan_ = false;
+}
+
+void TositeSelausModel::latausVirhe()
+{
     ladataan_ = false;
 }
 

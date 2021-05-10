@@ -34,6 +34,7 @@ public:
     QDate pvm() const { return value("pvm").toDate(); }
     QString nimi() const { return value("selite").toString(); }
     QString kumppaniNimi() const { return value("kumppani").toMap().value("nimi").toString(); }
+    QVariantMap kumppani() const { return value("kumppani").toMap(); }
     int kumppaniId() const { return value("kumppani").toMap().value("id").toInt(); }
     int tositetyyppi() const { return value("tositetyyppi").toInt(); }
     Euro saldo() const { return Euro(value("avoin").toString());}

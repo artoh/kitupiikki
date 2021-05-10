@@ -152,44 +152,44 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>Puhelinnumero</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="8" column="1">
         <widget class="QLineEdit" name="puhelinEdit"/>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Kieli</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="9" column="1">
         <widget class="QComboBox" name="kieliCombo"/>
        </item>
-       <item row="9" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Laskutustapa</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="10" column="1">
         <widget class="QComboBox" name="laskutapaCombo"/>
        </item>
-       <item row="10" column="0">
+       <item row="11" column="0">
         <widget class="QCheckBox" name="maksuaikaCheck">
          <property name="text">
           <string>Maksuaika</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="1">
+       <item row="11" column="1">
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">
           <widget class="QSpinBox" name="maksuaikaSpin">
@@ -222,7 +222,7 @@
          </item>
         </layout>
        </item>
-       <item row="11" column="1">
+       <item row="12" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -234,6 +234,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="osavaltioLabel">
+         <property name="text">
+          <string>Alue/osavaltio</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="osavaltioEdit"/>
        </item>
       </layout>
      </widget>
@@ -376,7 +386,9 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
   <tabstop>nimiEdit</tabstop>
+  <tabstop>haeNappi</tabstop>
   <tabstop>maaCombo</tabstop>
   <tabstop>yEdit</tabstop>
   <tabstop>alvEdit</tabstop>
@@ -384,9 +396,17 @@
   <tabstop>osoiteEdit</tabstop>
   <tabstop>postinumeroEdit</tabstop>
   <tabstop>kaupunkiEdit</tabstop>
+  <tabstop>osavaltioEdit</tabstop>
+  <tabstop>puhelinEdit</tabstop>
+  <tabstop>kieliCombo</tabstop>
+  <tabstop>laskutapaCombo</tabstop>
+  <tabstop>maksuaikaCheck</tabstop>
+  <tabstop>maksuaikaSpin</tabstop>
+  <tabstop>ryhmatWidget</tabstop>
   <tabstop>valittajaEdit</tabstop>
   <tabstop>ovtEdit</tabstop>
   <tabstop>tilitLista</tabstop>
+  <tabstop>lisatietoEdit</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>

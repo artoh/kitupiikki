@@ -75,11 +75,14 @@ bool SiirtoApuri::teeTositteelle()
     QDate pvm = tosite()->data(Tosite::PVM).toDate();    
     QString otsikko = tosite()->otsikko();
 
-    int kumppani = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
-    if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
-        kumppani = 0;
-    if( ui->asiakas->id())
-        kumppani = ui->asiakas->id();
+    QVariantMap kumppani = debetKumppani_.isEmpty() ? kreditKumppani_ : debetKumppani_;
+    if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
+            debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
+        kumppani.clear();
+    ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+
+    if( !ui->asiakas->nimi().isEmpty())
+        kumppani = ui->asiakas->map();
 
 
     QVariantList viennit;
@@ -148,13 +151,14 @@ void SiirtoApuri::teeReset()
         tililtaEra.insert("kumppani", kreditMap.kumppaniMap());
         ui->tililtaEraCombo->valitse(tililtaEra);
 
-        debetKumppani_ =  debetMap.kumppaniId();
-        kreditKumppani_ =  kreditMap.kumppaniId();
+        debetKumppani_ =  debetMap.kumppaniMap();
+        kreditKumppani_ =  kreditMap.kumppaniMap();
 
-        int kumppani = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
-        if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
-            kumppani = 0;
-        ui->asiakas->set(kumppani);
+        QVariantMap kumppani = debetKumppani_.isEmpty() ? kreditKumppani_ : debetKumppani_;
+        if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
+                debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
+            kumppani.clear();
+        ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
 
         debetArkistoTunnus_ = debetMap.arkistotunnus();
         kreditArkistoTunnus_ = kreditMap.arkistotunnus();
@@ -317,15 +321,16 @@ void SiirtoApuri::eraValittu(bool debet, EraMap era)
         tosite()->asetaOtsikko( era.nimi() );
 
     if(debet)
-        debetKumppani_ = era.kumppaniId();
+        debetKumppani_ = era.kumppani();
     else
-        kreditKumppani_ = era.kumppaniId();
+        kreditKumppani_ = era.kumppani();
 
-    int kumppaniId = debetKumppani_ ? debetKumppani_ : kreditKumppani_;
-    if( debetKumppani_ && kreditKumppani_ && debetKumppani_ != kreditKumppani_)
-        kumppaniId = 0;
-    if(kumppaniId)
-        ui->asiakas->set(kumppaniId);
+    QVariantMap kumppani = debetKumppani_.isEmpty() ? kreditKumppani_ : debetKumppani_;
+    if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
+            debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
+        kumppani.clear();
+    ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+
 
     haeAlkuperaistosite(debet, era.id());
     teeTositteelle();

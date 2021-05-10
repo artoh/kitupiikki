@@ -110,6 +110,7 @@ public:
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu, int tila = KIRJANPIDOSSA);
     void tietoSaapuu(QVariant *var);
+    void latausVirhe();
 
 protected:
     void lataaSqlite(SQLiteModel* sqlite, const QDate& alkaa, const QDate& loppuu);
