@@ -26,9 +26,6 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-#include <poppler/qt5/poppler-qt5.h>
-
-
 #include "pdftuonti.h"
 
 #include "validator/ibanvalidator.h"
@@ -47,8 +44,6 @@
 #include "pdftiliote/pdftiliotetuonti.h"
 
 namespace Tuonti {
-
-
 
 PdfTuonti::PdfTuonti()
 {
@@ -344,8 +339,6 @@ void PdfTuonti::haeTekstit(const QByteArray &data)
 
         qreal leveysKerroin = 100.0 / pdfSivu.size().width();
         qreal korkeusKerroin = 200.0 / pdfSivu.size().height();
-
-        QSet<Poppler::TextBox*> kasitellyt;        
 
         for(const auto& row : pdfSivu.rows()) {
 
