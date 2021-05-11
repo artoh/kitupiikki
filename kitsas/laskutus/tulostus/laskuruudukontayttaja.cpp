@@ -164,6 +164,10 @@ void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
             alvSarake_ = true;
         }
 
+        if( qAbs(rivi.myyntiKpl() - 1.0) > 1e-7 )
+            maaria_ = true;
+
+
         if( rivi.aleProsentti() > 1e-3 || rivi.euroAlennus() > 1e-3) {
             aleSarake_ = true;
         }
@@ -178,12 +182,12 @@ void LaskuRuudukonTayttaja::kirjoitaSarakkeet()
     lisaaSarake("hinta", Qt::AlignRight);
     if( aleSarake_ )
         lisaaSarake("ale", Qt::AlignRight);
-    if( pitkatrivit_)
+    if( pitkatrivit_ && maaria_)
         lisaaSarake("veroton", Qt::AlignRight);
     if( alvSarake_ | pitkatrivit_)
         lisaaSarake("alv",Qt::AlignRight);
     if( pitkatrivit_ )
-        lisaaSarake("vero", Qt::AlignRight);
+        lisaaSarake("Vero", Qt::AlignRight);
     lisaaSarake("yhteensa", Qt::AlignRight);
 }
 
@@ -205,7 +209,7 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
         tekstit << ahintasarake(rivi);
         if( aleSarake_)
             tekstit << rivit->index(i, TositeRivit::ALE).data().toString();
-        if( pitkatrivit_)
+        if( pitkatrivit_ && maaria_)
             tekstit << Euro::fromDouble(rivi.nettoYhteensa()).display();
         if( alvSarake_ || pitkatrivit_)
             tekstit << rivit->index(i, TositeRivit::ALV).data().toString();

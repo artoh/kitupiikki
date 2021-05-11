@@ -242,6 +242,7 @@ void Raportoija::kirjoitaDatasta()
 
 
     QVariantList rivilista = kmap_.value("rivit").toList();
+    bool edellinenOliValisumma = false;
 
     for(QVariant& riviVariant : rivilista)
     {
@@ -267,12 +268,16 @@ void Raportoija::kirjoitaDatasta()
         int sisennys = map.value("S").toInt() * 4;
 
         RivinTyyppi rivityyppi = SUMMA;
-        bool naytaTyhjarivi = kaava.contains('S') || kaava.contains('h');
+        bool naytaTyhjarivi = kaava.contains('S') || kaava.contains('H');
         bool laskevalisummaan = !kaava.contains("==");
         bool lisaavalisumma = kaava.contains("=") && !kaava.contains("==");
         bool naytaErittely = kaava.contains('*');
         bool vainmenot = kaava.contains("-");
         bool vaintulot = kaava.contains('+');
+
+        if( lisaavalisumma && edellinenOliValisumma) {
+            continue;       // Ei kahta välisummaa peräkkäin
+        }
 
         int erittelySisennys = 4;
 
@@ -349,6 +354,8 @@ void Raportoija::kirjoitaDatasta()
 
          if( !naytaTyhjarivi && !kirjauksia )
             continue;
+
+         edellinenOliValisumma = lisaavalisumma;
 
         // header tulostaa vain otsikon
         if( rivityyppi != OTSIKKO  )

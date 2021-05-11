@@ -33,7 +33,7 @@ Tuote::Tuote(const QVariantMap &map)
     alvkoodi_ = map.value("alvkoodi").toInt();
     alvprosentti_ = map.value("alvprosentti").toDouble();
     if( map.value("nimi").toMap().isEmpty() && !nimike_.isEmpty())
-        nimikielinen_.aseta("fi", nimike_);
+        nimikielinen_.aseta(nimike_, "fi");
     else
         nimikielinen_.aseta(map.value("nimi"));
 

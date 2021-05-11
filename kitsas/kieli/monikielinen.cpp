@@ -32,7 +32,11 @@ Monikielinen::Monikielinen(const QVariant &var)
 Monikielinen::Monikielinen(const QString &str)
 {
     QJsonDocument doc = QJsonDocument::fromJson( str.toUtf8() );
-    Monikielinen::aseta( doc.toVariant());
+    if( doc.isEmpty() && !str.isEmpty()) {
+        tekstit_.insert("fi", str);
+    } else {
+        Monikielinen::aseta( doc.toVariant());
+    }
 }
 
 

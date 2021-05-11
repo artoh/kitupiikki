@@ -1,15 +1,21 @@
 [fi]
 ## Raportit
-#MIKRO
+#pmaTaseE -I Tilikohtaisesti eritelty tase
+@tase/yleinen:E!TASE (TILINPÄÄTÖS)@
+#-pmaTaseE -ISO
 @tase/PMA!TASE (TILINPÄÄTÖS)@
-#PIEN
-@tase/PMA!TASE (TILINPÄÄTÖS)@
-#ISO
+#isoTaseE -P -M Tilikohtaisesti eritelty tase
+@tase/yleinen:E!TASE (TILINPÄÄTÖS)@
+#-isoTaseE -PIEN -MIKRO
 @tase/yleinen!TASE (TILINPÄÄTÖS)@
-#
+#eriteltyTulos Tilikohtaisesti eritelty tuloslaskelma
+@tulos/yleinen:E!TULOSLASKELMA (TILINPÄÄTÖS)@
+#-eriteltyTulos
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
-#toiminnanalat Toiminnanalojen erittely
+#toiminnanalat -toiminnanalatE Toiminnanalojen erittely
 @tulos/yleinen:K!TOIMINNANALAT (TILINPÄÄTÖS)@
+#toiminnanalatE -toiminnanalat Toiminnanalojen erittely tileittäin
+@tulos/yleinen:KE!TOIMINNANALAT (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
@@ -146,17 +152,22 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>
 [sv]
 ##Rapporter
-#MIKRO
+#pmaTaseE -I Balansräkning uppdelad efter konto
+@tase/yleinen:E!BALANSRÄKNING (BOKSLUT)@
+#-pmaTaseE -ISO
 @tase/PMA!BALANSRÄKNING (BOKSLUT)@
-#PIEN
-@tase/PMA!BALANSRÄKNING (BOKSLUT)@
-#ISO
-@tase/yleinen!TASE (TILINPÄÄTÖS)@
-#
+#isoTaseE -P -M Balansräkning uppdelad efter konto
+@tase/yleinen:E!BALANSRÄKNING (BOKSLUT)@
+#-isoTaseE -PIEN -MIKRO
+@tase/yleinen!BALANSRÄKNING (BOKSLUT)@
+#eriteltyTulos Resultaträkning updelad efter konto
+@tulos/yleinen:E!RESULTATRÄKNING (BOKSLUT)@
+#-eriteltyTulos
 @tulos/yleinen!RESULTATRÄKNING (BOKSLUT)@
-#toiminnanalat Specifikation av verksamhetsområden
+#toiminnanalat -toiminnanalatE Specifikation av verksamhetsområden
 @tulos/yleinen:K!VERKSAMHETSOMRÅDEN (BOKSLUT)@
-<h2>Principer för upprättandet av bokslutet</h2>
+#toiminnanalatE -toiminnanalat Specifikation av verksamhetsområden per konto
+@tulos/yleinen:KE!VERKSAMHETSOMRÅDEN (BOKSLUT)@
 #MIKRO
 <p> Vid uppgörandet av detta bokslut har statsrådets förordning om uppgifter som ska tas upp i små- och mikroföretags bokslut följts.</p>
 #PIEN

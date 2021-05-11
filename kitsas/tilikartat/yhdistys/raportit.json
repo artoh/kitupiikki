@@ -68,25 +68,26 @@
         "sv": "Tillförda medel",
         "en": "Total fundraising",
         "M": "bold",
-        "V": 1
+        "V": 1,
+        "L": "7 h"
       },
       {
         "fi": "Tuotot",
         "sv": "Intäkter",
         "en": "Income",
-        "L": "7+ S*"
+        "L": "7+ s*"
       },
       {
         "fi": "Kulut",
         "sv": "Konstnader",
         "en": "Expenses",
-        "L": "7- S*"
+        "L": "7- s*"
       },
       {
         "fi": "Varainhankinta yhteensä",
         "sv": "Tillförda medel sammanlagt",
         "en": "Fundrainsing total",
-        "L": "7 == S"
+        "L": "7 == s"
       },
       {
         "fi": "Tuotto/kulujäämä",
@@ -99,25 +100,27 @@
         "fi": "Sijoitus- ja rahoitustoiminta",
         "se": "Investerings- och finansieringsverksamhet",
         "en": "Investments and financial activities",
-        "M": "bold"
+        "M": "bold",
+        "L": "90,91 h",
+        "V": 1
       },
       {
         "fi": "Tuotot",
         "se": "Intäkter",
         "en": "Income",
-        "L": "90 S *"
+        "L": "90 s *"
       },
       {
         "fi": "Kulut",
         "se": "Konstnader",
         "en": "Expenses",
-        "L": "91 S *"
+        "L": "91 s *"
       },
       {
         "fi": "Sijoitus- ja rahoitustoiminta yhteensä",
         "sv": "Investerings- och finansieringsverksamhet sammanlagt",
         "en": "Total investments and financing activities",
-        "L": "90,91 == S"
+        "L": "90,91 == s"
       },
       {
         "fi": "Tuotto/kulujäämä",
@@ -172,7 +175,7 @@
         "fi": "Tilinpäätössiirrot yhteensä",
         "sv": "Bokslutsdispositioner sammanlagt",
         "en": "Total appropriations",
-        "L": "95 == S"
+        "L": "95 == s"
       },
       {
         "fi": "Tilikauden ylijäämä (alijäämä)",
