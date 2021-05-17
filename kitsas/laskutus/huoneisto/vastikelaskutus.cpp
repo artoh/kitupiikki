@@ -117,6 +117,9 @@ void VastikeLaskutus::alustaTosite()
 
     tosite_.lasku().setViivastyskorko( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
 
+    tosite_.lasku().setRiviTyyppi(Lasku::BRUTTORIVIT);
+    tosite_.rivit()->asetaBruttolaskenta(true);
+
 
 }
 

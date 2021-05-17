@@ -421,7 +421,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 
     data_.clear();
     viennit_->asetaViennit(QVariantList());
-    liitteet()->clear();
+    liitteet()->clear();    
 
     asetaPvm(pvm);
     asetaTyyppi(tyyppi);

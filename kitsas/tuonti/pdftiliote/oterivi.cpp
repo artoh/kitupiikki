@@ -100,6 +100,7 @@ void OteRivi::setSelite(const QString &selite)
 void OteRivi::setViite(QString viite)
 {
     viite.remove(QRegularExpression("^0+"));
+    viite.remove(QRegularExpression("\\s"));
     std::cerr << "VIITE " << viite.toStdString();
     if( ViiteValidator::kelpaako(viite))
         viite_ = viite;

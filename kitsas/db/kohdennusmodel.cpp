@@ -236,7 +236,7 @@ void KohdennusModel::tallenna(int indeksi)
     connect( kysely, &KpKysely::vastaus,
              [this, indeksi] (QVariant* data) { this->tallennettu(indeksi, data);} );
     connect( kysely, &KpKysely::virhe,
-             [](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Kohdennuksen tallentaminen epäonnistui.\n%1").arg(selitys)); } );
+             [this](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Kohdennuksen tallentaminen epäonnistui.\n%1").arg(selitys)); this->paivita(); } );
     kysely->kysy( kohdennus.data());
 }
 

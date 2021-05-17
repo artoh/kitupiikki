@@ -82,6 +82,7 @@ public slots:
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
     void asetaBruttolaskenta(bool brutto);
+    void clear();
 
 
 private:

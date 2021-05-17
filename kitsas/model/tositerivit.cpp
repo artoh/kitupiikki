@@ -414,5 +414,14 @@ void TositeRivit::asetaBruttolaskenta(bool brutto)
     endResetModel();
 }
 
+void TositeRivit::clear()
+{
+    beginResetModel();
+    rivit_.clear();
+    ennakkolasku_ = false;
+    bruttoLaskenta_ = false;
+    endResetModel();
+}
+
 
 
