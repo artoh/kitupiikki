@@ -204,7 +204,7 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
         QStringList tekstit;
 
         tekstit << nimikesarake(rivi);
-        tekstit << rivi.laskutetaanKpl();
+        tekstit << rivi.laskutetaanKpl().replace(".",",");
         tekstit << yksikkosarake(rivi);
         tekstit << ahintasarake(rivi);
         if( aleSarake_)

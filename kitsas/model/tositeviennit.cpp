@@ -625,6 +625,17 @@ QString TositeViennit::alvTarkastus() const
    return palaute;
 }
 
+bool TositeViennit::onkoKaanteistaAlvia() const
+{
+    for( const auto& vienti : viennit_) {
+        if(vienti.alvKoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI ||
+           vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||
+           vienti.alvKoodi() == AlvKoodi::YHTEISOMYYNTI_TAVARAT)
+            return true;
+    }
+    return false;
+}
+
 void TositeViennit::paivitaAalv(int rivi)
 {
     const TositeVienti& lahde = viennit_.value(rivi);

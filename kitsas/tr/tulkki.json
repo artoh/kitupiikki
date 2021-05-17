@@ -698,7 +698,7 @@
     "muistutussaate": {
         "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
         "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.",
-        "en": "According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+        "en": "According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please contact us."
     },
     "eimaksettavaa": {
         "fi": "Ei maksettavaa",
@@ -798,7 +798,7 @@
     "muistutusteksti": {
         "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
         "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.",
-        "en": "According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us."
+        "en": "According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please contact us."
     },
     "asytunnus": {
         "fi": "Asiakkaan y-tunnus",

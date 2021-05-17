@@ -94,6 +94,7 @@ public:
     bool muokattavissa() const { return muokattavissa_;}
 
     QString alvTarkastus() const;
+    bool onkoKaanteistaAlvia() const;
 
     void paivitaAalv(int rivi);
     qlonglong summa() const;

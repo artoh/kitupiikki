@@ -1,6 +1,6 @@
 Afganistan;AFGHANISTAN;AF
 Ahvenanmaa;ÅLAND ISLANDS;AX
-Alankomaat;NETHERLANDS;NL;ES\\w\\d{7}\\w
+Alankomaat;NETHERLANDS;NL;NL\\d{9}B\\d{2}
 Alankomaiden Karibia;BONAIRE, SINT EUSTATIUS AND SABA;BQ
 Albania;ALBANIA;AL
 Algeria;ALGERIA;DZ
@@ -20,7 +20,7 @@ Bahama;BAHAMAS;BS
 Bahrain;BAHRAIN;BH
 Bangladesh;BANGLADESH;BD
 Barbados;BARBADOS;BB
-Belgia;BELGIUM;BE;BE\\d{10}
+Belgia;BELGIUM;BE;BE0\\d{9}
 Belize;BELIZE;BZ
 Benin;BENIN;BJ
 Bermuda;BERMUDA;BM
@@ -79,8 +79,8 @@ Indonesia;INDONESIA;ID
 Intia;INDIA;IN
 Irak;IRAQ;IQ
 Iran;IRAN, ISLAMIC REPUBLIC OF;IR
-Irlanti;IRELAND;IE
-Islanti;ICELAND;IS;IE\\w{8,9}
+Irlanti;IRELAND;IE;IE\\d{7}\\w{1,2}
+Islanti;ICELAND;IS
 Israel;ISRAEL;IL
 Italia;ITALY;IT;IT\\d{11}
 Itä-Timor;TIMOR-LESTE;TL
@@ -179,7 +179,7 @@ Ranskan Polynesia;FRENCH POLYNESIA;PF
 Réunion;RÉUNION;RE
 Romania;ROMANIA;RO;RO\\d{2,10}
 Ruanda;RWANDA;RW
-Ruotsi;SWEDEN;SE;SE\\d{9}01
+Ruotsi;SWEDEN;SE;SE\\d{10}01
 Saint Barthélemy;SAINT BARTHÉLEMY;BL
 Saint Helena, Ascension ja Tristan da Cunha;SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA;SH
 Saint Kitts ja Nevis;SAINT KITTS AND NEVIS;KN
@@ -200,7 +200,7 @@ Seychellit;SEYCHELLES;SC
 Sierra Leone;SIERRA LEONE;SL
 Singapore;SINGAPORE;SG
 Sint Maarten (Alankomaat);SINT MAARTEN (DUTCH PART);SX
-Slovakia;SLOVAKIA;SK;SL\\d{10}
+Slovakia;SLOVAKIA;SK;SK\\d{10}
 Slovenia;SLOVENIA;SI;SI\\d{8}
 Somalia;SOMALIA;SO
 Sri Lanka;SRI LANKA;LK
@@ -243,6 +243,7 @@ Vietnam;VIET NAM;VN
 Viro;ESTONIA;EE;EE\\d{9}
 Wallis ja Futunasaaret;WALLIS AND FUTUNA;WF
 Yhdistynyt kuningaskunta;UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND;GB
+Pohjois-Irlanti (EU-tavarakauppa);UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND;XI;XI\\w{2}\\d{3,9}
 Yhdysvallat;UNITED STATES OF AMERICA;US
 Yhdysvaltain Neitsytsaaret;VIRGIN ISLANDS, U.S.;VI
 Yhdysvaltain pienet erillissaaret;UNITED STATES MINOR OUTLYING ISLANDS;UM

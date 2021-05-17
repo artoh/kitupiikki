@@ -276,8 +276,9 @@ void LaskulistaWidget::muistuta()
         int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
         erat.append(eraId);
     }
-    UusiMaksumuistutusDialogi* dlg = new UusiMaksumuistutusDialogi(erat, this);
+    UusiMaksumuistutusDialogi* dlg = new UusiMaksumuistutusDialogi(erat, this);    
     dlg->kaynnista();
+    QTimer::singleShot(5000, this, &LaskulistaWidget::paivita);
 }
 
 void LaskulistaWidget::poista()

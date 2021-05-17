@@ -28,7 +28,7 @@ class LaskunTietoLaatikko
 {
 public:
     LaskunTietoLaatikko( KitsasInterface* kitsas_);
-    void lataa(const Tosite& tosite);
+    void lataa(Tosite &tosite);
     qreal laskeLaatikko(QPainter* painter, qreal leveys);
     void piirra(QPainter* painter);
 

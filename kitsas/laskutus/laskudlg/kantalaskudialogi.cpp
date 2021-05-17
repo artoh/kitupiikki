@@ -193,6 +193,7 @@ void KantaLaskuDialogi::tositteelta()
     const Lasku& lasku = tosite()->constLasku();
 
     ui->toimitusDate->setDate( lasku.toimituspvm() );
+    ui->laskuPvm->setDate( lasku.laskunpaiva() );
     ui->jaksoDate->setDate( lasku.jaksopvm() );
     ui->eraDate->setDate( tosite()->erapvm() );
 
@@ -374,17 +375,26 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
     if( laskutapaIndeksi > -1)
         ui->laskutusCombo->setCurrentIndex(laskutapaIndeksi);
 
-    if( map.contains("maksuaika")) {
-        ui->maksuaikaSpin->setValue(map.value("maksuaika").toInt());
+    if(  !tosite()->id() || !tositteeltaKaynnissa_ ) {
+
+        if( map.contains("maksuaika")) {
+            // Jos on määritelty asiakaskohtainen maksuaika
+            // käytetään sitä
+
+            int maksuaika = map.value("maksuaika").toInt();
+            ui->maksuaikaSpin->setValue(maksuaika);
+            QDate pvm = ui->laskuPvm->date().addDays(maksuaika);
+            ui->eraDate->setDate( Lasku::oikaiseErapaiva(pvm) );
+        }
+
+        if( map.value("alvtunnus").toString().isEmpty())
+            // Yksityishenkilön viivästyskorko on peruskorko + 7 %
+            ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
+        else
+            // Yrityksen viivästyskorko on peruskorko + 8 %
+            ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 8.0 );
+
     }
-
-    if( map.value("alvtunnus").toString().isEmpty())
-        // Yksityishenkilön viivästyskorko on peruskorko + 7 %
-        ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
-    else
-        // Yrityksen viivästyskorko on peruskorko + 8 %
-        ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 8.0 );
-
     if( tositteeltaKaynnissa_ )
         jatkaTositteelta();
 

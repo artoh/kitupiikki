@@ -19,6 +19,8 @@
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
 #include "laskutus/huoneisto/huoneistomodel.h"
+#include "rekisteri/asiakastoimittajadlg.h"
+#include "model/tositeviennit.h"
 
 #include <QDebug>
 #include <QPainter>
@@ -30,7 +32,7 @@ LaskunTietoLaatikko::LaskunTietoLaatikko(KitsasInterface *kitsas) :
 
 }
 
-void LaskunTietoLaatikko::lataa(const Tosite &tosite)
+void LaskunTietoLaatikko::lataa(Tosite &tosite)
 {
     const Lasku& lasku = tosite.constLasku();
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
@@ -66,8 +68,14 @@ void LaskunTietoLaatikko::lataa(const Tosite &tosite)
         }
     }
 
+    const QString alvtunnus = kumppani.value("alvtunnus").toString();
+    lisaa("asytunnus", AsiakasToimittajaDlg::alvToY(alvtunnus));
 
-    lisaa("asalvtunnus", kumppani.value("alvtunnus").toString());
+    if( (!alvtunnus.isEmpty() && !alvtunnus.startsWith("FI")) ||
+         tosite.viennit()->onkoKaanteistaAlvia()) {
+        lisaa("asalvtunnus", alvtunnus);
+    }
+
     lisaa("asviite", lasku.asiakasViite());
     lisaa("tilausnro", lasku.tilausNumero());
     lisaa("sopimusnro", lasku.sopimusnumero());

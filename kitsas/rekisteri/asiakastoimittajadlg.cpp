@@ -340,7 +340,9 @@ void AsiakasToimittajaDlg::maaMuuttui()
     ui->osavaltioLabel->setVisible( maa != "fi");
     ui->osavaltioEdit->setVisible( maa != "fi");
 
-    ui->alvEdit->setValidator( new QRegularExpressionValidator(QRegularExpression( ui->maaCombo->currentData(MaaModel::AlvRegExpRooli).toString() ), this) );
+    if(ui->alvlabel->isVisible() && ui->alvlabel->text().length() < 3)
+        ui->alvlabel->setText( alvReg.left(2) );
+    ui->alvEdit->setValidator( new QRegularExpressionValidator(QRegularExpression( alvReg ), this) );
 }
 
 void AsiakasToimittajaDlg::haeToimipaikka()
@@ -368,7 +370,7 @@ void AsiakasToimittajaDlg::accept()
         if( !ui->yEdit->text().isEmpty())
             map.insert("alvtunnus", yToAlv( ui->yEdit->text() ));
     } else {
-        if( !ui->alvEdit->text().isEmpty())
+        if( ui->alvEdit->isVisible() && ui->alvEdit->text().length()>3 && ui->alvEdit->hasAcceptableInput())
             map.insert("alvtunnus", ui->alvEdit->text());
     }
 
