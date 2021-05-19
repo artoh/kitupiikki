@@ -60,7 +60,7 @@ VanhatuontiDlg::VanhatuontiDlg(QWidget *parent) :
     connect( ui->jatkaNappi, &QPushButton::clicked, this, &VanhatuontiDlg::alustaSijainti);
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &VanhatuontiDlg::valitseHakemisto);
     connect( ui->tuoNappi, &QPushButton::clicked, this, &VanhatuontiDlg::tuo);
-    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("aloitus/kitupiikki"); });
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("aloittaminen/kitupiikki"); });
 }
 
 VanhatuontiDlg::~VanhatuontiDlg()

@@ -127,7 +127,7 @@ void TpAloitus::lataaTiedosto()
 
 void TpAloitus::ohje()
 {
-    kp()->ohje("tilinpaatos/asiakirja");
+    kp()->ohje("tilikaudet/tilinpaatos/liitetiedot/");
 }
 
 void TpAloitus::tarkistaPMA()

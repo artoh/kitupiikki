@@ -27,7 +27,7 @@ TilikausiMuokkausDlg::TilikausiMuokkausDlg(QWidget *parent) :
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/"); });
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/muokkaa/"); });
 }
 
 TilikausiMuokkausDlg::~TilikausiMuokkausDlg()

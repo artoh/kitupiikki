@@ -31,7 +31,7 @@ MaventaDialog::MaventaDialog(QWidget *parent) :
 
     connect( ui->api, &QLineEdit::textEdited, this, &MaventaDialog::muokattu);
     connect( ui->uuid, &QLineEdit::textEdited, this, &MaventaDialog::muokattu);
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/verkkolasku"); });
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/verkkolaskut"); });
 }
 
 void MaventaDialog::accept()

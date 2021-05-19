@@ -39,7 +39,7 @@ public:
     ~Perusvalinnat() override;
 
 public:
-    QString ohjesivu() override { return "maaritykset/perusvalinnat";}
+    QString ohjesivu() override { return "asetukset/perusvalinnat";}
 
     bool nollaa() override;
     bool onkoMuokattu() override;

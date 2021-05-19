@@ -34,7 +34,7 @@ VakioViiteDlg::VakioViiteDlg(VakioViiteModel *model, QWidget *parent) :
     ui->setupUi(this);
 
     ui->tiliEdit->suodataTyypilla("C.*");
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/vakioviite");} );
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("laskutus/vakioviitteet/");} );
     ui->viiteEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[1-9]\\d{3,6}")));
 
     ui->varoKuva->hide();

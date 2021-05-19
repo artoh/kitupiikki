@@ -57,7 +57,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     connect( ui->mappiNappi, &QPushButton::clicked, this, &TilinPaattaja::mappi);
     connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
 
-    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilinpaatos/aloittaminen"); });
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/tilinpaatos/"); });
 }
 
 TilinPaattaja::~TilinPaattaja()

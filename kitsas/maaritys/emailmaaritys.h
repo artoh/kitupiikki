@@ -37,7 +37,7 @@ public:
     bool tallenna() override;
     bool onkoMuokattu() override;
 
-    QString ohjesivu() override { return "maaritykset/sahkoposti";}
+    QString ohjesivu() override { return "asetukset/sahkoposti";}
 
     static int sslIndeksi(const QString& asetus);
     static QString sslAsetus(int indeksi);

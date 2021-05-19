@@ -614,8 +614,7 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 }
 
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
-{
-    // TÄMÄ AIHEUTTAA OHJELMAN KAATUMISEN !!!!!!!!!!!
+{ 
 
     liikevaihto_ = 0;  
 

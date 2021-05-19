@@ -94,7 +94,7 @@ void RaportinMuokkaus::muokkaaNimikkeet()
     ui.muotoView->lataa(muoto_);
 
 
-    connect( ui.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/raportit/"); });
+    connect( ui.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/raportit/"); });
 
     if( dlg.exec() == QDialog::Accepted) {
         nimi_ = ui.nimiView->tekstit();

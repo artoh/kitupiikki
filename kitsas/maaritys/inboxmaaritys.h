@@ -37,7 +37,7 @@ public:
     bool nollaa() override;
     bool onkoMuokattu() override;
 
-    QString ohjesivu() override { return "maaritykset/inbox"; }
+    QString ohjesivu() override { return "asetukset/inbox"; }
 
 public slots:
     void valitseKansio();

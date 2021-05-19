@@ -35,7 +35,7 @@ Jaksottaja::Jaksottaja(QWidget *parent)
     ui->setupUi(this);
     ui->otsakeLabel->setText( tr("Vahvista tilinpäätösjaksotukset"));
     setWindowTitle(tr("Tilinpäätösjaksotukset"));
-    connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilinpaatos/jaksotukset"); });
+    connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/tilinpaatos/jaksotukset/"); });
 }
 
 Jaksottaja::~Jaksottaja()

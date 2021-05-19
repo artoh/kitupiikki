@@ -36,7 +36,7 @@ public:
 
     void siirrySivulle() override;
 
-    QString ohjeSivunNimi() override { return "kierto/kierto";}
+    QString ohjeSivunNimi() override { return "kierto";}
 signals:
     void tositeValittu(int id);
 private:

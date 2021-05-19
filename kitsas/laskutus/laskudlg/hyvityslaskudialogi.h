@@ -28,7 +28,7 @@ public:
     void asetaEra(int eraId);
 
 protected:
-    QString ohje() override { return "laskutus/hyvitys";}
+    QString ohje() override { return "laskutus/myynnit/hyvityslasku/";}
     void valmisteleTallennus() override;
 
     int eraId_ = 0;

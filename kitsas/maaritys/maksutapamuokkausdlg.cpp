@@ -27,7 +27,7 @@ MaksutapaMuokkausDlg::MaksutapaMuokkausDlg(QWidget *parent) :
     ui(new Ui::MaksutapaMuokkausDlg)
 {
     ui->setupUi(this);
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/maksutavat");});
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/maksutavat");});
 }
 
 MaksutapaMuokkausDlg::~MaksutapaMuokkausDlg()

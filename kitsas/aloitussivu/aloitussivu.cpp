@@ -870,11 +870,11 @@ QString AloitusSivu::vinkit()
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>" + tr("Kirjanpidon aloittaminen") + "</h3><ol>");
-        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat, logo ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/maaritykset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
-        vinkki.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/maaritykset/tilikartta'>(" + tr("Ohje") + ")</a></li>");
-        vinkki.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/maaritykset/kohdennukset'>(" + tr("Ohje") + ")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat, logo ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/asetukset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)
-            vinkki.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");
+            vinkki.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(Ohje)</a></li>");
         vinkki.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li>");
         vinkki.append("</ol></td></tr></table>");
 
@@ -882,7 +882,7 @@ QString AloitusSivu::vinkit()
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&
              kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
-                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
+                      "avaavat saldot %1 järjestelmään <a href='ohje:/asetukset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
 
     // Muistutus arvonlisäverolaskelmasta
     if(  kp()->asetukset()->onko("AlvVelvollinen") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )

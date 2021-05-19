@@ -292,5 +292,5 @@ void TilinpaatosEditori::valmis()
 
 void TilinpaatosEditori::ohje()
 {
-    kp()->ohje("tilinpaatos/asiakirja");
+    kp()->ohje("tilikaudet/tilinpaatos/liitetiedot/");
 }

@@ -62,7 +62,7 @@ ArkistohakemistoDialogi::ArkistohakemistoDialogi(QWidget *parent) :
     connect( ui->sijaintiEdit, &QLineEdit::textChanged, this, &ArkistohakemistoDialogi::tarkistaKelpo );
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &ArkistohakemistoDialogi::tarkistaKelpo);
     connect( ui->vaihdaNappi, &QPushButton::clicked, this, &ArkistohakemistoDialogi::valitseHakemisto);
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/tilikaudet/arkisto"); });
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/arkisto/"); });
 }
 
 ArkistohakemistoDialogi::~ArkistohakemistoDialogi()

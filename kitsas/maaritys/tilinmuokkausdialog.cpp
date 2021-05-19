@@ -62,7 +62,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     connect( ui->vastaCombo, &TiliCombo::tiliValittu, [this] (int tili) { ui->vastaCheck->setChecked(tili); } );
     connect( ui->vastaCheck, &QCheckBox::clicked, [this] (bool tila) { if(!tila) ui->vastaCombo->setCurrentIndex(-1); } );
 
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilikartta");});
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tililuettelo");});
 
     if( tila == UUSITILI || tila == UUSIOTSIKKO ) {
 

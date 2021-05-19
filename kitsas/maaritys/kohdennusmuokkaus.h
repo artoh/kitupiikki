@@ -43,7 +43,7 @@ public slots:
     void muokkaa();
     void poista();
 
-    QString ohjesivu() override { return "maaritykset/kohdennukset"; }
+    QString ohjesivu() override { return "asetukset/kohdennukset"; }
 
     /**
      * @brief Kun rivi on valittu, merkitsee mitä nappia voi painaa (Muokkaa, Poista)

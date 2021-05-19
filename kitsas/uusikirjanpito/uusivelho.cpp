@@ -70,7 +70,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     addPage( new LoppuSivu );
 
     setOption(HaveHelpButton, true);
-    connect(this, &UusiVelho::helpRequested, [] { kp()->ohje("aloitus/uusi"); });
+    connect(this, &UusiVelho::helpRequested, [] { kp()->ohje("aloittaminen/uusi"); });
 
 }
 

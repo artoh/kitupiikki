@@ -26,7 +26,7 @@ class TositesarjaMaaritys : public MaaritysWidget
 public:
     TositesarjaMaaritys();
 
-    QString ohjesivu() override { return "maaritykset/tositesarjat";}
+    QString ohjesivu() override { return "asetukset/tositesarjat";}
 
 
     bool nollaa() override;

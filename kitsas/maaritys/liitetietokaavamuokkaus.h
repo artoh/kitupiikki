@@ -39,7 +39,7 @@ public:
     bool onkoMuokattu() override;
     void lataa();
 
-    QString ohjesivu() override { return "maaritykset/tilinpaatos";}
+    QString ohjesivu() override { return "asetukset/tilinpaatos";}
 
 protected slots:
     void ilmoitaOnkoMuokattu();

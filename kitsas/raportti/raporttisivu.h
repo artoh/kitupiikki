@@ -57,7 +57,7 @@ public:
     void siirrySivulle() override;
     bool poistuSivulta(int minne) override;
 
-    QString ohjeSivunNimi() override { return "tulosteet";}
+    QString ohjeSivunNimi() override { return "raportit";}
 
 signals:
 

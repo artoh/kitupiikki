@@ -38,7 +38,7 @@ public:
 
     bool naytetaankoTallennus() override { return false; }
 
-    QString ohjesivu() override { return "maaritykset/tilikartta"; }
+    QString ohjesivu() override { return "asetukset/tililuettelo"; }
 
 
 public slots:

@@ -68,7 +68,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
     ui->kumppani->clear();
 
     new QShortcut(QKeySequence(Qt::Key_F12), this, SLOT(accept()));
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("kirjaus/muu"); } );
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("kirjaus/muut"); } );
 }
 
 MuuMuokkausDlg::~MuuMuokkausDlg()

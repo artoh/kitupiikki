@@ -87,7 +87,7 @@ public slots:
 public:
     void siirrySivulle() override;
 
-    QString ohjeSivunNimi() override { return "selaus"; }
+    QString ohjeSivunNimi() override { return "selaaminen"; }
 
 protected slots:
     void modelResetoitu();

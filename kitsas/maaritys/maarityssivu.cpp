@@ -59,27 +59,27 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "maaritykset/kayttoliittyma", QIcon(":/pic/teksti.png"));
-    lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "maaritykset/perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
-    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "maaritykset/yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
-    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "maaritykset/liitteet", QIcon(":/pic/liite.png"),"liitteet");
-    lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "maaritykset/kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
-    lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "maaritykset/tilikartta", QIcon(":/pic/valilehdet.png"), "tilit");
-    lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "maaritykset/kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
-    lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "maaritykset/tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
-    lisaaSivu(tr("Laskutus"), LASKUTUS, "maaritykset/laskutus", QIcon(":/pic/lasku.png"));
-    lisaaSivu(tr("Oletustilit"),OLETUSTILIT,"",QIcon(":/pic/uusitosite.png"));
-    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maaritykset/maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
-    lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "maaritykset/tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
-    lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "maaritykset/sahkoposti", QIcon(":/pic/email.png"));
-    lisaaSivu(tr("Laskujen kierto"), KIERTO, "maaritykset/kierto", QIcon(":/pic/kierto.svg"),"kierto");
-    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"maaritykset/verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-    lisaaSivu(tr("Kirjattavien kansio"), INBOX,"maaritykset/inbox",QIcon(":/pic/inbox.png"));
-    lisaaSivu(tr("Verojen maksu"), VERO,"maaritykset/veronmaksu", QIcon(":/pic/vero.png"),"vero");
-    lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"maaritykset/palkkatilit", QIcon(":/pic/yrittaja.png"));
-    lisaaSivu(tr("Raportit"), RAPORTIT, "maaritykset/raportit", QIcon(":/pic/print.png"));
-    lisaaSivu(tr("Tilinpäätöksen malli"), LIITETIETOKAAVA,"maaritykset/tilinpaatos", QIcon(":/pic/tekstisivu.png"));
-    lisaaSivu(tr("Tilikartan päivitys"), PAIVITYS, "maaritykset/paivitys", QIcon(":/pic/paivita.png"),"paivita");
+    lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "kayttoliittyma", QIcon(":/pic/teksti.png"));
+    lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
+    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
+    lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "liitteet", QIcon(":/pic/liite.png"),"liitteet");
+    lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
+    lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "tililuettelo", QIcon(":/pic/valilehdet.png"), "tilit");
+    lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
+    lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
+    lisaaSivu(tr("Laskutus"), LASKUTUS, "laskutus", QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Oletustilit"),OLETUSTILIT,"oletustilit",QIcon(":/pic/uusitosite.png"));
+    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
+    lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
+    lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "sahkoposti", QIcon(":/pic/email.png"));
+    lisaaSivu(tr("Laskujen kierto"), KIERTO, "kierto", QIcon(":/pic/kierto.svg"),"kierto");
+    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
+    lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
+    lisaaSivu(tr("Verojen maksu"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));
+    lisaaSivu(tr("Raportit"), RAPORTIT, "raportit", QIcon(":/pic/print.png"));
+    lisaaSivu(tr("Tilinpäätöksen malli"), LIITETIETOKAAVA,"tilinpaatos", QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu(tr("Tilikartan päivitys"), PAIVITYS, "paivitys", QIcon(":/pic/paivita.png"),"paivita");
 
 
 
@@ -307,7 +307,7 @@ void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, c
     item->setIcon(kuvake);
     item->setData( SIVUTUNNISTE, QVariant(sivu));
     item->setData( SIVUNNIMI, nimi.isEmpty() ? otsikko : nimi);
-    item->setData( OHJEOSOITE, ohjesivu );
+    item->setData( OHJEOSOITE, "asetukset/" + ohjesivu );
 
 
     lista->addItem( item);

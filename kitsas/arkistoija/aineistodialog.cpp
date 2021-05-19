@@ -59,7 +59,7 @@ AineistoDialog::AineistoDialog(QWidget *parent) :
 
     connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AineistoDialog::paivitaNimi);
     connect( ui->tiedostoNappi, &QPushButton::clicked, this, &AineistoDialog::vaihdaNimi);
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] {kp()->ohje("tilikaudet/#kirjanpitoaineisto");});
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] {kp()->ohje("tilikaudet/aineisto/");});
 }
 
 AineistoDialog::~AineistoDialog()

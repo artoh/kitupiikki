@@ -74,7 +74,7 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
     QDialog dlg;
     Ui::LisaaRaportti dlgUi;
     dlgUi.setupUi(&dlg);
-    connect(dlgUi.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("maaritykset/tilinpaatos");});
+    connect(dlgUi.buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tilinpaatos");});
 
     // Lisätään raportit dialogiin
     foreach (QString nimi, kp()->asetukset()->avaimet("tase/") )
