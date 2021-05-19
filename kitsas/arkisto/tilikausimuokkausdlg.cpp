@@ -56,15 +56,13 @@ void TilikausiMuokkausDlg::muokkaa(Tilikausi kausi)
 
     pbtn = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista tilikausi"));
     ui->buttonBox->addButton(pbtn, QDialogButtonBox::ActionRole);
-    pbtn->setEnabled( kp()->tilikaudet()->rowCount() > 1 );     // #905 Ainoaa tilikautta ei voi poistaa
+    pbtn->setEnabled( kp()->tilikaudet()->rowCount() > 1 && !ui->lukittuCheck->isChecked());     // #905 Ainoaa tilikautta ei voi poistaa
 
     connect( pbtn, &QPushButton::clicked, this, &TilikausiMuokkausDlg::poista);
     connect( ui->alkaaEdit, &QDateEdit::dateChanged, this, &TilikausiMuokkausDlg::tarkastaKausi);
     connect( ui->loppuuEdit, &QDateEdit::dateChanged, this, &TilikausiMuokkausDlg::tarkastaKausi);
     connect( ui->lukittuCheck, &QCheckBox::clicked, this, &TilikausiMuokkausDlg::puralukko);
-    connect( ui->avausCheck, &QCheckBox::clicked, this, &TilikausiMuokkausDlg::muutaAvaus);
-
-    pbtn->setEnabled( !ui->lukittuCheck->isChecked() );
+    connect( ui->avausCheck, &QCheckBox::clicked, this, &TilikausiMuokkausDlg::muutaAvaus);    
 
     exec();
 }

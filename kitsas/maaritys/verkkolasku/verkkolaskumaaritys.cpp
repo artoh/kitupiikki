@@ -132,14 +132,10 @@ bool VerkkolaskuMaaritys::nollaa()
             puuttuu = true;
     ui->yhteystietovirheLabel->setVisible(puuttuu);
 
-
-    if( kp()->pilvi()->kayttajaPilvessa()) {
-        ui->kirjauduLabel->hide();
-    }
+    ui->kirjauduLabel->setVisible( !kp()->pilvi()->kayttajaPilvessa() );
 
     if( !kp()->pilvi()->kayttajaPilvessa() || puuttuu)
-    {
-        ui->kirjauduLabel->show();
+    {        
         ui->kaytossaGroup->setEnabled(false);
         ui->hakemistoGroup->setEnabled(false);
         ui->maventaGroup->setEnabled(false);

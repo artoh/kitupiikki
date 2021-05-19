@@ -43,7 +43,7 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
         ui->kohdennusCheck->setText( tr("Kustannuspaikalla"));
         ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KUSTANNUSPAIKAT);
     }
-    else if( tyyppi()!=Raportoija::TULOSLASKELMA || !kp()->kohdennukset()->kohdennuksia())
+    else if( tyyppi()!=Raportoija::TULOSLASKELMA || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
