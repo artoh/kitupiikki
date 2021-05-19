@@ -169,10 +169,10 @@ bool RivillinenLaskuDialogi::tarkasta()
         const TositeRivi& rivi = tosite()->rivit()->rivi(c);
         if( !rivi.bruttoYhteensa() )
             continue;
-        if( rivi.alvkoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI && !alvtunnus.startsWith("FI")) {
+        if( rivi.alvkoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI && !alvtunnus.isEmpty() ) {
             QMessageBox::critical(this, tr("Käänteinen arvonlisävero"),
                                   tr("Rakennuspalveluiden myynti voidaan laskuttaa vain "
-                                     "suomalaiselta yritykseltä, jolla on Y-tunnus"));
+                                     "yritykseltä, jolla on ALV-tunnus"));
             return false;
         }
         if( ( rivi.alvkoodi() == AlvKoodi::YHTEISOMYYNTI_PALVELUT ||

@@ -75,14 +75,16 @@ bool SiirtoApuri::teeTositteelle()
     QDate pvm = tosite()->data(Tosite::PVM).toDate();    
     QString otsikko = tosite()->otsikko();
 
-    QVariantMap kumppani = debetKumppani_.isEmpty() ? kreditKumppani_ : debetKumppani_;
-    if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
-            debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
-        kumppani.clear();
-    ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
-
-    if( !ui->asiakas->nimi().isEmpty())
+    QVariantMap kumppani;
+    if( !ui->asiakas->nimi().isEmpty()) {
         kumppani = ui->asiakas->map();
+    } else {
+        QVariantMap kumppani = debetKumppani_.isEmpty() ? kreditKumppani_ : debetKumppani_;
+        if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
+                debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
+            kumppani.clear();
+        ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+    }
 
 
     QVariantList viennit;

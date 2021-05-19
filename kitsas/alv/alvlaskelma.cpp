@@ -929,7 +929,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
 
 bool AlvLaskelma::debetistaKoodilla(int alvkoodi)
 {
-    return  (( alvkoodi / 100 == 0 || alvkoodi / 100 == 4 ) && alvkoodi % 20 / 10 == 0  ) ||  ( alvkoodi / 100 == 2 ) ;
+    return  (( alvkoodi / 100 == 0 || alvkoodi / 100 == 4 ) && alvkoodi % 20 / 10 == 0  ) ||  ( alvkoodi / 100 == 2 )  || alvkoodi ==AlvKoodi::VAHENNYSKELVOTON ;
 }
 
 void AlvLaskelma::AlvTaulu::lisaa(const QVariantMap &rivi)

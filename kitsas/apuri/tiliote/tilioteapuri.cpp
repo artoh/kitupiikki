@@ -319,7 +319,7 @@ void TilioteApuri::tiliPvmMuutos()
                        tr("Tiliote %1 - %2 %3")
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
                        .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
-                       .arg(tili.nimi()));
+                       .arg( tili.tyyppiKoodi() == "ARP" ? tili.nimi() : ""));
     }
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());

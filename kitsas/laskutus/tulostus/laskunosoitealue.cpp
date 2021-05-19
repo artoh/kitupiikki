@@ -46,7 +46,7 @@ LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
 void LaskunOsoiteAlue::lataa(const Tosite &tosite)
 {
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
-    if( kumppani.isEmpty()) {
+    if( kumppani.value("osoite").toString().isEmpty()) {
         const Lasku& lasku = tosite.constLasku();
         vastaanottaja_ = lasku.osoite();
     } else {
