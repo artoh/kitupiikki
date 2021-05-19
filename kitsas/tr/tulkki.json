@@ -876,6 +876,11 @@
         "sv": "AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199",
         "en": "AVL 8 c §: Reverse charge, VAT Directive art. 199"
     },
+    "alv19": {
+        "fi": "ALV 0%",
+        "sv": " MOMS 0%",
+        "en": " VAT 0%"
+    },
     "iban": {
         "fi": "IBAN"
     },

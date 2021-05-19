@@ -349,9 +349,15 @@ bool TuloMenoApuri::teeTositteelle()
         viennit.insert(0, vasta);
     }
 
-    tosite()->asetaLaskupvm( ui->laskuPvm->date());
-    tosite()->asetaErapvm( ui->erapaivaEdit->date());
-    tosite()->asetaViite( ui->viiteEdit->text());
+    if( ui->laskuPvm->isVisible()) {
+        tosite()->asetaLaskupvm( ui->laskuPvm->date());
+        tosite()->asetaErapvm( ui->erapaivaEdit->date());
+        tosite()->asetaViite( ui->viiteEdit->text());
+    } else {
+        tosite()->asetaLaskupvm(QDate());
+        tosite()->asetaErapvm(QDate());
+        tosite()->asetaViite(QString());
+    }
 
     tosite()->viennit()->asetaViennit(viennit);
 
