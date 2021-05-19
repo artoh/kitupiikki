@@ -61,7 +61,7 @@ void VastikeLaskutus::laskutaSeuraava()
     progress_->setValue( progress_->value() + 1 );
     if( jono_.isEmpty()) {
         emit kp()->onni(tr("Uudet laskut löytyvät Lähetettävät-välilehdeltä."));
-        progress_->hide();
+        progress_->setValue( progress_->maximum() );
         deleteLater();
     } else if( progress_->wasCanceled()) {
         deleteLater();

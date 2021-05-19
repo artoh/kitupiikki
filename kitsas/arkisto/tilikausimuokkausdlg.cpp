@@ -152,7 +152,7 @@ void TilikausiMuokkausDlg::puralukko()
             ui->lukittuCheck->setChecked(true);
 
     }
-    pbtn->setEnabled( !ui->lukittuCheck->isChecked() );
+    pbtn->setEnabled( !ui->lukittuCheck->isChecked() && kp()->tilikaudet()->rowCount() > 1 );
 }
 
 void TilikausiMuokkausDlg::poistaTilinavaus()
