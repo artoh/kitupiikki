@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,22 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef PDFTOIMITTAJA_H
+#define PDFTOIMITTAJA_H
 
+#include "abstraktitoimittaja.h"
 
-/**
-  @file Kitsaan version määrittely
+class PdfToimittaja : public AbstraktiToimittaja
+{
+    Q_OBJECT
+public:
+    PdfToimittaja(QObject* parent = nullptr);
 
-  Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+protected:
+    virtual void toimita() override;
 
-#define KITSAS_VERSIO "3.0-brc-4"
-#define KITSAS_BUILD  "A"
+    QString hakemisto_;
+};
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-#define KITSAS_DEVEL
-
-#define KITSAS_API "https://api.kitsas.fi"
-
-#endif // VERSIO_H
+#endif // PDFTOIMITTAJA_H

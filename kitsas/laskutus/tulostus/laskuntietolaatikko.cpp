@@ -86,6 +86,10 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
 
     if( lasku.viivastyskorko() > 1e-3)
         lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));   
+    if( lasku.huomautusAika())
+        lisaa("huomaika", QString("%1 %2")
+              .arg(lasku.huomautusAika())
+              .arg( kitsas_->kaanna("paivaa", kieli_)));
     if( lasku.valvonta() == Lasku::HUONEISTO) {
         ViiteNumero viite( lasku.viite() );
         int huoneistoId = viite.numero();

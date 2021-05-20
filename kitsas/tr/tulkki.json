@@ -608,43 +608,56 @@
         "sv": "Fullständig information om verifikatet"
     },
     "Kirjanpidossa": {
-        "sv": "Redovisas"
+        "sv": "Redovisas",
+        "en": "Accounted"
     },
     "Luonnos": {
-        "sv": "Utkast"
+        "sv": "Utkast",
+        "en": "Draft"
     },
     "Alv": {
-        "sv": "Moms"
+        "sv": "Moms",
+        "en": "Vat"
     },
     "Hylätty": {
-        "sv": "Avslagen"
+        "sv": "Avslagen",
+        "en": "Rejected"
     },
     "Saapunut": {
-        "sv": "Anlände"
+        "sv": "Anlände",
+        "en": "Received"
     },
     "Tarkastettu": {
-        "sv": "Kollad"
+        "sv": "Kollad",
+        "en": "Checked"
     },
     "Hyväksytty": {
-        "sv": "Accepterad"
+        "sv": "Accepterad",
+        "en": "Approved"
     },
     "Valmis": {
-        "sv": "Färdig"
+        "sv": "Färdig",
+        "en": "Ready"
     },
     "Lähetetään": {
-        "sv": "Överförs"
+        "sv": "Överförs",
+        "en": "In progress"
     },
     "Lähetetty": {
-        "sv": "Skeppas"
+        "sv": "Skeppas",
+        "en": "Send"
     },
     "Muistutettu": {
-        "sv": "Påminde"
+        "sv": "Påminde",
+        "en": "Recalled"
     },
     "Toimitettu": {
-        "sv": "Levererad"
+        "sv": "Levererad",
+        "en": "Delivered"
     },
     "Epäonnistui": {
-        "sv": "Misslyckades"
+        "sv": "Misslyckades",
+        "en": "Failed"
     },
     "alkuplasku": {
         "fi": "Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3",
@@ -902,7 +915,7 @@
     "viitenro": {
         "fi": "Viitenumero",
         "sv": "Referensnummer",
-        "en": "Invoice reference number"
+        "en": "Reference number"
     },
     "hyvitysteksti": {
         "fi": "Hyvityslasku laskulle %1, päiväys %2",
@@ -1193,5 +1206,30 @@
         "fi": "Maksettavaa",
         "sv": "Betalningsbelopp",
         "en": "Payable"
+    },
+    "tilausnro": {
+        "fi": "Tilausnumero",
+        "sv": "Beställningsnummer",
+        "en": "Order number"
+    },
+    "sopimusnro": {
+        "fi": "Sopimusnumero",
+        "sv": "Avtalsnummer",
+        "en": "Contract number"
+    },
+    "myyja": {
+        "fi": "Myyjä",
+        "sv": "Säljare",
+        "en": "Salesperson"
+    },
+    "tilaaja": {
+        "fi": "Tilaaja",
+        "sv": "Beställare",
+        "en": "Subscriber"
+    },
+    "tilauspvm": {
+        "fi": "Tilauspäivämäärä",
+        "sv": "Beställningdatum",
+        "en": "Order date"
     }
 }

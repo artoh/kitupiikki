@@ -110,7 +110,7 @@ QSizeF LaskuMaksuLaatikko::LaatikkoSarake::laske(QPainter *painter)
 
     painter->setFont(QFont("FreeSans", LaskuMaksuLaatikko::OTSIKKO_KOKO));
     QRectF oRect = painter->boundingRect(QRect(0,0,painter->window().width(), painter->window().height()),
-                                         otsikko_);
+                                         Qt::TextSingleLine, otsikko_);
     painter->setFont(QFont("FreeSans", LaskuMaksuLaatikko::TEKSTI_KOKO,
                            lihava_ ? QFont::Bold : QFont::Normal));
     QRectF tRect = painter->boundingRect(QRect(0, 0, painter->window().width(), painter->window().height()),

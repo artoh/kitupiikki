@@ -197,7 +197,7 @@ void LaskunAlaosa::lataaYhteystiedot()
     lisaaYhteys(AsetusModel::Kotisivu, "kotisivu");
     lisaaYhteys(AsetusModel::Puhelin, "puhelin");
     lisaaYhteys(AsetusModel::Email, "sahkoposti");
-    lisaaYhteys(AsetusModel::Kotipaikka, "kotipaikka");
+    lisaaYhteys(AsetusModel::Kotipaikka, "Kotipaikka");
 
 
     const QString& ytunnus = asetukset->asetus(AsetusModel::Ytunnus);

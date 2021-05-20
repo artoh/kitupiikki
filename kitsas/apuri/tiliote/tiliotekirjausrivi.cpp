@@ -322,8 +322,10 @@ QVariantList TilioteKirjausRivi::tallennettavat(int tyyppi) const
     QVariantList ulos;
     for(auto vienti : viennit_) {
         // Meno- ja tulotositteelle siirrettäessä varmistetaan oikea tyyppi        
-        if( tyyppi )
+        if( tyyppi ) {
             vienti.setTyyppi( vienti.tyyppi() % 100 + tyyppi );
+            vienti.setId(0);    // Ei id:tä sotkemaan uutta tositetta!
+        }
         ulos << vienti;
     }
     return ulos;
