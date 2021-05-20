@@ -298,3 +298,8 @@ jalkitoimitus,Jälkitoimitus,Efterleverans,Subsequent delivery
 huoneisto,Huoneisto,Lågenhet,Flat
 laskutusjakso,Laskutuskausi,Fakturingsperiod,Invoicing period
 maksettavaa,Maksettavaa,Betalningsbelopp,Payable
+tilausnro,Tilausnumero,Beställningsnummer,Order number
+sopimusnro,Sopimusnumero,Avtalsnummer,Contract number
+myyja,Myyjä,Säljare,Salesperson
+tilaaja,Tilaaja,Beställare,Subscriber
+tilauspvm,Tilauspäivämäärä,Beställningdatum,Order date

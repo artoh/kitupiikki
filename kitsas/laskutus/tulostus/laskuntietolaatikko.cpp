@@ -77,15 +77,15 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
     }
 
     lisaa("asviite", lasku.asiakasViite());
-    lisaa("tilausnro", lasku.tilausNumero());
     lisaa("sopimusnro", lasku.sopimusnumero());
     lisaa("myyja", lasku.myyja());
     lisaa("tilaaja", lasku.tilaaja());
     lisaa("tilauspvm", lasku.tilausPvm());
     lisaa("tilausnro", lasku.tilausNumero());
+         
 
     if( lasku.viivastyskorko() > 1e-3)
-        lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));
+        lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));   
     if( lasku.valvonta() == Lasku::HUONEISTO) {
         ViiteNumero viite( lasku.viite() );
         int huoneistoId = viite.numero();
