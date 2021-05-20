@@ -30,6 +30,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QTimer>
+#include <QMessageBox>
 
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
@@ -346,6 +347,12 @@ void Tosite::tallenna(int tilaan)
     }
 
     setData( TILA, tilaan );
+    if( tilaan >= Tosite::KIRJANPIDOSSA && !viennit_->debetKreditTasmaa()) {
+        QMessageBox::critical(nullptr, tr("Virheellinen tosite"),
+                              tr("Tositteen debet ja kredit eivät täsmää"));
+        tallennuksessaVirhe(0);
+        return;
+    }
 
     KpKysely* kysely;
     if( data(ID).isNull())

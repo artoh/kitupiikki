@@ -48,8 +48,7 @@
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
     ui( new Ui::LaskuDialogi),
-    tosite_(tosite),
-    huoneistot_( kp()->huoneistot() )
+    tosite_(tosite)
 {
     ui->setupUi(this);
     tosite_->setParent(this);
@@ -175,9 +174,12 @@ void KantaLaskuDialogi::paivitaValvonnat()
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
 
 
-    if( !ladattuAsiakas_.isEmpty() && pilvessa ) ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
-    if( huoneistot_->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
-    if( kp()->vakioViitteet()->rowCount()) ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
+    if( !ladattuAsiakas_.isEmpty() && pilvessa )
+        ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
+    if( kp()->huoneistot()->rowCount())
+        ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
+    if( kp()->vakioViitteet()->rowCount())
+        ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
     ui->valvontaCombo->addItem(QIcon(":/pic/eikaytossa.png"), tr("Valvomaton"), Lasku::VALVOMATON);
 
     int indeksi = ui->valvontaCombo->findData(nykyinen);
@@ -519,8 +521,8 @@ void KantaLaskuDialogi::valvontaMuuttui()
     ui->tarkeCombo->setVisible( valvonta == Lasku::HUONEISTO || valvonta == Lasku::VAKIOVIITE );
     if( valvonta == Lasku::VAKIOVIITE && ui->tarkeCombo->model() != kp()->vakioViitteet())
         ui->tarkeCombo->setModel( kp()->vakioViitteet() );
-    else if( valvonta == Lasku::HUONEISTO && ui->tarkeCombo->model() != huoneistot_)
-        ui->tarkeCombo->setModel( huoneistot_ );
+    else if( valvonta == Lasku::HUONEISTO && ui->tarkeCombo->model() != kp()->huoneistot())
+        ui->tarkeCombo->setModel( kp()->huoneistot() );
 
     paivitaViiteRivi();
 }

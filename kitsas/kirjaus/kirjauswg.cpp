@@ -699,7 +699,7 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
     QVariantList lista = data->toList();
     QString tuplat;
 
-    qlonglong summa = tosite()->viennit()->summa();
+    Euro summa = tosite()->viennit()->summa();
 
     for(auto item : lista) {
         QVariantMap map = item.toMap();
@@ -708,7 +708,7 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
             tosite()->tallenna(tila);
             return;
         }
-        if( qRound64(map.value("summa").toDouble() * 100) != summa)
+        if( Euro(map.value("summa").toString()) != summa)
             continue;
         tuplat.append(QString("%1 %2 \n")
                       .arg(kp()->tositeTunnus(map.value("tunniste").toInt(),

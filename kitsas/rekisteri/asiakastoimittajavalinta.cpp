@@ -88,13 +88,20 @@ QVariantMap AsiakasToimittajaValinta::map() const
 
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
+    if( id == id_)
+        return;
+
     ibanit_.clear();
 
-    combo_->lineEdit()->setText(nimi);
+    if( combo_ ) {
+       combo_->setCurrentText(nimi);
+    }
+
     if( id ) {
         ladattu_ = id;
         model_->lataa();
     }
+
 }
 
 

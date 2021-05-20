@@ -18,6 +18,7 @@
 #define LASKUTAULUTILIOTEPROXYLLA_H
 
 #include "model/laskutaulumodel.h"
+#include "model/euro.h"
 class TilioteModel;
 
 class LaskuTauluTilioteProxylla : public LaskuTauluModel
@@ -34,7 +35,7 @@ protected:
     void tietoSaapuu(QVariant* var) override;
 
     TilioteModel* tiliote_;
-    QMap<int,double> suoritukset_;
+    QMap<int,Euro> suoritukset_;
 };
 
 #endif // LASKUTAULUTILIOTEPROXYLLA_H

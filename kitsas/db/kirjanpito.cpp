@@ -268,6 +268,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
 
         tuotteet()->lataa();
         ryhmat()->paivita();
+        huoneistot()->paivita();
         alvIlmoitukset()->lataa();
     }
 

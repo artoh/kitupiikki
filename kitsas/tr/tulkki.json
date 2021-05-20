@@ -1188,5 +1188,10 @@
         "fi": "Laskutuskausi",
         "sv": "Fakturingsperiod",
         "en": "Invoicing period"
+    },
+    "maksettavaa": {
+        "fi": "Maksettavaa",
+        "sv": "Betalningsbelopp",
+        "en": "Payable"
     }
 }

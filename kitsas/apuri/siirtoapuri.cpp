@@ -22,7 +22,7 @@
 
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
-
+#include "db/tositetyyppimodel.h"
 #include "tiliote/tiliotekirjaaja.h"
 
 #include <QDebug>
@@ -341,17 +341,15 @@ void SiirtoApuri::eraValittu(bool debet, EraMap era)
 void SiirtoApuri::laskunmaksu()
 {
     TilioteKirjaaja kirjaaja(this);
-    if( kirjaaja.exec() == QDialog::Accepted) {
+    if( kirjaaja.exec() == QDialog::Accepted) {        
         // Tehdään jotain vientilistalla ???
         QVariantList lista;
         for(const auto& item : kirjaaja.viennit()) {
             lista.append(item);
         }
-        TositeVienti eka = lista.at(0).toMap();
-
+        TositeVienti eka = lista.at(0).toMap();        
         tosite()->asetaPvm(eka.pvm());
-        if( tosite()->otsikko().isEmpty())
-            tosite()->asetaOtsikko( eka.selite() );
+        tosite()->asetaOtsikko( eka.selite() );
         if( eka.kreditEuro() )
             lista.swapItemsAt(0,1);
         tosite()->viennit()->asetaViennit(lista);

@@ -87,9 +87,9 @@ QString LaskuSivu::ohjeSivunNimi()
         case TUOTTEET:
             return "laskutus/tuotteet";
         case VAKIOVIITTEET:
-            return "laskutus/vakioviite";
+            return "laskutus/vakioviitteet";
         default:
-            return "laskutus/myynnit";
+            return "laskutus";
     }
 
 }

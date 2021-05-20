@@ -749,17 +749,28 @@ void TositeViennit::paivitaAalv(int rivi)
 
 }
 
-qlonglong TositeViennit::summa() const
+Euro TositeViennit::summa() const
 {
-    qlonglong debet = 0;
-    qlonglong kredit = 0;
+    Euro debet;
+    Euro kredit;
 
-    for(QVariant vienti : viennit_) {
-        QVariantMap map = vienti.toMap();
-        debet += qRound64( map.value("debet").toDouble() * 100.0 );
-        kredit += qRound64( map.value("kredit").toDouble() * 100.0 );
+    for(auto vienti : viennit_) {
+        debet += vienti.debetEuro();
+        kredit += vienti.kreditEuro();
     }
     return kredit > debet ? kredit : debet;
+}
+
+bool TositeViennit::debetKreditTasmaa() const
+{
+    Euro debet;
+    Euro kredit;
+
+    for(auto vienti : viennit_) {
+        debet += vienti.debetEuro();
+        kredit += vienti.kreditEuro();
+    }
+    return kredit == debet;
 }
 
 

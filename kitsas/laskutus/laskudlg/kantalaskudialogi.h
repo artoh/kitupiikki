@@ -97,8 +97,7 @@ protected:
     bool paivitysKaynnissa_ = false;
     bool tositteeltaKaynnissa_ = false;
 
-private:
-    HuoneistoModel* huoneistot_;
+
 
 
 

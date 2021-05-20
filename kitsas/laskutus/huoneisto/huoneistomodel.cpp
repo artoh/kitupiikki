@@ -23,7 +23,7 @@
 HuoneistoModel::HuoneistoModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &HuoneistoModel::paivita);
+
 }
 
 QVariant HuoneistoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -117,7 +117,7 @@ void HuoneistoModel::lataa(QVariant *data)
     beginResetModel();
     huoneistot_.clear();
     QVariantList lista = data->toList();
-    for(const auto item : lista) {
+    for(const auto& item : lista) {
         QVariantMap map = item.toMap();
         huoneistot_.append( HuoneistoTieto( map.value("id").toInt(),
                                             map.value("nimi").toString(),

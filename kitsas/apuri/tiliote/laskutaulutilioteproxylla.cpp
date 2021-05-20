@@ -28,15 +28,17 @@ LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteMod
 
 QVariant LaskuTauluTilioteProxylla::data(const QModelIndex &index, int role) const
 {
-    if( ( role == Qt::DisplayRole || role == Qt::EditRole) && index.column() == MAKSAMATTA)  {
-        double avoinna = LaskuTauluModel::data(index, Qt::EditRole).toDouble();
-        avoinna -= suoritukset_.value( LaskuTauluModel::data(index, EraIdRooli).toInt() );
+    if( ( role == Qt::DisplayRole || role == Qt::EditRole) && index.column() == MAKSAMATTA)  {        
+        Euro avoinna = Euro(LaskuTauluModel::data(index, Qt::EditRole).toString());
+        int eraId = LaskuTauluModel::data(index, EraIdRooli).toInt();
+
+        if( eraId > 0)  // Huoneistoissa sun muissa voi laskuja tulla enemmänkin ;)
+            avoinna -= suoritukset_.value( eraId );
         if( role != Qt::DisplayRole)
-            return avoinna;
-        else if( avoinna > 1e-5)
-            return QString("%L1 €").arg( avoinna ,0,'f',2);
+            return avoinna.cents();
         else
-            return QVariant();  // Nollalle tyhjää
+            return avoinna.display(false);
+
     }
 
     return LaskuTauluModel::data(index, role);
@@ -50,9 +52,9 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
     for(int i=0; i < tiliote_->rowCount(); i++) {
         const QModelIndex& index = tiliote_->index(i, TilioteRivi::EURO);
         const int eraId = index.data(TilioteRivi::EraIdRooli).toInt();
-        const double euro = index.data(TilioteRivi::EuroRooli).toInt();
+        const Euro euro = Euro::fromString(index.data(TilioteRivi::EuroRooli).toString());
 
-        double suoritus  = ostoja_ ? 0.0 - euro : euro;
+        Euro suoritus  = ostoja_ ? Euro::Zero - euro : euro;
         suoritukset_.insert( eraId, suoritus + suoritukset_.value(eraId));
     }
     emit dataChanged( index(0, MAKSAMATTA),

@@ -84,9 +84,9 @@ void EraCombo::paivita()
                  txt,
                  era_ );
     } else if( era_.eratyyppi() == EraMap::Asiakas) {
-        addItem(QIcon(":/pic/mies.png"), era_.value("asiakas").toMap().value("nimi").toString(), era_);
-    } else if( era_.contains("huoneisto")) {
-        addItem(QIcon(":/pic/talo.png"), era_.value("huoneisto").toMap().value("nimi").toString(), era_);
+        addItem(QIcon(":/pic/mies.png"), asiakasNimiIdlla(era_.id() ), era_);
+    } else if( era_.eratyyppi() == EraMap::Huoneisto) {
+        addItem(QIcon(":/pic/talo.png"),  huoneistoNimiIdlla(era_.id()) ,era_);
     }
 
     addItem(QIcon(":/pic/tyhja.png"), tr("Ei tase-erää"), EraMap(EraMap::EiEraa));
@@ -134,6 +134,16 @@ void EraCombo::vaihtui()
         emit valittu( era_);
 
     paivita();
+}
+
+QString EraCombo::asiakasNimiIdlla(int era) const
+{
+    return AsiakasToimittajaListaModel::instanssi()->nimi( era / -10);
+}
+
+QString EraCombo::huoneistoNimiIdlla(int era) const
+{
+    return kp()->huoneistot()->tunnus( era / -10 );
 }
 
 

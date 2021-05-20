@@ -40,6 +40,9 @@ protected:
     void paivita();
     void vaihtui();
 
+    QString asiakasNimiIdlla(int era) const;
+    QString huoneistoNimiIdlla(int era) const;
+
 signals:
     void valittu(QVariantMap eraMap);
 

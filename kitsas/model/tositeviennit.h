@@ -97,7 +97,8 @@ public:
     bool onkoKaanteistaAlvia() const;
 
     void paivitaAalv(int rivi);
-    qlonglong summa() const;
+    Euro summa() const;
+    bool debetKreditTasmaa() const;
 
 private:
     QList<TositeVienti> viennit_;
