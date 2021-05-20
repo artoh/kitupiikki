@@ -228,7 +228,8 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
         return;
     }
 
-    if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
+    if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS ||
+        paalehti_ >= VAKIOVIITE) {
         KantaLaskuDialogi *dlg = ryhmalasku ?
                     LaskuDialogiTehdas::ryhmalasku() :
                     LaskuDialogiTehdas::myyntilasku(asiakas_);
