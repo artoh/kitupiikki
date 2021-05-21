@@ -64,9 +64,16 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
     ui->nimiLabel->setText( index.data(KayttooikeusModel::NimiRooli).toString());
     ui->emailLabel->setText(index.data(KayttooikeusModel::EmailRooli).toString());
 
-    oikeudetAlussa_ = index.data(KayttooikeusModel::OikeusRooli).toStringList();
-    ui->omistajaLabel->setVisible(oikeudetAlussa_.contains("Om"));
-    ui->oikeusBox->setDisabled(oikeudetAlussa_.contains("Om"));
+    QStringList oikeusLista = index.data(KayttooikeusModel::OikeusRooli).toStringList();
+    oikeudetAlussa_.clear();
+    for(const auto& oikeus : oikeusLista) {
+        oikeudetAlussa_.insert(oikeus);
+    }
+
+    const bool omistaja = oikeudetAlussa_.contains("Om");
+    ui->omistajaLabel->setVisible(omistaja);
+    ui->oikeusBox->setDisabled(omistaja);
+    ui->poistaNappi->setDisabled(omistaja);
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         box->setChecked( oikeudetAlussa_.contains( box->property("Oikeus").toString() ) );
@@ -134,9 +141,13 @@ void KayttoOikeusSivu::tallennaOikeudet()
                             KpKysely::PATCH);
     kysely->connect(kysely, &KpKysely::vastaus, this, &KayttoOikeusSivu::tallennettu);
 
+    QStringList oikeusLista;
+    for(const auto& oikeus : oikeudetTaulussa())
+        oikeusLista.append(oikeus);
+
     QVariantMap map;
     map.insert("email", ui->emailLabel->text());
-    map.insert("rights", oikeudetTaulussa());
+    map.insert("rights", oikeusLista);
     QVariantList lista;
     lista.append(map);
 
@@ -151,9 +162,9 @@ void KayttoOikeusSivu::tallennettu()
 }
 
 void KayttoOikeusSivu::tarkastaMuokattu()
-{
+{    
     ui->tallennaNappi->setEnabled( oikeudetTaulussa() != oikeudetAlussa_ );
-    ui->poistaNappi->setEnabled( !oikeudetTaulussa().isEmpty() );
+    ui->poistaNappi->setEnabled( !oikeudetTaulussa().isEmpty() && !oikeudetAlussa_.contains("Om"));
 }
 
 void KayttoOikeusSivu::kaikkiOikeudet()
@@ -166,7 +177,8 @@ void KayttoOikeusSivu::kaikkiOikeudet()
 void KayttoOikeusSivu::poistaOikeudet()
 {
     for(QCheckBox* box : findChildren<QCheckBox*>())
-        box->setChecked(false);
+        if(box->isEnabled())
+            box->setChecked(false);
     tarkastaMuokattu();
 }
 
@@ -180,13 +192,15 @@ void KayttoOikeusSivu::kutsu()
 }
 
 
-QStringList KayttoOikeusSivu::oikeudetTaulussa() const
+QSet<QString> KayttoOikeusSivu::oikeudetTaulussa() const
 {
-    QStringList oikeudet;
-    for(QCheckBox* box : findChildren<QCheckBox*>()) {
+    QSet<QString> oikeudet;
+    for(const auto box : findChildren<QCheckBox*>()) {
         if( box->isChecked())
-            oikeudet.append(box->property("Oikeus").toString());
+            oikeudet.insert(box->property("Oikeus").toString());
     }
+    if( oikeudetAlussa_.contains("Om"))
+        oikeudet.insert("Om");
     return oikeudet;
 }
 

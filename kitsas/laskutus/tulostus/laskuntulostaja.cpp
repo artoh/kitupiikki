@@ -140,6 +140,7 @@ void LaskunTulostaja::tallennaLaskuLiite(Tosite &tosite)
     KpKysely *tallennus = kitsas_->yhteysModel()->kysely( QString("/liitteet/%1/lasku").arg(tosite.id()), KpKysely::PUT );
     QMap<QString,QString> meta;
     meta.insert("Filename", QString("lasku%1.pdf").arg(tosite.lasku().numero()));
+    meta.insert("Content-type", "application/pdf");
 
     connect( tallennus, &KpKysely::vastaus, this, &LaskunTulostaja::laskuLiiteValmis);
     tallennus->lahetaTiedosto(lasku, meta);    

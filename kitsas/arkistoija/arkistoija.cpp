@@ -359,13 +359,19 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
     for( auto &liite : map.value("liitteet").toList()) {
         QVariantMap liitemap = liite.toMap();
         QString tnimi = liitemap.value("nimi").toString();
+        QString paate = tnimi.mid(tnimi.indexOf('.')+1);
+        if( paate.isEmpty() ) {
+            QString tyyppi = liitemap.value("tyyppi").toString();
+            paate = tyyppi.mid( tyyppi.indexOf("/") + 1 );
+        }
+
         int liiteid = liitemap.value("id").toInt();
         QString liitenimi = QString("%1-%2-%3_%4.%5")
                 .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate() ).pitkakausitunnus() )
                 .arg( map.value("sarja").toString() )
                 .arg( map.value("tunniste").toInt(), 8, 10, QChar('0'))
                 .arg( liitenro, 2, 10, QChar('0'))
-                .arg( tnimi.mid(tnimi.indexOf('.')+1)  );
+                .arg( paate  );
         liiteNimet_.insert( liiteid, liitenimi );
         liiteJono_.enqueue( liiteid );
         liitelaskuri_++;
@@ -395,7 +401,8 @@ void Arkistoija::arkistoiSeuraavaLiite()
     int liiteid = liiteJono_.dequeue();
     QString tiedosto = liiteNimet_.value(liiteid);
     KpKysely* kysely = kpk(QString("/liitteet/%1").arg(liiteid));
-    connect( kysely, &KpKysely::vastaus, [this, tiedosto] (QVariant* data) { this->arkistoiLiite(data, tiedosto);  });
+    connect( kysely, &KpKysely::vastaus,
+             [this, tiedosto] (QVariant* data) { this->arkistoiLiite(data, tiedosto);  });
     kysely->kysy();
 }
 

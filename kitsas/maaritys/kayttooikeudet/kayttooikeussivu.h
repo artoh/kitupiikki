@@ -49,14 +49,14 @@ private:
     void kutsu();
 
 
-    QStringList oikeudetTaulussa() const;
+    QSet<QString> oikeudetTaulussa() const;
 private:
     Ui::KayttoOikeudet* ui;
     KayttooikeusModel* model;
 
     QString nykyisenEmail_;
-    QString haettuNimi_;
-    QStringList oikeudetAlussa_;
+    QString haettuNimi_;    
+    QSet<QString> oikeudetAlussa_;
 };
 
 #endif // KAYTTOOIKEUSSIVU_H
