@@ -265,6 +265,7 @@ void TilioteApuri::naytaTosite()
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
 
         KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
+
         Tosite* tosite = sivu->kirjausWg()->tosite();
 
         const TositeVienti& pankki = rivi.pankkivienti();
@@ -291,10 +292,10 @@ void TilioteApuri::naytaTosite()
                 break;
             }
         }
-
-
-        sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( tosite->tyyppi() ) );
-        sivu->kirjausWg()->apuri()->tositteelle();
+        if( sivu->kirjausWg()->apuri()) {
+            sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( tosite->tyyppi() ) );
+            sivu->kirjausWg()->apuri()->tositteelle();
+        }
 
         connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }

@@ -209,7 +209,7 @@ void KohdennusModel::lataa(QVariantList lista)
 {
     beginResetModel();
     kohdennukset_.clear();
-    for( QVariant item : lista )
+    for( const auto& item : lista )
     {
         QVariantMap map = item.toMap();
         kohdennukset_.append( Kohdennus( map ));
@@ -217,26 +217,20 @@ void KohdennusModel::lataa(QVariantList lista)
     endResetModel();
 }
 
-Kohdennus *KohdennusModel::lisaa(int tyyppi)
-{
-    beginInsertRows(QModelIndex(), kohdennukset_.count(), kohdennukset_.count());
-    kohdennukset_.append(Kohdennus(tyyppi));
-    endInsertRows();
-    return &kohdennukset_[ kohdennukset_.count()-1 ];
-}
-
-void KohdennusModel::tallenna(int indeksi)
+void KohdennusModel::tallenna(const Kohdennus &kohdennus)
 {
     KpKysely *kysely = nullptr;
-    const Kohdennus& kohdennus = kohdennukset_.at(indeksi);
     if( kohdennus.id())
         kysely = kpk( QString("/kohdennukset/%1").arg(kohdennus.id()), KpKysely::PUT);
     else
         kysely = kpk( "/kohdennukset", KpKysely::POST);
+
     connect( kysely, &KpKysely::vastaus,
-             [this, indeksi] (QVariant* data) { this->tallennettu(indeksi, data);} );
+            this, &KohdennusModel::paivita);
     connect( kysely, &KpKysely::virhe,
-             [this](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Kohdennuksen tallentaminen epäonnistui.\n%1").arg(selitys)); this->paivita(); } );
+             [](int, const QString& selitys) {
+            QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Kohdennuksen tallentaminen epäonnistui.\n%1").arg(selitys));
+        } );
     kysely->kysy( kohdennus.data());
 }
 
@@ -253,13 +247,6 @@ void KohdennusModel::lataaData(const QVariant *lista)
     lataa(lista->toList());
 }
 
-void KohdennusModel::tallennettu(int indeksi, QVariant *data)
-{
-    if( !kohdennukset_.at(indeksi).id() ) {
-        kohdennukset_[indeksi].asetaId( data->toMap().value("id").toInt() );
-    }
-    emit dataChanged( index(indeksi,0), index(indeksi,PAATTYY) );
-}
 
 
 

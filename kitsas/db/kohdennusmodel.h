@@ -94,15 +94,13 @@ public:
 
     void lataa(QVariantList lista);
 
-    Kohdennus* lisaa(int tyyppi);
-    void tallenna(int indeksi);
+    void tallenna(const Kohdennus& kohdennus);
 
 public slots:
     void paivita();
 
 protected slots:
-    void lataaData(const QVariant* lista);
-    void tallennettu(int indeksi, QVariant* data);
+    void lataaData(const QVariant* lista);    
 
 protected:
     QList<Kohdennus> kohdennukset_;

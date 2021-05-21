@@ -113,7 +113,7 @@ void RivillinenLaskuDialogi::uusiRivi()
     dlg.lataa(rivi, ui->laskuPvm->date(), asiakasverolaji(),
               maksutapa() == Lasku::ENNAKKOLASKU, kp());
     if( dlg.exec() == QDialog::Accepted ) {
-        tosite()->rivit()->lisaaRivi(rivi);
+        tosite()->rivit()->lisaaRivi(dlg.rivi());
     }
 }
 

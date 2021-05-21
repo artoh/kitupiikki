@@ -125,17 +125,22 @@ void KohdennusDialog::tallenna()
     else if( ui->tagRadio->isChecked())
         tyyppi = Kohdennus::MERKKAUS;
 
-    Kohdennus* kohdennus = index_ > 0 ? kp()->kohdennukset()->pkohdennus(index_) : kp()->kohdennukset()->lisaa( tyyppi );
+    Kohdennus kohdennus;
 
-    kohdennus->nimiKielinen().aseta( ui->nimiList->tekstit() );
+    if( index_ > -1) {
+        Kohdennus* pkohdennus = kp()->kohdennukset()->pkohdennus(index_);
+        kohdennus.asetaId(pkohdennus->id());
+    }
 
-    kohdennus->asetaTyyppi(tyyppi);
-    kohdennus->asetaAlkaa( ui->maaraaikainenCheck->isChecked() ? ui->alkaaDate->date() : QDate());
-    kohdennus->asetaPaattyy( ui->maaraaikainenCheck->isChecked() ? ui->paattyyDate->date() : QDate());
+    kohdennus.nimiKielinen().aseta( ui->nimiList->tekstit() );
+
+    kohdennus.asetaTyyppi(tyyppi);
+    kohdennus.asetaAlkaa( ui->maaraaikainenCheck->isChecked() ? ui->alkaaDate->date() : QDate());
+    kohdennus.asetaPaattyy( ui->maaraaikainenCheck->isChecked() ? ui->paattyyDate->date() : QDate());
     if( tyyppi == Kohdennus::PROJEKTI)
-        kohdennus->asetaKuuluu(ui->kustannuspaikkaCombo->currentData(KohdennusModel::IdRooli).toInt());
+        kohdennus.asetaKuuluu(ui->kustannuspaikkaCombo->currentData(KohdennusModel::IdRooli).toInt());
 
-    kp()->kohdennukset()->tallenna( index_ > 0 ? index_ : kp()->kohdennukset()->rowCount()-1);
+    kp()->kohdennukset()->tallenna( kohdennus );
 
     QDialog::accept();
 }

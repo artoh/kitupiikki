@@ -57,7 +57,7 @@ private:
     Ui::KohdennusDialog *ui;
 
 protected:
-    int index_;
+    int index_ = -1;
 };
 
 #endif // KOHDENNUSDIALOG_H

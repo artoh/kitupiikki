@@ -88,7 +88,7 @@ QVariantMap AsiakasToimittajaValinta::map() const
 
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
-    if( id == id_)
+    if( id == id_ && nimi == combo_->currentText())
         return;
 
     ibanit_.clear();

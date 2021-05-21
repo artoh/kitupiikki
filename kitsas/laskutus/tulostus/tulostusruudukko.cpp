@@ -104,7 +104,7 @@ void TulostusRuudukko::laske(QPainter *painter)
 
     for(int r = 0; r < rivit_.count(); r++) {
         painter->setFont(QFont("FreeSans", pistekoko_, rivit_.at(r).lihava() ? QFont::Bold : QFont::Normal));
-        QRectF rect = painter->boundingRect(mittaRect, rivit_.at(r).teksti(0));
+        QRectF rect = painter->boundingRect(mittaRect, Qt::TextWordWrap, rivit_.at(r).teksti(0));
         qreal korkeus = rect.height() > rivinkorkeus ? rect.height() : rivinkorkeus;
         korkeus = korkeus + 2 * ivali_;
         rivit_[r].asetaKorkeus(korkeus );
@@ -185,7 +185,7 @@ void TulostusRuudukko::piirraRivi(const Rivi &rivi, QPainter *painter)
     qreal x = ivali_;
     for(int c = 0; c < sarakkeet_.count(); c++) {
         QRect alue(x, ivali_, sarakkeet_.at(c).leveys(), rivi.korkeus());
-        painter->drawText(alue, sarakkeet_.at(c).tasaus(), rivi.teksti(c));
+        painter->drawText(alue, Qt::TextWordWrap | sarakkeet_.at(c).tasaus(), rivi.teksti(c));
         x += sarakkeet_.at(c).leveys() + sarakevali_;
     }
 
