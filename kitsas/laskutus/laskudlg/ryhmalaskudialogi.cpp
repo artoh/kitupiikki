@@ -24,6 +24,7 @@
 #include "rivivientigeneroija.h"
 
 #include <QMessageBox>
+#include <QTimer>
 
 RyhmaLaskuDialogi::RyhmaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     RivillinenLaskuDialogi(tosite, parent),
@@ -72,6 +73,7 @@ void RyhmaLaskuDialogi::tallennaSeuraava()
         // Kaikki tallennettu
         emit kp()->onni(tr("Laskut tallennettu Lähtevät-kansioon"));
         emit kp()->kirjanpitoaMuokattu();
+        QTimer::singleShot(1500, [] { emit kp()->kirjanpitoaMuokattu();});
         QDialog::accept();
         return;
     }

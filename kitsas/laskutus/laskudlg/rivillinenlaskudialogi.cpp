@@ -218,6 +218,9 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
     ui->tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->tuoteView->setContextMenuPolicy(Qt::CustomContextMenu);
+    if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
+        ui->tuoteView->hideColumn(TuoteModel::BRUTTO);
+
     connect( ui->tuoteView, &QTableView::customContextMenuRequested,
              this, &RivillinenLaskuDialogi::tuotteidenKonteksiValikko);
 
@@ -281,7 +284,8 @@ void RivillinenLaskuDialogi::paivitaSumma()
 
     if( !alvTaulu()->brutto() )
         ui->summaLabel->clear();
-    else if( rivityyppi() == Lasku::BRUTTORIVIT)
+    else if( rivityyppi() == Lasku::BRUTTORIVIT ||
+             ui->riviTyyppiCombo->isHidden() )
         ui->summaLabel->setText( QString("<b>%1</b>").arg(alvTaulu()->brutto().display() ));
     else ui->summaLabel->setText( tr("%1 + ALV %2 = <b>%3</b>")
                                   .arg(alvTaulu()->netto().display())

@@ -20,6 +20,7 @@
 #include "../alennustyyppimodel.h"
 #include "db/kitsasinterface.h"
 #include "db/kohdennusmodel.h"
+#include "db/kirjanpito.h"
 
 LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     QDialog(parent),
@@ -42,6 +43,15 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
 
     connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
     connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
+
+    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    ui->alvGroup->setVisible(alv);
+    ui->aBruttoLabel->setVisible(alv);
+    ui->aBrutto->setVisible(alv);
+    ui->bruttoAleLabel->setVisible(alv);
+    ui->bruttoAleEdit->setVisible(alv);
+    ui->verollinenLabel->setVisible(alv);
+    ui->verollinenEdit->setVisible(alv);
 }
 
 LaskuRiviDialogi::~LaskuRiviDialogi()

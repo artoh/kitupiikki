@@ -107,13 +107,13 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox_7">
+    <widget class="QGroupBox" name="alvGroup">
      <property name="title">
       <string>Arvonlisävero</string>
      </property>
      <layout class="QFormLayout" name="formLayout_6">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="alvLabel">
         <property name="text">
          <string>Arvonlisävero</string>
         </property>
@@ -166,7 +166,7 @@
        <widget class="QComboBox" name="alennusSyyCombo"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="bruttoAleLabel">
         <property name="text">
          <string>Verollinen</string>
         </property>
@@ -244,7 +244,7 @@
        <widget class="KpEuroEdit" name="nettoYhteensa"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="verollinenLabel">
         <property name="text">
          <string>Verollinen</string>
         </property>
@@ -283,7 +283,7 @@
        <widget class="KpEuroEdit" name="aNetto"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_16">
+       <widget class="QLabel" name="aBruttoLabel">
         <property name="text">
          <string>Verollinen</string>
         </property>
