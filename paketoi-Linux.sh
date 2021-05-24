@@ -8,12 +8,12 @@
 # Käännös suoritetaan Ubuntu 14.04 virtuaalikoneessa
 
 BUILDIR=build-linux
-QTDIR=~/Qt513/5.13.0/gcc_64
+QTDIR=~/Qt/5.15.2/gcc_64
 DISTDIR=../dist
 
 export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export ARCH=x86:64
-export VERSION=3.0-beta-rc
+export VERSION=3.0-brc-10
 
 rm -R $BUILDIR
 mkdir -p $BUILDIR 
@@ -28,7 +28,7 @@ cp ../kitsas.desktop .
 cp ../kitsas.png .
 ln -s kitsas AppRun
 
-~/virtuaali/linuxdeployqt-continuous-x86_64.AppImage kitsas.desktop -appimage -bundle-non-qt-libs -qmake=$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
+../dist/linuxdeployqt-continuous-x86_64.AppImage kitsas.desktop -appimage -bundle-non-qt-libs -qmake=$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
 
 cp Kitsas* $DISTDIR
 

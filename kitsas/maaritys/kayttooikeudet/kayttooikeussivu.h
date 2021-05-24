@@ -19,6 +19,7 @@
 
 #include "../maarityswidget.h"
 #include "kayttooikeusmodel.h"
+#include <QSet>
 
 namespace Ui {
     class KayttoOikeudet;

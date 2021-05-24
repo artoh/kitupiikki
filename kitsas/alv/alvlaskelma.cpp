@@ -454,7 +454,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
     Euro alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
 
     Euro marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
-    Euro vero = Euro::fromDouble((marginaali.toDouble() * 1.00 * kanta / (100 + kanta)));
+    Euro vero = Euro::fromDouble( kanta / (10000.0 + kanta) *  marginaali.toDouble() );
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
@@ -480,10 +480,10 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 
             QString selite = kaanna("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
                     .arg(kanta / 100.0, 0, 'f', 2)
-                    .arg(tilinmyynti * 100.0 / myynti, 0, 'f', 2);
+                    .arg(tilinmyynti.cents() * 100.0 / myynti.cents(), 0, 'f', 2);
             TositeVienti tililta;
             tililta.setTili(tili);
-            Euro eurot = Euro(tilinmyynti.toDouble() / myynti.toDouble() * vero.toDouble());
+            Euro eurot = Euro::fromDouble(tilinmyynti.toDouble() / myynti.toDouble() * vero.toDouble());
             if( eurot > Euro::Zero)
                 tililta.setDebet( eurot );
             else

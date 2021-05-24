@@ -224,6 +224,7 @@ void Kirjanpito::asetaLogo(const QImage &logo)
 
 QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
 {
+    Q_ASSERT("Vanha tositetunnus");
     QString vuositunnus = tilikaudetModel_->tilikausiPaivalle(pvm).kausitunnus();
 
     // Tässä voidaan siivota pois laji jos ollaan yhdessä sarjassa
@@ -240,7 +241,10 @@ QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
 
 QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu) const
 {
-    return tilikaudet()->tositeTunnus(tunniste, pvm, sarja, samakausi, vertailu);
+    if(tunniste)
+        return tilikaudet()->tositeTunnus(tunniste, pvm, sarja, samakausi, vertailu);
+    else
+        return QString();
 }
 
 
