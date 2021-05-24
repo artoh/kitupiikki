@@ -40,7 +40,7 @@ public:
 
     QList<TositeVienti> viennit() const;
     TositeVienti pankkivienti() const;
-    QVariantList tallennettavat(int tyyppi = 0) const;
+    QVariantList tallennettavat() const;
 
     void asetaPankkitili(int tili);
     void asetaViennit(const QList<TositeVienti> &viennit);

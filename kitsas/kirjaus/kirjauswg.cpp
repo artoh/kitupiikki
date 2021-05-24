@@ -165,7 +165,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
-    connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
 
     connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });

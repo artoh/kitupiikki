@@ -38,6 +38,7 @@
 #include <QDebug>
 #include <QSettings>
 
+
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
       ui( new Ui::TilioteApuri),
@@ -253,6 +254,9 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::naytaTosite()
 {
+
+    qDebug() << "naytaTosite \n";
+
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if( !index.isValid())
         return;
@@ -264,41 +268,51 @@ void TilioteApuri::naytaTosite()
         const int omaIndeksi = proxy_->mapToSource(index).row();
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
 
+        qDebug() << " i "  << omaIndeksi << " rivi " << rivi.pankkivienti().selite() << "\n";
+
         KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
 
-        Tosite* tosite = sivu->kirjausWg()->tosite();
-
         const TositeVienti& pankki = rivi.pankkivienti();
-        tosite->asetaPvm(pankki.pvm());
-        tosite->asetaKumppani(pankki.kumppaniMap());
-        tosite->asetaOtsikko(pankki.selite());
-        tosite->asetaViite(pankki.viite());
-        tosite->asetaTilioterivi( omaIndeksi );        
 
-        // TODO: Oletuksena tulo / meno etumerkin mukaisesti
-        if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS) {
-            tosite->asetaTyyppi( pankki.debetEuro() ? TositeTyyppi::TULO : TositeTyyppi::MENO );
-        } else {
-            switch (pankki.tyyppi() - TositeVienti::VASTAKIRJAUS) {
-            case TositeVienti::MYYNTI:
-                tosite->asetaTyyppi(TositeTyyppi::TULO);
-                break;            
-            case TositeVienti::SIIRTO:
-            case TositeVienti::SUORITUS:
-                tosite->asetaTyyppi(TositeTyyppi::SIIRTO);
-                break;
-            default:
-                tosite->asetaTyyppi(TositeTyyppi::MENO);
-                break;
+        int tositetyyppi = TositeTyyppi::MENO;
+        if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS && pankki.debetEuro() ) {
+            tositetyyppi = pankki.debetEuro() ? TositeTyyppi::TULO : TositeTyyppi::MENO;
+        } else if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::MYYNTI) {
+            tositetyyppi = TositeTyyppi::TULO;
+        } else if ( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::SIIRTO ||
+                        pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::SUORITUS) {
+            tositetyyppi = TositeTyyppi::SIIRTO;
+        }
+
+        Tosite tosite;
+        tosite.asetaPvm(pankki.pvm());
+        tosite.asetaKumppani(pankki.kumppaniMap());
+        tosite.asetaOtsikko(pankki.selite());
+        tosite.asetaViite(pankki.viite());
+        tosite.asetaTilioterivi( omaIndeksi );
+        tosite.asetaTyyppi( tositetyyppi );
+
+        QList<TositeVienti> viennit = rivi.viennit();
+        QVariantList ladattavat;
+
+        for(auto vienti : viennit) {
+            vienti.setTyyppi( tositetyyppi + vienti.tyyppi() % 100 );
+            vienti.setId(0);
+            if(!vienti.tili() && tositetyyppi == TositeTyyppi::MENO) {
+                vienti.setTili( kp()->asetukset()->luku(AsetusModel::OletusMenotili) );
+            } else if( !vienti.tili() && tositetyyppi == TositeTyyppi::TULO) {
+                vienti.setTili( kp()->asetukset()->luku(AsetusModel::OletusMyyntitili));
             }
+            ladattavat << vienti;
         }
-        if( sivu->kirjausWg()->apuri()) {
-            sivu->kirjausWg()->apuri()->asetaViennit(rivi.tallennettavat( tosite->tyyppi() ) );
-            sivu->kirjausWg()->apuri()->tositteelle();
-        }
+        tosite.viennit()->asetaViennit( ladattavat );
 
-        connect( tosite, &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
+        qDebug() << " LATAA " << ladattavat;
+
+        sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
+        connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }
+    qDebug() << " naytaTositeLoppu ";
 }
 
 

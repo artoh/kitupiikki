@@ -118,7 +118,7 @@ void LaskunToimittaja::liiteTallennettu()
     }
 
     AbstraktiToimittaja* toimittaja = toimittajat_.value(toimitustapa, toimittajat_.value(Lasku::TULOSTETTAVA));
-    toimittaja->lisaaLasku(tositteet_.head());
+    toimittaja->lisaaLasku(tallennusTosite_->tallennettava());
     tositteet_.dequeue();
 
     tallennusTosite_->deleteLater();
@@ -173,11 +173,12 @@ void LaskunToimittaja::tarkastaValmis()
             if( onnistuneet_ > 0) {
                 QMessageBox::critical(nullptr,
                                       tr("Laskujen toimittaminen epäonnistui"),
-                                      tr("%1 laskua toimitettu\n%2 laskun toimittaminen epäonnistui") + "\n" +
+                                      tr("%1 laskua toimitettu\n%2 laskun toimittaminen epäonnistui")
+                                        .arg(onnistuneet_)
+                                        .arg(epaonnistuneet_)
+                                      + "\n" +
                                       tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.") +
-                                      QString("\n")
-                                      .arg(onnistuneet_)
-                                      .arg(epaonnistuneet_)
+                                      QString("\n")                                      
                              + virhelista.join("\n")) ;
             } else {
                 QMessageBox::critical(nullptr,

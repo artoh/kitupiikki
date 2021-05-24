@@ -340,8 +340,8 @@ void AsiakasToimittajaDlg::maaMuuttui()
     ui->osavaltioLabel->setVisible( maa != "fi");
     ui->osavaltioEdit->setVisible( maa != "fi");
 
-    if(ui->alvlabel->isVisible() && ui->alvlabel->text().length() < 3)
-        ui->alvlabel->setText( alvReg.left(2) );
+    if(ui->alvEdit->isVisible() && ui->alvEdit->text().length() < 3)
+        ui->alvEdit->setText( alvReg.left(2) );
     ui->alvEdit->setValidator( new QRegularExpressionValidator(QRegularExpression( alvReg ), this) );
 }
 
