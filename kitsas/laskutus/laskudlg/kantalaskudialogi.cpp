@@ -117,6 +117,8 @@ void KantaLaskuDialogi::alustaUi()
     paivitaLaskutustavat();
     laskutusTapaMuuttui();
     alustaMaksutavat();
+
+    ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
 }
 
 
@@ -584,7 +586,7 @@ void KantaLaskuDialogi::naytaEsikatselu()
 
 bool KantaLaskuDialogi::tarkasta()
 {
-    if( paivamaara() > kp()->tilitpaatetty() ) {
+    if( paivamaara() <= kp()->tilitpaatetty() ) {
         QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärä on lukitulla tilikaudella"));
         return false;
     }
