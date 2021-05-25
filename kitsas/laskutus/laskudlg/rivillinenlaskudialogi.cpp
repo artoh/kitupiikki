@@ -29,6 +29,7 @@
 #include "rivivientigeneroija.h"
 
 #include "db/kirjanpito.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QSortFilterProxyModel>
 #include <QMenu>
@@ -181,6 +182,12 @@ bool RivillinenLaskuDialogi::tarkasta()
             QMessageBox::critical(this, tr("Yhteisömyynti"),
                                   tr("Yhteisömyynti voidaan laskuttaa vain "
                                      "toiseen EU-maahan"));
+            return false;
+        }
+        if( rivi.alvkoodi() != AlvKoodi::EIALV &&
+                kp()->alvIlmoitukset()->onkoIlmoitettu(paivamaara())) {
+            QMessageBox::critical(this, tr("Arvonlisäveroilmoitus annettu"),
+                                  tr("Laskun päivämäärältä on jo annettu arvonlisäveroilmoitus"));
             return false;
         }
     }

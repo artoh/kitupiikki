@@ -83,6 +83,8 @@ protected:
     void salliTallennus(bool sallinta);
     virtual QString ohje() { return "laskutus/luominen/"; }
 
+    QDate paivamaara() const;
+
 private:
     void alustaUi();
     void alustaRivitTab();

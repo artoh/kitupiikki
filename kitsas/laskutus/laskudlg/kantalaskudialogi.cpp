@@ -584,6 +584,11 @@ void KantaLaskuDialogi::naytaEsikatselu()
 
 bool KantaLaskuDialogi::tarkasta()
 {
+    if( paivamaara() > kp()->tilitpaatetty() ) {
+        QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärä on lukitulla tilikaudella"));
+        return false;
+    }
+
     return true;
 }
 
@@ -591,6 +596,14 @@ void KantaLaskuDialogi::salliTallennus(bool sallinta)
 {
     ui->valmisNappi->setEnabled(sallinta);
     ui->tallennaNappi->setEnabled(sallinta);
+}
+
+QDate KantaLaskuDialogi::paivamaara() const
+{
+    if( maksutapa() == Lasku::SUORITEPERUSTE)
+        return ui->toimitusDate->date();
+    else
+        return ui->laskuPvm->date();
 }
 
 QString KantaLaskuDialogi::otsikko() const
