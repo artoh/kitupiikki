@@ -54,7 +54,7 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
 
     double osuusErasta = 0.0;
 
-    for(const auto& avienti : alkuperaiset_) {
+    for(const auto& avienti : qAsConst( alkuperaiset_)) {
         if( avienti.id() == eraId()) {
             const qlonglong asentit = avienti.debetSnt() - avienti.kreditSnt();
             if( !asentit ) return taydennys_;
@@ -64,7 +64,7 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
     }
     if( qAbs(osuusErasta) < 1e-5) return taydennys_;
 
-    for( const auto& avienti : alkuperaiset_) {
+    for( const auto& avienti : qAsConst( alkuperaiset_)) {
         if( avienti.alvKoodi() / 100 == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON / 100) {
             qlonglong sentit = qRound64( osuusErasta * ( avienti.kredit() - avienti.debet()  ) * 100.0 );
 

@@ -33,7 +33,7 @@ qreal LaskuInfoLaatikko::laskeKoko(QPainter *painter, qreal leveys)
     painter->save();
     qreal korkeus = 0;
     qreal tleveys = 0.0;
-    for(const auto& teksti : tekstit_) {
+    for(const auto& teksti : qAsConst( tekstit_)) {
         const QString& otsikko = teksti.first.isEmpty() ?
                     QString() :
                     teksti.first + " ";
@@ -59,7 +59,7 @@ qreal LaskuInfoLaatikko::laskeKoko(QPainter *painter, qreal leveys)
 void LaskuInfoLaatikko::piirra(QPainter *painter, qreal x, qreal y)
 {
     painter->save();
-    for(const auto& teksti : tekstit_) {
+    for(const auto& teksti : qAsConst( tekstit_ )) {
         const QString& otsikko = teksti.first.isEmpty() ?
                     QString() :
                     teksti.first + " ";

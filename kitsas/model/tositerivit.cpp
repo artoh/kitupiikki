@@ -306,7 +306,7 @@ QVariantList TositeRivit::rivit() const
 Euro TositeRivit::yhteensa() const
 {
     Euro summa;
-    for(auto rivi : rivit_)
+    for(const auto& rivi : qAsConst( rivit_ ))
         summa += rivi.bruttoYhteensa();
     return summa;
 }

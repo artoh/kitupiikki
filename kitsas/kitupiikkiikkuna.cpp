@@ -88,7 +88,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
-    setWindowTitle( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+    setWindowTitle( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
 
     kirjaussivu =  new KirjausSivu(this, selaussivu);
 
@@ -156,7 +156,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(kirjaaKirjattavienKansiosta()), nullptr, Qt::ApplicationShortcut  );
 
-    connect( new QShortcut(QKeySequence("Ctrl+D"), this), &QShortcut::activated, [] () { DevTool *dev = new DevTool(); dev->show(); } );
+    connect( new QShortcut(QKeySequence("Ctrl+D"), this), &QShortcut::activated, this, [] () { DevTool *dev = new DevTool(); dev->show(); } );
 
 
     toolbar->installEventFilter(this);
@@ -223,9 +223,9 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         const QString& nimi = kp()->asetukset()->nimi();
 
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(nimi).arg( qApp->applicationVersion() ));
+            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(nimi, qApp->applicationVersion() ));
         else
-            setWindowTitle( tr("%1 - Kitsas %2").arg(nimi).arg(qApp->applicationVersion()));
+            setWindowTitle( tr("%1 - Kitsas %2").arg(nimi, qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 

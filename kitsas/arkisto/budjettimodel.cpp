@@ -195,17 +195,22 @@ void BudjettiModel::laskeSumma()
     qlonglong summa = 0;
     QVariantMap eurot = data_.value( QString::number(kohdennusid_) ).toMap();
 
-    for( const QVariant& var : eurot.values() )
-        summa += qRound64( var.toDouble() * 100.0 );
+    QMapIterator<QString,QVariant> euroIter(eurot);
+    while(euroIter.hasNext()) {
+        euroIter.next();
+        summa += qRound64( euroIter.value().toDouble() * 100.0 );
+    }
 
     qlonglong kokosumma = 0;
 
     QMapIterator<QString,QVariant> iter(data_);
     while( iter.hasNext()) {
         iter.next();
-        QVariantMap map = iter.value().toMap();
-        for( auto var : map.values())
-            kokosumma += qRound64( var.toDouble() * 100.0);
+        QMapIterator<QString, QVariant> sIter(iter.value().toMap());
+        while(sIter.hasNext()) {
+            sIter.next();
+            kokosumma += qRound64( sIter.value().toDouble() * 100.0 );
+        }
     }
 
     emit summaMuuttui(summa, kokosumma);

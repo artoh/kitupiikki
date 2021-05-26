@@ -131,30 +131,30 @@ void Arkistoija::arkistoiTositteet()
 void Arkistoija::arkistoiRaportit()
 {
     Paivakirja* paivakirja = new Paivakirja(this);
-    connect( paivakirja, &Paivakirja::valmis,
+    connect( paivakirja, &Paivakirja::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
     paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
                           Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     Paakirja* paakirja = new Paakirja(this);
-    connect( paakirja, &Paakirja::valmis,
+    connect( paakirja, &Paakirja::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paakirja.html"); } );
     paakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
            Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
 
     TaseErittelija* erittelija = new TaseErittelija(this);
-    connect( erittelija, &TaseErittelija::valmis,
+    connect( erittelija, &TaseErittelija::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"taseerittely.html"); } );
     erittelija->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
 
     TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
-    connect( tililuettelo, &TiliKarttaListaaja::valmis,
+    connect( tililuettelo, &TiliKarttaListaaja::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tililuettelo.html"); } );
     tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_,
                            true, false, tilikausi_.paattyy(), false);
 
     TositeLuettelo* tositeluettelo = new TositeLuettelo(this);
-    connect( tositeluettelo, &TositeLuettelo::valmis,
+    connect( tositeluettelo, &TositeLuettelo::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tositeluettelo.html"); } );
     tositeluettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                              TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::TulostaKohdennukset
@@ -162,17 +162,17 @@ void Arkistoija::arkistoiRaportit()
                              | TositeLuettelo::AsiakasToimittaja);
 
     LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
-    connect( myyntilaskut, &LaskuRaportteri::valmis,
+    connect( myyntilaskut, &LaskuRaportteri::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myyntilaskut.html");});
     myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
 
     LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
-    connect( ostolaskut, &LaskuRaportteri::valmis,
+    connect( ostolaskut, &LaskuRaportteri::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"ostolaskut.html");});
     ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
 
     MyyntiRaportteri* myynnit = new MyyntiRaportteri(this);
-    connect( myynnit, &MyyntiRaportteri::valmis,
+    connect( myynnit, &MyyntiRaportteri::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myynnit.html");});
     myynnit->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
 
@@ -183,11 +183,11 @@ void Arkistoija::arkistoiRaportit()
     progressDlg_->setMaximum( progressDlg_->maximum() + raportit.count() );
 
 
-    for( auto raportti : raportit) {
+    for( const auto& raportti : qAsConst(raportit)) {
         QString raporttinimi(raportti);
         raporttinimi = raporttinimi.replace(QRegularExpression("\\W"),"").toLower().append(".html");
         Raportoija *raportoija = new Raportoija( raportti, Kielet::instanssi()->nykyinen(), this);
-        connect( raportoija, &Raportoija::valmis,
+        connect( raportoija, &Raportoija::valmis, this,
                  [this, raporttinimi] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk, raporttinimi); } );
         if( raportoija->onkoTaseraportti()) {
             raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
@@ -209,9 +209,9 @@ void Arkistoija::arkistoiTilinpaatos()
 {
     KpKysely *kysely = kpk( QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)) );
 
-    connect( kysely, &KpKysely::vastaus, [this] (QVariant* data)
+    connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* data)
         { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; this->jotainArkistoitu();});
-    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; this->jotainArkistoitu();});
+    connect( kysely, &KpKysely::virhe, this, [this] () { this->raporttilaskuri_--; this->jotainArkistoitu();});
 
     kysely->kysy();
 }
@@ -312,7 +312,7 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
 
     progressDlg_->setMaximum(lista.count() + 50 );
 
-    for( auto tosite : lista ) {
+    for( const auto& tosite :  qAsConst( lista) ) {
         QVariantMap map = tosite.toMap();
         tositeJono_.append( map );
     }
@@ -341,7 +341,7 @@ void Arkistoija::arkistoiSeuraavaTosite()
     int indeksi = arkistoitavaTosite_;
 
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tositeJono_.value(indeksi).id() ));
-    connect( kysely, &KpKysely::vastaus,
+    connect( kysely, &KpKysely::vastaus, this,
              [this, indeksi] (QVariant* data) { this->arkistoiTosite(data, indeksi);} );
 
     kysely->kysy();
@@ -367,7 +367,7 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
 
         int liiteid = liitemap.value("id").toInt();
         QString liitenimi = QString("%1-%2-%3_%4.%5")
-                .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate() ).pitkakausitunnus() )
+                .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate() ).pitkakausitunnus())
                 .arg( map.value("sarja").toString() )
                 .arg( map.value("tunniste").toInt(), 8, 10, QChar('0'))
                 .arg( liitenro, 2, 10, QChar('0'))
@@ -401,7 +401,7 @@ void Arkistoija::arkistoiSeuraavaLiite()
     int liiteid = liiteJono_.dequeue();
     QString tiedosto = liiteNimet_.value(liiteid);
     KpKysely* kysely = kpk(QString("/liitteet/%1").arg(liiteid));
-    connect( kysely, &KpKysely::vastaus,
+    connect( kysely, &KpKysely::vastaus, this,
              [this, tiedosto] (QVariant* data) { this->arkistoiLiite(data, tiedosto);  });
     kysely->kysy();
 }
@@ -472,7 +472,7 @@ void Arkistoija::viimeistele()
     out << "</ul><h3>" << tulkkaa("Raportit") << "</h3><ul>";
 
 
-    for( auto rnimi : raporttiNimet_)
+    for( const auto& rnimi : qAsConst(raporttiNimet_))
         out << "<li><a href='" << rnimi.first << "'>" << rnimi.second << "</a></li>";
 
     out << "</ul><h3>" << tulkkaa("Laskut ja myynti") << "</h3><ul>";
@@ -485,8 +485,8 @@ void Arkistoija::viimeistele()
 
 
     out << "<p class=info>" << tulkkaa("Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2")
-           .arg(QDate::currentDate().toString(Qt::SystemLocaleDate))
-           .arg(qApp->applicationVersion());
+           .arg(QDate::currentDate().toString(Qt::SystemLocaleDate),
+                qApp->applicationVersion());
     out << "<br/>" << tulkkaa("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä") << QString(" <code>%1</code>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) ) << "</p>";
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
         out << tulkkaa("Kirjanpito on vielä keskeneräinen.");
@@ -615,7 +615,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         // Jaksotus
         if(vienti.jaksoalkaa().isValid()) {
             if(vienti.jaksoloppuu().isValid()) {
-                klist << QString("%1 - %2").arg(vienti.jaksoalkaa().toString("dd.MM.yyyy")).arg(vienti.jaksoloppuu().toString("dd.MM.yyyy"));
+                klist << QString("%1 - %2").arg(vienti.jaksoalkaa().toString("dd.MM.yyyy"), vienti.jaksoloppuu().toString("dd.MM.yyyy"));
             } else {
                 klist << QString("%1").arg(vienti.jaksoalkaa().toString("dd.MM.yyyy"));
             }
@@ -777,8 +777,7 @@ QString Arkistoija::navipalkki(int indeksi) const
 
     if( indeksi > -1 && indeksi + 1 < tositeJono_.count() )
         navi.append( QString("<li class=nappi><a href='%1.html'>%2 &rarr;</a></li>")
-                     .arg( tositeJono_.value(indeksi+1).tiedostonnimi() )
-                     .arg(tulkkaa("Seuraava")));
+                     .arg( tositeJono_.value(indeksi+1).tiedostonnimi(), tulkkaa("Seuraava")));
     else
         navi.append( "<li class=nappi> </li>");
 

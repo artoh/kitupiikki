@@ -62,7 +62,7 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
 
         poistotosite->liitteet()->lisaa( ehdotus.pdf(), "poistolaskelma.pdf", "poistolaskelma");
 
-        for( auto rivi : poistot) {
+        for( const auto& rivi : poistot) {
             QVariantMap map = rivi.toMap();
             TositeVienti tasevienti;
             TositeVienti tulosvienti;
@@ -143,7 +143,7 @@ RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVaria
 
     int edellinentili = 0;
 
-    for(auto rivi : poistot) {
+    for(const auto& rivi : poistot) {
         QVariantMap map = rivi.toMap();
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
         if( !tili)

@@ -141,8 +141,8 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
             QString ekaIban = data.value("iban").toStringList().value(0);
             KpKysely* ibankysely = kpk("/kumppanit");
             ibankysely->lisaaAttribuutti("iban", ekaIban);
-            connect(ibankysely, &KpKysely::vastaus, [this,data] (QVariant* vastaus) {this->ibanLoytyi(data, vastaus);} );
-            connect(ibankysely, &KpKysely::virhe, [this, data] {this->ibanLoytyi(data, nullptr);});
+            connect(ibankysely, &KpKysely::vastaus, this, [this,data] (QVariant* vastaus) {this->ibanLoytyi(data, vastaus);} );
+            connect(ibankysely, &KpKysely::virhe, this, [this, data] {this->ibanLoytyi(data, nullptr);});
             ibankysely->kysy();
         }
     }

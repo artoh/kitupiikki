@@ -29,9 +29,6 @@ public:
 
     void kirjoita(const QDate &mista, const QDate& mihin);
 
-signals:
-    void valmis(RaportinKirjoittaja rk);
-
 public slots:
 
 protected slots:

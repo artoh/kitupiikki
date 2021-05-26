@@ -81,7 +81,7 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
     {
         dlgUi.rapottiCombo->addItem( nimi );
     }
-    for( auto nimi : kp()->asetukset()->avaimet("tulos/"))
+    for( const auto& nimi : kp()->asetukset()->avaimet("tulos/"))
         dlgUi.rapottiCombo->addItem( nimi );
 
     connect( dlgUi.rapottiCombo, &QComboBox::currentTextChanged, [dlgUi] (const QString& raportti) { dlgUi.groupBox->setEnabled(raportti.startsWith("tulos")); } );
@@ -100,8 +100,6 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
                 optiot.append("B");
         }
         ui->editori->insertPlainText(QString("@%1:%2!%3@")
-                                     .arg(dlgUi.rapottiCombo->currentText())
-                                     .arg(optiot)
-                                     .arg(dlgUi.otsikkoLine->text()));
+                                     .arg(dlgUi.rapottiCombo->currentText(), optiot, dlgUi.otsikkoLine->text()));
     }
 }

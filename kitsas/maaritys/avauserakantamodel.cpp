@@ -32,7 +32,7 @@ int AvausEraKantaModel::columnCount(const QModelIndex &parent) const
 QList<AvausEra> AvausEraKantaModel::erat() const
 {
     QList<AvausEra> erat;
-    for( auto era : erat_)
+    for( const auto& era : qAsConst( erat_ ))
         if( era.saldo())
             erat.append(era);
     return erat;

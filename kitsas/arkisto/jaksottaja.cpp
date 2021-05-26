@@ -65,7 +65,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
     tosite->asetaTyyppi( TositeTyyppi::JAKSOTUS );
     tosite->asetaOtsikko( tulkkaa("Tilinpäätösjaksotukset"));
 
-    for( auto jaksotus : jaksotukset) {
+    for( const auto& jaksotus : jaksotukset) {
         TositeVienti vienti;
         TositeVienti vasta;
 
@@ -107,8 +107,8 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         QString selite = QString("%1 %2")
                 .arg( kp()->tositeTunnus( map.value("tunniste").toInt(),
                                           map.value("pvm").toDate(),
-                                          map.value("sarja").toString()))
-                .arg( map.value("selite").toString());
+                                          map.value("sarja").toString()),
+                map.value("selite").toString());
         vienti.setSelite( selite );
         vasta.setSelite( selite );
 
@@ -143,7 +143,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
 
 
     KpKysely *kysely = kpk("/tositteet", KpKysely::POST);
-    connect( kysely, &KpKysely::vastaus,
+    connect( kysely, &KpKysely::vastaus, this,
              [this, pvm] (QVariant* data) { this->kirjaaTilinavaukseen(data, pvm.addDays(1)); });
     kysely->kysy( tosite->tallennettava() );
 
@@ -177,7 +177,7 @@ RaportinKirjoittaja Jaksottaja::jaksotusSelvitys(const Tilikausi &kausi, const Q
     qlonglong kreditYht = 0;
 
 
-    for( auto rivi : jaksotukset) {
+    for( const auto& rivi : jaksotukset) {
         QVariantMap map = rivi.toMap();
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt());
         if( !tili)

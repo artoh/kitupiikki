@@ -85,9 +85,9 @@ SaldoDock::SaldoDock() :
 //    setTitleBarWidget(new QWidget(this));
     setFilter( kp()->settings()->value("SaldoDockValinta").toInt() );
 
-    connect( rahavarat_, &QToolButton::clicked, [this] { this->setFilter(RAHAVARAT);});
-    connect( suosikit_, &QToolButton::clicked, [this] { this->setFilter(SUOSIKIT);});
-    connect( kaikki_, &QToolButton::clicked, [this] { this->setFilter(KAIKKI);});
+    connect( rahavarat_, &QToolButton::clicked, this, [this] { this->setFilter(RAHAVARAT);});
+    connect( suosikit_, &QToolButton::clicked, this,  [this] { this->setFilter(SUOSIKIT);});
+    connect( kaikki_, &QToolButton::clicked, this, [this] { this->setFilter(KAIKKI);});
 
     view_->setSelectionMode(QTableView::NoSelection);
     view_->setAlternatingRowColors(true);

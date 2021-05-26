@@ -57,8 +57,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
 
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this]  {this->lisaaRivi(true);} );
-    connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, [this] {this->lisaaRivi(false);} );
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, [this]  {this->lisaaRivi(true);} );
+    connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, this, [this] {this->lisaaRivi(false);} );
 
     connect( ui->oteView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(riviValittu()));
@@ -98,6 +98,11 @@ void TilioteApuri::tuo(QVariantMap map)
 
     qDebug() << map;
 
+    if( map.contains("alkupvm"))
+        ui->alkuDate->setDate( map.value("alkupvm").toDate() );
+    if( map.contains("loppupvm"))
+        ui->loppuDate->setDate( map.value("loppupvm").toDate());
+
     if( map.contains("iban")) {
         QString iban = map.value("iban").toString();
         Tili tili = kp()->tilit()->tiliIbanilla(iban);
@@ -107,15 +112,12 @@ void TilioteApuri::tuo(QVariantMap map)
         ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
     model()->asetaTilinumero(ui->tiliCombo->valittuTilinumero());
-
-    ui->alkuDate->setDate( map.value("alkupvm").toDate() );
-    ui->loppuDate->setDate( map.value("loppupvm").toDate());
     model()->tuo( map.value("tapahtumat").toList() );
 
 
     if( map.contains("kausitunnus")) {
         QString tilinimi = kp()->tilit()->tiliIbanilla(map.value("iban").toString()).nimi();
-        tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString()).arg(tilinimi));
+        tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString(), tilinimi));
     }
 
     lataaHarmaat();
@@ -161,9 +163,7 @@ bool TilioteApuri::teeTositteelle()
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData( Tosite::OTSIKKO,
                        tr("Tiliote %1 - %2 %3")
-                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
-                       .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
-                       .arg( kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).nimi()));
+                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy") , ui->loppuDate->date().toString("dd.MM.yyyy"), kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).nimi()));
 
     naytaSummat();    
     return true;
@@ -295,7 +295,7 @@ void TilioteApuri::naytaTosite()
         QList<TositeVienti> viennit = rivi.viennit();
         QVariantList ladattavat;
 
-        for(auto vienti : viennit) {
+        for(auto vienti : qAsConst(viennit)) {
             vienti.setTyyppi( tositetyyppi + vienti.tyyppi() % 100 );
             vienti.setId(0);
             if(!vienti.tili() && tositetyyppi == TositeTyyppi::MENO) {
@@ -332,9 +332,7 @@ void TilioteApuri::tiliPvmMuutos()
             ui->alkuDate->date().isValid() && ui->loppuDate->date().isValid()) {
         tosite()->setData( Tosite::OTSIKKO,
                        tr("Tiliote %1 - %2 %3")
-                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
-                       .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
-                       .arg( tili.tyyppiKoodi() == "ARP" ? tili.nimi() : ""));
+                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy"), ui->loppuDate->date().toString("dd.MM.yyyy"), tili.tyyppiKoodi() == "ARP" ? tili.nimi() : ""));
     }
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());

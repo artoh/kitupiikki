@@ -54,14 +54,14 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     ui->siirryEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[1-9][0-9]{0,7}")));
 
 
-    connect( ui->kaikkiNappi, &QPushButton::clicked, [this]() { this->suodataTila(0);}  );
-    connect( ui->kaytossaNappi, &QPushButton::clicked, [this]() {this->suodataTila(1);});
-    connect( ui->suosikitNappi, &QPushButton::clicked, [this]() { this->suodataTila(2); });
+    connect( ui->kaikkiNappi, &QPushButton::clicked, this, [this]() { this->suodataTila(0);}  );
+    connect( ui->kaytossaNappi, &QPushButton::clicked, this, [this]() {this->suodataTila(1);});
+    connect( ui->suosikitNappi, &QPushButton::clicked, this, [this]() { this->suodataTila(2); });
 
-    connect( ui->piilotaNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_PIILOSSA); } );
-    connect( ui->naytaNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_KAYTOSSA); } );
-    connect( ui->suosikkiNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_SUOSIKKI); } );
-    connect( ui->normaaliNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_NORMAALI); } );
+    connect( ui->piilotaNappi, &QPushButton::clicked, this, [this] () { this->muutaTila(Tili::TILI_PIILOSSA); } );
+    connect( ui->naytaNappi, &QPushButton::clicked, this, [this] () { this->muutaTila(Tili::TILI_KAYTOSSA); } );
+    connect( ui->suosikkiNappi, &QPushButton::clicked, this, [this] () { this->muutaTila(Tili::TILI_SUOSIKKI); } );
+    connect( ui->normaaliNappi, &QPushButton::clicked, this, [this] () { this->muutaTila(Tili::TILI_NORMAALI); } );
 
     connect(ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             this, SLOT(riviValittu(QModelIndex)));

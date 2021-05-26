@@ -53,14 +53,14 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 
         TilinValintaDialogi* dlg = new TilinValintaDialogi();
         if( alku.startsWith("*")) {
-            dlg->valitse(alku.mid(1).toInt());
+            dlg->valitse(alku.midRef(1).toInt());
         } else {
             dlg->suodata(alku);
         }
 
         int rivi = index.row();
         int sarake = index.column();
-        connect(dlg, &TilinValintaDialogi::tiliValittu,
+        connect(dlg, &TilinValintaDialogi::tiliValittu, this,
                 [model, rivi, sarake] (int tilinumero) { model->setData( model->index(rivi, sarake), tilinumero);} );
 
         dlg->show();

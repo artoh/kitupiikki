@@ -335,7 +335,7 @@ void LiiteTulostaja::tulostaViennit(QPainter *painter, const QVariantList &vienn
 
     painter->setFont(QFont("FreeSans",8));
 
-    for(QVariant vienti : viennit) {
+    for(const auto& vienti : qAsConst( viennit )) {
         painter->translate(0, painter->fontMetrics().height() );
 
         QVariantMap map = vienti.toMap();

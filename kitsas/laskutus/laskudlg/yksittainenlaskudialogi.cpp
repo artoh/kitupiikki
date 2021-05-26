@@ -31,7 +31,7 @@ YksittainenLaskuDialogi::YksittainenLaskuDialogi(Tosite *tosite, QWidget *parent
     : KantaLaskuDialogi(tosite, parent)
 {
     connect( tosite, &Tosite::laskuTallennettu, this, &YksittainenLaskuDialogi::tallennettu);
-    connect( tosite, &Tosite::tallennusvirhe, [this] () { QMessageBox::critical(this, tr("Tallennusvirhe"),
+    connect( tosite, &Tosite::tallennusvirhe, this, [this] () { QMessageBox::critical(this, tr("Tallennusvirhe"),
                                                                                       tr("Laskun tallennus epäonnistui")); });
 }
 

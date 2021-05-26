@@ -52,7 +52,7 @@ ViennitView::ViennitView(QWidget *parent)
     connect( this, &QTableView::doubleClicked, this, &ViennitView::muokkaa);
 
     viewport()->installEventFilter(this);
-    QTimer::singleShot(10, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("ViennitRuudukko").toByteArray());});
+    QTimer::singleShot(10, this, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("ViennitRuudukko").toByteArray());});
     horizontalHeader()->setSectionsMovable(true);
 }
 

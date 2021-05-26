@@ -52,7 +52,7 @@ QVariant AvausKohdennusModel::data(const QModelIndex &index, int role) const
         else {
             int kohdid = kohdennukset_.at(index.row()).id();
             qlonglong saldo = 0;
-            for( auto era : erat_) {
+            for( const auto& era : qAsConst( erat_ )) {
                 if( era.kohdennus() == kohdid) {
                     saldo = era.saldo();
                     break;

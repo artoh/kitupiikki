@@ -37,7 +37,7 @@ MaksutapaMuokkausDlg::~MaksutapaMuokkausDlg()
 
 QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
 {
-    for(QString kieli : kp()->asetukset()->kielet()) {
+    for(const QString& kieli : kp()->asetukset()->kielet()) {
         QListWidgetItem* item = new QListWidgetItem( lippu(kieli), ladattu.value(kieli).toString() , ui->nimiLista  );
         item->setData(Qt::UserRole, kieli);
         item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);

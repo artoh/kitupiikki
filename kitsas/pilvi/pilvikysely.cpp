@@ -73,7 +73,7 @@ void PilviKysely::kysy(const QVariant &data)
     }
 
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu );
-    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this,
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 
 
@@ -139,7 +139,7 @@ void PilviKysely::vastausSaapuu()
         if( metodi() == KpKysely::POST) {
             QString location = QString::fromLatin1(reply->rawHeader("Location"));
 
-            int lisattyid = location.mid( location.lastIndexOf('/') + 1 ).toInt();
+            int lisattyid = location.midRef( location.lastIndexOf('/') + 1 ).toInt();
             emit lisaysVastaus(vastaus_, lisattyid);
         }
     }

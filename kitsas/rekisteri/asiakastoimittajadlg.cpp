@@ -143,7 +143,7 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     ui->valittajaEdit->setText(map.value("operaattori").toString());
 
     ui->tilitLista->clear();
-    for(auto tili : map.value("iban").toList() ) {
+    for(const auto& tili : map.value("iban").toList() ) {
         QListWidgetItem* item = new QListWidgetItem(tili.toString());
         item->setFlags( item->flags() | Qt::ItemIsEditable );
         ui->tilitLista->insertItem(0, item);
@@ -260,7 +260,7 @@ void AsiakasToimittajaDlg::maventalookup()
        kp()->pilvi()->kayttajaPilvessa() && ui->valittajaEdit->text().isEmpty())  {
 
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "lookup";
-        QVariantMap pyynto;
+
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET,
                     osoite );
         pk->lisaaAttribuutti("mybid", kp()->asetukset()->ytunnus());
@@ -276,7 +276,7 @@ void AsiakasToimittajaDlg::maventalookup()
 
 void AsiakasToimittajaDlg::maventalookupSaapuu(QVariant* data) {
     QVariantList list = data->toList();
-    for(QVariant var : list) {
+    for(const QVariant& var : qAsConst( list )) {
         QVariantMap map=var.toMap();
         if(map.value("eia").toString().contains(QRegularExpression("\\D"))) {
             continue;
@@ -302,7 +302,7 @@ void AsiakasToimittajaDlg::dataTauluun(const QVariant &data)
     ui->nimiEdit->setText( tieto.value("name").toString() );
     ui->yEdit->setText(tieto.value("businessId").toString());
     QVariantList osoitteet = tieto.value("addresses").toList();
-    for(auto item : osoitteet) {
+    for(const auto& item : qAsConst( osoitteet )) {
         QVariantMap osoite = item.toMap();
         if( osoite.value("endDate").toDate().isValid() )
             continue;

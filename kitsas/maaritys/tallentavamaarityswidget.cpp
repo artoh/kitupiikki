@@ -89,7 +89,7 @@ bool TallentavaMaaritysWidget::nollaa()
                     Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
                     QString iban = tili->str("iban");
                     if( tili->tila() && !iban.isEmpty()) {
-                        ccombo->addItem(QString("%1 %2").arg(tili->nimi()).arg(iban),
+                        ccombo->addItem(QString("%1 %2").arg(tili->nimi(), iban),
                                         iban,
                                         Qt::Unchecked);
                     }

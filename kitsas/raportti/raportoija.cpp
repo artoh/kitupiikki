@@ -170,7 +170,7 @@ void Raportoija::dataSaapunut()
     tilit_.clear();
     tilit_.reserve( tilinumerot.count() + 1 );
     tilit_.append("0"); // Aloitusindeksi
-    for(int tilinumero : tilinumerot) {
+    for(const int tilinumero : qAsConst( tilinumerot )) {
         tilit_.append( QString::number(tilinumero) );
     }
     tilit_.sort();
@@ -311,7 +311,7 @@ void Raportoija::kirjoitaDatasta()
             int loppumerkit = loppu.length();
 
             // Sitten etsitään tilit listalle
-            for(QString tili : tilit_) {
+            for(const QString& tili : qAsConst( tilit_)) {
                 if( tili.left(alkumerkit) >= alku && tili.left(loppumerkit) <= loppu )
                     rivinTilit.append(tili.toInt());
             }
@@ -487,7 +487,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
             kysely->lisaaAttribuutti("pvm",loppuPaivat_.at(i));
             kysely->lisaaAttribuutti("tase");
             int sarake = ++sarakemaara_ -1;
-            connect(kysely, &KpKysely::vastaus,
+            connect(kysely, &KpKysely::vastaus, this,
                     [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
             kyselyt.append(kysely);
         }
@@ -511,7 +511,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                     kysely->lisaaAttribuutti("tuloslaskelma");
 
                 int sarake = ++sarakemaara_ -1;
-                connect(kysely, &KpKysely::vastaus,
+                connect(kysely, &KpKysely::vastaus, this,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
                 kyselyt.append(kysely);
             }
@@ -524,7 +524,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                 if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTILASKELMA)
                     kysely->lisaaAttribuutti("kohdennukset");
                 int sarake = ++sarakemaara_ -1;
-                connect(kysely, &KpKysely::vastaus,
+                connect(kysely, &KpKysely::vastaus, this,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
                 kyselyt.append(kysely);
             }

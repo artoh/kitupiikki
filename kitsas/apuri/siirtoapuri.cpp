@@ -37,9 +37,9 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::sntMuuttui, this, &SiirtoApuri::tositteelle);
 
-    connect( ui->tililtaEraCombo, &EraCombo::valittu, [this] (EraMap era)
+    connect( ui->tililtaEraCombo, &EraCombo::valittu, this,  [this] (EraMap era)
         {this->eraValittu(false, era);});
-    connect( ui->tililleEraCombo, &EraCombo::valittu, [this] (EraMap era)
+    connect( ui->tililleEraCombo, &EraCombo::valittu, this, [this] (EraMap era)
         {this->eraValittu(true, era);});
 
     ui->tililtaMerkkausCC->haeMerkkaukset( tosite->pvm() );
@@ -194,7 +194,7 @@ void SiirtoApuri::haeAlkuperaistosite(bool debet, int eraId)
 {
     KpKysely *kysely = kpk("/tositteet");
     kysely->lisaaAttribuutti("vienti", eraId);
-    connect(kysely, &KpKysely::vastaus, [debet, this] (QVariant* data)
+    connect(kysely, &KpKysely::vastaus, this,  [debet, this] (QVariant* data)
         { this->tositeSaapuu(debet, data); });
     kysely->kysy();
 }
@@ -202,7 +202,7 @@ void SiirtoApuri::haeAlkuperaistosite(bool debet, int eraId)
 void SiirtoApuri::tositeSaapuu(bool debet, QVariant *data)
 {
     QVariantList lista = data->toMap().value("viennit").toList();
-    for(const auto& item : lista) {
+    for(const auto& item : qAsConst( lista )) {
         // Tarvitaan vain, jos maksuperusteisia alveja
         if( item.toMap().value("alvkoodi").toInt() / 100 == 4) {
             if( debet)

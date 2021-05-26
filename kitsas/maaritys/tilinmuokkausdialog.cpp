@@ -59,8 +59,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->ibanLine, SIGNAL(textEdited(QString) ), this, SLOT( ibanCheck()) );
     connect( ui->numeroEdit, &QLineEdit::textEdited, this, &TilinMuokkausDialog::numeroCheck);
-    connect( ui->vastaCombo, &TiliCombo::tiliValittu, [this] (int tili) { ui->vastaCheck->setChecked(tili); } );
-    connect( ui->vastaCheck, &QCheckBox::clicked, [this] (bool tila) { if(!tila) ui->vastaCombo->setCurrentIndex(-1); } );
+    connect( ui->vastaCombo, &TiliCombo::tiliValittu, this, [this] (int tili) { ui->vastaCheck->setChecked(tili); } );
+    connect( ui->vastaCheck, &QCheckBox::clicked, this, [this] (bool tila) { if(!tila) ui->vastaCombo->setCurrentIndex(-1); } );
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tililuettelo");});
 

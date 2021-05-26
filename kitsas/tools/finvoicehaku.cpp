@@ -60,7 +60,7 @@ void FinvoiceHaku::haeUudet()
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + ytunnus_;
         PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
         connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::listaSaapuu);
-        connect( haku, &KpKysely::virhe, [this] { this->hakuPaalla_=false;});
+        connect( haku, &KpKysely::virhe, this, [this] { this->hakuPaalla_=false;});
         haku->kysy();
 
         // Haetaan myös statustiedot

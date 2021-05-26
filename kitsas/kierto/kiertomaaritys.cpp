@@ -50,7 +50,7 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
 
     connect(ui->alatunnisteEdit, &QPlainTextEdit::textChanged, this, &KiertoMaaritys::ohjeMuokattu);
     connect(ui->ocrCheck, &QCheckBox::clicked, this, &KiertoMaaritys::ohjeMuokattu);
-    connect(ui->tallennaNappi, &QPushButton::clicked, [this] () {
+    connect(ui->tallennaNappi, &QPushButton::clicked, this, [this] () {
         kp()->asetukset()->aseta("PortaaliOhje", ui->alatunnisteEdit->toPlainText());
         kp()->asetukset()->aseta("PortaaliOCR", ui->ocrCheck->isChecked());
         this->ohjeMuokattu();

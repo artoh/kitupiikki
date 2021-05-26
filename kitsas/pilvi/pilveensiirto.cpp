@@ -130,7 +130,7 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     kysely->kysy(map);
     ui->progressBar->setValue(10);
 
-    for(auto tk : init.value("tilikaudet").toList()) {
+    for(const auto& tk : init.value("tilikaudet").toList()) {
         QVariantMap tkmap = tk.toMap();
         tilikaudet.append( tkmap.value("alkaa").toString());
     }
@@ -203,7 +203,7 @@ void PilveenSiirto::haeKumppaniLista()
 void PilveenSiirto::kumppaniListaSaapuu(QVariant *data)
 {
     const QVariantList& lista = data->toList();
-    for( auto item : lista) {
+    for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
         int id = map.value("id").toInt();
         QString nimi = map.value("nimi").toString();
@@ -285,7 +285,7 @@ void PilveenSiirto::tallennaTosite(QVariant *data)
         laskuMap.insert("numero", laskuMap.value("numero").toInt());
         laskuMap.insert("viivkorko", laskuMap.value("viivkorko").toDouble());
         QStringList keys = laskuMap.keys();
-        for( auto key : keys) {
+        for( const auto& key : qAsConst( keys )) {
             if( laskuMap.value(key).isNull())
                 laskuMap.remove(key);
         }
@@ -345,10 +345,10 @@ void PilveenSiirto::tallennaSeuraavaLiite()
 
 void PilveenSiirto::tallennaBudjetit()
 {
-    for(QString kausi : tilikaudet) {
+    for(const QString& kausi : qAsConst(tilikaudet)) {
         KpKysely *haku = kpk(QString("/budjetti/%1").arg(kausi));
         haku->lisaaAttribuutti("kohdennukset");
-        connect( haku, &KpKysely::vastaus, [this, kausi] (QVariant *data) { this->tallennaBudjetti(kausi, data); } );
+        connect( haku, &KpKysely::vastaus, this, [this, kausi] (QVariant *data) { this->tallennaBudjetti(kausi, data); } );
         haku->kysy();
     }
 }

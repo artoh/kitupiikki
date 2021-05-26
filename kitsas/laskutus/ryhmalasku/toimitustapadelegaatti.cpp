@@ -95,7 +95,7 @@ QIcon ToimitustapaDelegaatti::icon(int koodi)
 
 void ToimitustapaDelegaatti::alustaCombobox(QComboBox *combo, const QVariantList &tavat)
 {
-    for(auto item : tavat) {
+    for(const auto& item : tavat) {
         int koodi = item.toInt();
         combo->addItem( icon(koodi), toimitustapa(koodi), koodi);
     }

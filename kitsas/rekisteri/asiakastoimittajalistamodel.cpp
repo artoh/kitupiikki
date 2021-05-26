@@ -50,7 +50,7 @@ QVariant AsiakasToimittajaListaModel::data(const QModelIndex &index, int role) c
 
 int AsiakasToimittajaListaModel::idAlvTunnuksella(const QString tunnus) const
 {
-    for(auto item : lista_) {
+    for(const auto& item : qAsConst( lista_ )) {
         if( item.alvtunnus == tunnus)
             return item.id;
     }
@@ -59,7 +59,7 @@ int AsiakasToimittajaListaModel::idAlvTunnuksella(const QString tunnus) const
 
 int AsiakasToimittajaListaModel::idNimella(const QString &nimi) const
 {
-    for(auto item : lista_) {
+    for(const auto& item : qAsConst( lista_ )) {
         if( item.nimi == nimi)
             return item.id;
     }
@@ -102,7 +102,7 @@ void AsiakasToimittajaListaModel::saapuu(QVariant *variant)
     lista_.clear();
     QVariantList lista = variant->toList();
 
-    for( auto item : lista) {
+    for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
         lista_.append( Item( map.value("id").toInt(), map.value("nimi").toString(),
                              map.value("alvtunnus").toString()) );

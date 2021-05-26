@@ -134,7 +134,7 @@ void KirjausSivu::lisaaKirjattavienKansiosta()
     dir.setFilter( QDir::Files );
     dir.setSorting( QDir::Name );
     QFileInfoList list = dir.entryInfoList();
-    for( const QFileInfo& info : list)
+    for( const QFileInfo& info : qAsConst(list))
     {
         QString tiedostonimi = info.fileName().toLower();
         if( tiedostonimi.endsWith(".pdf")  || tiedostonimi.endsWith(".jpg") ||

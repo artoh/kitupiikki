@@ -87,7 +87,7 @@ void KayttooikeusModel::listaSaapuu(QVariant *data)
     beginResetModel();
 
     kayttajat_.clear();
-    for(auto item : data->toList())
+    for(const auto& item : data->toList())
         kayttajat_.append(Kayttaja(item));
 
     endResetModel();
@@ -99,7 +99,7 @@ KayttooikeusModel::Kayttaja::Kayttaja(const QVariant &data)
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
     QVariantList list = map.value("rights").toList();
-    for(auto item: list) {
+    for(const auto& item: qAsConst( list )) {
         oikeudet_.append(item.toString());
     }
 }

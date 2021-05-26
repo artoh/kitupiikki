@@ -144,24 +144,24 @@ void NaytinIkkuna::teeToolbar()
     tb->addSeparator();
 
     avaaAktio_ = tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));
-    connect( avaaAktio_, &QAction::triggered, [this] {this->view()->avaaOhjelmalla();});
+    connect( avaaAktio_, &QAction::triggered, this,  [this] {this->view()->avaaOhjelmalla();});
 
     QAction* tallennaAktio = tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"));
-    connect(tallennaAktio, &QAction::triggered, [this] { this->view()->tallenna();});
+    connect(tallennaAktio, &QAction::triggered, this, [this] { this->view()->tallenna();});
 
     tb->addSeparator();
 
     QAction *tulostaAktio = tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
-    connect( tulostaAktio, &QAction::triggered, [this] {this->view()->tulosta() ;} );
+    connect( tulostaAktio, &QAction::triggered, this, [this] {this->view()->tulosta() ;} );
 
     tb->addSeparator();
 
     raitaAktio_ = tb->addAction(QIcon(":/pic/raidoitus.png"), tr("Raidat"));
-    connect( raitaAktio_, &QAction::triggered, [this] (bool raidat) { this->view()->raidoita(raidat); });
+    connect( raitaAktio_, &QAction::triggered, this, [this] (bool raidat) { this->view()->raidoita(raidat); });
     raitaAktio_->setCheckable(true);
 
     sivunAsetusAktio_ = tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
-    connect( sivunAsetusAktio_, &QAction::triggered, [this] {this->view()->sivunAsetukset();} );
+    connect( sivunAsetusAktio_, &QAction::triggered, this, [this] {this->view()->sivunAsetukset();} );
 
 
 
@@ -173,15 +173,15 @@ void NaytinIkkuna::teeToolbar()
     QMenu *htmlMenu = new QMenu();
 
     QAction* htmlAvaaAktio = new QAction( QIcon(":/pic/web.png"), tr("Avaa selaimella"));
-    connect( htmlAvaaAktio, &QAction::triggered, [this] {this->view()->avaaHtml();} );
+    connect( htmlAvaaAktio, &QAction::triggered, this,  [this] {this->view()->avaaHtml();} );
     htmlMenu->addAction(htmlAvaaAktio);
 
     QAction *htmlLeikepoytaAktio = new QAction( QIcon(":/pic/edit-paste.png"), tr("Leikepöydälle"));
-    connect( htmlLeikepoytaAktio, &QAction::triggered, [this] {this->view()->htmlLeikepoydalle();});
+    connect( htmlLeikepoytaAktio, &QAction::triggered, this, [this] {this->view()->htmlLeikepoydalle();});
     htmlMenu->addAction(htmlLeikepoytaAktio);
 
     QAction *htmlTiedostoonAktio = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tiedostoon"));
-    connect( htmlTiedostoonAktio, &QAction::triggered, [this] {this->view()->tallennaHtml();});
+    connect( htmlTiedostoonAktio, &QAction::triggered, this, [this] {this->view()->tallennaHtml();});
     htmlMenu->addAction(htmlTiedostoonAktio);
 
     htmlBtn->setMenu(htmlMenu);
@@ -194,15 +194,15 @@ void NaytinIkkuna::teeToolbar()
     QMenu *csvValikko = new QMenu();
 
     QAction *csvLeikepoydelleAktio = new QAction( QIcon(":/pic/edit-paste.png"), tr("Leikepöydälle") );
-    connect( csvLeikepoydelleAktio, &QAction::triggered, [this] { this->view()->csvLeikepoydalle();});
+    connect( csvLeikepoydelleAktio, &QAction::triggered, this, [this] { this->view()->csvLeikepoydalle();});
     csvValikko->addAction(csvLeikepoydelleAktio);
     QAction *csvTallennaAktio = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tiedostoon"));
-    connect( csvTallennaAktio, &QAction::triggered, [this] { this->view()->tallennaCsv();});
+    connect( csvTallennaAktio, &QAction::triggered, this, [this] { this->view()->tallennaCsv();});
     csvValikko->addAction(csvTallennaAktio);
     csvValikko->addSeparator();
 
     QAction *csvAsetukset = new QAction( QIcon(":/pic/ratas.png"), tr("CSV:n muoto"));
-    connect( csvAsetukset, &QAction::triggered, [this] { this->view()->csvAsetukset();} );
+    connect( csvAsetukset, &QAction::triggered, this, [this] { this->view()->csvAsetukset();} );
     csvValikko->addAction(csvAsetukset);
 
     csvBtn->setMenu(csvValikko);
@@ -212,15 +212,15 @@ void NaytinIkkuna::teeToolbar()
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
-    connect( zoomAktio_, &QAction::triggered, [this] { this->view()->zoomFit();} );
+    connect( zoomAktio_, &QAction::triggered, this, [this] { this->view()->zoomFit();} );
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
-    connect( zoomInAktio_, &QAction::triggered, [this] { this->view()->zoomIn(); });
+    connect( zoomInAktio_, &QAction::triggered, this, [this] { this->view()->zoomIn(); });
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
-    connect( zoomOutAktio_, &QAction::triggered, [this] { this->view()->zoomOut();} );
+    connect( zoomOutAktio_, &QAction::triggered, this, [this] { this->view()->zoomOut();} );
 
     tb->addAction(zoomAktio_);
     tb->addAction(zoomInAktio_);

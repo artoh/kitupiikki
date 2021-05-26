@@ -46,8 +46,8 @@ TilioteView::TilioteView(QWidget *parent) :
 
     setFocusPolicy(Qt::StrongFocus);
 
-    QTimer::singleShot(15, [this] {this->horizontalHeader()->setSectionResizeMode( TilioteRivi::SELITE, QHeaderView::Stretch );});
-    QTimer::singleShot(10, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("TilioteRuudukko").toByteArray());});
+    QTimer::singleShot(15, this, [this] {this->horizontalHeader()->setSectionResizeMode( TilioteRivi::SELITE, QHeaderView::Stretch );});
+    QTimer::singleShot(10, this, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("TilioteRuudukko").toByteArray());});
 
 }
 

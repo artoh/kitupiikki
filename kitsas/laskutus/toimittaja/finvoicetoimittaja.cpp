@@ -46,7 +46,7 @@ void FinvoiceToimittaja::toimita()
 
         KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppani));
         connect( kysely, &KpKysely::vastaus, this, &FinvoiceToimittaja::kumppaniSaapuu);
-        connect( kysely, &KpKysely::virhe, [this] {  this->virhe(tr("Asiakkaan tietojen noutaminen epäonnistui"));} );
+        connect( kysely, &KpKysely::virhe, this, [this] {  this->virhe(tr("Asiakkaan tietojen noutaminen epäonnistui"));} );
 
         kysely->kysy();
         } else {
@@ -69,7 +69,7 @@ void FinvoiceToimittaja::alustaInit()
     init_.insert("kaupunki", asetukset->asetus(AsetusModel::Kaupunki));
 
     QVariantList tilit;
-    for(const Iban iban : asetukset->asetus(AsetusModel::LaskuIbanit).split(',')) {
+    for(const Iban& iban : asetukset->asetus(AsetusModel::LaskuIbanit).split(',')) {
         QVariantMap tili;
         tili.insert("iban", iban.valeitta());
         tili.insert("bic", iban.bic());
@@ -123,7 +123,7 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
                     osoite );
         if( kp()->asetukset()->onko("FinvoiceSOAP")) pk->lisaaAttribuutti("soap");
         connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::laskuSaapuu);
-        connect( pk, &KpKysely::virhe, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
+        connect( pk, &KpKysely::virhe, this, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
 
         pk->kysy(pyynto);
 
@@ -133,7 +133,7 @@ void FinvoiceToimittaja::kumppaniSaapuu(QVariant *kumppani)
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                     osoite );
         connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::maventaToimitettu);
-        connect( pk, &KpKysely::virhe, [this] (int, QString selite) {  this->virhe(selite);} );
+        connect( pk, &KpKysely::virhe, this, [this] (int, QString selite) {  this->virhe(selite);} );
 
         pk->kysy(pyynto);
     }

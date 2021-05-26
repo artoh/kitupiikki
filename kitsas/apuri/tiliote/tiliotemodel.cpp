@@ -183,7 +183,7 @@ void TilioteModel::tilaaAlkuperaisTosite(int rivinLisaysIndeksi, int eraId)
 {
     KpKysely *kysely = kitsas()->yhteysModel()->kysely("/tositteet");
     kysely->lisaaAttribuutti("vienti", eraId);
-    connect( kysely, &KpKysely::vastaus,
+    connect( kysely, &KpKysely::vastaus, this,
              [this, rivinLisaysIndeksi, eraId] (QVariant* data) { this->alkuperaisTositeSaapuu(rivinLisaysIndeksi, data, eraId); } );
     kysely->kysy();
 }

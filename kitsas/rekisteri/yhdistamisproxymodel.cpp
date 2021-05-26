@@ -33,7 +33,7 @@ void YhdistamisProxyModel::suodataNimella(const QString &nimi)
 {
     QStringList raakalista = nimi.split(QRegularExpression("\\W+", QRegularExpression::UseUnicodePropertiesOption));
     nimiPalat_.clear();
-    for(QString ehdokas : raakalista) {
+    for(const QString& ehdokas : qAsConst( raakalista )) {
         if( ehdokas.length() > 3)
             nimiPalat_.append(ehdokas);
     }
@@ -48,7 +48,7 @@ bool YhdistamisProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
     if( nimiPalat_.isEmpty())
         return true;
     QString nimi = idx.data(AsiakkaatModel::NimiRooli).toString();
-    for(QString pala : nimiPalat_) {
+    for(const auto& pala : qAsConst( nimiPalat_ )) {
         if( nimi.contains(pala, Qt::CaseInsensitive))
             return true;
     }

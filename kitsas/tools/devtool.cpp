@@ -246,7 +246,7 @@ void DevTool::vie()
                                                     tr("Kitsaan tilikartta (*.kitsaskartta)","kitsaskartta on tiedostopääte - älä käännä!"));
     if( !tiedosto.isEmpty()) {
         KpKysely* kysely = kpk("/init");
-        connect(kysely, &KpKysely::vastaus, [this, tiedosto] (QVariant* data) {this->vieKartta(data, tiedosto);}  );
+        connect(kysely, &KpKysely::vastaus, this, [this, tiedosto] (QVariant* data) {this->vieKartta(data, tiedosto);}  );
         kysely->kysy();
     }
 }
@@ -337,7 +337,7 @@ void DevTool::alustaRistinolla()
             peliNappi->setIconSize(QSize(64,64));
             ui->peliLeiska->addWidget(peliNappi,x,y);
 
-            connect( peliNappi, &QPushButton::clicked, [this, x,y] { peliNapautus(y*3+x); });
+            connect( peliNappi, &QPushButton::clicked, this, [this, x,y] { peliNapautus(y*3+x); });
         }
     }
     connect( ui->uusipeliNappi, SIGNAL(clicked(bool)), this, SLOT(uusiPeli()));

@@ -72,7 +72,7 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
 int PilviModel::omatPilvet() const
 {
     int omia = 0;
-    for( auto pilvi : data_.value("clouds").toList())
+    for( const auto& pilvi : data_.value("clouds").toList())
         if( oikeudet( pilvi.toMap().value("rights").toList() ) & YhteysModel::OMISTAJA )
             omia++;
 
@@ -255,7 +255,7 @@ void PilviModel::kirjautuminenValmis()
     if( kp()->settings()->value("Viimeisin").toInt() > 0 && !kp()->yhteysModel())
         avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
-    connect( kp(), &Kirjanpito::perusAsetusMuuttui, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
 }
 
 void PilviModel::paivitysValmis(QVariant *paluu)
@@ -312,7 +312,7 @@ void PilviModel::tilaaLogo(const QVariantMap &map)
     request.setRawHeader("Authorization", QString("bearer %1").arg( map.value("token").toString() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
     QNetworkReply *reply = kp()->networkManager()->get(request);
-    connect( reply, &QNetworkReply::finished, [this, id, reply]
+    connect( reply, &QNetworkReply::finished, this, [this, id, reply]
     {
         if( reply->error())
             this->logot_.insert(id, QPixmap());

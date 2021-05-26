@@ -220,11 +220,15 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     if( avaimenAlku.isEmpty())
         return asetukset_.keys();
     QStringList vastaus;
-    foreach (QString avain, asetukset_.keys())
-    {
-        if( avain.startsWith(avaimenAlku))
-            vastaus.append( avain);
+
+    QHashIterator<QString,QString> iter(asetukset_);
+    while( iter.hasNext()) {
+        iter.next();
+        if( iter.key().startsWith(avaimenAlku)) {
+            vastaus.append(iter.key());
+        }
     }
+
     return vastaus;
 }
 

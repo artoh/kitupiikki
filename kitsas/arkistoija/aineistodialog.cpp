@@ -93,7 +93,7 @@ void AineistoDialog::accept()
     QPdfWriter *writer = new QPdfWriter(ui->tiedostoEdit->text());
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(tilikausi_.kausivaliTekstina()));
-    writer->setCreator(QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+    writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
@@ -166,7 +166,7 @@ void AineistoDialog::paivitaNimi()
         QString nimi = kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi);
         nimi.replace(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption),"");
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->tilikausiCombo->currentIndex());
-        ui->tiedostoEdit->setText(hakemisto.absoluteFilePath(QString("%1-%2.pdf").arg(nimi).arg(kausi.pitkakausitunnus())));
+        ui->tiedostoEdit->setText(hakemisto.absoluteFilePath(QString("%1-%2.pdf").arg(nimi, kausi.pitkakausitunnus())));
     }
 }
 
@@ -189,8 +189,8 @@ void AineistoDialog::tilaaRaportit()
         if( ui->taseCheck->isChecked()) {
             Raportoija* tase = new Raportoija("tase/yleinen", kieli_, this, Raportoija::TASE);
             tase->lisaaTasepaiva(tilikausi_.paattyy());
-            connect(tase, &Raportoija::valmis, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            connect(tase, &Raportoija::tyhjaraportti, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
+            connect(tase, &Raportoija::valmis, this, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
+            connect(tase, &Raportoija::tyhjaraportti, this, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
             tase->kirjoita(true);
             tilattuja++;
         }
@@ -198,15 +198,15 @@ void AineistoDialog::tilaaRaportit()
         if( ui->tuloslaskelmaCheck->isChecked()) {
             Raportoija* tulos = new Raportoija("tulos/yleinen", kieli_, this, Raportoija::TULOSLASKELMA);
             tulos->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-            connect(tulos, &Raportoija::valmis, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            connect(tulos, &Raportoija::tyhjaraportti, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
+            connect(tulos, &Raportoija::valmis, this, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
+            connect(tulos, &Raportoija::tyhjaraportti, this, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
             tulos->kirjoita(true);
             tilattuja++;
         }
 
         if( ui->erittelyCheck->isChecked()) {
             TaseErittelija *erittely = new TaseErittelija(this, kieli_);
-            connect( erittely, &TaseErittelija::valmis,
+            connect( erittely, &TaseErittelija::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
             erittely->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
             tilattuja++;
@@ -214,7 +214,7 @@ void AineistoDialog::tilaaRaportit()
 
         if( ui->paivakirjaCheck->isChecked()) {
             Paivakirja *paivakirja = new Paivakirja(this, kieli_);
-            connect( paivakirja, &Paivakirja::valmis,
+            connect( paivakirja, &Paivakirja::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
             paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(), Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
             tilattuja++;
@@ -222,7 +222,7 @@ void AineistoDialog::tilaaRaportit()
 
         if( ui->paakirjaCheck->isChecked()) {
             Paakirja *paakirja = new Paakirja(this, kieli_);
-            connect( paakirja, &Paakirja::valmis,
+            connect( paakirja, &Paakirja::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
             paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(), Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
             tilattuja++;
@@ -231,7 +231,7 @@ void AineistoDialog::tilaaRaportit()
 
     if( ui->tililuetteloGroup->isChecked()) {
         TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
-        connect( tililuettelo, &TiliKarttaListaaja::valmis,
+        connect( tililuettelo, &TiliKarttaListaaja::valmis, this,
                  [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
         tililuettelo->kirjoita( ui->kaikkitlRadio->isChecked() ? TiliKarttaListaaja::KAIKKI_TILIT :
                                                                  ( ui->laajuustlRadio->isChecked() ? TiliKarttaListaaja::KAYTOSSA_TILIT : TiliKarttaListaaja::KIRJATUT_TILIT),
@@ -243,7 +243,7 @@ void AineistoDialog::tilaaRaportit()
 
         if( ui->myyntilaskutCheck->isChecked()) {
             LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this, kieli_);
-            connect( myyntilaskut, &LaskuRaportteri::valmis,
+            connect( myyntilaskut, &LaskuRaportteri::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
             myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
             tilattuja++;
@@ -251,7 +251,7 @@ void AineistoDialog::tilaaRaportit()
 
         if( ui->ostolaskutCheck->isChecked()) {
             LaskuRaportteri* ostolaskut = new LaskuRaportteri(this, kieli_);
-            connect( ostolaskut, &LaskuRaportteri::valmis,
+            connect( ostolaskut, &LaskuRaportteri::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja,rk);});
             ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
             tilattuja++;
@@ -260,7 +260,7 @@ void AineistoDialog::tilaaRaportit()
 
         if( ui->tositeluetteloCheck->isChecked()) {
             TositeLuettelo* luettelo = new TositeLuettelo(this, kieli_);
-            connect( luettelo, &TositeLuettelo::valmis,
+            connect( luettelo, &TositeLuettelo::valmis, this,
                      [this,tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
             luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
                                TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::SamaTilikausi |
@@ -411,7 +411,7 @@ void AineistoDialog::tilaaLiite()
     } else {
         QPair<int,QString> liitetieto = liiteJono_.dequeue();
         KpKysely *liiteHaku = kpk(QString("/liitteet/%1").arg(liitetieto.first));
-        connect( liiteHaku, &KpKysely::vastaus,
+        connect( liiteHaku, &KpKysely::vastaus, this,
                  [this, liitetieto] (QVariant* data) { this->tilattuLiiteSaapuu(data, liitetieto.second); });
         liiteHaku->kysy();
     }

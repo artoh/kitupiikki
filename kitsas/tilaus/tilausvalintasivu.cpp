@@ -116,7 +116,7 @@ void TilausValintaSivu::paivita()
                      .arg( kp()->pilvi()->omatPilvet()));
 
     ui->infoLabel->setText(info);
-    completeChanged();
+    emit completeChanged();
 }
 
 QVariant TilausValintaSivu::tilaus(int rooli) const

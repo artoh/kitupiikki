@@ -35,7 +35,7 @@ UusiAlkuSivu::UusiAlkuSivu() :
     connect( kp()->pilvi(), &PilviModel::kirjauduttu,
              this, &UusiAlkuSivu::paivitaKirjautuminen);
 
-    connect( ui->tilausNappi, &QPushButton::clicked,
+    connect( ui->tilausNappi, &QPushButton::clicked, this,
              []() { TilausWizard *tilaus = new TilausWizard();
                     tilaus->nayta();} );
 

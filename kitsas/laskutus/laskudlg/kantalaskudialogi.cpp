@@ -141,12 +141,12 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->eraDate, &KpDateEdit::dateChanged, this, &KantaLaskuDialogi::laskeMaksuaika);
 
     connect( ui->esikatseluNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::naytaEsikatselu);
-    connect( ui->luonnosNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LUONNOS); } );
-    connect( ui->tallennaNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::VALMISLASKU); } );
-    connect( ui->valmisNappi, &QPushButton::clicked, [this] { this->tallenna(Tosite::LAHETETAAN); } );
+    connect( ui->luonnosNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LUONNOS); } );
+    connect( ui->tallennaNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::VALMISLASKU); } );
+    connect( ui->valmisNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LAHETETAAN); } );
 
     connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
-    connect( ui->ohjeNappi, &QPushButton::clicked, [this] { kp()->ohje( this->ohje() ); });
+    connect( ui->ohjeNappi, &QPushButton::clicked, this, [this] { kp()->ohje( this->ohje() ); });
 
 }
 
@@ -249,7 +249,6 @@ void KantaLaskuDialogi::jatkaTositteelta()
 
     ViiteNumero viite( lasku.viite() );
     if( viite.tyyppi() == ViiteNumero::VAKIOVIITE || viite.tyyppi() == ViiteNumero::HUONEISTO ) {
-        QString yksviite = ui->tarkeCombo->model()->index(0,0).data(HuoneistoModel::ViiteRooli).toString();
         ui->tarkeCombo->setCurrentIndex( ui->tarkeCombo->findData( viite.viite(), HuoneistoModel::ViiteRooli ) );
     }
 
@@ -444,7 +443,7 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
     }
 
     laskutusTapaMuuttui();
-    maksuTapaMuuttui();
+    KantaLaskuDialogi::maksuTapaMuuttui();
     paivitysKaynnissa_ = false;
     paivitaValvonnat();
 

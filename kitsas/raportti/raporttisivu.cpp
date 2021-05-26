@@ -78,7 +78,7 @@ void RaporttiSivu::siirrySivulle()
     // Lisätään muokattavat raportit
     QStringList raporttilista;
 
-    for (QString rnimi : kp()->asetukset()->avaimet("Raportti/") )
+    for (const QString& rnimi : kp()->asetukset()->avaimet("Raportti/") )
     {
         // Kohdennusraportit kuitenkin vain, jos kohdennuksia käytettävissä
         if( kp()->asetukset()->asetus(rnimi).startsWith(":kohdennus") && !kp()->kohdennukset()->kohdennuksia() )

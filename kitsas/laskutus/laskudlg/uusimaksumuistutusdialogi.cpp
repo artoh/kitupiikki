@@ -64,7 +64,7 @@ void UusiMaksumuistutusDialogi::eraSaapuu(QVariant *data)
         QVariantMap lmap = item.toMap();
         int id = lmap.value("tosite").toMap().value("id").toInt();
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
-        connect( kysely, &KpKysely::vastaus,
+        connect( kysely, &KpKysely::vastaus, this,
                  [this, eraid] (QVariant* vastaus) {this->tositeSaapuu(eraid, vastaus);});
         kysely->kysy();
     }
@@ -185,7 +185,7 @@ void UusiMaksumuistutusDialogi::merkkaaMuistutetuksi(const QVariantMap &data)
 
 
     QVariantList lista = data.value("lasku").toMap().value("aiemmat").toList();
-    for(const auto& item : lista) {
+    for(const auto& item :  qAsConst( lista )) {
         QVariantMap map = item.toMap();
         if( map.value("tila").toInt() != Tosite::MUISTUTETTU) {
             KpKysely *mkysely = kpk(QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PATCH);

@@ -46,7 +46,7 @@ void AlvLaskelma::kirjoitaLaskelma()
 void AlvLaskelma::kirjoitaOtsikot()
 {
     rk.asetaOtsikko( kaanna("ARVONLISÄVEROLASKELMA"));
-    rk.asetaKausiteksti( QString("%1 - %2").arg(alkupvm_.toString("dd.MM.yyyy")).arg(loppupvm_.toString("dd.MM.yyyy") ) );
+    rk.asetaKausiteksti( QString("%1 - %2").arg(alkupvm_.toString("dd.MM.yyyy"), loppupvm_.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();
     rk.lisaaSarake("TOSITE12345");
@@ -140,8 +140,7 @@ void AlvLaskelma::kirjaaVerot()
     Euro vahennys = taulu_.summa(200,299);
 
     QString selite = kaanna("Arvonlisävero %1 - %2")
-            .arg( alkupvm_.toString("dd.MM.yyyy") )
-            .arg( loppupvm_.toString("dd.MM.yyyy"));
+            .arg( alkupvm_.toString("dd.MM.yyyy"), loppupvm_.toString("dd.MM.yyyy"));
 
     if( vero ) {
         TositeVienti verot;
@@ -309,7 +308,7 @@ void AlvLaskelma::tilaaMaksuperusteisenTosite()
         QPair<int,qlonglong> nollattava = nollattavatErat_.takeFirst();
         KpKysely *kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("vienti", nollattava.first);
-        connect( kysely, &KpKysely::vastaus, [this, nollattava] (QVariant* var) { this->maksuperusteTositesaapuu(var, nollattava.second);});
+        connect( kysely, &KpKysely::vastaus, this, [this, nollattava] (QVariant* var) { this->maksuperusteTositesaapuu(var, nollattava.second);});
         kysely->kysy();
         nollatutErat_.insert(nollattava.first);
     } else {
@@ -331,7 +330,7 @@ void AlvLaskelma::tilaaMaksuperusteisenTosite()
             KpKysely *kysely = kpk("/tositteet");
             kysely->lisaaAttribuutti("vienti",era);
 
-            connect( kysely, &KpKysely::vastaus, [this, saldo] (QVariant* var) {this->maksuperusteTositesaapuu(var, saldo);});
+            connect( kysely, &KpKysely::vastaus, this, [this, saldo] (QVariant* var) {this->maksuperusteTositesaapuu(var, saldo);});
             kysely->kysy();
         }
     }
@@ -376,7 +375,7 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, Euro euro)
             kohdentamattomasta.setDebet( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy")).arg(vienti.selite());
+            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy"), vienti.selite());
             kohdentamattomasta.setSelite(selite);
             kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
             lisaaKirjausVienti(kohdentamattomasta);
@@ -395,7 +394,7 @@ void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, Euro euro)
             kohdentamattomasta.setKredit( eurot );
             kohdentamattomasta.setEra(vienti.era());
             kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy")).arg(vienti.selite());
+            QString selite = kaanna("Maksuperusteinen alv %1 %2").arg(vienti.pvm().toString("dd.MM.yyyy"), vienti.selite());
             kohdentamattomasta.setSelite(selite);
             kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO);
             lisaaKirjausVienti(kohdentamattomasta);
@@ -417,12 +416,12 @@ void AlvLaskelma::tilaaNollausLista(const QDate &pvm)
 {
     KpKysely *kysely = kpk("/erat");
     kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
-    connect( kysely, &KpKysely::vastaus, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
+    connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
     kysely->kysy();
 
     kysely = kpk("/erat");
     kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero());
-    connect( kysely, &KpKysely::vastaus, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
+    connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
     kysely->kysy();
 }
 
@@ -633,7 +632,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
     qDebug() << " =======HUOJENNUSLASKELMA==================";
 
-    for( TositeVienti vienti : lista ) {
+    for( const auto& vienti : lista ) {
 
         if( vienti.tyyppi() == TositeVienti::BRUTTOOIKAISU)
             continue;
@@ -792,8 +791,7 @@ void AlvLaskelma::tallenna()
 {
     tosite_->setData( Tosite::PVM, loppupvm_ );
     tosite_->setData( Tosite::OTSIKKO, kaanna("Arvonlisäveroilmoitus %1 - %2")
-                     .arg(alkupvm_.toString("dd.MM.yyyy"))
-                     .arg(loppupvm_.toString("dd.MM.yyyy")));
+                     .arg(alkupvm_.toString("dd.MM.yyyy"), loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
 
     tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf", "alv" );
@@ -848,9 +846,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             Euro vero = brutto - netto;
 
             QString selite = kaanna("Bruttomyyntien oikaisu %3 BRUTTO %1, NETTO %2")
-                    .arg(brutto.display(true) )
-                    .arg(netto.display(true) )
-                    .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
+                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
 
             TositeVienti pois;
             pois.setTili(tili);
@@ -894,9 +890,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             Euro vero = brutto - netto;
 
             QString selite = kaanna("Brutto-ostojen oikaisu %3 BRUTTO %1, NETTO %2")
-                    .arg(brutto.display(true))
-                    .arg(netto.display(true))
-                    .arg( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
+                    .arg(brutto.display(true), netto.display(true), kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
 
             TositeVienti pois;
             pois.setTili(tili);

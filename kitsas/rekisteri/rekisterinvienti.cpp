@@ -99,7 +99,7 @@ void RekisterinVienti::valmis()
     QFile tiedosto(tiedosto_);
     if( tiedosto.open(QIODevice::WriteOnly)) {
         tiedosto.write(rk_.csv());
-        kp()->onni(tr("%1 yhteystietoa viety").arg(rk_.riveja()));
+        emit kp()->onni(tr("%1 yhteystietoa viety").arg(rk_.riveja()));
     } else {
         QMessageBox::critical(nullptr, tr("Rekisterin vienti"),
                               tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(tiedosto_));

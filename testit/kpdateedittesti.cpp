@@ -39,6 +39,7 @@ void KpDateEditTesti::pvmRajat()
     QCOMPARE( edit->minimumDate(), QDate(2019,01,01));
     QCOMPARE( edit->maximumDate(), QDate(2019,12,31));
 
+    delete edit;
 }
 
 

@@ -96,7 +96,7 @@ void VakioViiteModel::lataa()
 
 bool VakioViiteModel::onkoViitetta(const QString &viite) const
 {
-    for(auto item : lista_) {
+    for(const auto& item : qAsConst( lista_ )) {
         if(viite == item.toMap().value("viite").toString())
             return true;
     }

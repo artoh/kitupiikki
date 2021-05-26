@@ -253,9 +253,9 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->setColumnHidden( TositeRivit::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
     ui->rivitView->setColumnHidden( TositeRivit::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
-    connect( ui->uusituoteNappi, &QPushButton::clicked, [this] { (new TuoteDialogi(this))->uusi(); } );
-    connect( ui->lisaaRiviNappi, &QPushButton::clicked, [this] { this->tosite()->rivit()->lisaaRivi();} );
-    connect( ui->poistaRiviNappi, &QPushButton::clicked, [this] {
+    connect( ui->uusituoteNappi, &QPushButton::clicked, this, [this] { (new TuoteDialogi(this))->uusi(); } );
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, [this] { this->tosite()->rivit()->lisaaRivi();} );
+    connect( ui->poistaRiviNappi, &QPushButton::clicked, this, [this] {
         if( this->ui->rivitView->currentIndex().isValid())
                 this->tosite()->rivit()->poistaRivi( ui->rivitView->currentIndex().row());
     });
@@ -295,8 +295,6 @@ void RivillinenLaskuDialogi::paivitaSumma()
              ui->riviTyyppiCombo->isHidden() )
         ui->summaLabel->setText( QString("<b>%1</b>").arg(alvTaulu()->brutto().display() ));
     else ui->summaLabel->setText( tr("%1 + ALV %2 = <b>%3</b>")
-                                  .arg(alvTaulu()->netto().display())
-                                  .arg(alvTaulu()->vero().display())
-                                  .arg(alvTaulu()->brutto().display()) );
+                                  .arg(alvTaulu()->netto().display(), alvTaulu()->vero().display(), alvTaulu()->brutto().display()) );
     salliTallennus( !tosite()->rivit()->onkoTyhja() );
 }

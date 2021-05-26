@@ -51,7 +51,7 @@ QByteArray Esikatseltava::pdf() const
 
     QPdfWriter writer(&buffer);
     writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() , qApp->applicationVersion() ));
     writer.setTitle( otsikko() );
     writer.setResolution(1200);
 

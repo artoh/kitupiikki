@@ -111,8 +111,7 @@ void MaksumuistutusMuodostaja::kirjaaKorko(Tosite *tosite, Euro korkosaldo, cons
     if( yhteensa.cents() ) {
         QString selite = kitsas_->kaanna("viivkorko", kieli) +
                 QString(" %1 - %2")
-                .arg(alkupvm.toString("dd.MM.yyyy"))
-                .arg(loppupvm.toString("dd.MM.yyyy"));
+                .arg(alkupvm.toString("dd.MM.yyyy"), loppupvm.toString("dd.MM.yyyy"));
 
         TositeVienti korkovienti;
         korkovienti.setPvm( pvm );

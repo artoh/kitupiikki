@@ -43,7 +43,7 @@ TiedotSivu::TiedotSivu(UusiVelho *wizard) :
     registerField("tili", ui->tiliLine);
     registerField("ytunnus", ui->ytunnusEdit);
 
-    connect(ui->postinumeroEdit, &QLineEdit::textEdited, [this] (const QString& numero) { this->ui->kaupunkiEdit->setText( Postinumerot::toimipaikka(numero)); });
+    connect(ui->postinumeroEdit, &QLineEdit::textEdited, this, [this] (const QString& numero) { this->ui->kaupunkiEdit->setText( Postinumerot::toimipaikka(numero)); });
 
 }
 

@@ -131,7 +131,7 @@ void TositeLiitteet::lataa(QVariantList data)
                         QString tyyppi = map.value("tyyppi").toString();
                         if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
                             KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
-                            connect( kysely, &KpKysely::vastaus, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+                            connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
                             kysely->kysy();
                         }
 
@@ -161,13 +161,13 @@ void TositeLiitteet::tallennettu()
 {
     if( !inboxista_.isEmpty()) {
         if( !kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirto" ).toBool() ) {
-            for(QString tiedosto : inboxista_) {
+            for(const QString& tiedosto : qAsConst( inboxista_ )) {
                 QFile::remove(tiedosto);
             }
         } else {
             QString minne = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirtoKansio" ).toString();
             QDir kohde(minne);           
-            for( QString tiedosto : inboxista_) {                
+            for( const QString& tiedosto : qAsConst( inboxista_ )) {
                 QFileInfo info(tiedosto);
                 // #809 Jos tiedosto on jo, nimetään se hiljaisesti uudelleen
                 QString tnimi = info.fileName();
@@ -273,7 +273,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     emit liitettaTallennetaan(true);
 
     KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
-    connect( liitekysely, &KpKysely::lisaysVastaus, [this, liiteIndeksi] (const QVariant& data, int id) {
+    connect( liitekysely, &KpKysely::lisaysVastaus, this, [this, liiteIndeksi] (const QVariant& data, int id) {
             this->liiteLisatty(data, id, liiteIndeksi);
         });
 
@@ -287,7 +287,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
             const QVariantMap &tuotu = Tuonti::PdfTuonti::tuo(liite);
             if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
                 KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
-                connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
+                connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
                 kysely->kysy(tuotu);
             } else {
                 emit this->tuonti( tuotu);
@@ -299,16 +299,16 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
                         Tuonti::TitoTuonti::tuo(liite) :
                         Tuonti::CsvTuonti::tuo(liite);
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
-            connect( kysely, &KpKysely::vastaus, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
+            connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
             kysely->kysy(tuotu);
         } else if( tyyppi == "image/jpeg" && kp()->settings()->value("OCR").toBool() ) {
             if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
                 liitekysely->lisaaAttribuutti("ocr","json");
-                connect(liitekysely, &KpKysely::vastaus, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
+                connect(liitekysely, &KpKysely::vastaus, this, [this] (QVariant* data) { emit this->tuonti(data->toMap());});
             } else if( kp()->pilvi()->tilausvoimassa() ) {
                 emit ocrKaynnissa(true);
                 Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
-                connect( tesser, &Tuonti::TesserActTuonti::tuotu,
+                connect( tesser, &Tuonti::TesserActTuonti::tuotu, this,
                          [this] (const QVariantMap& data) { emit this->tuonti(data); emit ocrKaynnissa(false); });
                 tesser->tuo(liite);
             }
@@ -356,13 +356,11 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
     if( data->hasUrls())
     {
         QList<QUrl> urlit = data->urls();
-        for(auto url : urlit)
+        for(const auto& url : qAsConst( urlit ))
         {
             if( url.isLocalFile())
             {
                 QFileInfo info( url.toLocalFile());
-                QString polku = info.absoluteFilePath();
-
                 lisaaHetiTiedosto(info.absoluteFilePath());
                 lisatty++;
             }
@@ -388,7 +386,7 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 int TositeLiitteet::tallennettaviaLiitteita() const
 {
     int maara = 0;
-    for(auto liite : liitteet_)
+    for(const auto& liite : qAsConst( liitteet_))
         if( !liite.getLiiteId() && !liite.getLiitettava())
             maara++;
 
@@ -405,7 +403,7 @@ void TositeLiitteet::tallennaLiitteet(int tositeId)
 QVariantList TositeLiitteet::liitettavat() const
 {
     QVariantList lista;
-    for( auto liite: liitteet_)
+    for( const auto& liite: qAsConst( liitteet_ ))
         if( liite.getLiitettava())
             lista.append(liite.getLiiteId());
     return lista;
@@ -427,7 +425,7 @@ void TositeLiitteet::nayta(int indeksi)
             connect( kysely, &KpKysely::vastaus, [this, indeksi] (QVariant* data) {this->liitesaapuu(data, indeksi);});
             kysely->kysy();
         } else {
-            emit ( naytaliite(sisalto) );
+            emit  naytaliite(sisalto) ;
         }
     }
 }
@@ -501,7 +499,7 @@ QByteArray TositeLiitteet::lueTiedosto(const QString &polku)
     if( !tiedosto.open(QIODevice::ReadOnly) )
     {
         QMessageBox::critical(nullptr, tr("Tiedostovirhe"),
-                              tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
+                              tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku, tiedosto.errorString()));
         return QByteArray();
     }
 

@@ -55,7 +55,7 @@ void LaskunUusinta::listaSaapuu(QVariant *lista)
 {
     QVariantList laskut = lista->toList();
 
-    for(const auto& item : laskut) {
+    for(const auto& item : qAsConst( laskut )) {
         jono_.enqueue( item.toMap().value("id").toInt() );
     }
     if( !jono_.isEmpty() && !busy_) {

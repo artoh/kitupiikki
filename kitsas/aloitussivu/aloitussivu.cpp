@@ -101,7 +101,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
     connect( kp()->pilvi(), &PilviModel::loginvirhe, this, &AloitusSivu::loginVirhe);
     connect( ui->logoutButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogout );
-    connect( ui->rekisteroiButton, &QPushButton::clicked, [] {
+    connect( ui->rekisteroiButton, &QPushButton::clicked, this, [] {
         LuoTunnusDialogi dialogi;
         dialogi.exec();
     });
@@ -116,7 +116,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiEmail );
     connect( ui->salaEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot);
 
-    connect( ui->tilausButton, &QPushButton::clicked,
+    connect( ui->tilausButton, &QPushButton::clicked, this,
              [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
 
     connect( ui->kopioiPilveenNappi, &QPushButton::clicked, this, &AloitusSivu::siirraPilveen);
@@ -124,7 +124,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
-    connect( ui->tukileikeNappi, &QPushButton::clicked, [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
+    connect( ui->tukileikeNappi, &QPushButton::clicked, this,  [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
     connect( ui->vaihdaSalasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasanaUuteen);
 
     connect( ui->bugiNappi, &QPushButton::clicked, [] { KitsasLokiModel::instanssi()->copyAll(); });
@@ -148,7 +148,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     if( kp()->settings()->contains("CloudKey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
         qApp->processEvents();
-        QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu();} );
+        QTimer::singleShot(250, this, [](){ kp()->pilvi()->kirjaudu();} );
     }
 
     pyydaInfo();
@@ -359,8 +359,7 @@ void AloitusSivu::abouttiarallaa()
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
     QString versioteksti = QString("<b>Versio %1</b><br>Käännetty %2")
-            .arg( qApp->applicationVersion())
-            .arg( buildDate().toString("dd.MM.yyyy"));
+            .arg( qApp->applicationVersion(), buildDate().toString("dd.MM.yyyy"));
 
     QString kooste(KITSAS_BUILD);
     if( !kooste.isEmpty())
@@ -382,12 +381,10 @@ void AloitusSivu::infoSaapui()
 
         kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
 
-        for( auto item : lista) {
-            QVariantMap map = item.toMap();
+        for( const auto& item : qAsConst(lista)) {
+            const auto& map = item.toMap();
             paivitysInfo.append(QString("<table width=100% class=%1><tr><td><h3>%2</h3><p>%3</p></td></tr></table>")
-                                .arg(map.value("type").toString())
-                                .arg(map.value("title").toString())
-                                .arg(map.value("info").toString()));
+                                .arg(map.value("type").toString(),map.value("title").toString(), map.value("info").toString()));
         }
 
         paivitaSivu();
@@ -502,7 +499,7 @@ void AloitusSivu::pyydaInfo()
     // Lista niistä tilikartoista, joita on käytetty viimeisimmän kuukauden aikana
     QStringList kartat;
     kp()->settings()->beginGroup("tilastokartta");
-    for(QString kartta : kp()->settings()->allKeys()) {
+    for(const auto& kartta : kp()->settings()->allKeys()) {
         QDate kaytetty = kp()->settings()->value(kartta).toDate();
         if( kaytetty > QDate::currentDate().addMonths(-1)) {
             kartat.append(kartta);
@@ -553,10 +550,10 @@ QDate AloitusSivu::buildDate()
 bool AloitusSivu::eventFilter(QObject *target, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress && target == ui->inboxFrame) {
-        ktpkasky("inbox");
+        emit ktpkasky("inbox");
         return true;
     } else if (event->type() == QEvent::MouseButtonPress && target == ui->outboxFrame) {
-        ktpkasky("outbox");
+        emit ktpkasky("outbox");
         return true;
     }
     return false;
@@ -639,9 +636,9 @@ void AloitusSivu::validoiEmail()
         request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
         QNetworkReply *reply =  kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
-        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
-            [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
-        connect( reply, &QNetworkReply::sslErrors, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
+        connect( reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+            this, [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
+        connect( reply, &QNetworkReply::sslErrors, this, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
 
     } else {
      validoiLoginTiedot();

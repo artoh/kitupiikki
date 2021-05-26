@@ -41,8 +41,8 @@ void LiitePoiminta::esikatsele()
         tililta = ui->tiliCombo->currentData().toInt();
 
     LiitePoimija *poimija = new LiitePoimija(ui->kieliCombo->currentData().toString(), ui->laatuSlider->value());
-    connect( poimija, &LiitePoimija::valmis, [this]  {this->odotaLabel->hide();});
-    connect( poimija, &LiitePoimija::tyhja, [this] {this->nayta(RaportinKirjoittaja());} );
+    connect( poimija, &LiitePoimija::valmis, this, [this]  {this->odotaLabel->hide();});
+    connect( poimija, &LiitePoimija::tyhja, this, [this] {this->nayta(RaportinKirjoittaja());} );
     poimija->poimi(ui->alkupvm->date(), ui->loppupvm->date(), tililta, kohdennuksella);
 
 }

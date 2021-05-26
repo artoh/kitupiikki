@@ -99,8 +99,8 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sectionMoved, this, &SelausWg::tallennaKoot);
     connect( ui->selausView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, this, &SelausWg::tallennaKoot);
 
-    connect( ui->edellinenNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(false); });
-    connect( ui->seuraavaNappi, &QPushButton::clicked, [this] { this->nuoliSelaus(true);});
+    connect( ui->edellinenNappi, &QPushButton::clicked, this, [this] { this->nuoliSelaus(false); });
+    connect( ui->seuraavaNappi, &QPushButton::clicked, this, [this] { this->nuoliSelaus(true);});
     connect( ui->kuukausiNappi, &QPushButton::clicked, this, &SelausWg::tamaKuukausi);
     connect( ui->tilikausiButton, &QPushButton::clicked, this, &SelausWg::tamaTilikausi);
 
@@ -293,7 +293,7 @@ void SelausWg::paivitaSuodattimet()
         QStringList sarjat = tositeModel->sarjaLista();
         if(!sarjat.isEmpty()) {
             ui->tiliCombo->insertSeparator(ui->tiliCombo->count());
-            for(QString sarja : sarjat) {
+            for(const QString& sarja : qAsConst( sarjat )) {
                 ui->tiliCombo->addItem( QIcon(":/pic/tyhja.png"), sarja, sarja );
             }
         }
@@ -328,13 +328,10 @@ void SelausWg::paivitaSummat(QVariant *data)
 
         if( saldo_ ) {
             ui->summaLabel->setText( tr("Debet %L1 €  Kredit %L2 €\nLoppusaldo %L3 €")
-                    .arg( debetSumma.display())
-                    .arg(kreditSumma.display())
-                    .arg(saldo_.display()));
+                    .arg( debetSumma.display(), kreditSumma.display(),saldo_.display()));
         } else {
             ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
-                    .arg( debetSumma.display() )
-                    .arg( kreditSumma.display()) );
+                    .arg( debetSumma.display(), kreditSumma.display()) );
         }
 
 
@@ -403,7 +400,7 @@ void SelausWg::selaa(int kumpi)
     } else {
         ui->selausView->setModel(tositeProxy_);
     }
-    QTimer::singleShot(10, [this] { this->lataaKoot();});
+    QTimer::singleShot(10, this, [this] { this->lataaKoot();});
     paivita();
     ui->selausView->setFocus();
 }

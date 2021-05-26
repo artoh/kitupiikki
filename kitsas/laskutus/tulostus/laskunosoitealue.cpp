@@ -156,7 +156,6 @@ void LaskunOsoiteAlue::piirra(QPainter *painter)
     painter->save();
 
     const QImage& logo = kitsas_->logo();
-    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::Logonsijainti) : QString();
 
     painter->setFont( QFont("FreeSans", nimiFonttiKoko_ ) );
 

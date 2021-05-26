@@ -36,8 +36,8 @@ void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int
 {
     QPdfWriter *writer = new QPdfWriter(tiedosto_);
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-    writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi()).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
-    writer->setCreator(QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+    writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi(), QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
     writer->setPageSize( QPdfWriter::A4);
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
@@ -111,7 +111,7 @@ void LiitePoimija::seuraavaLiite()
     } else {
         QPair<int,QString> liitetieto = liiteJono_.dequeue();
         KpKysely *liiteHaku = kpk(QString("/liitteet/%1").arg(liitetieto.first));
-        connect( liiteHaku, &KpKysely::vastaus,
+        connect( liiteHaku, &KpKysely::vastaus, this,
                  [this, liitetieto] (QVariant* data) { this->liiteSaapuu(data, liitetieto.second); });
         liiteHaku->kysy();
     }
@@ -148,7 +148,7 @@ void LiitePoimija::tehty()
     QString tnimi = tiedosto_;
 
     if(tulostettu_) {
-        QTimer::singleShot(250, [tnimi] {QDesktopServices::openUrl(QUrl::fromLocalFile(tnimi));});
+        QTimer::singleShot(250, this, [tnimi] {QDesktopServices::openUrl(QUrl::fromLocalFile(tnimi));});
         emit valmis();
         kp()->odotusKursori(false);
     } else {

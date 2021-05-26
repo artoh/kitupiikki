@@ -78,7 +78,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
     }
 
     QList<int> indeksit = alv_.indeksitKaytossa();
-    for(int indeksi : indeksit) {
+    for(int indeksi : qAsConst(  indeksit )) {
         int verokoodi = alv_.alvkoodi(indeksi);
         QStringList tekstit;
 
@@ -251,14 +251,14 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
         txt.append("\n");
         if(!rivi.toimitettuKpl().isEmpty())
             txt.append(QString("%1 %2 %3 ")
-                       .arg(kitsas_->kaanna("toimitettu", kieli_))
-                       .arg(rivi.toimitettuKpl())
-                       .arg(yksikkosarake(rivi)));
+                       .arg(kitsas_->kaanna("toimitettu", kieli_),
+                       rivi.toimitettuKpl(),
+                       yksikkosarake(rivi)));
         if(!rivi.jalkitoimitusKpl().isEmpty())
             txt.append(QString("%1 %2 %3 ")
-                       .arg(kitsas_->kaanna("jalkitoimitus", kieli_))
-                       .arg(rivi.jalkitoimitusKpl())
-                       .arg(yksikkosarake(rivi)));
+                       .arg(kitsas_->kaanna("jalkitoimitus", kieli_),
+                       rivi.jalkitoimitusKpl(),
+                       yksikkosarake(rivi)));
     }
 
     if( !rivi.kuvaus().isEmpty()) {

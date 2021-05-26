@@ -161,7 +161,7 @@ void TavallinenLaskuDialogi::hyvitaEnnakko()
 
         KpKysely* kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("vienti", eraId);
-        connect( kysely, &KpKysely::vastaus,
+        connect( kysely, &KpKysely::vastaus, this,
                  [this, eraId, euro] (QVariant* data)
                     { this->ennakkoTietoSaapuu(data, eraId, euro); });
         kysely->kysy();
@@ -195,7 +195,7 @@ void TavallinenLaskuDialogi::ennakkoTietoSaapuu(QVariant *data, int eraId, Euro 
 void TavallinenLaskuDialogi::tallennaToisto()
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite()->id()), KpKysely::PATCH);
-    connect( kysely, &KpKysely::vastaus, [this]  {this->merkkaaTallennettu(); this->paivitaNapit();});
+    connect( kysely, &KpKysely::vastaus, this, [this]  {this->merkkaaTallennettu(); this->paivitaNapit();});
     QVariantMap map;
     map.insert("laskutoisto", Lasku::toistoMap( toistoPvm(), ui->toistoJaksoSpin->value(),
                                            ui->toistoHinnastoCheck->isChecked(), ui->toistoPvmPaattyy->date() ));
@@ -205,7 +205,7 @@ void TavallinenLaskuDialogi::tallennaToisto()
 void TavallinenLaskuDialogi::lopetaToisto()
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite()->id()), KpKysely::PATCH);
-    connect( kysely, &KpKysely::vastaus, [this]  {this->ui->toistoGroup->setChecked(false);
+    connect( kysely, &KpKysely::vastaus, this, [this]  {this->ui->toistoGroup->setChecked(false);
                                                   this->merkkaaTallennettu();});
     QVariantMap map;
     map.insert("laskutoisto", QVariant());

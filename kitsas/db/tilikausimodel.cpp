@@ -77,8 +77,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     {
         if( index.column() == KAUSI)
             return QVariant( tr("%1 - %2")
-                             .arg(kausi.alkaa().toString("dd.MM.yyyy"))
-                             .arg(kausi.paattyy().toString("dd.MM.yyyy")));
+                             .arg(kausi.alkaa().toString("dd.MM.yyyy"),
+                                kausi.paattyy().toString("dd.MM.yyyy")));
         else if( index.column() == TULOS)
             return QString("%L1 €").arg( kausi.tulos()  / 100.0,0,'f',2);
         else if(index.column() == LIIKEVAIHTO)
@@ -216,7 +216,7 @@ void TilikausiModel::lataa(const QVariantList &lista)
     beginResetModel();
     kaudet_.clear();
 
-    for(QVariant item : lista )
+    for(const auto& item : lista )
     {
         QVariantMap map = item.toMap();
         kaudet_.append( Tilikausi(map) );

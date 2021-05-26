@@ -276,7 +276,7 @@ Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppi
     if( alku.left(1) == '*' || alku.left(1) == ' ' )
     {
         // Jos alku on * + numero, etsitään tili kyseisellä numerolla
-        dlg.valitse( alku.mid(1).toInt());
+        dlg.valitse( alku.midRef(1).toInt());
     } else {
         dlg.ui->suodatusEdit->setText(alku);
     }
@@ -286,7 +286,7 @@ Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppi
     {
         return dlg.valittu();
     } else if(alku.left(1) == "*"  ){
-        return model ? model->tiliNumerolla( alku.mid(1).toInt() ) : kp()->tilit()->tiliNumerolla( alku.mid(1).toInt()) ;
+        return model ? model->tiliNumerolla( alku.midRef(1).toInt() ) : kp()->tilit()->tiliNumerolla( alku.midRef(1).toInt()) ;
     }
     return Tili();
 }

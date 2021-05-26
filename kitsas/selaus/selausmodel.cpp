@@ -98,9 +98,7 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
                     "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
                     "LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON Tosite.id=lq.tosite "
                     "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' %3 ORDER BY pvm")
-            .arg(alkaa.toString(Qt::ISODate))
-            .arg(loppuu.toString(Qt::ISODate))
-            .arg(tilistr);
+            .arg(alkaa.toString(Qt::ISODate), loppuu.toString(Qt::ISODate), tilistr);
 
     beginResetModel();
 
@@ -178,7 +176,7 @@ void SelausModel::tietoSaapuu(QVariant *var)
     rivit_.clear();
 
 
-    for(auto item : lista)
+    for(const auto& item : qAsConst( lista ))
     {
         QVariantMap map = item.toMap();
         SelausRivi rivi(map, samakausi_);
@@ -225,7 +223,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
 
     if( data.contains("merkkaukset")) {
         QStringList tagit;
-        for( auto merkkausVar : data.value("merkkaukset").toList()) {
+        for( const auto& merkkausVar : data.value("merkkaukset").toList()) {
             tagit.append( kp()->kohdennukset()->kohdennus(merkkausVar.toInt()).nimi() );
         }
         if( !kohdennus.isEmpty())

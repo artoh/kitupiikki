@@ -148,9 +148,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                                        "LEFT OUTER JOIN Kumppani ON Vienti.kumppani = Kumppani.id "
                                        "WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
                                        "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY Vienti.pvm")
-                               .arg(eraid)
-                               .arg(mista.toString(Qt::ISODate))
-                               .arg(pvm.toString(Qt::ISODate)));
+                               .arg(eraid, mista.toString(Qt::ISODate), pvm.toString(Qt::ISODate)));
                 QVariantList muutokset;
                 // Jos erä alkaa tältä tilikaudelta, on erän aloitus osa muutosta
                 qlonglong muutosyht =  erakysely.value(4).toDate() < mista ? 0 : alkusentit;

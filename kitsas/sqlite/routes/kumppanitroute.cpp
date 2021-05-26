@@ -143,7 +143,7 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
     kysely.exec(QString("DELETE FROM KumppaniIban WHERE kumppani=%1").arg(id));
 
     kysely.prepare("INSERT INTO KumppaniIban (kumppani,iban) VALUES (?,?) ON CONFLICT (iban) DO UPDATE SET kumppani=EXCLUDED.kumppani");
-    for(QVariant var : iban) {
+    for(const QVariant& var : qAsConst( iban )) {
         kysely.addBindValue(id);
         kysely.addBindValue(var.toString());
         if(!kysely.exec()) {
@@ -155,7 +155,7 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
     kysely.exec(QString("DELETE FROM KumppaniRyhmassa WHERE kumppani=%1").arg(id));
 
     kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
-    for( QVariant ryhma : ryhmat) {
+    for( const QVariant& ryhma : qAsConst( ryhmat )) {
         kysely.addBindValue(id);
         kysely.addBindValue(ryhma.toInt());
         if(!kysely.exec()) {
@@ -195,7 +195,7 @@ int KumppanitRoute::kumppaninLisays(QVariantMap &map, QSqlQuery &kysely)
     int id = kysely.lastInsertId().toInt();
 
     kysely.prepare("INSERT INTO KumppaniIban (kumppani,iban) VALUES (?,?) ON CONFLICT (iban) DO UPDATE SET kumppani=EXCLUDED.kumppani");
-    for(QVariant var : iban) {
+    for(const QVariant& var : qAsConst( iban )) {
         kysely.addBindValue(id);
         kysely.addBindValue(var.toString());
         if(!kysely.exec()) {
@@ -204,7 +204,7 @@ int KumppanitRoute::kumppaninLisays(QVariantMap &map, QSqlQuery &kysely)
     }
 
     kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
-    for( QVariant ryhma : ryhmat) {
+    for( const QVariant& ryhma : qAsConst( ryhmat )) {
         kysely.addBindValue(id);
         kysely.addBindValue(ryhma.toInt());
         if(!kysely.exec()) {

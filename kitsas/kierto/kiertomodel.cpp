@@ -76,7 +76,7 @@ void KiertoModel::lataa(const QVariantList &lista)
     endResetModel();
 
     int portaalissa = 0;
-    for(const auto& item : lista_) {
+    for(const auto& item : qAsConst(lista_)) {
         const QVariantMap &map = item.toMap();
             if( map.value("portaalissa").toBool())
                 portaalissa++;

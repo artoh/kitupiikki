@@ -70,8 +70,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->kopioiNappi, &QPushButton::clicked, this, &LaskulistaWidget::kopioi);
     connect( ui->lahetaNappi, &QPushButton::clicked, this, &LaskulistaWidget::laheta);
 
-    connect( ui->uusiNappi, &QPushButton::clicked, [this] {this->uusilasku(false);});
-    connect( ui->ryhmalaskuNappi, &QPushButton::clicked, [this] {this->uusilasku(true);});
+    connect( ui->uusiNappi, &QPushButton::clicked, this, [this] {this->uusilasku(false);});
+    connect( ui->ryhmalaskuNappi, &QPushButton::clicked, this, [this] {this->uusilasku(true);});
 
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
     connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
@@ -87,7 +87,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->tulostaButton, &QPushButton::clicked, this, &LaskulistaWidget::raportti);
 
-    connect( laskut_, &QAbstractTableModel::modelReset, [this] { ui->view->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); } );
+    connect( laskut_, &QAbstractTableModel::modelReset, this, [this] { ui->view->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); } );
 
     ui->muistutusNappi->hide();
 }
@@ -211,7 +211,7 @@ void LaskulistaWidget::paivitaNapit()
 void LaskulistaWidget::laheta()
 {
     QModelIndexList lista = ui->view->selectionModel()->selectedRows();
-    for( auto item : lista)        
+    for( const auto& item :  qAsConst( lista ))
         LaskunToimittaja::toimita(item.data(LaskuTauluModel::TositeIdRooli).toInt());
 }
 

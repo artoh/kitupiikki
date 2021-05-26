@@ -30,7 +30,7 @@ void KieliCombo::alusta()
 {
     clear();
     auto lista = Kielet::instanssi()->kielet();
-    for(auto const &kieli : lista) {
+    for(auto const &kieli : qAsConst(lista)) {
         addItem(QIcon(kieli.lippu()), kieli.nimi(), kieli.lyhenne());
     }
 

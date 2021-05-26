@@ -228,8 +228,8 @@ bool TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
             raportoija->lisaaKausi(edellinen.alkaa(), edellinen.paattyy());
     }
 
-    connect( raportoija, &Raportoija::valmis, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
-    connect( raportoija, &Raportoija::tyhjaraportti, [this,indeksi,otsikko] { this->raporttiSaapuu(indeksi, RaportinKirjoittaja(), otsikko); } );
+    connect( raportoija, &Raportoija::valmis, this, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
+    connect( raportoija, &Raportoija::tyhjaraportti, this, [this,indeksi,otsikko] { this->raporttiSaapuu(indeksi, RaportinKirjoittaja(), otsikko); } );
     raportoija->kirjoita(erittelyt,-1);
     return true;
 }

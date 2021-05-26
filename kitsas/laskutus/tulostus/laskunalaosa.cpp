@@ -171,7 +171,7 @@ void LaskunAlaosa::lataaIbanit()
     const AsetusModel* asetukset = interface_->asetukset();
     QStringList ibanLista = asetukset->asetus(AsetusModel::LaskuIbanit).split(",");
 
-    for(const auto& ibanteksti : ibanLista) {
+    for(const auto& ibanteksti : qAsConst( ibanLista )) {
         Iban iban(ibanteksti);
         pankit_ << iban.pankki();
         ibanit_ << iban.valeilla();

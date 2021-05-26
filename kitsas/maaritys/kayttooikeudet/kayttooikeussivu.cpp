@@ -66,7 +66,7 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
 
     QStringList oikeusLista = index.data(KayttooikeusModel::OikeusRooli).toStringList();
     oikeudetAlussa_.clear();
-    for(const auto& oikeus : oikeusLista) {
+    for(const auto& oikeus :  qAsConst( oikeusLista)) {
         oikeudetAlussa_.insert(oikeus);
     }
 
@@ -101,14 +101,13 @@ void KayttoOikeusSivu::tarkastaNimi()
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     if( emailRe.match( ui->lisaysEdit->text()).hasMatch() ) {
         KpKysely* kysely = kpk( QString("%1/users/%2")
-                                .arg(kp()->pilvi()->pilviLoginOsoite())
-                                .arg(ui->lisaysEdit->text()));
-        connect(kysely, &KpKysely::vastaus, [this] (QVariant* data) {
+                                .arg(kp()->pilvi()->pilviLoginOsoite(), ui->lisaysEdit->text()));
+        connect(kysely, &KpKysely::vastaus, this, [this] (QVariant* data) {
             this->ui->lisaysNappi->setEnabled( !data->toMap().isEmpty() );
             this->ui->kutsuButton->setEnabled( data->toMap().isEmpty());
             haettuNimi_ = data->toMap().value("name").toString();
         });
-        connect(kysely, &KpKysely::virhe, [this] (int virhe) {
+        connect(kysely, &KpKysely::virhe, this, [this] (int virhe) {
             this->ui->kutsuButton->setEnabled( virhe == 203);
         });
         kysely->kysy();
@@ -142,7 +141,7 @@ void KayttoOikeusSivu::tallennaOikeudet()
     kysely->connect(kysely, &KpKysely::vastaus, this, &KayttoOikeusSivu::tallennettu);
 
     QStringList oikeusLista;
-    for(const auto& oikeus : oikeudetTaulussa())
+    for(const auto& oikeus :  oikeudetTaulussa())
         oikeusLista.append(oikeus);
 
     QVariantMap map;

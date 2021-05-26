@@ -452,7 +452,7 @@ void SmtpClient::waitForResponse()
             responseText = socket->readLine();
 
             // Extract the respose code from the server's responce (first 3 digits)
-            responseCode = responseText.left(3).toInt();
+            responseCode = responseText.leftRef(3).toInt();
 
             if (responseCode / 100 == 4)
                 emit smtpError(ServerError);

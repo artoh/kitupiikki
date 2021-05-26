@@ -228,7 +228,6 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         {
             if( ibanRe.match(t).hasMatch())
             {
-                QString tilinro = ibanRe.match(t).captured(0);
                 if( IbanValidator::kelpaako(t))
                 {
                     ibanit.insert( t.remove("\\s"));
@@ -240,7 +239,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
     int numerosijainti = etsi("Laskun numero");
     if(!numerosijainti) numerosijainti = etsi("Lasku numero");
     QRegularExpression lnroRe("^[A-Z]{0,3}\\d{3,20}$");
-    for(QString t : haeLahelta(numerosijainti / 100, numerosijainti % 100, 10, 50)) {
+    for(const QString& t : haeLahelta(numerosijainti / 100, numerosijainti % 100, 10, 50)) {
         if( lnroRe.match(t).hasMatch() ) {
             data.insert("laskunnumero", t);
             break;

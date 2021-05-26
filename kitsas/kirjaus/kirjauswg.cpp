@@ -99,7 +99,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
-    connect( ui->tallennaButton, &QPushButton::clicked, [this] { this->tallenna(Tosite::LUONNOS); } );
+    connect( ui->tallennaButton, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LUONNOS); } );
     connect( ui->valmisNappi, &QPushButton::clicked, this, &KirjausWg::valmis);
 
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
@@ -112,15 +112,15 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->tositetyyppiCombo, &QComboBox::currentTextChanged, this, &KirjausWg::vaihdaTositeTyyppi);
 
-    connect( ui->lisaaliiteNappi, &QPushButton::clicked, [this]
+    connect( ui->lisaaliiteNappi, &QPushButton::clicked, this, [this]
         { this->lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)"))); });
 
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
-    connect( ui->edellinenButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.first); });
-    connect( ui->seuraavaButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.second); });
+    connect( ui->edellinenButton, &QPushButton::clicked, this, [this]() { lataaTosite(this->edellinenSeuraava_.first); });
+    connect( ui->seuraavaButton, &QPushButton::clicked, this, [this]() { lataaTosite(this->edellinenSeuraava_.second); });
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
@@ -166,17 +166,17 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
 
-    connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
-    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
-    connect( ui->sarjaCombo, &QComboBox::currentTextChanged, [this] (const QString& teksti)  { this->tosite()->asetaSarja( teksti); });
-    connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
+    connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, this, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
+    connect( ui->otsikkoEdit, &QLineEdit::textChanged, this, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
+    connect( ui->sarjaCombo, &QComboBox::currentTextChanged, this, [this] (const QString& teksti)  { this->tosite()->asetaSarja( teksti); });
+    connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, this, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
-    connect( tosite(), &Tosite::pvmMuuttui, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
-    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
+    connect( tosite(), &Tosite::pvmMuuttui, this, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
+    connect( tosite(), &Tosite::otsikkoMuuttui, this, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
-    connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
+    connect( tosite(), &Tosite::sarjaMuuttui, this, [this] (const QString& sarja) {
         this->ui->sarjaCombo->setCurrentText(sarja);
     });
     connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
@@ -323,9 +323,9 @@ void KirjausWg::poistaTosite()
                               QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
     {
         KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tosite()->data(Tosite::ID).toInt() ), KpKysely::DELETE );
-        connect(kysely, &KpKysely::virhe, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
+        connect(kysely, &KpKysely::virhe, this, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
                                                                         tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( selitys ));});
-        connect(kysely, &KpKysely::vastaus, [this] {this->tyhjenna(); emit this->tositeKasitelty(); emit kp()->kirjanpitoaMuokattu();});
+        connect(kysely, &KpKysely::vastaus, this, [this] {this->tyhjenna(); emit this->tositeKasitelty(); emit kp()->kirjanpitoaMuokattu();});
 
         kysely->kysy();
     }
@@ -688,7 +688,7 @@ void KirjausWg::tarkastaTuplatJaTallenna(int tila)
             kysely->lisaaAttribuutti("laskunumero", tosite()->laskuNumero());
         if( !tosite()->viite().isEmpty())
             kysely->lisaaAttribuutti("viite", tosite()->viite());
-        connect(kysely, &KpKysely::vastaus, [this, tila] (QVariant* data)  { this->tuplaTietoSaapuu(data, tila);});
+        connect(kysely, &KpKysely::vastaus, this, [this, tila] (QVariant* data)  { this->tuplaTietoSaapuu(data, tila);});
         kysely->kysy();
     }
 }
@@ -700,7 +700,7 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
 
     Euro summa = tosite()->viennit()->summa();
 
-    for(auto item : lista) {
+    for(const auto& item : qAsConst(lista)) {
         QVariantMap map = item.toMap();
         if( map.value("id").toInt() == tosite()->id()) {
             // Sallii aina saman tositteen muokkaamisen
@@ -712,8 +712,8 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
         tuplat.append(QString("%1 %2 \n")
                       .arg(kp()->tositeTunnus(map.value("tunniste").toInt(),
                                               map.value("pvm").toDate(),
-                                              map.value("sarja").toString(), true))
-                      .arg(map.value("otsikko").toString()));
+                                              map.value("sarja").toString(), true),
+                      map.value("otsikko").toString()));
     }
 
     if( !tuplat.isEmpty()) {
@@ -762,7 +762,6 @@ void KirjausWg::lisaaLiite(const QString& polku)
 {
     if( !polku.isEmpty())
     {
-        QFileInfo info(polku);
         tosite()->liitteet()->lisaaHetiTiedosto(polku);
         // Valitsee lisätyn liitteen
         ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );

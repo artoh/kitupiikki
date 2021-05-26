@@ -136,7 +136,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             if( kohdennus )
                 txt.append( kp()->kohdennukset()->kohdennus(kohdennus).nimi() + " " );
             QVariantList merkkaukset = rivi.value("merkkaukset").toList();
-            for( auto merkkaus : merkkaukset)
+            for( const auto& merkkaus : qAsConst( merkkaukset ))
                 txt.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() + " " );
             if( rivi.eraId() == -1 || (rivi.eraId() == rivi.id() && rivi.eraId() > 0))
                 txt.append(tr("Uusi erä"));
@@ -754,7 +754,7 @@ Euro TositeViennit::summa() const
     Euro debet;
     Euro kredit;
 
-    for(auto vienti : viennit_) {
+    for(const auto& vienti : qAsConst( viennit_ )) {
         debet += vienti.debetEuro();
         kredit += vienti.kreditEuro();
     }

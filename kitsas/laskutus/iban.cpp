@@ -137,7 +137,7 @@ int Iban::ibanModulo(const QString &iban)
 
     // Muunnetaan kirjaimet numeropareiksi
     QString apu;
-    for( const QChar merkki : siirto)
+    for( const QChar& merkki : qAsConst( siirto ))
     {
         if( merkki.isDigit() )
             apu.append(merkki);

@@ -67,8 +67,8 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     else
         rk.asetaOtsikko( kaanna("PÄÄKIRJA"));
 
-    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
-                                             .arg( mihin.toString("dd.MM.yyyy") ) );
+    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") ,
+                                             mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaSarake("", RaporttiRivi::CSV);  // Tilin numero
     rk.lisaaSarake("", RaporttiRivi::CSV);  // Tilin nimi
@@ -125,7 +125,7 @@ void Paakirja::saldotSaapuu(QVariant *data)
 void Paakirja::viennitSaapuu(QVariant *data)
 {
 
-    for(auto vienti : data->toList()) {
+    for(const auto& vienti : data->toList()) {
         QVariantMap map = vienti.toMap();
         int tili = map.value("tili").toInt();
         data_[tili].append(map);

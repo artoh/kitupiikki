@@ -94,7 +94,6 @@ void EraCombo::paivita()
     addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), EraMap(EraMap::Valitse));
 
     if( asiakas_ ) {
-        QString nimi = AsiakasToimittajaListaModel::instanssi()->nimi(asiakas_);
         addItem(QIcon(":/pic/mies.png"),  asiakasNimi_, EraMap::AsiakasEra(asiakas_, asiakasNimi_) );
     }
     if( kp()->huoneistot()->rowCount() )

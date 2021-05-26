@@ -31,8 +31,7 @@ void TositeLuettelo::kirjoita(const QDate &mista, const QDate &mihin, int optiot
     kysely->lisaaAttribuutti("loppupvm", mihin);
 
     rk.asetaOtsikko(kaanna("TOSITELUETTELO"));
-    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
-                                             .arg( mihin.toString("dd.MM.yyyy") ) );
+    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") , mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaSarake("ABC1234/99 ");
     rk.lisaaPvmSarake();
@@ -76,7 +75,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
     QDate edpvm;
 
     QVariantList lista = data->toList();
-    for( auto item: lista) {
+    for( const auto& item: qAsConst( lista )) {
         QVariantMap map = item.toMap();
         int tamatyyppi = map.value("tyyppi").toInt();
 
@@ -132,7 +131,6 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
         valisumma.lisaa( lajisumma );
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
-        lajisumma = 0l;
     }
     if( optiot_ & TulostaSummat ) {
         rk.lisaaTyhjaRivi();
@@ -142,7 +140,6 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
         summarivi.viivaYlle();
         summarivi.lihavoi();
         rk.lisaaRivi(summarivi);
-        lajisumma = 0l;
     }
 
     emit valmis(rk);

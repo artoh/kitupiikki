@@ -27,8 +27,7 @@ void MyyntiRaportteri::kirjoita(const QDate &mista, const QDate &mihin)
 {
     rk.asetaOtsikko(kaanna("MYYNTI"));
     rk.asetaKausiteksti(QString("%1 - %2")
-                        .arg(mista.toString("dd.MM.yyyy"))
-                        .arg(mihin.toString("dd.MM.yyyy")));
+                        .arg(mista.toString("dd.MM.yyyy"), mihin.toString("dd.MM.yyyy")));
 
     rk.lisaaVenyvaSarake();
     rk.lisaaEurosarake();
@@ -62,7 +61,7 @@ void MyyntiRaportteri::dataSaapuu(QVariant *data)
     double yhteensa = 0;
     double bruttoyhteensa = 0;
 
-    for(const auto& item : lista) {
+    for(const auto& item : qAsConst( lista )) {
         const QVariantMap& map = item.toMap();
         if( !map.contains("tuote")  || map.value("tuote").toInt() == 0) {
             epatuotteet = map;

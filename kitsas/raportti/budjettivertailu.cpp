@@ -73,7 +73,7 @@ void Budjettivertailu::esikatsele()
     raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
 
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
-    connect( raportoija, &Raportoija::tyhjaraportti, [this] () { this->nayta(RaportinKirjoittaja()); });
+    connect( raportoija, &Raportoija::tyhjaraportti, this, [this] () { this->nayta(RaportinKirjoittaja()); });
 
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
@@ -87,7 +87,7 @@ void Budjettivertailu::paivitaMuodot()
     ui->muotoCombo->clear();
     int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;    
 
-    for( const auto& muoto : muodot ) {
+    for( const auto& muoto : qAsConst( muodot )) {
         QString kaava = kp()->asetukset()->asetus(muoto);
         QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );        
         Monikielinen muotoKielinen(doc.toVariant().toMap().value("muoto"));
@@ -113,7 +113,7 @@ void Budjettivertailu::paivitaKielet()
     QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
     ui->kieliCombo->clear();
 
-    for(auto kieli : kielet.keys()) {
+    for(const auto& kieli : kielet.keys()) {
         ui->kieliCombo->addItem( lippu(kieli), kp()->asetukset()->kieli(kieli), kieli );
     }
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() ) );

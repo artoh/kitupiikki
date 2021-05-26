@@ -38,7 +38,7 @@ YhdistaKumppaniin::YhdistaKumppaniin(AsiakkaatModel* model, int id, const QStrin
     ui->view->setModel(proxy);
 
     connect( ui->sopivatCheck, &QCheckBox::toggled, this, &YhdistaKumppaniin::suodata);
-    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, [this] { this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->ui->view->currentIndex().isValid()); });
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, [this] { this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->ui->view->currentIndex().isValid()); });
 }
 
 YhdistaKumppaniin::~YhdistaKumppaniin()

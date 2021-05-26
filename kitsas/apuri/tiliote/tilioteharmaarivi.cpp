@@ -59,7 +59,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
                 return model()->kitsas()->tilit()->tiliNumerolla(list.value(0).toInt()).nimiNumero();
             } else {
                 QStringList strlist;
-                for(auto const &item : list)
+                for(auto const &item : qAsConst(list))
                     strlist << item.toString();
                 return strlist.join(", ");
             }

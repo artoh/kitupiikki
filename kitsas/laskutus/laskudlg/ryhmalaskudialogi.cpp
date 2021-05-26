@@ -63,6 +63,7 @@ void RyhmaLaskuDialogi::tallenna(int /* tilaan */)
     } else {
         ui->tallennaNappi->setEnabled(false);
         tositteelle();
+        connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &RyhmaLaskuDialogi::tallennaSeuraava);
         tallennaSeuraava();
     }
 }
@@ -73,7 +74,7 @@ void RyhmaLaskuDialogi::tallennaSeuraava()
         // Kaikki tallennettu
         emit kp()->onni(tr("Laskut tallennettu Lähtevät-kansioon"));
         emit kp()->kirjanpitoaMuokattu();
-        QTimer::singleShot(1500, [] { emit kp()->kirjanpitoaMuokattu();});
+        QTimer::singleShot(1500, this, [] { emit kp()->kirjanpitoaMuokattu();});
         QDialog::accept();
         return;
     }
@@ -90,7 +91,6 @@ void RyhmaLaskuDialogi::tallennaSeuraava()
     RiviVientiGeneroija rivigeneroija(kp());
     rivigeneroija.generoiViennit(tallennusTosite_);
 
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &RyhmaLaskuDialogi::tallennaSeuraava);
     tallennusTosite_->tallennaLasku(Tosite::VALMISLASKU);
 }
 

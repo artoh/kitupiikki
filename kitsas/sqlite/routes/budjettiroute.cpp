@@ -34,7 +34,7 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
                             "JOIN Kohdennus ON Budjetti.kohdennus=Kohdennus.id "
                             "WHERE tilikausi='%1' AND (kohdennus=%2 "
                             "OR kuuluu=%2) GROUP BY tili ORDER BY CAST(tili AS text)")
-                    .arg(polku).arg(urlquery.queryItemValue("kohdennus")));
+                    .arg(polku, urlquery.queryItemValue("kohdennus")));
         while( kysely.next())
             vastaus.insert( kysely.value(0).toString(), kysely.value(1).toInt() / 100.0 );
     } else if( urlquery.hasQueryItem("kohdennukset")) {

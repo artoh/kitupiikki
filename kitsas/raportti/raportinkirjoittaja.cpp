@@ -141,7 +141,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     // Jaetaan vielä jäljellä oleva tila
     for( int i=0; i<sarakkeet_.count(); i++)
     {
-        if( sarakkeet_[i].jakotekija)
+        if( sarakkeet_[i].jakotekija && tekijayhteensa)
         {
             leveydet[i] = jaljella * sarakkeet_[i].jakotekija / tekijayhteensa;
         }

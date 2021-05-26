@@ -267,10 +267,10 @@ TilausWizard::TilausYhteysSivu::TilausYhteysSivu() :
     registerField("phone", ui->puhelinEdit);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator(false, this));
-    connect( ui->postinumero, &QLineEdit::textChanged,
+    connect( ui->postinumero, &QLineEdit::textChanged, this,
              [this] (const QString& numero) { this->ui->postitoimipaikka->setText(Postinumerot::toimipaikka(numero)); });
 
-    connect( ui->ovtEdit, &QLineEdit::textChanged, [this] { this->paivitaY(); emit this->completeChanged(); });
+    connect( ui->ovtEdit, &QLineEdit::textChanged, this, [this] { this->paivitaY(); emit this->completeChanged(); });
 
     connect( ui->verkkolaskuButton, &QRadioButton::clicked, this, &TilausWizard::TilausYhteysSivu::verkkolaskulle );
     connect( ui->emailButton, &QRadioButton::clicked, this, &TilausWizard::TilausYhteysSivu::verkkolaskulle );

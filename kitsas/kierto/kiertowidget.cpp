@@ -39,23 +39,23 @@ KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
 
     connect( tosite, &Tosite::ladattu, this, &KiertoWidget::lataaTosite);    
 
-    connect( ui->vAloita, &QPushButton::clicked, [this] { this->valmis(Tosite::SAAPUNUT); });
+    connect( ui->vAloita, &QPushButton::clicked, this, [this] { this->valmis(Tosite::SAAPUNUT); });
 
-    connect( ui->tOk, &QPushButton::clicked, [this] { this->valmis(Tosite::TARKASTETTU); });
-    connect( ui->tHylkaa, &QPushButton::clicked, [this] { this->valmis(Tosite::HYLATTY); });
+    connect( ui->tOk, &QPushButton::clicked, this, [this] { this->valmis(Tosite::TARKASTETTU); });
+    connect( ui->tHylkaa, &QPushButton::clicked, this, [this] { this->valmis(Tosite::HYLATTY); });
 
-    connect( ui->hOk, &QPushButton::clicked, [this] { this->valmis(Tosite::HYVAKSYTTY); });
-    connect( ui->hHylkaa, &QPushButton::clicked, [this] { this->valmis(Tosite::HYLATTY); });
+    connect( ui->hOk, &QPushButton::clicked, this, [this] { this->valmis(Tosite::HYVAKSYTTY); });
+    connect( ui->hHylkaa, &QPushButton::clicked, this, [this] { this->valmis(Tosite::HYLATTY); });
 
-    connect( ui->polkuCombo, &QComboBox::currentTextChanged, [this] {
+    connect( ui->polkuCombo, &QComboBox::currentTextChanged, this, [this] {
         this->ui->siirraNappi->setVisible( this->ui->polkuCombo->currentData().toInt() != this->tosite_->kierto()
                 && this->tosite_->tositetila() >= Tosite::HYLATTY
                 && this->tosite_->tositetila() <= Tosite::HYVAKSYTTY);
     });
-    connect( ui->siirraNappi, &QPushButton::clicked, [this] { this->valmis( this->tosite_->tositetila() );});
+    connect( ui->siirraNappi, &QPushButton::clicked, this, [this] { this->valmis( this->tosite_->tositetila() );});
 
-    connect( ui->kopioiIban, &QToolButton::clicked, [this] { qApp->clipboard()->setText(iban_.valeilla());});
-    connect( ui->barCopyButton, &QToolButton::clicked, [this] { qApp->clipboard()->setText(this->kululaskuVirtuaalikoodi());});
+    connect( ui->kopioiIban, &QToolButton::clicked, this, [this] { qApp->clipboard()->setText(iban_.valeilla());});
+    connect( ui->barCopyButton, &QToolButton::clicked, this, [this] { qApp->clipboard()->setText(this->kululaskuVirtuaalikoodi());});
 
 
     if( qApp->screens().value(0)->size().height() < 1200) {
@@ -211,12 +211,11 @@ void KiertoWidget::lataaTosite()
         if( tila == Tosite::SAAPUNUT) {
             ui->vCheck->show();
             ui->vInfo->show();
-            QString info = "";
+
             QVariantMap portaali = tosite_->data(Tosite::PORTAALI).toMap();
             if( !portaali.isEmpty()) {
                 QString info = QString("%1\n%2\n")
-                        .arg(portaali.value("nimi").toString())
-                        .arg(portaali.value("email").toString());
+                        .arg(portaali.value("nimi").toString(), portaali.value("email").toString());
                 if( !portaali.value("puhelin").toString().isEmpty())
                     info.append(tr("puh. %1 \n").arg(portaali.value("puhelin").toString()));
                 info.append( loki->index(i, TositeLoki::AIKA).data(Qt::DisplayRole).toDateTime().toString(tr("dd.MM.yyyy klo hh.mm")) );

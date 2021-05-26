@@ -58,7 +58,7 @@ void TulostusRuudukko::laske(QPainter *painter)
     sarakevali_ = painter->fontMetrics().horizontalAdvance("MM");
     ivali_ = painter->fontMetrics().horizontalAdvance("i");
 
-    for(const auto& rivi : rivit_) {
+    for(const auto& rivi : qAsConst( rivit_ )) {
         for(int c=0; c < sarakkeet_.count(); c++) {
             painter->setFont(QFont("FreeSans", pistekoko_, rivi.lihava() ? QFont::Bold : QFont::Normal));
             qreal leveys = painter->fontMetrics().horizontalAdvance( rivi.teksti(c) );
@@ -71,7 +71,7 @@ void TulostusRuudukko::laske(QPainter *painter)
     qreal summaleveys = 0.0;
     int viimeSarakeIndeksi = sarakkeet_.count() - 1;
 
-    for(const auto& summarivi : summarivit_) {
+    for(const auto& summarivi : qAsConst( summarivit_ )) {
         painter->setFont(QFont("FreeSans", pistekoko_, QFont::Bold));
         qreal soleveys = painter->fontMetrics().horizontalAdvance( summarivi.first);
         if( soleveys > summaleveys )
@@ -169,7 +169,7 @@ void TulostusRuudukko::piirraOtsikko(QPainter *painter)
     painter->setPen( QPen(Qt::black) );
 
     qreal x = ivali_;
-    for(const auto &sarake : sarakkeet_ ) {
+    for(const auto &sarake : qAsConst( sarakkeet_ )) {
         painter->drawText( QRectF(x, ivali_, sarake.leveys(), rivinkorkeus),
                            sarake.otsikko());
         x+= sarake.leveys() + sarakevali_;

@@ -77,8 +77,8 @@ void TilinPaattaja::paivitaDialogi()
     bool lukittu = kp()->tilitpaatetty() >= tilikausi.paattyy();
 
     ui->otsikkoLabel->setText(tr("Tilinpäätös tilikaudelle %1 - %2")
-                              .arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
-                              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
+                              .arg(tilikausi.alkaa().toString("dd.MM.yyyy"),
+                              tilikausi.paattyy().toString("dd.MM.yyyy")));
 
     ui->valmisteluRyhma->setEnabled( !lukittu);
     ui->lukitseNappi->setVisible(!lukittu);
@@ -107,7 +107,7 @@ void TilinPaattaja::paivitaDialogi()
     kysely->kysy();
 
     KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::GET);
-    connect( tkysely, &KpKysely::vastaus, [this] () {
+    connect( tkysely, &KpKysely::vastaus, this, [this] () {
         this->ui->tulostaNappi->setEnabled(true);
         this->ui->vahvistaNappi->setEnabled(true);
     });

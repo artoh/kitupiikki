@@ -108,7 +108,7 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
 
 qlonglong AlvIlmoitustenModel::marginaalialijaama(const QDate &paiva, int kanta) const
 {
-    for (QVariant item : tiedot_) {
+    for (const auto& item : tiedot_) {
         QVariantMap map = item.toMap();
         if( map.value("kausipaattyy").toDate() != paiva)
             continue;
@@ -121,7 +121,7 @@ qlonglong AlvIlmoitustenModel::marginaalialijaama(const QDate &paiva, int kanta)
 
 bool AlvIlmoitustenModel::onkoIlmoitettu(const QDate &paiva) const
 {
-    for( QVariant item : tiedot_) {
+    for( const auto& item : tiedot_) {
         QVariantMap map = item.toMap();
         if( map.value("kausialkaa").toDate() <= paiva &&
             map.value("kausipaattyy").toDate() >= paiva)
@@ -133,7 +133,7 @@ bool AlvIlmoitustenModel::onkoIlmoitettu(const QDate &paiva) const
 QDate AlvIlmoitustenModel::viimeinenIlmoitus() const
 {
     QDate viimeinen = kp()->asetukset()->pvm("AlvAlkaa", kp()->tilitpaatetty().addDays(-1));
-    for(QVariant item : tiedot_) {
+    for(const auto& item : tiedot_) {
         QVariantMap map = item.toMap();
         QDate pvm = map.value("kausipaattyy").toDate();
         if( pvm > viimeinen)

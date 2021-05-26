@@ -38,7 +38,7 @@ KiertoMuokkausDlg::KiertoMuokkausDlg(int id, QWidget *parent, bool portaali) :
     ui->portaaliRyhma->setEnabled( portaali );
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    connect( ui->nimiEdit, &QLineEdit::textChanged, [this] () {
+    connect( ui->nimiEdit, &QLineEdit::textChanged, this, [this] () {
         this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!this->ui->nimiEdit->text().isEmpty());
     });
 
@@ -46,7 +46,7 @@ KiertoMuokkausDlg::KiertoMuokkausDlg(int id, QWidget *parent, bool portaali) :
 
     connect( ui->osallistujaCombo, &QComboBox::currentTextChanged, this, &KiertoMuokkausDlg::paivitaRooliValinta);
     connect( ui->lisaaNappi, &QPushButton::clicked, this, &KiertoMuokkausDlg::lisaaRivi);
-    connect( ui->osallistujaView->selectionModel(), &QItemSelectionModel::currentChanged, [this] (const QModelIndex& index ) {
+    connect( ui->osallistujaView->selectionModel(), &QItemSelectionModel::currentChanged, this, [this] (const QModelIndex& index ) {
         this->ui->poistaNappi->setEnabled(index.isValid());
     });
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KiertoMuokkausDlg::poistaRivi);

@@ -154,7 +154,7 @@ void LaskunToimittaja::virhe(const QString virhe)
 void LaskunToimittaja::tarkastaValmis()
 {
     bool kaynnissa = tallennusTosite_ || noutoKaynnissa_;
-    for(const auto& toimittaja : toimittajat_) {
+    for(const auto& toimittaja : qAsConst( toimittajat_)) {
         kaynnissa |= !toimittaja->vapaa();
     }
 

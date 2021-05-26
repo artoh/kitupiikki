@@ -69,7 +69,7 @@ void LaskuMaksuLaatikko::piirra(QPainter *painter, qreal x, qreal y)
         x += koko_.width() - 2 * ileveys - sarakkeet_.at(0).koko().width();
     }
 
-    for( const auto& sarake : sarakkeet_) {
+    for( const auto& sarake : qAsConst( sarakkeet_ )) {
         sarake.piirra(painter, x, y);
         x += sarake.koko().width() + vali_;
     }

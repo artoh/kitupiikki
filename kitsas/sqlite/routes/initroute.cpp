@@ -133,7 +133,7 @@ void InitRoute::paivitaTilit(const QVariantList &list)
                           "json=EXCLUDED.json");
 
 
-    for( auto item : list) {
+    for( const auto& item : qAsConst( list )) {
         QVariantMap map = item.toMap();
 
         int numero = map.take("numero").toInt();

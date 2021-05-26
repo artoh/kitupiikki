@@ -61,7 +61,7 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
     ui->malliView->setModel(MallipohjaModel::instanssi());
-    connect(ui->malliView, &QListView::clicked, [this] (const QModelIndex& index)
+    connect(ui->malliView, &QListView::clicked, this, [this] (const QModelIndex& index)
         {emit this->lataaPohja(index.data(Qt::UserRole).toInt());});
     connect( MallipohjaModel::instanssi(), &MallipohjaModel::modelReset, this, &NaytaliiteWg::pohjatSaapui );
 

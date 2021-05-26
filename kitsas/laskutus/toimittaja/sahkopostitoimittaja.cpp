@@ -70,8 +70,8 @@ void SahkopostiToimittaja::toimita()
 
     LaskunTulostaja tulostaja(kp());
 
-    QString otsikko = QString("%3 %1 %2").arg(tosite.lasku().numero()).arg(kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi))
-            .arg( tosite.tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
+    QString otsikko = QString("%3 %1 %2").arg(tosite.lasku().numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
+            tosite.tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
                            (tosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
                                                                             : tulkkaa("laskuotsikko", kieli)));
 

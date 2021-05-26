@@ -108,7 +108,7 @@ void LaskuRaportteri::dataSaapuu(QVariant *data)
     qlonglong kokosumma = 0;
     qlonglong avoinsumma = 0;
 
-    for(auto item : list) {
+    for(const auto& item : qAsConst( list )) {
         QVariantMap map = item.toMap();
 
         RaporttiRivi rivi;

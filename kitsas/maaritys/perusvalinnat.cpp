@@ -43,9 +43,9 @@ Perusvalinnat::Perusvalinnat() :
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
-    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, this, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
-    connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistaLogo(); ui->logoLabel->clear(); });
+    connect( ui->poistaLogoNappi, &QPushButton::clicked, this, [this] { poistaLogo(); ui->logoLabel->clear(); });
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -77,8 +77,7 @@ bool Perusvalinnat::nollaa()
     }    
 
     ui->karttaInfo->setText( QString("%1 %2")
-                             .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
-                             .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy")));
+                             .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta), kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy")));
     ui->alvAlkaaEdit->setEnabled( ui->alvCheck->isChecked());
 
     ui->arkistoEdit->setText(kp()->settings()->value("arkistopolku/" + kp()->asetukset()->uid()).toString());

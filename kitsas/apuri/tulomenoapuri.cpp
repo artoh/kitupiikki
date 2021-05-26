@@ -294,7 +294,7 @@ bool TuloMenoApuri::teeTositteelle()
 
     QVariantList viennit = rivit_->viennit( tosite() );
 
-    for( auto vienti : viennit) {
+    for( const auto& vienti : qAsConst(viennit)) {
         QVariantMap map = vienti.toMap();
         summa += qRound64( map.value("kredit",0).toDouble() * 100.0 );
         summa -= qRound64( map.value("debet",0).toDouble() * 100.0 );

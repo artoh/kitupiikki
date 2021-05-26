@@ -33,7 +33,7 @@ QVariant AlvRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
     QVariantList kyselyntulos = resultList(kysely);
     QVariantList vastaus;
 
-    for(QVariant item : kyselyntulos) {
+    for(const QVariant& item : qAsConst( kyselyntulos )) {
         QVariantMap map = item.toMap();
         QVariantMap vmap = map.value("alv").toMap();
         vmap.remove("koodit");

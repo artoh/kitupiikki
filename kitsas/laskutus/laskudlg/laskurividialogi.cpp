@@ -33,16 +33,16 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     connect( ui->laskutetaanEdit, &KpKplEdit::textEdited, this, &LaskuRiviDialogi::maaraMuutos );
     connect( ui->alvCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &LaskuRiviDialogi::veroMuutos );
 
-    connect( ui->aNetto, &KpEuroEdit::euroMuuttui, [this] (Euro euro) { if(!paivitys_) rivi_.setANetto(euro.toDouble()); paivita(); } );
-    connect( ui->aBrutto, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setABrutto(euro.toDouble()); paivita(); } );
+    connect( ui->aNetto, &KpEuroEdit::euroMuuttui, this, [this] (Euro euro) { if(!paivitys_) rivi_.setANetto(euro.toDouble()); paivita(); } );
+    connect( ui->aBrutto, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setABrutto(euro.toDouble()); paivita(); } );
 
-    connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), [this] (double prossat) { if(!paivitys_) { rivi_.setEuroAlennus(0); rivi_.setAleProsentti(prossat); paivita(); }} );
+    connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), this, [this] (double prossat) { if(!paivitys_) { rivi_.setEuroAlennus(0); rivi_.setAleProsentti(prossat); paivita(); }} );
 
-    connect( ui->euroAleEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setEuroAlennus(euro.toDouble()); paivita(); }} );
-    connect( ui->bruttoAleEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setBruttoEuroAlennus(euro.toDouble()); paivita(); }} );
+    connect( ui->euroAleEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setEuroAlennus(euro.toDouble()); paivita(); }} );
+    connect( ui->bruttoAleEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setBruttoEuroAlennus(euro.toDouble()); paivita(); }} );
 
-    connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
-    connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
+    connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
+    connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
 
     bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
     ui->alvGroup->setVisible(alv);

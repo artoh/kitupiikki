@@ -79,7 +79,7 @@ private slots:
 
     void paivitaKommentti(const QString& kommentti);    
 
-    void salliMuokkaus(MuokkausSallinta sallitaanko);
+    void salliMuokkaus(KirjausWg::MuokkausSallinta sallitaanko);
 
     void vaihdaTositeTyyppi();
     void tositeTyyppiVaihtui(int tyyppiKoodi);

@@ -229,7 +229,7 @@ void NaytinView::htmlLeikepoydalle()
     mimeData->setText( data );
 
     qApp->clipboard()->setMimeData(mimeData);
-    kp()->onni(tr("Viety leikepöydälle"), Kirjanpito::Onnistui);
+    emit kp()->onni(tr("Viety leikepöydälle"), Kirjanpito::Onnistui);
 
 }
 
@@ -329,7 +329,7 @@ void NaytinView::tallennaCsv()
 void NaytinView::csvLeikepoydalle()
 {
     qApp->clipboard()->setText( csv() );
-    kp()->onni(tr("Viety leikepöydälle"));
+    emit kp()->onni(tr("Viety leikepöydälle"));
 }
 
 void NaytinView::zoomFit()

@@ -104,7 +104,7 @@ void TositeriviAlv::paivita()
     vero_ = Euro(0);
     brutto_ = Euro(0);
 
-    for(const auto& tieto : tiedot_) {
+    for(const auto& tieto : qAsConst( tiedot_ )) {
         netto_ += tieto.netto();
         vero_ += tieto.vero();
         brutto_ += tieto.brutto();

@@ -63,7 +63,6 @@ QVariant KohdennusRoute::put(const QString &polku, const QVariant &data)
 {
     QSqlQuery kysely(db());
     QVariantMap map = data.toMap();
-    QVariantMap jemma = map;
 
     kysely.prepare("INSERT INTO Kohdennus(kuuluu,tyyppi,json,id) VALUES (?,?,?,?) "
                    "ON CONFLICT(id) DO UPDATE SET kuuluu=EXCLUDED.kuuluu, "

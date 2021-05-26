@@ -230,10 +230,10 @@ void TiliModel::tallenna(Tili* tili)
                                 QString("/tilit/%1/%2").arg(tili->numero()).arg(tili->otsikkotaso())
                               : QString("/tilit/%1").arg(tili->numero()),
                             KpKysely::PUT);
-    connect( kysely, &KpKysely::vastaus,
+    connect( kysely, &KpKysely::vastaus, this,
              [this,indeksi] () { emit this->dataChanged(this->index(indeksi,0), this->index(indeksi,SALDO));
                                  });
-    connect( kysely, &KpKysely::virhe,
+    connect( kysely, &KpKysely::virhe, this,
              [](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Tilin tallentaminen epäonnistui.\n%1").arg(selitys)); } );
 
     kysely->kysy( tili->data() );
@@ -333,7 +333,7 @@ void TiliModel::lataa(QVariantList lista)
     otsikot.fill(nullptr);
     int ylinotsikkotaso = 0;
 
-    for( QVariant variant : lista)
+    for( const auto& variant : qAsConst( lista ))
     {
         QVariantMap map = variant.toMap();
 
@@ -361,11 +361,11 @@ void TiliModel::lataa(QVariantList lista)
     naytettavat_.clear();
 
     // Samalla ladataan piilotukset ja suosikit
-    for(auto piilo: kp()->asetukset()->asetus(AsetusModel::Piilotilit).split(","))
+    for(const auto& piilo: kp()->asetukset()->asetus(AsetusModel::Piilotilit).split(","))
         piilotetut_.insert(piilo.toInt());
-    for(auto suosikki: kp()->asetukset()->asetus(AsetusModel::Suosikkitilit).split(","))
+    for(const auto& suosikki: kp()->asetukset()->asetus(AsetusModel::Suosikkitilit).split(","))
         suosikit_.insert(suosikki.toInt());
-    for(auto naytettava : kp()->asetukset()->asetus(AsetusModel::Naytetaantilit).split(","))
+    for(const auto& naytettava : kp()->asetukset()->asetus(AsetusModel::Naytetaantilit).split(","))
         naytettavat_.insert(naytettava.toInt());
 
     paivitaTilat();
@@ -394,19 +394,19 @@ void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
 
     // Tallennetaan suosiot
     QStringList piilolista;
-    for( int piilossa : piilotetut_) {
+    for( int piilossa : qAsConst(piilotetut_)) {
         piilolista.append( QString::number(piilossa) );
     }
     kp()->asetukset()->aseta("piilotilit", piilolista.join(","));
 
     QStringList suosikkilista;
-    for( int suosiossa : suosikit_) {
+    for( int suosiossa : qAsConst(suosikit_)) {
         suosikkilista.append( QString::number(suosiossa) );
     }
     kp()->asetukset()->aseta("suosikkitilit", suosikkilista.join(","));
 
     QStringList nayttolista;
-    for(int naytetaan: naytettavat_)
+    for(int naytetaan: qAsConst(naytettavat_))
         nayttolista.append(QString::number((naytetaan)));
     kp()->asetukset()->aseta("naytetaantilit", nayttolista.join(","));
 
@@ -438,7 +438,7 @@ void TiliModel::saldotSaapuu(QVariant *saldot)
 
 void TiliModel::tyhjenna()
 {
-    for(Tili *tili : tiliLista_)
+    for(Tili *tili : qAsConst(tiliLista_))
         delete tili;
 
     tiliLista_.clear();
@@ -451,7 +451,7 @@ void TiliModel::paivitaTilat()
     int laajuus = kp()->asetukset()->luku(AsetusModel::Laajuus,3);
     QString muoto = kp()->asetukset()->asetus(AsetusModel::Muoto);
 
-    for(Tili* tili : tiliLista_) {
+    for(Tili* tili : qAsConst(tiliLista_)) {
         if( tili->otsikkotaso()) {
             tili->asetaTila(Tili::TILI_PIILOSSA);
             continue;

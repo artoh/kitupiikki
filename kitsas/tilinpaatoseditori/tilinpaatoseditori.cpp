@@ -203,7 +203,7 @@ void TilinpaatosEditori::eitekstia(int virhe)
 
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
-    QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
+
     if( editori_->toHtml() != tallennettu_)
     {
         QMessageBox::StandardButton vastaus =
@@ -278,7 +278,7 @@ void TilinpaatosEditori::tallenna()
     TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,
                                                         kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ,this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
-    connect( tp, &TilinpaatosTulostaja::tallennettu, [] { kp()->onni(tr("Tilinpäätös tallennettu")); });
+    connect( tp, &TilinpaatosTulostaja::tallennettu, [] { emit kp()->onni(tr("Tilinpäätös tallennettu")); });
     tp->tallenna();
 
 }

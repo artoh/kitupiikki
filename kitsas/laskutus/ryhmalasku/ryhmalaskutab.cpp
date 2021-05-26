@@ -56,7 +56,7 @@ void RyhmalaskuTab::lisaaKaikki()
 void RyhmalaskuTab::uusiAsiakas()
 {
     AsiakasToimittajaDlg* dlg = new AsiakasToimittajaDlg(this);
-    connect( dlg, &AsiakasToimittajaDlg::tallennettu, [this] (int id) { this->laskutettavat_->lisaa(id); });
+    connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, [this] (int id) { this->laskutettavat_->lisaa(id); });
     if( ryhmaCombo_->currentData().toInt())
         dlg->lisaaRyhmaan(ryhmaCombo_->currentData().toInt());
     dlg->uusi();
@@ -88,7 +88,7 @@ void RyhmalaskuTab::luoUi()
 
     AsiakkaatModel *asiakkaat = new AsiakkaatModel(this);
     asiakkaat->paivita(AsiakkaatModel::REKISTERI);
-    connect( ryhmaCombo_, &QComboBox::currentTextChanged,
+    connect( ryhmaCombo_, &QComboBox::currentTextChanged, this,
              [this, asiakkaat] { asiakkaat->suodataRyhma(this->ryhmaCombo_->currentData(AsiakkaatModel::IdRooli).toInt()); }  );
 
     RyhmaanAsiakkaatProxy *suodatusProxy = new RyhmaanAsiakkaatProxy(this);
@@ -131,7 +131,7 @@ void RyhmalaskuTab::luoUi()
     laskutettavatView_->setItemDelegateForColumn(LaskutettavatModel::LAHETYSTAPA, new ToimitustapaDelegaatti(this));
     laskutettavatView_->setEditTriggers(QTableView::AllEditTriggers);
 
-    connect( laskutettavatView_->selectionModel(), &QItemSelectionModel::selectionChanged, [this]
+    connect( laskutettavatView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, [this]
         {this->poistaNappi_->setEnabled( this->laskutettavatView_->selectionModel()->selectedIndexes().value(0).isValid() );});
 
     poistaNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista"));
@@ -151,7 +151,7 @@ void RyhmalaskuTab::luoUi()
     setStretchFactor(0,1);
     setStretchFactor(1,3);
 
-    connect( asiakasView_, &QTableView::clicked,
+    connect( asiakasView_, &QTableView::clicked, this,
              [this] (const QModelIndex& index)
             { this->laskutettavat_->lisaa(index.data(AsiakkaatModel::IdRooli).toInt());});
 

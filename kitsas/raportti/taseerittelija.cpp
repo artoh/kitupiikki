@@ -40,7 +40,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
 {
     RaportinKirjoittaja rk(false);
     rk.asetaOtsikko(kaanna("TASE-ERITTELY"));
-    rk.asetaKausiteksti(QString("%1 - %2").arg(mista_.toString("dd.MM.yyyy")).arg(mihin_.toString("dd.MM.yyyy")));
+    rk.asetaKausiteksti(QString("%1 - %2").arg(mista_.toString("dd.MM.yyyy"), mihin_.toString("dd.MM.yyyy")));
 
     rk.lisaaSarake("12345678"); // Tosite
     rk.lisaaPvmSarake();        // Päivämäärä
@@ -93,7 +93,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
         }
 
         QChar tyyppi = iter.key().at( iter.key().length()-1 );
-        int tilinumero = iter.key().left(iter.key().length()-1).toInt();
+        int tilinumero = iter.key().leftRef(iter.key().length()-1).toInt();
         Tili* tili = kp()->tilit()->tili(tilinumero);
         if( !tili)
             continue;
@@ -118,7 +118,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             if( tyyppi == 'T') {
                 // Täysi tase-erittely
                 rk.lisaaRivi();
-                for(QVariant era : iter.value().toList() ) {
+                for(const QVariant& era : iter.value().toList() ) {
                     QVariantMap map = era.toMap();
 
                     RaporttiRivi nimirivi;
@@ -164,7 +164,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                     }
 
                     // Muutokset
-                    for( QVariant muutos : map.value("kausi").toList()) {
+                    for( const QVariant& muutos : map.value("kausi").toList()) {
                         QVariantMap mmap = muutos.toMap();
                         RaporttiRivi rr;
                         lisaaTositeTunnus(&rr, mmap);
@@ -204,7 +204,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                 rk.lisaaRivi( saldorivi);
 
                 // Muutokset
-                for( QVariant muutos : map.value("kausi").toList()) {
+                for( const QVariant& muutos : map.value("kausi").toList()) {
                     QVariantMap mmap = muutos.toMap();
                     RaporttiRivi rr;
                     lisaaTositeTunnus(&rr, mmap);
@@ -227,7 +227,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             } else if( tyyppi == 'E') {
                 QVariantList erat = iter.value().toList();
 
-                for( QVariant era : erat ) {
+                for( const QVariant& era : qAsConst( erat )) {
                     QVariantMap emap = era.toMap();
                     RaporttiRivi rr;
 

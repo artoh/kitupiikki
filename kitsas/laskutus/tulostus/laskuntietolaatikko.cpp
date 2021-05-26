@@ -61,8 +61,7 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
         lisaa("lnro", lasku.numero());
 
         if( lasku.jaksopvm().isValid()) {           
-            lisaa( "laskutusjakso", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"))
-                                               .arg( lasku.jaksopvm().toString("dd.MM.yyyy")));
+            lisaa( "laskutusjakso", QString("%1 - %2").arg( lasku.toimituspvm().toString("dd.MM.yyyy"), lasku.jaksopvm().toString("dd.MM.yyyy")));
         } else if( lasku.maksutapa() != Lasku::ENNAKKOLASKU) {
             lisaa("toimpvm", lasku.toimituspvm());
         }
@@ -170,7 +169,7 @@ qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
     const int rivilisa = metrics.xHeight() / 5;
 
     QRect otsikkoLaskuRect(0,0,leveys,painter->window().height());
-    for(const auto& rivi: rivit_) {
+    for(const auto& rivi: qAsConst(  rivit_ )) {
         int leveys = painter->boundingRect( otsikkoLaskuRect, rivi.otsikko() ).width();
         if( leveys > otsikkoleveys_)
             otsikkoleveys_ = leveys;
@@ -183,7 +182,7 @@ qreal LaskunTietoLaatikko::laskeLaatikko(QPainter *painter, qreal leveys)
     qreal laatikonKorkeus = metrics.horizontalAdvance("ii");
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
 
-    for(const auto& rivi: rivit_) {
+    for(const auto& rivi: qAsConst( rivit_ )) {
         laatikonKorkeus += painter->boundingRect( tietoLaskuRect, Qt::TextWordWrap, rivi.tieto() ).height() + rivilisa;
     }
     laatikonKorkeus -= rivilisa;
@@ -251,7 +250,7 @@ void LaskunTietoLaatikko::piirraTekstit(QPainter *painter)
 
     qreal y = laatikko_.y() + marginaali;
 
-    for(const auto& rivi : rivit_) {
+    for(const auto& rivi : qAsConst( rivit_)) {
         QRectF otsikkoRect(laatikko_.x() + marginaali, y,
                            laatikko_.width(), laatikko_.height());
         painter->drawText( otsikkoRect, rivi.otsikko() );

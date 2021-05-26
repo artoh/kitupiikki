@@ -314,7 +314,7 @@ signals:
      * @brief Näytetään vähän aikaa ilmoitus (epä)onnistumisesta
      * @param teksti Näytettävä teksti
      */
-    void onni(const QString& teksti, Onni onni = Onnistui);
+    void onni(const QString& teksti, Kirjanpito::Onni onni = Onnistui);
 
     /**
      * @brief Näytetään ilmoitus tositteen tallentumisesta

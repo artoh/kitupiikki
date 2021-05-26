@@ -32,14 +32,14 @@ LuoTunnusDialogi::LuoTunnusDialogi(QWidget *parent) :
     ui->setupUi(this);
 
     ui->ehtoBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    connect( ui->ehdotCheck, &QCheckBox::clicked, [this] (bool onko) { this->ui->ehtoBox->button(QDialogButtonBox::Ok)->setEnabled(onko);});
-    connect( ui->ehtoBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/tilaus/tunnus/"); });
-    connect( ui->ehtoBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, [this] { this->ui->stackedWidget->setCurrentIndex(OSOITE); });
+    connect( ui->ehdotCheck, &QCheckBox::clicked, this, [this] (bool onko) { this->ui->ehtoBox->button(QDialogButtonBox::Ok)->setEnabled(onko);});
+    connect( ui->ehtoBox, &QDialogButtonBox::helpRequested, this, [] { kp()->ohje("aloittaminen/tilaus/tunnus/"); });
+    connect( ui->ehtoBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, [this] { this->ui->stackedWidget->setCurrentIndex(OSOITE); });
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/tilaus/tunnus/"); });
     connect( ui->osoiteEdit, &QLineEdit::textEdited, this, &LuoTunnusDialogi::tarkastaEmail);
-    connect( ui->nimiEdit, &QLineEdit::textEdited, [this] { ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( ui->nimiEdit->text().length() > 3 && !ui->kaytossaLabel->isVisible() );} );
+    connect( ui->nimiEdit, &QLineEdit::textEdited, this, [this] { ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( ui->nimiEdit->text().length() > 3 && !ui->kaytossaLabel->isVisible() );} );
 
     ui->kaytossaLabel->hide();
     ui->verkkovirheLabel->hide();
@@ -82,9 +82,11 @@ void LuoTunnusDialogi::tarkastaEmail()
         request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
         QNetworkReply *reply =  kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &LuoTunnusDialogi::emailTarkistettu);
-        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this,
             [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
-        connect( reply, &QNetworkReply::sslErrors, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
+        connect( reply, &QNetworkReply::sslErrors, [] (const QList<QSslError>& errors) {
+            for(const auto& virhe : errors) qDebug() << virhe.errorString();
+        });
     }
 }
 

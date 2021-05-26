@@ -96,7 +96,7 @@ void AsiakkaatModel::paivita(int valinta)
         utelu = kpk("/toimittajat");
     else if(valinta == ASIAKKAAT)
         utelu = kpk("/asiakkaat");
-    else if( valinta == REKISTERI)
+    else
         utelu = kpk("/kumppanit");
 
     connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);

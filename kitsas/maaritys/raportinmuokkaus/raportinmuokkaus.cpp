@@ -54,7 +54,7 @@ bool RaportinMuokkaus::nollaa()
     QStringList lista = kp()->asetukset()->avaimet("tase/");
     lista.append( kp()->asetukset()->avaimet("tulos/") );
 
-    for(auto item : lista)
+    for(const auto& item : qAsConst( lista ))
         ui->raporttiCombo->addItem(item);
 
     paivitaNapit(QModelIndex());

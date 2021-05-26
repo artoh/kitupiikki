@@ -50,7 +50,7 @@ void SiirryDlg::tarkista()
     tosite = 0;
     ui->siirryNappi->setEnabled(false);
 
-    for(QVariant var : lista_) {
+    for(const auto& var : qAsConst(lista_)) {
         QVariantMap map = var.toMap();
         if( map.value("sarja").toString() == ui->tyyppiCombo->currentText() &&
             map.value("tunniste").toString() == ui->nroEdit->text()) {

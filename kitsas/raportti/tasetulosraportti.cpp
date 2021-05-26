@@ -62,10 +62,10 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     ui->tyyppi4->setModel(tyyppiListaModel);
 
     // Jos alkupäivämäärä on tilikauden aloittava, päivitetään myös päättymispäivä tilikauden päättäväksi
-    connect( ui->alkaa1Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa2Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa3Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
-    connect( ui->alkaa4Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa1Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa2Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa3Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa4Date, &QDateEdit::dateChanged, this, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
 
     for(QObject* widget : ui->pvmKehys->children()) {
         QDateEdit* date = qobject_cast<QDateEdit*>(widget);
@@ -112,7 +112,7 @@ void TaseTulosRaportti::esikatsele()
     }
 
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
-    connect( raportoija, &Raportoija::tyhjaraportti, [this] () { this->nayta(RaportinKirjoittaja()); });
+    connect( raportoija, &Raportoija::tyhjaraportti, this, [this] () { this->nayta(RaportinKirjoittaja()); });
 
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
@@ -139,7 +139,7 @@ void TaseTulosRaportti::paivitaKielet()
     QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
     ui->kieliCombo->clear();
 
-    for(auto kieli : kielet.keys()) {
+    for(const auto& kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
     int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
@@ -165,7 +165,7 @@ void TaseTulosRaportti::paivitaMuodot()
 
     ui->muotoCombo->clear();
 
-    for( auto muoto : muodot ) {
+    for( const auto& muoto : qAsConst( muodot )) {
         QString kaava = kp()->asetukset()->asetus(muoto);
         QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
         QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();

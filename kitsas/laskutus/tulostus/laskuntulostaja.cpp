@@ -119,11 +119,11 @@ QByteArray LaskunTulostaja::pdf(Tosite &tosite)
 
     QPdfWriter writer(&buffer);
     writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-    writer.setPageSize( QPdfWriter::A4);
+    writer.setPageSize( QPageSize(QPageSize::A4));
     writer.setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
     QPainter painter(&writer);
 
-    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName(), qApp->applicationVersion() ));
     writer.setTitle( tr("Lasku %1").arg( tosite.constLasku().numero() ) );
     tulosta(tosite , &writer, &painter);
     painter.end();

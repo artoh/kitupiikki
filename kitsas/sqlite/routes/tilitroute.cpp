@@ -32,8 +32,8 @@ QVariant TilitRoute::put(const QString &osoite, const QVariant &data)
 
     if( osoite.contains('/')) {
         int kautta = osoite.indexOf('/');
-        int numero = osoite.left(kautta).toInt();
-        int taso = osoite.mid(kautta+1).toInt();
+        int numero = osoite.leftRef(kautta).toInt();
+        int taso = osoite.midRef(kautta+1).toInt();
 
         map.take("numero");
         map.take("tyyppi");
@@ -66,8 +66,8 @@ QVariant TilitRoute::doDelete(const QString &polku)
     QSqlQuery kysely( db() );
     if( polku.contains('/')) {
         kysely.exec( QString("DELETE FROM Otsikko WHERE numero=%1 AND taso=%2")
-                     .arg(polku.left(polku.indexOf('/')).toInt())
-                     .arg(polku.mid(polku.indexOf('/')+1).toInt()));
+                     .arg(polku.leftRef(polku.indexOf('/')).toInt())
+                     .arg(polku.midRef(polku.indexOf('/')+1).toInt()));
     } else {
         kysely.exec( QString("DELETE FROM Tili WHERE numero=%1").arg(polku.toInt()));
     }

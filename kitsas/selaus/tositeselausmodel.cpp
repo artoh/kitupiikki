@@ -144,7 +144,7 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
     rivit_.clear();
     rivit_.reserve(lista.count());
 
-    for( const auto& item : lista ) {
+    for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
         TositeSelausRivi rivi(map, samakausi_);
         rivit_.append(rivi);

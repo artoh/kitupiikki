@@ -32,7 +32,7 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
     if( kohdennuksella > -1 ) {
         // Tulostetaan vain yhdestä kohdennuksesta
         optiot_ |= Kohdennuksella;
-        rk.asetaOtsikko( QString("%1 (%2)").arg(kaanna("PÄIVÄKIRJA")).arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
+        rk.asetaOtsikko( QString("%1 (%2)").arg(kaanna("PÄIVÄKIRJA"), kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
     } else
     rk.asetaOtsikko(kaanna("PÄIVÄKIRJA"));
 
@@ -103,13 +103,13 @@ void Paivakirja::dataSaapuu(QVariant *data)
     qlonglong debetvalisumma = 0;
     qlonglong kreditvalisumma = 0;
 
-    for( auto item : lista) {
+    for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
         if( !oletustilikausi_.kuuluuko( map.value("tosite").toMap().value("pvm").toDate() ))
             samatilikausi_ = false;
     }
 
-    for(auto item : lista) {
+    for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
 
         int tositetyyppi = map.value("tosite").toMap().value("tyyppi").toInt();

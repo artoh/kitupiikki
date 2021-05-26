@@ -90,7 +90,7 @@ void AbstraktiToimittaja::merkkaaJonosta()
     QVariantMap map;
     map.insert("tila", Tosite::LAHETETTYLASKU);
     connect( kysely, &KpKysely::vastaus, this, &AbstraktiToimittaja::merkattu, Qt::QueuedConnection);
-    connect( kysely, &KpKysely::virhe, [this] { emit this->epaonnistui(tr("Tositteen päivittäminen epäonnistui")); });
+    connect( kysely, &KpKysely::virhe, this, [this] { emit this->epaonnistui(tr("Tositteen päivittäminen epäonnistui")); });
     kysely->kysy(map);
 }
 

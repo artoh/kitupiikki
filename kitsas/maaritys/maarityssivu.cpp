@@ -84,7 +84,7 @@ MaaritysSivu::MaaritysSivu() :
 
 
     // connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
-    connect(lista, &QListWidget::itemClicked, [this] (QListWidgetItem* item) { this->valitseSivu(item); });
+    connect(lista, &QListWidget::itemClicked, this, [this] (QListWidgetItem* item) { this->valitseSivu(item); });
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);

@@ -90,7 +90,7 @@ void KommentitWidget::lataa()
         QString aika = map.value("aika").toDateTime().toString("dd.MM.yyyy hh.mm");
         QString teksti = map.value("teksti").toString().toHtmlEscaped().replace("\n","<br>");
 
-        txt.append(QString("<h3>%1 %2</h3>").arg(nimi).arg(aika));
+        txt.append(QString("<h3>%1 %2</h3>").arg(nimi, aika));
         txt.append(QString("<p>%1</p>").arg(teksti));
         eka = false;
     }
@@ -128,7 +128,7 @@ void KommentitWidget::tallennettu()
     QString uusi;
     if(!browser_->toPlainText().isEmpty())
         uusi = "<hr>";
-    uusi.append(QString("<h3>%1 %2</h3>").arg( kp()->pilvi()->kayttajaNimi() ).arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    uusi.append(QString("<h3>%1 %2</h3>").arg( kp()->pilvi()->kayttajaNimi() , QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     uusi.append(QString("<p>%1</p></body>").arg(edit_->toPlainText().replace("\n","<br>")));
 
     browser_->setHtml( browser_->toHtml().replace("</body>", uusi) );

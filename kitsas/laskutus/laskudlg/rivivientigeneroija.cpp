@@ -231,7 +231,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 void RiviVientiGeneroija::generoiVeroviennit(const QDate &pvm)
 {
     QList<int> indeksit = alv_.indeksitKaytossa();
-    for(int indeksi : indeksit) {
+    for(int indeksi : qAsConst( indeksit )) {
         int verokoodi = alv_.alvkoodi(indeksi);
         if( verokoodi == AlvKoodi::MYYNNIT_NETTO && alv_.vero(indeksi).cents()) {
             generoiVeroVienti( alv_.veroprosentti(indeksi), alv_.vero(indeksi), pvm );

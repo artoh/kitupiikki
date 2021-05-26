@@ -51,7 +51,7 @@ AlvSivu::AlvSivu() :
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
     paivitaMaksuAlvTieto();
 
-    connect(ui->kausiCombo, &QComboBox::currentTextChanged, [this] { if(!alustaa_) kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
+    connect(ui->kausiCombo, &QComboBox::currentTextChanged, this, [this] { if(!alustaa_) kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
     connect(ui->alkaaEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaLoppu);
     connect(ui->paattyyEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaErapaiva);
     connect( kp()->alvIlmoitukset(), &AlvIlmoitustenModel::modelReset, this, &AlvSivu::siirrySivulle);
@@ -243,7 +243,7 @@ void AlvSivu::paivitaMaksuAlvTieto()
     else if( !loppuu.isValid())
         ui->maksuAlv->setText(tr("Käytössä %1 alkaen").arg(alkaa.toString("dd.MM.yyyy")));
     else
-        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString("dd.MM.yyyy")).arg(loppuu.toString("dd.MM.yyyy")));
+        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString("dd.MM.yyyy"), loppuu.toString("dd.MM.yyyy")));
 }
 
 

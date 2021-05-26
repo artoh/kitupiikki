@@ -56,11 +56,11 @@ VanhatuontiDlg::VanhatuontiDlg(QWidget *parent) :
     alustaTuonti();
 
     connect( ui->valitseTiedosto, &QPushButton::clicked, this, &VanhatuontiDlg::tuoTiedostosta);
-    connect( ui->lista, &QListWidget::itemClicked, [this] (QListWidgetItem *item) { this->avaaTietokanta( item->data(Qt::UserRole).toString()) ;});
+    connect( ui->lista, &QListWidget::itemClicked, this, [this] (QListWidgetItem *item) { this->avaaTietokanta( item->data(Qt::UserRole).toString()) ;});
     connect( ui->jatkaNappi, &QPushButton::clicked, this, &VanhatuontiDlg::alustaSijainti);
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &VanhatuontiDlg::valitseHakemisto);
     connect( ui->tuoNappi, &QPushButton::clicked, this, &VanhatuontiDlg::tuo);
-    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("aloittaminen/kitupiikki"); });
+    connect( ui->ohjeNappi, &QPushButton::clicked, this, [] { kp()->ohje("aloittaminen/kitupiikki"); });
 }
 
 VanhatuontiDlg::~VanhatuontiDlg()
@@ -77,7 +77,7 @@ void VanhatuontiDlg::alustaTuonti()
     QVariantMap kirjanpidot = settings.value("Tietokannat").toMap();
 
     // Poistetaan ne, joita ei löydy
-    for(QString polku : kirjanpidot.keys()) {
+    for(const QString& polku : kirjanpidot.keys()) {
         if( QFile::exists(polku))
             kirjanpidot.remove("polku");
     }
@@ -125,7 +125,7 @@ void VanhatuontiDlg::haeTilikartta(const QString &polku)
         QFile muunto(polku + "/muunto.txt");
         if( muunto.open(QIODevice::ReadOnly)) {
             QString txt = QString::fromUtf8(muunto.readAll());
-            for(QString rivi : txt.split('\n')) {
+            for(const auto& rivi : txt.split('\n')) {
                 QStringList osat = rivi.split(":");
                 if( osat.value(1).toInt())
                     tilinMuunto_.insert( osat.value(0).toInt(), osat.value(1).toInt() );
@@ -151,8 +151,7 @@ void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
         ui->virheLabel->setText(tr("Valitsemaasi tiedostoa %1 ei voi avata, tai se ei "
                                    "ole SQLITE-tietokanta.\n\n"
                                    "%2")
-                                .arg(tiedostonnimi)
-                                .arg(kpdb_.lastError().text()));
+                                .arg(tiedostonnimi, kpdb_.lastError().text()));
         return;
     }
 
@@ -167,8 +166,7 @@ void VanhatuontiDlg::avaaTietokanta(const QString &tiedostonnimi)
             ui->virheLabel->setText(tr("Tiedoston %1 avaamisessa tapahtui virhe tai valitsemasi "
                                        "tiedosto ei ole Kitupiikin tietokanta \n\n"
                                        "%2")
-                                    .arg(tiedostonnimi)
-                                    .arg(query.lastError().text()));
+                                    .arg(tiedostonnimi, query.lastError().text()));
         }
         return;
     }
@@ -228,7 +226,7 @@ void VanhatuontiDlg::alustaValinnat()
 
     if( kitupiikkiTilikartta == "yhdistys-1.kpk") {
         ui->tilikarttaLabel->setText(tr("Yhdistys"));
-        int laajuus = kitupiikkiAsetukset_.value("Muoto").left(1).toInt();
+        int laajuus = kitupiikkiAsetukset_.value("Muoto").leftRef(1).toInt();
         if( laajuus > 3)
             laajuus++;  // Väliin tullut yksi laajuus
         kitsasAsetukset_.insert("laajuus", laajuus);
@@ -446,7 +444,7 @@ void VanhatuontiDlg::siirraAsetukset()
     }
 
 
-    for(auto siirrettava : siirrettavat)
+    for(const auto& siirrettava : qAsConst( siirrettavat))
         if( kitupiikkiAsetukset_.contains(siirrettava))
             map.insert(siirrettava, kitupiikkiAsetukset_.value(siirrettava));
 
@@ -830,7 +828,7 @@ void VanhatuontiDlg::laskuTiedot(const QSqlQuery &vientikysely, Tosite &tosite)
     QVariantList tuontiRivit = vientiJson.value("Laskurivit").toList();
 
     QVariantList rivit;
-    for(auto item : tuontiRivit) {
+    for(const auto& item : qAsConst( tuontiRivit)) {
         QVariantMap map = item.toMap();
         QVariantMap riviMap;
 
