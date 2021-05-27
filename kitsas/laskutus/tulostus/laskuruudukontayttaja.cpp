@@ -133,9 +133,10 @@ TulostusRuudukko LaskuRuudukonTayttaja::kuukausiRuudukko(const Lasku &lasku, QPa
 
     while( alkaa <= paattyy) {
         QStringList tekstit;
-        tekstit << QString("%1.%2.%3").arg(erapaiva, 2, 10, QChar('0'))
-                                      .arg(alkaa.month(), 2, 10, QChar('0'))
-                                      .arg(alkaa.year());
+        QDate pvm = QDate(alkaa.year(), alkaa.month(), erapaiva);
+        if( !pvm.isValid()) pvm = QDate(alkaa.year(), alkaa.month(), alkaa.daysInMonth());
+
+        tekstit << pvm.toString("dd.MM.yyyy");
         tekstit << ( kitsas_->asetukset()->onko(AsetusModel::LaskuRF) ?
                        lasku.viite().rfviite() : lasku.viite().valeilla() );
         tekstit << alv_.brutto().display();

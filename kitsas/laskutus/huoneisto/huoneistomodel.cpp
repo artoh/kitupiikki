@@ -19,6 +19,7 @@
 
 #include "db/kirjanpito.h"
 #include "rekisteri/asiakastoimittajalistamodel.h"
+#include "pilvi/pilvimodel.h"
 
 HuoneistoModel::HuoneistoModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -96,10 +97,16 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
 
 void HuoneistoModel::paivita()
 {
-    KpKysely* kysely = kpk("/huoneistot");
-    kysely->lisaaAttribuutti("saldopvm", kp()->paivamaara());
-    connect( kysely, &KpKysely::vastaus, this, &HuoneistoModel::lataa);
-    kysely->kysy();
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
+        KpKysely* kysely = kpk("/huoneistot");
+        kysely->lisaaAttribuutti("saldopvm", kp()->paivamaara());
+        connect( kysely, &KpKysely::vastaus, this, &HuoneistoModel::lataa);
+        kysely->kysy();
+    } else {
+        beginResetModel();
+        huoneistot_.clear();
+        endResetModel();
+    }
 }
 
 QString HuoneistoModel::tunnus(int id) const

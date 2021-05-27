@@ -105,6 +105,10 @@ void RiviVientiGeneroija::generoiKuukausittaisetLaskut()
 
     while( pvm < loppupvm) {
         QDate kkpvm = QDate( pvm.year(), pvm.month(), erapvm);
+        if( !kkpvm.isValid()) {
+            kkpvm = QDate( pvm.year(), pvm.month(), 1 );
+            kkpvm = kkpvm.addDays( kkpvm.daysInMonth() - 1 );
+        }
         generoiViennit(kkpvm);
         pvm  = pvm.addMonths(1);
     }
