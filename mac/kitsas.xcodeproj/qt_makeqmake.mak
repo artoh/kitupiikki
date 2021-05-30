@@ -223,6 +223,7 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.15.0/clang_
 		../../../Qt/5.15.0/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.15.0/clang_64/mkspecs/features/lex.prf \
 		../kitsas/kitsas.pro \
+		../kitsas/rekisteri/rekisteri.qrc \
 		../kitsas/sqlite/sqlite.qrc \
 		../kitsas/tr/tr.qrc \
 		../kitsas/tilikartat/tilikartat.qrc \
@@ -452,6 +453,7 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/5.15.0/clang_
 ../../../Qt/5.15.0/clang_64/mkspecs/features/yacc.prf:
 ../../../Qt/5.15.0/clang_64/mkspecs/features/lex.prf:
 ../kitsas/kitsas.pro:
+../kitsas/rekisteri/rekisteri.qrc:
 ../kitsas/sqlite/sqlite.qrc:
 ../kitsas/tr/tr.qrc:
 ../kitsas/tilikartat/tilikartat.qrc:
