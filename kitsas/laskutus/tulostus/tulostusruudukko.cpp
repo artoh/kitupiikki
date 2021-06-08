@@ -185,7 +185,7 @@ void TulostusRuudukko::piirraRivi(const Rivi &rivi, QPainter *painter)
     qreal x = ivali_;
     for(int c = 0; c < sarakkeet_.count(); c++) {
         QRect alue(x, ivali_, sarakkeet_.at(c).leveys(), rivi.korkeus());
-        painter->drawText(alue, Qt::TextWordWrap | sarakkeet_.at(c).tasaus(), rivi.teksti(c));
+        painter->drawText(alue, ( c ? 0 : Qt::TextWordWrap ) | sarakkeet_.at(c).tasaus(), rivi.teksti(c));
         x += sarakkeet_.at(c).leveys() + sarakevali_;
     }
 

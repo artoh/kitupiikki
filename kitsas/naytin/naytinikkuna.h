@@ -45,13 +45,17 @@ public:
     static void naytaTiedosto(const QString& tiedostonnimi);
     static void naytaLiite(const int liiteId);
     static void naytaLiite(const int tositeId, const QString& rooli);
+    static void naytaLasku(const int tositeId);
 
-protected:
-    static void naytaLiite(const QString& hakulauseke);
+protected:        
+    static void naytaLiite(const QString& hakulauseke);        
+
     void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void sisaltoMuuttui();
+    void lataaLaskuTosite(int tositeId);
+    void tositeLadattu();
 
 private:
     void teeToolbar();

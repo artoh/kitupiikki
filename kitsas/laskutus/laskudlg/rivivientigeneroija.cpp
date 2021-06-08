@@ -50,7 +50,7 @@ void RiviVientiGeneroija::generoiViennit(Tosite *tosite, int eraId)
                     // Pitäisikö tehdä nollavienti jotta tulee listaan?
 
     alv_.yhdistaRiveihin( tosite->rivit() );
-    alv_.asetaBruttoPeruste( lasku.riviTyyppi() == Lasku::BRUTTORIVIT );
+    alv_.asetaBruttoPeruste( lasku.riviTyyppi() != Lasku::NETTORIVIT  );
     alv_.paivita();
 
     if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN ) {

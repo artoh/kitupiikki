@@ -307,7 +307,7 @@ void LaskulistaWidget::naytaLasku()
     int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS && tositeId) {
-        NaytinIkkuna::naytaLiite(tositeId,"lasku");
+        NaytinIkkuna::naytaLasku(tositeId);
     } else if( tositeId) {
         LisaIkkuna *lisa = new LisaIkkuna(this);
         lisa->naytaTosite(tositeId);

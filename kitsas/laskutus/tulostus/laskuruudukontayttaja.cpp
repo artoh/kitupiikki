@@ -39,7 +39,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::tayta(Tosite &tosite)
     pitkatrivit_ = tosite.lasku().riviTyyppi() == Lasku::PITKATRIVIT;
 
     alv_.yhdistaRiveihin( tosite.rivit());
-    alv_.asetaBruttoPeruste( bruttolaskenta_ );
+    alv_.asetaBruttoPeruste( tosite.lasku().riviTyyppi() != Lasku::NETTORIVIT );
     alv_.paivita();
 
     if( tosite.rivit()->rowCount() == 0)

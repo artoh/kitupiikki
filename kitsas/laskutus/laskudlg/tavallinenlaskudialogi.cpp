@@ -115,16 +115,16 @@ void TavallinenLaskuDialogi::paivitaToistojakso()
 
     QDate alku = ui->toimitusDate->date();
     const QDate& loppu = ui->jaksoDate->date();
+
     int kk = 0;
 
     if( loppu.isValid()) {
-        while( alku < loppu) {
+        // Lasketaan kuukaudet alun jo lopun välillä
+        qlonglong alkuluku = alku.year() * 12 * 31 + alku.month() * 31 + alku.day();
+        const qlonglong loppuluku = loppu.year() * 12 * 31 + loppu.month() * 31 + loppu.day();
+        while( alkuluku < loppuluku) {
             kk++;
-            if( alku.month() == 12) {
-                alku.setDate( alku.year()+1, 1, alku.day() );
-            } else {
-                alku.setDate( alku.year(), alku.month()+1, alku.day());
-            }
+            alkuluku += 31;
         }
     }
 

@@ -18,6 +18,9 @@
 #include "naytinview.h"
 #include "db/kirjanpito.h"
 
+#include "model/tosite.h"
+#include "laskutus/tulostus/laskuntulostaja.h"
+
 #include <QAction>
 #include <QToolButton>
 #include <QToolBar>
@@ -94,15 +97,29 @@ void NaytinIkkuna::naytaLiite(const int tositeId, const QString &rooli)
     naytaLiite( QString("%1/%2").arg(tositeId).arg(rooli));
 }
 
+void NaytinIkkuna::naytaLasku(const int tositeId)
+{
+    NaytinIkkuna *ikkuna = new NaytinIkkuna;
+
+    KpKysely *kysely = kpk( QString("/liitteet/%1/lasku").arg(tositeId));
+    connect( kysely, &KpKysely::vastaus, ikkuna, [ikkuna] (QVariant* data)
+        { ikkuna->show(); ikkuna->view()->nayta( data->toByteArray() ); } );
+    connect( kysely, &KpKysely::virhe, ikkuna, [ikkuna, tositeId]
+        { ikkuna->lataaLaskuTosite(tositeId); });
+    kysely->kysy();
+}
+
 void NaytinIkkuna::naytaLiite(const QString &hakulauseke)
 {
     NaytinIkkuna *ikkuna = new NaytinIkkuna;
 
     KpKysely *kysely = kpk("/liitteet/" + hakulauseke);
-    connect( kysely, &KpKysely::vastaus, [ikkuna] (QVariant* data)
+    connect( kysely, &KpKysely::vastaus, ikkuna, [ikkuna] (QVariant* data)
         { ikkuna->show(); ikkuna->view()->nayta( data->toByteArray() ); } );
     kysely->kysy();
 }
+
+
 
 void NaytinIkkuna::closeEvent(QCloseEvent *event)
 {
@@ -128,8 +145,20 @@ void NaytinIkkuna::sisaltoMuuttui()
         avaaAktio_->setIcon( QIcon(":/pic/pdf.png"));
 }
 
+void NaytinIkkuna::lataaLaskuTosite(int tositeId)
+{
+    Tosite* tosite = new Tosite(this);
+    connect( tosite, &Tosite::ladattu, this, &NaytinIkkuna::tositeLadattu);
+    tosite->lataa(tositeId);
+}
 
-
+void NaytinIkkuna::tositeLadattu()
+{
+    Tosite* tosite = qobject_cast<Tosite*>(sender());
+    LaskunTulostaja tulostaja(kp(), this);
+    show();
+    view_->nayta( tulostaja.pdf(*tosite) );
+}
 
 
 void NaytinIkkuna::teeToolbar()
