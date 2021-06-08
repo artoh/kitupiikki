@@ -170,7 +170,7 @@ bool RivillinenLaskuDialogi::tarkasta()
         const TositeRivi& rivi = tosite()->rivit()->rivi(c);
         if( !rivi.bruttoYhteensa() )
             continue;
-        if( rivi.alvkoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI && !alvtunnus.isEmpty() ) {
+        if( rivi.alvkoodi() == AlvKoodi::RAKENNUSPALVELU_MYYNTI && alvtunnus.isEmpty() ) {
             QMessageBox::critical(this, tr("Käänteinen arvonlisävero"),
                                   tr("Rakennuspalveluiden myynti voidaan laskuttaa vain "
                                      "yritykseltä, jolla on ALV-tunnus"));
