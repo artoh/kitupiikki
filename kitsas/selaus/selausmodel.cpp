@@ -333,7 +333,7 @@ QVariant SelausRivi::data(int sarake, int role) const
             if( role == Qt::DisplayRole)
                 return pvm;
             else
-                return QString("%1 %2").arg( pvm.toString(Qt::ISODate) ).arg( vientiId, 8, 10, QChar('0') );
+                return QString("%1 %2").arg( pvm.toString(Qt::ISODate), vertailuTunnus );
 
             case SelausModel::TILI:
             {

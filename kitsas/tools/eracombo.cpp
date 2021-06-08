@@ -71,15 +71,13 @@ void EraCombo::paivita()
 
     if( era_.eratyyppi() == EraMap::Lasku ) {
         QString txt = QString("%1 %2 %3")
-                .arg(era_.pvm().toString("dd.MM.yyyy"))
-                .arg(era_.nimi())
-                .arg(era_.kumppaniNimi());
+                .arg(era_.pvm().toString("dd.MM.yyyy"), era_.nimi(), era_.kumppaniNimi());
 
         if( era_.saldo() ) {
             txt.append(" (" + era_.saldo().display() + ")");
         }
 
-        addItem( era_.saldo() ? kp()->tositeTyypit()->kuvake(era_.tositetyyppi())
+        addItem( era_.saldo() || era_.tunniste() == 0 ? kp()->tositeTyypit()->kuvake(era_.tositetyyppi())
                        : QIcon(":/pic/ok.png"),
                  txt,
                  era_ );

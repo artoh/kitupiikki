@@ -220,11 +220,12 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool saily
     liitteet_->clear();
     loki_->lataa(QVariantList());
 
-    setData(ID, 0);
-    setData(TILA, 0);
+    setData(ID, 0);   
+    asetaTila(0);
     setData(TUNNISTE, 0);    
     asetaOtsikko(uusiotsikko);
     asetaPvm(paiva);
+    asetaLaskupvm(paiva);
     if( erapvm().isValid())
         asetaErapvm(erapvm().addDays(siirto));
 }

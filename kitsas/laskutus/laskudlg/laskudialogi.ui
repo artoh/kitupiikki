@@ -494,6 +494,9 @@ osoite</string>
                <property name="shortcut">
                 <string>Ctrl+E</string>
                </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
              <item>
@@ -504,6 +507,9 @@ osoite</string>
                <property name="icon">
                 <iconset resource="../../pic/pic.qrc">
                  <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -1089,7 +1095,7 @@ osoite</string>
         <string>F11</string>
        </property>
        <property name="autoDefault">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="default">
         <bool>false</bool>
@@ -1110,6 +1116,9 @@ osoite</string>
        </property>
        <property name="shortcut">
         <string>F5</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

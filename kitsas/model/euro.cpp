@@ -124,16 +124,7 @@ Euro Euro::operator/(const Euro &other) const
 
 Euro Euro::fromVariant(const QVariant &variant)
 {
-    if( variant.type() == QVariant::String)
-        return Euro( variant.toString() );
-    else if( variant.type() == QVariant::Double)
-        return Euro( qRound64( variant.toDouble() * 100.0) );
-    else if( variant.type() == QVariant::LongLong)
-        return Euro( variant.toLongLong());
-    else {
-        qWarning() << "Incorrect variant type " << variant;
-        return Euro();
-    }
+    return Euro( variant.toString() );
 }
 
 Euro Euro::fromDouble(const double euro)

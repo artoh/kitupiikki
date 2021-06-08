@@ -145,6 +145,8 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->tallennaNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::VALMISLASKU); } );
     connect( ui->valmisNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LAHETETAAN); } );
 
+    connect( ui->toimitusDate, &KpDateEdit::dateChanged, this, [this] (const QDate& date) { ui->jaksoDate->setDateRange(date, QDate()); } );
+
     connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, [this] { kp()->ohje( this->ohje() ); });
 
@@ -197,6 +199,8 @@ void KantaLaskuDialogi::tositteelta()
     const Lasku& lasku = tosite()->constLasku();
 
     ui->toimitusDate->setDate( lasku.toimituspvm() );
+    ui->jaksoDate->setDateRange(lasku.toimituspvm(), QDate());
+
     ui->laskuPvm->setDate( lasku.laskunpaiva() );
     ui->jaksoDate->setDate( lasku.jaksopvm() );
     ui->eraDate->setDate( tosite()->erapvm() );
@@ -370,7 +374,12 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 
     ui->osoiteEdit->setPlainText( MaaModel::instanssi()->muotoiltuOsoite(map));
 
-    ui->email->setText( map.value("email").toString());
+    const QString haettuEmail = map.value("email").toString();
+
+    if( !haettuEmail.isEmpty() ) {
+        ui->email->setText( haettuEmail );
+    }
+
     ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli","FI").toString()));
 
     paivitaLaskutustavat();
@@ -587,6 +596,10 @@ bool KantaLaskuDialogi::tarkasta()
 {
     if( paivamaara() <= kp()->tilitpaatetty() ) {
         QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärä on lukitulla tilikaudella"));
+        return false;
+    }
+    if( ui->jaksoDate->date().isValid() && ui->jaksoDate->date() < ui->toimitusDate->date() ) {
+        QMessageBox::critical(this, tr("Virheellinen toimitusjakso"), tr("Toimitusjakson päättymispäivä on ennen alkamispäivää."));
         return false;
     }
 
