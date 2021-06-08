@@ -32,6 +32,14 @@ EraMap::EraMap(const QVariantMap &map) :
 
 }
 
+Euro EraMap::saldo() const
+{
+    if( contains("saldo"))
+        return Euro::fromVariant(value("saldo"));
+    else
+        return Euro::fromVariant(value("avoin"));
+}
+
 int EraMap::eratyyppi() const
 {
     if( id() > 0)
