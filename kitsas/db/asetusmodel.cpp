@@ -182,6 +182,17 @@ int AsetusModel::luku(int tunnus, int oletusarvo) const
     return luku( avaimet__.at(tunnus), oletusarvo);
 }
 
+QColor AsetusModel::vari(int tunnus, const QColor oletus)
+{
+    const QString& koodi = asetus(tunnus);
+    if( koodi.isEmpty())
+        return oletus;
+    QStringList lista = koodi.split(",");
+    return QColor(lista.value(0).toInt(),
+                  lista.value(1).toInt(),
+                  lista.value(2).toInt());
+}
+
 qulonglong AsetusModel::isoluku(const QString &avain, qulonglong oletusarvo) const
 {
     if( asetukset_.contains(avain))
@@ -328,5 +339,7 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { Laajuudet, "laajuudet"},
     { OletusMenotili, "OletusMenotili"},
     { LaskuRiviTyyppi, "LaskuRiviTyyppi"},
-    { OletusMyyntitili, "OletusMyyntitili"}
+    { OletusMyyntitili, "OletusMyyntitili"},
+    { VariKehys, "VariKehys"},
+    { VariVarjo, "VariVarjo"}
 };

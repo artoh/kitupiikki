@@ -29,8 +29,18 @@ LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
 {
     const AsetusModel* asetukset = kitsas->asetukset();
 
+    if( kitsas->logo().size().isEmpty() ) {
+        logoSijainti_ = EILOGOA;
+    } else {
+        const QString& sijaintiTeksti = asetukset->asetus(AsetusModel::Logonsijainti);
+        if( sijaintiTeksti == "VAINLOGO")
+            logoSijainti_ = VAINLOGO;
+        else if( sijaintiTeksti == "YLLA")
+            logoSijainti_ = YLLA;
+    }   // Oletuksena logo on vieressä
+
     if( kitsas->logo().size().isEmpty() ||
-        asetukset->asetus(AsetusModel::Logonsijainti) != "VAINLOGO" ) {
+        logoSijainti_ != VAINLOGO ) {
         const QString& aputoiminimi = asetukset->asetus(AsetusModel::Aputoiminimi);
         nimi_ = aputoiminimi.isEmpty() ?
                 kitsas->asetukset()->asetus(AsetusModel::OrganisaatioNimi) :
@@ -69,8 +79,6 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
     const QRectF ikkuna = kuorenIkkuna(device);
 
     const QImage& logo = kitsas_->logo();
-    const QString logonSijainti = logo.height() ? kitsas_->asetukset()->asetus(AsetusModel::Logonsijainti) : QString();
-
 
     QRectF lahettajaAlue =
             ikkuna.isNull() ? QRectF(0, 0 , sivunLeveys / 2 - 10 * mm, 35 * mm ) :
@@ -88,11 +96,11 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
     lahettajanOsoiteRect_ = painter->boundingRect(lahettajaAlue, lahettajaOsoite_ );
     qreal logoMaxKorkeus = mm * 20;
 
-    if( logonSijainti.isEmpty()) {
+    if( logoSijainti_ == EILOGOA) {
         // Ei logoa
         nimiRect_.moveTo( lahettajaAlue.x(), lahettajaAlue.y() );
         lahettajanOsoiteRect_.moveTo( lahettajaAlue.x(), lahettajaAlue.y() + nimiRect_.height() );
-    } else if( logonSijainti == "VAINLOGO") {        
+    } else if( logoSijainti_ == VAINLOGO) {
         qreal lkorkeus = lahettajaAlue.height() - lahettajanOsoiteRect_.height();
         QSize size = logo.scaled(lahettajaAlue.width(),
                                  qMin(logoMaxKorkeus, lkorkeus),
@@ -100,7 +108,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
                             size.width(), size.height());
         lahettajanOsoiteRect_.moveTo(lahettajaAlue.x(), lahettajaAlue.y() + logoRect_.height());
-    } else if( logonSijainti == "YLLA") {
+    } else if( logoSijainti_ == YLLA) {
         qreal lkorkeus = lahettajaAlue.height() - nimiRect_.height() - lahettajanOsoiteRect_.height();
         QSize size = logo.scaled(lahettajaAlue.width(),
                                  qMin(logoMaxKorkeus, lkorkeus),
@@ -109,7 +117,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
                             size.width(), size.height());
         nimiRect_.moveTo(lahettajaAlue.x(), lahettajaAlue.y() +  logoRect_.height());
         lahettajanOsoiteRect_.moveTo(lahettajaAlue.x(), lahettajaAlue.y() +  logoRect_.height() + nimiRect_.height());
-    } else  {
+    } else  {   // Logo on vieressä
         qreal leveampi = nimiRect_.width() > lahettajanOsoiteRect_.width()
                         ? nimiRect_.width()
                         : lahettajanOsoiteRect_.width();
@@ -154,8 +162,6 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 void LaskunOsoiteAlue::piirra(QPainter *painter)
 {
     painter->save();
-
-    const QImage& logo = kitsas_->logo();
 
     painter->setFont( QFont("FreeSans", nimiFonttiKoko_ ) );
 

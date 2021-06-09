@@ -84,6 +84,7 @@ protected:
     virtual QString ohje() { return "laskutus/luominen/"; }
 
     QDate paivamaara() const;
+    void toimitusPaivaMuuttuu(const QDate &pvm);
 
 private:
     void alustaUi();

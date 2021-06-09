@@ -45,6 +45,7 @@ protected:
     bool isoIkkuna() const;
 
 private:
+    enum LogoSijainti { EILOGOA, VIERESSA, YLLA, VAINLOGO };
     KitsasInterface *kitsas_;
 
     const int fonttikoko_ = 10;
@@ -62,6 +63,8 @@ private:
     qreal korkeus_;
     qreal leveys_;
     qreal nimiFonttiKoko_;
+
+    LogoSijainti logoSijainti_ = VIERESSA;
 };
 
 #endif // LASKUNOSOITEALUE_H

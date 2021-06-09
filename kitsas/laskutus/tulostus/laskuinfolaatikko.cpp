@@ -17,6 +17,7 @@
 #include "laskuinfolaatikko.h"
 
 #include <QPainter>
+#include "db/kirjanpito.h"
 
 LaskuInfoLaatikko::LaskuInfoLaatikko()
 {
@@ -66,7 +67,7 @@ void LaskuInfoLaatikko::piirra(QPainter *painter, qreal x, qreal y)
         const QString& leipa = teksti.second;
 
         painter->setFont(QFont("FreeSans", pistekoko_, QFont::Bold));
-        painter->setPen(QPen(Qt::darkGray));
+        painter->setPen(QPen( kp()->asetukset()->vari(AsetusModel::VariKehys), Qt::darkGray ));
         QRectF oRect = painter->boundingRect( QRectF(x, y, koko_.width(), koko_.height()),
                                               otsikko);
         painter->drawText(oRect, otsikko);

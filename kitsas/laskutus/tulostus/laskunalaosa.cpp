@@ -79,9 +79,6 @@ qreal LaskunAlaosa::laske(QPainter *painter)
         ( tilisiirto_ ? mm * 95 : mm * 5) +
         ( virtuaaliviivakoodi_ ? painter->fontMetrics().height() : 0 );
 
-    qDebug() << " window " << painter->window().height()
-             << " alaosa " << alaosaKorkeus_
-             << " mm " << alaosaKorkeus_/mm;
 
     return alaosaKorkeus_ + mm * 5;
 }

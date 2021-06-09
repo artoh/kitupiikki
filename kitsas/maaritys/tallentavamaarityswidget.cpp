@@ -28,6 +28,7 @@
 #include <QGroupBox>
 #include "tools/tilicombo.h"
 #include "tools/checkcombo.h"
+#include "tools/varinvalinta.h"
 #include "db/kirjanpito.h"
 
 #include <QJsonDocument>
@@ -175,6 +176,15 @@ bool TallentavaMaaritysWidget::nollaa()
             continue;
         }
 
+        VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
+        if( variv ) {
+            const QString& valittu = kp()->asetukset()->asetus(asetusavain);
+            const QString& oletus = widget->property("Oletus").toString();
+            variv->setColor( valittu.isEmpty() ? oletus : valittu );
+            connect( variv, &VarinValinta::variVaihtui, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            continue;
+        }
+
     }
     alustettu_ = true;
 
@@ -262,8 +272,14 @@ bool TallentavaMaaritysWidget::tallenna()
         if( pgroup) {
             if( pgroup->isCheckable())
                 asetukset.insert(asetusavain, pgroup->isChecked() ? "ON" : QVariant());
+            continue;
         }
 
+        VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
+        if( variv ) {
+            asetukset.insert(asetusavain, variv->color());
+            continue;
+        }
     }
     kp()->asetukset()->aseta(asetukset);
     emit tallennaKaytossa(false);
@@ -361,6 +377,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         QGroupBox *pgroup = qobject_cast<QGroupBox*>(widget);
         if( pgroup) {
             if( kp()->asetukset()->onko(asetusavain) != pgroup->isChecked())
+                return true;
+            continue;
+        }
+
+        VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
+        if( variv ) {
+            if( kp()->asetukset()->asetus(asetusavain) != variv->color() )
                 return true;
             continue;
         }

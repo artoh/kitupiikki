@@ -22,7 +22,7 @@
 #include <QHash>
 #include <QDateTime>
 #include <QVariant>
-
+#include <QColor>
 
 /**
  * @brief Asetusten käsittely
@@ -103,7 +103,9 @@ public:
         Laajuudet,
         OletusMenotili,
         LaskuRiviTyyppi,
-        OletusMyyntitili
+        OletusMyyntitili,
+        VariKehys,
+        VariVarjo
 
     };
 
@@ -143,6 +145,8 @@ public:
 
     int luku(const QString& avain, int oletusarvo = 0) const;
     int luku(int tunnus, int oletusarvo = 0) const;
+
+    QColor vari(int tunnus, const QColor oletus = QColor(Qt::darkGray));
 
     qulonglong isoluku(const QString &avain, qulonglong oletusarvo = 0) const;
     void aseta(const QString &avain, int luku);

@@ -229,6 +229,7 @@ SOURCES += \
     $$PWD/tools/pdf/poppleranalyzerdocument.cpp \
     $$PWD/tools/pdf/popplerrendererdocument.cpp \
     $$PWD/tools/tilicombo.cpp \
+    $$PWD/tools/varinvalinta.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/tuonti/pdftiliote/oterivi.cpp \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.cpp \
@@ -591,6 +592,7 @@ HEADERS += \
     $$PWD/tools/pdf/poppleranalyzerdocument.h \
     $$PWD/tools/pdf/popplerrendererdocument.h \
     $$PWD/tools/tilicombo.h \
+    $$PWD/tools/varinvalinta.h \
     $$PWD/tuonti/palkkafituonti.h \
     $$PWD/tuonti/pdftiliote/oterivi.h \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.h \

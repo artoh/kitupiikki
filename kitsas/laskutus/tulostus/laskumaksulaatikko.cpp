@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "laskumaksulaatikko.h"
+#include "db/kirjanpito.h"
 
 #include <QPainter>
 
@@ -54,7 +55,7 @@ void LaskuMaksuLaatikko::piirra(QPainter *painter, qreal x, qreal y)
     painter->save();
 
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
-    painter->setPen( QPen(QBrush(Qt::darkGray), 0.3 * mm  ) );
+    painter->setPen( QPen(QBrush( kp()->asetukset()->vari(AsetusModel::VariKehys, Qt::darkGray) ), 0.3 * mm  ) );
     painter->drawRect( QRectF(x, y, koko_.width(), koko_.height()));
 
     painter->setPen(QPen(Qt::black));

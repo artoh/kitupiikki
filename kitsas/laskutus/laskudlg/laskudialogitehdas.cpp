@@ -58,10 +58,12 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->asetaKumppani(asiakasId);
 
     tosite->asetaLaskupvm( paivamaara() );
+    tosite->lasku().setToimituspvm( paivamaara() );
     tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
     tosite->asetaErapvm( Lasku::oikaiseErapaiva( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) ) );
     tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );            
     tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
+    tosite->lasku().setHuomautusAika( instanssi__->kitsas_->asetukset()->luku("LaskuHuomautusaika") );
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();

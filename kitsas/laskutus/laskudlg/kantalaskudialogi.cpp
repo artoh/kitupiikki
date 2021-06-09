@@ -81,7 +81,7 @@ int KantaLaskuDialogi::maksutapa() const
 
 void KantaLaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
-    printer->setPageSize( QPdfWriter::A4);
+    printer->setPageSize( QPageSize(QPageSize::A4));
     printer->setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
 
     QPainter painter( printer);
@@ -98,6 +98,7 @@ void KantaLaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 void KantaLaskuDialogi::alustaUi()
 {
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
+    ui->toimitusDate->setNullable(true);
     ui->jaksoDate->setNull();
     ui->tilausPvm->setNull();
 
@@ -145,7 +146,7 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->tallennaNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::VALMISLASKU); } );
     connect( ui->valmisNappi, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LAHETETAAN); } );
 
-    connect( ui->toimitusDate, &KpDateEdit::dateChanged, this, [this] (const QDate& date) { ui->jaksoDate->setDateRange(date, QDate()); } );
+    connect( ui->toimitusDate, &KpDateEdit::dateChanged, this, &KantaLaskuDialogi::toimitusPaivaMuuttuu);
 
     connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, [this] { kp()->ohje( this->ohje() ); });
@@ -618,6 +619,13 @@ QDate KantaLaskuDialogi::paivamaara() const
         return ui->toimitusDate->date();
     else
         return ui->laskuPvm->date();
+}
+
+void KantaLaskuDialogi::toimitusPaivaMuuttuu(const QDate &pvm)
+{
+    ui->jaksoDate->setEnabled(pvm.isValid());
+    if( pvm.isValid())
+        ui->jaksoDate->setDateRange( pvm, QDate() );
 }
 
 QString KantaLaskuDialogi::otsikko() const
