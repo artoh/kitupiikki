@@ -38,6 +38,9 @@ InboxLista::InboxLista()
 
     setViewMode(QListWidget::IconMode);
     setIconSize(QSize( 125 , 150));
+    setWordWrap(true);
+    setGridSize(QSize( 150, 200 ));
+    resize(160, height());
 
 }
 

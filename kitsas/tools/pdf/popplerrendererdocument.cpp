@@ -22,8 +22,10 @@ PopplerRendererDocument::PopplerRendererDocument(const QByteArray &data)
 {
     pdfDoc_ = Poppler::Document::loadFromData(data);
 
-    pdfDoc_->setRenderHint(Poppler::Document::TextAntialiasing);
-    pdfDoc_->setRenderHint(Poppler::Document::Antialiasing);
+    if( pdfDoc_) {
+        pdfDoc_->setRenderHint(Poppler::Document::TextAntialiasing);
+        pdfDoc_->setRenderHint(Poppler::Document::Antialiasing);
+    }
 }
 
 PopplerRendererDocument::~PopplerRendererDocument()

@@ -163,6 +163,8 @@ void FinvoiceToimittaja::maventaToimitettu(QVariant *data)
     QVariantMap tulos = data->toMap();
     QString maventaId = tulos.value("id").toString();
 
+    if( maventaId.length() > 4 ) {
+
     QVariantMap tosite(tositeMap());
     tosite.insert("maventaid", maventaId);
     tosite.insert("tila", Tosite::LAHETETTYLASKU);
@@ -170,4 +172,8 @@ void FinvoiceToimittaja::maventaToimitettu(QVariant *data)
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite.value("id").toInt()), KpKysely::PUT);
     connect( kysely, &KpKysely::vastaus, this, &FinvoiceToimittaja::valmis);
     kysely->kysy(tosite);
+
+    } else {
+        virhe(tr("Verkkolaskun lähettäminen Maventan palveluun epäonnistui. Tarkasta verkkolaskutuksen asetukset"));
+    }
 }
