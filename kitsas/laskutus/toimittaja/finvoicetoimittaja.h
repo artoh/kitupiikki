@@ -29,8 +29,6 @@ protected:
     virtual void toimita() override;
 
     void alustaInit();
-
-    void kumppaniSaapuu(QVariant* kumppani);
     void laskuSaapuu(QVariant* data);
     void maventaToimitettu(QVariant* data);
 

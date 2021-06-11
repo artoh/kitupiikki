@@ -91,6 +91,8 @@ void AsiakasToimittajaValinta::set(int id, const QString &nimi)
     if( id == id_ && nimi == combo_->currentText())
         return;
 
+    inSet_ = true;
+
     ibanit_.clear();
 
     if( combo_ ) {
@@ -102,6 +104,7 @@ void AsiakasToimittajaValinta::set(int id, const QString &nimi)
         model_->lataa();
     }
 
+    inSet_ = false;
 }
 
 
@@ -156,7 +159,13 @@ void AsiakasToimittajaValinta::valitseAsiakas()
 
 void AsiakasToimittajaValinta::nimiMuuttui()
 {
+    if( inSet_ )
+        return;
+
     int id = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
+    if( id == id_)
+        return;
+
     setId( id );
 
     // Jos on syötetty y-tunnus, haetaan sillä

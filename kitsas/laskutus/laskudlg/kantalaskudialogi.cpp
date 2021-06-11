@@ -207,10 +207,10 @@ void KantaLaskuDialogi::tositteelta()
     ui->eraDate->setDate( tosite()->erapvm() );
 
     if( tosite()->kumppani()) {
+        taytaAsiakasTiedotMapista( tosite()->kumppanimap() );
         ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi());
     } else {
-        ui->osoiteEdit->setPlainText( lasku.osoite() );
-        jatkaTositteelta();
+        ui->osoiteEdit->setPlainText( lasku.osoite() );        
     }
 
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
@@ -238,11 +238,7 @@ void KantaLaskuDialogi::tositteelta()
         }
     }
     paivitaViiteRivi();
-}
 
-void KantaLaskuDialogi::jatkaTositteelta()
-{
-    const Lasku& lasku = tosite()->constLasku();
     ui->email->setText( lasku.email());
 
     ui->maksuCombo->setCurrentIndex( lasku.maksutapa() );
@@ -371,7 +367,17 @@ void KantaLaskuDialogi::asiakasMuuttui()
 void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 {
     QVariantMap map = data->toMap();
+    taytaAsiakasTiedotMapista(map);
+
+}
+
+void KantaLaskuDialogi::taytaAsiakasTiedotMapista(const QVariantMap &map)
+{
+    if( map.value("id").toInt() == ladattuAsiakas_.value("id").toInt())
+        return;
+
     ladattuAsiakas_ = map;
+    asiakasId_ = ladattuAsiakas_.value("id").toInt();
 
     ui->osoiteEdit->setPlainText( MaaModel::instanssi()->muotoiltuOsoite(map));
 
@@ -408,9 +414,6 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
             ui->viivkorkoSpin->setValue( kp()->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 8.0 );
 
     }
-    if( tositteeltaKaynnissa_ )
-        jatkaTositteelta();
-
     emit alvTunnusVaihtui( asiakkaanAlvTunnus() );
 }
 

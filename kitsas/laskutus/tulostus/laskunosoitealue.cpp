@@ -58,9 +58,8 @@ void LaskunOsoiteAlue::lataa(const Tosite &tosite)
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
     if( kumppani.value("osoite").toString().isEmpty()) {
         const Lasku& lasku = tosite.constLasku();
-        vastaanottaja_ = lasku.osoite();
+        vastaanottaja_ =  lasku.osoite().isEmpty() ? kumppani.value("nimi").toString() : lasku.osoite();
     } else {
-
         vastaanottaja_ = MaaModel::instanssi()->muotoiltuOsoite(kumppani);
     }
 
@@ -94,7 +93,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 
     painter->setFont( QFont("FreeSans", fonttikoko_ - 1) );
     lahettajanOsoiteRect_ = painter->boundingRect(lahettajaAlue, lahettajaOsoite_ );
-    qreal logoMaxKorkeus = mm * 20;
+    qreal logoMaxKorkeus = mm *  kitsas_->asetukset()->luku("LaskuLogoKorkeus",20) ;
 
     if( logoSijainti_ == EILOGOA) {
         // Ei logoa

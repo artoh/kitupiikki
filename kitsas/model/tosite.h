@@ -116,6 +116,7 @@ public:
     QString otsikko() const { return data(OTSIKKO).toString();}
     int kumppani() const { return data(KUMPPANI).toMap().value("id").toInt();}
     QString kumppaninimi() const { return data(KUMPPANI).toMap().value("nimi").toString();}
+    QVariantMap kumppanimap() const { return data(KUMPPANI).toMap();}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(LISATIEDOT).toString();}
     QString sarja() const { return data(SARJA).toString();}

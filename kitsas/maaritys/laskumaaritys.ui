@@ -342,7 +342,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
         <item>
          <layout class="QFormLayout" name="formLayout_4">
           <item row="0" column="0">
@@ -365,18 +365,14 @@
             </property>
            </widget>
           </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QFormLayout" name="formLayout_6">
-          <item row="0" column="0">
+          <item row="1" column="0">
            <widget class="QLabel" name="label_18">
             <property name="text">
              <string>Varjostus</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="1" column="1">
            <widget class="VarinValinta" name="label_19">
             <property name="text">
              <string/>
@@ -386,6 +382,33 @@
             </property>
             <property name="Asetus" stdset="0">
              <string notr="true">VariVarjo</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_6">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Logon korkeus</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="spinBox">
+            <property name="suffix">
+             <string> mm</string>
+            </property>
+            <property name="maximum">
+             <number>60</number>
+            </property>
+            <property name="value">
+             <number>20</number>
+            </property>
+            <property name="Asetus" stdset="0">
+             <string notr="true">LaskuLogoKorkeus</string>
             </property>
            </widget>
           </item>

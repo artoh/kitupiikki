@@ -169,7 +169,7 @@ void LaskunToimittaja::tarkastaValmis()
                 emit kp()->onni(tr("%1 laskua toimitettu").arg(onnistuneet_), Kirjanpito::Onnistui);
             }
         } else if( epaonnistuneet_) {
-            QStringList virhelista = virheet_.toList();
+            QStringList virhelista = virheet_.values();
             if( onnistuneet_ > 0) {
                 QMessageBox::critical(nullptr,
                                       tr("Laskujen toimittaminen epäonnistui"),

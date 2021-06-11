@@ -55,12 +55,12 @@ protected:
     void alustaMaksutavat();
 
     void tositteelta();
-    void jatkaTositteelta();
 
     virtual void tositteelle();
 
     virtual void asiakasMuuttui();
     void taytaAsiakasTiedot(QVariant* data);
+    void taytaAsiakasTiedotMapista(const QVariantMap& map);
 
     void paivitaLaskutustavat();
     void paivitaValvonnat();

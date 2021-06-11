@@ -72,6 +72,9 @@ protected:
     int id_=0;
     int ladattu_=0;
     QStringList ibanit_;
+    QString nimi_;
+
+    bool inSet_ = false;
 };
 
 #endif // ASIAKASTOIMITTAJAVALINTA_H
