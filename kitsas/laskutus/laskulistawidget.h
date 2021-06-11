@@ -18,6 +18,7 @@
 #define LASKULISTAWIDGET_H
 
 #include <QWidget>
+#include <QQueue>
 
 class LaskuProxyModel;
 class LaskuTauluModel;
@@ -51,6 +52,8 @@ public slots:
 
     void uusilasku(bool ryhmalasku);
 
+    void poistaSeuraava();
+
 private slots:
     void muokkaa();
     void kopioi();
@@ -70,6 +73,8 @@ private:
 
     int paalehti_ = 0;
     int asiakas_ = 0;
+
+    QQueue<int> poistolista_;
 };
 
 #endif // LASKULISTAWIDGET_H

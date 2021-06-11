@@ -240,6 +240,19 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
     }
 }
 
+void LaskulistaWidget::poistaSeuraava()
+{
+    if( poistolista_.isEmpty()) {
+        paivita();
+    } else {
+        int tositeId = poistolista_.dequeue();
+
+        KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE );
+        connect( kysely, &KpKysely::vastaus, this, &LaskulistaWidget::poistaSeuraava );
+        kysely->kysy();
+    }
+}
+
 void LaskulistaWidget::muokkaa()
 {
     // Hakee laskun tiedot ja näyttää dialogin
@@ -273,7 +286,7 @@ void LaskulistaWidget::hyvita()
 void LaskulistaWidget::muistuta()
 {
     QList<int> erat;
-    for(auto item : ui->view->selectionModel()->selectedRows()) {
+    for(const auto& item : ui->view->selectionModel()->selectedRows()) {
         int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
         erat.append(eraId);
     }
@@ -284,22 +297,35 @@ void LaskulistaWidget::muistuta()
 
 void LaskulistaWidget::poista()
 {
-    QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
-    int tositeId = index.data(LaskuTauluModel::TositeIdRooli).toInt();
-    if( tositeId ) {
-        QString viitenumero = index.data(LaskuTauluModel::ViiteRooli).toString();
-        QString asiakas = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
-        if( QMessageBox::question(this, tr("Laskun poistaminen"),
-                                  tr("Haluatko todella poistaa laskun%1%2?")
-                                  .arg( viitenumero.isEmpty() ? "" : tr(" viitenumerolla %1").arg(viitenumero)  )
-                                  .arg( asiakas.isEmpty() ? "" : tr(" asiakkaalle %1").arg(asiakas) ) )
-                == QMessageBox::Yes) {
-            KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE );
-            connect( kysely, &KpKysely::vastaus, this, &LaskulistaWidget::paivita );
-            kysely->kysy();
+
+    const int lkm = ui->view->selectionModel()->selectedRows().count();
+
+    if( lkm == 1) {
+        QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
+        int tositeId = index.data(LaskuTauluModel::TositeIdRooli).toInt();
+        if( tositeId ) {
+            QString viitenumero = index.data(LaskuTauluModel::ViiteRooli).toString();
+            QString asiakas = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
+            if( QMessageBox::question(this, tr("Laskun poistaminen"),
+                                      tr("Haluatko todella poistaa laskun%1%2?")
+                                      .arg( viitenumero.isEmpty() ? "" : tr(" viitenumerolla %1").arg(viitenumero)  )
+                                      .arg( asiakas.isEmpty() ? "" : tr(" asiakkaalle %1").arg(asiakas) ) )
+                    == QMessageBox::Yes) {
+                poistolista_.enqueue(tositeId);
+                poistaSeuraava();
+            }
+       }
+    } else if( lkm > 1) {
+        if( QMessageBox::question(this, tr("Laskujen poistaminen"),
+                                  tr("Haluatko todellakin poistaa %1 laskua").arg(lkm))
+            == QMessageBox::Yes ) {
+
+            for(const auto& index : ui->view->selectionModel()->selectedRows()) {
+                poistolista_.append( index.data(LaskuTauluModel::TositeIdRooli).toInt() );
+            }
+            poistaSeuraava();
         }
     }
-
 }
 
 void LaskulistaWidget::naytaLasku()
