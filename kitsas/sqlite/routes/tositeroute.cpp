@@ -438,17 +438,22 @@ QVariant TositeRoute::hae(int tositeId)
     QSqlQuery kysely(db());
     if( tositeId > 0)
         kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, Tosite.laskupvm, Tosite.erapvm, Tosite.viite, tosite.json as json, "
-                        "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Tosite "
-                        " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
+                        "tosite.kumppani as kumppani FROM Tosite "
                         "WHERE tosite.id=%1").arg(tositeId));
     else
         kysely.exec(QString("SELECT tosite.id as id, tosite.pvm as pvm, tosite.tyyppi as tosite, tila, tunniste, sarja, otsikko, Tosite.laskupvm, Tosite.erapvm, Tosite.viite, tosite.json as json, "
-                        "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id"
-                        " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
+                        "tosite.kumppani as kumppani FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id"
                         "WHERE vienti.id=%1").arg(0-tositeId));
 
 
     QVariantMap tosite = resultMap(kysely);
+
+    const int kumppaniId = tosite.value("kumppani").toInt();
+    if( kumppaniId ) {
+        kysely.exec(QString("SELECT * FROM Kumppani WHERE id=%1").arg(kumppaniId));
+        tosite.insert("kumppani", resultMap(kysely));
+    }
+
     tositeId = tosite.value("id").toInt();
 
     // Viennit

@@ -296,7 +296,7 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setKieli( ui->kieliCombo->currentData().toString() );
 
     ViiteNumero viite( tosite()->lasku().viite() );
-    const int valvonta = ui->valvontaCombo->currentData().toInt();
+    const int valvonta = ui->valvontaCombo->isVisible() ?  ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
 
     tosite()->lasku().setValvonta( valvonta );
     if( valvonta == Lasku::VAKIOVIITE  || valvonta == Lasku::HUONEISTO) {
