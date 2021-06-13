@@ -25,6 +25,7 @@
 #include "tositerivi.h"
 #include "laskutus/yksikkomodel.h"
 #include "laskutus/tuote.h"
+#include "lasku.h"
 
 
 class TositeRivit : public QAbstractTableModel
@@ -81,7 +82,7 @@ public slots:
     void lisaaTuote(const Tuote& tuote, const QString &lkm = "1", const QString kieli=QString());
     void poistaRivi(int rivi);
     void asetaEnnakkolasku(bool ennakkoa);
-    void asetaBruttolaskenta(bool brutto);
+    void asetaRivityyppi(Lasku::Rivityyppi rivityyppi);
     void clear();
 
 
@@ -91,7 +92,7 @@ private:
     YksikkoModel yksikkoModel_;
 
     bool ennakkolasku_ = false;
-    bool bruttoLaskenta_ = false;
+    Lasku::Rivityyppi rivityyppi_ = Lasku::NETTORIVIT;
 };
 
 #endif // TOSITERIVIT_H

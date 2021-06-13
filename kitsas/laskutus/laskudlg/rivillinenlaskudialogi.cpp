@@ -210,8 +210,8 @@ void RivillinenLaskuDialogi::vaihdaRivilajia(const QString &asiakkaanAlvTunnus)
 
 void RivillinenLaskuDialogi::riviTyyppiVaihtui()
 {
+    tosite()->rivit()->asetaRivityyppi( rivityyppi() );
     paivitaSumma();
-    tosite()->rivit()->asetaBruttolaskenta( rivityyppi() == Lasku::BRUTTORIVIT );
 }
 
 void RivillinenLaskuDialogi::alustaRiviTab()

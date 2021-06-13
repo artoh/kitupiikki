@@ -61,7 +61,7 @@ QVariant TositeRivit::headerData(int section, Qt::Orientation orientation, int r
                 case YKSIKKO:
                     return tr("Yksikkö");
                 case AHINTA :                    
-                    return bruttoLaskenta_ ? tr("á hinta") : tr("á netto");
+                    return rivityyppi_ == Lasku::BRUTTORIVIT ? tr("á hinta") : tr("á netto");
                 case ALE:
                     return  tr("Alennus");
                 case ALV:
@@ -71,7 +71,7 @@ QVariant TositeRivit::headerData(int section, Qt::Orientation orientation, int r
                 case KOHDENNUS:
                     return tr("Kohdennus");
                 case YHTEENSA:
-                    return tr("Yhteensä");
+                    return rivityyppi_ == Lasku::NETTORIVIT ? tr("Yht netto") : tr("Yhteensä");
             }
         }
         else
@@ -123,12 +123,12 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
             else
                 return yksikkoModel_.nimi(rivi.unKoodi());
         case AHINTA:
-            return Euro::fromDouble( bruttoLaskenta_ ? rivi.aBrutto() : rivi.aNetto()).display();
+            return Euro::fromDouble( rivityyppi_ == Lasku::BRUTTORIVIT ? rivi.aBrutto() : rivi.aNetto()).display();
         case ALE:
             if(rivi.aleProsentti())
                 return QString("%1 %").arg(rivi.aleProsentti() );
             else if( rivi.euroAlennus())
-                return Euro::fromDouble( bruttoLaskenta_ ? rivi.bruttoEuroAlennus() : rivi.euroAlennus() ).display();
+                return Euro::fromDouble( rivityyppi_ == Lasku::BRUTTORIVIT ? rivi.bruttoEuroAlennus() : rivi.euroAlennus() ).display();
             else
                 return QString();
         case ALV:
@@ -163,7 +163,7 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
                 return tr("Saadut ennakot");
             return kp()->tilit()->tiliNumerolla( rivi.tili() ).nimiNumero();
         case YHTEENSA:
-           return bruttoLaskenta_ ? rivi.bruttoYhteensa().display() : Euro::fromDouble(rivi.nettoYhteensa()).display();
+           return rivityyppi_ == Lasku::NETTORIVIT ? Euro::fromDouble(rivi.nettoYhteensa()).display() : rivi.bruttoYhteensa().display();
         }
     } else if( role == Qt::EditRole) {
         switch (index.column()) {
@@ -174,7 +174,7 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
         case YKSIKKO:
             return rivi.yksikko();
         case AHINTA:
-            return bruttoLaskenta_ ? rivi.aBrutto() : rivi.aNetto();
+            return rivityyppi_ == Lasku::BRUTTORIVIT ? rivi.aBrutto() : rivi.aNetto();
         case ALE:
             return rivi.laskettuAleProsentti();
         case KOHDENNUS:
@@ -182,7 +182,7 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
         case TILI:
             return rivi.tili();
         case YHTEENSA:
-            return rivi.bruttoYhteensa();
+            return rivityyppi_ == Lasku::NETTORIVIT ? rivi.nettoYhteensa() :  rivi.bruttoYhteensa().toDouble();
         }
     } else if( role == AlvProsenttiRooli)
         return rivi.alvProsentti();
@@ -219,7 +219,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 rivit_[r].setUNkoodi("ZZ");
                 break;
             case AHINTA:
-                if(bruttoLaskenta_)
+                if(rivityyppi_ == Lasku::BRUTTORIVIT)
                     rivit_[r].setABrutto(value.toDouble());
                 else
                     rivit_[r].setANetto( value.toDouble());
@@ -253,7 +253,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
             }
                 break;
             case YHTEENSA:
-                if( bruttoLaskenta_)
+                if( rivityyppi_ != Lasku::NETTORIVIT)
                     rivit_[r].setBruttoYhteensa( value.toString() );
                 else
                     rivit_[r].setNettoYhteensa( value.toDouble() );
@@ -407,10 +407,10 @@ void TositeRivit::asetaEnnakkolasku(bool ennakkoa)
     endResetModel();
 }
 
-void TositeRivit::asetaBruttolaskenta(bool brutto)
+void TositeRivit::asetaRivityyppi(Lasku::Rivityyppi rivityyppi)
 {
     beginResetModel();
-    bruttoLaskenta_ = brutto;
+    rivityyppi_ = rivityyppi;
     endResetModel();
 }
 
@@ -419,7 +419,7 @@ void TositeRivit::clear()
     beginResetModel();
     rivit_.clear();
     ennakkolasku_ = false;
-    bruttoLaskenta_ = false;
+    rivityyppi_ = Lasku::NETTORIVIT;
     endResetModel();
 }
 
