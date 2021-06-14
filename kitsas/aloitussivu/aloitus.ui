@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,2,0,0,0,0,2">
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,2,0,0,0,0,0,0,2">
        <item>
         <widget class="QLabel" name="logoLabel">
          <property name="sizePolicy">
@@ -58,6 +58,32 @@
          </property>
          <property name="wordWrap">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="paikallinenKuva">
+         <property name="toolTip">
+          <string>Kirjanpito on tallennettu omalle tietokoneellesi.</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/laptop.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="pilviKuva">
+         <property name="toolTip">
+          <string>Kirjanpito on tallennettu Kitsaan pilveen.</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/cloud.png</pixmap>
          </property>
         </widget>
        </item>
@@ -149,14 +175,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="pilviKuva">
-         <property name="text">
-          <string/>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="pixmap">
-          <pixmap resource="../pic/pic.qrc">:/pic/cloud.png</pixmap>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
          </property>
-        </widget>
+        </spacer>
        </item>
        <item>
         <widget class="QComboBox" name="tilikausiCombo">

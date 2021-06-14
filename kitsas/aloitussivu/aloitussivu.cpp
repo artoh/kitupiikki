@@ -284,8 +284,12 @@ void AloitusSivu::kirjanpitoVaihtui()
     if( !kp()->asetukset()->asetus(AsetusModel::Tilikartta).isEmpty() )
         kp()->settings()->setValue("Tilikartta", kp()->asetukset()->asetus(AsetusModel::Tilikartta));
 
-    ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
-    ui->kopioiPilveenNappi->setVisible(qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
+    bool pilvessa = qobject_cast<PilviModel*>( kp()->yhteysModel() );
+    bool paikallinen = qobject_cast<SQLiteModel*>(kp()->yhteysModel());
+
+    ui->paikallinenKuva->setVisible(paikallinen);
+    ui->pilviKuva->setVisible( pilvessa );
+    ui->kopioiPilveenNappi->setVisible(paikallinen);
 
     tukiInfo();
     haeSaldot();
@@ -818,7 +822,7 @@ void AloitusSivu::tukiInfo()
 void AloitusSivu::lisaTukiInfo(QVariant *data)
 {
     QVariantMap map = data->toMap();
-    for(QString& avain : map.keys()) {
+    for(const QString& avain : map.keys()) {
         ui->tukiOhje->append(avain + ": " + map.value(avain).toString());
     }
 }
@@ -844,6 +848,12 @@ QString AloitusSivu::vinkit()
                           "Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi."
                           "</td></tr></table>")
                        .arg(matsi.captured(3)).arg(matsi.captured(2)).arg(matsi.captured(1)));
+    } else if ( sqlite &&  kp()->settings()->value("PilveenSiirretyt").toString().contains( kp()->asetukset()->uid() ) ) {
+        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
+                          "<h3>Paikallinen kirjanpito käytössä</h3>"
+                          "<p>Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.</p>"
+                          "<p>Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä.</p>"
+                          "</td></tr></table>") );
     }
 
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
@@ -897,7 +907,8 @@ QString AloitusSivu::vinkit()
                 kk = 4;
             else if( kk < 10)
                 kk = 7;
-            kk = 10;
+            else
+                kk = 10;
             laskennallinenalkupaiva = QDate( kausialkaa.year(), kk, 1);
         } else if( kausi == 12)
             laskennallinenalkupaiva = QDate( kausialkaa.year(), 1, 1);

@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSettings>
 
 PilveenSiirto::PilveenSiirto(QWidget *parent) :
     QDialog(parent),
@@ -442,6 +443,7 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
     QVariantMap map = data->toMap();
     int tositteita = map.value("tositteita").toInt();
     qlonglong koko = map.value("koko").toLongLong();
+    const QString& uid = kp()->asetukset()->uid();
 
     if( tositteita != tositelkm_) {
         qDebug() << QString("Tositteita siirretty %1 / %2").arg(tositteita).arg(tositelkm_);
@@ -457,6 +459,9 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
 
         kp()->pilvi()->paivitaLista(pilviId_);
         kp()->pilvi()->avaaPilvesta(pilviId_);
+
+        kp()->settings()->setValue("PilveenSiirretyt",
+                                   kp()->settings()->value("PilveenSiirretyt").toString() + uid + " ");
     }
 }
 
