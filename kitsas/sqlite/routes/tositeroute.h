@@ -33,7 +33,7 @@ public:
     static QString kysymys(const QUrlQuery &urlquery);
 
 protected:
-    int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);
+    int lisaaTaiPaivita(const QVariant pyynto, const int paivitettavanTositeId = 0);
     QVariantList lokinpurku(QSqlQuery &kysely) const;
 
     QVariant hae(int tositeId);
