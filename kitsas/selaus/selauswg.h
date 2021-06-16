@@ -98,6 +98,7 @@ protected slots:
     void nuoliSelaus(bool seuraava);
     void tamaKuukausi();
     void tamaTilikausi();
+    void palautaValinta();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -119,9 +120,9 @@ private:
      */
     bool paivitettava = true;
     int valittu_ = 0;
+    int skrolli_ = -1;
     Euro saldo_;
-    int selaustili_ = 0;
-    bool lopussa_ = false;
+    int selaustili_ = 0;    
     bool lataaKoon_ = false;
 };
 

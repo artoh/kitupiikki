@@ -236,7 +236,7 @@ void LaskulistaWidget::uusilasku(bool ryhmalasku)
         connect( dlg, &KantaLaskuDialogi::tallennettuValmiina, [this] { this->ui->tabs->setCurrentIndex(LAHETETTAVAT); });
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
-        lisa->kirjaa(-1, TositeTyyppi::TULO);
+        lisa->kirjaa(-1, TositeTyyppi::MENO);
     }
 }
 

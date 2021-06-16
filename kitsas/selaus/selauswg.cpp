@@ -168,8 +168,6 @@ void SelausWg::paivita()
     QDate loppupvm = ui->loppuEdit->date();
 
     qApp->processEvents();
-    lopussa_ = ui->selausView->verticalScrollBar()->value() >=
-            ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
 
     if( ui->valintaTab->currentIndex() == VIENNIT )
     {
@@ -353,12 +351,14 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
 {
     int id = index.data( Qt::UserRole).toInt();
     int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
+    valittu_ = id;
+    skrolli_ = ui->selausView->verticalScrollBar()->sliderPosition();
 
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi < TositeTyyppi::SIIRTO) {
         LaskuDialogiTehdas::naytaLasku(id);
     } else
         emit tositeValittu( id );
-    valittu_ = id;
+
 }
 
 void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
@@ -447,24 +447,12 @@ void SelausWg::siirrySivulle()
 void SelausWg::modelResetoitu()
 {
     if( ui->selausView->model() && ui->selausView->isVisible()) {
-
         paivitaSummat();
-        qApp->processEvents();
-
-        if(valittu_) {
-            for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
-                if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
-                    ui->selausView->selectRow(i);                    
-                    break;
-                }
-            }
-        }
         paivitaSuodattimet();
-        if( lopussa_ )
-            ui->selausView->verticalScrollBar()->setValue( ui->selausView->verticalScrollBar()->maximum() );
-
     }
     kp()->odotusKursori(false);
+    QTimer::singleShot(10, this, [this] { this->palautaValinta();});
+
 }
 
 void SelausWg::etsi(const QString &teksti)
@@ -539,6 +527,25 @@ void SelausWg::tamaTilikausi()
         ui->alkuEdit->setDate(tilikausi.alkaa());
         ui->loppuEdit->setDate(tilikausi.paattyy());
         paivita();
+    }
+}
+
+void SelausWg::palautaValinta()
+{
+    if( ui->selausView->model() && ui->selausView->isVisible()) {
+
+        if(valittu_) {
+            for(int i=0; i < ui->selausView->model()->rowCount(); i++) {
+                if( ui->selausView->model()->index(i,0).data(Qt::UserRole).toInt() == valittu_) {
+                    ui->selausView->selectRow(i);
+                    break;
+                }
+            }
+        }
+        if( skrolli_ > -1) {
+            ui->selausView->verticalScrollBar()->setSliderPosition(skrolli_);
+            skrolli_ = -1;
+        }
     }
 }
 
