@@ -24,6 +24,7 @@ class QDialogButtonBox;
 
 class TuoteTuontiDialogi : public QDialog
 {
+
 public:
     TuoteTuontiDialogi(const QString& tiedosto, QWidget* parent = nullptr);
 

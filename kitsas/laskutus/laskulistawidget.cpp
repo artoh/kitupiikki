@@ -317,7 +317,7 @@ void LaskulistaWidget::poista()
        }
     } else if( lkm > 1) {
         if( QMessageBox::question(this, tr("Laskujen poistaminen"),
-                                  tr("Haluatko todellakin poistaa %1 laskua").arg(lkm))
+                                  tr("Haluatko todellakin poistaa %1 laskua?").arg(lkm))
             == QMessageBox::Yes ) {
 
             for(const auto& index : ui->view->selectionModel()->selectedRows()) {

@@ -20,6 +20,7 @@
 
 #include "db/kirjanpito.h"
 
+#include <QVariant>
 #include <QTableView>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
