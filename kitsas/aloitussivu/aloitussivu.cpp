@@ -128,6 +128,8 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->vaihdaSalasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasanaUuteen);
 
     connect( ui->bugiNappi, &QPushButton::clicked, [] { KitsasLokiModel::instanssi()->copyAll(); });
+    connect( ui->palauteButton, &QPushButton::clicked, this, &AloitusSivu::lahetaPalaute);
+    connect( ui->tukiButton, &QPushButton::clicked, this, &AloitusSivu::lahetaTukipyynto);
 
 
     QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
@@ -379,9 +381,13 @@ void AloitusSivu::infoSaapui()
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
    if( !reply->error()) {
 
-        QVariantList lista = QJsonDocument::fromJson( reply->readAll() ).toVariant().toList();
-        paivitysInfo.clear();
+        QVariantMap map = QJsonDocument::fromJson( reply->readAll() ).toVariant().toMap();
 
+        QVariantList lista = map.value("info").toList();
+        Kirjanpito::asetaOhjeOsoite( map.value("doc").toString() );
+        palauteUrl_ = map.value("feedback").toString();
+
+        paivitysInfo.clear();
 
         kp()->settings()->setValue("TilastoPaivitetty", QDate::currentDate());
 
@@ -499,6 +505,7 @@ void AloitusSivu::pyydaInfo()
     tilasto.insert("build", KITSAS_BUILD);
     tilasto.insert("os", QSysInfo::prettyProductName());
     tilasto.insert("language", Kielet::instanssi()->uiKieli());
+    tilasto.insert("builddate", buildDate().toString(Qt::ISODate));
 
     // Lista niistä tilikartoista, joita on käytetty viimeisimmän kuukauden aikana
     QStringList kartat;
@@ -776,11 +783,15 @@ void AloitusSivu::siirraPilveen()
 
 void AloitusSivu::tukiInfo()
 {
+    ui->kirjauduLabel->setVisible( !kp()->pilvi()->kayttajaPilvessa() );
     bool tilaaja = kp()->pilvi()->tilausvoimassa();
     ui->maksutonTukiLabel->setVisible( !tilaaja );
+    ui->palauteButton->setVisible( !tilaaja);
     ui->maksuTukiLabel->setVisible( tilaaja);
+    ui->tukiButton->setVisible(tilaaja);
+    ui->tukiNootti->setVisible( tilaaja );
     ui->tukiOhje->setVisible( tilaaja );
-    ui->tukileikeNappi->setVisible( tilaaja);
+    ui->tukileikeNappi->setVisible( tilaaja);    
 
     if( tilaaja) {
         ui->tukiOhje->setPlainText( QString("version: %1 \n"
@@ -831,6 +842,19 @@ void AloitusSivu::vaihdaSalasanaUuteen()
 {
     Salasananvaihto dlg(this);
     dlg.exec();
+}
+
+void AloitusSivu::lahetaPalaute()
+{
+    kp()->avaaUrl( palauteUrl_ );
+}
+
+void AloitusSivu::lahetaTukipyynto()
+{
+    if( kp()->pilvi()) {
+        qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() );
+        kp()->avaaUrl( kp()->pilvi()->tukiOsoite() );
+    }
 }
 
 QString AloitusSivu::vinkit()

@@ -188,6 +188,8 @@ public:
      */
     void ohje(const QString& ohjesivu = QString());
 
+    static void asetaOhjeOsoite(const QString& ohjeOsoite);
+
     /**
      * @brief Avaa url:n QDesktopServicellä
      *
@@ -452,6 +454,7 @@ public:
 
 private:
     static Kirjanpito *instanssi__;
+    static QString ohjeOsoite__;
 
     /**
      * @brief Suorittaa päivitykset

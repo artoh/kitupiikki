@@ -598,12 +598,20 @@ void KantaLaskuDialogi::naytaEsikatselu()
 
 bool KantaLaskuDialogi::tarkasta()
 {
-    if( paivamaara() <= kp()->tilitpaatetty() ) {
-        QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärä on lukitulla tilikaudella"));
+    const QDate& pvm = paivamaara();
+    if( pvm <= kp()->tilitpaatetty() ) {
+        QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärälle ei ole avointa tilikautta"));
         return false;
     }
-    if( ui->jaksoDate->date().isValid() && ui->jaksoDate->date() < ui->toimitusDate->date() ) {
-        QMessageBox::critical(this, tr("Virheellinen toimitusjakso"), tr("Toimitusjakson päättymispäivä on ennen alkamispäivää."));
+
+    if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu()) {
+        QMessageBox::critical(this, tr("Puuttuva tilikausi"), tr("Laskun päivämäärälle ei ole avointa tilikautta"));
+        return false;
+    }
+
+
+    if( ui->jaksoDate->isInvalid() ) {
+        QMessageBox::critical(this, tr("Virheellinen toimitusjakso"), tr("Toimitusjakson päättymispäivä on virheellinen."));
         return false;
     }
 

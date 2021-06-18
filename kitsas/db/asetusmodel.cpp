@@ -312,7 +312,7 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { Muoto, "muoto"},
     { Laajuus, "laajuus"},
     { Tositesarjat, "tositesarjat"},
-    { Tilikartta, "tilikartta"},
+    { Tilikartta, "Tilikartta"},
     { SmtpServer, "SmtpServer"},
     { SmtpPort, "SmtpPort"},
     { SmtpUser, "SmtpUser"},

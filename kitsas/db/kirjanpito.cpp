@@ -158,15 +158,19 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 }
 
 void Kirjanpito::ohje(const QString &ohjesivu)
-{
-    QString osoite("https://docsy.kitsas.fi/docs/");
-    QString ohjeenosoite = osoite + ohjesivu;
+{    
+    QString ohjeenosoite = ohjeOsoite__ + ohjesivu;
 
     if(!QDesktopServices::openUrl( QUrl(ohjeenosoite)))
         QMessageBox::critical(nullptr, tr("Ohjeen näyttäminen epäonnistui"),
                               tr("Kitsas ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
                                  "määritelty oletusselain avaamaan internet-sivuja?\n\n"
-                                 "Ohjelman ohjeet löytyvät %1").arg(osoite));
+                                 "Ohjelman ohjeet löytyvät %1").arg(ohjeOsoite__));
+}
+
+void Kirjanpito::asetaOhjeOsoite(const QString &ohjeOsoite)
+{
+    ohjeOsoite__ = ohjeOsoite;
 }
 
 void Kirjanpito::avaaUrl(const QUrl &url)
@@ -360,6 +364,7 @@ void Kirjanpito::paivita(int versioon)
 }
 
 Kirjanpito* Kirjanpito::instanssi__ = nullptr;
+QString Kirjanpito::ohjeOsoite__ = "https://kitsas.fi/docs";
 
 Kirjanpito *kp()  { return Kirjanpito::db(); }
 

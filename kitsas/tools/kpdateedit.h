@@ -65,6 +65,8 @@ public:
     void setDefaultDate(const QDate& date);
     void checkValidity();
 
+    bool isInvalid();
+
 signals:
     /**
      * @brief Ilmoittaa valitun päivämäärän muuttuneen

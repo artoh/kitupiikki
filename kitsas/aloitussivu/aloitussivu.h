@@ -99,6 +99,9 @@ private slots:
     void lisaTukiInfo(QVariant *data);
     void vaihdaSalasanaUuteen();
 
+    void lahetaPalaute();
+    void lahetaTukipyynto();
+
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);
@@ -115,9 +118,11 @@ protected:
      *
      * @since 0.2
      */
-    QString paivitysInfo;
+    QString paivitysInfo;    
 
     enum PilviPino { KIRJAUDU, LISTA, SISAANTULO };
+
+    QString palauteUrl_ = "https://kitsas.fi";
 
 protected:
     Ui::Aloitus *ui;

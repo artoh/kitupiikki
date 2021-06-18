@@ -110,6 +110,18 @@ void KpDateEdit::checkValidity()
     }
 }
 
+bool KpDateEdit::isInvalid()
+{
+    if( dateInEditor_.isValid()
+            && isEnabled()
+            && ((dateInEditor_ < minimumDate() && minimumDate().isValid())
+                || (dateInEditor_ > maximumDate() && maximumDate().isValid() && !property("SalliYlitys").toBool() ) ))
+        return true;
+    else {
+        return false;
+    }
+}
+
 void KpDateEdit::kalenteri()
 {
     if(kalenteri_)

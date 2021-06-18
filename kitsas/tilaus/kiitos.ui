@@ -65,7 +65,7 @@
           <string>Maksavana asiakkaana varmistat Kitsaan kehitystyön jatkumisen. Saat käyttöösi lisäominaisuuksia ja voit tallentaa kirjanpitosi pilvipalveluun.
 
 Tilaamasi ominaisuudet ovat välittömästi käytettävissäsi.
-Jos Sinulle tulee kysyttävää, älä epäröi ottaa yhteyttä tukiosoitteeseen tuki@kitsas.fi</string>
+Jos Sinulle tulee kysyttävää, älä epäröi ottaa meihin yhteyttä Tuki-välilehden kautta tai tukiosoitteessamme tuki@kitsas.fi</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>

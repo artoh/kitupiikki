@@ -471,5 +471,7 @@
         <file>liput/za.png</file>
         <file>liput/zm.png</file>
         <file>liput/zw.png</file>
+        <file>freeicons/support.svg</file>
+        <file>freeicons/question.svg</file>
     </qresource>
 </RCC>
