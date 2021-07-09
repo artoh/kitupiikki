@@ -72,6 +72,7 @@ protected:
     QRegularExpression kauttaRe;
     QRegularExpression valiReViivalla;
     QRegularExpression rahaRe;
+    QRegularExpression omaIbanRe;
 };
 
 };

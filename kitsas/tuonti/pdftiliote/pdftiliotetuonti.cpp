@@ -28,7 +28,8 @@ PdfTilioteTuonti::PdfTilioteTuonti() :
     ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b"),
     kauttaRe("\\d+/20\\d\\d"),
     valiReViivalla("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{0,3}-\\W{0,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})"),
-    rahaRe("^(?<etu>[+-])?\\s*(?<eur>\\d{0,3}([,. ]?\\d{3})*|\\d{1,3})[,.](?<snt>\\d{2})\\s?(?<taka>[+-])?$")
+    rahaRe("^(?<etu>[+-])?\\s*(?<eur>\\d{0,3}([,. ]?\\d{3})*|\\d{1,3})[,.](?<snt>\\d{2})\\s?(?<taka>[+-])?$"),
+    omaIbanRe(R"(FI\d{2}(\s?\d{4}\s?){3}\s?\d{2})")
 {
 
 }
@@ -86,7 +87,7 @@ void PdfTilioteTuonti::lueAlkuRivi(const PdfAnalyzerRow &row)
     } else {
         QString rivinTeksti = row.text();
         if( !iban_.isValid()) {
-            QRegularExpressionMatchIterator ibanIter = ibanRe.globalMatch(rivinTeksti);
+            QRegularExpressionMatchIterator ibanIter = omaIbanRe.globalMatch(rivinTeksti);
             while( ibanIter.hasNext())
             {
                 QRegularExpressionMatch mats = ibanIter.next();

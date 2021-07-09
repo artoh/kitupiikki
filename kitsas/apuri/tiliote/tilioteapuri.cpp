@@ -116,8 +116,10 @@ void TilioteApuri::tuo(QVariantMap map)
 
 
     if( map.contains("kausitunnus")) {
-        QString tilinimi = kp()->tilit()->tiliIbanilla(map.value("iban").toString()).nimi();
-        tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString(), tilinimi));
+        if( map.value("iban").toString().length() > 8) {
+            QString tilinimi = kp()->tilit()->tiliIbanilla(map.value("iban").toString()).nimi();
+            tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString(), tilinimi));
+        }
     }
 
     lataaHarmaat();
