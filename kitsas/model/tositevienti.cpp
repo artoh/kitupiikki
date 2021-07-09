@@ -218,7 +218,7 @@ void TositeVienti::setEra(int era)
 
 void TositeVienti::setEra(const QVariantMap &era)
 {
-    if( era.isEmpty())
+    if( era.isEmpty() || era.value("id").toInt() == 0)
         remove(avaimet__.at(ERA));
     else
         insert(avaimet__.at(ERA), era);
