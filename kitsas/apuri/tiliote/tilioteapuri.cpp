@@ -98,10 +98,13 @@ void TilioteApuri::tuo(QVariantMap map)
 
     qDebug() << map;
 
-    if( map.contains("alkupvm"))
-        ui->alkuDate->setDate( map.value("alkupvm").toDate() );
-    if( map.contains("loppupvm"))
-        ui->loppuDate->setDate( map.value("loppupvm").toDate());
+    const QDate alku = map.value("alkupvm").toDate();
+    const QDate loppu = map.value("loppupvm").toDate();
+
+    if( alku.isValid())
+        ui->alkuDate->setDate(alku);
+    if( loppu.isValid())
+        ui->loppuDate->setDate(loppu);
 
     if( map.contains("iban")) {
         QString iban = map.value("iban").toString();
@@ -122,7 +125,8 @@ void TilioteApuri::tuo(QVariantMap map)
         }
     }
 
-    lataaHarmaat();
+    if( alku.isValid() && loppu.isValid())
+        lataaHarmaatAjalta(alku, loppu);
 
     tuodaan_ = false;
 }
@@ -342,8 +346,12 @@ void TilioteApuri::tiliPvmMuutos()
 
 void TilioteApuri::lataaHarmaat()
 {
-    model_->lataaHarmaat( ui->alkuDate->date(),
-                          ui->loppuDate->date());
+    lataaHarmaatAjalta( ui->alkuDate->date(), ui->loppuDate->date());
+}
+
+void TilioteApuri::lataaHarmaatAjalta(const QDate &mista, const QDate &mihin)
+{
+    model_->lataaHarmaat( mista, mihin);
     kysyAlkusumma();
     proxy_->sort(TilioteRivi::PVM);
 }
