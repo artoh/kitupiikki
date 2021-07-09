@@ -56,6 +56,7 @@ SOURCES += \
     $$PWD/laskutus/iban.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
+    $$PWD/laskutus/laskudlg/aleprosenttidelegaatti.cpp \
     $$PWD/laskutus/laskudlg/ennakkohyvitysdialogi.cpp \
     $$PWD/laskutus/laskudlg/ennakkohyvitysmodel.cpp \
     $$PWD/laskutus/laskudlg/hyvityslaskudialogi.cpp \
@@ -417,6 +418,7 @@ HEADERS += \
     $$PWD/laskutus/iban.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
+    $$PWD/laskutus/laskudlg/aleprosenttidelegaatti.h \
     $$PWD/laskutus/laskudlg/ennakkohyvitysdialogi.h \
     $$PWD/laskutus/laskudlg/ennakkohyvitysmodel.h \
     $$PWD/laskutus/laskudlg/hyvityslaskudialogi.h \

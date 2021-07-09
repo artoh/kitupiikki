@@ -27,6 +27,7 @@
 #include "../tuotedialogi.h"
 #include "laskurividialogi.h"
 #include "rivivientigeneroija.h"
+#include "aleprosenttidelegaatti.h"
 
 #include "db/kirjanpito.h"
 #include "alv/alvilmoitustenmodel.h"
@@ -239,6 +240,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::MAARA, new KappaleDelegaatti);
     ui->rivitView->setItemDelegateForColumn(TositeRivit::YKSIKKO, new YksikkoDelegaatti);
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::ALE, new AleProsenttiDelegaatti);
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti(this);
     kohdennusDelegaatti->asetaKohdennusPaiva(ui->toimitusDate->date());

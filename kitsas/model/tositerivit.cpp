@@ -226,7 +226,7 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 break;
             case ALE:
                 rivit_[r].setEuroAlennus(0);
-                rivit_[r].setAleProsentti(value.toDouble());                
+                rivit_[r].setAleProsentti(qAbs(value.toDouble()));
                 break;
             case KOHDENNUS:
                 rivit_[r].setKohdennus(value.toInt());
