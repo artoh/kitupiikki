@@ -38,7 +38,7 @@ public:
 
 public slots:
     void lataaTosite();    
-    void paivitaViivakoodi();
+    void paivitaViivakoodi(const QString &viite);
 
 signals:
     void tallenna(int tilaan);

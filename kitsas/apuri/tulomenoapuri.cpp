@@ -217,7 +217,7 @@ void TuloMenoApuri::teeReset()
 
     ui->viiteEdit->setText( tosite()->viite());
     ui->laskuPvm->setDate( tosite()->laskupvm().isValid() ? tosite()->laskupvm() : tosite()->pvm());
-    ui->erapaivaEdit->setDate( tosite()->erapvm());
+    ui->erapaivaEdit->setDate( tosite()->erapvm());    
     ui->laskuNumeroEdit->setText( tosite()->laskuNumero());
 
     if( tosite()->kumppani() || !tosite()->kumppaninimi().isEmpty())
@@ -290,6 +290,9 @@ void TuloMenoApuri::teeReset()
 
 bool TuloMenoApuri::teeTositteelle()
 {        
+    if( resetoidaanko())
+        return false;
+
     qlonglong summa = 0l;
 
     QVariantList viennit = rivit_->viennit( tosite() );
@@ -349,7 +352,11 @@ bool TuloMenoApuri::teeTositteelle()
         viennit.insert(0, vasta);
     }
 
-    if( ui->laskuPvm->isVisible()) {
+    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA))
+            && vastatili.eritellaankoTase()
+            && ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
+
+    if( laskulle ) {
         tosite()->asetaLaskupvm( ui->laskuPvm->date());
         tosite()->asetaErapvm( ui->erapaivaEdit->date());
         tosite()->asetaViite( ui->viiteEdit->text());

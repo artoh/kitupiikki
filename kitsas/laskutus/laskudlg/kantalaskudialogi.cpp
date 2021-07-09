@@ -119,7 +119,7 @@ void KantaLaskuDialogi::alustaUi()
     laskutusTapaMuuttui();
     alustaMaksutavat();
 
-    ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+    ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());    
 }
 
 
@@ -521,6 +521,14 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
 
     ui->toimituspvmLabel->setText( maksutapa == Lasku::KUUKAUSITTAINEN ? tr("Laskut ajalla") : tr("Toimituspäivä") );
 
+    if( maksutapa == Lasku::SUORITEPERUSTE) {
+            ui->laskuPvm->setDateRange(QDate(), QDate());
+            ui->toimitusDate->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+    } else {
+            ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+            ui->toimitusDate->setDateRange(QDate(), QDate());
+    }
+
     paivitaLaskutustavat();
     paivitaValvonnat();
 }
@@ -600,12 +608,12 @@ bool KantaLaskuDialogi::tarkasta()
 {
     const QDate& pvm = paivamaara();
     if( pvm <= kp()->tilitpaatetty() ) {
-        QMessageBox::critical(this, tr("Lukittu tilikausi"), tr("Laskun päivämäärälle ei ole avointa tilikautta"));
+        QMessageBox::critical(this, tr("Lukittu tilikausi"), maksutapa() == Lasku::SUORITEPERUSTE ? tr("Toimituspäivämäärälle ei ole avointa tilikautta") : tr("Laskun päivämäärälle ei ole avointa tilikautta"));
         return false;
     }
 
     if( pvm > kp()->tilikaudet()->kirjanpitoLoppuu()) {
-        QMessageBox::critical(this, tr("Puuttuva tilikausi"), tr("Laskun päivämäärälle ei ole avointa tilikautta"));
+        QMessageBox::critical(this, tr("Puuttuva tilikausi"), maksutapa() == Lasku::SUORITEPERUSTE ? tr("Toimituspäivämäärälle ei ole avointa tilikautta") : tr("Laskun päivämäärälle ei ole avointa tilikautta"));
         return false;
     }
 

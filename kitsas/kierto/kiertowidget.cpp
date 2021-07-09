@@ -170,8 +170,8 @@ void KiertoWidget::lataaTosite()
     ui->ibanLabel->setVisible(!iban_.isEmpty());
     ui->kopioiIban->setVisible(!iban_.isEmpty());
     ui->barCopyButton->setVisible(!iban_.isEmpty() && (tosite_->tyyppi() == TositeTyyppi::KULULASKU || !tosite_->viite().isEmpty() ) );    
-    paivitaViivakoodi();
-    connect( tosite_, &Tosite::tilaTieto, this, &KiertoWidget::paivitaViivakoodi);
+    paivitaViivakoodi( tosite_->viite() );
+    connect( tosite_, &Tosite::viiteMuuttui, this, &KiertoWidget::paivitaViivakoodi);
 
     ui->polkuCombo->setCurrentIndex( tosite_->kierto() ? ui->polkuCombo->findData( tosite_->kierto()  ) : 0 );
     ui->siirraNappi->hide();
@@ -266,11 +266,12 @@ void KiertoWidget::lataaTosite()
 
 }
 
-void KiertoWidget::paivitaViivakoodi()
+void KiertoWidget::paivitaViivakoodi(const QString& viite)
 {
-    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU && tosite_->viite().isEmpty())) {
+
+    if( iban_.isEmpty() || ( tosite_->tyyppi() != TositeTyyppi::KULULASKU && viite.isEmpty())) {
         ui->viivakoodiLabel->hide();
-        ui->svgWidget->hide();
+        ui->svgWidget->hide();        
     } else {
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);

@@ -86,6 +86,8 @@ void Tosite::setData(int kentta, QVariant arvo)
         emit kommenttiMuuttui( arvo.toString());
     else if( kentta == ERAPVM)
         emit eraPvmMuuttui( arvo.toDate());
+    else if( kentta == VIITE)
+        emit viiteMuuttui( arvo.toString());
 
     tarkasta();
 }
@@ -232,20 +234,13 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool saily
 
 void Tosite::asetaLaskuNumero(const QString &laskunumero)
 {
-    QVariantMap map = data_.value("lasku").toMap();
-    if( map.value("numero").toString() != laskunumero) {
-        if(laskunumero.isEmpty())
-            map.remove("numero");
-        else
-            map.insert("numero", laskunumero);
-        data_.insert("lasku", map);
-        tarkasta();
-    }
+    lasku_.setNumero(laskunumero);
+    tarkasta();
 }
 
 QString Tosite::laskuNumero() const
 {
-    return data_.value("lasku").toMap().value("numero").toString();
+    return lasku_.numero();
 }
 
 void Tosite::lataa(int tositeid)

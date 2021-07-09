@@ -175,6 +175,7 @@ signals:
 
     void tarkastaSarja(bool kateinen);
     void huomioMuuttui(bool onko);
+    void viiteMuuttui(const QString& viite);
 
 
 public slots:
