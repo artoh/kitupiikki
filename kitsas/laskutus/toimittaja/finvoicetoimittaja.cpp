@@ -42,7 +42,8 @@ void FinvoiceToimittaja::toimita()
             alustaInit();
 
         QVariantMap asiakas = tositeMap().value("kumppani").toMap();
-        if( asiakas.value("ovt").toString().isEmpty() || asiakas.value("operaattori").toString().isEmpty()) {
+        if( (asiakas.value("ovt").toString().isEmpty() || asiakas.value("operaattori").toString().isEmpty()) &&
+             tositeMap().value("lasku").toMap().value("laskutapa").toInt() != Lasku::POSTITUS ) {
             virhe(tr("Verkkolaskun saajalle ei ole määritelty verkkolaskutusosoitetta"));
             return;
         }

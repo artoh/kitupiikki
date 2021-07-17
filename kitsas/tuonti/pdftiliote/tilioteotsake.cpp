@@ -27,11 +27,12 @@ TilioteOtsake::TilioteOtsake()
 
 bool TilioteOtsake::alkaakoOtsake(const PdfAnalyzerRow &row)
 {
-    if( row.textCount() < 4)
+    if( row.textCount() < 3)
         return false;
     const QString teksti = row.text();
     return teksti.contains("Arkistointitunnus") ||
-           (teksti.contains("Kirjaus-") && teksti.contains("Pano"));
+           (teksti.contains("Kirjaus-") && teksti.contains("Pano")) ||
+           (teksti.contains("Kirj.pvm") && teksti.contains("Arvopvm."));
 }
 
 void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)

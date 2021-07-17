@@ -199,8 +199,8 @@ void TilioteApuri::teeReset()
 
     model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
     model_->lataa(tosite()->viennit()->tallennettavat() );
-    if( kp()->yhteysModel())
-        lataaHarmaat();
+    if( kp()->yhteysModel() && !tilioteMap.isEmpty())
+        lataaHarmaatAjalta( tilioteMap.value("alkupvm").toDate(), tilioteMap.value("loppupvm").toDate() );
 }
 
 void TilioteApuri::lisaaRivi(bool dialogi)
