@@ -50,7 +50,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
 
     connect( ui->tiliLine, &TilinvalintaLine::textChanged, this, &MuuMuokkausDlg::tiliMuuttui);
 
-    connect( ui->kumppani, &AsiakasToimittajaValinta::valittu, this, &MuuMuokkausDlg::kumppaniMuuttui);
+    connect( ui->kumppani, &AsiakasToimittajaValinta::muuttui, this, &MuuMuokkausDlg::kumppaniMuuttui);
     connect( ui->eraCombo, &EraCombo::valittu, this, &MuuMuokkausDlg::eraMuuttui);
     connect( ui->alvlajiCombo, &QComboBox::currentTextChanged, this, &MuuMuokkausDlg::alvLajiMuuttui);
     connect( ui->perusteRadio, &QRadioButton::toggled, this, &MuuMuokkausDlg::kirjausLajiMuuttui);
@@ -99,7 +99,7 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
         ui->pvmEdit->setDate( v.pvm() );
 
     if(v.kumppaniId() || !v.kumppaniNimi().isEmpty())
-        ui->kumppani->set(v.kumppaniId(), v.kumppaniNimi());
+        ui->kumppani->valitse(v.kumppaniMap());
 
 
     Tili tili;
@@ -329,7 +329,7 @@ void MuuMuokkausDlg::eraMuuttui(EraMap era)
     if( ui->seliteEdit->toPlainText().isEmpty())
         ui->seliteEdit->setPlainText(era.nimi());
     if( !ui->kumppani->id() && era.kumppaniId())
-        ui->kumppani->set(era.kumppaniId());
+        ui->kumppani->valitse(era.kumppani());
 }
 
 void MuuMuokkausDlg::jaksoMuuttui()

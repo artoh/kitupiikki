@@ -128,7 +128,6 @@ void KantaLaskuDialogi::alustaUi()
 void KantaLaskuDialogi::teeConnectit()
 {
     connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, this, &KantaLaskuDialogi::asiakasMuuttui);
-    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &KantaLaskuDialogi::asiakasMuuttui);
 
     connect( ui->email, &QLineEdit::textChanged, this, &KantaLaskuDialogi::paivitaLaskutustavat);
     connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &KantaLaskuDialogi::paivitaLaskutustavat);
@@ -208,7 +207,7 @@ void KantaLaskuDialogi::tositteelta()
 
     if( tosite()->kumppani()) {
         taytaAsiakasTiedotMapista( tosite()->kumppanimap() );
-        ui->asiakas->set( tosite()->kumppani(), tosite()->kumppaninimi());
+        ui->asiakas->valitse( tosite()->kumppanimap());
     } else {
         ui->osoiteEdit->setPlainText( lasku.osoite() );        
     }
@@ -353,13 +352,12 @@ void KantaLaskuDialogi::tositteelle()
 
 void KantaLaskuDialogi::asiakasMuuttui()
 {
-    const int asiakasId = ui->asiakas->nimi().isEmpty() ? 0 :  ui->asiakas->id();
+    taytaAsiakasTiedotMapista( ui->asiakas->map() );
+
+    const int asiakasId = ui->asiakas->id();
     ui->osoiteEdit->setEnabled( asiakasId == 0);
-    if( asiakasId && asiakasId != asiakasId_) {
-        KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(asiakasId) );
-        connect( kysely, &KpKysely::vastaus, this, &KantaLaskuDialogi::taytaAsiakasTiedot);
-        kysely->kysy();
-    } else if( !asiakasId && asiakasId_) {
+
+    if( !asiakasId && asiakasId_) {
         ladattuAsiakas_.clear();
         ui->osoiteEdit->clear();
         ui->email->clear();

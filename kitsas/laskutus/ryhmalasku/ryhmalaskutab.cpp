@@ -56,7 +56,7 @@ void RyhmalaskuTab::lisaaKaikki()
 void RyhmalaskuTab::uusiAsiakas()
 {
     AsiakasToimittajaDlg* dlg = new AsiakasToimittajaDlg(this);
-    connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, [this] (int id) { this->laskutettavat_->lisaa(id); });
+    connect( dlg, &AsiakasToimittajaDlg::kumppaniTallennettu, this, [this] (const QVariantMap& map) { this->laskutettavat_->lisaa(map.value("id").toInt()); });
     if( ryhmaCombo_->currentData().toInt())
         dlg->lisaaRyhmaan(ryhmaCombo_->currentData().toInt());
     dlg->uusi();

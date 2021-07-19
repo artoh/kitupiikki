@@ -180,7 +180,7 @@ void KumppaniTuoteWidget::uusi()
         dlg.exec();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
-        connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
+        connect( dlg, &AsiakasToimittajaDlg::kumppaniTallennettu, this, &KumppaniTuoteWidget::paivita);
         dlg->uusi();
         if( ryhma_)
             dlg->lisaaRyhmaan(ryhma_);
@@ -215,7 +215,7 @@ void KumppaniTuoteWidget::muokkaa()
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         dlg->muokkaa( ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt() );
-        connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
+        connect( dlg, &AsiakasToimittajaDlg::kumppaniTallennettu, this, &KumppaniTuoteWidget::paivita);
     }
 }
 

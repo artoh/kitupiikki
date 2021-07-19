@@ -71,8 +71,7 @@ private slots:
     void tyhjenna();
     void tarkastaTallennus();
 
-    void kumppaniValittu(int kumppaniId);
-    void kumppaniTiedot(QVariant* data);
+    void kumppaniTiedot(const QVariantMap &data);
 
     void haeAlkuperaisTosite(int eraId);
     void tositeSaapuu(QVariant *data);

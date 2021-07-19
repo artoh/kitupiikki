@@ -58,12 +58,12 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     connect( model_, &AsiakasToimittajaListaModel::modelReset, this, &AsiakasToimittajaValinta::modelLadattu);
 
 
-    connect(combo_, QOverload<int>::of(&QComboBox::activated), this, &AsiakasToimittajaValinta::valitseAsiakas);
+//    connect(combo_, QOverload<int>::of(&QComboBox::activated), this, &AsiakasToimittajaValinta::nimiMuuttui);
     connect( combo_->lineEdit(), &QLineEdit::editingFinished, this, &AsiakasToimittajaValinta::syotettyNimi);
 
     connect( combo_, &QComboBox::currentTextChanged, this, &AsiakasToimittajaValinta::nimiMuuttui );
 
-    connect( dlg_, &AsiakasToimittajaDlg::tallennettu, this, &AsiakasToimittajaValinta::talletettu);
+    connect( dlg_, &AsiakasToimittajaDlg::kumppaniTallennettu, this, &AsiakasToimittajaValinta::tallennettu);
 
     combo_->lineEdit()->setPlaceholderText(tr("Y-tunnus tai nimi"));
     combo_->installEventFilter(this);
@@ -73,45 +73,29 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     clear();
 }
 
+int AsiakasToimittajaValinta::id() const
+{
+    return map_.value("id").toInt();
+}
+
 QString AsiakasToimittajaValinta::nimi() const
 {
-    return combo_->currentText();
+    return map_.value("nimi").toString();
+}
+
+QStringList AsiakasToimittajaValinta::ibanit() const
+{
+    return map_.value("iban").toStringList();
 }
 
 QVariantMap AsiakasToimittajaValinta::map() const
 {
-    QVariantMap vmap;
-    vmap.insert("id", id());
-    vmap.insert("nimi", nimi());
-    return vmap;
+    return map_;
 }
-
-void AsiakasToimittajaValinta::set(int id, const QString &nimi)
-{
-    if( id == id_ && nimi == combo_->currentText())
-        return;
-
-    inSet_ = true;
-
-    ibanit_.clear();
-
-    if( combo_ ) {
-       combo_->setCurrentText(nimi);
-    }
-
-    if( id ) {
-        ladattu_ = id;
-        model_->lataa();
-    }
-
-    inSet_ = false;
-}
-
 
 void AsiakasToimittajaValinta::clear()
 {
-    id_ = 0;
-    ladattu_ = 0;
+    map_.clear();
     combo_->setCurrentIndex(-1);
     combo_->setCurrentText(QString());
 
@@ -126,15 +110,13 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
 
     if( model_->idAlvTunnuksella( alvtunnari) ) {
         // Valitaan Y-tunnuksella
-        combo_->setCurrentIndex( combo_->findData( model_->idAlvTunnuksella(alvtunnari) ) );
-        emit valittu( combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt() );
+        combo_->setCurrentIndex( combo_->findData( model_->idAlvTunnuksella(alvtunnari) ) );        
     } else if( combo_->findText(
                    data.contains("kumppaninimi") ?
                    data.value("kumppaninimi").toString()
                    : data.value("nimi").toString()) > -1) {
         // Valitaan nimellä
-        combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
-        emit valittu( combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt() );
+        combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );        
     } else {
         // Siirrytään dialogiin                
         // Pitäisikö yrittää vielä tilinumerolla ?
@@ -148,44 +130,83 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
             connect(ibankysely, &KpKysely::virhe, this, [this, data] {this->ibanLoytyi(data, nullptr);});
             ibankysely->kysy();
         }
-    }
-    ibanit_ = data.value("iban").toStringList();
+    }    
 }
 
-void AsiakasToimittajaValinta::valitseAsiakas()
+void AsiakasToimittajaValinta::valitse(const QVariantMap &map)
 {
-    setId( combo_->currentData().toInt() );
+    map_ = map;
+    lataa_ = 0;
+    combo_->setCurrentText( nimi() );
+    setId( id() );
+}
+
+void AsiakasToimittajaValinta::valitse(int kumppaniId)
+{
+    KpKysely* kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
+    lataa_ = kumppaniId;
+    connect( kysely, &KpKysely::vastaus, this, &AsiakasToimittajaValinta::lataa);
+    kysely->kysy();
+}
+
+void AsiakasToimittajaValinta::lataa(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    if( lataa_ != map.value("id").toInt())
+        return;
+
+    map_ = map;
+    lataa_ = 0;
+    combo_->setCurrentText(nimi());
+    setId(id());
+    emit muuttui( map_);
 }
 
 void AsiakasToimittajaValinta::nimiMuuttui()
 {
-    if( inSet_ )
+    QString syotetty = combo_->currentText();
+
+    if( syotetty == nimi() )
         return;
 
-    int id = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
-    if( id == id_)
-        return;
+    int lid = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
 
-    setId( id );
+    if( lid ) {
+        if( lid == lataa_ || lid == id()) {
+            // On jo latauksessa taikka esillä ;)
+            return;
+        }
+        // Ladataan tämä
+        valitse(lid);
 
+    }
     // Jos on syötetty y-tunnus, haetaan sillä
-    if( YTunnusValidator::kelpaako( combo_->currentText() )) {
+    else if( YTunnusValidator::kelpaako( combo_->currentText() )) {
         QString alvtunnari = "FI" + combo_->currentText();
         int hakuId = model_->idAlvTunnuksella( alvtunnari.remove('-'));
         if( hakuId )
             combo_->setCurrentIndex( combo_->findData(hakuId) );
         else
             dlg_->ytunnuksella( combo_->currentText());
-    } else
-        emit muuttui( combo_->currentText());
+    } else {
+        map_.clear();
+        setId(0);
+        map_.insert("nimi", combo_->currentText());
+        emit muuttui(map_);
+    }
 }
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    if( combo_->currentText().isEmpty())
+    if( combo_->currentText() == nimi())
+        return;
+
+    if( combo_->currentText().isEmpty() )
         clear();
 
-    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ) ) {
+    int lid = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
+
+    if( lid && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ) ) {
         if(property("MuokkaaUusi").toBool() )
             muokkaa();
     }
@@ -194,27 +215,19 @@ void AsiakasToimittajaValinta::syotettyNimi()
 void AsiakasToimittajaValinta::muokkaa()
 {
 
-    if( id_ )
-        dlg_->muokkaa(id_);
-    else
+    if( id() ) {
+        dlg_->tauluun( map() );
+        dlg_->show();
+    } else
         dlg_->uusi( combo_->currentText());
-
-}
-
-void AsiakasToimittajaValinta::talletettu(int id, const QString& /*nimi*/)
-{
-    ladattu_ = id;
-    model_->lataa();
-    emit valittu(id);
 
 }
 
 void AsiakasToimittajaValinta::modelLadattu()
 {
-    if( ladattu_ )
+    if( id() )
     {
-        setId(ladattu_);
-        int indeksi = combo_->findData( id_ );
+        int indeksi = combo_->findData( id() );
         combo_->setCurrentIndex(indeksi);
     }
 }
@@ -225,20 +238,23 @@ void AsiakasToimittajaValinta::ibanLoytyi(const QVariantMap &tuontiData, QVarian
     if(map.isEmpty()) {
         dlg_->tuonti(tuontiData);
     } else {
-        set(map.value("id").toInt(), map.value("nimi").toString());
-    }
-    ibanit_ = tuontiData.value("iban").toStringList();
+        map_ = data->toMap();
+        combo_->setCurrentText(nimi());
+    }    
+}
+
+void AsiakasToimittajaValinta::tallennettu(const QVariantMap &map)
+{
+    map_ = map;
+    lataa_ = 0;
+    combo_->setCurrentText( map.value("nimi").toString());
 }
 
 
 void AsiakasToimittajaValinta::setId(int id)
 {    
-    id_ = id;
-    ibanit_.clear();
-
     if( id ) {
         button_->setIcon(QIcon(":/pic/muokkaaasiakas.png"));
-        emit valittu(id);
     } else
         button_->setIcon(QIcon(":/pic/uusiasiakas.png"));
 }

@@ -77,7 +77,7 @@ void HuoneistoDialog::accept()
 void HuoneistoDialog::naytolle()
 {
     ui->tunnusEdit->setText( huoneisto_.nimi() );
-    ui->asiakas->set( huoneisto_.asiakas() );
+    ui->asiakas->valitse( huoneisto_.asiakas() );
     ui->muistiinpanoEdit->setPlainText( huoneisto_.muistiinpanot());
 }
 

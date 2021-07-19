@@ -94,7 +94,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::tositteelle);
 
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::muuttui, this, &TuloMenoApuri::tositteelle);
-    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
+    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::muuttui, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
     connect( ui->laskuNumeroEdit, &QLineEdit::textChanged, tosite, &Tosite::asetaLaskuNumero);
@@ -221,7 +221,7 @@ void TuloMenoApuri::teeReset()
     ui->laskuNumeroEdit->setText( tosite()->laskuNumero());
 
     if( tosite()->kumppani() || !tosite()->kumppaninimi().isEmpty())
-        ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
+        ui->asiakasToimittaja->valitse(tosite()->kumppanimap());
     else
         ui->asiakasToimittaja->clear();
 
@@ -834,14 +834,11 @@ bool TuloMenoApuri::eventFilter(QObject *target, QEvent *event)
     return ApuriWidget::eventFilter(target, event);
 }
 
-void TuloMenoApuri::kumppaniValittu(int kumppaniId)
+void TuloMenoApuri::kumppaniValittu(QVariantMap data)
 {
-    KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
-    if(kysely) {
-        connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
-        kysely->kysy();
-        ui->eraCombo->asetaTili(ui->vastatiliLine->valittuTilinumero(), kumppaniId);
-    }
+    QVariant d(data);
+    kumppaniTiedot(&d);
+    ui->eraCombo->asetaTili(ui->vastatiliLine->valittuTilinumero(), data.value("id").toInt());
 }
 
 void TuloMenoApuri::kumppaniTiedot(QVariant *data)
@@ -868,6 +865,6 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
 void TuloMenoApuri::eraValittu( EraMap era)
 {
     if( !ui->asiakasToimittaja->id())
-        ui->asiakasToimittaja->set(era.kumppaniId());
+        ui->asiakasToimittaja->valitse(era.kumppani());
 }
 

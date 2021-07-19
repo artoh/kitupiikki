@@ -305,24 +305,14 @@ void TilioteKirjaaja::tarkastaTallennus()
 
 
 
-void TilioteKirjaaja::kumppaniValittu(int kumppaniId)
+void TilioteKirjaaja::kumppaniTiedot(const QVariantMap& data)
 {
-    if( ui->alaTabs->currentIndex() == TULOMENO && kumppaniId > 0 ) {
-        KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
-        connect(kysely, &KpKysely::vastaus, this, &TilioteKirjaaja::kumppaniTiedot);
-        kysely->kysy();
-    }
-}
-
-void TilioteKirjaaja::kumppaniTiedot(QVariant *data)
-{
-    QVariantMap map = data->toMap();
     if( menoa_ ) {
-        if( map.contains("menotili"))
-            ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );
+        if( data.contains("menotili"))
+            ui->tiliEdit->valitseTiliNumerolla( data.value("menotili").toInt() );
     } else {
-        if( map.contains("tulotili"))
-            ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
+        if( data.contains("tulotili"))
+            ui->tiliEdit->valitseTiliNumerolla( data.value("tulotili").toInt());
     }
 }
 
@@ -425,7 +415,7 @@ void TilioteKirjaaja::alusta()
     connect( ui->jaksoAlkaaEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::jaksomuuttuu);
 
 
-    connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
+    connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::muuttui, this, &TilioteKirjaaja::kumppaniTiedot);
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/tiliote"); });
     connect( ui->tyhjaaNappi, &QPushButton::clicked, this, &TilioteKirjaaja::tyhjenna);
     connect( laskut_, &LaskuTauluTilioteProxylla::modelReset, this, [this] { this->suodata(this->ui->suodatusEdit->text()); ui->maksuView->resizeColumnToContents(LaskuTauluModel::ASIAKASTOIMITTAJA); });
@@ -477,7 +467,7 @@ void TilioteKirjaaja::lataaNakymaan()
     const int tili = tapahtuma.tili();
 
     ui->pvmEdit->setDate(pankkiVienti_.pvm());
-    ui->asiakastoimittaja->set( pankkiVienti_.kumppaniId(), pankkiVienti_.kumppaniNimi() );
+    ui->asiakastoimittaja->valitse( pankkiVienti_.kumppaniMap() );
 
     QString saajamaksaja = pankkiVienti_.kumppaniNimi();
     int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));

@@ -71,7 +71,7 @@ protected slots:
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();
 
-    void kumppaniValittu(int kumppaniId);
+    void kumppaniValittu(QVariantMap data);
     void kumppaniTiedot(QVariant* data);
     void eraValittu(EraMap era);
 

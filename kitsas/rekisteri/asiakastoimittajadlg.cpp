@@ -475,11 +475,9 @@ void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)
 {
     kp()->odotusKursori(false);
     QVariantMap map = data->toMap();
-    int id = map.value("id").toInt();
-    QString nimi = map.value("nimi").toString();
 
     QDialog::accept();
 
-    emit tallennettu(id, nimi);
+    emit kumppaniTallennettu(map);
     emit kp()->kirjanpitoaMuokattu();
 }

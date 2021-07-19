@@ -40,6 +40,7 @@ public:
 
 public slots:
     void muokkaa(int id);
+    void tauluun(QVariantMap map = QVariantMap());
     void uusi(const QString& nimi = QString());
     void ytunnuksella(const QString& ytunnus);
     void tuonti(const QVariantMap& map);
@@ -48,11 +49,10 @@ public slots:
 
 
 signals:
-    void tallennettu(int id, const QString& nimi);
+    void kumppaniTallennettu(QVariantMap map);
 
 protected:
     void lataa(int id);
-    void tauluun(QVariantMap map = QVariantMap());
     void alustaKielet();
 
 

@@ -59,7 +59,7 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleKohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &SiirtoApuri::tositteelle);
 
     connect( ui->laskuNappi, &QPushButton::clicked, this, &SiirtoApuri::laskunmaksu);
-    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &SiirtoApuri::tositteelle);
+    connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, this, &SiirtoApuri::tositteelle);
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -83,7 +83,7 @@ bool SiirtoApuri::teeTositteelle()
         if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
                 debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
             kumppani.clear();
-        ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+        ui->asiakas->valitse(kumppani);
     }
 
 
@@ -160,7 +160,7 @@ void SiirtoApuri::teeReset()
         if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
                 debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
             kumppani.clear();
-        ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+        ui->asiakas->valitse(kumppani);
 
         debetArkistoTunnus_ = debetMap.arkistotunnus();
         kreditArkistoTunnus_ = kreditMap.arkistotunnus();
@@ -331,7 +331,7 @@ void SiirtoApuri::eraValittu(bool debet, EraMap era)
     if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
             debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
         kumppani.clear();
-    ui->asiakas->set(kumppani.value("id").toInt(), kumppani.value("nimi").toString());
+    ui->asiakas->valitse(kumppani);
 
 
     haeAlkuperaistosite(debet, era.id());

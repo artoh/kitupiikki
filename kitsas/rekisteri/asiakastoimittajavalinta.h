@@ -18,6 +18,7 @@
 #define ASIAKASTOIMITTAJAVALINTA_H
 
 #include <QWidget>
+#include <QVariantMap>
 
 class QLineEdit;
 class QPushButton;
@@ -33,30 +34,30 @@ class AsiakasToimittajaValinta : public QWidget
 public:
     AsiakasToimittajaValinta(QWidget *parent = nullptr);
 
-    int id() const { return id_;}
+    int id() const;
     QString nimi() const;
-    QStringList ibanit() const { return ibanit_;}
+    QStringList ibanit() const;
     QVariantMap map() const;
 
 signals:
-    void valittu(int id);
-    void muuttui(const QString& nimi);
+    void muuttui(const QVariantMap& map);
 
 public slots:
-    void set(int id, const QString& nimi = QString());
     void clear();
     void tuonti(const QVariantMap &data);
-
+    void valitse(const QVariantMap& map);
+    void valitse(int kumppaniId);
+    void lataa(QVariant* data);
 
 private slots:
-    void valitseAsiakas();
     void nimiMuuttui();
     void syotettyNimi();
     void muokkaa();
-    void talletettu(int id, const QString &nimi);
     void modelLadattu();
 
     void ibanLoytyi(const QVariantMap& tuontiData, QVariant* data);
+
+    void tallennettu(const QVariantMap& map);
 
 protected:
     void setId(int id);
@@ -66,15 +67,11 @@ protected:
     QPushButton* button_;
 
     AsiakasToimittajaListaModel* model_;
-
     AsiakasToimittajaDlg *dlg_ = nullptr;
 
-    int id_=0;
-    int ladattu_=0;
-    QStringList ibanit_;
-    QString nimi_;
+    int lataa_ = 0;
+    QVariantMap map_;
 
-    bool inSet_ = false;
 };
 
 #endif // ASIAKASTOIMITTAJAVALINTA_H
