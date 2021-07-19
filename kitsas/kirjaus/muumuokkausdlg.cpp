@@ -33,8 +33,6 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
 
     QSortFilterProxyModel* veroproxy = new QSortFilterProxyModel;
     veroproxy->setSourceModel( kp()->alvTyypit());
-    veroproxy->setFilterRole(VerotyyppiModel::KoodiRooli);
-    veroproxy->setFilterRegularExpression(QRegularExpression("^(900|932|[0-8].*)"));
     ui->alvlajiCombo->setModel( veroproxy );
 
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KOHDENNUKSET_PROJEKTIT);
