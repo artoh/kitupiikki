@@ -344,6 +344,11 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setSaate( ui->saateEdit->toPlainText() );
     tosite()->lasku().setSaatteessaMaksutiedot( ui->saateMaksutiedotCheck->isChecked() );
 
+    // #1034 Tositetyyppi laskua tallennettaessa
+    if( (kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan)) &&
+         !tosite()->id()   )
+        tosite()->asetaSarja( kp()->tositeTyypit()->sarja( tosite_->tyyppi(), maksutapa() == Lasku::KATEINEN ) ) ;
+
 }
 
 void KantaLaskuDialogi::asiakasMuuttui()
