@@ -55,6 +55,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     combo_->completer()->setCompletionMode(QCompleter::PopupCompletion);
 
     connect( button_, &QPushButton::clicked, this, &AsiakasToimittajaValinta::muokkaa);
+    connect( model_, &AsiakasToimittajaListaModel::modelAboutToBeReset, this, [this] () {this->modelLataa_=true;});
     connect( model_, &AsiakasToimittajaListaModel::modelReset, this, &AsiakasToimittajaValinta::modelLadattu);
 
 
@@ -164,6 +165,9 @@ void AsiakasToimittajaValinta::lataa(QVariant *data)
 
 void AsiakasToimittajaValinta::nimiMuuttui()
 {
+    if( modelLataa_)
+        return;
+
     QString syotetty = combo_->currentText();
 
     if( syotetty == nimi() )
@@ -230,6 +234,7 @@ void AsiakasToimittajaValinta::modelLadattu()
         int indeksi = combo_->findData( id() );
         combo_->setCurrentIndex(indeksi);
     }
+    modelLataa_ = false;
 }
 
 void AsiakasToimittajaValinta::ibanLoytyi(const QVariantMap &tuontiData, QVariant *data)
@@ -238,7 +243,7 @@ void AsiakasToimittajaValinta::ibanLoytyi(const QVariantMap &tuontiData, QVarian
     if(map.isEmpty()) {
         dlg_->tuonti(tuontiData);
     } else {
-        map_ = data->toMap();
+        map_ = data ? data->toMap() : QVariantMap();
         combo_->setCurrentText(nimi());
     }    
 }
@@ -248,6 +253,7 @@ void AsiakasToimittajaValinta::tallennettu(const QVariantMap &map)
     map_ = map;
     lataa_ = 0;
     combo_->setCurrentText( map.value("nimi").toString());
+    emit muuttui(map);
 }
 
 

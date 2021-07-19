@@ -70,6 +70,7 @@ protected:
     AsiakasToimittajaDlg *dlg_ = nullptr;
 
     int lataa_ = 0;
+    bool modelLataa_ = false;
     QVariantMap map_;
 
 };
