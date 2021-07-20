@@ -376,9 +376,6 @@ void KantaLaskuDialogi::taytaAsiakasTiedot(QVariant *data)
 
 void KantaLaskuDialogi::taytaAsiakasTiedotMapista(const QVariantMap &map)
 {
-    if( map.value("id").toInt() == ladattuAsiakas_.value("id").toInt())
-        return;
-
     ladattuAsiakas_ = map;
     asiakasId_ = ladattuAsiakas_.value("id").toInt();
 
