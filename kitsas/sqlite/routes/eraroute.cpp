@@ -42,10 +42,10 @@ QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
     QString kysymys("select vienti.eraid as eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite as selite, tosite.pvm as pvm, a.tili as tili, "
                     "tosite.tunniste as tunniste, tosite.sarja as sarja, tosite.tyyppi as tositetyyppi, "
                     "a.kumppani, kumppani.nimi "
-                    "FROM  Vienti "
+                    "FROM  Vienti JOIN Tosite AS t ON vienti.tosite=t.id "
                     "JOIN Vienti AS a ON vienti.eraid = a.id JOIN Tosite ON a.Tosite=Tosite.id  "
                     "LEFT OUTER JOIN Kumppani ON a.kumppani=Kumppani.id "
-                    "WHERE Tosite.tila >= 100 ");
+                    "WHERE Tosite.tila >= 100 AND t.tila >= 100 ");
 
     if( urlquery.hasQueryItem("tili"))
         kysymys.append(QString("AND a.tili=%1 ").arg(urlquery.queryItemValue("tili")));
