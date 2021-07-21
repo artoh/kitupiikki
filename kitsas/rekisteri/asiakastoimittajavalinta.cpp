@@ -59,10 +59,10 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     connect( model_, &AsiakasToimittajaListaModel::modelReset, this, &AsiakasToimittajaValinta::modelLadattu);
 
 
-//    connect(combo_, QOverload<int>::of(&QComboBox::activated), this, &AsiakasToimittajaValinta::nimiMuuttui);
+    connect(combo_, QOverload<int>::of(&QComboBox::activated), this, &AsiakasToimittajaValinta::nimiMuuttui);
     connect( combo_->lineEdit(), &QLineEdit::editingFinished, this, &AsiakasToimittajaValinta::syotettyNimi);
 
-    connect( combo_, &QComboBox::currentTextChanged, this, &AsiakasToimittajaValinta::nimiMuuttui );
+//    connect( combo_, &QComboBox::currentTextChanged, this, &AsiakasToimittajaValinta::nimiMuuttui );
 
     connect( dlg_, &AsiakasToimittajaDlg::kumppaniTallennettu, this, &AsiakasToimittajaValinta::tallennettu);
 
@@ -97,9 +97,8 @@ QVariantMap AsiakasToimittajaValinta::map() const
 void AsiakasToimittajaValinta::clear()
 {
     map_.clear();
-    combo_->setCurrentIndex(-1);
+    setId(0);
     combo_->setCurrentText(QString());
-
 }
 
 
@@ -138,7 +137,13 @@ void AsiakasToimittajaValinta::valitse(const QVariantMap &map)
 {
     map_ = map;
     lataa_ = 0;
-    combo_->setCurrentText( nimi() );
+    if( id()) {
+        int indeksi = combo_->findData( id() );
+        if( indeksi > -1)
+            combo_->setCurrentIndex(indeksi);
+    } else {
+        combo_->setCurrentText( nimi() );
+    }
     setId( id() );
 }
 
@@ -157,8 +162,10 @@ void AsiakasToimittajaValinta::lataa(QVariant *data)
         return;
 
     map_ = map;
-    lataa_ = 0;
-    combo_->setCurrentText(nimi());
+    lataa_ = 0;    
+
+    int indeksi = combo_->findData( id() );
+    combo_->setCurrentIndex(indeksi);
     setId(id());
     emit muuttui( map_);
 }
@@ -175,7 +182,7 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
     int lid = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
 
-    if( lid ) {
+    if( lid > -1) {
         if( lid == lataa_ || lid == id()) {
             // On jo latauksessa taikka esillä ;)
             return;
@@ -232,7 +239,11 @@ void AsiakasToimittajaValinta::modelLadattu()
     if( id() )
     {
         int indeksi = combo_->findData( id() );
-        combo_->setCurrentIndex(indeksi);
+        if( indeksi > 0)
+            combo_->setCurrentIndex(indeksi);
+    } else {
+        combo_->setCurrentIndex(-1);
+        combo_->setCurrentText(QString());
     }
     modelLataa_ = false;
 }
@@ -244,7 +255,12 @@ void AsiakasToimittajaValinta::ibanLoytyi(const QVariantMap &tuontiData, QVarian
         dlg_->tuonti(tuontiData);
     } else {
         map_ = data ? data->toMap() : QVariantMap();
-        combo_->setCurrentText(nimi());
+        if( id()) {
+            int indeksi = combo_->findData( id() );
+            combo_->setCurrentIndex(indeksi);
+        } else {
+            combo_->setCurrentText( nimi() );
+        }
     }    
 }
 
