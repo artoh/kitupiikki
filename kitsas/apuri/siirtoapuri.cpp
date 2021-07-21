@@ -192,11 +192,16 @@ void SiirtoApuri::paivitaKateislaji()
 
 void SiirtoApuri::haeAlkuperaistosite(bool debet, int eraId)
 {
-    KpKysely *kysely = kpk("/tositteet");
-    kysely->lisaaAttribuutti("vienti", eraId);
-    connect(kysely, &KpKysely::vastaus, this,  [debet, this] (QVariant* data)
-        { this->tositeSaapuu(debet, data); });
-    kysely->kysy();
+    debetAlkuperaiset_.clear();
+    kreditAlkuperaiset_.clear();
+
+    if( eraId) {
+        KpKysely *kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("vienti", eraId);
+        connect(kysely, &KpKysely::vastaus, this,  [debet, this] (QVariant* data)
+            { this->tositeSaapuu(debet, data); });
+        kysely->kysy();
+    }
 }
 
 void SiirtoApuri::tositeSaapuu(bool debet, QVariant *data)
@@ -354,6 +359,12 @@ void SiirtoApuri::laskunmaksu()
             lista.swapItemsAt(0,1);
         tosite()->viennit()->asetaViennit(lista);
         reset();
+
+        if( ui->tililleEraCombo->eraMap().id())
+            haeAlkuperaistosite(true, ui->tililleEraCombo->eraMap().id());
+        else if(ui->tililtaEraCombo->eraMap().id())
+            haeAlkuperaistosite(false, ui->tililtaEraCombo->eraMap().id());
+
     }
 }
 

@@ -41,7 +41,7 @@ QWidget *Naytin::SceneNaytin::widget()
 
 QByteArray Naytin::SceneNaytin::data() const
 {
-    return view_->data();
+    return view_ ? view_->data() : QByteArray();
 }
 
 QString Naytin::SceneNaytin::tiedostonMuoto() const

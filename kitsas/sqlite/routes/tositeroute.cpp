@@ -444,7 +444,7 @@ QVariant TositeRoute::hae(int tositeId)
                         "WHERE tosite.id=%1").arg(tositeId));
     else
         kysely.exec(QString("SELECT tosite.id as id, tosite.pvm as pvm, tosite.tyyppi as tosite, tila, tunniste, sarja, otsikko, Tosite.laskupvm, Tosite.erapvm, Tosite.viite, tosite.json as json, "
-                        "tosite.kumppani as kumppani FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id"
+                        "tosite.kumppani as kumppani FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                         "WHERE vienti.id=%1").arg(0-tositeId));
 
 
