@@ -169,7 +169,8 @@ LaskutettavatModel::Laskutettava::Laskutettava()
 LaskutettavatModel::Laskutettava::Laskutettava(const QVariantMap &map) :
     kumppani_(map)
 {
-    lahetystapa_ = map.value("laskutapa", Lasku::POSTITUS).toInt();
+    bool osoite = map.contains("osoite") && map.contains("postinumero") && map.contains("postinumero");
+    lahetystapa_ = map.value("laskutapa", osoite ? Lasku::POSTITUS : Lasku::TULOSTETTAVA ).toInt();
     kieli_ = map.value("kieli","FI").toString();
 }
 

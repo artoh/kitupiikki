@@ -80,7 +80,7 @@ void RiviVientiGeneroija::asetaEraId(int eraId)
 
     if( valvonta == Lasku::ASIAKAS || valvonta == Lasku::HUONEISTO) {
         eraId_ = lasku.viite().eraId();
-    } else if( lasku.maksutapa() == Lasku::KATEINEN ) {
+    } else if( lasku.maksutapa() == Lasku::KATEINEN || lasku.maksutapa() == Lasku::KORTTIMAKSU ) {
         eraId_ = 0;
     } else if( tosite_->viennit()->rowCount() &&
                tosite_->viennit()->vienti(0).eraId()) {
@@ -134,6 +134,8 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
 
     if( maksutapa == Lasku::KATEINEN) {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuKateistili) );
+    } else if (maksutapa == Lasku::KORTTIMAKSU) {
+        vienti.setTili( asetukset->luku(AsetusModel::LaskuKorttitili));
     } else if (maksutapa == Lasku::ENNAKKOLASKU) {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuEnnakkosaatavaTili) );
     }  else {
@@ -145,7 +147,8 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
     vienti.setKumppani( tosite_->kumppani() );
     vienti.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS );
     vienti.setSelite( lasku.otsikko() );
-    vienti.setEra(eraId_);
+    if( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU)
+        vienti.setEra(eraId_);
     tosite_->viennit()->lisaa(vienti);
 }
 
@@ -251,7 +254,7 @@ void RiviVientiGeneroija::generoiVeroVienti(const double prosentti, const Euro& 
 
     const Lasku& lasku = tosite_->lasku();
 
-    if( lasku.maksutapa() != Lasku::KATEINEN &&
+    if( lasku.maksutapa() != Lasku::KATEINEN && lasku.maksutapa() != Lasku::KORTTIMAKSU &&
         kitsas_->onkoMaksuperusteinenAlv(pvm) ) {
         vienti.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
         vienti.setTili( kitsas_->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero() );

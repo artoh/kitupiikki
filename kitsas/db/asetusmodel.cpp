@@ -341,5 +341,6 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { LaskuRiviTyyppi, "LaskuRiviTyyppi"},
     { OletusMyyntitili, "OletusMyyntitili"},
     { VariKehys, "VariKehys"},
-    { VariVarjo, "VariVarjo"}
+    { VariVarjo, "VariVarjo"},
+    { LaskuKorttitili, "LaskuKorttitili"}
 };

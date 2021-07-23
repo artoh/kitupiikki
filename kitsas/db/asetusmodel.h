@@ -105,7 +105,8 @@ public:
         LaskuRiviTyyppi,
         OletusMyyntitili,
         VariKehys,
-        VariVarjo
+        VariVarjo,
+        LaskuKorttitili
 
     };
 

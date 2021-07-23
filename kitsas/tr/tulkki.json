@@ -1231,5 +1231,10 @@
         "fi": "Tilauspäivämäärä",
         "sv": "Beställningdatum",
         "en": "Order date"
+    },
+    "korttimaksu" : {
+        "fi" : "Korttimaksu",
+        "sv" : "Betalning med kort",
+        "en" : "Card payment"
     }
 }

@@ -50,7 +50,7 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
         lisaa("muistutuspvm", lasku.laskunpaiva());
         lisaa("muistutusnro", lasku.numero());
     } else {
-        if( lasku.maksutapa() == Lasku::KATEINEN)
+        if( lasku.maksutapa() == Lasku::KATEINEN || lasku.maksutapa() == Lasku::KORTTIMAKSU)
             otsikko_ = kitsas_->kaanna("kateislasku", kieli_);
         else if( lasku.maksutapa() == Lasku::ENNAKKOLASKU)
             otsikko_ = kitsas_->kaanna("ennakkolasku", kieli_);
@@ -83,7 +83,7 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
     lisaa("tilausnro", lasku.tilausNumero());
          
 
-    if( lasku.viivastyskorko() > 1e-3)
+    if( lasku.viivastyskorko() > 1e-3 && lasku.maksutapa() != Lasku::KATEINEN && lasku.maksutapa() != Lasku::KORTTIMAKSU)
         lisaa("viivkorko", QString("%L1 %").arg(lasku.viivastyskorko(),0,'f',1));   
     if( lasku.huomautusAika())
         lisaa("huomaika", QString("%1 %2")

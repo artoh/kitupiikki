@@ -689,6 +689,17 @@
         "laajuus": 1
     },
     {
+        "numero": 1704,
+        "tyyppi": "A",
+        "nimi": {
+            "fi": "Korttimaksusaamiset",
+            "sv": "Kreditkortsfordringar",
+            "en": "Card payments receivables"
+        },
+        "erittely": 1,
+        "laajuus": 1
+    },    
+    {
         "numero": 1705,
         "tyyppi": "AO",
         "nimi": {

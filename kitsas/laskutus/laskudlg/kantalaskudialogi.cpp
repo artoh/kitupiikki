@@ -158,9 +158,9 @@ void KantaLaskuDialogi::alustaMaksutavat()
     ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), Lasku::LASKU);
     if( tosite()->tyyppi() == TositeTyyppi::MYYNTILASKU) {
         ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), Lasku::KATEINEN);
+        ui->maksuCombo->addItem(QIcon(":/pic/luottokortti.png"), tr("Korttimaksu"), Lasku::KORTTIMAKSU);
         ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), Lasku::ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), Lasku::SUORITEPERUSTE);
-
         ui->maksuCombo->addItem(QIcon(":/pic/kuu.svg"), tr("Kuukausittainen lasku"), Lasku::KUUKAUSITTAINEN);
     }
 }
@@ -240,7 +240,7 @@ void KantaLaskuDialogi::tositteelta()
 
     ui->email->setText( lasku.email());
 
-    ui->maksuCombo->setCurrentIndex( lasku.maksutapa() );
+    ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData(lasku.maksutapa()) );
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.lahetystapa() ) );
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );    
 
@@ -439,6 +439,7 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
         ladattuAsiakas_.value("ovt").toString().length() > 9 &&
         ladattuAsiakas_.value("operaattori").toString().length() > 4 &&
         maksutapa() != Lasku::KATEINEN &&
+        maksutapa() != Lasku::KORTTIMAKSU &&
         maksutapa() != Lasku::KUUKAUSITTAINEN)
         ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
 
@@ -501,16 +502,16 @@ void KantaLaskuDialogi::maksuTapaMuuttui()
     valvontaMuuttui();
 
 
-    ui->eraLabel->setVisible( maksutapa != Lasku::KATEINEN );
-    ui->eraDate->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
+    ui->eraLabel->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU);
+    ui->eraDate->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU && maksutapa != Lasku::KUUKAUSITTAINEN );
 
-    ui->maksuaikaLabel->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
-    ui->maksuaikaSpin->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KUUKAUSITTAINEN );
+    ui->maksuaikaLabel->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU && maksutapa != Lasku::KUUKAUSITTAINEN );
+    ui->maksuaikaSpin->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU && maksutapa != Lasku::KUUKAUSITTAINEN );
 
 
     ui->toistoErapaivaSpin->setVisible( maksutapa == Lasku::KUUKAUSITTAINEN);
-    ui->viivkorkoLabel->setVisible( maksutapa != Lasku::KATEINEN );
-    ui->viivkorkoSpin->setVisible( maksutapa != Lasku::KATEINEN );
+    ui->viivkorkoLabel->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU);
+    ui->viivkorkoSpin->setVisible( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU);
 
     tosite()->rivit()->asetaEnnakkolasku(this->ui->maksuCombo->currentData().toInt() == Lasku::ENNAKKOLASKU);
 
@@ -537,7 +538,7 @@ void KantaLaskuDialogi::valvontaMuuttui()
 {
     if( paivitysKaynnissa_ ) return;
 
-    bool valvontakaytossa = maksutapa() != Lasku::SUORITEPERUSTE && maksutapa() != Lasku::KATEINEN;
+    bool valvontakaytossa = maksutapa() != Lasku::SUORITEPERUSTE && maksutapa() != Lasku::KATEINEN && maksutapa() != Lasku::KORTTIMAKSU;
 
     const int valvonta = valvontakaytossa ? ui->valvontaCombo->currentData().toInt() : Lasku::LASKUVALVONTA;
     ui->tarkeCombo->setVisible( valvonta == Lasku::HUONEISTO || valvonta == Lasku::VAKIOVIITE );
@@ -566,6 +567,8 @@ void KantaLaskuDialogi::paivitaViiteRivi()
 
     ui->eiViitettaLabel->setVisible(  viite.tyyppi() == ViiteNumero::VIRHEELLINEN );
     ui->viiteText->setText(viite.valeilla());
+
+    setWindowTitle(tr("Lasku") + " " + tosite()->laskuNumero());
 }
 
 void KantaLaskuDialogi::laskeEraPaiva()

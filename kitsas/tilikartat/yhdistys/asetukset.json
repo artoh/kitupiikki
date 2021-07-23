@@ -161,6 +161,7 @@
   "arkistoraportit" : "tase/yleinen,tulos/yleinen",
   "LaskuSaatavatili" : "1700",
   "LaskuKateistili" : "1900",
+  "LaskuKorttitili" : "1704",
   "LaskuMaksuaika" : "14",
   "LaskuSeuraavaId" : "1000",
   "LaskuViivakoodi" : true,

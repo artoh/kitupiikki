@@ -59,7 +59,7 @@ void FinvoiceToimittaja::toimita()
         int tyyppi = tositeMap().value("tyyppi").toInt();
 
 
-        if( lasku.maksutapa() == Lasku::KATEINEN)
+        if( lasku.maksutapa() == Lasku::KATEINEN  || lasku.maksutapa() == Lasku::KORTTIMAKSU)
             lasku.set("tyyppi", "KUITTI");
         else if( tyyppi == TositeTyyppi::HYVITYSLASKU)
             lasku.set("tyyppi", "HYVITYSLASKU");

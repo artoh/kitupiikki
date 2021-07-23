@@ -210,7 +210,7 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
 {
     const AsetusModel* asetukset = interface_->asetukset();
 
-    if( lasku.maksutapa() != Lasku::KATEINEN &&
+    if( lasku.maksutapa() != Lasku::KATEINEN && lasku.maksutapa() != Lasku::KORTTIMAKSU &&
              lasku.summa().cents() > 0) {
 
     maksulaatikko_.lisaa( kaanna("pankki"), pankit_.join("\n"));
@@ -227,8 +227,10 @@ void LaskunAlaosa::lataaMaksutiedot(const Lasku &lasku)
         virtuaaliviivakoodi_ = false;
     }
 
-    if( lasku.maksutapa() == Lasku::KATEINEN)
+    if( lasku.maksutapa() == Lasku::KATEINEN )
         maksulaatikko_.lisaa( kaanna("erapvm"), kaanna("maksettu"));
+    else if( lasku.maksutapa() == Lasku::KORTTIMAKSU)
+        maksulaatikko_.lisaa( " ", kaanna("korttimaksu"));
     else if( lasku.erapvm().isValid() && lasku.summa().cents() > 0)
         maksulaatikko_.lisaa( kaanna("erapvm"), lasku.erapvm().toString("dd.MM.yyyy"));
 
