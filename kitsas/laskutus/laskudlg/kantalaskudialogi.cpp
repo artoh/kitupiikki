@@ -568,7 +568,7 @@ void KantaLaskuDialogi::paivitaViiteRivi()
     ui->eiViitettaLabel->setVisible(  viite.tyyppi() == ViiteNumero::VIRHEELLINEN );
     ui->viiteText->setText(viite.valeilla());
 
-    setWindowTitle(tr("Lasku") + " " + tosite()->laskuNumero());
+    setWindowTitle(otsikko());
 }
 
 void KantaLaskuDialogi::laskeEraPaiva()
