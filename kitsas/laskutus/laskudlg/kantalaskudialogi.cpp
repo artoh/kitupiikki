@@ -158,7 +158,9 @@ void KantaLaskuDialogi::alustaMaksutavat()
     ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), Lasku::LASKU);
     if( tosite()->tyyppi() == TositeTyyppi::MYYNTILASKU) {
         ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), Lasku::KATEINEN);
-        ui->maksuCombo->addItem(QIcon(":/pic/luottokortti.png"), tr("Korttimaksu"), Lasku::KORTTIMAKSU);
+        if(  kp()->asetukset()->onko(AsetusModel::LaskuKorttitili) ) {
+            ui->maksuCombo->addItem(QIcon(":/pic/luottokortti.png"), tr("Korttimaksu"), Lasku::KORTTIMAKSU);
+        }
         ui->maksuCombo->addItem(QIcon(":/pic/ennakkolasku.png"), tr("Ennakkolasku"), Lasku::ENNAKKOLASKU);
         ui->maksuCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen lasku"), Lasku::SUORITEPERUSTE);
         ui->maksuCombo->addItem(QIcon(":/pic/kuu.svg"), tr("Kuukausittainen lasku"), Lasku::KUUKAUSITTAINEN);
