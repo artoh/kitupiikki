@@ -83,12 +83,14 @@ void TilioteKirjaaja::accept()
             QDialog::accept();
         } else {
             tallennaRivi();
+            TilioteKirjausRivi tallennettavaRivi = tallennettava();
             if( riviIndeksi_ > -1) {
-                apuri()->model()->asetaRivi(riviIndeksi_, tallennettava());
+                apuri()->model()->asetaRivi(riviIndeksi_, tallennettavaRivi);
                 QDialog::accept();
-            } else {
-                apuri()->model()->lisaaRivi(tallennettava());
+            } else {                
+                apuri()->model()->lisaaRivi(tallennettavaRivi);
             }
+            tallennettavaRivi.paivitaErikoisrivit();
             tyhjenna();
         }
     }

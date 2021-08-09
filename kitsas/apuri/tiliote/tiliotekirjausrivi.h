@@ -49,10 +49,10 @@ public:
     void alkuperaistositeSaapuu(QVariant* data, int eraId);
 
     void asetaLisaysIndeksi(const int indeksi) override;
+    void paivitaErikoisrivit();
 
 protected:    
-    void paivitaTyyppi();
-    void paivitaErikoisrivit();
+    void paivitaTyyppi();    
     void sijoitaErikoisrivit();
 
     bool peitetty_ = false;

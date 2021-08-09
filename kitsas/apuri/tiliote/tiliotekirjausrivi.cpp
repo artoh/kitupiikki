@@ -335,8 +335,7 @@ void TilioteKirjausRivi::asetaPankkitili(int tili)
 void TilioteKirjausRivi::asetaViennit(const QList<TositeVienti> &viennit)
 {
     viennit_ = viennit;
-    paivitaTyyppi();
-    paivitaErikoisrivit();
+    paivitaTyyppi();    
 }
 
 
