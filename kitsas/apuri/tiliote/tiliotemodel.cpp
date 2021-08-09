@@ -116,7 +116,8 @@ int TilioteModel::lisaaRivi(const QDate &pvm)
 
 int TilioteModel::lisaaRivi(TilioteKirjausRivi rivi)
 {
-    rivi.asetaLisaysIndeksi( lisaysIndeksi() );
+    if( !rivi.lisaysIndeksi())
+        rivi.asetaLisaysIndeksi( lisaysIndeksi() );
 
     int indeksi = kirjausRivit_.count();
     beginInsertRows(QModelIndex(), indeksi, indeksi);
@@ -176,7 +177,8 @@ void TilioteModel::asetaTilinumero(int tilinumero)
 
 int TilioteModel::lisaysIndeksi()
 {
-    return ++lisaysIndeksi_;
+    lisaysIndeksi_++;
+    return lisaysIndeksi_;
 }
 
 void TilioteModel::tilaaAlkuperaisTosite(int rivinLisaysIndeksi, int eraId)
@@ -342,7 +344,8 @@ void TilioteModel::peitaHarmailla()
 void TilioteModel::alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant *data, int eraId)
 {
     for(int i=0; i < kirjausRivit_.count(); i++) {
-        if( kirjausRivit_.at(i).lisaysIndeksi() == lisaysIndeksi) {
+        const int indeksi = kirjausRivit_.at(i).lisaysIndeksi();
+        if( indeksi == lisaysIndeksi) {
             kirjausRivit_[i].alkuperaistositeSaapuu(data, eraId);
             break;
         }

@@ -84,6 +84,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::tiliPvmMuutos);
 
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
+    connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);
 
 }
 
@@ -213,7 +214,7 @@ void TilioteApuri::lisaaRivi(bool dialogi)
     if(dialogi)
         kirjaaja_->kirjaaUusia(pvm);
     else
-        model()->lisaaRivi(pvm);
+        model()->lisaaRivi(pvm);        
 }
 
 void TilioteApuri::riviValittu()

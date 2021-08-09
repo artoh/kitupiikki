@@ -75,6 +75,7 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
             debet.setSelite(selite);
             debet.setEra(avienti.era());
             debet.setAlvKoodi(AlvKoodi::TILITYS);
+            debet.setAlvProsentti( avienti.alvProsentti());
             taydennys_ << debet;
 
             TositeVienti kredit;
@@ -89,6 +90,7 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
             }
             kredit.setKredit(sentit);
             kredit.setSelite(selite);
+            kredit.setAlvProsentti(avienti.alvProsentti());
             taydennys_ << kredit;
         }
     }
