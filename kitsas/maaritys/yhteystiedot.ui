@@ -50,6 +50,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
        <item>
         <widget class="QLineEdit" name="lineEdit">
+         <property name="maxLength">
+          <number>5</number>
+         </property>
          <property name="Asetus" stdset="0">
           <string notr="true">Postinumero</string>
          </property>
@@ -185,6 +188,12 @@
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
     </spacer>
    </item>
