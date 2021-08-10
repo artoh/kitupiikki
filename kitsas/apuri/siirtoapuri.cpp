@@ -169,6 +169,12 @@ void SiirtoApuri::teeReset()
         ui->tililtaKohdennusCombo->valitseKohdennus( kreditMap.value("kohdennus").toInt());
         ui->tililleMerkkausCC->setSelectedItems( debetMap.value("merkkaukset").toList());
         ui->tililtaMerkkausCC->setSelectedItems( kreditMap.value("merkkaukset").toList());
+
+        if( ui->tililleEraCombo->eraMap().id())
+            haeAlkuperaistosite(true, ui->tililleEraCombo->eraMap().id());
+        else if(ui->tililtaEraCombo->eraMap().id())
+            haeAlkuperaistosite(false, ui->tililtaEraCombo->eraMap().id());
+
     } else {
         ui->euroEdit->setCents(0);
         ui->tililleEdit->clear();
