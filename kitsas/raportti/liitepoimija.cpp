@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QTimer>
+#include <QMessageBox>
 
 LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
     : QObject(parent), kieli_(kieli), dpi_(dpi)
@@ -38,7 +39,7 @@ void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi(), QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
-    writer->setPageSize( QPdfWriter::A4);
+    writer->setPageSize( QPageSize(QPageSize::A4));
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
 
@@ -131,7 +132,8 @@ void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
                 false,
                 -1000,
                 kieli_,
-                dpi_);
+                dpi_,
+                false);
 
     ekatulostettu_ = true;
     tulostettu_++;
@@ -145,13 +147,20 @@ void LiitePoimija::tehty()
     delete painter;
 
     painter = nullptr;
-    QString tnimi = tiedosto_;
 
-    if(tulostettu_) {
-        QTimer::singleShot(250, this, [tnimi] {QDesktopServices::openUrl(QUrl::fromLocalFile(tnimi));});
-        emit valmis();
-        kp()->odotusKursori(false);
+    if(tulostettu_) {        
+        QTimer::singleShot(250, this, &LiitePoimija::avaa);
     } else {
         emit tyhja();
     }
+}
+
+void LiitePoimija::avaa()
+{
+    if( !QDesktopServices::openUrl( QUrl(tiedosto_) ) ) {
+            QMessageBox::critical(nullptr, tr("Tiedoston näyttäminen epäonnistui"),
+                                  tr("Kitsas ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(tiedosto_ ));
+        }
+    emit valmis();
+    kp()->odotusKursori(false);
 }

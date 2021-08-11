@@ -40,6 +40,7 @@ protected:
     void seuraavaLiite();
     void liiteSaapuu(QVariant* data, const QString& tyyppi);
     void tehty();
+    void avaa();
 
 signals:
     void valmis();

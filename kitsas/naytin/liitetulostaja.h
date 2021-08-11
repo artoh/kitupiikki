@@ -28,7 +28,8 @@ public:
     static int tulostaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data, const QString& tyyppi,
                         const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString(),
-                        int resoluutio = 200);
+                        int resoluutio = 200,
+                        bool aloitaSivunvaihdolla = true);
 
     static bool tulostaMuistiinpanot(QPainter* painter,
                                      const QVariantMap& tosite, int sivu, const QString& kieli = QString());
@@ -40,7 +41,7 @@ protected:
     static int tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
                         const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString(),
-                        int resoluutio = 200);
+                        int resoluutio = 200, bool aloitaSivunvaihdolla = true);
 
     static int tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,

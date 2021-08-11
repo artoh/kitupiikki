@@ -30,10 +30,10 @@
 
 #include <QDebug>
 
-int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli, int resoluutio)
+int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli, int resoluutio, bool aloitaSivunvaihdolla)
 {
     if( tyyppi == "application/pdf")
-        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli, resoluutio);
+        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli, resoluutio, aloitaSivunvaihdolla);
     if( tyyppi.startsWith("image"))
         return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
     return 0;
@@ -126,7 +126,7 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
 
 }
 
-int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli, int resoluutio)
+int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli, int resoluutio, bool aloitaSivunvaihdolla)
 {
     PdfRendererDocument *document = PdfToolkit::renderer(data);
 
@@ -140,7 +140,8 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
 
 
     painter->setFont(QFont("FreeSans",8));
-    printer->newPage();
+    if( aloitaSivunvaihdolla )
+        printer->newPage();
 
     int rivinKorkeus = painter->fontMetrics().height();
     int sivut = 0;
