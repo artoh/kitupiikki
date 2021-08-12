@@ -61,8 +61,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
 
     connect(combo_, QOverload<int>::of(&QComboBox::activated), this, &AsiakasToimittajaValinta::nimiMuuttui);
     connect( combo_->lineEdit(), &QLineEdit::editingFinished, this, &AsiakasToimittajaValinta::syotettyNimi);
-
-//    connect( combo_, &QComboBox::currentTextChanged, this, &AsiakasToimittajaValinta::nimiMuuttui );
+    connect( combo_, &QComboBox::currentTextChanged, this, &AsiakasToimittajaValinta::nimiMuuttui );
 
     connect( dlg_, &AsiakasToimittajaDlg::kumppaniTallennettu, this, &AsiakasToimittajaValinta::tallennettu);
 
@@ -212,7 +211,6 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    nimiMuuttui();
     if(property("MuokkaaUusi").toBool() && !id() && !nimi().isEmpty() )
         muokkaa();
 }
