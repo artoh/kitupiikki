@@ -181,8 +181,11 @@ void AsiakasToimittajaValinta::nimiMuuttui()
         return;
 
     int lid = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
+    const QString& haettuNimi = model_->nimi(lid);
+    if( haettuNimi != syotetty )
+        lid = model_->idNimella(syotetty);
 
-    if( lid > -1) {
+    if( lid > 0) {
         if( lid == lataa_ || lid == id()) {
             // On jo latauksessa taikka esillä ;)
             return;
@@ -192,7 +195,7 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
     }
     // Jos on syötetty y-tunnus, haetaan sillä
-    else if( YTunnusValidator::kelpaako( combo_->currentText() )) {
+    else if( YTunnusValidator::kelpaako( syotetty )) {
         QString alvtunnari = "FI" + combo_->currentText();
         int hakuId = model_->idAlvTunnuksella( alvtunnari.remove('-'));
         if( hakuId )
@@ -209,18 +212,9 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    if( combo_->currentText() == nimi())
-        return;
-
-    if( combo_->currentText().isEmpty() )
-        clear();
-
-    int lid = combo_->currentData(AsiakasToimittajaListaModel::IdRooli).toInt();
-
-    if( lid && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ) ) {
-        if(property("MuokkaaUusi").toBool() )
-            muokkaa();
-    }
+    nimiMuuttui();
+    if(property("MuokkaaUusi").toBool() && !id() && !nimi().isEmpty() )
+        muokkaa();
 }
 
 void AsiakasToimittajaValinta::muokkaa()
