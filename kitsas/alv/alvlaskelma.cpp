@@ -286,7 +286,7 @@ void AlvLaskelma::yvRivi(int koodi, const QString &selite, Euro euro)
         rk.lisaaRivi(rivi);
     }
     if( koodi && euro)
-        koodattu_.insert(koodi, euro);
+        koodattu_.insert(koodi, euro.cents() );
 }
 
 Euro AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)

@@ -129,11 +129,7 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
 
     QVariantMap kooditMap = data.value("koodit").toMap();
 
-    if(kooditMap.isEmpty()) {
-        QMessageBox::information(nullptr, tr("Ilmoitinaineiston muodostaminen"),
-                              tr("Kaudelle ei löydy alv-aineistoa. Tee alv-ilmoitus OmaVero-palvelussa. "));
-        return false;
-    }
+    bool tyhja = true;
 
     QMapIterator<QString,QVariant> iter(kooditMap);
     while( iter.hasNext()) {
@@ -143,17 +139,23 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
         // Jos ei haeta alijäämähuojennusta, niin ei myöskään
         // ilmoitetan niihin oikeuttavia määriä
 
+        if( koodi >= 301 && koodi <= 320)
+            tyhja = false;
+
         if( (koodi >= 315 && !kooditMap.contains("317")) || koodi > 317)
             break;
-        lisaa(koodi, iter.value().toDouble());
+        lisaa(koodi, iter.value().toLongLong());
     }
 
     if( kooditMap.contains("317")) {
         if( kausitieto.value(0).toString() == "Q")
             lisaa(336,"2");
-        else
+        else if( kausitieto.value(0).toString() == "K")
             lisaa(336,"1");
     }
+    if( tyhja )
+        lisaa(056, "1");
+
     if( kooditMap.contains("337"))
         lisaa(337,"1");
 
@@ -163,7 +165,7 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
         int koodi = iter.key().toInt();
         if( koodi < 318 || koodi > 320)
             continue;
-        lisaa(koodi, iter.value().toDouble());
+        lisaa(koodi, iter.value().toLongLong());
     }
     if( kp()->asetukset()->onko(AsetusModel::VeroYhteysPuhelin) )
         lisaa(42, kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
@@ -181,9 +183,9 @@ void IlmoitinTuottaja::lisaa(int koodi, const QString &arvo)
                 .arg(arvo));
 }
 
-void IlmoitinTuottaja::lisaa(int koodi, double eurot)
+void IlmoitinTuottaja::lisaa(int koodi, qlonglong sentit)
 {
-    QString luku = QString::number(eurot,'f',2);
+    QString luku = QString::number( sentit / 100.0  ,'f',2);
     lisaa(koodi, luku.replace(QChar('.'),QChar(',')));
 }
 

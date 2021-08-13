@@ -42,7 +42,7 @@ protected:
     bool muodosta(const QVariantMap& data);
 
     void lisaa(int koodi, const QString& arvo);
-    void lisaa(int koodi, double eurot);
+    void lisaa(int koodi, qlonglong sentit);
 
     QString txt_;
 signals:
