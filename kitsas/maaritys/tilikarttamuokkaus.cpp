@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QScrollBar>
 #include <QRegularExpressionValidator>
+#include <QMessageBox>
 
 #include "tilikarttamuokkaus.h"
 #include "db/kirjanpito.h"
@@ -100,7 +101,7 @@ void TilikarttaMuokkaus::muutaTila(Tili::TiliTila tila)
     int indeksi = naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row();
     Tili* tili = kp()->tilit()->tiliPIndeksilla(indeksi);
 
-    if( tili->otsikkotaso()) {
+    if( tili->otsikkotaso())  {
         // Muutetaan kaikki tilit tämän alapuolelta
         for(int i=indeksi+1; i < kp()->tilit()->rowCount(); i++) {
             Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
@@ -124,10 +125,13 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 
 
     if( index.isValid() ) {
-        ui->piilotaNappi->setEnabled(true);
+
+        bool piilotettavissa = index.data(TiliModel::OtsikkotasoRooli).toInt() != 1;
+
+        ui->piilotaNappi->setEnabled(piilotettavissa);
         ui->normaaliNappi->setEnabled(true);
         ui->naytaNappi->setEnabled(true);
-        ui->suosikitNappi->setEnabled(true);
+        ui->suosikkiNappi->setEnabled(piilotettavissa);
 
         int tila = index.data(TiliModel::TilaValintaRooli).toInt();
 
@@ -139,7 +143,7 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
         ui->piilotaNappi->setEnabled(false);
         ui->normaaliNappi->setEnabled(false);
         ui->naytaNappi->setEnabled(false);
-        ui->suosikitNappi->setEnabled(false);
+        ui->suosikkiNappi->setEnabled(false);
     }
 
 
