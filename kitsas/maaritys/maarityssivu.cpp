@@ -292,7 +292,8 @@ void MaaritysSivu::paivitaNakyvat()
     item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
     item( KAYTTOOIKEUDET)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KAYTTOOIKEUDET));
     item( LIITTEET )->setHidden(false); // Liittemääreet aina käytössä
-    item( SAHKOPOSTI )->setHidden( false ); // Sähköpostissa on aina mahdollisuus muokata paikalliset asetukset    
+    item( SAHKOPOSTI )->setHidden( kp()->yhteysModel() && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+        // Jos avoimena olevaan kirjanpitoon ei ole asetusoikeuksia, piilotetaan. Siis silloin kun kirjanpitoa ei ole avoinna, voi muokata konekohtaisia asetuksia.
 
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
