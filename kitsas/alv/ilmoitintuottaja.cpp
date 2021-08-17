@@ -154,7 +154,7 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
             lisaa(336,"1");
     }
     if( tyhja )
-        lisaa(056, "1");
+        lisaa(56, "1");
 
     if( kooditMap.contains("337"))
         lisaa(337,"1");
