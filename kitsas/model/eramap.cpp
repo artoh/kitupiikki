@@ -55,5 +55,6 @@ EraMap EraMap::AsiakasEra(int id, const QString &nimi)
     QVariantMap asMap;
     asMap.insert("nimi", nimi);
     asMap.insert("id", id);
+    map.insert("asiakas", asMap);
     return map;
 }
