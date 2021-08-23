@@ -273,7 +273,7 @@ void TilioteKirjaaja::suodata(const QString &teksti)
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
         maksuProxy_->setFilterFixedString( teksti );
     }
-    if( ui->maksuView->model()->rowCount())
+    if( ui->maksuView->model()->rowCount() && !ladataan_)
         ui->alaTabs->setCurrentIndex(MAKSU);
 }
 
@@ -465,6 +465,7 @@ void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
 
 void TilioteKirjaaja::lataaNakymaan()
 {
+    ladataan_ = true;
     const TositeVienti& tapahtuma = viennit_->vienti(0);
     const int tili = tapahtuma.tili();
 
@@ -515,6 +516,8 @@ void TilioteKirjaaja::lataaNakymaan()
     ui->suodatusEdit->setText( saajamaksaja );
     if( !saajamaksaja.isEmpty())
         suodata(saajamaksaja);
+
+    ladataan_ = false;
 }
 
 void TilioteKirjaaja::riviVaihtuu(const QModelIndex &/*current*/, const QModelIndex &previous)
@@ -564,7 +567,7 @@ void TilioteKirjaaja::naytaRivi()
 void TilioteKirjaaja::tallennaRivi()
 {
     const int rivi = nykyVientiRivi_;
-    if( rivi < 0)
+    if( rivi < 0 || ladataan_)
         return;
 
     TositeVienti vienti;

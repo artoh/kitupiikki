@@ -143,10 +143,7 @@ void PilviModel::poistaNykyinenPilvi()
 
 QString PilviModel::ilmoitinTunnus() const
 {
-#ifdef KITSAS_DEVEL
-    return "3093902-7_KI";
-#endif
-    return data_.value("ilmoitin").toString();
+    return data_.value("ilmoitinkoodi").toString();
 }
 
 qlonglong PilviModel::oikeudet(const QVariantList &lista)

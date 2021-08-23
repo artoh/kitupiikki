@@ -111,6 +111,8 @@ private:
     TositeVienti pankkiVienti_;
     TilioteViennit* viennit_;
 
+    bool ladataan_ = false;
+
 };
 
 #endif // TILIOTEKIRJAAJA_H
