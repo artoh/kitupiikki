@@ -117,9 +117,10 @@ void PilviKysely::vastausSaapuu()
     if( reply->error()) {
         QByteArray vastaus = reply->readAll();
 
-        qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
-        std::cerr <<  vastaus.toStdString();
+        qCritical() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
 
+        qCritical() <<  QString::fromUtf8(vastaus);
+        std::cerr << vastaus.toStdString();
 
         QString selite = QJsonDocument::fromJson(vastaus).object().value("virhe").toString();
         emit virhe( reply->error(), selite);

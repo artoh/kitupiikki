@@ -34,6 +34,7 @@ VakioViiteDlg::VakioViiteDlg(VakioViiteModel *model, QWidget *parent) :
     ui->setupUi(this);
 
     ui->tiliEdit->suodataTyypilla("C.*");
+    ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KOHDENNUKSET_PROJEKTIT);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("laskutus/vakioviitteet/");} );
     ui->viiteEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("^[1-9]\\d{3,6}")));
 
@@ -43,6 +44,7 @@ VakioViiteDlg::VakioViiteDlg(VakioViiteModel *model, QWidget *parent) :
     bool onkoKohdennuksia = kp()->kohdennukset()->kohdennuksia();
     ui->kohdennusLabel->setVisible(onkoKohdennuksia);
     ui->kohdennusCombo->setVisible(onkoKohdennuksia);
+    ui->kohdennusCombo->suodataValilla( kp()->paivamaara().addYears(-1), kp()->paivamaara() );
 }
 
 VakioViiteDlg::~VakioViiteDlg()
