@@ -155,6 +155,9 @@ void TilioteApuri::salliMuokkaus(bool sallitaanko)
 
 bool TilioteApuri::teeTositteelle()
 {
+    if( resetoidaanko())
+        return false;
+
     model()->asetaTilinumero(ui->tiliCombo->valittuTilinumero());
     tosite()->viennit()->asetaViennit( model_->viennit() );
     QVariantMap tilioteMap;
