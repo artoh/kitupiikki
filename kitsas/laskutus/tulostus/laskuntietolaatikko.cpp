@@ -148,10 +148,12 @@ void LaskunTietoLaatikko::ylatunnistePvmalue(QPainter *painter)
     const qreal sivunleveys = painter->window().width();
     QRectF pRect(0, 0, sivunleveys, rivinKorkeus_ * 2);
     if( kitsas_->onkoHarjoitus()) {
+        painter->save();
         painter->setPen( QPen(Qt::green ));
         painter->setFont(QFont("FreeSans", fonttikoko_ + 6, QFont::Black));
         painter->drawText( pRect, Qt::AlignHCenter | Qt::AlignVCenter,
                            kitsas_->kaanna("HARJOITUS", kieli_));
+        painter->restore();
     }
 
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
