@@ -35,7 +35,8 @@ public:
                               Euro korkoSaldo = Euro(0),
                               const QDate& korkoAlkaa = QDate(),
                               const QDate& korkoLoppuu = QDate(),
-                              double korko = 0.0);
+                              double korko = 0.0,
+                              int vastatili = 0);
 
     Euro laskeKorko(Euro korkoSaldo = Euro(0),
                     const QDate& korkoAlkaa = QDate(),
@@ -50,7 +51,7 @@ protected:
                double korko, const QDate& pvm);
 
     double paivaKorko(const QDate& alkupvm, const QDate& loppupvm, double korko, Euro peruste);
-    void vastakirjaus(Tosite *tosite, const Euro& euro, int era, const QDate &pvm);
+    void vastakirjaus(Tosite *tosite, const Euro& euro, int era, const QDate &pvm, int vastatili);
 
 
     KitsasInterface* kitsas_;

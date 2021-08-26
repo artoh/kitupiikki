@@ -23,6 +23,8 @@
 #include "model/lasku.h"
 #include "../tulostus/laskuntulostaja.h"
 #include "maksumuistutusmuodostaja.h"
+#include "model/tositeviennit.h"
+#include "model/tositevienti.h"
 
 UusiMaksumuistutusDialogi::UusiMaksumuistutusDialogi(QList<int> erat, QWidget *parent) :
     QDialog(parent),
@@ -114,7 +116,8 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
     Tosite alkuperainenTosite;
     alkuperainenTosite.lataa( tositteet.value(0).toMap() );
     Lasku lasku = alkuperainenTosite.constLasku();
-    const QString& kieli = lasku.kieli();
+    const QString& kieli = lasku.kieli().toLower();
+    const int vastatili = alkuperainenTosite.viennit()->vienti(0).tili();
 
     QVariantMap eramap = eraMapit_.value(era);    
 
@@ -169,7 +172,8 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
                                  saldo,
                                  korkopaiva,
                                  kp()->paivamaara(),
-                                 ui->korkoCheck->isChecked() ? korko : 0.0
+                                 ui->korkoCheck->isChecked() ? korko : 0.0,
+                                 vastatili
                                  );
 
 

@@ -38,7 +38,7 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
                                                     int eraId, Euro maksumuistus,
                                                     Euro korkoSaldo,
                                                     const QDate &korkoAlkaa, const QDate &korkoLoppuu,
-                                                    double korko)
+                                                    double korko, int vastatili)
 {
     qDebug() << " Korko "  << korkoAlkaa.toString() << " - " << korkoLoppuu.toString() << " " << korko << " %";
 
@@ -48,7 +48,7 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
     aiempiSaldo(tosite, korkoSaldo);
 
     Euro yhteensa = maksumuistus + laskeKorko( korkoSaldo, korkoAlkaa, korkoLoppuu, korko );
-    vastakirjaus(tosite, yhteensa, eraId, pvm);
+    vastakirjaus(tosite, yhteensa, eraId, pvm, vastatili ? vastatili : kitsas_->asetukset()->luku("LaskuSaatavatili") );
 
     muistutusMaksu(tosite, maksumuistus, pvm);
     kirjaaKorko(tosite, korkoSaldo, korkoAlkaa, korkoLoppuu, korko, pvm);
@@ -150,12 +150,12 @@ double MaksumuistutusMuodostaja::paivaKorko(const QDate &alkupvm, const QDate &l
     return peruste.toDouble() * korko / alkupvm.daysInYear() / 100.0;
 }
 
-void MaksumuistutusMuodostaja::vastakirjaus(Tosite* tosite, const Euro &euro, int era, const QDate& pvm)
+void MaksumuistutusMuodostaja::vastakirjaus(Tosite* tosite, const Euro &euro, int era, const QDate& pvm, int vastatili)
 {
     TositeVienti vienti;
     vienti.setEra(era);
     vienti.setPvm(pvm);
-    vienti.setTili( kitsas_->asetukset()->luku("LaskuSaatavatili") );
+    vienti.setTili( vastatili );
     vienti.setTyyppi(TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS);
     vienti.setKumppani(tosite->kumppani());
     vienti.setSelite(tosite->otsikko());
