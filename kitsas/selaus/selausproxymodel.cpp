@@ -50,7 +50,7 @@ bool SelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex & /*so
             return false;
     }
     if( etsiSuodatusKaytossa_) {
-        if( !model_->etsiTeksti(source_row).contains(etsiSuodatus_))
+        if( !model_->etsiTeksti(source_row).contains(etsiSuodatus_, Qt::CaseInsensitive))
             return false;
     }
     return true;
