@@ -285,7 +285,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
 
 QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
 {
-    return Kielet::instanssi()->kaanna(teksti, kieli);
+    return Kielet::instanssi()->kaanna(teksti, kieli.toLower());
 }
 
 void Kirjanpito::odotusKursori(bool on)

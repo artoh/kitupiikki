@@ -37,6 +37,7 @@
 
 #include <QDebug>
 #include <QSettings>
+#include <QTimer>
 
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
@@ -85,6 +86,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
     connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);
+
+    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);
 
 }
 

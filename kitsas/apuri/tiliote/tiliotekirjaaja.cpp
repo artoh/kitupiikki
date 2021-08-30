@@ -273,8 +273,8 @@ void TilioteKirjaaja::suodata(const QString &teksti)
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
         maksuProxy_->setFilterFixedString( teksti );
     }
-    if( ui->maksuView->model()->rowCount() && !ladataan_)
-        ui->alaTabs->setCurrentIndex(MAKSU);
+//    if( ui->maksuView->model()->rowCount() && !ladataan_)
+//        ui->alaTabs->setCurrentIndex(MAKSU);
 }
 
 void TilioteKirjaaja::tyhjenna()

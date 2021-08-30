@@ -67,7 +67,7 @@ void MaksumuistutusMuodostaja::aiempiSaldo(Tosite *tosite, Euro aiempiSaldo)
 {
     if(aiempiSaldo.cents()) {
         TositeRivi aiempi;
-        aiempi.setNimike( kitsas_->kaanna("mmrivi").arg(tosite->lasku().alkuperaisNumero()) );
+        aiempi.setNimike( kitsas_->kaanna("mmrivi", tosite->lasku().kieli()).arg(tosite->lasku().alkuperaisNumero()) );
         aiempi.setANetto(0.0);       
 
         aiempi.setBruttoYhteensa( aiempiSaldo );
