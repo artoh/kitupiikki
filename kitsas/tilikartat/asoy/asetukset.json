@@ -158,6 +158,7 @@
   "LaskuIkkunaKorkeus" : "35",
   "LaskuQR" : "ON",
   "LaskuLogoKorkeus": "20",
+  "Logonsijainti" : "VIERESSA",
   "VariKehys": "128,128,128",
   "VariVarjo": "230,230,230",  
   "AlvKausi" : "1",
