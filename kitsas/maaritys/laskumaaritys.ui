@@ -116,10 +116,13 @@
         <item row="5" column="1">
          <widget class="QSpinBox" name="ekaLasku">
           <property name="minimum">
-           <number>1000</number>
+           <number>1</number>
           </property>
           <property name="maximum">
            <number>999999999</number>
+          </property>
+          <property name="value">
+           <number>1</number>
           </property>
           <property name="Asetus" stdset="0">
            <string notr="true">LaskuNumerointialkaa</string>
