@@ -417,6 +417,9 @@
     "Alarajahuojennukseen määrä": {
         "sv": "Beloppet av lättnad vid den nedre gränsen"
     },
+    "Ei oikeutta alarajahuojennukseen": {
+        "sv": "Ingen rätt till lägre gränslättnad"
+    },
     "Arvonlisävero %1 - %2": {
         "sv": "Medvärdesskatt %1 - %2"
     },
@@ -1231,10 +1234,5 @@
         "fi": "Tilauspäivämäärä",
         "sv": "Beställningdatum",
         "en": "Order date"
-    },
-    "korttimaksu" : {
-        "fi" : "Korttimaksu",
-        "sv" : "Betalning med kort",
-        "en" : "Card payment"
     }
 }
