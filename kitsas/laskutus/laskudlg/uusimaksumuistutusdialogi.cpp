@@ -108,6 +108,7 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
     Tosite* muistutus = new Tosite(this);
 
     muistutus->asetaTyyppi(TositeTyyppi::MAKSUMUISTUTUS);
+    muistutus->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::MAKSUMUISTUTUS, false) ) ;
     muistutus->asetaPvm(kp()->paivamaara());
     muistutus->asetaErapvm( ui->eraDate->date());
 
