@@ -140,6 +140,12 @@ void AlvLaskelma::kirjoitaYhteenveto()
     yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
     yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
     yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
+    if( liikevaihto_ && !huojennus()) {
+        RaporttiRivi rivi;
+        rivi.lisaa("", 2);
+        rivi.lisaa(kaanna("Ei oikeutta alarajahuojennukseen"),3);
+        rk.lisaaRivi(rivi);
+    }
 
     rk.lisaaTyhjaRivi();
 
