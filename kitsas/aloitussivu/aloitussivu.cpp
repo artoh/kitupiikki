@@ -384,7 +384,7 @@ void AloitusSivu::infoSaapui()
         QVariantMap map = QJsonDocument::fromJson( reply->readAll() ).toVariant().toMap();
 
         QVariantList lista = map.value("info").toList();
-        Kirjanpito::asetaOhjeOsoite( map.value("doc").toString() );
+        Kirjanpito::asetaOhjeOsoite( map.value("docs").toString() );
         palauteUrl_ = map.value("feedback").toString();
 
         paivitysInfo.clear();
