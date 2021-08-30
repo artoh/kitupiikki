@@ -102,33 +102,46 @@ void AlvLaskelma::kirjoitaYhteenveto()
     yvRivi(303, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(10), kotimaanmyyntivero(1000));
 
     rk.lisaaTyhjaRivi();
-
-    yvRivi(304, kaanna("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), taulu_.summa( AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS ));
     yvRivi(305, kaanna("Vero tavaraostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT + AlvKoodi::ALVKIRJAUS));
     yvRivi(306,kaanna("Vero palveluostoista muista EU-maista"),taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT + AlvKoodi::ALVKIRJAUS));
+    yvRivi(304, kaanna("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), taulu_.summa( AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS ));
+    yvRivi(318, kaanna("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
 
     rk.lisaaTyhjaRivi();
 
     yvRivi(307, kaanna("Verokauden vähennettävä vero"), taulu_.summa(200,299));
+
+    rk.lisaaTyhjaRivi();
+
     maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
     yvRivi(308, kaanna("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
 
     rk.lisaaTyhjaRivi();
 
     yvRivi(309, kaanna("0-verokannan alainen liikevaihto"), taulu_.summa(AlvKoodi::ALV0));
-    yvRivi(310, kaanna("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
+
+    rk.lisaaTyhjaRivi();
     yvRivi(311, kaanna("Tavaroiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_TAVARAT));
     yvRivi(312, kaanna("Palveluiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_PALVELUT));
     yvRivi(313, kaanna("Tavaraostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT));
     yvRivi(314, kaanna("Palveluostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT));
 
-    yvRivi(318, kaanna("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
+    rk.lisaaTyhjaRivi();
+
+    yvRivi(310, kaanna("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
+
+    rk.lisaaTyhjaRivi();
+
     yvRivi(319, kaanna("Rakentamispalveluiden ja metalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
     yvRivi(320, kaanna("Rakentamispalveluiden ja metalliromun ostot"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO));
 
-    yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
-    yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
-    yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
+    rk.lisaaTyhjaRivi();
+
+    if( huojennus()) {
+        yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
+        yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
+        yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
+    }
 
     rk.lisaaTyhjaRivi();
 
@@ -283,6 +296,8 @@ void AlvLaskelma::yvRivi(int koodi, const QString &selite, Euro euro)
         rivi.lisaa( QString::number(koodi));
         rivi.lisaa(selite, 3);
         rivi.lisaa( euro);
+        if( koodi == 308)   // #1050: Lihavoidaan varsinainen maksurivi
+            rivi.lihavoi();
         rk.lisaaRivi(rivi);
     }
     if( koodi && euro)
