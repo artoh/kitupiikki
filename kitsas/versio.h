@@ -28,7 +28,7 @@
 #define KITSAS_BUILD  "a"
 
 // #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
-// #define KITSAS_DEVEL
+#define KITSAS_DEVEL
 
 #define KITSAS_API "https://api.kitsas.fi"
 
