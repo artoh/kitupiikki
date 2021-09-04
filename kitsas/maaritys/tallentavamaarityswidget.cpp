@@ -271,8 +271,7 @@ bool TallentavaMaaritysWidget::tallenna()
         QGroupBox* pgroup = qobject_cast<QGroupBox*>(widget);
         if( pgroup) {
             if( pgroup->isCheckable())
-                asetukset.insert(asetusavain, pgroup->isChecked() ? "ON" : QVariant());
-            continue;
+                asetukset.insert(asetusavain, pgroup->isChecked() ? "ON" : "EI");
         }
 
         VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
