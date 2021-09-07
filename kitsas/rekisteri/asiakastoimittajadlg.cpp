@@ -118,6 +118,8 @@ void AsiakasToimittajaDlg::lataa(int id)
 
 void AsiakasToimittajaDlg::tauluun(QVariantMap map)
 {
+    ladataan_ = true;
+
     id_ = map.value("id").toInt();
 
     ui->nimiEdit->setText( map.value("nimi").toString()  );
@@ -170,6 +172,8 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     }
 
     tarkastaTilit();
+
+    ladataan_ = false;
 }
 
 void AsiakasToimittajaDlg::alustaKielet()
@@ -223,7 +227,7 @@ void AsiakasToimittajaDlg::naytaVerkkolasku()
     ui->valittajaEdit->setEnabled(ytunnari);
     ui->ovtEdit->setEnabled(ytunnari);
 
-    if( ytunnari && ui->ovtEdit->text().isEmpty()) {
+    if( ytunnari && ui->ovtEdit->text().isEmpty() && !ladataan_) {
         QString ovt = "0037" + ui->yEdit->text();
         ovt.remove("-");
         ui->ovtEdit->setText(ovt);
@@ -437,7 +441,7 @@ void AsiakasToimittajaDlg::dataSaapuu(QVariant *data)
 
 void AsiakasToimittajaDlg::haeYTunnarilla()
 {
-    if( ui->yEdit->hasAcceptableInput() ) {
+    if( ui->yEdit->hasAcceptableInput() && !ladataan_) {
         QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/" + ui->yEdit->text()));
         QNetworkReply *reply = kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &AsiakasToimittajaDlg::yTietoSaapuu);
