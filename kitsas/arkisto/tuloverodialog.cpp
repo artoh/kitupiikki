@@ -86,6 +86,7 @@ void TuloveroDialog::accept()
     tosite->asetaTyyppi(TositeTyyppi::TULOVERO);
     tosite->asetaPvm( tilikausi_.paattyy());
     tosite->asetaOtsikko(tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
+    tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::TULOVERO ) ) ;
 
     if( ui->yleveroEdit->value() > 1e-5) {
         QString yleselite = tr("Ylevero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());

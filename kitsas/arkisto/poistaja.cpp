@@ -59,6 +59,7 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
         poistotosite->asetaPvm( kausi.paattyy() );
         poistotosite->asetaTyyppi( TositeTyyppi::POISTOLASKELMA );
         poistotosite->asetaOtsikko( tulkkaa("Suunnitelman mukaiset poistot %1").arg(kausi.kausivaliTekstina()));
+        poistotosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::POISTOLASKELMA ) ) ;
 
         poistotosite->liitteet()->lisaa( ehdotus.pdf(), "poistolaskelma.pdf", "poistolaskelma");
 

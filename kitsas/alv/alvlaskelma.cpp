@@ -812,6 +812,7 @@ void AlvLaskelma::tallenna()
     tosite_->setData( Tosite::OTSIKKO, kaanna("Arvonlisäveroilmoitus %1 - %2")
                      .arg(alkupvm_.toString("dd.MM.yyyy"), loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
+    tosite_->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::ALVLASKELMA ) ) ;
 
     tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf", "alv" );
 

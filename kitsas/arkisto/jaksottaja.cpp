@@ -64,6 +64,7 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
     tosite->asetaPvm( pvm );
     tosite->asetaTyyppi( TositeTyyppi::JAKSOTUS );
     tosite->asetaOtsikko( tulkkaa("Tilinpäätösjaksotukset"));
+    tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::JAKSOTUS ) ) ;
 
     for( const auto& jaksotus : jaksotukset) {
         TositeVienti vienti;
@@ -241,6 +242,7 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
     avaus->asetaPvm( pvm );
     avaus->asetaTyyppi( TositeTyyppi::JAKSOTUS );
     avaus->asetaOtsikko( tulkkaa("Tilinavauksen jaksotuskirjaukset"));
+    avaus->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::JAKSOTUS ) ) ;
 
     QDate kausipaattyy = kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy();
 
