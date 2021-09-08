@@ -255,6 +255,7 @@ bool TilinavausModel::tallenna()
     tosite_->asetaTyyppi(TositeTyyppi::TILINAVAUS);
     tosite_->asetaPvm(kp()->asetukset()->pvm("TilinavausPvm"));
     tosite_->asetaOtsikko( tulkkaa("Tilinavaus") );
+    tosite_->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::TILINAVAUS ) ) ;
 
     Q_ASSERT(tosite_->pvm().isValid());
 

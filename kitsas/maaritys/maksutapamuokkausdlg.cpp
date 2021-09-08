@@ -37,11 +37,8 @@ MaksutapaMuokkausDlg::~MaksutapaMuokkausDlg()
 
 QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
 {
-    for(const QString& kieli : kp()->asetukset()->kielet()) {
-        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), ladattu.value(kieli).toString() , ui->nimiLista  );
-        item->setData(Qt::UserRole, kieli);
-        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    }
+    Monikielinen nimi( ladattu );
+    ui->nimiLista->lataa(nimi);
 
     ui->tiliCombo->suodataTyypilla("[AB]");
     if( ladattu.value("TILI").toInt())
@@ -63,13 +60,8 @@ QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
     }
 
     if( exec() == QDialog::Accepted ) {
-        QVariantMap paluu;
-        for(int i=0; i < ui->nimiLista->count(); i++) {
-            QListWidgetItem *item = ui->nimiLista->item(i);
-            if( !item->data(Qt::EditRole).toString().isEmpty())
-                paluu.insert( item->data(Qt::UserRole).toString(),
-                              item->data(Qt::DisplayRole));
-        }
+        QVariantMap paluu = ui->nimiLista->tekstit().map();
+
         paluu.insert("TILI", ui->tiliCombo->valittuTilinumero());
         if( ui->eraCheck->isChecked())
             paluu.insert("ERA", -1);

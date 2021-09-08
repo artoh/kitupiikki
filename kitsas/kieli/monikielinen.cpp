@@ -47,6 +47,7 @@ void Monikielinen::aseta(const QVariant &var)
         QMapIterator<QString,QVariant> iter(var.toMap());
         while( iter.hasNext()) {
             iter.next();
+            if( iter.key().isUpper()) continue;
             tekstit_.insert( iter.key(), iter.value().toString());
         }
     } else if(!var.toString().isEmpty()) {

@@ -27,7 +27,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QListWidget" name="nimiLista">
+      <widget class="KieliListWidget" name="nimiLista">
        <property name="editTriggers">
         <set>QAbstractItemView::AllEditTriggers</set>
        </property>
@@ -115,6 +115,11 @@ background-color: rgb(0, 0, 255); }</string>
    <class>TiliCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KieliListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">kieli/kielilistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

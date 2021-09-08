@@ -676,6 +676,11 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
     }
+    if( ui->alvCombo->currentText().isEmpty()) {
+        // Varmistetaan, että valittu koodi näkyy
+        veroFiltteri_->setFilterFixedString( veroFiltteri_->filterRegularExpression().pattern() + "|" + QString::number(verokoodi)  );
+        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(verokoodi, VerotyyppiModel::KoodiRooli) );
+    }
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)

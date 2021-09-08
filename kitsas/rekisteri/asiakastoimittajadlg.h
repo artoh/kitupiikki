@@ -82,6 +82,7 @@ private:
 private:
     Ui::AsiakasToimittajaDlg *ui;
     int id_ = 0;
+    bool ladataan_ = false;
 };
 
 #endif // TOIMITTAJADLG_H
