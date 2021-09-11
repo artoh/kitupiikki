@@ -98,6 +98,7 @@ KayttooikeusModel::Kayttaja::Kayttaja(const QVariant &data)
     QVariantMap map = data.toMap();
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
+    vahvistettu_ = map.value("confirmed").toBool();
     QVariantList list = map.value("rights").toList();
     for(const auto& item: qAsConst( list )) {
         oikeudet_.append(item.toString());
@@ -124,4 +125,9 @@ QString KayttooikeusModel::Kayttaja::email() const
 QStringList KayttooikeusModel::Kayttaja::oikeudet() const
 {
     return oikeudet_;
+}
+
+bool KayttooikeusModel::Kayttaja::vahvistettu() const
+{
+    return vahvistettu_;
 }

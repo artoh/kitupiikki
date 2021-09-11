@@ -447,6 +447,17 @@ font-weight: bold;</string>
              </spacer>
             </item>
             <item>
+             <widget class="QPushButton" name="uusikutsuBtn">
+              <property name="text">
+               <string>Lähetä kutsu uudelleen</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../pic/pic.qrc">
+                <normaloff>:/pic/email32.png</normaloff>:/pic/email32.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="tallennaNappi">
               <property name="enabled">
                <bool>false</bool>

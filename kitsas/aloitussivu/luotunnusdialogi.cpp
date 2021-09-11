@@ -39,10 +39,6 @@ LuoTunnusDialogi::LuoTunnusDialogi(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/tilaus/tunnus/"); });
     connect( ui->osoiteEdit, &QLineEdit::textEdited, this, &LuoTunnusDialogi::tarkastaEmail);
-    connect( ui->nimiEdit, &QLineEdit::textEdited, this, [this] { ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( ui->nimiEdit->text().length() > 3 && !ui->kaytossaLabel->isVisible() );} );
-
-    ui->kaytossaLabel->hide();
-    ui->verkkovirheLabel->hide();
 }
 
 LuoTunnusDialogi::~LuoTunnusDialogi()
@@ -71,45 +67,9 @@ void LuoTunnusDialogi::accept()
 
 void LuoTunnusDialogi::tarkastaEmail()
 {
-    ui->kaytossaLabel->hide();
-    ui->verkkovirheLabel->hide();
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     QRegularExpression emailRe(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)");
-    if( emailRe.match( ui->osoiteEdit->text()).hasMatch() ) {
-        // Tarkistetaan sähköposti ja toimitaan sen mukaan
-        QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + ui->osoiteEdit->text() ));
-        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
-        QNetworkReply *reply =  kp()->networkManager()->get(request);
-        connect( reply, &QNetworkReply::finished, this, &LuoTunnusDialogi::emailTarkistettu);
-        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this,
-            [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
-        connect( reply, &QNetworkReply::sslErrors, [] (const QList<QSslError>& errors) {
-            for(const auto& virhe : errors) qDebug() << virhe.errorString();
-        });
-    }
-}
-
-void LuoTunnusDialogi::emailTarkistettu()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
-    bool kaytossa =  (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) ;
-    ui->kaytossaLabel->setVisible(kaytossa);
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!kaytossa && ui->nimiEdit->text().length() > 2);
-}
-
-void LuoTunnusDialogi::verkkovirhe(QNetworkReply::NetworkError virhe)
-{
-    if( virhe == QNetworkReply::ConnectionRefusedError)
-        ui->verkkovirheLabel->setText(tr("<p><b>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.</b>"));
-    else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
-        ui->verkkovirheLabel->setText(tr("<p><b>Verkkoon ei saada yhteyttä</b>"));
-    else if(virhe < QNetworkReply::ContentAccessDenied )
-        ui->verkkovirheLabel->setText(tr("<p><b>Palvelinyhteydessä on virhe (%1)</b>").arg(virhe));
-    if( virhe < QNetworkReply::ContentAccessDenied) {
-        ui->verkkovirheLabel->show();
-        QTimer::singleShot(30000, this, &LuoTunnusDialogi::tarkastaEmail);
-    }
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(emailRe.match( ui->osoiteEdit->text()).hasMatch());
 }
 
 void LuoTunnusDialogi::rekisterointiLahti()

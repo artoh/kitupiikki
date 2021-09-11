@@ -74,6 +74,7 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
     ui->omistajaLabel->setVisible(omistaja);
     ui->oikeusBox->setDisabled(omistaja);
     ui->poistaNappi->setDisabled(omistaja);
+    ui->uusikutsuBtn->setVisible( !index.data(KayttooikeusModel::VahvistettuRooli).toBool() );
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         box->setChecked( oikeudetAlussa_.contains( box->property("Oikeus").toString() ) );
@@ -188,6 +189,20 @@ void KayttoOikeusSivu::kutsu()
         ui->lisaysEdit->clear();
         model->paivita();
     }
+}
+
+void KayttoOikeusSivu::uusiKutsu()
+{
+    KpKysely* kysely = kpk(QString("%1/invite")
+                           .arg(kp()->pilvi()->pilviLoginOsoite()),
+                           KpKysely::POST);
+    QVariantMap map;
+    map.insert("email", ui->emailLabel->text());
+    map.insert("name", ui->nimiLabel->text());
+
+    connect(kysely, &KpKysely::vastaus, this, [this] {this->ui->uusikutsuBtn->setEnabled(false);} );
+    kysely->kysy(map);
+
 }
 
 

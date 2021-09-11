@@ -37,8 +37,6 @@ private:
     enum { EHDOT, OSOITE, ODOTA, VALMIS};
 
     void tarkastaEmail();
-    void emailTarkistettu();
-    void verkkovirhe(QNetworkReply::NetworkError virhe);
     void rekisterointiLahti();
 
 private:
