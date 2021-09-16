@@ -317,7 +317,7 @@ void TilinMuokkausDialog::numeroCheck()
         QString numero = ui->numeroEdit->text();
         bool numerokelpaa =  !kp()->tilit()->tiliNumerolla(numero.toInt(), taso_).onkoValidi() &&
                 numero >= minNumero_ &&
-                numero < maxnumero_;
+                (numero < maxnumero_ || maxnumero_.isEmpty());
         ui->numeroEdit->setStyleSheet( numerokelpaa ? "color: black;" : "color: red;" );
         ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(numerokelpaa);
     }

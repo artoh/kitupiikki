@@ -42,6 +42,7 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->kaikkiNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::kaikkiOikeudet);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &KayttoOikeusSivu::poistaOikeudet);
     connect( ui->kutsuButton, &QPushButton::clicked, this, &KayttoOikeusSivu::kutsu);
+    connect( ui->uusikutsuBtn, &QPushButton::clicked, this, &KayttoOikeusSivu::uusiKutsu);
 
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
         connect(box, &QCheckBox::clicked, this, &KayttoOikeusSivu::tarkastaMuokattu);
@@ -193,6 +194,8 @@ void KayttoOikeusSivu::kutsu()
 
 void KayttoOikeusSivu::uusiKutsu()
 {
+    ui->uusikutsuBtn->setEnabled(false);
+
     KpKysely* kysely = kpk(QString("%1/invite")
                            .arg(kp()->pilvi()->pilviLoginOsoite()),
                            KpKysely::POST);
@@ -200,7 +203,7 @@ void KayttoOikeusSivu::uusiKutsu()
     map.insert("email", ui->emailLabel->text());
     map.insert("name", ui->nimiLabel->text());
 
-    connect(kysely, &KpKysely::vastaus, this, [this] {this->ui->uusikutsuBtn->setEnabled(false);} );
+    connect(kysely, &KpKysely::vastaus, this, [] { emit kp()->onni(tr("Kutsuviesti lähetetty sähköpostiin"));  } );
     kysely->kysy(map);
 
 }

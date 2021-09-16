@@ -48,6 +48,7 @@ private:
     void kaikkiOikeudet();
     void poistaOikeudet();
     void kutsu();
+    void uusiKutsu();
 
 
     QSet<QString> oikeudetTaulussa() const;

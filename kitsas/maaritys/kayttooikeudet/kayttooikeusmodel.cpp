@@ -55,11 +55,13 @@ QVariant KayttooikeusModel::data(const QModelIndex &index, int role) const
         return kayttaja.email();
     case OikeusRooli:
         return kayttaja.oikeudet();
+    case VahvistettuRooli:
+        return kayttaja.vahvistettu();
     case Qt::DecorationRole:
         if( kayttaja.oikeudet().contains("Om"))
             return QIcon(":/pic/yrittaja.png");
         else
-            return QIcon(":/pic/mies.png");
+            return QIcon(":/pic/mies.png");        
     }
 
     return QVariant();

@@ -35,7 +35,8 @@ public:
     enum {
         NimiRooli = Qt::UserRole,
         EmailRooli = Qt::UserRole + 1,
-        OikeusRooli = Qt::UserRole + 2
+        OikeusRooli = Qt::UserRole + 2,
+        VahvistettuRooli = Qt::UserRole + 3
     };
 
     void paivita();
@@ -52,11 +53,13 @@ private:
         QString nimi() const;
         QString email() const;
         QStringList oikeudet() const;
+        bool vahvistettu() const;
 
     private:
         QString nimi_;
         QString email_;
         QStringList oikeudet_;
+        bool vahvistettu_;
     };
 
 
