@@ -31,14 +31,18 @@ OteRivi::OteRivi()
 
 void OteRivi::setEuro(const Euro &euro)
 {
+#ifdef KITSAS_DEVEL
     std::cerr << "s€ " << euro.display(true).toStdString();
+#endif
     euro_ = euro;
 }
 
 void OteRivi::setArkistotunnus(QString arkistotunnus)
 {
+#ifdef KITSAS_DEVEL
     std::cerr << "sAT " << arkistotunnus.toStdString() <<
                  ( arkistotunnusTyhjennyt_ ? " (TYHJ)" : "(OK)" );
+#endif
     if( arkistotunnusTyhjennyt_)
         return;
 
@@ -61,7 +65,10 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
     }
 
     arkistotunnus_.append(arkistotunnus.remove(QRegularExpression("\\s")));
+
+#ifdef KITSAS_DEVEL
     std::cerr << " ARKISTOTUNNUS "  << arkistotunnus_.toStdString();
+#endif
 }
 
 void OteRivi::setSaajaMaksaja(const QString &nimi)
@@ -101,7 +108,9 @@ void OteRivi::setViite(QString viite)
 {
     viite.remove(QRegularExpression("^0+"));
     viite.remove(QRegularExpression("\\s"));
+#ifdef KITSAS_DEVEL
     std::cerr << "VIITE " << viite.toStdString();
+#endif
     if( ViiteValidator::kelpaako(viite))
         viite_ = viite;
 }
@@ -227,7 +236,10 @@ QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
 
 void OteRivi::tyhjenna()
 {
-    std::cerr << " --clear -- ";
+#ifdef KISAS_DEVEL
+    std::cerr << " ---";
+#endif
+
     tila = NORMAALI;
     euro_ = 0;
     arkistotunnus_.clear();

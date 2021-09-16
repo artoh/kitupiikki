@@ -119,7 +119,15 @@ void KantaLaskuDialogi::alustaUi()
     laskutusTapaMuuttui();
     alustaMaksutavat();
 
-    ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());    
+    ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+}
+
+bool KantaLaskuDialogi::osoiteKunnossa()
+{
+    return  ladattuAsiakas_.value("nimi").toString().length() > 1 &&
+            ladattuAsiakas_.value("osoite").toString().length() > 1 &&
+            ladattuAsiakas_.value("postinumero").toString().length() > 1 &&
+            ladattuAsiakas_.value("kaupunki").toString() > 1;
 }
 
 
@@ -210,15 +218,17 @@ void KantaLaskuDialogi::tositteelta()
     if( tosite()->kumppani()) {
         taytaAsiakasTiedotMapista( tosite()->kumppanimap() );
         ui->asiakas->valitse( tosite()->kumppanimap());
+        ui->osoiteEdit->setEnabled( false );
     } else {
-        ui->osoiteEdit->setPlainText( lasku.osoite() );        
+        ui->osoiteEdit->setPlainText( lasku.osoite() );
+        ui->email->setText( lasku.email() );
     }
 
     int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
     ui->tabWidget->setTabEnabled( lokiIndex, tosite()->loki()->rowCount() );
 
     QVariantMap era = tosite()->viennit()->vienti(0).era();
-    bool maksettu = (!era.isEmpty() && qAbs( era.value("saldo").toDouble()) < 1e-5);
+    bool maksettu = !tosite()->viite().isEmpty() &&  (!era.isEmpty() && qAbs( era.value("saldo").toDouble()) < 1e-5);
     ui->maksettuCheck->setVisible(maksettu);
     if( maksettu ) {
         ui->infoLabel->setText( tr("Maksettu "));
@@ -385,7 +395,7 @@ void KantaLaskuDialogi::taytaAsiakasTiedotMapista(const QVariantMap &map)
 
     const QString haettuEmail = map.value("email").toString();
 
-    if( !haettuEmail.isEmpty() ) {
+    if( !haettuEmail.isEmpty() || tositteeltaKaynnissa_ ) {
         ui->email->setText( haettuEmail );
     }
 
@@ -431,10 +441,7 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), Lasku::TULOSTETTAVA);
 
     // Voidaan postittaa vain jos osoite asiakasrekisterissä
-    if( ladattuAsiakas_.value("nimi").toString().length() > 1 &&
-        ladattuAsiakas_.value("osoite").toString().length() > 1 &&
-        ladattuAsiakas_.value("postinumero").toString().length() > 1 &&
-        ladattuAsiakas_.value("kaupunki").toString() > 1 )
+    if( osoiteKunnossa() )
         ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), Lasku::POSTITUS);
 
     if( kp()->asetukset()->luku("FinvoiceKaytossa") &&
@@ -627,6 +634,13 @@ bool KantaLaskuDialogi::tarkasta()
         QMessageBox::critical(this, tr("Virheellinen toimitusjakso"), tr("Toimitusjakson päättymispäivä on virheellinen."));
         return false;
     }
+
+
+    if( ui->laskutusCombo->currentData().toInt() == Lasku::VERKKOLASKU &&  !osoiteKunnossa () ) {
+        QMessageBox::critical(this, tr("Virheellinen osoite"), tr("Asiakastiedoissa oleva osoite on muodoltaan virheellinen."));
+        return false;
+    }
+
 
     return true;
 }

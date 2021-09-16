@@ -89,6 +89,7 @@ protected:
 private:
     void alustaUi();
     void alustaRivitTab();
+    bool osoiteKunnossa();
 
 protected:
     Ui::LaskuDialogi *ui;

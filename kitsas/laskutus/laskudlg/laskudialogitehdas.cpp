@@ -31,6 +31,7 @@
 #include "model/tositerivit.h"
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
+#include "model/tositeloki.h"
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
     QObject(parent),
@@ -171,8 +172,24 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
     tosite->asetaTila(Tosite::POISTETTU);
 
     tosite->lasku().setNumero(QString());
+    tosite->loki()->lataa(QVariant());  // Tyhjennetään myös loki
+
+    QDate jaksopaiva = tosite->lasku().jaksopvm();
+    int jaksonpituus = jaksopaiva.isValid() ? tosite->laskupvm().daysTo(jaksopaiva) : 0;
+    int maksuaika = tosite->lasku().laskunpaiva().daysTo( tosite->lasku().erapvm() );
+
     tosite->asetaLaskupvm( paivamaara() );
-    tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
+    tosite->asetaErapvm( paivamaara().addDays( maksuaika ) );
+
+    tosite->lasku().setLaskunpaiva( tosite->laskupvm());
+    tosite->lasku().setErapaiva( tosite->erapvm() );
+
+    tosite->lasku().setToimituspvm( tosite->laskupvm() );
+
+    if( jaksonpituus) {
+        tosite->lasku().setJaksopvm( tosite->laskupvm().addDays( jaksonpituus ) );
+    }
+
 
     ViiteNumero viite( tosite->viite());
     if( viite.tyyppi() != ViiteNumero::ASIAKAS && viite.tyyppi() != ViiteNumero::HUONEISTO) {

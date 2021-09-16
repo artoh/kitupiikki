@@ -35,8 +35,7 @@ PdfTilioteTuonti::PdfTilioteTuonti() :
 }
 
 QVariantMap PdfTilioteTuonti::tuo(const QList<PdfAnalyzerPage> pages)
-{    
-    std::cerr << "\n =================================================\n\n";
+{        
 
     for( auto & sivu : pages) {
          lueSivu(sivu);
@@ -138,8 +137,7 @@ void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
     if( row.boundingRect().top() > edellinenAlalaita_ + 18 ||
         kokoRivi.contains("Yhteystiedot", Qt::CaseInsensitive) ||
         kokoRivi.toUpper() == "JATKUU") {
-        tila_ = LOPPU;
-        std::cerr << " ---- OHITETAAN ----- \n\n  ";
+        tila_ = LOPPU;        
         return;
     }
     edellinenAlalaita_ = row.boundingRect().bottom();
@@ -147,7 +145,7 @@ void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
     if(kokoRivi.startsWith("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ) {
         kirjausPvm_ = OteRivi::strPvm(kokoRivi, loppupvm_);
         nykyinen_.tyhjenna();
-        std::cerr << "\n *** KIRJAUSPÄIVÄ *** " << kirjausPvm_.toString("dd.MM.yyyy").toStdString() << " \n";
+        qDebug() << "\n *** KIRJAUSPÄIVÄ *** " << kirjausPvm_.toString("dd.MM.yyyy") << " \n";
         return;
     }
 
@@ -181,10 +179,12 @@ void PdfTilioteTuonti::kasitteleTaulukkoRivi(const PdfAnalyzerRow &row)
     }
     rivilla_++;
 
+#ifdef KITSAS_DEVEL
     std::cerr << "\n(" << rivilla_ << ") ";
-    for(auto sana : words_)
+    for(const auto& sana : words_)
         std::cerr << sana.text().toStdString() << " ";
     std::cerr << "\n   ";
+#endif
 
 
     QString puskuri;
@@ -197,8 +197,7 @@ void PdfTilioteTuonti::kasitteleTaulukkoRivi(const PdfAnalyzerRow &row)
     for(const auto& sana : words_) {
         if( sana.boundingRect().left() > edellinenLoppuu + 10 &&
             sana.text().trimmed() != "-" &&
-            saraketyyppi != TilioteOtsake::ARKISTOTUNNUS) {
-            std::cerr << " %% ";
+            saraketyyppi != TilioteOtsake::ARKISTOTUNNUS) {            
             taulukkoSarakeValmis(saraketyyppi, puskuri);
             puskuri.clear();
             saraketyyppi = TilioteOtsake::TUNTEMATON;
@@ -244,7 +243,9 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
     if( arvo.trimmed().length() < 2)
         return;
 
+#ifdef KITSAS_DEVEL
     std::cerr << tyyppi << "/" <<  arvo.toStdString() << " * ";
+#endif
 
     switch (tyyppi) {
     case TilioteOtsake::SAAJAMAKSAJA: nykyinen_.setSaajaMaksaja(arvo); break;
@@ -256,7 +257,9 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
     {
         QRegularExpressionMatch mats = rahaRe.match(arvo.trimmed());
 
+#ifdef KITSAS_DEVEL
         std::cerr <<( mats.hasMatch() ? " (€) " : "(?) ");
+#endif
 
         if( rivilla_ == 1 && !nykyinen_.euro() && mats.hasMatch() )
         {
@@ -267,8 +270,6 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
                 sentit = 0 - sentit;
 
             nykyinen_.setEuro(Euro(sentit));
-//            std::cerr << Euro(sentit).display(true).toStdString() << " / "
-//                      << nykyinen_.euro().display(true).toStdString() << " EURset ";
         } else {
             nykyinen_.lisaaYleinen(arvo);
         }
@@ -278,17 +279,15 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
 
 void PdfTilioteTuonti::nykyinenValmis()
 {
-    std::cerr << "#";
     if( nykyinen_.valmis()) {
         QVariantMap map = nykyinen_.map(kirjausPvm_);
         if(!map.isEmpty()) {
             tapahtumat_.append(map);
-            std::cerr << " ¤\n";
         }
     } else {
-        std::cerr << "!!!! " << nykyinen_.euro().display(true).toStdString()
-                  << nykyinen_.arkistotunnus().toStdString() << " !!!!";
-    }
+        qWarning() <<  kirjausPvm_.toString("dd.MM.yyyy") << "  " << nykyinen_.euro().display(true) << "  "
+                  << nykyinen_.arkistotunnus();
+    }    
     nykyinen_.tyhjenna();
     rivilla_ = 0;
 }

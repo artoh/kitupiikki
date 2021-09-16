@@ -196,7 +196,11 @@ void Tosite::asetaKumppani(const QString &nimi)
 
 void Tosite::asetaKumppani(const QVariantMap &map)
 {
-    setData(KUMPPANI, map);
+    // Varmistetaan, että kumppanin id on käyvässä muodossa eli kokonaisluku
+    QVariantMap kopio(map);
+    if( kopio.contains("id"))
+        kopio["id"] = kopio.value("id").toInt();
+    setData(KUMPPANI, kopio);
 }
 
 void Tosite::asetaHuomio(bool onko)
