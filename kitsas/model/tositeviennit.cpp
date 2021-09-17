@@ -666,6 +666,14 @@ void TositeViennit::paivitaAalv(int rivi)
     qlonglong dsentit = qRound64( prosentti * lahde.debet() );
     qlonglong ksentit = qRound64( prosentti * lahde.kredit() );
 
+    if( aalvtila.contains("d")) {
+        if( dsentit) dsentit--;
+        if( ksentit) ksentit--;
+    } else if( aalvtila.contains("u")) {
+        if( dsentit) dsentit++;
+        if( ksentit) ksentit++;
+    }
+
     rivi++;
     TositeVienti seuraava = viennit_.value(rivi);
     bool onjoVerorivi = seuraava.tyyppi() == TositeVienti::ALVKIRJAUS &&

@@ -98,18 +98,14 @@ void TositeVienti::setTili(int tili)
 
 void TositeVienti::setDebet(double euroa)
 {
-    if( euroa < 0) {
-        setKredit(0 - euroa);
-    } else {
-        set( DEBET, euroa);
-        if( qAbs(euroa) > 1e-5)
-            remove( avaimet__.at(KREDIT) );
-    }
+    Euro euro = Euro::fromDouble(euroa);
+    setDebet(euro);
 }
 
 void TositeVienti::setDebet(qlonglong senttia)
 {
-    setDebet( senttia / 100.0);
+    Euro euro = Euro(senttia);
+    setDebet(euro);
 }
 
 void TositeVienti::setDebet(const QString &euroa)
@@ -132,18 +128,14 @@ void TositeVienti::setDebet(const Euro &euroa)
 
 void TositeVienti::setKredit(double euroa)
 {
-    if( euroa < 0) {
-        setDebet(0 - euroa);
-    } else {
-        set( KREDIT, euroa );
-        if( qAbs(euroa) > 1e-5)
-            remove( avaimet__.at(DEBET) );
-    }
+    Euro euro = Euro::fromDouble(euroa);
+    setKredit(euro);
 }
 
 void TositeVienti::setKredit(qlonglong senttia)
 {
-    setKredit( senttia / 100.0);
+    Euro euro(senttia);
+    setKredit( euro );
 }
 
 void TositeVienti::setKredit(const QString &euroa)

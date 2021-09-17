@@ -174,8 +174,25 @@ void MuuMuokkausDlg::accept()
     vienti_.setTili( ui->tiliLine->valittuTilinumero());
 
     double euro = ui->euroEdit->value();
-    if( ui->sisAlvCheck->isVisible() && ui->sisAlvCheck->isChecked())
+    QString aalv;
+    if( ui->kirjaaVeroCheck->isChecked())
+        aalv = "+";
+    if( ui->kirjaaVahennysCheck->isChecked())
+        aalv += "-";
+
+    if( ui->sisAlvCheck->isVisible() && ui->sisAlvCheck->isChecked()) {
         euro = euro / (( 100.0 + alvProsentti()) / 100.0);
+
+        // Hankalien pyöristysten takia voidaan pyöristystä ohjata
+        // ylös- tai alaspäin
+
+        Euro pohja = Euro::fromDouble(euro);
+        Euro vero = Euro::fromDouble( pohja.toDouble() * alvProsentti() / 100 );
+        if( pohja + vero > ui->euroEdit->euro())
+            aalv += "d";
+        else if( pohja + vero < ui->euroEdit->euro())
+            aalv += "u";
+    }
 
     if( ui->debetRadio->isChecked())
         vienti_.setDebet( euro);
@@ -215,11 +232,6 @@ void MuuMuokkausDlg::accept()
     if( ui->poistoSpin->isVisible())
         vienti_.setTasaerapoisto(ui->poistoSpin->value() * 12);
 
-    QString aalv;
-    if( ui->kirjaaVeroCheck->isChecked())
-        aalv = "+";
-    if( ui->kirjaaVahennysCheck->isChecked())
-        aalv += "-";
     if( !aalv.isEmpty())
         vienti_.set(TositeVienti::AALV, aalv);
 
