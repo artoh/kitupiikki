@@ -71,13 +71,29 @@ void TaseErittelija::dataSaapuu(QVariant *data)
     rk.lisaaRivi(otsikkoRivi);
 
     QVariantMap map = data->toMap();
-    QMapIterator<QString,QVariant> iter(map);
+
+    // Lisätään ylimääräinen map lajittelua varten
+    QMap<QString,QString> lajitteluMap;
+    QMapIterator<QString,QVariant> lajitteluIter(map);
+    while(lajitteluIter.hasNext()) {
+        lajitteluIter.next();
+        const QString& avain = lajitteluIter.key();
+        lajitteluMap.insert( avain.left(avain.length()-1), avain);
+    }
+    QList<QString> lajiteltuLista;
+    QMapIterator<QString, QString> lajiteltuIter(lajitteluMap);
+    while( lajiteltuIter.hasNext()) {
+        lajiteltuIter.next();
+        lajiteltuLista.append(lajiteltuIter.value());
+    }
+
+
     qlonglong yhteensa = 0;
 
-    while( iter.hasNext()) {
-        iter.next();
+    for( const QString& koodi : lajiteltuLista) {
+        QVariant tieto = map.value(koodi);
 
-        if( iter.key().startsWith('2') && !vastattavaa) {
+        if( koodi.startsWith('2') && !vastattavaa) {
             RaporttiRivi summaRivi;
             summaRivi.lisaa(kaanna("VASTAAVAA YHTEENSÄ"),4);
             summaRivi.lisaa(yhteensa);
@@ -92,15 +108,15 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             vastattavaa = true;
         }
 
-        QChar tyyppi = iter.key().at( iter.key().length()-1 );
-        int tilinumero = iter.key().leftRef(iter.key().length()-1).toInt();
+        QChar tyyppi = koodi.at( koodi.length()-1 );
+        int tilinumero = koodi.leftRef(koodi.length()-1).toInt();
         Tili* tili = kp()->tilit()->tili(tilinumero);
         if( !tili)
             continue;
 
         if( tyyppi == 'S') {    // VAIN SALDO
             RaporttiRivi rr;
-            qlonglong saldo = qRound64(iter.value().toDouble() * 100);
+            qlonglong saldo = qRound64(tieto.toDouble() * 100);
             rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(), 4 );
             rr.lisaa( saldo, true);
             rr.lihavoi();
@@ -118,7 +134,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             if( tyyppi == 'T') {
                 // Täysi tase-erittely
                 rk.lisaaRivi();
-                for(const QVariant& era : iter.value().toList() ) {
+                for(const QVariant& era : tieto.toList() ) {
                     QVariantMap map = era.toMap();
 
                     RaporttiRivi nimirivi;
@@ -194,7 +210,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                 }
 
             } else if ( tyyppi == 'M') {
-                QVariantMap map = iter.value().toMap();
+                QVariantMap map = tieto.toMap();
                 loppusaldo = qRound64( map.value("saldo").toDouble() * 100);
 
                 RaporttiRivi saldorivi;
@@ -225,7 +241,7 @@ void TaseErittelija::dataSaapuu(QVariant *data)
                 }
 
             } else if( tyyppi == 'E') {
-                QVariantList erat = iter.value().toList();
+                QVariantList erat = tieto.toList();
 
                 for( const QVariant& era : qAsConst( erat )) {
                     QVariantMap emap = era.toMap();
