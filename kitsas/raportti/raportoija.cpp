@@ -255,17 +255,21 @@ void Raportoija::kirjoitaDatasta()
             rk.lisaaTyhjaRivi();
 
         RaporttiRivi rr;
+        int sisennys = map.value("S").toInt() * 4;
+        // Sisennys paikoilleen!
+        QString sisennysStr;
+        for( int i=0; i < sisennys; i++)
+            sisennysStr.append(' ');
 
         if( kaava.isEmpty() )
         {
             // Jos pelkkää tekstiä, niin se on sitten otsikko
-            rr.lisaa( teksti );
+            rr.lisaa( sisennysStr + teksti );
             rk.lisaaRivi(rr);
             continue;
         }
 
         QString loppurivi = kaava;     // Aloittava tyhjä mukaan!
-        int sisennys = map.value("S").toInt() * 4;
 
         RivinTyyppi rivityyppi = SUMMA;
         bool naytaTyhjarivi = kaava.contains('S') || kaava.contains('H');
@@ -285,11 +289,6 @@ void Raportoija::kirjoitaDatasta()
             rr.lihavoi();
         if( kaava.contains("h"))
             rivityyppi = OTSIKKO;
-
-        // Sisennys paikoilleen!
-        QString sisennysStr;
-        for( int i=0; i < sisennys; i++)
-            sisennysStr.append(' ');
 
         rr.lisaa( sisennysStr + teksti );   // Lisätään teksti
 
