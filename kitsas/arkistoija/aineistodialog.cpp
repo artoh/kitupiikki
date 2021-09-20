@@ -245,7 +245,8 @@ void AineistoDialog::tilaaRaportit()
             LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this, kieli_);
             connect( myyntilaskut, &LaskuRaportteri::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+            myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
+                                    tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
             tilattuja++;
         }
 
@@ -253,7 +254,8 @@ void AineistoDialog::tilaaRaportit()
             LaskuRaportteri* ostolaskut = new LaskuRaportteri(this, kieli_);
             connect( ostolaskut, &LaskuRaportteri::valmis, this,
                      [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja,rk);});
-            ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+            ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
+                                  tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
             tilattuja++;
         }
 
