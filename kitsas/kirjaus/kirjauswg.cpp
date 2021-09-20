@@ -538,8 +538,12 @@ void KirjausWg::tuonti(const QVariantMap& map)
     if( map.value("tositepvm").toDate().isValid() && !tosite()->viennit()->summa()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
     }
-    if( apuri_)
+    if( apuri_) {
         apuri_->tuo(map);
+        const QDate& laskupvm = map.value("lasku").toMap().value("pvm").toDate();
+        if( laskupvm.isValid())
+            tosite()->asetaPvm(laskupvm);
+    }
 
     else if( map.value("tyyppi") == TositeTyyppi::TUONTI) {
         if(map.contains("pvm"))
