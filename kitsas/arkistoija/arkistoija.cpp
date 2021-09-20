@@ -164,12 +164,14 @@ void Arkistoija::arkistoiRaportit()
     LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
     connect( myyntilaskut, &LaskuRaportteri::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myyntilaskut.html");});
-    myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+    myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
+                            tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
 
     LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
     connect( ostolaskut, &LaskuRaportteri::valmis, this,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"ostolaskut.html");});
-    ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet, tilikausi_.paattyy());
+    ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
+                          tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
 
     MyyntiRaportteri* myynnit = new MyyntiRaportteri(this);
     connect( myynnit, &MyyntiRaportteri::valmis, this,

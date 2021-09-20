@@ -508,7 +508,8 @@ QVariantMap Tosite::tallennettava() const
 {
 
     QVariantMap map(data_);
-    map.insert("viennit", viennit_->tallennettavat());
+
+    map.insert("viennit", tyyppi() == TositeTyyppi::LIITETIETO ? QVariantList() :  viennit_->tallennettavat());
 
     const QVariantList& rivit = rivit_->rivit();
     if(!rivit.isEmpty())
