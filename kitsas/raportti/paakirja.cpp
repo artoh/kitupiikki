@@ -113,7 +113,7 @@ void Paakirja::saldotSaapuu(QVariant *data)
     QMapIterator<QString,QVariant> iter(saldot);
     while(iter.hasNext()) {
         iter.next();
-        int tili = iter.key().toInt();
+        const QString tili = iter.key();
         saldot_.insert(tili, qRound64(iter.value().toDouble() * 100.0));
         if( !data_.contains(tili))
             data_.insert(tili, QList<QVariantMap>());
@@ -127,7 +127,7 @@ void Paakirja::viennitSaapuu(QVariant *data)
 
     for(const auto& vienti : data->toList()) {
         QVariantMap map = vienti.toMap();
-        int tili = map.value("tili").toInt();
+        const QString tili = map.value("tili").toString();
         data_[tili].append(map);
 
         if( !oletustilikausi_.kuuluuko( map.value("tosite").toMap().value("pvm").toDate() ))
@@ -140,7 +140,7 @@ void Paakirja::viennitSaapuu(QVariant *data)
 
 void Paakirja::kirjoitaDatasta()
 {
-    QMapIterator<int, QList<QVariantMap>> iter(data_);
+    QMapIterator<QString, QList<QVariantMap>> iter(data_);
 
     qlonglong kaikkiDebet = 0;
     qlonglong kaikkiKredit = 0;
@@ -149,7 +149,7 @@ void Paakirja::kirjoitaDatasta()
         iter.next();
 
 
-        Tili tili = kp()->tilit()->tiliNumerolla(iter.key());
+        Tili tili = kp()->tilit()->tiliNumerolla(iter.key().toInt());
         if( tili.onkoValidi())
         {
 
@@ -162,7 +162,7 @@ void Paakirja::kirjoitaDatasta()
                 rivi.lisaa("");
             if( optiot_ & AsiakasToimittaja)
                 rivi.lisaa("");
-            qlonglong saldo =  saldot_.value( tili.numero() );
+            qlonglong saldo =  saldot_.value( QString::number(tili.numero() ));
 
             // #827 Ei näytä tyhjää otsikkoriviä esimerkiksi tilikauden tulokselle
             if( iter.value().isEmpty() && !saldo)

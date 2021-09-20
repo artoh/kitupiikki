@@ -50,8 +50,8 @@ protected:
     void kirjoitaDatasta();
 
 protected:    
-    QMap<int,QList<QVariantMap>> data_;
-    QMap<int,qlonglong> saldot_;
+    QMap<QString,QList<QVariantMap>> data_;
+    QMap<QString,qlonglong> saldot_;
 
     int saapuneet_ = 0;
 
