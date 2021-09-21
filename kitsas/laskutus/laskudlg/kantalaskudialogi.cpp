@@ -635,13 +635,6 @@ bool KantaLaskuDialogi::tarkasta()
         return false;
     }
 
-
-    if( ui->laskutusCombo->currentData().toInt() == Lasku::VERKKOLASKU &&  !osoiteKunnossa () ) {
-        QMessageBox::critical(this, tr("Virheellinen osoite"), tr("Asiakastiedoissa oleva osoite on muodoltaan virheellinen."));
-        return false;
-    }
-
-
     return true;
 }
 
