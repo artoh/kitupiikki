@@ -73,7 +73,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "kierto", QIcon(":/pic/kierto.svg"),"kierto");
-    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolasku/",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
+    lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
     lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu(tr("Verojen maksu"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));
