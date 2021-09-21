@@ -75,6 +75,10 @@ private slots:
 
     void maventalookup();
     void maventalookupSaapuu(QVariant * data);
+    void osastoValittu();
+
+private:
+    enum { OVTTUNNUS = Qt::UserRole, VALITTAJA = Qt::UserRole +1  };
 
 private:
     void dataTauluun(const QVariant& data);

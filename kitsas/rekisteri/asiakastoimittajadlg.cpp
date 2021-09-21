@@ -42,12 +42,14 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     ui->setupUi(this);
     ui->yEdit->setValidator(new YTunnusValidator(false, this));
 
+    ui->osastoLabel->hide();
+    ui->osastoLista->hide();
+
     connect( ui->postinumeroEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::haeToimipaikka);
     connect( ui->maaCombo, &QComboBox::currentTextChanged, this, &AsiakasToimittajaDlg::maaMuuttui);
     connect( ui->tilitLista, &QListWidget::itemChanged, this, &AsiakasToimittajaDlg::tarkastaTilit);
 
     connect( ui->yEdit, &QLineEdit::textEdited, this, &AsiakasToimittajaDlg::haeYTunnarilla);
-    connect( ui->yEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::naytaVerkkolasku);
 
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
@@ -55,6 +57,7 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->kaupunkiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->ovtEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->valittajaEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->osastoLista, &QListWidget::itemClicked, this, &AsiakasToimittajaDlg::osastoValittu);
 
     connect( ui->haeNappi, &QPushButton::clicked, this, &AsiakasToimittajaDlg::haeNimella);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("/laskutus/rekisteri"); });
@@ -172,6 +175,8 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     }
 
     tarkastaTilit();
+    naytaVerkkolasku();
+    maventalookup();
 
     ladataan_ = false;
 }
@@ -260,8 +265,7 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
 
 void AsiakasToimittajaDlg::maventalookup()
 {
-    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA &&
-       kp()->pilvi()->kayttajaPilvessa() && ui->valittajaEdit->text().isEmpty())  {
+    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa())  {
 
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "lookup";
 
@@ -280,22 +284,67 @@ void AsiakasToimittajaDlg::maventalookup()
 
 void AsiakasToimittajaDlg::maventalookupSaapuu(QVariant* data) {
     QVariantList list = data->toList();
+
+    ui->osastoLista->clear();
+
     for(const QVariant& var : qAsConst( list )) {
         QVariantMap map=var.toMap();
-        if(map.value("eia").toString().contains(QRegularExpression("\\D"))) {
+
+        const QString& ovt = map.value("eia").toString();
+        const QString& valittaja = map.value("operator").toString();
+
+        const QVariantMap participant = map.value("participant").toMap();
+        QString bid = participant.value("bid").toString();
+        const QString& nimi = participant.value("name").toString();
+
+
+        if(ovt.contains(QRegularExpression("\\D"))) {
             continue;
         }
-        ui->ovtEdit->setText( map.value("eia").toString() );
-        ui->valittajaEdit->setText( map.value("operator").toString());
+
+        if( ui->valittajaEdit->text().isEmpty()) {
+            ui->ovtEdit->setText(ovt);
+            ui->valittajaEdit->setText(valittaja);
+        }
+
         if( ui->yEdit->text().isEmpty()) {
-            QString bid = map.value("participant").toMap().value("bid").toString() ;
             if( bid.startsWith("FI"))
                 bid = alvToY(bid);
-            if( YTunnusValidator::kelpaako(bid)) {
+            if( YTunnusValidator::kelpaako(bid))
                 ui->yEdit->setText(bid);
-                ui->nimiEdit->setText(map.value("participant").toMap().value("name").toString());
-            }
         }
+        if( ui->nimiEdit->text().isEmpty()) {
+            ui->nimiEdit->setText(nimi);
+        }
+
+        QListWidgetItem *item = new QListWidgetItem(nimi, ui->osastoLista);
+        item->setData( OVTTUNNUS, ovt );
+        item->setData( VALITTAJA, valittaja);
+
+        const QString nykyinenOvt = ui->ovtEdit->text();
+        const QString nykyinenValittaja = ui->valittajaEdit->text();
+
+        if( !nykyinenOvt.isEmpty() && nykyinenOvt == ovt &&
+            !nykyinenValittaja.isEmpty() && nykyinenValittaja == valittaja) {
+            ui->osastoLista->setCurrentItem(item);
+        }
+
+    }
+
+    naytaVerkkolasku();
+    taydennaLaskutavat();
+
+    ui->osastoLabel->setVisible( ui->osastoLista->count() );
+    ui->osastoLista->setVisible( ui->osastoLista->count() );
+}
+
+void AsiakasToimittajaDlg::osastoValittu()
+{
+    QListWidgetItem* item = ui->osastoLista->currentItem();
+    if( item ) {
+        ui->ovtEdit->setText( item->data(OVTTUNNUS).toString() );
+        ui->valittajaEdit->setText( item->data(VALITTAJA).toString());
+        naytaVerkkolasku();
         taydennaLaskutavat();
     }
 }
@@ -455,9 +504,11 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
     if( var.toMap().value("results").toList().isEmpty()) {
         if( !isVisible())
             show();
+        naytaVerkkolasku();
         return;
     }
     dataTauluun(var);
+    naytaVerkkolasku();
 
     if( !isVisible() )
         accept();
