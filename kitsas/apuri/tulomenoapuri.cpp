@@ -497,7 +497,7 @@ void TuloMenoApuri::pvmMuuttui(const QDate &pvm)
     if(!resetoidaanko())
         ui->laskuPvm->setDate(pvm);
     haeKohdennukset();
-    paivitaVeroFiltterit(pvm);
+    paivitaVeroFiltterit(pvm, ui->alvCombo->currentData().toInt());
     tositteelle();
 }
 
@@ -602,7 +602,7 @@ void TuloMenoApuri::vastatiliMuuttui()
     ui->erapaivaEdit->setVisible( laskulle );    
 
     emit tosite()->tarkastaSarja( vastatili.onko(TiliLaji::KATEINEN));
-    paivitaVeroFiltterit(tosite()->pvm());
+    paivitaVeroFiltterit(tosite()->pvm(), ui->alvCombo->currentData().toInt());
 
     tositteelle();
 
@@ -653,34 +653,33 @@ void TuloMenoApuri::poistoAikaMuuttuu()
     tositteelle();
 }
 
-void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm)
+void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm, int verokoodi)
 {
     bool maksuperuste = kp()->onkoMaksuperusteinenAlv(pvm) &&
             ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA) || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA) )
                 && ui->vastatiliLine->valittuTili().eritellaankoTase() ;
-    int verokoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
     if( menoa_) {
         veroFiltteri_->setFilterRegExp(  maksuperuste ?
-                                            "^(0|2[4-9]|927)"
-                                            : "^(0|2[1-69]|927)");
+                                            "^(0|2[4-9]|927| " + QString::number(verokoodi) + ")"
+                                            : "^(0|2[1-69]|927|" + QString::number(verokoodi) + ")" ) ;
         if( verokoodi == AlvKoodi::OSTOT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         else if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && !maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
+        else
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(verokoodi, VerotyyppiModel::KoodiRooli) );
     } else {
         veroFiltteri_->setFilterRegExp( maksuperuste ?
-                                           "^(0|1[4-9])"
-                                           : "^(0|1[1-79])");
+                                           "^(0|1[4-9]|" + QString::number(verokoodi) + ")"
+                                           : "^(0|1[1-79]|" + QString::number(verokoodi) + ")" );
         if(verokoodi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
         else if(verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && !maksuperuste)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
+        else
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(verokoodi, VerotyyppiModel::KoodiRooli) );
     }
-    if( ui->alvCombo->currentText().isEmpty()) {
-        // Varmistetaan, että valittu koodi näkyy
-        veroFiltteri_->setFilterFixedString( veroFiltteri_->filterRegularExpression().pattern() + "|" + QString::number(verokoodi)  );
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(verokoodi, VerotyyppiModel::KoodiRooli) );
-    }
+
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
@@ -705,6 +704,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->tiliEdit->valitseTiliNumerolla( tilinumero );
     tiliMuuttui();
 
+    paivitaVeroFiltterit( tosite()->pvm(), rivi->alvkoodi() );
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
     setAlvProssa( rivi->alvprosentti());    
 
@@ -784,7 +784,7 @@ void TuloMenoApuri::alusta(bool meno)
 
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
 
-    paivitaVeroFiltterit(tosite()->pvm());
+    paivitaVeroFiltterit(tosite()->pvm(), ui->alvCombo->currentData().toInt());
 
 }
 
