@@ -201,8 +201,10 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
     ViiteNumero viite( tosite->viite());
     if( viite.tyyppi() != ViiteNumero::ASIAKAS && viite.tyyppi() != ViiteNumero::HUONEISTO) {
         tosite->asetaViite(QString());
-    }
+        tosite->lasku().setViite(ViiteNumero(0));
+    }   
 
+    tosite->setData(Tosite::TUNNISTE, 0);
     naytaDialogi( tosite );
 }
 
