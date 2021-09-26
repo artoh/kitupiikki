@@ -5076,7 +5076,8 @@ ui_avauseradlg.h: ../kitsas/maaritys/avauseradlg.ui \
 
 ui_maksutapamuokkausdlg.h: ../kitsas/maaritys/maksutapamuokkausdlg.ui \
 		../../../Qt/5.15.0/clang_64/bin/uic \
-		../kitsas/tools/tilicombo.h
+		../kitsas/tools/tilicombo.h \
+		../kitsas/kieli/kielilistwidget.h
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/maaritys/maksutapamuokkausdlg.ui -o ui_maksutapamuokkausdlg.h
 
 ui_tuloverodialog.h: ../kitsas/arkisto/tuloverodialog.ui \
