@@ -136,7 +136,7 @@ public:
     void asetaSarja(const QString& sarja);
     void asetaLaskupvm(const QDate& pvm) { setData(LASKUPVM, pvm);}
     void asetaErapvm(const QDate& pvm) { setData(ERAPVM, pvm);}
-    void asetaViite(const QString& viite) { setData(VIITE, viite);}
+    void asetaViite(const QString& viite) { setData(VIITE, viite.left(64));}
     void asetaViite(const ViiteNumero& viite) { setData(VIITE, viite.viite());}
     void asetaKierto(int kierto) { setData(KIERTO, kierto);}
     void asetaTila(int tila) { setData(TILA, tila);}
