@@ -218,7 +218,7 @@ void TositeVienti::setEra(const QVariantMap &era)
 
 void TositeVienti::setArkistotunnus(const QString &tunnus)
 {
-    set( ARKISTOTUNNUS, tunnus);
+    set( ARKISTOTUNNUS, tunnus.left(64));
 }
 
 void TositeVienti::setKumppani(int kumppaniId)
