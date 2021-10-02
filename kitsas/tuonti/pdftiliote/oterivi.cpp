@@ -64,7 +64,7 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
         }
     }
 
-    arkistotunnus_.append(arkistotunnus.remove(QRegularExpression("\\s")));
+    arkistotunnus_.append(arkistotunnus.remove(QRegularExpression("\\s")));    
 
 #ifdef KITSAS_DEVEL
     std::cerr << " ARKISTOTUNNUS "  << arkistotunnus_.toStdString();
@@ -151,6 +151,8 @@ void OteRivi::lisaaYleinen(const QString &teksti)
         lisaaOstoPvm(iso);
     } else if( iso.contains("ARKISTOINTITUNNUS") && arkistotunnus_.isEmpty()) {
         setArkistotunnus( iso.mid(18) );
+    } else if( iso.contains("ARKISTOVIITE") && arkistotunnus_.isEmpty()) {
+        setArkistotunnus( iso.mid(iso.indexOf(":")) );
     } else if( Iban(teksti).isValid() ) {
         if( iban_.isEmpty() )
             iban_ = teksti;
