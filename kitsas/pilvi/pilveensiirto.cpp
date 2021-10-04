@@ -96,7 +96,7 @@ void PilveenSiirto::alustaAlkusivu()
     kysely.exec("SELECT MAX(LENGTH(data)) FROM Liite");
     if(kysely.next()) {
         qlonglong isoinliite = kysely.value(0).toLongLong();
-        if( isoinliite > 10L * 1024 * 1024) {
+        if( isoinliite > 11 * 1024 * 1024) {
             ui->valmisLabel->setText(tr("Kirjanpitoa ei voi siirtää pilveen. \n\n"
                                         "Kirjanpidossa on yli 10 megatavun kokoisia liitteitä, joita ei voi "
                                         "tallentaa Kitsaan pilveen."));
