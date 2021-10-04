@@ -186,12 +186,14 @@ void LaskuDialogiTehdas::ladattuKopioitavaksi()
 
     tosite->lasku().setToimituspvm( tosite->laskupvm() );
 
-    // Irroitetaan kopioi samasta tase-erästä, jotta saa oman seurantansa
-    TositeVienti vienti = tosite->viennit()->vienti(0);
-    if( vienti.eraId())
-        vienti.setEra(-1);
-    tosite->viennit()->asetaVienti(0, vienti);
-
+    // Irrotetaan tositteen viennit ja tase-erät
+    for(int i=0; i < tosite->viennit()->rowCount(); i++) {
+        TositeVienti vienti = tosite->viennit()->vienti(i);
+        vienti.setId(0);
+        if( vienti.eraId())
+            vienti.setEra(-1);
+        tosite->viennit()->asetaVienti(i, vienti);
+    }
 
     if( jaksonpituus) {
         tosite->lasku().setJaksopvm( tosite->laskupvm().addDays( jaksonpituus ) );
