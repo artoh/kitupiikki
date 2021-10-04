@@ -201,6 +201,23 @@ Myös paikallinen kirjanpitotiedosto on edelleen jäljellä. Huomaathan, että p
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="page_4">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QLabel" name="isotTiedostot">
+         <property name="text">
+          <string>Kirjanpitoa ei voi siirtää pilveen. 
+
+Kirjanpidossa on yli 10 megatavun kokoisia liitteitä, joita ei voi 
+tallentaa Kitsaan pilveen.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="isoLista"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

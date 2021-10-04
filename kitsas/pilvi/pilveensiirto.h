@@ -34,7 +34,7 @@ class PilveenSiirto : public QDialog
 
 public:
     enum {
-        ALOITUS, KAYNNISSA, VALMIS
+        ALOITUS, KAYNNISSA, VALMIS, YLIISO
     };
 
     explicit PilveenSiirto(QWidget *parent = nullptr);

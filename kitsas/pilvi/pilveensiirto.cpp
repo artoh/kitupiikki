@@ -93,16 +93,19 @@ void PilveenSiirto::alustaAlkusivu()
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
 
-    kysely.exec("SELECT MAX(LENGTH(data)) FROM Liite");
-    if(kysely.next()) {
-        qlonglong isoinliite = kysely.value(0).toLongLong();
-        if( isoinliite > 11 * 1024 * 1024) {
-            ui->valmisLabel->setText(tr("Kirjanpitoa ei voi siirtää pilveen. \n\n"
-                                        "Kirjanpidossa on yli 10 megatavun kokoisia liitteitä, joita ei voi "
-                                        "tallentaa Kitsaan pilveen."));
-            ui->stackedWidget->setCurrentIndex(VALMIS);
-            ui->buttonBox->button(QDialogButtonBox::Ok)->hide();
-        }
+    kysely.exec("SELECT pvm, sarja, tunniste, nimi, LENGTH(data) AS koko FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE LENGTH(data) > 10 * 1024 * 1024");
+    while( kysely.next())
+    {
+        qlonglong koko = kysely.value("koko").toLongLong();
+        qlonglong mt = koko / ( 1024 * 1024 );
+        ui->isoLista->addItem(QString("%1 %2 (%3 Mt)")
+                              .arg( kp()->tositeTunnus(kysely.value("tunniste").toInt(), kysely.value("pvm").toDate(), kysely.value("sarja").toString()) )
+                              .arg( kysely.value("nimi").toString())
+                              .arg( mt ) );
+    }
+    if( ui->isoLista->count()) {
+        ui->stackedWidget->setCurrentIndex(YLIISO);
+        ui->buttonBox->button(QDialogButtonBox::Ok)->hide();
     }
 }
 
