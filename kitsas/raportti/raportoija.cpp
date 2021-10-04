@@ -260,6 +260,8 @@ void Raportoija::kirjoitaDatasta()
         QString sisennysStr;
         for( int i=0; i < sisennys; i++)
             sisennysStr.append(' ');
+        if( map.value("M").toString().contains("bold"))
+            rr.lihavoi();
 
         if( kaava.isEmpty() )
         {
@@ -274,7 +276,7 @@ void Raportoija::kirjoitaDatasta()
         RivinTyyppi rivityyppi = SUMMA;
         bool naytaTyhjarivi = kaava.contains('S') || kaava.contains('H');
         bool laskevalisummaan = !kaava.contains("==");
-        bool lisaavalisumma = kaava.contains("=") && !kaava.contains("==");
+        bool lisaavalisumma = kaava.contains("=") && laskevalisummaan ;
         bool naytaErittely = kaava.contains('*');
         bool vainmenot = kaava.contains("-");
         bool vaintulot = kaava.contains('+');
@@ -285,8 +287,6 @@ void Raportoija::kirjoitaDatasta()
 
         int erittelySisennys = 4;
 
-        if( map.value("M").toString().contains("bold"))
-            rr.lihavoi();
         if( kaava.contains("h"))
             rivityyppi = OTSIKKO;
 
@@ -332,7 +332,7 @@ void Raportoija::kirjoitaDatasta()
                 summa[i] += snt_.value(tili,QVector<qlonglong>(sarakemaara_))[i];
         }
 
-        if( laskevalisummaan )  {
+        if( laskevalisummaan && rivityyppi == SUMMA)  {
             for(int i=0; i < sarakemaara_; i++)
                 kokosumma[i] += summa[i];
         }
@@ -341,17 +341,7 @@ void Raportoija::kirjoitaDatasta()
         {
             for(int i=0; i < sarakemaara_; i++)
                 summa[i] += kokosumma[i];
-        }
-
-        bool kirjauksia = false;
-        for( int i=0; i < sarakemaara_; i++) {
-            if( summa[i]) {
-                kirjauksia = true;
-                break;
-            }
-        }
-
-         if( !naytaTyhjarivi && !kirjauksia )
+        } else if( !naytaTyhjarivi && rivinTilit.isEmpty() )
             continue;
 
          edellinenOliValisumma = lisaavalisumma;

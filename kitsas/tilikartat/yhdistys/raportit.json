@@ -87,7 +87,7 @@
         "fi": "Varainhankinta yhteensä",
         "sv": "Tillförda medel sammanlagt",
         "en": "Fundrainsing total",
-        "L": "7 == s"
+        "L": "7 =="
       },
       {
         "fi": "Tuotto/kulujäämä",
@@ -184,6 +184,84 @@
         "L": "3..9 S",
         "M": "bold",
         "V": 1
+      }
+    ]
+  },
+  "tulos/tulomeno": {
+    "muoto": {
+      "fi": "Tulot ja menot",
+      "sv": "Inkomster och utgifter",
+      "en": "Income and expenses"
+    },
+    "nimi": {
+      "fi": "Tulot ja menot",
+      "sv": "Inkomster och utgifter",
+      "en": "Income and expenses"
+    },
+    "rivit": [
+      {
+        "L": "3..6+ *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Toimintatulot",
+        "sv": "Inkomster från ordinarie verksamhet",
+        "en": "Income from ordinary operations"
+      },
+      {
+        "L": "3..6- *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Toimintakulut",
+        "sv": "Konstnader från ordinarie verksamhet",
+        "en": "Expenses from ordinary operations"
+      },
+      {
+        "L": "7+ *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Varainhankinnan tulot",
+        "sv": "Inkomster från tillförda medel",
+        "en": "Income from total fundraising"
+      },
+      {
+        "L": "7- *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Varainhankinnan menot",
+        "sv": "Konstnader från Tillförda medel",
+        "en": "Expenses from total fundraising"
+      },
+      {
+        "L": "9+ *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Rahoitustulot",
+        "sv": "Inkomster från finansieringsverksamhet",
+        "en": "Income from financing activities"
+      },
+      {
+        "L": "9- *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Rahoitusmenot",
+        "sv": "Konstnader från finansieringsverksamhet",
+        "en": "Expenses from financing activities"
+      },
+      {
+        "L": "8 *",
+        "M": "bold",
+        "V": 1,
+        "fi": "Yleisavustukset",
+        "sv": "Allmänna understöd",
+        "en": "Subsidies"
+      },
+      {
+        "L": "=",
+        "M": "bold",
+        "V": 1,
+        "fi": "Yhteensä",
+        "sv": "Sammanlagt",
+        "en": "Total"
       }
     ]
   },
