@@ -152,6 +152,7 @@ void RivillinenLaskuDialogi::tositteelle()
 
     tosite()->lasku().setRiviTyyppi( rivityyppi() );
 
+    alvTaulu()->asetaBruttoPeruste( ui->riviTyyppiCombo->currentData() !=  Lasku::NETTORIVIT );
     alvTaulu()->paivita();
     tosite()->lasku().setSumma( alvTaulu()->brutto()  );
 }
@@ -289,6 +290,7 @@ void RivillinenLaskuDialogi::alustaRiviTyypit()
 
 void RivillinenLaskuDialogi::paivitaSumma()
 {
+    alvTaulu()->asetaBruttoPeruste( ui->riviTyyppiCombo->currentData() != Lasku::NETTORIVIT );
     alvTaulu()->paivita();
 
     if( !alvTaulu()->brutto() )

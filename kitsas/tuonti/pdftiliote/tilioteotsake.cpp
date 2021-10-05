@@ -30,9 +30,9 @@ bool TilioteOtsake::alkaakoOtsake(const PdfAnalyzerRow &row)
     if( row.textCount() < 3)
         return false;
     const QString teksti = row.text();
-    return teksti.contains("Arkistointitunnus") ||
-           (teksti.contains("Kirjaus-") && teksti.contains("Pano")) ||
-           (teksti.contains("Kirj.pvm") && teksti.contains("Arvopvm."));
+    return teksti.contains("Arkistointitunnus", Qt::CaseInsensitive) ||
+           (teksti.contains("Kirjaus-", Qt::CaseInsensitive) && teksti.contains("Pano", Qt::CaseInsensitive)) ||
+           (teksti.contains("Kirj.pvm", Qt::CaseInsensitive) && teksti.contains("Arvopvm.", Qt::CaseInsensitive));
 }
 
 void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)
