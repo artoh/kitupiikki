@@ -343,7 +343,16 @@ void Tosite::tallenna(int tilaan)
     tallennusKaynnissa_ = true;
 
     if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
-        setData(ID,QVariant());
+        // Kun mallipohjasta tallennetaan tosite, niin varmistetaan
+        // että tiedot kopioituvat eikä vientejä kaapata ;)
+        setData(ID, QVariant());
+        for(int i=0; i < viennit()->rowCount(); i++) {
+            TositeVienti vienti = viennit()->vienti(i);
+            if( vienti.eraId() && vienti.eraId() == vienti.id())
+                vienti.setEra(-1);
+            vienti.setId(0);
+            viennit()->asetaVienti(i, vienti);
+        }
     }
 
     setData( TILA, tilaan );
