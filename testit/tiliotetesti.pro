@@ -16,7 +16,8 @@ LIBS += -lzip
 CONFIG += qt console
 CONFIG -= app_bundle
 
-DEFINES += QT_NO_DEBUG_OUTPUT
+# DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += KITSAS_DEBUG
 
 TEMPLATE = app
 

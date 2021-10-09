@@ -15,12 +15,14 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tilioteotsake.h"
+#include "pdftiliotetuonti.h"
 
 #include <iostream>
 
 namespace Tuonti {
 
-TilioteOtsake::TilioteOtsake()
+TilioteOtsake::TilioteOtsake(PdfTilioteTuonti *tuonti) :
+    tuonti_(tuonti)
 {
 
 }
@@ -45,7 +47,7 @@ void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)
                 puskuri.append(sana.text());
                 rect = rect.united(sana.boundingRect());
                 if( sana.hasSpaceAfter() && puskuri.trimmed().length() > 2) {
-                    Sarake sarake( Sarake( rect.x(), rect.right(), puskuri.toUpper()));
+                    Sarake sarake( Sarake( rect.x(), rect.right(), tyyppiTekstilla(puskuri.toUpper())));
                     sarakkeet_.append(sarake);
                     puskuri.clear();
                     rect = QRectF();
@@ -55,7 +57,7 @@ void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)
                 }
             }
             if( rect.isValid() && puskuri.trimmed().length() > 0) {
-                Sarake sarake( Sarake( rect.x(), rect.right(), puskuri.toUpper()));
+                Sarake sarake( Sarake( rect.x(), rect.right(), tyyppiTekstilla(puskuri.toUpper())));
                 sarakkeet_.append(sarake);
 #ifdef KITSAS_DEVEL
                 std::cerr << sarake.tyyppi() << " " << puskuri.toStdString() << " _ ";
@@ -93,6 +95,11 @@ int TilioteOtsake::indeksiSijainnilla(double sijainti)
     for(int i=sarakkeet_.count()-1; i >= 0; i--) {
         const Sarake& sarake = sarakkeet_.at(i);
         if( sijainti + 2 >= sarake.alku() ) {
+
+            // Korjaus
+            if( i == 1 && sarake.tyyppi() == PVM && sijainti > sarake.alku() + 20 && tuonti_->bic() == "SBANFIHH")
+                return i+1;
+
             return i;
         }
     }
@@ -110,42 +117,76 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppi(double paikka)
     return TUNTEMATON;
 }
 
+QString TilioteOtsake::debugInfo() const
+{
+    QString ulos;
+    for(const Sarake& s : sarakkeet_) {
+        ulos.append(QString("   %1 ... %2   %3").arg(s.alku(),6,'f',2)
+                .arg(s.loppu(), 6, 'f', 2)
+                .arg( tyyppiTeksti(s.tyyppi())));
+    }
+    return ulos;
+}
+
+QString TilioteOtsake::tyyppiTeksti(Tyyppi tyyppi)
+{
+    switch (tyyppi) {
+        case TUNTEMATON: return "???";
+        case SAAJAMAKSAJA: return "Saaja/Maksaja";
+        case SELITE: return "Selite";
+        case PVM: return "Pvm";
+        case VIITE: return "Viite";
+        case ARKISTOTUNNUS: return "Arkistotunnus";
+        case EURO: return "Euro";
+        case OHITA: return "Ohita";
+        case YLEINEN: return "YLEINEN";
+    }
+}
+
+TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
+{
+    if( tuonti_->bic() == "HELSFIHH") {
+        // Aktia pankki
+        if( teksti == "KIRJ.PVM.")
+            return ARKISTOTUNNUS;
+        else if(teksti == "ARVOPVM.")
+            return OHITA;
+        else if(teksti == "SELITE")
+            return YLEINEN;
+    }
+
+
+    if( teksti.contains("KIRJAUS") || teksti.contains("MAKSUP") || teksti.contains("ARVOP"))
+        return PVM;
+    else if(teksti.contains("VIITE"))
+        return VIITE;
+    else if(teksti.contains("PANO") ||
+            teksti.contains("MÄÄR") ||
+            teksti.contains("EUR"))
+        return EURO;
+    else if( teksti.contains("SELIT"))
+        return SELITE;
+    else if( teksti.contains("MAKSAJA"))
+        return SAAJAMAKSAJA;
+    else if( teksti.contains("ARKISTOINTI"))
+        return ARKISTOTUNNUS;
+    else if(teksti.contains("TAP") ||
+            teksti.contains("SALDO") ||
+            teksti.contains("TILIÖINTI"))
+        return OHITA;
+    return TUNTEMATON;
+}
+
 
 TilioteOtsake::Sarake::Sarake()
 {
 
 }
 
-TilioteOtsake::Sarake::Sarake(double alku, double loppu, QString teksti)
-    : alku_(alku), loppu_(loppu)
+TilioteOtsake::Sarake::Sarake(double alku, double loppu, Tyyppi tyyppi)
+    : alku_(alku), loppu_(loppu), tyyppi_(tyyppi)
 {
-    lisaaTeksti(teksti.toUpper());
-}
-
-void TilioteOtsake::Sarake::lisaaTeksti(const QString &teksti)
-{
-    if( tyyppi_ == TUNTEMATON) {
-        if( teksti.contains("KIRJAUS") || teksti.contains("MAKSUP") || teksti.contains("ARVOP"))
-            tyyppi_ = PVM;
-        else if(teksti.contains("VIITE"))
-            tyyppi_ = VIITE;
-        else if(teksti.contains("PANO") ||
-                teksti.contains("MÄÄR") ||
-                teksti.contains("EUR"))
-            tyyppi_ = EURO;
-        else if( teksti.contains("SELIT"))
-            tyyppi_ = SELITE;
-        else if( teksti.contains("MAKSAJA"))
-            tyyppi_ = SAAJAMAKSAJA;
-        else if( teksti.contains("ARKISTOINTI"))
-            tyyppi_ = ARKISTOTUNNUS;
-        else if(teksti.contains("TAP") ||
-                teksti.contains("SALDO") ||
-                teksti.contains("TILIÖINTI"))
-            tyyppi_ = OHITA;
-    }
-
-    tekstit_.append(teksti);
 }
 
 }
+

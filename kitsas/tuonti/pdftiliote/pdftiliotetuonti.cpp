@@ -22,9 +22,11 @@
 #include <iostream>
 #include "db/tositetyyppimodel.h"
 
+
 namespace Tuonti {
 
 PdfTilioteTuonti::PdfTilioteTuonti() :
+    otsake_(this),
     ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b"),
     kauttaRe("\\d+/20\\d\\d"),
     valiReViivalla("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{0,3}-\\W{0,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})"),
@@ -42,6 +44,8 @@ QVariantMap PdfTilioteTuonti::tuo(const QList<PdfAnalyzerPage> pages)
         tila_ = TOINENSIVU;
     }
     nykyinenValmis();
+
+    qDebug() << otsake_.debugInfo();
 
     QVariantMap map;
     map.insert("tyyppi", TositeTyyppi::TILIOTE);
@@ -144,7 +148,7 @@ void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
 
     if(kokoRivi.startsWith("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ) {
         kirjausPvm_ = OteRivi::strPvm(kokoRivi, loppupvm_);
-        nykyinen_.tyhjenna();
+        nykyinenValmis();
         qDebug() << "\n *** KIRJAUSPÄIVÄ *** " << kirjausPvm_.toString("dd.MM.yyyy") << " \n";
         return;
     }
@@ -244,7 +248,7 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
         return;
 
 #ifdef KITSAS_DEVEL
-    std::cerr << tyyppi << "/" <<  arvo.toStdString() << " * ";
+    std::cerr << TilioteOtsake::tyyppiTeksti(tyyppi).toStdString() << "=" <<  arvo.toStdString() << " * ";
 #endif
 
     switch (tyyppi) {
@@ -257,10 +261,6 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
     {
         QRegularExpressionMatch mats = rahaRe.match(arvo.trimmed());
 
-#ifdef KITSAS_DEVEL
-        std::cerr <<( mats.hasMatch() ? " (€) " : "(?) ");
-#endif
-
         if( rivilla_ == 1 && !nykyinen_.euro() && mats.hasMatch() )
         {
             QString eurot = mats.captured("eur");
@@ -270,9 +270,14 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
                 sentit = 0 - sentit;
 
             nykyinen_.setEuro(Euro(sentit));
+
+#ifdef KITSAS_DEVEL
+            std::cerr <<( mats.hasMatch() ?  (QString(" %1 -> %2").arg(sentit).arg( nykyinen_.euro().display() )).toStdString() : "(?) ");
+#endif
+
         } else {
             nykyinen_.lisaaYleinen(arvo);
-        }
+        }        
     }
     }
 }

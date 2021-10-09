@@ -44,12 +44,15 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
                  ( arkistotunnusTyhjennyt_ ? " (TYHJ)" : "(OK)" );
 #endif
     if( arkistotunnusTyhjennyt_)
-        return;
+        return;    
 
     Iban iban(arkistotunnus);
     if(!arkistotunnus_.isEmpty() && iban.isValid()) {
         iban_ = iban;
         return;
+    }
+    if( !arkistotunnus_.isEmpty() && arkistotunnus.contains("-")) {
+        return;         // Vanhanmallinen tilinumero
     }
 
     if( arkistotunnus.isEmpty()) {

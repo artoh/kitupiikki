@@ -35,6 +35,8 @@ public:
     PdfTilioteTuonti();    
     QVariantMap tuo(const QList<PdfAnalyzerPage> pages );
 
+    QString bic() const { return iban_.bic();}
+
 protected:
     void lueSivu(const PdfAnalyzerPage& page);
     void lueRivi(const PdfAnalyzerRow& row);
