@@ -106,7 +106,7 @@ void VakioViiteDlg::accept()
     map.insert("tili", ui->tiliEdit->valittuTilinumero());
     map.insert("kohdennus", ui->kohdennusCombo->kohdennus());
 
-    KpKysely *kysely = ui->valitseRadio->isChecked() ? kpk(QString("/vakioviitteet/%1").arg(ui->viiteEdit->text()), KpKysely::PUT) :
+    KpKysely *kysely = ui->valitseRadio->isChecked() || !ui->numerointiGroup->isVisible() ? kpk(QString("/vakioviitteet/%1").arg(ui->viiteEdit->text()), KpKysely::PUT) :
                                                     kpk("/vakioviitteet", KpKysely::POST);
     connect( kysely, &KpKysely::vastaus, this, &VakioViiteDlg::tallennettu );
     kysely->kysy(map);
