@@ -77,6 +77,7 @@ public:
     QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }
     bool tilausvoimassa() const { return plan() || kokeilujakso() >= QDate::currentDate();}
     bool pilviVat() const { return  pilviVat_; }
+    int blokattu() const { return data_.value("blocked").toInt(); }
 
     qlonglong oikeudet() const override { return oikeudet_;}
 

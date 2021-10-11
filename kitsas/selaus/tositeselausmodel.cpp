@@ -115,7 +115,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
         SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
         if( sqlite ) {
             lataaSqlite(sqlite, alkaa, loppuu);
-        } else if(!ladataan_){
+        } else if(!ladataan_ && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS) ){
             KpKysely *kysely = kpk("/tositteet");
             kysely->lisaaAttribuutti("alkupvm", alkaa);
             kysely->lisaaAttribuutti("loppupvm", loppuu);

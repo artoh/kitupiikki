@@ -97,7 +97,8 @@ QVariant HuoneistoModel::data(const QModelIndex &index, int role) const
 
 void HuoneistoModel::paivita()
 {
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
+        kp()->yhteysModel()->onkoOikeutta( YhteysModel::LASKU_SELAUS | YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN | YhteysModel::ASETUKSET )  ) {
         KpKysely* kysely = kpk("/huoneistot");
         kysely->lisaaAttribuutti("saldopvm", kp()->paivamaara());
         connect( kysely, &KpKysely::vastaus, this, &HuoneistoModel::lataa);

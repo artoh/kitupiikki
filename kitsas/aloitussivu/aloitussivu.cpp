@@ -202,23 +202,35 @@ void AloitusSivu::paivitaSivu()
     if( kp()->yhteysModel() )
     {
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-        txt.append( paivitysInfo );
+        if( !kp()->yhteysModel()->oikeudet()) {
 
+            txt = QString("<h1>%1</h1><p>%2</p><p>%3</p>")
+                                .arg(tr("Tämä kirjanpito ei ole käytettävissä"))
+                                .arg(tr("Kirjanpidon omistajalla ei ole voimassa olevaa tilausta, tilausmaksu on maksamatta tai "
+                                        "palvelun käyttö on estetty käyttösääntöjen vastaisena."))
+                                .arg(tr("Kirjanpidon palauttamiseksi käyttöön on oltava yhteydessä Kitsas Oy:n myyntiin."));
 
-        int saldoja = saldot_.count();
-
-        if( saldoja == 0) {
-            // Lataaminen on kesken..
-            txt.append("<h1>" + tr("Avataan kirjanpitoa...") + "</h1>");
-        } else if( saldoja < 3) {
-            // Ei vielä tilejä avattu, possu
-            txt.append( vinkit() );
-            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
         } else {
-            txt.append( vinkit() );
-            txt.append(summat());
-        }
 
+
+            txt.append( paivitysInfo );
+
+            int saldoja = saldot_.count();
+
+            if( saldoja == 0) {
+                // Lataaminen on kesken..
+                txt.append("<h1>" + tr("Avataan kirjanpitoa...") + "</h1>");
+            } else if( saldoja < 3) {
+                // Ei vielä tilejä avattu, possu
+                txt.append( vinkit() );
+                txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+            } else {
+                txt.append( vinkit() );
+                txt.append(summat());
+            }
+
+
+        }
         ui->selain->setHtml(txt);
     }
     else
@@ -291,7 +303,7 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     ui->paikallinenKuva->setVisible(paikallinen);
     ui->pilviKuva->setVisible( pilvessa );
-    ui->kopioiPilveenNappi->setVisible(paikallinen);
+    ui->kopioiPilveenNappi->setVisible(paikallinen && !kp()->pilvi()->blokattu());
 
     tukiInfo();
     haeSaldot();
@@ -589,8 +601,19 @@ void AloitusSivu::kirjauduttu()
 
     int pilvia = kp()->pilvi()->omatPilvet();
     int pilvetmax = kp()->pilvi()->pilviMax();
+    ui->planLabel->setStyleSheet("");
 
-    if( !kp()->pilvi()->tilausvoimassa()) {
+    if( kp()->pilvi()->blokattu()) {
+        switch (kp()->pilvi()->blokattu()) {
+            case 1: ui->planLabel->setText(tr("Käyttö estetty maksamattomien tilausmaksujen takia"));
+            break;
+            case 2: ui->planLabel->setText(tr("Käyttö estetty käyttösääntöjen vastaisen toiminnan takia"));
+            break;
+        default:
+            ui->planLabel->setText(tr("Käyttäjätunnus suljettu"));
+        }
+        ui->planLabel->setStyleSheet("color: red; font-weight: bold;");
+    } else if( !kp()->pilvi()->tilausvoimassa()) {
         ui->planLabel->setText(tr("Ei voimassaolevaa omaa tilausta.\n"));
     } else if (pilvia == 0 && pilvetmax == 0) {
         ui->planLabel->setText( kp()->pilvi()->planname() );
@@ -733,7 +756,7 @@ void AloitusSivu::logoMuuttui()
 
 void AloitusSivu::haeSaldot()
 {
-    if(sivulla) {
+    if(sivulla && kp()->yhteysModel() &&  kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS)) {
         QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
         KpKysely *kysely = kpk("/saldot");
         if( kysely && saldopaiva.isValid()) {
@@ -741,6 +764,8 @@ void AloitusSivu::haeSaldot()
             connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
             kysely->kysy();
         }
+    } else {
+        paivitaSivu();
     }
 }
 

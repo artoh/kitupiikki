@@ -149,7 +149,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tili)
         SQLiteModel* sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
         if( sqlite ) {
             lataaSqlite(sqlite, alkaa, loppuu, tili);
-        } else if( !ladataan_){
+        } else if( !ladataan_ && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_SELAUS | YhteysModel::RAPORTIT | YhteysModel::TILINPAATOS)){
             KpKysely *kysely = kpk("/viennit");
             if(kysely) {
                 kysely->lisaaAttribuutti("alkupvm", alkaa);
