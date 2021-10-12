@@ -44,6 +44,7 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
 
     connect( ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &PilveenSiirto::close);
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/pilvi"); });
 }
 
 PilveenSiirto::~PilveenSiirto()
