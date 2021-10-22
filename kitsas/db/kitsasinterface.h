@@ -34,6 +34,7 @@ class YhteysModel;
 class TositeTyyppiModel;
 class VakioViiteModel;
 class HuoneistoModel;
+class RaporttiValinnat;
 
 /**
  * @brief Rajapinta keskeisten modeleiden saavuttamiseen
@@ -62,6 +63,7 @@ public:
     virtual TositeTyyppiModel* tositeTyypit() const { return nullptr;}
     virtual VakioViiteModel* vakioViitteet() const { return nullptr;}
     virtual HuoneistoModel* huoneistot() const { return nullptr;}
+    virtual RaporttiValinnat* raporttiValinnat() const { return nullptr;}
 
 
     virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;

@@ -40,8 +40,6 @@
 #include "verotyyppimodel.h"
 #include "tilityyppimodel.h"
 
-
-
 #include "tilimodel.h"
 #include "tili.h"
 
@@ -66,6 +64,7 @@ class KiertoModel;
 
 class QNetworkAccessManager;
 class VakioViiteModel;
+class RaporttiValinnat;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -273,6 +272,7 @@ public:
 
     VakioViiteModel* vakioViitteet() const override { return vakioviitteet_; }
     HuoneistoModel* huoneistot() const override { return huoneistot_;}
+    RaporttiValinnat* raporttiValinnat() const override { return raporttiValinnat_;}
 
     void odotusKursori(bool on);
 signals:
@@ -383,6 +383,7 @@ protected:
     AlvIlmoitustenModel *alvIlmoitukset_;
     VakioViiteModel *vakioviitteet_;
     HuoneistoModel *huoneistot_;
+    RaporttiValinnat *raporttiValinnat_;
 
     QPrinter *printer_;
 

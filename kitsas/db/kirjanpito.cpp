@@ -57,6 +57,8 @@
 #include "laskutus/vakioviite/vakioviitemodel.h"
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "laskutus/laskunuusinta.h"
+#include "raportti/raporttivalinnat.h"
+
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -70,8 +72,9 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     tuotteet_( new TuoteModel(this)),
     ryhmat_( new RyhmatModel(this)),
     alvIlmoitukset_( new AlvIlmoitustenModel(this)),
-    vakioviitteet_( new VakioViiteModel(this)),
+    vakioviitteet_( new VakioViiteModel(this)),    
     huoneistot_( new HuoneistoModel(this)),
+    raporttiValinnat_( new RaporttiValinnat),
     printer_(new QPrinter(QPrinter::HighResolution)),
     tempDir_(new QTemporaryDir(QDir::temp().absoluteFilePath("kitsas-XXXXXX"))),
     portableDir_(portableDir),
@@ -278,6 +281,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         ryhmat()->paivita();
         huoneistot()->paivita();
         alvIlmoitukset()->lataa();
+        raporttiValinnat()->nollaa();
     }
 
     emit tietokantaVaihtui();

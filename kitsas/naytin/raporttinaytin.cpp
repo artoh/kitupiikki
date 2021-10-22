@@ -63,6 +63,9 @@ QString Naytin::RaporttiNaytin::html() const
 void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {
     qDebug() << "Tulosta " << this << " Raportti " << raportti_.otsikko();
-    QPainter painter(printer);
-    raportti_.tulosta(printer, &painter, onkoRaidat());
+
+    if( raportti_.riveja()) {
+        QPainter painter(printer);
+        raportti_.tulosta(printer, &painter, onkoRaidat());
+    }
 }

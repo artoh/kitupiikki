@@ -34,18 +34,24 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );
 
-    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    if( !nykykausi.alkaa().isValid())
-        nykykausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
+    ui->alkupvm->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::AlkuPvm).toDate() );
+    ui->loppupvm->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::LoppuPvm).toDate() );
 
+    ui->ryhmittelelajeittainCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::RyhmitteleTositelajit) );
+    ui->tulostakohdennuksetCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaKohdennus) );
+    ui->tulostasummat->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaSummarivit));
+    ui->kumppaniCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaKumppani));
+    ui->eriPaivatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelePaivat));
 
-    ui->alkupvm->setDate(nykykausi.alkaa());
-    ui->loppupvm->setDate(nykykausi.paattyy());
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
 
     if( !kp()->kohdennukset()->kohdennuksia()) {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
+    } else {
+        int kohdennus = kp()->raporttiValinnat()->arvo(RaporttiValinnat::Kohdennuksella).toInt();
+        ui->kohdennusCheck->setChecked(kohdennus > -1);
+        ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(kohdennus, KohdennusModel::IdRooli) );
     }
 
     ui->tiliBox->hide();
@@ -72,28 +78,30 @@ void PaivakirjaRaportti::paivitaKohdennukset()
 }
 
 void PaivakirjaRaportti::esikatsele()
-{
+{    
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tyyppi, "paivakirja");
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::AlkuPvm, ui->alkupvm->date());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::LoppuPvm, ui->loppupvm->date());
 
-    RaporttiValinnat valinnat;
-    valinnat.aseta(RaporttiValinnat::Tyyppi, "paivakirja");
-    valinnat.aseta(RaporttiValinnat::AlkuPvm, ui->alkupvm->date());
-    valinnat.aseta(RaporttiValinnat::LoppuPvm, ui->loppupvm->date());
+    if( ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked()) {
+        kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCombo->kohdennus());
+    } else {
+        kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kohdennuksella, -1);
+    }
 
     if( ui->tositejarjestysRadio->isChecked() )
-        valinnat.aseta(RaporttiValinnat::VientiJarjestys, "tosite");
-    if( ui->ryhmittelelajeittainCheck->isChecked() )
-        valinnat.aseta(RaporttiValinnat::RyhmitteleTositelajit);
-    if( ui->tulostakohdennuksetCheck->isChecked() )
-        valinnat.aseta(RaporttiValinnat::TulostaKohdennus);
-    if( ui->tulostasummat->isChecked() )
-        valinnat.aseta(RaporttiValinnat::TulostaSummarivit);
-    if( ui->kumppaniCheck->isChecked())
-        valinnat.aseta(RaporttiValinnat::TulostaKumppani);
-    if( ui->eriPaivatCheck->isChecked() )
-        valinnat.aseta(RaporttiValinnat::ErittelePaivat);
+        kp()->raporttiValinnat()->aseta(RaporttiValinnat::VientiJarjestys, "tosite");
+    else
+        kp()->raporttiValinnat()->aseta(RaporttiValinnat::VientiJarjestys, "pvm");
 
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::RyhmitteleTositelajit, ui->ryhmittelelajeittainCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::TulostaKohdennus, ui->tulostakohdennuksetCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::TulostaSummarivit, ui->tulostasummat->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::TulostaKumppani, ui->kumppaniCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::ErittelePaivat, ui->eriPaivatCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
 
-    NaytinIkkuna::naytaRaportti(valinnat);
+    NaytinIkkuna::naytaRaportti( *kp()->raporttiValinnat() );
 
     /*
 

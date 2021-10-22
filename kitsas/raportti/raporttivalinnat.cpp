@@ -1,4 +1,6 @@
 #include "raporttivalinnat.h"
+#include "db/kirjanpito.h"
+#include "db/tilikausi.h"
 
 RaporttiValinnat::RaporttiValinnat()
 {
@@ -13,6 +15,17 @@ void RaporttiValinnat::aseta(Valinta valinta, QVariant arvo)
 void RaporttiValinnat::asetaSarakkeet(QList<RaporttiValintaSarake> sarakkeet)
 {
     sarakkeet_ = sarakkeet;
+}
+
+void RaporttiValinnat::nollaa()
+{
+    Tilikausi nykykausi = kp()->tilikausiPaivalle( kp()->paivamaara() );
+    if( !nykykausi.alkaa().isValid())
+        nykykausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount() - 1 );
+
+    aseta( AlkuPvm, nykykausi.alkaa() );
+    aseta( LoppuPvm, nykykausi.paattyy() );
+    aseta( Kohdennuksella, -1);
 }
 
 RaporttiValintaSarake::RaporttiValintaSarake()

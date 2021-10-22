@@ -24,6 +24,7 @@ public:
     QDate pvm() const { return loppuPvm_;}
     SarakeTyyppi tyyppi() const { return tyyppi_;}
 
+
 protected:
     QDate alkuPvm_;
     QDate loppuPvm_;
@@ -72,6 +73,8 @@ public:
 
     void asetaSarakkeet(QList<RaporttiValintaSarake> sarakkeet);
     QList<RaporttiValintaSarake> sarakkeet() const { return sarakkeet_;}
+
+    void nollaa();
 
 protected:
     QMap<Valinta,QVariant> valinnat_;
