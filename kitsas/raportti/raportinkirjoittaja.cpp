@@ -526,21 +526,31 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
     QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
+    QRect logoRect;
 
     if( !kp()->logo().isNull() )
     {
         double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
         double skaalattu = skaala < 5.0 ? skaala : 5.0;
-        painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
+        logoRect = QRect(0, 0, rivinkorkeus * 2 * skaalattu, rivinkorkeus * 2);
+        painter->drawPixmap( logoRect, QPixmap::fromImage( kp()->logo() ) );
         vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().horizontalAdvance("A");
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
                                              Qt::TextWordWrap, nimi );
+
+    QString ytunnus = kp()->asetukset()->ytunnus() ;
+    QRectF ytunnusRect = painter->boundingRect( vasenreunus, nimiRect.height(), sivunleveys / 3, rivinkorkeus, Qt::AlignLeft, ytunnus );
+
     QRectF otsikkoRect = painter->boundingRect( sivunleveys/3, 0, sivunleveys / 3, painter->viewport().height(),
                                                 Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
+    if( ytunnusRect.right() + painter->fontMetrics().horizontalAdvance("A") > otsikkoRect.left() )
+        otsikkoRect.moveTo( ytunnusRect.right() + painter->fontMetrics().horizontalAdvance("A"), 0 );
+
 
     painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
+    painter->drawText(ytunnusRect, Qt::AlignLeft, ytunnus);
     painter->drawText( otsikkoRect, Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
     painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
 
@@ -553,9 +563,6 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         painter->restore();
     }
 
-    QString ytunnus = kp()->asetukset()->ytunnus() ;
-    painter->drawText(QRect(vasenreunus,nimiRect.height(),sivunleveys/3, rivinkorkeus ), Qt::AlignLeft, ytunnus );
-
     painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );    
 
     painter->drawText(QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
@@ -565,7 +572,6 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
 
 
     painter->translate(0, rivinkorkeus );
-
     painter->setPen(QPen(QBrush(Qt::black),1.00));
 
 }
