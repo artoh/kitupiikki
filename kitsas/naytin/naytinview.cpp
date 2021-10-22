@@ -49,6 +49,7 @@
 #include "db/kpkysely.h"
 
 #include "naytin/raporttinaytin.h"
+#include "naytin/laaditunraportinnaytin.h"
 // #include "naytin/pdfnaytin.h"
 
 #include "naytin/scenenaytin.h"
@@ -123,6 +124,11 @@ void NaytinView::nayta(RaportinKirjoittaja raportti)
     qDebug() << "Näytin " << this << " Näytä raportti " << raportti.otsikko();
     vaihdaNaytin( new Naytin::RaporttiNaytin(raportti, this) );
     zoomFit();
+}
+
+void NaytinView::nayta(const RaporttiValinnat &valinnat)
+{
+    vaihdaNaytin( new Naytin::LaaditunRaportinNaytin(this, valinnat));
 }
 
 void NaytinView::nayta(const QString &teksti)

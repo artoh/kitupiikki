@@ -57,6 +57,13 @@ void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)
     ikkuna->view()->nayta(raportti);
 }
 
+void NaytinIkkuna::naytaRaportti(const RaporttiValinnat &valinnat)
+{
+    NaytinIkkuna *ikkuna = new NaytinIkkuna;
+    ikkuna->show();
+    ikkuna->view()->nayta(valinnat);
+}
+
 void NaytinIkkuna::nayta(const QByteArray& data)
 {
     NaytinIkkuna *ikkuna = new NaytinIkkuna;

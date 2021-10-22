@@ -45,7 +45,7 @@ public:
 public slots:
     virtual void tulosta(QPrinter* printer) const override;
 
-private:
+protected:
     RaportinKirjoittaja raportti_;
 
 };

@@ -20,6 +20,7 @@
 #include <QWidget>
 
 #include "raportti/raportinkirjoittaja.h"
+#include "raportti/raporttivalinnat.h"
 
 class QAction;
 class QVBoxLayout;
@@ -56,6 +57,7 @@ public:
 public slots:
     void nayta(const QByteArray& data);
     void nayta(RaportinKirjoittaja raportti);
+    void nayta(const RaporttiValinnat& valinnat);
     void nayta(const QString& teksti);
 
     Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);

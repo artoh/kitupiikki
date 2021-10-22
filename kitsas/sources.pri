@@ -139,15 +139,20 @@ SOURCES += \
     $$PWD/model/tositerivit.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/naytin/laaditunraportinnaytin.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
+    $$PWD/raportti/laatijat/laatijanpaivakirja.cpp \
+    $$PWD/raportti/laatijat/laatijanraportti.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/liitepoimija.cpp \
     $$PWD/raportti/liitepoiminta.cpp \
     $$PWD/raportti/myyntiraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
+    $$PWD/raportti/raportinlaatija.cpp \
     $$PWD/raportti/raportteri.cpp \
+    $$PWD/raportti/raporttivalinnat.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
     $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
@@ -501,15 +506,20 @@ HEADERS += \
     $$PWD/model/tositerivit.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/naytin/laaditunraportinnaytin.h \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
+    $$PWD/raportti/laatijat/laatijanpaivakirja.h \
+    $$PWD/raportti/laatijat/laatijanraportti.h \
     $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/liitepoimija.h \
     $$PWD/raportti/liitepoiminta.h \
     $$PWD/raportti/myyntiraportteri.h \
     $$PWD/raportti/paakirja.h \
+    $$PWD/raportti/raportinlaatija.h \
     $$PWD/raportti/raportteri.h \
+    $$PWD/raportti/raporttivalinnat.h \
     $$PWD/raportti/raporttiwidget.h \
     $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \

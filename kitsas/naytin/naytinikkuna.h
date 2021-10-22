@@ -19,6 +19,7 @@
 
 
 #include "raportti/raportinkirjoittaja.h"
+#include "raportti/raporttivalinnat.h"
 #include <QMainWindow>
 #include <QCloseEvent>
 
@@ -40,6 +41,7 @@ public:
     NaytinView* view() { return view_;}
 
     static void naytaRaportti(RaportinKirjoittaja raportti);
+    static void naytaRaportti(const RaporttiValinnat& valinnat);
     static void nayta(const QByteArray &data);
     static void nayta(const QString& teksti);
     static void naytaTiedosto(const QString& tiedostonnimi);

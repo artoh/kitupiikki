@@ -26,6 +26,7 @@
 #include "naytin/naytinikkuna.h"
 #include <QDebug>
 
+#include "raporttivalinnat.h"
 
 PaivakirjaRaportti::PaivakirjaRaportti()
     : RaporttiWidget(nullptr)
@@ -72,6 +73,30 @@ void PaivakirjaRaportti::paivitaKohdennukset()
 
 void PaivakirjaRaportti::esikatsele()
 {
+
+    RaporttiValinnat valinnat;
+    valinnat.aseta(RaporttiValinnat::Tyyppi, "paivakirja");
+    valinnat.aseta(RaporttiValinnat::AlkuPvm, ui->alkupvm->date());
+    valinnat.aseta(RaporttiValinnat::LoppuPvm, ui->loppupvm->date());
+
+    if( ui->tositejarjestysRadio->isChecked() )
+        valinnat.aseta(RaporttiValinnat::VientiJarjestys, "tosite");
+    if( ui->ryhmittelelajeittainCheck->isChecked() )
+        valinnat.aseta(RaporttiValinnat::RyhmitteleTositelajit);
+    if( ui->tulostakohdennuksetCheck->isChecked() )
+        valinnat.aseta(RaporttiValinnat::TulostaKohdennus);
+    if( ui->tulostasummat->isChecked() )
+        valinnat.aseta(RaporttiValinnat::TulostaSummarivit);
+    if( ui->kumppaniCheck->isChecked())
+        valinnat.aseta(RaporttiValinnat::TulostaKumppani);
+    if( ui->eriPaivatCheck->isChecked() )
+        valinnat.aseta(RaporttiValinnat::ErittelePaivat);
+
+
+    NaytinIkkuna::naytaRaportti(valinnat);
+
+    /*
+
     int optiot = 0;
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked()) {
@@ -97,6 +122,8 @@ void PaivakirjaRaportti::esikatsele()
     connect( kirja, &Paivakirja::valmis, this, &RaporttiWidget::nayta );
     kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date(),
                      optiot, kohdennuksella);
+
+    */
 }
 
 
