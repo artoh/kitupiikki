@@ -286,9 +286,11 @@ void PilveenSiirto::tallennaTosite(QVariant *data)
 
     if( map.contains("lasku")) {
         // lasku.numero on vanhoissa kirjanpidoissa tyypiltään string
+        // ja niin se yhä edelleen saa olla ;)
         QVariantMap laskuMap = map.value("lasku").toMap();
-        laskuMap.insert("numero", laskuMap.value("numero").toInt());
-        laskuMap.insert("viivkorko", laskuMap.value("viivkorko").toDouble());
+        if( laskuMap.value("viivkorko").toDouble() > 1e-5) {
+            laskuMap.insert("viivkorko", laskuMap.value("viivkorko").toDouble());
+        }
         QStringList keys = laskuMap.keys();
         for( const auto& key : qAsConst( keys )) {
             if( laskuMap.value(key).isNull())
