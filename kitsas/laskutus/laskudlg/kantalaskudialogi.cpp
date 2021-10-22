@@ -640,8 +640,11 @@ bool KantaLaskuDialogi::tarkasta()
 
 void KantaLaskuDialogi::salliTallennus(bool sallinta)
 {
-    ui->valmisNappi->setEnabled(sallinta);
-    ui->tallennaNappi->setEnabled(sallinta);
+    bool laskuJoTallennettu = tosite()->tila() >= Tosite::KIRJANPIDOSSA;
+
+    ui->valmisNappi->setEnabled(sallinta && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
+    ui->tallennaNappi->setEnabled(sallinta && !laskuJoTallennettu &&
+                                  kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 }
 
 QDate KantaLaskuDialogi::paivamaara() const
