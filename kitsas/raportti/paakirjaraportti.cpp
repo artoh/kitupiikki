@@ -15,39 +15,17 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSqlQuery>
 #include <QDebug>
 
 #include "paakirjaraportti.h"
-
 #include "db/kirjanpito.h"
-#include "db/tilikausi.h"
-
-#include "raportinkirjoittaja.h"
-
 #include "paakirja.h"
-
+#include "ui_paivakirja.h"
+#include "raporttivalinnat.h"
 
 PaakirjaRaportti::PaakirjaRaportti()
-    : RaporttiWidget(nullptr)
+    : PaakirjaPaivakirjaKantaRaporttiWidget()
 {
-    ui = new Ui::Paivakirja;
-    ui->setupUi( raporttiWidget );
-
-    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    if( !nykykausi.alkaa().isValid())
-        nykykausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
-
-    ui->alkupvm->setDate(nykykausi.alkaa());
-    ui->loppupvm->setDate(nykykausi.paattyy());
-    ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
-
-    if( kp()->kohdennukset()->rowCount() == 0) {
-        ui->kohdennusCheck->setVisible(false);
-        ui->kohdennusCombo->setVisible(false);
-    }
-
-
     ui->jarjestysRyhma->hide();
     ui->ryhmittelelajeittainCheck->hide();    
     ui->eriPaivatCheck->hide();
@@ -57,7 +35,6 @@ PaakirjaRaportti::PaakirjaRaportti()
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);    
     haeTilitComboon();
-
 
 }
 
@@ -75,32 +52,6 @@ void PaakirjaRaportti::haeTilitComboon()
 
 }
 
-void PaakirjaRaportti::esikatsele()
-{
-    Paakirja *kirja = new Paakirja(this, ui->kieliCombo->currentData().toString());
-    connect( kirja, &Paakirja::valmis, this, &RaporttiWidget::nayta);
-
-    int kohdennuksella = -1;
-    if( ui->kohdennusCheck->isChecked())
-        kohdennuksella = ui->kohdennusCombo->kohdennus();
-    int tililta = 0;
-    if( ui->tiliBox->isChecked())
-        tililta = ui->tiliCombo->currentData().toInt();
-
-    int optiot = 0;
-    if( ui->tulostakohdennuksetCheck->isChecked() )
-        optiot |= Paakirja::TulostaKohdennukset;
-    if( ui->tulostasummat->isChecked() )
-        optiot |= Paakirja::TulostaSummat;
-    if( ui->kumppaniCheck->isChecked())
-        optiot |= Paakirja::AsiakasToimittaja;    
-
-
-    kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), optiot,
-                    kohdennuksella, tililta);
-
-}
-
 void PaakirjaRaportti::tiliListaSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
@@ -111,4 +62,10 @@ void PaakirjaRaportti::tiliListaSaapuu(QVariant *data)
         ui->tiliCombo->addItem( tili.nimiNumero(), tili.numero() );
     }
     ui->tiliCombo->model()->sort(0);
+}
+
+void PaakirjaRaportti::tallennaValinnat()
+{
+
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tyyppi, "paakirja");
 }

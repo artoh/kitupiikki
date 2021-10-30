@@ -85,6 +85,7 @@ public:
 
     void asetaOtsikko(const QString& otsikko);
     void asetaKausiteksti(const QString& kausiteksti);
+    void asetaCsvKaytossa(const bool onko);
 
     /**
      * @brief Lisää sarakkeen

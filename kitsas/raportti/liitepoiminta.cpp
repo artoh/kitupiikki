@@ -18,6 +18,7 @@
 #include "liitepoimija.h"
 
 #include "db/kirjanpito.h"
+#include "ui_paivakirja.h"
 
 LiitePoiminta::LiitePoiminta() : PaakirjaRaportti()
 {

@@ -143,13 +143,19 @@ SOURCES += \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
+    $$PWD/raportti/laatijat/laatijanmyynti.cpp \
+    $$PWD/raportti/laatijat/laatijanpaakirja.cpp \
     $$PWD/raportti/laatijat/laatijanpaivakirja.cpp \
     $$PWD/raportti/laatijat/laatijanraportti.cpp \
+    $$PWD/raportti/laatijat/laatijantaseerittely.cpp \
+    $$PWD/raportti/laatijat/laatijantositeluettelo.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/liitepoimija.cpp \
     $$PWD/raportti/liitepoiminta.cpp \
     $$PWD/raportti/myyntiraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
+    $$PWD/raportti/paakirjapaivakirjakantaraporttiwidget.cpp \
+    $$PWD/raportti/pvmraporttiwidget.cpp \
     $$PWD/raportti/raportinlaatija.cpp \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/raporttivalinnat.cpp \
@@ -510,13 +516,19 @@ HEADERS += \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
+    $$PWD/raportti/laatijat/laatijanmyynti.h \
+    $$PWD/raportti/laatijat/laatijanpaakirja.h \
     $$PWD/raportti/laatijat/laatijanpaivakirja.h \
     $$PWD/raportti/laatijat/laatijanraportti.h \
+    $$PWD/raportti/laatijat/laatijantaseerittely.h \
+    $$PWD/raportti/laatijat/laatijantositeluettelo.h \
     $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/liitepoimija.h \
     $$PWD/raportti/liitepoiminta.h \
     $$PWD/raportti/myyntiraportteri.h \
     $$PWD/raportti/paakirja.h \
+    $$PWD/raportti/paakirjapaivakirjakantaraporttiwidget.h \
+    $$PWD/raportti/pvmraporttiwidget.h \
     $$PWD/raportti/raportinlaatija.h \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/raporttivalinnat.h \

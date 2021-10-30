@@ -1,6 +1,10 @@
 #include "raportinlaatija.h"
 #include "laatijat/laatijanraportti.h"
 #include "laatijat/laatijanpaivakirja.h"
+#include "laatijat/laatijanpaakirja.h"
+#include "laatijat/laatijantositeluettelo.h"
+#include "laatijat/laatijantaseerittely.h"
+#include "laatijat/laatijanmyynti.h"
 
 RaportinLaatija::RaportinLaatija(QObject *parent) : QObject(parent)
 {
@@ -14,7 +18,14 @@ void RaportinLaatija::laadi(const RaporttiValinnat &valinnat)
 
     if(raporttiTyyppi == "paivakirja")
         raportti = new LaatijanPaivakirja(this, valinnat);
-
+    else if(raporttiTyyppi == "paakirja")
+        raportti = new LaatijanPaakirja(this, valinnat);
+    else if(raporttiTyyppi == "tositeluettelo")
+        raportti = new LaatijanTositeLuettelo(this, valinnat);
+    else if(raporttiTyyppi == "taseerittely")
+        raportti = new LaatijanTaseErittely(this, valinnat);
+    else if(raporttiTyyppi == "myynti")
+        raportti = new LaatijanMyynti(this, valinnat);
 
     if( raportti ) {
         raportti->laadi();

@@ -47,6 +47,11 @@ void RaportinKirjoittaja::asetaKausiteksti(const QString &kausiteksti)
     kausiteksti_ = kausiteksti;
 }
 
+void RaportinKirjoittaja::asetaCsvKaytossa(const bool onko)
+{
+    csvKaytossa_ = onko;
+}
+
 void RaportinKirjoittaja::lisaaSarake(const QString &leveysteksti, RaporttiRivi::RivinKaytto kaytto)
 {
     RaporttiSarake uusi;

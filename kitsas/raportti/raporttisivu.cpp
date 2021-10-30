@@ -26,6 +26,8 @@
 
 #include "raporttisivu.h"
 
+#include "pvmraporttiwidget.h"
+
 #include "paivakirjaraportti.h"
 #include "tositeluetteloraportti.h"
 #include "taseerittely.h"
@@ -41,6 +43,8 @@
 #include "alvraporttiwidget.h"
 
 #include "liitepoiminta.h"
+
+
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(nullptr)
@@ -141,19 +145,19 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     QString raporttinimi = item->data(RAPORTTINIMI).toString();
 
     if( raporttinimi == "Päiväkirja")
-        nykyinen = new PaivakirjaRaportti();
+        nykyinen = new PvmRaporttiWidget("paivakirja");
     else if( raporttinimi == "Pääkirja")
-        nykyinen = new PaakirjaRaportti();
+        nykyinen = new PvmRaporttiWidget("paakirja");
     else if( raporttinimi == "Tilikartta")
         nykyinen = new TilikarttaRaportti();
     else if( raporttinimi == "Tositeluettelo")
-        nykyinen = new TositeluetteloRaportti();
+        nykyinen = new PvmRaporttiWidget("tositeluettelo");
     else if( raporttinimi == "TaseErittely")
-        nykyinen = new TaseErittely();
+        nykyinen = new PvmRaporttiWidget("taseerittely");
     else if( raporttinimi == "Laskut")
         nykyinen = new LaskuRaportti();
     else if( raporttinimi == "Myynti")
-        nykyinen = new MyyntiRaportti;
+        nykyinen = new PvmRaporttiWidget("myynti");
     else if( raporttinimi == "Budjettivertailu")
         nykyinen = new Budjettivertailu;
     else if( raporttinimi == "Tase")

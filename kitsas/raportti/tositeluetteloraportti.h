@@ -18,23 +18,20 @@
 #ifndef TOSITELUETTELORAPORTTI_H
 #define TOSITELUETTELORAPORTTI_H
 
-#include "raporttiwidget.h"
-#include "ui_paivakirja.h"
+#include "paakirjapaivakirjakantaraporttiwidget.h"
 
 /**
  * @brief Tositeluettelon tulostava raportti
  */
-class TositeluetteloRaportti : public RaporttiWidget
+class TositeluetteloRaportti : public PaakirjaPaivakirjaKantaRaporttiWidget
 {
     Q_OBJECT
 public:
     TositeluetteloRaportti();
 
-public slots:
-    void esikatsele() override;
-
 protected:
-    Ui::Paivakirja *ui;
+    void tallennaValinnat() override;
+
 };
 
 #endif // TOSITELUETTELORAPORTTI_H

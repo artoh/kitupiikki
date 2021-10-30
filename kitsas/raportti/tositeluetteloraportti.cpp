@@ -15,25 +15,15 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSqlQuery>
+#include "tositeluetteloraportti.h"
+#include "ui_paivakirja.h"
+#include "raporttivalinnat.h"
 #include "db/kirjanpito.h"
 
-#include "tositeluetteloraportti.h"
-#include "tositeluettelo.h"
-
-
 TositeluetteloRaportti::TositeluetteloRaportti()
-    : RaporttiWidget(nullptr)
+    : PaakirjaPaivakirjaKantaRaporttiWidget()
 {
-    ui = new Ui::Paivakirja;
-    ui->setupUi(raporttiWidget);
 
-    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    if( !nykykausi.alkaa().isValid())
-        nykykausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
-
-    ui->alkupvm->setDate(nykykausi.alkaa());
-    ui->loppupvm->setDate(nykykausi.paattyy());
 
     ui->kohdennusCheck->hide();
     ui->kohdennusCombo->hide();
@@ -44,34 +34,11 @@ TositeluetteloRaportti::TositeluetteloRaportti()
     ui->laatuLabel->hide();
     ui->laatuSlider->hide();
 
-    ui->ryhmittelelajeittainCheck->setChecked(true);
-    ui->tositejarjestysRadio->setChecked(true);
-    ui->tulostakohdennuksetCheck->setEnabled(false);
-
-    ui->kumppaniCheck->setChecked(true);
-
 }
 
-
-void TositeluetteloRaportti::esikatsele()
+void TositeluetteloRaportti::tallennaValinnat()
 {
-    int optiot = 0;
-    if( ui->tositejarjestysRadio->isChecked())
-        optiot |= TositeLuettelo::TositeJarjestyksessa;
-    if( ui->ryhmittelelajeittainCheck->isChecked())
-      optiot |= TositeLuettelo::RyhmitteleLajeittain;
-    if( ui->tulostasummat->isChecked())
-        optiot |= TositeLuettelo::TulostaSummat;
-    if( ui->kumppaniCheck->isChecked())
-        optiot |= TositeLuettelo::AsiakasToimittaja;
-    if( ui->eriPaivatCheck->isChecked())
-        optiot |= TositeLuettelo::ErittelePaivat;
-
-    TositeLuettelo *luettelo = new TositeLuettelo(this, ui->kieliCombo->currentData().toString());
-    connect( luettelo, &TositeLuettelo::valmis, this, &RaporttiWidget::nayta);
-    luettelo->kirjoita(ui->alkupvm->date(),
-                       ui->loppupvm->date(),
-                       optiot);
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tyyppi, "tositeluettelo");
 }
 
 

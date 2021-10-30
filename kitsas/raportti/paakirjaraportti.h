@@ -18,13 +18,13 @@
 #ifndef PAAKIRJARAPORTTI_H
 #define PAAKIRJARAPORTTI_H
 
-#include "raporttiwidget.h"
-#include "ui_paivakirja.h"
+#include "paakirjapaivakirjakantaraporttiwidget.h"
+
 
 /**
  * @brief Pääkirjan tulostava raportti
  */
-class PaakirjaRaportti : public RaporttiWidget
+class PaakirjaRaportti : public PaakirjaPaivakirjaKantaRaporttiWidget
 {
     Q_OBJECT
 public:
@@ -33,12 +33,11 @@ public:
 public slots:
     void haeTilitComboon();
 
-    void esikatsele() override;
-
 private slots:
     void tiliListaSaapuu(QVariant* data);
 protected:
-    Ui::Paivakirja *ui;
+    void tallennaValinnat() override;
+
 };
 
 #endif // PAAKIRJARAPORTTI_H

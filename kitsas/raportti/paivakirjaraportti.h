@@ -18,15 +18,14 @@
 #ifndef PAIVAKIRJARAPORTTI_H
 #define PAIVAKIRJARAPORTTI_H
 
-#include "raporttiwidget.h"
-#include "ui_paivakirja.h"
+#include "paakirjapaivakirjakantaraporttiwidget.h"
 
 /**
  * @brief Päiväkirjan tulostava raportti
  *
  * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
  */
-class PaivakirjaRaportti : public RaporttiWidget
+class PaivakirjaRaportti : public PaakirjaPaivakirjaKantaRaporttiWidget
 {
     Q_OBJECT
 public:
@@ -34,13 +33,7 @@ public:
     ~PaivakirjaRaportti() override;
 
 protected:
-    Ui::Paivakirja *ui;
-
-    void paivitaKohdennukset();
-
-public slots:
-    virtual void esikatsele() override;
-
+    virtual void tallennaValinnat() override;
 };
 
 #endif // PAIVAKIRJARAPORTTI_H
