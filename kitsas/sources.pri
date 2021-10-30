@@ -154,7 +154,6 @@ SOURCES += \
     $$PWD/raportti/liitepoiminta.cpp \
     $$PWD/raportti/myyntiraportteri.cpp \
     $$PWD/raportti/paakirja.cpp \
-    $$PWD/raportti/paakirjapaivakirjakantaraporttiwidget.cpp \
     $$PWD/raportti/pvmraporttiwidget.cpp \
     $$PWD/raportti/raportinlaatija.cpp \
     $$PWD/raportti/raportteri.cpp \
@@ -265,7 +264,6 @@ SOURCES += \
     db/tilikausi.cpp \
     selaus/selausmodel.cpp \
     raportti/raporttisivu.cpp \
-    raportti/paivakirjaraportti.cpp \
     maaritys/tilinavaus.cpp \
     maaritys/tilinavausmodel.cpp \
     kirjaus/pvmdelegaatti.cpp \
@@ -288,7 +286,6 @@ SOURCES += \
     kirjaus/kohdennusdelegaatti.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
-    raportti/paakirjaraportti.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
     raportti/tositeluetteloraportti.cpp \
@@ -527,7 +524,6 @@ HEADERS += \
     $$PWD/raportti/liitepoiminta.h \
     $$PWD/raportti/myyntiraportteri.h \
     $$PWD/raportti/paakirja.h \
-    $$PWD/raportti/paakirjapaivakirjakantaraporttiwidget.h \
     $$PWD/raportti/pvmraporttiwidget.h \
     $$PWD/raportti/raportinlaatija.h \
     $$PWD/raportti/raportteri.h \
@@ -640,7 +636,6 @@ HEADERS += \
     db/tilikausi.h \
     selaus/selausmodel.h \
     raportti/raporttisivu.h \
-    raportti/paivakirjaraportti.h \
     maaritys/tilinavaus.h \
     maaritys/tilinavausmodel.h \
     kirjaus/pvmdelegaatti.h \
@@ -664,7 +659,6 @@ HEADERS += \
     kirjaus/kohdennusdelegaatti.h \
     onniwidget.h \
     raportti/raportoija.h \
-    raportti/paakirjaraportti.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
     raportti/tositeluetteloraportti.h \
