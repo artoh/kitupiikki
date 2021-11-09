@@ -12,9 +12,7 @@ class PvmRaporttiWidget : public RaporttiWidget
     Q_OBJECT
 public:
     PvmRaporttiWidget(const QString& tyyppi);
-    virtual ~PvmRaporttiWidget();
-
-    void esikatsele() override;
+    virtual ~PvmRaporttiWidget();    
 
     QString tyyppi() const { return tyyppi_;}
 protected:
@@ -22,8 +20,7 @@ protected:
     void paivita();
     void piilotaTarpeettomat();
 
-    virtual void tallenna();
-    virtual void naytaRaportti();
+    virtual void tallenna() override;
 
 private:
     void tiliListaSaapuu(QVariant *data);

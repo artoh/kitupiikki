@@ -51,6 +51,7 @@ public:
         Tililta,
         TulostaErittely,
         LuettelonTilit,
+        LuetteloPvm,
         NaytaOtsikot,
         NaytaTyypit,
         SaldoPvm,

@@ -22,15 +22,48 @@
 #include "db/kirjanpito.h"
 #include "laskuraportteri.h"
 
+#include "raporttivalinnat.h"
 
 LaskuRaportti::LaskuRaportti()
 {
     ui = new Ui::Laskuraportti;
     ui->setupUi( raporttiWidget );
 
-    ui->alkaenPvm->setDate( kp()->tilikaudet()->kirjanpitoAlkaa() );
-    ui->paattyenPvm->setDate( kp()->tilikaudet()->kirjanpitoLoppuu() );
-    ui->saldoPvm->setDate( kp()->paivamaara() );
+    ui->alkaenPvm->setDate( arvo(RaporttiValinnat::AlkuPvm).toDate() );
+    ui->paattyenPvm->setDate( arvo(RaporttiValinnat::LoppuPvm).toDate());
+
+    ui->myyntiRadio->setChecked( arvo(RaporttiValinnat::LaskuTyyppi).toString() != "osto" );
+
+    const QString rajaus = arvo(RaporttiValinnat::LaskuRajausTyyppi).toString();
+    if( rajaus == "erapvm")
+        ui->rajaaEra->setChecked(true);
+    else
+        ui->rajaaPvm->setChecked(true);
+
+    ui->avoimet->setChecked( onko(RaporttiValinnat::VainAvoimet) );
+
+    QDate saldopvm = arvo(RaporttiValinnat::SaldoPvm).toDate();
+    ui->saldoPvm->setDate( saldopvm.isValid() ? saldopvm : kp()->paivamaara() );
+
+    const QString lajittelu = arvo(RaporttiValinnat::LaskunLajittelu).toString();
+    if( lajittelu == "numero")
+        ui->lajitteleNumero->setChecked(true);
+    else if( lajittelu == "viite")
+        ui->lajitteleViite->setChecked(true);
+    else if( lajittelu == "erapvm")
+        ui->lajitteleErapvm->setChecked(true);
+    else if( lajittelu == "asiakas")
+        ui->lajitteleAsiakas->setChecked(true);
+    else if( lajittelu == "summa")
+        ui->lajitteleNumero->setChecked(true);
+    else
+        ui->lajitteleLaskupvm->setChecked(true);
+
+    ui->naytaViiteCheck->setChecked( onko(RaporttiValinnat::NaytaViitteet) );
+    ui->vainKitsas->setChecked( onko(RaporttiValinnat::VainKitsaalla));
+    ui->summaBox->setChecked( onko(RaporttiValinnat::TulostaSummarivit));
+
+    ui->kieliCombo->valitse(arvo(RaporttiValinnat::Kieli).toString() );
 
     connect( ui->myyntiRadio, SIGNAL(toggled(bool)), this, SLOT(tyyppivaihtuu()));
 
@@ -41,46 +74,39 @@ LaskuRaportti::~LaskuRaportti()
     delete ui;
 }
 
-void LaskuRaportti::esikatsele()
+void LaskuRaportti::tallenna()
 {
-    LaskuRaportteri *laskut = new LaskuRaportteri(this, ui->kieliCombo->currentData().toString());
-    connect( laskut, &LaskuRaportteri::valmis, this, &RaporttiWidget::nayta);
+    aseta(RaporttiValinnat::Tyyppi, "laskut");
 
-    int optiot = 0;
+    aseta(RaporttiValinnat::AlkuPvm, ui->alkaenPvm->date());
+    aseta(RaporttiValinnat::LoppuPvm, ui->paattyenPvm->date());
 
-    if( ui->myyntiRadio->isChecked())
-        optiot += LaskuRaportteri::Myyntilaskut;
-    else
-        optiot += LaskuRaportteri::Ostolaskut;
+    aseta(RaporttiValinnat::LaskuRajausTyyppi,
+        ui->myyntiRadio->isChecked() ? "myynti" : "osto");
 
     if( ui->rajaaPvm->isChecked())
-        optiot += LaskuRaportteri::RajaaLaskupaivalla;
-    else if( ui->rajaaEra->isChecked())
-        optiot += LaskuRaportteri::RajaaErapaivalla;
+        aseta(RaporttiValinnat::LaskuRajausTyyppi, "laskupvm");
+    else
+        aseta(RaporttiValinnat::LaskuRajausTyyppi, "erapvm");
 
-    if( ui->avoimet->isChecked())
-        optiot += LaskuRaportteri::VainAvoimet;
+    aseta(RaporttiValinnat::VainAvoimet, ui->avoimet->isChecked());
 
     if( ui->lajitteleNumero->isChecked())
-        optiot += LaskuRaportteri::LajitteleNumero;
+        aseta(RaporttiValinnat::LaskunLajittelu, "numero");
     else if( ui->lajitteleViite->isChecked())
-        optiot += LaskuRaportteri::LajitteleViite;
+        aseta(RaporttiValinnat::LaskunLajittelu, "viite");
     else if( ui->lajitteleErapvm->isChecked())
-        optiot += LaskuRaportteri::LajitteleErapvm;
+        aseta(RaporttiValinnat::LaskunLajittelu, "erapvm");
     else if( ui->lajitteleSumma->isChecked())
-        optiot += LaskuRaportteri::LajitteleSumma;
+        aseta(RaporttiValinnat::LaskunLajittelu, "summa");
     else if( ui->lajitteleAsiakas->isChecked())
-        optiot += LaskuRaportteri::LajitteleAsiakas;
+        aseta(RaporttiValinnat::LaskunLajittelu, "asiakas");
 
-    if( ui->naytaViiteCheck->isChecked())
-        optiot += LaskuRaportteri::NaytaViite;
-    if( ui->vainKitsas->isChecked())
-        optiot += LaskuRaportteri::VainKitsas;
-    if( ui->summaBox->isChecked())
-        optiot += LaskuRaportteri::TulostaSummat;
+    aseta(RaporttiValinnat::NaytaViitteet, ui->naytaViiteCheck->isChecked());
+    aseta(RaporttiValinnat::VainKitsaalla, ui->vainKitsas->isChecked());
+    aseta(RaporttiValinnat::TulostaSummarivit, ui->summaBox->isChecked());
 
-    laskut->kirjoita(optiot, ui->saldoPvm->date(),
-                     ui->alkaenPvm->date(), ui->paattyenPvm->date());
+
 
 }
 

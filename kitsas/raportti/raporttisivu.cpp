@@ -28,8 +28,6 @@
 
 #include "pvmraporttiwidget.h"
 
-#include "paivakirjaraportti.h"
-#include "tositeluetteloraportti.h"
 #include "taseerittely.h"
 #include "laskuraportti.h"
 #include "myyntiraportti.h"
@@ -38,7 +36,6 @@
 
 #include "tilikarttaraportti.h"
 #include "budjettivertailu.h"
-#include "paakirjaraportti.h"
 #include "tasetulosraportti.h"
 #include "alvraporttiwidget.h"
 

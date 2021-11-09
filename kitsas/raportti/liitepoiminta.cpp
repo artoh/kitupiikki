@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 #include "ui_paivakirja.h"
 
-LiitePoiminta::LiitePoiminta() : PaakirjaRaportti()
+LiitePoiminta::LiitePoiminta() : PvmRaporttiWidget("liitepoiminta")
 {
     ui->kumppaniCheck->hide();
     ui->tulostakohdennuksetCheck->hide();

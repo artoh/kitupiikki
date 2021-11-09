@@ -31,9 +31,8 @@ public:
     LaskuRaportti();
     ~LaskuRaportti() override;
 
-
 public slots:
-    void esikatsele() override;
+    void tallenna() override;
 
 protected slots:
     /**

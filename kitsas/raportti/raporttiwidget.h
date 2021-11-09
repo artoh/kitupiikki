@@ -24,7 +24,7 @@
 #include <QIcon>
 #include <QPainter>
 
-
+#include "raporttivalinnat.h"
 #include "raportinkirjoittaja.h"
 
 class QCheckBox;
@@ -58,11 +58,17 @@ public slots:
     /**
      * @brief Pdf-raportin esikatselu
      */
-    virtual void esikatsele() = 0;
-
+    virtual void esikatsele();
     virtual void nayta(RaportinKirjoittaja rk);    
-
     void esikatselu();    
+
+protected:
+    virtual void tallenna();
+    virtual void naytaRaportti();
+
+    void aseta(RaporttiValinnat::Valinta valinta, const QVariant& arvo);
+    QVariant arvo(RaporttiValinnat::Valinta valinta) const;
+    bool onko(RaporttiValinnat::Valinta valinta) const;
 
 protected:
     QWidget *raporttiWidget;

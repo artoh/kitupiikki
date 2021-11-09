@@ -35,9 +35,8 @@ public:
     MyyntiRaportti();
     ~MyyntiRaportti() override;
 
-public slots:
-    void esikatsele() override;
-
+protected:
+    void tallenna() override;
 
 protected:
     Ui::PvmVali *ui;

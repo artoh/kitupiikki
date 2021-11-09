@@ -143,11 +143,13 @@ SOURCES += \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
+    $$PWD/raportti/laatijat/laatijanlaskut.cpp \
     $$PWD/raportti/laatijat/laatijanmyynti.cpp \
     $$PWD/raportti/laatijat/laatijanpaakirja.cpp \
     $$PWD/raportti/laatijat/laatijanpaivakirja.cpp \
     $$PWD/raportti/laatijat/laatijanraportti.cpp \
     $$PWD/raportti/laatijat/laatijantaseerittely.cpp \
+    $$PWD/raportti/laatijat/laatijantilikartta.cpp \
     $$PWD/raportti/laatijat/laatijantositeluettelo.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/liitepoimija.cpp \
@@ -288,7 +290,6 @@ SOURCES += \
     raportti/raportoija.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
-    raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
     maaritys/liitetietokaavamuokkaus.cpp \
@@ -513,11 +514,13 @@ HEADERS += \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
+    $$PWD/raportti/laatijat/laatijanlaskut.h \
     $$PWD/raportti/laatijat/laatijanmyynti.h \
     $$PWD/raportti/laatijat/laatijanpaakirja.h \
     $$PWD/raportti/laatijat/laatijanpaivakirja.h \
     $$PWD/raportti/laatijat/laatijanraportti.h \
     $$PWD/raportti/laatijat/laatijantaseerittely.h \
+    $$PWD/raportti/laatijat/laatijantilikartta.h \
     $$PWD/raportti/laatijat/laatijantositeluettelo.h \
     $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/liitepoimija.h \
@@ -661,7 +664,6 @@ HEADERS += \
     raportti/raportoija.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
-    raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
     tilinpaatoseditori/tilinpaatostulostaja.h \
     maaritys/liitetietokaavamuokkaus.h \

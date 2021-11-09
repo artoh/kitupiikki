@@ -27,6 +27,7 @@ protected:
     QString kaanna(const QString& teksti) const;
     QString kielikoodi() const { return kielikoodi_; }
 
+
 protected:
     RaportinKirjoittaja rk;
 private:

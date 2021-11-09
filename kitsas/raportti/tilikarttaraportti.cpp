@@ -46,31 +46,22 @@ TilikarttaRaportti::~TilikarttaRaportti()
     delete ui;
 }
 
-void TilikarttaRaportti::esikatsele()
+void TilikarttaRaportti::tallenna()
 {
-    TiliKarttaListaaja *listaaja = new TiliKarttaListaaja(this);
-    connect( listaaja, &TiliKarttaListaaja::valmis,
-             this, &RaporttiWidget::nayta);
+    aseta(RaporttiValinnat::Tyyppi, "tilikartta");
+    aseta(RaporttiValinnat::LuetteloPvm, ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate());
+    aseta(RaporttiValinnat::SaldoPvm, ui->saldotCheck->isChecked() ? ui->saldotDate->date() : QDate());
+    aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData());
 
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate() );
-
-    TiliKarttaListaaja::KarttaValinta valinta = TiliKarttaListaaja::KAIKKI_TILIT;
     if( ui->kaytossaRadio->isChecked())
-        valinta = TiliKarttaListaaja::KAYTOSSA_TILIT;
+        aseta(RaporttiValinnat::LuettelonTilit,"kaytossa");
     else if( ui->kirjauksiaRadio->isChecked())
-        valinta = TiliKarttaListaaja::KIRJATUT_TILIT;
+        aseta(RaporttiValinnat::LuettelonTilit,"kirjatut");
     else if( ui->suosikkiRadio->isChecked())
-        valinta = TiliKarttaListaaja::SUOSIKKI_TILIT;
+        aseta(RaporttiValinnat::LuettelonTilit,"suosikki");
+    else
+        aseta(RaporttiValinnat::LuettelonTilit,"kaikki");
 
-    QDate saldopaiva;
-    if( ui->saldotCheck->isChecked())
-        saldopaiva = ui->saldotDate->date();
-
-
-    listaaja->kirjoita( valinta, kausi, ui->otsikotCheck->isChecked(),
-                        ui->tilityypitCheck->isChecked(), saldopaiva,
-                        ui->kirjausohjeet->isChecked(),
-                        ui->kieliCombo->currentData().toString());
 }
 
 void TilikarttaRaportti::paivitaPaiva()

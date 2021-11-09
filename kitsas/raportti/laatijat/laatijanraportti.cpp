@@ -25,3 +25,4 @@ QString LaatijanRaportti::kaanna(const QString &teksti) const
 {
     return tulkkaa(teksti, kielikoodi_);
 }
+

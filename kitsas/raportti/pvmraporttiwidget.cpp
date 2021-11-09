@@ -125,11 +125,6 @@ void PvmRaporttiWidget::tallenna()
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tyyppi, tyyppi());
 }
 
-void PvmRaporttiWidget::naytaRaportti()
-{
-    NaytinIkkuna::naytaRaportti( *kp()->raporttiValinnat());
-}
-
 void PvmRaporttiWidget::tiliListaSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
@@ -140,10 +135,4 @@ void PvmRaporttiWidget::tiliListaSaapuu(QVariant *data)
         ui->tiliCombo->addItem( tili.nimiNumero(), tili.numero() );
     }
     ui->tiliCombo->model()->sort(0);
-}
-
-void PvmRaporttiWidget::esikatsele()
-{
-    tallenna();
-    naytaRaportti();
 }

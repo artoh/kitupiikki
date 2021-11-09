@@ -19,9 +19,9 @@
 
 #include <QWidget>
 
-#include "paakirjaraportti.h"
+#include "pvmraporttiwidget.h"
 
-class LiitePoiminta : public PaakirjaRaportti
+class LiitePoiminta : public PvmRaporttiWidget
 {
     Q_OBJECT
 public:

@@ -27,12 +27,9 @@ MyyntiRaportti::MyyntiRaportti()
     ui = new Ui::PvmVali;
     ui->setupUi( raporttiWidget );
 
-    Tilikausi kausi = kp()->tilikausiPaivalle( kp()->paivamaara() );
-    if( !kausi.alkaa().isValid())
-        kausi = kp()->tilikaudet()->tilikausiIndeksilla(kp()->tilikaudet()->rowCount()-1);
-
-    ui->alkaa->setDate(kausi.alkaa());
-    ui->paattyy->setDate(kausi.paattyy());
+    ui->alkaa->setDate( arvo(RaporttiValinnat::AlkuPvm).toDate() );
+    ui->paattyy->setDate( arvo(RaporttiValinnat::LoppuPvm).toDate());
+    ui->kieliCombo->valitse(arvo(RaporttiValinnat::Kieli).toString() );
 
 }
 
@@ -41,10 +38,12 @@ MyyntiRaportti::~MyyntiRaportti()
     delete ui;
 }
 
-void MyyntiRaportti::esikatsele()
+void MyyntiRaportti::tallenna()
 {
-    MyyntiRaportteri *myynti = new MyyntiRaportteri(this, ui->kieliCombo->currentData().toString());
-    connect( myynti, &MyyntiRaportteri::valmis, this, &RaporttiWidget::nayta);
-    myynti->kirjoita(ui->alkaa->date(), ui->paattyy->date());
+    aseta(RaporttiValinnat::Tyyppi, "myynti");
+    aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
+    aseta(RaporttiValinnat::AlkuPvm, ui->alkaa->date());
+    aseta(RaporttiValinnat::LoppuPvm, ui->paattyy->date());
 }
+
 

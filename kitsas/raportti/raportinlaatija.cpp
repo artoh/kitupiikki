@@ -5,6 +5,8 @@
 #include "laatijat/laatijantositeluettelo.h"
 #include "laatijat/laatijantaseerittely.h"
 #include "laatijat/laatijanmyynti.h"
+#include "laatijat/laatijanlaskut.h"
+#include "laatijat/laatijantilikartta.h"
 
 RaportinLaatija::RaportinLaatija(QObject *parent) : QObject(parent)
 {
@@ -26,6 +28,10 @@ void RaportinLaatija::laadi(const RaporttiValinnat &valinnat)
         raportti = new LaatijanTaseErittely(this, valinnat);
     else if(raporttiTyyppi == "myynti")
         raportti = new LaatijanMyynti(this, valinnat);
+    else if(raporttiTyyppi == "laskut")
+        raportti = new LaatijanLaskut(this, valinnat);
+    else if(raporttiTyyppi == "tilikartta")
+        raportti = new LaatijanTilikartta(this, valinnat);
 
     if( raportti ) {
         raportti->laadi();

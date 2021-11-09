@@ -78,6 +78,12 @@ RaporttiWidget::RaporttiWidget(QWidget *parent) : QWidget(parent)
         setLayout(paaLeiska);
 }
 
+void RaporttiWidget::esikatsele()
+{
+    tallenna();
+    naytaRaportti();
+}
+
 
 void RaporttiWidget::nayta(RaportinKirjoittaja rk)
 {
@@ -90,6 +96,16 @@ void RaporttiWidget::nayta(RaportinKirjoittaja rk)
     odotaLabel->hide();
 }
 
+void RaporttiWidget::tallenna()
+{
+
+}
+
+void RaporttiWidget::naytaRaportti()
+{
+    NaytinIkkuna::naytaRaportti(  *kp()->raporttiValinnat() );
+}
+
 void RaporttiWidget::esikatselu()
 {
     odotaLabel->show();
@@ -97,4 +113,19 @@ void RaporttiWidget::esikatselu()
 
     qApp->processEvents();
     esikatsele();
+}
+
+void RaporttiWidget::aseta(RaporttiValinnat::Valinta valinta, const QVariant &arvo)
+{
+    kp()->raporttiValinnat()->aseta(valinta, arvo);
+}
+
+QVariant RaporttiWidget::arvo(RaporttiValinnat::Valinta valinta) const
+{
+    return kp()->raporttiValinnat()->arvo(valinta);
+}
+
+bool RaporttiWidget::onko(RaporttiValinnat::Valinta valinta) const
+{
+    return kp()->raporttiValinnat()->onko(valinta);
 }

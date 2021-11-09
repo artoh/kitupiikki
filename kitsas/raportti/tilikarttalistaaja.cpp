@@ -36,14 +36,7 @@ void TiliKarttaListaaja::kirjoita(TiliKarttaListaaja::KarttaValinta valinta, con
     kirjausohjeet_ = kirjausohjeet;
     kieli_ = kieli;
 
-    if( saldopvm.isValid() || valinta == KIRJATUT_TILIT) {
-        KpKysely *kysely = kpk("/saldot");
-        kysely->lisaaAttribuutti("pvm", saldopvm.isValid() ? saldopvm : tilikaudelta.paattyy());
-        connect( kysely, &KpKysely::vastaus, this, &TiliKarttaListaaja::saldotSaapuu);
-        kysely->kysy();
-    } else {
-        saldotSaapuu( nullptr );
-    }
+
 }
 
 void TiliKarttaListaaja::saldotSaapuu(QVariant *data)

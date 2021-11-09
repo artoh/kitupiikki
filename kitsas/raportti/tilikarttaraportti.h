@@ -36,14 +36,16 @@ public:
     TilikarttaRaportti();
     ~TilikarttaRaportti() override;
 
-public slots:
-    void esikatsele() override;
+protected:
+    void tallenna() override;
 
 protected slots:
     /**
      * @brief Kun tilikausi vaihtuu, päivitetään saldopäivä sille
      */
     void paivitaPaiva();
+
+
 protected:
     Ui::TilikarttaRaportti *ui;
 };
