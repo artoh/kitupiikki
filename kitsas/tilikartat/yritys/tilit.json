@@ -6139,7 +6139,7 @@
     },
     {
         "numero": 4230,
-        "tyyppi": "C",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Ostojen alennukset",
             "sv": "Erhållna rabatter (resultatregleringsfordringar)"
@@ -6150,7 +6150,7 @@
     },
     {
         "numero": 4240,
-        "tyyppi": "C",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Yhteisöhankintojen alennukset",
             "sv": "Rabatter på gemenskapsinterna förvärv"
@@ -6160,7 +6160,7 @@
     },
     {
         "numero": 4260,
-        "tyyppi": "C",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Palautetut tavarat ja päällykset",
             "sv": "Returnerade varor emballage"
