@@ -9,6 +9,11 @@ LaatijanRaportti::LaatijanRaportti(RaportinLaatija *laatija, const RaporttiValin
     kielikoodi_ = valinnat.arvo(RaporttiValinnat::Kieli).toString();
 }
 
+QString LaatijanRaportti::nimi() const
+{
+    return tulkkaa( valinnat().arvo(RaporttiValinnat::Tyyppi).toString(), kielikoodi() );
+}
+
 void LaatijanRaportti::valmis()
 {
     RaportinLaatija* laatija = qobject_cast<RaportinLaatija*>(parent());

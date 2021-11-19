@@ -118,6 +118,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     int rivinkorkeus = painter->fontMetrics().height();
     int sivunleveys = painter->window().width();
     int sivunkorkeus = painter->window().height();
+    const int sisennysMetrics = painter->fontMetrics().horizontalAdvance("XX");
 
     // Lasketaan sarakkeiden leveydet
     QVector<int> leveydet( sarakkeet_.count() );
@@ -196,6 +197,12 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             }
 
             // Nyt saatu tämän sarakkeen leveys
+
+            // Korjataan vielä tarvittaessa sisennyksen verran
+            if( sarake == 0) {
+                sarakeleveys -= rivi.sisennys() * sisennysMetrics;
+                x += rivi.sisennys() * sisennysMetrics;
+            }
 
             int lippu = Qt::TextWordWrap;
             QString teksti = rivi.teksti(i);
@@ -420,6 +427,13 @@ QString RaportinKirjoittaja::html(bool linkit) const
                     }
                 }
                 QString tekstia = rivi.teksti(i).toHtmlEscaped();
+                if( sarakkeessa == 0) {
+                    // Ensimmäisen rivin sisennys
+                    QString sisennysStr;
+                    sisennysStr.fill(' ', rivi.sisennys() * 3);
+                    tekstia = sisennysStr + tekstia;
+                }
+
                 // Jotta selitteestä ei ole kohtuuttoman pitkä ja toisaalta
                 // pvm-selite katkeile, ollaan valmiita katkomaan selitettä
                 if( !sarakkeet_.value(sarakkeessa).jakotekija)

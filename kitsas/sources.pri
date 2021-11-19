@@ -149,6 +149,7 @@ SOURCES += \
     $$PWD/raportti/laatijat/laatijanpaivakirja.cpp \
     $$PWD/raportti/laatijat/laatijanraportti.cpp \
     $$PWD/raportti/laatijat/laatijantaseerittely.cpp \
+    $$PWD/raportti/laatijat/laatijantasetulos.cpp \
     $$PWD/raportti/laatijat/laatijantilikartta.cpp \
     $$PWD/raportti/laatijat/laatijantositeluettelo.cpp \
     $$PWD/raportti/laskuraportteri.cpp \
@@ -520,6 +521,7 @@ HEADERS += \
     $$PWD/raportti/laatijat/laatijanpaivakirja.h \
     $$PWD/raportti/laatijat/laatijanraportti.h \
     $$PWD/raportti/laatijat/laatijantaseerittely.h \
+    $$PWD/raportti/laatijat/laatijantasetulos.h \
     $$PWD/raportti/laatijat/laatijantilikartta.h \
     $$PWD/raportti/laatijat/laatijantositeluettelo.h \
     $$PWD/raportti/laskuraportteri.h \

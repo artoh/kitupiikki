@@ -16,9 +16,11 @@ public:
     LaatijanRaportti(RaportinLaatija* laatija, const RaporttiValinnat& valinnat);
 
     virtual void laadi() = 0;
+    virtual QString nimi() const;
 
     RaportinKirjoittaja raportinKirjoittaja() const { return rk;}
     RaporttiValinnat valinnat() const { return valinnat_;}
+
 
 protected:
     void valmis();

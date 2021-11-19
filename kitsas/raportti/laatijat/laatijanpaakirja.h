@@ -19,6 +19,7 @@ private:
     void kirjoitaDatasta();
 
 private:
+
     QMap<QString,QList<QVariantMap>> data_;
     QMap<QString,qlonglong> saldot_;
 

@@ -142,4 +142,9 @@ QString RaporttiRivi::csv(int sarake)
         return QString();
 }
 
+void RaporttiRivi::sisenna(int sisennys)
+{
+    sisennys_ = sisennys;
+}
+
 

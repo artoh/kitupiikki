@@ -197,6 +197,18 @@ public:
      */
     RivinKaytto kaytto() const { return rivinKaytto_;}
 
+    /**
+     * @brief Rivin (ensimmäisen sarakkeen tekstin) sisennys
+     * @return Suhteellinen sisennys
+     */
+    int sisennys() const { return sisennys_;}
+
+    /**
+     * @brief Sisentää riviä (ensimmäisen sarakkeen tekstiä)
+     * @param sisennys Suhteellinen sisennys
+     */
+    void sisenna(int sisennys);
+
 
 protected:
     QList<RaporttiRiviSarake> sarakkeet_;
@@ -204,6 +216,7 @@ protected:
     bool ylaviiva_;
     int pistekoko_;
     RivinKaytto rivinKaytto_;
+    int sisennys_ = 0;
 };
 
 #endif // RAPORTTIRIVI_H
