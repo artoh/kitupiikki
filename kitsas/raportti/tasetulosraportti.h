@@ -30,7 +30,10 @@ public:
     TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget* parent = nullptr);
 
 public slots:
-    void esikatsele() override;
+//    void esikatsele() override;
+
+protected:
+    void tallenna() override;
 
 protected slots:
     void muotoVaihtui();
@@ -40,9 +43,16 @@ protected slots:
 
     void paivitaKohdennusPaivat();
 
+
 protected:
     Raportoija::RaportinTyyppi tyyppi() const { return tyyppi_;}
     void paivitaUi();
+
+private:
+    void lisaaSarake(bool kaytossa, const QDate& alku, const QDate& loppu, int valintaIndeksi);
+
+
+private:
     QString kaava_;
 
     Ui::MuokattavaRaportti *ui;

@@ -81,6 +81,7 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     paivitaUi();
 }
 
+/*
 void TaseTulosRaportti::esikatsele()
 {
     Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
@@ -116,6 +117,34 @@ void TaseTulosRaportti::esikatsele()
 
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
+
+}
+*/
+
+void TaseTulosRaportti::tallenna()
+{
+    QString tyyppiteksti;
+    if( tyyppi() == Raportoija::TASE)
+        tyyppiteksti = "tase";
+    else if(tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+        tyyppiteksti = "kohdennus";
+    else if(tyyppi() == Raportoija::PROJEKTILASKELMA)
+        tyyppiteksti = "projektit";
+    else
+        tyyppiteksti = "tulos";
+
+    aseta(RaporttiValinnat::Tyyppi, tyyppiteksti);
+    aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
+    aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
+    aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCombo->currentData().toInt());
+
+    kp()->raporttiValinnat()->tyhjennaSarakkeet();
+    lisaaSarake(true, ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
+    lisaaSarake(ui->sarake2Box->isChecked(), ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
+    lisaaSarake(ui->sarake3Box->isChecked(), ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
+    lisaaSarake(ui->sarake4Box->isChecked(), ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
+
 
 }
 
@@ -255,4 +284,18 @@ void TaseTulosRaportti::paivitaUi()
         ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
     }
     ui->sarake4Box->setChecked(false);
+}
+
+void TaseTulosRaportti::lisaaSarake(bool kaytossa, const QDate &alku, const QDate &loppu, int valintaIndeksi)
+{
+    if( kaytossa ) {
+        RaporttiValintaSarake::SarakeTyyppi sarakeTyyppi = RaporttiValintaSarake::Toteutunut;
+        if( valintaIndeksi == RaporttiValintaSarake::Budjetti)
+            sarakeTyyppi = RaporttiValintaSarake::Budjetti;
+        else if(valintaIndeksi == RaporttiValintaSarake::BudjettiEro)
+            sarakeTyyppi = RaporttiValintaSarake::BudjettiEro;
+        else if(valintaIndeksi == RaporttiValintaSarake::ToteumaProsentti)
+            sarakeTyyppi = RaporttiValintaSarake::ToteumaProsentti;
+        kp()->raporttiValinnat()->lisaaSarake(RaporttiValintaSarake(alku, loppu, sarakeTyyppi));
+    }
 }

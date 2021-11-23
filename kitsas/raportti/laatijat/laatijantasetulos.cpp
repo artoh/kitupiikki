@@ -20,11 +20,14 @@ LaatijanTaseTulos::LaatijanTaseTulos(RaportinLaatija *laatija, const RaporttiVal
 
 void LaatijanTaseTulos::laadi()
 {
-    const QString muoto = valinnat().arvo(RaporttiValinnat::RaportinMuoto).toString();
+    QString muoto = valinnat().arvo(RaporttiValinnat::RaportinMuoto).toString();
     tyyppi_ = valinnat().arvo(RaporttiValinnat::Tyyppi).toString();
 
-    const QString rnimi = ( tyyppi_ == "tase"  ? "tase/" : "tulos/" ) + muoto;
-    const QString kaava = kp()->asetukset()->asetus(rnimi);
+    if( muoto.isEmpty()) {
+        muoto = tyyppi_ == "tase" ? "tase/yleinen" : "tulos/yleinen";
+    }
+
+    const QString kaava = kp()->asetukset()->asetus(muoto);
     QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8());
     kmap_ = doc.toVariant().toMap();
 
@@ -431,4 +434,5 @@ QString LaatijanTaseTulos::sarakeTyyppiTeksti(const RaporttiValintaSarake::Sarak
         case RaporttiValintaSarake::BudjettiEro: return kaanna("Budjettiero €");
         case RaporttiValintaSarake::ToteumaProsentti: return kaanna("Toteutunut %");
     }
+    return QString();
 }

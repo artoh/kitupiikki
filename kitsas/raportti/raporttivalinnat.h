@@ -72,6 +72,8 @@ public:
     QVariant arvo(Valinta valinta) const { return valinnat_.value(valinta);};
     bool onko(Valinta valinta) const { return valinnat_.value(valinta, QVariant(false)).toBool();}
 
+    void tyhjennaSarakkeet();
+    void lisaaSarake(const RaporttiValintaSarake& sarake);
     void asetaSarakkeet(QList<RaporttiValintaSarake> sarakkeet);
     QList<RaporttiValintaSarake> sarakkeet() const { return sarakkeet_;}
 

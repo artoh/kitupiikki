@@ -12,6 +12,16 @@ void RaporttiValinnat::aseta(Valinta valinta, QVariant arvo)
     valinnat_.insert(valinta, arvo);
 }
 
+void RaporttiValinnat::tyhjennaSarakkeet()
+{
+    sarakkeet_.clear();
+}
+
+void RaporttiValinnat::lisaaSarake(const RaporttiValintaSarake &sarake)
+{
+    sarakkeet_.append(sarake);
+}
+
 void RaporttiValinnat::asetaSarakkeet(QList<RaporttiValintaSarake> sarakkeet)
 {
     sarakkeet_ = sarakkeet;
