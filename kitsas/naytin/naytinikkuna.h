@@ -65,6 +65,7 @@ private:
 private:
     NaytinView *view_;
 
+    QAction *paivitaAktio_;
     QAction *avaaAktio_;
     QAction *raitaAktio_;
     QAction *sivunAsetusAktio_;

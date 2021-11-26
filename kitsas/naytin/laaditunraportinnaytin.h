@@ -16,6 +16,9 @@ public:
     void paivitaRaportti();
     void paivitaRaportti(const RaporttiValinnat& valinnat);
 
+    void virkista() override;
+    bool voikoVirkistaa() const override { return true; }
+
 public slots:
     void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
 

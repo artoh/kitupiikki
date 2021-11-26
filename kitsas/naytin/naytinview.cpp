@@ -144,6 +144,12 @@ Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
     return naytin;
 }
 
+void NaytinView::virkista()
+{
+    if( naytin_)
+        naytin_->virkista();
+}
+
 
 
 void NaytinView::paivita()
@@ -379,6 +385,11 @@ bool NaytinView::raidatKaytossa() const
 bool NaytinView::zoomKaytossa() const
 {
     return naytin_ ? naytin_->voikoZoomata() : false;
+}
+
+bool NaytinView::paivitaKaytossa() const
+{
+    return naytin_ ? naytin_->voikoVirkistaa() : false;
 }
 
 QByteArray NaytinView::csv()

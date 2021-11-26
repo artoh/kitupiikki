@@ -47,6 +47,7 @@ public:
     bool htmlKaytossa() const;
     bool raidatKaytossa() const;
     bool zoomKaytossa() const;
+    bool paivitaKaytossa() const;
 
     QString tiedostonMuoto();
     QString tiedostoPaate();
@@ -62,6 +63,7 @@ public slots:
 
     Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);
 
+    void virkista();
     void paivita();
     void raidoita(bool raidat);
     void tulosta();

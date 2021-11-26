@@ -145,6 +145,7 @@ void NaytinIkkuna::sisaltoMuuttui()
     zoomAktio_->setVisible( view()->zoomKaytossa() );
     zoomInAktio_->setVisible( view()->zoomKaytossa() );
     zoomOutAktio_->setVisible( view()->zoomKaytossa() );
+    paivitaAktio_->setVisible( view()->paivitaKaytossa());
 
     if( view()->tiedostoPaate() == "jpg"  )
         avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));
@@ -177,7 +178,12 @@ void NaytinIkkuna::teeToolbar()
     connect(suljeAktio, &QAction::triggered, this, &NaytinIkkuna::close);
     suljeAktio->setShortcut(QKeySequence(Qt::Key_Escape));
     tb->addAction(suljeAktio);
+
+    paivitaAktio_ = tb->addAction(QIcon(":/pic/refresh.png"), tr("Päivitä"));
+    connect( paivitaAktio_, &QAction::triggered, this, [this] { this->view()->virkista(); });
+
     tb->addSeparator();
+
 
     avaaAktio_ = tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));
     connect( avaaAktio_, &QAction::triggered, this,  [this] {this->view()->avaaOhjelmalla();});

@@ -72,7 +72,6 @@ protected:
 
 protected:
     QWidget *raporttiWidget;
-    QLabel* odotaLabel;
 
 };
 

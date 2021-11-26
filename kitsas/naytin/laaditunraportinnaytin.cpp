@@ -23,6 +23,11 @@ void LaaditunRaportinNaytin::paivitaRaportti(const RaporttiValinnat &valinnat)
     paivitaRaportti();
 }
 
+void LaaditunRaportinNaytin::virkista()
+{
+    paivitaRaportti();
+}
+
 void LaaditunRaportinNaytin::raporttiSaapuu(const RaportinKirjoittaja &kirjoittaja, const RaporttiValinnat &valinnat)
 {
     raportti_ = kirjoittaja;

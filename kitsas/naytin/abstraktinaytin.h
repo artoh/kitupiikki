@@ -53,9 +53,12 @@ public:
     bool onkoRaidat() const { return raidat_;}
     virtual bool voikoRaidoittaa() const { return false;}
 
-    virtual bool voikoZoomata() const { return false; }
+    virtual bool voikoZoomata() const { return false; }    
 
     virtual void asetaSuunta(QPageLayout::Orientation suunta);
+
+    virtual bool voikoVirkistaa() const { return false;}
+    virtual void virkista() {;}
 
 signals:
 
