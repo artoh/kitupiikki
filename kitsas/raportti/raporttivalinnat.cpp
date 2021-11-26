@@ -3,6 +3,8 @@
 #include "db/tilikausi.h"
 #include "kieli/kielet.h"
 
+#include <QJsonDocument>
+
 RaporttiValinnat::RaporttiValinnat()
 {
     aseta(Kohdennuksella, -1);
@@ -62,6 +64,19 @@ void RaporttiValinnat::nollaa()
     QDate alvAlku(alvPvm.year(), alvPvm.month(), 1);
     aseta( AlvAlkuPvm, alvAlku);
     aseta( AlvLoppuPvm, alvAlku.addMonths(1).addDays(-1));
+}
+
+QString RaporttiValinnat::nimi() const
+{
+    const QString& muoto = arvo(RaportinMuoto).toString();
+    if( muoto.isEmpty()) {
+        return tulkkaa( arvo(Tyyppi).toString(), arvo(Kieli).toString() );
+    } else {
+        QString kaava = kp()->asetukset()->asetus(muoto);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+        QVariantMap kmap = doc.toVariant().toMap();
+        return kmap.value("nimi").toMap().value( arvo(Kieli).toString() ).toString();
+    }
 }
 
 

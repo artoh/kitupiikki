@@ -170,12 +170,8 @@ void Arkistoija::arkistoiRaportit()
 
         RaporttiValinnat tRaportti = raportti(raporttinimi);
 
-        QString kaava = kp()->asetukset()->asetus(raporttinimi);
-        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
-        QVariantMap kmap = doc.toVariant().toMap();
-        const QString otsikko = kmap.value("nimi").toMap().value( Kielet::instanssi()->nykyinen() ).toString();
         raporttiNimet_.append( qMakePair(tRaportti.arvo(RaporttiValinnat::TiedostonNimi).toString(),
-                                         otsikko) );
+                                         tRaportti.nimi()) );
         tilaaRaportti(tRaportti);
 
     }

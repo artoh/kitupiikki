@@ -84,6 +84,7 @@ public:
     QList<RaporttiValintaSarake> sarakkeet() const { return sarakkeet_;}
 
     void nollaa();    
+    QString nimi() const;
 
 protected:
     QMap<Valinta,QVariant> valinnat_;
