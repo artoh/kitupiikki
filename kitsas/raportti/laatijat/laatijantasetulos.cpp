@@ -204,7 +204,7 @@ void LaatijanTaseTulos::kirjoitaRaportti()
         const QVariantMap map = riviVariant.toMap();
 
         const QString kaava = map.value("L").toString();
-        const int sisennys = map.value("S").toInt() * 4;
+        const int sisennys = map.value("S").toInt();
         const QString teksti = map.value(kielikoodi()).toString();
 
         const QString muoto = map.value("M").toString();

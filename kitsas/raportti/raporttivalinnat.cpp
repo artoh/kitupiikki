@@ -36,6 +36,11 @@ void RaporttiValinnat::nollaa()
     aseta( AlkuPvm, nykykausi.alkaa() );
     aseta( LoppuPvm, nykykausi.paattyy() );
     aseta( Kohdennuksella, -1);
+
+    QDate alvPvm = kp()->paivamaara().addMonths(-1);
+    QDate alvAlku(alvPvm.year(), alvPvm.month(), 1);
+    aseta( AlvAlkuPvm, alvAlku);
+    aseta( AlvLoppuPvm, alvAlku.addMonths(1).addDays(-1));
 }
 
 RaporttiValintaSarake::RaporttiValintaSarake()

@@ -62,7 +62,9 @@ public:
         LaskunLajittelu,
         NaytaViitteet,
         VainKitsaalla,
-        RaportinMuoto
+        RaportinMuoto,
+        AlvAlkuPvm,
+        AlvLoppuPvm
     };
 
     RaporttiValinnat();

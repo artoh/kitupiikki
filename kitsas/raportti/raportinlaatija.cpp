@@ -8,6 +8,7 @@
 #include "laatijat/laatijanlaskut.h"
 #include "laatijat/laatijantilikartta.h"
 #include "laatijat/laatijantasetulos.h"
+#include "laatijat/laatijanalv.h"
 
 RaportinLaatija::RaportinLaatija(QObject *parent) : QObject(parent)
 {
@@ -33,7 +34,8 @@ void RaportinLaatija::laadi(const RaporttiValinnat &valinnat)
         raportti = new LaatijanLaskut(this, valinnat);
     else if(raporttiTyyppi == "tilikartta")
         raportti = new LaatijanTilikartta(this, valinnat);
-    // Vielä puuttuu ALV
+    else if(raporttiTyyppi == "alv")
+        raportti = new LaatijanAlv(this, valinnat);
     else
         raportti = new LaatijanTaseTulos(this, valinnat);
 

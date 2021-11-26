@@ -186,6 +186,12 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         {
 
             int sarakeleveys = 0;
+            // Korjataan tarvittaessa sisennyksen verran
+            if( sarake == 0) {
+                sarakeleveys = 0 - rivi.sisennys() * sisennysMetrics;
+                x += rivi.sisennys() * sisennysMetrics;
+            }
+
             // ysind (Yhdistettyjen Sarakkeiden Indeksi) kelaa ne sarakkeet läpi,
             // jotka tällä riville yhdistetty toisiinsa
             for( int ysind = 0; ysind < rivi.leveysSaraketta(i); ysind++ )
@@ -197,12 +203,6 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             }
 
             // Nyt saatu tämän sarakkeen leveys
-
-            // Korjataan vielä tarvittaessa sisennyksen verran
-            if( sarake == 0) {
-                sarakeleveys -= rivi.sisennys() * sisennysMetrics;
-                x += rivi.sisennys() * sisennysMetrics;
-            }
 
             int lippu = Qt::TextWordWrap;
             QString teksti = rivi.teksti(i);
@@ -368,7 +368,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
         for(int i=0; i < otsikkorivi.sarakkeita(); i++)
         {
             if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto != RaporttiRivi::CSV) {
-                txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
+                txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));                
                 txt.append( otsikkorivi.teksti(i));
                 txt.append("</th>");
             }
@@ -426,13 +426,15 @@ QString RaportinKirjoittaja::html(bool linkit) const
                         txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
                     }
                 }
-                QString tekstia = rivi.teksti(i).toHtmlEscaped();
-                if( sarakkeessa == 0) {
-                    // Ensimmäisen rivin sisennys
-                    QString sisennysStr;
-                    sisennysStr.fill(' ', rivi.sisennys() * 3);
-                    tekstia = sisennysStr + tekstia;
+
+                if( i == 0) {
+                    for(int s=0; s < rivi.sisennys(); s++) {
+                        txt.append("&nbsp;");
+                    }
                 }
+
+                QString tekstia = rivi.teksti(i).toHtmlEscaped();
+
 
                 // Jotta selitteestä ei ole kohtuuttoman pitkä ja toisaalta
                 // pvm-selite katkeile, ollaan valmiita katkomaan selitettä

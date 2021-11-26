@@ -31,10 +31,12 @@ public:
     ~AlvRaporttiWidget() override;
 
 protected:
+    void lataa();
+    void tallenna() override;
+
+protected:
     Ui::PvmVali *ui;
 
-public slots:
-    void esikatsele() override;
 
 };
 

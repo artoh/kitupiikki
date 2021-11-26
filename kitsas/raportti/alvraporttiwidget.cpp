@@ -23,12 +23,7 @@ AlvRaporttiWidget::AlvRaporttiWidget() :
 {
     ui->setupUi(raporttiWidget);
 
-    QDate pvm = QDate::currentDate().addMonths(-1);
-    QDate alku = QDate( pvm.year(), pvm.month(), 1 );
-
-    ui->alkaa->setDate(alku);
-    ui->paattyy->setDate( alku.addMonths(1).addDays(-1)  );
-
+    lataa();
 }
 
 AlvRaporttiWidget::~AlvRaporttiWidget()
@@ -36,9 +31,24 @@ AlvRaporttiWidget::~AlvRaporttiWidget()
     delete ui;
 }
 
+void AlvRaporttiWidget::lataa()
+{
+    ui->alkaa->setDate( arvo(RaporttiValinnat::AlvAlkuPvm).toDate() );
+    ui->paattyy->setDate( arvo(RaporttiValinnat::AlvLoppuPvm).toDate());
+}
+
+void AlvRaporttiWidget::tallenna()
+{
+    aseta( RaporttiValinnat::Tyyppi, "alv");
+    aseta( RaporttiValinnat::AlvAlkuPvm, ui->alkaa->date());
+    aseta( RaporttiValinnat::AlvLoppuPvm, ui->paattyy->date());
+}
+
+/*
 void AlvRaporttiWidget::esikatsele()
 {
     AlvLaskelma *laskelma = new AlvLaskelma(this, ui->kieliCombo->currentData().toString());
     connect( laskelma, &AlvLaskelma::valmis, this, &RaporttiWidget::nayta);
     laskelma->laske( ui->alkaa->date(), ui->paattyy->date());
 }
+*/
