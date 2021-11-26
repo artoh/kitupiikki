@@ -24,6 +24,7 @@
 
 #include "db/tilikausi.h"
 #include "raportti/raportinkirjoittaja.h"
+#include "raportti/raporttivalinnat.h"
 
 class QProgressDialog;
 class QPagedPaintDevice;
@@ -53,7 +54,7 @@ private:
     void vaihdaNimi();
 
     void tilaaRaportit();
-    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
+//    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
     void jatkaTositelistaan();
     void tulostaRaportit();
 
@@ -66,6 +67,10 @@ private:
 
     void valmis();
 
+    RaporttiValinnat raportti(const QString& tyyppi) const;
+    void tilaaRaportti(RaporttiValinnat& valinnat);
+    void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
+
 
     Ui::AineistoDialog *ui;
 
@@ -76,7 +81,7 @@ private:
 
     int tilattuja_ = 0;
     int valmiita_ = 0;
-    bool tilauskesken_ = false;
+    bool tilauskesken_ = true;
 
     QVariantList tositteet_;
     QVariantMap nykyTosite_;

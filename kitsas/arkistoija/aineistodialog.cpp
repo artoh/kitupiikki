@@ -35,13 +35,7 @@
 
 #include <QDir>
 
-#include "raportti/raportoija.h"
-#include "raportti/paakirja.h"
-#include "raportti/paivakirja.h"
-#include "raportti/taseerittelija.h"
-#include "raportti/tilikarttalistaaja.h"
-#include "raportti/tositeluettelo.h"
-#include "raportti/laskuraportteri.h"
+#include "raportti/raportinlaatija.h"
 
 #include "db/tositetyyppimodel.h"
 
@@ -85,6 +79,7 @@ void AineistoDialog::accept()
 
     progress = new QProgressDialog(tr("Muodostetaan aineistoa. Tämä voi kestää useamman minuutin."), tr("Peruuta"), 0, 200);
     progress->setMinimumDuration(10);
+    tilauskesken_ = true;
 
 
     kieli_ = ui->kieliCombo->currentData().toString();
@@ -181,111 +176,82 @@ void AineistoDialog::vaihdaNimi()
 void AineistoDialog::tilaaRaportit()
 {
     kirjoittajat_.resize(10);
-    tilauskesken_ = true;
-    int tilattuja = 0;
 
     if( ui->raportitGroup->isChecked()) {
 
         if( ui->taseCheck->isChecked()) {
-            Raportoija* tase = new Raportoija("tase/yleinen", kieli_, this, Raportoija::TASE);
-            tase->lisaaTasepaiva(tilikausi_.paattyy());
-            connect(tase, &Raportoija::valmis, this, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            connect(tase, &Raportoija::tyhjaraportti, this, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
-            tase->kirjoita(true);
-            tilattuja++;
+            RaporttiValinnat tase = raportti("tase/yleinen");
+            tilaaRaportti(tase);
         }
 
         if( ui->tuloslaskelmaCheck->isChecked()) {
-            Raportoija* tulos = new Raportoija("tulos/yleinen", kieli_, this, Raportoija::TULOSLASKELMA);
-            tulos->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-            connect(tulos, &Raportoija::valmis, this, [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            connect(tulos, &Raportoija::tyhjaraportti, this, [this, tilattuja] { this->raporttiSaapuu(tilattuja, RaportinKirjoittaja());});
-            tulos->kirjoita(true);
-            tilattuja++;
+            RaporttiValinnat tulos = raportti("tulos/yleinen");
+            tilaaRaportti(tulos);
         }
 
         if( ui->erittelyCheck->isChecked()) {
-            TaseErittelija *erittely = new TaseErittelija(this, kieli_);
-            connect( erittely, &TaseErittelija::valmis, this,
-                     [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            erittely->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy());
-            tilattuja++;
+            RaporttiValinnat erittely = raportti("taseerittely");
+            tilaaRaportti(erittely);
         }
 
         if( ui->paivakirjaCheck->isChecked()) {
-            Paivakirja *paivakirja = new Paivakirja(this, kieli_);
-            connect( paivakirja, &Paivakirja::valmis, this,
-                     [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(), Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
-            tilattuja++;
+            RaporttiValinnat paivakirja = raportti("paivakirja");
+            tilaaRaportti(paivakirja);
         }
 
         if( ui->paakirjaCheck->isChecked()) {
-            Paakirja *paakirja = new Paakirja(this, kieli_);
-            connect( paakirja, &Paakirja::valmis, this,
-                     [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            paakirja->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(), Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
-            tilattuja++;
+            RaporttiValinnat paakirja = raportti("paakirja");
+            tilaaRaportti(paakirja);
+
         }
     }
 
     if( ui->tililuetteloGroup->isChecked()) {
-        TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
-        connect( tililuettelo, &TiliKarttaListaaja::valmis, this,
-                 [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-        tililuettelo->kirjoita( ui->kaikkitlRadio->isChecked() ? TiliKarttaListaaja::KAIKKI_TILIT :
-                                                                 ( ui->laajuustlRadio->isChecked() ? TiliKarttaListaaja::KAYTOSSA_TILIT : TiliKarttaListaaja::KIRJATUT_TILIT),
-                                tilikausi_, true, false, tilikausi_.paattyy(), false, kieli_);
-        tilattuja++;
+        RaporttiValinnat tililuettelo = raportti("tililuettelo");
+        if( ui->kaikkitlRadio->isChecked())
+            tililuettelo.aseta(RaporttiValinnat::LuettelonTilit,"kaikki");
+        else if(ui->laajuustlRadio->isChecked())
+            tililuettelo.aseta(RaporttiValinnat::LuettelonTilit,"kaytossa");
+        else
+            tililuettelo.aseta(RaporttiValinnat::LuettelonTilit, "kirjatut");
+        tilaaRaportti(tililuettelo);
     }
 
     if( ui->raportitGroup->isChecked()) {
 
         if( ui->myyntilaskutCheck->isChecked()) {
-            LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this, kieli_);
-            connect( myyntilaskut, &LaskuRaportteri::valmis, this,
-                     [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
-                                    tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
-            tilattuja++;
+            RaporttiValinnat myyntiLaskuLuettelo = raportti("laskut");
+            myyntiLaskuLuettelo.aseta(RaporttiValinnat::TiedostonNimi, "myyntilaskut.html");
+            myyntiLaskuLuettelo.aseta(RaporttiValinnat::LaskuTyyppi, "myynti");
+            myyntiLaskuLuettelo.aseta(RaporttiValinnat::VainAvoimet);
+            myyntiLaskuLuettelo.aseta(RaporttiValinnat::AlkuPvm, kp()->tilikaudet()->kirjanpitoAlkaa());
+            tilaaRaportti(myyntiLaskuLuettelo);
         }
 
         if( ui->ostolaskutCheck->isChecked()) {
-            LaskuRaportteri* ostolaskut = new LaskuRaportteri(this, kieli_);
-            connect( ostolaskut, &LaskuRaportteri::valmis, this,
-                     [this, tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja,rk);});
-            ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
-                                  tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
-            tilattuja++;
+            RaporttiValinnat ostoLaskuLuettelo = raportti("laskut");
+            ostoLaskuLuettelo.aseta(RaporttiValinnat::TiedostonNimi, "ostolaskut.html");
+            ostoLaskuLuettelo.aseta(RaporttiValinnat::LaskuTyyppi, "osto");
+            ostoLaskuLuettelo.aseta(RaporttiValinnat::VainAvoimet);
+            ostoLaskuLuettelo.aseta(RaporttiValinnat::AlkuPvm, kp()->tilikaudet()->kirjanpitoAlkaa());
+            tilaaRaportti(ostoLaskuLuettelo);
         }
 
 
         if( ui->tositeluetteloCheck->isChecked()) {
-            TositeLuettelo* luettelo = new TositeLuettelo(this, kieli_);
-            connect( luettelo, &TositeLuettelo::valmis, this,
-                     [this,tilattuja] (RaportinKirjoittaja rk) { this->raporttiSaapuu(tilattuja, rk);});
-            luettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
-                               TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::SamaTilikausi |
-                               TositeLuettelo::AsiakasToimittaja);
-            tilattuja++;
+            RaporttiValinnat tositeLuettelo = raportti("tositeluettelo");
+            tositeLuettelo.aseta(RaporttiValinnat::VientiJarjestys, "tosite");
+            tilaaRaportti(tositeLuettelo);
         }
     }
 
-    tilattuja_ = tilattuja;
     progress->setMaximum(tilattuja_ * 30);
     tilauskesken_ = false;
 
 
 }
 
-void AineistoDialog::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
-{
-    kirjoittajat_[raportti] = rk;
-    valmiita_++;
-    progress->setValue(progress->value() + 5);
-    qDebug() << "Raportti saapuu " << raportti << " " << rk.otsikko() << " (" << rk.riveja() << " riviä) " << progress->value() << " / " << progress->maximum();
-    jatkaTositelistaan();
-}
+
 
 void AineistoDialog::jatkaTositelistaan()
 {
@@ -463,6 +429,45 @@ void AineistoDialog::valmis()
     delete painter;
     painter = nullptr;
 
+}
+
+RaporttiValinnat AineistoDialog::raportti(const QString &tyyppi) const
+{
+    RaporttiValinnat valinnat(tyyppi);
+    valinnat.aseta(RaporttiValinnat::Kieli, kieli_ );
+    valinnat.aseta(RaporttiValinnat::AlkuPvm, tilikausi_.alkaa());
+    valinnat.aseta(RaporttiValinnat::LoppuPvm, tilikausi_.paattyy());
+    valinnat.aseta(RaporttiValinnat::SaldoPvm, tilikausi_.paattyy());
+    valinnat.aseta(RaporttiValinnat::TulostaKumppani);
+    valinnat.aseta(RaporttiValinnat::TulostaSummarivit);
+    valinnat.aseta(RaporttiValinnat::TulostaErittely);
+    if( kp()->kohdennukset()->kohdennuksia())
+        valinnat.aseta(RaporttiValinnat::TulostaKohdennus);
+
+    valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy()));
+    Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
+    if( edellinen.alkaa().isValid()) {
+        valinnat.lisaaSarake(RaporttiValintaSarake(edellinen.alkaa(), edellinen.paattyy()));
+    }
+
+    return valinnat;
+}
+
+void AineistoDialog::tilaaRaportti(RaporttiValinnat &valinnat)
+{
+    valinnat.aseta(RaporttiValinnat::TilausJarjestysNumero, tilattuja_);
+    tilattuja_++;
+    RaportinLaatija* laatija = new RaportinLaatija(this);
+    connect( laatija, &RaportinLaatija::raporttiValmis, this, &AineistoDialog::raporttiSaapuu);
+    laatija->laadi(valinnat);
+}
+
+void AineistoDialog::raporttiSaapuu(const RaportinKirjoittaja &kirjoittaja, const RaporttiValinnat &valinnat)
+{
+    kirjoittajat_[ valinnat.arvo(RaporttiValinnat::TilausJarjestysNumero).toInt() ]  = RaportinKirjoittaja(kirjoittaja);
+    valmiita_++;
+    progress->setValue(progress->value() + 5);
+    jatkaTositelistaan();
 }
 
 

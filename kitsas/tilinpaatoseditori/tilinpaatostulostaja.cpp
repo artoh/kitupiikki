@@ -35,7 +35,7 @@
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 
-#include "raportti/raportoija.h"
+#include "raportti/raportinlaatija.h"
 
 
 
@@ -199,47 +199,46 @@ bool TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
         return false;
     }
 
-    Raportoija::RaportinTyyppi tyyppi = Raportoija::VIRHEELLINEN;
-
-    if( optiot.contains("K"))
-        tyyppi = Raportoija::KOHDENNUSLASKELMA;
+    RaporttiValinnat valinnat(raporttitunnus);
+    if(optiot.contains("K"))
+        valinnat.aseta(RaporttiValinnat::Tyyppi, "kohdennus");
     else if(optiot.contains("P"))
-        tyyppi = Raportoija::PROJEKTILASKELMA;
-    bool erittelyt = optiot.contains("E");
+        valinnat.aseta(RaporttiValinnat::Tyyppi, "projektit");
 
-    int indeksi = kirjoittajat_.size();
+    if(optiot.contains("E"))
+        valinnat.aseta(RaporttiValinnat::TulostaErittely);
+
+    valinnat.aseta(RaporttiValinnat::TilinpaatosOtsikko, otsikko);
+    valinnat.aseta(RaporttiValinnat::TilausJarjestysNumero, kirjoittajat_.size());
     kirjoittajat_.append(RaportinKirjoittaja());
 
-    Raportoija* raportoija = new Raportoija(raporttitunnus, kieli_ , this, tyyppi);
-    Tilikausi edellinen = kp()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
-
-    if( raportoija->onkoTaseraportti()) {
-        raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
-        if( edellinen.alkaa().isValid())
-            raportoija->lisaaTasepaiva( edellinen.paattyy());
-    } else if( optiot.contains("B")) {
-        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::BUDJETTI );
-        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::TOTEUTUNUT );
-        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::BUDJETTIERO );
-        raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
+    if( optiot.contains("B")) {
+        valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy(), RaporttiValintaSarake::Budjetti));
+        valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy(), RaporttiValintaSarake::Toteutunut));
+        valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy(), RaporttiValintaSarake::BudjettiEro));
+        valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy(), RaporttiValintaSarake::ToteumaProsentti));
     } else {
-        raportoija->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-        if( edellinen.alkaa().isValid())
-            raportoija->lisaaKausi(edellinen.alkaa(), edellinen.paattyy());
+        valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy()));
+        Tilikausi edellinen = kp()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
+        if( edellinen.alkaa().isValid() ) {
+            valinnat.lisaaSarake(RaporttiValintaSarake(edellinen.alkaa(), edellinen.paattyy()));
+        }
     }
 
-    connect( raportoija, &Raportoija::valmis, this, [this,indeksi,otsikko] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk, otsikko); } );
-    connect( raportoija, &Raportoija::tyhjaraportti, this, [this,indeksi,otsikko] { this->raporttiSaapuu(indeksi, RaportinKirjoittaja(), otsikko); } );
-    raportoija->kirjoita(erittelyt,-1);
+    RaportinLaatija *laatija = new RaportinLaatija(this);
+    connect(laatija, &RaportinLaatija::raporttiValmis, this, &TilinpaatosTulostaja::raporttiSaapuu);
+    laatija->laadi(valinnat);
+
     return true;
 }
 
-
-void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk, const QString& otsikko)
+void TilinpaatosTulostaja::raporttiSaapuu(const RaportinKirjoittaja &kirjoittaja, const RaporttiValinnat &valinnat)
 {
-    rk.asetaOtsikko(otsikko);
-    kirjoittajat_[raportti] = rk;
+    RaportinKirjoittaja rk(kirjoittaja);
+    rk.asetaOtsikko( valinnat.arvo(RaporttiValinnat::TilinpaatosOtsikko).toString() );
+    kirjoittajat_[ valinnat.arvo(RaporttiValinnat::TilausJarjestysNumero).toInt() ] = rk;
     tilattuja_--;
+
     if( !tilattuja_) {
         if( tallenna_) {
             QMap<QString,QString> meta;
@@ -255,5 +254,3 @@ void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk, 
     }
 
 }
-
-

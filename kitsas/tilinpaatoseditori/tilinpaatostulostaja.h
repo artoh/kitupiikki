@@ -24,6 +24,8 @@
 #include "raportti/raportinkirjoittaja.h"
 #include "naytin/esikatseltava.h"
 
+#include "raportti/raporttivalinnat.h"
+
 #include <QVector>
 #include <QPagedPaintDevice>
 /**
@@ -55,9 +57,10 @@ private:
 
 protected:
     bool tilaaRaportti(const QString& raportinnimi);
+    void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
 
-protected slots:
-    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk, const QString &otsikko);
+//protected slots:
+//    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk, const QString &otsikko);
 
 
 protected:
