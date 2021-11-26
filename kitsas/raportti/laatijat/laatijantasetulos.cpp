@@ -335,22 +335,22 @@ void LaatijanTaseTulos::kirjoitaRaportti()
                 for(const auto sarake : valinnat().sarakkeet()) {
                     switch (sarake.tyyppi()) {
                     case RaporttiValintaSarake::Toteutunut:
-                        rr.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi), true );
+                        er.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi), true );
                         break;
                     case RaporttiValintaSarake::Budjetti:
-                        rr.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi), false);
+                        er.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi), false);
                         break;
                     case RaporttiValintaSarake::BudjettiEro:
-                        rr.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi) - eurot_.value(tilinumero).value(taulukkoindeksi+1), true);
+                        er.lisaa( eurot_.value(tilinumero).value(taulukkoindeksi) - eurot_.value(tilinumero).value(taulukkoindeksi+1), true);
                         taulukkoindeksi++;
                         break;
                     case RaporttiValintaSarake::ToteumaProsentti:
                         const Euro toteutunut = eurot_.value(tilinumero).value(taulukkoindeksi);
                         const Euro budjetoitu = eurot_.value(tilinumero).value(taulukkoindeksi+1);
                         if( budjetoitu.cents() == 0)
-                            rr.lisaa("");
+                            er.lisaa("");
                         else
-                            rr.lisaa( 10000 * toteutunut / budjetoitu, true);
+                            er.lisaa( 10000 * toteutunut / budjetoitu, true);
                         taulukkoindeksi++;
                     }
                     taulukkoindeksi++;

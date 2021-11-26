@@ -43,7 +43,7 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
         ui->kohdennusCheck->setText( tr("Kustannuspaikalla"));
         ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KUSTANNUSPAIKAT);
     }
-    else if( tyyppi_ == "tulos" || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
+    else if( tyyppi_ == "tase" || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
@@ -90,7 +90,7 @@ void TaseTulosRaportti::tallenna()
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
-    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCombo->currentData().toInt());
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData().toInt() : -1);
 
     kp()->raporttiValinnat()->tyhjennaSarakkeet();
     lisaaSarake(true, ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
