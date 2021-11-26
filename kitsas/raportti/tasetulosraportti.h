@@ -19,7 +19,6 @@
 
 #include "raporttiwidget.h"
 #include "ui_muokattavaraportti.h"
-#include "raportoija.h"
 
 class TaseTulosRaportti : public RaporttiWidget
 {
@@ -27,7 +26,7 @@ class TaseTulosRaportti : public RaporttiWidget
 public:
 
 
-    TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget* parent = nullptr);
+    TaseTulosRaportti(const QString& raportinTyyppi, QWidget* parent = nullptr);
 
 public slots:
 //    void esikatsele() override;
@@ -45,7 +44,6 @@ protected slots:
 
 
 protected:
-    Raportoija::RaportinTyyppi tyyppi() const { return tyyppi_;}
     void paivitaUi();
 
 private:
@@ -56,7 +54,7 @@ private:
     QString kaava_;
 
     Ui::MuokattavaRaportti *ui;
-    Raportoija::RaportinTyyppi tyyppi_;
+    QString tyyppi_;
 
     bool paivitetaan_ = false;
 

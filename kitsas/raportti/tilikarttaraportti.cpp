@@ -18,7 +18,6 @@
 #include <QSqlQuery>
 
 #include "tilikarttaraportti.h"
-#include "tilikarttalistaaja.h"
 #include "db/asetusmodel.h"
 #include <QJsonDocument>
 #include "kieli/monikielinen.h"

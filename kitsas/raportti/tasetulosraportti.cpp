@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
-TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget *parent) :
+TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *parent) :
     RaporttiWidget (parent),
     ui( new Ui::MuokattavaRaportti ),
     tyyppi_(raportinTyyppi)
@@ -37,13 +37,13 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::muotoVaihtui);
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaMuodot);
 
-    if( tyyppi() == Raportoija::PROJEKTILASKELMA) {
+    if( tyyppi_ == "projektit") {
         ui->kohdennusCheck->setVisible( kp()->kohdennukset()->kustannuspaikkoja() );
         ui->kohdennusCombo->setVisible( kp()->kohdennukset()->kustannuspaikkoja());
         ui->kohdennusCheck->setText( tr("Kustannuspaikalla"));
         ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KUSTANNUSPAIKAT);
     }
-    else if( tyyppi()!=Raportoija::TULOSLASKELMA || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
+    else if( tyyppi_ == "tulos" || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
@@ -81,59 +81,12 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     paivitaUi();
 }
 
-/*
-void TaseTulosRaportti::esikatsele()
-{
-    Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
-                                             ui->kieliCombo->currentData().toString(),
-                                             this,
-                                             tyyppi());
-
-
-
-    if( raportoija->onkoKausiraportti())
-    {
-        raportoija->lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
-        if( ui->sarake2Box->isChecked())
-            raportoija->lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
-        if( ui->sarake3Box->isChecked())
-            raportoija->lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
-        if( ui->sarake4Box->isChecked())
-            raportoija->lisaaKausi( ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
-    }
-    else
-    {
-        raportoija->lisaaTasepaiva( ui->loppuu1Date->date());
-        if( ui->sarake2Box->isChecked())
-            raportoija->lisaaTasepaiva( ui->loppuu2Date->date());
-        if( ui->sarake3Box->isChecked())
-            raportoija->lisaaTasepaiva( ui->loppuu3Date->date());
-        if( ui->sarake4Box->isChecked())
-            raportoija->lisaaTasepaiva( ui->loppuu4Date->date());
-    }
-
-    connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
-    connect( raportoija, &Raportoija::tyhjaraportti, this, [this] () { this->nayta(RaportinKirjoittaja()); });
-
-    raportoija->kirjoita( ui->erittelyCheck->isChecked(),
-                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
-
-}
-*/
 
 void TaseTulosRaportti::tallenna()
 {
-    QString tyyppiteksti;
-    if( tyyppi() == Raportoija::TASE)
-        tyyppiteksti = "tase";
-    else if(tyyppi() == Raportoija::KOHDENNUSLASKELMA)
-        tyyppiteksti = "kohdennus";
-    else if(tyyppi() == Raportoija::PROJEKTILASKELMA)
-        tyyppiteksti = "projektit";
-    else
-        tyyppiteksti = "tulos";
 
-    aseta(RaporttiValinnat::Tyyppi, tyyppiteksti);
+
+    aseta(RaporttiValinnat::Tyyppi, tyyppi_);
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
@@ -181,14 +134,14 @@ void TaseTulosRaportti::paivitaMuodot()
     paivitetaan_ = true;
 
     QStringList muodot;
-    if(tyyppi() == Raportoija::TASE )
+    if(tyyppi_ == "tase" )
         muodot = kp()->asetukset()->avaimet("tase/");
     else
         muodot = kp()->asetukset()->avaimet("tulos/");    
 
     QString nykymuoto = ui->muotoCombo->currentData().toString();
     if( nykymuoto.isEmpty())
-        nykymuoto=tyyppi() == Raportoija::TASE ? "tase/yleinen" : "tulos/yleinen";
+        nykymuoto=tyyppi_ == "tase" ? "tase/yleinen" : "tulos/yleinen";
 
     QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
 
@@ -224,17 +177,20 @@ void TaseTulosRaportti::paivitaKohdennusPaivat()
 void TaseTulosRaportti::paivitaUi()
 {
     // Jos tehdään Raportoija::TASElaskelmaa, piilotetaan turhat tiedot!
-    ui->alkaa1Date->setVisible( tyyppi() != Raportoija::TASE );
-    ui->alkaa2Date->setVisible( tyyppi() != Raportoija::TASE );
-    ui->alkaa3Date->setVisible( tyyppi() != Raportoija::TASE );
-    ui->alkaa4Date->setVisible( tyyppi() != Raportoija::TASE );
-    ui->alkaaLabel->setVisible( tyyppi() != Raportoija::TASE );
-    ui->paattyyLabel->setVisible( tyyppi() != Raportoija::TASE );
 
-    ui->tyyppi1->setVisible( tyyppi() != Raportoija::TASE);
-    ui->tyyppi2->setVisible( tyyppi() != Raportoija::TASE);
-    ui->tyyppi3->setVisible( tyyppi() != Raportoija::TASE);
-    ui->tyyppi4->setVisible( tyyppi() != Raportoija::TASE);
+    bool kaudet = tyyppi_ != "tase";
+
+    ui->alkaa1Date->setVisible( kaudet );
+    ui->alkaa2Date->setVisible( kaudet );
+    ui->alkaa3Date->setVisible( kaudet );
+    ui->alkaa4Date->setVisible( kaudet );
+    ui->alkaaLabel->setVisible( kaudet );
+    ui->paattyyLabel->setVisible( kaudet );
+
+    ui->tyyppi1->setVisible( kaudet );
+    ui->tyyppi2->setVisible( kaudet );
+    ui->tyyppi3->setVisible( kaudet );
+    ui->tyyppi4->setVisible( kaudet );
 
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin

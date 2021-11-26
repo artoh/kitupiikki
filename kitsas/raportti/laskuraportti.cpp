@@ -20,7 +20,6 @@
 
 #include "laskuraportti.h"
 #include "db/kirjanpito.h"
-#include "laskuraportteri.h"
 
 #include "raporttivalinnat.h"
 

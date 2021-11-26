@@ -153,20 +153,14 @@ SOURCES += \
     $$PWD/raportti/laatijat/laatijantasetulos.cpp \
     $$PWD/raportti/laatijat/laatijantilikartta.cpp \
     $$PWD/raportti/laatijat/laatijantositeluettelo.cpp \
-    $$PWD/raportti/laskuraportteri.cpp \
     $$PWD/raportti/liitepoimija.cpp \
     $$PWD/raportti/liitepoiminta.cpp \
-    $$PWD/raportti/myyntiraportteri.cpp \
-    $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/pvmraporttiwidget.cpp \
     $$PWD/raportti/raportinlaatija.cpp \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/raporttivalinnat.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
-    $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
-    $$PWD/raportti/tilikarttalistaaja.cpp \
-    $$PWD/raportti/tositeluettelo.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
     $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
     $$PWD/rekisteri/ibandelegaatti.cpp \
@@ -289,7 +283,6 @@ SOURCES += \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
     onniwidget.cpp \
-    raportti/raportoija.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
@@ -303,7 +296,6 @@ SOURCES += \
     db/tilityyppimodel.cpp \
     laskutus/tuotemodel.cpp \
     maaritys/emailmaaritys.cpp \
-    raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
     arkisto/poistaja.cpp \
     maaritys/kaavankorostin.cpp \
@@ -354,7 +346,6 @@ SOURCES += \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
     db/kantavariantti.cpp \
-    raportti/paivakirja.cpp \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
     sqlite/sqlitemodel.cpp \
@@ -526,20 +517,14 @@ HEADERS += \
     $$PWD/raportti/laatijat/laatijantasetulos.h \
     $$PWD/raportti/laatijat/laatijantilikartta.h \
     $$PWD/raportti/laatijat/laatijantositeluettelo.h \
-    $$PWD/raportti/laskuraportteri.h \
     $$PWD/raportti/liitepoimija.h \
     $$PWD/raportti/liitepoiminta.h \
-    $$PWD/raportti/myyntiraportteri.h \
-    $$PWD/raportti/paakirja.h \
     $$PWD/raportti/pvmraporttiwidget.h \
     $$PWD/raportti/raportinlaatija.h \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/raporttivalinnat.h \
     $$PWD/raportti/raporttiwidget.h \
-    $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \
-    $$PWD/raportti/tilikarttalistaaja.h \
-    $$PWD/raportti/tositeluettelo.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \
     $$PWD/rekisteri/asiakastoimittajalistamodel.h \
     $$PWD/rekisteri/ibandelegaatti.h \
@@ -665,7 +650,6 @@ HEADERS += \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
     onniwidget.h \
-    raportti/raportoija.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
@@ -678,7 +662,6 @@ HEADERS += \
     db/tilityyppimodel.h \
     laskutus/tuotemodel.h \
     maaritys/emailmaaritys.h \
-    raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
     arkisto/poistaja.h \
     maaritys/kaavankorostin.h \
@@ -730,7 +713,6 @@ HEADERS += \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
     db/kantavariantti.h \
-    raportti/paivakirja.h \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
     sqlite/sqlitemodel.h \
@@ -823,7 +805,6 @@ FORMS += \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
     selaus/selauswg.ui \
-    raportti/paivakirja.ui \
     maaritys/tilinavaus.ui \
     maaritys/tilikarttamuokkaus.ui \
     maaritys/tilinmuokkaus.ui \

@@ -44,11 +44,4 @@ void AlvRaporttiWidget::tallenna()
     aseta( RaporttiValinnat::AlvLoppuPvm, ui->paattyy->date());
 }
 
-/*
-void AlvRaporttiWidget::esikatsele()
-{
-    AlvLaskelma *laskelma = new AlvLaskelma(this, ui->kieliCombo->currentData().toString());
-    connect( laskelma, &AlvLaskelma::valmis, this, &RaporttiWidget::nayta);
-    laskelma->laske( ui->alkaa->date(), ui->paattyy->date());
-}
-*/
+

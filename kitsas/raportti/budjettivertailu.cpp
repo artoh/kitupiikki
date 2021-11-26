@@ -19,8 +19,6 @@
 #include "db/tilikausimodel.h"
 #include <QComboBox>
 #include <QJsonDocument>
-
-#include "raportoija.h"
 #include "kieli/kielet.h"
 
 Budjettivertailu::Budjettivertailu() :

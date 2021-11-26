@@ -16,8 +16,6 @@
 */
 
 #include "myyntiraportti.h"
-#include "myyntiraportteri.h"
-
 #include "ui_pvmvali.h"
 #include "db/kirjanpito.h"
 

@@ -28,7 +28,6 @@
 
 #include "pvmraporttiwidget.h"
 
-#include "taseerittely.h"
 #include "laskuraportti.h"
 #include "myyntiraportti.h"
 
@@ -158,13 +157,13 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     else if( raporttinimi == "Budjettivertailu")
         nykyinen = new Budjettivertailu;
     else if( raporttinimi == "Tase")
-        nykyinen = new TaseTulosRaportti(Raportoija::TASE);
+        nykyinen = new TaseTulosRaportti("tase");
     else if( raporttinimi == "Tuloslaskelma")
-        nykyinen = new TaseTulosRaportti(Raportoija::TULOSLASKELMA);
+        nykyinen = new TaseTulosRaportti("tulos");
     else if( raporttinimi == "Kustannuspaikat")
-        nykyinen = new TaseTulosRaportti(Raportoija::KOHDENNUSLASKELMA);
+        nykyinen = new TaseTulosRaportti("kohdennus");
     else if( raporttinimi == "Projektit")
-        nykyinen = new TaseTulosRaportti(Raportoija::PROJEKTILASKELMA);
+        nykyinen = new TaseTulosRaportti("projektit");
     else if( raporttinimi == "AlvErittely")
         nykyinen = new AlvRaporttiWidget();
     else if( raporttinimi == "Tositekooste")
