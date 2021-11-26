@@ -33,7 +33,7 @@ TilikarttaRaportti::TilikarttaRaportti()
 
     ui->tilikaudeltaCombo->setModel( kp()->tilikaudet() );
     ui->tilikaudeltaCombo->setModelColumn( TilikausiModel::KAUSI );
-    ui->tilikaudeltaCombo->setCurrentIndex( ui->tilikaudeltaCombo->count() - 1);
+    ui->tilikaudeltaCombo->setCurrentIndex( ui->tilikaudeltaCombo->count() - 1);    
 
     ui->saldotDate->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(),
                                   kp()->tilikaudet()->kirjanpitoLoppuu());
@@ -51,6 +51,10 @@ void TilikarttaRaportti::tallenna()
     aseta(RaporttiValinnat::LuetteloPvm, ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate());
     aseta(RaporttiValinnat::SaldoPvm, ui->saldotCheck->isChecked() ? ui->saldotDate->date() : QDate());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData());
+
+    aseta(RaporttiValinnat::NaytaTyypit, ui->tilityypitCheck->isChecked());
+    aseta(RaporttiValinnat::NaytaKirjausohjeet, ui->kirjausohjeet->isChecked());
+    aseta(RaporttiValinnat::NaytaOtsikot, ui->otsikotCheck->isChecked());
 
     if( ui->kaytossaRadio->isChecked())
         aseta(RaporttiValinnat::LuettelonTilit,"kaytossa");
