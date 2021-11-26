@@ -31,9 +31,7 @@ Budjettivertailu::Budjettivertailu() :
 
     ui->kausiCombo->setModel(kp()->tilikaudet());
     ui->kausiCombo->setModelColumn(TilikausiModel::KAUSI);
-    ui->kausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() ) );
-    if( ui->kausiCombo->currentIndex() < 0)
-        ui->kausiCombo->setCurrentIndex( ui->kausiCombo->count() - 1 );
+    lataa();
 
     if( kp()->kohdennukset()->kohdennuksia())
     {
@@ -58,27 +56,6 @@ Budjettivertailu::~Budjettivertailu()
     delete ui;
 }
 
-
-void Budjettivertailu::esikatsele()
-{
-    Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
-                                             ui->kieliCombo->currentData().toString(),
-                                             this,
-                                             Raportoija::TULOSLASKELMA);
-
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
-    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTI );
-    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUTUNUT );
-    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTIERO );
-    raportoija->lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
-
-    connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
-    connect( raportoija, &Raportoija::tyhjaraportti, this, [this] () { this->nayta(RaportinKirjoittaja()); });
-
-    raportoija->kirjoita( ui->erittelyCheck->isChecked(),
-                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
-
-}
 
 void Budjettivertailu::paivitaMuodot()
 {
@@ -123,4 +100,32 @@ void Budjettivertailu::paivitaKausi()
 {
     Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
     ui->kohdennusCombo->suodataValilla(kausi.alkaa(), kausi.paattyy());
+}
+
+void Budjettivertailu::lataa()
+{
+    ui->kausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( arvo(RaporttiValinnat::AlkuPvm).toDate() ) );
+    const int kohdennus = arvo(RaporttiValinnat::Kohdennuksella).toInt();
+    ui->kohdennusCheck->setChecked( kohdennus > -1 );
+    ui->kohdennusCombo->valitseKohdennus( kohdennus > -1 ? kohdennus : 0 );
+    ui->erittelyCheck->setChecked( arvo(RaporttiValinnat::TulostaErittely).toBool());
+}
+
+void Budjettivertailu::tallenna()
+{
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
+    aseta(RaporttiValinnat::AlkuPvm, kausi.alkaa());
+    aseta(RaporttiValinnat::LoppuPvm, kausi.paattyy());
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData().toInt() :  -1);
+    aseta(RaporttiValinnat::Tyyppi, "tulos");
+    aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
+    aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
+    aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
+
+    kp()->raporttiValinnat()->tyhjennaSarakkeet();
+    kp()->raporttiValinnat()->lisaaSarake(RaporttiValintaSarake(kausi.alkaa(), kausi.paattyy(), RaporttiValintaSarake::Budjetti));
+    kp()->raporttiValinnat()->lisaaSarake(RaporttiValintaSarake(kausi.alkaa(), kausi.paattyy(), RaporttiValintaSarake::Toteutunut));
+    kp()->raporttiValinnat()->lisaaSarake(RaporttiValintaSarake(kausi.alkaa(), kausi.paattyy(), RaporttiValintaSarake::BudjettiEro));
+    kp()->raporttiValinnat()->lisaaSarake(RaporttiValintaSarake(kausi.alkaa(), kausi.paattyy(), RaporttiValintaSarake::ToteumaProsentti));
+
 }

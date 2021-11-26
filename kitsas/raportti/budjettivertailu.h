@@ -30,13 +30,15 @@ public:
     Budjettivertailu();
     ~Budjettivertailu() override;
 
-public slots:
-    void esikatsele() override;
 
 protected slots:
     void paivitaMuodot();
     void paivitaKielet();
     void paivitaKausi();
+
+protected:
+    void lataa();
+    void tallenna() override;
 
 protected:
     Ui::Budjettivertailu *ui;

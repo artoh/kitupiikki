@@ -419,7 +419,7 @@ void LaatijanTaseTulos::kirjoitaYlatunniste()
         RaporttiRivi tyyppirivi(RaporttiRivi::EICSV);
         tyyppirivi.lisaa("");
         for(const auto& sarake : valinnat().sarakkeet()) {
-            olrivi.lisaa( sarake.loppuPvm().toString("dd.MM.yyyy"), 1, true );
+            tyyppirivi.lisaa( sarakeTyyppiTeksti(sarake.tyyppi()), 1, true );
         }
         rk.lisaaOtsake( tyyppirivi);
     }
