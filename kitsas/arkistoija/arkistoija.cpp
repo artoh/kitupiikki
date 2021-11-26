@@ -19,14 +19,7 @@
 #include "db/kirjanpito.h"
 #include "arkistohakemistodialogi.h"
 
-#include "raportti/raportoija.h"
-#include "raportti/paakirja.h"
-#include "raportti/paivakirja.h"
-#include "raportti/taseerittelija.h"
-#include "raportti/tilikarttalistaaja.h"
-#include "raportti/tositeluettelo.h"
-#include "raportti/laskuraportteri.h"
-#include "raportti/myyntiraportteri.h"
+#include "raportti/raportinlaatija.h"
 
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
@@ -61,7 +54,7 @@ void Arkistoija::arkistoi()
         progressDlg_->setMinimumDuration(250);
 
         QStringList raportit = kp()->asetukset()->asetus(AsetusModel::ArkistoRaportit).split(",");
-        raporttilaskuri_ = 9 + raportit.count();
+        raporttilaskuri_ = 8 + raportit.count();
 
         arkistoiTositteet();
         arkistoiRaportit();
@@ -130,53 +123,41 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    Paivakirja* paivakirja = new Paivakirja(this);
-    connect( paivakirja, &Paivakirja::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
-    paivakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
-                          Paivakirja::AsiakasToimittaja + Paivakirja::TulostaSummat +  (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
+    RaporttiValinnat paivaKirja = raportti("paivakirja");
+    tilaaRaportti(paivaKirja);
 
-    Paakirja* paakirja = new Paakirja(this);
-    connect( paakirja, &Paakirja::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paakirja.html"); } );
-    paakirja->kirjoita( tilikausi_.alkaa(), tilikausi_.paattyy(),
-           Paakirja::AsiakasToimittaja +  Paakirja::TulostaSummat + (kp()->kohdennukset()->kohdennuksia() ? Paivakirja::TulostaKohdennukset : 0));
+    RaporttiValinnat paaKirja = raportti("paakirja");
+    tilaaRaportti(paaKirja);
 
-    TaseErittelija* erittelija = new TaseErittelija(this);
-    connect( erittelija, &TaseErittelija::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"taseerittely.html"); } );
-    erittelija->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
+    RaporttiValinnat taseErittely = raportti("taseerittely");
+    tilaaRaportti(taseErittely);
 
-    TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
-    connect( tililuettelo, &TiliKarttaListaaja::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tililuettelo.html"); } );
-    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_,
-                           true, false, tilikausi_.paattyy(), false);
+    RaporttiValinnat tiliLuettelo = raportti("tililuettelo");
+    tiliLuettelo.aseta(RaporttiValinnat::LuettelonTilit, "kaytossa");
+    tilaaRaportti(tiliLuettelo);
 
-    TositeLuettelo* tositeluettelo = new TositeLuettelo(this);
-    connect( tositeluettelo, &TositeLuettelo::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tositeluettelo.html"); } );
-    tositeluettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
-                             TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::TulostaKohdennukset
-                             | TositeLuettelo::SamaTilikausi | TositeLuettelo::TulostaSummat
-                             | TositeLuettelo::AsiakasToimittaja);
+    RaporttiValinnat tositeLuettelo = raportti("tositeluettelo");
+    tositeLuettelo.aseta(RaporttiValinnat::VientiJarjestys, "tosite");
+    tilaaRaportti(tositeLuettelo);
 
-    LaskuRaportteri* myyntilaskut = new LaskuRaportteri(this);
-    connect( myyntilaskut, &LaskuRaportteri::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myyntilaskut.html");});
-    myyntilaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Myyntilaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
-                            tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
+    RaporttiValinnat myyntiLaskuLuettelo = raportti("laskut");
+    myyntiLaskuLuettelo.aseta(RaporttiValinnat::TiedostonNimi, "myyntilaskut.html");
+    myyntiLaskuLuettelo.aseta(RaporttiValinnat::LaskuTyyppi, "myynti");
+    myyntiLaskuLuettelo.aseta(RaporttiValinnat::VainAvoimet);
+    myyntiLaskuLuettelo.aseta(RaporttiValinnat::AlkuPvm, kp()->tilikaudet()->kirjanpitoAlkaa());
+    tilaaRaportti(myyntiLaskuLuettelo);
 
-    LaskuRaportteri* ostolaskut = new LaskuRaportteri(this);
-    connect( ostolaskut, &LaskuRaportteri::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"ostolaskut.html");});
-    ostolaskut->kirjoita( LaskuRaportteri::TulostaSummat | LaskuRaportteri::Ostolaskut | LaskuRaportteri::VainAvoimet | LaskuRaportteri::RajaaLaskupaivalla,
-                          tilikausi_.paattyy(), kp()->tilikaudet()->kirjanpitoAlkaa(), tilikausi_.paattyy());
+    RaporttiValinnat ostoLaskuLuettelo = raportti("laskut");
+    ostoLaskuLuettelo.aseta(RaporttiValinnat::TiedostonNimi, "ostolaskut.html");
+    ostoLaskuLuettelo.aseta(RaporttiValinnat::LaskuTyyppi, "osto");
+    ostoLaskuLuettelo.aseta(RaporttiValinnat::VainAvoimet);
+    ostoLaskuLuettelo.aseta(RaporttiValinnat::AlkuPvm, kp()->tilikaudet()->kirjanpitoAlkaa());
+    tilaaRaportti(ostoLaskuLuettelo);
 
-    MyyntiRaportteri* myynnit = new MyyntiRaportteri(this);
-    connect( myynnit, &MyyntiRaportteri::valmis, this,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"myynnit.html");});
-    myynnit->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
+    RaporttiValinnat myyntiLuettelo = raportti("myynti");
+    myyntiLuettelo.aseta(RaporttiValinnat::TiedostonNimi,"myynnit.html");
+    tilaaRaportti(myyntiLaskuLuettelo);
+
 
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
@@ -185,23 +166,18 @@ void Arkistoija::arkistoiRaportit()
     progressDlg_->setMaximum( progressDlg_->maximum() + raportit.count() );
 
 
-    for( const auto& raportti : qAsConst(raportit)) {
-        QString raporttinimi(raportti);
-        raporttinimi = raporttinimi.replace(QRegularExpression("\\W"),"").toLower().append(".html");
-        Raportoija *raportoija = new Raportoija( raportti, Kielet::instanssi()->nykyinen(), this);
-        connect( raportoija, &Raportoija::valmis, this,
-                 [this, raporttinimi] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk, raporttinimi); } );
-        if( raportoija->onkoTaseraportti()) {
-            raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
-            if( !edellinen.kausitunnus().isEmpty())
-                raportoija->lisaaTasepaiva( edellinen.paattyy());
-        } else {
-            raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy());
-            if( !edellinen.kausitunnus().isEmpty())
-                raportoija->lisaaKausi( edellinen.alkaa(), edellinen.paattyy());
-        }
-        raporttiNimet_.append( qMakePair(raporttinimi, raportoija->nimi()) );
-        raportoija->kirjoita(true, -1);
+    for( const auto& raporttinimi : qAsConst(raportit)) {
+
+        RaporttiValinnat tRaportti = raportti(raporttinimi);
+
+        QString kaava = kp()->asetukset()->asetus(raporttinimi);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+        QVariantMap kmap = doc.toVariant().toMap();
+        const QString otsikko = kmap.value("nimi").toMap().value( Kielet::instanssi()->nykyinen() ).toString();
+        raporttiNimet_.append( qMakePair(tRaportti.arvo(RaporttiValinnat::TiedostonNimi).toString(),
+                                         otsikko) );
+        tilaaRaportti(tRaportti);
+
     }
     arkistoiTilinpaatos();
 
@@ -433,6 +409,11 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
     jotainArkistoitu();
 }
 
+void Arkistoija::arkistoiLaadittuRaportti(const RaportinKirjoittaja &kirjoittaja, const RaporttiValinnat &valinnat)
+{
+    arkistoiRaportti( kirjoittaja, valinnat.arvo(RaporttiValinnat::TiedostonNimi).toString());
+}
+
 void Arkistoija::viimeistele()
 {
     kirjoitaHash();
@@ -502,6 +483,36 @@ void Arkistoija::viimeistele()
     qDebug() << " Arkistoitu";
 
     merkitseArkistoiduksi();
+}
+
+RaporttiValinnat Arkistoija::raportti(QString tyyppi)
+{
+    RaporttiValinnat valinnat(tyyppi);
+    valinnat.aseta(RaporttiValinnat::Kieli, Kielet::instanssi()->nykyinen()  );
+    valinnat.aseta(RaporttiValinnat::AlkuPvm, tilikausi_.alkaa());
+    valinnat.aseta(RaporttiValinnat::LoppuPvm, tilikausi_.paattyy());
+    valinnat.aseta(RaporttiValinnat::SaldoPvm, tilikausi_.paattyy());
+    valinnat.aseta(RaporttiValinnat::TulostaKumppani);
+    valinnat.aseta(RaporttiValinnat::TulostaSummarivit);
+    valinnat.aseta(RaporttiValinnat::TulostaErittely);
+    if( kp()->kohdennukset()->kohdennuksia())
+        valinnat.aseta(RaporttiValinnat::TulostaKohdennus);
+
+    valinnat.lisaaSarake(RaporttiValintaSarake(tilikausi_.alkaa(), tilikausi_.paattyy()));
+    Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
+    if( edellinen.alkaa().isValid()) {
+        valinnat.lisaaSarake(RaporttiValintaSarake(edellinen.alkaa(), edellinen.paattyy()));
+    }
+
+    valinnat.aseta(RaporttiValinnat::TiedostonNimi, tyyppi.replace(QRegularExpression("\\W"),"").toLower() + ".html");
+    return valinnat;
+}
+
+void Arkistoija::tilaaRaportti(RaporttiValinnat &valinnat)
+{
+    RaportinLaatija* laatija = new RaportinLaatija(this);
+    connect( laatija, &RaportinLaatija::raporttiValmis, this, &Arkistoija::arkistoiLaadittuRaportti);
+    laatija->laadi(valinnat);
 }
 
 QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)

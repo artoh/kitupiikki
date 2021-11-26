@@ -64,10 +64,14 @@ public:
         VainKitsaalla,
         RaportinMuoto,
         AlvAlkuPvm,
-        AlvLoppuPvm
+        AlvLoppuPvm,
+        TiedostonNimi,
+        TilausJarjestysNumero
     };
 
     RaporttiValinnat();
+    RaporttiValinnat(const QString& tyyppi);
+    RaporttiValinnat(const RaporttiValinnat& toinen);
 
     void aseta(Valinta valinta, QVariant arvo = true);
 
@@ -79,7 +83,7 @@ public:
     void asetaSarakkeet(QList<RaporttiValintaSarake> sarakkeet);
     QList<RaporttiValintaSarake> sarakkeet() const { return sarakkeet_;}
 
-    void nollaa();
+    void nollaa();    
 
 protected:
     QMap<Valinta,QVariant> valinnat_;

@@ -1,10 +1,31 @@
 #include "raporttivalinnat.h"
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
+#include "kieli/kielet.h"
 
 RaporttiValinnat::RaporttiValinnat()
 {
+    aseta(Kohdennuksella, -1);
+    aseta(Kieli, Kielet::instanssi()->nykyinen());
+}
 
+RaporttiValinnat::RaporttiValinnat(const QString &tyyppi)
+{
+    aseta(Kohdennuksella, -1);
+    aseta(Kieli, Kielet::instanssi()->nykyinen());
+    if( tyyppi.contains("/")) {
+        const int kautta = tyyppi.indexOf('/');
+        aseta(Tyyppi, tyyppi.left(kautta));
+        aseta(RaportinMuoto, tyyppi);
+    } else {
+        aseta(Tyyppi, tyyppi);
+    }
+}
+
+RaporttiValinnat::RaporttiValinnat(const RaporttiValinnat &toinen)
+{
+    valinnat_ = toinen.valinnat_;
+    sarakkeet_ = toinen.sarakkeet_;
 }
 
 void RaporttiValinnat::aseta(Valinta valinta, QVariant arvo)
@@ -42,6 +63,7 @@ void RaporttiValinnat::nollaa()
     aseta( AlvAlkuPvm, alvAlku);
     aseta( AlvLoppuPvm, alvAlku.addMonths(1).addDays(-1));
 }
+
 
 RaporttiValintaSarake::RaporttiValintaSarake()
 {

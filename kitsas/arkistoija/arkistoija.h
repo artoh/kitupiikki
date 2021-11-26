@@ -19,6 +19,7 @@
 
 #include "db/tilikausi.h"
 #include "raportti/raportinkirjoittaja.h"
+#include "raportti/laatijat/laatijanraportti.h"
 
 #include <QObject>
 #include <QDir>
@@ -58,7 +59,11 @@ protected:
     void arkistoiSeuraavaLiite();
     void arkistoiLiite(QVariant* data, const QString tiedosto);
     void arkistoiRaportti(RaportinKirjoittaja rk, const QString& tiedosto);
+    void arkistoiLaadittuRaportti(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
     void viimeistele();
+
+    RaporttiValinnat raportti(QString tyyppi);
+    void tilaaRaportti(RaporttiValinnat& valinnat);
 
 protected:
     static QString tiedostonnimi(const QDate& pvm, const QString& sarja, int tunniste);

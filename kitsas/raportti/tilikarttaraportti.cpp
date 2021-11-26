@@ -48,7 +48,7 @@ TilikarttaRaportti::~TilikarttaRaportti()
 
 void TilikarttaRaportti::tallenna()
 {
-    aseta(RaporttiValinnat::Tyyppi, "tilikartta");
+    aseta(RaporttiValinnat::Tyyppi, "tililuettelo");
     aseta(RaporttiValinnat::LuetteloPvm, ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate());
     aseta(RaporttiValinnat::SaldoPvm, ui->saldotCheck->isChecked() ? ui->saldotDate->date() : QDate());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData());

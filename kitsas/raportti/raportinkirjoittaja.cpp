@@ -428,7 +428,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                 }
 
                 if( i == 0) {
-                    for(int s=0; s < rivi.sisennys(); s++) {
+                    for(int s=0; s < rivi.sisennys() * 2; s++) {
                         txt.append("&nbsp;");
                     }
                 }

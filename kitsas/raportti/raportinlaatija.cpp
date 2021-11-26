@@ -32,7 +32,7 @@ void RaportinLaatija::laadi(const RaporttiValinnat &valinnat)
         raportti = new LaatijanMyynti(this, valinnat);
     else if(raporttiTyyppi == "laskut")
         raportti = new LaatijanLaskut(this, valinnat);
-    else if(raporttiTyyppi == "tilikartta")
+    else if(raporttiTyyppi == "tililuettelo")
         raportti = new LaatijanTilikartta(this, valinnat);
     else if(raporttiTyyppi == "alv")
         raportti = new LaatijanAlv(this, valinnat);
