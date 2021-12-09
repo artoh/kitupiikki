@@ -68,7 +68,10 @@ void KommentitWidget::lataa()
     edit_->clear();
 
     bool oikeus = kp()->yhteysModel() &&
-            kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS);
+            tosite_->id() ?
+                kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_KOMMENTTI) :
+                kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS);
+
 
     edit_->setEnabled(oikeus);
     button_->setEnabled(false);
@@ -106,8 +109,8 @@ void KommentitWidget::paivita()
     map.insert("teksti", edit_->toPlainText());
     tosite_->setData(Tosite::KOMMENTTI, map);
 
-    bool oikeus = kp()->yhteysModel() &&
-            kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS);
+    bool oikeus = kp()->yhteysModel() &&            
+            tosite_->id() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_KOMMENTTI);
     button_->setEnabled(oikeus && !edit_->toPlainText().isEmpty());
     emit kommentteja( !edit_->toPlainText().isEmpty() ||
                       !browser_->toPlainText().isEmpty());
