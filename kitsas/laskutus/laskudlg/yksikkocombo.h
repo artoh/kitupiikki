@@ -35,10 +35,13 @@ public:
 protected:
     void focusOutEvent(QFocusEvent *e) override;
 
-    void valittu();
-    void mika();
+    void vaihtui(int indeksi);
+    void syotetty(const QString& teksti);
 
     YksikkoModel yksikot_;
+
+    QString yksikko_;
+    QString unKoodi_;
 
 };
 

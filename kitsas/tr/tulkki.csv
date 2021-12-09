@@ -290,6 +290,8 @@ UN_E50,yks,enhet,unit
 UN_E51,krt,gång,job
 UN_KMT,km,km,km
 UN_KWH,kWh,kWh,kWh
+UN_MTR,m,m,m
+UN_CMT,cm,cm,cm
 UN_MTK,m²,m²,m²
 UN_MTQ,m³,m³,m³
 UN_E21,osaketta,aktier,share

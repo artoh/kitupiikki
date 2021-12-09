@@ -71,7 +71,7 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->jalkitoimitusEdit->setText( rivi.jalkitoimitusKpl() );
     ui->laskutetaanEdit->setText( rivi.laskutetaanKpl());
 
-    if( rivi.unKoodi().isEmpty())
+    if( rivi.unKoodi().isEmpty() || rivi.unKoodi() == "ZZ")
         ui->yksikkoCombo->setYksikko( rivi.yksikko());
     else
         ui->yksikkoCombo->setUNkoodi(rivi.unKoodi());
@@ -111,9 +111,10 @@ TositeRivi LaskuRiviDialogi::rivi()
     rivi_.setToimitettuKpl( ui->toimitettuEdit->text());
     rivi_.setJalkitoimitusKpl( ui->jalkitoimitusEdit->text());
 
-    if( ui->yksikkoCombo->unKoodi().isEmpty())
-        rivi_.setYksikko( ui->yksikkoCombo->yksikko());
-    else
+    if( ui->yksikkoCombo->unKoodi().isEmpty()) {
+        rivi_.setUNkoodi("");
+        rivi_.setYksikko( ui->yksikkoCombo->yksikko());        
+    } else
         rivi_.setUNkoodi(ui->yksikkoCombo->unKoodi());
 
 

@@ -37,6 +37,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;    
     QString nimi(const QString& unKoodi) const;
+    QString koodi(const QString& nimi) const;
 
 protected:
     void lisaa(const QString& UNkoodi, const QString& nimi);

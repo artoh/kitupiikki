@@ -31,52 +31,71 @@ YksikkoCombo::YksikkoCombo(QWidget *parent, bool editable)
     proxy->sort(0);
     setModel(proxy);
 
-    connect( this, qOverload<int>(&QComboBox::currentIndexChanged),
-             this, &YksikkoCombo::valittu);
-    setCurrentIndex( findData("C62") );
+    connect( this, &QComboBox::editTextChanged, this, &YksikkoCombo::syotetty);
+    connect( this, qOverload<int>(&QComboBox::currentIndexChanged), this, &YksikkoCombo::vaihtui );
+
+    setUNkoodi("C62");
 
 }
 
 void YksikkoCombo::setYksikko(const QString &yksikko)
 {
-    setCurrentIndex(-1);
-    setEditText(yksikko);
+    yksikko_ = yksikko;
+    unKoodi_ = "";
+
+    setCurrentText(yksikko);
 }
 
 void YksikkoCombo::setUNkoodi(const QString &koodi)
 {
-    qDebug() << "setUN " << koodi;
-    setCurrentIndex( findData(koodi) );
-    if( isEditable() )
-        setEditText( yksikot_.nimi(koodi) );
+    unKoodi_ = koodi;
+    yksikko_ = yksikot_.nimi(koodi);
+    setCurrentText(yksikko_);
+    if( isEditable())
+        lineEdit()->setText( yksikko_);
 }
 
 QString YksikkoCombo::yksikko() const
 {
-    if( currentIndex() == -1) {
-        return currentText();
-    } else {
-        return QString();
-    }
+    return yksikko_;
 }
 
 QString YksikkoCombo::unKoodi() const
 {
-    qDebug() << "UN " << currentData(YksikkoModel::UNKoodiRooli).toString();
-    return currentData(YksikkoModel::UNKoodiRooli).toString();
+    return unKoodi_;
 }
 
 void YksikkoCombo::focusOutEvent(QFocusEvent *e)
 {
     QComboBox::focusOutEvent(e);
 
-    if( currentIndex() > -1 && isEditable())
-        lineEdit()->setText( currentData(Qt::DisplayRole).toString() );
+    qDebug() << "fOUT" << yksikko_;
+
+    if( isEditable() )
+        lineEdit()->setText( yksikko_ );
 }
 
-void YksikkoCombo::valittu()
+void YksikkoCombo::vaihtui(int indeksi)
 {
-    if(isEditable())
-        setEditText( currentData(Qt::DisplayRole).toString() );
+    if( indeksi < 0)
+        return;
+
+    const QString koodi = model()->index(indeksi,0).data(YksikkoModel::UNKoodiRooli).toString();
+    const QString nimi = model()->index(indeksi,0).data(Qt::DisplayRole).toString();
+
+    unKoodi_ = koodi;
+    yksikko_ = nimi;
+
+    if( isEditable())
+        lineEdit()->setText( yksikko_);
+
+}
+
+void YksikkoCombo::syotetty(const QString &teksti)
+{
+    if( yksikko_ != teksti && !teksti.isEmpty()) {
+        yksikko_ = teksti;
+        unKoodi_ = yksikot_.koodi(teksti);
+    }
 }
 

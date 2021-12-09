@@ -36,6 +36,7 @@ YksikkoModel::YksikkoModel(QObject *parent)
     lisaa("ACT", tr("Yksikkö työtä"));
     lisaa("E50", tr("Laskutusyksikkö"));
     lisaa("E51", tr("Työsuorite"));
+    lisaa("MTR", tr("Metri"));
     lisaa("KMT", tr("Kilometri"));
     lisaa("KWH", tr("Kilowattitunti"));
     lisaa("MTK", tr("Neliömetri"));
@@ -76,6 +77,17 @@ QString YksikkoModel::nimi(const QString &unKoodi) const
     for( const auto& yksikko: yksikot_) {
         if( yksikko.unKoodi() == unKoodi) {
             return yksikko.nimi();
+        }
+    }
+    return QString();
+}
+
+QString YksikkoModel::koodi(const QString &nimi) const
+{
+    const QString isona = nimi.toUpper();
+    for( const auto& yksikko : yksikot_) {
+        if( yksikko.nimi().toUpper() == isona ) {
+            return yksikko.unKoodi();
         }
     }
     return QString();

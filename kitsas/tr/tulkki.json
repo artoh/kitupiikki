@@ -1165,6 +1165,11 @@
         "sv": "kWh",
         "en": "kWh"
     },
+    "UN_MTR": {
+        "fi": "m",
+        "sv": "m",
+        "en": "m"
+    },
     "UN_MTK": {
         "fi": "m²",
         "sv": "m²",

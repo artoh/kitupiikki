@@ -37,22 +37,29 @@ QWidget *YksikkoDelegaatti::createEditor(QWidget *parent, const QStyleOptionView
 void YksikkoDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     YksikkoCombo *combo = qobject_cast<YksikkoCombo*>(editor);
-    qDebug() << " UN MODEL " << index.data( TositeRivit::UNkoodiRooli ).toString()
-             << " - " << index.data(Qt::EditRole).toString();
 
-    if( !index.data( TositeRivit::UNkoodiRooli ).toString().isEmpty()) {
-        combo->setUNkoodi( index.data(TositeRivit::UNkoodiRooli).toString() );
-    } else if( !index.data( Qt::EditRole).toString().isEmpty()) {
-        combo->setYksikko( index.data(Qt::EditRole).toString() );
+    const QString unKoodi = index.data(TositeRivit::UNkoodiRooli).toString();
+    const QString yksikko = index.data(Qt::EditRole).toString();
+
+
+    if( unKoodi.isEmpty() ) {
+        combo->setYksikko( yksikko);
+    } else {
+        combo->setUNkoodi(unKoodi);
     }
+
 }
 
 void YksikkoDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     YksikkoCombo *combo = qobject_cast<YksikkoCombo*>(editor);
-    if( !combo->unKoodi().isEmpty()) {
-        model->setData(index, combo->unKoodi(), TositeRivit::UNkoodiRooli);
-    } else if( !combo->yksikko().isEmpty()) {
-        model->setData(index, combo->yksikko(), Qt::EditRole );
+
+    const QString unKoodi = combo->unKoodi();
+    const QString yksikko = combo->yksikko();
+
+    if( unKoodi.isEmpty()) {
+        model->setData(index, yksikko, Qt::EditRole );
+    } else {
+        model->setData(index, unKoodi, TositeRivit::UNkoodiRooli);
     }
 }

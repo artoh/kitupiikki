@@ -370,8 +370,10 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
 
     if( !tuote.unKoodi().isEmpty())
         rivi.setUNkoodi( tuote.unKoodi());
-    else if( !tuote.yksikko().isEmpty())
+    else if( !tuote.yksikko().isEmpty()) {
+        rivi.setUNkoodi("");
         rivi.setYksikko( tuote.yksikko() );
+    }
 
     rivi.setLaskutetaanKpl( lkm );
     rivi.setMyyntiKpl( lkm.toDouble());
