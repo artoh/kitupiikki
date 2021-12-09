@@ -41,7 +41,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     dlg_( new AsiakasToimittajaDlg(this))
 
 {
-    button_->setIcon(QIcon(":/pic/uusiasiakas.png"));
+    button_->setIcon(QIcon(":/pic/uusiasiakas.png"));    
 
     QHBoxLayout* leiska = new QHBoxLayout(this);
     leiska->setContentsMargins(0,0,0,0);
@@ -69,7 +69,7 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     combo_->installEventFilter(this);
 
     setFocusProxy( combo_ );
-    button_->setFocusPolicy(Qt::NoFocus);
+    button_->setFocusPolicy(Qt::NoFocus);    
     clear();
 }
 
@@ -140,6 +140,8 @@ void AsiakasToimittajaValinta::valitse(const QVariantMap &map)
         int indeksi = combo_->findData( id() );
         if( indeksi > -1)
             combo_->setCurrentIndex(indeksi);
+        else
+            combo_->setCurrentText( nimi());
     } else {
         combo_->setCurrentText( nimi() );
     }
@@ -167,6 +169,11 @@ void AsiakasToimittajaValinta::lataa(QVariant *data)
     combo_->setCurrentIndex(indeksi);
     setId(id());
     emit muuttui( map_);
+}
+
+void AsiakasToimittajaValinta::naytaNappi(bool nayta)
+{
+    button_->setVisible(nayta);
 }
 
 void AsiakasToimittajaValinta::nimiMuuttui()

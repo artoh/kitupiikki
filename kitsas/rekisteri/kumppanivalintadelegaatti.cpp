@@ -22,6 +22,8 @@
 #include <QCompleter>
 #include <QLineEdit>
 
+#include "asiakastoimittajavalinta.h"
+
 KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(QWidget *parent) :
     QItemDelegate(parent)
 {
@@ -29,28 +31,46 @@ KumppaniValintaDelegaatti::KumppaniValintaDelegaatti(QWidget *parent) :
 }
 
 QWidget *KumppaniValintaDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
-{
+{    
+    /*
     QComboBox *combo = new QComboBox(parent);
     combo->setEditable(true);
     combo->setModel(AsiakasToimittajaListaModel::instanssi());
     combo->completer()->setCompletionMode(QCompleter::PopupCompletion);
 
     return combo;
+    */
+    AsiakasToimittajaValinta* valinta = new AsiakasToimittajaValinta(parent);
+    valinta->setProperty("MuokkaaUusi", false);
+    valinta->naytaNappi(false);
+    return valinta;
 }
 
 void KumppaniValintaDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
+    /*
+
     QComboBox *combo = qobject_cast<QComboBox*>(editor);
+
 
     if( index.data(IdRooli).toInt()) {
         combo->setCurrentIndex( combo->findData(index.data(IdRooli)) );
     } else {
         combo->setCurrentText( index.data(Qt::DisplayRole).toString());
     }
+    */
+
+    AsiakasToimittajaValinta *valinta = qobject_cast<AsiakasToimittajaValinta*>(editor);
+    valinta->valitse( index.data(Qt::EditRole).toMap() );
 }
 
 void KumppaniValintaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
+    AsiakasToimittajaValinta *valinta = qobject_cast<AsiakasToimittajaValinta*>(editor);
+    model->setData(index, valinta->map(), Qt::EditRole);
+
+    /*
+
     QComboBox *combo = qobject_cast<QComboBox*>(editor);
 
     QString text = combo->lineEdit()->text();
@@ -63,4 +83,6 @@ void KumppaniValintaDelegaatti::setModelData(QWidget *editor, QAbstractItemModel
     kumppaniMap.insert("nimi", text);
 
     model->setData(index, kumppaniMap, Qt::EditRole);
+
+    */
 }

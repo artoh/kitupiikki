@@ -68,9 +68,8 @@ void KommentitWidget::lataa()
     edit_->clear();
 
     bool oikeus = kp()->yhteysModel() &&
-            tosite_->id() ?
-                kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_KOMMENTTI) :
-                kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS);
+            ( tosite_->id() ? kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_KOMMENTTI) :
+                              kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS | YhteysModel::TOSITE_MUOKKAUS) );
 
 
     edit_->setEnabled(oikeus);

@@ -168,6 +168,8 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             return rivi.kohdennus();
         case SELITE:
             return rivi.selite();
+        case KUMPPANI:
+            return rivi.kumppaniMap();
         }
         break;
     case Qt::TextAlignmentRole:

@@ -48,6 +48,7 @@ public slots:
     void valitse(const QVariantMap& map);
     void valitse(int kumppaniId);
     void lataa(QVariant* data);
+    void naytaNappi(bool nayta);
 
 private slots:
     void nimiMuuttui();
