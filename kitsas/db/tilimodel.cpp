@@ -88,9 +88,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
 
     Tili* tili = tiliLista_.value(index.row());
 
-    if( role == IdRooli ) {
-        return QVariant( tili->id());
-    } else if( role == NroRooli )
+    if( role == NroRooli )
         return QVariant( tili->numero());
     else if( role == NimiRooli )
         return QVariant( tili->nimi());
@@ -316,13 +314,6 @@ Tili TiliModel::tiliTyypilla(const QString &tyyppikoodi) const
     return Tili();
 }
 
-QStringList TiliModel::laskuTilit() const
-{
-    // Tämä siirtyy toisaalle
-    return QStringList();
-}
-
-
 void TiliModel::lataa(QVariantList lista)
 {
     beginResetModel();
@@ -376,6 +367,8 @@ void TiliModel::lataa(QVariantList lista)
 
 void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
 {
+    if( !tili)
+        return;
 
     if( tila == Tili::TILI_PIILOSSA)
         piilotetut_.insert(tili);

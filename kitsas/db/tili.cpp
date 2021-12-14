@@ -22,14 +22,14 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : numero_(0), tila_(1),ylaotsikkoId_(0)
+Tili::Tili() : numero_(0), tila_(1)
 {
 
 }
 
 
 Tili::Tili(const QVariantMap &data) :
-    KantaVariantti (data), tila_(1), ylaotsikkoId_(0)
+    KantaVariantti (data), tila_(1)
 {
 
     nimi_.aseta( data_.take("nimi") );
@@ -40,11 +40,6 @@ Tili::Tili(const QVariantMap &data) :
 
     laajuus_ = data_.take("laajuus").toInt();
 
-}
-
-int Tili::id() const
-{
-    throw QString("Yritetään saada tilin id %1").arg( nimiNumero() );
 }
 
 QString Tili::nimi(const QString &kieli) const

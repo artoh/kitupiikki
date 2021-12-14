@@ -38,7 +38,6 @@ public:
 
     Tili(const QVariantMap& data);
 
-    int id() const;
     int numero() const { return numero_; }
 
     QString nimi(const QString& kieli = QString()) const;
@@ -60,12 +59,6 @@ public:
 
     int alvlaji() const { return luku("alvlaji");}
     double alvprosentti() const { return dbl("alvprosentti");}
-
-    /**
-     * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n
-     * @return
-     */
-    int ylaotsikkoId() const { return ylaotsikkoId_; }
 
 
     void asetaNumero(int numero);
@@ -135,7 +128,6 @@ protected:
 
     TiliTyyppi tyyppi_;
     int tila_;
-    int ylaotsikkoId_;
 
     Monikielinen nimi_;
     Monikielinen ohje_;

@@ -58,6 +58,9 @@ public slots:
      */
     void siirry(const QString& minne);
 
+private:
+    void paivitaTilatAlta(Tili* otsikkoPtr, Tili::TiliTila tila);
+
 protected:
     Ui::Tilikartta *ui;
     TiliModel *model;

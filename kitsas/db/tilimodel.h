@@ -43,8 +43,7 @@ public:
     };
 
     enum
-    {
-        IdRooli = Qt::UserRole + 1,
+    {        
         NroRooli = Qt::UserRole + 2,
         NimiRooli = Qt::UserRole + 3,
         NroNimiRooli = Qt::UserRole + 4,
@@ -90,8 +89,6 @@ public:
      */
     Tili tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const;
     Tili tiliTyypilla(const QString& tyyppikoodi) const;
-
-    [[deprecated]] QStringList laskuTilit() const;
 
     void lataa(QVariantList lista);
 

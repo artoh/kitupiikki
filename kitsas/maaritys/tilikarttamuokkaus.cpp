@@ -99,23 +99,15 @@ bool TilikarttaMuokkaus::nollaa()
 void TilikarttaMuokkaus::muutaTila(Tili::TiliTila tila)
 {
     int indeksi = naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row();
-    Tili* tili = kp()->tilit()->tiliPIndeksilla(indeksi);
+    Tili* tili = kp()->tilit()->tiliPIndeksilla(indeksi);    
 
     if( tili->otsikkotaso())  {
-        // Muutetaan kaikki tilit tämän alapuolelta
-        for(int i=indeksi+1; i < kp()->tilit()->rowCount(); i++) {
-            Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
-            if( !tamatili->otsikkotaso())
-                kp()->tilit()->asetaSuosio( tamatili->numero(), tila );
-            else if( tamatili->otsikkotaso() <= tili->otsikkotaso())
-                break;
-        }
+        paivitaTilatAlta(tili, tila);
     } else {
-        kp()->tilit()->asetaSuosio( tili->numero(), tila);
+        model->asetaSuosio(tili->numero(), tila);
     }
 
     riviValittu(ui->view->currentIndex());
-
 }
 
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
@@ -222,4 +214,20 @@ void TilikarttaMuokkaus::siirry(const QString &minne)
         }
     }
 }
+
+void TilikarttaMuokkaus::paivitaTilatAlta(Tili *otsikkoPtr, Tili::TiliTila tila)
+{
+    for( int i=0; i < model->rowCount(); i++) {
+        Tili* tili = model->tiliPIndeksilla(i);
+        if( tili->tamanOtsikko() == otsikkoPtr) {
+            if( tili->otsikkotaso()) {
+                paivitaTilatAlta(tili, tila);
+            } else {
+                model->asetaSuosio(tili->numero(), tila);
+            }
+        }
+    }
+}
+
+
 
