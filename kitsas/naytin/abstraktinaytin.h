@@ -61,6 +61,7 @@ public:
     virtual void virkista() {;}
 
 signals:
+    void otsikkoVaihtui(const QString& otsikko);
 
 public slots:
 

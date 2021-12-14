@@ -32,6 +32,8 @@ void LaaditunRaportinNaytin::raporttiSaapuu(const RaportinKirjoittaja &kirjoitta
 {
     raportti_ = kirjoittaja;
     valinnat_ = valinnat;
+    otsikko_ = kirjoittaja.otsikko() + " " + kirjoittaja.kausiteksti();
+    emit otsikkoVaihtui(otsikko_);
     kp()->odotusKursori(false);
     paivita();
 }

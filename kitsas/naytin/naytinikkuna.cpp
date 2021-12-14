@@ -62,6 +62,7 @@ void NaytinIkkuna::naytaRaportti(const RaporttiValinnat &valinnat)
     NaytinIkkuna *ikkuna = new NaytinIkkuna;
     ikkuna->show();
     ikkuna->view()->nayta(valinnat);
+    connect( ikkuna->view(), &NaytinView::otsikkoVaihtunut, ikkuna, &NaytinIkkuna::setWindowTitle);
 }
 
 void NaytinIkkuna::nayta(const QByteArray& data)

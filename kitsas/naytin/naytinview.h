@@ -86,9 +86,13 @@ public slots:
 
 signals:
     void sisaltoVaihtunut();
+    void otsikkoVaihtunut(const QString& otsikko);
 
 
 protected:
+    QString raporttipolku() const;
+    void setRaporttipolku(const QString& polku);
+
     void vaihdaNaytin(Naytin::AbstraktiNaytin* naytin);
 
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -104,8 +108,6 @@ protected:
     QVBoxLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
-
-    static QString viimeisinPolku__;
 
 };
 

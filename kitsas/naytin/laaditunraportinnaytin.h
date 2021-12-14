@@ -19,12 +19,15 @@ public:
     void virkista() override;
     bool voikoVirkistaa() const override { return true; }
 
+    QString otsikko() const override { return otsikko_;}
+
 public slots:
     void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
 
 protected:
     RaporttiValinnat valinnat_;
     RaportinLaatija laatija_;
+    QString otsikko_;
 };
 
 

@@ -46,6 +46,8 @@
 #include <QImage>
 #include <QApplication>
 
+#include <QSettings>
+
 #include "db/kpkysely.h"
 
 #include "naytin/raporttinaytin.h"
@@ -200,12 +202,13 @@ void NaytinView::avaaOhjelmalla()
 }
 
 void NaytinView::tallenna()
-{
+{        
+
     QString polku = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"),
-                                                 viimeisinPolku__, tiedostonMuoto() );
+                                                 raporttipolku(), tiedostonMuoto() );
     if( !polku.isEmpty())
     {
-        viimeisinPolku__ = QFileInfo(polku).absolutePath();
+        setRaporttipolku(polku);
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -248,10 +251,10 @@ void NaytinView::htmlLeikepoydalle()
 void NaytinView::tallennaHtml()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"),
-                                                 viimeisinPolku__, "html-tiedosto (*.html)");
+                                                 raporttipolku(), "html-tiedosto (*.html)");
     if( !polku.isEmpty())
     {
-        viimeisinPolku__ = QFileInfo(polku).absolutePath();
+        setRaporttipolku(polku);
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -323,10 +326,10 @@ void NaytinView::csvAsetukset()
 void NaytinView::tallennaCsv()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
-                                                 viimeisinPolku__, "csv-tiedosto (*.csv)");
+                                                 raporttipolku(), "csv-tiedosto (*.csv)");
     if( !polku.isEmpty())
     {
-        viimeisinPolku__ = QFileInfo(polku).absolutePath();
+        setRaporttipolku(polku);
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -360,6 +363,18 @@ void NaytinView::zoomOut()
 {
     if( naytin_)
         naytin_->zoomOut();
+}
+
+QString NaytinView::raporttipolku() const
+{
+    QSettings settings;
+    return settings.value(kp()->asetukset()->uid() + "/raporttipolku", QDir::homePath()).toString();
+}
+
+void NaytinView::setRaporttipolku(const QString &polku)
+{
+    QSettings settings;
+    settings.setValue( kp()->asetukset()->uid() + "/raporttipolku", QFileInfo(polku).absolutePath() );
 }
 
 QString NaytinView::otsikko() const
@@ -430,8 +445,11 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 
     naytin_ = naytin;
 
-    if(naytin)
-        leiska_->addWidget( naytin->widget());
+    if(naytin) {
+        leiska_->addWidget( naytin->widget());                
+        connect( naytin, &Naytin::AbstraktiNaytin::otsikkoVaihtui, this, &NaytinView::otsikkoVaihtunut);
+    }
+
     qApp->processEvents();
 
     emit sisaltoVaihtunut();
@@ -459,5 +477,3 @@ QPrinter *NaytinView::printer()
 {
     return naytin_ ? naytin_->printer() : kp()->printer();
 }
-
-QString NaytinView::viimeisinPolku__ = QDir::homePath();
