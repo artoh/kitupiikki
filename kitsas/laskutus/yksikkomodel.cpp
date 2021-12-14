@@ -37,6 +37,7 @@ YksikkoModel::YksikkoModel(QObject *parent)
     lisaa("E50", tr("Laskutusyksikkö"));
     lisaa("E51", tr("Työsuorite"));
     lisaa("MTR", tr("Metri"));
+    lisaa("CMT", tr("Senttimetri"));
     lisaa("KMT", tr("Kilometri"));
     lisaa("KWH", tr("Kilowattitunti"));
     lisaa("MTK", tr("Neliömetri"));
