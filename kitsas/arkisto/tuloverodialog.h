@@ -20,6 +20,8 @@
 #include <QDialog>
 #include "db/tilikausi.h"
 
+#include "raportti/raportinkirjoittaja.h"
+
 namespace Ui {
 class TuloveroDialog;
 }
@@ -46,8 +48,14 @@ protected slots:
     void paivitaYlenjalkeen();
     void paivitaVero();
     void paivitaJaannos();
+    void paivitaMaksettavaYle();
 
     void kirjattu();
+
+protected:
+    QByteArray liite() const;
+    static void rivi(RaportinKirjoittaja& rk, const QString& teksti, const Euro& maara);
+
 
 private:
     Ui::TuloveroDialog *ui;

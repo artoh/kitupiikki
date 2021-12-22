@@ -21,6 +21,7 @@
 #include "model/tosite.h"
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
+#include "model/tositeliitteet.h"
 #include "db/tositetyyppimodel.h"
 #include <QPushButton>
 #include <QMessageBox>
@@ -40,6 +41,7 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
 
     connect( ui->ennenYlea, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
     connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
+    connect( ui->ennakkoYle, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaMaksettavaYle);
 
     connect( ui->ylenJalkeen, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
 
@@ -60,9 +62,10 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
 {
     tilikausi_ = tilikausi;
 
-    ui->tuloEdit->setValue( verolaskelma.value("tulo").toDouble());
-    ui->vahennysEdit->setValue( verolaskelma.value("vahennys").toDouble());
-    ui->maksetutEdit->setValue( verolaskelma.value("ennakko").toDouble());
+    ui->tuloEdit->setEuro( verolaskelma.value("tulo").toString());
+    ui->vahennysEdit->setEuro( verolaskelma.value("vahennys").toString());
+    ui->maksetutEdit->setEuro( verolaskelma.value("ennakko").toString());
+    ui->ennakkoYle->setEuro( verolaskelma.value("ennakkoyle").toString() );
 
     paivitaTulos();
 
@@ -88,20 +91,25 @@ void TuloveroDialog::accept()
     tosite->asetaOtsikko(tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
     tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::TULOVERO ) ) ;
 
-    if( ui->yleveroEdit->value() > 1e-5) {
+    Euro maksettavaYle = ui->maksettavaYle->euro();
+    if( maksettavaYle.cents()) {
         QString yleselite = tr("Ylevero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
 
         TositeVienti yledebet;
         yledebet.setPvm(tilikausi_.paattyy());
         yledebet.setTili( kp()->asetukset()->luku("Yleverotili", 8740) );
-        yledebet.setDebet(ui->yleveroEdit->value());
+        yledebet.setDebet(maksettavaYle);
         yledebet.setSelite(yleselite);
         tosite->viennit()->lisaa(yledebet);
 
         TositeVienti ylekredit;
         ylekredit.setPvm(tilikausi_.paattyy());
-        ylekredit.setTili( kp()->asetukset()->luku("Tuloverojaksotustili",9940));
-        ylekredit.setKredit( ui->yleveroEdit->value());
+        if( maksettavaYle.cents() > 0) {
+            ylekredit.setTili( kp()->asetukset()->luku("Tuloverosiirtovelat", 2968));
+        } else {
+            ylekredit.setTili( kp()->asetukset()->luku("Tuloverosiirtosaamiset", 1813) );
+        }
+        ylekredit.setKredit( maksettavaYle);
         ylekredit.setSelite(yleselite);
         tosite->viennit()->lisaa(ylekredit);
     }
@@ -121,14 +129,16 @@ void TuloveroDialog::accept()
     siirtovienti.setPvm(tilikausi_.paattyy());
     siirtovienti.setEra(-1);        // Oma tase-eränsä
     if( ui->jaaveroaEdit->asCents() > 0) {
-        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtovelat",2968));
+        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtovelat", 2968));
         siirtovienti.setKredit(ui->jaaveroaEdit->asCents());
     } else {
-        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtosaamiset",1813));
+        siirtovienti.setTili(kp()->asetukset()->luku("Tuloverosiirtosaamiset", 1813));
         siirtovienti.setDebet(0 - ui->jaaveroaEdit->asCents());
     }
     siirtovienti.setSelite(selite);
     tosite->viennit()->lisaa(siirtovienti);
+    tosite->liitteet()->lisaa( liite(), "verolaskelma.pdf", "verolaskelma" );
+
 
     connect( tosite, &Tosite::talletettu, this, &TuloveroDialog::kirjattu);
     tosite->tallenna();
@@ -164,6 +174,7 @@ void TuloveroDialog::paivitaYlenjalkeen()
 {
     ui->ylenJalkeen->setValue(ui->ennenYlea->value() - ui->yleveroEdit->value());
     paivitaVero();
+    paivitaMaksettavaYle();
 }
 
 
@@ -183,6 +194,14 @@ void TuloveroDialog::paivitaJaannos()
     ui->jaaveroaEdit->setValue( ui->veroEdit->value() - ui->maksetutEdit->value());
 }
 
+void TuloveroDialog::paivitaMaksettavaYle()
+{
+    Euro ylevero = ui->yleveroEdit->euro();
+    Euro ennakko = ui->ennakkoYle->euro();
+    Euro maksettavaa = ylevero - ennakko;
+    ui->maksettavaYle->setEuro(maksettavaa);
+}
+
 void TuloveroDialog::kirjattu()
 {
     QDialog::accept();
@@ -191,4 +210,42 @@ void TuloveroDialog::kirjattu()
                                 "Säilytä veroilmoitus ja mahdolliset verolaskelmasi "
                                 "kirjanpitosi yhteydessä."));
     emit tallennettu();
+}
+
+QByteArray TuloveroDialog::liite() const
+{
+    RaportinKirjoittaja rk;
+    rk.asetaOtsikko( tr("Tuloverolaskelma") );
+    rk.asetaKausiteksti( tilikausi_.kausivaliTekstina() );
+
+    rk.lisaaVenyvaSarake();
+    rk.lisaaEurosarake();
+    rk.lisaaTyhjaRivi();
+
+    rivi(rk, tr("Veronalainen tulo yhteensä"), ui->tuloEdit->euro());
+    rivi(rk, tr("Vähennyskelpoiset kulut"), ui->vahennysEdit->euro());
+    rk.lisaaTyhjaRivi();
+    rivi(rk, tr("Verotettava tulos"), ui->tulosEdit->euro());
+    rivi(rk, tr("Vähennettävä aiempi tappio"), ui->tappioEdit->euro());
+    rk.lisaaTyhjaRivi();
+    rivi(rk, tr("Verotettava tulos ennen Yle-veroa"), ui->ennenYlea->euro());
+    rivi(rk, tr("Yle-vero"), ui->yleveroEdit->euro());
+    rivi(rk, tr("Ennakkoon maksettu Yle-vero"), ui->ennakkoYle->euro());
+    rivi(rk, tr("Maksamaton Yle-vero"), ui->maksettavaYle->euro());
+    rk.lisaaTyhjaRivi();
+    rivi(rk, tr("Lopullinen verotettava tulos"), ui->ylenJalkeen->euro());
+    rivi(rk, tr("Tuloveron määrä"), ui->veroEdit->euro());
+    rk.lisaaTyhjaRivi();
+    rivi(rk, tr("Maksetut tuloverot"), ui->maksetutEdit->euro());
+    rivi(rk, tr("Maksamaton tulovero"), ui->jaaveroaEdit->euro());
+
+    return rk.pdf(false, true);
+}
+
+void TuloveroDialog::rivi(RaportinKirjoittaja &rk, const QString &teksti, const Euro &maara)
+{
+    RaporttiRivi rivi;
+    rivi.lisaa( teksti );
+    rivi.lisaa( maara, true);
+    rk.lisaaRivi(rivi);
 }
