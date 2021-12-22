@@ -19,6 +19,9 @@
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QRegularExpression>
+#include "laskutus/iban.h"
+
 
 #include "kirjanpito.h"
 
@@ -53,6 +56,22 @@ QString Tili::nimiNumero(const QString &kieli) const
         return QString("%1 %2").arg(numero()).arg(nimi(kieli));
     else
         return QString();
+}
+
+QString Tili::nimiNumeroIban(const QString &kieli) const
+{
+    if( !onkoValidi())
+        return QString();
+
+    const QString tiliNimi = nimi(kieli);
+    const QString iban = str("iban");
+    const QString nimiValeitta = QString(tiliNimi).remove(QRegularExpression("\\s"));
+    if( iban.isEmpty() || nimiValeitta.contains(iban, Qt::CaseInsensitive) ) {
+        return nimiNumero();
+    } else {
+        const Iban ibaniban(iban);
+        return nimiNumero() + " " + ibaniban.valeilla();
+    }
 }
 
 QString Tili::ohje(const QString &kieli) const

@@ -42,6 +42,7 @@ public:
 
     QString nimi(const QString& kieli = QString()) const;
     QString nimiNumero(const QString& kieli = QString()) const;
+    QString nimiNumeroIban(const QString& kieli = QString()) const;
     QString nimiKaannos(const QString& kieli) const { return nimi_.kaannos(kieli);}
 
     Monikielinen& nimiKielinen() { return nimi_;}
