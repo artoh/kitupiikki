@@ -71,6 +71,7 @@ MuuMuokkausDlg::MuuMuokkausDlg(QWidget *parent) :
 
 MuuMuokkausDlg::~MuuMuokkausDlg()
 {
+    kp()->settings()->setValue("MuuMuokkausGeo", saveGeometry());
     delete ui;
 }
 

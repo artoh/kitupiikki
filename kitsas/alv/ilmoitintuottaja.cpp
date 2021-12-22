@@ -24,7 +24,9 @@
 #include <QTextStream>
 #include <QDir>
 #include <QFileDialog>
-
+#include <QSettings>
+#include <QFileInfo>
+#include <QRegularExpression>
 
 IlmoitinTuottaja::IlmoitinTuottaja(QObject *parent) : QObject(parent)
 {
@@ -80,14 +82,21 @@ void IlmoitinTuottaja::tositeSaapuu(QVariant *data)
 {
     QVariantMap alv = data->toMap().value("alv").toMap();
     if( muodosta(alv)) {
-        QDir dir;
+        QSettings settings;
+        QString hakemisto = settings.value("IlmoitinHakemisto", QDir::homePath()).toString();
+        QDir dir(hakemisto);
+
         QDate loppupvm = alv.value("kausipaattyy").toDate();
-        QString tnimi = dir.absoluteFilePath(QString("ALV_%1.txt").arg(loppupvm.toString("yyyyMM")));
+        QString tnimi = dir.absoluteFilePath(QString("ALV_%1_%2.txt")
+                                             .arg(loppupvm.toString("yyyyMM"))
+                                             .arg(kp()->asetukset()->nimi().remove(QRegularExpression("\\W"))));
 
         QString filename = QFileDialog::getSaveFileName(nullptr, tr("Tallenna Ilmoitin-aineisto"),
                                                         tnimi, tr("Tekstitiedostot (*.txt);;Kaikki tiedostot (*.*)"));
         if( filename.isEmpty())
             return;
+        QFileInfo info(filename);
+        settings.setValue("IlmoitinHakemisto", info.absoluteDir().dirName());
 
         QFile file(filename);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
