@@ -272,6 +272,225 @@
       }
     ]
   },
+ "tulos/pienbrutto": {
+    "nimi": {
+      "fi": "Tuloslaskelma",
+      "sv": "Resultaträkning",
+      "en": "Profit and loss account"
+    },
+    "muoto": {
+      "fi": "Pienyrityksen bruttotuloslaskelma",
+      "sv": "Småföretag bruttoresultaträkning ",
+      "en": "Profit and loss account with gross profit for small company"
+    },
+    "rivit": [
+      {
+        "fi": "Bruttotulos",
+        "sv": "Bruttoresultat",
+        "en": "Gross profit or loss",
+        "M": "bold",
+        "L": "3,4 S *"
+      },          
+      {
+        "fi": "Henkilöstökulut",
+        "sv": "Personalkostnader",
+        "en": "Staff expenses",
+        "L": "5..67",
+        "V": 1
+      },
+      {
+        "fi": "Palkat ja palkkiot",
+        "sv": "Löner och arvoden",
+        "en": "Wages and salaries",
+        "L": "5 *",
+        "S": 1
+      },
+      {
+        "fi": "Henkilöstösivukulut",
+        "sv": "Lönebikostnader",
+        "en": "Social security expenses",
+        "L": "60..67",
+        "S": 1
+      },
+      {
+        "fi": "Eläkekulut",
+        "sv": "Pensionskostnader",
+        "en": "Pension expenses",
+        "L": "60..62 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut henkilösivukulut",
+        "sv": "Övrika lönebikostnader",
+        "en": "Other social security expenses",
+        "L": "63..67 *",
+        "S": 2
+      },
+      {
+        "fi": "Poistot ja arvonalentumat",
+        "sv": "Avskrivningar och nedskrivningar",
+        "en": "Depreciaition, amortization and reduction in value",
+        "L": "68..69",
+        "V": 1
+      },
+      {
+        "fi": "Suunnitelman mukaiset poistot",
+        "sv": "Avskrivningar enligt plan",
+        "en": "Depreciation and amortization according to plan",
+        "L": "68 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
+        "sv": "Nedskrivningar av tillgångar bland bestående aktiva",
+        "en": "Reduction in value of non-current assets",
+        "L": "69..698 *",
+        "S": 1
+      },
+      {
+        "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset",
+        "sv": "Exceptionella nedskrivningar av rörliga aktiva",
+        "en": "Exceptional reduction in value of current assets",
+        "L": "699 *",
+        "S": 1
+      },
+      {
+        "fi": "Liiketoiminnan muut kulut",
+        "sv": "Övriga rörelsekostnader",
+        "en": "Other operating expenses",
+        "L": "7..8 *",
+        "V": 1
+      },
+      {
+        "fi": "Liikevoitto/tappio",
+        "sv": "Rörelsevinst (-förlust)",
+        "en": "Operating profit (loss)",
+        "L": "3..8 S",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Rahoitustuotot ja -kulut",
+        "sv": "Finansiella intäkter och kostnader",
+        "en": "Financial income and expenses",
+        "L": "90..96"
+      },
+      {
+        "fi": "Tuotot osuuksista saman konsernin yrityksissä",
+        "sv": "Intäkter från andelar i företag inom samma koncern",
+        "en": "Income from group undertakings",
+        "L": "900..903 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuotot osuuksista omistusyhteysyrityksissä",
+        "sv": "Intäkter från andelar i ägarintresseföretag",
+        "en": "Income from participating interests",
+        "L": "904..907 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuotot muista pysyvien vastaavien sijoituksista",
+        "sv": "Intäkter från övriga placeringar bland bestående aktiva",
+        "en": "Income from other investments held as non-current assets",
+        "L": "908..914 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut korko- ja rahoitustuotot",
+        "sv": "Övriga ränteintäkter och finansiella intäkter",
+        "en": "Other interests income and other financial income",
+        "L": "915..92 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset pysyvien vastaavien sijoituksista",
+        "sv": "Nedskrivningar av placeringar bland bestående aktiva",
+        "en": "Reduction in value of investments held as non-current assets",
+        "L": "930..936 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista",
+        "sv": "Nedskrivningar av finansiella värdepapper bland rörliga aktiva",
+        "en": "Reduction in value of investments held as current assets",
+        "L": "937..941 *",
+        "S": 1
+      },
+      {
+        "fi": "Korkokulut ja muut rahoituskulut",
+        "sv": "Räntekostnader och övriga finansiella kostnader",
+        "en": "Interest and other financial expenses",
+        "L": "942..969 *",
+        "S": 1
+      },
+      {
+        "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
+        "sv": "Vinst (förlust) före bokslutsdispositioner ock skatter",
+        "en": "Profit (loss) before appropriations and taxes",
+        "L": "3..96 S",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Tilinpäätössiirrot",
+        "sv": "Bokslutsdispositioner",
+        "en": "Appropriations",
+        "L": "97..98",
+        "V": 1
+      },
+      {
+        "fi": "Poistoeron lisäys (-) tai vähennys (+)",
+        "sv": "Förändring av avskrivningsdifferens",
+        "en": "Change in cumulative accelerated deprecation",
+        "L": "97 *",
+        "S": 1
+      },
+      {
+        "fi": "Verotusperusteisten varausten lisäys (-) tai vähennys (+)",
+        "sv": "Förändring av skattemässiga reserver",
+        "en": "Change in taxation-based reserves",
+        "L": "980..985 *",
+        "S": 1
+      },
+      {
+        "fi": "Saadut (+) tai annetut (-) konserniavustukset",
+        "sv": "Koncernbidrag",
+        "en": "Group contribution",
+        "L": "988..989 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuloverot",
+        "sv": "Inkomstskatt",
+        "en": "Income taxes",
+        "L": "99..997 *",
+        "V": 1
+      },
+      {
+        "fi": "Muut välittömät verot",
+        "sv": "Övriga direkta skatter",
+        "en": "Other direct taxes",
+        "L": "998 *",
+        "V": 1
+      },
+      {
+        "fi": "Vähemmistöosuudet",
+        "sv": "Minoritetsandelar",
+        "en": "Minority interests",
+        "L": "999 *",
+        "V": 1
+      },
+      {
+        "fi": "Tilikauden voitto/tappio",
+        "sv": "Räkenskapsperiodens vinst (förlust)",
+        "en": "Profit (loss) for the financial year",
+        "L": "3..9 S",
+        "M": "bold",
+        "V": 1
+      }
+    ]
+  },  
   "tulos/mikrobrutto": {
     "nimi": {
       "fi": "Tuloslaskelma",

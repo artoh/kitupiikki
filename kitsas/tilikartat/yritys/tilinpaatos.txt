@@ -9,7 +9,9 @@
 ##Tuloslaskelma
 #mikrobrutto -I -P Mikroyrityksen lyhyt bruttotuloslaskelma
 @tulos/mikrobrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
-#-mikrobrutto
+#pienbrutto -I -M Pienyrityksen bruttotuloslaskelma
+@tulos/pienbrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
+#-mikrobrutto -pienbrutto
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
@@ -120,7 +122,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitsas-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi.
+<p>Kirjanpito on järjestetty Kitsas-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä  tositteet on arkistoitu sähköiseksi arkistoksi.
 </p>
 #-sahko
 <h2>Kirjanpitoaineisto</h2>
@@ -152,7 +154,9 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Resultaträkning
 #mikrobrutto -I -P Mikroföretagets korta resultaträkning utgående från bruttoresultatet
 @tulos/mikrobrutto!RESULTATRÄKNING (BOKSLUT)@
-#-mikrobrutto
+#pienbrutto -I -M Småföretagets resultaträkning utgående från bruttoresultatet
+@tulos/pienbrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
+#-mikrobrutto -pienbrutto
 @tulos/yleinen!RESULTATRÄKNING (BOKSLUT)@
 <h2>Principer för upprättandet av bokslutet</h2>
 #MIKRO
@@ -262,7 +266,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Bokföring
 #sahko Elektronisk bokföring och arkivering
 <h2>Bokföringsmaterialet</h2>
-<p> Bokföringen är uppgjord med Kitsas-programvaran. Bokslutet, balansspecifikationer, kontoplanen, huvud- och dagböcker samt verifikat i pdf-form är arkiverade i ett elektroniskt arkiv i html-format</p>
+<p> Bokföringen är uppgjord med Kitsas-programvaran. Bokslutet, balansspecifikationer, kontoplanen, huvud- och dagböcker samt verifikat är arkiverade i ett elektroniskt arkiv</p>
 #-sahko
 <h2>Bokföringsmaterialet</h2>
 <p>Redogörelse över bokföringsmaterialet och hur det sparas</p>
