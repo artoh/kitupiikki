@@ -392,7 +392,15 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                     "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
         if( kysely.next() )
-            vmap.insert("ennakko",(kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100);
+            vmap.insert("ennakko",(kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
+
+        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                    "WHERE Tosite.tila >= 100 AND Vienti.tili=%3 AND "
+                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
+                                                       .arg(kausi.paattyy().toString(Qt::ISODate))
+                                                       .arg(kp()->asetukset()->luku("Yleverotili", 8740)));
+        if( kysely.next())
+            vmap.insert("ennakkoyle", (kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
 
         ulos.insert("tulovero", vmap);
     }

@@ -259,7 +259,14 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
         else
             uusi.setTyyppi( TositeVienti::JAKSOTUS_TA + TositeVienti::VASTAKIRJAUS);
 
-        uusi.setSelite( vienti.selite());
+        QString selite = vienti.selite();
+
+        // #1075 Negatiivisen verovelan selite
+        if( selite == tulkkaa("Negatiivisen verovelan kirjaaminen verosaataviin")) {
+            selite = tulkkaa("Verosaamisen kirjaaminen negatiiviseksi verovelaksi");
+        }
+
+        uusi.setSelite( selite );
         uusi.setTili( vienti.tili());
         uusi.setKohdennus( vienti.kohdennus() );
         uusi.setEra( vienti.eraId());
