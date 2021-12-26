@@ -14,12 +14,12 @@ LIBDIR=$APPCONTENTS/Libraries
 mkdir -p $LIBDIR/
 
 #app
-install_name_tool -change /usr/local/opt/poppler/lib/libpoppler.101.dylib @rpath/libpoppler.dylib $APPDIR/$APPNAME
-install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/$APPNAME
+install_name_tool -change /usr/local/opt/poppler-qt5/lib/libpoppler.101.dylib @rpath/libpoppler.dylib $APPDIR/$APPNAME
+install_name_tool -change /usr/local/opt/poppler-qt5/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/$APPNAME
 install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip.dylib $APPDIR/$APPNAME
 
 #libpoppler-qt5
-cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
+cp /usr/local/opt/poppler-qt5/lib/libpoppler-qt5.dylib $LIBDIR
 chmod +w $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -id @rpath/libpoppler-qt5.dylib $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/Cellar/poppler/0.90.1/lib/libpoppler.101.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
@@ -30,7 +30,7 @@ install_name_tool -change /usr/local/opt/freetype/lib/libfreetype.6.dylib @rpath
 install_name_tool -change /usr/local/opt/little-cms2/lib/liblcms2.2.dylib @rpath/liblcms2.dylib $LIBDIR/libpoppler-qt5.dylib
 
 #libpoppler
-cp /usr/local/opt/poppler/lib/libpoppler.dylib $LIBDIR
+cp /usr/local/opt/poppler-qt5/lib/libpoppler.dylib $LIBDIR
 chmod +w $LIBDIR/libpoppler.dylib
 install_name_tool -id @rpath/libpoppler.dylib $LIBDIR/libpoppler.dylib
 install_name_tool -change /usr/local/opt/freetype/lib/libfreetype.6.dylib @rpath/libfreetype.dylib $LIBDIR/libpoppler.dylib
