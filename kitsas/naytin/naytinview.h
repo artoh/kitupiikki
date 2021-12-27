@@ -56,7 +56,7 @@ public:
     QString html();
 
 public slots:
-    void nayta(const QByteArray& data);
+    void nayta(const QByteArray& data, bool salliPudotus = false);
     void nayta(RaportinKirjoittaja raportti);
     void nayta(const RaporttiValinnat& valinnat);
     void nayta(const QString& teksti);
@@ -81,12 +81,12 @@ public slots:
 
     void zoomFit();
     void zoomIn();
-    void zoomOut();
-
+    void zoomOut();    
 
 signals:
     void sisaltoVaihtunut();
     void otsikkoVaihtunut(const QString& otsikko);
+    void tiedostoPudotettu(const QString& polku);
 
 
 protected:

@@ -26,6 +26,7 @@ namespace Naytin {
 
 class SceneNaytin : public AbstraktiNaytin
 {
+    Q_OBJECT
 public:
     SceneNaytin(Naytin::AbstraktiView *view, QObject *parent = nullptr);
 

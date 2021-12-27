@@ -99,17 +99,21 @@ NaytinView::~NaytinView()
 }
 
 
-void NaytinView::nayta(const QByteArray &data)
+void NaytinView::nayta(const QByteArray &data, bool salliPudotus)
 {
     if( data.startsWith("%PDF"))
-    {
-        vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::PdfView( data)));
+    {        
+        Naytin::PdfView* view = new Naytin::PdfView(data);
+        view->salliPudotus(salliPudotus);
+        vaihdaNaytin( new Naytin::SceneNaytin( view ));
     }
     else {
         QImage kuva;
         kuva.loadFromData(data);
         if( !kuva.isNull()) {
-            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::KuvaView(kuva) ));
+            Naytin::KuvaView* view = new Naytin::KuvaView(kuva);
+            view->salliPudotus(salliPudotus);
+            vaihdaNaytin( new Naytin::SceneNaytin( view ));
         } else {
             QString tyyppi = KpKysely::tiedostotyyppi(data);
             if(tyyppi != "application/octet-stream") {
@@ -447,7 +451,8 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 
     if(naytin) {
         leiska_->addWidget( naytin->widget());                
-        connect( naytin, &Naytin::AbstraktiNaytin::otsikkoVaihtui, this, &NaytinView::otsikkoVaihtunut);
+        connect( naytin, &Naytin::AbstraktiNaytin::otsikkoVaihtui, this, &NaytinView::otsikkoVaihtunut);        
+        connect( naytin, &Naytin::AbstraktiNaytin::tiedostoPudotettu, this, &NaytinView::tiedostoPudotettu);
     }
 
     qApp->processEvents();

@@ -31,7 +31,7 @@ Naytin::SceneNaytin::SceneNaytin(AbstraktiView *view, QObject *parent)
     : AbstraktiNaytin (parent),
       view_(view)
 {
-
+    connect( view, &AbstraktiView::tiedostoPudotettu, this, &AbstraktiNaytin::tiedostoPudotettu );
 }
 
 QWidget *Naytin::SceneNaytin::widget()

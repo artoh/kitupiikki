@@ -50,6 +50,7 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     addWidget(paasivu);
 
     view = new NaytinView(this);
+    connect( view, &NaytinView::tiedostoPudotettu, this, &NaytaliiteWg::lisaaLiite);
     addWidget(view);
 
     QLabel* llabel = new QLabel("Ladataan...");
@@ -84,7 +85,7 @@ void NaytaliiteWg::valitseTiedosto()
     }
 }
 
-void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
+void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata, bool salliPudotus)
 {
     if( pdfdata == "*LADATAAN*") {
         setCurrentIndex(2);
@@ -94,7 +95,7 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
     }
     else
     {
-        view->nayta(pdfdata);
+        view->nayta(pdfdata, salliPudotus);
         setCurrentIndex(1);
     }
 }

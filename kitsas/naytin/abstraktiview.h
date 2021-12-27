@@ -18,6 +18,7 @@
 #define ABSTRAKTIVIEW_H
 
 #include <QGraphicsView>
+#include "naytin/naytinscene.h"
 
 class QPrinter;
 
@@ -25,6 +26,7 @@ namespace Naytin {
 
 class AbstraktiView : public QGraphicsView
 {
+    Q_OBJECT
 public:
     AbstraktiView();
     virtual ~AbstraktiView() override;
@@ -44,11 +46,17 @@ public slots:
     virtual void zoomOut();
     virtual void zoomFit();
 
+    virtual void salliPudotus(bool sallittu = true);
+
+signals:
+    void tiedostoPudotettu(const QString polku);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
 protected:
     double zoomaus_;
+    NaytinScene* skene_;
 
 };
 

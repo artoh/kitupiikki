@@ -158,7 +158,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( tosite_->liitteet(), &TositeLiitteet::modelReset, this, &KirjausWg::paivitaLiiteNapit);
     connect( ui->liiteView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KirjausWg::paivitaLiiteNapit);
-    connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::liiteValittu);
+    connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::naytaLiite);
 
 
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
@@ -940,7 +940,7 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     if( !valittu.isValid() )
     {
         ui->poistaLiiteNappi->setDisabled(true);
-        emit liiteValittu( QByteArray());
+        emit liiteValittu( QByteArray(), ui->lisaaliiteNappi->isEnabled());
     }
     else
     {
@@ -948,6 +948,11 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
         ui->poistaLiiteNappi->setEnabled( true );
 
     }
+}
+
+void KirjausWg::naytaLiite(const QByteArray &data)
+{
+    emit liiteValittu(data, ui->lisaaliiteNappi->isEnabled());
 }
 
 

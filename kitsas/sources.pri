@@ -141,6 +141,7 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/naytin/laaditunraportinnaytin.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
+    $$PWD/naytin/naytinscene.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laatijat/laatijanalv.cpp \
@@ -505,6 +506,7 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/naytin/laaditunraportinnaytin.h \
     $$PWD/naytin/liitetulostaja.h \
+    $$PWD/naytin/naytinscene.h \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laatijat/laatijanalv.h \

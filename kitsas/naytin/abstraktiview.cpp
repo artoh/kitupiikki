@@ -19,9 +19,17 @@
 #include "db/kirjanpito.h"
 #include <QSettings>
 
+#include "naytinscene.h"
+
+#include <QDebug>
+
 Naytin::AbstraktiView::AbstraktiView() :
-    QGraphicsView (new QGraphicsScene() )
-{
+    QGraphicsView(),
+    skene_(new NaytinScene(this))
+{    
+    setScene(skene_);
+    connect( skene_, &Naytin::NaytinScene::tiedostoPudotettu, this, &AbstraktiView::tiedostoPudotettu);
+
     setDragMode(QGraphicsView::ScrollHandDrag);
     setBackgroundBrush(QBrush(Qt::darkGray));
 
@@ -43,6 +51,11 @@ void Naytin::AbstraktiView::zoomFit()
 {
     zoomaus_ = 1.0;
     paivita();
+}
+
+void Naytin::AbstraktiView::salliPudotus(bool sallittu)
+{
+    skene_->salliPudotus(sallittu);
 }
 
 void Naytin::AbstraktiView::resizeEvent(QResizeEvent * /* event */)

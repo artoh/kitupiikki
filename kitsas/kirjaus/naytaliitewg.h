@@ -46,7 +46,7 @@ public:
 
 public slots:
     void valitseTiedosto();
-    void naytaPdf(const QByteArray& pdfdata);
+    void naytaPdf(const QByteArray& pdfdata, bool salliPudotus = true);
     void leikepoydalta();
 
     void naytaPohjat(bool nayta);

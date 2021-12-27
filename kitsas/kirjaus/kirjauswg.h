@@ -93,6 +93,7 @@ private slots:
      * @param selected
      */
     void liiteValinta(const QModelIndex& valittu);
+    void naytaLiite(const QByteArray& data);
     void poistaLiite();
 
 
@@ -136,7 +137,7 @@ public:
     int nykyinenRivi() const { return ui->viennitView->currentIndex().row(); }
 
 signals:
-    void liiteValittu(const QByteArray& pdf);
+    void liiteValittu(const QByteArray& pdf, bool salliPudotus);
     /**
      * @brief Yksi tosite on saatu käsiteltyä.
      *
