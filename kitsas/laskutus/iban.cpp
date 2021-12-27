@@ -111,7 +111,7 @@ bool Iban::isValid() const
 {
     if( tilinumero_.startsWith("FI") && tilinumero_.length() != 18)
         return false;
-    if( tilinumero_.length() < 10)
+    if( tilinumero_.length() < 10 || tilinumero_.length() > 32)
         return false;
     if( !tilinumero_.at(2).isDigit() || !tilinumero_.at(3).isDigit())
         return false;
