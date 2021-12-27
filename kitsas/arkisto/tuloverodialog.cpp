@@ -25,6 +25,7 @@
 #include "db/tositetyyppimodel.h"
 #include <QPushButton>
 #include <QMessageBox>
+#include <QSettings>
 
 TuloveroDialog::TuloveroDialog(QWidget *parent) :
     QDialog(parent),
@@ -51,10 +52,16 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("tilikaudet/tilinpaatos/tulovero/");});
 
     setAttribute(Qt::WA_DeleteOnClose);
+
+    QSettings settings;
+    restoreGeometry( settings.value("TuloveroDialog").toByteArray() );
 }
 
 TuloveroDialog::~TuloveroDialog()
 {
+    QSettings settings;
+    settings.setValue("TuloveroDialog", saveGeometry());
+
     delete ui;
 }
 

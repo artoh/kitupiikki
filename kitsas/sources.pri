@@ -782,6 +782,7 @@ FORMS += \
     $$PWD/maaritys/veromaaritys.ui \
     $$PWD/maaritys/yhteystiedot.ui \
     $$PWD/pilvi/pilveensiirto.ui \
+    $$PWD/raportti/paivakirja.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/rekisteri/rekisterituontidlg.ui \
