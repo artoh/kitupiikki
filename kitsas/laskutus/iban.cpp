@@ -113,6 +113,8 @@ bool Iban::isValid() const
         return false;
     if( tilinumero_.length() < 10)
         return false;
+    if( !tilinumero_.at(2).isDigit() || !tilinumero_.at(3).isDigit())
+        return false;
     return ibanModulo(tilinumero_) == 1;
 }
 
