@@ -125,12 +125,14 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
 {
     TositeVienti vienti;
     vienti.setPvm( pvm );
-    if(eraId_ > 0)
-        vienti.setId(vastaVientiId_);
 
     const Lasku& lasku = tosite_->constLasku();
     const AsetusModel* asetukset = kitsas_->asetukset();
     const int maksutapa = lasku.maksutapa();
+
+    if(eraId_ > 0)
+        vienti.setId(vastaVientiId_);
+
 
     if( maksutapa == Lasku::KATEINEN) {
         vienti.setTili( asetukset->luku(AsetusModel::LaskuKateistili) );
@@ -147,8 +149,12 @@ void RiviVientiGeneroija::generoiVastavienti(const QDate &pvm)
     vienti.setKumppani( tosite_->kumppani() );
     vienti.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS );
     vienti.setSelite( lasku.otsikko() );
-    if( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU)
+
+    if( maksutapa != Lasku::KATEINEN && maksutapa != Lasku::KORTTIMAKSU && eraId_)
         vienti.setEra(eraId_);
+    else
+        vienti.setEra(0);
+
     tosite_->viennit()->lisaa(vienti);
 }
 

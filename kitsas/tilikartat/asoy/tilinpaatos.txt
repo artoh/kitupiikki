@@ -5,7 +5,7 @@
 @tulos/yleinen:!TULOSLASKELMA (TILINPÄÄTÖS)@
 @tulos/yleinen:EB!TALOUSARVION TOTEUMA (TILINPÄÄTÖS)@
 #toiminnanalat Toiminnanalojen erittely
-@tulos/yhdistys:K!TOIMINNANALAT (TILINPÄÄTÖS)@
+@tulos/yleinen:K!TOIMINNANALAT (TILINPÄÄTÖS)@
 #
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO

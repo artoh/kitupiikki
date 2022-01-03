@@ -227,7 +227,7 @@ void LaatijanTaseTulos::kirjoitaRaportti()
         const bool otsikkoRivi = kaava.contains('h', Qt::CaseInsensitive);
         const bool naytaTyhjarivi = kaava.contains('S') || kaava.contains('H');
         const bool laskeValisummaan = !kaava.contains("==");
-        const bool lisaaValisumma = kaava.contains("=") && !laskeValisummaan;
+        const bool lisaaValisumma = kaava.contains("=") && laskeValisummaan;
         const bool naytaErittelyt = kaava.contains('*');
         const bool vainMenot = kaava.contains('-');
         const bool vainTulot = kaava.contains('+');
