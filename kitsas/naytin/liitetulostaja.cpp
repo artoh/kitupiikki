@@ -153,10 +153,10 @@ int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painte
         try {
 
             QImage image = document->renderPage(i, resoluutio);
-            QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
+            QImage scaled = image.scaled(painter->window().width(), painter->window().height() - 12 * rivinKorkeus, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-            QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);
-            painter->drawPixmap(rect, kuva);
+            painter->drawImage(0, rivinKorkeus * 2, scaled);
+            QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);            
 
             tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
             painter->translate(0, painter->window().height() - ( ensisivu ? 8 : 1 ) * rivinKorkeus);

@@ -12,8 +12,8 @@ void LaatijanAlv::laadi()
 {
     laskelma = new AlvLaskelma(this, kielikoodi());
     connect( laskelma, &AlvLaskelma::valmis, this, &LaatijanAlv::laadittu);
-    laskelma->laske( valinnat().arvo(RaporttiValinnat::AlkuPvm).toDate(),
-                     valinnat().arvo(RaporttiValinnat::LoppuPvm).toDate());
+    laskelma->laske( valinnat().arvo(RaporttiValinnat::AlvAlkuPvm).toDate(),
+                     valinnat().arvo(RaporttiValinnat::AlvLoppuPvm).toDate());
 }
 
 void LaatijanAlv::laadittu(RaportinKirjoittaja kirjoittaja)
