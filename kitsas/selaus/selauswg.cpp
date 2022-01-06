@@ -396,8 +396,10 @@ void SelausWg::selaa(int kumpi)
     lataaKoon_=true;
 
     if( kumpi == VIENNIT) {
+        selausProxy_->setFilterFixedString(ui->etsiEdit->text());
         ui->selausView->setModel(selausProxy_);        
     } else {
+        tositeProxy_->setFilterFixedString(ui->etsiEdit->text());
         ui->selausView->setModel(tositeProxy_);
     }
     QTimer::singleShot(10, this, [this] { this->lataaKoot();});
