@@ -20,6 +20,8 @@
 #include "db/kirjanpito.h"
 #include "ui_paivakirja.h"
 
+#include "db/kohdennusmodel.h"
+
 LiitePoiminta::LiitePoiminta() : PvmRaporttiWidget("liitepoiminta")
 {
     ui->kumppaniCheck->hide();
@@ -28,6 +30,14 @@ LiitePoiminta::LiitePoiminta() : PvmRaporttiWidget("liitepoiminta")
 
     ui->laatuLabel->show();
     ui->laatuSlider->show();
+
+    if( kp()->kohdennukset()->kohdennuksia() ) {
+        ui->kohdennusCheck->show();
+        ui->kohdennusCombo->show();
+    }
+
+    ui->tiliBox->show();
+    ui->tiliCombo->show();
 
 }
 
