@@ -51,6 +51,7 @@ private slots:
     void nettoMyynti();
     void nettoOsto();
     void alijaamahyvitys();
+    void suhteutuskuukaudet();
     void cleanup();
 
 
@@ -318,8 +319,18 @@ void AlvLaskelmaTest::alijaamahyvitys() {
     QCOMPARE( laskelma.koodattu_.value(317).cents(), 270000);
     QCOMPARE( laskelma.koodattu_.value(308).cents(), 90000);
     QCOMPARE( laskelma.maksettava().cents(),90000);
-
 }
+
+void AlvLaskelmaTest::suhteutuskuukaudet() {
+
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(2000,1,1), QDate(2000,12,31)), 12);
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(2000,1,2), QDate(2000,12,31)), 11);
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(2000,1,2), QDate(2000,12,30)), 10);
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(1999,12,1), QDate(2000,12,31)), 13);
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(1999,12,1), QDate(2001,1,31)), 14);
+    QCOMPARE( AlvLaskelma::huojennusKuukaudet(QDate(1999,12,1), QDate(2001,1,15)), 13);
+}
+
 
 void AlvLaskelmaTest::cleanup()
 {

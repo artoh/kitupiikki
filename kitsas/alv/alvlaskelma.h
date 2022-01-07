@@ -73,6 +73,8 @@ public:
     Euro maksettava() const { return maksettava_;}
     Euro huojennus() const { return huojennus_;}
 
+    static int huojennusKuukaudet(const QDate& alku, const QDate& loppu);
+
 signals:
     void tallennettu();
 

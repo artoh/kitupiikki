@@ -43,6 +43,33 @@ void AlvLaskelma::kirjoitaLaskelma()
     kirjoitaErittely();
 }
 
+int AlvLaskelma::huojennusKuukaudet(const QDate &alku, const QDate &loppu)
+{
+    if( alku >= loppu)
+        return 0;
+
+    int kuukaudet = 0;
+    QDate pvm = alku;
+
+    // Ensimmäinen kuukausi
+    if( alku.day() == 1)
+        kuukaudet = 1;
+    // Viimeinen kuukausi
+    if( loppu.addDays(1).day() == 1 &&
+        ( alku.month() != loppu.month() || alku.year() != loppu.year()) )
+        kuukaudet++;
+
+    pvm = pvm.addMonths(1);
+
+    while( pvm < loppu && (pvm.year() != loppu.year() || pvm.month() != loppu.month())) {
+        kuukaudet++;
+        pvm = pvm.addMonths(1);
+    }
+
+    return kuukaudet;
+
+}
+
 void AlvLaskelma::kirjoitaOtsikot()
 {
     rk.asetaOtsikko( kaanna("ARVONLISÄVEROLASKELMA"));
@@ -608,16 +635,9 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
             huojennusalku_ = alvalkaa;
     }
 
-    if( huojennusalku_.isValid()) {
-        if( huojennusalku_.day() == 1)
-            suhteutuskuukaudet_ = 1;
-        else
-            suhteutuskuukaudet_ = 0;
-        for( QDate pvm = huojennusalku_.addMonths(1); pvm < loppupvm_; pvm = pvm.addMonths(1))
-            suhteutuskuukaudet_++;
 
-        if( loppupvm_.addDays(1).day() != 1)
-            suhteutuskuukaudet_--;
+    if( huojennusalku_.isValid()) {
+        suhteutuskuukaudet_ = huojennusKuukaudet(huojennusalku_, loppupvm_);
 
         // Sitten tehdään huojennushaku
         KpKysely* kysely = kpk("/viennit");
