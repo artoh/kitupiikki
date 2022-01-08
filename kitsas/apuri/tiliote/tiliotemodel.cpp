@@ -190,6 +190,16 @@ void TilioteModel::tilaaAlkuperaisTosite(int rivinLisaysIndeksi, int eraId)
     kysely->kysy();
 }
 
+void TilioteModel::asetaTositeId(int id)
+{
+    tositeId_ = id;
+}
+
+int TilioteModel::tositeId() const
+{
+    return tositeId_;
+}
+
 void TilioteModel::lataaHarmaat(const QDate &mista, const QDate &mihin)
 {
     harmaaLaskuri_++;
@@ -252,7 +262,7 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
 
     for (const auto& vienti : data->toList()) {
         QVariantMap map = vienti.toMap();
-        if(map.value("tosite").toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE)
+        if(map.value("tosite").toMap().value("id").toInt() == tositeId())
             continue;
         harmaatRivit_.append(TilioteHarmaaRivi(map, this));
     }

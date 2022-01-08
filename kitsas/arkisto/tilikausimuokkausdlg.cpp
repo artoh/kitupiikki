@@ -176,7 +176,7 @@ void TilikausiMuokkausDlg::muutaAvaus()
         }
     } else if(kp()->asetukset()->pvm("TilinavausPvm") == kausi_.paattyy()) {
         if( QMessageBox::warning(this, tr("Tilinavauksen poistaminen"),
-                                 tr("Haluatko merkitä, että tämä tilikausi ei ole tilinavaus?\nValinta poistaa myös tilinavauksen."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
+                                 tr("Haluatko merkitä, että tämä tilikausi ei ole tilinavaus?"), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
             ui->avausCheck->setChecked(true);
     }
 }

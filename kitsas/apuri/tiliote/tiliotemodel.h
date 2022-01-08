@@ -64,6 +64,9 @@ public:
 
     void tilaaAlkuperaisTosite(int lisaysIndeksi, int eraId);
 
+    void asetaTositeId(int id);
+    int tositeId() const;
+
 protected:
     void harmaatSaapuu(QVariant* data);
     void peita(int harmaaIndeksi, int kirjausIndeksi);
@@ -79,6 +82,7 @@ private:
     int tili_ = 0;
     int harmaaLaskuri_ = 0;
     bool muokkausSallittu_ = true;
+    int tositeId_ = 0;
 
     KitsasInterface* kitsasInterface_;
 };
