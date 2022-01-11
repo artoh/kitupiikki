@@ -18,6 +18,8 @@
 #include <QSortFilterProxyModel>
 #include <QScrollBar>
 
+#include <QMessageBox>
+
 #include "tilinavaus.h"
 #include "tilinavausmodel.h"
 #include "kirjaus/eurodelegaatti.h"
@@ -160,10 +162,25 @@ bool Tilinavaus::nollaa()
 }
 
 bool Tilinavaus::tallenna()
-{
+{            
     // #40 Model tallennetaan vain, jos sitä on muokattu
-    if( model->onkoMuokattu())
-        model->tallenna();
+    if( model->onkoMuokattu()) {
+
+        if( !ui->poikkeusLabel->text().isEmpty() ) {
+            if( QMessageBox::question(this, tr("Tilinavaus ei täsmää"),
+                                      tr("Tilinavauksen Vastaavaa- ja Vastattavaa-määrät eivät täsmää.\n\n"
+                                         "Tilinavaus voidaan siksi tallentaa vain luonnoksena, eikä tilinavaus näy "
+                                         "kirjanpidon tilien saldoissa ennen kuin se on korjattu.\n\n"
+                                         "Haluatko tallentaa tilinavauksen luonnoksena?"),
+                                      QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes) {
+                model->tallenna(Tosite::LUONNOS);
+            } else {
+                return false;
+            }
+        } else {
+            model->tallenna(Tosite::KIRJANPIDOSSA);
+        }
+    }
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kp()->asetukset()->pvm("TilinavausPvm"));
     kausi.set("henkilosto", ui->henkilostoSpin->value());

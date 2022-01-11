@@ -109,7 +109,7 @@ public:
     QList<AvausEra> erat(int tili) const;
 
 public slots:
-    bool tallenna();
+    bool tallenna(int tila = Tosite::KIRJANPIDOSSA);
     void lataa();
 
     void paivitaInfo();
@@ -118,6 +118,7 @@ public slots:
 
 protected:
     void idTietoSaapuu(QVariant* data);
+    void luonnosIdSaapuu(QVariant* data);
 
     static qlonglong erasumma(const QList<AvausEra>& erat);
 

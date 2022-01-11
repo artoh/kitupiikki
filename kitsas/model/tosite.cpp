@@ -356,7 +356,7 @@ void Tosite::tallenna(int tilaan)
     }
 
     setData( TILA, tilaan );
-    if( tilaan >= Tosite::KIRJANPIDOSSA && !viennit_->debetKreditTasmaa()) {
+    if( tilaan >= Tosite::KIRJANPIDOSSA && !viennit_->debetKreditTasmaa() && tyyppi() != TositeTyyppi::TILINAVAUS) {
         QMessageBox::critical(nullptr, tr("Virheellinen tosite"),
                               tr("Tositteen debet ja kredit eivät täsmää"));
         tallennuksessaVirhe(0);

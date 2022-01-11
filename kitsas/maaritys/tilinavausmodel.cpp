@@ -248,7 +248,7 @@ QList<AvausEra> TilinavausModel::erat(int tili) const
 }
 
 
-bool TilinavausModel::tallenna()
+bool TilinavausModel::tallenna(int tila)
 {
     tosite_->viennit()->tyhjenna();
 
@@ -317,7 +317,7 @@ bool TilinavausModel::tallenna()
     // Tallennuksen jälkeen ladataan välittömästi, jotta kumppanirekisteri ajan tasalla
     connect( tosite_, &Tosite::talletettu, this, &TilinavausModel::lataa);    
 
-    tosite_->tallenna(Tosite::KIRJANPIDOSSA);
+    tosite_->tallenna(tila);
 
     kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 
@@ -398,6 +398,23 @@ void TilinavausModel::ladattu()
 }
 
 void TilinavausModel::idTietoSaapuu(QVariant *data)
+{
+    QVariantList lista = data->toList();
+    if( lista.isEmpty() ) {
+        KpKysely* kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("tyyppi", TositeTyyppi::TILINAVAUS);
+        kysely->lisaaAttribuutti("luonnos");
+        if(kysely) {
+            connect(kysely, &KpKysely::vastaus, this, &TilinavausModel::luonnosIdSaapuu);
+            kysely->kysy();
+        }
+    } else {
+        QVariantMap map = lista.first().toMap();
+        tosite_->lataa(map.value("id").toInt());
+    }
+}
+
+void TilinavausModel::luonnosIdSaapuu(QVariant *data)
 {
     QVariantList lista = data->toList();
     if( !lista.isEmpty()) {
