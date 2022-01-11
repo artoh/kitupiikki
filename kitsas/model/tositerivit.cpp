@@ -242,10 +242,10 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                 else if( value.toString()==" " || !rivit_.at(r).tili() )
                     uusitili = TilinValintaDialogi::valitseTili( QString());
 
-                if( uusitili.onkoValidi() && (uusitili.alvlaji() == AlvKoodi::EIALV ||
-                                              uusitili.alvlaji() == AlvKoodi::MYYNNIT_NETTO ) ) {
+                if( uusitili.onkoValidi()) {
                     rivit_[r].setTili(uusitili.numero());
-                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+                    int alvlaji = uusitili.alvlaji();
+                    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) && (alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::MYYNNIT_NETTO )) {
                         rivit_[r].setAlvKoodi( uusitili.alvlaji() );
                         rivit_[r].setAlvProsentti( uusitili.alvprosentti() );
                     }
