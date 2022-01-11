@@ -239,7 +239,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
                 QDate hankintapaiva = apukysely.value(4).toDate();
 
                 int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
-                                       hankintapaiva.year() * 12 - hankintapaiva.month() + 1;
+                                       hankintapaiva.year() * 12 - hankintapaiva.month() + ( hankintapaiva.day() != hankintapaiva.daysInMonth() ? 1 : 0 );
                 qlonglong laskennallinenpoisto = poistokk ? alkusumma * kuukauttaKulunut / poistokk : 0;
                 if( laskennallinenpoisto > saldo)
                     laskennallinenpoisto = saldo;

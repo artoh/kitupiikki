@@ -30,8 +30,10 @@ QVariant AvausEraModel::headerData(int section, Qt::Orientation orientation, int
             return tr("Asiakas/toimittaja");
         else if(section == NIMI)
             return tr("Erän nimi");
-        else
+        else if(section == SALDO)
             return tr("Saldo");
+        else if(section == POISTOAIKA)
+            return tr("Poistoaika");
     }
 
     return QVariant();
@@ -60,11 +62,18 @@ QVariant AvausEraModel::data(const QModelIndex &index, int role) const
         if( index.column() == NIMI)
             return era.eranimi();
         else if( index.column() == KUMPPANI)
-                return era.kumppaniNimi();
-        else if( role == Qt::DisplayRole)
-            return QString("%L1 €").arg( era.saldo() / 100.0, 10,'f',2);
-        else
-            return era.saldo() / 100.0;
+                return era.kumppaniNimi();            
+        else if( role == Qt::DisplayRole) {
+            if( index.column() == SALDO)
+                return QString("%L1 €").arg( era.saldo() / 100.0, 10,'f',2);
+            else if(index.column() == POISTOAIKA)
+                return tr("%1 vuotta").arg(era.tasapoisto() / 12);
+        } else {
+            if( index.column() == SALDO)
+                return era.saldo() / 100.0;
+            else if(index.column() == POISTOAIKA)
+                return era.tasapoisto() / 12;
+        }
     }
 
 
@@ -83,6 +92,8 @@ bool AvausEraModel::setData(const QModelIndex &index, const QVariant &value, int
         }
         else if( index.column() == KUMPPANI) {
             era.asetaKumppani( value.toMap());
+        } else if( index.column() == POISTOAIKA) {
+            era.asetaTasapoisto( value.toInt() * 12 );
         }
 
         erat_[index.row()] = era;

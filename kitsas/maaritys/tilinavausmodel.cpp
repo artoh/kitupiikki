@@ -279,12 +279,14 @@ bool TilinavausModel::tallenna()
             Tili tilio = kp()->tilit()->tiliNumerolla(tili);
 
             if( qAbs(era.saldo())) {
-                if( era.vienti()) {
-                    vienti.setEra( era.vienti() );
-                } else if( tilio.eritellaankoTase()) {
-                    vienti.setEra(-1);
-                } else {
+                if( !tilio.eritellaankoTase()) {
+                    // Jos tilillä ei tasetta eritellä, niin ei tule erää
                     vienti.setEra(0);
+                }
+                else if( era.vienti()) {
+                    vienti.setEra( era.vienti() );
+                } else if( !era.eranimi().isEmpty() || era.kumppaniId() ){
+                    vienti.setEra(-1);
                 }
 
                 // Ostosaamiset ja velat -kirjataan niin,
@@ -295,6 +297,7 @@ bool TilinavausModel::tallenna()
                     vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
 
                 vienti.setSelite( era.eranimi() );
+                vienti.setTasaerapoisto( era.tasapoisto());
             }
             vienti.setKohdennus( era.kohdennus() );
             if( era.kumppaniId())
@@ -371,6 +374,7 @@ void TilinavausModel::ladattu()
         int kohdennus = vienti.kohdennus();
         int kumppani = vienti.kumppaniId();
         QString kumppaninimi = vienti.value("kumppani").toMap().value("nimi").toString();
+        int poistoaika = vienti.tasaerapoisto();
 
         Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
         qlonglong saldo = tili.onko(TiliLaji::VASTAAVAA)  ?
@@ -378,7 +382,7 @@ void TilinavausModel::ladattu()
                     qRound64(vienti.kredit() * 100) - qRound64(vienti.debet() * 100);
 
         QList<AvausEra>& erat = erat_[tilinro];
-        erat.append( AvausEra(saldo, era, kohdennus, vienti.id(), kumppani, kumppaninimi));
+        erat.append( AvausEra(saldo, era, kohdennus, vienti.id(), kumppani, kumppaninimi, poistoaika));
 
     }
     endResetModel();
@@ -411,8 +415,8 @@ qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)
 }
 
 
-AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi) :
-    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi)
+AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi, int tasapoisto) :
+    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi), tasapoisto_(tasapoisto)
 {
 
 }

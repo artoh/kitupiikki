@@ -256,7 +256,10 @@ void TositeVienti::setPalkkakoodi(const QString &palkkakoodi)
 
 void TositeVienti::setTasaerapoisto(int kuukautta)
 {
-    set( TASAERAPOISTO, kuukautta);
+    if( kuukautta)
+        set( TASAERAPOISTO, kuukautta);
+    else
+        remove( avaimet__.at(TASAERAPOISTO) );
 }
 
 void TositeVienti::setId(int id)

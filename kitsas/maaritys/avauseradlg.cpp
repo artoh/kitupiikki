@@ -23,6 +23,10 @@
 #include "kirjaus/eurodelegaatti.h"
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
+#include "db/tili.h"
+#include "db/kirjanpito.h"
+#include "tools/vuosidelegaatti.h"
+
 AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AvausEraDlg)
@@ -32,7 +36,7 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     ui->tiliLabel->setText( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
 
     ui->eraLabel->setVisible(!kohdennukset);
-    ui->kohdennusOhje->setVisible(kohdennukset);
+    ui->kohdennusOhje->setVisible(kohdennukset);    
 
     if( kohdennukset ) {
         model = new AvausKohdennusModel(erat, this);
@@ -43,8 +47,14 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
         ui->view->setModel(model);        
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
                                           new KumppaniValintaDelegaatti(this));
+        ui->view->setItemDelegateForColumn(AvausEraModel::POISTOAIKA,
+                                           new VuosiDelegaatti(this));
         ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);       
     }    
+
+    Tili* tiliObj = kp()->tilit()->tili(tili);
+    if( !tiliObj || !tiliObj->onko(TiliLaji::TASAERAPOISTO))
+        ui->view->hideColumn(AvausEraKantaModel::POISTOAIKA);
 
 
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);

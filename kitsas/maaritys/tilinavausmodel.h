@@ -25,33 +25,39 @@
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 
+#include "model/euro.h"
+
 /**
  * @brief Tilinavauksessa oleva yksi erä
  */
 class AvausEra {
 public:
-    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
-             int kumppaniId=0, QString kumppaniNimi=QString());
+    AvausEra(qlonglong saldo = Euro::Zero, const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
+             int kumppaniId=0, QString kumppaniNimi=QString(), int tasapoisto = 0);
 
     QString eranimi() const { return eranimi_; }
     int kohdennus() const { return kohdennus_;}
-    qlonglong saldo() const { return saldo_; }
+    qlonglong saldo() const { return saldo_.cents(); }
     int vienti() const { return vienti_;}
     int kumppaniId() const { return kumppaniId_;}
     QString kumppaniNimi() const { return  kumppaniNimi_;}
+    int tasapoisto() const { return tasapoisto_;}
 
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
     void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
     void asetaKumppani(const QVariantMap& map);
+    void asetaTasapoisto(const int kuukautta) { tasapoisto_ = kuukautta;}
+
 
 protected:
     QString eranimi_;
     int kohdennus_ = 0;
-    qlonglong saldo_ = 0l;
+    Euro saldo_;
     int vienti_ = 0;
     int kumppaniId_ = 0;
     QString kumppaniNimi_;
+    int tasapoisto_ = 0;
 };
 
 /**

@@ -26,7 +26,7 @@ class AvausEraKantaModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    enum { KUMPPANI, NIMI, SALDO };
+    enum { KUMPPANI, NIMI, SALDO, POISTOAIKA };
 
     AvausEraKantaModel(QList<AvausEra> erat = QList<AvausEra>(),
                                 QObject *parent = nullptr);

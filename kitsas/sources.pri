@@ -240,6 +240,7 @@ SOURCES += \
     $$PWD/tools/pdf/popplerrendererdocument.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tools/varinvalinta.cpp \
+    $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/tuonti/pdftiliote/oterivi.cpp \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.cpp \
@@ -607,6 +608,7 @@ HEADERS += \
     $$PWD/tools/pdf/popplerrendererdocument.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tools/varinvalinta.h \
+    $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
     $$PWD/tuonti/pdftiliote/oterivi.h \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.h \
