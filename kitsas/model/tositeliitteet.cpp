@@ -276,6 +276,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     connect( liitekysely, &KpKysely::lisaysVastaus, this, [this, liiteIndeksi] (const QVariant& data, int id) {
             this->liiteLisatty(data, id, liiteIndeksi);
         });
+    connect( liitekysely, &KpKysely::virhe, this, &TositeLiitteet::lisaysVirhe);
 
 
     // Ensimmäisestä liitteestä tuodaan tiedot
@@ -458,6 +459,7 @@ void TositeLiitteet::tallennaSeuraava()
                 tallennus = kpk( QString("/liitteet/%1/%2").arg(tositeId_).arg(liitteet_.at(tallennuksessa_).getRooli()), KpKysely::PUT);
 
             connect( tallennus, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
+            connect( tallennus, &KpKysely::virhe, this, &TositeLiitteet::lisaysVirhe);
             QMap<QString,QString> meta;
             meta.insert("Filename", liitteet_.at(tallennuksessa_).getNimi());
             tallennus->lahetaTiedosto( liitteet_.at(tallennuksessa_).getSisalto(), meta );
@@ -490,6 +492,13 @@ void TositeLiitteet::liiteLisatty(const QVariant & /*data*/, int liiteId, int li
     if( liitteet_.size() > liiteIndeksi)
         liitteet_[liiteIndeksi].setLiitettava(liiteId);
 
+}
+
+void TositeLiitteet::lisaysVirhe(int virhe, const QString selitys)
+{
+    QMessageBox::critical(nullptr, tr("Liitteen tallentaminen epäonnistui"),
+                                   tr("Liitteen tallentamisessa tapahtui virhe %1 : %2")
+                          .arg(virhe).arg(selitys));
 }
 
 QByteArray TositeLiitteet::lueTiedosto(const QString &polku)
