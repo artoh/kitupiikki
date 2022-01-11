@@ -117,6 +117,7 @@ private slots:
     void liitesaapuu(QVariant* data, int indeksi);
     void liitesaapuuValmiiksi(QVariant* data, int indeksi);
     void liiteLisatty(const QVariant& data, int liiteId, int liiteIndeksi);
+    void lisaysVirhe(int virhe, const QString selitys);
 
 protected:
     static QByteArray lueTiedosto(const QString &polku);
