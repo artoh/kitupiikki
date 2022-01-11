@@ -68,6 +68,16 @@ qreal LaskunAlaosa::laske(QPainter *painter)
         if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
         if( yhteysKorkeus_ < 20 * mm)
             yhteysKorkeus_ = 20 * mm;
+
+        qreal yhteyslaatikkoLeveys = yhteyslaatikko_.koko().width();
+        qreal tunnuslaatikkoLeveys = tunnuslaatikko_.koko().width();
+        qreal leveampi = yhteyslaatikkoLeveys > tunnuslaatikkoLeveys ?
+                    yhteyslaatikkoLeveys :
+                    tunnuslaatikkoLeveys;
+        if( leveampi + osoitelaatikko_.koko().width() > leveys - 120 * mm) {
+            yhteysKorkeus_ = osoitelaatikko_.koko().height() + yhteyslaatikkoKorkeus + painter->fontMetrics().height() ;
+        }
+
     } else {
         qreal yhteyslaatikkoKorkeus = yhteyslaatikko_.laskeKoko(painter, leveys);
         if( yhteyslaatikkoKorkeus > yhteysKorkeus_) yhteysKorkeus_ = yhteyslaatikkoKorkeus;
@@ -119,8 +129,14 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
                     yhteyslaatikkoLeveys :
                     tunnuslaatikkoLeveys;
 
-        yhteyslaatikko_.piirra(painter, leveys - leveampi, 0);
-        tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height());
+        if( leveampi + osoitelaatikko_.koko().width() > leveys - 120 * mm) {
+            // Kaikki päällekkäin
+            yhteyslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + painter->fontMetrics().height() );
+            tunnuslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + yhteyslaatikko_.koko().height() + painter->fontMetrics().height() );
+        } else {
+            yhteyslaatikko_.piirra(painter, leveys - leveampi, 0);
+            tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height());
+        }
 
         piirraViivakoodi(painter, QRectF(mm*5, mm*5, mm*100, mm*13), lasku);
     } else {
