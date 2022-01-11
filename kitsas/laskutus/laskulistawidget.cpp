@@ -35,6 +35,8 @@
 #include "laskudlg/kantalaskudialogi.h"
 #include "model/lasku.h"
 
+#include "alv/alvilmoitustenmodel.h"
+
 #include <QDebug>
 #include <QMessageBox>
 
@@ -173,6 +175,9 @@ void LaskulistaWidget::paivitaNapit()
     int tyyppi = index.data(LaskuTauluModel::TyyppiRooli).toInt();
     int laskutustapa = index.data(LaskuTauluModel::LaskutustapaRooli).toInt();
 
+    QDate pvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
+    bool lukittu = pvm < kp()->tilitpaatetty() || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
+
     ui->lahetaNappi->setEnabled( index.isValid()
                                  && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
                                  kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
@@ -183,7 +188,7 @@ void LaskulistaWidget::paivitaNapit()
                                && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
                                && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
     ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
-    ui->muokkaaNappi->setEnabled( index.isValid() &&
+    ui->muokkaaNappi->setEnabled( index.isValid() && !lukittu &&
                                   (laskutustapa != Lasku::TUOTULASKU ||
                                    tyyppi == TositeTyyppi::MYYNTILASKU));
     ui->muistutusNappi->setVisible( index.isValid() && (tyyppi == TositeTyyppi::MYYNTILASKU
@@ -199,7 +204,7 @@ void LaskulistaWidget::paivitaNapit()
     ui->ryhmalaskuNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 
     if( ui->tabs->currentIndex() >= KAIKKI )
-        ui->poistaNappi->setEnabled( index.isValid() &&
+        ui->poistaNappi->setEnabled( index.isValid() && !lukittu &&
                                      ( qAbs(index.data( LaskuTauluModel::SummaRooli ).toDouble() - index.data( LaskuTauluModel::AvoinnaRooli ).toDouble()) < 1e-5 || tyyppi != TositeTyyppi::MYYNTILASKU )
                                      && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN)
                                      );
