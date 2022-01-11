@@ -155,7 +155,7 @@ void TilioteModel::lataa(const QVariantList &lista)
     for(auto const& listanrivi : lista) {
         const QVariantMap& rivimap = listanrivi.toMap();
         int rivintili = rivimap.value("tili").toInt();
-        if( rivintili == tilinumero() && rivinlista.count() > 1) {
+        if( rivintili == tilinumero() && !rivinlista.isEmpty()) {
             kirjausRivit_.append(TilioteKirjausRivi(rivinlista, this));
             rivinlista.clear();
         }

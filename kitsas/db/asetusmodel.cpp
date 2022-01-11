@@ -283,7 +283,7 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { Katuosoite, "Katuosoite"},
     { Postinumero, "Postinumero"},
     { Kaupunki, "Kaupunki"},
-    { Aputoiminimi, "Aputoiminimi"},
+    { Aputoiminimi, "LaskuAputoiminimi"},
     { Logonsijainti, "LogonSijainti"},
     { LaskuIkkunaKorkeus, "LaskuIkkunaKorkeus"},
     { Puhelin, "Puhelin" },
