@@ -43,6 +43,7 @@ public:
         RAHA = 20,
         TILI = 21,
         VIITE = 22,
+        ALLESATA = 23,
         SUOMIPVM = 30,
         ISOPVM = 31,
         USPVM = 32
@@ -70,7 +71,8 @@ public:
         SAAJAMAKSAJA,
         KTOKOODI,
         DEBETTILI,
-        KREDITTILI
+        KREDITTILI,
+        RAHASENTIT
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};

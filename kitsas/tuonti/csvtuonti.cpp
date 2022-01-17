@@ -245,6 +245,13 @@ QVariantMap CsvTuonti::kirjaukset()
             {
                 vienti.setAlvKoodi(static_cast<int>(sentit / 100));
             }
+            else if( tuonti == RAHASENTIT && tieto.toLongLong() < 100) {
+                if( vienti.debetSnt())
+                    vienti.setDebet( vienti.debetSnt() + tieto.toLongLong());
+                else if(vienti.kreditSnt())
+                    vienti.setKredit( vienti.kreditSnt() + tieto.toLongLong());
+
+            }
         }
 
         if( !tositetunnus.isEmpty())
@@ -322,7 +329,15 @@ QVariantMap CsvTuonti::tiliote()
                 rivi.insert("viite", tieto);
             } else if( tuonti == RAHAMAARA)
             {
-                rivi.insert("euro", TuontiApu::sentteina(tieto) / 100.0 );
+                rivi.insert("euro", Euro(TuontiApu::sentteina(tieto)).toString() );
+            }
+            else if( tuonti == RAHASENTIT) {
+                Euro euro( rivi.value("euro").toString());
+                if( euro.cents() > 0)
+                    euro = euro + Euro(tieto.toLongLong());
+                else
+                    euro = euro - Euro(tieto.toLongLong());
+                rivi.insert("euro", euro.toString());
             }
             else if( tuonti == SELITE && !tieto.isEmpty())
             {
@@ -473,6 +488,8 @@ QString CsvTuonti::tyyppiTeksti(int muoto)
         return tr("Luku ja teksti");
     case LUKU:
         return tr("Luku");
+    case ALLESATA:
+        return tr("Pieni luku");
     case RAHA:
         return tr("Rahamäärä");
     case TILI:
@@ -529,6 +546,8 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
         return tr("Debet-tili");
     case KREDITTILI:
         return tr("Kredit-tili");
+    case RAHASENTIT:
+        return tr("Sentit");
     default:
         return QString();
     }
@@ -617,6 +636,8 @@ void CsvTuonti::paivitaOletukset()
     else
     {
         bool rahakaytetty = false;
+        bool senttikaytetty = false;
+        bool kokoraha = false;
 
         for(int i=0; i < muodot_.count(); i++)
         {
@@ -628,10 +649,12 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;
             }
-            else if( (muoto == RAHA || muoto==LUKU) && !rahakaytetty)
+            else if( (muoto == RAHA || muoto==LUKU || muoto==ALLESATA) && !rahakaytetty)
             {
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
                 rahakaytetty = true;
+                if( muoto == LUKU || muoto == ALLESATA)
+                    kokoraha = true;    // Rahamäärä on kokonaisluku joten voidaan tuoda sentit erikseen
             }
             else if( muoto == TILI)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, IBAN);
@@ -649,7 +672,10 @@ void CsvTuonti::paivitaOletukset()
                      otsikko.contains("viesti", Qt::CaseInsensitive) ||
                      otsikko.contains("kuvaus", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else
+            else if( muoto == ALLESATA && rahakaytetty && !senttikaytetty && kokoraha) {
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHASENTIT);
+                senttikaytetty = true;
+            } else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
         }
     }
@@ -709,9 +735,12 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = TILI;
             else if( ViiteValidator::kelpaako(valeitta ) )
                 muoto = VIITE;
-            else if( teksti.contains(lukuRe))
-                muoto = LUKU;
-            else if( valeitta.contains(rahaRe))
+            else if( teksti.contains(lukuRe)) {
+                if( teksti.toLongLong() > -1 && teksti.toLongLong() < 100)
+                    muoto = ALLESATA;
+                else
+                    muoto = LUKU;
+            } else if( valeitta.contains(rahaRe))
                 muoto = RAHA;
             else if( teksti.contains(lukuTekstiRe))
                 muoto = LUKUTEKSTI;
@@ -719,10 +748,12 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
 
             if(muodot_[i] != TEKSTI && muodot_[i] != muoto && muoto != TYHJA)
             {
-                if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI) ||
-                        (muodot_[i]==LUKU && muoto==RAHA))
+                if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI) ||                        
+                        (muodot_[i]==LUKU && muoto==RAHA) ||
+                        (muodot_[i]==ALLESATA && muoto==LUKU) ||
+                        (muodot_[i]==ALLESATA && muoto==RAHA))
                     muodot_[i] = muoto;
-                else if( muodot_[i]==RAHA && muoto==LUKU)
+                else if( muodot_[i]==RAHA && ( muoto==LUKU || muoto == ALLESATA || muoto==VIITE))
                     muodot_[i] = RAHA;
                 else if( (muodot_[i] == LUKU && muoto == VIITE ) || (muodot_[i] == VIITE && muoto == LUKU) )
                     muodot_[i] = LUKU;

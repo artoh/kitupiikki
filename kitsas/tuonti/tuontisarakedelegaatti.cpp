@@ -48,10 +48,13 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 
     comboon(combo, CsvTuonti::EITUODA);
 
+   if( !tuokirjauksia_ && ( tyyppi == CsvTuonti::VIITE || nykyinen == CsvTuonti::VIITE)) {
+        comboon(combo, CsvTuonti::VIITENRO);
+    }
 
     if(  tyyppi >= CsvTuonti::SUOMIPVM)
         comboon(combo, CsvTuonti::PAIVAMAARA);
-    else if( tuokirjauksia_ && ( tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::LUKUTEKSTI))
+    else if( tuokirjauksia_ && ( tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::LUKUTEKSTI || tyyppi == CsvTuonti::ALLESATA))
     {
         comboon(combo, CsvTuonti::TILINUMERO);
         comboon(combo, CsvTuonti::ALVPROSENTTI);
@@ -66,18 +69,20 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         comboon(combo, CsvTuonti::RAHAMAARA);
         comboon(combo, CsvTuonti::BRUTTOALVP);
     }
-    else if( tyyppi == CsvTuonti::RAHA || tyyppi == CsvTuonti::LUKU)
+    else if( tyyppi == CsvTuonti::RAHA || tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::ALLESATA)
     {
         comboon(combo, CsvTuonti::RAHAMAARA);
+        if( tyyppi == CsvTuonti::ALLESATA) {
+            comboon(combo, CsvTuonti::RAHASENTIT);
+        }
     }
-    else if( !tuokirjauksia_ && ( tyyppi == CsvTuonti::VIITE || nykyinen == CsvTuonti::VIITE))
-        comboon(combo, CsvTuonti::VIITENRO);
     else if( !tuokirjauksia_ && tyyppi == CsvTuonti::TILI )
         comboon(combo, CsvTuonti::IBAN);
     if( tyyppi == CsvTuonti::LUKU && !tuokirjauksia_)
         comboon(combo, CsvTuonti::KTOKOODI);
+
     if( tyyppi == CsvTuonti::TEKSTI || tyyppi == CsvTuonti::LUKUTEKSTI
-            || tyyppi == CsvTuonti::LUKU)
+            || tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::ALLESATA)
     {
         comboon(combo, CsvTuonti::SELITE);
         if( !tuokirjauksia_) {
