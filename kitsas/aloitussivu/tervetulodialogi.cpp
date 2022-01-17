@@ -79,6 +79,22 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     // Kopioidaan kuvake
     QDir::home().mkpath( ".local/share/icons" );
     QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png"));
+
+    // Lisätään mimetyyppi
+    QFile mime( QDir::home().absoluteFilePath(".local/share/mime/application/kitsas.xml"));
+    mime.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    QTextStream mout(&mime);
+    mout.setCodec("UTF-8");
+    mout << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    mout << "<mime-type xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\" type=\"application/kitsas\">\n";
+    mout << "<comment xml:lang=\"en\">Kitsas accounting database</comment>\n";
+    mout << "<comment xml:lang=\"en\">Kitsaan kirjanpito</comment>\n";
+    mout << "  <glob pattern=\"*.kitsas\"/>\n";
+    mout << "</mime-type>";
+    mout.flush();
+    mime.close();
+
+
     // Lisätään työpöytätiedosto
     QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
     desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
@@ -91,5 +107,5 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     out << "TryExec=" << qApp->applicationFilePath() << "\n";
     out << "GenericName=Kirjanpito\n";
     out << tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
-    out << "Categories=Office;Finance;Qt;\nTerminal=false";
+    out << "Categories=Office;Finance;Qt;\nMimeType=application/kitsas\nTerminal=false";
 }
