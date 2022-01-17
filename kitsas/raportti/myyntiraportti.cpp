@@ -27,8 +27,7 @@ MyyntiRaportti::MyyntiRaportti()
 
     ui->alkaa->setDate( arvo(RaporttiValinnat::AlkuPvm).toDate() );
     ui->paattyy->setDate( arvo(RaporttiValinnat::LoppuPvm).toDate());
-    ui->kieliCombo->valitse(arvo(RaporttiValinnat::Kieli).toString() );
-
+    ui->kieliCombo->valitse(arvo(RaporttiValinnat::Kieli).toString() );        
 }
 
 MyyntiRaportti::~MyyntiRaportti()

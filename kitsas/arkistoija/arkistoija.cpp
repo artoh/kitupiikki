@@ -54,7 +54,7 @@ void Arkistoija::arkistoi()
         progressDlg_->setMinimumDuration(250);
 
         QStringList raportit = kp()->asetukset()->asetus(AsetusModel::ArkistoRaportit).split(",");
-        raporttilaskuri_ = 8 + raportit.count();
+        raporttilaskuri_ = 9 + raportit.count();
 
         arkistoiTositteet();
         arkistoiRaportit();
@@ -156,7 +156,7 @@ void Arkistoija::arkistoiRaportit()
 
     RaporttiValinnat myyntiLuettelo = raportti("myynti");
     myyntiLuettelo.aseta(RaporttiValinnat::TiedostonNimi,"myynnit.html");
-    tilaaRaportti(myyntiLaskuLuettelo);
+    tilaaRaportti(myyntiLuettelo);
 
 
 
@@ -304,8 +304,7 @@ void Arkistoija::jotainArkistoitu()
     qDebug() << " Tosite " << arkistoitavaTosite_ << " / " << tositeJono_.count() << " Liitteet " << liitelaskuri_ << " Raportit " << raporttilaskuri_ ;
 
     qApp->processEvents();
-    if( !keskeytetty_ && tositeluetteloSaapunut_ &&
-            arkistoitavaTosite_ >= tositeJono_.count() && !liitelaskuri_  && !raporttilaskuri_ )
+    if( !keskeytetty_ && tositeluetteloSaapunut_ && arkistoitavaTosite_ >= tositeJono_.count() && liitelaskuri_ <= 0  && raporttilaskuri_ <= 0 )
             viimeistele();    
 }
 
@@ -365,7 +364,7 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
         arkistoiSeuraavaTosite();
     else if( !liiteJono_.isEmpty() )
         arkistoiSeuraavaLiite();
-    else if( !raporttilaskuri_ && !liitelaskuri_)
+    else if( raporttilaskuri_ <= 0 && !liitelaskuri_)
         viimeistele();
 
 }
@@ -402,6 +401,9 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
     arkistoiByteArray( tiedosto, txt.toUtf8() );
     raporttilaskuri_--;
     progressDlg_->setValue( progressDlg_->value() + 1);
+
+    qDebug() << " Raportti " << tiedosto << " " << raporttilaskuri_;
+
     jotainArkistoitu();
 }
 
@@ -507,7 +509,7 @@ RaporttiValinnat Arkistoija::raportti(QString tyyppi)
 void Arkistoija::tilaaRaportti(RaporttiValinnat &valinnat)
 {
     RaportinLaatija* laatija = new RaportinLaatija(this);
-    connect( laatija, &RaportinLaatija::raporttiValmis, this, &Arkistoija::arkistoiLaadittuRaportti);
+    connect( laatija, &RaportinLaatija::raporttiValmis, this, &Arkistoija::arkistoiLaadittuRaportti);    
     laatija->laadi(valinnat);
 }
 
@@ -827,7 +829,5 @@ Arkistoija::JonoTosite::JonoTosite(const QVariantMap &map)
 
 QString Arkistoija::JonoTosite::tiedostonnimi()
 {
-    qDebug() << "Arkistoija::JonoTosite::tiedostonnimi ";
-    qDebug() << pvm().toString() << " " << tunniste();
     return Arkistoija::tiedostonnimi(pvm(), sarja(), tunniste());
 }
