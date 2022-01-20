@@ -104,7 +104,7 @@
            <string notr="true">TilioteTulotili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string notr="true">C</string>
+           <string notr="true">C|AO</string>
           </property>
           <property name="Kaytossa" stdset="0">
            <string>TilioteTuloKaytossa</string>
@@ -127,7 +127,7 @@
            <string notr="true">TilioteMenotili</string>
           </property>
           <property name="Tilit" stdset="0">
-           <string notr="true">D</string>
+           <string notr="true">D|BO</string>
           </property>
           <property name="Kaytossa" stdset="0">
            <string>TilioteMenoKaytossa</string>
