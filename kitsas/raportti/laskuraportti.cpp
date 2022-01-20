@@ -80,7 +80,7 @@ void LaskuRaportti::tallenna()
     aseta(RaporttiValinnat::AlkuPvm, ui->alkaenPvm->date());
     aseta(RaporttiValinnat::LoppuPvm, ui->paattyenPvm->date());
 
-    aseta(RaporttiValinnat::LaskuRajausTyyppi,
+    aseta(RaporttiValinnat::LaskuTyyppi,
         ui->myyntiRadio->isChecked() ? "myynti" : "osto");
 
     if( ui->rajaaPvm->isChecked())
@@ -104,6 +104,7 @@ void LaskuRaportti::tallenna()
     aseta(RaporttiValinnat::NaytaViitteet, ui->naytaViiteCheck->isChecked());
     aseta(RaporttiValinnat::VainKitsaalla, ui->vainKitsas->isChecked());
     aseta(RaporttiValinnat::TulostaSummarivit, ui->summaBox->isChecked());
+    aseta(RaporttiValinnat::SaldoPvm, ui->saldoPvm->date());
 
 
 
