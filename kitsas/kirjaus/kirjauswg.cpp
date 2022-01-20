@@ -74,6 +74,7 @@
 
 #include "muumuokkausdlg.h"
 #include "pilvi/pilvimodel.h"
+#include "alv/alvilmoitustenmodel.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
@@ -129,7 +130,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(pohjaksi()), QKeySequence("Ctrl+T"));
     mallipohjaksiAktio_ = valikko->addAction(QIcon(":/pic/uusitiedosto.png"), tr("Tallenna mallipohjaksi"), [this] {this->tosite()->tallenna(Tosite::MALLIPOHJA);});
-    poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
+    poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));    
+
     tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), [this] { this->tosite()->viennit()->tyhjenna(); if(apuri_) apuri_->reset(); });
     valikko->addAction(QIcon(":/pic/123.png"), tr("Vaihda tunnistenumero"), [this] { this->vaihdaTunniste();});
 
@@ -257,6 +259,7 @@ void KirjausWg::tyhjenna()
     else
         ui->viennitView->hideColumn(TositeViennit::ALV);
     ui->tallennetaanLabel->hide();
+    poistaAktio_->setEnabled(false);
     ui->ocrLabel->hide();
     ui->tabWidget->setTabEnabled(ui->tabWidget->indexOf(ui->tabWidget->findChild<QWidget*>("lokiTab")), false);
 
@@ -427,6 +430,10 @@ void KirjausWg::tositeLadattu()
 {
     if(tosite()->tila() >= Tosite::SAAPUNUT && tosite()->tila() <= Tosite::HYVAKSYTTY)
         ui->tallennaButton->setText(tr("Tallenna"));
+
+    poistaAktio_->setEnabled( tosite()->tila() < Tosite::KIRJANPIDOSSA ||
+                              (tosite()->pvm() > kp()->tilitpaatetty() &&
+                               !kp()->alvIlmoitukset()->onkoIlmoitettu(tosite()->pvm()) )  );
 }
 
 
