@@ -46,6 +46,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, this, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->poistaLogoNappi, &QPushButton::clicked, this, [this] { poistaLogo(); ui->logoLabel->clear(); });
+    connect( ui->harjoitusCheck, &QPushButton::clicked, this, &Perusvalinnat::naytaVastuu);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -151,6 +152,17 @@ void Perusvalinnat::naytaLogo()
     }
 
     ui->poistaLogoNappi->setEnabled( !logo.isNull() );
+}
+
+void Perusvalinnat::naytaVastuu(bool harjoitus)
+{
+    if( !harjoitus) {
+        QMessageBox::warning(this,
+                             tr("Vastuu kirjanpidosta"),
+                             tr("Olet itse vastuussa kirjanpitosi oikeellisuudesta ja laillisuudesta sekä siitä, että kaikki verot maksetaan asianmukaisesti.\n\n"
+                                "Ohjelmalla ei ole mitään takuuta. Kitsas Oy ei myöskään anna oikeudellista neuvontaa kirjanpidosta tai verotuksesta.\n\n"
+                                "Käänny tarvittaessa kirjanpidon ammattilaisen puoleen"));
+    }
 }
 
 void Perusvalinnat::avaaHakemisto()

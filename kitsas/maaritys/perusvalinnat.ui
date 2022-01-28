@@ -431,7 +431,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="harjoitusCheck">
      <property name="text">
       <string>Harjoituskirjanpito</string>
      </property>
