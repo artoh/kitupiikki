@@ -311,7 +311,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, const int paivitettavanT
     for( auto const& vientivar : viennit ) {
         QVariantMap vientimap = vientivar.toMap();
 
-        int vientiid = paivitettavanTositeId ? vientimap.take("id").toInt() : 0;
+        // #1128: Käytetään importid-kenttää silloin kun tuodaan Kitupiikistä tietokantaa ja tämän takia pitää säilyttää
+        // vientien id:t vaikka tositteiden id:t muuttuvat (sen takia että Kitupiikki käytti id:tä 0 tilinavauksessa
+        int vientiid = paivitettavanTositeId ? vientimap.take("id").toInt() : vientimap.take("importid").toInt();
         QDate vientipvm = vientimap.take("pvm").toDate();
         int tili = vientimap.take("tili").toInt();
         int kohdennus = vientimap.take("kohdennus").toInt();
