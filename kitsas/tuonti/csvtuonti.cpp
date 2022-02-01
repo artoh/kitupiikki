@@ -141,7 +141,17 @@ QVariantMap CsvTuonti::kirjaukset()
 
                 int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                 QString tieto = csv_.at(r).at(c);
-                if( tuonti == TILINUMERO)
+                if( tuonti == DEBETTILI || tuonti == KREDITTILI) {
+                    // #1126 Lisätään tilimuuntoon myös debet- ja kredit-tilit
+                    QRegularExpressionMatch mats = tiliRe.match(tieto);
+                    tilinro = mats.captured(1).toInt();
+                    if( mats.captured(2).length() > 2)
+                        tilinimi = mats.captured(2);
+                    if( !tilinimet.contains(qMakePair(tilinro, tilinimi)))
+                        tilinimet.append(qMakePair(tilinro, tilinimi));
+
+                }
+                if( tuonti == TILINUMERO )
                 {
                     QRegularExpressionMatch mats = tiliRe.match(tieto);
                     tilinro = mats.captured(1).toInt();
@@ -162,7 +172,9 @@ QVariantMap CsvTuonti::kirjaukset()
         mUi.setupUi(&muuntoDlg);
 
         mUi.muuntoView->setModel( &muuntomodel);
-        mUi.muuntoView->setItemDelegateForColumn( TiliMuuntoModel::UUSI , new TiliDelegaatti());
+        TiliDelegaatti* delegaatti = new TiliDelegaatti(this);
+        delegaatti->etsiKayttoon(false);
+        mUi.muuntoView->setItemDelegateForColumn( TiliMuuntoModel::UUSI , delegaatti);
         mUi.muuntoView->horizontalHeader()->setStretchLastSection(true);
         connect( mUi.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
 
@@ -604,9 +616,9 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;
             }
-            else if( muoto == RAHA && otsikko.contains("debet"))
+            else if( muoto == RAHA  && otsikko.contains("debet"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, DEBETEURO);
-            else if( muoto == RAHA && otsikko.contains("kredit"))
+            else if( muoto == RAHA  && otsikko.contains("kredit"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITEURO);
             else if( otsikko.contains("tosite"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
@@ -623,12 +635,16 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
             else if( otsikko=="alv %")
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, BRUTTOALVP);
-            else if( otsikko=="yhteensä")
+            else if( otsikko=="yhteensä" || otsikko.contains("euroa", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
             else if( otsikko=="alv%")
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ALVPROSENTTI);
             else if( otsikko=="alvkoodi")
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ALVKOODI);
+            else if( otsikko.contains("debet",Qt::CaseInsensitive) && otsikko.contains("tili", Qt::CaseInsensitive))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, DEBETTILI);
+            else if( otsikko.contains("kredit",Qt::CaseInsensitive) && otsikko.contains("tili", Qt::CaseInsensitive))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITTILI);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
         }

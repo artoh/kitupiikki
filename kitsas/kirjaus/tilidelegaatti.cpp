@@ -33,6 +33,7 @@ TiliDelegaatti::TiliDelegaatti(QObject *parent) :
 QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
     TilinvalintaLineDelegaatille *editor = new TilinvalintaLineDelegaatille(parent);
+    editor->etsiKayttoon(etsiKaytossa_);
     return editor;
 }
 
@@ -49,7 +50,7 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 
     QString alku = tilieditor->tilinimiAlkaa();
 
-    if( !alku.isEmpty()) {
+    if( !alku.isEmpty() && etsiKaytossa_) {
 
         TilinValintaDialogi* dlg = new TilinValintaDialogi();
         if( alku.startsWith("*")) {
@@ -70,6 +71,11 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
     else
         model->setData(index, tilieditor->valittuTilinumero());
 
+}
+
+void TiliDelegaatti::etsiKayttoon(bool onko)
+{
+    etsiKaytossa_ = onko;
 }
 
 

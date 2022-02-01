@@ -160,10 +160,15 @@ TilinvalintaLineDelegaatille::TilinvalintaLineDelegaatille(QWidget *parent) :
 
 }
 
+void TilinvalintaLineDelegaatille::etsiKayttoon(bool onko)
+{
+    etsiKaytossa_ = onko;
+}
+
 void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 {
-    if( (!event->text().isEmpty() && event->text().at(0).isLetter())
-            || event->key() == Qt::Key_Space)
+    if( ((!event->text().isEmpty() && event->text().at(0).isLetter())
+            || event->key() == Qt::Key_Space) && etsiKaytossa_)
     {
         alku_ = event->text();
 
@@ -200,7 +205,7 @@ void TilinvalintaLine::asetaModel(TiliModel *model)
 
 void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)
 {
-    if( event->pos().x() > width() - 22)
+    if( event->pos().x() > width() - 22 && etsiKaytossa_)
     {
         QString sana = text().left( text().indexOf(' '));
         if( !sana.isEmpty() && sana.at(0).isDigit() )
@@ -213,6 +218,14 @@ void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)
     } else {
         setCursorPosition(0);
     }
+}
+
+void TilinvalintaLineDelegaatille::paintEvent(QPaintEvent *event)
+{
+    if( etsiKaytossa_ )
+        KantaTilinvalintaLine::paintEvent(event);
+    else
+        QLineEdit::paintEvent(event);
 }
 
 
