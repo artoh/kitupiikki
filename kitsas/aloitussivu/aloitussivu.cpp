@@ -614,7 +614,8 @@ void AloitusSivu::kirjauduttu()
         }
         ui->planLabel->setStyleSheet("color: red; font-weight: bold;");
     } else if( !kp()->pilvi()->tilausvoimassa()) {
-        ui->planLabel->setText(tr("Ei voimassaolevaa omaa tilausta.\n"));
+        ui->planLabel->setText(tr("Käyttäjätunnuksella ei ole voimassaolevaa omaa tilausta.") +
+                               (kp()->pilvi()->rowCount() ?  tr("\nVoit kuitenkin käyttää kaikkia niitä kirjanpitoja, joihin sinulle on myönnetty käyttöoikeus.") : QString() ));
     } else if (pilvia == 0 && pilvetmax == 0) {
         ui->planLabel->setText( kp()->pilvi()->planname() );
     } else if( kp()->pilvi()->plan() == PlanModel::TILITOIMISTOPLAN ) {
