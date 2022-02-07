@@ -230,20 +230,27 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         while(kysely.next()) {
             int eraid = kysely.value("eraid").toInt();
 
-            apukysely.exec(QString("select debetsnt,kreditsnt,selite,json,pvm, kohdennus from vienti where id=%1").arg(eraid));
+            apukysely.exec(QString("select debetsnt,kreditsnt,selite,vienti.json,vienti.pvm, kohdennus, tosite.tyyppi from vienti join tosite on vienti.tosite=tosite.id  where vienti.id=%1").arg(eraid));
             if( apukysely.next()) {
                 QVariantMap jsonmap = QJsonDocument::fromJson( apukysely.value(3).toByteArray() ).toVariant().toMap();
-                qlonglong alkusumma = apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong();
+                
                 int poistokk = jsonmap.value("tasaerapoisto").toInt();
+                
+                if (poistokk < 1)
+                    continue;
+                
+                qlonglong alkusumma = apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong();
+        
                 qlonglong saldo = kysely.value(2).toLongLong() - kysely.value(3).toLongLong();
                 QDate hankintapaiva = apukysely.value(4).toDate();
 
                 int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
-                                       hankintapaiva.year() * 12 - hankintapaiva.month() + ( hankintapaiva.day() != hankintapaiva.daysInMonth() ? 1 : 0 );
-                qlonglong laskennallinenpoisto = poistokk ? alkusumma * kuukauttaKulunut / poistokk : 0;
-                if( laskennallinenpoisto > saldo)
-                    laskennallinenpoisto = saldo;
-                qlonglong poisto = laskennallinenpoisto - alkusumma + saldo;
+                                       hankintapaiva.year() * 12 - hankintapaiva.month() + (apukysely.value(6).toInt() == TositeTyyppi::TILINAVAUS ? 0 : 1 );
+                qlonglong laskennallinenpoisto = alkusumma * kuukauttaKulunut / poistokk;
+                qlonglong nytpoistettavaa = laskennallinenpoisto - alkusumma + saldo;
+                qlonglong poisto = nytpoistettavaa > saldo ?  saldo : nytpoistettavaa;
+
+
                 if( poisto > 0) {
                     QVariantMap map;
                     map.insert("eraid", eraid);
