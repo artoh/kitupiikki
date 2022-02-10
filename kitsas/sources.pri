@@ -318,7 +318,6 @@ SOURCES += \
     tuonti/titotuonti.cpp \
     kirjaus/siirrydlg.cpp \
     tools/kpdateedit.cpp \
-    raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/laskusivu.cpp \
     naytin/naytinview.cpp \
@@ -686,7 +685,6 @@ HEADERS += \
     tuonti/titotuonti.h \
     kirjaus/siirrydlg.h \
     tools/kpdateedit.h \
-    raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
     laskutus/laskusivu.h \
     naytin/naytinview.h \

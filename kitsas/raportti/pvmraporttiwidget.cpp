@@ -67,8 +67,6 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
     ui->laatuLabel->hide();
     ui->laatuSlider->hide();
 
-    const QString& type = tyyppi();
-
     if( tyyppi() != "paivakirja" && tyyppi() != "tositeluettelo") {
         ui->jarjestysRyhma->hide();
         ui->ryhmittelelajeittainCheck->hide();
@@ -83,11 +81,12 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
     if( tyyppi() != "paivakirja" && tyyppi() != "paakirja") {
         ui->kohdennusCheck->hide();
         ui->kohdennusCombo->hide();
+        ui->tulostakohdennuksetCheck->hide();
     }
 
     if( tyyppi() != "paivakirja" && tyyppi() != "paakirja" && tyyppi() != "tositeluettelo") {
         ui->kumppaniCheck->hide();
-        ui->tulostasummat->hide();
+        ui->tulostasummat->hide();        
     }
 
     if( tyyppi() != "paivakirja" && tyyppi() != "tositeluettelo") {
