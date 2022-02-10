@@ -58,6 +58,7 @@ private slots:
     void sisaltoMuuttui();
     void lataaLaskuTosite(int tositeId);
     void tositeLadattu();
+    void tyhjaRaportti();
 
 private:
     void teeToolbar();

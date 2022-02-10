@@ -84,13 +84,14 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
 
 void TaseTulosRaportti::tallenna()
 {
-
-
     aseta(RaporttiValinnat::Tyyppi, tyyppi_);
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
-    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData().toInt() : -1);
+
+    const int kohdennus = ui->kohdennusCombo->kohdennus();
+
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() : -1);
 
     kp()->raporttiValinnat()->tyhjennaSarakkeet();
     lisaaSarake(true, ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());

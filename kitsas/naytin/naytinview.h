@@ -86,8 +86,8 @@ public slots:
 signals:
     void sisaltoVaihtunut();
     void otsikkoVaihtunut(const QString& otsikko);
-    void tiedostoPudotettu(const QString& polku);
-
+    void tiedostoPudotettu(const QString& polku);    
+    void eiSisaltoa();
 
 protected:
     QString raporttipolku() const;

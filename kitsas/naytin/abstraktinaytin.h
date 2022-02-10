@@ -63,6 +63,7 @@ public:
 signals:
     void otsikkoVaihtui(const QString& otsikko);
     void tiedostoPudotettu(const QString& polku);
+    void eiSisaltoa();
 
 public slots:
 
