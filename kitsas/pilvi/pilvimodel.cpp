@@ -151,7 +151,7 @@ qlonglong PilviModel::oikeudet(const QVariantList &lista)
     qlonglong bittikartta = 0;
     for(const auto& oikeus : lista) {
         try {
-            bittikartta += oikeustunnukset__.at(oikeus.toString());
+            bittikartta |= oikeustunnukset__.at(oikeus.toString());
         } catch( std::out_of_range )
         {
             qDebug() << "Tuntematon oikeus " << oikeus.toString();
