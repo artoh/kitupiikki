@@ -7,6 +7,7 @@ LaatijanRaportti::LaatijanRaportti(RaportinLaatija *laatija, const RaporttiValin
     QObject(laatija), valinnat_(valinnat)
 {
     kielikoodi_ = valinnat.arvo(RaporttiValinnat::Kieli).toString();
+    rk.asetaKieli(kielikoodi_);
 }
 
 QString LaatijanRaportti::nimi() const
