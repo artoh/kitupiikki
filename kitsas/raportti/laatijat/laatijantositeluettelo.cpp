@@ -118,7 +118,7 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
     }
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(kaanna("Yhteensä"), 5);
+        valisumma.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4);
         valisumma.lisaa( lajisumma );
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
@@ -126,7 +126,7 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), 5);
+        summarivi.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4);
         summarivi.lisaa( summa );
         summarivi.viivaYlle();
         summarivi.lihavoi();
