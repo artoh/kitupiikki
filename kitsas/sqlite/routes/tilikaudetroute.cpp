@@ -198,7 +198,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
         // Ensin menojäännöspoistot
 
-        kysely.exec( QString("select tili.numero, sum(debetsnt), sum(kreditsnt), kohdennus from vienti "
+        kysely.exec( QString("select tili.numero, sum(debetsnt), sum(kreditsnt), coalesce (kohdennus, 0) from vienti "
                              "join tili on vienti.tili=tili.numero join tosite on vienti.tosite=tosite.id "
                              "where tili.tyyppi='APM' and vienti.pvm <= '%1' and tosite.tila >= 100 group by tili.numero, kohdennus order by tili.numero, kohdennus")
                      .arg(kausi.paattyy().toString(Qt::ISODate)));
@@ -230,7 +230,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         while(kysely.next()) {
             int eraid = kysely.value("eraid").toInt();
 
-            apukysely.exec(QString("select debetsnt,kreditsnt,selite,vienti.json,vienti.pvm, kohdennus, tosite.tyyppi from vienti join tosite on vienti.tosite=tosite.id  where vienti.id=%1").arg(eraid));
+            apukysely.exec(QString("select debetsnt,kreditsnt,selite,vienti.json,vienti.pvm, coalesce (kohdennus, 0), tosite.tyyppi from vienti join tosite on vienti.tosite=tosite.id  where vienti.id=%1").arg(eraid));
             if( apukysely.next()) {
                 QVariantMap jsonmap = QJsonDocument::fromJson( apukysely.value(3).toByteArray() ).toVariant().toMap();
                 
