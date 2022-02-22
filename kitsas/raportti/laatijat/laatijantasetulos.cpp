@@ -131,6 +131,7 @@ void LaatijanTaseTulos::dataSaapuu(int sarake, QVariant *variant)
                 iter.next();
                 int tili = iter.key().toInt();
                 Euro euro = Euro(iter.value().toString());
+                if( euro == Euro::Zero) continue;
 
                 if( !eurot.contains(tili))
                     eurot.insert(tili, QVector<Euro>(sarakemaara_));
@@ -144,6 +145,7 @@ void LaatijanTaseTulos::dataSaapuu(int sarake, QVariant *variant)
             iter.next();
             int tili = iter.key().toInt();
             Euro euro = Euro(iter.value().toString());
+            if( euro == Euro::Zero) continue;    // Nollaeuroja ei huomioida
 
             if( !eurot_.contains(tili))
                 eurot_.insert(tili, QVector<Euro>(sarakemaara_));
@@ -405,7 +407,7 @@ void LaatijanTaseTulos::kirjoitaYlatunniste()
     }
 
     // Tasepäivät tai loppupäivät
-    RaporttiRivi olrivi(RaporttiRivi::EICSV);
+    RaporttiRivi olrivi(RaporttiRivi::KAIKKI);
     olrivi.lisaa("");
 
     for(const auto& sarake : valinnat().sarakkeet()) {
@@ -416,7 +418,7 @@ void LaatijanTaseTulos::kirjoitaYlatunniste()
 
     if( erikoissarakkeita )
     {
-        RaporttiRivi tyyppirivi(RaporttiRivi::EICSV);
+        RaporttiRivi tyyppirivi(RaporttiRivi::KAIKKI);
         tyyppirivi.lisaa("");
         for(const auto& sarake : valinnat().sarakkeet()) {
             tyyppirivi.lisaa( sarakeTyyppiTeksti(sarake.tyyppi()), 1, true );
