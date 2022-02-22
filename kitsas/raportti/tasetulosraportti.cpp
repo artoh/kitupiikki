@@ -31,6 +31,7 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
 {
     ui->setupUi( raporttiWidget );
 
+    paivitaKielet();
     paivitaMuodot();
     muotoVaihtui();
 
@@ -89,7 +90,6 @@ void TaseTulosRaportti::tallenna()
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
 
-    const int kohdennus = ui->kohdennusCombo->kohdennus();
 
     aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() : -1);
 
@@ -117,6 +117,8 @@ void TaseTulosRaportti::muotoVaihtui()
 
 void TaseTulosRaportti::paivitaKielet()
 {           
+    const QString nykykieli = arvo(RaporttiValinnat::Kieli).toString().isEmpty() ? Kielet::instanssi()->nykyinen() : arvo(RaporttiValinnat::Kieli).toString();
+
     QJsonDocument doc = QJsonDocument::fromJson( kaava_.toUtf8() );
 
     QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
@@ -125,7 +127,7 @@ void TaseTulosRaportti::paivitaKielet()
     for(const auto& kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
-    int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
+    int kieliIndeksi = ui->kieliCombo->findData( nykykieli );
     if( kieliIndeksi > -1)
         ui->kieliCombo->setCurrentIndex( kieliIndeksi );
 }
@@ -144,7 +146,7 @@ void TaseTulosRaportti::paivitaMuodot()
     if( nykymuoto.isEmpty())
         nykymuoto=tyyppi_ == "tase" ? "tase/yleinen" : "tulos/yleinen";
 
-    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
+    QString kieli =  ui->kieliCombo->currentData().toString().isEmpty() ? ( arvo(RaporttiValinnat::Kieli).toString().isEmpty() ? Kielet::instanssi()->nykyinen() : arvo(RaporttiValinnat::Kieli).toString() ) : ui->kieliCombo->currentData().toString();
 
     ui->muotoCombo->clear();
 
