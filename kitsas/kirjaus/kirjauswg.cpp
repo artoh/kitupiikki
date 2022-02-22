@@ -274,8 +274,8 @@ void KirjausWg::valmis()
     qlonglong debet = 0l;
     qlonglong kredit = 0l;
     for(const auto& vienti: tosite()->viennit()->viennit()) {
-        debet += qRound64( vienti.debet() * 100.0 );
-        kredit += qRound64( vienti.kredit() * 100.0 );
+        debet +=  vienti.debetSnt();
+        kredit += vienti.kreditSnt();
     }
 
     if( !debet && !kredit && tosite()->tyyppi() != TositeTyyppi::LIITETIETO) {
