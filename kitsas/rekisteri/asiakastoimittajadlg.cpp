@@ -265,7 +265,10 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
 
 void AsiakasToimittajaDlg::maventalookup()
 {
-    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa())  {
+    const QString nimi = ui->nimiEdit->text().trimmed();
+
+    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa() &&
+            nimi.length() > 3)  {
 
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "lookup";
 
