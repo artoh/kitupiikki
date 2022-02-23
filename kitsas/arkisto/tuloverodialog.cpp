@@ -161,8 +161,8 @@ void TuloveroDialog::paivitaTulos()
 
 void TuloveroDialog::paivitaEnnenYlea()
 {
-    Euro ennenYlea = ui->tulosEdit->value() - ui->tappioEdit->value();  // Ei voi vähentää enemmän kuin tuloksen
-    ui->ennenYlea->setValue( ennenYlea > Euro::Zero ? ennenYlea : Euro::Zero);
+    Euro ennenYlea = ui->tulosEdit->euro() - ui->tappioEdit->euro();  // Ei voi vähentää enemmän kuin tuloksen
+    ui->ennenYlea->setEuro(ennenYlea > Euro::Zero ? ennenYlea : Euro::Zero);
     paivitaYlevero();
 }
 
