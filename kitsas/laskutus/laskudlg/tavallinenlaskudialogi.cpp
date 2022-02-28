@@ -238,8 +238,8 @@ bool TavallinenLaskuDialogi::onkoTallennettu()
 }
 
 void TavallinenLaskuDialogi::paivitaNapit()
-{
-    ui->tallennaNappi->setEnabled( !onkoTallennettu() && ui->toistoGroup->isChecked() );
+{    
+    ui->tallennaToistoNappi->setEnabled( !onkoTallennettu() && ui->toistoGroup->isChecked() );
     ui->lopetaToistoNappi->setEnabled( tallennettuKaytossa_ );
 }
 
