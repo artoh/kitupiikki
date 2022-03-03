@@ -59,7 +59,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="karttakieliGroup">
      <property name="title">
       <string>Tilikartan kieli</string>
      </property>

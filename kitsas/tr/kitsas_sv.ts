@@ -2108,7 +2108,7 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../laskutus/toimittaja/finvoicetoimittaja.cpp" line="169"/>
         <source>Verkkolaskun lähettäminen Maventan palveluun epäonnistui. Tarkasta verkkolaskutuksen asetukset</source>
-        <translation type="unfinished">Det gick inte att skicka en online-anrop till Maventas tjänst. Kontrollera inställningarna för onlinefakturering.</translation>
+        <translation>Det gick inte att skicka en online-anrop till Maventas tjänst. Kontrollera inställningarna för onlinefakturering.</translation>
     </message>
     <message>
         <source>Asiakkaan tietojen noutaminen epäonnistui</source>
@@ -2652,7 +2652,7 @@ Du kan skicka den till skatteverket med Ilmoitin.fi tjänsten.</translation>
         <translation type="obsolete">Slutdatumet för leveransperioden är före startdatumet.</translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="668"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="671"/>
         <source>Lasku %1</source>
         <translation>Faktura %1</translation>
     </message>
@@ -8683,6 +8683,16 @@ Slutsaldo %L3 €</translation>
 <context>
     <name>SijaintiSivu</name>
     <message>
+        <location filename="../uusikirjanpito/sijaintisivu.cpp" line="28"/>
+        <source>Kirjanpidon sijainti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../uusikirjanpito/sijaintisivu.cpp" line="49"/>
+        <source>Valitse sijainti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../uusikirjanpito/sijaintisivu.cpp" line="56"/>
         <location filename="../uusikirjanpito/sijaintisivu.cpp" line="103"/>
         <source>Hakemisto ei voi kelpaa</source>
@@ -8789,27 +8799,27 @@ som mall
 <context>
     <name>TaseTulosRaportti</name>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="43"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="45"/>
         <source>Kustannuspaikalla</source>
         <translation>På kostnadsstället</translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Toteutunut</source>
         <translation>Förverkligad</translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Budjetti</source>
         <translation>Budget</translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Budjettiero €</source>
         <translation>Differens €</translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Toteutunut %</source>
         <translation>Förverkligad %</translation>
     </message>
@@ -9879,6 +9889,11 @@ Periodens verifikat raderas inte men de blir på ett felaktigt utanför perioden
         <location filename="../uusikirjanpito/tilikausi.ui" line="191"/>
         <source>Päättyi</source>
         <translation>Slutade</translation>
+    </message>
+    <message>
+        <location filename="../uusikirjanpito/tilikausisivu.cpp" line="26"/>
+        <source>Tilikauden tiedot</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -11391,31 +11406,31 @@ För inköp av byggnadstjänster borde en moms om %L1 € redovisas</translation
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="121"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="243"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="245"/>
         <source>Lopullinen verotettava tulos</source>
         <translation>Slutlig beskattningsbar inkomst</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="141"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="238"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="240"/>
         <source>Verotettava tulos ennen Yle-veroa</source>
         <translation>Beskattningsbar inkomst före Yle-skatt</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="181"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="236"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="238"/>
         <source>Vähennettävä aiempi tappio</source>
         <translation>Avdragbar tidigare förlust</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="218"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="240"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="242"/>
         <source>Ennakkoon maksettu Yle-vero</source>
         <translation type="unfinished">Förbetald Yle-skatt</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="225"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="241"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="243"/>
         <source>Maksamaton Yle-vero</source>
         <translation type="unfinished">Obetald Yle-skatt</translation>
     </message>
@@ -11426,37 +11441,37 @@ För inköp av byggnadstjänster borde en moms om %L1 € redovisas</translation
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="188"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="232"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="234"/>
         <source>Veronalainen tulo yhteensä</source>
         <translation>Beskattningsbar inkomst totalt</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="91"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="233"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="235"/>
         <source>Vähennyskelpoiset kulut</source>
         <translation>Avdragbara kostnader</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="151"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="247"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="249"/>
         <source>Maksamaton tulovero</source>
         <translation>Obetald inkomsskatt</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="161"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="244"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="246"/>
         <source>Tuloveron määrä</source>
         <translation>Inkomstskattens belopp</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="62"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="235"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="237"/>
         <source>Verotettava tulos</source>
         <translation>Beskattningsbar inkomst</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="131"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="239"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="241"/>
         <source>Yle-vero</source>
         <translation>Yle-skatt</translation>
     </message>
@@ -11469,7 +11484,7 @@ Spara din skattedeklaration som en del av bokföringen.</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="98"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="123"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="124"/>
         <source>Tuloveron jaksotus tilikaudelta %1</source>
         <translation>Inkomstskattens periodisering för räkenskapsperioden %1</translation>
     </message>
@@ -11479,24 +11494,24 @@ Spara din skattedeklaration som en del av bokföringen.</translation>
         <translation>Yleskatt för perioden %1</translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="215"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="217"/>
         <source>Tuloveron kirjaus tallennettu</source>
         <translation>Kontering av inkomstkatten sparad</translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="216"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="218"/>
         <source>Tuloverot on kirjattu.
 Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</source>
         <translation>Inkomstskatterna är konterade.
 Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="225"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="227"/>
         <source>Tuloverolaskelma</source>
         <translation type="unfinished">Beräkning av inkomstskatt</translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="246"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="248"/>
         <source>Maksetut tuloverot</source>
         <translation type="unfinished">Betalda inkomstskatter</translation>
     </message>
@@ -11800,12 +11815,12 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
 <context>
     <name>UlkoasuMaaritys</name>
     <message>
-        <location filename="../maaritys/ulkoasumaaritys.cpp" line="116"/>
+        <location filename="../maaritys/ulkoasumaaritys.cpp" line="117"/>
         <source>Kieli vaihdettu</source>
         <translation>Språket ändrat</translation>
     </message>
     <message>
-        <location filename="../maaritys/ulkoasumaaritys.cpp" line="117"/>
+        <location filename="../maaritys/ulkoasumaaritys.cpp" line="118"/>
         <source>Käynnistä kielen vaihtamisen jälkeen ohjelma uudelleen, jotta valitsemasi kieli tulee käyttöön kaikissa näkymissä.</source>
         <translation>Starta programmet på nytt efter att språket har ändrats så att det valda språket kommer i användning i alla vyer.</translation>
     </message>

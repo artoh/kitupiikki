@@ -641,12 +641,9 @@ bool KantaLaskuDialogi::tarkasta()
 void KantaLaskuDialogi::salliTallennus(bool sallinta)
 {
     bool laskuJoTallennettu = tosite()->tila() >= Tosite::KIRJANPIDOSSA;
-    const int tila = tosite()->tila();
-    const bool tallennuslupa = sallinta &&  tosite()->tila() <= Tosite::LAHETETTYLASKU  &&
-            kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN);
 
     ui->valmisNappi->setEnabled(sallinta && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
-    ui->tallennaNappi->setEnabled(sallinta &&  tosite()->tila() <= Tosite::LAHETETTYLASKU  &&
+    ui->tallennaNappi->setEnabled(sallinta &&  tosite()->tila() < Tosite::LAHETETTYLASKU  &&
                                   kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->luonnosNappi->setEnabled( !laskuJoTallennettu && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 }

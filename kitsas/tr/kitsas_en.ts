@@ -2575,7 +2575,7 @@ Voit lähettää sen verottajalle ilmoitin.fi-palvelulla.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="668"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="671"/>
         <source>Lasku %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8469,6 +8469,16 @@ Loppusaldo %L3</source>
 <context>
     <name>SijaintiSivu</name>
     <message>
+        <location filename="../uusikirjanpito/sijaintisivu.cpp" line="28"/>
+        <source>Kirjanpidon sijainti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../uusikirjanpito/sijaintisivu.cpp" line="49"/>
+        <source>Valitse sijainti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../uusikirjanpito/sijaintisivu.cpp" line="56"/>
         <location filename="../uusikirjanpito/sijaintisivu.cpp" line="103"/>
         <source>Hakemisto ei voi kelpaa</source>
@@ -8570,27 +8580,27 @@ mallipohjana
 <context>
     <name>TaseTulosRaportti</name>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="43"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="45"/>
         <source>Kustannuspaikalla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Toteutunut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Budjetti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Budjettiero €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../raportti/tasetulosraportti.cpp" line="55"/>
+        <location filename="../raportti/tasetulosraportti.cpp" line="57"/>
         <source>Toteutunut %</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9616,6 +9626,11 @@ Tilikauden tositteita ei poisteta, mutta ne jäävät virheellisesti tilikausien
     <message>
         <location filename="../uusikirjanpito/tilikausi.ui" line="191"/>
         <source>Päättyi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../uusikirjanpito/tilikausisivu.cpp" line="26"/>
+        <source>Tilikauden tiedot</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -11113,49 +11128,49 @@ Rakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €</source
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="121"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="243"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="245"/>
         <source>Lopullinen verotettava tulos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="131"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="239"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="241"/>
         <source>Yle-vero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="141"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="238"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="240"/>
         <source>Verotettava tulos ennen Yle-veroa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="181"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="236"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="238"/>
         <source>Vähennettävä aiempi tappio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="218"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="240"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="242"/>
         <source>Ennakkoon maksettu Yle-vero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="225"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="241"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="243"/>
         <source>Maksamaton Yle-vero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="161"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="244"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="246"/>
         <source>Tuloveron määrä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="151"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="247"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="249"/>
         <source>Maksamaton tulovero</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11166,19 +11181,19 @@ Rakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €</source
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="188"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="232"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="234"/>
         <source>Veronalainen tulo yhteensä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="62"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="235"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="237"/>
         <source>Verotettava tulos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="91"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="233"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="235"/>
         <source>Vähennyskelpoiset kulut</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11190,7 +11205,7 @@ Tallenna veroilmoituksesi osaksi kirjanpitoa.</source>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="98"/>
-        <location filename="../arkisto/tuloverodialog.cpp" line="123"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="124"/>
         <source>Tuloveron jaksotus tilikaudelta %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11200,23 +11215,23 @@ Tallenna veroilmoituksesi osaksi kirjanpitoa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="215"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="217"/>
         <source>Tuloveron kirjaus tallennettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="216"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="218"/>
         <source>Tuloverot on kirjattu.
 Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="225"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="227"/>
         <source>Tuloverolaskelma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="246"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="248"/>
         <source>Maksetut tuloverot</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11520,12 +11535,12 @@ Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</
 <context>
     <name>UlkoasuMaaritys</name>
     <message>
-        <location filename="../maaritys/ulkoasumaaritys.cpp" line="116"/>
+        <location filename="../maaritys/ulkoasumaaritys.cpp" line="117"/>
         <source>Kieli vaihdettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/ulkoasumaaritys.cpp" line="117"/>
+        <location filename="../maaritys/ulkoasumaaritys.cpp" line="118"/>
         <source>Käynnistä kielen vaihtamisen jälkeen ohjelma uudelleen, jotta valitsemasi kieli tulee käyttöön kaikissa näkymissä.</source>
         <translation type="unfinished"></translation>
     </message>

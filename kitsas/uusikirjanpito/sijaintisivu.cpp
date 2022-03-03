@@ -25,7 +25,7 @@
 
 SijaintiSivu::SijaintiSivu()
 {
-    setTitle("Kirjanpidon sijainti");
+    setTitle(tr("Kirjanpidon sijainti"));
 
     ui = new Ui::UusiSijainti;
     ui->setupUi(this);
@@ -46,7 +46,7 @@ SijaintiSivu::~SijaintiSivu()
 
 void SijaintiSivu::vaihdaSijainti()
 {
-    QString sijainti = QFileDialog::getExistingDirectory(this,"Valitse sijainti",
+    QString sijainti = QFileDialog::getExistingDirectory(this,tr("Valitse sijainti"),
                                                          ui->sijaintiEdit->text());
     if( !sijainti.isEmpty())
     {
