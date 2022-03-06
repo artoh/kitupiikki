@@ -194,7 +194,6 @@
 		CB91DED72660C7D000A2FAA2 /* tilinpaatoseditori.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9C12660C7CC00A2FAA2 /* tilinpaatoseditori.cpp */; };
 		CB91DED92660C7D000A2FAA2 /* laskuraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9C52660C7CC00A2FAA2 /* laskuraportti.cpp */; };
 		CB91DEDB2660C7D000A2FAA2 /* alvraporttiwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9C82660C7CC00A2FAA2 /* alvraporttiwidget.cpp */; };
-		CB91DEDF2660C7D000A2FAA2 /* myyntiraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9CE2660C7CC00A2FAA2 /* myyntiraportti.cpp */; };
 		CB91DEE02660C7D000A2FAA2 /* raporttisivu.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9D02660C7CC00A2FAA2 /* raporttisivu.cpp */; };
 		CB91DEE22660C7D000A2FAA2 /* liitepoiminta.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9D32660C7CC00A2FAA2 /* liitepoiminta.cpp */; };
 		CB91DEE82660C7D000A2FAA2 /* raporttirivi.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB91D9DD2660C7CC00A2FAA2 /* raporttirivi.cpp */; };
@@ -560,7 +559,6 @@
 		CB9B80E72799BDB9000E9EE5 /* moc_onniwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F382795FEC9000E9EE5 /* moc_onniwidget.cpp */; };
 		CB9B80E82799BDB9000E9EE5 /* moc_naytinscene.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F3C2795FECA000E9EE5 /* moc_naytinscene.cpp */; };
 		CB9B80E92799BDB9000E9EE5 /* moc_naytinikkuna.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F3D2795FECA000E9EE5 /* moc_naytinikkuna.cpp */; };
-		CB9B80EA2799BDB9000E9EE5 /* moc_myyntiraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F352795FEC9000E9EE5 /* moc_myyntiraportti.cpp */; };
 		CB9B80EB2799BDB9000E9EE5 /* moc_naytaliitewg.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F362795FEC9000E9EE5 /* moc_naytaliitewg.cpp */; };
 		CB9B80EC2799BDCC000E9EE5 /* moc_mimepart.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F402795FECA000E9EE5 /* moc_mimepart.cpp */; };
 		CB9B80ED2799BDCC000E9EE5 /* moc_mimecontentformatter.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB9B7F3B2795FEC9000E9EE5 /* moc_mimecontentformatter.cpp */; };
@@ -1317,8 +1315,6 @@
 		CB91D9CA2660C7CC00A2FAA2 /* liitepoiminta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liitepoiminta.h; sourceTree = "<group>"; };
 		CB91D9CC2660C7CC00A2FAA2 /* budjettivertailu.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = budjettivertailu.ui; sourceTree = "<group>"; };
 		CB91D9CD2660C7CC00A2FAA2 /* pvmvali.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pvmvali.ui; sourceTree = "<group>"; };
-		CB91D9CE2660C7CC00A2FAA2 /* myyntiraportti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = myyntiraportti.cpp; sourceTree = "<group>"; };
-		CB91D9CF2660C7CC00A2FAA2 /* myyntiraportti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myyntiraportti.h; sourceTree = "<group>"; };
 		CB91D9D02660C7CC00A2FAA2 /* raporttisivu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = raporttisivu.cpp; sourceTree = "<group>"; };
 		CB91D9D32660C7CC00A2FAA2 /* liitepoiminta.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = liitepoiminta.cpp; sourceTree = "<group>"; };
 		CB91D9D72660C7CC00A2FAA2 /* raportteri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = raportteri.h; sourceTree = "<group>"; };
@@ -1424,7 +1420,6 @@
 		CB91DA512660C7CC00A2FAA2 /* arvonlisavero.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = arvonlisavero.ui; sourceTree = "<group>"; };
 		CB91DA522660C7CC00A2FAA2 /* alvsivu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alvsivu.h; sourceTree = "<group>"; };
 		CB91DA532660C7CC00A2FAA2 /* alvilmoitustenmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alvilmoitustenmodel.cpp; sourceTree = "<group>"; };
-		CB91DA542660C7CC00A2FAA2 /* kitsas.pro.user */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = kitsas.pro.user; sourceTree = "<group>"; };
 		CB91DA562660C7CC00A2FAA2 /* vanhatuontidlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vanhatuontidlg.h; sourceTree = "<group>"; };
 		CB91DA572660C7CC00A2FAA2 /* vanhatuontidlg.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vanhatuontidlg.ui; sourceTree = "<group>"; };
 		CB91DA582660C7CC00A2FAA2 /* vanhatuontidlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vanhatuontidlg.cpp; sourceTree = "<group>"; };
@@ -2472,7 +2467,6 @@
 		CB9B7F322795FEB3000E9EE5 /* moc_kitupiikkisivu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_kitupiikkisivu.cpp; sourceTree = "<group>"; };
 		CB9B7F332795FEC9000E9EE5 /* moc_mimemultipart.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_mimemultipart.cpp; sourceTree = "<group>"; };
 		CB9B7F342795FEC9000E9EE5 /* moc_mimeattachment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_mimeattachment.cpp; sourceTree = "<group>"; };
-		CB9B7F352795FEC9000E9EE5 /* moc_myyntiraportti.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_myyntiraportti.cpp; sourceTree = "<group>"; };
 		CB9B7F362795FEC9000E9EE5 /* moc_naytaliitewg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_naytaliitewg.cpp; sourceTree = "<group>"; };
 		CB9B7F372795FEC9000E9EE5 /* moc_naytinview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_naytinview.cpp; sourceTree = "<group>"; };
 		CB9B7F382795FEC9000E9EE5 /* moc_onniwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_onniwidget.cpp; sourceTree = "<group>"; };
@@ -3059,7 +3053,6 @@
 				CB9B7F3F2795FECA000E9EE5 /* moc_mrichtextedit.cpp */,
 				CB9B7F3A2795FEC9000E9EE5 /* moc_mtextedit.cpp */,
 				CB9240302541EBA200907CFD /* moc_muumuokkausdlg.cpp */,
-				CB9B7F352795FEC9000E9EE5 /* moc_myyntiraportti.cpp */,
 				CB9B7F362795FEC9000E9EE5 /* moc_naytaliitewg.cpp */,
 				CB9B7F3D2795FECA000E9EE5 /* moc_naytinikkuna.cpp */,
 				CB9B7F3C2795FECA000E9EE5 /* moc_naytinscene.cpp */,
@@ -3620,7 +3613,6 @@
 				CB91DC792660C7CE00A2FAA2 /* kitsas.ico */,
 				CB91DA462660C7CC00A2FAA2 /* kitsas.pri */,
 				CB91DA062660C7CC00A2FAA2 /* kitsas.pro */,
-				CB91DA542660C7CC00A2FAA2 /* kitsas.pro.user */,
 				CB91D9462660C7CC00A2FAA2 /* kitupiikkiikkuna.cpp */,
 				CB91DA0D2660C7CC00A2FAA2 /* kitupiikkiikkuna.h */,
 				CB91D8B22660C7CB00A2FAA2 /* kitupiikkisivu.cpp */,
@@ -4104,8 +4096,6 @@
 				CB91D9D32660C7CC00A2FAA2 /* liitepoiminta.cpp */,
 				CB91D9CA2660C7CC00A2FAA2 /* liitepoiminta.h */,
 				CB91D9E12660C7CC00A2FAA2 /* muokattavaraportti.ui */,
-				CB91D9CE2660C7CC00A2FAA2 /* myyntiraportti.cpp */,
-				CB91D9CF2660C7CC00A2FAA2 /* myyntiraportti.h */,
 				CBDC2EBB27788F5300A20B56 /* pvmraporttiwidget.cpp */,
 				CBDC2EBD27788F5300A20B56 /* pvmraporttiwidget.h */,
 				CB91D9CD2660C7CC00A2FAA2 /* pvmvali.ui */,
@@ -6299,7 +6289,6 @@
 				CB91E17D2660C7D100A2FAA2 /* eurodelegaatti.cpp in Compile Sources */,
 				CB91DE582660C7CF00A2FAA2 /* pdfanalyzerrow.cpp in Compile Sources */,
 				CB91DE362660C7CF00A2FAA2 /* tararkisto.cpp in Compile Sources */,
-				CB91DEDF2660C7D000A2FAA2 /* myyntiraportti.cpp in Compile Sources */,
 				CB91DEBC2660C7CF00A2FAA2 /* tilinavaus.cpp in Compile Sources */,
 				CB91DEA92660C7CF00A2FAA2 /* kutsudialog.cpp in Compile Sources */,
 				CB9B80C72799BD0B000E9EE5 /* moc_tasetulosraportti.cpp in Compile Sources */,
@@ -6434,7 +6423,6 @@
 				CB91DF0B2660C7D000A2FAA2 /* kumppanitroute.cpp in Compile Sources */,
 				CB9B81372799BF10000E9EE5 /* moc_alvilmoitusdialog.cpp in Compile Sources */,
 				CB91E1582660C7D100A2FAA2 /* scenenaytin.cpp in Compile Sources */,
-				CB9B80EA2799BDB9000E9EE5 /* moc_myyntiraportti.cpp in Compile Sources */,
 				CB91E26E2660C9AA00A2FAA2 /* moc_finvoicetoimittaja.cpp in Compile Sources */,
 				CB9B81272799BEC8000E9EE5 /* moc_emailaddress.cpp in Compile Sources */,
 			);
@@ -6716,7 +6704,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -6726,7 +6714,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = "3.2-beta";
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -6749,7 +6737,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -6760,7 +6748,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.1.1;
+				MARKETING_VERSION = "3.2-beta";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
