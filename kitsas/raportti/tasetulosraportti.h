@@ -42,6 +42,9 @@ protected slots:
 
     void paivitaKohdennusPaivat();
 
+    void muotoVaihdettu();
+    void kieliVaihdettu();
+
 
 protected:
     void paivitaUi();

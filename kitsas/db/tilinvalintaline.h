@@ -71,14 +71,17 @@ class TilinvalintaLineDelegaatille : public KantaTilinvalintaLine
 public:
     TilinvalintaLineDelegaatille(QWidget *parent = nullptr);
     QString tilinimiAlkaa() const { return alku_; }
+    void etsiKayttoon(bool onko);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 
 protected:
     QString alku_;
+    bool etsiKaytossa_ = true;
 
 };
 

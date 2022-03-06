@@ -119,18 +119,10 @@ bool TiliMuuntoModel::setData(const QModelIndex &index, const QVariant &value, i
 {
     if( index.column() == UUSI && role == Qt::EditRole)
     {
-        if( value.toInt())
+        if( value.toInt()) {
             data_[index.row()].muunnettuTilinumero = value.toInt();
-        else
-        {
-            Tili uusitili;
-            if( value.toString() == " " || value.toString()=="0")
-                uusitili = TilinValintaDialogi::valitseTili( QString());
-            else
-                uusitili = TilinValintaDialogi::valitseTili( value.toString());
-            data_[index.row()].muunnettuTilinumero = uusitili.numero();
+            return true;
         }
-        return true;
     }
     return false;
 }

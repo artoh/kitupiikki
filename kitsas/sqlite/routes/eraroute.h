@@ -18,6 +18,9 @@
 #define ERAROUTE_H
 
 #include "../sqliteroute.h"
+#include "model/euro.h"
+class Tili;
+
 
 class EraRoute : public SQLiteRoute
 {
@@ -27,6 +30,10 @@ public:
 
 protected:
     QVariant erittely(const QDate& mista, const QDate& pvm);
+
+    QVariant taysiErittely(Tili* tili, const QDate& mista, const QDate& mihin, const Euro& alkusaldo, const Euro& loppusaldo);
+    QVariant listaErittely(Tili* tili, const QDate& mista, const QDate& mihin, const Euro& alkusaldo, const Euro& loppusaldo);
+    QVariant muutosErittely(Tili* tili, const QDate& mista, const QDate& mihin, const Euro& alkusaldo, const Euro& loppusaldo);
 };
 
 #endif // ERAROUTE_H

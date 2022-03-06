@@ -118,6 +118,7 @@ void TuloveroDialog::accept()
         }
         ylekredit.setKredit( maksettavaYle);
         ylekredit.setSelite(yleselite);
+        ylekredit.setEra(-1);   // Tämä on oma tase-eränsä
         tosite->viennit()->lisaa(ylekredit);
     }
     QString selite = tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
@@ -160,7 +161,8 @@ void TuloveroDialog::paivitaTulos()
 
 void TuloveroDialog::paivitaEnnenYlea()
 {
-    ui->ennenYlea->setValue(ui->tulosEdit->value() - ui->tappioEdit->value());
+    Euro ennenYlea = ui->tulosEdit->euro() - ui->tappioEdit->euro();  // Ei voi vähentää enemmän kuin tuloksen
+    ui->ennenYlea->setEuro(ennenYlea > Euro::Zero ? ennenYlea : Euro::Zero);
     paivitaYlevero();
 }
 

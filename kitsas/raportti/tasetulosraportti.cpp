@@ -32,10 +32,12 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
     ui->setupUi( raporttiWidget );
 
     paivitaMuodot();
-    muotoVaihtui();
+    paivitaKielet();
+    muotoVaihdettu();
+    kieliVaihdettu();
 
-    connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::muotoVaihtui);
-    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaMuodot);
+    connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::muotoVaihdettu);
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::kieliVaihdettu);
 
     if( tyyppi_ == "projektit") {
         ui->kohdennusCheck->setVisible( kp()->kohdennukset()->kustannuspaikkoja() );
@@ -84,13 +86,13 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
 
 void TaseTulosRaportti::tallenna()
 {
-
-
     aseta(RaporttiValinnat::Tyyppi, tyyppi_);
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
-    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData().toInt() : -1);
+
+
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() : -1);
 
     kp()->raporttiValinnat()->tyhjennaSarakkeet();
     lisaaSarake(true, ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
@@ -103,19 +105,21 @@ void TaseTulosRaportti::tallenna()
 
 void TaseTulosRaportti::muotoVaihtui()
 {
-    if( paivitetaan_)
-        return;
-
     QString raportti = ui->muotoCombo->currentData().toString();
     QString kaava = kp()->asetukset()->asetus(raportti);
     if( kaava.isEmpty())
         return;
     kaava_ = kaava;
-    paivitaKielet();
 }
 
 void TaseTulosRaportti::paivitaKielet()
 {           
+    QString nykykieli = ui->kieliCombo->currentData().toString();
+    if( nykykieli.isEmpty())
+        nykykieli = arvo(RaporttiValinnat::Kieli).toString();
+    if( nykykieli.isEmpty())
+        nykykieli = Kielet::instanssi()->nykyinen();
+
     QJsonDocument doc = QJsonDocument::fromJson( kaava_.toUtf8() );
 
     QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
@@ -124,7 +128,7 @@ void TaseTulosRaportti::paivitaKielet()
     for(const auto& kieli : kielet.keys()) {
         ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
-    int kieliIndeksi = ui->kieliCombo->findData( Kielet::instanssi()->nykyinen() );
+    int kieliIndeksi = ui->kieliCombo->findData( nykykieli );
     if( kieliIndeksi > -1)
         ui->kieliCombo->setCurrentIndex( kieliIndeksi );
 }
@@ -143,7 +147,9 @@ void TaseTulosRaportti::paivitaMuodot()
     if( nykymuoto.isEmpty())
         nykymuoto=tyyppi_ == "tase" ? "tase/yleinen" : "tulos/yleinen";
 
-    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
+    muotoVaihtui();
+
+    const QString kieli = ui->kieliCombo->currentData().toString();
 
     ui->muotoCombo->clear();
 
@@ -172,6 +178,30 @@ void TaseTulosRaportti::paivitaKohdennusPaivat()
     if( ui->sarake4Box->isChecked() && ui->loppuu4Date->date() > isoin) isoin = ui->loppuu4Date->date();
 
     ui->kohdennusCombo->suodataValilla(pienin, isoin);
+}
+
+void TaseTulosRaportti::muotoVaihdettu()
+{
+    if(paivitetaan_) return;
+
+    // Kielet päivitettävä valitulle muodolle
+    paivitetaan_ = true;
+
+    muotoVaihtui();
+    paivitaKielet();
+
+    paivitetaan_ = false;
+}
+
+void TaseTulosRaportti::kieliVaihdettu()
+{
+    if(paivitetaan_) return;
+    paivitetaan_ = true;
+
+    // Muodot vaihdettava toiselle kielelle
+    paivitaMuodot();
+
+    paivitetaan_ = false;
 }
 
 void TaseTulosRaportti::paivitaUi()

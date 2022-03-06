@@ -29,7 +29,6 @@
 #include "pvmraporttiwidget.h"
 
 #include "laskuraportti.h"
-#include "myyntiraportti.h"
 
 #include "db/kirjanpito.h"
 

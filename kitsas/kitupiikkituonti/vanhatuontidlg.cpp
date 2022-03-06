@@ -731,7 +731,7 @@ void VanhatuontiDlg::siirraTositteet()
         while(vientikysely.next()) {
             TositeVienti vienti;
             int vientiid = vientikysely.value("id").toInt();
-            vienti.setId( vientiid );
+            vienti.insert("importid", vientikysely.value("id").toInt()); // Käytetään importid:tä jotta tallentuu tässä tuontitilanteessa ;)
             QDate vientiPvm = vientikysely.value("pvm").toDate();
             int alkuptili = vientikysely.value("tilinumero").toInt();
             if( alkuptili == 0)

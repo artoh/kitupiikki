@@ -182,6 +182,7 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
 
     pix.fill(QApplication::palette().window().color());
     f_bgcolor->setIcon(pix);
+    f_bgcolor->setVisible(false);   // #1131 Piilotetaan taustavärin namiska.
 
     connect(f_bgcolor, SIGNAL(clicked()), this, SLOT(textBgColor()));
 

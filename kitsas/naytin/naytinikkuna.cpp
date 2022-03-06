@@ -63,6 +63,7 @@ void NaytinIkkuna::naytaRaportti(const RaporttiValinnat &valinnat)
     ikkuna->show();
     ikkuna->view()->nayta(valinnat);
     connect( ikkuna->view(), &NaytinView::otsikkoVaihtunut, ikkuna, &NaytinIkkuna::setWindowTitle);
+    connect( ikkuna->view(), &NaytinView::eiSisaltoa, ikkuna, &NaytinIkkuna::tyhjaRaportti);
 }
 
 void NaytinIkkuna::nayta(const QByteArray& data)
@@ -167,6 +168,13 @@ void NaytinIkkuna::tositeLadattu()
     LaskunTulostaja tulostaja(kp(), this);
     show();
     view_->nayta( tulostaja.pdf(*tosite) );
+}
+
+void NaytinIkkuna::tyhjaRaportti()
+{
+    kp()->odotusKursori(false);
+    QMessageBox::information(this, tr("Raportti"), tr("Tekemilläsi valinnoilla muodostuu tyhjä raportti"));
+    close();
 }
 
 

@@ -277,7 +277,7 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
 
     // QR-koodi
-    if( interface_->asetukset()->onko(AsetusModel::LaskuQR))
+    if( interface_->asetukset()->onko(AsetusModel::LaskuQR) && lasku.viite().tyyppi() != ViiteNumero::VIRHEELLINEN )
     {
         QString data = lasku.QRkooditieto( ibanit_.value(0),
                                            interface_->asetukset()->asetus(AsetusModel::OrganisaatioNimi),

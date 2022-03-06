@@ -23,7 +23,7 @@ TilikausiSivu::TilikausiSivu(UusiVelho* wizard) :
     ui( new Ui::TilikausiSivu),
     velho( wizard)
 {
-    setTitle("Tilikauden tiedot");
+    setTitle(tr("Tilikauden tiedot"));
 
     ui->setupUi(this);
     ui->eiavaustaVaroitus->setVisible(velho->tilikaudet_.count() == 1);

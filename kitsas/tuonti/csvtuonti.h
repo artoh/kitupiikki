@@ -129,6 +129,7 @@ protected:
     QVector<Sarakemuoto> muodot_;
 
     Ui::CsvTuonti *ui;
+
 };
 
 }

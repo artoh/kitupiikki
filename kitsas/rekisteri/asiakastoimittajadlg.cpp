@@ -265,7 +265,9 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
 
 void AsiakasToimittajaDlg::maventalookup()
 {
-    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa())  {
+    const QString nimi = ui->nimiEdit->text().trimmed();
+
+    if(kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA && kp()->pilvi()->kayttajaPilvessa() ) {
 
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "lookup";
 
@@ -275,8 +277,10 @@ void AsiakasToimittajaDlg::maventalookup()
         if( ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
                 ui->yEdit->hasAcceptableInput())
             pk->lisaaAttribuutti("bid", ui->yEdit->text());
-        else
+        else if( nimi.length() > 3)
             pk->lisaaAttribuutti("name", ui->nimiEdit->text());
+        else
+            return; // Ei edellytyksiä nimellä hakemiseen
         connect( pk, &PilviKysely::vastaus, this, &AsiakasToimittajaDlg::maventalookupSaapuu);
         pk->kysy();
     }

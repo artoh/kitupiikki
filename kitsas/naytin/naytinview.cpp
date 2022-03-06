@@ -453,6 +453,7 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
         leiska_->addWidget( naytin->widget());                
         connect( naytin, &Naytin::AbstraktiNaytin::otsikkoVaihtui, this, &NaytinView::otsikkoVaihtunut);        
         connect( naytin, &Naytin::AbstraktiNaytin::tiedostoPudotettu, this, &NaytinView::tiedostoPudotettu);
+        connect( naytin, &Naytin::AbstraktiNaytin::eiSisaltoa, this, &NaytinView::eiSisaltoa);
     }
 
     qApp->processEvents();

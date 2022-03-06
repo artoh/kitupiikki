@@ -77,6 +77,7 @@ bool UlkoasuMaaritys::nollaa()
     ui->fiKieli->setChecked( Kielet::instanssi()->uiKieli() == "fi" );
     ui->svKieli->setChecked( Kielet::instanssi()->uiKieli() == "sv" );
 
+    ui->karttakieliGroup->setVisible( kp()->yhteysModel() );
     ui->tilikarttaKieli->valitse( Kielet::instanssi()->nykyinen() );
 
     ui->saldotCheck->setChecked( kp()->settings()->value("SaldoDock").toBool() );

@@ -23,6 +23,7 @@ public:
 
 public slots:
     void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
+    void tyhja();
 
 protected:
     RaporttiValinnat valinnat_;

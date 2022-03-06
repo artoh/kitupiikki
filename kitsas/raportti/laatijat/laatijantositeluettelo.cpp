@@ -1,6 +1,7 @@
 #include "laatijantositeluettelo.h"
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include "model/euro.h"
 
 LaatijanTositeLuettelo::LaatijanTositeLuettelo(RaportinLaatija *laatija, const RaporttiValinnat &valinnat) :
     LaatijanRaportti(laatija, valinnat)
@@ -54,8 +55,9 @@ void LaatijanTositeLuettelo::laadi()
 
 void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
 {
-    qlonglong lajisumma = 0l;
-    qlonglong summa = 0l;
+    Euro lajisumma;
+    Euro summa;
+
     int edellinentyyppi = -1;
     QDate edpvm;
 
@@ -74,7 +76,7 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
                 valisumma.lisaa( lajisumma );
                 valisumma.viivaYlle();
                 rk.lisaaRivi(valisumma);
-                lajisumma = 0l;
+                lajisumma = Euro::Zero;
             }
             if( edellinentyyppi >= 0)
                 rk.lisaaTyhjaRivi();
@@ -104,7 +106,8 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
             rivi.lisaa( kaanna("%1 kpl").arg( map.value("liitteita").toInt() ));
         else
             rivi.lisaa("");
-        qlonglong euro = qRound64( map.value("summa").toDouble() * 100.0 );
+
+        Euro euro(map.value("summa").toString());
         rivi.lisaa( euro );
 
         lajisumma += euro;
@@ -115,7 +118,7 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
     }
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  && edellinentyyppi) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(kaanna("Yhteensä"), 5);
+        valisumma.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4);
         valisumma.lisaa( lajisumma );
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
@@ -123,7 +126,7 @@ void LaatijanTositeLuettelo::dataSaapuu(QVariant *data)
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), 5);
+        summarivi.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4);
         summarivi.lisaa( summa );
         summarivi.viivaYlle();
         summarivi.lihavoi();

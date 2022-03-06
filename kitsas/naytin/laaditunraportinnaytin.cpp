@@ -8,6 +8,7 @@ LaaditunRaportinNaytin::LaaditunRaportinNaytin(QWidget *parent, RaporttiValinnat
     RaporttiNaytin( RaportinKirjoittaja(), parent ), laatija_(this)
 {
     connect( &laatija_, &RaportinLaatija::raporttiValmis, this, &LaaditunRaportinNaytin::raporttiSaapuu );
+    connect(&laatija_, &RaportinLaatija::tyhjaRaportti, this, &LaaditunRaportinNaytin::tyhja);
     paivitaRaportti(valinnat);
 }
 
@@ -36,6 +37,13 @@ void LaaditunRaportinNaytin::raporttiSaapuu(const RaportinKirjoittaja &kirjoitta
     emit otsikkoVaihtui(otsikko_);
     kp()->odotusKursori(false);
     paivita();
+}
+
+void LaaditunRaportinNaytin::tyhja()
+{
+    emit otsikkoVaihtui(tr("Tyhjä raportti"));
+    emit eiSisaltoa();
+    kp()->odotusKursori(false);
 }
 
 

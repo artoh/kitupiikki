@@ -220,7 +220,7 @@ UusiVelho::Harjoitussivu::Harjoitussivu() :
     ui( new Ui::UusiHarjoitus)
 {
     ui->setupUi(this);
-    setTitle(tr("Harjoitus vai todellinen?"));
+    setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));
     registerField("harjoitus", ui->harjoitusButton);
 }
 
@@ -230,7 +230,7 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
     velho (wizard)
 {
     ui->setupUi(this);
-    setTitle( tr("Tilikartta"));
+    setTitle( UusiVelho::tr("Tilikartta"));
     connect( ui->tiedostoNappi, &QPushButton::clicked, this, &Tilikarttasivu::tiedostosta );
 }
 
@@ -250,8 +250,8 @@ bool UusiVelho::Tilikarttasivu::validatePage()
 
 void UusiVelho::Tilikarttasivu::tiedostosta()
 {
-    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilikarttatiedoston"), QString(),
-                                                    tr("Kitsaan tilikartta (*.kitsaskartta)",".kitsaskartta on tiedostopääte - älä käännä sitä"));
+    QString tiedosto = QFileDialog::getOpenFileName(this, UusiVelho::tr("Valitse tilikarttatiedoston"), QString(),
+                                                    UusiVelho::tr("Kitsaan tilikartta (*.kitsaskartta)",".kitsaskartta on tiedostopääte - älä käännä sitä"));
     if( !tiedosto.isEmpty() ) {
         if( velho->lataaKartta(tiedosto) )
             wizard()->next();
@@ -272,26 +272,26 @@ UusiVelho::VarmistaSivu::VarmistaSivu() :
     ui( new Ui::Varmista)
 {
     ui->setupUi(this);
-    setTitle(tr("Huolehdi kirjanpitosi varmuuskopioinnista"));
+    setTitle(UusiVelho::tr("Huolehdi kirjanpitosi varmuuskopioinnista"));
 }
 
 UusiVelho::VastuuSivu::VastuuSivu() :
     ui( new Ui::Uusivastuu)
 {
     ui->setupUi(this);
-    setTitle(tr("Vastuu kirjanpidosta"));
+    setTitle(UusiVelho::tr("Vastuu kirjanpidosta"));
 }
 
 UusiVelho::LoppuSivu::LoppuSivu() :
     ui( new Ui::UusiLoppu)
 {
     ui->setupUi(this);
-    setTitle(tr("Valmis"));
+    setTitle(UusiVelho::tr("Valmis"));
 }
 
 void UusiVelho::LoppuSivu::initializePage()
 {
-    ui->koneLabel->setText(tr("<p>Kirjanpitosi tallennetaan tietokoneellesi hakemistoon <tt>%1</tt> "
+    ui->koneLabel->setText(UusiVelho::tr("<p>Kirjanpitosi tallennetaan tietokoneellesi hakemistoon <tt>%1</tt> "
                               "tiedostoon <tt>%2</tt></p>"
                               "<p><b>Muista tiedostosi sijainti</b>, jotta pystyt avaamaan sen myöhemmin.</p>"
                               "<p><b>Huolehdi jatkuvasti tämän tiedoston varmuuskopioinnista!</b>")

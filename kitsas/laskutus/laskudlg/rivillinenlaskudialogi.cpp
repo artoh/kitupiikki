@@ -53,11 +53,11 @@ RivillinenLaskuDialogi::RivillinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->uusiRiviNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::uusiRivi);
     connect( ui->riviLisatiedotNappi, &QPushButton::clicked, this, &RivillinenLaskuDialogi::rivinLisaTiedot);
 
-    ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );
-    paivitaSumma();    
+    ui->tabWidget->removeTab( ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("maksumuistutus") ) );      
 
     tosite->rivit()->lisaaRivi();
     paivitaRiviNapit();
+    paivitaSumma();
 }
 
 LaskuAlvCombo::AsiakasVeroLaji RivillinenLaskuDialogi::asiakasverolaji() const
