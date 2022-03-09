@@ -30,6 +30,7 @@
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
 #include "naytin/naytinikkuna.h"
+#include "arkisto/tilinpaattaja.h"
 
 TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *parent)
     : QMainWindow(parent),
@@ -40,6 +41,11 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));
 
     setWindowIcon( QIcon(":/pic/Possu64.png"));
+
+    TilinPaattaja* paattaja = qobject_cast<TilinPaattaja*>(parent);
+    if(paattaja) {
+        connect( this, &TilinpaatosEditori::tallennettu, paattaja, &TilinPaattaja::paivitaDialogi);
+    }
 
     luoAktiot();
     luoPalkit();
@@ -253,6 +259,7 @@ bool TilinpaatosEditori::aloitaAlusta()
     }
     else
     {
+        emit tallennettu();
         return false;
     }
     return true;

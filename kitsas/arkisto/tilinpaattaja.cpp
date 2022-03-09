@@ -171,13 +171,16 @@ void TilinPaattaja::kirjaaTulovero()
 
 void TilinPaattaja::muokkaa()
 {
-    TilinpaatosEditori *editori = new TilinpaatosEditori(tilikausi, parentWidget() );
+    TilinpaatosEditori *editori = new TilinpaatosEditori(tilikausi, this );
+    connect( editori, &TilinpaatosEditori::tallennettu, this, &TilinPaattaja::paivitaDialogi );
+
+    connect( this, SIGNAL(vahvistettu()), editori, SLOT(close()));
+
     editori->show();
     editori->move( parentWidget()->mapToGlobal( QPoint(25,25) ) );
     editori->resize( parentWidget()->size() );
 
-    connect( editori, SIGNAL(tallennettu()), this, SLOT(paivitaDialogi()));
-    connect( this, SIGNAL(vahvistettu()), editori, SLOT(close()));
+
 }
 
 void TilinPaattaja::esikatsele()
