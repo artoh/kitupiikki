@@ -120,9 +120,17 @@ void TpAloitus::lataaTiedosto()
         QMap<QString,QString> meta;
         meta.insert("Filename",tiedosto);
         KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
-        connect( kysely, &KpKysely::vastaus, this, &TpAloitus::reject);
+        connect( kysely, &KpKysely::vastaus, this, &TpAloitus::tiedostoLadattu);
         kysely->lahetaTiedosto( luku.readAll(), meta);
     }
+}
+
+void TpAloitus::tiedostoLadattu()
+{
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(tilikausi.paattyy());
+    kausi.set("tilinpaatos", QDateTime::currentDateTime());
+    kausi.tallenna();
+    reject();
 }
 
 void TpAloitus::ohje()

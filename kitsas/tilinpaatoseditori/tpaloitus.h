@@ -52,6 +52,7 @@ private slots:
     void valintaMuuttui(QStandardItem *item);
     void accept();
     void lataaTiedosto();
+    void tiedostoLadattu();
     void ohje();
     void lataa();
 
