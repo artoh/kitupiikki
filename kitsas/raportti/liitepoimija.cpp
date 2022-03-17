@@ -152,6 +152,8 @@ void LiitePoimija::tehty()
         QTimer::singleShot(250, this, &LiitePoimija::avaa);
     } else {
         emit tyhja();
+        kp()->odotusKursori(false);
+        QMessageBox::information(nullptr, tr("Tositekooste"), tr("Tekemilläsi valinnoilla muodostuu tyhjä tositekooste"));
     }
 }
 

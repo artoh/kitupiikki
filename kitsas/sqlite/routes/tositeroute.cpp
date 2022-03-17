@@ -336,7 +336,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, const int paivitettavanT
         if( vientiid ) {
             if( !vanhatviennit.contains(vientiid)) {
                 db().rollback();
-                throw new SQLiteVirhe("Virheellinen viennin id", 206);
+                throw SQLiteVirhe("Virheellinen viennin id", 206);
             }
             vanhatviennit.remove(vientiid);
             kysely.prepare("INSERT INTO Vienti (id, tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, arkistotunnus) "
