@@ -178,8 +178,8 @@ Luonnos,Luonnos,Utkast,Draft
 Alv,Alv,Moms,Vat
 Hylätty,Hylätty,Avslagen,Rejected
 Saapunut,Saapunut,Anlände,Received
-Tarkastettu,Tarkastettu,Kollad,Checked
-Hyväksytty,Hyväksytty,Accepterad,Approved
+Tarkastettu,Tarkastettu,Granskad,Checked
+Hyväksytty,Hyväksytty,Godkänd,Approved
 Valmis,Valmis,Färdig,Ready
 Lähetetään,Lähetetään,Överförs,In progress
 Lähetetty,Lähetetty,Skeppas,Send
@@ -234,7 +234,7 @@ alv92,Voittomarginaalijärjestelmä - Taide-esineet,Vinstmarginalsystem - Konstv
 alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44","AVL 65 §: Reverse charge, VAT Directive art. 44"
 alv14,AVL 72a §: ALV 0% Yhteisömyynti,AVL 72 a §: Moms 0 % Gemenskapförsäljning,AVL 72a §: VAT 0% Intra Community supply
 alv16,AVL 8 c §: Käännetty verovelvollisuus,"AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199","AVL 8 c §: Reverse charge, VAT Directive art. 199"
-alv19,ALV 0%, MOMS 0%, VAT 0%
+alv19,ALV 0%,MOMS 0%,VAT 0%
 iban,IBAN,,
 aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
 alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem - Begagnade varor,Margin scheme
