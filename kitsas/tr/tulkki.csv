@@ -89,6 +89,7 @@ keskim. á brutto,keskim. á brutto,genomsn á brutto,average á gross
 netto yht,netto yht,totalt netto,total net
 brutto yht,brutto yht,totalt brutto,totalt gross
 MYYNTI,MYYNTI,FÖRSÄLJNING,SALES
+Muu myynti,Muu myynti,Annan försäljing,Other sales
 ARVONLISÄVEROLASKELMA,ARVONLISÄVEROLASKELMA,MOMSBERÄKNING,VAT CALCULATION
 Arvonlisäveroilmoituksen tiedot,Arvonlisäveroilmoituksen tiedot,Information om momsdeklaration,
 Maksuperusteinen arvonlisävero,Maksuperusteinen arvonlisävero,Uppskjuten moms,
@@ -100,11 +101,12 @@ Verokauden vähennettävä vero,Verokauden vähennettävä vero,Moms som ska dra
 Maksettava vero / Palautukseen oikeuttava vero,Maksettava vero / Palautukseen oikeuttava vero,Moms att betala / Moms som berättingar till återbäring,
 0-verokannan alainen liikevaihto,0-verokannan alainen liikevaihto,Omsättning enligt 0-skattesats,
 Tavaroiden maahantuonnit EU:n ulkopuolelta,Tavaroiden maahantuonnit EU:n ulkopuolelta,Import av varor från områden utanför EU,
+Palveluostot EU:n ulkopuolelta ,Palveluostot EU:n ulkopuolelta ,Inköp av tjänster från områden untanför EU,
 Tavaroiden myynnit muihin EU-maihin,Tavaroiden myynnit muihin EU-maihin,Varuförsäljningar till andra EU-länder,
 Palveluiden myynnit muihin EU-maihin,Palveluiden myynnit muihin EU-maihin,Försäljning av tjänster till andra EU-länder,
 Tavaraostot muista EU-maista,Tavaraostot muista EU-maista,Varuinköp från andra EU-länder,
 Palveluostot muista EU-maista,Palveluostot muista EU-maista,Inköp av tjänster från andra EU-länder,
-Rakentamispalveluiden ja metaalliromun myynnit,Rakentamispalveluiden ja metaalliromun myynnit,Försäljningar av byggtjänster och metallskrot,
+Rakentamispalveluiden ja metalliromun myynnit,Rakentamispalveluiden ja metalliromun myynnit,Försäljningar av byggtjänster och metallskrot,
 Rakentamispalveluiden ja metalliromun ostot,Rakentamispalveluiden ja metalliromun ostot,Inköp av byggtjänster och metallskrot,
 Alarajahuojennukseen oikeuttava liikevaihto,Alarajahuojennukseen oikeuttava liikevaihto,Omsättning som berättigar till lättnad vid den nedre gränsen,
 Alarajahuojennukseen oikeuttava vero,Alarajahuojennukseen oikeuttava vero,Skatt som berättigar till lättnad vid den nedre gränsen,
@@ -168,7 +170,7 @@ Kirjanpitoarkisto,Kirjanpitoarkisto,Bokföringarkiv,
 Kirjanpito,Kirjanpito,Bokföring,
 Raportit,Raportit,Rapporter,
 Laskut ja myynti,Laskut ja myynti,Räkningar och försäljning,
-Myydyt tuotteet,Myydyt tuotteet,Säljda produkter,
+Myydyt tuotteet,Myydyt tuotteet,Sålda produkter,
 Edellinen,Edellinen,Föregående,
 Seuraava,Seuraava,Följande,
 Laskun numero,Laskun numero,Faktura nummer,

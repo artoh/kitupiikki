@@ -356,6 +356,10 @@
         "sv": "FÖRSÄLJNING",
         "en": "SALES"
     },
+    "Muu myynti": {
+        "sv": "Annan försäljing",
+        "en": "Other sales"
+    },
     "ARVONLISÄVEROLASKELMA": {
         "sv": "MOMSBERÄKNING",
         "en": "VAT CALCULATION"
@@ -390,6 +394,9 @@
     "Tavaroiden maahantuonnit EU:n ulkopuolelta": {
         "sv": "Import av varor från områden utanför EU"
     },
+    "Palveluostot EU:n ulkopuolelta ": {
+        "sv": "Inköp av tjänster från områden untanför EU"
+    },
     "Tavaroiden myynnit muihin EU-maihin": {
         "sv": "Varuförsäljningar till andra EU-länder"
     },
@@ -402,7 +409,7 @@
     "Palveluostot muista EU-maista": {
         "sv": "Inköp av tjänster från andra EU-länder"
     },
-    "Rakentamispalveluiden ja metaalliromun myynnit": {
+    "Rakentamispalveluiden ja metalliromun myynnit": {
         "sv": "Försäljningar av byggtjänster och metallskrot"
     },
     "Rakentamispalveluiden ja metalliromun ostot": {
@@ -596,7 +603,7 @@
         "sv": "Räkningar och försäljning"
     },
     "Myydyt tuotteet": {
-        "sv": "Säljda produkter"
+        "sv": "Sålda produkter"
     },
     "Edellinen": {
         "sv": "Föregående"
