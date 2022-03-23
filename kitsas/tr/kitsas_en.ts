@@ -2575,7 +2575,7 @@ Voit lähettää sen verottajalle ilmoitin.fi-palvelulla.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="671"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="668"/>
         <source>Lasku %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5519,12 +5519,22 @@ osoite</source>
 <context>
     <name>LiitePoimija</name>
     <message>
-        <location filename="../raportti/liitepoimija.cpp" line="161"/>
+        <location filename="../raportti/liitepoimija.cpp" line="156"/>
+        <source>Tositekooste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../raportti/liitepoimija.cpp" line="156"/>
+        <source>Tekemilläsi valinnoilla muodostuu tyhjä tositekooste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../raportti/liitepoimija.cpp" line="163"/>
         <source>Tiedoston näyttäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../raportti/liitepoimija.cpp" line="162"/>
+        <location filename="../raportti/liitepoimija.cpp" line="164"/>
         <source>Kitsas ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9871,23 +9881,23 @@ Tilikauden tositteita ei poisteta, mutta ne jäävät virheellisesti tilikausien
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="198"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="201"/>
         <source>Vahvista tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="199"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="202"/>
         <source>Onko tilinpäätös vahvistettu lopulliseksi?
 Vahvistettua tilinpäätöstä ei voi enää muokata.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="243"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="246"/>
         <source>Tuloverotus yrittäjän verotuksessa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="245"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="248"/>
         <source>Ei verotettavaa tuloverossa</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9998,72 +10008,72 @@ Haluatko tallentaa tilinavauksen luonnoksena?</source>
 <context>
     <name>TilinpaatosEditori</name>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="40"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="41"/>
         <source>Tilinpäätöksen liitetiedot %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="62"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="68"/>
         <source>Tallenna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="65"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="71"/>
         <source>Esikatsele</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="68"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="74"/>
         <source>Aloita uudelleen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="71"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="77"/>
         <source>Valmis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="74"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="80"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="80"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="86"/>
         <source>&amp;Tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="200"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="206"/>
         <source>Tilinpäätöstekstin lataaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="200"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="206"/>
         <source>Tilinpäätöstekstin lataaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="210"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="216"/>
         <source>Tilinpäätöstä muokattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="211"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="217"/>
         <source>Tallennetaanko muokattu tilinpäätös?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="235"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="241"/>
         <source>&lt;table width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td align=center&gt;%1&lt;/td&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="239"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="245"/>
         <source>&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;%1&lt;/td&gt;&lt;td align=center&gt;%2&lt;/td&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="281"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="288"/>
         <source>Tilinpäätös tallennettu</source>
         <translation type="unfinished"></translation>
     </message>

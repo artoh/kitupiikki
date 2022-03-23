@@ -17,7 +17,7 @@
                BlueprintIdentifier = "8DD5FA115ABDC7E753D1D4E8"
                BuildableName = "Kitsas.app"
                BlueprintName = "Kitsas"
-               ReferencedContainer = "container:Kitsas.xcodeproj">
+               ReferencedContainer = "container:kitsas.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,27 +26,15 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      disableMainThreadChecker = "YES"
-      shouldUseLaunchSchemeArgsEnv = "NO">
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E73BA301EF4580BE706E2EC"
-               BuildableName = "Qt Test"
-               BlueprintName = "Qt Test"
-               ReferencedContainer = "container:Kitsas.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "NO"
+      disableMainThreadChecker = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8DD5FA115ABDC7E753D1D4E8"
             BuildableName = "Kitsas.app"
             BlueprintName = "Kitsas"
-            ReferencedContainer = "container:Kitsas.xcodeproj">
+            ReferencedContainer = "container:kitsas.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <CommandLineArguments>
@@ -55,8 +43,18 @@
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9E73BA301EF4580BE706E2EC"
+               BuildableName = "Qt Test"
+               BlueprintName = "Qt Test"
+               ReferencedContainer = "container:kitsas.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -78,7 +76,7 @@
             BlueprintIdentifier = "8DD5FA115ABDC7E753D1D4E8"
             BuildableName = "Kitsas.app"
             BlueprintName = "Kitsas"
-            ReferencedContainer = "container:Kitsas.xcodeproj">
+            ReferencedContainer = "container:kitsas.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -88,8 +86,6 @@
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -104,7 +100,7 @@
             BlueprintIdentifier = "8DD5FA115ABDC7E753D1D4E8"
             BuildableName = "Kitsas.app"
             BlueprintName = "Kitsas"
-            ReferencedContainer = "container:Kitsas.xcodeproj">
+            ReferencedContainer = "container:kitsas.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

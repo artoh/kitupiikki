@@ -89,6 +89,7 @@ keskim. á brutto,keskim. á brutto,genomsn á brutto,average á gross
 netto yht,netto yht,totalt netto,total net
 brutto yht,brutto yht,totalt brutto,totalt gross
 MYYNTI,MYYNTI,FÖRSÄLJNING,SALES
+Muu myynti,Muu myynti,Annan försäljing,Other sales
 ARVONLISÄVEROLASKELMA,ARVONLISÄVEROLASKELMA,MOMSBERÄKNING,VAT CALCULATION
 Arvonlisäveroilmoituksen tiedot,Arvonlisäveroilmoituksen tiedot,Information om momsdeklaration,
 Maksuperusteinen arvonlisävero,Maksuperusteinen arvonlisävero,Uppskjuten moms,
@@ -100,11 +101,12 @@ Verokauden vähennettävä vero,Verokauden vähennettävä vero,Moms som ska dra
 Maksettava vero / Palautukseen oikeuttava vero,Maksettava vero / Palautukseen oikeuttava vero,Moms att betala / Moms som berättingar till återbäring,
 0-verokannan alainen liikevaihto,0-verokannan alainen liikevaihto,Omsättning enligt 0-skattesats,
 Tavaroiden maahantuonnit EU:n ulkopuolelta,Tavaroiden maahantuonnit EU:n ulkopuolelta,Import av varor från områden utanför EU,
+Palveluostot EU:n ulkopuolelta ,Palveluostot EU:n ulkopuolelta ,Inköp av tjänster från områden untanför EU,
 Tavaroiden myynnit muihin EU-maihin,Tavaroiden myynnit muihin EU-maihin,Varuförsäljningar till andra EU-länder,
 Palveluiden myynnit muihin EU-maihin,Palveluiden myynnit muihin EU-maihin,Försäljning av tjänster till andra EU-länder,
 Tavaraostot muista EU-maista,Tavaraostot muista EU-maista,Varuinköp från andra EU-länder,
 Palveluostot muista EU-maista,Palveluostot muista EU-maista,Inköp av tjänster från andra EU-länder,
-Rakentamispalveluiden ja metaalliromun myynnit,Rakentamispalveluiden ja metaalliromun myynnit,Försäljningar av byggtjänster och metallskrot,
+Rakentamispalveluiden ja metalliromun myynnit,Rakentamispalveluiden ja metalliromun myynnit,Försäljningar av byggtjänster och metallskrot,
 Rakentamispalveluiden ja metalliromun ostot,Rakentamispalveluiden ja metalliromun ostot,Inköp av byggtjänster och metallskrot,
 Alarajahuojennukseen oikeuttava liikevaihto,Alarajahuojennukseen oikeuttava liikevaihto,Omsättning som berättigar till lättnad vid den nedre gränsen,
 Alarajahuojennukseen oikeuttava vero,Alarajahuojennukseen oikeuttava vero,Skatt som berättigar till lättnad vid den nedre gränsen,
@@ -168,7 +170,7 @@ Kirjanpitoarkisto,Kirjanpitoarkisto,Bokföringarkiv,
 Kirjanpito,Kirjanpito,Bokföring,
 Raportit,Raportit,Rapporter,
 Laskut ja myynti,Laskut ja myynti,Räkningar och försäljning,
-Myydyt tuotteet,Myydyt tuotteet,Säljda produkter,
+Myydyt tuotteet,Myydyt tuotteet,Sålda produkter,
 Edellinen,Edellinen,Föregående,
 Seuraava,Seuraava,Följande,
 Laskun numero,Laskun numero,Faktura nummer,
@@ -178,8 +180,8 @@ Luonnos,Luonnos,Utkast,Draft
 Alv,Alv,Moms,Vat
 Hylätty,Hylätty,Avslagen,Rejected
 Saapunut,Saapunut,Anlände,Received
-Tarkastettu,Tarkastettu,Kollad,Checked
-Hyväksytty,Hyväksytty,Accepterad,Approved
+Tarkastettu,Tarkastettu,Granskad,Checked
+Hyväksytty,Hyväksytty,Godkänd,Approved
 Valmis,Valmis,Färdig,Ready
 Lähetetään,Lähetetään,Överförs,In progress
 Lähetetty,Lähetetty,Skeppas,Send
@@ -234,7 +236,7 @@ alv92,Voittomarginaalijärjestelmä - Taide-esineet,Vinstmarginalsystem - Konstv
 alv15,"AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi art. 44","AVL 65 §: Omvänd skattsskyldighet, momsdirektivet artikel 44","AVL 65 §: Reverse charge, VAT Directive art. 44"
 alv14,AVL 72a §: ALV 0% Yhteisömyynti,AVL 72 a §: Moms 0 % Gemenskapförsäljning,AVL 72a §: VAT 0% Intra Community supply
 alv16,AVL 8 c §: Käännetty verovelvollisuus,"AVL 8 c: Omvänd skattsskyldighet, momsdirektivet artikel 199","AVL 8 c §: Reverse charge, VAT Directive art. 199"
-alv19,ALV 0%, MOMS 0%, VAT 0%
+alv19,ALV 0%,MOMS 0%,VAT 0%
 iban,IBAN,,
 aiempimuistutus,Aiempi maksumuistutus|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3,Tidigare betalningspåminnelse|Faktura nummer: %1|Datum: %2|Förfallodag: %3,Earlier request for payment|Invoice number: %1|Date on invoice: %2|Due date: %3
 alv13,Voittomarginaalijärjestelmä,Vinstmarginalsystem - Begagnade varor,Margin scheme
