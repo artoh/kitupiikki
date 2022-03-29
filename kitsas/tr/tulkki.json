@@ -1251,5 +1251,98 @@
         "fi": "Tilauspäivämäärä",
         "sv": "Beställningdatum",
         "en": "Order date"
+    },
+    "Vastaavaa": {
+        "sv": "Passiva"
+    },
+    "Poistokelpoinen omaisuus menojäännöspoisto": {
+        "sv": "Avskrivningbara tillgångar restvärdeavskrivning"
+    },
+    "Poistokelpoinen omaisuus tasapoistolla": {
+        "sv": "Avskrivningbara tillgångar linjär avskrivning"
+    },
+    "Saatavaa": {
+        "sv": "Fordringar"
+    },
+    "Myyntisaatavat": {
+        "sv": "Försäljningsfordringar"
+    },
+    "Siirtosaamiset": {
+        "sv": "Resultatregleringsfordringar"
+    },
+    "Arvonlisäverosaatava": {
+        "sv": "Mervärdesskattefordringar"
+    },
+    "Maksuperusteisen alv:n kohdentamaton saatava": {
+        "sv": "Mervärdeskattefordringar enligt betalningsprincipen utan allokering"
+    },
+    "Verosaatava": {
+        "sv": "Skattefordningar"
+    },
+    "Käteisvarat": {
+        "sv": "Kassa"
+    },
+    "Pankkitili": {
+        "sv": "Bankkonto"
+    },
+    "Vastattavaa": {
+        "sv": "Passiva"
+    },
+    "Edellisten tilikausien voitto/tappio": {
+        "sv": "Vinst (förlust) från tidigare perioder"
+    },
+    "Tilikauden tulos": {
+        "sv": "Räkenskapsperiodens resultat"
+    },
+    "Velat": {
+        "sv": "Skulder"
+    },
+    "Ostovelat": {
+        "sv": "Leverantörsskulder"
+    },
+    "Siirtovelat": {
+        "sv": "Resultatregleringsskulder"
+    },
+    "Arvonlisäverovelka": {
+        "sv": "Mervärdesskatteskuld"
+    },
+    "Maksuperusteisen alv:n kohdentamaton velka": {
+        "sv": "Mervärdeskatteskulder enligt betalningsprincipen utan allokering"
+    },
+    "Verovelka": {
+        "sv": "Skatteskulder"
+    },
+    "Yksityisnostot": {
+        "sv": "Privat bruk "
+    },
+    "Tulot": {
+        "sv": "Inkomster"
+    },
+    "Liikevaihtotulo (myynti)": {
+        "sv": "Omsättinginkomst (försäljning)"
+    },
+    "Verottomat tulot": {
+        "sv": "Skattefria inkomster"
+    },
+    "Veroton myynti": {
+        "sv": "Försäljning av tjänster till andra EU-länder"
+    },
+    "Menot": {
+        "sv": "Utgifter"
+    },
+    "Poistot": {
+        "sv": "Avskriningar"
+    },
+    "Vähennyskelvottomat menot": {
+        "sv": "Icke avragskill utgifter"
+    },
+    "Puoliksi vähennyskelpoiset menot": {
+        "sv": "Halvt avragskill utgifter"
+    },
+    "Vähennyskelvottomat poistot": {
+        "sv": "Icke avragskill avskrivningar"
+    },
+    "Ennakkoverot": {
+        "sv": "Förskottsskatter"
     }
 }
