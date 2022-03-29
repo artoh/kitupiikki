@@ -114,6 +114,8 @@ QString Kielet::kaanna(const QString &avain, const QString &kieli) const
     const QMap<QString,QString> map  = kaannokset_.value(avain);
     if( map.contains(kieli))
         return map.value(kieli);
+    if( kieli == "fi")
+        return avain;
     if( map.contains(nykykieli_))
         return map.value(nykykieli_);
     return avain;
