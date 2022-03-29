@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 #include <QJsonDocument>
 #include <QDebug>
+#include "db/tositetyyppimodel.h"
 
 TuotteetRoute::TuotteetRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/tuotteet")
@@ -77,6 +78,7 @@ QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
 {
     QStringList ehdot;
     ehdot << "Tosite.tila >= 100";
+    ehdot << QString("Tosite.tyyppi <> %1 ").arg(TositeTyyppi::MYYNTILASKU);
     if( urlquery.hasQueryItem("alkupvm"))
         ehdot.append(QString("pvm >= '%1'").arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
