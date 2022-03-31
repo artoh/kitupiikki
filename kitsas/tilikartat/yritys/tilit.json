@@ -2798,7 +2798,7 @@
         "tyyppi": "BE",
         "nimi": {
             "fi": "Edellisten tilikausien voitto/tappio",
-            "sv": "Vinst (förlust från tidigare perioder"
+            "sv": "Vinst (förlust) från tidigare perioder"
         },
         "laajuus": 1
     },
@@ -4496,7 +4496,10 @@
             "fi": "Verovelka (oma-aloitteiset verot)",
             "sv": "Skatteskuld (skatter på eget initiativ)"
         },
-        "ohje": "Tilille kirjataan OmaVero-palvelussa ilmoitettavat oma-aloitteisesti maksettavat verot (arvonlisävero, ennakonpidätykset, työnantajasuoritukset) silloin, kun verosta on tehty laskelma. ",
+        "ohje": {
+            "fi": "Tilille kirjataan OmaVero-palvelussa ilmoitettavat oma-aloitteisesti maksettavat verot (arvonlisävero, ennakonpidätykset, työnantajasuoritukset) silloin, kun verosta on tehty laskelma. ",
+            "sv": "Självskattade skatter (moms, förskåttsinnehållningar, arbetsgivaravgifter) som deklarerades på ‘min skatt’ tjänsten bokförs på kontot när skatten har beräknats"
+        },
         "laajuus": 1
     },
     {
@@ -4517,7 +4520,10 @@
         },
         "laajuus": 1,
         "erittely": 2,
-        "ohje": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä."
+        "ohje": {
+            "fi": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä.",
+            "sv": "Du kan ställa in programmet för att kvitta momsen som skall betalas till detta konto när momsdeklarationen skickas. I detta fall överförs beloppet till konto 2920 Skatteskuld baserat på Min Skatt betalning sammanfattning på dagen för beskattningens förfallodag"
+        }
     },
     {
         "numero": 2923,
@@ -5302,7 +5308,10 @@
         },
         "alvlaji": 13,
         "alvprosentti": 24,
-        "ohje": "Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa.",
+        "ohje": {
+            "fi": "Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa.",
+            "sv": "Ett förenklat vinstmarginal system genom vilket skatt beräknas på skatte årsbasis vid tidpunkten för inlämningen av momsdeklarationen."
+        },
         "laajuus": 4
     },
     {
@@ -5325,7 +5334,10 @@
         },
         "alvlaji": 13,
         "alvprosentti": 24,
-        "ohje": "Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa.",
+        "ohje": {
+            "fi": "Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa.",
+            "sv": "Ett förenklat vinstmarginal system genom vilket skatt beräknas på skatte årsbasis vid tidpunkten för inlämningen av momsdeklarationen."
+        },
         "laajuus": 4
     },
     {

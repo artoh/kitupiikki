@@ -1341,7 +1341,7 @@
         "tyyppi": "H4",
         "nimi": {
             "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
-            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
+            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
         }
     },
     {
@@ -1539,7 +1539,7 @@
         "tyyppi": "H4",
         "nimi": {
             "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
-            "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
+            "sv": "Återlåning från arbetspensionsförsäkringsanstalter",
             "en": "Premium loans from employee pension institutions"
         }
     },
@@ -1658,7 +1658,10 @@
         },
         "laajuus": 5,
         "erittely": 2,
-        "ohje": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä."
+        "ohje": {
+        "fi": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä.",
+        "sv": "Du kan ställa in programmet för att kvitta momsen som ska betalas till det här kontot när momsdeklarationen skickas. I detta fall överförs beloppet till konto 2920 Skatteskuld på grundval av Min skatt betalnings sammanfattning på förfallodagen för skatten."
+        }
     },
     {
         "numero": 2984,
@@ -1696,7 +1699,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan oma-aloitteiset verot ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu."
+            "fi": "Tähän kirjataan oma-aloitteiset verot ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu.",
+            "sv": "Självskattade skatter och arbetsgivares sjukförsäkringsavgift, som ännu inte har betalats, bokförs här."
         }
     },
     {
@@ -1708,7 +1712,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin."
+            "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin.",
+            "sv": "Arbetsgivarens pensionsinbetalningar, som betalas senare, bokförs här i samband med löneutbetalning."
         }
     },
     {
@@ -1720,7 +1725,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin."
+            "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin.",
+            "sv": "Detta inkluderar fackföreningsmedlemsavgifter som undanhållits från löner i samband med betalning av löner och kommer att betalas senare."
         }
     },
     {
@@ -1764,7 +1770,8 @@
         "erittely": 2,
         "laajuus": 2,
         "ohje": {
-            "fi": "Tähän kirjataan tilikauden aikana käyttämättä jääneet avustukset, jotka siirretään käytettäväksi seuraavan tilikauden aikana."
+            "fi": "Tähän kirjataan tilikauden aikana käyttämättä jääneet avustukset, jotka siirretään käytettäväksi seuraavan tilikauden aikana.",
+            "sv": "Detta inkluderar outnyttjade bidrag under räkenskapsåret som överförs för användning under följande räkenskapsår."
         }
     },    
     {
@@ -1826,7 +1833,8 @@
         },
         "laajuus": 1,
         "ohje": {
-            "fi": "Tähän kirjataan nimettyä toimintaa tai tapahtumaa varten annetut avustukset. Kaikkea yhdistyksen toimintaa varten annetut avustukset kirjataan tilille 8800 Yleisavustukset."
+            "fi": "Tähän kirjataan nimettyä toimintaa tai tapahtumaa varten annetut avustukset. Kaikkea yhdistyksen toimintaa varten annetut avustukset kirjataan tilille 8800 Yleisavustukset.",
+            "sv": "Bidrag för en namngiven aktivitet eller händelse registreras här. Bidrag som beviljas för föreningens samtliga verksamheter bokförs på kontot 8800 allmänna bidrag."
         }
     },
     {
@@ -1914,7 +1922,8 @@
         },
         "laajuus": 1,
         "ohje": {
-            "fi": "Tähän kirjataan yhdistyksen toimintaan tilapäisesti vuokrattujen tilojen ja kaluston vuokramaksut. Jos yhdistys vuokraa itselleen toimiston tai toimitilan, kirjataan sen kulut toimitilakuluiksi 4401."
+            "fi": "Tähän kirjataan yhdistyksen toimintaan tilapäisesti vuokrattujen tilojen ja kaluston vuokramaksut. Jos yhdistys vuokraa itselleen toimiston tai toimitilan, kirjataan sen kulut toimitilakuluiksi 4401.",
+            "sv": "Här bokförs hyresavgifter för lokaler och utrustning som tillfälligt hyrs ut till föreningens verksamhet. Om föreningen hyr ut ett kontorsutrymme bokförs dess utgifter som kostnader för lokalerna 4401."
         }
     },
     {
@@ -1936,7 +1945,8 @@
         },
         "laajuus": 1,
         "ohje": {
-            "fi": "Tähän kirjataan yhdistyksen maksamat jäsenmaksut. Kuitenkin jos yhdistyksen jäseneltä keräämään jäsenmaksuun sisältyy keskusjärjestön jäsenmaksu, jonka yhdistys tilittää eteenpäin, on se läpimenoerä ja maksetaan saatujen jäsenmaksujen 7310 vähennyksenä."
+            "fi": "Tähän kirjataan yhdistyksen maksamat jäsenmaksut. Kuitenkin jos yhdistyksen jäseneltä keräämään jäsenmaksuun sisältyy keskusjärjestön jäsenmaksu, jonka yhdistys tilittää eteenpäin, on se läpimenoerä ja maksetaan saatujen jäsenmaksujen 7310 vähennyksenä.",
+            "sv": "Medlemsavgifterna som betalas av föreningen bokförs här. Medlemsavgifterna för centralorganisationen, som tas ut av en medlem i föreningen med föreningens medlemsavgift och föras vidare, bokförs som avdrag på kontot 7310 Medlemsavgifterna."
         }
     },
     {
@@ -1958,7 +1968,8 @@
         },
         "laajuus": 2,
         "ohje": {
-            "fi": "Tähän kirjataan yhdistyksen omassa käytössä olevien toimitilojen vuokrat. Jos yhdistys vuokraa tilan yksittäistä tapahtumaa varten, kirjataan se varsinaisen toiminnan vuokramenoihin 4200."
+            "fi": "Tähän kirjataan yhdistyksen omassa käytössä olevien toimitilojen vuokrat. Jos yhdistys vuokraa tilan yksittäistä tapahtumaa varten, kirjataan se varsinaisen toiminnan vuokramenoihin 4200.",
+            "sv": "Hyrorna i de lokaler som används av föreningens egna lokaler registreras här. Om föreningen hyr ut utrymmet för ett enda evenemang bokförs det i hyreskostnaderna för den ordinarie verksamheten 4 200."
         }
     },
     {
@@ -2226,7 +2237,8 @@
         },
         "laajuus": 1,
         "ohje": {
-            "fi": "Tähän kirjataan ne kone- ja kalustohankinnat, joita ei aktivoida taseeseen tilille 1160 Koneet ja kalusto."
+            "fi": "Tähän kirjataan ne kone- ja kalustohankinnat, joita ei aktivoida taseeseen tilille 1160 Koneet ja kalusto.",
+            "sv": "Detta inkluderar inköp av maskiner och utrustning som inte aktiveras i balansräkningen för konto 1160 Maskiner och inventarier."
         }
     },
     {
@@ -2238,7 +2250,8 @@
             "sv": "Hyror, maskiner och inventarier"
         },
         "ohje": {
-            "fi": "Tähän kirjataan yhdistyksen käyttöön pitkäaikaisesti vuokrattujen koneiden ja kaluston vuokramaksut. Jos kalustoa vuokrataan vain yksittäistä tilaisuutta varten, kirjataan se tilille 4200 Varsinaisen toiminnan vuokramaksut."
+            "fi": "Tähän kirjataan yhdistyksen käyttöön pitkäaikaisesti vuokrattujen koneiden ja kaluston vuokramaksut. Jos kalustoa vuokrataan vain yksittäistä tilaisuutta varten, kirjataan se tilille 4200 Varsinaisen toiminnan vuokramaksut.",
+            "sv": "Detta inkluderar hyresavgifter för långtids hyrade maskiner och utrustning för föreningens användning. Om utrustningen endast hyrs för ett enda evenemang bokförs den på konto 4200 Hyresavgifter för den faktiska verksamheten."
         },
         "laajuus": 1
     },
@@ -2539,7 +2552,8 @@
             "sv": "Övriga kostnader för den egentliga verksamheten"
         },
         "ohje": {
-            "fi": "Jos yhdistyksessä ei haluta eritellä toiminnan kuluja sen tarkemmin, kuin tuloslaskelman pohjalta on pakollista, voidaan tälle tilille kirjata kaikki varsinaisen toiminnan kulut, jotka eivät ole poistoja eivätkä henkilöstökuluja."
+            "fi": "Jos yhdistyksessä ei haluta eritellä toiminnan kuluja sen tarkemmin, kuin tuloslaskelman pohjalta on pakollista, voidaan tälle tilille kirjata kaikki varsinaisen toiminnan kulut, jotka eivät ole poistoja eivätkä henkilöstökuluja.",
+            "sv": "Om föreningen inte vill specificera driftskostnaderna mer exakt än vad som är obligatoriskt på grundval av resultaträkningen, får alla rörelsekostnader som inte är avskrivningar eller personalkostnader bokföras på detta konto."
         },
         "laajuus": 1
     },
@@ -2571,7 +2585,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Yhdistyksen maksamat bruttopalkat"
+            "fi": "Yhdistyksen maksamat bruttopalkat",
+            "sv": "Föreningens bruttolöner"
         }
     },
     {
@@ -2584,7 +2599,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Työehtosopimuksen mukaiset lisät (ylityö-, ilta-, sunnuntailisät ...)"
+            "fi": "Työehtosopimuksen mukaiset lisät (ylityö-, ilta-, sunnuntailisät ...)",
+            "sv": "Tillägg enligt kollektivavtalet (övertid, kväll, söndagstillägg ...)"
         }
     },
     {
@@ -2598,7 +2614,8 @@
         "laajuus": 3,
         "ohje": {
             "fi": "Palkkiot ja työkorvaukset, joita ei makseta työsuhteessa (kokous- ja luentopalkkiot)",
-            "en": "Commissions and work allowances not paid in employment (e.g. meeting and lecture fees)"
+            "en": "Commissions and work allowances not paid in employment (e.g. meeting and lecture fees)",
+            "sv": "Arvodena och ersättningna för arbete ej betald i anställningsförhållande (mötes- och föreläsningsavgifter)"
         }
     },
     {
@@ -2611,7 +2628,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Loma-ajan palkka, lomakorvaus, lomaltapaluuraha, sairaus ja vanhempainloma-ajan palkka ja muu korvaus palkallisesta poissaolosta."
+            "fi": "Loma-ajan palkka, lomakorvaus, lomaltapaluuraha, sairaus ja vanhempainloma-ajan palkka ja muu korvaus palkallisesta poissaolosta.",
+            "sv": "Lön för sjuktiden och föräldrapennigtiden, semesterersättning, semesterpenning, lön för sjuktiden och föräldrapennigtiden samt annan ersättning för betald frånvaro"
         }
     },
     {
@@ -2624,7 +2642,8 @@
         },
         "laajuus": 4,
         "ohje": {
-            "fi": "Työntekijälle annettujen luontoisetujen verotusarvot."
+            "fi": "Työntekijälle annettujen luontoisetujen verotusarvot.",
+            "sv": "Skattevärden av naturaförmåner som ges till en anställd "
         }
     },
     {
@@ -2656,7 +2675,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "TyEL tms. lakisääteinen eläkevakuutusmaksu."
+            "fi": "TyEL tms. lakisääteinen eläkevakuutusmaksu.",
+            "sv": "ArPL, etc. lagstadgad pensionsförsäkringsavgift."
         }
     },
     {
@@ -2679,7 +2699,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Työnantajan lakisääteinen sairausvakuutusmaksu."
+            "fi": "Työnantajan lakisääteinen sairausvakuutusmaksu.",
+            "sv": "Arbetsgivarens lagstadgade sjukförsäkringsavgift."
         }
     },
     {
@@ -2692,7 +2713,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Lakisääteinen Työttömyysvakuutusrahaston maksu."
+            "fi": "Lakisääteinen Työllisyysrahaston maksu.",
+            "sv": "Lagstadgat avgift till Sysselsättingfonden."
         }
     },
     {
@@ -2705,7 +2727,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Lakisääteinen työtapaturma- ja ammattitautuvakuutus ja työsopimukseen perustuva pakollinen työntekijäin ryhmähenkivakuutus."
+            "fi": "Lakisääteinen työtapaturma- ja ammattitautuvakuutus ja työsopimukseen perustuva pakollinen työntekijäin ryhmähenkivakuutus.",
+            "sv": "Lagstadgad försäkring mot olycksfall i arbetet och arbetssjukdomar och obligatorisk livförsäkring för anställdas grupp på grundval av anställningsavtal"
         }
     },
     {
@@ -2718,7 +2741,8 @@
         },
         "laajuus": 4,
         "ohje": {
-            "fi": "Työnantajan vapaaehtoisesti ottamat vakuutukset työntekijöille."
+            "fi": "Työnantajan vapaaehtoisesti ottamat vakuutukset työntekijöille.",
+            "sv": "Försäkringar som tecknas frivilligt av arbetsgivaren för anställda."
         }
     },
     {
@@ -3216,7 +3240,8 @@
             "sv": "Erhållna allmänna understöd"
         },
         "ohje": {
-            "fi": "Tähän kirjataan yhdistyksen kaikkea toimintaa varten myönnetyt avustukset. Tiettyä toimintaa tai tapahtumaa varten myönnetyt avustukset kirjataan tilille 3800 Saadut avustukset."
+            "fi": "Tähän kirjataan yhdistyksen kaikkea toimintaa varten myönnetyt avustukset. Tiettyä toimintaa tai tapahtumaa varten myönnetyt avustukset kirjataan tilille 3800 Saadut avustukset.",
+            "sv": "Stipendier som beviljas för föreningens samtliga verksamheter bokförs här. Bidrag som beviljas för en viss aktivitet eller händelse bokförs på konto 3800 Erhållna bidrag."
         },
         "laajuus": 1,
         "jaksotustili": 2990

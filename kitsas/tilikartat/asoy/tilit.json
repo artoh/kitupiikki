@@ -1272,7 +1272,7 @@
         "tyyppi": "H4",
         "nimi": {
             "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
-            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
+            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
         }
     },
     {
@@ -1462,7 +1462,7 @@
         "tyyppi": "H4",
         "nimi": {
             "fi": "Takaisinlainat työeläkevakuutuslaitoksilta",
-            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
+            "sv": "Återlåning från arbetspensionsförsäkringsanstalter"
         }
     },
     {
@@ -1575,7 +1575,10 @@
         },
         "laajuus": 4,
         "erittely": 2,
-        "ohje": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä."
+        "ohje": {
+            "fi": "Ohjelma voidaan määrittää tilittämään maksettava arvonlisävero tälle tilille siinä vaiheessa, kun arvonlisäveroilmoitus on annettu. Tällöin määrä siirretään tilille 2920 Verovelka OmaVeron maksutilanneyhteenvedon pohjalta veron erääntymispäivänä.",
+            "sv": "Du kan ställa in programmet för att kvitta momsen som ska betalas till det här kontot när momsdeklarationen skickas. I detta fall överförs beloppet till konto 2920 Skatteskuld baserat på Min Skatt betalning sammanfattning på dagen för beskattningens förfallodag"
+        }
     },
     {
         "numero": 2984,
@@ -1613,7 +1616,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan oma-aloitteiset verot ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu."
+            "fi": "Tähän kirjataan oma-aloitteiset verot ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu.",
+            "sv": "Självskattade skatter och arbetsgivares sjukförsäkringsavgift, som ännu inte har betalats, bokförs här."
         }
     },
     {
@@ -1625,7 +1629,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin."
+            "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin.",
+            "sv": "Detta bokförs i samband med löneutbetalning, arbetsgivarens pensionsinbetalningar, som kommer senare"
         }
     },
     {
@@ -1637,7 +1642,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin."
+            "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin.",
+            "sv": "Fackföreningsmedlemsavgifter som undanhålls från löner, som kommer att regleras senare, bokförs här i samband med löneutbetalning"
         }
     },
     {
@@ -2040,7 +2046,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "TyEL tms. lakisääteinen eläkevakuutusmaksu."
+            "fi": "TyEL tms. lakisääteinen eläkevakuutusmaksu.",
+            "sv": "ArPL, etc. lagstadgad pensionsförsäkringsavgift."
         }
     },
     {
@@ -2061,7 +2068,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Työnantajan lakisääteinen sairausvakuutusmaksu."
+            "fi": "Työnantajan lakisääteinen sairausvakuutusmaksu.",
+            "sv": "Arbetsgivarens lagstadgade sjukförsäkringsavgift"
         }
     },
     {
@@ -2073,7 +2081,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Lakisääteinen Työttömyysvakuutusrahaston maksu."
+            "fi": "Lakisääteinen Työllisyyssrahaston maksu.",
+            "sv": "Sysselsättningsfondens lagstadgade avgift"
         }
     },
     {
@@ -2085,7 +2094,8 @@
         },
         "laajuus": 3,
         "ohje": {
-            "fi": "Lakisääteinen työtapaturma- ja ammattitautuvakuutus ja työsopimukseen perustuva pakollinen työntekijäin ryhmähenkivakuutus."
+            "fi": "Lakisääteinen työtapaturma- ja ammattitautuvakuutus ja työsopimukseen perustuva pakollinen työntekijäin ryhmähenkivakuutus.",
+            "sv": "Lagstadgad försäkring för olycksfall i arbetet och yrken och obligatorisk livförsäkring för anställda baserat på ett anställningsavtal."
         }
     },
     {
@@ -2097,7 +2107,8 @@
         },
         "laajuus": 4,
         "ohje": {
-            "fi": "Työnantajan vapaaehtoisesti ottamat vakuutukset työntekijöille."
+            "fi": "Työnantajan vapaaehtoisesti ottamat vakuutukset työntekijöille.",
+            "sv": "Försäkringar som tecknas frivilligt av arbetsgivaren för anställda."
         }
     },
     {

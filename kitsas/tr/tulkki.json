@@ -1274,7 +1274,7 @@
         "sv": "Mervärdesskattefordringar"
     },
     "Maksuperusteisen alv:n kohdentamaton saatava": {
-        "sv": "Mervärdeskattefordringar enligt betalningsprincipen utan allokering"
+        "sv": "Icke fördelat mervärdeskattefordringar enligt betalningsprincipen"
     },
     "Verosaatava": {
         "sv": "Skattefordningar"
@@ -1307,7 +1307,7 @@
         "sv": "Mervärdesskatteskuld"
     },
     "Maksuperusteisen alv:n kohdentamaton velka": {
-        "sv": "Mervärdeskatteskulder enligt betalningsprincipen utan allokering"
+        "sv": "Icke fördelat mervärdeskatteskulder enligt betalningsprincipen"
     },
     "Verovelka": {
         "sv": "Skatteskulder"
