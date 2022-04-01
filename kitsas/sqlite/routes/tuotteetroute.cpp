@@ -78,7 +78,7 @@ QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
 {
     QStringList ehdot;
     ehdot << "Tosite.tila >= 100";
-    ehdot << QString("Tosite.tyyppi <> %1 ").arg(TositeTyyppi::MYYNTILASKU);
+    ehdot << QString("Tosite.tyyppi <> %1 ").arg(TositeTyyppi::MAKSUMUISTUTUS);
     if( urlquery.hasQueryItem("alkupvm"))
         ehdot.append(QString("pvm >= '%1'").arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
