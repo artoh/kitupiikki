@@ -14,11 +14,10 @@
         <translation>Om Kitsas</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aboutdialog.ui" line="45"/>
         <source>Copyright © Arto Hyvättinen 2017 - 2019
 Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2021
 palaute@kitsas.fi</source>
-        <translation>Copyright © Arto Hyvättinen 2017 - 2019
+        <translation type="vanished">Copyright © Arto Hyvättinen 2017 - 2019
 Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2021
 palaute@kitsas.fi</translation>
     </message>
@@ -30,6 +29,17 @@ palaute@kitsas.fi</translation>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ohjelmaa saa käyttää, kopioida, levittää ja muokata maksutta GNU General Public License 3:n ehtojen mukaisesti, katso tarkemmin &lt;a href=&quot;https://ohjeet.kitsas.fi/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://ohjeet.kitsas.fi/lisenssi&lt;/span&gt;&lt;/a&gt;, jossa myös tiedot ohjelman käyttämien avoimen lähdekoodin komponenttien käyttöehdoista. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ohjelmalla ei ole mitään takuuta!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;Copyright © Arto Hyvättinen och Kitsas Oy 2019 - 2020&lt;br/&gt;palaute@kitsas.fi&lt;/p&gt;&lt;p&gt;Programmet får  avgiftsfritt användas, kopieras, spridas och redigeras enligt villkoren för GNU General Public License 3, se närmare &lt;a href=&quot;https://ohjeet.kitsas.fi/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://ohjeet.kitsas.fi/lisenssi&lt;/span&gt;&lt;/a&gt;Här finns också information om de villkor som finns för de komponenter programmet använder . &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Programmet har ingen garanti!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aboutdialog.ui" line="45"/>
+        <source>Copyright © Arto Hyvättinen 2017 - 2019
+Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2022
+palaute@kitsas.fi</source>
+        <translation>Copyright © Arto Hyvättinen 2017 - 2019
+Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2022
+palaute@kitsas.fi {2017 ?} {2019
+?} {2019 ?} {2022
+?}</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="82"/>
@@ -7485,12 +7495,12 @@ Kirjanpidossa on yli 10 megatavun kokoisia liitteitä, joita ei voi tallentaa Ki
 I bokföringen finns bilagor som är större än 10 megabyte vilka inte kan lagras i Kitsas molntjänst.</translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="461"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="459"/>
         <source>Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt</source>
         <translation>%1 verifikat har kopierats, storleken på bokföringen som finns i molnet är %L2 Mb</translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="481"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="479"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kaikkia tositteita ei saatu siirrettyä pilveen.</source>
@@ -7499,7 +7509,7 @@ Kaikkia tositteita ei saatu siirrettyä pilveen.</source>
 Alla verifikat kunde inte flyttas till molnet.</translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="484"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="482"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kirjanpitoa on mahdollisesti käsitelty sellaisella ohjelman versiolla, jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on havaittu pilvipalvelun tarkemmissa tarkastuksissa.
@@ -7512,7 +7522,7 @@ Bokföringen kan ha redigerats med en sådan version av programmet som vid redig
 För att kunna kopiera filen till molnet tag kontakt med stödet på Kitsas eller en annan expert.</translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="491"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="489"/>
         <source>Kirjanpidon siirto pilveen epäonnistui virheen %1 takia</source>
         <translation>Bokföringen kunde inte flyttas till molnet på grund av fel %1</translation>
     </message>
@@ -8875,9 +8885,8 @@ som mall
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/tervetuloa.ui" line="48"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2021&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2021&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2021&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="79"/>
@@ -8893,6 +8902,11 @@ Rapportera eventuella fel du hittar.</translation>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kitsas-ohjelmaan ei sisälly minkäänlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelmaa on testattu, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.&lt;/p&gt;&lt;p&gt;Ohjelmaa saa käyttää ja kopioida maksutta &lt;a href=&quot;https://kitupiikki.info/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;GNU General Public License 3&lt;/span&gt;&lt;/a&gt;:n ehtojen mukaisesti.&lt;/p&gt;&lt;p&gt;Ohjelman käynnistyessä ohjelman päivitykset tarkastetaan verkosta, ja samalla tallennetaan tilastoitavaksi anonyymi tieto tietokoneen käyttöjärjestelmästä, ohjelman versiosta ja käytetystä tilikartasta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt; &lt;body&gt; &lt;p&gt; Kitsas ger ingen garanti beträffande programmets funktionalitet eller lämplighet. Programmet har testats, men det kan fortfarande innehålla fel och användaren av programmet ansvarar för all de eventuella skador som orsakats av programmet. &lt;/p&gt; &lt;p&gt; Programmet kan användas och kopieras gratis &lt;a href = &quot; https://kitupiikki.info/license &quot;&gt; &lt;span style =&quot; text-decoration: underline; color: # 2980b9; &quot;&gt; enligt villkoren i GNU General Public License 3 &lt;/span&gt; &lt;/a&gt;. &lt;/ p&gt; &lt;p&gt; När programmet startas kontrolleras programuppdateringar online och samtidigt lagras anonym information om datorns operativsystem, programversion och kontoplan för statistiska ändamål. &lt;/p&gt; &lt;/ body &gt; &lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/tervetuloa.ui" line="48"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2022&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2022&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="97"/>

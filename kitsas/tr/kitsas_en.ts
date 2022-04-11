@@ -16,7 +16,7 @@
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="45"/>
         <source>Copyright © Arto Hyvättinen 2017 - 2019
-Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2021
+Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2022
 palaute@kitsas.fi</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7318,19 +7318,19 @@ Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpid
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="461"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="459"/>
         <source>Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="481"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="479"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kaikkia tositteita ei saatu siirrettyä pilveen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="484"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="482"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kirjanpitoa on mahdollisesti käsitelty sellaisella ohjelman versiolla, jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on havaittu pilvipalvelun tarkemmissa tarkastuksissa.
@@ -7339,7 +7339,7 @@ Tämän kirjanpidon kopioiminen pilveen vaatii kirjanpidon korjaamista ohjelmist
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="491"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="489"/>
         <source>Kirjanpidon siirto pilveen epäonnistui virheen %1 takia</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8656,7 +8656,7 @@ mallipohjana
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="48"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2021&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2022&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
