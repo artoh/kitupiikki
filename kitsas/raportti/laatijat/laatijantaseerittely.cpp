@@ -100,7 +100,7 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
         if( tyyppi == 'S') {    // VAIN SALDO
             RaporttiRivi rr;
             qlonglong saldo = qRound64(tieto.toDouble() * 100);
-            rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(), 4 );
+            rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(kielikoodi()), 4 );
             rr.lisaa( saldo, true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
@@ -110,7 +110,7 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
 
             // Nimike
             RaporttiRivi tilinnimi;
-            tilinnimi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(), 4 );
+            tilinnimi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(kielikoodi()), 4 );
             tilinnimi.lihavoi();
             rk.lisaaRivi(tilinnimi);
 

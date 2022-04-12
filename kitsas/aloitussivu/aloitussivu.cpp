@@ -262,9 +262,9 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->nimiLabel->setVisible(avoinna && !kp()->asetukset()->onko("LogossaNimi") );
     ui->tilikausiCombo->setVisible(avoinna );
     ui->logoLabel->setVisible( avoinna && !kp()->logo().isNull());
-    ui->varmistaNappi->setEnabled(avoinna);
+    ui->varmistaNappi->setEnabled(avoinna && qobject_cast<SQLiteModel*>(kp()->yhteysModel()) );
     ui->muistiinpanotNappi->setEnabled(avoinna);
-    ui->poistaNappi->setEnabled( avoinna );
+    ui->poistaNappi->setEnabled( avoinna && qobject_cast<SQLiteModel*>(kp()->yhteysModel()));
     ui->pilviPoistaButton->setVisible( avoinna &&
                                        qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
                                        kp()->pilvi()->onkoOikeutta(PilviModel::OMISTAJA) );

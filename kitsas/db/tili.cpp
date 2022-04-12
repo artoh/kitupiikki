@@ -67,10 +67,10 @@ QString Tili::nimiNumeroIban(const QString &kieli) const
     const QString iban = str("iban");
     const QString nimiValeitta = QString(tiliNimi).remove(QRegularExpression("\\s"));
     if( iban.isEmpty() || nimiValeitta.contains(iban, Qt::CaseInsensitive) ) {
-        return nimiNumero();
+        return nimiNumero(kieli);
     } else {
         const Iban ibaniban(iban);
-        return nimiNumero() + " " + ibaniban.valeilla();
+        return nimiNumero(kieli) + " " + ibaniban.valeilla();
     }
 }
 

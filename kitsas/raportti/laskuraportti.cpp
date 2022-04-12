@@ -105,7 +105,7 @@ void LaskuRaportti::tallenna()
     aseta(RaporttiValinnat::VainKitsaalla, ui->vainKitsas->isChecked());
     aseta(RaporttiValinnat::TulostaSummarivit, ui->summaBox->isChecked());
     aseta(RaporttiValinnat::SaldoPvm, ui->saldoPvm->date());
-
+    aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
 
 
 }
