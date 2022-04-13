@@ -6,4 +6,4 @@ Icon=kitsas
 Comment=Avoimen lähdekoodin kirjanpitäjä
 Terminal=false
 Categories=Office;Finance;Qt;
-MimeType=application/vnd.sqlite3
+MimeType=application/vnd.sqlite3;
