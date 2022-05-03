@@ -32,12 +32,12 @@ void PvmRaporttiWidget::lataa()
     ui->eriPaivatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelePaivat));
 
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
+    paivita();
 
     if( !kp()->kohdennukset()->kohdennuksia()) {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
-    } else {
-        paivita();
+    } else {        
         int kohdennus = kp()->raporttiValinnat()->arvo(RaporttiValinnat::Kohdennuksella).toInt();
         ui->kohdennusCheck->setChecked(kohdennus > -1);
         if( kohdennus > -1)
