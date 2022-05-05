@@ -114,7 +114,7 @@ void Budjettivertailu::tallenna()
     Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->kausiCombo->currentIndex() );
     aseta(RaporttiValinnat::AlkuPvm, kausi.alkaa());
     aseta(RaporttiValinnat::LoppuPvm, kausi.paattyy());
-    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData().toInt() :  -1);
+    aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() :  -1);
     aseta(RaporttiValinnat::Tyyppi, "tulos");
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
