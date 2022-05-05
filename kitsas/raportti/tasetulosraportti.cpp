@@ -45,7 +45,7 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
         ui->kohdennusCheck->setText( tr("Kustannuspaikalla"));
         ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KUSTANNUSPAIKAT);
     }
-    else if( tyyppi_ == "tase" || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
+    else if( tyyppi_ == "tase" || tyyppi_ == "kohdennus" || ( !kp()->kohdennukset()->kohdennuksia() && !kp()->kohdennukset()->merkkauksia() ))
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
