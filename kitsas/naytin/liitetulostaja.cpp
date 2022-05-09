@@ -205,11 +205,12 @@ int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter *paint
             sivu++; sivua++;
         }
 
-        tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
-        painter->translate(0, rivinKorkeus * 3);
 
-        painter->drawImage(0,0,scaled);
-        painter->translate(0, scaled.height() + rivinKorkeus );
+        painter->drawImage(0, rivinKorkeus * 3, scaled);
+        tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
+
+        painter->translate(0, rivinKorkeus * 3);
+        painter->translate(0, scaled.height() + rivinKorkeus * 4);
 
         if(ensisivu) {            
             tulostaAlatunniste(painter, tosite, kieli);

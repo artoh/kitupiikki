@@ -144,7 +144,8 @@ void LaatijanTaseTulos::dataSaapuu(int sarake, QVariant *variant)
         while( iter.hasNext()) {
             iter.next();
             int tili = iter.key().toInt();
-            Euro euro = Euro(iter.value().toString());
+            QString euroStr = iter.value().toString();
+            Euro euro = Euro(euroStr);
             if( euro == Euro::Zero) continue;    // Nollaeuroja ei huomioida
 
             if( !eurot_.contains(tili))

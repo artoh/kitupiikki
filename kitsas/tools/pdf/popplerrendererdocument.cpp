@@ -51,7 +51,9 @@ QImage PopplerRendererDocument::renderPage(int page, double resolution)
     if( !pdfSivu)
         return QImage();
 
-    return pdfSivu->renderToImage(resolution, resolution);
+    QImage image = pdfSivu->renderToImage(resolution, resolution);
+    delete pdfSivu;
+    return image;
 }
 
 bool PopplerRendererDocument::locked() const
@@ -75,5 +77,7 @@ QImage PopplerRendererDocument::renderPageToWidth(int page, double width)
     double pdfleveys = pdfSivu->pageSizeF().width();
     double skaala = width / pdfleveys * 72.0;
 
-    return pdfSivu->renderToImage(skaala, skaala);
+    QImage image = pdfSivu->renderToImage(skaala, skaala);
+    delete pdfSivu;
+    return image;
 }

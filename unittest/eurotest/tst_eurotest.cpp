@@ -29,6 +29,7 @@ public:
 private slots:
     void initTestCase();
     void string_to_euro();
+    void less1string_to_euro();
     void qlonglong_to_string();
     void euro_to_qstring();
     void qvariant_to_euro();
@@ -73,6 +74,33 @@ void EuroTest::string_to_euro()
 
     Euro euro5("123");
     QCOMPARE(euro5.cents(), 12300);
+
+    Euro euro6("-123");
+    QCOMPARE(euro6.cents(), -12300);
+}
+
+void EuroTest::less1string_to_euro()
+{
+    Euro euro1("0.01");
+    QCOMPARE(euro1.cents(), 1);
+
+    Euro euro2("-0.01");
+    QCOMPARE(euro2.cents(), -1);
+
+    Euro euro3("0.00");
+    QCOMPARE(euro3.cents(), 0);
+
+    Euro euro4("0.99");
+    QCOMPARE(euro4.cents(), 99);
+
+    Euro euro5("-0.99");
+    QCOMPARE(euro5.cents(), -99);
+
+    Euro euro6("0.5");
+    QCOMPARE(euro6.cents(), 50);
+
+    Euro euro7("-0.5");
+    QCOMPARE(euro7.cents(), -50);
 }
 
 void EuroTest::qlonglong_to_string()

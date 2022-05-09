@@ -185,20 +185,19 @@ qlonglong Euro::stringToCents(const QString &euroString)
     const int decimalIndex = euroString.indexOf('.');
     const int length = euroString.length();
     const int decimals = length - decimalIndex - 1;
+    const int prefix = euroString.contains('-') ? -1 : 1;
 
     if( decimalIndex == -1) {
         return euroString.toLongLong() * 100;
     }
 
-    const qlonglong euros = euroString.left(decimalIndex).toLongLong();
-    const qlonglong extraCents =
-            euroString.mid(decimalIndex + 1, 2).toLongLong() *
-            (euros < 0 ? -1 : 1);
+    const qlonglong euros = qAbs(euroString.left(decimalIndex).toLongLong());
+    const qlonglong extraCents = euroString.mid(decimalIndex + 1, 2).toLongLong();
 
     if( decimals == 1) {
-        return euros * 100 + extraCents * 10;
+        return ( euros * 100 + extraCents * 10 ) * prefix;
     }
-    return euros * 100 + extraCents;
+    return (euros * 100 + extraCents) * prefix;
 
 }
 
