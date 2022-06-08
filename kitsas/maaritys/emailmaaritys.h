@@ -46,10 +46,17 @@ public slots:
     void ilmoitaMuokattu();
     void kokeile();
     void porttiVaihtui(int portti);
+    void vaihdaKieli(int kieleen);
 
 private:
+    void alustaSaateKielet();
+    static QString kielikoodi(int indeksi);
+
+
     Ui::EMailMaaritys *ui;
-    bool paikallinen_=false;
+    bool paikallinen_=false;    
+    QVariantMap saate_;
+    int nykyTab_ = -1;
 
 };
 

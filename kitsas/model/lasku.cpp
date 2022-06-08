@@ -17,6 +17,8 @@
 #include "lasku.h"
 #include "tositerivit.h"
 #include "laskutus/viitenumero.h"
+#include "db/kirjanpito.h"
+#include "laskutus/iban.h"
 
 Lasku::Lasku()
     : KantaVariantti()
@@ -121,4 +123,25 @@ QDate Lasku::oikaiseErapaiva(QDate erapvm)
            (erapvm.day()>= 24 && erapvm.day() <= 26 && erapvm.month()==12))
         erapvm = erapvm.addDays(1);
     return erapvm;
+}
+
+QString Lasku::tulkkaaMuuttujat(const QString &teksti)
+{
+    if( !teksti.contains("{{")) return teksti;
+    QString ulos(teksti);
+
+    ulos.replace("{{erapvm}}", erapvm().toString("dd.MM.yyyy"));
+    ulos.replace("{{laskunumero}}", numero());
+    ulos.replace("{{yhteensa}}", summa().display());
+
+    QString ibanstr = kp()->asetukset()->asetus(AsetusModel::LaskuIbanit).split(",").value(0);
+    Iban iban(ibanstr);
+    bool rf = kp()->asetukset()->onko(AsetusModel::LaskuRF);
+
+    ulos.replace("{{viitenumero}}", rf ? viite().rfviite() : viite().valeilla());
+    ulos.replace("{{iban}}", iban.valeilla() );
+    ulos.replace("{{virtuaaliviivakoodi}}", virtuaaliviivakoodi(iban, rf));
+    ulos.replace("{{yritys}}", kp()->asetukset()->nimi());
+
+    return ulos;
 }

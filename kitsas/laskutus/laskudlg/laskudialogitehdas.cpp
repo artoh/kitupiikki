@@ -32,6 +32,9 @@
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
 #include "model/tositeloki.h"
+#include "db/kirjanpito.h"
+
+#include <QJsonDocument>
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
     QObject(parent),
@@ -65,6 +68,11 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );            
     tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
     tosite->lasku().setHuomautusAika( instanssi__->kitsas_->asetukset()->luku("LaskuHuomautusaika") );
+
+    QVariantMap saateMap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() ).toVariant().toMap();
+    QVariantMap saateKielella = saateMap.value( Kielet::instanssi()->nykyinen().toLower() ).toMap();
+    tosite->lasku().setSaate( saateKielella.value("sisalto").toString() );
+    tosite->lasku().setSaateOtsikko( saateKielella.value("otsikko").toString());
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();

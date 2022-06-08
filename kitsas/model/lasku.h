@@ -63,8 +63,8 @@ public:
     QString saate() const { return str("saate");}
     void setSaate(const QString& saate) { setStr("saate", saate);}
 
-    bool saatteessaMaksutiedot() const { return luku("saatemaksutiedot") > 0;}
-    void setSaatteessaMaksutiedot(bool onko) { if(onko) set("saatemaksutiedot", 1); else unset("toistohinnastonmukaan"); }
+    QString saateOtsikko() const { return str("saateotsikko");}
+    void setSaateOtsikko(const QString& otsikko) { setStr("saateotsikko", otsikko);}
 
     int valvonta() const { return luku("valvonta");}
     void setValvonta(int valvonta) { set("valvonta", valvonta);}
@@ -163,6 +163,8 @@ public:
 
 
     static QDate oikaiseErapaiva(QDate erapvm);
+
+    QString tulkkaaMuuttujat(const QString& teksti);
 
 };
 

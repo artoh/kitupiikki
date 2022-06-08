@@ -158,6 +158,8 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->lokiView, &QTableView::clicked, this, &KantaLaskuDialogi::naytaLoki);
     connect( ui->ohjeNappi, &QPushButton::clicked, this, [this] { kp()->ohje( this->ohje() ); });
 
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::kieliVaihtuu);
+
 }
 
 void KantaLaskuDialogi::alustaMaksutavat()
@@ -282,7 +284,7 @@ void KantaLaskuDialogi::tositteelta()
     ui->erittelyTextEdit->setPlainText( lasku.erittely().join('\n') );
 
     ui->saateEdit->setPlainText( lasku.saate() );
-    ui->saateMaksutiedotCheck->setChecked( lasku.saatteessaMaksutiedot());        
+    ui->saateOtsikkoEdit->setText( lasku.saateOtsikko());
 
     tositteeltaKaynnissa_ = false;
     paivitaViiteRivi();
@@ -353,7 +355,7 @@ void KantaLaskuDialogi::tositteelle()
         tosite()->lasku().setErittely(QStringList());
 
     tosite()->lasku().setSaate( ui->saateEdit->toPlainText() );
-    tosite()->lasku().setSaatteessaMaksutiedot( ui->saateMaksutiedotCheck->isChecked() );
+    tosite()->lasku().setSaateOtsikko( ui->saateOtsikkoEdit->text());
 
     // #1034 Tositetyyppi laskua tallennettaessa
     if( (kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan)) &&
@@ -661,6 +663,28 @@ void KantaLaskuDialogi::toimitusPaivaMuuttuu(const QDate &pvm)
     ui->jaksoDate->setEnabled(pvm.isValid());
     if( pvm.isValid())
         ui->jaksoDate->setDateRange( pvm, QDate() );
+}
+
+void KantaLaskuDialogi::kieliVaihtuu()
+{
+    // Saate päivittyy uudelle kielelle, jos se on edelleen oletusmuodossa
+    QVariantMap saateMap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() ).toVariant().toMap();
+    QMapIterator<QString,QVariant> iter(saateMap);
+    while(iter.hasNext()) {
+        iter.next();
+        QVariantMap tmap = iter.value().toMap();
+        QString totsikko = tmap.value("otsikko").toString();
+        QString tsisalto = tmap.value("sisalto").toString();
+
+        if( totsikko == ui->saateOtsikkoEdit->text() && tsisalto == ui->saateEdit->toPlainText() ) {
+            // Saate on oletusmuodossa, joten se päivittyy
+            const QString kieli = ui->kieliCombo->currentData().toString().toLower();
+            QVariantMap umap = saateMap.value(kieli).toMap();
+            ui->saateOtsikkoEdit->setText(umap.value("otsikko").toString());
+            ui->saateEdit->setPlainText(umap.value("sisalto").toString());
+            return;
+        }
+    }
 }
 
 QString KantaLaskuDialogi::otsikko() const

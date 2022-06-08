@@ -17,6 +17,7 @@
 
 #include <QSettings>
 #include <QSslSocket>
+#include <QJsonDocument>
 
 #include "emailmaaritys.h"
 #include "db/kirjanpito.h"
@@ -29,6 +30,7 @@
 EmailMaaritys::EmailMaaritys() :
     ui(new Ui::EMailMaaritys)
 {
+
     ui->setupUi(this);
 
     connect( ui->palvelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
@@ -40,14 +42,19 @@ EmailMaaritys::EmailMaaritys() :
     connect( ui->kopioEdit, &QLineEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
 
     connect( ui->tkAsetusRadio, &QRadioButton::toggled, this, &EmailMaaritys::ilmoitaMuokattu);
-    connect( ui->maksutiedotRadio, &QRadioButton::toggled, this, &EmailMaaritys::ilmoitaMuokattu);
-    connect( ui->saateEdit, &QPlainTextEdit::textChanged , this, &EmailMaaritys::ilmoitaMuokattu);
+
     connect( ui->tyyppiCombo, &QComboBox::currentTextChanged, this, &EmailMaaritys::ilmoitaMuokattu);
 
     connect( ui->kokeileNappi, SIGNAL(clicked(bool)), this, SLOT(kokeile()));
     connect( ui->porttiSpin, SIGNAL(valueChanged(int)), this, SLOT(porttiVaihtui(int)));
 
+    connect( ui->saateOtsikkoEdit, &QLineEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
+    connect( ui->saateEdit, &QPlainTextEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
+    connect( ui->kieliTab, &QTabBar::currentChanged, this, &EmailMaaritys::vaihdaKieli);
+
     ui->testiLabel->hide();
+
+    alustaSaateKielet();
 }
 
 EmailMaaritys::~EmailMaaritys()
@@ -101,21 +108,19 @@ bool EmailMaaritys::nollaa()
         ui->kpAsetusRadio->setChecked(true);
     }
 
-
-    ui->maksutiedotRadio->setChecked( kp()->asetukset()->luku("EmailMuoto") > 0 );
-    ui->saateRadio->setChecked( kp()->asetukset()->luku("EmailMuoto") == 0);
-    ui->saateEdit->setPlainText( kp()->asetukset()->asetus("EmailSaate") );
+    QJsonDocument doc = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() );
+    saate_ = doc.toVariant().toMap();
+    nykyTab_ = -1;
+    vaihdaKieli( ui->kieliTab->currentIndex() );
 
     ui->kpAsetusRadio->setDisabled( paikallinen_ );
-    ui->saateEdit->setDisabled( paikallinen_ );
-    ui->maksutiedotRadio->setDisabled( paikallinen_ );
-    ui->saateEdit->setDisabled( paikallinen_ );
 
     return true;
 }
 
 bool EmailMaaritys::tallenna()
 {
+
     if( ui->tkAsetusRadio->isChecked()) {
         kp()->settings()->setValue("SmtpServer", ui->palvelinEdit->text());
         kp()->settings()->setValue("SmtpPort", ui->porttiSpin->value());
@@ -138,10 +143,8 @@ bool EmailMaaritys::tallenna()
         kp()->asetukset()->aseta(AsetusModel::EmailSSL, sslAsetus(ui->tyyppiCombo->currentIndex()));
     }
 
-    if( !paikallinen_ ) {
-        kp()->asetukset()->aseta("EmailMuoto", ui->maksutiedotRadio->isChecked() ? 1 : 0);
-        kp()->asetukset()->aseta("EmailSaate", ui->saateEdit->toPlainText());
-    }
+    QString saateStr = QString::fromUtf8( QJsonDocument::fromVariant(saate_).toJson() );
+    kp()->asetukset()->aseta(AsetusModel::EmailSaate, saateStr);
 
     return true;
 }
@@ -167,11 +170,10 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->asetukset()->asetus(AsetusModel::EmailKopio) != ui->kopioEdit->text() ||
             kp()->asetukset()->asetus(AsetusModel::EmailSSL) != sslAsetus(ui->tyyppiCombo->currentIndex());
 
+    vaihdaKieli( ui->kieliTab->currentIndex());
+    QString saateStr = QString::fromUtf8( QJsonDocument::fromVariant(saate_).toJson() );
 
-    int emailmuoto = ui->maksutiedotRadio->isChecked() ? 1 : 0;
-
-    return muokattu || emailmuoto != kp()->asetukset()->luku( AsetusModel::EmailMuoto) ||
-            ui->saateEdit->toPlainText() != kp()->asetukset()->asetus(AsetusModel::EmailSaate);
+    return muokattu || saateStr != kp()->asetukset()->asetus(AsetusModel::EmailSaate);
 
 }
 
@@ -248,5 +250,37 @@ void EmailMaaritys::porttiVaihtui(int portti)
         ui->tyyppiCombo->setCurrentIndex(SmtpClient::SslConnection);
     else if(portti == 587)
         ui->tyyppiCombo->setCurrentIndex(SmtpClient::TlsConnection);
+}
+
+void EmailMaaritys::vaihdaKieli(int kieleen)
+{
+    if( nykyTab_ > -1) {
+        QVariantMap data;
+        data.insert("otsikko", ui->saateOtsikkoEdit->text());
+        data.insert("sisalto", ui->saateEdit->toPlainText());
+        saate_[kielikoodi(nykyTab_)] = data;
+    }
+    if( kieleen > -1 && kieleen != nykyTab_) {
+        nykyTab_ = kieleen;
+        QVariantMap uusi = saate_.value(kielikoodi(kieleen)).toMap();
+        ui->saateOtsikkoEdit->setText(uusi.value("otsikko").toString());
+        ui->saateEdit->setPlainText(uusi.value("sisalto").toString());
+    }
+}
+
+void EmailMaaritys::alustaSaateKielet()
+{
+    ui->kieliTab->addTab(QIcon(":/liput/fi.png"), tr("suomi"));
+    ui->kieliTab->addTab(QIcon(":/liput/sv.png"), tr("ruotsi"));
+    ui->kieliTab->addTab(QIcon(":/liput/en.png"), tr("englanti"));
+}
+
+QString EmailMaaritys::kielikoodi(int indeksi)
+{
+    if( indeksi == 1)
+        return "sv";
+    if( indeksi == 2)
+        return "en";
+    return "fi";
 }
 

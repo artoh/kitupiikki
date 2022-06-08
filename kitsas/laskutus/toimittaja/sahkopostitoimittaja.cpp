@@ -70,10 +70,13 @@ void SahkopostiToimittaja::toimita()
 
     LaskunTulostaja tulostaja(kp());
 
-    QString otsikko = QString("%3 %1 %2").arg(tosite.lasku().numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
+    QString otsikko = tosite.lasku().tulkkaaMuuttujat( tosite.lasku().saateOtsikko() );
+    if( otsikko.isEmpty()) {
+        otsikko = QString("%3 %1 %2").arg(tosite.lasku().numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
             tosite.tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
                            (tosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
                                                                             : tulkkaa("laskuotsikko", kieli)));
+    };
 
     MimeMessage message;
     message.setHeaderEncoding(MimePart::QuotedPrintable);
@@ -85,15 +88,9 @@ void SahkopostiToimittaja::toimita()
 
     message.setSubject(otsikko);
 
-    QString viesti = tosite.lasku().saate();
+    QString viesti = tosite.lasku().tulkkaaMuuttujat(tosite.lasku().saate());
     if(viesti.isEmpty())
-        viesti = kp()->asetukset()->asetus("EmailSaate");
-
-    if( kp()->asetukset()->luku("EmailMuoto")) {
-        if(!viesti.isEmpty())
-            viesti.append("\n\n");
-        viesti.append( maksutiedot(tosite) );
-    }
+        viesti = tosite.lasku().tulkkaaMuuttujat( kp()->asetukset()->asetus("EmailSaate") );
 
     MimeText text(viesti);
     message.addPart(&text);

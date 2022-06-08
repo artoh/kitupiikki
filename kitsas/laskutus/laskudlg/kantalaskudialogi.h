@@ -86,6 +86,8 @@ protected:
     QDate paivamaara() const;
     void toimitusPaivaMuuttuu(const QDate &pvm);
 
+    void kieliVaihtuu();
+
 private:
     void alustaUi();
     void alustaRivitTab();
