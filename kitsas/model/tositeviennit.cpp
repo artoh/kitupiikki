@@ -148,7 +148,12 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                                                     rivi.value("era").toMap().value("pvm").toDate(),
                                                     rivi.value("era").toMap().value("sarja").toString()) );
                 }
-            }            
+            } else if( rivi.era().contains("huoneisto")) {
+                txt.append( rivi.era().value("huoneisto").toMap().value("nimi").toString());
+            } else if( rivi.era().contains("asiakas")) {
+                txt.append( rivi.era().value("asiakas").toMap().value("nimi").toString());
+            }
+
             return txt;
 
         }
@@ -183,6 +188,11 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
         {
             return kp()->alvTyypit()->kuvakeKoodilla( rivi.data(TositeVienti::ALVKOODI).toInt() );
         } else if( index.column() == KOHDENNUS ) {
+            if( rivi.value("era").toMap().contains("huoneisto"))
+                return QIcon(":/pic/talo.png");
+            if( rivi.value("era").toMap().contains("asiakas"))
+                return QIcon(":/pic/mies.png");
+
             if( rivi.contains("era") && rivi.value("era").toMap().value("saldo") == 0 )
                 return QIcon(":/pic/ok.png");
             Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt() );
