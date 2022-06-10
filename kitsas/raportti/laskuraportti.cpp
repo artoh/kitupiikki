@@ -36,8 +36,10 @@ LaskuRaportti::LaskuRaportti()
     const QString rajaus = arvo(RaporttiValinnat::LaskuRajausTyyppi).toString();
     if( rajaus == "erapvm")
         ui->rajaaEra->setChecked(true);
-    else
+    else if( rajaus == "laskupvm")
         ui->rajaaPvm->setChecked(true);
+    else
+        ui->tulostaKaikki->setChecked(true);
 
     ui->avoimet->setChecked( onko(RaporttiValinnat::VainAvoimet) );
 
@@ -85,8 +87,10 @@ void LaskuRaportti::tallenna()
 
     if( ui->rajaaPvm->isChecked())
         aseta(RaporttiValinnat::LaskuRajausTyyppi, "laskupvm");
-    else
+    else if( ui->rajaaEra->isChecked())
         aseta(RaporttiValinnat::LaskuRajausTyyppi, "erapvm");
+    else
+        aseta(RaporttiValinnat::LaskuRajausTyyppi, "kaikki");
 
     aseta(RaporttiValinnat::VainAvoimet, ui->avoimet->isChecked());
 
