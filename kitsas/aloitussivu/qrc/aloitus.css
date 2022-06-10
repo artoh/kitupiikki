@@ -124,6 +124,17 @@ td.otsikko
     font-weight: bold;
 }
 
+td.saldootsikko
+{
+    font-weight: bold;
+}
+
+tr.tulosrivi
+{
+    color: #555555;
+}
+
+
 td.euro
 {
     width: 25%;

@@ -1046,12 +1046,22 @@ QString AloitusSivu::summat()
     txt.append("<table width=100% class=saldot>");
 
     int rivi=0;
+    QString edellinen = "0";
 
     QMapIterator<QString,QVariant> iter(saldot_);
     while( iter.hasNext()) {
         iter.next();
+        QString tiliteksti = iter.key();
         int tilinumero = iter.key().toInt();
         double saldo = iter.value().toDouble();
+
+        if( tiliteksti.at(0) == '1' && edellinen.at(0) != '1')
+            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Vastaavaa") + "</td></tr>");
+        if( tiliteksti.at(0) == '2' && edellinen.at(0) != '2')
+            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Vastattavaa") + "</td></tr>");
+        if( tiliteksti.at(0) > '2' && edellinen.at(0) <= '2')
+            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Tuloslaskelma") + "</td></tr>");
+        edellinen = tiliteksti;
 
         txt.append( QString("<tr class=%4><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>")
                     .arg(tilinumero)
@@ -1060,6 +1070,11 @@ QString AloitusSivu::summat()
                     .arg(rivi++ % 4 == 3 ? "tumma" : "vaalea"));
 
     }
+    QString tulostili = QString::number(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero()) ;
+    double saldo = saldot_.value( tulostili ).toDouble();
+
+    txt.append( QString("<tr class=tulosrivi><td>" + tr("Tilikauden tulos") + "</td><td class=euro>%L1 €</td></tr>")
+                .arg(saldo,0,'f',2) );
     txt.append("</table>");
 
     return txt;
