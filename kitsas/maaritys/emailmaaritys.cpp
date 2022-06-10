@@ -22,6 +22,7 @@
 #include "emailmaaritys.h"
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
+#include "emailkentankorostin.h"
 
 #include "smtpclient/SmtpMime"
 #include <QMessageBox>
@@ -48,13 +49,16 @@ EmailMaaritys::EmailMaaritys() :
     connect( ui->kokeileNappi, SIGNAL(clicked(bool)), this, SLOT(kokeile()));
     connect( ui->porttiSpin, SIGNAL(valueChanged(int)), this, SLOT(porttiVaihtui(int)));
 
-    connect( ui->saateOtsikkoEdit, &QLineEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
+    connect( ui->saateOtsikkoEdit, &QPlainTextEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
     connect( ui->saateEdit, &QPlainTextEdit::textChanged, this, &EmailMaaritys::ilmoitaMuokattu);
     connect( ui->kieliTab, &QTabBar::currentChanged, this, &EmailMaaritys::vaihdaKieli);
 
     ui->testiLabel->hide();
 
     alustaSaateKielet();
+
+    new EmailKentanKorostin( ui->saateOtsikkoEdit->document());
+    new EmailKentanKorostin( ui->saateEdit->document());
 }
 
 EmailMaaritys::~EmailMaaritys()
@@ -256,14 +260,14 @@ void EmailMaaritys::vaihdaKieli(int kieleen)
 {
     if( nykyTab_ > -1) {
         QVariantMap data;
-        data.insert("otsikko", ui->saateOtsikkoEdit->text());
+        data.insert("otsikko", ui->saateOtsikkoEdit->toPlainText());
         data.insert("sisalto", ui->saateEdit->toPlainText());
         saate_[kielikoodi(nykyTab_)] = data;
     }
     if( kieleen > -1 && kieleen != nykyTab_) {
         nykyTab_ = kieleen;
         QVariantMap uusi = saate_.value(kielikoodi(kieleen)).toMap();
-        ui->saateOtsikkoEdit->setText(uusi.value("otsikko").toString());
+        ui->saateOtsikkoEdit->setPlainText(uusi.value("otsikko").toString());
         ui->saateEdit->setPlainText(uusi.value("sisalto").toString());
     }
 }
