@@ -3,11 +3,11 @@
 EmailKentanKorostin::EmailKentanKorostin(QTextDocument *parent) : QSyntaxHighlighter(parent)
 {
     korostettavat_ << "{{erapvm}}"
-        << "{{laskunumero}}"
-        << "{{yhteensa}}"
-        << "{{viitenumero}}"
+        << "{{numero}}"
+        << "{{summa}}"
+        << "{{viite}}"
         << "{{iban}}"
-        << "{{virtuaaliviivakoodi}}"
+        << "{{virtuaali}}"
         << "{{yritys}}";
 }
 

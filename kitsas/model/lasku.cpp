@@ -131,16 +131,16 @@ QString Lasku::tulkkaaMuuttujat(const QString &teksti)
     QString ulos(teksti);
 
     ulos.replace("{{erapvm}}", erapvm().toString("dd.MM.yyyy"));
-    ulos.replace("{{laskunumero}}", numero());
-    ulos.replace("{{yhteensa}}", summa().display());
+    ulos.replace("{{numero}}", numero());
+    ulos.replace("{{summa}}", summa().display());
 
     QString ibanstr = kp()->asetukset()->asetus(AsetusModel::LaskuIbanit).split(",").value(0);
     Iban iban(ibanstr);
     bool rf = kp()->asetukset()->onko(AsetusModel::LaskuRF);
 
-    ulos.replace("{{viitenumero}}", rf ? viite().rfviite() : viite().valeilla());
+    ulos.replace("{{viite}}", rf ? viite().rfviite() : viite().valeilla());
     ulos.replace("{{iban}}", iban.valeilla() );
-    ulos.replace("{{virtuaaliviivakoodi}}", virtuaaliviivakoodi(iban, rf));
+    ulos.replace("{{virtuaali}}", virtuaaliviivakoodi(iban, rf));
     ulos.replace("{{yritys}}", kp()->asetukset()->nimi());
 
     return ulos;

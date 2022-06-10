@@ -263,7 +263,7 @@
      <property name="title">
       <string>Saateviesti</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,4">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
       <item>
        <widget class="QTabBar" name="kieliTab" native="true"/>
       </item>
@@ -278,6 +278,12 @@
         </item>
         <item row="0" column="1">
          <widget class="QPlainTextEdit" name="saateOtsikkoEdit">
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="tabChangesFocus">
            <bool>true</bool>
           </property>

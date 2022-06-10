@@ -27,6 +27,8 @@
 #include "smtpclient/SmtpMime"
 #include <QMessageBox>
 
+#include <QFontMetrics>
+
 
 EmailMaaritys::EmailMaaritys() :
     ui(new Ui::EMailMaaritys)
@@ -59,6 +61,8 @@ EmailMaaritys::EmailMaaritys() :
 
     new EmailKentanKorostin( ui->saateOtsikkoEdit->document());
     new EmailKentanKorostin( ui->saateEdit->document());
+
+    ui->saateOtsikkoEdit->setFixedHeight( ui->nimiEdit->height() );
 }
 
 EmailMaaritys::~EmailMaaritys()
