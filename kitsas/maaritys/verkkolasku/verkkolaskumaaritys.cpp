@@ -119,7 +119,9 @@ bool VerkkolaskuMaaritys::nollaa()
     ui->postitusCheck->setChecked( kp()->asetukset()->onko("MaventaPostitus") );
 
     ui->noutoCheck->setDisabled(true);
+    ui->postitusCheck->setDisabled(true);
     ui->suosiCheck->setChecked( kp()->asetukset()->onko("FinvoiceSuosi") );
+    ui->suosiCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
 
     valintaMuuttui();
@@ -139,7 +141,8 @@ bool VerkkolaskuMaaritys::nollaa()
         ui->kaytossaGroup->setEnabled(false);
         ui->hakemistoGroup->setEnabled(false);
         ui->maventaGroup->setEnabled(false);
-    }    
+    }            
+
 
     return true;
 }
@@ -171,7 +174,7 @@ void VerkkolaskuMaaritys::valintaMuuttui()
 {
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
     ui->maventaGroup->setVisible( ui->integroitu->isChecked());
-    ui->suosiCheck->setEnabled( !ui->eiKaytossa->isChecked());
+    ui->suosiCheck->setEnabled( !ui->eiKaytossa->isChecked() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
 
     if( ui->integroitu->isChecked()) {
         paivitaMaventa();
@@ -222,8 +225,7 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
                           "Ota Maventan asetuksissa käyttöön Vastaanota ilmoituksia laskujen lähetysvirheistä."));
 
         ui->kayttajaLabel->setText(txt);
-        ui->noutoCheck->setChecked( !info.value("flow").toMap().isEmpty() );
-        ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+        ui->noutoCheck->setChecked( !info.value("flow").toMap().isEmpty() );        
         ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS) ||
                                     kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN));
         ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );

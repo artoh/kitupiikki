@@ -294,6 +294,10 @@ void MaaritysSivu::paivitaNakyvat()
     item( LIITTEET )->setHidden(false); // Liittemääreet aina käytössä
     item( SAHKOPOSTI )->setHidden( kp()->yhteysModel() && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
         // Jos avoimena olevaan kirjanpitoon ei ole asetusoikeuksia, piilotetaan. Siis silloin kun kirjanpitoa ei ole avoinna, voi muokata konekohtaisia asetuksia.
+    item( VERKKOLASKU )->setHidden( !kp()->yhteysModel() ||
+          (!qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->tilausvoimassa() ) ||
+          ( !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) &&
+            !(kp()->asetukset()->luku("FinvoiceKaytossa") > 0 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN))) );
 
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
