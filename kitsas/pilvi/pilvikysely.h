@@ -37,6 +37,7 @@ public slots:
 protected slots:
     void vastausSaapuu();
     void verkkovirhe(QNetworkReply::NetworkError koodi);
+
 };
 
 #endif // PILVIKYSELY_H

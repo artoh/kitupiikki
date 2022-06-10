@@ -100,7 +100,7 @@ void FinvoiceToimittaja::toimita()
             PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                         osoite );
             connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::maventaToimitettu);
-            connect( pk, &KpKysely::virhe, this, [this] (int, QString selite) {  this->virhe(selite);} );
+            connect( pk, &KpKysely::virhe, this, &FinvoiceToimittaja::maventaVirhe);
 
             pk->kysy(pyynto);
         }
@@ -168,4 +168,14 @@ void FinvoiceToimittaja::maventaToimitettu(QVariant *data)
     } else {
         virhe(tr("Verkkolaskun lähettäminen Maventan palveluun epäonnistui. Tarkasta verkkolaskutuksen asetukset"));
     }
+}
+
+void FinvoiceToimittaja::maventaVirhe(int koodi, const QString &selitys)
+{
+    if( koodi == 201 ) {
+        virhe(tr("Käyttäjää ei ole yhdistetty Maventan tunnukseen. Määritä käyttäjä verkkolaskutuksen asetuksista."));
+    } else {
+        this->virhe(selitys);
+    }
+
 }

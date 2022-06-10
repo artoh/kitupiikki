@@ -31,6 +31,7 @@ protected:
     void alustaInit();
     void laskuSaapuu(QVariant* data);
     void maventaToimitettu(QVariant* data);
+    void maventaVirhe(int koodi, const QString& selitys);
 
     QVariantMap init_;
 };
