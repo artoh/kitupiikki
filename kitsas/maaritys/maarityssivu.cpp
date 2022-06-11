@@ -45,6 +45,7 @@
 #include "../kierto/kiertomaaritys.h"
 #include "palkkatilimaaritys.h"
 #include "laskumaaritys.h"
+#include "laskutekstit/laskutekstimaaritys.h"
 
 #include "ui_veromaaritys.h"
 #include "ui_yhteystiedot.h"
@@ -68,6 +69,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Kohdennukset"),KOHDENNUS, "kohdennukset", QIcon(":/pic/kohdennus.png"), "kohdennukset");
     lisaaSivu(tr("Tilinavaus"),TILINAVAUS,  "tilinavaus", QIcon(":/pic/rahaa.png"), "tilinavaus");
     lisaaSivu(tr("Laskutus"), LASKUTUS, "laskutus", QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Laskujen tekstit"), LASKUTEKSTIT, "laskutekstit", QIcon(":/pic/laskuteksti.png"), "laskutekstit");
     lisaaSivu(tr("Oletustilit"),OLETUSTILIT,"oletustilit",QIcon(":/pic/uusitosite.png"));
     lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, "maksutavat", QIcon(":/pic/kateinen.png"), "maksutavat");
     lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, "tositesarjat", QIcon(":/pic/arkisto64.png"),"tositesarjat");
@@ -226,6 +228,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new LiitetietokaavaMuokkaus;
     else if( sivu == LASKUTUS) {
         nykyinen = new LaskuMaaritys;
+    } else if( sivu == LASKUTEKSTIT) {
+        nykyinen = new LaskuTekstiMaaritys;
     } else if( sivu == OLETUSTILIT) {
         nykyinen = new TallentavaMaaritysWidget;
         Ui::OletusTiliMaaritys *ui = new Ui::OletusTiliMaaritys;

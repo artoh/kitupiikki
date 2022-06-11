@@ -31,12 +31,7 @@ Monikielinen::Monikielinen(const QVariant &var)
 
 Monikielinen::Monikielinen(const QString &str)
 {
-    QJsonDocument doc = QJsonDocument::fromJson( str.toUtf8() );
-    if( doc.isEmpty() && !str.isEmpty()) {
-        tekstit_.insert("fi", str);
-    } else {
-        Monikielinen::aseta( doc.toVariant());
-    }
+    aseta(str);
 }
 
 
@@ -66,6 +61,16 @@ void Monikielinen::aseta(const QString &nimi, const QString &kieli)
 void Monikielinen::aseta(const Monikielinen &kielinen)
 {
     tekstit_ = kielinen.tekstit_;
+}
+
+void Monikielinen::aseta(const QString &str)
+{
+    QJsonDocument doc = QJsonDocument::fromJson( str.toUtf8() );
+    if( doc.isEmpty() && !str.isEmpty()) {
+        tekstit_.insert("fi", str);
+    } else {
+        Monikielinen::aseta( doc.toVariant());
+    }
 }
 
 QString Monikielinen::teksti(const QString &kieli) const
@@ -100,3 +105,10 @@ QVariantMap Monikielinen::map() const
     }
     return out;
 }
+
+QString Monikielinen::toString() const
+{
+    QJsonDocument doc = QJsonDocument::fromVariant(map());
+    return QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+}
+

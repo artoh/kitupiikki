@@ -1,5 +1,6 @@
 #include "laatijantaseerittely.h"
 #include "db/kirjanpito.h"
+#include "laskutus/huoneisto/huoneistomodel.h"
 
 LaatijanTaseErittely::LaatijanTaseErittely(RaportinLaatija *laatija, const RaporttiValinnat &valinnat) :
     LaatijanRaportti(laatija, valinnat)
@@ -231,10 +232,14 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
                     RaporttiRivi rr;
 
                     if( emap.contains("id")) {
+                        int eraid = emap.value("id").toInt();
                         lisaaTositeTunnus(&rr, emap);
                         rr.lisaa( emap.value("vientipvm").toDate());
 
                         QString kumppani = emap.value("kumppani").toString();
+                        if( eraid % 10 == -4 ) // Kumppani-sarakkeen alkuun huoneiston tunnus, jos huoneistokohtainen lasku
+                            kumppani = "(" + kp()->huoneistot()->tunnus(eraid / -10) + ") " + kumppani;
+
                         QString selite = emap.value("selite").toString();
 
                         if(kumppani.isEmpty() || selite == kumppani) {

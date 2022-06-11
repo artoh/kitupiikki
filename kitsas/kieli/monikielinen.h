@@ -30,9 +30,12 @@ public:
     virtual void aseta(const QVariant &var) override;
     virtual void aseta(const QString &nimi, const QString &kieli) override;
     void aseta(const Monikielinen& kielinen);
+    void aseta(const QString& str);
     virtual QString teksti(const QString &kieli = QString()) const override;
     virtual QString kaannos(const QString &kieli) const override;
     virtual QVariantMap map() const override;
+    QString toString() const;
+
 
 protected:
     QMap<QString,QString> tekstit_;

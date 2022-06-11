@@ -198,6 +198,7 @@
         <file>kuu.svg</file>
         <file>logovieressa.png</file>
         <file>logoylla.png</file>
+        <file>laskuteksti.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -111,11 +111,13 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
-    $$PWD/maaritys/emailkentankorostin.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.cpp \
     $$PWD/maaritys/laskumaaritys.cpp \
+    $$PWD/maaritys/laskutekstit/emailkentankorostin.cpp \
+    $$PWD/maaritys/laskutekstit/laskutekstimaaritys.cpp \
+    $$PWD/maaritys/laskutekstit/laskutekstitmodel.cpp \
     $$PWD/maaritys/liitemaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
@@ -477,11 +479,13 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
-    $$PWD/maaritys/emailkentankorostin.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.h \
     $$PWD/maaritys/laskumaaritys.h \
+    $$PWD/maaritys/laskutekstit/emailkentankorostin.h \
+    $$PWD/maaritys/laskutekstit/laskutekstimaaritys.h \
+    $$PWD/maaritys/laskutekstit/laskutekstitmodel.h \
     $$PWD/maaritys/liitemaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
@@ -769,6 +773,7 @@ FORMS += \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.ui \
+    $$PWD/maaritys/laskutekstit/laskutekstitmaaritys.ui \
     $$PWD/maaritys/liitemaaritys.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \

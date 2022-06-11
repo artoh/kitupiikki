@@ -667,21 +667,22 @@ void KantaLaskuDialogi::toimitusPaivaMuuttuu(const QDate &pvm)
 
 void KantaLaskuDialogi::kieliVaihtuu()
 {
-    // Saate päivittyy uudelle kielelle, jos se on edelleen oletusmuodossa
-    QVariantMap saateMap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() ).toVariant().toMap();
-    QMapIterator<QString,QVariant> iter(saateMap);
-    while(iter.hasNext()) {
-        iter.next();
-        QVariantMap tmap = iter.value().toMap();
-        QString totsikko = tmap.value("otsikko").toString();
-        QString tsisalto = tmap.value("sisalto").toString();
+    QStringList kielet;
+    kielet << "fi" << "en" << "sv";
 
-        if( totsikko == ui->saateOtsikkoEdit->text() && tsisalto == ui->saateEdit->toPlainText() ) {
-            // Saate on oletusmuodossa, joten se päivittyy
-            const QString kieli = ui->kieliCombo->currentData().toString().toLower();
-            QVariantMap umap = saateMap.value(kieli).toMap();
-            ui->saateOtsikkoEdit->setText(umap.value("otsikko").toString());
-            ui->saateEdit->setPlainText(umap.value("sisalto").toString());
+    const Monikielinen saateOtsikko( kp()->asetukset()->asetus("Laskuteksti/Saate_otsikko") );
+    const Monikielinen saate( kp()->asetukset()->asetus("Laskuteksti/Saate"));
+    const Monikielinen lisatiedot( kp()->asetukset()->asetus("Laskuteksti/Lisatiedot"));
+
+    const QString nykykieli = ui->kieliCombo->currentData().toString().toLower();
+
+    for( auto & kieli : kielet) {
+        if( saateOtsikko.kaannos(kieli) == ui->saateOtsikkoEdit->text() &&
+            saate.kaannos(kieli) == ui->saateEdit->toPlainText() &&
+            lisatiedot.kaannos(kieli) == ui->lisatietoEdit->toPlainText() ) {
+            ui->saateOtsikkoEdit->setText( saateOtsikko.kaannos(nykykieli) );
+            ui->saateEdit->setPlainText( saate.kaannos(nykykieli) );
+            ui->lisatietoEdit->setPlainText( lisatiedot.kaannos(nykykieli));
             return;
         }
     }

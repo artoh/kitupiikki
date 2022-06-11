@@ -34,7 +34,8 @@
 #include "model/tositeloki.h"
 #include "db/kirjanpito.h"
 
-#include <QJsonDocument>
+#include "kieli/monikielinen.h"
+
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
     QObject(parent),
@@ -69,10 +70,10 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
     tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
     tosite->lasku().setHuomautusAika( instanssi__->kitsas_->asetukset()->luku("LaskuHuomautusaika") );
 
-    QVariantMap saateMap = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() ).toVariant().toMap();
-    QVariantMap saateKielella = saateMap.value( Kielet::instanssi()->nykyinen().toLower() ).toMap();
-    tosite->lasku().setSaate( saateKielella.value("sisalto").toString() );
-    tosite->lasku().setSaateOtsikko( saateKielella.value("otsikko").toString());
+    const QString kieli = Kielet::instanssi()->nykyinen().toLower();
+    tosite->lasku().setSaate( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate") ).kaannos(kieli) );
+    tosite->lasku().setSaateOtsikko( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate_otsikko")).kaannos(kieli) );
+    tosite->lasku().setLisatiedot( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Lisatiedot")).kaannos(kieli) );
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();

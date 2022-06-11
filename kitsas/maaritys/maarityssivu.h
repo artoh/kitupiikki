@@ -55,6 +55,7 @@ public:
         KOHDENNUS,
         TILINAVAUS,
         LASKUTUS,
+        LASKUTEKSTIT,
         OLETUSTILIT,
         MAKSUTAVAT,
         TOSITESARJAT,

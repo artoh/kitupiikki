@@ -26,6 +26,8 @@
 #include "db/asetusmodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "kieli/monikielinen.h"
+
 #include <QDebug>
 
 MaksumuistutusMuodostaja::MaksumuistutusMuodostaja(KitsasInterface *kitsas)
@@ -54,6 +56,11 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
     kirjaaKorko(tosite, korkoSaldo, korkoAlkaa, korkoLoppuu, korko, pvm);
 
     tosite->lasku().setSumma( korkoSaldo + yhteensa );
+
+    Monikielinen saateOtsikko( kitsas_->asetukset()->asetus("Laskutekstit/Maksumuistutussaate_otsikko") ) ;
+    Monikielinen saateSisalto( kitsas_->asetukset()->asetus("Laskutekstit/Maksumuistutusssaate"));
+    tosite->lasku().setSaate( saateSisalto.kaannos(tosite->lasku().kieli().toLower()) );
+    tosite->lasku().setSaateOtsikko( saateOtsikko.kaannos(tosite->lasku().kieli().toLower()));
 }
 
 Euro MaksumuistutusMuodostaja::laskeKorko(Euro korkoSaldo, const QDate &korkoAlkaa, const QDate &korkoLoppuu, double korko)
