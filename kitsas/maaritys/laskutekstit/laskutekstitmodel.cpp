@@ -7,8 +7,10 @@ LaskuTekstitModel::LaskuTekstitModel(QObject *parent)
 {
 
     lisaa("Saate", tr("Saateviesti"), tr("Kun lasku lähetetään sähköpostilla, sähköpostiviestin otsikko ja sisältö"), true, true);
-    lisaa("Maksumuistutussaate", tr("Maksumuistutusviesti"), tr("Kun maksumuistutus lähetetään sähköpostilla, sähköpostiviestin otsikko ja sisältö"), true, true);
     lisaa("Lisatiedot", tr("Laskun lisätiedot"), tr("Jokaiselle laskulle oletuksena lisättävät lisätiedot laskun alussa"));
+    lisaa("Maksumuistutussaate", tr("Maksumuistutusviesti"), tr("Kun maksumuistutus lähetetään sähköpostilla, sähköpostiviestin otsikko ja sisältö"), true, true);
+    lisaa("Maksumuistutuslisatiedot", tr("Maksumuistutuksen lisätiedot"), tr("Maksumuistutuksille oletuksena lisättävät lisätiedot laskun alussa"));
+
 }
 
 int LaskuTekstitModel::rowCount(const QModelIndex &parent) const

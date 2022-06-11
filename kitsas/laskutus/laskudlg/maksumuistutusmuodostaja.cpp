@@ -57,10 +57,12 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
 
     tosite->lasku().setSumma( korkoSaldo + yhteensa );
 
-    Monikielinen saateOtsikko( kitsas_->asetukset()->asetus("Laskutekstit/Maksumuistutussaate_otsikko") ) ;
-    Monikielinen saateSisalto( kitsas_->asetukset()->asetus("Laskutekstit/Maksumuistutusssaate"));
+    Monikielinen saateOtsikko( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutussaate_otsikko") ) ;
+    Monikielinen saateSisalto( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutussaate"));
+    Monikielinen lisatieto( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutuslisatiedot"));
     tosite->lasku().setSaate( saateSisalto.kaannos(tosite->lasku().kieli().toLower()) );
     tosite->lasku().setSaateOtsikko( saateOtsikko.kaannos(tosite->lasku().kieli().toLower()));
+    tosite->lasku().setLisatiedot( lisatieto.kaannos(tosite->lasku().kieli().toLower()));
 }
 
 Euro MaksumuistutusMuodostaja::laskeKorko(Euro korkoSaldo, const QDate &korkoAlkaa, const QDate &korkoLoppuu, double korko)

@@ -22,7 +22,7 @@
      <item>
       <widget class="QLabel" name="kuvausLabel">
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -49,6 +49,9 @@
            <height>50</height>
           </size>
          </property>
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -56,7 +59,7 @@
      <item>
       <widget class="QPlainTextEdit" name="sisaltoEdit">
        <property name="tabChangesFocus">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
