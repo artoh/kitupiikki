@@ -195,17 +195,17 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
     while( erakysely.next()) {
         // Tässä haetaan erän aloittavat
         int eraid = erakysely.value(0).toInt();
-        Euro eraAlussa = Euro( tili->onko(TiliLaji::VASTAAVAA) ?
-                    erakysely.value(1).toLongLong() - erakysely.value(2).toLongLong() :
-                    erakysely.value(2).toLongLong() - erakysely.value(1).toLongLong() );
+        Euro alkuMaara = Euro( tili->onko(TiliLaji::VASTAAVAA) ?
+                    Euro::fromCents(erakysely.value(1).toLongLong()) - Euro::fromCents(erakysely.value(2).toLongLong()) :
+                    Euro::fromCents(erakysely.value(2).toLongLong()) - Euro::fromCents(erakysely.value(1).toLongLong()) );
 
         QSqlQuery apukysely( db() );
-        Euro eranAloitus;
+        Euro eranKaudenAlussa;
 
         apukysely.exec(QString("SELECT sum(debetsnt), sum(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND Vienti.pvm<'%2' AND Tosite.tila >= 100 ")
                        .arg(eraid).arg(mista.toString(Qt::ISODate)));
         if( apukysely.next()) {
-           eranAloitus = Euro(tili->onko(TiliLaji::VASTAAVAA) ?
+           eranKaudenAlussa = Euro(tili->onko(TiliLaji::VASTAAVAA) ?
                         apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong() :
                         apukysely.value(1).toLongLong() - apukysely.value(0).toLongLong() );
         }
@@ -220,7 +220,7 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
         QVariantList muutokset;
 
         // Jos erä alkaa tältä tilikaudelta, on erän aloitus osa muutosta
-        Euro eranMuutos = erakysely.value(4).toDate() < mista ? Euro::Zero : eranAloitus ;
+        Euro eranMuutos = erakysely.value("vientipvm").toDate() < mista ? Euro::Zero : alkuMaara ;
 
 
         while( apukysely.next() )
@@ -241,7 +241,7 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
             eranMuutos += summa;
             muutokset.append(map);
         }
-        if( !eranMuutos && !eranAloitus )
+        if( !eranMuutos && !eranKaudenAlussa )
             continue;
         QVariantMap era;
         era.insert("id", erakysely.value(7).toInt());
@@ -251,17 +251,17 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
         era.insert("tunniste", erakysely.value(6));
         era.insert("selite", erakysely.value("selite"));
         era.insert("kumppani", erakysely.value("kumppaninimi"));
-        era.insert("eur", eranAloitus);
+        era.insert("eur", alkuMaara.toString() );
 
         QVariantMap emap;
         emap.insert("era", era);
-        emap.insert("ennen", eraAlussa);
-        emap.insert("kausi", eranMuutos);
-        emap.insert("saldo",  eraAlussa + eranMuutos);
+        emap.insert("ennen", eranKaudenAlussa);
+        emap.insert("kausi", muutokset);
+        emap.insert("saldo",  eranKaudenAlussa + eranMuutos);
         erat.append(emap);
 
-        erittellytAlussa += eraAlussa;
-        eritellytLopussa += eraAlussa + eranMuutos;
+        erittellytAlussa += eranKaudenAlussa;
+        eritellytLopussa += eranKaudenAlussa + eranMuutos;
     }
 
     Euro erittelematonAlussa = alkusaldo - erittellytAlussa;
@@ -278,6 +278,7 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
                    .arg(mista.toString(Qt::ISODate))
                    .arg(mihin.toString(Qt::ISODate)));
 
+    QVariantList erittelemattomienLista;
     while(erakysely.next()) {
         QVariantMap map;
         Euro summa = (tili->onko(TiliLaji::VASTAAVAA) ?
@@ -292,12 +293,13 @@ QVariant EraRoute::taysiErittely(Tili *tili, const QDate &mista, const QDate &mi
         map.insert("eur", summa);
         map.insert("kumppani", erakysely.value("kumppani"));
         erittelematonKausiSumma += summa;
+        erittelemattomienLista.append(map);
     }
 
     if( erittelematonAlussa || erittelematonLopussa || erittelematonKausiSumma) {
         QVariantMap emap;
         emap.insert("ennen", erittelematonAlussa);
-        emap.insert("kausi", erittelematonLopussa - erittelematonLopussa);
+        emap.insert("kausi", erittelemattomienLista);
         emap.insert("saldo", erittelematonLopussa);
         erat.append(emap);
     }

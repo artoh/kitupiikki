@@ -142,6 +142,11 @@ Euro Euro::fromString(QString euroString)
     return Euro(euroString);
 }
 
+Euro Euro::fromCents(const qlonglong cents)
+{
+    return Euro( cents );
+}
+
 Euro &Euro::operator<<(const QString &string)
 {
     cents_ = stringToCents(string);
