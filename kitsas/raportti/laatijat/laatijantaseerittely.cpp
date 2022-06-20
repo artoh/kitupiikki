@@ -101,12 +101,12 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
         if( tyyppi == 'S' ||
             (tyyppi == 'M' && tieto.toMap().value("kausi").toList().isEmpty())  ) {    // VAIN SALDO
             RaporttiRivi rr;
-            qlonglong saldo = qRound64(tieto.toDouble() * 100);
+            Euro saldo = tyyppi == 'S' ? Euro::fromString(tieto.toString()) : Euro::fromString( tieto.toMap().value("saldo").toString() );
             rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(kielikoodi()), 4 );
             rr.lisaa( saldo, true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
-            yhteensa += saldo;
+            yhteensa += saldo.cents();
         } else {
             qlonglong loppusaldo = 0l;
 
