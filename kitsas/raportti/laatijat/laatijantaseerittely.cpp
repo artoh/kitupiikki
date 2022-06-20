@@ -98,7 +98,8 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
         if( !tili)
             continue;
 
-        if( tyyppi == 'S') {    // VAIN SALDO
+        if( tyyppi == 'S' ||
+            (tyyppi == 'M' && tieto.toMap().value("kausi").toList().isEmpty())  ) {    // VAIN SALDO
             RaporttiRivi rr;
             qlonglong saldo = qRound64(tieto.toDouble() * 100);
             rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumeroIban(kielikoodi()), 4 );
