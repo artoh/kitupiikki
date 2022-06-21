@@ -125,7 +125,7 @@ QDate Lasku::oikaiseErapaiva(QDate erapvm)
     return erapvm;
 }
 
-QString Lasku::tulkkaaMuuttujat(const QString &teksti)
+QString Lasku::tulkkaaMuuttujat(const QString &teksti) const
 {
     if( !teksti.contains("{{")) return teksti;
     QString ulos(teksti);

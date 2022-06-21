@@ -79,38 +79,38 @@
   "maksutavat+": [
     {
       "fi" : "Lasku",
-      "sv" : "Faktura",        
+      "sv" : "Faktura",
       "TILI" : 1700,
       "KUVA" : "lasku",
       "ERA" : -1
     },
     {
       "fi" : "Käteinen",
-      "sv" : "Kontant",        
+      "sv" : "Kontant",
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
-      "sv" : "Bankkonto",       
+      "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Korttimaksu",
-      "sv" : "Kreditkort",      
+      "sv" : "Kreditkort",
       "TILI" : 1704,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
-      "sv" : "Kreditnota",      
+      "sv" : "Kreditnota",
       "TILI" : 1700,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtosaaminen",
-      "sv" : "Resultatreglering",      
+      "sv" : "Resultatreglering",
       "TILI" : 1770,
       "KUVA" : "siirra",
       "ERA" : -1
@@ -120,38 +120,38 @@
   "maksutavat-": [
     {
       "fi" : "Lasku",
-      "sv" : "Faktura",      
+      "sv" : "Faktura",
       "TILI" : 2960,
       "KUVA" : "lasku",
       "ERA": -1
     },
     {
       "fi" : "Käteinen",
-      "sv" : "Kontant",      
+      "sv" : "Kontant",
       "TILI" : 1900,
       "KUVA" : "kateinen"
     },
     {
       "fi" : "Pankkitili",
-      "sv" : "Bankkonto",      
+      "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
     },
     {
       "fi" : "Luottokortti",
-      "sv" : "Kreditkort",      
+      "sv" : "Kreditkort",
       "TILI" : 2963,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
-      "sv" : "Kreditnota",      
+      "sv" : "Kreditnota",
       "TILI" : 2960,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtovelka",
-      "sv" : "Resultatreglering",      
+      "sv" : "Resultatreglering",
       "TILI" : 2990,
       "KUVA" : "siirra",
       "ERA" : -1
@@ -175,7 +175,7 @@
   "LaskuNumerointialkaa" : "1",
   "LaskuRiviTyyppi" : "1",
   "VariKehys": "128,128,128",
-  "VariVarjo": "230,230,230",  
+  "VariVarjo": "230,230,230",
   "AlvKausi" : "1",
   "AlvHuojennusTili":"7030",
   "LaskuEnnakkotili":"2950",
@@ -231,5 +231,29 @@
     "7920": 5005,
     "5990": 5040,
     "5120": 5000
-  }
+  },
+  "Laskuteksti/Saate": {
+    "en":"The attachment contains an invoice for your order.\nPlease pay the invoice no later than the due date.\n\nYou can use the virtual barcode {{virtuaali}} to pay\nInvoice sum {{summa}}\nReference number {{viite}}\nOur account number {{iban}}",
+    "fi":"Liitteessä on lasku tilauksestasi.\nMaksathan laskun viimeistään eräpäivänä.\n\nVoit käyttää maksamiseen virtuaaliviivakoodia {{virtuaali}}\nLaskun summa {{summa}}\nViitenumero {{viite}}\nTilinumeromme {{iban}}",
+    "sv":"Bilagan innehåller en faktura för din beställning.\nBetala fakturan senast på förfallodagen.\n\nDu kan använda den virtuella streckkoden {{virtuaali}} för att betala\nFakturasum {{summa}}\nReferensnummer {{viite}}\nVårt kontonummer {{iban}}"
+  },
+  "Laskuteksti/Saate_otsikko": {
+    "en":"Your invoice",
+    "fi":"Lasku {{numero}}, {{yritys}}",
+    "sv":"Din faktur"
+  },
+  "Laskuteksti/Maksumuistutuslisatiedot": {
+    "fi": "Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.",
+    "sv": "Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.",
+    "en": "According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please contact us."
+  },
+  "Laskuteksti/Maksumuistutussaate" : {
+    "en":"According to our records, we have not received your payment. We request your payment in accordance with the attached payment reminder. If you have already paid the invoice or the invoice is incorrect, please contact us to clarify the matter.",
+    "fi":"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne liitteenä olevan maksumuistutuksen mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi."
+    ,"sv":"Enligt våra uppgifter, vi har inte fått din betalning. Vi begär din betalning i enlighet med bifogad betalningspåminnelse. Om du redan har betalat fakturan eller fakturan är felaktig, vänligen kontakta oss för att klargöra ärendet."
+  },
+  "Laskuteksti/Maksumuistutussaate_otsikko": {
+    "en":"Payment reminder",
+    "fi":"Maksumuistutus",
+    "sv":"Betalningpåminnelse"}
 }

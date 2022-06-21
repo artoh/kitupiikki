@@ -164,7 +164,7 @@ public:
 
     static QDate oikaiseErapaiva(QDate erapvm);
 
-    QString tulkkaaMuuttujat(const QString& teksti);
+    QString tulkkaaMuuttujat(const QString& teksti) const;
 
 };
 

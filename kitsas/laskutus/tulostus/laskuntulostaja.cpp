@@ -92,11 +92,12 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     }
 
     if( !lasku.lisatiedot().isEmpty() ) {
+        const QString lisatiedot = lasku.tulkkaaMuuttujat( lasku.lisatiedot() );
         painter->setFont(QFont("FreeSans", 10));
         QRectF lisaRect = painter->boundingRect( QRectF(0,0,sivunleveys,sivunleveys),
                                                  Qt::TextWordWrap,
-                                                 lasku.lisatiedot());
-        painter->drawText( lisaRect, Qt::TextWordWrap, lasku.lisatiedot() );
+                                                 lisatiedot);
+        painter->drawText( lisaRect, Qt::TextWordWrap, lisatiedot );
         painter->translate(0, lisaRect.height());
         painter->translate( 0, painter->fontMetrics().height() * 0.5 );
     }
