@@ -1387,7 +1387,7 @@
             "fi": "Ostovelat; pitkäaikaiset",
             "sv": "Leverantörsskulder, långfristiga"
         },
-        "erittely": 3,
+        "erittely": 2,
         "laajuus": 4
     },
     {
@@ -1773,7 +1773,7 @@
             "fi": "Tähän kirjataan tilikauden aikana käyttämättä jääneet avustukset, jotka siirretään käytettäväksi seuraavan tilikauden aikana.",
             "sv": "Detta inkluderar outnyttjade bidrag under räkenskapsåret som överförs för användning under följande räkenskapsår."
         }
-    },    
+    },
     {
         "numero": 3,
         "tyyppi": "H1",
