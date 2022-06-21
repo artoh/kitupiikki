@@ -79,6 +79,7 @@ public slots:
     void lisaa(int kumppaniId);
     void lisaaAsiakas(QVariant* data);
     void poista(int indeksi);
+    void vaihdaKaikkienTapa(int tapa);
 
 signals:
     void tallennettu();

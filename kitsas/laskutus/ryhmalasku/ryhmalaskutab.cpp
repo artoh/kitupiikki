@@ -22,8 +22,9 @@
 #include "laskutettavatmodel.h"
 #include "ryhmaanasiakkaatproxy.h"
 #include "kielidelegaatti.h"
-#include "toimitustapadelegaatti.h"
 #include "rekisteri/asiakastoimittajadlg.h"
+#include "toimitustapadelegaatti.h"
+#include "model/lasku.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -34,6 +35,7 @@
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
 #include <QPushButton>
+#include <QMenu>
 
 RyhmalaskuTab::RyhmalaskuTab(QWidget *parent) :
     QSplitter(parent)
@@ -138,14 +140,26 @@ void RyhmalaskuTab::luoUi()
     poistaNappi_->setEnabled(false);
     connect( poistaNappi_, &QPushButton::clicked, this, &RyhmalaskuTab::poista);
 
+    tapaMenu_ = new QMenu(this);
+    tapaNappi_ = new QPushButton(QIcon(":/pic/mail.png"), tr("Lähetystapa"));
+    tapaNappi_->setMenu(tapaMenu_);
+    for(int koodi=Lasku::TULOSTETTAVA; koodi < Lasku::TUOTULASKU; koodi++) {
+        QAction* action = tapaMenu_->addAction( ToimitustapaDelegaatti::icon(koodi), ToimitustapaDelegaatti::toimitustapa(koodi) );
+        connect( action, &QAction::triggered, [this, koodi] { this->laskutettavat_->vaihdaKaikkienTapa(koodi); });
+    }
+
     QVBoxLayout *oleiska = new QVBoxLayout;
     oleiska->addWidget(laskutettavatView_);
     QHBoxLayout *onleiska = new QHBoxLayout;
     onleiska->addStretch();
+    onleiska->addWidget(tapaNappi_);
     onleiska->addWidget(poistaNappi_);
     oleiska->addLayout(onleiska);
     QWidget *owidget = new QWidget();
     owidget->setLayout(oleiska);
+
+
+
     addWidget(owidget);
 
     setStretchFactor(0,1);
@@ -156,3 +170,4 @@ void RyhmalaskuTab::luoUi()
             { this->laskutettavat_->lisaa(index.data(AsiakkaatModel::IdRooli).toInt());});
 
 }
+

@@ -24,6 +24,7 @@ class QTableView;
 class QListView;
 class QComboBox;
 class QPushButton;
+class QMenu;
 
 class RyhmalaskuTab : public QSplitter
 {
@@ -48,6 +49,8 @@ private:
     QListView* asiakasView_;
     QTableView* laskutettavatView_;
     QPushButton* poistaNappi_;
+    QPushButton* tapaNappi_;
+    QMenu* tapaMenu_;
 
 };
 

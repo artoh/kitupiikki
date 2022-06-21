@@ -160,6 +160,14 @@ void LaskutettavatModel::poista(int indeksi)
     endRemoveRows();
 }
 
+void LaskutettavatModel::vaihdaKaikkienTapa(int tapa)
+{
+    for( auto& item : laskutettavat_) {
+        item.setLahetystapa(tapa);
+    }
+    emit dataChanged(index(0,LAHETYSTAPA), index( laskutettavat_.count()-1, LAHETYSTAPA ));
+}
+
 
 LaskutettavatModel::Laskutettava::Laskutettava()
 {
@@ -191,7 +199,9 @@ int LaskutettavatModel::Laskutettava::lahetystapa() const
 
 void LaskutettavatModel::Laskutettava::setLahetystapa(const int lahetystapa)
 {
-    lahetystapa_ = lahetystapa;
+    QVariantList sallitut = lahetystavat();
+    if( sallitut.contains(lahetystapa) )
+        lahetystapa_ = lahetystapa;
 }
 
 
