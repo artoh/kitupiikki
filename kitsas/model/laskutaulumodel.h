@@ -48,7 +48,9 @@ public:
          TilaRooli = Qt::UserRole + 19,
          SummaRooli = Qt::UserRole + 20,
          OtsikkoRooli = Qt::UserRole + 21,
-         OstoLaskutTieto = Qt::UserRole + 22};
+         OstoLaskutTieto = Qt::UserRole + 22,
+         MapRooli = Qt::UserRole + 30
+         };
 
     explicit LaskuTauluModel(QObject *parent = nullptr);
 

@@ -60,6 +60,7 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
     Monikielinen saateOtsikko( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutussaate_otsikko") ) ;
     Monikielinen saateSisalto( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutussaate"));
     Monikielinen lisatieto( kitsas_->asetukset()->asetus("Laskuteksti/Maksumuistutuslisatiedot"));
+
     tosite->lasku().setSaate( saateSisalto.kaannos(tosite->lasku().kieli().toLower()) );
     tosite->lasku().setSaateOtsikko( saateOtsikko.kaannos(tosite->lasku().kieli().toLower()));
     tosite->lasku().setLisatiedot( lisatieto.kaannos(tosite->lasku().kieli().toLower()));
@@ -76,7 +77,7 @@ void MaksumuistutusMuodostaja::aiempiSaldo(Tosite *tosite, Euro aiempiSaldo)
 {
     if(aiempiSaldo.cents()) {
         TositeRivi aiempi;
-        aiempi.setNimike( kitsas_->kaanna("mmrivi", tosite->lasku().kieli()).arg(tosite->lasku().alkuperaisNumero()) );
+        aiempi.setNimike( kitsas_->kaanna("mmrivi", tosite->lasku().kieli()) );
         aiempi.setANetto(0.0);       
 
         aiempi.setBruttoYhteensa( aiempiSaldo );

@@ -171,9 +171,11 @@ void LaskulistaWidget::suodataViite(const QString &viite)
 void LaskulistaWidget::paivitaNapit()
 {
     QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
+    bool validi = index.isValid() && kp()->yhteysModel();
 
     int tyyppi = index.data(LaskuTauluModel::TyyppiRooli).toInt();
     int laskutustapa = index.data(LaskuTauluModel::LaskutustapaRooli).toInt();
+    int tila = index.data(LaskuTauluModel::TilaRooli).toInt();
 
     QDate pvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
     bool lukittu = pvm < kp()->tilitpaatetty() || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
@@ -183,10 +185,11 @@ void LaskulistaWidget::paivitaNapit()
                                  kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN));
     ui->kopioiNappi->setEnabled( index.isValid() && tyyppi == TositeTyyppi::MYYNTILASKU && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 
-    ui->hyvitysNappi->setVisible( index.isValid()
+    ui->hyvitysNappi->setVisible( validi
                                && tyyppi == TositeTyyppi::MYYNTILASKU
-                               && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
-                               && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
+                               && tila >= Tosite::KIRJANPIDOSSA
+                               && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN) );
+
     ui->naytaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS));
     ui->muokkaaNappi->setEnabled( index.isValid() && !lukittu &&
                                   (laskutustapa != Lasku::TUOTULASKU ||
@@ -196,7 +199,7 @@ void LaskulistaWidget::paivitaNapit()
                                                              laskutustapa != Lasku::TUOTULASKU))
                                     && index.data(LaskuTauluModel::EraPvmRooli).toDate() < kp()->paivamaara()
                                     && index.data(LaskuTauluModel::AvoinnaRooli).toDouble() > 1e-5
-                                    && index.data(LaskuTauluModel::TunnisteRooli).toLongLong()
+                                    && tila >= Tosite::KIRJANPIDOSSA
                                     && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->ryhmalaskuNappi->setVisible(paalehti_ == MYYNTI || paalehti_ == ASIAKAS);
 
@@ -290,12 +293,11 @@ void LaskulistaWidget::hyvita()
 
 void LaskulistaWidget::muistuta()
 {
-    QList<int> erat;
+    QVariantList muistutettavat;
     for(const auto& item : ui->view->selectionModel()->selectedRows()) {
-        int eraId = item.data(LaskuTauluModel::EraIdRooli).toInt();
-        erat.append(eraId);
+        muistutettavat.append( item.data(LaskuTauluModel::MapRooli) );
     }
-    UusiMaksumuistutusDialogi* dlg = new UusiMaksumuistutusDialogi(erat, this);    
+    UusiMaksumuistutusDialogi* dlg = new UusiMaksumuistutusDialogi(muistutettavat, this);
     dlg->kaynnista();
     QTimer::singleShot(5000, this, &LaskulistaWidget::paivita);
 }

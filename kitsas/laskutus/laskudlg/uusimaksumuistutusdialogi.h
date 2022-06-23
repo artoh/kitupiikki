@@ -29,7 +29,7 @@ class UusiMaksumuistutusDialogi : public QDialog
     Q_OBJECT
 
 public:
-    UusiMaksumuistutusDialogi(QList<int> erat, QWidget *parent = nullptr);
+    UusiMaksumuistutusDialogi(QVariantList muistutuslista, QWidget *parent = nullptr);
     ~UusiMaksumuistutusDialogi() override;
 
     void kaynnista();
@@ -40,8 +40,8 @@ signals:
 
 protected:
     void eraSaapuu(QVariant* data);
-    void tositeSaapuu(int era, QVariant* data);
-    void tallennaMuistutus(int era);
+    void tositeSaapuu(QVariant* data);
+    void tallennaMuistutus();
 
     void tallennaSeuraava();
     void merkkaaMuistutetuksi(const QVariantMap& data);
@@ -49,10 +49,9 @@ protected:
 private:
     Ui::MaksumuistutusDialogi *ui;
 
-    QList<int> erat_;
-    QMap<int,QVariantList> muistutettavat_;
-    QMap<int,QVariantMap> eraMapit_;
-    QList<QVariantMap> muistutukset_;
+    QVariantList lista_;
+    int nykyinen_ = -1;
+    int tositteita_ = 0;
 };
 
 #endif // UUSIMAKSUMUISTUTUSDIALOGI_H

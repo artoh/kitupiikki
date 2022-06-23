@@ -26,10 +26,10 @@
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
 
-UusiMaksumuistutusDialogi::UusiMaksumuistutusDialogi(QList<int> erat, QWidget *parent) :
+UusiMaksumuistutusDialogi::UusiMaksumuistutusDialogi(QVariantList muistutuslista, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MaksumuistutusDialogi),
-    erat_(erat)
+    lista_(muistutuslista)
 {
     ui->setupUi(this);
     ui->eraDate->setDate( Lasku::oikaiseErapaiva( kp()->paivamaara().addDays( kp()->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) ) );
@@ -43,67 +43,115 @@ UusiMaksumuistutusDialogi::~UusiMaksumuistutusDialogi()
 
 void UusiMaksumuistutusDialogi::kaynnista()
 {
-    if( erat_.isEmpty()) {
+    nykyinen_++;
+    if( nykyinen_ >= lista_.count()) {
         show();
     } else {
-        int era = erat_.takeFirst();
-        KpKysely *kysely = kpk(QString("/viennit"));
-        kysely->lisaaAttribuutti("era", era);
-        connect( kysely, &KpKysely::vastaus, this, &UusiMaksumuistutusDialogi::eraSaapuu);
-        kysely->kysy();
+        const QVariantMap& map = lista_.at(nykyinen_).toMap();
+        int eraid = map.value("eraid").toInt();
+        if( eraid > 0) {
+            KpKysely *kysely = kpk(QString("/viennit"));
+            kysely->lisaaAttribuutti("era", eraid);
+            connect( kysely, &KpKysely::vastaus, this, &UusiMaksumuistutusDialogi::eraSaapuu);
+            kysely->kysy();
+        } else {
+            int id = map.value("tosite").toInt();
+            tositteita_ = 1;
+            KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
+
+            connect( kysely, &KpKysely::vastaus, this,
+                     [this] (QVariant* vastaus) {this->tositeSaapuu( vastaus);});
+            kysely->kysy();
+        }
     }
 }
 
 void UusiMaksumuistutusDialogi::eraSaapuu(QVariant *data)
 {
-    QVariantList lista = data->toList();
+    QVariantList lista = data->toList();    
 
-    QVariantMap eramap = lista.value(0).toMap().value("era").toMap();
-    int eraid = eramap.value("id").toInt();
-    eraMapit_.insert(eraid, eramap);
+    QVariantMap lmap = lista_.at(nykyinen_).toMap();
+    lmap.insert("viennit", lista);
+    lista_[nykyinen_] = lmap;
+    tositteita_ = lista.count();
 
-    for(auto &item : lista) {
-        QVariantMap lmap = item.toMap();
-        int id = lmap.value("tosite").toMap().value("id").toInt();
-        KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
-        connect( kysely, &KpKysely::vastaus, this,
-                 [this, eraid] (QVariant* vastaus) {this->tositeSaapuu(eraid, vastaus);});
-        kysely->kysy();
+    if( !tositteita_) {
+        kaynnista();
+    } else {
+        for(auto &item : lista) {
+            QVariantMap lmap = item.toMap();
+            int id = lmap.value("tosite").toMap().value("id").toInt();
+            KpKysely *kysely = kpk(QString("/tositteet/%1").arg(id));
+
+            connect( kysely, &KpKysely::vastaus, this,
+                     [this] (QVariant* vastaus) {this->tositeSaapuu( vastaus);});
+            kysely->kysy();
+        }
     }
-    kaynnista();
 }
 
-void UusiMaksumuistutusDialogi::tositeSaapuu(int era, QVariant *data)
-{
-    QVariantList lista = muistutettavat_.value(era);
+
+void UusiMaksumuistutusDialogi::tositeSaapuu( QVariant *data)
+{        
+    QVariantMap lmap = lista_.at(nykyinen_).toMap();
+    QVariantList tositteet = lmap.value("tositteet").toList();
+
     QVariantMap map = data->toMap();
     map.remove("loki");
     map.remove("liitteet");
 
-    lista.append(map);
-    muistutettavat_.insert(era, lista);
+    QVariantMap lasku = map.value("lasku").toMap();
+    if( lasku.value("toistuvanerapaiva").toInt()) {
+        // Kuukausittainen lasku, tämä siivotaan yksittäiseksi
+        // ja merkitään eräpäivä
+        lasku.remove("toistuvanerapaiva");
+        lmap.insert("laskunosa", true);
+        int vientiId = lmap.value("vienti").toInt();
+
+        for(const QVariant& vienti : map.value("viennit").toList()) {
+            QVariantMap vMap = vienti.toMap();
+            if( vientiId == vMap.value("id").toInt()) {
+                map.insert("erapvm", vMap.value("pvm"));
+                break;
+            }
+        }
+        map.insert("lasku", lasku);
+    }
+
+    tositteet.append(map);
+    lmap.insert("tositteet", tositteet);
+
+    lista_[nykyinen_] = lmap;
+
+    tositteita_--;
+    if( !tositteita_)
+        kaynnista();
+
 }
 
 void UusiMaksumuistutusDialogi::accept()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-    erat_ = muistutettavat_.keys();
+    nykyinen_ = -1;
     tallennaSeuraava();
 }
 
 void UusiMaksumuistutusDialogi::tallennaSeuraava()
 {
-    if( erat_.isEmpty()) {
+    nykyinen_++;
+    if( nykyinen_ == lista_.count()) {
         emit kp()->kirjanpitoaMuokattu();
         emit muistutettu();
         QDialog::accept();
     } else {
-        tallennaMuistutus( erat_.takeFirst() );
+        tallennaMuistutus();
     }
 }
 
-void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
+void UusiMaksumuistutusDialogi::tallennaMuistutus()
 {
+
+    const QVariantMap& nMap = lista_.at(nykyinen_).toMap();
 
     Tosite* muistutus = new Tosite(this);
 
@@ -112,15 +160,13 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
     muistutus->asetaPvm(kp()->paivamaara());
     muistutus->asetaErapvm( ui->eraDate->date());
 
-    QVariantList tositteet = muistutettavat_.value(era);
+    QVariantList tositteet = nMap.value("tositteet").toList();
 
     Tosite alkuperainenTosite;
     alkuperainenTosite.lataa( tositteet.value(0).toMap() );
     Lasku lasku = alkuperainenTosite.constLasku();
     const QString& kieli = lasku.kieli().toLower();
     const int vastatili = alkuperainenTosite.viennit()->vienti(0).tili();
-
-    QVariantMap eramap = eraMapit_.value(era);    
 
     muistutus->asetaKommentti( tulkkaa("muistutusteksti", kieli) );
     QString otsikko = tulkkaa("mmotsikko", kieli).arg(lasku.numero());
@@ -134,17 +180,16 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
     lasku.setAlkuperaisPvm( lasku.laskunpaiva() );
     lasku.setLaskunpaiva( kp()->paivamaara() );
     lasku.setErapaiva( ui->eraDate->date() );
-    lasku.setAiemmat( tositteet );
-    lasku.setSaate( tulkkaa("muistutussaate", kieli) );
+    lasku.setAiemmat( tositteet );    
     lasku.setLahetystapa( lasku.lahetystapa() == Lasku::EITULOSTETA ?
                                           Lasku::TULOSTETTAVA :
                                           lasku.lahetystapa());
 
-
     lasku.setErittely(QStringList());
-    lasku.setLisatiedot( tulkkaa("muistutusteksti", kieli) );
 
-    Euro saldo = Euro::fromVariant(eramap.value("saldo"));
+    Euro saldo =  nMap.value("eraid").toInt() > 0 ?
+            Euro( tositteet.value(0).toMap().value("era").toMap().value("saldo").toString() ) :
+            Euro( nMap.value("avoin").toString() );
     lasku.setAiempiSaldo( saldo );
     muistutus->lasku().kopioi(lasku);
 
@@ -165,10 +210,11 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
             korko = lasku.value("viivkorko").toDouble();
     }
 
+
     MaksumuistutusMuodostaja maksut(kp());
     maksut.muodostaMuistutukset( muistutus,
                                  kp()->paivamaara(),
-                                 era,
+                                 nMap.value("eraid").toInt(),
                                  ui->muistutusCheck->isChecked() ? Euro::fromDouble( ui->muistutusSpin->value()) : Euro(0),
                                  saldo,
                                  korkopaiva,
@@ -178,7 +224,12 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus(int era)
                                  );
 
 
-    connect( muistutus, &Tosite::laskuTallennettu, this, &UusiMaksumuistutusDialogi::merkkaaMuistutetuksi );
+    if( nMap.contains("laskunosa") ) {
+        // Jos yhdestä osasta tullut muikkari, ei voida merkata koko tositetta muistutetuksi
+        connect( muistutus, &Tosite::laskuTallennettu, this, &UusiMaksumuistutusDialogi::tallennaSeuraava );
+    } else {
+        connect( muistutus, &Tosite::laskuTallennettu, this, &UusiMaksumuistutusDialogi::merkkaaMuistutetuksi );
+    }
     muistutus->tallennaLasku( Tosite::VALMISLASKU );
 }
 
@@ -190,6 +241,7 @@ void UusiMaksumuistutusDialogi::merkkaaMuistutetuksi(const QVariantMap &data)
 
 
     QVariantList lista = data.value("lasku").toMap().value("aiemmat").toList();
+
     for(const auto& item :  qAsConst( lista )) {
         QVariantMap map = item.toMap();
         if( map.value("tila").toInt() != Tosite::MUISTUTETTU) {

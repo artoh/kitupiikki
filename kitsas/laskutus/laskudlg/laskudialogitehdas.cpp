@@ -151,9 +151,10 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
     uusi->lasku().setOsoite( hyvitettavaLasku.osoite() );
     uusi->lasku().setEmail( hyvitettavaLasku.email() );
     uusi->lasku().setAlkuperaisPvm( hyvitettavaLasku.laskunpaiva() );
+    uusi->lasku().setValvonta( hyvitettavaLasku.valvonta() );
     uusi->asetaViite( hyvitettavaLasku.viite() );
     uusi->lasku().setViite( hyvitettavaLasku.viite() );
-    uusi->asetaKumppani( hyvitettava->kumppani() );
+    uusi->asetaKumppani( hyvitettava->kumppanimap() );
     uusi->lasku().setRiviTyyppi( hyvitettavaLasku.riviTyyppi() );
 
     TositeRivit* rivit = hyvitettava->rivit();

@@ -195,7 +195,7 @@ asviite,Asiakkaan viite,Kundens referens,Your reference
 maksumuistutus,MAKSUMUISTUTUS,BETALNINGSPÅMINNELSE,REQUEST FOR PAYMENT
 hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
 yhteensa,Yhteensä,Totalt,Total
-mmrivi,Laskun %1 avoin saldo,Saldo för faktura %1,Open balance for invoice %1
+mmrivi,Laskun avoin saldo,Saldo för faktura,Open balance for invoice
 anetto,á netto,,á net  
 kateislasku,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
 muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please contact us."

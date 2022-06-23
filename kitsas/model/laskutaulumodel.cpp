@@ -255,6 +255,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("otsikko");
     case OstoLaskutTieto:
         return ostoja_;
+    case MapRooli:
+        return map;
     }
 
 

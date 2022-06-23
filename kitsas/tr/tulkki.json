@@ -705,9 +705,9 @@
         "en": "Total"
     },
     "mmrivi": {
-        "fi": "Laskun %1 avoin saldo",
-        "sv": "Saldo för faktura %1",
-        "en": "Open balance for invoice %1"
+        "fi": "Laskun avoin saldo",
+        "sv": "Saldo för faktura",
+        "en": "Open balance for invoice"
     },
     "anetto": {
         "fi": "á netto",

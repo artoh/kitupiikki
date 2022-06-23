@@ -24,6 +24,8 @@
 #include "rivivientigeneroija.h"
 #include "db/kirjanpito.h"
 
+#include "model/tosite.h"
+#include "model/lasku.h"
 
 HyvitysLaskuDialogi::HyvitysLaskuDialogi(Tosite *tosite, QWidget *parent) :
     RivillinenLaskuDialogi(tosite, parent)
@@ -32,9 +34,15 @@ HyvitysLaskuDialogi::HyvitysLaskuDialogi(Tosite *tosite, QWidget *parent) :
 
     ui->laskunPvmLabel->setText(tr("Hyvityslaskun pvm"));
     ui->maksuCombo->setVisible(false);
-    ui->valvontaLabel->hide();
-    ui->valvontaCombo->hide();
-    ui->tarkeCombo->hide();
+
+    if( tosite->constLasku().valvonta() ) {
+        ui->valvontaCombo->setEnabled(false);
+        ui->tarkeCombo->setEnabled(false);
+    } else {
+        ui->valvontaLabel->hide();
+        ui->valvontaCombo->hide();
+        ui->tarkeCombo->hide();
+    }
     ui->eraLabel->hide();
     ui->eraDate->hide();
     ui->maksuaikaLabel->hide();
