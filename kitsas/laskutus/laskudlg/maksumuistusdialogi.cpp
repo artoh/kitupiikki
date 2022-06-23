@@ -38,14 +38,31 @@ MaksumuistusDialogi::MaksumuistusDialogi(Tosite *tosite, QWidget *parent) :
     connect( ui->mmViivastysCheck, &QCheckBox::clicked, this, &MaksumuistusDialogi::paivitaSumma);
     connect( ui->mmViivastysAlkaa, &KpDateEdit::dateChanged, this, &MaksumuistusDialogi::paivitaSumma);
     connect( ui->mmViivastysLoppuu, &KpDateEdit::dateChanged, this, &MaksumuistusDialogi::paivitaSumma);
+    connect( ui->mmAvoin, &KpEuroEdit::textChanged, this, &MaksumuistusDialogi::paivitaSumma);
+
+    ui->maksuCombo->hide();
+    if( tosite->constLasku().valvonta() ) {
+        ui->valvontaCombo->setEnabled(false);
+        ui->tarkeCombo->setEnabled(false);
+    } else {
+        ui->valvontaLabel->hide();
+        ui->valvontaCombo->hide();
+        ui->tarkeCombo->hide();
+    }
+
+    ui->toimituspvmLabel->hide();
+    ui->toimitusDate->hide();
+    ui->jaksoViivaLabel->hide();
+    ui->jaksoDate->hide();
 
     setWindowTitle(tr("Maksumuistutus %1").arg(tosite->lasku().numero()));
+    ui->laskunPvmLabel->setText(tr("Maksumuistutuksen pvm"));
 }
 
 void MaksumuistusDialogi::lataa()
 {
     const Lasku& lasku = tosite()->constLasku();
-    ui->mmAvoin->setText( lasku.aiempiSaldo().display() );
+    ui->mmAvoin->setEuro( lasku.aiempiSaldo() );
     ui->mmMuistutusCheck->setChecked( lasku.muistutusmaksu().cents() );
     ui->mmMuistutusMaara->setValue( lasku.muistutusmaksu().toDouble() );
     ui->mmViivastysCheck->setChecked( lasku.korkoEuroa().cents() );
@@ -59,12 +76,12 @@ void MaksumuistusDialogi::lataa()
 
 void MaksumuistusDialogi::paivitaSumma()
 {
-    Euro korko = muodostaja_.laskeKorko( tosite()->constLasku().aiempiSaldo(),
+    Euro korko = muodostaja_.laskeKorko( ui->mmAvoin->euro(),
                                         ui->mmViivastysAlkaa->date(),
                                         ui->mmViivastysLoppuu->date(),
                                         ui->mmViivastysCheck->isChecked() ? ui->viivkorkoSpin->value() : 0
                                         );
-    Euro yhteensa = tosite()->constLasku().aiempiSaldo() +
+    Euro yhteensa = ui->mmAvoin->euro() +
             ( ui->mmMuistutusCheck->isChecked() ? Euro::fromDouble( ui->mmMuistutusMaara->value() ) : Euro(0) ) +
             korko;
     ui->mmViivastysMaara->setText( korko.display() );
@@ -80,7 +97,7 @@ void MaksumuistusDialogi::valmisteleTallennus()
                                       ui->laskuPvm->date(),
                                       eraId,
                                       ui->mmMuistutusCheck->isChecked() ? ui->mmMuistutusMaara->euro() : Euro(0),
-                                      tosite()->lasku().aiempiSaldo(),
+                                      ui->mmAvoin->euro(),
                                       ui->mmViivastysAlkaa->date(),
                                       ui->mmViivastysLoppuu->date(),
                                       ui->mmViivastysCheck ? ui->viivkorkoSpin->value() : 0.0);

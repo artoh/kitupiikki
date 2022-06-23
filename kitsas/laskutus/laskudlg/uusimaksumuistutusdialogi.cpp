@@ -175,6 +175,9 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus()
     lasku.setOtsikko(otsikko);
     muistutus->asetaKumppani( alkuperainenTosite.kumppani() );
 
+    lasku.unset("jaksopvm");
+    lasku.setToimituspvm( kp()->paivamaara() );
+
     lasku.setAlkuperaisNumero( lasku.numero().toLongLong() );
     lasku.setNumero(QString());
     lasku.setAlkuperaisPvm( lasku.laskunpaiva() );
@@ -186,6 +189,14 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus()
                                           lasku.lahetystapa());
 
     lasku.setErittely(QStringList());
+
+    Monikielinen saateOtsikko( kp()->asetukset()->asetus("Laskuteksti/Maksumuistutussaate_otsikko") ) ;
+    Monikielinen saateSisalto( kp()->asetukset()->asetus("Laskuteksti/Maksumuistutussaate"));
+    Monikielinen lisatieto( kp()->asetukset()->asetus("Laskuteksti/Maksumuistutuslisatiedot"));
+
+    lasku.setSaate( saateSisalto.kaannos(kieli) );
+    lasku.setSaateOtsikko( saateOtsikko.kaannos(kieli));
+    lasku.setLisatiedot( lisatieto.kaannos(kieli));
 
     Euro saldo =  nMap.value("eraid").toInt() > 0 ?
             Euro( tositteet.value(0).toMap().value("era").toMap().value("saldo").toString() ) :
