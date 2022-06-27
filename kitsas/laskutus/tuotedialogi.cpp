@@ -35,11 +35,11 @@ TuoteDialogi::TuoteDialogi(QWidget *parent) :
     ui->bruttoLabel->setVisible(alv);
     ui->bruttoEdit->setVisible(alv);
 
-    connect( ui->nettoEdit, &KpEuroEdit::textEdited,
+    connect( ui->nettoEdit, &KpYhEdit::textEdited,
              this, &TuoteDialogi::laskeBrutto);
     connect( ui->alvCombo, &LaskuAlvCombo::currentTextChanged,
              this, &TuoteDialogi::laskeBrutto);
-    connect( ui->bruttoEdit, &KpEuroEdit::textEdited,
+    connect( ui->bruttoEdit, &KpYhEdit::textEdited,
              this, &TuoteDialogi::laskeNetto);
 
     ui->alvCombo->alusta();
@@ -121,8 +121,7 @@ void TuoteDialogi::laskeBrutto()
 {
     double netto = ui->nettoEdit->value();
     double brutto = netto * ( 100.0 + ui->alvCombo->veroProsentti() ) / 100.0;
-    if( qRound64(brutto * 100) != ui->bruttoEdit->asCents())
-        ui->bruttoEdit->setValue(brutto);
+    ui->bruttoEdit->setValue(brutto);
     bool alv = ui->alvCombo->veroKoodi() == AlvKoodi::MYYNNIT_NETTO;
     ui->bruttoLabel->setVisible(alv);
     ui->bruttoEdit->setVisible(alv);
@@ -135,7 +134,6 @@ void TuoteDialogi::laskeNetto()
     double netto = (100.0 * brutto_) / (100.0 + ui->alvCombo->veroProsentti());
     qDebug() << brutto_ << "  "  << netto;
 
-    if( qRound64(netto*100.0) != ui->nettoEdit->asCents())
-        ui->nettoEdit->setValue(netto);
+    ui->nettoEdit->setValue(netto);
 }
 

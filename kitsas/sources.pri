@@ -234,6 +234,7 @@ SOURCES += \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/kpkpledit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
+    $$PWD/tools/kpyhedit.cpp \
     $$PWD/tools/pdf/pdfanalyzerpage.cpp \
     $$PWD/tools/pdf/pdfanalyzerrow.cpp \
     $$PWD/tools/pdf/pdfanalyzertext.cpp \
@@ -604,6 +605,7 @@ HEADERS += \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
+    $$PWD/tools/kpyhedit.h \
     $$PWD/tools/pdf/pdfanalyzerpage.h \
     $$PWD/tools/pdf/pdfanalyzerrow.h \
     $$PWD/tools/pdf/pdfanalyzertext.h \
