@@ -119,6 +119,7 @@ void FinvoiceToimittaja::alustaInit()
     init_.insert("osoite", asetukset->asetus(AsetusModel::Katuosoite));
     init_.insert("postinumero", asetukset->asetus(AsetusModel::Postinumero));
     init_.insert("kaupunki", asetukset->asetus(AsetusModel::Kaupunki));
+    init_.insert("unitdecimals", kp()->asetukset()->luku("LaskuYksikkoDesimaalit", 2));
 
     QVariantList tilit;
     for(const QString& ibanStr : asetukset->asetus(AsetusModel::LaskuIbanit).split(',')) {

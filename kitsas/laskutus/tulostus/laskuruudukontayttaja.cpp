@@ -241,7 +241,7 @@ QString LaskuRuudukonTayttaja::ahintasarake(const TositeRivi &rivi)
     double ahinta = bruttolaskenta_ ? rivi.aBrutto() : rivi.aNetto();
     if( qAbs(ahinta) < 1e-5)
         return QString();
-    return QString("%L1").arg(ahinta,0,'f',2);
+    return QString("%L1").arg(ahinta,0,'f',kitsas_->asetukset()->luku("LaskuYksikkoDesimaalit", 2));
 }
 
 QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)

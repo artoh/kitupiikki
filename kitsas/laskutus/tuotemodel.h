@@ -59,6 +59,7 @@ private slots:
     
 private:
     QList<Tuote> tuotteet_;
+    int desimaalit_ = 2;
     
 };
 

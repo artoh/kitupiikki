@@ -70,7 +70,7 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
             return tuote.nimike();
         else if( index.column() == NETTO)
         {            
-            return QString("%L1 €").arg( tuote.ahinta() ,0,'f',2);
+            return QString("%L1 €").arg( tuote.ahinta() ,0,'f', desimaalit_);
         }
         else if(index.column() == BRUTTO)
         {
@@ -81,7 +81,7 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
 
             double brutto = netto * (100 + alvprossa) / 100.0;
 
-            return QString("%L1 €").arg( brutto ,0,'f',2);
+            return QString("%L1 €").arg( brutto ,0,'f',desimaalit_);
         }
     }
     else if( role == IdRooli)
@@ -183,6 +183,9 @@ void TuoteModel::dataSaapuu(QVariant *data)
     for(const auto& item : data->toList()) {
         tuotteet_.append(Tuote(item.toMap()));
     }
+
+    desimaalit_ = kp()->asetukset()->luku("LaskuYksikkoDesimaalit", 2);
+
     endResetModel();
 }
 

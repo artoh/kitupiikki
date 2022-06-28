@@ -74,6 +74,7 @@ SOURCES += \
     $$PWD/laskutus/laskudlg/uusimaksumuistutusdialogi.cpp \
     $$PWD/laskutus/laskudlg/yksikkocombo.cpp \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.cpp \
+    $$PWD/laskutus/laskudlg/yksikkohintadelegaatti.cpp \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskunuusinta.cpp \
@@ -443,6 +444,7 @@ HEADERS += \
     $$PWD/laskutus/laskudlg/uusimaksumuistutusdialogi.h \
     $$PWD/laskutus/laskudlg/yksikkocombo.h \
     $$PWD/laskutus/laskudlg/yksikkodelegaatti.h \
+    $$PWD/laskutus/laskudlg/yksikkohintadelegaatti.h \
     $$PWD/laskutus/laskudlg/yksittainenlaskudialogi.h \
     $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskunuusinta.h \

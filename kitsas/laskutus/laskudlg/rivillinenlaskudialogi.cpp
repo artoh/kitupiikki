@@ -28,6 +28,7 @@
 #include "laskurividialogi.h"
 #include "rivivientigeneroija.h"
 #include "aleprosenttidelegaatti.h"
+#include "yksikkohintadelegaatti.h"
 
 #include "db/kirjanpito.h"
 #include "alv/alvilmoitustenmodel.h"
@@ -237,7 +238,7 @@ void RivillinenLaskuDialogi::alustaRiviTab()
     ui->rivitView->setModel(tosite()->rivit());
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(TositeRivit::NIMIKE, QHeaderView::Stretch);
-    ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(TositeRivit::AHINTA, new YksikkoHintaDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::TILI, new TiliDelegaatti());
     ui->rivitView->setItemDelegateForColumn(TositeRivit::MAARA, new KappaleDelegaatti);
     ui->rivitView->setItemDelegateForColumn(TositeRivit::YKSIKKO, new YksikkoDelegaatti);

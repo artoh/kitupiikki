@@ -122,8 +122,10 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
                 return rivi.yksikko();
             else
                 return yksikkoModel_.nimi(rivi.unKoodi());
-        case AHINTA:
-            return Euro::fromDouble( rivityyppi_ == Lasku::BRUTTORIVIT ? rivi.aBrutto() : rivi.aNetto()).display();
+        case AHINTA: {
+            const double ahinta = rivityyppi_ == Lasku::BRUTTORIVIT ? rivi.aBrutto() : rivi.aNetto();
+            return QString("%L1 €").arg(ahinta, 0, 'f', kp()->asetukset()->luku("LaskuYksikkoDesimaalit", 2));
+        }
         case ALE:
             if(rivi.aleProsentti())
                 return QString("%1 %").arg(rivi.aleProsentti() );
