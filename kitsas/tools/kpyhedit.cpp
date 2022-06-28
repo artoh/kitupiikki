@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include "db/kirjanpito.h"
 
+#include <QDebug>
 
 KpYhEdit::KpYhEdit(QWidget *parent) :
     QLineEdit(parent),
@@ -22,7 +23,10 @@ double KpYhEdit::value() const
 {
     QString arvo = QLineEdit::text();
     arvo.replace(',','.');
-    arvo.replace(QRegularExpression("[^\\d\\.]"),"");
+    arvo.replace(QRegularExpression("[\\s€]", QRegularExpression::UseUnicodePropertiesOption),"");
+
+    qDebug() << QLineEdit::text() << " *value* " << arvo << " ** " << arvo.toDouble();
+
     return arvo.toDouble();
 }
 
@@ -42,14 +46,17 @@ void KpYhEdit::setText(const QString &nt)
 
     QString eurosa = nt.left(pilkunpaikka);
     QString sentosa = nt.mid(pilkunpaikka);
-    eurosa.remove(QRegularExpression("\\D"));
+    eurosa.remove(QRegularExpression("\\s", QRegularExpression::UseUnicodePropertiesOption));
     sentosa.remove(QRegularExpression("\\D"));
 
     QString yhteen = eurosa + "." + sentosa;
     double arvo = yhteen.toDouble();
     setClearButtonEnabled( qAbs(arvo) > 1e-7);
 
-    QLineEdit::setText(QString("%L1 €").arg(arvo, 0, 'f', desimaalit_));
+    if( qAbs(arvo) < 1e-7 && !eurosa.isEmpty() && !eurosa.at(0).isDigit() && !eurosa.at(0).isSpace())
+        QLineEdit::setText(QString(u8"\u2212%L1 €").arg(arvo, 0, 'f', desimaalit_));
+    else
+        QLineEdit::setText(QString("%L1 €").arg(arvo, 0, 'f', desimaalit_));
 
     int uusipilkunpaikka = text().indexOf(',');
     if( uusipilkunpaikka == -1)
@@ -63,6 +70,9 @@ void KpYhEdit::setText(const QString &nt)
         int uusipaikka = uusipilkunpaikka -  suhteellinen + oikaistaanvalit - laskennallisetvalit;
         setCursorPosition(uusipaikka);
     }
+
+    qDebug() << "set " << nt << " arvo " << arvo;
+
 }
 
 void KpYhEdit::keyPressEvent(QKeyEvent *event)
@@ -99,6 +109,12 @@ void KpYhEdit::keyPressEvent(QKeyEvent *event)
     {
         cursorForward(false,1);
         emit textEdited( text() );
+    }
+    else if( event->key() == Qt::Key_Minus && value() >= 0) {
+        setText("-" + text() );
+        cursorForward(false, 1);
+        emit textEdited(text());
+        return;
     }
     else if( !event->text().isEmpty() && event->text().at(0).isDigit() ) {
         if( pilkunpaikka > -1 &&
