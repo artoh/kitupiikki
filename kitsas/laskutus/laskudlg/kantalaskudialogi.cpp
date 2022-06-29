@@ -18,7 +18,7 @@
 #include "ui_laskudialogi.h"
 
 #include "model/tosite.h"
-
+#include "model/tositeliitteet.h"
 #include "db/kirjanpito.h"
 
 #include "db/tositetyyppimodel.h"
@@ -41,9 +41,11 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "rekisteri/maamodel.h"
 #include "pilvi/pilvimodel.h"
+#include "naytin/naytinikkuna.h"
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
@@ -61,6 +63,12 @@ KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     teeConnectit();
 
     tositteelta();
+
+    ui->liiteView->setModel( tosite->liitteet() );
+    ui->liiteView->setDropIndicatorShown(true);
+    ui->liiteView->setIconSize(QSize(256,256));
+    paivitaLiiteNapit();
+
 
 }
 
@@ -160,6 +168,16 @@ void KantaLaskuDialogi::teeConnectit()
 
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &KantaLaskuDialogi::kieliVaihtuu);
 
+    connect( ui->avaaLiiteNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::naytaLiite);
+    connect( ui->lisaaLiiteNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::lisaaLiite);
+    connect( ui->poistaLiiteNappi, &QPushButton::clicked, this, &KantaLaskuDialogi::poistaLiite);
+
+    connect( ui->liiteView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( ui->liiteView, &QListView::clicked, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+
+    connect( tosite()->liitteet(), &TositeLiitteet::modelReset, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( tosite()->liitteet(), &TositeLiitteet::rowsInserted, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( tosite()->liitteet(), &TositeLiitteet::rowsRemoved, this, &KantaLaskuDialogi::paivitaLiiteNapit);
 }
 
 void KantaLaskuDialogi::alustaMaksutavat()
@@ -284,7 +302,7 @@ void KantaLaskuDialogi::tositteelta()
     ui->erittelyTextEdit->setPlainText( lasku.erittely().join('\n') );
 
     ui->saateEdit->setPlainText( lasku.saate() );
-    ui->saateOtsikkoEdit->setText( lasku.saateOtsikko());
+    ui->saateOtsikkoEdit->setText( lasku.saateOtsikko());    
 
     tositteeltaKaynnissa_ = false;
     paivitaViiteRivi();
@@ -686,6 +704,55 @@ void KantaLaskuDialogi::kieliVaihtuu()
             return;
         }
     }
+}
+
+void KantaLaskuDialogi::naytaLiite()
+{
+    QByteArray data = ui->liiteView->currentIndex().data(TositeLiitteet::SisaltoRooli).toByteArray();
+    if( data.isEmpty()) {
+        const int liiteId = ui->liiteView->currentIndex().data(TositeLiitteet::IdRooli).toInt();
+        NaytinIkkuna::naytaLiite(liiteId);
+    } else {
+        NaytinIkkuna::nayta(data);
+    }
+}
+
+void KantaLaskuDialogi::lisaaLiite()
+{
+    QString polku = QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)"));
+    if( !polku.isEmpty()) {
+        tosite()->liitteet()->lisaaHetiTiedosto(polku);
+    }
+}
+
+void KantaLaskuDialogi::poistaLiite()
+{
+    if( ui->liiteView->currentIndex().isValid() )
+    {
+        if( QMessageBox::question(this, tr("Poista liite"),
+                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(Qt::DisplayRole).toString()),
+                                  QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes )
+        {
+            ui->poistaLiiteNappi->setEnabled(false);
+            tosite()->liitteet()->poista( ui->liiteView->currentIndex().row() );
+        }
+    }
+}
+
+void KantaLaskuDialogi::paivitaLiiteNapit()
+{
+    bool valittu = ui->liiteView->currentIndex().isValid();
+    // Laskun kuvaa ei voi poistaa
+    ui->poistaLiiteNappi->setEnabled( valittu &&
+                                      ui->liiteView->currentIndex().data(TositeLiitteet::RooliRooli).toString().isEmpty());
+    ui->avaaLiiteNappi->setEnabled(valittu);
+
+    const int tabIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("liitteet") );
+    if( tosite()->liitteet()->rowCount())
+        ui->tabWidget->setTabIcon( tabIndex , QIcon(":/pic/liite-aktiivinen.png"));
+    else
+        ui->tabWidget->setTabIcon( tabIndex, QIcon(":/pic/liite"));
+
 }
 
 QString KantaLaskuDialogi::otsikko() const

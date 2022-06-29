@@ -35,6 +35,7 @@
 #include "db/kirjanpito.h"
 
 #include "kieli/monikielinen.h"
+#include "model/tositeliitteet.h"
 
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
@@ -52,6 +53,7 @@ void LaskuDialogiTehdas::kaynnista(KitsasInterface *interface, QObject* parent)
 void LaskuDialogiTehdas::naytaLasku(int tositeId)
 {
     Tosite* tosite = new Tosite(instanssi__);
+    tosite->liitteet()->naytaLadattuLiite();
     connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::tositeLadattu);
     tosite->lataa(tositeId);
 }

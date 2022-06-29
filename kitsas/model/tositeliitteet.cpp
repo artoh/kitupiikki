@@ -87,6 +87,10 @@ QVariant TositeLiitteet::data(const QModelIndex &index, int role) const
         return liite.getNimi();
     } else if( role == TyyppiRooli) {
         return KpKysely::tiedostotyyppi(liite.getSisalto());
+    } else if( role == RooliRooli) {
+        return liite.getRooli();
+    } else if( role == IdRooli) {
+        return liite.getLiiteId();
     }
 
     // FIXME: Implement me!
@@ -592,14 +596,14 @@ void TositeLiitteet::TositeLiite::setSisalto(const QByteArray &ba)
         PdfRendererDocument* pdfDoc = PdfToolkit::renderer(ba);
         QImage image = pdfDoc->renderPage(0, 24.0);
         delete pdfDoc;
-        QPixmap kuva = QPixmap::fromImage(image.scaled(128,128,Qt::KeepAspectRatio));
+        QPixmap kuva = QPixmap::fromImage(image.scaled(256,256,Qt::KeepAspectRatio));
         QBuffer tallennus(&thumb_);
         tallennus.open(QIODevice::WriteOnly);
         kuva.save(&tallennus, "PNG");
 
     } else if( tyyppi.startsWith("image/jpeg")) {
         QImage image = QImage::fromData(ba, "JPG");
-        QPixmap kuva = QPixmap::fromImage(image.scaled(128,128, Qt::KeepAspectRatio));
+        QPixmap kuva = QPixmap::fromImage(image.scaled(256,256, Qt::KeepAspectRatio));
         QBuffer tallennus(&thumb_);
         tallennus.open(QIODevice::WriteOnly);
         kuva.save(&tallennus,"PNG");

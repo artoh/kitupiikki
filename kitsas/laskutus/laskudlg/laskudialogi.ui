@@ -1021,6 +1021,80 @@ osoite</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="liitteet">
+      <attribute name="icon">
+       <iconset resource="../../pic/pic.qrc">
+        <normaloff>:/pic/liite.png</normaloff>:/pic/liite.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Liitteet</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <item>
+        <widget class="QListView" name="liiteView">
+         <property name="viewMode">
+          <enum>QListView::IconMode</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <widget class="QPushButton" name="avaaLiiteNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Näytä</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="lisaaLiiteNappi">
+           <property name="text">
+            <string>Lisää</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="poistaLiiteNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Poista</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../pic/pic.qrc">
+             <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="loki">
       <attribute name="icon">
        <iconset resource="../../pic/pic.qrc">
@@ -1228,6 +1302,17 @@ osoite</string>
     </layout>
    </item>
   </layout>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_15"/>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

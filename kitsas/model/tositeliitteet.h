@@ -68,7 +68,9 @@ public:
     enum {
         SisaltoRooli = Qt::UserRole + 1,
         NimiRooli = Qt::UserRole + 2,
-        TyyppiRooli = Qt::UserRole + 3
+        TyyppiRooli = Qt::UserRole + 3,
+        RooliRooli = Qt::UserRole + 4,
+        IdRooli = Qt::UserRole + 5
     };
 
     explicit TositeLiitteet(QObject *parent = nullptr);

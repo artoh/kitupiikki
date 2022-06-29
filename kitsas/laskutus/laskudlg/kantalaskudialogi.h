@@ -88,6 +88,11 @@ protected:
 
     void kieliVaihtuu();
 
+    void naytaLiite();
+    void lisaaLiite();
+    void poistaLiite();
+    void paivitaLiiteNapit();
+
 private:
     void alustaUi();
     void alustaRivitTab();
