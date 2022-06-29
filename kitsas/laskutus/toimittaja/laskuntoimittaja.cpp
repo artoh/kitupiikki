@@ -105,12 +105,13 @@ void LaskunToimittaja::laskuSaapuu(QVariant *data)
 void LaskunToimittaja::tallennaLiite()
 {    
     tallennusTosite_ = new Tosite(this);
-    tallennusTosite_->lataa(tositteet_.head());
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu, Qt::QueuedConnection);
+    const QVariantMap tosite = tositteet_.head();
+    tallennusTosite_->lataa(tosite);
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, [this, tosite] {this->liiteTallennettu(tosite);}, Qt::QueuedConnection);
     tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 
-void LaskunToimittaja::liiteTallennettu()
+void LaskunToimittaja::liiteTallennettu(const QVariantMap &tosite)
 {
     int toimitustapa = tositteet_.head().value("lasku").toMap().value("laskutapa").toInt();
     if(toimitustapa == Lasku::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
@@ -118,7 +119,7 @@ void LaskunToimittaja::liiteTallennettu()
     }
 
     AbstraktiToimittaja* toimittaja = toimittajat_.value(toimitustapa, toimittajat_.value(Lasku::TULOSTETTAVA));
-    toimittaja->lisaaLasku(tallennusTosite_->tallennettava());
+    toimittaja->lisaaLasku(tosite);
     tositteet_.dequeue();
 
     tallennusTosite_->deleteLater();

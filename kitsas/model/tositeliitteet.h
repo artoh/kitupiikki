@@ -99,9 +99,15 @@ public:
     int tallennettaviaLiitteita() const;
     void tallennaLiitteet(int tositeId);
     bool tallennetaanko() const { return tallennetaan_;}
-    QVariantList liitettavat() const;    
+    QVariantList liitettavat() const;
+
+    /**
+     * @brief Lataa kaikki liitteet ja lähettää kaikkiLiitteetHaettu-signaalin kun kaikki ladattuina
+     */
+    void lataaKaikkiLiitteet();
 
     void naytaLadattuLiite();
+
 
 public slots:
     void nayta(int indeksi);
@@ -113,6 +119,7 @@ signals:
     void tuonti(const QVariantMap& data);
     void liitettaTallennetaan(bool tallennetaanko);
     void ocrKaynnissa(bool onko);
+    void kaikkiLiitteetHaettu();
 
 private slots:
     void tallennaSeuraava();

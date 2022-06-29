@@ -25,6 +25,9 @@
 #include "db/asetusmodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "model/tositeliitteet.h"
+
+
 SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
     : AbstraktiToimittaja(parent)
 {
@@ -33,6 +36,16 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 
 
 void SahkopostiToimittaja::toimita()
+{
+    Tosite* tosite = new Tosite(this);
+    QVariantMap map = tositeMap();
+    tosite->lataa(tositeMap());
+
+    connect( tosite->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, [this, tosite] { this->laheta(tosite); });
+    tosite->liitteet()->lataaKaikkiLiitteet();
+}
+
+void SahkopostiToimittaja::laheta(Tosite *tosite)
 {
     bool kpasetus = !kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty();
     QString server = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpServer) : kp()->settings()->value("SmtpServer").toString();
@@ -60,21 +73,17 @@ void SahkopostiToimittaja::toimita()
         return;
     }
 
-    Tosite tosite;
-    tosite.lataa(tositeMap());
-
-
-    QString kenelleNimi = tosite.kumppaninimi();
-    QString kenelleEmail = tosite.lasku().email();
-    QString kieli = tosite.lasku().kieli().toLower();
+    QString kenelleNimi = tosite->kumppaninimi();
+    QString kenelleEmail = tosite->lasku().email();
+    QString kieli = tosite->lasku().kieli().toLower();
 
     LaskunTulostaja tulostaja(kp());
 
-    QString otsikko = tosite.lasku().tulkkaaMuuttujat( tosite.lasku().saateOtsikko() );
+    QString otsikko = tosite->lasku().tulkkaaMuuttujat( tosite->lasku().saateOtsikko() );
     if( otsikko.isEmpty()) {
-        otsikko = QString("%3 %1 %2").arg(tosite.lasku().numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
-            tosite.tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
-                           (tosite.tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
+        otsikko = QString("%3 %1 %2").arg(tosite->lasku().numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
+            tosite->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
+                           (tosite->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
                                                                             : tulkkaa("laskuotsikko", kieli)));
     };
 
@@ -88,17 +97,33 @@ void SahkopostiToimittaja::toimita()
 
     message.setSubject(otsikko);
 
-    QString viesti = tosite.lasku().tulkkaaMuuttujat(tosite.lasku().saate());
+    QString viesti = tosite->lasku().tulkkaaMuuttujat(tosite->lasku().saate());
     if(viesti.isEmpty())
-        viesti = tosite.lasku().tulkkaaMuuttujat( kp()->asetukset()->asetus("EmailSaate") );
+        viesti = tosite->lasku().tulkkaaMuuttujat( kp()->asetukset()->asetus("EmailSaate") );
 
     MimeText text(viesti);
     message.addPart(&text);
 
-    QString filename = tulkkaa("laskuotsikko",kieli).toLower() + tosite.lasku().numero() + ".pdf";
-    MimeAttachment attachment(tulostaja.pdf(tosite), filename);
+    QString filename = tulkkaa("laskuotsikko",kieli).toLower() + tosite->lasku().numero() + ".pdf";
+    MimeAttachment attachment(tulostaja.pdf(*tosite), filename);
     attachment.setContentType("application/pdf");
     message.addPart(&attachment);
+
+    for(int i=0; i < tosite->liitteet()->rowCount(); i++) {
+        const QModelIndex indeksi = tosite->liitteet()->index(i);
+
+
+        if( indeksi.data(TositeLiitteet::RooliRooli).toString().isEmpty()) {
+
+            MimeAttachment* lisaLiite = new MimeAttachment(indeksi.data(TositeLiitteet::SisaltoRooli).toByteArray(),
+                                     indeksi.data(TositeLiitteet::NimiRooli).toString());
+            lisaLiite->setContentType(indeksi.data(TositeLiitteet::TyyppiRooli).toString());
+            lisaLiite->setParent(tosite);
+
+            message.addPart(lisaLiite);
+
+        }
+    }
 
     if(client.sendMail(message)) {
         merkkaaToimitetuksi();
@@ -106,27 +131,6 @@ void SahkopostiToimittaja::toimita()
         virhe(tr("Laskujen lähettäminen sähköpostillä epäonnistui."));
     }
 
+    tosite->deleteLater();
 }
 
-QString SahkopostiToimittaja::maksutiedot(const Tosite &tosite)
-{
-    const Lasku& lasku = tosite.constLasku();
-    const QString& kieli = lasku.kieli();
-
-    QString iban = kp()->asetukset()->asetus(AsetusModel::LaskuIbanit).split(",").value(0);
-    bool rf = kp()->asetukset()->onko(AsetusModel::LaskuRF);
-
-    if( !lasku.summa().cents())
-        return tulkkaa("eimaksettavaa", kieli);   // Ei maksettavaa
-
-
-
-    QString txt = tulkkaa("erapvm", kieli) + " " + lasku.erapvm().toString("dd.MM.yyyy") + "\n";
-    txt.append(tulkkaa("Yhteensa", kieli) + " " + lasku.summa().display()  + " \n");
-    txt.append(tulkkaa("viitenro", kieli) + " " +  ( rf ? lasku.viite().rfviite() : lasku.viite().valeilla()  )  + "\n");
-    txt.append(tulkkaa("iban", kieli) + " " + Iban(iban).valeilla() + "\n");
-    txt.append(tulkkaa("virtviiv", kieli) + " " + lasku.virtuaaliviivakoodi(iban, rf)  );
-
-    return txt;
-
-}

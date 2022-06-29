@@ -28,8 +28,7 @@ public:
 
 protected:
     virtual void toimita() override;
-
-    QString maksutiedot(const Tosite& tosite);
+    void laheta(Tosite* tosite);
 };
 
 #endif // SAHKOPOSTITOIMITTAJA_H

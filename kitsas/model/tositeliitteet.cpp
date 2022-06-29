@@ -119,35 +119,45 @@ void TositeLiitteet::lataa(QVariantList data)
     }
     endResetModel();
 
+    // Jos model näyttää liitteitä, näytetään ensimmäinen näytettävä liite
+    // (ensisijaisesti kuitenkin laskun kuva) ja ladataan muut kuvat jotta
+    // niistä saadaan esikatselukuvat
+
     if( naytaLiite_ ) {
         emit naytaliite("*LADATAAN*");
+        int naytettava = -1;
 
-        // Varmistetaan, että ensisijaisesti näytetään laskun kuva, ei
-        // xml-laskua
         for(int i=0; i < liitteet_.count(); i++) {
-            QString tyyppi = data.value(i).toMap().value("tyyppi").toString();
-            if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
-                    nayta(i);
+            const TositeLiite& liite = liitteet_.at(i);
+            if( liite.getRooli() == "lasku") {
+                naytettava = i;
+                break;
+            }
+            const QString& ttyyppi = data.value(i).toMap().value("tyyppi").toString();
+            if( naytettava < 0 && ( ttyyppi == "application/pdf" || ttyyppi=="application/jpg")   ) {
+                naytettava = i;
+            }
+        }
+        if( naytettava > -1) {
+            nayta(naytettava);
 
-                    // Haetaan vielä esikatseltavat lopuista liitteistä
-                    for(i++; i < liitteet_.count(); i++) {
-                        QVariantMap map = data.value(i).toMap();
-                        QString tyyppi = map.value("tyyppi").toString();
-                        if( tyyppi == "application/pdf" || tyyppi == "application/jpg") {
-                            KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
-                            connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
-                            kysely->kysy();
-                        }
-
-                    }
-                    return;
+            // Haetaan vielä lopuista esikatseltavat
+            for(int i=0; i < liitteet_.count(); i++) {
+                const QVariantMap map = data.value(i).toMap();
+                const QString& ttyyppi = map.value("tyyppi").toString();
+                if( i != naytettava && ( ttyyppi == "application/pdf" || ttyyppi=="application/jpg")  ) {
+                    KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
+                    connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+                    kysely->kysy();
                 }
-            }        
-
-        if( liitteet_.count())
-            nayta(0);
-        else
-            emit naytaliite(QByteArray());        
+            }
+        } else {
+            if( liitteet_.count()) {
+                nayta(0);
+            } else {
+                emit naytaliite(QByteArray());
+            }
+        }
     }
 }
 
@@ -414,10 +424,27 @@ QVariantList TositeLiitteet::liitettavat() const
     return lista;
 }
 
+void TositeLiitteet::lataaKaikkiLiitteet()
+{
+    bool tyhjia = false;
+    for( int i=0; i < liitteet_.count(); i++) {
+        if( liitteet_.at(i).getSisalto().isEmpty() ) {
+            tyhjia = true;
+            KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(i).getLiiteId()));
+            connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+            kysely->kysy();
+        }
+    }
+    if( tyhjia == false) {
+        emit kaikkiLiitteetHaettu();
+    }
+}
+
 void TositeLiitteet::naytaLadattuLiite()
 {
     naytaLiite_ = true;
 }
+
 
 void TositeLiitteet::nayta(int indeksi)
 {
@@ -487,6 +514,13 @@ void TositeLiitteet::liitesaapuuValmiiksi(QVariant *data, int indeksi)
         liitteet_[indeksi].setSisalto(data->toByteArray());
 
     emit dataChanged(index(indeksi), index(indeksi), QVector<int>() << Qt::DecorationRole);
+
+    // Jos kaikki liitteet on haettu, annetaan siitä ilmoitus ;)
+    for(const TositeLiite& liite: liitteet_) {
+        if( liite.getSisalto().isEmpty())
+            return;
+    }
+    emit kaikkiLiitteetHaettu();
 }
 
 void TositeLiitteet::liiteLisatty(const QVariant & /*data*/, int liiteId, int liiteIndeksi)

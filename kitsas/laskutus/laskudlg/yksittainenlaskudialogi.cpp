@@ -56,7 +56,7 @@ void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
 
     int tila = tosite_->tila();
     if( tila == Tosite::LAHETETAAN) {        
-        LaskunToimittaja::toimita(tosite);
+        LaskunToimittaja::toimita(tosite.value("id").toInt());
 
     }
 }

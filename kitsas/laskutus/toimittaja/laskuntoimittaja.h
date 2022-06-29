@@ -50,7 +50,7 @@ protected:
     void haeLasku();
     void laskuSaapuu(QVariant* data);
     void tallennaLiite();
-    void liiteTallennettu();
+    void liiteTallennettu(const QVariantMap& tosite);
 
     void silmukka();
 

@@ -53,7 +53,6 @@ void LaskuDialogiTehdas::kaynnista(KitsasInterface *interface, QObject* parent)
 void LaskuDialogiTehdas::naytaLasku(int tositeId)
 {
     Tosite* tosite = new Tosite(instanssi__);
-    tosite->liitteet()->naytaLadattuLiite();
     connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::tositeLadattu);
     tosite->lataa(tositeId);
 }
