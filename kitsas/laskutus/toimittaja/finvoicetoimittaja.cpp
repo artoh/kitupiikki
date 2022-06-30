@@ -24,6 +24,8 @@
 #include "db/tositetyyppimodel.h"
 #include "model/tositerivi.h"
 #include "rekisteri/maamodel.h"
+#include "model/tositeliitteet.h"
+#include "laskutus/tulostus/laskuntulostaja.h"
 
 FinvoiceToimittaja::FinvoiceToimittaja(QObject *parent) :
     AbstraktiToimittaja(parent)
@@ -40,69 +42,10 @@ void FinvoiceToimittaja::toimita()
     } else {
         if( init_.isEmpty())
             alustaInit();
-
-        QVariantMap asiakas = tositeMap().value("kumppani").toMap();
-        if( (asiakas.value("ovt").toString().isEmpty() || asiakas.value("operaattori").toString().isEmpty()) &&
-             tositeMap().value("lasku").toMap().value("laskutapa").toInt() != Lasku::POSTITUS ) {
-            virhe(tr("Verkkolaskun saajalle ei ole määritelty verkkolaskutusosoitetta"));
-            return;
-        }
-
-        MaaModel::Maa maa = MaaModel::instanssi()->maaKoodilla(asiakas.value("maa").toString());
-        asiakas.insert("maanimi", maa.englanniksi());
-
-        QVariantMap pyynto;
-        pyynto.insert("init", init_);
-        pyynto.insert("asiakas", asiakas);
-
-        Lasku lasku = tositeMap().value("lasku").toMap();
-        int tyyppi = tositeMap().value("tyyppi").toInt();
-
-
-        if( lasku.maksutapa() == Lasku::KATEINEN  || lasku.maksutapa() == Lasku::KORTTIMAKSU)
-            lasku.set("tyyppi", "KUITTI");
-        else if( tyyppi == TositeTyyppi::HYVITYSLASKU)
-            lasku.set("tyyppi", "HYVITYSLASKU");
-        else if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
-            lasku.set("tyyppi", "MAKSUMUISTUTUS");
-        else if( lasku.maksutapa() == Lasku::ENNAKKOLASKU)
-            lasku.set("tyyppi", "ENNAKKOLASKU");
-        else
-            lasku.set("tyyppi", "LASKU");
-
-        pyynto.insert("lasku", lasku.data() );
-
-        QVariantList rivit;
-        for(const auto& item : tositeMap().value("rivit").toList()) {
-            TositeRivi rivi = item.toMap();
-            if( !rivi.unKoodi().isEmpty() )
-                rivi.setYksikko( kp()->kaanna("UN_" + rivi.unKoodi(), lasku.kieli().toLower()) );
-            rivit.append(rivi.data());
-        }
-
-        pyynto.insert("rivit", rivit);
-        pyynto.insert("docid", tositeMap().value("id").toInt());
-
         if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
-
-            QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
-            PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                        osoite );
-            if( kp()->asetukset()->onko("FinvoiceSOAP")) pk->lisaaAttribuutti("soap");
-            connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::laskuSaapuu);
-            connect( pk, &KpKysely::virhe, this, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
-
-            pk->kysy(pyynto);
-
+           paikallinenVerkkolasku();
         } else if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA) {
-            QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetukset()->asetus(AsetusModel::Ytunnus);
-
-            PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
-                        osoite );
-            connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::maventaToimitettu);
-            connect( pk, &KpKysely::virhe, this, &FinvoiceToimittaja::maventaVirhe);
-
-            pk->kysy(pyynto);
+            aloitaMaventa();
         }
     }
 }
@@ -132,6 +75,19 @@ void FinvoiceToimittaja::alustaInit()
     init_.insert("tilit", tilit);
 }
 
+void FinvoiceToimittaja::paikallinenVerkkolasku()
+{
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/create";
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                osoite );
+    if( kp()->asetukset()->onko("FinvoiceSOAP")) pk->lisaaAttribuutti("soap");
+    connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::laskuSaapuu);
+    connect( pk, &KpKysely::virhe, this, [this] {  this->virhe(tr("Verkkolaskun muodostaminen epäonnistui"));} );
+
+    pk->kysy(finvoiceJson());
+
+}
+
 
 void FinvoiceToimittaja::laskuSaapuu(QVariant *data)
 {
@@ -149,6 +105,132 @@ void FinvoiceToimittaja::laskuSaapuu(QVariant *data)
         out.close();
     }
     merkkaaToimitetuksi();
+}
+
+
+QVariantMap FinvoiceToimittaja::finvoiceJson()
+{
+    QVariantMap asiakas = tositeMap().value("kumppani").toMap();
+    if( (asiakas.value("ovt").toString().isEmpty() || asiakas.value("operaattori").toString().isEmpty()) &&
+         tositeMap().value("lasku").toMap().value("laskutapa").toInt() != Lasku::POSTITUS ) {
+        virhe(tr("Verkkolaskun saajalle ei ole määritelty verkkolaskutusosoitetta"));
+        return QVariantMap();
+    }
+
+    MaaModel::Maa maa = MaaModel::instanssi()->maaKoodilla(asiakas.value("maa").toString());
+    asiakas.insert("maanimi", maa.englanniksi());
+
+    QVariantMap pyynto;
+    pyynto.insert("init", init_);
+    pyynto.insert("asiakas", asiakas);
+
+    Lasku lasku = tositeMap().value("lasku").toMap();
+    int tyyppi = tositeMap().value("tyyppi").toInt();
+
+
+    if( lasku.maksutapa() == Lasku::KATEINEN  || lasku.maksutapa() == Lasku::KORTTIMAKSU)
+        lasku.set("tyyppi", "KUITTI");
+    else if( tyyppi == TositeTyyppi::HYVITYSLASKU)
+        lasku.set("tyyppi", "HYVITYSLASKU");
+    else if( tyyppi == TositeTyyppi::MAKSUMUISTUTUS)
+        lasku.set("tyyppi", "MAKSUMUISTUTUS");
+    else if( lasku.maksutapa() == Lasku::ENNAKKOLASKU)
+        lasku.set("tyyppi", "ENNAKKOLASKU");
+    else
+        lasku.set("tyyppi", "LASKU");
+
+    pyynto.insert("lasku", lasku.data() );
+
+    QVariantList rivit;
+    for(const auto& item : tositeMap().value("rivit").toList()) {
+        TositeRivi rivi = item.toMap();
+        if( !rivi.unKoodi().isEmpty() )
+            rivi.setYksikko( kp()->kaanna("UN_" + rivi.unKoodi(), lasku.kieli().toLower()) );
+        rivit.append(rivi.data());
+    }
+
+    pyynto.insert("rivit", rivit);
+    pyynto.insert("docid", tositeMap().value("id").toInt());
+
+    return pyynto;
+
+}
+
+void FinvoiceToimittaja::aloitaMaventa()
+{
+    liitteet_.clear();
+    liiteIndeksi_ = -1;
+
+    toimitettavaTosite_ = new Tosite(this);
+    toimitettavaTosite_->lataa(tositeMap());
+
+    connect( toimitettavaTosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu,
+             this, &FinvoiceToimittaja::liitaLaskunKuva);
+    toimitettavaTosite_->liitteet()->lataaKaikkiLiitteet();
+}
+
+void FinvoiceToimittaja::liitaLaskunKuva()
+{
+    LaskunTulostaja tulostaja(kp());    
+    QByteArray kuva = tulostaja.pdf(*toimitettavaTosite_);
+
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                osoite );
+    connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::liiteLiitetty);
+    pk->lahetaTiedosto(kuva);
+
+}
+
+void FinvoiceToimittaja::liiteLiitetty(QVariant *data)
+{
+    // Liitetään saapunut
+    QVariantMap map = data->toMap();
+    if( liiteIndeksi_ < 0) {
+        map.insert("nimi", toimitettavaTosite_->laskuNumero() + ".pdf");
+    } else {
+        const QModelIndex index = toimitettavaTosite_->liitteet()->index(liiteIndeksi_);
+        map.insert("nimi", index.data(TositeLiitteet::NimiRooli).toString());
+    }
+    liitteet_.append(map);
+
+    // Siirrytään seuraavaan
+    liiteIndeksi_++;
+
+    // Hypätään laskun kuvan yli
+    if( toimitettavaTosite_->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::RooliRooli).toString() == "lasku") {
+        liiteIndeksi_++;
+    }
+
+    // Jos liitteitä on jäljellä, liitetään seuraava liite, muuten siirrytään
+    // eteenpäin
+    if( liiteIndeksi_ < toimitettavaTosite_->liitteet()->rowCount()) {
+        const QByteArray& sisalto = toimitettavaTosite_->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::SisaltoRooli).toByteArray();
+        QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
+        PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                    osoite );
+        connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::liiteLiitetty);
+        pk->lahetaTiedosto(sisalto);
+
+    } else {
+        lahetaMaventa();
+    }
+}
+
+void FinvoiceToimittaja::lahetaMaventa()
+{
+    QVariantMap pyynto = finvoiceJson();
+    pyynto.insert("liitteet", liitteet_);
+
+    QString osoite = kp()->pilvi()->finvoiceOsoite() + "/invoices/" + kp()->asetukset()->asetus(AsetusModel::Ytunnus);
+
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                osoite );
+    connect( pk, &PilviKysely::vastaus, this, &FinvoiceToimittaja::maventaToimitettu);
+    connect( pk, &KpKysely::virhe, this, &FinvoiceToimittaja::maventaVirhe);
+
+    pk->kysy(pyynto);
+
 }
 
 void FinvoiceToimittaja::maventaToimitettu(QVariant *data)
@@ -180,3 +262,4 @@ void FinvoiceToimittaja::maventaVirhe(int koodi, const QString &selitys)
     }
 
 }
+

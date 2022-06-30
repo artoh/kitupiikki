@@ -33,6 +33,9 @@ public:
     bool nollaa() override;
     bool naytetaankoTallennus() override { return false;}
 
+protected:
+    void ltmuuttuu();
+
 private:
     Ui::MaksutapaSivu* ui;
     MaksutapaModel *tuloModel_;

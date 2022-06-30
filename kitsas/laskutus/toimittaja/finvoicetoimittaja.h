@@ -29,11 +29,27 @@ protected:
     virtual void toimita() override;
 
     void alustaInit();
+    void paikallinenVerkkolasku();
     void laskuSaapuu(QVariant* data);
+
+    QVariantMap finvoiceJson();
+
+
+    void aloitaMaventa();
+    void liitaLaskunKuva();
+    void liiteLiitetty(QVariant* data);
+    void lahetaMaventa();
     void maventaToimitettu(QVariant* data);
     void maventaVirhe(int koodi, const QString& selitys);
 
-    QVariantMap init_;
+
+
+    QVariantMap init_;    
+
+    Tosite* toimitettavaTosite_;
+    QVariantList liitteet_;
+    int liiteIndeksi_ = -1;
+
 };
 
 #endif // FINVOICETOIMITTAJA_H

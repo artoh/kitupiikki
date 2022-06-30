@@ -19,6 +19,7 @@
 #include "ui_maksutapasivu.h"
 #include "maksutapamuokkaus.h"
 #include "model/maksutapamodel.h"
+#include "db/kirjanpito.h"
 
 MaksutapaSivu::MaksutapaSivu() :
     ui(new Ui::MaksutapaSivu)
@@ -30,6 +31,19 @@ MaksutapaSivu::MaksutapaSivu() :
 
     ui->menoView->setModel(menoModel_);
     ui->tuloView->setModel(tuloModel_);
+
+    QString lisatiedot = kp()->asetukset()->asetus(AsetusModel::LaskuLisatiedot);
+    if( lisatiedot == "KAIKKI")
+        ui->kaikilleRadio->setChecked(true);
+    else if(lisatiedot == "EI")
+        ui->eiRadio->setChecked(true);
+    else
+        ui->laskuilleRadio->setChecked(true);
+
+
+    connect( ui->kaikilleRadio, &QRadioButton::clicked, this, &MaksutapaSivu::ltmuuttuu);
+    connect( ui->laskuilleRadio, &QRadioButton::clicked, this, &MaksutapaSivu::ltmuuttuu);
+    connect( ui->eiRadio, &QRadioButton::clicked, this, &MaksutapaSivu::ltmuuttuu);
 }
 
 bool MaksutapaSivu::nollaa()
@@ -37,4 +51,14 @@ bool MaksutapaSivu::nollaa()
     menoModel_->lataa(MaksutapaModel::MENO);
     tuloModel_->lataa(MaksutapaModel::TULO);
     return true;
+}
+
+void MaksutapaSivu::ltmuuttuu()
+{
+    if( ui->eiRadio->isChecked())
+        kp()->asetukset()->aseta(AsetusModel::LaskuLisatiedot, "EI");
+    else if( ui->kaikilleRadio->isChecked())
+        kp()->asetukset()->aseta(AsetusModel::LaskuLisatiedot, "KAIKKI");
+    else
+        kp()->asetukset()->poista(AsetusModel::LaskuLisatiedot);
 }

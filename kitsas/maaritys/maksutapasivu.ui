@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>438</height>
+    <width>483</width>
+    <height>651</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QLabel" name="label">
      <property name="font">
@@ -60,6 +60,48 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="lisaGroup">
+     <property name="title">
+      <string>Näytä laskun lisätiedot</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="laskuilleRadio">
+        <property name="text">
+         <string>Laskuille</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="kaikilleRadio">
+        <property name="text">
+         <string>Kaikille</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/dokumentti.png</normaloff>:/pic/dokumentti.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="eiRadio">
+        <property name="text">
+         <string>Ei koskaan</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

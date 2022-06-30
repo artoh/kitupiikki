@@ -342,5 +342,6 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { OletusMyyntitili, "OletusMyyntitili"},
     { VariKehys, "VariKehys"},
     { VariVarjo, "VariVarjo"},
-    { LaskuKorttitili, "LaskuKorttitili"},    
+    { LaskuKorttitili, "LaskuKorttitili"},
+    { LaskuLisatiedot, "KirjausLaskuLisatiedot"},
 };

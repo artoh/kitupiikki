@@ -587,9 +587,16 @@ void TuloMenoApuri::vastatiliMuuttui()
         ui->eraCombo->valitseUusiEra();
     }
 
-    bool laskulle = (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA))
+    const QString lisatietovalinta = kp()->asetukset()->asetus(AsetusModel::LaskuLisatiedot);
+
+    bool laskulle =
+            (lisatietovalinta == "KAIKKI" ? true :
+            (lisatietovalinta == "EI" ? false :
+            (vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA))
             && vastatili.eritellaankoTase()
-            && ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
+            && ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool() ));
+
+
     ui->viiteLabel->setVisible( laskulle );
     ui->viiteEdit->setVisible( laskulle );
 

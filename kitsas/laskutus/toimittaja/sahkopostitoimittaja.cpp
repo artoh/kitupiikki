@@ -37,8 +37,7 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 
 void SahkopostiToimittaja::toimita()
 {
-    Tosite* tosite = new Tosite(this);
-    QVariantMap map = tositeMap();
+    Tosite* tosite = new Tosite(this);    
     tosite->lataa(tositeMap());
 
     connect( tosite->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, [this, tosite] { this->laheta(tosite); });

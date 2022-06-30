@@ -106,7 +106,8 @@ public:
         OletusMyyntitili,
         VariKehys,
         VariVarjo,
-        LaskuKorttitili
+        LaskuKorttitili,
+        LaskuLisatiedot
 
     };
 
