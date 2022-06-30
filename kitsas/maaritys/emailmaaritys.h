@@ -46,6 +46,7 @@ public slots:
     void ilmoitaMuokattu();
     void kokeile();
     void porttiVaihtui(int portti);
+    void paivitaKitsasVaihto();
 
 private:
 

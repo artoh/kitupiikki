@@ -251,6 +251,7 @@ void FinvoiceToimittaja::maventaToimitettu(QVariant *data)
     } else {
         virhe(tr("Verkkolaskun lähettäminen Maventan palveluun epäonnistui. Tarkasta verkkolaskutuksen asetukset"));
     }
+    toimitettavaTosite_->deleteLater();
 }
 
 void FinvoiceToimittaja::maventaVirhe(int koodi, const QString &selitys)
@@ -260,6 +261,7 @@ void FinvoiceToimittaja::maventaVirhe(int koodi, const QString &selitys)
     } else {
         this->virhe(selitys);
     }
+    toimitettavaTosite_->deleteLater();
 
 }
 

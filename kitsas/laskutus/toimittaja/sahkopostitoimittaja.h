@@ -28,7 +28,18 @@ public:
 
 protected:
     virtual void toimita() override;
-    void laheta(Tosite* tosite);
+    void laheta();
+
+    QString viestinOtsikko() const;
+
+    void lahetaKitsas();
+    void liiteLiitetty(QVariant* data);
+    void lahetaViesti();
+
+    Tosite* tosite_;
+    QVariantList liitteet_;
+    int liiteIndeksi_ = -1;
+
 };
 
 #endif // SAHKOPOSTITOIMITTAJA_H

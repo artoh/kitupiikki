@@ -58,11 +58,18 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QRadioButton" name="kitsasRadio">
+        <property name="text">
+         <string>Lähetä Kitsaan palvelimen kautta</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="smtpGroup">
      <property name="title">
       <string>Smtp-palvelin</string>
      </property>

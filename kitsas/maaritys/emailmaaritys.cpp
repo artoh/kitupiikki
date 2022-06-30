@@ -22,6 +22,7 @@
 #include "emailmaaritys.h"
 #include "db/kirjanpito.h"
 #include "db/yhteysmodel.h"
+#include "pilvi/pilvimodel.h"
 
 #include "smtpclient/SmtpMime"
 #include <QMessageBox>
@@ -50,8 +51,9 @@ EmailMaaritys::EmailMaaritys() :
     connect( ui->kokeileNappi, SIGNAL(clicked(bool)), this, SLOT(kokeile()));
     connect( ui->porttiSpin, SIGNAL(valueChanged(int)), this, SLOT(porttiVaihtui(int)));
 
-    ui->testiLabel->hide();    
+    connect( ui->kitsasRadio, &QRadioButton::toggled, this, &EmailMaaritys::paivitaKitsasVaihto);
 
+    ui->testiLabel->hide();
 }
 
 EmailMaaritys::~EmailMaaritys()
@@ -63,6 +65,7 @@ bool EmailMaaritys::nollaa()
 {
     // SSL-varoitus siirretty sähköpostin asetuksiin
 
+    bool kitsasEmail = kp()->asetukset()->onko("KitsasEmail");
     bool ssltuki = QSslSocket::supportsSsl();
 
     if( !ssltuki)
@@ -83,14 +86,14 @@ bool EmailMaaritys::nollaa()
 
     paikallinen_ = !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
 
-    if( kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty() || paikallinen_) {
+    if( !kitsasEmail && (kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty() || paikallinen_)) {
         ui->palvelinEdit->setText( kp()->settings()->value("SmtpServer").toString() );
         ui->kayttajaEdit->setText( kp()->settings()->value("SmtpUser").toString());
         ui->salasanaEdit->setText( kp()->settings()->value("SmtpPassword").toString());
         ui->nimiEdit->setText( kp()->settings()->value("EmailNimi").toString());
         ui->emailEdit->setText( kp()->settings()->value("EmailOsoite").toString());
         ui->porttiSpin->setValue( kp()->settings()->value("SmtpPort",QSslSocket::supportsSsl() ? 465 : 25).toInt());
-        ui->tkAsetusRadio->setChecked(true);
+        ui->tkAsetusRadio->setChecked(!kitsasEmail);
         ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->settings()->value("EmailSSL").toString() ));
         ui->kopioEdit->setText(kp()->settings()->value("EmailKopio").toString());
     } else {
@@ -107,7 +110,10 @@ bool EmailMaaritys::nollaa()
 
     QJsonDocument doc = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() );
 
+    ui->kitsasRadio->setChecked(kitsasEmail);
     ui->kpAsetusRadio->setDisabled( paikallinen_ );
+    ui->kitsasRadio->setEnabled(!paikallinen_ && kp()->pilvi() && kp()->pilvi()->tilausvoimassa() );
+    paivitaKitsasVaihto();
 
     return true;
 }
@@ -136,6 +142,9 @@ bool EmailMaaritys::tallenna()
         kp()->asetukset()->aseta(AsetusModel::EmailKopio, ui->kopioEdit->text());
         kp()->asetukset()->aseta(AsetusModel::EmailSSL, sslAsetus(ui->tyyppiCombo->currentIndex()));
     }
+
+    kp()->asetukset()->aseta("KitsasEmail", ui->kitsasRadio->isChecked());
+
     return true;
 }
 
@@ -161,7 +170,7 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->asetukset()->asetus(AsetusModel::EmailSSL) != sslAsetus(ui->tyyppiCombo->currentIndex());
 
 
-    return muokattu;
+    return muokattu || ui->kitsasRadio->isChecked() != kp()->asetukset()->onko("KitsasEmail");
 
 }
 
@@ -238,5 +247,13 @@ void EmailMaaritys::porttiVaihtui(int portti)
         ui->tyyppiCombo->setCurrentIndex(SmtpClient::SslConnection);
     else if(portti == 587)
         ui->tyyppiCombo->setCurrentIndex(SmtpClient::TlsConnection);
+}
+
+void EmailMaaritys::paivitaKitsasVaihto()
+{
+    bool kitsas = ui->kitsasRadio->isChecked();
+    ui->smtpGroup->setVisible( !kitsas );
+    ui->kokeileNappi->setVisible( !kitsas );
+    ilmoitaMuokattu();
 }
 
