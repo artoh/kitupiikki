@@ -20,8 +20,10 @@
 
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
+#include "model/toiminimimodel.h"
 #include <QPainter>
 #include <QSvgRenderer>
+
 
 #include <QDebug>
 
@@ -40,6 +42,12 @@ void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja)
     kieli_ = lasku.kieli().toLower();
     vastaanottaja_ = vastaanottaja;
     toiminimiIndeksi_ = lasku.toiminimi();
+
+    kehysVari_ = interface_->toiminimet()->vari(ToiminimiModel::VariKehys,
+                                                 lasku.toiminimi(),
+                                                 "128,128,128");
+
+    maksulaatikko_.asetaKehysVari(kehysVari_);
 
     lataaYhteystiedot();
     lataaMaksutiedot(lasku);
@@ -122,7 +130,7 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
     painter->translate(0, maksuKorkeus_ + painter->fontMetrics().horizontalAdvance("ii"));
 
     if( viivakoodi_ && !tilisiirto_ && maksulaatikko_.sarakkeita() > 2) {
-        osoitelaatikko_.piirra(painter, mm * 110, 0);
+        osoitelaatikko_.piirra(painter, mm * 110, 0, kehysVari_);
 
         qreal yhteyslaatikkoLeveys = yhteyslaatikko_.koko().width();
         qreal tunnuslaatikkoLeveys = tunnuslaatikko_.koko().width();
@@ -132,20 +140,20 @@ void LaskunAlaosa::piirra(QPainter *painter, const Lasku &lasku)
 
         if( leveampi + osoitelaatikko_.koko().width() > leveys - 120 * mm) {
             // Kaikki päällekkäin
-            yhteyslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + painter->fontMetrics().height() );
-            tunnuslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + yhteyslaatikko_.koko().height() + painter->fontMetrics().height() );
+            yhteyslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
+            tunnuslaatikko_.piirra(painter, mm * 110, osoitelaatikko_.koko().height() + yhteyslaatikko_.koko().height() + painter->fontMetrics().height(), kehysVari_ );
         } else {
-            yhteyslaatikko_.piirra(painter, leveys - leveampi, 0);
-            tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height());
+            yhteyslaatikko_.piirra(painter, leveys - leveampi, 0, kehysVari_);
+            tunnuslaatikko_.piirra(painter, leveys - leveampi, yhteyslaatikko_.koko().height(), kehysVari_);
         }
 
         piirraViivakoodi(painter, QRectF(mm*5, mm*5, mm*100, mm*13), lasku);
     } else {
-        osoitelaatikko_.piirra(painter, 0, 0);
+        osoitelaatikko_.piirra(painter, 0, 0, kehysVari_);
         yhteyslaatikko_.piirra(painter,
                            leveys / 3 +  (leveys / 3  -  yhteyslaatikko_.koko().width()) / 2,
-                           0);
-        tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0);
+                           0, kehysVari_);
+        tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0, kehysVari_);
     }
     painter->translate(0,  yhteysKorkeus_ + mm * 3 );
 
@@ -167,11 +175,11 @@ qreal LaskunAlaosa::alatunniste(QPainter *painter)
 
     qreal leveys = painter->window().width();
 
-    osoitelaatikko_.piirra(painter, 0, 0);
+    osoitelaatikko_.piirra(painter, 0, 0, kehysVari_);
     yhteyslaatikko_.piirra(painter,
                        leveys / 3 +  (leveys / 3  -  yhteyslaatikko_.koko().width()) / 2,
-                       0);
-    tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0);
+                       0, kehysVari_);
+    tunnuslaatikko_.piirra(painter, leveys - tunnuslaatikko_.koko().width(), 0, kehysVari_);
 
     painter->setFont(QFont("FreeSans", 9));
     qreal rivinkorkeus = painter->fontMetrics().height();

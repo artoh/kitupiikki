@@ -44,6 +44,7 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
 
     const Lasku& lasku = tosite.constLasku();
     kieli_ = lasku.kieli().toLower();
+    varjoVari_ = kitsas_->toiminimet()->vari( ToiminimiModel::VariVarjo, lasku.toiminimi());
 
     if( lasku.numero().isEmpty())
         tulostaLuonnos(painter);
@@ -170,6 +171,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
 
     LaskuRuudukonTayttaja tayttaja( kitsas_ );
     TulostusRuudukko riviosa = tayttaja.tayta(tosite);
+    riviosa.asetaVarjo(varjoVari_);
     riviosa.asetaLeveys(painter->window().width(), painter->window().width());
     alalaita = riviosa.piirra(painter, device,
                    alalaita, this);
@@ -179,6 +181,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
     qreal rivinkorkeus = painter->fontMetrics().height();
 
     TulostusRuudukko veroRuudukko = tayttaja.alvRuudukko(painter);
+    veroRuudukko.asetaVarjo(varjoVari_);
     veroRuudukko.asetaLeveys( sivunleveys / 4, sivunleveys * 3 / 4 );
 
     veroRuudukko.asetaPistekoko(8);
@@ -198,6 +201,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
 
     if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN && tulostaKuukaudet) {
         TulostusRuudukko kuukaudet = tayttaja.kuukausiRuudukko(lasku, painter);
+        kuukaudet.asetaVarjo(varjoVari_);
         if( painter->transform().dy() + kuukaudet.koko().height() >= alalaita )
             alalaita = vaihdaSivua(painter, device);
         alalaita = kuukaudet.piirra(painter, device, alalaita, this);

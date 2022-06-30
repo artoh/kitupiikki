@@ -19,6 +19,7 @@
 
 #include <QList>
 #include <QRectF>
+#include <QColor>
 
 class QPainter;
 
@@ -28,7 +29,7 @@ public:
     LaskuInfoLaatikko();
     void lisaa(const QString& otsikko, const QString& teksti);
     qreal laskeKoko(QPainter* painter, qreal leveys);
-    void piirra(QPainter* painter, qreal x, qreal y);
+    void piirra(QPainter* painter, qreal x, qreal y, const QColor &vari);
 
     QSizeF koko() const { return koko_;}
 private:

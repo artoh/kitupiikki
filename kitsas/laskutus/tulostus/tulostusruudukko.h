@@ -20,6 +20,7 @@
 #include <QString>
 #include <QList>
 #include <QSizeF>
+#include <QColor>
 
 class QPainter;
 class QPagedPaintDevice;
@@ -35,6 +36,7 @@ class TulostusRuudukko
 {
 public:
     TulostusRuudukko();
+    void asetaVarjo(const QColor& vari);
 
     void asetaLeveys(qreal vahintaan, qreal enintaan = -1) { vahimmaisLeveys_ = vahintaan; enimmaisLeveys_ = enintaan;}
     void asetaPistekoko(int pistekoko) { pistekoko_ = pistekoko;}
@@ -113,6 +115,8 @@ private:
 
     QSizeF summakoko_;
     QSizeF koko_;        
+
+    QColor variVarjo_;
 
 };
 

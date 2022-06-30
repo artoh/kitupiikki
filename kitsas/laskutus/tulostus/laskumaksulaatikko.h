@@ -20,6 +20,7 @@
 #include <QList>
 #include <QSizeF>
 #include <QPainter>
+#include <QColor>
 
 class QPainter;
 
@@ -34,6 +35,7 @@ public:
     void piirra(QPainter* painter, qreal x, qreal y);
     QSizeF koko() const { return koko_;}
     int sarakkeita() const { return sarakkeet_.count();}
+    void asetaKehysVari(const QColor& vari);
 
 private:
     class LaatikkoSarake{
@@ -58,6 +60,8 @@ private:
     QList<LaatikkoSarake> sarakkeet_;
     QSizeF koko_;
     qreal vali_ = 0.0;
+
+    QColor variKehys_;
 
 public:
     constexpr static const qreal OTSIKKO_KOKO = 9;

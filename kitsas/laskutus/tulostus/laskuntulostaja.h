@@ -22,6 +22,7 @@
 #include "laskuntietolaatikko.h"
 #include "laskunalaosa.h"
 #include <QObject>
+#include <QColor>
 
 class KitsasInterface;
 class QPagedPaintDevice;
@@ -58,6 +59,7 @@ private:
     LaskunTietoLaatikko tietoLaatikko_;
     LaskunAlaosa alaOsa_;
     QString kieli_;
+    QColor varjoVari_;
 
 };
 

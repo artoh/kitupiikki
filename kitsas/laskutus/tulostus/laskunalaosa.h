@@ -80,6 +80,7 @@ private:
     bool virtuaaliviivakoodi_;
 
     int toiminimiIndeksi_ = 0;
+    QColor kehysVari_;
 };
 
 #endif // LASKUNALAOSA_H

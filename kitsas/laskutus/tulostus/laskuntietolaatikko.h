@@ -19,6 +19,7 @@
 
 #include "model/tosite.h"
 #include <QRectF>
+#include <QColor>
 
 class KitsasInterface;
 class QPainter;
@@ -76,6 +77,8 @@ private:
 
     QList<TietoRivi> rivit_;
     QString otsikko_;
+    QColor variVarjo_;
+    QColor variKehys_;
 
 };
 

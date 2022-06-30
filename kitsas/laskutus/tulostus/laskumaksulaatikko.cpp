@@ -19,7 +19,8 @@
 
 #include <QPainter>
 
-LaskuMaksuLaatikko::LaskuMaksuLaatikko()
+LaskuMaksuLaatikko::LaskuMaksuLaatikko() :
+    variKehys_(QColor(Qt::darkGray))
 {
 
 }
@@ -55,7 +56,7 @@ void LaskuMaksuLaatikko::piirra(QPainter *painter, qreal x, qreal y)
     painter->save();
 
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
-    painter->setPen( QPen(QBrush( kp()->asetukset()->vari(AsetusModel::VariKehys, Qt::darkGray) ), 0.3 * mm  ) );
+    painter->setPen( QPen(QBrush( variKehys_ ), 0.3 * mm  ) );
     painter->drawRect( QRectF(x, y, koko_.width(), koko_.height()));
 
     painter->setPen(QPen(Qt::black));
@@ -76,6 +77,11 @@ void LaskuMaksuLaatikko::piirra(QPainter *painter, qreal x, qreal y)
     }
 
     painter->restore();
+}
+
+void LaskuMaksuLaatikko::asetaKehysVari(const QColor &vari)
+{
+    variKehys_ = vari;
 }
 
 LaskuMaksuLaatikko::LaatikkoSarake::LaatikkoSarake()

@@ -67,6 +67,7 @@ private:
 
     LogoSijainti logoSijainti_ = VIERESSA;
     QImage logo_;
+    int logonKorkeus_;
 };
 
 #endif // LASKUNOSOITEALUE_H

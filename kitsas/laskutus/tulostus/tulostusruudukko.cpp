@@ -21,9 +21,15 @@
 #include <QPainter>
 #include <QPagedPaintDevice>
 
-TulostusRuudukko::TulostusRuudukko()
+TulostusRuudukko::TulostusRuudukko() :
+    variVarjo_(QColor(230,230,230))
 {
 
+}
+
+void TulostusRuudukko::asetaVarjo(const QColor &vari)
+{
+    variVarjo_ = vari;
 }
 
 void TulostusRuudukko::lisaaSarake(const QString &otsikko, Qt::AlignmentFlag tasaus, qreal vahimmaisleveys)
@@ -164,8 +170,8 @@ void TulostusRuudukko::piirraOtsikko(QPainter *painter)
     painter->setFont(QFont("FreeSans", pistekoko_ - 1, QFont::Normal));
     const double rivinkorkeus = painter->fontMetrics().height();
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
-    painter->setPen( QPen(QBrush( kp()->asetukset()->vari(AsetusModel::VariVarjo, QColor(230,230,230)))  , 0.15 * mm  ) );
-    painter->setBrush( QBrush( kp()->asetukset()->vari(AsetusModel::VariVarjo, QColor(230,230,230))) );
+    painter->setPen( QPen(QBrush( variVarjo_)  , 0.15 * mm  ) );
+    painter->setBrush( QBrush( variVarjo_) );
     painter->drawRect( QRect(0, 0, koko_.width(), rivinkorkeus + 2 * ivali_ ));
     painter->setBrush( Qt::NoBrush );
     painter->setPen( QPen(Qt::black) );
@@ -192,7 +198,7 @@ void TulostusRuudukko::piirraRivi(const Rivi &rivi, QPainter *painter)
     }
 
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
-    painter->setPen( QPen( QBrush( kp()->asetukset()->vari(AsetusModel::VariVarjo, QColor(230,230,230))) , 0.15 * mm  ) );
+    painter->setPen( QPen( QBrush( variVarjo_) , 0.15 * mm  ) );
     const qreal viivay = rivi.korkeus();
     painter->drawLine(0, viivay, koko_.width(), viivay);
     painter->drawLine(0, 0 - ivali_ * 2, 0, viivay);

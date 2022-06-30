@@ -35,6 +35,8 @@ QVariant ToiminimiModel::data(const QModelIndex &index, int role) const
         return index.row();
     } else if( role == Nimi || role > Qt::UserRole) {
         return tieto(role, index.row());
+    } else if( role == Qt::DisplayRole) {
+        return tieto(Nimi, index.row());
     }
 
     return QVariant();
@@ -88,6 +90,9 @@ int ToiminimiModel::lisaaToiminimi(const QString &toiminimi)
     uusi.insert( avaimet__.at(Sahkoposti), tieto(Sahkoposti));
     uusi.insert( avaimet__.at(Kotisivu), tieto(Kotisivu));
     uusi.insert( avaimet__.at(LogonSijainti), tieto(LogonSijainti));
+    uusi.insert( avaimet__.at(LogonKorkeus), tieto(LogonKorkeus));
+    uusi.insert( avaimet__.at(VariKehys), tieto(VariKehys));
+    uusi.insert( avaimet__.at(VariVarjo), tieto(VariVarjo));
     lista_.append(uusi);
     const int uusiIndeksi = lista_.size();
     logo_.resize( uusiIndeksi );
@@ -105,13 +110,17 @@ QString ToiminimiModel::toString() const
     return QJsonDocument::fromVariant(lista).toJson(QJsonDocument::Compact);
 }
 
-QString ToiminimiModel::tieto(int rooli, int indeksi) const
+QString ToiminimiModel::tieto(int rooli, int indeksi, const QString& oletus) const
 {
     const QString& avain = avaimet__.at(rooli);
     if( indeksi == 0) {
         return kp()->asetukset()->asetus(avain);
     }
-    return lista_.value(indeksi-1).value(avain).toString();
+    const QString arvo = lista_.value(indeksi-1).value(avain).toString();
+    if( arvo.isEmpty() && !oletus.isEmpty())
+        return oletus;
+    else
+        return arvo;
 }
 
 void ToiminimiModel::aseta(int indeksi, int rooli, const QString &tieto)
@@ -123,6 +132,16 @@ void ToiminimiModel::aseta(int indeksi, int rooli, const QString &tieto)
         lista_[indeksi-1].insert(avain, tieto);
     }
     emit dataChanged(index(indeksi),index(indeksi));
+}
+
+QColor ToiminimiModel::vari(int rooli, int indeksi, const QString& oletus)
+{
+    QString arvo = tieto(rooli, indeksi, oletus);
+    QStringList lista = arvo.split(",");
+    return QColor(lista.value(0).toInt(),
+                  lista.value(1).toInt(),
+                  lista.value(2).toInt());
+
 }
 
 QImage ToiminimiModel::logo(int indeksi) const
@@ -173,4 +192,7 @@ std::map<int,QString> ToiminimiModel::avaimet__ = {
     { Kotisivu, "Kotisivu"},
     { LogonSijainti, "LogonSijainti"},
     { Piilossa, "Piilossa"},
+    { LogonKorkeus, "LaskuLogoKorkeus"},
+    { VariKehys, "VariKehys"},
+    { VariVarjo, "VariVarjo"},
 };

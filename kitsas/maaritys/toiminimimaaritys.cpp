@@ -62,17 +62,10 @@ bool ToiminimiMaaritys::onkoMuokattu()
         const QString kaupunki = model->tieto(ToiminimiModel::Kaupunki, indeksi);
         const QString email = model->tieto(ToiminimiModel::Sahkoposti, indeksi);
         const QString kotisivu = model->tieto(ToiminimiModel::Kotisivu, indeksi);
+        const int logonKorkus = model->tieto(ToiminimiModel::LogonKorkeus, indeksi, "20").toInt();
+        const QString kehys = model->tieto(ToiminimiModel::VariKehys, indeksi, "128,128,128");
+        const QString varjo = model->tieto(ToiminimiModel::VariVarjo, indeksi, "230,230,230");
 
-        bool lm = logonSijainti != ui->logonSijaintiCombo->currentData().toString();
-        bool nmuokattu = nimi != ui->nimiLabel->text();
-        bool om = osoite != ui->osoiteEdit->toPlainText();
-        bool m = logonSijainti != ui->logonSijaintiCombo->currentData().toString() ||
-                nimi != ui->nimiLabel->text() ||
-                osoite != ui->osoiteEdit->toPlainText() ||
-                postinumero != ui->postinumeroEdit->text() ||
-                kaupunki != ui->kaupunkiEdit->text() ||
-                email != ui->kaupunkiEdit->text() ||
-                kotisivu != ui->kotisivuEdit->text() ;
 
         return  logonSijainti != ui->logonSijaintiCombo->currentData().toString() ||
                 nimi != ui->nimiLabel->text() ||
@@ -80,7 +73,10 @@ bool ToiminimiMaaritys::onkoMuokattu()
                 postinumero != ui->postinumeroEdit->text() ||
                 kaupunki != ui->kaupunkiEdit->text() ||
                 email != ui->emailEdit->text() ||
-                kotisivu != ui->kotisivuEdit->text() ;
+                kotisivu != ui->kotisivuEdit->text() ||
+                logonKorkus != ui->logoKorkeusSpin->value() ||
+                kehys != ui->kehysVari->color() ||
+                varjo != ui->varjoVari->color() ;
     }
     return false;
 
@@ -99,6 +95,9 @@ bool ToiminimiMaaritys::tallenna()
         model->aseta(indeksi, ToiminimiModel::Kaupunki, ui->kaupunkiEdit->text());
         model->aseta(indeksi, ToiminimiModel::Sahkoposti, ui->emailEdit->text());
         model->aseta(indeksi, ToiminimiModel::Kotisivu, ui->kotisivuEdit->text());
+        model->aseta(indeksi, ToiminimiModel::LogonKorkeus, QString::number(ui->logoKorkeusSpin->value()));
+        model->aseta(indeksi, ToiminimiModel::VariKehys, ui->kehysVari->color());
+        model->aseta(indeksi, ToiminimiModel::VariVarjo, ui->varjoVari->color());
 
         model->tallenna();
         return true;
@@ -114,6 +113,8 @@ void ToiminimiMaaritys::lataa()
 
         ui->poistaNappi->setEnabled( indeksi ); // Varsinaista toiminimeä ei voi poistaa
 
+        ui->toimiLabel->setText( indeksi ? tr("Aputoiminimi") : tr("Organisaation virallinen nimi") );
+
         lataaLogo();
 
         const QString logonSijainti = model->tieto(ToiminimiModel::LogonSijainti, indeksi);
@@ -123,6 +124,10 @@ void ToiminimiMaaritys::lataa()
         const QString kaupunki = model->tieto(ToiminimiModel::Kaupunki, indeksi);
         const QString email = model->tieto(ToiminimiModel::Sahkoposti, indeksi);
         const QString kotisivu = model->tieto(ToiminimiModel::Kotisivu, indeksi);
+        const int logonKorkus = model->tieto(ToiminimiModel::LogonKorkeus, indeksi, "20").toInt();
+        const QString kehys = model->tieto(ToiminimiModel::VariKehys, indeksi, "128,128,128");
+        const QString varjo = model->tieto(ToiminimiModel::VariVarjo, indeksi, "230,230,230");
+
 
         ui->logonSijaintiCombo->setCurrentIndex( ui->logonSijaintiCombo->findData( logonSijainti ) );
         ui->nimiLabel->setText( nimi );
@@ -131,6 +136,9 @@ void ToiminimiMaaritys::lataa()
         ui->kaupunkiEdit->setText( kaupunki );
         ui->emailEdit->setText( email );
         ui->kotisivuEdit->setText( kotisivu );
+        ui->logoKorkeusSpin->setValue(logonKorkus);
+        ui->kehysVari->setColor(kehys);
+        ui->varjoVari->setColor(varjo);
 
     }
 }

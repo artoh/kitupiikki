@@ -13,7 +13,7 @@ class ToiminimiModel : public QAbstractListModel
 public:
 
     enum ToiminimiRoolit {
-        Nimi = Qt::DisplayRole,
+        Nimi = Qt::UserRole + 1,
         Katuosoite = Qt::UserRole + 2,
         Postinumero = Qt::UserRole + 3,
         Kaupunki = Qt::UserRole + 4,
@@ -21,10 +21,14 @@ public:
         Sahkoposti = Qt::UserRole + 6,
         Kotisivu = Qt::UserRole + 7,
         LogonSijainti = Qt::UserRole + 10,
+        LogonKorkeus = Qt::UserRole + 11,
+        VariKehys = Qt::UserRole + 12,
+        VariVarjo = Qt::UserRole + 13,
+
         Piilossa = Qt::UserRole + 100,
         Nakyva = Qt::UserRole + 101,
         Logo = Qt::DecorationRole,
-        Indeksi = Qt::UserRole + 200
+        Indeksi = Qt::UserRole + 200,
     };
 
 
@@ -45,8 +49,9 @@ public:
 
     int lisaaToiminimi(const QString& toiminimi);
 
-    QString tieto(int rooli = Nimi, int indeksi = 0) const;
+    QString tieto(int rooli = Nimi, int indeksi = 0, const QString &oletus = QString()) const;
     void aseta(int indeksi, int rooli, const QString& tieto);
+    QColor vari(int rooli = VariKehys, int indeksi=0, const QString &oletus="128,128,128");
 
     QImage logo(int indeksi = 0) const;
     void asetaLogo(int indeksi, const QImage& logo);

@@ -71,6 +71,7 @@ void LaskunOsoiteAlue::lataa(const Tosite &tosite)
                     lasku.lahetystapa() == Lasku::PDF;
 
     logo_ = toiminimet->logo(toiminimiIndeksi);
+    logonKorkeus_ = toiminimet->tieto(ToiminimiModel::LogonKorkeus, toiminimiIndeksi, "20").toInt();
 }
 
 qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)

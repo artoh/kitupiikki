@@ -17,6 +17,7 @@
 
 #include "maarityswidget.h"
 #include "db/kirjanpito.h"
+#include "tools/varinvalinta.h"
 
 #include <QLineEdit>
 #include <QComboBox>
@@ -49,6 +50,11 @@ void MaaritysWidget::connectMuutokset()
         QPlainTextEdit *ptedit = qobject_cast<QPlainTextEdit*>(widget);
         if( ptedit ) {
             connect( ptedit, &QPlainTextEdit::textChanged, this, &MaaritysWidget::tarkastaMuokkaus);
+            continue;
+        }
+        VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
+        if( variv ) {
+            connect( variv, &VarinValinta::variVaihtui, this, &MaaritysWidget::tarkastaMuokkaus);
             continue;
         }
     }

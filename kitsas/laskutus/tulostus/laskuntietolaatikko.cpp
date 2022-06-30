@@ -21,6 +21,7 @@
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "model/tositeviennit.h"
+#include "model/toiminimimodel.h"
 
 #include <QDebug>
 #include <QPainter>
@@ -95,6 +96,11 @@ void LaskunTietoLaatikko::lataa(Tosite &tosite)
         const QString& huoneistoTunnus = kitsas_->huoneistot()->tunnus(huoneistoId);
         lisaa("huoneisto", huoneistoTunnus);
     }
+
+    variVarjo_ = kitsas_->toiminimet()->vari(
+                ToiminimiModel::VariVarjo, lasku.toiminimi(), "230,230,230");
+    variKehys_ = kitsas_->toiminimet()->vari(
+                ToiminimiModel::VariKehys, lasku.toiminimi(), "128,128,128");
 
 }
 
@@ -224,13 +230,13 @@ void LaskunTietoLaatikko::piirraLaatikko(QPainter *painter)
     painter->save();
 
     painter->setPen( Qt::NoPen );
-    painter->setBrush( QBrush( kitsas_->asetukset()->vari(AsetusModel::VariVarjo, QColor(230,230,230))) );
+    painter->setBrush( QBrush( variVarjo_) );
     painter->drawRect( QRect(laatikko_.x(), laatikko_.y(),otsikkoleveys_, laatikko_.height()));
 
     painter->setBrush( Qt::NoBrush );
 
     const double mm = painter->device()->width() * 1.00 / painter->device()->widthMM();
-    painter->setPen( QPen(QBrush( kitsas_->asetukset()->vari(AsetusModel::VariKehys, Qt::darkGray)), 0.3 * mm  ) );
+    painter->setPen( QPen(QBrush( variKehys_), 0.3 * mm  ) );
     painter->drawRect( laatikko_ );
 
     painter->restore();
