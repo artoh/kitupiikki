@@ -46,11 +46,15 @@
 #include "rekisteri/maamodel.h"
 #include "pilvi/pilvimodel.h"
 #include "naytin/naytinikkuna.h"
+#include "model/toiminimimodel.h"
+
+#include <QSortFilterProxyModel>
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
     ui( new Ui::LaskuDialogi),
-    tosite_(tosite)
+    tosite_(tosite),
+    proxy_(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
     tosite_->setParent(this);
@@ -126,8 +130,18 @@ void KantaLaskuDialogi::alustaUi()
     paivitaLaskutustavat();
     laskutusTapaMuuttui();
     alustaMaksutavat();
+    alustaToiminimiCombo();
 
     ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+}
+
+void KantaLaskuDialogi::alustaToiminimiCombo()
+{
+    proxy_->setSourceModel( kp()->toiminimet() );
+    proxy_->setFilterRole( ToiminimiModel::Nakyva );
+    proxy_->setFilterFixedString("X");
+    ui->toiminimiCombo->setModel(proxy_);
+    ui->toiminimiCombo->setVisible( proxy_->rowCount() > 1 );
 }
 
 bool KantaLaskuDialogi::osoiteKunnossa()
@@ -277,6 +291,7 @@ void KantaLaskuDialogi::tositteelta()
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.kieli() ) );    
 
     ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ));
+    ui->toiminimiCombo->setCurrentIndex( ui->toiminimiCombo->findData( lasku.toiminimi(), ToiminimiModel::Indeksi ) );
 
 
     ViiteNumero viite( lasku.viite() );
@@ -365,6 +380,8 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setTilausNumero( ui->tilausnumeroEdit->text());
     tosite()->lasku().setHuomautusAika( ui->huomautusaikaSpin->value());
     tosite()->lasku().setSopimusnumero( ui->sopimusNumeroEdit->text());
+
+    tosite()->lasku().setToiminimi( ui->toiminimiCombo->currentData(ToiminimiModel::Indeksi).toInt() );
 
     tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
     if( ui->erittelyTextEdit->toPlainText().length())

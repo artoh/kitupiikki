@@ -927,7 +927,8 @@ QString AloitusSivu::vinkit()
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>" + tr("Kirjanpidon aloittaminen") + "</h3><ol>");
-        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat, logo ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/asetukset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/asetukset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
+        vinkki.append("<li> <a href=ktp:/maaritys/yhteys>" + tr("Tarkista yhteystiedot ja logo") + "</a> <a href='ohje:/asetukset/yhteystiedot'>(" + tr("Ohje") +")</a></li>");
         vinkki.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
         vinkki.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)

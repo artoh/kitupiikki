@@ -155,6 +155,9 @@ public:
     int toistuvanErapaiva() const { return luku("toistuvanerapaiva");}
     void setToistuvanErapaiva(const int paiva) { set("toistuvanerapaiva", paiva);}
 
+    int toiminimi() const { return luku("toiminimi");}
+    void setToiminimi(const int indeksi) { set("toiminimi", indeksi);}
+
     QString virtuaaliviivakoodi(const Iban& iban, bool rf = false) const;
     QString QRkooditieto(const Iban& iban, const QString& nimi, bool rf=false) const;
 

@@ -356,7 +356,7 @@ osoite</string>
         </layout>
        </item>
        <item row="1" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,1,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,1,1,0">
          <item>
           <widget class="QComboBox" name="valvontaCombo"/>
          </item>
@@ -365,6 +365,9 @@ osoite</string>
          </item>
          <item>
           <widget class="QComboBox" name="riviTyyppiCombo"/>
+         </item>
+         <item>
+          <widget class="QComboBox" name="toiminimiCombo"/>
          </item>
         </layout>
        </item>
@@ -1302,17 +1305,6 @@ osoite</string>
     </layout>
    </item>
   </layout>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>100</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_15"/>
-  </widget>
  </widget>
  <customwidgets>
   <customwidget>

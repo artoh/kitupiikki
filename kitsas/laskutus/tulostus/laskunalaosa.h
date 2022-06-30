@@ -22,6 +22,8 @@
 #include "laskumaksulaatikko.h"
 #include "laskuinfolaatikko.h"
 
+#include "model/toiminimimodel.h"
+
 class KitsasInterface;
 class QPainter;
 
@@ -47,6 +49,8 @@ private:
     void lataaMaksutiedot(const Lasku& lasku);
 
     void lisaaYhteys(const int &asetusavain, const QString& kaannosavain);
+    QString toimiNimiTieto(ToiminimiModel::ToiminimiRoolit rooli) const;
+    void toiminimiYhteys(ToiminimiModel::ToiminimiRoolit rooli, const QString& kaannosavain);
     void lisaaTunnukseen(const QString &avain, const QString& teksti);
     void piirraTilisiirto(QPainter* painter, const Lasku& lasku);
     void piirraViivakoodi(QPainter* painter, const QRectF& rect, const Lasku& lasku);
@@ -74,6 +78,8 @@ private:
     bool tilisiirto_;
     bool viivakoodi_;
     bool virtuaaliviivakoodi_;
+
+    int toiminimiIndeksi_ = 0;
 };
 
 #endif // LASKUNALAOSA_H

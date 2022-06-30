@@ -59,7 +59,6 @@ bool Perusvalinnat::nollaa()
 {
     TallentavaMaaritysWidget::nollaa();
 
-    naytaLogo();
     connect( ui->laajuusCombo, &QComboBox::currentTextChanged, this, &Perusvalinnat::alvilaajuudesta);
 
     SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );

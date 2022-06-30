@@ -18,6 +18,7 @@
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
 #include "rekisteri/maamodel.h"
+#include "model/toiminimimodel.h"
 
 #include <QVariantMap>
 #include <QPainter>
@@ -27,34 +28,36 @@
 LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
     kitsas_(kitsas)
 {
-    const AsetusModel* asetukset = kitsas->asetukset();
 
-    if( kitsas->logo().size().isEmpty() ) {
-        logoSijainti_ = EILOGOA;
-    } else {
-        const QString& sijaintiTeksti = asetukset->asetus(AsetusModel::Logonsijainti);
-        if( sijaintiTeksti == "VAINLOGO")
-            logoSijainti_ = VAINLOGO;
-        else if( sijaintiTeksti == "YLLA")
-            logoSijainti_ = YLLA;
-    }   // Oletuksena logo on vieressä
-
-    if( kitsas->logo().size().isEmpty() ||
-        logoSijainti_ != VAINLOGO ) {
-        const QString& aputoiminimi = asetukset->asetus(AsetusModel::Aputoiminimi);
-        nimi_ = aputoiminimi.isEmpty() ?
-                kitsas->asetukset()->asetus(AsetusModel::OrganisaatioNimi) :
-                aputoiminimi;
-    }
-    lahettajaOsoite_ = isoIkkuna() ?
-            asetukset->asetus(AsetusModel::Katuosoite) + "\n" +
-            asetukset->asetus(AsetusModel::Postinumero) + " " + asetukset->asetus(AsetusModel::Kaupunki)
-              : QString();
 
 }
 
 void LaskunOsoiteAlue::lataa(const Tosite &tosite)
 {
+    const Lasku lasku = tosite.constLasku();
+    const int toiminimiIndeksi = lasku.toiminimi();
+    const ToiminimiModel* toiminimet = kitsas_->toiminimet();
+    const QString sijaintiStr = toiminimet->tieto(ToiminimiModel::LogonSijainti, toiminimiIndeksi);
+    if( toiminimet->logo(toiminimiIndeksi).isNull()) {
+        logoSijainti_ = EILOGOA;
+    } else if( sijaintiStr == "VAINLOGO") {
+        logoSijainti_ = VAINLOGO;
+    } else if( sijaintiStr == "YLLA") {
+        logoSijainti_ = YLLA;
+    } else {
+        logoSijainti_ = VIERESSA;
+    }
+
+    if( logoSijainti_ != VAINLOGO) {
+        nimi_ = toiminimet->tieto(ToiminimiModel::Nimi, toiminimiIndeksi);
+    }
+
+    lahettajaOsoite_ = isoIkkuna() ?
+        toiminimet->tieto(ToiminimiModel::Katuosoite, toiminimiIndeksi) + "\n" +
+        toiminimet->tieto(ToiminimiModel::Postinumero) + " " + toiminimet->tieto(ToiminimiModel::Kaupunki)
+        :   QString();
+
+
     const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
     if( kumppani.value("osoite").toString().isEmpty()) {
         const Lasku& lasku = tosite.constLasku();
@@ -63,9 +66,11 @@ void LaskunOsoiteAlue::lataa(const Tosite &tosite)
         vastaanottaja_ = MaaModel::instanssi()->muotoiltuOsoite(kumppani);
     }
 
-    tulostettava_ = tosite.constLasku().lahetystapa() == Lasku::TULOSTETTAVA ||
-                    tosite.constLasku().lahetystapa() == Lasku::POSTITUS ||
-                    tosite.constLasku().lahetystapa() == Lasku::PDF;
+    tulostettava_ = lasku.lahetystapa() == Lasku::TULOSTETTAVA ||
+                    lasku.lahetystapa() == Lasku::POSTITUS ||
+                    lasku.lahetystapa() == Lasku::PDF;
+
+    logo_ = toiminimet->logo(toiminimiIndeksi);
 }
 
 qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
@@ -75,9 +80,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
 
     int sivunLeveys = painter->window().width();
 
-    const QRectF ikkuna = kuorenIkkuna(device);
-
-    const QImage& logo = kitsas_->logo();
+    const QRectF ikkuna = kuorenIkkuna(device);    
 
     QRectF lahettajaAlue =
             ikkuna.isNull() ? QRectF(0, 0 , sivunLeveys / 2 - 10 * mm, 35 * mm ) :
@@ -85,7 +88,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
                         : QRect( 0, 0, sivunLeveys / 2, ikkuna.y() - 10 * mm  ));
 
     nimiFonttiKoko_ = isoIkkuna() ? fonttikoko_ + 1 :
-                                    ( logo.isNull() ? fonttikoko_ + 4 : fonttikoko_ + 2);
+                                    ( logo_.isNull() ? fonttikoko_ + 4 : fonttikoko_ + 2);
 
     painter->setFont( QFont("FreeSans", nimiFonttiKoko_));
 
@@ -101,7 +104,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         lahettajanOsoiteRect_.moveTo( lahettajaAlue.x(), lahettajaAlue.y() + nimiRect_.height() );
     } else if( logoSijainti_ == VAINLOGO) {
         qreal lkorkeus = lahettajaAlue.height() - lahettajanOsoiteRect_.height();
-        QSize size = logo.scaled(lahettajaAlue.width(),
+        QSize size = logo_.scaled(lahettajaAlue.width(),
                                  qMin(logoMaxKorkeus, lkorkeus),
                                  Qt::KeepAspectRatio ).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
@@ -109,7 +112,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         lahettajanOsoiteRect_.moveTo(lahettajaAlue.x(), lahettajaAlue.y() + logoRect_.height());
     } else if( logoSijainti_ == YLLA) {
         qreal lkorkeus = lahettajaAlue.height() - nimiRect_.height() - lahettajanOsoiteRect_.height();
-        QSize size = logo.scaled(lahettajaAlue.width(),
+        QSize size = logo_.scaled(lahettajaAlue.width(),
                                  qMin(logoMaxKorkeus, lkorkeus),
                                  Qt::KeepAspectRatio).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
@@ -123,7 +126,7 @@ qreal LaskunOsoiteAlue::laske(QPainter *painter, QPagedPaintDevice *device)
         qreal jaljella = lahettajaAlue.width() - leveampi;
         qreal tekstienKorkeus = nimiRect_.height() + lahettajanOsoiteRect_.height();
 
-        QSize size = logo.scaled(jaljella,
+        QSize size = logo_.scaled(jaljella,
                                  qMax(tekstienKorkeus, logoMaxKorkeus),
                                  Qt::KeepAspectRatio).size();
         logoRect_ = QRectF( lahettajaAlue.x(), lahettajaAlue.y(),
@@ -164,7 +167,7 @@ void LaskunOsoiteAlue::piirra(QPainter *painter)
 
     painter->setFont( QFont("FreeSans", nimiFonttiKoko_ ) );
 
-    painter->drawImage( logoRect_, kitsas_->logo() );
+    painter->drawImage( logoRect_, logo_ );
     if(!nimi_.isEmpty())
         painter->drawText( nimiRect_, Qt::TextWordWrap, nimi_);
 

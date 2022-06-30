@@ -39,6 +39,7 @@ void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja)
 {
     kieli_ = lasku.kieli().toLower();
     vastaanottaja_ = vastaanottaja;
+    toiminimiIndeksi_ = lasku.toiminimi();
 
     lataaYhteystiedot();
     lataaMaksutiedot(lasku);
@@ -200,18 +201,25 @@ QString LaskunAlaosa::kaanna(const QString &avain) const
 void LaskunAlaosa::lataaYhteystiedot()
 {
     const AsetusModel* asetukset = interface_->asetukset();
+    const QString organisaatioNimi = interface_->asetukset()->asetus(AsetusModel::OrganisaatioNimi);
+    const QString toiminimi = toimiNimiTieto(ToiminimiModel::Nimi);
 
-    lahettaja_ = asetukset->asetus(AsetusModel::OrganisaatioNimi) + "\n" +
-            asetukset->asetus(AsetusModel::Katuosoite) + "\n" +
-            asetukset->asetus(AsetusModel::Postinumero) + " " + asetukset->asetus(AsetusModel::Kaupunki);
+    lahettaja_ = toiminimi + "\n" +
+            toimiNimiTieto(ToiminimiModel::Katuosoite) + "\n" +
+            toimiNimiTieto(ToiminimiModel::Postinumero) + " " + toimiNimiTieto(ToiminimiModel::Kaupunki);
 
     osoitelaatikko_.lisaa(QString(), lahettaja_);
 
-    lisaaYhteys(AsetusModel::Kotisivu, "kotisivu");
-    lisaaYhteys(AsetusModel::Puhelin, "puhelin");
-    lisaaYhteys(AsetusModel::Email, "sahkoposti");
-    lisaaYhteys(AsetusModel::Kotipaikka, "Kotipaikka");
+    toiminimiYhteys(ToiminimiModel::Kotisivu, "kotisivu");
+    toiminimiYhteys(ToiminimiModel::Puhelin, "puhelin");
+    toiminimiYhteys(ToiminimiModel::Sahkoposti, "sahkoposti");
 
+    if( organisaatioNimi == toiminimi) {
+        lisaaYhteys(AsetusModel::Kotipaikka, "Kotipaikka");
+    } else {
+        lisaaTunnukseen(QString(), organisaatioNimi);
+        lisaaTunnukseen("kotipaikka", interface_->asetukset()->asetus(AsetusModel::Kotipaikka));
+    }
 
     const QString& ytunnus = asetukset->asetus(AsetusModel::Ytunnus);
     if( !ytunnus.isEmpty())
@@ -263,6 +271,19 @@ void LaskunAlaosa::lisaaYhteys(const int &asetusavain, const QString &kaannosava
         yhteyslaatikko_.lisaa( kaanna(kaannosavain), arvo);
     }
 
+}
+
+QString LaskunAlaosa::toimiNimiTieto(ToiminimiModel::ToiminimiRoolit rooli) const
+{
+    return interface_->toiminimet()->tieto(rooli, toiminimiIndeksi_);
+}
+
+void LaskunAlaosa::toiminimiYhteys(ToiminimiModel::ToiminimiRoolit rooli, const QString &kaannosavain)
+{
+    const QString arvo = toimiNimiTieto(rooli);
+    if( !arvo.isEmpty()) {
+        yhteyslaatikko_.lisaa( kaanna(kaannosavain), arvo );
+    }
 }
 
 void LaskunAlaosa::lisaaTunnukseen(const QString &avain, const QString &teksti)

@@ -20,6 +20,7 @@
 #include "model/tosite.h"
 
 #include <QRect>
+#include <QImage>
 
 class KitsasInterface;
 class QPainter;
@@ -65,6 +66,7 @@ private:
     qreal nimiFonttiKoko_;
 
     LogoSijainti logoSijainti_ = VIERESSA;
+    QImage logo_;
 };
 
 #endif // LASKUNOSOITEALUE_H

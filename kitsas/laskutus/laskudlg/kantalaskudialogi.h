@@ -20,11 +20,12 @@
 #include <QDialog>
 #include <QVariantMap>
 
+
 #include "naytin/esikatseltava.h"
 
 class Tosite;
-
 class HuoneistoModel;
+class QSortFilterProxyModel;
 
 namespace Ui {
 class LaskuDialogi;
@@ -95,6 +96,7 @@ protected:
 
 private:
     void alustaUi();
+    void alustaToiminimiCombo();
     void alustaRivitTab();
     bool osoiteKunnossa();
 
@@ -108,7 +110,7 @@ protected:
     bool paivitysKaynnissa_ = false;
     bool tositteeltaKaynnissa_ = false;
 
-
+    QSortFilterProxyModel* proxy_;
 
 
 
