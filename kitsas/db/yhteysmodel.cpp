@@ -78,7 +78,6 @@ void YhteysModel::lataaInit(QVariant *reply)
 
     Kielet::instanssi()->valitseKieli( kp()->settings()->value( kp()->asetukset()->uid() + "/kieli" ).toString() );
 
-
     // Pidetään yllä tietoa siitä, milloin viimeksi käytetty mitäkin
     // tilikarttaa, jotta tilikarttojen tilastointi toimii
     const QString& kartta = kp()->asetukset()->asetus(AsetusModel::Tilikartta);

@@ -41,18 +41,12 @@ Perusvalinnat::Perusvalinnat() :
 {
     ui->setupUi(this);    
 
-    connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
     connect( ui->hakemistoNappi, &QPushButton::clicked, this, &Perusvalinnat::avaaHakemisto );
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, this, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
-    connect( ui->poistaLogoNappi, &QPushButton::clicked, this, [this] { poistaLogo(); ui->logoLabel->clear(); });
     connect( ui->harjoitusCheck, &QPushButton::clicked, this, &Perusvalinnat::naytaVastuu);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
-
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/logovieressa.png"),tr("Logo nimen vieressä"),"VIERESSA");
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/logoylla.png"),tr("Logo nimen yläpuolella"),"YLLA");
-    ui->logonSijaintiCombo->addItem(QIcon(":/pic/Possu64.png"),tr("Näytä vain logo"),"VAINLOGO");
 
 }
 
@@ -99,27 +93,6 @@ bool Perusvalinnat::onkoMuokattu()
     return TallentavaMaaritysWidget::onkoMuokattu() ;
 }
 
-void Perusvalinnat::vaihdaLogo()
-{
-    QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)" );
-    if( !tiedostopolku.isEmpty())
-    {
-        QImage uusilogo;
-        uusilogo.load( tiedostopolku );
-        kp()->asetaLogo(uusilogo);
-        naytaLogo();        
-    }
-
-}
-
-void Perusvalinnat::poistaLogo()
-{
-    kp()->asetaLogo(QImage());
-    ui->poistaLogoNappi->setEnabled( false );
-    ui->logonSijaintiCombo->setEnabled(false);
-    naytaLogo();
-}
-
 
 bool Perusvalinnat::tallenna()
 {
@@ -140,19 +113,7 @@ void Perusvalinnat::alvilaajuudesta()
     ui->alvCheck->setChecked( laajuus >= alvlaajuus );
 }
 
-void Perusvalinnat::naytaLogo()
-{
-    QImage logo = kp()->logo();
-    if( logo.isNull()) {
-        ui->logoLabel->clear();
-        ui->logonSijaintiCombo->setEnabled(false);
-    } else {
-        ui->logoLabel->setPixmap( QPixmap::fromImage(logo.scaled(128,128*3,Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-        ui->logonSijaintiCombo->setEnabled(true);
-    }
 
-    ui->poistaLogoNappi->setEnabled( !logo.isNull() );
-}
 
 void Perusvalinnat::naytaVastuu(bool harjoitus)
 {

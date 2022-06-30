@@ -155,6 +155,12 @@ public:
     TilityyppiModel *tiliTyypit() const { return tiliTyypit_;}
 
     /**
+     * @brief Palauttaa toiminimien modelin
+     * @return
+     */
+    ToiminimiModel* toiminimet() const override { return toiminimiModel_;}
+
+    /**
      * @brief Palauttaa tuoteluettelon sisältävän modelin
      *
      * Tuoteluettelosta voidaan laskutuksessa valita valmiita tuotteita
@@ -403,6 +409,7 @@ protected:
     YhteysModel *yhteysModel_;
     TositeTyyppiModel *tositeTyypit_;
     KiertoModel* kiertoModel_;
+    ToiminimiModel* toiminimiModel_;
 
     QStringList tositesarjat_;
 

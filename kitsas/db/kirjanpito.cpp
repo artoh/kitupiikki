@@ -58,6 +58,7 @@
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "laskutus/laskunuusinta.h"
 #include "raportti/raporttivalinnat.h"
+#include "model/toiminimimodel.h"
 
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
@@ -83,7 +84,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),        
     tositeTyypit_( new TositeTyyppiModel(this)),
-    kiertoModel_( new KiertoModel(this))
+    kiertoModel_( new KiertoModel(this)),
+    toiminimiModel_( new ToiminimiModel(this))
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -282,6 +284,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         huoneistot()->paivita();
         alvIlmoitukset()->lataa();
         raporttiValinnat()->nollaa();
+        kp()->toiminimet()->lataa();
     }
 
     emit tietokantaVaihtui();

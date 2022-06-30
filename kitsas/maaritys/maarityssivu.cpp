@@ -46,6 +46,7 @@
 #include "palkkatilimaaritys.h"
 #include "laskumaaritys.h"
 #include "laskutekstit/laskutekstimaaritys.h"
+#include "toiminimimaaritys.h"
 
 #include "ui_veromaaritys.h"
 #include "ui_yhteystiedot.h"
@@ -62,7 +63,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "kayttoliittyma", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
-    lisaaSivu(tr("Yhteystiedot"), YHTEYSTIEDOT, "yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
+    lisaaSivu(tr("Yhteystiedot ja toiminimet"), YHTEYSTIEDOT, "yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
     lisaaSivu(tr("Liitteiden käsittely"), LIITTEET, "liitteet", QIcon(":/pic/liite.png"),"liitteet");
     lisaaSivu(tr("Käyttöoikeudet"), KAYTTOOIKEUDET, "kayttooikeudet", QIcon(":/pic/asiakkaat.png"),"oikeudet");
     lisaaSivu(tr("Tililuettelo"), TILIKARTTA, "tililuettelo", QIcon(":/pic/valilehdet.png"), "tilit");
@@ -210,9 +211,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else if( sivu == PERUSVALINNAT)
         nykyinen = new Perusvalinnat;
     else if( sivu == YHTEYSTIEDOT) {
-        nykyinen = new TallentavaMaaritysWidget;
-        Ui::Yhteystietoni *ui= new Ui::Yhteystietoni;
-        ui->setupUi(nykyinen);
+        nykyinen = new ToiminimiMaaritys;
     }
     else if( sivu == LIITTEET)
         nykyinen = new LiiteMaaritys;

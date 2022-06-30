@@ -127,6 +127,7 @@ SOURCES += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.cpp \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.cpp \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
+    $$PWD/maaritys/toiminimimaaritys.cpp \
     $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
@@ -136,6 +137,7 @@ SOURCES += \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/maksutapamodel.cpp \
+    $$PWD/model/toiminimimodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
@@ -497,6 +499,7 @@ HEADERS += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.h \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.h \
     $$PWD/maaritys/tilikarttapaivitys.h \
+    $$PWD/maaritys/toiminimimaaritys.h \
     $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
@@ -506,6 +509,7 @@ HEADERS += \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/maksutapamodel.h \
+    $$PWD/model/toiminimimodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
@@ -788,6 +792,7 @@ FORMS += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.ui \
     $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
+    $$PWD/maaritys/toiminimimaaritys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/maaritys/verkkolasku/maventa.ui \

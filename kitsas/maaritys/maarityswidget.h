@@ -79,6 +79,10 @@ public:
      * @return
      */
     virtual QString ohjesivu() { return ""; }
+
+protected:
+    void connectMuutokset();
+    void tarkastaMuokkaus();
 };
 
 #endif // MAARITYSWIDGET_H

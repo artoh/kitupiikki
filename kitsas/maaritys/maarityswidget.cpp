@@ -16,6 +16,11 @@
 */
 
 #include "maarityswidget.h"
+#include "db/kirjanpito.h"
+
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPlainTextEdit>
 
 MaaritysWidget::MaaritysWidget(QWidget *parent) : QWidget(parent)
 {
@@ -25,5 +30,33 @@ MaaritysWidget::MaaritysWidget(QWidget *parent) : QWidget(parent)
 MaaritysWidget::~MaaritysWidget()
 {
 
+}
+
+void MaaritysWidget::connectMuutokset()
+{
+    for(QWidget *widget : findChildren<QWidget*>() ) {
+
+        QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
+        if( edit ) {
+            connect( edit, &QLineEdit::textEdited, this, &MaaritysWidget::tarkastaMuokkaus );
+            continue;
+        }
+        QComboBox *combo = qobject_cast<QComboBox*>(widget);
+        if( combo ) {
+            connect( combo, &QComboBox::currentTextChanged, this, &MaaritysWidget::tarkastaMuokkaus);
+            continue;
+        }
+        QPlainTextEdit *ptedit = qobject_cast<QPlainTextEdit*>(widget);
+        if( ptedit ) {
+            connect( ptedit, &QPlainTextEdit::textChanged, this, &MaaritysWidget::tarkastaMuokkaus);
+            continue;
+        }
+    }
+}
+
+void MaaritysWidget::tarkastaMuokkaus()
+{
+    bool muokattu = onkoMuokattu();
+    emit tallennaKaytossa( muokattu );
 }
 

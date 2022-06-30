@@ -66,14 +66,14 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="muotoLabel">
        <property name="text">
         <string>Yritysmuoto</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QComboBox" name="muotoCombo">
        <property name="Asetus" stdset="0">
         <string notr="true">muoto</string>
@@ -83,14 +83,14 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
         <string>Laajuus</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QComboBox" name="laajuusCombo">
        <property name="Asetus" stdset="0">
         <string notr="true">laajuus</string>
@@ -100,142 +100,21 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Kotipaikka</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="Asetus" stdset="0">
+        <string notr="true">Kotipaikka</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Logo</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="logoLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>128</width>
-            <height>128</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>128</height>
-           </size>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="scaledContents">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Logon sijainti</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="logonSijaintiCombo">
-            <property name="Asetus" stdset="0">
-             <string notr="true">LogonSijainti</string>
-            </property>
-            <property name="Oletus" stdset="0">
-             <string notr="true">VIERESSA</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::MinimumExpanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="vaihdaLogoNappi">
-          <property name="minimumSize">
-           <size>
-            <width>180</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Vaihda</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/kuva2.png</normaloff>:/pic/kuva2.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="poistaLogoNappi">
-          <property name="minimumSize">
-           <size>
-            <width>180</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Poista</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/edit-clear.png</normaloff>:/pic/edit-clear.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::MinimumExpanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
@@ -466,7 +345,6 @@
   <tabstop>organisaatioEdit</tabstop>
   <tabstop>ytunnusEdit</tabstop>
   <tabstop>muotoCombo</tabstop>
-  <tabstop>vaihdaLogoNappi</tabstop>
   <tabstop>hakemistoNappi</tabstop>
   <tabstop>alvCheck</tabstop>
   <tabstop>sijaintiLabel</tabstop>

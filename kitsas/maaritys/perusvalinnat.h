@@ -45,13 +45,10 @@ public:
     bool onkoMuokattu() override;
 
 public slots:
-    void vaihdaLogo();
-    void poistaLogo();
 
     bool tallenna() override;
     void alvilaajuudesta();
 
-    void naytaLogo();
     void naytaVastuu(bool harjoitus);
 
 private:
@@ -63,8 +60,6 @@ private:
 
 private:
     Ui::Perusvalinnat *ui;
-    QImage uusilogo;
-    bool poistalogo = false;
 };
 
 #endif // PERUSVALINNAT_H

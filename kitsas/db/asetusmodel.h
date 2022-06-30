@@ -107,8 +107,8 @@ public:
         VariKehys,
         VariVarjo,
         LaskuKorttitili,
-        LaskuLisatiedot
-
+        LaskuLisatiedot,
+        Toiminimet
     };
 
 
