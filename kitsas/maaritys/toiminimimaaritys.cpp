@@ -113,7 +113,7 @@ void ToiminimiMaaritys::lataa()
 
         ui->poistaNappi->setEnabled( indeksi ); // Varsinaista toiminimeä ei voi poistaa
 
-        ui->toimiLabel->setText( indeksi ? tr("Aputoiminimi") : tr("Organisaation virallinen nimi") );
+        ui->toimiLabel->setText( indeksi ? tr("Aputoiminimi") : tr("Organisaation nimi") );
 
         lataaLogo();
 

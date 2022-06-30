@@ -13,7 +13,7 @@ class ToiminimiModel : public QAbstractListModel
 public:
 
     enum ToiminimiRoolit {
-        Nimi = Qt::UserRole + 1,
+        Nimi = Qt::DisplayRole,
         Katuosoite = Qt::UserRole + 2,
         Postinumero = Qt::UserRole + 3,
         Kaupunki = Qt::UserRole + 4,

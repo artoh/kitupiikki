@@ -35,8 +35,6 @@ QVariant ToiminimiModel::data(const QModelIndex &index, int role) const
         return index.row();
     } else if( role == Nimi || role > Qt::UserRole) {
         return tieto(role, index.row());
-    } else if( role == Qt::DisplayRole) {
-        return tieto(Nimi, index.row());
     }
 
     return QVariant();
