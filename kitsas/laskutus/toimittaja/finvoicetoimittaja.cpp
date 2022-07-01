@@ -27,6 +27,8 @@
 #include "model/tositeliitteet.h"
 #include "laskutus/tulostus/laskuntulostaja.h"
 
+#include "model/toiminimimodel.h"
+
 FinvoiceToimittaja::FinvoiceToimittaja(QObject *parent) :
     AbstraktiToimittaja(parent)
 {
@@ -121,10 +123,16 @@ QVariantMap FinvoiceToimittaja::finvoiceJson()
     asiakas.insert("maanimi", maa.englanniksi());
 
     QVariantMap pyynto;
-    pyynto.insert("init", init_);
+    QVariantMap init(init_);
+    Lasku lasku = tositeMap().value("lasku").toMap();
+
+    if( lasku.toiminimi() ) {
+        init.insert("aputoiminimi", kp()->toiminimet()->tieto(ToiminimiModel::Nimi, lasku.toiminimi() ));
+    }
+
+    pyynto.insert("init", init);
     pyynto.insert("asiakas", asiakas);
 
-    Lasku lasku = tositeMap().value("lasku").toMap();
     int tyyppi = tositeMap().value("tyyppi").toInt();
 
 
