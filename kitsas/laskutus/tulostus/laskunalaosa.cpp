@@ -209,12 +209,16 @@ QString LaskunAlaosa::kaanna(const QString &avain) const
 void LaskunAlaosa::lataaYhteystiedot()
 {
     const AsetusModel* asetukset = interface_->asetukset();
-    const QString organisaatioNimi = interface_->asetukset()->asetus(AsetusModel::OrganisaatioNimi);
+    const QString organisaatioNimi = asetukset->asetus(AsetusModel::OrganisaatioNimi);
     const QString toiminimi = toimiNimiTieto(ToiminimiModel::Nimi);
 
     lahettaja_ = toiminimi + "\n" +
-            toimiNimiTieto(ToiminimiModel::Katuosoite) + "\n" +
+            toimiNimiTieto(ToiminimiModel::Katuosoite) + "\n"+
             toimiNimiTieto(ToiminimiModel::Postinumero) + " " + toimiNimiTieto(ToiminimiModel::Kaupunki);
+
+    virallinenLahettaja_ = organisaatioNimi + "\n" +
+            asetukset->asetus(AsetusModel::Katuosoite) + "\n" +
+            asetukset->asetus(AsetusModel::Postinumero) + " " + asetukset->asetus(AsetusModel::Kaupunki);
 
     osoitelaatikko_.lisaa(QString(), lahettaja_);
 
@@ -366,7 +370,7 @@ void LaskunAlaosa::piirraTilisiirto(QPainter *painter, const Lasku &lasku)
     painter->drawText( QRectF(viervi + 2 * mm , mm*62.3, eurv - viervi - 4 * mm , mm*7.5), Qt::AlignLeft | Qt::AlignVCenter, lasku.erapvm().toString("dd.MM.yyyy") );
     painter->drawText( QRectF(eurv, mm*62.3, loppu - eurv - 10 * mm, mm*7.5), Qt::AlignRight | Qt::AlignVCenter, lasku.summa().display() );
 
-    painter->drawText( QRectF(mm*22, mm*17, osle, mm*13), Qt::AlignTop | Qt::TextWordWrap, lahettaja_  );
+    painter->drawText( QRectF(mm*22, mm*17, osle, mm*13), Qt::AlignTop | Qt::TextWordWrap, virallinenLahettaja_  );
 
     painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter, ibanit_.join("\n") );
     painter->drawText( QRectF(pv+2*mm, 0, osle, mm*17), Qt::AlignVCenter, bicit_.join("\n") );
