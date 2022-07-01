@@ -112,7 +112,7 @@ bool EmailMaaritys::nollaa()
 
     ui->kitsasRadio->setChecked(kitsasEmail);
     ui->kpAsetusRadio->setDisabled( paikallinen_ );
-    ui->kitsasRadio->setEnabled(!paikallinen_ && kp()->pilvi() && kp()->pilvi()->tilausvoimassa() );
+    ui->kitsasRadio->setEnabled( qobject_cast<PilviModel*>( kp()->yhteysModel() ));
     paivitaKitsasVaihto();
 
     return true;

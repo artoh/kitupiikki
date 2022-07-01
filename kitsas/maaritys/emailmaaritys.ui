@@ -46,6 +46,10 @@
         <property name="text">
          <string>Tietokoneen asetuksiin</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/laptop.png</normaloff>:/pic/laptop.png</iconset>
+        </property>
         <property name="checked">
          <bool>true</bool>
         </property>
@@ -56,12 +60,20 @@
         <property name="text">
          <string>Kirjanpitokohtaisesti</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/tyhja.png</normaloff>:/pic/tyhja.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="kitsasRadio">
         <property name="text">
-         <string>Lähetä Kitsaan palvelimen kautta</string>
+         <string>Lähetä Kitsaan palvelimen kautta (vain pilvikirjanpidossa)</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
         </property>
        </widget>
       </item>

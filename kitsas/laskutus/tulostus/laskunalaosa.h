@@ -69,6 +69,7 @@ private:
     QStringList ibanit_;
     QStringList bicit_;
     QString lahettaja_;
+    QString virallinenLahettaja_;
     QString vastaanottaja_;
 
     qreal alaosaKorkeus_ = 0.0;
