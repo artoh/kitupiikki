@@ -46,13 +46,12 @@ public:
     qreal tulostaErittely(const QStringList& erittely, QPainter *painter, QPagedPaintDevice *device, qreal alalaita);    
 
 signals:
-    void laskuLiiteTallennettu();
+    void laskuLiiteTallennettu(QVariantMap tosite);
 
 protected:
     void tulostaLuonnos(QPainter* painter);
     qreal tulostaRuudukko(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita, bool tulostaKuukaudet = true);
-    qreal muistutettavatLaskut(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita);
-    void laskuLiiteValmis();
+    qreal muistutettavatLaskut(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita);    
 
 private:
     KitsasInterface *kitsas_;

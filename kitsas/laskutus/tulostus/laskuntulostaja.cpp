@@ -144,15 +144,12 @@ void LaskunTulostaja::tallennaLaskuLiite(Tosite &tosite)
     meta.insert("Filename", QString("lasku%1.pdf").arg(tosite.lasku().numero()));
     meta.insert("Content-type", "application/pdf");
 
-    connect( tallennus, &KpKysely::vastaus, this, &LaskunTulostaja::laskuLiiteValmis);
-    tallennus->lahetaTiedosto(lasku, meta);    
+    QVariantMap tallennettava = tosite.tallennettava();
+    connect( tallennus, &KpKysely::vastaus, [this, tallennettava] { emit this->laskuLiiteTallennettu(tallennettava); this->deleteLater(); });
+
+    tallennus->lahetaTiedosto(lasku, meta);
 }
 
-void LaskunTulostaja::laskuLiiteValmis()
-{
-    emit laskuLiiteTallennettu();
-    deleteLater();
-}
 
 
 void LaskunTulostaja::tulostaLuonnos(QPainter *painter)

@@ -107,7 +107,7 @@ void LaskunToimittaja::tallennaLiite()
     tallennusTosite_ = new Tosite(this);
     const QVariantMap tosite = tositteet_.head();
     tallennusTosite_->lataa(tosite);
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, [this, tosite] {this->liiteTallennettu(tosite);}, Qt::QueuedConnection);
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu, Qt::QueuedConnection);
     tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 
