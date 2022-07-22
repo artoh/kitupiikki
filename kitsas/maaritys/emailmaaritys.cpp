@@ -25,6 +25,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "smtpclient/SmtpMime"
+#include "pilvi/pilvikysely.h"
 #include <QMessageBox>
 
 #include <QFontMetrics>
@@ -204,6 +205,34 @@ void EmailMaaritys::kokeile()
     ui->testiLabel->show();
     ui->kokeileNappi->setEnabled(false);
 
+    if( ui->kitsasRadio->isChecked()) {
+        kokeileKitsas();
+    } else {
+        kokeileSmtp();
+    }
+
+}
+
+void EmailMaaritys::porttiVaihtui(int portti)
+{
+    if( portti == 25)
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TcpConnection);
+    else if( portti == 465)
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::SslConnection);
+    else if(portti == 587)
+        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TlsConnection);
+}
+
+void EmailMaaritys::paivitaKitsasVaihto()
+{
+    bool kitsas = ui->kitsasRadio->isChecked();
+    ui->smtpGroup->setVisible( !kitsas );
+    ui->kokeileNappi->setVisible( true );
+    ilmoitaMuokattu();
+}
+
+void EmailMaaritys::kokeileSmtp()
+{
     SmtpClient smtp( ui->palvelinEdit->text(), ui->porttiSpin->value(), (SmtpClient::ConnectionType) ui->tyyppiCombo->currentIndex());
     if( !ui->salasanaEdit->text().isEmpty()) {
         smtp.setUser(ui->kayttajaEdit->text());
@@ -227,33 +256,52 @@ void EmailMaaritys::kokeile()
     if(!smtp.connectToHost()) {
         QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui").arg(ui->palvelinEdit->text()));
     } else if( !ui->salasanaEdit->text().isEmpty() && !smtp.login()) {
-        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen kirjautuminen epäonnistui").arg(ui->palvelinEdit->text()));
+        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen kirjautuminen epäonnistui"));
     } else if( !smtp.sendMail(message)) {
-        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Virhe sähköpostia lähetettäessä").arg(ui->palvelinEdit->text()));
+        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Virhe sähköpostia lähetettäessä"));
     } else {
         QMessageBox::information(this, tr("Sähköposti lähetetty"), tr("Sähköpostin lähettäminen onnistui"));
     }
 
     ui->testiLabel->hide();
     ui->kokeileNappi->setEnabled(true);
+}
+
+void EmailMaaritys::kokeileKitsas()
+{
+    QVariantMap viesti;
+    QString osoite = QString("\"%1\" %2")
+            .arg(ui->nimiEdit->text())
+            .arg(ui->emailEdit->text());
+
+    viesti.insert("from", osoite);
+    viesti.insert("to", osoite);
+    viesti.insert("subject", tr("Kitsaan sähköpostikokeilu"));
+    viesti.insert("text", tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
+    viesti.insert("attachments", QVariantList());
+    QString url = kp()->pilvi()->finvoiceOsoite() + "/email" ;
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                url );
+    connect( pk, &PilviKysely::vastaus, this, &EmailMaaritys::kitsasOnnistui);
+    connect( pk, &KpKysely::virhe, this, &EmailMaaritys::kitsasEpaonnistui );
+
+    pk->kysy(viesti);
+
 
 }
 
-void EmailMaaritys::porttiVaihtui(int portti)
+void EmailMaaritys::kitsasOnnistui()
 {
-    if( portti == 25)
-        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TcpConnection);
-    else if( portti == 465)
-        ui->tyyppiCombo->setCurrentIndex(SmtpClient::SslConnection);
-    else if(portti == 587)
-        ui->tyyppiCombo->setCurrentIndex(SmtpClient::TlsConnection);
+    QMessageBox::information(this, tr("Sähköposti lähetetty"), tr("Sähköpostin lähettäminen onnistui"));
+    ui->testiLabel->hide();
+    ui->kokeileNappi->setEnabled(true);
 }
 
-void EmailMaaritys::paivitaKitsasVaihto()
+void EmailMaaritys::kitsasEpaonnistui(int virhe, const QString &selitys)
 {
-    bool kitsas = ui->kitsasRadio->isChecked();
-    ui->smtpGroup->setVisible( !kitsas );
-    ui->kokeileNappi->setVisible( !kitsas );
-    ilmoitaMuokattu();
+    QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Virhe sähköpostia lähetettäessä") + QString("\n %1 %2").arg(virhe).arg(selitys));
+    ui->testiLabel->hide();
+    ui->kokeileNappi->setEnabled(true);
+
 }
 

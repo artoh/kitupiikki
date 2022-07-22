@@ -48,6 +48,12 @@ public slots:
     void porttiVaihtui(int portti);
     void paivitaKitsasVaihto();
 
+protected:
+    void kokeileSmtp();
+    void kokeileKitsas();
+    void kitsasOnnistui();
+    void kitsasEpaonnistui(int virhe, const QString& selitys);
+
 private:
 
     Ui::EMailMaaritys *ui;
