@@ -89,7 +89,15 @@ void SahkopostiToimittaja::laheta()
     MimeMessage message;
     message.setHeaderEncoding(MimePart::QuotedPrintable);
     message.setSender(new EmailAddress(keneltaEmail, kenelta));
-    message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
+    if( kenelleEmail.contains(",")) {
+        QStringList vastaanottajat = kenelleEmail.split(',');
+        for(const auto& osoite :  vastaanottajat) {
+            message.addRecipient(new EmailAddress(osoite));
+        }
+    } else {
+        message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
+    }
+
 
     if( !kopioEmail.isEmpty())
         message.addBcc(new EmailAddress(kopioEmail));
@@ -210,10 +218,14 @@ void SahkopostiToimittaja::lahetaViesti()
                   .arg(kp()->asetukset()->asetus(AsetusModel::EmailNimi))
                   .arg(kp()->asetukset()->asetus(AsetusModel::EmailOsoite))
                   );
-    viesti.insert("to", QString("\"%1\" %2")
+    if(lasku.email().contains(",")) {
+        viesti.insert("to", lasku.email());
+    } else {
+        viesti.insert("to", QString("\"%1\" %2")
                   .arg(tosite_->kumppaninimi())
                   .arg(lasku.email())
                   );
+    }
     viesti.insert("subject", viestinOtsikko());
     const QString kopioEmail = kp()->asetukset()->asetus(AsetusModel::EmailKopio);
     if( !kopioEmail.isEmpty())
