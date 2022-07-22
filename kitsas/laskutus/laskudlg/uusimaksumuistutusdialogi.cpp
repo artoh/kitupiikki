@@ -198,7 +198,7 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus()
     lasku.setSaateOtsikko( saateOtsikko.kaannos(kieli));
     lasku.setLisatiedot( lisatieto.kaannos(kieli));
 
-    Euro saldo =  nMap.value("eraid").toInt() > 0 ?
+    Euro saldo =  nMap.value("era").toMap().contains("saldo") ?
             Euro( tositteet.value(0).toMap().value("era").toMap().value("saldo").toString() ) :
             Euro( nMap.value("avoin").toString() );
     lasku.setAiempiSaldo( saldo );
