@@ -1202,6 +1202,11 @@
         "sv": "sidor",
         "en": "pages"
     },
+    "UN_H18": {
+        "fi": "ha",
+        "sv": "ha",
+        "en": "ha"
+    },
     "toimitettu": {
         "fi": "Toimitettu",
         "sv": "Levererad",
