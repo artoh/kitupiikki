@@ -67,10 +67,11 @@ void RaportinKirjoittaja::lisaaSarake(int leveysprosentti)
     sarakkeet_.append(uusi);
 }
 
-void RaportinKirjoittaja::lisaaVenyvaSarake(int tekija)
+void RaportinKirjoittaja::lisaaVenyvaSarake(int tekija, RaporttiRivi::RivinKaytto kaytto)
 {
     RaporttiSarake uusi;
     uusi.jakotekija = tekija;
+    uusi.sarakkeenKaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
@@ -505,8 +506,11 @@ QByteArray RaportinKirjoittaja::csv() const
             continue;
 
         QStringList otsakkeet;
-        for(int i=0; i < otsikko.sarakkeita(); i++)
+        for(int i=0; i < otsikko.sarakkeita(); i++) {
+            if( sarakkeet_.at(i).sarakkeenKaytto == RaporttiRivi::EICSV)
+                continue;
             otsakkeet.append( otsikko.csv(i));
+        }
         txt.append( otsakkeet.join(erotin));
     }
     for( RaporttiRivi rivi : rivit_ )
@@ -521,7 +525,9 @@ QByteArray RaportinKirjoittaja::csv() const
             QStringList sarakkeet;
             for( int i=0; i < rivi.sarakkeita(); i++)
             {
-                sarakkeet.append( rivi.csv(i));
+                if( sarakkeet_.at(i).sarakkeenKaytto != RaporttiRivi::EICSV) {
+                    sarakkeet.append( rivi.csv(i));
+                }
             }
             txt.append( sarakkeet.join(erotin));
         }

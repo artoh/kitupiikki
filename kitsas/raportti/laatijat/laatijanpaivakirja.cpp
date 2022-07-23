@@ -2,6 +2,8 @@
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
+#include "model/euro.h"
+
 LaatijanPaivakirja::LaatijanPaivakirja(RaportinLaatija *laatija, const RaporttiValinnat &valinnat) :
     LaatijanRaportti(laatija, valinnat)
 {
@@ -36,12 +38,21 @@ void LaatijanPaivakirja::laadi()
     else
         rk.lisaaSarake("12345");
 
-    rk.lisaaSarake("1234 ArvonlisäverosaamisetXX");
+    rk.lisaaSarake("1234 ArvonlisäverosaamisetXX");    
     if(  valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
         rk.lisaaSarake("Kohdennusnimi");
-    if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
-        rk.lisaaVenyvaSarake(75);
-    rk.lisaaVenyvaSarake();
+
+    if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+        rk.lisaaVenyvaSarake(100, RaporttiRivi::EICSV); // Kumppani + selite
+        rk.lisaaSarake("", RaporttiRivi::CSV); // Kumppani
+        rk.lisaaSarake("", RaporttiRivi::CSV); // Selite
+    } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+        rk.lisaaVenyvaSarake(75); // Kumppani
+        rk.lisaaVenyvaSarake(); // Selite
+    } else {
+        rk.lisaaVenyvaSarake(); // Selite
+    }
+
     rk.lisaaEurosarake();
     rk.lisaaEurosarake();
 
@@ -52,9 +63,15 @@ void LaatijanPaivakirja::laadi()
         otsikko.lisaa(kaanna("Tili"));
         if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
             otsikko.lisaa(kaanna("Kohdennus"));
-        if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
+
+        if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+            otsikko.lisaa(kaanna("Asiakas/Toimittaja") + ", " + kaanna("Selite"));
             otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
+        } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+            otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
+        }
         otsikko.lisaa(kaanna("Selite"));
+
         otsikko.lisaa(kaanna("Debet €"), 1, true);
         otsikko.lisaa(kaanna("Kredit €"), 1, true);
         rk.lisaaOtsake(otsikko);
@@ -86,35 +103,38 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
     QVariantList lista = data->toList();
     QDate edpaiva;
 
-    int edellinentyyppi = 0;
+    const int EITYYPPIA = -99;
+    int edellinentyyppi = EITYYPPIA;
 
-    qlonglong debetsumma = 0;
-    qlonglong kreditsumma = 0;
+    Euro debetsumma;
+    Euro kreditsumma;
 
-    qlonglong debetvalisumma = 0;
-    qlonglong kreditvalisumma = 0;
+    Euro debetvalisumma;
+    Euro kreditvalisumma;
 
+
+    const int otsikkosarakkeet =
+            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 7 :
+            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4 );
 
     for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
 
         int tositetyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
         if(  valinnat().onko(RaporttiValinnat::RyhmitteleTositelajit)  && edellinentyyppi != tositetyyppi ) {
-            if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) && edellinentyyppi) {
+            if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) && edellinentyyppi != EITYYPPIA) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
-                valisumma.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKohdennus) ? 5 : 4  );
-                if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
-                    valisumma.lisaa("");
-                valisumma.lisaa( debetvalisumma);
-                valisumma.lisaa(kreditvalisumma);
+                valisumma.lisaa(kaanna("Yhteensä"), otsikkosarakkeet  );
+                valisumma.lisaa( debetvalisumma, true);
+                valisumma.lisaa(kreditvalisumma, true);
                 valisumma.viivaYlle();
                 rk.lisaaRivi(valisumma);
 
-                debetvalisumma = 0l;
-                kreditvalisumma = 0l;
+                debetvalisumma = Euro::Zero;
+                kreditvalisumma = Euro::Zero;
             }
 
-            if( edellinentyyppi)
+            if( edellinentyyppi != EITYYPPIA)
                 rk.lisaaTyhjaRivi();
 
             RaporttiRivi ryhma(RaporttiRivi::EICSV);
@@ -149,18 +169,27 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
         if( valinnat().onko(RaporttiValinnat::TulostaKohdennus)  )
             rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi(kielikoodi()) );
 
-        QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
-        QString selite = map.value("selite").toString();
+        const QString kumppani = map.value("kumppani").toMap().value("nimi").toString();
+        const QString selite = map.value("selite").toString();
+        const QString tselite = kumppani == selite ? "" : selite;
 
-        if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
-            rivi.lisaa( kumppani );
-        rivi.lisaa( valinnat().onko(RaporttiValinnat::TulostaKumppani) && selite == kumppani ? "" : selite );
+        if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+            rivi.lisaa(kumppani + (kumppani.isEmpty() || tselite.isEmpty() ? "" : "\n") + tselite);
+            rivi.lisaa(kumppani);
+            rivi.lisaa(selite);
+        } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+            rivi.lisaa(kumppani);
+            rivi.lisaa(tselite);
+        } else {
+            rivi.lisaa(selite.isEmpty() ? kumppani : selite);
+        }
 
-        qlonglong debetsnt = qRound64( map.value("debet").toDouble() * 100.0 );
-        qlonglong kreditsnt = qRound64( map.value("kredit").toDouble() * 100.0 );
+        Euro debetsnt = Euro::fromString( map.value("debet").toString() );
+        Euro kreditsnt = Euro::fromString( map.value("kredit").toString() );
 
         debetsumma += debetsnt;
         debetvalisumma += debetsnt;
+
         kreditsumma += kreditsnt;
         kreditvalisumma += kreditsnt;
 
@@ -171,13 +200,12 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
 
     }
 
-    if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  && edellinentyyppi) {
+
+    if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  && edellinentyyppi != EITYYPPIA) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKohdennus) ? 5 : 4  );
-        if( valinnat().onko(RaporttiValinnat::TulostaKumppani))
-            valisumma.lisaa("");
-        valisumma.lisaa( debetvalisumma);
-        valisumma.lisaa(kreditvalisumma);
+        valisumma.lisaa(kaanna("Yhteensä"), otsikkosarakkeet);
+        valisumma.lisaa( debetvalisumma, true);
+        valisumma.lisaa(kreditvalisumma, true);
         valisumma.viivaYlle();
         rk.lisaaRivi(valisumma);
     }
@@ -185,11 +213,9 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), valinnat().onko(RaporttiValinnat::TulostaKohdennus)  ? 5 : 4  );
-        if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
-            summarivi.lisaa("");
-        summarivi.lisaa( debetsumma);
-        summarivi.lisaa(kreditsumma);
+        summarivi.lisaa(kaanna("Yhteensä"), otsikkosarakkeet );
+        summarivi.lisaa( debetsumma, true);
+        summarivi.lisaa(kreditsumma, true);
         summarivi.viivaYlle();
         summarivi.lihavoi();
         rk.lisaaRivi(summarivi);

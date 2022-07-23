@@ -102,7 +102,7 @@ public:
      * @brief Lisää venyvän sarakkeen
      * @param tekija Missä suhteessa jäljellä oleva tila jaetaan
      */
-    void lisaaVenyvaSarake(int tekija = 100);
+    void lisaaVenyvaSarake(int tekija = 100, RaporttiRivi::RivinKaytto kaytto = RaporttiRivi::KAIKKI);
 
     /**
      * @brief Lisää euromääräisen sarakkeen

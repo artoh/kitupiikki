@@ -62,9 +62,19 @@ void LaatijanPaakirja::laadi()
         rk.lisaaSarake("ABC1234/99 ");
     else
         rk.lisaaSarake("12345/99");
-    if( valinnat().onko(RaporttiValinnat::TulostaKumppani))
-        rk.lisaaVenyvaSarake();
-    rk.lisaaVenyvaSarake();     // Selite
+
+    if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+        rk.lisaaVenyvaSarake(100,RaporttiRivi::EICSV); // Kumppani + Selite
+        rk.lisaaSarake("", RaporttiRivi::CSV);  // Kumppani
+        rk.lisaaSarake("", RaporttiRivi::CSV);  // Selite
+    } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+        rk.lisaaVenyvaSarake(); // Kumppani
+        rk.lisaaVenyvaSarake(); // Selite
+    } else {
+        rk.lisaaVenyvaSarake(); // Selite
+    }
+
+
     if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
         rk.lisaaSarake("Kohdennusnimi"); // Kohdennus
     rk.lisaaEurosarake();   // Debet
@@ -76,9 +86,19 @@ void LaatijanPaakirja::laadi()
     otsikko.lisaa(kaanna("Tilin nimi"));
     otsikko.lisaa(kaanna("Pvm"));
     otsikko.lisaa(kaanna("Tosite"));
-    if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
+
+    if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+        otsikko.lisaa( kaanna("Asiakas/Toimittaja") + ", " + kaanna("Selite") );
         otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
-    otsikko.lisaa(kaanna("Selite"));
+        otsikko.lisaa(kaanna("Selite"));
+    } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+        otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
+        otsikko.lisaa(kaanna("Selite"));
+    } else {
+        otsikko.lisaa(kaanna("Selite"));
+    }
+
+
     if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
         otsikko.lisaa(kaanna("Kohdennus"));
     otsikko.lisaa(kaanna("Debet €"),1,true);
@@ -126,6 +146,11 @@ void LaatijanPaakirja::kirjoitaDatasta()
     qlonglong kaikkiDebet = 0;
     qlonglong kaikkiKredit = 0;
 
+    const int otsikkosarakkeet =
+            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 :
+            (( valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 5 : 4 );
+
+
     while( iter.hasNext()) {
         iter.next();
 
@@ -138,11 +163,8 @@ void LaatijanPaakirja::kirjoitaDatasta()
             rivi.lihavoi();
             rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
-                                tili.nimiNumero(kielikoodi()), 5);
-            if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
-                rivi.lisaa("");
-            if( valinnat().onko(RaporttiValinnat::TulostaKumppani))
-                rivi.lisaa("");
+                                tili.nimiNumero(kielikoodi()), otsikkosarakkeet + 2);
+
             qlonglong saldo =  saldot_.value( QString::number(tili.numero() ));
 
             // #827 Ei näytä tyhjää otsikkoriviä esimerkiksi tilikauden tulokselle
@@ -169,12 +191,22 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
                                       samatilikausi_);
 
-                QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();
-                QString selite = vienti.value("selite").toString();
+                const QString kumppani = vienti.value("kumppani").toMap().value("nimi").toString();
+                const QString selite = vienti.value("selite").toString();
+                const QString tselite = kumppani == selite ? "" : selite;
 
-                if( valinnat().onko(RaporttiValinnat::TulostaKumppani))
+                if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
+                    rr.lisaa ( kumppani + ( kumppani.isEmpty() || tselite.isEmpty() ? "" : "\n" ) + tselite );
                     rr.lisaa( kumppani );
-                rr.lisaa( valinnat().onko(RaporttiValinnat::TulostaKumppani) && selite == kumppani ? "" : selite );
+                    rr.lisaa (selite );
+                } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
+                    rr.lisaa( kumppani);
+                    rr.lisaa( tselite );
+                } else {
+                    rr.lisaa( selite.isEmpty() ? kumppani : selite );
+                }
+
+
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
                     rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi(kielikoodi()) );
@@ -203,8 +235,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
-                summa.lisaa("",2);
-                summa.lisaa("",2);
+                summa.lisaa("",otsikkosarakkeet - 1);
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
                     summa.lisaa("");
@@ -236,12 +267,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.viivaYlle();
         summa.lihavoi();
         summa.lisaa("",2);
-        summa.lisaa(kaanna("Yhteensä"),3);
-
-        if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
-            summa.lisaa("");
-        if( valinnat().onko(RaporttiValinnat::TulostaKumppani))
-            summa.lisaa("");
+        summa.lisaa(kaanna("Yhteensä"),otsikkosarakkeet);
 
 
         summa.lisaa(kaikkiDebet);
