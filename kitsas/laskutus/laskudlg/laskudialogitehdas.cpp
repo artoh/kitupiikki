@@ -157,6 +157,7 @@ void LaskuDialogiTehdas::hyvitettavaLadattu()
     uusi->lasku().setViite( hyvitettavaLasku.viite() );
     uusi->asetaKumppani( hyvitettava->kumppanimap() );
     uusi->lasku().setRiviTyyppi( hyvitettavaLasku.riviTyyppi() );
+    uusi->lasku().setToiminimi( hyvitettavaLasku.toiminimi() );
 
     TositeRivit* rivit = hyvitettava->rivit();
     for(int r=0; r < rivit->rowCount(); r++) {
