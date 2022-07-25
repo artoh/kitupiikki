@@ -19,6 +19,7 @@
 #include "laskutus/viitenumero.h"
 #include "db/kirjanpito.h"
 #include "laskutus/iban.h"
+#include "model/toiminimimodel.h"
 
 Lasku::Lasku()
     : KantaVariantti()
@@ -141,7 +142,12 @@ QString Lasku::tulkkaaMuuttujat(const QString &teksti) const
     ulos.replace("{{viite}}", rf ? viite().rfviite() : viite().valeilla());
     ulos.replace("{{iban}}", iban.valeilla() );
     ulos.replace("{{virtuaali}}", virtuaaliviivakoodi(iban, rf));
-    ulos.replace("{{yritys}}", kp()->asetukset()->nimi());
+
+    const int toiminimiIndeksi = toiminimi();
+    const ToiminimiModel* toiminimet = kp()->toiminimet();
+    const QString toiminimi = toiminimet->tieto(ToiminimiModel::Nimi, toiminimiIndeksi);
+
+    ulos.replace("{{yritys}}", toiminimi);
 
     return ulos;
 }
