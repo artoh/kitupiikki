@@ -119,6 +119,8 @@ void LaskunToimittaja::liiteTallennettu(const QVariantMap &tosite)
     }
 
     AbstraktiToimittaja* toimittaja = toimittajat_.value(toimitustapa, toimittajat_.value(Lasku::TULOSTETTAVA));
+
+
     toimittaja->lisaaLasku(tosite);
     tositteet_.dequeue();
 

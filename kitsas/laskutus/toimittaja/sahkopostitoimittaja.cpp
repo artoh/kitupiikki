@@ -38,7 +38,8 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 void SahkopostiToimittaja::toimita()
 {
     tosite_ = new Tosite(this);
-    tosite_->lataa(tositeMap());
+    const QVariantMap& tositteenTiedot = tositeMap();
+    tosite_->lataa(tositteenTiedot);
 
     if( kp()->pilvi() && kp()->pilvi()->tilausvoimassa() && kp()->asetukset()->onko("KitsasEmail")) {
         connect( tosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &SahkopostiToimittaja::lahetaKitsas );

@@ -506,6 +506,7 @@ void Tosite::tallennaLaskuliite(QVariant *data)
 {
     lataaData(data);
     QVariantMap map = tallennettava();
+    map.insert("liitteet", data->toMap().value("liitteet").toList());
 
     LaskunTulostaja* tulostaja = new LaskunTulostaja(kp());
     connect(tulostaja, &LaskunTulostaja::laskuLiiteTallennettu, kp(),
