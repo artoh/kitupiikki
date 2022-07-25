@@ -59,12 +59,12 @@ void MimeMultiPart::prepare() {
 
     content = "";
     for (it = parts.begin(); it != parts.end(); it++) {
-        content += "--" + cBoundary.toLatin1() + "\r\n";
+        content += "--" + cBoundary.toLocal8Bit() + "\r\n";
         (*it)->prepare();
-        content += (*it)->toString().toLatin1();
+        content += (*it)->toString().toLocal8Bit();
     };
 
-    content += "--" + cBoundary.toLatin1() + "--\r\n";
+    content += "--" + cBoundary.toLocal8Bit() + "--\r\n";
 
     MimePart::prepare();
 }

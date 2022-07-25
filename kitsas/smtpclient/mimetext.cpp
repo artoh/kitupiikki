@@ -53,7 +53,7 @@ const QString & MimeText::getText() const
 void MimeText::prepare()
 {
     this->content.clear();
-    this->content.append(text.toLatin1());
+    this->content.append(text.toLocal8Bit());
 
     /* !!! IMPORTANT !!! */
     MimePart::prepare();
