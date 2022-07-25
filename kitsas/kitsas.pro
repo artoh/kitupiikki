@@ -16,6 +16,7 @@ windows {
     LIBS += -lbcrypt
 }
 
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050F00
 
 macx {
     LIBS += -L/usr/local/opt/poppler-qt5/lib -lpoppler-qt5

@@ -3,6 +3,7 @@
 #include <QSqlQuery>
 
 #include <QDebug>
+#include <QBrush>
 
 AsiakkaatModel::AsiakkaatModel(QObject *parent, KumppaniValinta valinta)
     : QAbstractTableModel(parent), valinta_(valinta)
@@ -55,8 +56,8 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         else
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
     }
-    else if( role == Qt::TextColorRole && index.column() == ERAANTYNYT)
-        return QColor(Qt::red);
+    else if( role == Qt::ForegroundRole && index.column() == ERAANTYNYT)
+        return QBrush(QColor(Qt::red));
     else if( role == IdRooli)
         return map.value("id");
     else if( role == NimiRooli)

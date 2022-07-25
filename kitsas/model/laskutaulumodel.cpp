@@ -149,10 +149,10 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             if( index.column() == SUMMA || index.column() == MAKSAMATTA )
                 return QVariant( Qt::AlignRight | Qt::AlignVCenter);
         return QVariant();
-    case Qt::TextColorRole:
+    case Qt::ForegroundRole:
             if( index.column() == ERAPVM )
                 if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin").toDouble() > 1e-5 )
-                    return QColor(Qt::red);
+                    return QBrush(QColor(Qt::red));
             return QVariant();
     case AvoinnaRooli:
         return map.value("avoin");

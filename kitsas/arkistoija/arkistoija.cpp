@@ -466,7 +466,7 @@ void Arkistoija::viimeistele()
 
 
     out << "<p class=info>" << tulkkaa("Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2")
-           .arg(QDate::currentDate().toString(Qt::SystemLocaleDate),
+           .arg(QDate::currentDate().toString("dd.MM.yyyy"),
                 qApp->applicationVersion());
     out << "<br/>" << tulkkaa("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä") << QString(" <code>%1</code>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) ) << "</p>";
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
@@ -745,7 +745,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
     out << tositeRunko(tosite, false);
 
-    out << "<p class=info>" << tulkkaa("Kirjanpito arkistoitu") << " " << QDate::currentDate().toString(Qt::SystemLocaleDate);
+    out << "<p class=info>" << tulkkaa("Kirjanpito arkistoitu") << " " << QDate::currentDate().toString("dd.MM.yyyy");
     out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>" << tulkkaa("Tositteen täydet tiedot") << "</a>";
     out << "<script src='../static/jquery.js'></script>";
 

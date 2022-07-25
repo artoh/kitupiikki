@@ -290,7 +290,7 @@ bool SmtpClient::login(const QString &user, const QString &password, AuthMethod 
         if (method == AuthPlain)
         {
             // Sending command: AUTH PLAIN base64('\0' + username + '\0' + password)
-            sendMessage("AUTH PLAIN " + QByteArray().append((char) 0).append(user).append((char) 0).append(password).toBase64());
+            sendMessage("AUTH PLAIN " + QByteArray().append((char) 0).append(user.toLatin1()).append((char) 0).append(password.toLatin1()).toBase64());
 
             // Wait for the server's response
             waitForResponse();
@@ -312,14 +312,14 @@ bool SmtpClient::login(const QString &user, const QString &password, AuthMethod 
             if (responseCode != 334) { emit smtpError(AuthenticationFailedError); return false; }
 
             // Send the username in base64
-            sendMessage(QByteArray().append(user).toBase64());
+            sendMessage(QByteArray().append(user.toLatin1()).toBase64());
 
             // Wait for 334
             waitForResponse();
             if (responseCode != 334) { emit smtpError(AuthenticationFailedError); return false; }
 
             // Send the password in base64
-            sendMessage(QByteArray().append(password).toBase64());
+            sendMessage(QByteArray().append(password.toLatin1()).toBase64());
 
             // Wait for the server's responce
             waitForResponse();

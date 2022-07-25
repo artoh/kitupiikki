@@ -27,6 +27,7 @@
 #include "db/tositetyyppimodel.h"
 
 #include <QRandomGenerator>
+#include <QBrush>
 
 TilioteKirjausRivi::TilioteKirjausRivi() :
     taydennys_(nullptr)
@@ -236,8 +237,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
 
     case Qt::TextAlignmentRole:
         return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-    case Qt::TextColorRole:
-        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QColor(Qt::blue) : QColor(Qt::black));
+    case Qt::ForegroundRole:
+        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QColor(Qt::blue)) : QBrush(QColor(Qt::black)));
     case TilaRooli:
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:

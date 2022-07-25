@@ -79,7 +79,7 @@ void KitsasLokiModel::messageHandler(QtMsgType type, const QMessageLogContext &c
         QFile file(instanssi__->filename_);
         file.open( QIODevice::WriteOnly | QIODevice::Append);
         QTextStream stream(&file);
-        stream << text << endl;
+        stream << text << "\n";
     }
 }
 
@@ -93,7 +93,7 @@ void KitsasLokiModel::setLoggingToFile(const QString &filename)
         QFile file(instanssi__->filename_);
         file.open( QIODevice::WriteOnly | QIODevice::Append);
         QTextStream stream(&file);
-        stream << endl << QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") << " " << viivat << endl;
+        stream << "\n" << QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") << " " << viivat << "\n";
     }
 }
 

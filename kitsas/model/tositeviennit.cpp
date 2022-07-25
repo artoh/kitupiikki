@@ -24,6 +24,7 @@
 #include "alv/alvilmoitustenmodel.h"
 
 #include <QDebug>
+#include <QBrush>
 
 TositeViennit::TositeViennit(QObject *parent)
     : QAbstractTableModel(parent)
@@ -241,9 +242,9 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
         return rivi.data(TositeVienti::MERKKAUKSET);
     case TyyppiRooli:
         return rivi.tyyppi();
-    case Qt::TextColorRole:
+    case Qt::ForegroundRole:
         if( rivi.tyyppi() == TositeVienti::ALVKIRJAUS)
-            return QColor(Qt::darkGray);
+            return QBrush(QColor(Qt::darkGray));
 
     }
 

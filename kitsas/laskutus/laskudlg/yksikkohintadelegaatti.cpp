@@ -7,7 +7,7 @@ YksikkoHintaDelegaatti::YksikkoHintaDelegaatti(QObject *parent) : QItemDelegate(
 
 }
 
-QWidget *YksikkoHintaDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex &index) const
+QWidget *YksikkoHintaDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
     KpYhEdit* edit = new KpYhEdit(parent);
     return edit;

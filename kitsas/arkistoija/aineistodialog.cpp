@@ -89,7 +89,7 @@ void AineistoDialog::accept()
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(tilikausi_.kausivaliTekstina()));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
-    writer->setPageSize( QPdfWriter::A4);
+    writer->setPageSize( QPageSize( QPageSize::A4));
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
 

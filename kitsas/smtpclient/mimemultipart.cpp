@@ -19,6 +19,7 @@
 #include "mimemultipart.h"
 #include <QTime>
 #include <QCryptographicHash>
+#include <QRandomGenerator>
 
 const QString MULTI_PART_NAMES[] = {
     "multipart/mixed",         //    Mixed
@@ -37,7 +38,7 @@ MimeMultiPart::MimeMultiPart(MultiPartType type)
     this->cEncoding = _8Bit;
 
     QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(QByteArray().append(qrand()));
+    md5.addData(QByteArray().append( QRandomGenerator::global()->generate() ));
     cBoundary = md5.result().toHex();
 }
 
@@ -58,12 +59,12 @@ void MimeMultiPart::prepare() {
 
     content = "";
     for (it = parts.begin(); it != parts.end(); it++) {
-        content += "--" + cBoundary + "\r\n";
+        content += "--" + cBoundary.toLatin1() + "\r\n";
         (*it)->prepare();
-        content += (*it)->toString();
+        content += (*it)->toString().toLatin1();
     };
 
-    content += "--" + cBoundary + "--\r\n";
+    content += "--" + cBoundary.toLatin1() + "--\r\n";
 
     MimePart::prepare();
 }

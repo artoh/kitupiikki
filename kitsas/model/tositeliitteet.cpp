@@ -250,7 +250,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
         QPdfWriter writer(&buffer);
         writer.setTitle(tiedostonnimi);
         writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-        writer.setPageSize(QPdfWriter::A4);
+        writer.setPageSize(QPageSize(QPageSize::A4));
 
         doc.print(&writer);
         liite = array;
