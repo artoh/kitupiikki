@@ -199,6 +199,7 @@
         <file>logovieressa.png</file>
         <file>logoylla.png</file>
         <file>laskuteksti.png</file>
+        <file>tyhja16.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
@@ -474,5 +475,6 @@
         <file>liput/zw.png</file>
         <file>freeicons/support.svg</file>
         <file>freeicons/question.svg</file>
+        <file>tyhja16.png</file>
     </qresource>
 </RCC>

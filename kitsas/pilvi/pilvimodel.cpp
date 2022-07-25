@@ -312,7 +312,7 @@ void PilviModel::tilaaLogo(const QVariantMap &map)
     connect( reply, &QNetworkReply::finished, this, [this, id, reply]
     {
         if( reply->error())
-            this->logot_.insert(id, QPixmap());
+            this->logot_.insert(id, QPixmap(":/pic/tyhja16.png"));
         else {
             this->logot_.insert(id, QPixmap::fromImage(QImage::fromData(reply->readAll()).scaled(16,16,Qt::KeepAspectRatio)));
             for(int i=0; i<rowCount() ;i++) {

@@ -108,8 +108,14 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case NimiRooli:
         return map.value("nimi").toString();
-    case Qt::DecorationRole:        
-        return(  QPixmap::fromImage( map.value("logo").value<QImage>() ) );
+    case Qt::DecorationRole:
+    {
+        QImage image = map.value("logo").value<QImage>();
+        if( image.isNull())
+            return QPixmap(":/pic/tyhja16.png");
+        else
+            return QPixmap::fromImage(image);
+    }
     case PolkuRooli:
         {
             QString polku = map.value("polku").toString();
