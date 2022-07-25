@@ -141,6 +141,7 @@ QString TilioteOtsake::tyyppiTeksti(Tyyppi tyyppi)
         case OHITA: return "Ohita";
         case YLEINEN: return "YLEINEN";
     }
+    return QString();
 }
 
 TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)

@@ -202,6 +202,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             return ekavienti.kumppaniMap();
         case SELITE:
             return ekavienti.selite();
+        default:
+            return QVariant();
         }
 
     case Qt::UserRole:

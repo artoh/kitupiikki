@@ -7,7 +7,7 @@ VuosiDelegaatti::VuosiDelegaatti(QObject *parent) : QItemDelegate(parent)
 
 }
 
-QWidget *VuosiDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *VuosiDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
     QSpinBox *edit = new QSpinBox(parent);
     edit->setRange(0, 120);

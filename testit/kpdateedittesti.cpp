@@ -18,6 +18,7 @@
 #include "db/kirjanpito.h"
 #include "testiapu.h"
 #include "tools/kpdateedit.h"
+#include "kieli/kielet.h"
 
 #include <QTest>
 
@@ -28,6 +29,7 @@ KpDateEditTesti::KpDateEditTesti(QObject *parent) : QObject(parent)
 
 void KpDateEditTesti::initTestCase()
 {
+    Kielet::alustaKielet("");
     Kirjanpito::asetaInstanssi(new Kirjanpito());
     TestiApu::alustaKirjanpito();
 }
