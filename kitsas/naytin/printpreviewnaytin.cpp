@@ -32,8 +32,8 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
 
 
     printer_ = new QPrinter(QPrinter::HighResolution);
-    printer_->setPageSize(QPrinter::A4);
-    printer_->setOrientation(QPrinter::Portrait);
+    printer_->setPageSize( QPageSize(QPageSize::A4) );
+    printer_->setPageOrientation(QPageLayout::Portrait);
 
     QMarginsF margins = kp()->printer()->pageLayout().margins(QPageLayout::Millimeter);
     if( margins.top() < 10)
