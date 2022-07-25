@@ -108,7 +108,7 @@ void MaksumuistutusMuodostaja::kirjaaKorko(Tosite *tosite, Euro korkosaldo, cons
 {
     double paivakorko = paivaKorko(alkupvm, loppupvm, korko, korkosaldo);
     qlonglong paivat = alkupvm.daysTo(loppupvm);
-    Euro yhteensa = Euro::fromDouble( paivaKorko(alkupvm, loppupvm, korko, korkosaldo) * paivat );
+    Euro yhteensa = Euro::fromDouble( paivakorko * paivat );
     const QString& kieli = tosite->lasku().kieli().toLower();
 
     if( yhteensa.cents() ) {
@@ -150,7 +150,7 @@ double MaksumuistutusMuodostaja::paivaKorko(const QDate &alkupvm, const QDate &l
     if( !alkupvm.isValid() || !loppupvm.isValid() || korko < 1e-5 || !peruste.cents() || loppupvm <= alkupvm)
         return 0.0;
 
-    return peruste.toDouble() * korko / alkupvm.daysInYear() / 100.0;
+    return peruste.toDouble() * korko  / ( 100.0 * alkupvm.daysInYear() );
 }
 
 void MaksumuistutusMuodostaja::vastakirjaus(Tosite* tosite, const Euro &euro, int era, const QDate& pvm, int vastatili)
