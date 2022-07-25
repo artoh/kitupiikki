@@ -32,7 +32,6 @@
 #include <QRandomGenerator>
 #include <QFileDialog>
 #include <QRegularExpression>
-#include <QPageSize>
 
 #include <QDebug>
 
@@ -103,8 +102,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     if( !printer_->isValid())
         printer()->setOutputFileName( QDir::temp().absoluteFilePath("print.pdf") );
 
-    printer_->setPageSize(QPageSize(QPageSize::A4));
-    printer_->setPageMargins(QMarginsF(10,5,5,5), QPageLayout::Millimeter);
+    printer_->setPaperSize(QPrinter::A4);
+    printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
 
     if( !tempDir_->isValid())
     {

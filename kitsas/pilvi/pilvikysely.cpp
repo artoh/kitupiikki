@@ -73,7 +73,7 @@ void PilviKysely::kysy(const QVariant &data)
     }
 
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu );
-    connect(reply, &QNetworkReply::errorOccurred, this,
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this,
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 
 
@@ -107,7 +107,7 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
                 kp()->networkManager()->post(request, ba) :
                 kp()->networkManager()->put(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
-    connect(reply, &QNetworkReply::errorOccurred,
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 }
 

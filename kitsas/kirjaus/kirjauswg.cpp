@@ -375,7 +375,7 @@ void KirjausWg::tulostaTosite()
     // Tähän voisi tulla parempi ;)
 
     kp()->printer()->setPageOrientation(QPageLayout::Landscape);
-    kp()->printer()->setPageMargins(QMarginsF(10,20,10,10),QPageLayout::Millimeter);
+    kp()->printer()->setPageMargins(10,20,10,10,QPrinter::Millimeter);
     QPrintDialog printDialog( kp()->printer(), this);
 
 

@@ -133,7 +133,7 @@ QString SelausModel::etsiTeksti(int rivi) const
 
 QList<int> SelausModel::tiliLista() const
 {
-    QList<int> lista = kaytetytTilit_.values();
+    QList<int> lista = kaytetytTilit_.toList();
     std::sort(lista.begin(), lista.end());
     return lista;
 }

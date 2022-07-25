@@ -111,7 +111,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
      double mm = printer->width() * 1.00 / printer->widthMM();
 
-    int pienennys = sarakkeet_.count() > 4 && printer->pageLayout().pageSize().size(QPageSize::Millimeter).width() < 300 ? 2 : 0;
+    int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
 
     QFont fontti("FreeSans", 10 - pienennys );
     painter->setFont(fontti);
@@ -479,7 +479,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayo
     writer.setTitle( otsikko() );
 
     if( tulostaA4 )
-        writer.setPageSize( QPageSize(QPageSize::A4) );
+        writer.setPageSize( QPdfWriter::A4 );
     else if( leiska ) {
         writer.setPageLayout(*leiska);
     } else

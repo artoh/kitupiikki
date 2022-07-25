@@ -314,7 +314,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
 
     if( !ibanit.isEmpty()) {
         QVariantList ibanlista;
-        for(QString str : ibanit.values()) {
+        for(QString str : ibanit.toList()) {
             ibanlista << str;
         }
         data.insert("iban", ibanlista);

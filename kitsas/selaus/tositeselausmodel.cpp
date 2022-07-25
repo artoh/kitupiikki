@@ -91,14 +91,14 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
 QList<int> TositeSelausModel::tyyppiLista() const
 {
-    QList<int> lista = kaytetytTyypit_.values();
+    QList<int> lista = kaytetytTyypit_.toList();
     std::sort( lista.begin(), lista.end() );
     return lista;
 }
 
 QStringList TositeSelausModel::sarjaLista() const
 {
-    QList<QString> lista = kaytetytSarjat_.values();
+    QList<QString> lista = kaytetytSarjat_.toList();
     std::sort( lista.begin(), lista.end());
     return lista;
 }
