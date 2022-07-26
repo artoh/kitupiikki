@@ -59,6 +59,12 @@ QVariantMap Lasku::toistoMap(const QDate &pvm, const int jaksoKuukautta, bool hi
     return map;
 }
 
+QString Lasku::toiminimiTieto(const int toiminimirooli) const
+{
+    ToiminimiModel* tmodel = kp()->toiminimet();
+    return tmodel->tieto(toiminimirooli, toiminimi());
+}
+
 QString Lasku::virtuaaliviivakoodi(const Iban &iban, bool rf) const
 {
     qlonglong sentit = summa().cents();

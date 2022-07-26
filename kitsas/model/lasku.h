@@ -157,6 +157,7 @@ public:
 
     int toiminimi() const { return luku("toiminimi");}
     void setToiminimi(const int indeksi) { set("toiminimi", indeksi);}
+    QString toiminimiTieto(const int toiminimirooli) const;
 
     QString virtuaaliviivakoodi(const Iban& iban, bool rf = false) const;
     QString QRkooditieto(const Iban& iban, const QString& nimi, bool rf=false) const;

@@ -173,7 +173,7 @@ QString SahkopostiToimittaja::viestinOtsikko() const
 
     QString otsikko = lasku.tulkkaaMuuttujat( lasku.saateOtsikko() );
     if( otsikko.isEmpty()) {
-        otsikko = QString("%3 %1 %2").arg(lasku.numero(), kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi),
+        otsikko = QString("%3 %1 %2").arg(lasku.numero(), lasku.toiminimiTieto(ToiminimiModel::Nimi),
             tosite_->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
                            (tosite_->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
                                                                             : tulkkaa("laskuotsikko", kieli)));
@@ -237,11 +237,21 @@ void SahkopostiToimittaja::lahetaViesti()
 {
     const Lasku lasku = tosite_->constLasku();
 
+    QString keneltaEmail = kp()->asetukset()->asetus(AsetusModel::EmailOsoite);
+    QString kenelta = kp()->asetukset()->asetus(AsetusModel::EmailNimi);
+
+    const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
+    if( !omaEmail.isEmpty() && kp()->pilvi()->kayttajaPilvessa() ) {
+        const int vali = omaEmail.indexOf(' ');
+        keneltaEmail =  omaEmail.left(vali);
+        kenelta = omaEmail.mid(vali + 1);
+    }
+
     QVariantMap viesti;
     viesti.insert("attachments", liitteet_);
     viesti.insert("from", QString("\"%1\" %2")
-                  .arg(kp()->asetukset()->asetus(AsetusModel::EmailNimi))
-                  .arg(kp()->asetukset()->asetus(AsetusModel::EmailOsoite))
+                  .arg(kenelta)
+                  .arg(keneltaEmail)
                   );
     if(lasku.email().contains(",")) {
         viesti.insert("to", lasku.email());
