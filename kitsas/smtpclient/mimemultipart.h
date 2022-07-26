@@ -19,13 +19,12 @@
 #ifndef MIMEMULTIPART_H
 #define MIMEMULTIPART_H
 
+#include <QList>
+#include "smtpmime_global.h"
 #include "mimepart.h"
 
-#include "smtpexports.h"
-
-class SMTP_EXPORT MimeMultiPart : public MimePart
+class SMTP_MIME_EXPORT MimeMultiPart : public MimePart
 {
-    Q_OBJECT
 public:
 
     /* [0] Enums */
@@ -61,7 +60,7 @@ public:
 
     void addPart(MimePart *part);
 
-    virtual void prepare();
+    void writeContent(QIODevice &device) const;
 
     /* [3] --- */
 

@@ -14,9 +14,6 @@
   Lesser General Public License for more details.
 
   See the LICENSE file for more details.
-
-
-  github: bluetiger9/SmtpClient-for-Qt
 */
 
 #ifndef SMTPMIME_H
@@ -30,5 +27,6 @@
 #include "mimetext.h"
 #include "mimeinlinefile.h"
 #include "mimefile.h"
+#include "mimebytearrayattachment.h"
 
 #endif // SMTPMIME_H

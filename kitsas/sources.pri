@@ -188,16 +188,21 @@ SOURCES += \
     $$PWD/selaus/tositeselausproxymodel.cpp \
     $$PWD/smtpclient/emailaddress.cpp \
     $$PWD/smtpclient/mimeattachment.cpp \
-    $$PWD/smtpclient/mimecontentformatter.cpp \
     $$PWD/smtpclient/mimefile.cpp \
     $$PWD/smtpclient/mimehtml.cpp \
     $$PWD/smtpclient/mimeinlinefile.cpp \
     $$PWD/smtpclient/mimemessage.cpp \
-    $$PWD/smtpclient/mimemultipart.cpp \
     $$PWD/smtpclient/mimepart.cpp \
     $$PWD/smtpclient/mimetext.cpp \
-    $$PWD/smtpclient/quotedprintable.cpp \
     $$PWD/smtpclient/smtpclient.cpp \
+    $$PWD/smtpclient/quotedprintable.cpp \
+    $$PWD/smtpclient/mimemultipart.cpp \
+    $$PWD/smtpclient/mimecontentencoder.cpp \
+    $$PWD/smtpclient/mimebase64encoder.cpp \
+    $$PWD/smtpclient/mimeqpencoder.cpp \
+    $$PWD/smtpclient/mimeqpformatter.cpp \
+    $$PWD/smtpclient/mimebase64formatter.cpp \
+    $$PWD/smtpclient/mimecontentformatter.cpp \    
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -558,20 +563,25 @@ HEADERS += \
     $$PWD/saldodock/saldomodel.h \
     $$PWD/selaus/selausproxymodel.h \
     $$PWD/selaus/tositeselausproxymodel.h \
-    $$PWD/smtpclient/SmtpMime \
     $$PWD/smtpclient/emailaddress.h \
     $$PWD/smtpclient/mimeattachment.h \
-    $$PWD/smtpclient/mimecontentformatter.h \
     $$PWD/smtpclient/mimefile.h \
     $$PWD/smtpclient/mimehtml.h \
     $$PWD/smtpclient/mimeinlinefile.h \
     $$PWD/smtpclient/mimemessage.h \
-    $$PWD/smtpclient/mimemultipart.h \
     $$PWD/smtpclient/mimepart.h \
     $$PWD/smtpclient/mimetext.h \
-    $$PWD/smtpclient/quotedprintable.h \
     $$PWD/smtpclient/smtpclient.h \
-    $$PWD/smtpclient/smtpexports.h \
+    $$PWD/smtpclient/SmtpMime \
+    $$PWD/smtpclient/quotedprintable.h \
+    $$PWD/smtpclient/mimemultipart.h \
+    $$PWD/smtpclient/smtpmime_global.h \
+    $$PWD/smtpclient/mimecontentencoder.h \
+    $$PWD/smtpclient/mimebase64encoder.h \
+    $$PWD/smtpclient/mimeqpencoder.h \
+    $$PWD/smtpclient/mimeqpformatter.h \
+    $$PWD/smtpclient/mimebase64formatter.h \
+    $$PWD/smtpclient/mimecontentformatter.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \

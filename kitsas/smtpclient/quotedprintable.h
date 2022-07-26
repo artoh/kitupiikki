@@ -19,21 +19,13 @@
 #ifndef QUOTEDPRINTABLE_H
 #define QUOTEDPRINTABLE_H
 
-#include <QObject>
 #include <QByteArray>
+#include <QString>
+#include "smtpmime_global.h"
 
-#include "smtpexports.h"
-
-class SMTP_EXPORT QuotedPrintable : public QObject
-{
-    Q_OBJECT
-public:
-
-    static QString encode(const QByteArray &input);
-    static QByteArray decode(const QString &input);
-
-private:
-    QuotedPrintable();
-};
+namespace QuotedPrintable {
+    SMTP_MIME_EXPORT QString encode(const QByteArray &input);
+    SMTP_MIME_EXPORT QByteArray decode(const QString &input);
+}
 
 #endif // QUOTEDPRINTABLE_H

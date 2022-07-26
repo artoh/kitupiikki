@@ -37,7 +37,7 @@ void MimeHtml::setHtml(const QString & html)
     this->text = html;
 }
 
-const QString & MimeHtml::getHtml() const
+QString MimeHtml::getHtml() const
 {
     return text;
 }
@@ -47,11 +47,5 @@ const QString & MimeHtml::getHtml() const
 
 
 /* [3] Protected methods */
-
-void MimeHtml::prepare()
-{
-    /* !!! IMPORTANT !!! */
-    MimeText::prepare();
-}
 
 /* [3] --- */

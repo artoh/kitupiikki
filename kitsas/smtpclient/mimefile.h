@@ -20,18 +20,16 @@
 #define MIMEFILE_H
 
 #include "mimepart.h"
-#include <QFile>
+#include "smtpmime_global.h"
 
-#include "smtpexports.h"
+class QFile;
 
-class SMTP_EXPORT MimeFile : public MimePart
+class SMTP_MIME_EXPORT MimeFile : public MimePart
 {
-    Q_OBJECT
 public:
 
     /* [1] Constructors and Destructors */
 
-    MimeFile(const QByteArray& stream, const QString& fileName);
     MimeFile(QFile *f);
     ~MimeFile();
 
@@ -53,7 +51,8 @@ protected:
 
     /* [4] Protected methods */
 
-    virtual void prepare();
+    void writeContent(QIODevice &device) const;
+
 
     /* [4] --- */
 

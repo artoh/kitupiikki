@@ -16,8 +16,13 @@
   See the LICENSE file for more details.
 */
 
+#include <QBuffer>
 #include "mimepart.h"
 #include "quotedprintable.h"
+#include "mimebase64formatter.h"
+#include "mimeqpformatter.h"
+#include "mimebase64encoder.h"
+#include "mimeqpencoder.h"
 
 /* [1] Constructors and Destructors */
 
@@ -45,20 +50,20 @@ void MimePart::setContent(const QByteArray & content)
 
 void MimePart::setHeader(const QString & header)
 {
-    this->header = header;
+    this->headerLines = header;
 }
 
 void MimePart::addHeaderLine(const QString & line)
 {
-    this->header += line + "\r\n";
+    this->headerLines += line + "\r\n";
 }
 
-const QString& MimePart::getHeader() const
+QString MimePart::getHeader() const
 {
-    return header;
+    return headerLines;
 }
 
-const QByteArray& MimePart::getContent() const
+QByteArray MimePart::getContent() const
 {
     return content;
 }
@@ -68,7 +73,7 @@ void MimePart::setContentId(const QString & cId)
     this->cId = cId;
 }
 
-const QString & MimePart::getContentId() const
+QString MimePart::getContentId() const
 {
     return this->cId;
 }
@@ -78,7 +83,7 @@ void MimePart::setContentName(const QString & cName)
     this->cName = cName;
 }
 
-const QString & MimePart::getContentName() const
+QString MimePart::getContentName() const
 {
     return this->cName;
 }
@@ -88,7 +93,7 @@ void MimePart::setContentType(const QString & cType)
     this->cType = cType;
 }
 
-const QString & MimePart::getContentType() const
+QString MimePart::getContentType() const
 {
     return this->cType;
 }
@@ -98,7 +103,7 @@ void MimePart::setCharset(const QString & charset)
     this->cCharset = charset;
 }
 
-const QString & MimePart::getCharset() const
+QString MimePart::getCharset() const
 {
     return this->cCharset;
 }
@@ -113,9 +118,12 @@ MimePart::Encoding MimePart::getEncoding() const
     return this->cEncoding;
 }
 
-MimeContentFormatter& MimePart::getContentFormatter()
-{
-    return this->formatter;
+void MimePart::setMaxLineLength(const int length) {
+    maxLineLength = length;
+}
+
+int MimePart::getMaxLineLength() const {
+    return maxLineLength;
 }
 
 /* [2] --- */
@@ -123,92 +131,98 @@ MimeContentFormatter& MimePart::getContentFormatter()
 
 /* [3] Public methods */
 
-QString MimePart::toString()
+QString MimePart::toString() const
 {
-    if (!prepared)
-        prepare();
-
-    return mimeString;
+    QBuffer out;
+    out.open(QIODevice::WriteOnly);
+    writeToDevice(out);
+    return QString(out.buffer());
 }
+
+void MimePart::writeToDevice(QIODevice &device) const {
+    QString header;
+
+    /* === Header Prepare === */
+
+    /* Content-Type */
+    header.append("Content-Type: ").append(cType);
+
+    if (cName != "")
+        header.append("; name=\"").append(cName).append("\"");
+
+    if (cCharset != "")
+        header.append("; charset=").append(cCharset);
+
+    if (cBoundary != "")
+        header.append("; boundary=").append(cBoundary);
+
+    header.append("\r\n");
+    /* ------------ */
+
+    /* Content-Transfer-Encoding */
+    header.append("Content-Transfer-Encoding: ");
+    switch (cEncoding)
+    {
+    case _7Bit:
+        header.append("7bit\r\n");
+        break;
+    case _8Bit:
+        header.append("8bit\r\n");
+        break;
+    case Base64:
+        header.append("base64\r\n");
+        break;
+    case QuotedPrintable:
+        header.append("quoted-printable\r\n");
+        break;
+    }
+    /* ------------------------ */
+
+    /* Content-Id */
+    if (!cId.isEmpty()) {
+        header.append("Content-ID: <").append(cId).append(">\r\n");
+    }
+    /* ---------- */
+
+    /* Additional header lines */
+
+    header.append(headerLines).append("\r\n");
+
+    /* ------------------------- */
+
+    /* === End of Header Prepare === */
+
+    device.write(header.toLatin1());
+
+    writeContent(device);
+}
+
+
 
 /* [3] --- */
 
 
 /* [4] Protected methods */
 
-void MimePart::prepare()
-{
-    mimeString = QString();
+void MimePart::writeContent(QIODevice &device) const {
+    this->writeContent(device, content);
+}
 
-    /* === Header Prepare === */
-
-    /* Content-Type */
-    mimeString.append("Content-Type: ").append(cType);
-
-    if (cName != "")
-        mimeString.append("; name=\"").append(cName).append("\"");
-
-    if (cCharset != "")
-        mimeString.append("; charset=").append(cCharset);
-
-    if (cBoundary != "")
-        mimeString.append("; boundary=").append(cBoundary);
-
-    mimeString.append("\r\n");
-    /* ------------ */
-
-    /* Content-Transfer-Encoding */
-    mimeString.append("Content-Transfer-Encoding: ");
+void MimePart::writeContent(QIODevice &device, const QByteArray &content) const {
     switch (cEncoding)
     {
     case _7Bit:
-        mimeString.append("7bit\r\n");
-        break;
     case _8Bit:
-        mimeString.append("8bit\r\n");
+        device.write(content);
         break;
     case Base64:
-        mimeString.append("base64\r\n");
+        MimeBase64Formatter(&device).write(MimeBase64Encoder().encode(content));
         break;
     case QuotedPrintable:
-        mimeString.append("quoted-printable\r\n");
+        MimeQPFormatter(&device).write(MimeQpEncoder().encode(content));
         break;
     }
-    /* ------------------------ */
-
-    /* Content-Id */
-    if (cId != NULL)
-        mimeString.append("Content-ID: <").append(cId).append(">\r\n");
-    /* ---------- */
-
-    /* Addition header lines */
-
-    mimeString.append(header).append("\r\n");
-
-    /* ------------------------- */
-
-    /* === End of Header Prepare === */
-
-    /* === Content === */
-    switch (cEncoding)
-    {
-    case _7Bit:
-        mimeString.append(QString(content).toLatin1());
-        break;
-    case _8Bit:
-        mimeString.append(content);
-        break;
-    case Base64:
-        mimeString.append(formatter.format(content.toBase64()));
-        break;
-    case QuotedPrintable:
-        mimeString.append(formatter.format(QuotedPrintable::encode(content), true));
-        break;
-    }
-    mimeString.append("\r\n");
-    /* === End of Content === */
-
-    prepared = true;
+    device.write("\r\n");
 }
 
 /* [4] --- */

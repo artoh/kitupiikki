@@ -19,13 +19,11 @@
 #ifndef MIMEHTML_H
 #define MIMEHTML_H
 
+#include "smtpmime_global.h"
 #include "mimetext.h"
 
-#include "smtpexports.h"
-
-class SMTP_EXPORT MimeHtml : public MimeText
+class SMTP_MIME_EXPORT MimeHtml : public MimeText
 {
-    Q_OBJECT
 public:
 
     /* [1] Constructors and Destructors */
@@ -40,7 +38,7 @@ public:
 
     void setHtml(const QString & html);
 
-    const QString& getHtml() const;
+    QString getHtml() const;
 
     /* [2] --- */
 
@@ -52,8 +50,6 @@ protected:
 
 
     /* [4] Protected methods */
-
-    virtual void prepare();
 
     /* [4] --- */
 };

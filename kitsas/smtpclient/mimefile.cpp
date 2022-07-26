@@ -29,19 +29,8 @@ MimeFile::MimeFile(QFile *file)
     this->cEncoding = Base64;
 }
 
-MimeFile::MimeFile(const QByteArray& stream, const QString& fileName)
-{
-    this->cEncoding = Base64;
-    this->cType = "application/octet-stream";
-    this->file = 0;
-    this->cName = fileName;
-    this->content = stream;
-}
-
 MimeFile::~MimeFile()
 {
-  if (file)
-    delete file;
 }
 
 /* [1] --- */
@@ -54,16 +43,13 @@ MimeFile::~MimeFile()
 
 /* [3] Protected methods */
 
-void MimeFile::prepare()
-{
-  if (this->file)
-  {
-    file->open(QIODevice::ReadOnly);
-    this->content = file->readAll();
+
+void MimeFile::writeContent(QIODevice &device) const {
+    file->open(QIODevice::ReadOnly);    
+    const QByteArray &fileContent = file->readAll();
     file->close();
-  }
-    /* !!! IMPORTANT !!!! */
-    MimePart::prepare();
+
+    MimePart::writeContent(device, fileContent);
 }
 
 /* [3] --- */
