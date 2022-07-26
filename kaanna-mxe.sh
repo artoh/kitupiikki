@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#
+#   Windowsin kääntäminen MXE-ristiinkääntöympäristössä
+#
+
+BUILD_DIR=build-windows-mxe
+DIST_DIR=dist
+MXE_DIR=~/mxe_qt6
+
+mkdir -p $BUILD_DIR
+mkdir -p $DIST_DIR
+cd $BUILD_DIR
+
+export PATH=$MXE_DIR/usr/bin:$PATH
+
+touch ../kitsas/versio.h
+
+$MXE_DIR/usr/i686-w64-mingw32.static/qt5/bin/qmake ../kitsas/kitsas.pro "CONFIG += release"
+make -j 6
+cp release/kitsas.exe ../$DIST_DIR/
+cp release/kitsas.exe ../$DIST_DIR/kitsas-$1.exe
+
+# cd ../$DIST_DIR
+# ./upx -9 -f -o kitsas-X.X.exe kitsas.exe
+ 
