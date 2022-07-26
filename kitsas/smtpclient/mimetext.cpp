@@ -18,7 +18,7 @@
 
 #include "mimetext.h"
 
-#include <QStringEncoder>
+// #include <QStringEncoder> // Qt 6
 
 /* [1] Constructors and Destructors */
 
@@ -53,7 +53,8 @@ const QString & MimeText::getText() const
 /* [3] Protected Methods */
 
 void MimeText::writeContent(QIODevice &device) const {
-    MimePart::writeContent(device, QStringEncoder(this->cCharset.toStdString().c_str()).encode(text));
+//    MimePart::writeContent(device, QStringEncoder(this->cCharset.toStdString().c_str()).encode(text));
+      MimePart::writeContent( device, text.toLocal8Bit() );
 }
 
 /* [3] --- */

@@ -188,6 +188,7 @@ SOURCES += \
     $$PWD/selaus/tositeselausproxymodel.cpp \
     $$PWD/smtpclient/emailaddress.cpp \
     $$PWD/smtpclient/mimeattachment.cpp \
+    $$PWD/smtpclient/mimebytearrayattachment.cpp \
     $$PWD/smtpclient/mimefile.cpp \
     $$PWD/smtpclient/mimehtml.cpp \
     $$PWD/smtpclient/mimeinlinefile.cpp \
@@ -565,6 +566,7 @@ HEADERS += \
     $$PWD/selaus/tositeselausproxymodel.h \
     $$PWD/smtpclient/emailaddress.h \
     $$PWD/smtpclient/mimeattachment.h \
+    $$PWD/smtpclient/mimebytearrayattachment.h \
     $$PWD/smtpclient/mimefile.h \
     $$PWD/smtpclient/mimehtml.h \
     $$PWD/smtpclient/mimeinlinefile.h \

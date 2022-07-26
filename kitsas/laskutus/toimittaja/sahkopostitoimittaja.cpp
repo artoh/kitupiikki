@@ -63,20 +63,10 @@ void SahkopostiToimittaja::laheta()
                                     kp()->settings()->value("EmailKopio").toString();
 
 
-    SmtpClient client(server, port, (SmtpClient::ConnectionType) tyyppi);
-    if( !password.isEmpty()) {
-        client.setUser(user);
-        client.setPassword(password);
-    }
+    SmtpClient smtp(server, port, (SmtpClient::ConnectionType) tyyppi);
+    smtp.connectToHost();
 
-    if( !client.connectToHost()) {
-        virhe(tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
-        return;
-    } else if( !password.isEmpty() && !client.login() ) {
-        virhe(tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
-        return;
-    }
-
+    // Tehdään tässä välissä viesti valmiiksi
     const Lasku lasku = tosite_->constLasku();
 
     QString kenelleNimi = tosite_->kumppaninimi();
@@ -87,21 +77,23 @@ void SahkopostiToimittaja::laheta()
 
     QString otsikko = viestinOtsikko();
 
+
     MimeMessage message;
+
     message.setHeaderEncoding(MimePart::QuotedPrintable);
-    message.setSender(new EmailAddress(keneltaEmail, kenelta));
+    message.setSender(EmailAddress(keneltaEmail, kenelta));
     if( kenelleEmail.contains(",")) {
         QStringList vastaanottajat = kenelleEmail.split(',');
         for(const auto& osoite :  vastaanottajat) {
-            message.addRecipient(new EmailAddress(osoite));
+            message.addRecipient(EmailAddress(osoite));
         }
     } else {
-        message.addRecipient(new EmailAddress(kenelleEmail, kenelleNimi));
+        message.addRecipient(EmailAddress(kenelleEmail, kenelleNimi));
     }
 
 
     if( !kopioEmail.isEmpty())
-        message.addBcc(new EmailAddress(kopioEmail));
+        message.addBcc(EmailAddress(kopioEmail));
 
     message.setSubject(otsikko);
 
@@ -113,9 +105,11 @@ void SahkopostiToimittaja::laheta()
     message.addPart(&text);
 
     QString filename = tulkkaa("laskuotsikko",kieli).toLower() + lasku.numero() + ".pdf";
-    MimeAttachment attachment(tulostaja.pdf(*tosite_), filename);
+    MimeByteArrayAttachment attachment(filename, tulostaja.pdf(*tosite_));
     attachment.setContentType("application/pdf");
     message.addPart(&attachment);
+
+    QList<MimeByteArrayAttachment*> extraAttachments;
 
     for(int i=0; i < tosite_->liitteet()->rowCount(); i++) {
         const QModelIndex indeksi = tosite_->liitteet()->index(i);
@@ -123,20 +117,42 @@ void SahkopostiToimittaja::laheta()
 
         if( indeksi.data(TositeLiitteet::RooliRooli).toString().isEmpty()) {
 
-            MimeAttachment* lisaLiite = new MimeAttachment(indeksi.data(TositeLiitteet::SisaltoRooli).toByteArray(),
-                                     indeksi.data(TositeLiitteet::NimiRooli).toString());
+            MimeByteArrayAttachment* lisaLiite = new MimeByteArrayAttachment(indeksi.data(TositeLiitteet::NimiRooli).toString(),
+                                                                    indeksi.data(TositeLiitteet::SisaltoRooli).toByteArray() );
             lisaLiite->setContentType(indeksi.data(TositeLiitteet::TyyppiRooli).toString());
-            lisaLiite->setParent(tosite_);
+            extraAttachments.append(lisaLiite);
 
             message.addPart(lisaLiite);
 
         }
     }
 
-    if(client.sendMail(message)) {
+    // Nyt otetaan yhteys ja kirjaudutaan
+
+    if( !smtp.waitForReadyConnected()) {
+        virhe(tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
+        return;
+    }
+
+    if( !password.isEmpty() ) {
+        smtp.login(user, password);
+        if( !smtp.waitForAuthenticated()) {
+            virhe(tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
+            return;
+        }
+    }
+
+    smtp.sendMail(message);
+    if( smtp.waitForMailSent()) {
         merkkaaToimitetuksi();
     } else {
         virhe(tr("Laskujen lähettäminen sähköpostillä epäonnistui."));
+    }
+
+    smtp.quit();
+
+    for(auto ptr : extraAttachments) {
+        delete ptr;
     }
 
     tosite_->deleteLater();

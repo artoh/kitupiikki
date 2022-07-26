@@ -233,36 +233,45 @@ void EmailMaaritys::paivitaKitsasVaihto()
 
 void EmailMaaritys::kokeileSmtp()
 {
-    SmtpClient smtp( ui->palvelinEdit->text(), ui->porttiSpin->value(), (SmtpClient::ConnectionType) ui->tyyppiCombo->currentIndex());
-    if( !ui->salasanaEdit->text().isEmpty()) {
-        smtp.setUser(ui->kayttajaEdit->text());
-        smtp.setPassword(ui->salasanaEdit->text());
-    }
-
     MimeMessage message;
-    message.setSender(new EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
-    message.addRecipient(new EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
+    message.setSender(EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
+    message.addRecipient(EmailAddress(ui->emailEdit->text(), ui->nimiEdit->text()));
 
     message.setSubject(tr("Kitsaan sähköpostikokeilu"));
-
     MimeText text;
     text.setText(tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     message.addPart(&text);
 
-    MimeAttachment attachment(new QFile(":/pic/kitsas350.png"));
+    QFile image(":/pic/kitsas350.png");
+    MimeAttachment attachment(&image);
     attachment.setContentType("image/jpeg");
     message.addPart(&attachment);
 
-    if(!smtp.connectToHost()) {
+    SmtpClient smtp( ui->palvelinEdit->text(), ui->porttiSpin->value(), (SmtpClient::ConnectionType) ui->tyyppiCombo->currentIndex());
+    smtp.connectToHost();
+
+    if( !smtp.waitForReadyConnected()) {
         QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui").arg(ui->palvelinEdit->text()));
-    } else if( !ui->salasanaEdit->text().isEmpty() && !smtp.login()) {
-        QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen kirjautuminen epäonnistui"));
-    } else if( !smtp.sendMail(message)) {
+        ui->testiLabel->hide();
+        ui->kokeileNappi->setEnabled(true);
+        return;
+    }
+
+    if( !ui->salasanaEdit->text().isEmpty()) {
+        smtp.login(ui->kayttajaEdit->text(), ui->salasanaEdit->text());
+        if( !smtp.waitForAuthenticated()) {
+            QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Sähköpostipalvelimeen kirjautuminen epäonnistui"));
+            ui->testiLabel->hide();
+            ui->kokeileNappi->setEnabled(true);
+            return;
+        }
+    }
+    smtp.sendMail(message);
+    if( !smtp.waitForMailSent()) {
         QMessageBox::critical(this, tr("Sähköpostin lähettäminen epäonnistui"), tr("Virhe sähköpostia lähetettäessä"));
     } else {
         QMessageBox::information(this, tr("Sähköposti lähetetty"), tr("Sähköpostin lähettäminen onnistui"));
     }
-
     ui->testiLabel->hide();
     ui->kokeileNappi->setEnabled(true);
 }
