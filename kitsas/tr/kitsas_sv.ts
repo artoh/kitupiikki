@@ -1077,71 +1077,71 @@ För att ta ibruk bokföring av moms enligt betalningsprincipen måste kontoplan
 <context>
     <name>ArkistoSivu</name>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="184"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="185"/>
         <source>Arkiston viennissä virhe</source>
         <translation>Fel vid export av arkiv</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="185"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="186"/>
         <source>Arkiston vienti epäonnistui.</source>
         <translation>Arkivexport misslyckades.</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="293"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="294"/>
         <source>Vie arkisto</source>
         <translation>Exportera arkiv</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="293"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="294"/>
         <source>Zip-arkisto (*.zip)</source>
         <translation>Zip-arkiv (*.zip)</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="304"/>
-        <location filename="../arkisto/arkistosivu.cpp" line="358"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="305"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="359"/>
         <source>Kopioidaan arkistoa</source>
         <translation>Kopierar arkiv</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="304"/>
-        <location filename="../arkisto/arkistosivu.cpp" line="358"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="305"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="359"/>
         <source>Peruuta</source>
         <translation>Ångra</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="326"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="327"/>
         <source>Arkiston vienti valmis</source>
         <translation>Arkivexport klar</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="327"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="328"/>
         <source>Arkisto viety tiedostoon %1</source>
         <translation>Arkivet exporterat till fil %1</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="346"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="347"/>
         <source>Valitse hakemisto, jonne arkisto kopioidaan</source>
         <translation>Välj mappen till vilken du vill att arkivet kopieras</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="366"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="367"/>
         <source>Kopiointi ei onnistu</source>
         <translation>Kan inte kopiera</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="366"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="367"/>
         <source>Tiedoston %1 kopiointi ei onnistunut.
  Kopiointi on keskeytetty.</source>
         <translation>Kopieringen av filen %1 misslyckades
 Kopieringen avbröts.</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="372"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="373"/>
         <source>Arkiston kopiointi valmis</source>
         <translation>Arkivkopia klar</translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="372"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="373"/>
         <source>Arkisto on kopioitu hakemistoon %1.
 Avaa selaimella hakemistossa oleva index.html-tiedosto.</source>
         <translation>Arkivet har kopierats till mappen %1.
@@ -1381,22 +1381,22 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
 <context>
     <name>AsiakkaatModel</name>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="77"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="78"/>
         <source>Nimi</source>
         <translation>Namn</translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="79"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="80"/>
         <source>Yhteensä</source>
         <translation>Totalt</translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="81"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="82"/>
         <source>Avoinna</source>
         <translation>Öppen</translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="83"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="84"/>
         <source>Erääntynyt</source>
         <translation>Förfallen</translation>
     </message>
@@ -1945,7 +1945,12 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
         <translation>Testa</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.ui" line="264"/>
+        <location filename="../maaritys/emailmaaritys.ui" line="259"/>
+        <source>Vain minun lähettämissäni viesteissä</source>
+        <translation type="unfinished">Endast i meddelanden som skickats av mig</translation>
+    </message>
+    <message>
+        <location filename="../maaritys/emailmaaritys.ui" line="271"/>
         <source>Laskukopio osoitteeseen</source>
         <translation>Kopia av fakturan till adressen</translation>
     </message>
@@ -1974,50 +1979,50 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
         <translation>&lt;b&gt; SSL-skyddad nätverkstrafik är inte i bruk&lt;/b&gt;&lt;p&gt;Att skicka fakturor via skyddad e-post kräver version  %1 av OpenSSL-biblioteket &lt;p&gt; För att skicka skyddad e-post, ladda ned OpenSSL-biblioteket %1  från Internet och installera det.</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="246"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="279"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="275"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="323"/>
         <source>Kitsaan sähköpostikokeilu</source>
         <translation>Testning av Kitsas e-post</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="249"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="280"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="277"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="324"/>
         <source>Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1</source>
         <translation>E-posten skickades från Kitsas %1</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="257"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="259"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="261"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="302"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
         <source>Sähköpostin lähettäminen epäonnistui</source>
         <translation>Det gick inte att skicka e-post</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="257"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui</source>
         <translation>Det gick inte att ansluta till e-postservern %1</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="259"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
         <source>Sähköpostipalvelimeen kirjautuminen epäonnistui</source>
         <translation>Det gick inte att logga in på e-postservern</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="261"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="302"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
         <source>Virhe sähköpostia lähetettäessä</source>
         <translation>Det gick inte att skicka e-post</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="263"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="295"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
         <source>Sähköposti lähetetty</source>
         <translation>E-post skickad</translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="263"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="295"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
         <source>Sähköpostin lähettäminen onnistui</source>
         <translation>E-postmeddelandet skickades</translation>
     </message>
@@ -5554,31 +5559,31 @@ adress</translation>
         <translation>Leveransen av fakturorna avbröts</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="168"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="170"/>
         <source>Lasku toimitettu</source>
         <translation>Fakturan levererad</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="170"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="172"/>
         <source>%1 laskua toimitettu</source>
         <translation>%1 fakturor levererade</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="176"/>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="186"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="178"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="188"/>
         <source>Laskujen toimittaminen epäonnistui</source>
         <translation>Fakturorna kunde inte levereras</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="177"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="179"/>
         <source>%1 laskua toimitettu
 %2 laskun toimittaminen epäonnistui</source>
         <translation>%1 fakturor levererades
 %2 fakturor kunde inte levereras</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="181"/>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="187"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="183"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="189"/>
         <source>Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.</source>
         <translation>De fakturor som inte kunde levereras hittas under fliken Utkorg.</translation>
     </message>
@@ -8439,22 +8444,22 @@ ID: n visas inte för användaren</translation>
 <context>
     <name>SQLiteModel</name>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="148"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="154"/>
         <source>Tietokannan avaaminen epäonnistui</source>
         <translation>Det gick inte att öppna databasen</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="149"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="155"/>
         <source>Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia</source>
         <translation>Det gick inte att öppna databasen %1 på grund av ett databasfel %2</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="173"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="179"/>
         <source>Kirjanpitoa ei voi avata</source>
         <translation>Det går inte att öppna bokföringen</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="174"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="180"/>
         <source>Kirjanpitotiedosto %1 on jo käytössä.
 
 Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.
@@ -8467,23 +8472,23 @@ Stäng alla fönster i Kitsas- och försök igen.
 Om detta inte hjälper försök att starta om datorn.</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="180"/>
-        <location filename="../sqlite/sqlitemodel.cpp" line="244"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="186"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="250"/>
         <source>Tiedostoa %1 ei voi avata</source>
         <translation>Filen %1 går inte att öppna</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="181"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="187"/>
         <source>Sql-virhe: %1</source>
         <translation>Sql-fel: %1</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="192"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="198"/>
         <source>Kirjanpitoa %1 ei voi avata</source>
         <translation>Bokföringen %1 kan inte öppnas</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="193"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="199"/>
         <source>Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.
 
 Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa ohjelma osoitteesta https://kitsas.fi</source>
@@ -8492,19 +8497,19 @@ Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa
 För att kunna öppna filen måste du installera en nyare version av Kitsas. Ladda ned programmet på adressen https://kitsas.fi</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="201"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="207"/>
         <source>Kirjanpidon päivittäminen</source>
         <translation>Uppdatering av bokföringen</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="202"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="208"/>
         <source>Avataksesi kirjanpidon pitää se päivittää yhteensopivaksi nykyisen version kanssa. Päivityksen jälkeen kirjanpitoa ei voi enää avata varhaisemmilla esiversioilla. 
 Päivitetäänkö kirjanpito nyt?</source>
         <translation>För att kunna öppna bokföringen måste den uppdateras så att den blir kompatibel med den nuvarande versionen. Efter uppdateringen kan bokföringen inte längre öppnas med äldre versioner. 
 Skall bokföringen uppdateras nu?</translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="245"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="251"/>
         <source>Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut.</source>
         <translation>Filen du valt är inte en Kitsas databas eller så är filen skadad.</translation>
     </message>
@@ -8512,21 +8517,21 @@ Skall bokföringen uppdateras nu?</translation>
 <context>
     <name>SahkopostiToimittaja</name>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="72"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="141"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation>Det gick inte att ansluta till e-postservern %1
 Kontrollera dina inställningar för e-postutskick.</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="75"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="148"/>
         <source>Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation>Det gick inte att ansluta till e-postservern %1
 Kontrollera dina inställningar för att skicka e-post.</translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="138"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="157"/>
         <source>Laskujen lähettäminen sähköpostillä epäonnistui.</source>
         <translation>Det gick inte att skicka fakturorna per e-post.</translation>
     </message>
@@ -11327,85 +11332,85 @@ Vill du fortfarande lägga till den här filen?</translation>
 <context>
     <name>TositeViennit</name>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="44"/>
+        <location filename="../model/tositeviennit.cpp" line="45"/>
         <source>Pvm</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="46"/>
+        <location filename="../model/tositeviennit.cpp" line="47"/>
         <source>Tili</source>
         <translation>Konto</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="48"/>
+        <location filename="../model/tositeviennit.cpp" line="49"/>
         <source>Debet</source>
         <translation>Debet</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="50"/>
+        <location filename="../model/tositeviennit.cpp" line="51"/>
         <source>Kredit</source>
         <translation>Kredit</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="52"/>
+        <location filename="../model/tositeviennit.cpp" line="53"/>
         <source>Kohdennus</source>
         <translation>Allokering</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="54"/>
+        <location filename="../model/tositeviennit.cpp" line="55"/>
         <source>Alv</source>
         <translation>Moms</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="56"/>
+        <location filename="../model/tositeviennit.cpp" line="57"/>
         <source>Asiakas/Toimittaja</source>
         <translation>Kund/leverantör</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="58"/>
+        <location filename="../model/tositeviennit.cpp" line="59"/>
         <source>Selite</source>
         <translation>Förklaring</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="122"/>
+        <location filename="../model/tositeviennit.cpp" line="123"/>
         <source>VERO</source>
         <translation>SKATT</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="142"/>
+        <location filename="../model/tositeviennit.cpp" line="143"/>
         <source>Uusi erä</source>
         <translation>Ny rat</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="626"/>
+        <location filename="../model/tositeviennit.cpp" line="627"/>
         <source>
 Myynneistä pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation>
 För försäljningen borde en moms på %L1 € redovisas</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="628"/>
+        <location filename="../model/tositeviennit.cpp" line="629"/>
         <source>
 Ostoista pitäisi vähentää arvonlisäveroa %L1 €</source>
         <translation>
 För inköpen borde ett momsavdrag om %L1 € göras</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="630"/>
+        <location filename="../model/tositeviennit.cpp" line="631"/>
         <source>
 Palveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation>
 För gemenskapsinternt förvärv av tjänster borde en moms om %L1 € redovisas</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="632"/>
+        <location filename="../model/tositeviennit.cpp" line="633"/>
         <source>
 Tavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation>
 För gemenskapsinternt förvärv (varor) borde en moms om %L1 € redovisas</translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="634"/>
+        <location filename="../model/tositeviennit.cpp" line="635"/>
         <source>
 Rakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation>

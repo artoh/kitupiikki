@@ -1013,70 +1013,70 @@ Ottaaksesi maksuperusteisen arvonlisäveron käyttöön lisää tarvittavat tili
 <context>
     <name>ArkistoSivu</name>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="184"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="185"/>
         <source>Arkiston viennissä virhe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="185"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="186"/>
         <source>Arkiston vienti epäonnistui.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="293"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="294"/>
         <source>Vie arkisto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="293"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="294"/>
         <source>Zip-arkisto (*.zip)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="304"/>
-        <location filename="../arkisto/arkistosivu.cpp" line="358"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="305"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="359"/>
         <source>Kopioidaan arkistoa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="304"/>
-        <location filename="../arkisto/arkistosivu.cpp" line="358"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="305"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="359"/>
         <source>Peruuta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="326"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="327"/>
         <source>Arkiston vienti valmis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="327"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="328"/>
         <source>Arkisto viety tiedostoon %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="346"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="347"/>
         <source>Valitse hakemisto, jonne arkisto kopioidaan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="366"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="367"/>
         <source>Kopiointi ei onnistu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="366"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="367"/>
         <source>Tiedoston %1 kopiointi ei onnistunut.
  Kopiointi on keskeytetty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="372"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="373"/>
         <source>Arkiston kopiointi valmis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/arkistosivu.cpp" line="372"/>
+        <location filename="../arkisto/arkistosivu.cpp" line="373"/>
         <source>Arkisto on kopioitu hakemistoon %1.
 Avaa selaimella hakemistossa oleva index.html-tiedosto.</source>
         <translation type="unfinished"></translation>
@@ -1311,22 +1311,22 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
 <context>
     <name>AsiakkaatModel</name>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="77"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="78"/>
         <source>Nimi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="79"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="80"/>
         <source>Yhteensä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="81"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="82"/>
         <source>Avoinna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/asiakkaatmodel.cpp" line="83"/>
+        <location filename="../laskutus/asiakkaatmodel.cpp" line="84"/>
         <source>Erääntynyt</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1875,7 +1875,12 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.ui" line="264"/>
+        <location filename="../maaritys/emailmaaritys.ui" line="259"/>
+        <source>Vain minun lähettämissäni viesteissä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/emailmaaritys.ui" line="271"/>
         <source>Laskukopio osoitteeseen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1888,50 +1893,50 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="246"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="279"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="275"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="323"/>
         <source>Kitsaan sähköpostikokeilu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="249"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="280"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="277"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="324"/>
         <source>Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="257"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="259"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="261"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="302"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
         <source>Sähköpostin lähettäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="257"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="259"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
         <source>Sähköpostipalvelimeen kirjautuminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="261"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="302"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
         <source>Virhe sähköpostia lähetettäessä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="263"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="295"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
         <source>Sähköposti lähetetty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="263"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="295"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
         <source>Sähköpostin lähettäminen onnistui</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5384,30 +5389,30 @@ osoite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="168"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="170"/>
         <source>Lasku toimitettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="170"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="172"/>
         <source>%1 laskua toimitettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="176"/>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="186"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="178"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="188"/>
         <source>Laskujen toimittaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="177"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="179"/>
         <source>%1 laskua toimitettu
 %2 laskun toimittaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="181"/>
-        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="187"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="183"/>
+        <location filename="../laskutus/toimittaja/laskuntoimittaja.cpp" line="189"/>
         <source>Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8179,22 +8184,22 @@ Tunnusta ei näytetä käyttäjälle</source>
 <context>
     <name>SQLiteModel</name>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="148"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="154"/>
         <source>Tietokannan avaaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="149"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="155"/>
         <source>Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="173"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="179"/>
         <source>Kirjanpitoa ei voi avata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="174"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="180"/>
         <source>Kirjanpitotiedosto %1 on jo käytössä.
 
 Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.
@@ -8203,41 +8208,41 @@ Ellei tämä auta, käynnistä tietokoneesi uudelleen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="180"/>
-        <location filename="../sqlite/sqlitemodel.cpp" line="244"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="186"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="250"/>
         <source>Tiedostoa %1 ei voi avata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="181"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="187"/>
         <source>Sql-virhe: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="192"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="198"/>
         <source>Kirjanpitoa %1 ei voi avata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="193"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="199"/>
         <source>Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.
 
 Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitsaasta. Lataa ohjelma osoitteesta https://kitsas.fi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="201"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="207"/>
         <source>Kirjanpidon päivittäminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="202"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="208"/>
         <source>Avataksesi kirjanpidon pitää se päivittää yhteensopivaksi nykyisen version kanssa. Päivityksen jälkeen kirjanpitoa ei voi enää avata varhaisemmilla esiversioilla. 
 Päivitetäänkö kirjanpito nyt?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../sqlite/sqlitemodel.cpp" line="245"/>
+        <location filename="../sqlite/sqlitemodel.cpp" line="251"/>
         <source>Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8245,19 +8250,19 @@ Päivitetäänkö kirjanpito nyt?</source>
 <context>
     <name>SahkopostiToimittaja</name>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="72"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="141"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="75"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="148"/>
         <source>Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="138"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="157"/>
         <source>Laskujen lähettäminen sähköpostillä epäonnistui.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10973,81 +10978,81 @@ Haluatko silti lisätä tämän tiedoston?</source>
 <context>
     <name>TositeViennit</name>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="44"/>
+        <location filename="../model/tositeviennit.cpp" line="45"/>
         <source>Pvm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="46"/>
+        <location filename="../model/tositeviennit.cpp" line="47"/>
         <source>Tili</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="48"/>
+        <location filename="../model/tositeviennit.cpp" line="49"/>
         <source>Debet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="50"/>
+        <location filename="../model/tositeviennit.cpp" line="51"/>
         <source>Kredit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="52"/>
+        <location filename="../model/tositeviennit.cpp" line="53"/>
         <source>Kohdennus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="54"/>
+        <location filename="../model/tositeviennit.cpp" line="55"/>
         <source>Alv</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="56"/>
+        <location filename="../model/tositeviennit.cpp" line="57"/>
         <source>Asiakas/Toimittaja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="58"/>
+        <location filename="../model/tositeviennit.cpp" line="59"/>
         <source>Selite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="122"/>
+        <location filename="../model/tositeviennit.cpp" line="123"/>
         <source>VERO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="142"/>
+        <location filename="../model/tositeviennit.cpp" line="143"/>
         <source>Uusi erä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="626"/>
+        <location filename="../model/tositeviennit.cpp" line="627"/>
         <source>
 Myynneistä pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="628"/>
+        <location filename="../model/tositeviennit.cpp" line="629"/>
         <source>
 Ostoista pitäisi vähentää arvonlisäveroa %L1 €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="630"/>
+        <location filename="../model/tositeviennit.cpp" line="631"/>
         <source>
 Palveluiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="632"/>
+        <location filename="../model/tositeviennit.cpp" line="633"/>
         <source>
 Tavaroiden yhteisöhankinnoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../model/tositeviennit.cpp" line="634"/>
+        <location filename="../model/tositeviennit.cpp" line="635"/>
         <source>
 Rakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €</source>
         <translation type="unfinished"></translation>
