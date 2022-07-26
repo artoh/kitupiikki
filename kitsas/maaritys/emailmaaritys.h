@@ -51,6 +51,7 @@ public slots:
 protected:
     void kokeileSmtp();
     void kokeileKitsas();
+    void liiteLahetetty(QVariant *data);
     void kitsasOnnistui();
     void kitsasEpaonnistui(int virhe, const QString& selitys);
 

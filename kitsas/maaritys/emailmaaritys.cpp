@@ -313,6 +313,24 @@ void EmailMaaritys::kokeileSmtp()
 
 void EmailMaaritys::kokeileKitsas()
 {
+    QString url = kp()->pilvi()->finvoiceOsoite() + "/attachment" ;
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                url );
+    connect( pk, &PilviKysely::vastaus, this, &EmailMaaritys::liiteLahetetty);
+
+    QFile kuvaTiedosto(":/pic/kitsas350.png");
+    kuvaTiedosto.open(QFile::ReadOnly);
+    pk->lahetaTiedosto(kuvaTiedosto.readAll());
+}
+
+void EmailMaaritys::liiteLahetetty(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    map.insert("filename", "kitsas.png");
+    map.insert("contentType","image/png");
+    QVariantList liitteet;
+    liitteet.append(map);
+
     QVariantMap viesti;
     QString osoite = QString("\"%1\" %2")
             .arg(ui->nimiEdit->text())
@@ -322,7 +340,8 @@ void EmailMaaritys::kokeileKitsas()
     viesti.insert("to", osoite);
     viesti.insert("subject", tr("Kitsaan sähköpostikokeilu"));
     viesti.insert("text", tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
-    viesti.insert("attachments", QVariantList());
+    viesti.insert("attachments", liitteet);
+
     QString url = kp()->pilvi()->finvoiceOsoite() + "/email" ;
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                 url );
@@ -330,7 +349,6 @@ void EmailMaaritys::kokeileKitsas()
     connect( pk, &KpKysely::virhe, this, &EmailMaaritys::kitsasEpaonnistui );
 
     pk->kysy(viesti);
-
 
 }
 
