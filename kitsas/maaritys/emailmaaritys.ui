@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>733</width>
-    <height>1237</height>
+    <height>917</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,6 +252,13 @@
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="emailEdit"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="minaRadio">
+        <property name="text">
+         <string>Vain minun lähettämissäni viesteissä</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

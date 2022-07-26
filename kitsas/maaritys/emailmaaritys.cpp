@@ -67,7 +67,7 @@ bool EmailMaaritys::nollaa()
     // SSL-varoitus siirretty sähköpostin asetuksiin
 
     bool kitsasEmail = kp()->asetukset()->onko("KitsasEmail");
-    bool ssltuki = QSslSocket::supportsSsl();
+    bool ssltuki = QSslSocket::supportsSsl();    
 
     if( !ssltuki)
     {
@@ -86,6 +86,7 @@ bool EmailMaaritys::nollaa()
         ui->tyyppiCombo->setCurrentIndex(0);
 
     paikallinen_ = !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET);
+    ui->minaRadio->setVisible(false);
 
     if( !kitsasEmail && (kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty() || paikallinen_)) {
         ui->palvelinEdit->setText( kp()->settings()->value("SmtpServer").toString() );
@@ -101,15 +102,24 @@ bool EmailMaaritys::nollaa()
         ui->palvelinEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpServer) );
         ui->porttiSpin->setValue( kp()->asetukset()->luku(AsetusModel::SmtpPort, QSslSocket::supportsSsl() ? 465 : 25));
         ui->kayttajaEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpUser));
-        ui->salasanaEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpPassword));
-        ui->nimiEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailNimi));
-        ui->emailEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailOsoite));
+        ui->salasanaEdit->setText( kp()->asetukset()->asetus(AsetusModel::SmtpPassword));        
         ui->tyyppiCombo->setCurrentIndex(  sslIndeksi( kp()->asetukset()->asetus(AsetusModel::EmailSSL) ));
         ui->kopioEdit->setText(kp()->asetukset()->asetus(AsetusModel::EmailKopio));
         ui->kpAsetusRadio->setChecked(true);
-    }
 
-    QJsonDocument doc = QJsonDocument::fromJson( kp()->asetukset()->asetus(AsetusModel::EmailSaate).toUtf8() );
+        ui->minaRadio->setVisible( kp()->pilvi()->kayttajaPilvessa() );
+        const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
+        if( omaEmail.isEmpty() || !kp()->pilvi()->kayttajaPilvessa() ) {
+            ui->nimiEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailNimi));
+            ui->emailEdit->setText( kp()->asetukset()->asetus(AsetusModel::EmailOsoite));
+        } else {
+            ui->minaRadio->setChecked(true);
+            const int vali = omaEmail.indexOf(' ');
+            ui->emailEdit->setText( omaEmail.left(vali));
+            ui->nimiEdit->setText( omaEmail.mid(vali + 1) );
+        }
+
+    }
 
     ui->kitsasRadio->setChecked(kitsasEmail);
     ui->kpAsetusRadio->setDisabled( paikallinen_ );
@@ -139,9 +149,19 @@ bool EmailMaaritys::tallenna()
         kp()->asetukset()->aseta(AsetusModel::SmtpUser, ui->kayttajaEdit->text());
         kp()->asetukset()->aseta(AsetusModel::SmtpPassword, ui->salasanaEdit->text());
         kp()->asetukset()->aseta(AsetusModel::EmailNimi, ui->nimiEdit->text());
-        kp()->asetukset()->aseta(AsetusModel::EmailOsoite, ui->emailEdit->text());
-        kp()->asetukset()->aseta(AsetusModel::EmailKopio, ui->kopioEdit->text());
         kp()->asetukset()->aseta(AsetusModel::EmailSSL, sslAsetus(ui->tyyppiCombo->currentIndex()));
+
+        if( ui->minaRadio->isChecked()) {
+            QString mina = ui->emailEdit->text();
+            mina.remove(' ');
+            mina.append(' ');
+            mina.append(ui->nimiEdit->text());
+            kp()->asetukset()->aseta(QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()), mina);
+        } else {
+            kp()->asetukset()->aseta(AsetusModel::EmailOsoite, ui->emailEdit->text());
+            kp()->asetukset()->aseta(AsetusModel::EmailKopio, ui->kopioEdit->text());
+            kp()->asetukset()->poista(QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()));
+        }
     }
 
     kp()->asetukset()->aseta("KitsasEmail", ui->kitsasRadio->isChecked());
@@ -151,7 +171,9 @@ bool EmailMaaritys::tallenna()
 
 bool EmailMaaritys::onkoMuokattu()
 {
-    bool muokattu = ui->tkAsetusRadio->isChecked() ?
+    bool tietokoneAsetukset = ui->tkAsetusRadio->isChecked();
+
+    bool muokattu = tietokoneAsetukset ?
             kp()->settings()->value("SmtpServer").toString() != ui->palvelinEdit->text() ||
             kp()->settings()->value("SmtpPort",465).toInt() != ui->porttiSpin->value() ||
             kp()->settings()->value("SmtpUser").toString() != ui->kayttajaEdit->text() ||
@@ -165,10 +187,23 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->asetukset()->luku(AsetusModel::SmtpPort,465) != ui->porttiSpin->value() ||
             kp()->asetukset()->asetus(AsetusModel::SmtpUser) != ui->kayttajaEdit->text() ||
             kp()->asetukset()->asetus(AsetusModel::SmtpPassword) != ui->salasanaEdit->text() ||
-            kp()->asetukset()->asetus(AsetusModel::EmailNimi) != ui->nimiEdit->text() ||
-            kp()->asetukset()->asetus(AsetusModel::EmailOsoite) != ui->emailEdit->text() ||
             kp()->asetukset()->asetus(AsetusModel::EmailKopio) != ui->kopioEdit->text() ||
             kp()->asetukset()->asetus(AsetusModel::EmailSSL) != sslAsetus(ui->tyyppiCombo->currentIndex());
+
+    if( !tietokoneAsetukset ) {
+        const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
+        if( omaEmail.isEmpty() || !kp()->pilvi()->kayttajaPilvessa()) {
+            muokattu |= kp()->asetukset()->asetus(AsetusModel::EmailNimi) != ui->nimiEdit->text() ||
+                        kp()->asetukset()->asetus(AsetusModel::EmailOsoite) != ui->emailEdit->text() ||
+                        ui->minaRadio->isChecked();
+        } else {
+            QString mina = ui->emailEdit->text();
+            mina.remove(' ');
+            mina.append(' ');
+            mina.append(ui->nimiEdit->text());
+            muokattu |= mina != omaEmail || !ui->minaRadio->isChecked();
+        }
+    }
 
 
     return muokattu || ui->kitsasRadio->isChecked() != kp()->asetukset()->onko("KitsasEmail");

@@ -63,6 +63,14 @@ void SahkopostiToimittaja::laheta()
                                     kp()->settings()->value("EmailKopio").toString();
 
 
+    const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
+    if( !omaEmail.isEmpty() && kp()->pilvi()->kayttajaPilvessa() ) {
+        const int vali = omaEmail.indexOf(' ');
+        keneltaEmail =  omaEmail.left(vali);
+        kenelta = omaEmail.mid(vali + 1);
+    }
+
+
     SmtpClient smtp(server, port, (SmtpClient::ConnectionType) tyyppi);
     smtp.connectToHost();
 
