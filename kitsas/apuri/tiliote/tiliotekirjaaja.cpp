@@ -204,7 +204,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->eraLabel->setVisible(erat);
     ui->eraCombo->setVisible(erat);
     if( erat ) {
-        ui->eraCombo->asetaTili(tili.numero());
+        ui->eraCombo->asetaTili(tili.numero(), ui->asiakastoimittaja->id());
     }
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
@@ -312,9 +312,13 @@ void TilioteKirjaaja::kumppaniTiedot(const QVariantMap& data)
     if( menoa_ ) {
         if( data.contains("menotili"))
             ui->tiliEdit->valitseTiliNumerolla( data.value("menotili").toInt() );
+        else
+            tiliMuuttuu();
     } else {
         if( data.contains("tulotili"))
             ui->tiliEdit->valitseTiliNumerolla( data.value("tulotili").toInt());
+        else
+            tiliMuuttuu();
     }
 }
 
