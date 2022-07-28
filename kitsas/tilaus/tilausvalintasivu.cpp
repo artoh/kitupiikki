@@ -97,8 +97,7 @@ void TilausValintaSivu::paivita()
         ui->lisahinta->show();
 
 
-        ui->lisahinta->setText( tr("%L1 € / kpl").arg( (ui->kuukausiRadio->isChecked() ?
-                                                      pilvihinta / 2 : pilvihinta),0,'f',2));
+        ui->lisahinta->setText( tr("%L1 € / kpl").arg( ( pilvihinta ),0,'f',2));
 
     }
     ui->lisahintaInfo->setText(tr("Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.").arg( vakiokoko_ * pilviayht,0,'f',1 ));
