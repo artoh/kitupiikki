@@ -59,7 +59,11 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililleKohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &SiirtoApuri::tositteelle);
 
     connect( ui->laskuNappi, &QPushButton::clicked, this, &SiirtoApuri::laskunmaksu);
-    connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, this, &SiirtoApuri::tositteelle);
+    connect( ui->asiakas, &AsiakasToimittajaValinta::muuttui, [this] {
+        this->tililleMuuttui();
+        this->tililtaMuuttui();
+        this->tositteelle();
+    });
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -297,7 +301,7 @@ void SiirtoApuri::tililtaMuuttui()
     ui->tililtaEraLabel->setVisible(erat);
     ui->tililtaEraCombo->setVisible(erat);
     if( erat )
-        ui->tililtaEraCombo->asetaTili( tili.numero() );
+        ui->tililtaEraCombo->asetaTili( tili.numero(), ui->asiakas->id() );
 
     tositteelle();
     paivitaKateislaji();
@@ -320,7 +324,7 @@ void SiirtoApuri::tililleMuuttui()
     ui->tililleEraLabel->setVisible(erat);
     ui->tililleEraCombo->setVisible(erat);
     if( erat )
-        ui->tililleEraCombo->asetaTili(tili.numero());
+        ui->tililleEraCombo->asetaTili(tili.numero(), ui->asiakas->id());
 
     tositteelle();
     paivitaKateislaji();
