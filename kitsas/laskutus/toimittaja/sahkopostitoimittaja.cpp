@@ -201,7 +201,7 @@ void SahkopostiToimittaja::liiteLiitetty(QVariant *data)
     // Liitetään saapunut
     QVariantMap map = data->toMap();
     if( liiteIndeksi_ < 0) {
-        map.insert("filename", tosite_->laskuNumero() + ".pdf");
+        map.insert("filename", tulkkaa("laskuotsikko",tosite_->constLasku().kieli() ).toLower() + tosite_->laskuNumero() + ".pdf");
         map.insert("contentType", "application/pdf");
     } else {
         const QModelIndex index = tosite_->liitteet()->index(liiteIndeksi_);
