@@ -19,8 +19,9 @@
 #define EMAILMAARITYS_H
 
 #include "maarityswidget.h"
-
 #include "ui_emailmaaritys.h"
+
+#include "laskutus/toimittaja/emailasetukset.h"
 
 /**
  * @brief Sähköpostin lähettämiseen liittyvät määritykset
@@ -39,9 +40,6 @@ public:
 
     QString ohjesivu() override { return "asetukset/sahkoposti";}
 
-    static int sslIndeksi(const QString& asetus);
-    static QString sslAsetus(int indeksi);
-
 public slots:
     void ilmoitaMuokattu();
     void kokeile();
@@ -59,6 +57,8 @@ private:
 
     Ui::EMailMaaritys *ui;
     bool paikallinen_=false;    
+
+    EmailAsetukset asetukset_;
 
 };
 

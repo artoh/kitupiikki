@@ -28,6 +28,7 @@
 #include "model/tositeliitteet.h"
 #include "pilvi/pilvikysely.h"
 
+
 SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
     : AbstraktiToimittaja(parent)
 {
@@ -41,7 +42,9 @@ void SahkopostiToimittaja::toimita()
     const QVariantMap& tositteenTiedot = tositeMap();
     tosite_->lataa(tositteenTiedot);
 
-    if( kp()->pilvi() && kp()->pilvi()->tilausvoimassa() && kp()->asetukset()->onko("KitsasEmail")) {
+    ema_.lataa();
+
+    if( kp()->pilvi() && kp()->pilvi()->tilausvoimassa() && ema_.kitsasPalvelin() ) {
         connect( tosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &SahkopostiToimittaja::lahetaKitsas );
     } else {
         connect( tosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &SahkopostiToimittaja::laheta );
@@ -50,28 +53,9 @@ void SahkopostiToimittaja::toimita()
 }
 
 void SahkopostiToimittaja::laheta()
-{
-    bool kpasetus = !kp()->asetukset()->asetus(AsetusModel::SmtpServer).isEmpty();
-    QString server = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpServer) : kp()->settings()->value("SmtpServer").toString();
-    int port = kpasetus ? kp()->asetukset()->luku(AsetusModel::SmtpPort) : kp()->settings()->value("SmtpPort").toInt();
-    QString user = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpUser) : kp()->settings()->value("SmtpUser").toString();
-    QString password = kpasetus ? kp()->asetukset()->asetus(AsetusModel::SmtpPassword) : kp()->settings()->value("SmtpPassword").toString();
-    int tyyppi = EmailMaaritys::sslIndeksi( kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailSSL) : kp()->settings()->value("EmailSSL").toString() );
-    QString kenelta = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailNimi) : kp()->settings()->value("EmailNimi").toString();
-    QString keneltaEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailOsoite) : kp()->settings()->value("EmailOsoite").toString();
-    QString kopioEmail = kpasetus ? kp()->asetukset()->asetus(AsetusModel::EmailKopio) :
-                                    kp()->settings()->value("EmailKopio").toString();
+{    
 
-
-    const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
-    if( !omaEmail.isEmpty() && kp()->pilvi()->kayttajaPilvessa() ) {
-        const int vali = omaEmail.indexOf(' ');
-        keneltaEmail =  omaEmail.left(vali);
-        kenelta = omaEmail.mid(vali + 1);
-    }
-
-
-    SmtpClient smtp(server, port, (SmtpClient::ConnectionType) tyyppi);
+    SmtpClient smtp( ema_.palvelin(),  ema_.portti(), (SmtpClient::ConnectionType) ema_.suojaus());
     smtp.connectToHost();
 
     // Tehdään tässä välissä viesti valmiiksi
@@ -89,7 +73,7 @@ void SahkopostiToimittaja::laheta()
     MimeMessage message;
 
     message.setHeaderEncoding(MimePart::QuotedPrintable);
-    message.setSender(EmailAddress(keneltaEmail, kenelta));
+    message.setSender(EmailAddress(ema_.lahettajaOsoite(), ema_.lahettajaNimi()));
     if( kenelleEmail.contains(",")) {
         QStringList vastaanottajat = kenelleEmail.split(',');
         for(const auto& osoite :  vastaanottajat) {
@@ -100,8 +84,8 @@ void SahkopostiToimittaja::laheta()
     }
 
 
-    if( !kopioEmail.isEmpty())
-        message.addBcc(EmailAddress(kopioEmail));
+    if( !ema_.kopioOsoite().isEmpty())
+        message.addBcc(EmailAddress(ema_.kopioOsoite()));
 
     message.setSubject(otsikko);
 
@@ -138,14 +122,14 @@ void SahkopostiToimittaja::laheta()
     // Nyt otetaan yhteys ja kirjaudutaan
 
     if( !smtp.waitForReadyConnected()) {
-        virhe(tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
+        virhe(tr("Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg( ema_.palvelin()));
         return;
     }
 
-    if( !password.isEmpty() ) {
-        smtp.login(user, password);
+    if( !ema_.kayttaja().isEmpty() || !ema_.salasana().isEmpty()) {
+        smtp.login(ema_.kayttaja(), ema_.salasana());
         if( !smtp.waitForAuthenticated()) {
-            virhe(tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(server));
+            virhe(tr("Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.\nTarkista sähköpostien lähettämisen asetukset.").arg(ema_.palvelin()));
             return;
         }
     }
@@ -237,29 +221,16 @@ void SahkopostiToimittaja::lahetaViesti()
 {
     const Lasku lasku = tosite_->constLasku();
 
-    QString keneltaEmail = kp()->asetukset()->asetus(AsetusModel::EmailOsoite);
-    QString kenelta = kp()->asetukset()->asetus(AsetusModel::EmailNimi);
-
-    const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
-    if( !omaEmail.isEmpty() && kp()->pilvi()->kayttajaPilvessa() ) {
-        const int vali = omaEmail.indexOf(' ');
-        keneltaEmail =  omaEmail.left(vali);
-        kenelta = omaEmail.mid(vali + 1);
-    }
 
     QVariantMap viesti;
     viesti.insert("attachments", liitteet_);
     viesti.insert("from", QString("\"%1\" %2")
-                  .arg(kenelta)
-                  .arg(keneltaEmail)
-                  );
+                  .arg(ema_.lahettajaNimi(), ema_.lahettajaOsoite()) );
     if(lasku.email().contains(",")) {
         viesti.insert("to", lasku.email());
     } else {
         viesti.insert("to", QString("\"%1\" %2")
-                  .arg(tosite_->kumppaninimi())
-                  .arg(lasku.email())
-                  );
+                  .arg(tosite_->kumppaninimi(),lasku.email()) );
     }
     viesti.insert("subject", viestinOtsikko());
     const QString kopioEmail = kp()->asetukset()->asetus(AsetusModel::EmailKopio);

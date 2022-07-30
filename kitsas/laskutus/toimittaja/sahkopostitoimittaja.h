@@ -18,6 +18,7 @@
 #define SAHKOPOSTITOIMITTAJA_H
 
 #include "abstraktitoimittaja.h"
+#include "emailasetukset.h"
 
 class SahkopostiToimittaja : public AbstraktiToimittaja
 {
@@ -40,6 +41,7 @@ protected:
     QVariantList liitteet_;
     int liiteIndeksi_ = -1;
 
+    EmailAsetukset ema_;
 };
 
 #endif // SAHKOPOSTITOIMITTAJA_H
