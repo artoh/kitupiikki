@@ -188,7 +188,7 @@ void EmailMaaritys::paivitaKitsasVaihto()
     ui->smtpGroup->setVisible( !kitsas );
     ui->kokeileNappi->setVisible( true );
 
-    ui->lahettajaOsoiteLabel->setText( kitsas ? tr("Sähköpostiosoite") : tr("Vastausosoite"));
+    ui->lahettajaOsoiteLabel->setText( kitsas ? tr("Vastausosoite") :tr("Sähköpostiosoite") );
 
     ilmoitaMuokattu();
 }

@@ -45,6 +45,7 @@ protected slots:
 
     void kysely();
     void vastausSaapui(QVariant *vastaus);
+    void virhe(int numero, const QString& viesti);
 
     void uusiPeli();
     void peliNapautus(int ruutu);

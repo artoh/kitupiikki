@@ -139,13 +139,24 @@ void DevTool::kysely()
     KpKysely *kysely = kpk( QString(), metodi);
     kysely->asetaUrl(ui->kyselyLine->text());
 
-    connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);        
+    connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
+    connect( kysely, &KpKysely::virhe, this, &DevTool::virhe);
+
+
+    ui->kyselyBrowser->clear();
+
     kysely->kysy( QJsonDocument::fromJson( ui->jsonInput->toPlainText().toUtf8() ).toVariant());
 }
 
 void DevTool::vastausSaapui(QVariant *vastaus)
 {
     ui->kyselyBrowser->setPlainText(  QString::fromUtf8( QJsonDocument::fromVariant(*vastaus).toJson(QJsonDocument::Indented) ) );
+    sender()->deleteLater();
+}
+
+void DevTool::virhe(int numero, const QString &viesti)
+{
+    ui->kyselyBrowser->setPlainText( QString("Virhe %1 %2").arg(numero).arg(viesti) );
     sender()->deleteLater();
 }
 
