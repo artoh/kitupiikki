@@ -187,6 +187,9 @@ void EmailMaaritys::paivitaKitsasVaihto()
     bool kitsas = ui->kitsasRadio->isChecked();
     ui->smtpGroup->setVisible( !kitsas );
     ui->kokeileNappi->setVisible( true );
+
+    ui->lahettajaOsoiteLabel->setText( kitsas ? tr("Sähköpostiosoite") : tr("Vastausosoite"));
+
     ilmoitaMuokattu();
 }
 
@@ -257,10 +260,10 @@ void EmailMaaritys::liiteLahetetty(QVariant *data)
 
     QVariantMap viesti;
     QString osoite = QString("\"%1\" %2")
-            .arg(ui->nimiEdit->text())
-            .arg(ui->emailEdit->text());
+            .arg(ui->nimiEdit->text(),ui->emailEdit->text());
 
-    viesti.insert("from", osoite);
+    viesti.insert("senderName",  ui->nimiEdit->text() );
+    viesti.insert("senderAddress", ui->emailEdit->text());
     viesti.insert("to", osoite);
     viesti.insert("subject", tr("Kitsaan sähköpostikokeilu"));
     viesti.insert("text", tr("Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));

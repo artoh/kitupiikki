@@ -221,11 +221,11 @@ void SahkopostiToimittaja::lahetaViesti()
 {
     const Lasku lasku = tosite_->constLasku();
 
-
     QVariantMap viesti;
     viesti.insert("attachments", liitteet_);
-    viesti.insert("from", QString("\"%1\" %2")
-                  .arg(ema_.lahettajaNimi(), ema_.lahettajaOsoite()) );
+    viesti.insert("senderName", ema_.lahettajaNimi());
+    viesti.insert("senderAddress", ema_.lahettajaOsoite());
+
     if(lasku.email().contains(",")) {
         viesti.insert("to", lasku.email());
     } else {

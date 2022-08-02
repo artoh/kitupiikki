@@ -1888,55 +1888,65 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
 <context>
     <name>EmailMaaritys</name>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="74"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="73"/>
         <source>&lt;b&gt;SSL-suojattu verkkoliikenne ei käytössä&lt;/b&gt;&lt;p&gt;Laskujen lähettäminen suojatulla sähköpostilla edellyttää OpenSSL-kirjaston versiota %1&lt;p&gt;Voidaksesi lähettää suojattua sähköpostia lataa Internetistä ja asenna OpenSSL-kirjasto %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="275"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="323"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="191"/>
+        <source>Sähköpostiosoite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/emailmaaritys.cpp" line="191"/>
+        <source>Vastausosoite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/emailmaaritys.cpp" line="202"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="268"/>
         <source>Kitsaan sähköpostikokeilu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="277"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="324"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="204"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="269"/>
         <source>Sähköpostin lähettäminen Kitsas-ohjelmasta onnistui %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="216"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="225"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="233"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="291"/>
         <source>Sähköpostin lähettäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="289"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="216"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="298"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="225"/>
         <source>Sähköpostipalvelimeen kirjautuminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="306"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="346"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="233"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="291"/>
         <source>Virhe sähköpostia lähetettäessä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="235"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="284"/>
         <source>Sähköposti lähetetty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/emailmaaritys.cpp" line="308"/>
-        <location filename="../maaritys/emailmaaritys.cpp" line="339"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="235"/>
+        <location filename="../maaritys/emailmaaritys.cpp" line="284"/>
         <source>Sähköpostin lähettäminen onnistui</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8250,19 +8260,19 @@ Päivitetäänkö kirjanpito nyt?</source>
 <context>
     <name>SahkopostiToimittaja</name>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="141"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="125"/>
         <source>Sähköpostipalvelimeen %1 yhdistäminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="148"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="132"/>
         <source>Sähköpostipalvelimelle %1 kirjautuminen epäonnistui.
 Tarkista sähköpostien lähettämisen asetukset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="157"/>
+        <location filename="../laskutus/toimittaja/sahkopostitoimittaja.cpp" line="141"/>
         <source>Laskujen lähettäminen sähköpostillä epäonnistui.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8962,17 +8972,17 @@ Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilausvalintasivu.cpp" line="104"/>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="103"/>
         <source>Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilausvalintasivu.cpp" line="108"/>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="107"/>
         <source>Vaihtaessasi isompaan tilaukseen hyvitetään ensimmäiseltä laskulta %L1 € nykyisestä tilauksestasi.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilausvalintasivu.cpp" line="113"/>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="112"/>
         <source>Koska sinulla on jo pilveen tallennettuna %1 kirjanpitoa et voi vaihtaa tätä pienempään tilaukseen ilman, että poistat ensin osan kirjanpidoistasi</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10396,24 +10406,24 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</source>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="154"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="369"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="373"/>
         <source>Tilille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="154"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="370"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="374"/>
         <source>Tililtä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="372"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="376"/>
         <source>Laskun maksu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="188"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="373"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="377"/>
         <source>Tulo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10428,17 +10438,17 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="374"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="378"/>
         <source>Hyvitys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="375"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="379"/>
         <source>Siirto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="437"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="441"/>
         <source>Veroton</source>
         <translation type="unfinished"></translation>
     </message>

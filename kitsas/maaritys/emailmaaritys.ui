@@ -241,7 +241,7 @@
        <widget class="QLineEdit" name="nimiEdit"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="lahettajaOsoiteLabel">
         <property name="text">
          <string>Sähköpostiosoite</string>
         </property>
