@@ -50,6 +50,10 @@ QVariantMap HuoneistoEranValintaDialog::valittu() const
     map.insert("id", viite.eraId());
     map.insert("selite", huoneistoNimi);
 
+    QVariantMap huoneistoMap;
+    huoneistoMap.insert("nimi", huoneistoNimi);
+    map.insert("huoneisto", huoneistoMap);
+
     return map;
 }
 
