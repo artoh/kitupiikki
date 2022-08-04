@@ -346,8 +346,10 @@ void SiirtoApuri::eraValittu(bool debet, EraMap era)
     if( !debetKumppani_.isEmpty() && !kreditKumppani_.isEmpty() &&
             debetKumppani_.value("nimi").toString() != kreditKumppani_.value("nimi").toString())
         kumppani.clear();
-    ui->asiakas->valitse(kumppani);
 
+    if( !kumppani.isEmpty()) {
+        ui->asiakas->valitse(kumppani);
+    }
 
     haeAlkuperaistosite(debet, era.id());
     teeTositteelle();

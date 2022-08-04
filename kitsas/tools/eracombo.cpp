@@ -26,6 +26,7 @@
 #include "eraeranvalintadialog.h"
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "db/tositetyyppimodel.h"
+#include "pilvi/pilvimodel.h"
 
 EraCombo::EraCombo(QWidget *parent) :
     QComboBox (parent)
@@ -46,10 +47,12 @@ EraMap EraCombo::eraMap() const
 
 void EraCombo::asetaTili(int tili, int asiakas)
 {
-    tili_ = tili;
-    asiakas_ = asiakas;
-    asiakasNimi_ = asiakas ? AsiakasToimittajaListaModel::instanssi()->nimi(asiakas) : QString();
-    paivita();
+    if( tili != tili_ || asiakas != asiakas_) {
+        tili_ = tili;
+        asiakas_ = asiakas;
+        asiakasNimi_ = asiakas ? AsiakasToimittajaListaModel::instanssi()->nimi(asiakas) : QString();
+        paivita();
+    }
 }
 
 void EraCombo::valitseUusiEra()
@@ -91,7 +94,7 @@ void EraCombo::paivita()
     addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), EraMap(EraMap::Uusi));
     addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), EraMap(EraMap::Valitse));
 
-    if( asiakas_ ) {
+    if( asiakas_ && qobject_cast<PilviModel*>(kp()->yhteysModel())) {
         addItem(QIcon(":/pic/mies.png"),  asiakasNimi_, EraMap::AsiakasEra(asiakas_, asiakasNimi_) );
     }
     if( kp()->huoneistot()->rowCount() )
