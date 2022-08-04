@@ -53,6 +53,7 @@ QVariantMap HuoneistoEranValintaDialog::valittu() const
     QVariantMap huoneistoMap;
     huoneistoMap.insert("nimi", huoneistoNimi);
     map.insert("huoneisto", huoneistoMap);
+    map.insert("id", huoneistoId);
 
     return map;
 }
