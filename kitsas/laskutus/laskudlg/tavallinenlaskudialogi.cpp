@@ -41,6 +41,7 @@ TavallinenLaskuDialogi::TavallinenLaskuDialogi(Tosite *tosite, QWidget *parent)
     connect( ui->hyvitaEnnakkoNappi, &QPushButton::clicked, this, &TavallinenLaskuDialogi::hyvitaEnnakko);
 
     connect( ui->toistoGroup, &QGroupBox::toggled, this, &TavallinenLaskuDialogi::paivitaNapit);
+    connect( ui->toistoJaksoSpin, qOverload<int>(&QSpinBox::valueChanged), this, &TavallinenLaskuDialogi::paivitaNapit );
     connect( ui->toistoLaskuaikaSpin, qOverload<int>(&QSpinBox::valueChanged), this, &TavallinenLaskuDialogi::paivitaNapit);
     connect( ui->toistoErapaivaSpin, qOverload<int>(&QSpinBox::valueChanged), this, &TavallinenLaskuDialogi::paivitaNapit);
     connect( ui->toistoEnnenRadio, &QRadioButton::toggled, this, &TavallinenLaskuDialogi::paivitaNapit);
