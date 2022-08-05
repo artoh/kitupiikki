@@ -99,6 +99,7 @@ void TavallinenLaskuDialogi::toistoTositteelta()
         ui->toistoEnnenRadio->setChecked( paivaa <= 0 );
         ui->toistoJalkeenRadio->setChecked( paivaa >= 0);
         ui->toistoHinnastoCheck->setChecked( lasku.toistoHinnastonMukaan() );
+        ui->toistoPvmPaattyy->setDate( lasku.toistoLoppuu() );
     }
 
     ui->tallennaToistoNappi->setVisible( tosite()->id() );
