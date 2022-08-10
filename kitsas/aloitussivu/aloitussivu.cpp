@@ -840,8 +840,6 @@ void AloitusSivu::paivitaTuki()
     ui->tukiNootti->setVisible( tilaaja );
     ui->tukiOhje->setVisible( tilaaja );
     ui->tukileikeNappi->setVisible( tilaaja);
-
-    haeKpInfo();
 }
 
 void AloitusSivu::lisaTukiInfo(QVariant *data)

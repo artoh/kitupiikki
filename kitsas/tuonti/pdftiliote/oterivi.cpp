@@ -111,11 +111,16 @@ void OteRivi::setViite(QString viite)
 {
     viite.remove(QRegularExpression("^0+"));
     viite.remove(QRegularExpression("\\s"));
-#ifdef KITSAS_DEVEL
-    std::cerr << "VIITE " << viite.toStdString();
-#endif
     if( ViiteValidator::kelpaako(viite))
         viite_ = viite;
+}
+
+void OteRivi::setIban(const Iban &iban)
+{
+    if( iban.isValid()) {
+        iban_ = iban;
+    }
+
 }
 
 void OteRivi::setPvm(const QString &str, const QDate &loppupvm)

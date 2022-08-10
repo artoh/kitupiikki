@@ -43,6 +43,8 @@ QValidator::State IbanValidator::kelpo(const QString &input)
             return Invalid;
         if( i > 1 && !ch.isDigit() && str.startsWith("FI"))
             return Invalid;
+        if( i > 1 && i < 4 && !ch.isDigit())
+            return Invalid;
     }
     if( str.length() < 10)
         return Intermediate;

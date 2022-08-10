@@ -36,7 +36,7 @@ public:
 
     void setKTO(int kto) { kto_ = kto;}
     void setViite(QString viite);
-    void setIban(const Iban& iban) { iban_ = iban;}
+    void setIban(const Iban& iban);
     void setPvm(const QDate& pvm) { pvm_ = pvm;}
     void setPvm(const QString& str,
                 const QDate &loppupvm);
