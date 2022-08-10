@@ -45,7 +45,7 @@ void SelausProxyModel::etsi(const QString &teksti)
 
 bool SelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex & /*source_parent */) const
 {
-    if( tiliSuodatus_ ) {
+    if( tiliSuodatus_ > -1) {
         if( model_->tili(source_row) != tiliSuodatus_)
             return false;
     }

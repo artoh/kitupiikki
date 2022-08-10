@@ -146,6 +146,8 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->inboxFrame->installEventFilter(this);
     ui->outboxFrame->setVisible(false);
     ui->outboxFrame->installEventFilter(this);
+    ui->tilioimattaFrame->setVisible(false);
+    ui->tilioimattaFrame->installEventFilter(this);
 
     if( kp()->settings()->contains("CloudKey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
@@ -181,7 +183,7 @@ void AloitusSivu::siirrySivulle()
     if( kp()->yhteysModel() )
     {        
         haeSaldot();
-        haeInOutBox();
+        haeKpInfo();
     }
     else
     {
@@ -293,6 +295,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     } else {
         ui->inboxFrame->hide();
         ui->outboxFrame->hide();
+        ui->tilioimattaFrame->hide();
     }
 
     if( !kp()->asetukset()->asetus(AsetusModel::Tilikartta).isEmpty() )
@@ -305,7 +308,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->pilviKuva->setVisible( pilvessa );
     ui->kopioiPilveenNappi->setVisible(paikallinen && !kp()->pilvi()->blokattu());
 
-    tukiInfo();
+    paivitaTuki();
     haeSaldot();
     paivitaSivu();
 }
@@ -546,23 +549,61 @@ void AloitusSivu::saldotSaapuu(QVariant *data)
     paivitaSivu();
 }
 
-void AloitusSivu::inboxSaapuu(QVariant *data)
+void AloitusSivu::kpInfoSaapuu(QVariant *data)
 {
-    QVariantList lista = data->toList();
-    int lkm = lista.count();
+    QVariantMap map = data ? data->toMap() : QVariantMap();
 
-    ui->inboxFrame->setVisible(lkm);
-    ui->inboxCount->setText(QString::number(lkm));
+    // Asetetaan käyttäjälle näytettävä tuki-info
+
+    QString lisaInfo;
+    for(const QString& avain : map.keys()) {
+        lisaInfo.append(QString("%1: %2 \n").arg(avain, map.value(avain).toString()));
+    }
+
+    ui->tukiOhje->setPlainText( QString("version: %1 \n"
+                           "os: %2 \n"
+                           "user: %3 \n"
+                           "plan: %4 \n"
+                           "trial: %10 \n"
+                           "db: %5 \n"
+                           "map: %6 \n"
+                           "mapdate: %7 \n"
+                           "type: %8 \n"
+                           "large: %9 \n"
+                           "%11 \n"
+                           "%12 "
+                   ).arg(qApp->applicationVersion())
+                    .arg(QSysInfo::prettyProductName())
+                    .arg(kp()->pilvi()->kayttajaEmail())
+                    .arg(kp()->pilvi()->planname())
+                    .arg(kp()->kirjanpitoPolku())
+                    .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
+                    .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy"))
+                    .arg(kp()->asetukset()->asetus(AsetusModel::Muoto))
+                    .arg(kp()->asetukset()->asetus(AsetusModel::Laajuus))
+                    .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
+                    #ifdef KITSAS_PORTABLE
+                        .arg("portable")
+                     #else
+                        .arg("")
+                    #endif
+                    .arg(lisaInfo)
+    );
+
+    ui->inboxFrame->setVisible( map.value("tyolista").toInt() );
+    ui->inboxCount->setText( map.value("tyolista").toString() );
+
+    ui->outboxFrame->setVisible( map.value("lahetettavia").toInt());
+    ui->outboxCount->setText( map.value("lahetettavia").toString());
+
+    ui->tilioimattaFrame->setVisible( map.value("tilioimatta").toInt() );
+    ui->tilioimattaCount->setText( map.value("tilioimatta").toString());
+
+    tilioimatta_ = map.value("tilioimatta").toInt();
+
+    paivitaSivu();
 }
 
-void AloitusSivu::outboxSaapuu(QVariant *data)
-{
-    QVariantList lista = data->toList();
-    int lkm = lista.count();
-
-    ui->outboxFrame->setVisible(lkm);
-    ui->outboxCount->setText(QString::number(lkm));
-}
 
 QDate AloitusSivu::buildDate()
 {
@@ -577,6 +618,9 @@ bool AloitusSivu::eventFilter(QObject *target, QEvent *event)
         return true;
     } else if (event->type() == QEvent::MouseButtonPress && target == ui->outboxFrame) {
         emit ktpkasky("outbox");
+        return true;
+    } else if( event->type() == QEvent::MouseButtonPress && target == ui->tilioimattaFrame ) {
+        emit ktpkasky("huomio");
         return true;
     }
     return false;
@@ -639,7 +683,7 @@ void AloitusSivu::kirjauduttu()
 
     ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tee tilaus") );
 
-    tukiInfo();
+    paivitaTuki();
 }
 
 void AloitusSivu::loginVirhe()
@@ -770,33 +814,11 @@ void AloitusSivu::haeSaldot()
     }
 }
 
-void AloitusSivu::haeInOutBox()
+void AloitusSivu::haeKpInfo()
 {
-    if( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_SELAUS)) {
-        ui->inboxFrame->hide();
-        ui->outboxFrame->hide();
-        return;
-    }
-
-    KpKysely* kysely = kpk("/myyntilaskut");
+    KpKysely* kysely = kpk("/info");
     if( kysely ) {
-        kysely->lisaaAttribuutti("lahetettava");
-        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::outboxSaapuu);
-        kysely->kysy();
-    }
-
-
-    if( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) ) {
-        kysely = kpk("/kierrot/tyolista");
-    } else {
-        kysely = kpk("/tositteet");
-        if( kysely ) {
-            kysely->lisaaAttribuutti("saapuneet");
-        }
-    }
-
-    if( kysely ) {
-        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::inboxSaapuu);
+        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::kpInfoSaapuu);
         kysely->kysy();
     }
 }
@@ -807,7 +829,7 @@ void AloitusSivu::siirraPilveen()
     siirtoDlg->exec();
 }
 
-void AloitusSivu::tukiInfo()
+void AloitusSivu::paivitaTuki()
 {
     ui->kirjauduLabel->setVisible( !kp()->pilvi()->kayttajaPilvessa() );
     bool tilaaja = kp()->pilvi()->tilausvoimassa();
@@ -817,43 +839,9 @@ void AloitusSivu::tukiInfo()
     ui->tukiButton->setVisible(tilaaja);
     ui->tukiNootti->setVisible( tilaaja );
     ui->tukiOhje->setVisible( tilaaja );
-    ui->tukileikeNappi->setVisible( tilaaja);    
+    ui->tukileikeNappi->setVisible( tilaaja);
 
-    if( tilaaja) {
-        ui->tukiOhje->setPlainText( QString("version: %1 \n"
-                               "os: %2 \n"
-                               "user: %3 \n"
-                               "plan: %4 \n"
-                               "trial: %10 \n"
-                               "db: %5 \n"
-                               "map: %6 \n"
-                               "mapdate: %7 \n"
-                               "type: %8 \n"
-                               "large: %9 \n"
-                               "%11 \n"
-                       ).arg(qApp->applicationVersion())
-                        .arg(QSysInfo::prettyProductName())
-                        .arg(kp()->pilvi()->kayttajaEmail())
-                        .arg(kp()->pilvi()->planname())
-                        .arg(kp()->kirjanpitoPolku())
-                        .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
-                        .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy"))
-                        .arg(kp()->asetukset()->asetus(AsetusModel::Muoto))
-                        .arg(kp()->asetukset()->asetus(AsetusModel::Laajuus))
-                        .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
-                        #ifdef KITSAS_PORTABLE
-                            .arg("portable")
-                         #else
-                            .arg("")
-                        #endif
-
-        );
-        KpKysely* kysely = kpk("/info");
-        if(kysely) {
-            connect(kysely, &KpKysely::vastaus, this, &AloitusSivu::lisaTukiInfo);
-            kysely->kysy();
-        }
-    }
+    haeKpInfo();
 }
 
 void AloitusSivu::lisaTukiInfo(QVariant *data)
@@ -886,6 +874,14 @@ void AloitusSivu::lahetaTukipyynto()
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
+
+    if( tilioimatta_ ) {
+        vinkki.append( QString("<table class=tilioimatta width=100%><tr><td width=100%><h3><a href=ktp:/huomio>") +
+                       tr("Tositteiden tiliöinti kesken") + QString("</a></h3><p>") +
+                       tr("Tiliöinti on kesken %1 tiliotteessa. Kirjanpitosi ei täsmää ennen "
+                          "kuin nämä tositteet on tiliöity loppuun saakka.").arg(tilioimatta_) +
+                       QString("</td></td></table>"));
+    }
 
     // Mahdollinen varmuuskopio
     SQLiteModel *sqlite = qobject_cast<SQLiteModel*>(kp()->yhteysModel());

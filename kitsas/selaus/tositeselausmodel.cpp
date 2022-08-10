@@ -225,6 +225,7 @@ TositeSelausRivi::TositeSelausRivi(const QVariantMap &data, bool samakausi)
     summa = data.value("summa").toString();
     liitteita = data.value("liitteita").toInt();
     huomio = data.value("huomio").toBool();
+    tilioimatta = data.value("tilioimatta").toInt();
     etsiTeksti = tositeTunniste + " " + kumppani + " " + otsikko;
 }
 
@@ -319,13 +320,17 @@ QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
     }
     else if( role == Qt::DecorationRole && sarake == TositeSelausModel::TOSITETYYPPI )
         return kp()->tositeTyypit()->kuvake( tositeTyyppi );
-    else if( role == Qt::DecorationRole && sarake == TositeSelausModel::TUNNISTE )
+    else if( role == Qt::DecorationRole && sarake == TositeSelausModel::TUNNISTE ) {
+        if( tilioimatta )
+            return QImage(":/pic/oranssi.png");
         return Tosite::tilakuva(tila);
-    else if( role == TositeSelausModel::TositeTyyppiRooli)
+    } else if( role == TositeSelausModel::TositeTyyppiRooli)
     {
         return tositeTyyppi;
     } else if( role == TositeSelausModel::TositeSarjaRooli) {
         return sarja;
+    } else if( role == Qt::ForegroundRole && tilioimatta ) {
+        return QVariant(QColor(Qt::red));
     }
     return QVariant();
 }

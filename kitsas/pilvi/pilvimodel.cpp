@@ -18,6 +18,8 @@
 #include "db/kirjanpito.h"
 #include "pilvikysely.h"
 #include "versio.h"
+#include "maaritys/tilitieto/tilitietopalvelu.h"
+#include "maaritys/tilitieto/pankitmodel.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -37,10 +39,11 @@
 
 PilviModel::PilviModel(QObject *parent, const QString &token) :
     YhteysModel (parent),
-    token_(token)
+    token_(token),
+    tilitietoPalvelu_(new Tilitieto::TilitietoPalvelu(this))
 {
     timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);
+    connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);    
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -165,6 +168,11 @@ void PilviModel::asetaPilviLoginOsoite(const QString &osoite)
     pilviLoginOsoite__ = osoite;
 }
 
+Tilitieto::TilitietoPalvelu *PilviModel::tilitietoPalvelu()
+{
+    return tilitietoPalvelu_;
+}
+
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
 {
@@ -244,6 +252,9 @@ void PilviModel::kirjautuminenValmis()
         return;
     }
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa);
+    tilitietoPalvelu_->pankit()->haePankit();
+
     QByteArray vastaus = reply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
     QVariant var = doc.toVariant();
@@ -253,6 +264,8 @@ void PilviModel::kirjautuminenValmis()
         avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+
+
 }
 
 void PilviModel::paivitysValmis(QVariant *paluu)

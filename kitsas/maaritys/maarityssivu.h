@@ -67,7 +67,8 @@ public:
         LIITETIETOKAAVA,        
         VERO,
         PALKKAKIRJAUS,
-        PAIVITYS
+        PAIVITYS,
+        TILITIEDOT
 
     };
 

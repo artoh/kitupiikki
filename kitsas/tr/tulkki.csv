@@ -9,6 +9,7 @@ Päiväkirja,Päiväkirja,Dagbok,Journal
 Pvm,Pvm,Datum,Date
 Tosite,Tosite,Verif.,Vouch.
 Tili,Tili,Konto,Account
+tili_puuttuu,(Ei tiliöity),(Inte redovisas),(Not accounted)
 Kohdennus,Kohdennus,Hänförs till,Allocation
 Yhteensä,Yhteensä,Totalt,Total
 Selite,Selite,Beskrivning,Description

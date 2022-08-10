@@ -200,6 +200,8 @@
         <file>logoylla.png</file>
         <file>laskuteksti.png</file>
         <file>tyhja16.png</file>
+        <file>verkossa.png</file>
+        <file>oranssi.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

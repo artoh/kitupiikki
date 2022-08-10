@@ -164,7 +164,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
         if( tili )
             rivi.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero(kielikoodi()));
         else
-            continue;   // ei kelvollista tiliä!
+            rivi.lisaa( kaanna("tili_puuttuu") );
 
         if( valinnat().onko(RaporttiValinnat::TulostaKohdennus)  )
             rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi(kielikoodi()) );

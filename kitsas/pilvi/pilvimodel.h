@@ -25,6 +25,11 @@
 class QTimer;
 class QNetworkReply;
 
+namespace Tilitieto {
+    class TilitietoPalvelu;
+}
+
+
 /**
  * @brief Pilvessä olevien kirjanpitojen luettelo
  *
@@ -72,6 +77,7 @@ public:
     QString userToken() const { return data_.value("token").toString();}
     QString ocrOsoite() const { return data_.value("ocr").toString();}
     QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
+    QString kbcOsoite() const { return "http://localhost:7200"; }    // TODO: Tämän haku palvelimelta
     QString ilmoitinTunnus() const;
     QString tukiOsoite() const { return data_.value("support").toString();}
     QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }
@@ -89,6 +95,8 @@ public:
     static qlonglong oikeudet(const QVariantList& lista);
 
     static void asetaPilviLoginOsoite(const QString& osoite);
+
+    Tilitieto::TilitietoPalvelu* tilitietoPalvelu();
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
@@ -127,6 +135,8 @@ private:
 private:
     static std::map<QString,qlonglong> oikeustunnukset__;
     static QString pilviLoginOsoite__;
+
+    Tilitieto::TilitietoPalvelu* tilitietoPalvelu_;
 };
 
 #endif // PILVIMODEL_H

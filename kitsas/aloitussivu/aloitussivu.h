@@ -77,8 +77,7 @@ public slots:
 
 protected slots:
     void saldotSaapuu(QVariant* data);
-    void inboxSaapuu(QVariant* data);
-    void outboxSaapuu(QVariant* data);
+    void kpInfoSaapuu(QVariant* data);
 
 private slots:
     void pilviLogin();
@@ -93,9 +92,9 @@ private slots:
     void pilviLogout();
     void logoMuuttui();
     void haeSaldot();
-    void haeInOutBox();
+    void haeKpInfo();
     void siirraPilveen();    
-    void tukiInfo();
+    void paivitaTuki();
     void lisaTukiInfo(QVariant *data);
     void vaihdaSalasanaUuteen();
 
@@ -129,6 +128,7 @@ protected:
     bool sivulla = false;
     bool kelpoEmail_=false;
     QVariantMap saldot_;
+    int tilioimatta_ = 0;
 };
 
 #endif // ALOITUSSIVU_H

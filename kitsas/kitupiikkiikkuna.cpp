@@ -329,6 +329,10 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
     } else if( kasky == "outbox") {
         valitseSivu(LASKUTUSSIVU,false,false);
         laskutussivu->outbox();
+    } else if( kasky == "huomio") {
+        valitseSivu( SELAUSSIVU, false, false);
+        selaussivu->naytaHuomioitavat();
+
     }
 
 }

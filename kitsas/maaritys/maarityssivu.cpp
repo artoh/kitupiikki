@@ -47,6 +47,7 @@
 #include "laskumaaritys.h"
 #include "laskutekstit/laskutekstimaaritys.h"
 #include "toiminimimaaritys.h"
+#include "tilitieto/tilitietomaaritys.h"
 
 #include "ui_veromaaritys.h"
 #include "ui_yhteystiedot.h"
@@ -77,6 +78,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "kierto", QIcon(":/pic/kierto.svg"),"kierto");
     lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
+    lisaaSivu(tr("Tilitietojen haku"), TILITIEDOT, "tilitiedot", QIcon(":/pic/verkossa.png"),"tilitiedot");
     lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu(tr("Verojen maksu"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));
@@ -256,6 +258,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new KiertoMaaritys;
     else if(sivu == PALKKAKIRJAUS)
         nykyinen = new PalkkatiliMaaritys;
+    else if(sivu == TILITIEDOT)
+        nykyinen = new Tilitieto::TilitietoMaaritys();
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -301,7 +305,10 @@ void MaaritysSivu::paivitaNakyvat()
           (!qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->tilausvoimassa() ) ||
           ( !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) &&
             !(kp()->asetukset()->luku("FinvoiceKaytossa") > 0 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN))) );
-
+    // TODO: Disablointi palvelimen mukaan
+    item( TILITIEDOT)->setHidden( !kp()->yhteysModel() ||
+                                  (!qobject_cast<PilviModel*>(kp()->yhteysModel())) ||
+                                   !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
         item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä

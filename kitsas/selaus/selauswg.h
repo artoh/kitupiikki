@@ -74,6 +74,7 @@ public slots:
 
 
     void naytaSaapuneet();
+    void naytaHuomioitavat();
 
     void alkuPvmMuuttui();
 
@@ -122,7 +123,7 @@ private:
     int valittu_ = 0;
     int skrolli_ = -1;
     Euro saldo_;
-    int selaustili_ = 0;    
+    int selaustili_ = -1;
     bool lataaKoon_ = false;
 };
 

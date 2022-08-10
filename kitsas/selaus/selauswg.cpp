@@ -172,8 +172,8 @@ void SelausWg::paivita()
     if( ui->valintaTab->currentIndex() == VIENNIT )
     {
         kp()->odotusKursori(true);
-        if(selaustili_)
-            selausProxy_->suodataTililla(0);
+        if(selaustili_ > -1)
+            selausProxy_->suodataTililla(-1);
         model->lataa( alkupvm, loppupvm, selaustili_);
     }
     else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
@@ -236,8 +236,8 @@ void SelausWg::suodata()
         return;
 
     if( ui->valintaTab->currentIndex() == VIENNIT) {
-        if(selaustili_ && suodatin.isValid() && suodatin.toInt() != selaustili_) {
-            selaustili_ = 0;
+        if(selaustili_ > -1 && suodatin.isValid() && suodatin.toInt() != selaustili_) {
+            selaustili_ = -1;
             paivita();
         } else {
             selausProxy_->suodataTililla( suodatin.toInt() );
@@ -265,18 +265,22 @@ void SelausWg::paivitaSuodattimet()
 {
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
-        if(selaustili_) {
+        if(selaustili_ > -1) {
             ui->tiliCombo->clear();
             ui->tiliCombo->addItem(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)), selaustili_);
             ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selaustili_).arg(kp()->tilit()->nimi(selaustili_)));
-            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),tr("Kaikki tilit"), 0);
+            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),tr("Kaikki tilit"), -1);
 
         } else {
             QString valittu = ui->tiliCombo->currentText();
             ui->tiliCombo->clear();
-            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", 0);
+            ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),tr("Kaikki tilit"), -1);
             for(int tiliNro : model->tiliLista()) {
-                ui->tiliCombo->addItem(QString("%1 %2").arg(tiliNro).arg(kp()->tilit()->nimi(tiliNro)), tiliNro);
+                if( tiliNro ) {
+                    ui->tiliCombo->addItem(QString("%1 %2").arg(tiliNro).arg(kp()->tilit()->nimi(tiliNro)), tiliNro);
+                } else {
+                    ui->tiliCombo->addItem(QIcon(":/pic/oranssi.png"), tr("Tiliöimättä"), 0);
+                }
             }
             if( !valittu.isEmpty())
                 ui->tiliCombo->setCurrentText(valittu);
@@ -379,6 +383,15 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
 void SelausWg::naytaSaapuneet()
 {
     ui->valintaTab->setCurrentIndex(SAAPUNEET);
+}
+
+void SelausWg::naytaHuomioitavat()
+{
+    ui->valintaTab->setCurrentIndex(TOSITTEET);
+    ui->alkuEdit->setDate( kp()->tilitpaatetty().addDays(1) );
+    ui->loppuEdit->setDate( kp()->tilikaudet()->kirjanpitoLoppuu() );
+    ui->huomioButton->setChecked(true);
+    paivita();
 }
 
 void SelausWg::alkuPvmMuuttui()

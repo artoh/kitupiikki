@@ -54,6 +54,17 @@ table.varoitus
     margin-bottom: 15px;
 }
 
+table.tilioimatta
+{
+    background-color: #ff6600;
+    margin-bottom: 15px;
+}
+
+table.tilioimatta > tr > td
+{
+    padding: 20px;
+}
+
 table.varoitus > tr > td
 {
     padding: 15px;

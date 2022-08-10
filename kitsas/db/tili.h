@@ -78,6 +78,8 @@ public:
      */
     bool onkoValidi() const;
 
+    QString iban() const { return str("iban");}
+
     /**
      * @brief Onko tili kysyttyä tyyppiä
      * @param luonne Tilin luonne

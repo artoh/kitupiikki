@@ -466,7 +466,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
         ui->varoTeksti->setText( tr("Päivämäärälle ei ole\ntilikautta kirjanpidossa."));
     } else if( virheet & Tosite::TILIPUUTTUU) {
         ui->varoTeksti->setText(tr("Tiliöintejä puuttuu"));
-        ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
+        ui->varoKuva->setPixmap(QPixmap(":/pic/oranssi.png"));
     } else if( virheet & Tosite::PVMPUUTTUU) {
         ui->varoTeksti->setText(tr("Päivämääriä puuttuu"));
         ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
@@ -481,8 +481,15 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS));
     ui->tallennaButton->setEnabled( muokattu && !tosite()->liitteet()->tallennetaanko() && kp()->yhteysModel() );
     ui->valmisNappi->setVisible( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS));
-    ui->valmisNappi->setEnabled( (muokattu || ( tosite_->tila() && tosite_->tila() < Tosite::KIRJANPIDOSSA  )) && (!virheet || virheet == Tosite::PVMALV)
-                                 && !tosite()->liitteet()->tallennetaanko());
+
+    const int tila = tosite()->tila();
+    const int tyyppi = tosite()->tyyppi();
+
+    const bool valmisSallittu = (muokattu || ( tila > Tosite::POISTETTU && tila < Tosite::KIRJANPIDOSSA )) &&
+                          (!virheet || virheet == Tosite::PVMALV || ( tyyppi == TositeTyyppi::TILIOTE && virheet == Tosite::TILIPUUTTUU && qobject_cast<PilviModel*>(kp()->yhteysModel()))) &&
+                          !tosite()->liitteet()->tallennetaanko();
+
+    ui->valmisNappi->setEnabled( valmisSallittu );
 
     uudeksiAktio_->setEnabled( !muokattu );
 

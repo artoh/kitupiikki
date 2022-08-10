@@ -154,7 +154,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tili)
             if(kysely) {
                 kysely->lisaaAttribuutti("alkupvm", alkaa);
                 kysely->lisaaAttribuutti("loppupvm", loppuu);
-                if(tili)
+                if(tili > -1)
                     kysely->lisaaAttribuutti("tili", tili);
                 connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
                 ladataan_ = true;
@@ -399,7 +399,9 @@ QVariant SelausRivi::data(int sarake, int role) const
     }
     else if( role == Qt::DecorationRole && sarake==SelausModel::TOSITE )
     {
-        if(  liitteita )
+        if( !tili)
+            return QIcon(":/pic/oranssi.png");
+        else if(  liitteita )
             return QIcon(":/pic/liite.png");
         else
             return QIcon(":/pic/tyhja.png");
@@ -408,6 +410,8 @@ QVariant SelausRivi::data(int sarake, int role) const
         return tositeTyyppi;
     } else if(role == SelausModel::TiliRooli) {
         return tili;
+    } else if(role == Qt::ForegroundRole && !tili) {
+        return QVariant(QColor(Qt::red));
     }
 
 

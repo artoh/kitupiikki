@@ -75,7 +75,7 @@ bool TositeSelausProxyModel::filterAcceptsRow(int source_row, const QModelIndex&
         if( !model_->etsiTeksti(source_row).contains(etsiSuodatus_, Qt::CaseInsensitive))
             return false;
     }
-    if( huomioSuodatus_ && !model_->huomio(source_row) )
+    if( huomioSuodatus_ && !model_->huomio(source_row))
         return false;
 
     return true;

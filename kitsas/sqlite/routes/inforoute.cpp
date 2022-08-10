@@ -19,6 +19,8 @@
 #include <QFileInfo>
 #include "db/kirjanpito.h"
 
+#include "model/tosite.h"
+
 InfoRoute::InfoRoute(SQLiteModel *model) :
     SQLiteRoute(model,"/info")
 {
@@ -35,6 +37,14 @@ QVariant InfoRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
     kysely.exec("SELECT COUNT(id) FROM Tosite");
     if(kysely.next())
         map.insert("tositteita", kysely.value(0).toInt());
+
+    kysely.exec(QString("SELECT COUNT(Tosite.id) AS lkm FROM Tosite WHERE tila=%1").arg(Tosite::VALMISLASKU) );
+    if( kysely.next())
+        map.insert("lahetettavia", kysely.value(0).toInt());
+
+    kysely.exec(QString("SELECT COUNT(Tosite.id) AS lkm FROM Tosite WHERE tila=%1").arg(Tosite::SAAPUNUT));
+    if(kysely.next())
+        map.insert("tyolista", kysely.value(0).toInt());
 
     return map;
 

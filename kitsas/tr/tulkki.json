@@ -39,6 +39,11 @@
         "sv": "Konto",
         "en": "Account"
     },
+    "tili_puuttuu": {
+        "fi": "(Ei tiliöity)",
+        "sv": "(Inte redovisas)",
+        "en": "(Not accounted)"
+    },
     "Kohdennus": {
         "sv": "Hänförs till",
         "en": "Allocation"
