@@ -26,14 +26,18 @@ public:
 
     int indeksiBicilla(const QString& bic) const;
 
-    Pankki* pankki(int id);
+    Pankki pankki(int id) const;
 
-    void haePankit();
+    void haePankit();    
 
 private:
+    void haeLogot();
     void pankitSaapuu(QVariant* data);
+    void haeSeuraavaLogo();
+    void logoSaapuu();
 
-    QList<Pankki*> pankit_;
+    QList<Pankki> pankit_;
+    int logoIndeksi_ = -1;
 
 };
 

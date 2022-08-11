@@ -64,17 +64,17 @@ void TilitietoMaaritys::paivitaYhteydet()
     QGridLayout* paaleiska = new QGridLayout(this);
     for(int i=0; i < palvelu_->yhteyksia(); i++) {
         Yhteys yhteys = palvelu_->yhteys(i);
-        Pankki* pankki = yhteys.pankki();
-        if( !pankki) break;
+        Pankki pankki = yhteys.pankki();
+        if( !pankki.id()) break;
 
         QLabel* logo = new QLabel();
-        QImage image = pankki->logo();
+        QImage image = pankki.logo();
         QPixmap pix = QPixmap::fromImage( image.scaled(128,128) );
         logo->setPixmap( pix );
         paaleiska->addWidget(logo, i, 0);
 
         QGridLayout* apuleiska = new QGridLayout(this);
-        QLabel* pankkiNimi = new QLabel( pankki->nimi() );
+        QLabel* pankkiNimi = new QLabel( pankki.nimi() );
         QFont lihava;
         lihava.setBold(true);
         pankkiNimi->setFont(lihava);
@@ -113,7 +113,7 @@ void TilitietoMaaritys::paivitaYhteydet()
 
         QVBoxLayout* nappiLeiska = new QVBoxLayout;
         QPushButton* paivita = new QPushButton(QIcon(":/pic/refresh.png"), tr("Uudista valtuutus"));        
-        int pankkiId = pankki->id();
+        int pankkiId = pankki.id();
 
         connect( paivita, &QPushButton::clicked, [ pankkiId, this] { this->palvelu_->lisaaValtuutus(pankkiId);} );
         nappiLeiska->addWidget(paivita);

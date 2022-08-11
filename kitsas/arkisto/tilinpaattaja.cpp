@@ -46,6 +46,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     ui(new Ui::TilinPaattaja)
 {
     ui->setupUi(this);
+    ui->tilioimattaFrame->hide();
     paivitaDialogi();
 
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
@@ -250,5 +251,12 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->veroTehty->setVisible(verokirjattu);
     ui->veroKirjattuLabel->setVisible(verokirjattu);
     ui->tuloveroNappi->setVisible(!verokirjattu && !eiverotettavaa && !vaaramuoto);
+
+    const int tilioimattomia = data_.value("tilioimatta").toInt();
+    ui->tilioimattaFrame->setVisible(tilioimattomia);
+    if( tilioimattomia ) {
+        ui->lukitseNappi->setEnabled(false);
+
+    }
 
 }

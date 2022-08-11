@@ -2,17 +2,15 @@
 #define TILITIETO_PANKKI_H
 
 #include <QVariantMap>
-#include <QObject>
 #include <QImage>
 
 namespace Tilitieto {
 
-class Pankki : public QObject {
-    Q_OBJECT
-public:
+class Pankki {
 
-    Pankki(QObject *parent = nullptr);
-    Pankki(QVariantMap map, QObject *parent);
+public:         
+    Pankki();
+    Pankki(const QVariantMap &map);
 
     int id() const { return id_;}
     QString nimi() const { return nimi_; }
@@ -20,12 +18,15 @@ public:
     QImage logo() const { return logo_;}
     QIcon icon() const;
 
-private:
-    void logoSaapuu();
+    QString logoUrl() const { return logoUrl_; }
+    void setLogo(const QImage& logo);
 
-    int id_;
+
+private:
+    int id_ = 0;
     QString nimi_;
     QString bic_;
+    QString logoUrl_;
     QImage logo_;
 };
 

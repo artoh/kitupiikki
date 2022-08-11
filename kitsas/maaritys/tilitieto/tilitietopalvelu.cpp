@@ -52,7 +52,7 @@ Yhteys TilitietoPalvelu::yhteys(int indeksi)
 bool TilitietoPalvelu::onkoValtuutettu(const QString &bic)
 {
     for(const auto& yhteys : yhteydet_) {
-        if( yhteys.pankki()->bic() == bic) {
+        if( yhteys.pankki().bic() == bic) {
             return true;
         }
     }
@@ -61,6 +61,11 @@ bool TilitietoPalvelu::onkoValtuutettu(const QString &bic)
 
 void TilitietoPalvelu::lataa()
 {
+    if( kp()->pilvi()->kbcOsoite().isEmpty())
+        return;
+
+    pankit_->haePankit();
+
     const QString url = kp()->pilvi()->kbcOsoite() + "/api";
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, url);
     connect( pk, &PilviKysely::vastaus, this, &TilitietoPalvelu::lataaMap);

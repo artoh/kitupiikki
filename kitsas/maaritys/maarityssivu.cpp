@@ -308,6 +308,7 @@ void MaaritysSivu::paivitaNakyvat()
     // TODO: Disablointi palvelimen mukaan
     item( TILITIEDOT)->setHidden( !kp()->yhteysModel() ||
                                   (!qobject_cast<PilviModel*>(kp()->yhteysModel())) ||
+                                   kp()->pilvi()->kbcOsoite().isEmpty() ||
                                    !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)

@@ -73,9 +73,9 @@ void UusiYhteysDialog::vahvista(const QString &linkki, int pankkiId)
 
 void UusiYhteysDialog::asetaLogo(int pankkiId)
 {
-    Pankki* pankki = palvelu_->pankit()->pankki(pankkiId);
-    if( pankki ) {
-        QImage kuva = pankki->logo();
+    Pankki pankki = palvelu_->pankit()->pankki(pankkiId);
+    if( pankki.id() ) {
+        QImage kuva = pankki.logo();
         ui->logo->setPixmap(QPixmap::fromImage( kuva.scaled(64,64) ));
     } else {
         ui->logo->clear();

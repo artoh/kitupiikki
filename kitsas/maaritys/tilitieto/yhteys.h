@@ -17,7 +17,7 @@ public:
     Yhteys();
     Yhteys(const QVariantMap& map, PankitModel* pankitModel);
 
-    Pankki *pankki() const;
+    Pankki pankki() const;
     QDateTime voimassa() const { return voimassa_;}
 
     int tileja() const;

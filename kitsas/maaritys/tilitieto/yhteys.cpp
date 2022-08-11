@@ -22,7 +22,7 @@ Yhteys::Yhteys(const QVariantMap &map, PankitModel *pankitModel) :
 
 }
 
-Pankki* Yhteys::pankki() const
+Pankki Yhteys::pankki() const
 {
     return pankit_->pankki(pankkiId_);
 }

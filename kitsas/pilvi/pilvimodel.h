@@ -77,7 +77,7 @@ public:
     QString userToken() const { return data_.value("token").toString();}
     QString ocrOsoite() const { return data_.value("ocr").toString();}
     QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
-    QString kbcOsoite() const { return "http://localhost:7200"; }    // TODO: Tämän haku palvelimelta
+    QString kbcOsoite() const { return data_.value("bci").toString(); }
     QString ilmoitinTunnus() const;
     QString tukiOsoite() const { return data_.value("support").toString();}
     QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }

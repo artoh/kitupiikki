@@ -252,8 +252,7 @@ void PilviModel::kirjautuminenValmis()
         return;
     }
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa);
-    tilitietoPalvelu_->pankit()->haePankit();
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa);    
 
     QByteArray vastaus = reply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
