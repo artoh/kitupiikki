@@ -5,12 +5,14 @@
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikysely.h"
 #include "kieli/kielet.h"
+#include "pankkilokimodel.h"
 
 namespace Tilitieto {
 
 TilitietoPalvelu::TilitietoPalvelu(QObject *parent) :
     QObject(parent),
-    pankit_(new PankitModel(this))
+    pankit_(new PankitModel(this)),
+    loki_(new PankkiLokiModel(this))
 {
 
 }
@@ -60,11 +62,15 @@ bool TilitietoPalvelu::onkoValtuutettu(const QString &bic)
 }
 
 void TilitietoPalvelu::lataa()
-{
+{       
     if( kp()->pilvi()->kbcOsoite().isEmpty())
         return;
 
-    pankit_->haePankit();
+    pankit_->haePankit();        
+
+    if( ! qobject_cast<PilviModel*>( kp()->yhteysModel() ) ) {
+        return;
+    }
 
     const QString url = kp()->pilvi()->kbcOsoite() + "/api";
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::GET, url);
@@ -74,10 +80,12 @@ void TilitietoPalvelu::lataa()
 
 void TilitietoPalvelu::lataaMap(const QVariant *data)
 {
-    QVariantMap map = data->toMap();
+    QVariantMap map = data ? data->toMap() : QVariantMap();
 
     price_ = Euro::fromString(map.value("price").toString());
     trialPeriod_ = map.value("trialdays").toInt();
+
+    loki_->lataa( map.value("log").toList() );
 
     yhteydet_.clear();
     QVariantList list = map.value("connections").toList();

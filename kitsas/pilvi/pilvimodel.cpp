@@ -19,7 +19,6 @@
 #include "pilvikysely.h"
 #include "versio.h"
 #include "maaritys/tilitieto/tilitietopalvelu.h"
-#include "maaritys/tilitieto/pankitmodel.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -207,7 +206,7 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
     QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
     connect( reply, &QNetworkReply::finished, this, &PilviModel::kirjautuminenValmis);
 
-
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa );
 }
 
 void PilviModel::kirjauduUlos()
@@ -250,9 +249,7 @@ void PilviModel::kirjautuminenValmis()
     if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {        
         emit loginvirhe();
         return;
-    }
-
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa);    
+    }    
 
     QByteArray vastaus = reply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );

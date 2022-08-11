@@ -6,6 +6,7 @@
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
+#include "pankkilokimodel.h"
 
 #include <QHBoxLayout>
 
@@ -23,8 +24,11 @@ TilitietoMaaritys::TilitietoMaaritys() :
 
     palvelu_->lataa();
 
+    ui->lokiView->setModel( palvelu_->loki() );
+
     connect( ui->lisaaNappi, &QPushButton::clicked, dlg_, &UusiYhteysDialog::lisaaValtuutus);
-    connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::nollaa);
+    connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaTilaus);
+    connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaYhteydet);
 }
 
 TilitietoMaaritys::~TilitietoMaaritys()
@@ -35,9 +39,7 @@ TilitietoMaaritys::~TilitietoMaaritys()
 
 bool TilitietoMaaritys::nollaa()
 {
-    paivitaTilaus();
-    paivitaYhteydet();
-
+    palvelu_->lataa();
     return true;
 }
 
@@ -136,6 +138,8 @@ void TilitietoMaaritys::paivitaYhteydet()
     yhteysWidget_ = new QWidget(this);
     yhteysWidget_->setLayout(paaleiska);
     yhteysLeiska_->addWidget(yhteysWidget_);
+
+    ui->lokiView->resizeColumnsToContents();
 }
 
 } // namespace

@@ -34,7 +34,7 @@ private:
 
     Ui::TilitietoMaaritys *ui;
     TilitietoPalvelu* palvelu_;
-    UusiYhteysDialog* dlg_;
+    UusiYhteysDialog* dlg_;    
 
     QHBoxLayout* yhteysLeiska_;
     QWidget* yhteysWidget_ = nullptr;

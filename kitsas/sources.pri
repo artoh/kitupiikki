@@ -130,6 +130,7 @@ SOURCES += \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/tilitieto/pankitmodel.cpp \
     $$PWD/maaritys/tilitieto/pankki.cpp \
+    $$PWD/maaritys/tilitieto/pankkilokimodel.cpp \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.cpp \
     $$PWD/maaritys/tilitieto/tilitietopalvelu.cpp \
     $$PWD/maaritys/tilitieto/uusiyhteysdialog.cpp \
@@ -516,6 +517,7 @@ HEADERS += \
     $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/tilitieto/pankitmodel.h \
     $$PWD/maaritys/tilitieto/pankki.h \
+    $$PWD/maaritys/tilitieto/pankkilokimodel.h \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.h \
     $$PWD/maaritys/tilitieto/tilitietopalvelu.h \
     $$PWD/maaritys/tilitieto/uusiyhteysdialog.h \

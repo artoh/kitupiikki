@@ -11,6 +11,7 @@
 namespace Tilitieto{
 
 class PankitModel;
+class PankkiLokiModel;
 
 class TilitietoPalvelu : public QObject
 {
@@ -33,6 +34,8 @@ public:
 
     void lataa();
 
+    PankkiLokiModel* loki() { return loki_;}
+
 protected:
     void lataaMap(const QVariant* data);
     void linkkiSaapuu(const QVariant* data);
@@ -47,6 +50,8 @@ private:
 
     int trialPeriod_;
     Euro price_;
+
+    PankkiLokiModel* loki_;
 
 };
 
