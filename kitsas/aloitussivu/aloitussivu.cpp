@@ -880,7 +880,7 @@ QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const 
     if( !kuva.isEmpty()) {
         ulos.append(QString("<td width=80px><img src=\"qrc:/pic/%1\" width=64 height=64></td><td>").arg(kuva));
     }
-    ulos.append("\n<td width=100%><h3>");
+    ulos.append("\n<td class=content width=100%><h3>");
     if(!linkki.isEmpty()){
         ulos.append(QString("<a href=\"%1\">").arg(linkki));
     }
@@ -891,7 +891,7 @@ QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const 
     ulos.append("</h3>\n<p>");
     ulos.append(teksti);
     if( !ohjelinkki.isEmpty()) {
-        ulos.append(QString(" <a href=ohje:/%1>%2</a>").arg(tr("Ohje")));
+        ulos.append(QString(" <a href=\"ohje:/%1\">%2</a>").arg(ohjelinkki, tr("Ohje")));
     }
     ulos.append("</p></td></tr></table>\n");
     return ulos;
@@ -919,11 +919,11 @@ QString AloitusSivu::vinkit()
             const int jaljella = QDateTime::currentDateTime().daysTo(uusinta);
             if( jaljella < 7) {
                 vinkki.append(taulu("info", tr("Pankkiyhteyden valtuutus vanhenemassa"),
-                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
+                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")),
                                     "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
             } else if ( jaljella < 21 ) {
                 vinkki.append(taulu("vinkki", tr("Uusi pankkiyhteyden valtuutus"),
-                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
+                                    tr("Pankkiyhteyden valtuutus vanhenee %1.").arg(uusinta.toString("dd.MM.yyyy")),
                                     "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
             }
         }
@@ -934,51 +934,48 @@ QString AloitusSivu::vinkit()
     QRegularExpression reku("(\\d{2})(\\d{2})(\\d{2}).kitsas");
     if( sqlite && sqlite->tiedostopolku().contains(reku) ) {
         QRegularExpressionMatch matsi = reku.match(sqlite->tiedostopolku());
-        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
-                          "<h3>Varmuuskopio käytössä?</h3>"
-                          "Tämä tiedosto on todennäköisesti kirjanpitosi varmuuskopio päivämäärällä <b>%1.%2.20%3.</b> <br>"
-                          "Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi."
-                          "</td></tr></table>")
-                       .arg(matsi.captured(3)).arg(matsi.captured(2)).arg(matsi.captured(1)));
+        vinkki.append(taulu("varoitus", tr("Varmuuskopio käytössä?"),
+                            tr("Tämä tiedosto on todennäköisesti kirjanpitosi varmuuskopio päivämäärällä %1<br>"
+                            "Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi.")
+                      .arg( QString("<b>%1.%2.20%3</b>" ).arg(matsi.captured(3), matsi.captured(2), matsi.captured(1)) ),
+                            "","tiedostoon.png","aloittaminen/tietokone/#varoitus-varmuuskopion-käsittelemisestä"));
     } else if ( sqlite &&  kp()->settings()->value("PilveenSiirretyt").toString().contains( kp()->asetukset()->uid() ) ) {
-        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
-                          "<h3>Paikallinen kirjanpito käytössä</h3>"
-                          "<p>Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.</p>"
-                          "<p>Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä.</p>"
-                          "</td></tr></table>") );
+        vinkki.append(taulu("info", tr("Paikallinen kirjanpito käytössä"),
+                            tr("Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.</p>"
+                                "<p>Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä."),
+                            "", "computer.png")) ;
     }
 
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
-        vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
-                          "<h3>Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.</h3>"
-                          "Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "
-                          "Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle. "
-                          "</td></tr></table>"));
-    }
+        vinkki.append(taulu("varoitus", tr("Tilaus on tarkoitettu arvonlisäverottomaan toimintaan."),
+                            tr("Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "
+                               "Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle."),
+                            "", "euromerkki.png"));
 
+    }
 
     if( TilikarttaPaivitys::onkoPaivitettavaa() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) )
     {
-        vinkki.append(taulu("varoitus", tr("Päivitä tilikartta"),
+        vinkki.append(taulu("info", tr("Päivitä tilikartta"),
                             tr("Tilikartasta saatavilla uudempi versio %1.")
                             .arg(TilikarttaPaivitys::paivitysPvm().toString("dd.MM.yyyy")),
-                            "ktp:/maaritys/paivita", "paivita.png"));
+                            "ktp:/maaritys/paivita", "paivita.png","asetukset/paivitys/"));
 
     }
 
     // Ensin tietokannan alkutoimiin
     if( saldot_.count() < 3)
     {
-        vinkki.append("<table class=vinkki width=100%><tr><td>");
-        vinkki.append("<h3>" + tr("Kirjanpidon aloittaminen") + "</h3><ol>");
-        vinkki.append("<li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/asetukset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
-        vinkki.append("<li> <a href=ktp:/maaritys/yhteys>" + tr("Tarkista yhteystiedot ja logo") + "</a> <a href='ohje:/asetukset/yhteystiedot'>(" + tr("Ohje") +")</a></li>");
-        vinkki.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
-        vinkki.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
+        QString t("<ol><li> <a href=ktp:/maaritys/perus>" + tr("Tarkista perusvalinnat ja arvonlisäverovelvollisuus") + "</a> <a href='ohje:/asetukset/perusvalinnat'>(" + tr("Ohje") +")</a></li>");
+        t.append("<li> <a href=ktp:/maaritys/yhteys>" + tr("Tarkista yhteystiedot ja logo") + "</a> <a href='ohje:/asetukset/yhteystiedot'>(" + tr("Ohje") +")</a></li>");
+        t.append("<li> <a href=ktp:/maaritys/tilit>" + tr("Tutustu tilikarttaan ja tee tarpeelliset muutokset") +  "</a> <a href='ohje:/asetukset/tililuettelo/'>(" + tr("Ohje") + ")</a></li>");
+        t.append("<li> <a href=ktp:/maaritys/kohdennukset>" + tr("Lisää tarvitsemasi kohdennukset") + "</a> <a href='ohje:/asetukset/kohdennukset/'>(" + tr("Ohje") + ")</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)
-            vinkki.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(Ohje)</a></li>");
-        vinkki.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li>");
-        vinkki.append("</ol></td></tr></table>");
+            t.append("<li><a href=ktp:/maaritys/tilinavaus>" + tr("Tee tilinavaus") + "</a> <a href='ohje:/asetukset/tilinavaus/'>(Ohje)</a></li>");
+        t.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li></ol>");
+
+        vinkki.append(taulu("vinkki", tr("Kirjanpidon aloittaminen"),t,
+                            "", "possukirjaa64.png"));
 
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&
@@ -1034,10 +1031,10 @@ QString AloitusSivu::vinkit()
     // Uuden tilikauden aloittaminen
     if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
     {
-        vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
-                      "<h3><a href=ktp:/uusitilikausi>Aloita uusi tilikausi</a></h3>"
-                      "<p>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
-                      "<p>Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString("dd.MM.yyyy") ));
+        vinkki.append(taulu("vinkki", tr("Aloita uusi tilikausi"),
+                            tr("Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
+                               "<p>Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty.").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString("dd.MM.yyyy") ),
+                            "ktp:/uusitilikausi", "kansiot.png","tilikaudet/uusi/"));
 
     }
 
@@ -1049,19 +1046,12 @@ QString AloitusSivu::vinkit()
             if( kausi.paattyy().daysTo(kp()->paivamaara()) > 1 &&
                                        kausi.paattyy().daysTo( kp()->paivamaara()) < 5 * 30
                     && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
-            {
-                vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
-                              "<h3><a href=ktp:/tilinpaatos>" + tr("Aika laatia tilinpäätös tilikaudelle %1").arg(kausi.kausivaliTekstina()) +  "</a></h3>"));
-
-                if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
-                {
-                    vinkki.append(tr("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>"));
-                }
-                else
-                {
-                    vinkki.append(tr("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>"));
-                }
-                vinkki.append(tr("<p>Katso <a href=\"ohje:/tilikaudet/tilinpaatos/\">ohjeet</a> tilinpäätöksen laatimisesta</p></td></tr></table>"));
+            {               
+                vinkki.append(taulu("vinkki", tr("Aika laatia tilinpäätös tilikaudelle %1").arg(kausi.kausivaliTekstina()),
+                                    kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA ?
+                                         tr("Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen tilinpäätös")
+                                       : tr("Viimeistele ja vahvista <a href=ktp:/arkisto>tilinpäätös"),
+                                    "ktp:/tilinpaatos", "kansiot.png","tilikaudet/tilinpaatos/"));
             }
         }
     }

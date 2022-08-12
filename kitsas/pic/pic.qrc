@@ -202,6 +202,7 @@
         <file>tyhja16.png</file>
         <file>verkossa.png</file>
         <file>oranssi.png</file>
+        <file>computer.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

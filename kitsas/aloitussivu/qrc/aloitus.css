@@ -3,6 +3,7 @@ body
     background: white;
     font-size: 12pt;
     color: black;
+    margin-top: 15px;
 }
 
 h1
@@ -35,6 +36,13 @@ h3 > a
 pre
 {
     font-family: "Helvetica";
+}
+
+table 
+{
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 table.vinkki
@@ -156,4 +164,17 @@ th
 {
     text-align: right;
     font-size: 12pt;
+}
+
+img
+{
+    margin-top: 4px;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-bottom: 4px;
+}
+
+td.content 
+{
+    padding: 6px;
 }
