@@ -3,6 +3,7 @@
 
 #include <QDateTime>
 #include <QColor>
+#include <QIcon>
 
 namespace Tilitieto {
 
@@ -57,14 +58,31 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
         case STATUS:
             return statusTeksti(rivi.status());
         }
+        return QVariant();
     }
     case Qt::ForegroundRole: {
         if( rivi.status() == "OK")
             return QVariant(QColor(Qt::darkGreen));
-        else if( rivi.status() == "TE")
-            return QVariant(QColor(Qt::darkGray));
+        else if( rivi.status() == "TE" ||
+                 rivi.status() == "BB")
+            return QVariant(QColor(Qt::black));
         else
             return QVariant(QColor(Qt::darkRed));
+    }
+    case DocumentIdRole:
+        return rivi.docId();
+    case Qt::DecorationRole:
+    {
+        if( index.column() == STATUS) {
+            if( rivi.status() == "OK") {
+                return QIcon(":/pic/ok.png");
+            } else if( rivi.status() == "TE" ||
+                       rivi.status() == "BB") {
+                return QIcon(":/pic/tyhja.png");
+            } else {
+                return QIcon(":/pic/peru.png");
+            }
+        }
     }
     default:
         return QVariant();
@@ -74,6 +92,7 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
 void PankkiLokiModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
+    loki_.clear();
     for(QVariant item : lista) {
         loki_.append(item.toMap());
     }
@@ -85,9 +104,12 @@ QString PankkiLokiModel::statusTeksti(const QString &status)
     if( status == "OK") return tr("Onnistui");
     else if( status == "AM") return tr("Kirjanpidosta ei löytynyt tiliä IBAN-numerolla");
     else if( status == "TE") return tr("Ei tilitapahtumia");
-    else if( status == "CE") return tr("Valtuutus vanhentunut");
+    else if( status == "CE" || status == "AE") return tr("Valtuutus vanhentunut");
     else if( status == "BB") return tr("Tiliote jo kirjanpidossa");
     else if( status == "ER") return tr("Epäonnistui virhetilanteen takia");
+    else if( status == "RL") return tr("Päivittäinen tilitietojen hakukiintiö ylitetty");
+    else if( status == "UA") return tr("Pankin palvelu ei käytössä");
+    else if( status == "EC") return tr("Yhteysvirhe");
     else return tr("Virhetilanne %1").arg(status);
 
 }
@@ -98,6 +120,7 @@ PankkiLokiModel::LokiRivi::LokiRivi(const QVariantMap &map)
     status_ = map.value("status").toString();
     Iban iban(map.value("account").toMap().value("iban").toString());
     iban_ = iban.valeilla();
+    docId_ = map.value("document").toInt();
 }
 
 } // namespace Tilitieto

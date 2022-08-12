@@ -1,5 +1,7 @@
 #include "tilitietomaaritys.h"
 
+#include "lisaikkuna.h"
+
 #include "ui_tilitietomaaritys.h"
 #include "tilitietopalvelu.h"
 #include "uusiyhteysdialog.h"
@@ -7,6 +9,8 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 #include "pankkilokimodel.h"
+
+#include "tilitapahtumahakudialog.h"
 
 #include <QHBoxLayout>
 
@@ -29,6 +33,7 @@ TilitietoMaaritys::TilitietoMaaritys() :
     connect( ui->lisaaNappi, &QPushButton::clicked, dlg_, &UusiYhteysDialog::lisaaValtuutus);
     connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaTilaus);
     connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaYhteydet);
+    connect( ui->lokiView, &QTableView::clicked, this, &TilitietoMaaritys::naytaTosite);
 }
 
 TilitietoMaaritys::~TilitietoMaaritys()
@@ -48,6 +53,8 @@ void TilitietoMaaritys::paivitaTilaus()
 
     int trial = palvelu_->trialPeriod();
     Euro price = palvelu_->price();
+
+    ui->infoLabel->setVisible( price  );
 
     if( trial ) {
         ui->infoLabel->setText( tr("Voit kokeilla tilitietojen hakemista maksutta vielä %1 päivän ajan, "
@@ -88,6 +95,8 @@ void TilitietoMaaritys::paivitaYhteydet()
             apuleiska->addWidget(vLabel,0, 1, 1, 1);
         }
 
+        int yhdistettyjaTileja = 0;
+
         for( int j = 0; j < yhteys.tileja(); j++) {
             YhdistettyTili tili = yhteys.tili(j);
             QLabel *iban = new QLabel( tili.iban().valeilla());
@@ -96,6 +105,7 @@ void TilitietoMaaritys::paivitaYhteydet()
             Tili kirjanpitoTili = kp()->tilit()->tiliIbanilla(tili.iban().valeitta());
 
             if( kirjanpitoTili.onkoValidi()) {
+                yhdistettyjaTileja++;
                 QLabel *tlabel = new QLabel( kirjanpitoTili.nimiNumero() );
                 apuleiska->addWidget(tlabel, j+1, 1);
 
@@ -120,6 +130,12 @@ void TilitietoMaaritys::paivitaYhteydet()
         connect( paivita, &QPushButton::clicked, [ pankkiId, this] { this->palvelu_->lisaaValtuutus(pankkiId);} );
         nappiLeiska->addWidget(paivita);
 
+        if( yhdistettyjaTileja ) {
+            QPushButton* haeNappi = new QPushButton(QIcon(":/pic/down.png"), tr("Nouda tapahtumia"));
+            connect( haeNappi, &QPushButton::clicked, [i, this] { this->haeTiliTapahtumat(i);});
+            nappiLeiska->addWidget(haeNappi);
+        }
+
         QPushButton* poista = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista"));
         connect( poista, &QPushButton::clicked, [this, pankkiId] { this->palvelu_->poistaValtuutus(pankkiId); } );
         nappiLeiska->addWidget(poista);
@@ -140,6 +156,21 @@ void TilitietoMaaritys::paivitaYhteydet()
     yhteysLeiska_->addWidget(yhteysWidget_);
 
     ui->lokiView->resizeColumnsToContents();
+}
+
+void TilitietoMaaritys::naytaTosite(const QModelIndex &index)
+{
+    const int tositeId = index.data(PankkiLokiModel::DocumentIdRole).toInt();
+    if( tositeId ) {
+        LisaIkkuna* ikkuna = new LisaIkkuna();
+        ikkuna->naytaTosite(tositeId);
+    }
+}
+
+void TilitietoMaaritys::haeTiliTapahtumat(int yhteysIndeksi)
+{
+    TiliTapahtumaHakuDialog dialog( palvelu_, this );
+    dialog.nayta(yhteysIndeksi);
 }
 
 } // namespace

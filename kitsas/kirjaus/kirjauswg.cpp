@@ -316,7 +316,7 @@ void KirjausWg::hylkaa()
 
 
     tyhjenna();
-    emit tositeKasitelty();
+    emit tositeKasitelty(false);
 }
 
 void KirjausWg::poistaTosite()
@@ -328,7 +328,7 @@ void KirjausWg::poistaTosite()
         KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tosite()->data(Tosite::ID).toInt() ), KpKysely::DELETE );
         connect(kysely, &KpKysely::virhe, this, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
                                                                         tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( selitys ));});
-        connect(kysely, &KpKysely::vastaus, this, [this] {this->tyhjenna(); emit this->tositeKasitelty(); emit kp()->kirjanpitoaMuokattu();});
+        connect(kysely, &KpKysely::vastaus, this, [this] {this->tyhjenna(); emit this->tositeKasitelty(false); emit kp()->kirjanpitoaMuokattu();});
 
         kysely->kysy();
     }
@@ -532,7 +532,7 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
     kp()->odotusKursori(false);
     emit kp()->tositeTallennettu(tunniste, pvm, sarja, tila);
     tyhjenna();
-    emit tositeKasitelty();
+    emit tositeKasitelty(true);
 }
 
 void KirjausWg::tallennusEpaonnistui(int virhe)

@@ -58,7 +58,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     connect( liitewg, &NaytaliiteWg::lisaaLiiteDatalla, kirjauswg, &KirjausWg::lisaaLiiteDatasta);
 
     connect( kirjauswg, SIGNAL(liiteValittu(QByteArray, bool)), liitewg, SLOT(naytaPdf(QByteArray, bool)));
-    connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
+    connect( kirjauswg, &KirjausWg::tositeKasitelty, this, &KirjausSivu::tositeKasitelty );
     connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
     connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaliiteWg::naytaPohjat);
     connect( liitewg, &NaytaliiteWg::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
@@ -73,7 +73,7 @@ KirjausSivu::~KirjausSivu()
 
 void KirjausSivu::siirrySivulle()
 {
-    palataanTakaisin_ = false;
+    palataanTakaisin_ = EI_PALATA;
     kirjauswg->tyhjenna();
 }
 
@@ -100,8 +100,6 @@ bool KirjausSivu::poistuSivulta(int minne)
 
 void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
 {
-    palataanTakaisin_ = true;
-
     // Tositteeseen -1 siirtyminen tarkoittaa, että ollaan
     // kirjaamassa lisäikkunalla, jolloin hylkää-nappi sulkee
     // ikkunan
@@ -112,14 +110,19 @@ void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
             pvm = kp()->tilikaudet()->kirjanpitoLoppuu();
         kirjausWg()->tosite()->nollaa( pvm, tositetyyppi );
     }
-    if( tositeId > -1)
+    if( tositeId > -1) {
         kirjauswg->lataaTosite(tositeId);
+        palataanTakaisin_ = PALATAAN_AINA;
+    } else {
+        palataanTakaisin_ = PALATAAN_HYLATYSTA;
+    }
 
 }
 
-void KirjausSivu::tositeKasitelty()
+void KirjausSivu::tositeKasitelty(bool tallennettu)
 {
-    if( palataanTakaisin_)
+    if( palataanTakaisin_ == PALATAAN_AINA ||
+            ( palataanTakaisin_ == PALATAAN_HYLATYSTA && !tallennettu ))
         emit palaaEdelliselleSivulle();
 }
 

@@ -78,6 +78,19 @@ void TilitietoPalvelu::lataa()
     pk->kysy();
 }
 
+void TilitietoPalvelu::haeTapahtumat(const Iban &iban, const QDate &mista, const QDate &mihin)
+{
+    QVariantMap map;
+    map.insert("iban", iban.valeitta());
+    map.insert("dateFrom", mista.toString("yyyy-MM-dd"));
+    map.insert("dateTo", mihin.toString("yyyy-MM-dd"));
+
+    const QString url = kp()->pilvi()->kbcOsoite() + "/fetch";
+    PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, url );
+    connect(pk, &PilviKysely::vastaus, this, &TilitietoPalvelu::lataa);
+    pk->kysy(map);
+}
+
 void TilitietoPalvelu::lataaMap(const QVariant *data)
 {
     QVariantMap map = data ? data->toMap() : QVariantMap();

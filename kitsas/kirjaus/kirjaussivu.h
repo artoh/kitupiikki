@@ -65,7 +65,7 @@ signals:
 
 public slots:
     void naytaTosite(int tositeId, int tositetyyppi = -1);
-    void tositeKasitelty();
+    void tositeKasitelty(bool tallennettu);
     /**
      * @brief Kun splitteriä säädetään, talletaan asetus
      */
@@ -77,6 +77,8 @@ public slots:
     void lisaaKirjattavienKansiosta();
 
 protected:
+    enum Takaisinpaluu { EI_PALATA, PALATAAN_HYLATYSTA, PALATAAN_AINA };
+
     KitupiikkiIkkuna *ikkuna_;
     KirjausWg *kirjauswg;
     NaytaliiteWg *liitewg;
@@ -86,7 +88,7 @@ protected:
     /**
      * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen
      */
-    bool palataanTakaisin_ = false;
+    Takaisinpaluu palataanTakaisin_ = EI_PALATA;
 };
 
 #endif // KIRJAUSSIVU_H

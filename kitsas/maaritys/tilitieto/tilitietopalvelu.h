@@ -7,6 +7,7 @@
 #include "yhteys.h"
 
 #include "model/euro.h"
+#include "laskutus/iban.h"
 
 namespace Tilitieto{
 
@@ -35,6 +36,8 @@ public:
     void lataa();
 
     PankkiLokiModel* loki() { return loki_;}
+
+    void haeTapahtumat(const Iban& iban, const QDate& mista, const QDate& mihin);
 
 protected:
     void lataaMap(const QVariant* data);

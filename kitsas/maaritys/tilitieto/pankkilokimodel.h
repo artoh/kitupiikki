@@ -19,16 +19,21 @@ private:
         QString aika() const { return aika_;}
         QString status() const { return status_;}
         QString iban() const { return iban_;}
+        int docId() const { return docId_; }
     private:
         QString aika_;
         QString status_;
         QString iban_;
+        int docId_;
     };
 
     enum { AIKA, TILI, STATUS};
 
 
 public:
+
+    enum { DocumentIdRole = Qt::UserRole + 1};
+
     explicit PankkiLokiModel(QObject *parent = nullptr);
 
     // Header:

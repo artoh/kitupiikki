@@ -49,7 +49,9 @@ KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi)
     sivu->naytaTosite(tositeId, tyyppi);
 
 
-    connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));    
+    connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));
+
+
     ohjesivu = sivu->ohjeSivunNimi();
 
     setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetukset()->nimi()));

@@ -30,6 +30,9 @@ private:
     void paivitaTilaus();
     void paivitaYhteydet();
 
+    void naytaTosite(const QModelIndex& index);
+    void haeTiliTapahtumat(int yhteysIndeksi);
+
     void uusiValtuutus(int pankki);
 
     Ui::TilitietoMaaritys *ui;

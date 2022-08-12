@@ -131,6 +131,7 @@ SOURCES += \
     $$PWD/maaritys/tilitieto/pankitmodel.cpp \
     $$PWD/maaritys/tilitieto/pankki.cpp \
     $$PWD/maaritys/tilitieto/pankkilokimodel.cpp \
+    $$PWD/maaritys/tilitieto/tilitapahtumahakudialog.cpp \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.cpp \
     $$PWD/maaritys/tilitieto/tilitietopalvelu.cpp \
     $$PWD/maaritys/tilitieto/uusiyhteysdialog.cpp \
@@ -518,6 +519,7 @@ HEADERS += \
     $$PWD/maaritys/tilitieto/pankitmodel.h \
     $$PWD/maaritys/tilitieto/pankki.h \
     $$PWD/maaritys/tilitieto/pankkilokimodel.h \
+    $$PWD/maaritys/tilitieto/tilitapahtumahakudialog.h \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.h \
     $$PWD/maaritys/tilitieto/tilitietopalvelu.h \
     $$PWD/maaritys/tilitieto/uusiyhteysdialog.h \
@@ -822,6 +824,7 @@ FORMS += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.ui \
     $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
+    $$PWD/maaritys/tilitieto/tilitapahtumahaku.ui \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.ui \
     $$PWD/maaritys/tilitieto/uusiyhteys.ui \
     $$PWD/maaritys/toiminimimaaritys.ui \

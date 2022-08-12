@@ -143,7 +143,7 @@ signals:
      *
      * Jos ollaan tultu selauksesta, palataan selaukseen
      */
-    void tositeKasitelty();
+    void tositeKasitelty(bool tallennettu);
     void tulostaLiite();
 
     void naytaPohjat(bool nayta);
