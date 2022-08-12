@@ -106,6 +106,8 @@ signals:
     void ktpkasky(QString kasky);
 
 protected:
+    QString taulu(const QString& luokka,const QString& otsikko, const QString& teksti, const QString& linkki = QString(), const QString& kuva = QString());
+
     QString vinkit();
     QString summat();
 

@@ -874,38 +874,57 @@ void AloitusSivu::lahetaTukipyynto()
     }
 }
 
+QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString &kuva, const QString ohjelinkki)
+{
+    QString ulos = QString("<table class=%1 width=100%><tr>").arg(luokka);
+    if( !kuva.isEmpty()) {
+        ulos.append(QString("<td width=80px><img src=\"qrc:/pic/%1\" width=64 height=64></td><td>").arg(kuva));
+    }
+    ulos.append("\n<td width=100%><h3>");
+    if(!linkki.isEmpty()){
+        ulos.append(QString("<a href=\"%1\">").arg(linkki));
+    }
+    ulos.append(otsikko);
+    if( !linkki.isEmpty()) {
+        ulos.append("</a>");
+    }
+    ulos.append("</h3>\n<p>");
+    ulos.append(teksti);
+    if( !ohjelinkki.isEmpty()) {
+        ulos.append(QString(" <a href=ohje:/%1>%2</a>").arg(tr("Ohje")));
+    }
+    ulos.append("</p></td></tr></table>\n");
+    return ulos;
+}
+
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
 
     if( tilioimatta_ ) {
-        vinkki.append( QString("<table class=tilioimatta width=100%><tr><td width=100%><h3><a href=ktp:/huomio>") +
-                       tr("Tositteiden tiliöinti kesken") + QString("</a></h3><p>") +
-                       tr("Tiliöinti on kesken %1 tiliotteessa. Kirjanpitosi ei täsmää ennen "
-                          "kuin nämä tositteet on tiliöity loppuun saakka.").arg(tilioimatta_) +
-                       QString("</td></td></table>"));
+        vinkki.append(taulu("tilioimatta", tr("Tositteiden tiliöinti kesken"),
+                            tr("Tiliöinti on kesken %1 tiliotteessa. Kirjanpitosi ei täsmää ennen "
+                               "kuin nämä tositteet on tiliöity loppuun saakka.").arg(tilioimatta_),
+                            "ktp:/huomio", "oranssi.png"));
     }
 
     if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) &&
         kp()->pilvi()->tilitietoPalvelu()) {
         QDateTime uusinta = kp()->pilvi()->tilitietoPalvelu()->seuraavaUusinta();
         if( uusinta.isValid() && uusinta < QDateTime::currentDateTime()) {
-            vinkki.append( QString("<table class=varoitus width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
-                           tr("Pankkiyhteyden valtuutus vanhentunut") + QString("</a></h3><p>") +
-                           tr("Valtuutus on vanhentunut %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")) +
-                           QString("</td></tr></table>") );
+            vinkki.append(taulu("varoitus", tr("Pankkiyhteyden valtuutus vanhentunut"),
+                                tr("Valtuutus on vanhentunut %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
+                                "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
         } else if ( uusinta.isValid()) {
             const int jaljella = QDateTime::currentDateTime().daysTo(uusinta);
             if( jaljella < 7) {
-                vinkki.append( QString("<table class=varoitus width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
-                               tr("Pankkiyhteyden valtuutus vanhenemassa") + QString("</a></h3><p>") +
-                               tr("Valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")) +
-                               QString("</td></tr></table>") );
+                vinkki.append(taulu("info", tr("Pankkiyhteyden valtuutus vanhenemassa"),
+                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
+                                    "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
             } else if ( jaljella < 21 ) {
-                vinkki.append( QString("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
-                               tr("Uusi pankkiyhteyden valtuutus") + QString("</a></h3><p>") +
-                               tr("Valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")) +
-                               QString("</td></tr></table>") );
+                vinkki.append(taulu("vinkki", tr("Uusi pankkiyhteyden valtuutus"),
+                                    tr("Pankkiyhteyden valtuutus vanhenee %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")),
+                                    "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
             }
         }
     }
@@ -940,8 +959,10 @@ QString AloitusSivu::vinkit()
 
     if( TilikarttaPaivitys::onkoPaivitettavaa() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) )
     {
-        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/maaritys/paivita>Päivitä tilikartta</a></h3>Tilikartasta saatavilla uudempi versio %1"
-                         "</td></tr></table>").arg( TilikarttaPaivitys::paivitysPvm().toString("dd.MM.yyyy") ) );
+        vinkki.append(taulu("varoitus", tr("Päivitä tilikartta"),
+                            tr("Tilikartasta saatavilla uudempi versio %1.")
+                            .arg(TilikarttaPaivitys::paivitysPvm().toString("dd.MM.yyyy")),
+                            "ktp:/maaritys/paivita", "paivita.png"));
 
     }
 
@@ -962,8 +983,10 @@ QString AloitusSivu::vinkit()
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&
              kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
-        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
-                      "avaavat saldot %1 järjestelmään <a href='ohje:/asetukset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
+        vinkki.append(taulu("vinkki", tr("Tee tilinavaus"),
+                            tr("Syötä viimeisimmältä tilinpäätökseltä tilien "
+                               "avaavat saldot %1 järjestelmään.").arg(kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy")),
+                            "ktp:/maaritys/tilinavaus", "rahaa.png", "asetukset/tilinavaus"));
 
     // Muistutus arvonlisäverolaskelmasta
     if(  kp()->asetukset()->onko("AlvVelvollinen") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
@@ -993,20 +1016,17 @@ QString AloitusSivu::vinkit()
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)
         {
-            vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
-                              "<h3><a href=ktp:/alvilmoitus>Arvonlisäveroilmoitus myöhässä</a></h3>"
-                              "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
-                           .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
-                           .arg(erapaiva.toString("dd.MM.yyyy")));
-
+            vinkki.append(taulu("varoitus", tr("Arvonlisäveroilmoitus myöhässä"),
+                                tr("Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.")
+                                .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
+                                "ktp:/maaritys/tilitiedot", "vero64.png"));
         }
         else if( paivaaIlmoitukseen < 12)
         {
-            vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
-                              "<h3><a href=ktp:/alvilmoitus>Tee arvonlisäverotilitys</a></h3>"
-                              "Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</td></tr></table>")
-                           .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
-                           .arg(erapaiva.toString("dd.MM.yyyy")));
+            vinkki.append(taulu("vinkki", tr("Tee arvonlisäverotilitys"),
+                                tr("Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.")
+                                .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
+                                "ktp:/maaritys/tilitiedot", "vero64.png"));
         }
     }
 
