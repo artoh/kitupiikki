@@ -40,6 +40,7 @@ public:
     void haeTapahtumat(const Iban& iban, const QDate& mista, const QDate& mihin);
 
 protected:
+    void tapahtumatHaettu();
     void lataaMap(const QVariant* data);
     void linkkiSaapuu(const QVariant* data);
 
