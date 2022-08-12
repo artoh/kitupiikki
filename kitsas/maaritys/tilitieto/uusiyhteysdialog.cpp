@@ -8,6 +8,8 @@
 #include "db/kirjanpito.h"
 #include "laskutus/iban.h"
 
+#include <QSortFilterProxyModel>
+
 namespace Tilitieto {
 
 UusiYhteysDialog::UusiYhteysDialog(TilitietoPalvelu *palvelu) :
@@ -26,6 +28,12 @@ UusiYhteysDialog::UusiYhteysDialog(TilitietoPalvelu *palvelu) :
 
     connect( palvelu_, &TilitietoPalvelu::vahvistaLinkilla, this, &UusiYhteysDialog::vahvista);
 
+    QSortFilterProxyModel *filter = new QSortFilterProxyModel(this);
+    filter->setSourceModel( palvelu->pankit() );
+    filter->setSortRole(Qt::DisplayRole);
+    filter->sort(0);
+    ui->pankkiView->setModel(filter);
+
 }
 
 UusiYhteysDialog::~UusiYhteysDialog()
@@ -37,12 +45,32 @@ void UusiYhteysDialog::lisaaValtuutus()
 {
     show();
 
-    ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
-    ui->pankkiView->setModel( palvelu_->pankit() );
+    ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);    
 
     ui->seuraavaNappi->setVisible(true);
     ui->seuraavaNappi->setEnabled(false);
     ui->ValmisNappi->setVisible(false);
+
+    // Yritetään esivalita pankki, johon on tili
+    for(int i = 0; i < kp()->tilit()->rowCount(); i++) {
+        Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
+        const QString ibanStr = tili->iban();
+        if( !ibanStr.isEmpty()) {
+            const QString bic = Iban(ibanStr).bic();
+            if( !bic.isEmpty() && !palvelu_->onkoValtuutettu(bic)) {
+                // Valitaan tämä aktiiviseksi
+                for(int j = 0; j < ui->pankkiView->model()->rowCount(); j++) {
+                    const QModelIndex index = ui->pankkiView->model()->index(j,0);
+                    if( index.data(PankitModel::BicRooli).toString() == bic ) {
+                        ui->pankkiView->setCurrentIndex(index);
+                        pankkiValittu();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
 
     // Esivalitaan pankki
     for(int i=0; i < kp()->tilit()->rowCount(); i++) {
@@ -55,7 +83,7 @@ void UusiYhteysDialog::lisaaValtuutus()
             break;
         }
     }
-    ui->pankkiView->setCurrentIndex( ui->pankkiView->model()->index(0,0) );
+    ui->pankkiView->setCurrentIndex( ui->pankkiView->model()->index(0,0) ) ;
     pankkiValittu();
 
 }

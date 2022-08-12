@@ -22,7 +22,11 @@ Pankki::Pankki(const QVariantMap& map)
 
 QIcon Pankki::icon() const
 {
-    return QIcon(QPixmap::fromImage(logo_.scaled(QSize(32,32))));
+    if( logo_.isNull()) {
+        return QIcon(":/pic/tyhja.png");
+    } else {
+        return QIcon(QPixmap::fromImage(logo_.scaled(QSize(32,32))));
+    }
 }
 
 void Pankki::setLogo(const QImage &logo)

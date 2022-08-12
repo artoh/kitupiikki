@@ -25,6 +25,7 @@
 #include "laskutus/tuotemodel.h"
 #include "laskutus/laskudlg/rivivientigeneroija.h"
 #include "rekisteri/maamodel.h"
+#include <QMessageBox>
 
 LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent) ,
     tosite_(new Tosite(this)), uusi_(new Tosite(this))
@@ -54,6 +55,16 @@ void LaskunUusinta::uusiLaskut()
 void LaskunUusinta::listaSaapuu(QVariant *lista)
 {
     QVariantList laskut = lista->toList();
+
+    if( laskut.count() &&
+        (!kp()->tilikaudet()->onkoTilikautta( kp()->paivamaara())
+            || kp()->tilitpaatetty() >= kp()->paivamaara() ) ) {
+        QMessageBox::warning(nullptr, tr("Laskuja ei voitu uusia"),
+            tr("Laskuja ei uusia, koska nykyiselle päivälle ei ole avointa tilikautta.\n"
+               "Avaa tilikausi ja käynnistä ohjelma uudelleen, jotta laskut voidaan uusia."));
+        return;
+    }
+
 
     for(const auto& item : qAsConst( laskut )) {
         jono_.enqueue( item.toMap().value("id").toInt() );

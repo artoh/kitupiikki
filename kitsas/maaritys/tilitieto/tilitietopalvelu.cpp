@@ -87,8 +87,18 @@ void TilitietoPalvelu::haeTapahtumat(const Iban &iban, const QDate &mista, const
 
     const QString url = kp()->pilvi()->kbcOsoite() + "/fetch";
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST, url );
-    connect(pk, &PilviKysely::vastaus, this, &TilitietoPalvelu::lataa);
+    connect(pk, &PilviKysely::vastaus, this, &TilitietoPalvelu::tapahtumatHaettu);
+
+    kp()->odotusKursori(true);
+
     pk->kysy(map);
+
+}
+
+void TilitietoPalvelu::tapahtumatHaettu()
+{
+    kp()->odotusKursori(false);
+    lataa();
 }
 
 void TilitietoPalvelu::lataaMap(const QVariant *data)
