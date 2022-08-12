@@ -93,6 +93,18 @@ void TilitietoMaaritys::paivitaYhteydet()
         if( voimassa.isValid()) {
             QLabel* vLabel = new QLabel( (tr("Valtuutus voimassa %1 saakka").arg(voimassa.toLocalTime().toString("dd.MM.yyyy"))) );
             apuleiska->addWidget(vLabel,0, 1, 1, 1);
+
+            int voimassaPaivaa = QDateTime::currentDateTime().daysTo(voimassa);
+            if( voimassaPaivaa < 0) {
+                vLabel->setStyleSheet("font-weight: bold; color: red");
+            } else if( voimassaPaivaa < 7) {
+                vLabel->setStyleSheet("font-weight: bold; background-color: orange");
+            } else if( voimassaPaivaa < 14) {
+                vLabel->setStyleSheet("font-weight: bold; background-color: yellow");
+            } else if( voimassaPaivaa < 21) {
+                vLabel->setStyleSheet("background-color: greenyellow");
+            }
+
         }
 
         int yhdistettyjaTileja = 0;
@@ -130,7 +142,7 @@ void TilitietoMaaritys::paivitaYhteydet()
         connect( paivita, &QPushButton::clicked, [ pankkiId, this] { this->palvelu_->lisaaValtuutus(pankkiId);} );
         nappiLeiska->addWidget(paivita);
 
-        if( yhdistettyjaTileja ) {
+        if( yhdistettyjaTileja && yhteys.voimassa() > QDateTime::currentDateTime() ) {
             QPushButton* haeNappi = new QPushButton(QIcon(":/pic/down.png"), tr("Nouda tapahtumia"));
             connect( haeNappi, &QPushButton::clicked, [i, this] { this->haeTiliTapahtumat(i);});
             nappiLeiska->addWidget(haeNappi);

@@ -95,6 +95,19 @@ void TilitietoPalvelu::haeTapahtumat(const Iban &iban, const QDate &mista, const
 
 }
 
+QDateTime TilitietoPalvelu::seuraavaUusinta()
+{
+    QDateTime seuraava;
+    for(int i=0; i < yhteyksia(); i++) {
+        QDateTime voimassa = yhteys(i).voimassa();
+        if( voimassa.isValid() &&
+           ( seuraava.isNull() || voimassa < seuraava))  {
+            seuraava = voimassa;
+        }
+    }
+    return seuraava;
+}
+
 void TilitietoPalvelu::tapahtumatHaettu()
 {
     kp()->odotusKursori(false);

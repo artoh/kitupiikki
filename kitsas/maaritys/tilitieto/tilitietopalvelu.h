@@ -39,6 +39,8 @@ public:
 
     void haeTapahtumat(const Iban& iban, const QDate& mista, const QDate& mihin);
 
+    QDateTime seuraavaUusinta();
+
 protected:
     void tapahtumatHaettu();
     void lataaMap(const QVariant* data);

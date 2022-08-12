@@ -69,6 +69,8 @@
 #include "tools/kitsaslokimodel.h"
 #include "kieli/kielet.h"
 
+#include "maaritys/tilitieto/tilitietopalvelu.h"
+
 #include <QSslError>
 #include <QClipboard>
 
@@ -310,7 +312,10 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     paivitaTuki();
     haeSaldot();
-    paivitaSivu();
+
+    QTimer::singleShot( 800, this, &AloitusSivu::paivitaSivu );
+    QTimer::singleShot( 5000, this, &AloitusSivu::paivitaSivu );
+
 }
 
 void AloitusSivu::linkki(const QUrl &linkki)
@@ -879,6 +884,30 @@ QString AloitusSivu::vinkit()
                        tr("Tiliöinti on kesken %1 tiliotteessa. Kirjanpitosi ei täsmää ennen "
                           "kuin nämä tositteet on tiliöity loppuun saakka.").arg(tilioimatta_) +
                        QString("</td></td></table>"));
+    }
+
+    if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) &&
+        kp()->pilvi()->tilitietoPalvelu()) {
+        QDateTime uusinta = kp()->pilvi()->tilitietoPalvelu()->seuraavaUusinta();
+        if( uusinta.isValid() && uusinta < QDateTime::currentDateTime()) {
+            vinkki.append( QString("<table class=varoitus width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
+                           tr("Pankkiyhteyden valtuutus vanhentunut") + QString("</a></h3><p>") +
+                           tr("Valtuutus on vanhentunut %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.").arg(uusinta.toString("dd.MM.yyyy")) +
+                           QString("</td></tr></table>") );
+        } else if ( uusinta.isValid()) {
+            const int jaljella = QDateTime::currentDateTime().daysTo(uusinta);
+            if( jaljella < 7) {
+                vinkki.append( QString("<table class=varoitus width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
+                               tr("Pankkiyhteyden valtuutus vanhenemassa") + QString("</a></h3><p>") +
+                               tr("Valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")) +
+                               QString("</td></tr></table>") );
+            } else if ( jaljella < 21 ) {
+                vinkki.append( QString("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilitiedot>") +
+                               tr("Uusi pankkiyhteyden valtuutus") + QString("</a></h3><p>") +
+                               tr("Valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")) +
+                               QString("</td></tr></table>") );
+            }
+        }
     }
 
     // Mahdollinen varmuuskopio
