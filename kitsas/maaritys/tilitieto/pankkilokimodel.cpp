@@ -5,6 +5,8 @@
 #include <QColor>
 #include <QIcon>
 
+#include "db/kirjanpito.h"
+
 namespace Tilitieto {
 
 PankkiLokiModel::PankkiLokiModel(QObject *parent)
@@ -16,8 +18,10 @@ QVariant PankkiLokiModel::headerData(int section, Qt::Orientation orientation, i
 {
     if( orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         switch (section) {
-            case AIKA: return tr("Aika");
+            case AIKA: return tr("Noudettu");
+            case AJALTA: return tr("Ajalta");
             case TILI: return tr("Tili");
+            case IBAN: return tr("IBAN");
             case STATUS: return tr("Tila");
         }
     }
@@ -37,7 +41,7 @@ int PankkiLokiModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 3;
+    return 5;
 }
 
 QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
@@ -53,8 +57,28 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
         switch (index.column()) {
         case AIKA:
             return rivi.aika();
-        case TILI:
-            return rivi.iban();
+        case AJALTA: {
+            if( !rivi.mista().isValid()) {
+                return QVariant();
+            } else if( rivi.mista() == rivi.mihin()) {
+                return rivi.mista().toString("dd.MM.yyyy");
+            } else {
+                return QString("%1 - %2").
+                        arg( rivi.mista().toString("dd.MM.yyyy"),
+                             rivi.mihin().toString("dd.MM.yyyy"));
+            }
+        }
+        case TILI:{
+            Tili tili = kp()->tilit()->tiliIbanilla(rivi.iban());
+            if( tili.onkoValidi() ) {
+                return tili.nimiNumero();
+            } else {
+                return QVariant();
+            }
+        }
+        case IBAN: {
+            return Iban(rivi.iban()).valeilla();
+        }
         case STATUS:
             return statusTeksti(rivi.status());
         }
@@ -73,6 +97,11 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
         return rivi.docId();
     case Qt::DecorationRole:
     {
+        if( index.column() == AIKA ) {
+            return rivi.system() ?
+                        QIcon(":/pic/chardevice.png")
+                      : QIcon(":/pic/mies.png");
+        }
         if( index.column() == STATUS) {
             if( rivi.status() == "OK") {
                 return QIcon(":/pic/ok.png");
@@ -118,9 +147,12 @@ PankkiLokiModel::LokiRivi::LokiRivi(const QVariantMap &map)
 {
     aika_ = map.value("time").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
     status_ = map.value("status").toString();
-    Iban iban(map.value("account").toMap().value("iban").toString());
-    iban_ = iban.valeilla();
+    iban_ = map.value("account").toMap().value("iban").toString();
     docId_ = map.value("document").toInt();
+    mista_ = map.value("datefrom").toDate();
+    mihin_ = map.value("dateto").toDate();
+    system_ = map.value("system").toBool();
+
 }
 
 } // namespace Tilitieto

@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QVariantList>
 #include <QList>
+#include <QDate>
 
 namespace Tilitieto {
 
@@ -18,16 +19,22 @@ private:
         LokiRivi(const QVariantMap& map);
         QString aika() const { return aika_;}
         QString status() const { return status_;}
-        QString iban() const { return iban_;}
+        QString iban() const { return iban_;}        
         int docId() const { return docId_; }
+        QDate mista() const { return mista_;}
+        QDate mihin() const { return mihin_;}
+        bool system() const { return system_;}
     private:
         QString aika_;
         QString status_;
-        QString iban_;
+        QString iban_;        
         int docId_;
+        QDate mista_;
+        QDate mihin_;
+        bool system_;
     };
 
-    enum { AIKA, TILI, STATUS};
+    enum { AIKA, AJALTA, TILI, IBAN, STATUS};
 
 
 public:

@@ -203,6 +203,8 @@
         <file>verkossa.png</file>
         <file>oranssi.png</file>
         <file>computer.png</file>
+        <file>computer-mainframe.png</file>
+        <file>chardevice.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -41,9 +41,10 @@ void TiliTapahtumaHakuDialog::nayta(int yhteysIndeksi)
         const Iban iban = yhteys.tili(i).iban() ;
         Tili kirjanpidossa = kp()->tilit()->tiliIbanilla(iban.valeitta());
         if( kirjanpidossa.onkoValidi()) {
-            ui->tiliCombo->addItem(pankkikuva, iban.valeilla(), iban.valeitta());
+            ui->tiliCombo->addItem(pankkikuva, kirjanpidossa.nimiNumeroIban() , iban.valeitta());
         }
     }
+    ui->tiliCombo->model()->sort(0);
 
     QDate maxDate = QDate().currentDate().addDays(-1);
     QDate minDate = QDate().currentDate().addDays(-90);
