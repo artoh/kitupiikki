@@ -83,7 +83,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../pic/pic.qrc">:/pic/laptop.png</pixmap>
+          <pixmap resource="../pic/pic.qrc">:/pic/computer-laptop.png</pixmap>
          </property>
         </widget>
        </item>
@@ -96,7 +96,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../pic/pic.qrc">:/pic/cloud.png</pixmap>
+          <pixmap resource="../pic/pic.qrc">:/pic/cloud-64.png</pixmap>
          </property>
         </widget>
        </item>

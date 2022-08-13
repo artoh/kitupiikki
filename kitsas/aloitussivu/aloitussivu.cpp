@@ -73,6 +73,7 @@
 
 #include <QSslError>
 #include <QClipboard>
+#include <QSize>
 
 AloitusSivu::AloitusSivu(QWidget *parent) :
     KitupiikkiSivu(parent)
@@ -876,11 +877,11 @@ void AloitusSivu::lahetaTukipyynto()
 
 QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString &kuva, const QString ohjelinkki)
 {
-    QString ulos = QString("<table class=%1 width=100%><tr>").arg(luokka);
+    QString ulos = QString("<table class=%1 width='100%'><tr>").arg(luokka);
     if( !kuva.isEmpty()) {
-        ulos.append(QString("<td width=80px><img src=\"qrc:/pic/%1\" width=64 height=64></td><td>").arg(kuva));
+        ulos.append(QString("<td width='80px'><img src=\"qrc:/pic/%1\" width=64 height=64></td><td>").arg(kuva));
     }
-    ulos.append("\n<td class=content width=100%><h3>");
+    ulos.append("\n<td class=content width='100%'><h3>");
     if(!linkki.isEmpty()){
         ulos.append(QString("<a href=\"%1\">").arg(linkki));
     }
@@ -943,7 +944,7 @@ QString AloitusSivu::vinkit()
         vinkki.append(taulu("info", tr("Paikallinen kirjanpito käytössä"),
                             tr("Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.</p>"
                                 "<p>Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä."),
-                            "", "computer.png")) ;
+                            "", "computer-laptop.png")) ;
     }
 
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
@@ -975,7 +976,7 @@ QString AloitusSivu::vinkit()
         t.append("<li><a href=ktp:/kirjaa>" + tr("Voit aloittaa kirjausten tekemisen") +"</a> <a href='ohje:/kirjaus'>("+ tr("Ohje") + ")</a></li></ol>");
 
         vinkki.append(taulu("vinkki", tr("Kirjanpidon aloittaminen"),t,
-                            "", "possukirjaa64.png"));
+                            "", "info64.png"));
 
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&

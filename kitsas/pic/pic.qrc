@@ -205,6 +205,9 @@
         <file>computer.png</file>
         <file>computer-mainframe.png</file>
         <file>chardevice.png</file>
+        <file>info64.png</file>
+        <file>computer-laptop.png</file>
+        <file>cloud-64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
