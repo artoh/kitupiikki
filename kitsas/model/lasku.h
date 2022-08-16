@@ -165,6 +165,9 @@ public:
     Rivityyppi riviTyyppi() const;
     void setRiviTyyppi(Rivityyppi tyyppi) { set("rivityyppi", tyyppi);}
 
+    QString bannerId() const { return str("banner");};
+    void setBannerId(const QString& id) { set("banner", id);};
+
 
     static QDate oikaiseErapaiva(QDate erapvm);
 

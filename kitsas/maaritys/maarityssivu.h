@@ -56,6 +56,7 @@ public:
         TILINAVAUS,
         LASKUTUS,
         LASKUTEKSTIT,
+        BANNERIT,
         OLETUSTILIT,
         MAKSUTAVAT,
         TOSITESARJAT,

@@ -49,6 +49,8 @@ signals:
     void laskuLiiteTallennettu(QVariantMap tosite);
 
 protected:
+    qreal tulostaBanner(QPainter* painter, const QString& bannerId);
+
     void tulostaLuonnos(QPainter* painter);
     qreal tulostaRuudukko(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita, bool tulostaKuukaudet = true);
     qreal muistutettavatLaskut(Tosite &tosite, QPainter* painter, QPagedPaintDevice* device, qreal alalaita);    

@@ -199,7 +199,7 @@ void ToiminimiMaaritys::vaihdaLogo()
     if( ui->combo->currentIndex() > -1) {
         const int indeksi = ui->combo->currentData(ToiminimiModel::Indeksi).toInt();
         ToiminimiModel* model = kp()->toiminimet();
-        QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)" );
+        QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),tr("Kuvatiedostot (*.png *.jpg *.jpeg)") );
         if( !tiedostopolku.isEmpty())
         {
             QImage uusilogo;

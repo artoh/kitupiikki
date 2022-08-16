@@ -113,6 +113,7 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.cpp \
@@ -142,6 +143,7 @@ SOURCES += \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
+    $$PWD/model/bannermodel.cpp \
     $$PWD/model/eramap.cpp \
     $$PWD/model/euro.cpp \
     $$PWD/model/lasku.cpp \
@@ -501,6 +503,7 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.h \
@@ -530,6 +533,7 @@ HEADERS += \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
+    $$PWD/model/bannermodel.h \
     $$PWD/model/eramap.h \
     $$PWD/model/euro.h \
     $$PWD/model/lasku.h \
@@ -811,6 +815,7 @@ FORMS += \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/uusimaksumuistutusdialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
+    $$PWD/maaritys/bannermaaritys.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.ui \
     $$PWD/maaritys/laskutekstit/laskutekstitmaaritys.ui \

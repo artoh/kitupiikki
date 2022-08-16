@@ -160,6 +160,8 @@ public:
      */
     ToiminimiModel* toiminimet() const override { return toiminimiModel_;}
 
+    BannerModel * bannerit() const override { return bannerit_;}
+
     /**
      * @brief Palauttaa tuoteluettelon sisältävän modelin
      *
@@ -410,6 +412,7 @@ protected:
     TositeTyyppiModel *tositeTyypit_;
     KiertoModel* kiertoModel_;
     ToiminimiModel* toiminimiModel_;
+    BannerModel* bannerit_;
 
     QStringList tositesarjat_;
 

@@ -47,8 +47,10 @@
 #include "pilvi/pilvimodel.h"
 #include "naytin/naytinikkuna.h"
 #include "model/toiminimimodel.h"
+#include "model/bannermodel.h"
 
 #include <QSortFilterProxyModel>
+
 
 KantaLaskuDialogi::KantaLaskuDialogi(Tosite *tosite, QWidget *parent) :
     QDialog(parent),
@@ -131,6 +133,9 @@ void KantaLaskuDialogi::alustaUi()
     laskutusTapaMuuttui();
     alustaMaksutavat();
     alustaToiminimiCombo();
+
+    ui->bannerCombo->setModel( kp()->bannerit() );
+    ui->bannerCombo->setVisible( ui->bannerCombo->model()->rowCount() > 1 );
 
     ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
 }
@@ -292,6 +297,7 @@ void KantaLaskuDialogi::tositteelta()
 
     ui->valvontaCombo->setCurrentIndex( ui->valvontaCombo->findData( lasku.valvonta() ));
     ui->toiminimiCombo->setCurrentIndex( ui->toiminimiCombo->findData( lasku.toiminimi(), ToiminimiModel::Indeksi ) );
+    ui->bannerCombo->setCurrentIndex( ui->bannerCombo->findData( lasku.bannerId(), BannerModel::IdRooli ) );
 
 
     ViiteNumero viite( lasku.viite() );
@@ -382,6 +388,7 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setSopimusnumero( ui->sopimusNumeroEdit->text());
 
     tosite()->lasku().setToiminimi( ui->toiminimiCombo->currentData(ToiminimiModel::Indeksi).toInt() );
+    tosite()->lasku().setBannerId( ui->bannerCombo->currentData(BannerModel::IdRooli).toString() );
 
     tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
     if( ui->erittelyTextEdit->toPlainText().length())

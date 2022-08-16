@@ -36,6 +36,7 @@ class VakioViiteModel;
 class HuoneistoModel;
 class RaporttiValinnat;
 class ToiminimiModel;
+class BannerModel;
 
 /**
  * @brief Rajapinta keskeisten modeleiden saavuttamiseen
@@ -66,6 +67,7 @@ public:
     virtual HuoneistoModel* huoneistot() const { return nullptr;}
     virtual RaporttiValinnat* raporttiValinnat() const { return nullptr;}    
     virtual ToiminimiModel* toiminimet() const { return nullptr;}
+    virtual BannerModel* bannerit() const { return nullptr;}
 
 
     virtual QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;

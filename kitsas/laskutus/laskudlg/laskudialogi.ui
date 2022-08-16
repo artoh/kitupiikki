@@ -303,12 +303,11 @@ osoite</string>
         </widget>
        </item>
        <item row="7" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0,0,1">
          <item>
           <widget class="QLabel" name="viiteText">
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -352,6 +351,9 @@ osoite</string>
             </size>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="bannerCombo"/>
          </item>
         </layout>
        </item>

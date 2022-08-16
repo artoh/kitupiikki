@@ -32,6 +32,8 @@
 #include "db/yhteysmodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "model/bannermodel.h"
+
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
     : QObject(parent), kitsas_(kitsas), tietoLaatikko_(kitsas), alaOsa_(kitsas)
 {
@@ -81,6 +83,8 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
     painter->translate(0, osoiteosa.korkeus() > tietoLaatikko_.korkeus() ?
                           osoiteosa.korkeus() : tietoLaatikko_.korkeus());
     painter->translate( 0, rivinkorkeus * 0.5 );
+
+    painter->translate(0, tulostaBanner(painter, lasku.bannerId()));
 
     if( !lasku.otsikko().isEmpty()) {
         painter->setFont(QFont("FreeSans", 10, QFont::Bold));
@@ -264,4 +268,16 @@ qreal LaskunTulostaja::tulostaErittely(const QStringList &erittely, QPainter *pa
     }        
 
     return alalaita;
+}
+
+qreal LaskunTulostaja::tulostaBanner(QPainter *painter, const QString &bannerId)
+{
+    qreal sivunleveys = painter->window().width();
+    QImage kuva = kitsas_->bannerit()->kuva(bannerId);
+    if( kuva.isNull())
+        return 0;
+
+    QImage scaled = kuva.scaledToWidth(sivunleveys, Qt::SmoothTransformation);
+    painter->drawImage(QPoint(0,0), scaled);
+    return scaled.height() + painter->fontMetrics().height() * 0.5;
 }
