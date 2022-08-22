@@ -64,12 +64,13 @@ int main(int /* argc */, char * /* argv */[]) {
 
                 for(auto& item : tapahtumat) {
                     QVariantMap tmap = item.toMap();
-                    cout << QString("%1 %L2  %3 %4 %5 \n")
+                    cout << QString("%6 %1 %L2  %3 %4 %5 \n")
                             .arg(tmap.value("pvm").toDate().toString("dd.MM."))
                             .arg(tmap.value("euro").toDouble(), 12, 'f', 2)
                             .arg(tmap.value("saajamaksaja").toString(),-40)
                             .arg(tmap.value("viite").toString(), -10)
                             .arg(tmap.value("selite").toString())
+                            .arg(tmap.value("ktokoodi").toInt(),3)
                             .toStdString();
                 }
 

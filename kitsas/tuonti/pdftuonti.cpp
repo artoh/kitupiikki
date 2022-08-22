@@ -60,7 +60,7 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
         {}    // Hyvityslaskulle ei automaattista käsittelyä
     else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
         return tuonti.tuoPdfLasku();
-    else if( tuonti.etsi("tiliote",0,100)  || tuonti.etsi("account statement",0,30))
+    else if( tuonti.etsi("tiliote",0,100)  || tuonti.etsi("account statement",0,30) || tuonti.etsi("kontoutdrag",0,30))
     {
        PdfAnalyzerDocument* doc = PdfToolkit::analyzer(data);
        PdfTilioteTuonti tilioteTuonti;

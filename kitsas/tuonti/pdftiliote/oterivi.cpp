@@ -46,6 +46,8 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
     if( arkistotunnusTyhjennyt_)
         return;    
 
+    if( arkistotunnus.contains("REGISTR")) return;
+
     Iban iban(arkistotunnus);
     if(!arkistotunnus_.isEmpty() && iban.isValid()) {
         iban_ = iban;
@@ -82,7 +84,6 @@ void OteRivi::setSaajaMaksaja(const QString &nimi)
         }
         return;
     }
-
 
     QString iso = nimi.toUpper();
     for( const auto& ohitettava : ohitettavat__) {
@@ -149,7 +150,7 @@ void OteRivi::lisaaYleinen(const QString &teksti)
 
     // Päivämäärä ei kuulu tähän sarakkeeseen
     if( saajamaksaja_.isEmpty() && iso.length() > 3 && iso.length() < 11 && strPvm(iso, QDate::currentDate()).isValid())
-        return;
+        return;    
 
     if( iso.contains("MAKSAJAN")) {
         tila = MAKSAJANVIITE;
@@ -164,6 +165,8 @@ void OteRivi::lisaaYleinen(const QString &teksti)
     } else if( Iban(teksti).isValid() ) {
         if( iban_.isEmpty() )
             iban_ = teksti;
+    } else if( tila == OHITALOPPUUN) {
+        ;
     } else if( tila == VIESTI) {
         if( !viesti_.isEmpty())
             viesti_.append(" ");
@@ -171,17 +174,25 @@ void OteRivi::lisaaYleinen(const QString &teksti)
     } else if( !kto_ && ktoKoodi(teksti)) {
         kto_ = ktoKoodi(teksti);
     } else if( saajamaksaja_.isEmpty()) {
-        setSaajaMaksaja(teksti);
+        if( iso.contains("PALVELUMAKSU") || iso.contains("SERVICEAVGIFT")) {
+            viesti_ = teksti;
+            tila = OHITALOPPUUN;
+        } else {
+            setSaajaMaksaja(teksti);
+        }
     } else {
         QRegularExpression viiteRe("(RF\\d{2}\\s?)?\\d+(\\s\\d+)*");
         QRegularExpressionMatch match = viiteRe.match(teksti);
 
-        if( viite_.isEmpty() && match.hasMatch()) {
+        if( match.hasMatch()) {
             QString ehdokas = match.captured();
-            if( ViiteValidator::kelpaako(ehdokas)) {
+            if( viite_.isEmpty() && ViiteValidator::kelpaako(ehdokas) && kto_ != 721) {
                 setViite(ehdokas);
                 return;
             }
+        } else if(viesti_.isEmpty() && kto_ &&
+                  !saajamaksaja_.startsWith(teksti)) {
+            viesti_ = teksti;
         }
     }
 }
@@ -320,6 +331,6 @@ std::vector<QString> OteRivi::ohitettavat__ =
      "HELSFIHH", "DABAFIHH", "DABAFIHX", "HANDFIHH", "NDEAFIHH",
      "OKOYFIHH", "SBANFIHH", "AABAFI22", "POPFI22", "ITELFIHH",
      "BIGKFIH1", "CITIFIHX", "DNBAFIHX", "HOLVFIHH", "ESSEFIHX",
-     "SWEDIFIHH", "VPAYFIH2", "MAKSUPÄIVÄ","****"};
+     "SWEDIFIHH", "VPAYFIH2", "MAKSUPÄIVÄ","****","SEPA-MAKSU","ARKISTOINTITUNNUS","IBAN","BIC"};
 
 }

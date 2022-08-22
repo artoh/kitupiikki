@@ -140,13 +140,14 @@ void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
 
     if( row.boundingRect().top() > edellinenAlalaita_ + 18 ||
         kokoRivi.contains("Yhteystiedot", Qt::CaseInsensitive) ||
-        kokoRivi.toUpper() == "JATKUU") {
+        kokoRivi.toUpper() == "JATKUU" || kokoRivi.toUpper() == "TRANSP" || kokoRivi.toUpper() == "* JATKUU *") {
         tila_ = LOPPU;        
         return;
     }
     edellinenAlalaita_ = row.boundingRect().bottom();
 
-    if(kokoRivi.startsWith("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ) {
+    if(kokoRivi.startsWith("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ||
+       kokoRivi.startsWith("REGISTR. DAG", Qt::CaseInsensitive)) {
         kirjausPvm_ = OteRivi::strPvm(kokoRivi, loppupvm_);
         nykyinenValmis();
         qDebug() << "\n *** KIRJAUSPÄIVÄ *** " << kirjausPvm_.toString("dd.MM.yyyy") << " \n";
@@ -252,7 +253,7 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
 #endif
 
     switch (tyyppi) {
-    case TilioteOtsake::SAAJAMAKSAJA: nykyinen_.setSaajaMaksaja(arvo); break;
+    case TilioteOtsake::SAAJAMAKSAJA: nykyinen_.lisaaYleinen(arvo); break;
     case TilioteOtsake::SELITE: nykyinen_.setSelite(arvo); break;
     case TilioteOtsake::PVM: if(rivilla_==1)  nykyinen_.setPvm(arvo, loppupvm_); break;
     case TilioteOtsake::VIITE: if(rivilla_==1) nykyinen_.setViite(arvo); break;

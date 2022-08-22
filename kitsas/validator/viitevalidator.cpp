@@ -53,7 +53,7 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
         if( !ch.isDigit())
             return Invalid;
 
-    if( str.length() < 4 )
+    if( str.length() < 3 )
         return Intermediate;
     if( str.length() > 20)
         return Invalid;

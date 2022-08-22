@@ -57,7 +57,7 @@ public:
 protected:
     void lisaaOstoPvm(const QString& teksti);
 
-    enum Tila { NORMAALI, MAKSAJANVIITE, VIESTI};
+    enum Tila { NORMAALI, MAKSAJANVIITE, VIESTI, OHITALOPPUUN};
 
     Tila tila = NORMAALI;
     Euro euro_;

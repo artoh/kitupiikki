@@ -33,6 +33,7 @@ bool TilioteOtsake::alkaakoOtsake(const PdfAnalyzerRow &row)
         return false;
     const QString teksti = row.text();
     return teksti.contains("Arkistointitunnus", Qt::CaseInsensitive) ||
+           teksti.contains("Arkiveringskod", Qt::CaseInsensitive) ||
            (teksti.contains("Kirjaus-", Qt::CaseInsensitive) && teksti.contains("Pano", Qt::CaseInsensitive)) ||
            (teksti.contains("Kirj.pvm", Qt::CaseInsensitive) && teksti.contains("Arvopvm.", Qt::CaseInsensitive));
 }
@@ -97,7 +98,7 @@ int TilioteOtsake::indeksiSijainnilla(double sijainti)
         if( sijainti + 2 >= sarake.alku() ) {
 
             // Korjaus
-            if( i == 1 && sarake.tyyppi() == PVM && sijainti > sarake.alku() + 20 && tuonti_->bic() == "SBANFIHH")
+            if( i == 1 && sarake.tyyppi() == PVM && sijainti > sarake.alku() + 20 && ( tuonti_->bic() == "SBANFIHH" || tuonti_->bic() == "AABAFI22"  ))
                 return i+1;
 
             return i;
@@ -157,7 +158,8 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
     }
 
 
-    if( teksti.contains("KIRJAUS") || teksti.contains("MAKSUP") || teksti.contains("ARVOP"))
+
+    if( teksti.contains("KIRJAUS") || teksti.contains("MAKSUP") || teksti.contains("ARVOP") || teksti.contains("DAG"))
         return PVM;
     else if(teksti.contains("VIITE"))
         return VIITE;
@@ -167,9 +169,9 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
         return EURO;
     else if( teksti.contains("SELIT"))
         return SELITE;
-    else if( teksti.contains("MAKSAJA"))
+    else if( teksti.contains("MAKSAJA") || teksti.contains("BETALARE"))
         return SAAJAMAKSAJA;
-    else if( teksti.contains("ARKISTOINTI"))
+    else if( teksti.contains("ARKISTOINTI") || teksti.contains("ARKIVERINGS"))
         return ARKISTOTUNNUS;
     else if(teksti.contains("TAP") ||
             teksti.contains("SALDO") ||
