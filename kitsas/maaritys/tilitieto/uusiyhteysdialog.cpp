@@ -9,6 +9,7 @@
 #include "laskutus/iban.h"
 
 #include <QSortFilterProxyModel>
+#include <QMessageBox>
 
 namespace Tilitieto {
 
@@ -90,6 +91,13 @@ void UusiYhteysDialog::lisaaValtuutus()
 
 void UusiYhteysDialog::vahvista(const QString &linkki, int pankkiId)
 {
+    if( linkki.isEmpty()) {
+        hide();
+        QMessageBox::critical( qobject_cast<QWidget*>(parent()), tr("Pankkiyhteyden lisääminen epäonnistui"),
+                                        tr("Pankkiyhteyden lisääminen epäonnistui. \n\nYritä myöhemmin uudelleen."));
+        return;
+    }
+
     asetaLogo(pankkiId);
 
     show();
