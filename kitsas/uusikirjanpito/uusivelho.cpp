@@ -51,6 +51,8 @@
 #include <iostream>
 #include "kieli/kielet.h"
 
+#include <QSettings>
+#include <QUuid>
 
 UusiVelho::UusiVelho(QWidget *parent) :
     QWizard(parent)
@@ -124,7 +126,17 @@ QVariantMap UusiVelho::data() const
     asetusMap.insert("KpVersio", SQLiteModel::TIETOKANTAVERSIO );
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
     asetusMap.insert("Luotu", QDateTime::currentDateTime());
-    asetusMap.insert("UID", Kirjanpito::satujono(16));
+    asetusMap.insert("UID", QUuid::createUuid().toString() );
+
+    if( kp()->settings()->value("SmtpServer").toString().isEmpty() &&
+        field("pilveen").toBool() ) {
+        // Jos sähköpostiasetuksia ei ole määritelty konekohtaisesti,
+        // otetaan käyttöön Kitsaan pilvisähköposti
+        asetusMap.insert("KitsasEmail", true);
+        asetusMap.insert("EmailOsoite", kp()->pilvi()->kayttajaEmail() );
+        asetusMap.insert("EmailNimi", asetukset_.value("Nimi"));
+    }
+
 
     initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
@@ -135,6 +147,7 @@ QVariantMap UusiVelho::data() const
     map.insert("init", initMap);
     if(!field("ytunnus").toString().isEmpty())
         map.insert("businessid", field("ytunnus").toString());
+
 
 //    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
 

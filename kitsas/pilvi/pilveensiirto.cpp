@@ -121,6 +121,16 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     kohdennukset.removeFirst();
     init.insert("kohdennukset", kohdennukset);
 
+    QVariantMap asetukset = init.value("asetukset").toMap();
+    if( kp()->settings()->value("SmtpServer").toString().isEmpty() &&
+        asetukset.value("SmtpServer").toString().isEmpty() ) {
+        // Otetaan käyttöön pilven email-palvelu
+        asetukset.insert("KitsasEmail", true);
+        asetukset.insert("EmailOsoite", asetukset.contains("Email") ? asetukset.value("Email") :  kp()->pilvi()->kayttajaEmail() );
+        asetukset.insert("EmailNimi", asetukset.value("Nimi"));
+        init.insert("asetukset", asetukset);
+    }
+
     QVariantMap map;
     map.insert("name", kp()->asetukset()->nimi());
     map.insert("businessid", kp()->asetukset()->ytunnus());
