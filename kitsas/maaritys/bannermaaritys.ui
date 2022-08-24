@@ -60,6 +60,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="muokkaaNappi">
+       <property name="text">
+        <string>Muokkaa...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="poistaNappi">
        <property name="text">
         <string>Poista</string>

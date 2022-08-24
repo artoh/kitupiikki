@@ -17,7 +17,10 @@ public:
     ~BannerMaaritys();
 
     void uusiBanner();
+    void muokkaa();
+    void poista();
 
+    void paivitaNapit();
     bool naytetaankoTallennus() override { return false; }
 
 private:

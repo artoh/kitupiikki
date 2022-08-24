@@ -382,7 +382,9 @@ SOURCES += \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
     tuonti/tesseracttuonti.cpp \
-    tools/finvoicehaku.cpp
+    tools/finvoicehaku.cpp\
+    maaritys/bannerdialog.cpp
+
 
 
 HEADERS += \
@@ -775,7 +777,8 @@ HEADERS += \
     kierto/kiertowidget.h \
     kierto/kiertomuokkausdlg.h\
     tuonti/tesseracttuonti.h\
-    tools/finvoicehaku.h
+    tools/finvoicehaku.h \
+    maaritys/bannerdialog.h
 
 RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
@@ -908,4 +911,5 @@ FORMS += \
     maaritys/avauseradlg.ui\
     maaritys/maksutapamuokkausdlg.ui\
     arkisto/tuloverodialog.ui \
-    kierto/kiertomuokkausdlg.ui
+    kierto/kiertomuokkausdlg.ui\
+    maaritys/bannerdialog.ui

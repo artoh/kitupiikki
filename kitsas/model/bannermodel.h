@@ -13,7 +13,8 @@ public:
     enum {
         IdRooli = Qt::UserRole,
         NimiRooli = Qt::DisplayRole,
-        KuvaRooli = Qt::DecorationRole
+        KuvaRooli = Qt::DecorationRole,
+        IndeksiRooli = Qt::UserRole + 1
     };
 
     explicit BannerModel(QObject *parent = nullptr);
@@ -24,7 +25,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void lisaa(const QString& nimi, const QImage& kuva);
-    void poista(const QString uuid);
+    void muuta(int indeksi, const QString& nimi, const QImage& kuva);
+    void poista(int indeksi);
 
     void lataa();
 

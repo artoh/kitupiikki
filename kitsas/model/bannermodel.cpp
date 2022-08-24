@@ -6,6 +6,7 @@
 #include <QUuid>
 #include <QBuffer>
 
+
 BannerModel::BannerModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -38,6 +39,8 @@ QVariant BannerModel::data(const QModelIndex &index, int role) const
                 scaled.fill(QColor(Qt::white));
                 return QPixmap::fromImage(scaled);
             }
+            case IndeksiRooli:
+                return -1;
             default:
                 return QVariant();
         }
@@ -55,6 +58,8 @@ QVariant BannerModel::data(const QModelIndex &index, int role) const
         QImage scaled = kuva(avain).scaledToWidth(800, Qt::SmoothTransformation);
         return QPixmap::fromImage(scaled);
     }
+    case IndeksiRooli:
+        return index.row() - 1;
     default:
         return QVariant();
     }
@@ -69,7 +74,7 @@ void BannerModel::lisaa(const QString &nimi, const QImage &kuva)
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-    kuva.save(&buffer,"PNG");
+    kuva.save(&buffer,"JPEG",80);
     buffer.close();
 
     KpKysely* kysely = kpk(QString(KYSELYPOLKU.arg(id)), KpKysely::PUT);
@@ -82,6 +87,33 @@ void BannerModel::lisaa(const QString &nimi, const QImage &kuva)
     idt_.append(id);
     endInsertRows();
 
+}
+
+void BannerModel::muuta(int indeksi, const QString &nimi, const QImage &kuva)
+{
+    QString avain = idt_.value(indeksi);
+    nimet_.insert(avain, nimi);
+    kuvat_.insert(avain, kuva);
+    emit dataChanged(index(indeksi+1), index(indeksi+1));
+
+    QByteArray ba;
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+    kuva.save(&buffer,"JPEG",80);
+    buffer.close();
+
+    KpKysely* kysely = kpk(QString(KYSELYPOLKU.arg(avain)), KpKysely::PUT);
+    kysely->lahetaTiedosto(ba);
+}
+
+void BannerModel::poista(int indeksi)
+{
+    QString avain = idt_.value(indeksi);
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    idt_.removeAt(indeksi);
+    endRemoveRows();
+    nimet_.remove(avain);
+    kuvat_.remove(avain);
 }
 
 void BannerModel::lataa()
