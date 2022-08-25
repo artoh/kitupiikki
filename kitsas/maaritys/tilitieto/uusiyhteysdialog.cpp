@@ -52,6 +52,10 @@ void UusiYhteysDialog::lisaaValtuutus()
         ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
     } else {
         ui->stackedWidget->setCurrentIndex(MAKSUINFO);
+        ui->infoLabel->setText(tr("Tilitietojen noutaminen pankista on maksullinen lisäpalvelu hintaan %1 kuukaudessa (sis.alv), mikä veloitetaan jälkikäteen.\n\n"
+                                  "Palvelua voi ensin kokeilla maksutta %2 päivän ajan. Kokeilujakso alkaa ensimmäisestä onnistuneesta tilitapahtumien hakemisesta. "
+                                  "Maksu on kirjanpitokohtainen, ja veloitetaan niiltä kuukausilta, jolloin tilitietoja on haettu onnistuneesti."
+                                  "\n\nKatso lisätietoja Kitsaan ohjeista!").arg(palvelu_->price().display()).arg(palvelu_->trialDays()));        
     }
 
     ui->seuraavaNappi->setVisible(true);
@@ -91,7 +95,13 @@ void UusiYhteysDialog::lisaaValtuutus()
         }
     }
     ui->pankkiView->setCurrentIndex( ui->pankkiView->model()->index(0,0) ) ;
-    pankkiValittu();
+
+    if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
+        pankkiValittu();
+    } else {
+        ui->seuraavaNappi->setEnabled(false);
+    }
+
 
 }
 
@@ -127,7 +137,7 @@ void UusiYhteysDialog::asetaLogo(int pankkiId)
 void UusiYhteysDialog::seuraava()
 {
     if( ui->stackedWidget->currentIndex() == MAKSUINFO) {
-        ui->seuraavaNappi->setEnabled(false);
+        pankkiValittu();
         kp()->asetukset()->aseta(AsetusModel::TilitietoMaksuHyvaksytty, QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
     } else if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {

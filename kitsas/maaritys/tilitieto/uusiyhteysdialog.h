@@ -27,7 +27,8 @@ public:
 protected:
     enum {
         VALITSEPANKKI = 0,
-        LINKKI = 1
+        LINKKI = 1,
+        MAKSUINFO = 2
     };
 
     void seuraava();

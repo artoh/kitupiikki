@@ -70,7 +70,7 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
         }
         case TILI:{
             Tili tili = kp()->tilit()->tiliIbanilla(rivi.iban());
-            if( tili.onkoValidi() ) {
+            if( rivi.iban().length() > 7 &&  tili.onkoValidi() ) {
                 return tili.nimiNumero();
             } else {
                 return QVariant();
