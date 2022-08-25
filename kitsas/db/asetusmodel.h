@@ -108,7 +108,8 @@ public:
         VariVarjo,
         LaskuKorttitili,
         LaskuLisatiedot,
-        Toiminimet
+        Toiminimet,
+        TilitietoMaksuHyvaksytty
     };
 
 

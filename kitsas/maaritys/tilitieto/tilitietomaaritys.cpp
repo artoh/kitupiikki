@@ -51,21 +51,21 @@ bool TilitietoMaaritys::nollaa()
 void TilitietoMaaritys::paivitaTilaus()
 {
 
-    int trial = palvelu_->trialPeriod();
     Euro price = palvelu_->price();
+    const int kokeiluPituus = palvelu_->trialDays();
+    const QDate kokeiluSaakka = palvelu_->trialPeriod();
 
     ui->infoLabel->setVisible( price  );
 
-    if( trial ) {
-        ui->infoLabel->setText( tr("Voit kokeilla tilitietojen hakemista maksutta vielä %1 päivän ajan, "
-                                   "minkä jälkeen palvelu maksaa %2 kuukaudessa (sis. alv)").arg(trial).arg(price.display()));
-        ui->infoLabel->setStyleSheet("background-color: rgba(255, 255, 0, 125)");
+    const QString maksutieto = tr("Tilitietojen hakeminen on maksullinen lisäpalvelu hintaan %1/kk (sis.alv)").arg(price.display());
 
+    if( kokeiluSaakka.isNull()) {
+        ui->infoLabel->setText(  maksutieto + "\n" + tr("Voit kokeilla palvelua maksutta %1 päivän ajan").arg(kokeiluPituus) );
+    } else if( kokeiluSaakka <= QDate::currentDate() ) {
+        ui->infoLabel->setText( maksutieto + "\n" + tr("Hakeminen on maksutonta vielä kokeilujakson ajan %1 saakka").arg(kokeiluSaakka.toString("dd.MM.yyyy")));
     } else {
-        ui->infoLabel->setText( tr("Tilitietojen hakeminen on maksullinen lisäpalvelu, hinta %1 kuukaudessa (sis. alv)").arg(price.display()) );
-        ui->infoLabel->setStyleSheet("");
+        ui->infoLabel->setText( maksutieto );
     }
-
 }
 
 void TilitietoMaaritys::paivitaYhteydet()

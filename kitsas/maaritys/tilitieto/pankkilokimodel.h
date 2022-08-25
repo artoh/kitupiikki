@@ -23,7 +23,7 @@ private:
         int docId() const { return docId_; }
         QDate mista() const { return mista_;}
         QDate mihin() const { return mihin_;}
-        bool system() const { return system_;}
+        int user() const { return user_;}
     private:
         QString aika_;
         QString status_;
@@ -31,7 +31,7 @@ private:
         int docId_;
         QDate mista_;
         QDate mihin_;
-        bool system_;
+        int user_;
     };
 
     enum { AIKA, AJALTA, TILI, IBAN, STATUS};

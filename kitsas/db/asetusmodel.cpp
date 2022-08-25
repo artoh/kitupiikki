@@ -344,5 +344,6 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { VariVarjo, "VariVarjo"},
     { LaskuKorttitili, "LaskuKorttitili"},
     { LaskuLisatiedot, "KirjausLaskuLisatiedot"},
-    { Toiminimet, "Aputoiminimet"}
+    { Toiminimet, "Aputoiminimet"},
+    { TilitietoMaksuHyvaksytty, "TilitietoMaksuHyvaksytty"}
 };

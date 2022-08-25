@@ -119,7 +119,9 @@ void TilitietoPalvelu::lataaMap(const QVariant *data)
     QVariantMap map = data ? data->toMap() : QVariantMap();
 
     price_ = Euro::fromString(map.value("price").toString());
-    trialPeriod_ = map.value("trialdays").toInt();
+
+    trialPeriod_ = map.value("trialperiod").toDate();
+    trialDays_ = map.value("trialdays").toInt();
 
     loki_->lataa( map.value("log").toList() );
 

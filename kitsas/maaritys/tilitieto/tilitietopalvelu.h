@@ -20,7 +20,8 @@ class TilitietoPalvelu : public QObject
 public:
     TilitietoPalvelu(QObject* parent = nullptr);
 
-    int trialPeriod() const { return trialPeriod_;}
+    int trialDays() const { return trialDays_;}
+    QDate trialPeriod() const { return trialPeriod_;}
     Euro price() const { return price_;}
 
     PankitModel* pankit();
@@ -54,7 +55,8 @@ private:
     PankitModel* pankit_;
     QList<Yhteys> yhteydet_;
 
-    int trialPeriod_;
+    QDate trialPeriod_;
+    int trialDays_;
     Euro price_;
 
     PankkiLokiModel* loki_;

@@ -96,6 +96,8 @@ void BannerModel::muuta(int indeksi, const QString &nimi, const QImage &kuva)
     kuvat_.insert(avain, kuva);
     emit dataChanged(index(indeksi+1), index(indeksi+1));
 
+    kp()->asetukset()->aseta(ASETUSPOLKU + avain, nimi);
+
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
@@ -114,6 +116,8 @@ void BannerModel::poista(int indeksi)
     endRemoveRows();
     nimet_.remove(avain);
     kuvat_.remove(avain);
+
+    kp()->asetukset()->poista(ASETUSPOLKU + avain);
 }
 
 void BannerModel::lataa()

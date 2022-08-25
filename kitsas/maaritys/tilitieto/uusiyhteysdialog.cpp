@@ -8,6 +8,8 @@
 #include "db/kirjanpito.h"
 #include "laskutus/iban.h"
 
+#include "db/asetusmodel.h"
+
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 
@@ -46,7 +48,11 @@ void UusiYhteysDialog::lisaaValtuutus()
 {
     show();
 
-    ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);    
+    if( kp()->asetukset()->onko(AsetusModel::TilitietoMaksuHyvaksytty)) {
+        ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
+    } else {
+        ui->stackedWidget->setCurrentIndex(MAKSUINFO);
+    }
 
     ui->seuraavaNappi->setVisible(true);
     ui->seuraavaNappi->setEnabled(false);
@@ -120,10 +126,16 @@ void UusiYhteysDialog::asetaLogo(int pankkiId)
 
 void UusiYhteysDialog::seuraava()
 {
-    ui->seuraavaNappi->setEnabled(false);
-    int pankki = ui->pankkiView->currentIndex().data(PankitModel::IdRooli).toInt();
-    if( pankki ) {
-        palvelu_->lisaaValtuutus(pankki);
+    if( ui->stackedWidget->currentIndex() == MAKSUINFO) {
+        ui->seuraavaNappi->setEnabled(false);
+        kp()->asetukset()->aseta(AsetusModel::TilitietoMaksuHyvaksytty, QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+        ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
+    } else if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
+        ui->seuraavaNappi->setEnabled(false);
+        int pankki = ui->pankkiView->currentIndex().data(PankitModel::IdRooli).toInt();
+        if( pankki ) {
+            palvelu_->lisaaValtuutus(pankki);
+        }
     }
 }
 

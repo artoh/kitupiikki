@@ -98,7 +98,7 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
     case Qt::DecorationRole:
     {
         if( index.column() == AIKA ) {
-            return rivi.system() ?
+            return rivi.user() == 0?
                         QIcon(":/pic/chardevice.png")
                       : QIcon(":/pic/mies.png");
         }
@@ -151,7 +151,7 @@ PankkiLokiModel::LokiRivi::LokiRivi(const QVariantMap &map)
     docId_ = map.value("document").toInt();
     mista_ = map.value("datefrom").toDate();
     mihin_ = map.value("dateto").toDate();
-    system_ = map.value("system").toBool();
+    user_ = map.value("user").toInt();
 
 }
 
