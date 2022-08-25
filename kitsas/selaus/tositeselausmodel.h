@@ -60,7 +60,7 @@ protected:
     bool liitteita;
     QString etsiTeksti;
     QString sarja;
-    int tilioimatta;
+    int tilioimatta = 0;
 
     bool huomio;
 };
