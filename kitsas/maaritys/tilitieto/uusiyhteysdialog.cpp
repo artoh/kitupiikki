@@ -47,20 +47,20 @@ UusiYhteysDialog::~UusiYhteysDialog()
 void UusiYhteysDialog::lisaaValtuutus()
 {
     show();
+    ui->seuraavaNappi->setVisible(true);
+    ui->ValmisNappi->setVisible(false);
+    ui->seuraavaNappi->setEnabled(false);
 
     if( kp()->asetukset()->onko(AsetusModel::TilitietoMaksuHyvaksytty)) {
         ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
     } else {
         ui->stackedWidget->setCurrentIndex(MAKSUINFO);
-        ui->infoLabel->setText(tr("Tilitietojen noutaminen pankista on maksullinen lisäpalvelu hintaan %1 kuukaudessa (sis.alv), mikä veloitetaan jälkikäteen.\n\n"
+        ui->infoLabel->setText(tr("Tilitapahtumien noutaminen pankista on maksullinen lisäpalvelu hintaan %1 kuukaudessa (sis.alv), mikä veloitetaan jälkikäteen.\n\n"
                                   "Palvelua voi ensin kokeilla maksutta %2 päivän ajan. Kokeilujakso alkaa ensimmäisestä onnistuneesta tilitapahtumien hakemisesta. "
                                   "Maksu on kirjanpitokohtainen, ja veloitetaan niiltä kuukausilta, jolloin tilitietoja on haettu onnistuneesti."
                                   "\n\nKatso lisätietoja Kitsaan ohjeista!").arg(palvelu_->price().display()).arg(palvelu_->trialDays()));        
     }
 
-    ui->seuraavaNappi->setVisible(true);
-    ui->seuraavaNappi->setEnabled(false);
-    ui->ValmisNappi->setVisible(false);
 
     // Yritetään esivalita pankki, johon on tili
     for(int i = 0; i < kp()->tilit()->rowCount(); i++) {
@@ -95,12 +95,7 @@ void UusiYhteysDialog::lisaaValtuutus()
         }
     }
     ui->pankkiView->setCurrentIndex( ui->pankkiView->model()->index(0,0) ) ;
-
-    if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
-        pankkiValittu();
-    } else {
-        ui->seuraavaNappi->setEnabled(false);
-    }
+    pankkiValittu();
 
 
 }
@@ -140,6 +135,7 @@ void UusiYhteysDialog::seuraava()
         pankkiValittu();
         kp()->asetukset()->aseta(AsetusModel::TilitietoMaksuHyvaksytty, QDateTime::currentDateTime().toString("yyyy-MM-dd"));
         ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
+        pankkiValittu();
     } else if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
         ui->seuraavaNappi->setEnabled(false);
         int pankki = ui->pankkiView->currentIndex().data(PankitModel::IdRooli).toInt();
@@ -159,7 +155,7 @@ void UusiYhteysDialog::pankkiValittu()
 {
     QModelIndex index = ui->pankkiView->currentIndex();
     const QString& bic = index.data(PankitModel::BicRooli).toString();
-    ui->seuraavaNappi->setEnabled(index.isValid());
+    ui->seuraavaNappi->setEnabled(index.isValid() && ui->stackedWidget->currentIndex() == VALITSEPANKKI);
     ui->OPlabel->setVisible( bic == "OKOYFIHH");
 }
 

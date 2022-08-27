@@ -88,10 +88,14 @@ void PilveenSiirto::alustaAlkusivu()
     kysely.next();
     liitelkm_ = kysely.value(0).toInt();
 
-    if( pilvia >= pilvetMax && kp()->pilvi()->plan() != PlanModel::TILITOIMISTOPLAN) {
-        ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
-                                  "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    if( pilvia >= pilvetMax ) {
+        if( kp()->pilvi()->kkLisaPilviHinta()) {
+            ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kkLisaPilviHinta().display() ));
+        } else {
+            ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
+                                      "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
+            ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        }
     }
 
     kysely.exec("SELECT pvm, sarja, tunniste, nimi, LENGTH(data) AS koko FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE LENGTH(data) > 10 * 1024 * 1024");

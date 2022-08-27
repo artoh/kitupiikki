@@ -22,14 +22,14 @@
       </font>
      </property>
      <property name="text">
-      <string>Tilitietojen hakeminen pankista</string>
+      <string>Tilitapahtumien hakeminen pankista</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="infoLabel">
      <property name="text">
-      <string>Info</string>
+      <string>Tietoja haetaan, odota...</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -48,7 +48,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Tilitiedot haetaan kerran vuorokaudessa PSD2-yhteydellä. Pankkiyhteyden lisäämiseen tarvitset pankkitunnuksia. </string>
+         <string>Tilitapahtumat haetaan kerran vuorokaudessa PSD2-yhteydellä. Pankkiyhteyden lisäämiseen tarvitset pankkitunnuksia. </string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

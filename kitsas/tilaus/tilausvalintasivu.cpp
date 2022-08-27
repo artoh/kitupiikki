@@ -71,6 +71,7 @@ void TilausValintaSivu::paivita()
 
     QString info;
     int planId = ui->planView->currentIndex().data(PlanModel::PlanRooli).toInt();
+    Euro kkLisaHinta = Euro::fromVariant(ui->planView->currentIndex().data(PlanModel::LisaPilviKkHinta) );
 
     ui->lisahintaInfo->show();
     ui->lisaksiLabel->hide();
@@ -81,11 +82,10 @@ void TilausValintaSivu::paivita()
 
     if( planId == 0) {
         ui->tilaInfo->setText(tr("Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti"));
-    } else if (planId == PlanModel::TILITOIMISTOPLAN) {
-        double kkhinta = pilvihinta / (ui->vuosiRadio->isChecked() ? 12 : 6);
-        ui->tilaInfo->setText( tr("Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.\n"
-                                  "Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi")
-                               .arg(pilvia).arg(kkhinta,0,'f',2));
+    } else if ( kkLisaHinta && !ui->lisaSpin->value() ) {
+        ui->tilaInfo->setText(
+                    ( pilvia > 1 ? tr("Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.\n").arg(pilvia) : "" ) +
+                    tr("Lisäkirjanpidoista laskutetaan jälkikäteen %1/kuukausi").arg(kkLisaHinta.display()) );
     } else {
 
         ui->tilaInfo->setText( pilvia == 1 ? tr("Pakettihintaan kuuluu yhden kirjanpidon tallentaminen pilveen") :
@@ -108,7 +108,7 @@ void TilausValintaSivu::paivita()
                        "laskulta %L1 € nykyisestä tilauksestasi.")
                     .arg(palautus_,0,'f',2));
 
-    if( kp()->pilvi()->omatPilvet() > pilviayht && planId != PlanModel::TILITOIMISTOPLAN)
+    if( kp()->pilvi()->omatPilvet() > pilviayht && planId != !kkLisaHinta.cents())
         info.append( tr("Koska sinulla on jo pilveen tallennettuna %1 kirjanpitoa et voi vaihtaa "
                         "tätä pienempään tilaukseen ilman, että poistat ensin "
                         "osan kirjanpidoistasi")

@@ -668,8 +668,8 @@ void AloitusSivu::kirjauduttu()
                                (kp()->pilvi()->rowCount() ?  tr("\nVoit kuitenkin käyttää kaikkia niitä kirjanpitoja, joihin sinulle on myönnetty käyttöoikeus.") : QString() ));
     } else if (pilvia == 0 && pilvetmax == 0) {
         ui->planLabel->setText( kp()->pilvi()->planname() );
-    } else if( kp()->pilvi()->plan() == PlanModel::TILITOIMISTOPLAN ) {
-        // Tilitoimistoille joustava tilausten enimmäismäärä
+    } else if( kp()->pilvi()->kkLisaPilviHinta().cents() ) {
+        // Käytössä joustava pilvien enimmäismäärä
         ui->planLabel->setText(  tr("%1\n%2 kirjanpitoa")
                             .arg( kp()->pilvi()->planname())
                             .arg( pilvia ));

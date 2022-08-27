@@ -90,6 +90,8 @@ QVariant PlanModel::data(const QModelIndex &index, int role) const
         return puolivuosittain_ ? map.value("extraprice").toDouble() / 2.0 : map.value("extraprice");
     else if( role == InfoRooli)
         return map.value("info");
+    else if( role == LisaPilviKkHinta)
+        return map.value("extramonthly");
 
 
 

@@ -19,6 +19,7 @@
 
 
 #include "db/yhteysmodel.h"
+#include "model/euro.h"
 #include <QPixmap>
 #include <QDate>
 
@@ -84,6 +85,7 @@ public:
     bool tilausvoimassa() const { return plan() || kokeilujakso() >= QDate::currentDate();}
     bool pilviVat() const { return  pilviVat_; }
     int blokattu() const { return data_.value("blocked").toInt(); }
+    Euro kkLisaPilviHinta() const { return Euro::fromVariant( data_.value("plan").toMap().value("extramonthly") );  }
 
     qlonglong oikeudet() const override { return oikeudet_;}
 
@@ -125,6 +127,7 @@ private:
     QString token_;
     qlonglong oikeudet_ = 0;
     bool pilviVat_ = true;
+    Euro kkLisaPilviHinta_;
 
     QVariantMap data_;
     QTimer *timer_;    

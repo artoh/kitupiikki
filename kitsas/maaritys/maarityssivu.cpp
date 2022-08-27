@@ -51,7 +51,6 @@
 #include "bannermaaritys.h"
 
 #include "ui_veromaaritys.h"
-#include "ui_yhteystiedot.h"
 #include "ui_oletustilimaaritys.h"
 
 #include <QDebug>
@@ -80,7 +79,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Sähköpostin lähetys"), SAHKOPOSTI, "sahkoposti", QIcon(":/pic/email.png"));
     lisaaSivu(tr("Laskujen kierto"), KIERTO, "kierto", QIcon(":/pic/kierto.svg"),"kierto");
     lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
-    lisaaSivu(tr("Tilitietojen haku"), TILITIEDOT, "tilitiedot", QIcon(":/pic/verkossa.png"),"tilitiedot");
+    lisaaSivu(tr("Tilitapahtumien haku"), TILITIEDOT, "tilitapahtumat", QIcon(":/pic/verkossa.png"),"tilitapahtumat");
     lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
     lisaaSivu(tr("Verojen maksu"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));

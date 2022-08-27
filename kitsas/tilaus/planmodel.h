@@ -33,7 +33,8 @@ public:
            NimiRooli = Qt::UserRole + 2,
            PilviaRooli = Qt::UserRole + 3,
            LisaPilviHinta  = Qt::UserRole + 4,
-           InfoRooli = Qt::UserRole + 5
+           InfoRooli = Qt::UserRole + 5,
+           LisaPilviKkHinta = Qt::UserRole + 6
          };
 
     enum { TILITOIMISTOPLAN = 50 };

@@ -57,11 +57,11 @@ void TilitietoMaaritys::paivitaTilaus()
 
     ui->infoLabel->setVisible( price  );
 
-    const QString maksutieto = tr("Tilitietojen hakeminen on maksullinen lisäpalvelu hintaan %1/kk (sis.alv).").arg(price.display());
+    const QString maksutieto = tr("Tilitapahtumien hakeminen on maksullinen lisäpalvelu hintaan %1/kk (sis.alv).").arg(price.display());
 
     if( kokeiluSaakka.isNull()) {
         ui->infoLabel->setText(  maksutieto + "\n" + tr("Voit kokeilla palvelua maksutta %1 päivän ajan.").arg(kokeiluPituus) );
-    } else if( kokeiluSaakka <= QDate::currentDate() ) {
+    } else if( kokeiluSaakka >= QDate::currentDate() ) {
         ui->infoLabel->setText( maksutieto + "\n" + tr("Hakeminen on maksutonta vielä kokeilujakson ajan %1 saakka.").arg(kokeiluSaakka.toString("dd.MM.yyyy")));
     } else {
         ui->infoLabel->setText( maksutieto );
