@@ -81,9 +81,8 @@ QVariantList IlmoitinTuottaja::kausiTieto(const QVariantMap &map)
 void IlmoitinTuottaja::tositeSaapuu(QVariant *data)
 {
     QVariantMap alv = data->toMap().value("alv").toMap();
-    if( muodosta(alv)) {
-        QSettings settings;
-        QString hakemisto = settings.value("IlmoitinHakemisto", QDir::homePath()).toString();
+    if( muodosta(alv)) {        
+        QString hakemisto = kp()->settings()->value("IlmoitinHakemisto", QDir::homePath()).toString();
         QDir dir(hakemisto);
 
         QDate loppupvm = alv.value("kausipaattyy").toDate();
@@ -96,7 +95,7 @@ void IlmoitinTuottaja::tositeSaapuu(QVariant *data)
         if( filename.isEmpty())
             return;
         QFileInfo info(filename);
-        settings.setValue("IlmoitinHakemisto", info.absoluteDir().dirName());
+        kp()->settings()->setValue("IlmoitinHakemisto", info.absoluteDir().dirName());
 
         QFile file(filename);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
