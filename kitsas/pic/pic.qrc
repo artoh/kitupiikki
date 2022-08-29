@@ -484,5 +484,6 @@
         <file>freeicons/support.svg</file>
         <file>freeicons/question.svg</file>
         <file>tyhja16.png</file>
+        <file>maksutavat/pankkikortti.png</file>
     </qresource>
 </RCC>

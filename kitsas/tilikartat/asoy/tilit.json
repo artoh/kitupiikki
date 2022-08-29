@@ -1521,6 +1521,15 @@
         "laajuus": 4
     },
     {
+        "numero": 2964,
+        "tyyppi": "BO",
+        "nimi": {
+            "fi": "Pankkikorttiostot",
+            "sv": "Bankkortsinköp"
+        },
+        "laajuus": 2
+    },    
+    {
         "numero": 2970,
         "tyyppi": "H4",
         "nimi": {

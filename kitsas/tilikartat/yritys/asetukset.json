@@ -110,7 +110,7 @@
       "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
-    },
+    },    
     {
       "fi" : "Luottokortti",
       "sv" : "Kreditkort",
@@ -153,6 +153,12 @@
       "KUVA" : "pankki"
     },
     {
+      "fi" : "Pankkikortti",
+      "sv" : "Bankkort",
+      "TILI" : 2883,
+      "KUVA" : "pankkikortti"
+    },
+    {
       "fi" : "Luottokortti",
       "sv" : "Kreditkort",
       "TILI" : 2882,
@@ -193,8 +199,7 @@
   "LaskuIkkunaKorkeus" : "35",
   "LaskuQR" : true,
   "LaskuLogoKorkeus": "20",
-  "LogonSijainti" : "VIERESSA",
-  "LaskuNumerointialkaa" : 1,
+  "LogonSijainti" : "VIERESSA",  
   "VariKehys": "128,128,128",
   "VariVarjo": "230,230,230",
   "AlvKausi" : "1",
@@ -212,6 +217,8 @@
   "PankkiPalvelumaksutili":"8560",
   "PankkiSaapuvakorko":"9220",
   "PankkiMaksettavakorko":"9460",
+  "TiliotePankkikorttitili":"2883",
+  "TiliotePankkikorttitiliKaytossa": "ON",
   "VeroOmaverotili":"2920",
   "Ostovelkatili": "2871",
   "AlvVelkatili": "2939",

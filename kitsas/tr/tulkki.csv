@@ -308,7 +308,7 @@ maksettavaa,Maksettavaa,Betalningsbelopp,Payable
 tilausnro,Tilausnumero,Beställningsnummer,Order number
 sopimusnro,Sopimusnumero,Avtalsnummer,Contract number
 myyja,Myyjä,Säljare,Salesperson
-tilaaja,Tilaaja,Beställare,Subscriber
+tilaaja,Tilaaja,Beställare,Ordeder
 tilauspvm,Tilauspäivämäärä,Beställningdatum,Order date
 Vastaavaa,Vastaavaa,Passiva,
 Poistokelpoinen omaisuus menojäännöspoisto,Poistokelpoinen omaisuus menojäännöspoisto,Avskrivningbara tillgångar restvärdeavskrivning,

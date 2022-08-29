@@ -80,6 +80,12 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     const QString& arkistotunnus = tuonti.value("arkistotunnus").toString();
     pankki.setArkistotunnus( arkistotunnus.length() > 10 ? arkistotunnus : pseudoarkistotunnus() );
 
+    const QString& viite = tuonti.value("viite").toString();
+    if( !viite.isEmpty() )
+        pankki.setViite(viite);
+    const QDate& ostopvm = tuonti.value("ostopvm").toDate();
+    if( ostopvm.isValid())
+        pankki.setOstoPvm(ostopvm);
 
     tapahtuma.setEra(tuonti.value("era").toMap());
 
@@ -87,18 +93,13 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     if(!tilinumero) {
         if(pankki.debet() > 1e-5 && model->kitsas()->asetukset()->onko("TilioteTuloKaytossa") ) {
             tilinumero = model->kitsas()->asetukset()->luku("TilioteTulotili");
+        } else if( tuonti.value("ktokoodi").toInt() == 720 && pankki.kreditEuro() && model->kitsas()->asetukset()->onko("TiliotePankkikorttiKaytossa") ) {
+            tilinumero = model->kitsas()->asetukset()->luku("TiliotePankkikortti");
         } else if( pankki.kredit() > 1e-5 && model->kitsas()->asetukset()->onko("TilioteMenoKaytossa")) {
             tilinumero = model->kitsas()->asetukset()->luku("TilioteMenotili");
         }
     }
-    tapahtuma.setTili(tilinumero);
-
-    const QString& viite = tuonti.value("viite").toString();
-    if( !viite.isEmpty() )
-        pankki.setViite(viite);
-    const QDate& ostopvm = tuonti.value("ostopvm").toDate();
-    if( ostopvm.isValid())
-        pankki.setOstoPvm(ostopvm);
+    tapahtuma.setTili(tilinumero);    
 
     viennit_ << pankki << tapahtuma;
 

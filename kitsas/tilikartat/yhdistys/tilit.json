@@ -1595,13 +1595,22 @@
     },
     {
         "numero": 2963,
-        "tyyppi": "BS",
+        "tyyppi": "BO",
         "nimi": {
             "fi": "Ostovelat luottokortilla",
             "sv": "Leverantörsskulder för kreditkortsinköp"
         },
         "laajuus": 4
     },
+    {
+        "numero": 2964,
+        "tyyppi": "BO",
+        "nimi": {
+            "fi": "Pankkikorttiostot",
+            "sv": "Bankkortsinköp"
+        },
+        "laajuus": 2
+    },    
     {
         "numero": 2970,
         "tyyppi": "H4",

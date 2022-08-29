@@ -4328,6 +4328,15 @@
         "laajuus": 3
     },
     {
+        "numero": 2883,
+        "tyyppi": "BO",
+        "nimi": {
+            "fi": "Pankkikorttiostot",
+            "sv": "Bankkortsinköp"
+        },
+        "laajuus": 3
+    },    
+    {
         "numero": 2888,
         "tyyppi": "BO",
         "nimi": {

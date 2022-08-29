@@ -112,12 +112,13 @@ void BannerModel::poista(int indeksi)
 {
     QString avain = idt_.value(indeksi);
     beginRemoveRows(QModelIndex(), indeksi, indeksi);
+
     idt_.removeAt(indeksi);
-    endRemoveRows();
     nimet_.remove(avain);
     kuvat_.remove(avain);
-
     kp()->asetukset()->poista(ASETUSPOLKU + avain);
+
+    endRemoveRows();
 }
 
 void BannerModel::lataa()

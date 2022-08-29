@@ -308,7 +308,26 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
         }
     }
 
-    if( sopivat.isEmpty()) return;
+    if( sopivat.isEmpty()) {
+        // Kokeillaan ostopäivää
+        if( !harmaa.ostopvm().isValid()) {
+            return;
+        }
+        for(int ki=0; ki < kirjausRivit_.count(); ki++) {
+            const TilioteKirjausRivi& rivi = kirjausRivit_.at(ki);
+            if( rivi.peitetty()  || !rivi.tuotu() ) continue;
+            const TositeVienti& kirjaus = rivi.pankkivienti();
+            if( kirjaus.pvm() == harmaa.ostopvm() &&
+                qAbs(kirjaus.debet() - harmaa.debet()) < 1e-5 &&
+                qAbs(kirjaus.kredit() - harmaa.kredit()) < 1e-5) {
+                sopivat.append(ki);
+            }
+        }
+    }
+    if( sopivat.isEmpty()) {
+        return;
+    }
+
     if( sopivat.count() == 1 ) {
         peita(harmaaIndeksi, sopivat.first());
         return;

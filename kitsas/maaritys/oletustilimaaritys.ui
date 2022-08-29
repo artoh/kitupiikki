@@ -134,7 +134,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>Pankin palvelumaksut</string>
@@ -144,7 +144,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="TiliCombo" name="comboBox_6">
           <property name="Asetus" stdset="0">
            <string notr="true">PankkiPalvelumaksutili</string>
@@ -154,7 +154,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
            <string>Korkotulot</string>
@@ -164,7 +164,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="TiliCombo" name="comboBox_5">
           <property name="Asetus" stdset="0">
            <string notr="true">PankkiSaapuvakorko</string>
@@ -174,7 +174,7 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="5" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
            <string>Korkomenot</string>
@@ -184,13 +184,33 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="5" column="1">
          <widget class="TiliCombo" name="comboBox_7">
           <property name="Asetus" stdset="0">
            <string notr="true">PankkiMaksettavakorko</string>
           </property>
           <property name="Tilit" stdset="0">
            <string notr="true">D</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>Pankkikorttiostot</string>
+          </property>
+          <property name="Asetus" stdset="0">
+           <string notr="true">TiliotePankkikorttitiliKaytossa</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="TiliCombo" name="comboBox_8">
+          <property name="Asetus" stdset="0">
+           <string notr="true">TiliotePankkikorttitili</string>
+          </property>
+          <property name="Tilit" stdset="0">
+           <string notr="true">BO</string>
           </property>
          </widget>
         </item>
@@ -241,12 +261,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>574</x>
-     <y>79</y>
+     <x>562</x>
+     <y>64</y>
     </hint>
     <hint type="destinationlabel">
-     <x>809</x>
-     <y>72</y>
+     <x>960</x>
+     <y>66</y>
     </hint>
    </hints>
   </connection>
@@ -257,12 +277,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>584</x>
+     <x>570</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>960</x>
+     <y>97</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBox_8</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>544</x>
      <y>112</y>
     </hint>
     <hint type="destinationlabel">
-     <x>755</x>
-     <y>114</y>
+     <x>691</x>
+     <y>118</y>
     </hint>
    </hints>
   </connection>

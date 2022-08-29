@@ -126,6 +126,12 @@
       "KUVA" : "pankki"
     },
     {
+      "fi" : "Pankkikortti",
+      "sv" : "Bankkort",
+      "TILI" : 2964,
+      "KUVA" : "pankkikortti"
+    },      
+    {
       "fi" : "Luottokortti",
       "sv" : "Kreditkort",
       "TILI" : 2963,
@@ -179,6 +185,8 @@
   "Tuloverosiirtovelat":"2990",
   "Tuloverosiirtosaamiset":"1770",
   "PankkiPalvelumaksutili":"7021",
+  "TiliotePankkokorttitili":"2964",
+  "TiliotePankkikorttitiliKaytossa": "ON",
   "PankkiSaapuvakorko":"9070",
   "PankkiMaksettavakorko":"9170",
   "VeroOmaverotili":"2986",
