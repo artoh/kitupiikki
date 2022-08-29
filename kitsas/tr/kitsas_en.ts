@@ -312,217 +312,233 @@ Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkis
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="67"/>
+        <location filename="../aloitussivu/aloitus.ui" line="80"/>
         <source>Kirjanpito on tallennettu omalle tietokoneellesi.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="80"/>
+        <location filename="../aloitussivu/aloitus.ui" line="93"/>
         <source>Kirjanpito on tallennettu Kitsaan pilveen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="136"/>
-        <location filename="../aloitussivu/aloitus.ui" line="170"/>
+        <location filename="../aloitussivu/aloitus.ui" line="128"/>
+        <source>Käsiteltäviä tositteita työjonossa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="152"/>
+        <location filename="../aloitussivu/aloitus.ui" line="189"/>
+        <location filename="../aloitussivu/aloitus.ui" line="234"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="235"/>
-        <source>Tietokone</source>
+        <location filename="../aloitussivu/aloitus.ui" line="186"/>
+        <source>Lähetettäviä laskuja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="241"/>
-        <source>Avaa kirjanpitotiedosto    Ctrl + O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitus.ui" line="244"/>
-        <source>Avaa kirjanpito</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitus.ui" line="251"/>
-        <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitus.ui" line="271"/>
-        <source>Tuo Kitupiikistä</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitus.ui" line="285"/>
-        <source>Varmuuskopioi</source>
+        <location filename="../aloitussivu/aloitus.ui" line="199"/>
+        <source>Tiliöimättömiä tositteita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="299"/>
-        <source>Poista luettelosta</source>
+        <source>Tietokone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="305"/>
+        <source>Avaa kirjanpitotiedosto    Ctrl + O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="308"/>
+        <source>Avaa kirjanpito</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitus.ui" line="315"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="335"/>
+        <source>Tuo Kitupiikistä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="349"/>
+        <source>Varmuuskopioi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="363"/>
+        <source>Poista luettelosta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitus.ui" line="379"/>
         <source>Pilvi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="328"/>
-        <location filename="../aloitussivu/aloitus.ui" line="407"/>
+        <location filename="../aloitussivu/aloitus.ui" line="392"/>
+        <location filename="../aloitussivu/aloitus.ui" line="471"/>
         <source>Kirjaudu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="337"/>
+        <location filename="../aloitussivu/aloitus.ui" line="401"/>
         <source>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudestaan. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="350"/>
+        <location filename="../aloitussivu/aloitus.ui" line="414"/>
         <source>Salasana on virheellinen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="357"/>
+        <location filename="../aloitussivu/aloitus.ui" line="421"/>
         <source>Sähköposti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="367"/>
+        <location filename="../aloitussivu/aloitus.ui" line="431"/>
         <source>Kirjoita ensin osoite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="374"/>
+        <location filename="../aloitussivu/aloitus.ui" line="438"/>
         <source>Salasana</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="397"/>
+        <location filename="../aloitussivu/aloitus.ui" line="461"/>
         <source>Muista minut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="427"/>
+        <location filename="../aloitussivu/aloitus.ui" line="491"/>
         <source>Unohdin salasanan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="441"/>
+        <location filename="../aloitussivu/aloitus.ui" line="505"/>
         <source>Uusi käyttäjä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="447"/>
+        <location filename="../aloitussivu/aloitus.ui" line="511"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tarjoamme uudelle käyttäjälle 30 päivän maksuttoman kokeilujakson Kitsaan pilviominaisuuksiin.&lt;/p&gt;
 &lt;p&gt;Lue enemmän &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="464"/>
+        <location filename="../aloitussivu/aloitus.ui" line="528"/>
         <source>Luo käyttäjätunnus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="495"/>
-        <location filename="../aloitussivu/aloitus.ui" line="505"/>
-        <location filename="../aloitussivu/aloitus.ui" line="518"/>
+        <location filename="../aloitussivu/aloitus.ui" line="559"/>
+        <location filename="../aloitussivu/aloitus.ui" line="569"/>
+        <location filename="../aloitussivu/aloitus.ui" line="582"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="525"/>
+        <location filename="../aloitussivu/aloitus.ui" line="589"/>
         <source>Kirjaudu ulos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="536"/>
+        <location filename="../aloitussivu/aloitus.ui" line="600"/>
         <source>Vaihda salasana</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="547"/>
+        <location filename="../aloitussivu/aloitus.ui" line="611"/>
         <source>Tee tilaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="574"/>
+        <location filename="../aloitussivu/aloitus.ui" line="638"/>
         <source>Poista kirjanpito</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="585"/>
+        <location filename="../aloitussivu/aloitus.ui" line="649"/>
         <source>Kopioi kirjanpito pilveen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="613"/>
+        <location filename="../aloitussivu/aloitus.ui" line="677"/>
         <source>Kirjaudutaan palvelimelle...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="645"/>
+        <location filename="../aloitussivu/aloitus.ui" line="709"/>
         <source>Tuki</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="663"/>
+        <location filename="../aloitussivu/aloitus.ui" line="726"/>
         <source>Kirjaudu Pilvi-välilehdellä päästäksesi tekemään tukipyyntöjä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="682"/>
+        <location filename="../aloitussivu/aloitus.ui" line="745"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ohjeet ja keskustelualue löytyvät osoitteesta &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt;. Tekemällä maksullisen tilaukset saat käyttöösi myös ohjelman sähköpostituen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="698"/>
+        <location filename="../aloitussivu/aloitus.ui" line="761"/>
         <source>Anna palautetta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="709"/>
+        <location filename="../aloitussivu/aloitus.ui" line="772"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ellet löydä vastausta &lt;a href=&quot;http://kitsas.fi/docs&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;ohjesivustolta&lt;/span&gt;&lt;/a&gt;, lähetä meille tukipyyntö. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="722"/>
+        <location filename="../aloitussivu/aloitus.ui" line="785"/>
         <source>Lähetä tukipyyntö</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="733"/>
+        <location filename="../aloitussivu/aloitus.ui" line="796"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Emme kuitenkaan voi antaa kirjanpitoon tai verotukseen liittyvää oikeudellista neuvontaa.&lt;/p&gt;&lt;p&gt;Nopeuta vastauksen saamista liittämällä tukipyyntösi mukaan alla olevat tiedot&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="753"/>
+        <location filename="../aloitussivu/aloitus.ui" line="816"/>
         <source>Kopioi leikepöydälle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="764"/>
+        <location filename="../aloitussivu/aloitus.ui" line="827"/>
         <source>Virheenjäljitystiedot leikepöydälle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="779"/>
+        <location filename="../aloitussivu/aloitus.ui" line="842"/>
         <source>Aloita uusi kirjanpito   Ctrl+N</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="782"/>
+        <location filename="../aloitussivu/aloitus.ui" line="845"/>
         <source>Uusi kirjanpito</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="796"/>
+        <location filename="../aloitussivu/aloitus.ui" line="859"/>
         <source>Muistiinpanot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitus.ui" line="807"/>
+        <location filename="../aloitussivu/aloitus.ui" line="870"/>
         <source>Tietoja</source>
         <translation type="unfinished"></translation>
     </message>
@@ -530,306 +546,378 @@ Voit kuitenkin käyttää Arkisto-toimintoa muodostaaksesi kirjanpidostasi arkis
 <context>
     <name>AloitusSivu</name>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="222"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="227"/>
         <source>Avataan kirjanpitoa...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="436"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="445"/>
         <source>Varmuuskopioi kirjanpito</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="436"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="445"/>
         <source>Kirjanpito (*.kitsas)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="441"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="455"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="450"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="464"/>
         <source>Virhe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="441"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="450"/>
         <source>Tiedostoa ei saa kopioida itsensä päälle!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="452"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="461"/>
         <source>Kirjanpidon varmuuskopiointi onnistui.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="455"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="464"/>
         <source>Tiedoston varmuuskopiointi epäonnistui.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="483"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="492"/>
         <source>Poista kirjanpito luettelosta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="484"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="493"/>
         <source>Haluatko poistaa tämän kirjanpidon viimeisten kirjanpitojen luettelosta?
 Kirjanpitoa ei poisteta levyltä.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="495"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="502"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="504"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="511"/>
         <source>Kirjanpidon poistaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="496"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="505"/>
         <source>Turvallisuussyistä voit poistaa vain harjoittelutilassa olevan kirjanpidon.
 
 Poistaaksesi tämän kirjanpidon sinun pitää ensin asettaa Asetukset/Perusvalinnat-sivulla määritys Harjoituskirjanpito.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="503"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="512"/>
         <source>Haluatko todella poistaa tämän kirjanpidon %1 pysyvästi?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="208"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="213"/>
         <source>Tämä kirjanpito ei ole käytettävissä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="209"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="214"/>
         <source>Kirjanpidon omistajalla ei ole voimassa olevaa tilausta, tilausmaksu on maksamatta tai palvelun käyttö on estetty käyttösääntöjen vastaisena.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="211"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="216"/>
         <source>Kirjanpidon palauttamiseksi käyttöön on oltava yhteydessä Kitsas Oy:n myyntiin.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="608"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="658"/>
         <source>Käyttö estetty maksamattomien tilausmaksujen takia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="610"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="660"/>
         <source>Käyttö estetty käyttösääntöjen vastaisen toiminnan takia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="613"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="663"/>
         <source>Käyttäjätunnus suljettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="617"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="667"/>
         <source>Käyttäjätunnuksella ei ole voimassaolevaa omaa tilausta.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="618"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="668"/>
         <source>
 Voit kuitenkin käyttää kaikkia niitä kirjanpitoja, joihin sinulle on myönnetty käyttöoikeus.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="623"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="673"/>
         <source>%1
 %2 kirjanpitoa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="627"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="677"/>
         <source>%1
 %2/%3 kirjanpitoa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="635"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="685"/>
         <source>Kokeilujakso %1 saakka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="640"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="690"/>
         <source>Tilaukseni</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="640"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="690"/>
         <source>Tee tilaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="694"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="744"/>
         <source>&lt;p&gt;&lt;b&gt;Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="696"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="746"/>
         <source>&lt;p&gt;&lt;b&gt;Verkkoon ei saada yhteyttä&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="698"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="748"/>
         <source>&lt;p&gt;&lt;b&gt;Palvelinyhteydessä on virhe (%1)&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="700"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="750"/>
         <source>&lt;p&gt;&lt;b&gt;Palvelu on tilapäisesti poissa käytöstä.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="728"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="778"/>
         <source>Salasanan vaihtaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="729"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="779"/>
         <source>Salasanan vaihtopyynnön lähettäminen palvelimelle epäonnistui tietoliikennevirheen %1 takia.
 
 Yritä myöhemmin uudelleen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="734"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="784"/>
         <source>Salasanan palauttaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="735"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="785"/>
         <source>Sähköpostiisi on lähetetty linkki, jonka avulla voit vaihtaa salasanan.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="895"/>
-        <source>&lt;table class=varoitus width=100%&gt;&lt;tr&gt;&lt;td width=100%&gt;&lt;h3&gt;Varmuuskopio käytössä?&lt;/h3&gt;Tämä tiedosto on todennäköisesti kirjanpitosi varmuuskopio päivämäärällä &lt;b&gt;%1.%2.20%3.&lt;/b&gt; &lt;br&gt;Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="902"/>
-        <source>&lt;table class=varoitus width=100%&gt;&lt;tr&gt;&lt;td width=100%&gt;&lt;h3&gt;Paikallinen kirjanpito käytössä&lt;/h3&gt;&lt;p&gt;Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.&lt;/p&gt;&lt;p&gt;Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="910"/>
-        <source>&lt;table class=varoitus width=100%&gt;&lt;tr&gt;&lt;td width=100%&gt;&lt;h3&gt;Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.&lt;/h3&gt;Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle. &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="920"/>
-        <source>&lt;table class=info width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;h3&gt;&lt;a href=ktp:/maaritys/paivita&gt;Päivitä tilikartta&lt;/a&gt;&lt;/h3&gt;Tilikartasta saatavilla uudempi versio %1&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="929"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="978"/>
         <source>Kirjanpidon aloittaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1060"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="985"/>
+        <source>Syötä viimeisimmältä tilinpäätökseltä tilien avaavat saldot %1 järjestelmään.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1017"/>
+        <source>Arvonlisäveroilmoitus myöhässä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1018"/>
+        <source>Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1024"/>
+        <source>Tee arvonlisäverotilitys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1025"/>
+        <source>Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1035"/>
+        <source>Aloita uusi tilikausi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1036"/>
+        <source>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.&lt;/p&gt;&lt;p&gt;Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1053"/>
+        <source>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen tilinpäätös</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1094"/>
         <source>Vastaavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1062"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1096"/>
         <source>Vastattavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1064"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1098"/>
         <source>Tuloslaskelma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1077"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1111"/>
         <source>Tilikauden tulos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="930"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="931"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="932"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="933"/>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="936"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="895"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="970"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="971"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="972"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="973"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="976"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="930"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="906"/>
+        <source>Tositteiden tiliöinti kesken</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="907"/>
+        <source>Tiliöinti on kesken %1 tiliotteessa. Kirjanpitosi ei täsmää ennen kuin nämä tositteet on tiliöity loppuun saakka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="916"/>
+        <source>Pankkiyhteyden valtuutus vanhentunut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="917"/>
+        <source>Valtuutus on vanhentunut %1. Tilitapahtumia ei voi hakea ennen valtuutuksen uusimista.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="922"/>
+        <source>Pankkiyhteyden valtuutus vanhenemassa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="923"/>
+        <source>Pankkiyhteyden valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="926"/>
+        <source>Uusi pankkiyhteyden valtuutus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="927"/>
+        <source>Pankkiyhteyden valtuutus vanhenee %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="938"/>
+        <source>Varmuuskopio käytössä?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="939"/>
+        <source>Tämä tiedosto on todennäköisesti kirjanpitosi varmuuskopio päivämäärällä %1&lt;br&gt;Tähän tiedostoon tehdyt muutokset eivät tallennu varsinaiseen kirjanpitoosi.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="944"/>
+        <source>Paikallinen kirjanpito käytössä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="945"/>
+        <source>Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.&lt;/p&gt;&lt;p&gt;Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="951"/>
+        <source>Tilaus on tarkoitettu arvonlisäverottomaan toimintaan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="952"/>
+        <source>Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="960"/>
+        <source>Päivitä tilikartta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="961"/>
+        <source>Tilikartasta saatavilla uudempi versio %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="970"/>
         <source>Tarkista perusvalinnat ja arvonlisäverovelvollisuus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="931"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="971"/>
         <source>Tarkista yhteystiedot ja logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="932"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="972"/>
         <source>Tutustu tilikarttaan ja tee tarpeelliset muutokset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="933"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="973"/>
         <source>Lisää tarvitsemasi kohdennukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="935"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="975"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="984"/>
         <source>Tee tilinavaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="936"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="976"/>
         <source>Voit aloittaa kirjausten tekemisen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="942"/>
-        <source>&lt;table class=vinkki width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;h3&gt;&lt;a href=ktp:/maaritys/tilinavaus&gt;Tee tilinavaus&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Syötä viimeisimmältä tilinpäätökseltä tilien avaavat saldot %1 järjestelmään &lt;a href=&apos;ohje:/asetukset/tilinavaus&apos;&gt;(Ohje)&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="973"/>
-        <source>&lt;table class=varoitus width=100%&gt;&lt;tr&gt;&lt;td width=100%&gt;&lt;h3&gt;&lt;a href=ktp:/alvilmoitus&gt;Arvonlisäveroilmoitus myöhässä&lt;/a&gt;&lt;/h3&gt;Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="982"/>
-        <source>&lt;table class=vinkki width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;h3&gt;&lt;a href=ktp:/alvilmoitus&gt;Tee arvonlisäverotilitys&lt;/a&gt;&lt;/h3&gt;Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="994"/>
-        <source>&lt;table class=vinkki width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;h3&gt;&lt;a href=ktp:/uusitilikausi&gt;Aloita uusi tilikausi&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.&lt;/p&gt;&lt;p&gt;Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1011"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1051"/>
         <source>Aika laatia tilinpäätös tilikaudelle %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1015"/>
-        <source>&lt;p&gt;Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen &lt;a href=ktp:/tilinpaatos&gt;tilinpäätös&lt;/a&gt;.&lt;/p&gt;</source>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1054"/>
+        <source>Viimeistele ja vahvista tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1019"/>
-        <source>&lt;p&gt;Viimeiste ja vahvista &lt;a href=ktp:/arkisto&gt;tilinpäätös&lt;/a&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1021"/>
-        <source>&lt;p&gt;Katso &lt;a href=&quot;ohje:/tilikaudet/tilinpaatos/&quot;&gt;ohjeet&lt;/a&gt; tilinpäätöksen laatimisesta&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aloitussivu/aloitussivu.cpp" line="1043"/>
+        <location filename="../aloitussivu/aloitussivu.cpp" line="1077"/>
         <source>&lt;p&gt;&lt;h2 class=kausi&gt;Tilikausi %1 - %2 &lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1406,6 +1494,85 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
     </message>
 </context>
 <context>
+    <name>BannerDialog</name>
+    <message>
+        <location filename="../maaritys/bannerdialog.ui" line="14"/>
+        <source>Laskun banneri</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.ui" line="32"/>
+        <source>Valitse kuva...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.ui" line="43"/>
+        <source>Bannerin nimi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.ui" line="55"/>
+        <source>Bannerin nimi ei tulostu laskulle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.cpp" line="41"/>
+        <source>Valitse lisättävä bannerikuva</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.cpp" line="43"/>
+        <source>Kuvatiedostot (*.png *.jpg *.jpeg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.cpp" line="51"/>
+        <source>Bannerikuvan muoto ei kelpaa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannerdialog.cpp" line="51"/>
+        <source>Bannerikuvan korkeus saa olla korkeintaan kolmasosa kuvan leveydestä.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BannerMaaritys</name>
+    <message>
+        <location filename="../maaritys/bannermaaritys.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannermaaritys.ui" line="25"/>
+        <source>Laskujen bannerit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannermaaritys.ui" line="54"/>
+        <source>Uusi banneri...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannermaaritys.ui" line="65"/>
+        <source>Muokkaa...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/bannermaaritys.ui" line="76"/>
+        <source>Poista</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BannerModel</name>
+    <message>
+        <location filename="../model/bannermodel.cpp" line="35"/>
+        <source>Ei banneria</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BudjettiDlg</name>
     <message>
         <location filename="../arkisto/budjettidlg.ui" line="14"/>
@@ -1751,28 +1918,28 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/devtool.cpp" line="246"/>
+        <location filename="../tools/devtool.cpp" line="257"/>
         <source>Kitsaan tilikartta (*.kitsaskartta)</source>
         <comment>kitsaskartta on tiedostopääte - älä käännä!</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/devtool.cpp" line="317"/>
+        <location filename="../tools/devtool.cpp" line="328"/>
         <source>Tilikartan vieminen onnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/devtool.cpp" line="318"/>
+        <location filename="../tools/devtool.cpp" line="329"/>
         <source>Tilikartta viety tiedostoon %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/devtool.cpp" line="320"/>
+        <location filename="../tools/devtool.cpp" line="331"/>
         <source>Tilikartan vieminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/devtool.cpp" line="321"/>
+        <location filename="../tools/devtool.cpp" line="332"/>
         <source>Tiedostoon %1 ei voitu kirjoittaa</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1985,22 +2152,22 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
 <context>
     <name>EraCombo</name>
     <message>
-        <location filename="../tools/eracombo.cpp" line="90"/>
+        <location filename="../tools/eracombo.cpp" line="93"/>
         <source>Ei tase-erää</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/eracombo.cpp" line="91"/>
+        <location filename="../tools/eracombo.cpp" line="94"/>
         <source>Uusi tase-erä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/eracombo.cpp" line="92"/>
+        <location filename="../tools/eracombo.cpp" line="95"/>
         <source>Valitse tase-erä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/eracombo.cpp" line="98"/>
+        <location filename="../tools/eracombo.cpp" line="101"/>
         <source>Huoneisto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2319,35 +2486,35 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
 <context>
     <name>IlmoitinTuottaja</name>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="94"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="93"/>
         <source>Tallenna Ilmoitin-aineisto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="95"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="94"/>
         <source>Tekstitiedostot (*.txt);;Kaikki tiedostot (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="103"/>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="110"/>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="123"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="102"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="109"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="122"/>
         <source>Ilmoitinaineiston muodostaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="104"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="103"/>
         <source>Ilmoitinaineiston tallentaminen tiedostoon epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="111"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="110"/>
         <source>Ilmoitinainesto tallennettu tiedostoon %1.
 Voit lähettää sen verottajalle ilmoitin.fi-palvelulla.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/ilmoitintuottaja.cpp" line="124"/>
+        <location filename="../alv/ilmoitintuottaja.cpp" line="123"/>
         <source>Ilmoitinaineiston muodostaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2440,199 +2607,199 @@ Voit lähettää sen verottajalle ilmoitin.fi-palvelulla.</source>
 <context>
     <name>KantaLaskuDialogi</name>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="200"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="205"/>
         <source>Lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="202"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="207"/>
         <source>Käteinen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="204"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="209"/>
         <source>Korttimaksu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="206"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="211"/>
         <source>Ennakkolasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="207"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="212"/>
         <source>Suoriteperusteinen lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="208"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="213"/>
         <source>Kuukausittainen lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="220"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="225"/>
         <source>Yksittäinen lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="226"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="231"/>
         <source>Asiakas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="228"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="233"/>
         <source>Huoneisto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="230"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="235"/>
         <source>Vakioviite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="231"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="236"/>
         <source>Valvomaton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="268"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="273"/>
         <source>Maksettu </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="277"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="282"/>
         <source>Toimitettu %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="280"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="285"/>
         <source>Lähetetty %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="478"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="485"/>
         <source>Tulosta lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="482"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="489"/>
         <source>Postita lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="490"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="497"/>
         <source>Verkkolasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="494"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="501"/>
         <source>Lähetä sähköpostilla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="495"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="502"/>
         <source>Tallenna pdf-tiedostoon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="496"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="503"/>
         <source>Ei tulosteta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="518"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="525"/>
         <source>Tallenna ja lähetä sähköpostilla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="522"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="529"/>
         <source>Tallenna ja toimita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="525"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="532"/>
         <source>Tallenna reskontraan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="528"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="535"/>
         <source>Tallenna ja postita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="531"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="538"/>
         <source>Tallenna ja lähetä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="534"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="541"/>
         <source>Tallenna ja tulosta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="569"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="576"/>
         <source>Laskut ajalla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="569"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="576"/>
         <source>Toimituspäivä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="660"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="667"/>
         <source>Lukittu tilikausi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="660"/>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="665"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="667"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="672"/>
         <source>Laskun päivämäärälle ei ole avointa tilikautta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="660"/>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="665"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="667"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="672"/>
         <source>Toimituspäivämäärälle ei ole avointa tilikautta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="665"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="672"/>
         <source>Puuttuva tilikausi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="671"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="678"/>
         <source>Toimitusjakson päättymispäivä on virheellinen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="671"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="678"/>
         <source>Virheellinen toimitusjakso</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="739"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="746"/>
         <source>Lisää liite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="739"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="746"/>
         <source>Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="749"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="756"/>
         <source>Poista liite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="750"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="757"/>
         <source>Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="777"/>
+        <location filename="../laskutus/laskudlg/kantalaskudialogi.cpp" line="784"/>
         <source>Lasku %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3228,46 +3395,46 @@ Jos Sinulle tulee kysyttävää, älä epäröi ottaa meihin yhteyttä Tuki-väl
 <context>
     <name>Kirjanpito</name>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="114"/>
+        <location filename="../db/kirjanpito.cpp" line="116"/>
         <source>Tilapäishakemiston luominen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="115"/>
+        <location filename="../db/kirjanpito.cpp" line="117"/>
         <source>Kitsas ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="170"/>
+        <location filename="../db/kirjanpito.cpp" line="172"/>
         <source>Ohjeen näyttäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="171"/>
+        <location filename="../db/kirjanpito.cpp" line="173"/>
         <source>Kitsas ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi määritelty oletusselain avaamaan internet-sivuja?
 
 Ohjelman ohjeet löytyvät %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="188"/>
+        <location filename="../db/kirjanpito.cpp" line="190"/>
         <source>Selaimen käynnistäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="189"/>
+        <location filename="../db/kirjanpito.cpp" line="191"/>
         <source>Kitsas ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi määritelty oletusselain avaamaan internet-sivuja?
 
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="192"/>
+        <location filename="../db/kirjanpito.cpp" line="194"/>
         <source>Tiedoston näyttäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../db/kirjanpito.cpp" line="193"/>
+        <location filename="../db/kirjanpito.cpp" line="195"/>
         <source>Kitsas ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3642,58 +3809,58 @@ tilikautta kirjanpidossa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="533"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="540"/>
         <source>Tallennus epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="533"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="540"/>
         <source>Tositteen tallentaminen epäonnistui (Virhe %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="581"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="588"/>
         <source>Kommentit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="601"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="608"/>
         <source>Tiedoston avaaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="601"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="608"/>
         <source>%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="616"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="623"/>
         <source>Valitse tositenumero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="616"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="623"/>
         <source>Uusi tositenumero:
 Ohjelma ei tarkasta tositenumeroa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="632"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="639"/>
         <source>Kitsas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="632"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="639"/>
         <source>Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="732"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="739"/>
         <source>Tosite saattaa olla jo kirjattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="733"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="740"/>
         <source>Kirjanpidosta löytyy jo samankaltainen tosite 
 
 %1 
@@ -3701,27 +3868,27 @@ Tallennetaanko tosite silti?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="868"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="875"/>
         <source>Kirjaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="887"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="894"/>
         <source>Uusi tosite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="923"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="930"/>
         <source>Kierto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="971"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="978"/>
         <source>Poista liite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kirjaus/kirjauswg.cpp" line="972"/>
+        <location filename="../kirjaus/kirjauswg.cpp" line="979"/>
         <source>Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3777,123 +3944,123 @@ Tallennetaanko tosite silti?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="440"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="444"/>
         <source>Valikko</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="454"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="458"/>
         <source>Aloita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="454"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="458"/>
         <source>Erilaisia ohjattuja toimia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="455"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="459"/>
         <source>Uusi 
 tosite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="455"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="459"/>
         <source>Kirjaa uusi tosite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="456"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="460"/>
         <source>Selaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="456"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="460"/>
         <source>Selaa kirjauksia aikajärjestyksessä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="457"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="461"/>
         <source>Kierto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="457"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="461"/>
         <source>Käsittele kierrossa olevia laskuja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="458"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="462"/>
         <source>Laskut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="458"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="462"/>
         <source>Laskuta ja selaa laskuja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="459"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="463"/>
         <source>Raportit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="459"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="463"/>
         <source>Tulosta erilaisia raportteja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="460"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="464"/>
         <source>Tilikaudet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="460"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="464"/>
         <source>Tilinpäätös ja arkistot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="461"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="465"/>
         <source>ALV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="461"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="465"/>
         <source>Arvonlisäveron ilmoittaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="462"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="466"/>
         <source>Asetukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="462"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="466"/>
         <source>Kirjanpitoon liittyvät määritykset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="478"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="482"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="491"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="495"/>
         <source>Harjoittelutila käytössä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="491"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="495"/>
         <source>Voit nopeuttaa ajan kulumista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="506"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="510"/>
         <source>Harjoittelu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../kitupiikkiikkuna.cpp" line="522"/>
+        <location filename="../kitupiikkiikkuna.cpp" line="526"/>
         <source>Kirjattavat</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4299,7 +4466,7 @@ osoite</source>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskudialogi.ui" line="111"/>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="858"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="860"/>
         <source>Laskutus</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4369,325 +4536,325 @@ osoite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="316"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="315"/>
         <source>00000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskudialogi.ui" line="288"/>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1009"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1011"/>
         <source>Otsikko</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="326"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="325"/>
         <source>Lasku saa viitenumeron vasta kun se tallennetaan.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="389"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="391"/>
         <source>Rivit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="402"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="404"/>
         <source>Etsi tuotetta nimellä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="419"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="421"/>
         <source>Uusi tuote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="468"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="470"/>
         <source>Lisää uusi rivi   Ctrl+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="471"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="473"/>
         <source>Lisää rivi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="478"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="480"/>
         <source>Ctrl+R</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="488"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="490"/>
         <source>Näyttää uuden rivin lisäysikkunan  Ctrl+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="491"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="493"/>
         <source>Uusi rivi...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="498"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="500"/>
         <source>Ctrl+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="508"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="510"/>
         <source>Rivin lisätiedot..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="522"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="524"/>
         <source>Poista rivi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="547"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="549"/>
         <source>Maksumuistutus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="555"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="557"/>
         <source>Avoin määrä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="596"/>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="613"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="598"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="615"/>
         <source>0,00 €</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="562"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="564"/>
         <source>Maksumuistutuksesta peritään</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="572"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="574"/>
         <source>Viivästyskorko ajalle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="584"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="586"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="646"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="648"/>
         <source>Lis&amp;ätiedot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="656"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="658"/>
         <source>Tilaaja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="673"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="675"/>
         <source>Myyjä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="690"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="692"/>
         <source>Huomautusaika</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="697"/>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="870"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="699"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="872"/>
         <source> päivää</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="711"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="713"/>
         <source>Tilauspäivä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="724"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="726"/>
         <source>Tilaajan tilausnumero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="741"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="743"/>
         <source>Sopimusnumero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="765"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="767"/>
         <source>Lisätiedot laskun alussa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="780"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="782"/>
         <source>Erittely laskun lopussa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="792"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="794"/>
         <source>Toistuminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="798"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="800"/>
         <source>Luo toimitusjakson päättyessä uusi lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="812"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="814"/>
         <source>Laskutusjakso</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="824"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="826"/>
         <source> kuukautta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="879"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="881"/>
         <source>ennen edellisen jakson päättymistä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="892"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="894"/>
         <source>edellisen jakson päättymisen jälkeen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="901"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="903"/>
         <source>päättyy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="931"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="933"/>
         <source>Laskuta hinnaston mukaisesti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="956"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="958"/>
         <source>Tallenna muutokset toistumiseen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="967"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="969"/>
         <source>Lopeta toistuvat laskut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1001"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1003"/>
         <source>Saate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1021"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1023"/>
         <source>Sähköpostin viestiosan sisältö</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1033"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1035"/>
         <source>Liitteet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1051"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1053"/>
         <source>Näytä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1075"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1077"/>
         <source>Lisää</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1089"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1091"/>
         <source>Poista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1107"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1109"/>
         <source>Loki</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1122"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1124"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1129"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1131"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1139"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1141"/>
         <source>Tallenna luonnos   Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1142"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1144"/>
         <source>Tallenna luonnoksena</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1149"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1151"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1162"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1164"/>
         <source>Tallenna lasku   F11</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1165"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1167"/>
         <source>T&amp;allenna valmiina</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1172"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1174"/>
         <source>F11</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1185"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1187"/>
         <source>Näytä lasku  F5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1188"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1190"/>
         <source>Nä&amp;ytä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1195"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1197"/>
         <source>F5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1218"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1220"/>
         <source>Hyvitä ennakko</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1268"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1270"/>
         <source>Tallenna ja toimita   F12</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1274"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1276"/>
         <source>Tallenna ja tulosta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1281"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1283"/>
         <source>F12</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1291"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1293"/>
         <source>Poistu tallentamatta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1294"/>
+        <location filename="../laskutus/laskudlg/laskudialogi.ui" line="1296"/>
         <source>Peru</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5430,7 +5597,7 @@ osoite</source>
 <context>
     <name>LaskunTulostaja</name>
     <message>
-        <location filename="../laskutus/tulostus/laskuntulostaja.cpp" line="129"/>
+        <location filename="../laskutus/tulostus/laskuntulostaja.cpp" line="133"/>
         <source>Lasku %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5439,11 +5606,22 @@ osoite</source>
     <name>LaskunUusinta</name>
     <message>
         <location filename="../laskutus/laskunuusinta.cpp" line="62"/>
+        <source>Laskuja ei voitu uusia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../laskutus/laskunuusinta.cpp" line="63"/>
+        <source>Laskuja ei uusia, koska nykyiselle päivälle ei ole avointa tilikautta.
+Avaa tilikausi ja käynnistä ohjelma uudelleen, jotta laskut voidaan uusia.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../laskutus/laskunuusinta.cpp" line="73"/>
         <source>Luodaan toistuvia laskuja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskunuusinta.cpp" line="71"/>
+        <location filename="../laskutus/laskunuusinta.cpp" line="82"/>
         <source>Toistuvat laskut luotu Lähtevät-välilehdelle.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5672,12 +5850,12 @@ osoite</source>
 <context>
     <name>LisaIkkuna</name>
     <message>
-        <location filename="../lisaikkuna.cpp" line="55"/>
+        <location filename="../lisaikkuna.cpp" line="57"/>
         <source>%1 - Kirjaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../lisaikkuna.cpp" line="70"/>
+        <location filename="../lisaikkuna.cpp" line="72"/>
         <source>%1 - Selaus</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6028,136 +6206,146 @@ Yritä myöhemmin uudelleen</source>
 <context>
     <name>MaaritysSivu</name>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="64"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="65"/>
         <source>Käyttöliittymä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="65"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="66"/>
         <source>Perusvalinnat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="66"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="67"/>
         <source>Yhteystiedot ja toiminimet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="67"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="68"/>
         <source>Liitteiden käsittely</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="68"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="69"/>
         <source>Käyttöoikeudet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="69"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="70"/>
         <source>Tililuettelo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="70"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="71"/>
         <source>Kohdennukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="71"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="72"/>
         <source>Tilinavaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="72"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="73"/>
         <source>Laskutus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="73"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="74"/>
         <source>Laskujen tekstit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="74"/>
-        <source>Oletustilit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../maaritys/maarityssivu.cpp" line="75"/>
-        <source>Maksutavat</source>
+        <source>Laskujen bannerit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="76"/>
-        <source>Tositesarjat</source>
+        <source>Oletustilit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="77"/>
-        <source>Sähköpostin lähetys</source>
+        <source>Maksutavat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="78"/>
-        <source>Laskujen kierto</source>
+        <source>Tositesarjat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="79"/>
-        <source>Verkkolasku</source>
+        <source>Sähköpostin lähetys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="80"/>
-        <source>Kirjattavien kansio</source>
+        <source>Laskujen kierto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="81"/>
-        <source>Verojen maksu</source>
+        <source>Verkkolasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="82"/>
-        <source>Palkkakirjaustilit</source>
+        <source>Tilitapahtumien haku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="83"/>
-        <source>Raportit</source>
+        <source>Kirjattavien kansio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="84"/>
-        <source>Tilinpäätöksen malli</source>
+        <source>Verojen maksu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/maarityssivu.cpp" line="85"/>
+        <source>Palkkakirjaustilit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/maarityssivu.cpp" line="86"/>
+        <source>Raportit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/maarityssivu.cpp" line="87"/>
+        <source>Tilinpäätöksen malli</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/maarityssivu.cpp" line="88"/>
         <source>Tilikartan päivitys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="99"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="102"/>
         <source>Peru</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="100"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="103"/>
         <source>Tallenna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="134"/>
-        <location filename="../maaritys/maarityssivu.cpp" line="166"/>
-        <location filename="../maaritys/maarityssivu.cpp" line="195"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="137"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="169"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="198"/>
         <source>Kitsas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/maarityssivu.cpp" line="134"/>
-        <location filename="../maaritys/maarityssivu.cpp" line="166"/>
-        <location filename="../maaritys/maarityssivu.cpp" line="195"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="137"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="169"/>
+        <location filename="../maaritys/maarityssivu.cpp" line="198"/>
         <source>Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6955,6 +7143,11 @@ Tarkasta kirjoittamasi avaimet.</source>
         <source>Korkomenot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../maaritys/oletustilimaaritys.ui" line="200"/>
+        <source>Pankkikorttiostot</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Paivakirja</name>
@@ -7446,25 +7639,30 @@ tallentaa Kitsaan pilveen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="92"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="93"/>
+        <source>Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../pilvi/pilveensiirto.cpp" line="95"/>
         <source>Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.
 Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="459"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="473"/>
         <source>Tositteita kopioitu %1 kpl, kirjanpidon koko pilvessä %L2 Mt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="479"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="493"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kaikkia tositteita ei saatu siirrettyä pilveen.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="482"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="496"/>
         <source>Kirjanpidon siirto pilveen epäonnistui.
 
 Kirjanpitoa on mahdollisesti käsitelty sellaisella ohjelman versiolla, jonka jäljiltä tallenteessa on vähäinen tekninen virhe, joka on havaittu pilvipalvelun tarkemmissa tarkastuksissa.
@@ -7473,7 +7671,7 @@ Tämän kirjanpidon kopioiminen pilveen vaatii kirjanpidon korjaamista ohjelmist
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilveensiirto.cpp" line="489"/>
+        <location filename="../pilvi/pilveensiirto.cpp" line="503"/>
         <source>Kirjanpidon siirto pilveen epäonnistui virheen %1 takia</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7519,12 +7717,12 @@ Tämän kirjanpidon kopioiminen pilveen vaatii kirjanpidon korjaamista ohjelmist
 <context>
     <name>PilviModel</name>
     <message>
-        <location filename="../pilvi/pilvimodel.cpp" line="92"/>
+        <location filename="../pilvi/pilvimodel.cpp" line="94"/>
         <source>Kirjanpidon luominen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../pilvi/pilvimodel.cpp" line="93"/>
+        <location filename="../pilvi/pilvimodel.cpp" line="95"/>
         <source>Kirjanpitoa luotaessa tapahtui virhe:
 %1 %2</source>
         <translation type="unfinished"></translation>
@@ -8460,7 +8658,7 @@ Tarkista sähköpostien lähettämisen asetukset.</source>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="50"/>
-        <location filename="../selaus/selauswg.cpp" line="439"/>
+        <location filename="../selaus/selauswg.cpp" line="452"/>
         <source>&amp;Saapuneet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8486,32 +8684,38 @@ Tarkista sähköpostien lähettämisen asetukset.</source>
     </message>
     <message>
         <location filename="../selaus/selauswg.cpp" line="272"/>
+        <location filename="../selaus/selauswg.cpp" line="277"/>
         <source>Kaikki tilit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/selauswg.cpp" line="287"/>
+        <location filename="../selaus/selauswg.cpp" line="282"/>
+        <source>Tiliöimättä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../selaus/selauswg.cpp" line="291"/>
         <source>Kaikki tositteet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/selauswg.cpp" line="328"/>
+        <location filename="../selaus/selauswg.cpp" line="332"/>
         <source>Debet %L1   Kredit %L2 
 Loppusaldo %L3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/selauswg.cpp" line="331"/>
+        <location filename="../selaus/selauswg.cpp" line="335"/>
         <source>Debet %L1	Kredit %L2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/selauswg.cpp" line="344"/>
+        <location filename="../selaus/selauswg.cpp" line="348"/>
         <source>Summa %L1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/selauswg.cpp" line="414"/>
+        <location filename="../selaus/selauswg.cpp" line="427"/>
         <source>Avaa uudessa ikkunassa</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8757,12 +8961,12 @@ mallipohjana
 <context>
     <name>TavallinenLaskuDialogi</name>
     <message>
-        <location filename="../laskutus/laskudlg/tavallinenlaskudialogi.cpp" line="249"/>
+        <location filename="../laskutus/laskudlg/tavallinenlaskudialogi.cpp" line="251"/>
         <source>Ennakkolasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/tavallinenlaskudialogi.cpp" line="250"/>
+        <location filename="../laskutus/laskudlg/tavallinenlaskudialogi.cpp" line="252"/>
         <source>Ennakkolasku voidaan laatia vain asiakasrekisterissä olevalle asiakkaalle. Lisää ensin asiakas rekisteriin</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8946,14 +9150,19 @@ Ilmoitathan kaikista havaitsemistasi virheistä.</source>
 <context>
     <name>TilausValintaSivu</name>
     <message>
-        <location filename="../tilaus/tilausvalintasivu.cpp" line="83"/>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="84"/>
         <source>Tilataksesi pilvitilaa useammalle kirjanpidolle valitse toinen paketti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilausvalintasivu.cpp" line="86"/>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="87"/>
         <source>Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.
-Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi</source>
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="88"/>
+        <source>Lisäkirjanpidoista laskutetaan jälkikäteen %1/kuukausi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8997,55 +9206,59 @@ Lisäkirjanpidoista laskutetaan jälkikäteen %2 € / kuukausi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="76"/>
-        <source>
-Paketin hintaan sisältyy %1 kirjanpitoa. Lisäkirjanpidoista laskutetaan jälkikäteen %L2 €/kk.</source>
+        <location filename="../tilaus/tilauswizard.cpp" line="77"/>
+        <source>Paketin hintaan sisältyy %1 kirjanpitoa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../tilaus/tilauswizard.cpp" line="79"/>
+        <source>Lisäkirjanpidoista laskutetaan jälkikäteen %1/kk.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tilaus/tilauswizard.cpp" line="81"/>
         <source>
 Voit tallentaa pilveen enintään %1 kirjanpitoa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="88"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="90"/>
         <source>
 
 Hinta %L1 € </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="90"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="92"/>
         <source>laskutettuna puolivuosittain
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="92"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="94"/>
         <source>laskutettuna vuosittain
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="99"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="101"/>
         <source>Ensimmäiseltä laskulta vähennetään nykyistä tilaustasi %L1€, jolloin maksettavaa jää %L2€.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="106"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="108"/>
         <source>
 Lasku toimitetaan sähköpostilla osoitteeseen %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="109"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="111"/>
         <source>
 Lasku toimitetaan verkkolaskuna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="112"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="114"/>
         <source>
 
 Laskun saajaksi merkitään
@@ -9053,45 +9266,45 @@ Laskun saajaksi merkitään
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="131"/>
-        <location filename="../tilaus/tilauswizard.cpp" line="233"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="133"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="235"/>
         <source>Verkkovirhe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="131"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="133"/>
         <source>Tilaustietojen hakeminen palvelimelta epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="142"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="144"/>
         <source>VIP-asiakas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="143"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="145"/>
         <source>Sinulla on voimassa oleva VIP-asiakkuus. 
 
 Muutokset tehdään asiakaspalvelun kautta.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="233"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="235"/>
         <source>Tilauksen lähettäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="242"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="244"/>
         <source>Kitsas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="242"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="244"/>
         <source>Tilauksesi on päivitetty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilaus/tilauswizard.cpp" line="252"/>
+        <location filename="../tilaus/tilauswizard.cpp" line="254"/>
         <source>Laskutustiedot</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9251,6 +9464,36 @@ Muutokset tehdään asiakaspalvelun kautta.</source>
     <message>
         <location filename="../tuonti/tilimuuntomodel.cpp" line="84"/>
         <source>Kirjataan tilille</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TiliTapahtumaHakuDialog</name>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitapahtumahaku.ui" line="14"/>
+        <source>Tilitapahtumien haku</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitapahtumahaku.ui" line="20"/>
+        <source>Voit hakea aiempia tilitapahtumia enintään viimeisimmän 90 päivän ajalta. 
+
+Jatkossa Kitsas hakee aina aamuöisin automaattisesti edellisen päivän tilitapahtumat.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitapahtumahaku.ui" line="47"/>
+        <source>Tili</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitapahtumahaku.ui" line="57"/>
+        <source>Alkupäivä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitapahtumahaku.ui" line="67"/>
+        <source>Loppupäivä</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -9820,7 +10063,7 @@ Tilikauden tositteita ei poisteta, mutta ne jäävät virheellisesti tilikausien
     <name>TilinPaattaja</name>
     <message>
         <location filename="../arkisto/tilinpaattaja.ui" line="14"/>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="127"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="128"/>
         <source>Tilinpäätöksen laatiminen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9830,213 +10073,219 @@ Tilikauden tositteita ei poisteta, mutta ne jäävät virheellisesti tilikausien
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="54"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="69"/>
+        <source>Tiliotteiden tiliöinti ei ole valmis. 
+Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../arkisto/tilinpaattaja.ui" line="101"/>
         <source>Puutteita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="63"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="110"/>
         <source>Valmistavat toimet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="74"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="121"/>
         <source>Kirjaa &amp;poistot...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="107"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="154"/>
         <source>Ei poistettavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="114"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="161"/>
         <source>Poistot kirjattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="136"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="183"/>
         <source>3. Tee jaksotukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="143"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="190"/>
         <source>4. Tee muut tarvittavat tilinpäätöskirjaukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="152"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="199"/>
         <source>Kirjaa &amp;jaksotukset...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="185"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="232"/>
         <source>Ei jaksotettavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="192"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="239"/>
         <source>Jaksotukset kirjattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="212"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="259"/>
         <source>Uusi tilikausi avattava ennen jaksotusten tekemistä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="236"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="283"/>
         <source>Kirjaa tulovero...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="266"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="313"/>
         <source>Ei verovelvollinen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="273"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="320"/>
         <source>Tulovero kirjattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="295"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="342"/>
         <source>6. Laske ja kirjaa yhteisön tulovero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="302"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="349"/>
         <source>2. Tee poistokirjaukset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="309"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="356"/>
         <source>1. Varmista, että kaikki tilikaudelle kuuluvat tositteet on kirjattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="316"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="363"/>
         <source>5. Tarkasta raportteja tutkimalla, että kaikki kirjaukset on tehty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="326"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="373"/>
         <source>Tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="332"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="379"/>
         <source>7. Lukitse kirjanpito ja muodosta arkisto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="341"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="388"/>
         <source>&amp;Lukitse kirjanpito ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="371"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="418"/>
         <source>Kirjanpito lukittu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="380"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="427"/>
         <source>8. Muodosta tilinpäätös ja kirjoita liitetiedot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="387"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="434"/>
         <source>&amp;Liitetiedot..</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="401"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="448"/>
         <source>9. Tulosta tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="413"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="460"/>
         <source>&amp;Tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="427"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="474"/>
         <source>Kirjanpito&amp;aineisto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="440"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="487"/>
         <source>10. Vahvista tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="450"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="497"/>
         <source>&amp;Vahvista ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="482"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="529"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="489"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="536"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.ui" line="509"/>
+        <location filename="../arkisto/tilinpaattaja.ui" line="556"/>
         <source>Sulje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="79"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="80"/>
         <source>Tilinpäätös tilikaudelle %1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="91"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="92"/>
         <source>&lt;p&gt;&lt;b&gt;Tilikausi on vielä kesken&lt;/b&gt;&lt;br&gt;Jatka tilinpäätösen laatimista vain, mikäli olet täysin varma siitä, että kaikki tilikaudelle kuuluvat kirjaukset on jo tehty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="99"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="100"/>
         <source>&lt;p&gt;&lt;b&gt;Arvonlisäilmoitusta ei ole annettu tilikauden loppuun saakka.&lt;/b&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="125"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="126"/>
         <source>&lt;p&gt;&lt;b&gt;Haluatko todella lukita tilikauden alla olevista varoituksista huolimatta: &lt;/b&gt;&lt;/p&gt; %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="141"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="142"/>
         <source>Tilikauden lukitseminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="142"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="143"/>
         <source>Haluatko muodostaa lukitusta tilikaudesta sähköisen arkiston?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="201"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="202"/>
         <source>Vahvista tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="202"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="203"/>
         <source>Onko tilinpäätös vahvistettu lopulliseksi?
 Vahvistettua tilinpäätöstä ei voi enää muokata.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="246"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="247"/>
         <source>Tuloverotus yrittäjän verotuksessa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkisto/tilinpaattaja.cpp" line="248"/>
+        <location filename="../arkisto/tilinpaattaja.cpp" line="249"/>
         <source>Ei verotettavaa tuloverossa</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10545,6 +10794,184 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</source>
     </message>
 </context>
 <context>
+    <name>Tilitieto::PankkiLokiModel</name>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="21"/>
+        <source>Noudettu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="22"/>
+        <source>Ajalta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="23"/>
+        <source>Tili</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="24"/>
+        <source>IBAN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="25"/>
+        <source>Tila</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="133"/>
+        <source>Onnistui</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="134"/>
+        <source>Kirjanpidosta ei löytynyt tiliä IBAN-numerolla</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="135"/>
+        <source>Ei tilitapahtumia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="136"/>
+        <source>Valtuutus vanhentunut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="137"/>
+        <source>Tiliote jo kirjanpidossa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="138"/>
+        <source>Epäonnistui virhetilanteen takia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="139"/>
+        <source>Päivittäinen tilitietojen hakukiintiö ylitetty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="140"/>
+        <source>Pankin palvelu ei käytössä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="141"/>
+        <source>Yhteysvirhe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/pankkilokimodel.cpp" line="142"/>
+        <source>Virhetilanne %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Tilitieto::TilitietoMaaritys</name>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="60"/>
+        <source>Tilitapahtumien hakeminen on maksullinen lisäpalvelu hintaan %1/kk (sis.alv).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="63"/>
+        <source>Voit kokeilla palvelua maksutta %1 päivän ajan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="65"/>
+        <source>Hakeminen on maksutonta vielä kokeilujakson ajan %1 saakka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="94"/>
+        <source>Valtuutus voimassa %1 saakka</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="125"/>
+        <source>Haettu %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="130"/>
+        <source>IBAN-numeroa ei tililuettelossa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="139"/>
+        <source>Uudista valtuutus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="146"/>
+        <source>Nouda tapahtumia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="151"/>
+        <source>Poista</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Tilitieto::UusiYhteysDialog</name>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteysdialog.cpp" line="58"/>
+        <source>Tilitapahtumien noutaminen pankista on maksullinen lisäpalvelu hintaan %1 kuukaudessa (sis.alv), mikä veloitetaan jälkikäteen.
+
+Palvelua voi ensin kokeilla maksutta %2 päivän ajan. Kokeilujakso alkaa ensimmäisestä onnistuneesta tilitapahtumien hakemisesta. Maksu on kirjanpitokohtainen, ja veloitetaan niiltä kuukausilta, jolloin tilitietoja on haettu onnistuneesti.
+
+Katso lisätietoja Kitsaan ohjeista!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteysdialog.cpp" line="107"/>
+        <source>Pankkiyhteyden lisääminen epäonnistui</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteysdialog.cpp" line="108"/>
+        <source>Pankkiyhteyden lisääminen epäonnistui. 
+
+Yritä myöhemmin uudelleen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TilitietoMaaritys</name>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="25"/>
+        <source>Tilitapahtumien hakeminen pankista</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="32"/>
+        <source>Tietoja haetaan, odota...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="51"/>
+        <source>Tilitapahtumat haetaan kerran vuorokaudessa PSD2-yhteydellä. Pankkiyhteyden lisäämiseen tarvitset pankkitunnuksia. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="61"/>
+        <source>Lisää pankkiyhteys...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmRivit</name>
     <message>
         <location filename="../apuri/tmrivit.cpp" line="41"/>
@@ -10707,6 +11134,11 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</source>
     <message>
         <location filename="../maaritys/toiminimimaaritys.cpp" line="187"/>
         <source>Haluatko todella poistaa aputoiminimen %1 ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/toiminimimaaritys.cpp" line="202"/>
+        <source>Kuvatiedostot (*.png *.jpg *.jpeg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -10980,7 +11412,7 @@ Haluatko silti lisätä tämän tiedoston?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../selaus/tositeselausmodel.cpp" line="267"/>
+        <location filename="../selaus/tositeselausmodel.cpp" line="268"/>
         <source>Lähettäminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11908,17 +12340,22 @@ Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusialkusivu.cpp" line="61"/>
-        <source>Luodaksesi enemmän kirjanpitoja pilveen sinun on ensin päivitettävä tilauksesi laajempaan.</source>
+        <location filename="../uusikirjanpito/uusialkusivu.cpp" line="62"/>
+        <source>Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusialkusivu.cpp" line="64"/>
+        <source>Luodaksesi enemmän kirjanpitoja pilveen sinun on ensin päivitettävä tilauksesi laajempaan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../uusikirjanpito/uusialkusivu.cpp" line="68"/>
         <source>Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista kirjanpitoa, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusialkusivu.cpp" line="67"/>
+        <location filename="../uusikirjanpito/uusialkusivu.cpp" line="71"/>
         <source>Päivitä tilauksesi</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12215,64 +12652,64 @@ Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</
 <context>
     <name>UusiVelho</name>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="97"/>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="105"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="99"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="107"/>
         <source>Tilikartan lukeminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="98"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="100"/>
         <source>Virheellinen tilikarttatiedosto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="105"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="107"/>
         <source>Tilikarttatiedostoa %1 ei voi avata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="223"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="236"/>
         <source>Harjoitus vai todellinen?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="233"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="246"/>
         <source>Tilikartta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="253"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="266"/>
         <source>Valitse tilikarttatiedoston</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="254"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="267"/>
         <source>Kitsaan tilikartta (*.kitsaskartta)</source>
         <comment>.kitsaskartta on tiedostopääte - älä käännä sitä</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="266"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="279"/>
         <source>Tositteiden numerointi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="275"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="288"/>
         <source>Huolehdi kirjanpitosi varmuuskopioinnista</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="282"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="295"/>
         <source>Vastuu kirjanpidosta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="289"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="302"/>
         <source>Valmis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../uusikirjanpito/uusivelho.cpp" line="294"/>
+        <location filename="../uusikirjanpito/uusivelho.cpp" line="307"/>
         <source>&lt;p&gt;Kirjanpitosi tallennetaan tietokoneellesi hakemistoon &lt;tt&gt;%1&lt;/tt&gt; tiedostoon &lt;tt&gt;%2&lt;/tt&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Muista tiedostosi sijainti&lt;/b&gt;, jotta pystyt avaamaan sen myöhemmin.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Huolehdi jatkuvasti tämän tiedoston varmuuskopioinnista!&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12287,6 +12724,76 @@ Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</
     <message>
         <location filename="../uusikirjanpito/uusivastuu.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Olet itse vastuussa kirjanpitosi oikeellisuudesta ja laillisuudesta sekä siitä, että kaikki verot maksetaan asianmukaisesti.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ohjelmalla ei ole mitään takuuta.&lt;/span&gt; Kitsas Oy ei myöskään anna oikeudellista neuvontaa kirjanpidosta tai verotuksesta.&lt;/p&gt;&lt;p&gt;Käänny tarvittaessa kirjanpidon ammattilaisen puoleen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Uusiyhteys</name>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="14"/>
+        <source>Pankkiyhteys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="32"/>
+        <source>Valitse pankki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="45"/>
+        <source>Osuuspankin asiakkaiden on erikseen pyydettävä pankin asiakaspalvelusta PSD2-käyttöoikeuksia, katso tarkemmin ohjeista.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="78"/>
+        <source>Hyväksy valtuutus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="85"/>
+        <source>Siirry alla olevaa osoitetta napsauttamalla antamaan valtuutus tilitapahtumien hakemiselle:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="101"/>
+        <source>osoite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="127"/>
+        <source>Sinut ohjataan oman pankkisi palveluun vahvistamaan lupa verkkopankkitunnuksillasi. 
+
+Kun olet antanut valtuutuksen, paina Valmis.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="165"/>
+        <source>Maksullinen lisäpalvelu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="182"/>
+        <source>Otan käyttöön palvelun, joka on kokeilujakson jälkeen maksullinen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="208"/>
+        <source>Ohje</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="232"/>
+        <source>Seuraava</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="243"/>
+        <source>Valmis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/tilitieto/uusiyhteys.ui" line="254"/>
+        <source>Sulje</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

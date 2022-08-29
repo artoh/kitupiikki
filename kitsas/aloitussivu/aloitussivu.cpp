@@ -1051,7 +1051,7 @@ QString AloitusSivu::vinkit()
                 vinkki.append(taulu("vinkki", tr("Aika laatia tilinpäätös tilikaudelle %1").arg(kausi.kausivaliTekstina()),
                                     kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA ?
                                          tr("Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen tilinpäätös")
-                                       : tr("Viimeistele ja vahvista <a href=ktp:/arkisto>tilinpäätös"),
+                                       : tr("Viimeistele ja vahvista tilinpäätös"),
                                     "ktp:/tilinpaatos", "kansiot.png","tilikaudet/tilinpaatos/"));
             }
         }
