@@ -88,7 +88,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDate &loppuu, int tili)
 {
 
-    QString tilistr = tili ? QString(" AND tili=%1").arg(tili) : "";
+    QString tilistr = tili > 0 ? QString(" AND tili=%1").arg(tili) : "";
 
     QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, "
                     "selite, vienti.kohdennus as kohdennus, eraid, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
@@ -98,7 +98,7 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
                     "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=kumppani.id "
                     "LEFT OUTER JOIN (SELECT tosite, COUNT(id) AS liitteita FROM Liite GROUP BY tosite) AS lq ON Tosite.id=lq.tosite "
                     "WHERE tila >= 100 AND Vienti.pvm BETWEEN '%1' AND '%2' %3 ORDER BY pvm")
-            .arg(alkaa.toString(Qt::ISODate), loppuu.toString(Qt::ISODate), tilistr);
+            .arg(alkaa.toString(Qt::ISODate), loppuu.toString(Qt::ISODate), tilistr);    
 
     beginResetModel();
 
