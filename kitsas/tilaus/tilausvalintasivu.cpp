@@ -100,7 +100,7 @@ void TilausValintaSivu::paivita()
         ui->lisahinta->setText( tr("%L1 € / kpl").arg( ( pilvihinta ),0,'f',2));
 
     }
-    ui->lisahintaInfo->setText(tr("Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.").arg( vakiokoko_ * pilviayht,0,'f',1 ));
+    ui->lisahintaInfo->setText(tr("Lisähintaa voidaan periä, jos kirjanpidon koko ylittää %L1 Gt.").arg( vakiokoko_ ,0,'f',1 ));
 
 
     if( palautus_ > 1.00)
