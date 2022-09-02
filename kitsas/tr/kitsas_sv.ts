@@ -9547,8 +9547,12 @@ För tilläggsbokföringar faktureras %2 € / månad i efterskott</translation>
     </message>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="103"/>
+        <source>Lisähintaa voidaan periä, jos kirjanpidon koko ylittää %L1 Gt.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.</source>
-        <translation>En tilläggsavgift kan uppbäras om bokföringarnas totala storlek överstiger %L1 Gb.</translation>
+        <translation type="vanished">En tilläggsavgift kan uppbäras om bokföringarnas totala storlek överstiger %L1 Gb.</translation>
     </message>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="107"/>

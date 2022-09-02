@@ -9182,7 +9182,7 @@ Ilmoitathan kaikista havaitsemistasi virheistä.</source>
     </message>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="103"/>
-        <source>Lisähintaa voidaan periä, jos kirjanpitojen yhteiskoko ylittää %L1 Gt.</source>
+        <source>Lisähintaa voidaan periä, jos kirjanpidon koko ylittää %L1 Gt.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
