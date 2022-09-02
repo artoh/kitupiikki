@@ -95,7 +95,7 @@ void IlmoitinTuottaja::tositeSaapuu(QVariant *data)
         if( filename.isEmpty())
             return;
         QFileInfo info(filename);
-        kp()->settings()->setValue("IlmoitinHakemisto", info.absoluteDir().dirName());
+        kp()->settings()->setValue("IlmoitinHakemisto", info.absoluteDir().absolutePath());
 
         QFile file(filename);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
