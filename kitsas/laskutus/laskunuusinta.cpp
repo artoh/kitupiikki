@@ -107,7 +107,12 @@ void LaskunUusinta::uusittavaLadattu()
     uusi_->asetaLaskupvm( kp()->paivamaara() );
     uusi_->lasku().setLaskunpaiva( kp()->paivamaara() );
     uusi_->lasku().setToimituspvm( lasku.jaksopvm().addDays(1) );
-    uusi_->lasku().setJaksopvm( lasku.jaksopvm().addMonths( lasku.toistoJaksoPituus() ) );
+    QDate jaksonpaiva = lasku.jaksopvm().addMonths( lasku.toistoJaksoPituus() );
+    if( lasku.jaksopvm().day() == lasku.jaksopvm().daysInMonth()) {
+        // #1206 Tasakuukaudet kun jakso kuukauden loppuun (riippumatta kuukauden pituudesta)
+        jaksonpaiva.setDate( jaksonpaiva.year(), jaksonpaiva.month(), jaksonpaiva.daysInMonth() );
+    }
+    uusi_->lasku().setJaksopvm( jaksonpaiva );
 
     if( uusi_->lasku().jaksopvm() <= lasku.toistoLoppuu() ||
             !lasku.toistoLoppuu().isValid() ) {
