@@ -141,6 +141,7 @@ SOURCES += \
     $$PWD/maaritys/toiminimimaaritys.cpp \
     $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
+    $$PWD/maaritys/verkkolasku/finvoicevelho.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/model/bannermodel.cpp \
@@ -533,6 +534,7 @@ HEADERS += \
     $$PWD/maaritys/toiminimimaaritys.h \
     $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
+    $$PWD/maaritys/verkkolasku/finvoicevelho.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/model/bannermodel.h \
@@ -838,6 +840,10 @@ FORMS += \
     $$PWD/maaritys/toiminimimaaritys.ui \
     $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
+    $$PWD/maaritys/verkkolasku/finvoicevelhoalku.ui \
+    $$PWD/maaritys/verkkolasku/finvoicevelhoemail.ui \
+    $$PWD/maaritys/verkkolasku/finvoicevelhotiedot.ui \
+    $$PWD/maaritys/verkkolasku/finvoicevelhovalmis.ui \
     $$PWD/maaritys/verkkolasku/maventa.ui \
     $$PWD/maaritys/verkkolasku/verkkolasku.ui \
     $$PWD/maaritys/veromaaritys.ui \

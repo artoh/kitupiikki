@@ -26,7 +26,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include "kierto/kiertomodel.h"
+#include "finvoicevelho.h"
+
 #include "maventadialog.h"
 #include "tools/finvoicehaku.h"
 
@@ -35,6 +36,8 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     ui(new Ui::Finvoicevalinnat)
 {
     ui->setupUi(this);
+
+    ui->velhoNappi->setEnabled(false);
 
     connect( ui->eiKaytossa, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
     connect( ui->paikallinen, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
@@ -48,6 +51,7 @@ VerkkolaskuMaaritys::VerkkolaskuMaaritys() :
     connect( ui->postitusCheck, &QCheckBox::clicked, [this] { emit this->tallennaKaytossa(this->onkoMuokattu());});
     connect( ui->noudaNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::noudaNyt);
     connect( ui->suosiCheck, &QPushButton::clicked, this, &VerkkolaskuMaaritys::valintaMuuttui);
+    connect( ui->velhoNappi, &QPushButton::clicked, this, &VerkkolaskuMaaritys::velho);
 }
 
 VerkkolaskuMaaritys::~VerkkolaskuMaaritys()
@@ -98,6 +102,8 @@ bool VerkkolaskuMaaritys::tallenna()
 
 bool VerkkolaskuMaaritys::nollaa()
 {
+    paivitaMaventa();
+
     int verkkolasku = kp()->asetukset()->luku("FinvoiceKaytossa");
 
     ui->integroitu->setEnabled( qobject_cast<PilviModel*>(kp()->yhteysModel()) ||
@@ -172,13 +178,12 @@ void VerkkolaskuMaaritys::valitseKansio()
 
 void VerkkolaskuMaaritys::valintaMuuttui()
 {
-    ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
-    ui->maventaGroup->setVisible( ui->integroitu->isChecked());
-    ui->suosiCheck->setEnabled( !ui->eiKaytossa->isChecked() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
 
-    if( ui->integroitu->isChecked()) {
-        paivitaMaventa();
-    }
+    ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());
+    ui->kaytossaGroup->setVisible( !ui->eiKaytossa->isChecked() || !maventaInfo_.contains("availability"));
+    ui->osoiteGroup->setVisible( !ui->eiKaytossa->isChecked() );
+    ui->maventaGroup->setVisible( ui->integroitu->isChecked());
+    ui->suosiCheck->setVisible(!ui->eiKaytossa->isChecked() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
 
     if( !ui->eiKaytossa->isChecked() && ui->ovtEdit->text().isEmpty())
         ui->ovtEdit->setText("0037" + kp()->asetukset()->asetus(AsetusModel::Ytunnus).remove('-'));
@@ -199,38 +204,43 @@ void VerkkolaskuMaaritys::maaritaMaventa()
 
 void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
 {
-    QVariantMap info = data ? data->toMap() : QVariantMap();
-    qDebug() << info;
+    maventaInfo_ = data ? data->toMap() : QVariantMap();
+    qDebug() << maventaInfo_;
 
-    if( info.isEmpty()) {
+    ui->velhoGroup->setVisible( maventaInfo_.contains("availability") );
+    ui->velhoNappi->setEnabled(true);
+
+
+    if( maventaInfo_.isEmpty()) {
         ui->noutoCheck->setEnabled(false);
         ui->noudaNappi->setEnabled(false);
         ui->kayttajaLabel->setText(tr("Käyttäjää ei määritelty"));
     } else {
         QString txt = QString("%1 %2 \n%3")
-                .arg(info.value("user").toMap().value("first_name").toString())
-                .arg(info.value("user").toMap().value("last_name").toString())
-                .arg(info.value("company").toMap().value("name").toString());
+                .arg(maventaInfo_.value("user").toMap().value("first_name").toString())
+                .arg(maventaInfo_.value("user").toMap().value("last_name").toString())
+                .arg(maventaInfo_.value("company").toMap().value("name").toString());
 
-        if( info.value("send_invoice_print").toMap().value("enabled").toBool()) {
+        if( maventaInfo_.value("send_invoice_print").toMap().value("enabled").toBool()) {
             txt.append("\n\nTulostuspalvelu on käytössä.");
         } else {
             txt.append("\n\nTulostuspalvelu ei ole käytössä. Tulostat itse postitettavaksi merkittävät laskut.");
         }
 
-        QVariantMap virheviestit = info.value("invoice_notifications").toMap().value("on_send_errors").toMap();
+        QVariantMap virheviestit = maventaInfo_.value("invoice_notifications").toMap().value("on_send_errors").toMap();
         qDebug() << virheviestit;
         if( !virheviestit.value("to_user").toBool() && virheviestit.value("to_emails").isNull())
             txt.append(tr("\n\nEt saa ilmoitusta, jos laskun lähettäminen epäonnistuu. "
                           "Ota Maventan asetuksissa käyttöön Vastaanota ilmoituksia laskujen lähetysvirheistä."));
 
         ui->kayttajaLabel->setText(txt);
-        ui->noutoCheck->setChecked( !info.value("flow").toMap().isEmpty() );        
+        ui->noutoCheck->setChecked( !maventaInfo_.value("flow").toMap().isEmpty() );
         ui->noutoCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_LUONNOS) ||
                                     kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN));
         ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     }
+    valintaMuuttui();
 }
 
 void VerkkolaskuMaaritys::eiTietoja()
@@ -258,4 +268,21 @@ void VerkkolaskuMaaritys::noudaNyt()
     } else {
         FinvoiceHaku::instanssi()->haeUudet();
     }
+}
+
+void VerkkolaskuMaaritys::velho()
+{
+    FinvoiceVelho velho(this);
+
+    velho.kitsasKaytossa( maventaInfo_.value("availability").toString() == "FREE");
+
+    velho.exec();
+
+    if( velho.field("paikallinen").toBool()) {
+        ui->paikallinen->setChecked(true);
+    } else if( velho.field("maventa").toBool()) {
+        ui->integroitu->setChecked(true);
+        maaritaMaventa();
+    }
+    valintaMuuttui();
 }

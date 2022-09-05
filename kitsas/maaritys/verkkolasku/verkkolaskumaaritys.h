@@ -18,6 +18,7 @@
 #define VERKKOLASKUMAARITYS_H
 
 #include "../maarityswidget.h"
+#include <QVariant>
 
 namespace Ui {
     class Finvoicevalinnat;
@@ -51,9 +52,11 @@ protected:
     void eiTietoja();
     void setFlow(bool on);
     void noudaNyt();
+    void velho();
 
 private:
     Ui::Finvoicevalinnat *ui;
+    QVariantMap maventaInfo_;
 };
 
 #endif // VERKKOLASKUMAARITYS_H

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FinvoiceVelhoAlku</class>
+ <widget class="QWidget" name="FinvoiceVelhoAlku">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>561</width>
+    <height>375</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QRadioButton" name="kitsasRadio">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Uusi verkkolaskutili</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="uusiLabel">
+     <property name="text">
+      <string>Ota käyttöön Kitsaan integroitu verkkolaskutus.
+Kitsas Oy laskuttaa lähetetyistä ja vastaanotetuista verkkolaskuista &lt;a href=&quot;https://kitsas.fi/hinnat&quot;&gt;hinnastonsa&lt;/a&gt; mukaisesti. Verkkolaskupalvelun tuottaa Maventa.</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="onjoLabel">
+     <property name="text">
+      <string>Yritykselläsi on jo Maventan verkkolaskutunnukset, joten et voi luoda uutta verkkolaskutiliä.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="maventaRadio">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Olemassa oleva Maventan verkkolaskutili</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Integroitu verkkolaskutus olemassa olevia Maventan tunnuksen käyttäen.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="tiedostoRadio">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Verkkolaskujen muodostaminen tiedostoon</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Huolehdit itse Kitsaan tiedostoon muodostaman aineiston toimittamisesta verkkolaskuoperaattorille.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
