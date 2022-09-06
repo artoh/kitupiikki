@@ -30,6 +30,9 @@ public:
     MaventaDialog(QWidget *parent = nullptr);
 
     void accept() override;
+    void lataa(const QVariantMap& data);
+
+    static QVariantMap settingsAsetuksista();
 
 signals:
     void liitetty(QVariant* info);

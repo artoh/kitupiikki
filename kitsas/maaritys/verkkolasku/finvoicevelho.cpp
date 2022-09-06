@@ -91,6 +91,8 @@ FinvoiceVelho::TiedotSivu::TiedotSivu() :
                               tnimi->tieto(ToiminimiModel::Postinumero) + " " +
                               tnimi->tieto(ToiminimiModel::Kaupunki));
     ui->kotipaikkaLabel->setText( kp()->asetukset()->asetus(AsetusModel::Kotipaikka) );
+    ui->emailLabel->setText( tnimi->tieto(ToiminimiModel::Sahkoposti) );
+    ui->kotisivuLabel->setText( tnimi->tieto(ToiminimiModel::Kotisivu));
 }
 
 FinvoiceVelho::TiedotSivu::~TiedotSivu()
@@ -103,16 +105,12 @@ FinvoiceVelho::EmailSivu::EmailSivu() :
 {
     ui->setupUi(this);
 
-    setTitle( FinvoiceVelho::tr("Sähköpostiosoitteet"));
-    setSubTitle(FinvoiceVelho::tr("Anna sähköpostiosoitteet yhteydenottoa ja sähköistä allekirjoitusta varten"));
+    setTitle( FinvoiceVelho::tr("Sähköinen allekirjoitus"));
+    setSubTitle(FinvoiceVelho::tr("Anna sähköpostiosoite sähköistä allekirjoitusta varten"));
 
-    registerField("yhteys*", ui->emailEdit);
     registerField("auth*", ui->authemail);
 
-    ui->emailEdit->setText( kp()->toiminimet()->tieto(ToiminimiModel::Sahkoposti) );
-
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
-    ui->emailEdit->setValidator( new QRegularExpressionValidator(emailRe, this) );
     ui->authemail->setValidator(new QRegularExpressionValidator(emailRe, this));
 
 }

@@ -17,23 +17,13 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Yhteyssähköpostiosoite</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="emailEdit"/>
-     </item>
-     <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Allekirjoittajan sähköpostiosoite</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="0" column="1">
       <widget class="QLineEdit" name="authemail"/>
      </item>
     </layout>
@@ -41,7 +31,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Ennen verkkolaskujen lähettämistä ja vastaanottamista pitää verkkolaskutili vahvistaa sähköisellä VismaSign-allekirjoituksella. Allekirjoittajalla on oltava nimenkirjoitusoikeus organisaatiossa.
+      <string>Ennen verkkolaskujen lähettämistä ja vastaanottamista pitää verkkolaskutili vahvistaa sähköisellä allekirjoituksella. Allekirjoittajalla on oltava nimenkirjoitusoikeus organisaatiossa.
 Ohjeet lähetetään allekirjoittajalle sähköpostissa.</string>
      </property>
      <property name="wordWrap">

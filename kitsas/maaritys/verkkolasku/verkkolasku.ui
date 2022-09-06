@@ -39,6 +39,16 @@ font-weight: bold;</string>
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="odotaLabel">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 0);</string>
+     </property>
+     <property name="text">
+      <string>Odota, tietoja haetaan ...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="velhoGroup">
      <property name="title">
       <string>Ota käyttöön</string>

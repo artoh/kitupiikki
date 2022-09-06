@@ -103,6 +103,7 @@ bool VerkkolaskuMaaritys::tallenna()
 bool VerkkolaskuMaaritys::nollaa()
 {
     paivitaMaventa();
+    ui->odotaLabel->setVisible(true);
 
     int verkkolasku = kp()->asetukset()->luku("FinvoiceKaytossa");
 
@@ -143,7 +144,8 @@ bool VerkkolaskuMaaritys::nollaa()
     ui->kirjauduLabel->setVisible( !kp()->pilvi()->kayttajaPilvessa() );
 
     if( !kp()->pilvi()->kayttajaPilvessa() || puuttuu)
-    {        
+    {
+        ui->velhoGroup->setEnabled(false);
         ui->kaytossaGroup->setEnabled(false);
         ui->hakemistoGroup->setEnabled(false);
         ui->maventaGroup->setEnabled(false);
@@ -197,6 +199,7 @@ void VerkkolaskuMaaritys::maaritaMaventa()
 {
     MaventaDialog *dlg = new MaventaDialog(this);
     connect( dlg, &MaventaDialog::liitetty, this, &VerkkolaskuMaaritys::maventaTiedot);
+    dlg->lataa(maventaInfo_);
     dlg->exec();
     dlg->deleteLater();
 
@@ -240,6 +243,7 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         ui->postitusCheck->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
     }
+    ui->odotaLabel->setVisible(false);
     valintaMuuttui();
 }
 

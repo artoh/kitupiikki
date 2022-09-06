@@ -85,6 +85,17 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="activeBox">
+         <property name="text">
+          <string>Nouda  saapuneet verkkolaskut automaattisesti</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../pic/pic.qrc">
+           <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -130,6 +141,13 @@
          <item row="1" column="1">
           <widget class="QLineEdit" name="virheEmail"/>
          </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="emailKayttajalleBox">
+           <property name="text">
+            <string>Myös käyttäjän sähköpostiin</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -160,6 +178,13 @@
         <widget class="QCheckBox" name="tulostusCheck">
          <property name="text">
           <string>Tulostus- ja postituspalvelu käytössä</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kaytaPostitustaCheck">
+         <property name="text">
+          <string>Toimita postitettavaksi valitut laskut postituspalvelua käyttäen</string>
          </property>
         </widget>
        </item>
@@ -256,8 +281,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -272,12 +297,28 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>463</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tulostusCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kaytaPostitustaCheck</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>263</x>
+     <y>60</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>393</x>
+     <y>85</y>
     </hint>
    </hints>
   </connection>
