@@ -60,7 +60,7 @@ void LaskunUusinta::listaSaapuu(QVariant *lista)
         (!kp()->tilikaudet()->onkoTilikautta( kp()->paivamaara())
             || kp()->tilitpaatetty() >= kp()->paivamaara() ) ) {
         QMessageBox::warning(nullptr, tr("Laskuja ei voitu uusia"),
-            tr("Laskuja ei uusia, koska nykyiselle päivälle ei ole avointa tilikautta.\n"
+            tr("Toistuvia laskuja ei voitu uusia, koska nykyiselle päivälle ei ole avointa tilikautta.\n"
                "Avaa tilikausi ja käynnistä ohjelma uudelleen, jotta laskut voidaan uusia."));
         return;
     }
