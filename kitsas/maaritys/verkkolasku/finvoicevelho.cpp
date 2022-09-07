@@ -8,6 +8,7 @@
 
 #include "db/kirjanpito.h"
 #include "model/toiminimimodel.h"
+#include "pilvi/pilvimodel.h"
 
 #include <QTimer>
 #include <QRegularExpression>
@@ -58,11 +59,14 @@ void FinvoiceVelho::Alkusivu::kitsasKaytossa(bool onko)
 
 void FinvoiceVelho::Alkusivu::initializePage()
 {
-    ui->kitsasRadio->setEnabled( kitsasKaytossa_);
-    ui->uusiLabel->setVisible(kitsasKaytossa_);
+    const bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+
+    ui->kitsasRadio->setEnabled( kitsasKaytossa_ && pilvessa);
+    ui->uusiLabel->setVisible(kitsasKaytossa_ && pilvessa);
     ui->onjoLabel->setVisible( !kitsasKaytossa_);
+    ui->eiPilviLabel->setVisible(!pilvessa);
     ui->kitsasRadio->setChecked( kitsasKaytossa_);
-    ui->maventaRadio->setChecked( !kitsasKaytossa_ );
+    ui->maventaRadio->setChecked( !kitsasKaytossa_ || !pilvessa);
 }
 
 bool FinvoiceVelho::Alkusivu::validatePage()
@@ -108,7 +112,7 @@ FinvoiceVelho::EmailSivu::EmailSivu() :
     setTitle( FinvoiceVelho::tr("Sähköinen allekirjoitus"));
     setSubTitle(FinvoiceVelho::tr("Anna sähköpostiosoite sähköistä allekirjoitusta varten"));
 
-    registerField("auth*", ui->authemail);
+    registerField("auth*", ui->authemail);    
 
     QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
     ui->authemail->setValidator(new QRegularExpressionValidator(emailRe, this));
@@ -120,6 +124,11 @@ FinvoiceVelho::EmailSivu::~EmailSivu()
     delete ui;
 }
 
+void FinvoiceVelho::EmailSivu::initializePage()
+{
+    ui->authemail->setText( kp()->asetukset()->asetus(AsetusModel::Email) );
+}
+
 FinvoiceVelho::ValmisSivu::ValmisSivu() :
     ui( new Ui::FinvoiceVelhoValmis)
 {
@@ -128,7 +137,10 @@ FinvoiceVelho::ValmisSivu::ValmisSivu() :
     setTitle(FinvoiceVelho::tr("Viimeistele käyttöönotto"));
     setSubTitle(FinvoiceVelho::tr("Verkkolaskutus valmis käyttöön otettavaksi"));
 
+    registerField("saapunut", ui->ilmoitus);
+    registerField("virhe", ui->virhemail);
     registerField("postitus", ui->postiCheck);
+
 }
 
 FinvoiceVelho::ValmisSivu::~ValmisSivu()

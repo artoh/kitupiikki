@@ -53,6 +53,7 @@ void MaventaDialog::accept()
     map.insert("clientid", ui->uuid->text().trimmed());
     map.insert("kitsasbilling", ui->kitsasLaskuButton->isChecked() && pilvessa);
     map.insert("active", ui->activeBox->isChecked());
+    map.insert("name", kp()->asetukset()->nimi());
 
     QVariantMap settings = settingsAsetuksista();
     QVariantMap notifications;
@@ -110,7 +111,10 @@ void MaventaDialog::lataa(const QVariantMap &data)
     QVariantMap book = data.value("book").toMap();
 
     ui->api->setText( book.value("apikey").toString() );
+    ui->api->setEnabled( !book.value("kitsasuser").toBool() );
+
     ui->uuid->setText( book.value("company").toString());
+    ui->uuid->setEnabled( !book.value("companybykitsas").toBool() );
 
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
     bool kitsaslasku = book.value("kitsasbilling").toBool() && pilvessa;

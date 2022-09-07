@@ -31,7 +31,7 @@ font-weight: bold;</string>
       <string notr="true">background-color: rgb(255, 255, 0);</string>
      </property>
      <property name="text">
-      <string>Yhteystietosi ovat puutteelliset. Et voi muodostaa verkkolaskuja, ellei osoitetta ja kotipaikkaa ole määritelty.</string>
+      <string>Yhteystietosi ovat puutteelliset. Et voi muodostaa verkkolaskuja, ellei osoitetta, sähköpostiosoitetta, y-tunnusta ja kotipaikkaa ole määritelty.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -41,7 +41,7 @@ font-weight: bold;</string>
    <item>
     <widget class="QLabel" name="odotaLabel">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 0);</string>
+      <string notr="true">font: 16pt &quot;Sans Serif&quot;;</string>
      </property>
      <property name="text">
       <string>Odota, tietoja haetaan ...</string>
@@ -221,42 +221,37 @@ font-weight: bold;</string>
      <property name="title">
       <string>Maventa-verkkolasku</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,3,1">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
-        <item>
-         <widget class="QLabel" name="kayttajaLabel">
-          <property name="text">
-           <string>Noudetaan verkkolaskun käyttäjätietoja...</string>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
+       <widget class="QLabel" name="maventaOk">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../../pic/pic.qrc">:/pic/ok.png</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="maventaInfo">
+        <property name="text">
+         <string>Noudetaan verkkolaskun käyttäjätietoja...</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="ivAsetusNappi">
           <property name="text">
-           <string>Määritä</string>
+           <string>Asetukset...</string>
           </property>
           <property name="icon">
            <iconset resource="../../pic/pic.qrc">
             <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
-        <item>
-         <widget class="QCheckBox" name="noutoCheck">
-          <property name="text">
-           <string>Nouda saapuneet laskut</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../pic/pic.qrc">
-            <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
           </property>
          </widget>
         </item>
@@ -272,17 +267,6 @@ font-weight: bold;</string>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="postitusCheck">
-        <property name="text">
-         <string>Paperilaskujen postitus Maventan kautta</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../pic/pic.qrc">
-          <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>

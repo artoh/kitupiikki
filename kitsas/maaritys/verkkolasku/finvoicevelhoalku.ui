@@ -54,6 +54,13 @@ Kitsas Oy laskuttaa lähetetyistä ja vastaanotetuista verkkolaskuista &lt;a hre
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="eiPilviLabel">
+     <property name="text">
+      <string>Kitsaalla voi luoda verkkolaskutilin vain pilveen tallennetuille kirjanpidoille.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QRadioButton" name="maventaRadio">
      <property name="font">
       <font>

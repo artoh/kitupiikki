@@ -35,18 +35,18 @@ Yrityksesi liitetään myös pankkiverkkoon ja verkkolaskuosoitteistoon niin, et
      </property>
      <property name="icon">
       <iconset resource="../../pic/pic.qrc">
-       <normaloff>:/pic/inbox.png</normaloff>:/pic/inbox.png</iconset>
+       <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="virhemail">
      <property name="text">
-      <string>Sähköposti-ilmoitus virheistä</string>
+      <string>Sähköposti-ilmoitus virheistä laskua lähetettäessä</string>
      </property>
      <property name="icon">
       <iconset resource="../../pic/pic.qrc">
-       <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+       <normaloff>:/pic/piilotettu.png</normaloff>:/pic/piilotettu.png</iconset>
      </property>
     </widget>
    </item>

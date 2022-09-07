@@ -50,6 +50,8 @@ protected:
     public:
         EmailSivu();
         ~EmailSivu();
+
+        void initializePage() override;
     protected:
         Ui::FinvoiceVelhoEmail *ui;
     };
