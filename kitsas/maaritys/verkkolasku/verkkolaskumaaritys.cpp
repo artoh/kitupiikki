@@ -211,13 +211,26 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
     QVariantMap book = maventaInfo_.value("book").toMap();
     QVariantMap company = maventaInfo_.value("company").toMap();
     QVariantMap user = maventaInfo_.value("user").toMap();
-    QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();
+    QVariantList profiles = maventaInfo_.value("profiles").toList();
+
 
     qDebug() << QJsonDocument::fromVariant(maventaInfo_).toJson(QJsonDocument::Compact);
 
-    const QString companyState = company.value("company_state").toString();
-    ui->maventaOk->setVisible( book.value("active").toBool() && companyState == "VERIFIED");
-    ui->noudaNappi->setEnabled( companyState == "VERIFIED" || companyState == "UNKNOWN");
+
+    QString invoiceProfileStatus;
+    for(const auto& profile : profiles) {
+        QVariantMap map = profile.toMap();
+        const QString profileName = map.value("profile").toString();
+        if( profileName == "INVOICE" || profileName == "INVOICE_AND_CREDIT_NOTE") {
+            invoiceProfileStatus = map.value("status").toString();
+        }
+    }
+
+    const bool profileOk = invoiceProfileStatus == "active";
+
+    ui->maventaOk->setVisible( book.value("active").toBool() && profileOk);
+    ui->virheLabel->setVisible( !profileOk );
+    ui->noudaNappi->setEnabled(  profileOk );
 
     valintaMuuttui();
     ui->odotaLabel->setVisible(false);
@@ -229,13 +242,33 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
             ui->maventaInfo->setText(tr("Yritykselläsi on jo Maventan verkkolaskutili"));
         }
         return;
+    } else if( !profileOk ) {
+        QVariantMap status = maventaInfo_.value("status").toMap();
+        const QString authState = status.value("auth_state").toString();
+        const QString authEmail = status.value("auth_email").toString();
+
+        if( authState == "PENDING") {
+            ui->maventaInfo->setText( tr("Käyttöönottoon tarvittava allekirjoituspyyntö lähetetään pian sähköpostiosoitteeseen %1").arg(authEmail));
+        } else if( authState == "SENT") {
+            ui->maventaInfo->setText( tr("Käyttöönottoon tarvittava allekirjoituspyyntö on lähetetty sähköpostiosoitteeseen %1").arg(authEmail));
+        } else if( authState == "CANCELED") {
+            ui->maventaInfo->setText( tr("Sähköinen allekirjoituspyyntö on peruttu") );
+        } else if( authState == "NONE") {
+            ui->maventaInfo->setText( tr("Käyttöönottoa ei ole vahvistettu sähköisellä allekirjoituksella"));
+        } else if( invoiceProfileStatus == "pending" ) {
+            ui->maventaInfo->setText( tr("Verkkolaskuosoitteesi rekisteröinti on kesken. Tämä voi kestää muutaman arkipäivän."));
+        } else if( invoiceProfileStatus == "error") {
+            ui->maventaInfo->setText( tr("Verkkolaskuosoitteen rekisteröinnissä on tapahtunut virhe."));
+        }
+
+        return;
     }
+
+    QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();
 
     ui->maventaInfo->setText(company.value("name").toString() + "\n" +
             ( book.value("kitsasuser").toBool() ? "" : user.value("first_name").toString() + " " + user.value("last_name").toString() + "\n") + "\n" +
             ( book.value("kitsasbilling").toBool() ? tr("Verkkolaskujen hinnoittelu Kitsaan hinnaston mukaan.") : tr("Verkkolaskujen hinnoittelu Maventan hinnaston mukaan.") ) + "\n" +
-            ( companyState == "UNVERIFIED" ? ( tr("Verkkolaskutuksen käyttöönotto on vahvistettava vielä sähköisellä allekirjoituksella.\n"
-                                                  "Vahvistuspyynnön allekirjoittamisen jälkeen voi kestää vielä muutama tunti ennen kuin allekirjoitus näkyy Kitsaalle.\n")) : "" ) +
             ( book.value("active").toBool() ? tr("Verkkolaskujen nouto on käytössä") : tr("Verkkolaskujen automaattista noutoa ei ole otettu käyttöön") ) + "\n" +
             ( (print.value("enabled").toBool() && kp()->asetukset()->onko("MaventaPostitus")) ? tr("Postitettavien laskujen tulostus ja postitus Maventan kautta käytössä") : tr("Tulostuspalvelu ei ole käytössä") ) );
 }
