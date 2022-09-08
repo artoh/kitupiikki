@@ -176,7 +176,7 @@ void VerkkolaskuMaaritys::valintaMuuttui()
 {
     ui->odotaLabel->setVisible( maventaInfo_.isEmpty() );
     ui->velhoGroup->setVisible( maventaInfo_.contains("availability") || maventaInfo_.value("company").toMap().value("company_state").toString() == "UNVERIFIED" );
-    ui->kaytossaGroup->setVisible(( !ui->eiKaytossa->isChecked() || !maventaInfo_.contains("availability")) && !maventaInfo_.isEmpty());
+    ui->kaytossaGroup->setVisible( !ui->eiKaytossa->isChecked() && !maventaInfo_.isEmpty() && !maventaInfo_.value("book").toMap().value("active").toBool() );
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());    
     ui->osoiteGroup->setVisible( !ui->eiKaytossa->isChecked() );
     ui->maventaGroup->setVisible( (ui->eiKaytossa->isChecked() && maventaInfo_.value("company").toMap().value("company_state").toString() == "UNVERIFIED" )
@@ -223,6 +223,17 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         const QString profileName = map.value("profile").toString();
         if( profileName == "INVOICE" || profileName == "INVOICE_AND_CREDIT_NOTE") {
             invoiceProfileStatus = map.value("status").toString();
+            if( invoiceProfileStatus == "active") {
+                // Haetaan automaattisesti verkkolaskuosoitteen tiedot
+                ui->ovtEdit->setText( map.value("endpoint_id").toString() );
+                ui->ovtEdit->setReadOnly(true);
+                ui->operaattoriEdit->setText("003721291126");
+                ui->operaattoriEdit->setReadOnly(true);
+                if( onkoMuokattu() ) {
+                    tallenna();
+                    emit tallennaKaytossa(false);
+                }
+            }
         }
     }
 
