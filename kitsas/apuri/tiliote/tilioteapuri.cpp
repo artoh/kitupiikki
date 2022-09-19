@@ -275,6 +275,7 @@ void TilioteApuri::naytaTosite()
         return;
 
     LisaIkkuna* ikkuna = new LisaIkkuna;
+
     if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
         ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
     } else {
@@ -324,6 +325,7 @@ void TilioteApuri::naytaTosite()
 
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
+        connect( sivu->kirjausWg(), &KirjausWg::tositeKasitelty, ikkuna, &LisaIkkuna::close);
     }
     qDebug() << " naytaTositeLoppu ";
 }
