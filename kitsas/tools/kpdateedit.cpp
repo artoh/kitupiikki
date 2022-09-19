@@ -327,6 +327,10 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
         else if( 5 < pos)
             setDate( date().addYears(-1));
     }
+    else if( event->key() == Qt::Key_Space) {
+        setCursorPosition(pos + 1);
+        return;
+    }
 
     if( text().isEmpty() && event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9 ) {
         QString oletusteksti = oletuspaiva_.toString("dd.MM.yyyy");

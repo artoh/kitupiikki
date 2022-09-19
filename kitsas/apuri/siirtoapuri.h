@@ -22,6 +22,7 @@
 #include <QVariantMap>
 #include "model/euro.h"
 #include "model/eramap.h"
+#include "model/tositevienti.h"
 
 namespace Ui {
 class SiirtoApuri;
@@ -37,12 +38,13 @@ public:
 
 
     void otaFokus() override;    
+    void laskuMaksettu(QList<TositeVienti> viennit);
 
 private slots:
     void tililtaMuuttui();
     void tililleMuuttui();
     void eraValittu(bool debet, EraMap era);
-    void laskunmaksu();
+    void laskunmaksu();    
 
 protected:
     bool teeTositteelle() override;

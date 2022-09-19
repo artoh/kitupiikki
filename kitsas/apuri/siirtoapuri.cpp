@@ -357,26 +357,28 @@ void SiirtoApuri::eraValittu(bool debet, EraMap era)
 
 void SiirtoApuri::laskunmaksu()
 {
-    TilioteKirjaaja kirjaaja(this);
-    if( kirjaaja.exec() == QDialog::Accepted) {        
-        // Tehdään jotain vientilistalla ???
-        QVariantList lista;
-        for(const auto& item : kirjaaja.viennit()) {
-            lista.append(item);
-        }
-        TositeVienti eka = lista.at(0).toMap();        
-        tosite()->asetaPvm(eka.pvm());
-        tosite()->asetaOtsikko( eka.selite() );
-        if( eka.kreditEuro() )
-            lista.swapItemsAt(0,1);
-        tosite()->viennit()->asetaViennit(lista);
-        reset();
+    TilioteKirjaaja* kirjaaja = new TilioteKirjaaja(this);
+    kirjaaja->setAttribute(Qt::WA_DeleteOnClose);
 
-        if( ui->tililleEraCombo->eraMap().id())
-            haeAlkuperaistosite(true, ui->tililleEraCombo->eraMap().id());
-        else if(ui->tililtaEraCombo->eraMap().id())
-            haeAlkuperaistosite(false, ui->tililtaEraCombo->eraMap().id());
+    kirjaaja->show();
 
+}
+
+void SiirtoApuri::laskuMaksettu(QList<TositeVienti> viennit)
+{
+    TositeVienti eka = viennit.at(0);
+    tosite()->asetaPvm( eka.pvm() );
+    tosite()->asetaOtsikko( eka.selite());
+    if( eka.kreditEuro() ) {
+        viennit.swapItemsAt(0,1);
+    }
+    tosite()->viennit()->asetaViennit(viennit);
+    reset();
+
+    if( ui->tililleEraCombo->eraMap().id()) {
+        haeAlkuperaistosite(true, ui->tililleEraCombo->eraMap().id());
+    } else if( ui->tililtaEraCombo->eraMap().id()) {
+        haeAlkuperaistosite(false, ui->tililtaEraCombo->eraMap().id());
     }
 }
 

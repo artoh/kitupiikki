@@ -80,7 +80,11 @@ void TilioteKirjaaja::accept()
 {
     if( ui->okNappi->isEnabled() ) {
         if( !apuri()) {
-            QDialog::accept();
+            SiirtoApuri* siirto = qobject_cast<SiirtoApuri*>(parent());
+            if( siirto ) {
+                siirto->laskuMaksettu( viennit() );
+                QDialog::accept();
+            }
         } else {
             tallennaRivi();
             TilioteKirjausRivi tallennettavaRivi = tallennettava();
