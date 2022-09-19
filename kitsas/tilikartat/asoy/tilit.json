@@ -1518,7 +1518,7 @@
             "fi": "Ostovelat luottokortilla",
             "sv": "Leverantörsskulder för kreditkortsinköp"
         },
-        "laajuus": 4
+        "laajuus": 1
     },
     {
         "numero": 2964,
@@ -1527,7 +1527,7 @@
             "fi": "Pankkikorttiostot",
             "sv": "Bankkortsinköp"
         },
-        "laajuus": 2
+        "laajuus": 1
     },    
     {
         "numero": 2970,

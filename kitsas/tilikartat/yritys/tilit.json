@@ -4325,7 +4325,7 @@
             "fi": "Luottokorttiostot",
             "sv": "Kreditkortsinköp"
         },
-        "laajuus": 3
+        "laajuus": 1
     },
     {
         "numero": 2883,
@@ -4334,7 +4334,7 @@
             "fi": "Pankkikorttiostot",
             "sv": "Bankkortsinköp"
         },
-        "laajuus": 3
+        "laajuus": 1
     },    
     {
         "numero": 2888,
