@@ -91,7 +91,7 @@ void LaskunToimittaja::haeLasku()
 {
     noutoKaynnissa_ = true;
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg(haettavat_.dequeue()));
-    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::laskuSaapuu, Qt::QueuedConnection );
+    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::laskuSaapuu );
     kysely->kysy();
 }
 
@@ -107,7 +107,8 @@ void LaskunToimittaja::tallennaLiite()
     tallennusTosite_ = new Tosite(this);
     const QVariantMap tosite = tositteet_.head();
     tallennusTosite_->lataa(tosite);
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu, Qt::QueuedConnection);
+    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
+    connect( tallennusTosite_, &Tosite::tallennusvirhe, [this] { this->virhe("Virhe tallentamisessa"); });
     tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 
