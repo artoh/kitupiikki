@@ -108,7 +108,7 @@ void LaskunToimittaja::tallennaLiite()
     const QVariantMap tosite = tositteet_.head();
     tallennusTosite_->lataa(tosite);
     connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
-    connect( tallennusTosite_, &Tosite::tallennusvirhe, [this] { this->virhe("Virhe tallentamisessa"); });
+    connect( tallennusTosite_, &Tosite::tallennusvirhe, [this] { this->virhe(tr("Virhe tallentamisessa")); });
     tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
 }
 
