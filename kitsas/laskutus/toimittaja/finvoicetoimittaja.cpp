@@ -41,6 +41,8 @@ void FinvoiceToimittaja::toimita()
         virhe(tr("Verkkolaskutusta ei ole määritelty käyttöön kirjanpidon asetuksista"));
     } else if(!kp()->pilvi()->kayttajaPilvessa()) {
         virhe(tr("Verkkolaskujen toimittaminen edellyttää kirjautumista Kitsaan pilveen"));
+    } else if( kp()->asetukset()->asetus(AsetusModel::LaskuIbanit).isEmpty() ) {
+        virhe(tr("Laskutuksen asetuksissa ei ole määritelty yhtään tilinumeroa."));
     } else {
         if( init_.isEmpty())
             alustaInit();
