@@ -122,6 +122,7 @@ void MaventaDialog::lataa(const QVariantMap &data)
     ui->kitsasLaskuButton->setEnabled(pilvessa);
     ui->kitsasLaskuButton->setChecked( kitsaslasku );
     ui->maventaLaskuButton->setChecked( !kitsaslasku );
+    ui->maventaLaskuButton->setVisible( !kitsaslasku || !book.value("companybykitsas").toBool() );
 
     ui->activeBox->setChecked( book.value("active").toBool() );
 

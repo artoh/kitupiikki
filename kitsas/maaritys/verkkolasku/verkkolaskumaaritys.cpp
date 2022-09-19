@@ -335,6 +335,7 @@ void VerkkolaskuMaaritys::velho()
         data.insert("email", tnimi->tieto(ToiminimiModel::Sahkoposti));
         data.insert("kitsasbilling", true);
         data.insert("authemail", authEmail);
+        data.insert("active", true);
 
 
         QVariantMap settings = MaventaDialog::settingsAsetuksista();

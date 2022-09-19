@@ -31,6 +31,7 @@
 #include <QJsonDocument>
 #include <QKeyEvent>
 #include <QSettings>
+#include <QTimer>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
@@ -183,7 +184,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
         }
 
     }
-    tositteelle();
+    QTimer::singleShot(0, [this] {this->tositteelle();});
 }
 
 void TuloMenoApuri::salliMuokkaus(bool sallitaanko)
