@@ -138,7 +138,7 @@ void SahkopostiToimittaja::laheta()
     if( smtp.waitForMailSent()) {
         merkkaaToimitetuksi();
     } else {
-        virhe(tr("Laskujen lähettäminen sähköpostillä epäonnistui."));
+        virhe(tr("Laskujen lähettäminen sähköpostilla epäonnistui."));
     }
 
     smtp.quit();
