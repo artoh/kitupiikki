@@ -55,8 +55,10 @@ void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
     emit kp()->kirjanpitoaMuokattu();
 
     int tila = tosite_->tila();
-    if( tila == Tosite::LAHETETAAN) {        
-        LaskunToimittaja::toimita(tosite.value("id").toInt());
+    if( tila == Tosite::LAHETETAAN) {
+        QList<int> lista;
+        lista.append(tosite.value("id").toInt());
+        LaskunToimittaja::toimita(lista);
 
     }
 }

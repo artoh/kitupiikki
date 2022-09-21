@@ -33,11 +33,7 @@ public:
     void toimitaLasku(Tosite* tosite);
 
     virtual void toimita() = 0;
-/*
-    void lisaaLasku(const QVariantMap& tosite);
-    bool vapaa() const { return jono_.isEmpty(); }
-    virtual void keskeyta();
-*/
+
 signals:
     void onnistuiMerkitty();
     void onnistui(int tositeId);
@@ -52,29 +48,6 @@ protected:
 private:
     Tosite* pTosite_ = nullptr;
 
-/*    virtual void toimita() = 0;
-
-    QVariantMap& tositeMap() { return jono_.head();}
-    void merkkaaToimitetuksi();
-
-    void valmis();
-    void virhe(const QString& kuvaus);
-
-    int jonossa() const { return jono_.count();}
-    void peru();
-
-private:
-    void tarkastaJono();
-    void merkkaaJonosta();
-    void merkattu();
-
-private:
-    QQueue<QVariantMap> jono_;
-    QQueue<int> merkkausjono_;
-
-    QTimer timer_;
-    bool merkkausKaynnissa_ = false;
-*/
 };
 
 #endif // ABSTRAKTITOIMITTAJA_H
