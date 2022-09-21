@@ -30,16 +30,29 @@ public:
     explicit AbstraktiToimittaja(QObject *parent = nullptr);
     virtual ~AbstraktiToimittaja();
 
+    void toimitaLasku(Tosite* tosite);
+
+    virtual void toimita() = 0;
+/*
     void lisaaLasku(const QVariantMap& tosite);
     bool vapaa() const { return jono_.isEmpty(); }
     virtual void keskeyta();
-
+*/
 signals:
-    void toimitettu();
+    void onnistuiMerkitty();
+    void onnistui(int tositeId);
     void epaonnistui(const QString& kuvaus);
 
 protected:
-    virtual void toimita() = 0;
+    void valmis(bool merkitty = false);
+    void virhe(const QString& kuvaus);
+
+    Tosite* tosite() { return pTosite_;}
+
+private:
+    Tosite* pTosite_ = nullptr;
+
+/*    virtual void toimita() = 0;
 
     QVariantMap& tositeMap() { return jono_.head();}
     void merkkaaToimitetuksi();
@@ -61,7 +74,7 @@ private:
 
     QTimer timer_;
     bool merkkausKaynnissa_ = false;
-
+*/
 };
 
 #endif // ABSTRAKTITOIMITTAJA_H

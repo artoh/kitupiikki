@@ -219,8 +219,11 @@ void LaskulistaWidget::paivitaNapit()
 void LaskulistaWidget::laheta()
 {
     QModelIndexList lista = ui->view->selectionModel()->selectedRows();
-    for( const auto& item :  qAsConst( lista ))
-        LaskunToimittaja::toimita(item.data(LaskuTauluModel::TositeIdRooli).toInt());
+    QList<int> idLista;
+    for( const auto& item :  qAsConst( lista )) {
+        idLista.append(item.data(LaskuTauluModel::TositeIdRooli).toInt());
+    }
+    LaskunToimittaja::toimita(idLista);
 }
 
 void LaskulistaWidget::alusta()

@@ -36,7 +36,6 @@ protected:
 
 
     void aloitaMaventa();
-    void liitaLaskunKuva();
     void liiteLiitetty(QVariant* data);
     void lahetaMaventa();
     void maventaToimitettu(QVariant* data);
@@ -46,7 +45,6 @@ protected:
 
     QVariantMap init_;    
 
-    Tosite* toimitettavaTosite_;
     QVariantList liitteet_;
     int liiteIndeksi_ = -1;
 

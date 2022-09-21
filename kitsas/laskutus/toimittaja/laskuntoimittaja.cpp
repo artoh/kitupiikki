@@ -15,35 +15,31 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ui_onniwidget.h"
+#include "ui_laskuntoimittaja.h"
 
 #include "laskuntoimittaja.h"
 #include "db/kirjanpito.h"
-#include "../tulostus/laskuntulostaja.h"
 
-#include "eitulostetatoimittaja.h"
-#include "tulostustoimittaja.h"
 #include "sahkopostitoimittaja.h"
 #include "finvoicetoimittaja.h"
 #include "pdftoimittaja.h"
+#include "model/tositeliitteet.h"
+#include "../tulostus/laskuntulostaja.h"
+
+#include <QPrintDialog>
+#include <QPageLayout>
+#include <QPainter>
+#include <QPrinter>
 
 #include <QMessageBox>
 
-LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent)
+LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent), ui( new Ui::LaskunToimittaja)
 {
-    ui = new Ui::onniWidget;
+
     ui->setupUi(this);
     hide();
-    setStyleSheet("background-color: rgba(255, 255, 0, 125)");
-    ui->kuvaLabel->setPixmap(QPixmap(":/pic/lasku.png"));
-    ui->viestiLabel->setText(tr("Laskuja toimitetaan ... "));
-    QFont font;
-    font.setPointSize( font.pointSize() * 3 / 2);
-    ui->viestiLabel->setFont(font);
     setWindowFlags( Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
-    rekisteroiToimittaja(Lasku::TULOSTETTAVA, new TulostusToimittaja(this));
-    rekisteroiToimittaja(Lasku::EITULOSTETA, new EiTulostetaToimittaja(this));
     rekisteroiToimittaja(Lasku::SAHKOPOSTI, new SahkopostiToimittaja(this));
     rekisteroiToimittaja(Lasku::VERKKOLASKU, new FinvoiceToimittaja(this));
     rekisteroiToimittaja(Lasku::PDF, new PdfToimittaja(this));
@@ -56,113 +52,38 @@ LaskunToimittaja *LaskunToimittaja::luoInstanssi(QWidget *parent)
     return instanssi__;
 }
 
-void LaskunToimittaja::toimita(const QVariantMap &tosite)
+void LaskunToimittaja::toimita(const QList<int> laskuTositeIdt)
 {
-    instanssi__->toimitaLasku(tosite);
+    instanssi__->toimitaLasku(laskuTositeIdt);
 }
 
-void LaskunToimittaja::toimita(const int id)
+void LaskunToimittaja::toimitaLasku(const QList<int> laskuTositeIdt)
 {
-    instanssi__->toimitaLasku(id);
-}
-
-void LaskunToimittaja::peru()
-{
-    hide();
-    emit kp()->onni(tr("Laskujen toimittaminen peruttiin"), Kirjanpito::Stop);
-    tositteet_.clear();
-    haettavat_.clear();
-
-}
-
-void LaskunToimittaja::toimitaLasku(const QVariantMap &tosite)
-{
-    tositteet_.enqueue(tosite);
-    silmukka();
-}
-
-void LaskunToimittaja::toimitaLasku(const int tositeid)
-{
-    haettavat_.enqueue(tositeid);
-    silmukka();
-}
-
-void LaskunToimittaja::haeLasku()
-{
-    noutoKaynnissa_ = true;
-    KpKysely* kysely = kpk(QString("/tositteet/%1").arg(haettavat_.dequeue()));
-    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::laskuSaapuu );
-    kysely->kysy();
-}
-
-void LaskunToimittaja::laskuSaapuu(QVariant *data)
-{
-    tositteet_.enqueue(data->toMap());
-    noutoKaynnissa_ = false;
-    silmukka();
-}
-
-void LaskunToimittaja::tallennaLiite()
-{    
-    tallennusTosite_ = new Tosite(this);
-    const QVariantMap tosite = tositteet_.head();
-    tallennusTosite_->lataa(tosite);
-    connect( tallennusTosite_, &Tosite::laskuTallennettu, this, &LaskunToimittaja::liiteTallennettu);
-    connect( tallennusTosite_, &Tosite::tallennusvirhe, [this] { this->virhe(tr("Virhe tallentamisessa")); });
-    tallennusTosite_->tallennaLasku(Tosite::LAHETETAAN);
-}
-
-void LaskunToimittaja::liiteTallennettu(const QVariantMap &tosite)
-{
-    int toimitustapa = tositteet_.head().value("lasku").toMap().value("laskutapa").toInt();
-    if(toimitustapa == Lasku::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
-        toimitustapa = Lasku::VERKKOLASKU;
+    for(int id : laskuTositeIdt) {
+        toimitettavaIdt_.enqueue( id );
     }
+    ui->progressBar->setMaximum( ui->progressBar->maximum() + laskuTositeIdt.count() );
 
-    AbstraktiToimittaja* toimittaja = toimittajat_.value(toimitustapa, toimittajat_.value(Lasku::TULOSTETTAVA));
+    setStyleSheet("background-color: rgba(230, 230, 230, 125)");
 
+    QWidget* pw = qobject_cast<QWidget*>(parent());
 
-    toimittaja->lisaaLasku(tosite);
-    tositteet_.dequeue();
-
-    tallennusTosite_->deleteLater();
-    tallennusTosite_ = nullptr;
-    silmukka();
-}
-
-void LaskunToimittaja::silmukka()
-{
-    if( !noutoKaynnissa_ && !haettavat_.isEmpty())
-        haeLasku();
-    if( !tallennusTosite_ && !tositteet_.isEmpty())
-        tallennaLiite();
-
+    move( ( pw->width() - width()) / 2 ,
+            pw->height() -height());
     show();
-    QWidget* wg = qobject_cast<QWidget*>(parent());
-    move( wg->width() / 2 - width() / 2, wg->height() - height() * 5 / 3  );
-}
 
-void LaskunToimittaja::onnistui()
-{
-    onnistuneet_++;
-    tarkastaValmis();
-}
-
-void LaskunToimittaja::virhe(const QString virhe)
-{
-    virheet_.insert(virhe);
-    epaonnistuneet_++;
-    tarkastaValmis();
-}
-
-void LaskunToimittaja::tarkastaValmis()
-{
-    bool kaynnissa = tallennusTosite_ || noutoKaynnissa_;
-    for(const auto& toimittaja : qAsConst( toimittajat_)) {
-        kaynnissa |= !toimittaja->vapaa();
+    if( !kaynnissa_ ) {
+        kaynnissa_ = true;
+        toimitaSeuraava();
     }
+}
 
-    if( !kaynnissa) {
+
+void LaskunToimittaja::laskuKasitelty()
+{
+    if( toimitettavaIdt_.isEmpty()) {
+        // Kaikki toimitettu, näytetään tulos
+
         hide();
         emit kp()->kirjanpitoaMuokattu();
 
@@ -182,7 +103,7 @@ void LaskunToimittaja::tarkastaValmis()
                                         .arg(epaonnistuneet_)
                                       + "\n" +
                                       tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.") +
-                                      QString("\n")                                      
+                                      QString("\n")
                              + virhelista.join("\n")) ;
             } else {
                 QMessageBox::critical(nullptr,
@@ -195,17 +116,147 @@ void LaskunToimittaja::tarkastaValmis()
             }
         }
 
+        ui->progressBar->setValue(-1);
+        ui->progressBar->setMaximum(0);
         onnistuneet_ = 0;
         epaonnistuneet_ = 0;
         virheet_.clear();
+        kaynnissa_ = false;
+
+        if( painter_) {
+            // Tulostuksen lopputoimet
+            painter_->end();
+            kp()->printer()->setPageLayout(vanhaleiska_);
+            delete painter_;
+            painter_ = nullptr;
+        }
+
+    } else {
+        ui->progressBar->setValue( onnistuneet_ + epaonnistuneet_);
+        toimitaSeuraava();
+    }
+}
+
+void LaskunToimittaja::toimitaSeuraava()
+{
+    int tositeId = toimitettavaIdt_.dequeue();
+    Tosite* tosite = new Tosite(this);
+
+    connect( tosite, &Tosite::ladattu, this, &LaskunToimittaja::tositeLadattu);
+    connect( tosite, &Tosite::latausvirhe, [this] { this->virhe(tr("Tositteen lataus epäonnistui")); });
+
+    tosite->lataa(tositeId);
+}
+
+void LaskunToimittaja::tositeLadattu()
+{
+    Tosite* tosite = qobject_cast<Tosite*>(sender());
+    tosite->disconnect();
+
+    connect( tosite, &Tosite::laskuTallennettu, this, &LaskunToimittaja::laskuTallennettu);
+    connect( tosite, &Tosite::tallennusvirhe, this, [this] { this->virhe(tr("Tallennusvirhe"));} );
+
+    tosite->tallennaLasku(Tosite::LAHETETAAN);
+}
+
+void LaskunToimittaja::laskuTallennettu()
+{
+    Tosite* tosite = qobject_cast<Tosite*>(sender());
+    tosite->disconnect();
+
+    connect( tosite->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &LaskunToimittaja::liitteetLadattu);
+    connect( tosite->liitteet(), &TositeLiitteet::hakuVirhe, this, [this] { this->virhe(tr("Tositteen liitteiden lataus epäonnistui")); });
+
+    tosite->liitteet()->lataaKaikkiLiitteet();
+}
+
+void LaskunToimittaja::liitteetLadattu()
+{
+    TositeLiitteet* liitteet = qobject_cast<TositeLiitteet*>(sender());
+    Tosite* tosite = qobject_cast<Tosite*>(liitteet->parent());
+    tosite->disconnect();
+
+    int toimitustapa = tosite->lasku().lahetystapa();
+    if( toimitustapa == Lasku::POSTITUS && kp()->asetukset()->onko("MaventaPostitus")) {
+        toimitustapa = Lasku::VERKKOLASKU;  // Postitus Maventan kautta
     }
 
+    if( toimitustapa == Lasku::EITULOSTETA) {
+        merkkaa(tosite->id());
+        tosite->deleteLater();
+    } else if( toimittajat_.contains(toimitustapa)) {
+        AbstraktiToimittaja* toimittaja = toimittajat_.value(toimitustapa);
+        toimittaja->toimitaLasku(tosite);
+    } else {
+        // Tulostetaan
+        tulosta(tosite);
+        tosite->deleteLater();
+    }
 }
+
+void LaskunToimittaja::tulosta(Tosite *tosite)
+{
+    // Tulostus integroitu laskuntoimittajaan jotta
+    // onnistuu yhdellä dialogilla
+    const QString peruutusviesti = tr("Tulostaminen peruttiin");
+    if( virheet_.contains(peruutusviesti)) {
+        virhe(peruutusviesti);
+        return;
+    }
+
+    if( !painter_ ) {
+        vanhaleiska_ = kp()->printer()->pageLayout();
+        QPageLayout uusileiska = vanhaleiska_;
+        uusileiska.setUnits(QPageLayout::Millimeter);
+        uusileiska.setMargins( QMarginsF(5.0,5.0,5.0,5.0));
+        kp()->printer()->setPageLayout(uusileiska);
+
+        QPrintDialog printDialog( kp()->printer() );
+        if( printDialog.exec()) {
+            painter_ = new QPainter( kp()->printer() );
+        } else {
+            virhe(peruutusviesti);
+            return;
+        }
+    } else {
+        kp()->printer()->newPage();
+    }
+    LaskunTulostaja tulostaja(kp());
+    tulostaja.tulosta(*tosite, kp()->printer(), painter_);
+    merkkaa( tosite->id());
+}
+
+void LaskunToimittaja::merkkaa(const int tositeId)
+{
+    KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::PATCH);
+    QVariantMap map;
+    map.insert("tila", Tosite::LAHETETTYLASKU);
+    connect( kysely, &KpKysely::vastaus, this, &LaskunToimittaja::merkattu, Qt::QueuedConnection);
+    connect( kysely, &KpKysely::virhe, this, [this] { this->virhe(tr("Tositteen päivittäminen epäonnistui")); });
+    kysely->kysy(map);
+
+}
+
+void LaskunToimittaja::merkattu()
+{
+    onnistuneet_++;
+    laskuKasitelty();
+}
+
+
+void LaskunToimittaja::virhe(const QString virhe)
+{
+    virheet_.insert(virhe);
+    epaonnistuneet_++;
+    laskuKasitelty();
+}
+
 
 void LaskunToimittaja::rekisteroiToimittaja(int tyyppi, AbstraktiToimittaja *toimittaja)
 {
     toimittajat_.insert(tyyppi, toimittaja);
-    connect( toimittaja, &AbstraktiToimittaja::toimitettu, this, &LaskunToimittaja::onnistui);
+    connect( toimittaja, &AbstraktiToimittaja::onnistui, this, &LaskunToimittaja::merkkaa, Qt::QueuedConnection);
+    connect( toimittaja, &AbstraktiToimittaja::onnistuiMerkitty, this, &LaskunToimittaja::merkattu, Qt::QueuedConnection);
     connect( toimittaja, &AbstraktiToimittaja::epaonnistui, this, &LaskunToimittaja::virhe);
 }
 

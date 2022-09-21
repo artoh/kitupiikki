@@ -45,19 +45,17 @@ void PdfToimittaja::toimita()
 
     QDir hakemisto(hakemisto_);
 
-    Tosite tosite;
-    tosite.lataa(tositeMap());
     LaskunTulostaja tulostaja(kp());
 
-    QString tnimi = tulkkaa("laskuotsikko", tosite.constLasku().kieli().toLower()) +
-            tosite.constLasku().numero() +
+    QString tnimi = tulkkaa("laskuotsikko", tosite()->constLasku().kieli().toLower()) +
+            tosite()->constLasku().numero() +
             ".pdf";
 
     QFile tiedosto ( hakemisto.absoluteFilePath(tnimi));
     if( tiedosto.open( QFile::WriteOnly | QFile::Truncate)) {
-        tiedosto.write( tulostaja.pdf(tosite) );
+        tiedosto.write( tulostaja.pdf(*tosite()) );
         tiedosto.close();
-        merkkaaToimitetuksi();
+        valmis();
     } else {
         virhe( tr("Laskutiedoston kirjoittaminen epäonnistui"));
     }

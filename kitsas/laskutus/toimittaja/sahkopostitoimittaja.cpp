@@ -38,30 +38,16 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 
 void SahkopostiToimittaja::toimita()
 {
-    tosite_ = new Tosite(this);
-    const QVariantMap& tositteenTiedot = tositeMap();
-    tosite_->lataa(tositteenTiedot);
-
     ema_.lataa();
 
-    if( kp()->pilvi() && kp()->pilvi()->tilausvoimassa() && ema_.kitsasPalvelin() ) {
-        connect( tosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &SahkopostiToimittaja::lahetaKitsas );
-    } else {
-        connect( tosite_->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &SahkopostiToimittaja::laheta );
-    }
-    tosite_->liitteet()->lataaKaikkiLiitteet();
-}
-
-void SahkopostiToimittaja::laheta()
-{    
 
     SmtpClient smtp( ema_.palvelin(),  ema_.portti(), (SmtpClient::ConnectionType) ema_.suojaus());
     smtp.connectToHost();
 
     // Tehdään tässä välissä viesti valmiiksi
-    const Lasku lasku = tosite_->constLasku();
+    const Lasku lasku = tosite()->constLasku();
 
-    QString kenelleNimi = tosite_->kumppaninimi();
+    QString kenelleNimi = tosite()->kumppaninimi();
     QString kenelleEmail = lasku.email();
     QString kieli = lasku.kieli().toLower();
 
@@ -97,14 +83,14 @@ void SahkopostiToimittaja::laheta()
     message.addPart(&text);
 
     QString filename = tulkkaa("laskuotsikko",kieli).toLower() + lasku.numero() + ".pdf";
-    MimeByteArrayAttachment attachment(filename, tulostaja.pdf(*tosite_));
+    MimeByteArrayAttachment attachment(filename, tulostaja.pdf(*tosite()));
     attachment.setContentType("application/pdf");
     message.addPart(&attachment);
 
     QList<MimeByteArrayAttachment*> extraAttachments;
 
-    for(int i=0; i < tosite_->liitteet()->rowCount(); i++) {
-        const QModelIndex indeksi = tosite_->liitteet()->index(i);
+    for(int i=0; i < tosite()->liitteet()->rowCount(); i++) {
+        const QModelIndex indeksi = tosite()->liitteet()->index(i);
 
 
         if( indeksi.data(TositeLiitteet::RooliRooli).toString().isEmpty()) {
@@ -136,7 +122,7 @@ void SahkopostiToimittaja::laheta()
 
     smtp.sendMail(message);
     if( smtp.waitForMailSent()) {
-        merkkaaToimitetuksi();
+        valmis();
     } else {
         virhe(tr("Laskujen lähettäminen sähköpostilla epäonnistui."));
     }
@@ -147,19 +133,18 @@ void SahkopostiToimittaja::laheta()
         delete ptr;
     }
 
-    tosite_->deleteLater();
 }
 
-QString SahkopostiToimittaja::viestinOtsikko() const
+QString SahkopostiToimittaja::viestinOtsikko()
 {
-    const Lasku lasku = tosite_->constLasku();
+    const Lasku lasku = tosite()->constLasku();
     const QString kieli = lasku.kieli().toLower();
 
     QString otsikko = lasku.tulkkaaMuuttujat( lasku.saateOtsikko() );
     if( otsikko.isEmpty()) {
         otsikko = QString("%3 %1 %2").arg(lasku.numero(), lasku.toiminimiTieto(ToiminimiModel::Nimi),
-            tosite_->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
-                           (tosite_->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
+            tosite()->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
+                           (tosite()->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
                                                                             : tulkkaa("laskuotsikko", kieli)));
     };
     return otsikko;
@@ -171,7 +156,7 @@ void SahkopostiToimittaja::lahetaKitsas()
     liitteet_.clear();
 
     LaskunTulostaja tulostaja(kp());
-    QByteArray kuva = tulostaja.pdf(*tosite_);
+    QByteArray kuva = tulostaja.pdf(*tosite());
 
     QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
@@ -185,10 +170,10 @@ void SahkopostiToimittaja::liiteLiitetty(QVariant *data)
     // Liitetään saapunut
     QVariantMap map = data->toMap();
     if( liiteIndeksi_ < 0) {
-        map.insert("filename", tulkkaa("laskuotsikko",tosite_->constLasku().kieli() ).toLower() + tosite_->laskuNumero() + ".pdf");
+        map.insert("filename", tulkkaa("laskuotsikko",tosite()->constLasku().kieli() ).toLower() + tosite()->laskuNumero() + ".pdf");
         map.insert("contentType", "application/pdf");
     } else {
-        const QModelIndex index = tosite_->liitteet()->index(liiteIndeksi_);
+        const QModelIndex index = tosite()->liitteet()->index(liiteIndeksi_);
         map.insert("filename", index.data(TositeLiitteet::NimiRooli).toString());
         map.insert("contentType", index.data(TositeLiitteet::TyyppiRooli).toString());
     }
@@ -198,14 +183,14 @@ void SahkopostiToimittaja::liiteLiitetty(QVariant *data)
     liiteIndeksi_++;
 
     // Hypätään laskun kuvan yli
-    if( tosite_->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::RooliRooli).toString() == "lasku") {
+    if( tosite()->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::RooliRooli).toString() == "lasku") {
         liiteIndeksi_++;
     }
 
     // Jos liitteitä on jäljellä, liitetään seuraava liite, muuten siirrytään
     // eteenpäin
-    if( liiteIndeksi_ < tosite_->liitteet()->rowCount()) {
-        const QByteArray& sisalto = tosite_->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::SisaltoRooli).toByteArray();
+    if( liiteIndeksi_ < tosite()->liitteet()->rowCount()) {
+        const QByteArray& sisalto = tosite()->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::SisaltoRooli).toByteArray();
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                     osoite );
@@ -219,7 +204,7 @@ void SahkopostiToimittaja::liiteLiitetty(QVariant *data)
 
 void SahkopostiToimittaja::lahetaViesti()
 {
-    const Lasku lasku = tosite_->constLasku();
+    const Lasku lasku = tosite()->constLasku();
 
     QVariantMap viesti;
     viesti.insert("attachments", liitteet_);
@@ -230,7 +215,7 @@ void SahkopostiToimittaja::lahetaViesti()
         viesti.insert("to", lasku.email());
     } else {
         viesti.insert("to", QString("\"%1\" %2")
-                  .arg(tosite_->kumppaninimi(),lasku.email()) );
+                  .arg(tosite()->kumppaninimi(),lasku.email()) );
     }
     viesti.insert("subject", viestinOtsikko());
     const QString kopioEmail = kp()->asetukset()->asetus(AsetusModel::EmailKopio);
@@ -242,13 +227,11 @@ void SahkopostiToimittaja::lahetaViesti()
 
     PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                 osoite );
-    connect( pk, &PilviKysely::vastaus, this, &SahkopostiToimittaja::merkkaaToimitetuksi);
+    connect( pk, &PilviKysely::vastaus, [this] {this->valmis();});
     connect( pk, &KpKysely::virhe, this, [this] {this->virhe("Laskujen lähettäminen sähköpostilla epäonnistui.");});
 
     pk->kysy(viesti);
 
-
-    tosite_->deleteLater();
 
 }
 

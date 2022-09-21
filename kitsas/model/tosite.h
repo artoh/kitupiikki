@@ -62,7 +62,8 @@ public:
         HUOMIO,
         KOMMENTIT,
         KOMMENTTI,
-        TILIOTERIVI
+        TILIOTERIVI,
+        MAVENTAID
     };
 
     enum Virheet {
@@ -160,6 +161,7 @@ public:
 
 signals:
     void ladattu();
+    void latausvirhe(int virhe);
     void laskuTallennettu(QVariantMap data);
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);    
     void tallennusvirhe(int virhe);

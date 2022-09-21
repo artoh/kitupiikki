@@ -19,15 +19,17 @@
 
 #include <QWidget>
 #include <QQueue>
+#include <QPageLayout>
 
 #include "model/tosite.h"
 #include "abstraktitoimittaja.h"
 
 namespace Ui {
-    class onniWidget;
+    class LaskunToimittaja;
 }
 
 class LaskunTulostaja;
+class QPainter;
 
 class LaskunToimittaja : public QWidget
 {
@@ -37,44 +39,41 @@ private:
 
 public:
     static LaskunToimittaja* luoInstanssi(QWidget *parent = nullptr);
-    static void toimita(const QVariantMap& tosite);
-    static void toimita(const int id);
+    static void toimita(const QList<int> laskuTositeIdt);
 
-    void peru();
 signals:
 
 protected:
-    void toimitaLasku(const QVariantMap& tosite);
-    void toimitaLasku(const int tositeid);
 
-    void haeLasku();
-    void laskuSaapuu(QVariant* data);
-    void tallennaLiite();
-    void liiteTallennettu(const QVariantMap& tosite);
+    void toimitaLasku(const QList<int> laskuTositeIdt);
+    void laskuKasitelty();
 
-    void silmukka();
+    void toimitaSeuraava();
+    void tositeLadattu();
+    void laskuTallennettu();
+    void liitteetLadattu();
 
-    void onnistui();
+    void tulosta(Tosite* tosite);
+
+    void merkkaa(const int tositeId);
+
+    void merkattu();
     void virhe(const QString virhe);
-    void tarkastaValmis();
-
     void rekisteroiToimittaja(int tyyppi, AbstraktiToimittaja* toimittaja);
 
 protected:
-    Ui::onniWidget *ui;
-
-    bool noutoKaynnissa_ = false;
-
+    Ui::LaskunToimittaja *ui;
     static LaskunToimittaja* instanssi__;
 
-    QQueue<int> haettavat_;
-    QQueue<QVariantMap> tositteet_;
+    QQueue<int> toimitettavaIdt_;
+    bool kaynnissa_ = false;
 
     QSet<QString> virheet_;
     int onnistuneet_ = 0;
     int epaonnistuneet_ = 0;
 
-    Tosite* tallennusTosite_ = nullptr;
+    QPainter* painter_ = nullptr;
+    QPageLayout vanhaleiska_;
 
     QMap<int, AbstraktiToimittaja*> toimittajat_;
 

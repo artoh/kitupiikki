@@ -20,7 +20,7 @@
 
 AbstraktiToimittaja::AbstraktiToimittaja(QObject *parent) : QObject(parent)
 {
-    connect(&timer_, &QTimer::timeout, this, &AbstraktiToimittaja::tarkastaJono);
+//    connect(&timer_, &QTimer::timeout, this, &AbstraktiToimittaja::tarkastaJono);
 }
 
 AbstraktiToimittaja::~AbstraktiToimittaja()
@@ -28,6 +28,29 @@ AbstraktiToimittaja::~AbstraktiToimittaja()
 
 }
 
+void AbstraktiToimittaja::toimitaLasku(Tosite *tosite)
+{
+    pTosite_ = tosite;
+    toimita();
+}
+
+void AbstraktiToimittaja::valmis(bool merkitty)
+{
+    if( merkitty) {
+        emit onnistuiMerkitty();
+    } else {
+        emit onnistui(tosite()->id());
+    }
+    tosite()->deleteLater();
+}
+
+void AbstraktiToimittaja::virhe(const QString &kuvaus)
+{
+    emit epaonnistui(kuvaus);
+    tosite()->deleteLater();
+}
+
+/*
 void AbstraktiToimittaja::lisaaLasku(const QVariantMap &tosite)
 {
     jono_.enqueue(tosite);
@@ -101,3 +124,4 @@ void AbstraktiToimittaja::merkattu()
     if( !merkkausjono_.isEmpty())
         merkkaaJonosta();
 }
+*/

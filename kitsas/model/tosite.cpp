@@ -251,6 +251,7 @@ void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));
     connect(kysely, &KpKysely::vastaus, this, &Tosite::lataaData);
+    connect(kysely, &KpKysely::virhe, this, &Tosite::latausvirhe);
     kysely->kysy();
 }
 
@@ -583,5 +584,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { HUOMIO, "huomio"},
     { KOMMENTTI, "kommentti"},
     { KOMMENTIT, "kommentit"},
-    { TILIOTERIVI, "tilioterivi"}
+    { TILIOTERIVI, "tilioterivi"},
+    { MAVENTAID, "maventaid"}
 };

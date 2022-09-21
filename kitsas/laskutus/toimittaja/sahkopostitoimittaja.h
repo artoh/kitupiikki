@@ -31,13 +31,12 @@ protected:
     virtual void toimita() override;
     void laheta();
 
-    QString viestinOtsikko() const;
+    QString viestinOtsikko();
 
     void lahetaKitsas();
     void liiteLiitetty(QVariant* data);
     void lahetaViesti();
 
-    Tosite* tosite_;
     QVariantList liitteet_;
     int liiteIndeksi_ = -1;
 

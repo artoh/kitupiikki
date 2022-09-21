@@ -432,6 +432,7 @@ void TositeLiitteet::lataaKaikkiLiitteet()
             tyhjia = true;
             KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(i).getLiiteId()));
             connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
+            connect( kysely, &KpKysely::virhe, this, &TositeLiitteet::hakuVirhe);
             kysely->kysy();
         }
     }

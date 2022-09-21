@@ -120,6 +120,7 @@ signals:
     void liitettaTallennetaan(bool tallennetaanko);
     void ocrKaynnissa(bool onko);
     void kaikkiLiitteetHaettu();
+    void hakuVirhe();
 
 private slots:
     void tallennaSeuraava();
