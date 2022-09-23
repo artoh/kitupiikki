@@ -33,6 +33,7 @@ protected:
 
     QString viestinOtsikko();
 
+    void lahetaSmtp();
     void lahetaKitsas();
     void liiteLiitetty(QVariant* data);
     void lahetaViesti();

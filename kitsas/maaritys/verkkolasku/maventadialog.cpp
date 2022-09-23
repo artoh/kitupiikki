@@ -31,6 +31,7 @@
 
 #include <QDebug>
 #include <QJsonDocument>
+#include <QUuid>
 
 MaventaDialog::MaventaDialog(QWidget *parent) :
     QDialog(parent), ui( new Ui::MaventaDialog)
@@ -204,8 +205,12 @@ void MaventaDialog::vastaus(QVariant *data)
 
 void MaventaDialog::muokattu()
 {
+    QUuid apiUuid(  ui->api->text().trimmed());
+    QUuid companyUuid( ui->uuid->text().trimmed());
+
+
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
-                ui->api->text().trimmed().length()==36 &&
-                ui->uuid->text().trimmed().length()== 36);
+                !apiUuid.isNull() &&
+                !companyUuid.isNull());
 }
 

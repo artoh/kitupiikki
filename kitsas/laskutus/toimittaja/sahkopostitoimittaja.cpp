@@ -39,8 +39,31 @@ SahkopostiToimittaja::SahkopostiToimittaja(QObject *parent)
 void SahkopostiToimittaja::toimita()
 {
     ema_.lataa();
+    if( ema_.kitsasPalvelin()) {
+        lahetaKitsas();
+    } else {
+        lahetaSmtp();
+    }
 
+}
 
+QString SahkopostiToimittaja::viestinOtsikko()
+{
+    const Lasku lasku = tosite()->constLasku();
+    const QString kieli = lasku.kieli().toLower();
+
+    QString otsikko = lasku.tulkkaaMuuttujat( lasku.saateOtsikko() );
+    if( otsikko.isEmpty()) {
+        otsikko = QString("%3 %1 %2").arg(lasku.numero(), lasku.toiminimiTieto(ToiminimiModel::Nimi),
+            tosite()->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
+                           (tosite()->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
+                                                                            : tulkkaa("laskuotsikko", kieli)));
+    };
+    return otsikko;
+}
+
+void SahkopostiToimittaja::lahetaSmtp()
+{
     SmtpClient smtp( ema_.palvelin(),  ema_.portti(), (SmtpClient::ConnectionType) ema_.suojaus());
     smtp.connectToHost();
 
@@ -132,22 +155,6 @@ void SahkopostiToimittaja::toimita()
     for(auto ptr : extraAttachments) {
         delete ptr;
     }
-
-}
-
-QString SahkopostiToimittaja::viestinOtsikko()
-{
-    const Lasku lasku = tosite()->constLasku();
-    const QString kieli = lasku.kieli().toLower();
-
-    QString otsikko = lasku.tulkkaaMuuttujat( lasku.saateOtsikko() );
-    if( otsikko.isEmpty()) {
-        otsikko = QString("%3 %1 %2").arg(lasku.numero(), lasku.toiminimiTieto(ToiminimiModel::Nimi),
-            tosite()->tyyppi() == TositeTyyppi::HYVITYSLASKU ? tulkkaa("hlasku", kieli) :
-                           (tosite()->tyyppi() == TositeTyyppi::MAKSUMUISTUTUS ? tulkkaa("maksumuistutus", kieli)
-                                                                            : tulkkaa("laskuotsikko", kieli)));
-    };
-    return otsikko;
 }
 
 void SahkopostiToimittaja::lahetaKitsas()
