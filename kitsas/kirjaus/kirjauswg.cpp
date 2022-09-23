@@ -486,7 +486,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     const int tyyppi = tosite()->tyyppi();
 
     const bool valmisSallittu = (muokattu || ( tila > Tosite::POISTETTU && tila < Tosite::KIRJANPIDOSSA )) &&
-                          (!virheet || virheet == Tosite::PVMALV || ( tyyppi == TositeTyyppi::TILIOTE && virheet == Tosite::TILIPUUTTUU && qobject_cast<PilviModel*>(kp()->yhteysModel()))) &&
+                          (!virheet || (virheet == Tosite::PVMALV && tosite()->id() ) || ( tyyppi == TositeTyyppi::TILIOTE && virheet == Tosite::TILIPUUTTUU && qobject_cast<PilviModel*>(kp()->yhteysModel()))) &&
                           !tosite()->liitteet()->tallennetaanko();
 
     ui->valmisNappi->setEnabled( valmisSallittu );
@@ -802,7 +802,7 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     ui->tositePvmEdit->setEnabled(sallitaanko == Sallittu);
     ui->tositetyyppiCombo->setEnabled(sallitaanko == Sallittu);
     ui->kommentitEdit->setEnabled(sallitaanko != Lukittu);
-    ui->otsikkoEdit->setEnabled(sallitaanko == Sallittu);
+    ui->otsikkoEdit->setEnabled(sallitaanko != Lukittu);
     ui->lisaaliiteNappi->setEnabled(sallitaanko != Lukittu);
     ui->poistaLiiteNappi->setEnabled(sallitaanko == Sallittu);
     ui->lisaaRiviNappi->setEnabled(sallitaanko == Sallittu);
