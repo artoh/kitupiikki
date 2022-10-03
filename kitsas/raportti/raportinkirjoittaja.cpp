@@ -507,7 +507,7 @@ QByteArray RaportinKirjoittaja::csv() const
 
         QStringList otsakkeet;
         for(int i=0; i < otsikko.sarakkeita(); i++) {
-            if( sarakkeet_.at(i).sarakkeenKaytto == RaporttiRivi::EICSV)
+            if( sarakkeet_.value(i).sarakkeenKaytto == RaporttiRivi::EICSV)
                 continue;
             otsakkeet.append( otsikko.csv(i));
         }
@@ -525,7 +525,7 @@ QByteArray RaportinKirjoittaja::csv() const
             QStringList sarakkeet;
             for( int i=0; i < rivi.sarakkeita(); i++)
             {
-                if( sarakkeet_.at(i).sarakkeenKaytto != RaporttiRivi::EICSV) {
+                if( sarakkeet_.value(i).sarakkeenKaytto != RaporttiRivi::EICSV) {
                     sarakkeet.append( rivi.csv(i));
                 }
             }

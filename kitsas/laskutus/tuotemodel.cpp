@@ -105,7 +105,8 @@ QString TuoteModel::nimike(int id) const
 
 QByteArray TuoteModel::csv() const
 {
-    RaportinKirjoittaja rk(true);
+    RaportinKirjoittaja rk(true);            
+
     RaporttiRivi otsikko;
     otsikko.lisaa("id");
     otsikko.lisaa("nimike");
