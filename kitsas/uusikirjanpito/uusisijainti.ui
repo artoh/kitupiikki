@@ -27,7 +27,8 @@
    <item>
     <widget class="QLabel" name="label_4">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 127);</string>
+      <string notr="true">background-color: rgb(255, 255, 127);
+color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Huolehdi kirjanpitosi varmuuskopioinnista.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Varmuuskopioi kirjanpitosi säännöllisesti ja säilytä varmuuskopiota turvallisessa paikassa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

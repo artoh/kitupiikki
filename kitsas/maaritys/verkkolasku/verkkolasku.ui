@@ -18,7 +18,8 @@
     <widget class="QLabel" name="kirjauduLabel">
      <property name="styleSheet">
       <string notr="true">background-color: rgb(255, 255, 0);
-font-weight: bold;</string>
+font-weight: bold;
+color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>Kirjaudu Kitsaan pilveen muokataksesi verkkolaskutuksen asetuksia.</string>
@@ -28,7 +29,8 @@ font-weight: bold;</string>
    <item>
     <widget class="QLabel" name="yhteystietovirheLabel">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 0);</string>
+      <string notr="true">background-color: rgb(255, 255, 0);
+color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>Yhteystietosi ovat puutteelliset. Et voi muodostaa verkkolaskuja, ellei osoitetta, sähköpostiosoitetta, y-tunnusta ja kotipaikkaa ole määritelty.</string>

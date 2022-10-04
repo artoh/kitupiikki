@@ -37,7 +37,8 @@
    <item>
     <widget class="QLabel" name="koneLabel">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 127);</string>
+      <string notr="true">background-color: rgb(255, 255, 127);
+color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>x</string>
