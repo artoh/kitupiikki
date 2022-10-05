@@ -441,6 +441,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     liitteet()->clear();
     rivit_->clear();
     lasku_.clear();
+    loki_->clear();
 
     asetaPvm(pvm);
     asetaTyyppi(tyyppi);

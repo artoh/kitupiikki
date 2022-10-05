@@ -102,20 +102,18 @@ void AsiakasToimittajaValinta::clear()
 
 
 void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
-{
+{    
     QString alvtunnari = data.contains("alvtunnus") ? data.value("alvtunnus").toString() :
             "FI" + data.value("kumppaniytunnus").toString();
     alvtunnari.remove('-');
+    const QString nimi = data.contains("kumppaninimi") ? data.value("kumppaninimi").toString() : data.value("nimi").toString();
 
     if( model_->idAlvTunnuksella( alvtunnari) ) {
         // Valitaan Y-tunnuksella
         combo_->setCurrentIndex( combo_->findData( model_->idAlvTunnuksella(alvtunnari) ) );        
-    } else if( combo_->findText(
-                   data.contains("kumppaninimi") ?
-                   data.value("kumppaninimi").toString()
-                   : data.value("nimi").toString()) > -1) {
+    } else if( combo_->findText(nimi) > -1) {
         // Valitaan nimellä
-        combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );        
+        combo_->setCurrentIndex( combo_->findText( nimi ) );
     } else {
         // Siirrytään dialogiin                
         // Pitäisikö yrittää vielä tilinumerolla ?

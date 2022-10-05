@@ -37,6 +37,7 @@ public:
     explicit TositeLoki(QObject *parent = nullptr);
 
     void lataa(const QVariant& data);
+    void clear();
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

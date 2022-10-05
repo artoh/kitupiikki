@@ -31,6 +31,13 @@ void TositeLoki::lataa(const QVariant &data)
     endResetModel();
 }
 
+void TositeLoki::clear()
+{
+    beginResetModel();
+    data_.clear();
+    endResetModel();
+}
+
 QVariant TositeLoki::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role != Qt::DisplayRole )

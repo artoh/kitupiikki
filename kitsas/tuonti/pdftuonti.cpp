@@ -180,7 +180,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         }
     }
     // Sitten yritetään hakea laskun päivämäärää
-    if(  (pvmsijainti = etsi("Päivämäärä"))  || (pvmsijainti = etsi("päiväys")) || ( (etsi("Eräp") != etsi("pvm")) &&  (pvmsijainti = etsi("pvm")) ))
+    if(  (pvmsijainti = etsi("Päivämäärä"))  || (pvmsijainti = etsi("päiväys")) || (pvmsijainti = etsi("Laskun päivä"))  || ( (etsi("Eräp") != etsi("pvm")) &&  (pvmsijainti = etsi("pvm")) ))
     {
         for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 80) )
         {
@@ -238,6 +238,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
 
     int numerosijainti = etsi("Laskun numero");
     if(!numerosijainti) numerosijainti = etsi("Lasku numero");
+    if(!numerosijainti) numerosijainti = etsi("Laskunro");
     QRegularExpression lnroRe("^[A-Z]{0,3}\\d{3,20}$");
     for(const QString& t : haeLahelta(numerosijainti / 100, numerosijainti % 100, 10, 50)) {
         if( lnroRe.match(t).hasMatch() ) {
