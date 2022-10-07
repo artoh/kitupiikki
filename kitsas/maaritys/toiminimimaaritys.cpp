@@ -60,6 +60,7 @@ bool ToiminimiMaaritys::onkoMuokattu()
         const QString osoite = model->tieto(ToiminimiModel::Katuosoite, indeksi);
         const QString postinumero = model->tieto(ToiminimiModel::Postinumero, indeksi);
         const QString kaupunki = model->tieto(ToiminimiModel::Kaupunki, indeksi);
+        const QString puhelin = model->tieto(ToiminimiModel::Puhelin, indeksi);
         const QString email = model->tieto(ToiminimiModel::Sahkoposti, indeksi);
         const QString kotisivu = model->tieto(ToiminimiModel::Kotisivu, indeksi);
         const int logonKorkus = model->tieto(ToiminimiModel::LogonKorkeus, indeksi, "20").toInt();
@@ -72,6 +73,7 @@ bool ToiminimiMaaritys::onkoMuokattu()
                 osoite != ui->osoiteEdit->toPlainText() ||
                 postinumero != ui->postinumeroEdit->text() ||
                 kaupunki != ui->kaupunkiEdit->text() ||
+                puhelin != ui->puhelinEdit->text() ||
                 email != ui->emailEdit->text() ||
                 kotisivu != ui->kotisivuEdit->text() ||
                 logonKorkus != ui->logoKorkeusSpin->value() ||
@@ -93,6 +95,7 @@ bool ToiminimiMaaritys::tallenna()
         model->aseta(indeksi, ToiminimiModel::Katuosoite, ui->osoiteEdit->toPlainText());
         model->aseta(indeksi, ToiminimiModel::Postinumero, ui->postinumeroEdit->text());
         model->aseta(indeksi, ToiminimiModel::Kaupunki, ui->kaupunkiEdit->text());
+        model->aseta(indeksi, ToiminimiModel::Puhelin, ui->puhelinEdit->text());
         model->aseta(indeksi, ToiminimiModel::Sahkoposti, ui->emailEdit->text());
         model->aseta(indeksi, ToiminimiModel::Kotisivu, ui->kotisivuEdit->text());
         model->aseta(indeksi, ToiminimiModel::LogonKorkeus, QString::number(ui->logoKorkeusSpin->value()));
@@ -122,6 +125,7 @@ void ToiminimiMaaritys::lataa()
         const QString osoite = model->tieto(ToiminimiModel::Katuosoite, indeksi);
         const QString postinumero = model->tieto(ToiminimiModel::Postinumero, indeksi);
         const QString kaupunki = model->tieto(ToiminimiModel::Kaupunki, indeksi);
+        const QString puhelin = model->tieto(ToiminimiModel::Puhelin, indeksi);
         const QString email = model->tieto(ToiminimiModel::Sahkoposti, indeksi);
         const QString kotisivu = model->tieto(ToiminimiModel::Kotisivu, indeksi);
         const int logonKorkus = model->tieto(ToiminimiModel::LogonKorkeus, indeksi, "20").toInt();
@@ -134,6 +138,7 @@ void ToiminimiMaaritys::lataa()
         ui->osoiteEdit->setPlainText( osoite );
         ui->postinumeroEdit->setText( postinumero );
         ui->kaupunkiEdit->setText( kaupunki );
+        ui->puhelinEdit->setText( puhelin );
         ui->emailEdit->setText( email );
         ui->kotisivuEdit->setText( kotisivu );
         ui->logoKorkeusSpin->setValue(logonKorkus);

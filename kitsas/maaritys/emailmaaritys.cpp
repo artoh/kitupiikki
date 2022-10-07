@@ -161,10 +161,19 @@ void EmailMaaritys::ilmoitaMuokattu()
 
 void EmailMaaritys::kokeile()
 {
+    if( ui->emailEdit->text().isEmpty()) {
+        QMessageBox::critical(this, tr("Puutteelliset asetukset"), tr("Lähettäjän sähköpostiosoitetta ei ole määritelty"));
+        return;
+    }
+    if( !ui->kitsasRadio->isChecked() && !ui->palvelinEdit->text().isEmpty()) {
+        QMessageBox::critical(this, tr("Puutteelliset asetukset"), tr("Sähköpostipalvelinta ei ole määritelty"));
+        return;
+    }
+
     ui->testiLabel->show();
     ui->kokeileNappi->setEnabled(false);
 
-    if( ui->kitsasRadio->isChecked()) {
+    if( ui->kitsasRadio->isChecked()) {        
         kokeileKitsas();
     } else {
         kokeileSmtp();

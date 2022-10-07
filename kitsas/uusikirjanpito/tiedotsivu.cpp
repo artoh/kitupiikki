@@ -99,6 +99,12 @@ bool TiedotSivu::validatePage()
         velho->asetukset_.insert("Kaupunki", ui->kaupunkiEdit->text());
     if( !ui->kotipaikkaEdit->text().isEmpty())
         velho->asetukset_.insert("Kotipaikka", ui->kotipaikkaEdit->text());
+    if( !ui->emailEdit->text().isEmpty())
+        velho->asetukset_.insert("Email", ui->emailEdit->text());
+    if( !ui->webEdit->text().isEmpty())
+        velho->asetukset_.insert("Kotisivu", ui->webEdit->text());
+    if( !ui->puhelinEdit->text().isEmpty())
+        velho->asetukset_.insert("Puhelin", ui->puhelinEdit->text());
 
     velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
     velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
@@ -162,6 +168,28 @@ void TiedotSivu::yTietoSaapuu()
         // Tähän voidaan myöhemmin tehdä täsmääminen kielivalinnan kanssa ;)
         QString kotipaikka = paikka.value("name").toString();
         ui->kotipaikkaEdit->setText( kotipaikka.toUpper().left(1) + kotipaikka.toLower().mid(1) );
+    }
+
+    QVariantList contactDetails = tieto.value("contactDetails").toList();
+    for(auto item : contactDetails) {
+        const QVariantMap iMap = item.toMap();
+        const QString typeName = iMap.value("type").toString();
+        const QString value = iMap.value("value").toString();
+        if( typeName == "Kotisivun www-osoite" && ui->webEdit->text().isEmpty()) {
+            ui->webEdit->setText( value );
+        } else if( typeName == "Puhelin" && ui->puhelinEdit->text().isEmpty()) {
+            ui->puhelinEdit->setText( value );
+        }
+    }
+
+    const QString muoto = tieto.value("companyForm").toString().toLower();
+    if( !muoto.isEmpty()) {
+        for(int i = 0; i < ui->muotoList->count(); i++) {
+            auto item = ui->muotoList->item(i);
+            if( item->data(Qt::UserRole).toString() == muoto) {
+                ui->muotoList->setCurrentItem(item);
+            }
+        }
     }
 
 }
