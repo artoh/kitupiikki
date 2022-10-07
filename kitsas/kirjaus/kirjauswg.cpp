@@ -431,9 +431,17 @@ void KirjausWg::tositeLadattu()
     if(tosite()->tila() >= Tosite::SAAPUNUT && tosite()->tila() <= Tosite::HYVAKSYTTY)
         ui->tallennaButton->setText(tr("Tallenna"));
 
-    poistaAktio_->setEnabled( tosite()->tila() < Tosite::KIRJANPIDOSSA ||
-                              (tosite()->pvm() > kp()->tilitpaatetty() &&
-                               !kp()->alvIlmoitukset()->onkoIlmoitettu(tosite()->pvm()) )  );
+    bool poistoOikeus = kp()->yhteysModel() &&  kp()->yhteysModel()->onkoOikeutta(  tosite()->tila() < Tosite::KIRJANPIDOSSA ? YhteysModel::TOSITE_LUONNOS : YhteysModel::TOSITE_MUOKKAUS  );
+    if(  poistoOikeus && tosite()->tila() >= Tosite::KIRJANPIDOSSA ) {
+        for(auto vienti : tosite()->viennit()->viennit()) {
+            if( vienti.pvm() <= kp()->tilitpaatetty() ||
+              ( vienti.alvKoodi() && kp()->alvIlmoitukset()->onkoIlmoitettu(vienti.pvm())  )) {
+                poistoOikeus = false;
+                break;
+            }
+        }
+    }
+    poistaAktio_->setEnabled(poistoOikeus);
 }
 
 
