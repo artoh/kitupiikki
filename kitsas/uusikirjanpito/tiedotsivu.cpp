@@ -20,6 +20,7 @@
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
 #include "rekisteri/postinumerot.h"
+#include "pilvi/pilvimodel.h"
 
 #include "db/kirjanpito.h"
 #include <QNetworkRequest>
@@ -109,7 +110,9 @@ bool TiedotSivu::validatePage()
     velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
     velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
 
-    if( velho->asetukset_.value("laajuus").toInt() >= velho->asetukset_.value("alvlaajuus").toInt()) {
+    if( velho->asetukset_.value("laajuus").toInt() >= velho->asetukset_.value("alvlaajuus").toInt()  &&
+        ( !field("pilveen").toBool() || kp()->pilvi()->pilviVat() )) {
+        // AlvVelvollinen vain jos riittävä tilaus
         velho->asetukset_.insert("AlvVelvollinen",true);
     }
 
