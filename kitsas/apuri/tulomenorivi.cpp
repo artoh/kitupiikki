@@ -27,9 +27,10 @@ TulomenoRivi::TulomenoRivi(int tili)
     if( tili ) {
         tilinumero_=tili;
         Tili* tilini = kp()->tilit()->tili(tili);
+        bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
         if( tilini ) {
-            alvkoodi_ = tilini->luku("alvlaji");
-            veroprosentti_ = tilini->luku("alvprosentti");
+            alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
+            veroprosentti_ = alv ? tilini->luku("alvprosentti") : 0;
             poistoaika_ = tilini->luku("menojaannospoisto");
             kohdennus_ = tilini->luku("kohdennus");
         }
