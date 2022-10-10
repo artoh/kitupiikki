@@ -190,6 +190,9 @@ void MaaritysSivu::tallenna()
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {
 
+    if( !item)
+        return;
+
     if( nykyinen)
     {
         if( nykyinen->onkoMuokattu() )

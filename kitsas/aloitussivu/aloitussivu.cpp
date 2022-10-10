@@ -921,11 +921,11 @@ QString AloitusSivu::vinkit()
             if( jaljella < 7) {
                 vinkki.append(taulu("info", tr("Pankkiyhteyden valtuutus vanhenemassa"),
                                     tr("Pankkiyhteyden valtuutus vanhenee %1. Uusi valtuutus jatkaaksesi tilitapahtumien hakemista.").arg(uusinta.toString("dd.MM.yyyy")),
-                                    "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
+                                    "ktp:/maaritys/tilitapahtumat", "verkossa.png")) ;
             } else if ( jaljella < 21 ) {
                 vinkki.append(taulu("vinkki", tr("Uusi pankkiyhteyden valtuutus"),
                                     tr("Pankkiyhteyden valtuutus vanhenee %1.").arg(uusinta.toString("dd.MM.yyyy")),
-                                    "ktp:/maaritys/tilitiedot", "verkossa.png")) ;
+                                    "ktp:/maaritys/tilitapahtumat", "verkossa.png")) ;
             }
         }
     }
@@ -1017,14 +1017,14 @@ QString AloitusSivu::vinkit()
             vinkki.append(taulu("varoitus", tr("Arvonlisäveroilmoitus myöhässä"),
                                 tr("Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.")
                                 .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
-                                "ktp:/maaritys/tilitiedot", "vero64.png"));
+                                "ktp:/alvilmoitus", "vero64.png"));
         }
         else if( paivaaIlmoitukseen < 12)
         {
             vinkki.append(taulu("vinkki", tr("Tee arvonlisäverotilitys"),
                                 tr("Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.")
                                 .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
-                                "ktp:/maaritys/tilitiedot", "vero64.png"));
+                                "ktp:/alvilmoitus", "vero64.png"));
         }
     }
 
