@@ -150,11 +150,11 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
 
 
     if( minNumero_.startsWith("1"))
-        proxy_->setFilterFixedString("A");
+        proxy_->setFilterRegExp("A.*");
     else if( minNumero_.startsWith("2"))
-        proxy_->setFilterRegExp("[BT]");
+        proxy_->setFilterRegExp("[BT].*");
     else
-        proxy_->setFilterRegExp("[CD]");
+        proxy_->setFilterRegExp("[CD].*");
 
     alustaOhjeet();
 
@@ -172,7 +172,7 @@ TilinMuokkausDialog::~TilinMuokkausDialog()
 
 void TilinMuokkausDialog::lataa()
 {
-    proxy_->setFilterRegExp("");
+//    proxy_->setFilterRegExp("");
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
 
