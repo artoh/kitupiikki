@@ -2756,7 +2756,7 @@
     },
     {
         "numero": 6,
-        "tyyppi": "H4",
+        "tyyppi": "H3",
         "nimi": {
             "fi": "Poistot ja arvonalentumat",
             "en": "Depreciations",
