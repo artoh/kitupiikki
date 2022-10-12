@@ -20,7 +20,6 @@
 #include "apuriwidget.h"
 
 #include <QVariantMap>
-#include "model/euro.h"
 #include "model/eramap.h"
 #include "model/tositevienti.h"
 
@@ -64,6 +63,9 @@ private:
     QVariantMap debetKumppani_;
     QString debetArkistoTunnus_;
     QString kreditArkistoTunnus_;
+
+    int kreditId_ = 0;
+    int debetId_ = 0;
 
 
 };

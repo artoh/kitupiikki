@@ -89,7 +89,6 @@ bool SiirtoApuri::teeTositteelle()
         ui->asiakas->valitse(kumppani);
     }
 
-
     QVariantList viennit;
 
     TositeVienti debet;
