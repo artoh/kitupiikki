@@ -282,7 +282,7 @@ bool TallentavaMaaritysWidget::tallenna()
     }
     kp()->asetukset()->aseta(asetukset);
     emit tallennaKaytossa(false);
-    emit kp()->onni("Asetukset tallennettu", Kirjanpito::Onnistui);
+    emit kp()->onni(tr("Asetukset tallennettu"), Kirjanpito::Onnistui);
     return true;
 }
 
