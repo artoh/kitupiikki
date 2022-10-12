@@ -203,7 +203,7 @@ bool TallentavaMaaritysWidget::tallenna()
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit && edit->hasAcceptableInput()) {
-            asetukset.insert(asetusavain, edit->text());
+            asetukset.insert(asetusavain, edit->text().trimmed());
             continue;
         }
 
@@ -301,7 +301,7 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit ) {
-            if( kp()->asetukset()->asetus(asetusavain) != edit->text())
+            if( kp()->asetukset()->asetus(asetusavain) != edit->text().trimmed())
                 return true;
             continue;
         }
