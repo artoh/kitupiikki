@@ -22,7 +22,6 @@
 
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
-#include "db/tositetyyppimodel.h"
 #include "tiliote/tiliotekirjaaja.h"
 
 #include <QDebug>
@@ -94,6 +93,7 @@ bool SiirtoApuri::teeTositteelle()
     QVariantList viennit;
 
     TositeVienti debet;
+    if( debetId_  ) debet.setId(debetId_);
     debet.setPvm( pvm);
     debet.setTili( ui->tililleEdit->valittuTilinumero());
     debet.setDebet( senttia );
@@ -108,6 +108,7 @@ bool SiirtoApuri::teeTositteelle()
     viennit.append(debet);
 
     TositeVienti kredit;
+    if( kreditId_) kredit.setId(kreditId_);
     kredit.setPvm( pvm );
     kredit.setTili( ui->tililtaEdit->valittuTilinumero());
     kredit.setKredit( senttia );
@@ -168,11 +169,13 @@ void SiirtoApuri::teeReset()
 
         debetArkistoTunnus_ = debetMap.arkistotunnus();
         kreditArkistoTunnus_ = kreditMap.arkistotunnus();
+        debetId_ = debetMap.id();
+        kreditId_ = kreditMap.id();
 
-        ui->tililleKohdennusCombo->valitseKohdennus( debetMap.value("kohdennus").toInt());
-        ui->tililtaKohdennusCombo->valitseKohdennus( kreditMap.value("kohdennus").toInt());
-        ui->tililleMerkkausCC->setSelectedItems( debetMap.value("merkkaukset").toList());
-        ui->tililtaMerkkausCC->setSelectedItems( kreditMap.value("merkkaukset").toList());
+        ui->tililleKohdennusCombo->valitseKohdennus(  debetMap.kohdennus());
+        ui->tililtaKohdennusCombo->valitseKohdennus( kreditMap.kohdennus() );
+        ui->tililleMerkkausCC->setSelectedItems( debetMap.merkkaukset() );
+        ui->tililtaMerkkausCC->setSelectedItems( kreditMap.merkkaukset() );
 
         if( ui->tililleEraCombo->eraMap().id())
             haeAlkuperaistosite(true, ui->tililleEraCombo->eraMap().id());
@@ -180,6 +183,13 @@ void SiirtoApuri::teeReset()
             haeAlkuperaistosite(false, ui->tililtaEraCombo->eraMap().id());
 
     } else {
+        debetKumppani_.clear();
+        kreditKumppani_.clear();
+        debetArkistoTunnus_.clear();
+        kreditArkistoTunnus_.clear();
+        debetId_ = 0;
+        kreditId_ = 0;
+
         ui->euroEdit->setCents(0);
         ui->tililleEdit->clear();
         ui->tililtaEdit->clear();
