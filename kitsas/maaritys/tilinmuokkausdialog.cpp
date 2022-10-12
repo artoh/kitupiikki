@@ -143,6 +143,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
                 poistaNappi_->setEnabled(true);
         } else {            
             // Tilin saa poistaa, jos sillä ei ole vientejä
+            // Ei kuitenkaan erityistiliä!!!!
             if( !varoTyypit.contains(tili_->tyyppiKoodi())) {
                 KpKysely *kysely = kpk("/viennit");
                 kysely->lisaaAttribuutti("tili", tili_->numero());
