@@ -79,6 +79,8 @@ protected slots:
 
     void viennitSaapuu(QVariant* data);
 
+    bool tyyppiVaroitus();
+
 protected:
     void alustaOhjeet();
     void alustalaajuus();
@@ -102,6 +104,7 @@ protected:
     int indeksi_ = -1;
     int taso_ = 0;
 
+    QStringList varoTyypit;
 
 };
 

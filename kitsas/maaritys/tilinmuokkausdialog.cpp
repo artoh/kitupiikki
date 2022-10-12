@@ -39,6 +39,9 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     : QDialog(parent), ui(new Ui::tilinmuokkausDialog),  tila_(tila), indeksi_(indeksi)
 {
     ui->setupUi(this);
+    varoTyypit << "AJ" << "AL" << "ALM" << "AV" << "BE" << "T" << "BL" << "BJ"
+               << "BLM" << "BV";
+
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( kp()->tiliTyypit() );
@@ -138,12 +141,14 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
                 kp()->tilit()->tiliPIndeksilla(indeksi+1) &&
                 kp()->tilit()->tiliPIndeksilla(indeksi+1)->otsikkotaso() <= taso_)
                 poistaNappi_->setEnabled(true);
-        } else {
+        } else {            
             // Tilin saa poistaa, jos sillä ei ole vientejä
-            KpKysely *kysely = kpk("/viennit");
-            kysely->lisaaAttribuutti("tili", tili_->numero());
-            connect( kysely, &KpKysely::vastaus, this, &TilinMuokkausDialog::viennitSaapuu );
-            kysely->kysy();
+            if( !varoTyypit.contains(tili_->tyyppiKoodi())) {
+                KpKysely *kysely = kpk("/viennit");
+                kysely->lisaaAttribuutti("tili", tili_->numero());
+                connect( kysely, &KpKysely::vastaus, this, &TilinMuokkausDialog::viennitSaapuu );
+                kysely->kysy();
+            }
         }
 
     }
@@ -326,6 +331,10 @@ void TilinMuokkausDialog::numeroCheck()
 
 void TilinMuokkausDialog::accept()
 {
+    if( tyyppiVaroitus() ) {
+        return;
+    }
+
     if( !tili_)
         tili_ = kp()->tilit()->lisaaTili( ui->numeroEdit->text().toInt(), taso_ );
 
@@ -408,6 +417,34 @@ void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
     poistaNappi_->setEnabled( data->toList().isEmpty() );
 }
 
+bool TilinMuokkausDialog::tyyppiVaroitus()
+{
+    const QString uusiTyyppi = ui->tyyppiCombo->currentData().toString();
+    if( !tili_ && varoTyypit.contains(uusiTyyppi)) {
+        if( QMessageBox::warning(this, tr("Uudelle tilille määritelty erityinen tilityyppi"),
+                                 tr("Tilille määritelty tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.").arg( ui->tyyppiCombo->currentText()) + "\n" +
+                                 tr("Oletko aivan varma, että haluat lisätä tilin?"),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes)
+            return true;
+    }
+    if( tili_ && varoTyypit.contains(tili_->tyyppiKoodi())  && tili_->tyyppiKoodi() != uusiTyyppi) {
+        if( QMessageBox::warning(this, tr("Erityistä tiliä muokattu"),
+                                 tr("Tilin aiempi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.").arg( tili_->tyyppi().kuvaus() ) + "\n" +
+                                 tr("Oletko aivan varma, että haluat muuttaa tilityyppiä?"),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes)
+            return true;
+    }
+    if( tili_ && varoTyypit.contains(uusiTyyppi)  && tili_->tyyppiKoodi() != uusiTyyppi) {
+        if( QMessageBox::warning(this, tr("Erityistä tiliä muokattu"),
+                                 tr("Tilin uusi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.").arg( ui->tyyppiCombo->currentText()) + "\n" +
+                                 tr("Oletko aivan varma, että haluat muuttaa tilityyppiä?"),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes)
+            return true;
+    }
+
+    return false;
+}
+
 
 void TilinMuokkausDialog::alustaOhjeet()
 {
@@ -420,5 +457,3 @@ void TilinMuokkausDialog::alustaOhjeet()
         ui->ohjeTabs->addTab(edit,QIcon(kieli.lippu()), kieli.nimi());
     }
 }
-
-
