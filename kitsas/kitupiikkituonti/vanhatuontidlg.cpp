@@ -226,7 +226,7 @@ void VanhatuontiDlg::alustaValinnat()
 
     if( kitupiikkiTilikartta == "yhdistys-1.kpk") {
         ui->tilikarttaLabel->setText(tr("Yhdistys"));
-        int laajuus = kitupiikkiAsetukset_.value("Muoto").leftRef(1).toInt();
+        int laajuus = kitupiikkiAsetukset_.value("Muoto").left(1).toInt();
         if( laajuus > 3)
             laajuus++;  // Väliin tullut yksi laajuus
         kitsasAsetukset_.insert("laajuus", laajuus);

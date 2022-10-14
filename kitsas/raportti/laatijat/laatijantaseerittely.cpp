@@ -93,7 +93,7 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
         }
 
         QChar tyyppi = koodi.at( koodi.length()-1 );
-        int tilinumero = koodi.leftRef(koodi.length()-1).toInt();
+        int tilinumero = koodi.left(koodi.length()-1).toInt();
         Tili* tili = kp()->tilit()->tili(tilinumero);
         if( !tili)
             continue;

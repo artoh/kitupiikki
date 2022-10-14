@@ -383,7 +383,7 @@ void LiiteTulostaja::tulostaKasittelijat(QPainter *painter, const QVariantList &
         QString nimi = map.value("nimi").toString();
         QStringList etukirjaimet = nimi.split(QRegularExpression("\\W", QRegularExpression::UseUnicodePropertiesOption));
         for(QString& osa : etukirjaimet)
-            nimet.append(osa.leftRef(1));
+            nimet.append(osa.left(1));
 
         if( idt.count() > 5)
             break;

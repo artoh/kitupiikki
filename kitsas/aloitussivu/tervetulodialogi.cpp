@@ -83,8 +83,7 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     // Lisätään mimetyyppi
     QFile mime( QDir::home().absoluteFilePath(".local/share/mime/application/kitsas.xml"));
     mime.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    QTextStream mout(&mime);
-    mout.setCodec("UTF-8");
+    QTextStream mout(&mime);    
     mout << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
     mout << "<mime-type xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\" type=\"application/kitsas\">\n";
     mout << "<comment xml:lang=\"en\">Kitsas accounting database</comment>\n";
@@ -98,8 +97,7 @@ void TervetuloDialogi::linuxKaynnistysValikkoon()
     // Lisätään työpöytätiedosto
     QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
     desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    QTextStream out(&desktop);
-    out.setCodec("UTF-8");
+    QTextStream out(&desktop);    
 
     out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitsas " << qApp->applicationVersion() << "\n";
     out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png") << "\n";

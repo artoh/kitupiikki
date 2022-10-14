@@ -116,7 +116,6 @@ void MaaModel::lataa()
     QFile maat(":/rekisteri/maat.csv");
     maat.open(QFile::ReadOnly);
     QTextStream in(&maat);
-    in.setCodec("UTF-8");
     while(!in.atEnd()) {
         QStringList list = in.readLine().split(";");
         if( list.length() >= 3) {
