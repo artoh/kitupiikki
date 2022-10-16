@@ -18,7 +18,7 @@
 #define POPPLERANALYZERDOCUMENT_H
 
 #include "pdftoolkit.h"
-#include <poppler/qt5/poppler-qt5.h>
+#include <poppler/qt6/poppler-qt6.h>
 
 class PopplerAnalyzerDocument : public PdfAnalyzerDocument
 {
@@ -33,7 +33,7 @@ public:
 
 
 private:
-    Poppler::Document *pdfDoc_ = nullptr;
+    std::unique_ptr<Poppler::Document> pdfDoc_;
 
 
 };

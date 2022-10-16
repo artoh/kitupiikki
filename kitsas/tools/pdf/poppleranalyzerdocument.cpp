@@ -28,8 +28,7 @@ PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
 
 PopplerAnalyzerDocument::~PopplerAnalyzerDocument()
 {
-    if( pdfDoc_)
-        delete pdfDoc_;
+
 }
 
 int PopplerAnalyzerDocument::pageCount()
@@ -45,24 +44,23 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
     PdfAnalyzerPage result;
     if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
-        Poppler::Page *sivu = pdfDoc_->page(page);
+        auto sivu = pdfDoc_->page(page);
         QMap<int,PdfAnalyzerRow> rows;
 
         if( sivu) {
             result.setSize( sivu->pageSizeF() );
 
             auto lista = sivu->textList();            
-            for(int i=0; i < lista.count(); i++) {
-                auto ptr = lista.at(i);                
+            for(const auto& ptr : lista) {
                 PdfAnalyzerText text;
                 while(ptr) {
                     text.addWord( ptr->boundingBox(),
                                   ptr->text(),
                                   ptr->hasSpaceAfter());
 
-                    ptr = ptr->nextWord();
-                    if( ptr )
-                        i++;
+//                    ptr = std::move(ptr->nextWord());
+//                    if( ptr )
+//                        i++;
                 }
                 int indeksi = qRound( text.boundingRect().top() );
                 if( rows.contains(indeksi-1) )
@@ -73,8 +71,7 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
                 // Jätetään pois sivumarginaalia
                 if( text.boundingRect().right() > 25)
                     rows[indeksi].addText(text);
-            }            
-            delete sivu;
+            }                        
         }
 
         QMapIterator<int,PdfAnalyzerRow> iter(rows);

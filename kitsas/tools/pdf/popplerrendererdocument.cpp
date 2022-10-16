@@ -30,8 +30,7 @@ PopplerRendererDocument::PopplerRendererDocument(const QByteArray &data)
 
 PopplerRendererDocument::~PopplerRendererDocument()
 {
-    if(pdfDoc_)
-        delete pdfDoc_;
+
 }
 
 int PopplerRendererDocument::pageCount()
@@ -47,12 +46,11 @@ QImage PopplerRendererDocument::renderPage(int page, double resolution)
     if( !pdfDoc_ || locked())
         return QImage();
 
-    Poppler::Page *pdfSivu = pdfDoc_->page(page);
+    auto pdfSivu = pdfDoc_->page(page);
     if( !pdfSivu)
         return QImage();
 
-    QImage image = pdfSivu->renderToImage(resolution, resolution);
-    delete pdfSivu;
+    QImage image = pdfSivu->renderToImage(resolution, resolution);    
     return image;
 }
 
@@ -70,14 +68,13 @@ QImage PopplerRendererDocument::renderPageToWidth(int page, double width)
     if( !pdfDoc_ || locked())
         return QImage();
 
-    Poppler::Page *pdfSivu = pdfDoc_->page(page);
+    auto pdfSivu = pdfDoc_->page(page);
     if( !pdfSivu)
         return QImage();
 
     double pdfleveys = pdfSivu->pageSizeF().width();
     double skaala = width / pdfleveys * 72.0;
 
-    QImage image = pdfSivu->renderToImage(skaala, skaala);
-    delete pdfSivu;
+    QImage image = pdfSivu->renderToImage(skaala, skaala);    
     return image;
 }

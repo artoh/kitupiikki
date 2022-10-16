@@ -180,7 +180,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         else if( suosikit_.contains(tili->numero()))
             return Tili::TILI_SUOSIKKI;
         else return Tili::TILI_NORMAALI;
-    } else if( role == Qt::TextColorRole) {
+    } else if( role == Qt::ForegroundRole) {
         if( !tili->tila())
             return QColor(Qt::darkGray);
     }
@@ -334,7 +334,7 @@ void TiliModel::lataa(QVariantList lista)
 
         QString tyyppikoodi = map.value("tyyppi").toString();
         if( tyyppikoodi.startsWith('H')) {   // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
-            otsikkotaso = tyyppikoodi.midRef(1).toInt();
+            otsikkotaso = tyyppikoodi.mid(1).toInt();
             otsikot[otsikkotaso] = tili;
             tili->asetaOtsikko( otsikot.at(otsikkotaso - 1) );
             ylinotsikkotaso = otsikkotaso;

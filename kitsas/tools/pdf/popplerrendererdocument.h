@@ -18,7 +18,7 @@
 #define POPPLERRENDERERDOCUMENT_H
 
 #include "pdftoolkit.h"
-#include <poppler/qt5/poppler-qt5.h>
+#include <poppler/qt6/poppler-qt6.h>
 
 class PopplerRendererDocument : public PdfRendererDocument
 {
@@ -32,7 +32,7 @@ public:
     virtual bool locked() const override;
 
 private:
-    Poppler::Document *pdfDoc_ = nullptr;
+    std::unique_ptr<Poppler::Document> pdfDoc_;
 
 
 };

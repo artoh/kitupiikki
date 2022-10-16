@@ -146,7 +146,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             fontti.setBold(true);
         return QVariant( fontti );
     }
-    else if( role == Qt::TextColorRole)
+    else if( role == Qt::ForegroundRole)
     {
         if( !tili.tila() )
             return QColor(Qt::darkGray);
@@ -177,7 +177,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             return "01";
         return "0";
     }
-    else if( role == Qt::BackgroundColorRole) {
+    else if( role == Qt::BackgroundRole) {
         if( tili.otsikkotaso())
             return QPalette().mid().color();
     } else if( role == NimiRooli )

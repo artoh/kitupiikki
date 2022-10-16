@@ -54,7 +54,7 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 
         TilinValintaDialogi* dlg = new TilinValintaDialogi();
         if( alku.startsWith("*")) {
-            dlg->valitse(alku.midRef(1).toInt());
+            dlg->valitse(alku.mid(1).toInt());
         } else {
             dlg->suodata(alku);
         }
