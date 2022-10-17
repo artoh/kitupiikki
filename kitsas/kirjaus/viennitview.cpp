@@ -126,7 +126,7 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
 
                     tosite_->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
                                                                                           index.data(TositeViennit::TagiIdListaRooli).toList(),
-                                                                                          mouseEvent->globalPos()) ,
+                                                                                          mouseEvent->globalPosition().toPoint()) ,
                                                    TositeViennit::TagiIdListaRooli);
                     return false;
                 }

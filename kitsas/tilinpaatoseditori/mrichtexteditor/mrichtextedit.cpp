@@ -107,15 +107,15 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
 
     // link
 
-    f_link->setShortcut(Qt::CTRL + Qt::Key_L);
+    f_link->setShortcut(Qt::CTRL | Qt::Key_L);
 
     connect(f_link, SIGNAL(clicked(bool)), this, SLOT(textLink(bool)));
 
     // bold, italic & underline
 
-    f_bold->setShortcut(Qt::CTRL + Qt::Key_B);
-    f_italic->setShortcut(Qt::CTRL + Qt::Key_I);
-    f_underline->setShortcut(Qt::CTRL + Qt::Key_U);
+    f_bold->setShortcut(Qt::CTRL | Qt::Key_B);
+    f_italic->setShortcut(Qt::CTRL | Qt::Key_I);
+    f_underline->setShortcut(Qt::CTRL | Qt::Key_U);
 
     connect(f_bold, SIGNAL(clicked()), this, SLOT(textBold()));
     connect(f_italic, SIGNAL(clicked()), this, SLOT(textItalic()));
@@ -538,9 +538,9 @@ void MRichTextEdit::slotClipboardDataChanged() {
 QString MRichTextEdit::toHtml() const {
     QString s = f_textedit->toHtml();
     // convert emails to links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");
+    s = s.replace(QRegularExpression("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");
     // convert links
-    s = s.replace(QRegExp("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
+    s = s.replace(QRegularExpression("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)((?:https?|ftp|file)://[^\\s'\"<>]+)"), "\\1<a href=\"\\2\">\\2</a>");
     // see also: Utils::linkify()
     return s;
 }

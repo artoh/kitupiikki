@@ -219,15 +219,15 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 {
    // Hyödynnetään tietoa siitä, mikä luku on muuttunut
 
-    int pp = uusi.midRef(0,2).toInt();
-    int kk = uusi.midRef(3,2).toInt();
-    int vv = uusi.midRef(6,4).toInt();
+    int pp = uusi.mid(0,2).toInt();
+    int kk = uusi.mid(3,2).toInt();
+    int vv = uusi.mid(6,4).toInt();
 
    if( cursorPosition() == 1)
    {
-       if( uusi.midRef(0,1).toInt() > 3 ) {
+       if( uusi.mid(0,1).toInt() > 3 ) {
            // 4 -> 04 jne.
-           pp = uusi.midRef(0,1).toInt();
+           pp = uusi.mid(0,1).toInt();
            setCursorPosition(3);
        } else if (uusi.at(0)=='3' && uusi.mid(1) != '1')  {
            pp = 30;
@@ -239,11 +239,11 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 
    if( cursorPosition() == 3 )
    {
-       if( uusi.at(0) == '3' && uusi.midRef(1,1).toInt() > 1)
+       if( uusi.at(0) == '3' && uusi.mid(1,1).toInt() > 1)
        {
            // 34 -> 03.04.
-           pp=uusi.midRef(0,1).toInt();
-           kk=uusi.midRef(1,1).toInt();
+           pp=uusi.mid(0,1).toInt();
+           kk=uusi.mid(1,1).toInt();
            setCursorPosition(8);
        }
    }

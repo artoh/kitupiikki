@@ -67,7 +67,7 @@ void TilinpaatosTulostaja::tallenna()
 
 void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 {
-    writer->setPageSize( QPdfWriter::A4);
+    writer->setPageSize( QPageSize::A4);
 
     writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
     QPainter painter( writer );

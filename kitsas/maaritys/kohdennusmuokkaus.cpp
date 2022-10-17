@@ -33,7 +33,7 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     proxy->sort(0);
 
     proxy->setFilterRole(KohdennusModel::TyyppiRooli);
-    proxy->setFilterRegExp("[123]");
+    proxy->setFilterRegularExpression(QRegularExpression("[123]"));
     // Ei näytetä tässä luettelossa Yleistä ei id 0
 
     ui->view->setModel(proxy);

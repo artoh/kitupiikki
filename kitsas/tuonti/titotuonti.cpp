@@ -60,19 +60,19 @@ QVariantMap TitoTuonti::tuo(const QByteArray &data)
         if( rivi.startsWith("T11"))
         {            
             // Täydentävää tietoa - tästä poimitaan saajan IBAN
-            if( rivi.midRef(6,2) == "11")
+            if( rivi.mid(6,2) == "11")
             {
                 map.insert("iban", rivi.mid(43,35).simplified());
                 // Myös mahdollinen euromuotoinen viite
-                if( rivi.midRef(8,35).startsWith("RF"))
+                if( rivi.mid(8,35).startsWith("RF"))
                     rmap.insert("viite",rivi.mid(8,35).simplified());
             }
             // Vapaa lisätieto
-            else if( rivi.midRef(6,2) == "00" )
+            else if( rivi.mid(6,2) == "00" )
             {
                 // Koska OP ei käytä asianmukaisesti 11-tyypin tietuetta,
                 // poimitaan viite myös 00-tietueesta
-                if( rivi.midRef(8,35).startsWith("RF"))
+                if( rivi.mid(8,35).startsWith("RF"))
                     rmap.insert("viite",rivi.mid(8,35).simplified());
                 else
                 {
@@ -83,11 +83,11 @@ QVariantMap TitoTuonti::tuo(const QByteArray &data)
 
             }
             // Kappaletieto jos monta
-            else if( rivi.midRef(6,2)== "01")
+            else if( rivi.mid(6,2)== "01")
             {
                 if( !selite.isEmpty() && !selite.right(1).isEmpty())
                     selite.append(' ');
-                selite.append( QString("VIITEMAKSUJA %1 kpl").arg( rivi.midRef(8,8).toInt() ) );
+                selite.append( QString("VIITEMAKSUJA %1 kpl").arg( rivi.mid(8,8).toInt() ) );
             }
 
         }

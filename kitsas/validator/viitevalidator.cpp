@@ -59,7 +59,7 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
         return Invalid;
 
 
-    int tarkaste = str.rightRef(1).toInt();
+    int tarkaste = str.right(1).toInt();
 
     int indeksi = 0;
     int summa = 0;

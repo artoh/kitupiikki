@@ -29,7 +29,7 @@
 
 #include <QScreen>
 #include <QClipboard>
-#include <QSvgWidget>
+#include <QtSvgWidgets/QSvgWidget>
 
 KiertoWidget::KiertoWidget(Tosite *tosite, QWidget *parent) : QWidget(parent),
     ui( new Ui::Kierto), tosite_(tosite)

@@ -27,12 +27,12 @@ BudjettiModel::BudjettiModel(QObject *parent)
     QSortFilterProxyModel *tilaproxy = new QSortFilterProxyModel(this);
     tilaproxy->setSourceModel( kp()->tilit());
     tilaproxy->setFilterRole(TiliModel::TilaRooli);
-    tilaproxy->setFilterRegExp(QRegExp("[12]"));
+    tilaproxy->setFilterRegularExpression(QRegularExpression("[12]"));
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( tilaproxy );
     proxy_->setFilterKeyColumn( TiliModel::NUMERO );
-    proxy_->setFilterRegExp( QRegExp("^[3-9].*"));
+    proxy_->setFilterRegularExpression( QRegularExpression("^[3-9].*"));
 }
 
 int BudjettiModel::rowCount(const QModelIndex &parent) const
@@ -119,7 +119,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
         return QVariant( fontti );
     }
 
-    else if( role==Qt::BackgroundColorRole)
+    else if( role==Qt::BackgroundRole)
     {
         if( proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO), TiliModel::OtsikkotasoRooli ).toInt() )
             return QPalette().mid().color();

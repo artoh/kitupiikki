@@ -15,10 +15,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QTextCodec>
 #include <QRegularExpression>
 #include <QFile>
 #include <QDebug>
+#include <QtCore5Compat/QTextCodec>
 
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"

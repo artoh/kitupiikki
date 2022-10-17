@@ -6,6 +6,8 @@ QT += printsupport
 QT += network
 QT += svg
 QT += xml
+QT += core5compat
+QT += svgwidgets
 
 CONFIG += c++14
 
