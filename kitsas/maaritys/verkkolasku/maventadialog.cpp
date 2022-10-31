@@ -126,6 +126,7 @@ void MaventaDialog::lataa(const QVariantMap &data)
     ui->maventaLaskuButton->setVisible( !kitsaslasku || !book.value("companybykitsas").toBool() );
 
     ui->activeBox->setChecked( book.value("active").toBool() );
+    ui->activeBox->setEnabled(pilvessa);
 
     QVariantMap notifications = data.value("invoice_notifications").toMap();
     QVariantMap receiving = notifications.value("on_receiving").toMap();

@@ -94,6 +94,7 @@ void FinvoiceHaku::haeSeuraava()
     PilviKysely *haku = new PilviKysely( kp()->pilvi(), PilviKysely::GET, osoite);
     haku->lisaaAttribuutti("format","JSON");
     connect( haku, &KpKysely::vastaus, this, &FinvoiceHaku::jsonSaapuu);
+    connect( haku, &KpKysely::virhe, this, [this] { this->hakulista_.clear(); this->hakuPaalla_ = false; } );
     haku->kysy();
 
 }

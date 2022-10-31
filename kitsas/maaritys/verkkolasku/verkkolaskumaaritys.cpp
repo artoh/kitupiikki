@@ -175,7 +175,7 @@ void VerkkolaskuMaaritys::valitseKansio()
 void VerkkolaskuMaaritys::valintaMuuttui()
 {
     ui->odotaLabel->setVisible( maventaInfo_.isEmpty() );
-    ui->velhoGroup->setVisible( maventaInfo_.contains("availability") || maventaInfo_.value("company").toMap().value("company_state").toString() == "UNVERIFIED" );
+    ui->velhoGroup->setVisible( ui->eiKaytossa->isChecked() || maventaInfo_.value("company").toMap().value("company_state").toString() == "UNVERIFIED" );
     ui->kaytossaGroup->setVisible( !ui->eiKaytossa->isChecked() && !maventaInfo_.isEmpty() && !maventaInfo_.value("book").toMap().value("active").toBool() );
     ui->hakemistoGroup->setVisible( ui->paikallinen->isChecked());    
     ui->osoiteGroup->setVisible( !ui->eiKaytossa->isChecked() );
@@ -276,11 +276,12 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
     }
 
     QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();
+    bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
 
     ui->maventaInfo->setText(company.value("name").toString() + "\n" +
             ( book.value("kitsasuser").toBool() ? "" : user.value("first_name").toString() + " " + user.value("last_name").toString() + "\n") + "\n" +
             ( book.value("kitsasbilling").toBool() ? tr("Verkkolaskujen hinnoittelu Kitsaan hinnaston mukaan.") : tr("Verkkolaskujen hinnoittelu Maventan hinnaston mukaan.") ) + "\n" +
-            ( book.value("active").toBool() ? tr("Verkkolaskujen nouto on käytössä") : tr("Verkkolaskujen automaattista noutoa ei ole otettu käyttöön") ) + "\n" +
+            ( pilvessa ? (( book.value("active").toBool() ? tr("Verkkolaskujen nouto on käytössä") : tr("Verkkolaskujen automaattista noutoa ei ole otettu käyttöön") ) + "\n" ) : "") +
             ( (print.value("enabled").toBool() && kp()->asetukset()->onko("MaventaPostitus")) ? tr("Postitettavien laskujen tulostus ja postitus Maventan kautta käytössä") : tr("Tulostuspalvelu ei ole käytössä") ) );
 }
 
