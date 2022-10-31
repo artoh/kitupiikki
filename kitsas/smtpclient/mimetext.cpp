@@ -54,7 +54,7 @@ const QString & MimeText::getText() const
 
 void MimeText::writeContent(QIODevice &device) const {
 //    MimePart::writeContent(device, QStringEncoder(this->cCharset.toStdString().c_str()).encode(text));
-      MimePart::writeContent( device, text.toLocal8Bit() );
+      MimePart::writeContent( device, text.toUtf8() );
 }
 
 /* [3] --- */
