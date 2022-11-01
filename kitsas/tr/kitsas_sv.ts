@@ -5369,17 +5369,17 @@ adress</translation>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="112"/>
         <source>Toimituspäivä</source>
-        <translation type="unfinished">Leveransdatum</translation>
+        <translation>Leveransdatum</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="118"/>
         <source>Alkupäivä</source>
-        <translation type="unfinished">Startdatum</translation>
+        <translation>Startdatum</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="125"/>
         <source>Loppupäivä</source>
-        <translation type="unfinished">Slutdatum</translation>
+        <translation>Slutdatum</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="141"/>
@@ -9841,7 +9841,7 @@ som mall
     <message>
         <location filename="../maaritys/tallentavamaarityswidget.cpp" line="285"/>
         <source>Asetukset tallennettu</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningarna sparat</translation>
     </message>
 </context>
 <context>
@@ -11052,39 +11052,39 @@ Periodens verifikat raderas inte men de blir på ett felaktigt utanför perioden
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="425"/>
         <source>Uudelle tilille määritelty erityinen tilityyppi</source>
-        <translation type="unfinished"></translation>
+        <translation>Specielt kontotyp har definierats för den nya konton</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="426"/>
         <source>Tilille määritelty tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontotypen %1 som har definierats för kontot påverkar bokföringens verksamhet på specielt sätt.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="427"/>
         <source>Oletko aivan varma, että haluat lisätä tilin?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du helt säkert att du vill tillsättä kontot?</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="432"/>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="439"/>
         <source>Erityistä tiliä muokattu</source>
-        <translation type="unfinished"></translation>
+        <translation>Speciellla konton behandlad</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="433"/>
         <source>Tilin aiempi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidigare kontotypet %1 av detta kontot påverkar bokföringens verksmahet på specielt sätt.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="434"/>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="441"/>
         <source>Oletko aivan varma, että haluat muuttaa tilityyppiä?</source>
-        <translation type="unfinished"></translation>
+        <translation>Är du helt säkert att du vill byta kontotypet?</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkausdialog.cpp" line="440"/>
         <source>Tilin uusi tilityyppi %1 vaikuttaa erityisellä tavalla kirjanpidon toimintaan.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det nya kontotypet %1 av detta kontot påverkar bokföringens verksamhet på specielt sätt.</translation>
     </message>
 </context>
 <context>
