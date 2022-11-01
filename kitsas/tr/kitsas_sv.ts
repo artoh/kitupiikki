@@ -2213,17 +2213,17 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
         <location filename="../maaritys/emailmaaritys.cpp" line="165"/>
         <location filename="../maaritys/emailmaaritys.cpp" line="169"/>
         <source>Puutteelliset asetukset</source>
-        <translation type="unfinished"></translation>
+        <translation>Bristfälliga inställningarna</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.cpp" line="165"/>
         <source>Lähettäjän sähköpostiosoitetta ei ole määritelty</source>
-        <translation type="unfinished"></translation>
+        <translation>Avsändarens e-postaddress är icke definierad</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.cpp" line="169"/>
         <source>Sähköpostipalvelinta ei ole määritelty</source>
-        <translation type="unfinished"></translation>
+        <translation>E-postservern är icke definierad</translation>
     </message>
     <message>
         <location filename="../maaritys/emailmaaritys.cpp" line="200"/>
@@ -12032,7 +12032,7 @@ Försök igen senare.</translation>
     <message>
         <location filename="../maaritys/toiminimimaaritys.ui" line="144"/>
         <source>Puhelinnumero</source>
-        <translation type="unfinished">Telefonnummer</translation>
+        <translation>Telefonnummer</translation>
     </message>
     <message>
         <location filename="../maaritys/toiminimimaaritys.ui" line="157"/>
@@ -13589,17 +13589,17 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../uusikirjanpito/uusitiedot.ui" line="160"/>
         <source>Sähköpostiosoite</source>
-        <translation type="unfinished">E-postadress</translation>
+        <translation>E-postadress</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusitiedot.ui" line="167"/>
         <source>Kotisivu</source>
-        <translation type="unfinished">Webbsida</translation>
+        <translation>Webbsida</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusitiedot.ui" line="180"/>
         <source>Puhelinnumero</source>
-        <translation type="unfinished">Telefonnummer</translation>
+        <translation>Telefonnummer</translation>
     </message>
 </context>
 <context>
