@@ -172,11 +172,13 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 
         int tili = lasku.maksutapa() == Lasku::ENNAKKOLASKU ? kitsas_->asetukset()->luku(AsetusModel::LaskuEnnakkoTili) :  rivi.tili();
         int kohdennus = rivi.ennakkoEra() ? 0 - rivi.ennakkoEra() : rivi.kohdennus();
-        QString str = QString("%1/%2/%3/%4")
+        QString str = QString("%1/%2/%3/%4/%5/%6")
                 .arg(tili)
                 .arg(kohdennus)
                 .arg(rivi.alvkoodi())
-                .arg(rivi.alvProsentti(),0,'f',2);
+                .arg(rivi.alvProsentti(),0,'f',2)
+                .arg(rivi.jaksoAlkaa().isValid() ? rivi.jaksoAlkaa().toString(Qt::ISODate) : "")
+                .arg(rivi.jaksoLoppuu().isValid() ? rivi.jaksoAlkaa().toString(Qt::ISODate) : "");
         for( auto& merkkaus : rivi.merkkaukset()) {
             str.append(QString("/%1").arg(merkkaus.toString()));
         }
@@ -203,6 +205,11 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 
         int alvkoodi = strlist.takeFirst().toInt();
         int alvprosentti = strlist.takeFirst().toDouble();
+
+        const QString alkupvm = strlist.takeFirst();
+        const QDate jaksoAlkaa = alkupvm.isEmpty() ? QDate() : QDate::fromString(alkupvm);
+        const QString loppupvm = strlist.takeFirst();
+        const QDate jaksoLoppuu = loppupvm.isEmpty() ? QDate() : QDate::fromString(loppupvm);
 
         if(alvkoodi >= Lasku::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
@@ -232,8 +239,8 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 
 
         if( lasku.maksutapa() != Lasku::KUUKAUSITTAINEN) {
-            vienti.setJaksoalkaa( lasku.toimituspvm() );
-            vienti.setJaksoloppuu( lasku.jaksopvm());
+            vienti.setJaksoalkaa( jaksoAlkaa.isValid() ? jaksoAlkaa : lasku.toimituspvm() );
+            vienti.setJaksoloppuu( jaksoAlkaa.isValid() ? jaksoLoppuu : lasku.jaksopvm());
         }
 
         tosite_->viennit()->lisaa(vienti);

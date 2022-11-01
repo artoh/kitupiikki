@@ -46,8 +46,11 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
 
     connect( ui->alkupvmEdit, &KpDateEdit::dateChanged, this, [this](const QDate& date) { this->ui->loppupvmEdit->setEnabled(date.isValid()); this->ui->loppupvmEdit->setDateRange(date, QDate()); } );
 
-    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
-    ui->alvGroup->setVisible(alv);
+    bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);    
+
+    ui->alvLabel->setVisible(alv);
+    ui->alvCombo->setVisible(alv);
+
     ui->aBruttoLabel->setVisible(alv);
     ui->aBrutto->setVisible(alv);
     ui->bruttoAleLabel->setVisible(alv);
