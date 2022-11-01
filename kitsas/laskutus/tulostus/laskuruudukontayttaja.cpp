@@ -269,6 +269,13 @@ QString LaskuRuudukonTayttaja::nimikesarake(const TositeRivi &rivi)
     if( !rivi.lisatiedot().isEmpty())
         txt.append("\n" + rivi.lisatiedot());
 
+    if( rivi.jaksoAlkaa().isValid()) {
+        txt.append(QString("\n%1").arg( rivi.jaksoAlkaa().toString("dd.MM.yyyy") ));
+        if( rivi.jaksoLoppuu().isValid()) {
+            txt.append(QString(" - %1").arg(rivi.jaksoLoppuu().toString("dd.MM.yyyy")));
+        }
+    }
+
 
     // TODO Kaikki tarpeellinen ;)
     return txt;

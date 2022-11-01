@@ -18,6 +18,7 @@
 #define TOSITERIVI_H
 
 #include "db/kantavariantti.h"
+#include <QDate>
 
 class TositeRivi : public KantaVariantti
 {
@@ -101,6 +102,12 @@ public:
 
     int ennakkoEra() const { return luku("ennakkoera");}
     void setEnnakkoEra(const int era) { set("ennakkoera", era); }
+
+    QDate jaksoAlkaa() const { return pvm("jaksoalkaa");}
+    void setJaksoAlkaa(const QDate& pvm) { set("jaksoalkaa", pvm);}
+
+    QDate jaksoLoppuu() const { return pvm("jaksoloppuu");}
+    void setJaksoLoppuu(const QDate& pvm) { set("jaksoloppuu", pvm);}
 
 };
 

@@ -44,6 +44,8 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
     connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
 
+    connect( ui->alkupvmEdit, &KpDateEdit::dateChanged, this, [this](const QDate& date) { this->ui->loppupvmEdit->setEnabled(date.isValid()); this->ui->loppupvmEdit->setDateRange(date, QDate()); } );
+
     bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
     ui->alvGroup->setVisible(alv);
     ui->aBruttoLabel->setVisible(alv);
@@ -52,6 +54,9 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     ui->bruttoAleEdit->setVisible(alv);
     ui->verollinenLabel->setVisible(alv);
     ui->verollinenEdit->setVisible(alv);
+
+    ui->alkupvmEdit->setNullable(true);
+    ui->loppupvmEdit->setNullable(true);
 }
 
 LaskuRiviDialogi::~LaskuRiviDialogi()
@@ -100,6 +105,10 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
 
     ui->lisatietoEdit->setPlainText( rivi.lisatiedot() );
 
+    ui->alkupvmEdit->setDate( rivi.jaksoAlkaa() );
+    ui->loppupvmEdit->setDate( rivi.jaksoLoppuu() );
+    ui->loppupvmEdit->setEnabled( rivi.jaksoAlkaa().isValid() );
+
     paivita();
 }
 
@@ -125,6 +134,8 @@ TositeRivi LaskuRiviDialogi::rivi()
     rivi_.setAlennusSyy( ui->alennusSyyCombo->currentData().toInt() );
     rivi_.setLisatiedot( ui->lisatietoEdit->toPlainText());
 
+    rivi_.setJaksoAlkaa( ui->alkupvmEdit->date() );
+    rivi_.setJaksoLoppuu( rivi_.jaksoAlkaa().isValid() ? ui->loppupvmEdit->date() : QDate() );
 
     return rivi_;
 }

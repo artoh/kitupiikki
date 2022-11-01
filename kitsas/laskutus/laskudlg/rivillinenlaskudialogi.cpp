@@ -135,6 +135,7 @@ void RivillinenLaskuDialogi::rivinLisaTiedot()
 
     if( dlg.exec() == QDialog::Accepted) {
         tosite()->rivit()->asetaRivi(riviIndeksi, dlg.rivi());
+        tarkastaJakso();
     }
 }
 
@@ -195,6 +196,8 @@ bool RivillinenLaskuDialogi::tarkasta()
         }
     }
 
+    tarkastaJakso();
+
     return YksittainenLaskuDialogi::tarkasta();
 }
 
@@ -215,6 +218,25 @@ void RivillinenLaskuDialogi::riviTyyppiVaihtui()
 {
     tosite()->rivit()->asetaRivityyppi( rivityyppi() );
     paivitaSumma();
+}
+
+void RivillinenLaskuDialogi::tarkastaJakso()
+{
+    QDate pienin = ui->toimitusDate->date();
+    QDate isoin = ui->jaksoDate->date();
+
+    for(int i=0; i < tosite()->rivit()->rowCount(); i++) {
+        const TositeRivi& rivi = tosite()->rivit()->rivi(i);
+        if( rivi.jaksoAlkaa().isValid()) {
+            if( pienin.isNull() || rivi.jaksoAlkaa() < pienin) pienin = rivi.jaksoAlkaa();
+            if( isoin.isNull() || rivi.jaksoAlkaa() > isoin) isoin = rivi.jaksoAlkaa();
+            if( rivi.jaksoLoppuu().isValid()) {
+                if( rivi.jaksoLoppuu() > isoin) isoin = rivi.jaksoLoppuu();
+            }
+        }
+    }
+    if( pienin.isValid()) ui->toimitusDate->setDate(pienin);
+    if( isoin.isValid() && isoin != pienin) ui->jaksoDate->setDate(isoin);
 }
 
 void RivillinenLaskuDialogi::alustaRiviTab()
