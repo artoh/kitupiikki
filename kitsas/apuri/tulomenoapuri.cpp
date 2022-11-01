@@ -422,6 +422,8 @@ void TuloMenoApuri::tiliMuuttui()
                     verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
                 if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
                     verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+                if( verotyyppi == AlvKoodi::OSTOT_NETTO && tosite()->tyyppi() == TositeTyyppi::TULO && tili.onko(TiliLaji::TASE))
+                    verotyyppi = AlvKoodi::MYYNNIT_NETTO;
 
                 // Varmistetaan, että verotyyppi säilyy
                 QString filtteri = veroFiltteri_->filterRegExp().pattern();

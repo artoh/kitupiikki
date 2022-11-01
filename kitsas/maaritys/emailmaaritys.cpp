@@ -165,7 +165,7 @@ void EmailMaaritys::kokeile()
         QMessageBox::critical(this, tr("Puutteelliset asetukset"), tr("Lähettäjän sähköpostiosoitetta ei ole määritelty"));
         return;
     }
-    if( !ui->kitsasRadio->isChecked() && !ui->palvelinEdit->text().isEmpty()) {
+    if( !ui->kitsasRadio->isChecked() && ui->palvelinEdit->text().isEmpty()) {
         QMessageBox::critical(this, tr("Puutteelliset asetukset"), tr("Sähköpostipalvelinta ei ole määritelty"));
         return;
     }
