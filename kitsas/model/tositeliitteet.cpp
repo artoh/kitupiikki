@@ -221,26 +221,29 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
     if( liite.isNull())
         return false;
-
-    // Muunnetaan kaikki kuvatiedostot jpg-kuviksi
-    QImage image = image.fromData(liite);
-    if( !image.isNull()) {
-        int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
-        if( image.width() > image.height()) {
-            if( image.width() > koko) {
-                image = image.scaledToWidth(koko);
-            }
-        } else {
-            if( image.height() > koko) {
-                image = image.scaledToHeight(koko);
-            }
-        }
-        if( kp()->settings()->value("KuvaMustavalko").toBool()) {
-            image = image.convertToFormat(QImage::Format_Grayscale8);
-        }
-        QBuffer buffer(&liite);
-        buffer.open(QIODevice::WriteOnly);
-        image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
+   
+    QString tyyppi = KpKysely::tiedostotyyppi(liite);
+    if (tyyppi.startsWith("image/")) {
+       // Muunnetaan kaikki kuvatiedostot jpg-kuviksi
+       QImage image = image.fromData(liite);
+       if( !image.isNull()) {
+           int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
+           if( image.width() > image.height()) {
+               if( image.width() > koko) {
+                   image = image.scaledToWidth(koko);
+               }
+           } else {
+               if( image.height() > koko) {
+                   image = image.scaledToHeight(koko);
+               }
+           }
+           if( kp()->settings()->value("KuvaMustavalko").toBool()) {
+               image = image.convertToFormat(QImage::Format_Grayscale8);
+           }
+           QBuffer buffer(&liite);
+           buffer.open(QIODevice::WriteOnly);
+           image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
+       }
     } else if ( liite.left(128).contains(QByteArray("<html")) || liite.left(128).contains(QByteArray("<HTML")) ) {
         QTextDocument doc;
         doc.setHtml(Tuonti::CsvTuonti::haistettuKoodattu(liite));
@@ -266,7 +269,6 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     }
 
 
-    QString tyyppi = KpKysely::tiedostotyyppi(liite);
     if(tyyppi == "application/octet-stream") {
         if(QMessageBox::question(nullptr, tr("Liitetiedoston tyyppiä ei tueta"),
                               tr("Tätä liitetiedostoa ei voi välttämättä näyttää Kitsaalla eikä sisällyttää arkistoon.\n"
