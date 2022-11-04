@@ -121,12 +121,18 @@ bool ViennitView::eventFilter(QObject *watched, QEvent *event)
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
             QModelIndex index = indexAt( mouseEvent->pos() );
             if( mouseEvent->button() == Qt::RightButton)
-            {                
+            {
+                #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+                    QPoint globalPosition = mouseEvent->globalPosition().toPoint();
+                #else
+                    QPoint globalPosition = mouseEvent->globalPos();
+                #endif
+
                 if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )  {
 
                     tosite_->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
                                                                                           index.data(TositeViennit::TagiIdListaRooli).toList(),
-                                                                                          mouseEvent->globalPosition().toPoint()) ,
+                                                                                          globalPosition),
                                                    TositeViennit::TagiIdListaRooli);
                     return false;
                 }

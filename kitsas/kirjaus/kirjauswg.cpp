@@ -374,7 +374,7 @@ void KirjausWg::tulostaTosite()
     // Tilapäinen tositteen tulostus
     // Tähän voisi tulla parempi ;)
 
-    kp()->printer()->setPageLayout(QPageLayout(QPageSize::A4, QPageLayout::Landscape, QMargins(10,20,10,10), QPageLayout::Millimeter));
+    kp()->printer()->setPageLayout(QPageLayout(QPageSize(QPageSize::A4), QPageLayout::Landscape, QMargins(10,20,10,10), QPageLayout::Millimeter));
 
     QPrintDialog printDialog( kp()->printer(), this);
 

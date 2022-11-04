@@ -479,7 +479,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4, QPageLayo
     writer.setTitle( otsikko() );
 
     if( tulostaA4 )
-        writer.setPageSize( QPageSize::A4 );
+        writer.setPageSize( QPageSize(QPageSize::A4) );
     else if( leiska ) {
         writer.setPageLayout(*leiska);
     } else
