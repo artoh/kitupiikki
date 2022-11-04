@@ -39,8 +39,8 @@ void Postinumerot::alusta()
     QFile in(":/lasku/postcode.json");
     in.open(QFile::ReadOnly | QFile::Text);
 
-    QJsonDocument doc = QJsonDocument::fromJson( in.readAll() );
-    for( auto i = doc.object().constBegin(); i != doc.object().constEnd(); ++i  )
+    QJsonObject obj = QJsonDocument::fromJson( in.readAll() ).object();
+    for( auto i = obj.constBegin(); i != obj.constEnd(); ++i  )
         toimipaikat_.insert( i.key(), i.value().toString() );
 }
 
