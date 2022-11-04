@@ -126,6 +126,7 @@ void MaventaDialog::lataa(const QVariantMap &data)
     ui->maventaLaskuButton->setVisible( !kitsaslasku || !book.value("companybykitsas").toBool() );
 
     ui->activeBox->setChecked( book.value("active").toBool() );
+    ui->activeBox->setEnabled(pilvessa);
 
     QVariantMap notifications = data.value("invoice_notifications").toMap();
     QVariantMap receiving = notifications.value("on_receiving").toMap();
@@ -177,8 +178,12 @@ QVariantMap MaventaDialog::settingsAsetuksista()
     QImage logo = tnimi->logo();
     if( !logo.isNull()) {
         QByteArray ba;
-        QBuffer buffer(&ba);
-        logo.save(&buffer,"JPEG",80);
+        QBuffer buffer(&ba);        
+        if( logo.size().width() > 300 || logo.size().height() > 300) {
+            // #1227 Pienennetään isoa logoa ennen Maventalle lähettämistä
+            logo = logo.scaled(300,300,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+        }
+        logo.save(&buffer,"JPEG",60);
         buffer.close();
         QByteArray base64 = ba.toBase64();
         QVariantMap pdf;
