@@ -418,12 +418,12 @@ void TuloMenoApuri::tiliMuuttui()
                 bool maksuperuste = kp()->onkoMaksuperusteinenAlv(tosite()->pvm()) && ( ui->vastatiliLine->valittuTili().onko(TiliLaji::OSTOVELKA)
                                                                     || ui->vastatiliLine->valittuTili().onko(TiliLaji::MYYNTISAATAVA));
 
+                if( verotyyppi == AlvKoodi::OSTOT_NETTO && tosite()->tyyppi() == TositeTyyppi::TULO && tili.onko(TiliLaji::TASE))
+                    verotyyppi = AlvKoodi::MYYNNIT_NETTO;
                 if( verotyyppi == AlvKoodi::OSTOT_NETTO && maksuperuste)
                     verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
                 if( verotyyppi == AlvKoodi::MYYNNIT_NETTO && maksuperuste)
-                    verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
-                if( verotyyppi == AlvKoodi::OSTOT_NETTO && tosite()->tyyppi() == TositeTyyppi::TULO && tili.onko(TiliLaji::TASE))
-                    verotyyppi = AlvKoodi::MYYNNIT_NETTO;
+                    verotyyppi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;                
 
                 // Varmistetaan, että verotyyppi säilyy
                 QString filtteri = veroFiltteri_->filterRegExp().pattern();
