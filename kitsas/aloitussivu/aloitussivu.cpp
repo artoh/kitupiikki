@@ -190,13 +190,7 @@ void AloitusSivu::siirrySivulle()
     }
     else
     {
-        QFile tttiedosto( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
-        tttiedosto.open(QIODevice::ReadOnly);
-        QTextStream in(&tttiedosto);
-        QString teksti = in.readAll();
-        teksti.replace("<INFO>", paivitysInfo);
-
-        ui->selain->setHtml( teksti );
+        naytaTervetuloTiedosto();
     }
     ui->muistiinpanotNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 }
@@ -239,13 +233,7 @@ void AloitusSivu::paivitaSivu()
     }
     else
     {
-        QFile tttiedosto(Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
-        tttiedosto.open(QIODevice::ReadOnly);
-        QTextStream in(&tttiedosto);
-        QString teksti = in.readAll();
-        teksti.replace("<INFO>", paivitysInfo);
-
-        ui->selain->setHtml( teksti );
+        naytaTervetuloTiedosto();
     }
 }
 
@@ -1112,6 +1100,20 @@ QString AloitusSivu::summat()
 
     return txt;
 
+}
+
+void AloitusSivu::naytaTervetuloTiedosto()
+{
+    QFile tttiedosto(Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
+    tttiedosto.open(QIODevice::ReadOnly);
+    QTextStream in(&tttiedosto);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    in.setCodec("utf8");
+#endif
+    QString teksti = in.readAll();
+    teksti.replace("<INFO>", paivitysInfo);
+
+    ui->selain->setHtml( teksti );
 }
 
 
