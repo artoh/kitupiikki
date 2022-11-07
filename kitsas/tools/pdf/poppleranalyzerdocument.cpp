@@ -42,81 +42,47 @@ int PopplerAnalyzerDocument::pageCount()
 }
 
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-// ***** QT 5 TOTEUTUS *****
-
-
 PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
 {   
+
     PdfAnalyzerPage result;
-    if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
-        Poppler::Page *sivu = pdfDoc_->page(page);
-        QMap<int,PdfAnalyzerRow> rows;
+       if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
-        if( sivu) {
-            result.setSize( sivu->pageSizeF() );
+           auto sivu = pdfDoc_->page(page);
 
-            auto lista = sivu->textList();
-            for(int i=0; i < lista.count(); i++) {
-                auto ptr = lista.at(i);
-                PdfAnalyzerText text;
-                while(ptr) {
-                    text.addWord( ptr->boundingBox(),
-                                  ptr->text(),
-                                  ptr->hasSpaceAfter());
+           if(sivu) {
+               result.setSize(sivu->pageSizeF());
+               QMap<int,PdfAnalyzerRow> rows;
+               PdfAnalyzerText text;
 
-                    ptr = ptr->nextWord();
-                    if( ptr )
-                        i++;
-                }
-                int indeksi = qRound( text.boundingRect().top() );
-                if( rows.contains(indeksi-1) )
-                    indeksi = indeksi -1;
-                else if( rows.contains(indeksi+1))
-                    indeksi = indeksi + 1;
-
-                // Jätetään pois sivumarginaalia
-                if( text.boundingRect().right() > 25)
-                    rows[indeksi].addText(text);
-            }
-            delete sivu;
-        }
-
-        QMapIterator<int,PdfAnalyzerRow> iter(rows);
-        while(iter.hasNext()) {
-            iter.next();
-            result.addRow(iter.value());
-        }
-    }
-
-    return result;
-}
-
-#else
-// ***** QT 6 TOTEUTUS *****
-PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
-{
-    PdfAnalyzerPage result;
-    if( pdfDoc_ && !pdfDoc->isLocked()) {
-
-        std::unique_ptr< Page > sivu = doc_->page(page);
-
-        if(sivu) {
-                QMap<int,PdfAnalyzerRow> rows;
-
-                std::vector< std::unique_ptr< TextBox > > lista = sivu->textList();
-
-
-                for(int i=0; i < lista.count(); i++) {
-            }
-        }
-
-    }
-    return result;
-}
-
+               auto lista = sivu->textList();
+               for(const auto& item : lista) {
+                   text.addWord(item->boundingBox(), item->text(), item->hasSpaceAfter());
+                   if( !item->hasSpaceAfter()) {
+                       int indeksi = qRound( text.boundingRect().top() );
+                       if( rows.contains(indeksi-1) )
+                           indeksi = indeksi -1;
+                       else if( rows.contains(indeksi+1))
+                           indeksi = indeksi + 1;
+                       if( text.boundingRect().right() > 25)
+                           rows[indeksi].addText(text);
+                       text = PdfAnalyzerText();
+                   }
+               }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+               delete sivu;
 #endif
+
+               QMapIterator<int,PdfAnalyzerRow> iter(rows);
+               while(iter.hasNext()) {
+                   iter.next();
+                   result.addRow(iter.value());
+               }
+           }
+       }
+    return result;
+}
 
 
 
