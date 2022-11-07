@@ -260,7 +260,7 @@ void TilioteKirjaaja::valitseLasku()
 {
     QModelIndex index = ui->maksuView->currentIndex();
 
-    if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU) {
+    if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU && ui->euroEdit->euro() == Euro::Zero) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
     }
