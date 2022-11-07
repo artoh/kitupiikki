@@ -74,6 +74,7 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
 
     ui->nimikeEdit->setText( rivi.nimike() );
     ui->kuvausEdit->setText( rivi.kuvaus());
+    ui->koodiEdit->setText( rivi.tuotekoodi());
 
     ui->toimitettuEdit->setText( rivi.toimitettuKpl() );
     ui->jalkitoimitusEdit->setText( rivi.jalkitoimitusKpl() );
@@ -119,6 +120,7 @@ TositeRivi LaskuRiviDialogi::rivi()
 {
     rivi_.setNimike( ui->nimikeEdit->text());
     rivi_.setKuvaus( ui->kuvausEdit->text());
+    rivi_.setTuoteKoodi( ui->koodiEdit->text());
 
     rivi_.setToimitettuKpl( ui->toimitettuEdit->text());
     rivi_.setJalkitoimitusKpl( ui->jalkitoimitusEdit->text());

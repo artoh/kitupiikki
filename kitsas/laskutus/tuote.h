@@ -59,6 +59,9 @@ public:
     double alvprosentti() const;
     void setAlvprosentti(double alvprosentti);
 
+    QString koodi() const;
+    void setKoodi(const QString& koodi);
+
 private:
     int id_ = 0;
     QString nimike_;
@@ -70,6 +73,7 @@ private:
     int alvkoodi_;
     double alvprosentti_;
     Monikielinen nimikielinen_;
+    QString koodi_;
 };
 
 #endif // TUOTE_H

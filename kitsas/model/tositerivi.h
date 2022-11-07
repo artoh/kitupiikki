@@ -109,6 +109,9 @@ public:
     QDate jaksoLoppuu() const { return pvm("jaksoloppuu");}
     void setJaksoLoppuu(const QDate& pvm) { set("jaksoloppuu", pvm);}
 
+    QString tuotekoodi() const { return str("tuotekoodi");}
+    void setTuoteKoodi(const QString& koodi) { set("tuotekoodi", koodi);}
+
 };
 
 #endif // TOSITERIVI_H

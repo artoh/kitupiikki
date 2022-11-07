@@ -57,6 +57,8 @@ public:
     QSizeF koko() const { return koko_;}
     QSizeF summaKoko() const { return summakoko_;}
 
+    void asetaVenyvaSarake(int indeksi) { venyvaSarake_ = indeksi;}
+
 protected:
 
     class Sarake {
@@ -117,6 +119,7 @@ private:
     QSizeF koko_;        
 
     QColor variVarjo_;
+    int venyvaSarake_ = 0;
 
 };
 

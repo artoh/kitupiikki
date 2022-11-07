@@ -225,6 +225,20 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="koodiLabel">
+        <property name="text">
+         <string>Tuotekoodi</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="koodiEdit">
+        <property name="maxLength">
+         <number>62</number>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -322,16 +336,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CheckCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/checkcombo.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KpEuroEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpeuroedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KohdennusCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/kohdennuscombo.h</header>
@@ -340,11 +344,6 @@
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
    <header>db/tilinvalintaline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KpKplEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpkpledit.h</header>
   </customwidget>
   <customwidget>
    <class>YksikkoCombo</class>
@@ -357,6 +356,21 @@
    <header location="global">laskutus/laskualvcombo.h</header>
   </customwidget>
   <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpKplEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpkpledit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
@@ -365,6 +379,7 @@
  <tabstops>
   <tabstop>nimikeEdit</tabstop>
   <tabstop>kuvausEdit</tabstop>
+  <tabstop>koodiEdit</tabstop>
   <tabstop>toimitettuEdit</tabstop>
   <tabstop>jalkitoimitusEdit</tabstop>
   <tabstop>laskutetaanEdit</tabstop>
@@ -394,8 +409,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>1110</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -410,8 +425,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>1110</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

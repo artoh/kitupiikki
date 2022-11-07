@@ -34,6 +34,7 @@ QString TuoteTuontiModel::otsikkoTeksti(int sarake)
         case ALVKOODI: return tr("Alv-koodi");
         case ALVPROSENTTI: return tr("Alv-prosentti");
         case BRUTTOHINTA: return tr("Bruttohinta");
+        case KOODI: return tr("Tuotekoodi");
         default: return QString();    
     }    
 }
@@ -74,7 +75,9 @@ QVariantList TuoteTuontiModel::lista() const
             case ALVPROSENTTI:
                 alvprosentti = txt.toInt(); break;
             case BRUTTOHINTA:
-                bruttohinta = txt.toDouble();
+                bruttohinta = txt.toDouble(); break;
+            case KOODI:
+                map.insert("koodi", txt); break;
             }
         }
         if(nettohinta == 0.0) {
@@ -129,6 +132,9 @@ void TuoteTuontiModel::arvaaSarakkeet()
             otsikkoja = true;
         } else if(txt.contains("alvprosentti", Qt::CaseInsensitive)) {
             sarakkeet_[i] = ALVPROSENTTI;
+            otsikkoja = true;
+        } else if(txt.contains("koodi"), Qt::CaseInsensitive) {
+            sarakkeet_[i] = KOODI;
             otsikkoja = true;
         }
     }

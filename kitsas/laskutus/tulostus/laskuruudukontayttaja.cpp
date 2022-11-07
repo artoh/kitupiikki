@@ -160,6 +160,10 @@ void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
         int rivinAlvkoodi = rivi.alvkoodi();
         int rivinAlvPromille = qRound( rivi.alvProsentti() * 10);
 
+        if( kitsas_->asetukset()->onko("LaskuTuotekoodit") && !rivi.tuotekoodi().isEmpty()) {
+            koodiSarake_ = true;
+        }
+
         if( rivinAlvkoodi != alvkoodi ||
             rivinAlvPromille != alvPromille ) {
             alvSarake_ = true;
@@ -177,6 +181,10 @@ void LaskuRuudukonTayttaja::tutkiSarakkeet(Tosite &tosite)
 
 void LaskuRuudukonTayttaja::kirjoitaSarakkeet()
 {
+    if(koodiSarake_) {
+        lisaaSarake("Tuote");
+        ruudukko_.asetaVenyvaSarake(1);
+    }
     lisaaSarake("nimike");
     lisaaSarake("lkm",Qt::AlignRight); //Määrä
     lisaaSarake("");    // Yksikkö
@@ -204,7 +212,10 @@ void LaskuRuudukonTayttaja::taytaSarakkeet(Tosite &tosite)
         const TositeRivi& rivi = rivit->rivi(i);
         QStringList tekstit;
 
-        tekstit << nimikesarake(rivi);
+        if( koodiSarake_) {
+            tekstit << rivi.tuotekoodi();
+        }
+        tekstit << nimikesarake(rivi);        
         tekstit << rivi.laskutetaanKpl().replace(".",",");
         tekstit << yksikkosarake(rivi);
         tekstit << ahintasarake(rivi);

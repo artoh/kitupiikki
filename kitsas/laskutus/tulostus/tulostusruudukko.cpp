@@ -92,27 +92,29 @@ void TulostusRuudukko::laske(QPainter *painter)
 
     qreal loppusarakeleveys = (sarakkeet_.count() - 1) * sarakevali_ +
         2 * ivali_;
-    for(int c=1; c < sarakkeet_.count(); c++)
-        loppusarakeleveys += sarakkeet_.at(c).leveys();
+    for(int c=0; c < sarakkeet_.count(); c++) {
+        if( c != venyvaSarake_)
+            loppusarakeleveys += sarakkeet_.at(c).leveys();
+    }
 
-    if( vahimmaisLeveys_ > sarakkeet_.at(0).leveys() + loppusarakeleveys) {
-        sarakkeet_[0].asetaLeveys( vahimmaisLeveys_ - loppusarakeleveys );
+    if( vahimmaisLeveys_ > sarakkeet_.at(venyvaSarake_).leveys() + loppusarakeleveys) {
+        sarakkeet_[venyvaSarake_].asetaLeveys( vahimmaisLeveys_ - loppusarakeleveys );
     }
     if( enimmaisLeveys_ > 0 &&
-        enimmaisLeveys_ < sarakkeet_.at(0).leveys() + loppusarakeleveys ) {
-        sarakkeet_[0].asetaLeveys( enimmaisLeveys_ - loppusarakeleveys );
+        enimmaisLeveys_ < sarakkeet_.at(venyvaSarake_).leveys() + loppusarakeleveys ) {
+        sarakkeet_[venyvaSarake_].asetaLeveys( enimmaisLeveys_ - loppusarakeleveys );
     }
-    qreal kokonaisleveys = loppusarakeleveys + sarakkeet_.at(0).leveys();
+    qreal kokonaisleveys = loppusarakeleveys + sarakkeet_.at(venyvaSarake_).leveys();
 
     painter->setFont(QFont("FreeSans", pistekoko_, QFont::Normal));
     qreal rivinkorkeus = painter->fontMetrics().height();
-    QRectF mittaRect(0, 0, sarakkeet_.value(0).leveys(), painter->window().height());
+    QRectF mittaRect(0, 0, sarakkeet_.value(venyvaSarake_).leveys(), painter->window().height());
 
     qreal kokonaiskorkeus = rivinkorkeus + 2 * ivali_;
 
     for(int r = 0; r < rivit_.count(); r++) {
         painter->setFont(QFont("FreeSans", pistekoko_, rivit_.at(r).lihava() ? QFont::Bold : QFont::Normal));
-        QRectF rect = painter->boundingRect(mittaRect, Qt::TextWordWrap, rivit_.at(r).teksti(0));
+        QRectF rect = painter->boundingRect(mittaRect, Qt::TextWordWrap, rivit_.at(r).teksti(venyvaSarake_));
         qreal korkeus = rect.height() > rivinkorkeus ? rect.height() : rivinkorkeus;
         korkeus = korkeus + 2 * ivali_;
         rivit_[r].asetaKorkeus(korkeus );

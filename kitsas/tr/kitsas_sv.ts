@@ -5393,8 +5393,8 @@ adress</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="164"/>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="252"/>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="291"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="266"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="305"/>
         <source>Veroton</source>
         <translation>Netto</translation>
     </message>
@@ -5405,8 +5405,8 @@ adress</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="184"/>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="262"/>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="301"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="276"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="315"/>
         <source>Verollinen</source>
         <translation>Brutto</translation>
     </message>
@@ -5426,12 +5426,17 @@ adress</translation>
         <translation>Beskrivning</translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="246"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="231"/>
+        <source>Tuotekoodi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="260"/>
         <source>Yhteishinta</source>
         <translation>Totalt</translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="285"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="299"/>
         <source>Yksikköhinta</source>
         <translation>Pris per enhet</translation>
     </message>
@@ -5481,7 +5486,7 @@ adress</translation>
         <translation>Märkningar</translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="311"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="325"/>
         <source>Arvonlisävero</source>
         <translation>Moms</translation>
     </message>
@@ -5491,7 +5496,7 @@ adress</translation>
         <translation> %</translation>
     </message>
     <message>
-        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="234"/>
+        <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="248"/>
         <source>Lisätiedot</source>
         <translation>Tilläggsuppgifter</translation>
     </message>
@@ -5756,118 +5761,123 @@ adress</translation>
         <translation>Form</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="26"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="25"/>
         <source>Laskutus</source>
         <translation>Fakturering</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="33"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="32"/>
         <source>Oletusvalinnat uusille laskuille</source>
         <translation>Standardval för nya fakturor</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="41"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="40"/>
         <source>Saatavatili</source>
         <translation>Fordringskonto</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="58"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="57"/>
         <source>Käteistili</source>
         <translation>Kontantkonto</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="75"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="74"/>
         <source>Maksumuistustili</source>
         <translation>Påminnelseavgifter</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="92"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="91"/>
         <source>Viivästyskorkotili</source>
         <translation>Förseningsränta</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="109"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="108"/>
         <source>Ensimmäisen laskun numero</source>
         <translation>Nummer för första fakturan</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="135"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="134"/>
         <source>Korttimaksutili</source>
         <translation>Kortbetalningkonto</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="156"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="155"/>
         <source>Maksuaika</source>
         <translation>Betalningstid</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="166"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="183"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="165"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="182"/>
         <source> vrk</source>
         <translation> dygn</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="176"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="175"/>
         <source>Huomautusaika</source>
         <translation>Anmärkningstid</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="213"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="212"/>
         <source>Laskurivit</source>
         <translation>Faktura rader</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="230"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="229"/>
         <source>Desimaaleja yksikköhinnassa</source>
         <translation>Decimaler per pris per enhet</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="282"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="281"/>
         <source>Lisää IBAN ensin pankkitilin tietoihin kohdassa Tililuettelo</source>
         <translation>Lägg först till IBAN i bankontots basuppgifter i Kontoplanen</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="327"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="322"/>
+        <source>Tuotekoodit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/laskumaaritys.ui" line="340"/>
         <source>Pankkiviivakoodi</source>
         <translation>Bankstreckkod</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="341"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="354"/>
         <source>QR-koodi</source>
         <translation>QR-kod</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="200"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="199"/>
         <source> %</source>
         <translation> %</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="309"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="308"/>
         <source>RF-viitteet</source>
         <translation>RF-referens</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="193"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="192"/>
         <source>Peruskorko</source>
         <translation>Grundränta</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="258"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="257"/>
         <source>Tulosta laskuille</source>
         <translation>Skriv ut på faktura</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="266"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="265"/>
         <source>Tilinumerot</source>
         <translation>Kontonummer</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="295"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="294"/>
         <source>Tilisiirto</source>
         <translation>Bankgiro</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="355"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="368"/>
         <source>Virtuaaliviivakoodi</source>
         <translation>Virtuell streckkod</translation>
     </message>
@@ -5884,30 +5894,30 @@ adress</translation>
         <translation type="obsolete">Logo höjd</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="393"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="406"/>
         <source>Etäisyys yläreunaan</source>
         <translation>Avstånd till överkant</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="400"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="433"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="467"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="493"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="413"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="446"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="480"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="506"/>
         <source> mm</source>
         <translation> mm</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="426"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="439"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Etäisyys&lt;br/&gt;vasemmalle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Avstånd&lt;br/&gt;till vänsterkanten&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="460"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="473"/>
         <source>Ikkunan leveys</source>
         <translation>Fönstrets bredd</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="486"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="499"/>
         <source>Ikkunan korkeus</source>
         <translation>Fönstrets höjd</translation>
     </message>
@@ -10109,6 +10119,11 @@ För tilläggsbokföringar faktureras %2 € / månad i efterskott</translation>
         <translation>Paketpriset inkluderar lagring av en bokföring i molnet</translation>
     </message>
     <message>
+        <location filename="../tilaus/tilausvalintasivu.cpp" line="42"/>
+        <source>Valitse tilaus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="92"/>
         <source>Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen</source>
         <translation>Paketpriset omfattar utrymme för %1 bokföringar i molnet</translation>
@@ -10278,6 +10293,11 @@ Muutokset tehdään asiakaspalvelun kautta.</source>
         <location filename="../tilaus/tilauswizard.cpp" line="254"/>
         <source>Laskutustiedot</source>
         <translation>Faktureringsuppgifter</translation>
+    </message>
+    <message>
+        <location filename="../tilaus/tilauswizard.cpp" line="337"/>
+        <source>Vahvista tilaus</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -13215,6 +13235,11 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
         <location filename="../laskutus/tuotedialogi.ui" line="86"/>
         <source>Kohdennus</source>
         <translation>Allokering</translation>
+    </message>
+    <message>
+        <location filename="../laskutus/tuotedialogi.ui" line="139"/>
+        <source>Tuotekoodi</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

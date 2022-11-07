@@ -385,6 +385,7 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
     rivi.setKohdennus( tuote.kohdennus() );
     rivi.setAlvKoodi( tuote.alvkoodi() );
     rivi.setAlvProsentti( tuote.alvprosentti() );
+    rivi.setTuoteKoodi( tuote.koodi() );
 
 
     int indeksi = rivit_.count();
