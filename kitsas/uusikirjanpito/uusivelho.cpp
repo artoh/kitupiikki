@@ -209,6 +209,9 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
         QStringList rivit;
         if( pohja.open(QIODevice::ReadOnly)) {
             QTextStream luku(&pohja);            
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            luku.setCodec("utf8");
+#endif
             while(!luku.atEnd()) {
                 QString rivi = luku.readLine();
                 if( rivi.startsWith("[") && rivi.endsWith("]")) {

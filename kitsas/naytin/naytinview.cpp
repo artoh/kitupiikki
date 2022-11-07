@@ -232,6 +232,9 @@ void NaytinView::avaaHtml()
     tiedosto.open( QIODevice::WriteOnly);
 
     QTextStream out( &tiedosto);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    out.setCodec("utf8");
+#endif
 
     out << html();
     tiedosto.close();
@@ -266,6 +269,9 @@ void NaytinView::tallennaHtml()
             return;
         }
         QTextStream out( &tiedosto);        
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        out.setCodec("utf8");
+#endif
 
         out << html();
         tiedosto.close();
