@@ -334,7 +334,7 @@ TilausWizard::TilausVahvistusSivu::TilausVahvistusSivu(TilausWizard *velho) :
     velho_(velho)
 
 {
-    setTitle("Vahvista tilaus");
+    setTitle(tr("Vahvista tilaus"));
     ui->setupUi(this);
     registerField("ehdot*", ui->ehdotCheck);
 }

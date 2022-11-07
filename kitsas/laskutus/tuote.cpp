@@ -32,6 +32,7 @@ Tuote::Tuote(const QVariantMap &map)
     tili_ = map.value("tili").toInt();
     alvkoodi_ = map.value("alvkoodi").toInt();
     alvprosentti_ = map.value("alvprosentti").toDouble();
+    koodi_ = map.value("koodi").toString();
     if( map.value("nimi").toMap().isEmpty() && !nimike_.isEmpty())
         nimikielinen_.aseta(nimike_, "fi");
     else
@@ -56,6 +57,8 @@ QVariantMap Tuote::toMap() const
     if( qAbs(alvprosentti()) > 1e-5)
         map.insert("alvprosentti", alvprosentti());
     map.insert("nimi", nimikielinen_.map());
+    if(!koodi_.isEmpty())
+        map.insert("koodi", koodi());
     return map;
 }
 
@@ -67,6 +70,16 @@ double Tuote::alvprosentti() const
 void Tuote::setAlvprosentti(double alvprosentti)
 {
     alvprosentti_ = alvprosentti;
+}
+
+QString Tuote::koodi() const
+{
+    return koodi_;
+}
+
+void Tuote::setKoodi(const QString &koodi)
+{
+    koodi_ = koodi;
 }
 
 int Tuote::alvkoodi() const

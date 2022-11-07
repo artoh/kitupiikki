@@ -50,6 +50,8 @@ protected:
     void vaihdaRivilajia(const QString& asiakkaanAlvTunnus );
     void riviTyyppiVaihtui();
 
+    void tarkastaJakso();
+
 private:
     void alustaRiviTab();
     void alustaRiviTyypit();

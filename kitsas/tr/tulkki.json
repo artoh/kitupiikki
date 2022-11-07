@@ -334,8 +334,8 @@
         "en": "Reference"
     },
     "Tuote": {
-        "sv": "produkt",
-        "en": "product"
+        "sv": "Produkt",
+        "en": "Product"
     },
     "myynti kpl": {
         "sv": "försäljning st",
@@ -716,7 +716,7 @@
     },
     "anetto": {
         "fi": "á netto",
-        "en": "á net  "
+        "en": "á net"
     },
     "kateislasku": {
         "fi": "Käteislasku / Kuitti",
@@ -772,8 +772,8 @@
     },
     "lkm": {
         "fi": "Määrä",
-        "sv": "antal",
-        "en": "qty"
+        "sv": "Antal",
+        "en": "Qty"
     },
     "muistutusmaksu": {
         "fi": "Huomautuskulut",
@@ -1046,7 +1046,7 @@
     },
     "nimike": {
         "fi": "Nimike",
-        "sv": "produkt",
+        "sv": "Item",
         "en": "Item"
     },
     "bep": {

@@ -39,7 +39,7 @@ TilausValintaSivu::TilausValintaSivu(PlanModel *model) :
     registerField("puolivuosittain", ui->kuukausiRadio);
     registerField("lisapilvet", ui->lisaSpin);
 
-    setTitle("Valitse tilaus");
+    setTitle(tr("Valitse tilaus"));
     ui->planView->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 }

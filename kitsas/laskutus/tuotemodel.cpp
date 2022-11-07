@@ -109,6 +109,7 @@ QByteArray TuoteModel::csv() const
 
     RaporttiRivi otsikko;
     otsikko.lisaa("id");
+    otsikko.lisaa("koodi");
     otsikko.lisaa("nimike");
     otsikko.lisaa("yksikko");
     otsikko.lisaa("nettohinta");
@@ -121,6 +122,7 @@ QByteArray TuoteModel::csv() const
     for(const auto& tuote : tuotteet_) {
         RaporttiRivi rivi;
         rivi.lisaa(QString::number(tuote.id()));
+        rivi.lisaa(tuote.koodi());
         rivi.lisaa(tuote.nimike());
         rivi.lisaa(tuote.yksikko().isEmpty() ? tuote.unKoodi() : tuote.yksikko());
         rivi.lisaa(Euro::fromDouble(tuote.ahinta()).toString());

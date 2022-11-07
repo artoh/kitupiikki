@@ -35,7 +35,8 @@ public:
         KOHDENNUS,
         TILI,
         ALVKOODI,
-        ALVPROSENTTI
+        ALVPROSENTTI,
+        KOODI
     };
     
     enum {

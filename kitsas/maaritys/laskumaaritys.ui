@@ -18,7 +18,6 @@
     <widget class="QLabel" name="label_14">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -317,6 +316,20 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox">
+            <property name="text">
+             <string>Tuotekoodit</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../pic/pic.qrc">
+              <normaloff>:/pic/risuaita.png</normaloff>:/pic/risuaita.png</iconset>
+            </property>
+            <property name="Asetus" stdset="0">
+             <string notr="true">LaskuTuotekoodit</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -542,17 +555,22 @@
  <tabstops>
   <tabstop>saatavaCombo</tabstop>
   <tabstop>kateistili</tabstop>
+  <tabstop>comboBox</tabstop>
   <tabstop>muistutusTili</tabstop>
   <tabstop>korkoTili</tabstop>
   <tabstop>ekaLasku</tabstop>
   <tabstop>maksuaikaSpin</tabstop>
   <tabstop>huomautusSpin</tabstop>
   <tabstop>peruskorkoSpin</tabstop>
+  <tabstop>riviCombo</tabstop>
+  <tabstop>spinBox_2</tabstop>
   <tabstop>tiliCombo</tabstop>
   <tabstop>tilisiirtoCheck</tabstop>
   <tabstop>rfCheck</tabstop>
+  <tabstop>checkBox</tabstop>
   <tabstop>viivakoodiCheck</tabstop>
   <tabstop>qrCheck</tabstop>
+  <tabstop>checkBox_2</tabstop>
   <tabstop>ikkunaKuori</tabstop>
   <tabstop>ySpin</tabstop>
   <tabstop>xSpin</tabstop>
@@ -570,12 +588,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>473</y>
+     <x>156</x>
+     <y>363</y>
     </hint>
     <hint type="destinationlabel">
-     <x>748</x>
-     <y>499</y>
+     <x>1120</x>
+     <y>383</y>
     </hint>
    </hints>
   </connection>

@@ -54,6 +54,7 @@ private:
 
     TositeriviAlv alv_;
 
+    bool koodiSarake_ = false;
     bool alvSarake_ = false;
     bool aleSarake_ = false;
     bool bruttolaskenta_ = false;

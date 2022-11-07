@@ -107,20 +107,30 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QGroupBox" name="alvGroup">
+    <widget class="QGroupBox" name="jaksoGroup">
      <property name="title">
-      <string>Arvonlisävero</string>
+      <string>Toimituspäivä</string>
      </property>
      <layout class="QFormLayout" name="formLayout_6">
       <item row="0" column="0">
-       <widget class="QLabel" name="alvLabel">
+       <widget class="QLabel" name="alkupvmLabel">
         <property name="text">
-         <string>Arvonlisävero</string>
+         <string>Alkupäivä</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="loppupvmLabel">
+        <property name="text">
+         <string>Loppupäivä</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="LaskuAlvCombo" name="alvCombo"/>
+       <widget class="KpDateEdit" name="alkupvmEdit"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="KpDateEdit" name="loppupvmEdit"/>
       </item>
      </layout>
     </widget>
@@ -215,6 +225,20 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="koodiLabel">
+        <property name="text">
+         <string>Tuotekoodi</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="koodiEdit">
+        <property name="maxLength">
+         <number>62</number>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -295,22 +319,22 @@
       <item row="1" column="1">
        <widget class="KpEuroEdit" name="aBrutto"/>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="alvLabel">
+        <property name="text">
+         <string>Arvonlisävero</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="LaskuAlvCombo" name="alvCombo"/>
+      </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>CheckCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/checkcombo.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KpEuroEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpeuroedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KohdennusCombo</class>
    <extends>QComboBox</extends>
@@ -322,11 +346,6 @@
    <header>db/tilinvalintaline.h</header>
   </customwidget>
   <customwidget>
-   <class>KpKplEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpkpledit.h</header>
-  </customwidget>
-  <customwidget>
    <class>YksikkoCombo</class>
    <extends>QComboBox</extends>
    <header location="global">laskutus/laskudlg/yksikkocombo.h</header>
@@ -336,7 +355,51 @@
    <extends>QComboBox</extends>
    <header location="global">laskutus/laskualvcombo.h</header>
   </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpKplEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpkpledit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>nimikeEdit</tabstop>
+  <tabstop>kuvausEdit</tabstop>
+  <tabstop>koodiEdit</tabstop>
+  <tabstop>toimitettuEdit</tabstop>
+  <tabstop>jalkitoimitusEdit</tabstop>
+  <tabstop>laskutetaanEdit</tabstop>
+  <tabstop>yksikkoCombo</tabstop>
+  <tabstop>tiliEdit</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
+  <tabstop>merkkausCombo</tabstop>
+  <tabstop>aNetto</tabstop>
+  <tabstop>aBrutto</tabstop>
+  <tabstop>alvCombo</tabstop>
+  <tabstop>alennusSpin</tabstop>
+  <tabstop>euroAleEdit</tabstop>
+  <tabstop>bruttoAleEdit</tabstop>
+  <tabstop>alennusSyyCombo</tabstop>
+  <tabstop>alkupvmEdit</tabstop>
+  <tabstop>loppupvmEdit</tabstop>
+  <tabstop>nettoYhteensa</tabstop>
+  <tabstop>verollinenEdit</tabstop>
+  <tabstop>lisatietoEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -346,8 +409,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>1110</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -362,8 +425,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>1110</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
