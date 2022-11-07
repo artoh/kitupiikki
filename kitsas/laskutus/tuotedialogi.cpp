@@ -75,6 +75,7 @@ void TuoteDialogi::muokkaa(const Tuote &tuote)
 
     ui->tiliEdit->valitseTiliNumerolla( tuote.tili() );
     ui->kohdennusCombo->valitseKohdennus( tuote.kohdennus() );
+    ui->koodiEdit->setText( tuote.koodi() );
 
     show();
 }
