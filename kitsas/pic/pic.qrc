@@ -208,6 +208,7 @@
         <file>info64.png</file>
         <file>computer-laptop.png</file>
         <file>cloud-64.png</file>
+        <file>info-punainen.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -157,6 +157,20 @@ bool KantaLaskuDialogi::osoiteKunnossa()
             ladattuAsiakas_.value("kaupunki").toString() > 1;
 }
 
+void KantaLaskuDialogi::lataaLoki()
+{
+    int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
+    ui->tabWidget->setTabEnabled( lokiIndex, tosite()->loki()->rowCount() );
+    const QString& virheviesti = tosite()->loki()->virheViesti();
+    if( virheviesti.isEmpty() ) {
+        ui->lokiVirheLabel->hide();
+    } else {
+        ui->lokiVirheLabel->setText(virheviesti);
+        ui->tabWidget->setTabIcon(lokiIndex, QIcon(":/pic/info-punainen.png"));
+    }
+
+}
+
 
 
 
@@ -263,8 +277,8 @@ void KantaLaskuDialogi::tositteelta()
         ui->email->setText( lasku.email() );
     }
 
-    int lokiIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("loki") );
-    ui->tabWidget->setTabEnabled( lokiIndex, tosite()->loki()->rowCount() );
+    lataaLoki();
+
 
     QVariantMap era = tosite()->viennit()->vienti(0).era();
     bool maksettu = !tosite()->viite().isEmpty() &&  (!era.isEmpty() && qAbs( era.value("saldo").toDouble()) < 1e-5);
@@ -489,6 +503,7 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
         ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), Lasku::POSTITUS);
 
     if( kp()->asetukset()->luku("FinvoiceKaytossa") &&
+        osoiteKunnossa() &&
         ladattuAsiakas_.value("ovt").toString().length() > 9 &&
         ladattuAsiakas_.value("operaattori").toString().length() > 4 &&
         maksutapa() != Lasku::KATEINEN &&

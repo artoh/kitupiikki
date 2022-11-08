@@ -99,6 +99,7 @@ private:
     void alustaToiminimiCombo();
     void alustaRivitTab();
     bool osoiteKunnossa();
+    void lataaLoki();
 
 protected:
     Ui::LaskuDialogi *ui;

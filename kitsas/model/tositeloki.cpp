@@ -111,3 +111,12 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
 
     return QVariant();
 }
+
+QString TositeLoki::virheViesti() const
+{
+    if( data_.isEmpty())
+        return QString();
+
+    const QVariantMap data = data_.at(0).toMap().value("data").toMap();
+    return data.value("virhe").toString();
+}

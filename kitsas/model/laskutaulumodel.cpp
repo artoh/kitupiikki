@@ -192,7 +192,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         if( index.column() == NUMERO) {
                 int tila = map.value("tila").toInt();
                 if( tila == Tosite::LAHETETAAN)
-                    return QIcon(":/pic/varoitus.png");
+                    return QIcon(":/pic/email.png");
                 else if(tila == Tosite::LAHETYSVIRHE)
                     return QIcon(":/pic/mailfail.png");
                 else if(tila == Tosite::TOIMITETTULASKU)

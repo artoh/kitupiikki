@@ -48,6 +48,8 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    QString virheViesti() const;    // Uusimman lokimerkinnän virheviesti (verkkolaskut)
+
 private:
     QVariantList data_;
 };
