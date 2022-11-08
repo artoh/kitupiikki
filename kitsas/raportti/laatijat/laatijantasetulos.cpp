@@ -299,7 +299,7 @@ void LaatijanTaseTulos::kirjoitaRaportti()
                     rr.lisaa( summa[taulukkoindeksi], true );
                     break;
                 case RaporttiValintaSarake::Budjetti:
-                    rr.lisaa( summa[taulukkoindeksi], false);
+                    rr.lisaa( summa[taulukkoindeksi], true);
                     break;
                 case RaporttiValintaSarake::BudjettiEro:
                     rr.lisaa( summa[taulukkoindeksi] - summa[taulukkoindeksi+1], true);
