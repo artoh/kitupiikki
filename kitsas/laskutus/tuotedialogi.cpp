@@ -75,6 +75,7 @@ void TuoteDialogi::muokkaa(const Tuote &tuote)
 
     ui->tiliEdit->valitseTiliNumerolla( tuote.tili() );
     ui->kohdennusCombo->valitseKohdennus( tuote.kohdennus() );
+    ui->koodiEdit->setText( tuote.koodi() );
 
     show();
 }
@@ -112,6 +113,7 @@ void TuoteDialogi::accept()
     tuote.setAlvprosentti( ui->alvCombo->veroProsentti());
     tuote.setTili( ui->tiliEdit->valittuTilinumero());
     tuote.setKohdennus( ui->kohdennusCombo->kohdennus());
+    tuote.setKoodi( ui->koodiEdit->text());
 
     kp()->tuotteet()->paivitaTuote(tuote);
     QDialog::accept();
