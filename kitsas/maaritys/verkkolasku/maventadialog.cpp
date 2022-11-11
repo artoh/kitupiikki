@@ -54,6 +54,9 @@ void MaventaDialog::accept()
     map.insert("clientid", ui->uuid->text().trimmed());
     map.insert("kitsasbilling", ui->kitsasLaskuButton->isChecked() && pilvessa);
     map.insert("active", ui->activeBox->isChecked());
+    if( !pilvessa ) {
+        kp()->asetukset()->aseta("PaikallinenMaventaHaku", ui->activeBox->isChecked());
+    }
     map.insert("name", kp()->asetukset()->nimi());
 
     QVariantMap settings = settingsAsetuksista();
@@ -120,13 +123,12 @@ void MaventaDialog::lataa(const QVariantMap &data)
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
     bool kitsaslasku = book.value("kitsasbilling").toBool() && pilvessa;
 
-    ui->kitsasLaskuButton->setEnabled(pilvessa);
+    ui->kitsasLaskuButton->setEnabled( pilvessa && kp()->pilvi()->plan());
     ui->kitsasLaskuButton->setChecked( kitsaslasku );
     ui->maventaLaskuButton->setChecked( !kitsaslasku );
     ui->maventaLaskuButton->setVisible( !kitsaslasku || !book.value("companybykitsas").toBool() );
 
-    ui->activeBox->setChecked( book.value("active").toBool() );
-    ui->activeBox->setEnabled(pilvessa);
+    ui->activeBox->setChecked( book.value("active").toBool() );    
 
     QVariantMap notifications = data.value("invoice_notifications").toMap();
     QVariantMap receiving = notifications.value("on_receiving").toMap();

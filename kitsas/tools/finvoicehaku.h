@@ -31,6 +31,7 @@ class FinvoiceHaku : public QObject
 public:
     static FinvoiceHaku *init(Kirjanpito* kp);
     void haeUudet();
+    void haeUudetKayttajanPyynnosta();
     static FinvoiceHaku *instanssi();
 
     enum Status { SEND_OK = 1, SEND_FAILED = 2 } ;

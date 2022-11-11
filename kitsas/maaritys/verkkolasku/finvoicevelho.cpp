@@ -61,7 +61,7 @@ void FinvoiceVelho::Alkusivu::initializePage()
 {
     const bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
 
-    ui->kitsasRadio->setEnabled( kitsasKaytossa_ && pilvessa);
+    ui->kitsasRadio->setEnabled( kitsasKaytossa_ && pilvessa && kp()->pilvi()->plan() );
     ui->uusiLabel->setVisible(kitsasKaytossa_ && pilvessa);
     ui->onjoLabel->setVisible( !kitsasKaytossa_);
     ui->eiPilviLabel->setVisible(!pilvessa);

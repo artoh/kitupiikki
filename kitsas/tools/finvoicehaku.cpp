@@ -47,10 +47,22 @@ FinvoiceHaku *FinvoiceHaku::init(Kirjanpito *kp)
 
 void FinvoiceHaku::haeUudet()
 {
+    // Tarkastetaan, että hakeminen on käytössä jotta
+    // käyttäjä voi käyttää Maventaa myös pelkkään
+    // verkkolaskujen lähettämiseen
+
+    if( kp()->asetukset()->onko("PaikallinenMaventaHaku") ) {
+        haeUudetKayttajanPyynnosta();
+    }
+}
+
+void FinvoiceHaku::haeUudetKayttajanPyynnosta()
+{
     if( kp()->yhteysModel() && kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::MAVENTA &&
             kp()->pilvi()->kayttajaPilvessa()
             && !hakuPaalla_
-            && !qobject_cast<PilviModel*>(kp()->yhteysModel())) {
+            && !qobject_cast<PilviModel*>(kp()->yhteysModel())
+        ) {
         // Haetaan uudet laskut, jos on paikallinen kirjanpito ja siinä Finvoice
         haettuLkm_ = 0;
         hakuPaalla_ = true;

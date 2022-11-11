@@ -275,14 +275,20 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         return;
     }
 
-    QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();
-    bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+    QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();    
 
     ui->maventaInfo->setText(company.value("name").toString() + "\n" +
             ( book.value("kitsasuser").toBool() ? "" : user.value("first_name").toString() + " " + user.value("last_name").toString() + "\n") + "\n" +
             ( book.value("kitsasbilling").toBool() ? tr("Verkkolaskujen hinnoittelu Kitsaan hinnaston mukaan.") : tr("Verkkolaskujen hinnoittelu Maventan hinnaston mukaan.") ) + "\n" +
-            ( pilvessa ? (( book.value("active").toBool() ? tr("Verkkolaskujen nouto on käytössä") : tr("Verkkolaskujen automaattista noutoa ei ole otettu käyttöön") ) + "\n" ) : "") +
+            ( ( book.value("active").toBool() ? tr("Verkkolaskujen nouto on käytössä") : tr("Verkkolaskujen automaattista noutoa ei ole otettu käyttöön") ) + "\n" ) +
             ( (print.value("enabled").toBool() && kp()->asetukset()->onko("MaventaPostitus")) ? tr("Postitettavien laskujen tulostus ja postitus Maventan kautta käytössä") : tr("Tulostuspalvelu ei ole käytössä") ) );
+
+    if( !qobject_cast<PilviModel*>(kp()->yhteysModel()) ) {
+        // Paikallisessa kirjanpidossa päivitetään aktiivisuustieto
+        // kirjanpidon asetuksiin, mikä määrittelee, noudetaanko
+        // verkkolaskut ohjelman käynnistyessä
+        kp()->asetukset()->aseta("PaikallinenMaventaHaku", book.value("active").toBool());
+    }
 }
 
 void VerkkolaskuMaaritys::eiTietoja()
@@ -298,7 +304,7 @@ void VerkkolaskuMaaritys::noudaNyt()
         connect(pk, &PilviKysely::vastaus, [] { emit kp()->onni("Verkkolaskut päivitetty kiertoon"); });
         pk->kysy();
     } else {
-        FinvoiceHaku::instanssi()->haeUudet();
+        FinvoiceHaku::instanssi()->haeUudetKayttajanPyynnosta();
     }
 }
 
