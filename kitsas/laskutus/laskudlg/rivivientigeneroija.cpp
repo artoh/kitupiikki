@@ -190,7 +190,8 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
     QMapIterator<QString,Euro> iter(eurot);
     while( iter.hasNext()) {
         iter.next();
-        QStringList strlist = iter.key().split("/");
+        const QString avain = iter.key();
+        QStringList strlist = avain.split("/");
 
         TositeVienti vienti;
         vienti.setTyyppi(TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
@@ -207,9 +208,10 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
         int alvprosentti = strlist.takeFirst().toDouble();
 
         const QString alkupvm = strlist.takeFirst();
-        const QDate jaksoAlkaa = alkupvm.isEmpty() ? QDate() : QDate::fromString(alkupvm);
+        const QDate jaksoAlkaa = alkupvm.isEmpty() ? QDate() : QDate::fromString(alkupvm, Qt::ISODate);
+
         const QString loppupvm = strlist.takeFirst();
-        const QDate jaksoLoppuu = loppupvm.isEmpty() ? QDate() : QDate::fromString(loppupvm);
+        const QDate jaksoLoppuu = loppupvm.isEmpty() ? QDate() : QDate::fromString(loppupvm, Qt::ISODate);
 
         if(alvkoodi >= Lasku::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
