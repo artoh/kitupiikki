@@ -23,6 +23,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QPainter>
+#include <QRegularExpression>
 
 KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
     : QLineEdit(parent)
@@ -32,12 +33,12 @@ KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
     proxyTyyppi_ = new QSortFilterProxyModel(parent);
     proxyTyyppi_->setSourceModel( kp()->tilit());
     proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
-    proxyTyyppi_->setFilterRegExp("[ABCD].*");
+    proxyTyyppi_->setFilterRegularExpression(QRegularExpression("[ABCD].*"));
 
     proxyTila_ = new QSortFilterProxyModel(parent);
     proxyTila_->setSourceModel(proxyTyyppi_);
     proxyTila_->setFilterRole(TiliModel::TilaRooli);
-    proxyTila_->setFilterRegExp("[12]");
+    proxyTila_->setFilterRegularExpression(QRegularExpression("[12]"));
 
     QCompleter *taydennin = new QCompleter(this) ;
     taydennin->setCompletionColumn( TiliModel::NRONIMI);
@@ -86,7 +87,7 @@ void KantaTilinvalintaLine::valitseTili(const Tili *tili)
 void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
 {
     proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
-    proxyTyyppi_->setFilterRegExp(regexp);
+    proxyTyyppi_->setFilterRegularExpression(QRegularExpression(regexp));
 }
 
 
@@ -243,9 +244,9 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
             if( !sana.isEmpty() && sana.at(0).isDigit() )
                 alku = "*" + sana;
 
-            valittu = TilinValintaDialogi::valitseTili(alku, proxyTyyppi_->filterRegExp().pattern(), model_ );
+            valittu = TilinValintaDialogi::valitseTili(alku, proxyTyyppi_->filterRegularExpression().pattern(), model_ );
         } else
-            valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegExp().pattern(), model_ );
+            valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegularExpression().pattern(), model_ );
         if( valittu.numero())
         {
             valitseTiliNumerolla( valittu.numero() );
@@ -272,7 +273,7 @@ void TilinvalintaLine::mousePressEvent(QMouseEvent *event)
         if( !sana.isEmpty() && sana.at(0).isDigit() )
             alku = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
 
-        Tili valittu = TilinValintaDialogi::valitseTili( alku, proxyTyyppi_->filterRegExp().pattern(), kp()->tilit() );
+        Tili valittu = TilinValintaDialogi::valitseTili( alku, proxyTyyppi_->filterRegularExpression().pattern(), kp()->tilit() );
         if( valittu.onkoValidi())
         {
             valitseTili( valittu);

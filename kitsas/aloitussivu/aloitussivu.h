@@ -112,7 +112,7 @@ protected:
     QString vinkit();
     QString summat();
 
-
+    void naytaTervetuloTiedosto();
 
 
     /**

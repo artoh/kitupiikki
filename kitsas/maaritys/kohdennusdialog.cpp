@@ -46,7 +46,7 @@ KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(kp()->kohdennukset());
     proxy->setFilterRole(KohdennusModel::TyyppiRooli);
-    proxy->setFilterRegExp("[01]");
+    proxy->setFilterRegularExpression(QRegularExpression("[01]"));
     proxy->setSortRole(KohdennusModel::NimiRooli);
     ui->kustannuspaikkaCombo->setModel(proxy);
 

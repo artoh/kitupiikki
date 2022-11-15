@@ -154,7 +154,7 @@ bool KantaLaskuDialogi::osoiteKunnossa()
     return  ladattuAsiakas_.value("nimi").toString().length() > 1 &&
             ladattuAsiakas_.value("osoite").toString().length() > 1 &&
             ladattuAsiakas_.value("postinumero").toString().length() > 1 &&
-            ladattuAsiakas_.value("kaupunki").toString() > 1;
+            ladattuAsiakas_.value("kaupunki").toString().length() > 1;
 }
 
 void KantaLaskuDialogi::lataaLoki()

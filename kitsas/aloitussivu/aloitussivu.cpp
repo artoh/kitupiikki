@@ -190,14 +190,7 @@ void AloitusSivu::siirrySivulle()
     }
     else
     {
-        QFile tttiedosto( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
-        tttiedosto.open(QIODevice::ReadOnly);
-        QTextStream in(&tttiedosto);
-        in.setCodec("Utf8");
-        QString teksti = in.readAll();
-        teksti.replace("<INFO>", paivitysInfo);
-
-        ui->selain->setHtml( teksti );
+        naytaTervetuloTiedosto();
     }
     ui->muistiinpanotNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 }
@@ -240,14 +233,7 @@ void AloitusSivu::paivitaSivu()
     }
     else
     {
-        QFile tttiedosto(Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
-        tttiedosto.open(QIODevice::ReadOnly);
-        QTextStream in(&tttiedosto);
-        in.setCodec("Utf8");
-        QString teksti = in.readAll();
-        teksti.replace("<INFO>", paivitysInfo);
-
-        ui->selain->setHtml( teksti );
+        naytaTervetuloTiedosto();
     }
 }
 
@@ -721,7 +707,7 @@ void AloitusSivu::validoiEmail()
         request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
         QNetworkReply *reply =  kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
-        connect( reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+        connect( reply, &QNetworkReply::errorOccurred,
             this, [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
         connect( reply, &QNetworkReply::sslErrors, this, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
 
@@ -1114,6 +1100,20 @@ QString AloitusSivu::summat()
 
     return txt;
 
+}
+
+void AloitusSivu::naytaTervetuloTiedosto()
+{
+    QFile tttiedosto(Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
+    tttiedosto.open(QIODevice::ReadOnly);
+    QTextStream in(&tttiedosto);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    in.setCodec("utf8");
+#endif
+    QString teksti = in.readAll();
+    teksti.replace("<INFO>", paivitysInfo);
+
+    ui->selain->setHtml( teksti );
 }
 
 

@@ -156,11 +156,11 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
 
 
     if( minNumero_.startsWith("1"))
-        proxy_->setFilterRegExp("A.*");
+        proxy_->setFilterRegularExpression(QRegularExpression("A.*"));
     else if( minNumero_.startsWith("2"))
-        proxy_->setFilterRegExp("[BT].*");
+        proxy_->setFilterRegularExpression(QRegularExpression("[BT].*"));
     else
-        proxy_->setFilterRegExp("[CD].*");
+        proxy_->setFilterRegularExpression(QRegularExpression("[CD].*"));
 
     alustaOhjeet();
 
@@ -251,11 +251,11 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->tabWidget->setTabEnabled( ALV, alvKaytossa );
 
     if( tyyppi.onko(TiliLaji::TULO)) {
-        veroproxy_->setFilterRegExp("^(0|1[1-79])$");
+        veroproxy_->setFilterRegularExpression(QRegularExpression("^(0|1[1-79])$"));
     } else if( tyyppi.onko(TiliLaji::MENO)) {
-        veroproxy_->setFilterRegExp("^(0|2[1-7])$");
+        veroproxy_->setFilterRegularExpression(QRegularExpression("^(0|2[1-7])$"));
     } else
-        veroproxy_->setFilterRegExp("");
+        veroproxy_->setFilterFixedString("");
 
     ui->ibanLabel->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
     ui->ibanLine->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));

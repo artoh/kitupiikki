@@ -191,13 +191,13 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
     {
         QFile asetukset(polku + "/asetukset.json");
         if( asetukset.open(QIODevice::ReadOnly))
-            map.unite(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
+            map.insert(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
     }
     // json-tiedosto raporteille
     {
         QFile raportit(polku + "/raportit.json");
         if( raportit.open(QIODevice::ReadOnly))
-            map.unite(QJsonDocument::fromJson( raportit.readAll() ).toVariant().toMap());
+            map.insert(QJsonDocument::fromJson( raportit.readAll() ).toVariant().toMap());
 
     }
 
@@ -208,8 +208,10 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
         QString kieli;
         QStringList rivit;
         if( pohja.open(QIODevice::ReadOnly)) {
-            QTextStream luku(&pohja);
-            luku.setCodec("utf-8");
+            QTextStream luku(&pohja);            
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            luku.setCodec("utf8");
+#endif
             while(!luku.atEnd()) {
                 QString rivi = luku.readLine();
                 if( rivi.startsWith("[") && rivi.endsWith("]")) {

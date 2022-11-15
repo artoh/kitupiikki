@@ -70,15 +70,15 @@ NaytinView::NaytinView(QWidget *parent)
     setLayout(leiska_);
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"),this);
-    zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
+    zoomAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     connect( zoomAktio_, &QAction::triggered, this, &NaytinView::zoomFit);
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
-    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
+    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
     connect( zoomInAktio_, &QAction::triggered, this, &NaytinView::zoomIn);
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
-    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
+    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     connect( zoomOutAktio_, &QAction::triggered, this, &NaytinView::zoomOut);
 
     tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"), this);
@@ -186,7 +186,7 @@ void NaytinView::sivunAsetukset()
     QPageSetupDialog dlg(naytin_ ? naytin_->printer() : kp()->printer(), this);
     dlg.exec();
     if(naytin_) {
-        naytin_->asetaSuunta(dlg.printer()->orientation() == QPrinter::Portrait ? QPageLayout::Portrait : QPageLayout::Landscape);
+        naytin_->asetaSuunta(dlg.printer()->pageLayout().orientation() == QPageLayout::Portrait ? QPageLayout::Portrait : QPageLayout::Landscape);
     }
     paivita();
 }
@@ -232,7 +232,9 @@ void NaytinView::avaaHtml()
     tiedosto.open( QIODevice::WriteOnly);
 
     QTextStream out( &tiedosto);
-    out.setCodec("UTF-8");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    out.setCodec("utf8");
+#endif
 
     out << html();
     tiedosto.close();
@@ -266,8 +268,10 @@ void NaytinView::tallennaHtml()
                                   tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(polku));
             return;
         }
-        QTextStream out( &tiedosto);
-        out.setCodec("UTF-8");
+        QTextStream out( &tiedosto);        
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        out.setCodec("utf8");
+#endif
 
         out << html();
         tiedosto.close();

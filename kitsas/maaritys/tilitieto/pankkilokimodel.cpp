@@ -112,6 +112,7 @@ QVariant PankkiLokiModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/peru.png");
             }
         }
+        return QVariant();
     }
     default:
         return QVariant();

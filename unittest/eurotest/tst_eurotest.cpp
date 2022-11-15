@@ -45,7 +45,7 @@ private slots:
 
 EuroTest::EuroTest()
 {
-    qRegisterMetaTypeStreamOperators<Euro>("Euro");
+
 }
 
 EuroTest::~EuroTest()
@@ -55,7 +55,7 @@ EuroTest::~EuroTest()
 
 void EuroTest::initTestCase()
 {
-    qRegisterMetaTypeStreamOperators<Euro>("Euro");
+
 }
 
 void EuroTest::string_to_euro()

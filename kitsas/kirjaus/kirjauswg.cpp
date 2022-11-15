@@ -374,8 +374,8 @@ void KirjausWg::tulostaTosite()
     // Tilapäinen tositteen tulostus
     // Tähän voisi tulla parempi ;)
 
-    kp()->printer()->setPageOrientation(QPageLayout::Landscape);
-    kp()->printer()->setPageMargins(10,20,10,10,QPrinter::Millimeter);
+    kp()->printer()->setPageLayout(QPageLayout(QPageSize(QPageSize::A4), QPageLayout::Landscape, QMargins(10,20,10,10), QPageLayout::Millimeter));
+
     QPrintDialog printDialog( kp()->printer(), this);
 
 
@@ -395,7 +395,7 @@ void KirjausWg::tulostaTosite()
         doc.setHtml( teksti );
         doc.print( kp()->printer());
 
-        qDebug() << doc.toHtml("utf8");
+        qDebug() << doc.toHtml();
     }
 }
 

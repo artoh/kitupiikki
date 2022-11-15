@@ -24,7 +24,6 @@
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
 #include "model/tosite.h"
-#include "sqlite/sqlitemodel.h"
 #include "kieli/kielet.h"
 #include <QFile>
 #include <QTextStream>
@@ -420,7 +419,6 @@ void Arkistoija::viimeistele()
     QFile tiedosto( hakemisto.absoluteFilePath("index.html"));
     tiedosto.open( QIODevice::WriteOnly);
     QTextStream out( &tiedosto );
-    out.setCodec("UTF-8");
 
     out << "<html><meta charset=\"UTF-8\"><head><title>";
     out << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " arkisto";
@@ -517,7 +515,6 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 {
     QByteArray ba;
     QTextStream out (&ba);
-    out.setCodec("utf-8");
 
     const QVariantList& liitteet = tosite.value("liitteet").toList();
     bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
@@ -736,7 +733,6 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 {
     QByteArray ba;
     QTextStream out (&ba);
-    out.setCodec("utf-8");
 
     out << "<html><meta charset=\"UTF-8\"><head><title>" << tosite.value("otsikko").toString() << "</title>";
     out << "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'></head><body>";

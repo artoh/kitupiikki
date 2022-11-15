@@ -178,7 +178,7 @@ void TilikarttaMuokkaus::suodataTila(int tila)
         naytaProxy->setFilterFixedString("");
         break;
     case 1:
-        naytaProxy->setFilterRegExp("(1|2)");
+        naytaProxy->setFilterRegularExpression(QRegularExpression("(1|2)"));
         break;
     case 2:
         naytaProxy->setFilterFixedString("2");

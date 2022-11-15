@@ -236,11 +236,7 @@
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QPlainTextEdit" name="jsonInput">
-          <property name="tabStopWidth">
-           <number>10</number>
-          </property>
-         </widget>
+         <widget class="QPlainTextEdit" name="jsonInput"/>
          <widget class="QTextBrowser" name="kyselyBrowser"/>
         </widget>
        </item>

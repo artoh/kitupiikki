@@ -41,7 +41,7 @@ public:
     /**
      * @brief Sivun tekstirivit
      *
-     * Rivit pidetään järjestyksessä alhaalta ylöspäin.
+     * Rivit pidetään järjestyksessä.
      * Sivun marginaalissa mahdollisesti olevaa pystysuoraa tekstiä ei sisällytetä
      * riveihin.
      *

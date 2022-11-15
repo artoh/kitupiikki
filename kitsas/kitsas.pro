@@ -7,7 +7,14 @@
 
 # CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
-LIBS += -lpoppler-qt5
+equals(QT_MAJOR_VERSION,6) {
+    LIBS += -lpoppler-qt6
+}
+equals(QT_MAJOR_VERSION,5) {
+    LIBS += -lpoppler-qt5
+}
+
+
 LIBS += -lpoppler
 LIBS += -lzip
 
@@ -16,10 +23,8 @@ windows {
     LIBS += -lbcrypt
 }
 
-# DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050F00
-
 macx {
-    LIBS += -L/usr/local/opt/poppler-qt5/lib -lpoppler-qt5
+    LIBS += -L/usr/local/opt/poppler-qt5/lib -lpoppler-qt6
     LIBS += -L/usr/local/opt/libzip/lib -lzip
     INCLUDEPATH += /usr/local/include
 }

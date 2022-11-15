@@ -164,7 +164,7 @@ int Iban::ibanModulo(const QString &iban)
    while( apu.length() )
    {
        QString tama = QString("%1").arg( jaannos , 2, 10, QChar('0')  );
-       tama.append( apu.leftRef(7));
+       tama.append( apu.left(7));
        luku = tama.toLongLong();
        jaannos = luku % 97;
 

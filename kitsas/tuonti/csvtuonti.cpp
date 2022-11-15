@@ -15,15 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QTextCodec>
-#include <QRegularExpression>
-#include <QFile>
-#include <QDebug>
-
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"
 #include "tilimuuntomodel.h"
-#include "tuontiapu.h"
 #include "kirjaus/tilidelegaatti.h"
 #include "db/kirjanpito.h"
 
@@ -33,6 +27,18 @@
 #include "ui_tilimuuntodlg.h"
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
+#include "tuontiapu.h"
+
+#include <QRegularExpression>
+#include <QFile>
+#include <QDebug>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtCore5Compat/QTextCodec>
+#else
+#include <QTextCodec>
+#endif
+
 
 namespace Tuonti {
 

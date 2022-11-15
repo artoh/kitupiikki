@@ -222,8 +222,8 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
     if( liite.isNull())
         return false;
 
-    // Muunnetaan kaikki kuvatiedostot jpg-kuviksi
-    QImage image = image.fromData(liite);
+    // Muunnetaan kaikki kuvatiedostot jpg-kuviksi (ei kuiteskaan pdf)
+    QImage image = liite.startsWith("%PDF") ? QImage() : image.fromData(liite);
     if( !image.isNull()) {
         int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
         if( image.width() > image.height()) {

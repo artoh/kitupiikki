@@ -18,7 +18,6 @@
 #include <QApplication>
 #include <QGuiApplication>
 #include <QSplashScreen>
-#include <QTextCodec>
 #include <QIcon>
 #include <QFontDatabase>
 #include <QFont>
@@ -56,8 +55,7 @@ int main(int argc, char *argv[])
     a.setOrganizationName("Kitsas oy");
 
     KitsasLokiModel::alusta();
-    Kielet::alustaKielet(":/tr/tulkki.json");
-    qRegisterMetaTypeStreamOperators<Euro>("Euro");
+    Kielet::alustaKielet(":/tr/tulkki.json");    
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
@@ -69,8 +67,7 @@ int main(int argc, char *argv[])
 
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
-#endif
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif    
 
 
     QCommandLineParser parser;

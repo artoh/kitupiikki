@@ -28,8 +28,9 @@ PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
 
 PopplerAnalyzerDocument::~PopplerAnalyzerDocument()
 {
-    if( pdfDoc_)
-        delete pdfDoc_;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    delete pdfDoc_;
+#endif
 }
 
 int PopplerAnalyzerDocument::pageCount()
@@ -40,57 +41,50 @@ int PopplerAnalyzerDocument::pageCount()
         return 0;
 }
 
+
 PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
 {   
+
     PdfAnalyzerPage result;
-    if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
-        Poppler::Page *sivu = pdfDoc_->page(page);
-        QMap<int,PdfAnalyzerRow> rows;
+       if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
-        if( sivu) {
-            result.setSize( sivu->pageSizeF() );
+           auto sivu = pdfDoc_->page(page);
 
-            auto lista = sivu->textList();            
-            for(int i=0; i < lista.count(); i++) {
-                auto ptr = lista.at(i);                
-                PdfAnalyzerText text;
-                while(ptr) {
-                    text.addWord( ptr->boundingBox(),
-                                  ptr->text(),
-                                  ptr->hasSpaceAfter());
+           if(sivu) {
+               result.setSize(sivu->pageSizeF());
+               QMap<int,PdfAnalyzerRow> rows;
+               PdfAnalyzerText text;
 
-                    ptr = ptr->nextWord();
-                    if( ptr )
-                        i++;
-                }
-                int indeksi = qRound( text.boundingRect().top() );
-                if( rows.contains(indeksi-1) )
-                    indeksi = indeksi -1;
-                else if( rows.contains(indeksi+1))
-                    indeksi = indeksi + 1;
+               auto lista = sivu->textList();
+               for(const auto& item : lista) {
+                   text.addWord(item->boundingBox(), item->text(), item->hasSpaceAfter());
+                   if( !item->hasSpaceAfter()) {
+                       int indeksi = qRound( text.boundingRect().top() );
+                       if( rows.contains(indeksi-1) )
+                           indeksi = indeksi -1;
+                       else if( rows.contains(indeksi+1))
+                           indeksi = indeksi + 1;
+                       if( text.boundingRect().right() > 25)
+                           rows[indeksi].addText(text);
+                       text = PdfAnalyzerText();
+                   }
+               }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+               delete sivu;
+#endif
 
-                // Jätetään pois sivumarginaalia
-                if( text.boundingRect().right() > 25)
-                    rows[indeksi].addText(text);
-            }            
-            delete sivu;
-        }
-
-        QMapIterator<int,PdfAnalyzerRow> iter(rows);
-        while(iter.hasNext()) {
-            iter.next();
-            result.addRow(iter.value());
-
-//            std::cerr << iter.key() << "   ";
-//            for(auto text: iter.value().textList() )
-//                std::cerr << text.text().toStdString() << " # ";
-//            std::cerr << "\n";
-        }
-    }    
-
+               QMapIterator<int,PdfAnalyzerRow> iter(rows);
+               while(iter.hasNext()) {
+                   iter.next();
+                   result.addRow(iter.value());
+               }
+           }
+       }
     return result;
 }
+
+
 
 QList<PdfAnalyzerPage> PopplerAnalyzerDocument::allPages()
 {

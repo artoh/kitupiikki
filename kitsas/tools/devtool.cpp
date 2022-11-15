@@ -22,6 +22,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QRandomGenerator>
 
 #include "devtool.h"
 #include "ui_devtool.h"
@@ -189,10 +190,9 @@ void DevTool::peliNapautus(int ruutu)
     if( peliRuudut_.at(4) == 0)
         siirto = 4;     // Valtaa mielellään keskiruudun
 
-    qsrand( QTime::currentTime().msecsSinceStartOfDay());
     while( !siirto )
     {
-        int ehdokas = qrand() % 9;
+        int ehdokas = QRandomGenerator::global()->generate() % 9;
         if( !peliRuudut_.at(ehdokas))
             siirto = ehdokas;
     }

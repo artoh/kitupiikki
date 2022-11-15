@@ -7,6 +7,11 @@ QT += network
 QT += svg
 QT += xml
 
+equals(QT_MAJOR_VERSION,6) {
+    QT += core5compat
+    QT += svgwidgets
+}
+
 CONFIG += c++14
 
 TARGET = kitsas

@@ -28,7 +28,6 @@
 #include <QDate>
 #include <QProgressDialog>
 
-#include "versio.h"
 
 bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &initials)
 {
@@ -83,7 +82,6 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
     QFile sqltiedosto(":/sqlite/luo.sql");
     sqltiedosto.open(QIODevice::ReadOnly);
     QTextStream in(&sqltiedosto);
-    in.setCodec("UTF-8");
 
     QString sqluonti = in.readAll();
     sqluonti.replace("\n","");
