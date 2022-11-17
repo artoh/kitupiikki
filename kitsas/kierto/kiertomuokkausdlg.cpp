@@ -105,7 +105,7 @@ void KiertoMuokkausDlg::alusta()
     ui->osallistujaView->setModel(proxy);
     ui->osallistujaView->horizontalHeader()->setSectionResizeMode(KiertoMuokkausModel::NIMI, QHeaderView::Stretch);
 
-    KpKysely* kysely = kpk(QString("%1/permissions/%2")
+    KpKysely* kysely = kpk(QString("%1/permissions/%2?all")
                            .arg(kp()->pilvi()->pilviLoginOsoite())
                            .arg(kp()->pilvi()->pilviId()));
     connect(kysely, &KpKysely::vastaus, this, &KiertoMuokkausDlg::kayttajatSaapuu);
@@ -129,7 +129,7 @@ void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
     int comboIndeksi = 0;
     for(auto &item : lista) {
         const QVariantMap& map = item.toMap();
-        qlonglong oikeudet = PilviModel::oikeudet(map.value("rights").toList());
+        qlonglong oikeudet = AvattuPilvi::oikeudetListasta(map.value("rights").toList());
         if( oikeudet & (YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::TOSITE_MUOKKAUS)) {
             ui->osallistujaCombo->addItem(map.value("name").toString(), map.value("userid"));
             ui->osallistujaCombo->setItemData(comboIndeksi++, oikeudet, Qt::UserRole + 1);

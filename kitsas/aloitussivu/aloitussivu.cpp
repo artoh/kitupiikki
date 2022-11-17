@@ -295,7 +295,7 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     ui->paikallinenKuva->setVisible(paikallinen);
     ui->pilviKuva->setVisible( pilvessa );
-    ui->kopioiPilveenNappi->setVisible(paikallinen && !kp()->pilvi()->blokattu());
+    ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() );
 
     paivitaTuki();
     haeSaldot();
@@ -552,36 +552,6 @@ void AloitusSivu::kpInfoSaapuu(QVariant *data)
         lisaInfo.append(QString("%1: %2 \n").arg(avain, map.value(avain).toString()));
     }
 
-    ui->tukiOhje->setPlainText( QString("version: %1 \n"
-                           "os: %2 \n"
-                           "user: %3 \n"
-                           "plan: %4 \n"
-                           "trial: %10 \n"
-                           "db: %5 \n"
-                           "map: %6 \n"
-                           "mapdate: %7 \n"
-                           "type: %8 \n"
-                           "large: %9 \n"
-                           "%11 \n"
-                           "%12 "
-                   ).arg(qApp->applicationVersion())
-                    .arg(QSysInfo::prettyProductName())
-                    .arg(kp()->pilvi()->kayttajaEmail())
-                    .arg(kp()->pilvi()->planname())
-                    .arg(kp()->kirjanpitoPolku())
-                    .arg(kp()->asetukset()->asetus(AsetusModel::Tilikartta))
-                    .arg(kp()->asetukset()->pvm(AsetusModel::TilikarttaPvm).toString("dd.MM.yyyy"))
-                    .arg(kp()->asetukset()->asetus(AsetusModel::Muoto))
-                    .arg(kp()->asetukset()->asetus(AsetusModel::Laajuus))
-                    .arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy"))
-                    #ifdef KITSAS_PORTABLE
-                        .arg("portable")
-                     #else
-                        .arg("")
-                    #endif
-                    .arg(lisaInfo)
-    );
-
     ui->inboxFrame->setVisible( map.value("tyolista").toInt() );
     ui->inboxCount->setText( map.value("tyolista").toString() );
 
@@ -623,57 +593,46 @@ void AloitusSivu::pilviLogin()
     kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text(), ui->muistaCheck->isChecked() );
 }
 
-void AloitusSivu::kirjauduttu()
+void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 {    
     ui->salaEdit->clear();
 
-    if( !kp()->pilvi()->kayttajaPilvessa()) {
+    if( !kayttaja) {
         ui->pilviPino->setCurrentIndex(KIRJAUDU);
         return;
     }
 
     ui->pilviPino->setCurrentIndex(LISTA);
-    ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
+    ui->kayttajaLabel->setText( kayttaja.nimi() );
 
-    int pilvia = kp()->pilvi()->omatPilvet();
-    int pilvetmax = kp()->pilvi()->pilviMax();
     ui->planLabel->setStyleSheet("");
 
-    if( kp()->pilvi()->blokattu()) {
-        switch (kp()->pilvi()->blokattu()) {
-            case 1: ui->planLabel->setText(tr("Käyttö estetty maksamattomien tilausmaksujen takia"));
-            break;
-            case 2: ui->planLabel->setText(tr("Käyttö estetty käyttösääntöjen vastaisen toiminnan takia"));
-            break;
+    if( kayttaja.suljettu() ) {
+        switch (kayttaja.suljettu()) {
+            case PilviKayttaja::MAKSAMATON:
+                ui->planLabel->setText(tr("Käyttö estetty maksamattomien tilausmaksujen takia"));
+                break;
+            case PilviKayttaja::EHTOJEN_VASTAINEN:
+                ui->planLabel->setText(tr("Käyttö estetty käyttösääntöjen vastaisen toiminnan takia"));
+                break;
         default:
             ui->planLabel->setText(tr("Käyttäjätunnus suljettu"));
         }
         ui->planLabel->setStyleSheet("color: red; font-weight: bold;");
-    } else if( !kp()->pilvi()->tilausvoimassa()) {
-        ui->planLabel->setText(tr("Käyttäjätunnuksella ei ole voimassaolevaa omaa tilausta.") +
-                               (kp()->pilvi()->rowCount() ?  tr("\nVoit kuitenkin käyttää kaikkia niitä kirjanpitoja, joihin sinulle on myönnetty käyttöoikeus.") : QString() ));
-    } else if (pilvia == 0 && pilvetmax == 0) {
-        ui->planLabel->setText( kp()->pilvi()->planname() );
-    } else if( kp()->pilvi()->kkLisaPilviHinta().cents() ) {
-        // Käytössä joustava pilvien enimmäismäärä
-        ui->planLabel->setText(  tr("%1\n%2 kirjanpitoa")
-                            .arg( kp()->pilvi()->planname())
-                            .arg( pilvia ));
-    } else {
-        ui->planLabel->setText(  tr("%1\n%2/%3 kirjanpitoa")
-                            .arg( kp()->pilvi()->planname())
-                            .arg( pilvia )
-                            .arg( pilvetmax ));
+    } else if( kayttaja.planId()) {
+        ui->planLabel->setText( kayttaja.planName() );
+    } else if( kayttaja.trialPeriod().isValid()) {
+        ui->planLabel->setText(tr("Kokeilujakso %1 saakka").arg( kayttaja.trialPeriod().toString("dd.MM.yyyy") ));
     }
 
-    if( kp()->pilvi()->plan() == 0 && kp()->pilvi()->kokeilujakso() >= QDate::currentDate()) {
-        ui->kokeiluLabel->show();
-        ui->kokeiluLabel->setText(tr("Kokeilujakso %1 saakka").arg(kp()->pilvi()->kokeilujakso().toString("dd.MM.yyyy")));
-    } else {
-        ui->kokeiluLabel->hide();
-    }
+    PilviKayttaja::KayttajaMoodi moodi = kayttaja.moodi();
 
-    ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tee tilaus") );
+    ui->tilausButton->setVisible( moodi == PilviKayttaja::NORMAALI );
+
+    ui->uusiNappi->setVisible( moodi == PilviKayttaja::NORMAALI );
+    ui->tkpilviTab->setTabEnabled( TIETOKONE_TAB, moodi == PilviKayttaja::NORMAALI || kp()->sqlite()->rowCount());
+
+    ui->tilausButton->setText( kp()->pilvi()->kayttaja().planId() ? tr("Tilaukseni") : tr("Tee tilaus") );
 
     paivitaTuki();
 }
@@ -856,8 +815,7 @@ void AloitusSivu::lahetaPalaute()
 void AloitusSivu::lahetaTukipyynto()
 {
     if( kp()->pilvi()) {
-        qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() );
-        kp()->avaaUrl( kp()->pilvi()->tukiOsoite() );
+        kp()->avaaUrl( kp()->pilvi()->service("support") );
     }
 }
 
@@ -933,7 +891,7 @@ QString AloitusSivu::vinkit()
                             "", "computer-laptop.png")) ;
     }
 
-    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilviVat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->pilvi().vat() && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
         vinkki.append(taulu("varoitus", tr("Tilaus on tarkoitettu arvonlisäverottomaan toimintaan."),
                             tr("Pilvikirjanpidon omistajalla on tilaus, jota ei ole tarkoitettu arvonlisäverolliseen toimintaan. "
                                "Arvonlisäilmoitukseen liittyviä toimintoja ei siksi ole käytössä tälle kirjanpidolle."),

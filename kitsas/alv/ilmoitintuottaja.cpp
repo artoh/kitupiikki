@@ -46,7 +46,7 @@ bool IlmoitinTuottaja::voikoMuodostaa(const QVariantMap &map)
     // kausi on normaali
     return !kausiTieto(map).isEmpty() &&
             kp()->pilvi() &&
-            !kp()->pilvi()->ilmoitinTunnus().isEmpty() &&
+            !kp()->pilvi()->service("ilmoitinkoodi").isEmpty() &&
             !kp()->asetukset()->asetus(AsetusModel::Ytunnus).isEmpty() &&
             ( kp()->pilvi()->tilausvoimassa() ||
               qobject_cast<PilviModel*>(kp()->yhteysModel()));
@@ -126,7 +126,7 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
 
     lisaa(0, "VSRALVKV");
     lisaa(198, QDateTime::currentDateTime().toString("ddMMyyyyhhmmss"));
-    lisaa(14, kp()->pilvi()->ilmoitinTunnus());
+    lisaa(14, kp()->pilvi()->service("ilmoitinkoodi"));
     lisaa(48, qApp->applicationName());
     lisaa(10, kp()->asetukset()->asetus(AsetusModel::Ytunnus));
 

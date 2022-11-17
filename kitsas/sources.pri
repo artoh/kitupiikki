@@ -159,7 +159,10 @@ SOURCES += \
     $$PWD/naytin/laaditunraportinnaytin.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/naytin/naytinscene.cpp \
+    $$PWD/pilvi/avattupilvi.cpp \
+    $$PWD/pilvi/listanpilvi.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
+    $$PWD/pilvi/pilvikayttaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laatijat/laatijanalv.cpp \
     $$PWD/raportti/laatijat/laatijanlaskut.cpp \
@@ -550,7 +553,10 @@ HEADERS += \
     $$PWD/naytin/laaditunraportinnaytin.h \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/naytin/naytinscene.h \
+    $$PWD/pilvi/avattupilvi.h \
+    $$PWD/pilvi/listanpilvi.h \
     $$PWD/pilvi/pilveensiirto.h \
+    $$PWD/pilvi/pilvikayttaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laatijat/laatijanalv.h \
     $$PWD/raportti/laatijat/laatijanlaskut.h \

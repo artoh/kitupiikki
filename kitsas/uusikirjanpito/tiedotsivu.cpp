@@ -110,9 +110,8 @@ bool TiedotSivu::validatePage()
     velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
     velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
 
-    // 3.3 beta: VAT-kirjanpidon luominen plan-nimellä,
-    // myöhemmin liitetään kirjautumistietoihin VAT-kelpoisuus
-    const bool voiLuodaVatKirjanpidon = kp()->pilvi()->planname() != "Kerho";
+    // 3.3 beta: VAT-kirjanpidon luominen
+    const bool voiLuodaVatKirjanpidon = kp()->pilvi()->pilvi().vat();
 
     if( velho->asetukset_.value("laajuus").toInt() >= velho->asetukset_.value("alvlaajuus").toInt()  &&
         ( !field("pilveen").toBool() || voiLuodaVatKirjanpidon )) {

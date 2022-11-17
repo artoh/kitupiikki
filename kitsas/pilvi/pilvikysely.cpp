@@ -39,7 +39,7 @@ PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString po
 void PilviKysely::kysy(const QVariant &data)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();
+    QString osoite = polku().contains("//") ? polku() : model->pilvi().url() + polku();
     QUrl url( osoite );
     url.setQuery( urlKysely() );
 
@@ -83,7 +83,7 @@ void PilviKysely::kysy(const QVariant &data)
 void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QString>& meta)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QString osoite = polku().contains("//") ? polku() : model->pilviosoite() + polku();    
+    QString osoite = polku().contains("//") ? polku() : model->pilvi().url() + polku();
 
     QUrl url( osoite );
     url.setQuery( urlKysely() );

@@ -29,6 +29,7 @@
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
 
+#include "pilvi/pilvikayttaja.h"
 #include "ui_aloitus.h"
 
 /**
@@ -39,6 +40,12 @@
 class AloitusSivu : public KitupiikkiSivu
 {
     Q_OBJECT
+
+    enum Tabs {
+        TIETOKONE_TAB,
+        PILVI_TAB,
+        TUKI_TAB
+    };
 
 public:
     AloitusSivu(QWidget *parent = nullptr);
@@ -81,7 +88,7 @@ protected slots:
 
 private slots:
     void pilviLogin();
-    void kirjauduttu();
+    void kirjauduttu(const PilviKayttaja& kayttaja);
     void loginVirhe();
     void validoiLoginTiedot();
     void validoiEmail();

@@ -288,9 +288,9 @@ border-color: rgb(170, 0, 0);</string>
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="tietokone">
         <attribute name="icon">
          <iconset resource="../pic/pic.qrc">
           <normaloff>:/pic/laptop.png</normaloff>:/pic/laptop.png</iconset>
@@ -370,7 +370,7 @@ border-color: rgb(170, 0, 0);</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab_2">
+       <widget class="QWidget" name="pilvi">
         <attribute name="icon">
          <iconset resource="../pic/pic.qrc">
           <normaloff>:/pic/cloud.png</normaloff>:/pic/cloud.png</iconset>
@@ -500,7 +500,7 @@ border-color: rgb(170, 0, 0);</string>
               </widget>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_2">
+              <widget class="QGroupBox" name="uusiKayttajaGroup">
                <property name="title">
                 <string>Uusi käyttäjä</string>
                </property>
@@ -570,16 +570,6 @@ border-color: rgb(170, 0, 0);</string>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="kokeiluLabel">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(85, 255, 127);</string>
-               </property>
-               <property name="text">
-                <string>TextLabel</string>
                </property>
               </widget>
              </item>

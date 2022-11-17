@@ -45,9 +45,9 @@ Tuonti::TesserActTuonti::TesserActTuonti(QObject *parent)
 void Tuonti::TesserActTuonti::tuo(const QByteArray &data)
 {
     if( kp()->pilvi() &&
-        !kp()->pilvi()->ocrOsoite().isEmpty())
+        !kp()->pilvi()->service("ocr").isEmpty())
     {
-        QString osoite = kp()->pilvi()->ocrOsoite();
+        QString osoite = kp()->pilvi()->service("ocr");
 
         PilviKysely *ocr = new PilviKysely( kp()->pilvi(), KpKysely::POST, osoite);
         connect( ocr, &KpKysely::vastaus, this, &TesserActTuonti::kasittele);

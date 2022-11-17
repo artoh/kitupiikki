@@ -1,0 +1,72 @@
+#ifndef PILVIKAYTTAJA_H
+#define PILVIKAYTTAJA_H
+
+#include <QVariant>
+#include <QDate>
+
+#include "model/euro.h"
+
+class PilviKayttaja
+{
+public:
+    enum KayttajaMoodi {
+        NORMAALI,
+        TOFFEE
+    };
+
+    enum Suljettu {
+        KAYTOSSA = 0,
+        MAKSAMATON = 1,
+        EHTOJEN_VASTAINEN = 2
+    };
+
+    PilviKayttaja();    
+    PilviKayttaja(const QVariant& data);
+
+    operator bool() const;
+
+    int id() const { return id_; }
+    QString nimi() const { return nimi_;}
+    QString email() const { return email_; }
+
+    int planId() const { return plan_id_; }
+    QString planName() const { return plan_name_; }
+
+    QDate trialPeriod() const { return trial_; }
+
+    KayttajaMoodi moodi() const { return moodi_;}
+    Suljettu suljettu() const { return blocked_;}
+
+    int cloudCount() const { return cloudCount_;}
+    Euro extraMonthly() const { return extraMonthly_; }
+    int capacity() const { return capacity_; }
+
+    bool admin() const { return admin_; }
+    QString service(const QString& serviceName) const;
+
+    static void asetaVersioMoodi(const KayttajaMoodi versio);
+
+private:
+    int id_ = 0;
+    QString nimi_;
+    QString email_;
+
+    int plan_id_;
+    QString plan_name_;
+
+    QDate trial_;
+    bool admin_;
+
+    KayttajaMoodi moodi_ = NORMAALI;
+    Suljettu blocked_ = KAYTOSSA;
+
+    QVariantMap services_;
+
+    int cloudCount_ = 0;
+    int capacity_ = 0;
+    Euro extraMonthly_;
+
+    static KayttajaMoodi versio__;
+};
+
+#endif // PILVIKAYTTAJA_H

@@ -34,7 +34,7 @@
 PilveenSiirto::PilveenSiirto(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PilveenSiirto),
-    pilviModel_(new PilviModel(this, kp()->pilvi()->userToken()))
+    pilviModel_(new PilviModel(this, kp()->pilvi()->token()))
 {
 
     setAttribute(Qt::WA_DeleteOnClose);
@@ -76,8 +76,7 @@ void PilveenSiirto::alustaAlkusivu()
     if( !kp()->logo().isNull())
         ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(32,32,Qt::KeepAspectRatio)) );
 
-    int pilvia = kp()->pilvi()->omatPilvet();
-    int pilvetMax = kp()->pilvi()->pilviMax();
+    int pilvia = kp()->pilvi()->kayttaja().cloudCount();
 
     QSqlQuery kysely(kp()->sqlite()->tietokanta());
     kysely.exec("SELECT COUNT(id) FROM Tosite");
@@ -86,14 +85,13 @@ void PilveenSiirto::alustaAlkusivu()
 
     kysely.exec("SELECT COUNT(id) FROM Liite");
     kysely.next();
-    liitelkm_ = kysely.value(0).toInt();
+    liitelkm_ = kysely.value(0).toInt();    
 
-    if( pilvia >= pilvetMax ) {
-        if( kp()->pilvi()->kkLisaPilviHinta()) {
-            ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kkLisaPilviHinta().display() ));
+    if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
+        if( kp()->pilvi()->kayttaja().planId()) {
+            ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
         } else {
-            ui->infoLabel->setText(tr("Nykyiseen tilaukseesi kuuluu %1 pilvessä olevaa kirjanpitoa.\n"
-                                      "Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen.").arg(pilvetMax));
+            ui->infoLabel->setText(tr("Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen."));
             ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
         }
     }
@@ -130,7 +128,7 @@ void PilveenSiirto::initSaapuu(QVariant *data)
         asetukset.value("SmtpServer").toString().isEmpty() ) {
         // Otetaan käyttöön pilven email-palvelu
         asetukset.insert("KitsasEmail", true);
-        asetukset.insert("EmailOsoite", asetukset.contains("Email") ? asetukset.value("Email") :  kp()->pilvi()->kayttajaEmail() );
+        asetukset.insert("EmailOsoite", asetukset.contains("Email") ? asetukset.value("Email") :  kp()->pilvi()->kayttaja().email() );
         asetukset.insert("EmailNimi", asetukset.value("Nimi"));
         init.insert("asetukset", asetukset);
     }
@@ -160,8 +158,6 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
     const QVariantMap& map = data->toMap();
     pilviId_ = map.value("id").toInt();
 
-    qDebug() << "Pilvi luotu " << map.value("id");
-    qDebug() << pilviModel_->pilviosoite();
 
     connect( pilviModel_, &PilviModel::kirjauduttu, this, &PilveenSiirto::avaaLuotuPilvi);    
     pilviModel_->paivitaLista();
@@ -172,7 +168,6 @@ void PilveenSiirto::avaaLuotuPilvi()
 {
     qDebug() << "Avataan luotu pilvi";
     pilviModel_->avaaPilvesta(pilviId_, true);
-    qDebug() << pilviModel_->pilviosoite();
 
     ui->progressBar->setValue(30);
     haeRyhmaLista();

@@ -23,7 +23,7 @@ PlanModel::PlanModel(QObject *parent)
     : QAbstractTableModel(parent)
 
 {
-    pilvia_ = kp()->pilvi()->omatPilvet();
+    pilvia_ = kp()->pilvi()->kayttaja().cloudCount();
 }
 
 QVariant PlanModel::headerData(int section, Qt::Orientation orientation, int role) const

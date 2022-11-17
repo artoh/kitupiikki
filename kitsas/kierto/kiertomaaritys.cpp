@@ -42,7 +42,7 @@ KiertoMaaritys::KiertoMaaritys(QWidget *parent) :
 
     ui->osoiteEdit->setText( QString("%1/%2")
                               .arg(osoite)
-                              .arg(kp()->pilvi()->pilviId()));
+                              .arg(kp()->pilvi()->pilvi().id() ));
 
     connect(ui->uusiNappi, &QPushButton::clicked, this, &KiertoMaaritys::uusi);
     connect(ui->muokkaaNappi, &QPushButton::clicked, this, &KiertoMaaritys::muokkaa);

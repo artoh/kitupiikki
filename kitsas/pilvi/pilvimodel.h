@@ -23,6 +23,10 @@
 #include <QPixmap>
 #include <QDate>
 
+#include "pilvikayttaja.h"
+#include "listanpilvi.h"
+#include "avattupilvi.h"
+
 class QTimer;
 class QNetworkReply;
 
@@ -52,19 +56,12 @@ public:
     int rowCount(const QModelIndex &parent=QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    QString kayttajaNimi() const { return data_.value("name").toString();}
-    QString kayttajaEmail() const { return data_.value("email").toString();}
-    int kayttajaPilvessa() const { return kayttajaId_; }
-    int plan() const { return data_.value("plan").toMap().value("id").toInt();}
-    QString planname() const { return data_.value("plan").toMap().value("name").toString();}
-    int omatPilvet() const;
-    int pilviMax() const { return data_.value("cloudsmax").toInt();}
 
     static QString pilviLoginOsoite();
 
     void uusiPilvi(const QVariant& initials);
 
-    bool avaaPilvesta(int pilviId, bool siirrossa = false);
+    void avaaPilvesta(int pilviId, bool siirrossa = false);
 
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;
@@ -72,33 +69,24 @@ public:
     void sulje() override;
     void poistaNykyinenPilvi();
 
-    int pilviId() const { return pilviId_;}
-    QString pilviosoite() const { return osoite_;}
-    QString token() const { return token_; }
-    QString userToken() const { return data_.value("token").toString();}
-    QString ocrOsoite() const { return data_.value("ocr").toString();}
-    QString finvoiceOsoite() const { return data_.value("finvoice").toString();}
-    QString kbcOsoite() const { return data_.value("bci").toString(); }
-    QString ilmoitinTunnus() const;
-    QString tukiOsoite() const { return data_.value("support").toString();}
-    QDate kokeilujakso() const { return data_.value("trialperiod").toDate(); }
-    bool tilausvoimassa() const { return plan() || kokeilujakso() >= QDate::currentDate();}
-    bool pilviVat() const { return  pilviVat_; }
-    int blokattu() const { return data_.value("blocked").toInt(); }
-    Euro kkLisaPilviHinta() const { return Euro::fromVariant( data_.value("plan").toMap().value("extramonthly") );  }
+    QString token() const;
+    AvattuPilvi pilvi() const { return nykyPilvi_; }
+    PilviKayttaja kayttaja() const { return kayttaja_; }
 
-    qlonglong oikeudet() const override { return oikeudet_;}
+    qlonglong oikeudet() const override { return nykyPilvi_.oikeudet(); }
 
-    /**
-     * @brief Muodostaa oikeuksista bittikartan
-     * @param Oikeudet listana ["Ts","Tl"] jne
-     * @return YhteysModelin oikeuksista koostuva bittikartta
-     */
-    static qlonglong oikeudet(const QVariantList& lista);
+    QString service(const QString& serviceName) const;
 
     static void asetaPilviLoginOsoite(const QString& osoite);
-
     Tilitieto::TilitietoPalvelu* tilitietoPalvelu();
+
+    bool tilausvoimassa() const;
+
+// Yhteensopivuutta varten
+    int pilviId() const { return pilvi().id();}
+    int kayttajaPilvessa() const { return kayttaja().id(); }
+    QString finvoiceOsoite() const { return service("finvoice");}
+    QString kbcOsoite() const { return service("bci");}
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
@@ -106,37 +94,37 @@ public slots:
     void paivitaLista(int avaaPilvi = 0);
     void nimiMuuttui();
 
-private:
+private:    
     void kirjautuminenValmis();
-    void paivitysValmis(QVariant* paluu);
     void pilviLisatty(QVariant* paluu);
-    void tilaaLogo(const QVariantMap& map);
     void poistettu();
     void yritaUudelleenKirjautumista();
     void tarkistaKirjautuminen();
 
+private:
+    void alustaPilvi(QVariant* data);
+    void lueTiedotKirjautumisesta(const QVariant& data);
+    void asetaPilviLista(const QVariantList lista);
+
 signals:
-    void kirjauduttu();
-    void loginvirhe();
+    void kirjauduttu(PilviKayttaja kayttaja);
+    void loginvirhe();    
+
 
 private:
-    int kayttajaId_ = 0;
-    int pilviId_ = 0;
-    int avaaPilvi_ = 0;
-    QString osoite_;
-    QString token_;
-    qlonglong oikeudet_ = 0;
-    bool pilviVat_ = true;
-    Euro kkLisaPilviHinta_;
+    PilviKayttaja kayttaja_;
+    QVector<ListanPilvi> pilvet_;
+    AvattuPilvi nykyPilvi_;
 
-    QVariantMap data_;
-    QTimer *timer_;    
-    QMap<int,QPixmap> logot_;
-
+    QString kayttajaToken_;
     QDateTime tokenUusittu_;
+    QTimer* timer_;
+
+    int avaaPilvi_ = 0;
+
 
 private:
-    static std::map<QString,qlonglong> oikeustunnukset__;
+
     static QString pilviLoginOsoite__;
 
     Tilitieto::TilitietoPalvelu* tilitietoPalvelu_;

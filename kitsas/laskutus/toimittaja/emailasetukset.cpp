@@ -84,9 +84,9 @@ void EmailAsetukset::lataaKitsasAsetukset()
 
 bool EmailAsetukset::lataaOmaEmail()
 {
-    const int kayttajaId = kp()->pilvi()->kayttajaPilvessa();
+    const int kayttajaId = kp()->pilvi()->kayttaja();
     if( kayttajaId ) {
-        const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()) );
+        const QString omaEmail = kp()->asetukset()->asetus( QString("OmaEmail/%1").arg(kp()->pilvi()->kayttaja().id()) );
         if( !omaEmail.isEmpty() ) {
             kayttajakohtainen_ = true;
             const int vali = omaEmail.indexOf(' ');
@@ -137,7 +137,7 @@ void EmailAsetukset::tallennaKirjanpito()
 bool EmailAsetukset::tallennaOmaEmail()
 {
     if( kayttajakohtainen() ) {
-        kp()->asetukset()->aseta(QString("OmaEmail/%1").arg(kp()->pilvi()->kayttajaPilvessa()),
+        kp()->asetukset()->aseta(QString("OmaEmail/%1").arg(kp()->pilvi()->kayttaja().id()),
                                  lahettajaOsoite() + " " + lahettajaNimi());
         return true;
     } else {

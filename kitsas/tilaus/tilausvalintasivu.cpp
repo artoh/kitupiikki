@@ -108,12 +108,6 @@ void TilausValintaSivu::paivita()
                        "laskulta %L1 € nykyisestä tilauksestasi.")
                     .arg(palautus_,0,'f',2));
 
-    if( kp()->pilvi()->omatPilvet() > pilviayht && planId != !kkLisaHinta.cents())
-        info.append( tr("Koska sinulla on jo pilveen tallennettuna %1 kirjanpitoa et voi vaihtaa "
-                        "tätä pienempään tilaukseen ilman, että poistat ensin "
-                        "osan kirjanpidoistasi")
-                     .arg( kp()->pilvi()->omatPilvet()));
-
     ui->infoLabel->setText(info);
     emit completeChanged();
 }
@@ -128,10 +122,7 @@ bool TilausValintaSivu::isComplete() const
 {
     return (tilaus(PlanModel::PlanRooli).toInt() != alkuperainenPlan_ ||
             ui->kuukausiRadio->isChecked() != alunperinPuolivuodet_ ||
-            ui->lisaSpin->value() != alunperinLisapilvet_ ) &&
-            ( ui->planView->currentIndex().data(PlanModel::PilviaRooli).toInt() +
-                ui->lisaSpin->value() >= kp()->pilvi()->omatPilvet() ||
-                ui->planView->currentIndex().data(PlanModel::PlanRooli).toInt() == PlanModel::TILITOIMISTOPLAN );
+            ui->lisaSpin->value() != alunperinLisapilvet_ );
 
 }
 

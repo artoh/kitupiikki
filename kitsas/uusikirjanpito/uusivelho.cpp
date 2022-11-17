@@ -133,7 +133,7 @@ QVariantMap UusiVelho::data() const
         // Jos sähköpostiasetuksia ei ole määritelty konekohtaisesti,
         // otetaan käyttöön Kitsaan pilvisähköposti
         asetusMap.insert("KitsasEmail", true);
-        asetusMap.insert("EmailOsoite", kp()->pilvi()->kayttajaEmail() );
+        asetusMap.insert("EmailOsoite", kp()->pilvi()->kayttaja().email() );
         asetusMap.insert("EmailNimi", asetukset_.value("Nimi"));
     }
 

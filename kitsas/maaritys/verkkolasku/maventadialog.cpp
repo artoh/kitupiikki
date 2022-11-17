@@ -123,7 +123,7 @@ void MaventaDialog::lataa(const QVariantMap &data)
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
     bool kitsaslasku = book.value("kitsasbilling").toBool() && pilvessa;
 
-    ui->kitsasLaskuButton->setEnabled( pilvessa && kp()->pilvi()->plan());
+    ui->kitsasLaskuButton->setEnabled( pilvessa && kp()->pilvi()->pilvi().planId());
     ui->kitsasLaskuButton->setChecked( kitsaslasku );
     ui->maventaLaskuButton->setChecked( !kitsaslasku );
     ui->maventaLaskuButton->setVisible( !kitsaslasku || !book.value("companybykitsas").toBool() );

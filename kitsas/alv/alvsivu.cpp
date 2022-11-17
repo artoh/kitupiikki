@@ -84,7 +84,7 @@ void AlvSivu::siirrySivulle()
     ui->kausiCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     ui->maksuperusteNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
 
-    ui->ilmoitinNappi->setVisible( kp()->pilvi() && !kp()->pilvi()->ilmoitinTunnus().isEmpty() );
+    ui->ilmoitinNappi->setVisible( kp()->pilvi() && !kp()->pilvi()->service("ilmoitinkoodi").isEmpty() );
 
     alustaa_ = false;
 

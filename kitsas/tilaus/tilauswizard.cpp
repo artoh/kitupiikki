@@ -150,7 +150,7 @@ void TilausWizard::dataSaapuu()
 
 
     if( current_.value("email").toString().isEmpty())
-        setField("email", kp()->pilvi()->kayttajaEmail());
+        setField("email", kp()->pilvi()->kayttaja().email());
     else
         setField("email", current_.value("email"));
 

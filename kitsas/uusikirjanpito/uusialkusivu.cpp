@@ -51,23 +51,23 @@ void UusiAlkuSivu::initializePage()
 {
     // Voidaanko tallentaa pilveen
     ui->pilveenRadio->setEnabled( kp()->pilvi()->kayttajaPilvessa() &&
-                                  (kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax() || kp()->pilvi()->kkLisaPilviHinta()  ) &&
-                                  kp()->pilvi()->tilausvoimassa() );
+                               ( kp()->pilvi()->kayttaja().planId() ||   kp()->pilvi()->kayttaja().cloudCount() < kp()->pilvi()->kayttaja().capacity() ) );
+
 
     if( !kp()->pilvi()->kayttajaPilvessa())
         ui->pilviInfo->setText( tr("Käyttääksesi pilveä luo ensin käyttäjätunnus "
                                    "tai kirjaudu sisään."));
-    else if( kp()->pilvi()->omatPilvet() >= kp()->pilvi()->pilviMax()) {
-        if( kp()->pilvi()->kkLisaPilviHinta() ) {
-            ui->pilviInfo->setText( tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg(kp()->pilvi()->kkLisaPilviHinta().display()));
+    else if( kp()->pilvi()->kayttaja().cloudCount() >= kp()->pilvi()->kayttaja().capacity()) {
+        if( kp()->pilvi()->kayttaja().planId() ) {
+            ui->pilviInfo->setText( tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg(kp()->pilvi()->kayttaja().extraMonthly().display()));
         } else {
             ui->pilviInfo->setText( tr("Luodaksesi enemmän kirjanpitoja pilveen sinun "
-                                   "on ensin päivitettävä tilauksesi laajempaan."));
+                                   "on ensin tehtävä Kitsaan tilaus."));
         }
-    } else if( !kp()->pilvi()->plan() && kp()->pilvi()->tilausvoimassa())
+    } else if( !kp()->pilvi()->kayttaja().planId() && kp()->pilvi()->kayttaja().trialPeriod().isValid())
         ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista kirjanpitoa, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
 
-    if( kp()->pilvi()->plan())
+    if( kp()->pilvi()->kayttaja().planId())
         ui->tilausNappi->setText( tr("Päivitä tilauksesi"));
 
     if( ui->pilveenRadio->isEnabled())
