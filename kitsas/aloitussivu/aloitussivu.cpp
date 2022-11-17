@@ -295,7 +295,7 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     ui->paikallinenKuva->setVisible(paikallinen);
     ui->pilviKuva->setVisible( pilvessa );
-    ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() );
+    ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() && kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::NORMAALI);
 
     paivitaTuki();
     haeSaldot();
@@ -625,12 +625,12 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
         ui->planLabel->setText(tr("Kokeilujakso %1 saakka").arg( kayttaja.trialPeriod().toString("dd.MM.yyyy") ));
     }
 
-    PilviKayttaja::KayttajaMoodi moodi = kayttaja.moodi();
 
-    ui->tilausButton->setVisible( moodi == PilviKayttaja::NORMAALI );
+    bool naytaNormaalit = kayttaja.moodi() == PilviKayttaja::NORMAALI || kayttaja.planId();
 
-    ui->uusiNappi->setVisible( moodi == PilviKayttaja::NORMAALI );
-    ui->tkpilviTab->setTabEnabled( TIETOKONE_TAB, moodi == PilviKayttaja::NORMAALI || kp()->sqlite()->rowCount());
+    ui->tilausButton->setVisible( naytaNormaalit );
+    ui->uusiNappi->setVisible( naytaNormaalit );
+    ui->tkpilviTab->setTabEnabled( TIETOKONE_TAB, naytaNormaalit || kp()->sqlite()->rowCount());
 
     ui->tilausButton->setText( kp()->pilvi()->kayttaja().planId() ? tr("Tilaukseni") : tr("Tee tilaus") );
 
