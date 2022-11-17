@@ -44,6 +44,7 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);    
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+    QTimer::singleShot(150, this, [this] { this->kirjaudu(); });
 
 }
 
@@ -163,10 +164,14 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
         map.insert("password", salasana);
         if( pyydaAvain )
             map.insert("requestKey",true);
-    } else if( kp()->settings()->contains("CloudKey") ) {
-        map.insert("email", kp()->settings()->value("CloudEmail") );
-        map.insert("key", kp()->settings()->value("CloudKey"));
-        kp()->settings()->remove("CloudKey");
+    } else if( kp()->settings()->contains("AuthKey") ) {
+        QVariantMap keyMap;
+        QStringList keyData = kp()->settings()->value("AuthKey").toString().split(",");
+        keyMap.insert("id",keyData.value(0));
+        keyMap.insert("secret", keyData.value(1));
+        map.insert("key", keyMap);
+        map.insert("requestKey",true);
+        kp()->settings()->remove("AuthKey");
     } else {
         return;
     }
