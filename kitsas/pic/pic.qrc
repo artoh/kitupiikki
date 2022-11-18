@@ -209,6 +209,7 @@
         <file>computer-laptop.png</file>
         <file>cloud-64.png</file>
         <file>info-punainen.png</file>
+        <file>pixaby/toimisto.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
