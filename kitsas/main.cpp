@@ -42,7 +42,6 @@
 #include "pilvi/pilvimodel.h"
 
 #include "tools/kitsaslokimodel.h"
-#include "model/euro.h"
 
 
 

@@ -217,7 +217,8 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpencoder.cpp \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
-    $$PWD/smtpclient/mimecontentformatter.cpp \    
+    $$PWD/smtpclient/mimecontentformatter.cpp \     \
+    $$PWD/toimisto/toimistosivu.cpp
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -384,9 +385,8 @@ SOURCES += \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
     tuonti/tesseracttuonti.cpp \
-    tools/finvoicehaku.cpp\
+    tools/finvoicehaku.cpp \
     maaritys/bannerdialog.cpp
-
 
 
 HEADERS += \
@@ -641,6 +641,7 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/toimisto/toimistosivu.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/eraeranvalintadialog.h \
@@ -861,6 +862,7 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/toimisto/toimisto.ui \
     $$PWD/tools/eranvalintadialog.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \

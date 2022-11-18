@@ -51,6 +51,7 @@
 #include "kierto/kiertosivu.h"
 #include "alv/alvsivu.h"
 #include "kirjaus/tallennettuwidget.h"
+#include "toimisto/toimistosivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -75,10 +76,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     laskutussivu( new LaskuSivu(this)),
     selaussivu( new SelausWg(this)),
     kiertosivu( new KiertoSivu(this)),
-    raporttisivu( new RaporttiSivu()),
+    raporttisivu( new RaporttiSivu(this)),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
+    toimistosivu( new ToimistoSivu(this)),
     nykysivu(nullptr),
     onni_(new OnniWidget(this))
 
@@ -247,6 +249,8 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
+    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+
     valitseSivu(ALOITUSSIVU);
 }
 
@@ -464,6 +468,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
     if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||
