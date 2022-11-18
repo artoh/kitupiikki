@@ -217,8 +217,8 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpencoder.cpp \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
-    $$PWD/smtpclient/mimecontentformatter.cpp \     \
-    $$PWD/toimisto/toimistosivu.cpp
+    $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -380,7 +380,7 @@ SOURCES += \
     sqlite/sqlitemodel.cpp \
     rekisteri/asiakastoimittajavalinta.cpp \
     maaritys/avauseradlg.cpp\
-    maaritys/maksutapamuokkausdlg.cpp\
+    maaritys/maksutapamuokkausdlg.cpp \
     arkisto/tuloverodialog.cpp  \
     kierto/kiertowidget.cpp \
     kierto/kiertomuokkausdlg.cpp \
