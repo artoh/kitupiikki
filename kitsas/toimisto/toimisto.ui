@@ -75,7 +75,7 @@
    <item>
     <widget class="QTabWidget" name="mainTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="bookTab">
       <attribute name="icon">
@@ -126,6 +126,15 @@
       </attribute>
       <attribute name="title">
        <string>Käyttäjät</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="allBooksTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Kaikki kirjanpidot</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="allUsersTab">
