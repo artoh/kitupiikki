@@ -51,11 +51,11 @@ private:
     QString nimi_;
     QString email_;
 
-    int plan_id_;
+    int plan_id_ = 0;
     QString plan_name_;
 
     QDate trial_;
-    bool admin_;
+    bool admin_ = false;
 
     KayttajaMoodi moodi_ = NORMAALI;
     Suljettu blocked_ = KAYTOSSA;

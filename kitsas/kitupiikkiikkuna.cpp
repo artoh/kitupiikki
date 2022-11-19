@@ -88,6 +88,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
     connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
+    connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjauduttu);
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
@@ -105,6 +106,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<MAARITYSSIVU;i++)
         sivuaktiot[i]->setEnabled(false);
+    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
@@ -281,6 +283,11 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 void KitupiikkiIkkuna::uusiLasku()
 {
     LaskuDialogiTehdas::myyntilasku();
+}
+
+void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
+{
+    sivuaktiot[TOIMISTOSIVU]->setVisible( kayttaja.admin() );
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)

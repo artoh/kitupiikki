@@ -17,6 +17,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
     cloudCount_ = map.value("cloudcount").toInt();
+    admin_ = map.value("admin").toBool();
 
     moodi_ = map.value("mode").toString() == "TOFFEE" ?
                 TOFFEE :
@@ -26,8 +27,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     const QVariantMap planMap = map.value("plan").toMap();
 
     plan_id_ = planMap.value("id").toInt();
-    plan_name_ = planMap.value("name").toString();
-    admin_ = planMap.value("admin").toBool();
+    plan_name_ = planMap.value("name").toString();    
     services_ = planMap.value("services").toMap();    
     extraMonthly_ = planMap.value("extramonthly").toString();
     capacity_ = planMap.value("capacity").toInt();

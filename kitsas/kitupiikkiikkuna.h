@@ -48,6 +48,7 @@ class TallennettuWidget;
 #include "kitupiikkisivu.h"
 #include "db/kirjanpito.h"
 
+#include "pilvi/pilvikayttaja.h"
 
 
 /**
@@ -84,6 +85,7 @@ public slots:
     void uusiSelausIkkuna();
     void uusiLasku();
 
+    void kirjauduttu(const PilviKayttaja& kayttaja);
 
 protected slots:
     void aktivoiSivu(QAction* aktio);

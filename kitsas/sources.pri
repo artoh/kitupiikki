@@ -218,6 +218,8 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/toimisto/groupnode.cpp \
+    $$PWD/toimisto/grouptreemodel.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
@@ -641,6 +643,8 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/toimisto/groupnode.h \
+    $$PWD/toimisto/grouptreemodel.h \
     $$PWD/toimisto/toimistosivu.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \

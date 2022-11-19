@@ -7,6 +7,8 @@ namespace Ui {
     class Toimisto;
 }
 
+class GroupTreeModel;
+
 
 class ToimistoSivu : public KitupiikkiSivu
 {
@@ -15,8 +17,12 @@ public:
     ToimistoSivu(QWidget *parent = nullptr);
     ~ToimistoSivu();
 
+    void siirrySivulle() override;
+
 private:
     Ui::Toimisto* ui;
+
+    GroupTreeModel* groupTree_;
 
 };
 
