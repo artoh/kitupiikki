@@ -18,7 +18,14 @@ public:
     ToimistoSivu(QWidget *parent = nullptr);
     ~ToimistoSivu();
 
-    void siirrySivulle() override;
+    void siirrySivulle() override;        
+
+protected:
+    void nodeValittu(const QModelIndex& index);
+    void toimistoVaihtui();
+
+    void lisaaRyhma();
+    void lisaaToimisto();
 
 private:    
 

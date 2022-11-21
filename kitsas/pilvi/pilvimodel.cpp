@@ -108,6 +108,11 @@ KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
     return new PilviKysely( this, metodi, polku);
 }
 
+KpKysely *PilviModel::loginKysely(const QString &polku, KpKysely::Metodi metodi)
+{
+    return new PilviKysely( this, metodi, pilviLoginOsoite() + polku);
+}
+
 void PilviModel::sulje()
 {
     nykyPilvi_ = AvattuPilvi();

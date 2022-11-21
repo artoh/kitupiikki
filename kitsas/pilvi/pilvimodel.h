@@ -66,6 +66,9 @@ public:
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;
 
+    KpKysely *loginKysely(const QString& polku,
+                          KpKysely::Metodi metodi = KpKysely::GET);
+
     void sulje() override;
     void poistaNykyinenPilvi();
 

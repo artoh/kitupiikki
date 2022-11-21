@@ -84,10 +84,21 @@ QVariant GroupTreeModel::data(const QModelIndex &index, int role) const
 
 }
 
+void GroupTreeModel::addGroup(const int parentId, const QVariantMap& payload)
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+        QString("/groups/%2/group").arg(parentId),
+        KpKysely::POST
+    );
+    connect( kysymys, &KpKysely::vastaus, this,
+             [this, parentId] (QVariant* data) {this->groupInserted(parentId, data);} );
+    kysymys->kysy(payload);
+}
+
 void GroupTreeModel::refresh()
 {
     if( kp()->pilvi()->kayttaja()) {
-        KpKysely* kysymys = kp()->pilvi()->kysely(kp()->pilvi()->pilviLoginOsoite() + "/groups");
+        KpKysely* kysymys = kp()->pilvi()->loginKysely("/groups");
         connect( kysymys, &KpKysely::vastaus, this, &GroupTreeModel::createTree);
         kysymys->kysy();
     }
@@ -108,4 +119,17 @@ GroupNode *GroupTreeModel::nodeFromIndex(const QModelIndex &index) const
     } else {
         return rootNode_;
     }
+}
+
+void GroupTreeModel::groupInserted(const int parentId, const QVariant *data)
+{    
+
+    GroupNode* parentNode = rootNode_->findById(parentId);
+    GroupNode* grand = parentNode->parent();
+    QModelIndex newIndex = createIndex( grand->indexOf(parentNode), 0, parentNode );
+
+    beginInsertRows(newIndex, parentNode->subGroupsCount(), parentNode->subGroupsCount());
+    parentNode->addChildNode(data->toMap());
+    endInsertRows();
+
 }

@@ -21,6 +21,9 @@ public:
     GroupNode* subGroup(int index) const { return children_.at(index);}
     int indexOf(GroupNode* node) const { return children_.indexOf(node);}
 
+    void addChildNode(const QVariantMap& map);
+    GroupNode *findById(const int groupId);
+
     static GroupNode* createNodes(const QVariantList &list);
 
 private:

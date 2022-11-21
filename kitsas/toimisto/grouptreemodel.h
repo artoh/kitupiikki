@@ -24,11 +24,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    void addGroup(const int parentId, const QVariantMap &payload );
+
     void refresh();
 
 private:
     void createTree(const QVariant* data);
     GroupNode* nodeFromIndex(const QModelIndex& index) const;
+
+    void groupInserted(const int parentId, const QVariant* data);
 
 private:
     GroupNode* rootNode_ = nullptr;

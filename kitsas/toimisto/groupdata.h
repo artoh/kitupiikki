@@ -18,6 +18,14 @@ public:
     GroupBooksModel* books() { return books_;}
     GroupMembersModel* members() { return members_;}
 
+    int id() { return id_;}
+
+    bool isGroup() const { return type_ == GroupNode::GROUP; }
+    bool isUnit() const { return type_ == GroupNode::UNIT; }
+    bool isOffice() const { return type_ == GroupNode::OFFICE; }
+
+    QStringList adminRights() const { return admin_;}
+
 signals:
     void loaded();
 
@@ -28,9 +36,11 @@ private:
     int id_;
     QString name_;
     GroupNode::GroupType type_;
+    QStringList admin_;
 
     GroupBooksModel* books_;
     GroupMembersModel* members_;
+
 
 };
 

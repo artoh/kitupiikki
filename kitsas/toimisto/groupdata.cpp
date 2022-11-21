@@ -28,10 +28,11 @@ void GroupData::dataIn(QVariant *data)
 {
     const QVariantMap map = data->toMap();
 
-    id_ = map.value("id").toInt();
-    name_ = map.value("name").toString();
+    const QVariantMap groupMap = map.value("group").toMap();
+    id_ = groupMap.value("id").toInt();
+    name_ = groupMap.value("name").toString();
 
-    const QString typeString = map.value("type").toString();
+    const QString typeString = groupMap.value("type").toString();
     if( typeString == "UNIT")
         type_ = GroupNode::UNIT;
     else if( typeString == "GROUP")
@@ -39,6 +40,7 @@ void GroupData::dataIn(QVariant *data)
     else
         type_ = GroupNode::OFFICE;
 
+    admin_ = map.value("admin").toStringList();
     books_->load(map.value("books").toList());
     members_->load(map.value("members").toList());
 

@@ -15,13 +15,25 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="QGroupBox" name="uusiToimistoNappi">
+    <widget class="QGroupBox" name="ryhmaGroup">
      <property name="title">
       <string>Ryhmät</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QTreeView" name="treeView">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
         <property name="headerHidden">
          <bool>true</bool>
         </property>
@@ -57,7 +69,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="uusiToimistoNappi">
           <property name="text">
            <string>Uusi tilitoimisto</string>
           </property>
@@ -109,7 +121,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="uusiKirjanpitoNappi">
            <property name="text">
             <string>Uusi kirjanpito</string>
            </property>

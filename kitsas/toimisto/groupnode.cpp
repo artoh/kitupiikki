@@ -27,6 +27,25 @@ GroupNode::~GroupNode()
     qDeleteAll(children_);
 }
 
+void GroupNode::addChildNode(const QVariantMap &map)
+{
+    children_.append( new GroupNode(map, this) );
+}
+
+GroupNode *GroupNode::findById(const int groupId)
+{
+    if( groupId == id()) {
+        return this;
+    }
+    for( auto child : children_) {
+        GroupNode* node = child->findById(groupId);
+        if( node ) {
+            return node;
+        }
+    }
+    return nullptr;
+}
+
 GroupNode *GroupNode::createNodes(const QVariantList &list)
 {
     GroupNode* root = new GroupNode(QVariantMap(), nullptr);
