@@ -10,10 +10,6 @@ GroupNode::GroupNode(const QVariantMap& map, GroupNode *parent)
         type_ = GroupType::ROOT;
     else if( type == "OFFICE")
         type_ = GroupType::OFFICE;
-    else if( type == "OFFICE+")
-        type_ = GroupType::OFFICEPLUS;
-    else if( type == "TALOUSVERKKO")
-        type_ = GroupType::TALOUSVERKKO;
     else if( type == "UNIT")
         type_ = GroupType::UNIT;
     else

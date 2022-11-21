@@ -218,6 +218,10 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/toimisto/groupbooksmodel.cpp \
+    $$PWD/toimisto/groupdata.cpp \
+    $$PWD/toimisto/groupmember.cpp \
+    $$PWD/toimisto/groupmembersmodel.cpp \
     $$PWD/toimisto/groupnode.cpp \
     $$PWD/toimisto/grouptreemodel.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
@@ -643,6 +647,10 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/toimisto/groupbooksmodel.h \
+    $$PWD/toimisto/groupdata.h \
+    $$PWD/toimisto/groupmember.h \
+    $$PWD/toimisto/groupmembersmodel.h \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
     $$PWD/toimisto/toimistosivu.h \

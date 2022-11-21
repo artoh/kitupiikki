@@ -75,7 +75,7 @@
    <item>
     <widget class="QTabWidget" name="mainTab">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="bookTab">
       <attribute name="icon">
@@ -87,7 +87,11 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableView" name="groupBooksView">
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -127,31 +131,103 @@
       <attribute name="title">
        <string>Käyttäjät</string>
       </attribute>
-     </widget>
-     <widget class="QWidget" name="allBooksTab">
-      <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
-        <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Kaikki kirjanpidot</string>
-      </attribute>
-     </widget>
-     <widget class="QWidget" name="allUsersTab">
-      <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
-        <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Kaikki käytäjät</string>
-      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QTableView" name="groupMembersView"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="text">
+            <string>Uusi käyttäjä</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
-     <widget class="QWidget" name="page"/>
-     <widget class="QWidget" name="page_2"/>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="groupPage">
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>330</y>
+         <width>141</width>
+         <height>91</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>RYHMÄN TIEDOT</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="officePage">
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>350</y>
+         <width>211</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TOIMISTON TIEDOT</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="bookPage">
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>370</y>
+         <width>171</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>KIRJANPIDON TIEDOT</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="userPage">
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>340</y>
+         <width>211</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>KÄYTTÄJÄN TIEDOT</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </item>
   </layout>

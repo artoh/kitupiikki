@@ -7,7 +7,7 @@
 class GroupNode
 {
 public:
-    enum GroupType { UNIT, GROUP, OFFICE, OFFICEPLUS, TALOUSVERKKO, ROOT} ;
+    enum GroupType { UNIT, GROUP, OFFICE, ROOT} ;
 
     GroupNode(const QVariantMap &map, GroupNode* parent = nullptr);
     ~GroupNode();

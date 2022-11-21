@@ -51,7 +51,6 @@ int GroupTreeModel::rowCount(const QModelIndex &parent) const
     if( !parentNode ) {
         return 0;
     }
-    const int rows = parentNode->subGroupsCount();
     return parentNode->subGroupsCount();
 }
 
@@ -77,6 +76,8 @@ QVariant GroupTreeModel::data(const QModelIndex &index, int role) const
         if(node->type() == GroupNode::UNIT) return QIcon(":/pic/folder.png");
         if(node->type() == GroupNode::GROUP) return QIcon(":/pic/kansiot.png");
         return QIcon(":/pic/pixaby/toimisto.svg");
+    case IdRole:
+        return node->id();
     default:
         return QVariant();
     }

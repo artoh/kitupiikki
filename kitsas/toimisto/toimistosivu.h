@@ -8,6 +8,7 @@ namespace Ui {
 }
 
 class GroupTreeModel;
+class GroupData;
 
 
 class ToimistoSivu : public KitupiikkiSivu
@@ -19,10 +20,12 @@ public:
 
     void siirrySivulle() override;
 
-private:
+private:    
+
     Ui::Toimisto* ui;
 
     GroupTreeModel* groupTree_;
+    GroupData* groupData_;
 
 };
 
