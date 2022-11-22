@@ -12,3 +12,8 @@ GroupMember::GroupMember(const QVariantMap &map)
     rights_ = map.value("rights").toStringList();
     admin_ = map.value("admin").toStringList();
 }
+
+GroupMember::operator bool() const
+{
+    return userid() != 0;
+}

@@ -31,12 +31,15 @@ namespace Ui {
     class UusiLoppu;
 }
 
+class GroupData;
+class UusiToimistoonSivu;
+
 class UusiVelho : public QWizard
 {
     Q_OBJECT
 public:
     UusiVelho(QWidget *parent = nullptr);
-    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
+    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, TOIMISTO, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
     bool lataaKartta(const QString& polku);
     static QVariantMap kartta(const QString& polku);
     bool ladattu() const { return !tilit_.isEmpty();}
@@ -49,10 +52,15 @@ public:
     QVariantMap asetukset_;
     QVariantList tilit_;
     QVariantList tilikaudet_;
+    int tuote_ = 0;
 
     static QVariantMap asetukset( const QString& polku);
 
+    int toimistoVelho(GroupData* group);
+
 protected:
+    UusiToimistoonSivu* toimistoon;
+
     class VarmistaSivu : public QWizardPage {
     public:
         VarmistaSivu();

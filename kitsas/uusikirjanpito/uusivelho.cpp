@@ -38,6 +38,7 @@
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
 #include "tiedotsivu.h"
+#include "toimisto/uusitoimistoonsivu.h"
 
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
@@ -55,7 +56,8 @@
 #include <QUuid>
 
 UusiVelho::UusiVelho(QWidget *parent) :
-    QWizard(parent)
+    QWizard(parent),
+    toimistoon{new UusiToimistoonSivu(this)}
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
 
@@ -64,6 +66,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     addPage( new VarmistaSivu );
     addPage( new Harjoitussivu );
     addPage( new VastuuSivu );
+    addPage( toimistoon );
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
@@ -148,6 +151,9 @@ QVariantMap UusiVelho::data() const
     if(!field("ytunnus").toString().isEmpty())
         map.insert("businessid", field("ytunnus").toString());
 
+    if( tuote_ ) {
+        map.insert("product", tuote_);
+    }
 
 //    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
 
@@ -170,6 +176,10 @@ int UusiVelho::nextId() const
     if( currentId() == HARJOITUS &&
             field("harjoitus").toBool())
         return TILIKARTTA;
+
+    if( currentId() == VASTUU ) {
+        return TILIKARTTA;
+    }
 
     if( currentId() == NUMEROINTI &&
             field("pilveen").toBool())
@@ -227,6 +237,13 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
         }
     }
     return map;
+}
+
+int UusiVelho::toimistoVelho(GroupData *group)
+{
+    toimistoon->yhdista(group);
+    setStartId(TOIMISTO);
+    return exec();
 }
 
 

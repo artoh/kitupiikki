@@ -218,6 +218,8 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/toimisto/authlogmodel.cpp \
+    $$PWD/toimisto/bookdata.cpp \
     $$PWD/toimisto/groupbooksmodel.cpp \
     $$PWD/toimisto/groupdata.cpp \
     $$PWD/toimisto/groupmember.cpp \
@@ -252,6 +254,7 @@ SOURCES += \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
+    $$PWD/toimisto/uusitoimistoonsivu.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/eraeranvalintadialog.cpp \
@@ -648,6 +651,8 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/toimisto/authlogmodel.h \
+    $$PWD/toimisto/bookdata.h \
     $$PWD/toimisto/groupbooksmodel.h \
     $$PWD/toimisto/groupdata.h \
     $$PWD/toimisto/groupmember.h \
@@ -655,6 +660,7 @@ HEADERS += \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
     $$PWD/toimisto/toimistosivu.h \
+    $$PWD/toimisto/uusitoimistoonsivu.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/eraeranvalintadialog.h \
@@ -886,6 +892,7 @@ FORMS += \
     $$PWD/uusikirjanpito/uusisijainti.ui \
     $$PWD/uusikirjanpito/uusitiedot.ui \
     $$PWD/uusikirjanpito/uusitilikartta.ui \
+    $$PWD/uusikirjanpito/uusitoimistoon.ui \
     $$PWD/uusikirjanpito/uusivastuu.ui \
     $$PWD/uusikirjanpito/varmista.ui \
     maaritys/perusvalinnat.ui \

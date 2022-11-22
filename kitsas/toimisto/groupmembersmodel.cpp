@@ -56,3 +56,13 @@ void GroupMembersModel::load(const QVariantList &list)
     }
     endResetModel();
 }
+
+GroupMember GroupMembersModel::getMember(const int userid) const
+{
+    for(auto member : members_) {
+        if( member.userid() == userid) {
+            return member;
+        }
+    }
+    return GroupMember();
+}

@@ -9,10 +9,12 @@ public:
     GroupMember();
     GroupMember(const QVariantMap &map);
 
+    int userid() const { return userId_;}
     QString name() const { return name_;}
     QStringList rights() const { return rights_;}
     QStringList admin() const { return admin_;}
 
+    operator bool() const;
 
 private:
     int userId_ = 0;

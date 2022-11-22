@@ -13,15 +13,25 @@ GroupData::GroupData(QObject *parent)
 
 void GroupData::load(const int groupId)
 {
-    KpKysely* kysymys = kp()->pilvi()->kysely(
-        QString("%1/groups/%2")
-            .arg(kp()->pilvi()->pilviLoginOsoite())
-            .arg(groupId)
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+        QString("/groups/%1").arg(groupId)
     );
     if( kysymys ) {
         connect(kysymys, &KpKysely::vastaus, this, &GroupData::dataIn);
         kysymys->kysy();
     }
+}
+
+void GroupData::addBook(const QVariant &velhoMap)
+{
+    KpKysely *kysymys = kp()->pilvi()->loginKysely(
+        QString("/groups/%1/book").arg(id()),
+        KpKysely::POST
+    );
+    connect( kysymys, &KpKysely::vastaus, this, [this]
+        { this->reload(); kp()->pilvi()->paivitaLista(); });
+
+    kysymys->kysy(velhoMap);
 }
 
 void GroupData::dataIn(QVariant *data)
@@ -31,6 +41,7 @@ void GroupData::dataIn(QVariant *data)
     const QVariantMap groupMap = map.value("group").toMap();
     id_ = groupMap.value("id").toInt();
     name_ = groupMap.value("name").toString();
+    businessId_ = groupMap.value("businessid").toString();
 
     const QString typeString = groupMap.value("type").toString();
     if( typeString == "UNIT")
@@ -44,5 +55,19 @@ void GroupData::dataIn(QVariant *data)
     books_->load(map.value("books").toList());
     members_->load(map.value("members").toList());
 
+    const QVariantMap officeMap = groupMap.value("office").toMap();
+    officeName_ = officeMap.value("name").toString();
+    officeType_ = officeMap.value("type").toString();
+
+    officeTypes_ = map.value("officetypes").toList();
+    products_ = map.value("products").toList();
+
     emit loaded();
+}
+
+void GroupData::reload()
+{
+    if( id() ) {
+        load( id());
+    }
 }

@@ -9,6 +9,7 @@ namespace Ui {
 
 class GroupTreeModel;
 class GroupData;
+class BookData;
 
 
 class ToimistoSivu : public KitupiikkiSivu
@@ -21,11 +22,17 @@ public:
     void siirrySivulle() override;        
 
 protected:
+    enum { RYHMATAB, KIRJANPITOTAB, KAYTTAJATAB };
+
     void nodeValittu(const QModelIndex& index);
+    void kirjaValittu(const QModelIndex& index);
+
     void toimistoVaihtui();
+    void kirjaVaihtui();
 
     void lisaaRyhma();
     void lisaaToimisto();
+    void uusiKirjanpito();
 
 private:    
 
@@ -33,6 +40,7 @@ private:
 
     GroupTreeModel* groupTree_;
     GroupData* groupData_;
+    BookData* bookData_;
 
 };
 

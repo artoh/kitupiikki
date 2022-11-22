@@ -487,5 +487,7 @@
         <file>freeicons/question.svg</file>
         <file>tyhja16.png</file>
         <file>maksutavat/pankkikortti.png</file>
+        <file>toimisto/talousverkko.png</file>
+        <file>toimisto/tlogo.png</file>
     </qresource>
 </RCC>

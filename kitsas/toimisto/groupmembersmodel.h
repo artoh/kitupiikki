@@ -22,6 +22,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void load(const QVariantList& list);
+    GroupMember getMember(const int userid) const;
 
 private:
    QList<GroupMember> members_;

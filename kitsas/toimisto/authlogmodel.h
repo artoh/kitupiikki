@@ -1,33 +1,29 @@
-#ifndef GROUPBOOKSMODEL_H
-#define GROUPBOOKSMODEL_H
+#ifndef AUTHLOGMODEL_H
+#define AUTHLOGMODEL_H
 
 #include <QAbstractTableModel>
-#include <QPixmap>
+#include <QDateTime>
 
-class GroupBooksModel : public QAbstractTableModel
+class AuthLogModel : public QAbstractTableModel
 {
     Q_OBJECT
 
-
 protected:
-    class GroupBook {
-    public:
-        explicit GroupBook();
-        GroupBook(const QVariantMap &map);
 
-        int id;
+    class AuthLogItem {
+    public:
+        explicit AuthLogItem();
+        AuthLogItem(const QVariantMap& map);
+
         QString name;
-        bool trial;
-        QPixmap logo;
-        QString planname;
-        QString businessid;
+        QDateTime last;
+        int count;
     };
 
 public:
-    enum { IdRooli = Qt::UserRole };
-    enum { NIMI, YTUNNUS, TUOTE};
+    enum { NAME, LAST, COUNT};
 
-    explicit GroupBooksModel(QObject *parent = nullptr);
+    explicit AuthLogModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -41,7 +37,7 @@ public:
     void load(const QVariantList& list);
 
 private:
-    QList<GroupBook> books_;
+    QList<AuthLogItem> log_;
 };
 
-#endif // GROUPBOOKSMODEL_H
+#endif // AUTHLOGMODEL_H
