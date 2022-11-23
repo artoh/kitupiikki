@@ -227,6 +227,7 @@ SOURCES += \
     $$PWD/toimisto/groupmembersmodel.cpp \
     $$PWD/toimisto/groupnode.cpp \
     $$PWD/toimisto/grouptreemodel.cpp \
+    $$PWD/toimisto/ryhmaoikeusdialog.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
@@ -661,6 +662,7 @@ HEADERS += \
     $$PWD/toimisto/groupmembersmodel.h \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
+    $$PWD/toimisto/ryhmaoikeusdialog.h \
     $$PWD/toimisto/toimistosivu.h \
     $$PWD/toimisto/uusitoimistoonsivu.h \
     $$PWD/tools/checkcombo.h \
@@ -885,7 +887,9 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/toimisto/ryhmaoikeusdialog.ui \
     $$PWD/toimisto/toimisto.ui \
+    $$PWD/toimisto/toimistooikeudet.ui \
     $$PWD/tools/eranvalintadialog.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \

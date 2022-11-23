@@ -169,7 +169,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="uusiKayttajaNappi">
            <property name="text">
             <string>Uusi käyttäjä</string>
            </property>

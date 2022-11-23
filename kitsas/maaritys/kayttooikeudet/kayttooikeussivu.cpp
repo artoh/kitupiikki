@@ -21,17 +21,23 @@
 #include "kutsudialog.h"
 #include <QSortFilterProxyModel>
 
+#include "ui_oikeuswidget.h"
+
 KayttoOikeusSivu::KayttoOikeusSivu() :
     ui(new Ui::KayttoOikeudet),
+    oikeusUi{new Ui::OikeusWidget},
     model(new KayttooikeusModel(this))
 {
     ui->setupUi(this);
+    oikeusUi->setupUi(ui->oikeusWidget);
+    ui->oikeusWidget->alusta();
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     proxy->setSortRole(Qt::DisplayRole);
 
     ui->view->setModel(proxy);
+
 
     connect( ui->view, &QListView::clicked, this, &KayttoOikeusSivu::naytaValittu );
     connect( model, &KayttooikeusModel::modelReset, this, &KayttoOikeusSivu::malliNollattu);
@@ -44,14 +50,13 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->kutsuButton, &QPushButton::clicked, this, &KayttoOikeusSivu::kutsu);
     connect( ui->uusikutsuBtn, &QPushButton::clicked, this, &KayttoOikeusSivu::uusiKutsu);
 
-    for(QCheckBox* box : findChildren<QCheckBox*>()) {
-        connect(box, &QCheckBox::clicked, this, &KayttoOikeusSivu::tarkastaMuokattu);
-    }
+    connect( ui->oikeusWidget, &OikeusWidget::muokattu, this, &KayttoOikeusSivu::tarkastaMuokkaus);
 }
 
 KayttoOikeusSivu::~KayttoOikeusSivu()
 {
     delete ui;
+    delete oikeusUi;
 }
 
 bool KayttoOikeusSivu::nollaa()
@@ -66,20 +71,16 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
     ui->emailLabel->setText(index.data(KayttooikeusModel::EmailRooli).toString());
 
     QStringList oikeusLista = index.data(KayttooikeusModel::OikeusRooli).toStringList();
-    oikeudetAlussa_.clear();
-    for(const auto& oikeus :  qAsConst( oikeusLista)) {
-        oikeudetAlussa_.insert(oikeus);
-    }
+    omistaja_ = oikeusLista.contains("Om");
 
-    const bool omistaja = oikeudetAlussa_.contains("Om");
-    ui->omistajaLabel->setVisible(omistaja);
-    ui->oikeusBox->setDisabled(omistaja);
-    ui->poistaNappi->setDisabled(omistaja);
+
+    ui->omistajaLabel->setVisible(omistaja_);
+
+    ui->oikeusWidget->kayttoon("Ko", !omistaja_);
+    ui->poistaNappi->setDisabled(omistaja_);
     ui->uusikutsuBtn->setVisible( !index.data(KayttooikeusModel::VahvistettuRooli).toBool() );
 
-    for(QCheckBox* box : findChildren<QCheckBox*>()) {
-        box->setChecked( oikeudetAlussa_.contains( box->property("Oikeus").toString() ) );
-    }    
+    ui->oikeusWidget->aseta( oikeusLista );
     nykyisenEmail_ = ui->emailLabel->text();
     tarkastaMuokattu();
 }
@@ -142,9 +143,8 @@ void KayttoOikeusSivu::tallennaOikeudet()
                             KpKysely::PATCH);
     kysely->connect(kysely, &KpKysely::vastaus, this, &KayttoOikeusSivu::tallennettu);
 
-    QStringList oikeusLista;
-    for(const auto& oikeus :  oikeudetTaulussa())
-        oikeusLista.append(oikeus);
+    QStringList oikeusLista = ui->oikeusWidget->oikeuslista();
+    if(omistaja_) oikeusLista.append("Om");
 
     QVariantMap map;
     map.insert("email", ui->emailLabel->text());
@@ -164,23 +164,18 @@ void KayttoOikeusSivu::tallennettu()
 
 void KayttoOikeusSivu::tarkastaMuokattu()
 {    
-    ui->tallennaNappi->setEnabled( oikeudetTaulussa() != oikeudetAlussa_ );
-    ui->poistaNappi->setEnabled( !oikeudetTaulussa().isEmpty() && !oikeudetAlussa_.contains("Om"));
+    ui->tallennaNappi->setEnabled( ui->oikeusWidget->onkoMuokattu() );
+    ui->poistaNappi->setEnabled( !ui->oikeusWidget->oikeudet().isEmpty() && !omistaja_  );
 }
 
 void KayttoOikeusSivu::kaikkiOikeudet()
 {
-    for(QCheckBox* box : findChildren<QCheckBox*>())
-        box->setChecked(true);
-    tarkastaMuokattu();
+    ui->oikeusWidget->kaikki();
 }
 
 void KayttoOikeusSivu::poistaOikeudet()
 {
-    for(QCheckBox* box : findChildren<QCheckBox*>())
-        if(box->isEnabled())
-            box->setChecked(false);
-    tarkastaMuokattu();
+    ui->oikeusWidget->eimitaan();
 }
 
 void KayttoOikeusSivu::kutsu()
@@ -208,16 +203,4 @@ void KayttoOikeusSivu::uusiKutsu()
 
 }
 
-
-QSet<QString> KayttoOikeusSivu::oikeudetTaulussa() const
-{
-    QSet<QString> oikeudet;
-    for(const auto box : findChildren<QCheckBox*>()) {
-        if( box->isChecked())
-            oikeudet.insert(box->property("Oikeus").toString());
-    }
-    if( oikeudetAlussa_.contains("Om"))
-        oikeudet.insert("Om");
-    return oikeudet;
-}
 

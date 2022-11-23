@@ -32,6 +32,9 @@ protected:
 
     void lisaaRyhma();
     void lisaaToimisto();
+
+    void uusiKayttajaRyhmaan();
+
     void uusiKirjanpito();
 
 private:    

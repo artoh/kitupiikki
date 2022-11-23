@@ -23,6 +23,7 @@
 
 namespace Ui {
     class KayttoOikeudet;
+    class OikeusWidget;
 }
 
 
@@ -50,15 +51,14 @@ private:
     void kutsu();
     void uusiKutsu();
 
-
-    QSet<QString> oikeudetTaulussa() const;
 private:
     Ui::KayttoOikeudet* ui;
+    Ui::OikeusWidget *oikeusUi;
     KayttooikeusModel* model;
 
     QString nykyisenEmail_;
     QString haettuNimi_;    
-    QSet<QString> oikeudetAlussa_;
+    bool omistaja_;
 };
 
 #endif // KAYTTOOIKEUSSIVU_H

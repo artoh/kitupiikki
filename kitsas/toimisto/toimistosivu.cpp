@@ -10,6 +10,7 @@
 
 #include "ui_toimisto.h"
 #include "uusikirjanpito/uusivelho.h"
+#include "ryhmaoikeusdialog.h"
 
 #include "authlogmodel.h"
 
@@ -70,6 +71,9 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     connect( ui->uusiRyhmaNappi, &QPushButton::clicked, this, &ToimistoSivu::lisaaRyhma);
     connect( ui->uusiToimistoNappi, &QPushButton::clicked, this, &ToimistoSivu::lisaaToimisto);
+
+    connect( ui->uusiKayttajaNappi, &QPushButton::clicked, this, &ToimistoSivu::uusiKayttajaRyhmaan);
+
     connect( ui->uusiKirjanpitoNappi, &QPushButton::clicked, this, &ToimistoSivu::uusiKirjanpito);
 
     connect( ui->bAvaaNappi, &QPushButton::clicked, bookData_, &BookData::openBook);
@@ -155,6 +159,14 @@ void ToimistoSivu::lisaaToimisto()
 {
     UusiToimistoDialog dlg(this);
     dlg.newOffice(groupTree_, groupData_);
+}
+
+void ToimistoSivu::uusiKayttajaRyhmaan()
+{
+    RyhmaOikeusDialog dlg(this);
+    dlg.lisaaRyhmaan( groupData_ );
+    groupData_->reload();
+
 }
 
 void ToimistoSivu::uusiKirjanpito()
