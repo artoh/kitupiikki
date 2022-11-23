@@ -88,7 +88,12 @@ ToimistoSivu::~ToimistoSivu()
 
 void ToimistoSivu::siirrySivulle()
 {
-
+    if( ui->treeView->selectionModel()->selectedIndexes().isEmpty() ) {
+        if( groupTree_->nodes() < 50) {
+            ui->treeView->expandAll();
+        }
+        ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
+    }
 }
 
 void ToimistoSivu::nodeValittu(const QModelIndex &index)

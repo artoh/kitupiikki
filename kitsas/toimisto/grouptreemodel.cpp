@@ -105,6 +105,14 @@ void GroupTreeModel::refresh()
     }
 }
 
+int GroupTreeModel::nodes()
+{
+    if( rootNode_)
+        return rootNode_->nodeCount() - 1;
+    else
+        return 0;
+}
+
 void GroupTreeModel::createTree(const QVariant *data)
 {
     beginResetModel();

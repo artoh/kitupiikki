@@ -46,6 +46,15 @@ GroupNode *GroupNode::findById(const int groupId)
     return nullptr;
 }
 
+int GroupNode::nodeCount() const
+{
+    int count = 1;
+    for(auto child: children_) {
+        count += child->nodeCount();
+    }
+    return count;
+}
+
 GroupNode *GroupNode::createNodes(const QVariantList &list)
 {
     GroupNode* root = new GroupNode(QVariantMap(), nullptr);

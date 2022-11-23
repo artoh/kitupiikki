@@ -24,6 +24,8 @@ public:
     void addChildNode(const QVariantMap& map);
     GroupNode *findById(const int groupId);
 
+    int nodeCount() const;
+
     static GroupNode* createNodes(const QVariantList &list);
 
 private:

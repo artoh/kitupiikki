@@ -28,6 +28,8 @@ public:
 
     void refresh();
 
+    int nodes();
+
 private:
     void createTree(const QVariant* data);
     GroupNode* nodeFromIndex(const QModelIndex& index) const;
