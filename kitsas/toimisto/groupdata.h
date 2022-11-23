@@ -14,6 +14,7 @@ public:
     explicit GroupData(QObject *parent = nullptr);
 
     void load(const int groupId);
+    void reload();
 
     GroupBooksModel* books() { return books_;}
     GroupMembersModel* members() { return members_;}
@@ -38,8 +39,7 @@ signals:
     void loaded();
 
 private:
-    void dataIn(QVariant* data);
-    void reload();
+    void dataIn(QVariant* data);    
 
 private:
     int id_;

@@ -43,6 +43,7 @@ void RyhmaOikeusDialog::lisaaRyhmaan(GroupData *group)
 {
     groupId_ = group->id();
     ui->ryhmaLabel->setText( group->name() );
+    ui->toimisto->nakyviin("OO", group->isUnit());
     setWindowTitle( tr("Lisää käyttäjä") );
     exec();
 }
