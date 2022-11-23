@@ -53,6 +53,7 @@ public:
     QVariantList tilit_;
     QVariantList tilikaudet_;
     int tuote_ = 0;
+    bool harjoitus_ = true;
 
     static QVariantMap asetukset( const QString& polku);
 
@@ -71,9 +72,11 @@ protected:
 
     class Harjoitussivu : public QWizardPage {
     public:
-        Harjoitussivu();
-    protected:
+        Harjoitussivu(UusiVelho *wizard);
+        bool validatePage() override;
+    protected:        
         Ui::UusiHarjoitus *ui;
+        UusiVelho *velho;
     };
 
     class VastuuSivu : public QWizardPage {

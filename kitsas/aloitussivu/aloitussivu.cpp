@@ -623,6 +623,8 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
         ui->planLabel->setText( kayttaja.planName() );
     } else if( kayttaja.trialPeriod().isValid()) {
         ui->planLabel->setText(tr("Kokeilujakso %1 saakka").arg( kayttaja.trialPeriod().toString("dd.MM.yyyy") ));
+    } else {
+        ui->planLabel->clear();
     }
 
 

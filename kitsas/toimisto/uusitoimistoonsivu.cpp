@@ -36,7 +36,8 @@ void UusiToimistoonSivu::initializePage()
 bool UusiToimistoonSivu::validatePage()
 {
     velhoni->tuote_ = ui->tuoteList->currentItem()->data(Qt::UserRole).toInt();
-    setField("harjoitus", ui->harjoitusCheck->isChecked());
+    velhoni->harjoitus_ = ui->harjoitusCheck->isChecked();
+
 
     if( velhoni->tuote_ >= 200)
         return true;

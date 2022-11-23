@@ -64,7 +64,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
 
     addPage( new UusiAlkuSivu );
     addPage( new VarmistaSivu );
-    addPage( new Harjoitussivu );
+    addPage( new Harjoitussivu(this) );
     addPage( new VastuuSivu );
     addPage( toimistoon );
     addPage( new Tilikarttasivu(this) );
@@ -117,7 +117,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    if( field("harjoitus").toBool())
+    if( harjoitus_ )
         asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())
@@ -146,7 +146,7 @@ QVariantMap UusiVelho::data() const
     initMap.insert("tilikaudet", tilikaudet_);
 
     map.insert("name", asetukset_.value("Nimi"));
-    map.insert("trial", field("harjoitus").toBool());
+    map.insert("trial", harjoitus_);
     map.insert("init", initMap);
     if(!field("ytunnus").toString().isEmpty())
         map.insert("businessid", field("ytunnus").toString());
@@ -173,8 +173,7 @@ int UusiVelho::nextId() const
             field("pilveen").toBool())
         return HARJOITUS;
 
-    if( currentId() == HARJOITUS &&
-            field("harjoitus").toBool())
+    if( currentId() == HARJOITUS && harjoitus_)
         return TILIKARTTA;
 
     if( currentId() == VASTUU ) {
@@ -248,12 +247,18 @@ int UusiVelho::toimistoVelho(GroupData *group)
 
 
 
-UusiVelho::Harjoitussivu::Harjoitussivu() :
-    ui( new Ui::UusiHarjoitus)
+UusiVelho::Harjoitussivu::Harjoitussivu(UusiVelho *wizard) :
+    ui( new Ui::UusiHarjoitus),
+    velho(wizard)
 {
     ui->setupUi(this);
-    setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));
-    registerField("harjoitus", ui->harjoitusButton);
+    setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));    
+}
+
+bool UusiVelho::Harjoitussivu::validatePage()
+{
+    velho->harjoitus_ = ui->harjoitusButton->isChecked();
+    return true;
 }
 
 
