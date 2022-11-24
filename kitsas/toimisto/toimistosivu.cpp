@@ -18,6 +18,9 @@
 
 #include "pikavalintadialogi.h"
 
+#include <QAction>
+#include <QMenu>
+
 ToimistoSivu::ToimistoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
     ui(new Ui::Toimisto()),
@@ -26,6 +29,19 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     bookData_{new BookData(this)}
 {
     ui->setupUi(this);    
+    pikavalinnatAktio_ = new QAction(QIcon(":/pic/ratas.png"), tr("Pikavalinnat..."), this);
+
+    muokkaaRyhmaAktio_ = new QAction(QIcon(":/pic/muokkaa.png"),tr("Muokaa..."), this);
+    poistaRyhmaAktio_ = new QAction(QIcon(":/pic/roskis.png"), tr("Poista..."), this);
+
+
+    vaihdaTilausAktio_ = new QAction(QIcon(":/freeicons/timantti.svg"),tr("Vaihda tuotetta..."), this);
+    siirraKirjaAktio_ = new QAction(QIcon(":/pic/siirra.png"),tr("Siirrä..."), this);
+    poistaKirjaAktio_ = new QAction(QIcon(":/pic/roskis.png"),tr("Poista..."), this);
+    tukiKirjautumisAktio_ = new QAction(QIcon(":/freeicons/adminkey.png"),tr("Tukikirjautuminen..."), this);
+
+
+
     bookData_->setShortcuts(groupData_->shortcuts());
 
     QSortFilterProxyModel *treeSort = new QSortFilterProxyModel(this);
@@ -94,9 +110,23 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     connect( ui->pMuokkaaNappi, &QPushButton::clicked, this, &ToimistoSivu::muokkaaOikeus);
     connect( ui->pPoistaNappi, &QPushButton::clicked, this, &ToimistoSivu::poistaOikeus);
 
-    connect( ui->pikavalinnatNappi, &QPushButton::clicked, this, &ToimistoSivu::pikavalinnat);
 
     toimistoVaihtui();
+
+    connect( pikavalinnatAktio_, &QAction::triggered, this, &ToimistoSivu::pikavalinnat);
+
+    QMenu* ryhmaMenu = new QMenu(this);
+    ryhmaMenu->addAction(muokkaaRyhmaAktio_);
+    ryhmaMenu->addAction(poistaRyhmaAktio_);
+    ui->ryhmaMenuNappi->setMenu(ryhmaMenu);
+
+    QMenu* kirjaMenu = new QMenu(this);
+    kirjaMenu->addAction(vaihdaTilausAktio_);
+    kirjaMenu->addAction(siirraKirjaAktio_);
+    kirjaMenu->addAction(poistaKirjaAktio_);
+    kirjaMenu->addAction(tukiKirjautumisAktio_);
+    ui->bMenuNappi->setMenu(kirjaMenu);
+
 }
 
 ToimistoSivu::~ToimistoSivu()
@@ -122,6 +152,7 @@ void ToimistoSivu::nodeValittu(const QModelIndex &index)
 
 void ToimistoSivu::kirjaValittu(const QModelIndex &index)
 {
+    vaihdaLohko( KIRJANPITOLOHKO );
     kirjanKayttajaValittu(QModelIndex());
     bookData_->load(index.data(GroupBooksModel::IdRooli).toInt());
 }
@@ -135,6 +166,9 @@ void ToimistoSivu::kayttajaValittu(const QModelIndex &index)
     ui->uNimi->setText( userInfo_.name());
     ui->uInfo->setText( QString("%1\n%2").arg(userInfo_.email(), userInfo_.phone()) );
     ui->uBrowser->setHtml( userInfo_.oikeusInfo() );
+
+    ui->uMuokkaaNappi->setEnabled( userInfo_.userid() );
+    ui->uPoistaNappi->setEnabled( userInfo_.userid());
 }
 
 void ToimistoSivu::kirjanKayttajaValittu(const QModelIndex &index)
@@ -157,6 +191,7 @@ void ToimistoSivu::vaihdaLohko(Lohko lohko)
 
 void ToimistoSivu::toimistoVaihtui()
 {
+    vaihdaLohko( RYHMALOHKO );
     const QStringList oikeudet = groupData_->adminRights();
     ui->mainTab->setTabVisible( PAA_JASENET, oikeudet.contains("OM") );
 
@@ -165,21 +200,20 @@ void ToimistoSivu::toimistoVaihtui()
     ui->uusiToimistoNappi->setVisible( groupData_->isUnit() && oikeudet.contains("SO"));
     ui->uusiKirjanpitoNappi->setVisible( !groupData_->isUnit() && oikeudet.contains("OB")  );
 
-
-    vaihdaLohko( RYHMALOHKO );
     ui->toimistoNimiLabel->setText(  groupData_->name() );
     ui->toimistoYtunnusLabel->setText( groupData_->isOffice() ? groupData_->businessId() : groupData_->officeName() );
     ui->talousverkkoLabel->setVisible( groupData_->officeType() == "Talousverkko" );
 
-    ui->muokkaaToimistoNappi->setVisible( (groupData_->isOffice() && oikeudet.contains("SO")) ||
-                                          (groupData_->isGroup() && oikeudet.contains("OG")) ||
-                                          (groupData_->isUnit() && oikeudet.contains("SU")));
+    ui->ryhmaMenuNappi->setVisible( oikeudet.contains("OG"));
 
+    poistaRyhmaAktio_->setEnabled( groupData_->books()->rowCount() == 0 &&
+                                   !groupTree_->hasChildren(ui->treeView->currentIndex())  );
+
+    kirjaVaihtui();
 }
 
 void ToimistoSivu::kirjaVaihtui()
-{
-    vaihdaLohko( KIRJANPITOLOHKO );
+{    
     ui->bNimi->setText( bookData_->companyName() );
     ui->bYtunnus->setText( bookData_->businessId());
 
@@ -197,6 +231,16 @@ void ToimistoSivu::kirjaVaihtui()
     ui->bTuote->setText( bookData_->planName() );
 
     ui->bAvaaNappi->setVisible( bookData_->loginAvailable() );
+
+    const bool luontiOikeus = groupData_->adminRights().contains("OB");
+    const bool muokkausOikeus = groupData_->adminRights().contains("OD");
+    const bool tukiKirjautumisOikeus = groupData_->adminRights().contains("OS");
+
+    ui->bMenuNappi->setVisible( bookData_->id() && (luontiOikeus || muokkausOikeus || tukiKirjautumisOikeus) );
+    vaihdaTilausAktio_->setEnabled( muokkausOikeus );
+    siirraKirjaAktio_->setEnabled( muokkausOikeus );
+    poistaKirjaAktio_->setEnabled( muokkausOikeus );
+    tukiKirjautumisAktio_->setEnabled( tukiKirjautumisOikeus );
 
 }
 

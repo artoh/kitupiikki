@@ -27,6 +27,7 @@ private:
     void paivitaMuokkaus();
     void poista();
     void lataa();
+    void poistaPikavalinnat();
 
     void tallennettu();
 

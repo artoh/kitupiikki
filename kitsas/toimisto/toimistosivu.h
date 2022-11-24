@@ -12,7 +12,7 @@ namespace Ui {
 class GroupTreeModel;
 class GroupData;
 class BookData;
-
+class QAction;
 
 class ToimistoSivu : public KitupiikkiSivu
 {
@@ -53,6 +53,15 @@ protected:
 private:    
 
     Ui::Toimisto* ui;
+
+    QAction* pikavalinnatAktio_;
+    QAction* muokkaaRyhmaAktio_;
+    QAction* poistaRyhmaAktio_;
+    QAction* vaihdaTilausAktio_;
+    QAction* siirraKirjaAktio_;
+    QAction* poistaKirjaAktio_;
+    QAction* tukiKirjautumisAktio_;
+
 
     GroupTreeModel* groupTree_;
     GroupData* groupData_;

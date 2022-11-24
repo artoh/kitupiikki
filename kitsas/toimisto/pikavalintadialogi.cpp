@@ -11,6 +11,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include <QPushButton>
+#include <QMessageBox>
 
 PikavalintaDialogi::PikavalintaDialogi(QWidget *parent, GroupData *groupData) :
     QDialog(parent),
@@ -40,6 +41,8 @@ PikavalintaDialogi::PikavalintaDialogi(QWidget *parent, GroupData *groupData) :
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &PikavalintaDialogi::lisaa);
     connect( ui->poistaNappi, &QPushButton::clicked, this, &PikavalintaDialogi::poista);
+
+    connect( ui->buttonBox->button(QDialogButtonBox::Discard), &QPushButton::clicked, this, &PikavalintaDialogi::poistaPikavalinnat);
 }
 
 PikavalintaDialogi::~PikavalintaDialogi()
@@ -70,6 +73,16 @@ void PikavalintaDialogi::lataa()
     ui->oikeudet->aseta( ui->listView->currentIndex().data(ShortcutModel::RightsRole).toStringList() );
     ui->toimisto->aseta(ui->listView->currentIndex().data(ShortcutModel::AdminRole).toStringList());
     ui->nimiEdit->setText( ui->listView->currentIndex().data(Qt::DisplayRole).toString() );
+}
+
+void PikavalintaDialogi::poistaPikavalinnat()
+{
+    if( QMessageBox::question(this, tr("Pikavalinnat"), tr("Haluatko poistaa kokonaan ryhmälle määritellyt pikavalinnat?")) == QMessageBox::Yes) {
+        KpKysely* kysymys = kp()->pilvi()->loginKysely(QString("/groups/%1/shortcuts").arg(group_->id()), KpKysely::DELETE);
+        connect( kysymys, &KpKysely::vastaus, this, &PikavalintaDialogi::tallennettu);
+        kysymys->kysy();
+    }
+
 }
 
 void PikavalintaDialogi::accept()
