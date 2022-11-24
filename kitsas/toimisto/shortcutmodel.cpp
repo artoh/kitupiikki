@@ -59,12 +59,37 @@ QString ShortcutModel::nameFor(const QStringList &rights, const QStringList admi
         const Shortcut& shortcut = shortcuts_.at(i);
         if( shortcut.rights() == rights && shortcut.admin() == admin ) return shortcut.name();
     }
-    return QString();
+    return tr("Muokattu");
+}
+
+void ShortcutModel::set(const QString& name, const QStringList &rights, const QStringList &admin, int i)
+{
+    if(i <= 0 || i >= shortcuts_.count()) {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount());
+        shortcuts_.append(Shortcut(name, rights, admin));
+        endInsertRows();
+    } else {
+        shortcuts_.replace(i, Shortcut(name, rights, admin));
+        emit dataChanged(index(i), index(i));
+    }
+}
+
+void ShortcutModel::poista(int indeksi)
+{
+    beginRemoveRows(QModelIndex(),indeksi, indeksi);
+    shortcuts_.removeAt(indeksi);
+    endRemoveRows();
 }
 
 ShortcutModel::Shortcut::Shortcut()
 {
     name_ = ShortcutModel::tr("Muokatut oikeudet");
+}
+
+ShortcutModel::Shortcut::Shortcut(const QString &name, const QStringList &rights, const QStringList &admin) :
+    name_{name}, rights_{rights}, admin_{admin}
+{
+
 }
 
 ShortcutModel::Shortcut::Shortcut(const QVariantMap &map)

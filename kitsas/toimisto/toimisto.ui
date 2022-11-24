@@ -87,7 +87,7 @@
    <item>
     <widget class="QTabWidget" name="mainTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="bookTab">
       <attribute name="icon">
@@ -159,7 +159,7 @@
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
          <attribute name="horizontalHeaderVisible">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
         </widget>
        </item>
@@ -192,461 +192,188 @@
     </widget>
    </item>
    <item>
-    <widget class="QStackedWidget" name="stackedWidget">
-     <property name="lineWidth">
-      <number>0</number>
-     </property>
+    <widget class="QTabWidget" name="subTab">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="officePage">
-      <layout class="QVBoxLayout" name="verticalLayout_13">
+     <widget class="QWidget" name="tab_4">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info64.png</normaloff>:/pic/info64.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string/>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_14">
        <item>
-        <widget class="QTabWidget" name="tabWidget_2">
-         <property name="currentIndex">
-          <number>0</number>
+        <widget class="QLabel" name="toimistoNimiLabel">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
-         <widget class="QWidget" name="tab_2">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/info64.png</normaloff>:/pic/info64.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string/>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLabel" name="toimistoNimiLabel">
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>Nimi</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="toimistoYtunnusLabel">
-             <property name="text">
-              <string>1234567-1</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="talousverkkoLabel">
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap resource="../pic/pic.qrc">:/toimisto/talousverkko.png</pixmap>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>722</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="muokkaaToimistoNappi">
-               <property name="text">
-                <string>Muokkaa</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
+         <property name="text">
+          <string>Nimi</string>
+         </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="toimistoYtunnusLabel">
+         <property name="text">
+          <string>1234567-1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="talousverkkoLabel">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/toimisto/talousverkko.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>722</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="muokkaaToimistoNappi">
+           <property name="text">
+            <string>Muokkaa</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pikavalinnatNappi">
+           <property name="text">
+            <string>Pikavalinnat</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="bookPage">
+     <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string/>
+      </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QTabWidget" name="kirjanpitoTabWidget">
-         <property name="currentIndex">
-          <number>0</number>
+        <widget class="QLabel" name="uNimi">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
-         <widget class="QWidget" name="tiedotTab">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/info.png</normaloff>:/pic/info.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Tiedot</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
-             <item>
-              <widget class="QLabel" name="logo">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../pic/pic.qrc">:/pic/Possu64.png</pixmap>
-               </property>
-               <property name="margin">
-                <number>2</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <item>
-                <widget class="QLabel" name="bNimi">
-                 <property name="font">
-                  <font>
-                   <pointsize>14</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>TextLabel</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="bYtunnus">
-                 <property name="text">
-                  <string>TextLabel</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QLabel" name="bHarjoitus">
-             <property name="font">
-              <font>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(0, 170, 0);
-color: rgb(255, 255, 255);</string>
-             </property>
-             <property name="text">
-              <string>Harjoituskirjanpito</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-             <property name="margin">
-              <number>2</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QFormLayout" name="formLayout">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Tuote</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="bTuote">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Luotu</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="bLuotu">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>Muokattu</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="bMuokattu">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>Tositteita</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="bTositteita">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>Koko</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QLabel" name="bKoko">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>567</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QPushButton" name="pushButton">
-               <property name="text">
-                <string>Toiminnot</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bAvaaNappi">
-               <property name="text">
-                <string>Avaa</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="kayttajaTab">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Suorat käyttäjät</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item>
-            <widget class="QTableView" name="bKayttajatView">
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectRows</enum>
-             </property>
-             <attribute name="horizontalHeaderVisible">
-              <bool>false</bool>
-             </attribute>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <widget class="QPushButton" name="bMuokkaaOikeusNappi">
-               <property name="text">
-                <string>Muokkaa</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bPoistaOikeusNappi">
-               <property name="text">
-                <string>Poista</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bUusiOikeusNappi">
-               <property name="text">
-                <string>Uusi oikeus</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="ryhmakayttajat">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Ryhmäkäyttäjät</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QTableView" name="bRyhmaView">
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectRows</enum>
-             </property>
-             <attribute name="horizontalHeaderVisible">
-              <bool>false</bool>
-             </attribute>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <item>
-              <widget class="QPushButton" name="bMuokkaaRyhmaNappi">
-               <property name="text">
-                <string>Muokkaa</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bPoistaRyhmaNappi">
-               <property name="text">
-                <string>Poista</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="lokiTab">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Kirjautumiset</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <item>
-            <widget class="QTableView" name="bLokiView">
-             <property name="selectionMode">
-              <enum>QAbstractItemView::NoSelection</enum>
-             </property>
-             <attribute name="horizontalHeaderVisible">
-              <bool>false</bool>
-             </attribute>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="uInfo">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="uBrowser"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QPushButton" name="uMuokkaaNappi">
+           <property name="text">
+            <string>Muokkaa oikeuksia</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="uPoistaNappi">
+           <property name="text">
+            <string>Poista ryhmästä</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="userPage">
-      <layout class="QVBoxLayout" name="verticalLayout_12">
+     <widget class="QWidget" name="tiedotTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info.png</normaloff>:/pic/info.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Tiedot</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <widget class="QTabWidget" name="tabWidget">
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="tab">
-          <attribute name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string/>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
+         <item>
+          <widget class="QLabel" name="logo">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../pic/pic.qrc">:/pic/Possu64.png</pixmap>
+           </property>
+           <property name="margin">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QLabel" name="uNimi">
+            <widget class="QLabel" name="bNimi">
              <property name="font">
               <font>
                <pointsize>14</pointsize>
@@ -659,51 +386,261 @@ color: rgb(255, 255, 255);</string>
             </widget>
            </item>
            <item>
-            <spacer name="verticalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <widget class="QLabel" name="bYtunnus">
+             <property name="text">
+              <string>TextLabel</string>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
-             <item>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="text">
-                <string>Muokkaa oikeuksia</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="text">
-                <string>Poista ryhmästä</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+            </widget>
            </item>
           </layout>
-         </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="bHarjoitus">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(0, 170, 0);
+color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Harjoituskirjanpito</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="margin">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Tuote</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="bTuote">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Luotu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="bLuotu">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Muokattu</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="bMuokattu">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Tositteita</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="bTositteita">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>Koko</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="bKoko">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>567</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Toiminnot</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="bAvaaNappi">
+           <property name="text">
+            <string>Avaa</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="kayttajaTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/mies.png</normaloff>:/pic/mies.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Suorat käyttäjät</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QTableView" name="bKayttajatView">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QPushButton" name="pMuokkaaNappi">
+           <property name="text">
+            <string>Muokkaa</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pPoistaNappi">
+           <property name="text">
+            <string>Poista</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pUusiNappi">
+           <property name="text">
+            <string>Uusi oikeus</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ryhmakayttajat">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Ryhmäkäyttäjät</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QTableView" name="bRyhmaView">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lokiTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Kirjautumiset</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QTableView" name="bLokiView">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </item>
       </layout>

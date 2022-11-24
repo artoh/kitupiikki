@@ -18,12 +18,17 @@ GroupData::GroupData(QObject *parent)
 
 void GroupData::load(const int groupId)
 {
-    KpKysely* kysymys = kp()->pilvi()->loginKysely(
-        QString("/groups/%1").arg(groupId)
-    );
-    if( kysymys ) {
-        connect(kysymys, &KpKysely::vastaus, this, &GroupData::dataIn);
-        kysymys->kysy();
+    if( groupId ) {
+        KpKysely* kysymys = kp()->pilvi()->loginKysely(
+            QString("/groups/%1").arg(groupId)
+        );
+        if( kysymys ) {
+            connect(kysymys, &KpKysely::vastaus, this, &GroupData::dataIn);
+            kysymys->kysy();
+        }
+    } else {
+        QVariant var;
+        dataIn(&var);
     }
 }
 
@@ -37,6 +42,17 @@ void GroupData::addBook(const QVariant &velhoMap)
         { this->reload(); kp()->pilvi()->paivitaLista(); });
 
     kysymys->kysy(velhoMap);
+}
+
+void GroupData::deleteMembership(const int userid)
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely("/groups/users", KpKysely::DELETE);
+
+    kysymys->lisaaAttribuutti("user", userid);
+    kysymys->lisaaAttribuutti("group", id());
+
+    connect( kysymys, &KpKysely::vastaus, this, &GroupData::reload );
+    kysymys->kysy();
 }
 
 void GroupData::dataIn(QVariant *data)

@@ -13,7 +13,8 @@ class GroupMembersModel : public QAbstractTableModel
 
 public:
     explicit GroupMembersModel(QObject *parent = nullptr);
-    enum { NAME, SHORTCUT };
+    enum { NAME, SHORTCUT, ORIGIN };
+    enum { IdRooli = Qt::UserRole};
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -24,7 +25,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    void load(const QVariantList& list);
+    void load(const QVariantList& list, const int groupid = 0);
     GroupMember getMember(const int userid) const;
 
     void setShortcuts(ShortcutModel* shortcuts);
@@ -32,6 +33,7 @@ public:
 private:
    QList<GroupMember> members_;
    ShortcutModel* shortcuts_ = nullptr;
+   int groupid_ = 0;
 };
 
 #endif // GROUPMEMBERSMODEL_H

@@ -26,6 +26,11 @@ void BookData::load(const int bookId)
     }
 }
 
+void BookData::reload()
+{
+    load(id());
+}
+
 bool BookData::loginAvailable() const
 {
     const int userid = kp()->pilvi()->kayttaja().id();
@@ -41,6 +46,17 @@ void BookData::setShortcuts(ShortcutModel *shortcuts)
 {
     directUsers_->setShortcuts(shortcuts);
     groupUsers_->setShortcuts(shortcuts);
+}
+
+void BookData::removeRights(const int userid)
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely("/groups/users", KpKysely::DELETE);
+
+    kysymys->lisaaAttribuutti("user", userid);
+    kysymys->lisaaAttribuutti("book", id());
+
+    connect( kysymys, &KpKysely::vastaus, this, &BookData::reload );
+    kysymys->kysy();
 }
 
 void BookData::dataIn(QVariant *data)
@@ -67,8 +83,10 @@ void BookData::dataIn(QVariant *data)
     planId_ = plan.value("id").toInt();
     planName_ = plan.value("name").toString();
 
+    int groupid = map.value("group").toMap().value("id").toInt();
+
     directUsers_->load( map.value("permissions").toList() );
-    groupUsers_->load( map.value("members").toList() );
+    groupUsers_->load( map.value("members").toList(), groupid );
     authLog_->load( map.value("log").toList());
 
     emit loaded();

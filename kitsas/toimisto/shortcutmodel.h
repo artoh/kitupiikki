@@ -11,6 +11,7 @@ protected:
     class Shortcut {
     public:
         explicit Shortcut();
+        Shortcut(const QString& name, const QStringList& rights, const QStringList& admin);
         Shortcut(const QVariantMap& map);
 
         QString name() const {return name_; }
@@ -36,6 +37,9 @@ public:
 
     int indexFor(const QStringList& rights, const QStringList& admin) const;
     QString nameFor(const QStringList& rights, const QStringList admin) const;
+
+    void set(const QString & name, const QStringList& rights, const QStringList &admin, int i = -1);
+    void poista(int indeksi);
 
 private:
     QList<Shortcut> shortcuts_;

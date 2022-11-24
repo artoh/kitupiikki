@@ -2,6 +2,7 @@
 #define RYHMAOIKEUSDIALOG_H
 
 #include <QDialog>
+#include "groupmember.h"
 
 namespace Ui {
 class RyhmaOikeusDialog;
@@ -10,6 +11,7 @@ class ToimistoOikeudet;
 }
 
 class GroupData;
+class BookData;
 
 class RyhmaOikeusDialog : public QDialog
 {
@@ -19,7 +21,8 @@ public:
     explicit RyhmaOikeusDialog(QWidget *parent, GroupData* groupData);
     ~RyhmaOikeusDialog();
 
-    void lisaaRyhmaan();
+    void muokkaa(const GroupMember& member, BookData *book = nullptr);
+    void lisaa(BookData* book = nullptr);
 
 
     void accept() override;
@@ -43,7 +46,7 @@ private:
 
     static QRegularExpression emailRe;
     int userId_ = 0;    
-    int bookId_ = 0;
+    BookData* book_ = nullptr;
     GroupData* group_ = nullptr;
 };
 

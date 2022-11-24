@@ -10,7 +10,17 @@ GroupMembersModel::GroupMembersModel(QObject *parent)
 
 QVariant GroupMembersModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
+    if( orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+        switch (section) {
+        case NAME:
+            return tr("Nimi");
+        case SHORTCUT:
+            return tr("Oikeudet");
+        case ORIGIN:
+            return tr("Ryhmästä");
+        }
+    }
+
     return QVariant();
 }
 
@@ -27,7 +37,7 @@ int GroupMembersModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return shortcuts_ ? 2 : 1;
+    return groupid_ ? 3 : 2;
 }
 
 QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
@@ -35,21 +45,31 @@ QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    const GroupMember& member = members_.at(index.row());
-
-    if( index.column() == SHORTCUT) {
-        if( role == Qt::DisplayRole && shortcuts_) {
-            return shortcuts_->nameFor( member.rights(), member.admin() );
-        }
-        return QVariant();
-    }
-
+    const GroupMember& member = members_.at(index.row());                                                                 
 
     switch (role) {
     case Qt::DisplayRole:
-        return member.name();
+        switch( index.column() ) {
+        case NAME:
+            return member.name();
+        case SHORTCUT:
+            return shortcuts_ ? shortcuts_->nameFor( member.rights(), member.admin() ) : QVariant();
+        case ORIGIN:
+            return ( member.groupid() && member.groupid() != groupid_  ) ? member.groupname() : QVariant();
+    }
     case Qt::DecorationRole:
-        return( member.admin().isEmpty() ? QIcon(":/pic/mies.png") : QIcon(":/pic/yrittaja.png") );
+        if( index.column() == NAME)
+            return( member.admin().isEmpty() ? QIcon(":/pic/mies.png") : QIcon(":/pic/yrittaja.png") );
+        return QVariant();
+    case Qt::ForegroundRole:
+        if( (member.startDate().isValid() && member.startDate() > QDate::currentDate()) ||
+            (member.endDate().isValid() && member.endDate() < QDate::currentDate()) ) {
+            return QColor(Qt::gray);
+        } else {
+            return QVariant();
+        }
+    case IdRooli:
+        return member.userid();
     default:
         return QVariant();
     }
@@ -58,8 +78,9 @@ QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
 
 }
 
-void GroupMembersModel::load(const QVariantList &list)
+void GroupMembersModel::load(const QVariantList &list, const int groupid)
 {
+    groupid_ = groupid;
     beginResetModel();
     members_.clear();
     for(const auto& item : list) {

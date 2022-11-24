@@ -16,6 +16,7 @@ public:
     explicit BookData(QObject *parent = nullptr);
 
     void load(const int bookId);
+    void reload();
 
     int id() const { return id_;}
     bool trial() const { return trial_;}
@@ -39,6 +40,7 @@ public:
     AuthLogModel* authLog() const { return authLog_; }
 
     void setShortcuts(ShortcutModel* shortcuts);
+    void removeRights(const int userid);
 
 signals:
     void loaded();

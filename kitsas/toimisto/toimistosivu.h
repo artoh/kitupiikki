@@ -3,6 +3,8 @@
 
 #include <kitupiikkisivu.h>
 
+#include "groupmember.h"
+
 namespace Ui {
     class Toimisto;
 }
@@ -22,23 +24,32 @@ public:
     void siirrySivulle() override;        
 
 protected:
-    enum { RYHMATAB, KIRJANPITOTAB, KAYTTAJATAB };
+    enum Lohko { RYHMALOHKO, KAYTTAJALOHKO, KIRJANPITOLOHKO };
+    enum { RYHMATAB, KAYTTAJATAB, KIRJANPITO_TIEDOT, KIRJANPITO_SUORAT, KIRJANPITO_RYHMAT, KIRJANPITO_LOKI };
+    enum { PAA_KIRJANPIDOT, PAA_JASENET };
 
     void nodeValittu(const QModelIndex& index);
     void kirjaValittu(const QModelIndex& index);
     void kayttajaValittu(const QModelIndex& index);
+    void kirjanKayttajaValittu(const QModelIndex& index);
+
+    void vaihdaLohko(Lohko lohko);
 
     void toimistoVaihtui();
     void kirjaVaihtui();
-
-
     void lisaaRyhma();
     void lisaaToimisto();
+    void lisaaOikeus();
+    void muokkaaOikeus();
+    void poistaOikeus();
+
+    void muokkaaRyhmaOikeuksia();
 
     void uusiKayttajaRyhmaan();
 
     void uusiKirjanpito();
 
+    void pikavalinnat();
 private:    
 
     Ui::Toimisto* ui;
@@ -47,6 +58,7 @@ private:
     GroupData* groupData_;
     BookData* bookData_;
 
+    GroupMember userInfo_;
 };
 
 #endif // TOIMISTOSIVU_H

@@ -227,6 +227,8 @@ SOURCES += \
     $$PWD/toimisto/groupmembersmodel.cpp \
     $$PWD/toimisto/groupnode.cpp \
     $$PWD/toimisto/grouptreemodel.cpp \
+    $$PWD/toimisto/oikeusinfonmuodostaja.cpp \
+    $$PWD/toimisto/pikavalintadialogi.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
     $$PWD/toimisto/shortcutmodel.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
@@ -663,6 +665,8 @@ HEADERS += \
     $$PWD/toimisto/groupmembersmodel.h \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
+    $$PWD/toimisto/oikeusinfonmuodostaja.h \
+    $$PWD/toimisto/pikavalintadialogi.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \
     $$PWD/toimisto/shortcutmodel.h \
     $$PWD/toimisto/toimistosivu.h \
@@ -889,6 +893,7 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/toimisto/pikavalintadialogi.ui \
     $$PWD/toimisto/ryhmaoikeusdialog.ui \
     $$PWD/toimisto/toimisto.ui \
     $$PWD/toimisto/toimistooikeudet.ui \

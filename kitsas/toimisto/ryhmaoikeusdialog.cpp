@@ -9,9 +9,12 @@
 
 #include "groupdata.h"
 #include "shortcutmodel.h"
+#include "bookdata.h"
 
 #include <QPushButton>
 #include <QMessageBox>
+
+#include <QDebug>
 
 RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
     QDialog(parent),
@@ -41,6 +44,10 @@ RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
     connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
     connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
 
+    connect( ui->alkuPvm, &KpDateEdit::dateChanged, this, [this] (const QDate& pvm) { ui->loppuPvm->setDateRange(pvm, QDate()); } );
+    connect( ui->alkuPvm, &KpDateEdit::dateChanged, this, &RyhmaOikeusDialog::tarkasta);
+    connect( ui->loppuPvm, &KpDateEdit::dateChanged, this, &RyhmaOikeusDialog::tarkasta);
+
     connect( ui->pikaCombo, &QComboBox::currentTextChanged, this, &RyhmaOikeusDialog::pikaMuutos);
 }
 
@@ -49,11 +56,47 @@ RyhmaOikeusDialog::~RyhmaOikeusDialog()
     delete ui;
 }
 
-void RyhmaOikeusDialog::lisaaRyhmaan()
+void RyhmaOikeusDialog::muokkaa(const GroupMember &member, BookData* book)
 {
-    setWindowTitle( tr("Lisää käyttäjä") );
+    userId_ = member.userid();
+    book_ = book;
+
+    ui->alkuPvm->setDate( member.startDate() );
+    ui->loppuPvm->setDate( member.endDate() );
+    ui->oikeudet->aseta( member.rights() );
+
+    if( book ) {
+        setWindowTitle( tr("Muokkaa oikeuksia kirjanpitoon %1").arg(book->companyName()));
+        ui->toimisto->setVisible(false);
+    } else {
+        setWindowTitle( tr("Muokkaa oikeuksia ryhmään"));
+        ui->toimisto->aseta( member.admin() );
+    }
+
+    ui->nimiEdit->setText( member.name() );
+    ui->nimiEdit->setEnabled(false);
+
+    ui->emailEdit->setVisible(false);
+    ui->emailLabel->setVisible(false);
+
+    oikeusMuutos();
+
     exec();
 }
+
+void RyhmaOikeusDialog::lisaa(BookData *book)
+{
+    book_ = book;
+    if( book ) {
+        setWindowTitle( tr("Lisää käyttäjä kirjanpitoon %1").arg(book->companyName()));
+        ui->toimisto->setVisible(false);
+    } else {
+        setWindowTitle( tr("Lisää käyttäjä ryhmään"));
+    }
+    tarkasta();
+    exec();
+}
+
 
 void RyhmaOikeusDialog::accept()
 {
@@ -74,8 +117,8 @@ void RyhmaOikeusDialog::accept()
         payload.insert("rights", oikeudet);
     }
 
-    if( bookId_ ) {
-        payload.insert("book", bookId_);
+    if( book_ ) {
+        payload.insert("book", book_->id());
     } else {        
         payload.insert("group", group_->id());
         if( !hallinta.isEmpty() ) {
@@ -86,7 +129,7 @@ void RyhmaOikeusDialog::accept()
     if( ui->alkuPvm->date().isValid())
         payload.insert("startdate", ui->alkuPvm->date().toString("yyyy-MM-dd"));
     if( ui->loppuPvm->date().isValid())
-        payload.insert("enddate", ui->loppuPvm->date().toString("yyyy-MM-dd"));
+        payload.insert("enddate", ui->loppuPvm->date().toString("yyyy-MM-dd"));    
 
     KpKysely* kysymys = kp()->pilvi()->loginKysely("/groups/users/", KpKysely::POST);
     connect( kysymys, &KpKysely::vastaus, this, &RyhmaOikeusDialog::tallennettu);
@@ -132,8 +175,7 @@ void RyhmaOikeusDialog::emailLoytyy(QVariant *data)
 void RyhmaOikeusDialog::emailEiLoydy(int virhe)
 {
     if( virhe == 203) {
-        ui->nimiEdit->setEnabled(true);
-        userId_ = 0;
+        ui->nimiEdit->setEnabled(true);        
     }
 }
 
@@ -148,7 +190,9 @@ void RyhmaOikeusDialog::oikeusMuutos()
 
 void RyhmaOikeusDialog::tarkasta()
 {
+
     const bool kelpaa =
+            ( ui->alkuPvm->date().isNull() || ui->loppuPvm->date().isNull() || ui->alkuPvm->date() <= ui->loppuPvm->date() ) &&
             ( userId_ || emailRe.match( ui->emailEdit->text() ).hasMatch() ) &&
             (!ui->oikeudet->oikeudet().isEmpty() || !ui->toimisto->oikeudet().isEmpty());
 
@@ -161,6 +205,7 @@ void RyhmaOikeusDialog::pikaMuutos()
         ui->oikeudet->aseta( ui->pikaCombo->currentData(ShortcutModel::RightsRole).toStringList() );
         ui->toimisto->aseta( ui->pikaCombo->currentData(ShortcutModel::AdminRole).toStringList() );
     }
+    tarkasta();
 }
 
 QRegularExpression RyhmaOikeusDialog::emailRe{R"(^.*@.*\.\w+$)"};

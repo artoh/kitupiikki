@@ -38,6 +38,7 @@ public:
     QVariantList products() const { return products_;}    
 
     void addBook(const QVariant& velhoMap);
+    void deleteMembership(const int userid);
 
 signals:
     void loaded();

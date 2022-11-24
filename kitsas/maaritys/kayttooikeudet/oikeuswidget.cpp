@@ -4,6 +4,8 @@
 #include <QCheckBox>
 #include <QVariant>
 
+#include <algorithm>
+
 OikeusWidget::OikeusWidget(QWidget *parent)
     : QWidget{parent}
 {
@@ -39,7 +41,10 @@ QSet<QString> OikeusWidget::oikeudet() const
 
 QStringList OikeusWidget::oikeuslista() const
 {
-    return oikeudet().values();
+    QStringList lista = oikeudet().values();
+    std::sort(lista.begin(), lista.end());
+
+    return lista;
 }
 
 void OikeusWidget::kayttoon(const QString &oikeus, bool onkoKaytossa)

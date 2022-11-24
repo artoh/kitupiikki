@@ -31,12 +31,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="checkBox_10">
         <property name="text">
-         <string>Käyttäjäryhmien muokkaaminen</string>
+         <string>Kirjanpidon siirtäminen ja poistaminen</string>
         </property>
         <property name="Oikeus" stdset="0">
-         <string notr="true">OM</string>
+         <string notr="true">OD</string>
         </property>
        </widget>
       </item>
@@ -69,6 +69,16 @@
       <string>Hallinta</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>Käyttäjäryhmien muokkaaminen</string>
+        </property>
+        <property name="Oikeus" stdset="0">
+         <string notr="true">OM</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QCheckBox" name="checkBox_5">
         <property name="text">
@@ -109,16 +119,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_8">
-        <property name="text">
-         <string>Hallintaoikeuksien myöntäminen</string>
-        </property>
-        <property name="Oikeus" stdset="0">
-         <string notr="true">OA</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -137,6 +137,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>checkBox</tabstop>
+  <tabstop>checkBox_10</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox_4</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>checkBox_5</tabstop>
+  <tabstop>checkBox_6</tabstop>
+  <tabstop>checkBox_9</tabstop>
+  <tabstop>checkBox_7</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
