@@ -228,6 +228,7 @@ SOURCES += \
     $$PWD/toimisto/groupnode.cpp \
     $$PWD/toimisto/grouptreemodel.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
+    $$PWD/toimisto/shortcutmodel.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
@@ -663,6 +664,7 @@ HEADERS += \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \
+    $$PWD/toimisto/shortcutmodel.h \
     $$PWD/toimisto/toimistosivu.h \
     $$PWD/toimisto/uusitoimistoonsivu.h \
     $$PWD/tools/checkcombo.h \

@@ -37,6 +37,12 @@ void BookData::openBook()
     kp()->pilvi()->avaaPilvesta(id());
 }
 
+void BookData::setShortcuts(ShortcutModel *shortcuts)
+{
+    directUsers_->setShortcuts(shortcuts);
+    groupUsers_->setShortcuts(shortcuts);
+}
+
 void BookData::dataIn(QVariant *data)
 {
     const QVariantMap map = data->toMap();

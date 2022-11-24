@@ -13,6 +13,8 @@
 #include "ryhmaoikeusdialog.h"
 
 #include "authlogmodel.h"
+#include "groupbooksmodel.h"
+#include "groupmembersmodel.h"
 
 ToimistoSivu::ToimistoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -22,6 +24,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     bookData_{new BookData(this)}
 {
     ui->setupUi(this);    
+    bookData_->setShortcuts(groupData_->shortcuts());
 
     QSortFilterProxyModel *treeSort = new QSortFilterProxyModel(this);
     treeSort->setSourceModel(groupTree_);
@@ -56,6 +59,9 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     connect( ui->groupBooksView->selectionModel(), &QItemSelectionModel::currentChanged,
              this, &ToimistoSivu::kirjaValittu);
+
+    connect( ui->groupMembersView->selectionModel(), &QItemSelectionModel::currentChanged,
+             this, &ToimistoSivu::kayttajaValittu);
 
     connect( groupData_, &GroupData::loaded, this, &ToimistoSivu::toimistoVaihtui);
     connect( groupTree_, &GroupTreeModel::modelReset, this, [treeSort] { treeSort->sort(0); });
@@ -93,6 +99,7 @@ void ToimistoSivu::siirrySivulle()
             ui->treeView->expandAll();
         }
         ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
+        nodeValittu( ui->treeView->currentIndex() );
     }
 }
 
@@ -104,6 +111,14 @@ void ToimistoSivu::nodeValittu(const QModelIndex &index)
 void ToimistoSivu::kirjaValittu(const QModelIndex &index)
 {
     bookData_->load(index.data(GroupBooksModel::IdRooli).toInt());
+}
+
+void ToimistoSivu::kayttajaValittu(const QModelIndex &index)
+{
+    ui->stackedWidget->setCurrentIndex( KAYTTAJATAB );
+    // Näytettäisiinkö tässä käyttäjä nimi, yhteystiedot ja oikeudet
+    // nykyisessä kirjanpidossa?
+    ui->uNimi->setText( index.data(Qt::DisplayRole).toString() );
 }
 
 void ToimistoSivu::toimistoVaihtui()
@@ -150,6 +165,7 @@ void ToimistoSivu::kirjaVaihtui()
 
 }
 
+
 void ToimistoSivu::lisaaRyhma()
 {
     const QString nimi = QInputDialog::getText(this, tr("Uusi ryhmä"), tr("Ryhmän nimi"));
@@ -168,8 +184,8 @@ void ToimistoSivu::lisaaToimisto()
 
 void ToimistoSivu::uusiKayttajaRyhmaan()
 {
-    RyhmaOikeusDialog dlg(this);
-    dlg.lisaaRyhmaan( groupData_ );
+    RyhmaOikeusDialog dlg(this, groupData_);
+    dlg.lisaaRyhmaan();
     groupData_->reload();
 
 }

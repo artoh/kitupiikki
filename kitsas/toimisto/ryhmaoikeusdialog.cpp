@@ -8,15 +8,17 @@
 #include "pilvi/pilvimodel.h"
 
 #include "groupdata.h"
+#include "shortcutmodel.h"
 
 #include <QPushButton>
 #include <QMessageBox>
 
-RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent) :
+RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
     QDialog(parent),
     ui(new Ui::RyhmaOikeusDialog),
     oikeusUi{new Ui::OikeusWidget},
-    toimistoUi{new Ui::ToimistoOikeudet}
+    toimistoUi{new Ui::ToimistoOikeudet},
+    group_{groupData}
 {
     ui->setupUi(this);
 
@@ -29,9 +31,17 @@ RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent) :
     ui->alkuPvm->setNull();
     ui->loppuPvm->setNull();
 
+
+    ui->ryhmaLabel->setText( group_->name() );
+    ui->toimisto->nakyviin("OO", group_->isUnit());
+    ui->pikaCombo->setModel(group_->shortcuts());
+
+
     connect( ui->emailEdit, &QLineEdit::textEdited, this, &RyhmaOikeusDialog::emailMuokattu);
-    connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::tarkasta);
-    connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::tarkasta);
+    connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
+    connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
+
+    connect( ui->pikaCombo, &QComboBox::currentTextChanged, this, &RyhmaOikeusDialog::pikaMuutos);
 }
 
 RyhmaOikeusDialog::~RyhmaOikeusDialog()
@@ -39,11 +49,8 @@ RyhmaOikeusDialog::~RyhmaOikeusDialog()
     delete ui;
 }
 
-void RyhmaOikeusDialog::lisaaRyhmaan(GroupData *group)
+void RyhmaOikeusDialog::lisaaRyhmaan()
 {
-    groupId_ = group->id();
-    ui->ryhmaLabel->setText( group->name() );
-    ui->toimisto->nakyviin("OO", group->isUnit());
     setWindowTitle( tr("Lisää käyttäjä") );
     exec();
 }
@@ -67,13 +74,13 @@ void RyhmaOikeusDialog::accept()
         payload.insert("rights", oikeudet);
     }
 
-    if( groupId_ ) {
-        payload.insert("group", groupId_);
+    if( bookId_ ) {
+        payload.insert("book", bookId_);
+    } else {        
+        payload.insert("group", group_->id());
         if( !hallinta.isEmpty() ) {
             payload.insert("admin", hallinta);
         }
-    } else {
-        payload.insert("book", bookId_);
     }
 
     if( ui->alkuPvm->date().isValid())
@@ -130,6 +137,15 @@ void RyhmaOikeusDialog::emailEiLoydy(int virhe)
     }
 }
 
+void RyhmaOikeusDialog::oikeusMuutos()
+{
+
+    int indeksi = group_->shortcuts()->indexFor( ui->oikeudet->oikeuslista(), ui->toimisto->oikeuslista() );
+    ui->pikaCombo->setCurrentIndex(indeksi);
+
+    tarkasta();
+}
+
 void RyhmaOikeusDialog::tarkasta()
 {
     const bool kelpaa =
@@ -137,6 +153,14 @@ void RyhmaOikeusDialog::tarkasta()
             (!ui->oikeudet->oikeudet().isEmpty() || !ui->toimisto->oikeudet().isEmpty());
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpaa);
+}
+
+void RyhmaOikeusDialog::pikaMuutos()
+{
+    if( ui->pikaCombo->currentIndex() > 0) {
+        ui->oikeudet->aseta( ui->pikaCombo->currentData(ShortcutModel::RightsRole).toStringList() );
+        ui->toimisto->aseta( ui->pikaCombo->currentData(ShortcutModel::AdminRole).toStringList() );
+    }
 }
 
 QRegularExpression RyhmaOikeusDialog::emailRe{R"(^.*@.*\.\w+$)"};

@@ -3,9 +3,12 @@
 
 #include <QObject>
 
-#include "groupbooksmodel.h"
-#include "groupmembersmodel.h"
+
 #include "groupnode.h"
+
+class GroupBooksModel;
+class GroupMembersModel;
+class ShortcutModel;
 
 class GroupData : public QObject
 {
@@ -18,6 +21,7 @@ public:
 
     GroupBooksModel* books() { return books_;}
     GroupMembersModel* members() { return members_;}
+    ShortcutModel* shortcuts() { return shortcuts_;}
 
     int id() const { return id_;}
     QString name() const { return name_; }
@@ -31,7 +35,7 @@ public:
 
     QStringList adminRights() const { return admin_;}
     QVariantList officeTypes() const { return officeTypes_; }
-    QVariantList products() const { return products_;}
+    QVariantList products() const { return products_;}    
 
     void addBook(const QVariant& velhoMap);
 
@@ -55,6 +59,7 @@ private:
 
     GroupBooksModel* books_;
     GroupMembersModel* members_;
+    ShortcutModel* shortcuts_;
 
 
 };

@@ -1,14 +1,19 @@
 #include "groupdata.h"
 
+#include "groupbooksmodel.h"
+#include "groupmembersmodel.h"
+#include "shortcutmodel.h"
+
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
 GroupData::GroupData(QObject *parent)
     : QObject{parent},
       books_{new GroupBooksModel(this)},
-      members_{new GroupMembersModel(this)}
+      members_{new GroupMembersModel(this)},
+      shortcuts_{ new ShortcutModel(this)}
 {
-
+    members_->setShortcuts(shortcuts_);
 }
 
 void GroupData::load(const int groupId)
@@ -42,6 +47,7 @@ void GroupData::dataIn(QVariant *data)
     id_ = groupMap.value("id").toInt();
     name_ = groupMap.value("name").toString();
     businessId_ = groupMap.value("businessid").toString();
+    shortcuts_->load(groupMap.value("shortcuts").toList());
 
     const QString typeString = groupMap.value("type").toString();
     if( typeString == "UNIT")
@@ -61,6 +67,7 @@ void GroupData::dataIn(QVariant *data)
 
     officeTypes_ = map.value("officetypes").toList();
     products_ = map.value("products").toList();
+
 
     emit loaded();
 }

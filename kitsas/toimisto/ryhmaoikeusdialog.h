@@ -16,10 +16,10 @@ class RyhmaOikeusDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit RyhmaOikeusDialog(QWidget *parent = nullptr);
+    explicit RyhmaOikeusDialog(QWidget *parent, GroupData* groupData);
     ~RyhmaOikeusDialog();
 
-    void lisaaRyhmaan(GroupData* group);
+    void lisaaRyhmaan();
 
 
     void accept() override;
@@ -32,7 +32,9 @@ protected:
     void emailLoytyy(QVariant* data);
     void emailEiLoydy(int virhe);
 
+    void oikeusMuutos();
     void tarkasta();
+    void pikaMuutos();
 
 private:
     Ui::RyhmaOikeusDialog *ui;
@@ -40,9 +42,9 @@ private:
     Ui::ToimistoOikeudet *toimistoUi;             
 
     static QRegularExpression emailRe;
-    int userId_ = 0;
-    int groupId_ = 0;
+    int userId_ = 0;    
     int bookId_ = 0;
+    GroupData* group_ = nullptr;
 };
 
 #endif // RYHMAOIKEUSDIALOG_H

@@ -632,7 +632,7 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 
     ui->tilausButton->setVisible( naytaNormaalit );
     ui->uusiNappi->setVisible( naytaNormaalit );
-    ui->tkpilviTab->setTabEnabled( TIETOKONE_TAB, naytaNormaalit || kp()->sqlite()->rowCount());
+    ui->tkpilviTab->setTabVisible(TIETOKONE_TAB, naytaNormaalit || kp()->sqlite()->rowCount());
 
     ui->tilausButton->setText( kp()->pilvi()->kayttaja().planId() ? tr("Tilaukseni") : tr("Tee tilaus") );
 

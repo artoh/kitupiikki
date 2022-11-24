@@ -1,6 +1,8 @@
 #include "groupmembersmodel.h"
 #include <QIcon>
 
+#include "shortcutmodel.h"
+
 GroupMembersModel::GroupMembersModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -25,7 +27,7 @@ int GroupMembersModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 1;
+    return shortcuts_ ? 2 : 1;
 }
 
 QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
@@ -35,6 +37,14 @@ QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
 
     const GroupMember& member = members_.at(index.row());
 
+    if( index.column() == SHORTCUT) {
+        if( role == Qt::DisplayRole && shortcuts_) {
+            return shortcuts_->nameFor( member.rights(), member.admin() );
+        }
+        return QVariant();
+    }
+
+
     switch (role) {
     case Qt::DisplayRole:
         return member.name();
@@ -43,6 +53,7 @@ QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
     default:
         return QVariant();
     }
+
 
 
 }
@@ -65,4 +76,9 @@ GroupMember GroupMembersModel::getMember(const int userid) const
         }
     }
     return GroupMember();
+}
+
+void GroupMembersModel::setShortcuts(ShortcutModel *shortcuts)
+{
+    shortcuts_ = shortcuts;
 }

@@ -7,6 +7,7 @@
 
 class GroupMembersModel;
 class AuthLogModel;
+class ShortcutModel;
 
 class BookData : public QObject
 {
@@ -36,6 +37,8 @@ public:
     GroupMembersModel* directUsers() const { return directUsers_;}
     GroupMembersModel* groupUsers() const { return groupUsers_;}
     AuthLogModel* authLog() const { return authLog_; }
+
+    void setShortcuts(ShortcutModel* shortcuts);
 
 signals:
     void loaded();

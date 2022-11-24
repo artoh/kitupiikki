@@ -26,9 +26,11 @@ protected:
 
     void nodeValittu(const QModelIndex& index);
     void kirjaValittu(const QModelIndex& index);
+    void kayttajaValittu(const QModelIndex& index);
 
     void toimistoVaihtui();
     void kirjaVaihtui();
+
 
     void lisaaRyhma();
     void lisaaToimisto();

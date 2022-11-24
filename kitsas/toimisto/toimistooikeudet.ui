@@ -90,6 +90,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBox_9">
+        <property name="text">
+         <string>Kirjautumistietojen selaaminen</string>
+        </property>
+        <property name="Oikeus" stdset="0">
+         <string notr="true">OL</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBox_7">
         <property name="text">
          <string>Tukikirjautuminen</string>
