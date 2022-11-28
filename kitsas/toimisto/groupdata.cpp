@@ -55,6 +55,15 @@ void GroupData::deleteMembership(const int userid)
     kysymys->kysy();
 }
 
+void GroupData::deleteBook(const int bookid)
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/books/%1").arg(bookid), KpKysely::DELETE);
+    connect( kysymys, &KpKysely::vastaus, this, &GroupData::reload );
+    kysymys->kysy();
+
+}
+
 void GroupData::dataIn(QVariant *data)
 {
     const QVariantMap map = data->toMap();

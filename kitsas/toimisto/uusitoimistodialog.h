@@ -19,8 +19,10 @@ public:
     ~UusiToimistoDialog();
 
     void newOffice(GroupTreeModel* tree, GroupData *data);
+    void editOffice(GroupTreeModel* tree, GroupData *data);
 
 private:
+    void initTypes(GroupData* data);
     Ui::UusiToimistoDialog *ui;
 
 };

@@ -129,6 +129,10 @@
            <property name="text">
             <string>Avaa</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/Paivakirja64.png</normaloff>:/pic/Paivakirja64.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
@@ -162,7 +166,7 @@
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/kirja64.png</normaloff>:/pic/kirja64.png</iconset>
+             <normaloff>:/pic/uusikirja.png</normaloff>:/pic/uusikirja.png</iconset>
            </property>
           </widget>
          </item>
@@ -199,12 +203,20 @@
            <property name="text">
             <string>Muokkaa oikeuksia</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/muokkaaasiakas.png</normaloff>:/pic/muokkaaasiakas.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="uPoistaNappi">
            <property name="text">
             <string>Poista ryhmästä</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
            </property>
           </widget>
          </item>
@@ -226,6 +238,10 @@
            <property name="text">
             <string>Uusi käyttäjä</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+           </property>
           </widget>
          </item>
         </layout>
@@ -237,7 +253,7 @@
    <item>
     <widget class="QTabWidget" name="subTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_4">
       <attribute name="icon">
@@ -523,12 +539,20 @@ color: rgb(255, 255, 255);</string>
            <property name="text">
             <string>Muokkaa</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/muokkaaasiakas.png</normaloff>:/pic/muokkaaasiakas.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pPoistaNappi">
            <property name="text">
             <string>Poista</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
            </property>
           </widget>
          </item>
@@ -549,6 +573,10 @@ color: rgb(255, 255, 255);</string>
           <widget class="QPushButton" name="pUusiNappi">
            <property name="text">
             <string>Uusi oikeus</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
            </property>
           </widget>
          </item>

@@ -18,11 +18,17 @@ public:
 
     GroupNode* parent() const { return parent_; }
     int subGroupsCount() const { return children_.count(); }
-    GroupNode* subGroup(int index) const { return children_.at(index);}
+    GroupNode* subGroup(int index) const;
     int indexOf(GroupNode* node) const { return children_.indexOf(node);}
+
+    void setName(const QString& name);
+
+    int myIndex() const;
 
     void addChildNode(const QVariantMap& map);
     GroupNode *findById(const int groupId);
+
+    void removeChildNode(int index);
 
     int nodeCount() const;
 

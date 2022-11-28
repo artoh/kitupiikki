@@ -10,7 +10,7 @@ class GroupTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum { IdRole = Qt::UserRole};
+    enum { IdRole = Qt::UserRole, TypeRole = Qt::UserRole + 1};
 
     explicit GroupTreeModel(QObject *parent = nullptr);
 
@@ -25,14 +25,16 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void addGroup(const int parentId, const QVariantMap &payload );
+    void remove(const int id);
+    void edit(const int id, const QVariantMap& payload);
+
+    GroupNode* nodeById(const int id) const;
 
     void refresh();
-
     int nodes();
 
 private:
     void createTree(const QVariant* data);
-    GroupNode* nodeFromIndex(const QModelIndex& index) const;
 
     void groupInserted(const int parentId, const QVariant* data);
 

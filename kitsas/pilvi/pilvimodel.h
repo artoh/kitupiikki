@@ -62,6 +62,7 @@ public:
     void uusiPilvi(const QVariant& initials);
 
     void avaaPilvesta(int pilviId, bool siirrossa = false);
+    void alustaPilvi(QVariant* data);
 
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;
@@ -104,8 +105,7 @@ private:
     void yritaUudelleenKirjautumista();
     void tarkistaKirjautuminen();
 
-private:
-    void alustaPilvi(QVariant* data);
+private:    
     void lueTiedotKirjautumisesta(const QVariant& data);
     void asetaPilviLista(const QVariantList lista);
 

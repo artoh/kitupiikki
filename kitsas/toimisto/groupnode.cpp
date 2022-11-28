@@ -27,6 +27,25 @@ GroupNode::~GroupNode()
     qDeleteAll(children_);
 }
 
+GroupNode *GroupNode::subGroup(int index) const
+{
+    if( index < 0 || index >= children_.size() )
+        return nullptr;
+    return children_.at(index);
+}
+
+void GroupNode::setName(const QString &name)
+{
+    name_ = name;
+}
+
+int GroupNode::myIndex() const
+{
+    if( parent_ )
+        return parent_->children_.indexOf(const_cast<GroupNode*>(this));
+    return 0;
+}
+
 void GroupNode::addChildNode(const QVariantMap &map)
 {
     children_.append( new GroupNode(map, this) );
@@ -44,6 +63,11 @@ GroupNode *GroupNode::findById(const int groupId)
         }
     }
     return nullptr;
+}
+
+void GroupNode::removeChildNode(int index)
+{
+    children_.removeAt(index);
 }
 
 int GroupNode::nodeCount() const

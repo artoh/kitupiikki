@@ -39,6 +39,7 @@ public:
 
     void addBook(const QVariant& velhoMap);
     void deleteMembership(const int userid);
+    void deleteBook(const int bookid);
 
 signals:
     void loaded();

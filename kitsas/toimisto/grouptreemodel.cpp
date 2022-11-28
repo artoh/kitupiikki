@@ -12,46 +12,47 @@ GroupTreeModel::GroupTreeModel(QObject *parent)
 
 QModelIndex GroupTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if( !rootNode_ || row < 0 || column < 0) {
+    if( !hasIndex(row, column, parent)) {
         return QModelIndex();
     }
-    GroupNode* parentNode = nodeFromIndex(parent);
-    GroupNode* childNode = parentNode->subGroup(row);
-    if( !childNode ) {
-        return QModelIndex();
+
+    GroupNode* parentItem =
+            parent.isValid() ?
+            static_cast<GroupNode*>(parent.internalPointer()) :
+            rootNode_;
+
+    GroupNode* childItem = parentItem->subGroup(row);
+    if( childItem ) {
+        return createIndex(row, column, childItem);
     }
-    return createIndex(row, column, childNode);
+    return QModelIndex();
 
 }
 
 QModelIndex GroupTreeModel::parent(const QModelIndex &index) const
 {
-    GroupNode* node = nodeFromIndex(index);
-    if(!node) {
+    if( !index.isValid() )
         return QModelIndex();
-    }
-    GroupNode* parentNode = node->parent();
-    if( !parentNode) {
-        return QModelIndex();
-    }
-    GroupNode* grandParentNode = parentNode->parent();
-    if( !grandParentNode ) {
-        return QModelIndex();
-    }
 
-    int row = grandParentNode->indexOf(parentNode);
-    return createIndex(row, 0, parentNode);
+    GroupNode* childItem = static_cast<GroupNode*>(index.internalPointer());
+    GroupNode* parentItem = childItem->parent();
+
+    if( parentItem == rootNode_)
+        return QModelIndex();
+
+    return createIndex( parentItem->myIndex(), 0, parentItem);
 }
 
 int GroupTreeModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.column() > 0)
+    if (parent.column() > 0 || !rootNode_)
         return 0;
 
-    GroupNode* parentNode = nodeFromIndex(parent);
-    if( !parentNode ) {
-        return 0;
-    }
+    GroupNode* parentNode =
+            parent.isValid() ?
+            static_cast<GroupNode*>(parent.internalPointer()) :
+            rootNode_;
+
     return parentNode->subGroupsCount();
 }
 
@@ -65,7 +66,7 @@ QVariant GroupTreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.column())
         return QVariant();
 
-    GroupNode *node = nodeFromIndex(index);
+    GroupNode *node = static_cast<GroupNode*>(index.internalPointer());
     if( !node) {
         return QVariant();
     }
@@ -79,6 +80,8 @@ QVariant GroupTreeModel::data(const QModelIndex &index, int role) const
         return QIcon(":/pic/pixaby/toimisto.svg");
     case IdRole:
         return node->id();
+    case TypeRole:
+        return node->type();
     default:
         return QVariant();
     }
@@ -94,6 +97,40 @@ void GroupTreeModel::addGroup(const int parentId, const QVariantMap& payload)
     connect( kysymys, &KpKysely::vastaus, this,
              [this, parentId] (QVariant* data) {this->groupInserted(parentId, data);} );
     kysymys->kysy(payload);
+}
+
+void GroupTreeModel::remove(const int id)
+{
+    GroupNode* node = rootNode_->findById(id);    
+    GroupNode* parent = node->parent();
+    const QModelIndex index = createIndex(parent->myIndex(), 0, parent);
+
+    beginRemoveRows(index, node->myIndex(), node->myIndex());
+    parent->removeChildNode(node->myIndex());
+    delete node;
+
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/%1").arg(id), KpKysely::DELETE);
+    kysymys->kysy();
+    endRemoveRows();
+}
+
+void GroupTreeModel::edit(const int id, const QVariantMap& payload)
+{
+    GroupNode* node = rootNode_->findById(id);
+    node->setName(payload.value("name").toString());
+    const QModelIndex index = createIndex(node->myIndex(), 0, node);
+
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+        QString("/groups/%1").arg(id), KpKysely::PATCH);
+    connect( kysymys, &KpKysely::vastaus, this,
+             [this, index] { emit this->dataChanged(index,index); });
+    kysymys->kysy(payload);
+}
+
+GroupNode *GroupTreeModel::nodeById(const int id) const
+{
+    return rootNode_ ? rootNode_->findById(id) : nullptr;
 }
 
 void GroupTreeModel::refresh()
@@ -119,15 +156,6 @@ void GroupTreeModel::createTree(const QVariant *data)
     const QVariantList lista = data->toList();
     rootNode_ = GroupNode::createNodes(lista);
     endResetModel();
-}
-
-GroupNode *GroupTreeModel::nodeFromIndex(const QModelIndex &index) const
-{
-    if( index.isValid() ) {
-        return static_cast<GroupNode*>(index.internalPointer());
-    } else {
-        return rootNode_;
-    }
 }
 
 void GroupTreeModel::groupInserted(const int parentId, const QVariant *data)

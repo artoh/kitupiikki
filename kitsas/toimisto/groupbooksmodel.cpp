@@ -84,6 +84,18 @@ void GroupBooksModel::load(const QVariantList &list)
     endResetModel();
 }
 
+void GroupBooksModel::changePlan(int id, const QString &planName)
+{
+    for(int i=0; i < rowCount(); i++) {
+        if( books_.at(i).id == id) {
+            books_[i].planname = planName;
+            const QModelIndex index = createIndex(i, TUOTE);
+            emit dataChanged(index, index);
+            break;
+        }
+    }
+}
+
 GroupBooksModel::GroupBook::GroupBook()
 {
 

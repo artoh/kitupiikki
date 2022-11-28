@@ -40,6 +40,8 @@ public:
 
     void load(const QVariantList& list);
 
+    void changePlan(int id, const QString& planName);
+
 private:
     QList<GroupBook> books_;
 };

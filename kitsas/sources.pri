@@ -401,7 +401,9 @@ SOURCES += \
     tuonti/tesseracttuonti.cpp \
     tools/finvoicehaku.cpp \
     maaritys/bannerdialog.cpp \
-    toimisto/uusitoimistodialog.cpp
+    toimisto/uusitoimistodialog.cpp \
+    toimisto/kirjansiirtodialogi.cpp
+
 
 
 HEADERS += \
@@ -813,7 +815,9 @@ HEADERS += \
     tuonti/tesseracttuonti.h\
     tools/finvoicehaku.h \
     maaritys/bannerdialog.h \
-    toimisto/uusitoimistodialog.h
+    toimisto/uusitoimistodialog.h \
+    toimisto/kirjansiirtodialogi.h
+
 
 RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
@@ -959,4 +963,6 @@ FORMS += \
     arkisto/tuloverodialog.ui \
     kierto/kiertomuokkausdlg.ui\
     maaritys/bannerdialog.ui \
-    toimisto/uusitoimistodialog.ui
+    toimisto/uusitoimistodialog.ui \
+    toimisto/kirjansiirtodialogi.ui
+

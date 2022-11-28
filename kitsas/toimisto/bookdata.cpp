@@ -42,6 +42,15 @@ void BookData::openBook()
     kp()->pilvi()->avaaPilvesta(id());
 }
 
+void BookData::supportLogin()
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/login/%1").arg(id()));
+    connect( kysymys, &KpKysely::vastaus,
+             kp()->pilvi(), &PilviModel::alustaPilvi);
+    kysymys->kysy();
+}
+
 void BookData::setShortcuts(ShortcutModel *shortcuts)
 {
     directUsers_->setShortcuts(shortcuts);
@@ -57,6 +66,17 @@ void BookData::removeRights(const int userid)
 
     connect( kysymys, &KpKysely::vastaus, this, &BookData::reload );
     kysymys->kysy();
+}
+
+void BookData::changePlan(const int planid)
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/books/%1").arg(id()), KpKysely::PATCH);
+    QVariantMap payload;
+    payload.insert("product", planid);
+
+    connect( kysymys, &KpKysely::vastaus, this, &BookData::reload );
+    kysymys->kysy(payload);
 }
 
 void BookData::dataIn(QVariant *data)

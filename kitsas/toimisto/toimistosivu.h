@@ -13,6 +13,8 @@ class GroupTreeModel;
 class GroupData;
 class BookData;
 class QAction;
+class QMenu;
+class QActionGroup;
 
 class ToimistoSivu : public KitupiikkiSivu
 {
@@ -34,10 +36,12 @@ protected:
     void kirjanKayttajaValittu(const QModelIndex& index);
 
     void vaihdaLohko(Lohko lohko);
+    void paaTabVaihtui(int tab);
 
     void toimistoVaihtui();
     void kirjaVaihtui();
     void lisaaRyhma();
+    void muokkaaRyhma();
     void lisaaToimisto();
     void lisaaOikeus();
     void muokkaaOikeus();
@@ -48,6 +52,9 @@ protected:
     void uusiKayttajaRyhmaan();
 
     void uusiKirjanpito();
+    void vaihdaTuote();
+    void poistaKirjanpito();
+    void siirraKirjanpito();
 
     void pikavalinnat();
 private:    
@@ -56,8 +63,7 @@ private:
 
     QAction* pikavalinnatAktio_;
     QAction* muokkaaRyhmaAktio_;
-    QAction* poistaRyhmaAktio_;
-    QAction* vaihdaTilausAktio_;
+    QAction* poistaRyhmaAktio_;    
     QAction* siirraKirjaAktio_;
     QAction* poistaKirjaAktio_;
     QAction* tukiKirjautumisAktio_;
@@ -68,6 +74,9 @@ private:
     BookData* bookData_;
 
     GroupMember userInfo_;
+
+    QActionGroup* tuoteRyhma_;
+    QMenu* tuoteMenu_;
 };
 
 #endif // TOIMISTOSIVU_H

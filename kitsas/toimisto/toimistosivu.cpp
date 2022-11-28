@@ -6,6 +6,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <QImage>
 
 #include "ui_toimisto.h"
@@ -17,29 +18,30 @@
 #include "groupmembersmodel.h"
 
 #include "pikavalintadialogi.h"
+#include "kirjansiirtodialogi.h"
 
 #include <QAction>
 #include <QMenu>
+#include <QDebug>
 
 ToimistoSivu::ToimistoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
     ui(new Ui::Toimisto()),
     groupTree_(new GroupTreeModel(this)),
     groupData_{new GroupData(this)},
-    bookData_{new BookData(this)}
+    bookData_{new BookData(this)},
+    tuoteRyhma_{new QActionGroup(this)},
+    tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))}
 {
     ui->setupUi(this);    
     pikavalinnatAktio_ = new QAction(QIcon(":/pic/ratas.png"), tr("Pikavalinnat..."), this);
 
     muokkaaRyhmaAktio_ = new QAction(QIcon(":/pic/muokkaa.png"),tr("Muokaa..."), this);
-    poistaRyhmaAktio_ = new QAction(QIcon(":/pic/roskis.png"), tr("Poista..."), this);
+    poistaRyhmaAktio_ = new QAction(QIcon(":/pic/roskis.png"), tr("Poista"), this);
 
-
-    vaihdaTilausAktio_ = new QAction(QIcon(":/freeicons/timantti.svg"),tr("Vaihda tuotetta..."), this);
     siirraKirjaAktio_ = new QAction(QIcon(":/pic/siirra.png"),tr("Siirrä..."), this);
     poistaKirjaAktio_ = new QAction(QIcon(":/pic/roskis.png"),tr("Poista..."), this);
-    tukiKirjautumisAktio_ = new QAction(QIcon(":/freeicons/adminkey.png"),tr("Tukikirjautuminen..."), this);
-
+    tukiKirjautumisAktio_ = new QAction(QIcon(":/freeicons/adminkey.png"),tr("Tukikirjautuminen"), this);
 
 
     bookData_->setShortcuts(groupData_->shortcuts());
@@ -108,20 +110,30 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     connect( ui->bAvaaNappi, &QPushButton::clicked, bookData_, &BookData::openBook);
     connect( ui->pUusiNappi, &QPushButton::clicked, this, &ToimistoSivu::lisaaOikeus);
     connect( ui->pMuokkaaNappi, &QPushButton::clicked, this, &ToimistoSivu::muokkaaOikeus);
-    connect( ui->pPoistaNappi, &QPushButton::clicked, this, &ToimistoSivu::poistaOikeus);
+    connect( ui->pPoistaNappi, &QPushButton::clicked, this, &ToimistoSivu::poistaOikeus);    
 
+    connect( ui->mainTab, &QTabWidget::currentChanged, this, &ToimistoSivu::paaTabVaihtui);
 
     toimistoVaihtui();
 
+    connect( groupTree_, &GroupTreeModel::dataChanged, groupData_, &GroupData::reload);
     connect( pikavalinnatAktio_, &QAction::triggered, this, &ToimistoSivu::pikavalinnat);
+    connect( poistaRyhmaAktio_, &QAction::triggered, this, [this]
+        { this->groupTree_->remove( this->groupData_->id() ); });
+    connect( muokkaaRyhmaAktio_, &QAction::triggered, this, &ToimistoSivu::muokkaaRyhma);
+    connect( siirraKirjaAktio_, &QAction::triggered, this, &ToimistoSivu::siirraKirjanpito);
+    connect( poistaKirjaAktio_, &QAction::triggered, this, &ToimistoSivu::poistaKirjanpito);
+    connect( tukiKirjautumisAktio_, &QAction::triggered, bookData_, &BookData::supportLogin);
 
     QMenu* ryhmaMenu = new QMenu(this);
+    ryhmaMenu->addAction(pikavalinnatAktio_);
     ryhmaMenu->addAction(muokkaaRyhmaAktio_);
     ryhmaMenu->addAction(poistaRyhmaAktio_);
     ui->ryhmaMenuNappi->setMenu(ryhmaMenu);
 
     QMenu* kirjaMenu = new QMenu(this);
-    kirjaMenu->addAction(vaihdaTilausAktio_);
+    tuoteMenu_->setIcon(QIcon(":/freeicons/timantti.svg"));
+    kirjaMenu->addMenu(tuoteMenu_);
     kirjaMenu->addAction(siirraKirjaAktio_);
     kirjaMenu->addAction(poistaKirjaAktio_);
     kirjaMenu->addAction(tukiKirjautumisAktio_);
@@ -189,6 +201,16 @@ void ToimistoSivu::vaihdaLohko(Lohko lohko)
     ui->subTab->setTabVisible( KIRJANPITO_LOKI, lohko == KIRJANPITOLOHKO && oikeudet.contains("OL"));
 }
 
+void ToimistoSivu::paaTabVaihtui(int tab)
+{
+    if( tab == PAA_KIRJANPIDOT && ui->groupBooksView->currentIndex().isValid())
+        ui->subTab->setCurrentIndex( KIRJANPITO_TIEDOT );
+    else if( tab == PAA_JASENET && ui->groupMembersView->currentIndex().isValid())
+        ui->subTab->setCurrentIndex( KAYTTAJATAB );
+    else
+        ui->subTab->setCurrentIndex( RYHMATAB );
+}
+
 void ToimistoSivu::toimistoVaihtui()
 {
     vaihdaLohko( RYHMALOHKO );
@@ -197,7 +219,7 @@ void ToimistoSivu::toimistoVaihtui()
 
     ui->uusiRyhmaNappi->setVisible(oikeudet.contains("OG"));
     ui->uusiRyhmaNappi->setIcon( groupData_->isUnit() ? QIcon(":/pic/folder.png") : QIcon(":/pic/kansiot.png") );
-    ui->uusiToimistoNappi->setVisible( groupData_->isUnit() && oikeudet.contains("SO"));
+    ui->uusiToimistoNappi->setVisible( groupData_->isUnit() && oikeudet.contains("OO"));
     ui->uusiKirjanpitoNappi->setVisible( !groupData_->isUnit() && oikeudet.contains("OB")  );
 
     ui->toimistoNimiLabel->setText(  groupData_->name() );
@@ -206,8 +228,23 @@ void ToimistoSivu::toimistoVaihtui()
 
     ui->ryhmaMenuNappi->setVisible( oikeudet.contains("OG"));
 
+    GroupNode* node = groupTree_->nodeById( groupData_->id() );
     poistaRyhmaAktio_->setEnabled( groupData_->books()->rowCount() == 0 &&
-                                   !groupTree_->hasChildren(ui->treeView->currentIndex())  );
+                                   node && node->subGroupsCount() == 0);
+    tuoteMenu_->clear();
+    for(QAction* action : tuoteRyhma_->actions()) {
+        tuoteRyhma_->removeAction(action);
+        delete action;
+    }
+    for( const auto& item : groupData_->products()) {
+        const QVariantMap& map = item.toMap();
+        QAction* tuoteAktio = new QAction( map.value("name").toString() );
+        tuoteAktio->setData( map.value("id") );
+        tuoteAktio->setCheckable(true);
+        tuoteAktio->setActionGroup(tuoteRyhma_);
+        connect( tuoteAktio, &QAction::triggered, this, &ToimistoSivu::vaihdaTuote);
+        tuoteMenu_->addAction(tuoteAktio);
+    }
 
     kirjaVaihtui();
 }
@@ -237,10 +274,16 @@ void ToimistoSivu::kirjaVaihtui()
     const bool tukiKirjautumisOikeus = groupData_->adminRights().contains("OS");
 
     ui->bMenuNappi->setVisible( bookData_->id() && (luontiOikeus || muokkausOikeus || tukiKirjautumisOikeus) );
-    vaihdaTilausAktio_->setEnabled( muokkausOikeus );
+    tuoteMenu_->setEnabled( muokkausOikeus );
     siirraKirjaAktio_->setEnabled( muokkausOikeus );
     poistaKirjaAktio_->setEnabled( muokkausOikeus );
     tukiKirjautumisAktio_->setEnabled( tukiKirjautumisOikeus );
+
+    for(QAction *action : tuoteRyhma_->actions()) {
+        if( action->data().toInt() == bookData_->planId()) {
+            action->setChecked(true);
+        }
+    }
 
 }
 
@@ -251,7 +294,22 @@ void ToimistoSivu::lisaaRyhma()
     if( !nimi.isEmpty()) {
         QVariantMap payload;
         payload.insert("name", nimi);
-        groupTree_->addGroup( ui->treeView->currentIndex().data(GroupTreeModel::IdRole).toInt(), payload );
+        groupTree_->addGroup( groupData_->id(), payload );
+    }
+}
+
+void ToimistoSivu::muokkaaRyhma()
+{
+    if( groupData_->isOffice() ) {
+        UusiToimistoDialog dlg(this);
+        dlg.editOffice(groupTree_, groupData_);
+    } else {
+        const QString nimi = QInputDialog::getText(this, tr("Muokkaa ryhmää"), tr("Ryhmän nimi"), QLineEdit::Normal, groupData_->name());
+        if( !nimi.isEmpty()) {
+            QVariantMap payload;
+            payload.insert("name", nimi);
+            groupTree_->edit( groupData_->id(), payload);
+        }
     }
 }
 
@@ -312,6 +370,30 @@ void ToimistoSivu::uusiKirjanpito()
         QVariantMap map = velho.data();
         groupData_->addBook(map);
     }
+}
+
+void ToimistoSivu::vaihdaTuote()
+{
+    int plan = tuoteRyhma_->checkedAction()->data().toInt();
+    if( plan && plan != bookData_->planId()) {
+        groupData_->books()->changePlan(bookData_->id(), tuoteRyhma_->checkedAction()->text());
+        bookData_->changePlan(plan);
+    }
+}
+
+void ToimistoSivu::poistaKirjanpito()
+{
+    if( QMessageBox::question(this, tr("Kirjanpidon poistaminen"),
+                              tr("Haluatko todellakin poistaa kirjanpidon %1 pysyvästi?").arg(bookData_->companyName())) == QMessageBox::Yes) {
+
+        groupData_->deleteBook( bookData_->id() );
+    }
+}
+
+void ToimistoSivu::siirraKirjanpito()
+{
+    KirjanSiirtoDialogi dlg(this);
+    dlg.siirra(bookData_->id(), groupTree_, groupData_);
 }
 
 void ToimistoSivu::pikavalinnat()

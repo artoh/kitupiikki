@@ -34,6 +34,7 @@ public:
 
     bool loginAvailable() const;
     void openBook();
+    void supportLogin();
 
     GroupMembersModel* directUsers() const { return directUsers_;}
     GroupMembersModel* groupUsers() const { return groupUsers_;}
@@ -41,6 +42,7 @@ public:
 
     void setShortcuts(ShortcutModel* shortcuts);
     void removeRights(const int userid);
+    void changePlan(const int planid);
 
 signals:
     void loaded();

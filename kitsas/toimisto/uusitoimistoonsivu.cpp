@@ -25,7 +25,7 @@ void UusiToimistoonSivu::initializePage()
     ui->ryhmaLabel->setText( groupData->name() );
 
     for(const auto& item : groupData->products()) {
-        QVariantMap map = item.toMap();
+        const QVariantMap map = item.toMap();
         QListWidgetItem *lItem = new QListWidgetItem( map.value("name").toString(), ui->tuoteList);
         lItem->setData(Qt::UserRole, map.value("id").toString());
     }
