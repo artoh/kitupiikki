@@ -288,7 +288,7 @@ border-color: rgb(170, 0, 0);</string>
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tietokone">
         <attribute name="icon">

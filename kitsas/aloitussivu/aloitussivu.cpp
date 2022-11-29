@@ -672,8 +672,6 @@ void AloitusSivu::validoiEmail()
             this, [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
         connect( reply, &QNetworkReply::sslErrors, this, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
 
-    } else {
-     validoiLoginTiedot();
     }
 }
 

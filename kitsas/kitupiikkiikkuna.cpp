@@ -70,6 +70,8 @@
 #include "saldodock/saldodock.h"
 #include "laskutus/toimittaja/laskuntoimittaja.h"
 
+#include "versio.h"
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     tallennettuWidget_( new TallennettuWidget(this)),
     aloitussivu( new AloitusSivu(this)),
@@ -462,7 +464,12 @@ void KitupiikkiIkkuna::lisaaSivut()
     else
         toolbar->setIconSize(QSize(32,32));
 
-    toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
+    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API) {
+        toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
+    } else {
+        toolbar->setStyleSheet("QToolBar {background-color: #F5B041; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
+    }
+
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);

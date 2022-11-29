@@ -15,6 +15,8 @@ public:
     int id() const { return id_;}
     QString name() const { return name_;}
     GroupType type() const { return type_;}
+    bool hasRight(const QString& right);
+    QStringList adminRigts() const { return adminRights_;}
 
     GroupNode* parent() const { return parent_; }
     int subGroupsCount() const { return children_.count(); }
@@ -37,6 +39,7 @@ public:
 private:
     int id_;
     QString name_;
+    QStringList adminRights_;
     GroupType type_;
 
     GroupNode* parent_;

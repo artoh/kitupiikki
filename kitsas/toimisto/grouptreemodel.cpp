@@ -82,6 +82,8 @@ QVariant GroupTreeModel::data(const QModelIndex &index, int role) const
         return node->id();
     case TypeRole:
         return node->type();
+    case AdminRightsRole:
+        return node->adminRigts();
     default:
         return QVariant();
     }

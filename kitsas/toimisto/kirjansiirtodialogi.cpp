@@ -53,8 +53,10 @@ void KirjanSiirtoDialogi::siirra(int bookId, GroupTreeModel *tree, GroupData *da
 void KirjanSiirtoDialogi::updateButton()
 {
     const int type = ui->treeView->currentIndex().data(GroupTreeModel::TypeRole).toInt();
+    const bool rightToCreate = ui->treeView->currentIndex().data(GroupTreeModel::AdminRightsRole).toStringList().contains("OB");
+
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
-                type == GroupNode::GROUP || type == GroupNode::OFFICE );
+                ( type == GroupNode::GROUP || type == GroupNode::OFFICE) && rightToCreate  );
 }
 

@@ -42,7 +42,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "tools/kitsaslokimodel.h"
-
+#include "aloitussivu/toffeelogin.h"
 
 
 int main(int argc, char *argv[])
@@ -78,8 +78,11 @@ int main(int argc, char *argv[])
                           {"log",
                           "Lokitiedosto",
                           "tiedostopolku",
-                          QString()}
+                          QString()},
+                          {"pro",
+                          "Kirjautuminen suoraan pilveen"}
                       });
+    parser.addVersionOption();
     parser.process(a);
 
     PilviModel::asetaPilviLoginOsoite( parser.value("api") );
@@ -112,9 +115,12 @@ int main(int argc, char *argv[])
         a.setFont( QFont( fonttinimi, kp()->settings()->value("FonttiKoko").toInt()) );
     }
 
+    if( parser.isSet("pro") || TOFFEE_VERSIO ) {
+        PilviKayttaja::asetaVersioMoodi(PilviKayttaja::TOFFEE);
+        ToffeeLogin loginDlg;
+        loginDlg.exec();
     // Jos versio on muuttunut, näytetään tervetulodialogi    
-    if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
-    {
+    } else if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  ) {
         TervetuloDialogi tervetuloa;
         if( tervetuloa.exec() != QDialog::Accepted)
             return 0;

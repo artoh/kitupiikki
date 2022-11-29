@@ -1,7 +1,9 @@
 SOURCES += \
+    $$PWD/aloitussivu/loginservice.cpp \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
     $$PWD/aloitussivu/tervetulodialogi.cpp \
+    $$PWD/aloitussivu/toffeelogin.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
@@ -407,9 +409,11 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/aloitussivu/loginservice.h \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
     $$PWD/aloitussivu/tervetulodialogi.h \
+    $$PWD/aloitussivu/toffeelogin.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \
@@ -832,6 +836,7 @@ RESOURCES += \
 FORMS += \
     $$PWD/aloitussivu/luotunnusdialogi.ui \
     $$PWD/aloitussivu/salasananvaihto.ui \
+    $$PWD/aloitussivu/toffeelogin.ui \
     $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tiliote/tilioteapuri.ui \
     $$PWD/apuri/tiliote/tiliotekirjaaja.ui \

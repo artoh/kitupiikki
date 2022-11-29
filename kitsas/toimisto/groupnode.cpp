@@ -14,6 +14,7 @@ GroupNode::GroupNode(const QVariantMap& map, GroupNode *parent)
         type_ = GroupType::UNIT;
     else
         type_ = GroupType::GROUP;
+    adminRights_ = map.value("admin").toStringList();
 
     const QVariantList subList = map.value("subgroups").toList();
     for(const auto& subItem : subList) {
@@ -25,6 +26,11 @@ GroupNode::GroupNode(const QVariantMap& map, GroupNode *parent)
 GroupNode::~GroupNode()
 {
     qDeleteAll(children_);
+}
+
+bool GroupNode::hasRight(const QString &right)
+{
+    return adminRights_.contains(right);
 }
 
 GroupNode *GroupNode::subGroup(int index) const

@@ -32,4 +32,6 @@
 
 #define KITSAS_API "https://api.kitsas.fi"
 
+#define TOFFEE_VERSIO false // Suoraan kirjautumiseen
+
 #endif // VERSIO_H

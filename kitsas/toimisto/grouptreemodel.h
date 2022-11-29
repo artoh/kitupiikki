@@ -10,7 +10,7 @@ class GroupTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum { IdRole = Qt::UserRole, TypeRole = Qt::UserRole + 1};
+    enum { IdRole = Qt::UserRole, TypeRole = Qt::UserRole + 1, AdminRightsRole = Qt::UserRole + 2};
 
     explicit GroupTreeModel(QObject *parent = nullptr);
 

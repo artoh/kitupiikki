@@ -41,6 +41,7 @@ RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
 
 
     connect( ui->emailEdit, &QLineEdit::textEdited, this, &RyhmaOikeusDialog::emailMuokattu);
+    connect( ui->nimiEdit, &QLineEdit::textEdited, this, &RyhmaOikeusDialog::tarkasta);
     connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
     connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
 
@@ -108,6 +109,7 @@ void RyhmaOikeusDialog::accept()
         payload.insert("id", userId_);
     } else {
         payload.insert("email", ui->emailEdit->text());
+        payload.insert("name", ui->nimiEdit->text());
     }
 
     const QStringList oikeudet = ui->oikeudet->oikeuslista();
@@ -194,6 +196,7 @@ void RyhmaOikeusDialog::tarkasta()
     const bool kelpaa =
             ( ui->alkuPvm->date().isNull() || ui->loppuPvm->date().isNull() || ui->alkuPvm->date() <= ui->loppuPvm->date() ) &&
             ( userId_ || emailRe.match( ui->emailEdit->text() ).hasMatch() ) &&
+            !ui->nimiEdit->text().isEmpty() &&
             (!ui->oikeudet->oikeudet().isEmpty() || !ui->toimisto->oikeudet().isEmpty());
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpaa);
