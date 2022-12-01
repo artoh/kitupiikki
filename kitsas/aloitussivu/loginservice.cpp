@@ -105,11 +105,8 @@ void LoginService::login()
     QVariantMap map;
     map.insert("email", emailEdit_->text());
     map.insert("password", passwordEdit_->text());
-    if( rememberBox_->isChecked()) {
-        map.insert("requestKey", true);
-    }
+    map.insert("requestKey", rememberBox_->isChecked());
 
-    passwordEdit_->clear();
     messageLabel_->hide();
 
     auth(map);
@@ -117,8 +114,6 @@ void LoginService::login()
 
 void LoginService::keyLogin()
 {
-    const bool has = kp()->settings()->contains("AuthKey");
-    const PilviKayttaja k = kp()->pilvi()->kayttaja();
     if( kp()->settings()->contains("AuthKey") && !kp()->pilvi()->kayttaja() ) {
         QVariantMap map;
 
@@ -144,6 +139,7 @@ void LoginService::loginVastaus()
         messageLabel_->setText(tr("Virheellinen salasana"));
         messageLabel_->setStyleSheet("color: red;");
         messageLabel_->show();
+        passwordEdit_->clear();
         return;
     }
 
@@ -167,6 +163,8 @@ void LoginService::loginVastaus()
         kp()->pilvi()->kirjautuminen( map, viimeisin && !kp()->yhteysModel() ? viimeisin : 0);
 
         emailEdit_->clear();
+        passwordEdit_->clear();
+
     }
 }
 
@@ -179,9 +177,8 @@ void LoginService::request2fa(const QVariantMap &map)
         QVariantMap tmap;
         tmap.insert("code", code);
         tmap.insert("key", map.value("request2fa"));
-        if( rememberBox_->isChecked()) {
-            tmap.insert("requestKey", true);
-        }
+        tmap.insert("requestKey", map.value("requestKey").toBool());
+
         auth(tmap);
     }
 
