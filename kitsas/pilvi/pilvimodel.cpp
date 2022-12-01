@@ -224,15 +224,28 @@ void PilviModel::kirjautuminenValmis()
 
 
 void PilviModel::kirjauduUlos()
-{
+{    
+
+    if( kp()->settings()->contains("AuthKey") ) {
+            // Logouttaamalla poistetaan kyseinen avain myös palvelinpuolelta
+            const QStringList keyData = kp()->settings()->value("AuthKey").toString().split(",");
+            QVariantMap payload;
+            payload.insert("keyid", keyData.value(0));
+            KpKysely* kysymys = loginKysely("/logout", KpKysely::POST);
+            kysymys->kysy(payload);
+            kp()->settings()->remove("AuthKey");
+    }
+
     nykyPilvi_ = AvattuPilvi();
     kayttaja_ = PilviKayttaja();
+
     kayttajaToken_.clear();
-    tokenUusittu_ = QDateTime();
-    kp()->settings()->remove("AuthKey");
+    tokenUusittu_ = QDateTime();        
     timer_->stop();
 
-    // TODO: Logouttaamalla poistetaan kyseinen avain myös palvelinpuolelta
+    beginResetModel();
+    pilvet_.clear();
+    endResetModel();
 
     kp()->yhteysAvattu(nullptr);
     emit kirjauduttu(PilviKayttaja());
@@ -249,6 +262,33 @@ void PilviModel::paivitaLista(int avaaPilvi)
 void PilviModel::nimiMuuttui()
 {
     paivitaLista();
+}
+
+void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
+{
+    if( avaaPilvi) {
+        avaaPilvi_ = avaaPilvi;
+    }
+    int vanhaKayttaja = kayttaja_.id();
+
+    kayttaja_ = data.value("user");
+    asetaPilviLista( data.value("clouds").toList());
+
+    kayttajaToken_ = data.value("token").toString();
+    tokenUusittu_ = QDateTime::currentDateTime();
+
+    if( vanhaKayttaja != kayttaja_.id()) {
+        emit kirjauduttu(kayttaja_);
+    }
+
+    if(avaaPilvi_) {
+        avaaPilvesta(avaaPilvi_);
+        avaaPilvi_ = 0;
+    } else if( nykyPilvi_) {
+        KpKysely* uusinta = kysely( pilviLoginOsoite() + "/auth/" + nykyPilvi_.id(), KpKysely::GET );
+        connect( uusinta, &KpKysely::vastaus, this, [this] (QVariant* data) { this->nykyPilvi_ = *data; });
+    }
+
 }
 
 

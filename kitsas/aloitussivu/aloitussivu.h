@@ -32,6 +32,8 @@
 #include "pilvi/pilvikayttaja.h"
 #include "ui_aloitus.h"
 
+class LoginService;
+
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut
  *
@@ -86,23 +88,15 @@ protected slots:
     void saldotSaapuu(QVariant* data);
     void kpInfoSaapuu(QVariant* data);
 
-private slots:
-    void pilviLogin();
+private slots:    
     void kirjauduttu(const PilviKayttaja& kayttaja);
     void loginVirhe();
-    void validoiLoginTiedot();
-    void validoiEmail();
-    void emailTarkastettu();
-    void verkkovirhe(QNetworkReply::NetworkError virhe);
-    void vaihdaUnohtunutSalasana();
-    void salasananVaihtoLahti();
+
     void pilviLogout();
     void logoMuuttui();
     void haeSaldot();
     void haeKpInfo();
     void siirraPilveen();    
-    void paivitaTuki();
-    void lisaTukiInfo(QVariant *data);
     void vaihdaSalasanaUuteen();
 
     void lahetaPalaute();
@@ -113,6 +107,8 @@ signals:
     void ktpkasky(QString kasky);
 
 protected:
+    void initLoginService();
+
     QString taulu(const QString& luokka,const QString& otsikko, const QString& teksti,
                   const QString& linkki = QString(), const QString& kuva = QString(), const QString ohjelinkki = QString());
 
@@ -139,6 +135,8 @@ protected:
     bool kelpoEmail_=false;
     QVariantMap saldot_;
     int tilioimatta_ = 0;
+
+    LoginService* login_;
 };
 
 #endif // ALOITUSSIVU_H

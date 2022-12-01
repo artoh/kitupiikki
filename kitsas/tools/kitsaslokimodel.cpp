@@ -54,7 +54,6 @@ QColor KitsasLokiModel::levelColor(QtMsgType type)
     }
 }
 
-
 void KitsasLokiModel::alusta()
 {
     instanssi__ = new KitsasLokiModel(nullptr);
@@ -149,23 +148,10 @@ QVariant KitsasLokiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == MESSAGE) {
         return colorFilledIcon( levelColor( loki_.value(row).type() ) );
+    } else if( role == TypeRole) {
+        return levelText( loki_.value(row).type() );
     }
     return QVariant();
-}
-
-void KitsasLokiModel::append(const KitsasLokiModel::LokiRivi &rivi)
-{    
-    if( loki_.count() > MAXLINES * 5 / 4) {
-        beginResetModel();
-        QList<LokiRivi>::iterator iter(loki_.begin());
-        iter += MAXLINES  / 4;
-        loki_.erase(loki_.begin(), iter);
-        endResetModel();
-    }
-
-    beginInsertRows( QModelIndex(), 0, 0);
-    loki_.append(rivi);
-    endInsertRows();
 }
 
 void KitsasLokiModel::copyAll()
@@ -198,6 +184,35 @@ void KitsasLokiModel::copyAll()
 
     qApp->clipboard()->setText(txt);
 
+}
+
+void KitsasLokiModel::append(const KitsasLokiModel::LokiRivi &rivi)
+{    
+    if( loki_.count() > MAXLINES * 5 / 4) {
+        beginResetModel();
+        QList<LokiRivi>::iterator iter(loki_.begin());
+        iter += MAXLINES  / 4;
+        loki_.erase(loki_.begin(), iter);
+        endResetModel();
+    }
+
+    beginInsertRows( QModelIndex(), 0, 0);
+    loki_.append(rivi);
+    endInsertRows();
+}
+
+QVariantList KitsasLokiModel::asList() const
+{
+    QVariantList list;
+    for(const LokiRivi& rivi : loki_) {
+        QVariantMap map;
+        map.insert("file", rivi.fileName());
+        map.insert("line", rivi.line());
+        map.insert("level", levelText(rivi.type()) );
+        map.insert("msg", rivi.message());
+        list.append(map);
+    }
+    return list;
 }
 
 QString KitsasLokiModel::levelText(QtMsgType type)

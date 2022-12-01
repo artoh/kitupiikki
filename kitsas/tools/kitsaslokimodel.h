@@ -45,6 +45,7 @@ public:
 
     enum {FILE, LINE, MESSAGE};
     enum {MAXLINES = 1024};
+    enum {TypeRole = Qt::UserRole  };
 
     static void alusta();
     static KitsasLokiModel* instanssi() { return instanssi__;};
@@ -61,8 +62,10 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    void append(const LokiRivi& rivi);
+    void append(const LokiRivi& rivi);    
+
     void copyAll();
+    QVariantList asList() const;
 
 private:
     static QString levelText(QtMsgType type);
@@ -71,7 +74,7 @@ private:
     static KitsasLokiModel* instanssi__;
 
     static QIcon colorFilledIcon(const QColor& color);
-    static QColor levelColor(QtMsgType type);
+    static QColor levelColor(QtMsgType type);    
 
     QString filename_;
     QList<LokiRivi> loki_;

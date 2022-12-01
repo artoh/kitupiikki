@@ -23,12 +23,13 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
                 TOFFEE :
                 NORMAALI;
 
+    services_ = map.value("services").toMap();
+
 
     const QVariantMap planMap = map.value("plan").toMap();
 
     plan_id_ = planMap.value("id").toInt();
-    plan_name_ = planMap.value("name").toString();    
-    services_ = planMap.value("services").toMap();    
+    plan_name_ = planMap.value("name").toString();        
     extraMonthly_ = planMap.value("extramonthly").toString();
     capacity_ = planMap.value("capacity").toInt();
 

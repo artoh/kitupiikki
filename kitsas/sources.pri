@@ -1,9 +1,12 @@
 SOURCES += \
+    $$PWD/aloitussivu/jarjestelmatiedot.cpp \
+    $$PWD/aloitussivu/kaksivaihedialog.cpp \
     $$PWD/aloitussivu/loginservice.cpp \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
     $$PWD/aloitussivu/tervetulodialogi.cpp \
     $$PWD/aloitussivu/toffeelogin.cpp \
+    $$PWD/aloitussivu/tukiwidget.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/apuri/apuriwidget.cpp \
@@ -404,16 +407,21 @@ SOURCES += \
     tools/finvoicehaku.cpp \
     maaritys/bannerdialog.cpp \
     toimisto/uusitoimistodialog.cpp \
-    toimisto/kirjansiirtodialogi.cpp
+    toimisto/kirjansiirtodialogi.cpp \
+    aloitussivu/debugtiedotdlg.cpp
+
 
 
 
 HEADERS += \
+    $$PWD/aloitussivu/jarjestelmatiedot.h \
+    $$PWD/aloitussivu/kaksivaihedialog.h \
     $$PWD/aloitussivu/loginservice.h \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
     $$PWD/aloitussivu/tervetulodialogi.h \
     $$PWD/aloitussivu/toffeelogin.h \
+    $$PWD/aloitussivu/tukiwidget.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/apuri/apuriwidget.h \
@@ -820,7 +828,8 @@ HEADERS += \
     tools/finvoicehaku.h \
     maaritys/bannerdialog.h \
     toimisto/uusitoimistodialog.h \
-    toimisto/kirjansiirtodialogi.h
+    toimisto/kirjansiirtodialogi.h \
+    aloitussivu/debugtiedotdlg.h
 
 
 RESOURCES += \
@@ -834,9 +843,11 @@ RESOURCES += \
     $$PWD/laskutus/lasku.qrc
 
 FORMS += \
+    $$PWD/aloitussivu/kaksivaihedialog.ui \
     $$PWD/aloitussivu/luotunnusdialogi.ui \
     $$PWD/aloitussivu/salasananvaihto.ui \
     $$PWD/aloitussivu/toffeelogin.ui \
+    $$PWD/aloitussivu/tukiwidget.ui \
     $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tiliote/tilioteapuri.ui \
     $$PWD/apuri/tiliote/tiliotekirjaaja.ui \
@@ -969,5 +980,7 @@ FORMS += \
     kierto/kiertomuokkausdlg.ui\
     maaritys/bannerdialog.ui \
     toimisto/uusitoimistodialog.ui \
-    toimisto/kirjansiirtodialogi.ui
+    toimisto/kirjansiirtodialogi.ui \
+    aloitussivu/debugtiedotdlg.ui
+
 

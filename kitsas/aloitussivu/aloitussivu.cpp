@@ -44,7 +44,6 @@
 
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
-#include "alv/alvsivu.h"
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
@@ -54,7 +53,6 @@
 #include "alv/alvilmoitustenmodel.h"
 #include "kitupiikkituonti/vanhatuontidlg.h"
 #include "pilvi/pilveensiirto.h"
-#include "tilaus/planmodel.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -71,16 +69,23 @@
 
 #include "maaritys/tilitieto/tilitietopalvelu.h"
 
+#include "loginservice.h"
+#include "toffeelogin.h"
+
 #include <QSslError>
 #include <QClipboard>
 #include <QSize>
 
 AloitusSivu::AloitusSivu(QWidget *parent) :
-    KitupiikkiSivu(parent)
+    KitupiikkiSivu(parent),
+    login_{new LoginService(this)}
 {
 
     ui = new Ui::Aloitus;
     ui->setupUi(this);
+
+    initLoginService();
+
     ui->selain->setOpenLinks(false);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
@@ -100,15 +105,12 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( kp()->asetukset(), &AsetusModel::asetusMuuttui, this, &AloitusSivu::kirjanpitoVaihtui);
     connect( Kielet::instanssi(), &Kielet::kieliVaihtui, this, &AloitusSivu::haeSaldot );
 
-    connect( ui->loginButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogin);
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
-    connect( kp()->pilvi(), &PilviModel::loginvirhe, this, &AloitusSivu::loginVirhe);
     connect( ui->logoutButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogout );
     connect( ui->rekisteroiButton, &QPushButton::clicked, this, [] {
         LuoTunnusDialogi dialogi;
         dialogi.exec();
     });
-    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaUnohtunutSalasana);
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
@@ -116,8 +118,6 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
 
-    connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiEmail );
-    connect( ui->salaEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot);
 
     connect( ui->tilausButton, &QPushButton::clicked, this,
              [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
@@ -127,12 +127,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
-    connect( ui->tukileikeNappi, &QPushButton::clicked, this,  [this] { qApp->clipboard()->setText( this->ui->tukiOhje->toPlainText() ); });
     connect( ui->vaihdaSalasanaButton, &QPushButton::clicked, this, &AloitusSivu::vaihdaSalasanaUuteen);
-
-    connect( ui->bugiNappi, &QPushButton::clicked, [] { KitsasLokiModel::instanssi()->copyAll(); });
-    connect( ui->palauteButton, &QPushButton::clicked, this, &AloitusSivu::lahetaPalaute);
-    connect( ui->tukiButton, &QPushButton::clicked, this, &AloitusSivu::lahetaTukipyynto);
 
 
     QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
@@ -152,7 +147,9 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->tilioimattaFrame->setVisible(false);
     ui->tilioimattaFrame->installEventFilter(this);
 
-    if( kp()->settings()->contains("CloudKey")) {
+    if( kp()->pilvi()->kayttaja()) {
+        kirjauduttu( kp()->pilvi()->kayttaja() );
+    } else if( kp()->settings()->contains("Authkey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
         qApp->processEvents();
         QTimer::singleShot(250, this, [](){ kp()->pilvi()->kirjaudu();} );
@@ -297,7 +294,6 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->pilviKuva->setVisible( pilvessa );
     ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() && kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::NORMAALI);
 
-    paivitaTuki();
     haeSaldot();
 
     QTimer::singleShot( 800, this, &AloitusSivu::paivitaSivu );
@@ -588,17 +584,13 @@ bool AloitusSivu::eventFilter(QObject *target, QEvent *event)
     return false;
 }
 
-void AloitusSivu::pilviLogin()
-{
-    kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text(), ui->muistaCheck->isChecked() );
-}
 
 void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 {    
     ui->salaEdit->clear();
 
-    if( !kayttaja) {
-        ui->pilviPino->setCurrentIndex(KIRJAUDU);
+    if( !kayttaja && kayttaja.moodi() == PilviKayttaja::NORMAALI) {
+        ui->pilviPino->setCurrentIndex(KIRJAUDU);        
         return;
     }
 
@@ -636,7 +628,6 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 
     ui->tilausButton->setText( kp()->pilvi()->kayttaja().planId() ? tr("Tilaukseni") : tr("Tee tilaus") );
 
-    paivitaTuki();
 }
 
 void AloitusSivu::loginVirhe()
@@ -646,97 +637,20 @@ void AloitusSivu::loginVirhe()
     ui->salaEdit->clear();
 }
 
-void AloitusSivu::validoiLoginTiedot()
-{
-    ui->loginButton->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
-    ui->salaEdit->setEnabled(kelpoEmail_);
-    ui->muistaCheck->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
-    ui->salasanaButton->setEnabled(kelpoEmail_);    
-}
-
-void AloitusSivu::validoiEmail()
-{
-    kelpoEmail_ = false;
-    validoiLoginTiedot();
-    ui->palvelinvirheLabel->hide();
-
-    QRegularExpression emailRe(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)");
-    const QString& sahkopostiosoite = ui->emailEdit->text();
-    if( emailRe.match( sahkopostiosoite ).hasMatch() ) {
-        // Tarkistetaan sähköposti ja toimitaan sen mukaan
-        QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + ui->emailEdit->text() ));
-        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
-        QNetworkReply *reply =  kp()->networkManager()->get(request);
-        connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
-        connect( reply, &QNetworkReply::errorOccurred,
-            this, [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
-        connect( reply, &QNetworkReply::sslErrors, this, [] (const QList<QSslError>& errors) { for(auto virhe : errors) qDebug() << virhe.errorString();  });
-
-    }
-}
-
-
-void AloitusSivu::emailTarkastettu()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
-    kelpoEmail_ =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
-    validoiLoginTiedot();
-}
-
-void AloitusSivu::verkkovirhe(QNetworkReply::NetworkError virhe)
-{
-    if( virhe == QNetworkReply::ConnectionRefusedError)
-        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.</b>"));
-    else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
-        ui->palvelinvirheLabel->setText(tr("<p><b>Verkkoon ei saada yhteyttä</b>"));
-    else if(virhe < QNetworkReply::ContentAccessDenied )
-        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelinyhteydessä on virhe (%1)</b>").arg(virhe));
-    else if( virhe == QNetworkReply::UnknownServerError)
-        ui->palvelinvirheLabel->setText(tr("<p><b>Palvelu on tilapäisesti poissa käytöstä.</b>"));
-    if( virhe < QNetworkReply::ContentAccessDenied || virhe == QNetworkReply::UnknownServerError) {
-
-        ui->palvelinvirheLabel->show();
-        QTimer::singleShot(30000, this, &AloitusSivu::validoiEmail);
-    }
-}
-
-void AloitusSivu::vaihdaUnohtunutSalasana()
-{
-    QVariantMap map;
-
-    map.insert("email", ui->emailEdit->text());
-    QNetworkAccessManager *mng = kp()->networkManager();
-
-    QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users") );
-
-    request.setRawHeader("Content-Type","application/json");
-    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
-
-    QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
-    connect( reply, &QNetworkReply::finished, this, &AloitusSivu::salasananVaihtoLahti);
-}
-
-void AloitusSivu::salasananVaihtoLahti()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
-    if( reply->error()) {
-        QMessageBox::critical(this, tr("Salasanan vaihtaminen epäonnistui"),
-            tr("Salasanan vaihtopyynnön lähettäminen palvelimelle epäonnistui "
-               "tietoliikennevirheen %1 takia.\n\n"
-               "Yritä myöhemmin uudelleen").arg( reply->error() ));
-        return;
-    }
-    QMessageBox::information(this, tr("Salasanan palauttaminen"),
-                 tr("Sähköpostiisi on lähetetty linkki, jonka avulla "
-                    "voit vaihtaa salasanan."));
-}
 
 void AloitusSivu::pilviLogout()
 {
     ui->salaEdit->clear();
     kp()->pilvi()->kirjauduUlos();
     ui->vaaraSalasana->hide();
-    ui->pilviPino->setCurrentIndex(KIRJAUDU);
+
+    // Toffee-moodissa ulos kirjauduttaessa annetaan heti uusi kirjautumisikkuna
+    if( kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::TOFFEE) {
+        ToffeeLogin dlg(this);
+        dlg.exec();
+    } else {
+        ui->pilviPino->setCurrentIndex(KIRJAUDU);
+    }
 }
 
 void AloitusSivu::logoMuuttui()
@@ -780,26 +694,6 @@ void AloitusSivu::siirraPilveen()
     siirtoDlg->exec();
 }
 
-void AloitusSivu::paivitaTuki()
-{
-    ui->kirjauduLabel->setVisible( !kp()->pilvi()->kayttajaPilvessa() );
-    bool tilaaja = kp()->pilvi()->tilausvoimassa();
-    ui->maksutonTukiLabel->setVisible( !tilaaja );
-    ui->palauteButton->setVisible( !tilaaja);
-    ui->maksuTukiLabel->setVisible( tilaaja);
-    ui->tukiButton->setVisible(tilaaja);
-    ui->tukiNootti->setVisible( tilaaja );
-    ui->tukiOhje->setVisible( tilaaja );
-    ui->tukileikeNappi->setVisible( tilaaja);
-}
-
-void AloitusSivu::lisaTukiInfo(QVariant *data)
-{
-    QVariantMap map = data->toMap();
-    for(const QString& avain : map.keys()) {
-        ui->tukiOhje->append(avain + ": " + map.value(avain).toString());
-    }
-}
 
 void AloitusSivu::vaihdaSalasanaUuteen()
 {
@@ -817,6 +711,13 @@ void AloitusSivu::lahetaTukipyynto()
     if( kp()->pilvi()) {
         kp()->avaaUrl( kp()->pilvi()->service("support") );
     }
+}
+
+void AloitusSivu::initLoginService()
+{
+    login_->registerWidgets( ui->emailEdit, ui->salaEdit,
+                             ui->palvelinvirheLabel, ui->muistaCheck,
+                             ui->loginButton, ui->salasanaButton);
 }
 
 QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString &kuva, const QString ohjelinkki)

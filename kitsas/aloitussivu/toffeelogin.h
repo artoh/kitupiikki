@@ -2,7 +2,7 @@
 #define TOFFEELOGIN_H
 
 #include <QDialog>
-
+#include "pilvi/pilvikayttaja.h"
 
 namespace Ui {
 class ToffeeLogin;
@@ -19,10 +19,12 @@ public:
     ~ToffeeLogin();
 
     int exec() override;
+    void reject() override;
+    int keyExec();
 
 private:
     void vaihdaKieli();
-    void logged();
+    void logged(PilviKayttaja kayttaja);
 
     Ui::ToffeeLogin *ui;    
     LoginService* loginService;

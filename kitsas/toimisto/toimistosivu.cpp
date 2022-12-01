@@ -147,7 +147,7 @@ ToimistoSivu::~ToimistoSivu()
 }
 
 void ToimistoSivu::siirrySivulle()
-{
+{        
     if( ui->treeView->selectionModel()->selectedIndexes().isEmpty() ) {
         if( groupTree_->nodes() < 50) {
             ui->treeView->expandAll();

@@ -8,6 +8,10 @@ GroupTreeModel::GroupTreeModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &GroupTreeModel::refresh);
+
+    if( kp()->pilvi()->kayttaja()) {
+        refresh();
+    }
 }
 
 QModelIndex GroupTreeModel::index(int row, int column, const QModelIndex &parent) const

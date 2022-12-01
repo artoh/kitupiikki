@@ -98,6 +98,9 @@ public slots:
     void paivitaLista(int avaaPilvi = 0);
     void nimiMuuttui();
 
+public:
+    void kirjautuminen(const QVariantMap& data, int avaaPilvi = 0);
+
 private:    
     void kirjautuminenValmis();
     void pilviLisatty(QVariant* paluu);

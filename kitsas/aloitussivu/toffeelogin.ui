@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Kirjaudu Kitsaaseen</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -69,22 +69,9 @@
     </spacer>
    </item>
    <item>
-    <widget class="QLabel" name="verkkoVirhe">
-     <property name="styleSheet">
-      <string notr="true">background-color: yellow;</string>
-     </property>
+    <widget class="QLabel" name="infoLabel">
      <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="salasanaVirhe">
-     <property name="styleSheet">
-      <string notr="true">color: red;</string>
-     </property>
-     <property name="text">
-      <string>Salasana on virheellinen</string>
+      <string>TextLabel</string>
      </property>
     </widget>
    </item>
@@ -177,6 +164,17 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="lopetaNappi">
+       <property name="text">
+        <string>Lopeta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="unohdusNappi">
        <property name="text">
         <string>Unohdin salasanan</string>
@@ -223,18 +221,18 @@
  </resources>
  <connections>
   <connection>
-   <sender>loginNappi</sender>
+   <sender>lopetaNappi</sender>
    <signal>clicked()</signal>
    <receiver>ToffeeLogin</receiver>
-   <slot>accept()</slot>
+   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>466</x>
-     <y>412</y>
+     <x>72</x>
+     <y>483</y>
     </hint>
     <hint type="destinationlabel">
-     <x>386</x>
-     <y>404</y>
+     <x>82</x>
+     <y>423</y>
     </hint>
    </hints>
   </connection>

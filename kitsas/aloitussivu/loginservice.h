@@ -4,8 +4,12 @@
 #include <QObject>
 #include <QRegularExpression>
 #include <QNetworkReply>
-#include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikayttaja.h"
+
+class QLineEdit;
+class QPushButton;
+class QCheckBox;
+class QLabel;
 
 class LoginService : public QObject
 {
@@ -13,30 +17,45 @@ class LoginService : public QObject
 public:
     explicit LoginService(QWidget *parent = nullptr);
 
-    void setEmail(const QString& email);
-    void setPassword(const QString& password);
-    void login(bool remember = false);
-    void forgetPassword();
-    void clear();
+    void registerWidgets( QLineEdit* emailEdit, QLineEdit* passwordEdit,
+                          QLabel* messageLabel, QCheckBox* rememberBox,
+                          QPushButton* loginButon, QPushButton* forgotButton);
+
+    void keyLogin();
 
 signals:
-    void passwdAllowed(bool allow);
-    void loginAllowed(bool allow);
-    void incorrectPassword();
-    void networkError(const QString& message);
-    void logged(PilviKayttaja kayttaja);
-    void changeMailed(int error);
+    void logged(PilviKayttaja kayttaja);    
+
 
 private:
+    void emailMuokattu();
     void tarkastaEmail();
     void emailTarkastettu();
+    void paivitaTilat();
+
+    void login();
+    void loginVastaus();
+
+    void request2fa(const QVariantMap& map);
+
+    void forgetPassword();
     void verkkovirhe(QNetworkReply::NetworkError virhe);
-    void ilmoitaTilat();
     void vaihtoLahti();
 
+    void kirjauduttu(PilviKayttaja kayttaja);
+
+    void auth(QVariantMap map);
+
+
+protected:
+    QLineEdit* emailEdit_ = nullptr;
+    QLineEdit* passwordEdit_ = nullptr;
+    QLabel* messageLabel_ = nullptr;
+    QCheckBox* rememberBox_ = nullptr;
+    QPushButton* loginButton_ = nullptr;
+    QPushButton* forgetButton_ = nullptr;
+
 private:
-    QString email_;
-    QString password_;
     bool emailOk_ = false;
 
 
