@@ -152,7 +152,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     } else if( kp()->settings()->contains("Authkey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
         qApp->processEvents();
-        QTimer::singleShot(250, this, [](){ kp()->pilvi()->kirjaudu();} );
+        QTimer::singleShot(250, login_, &LoginService::keyLogin );
     }
 
     pyydaInfo();
@@ -701,23 +701,12 @@ void AloitusSivu::vaihdaSalasanaUuteen()
     dlg.exec();
 }
 
-void AloitusSivu::lahetaPalaute()
-{
-    kp()->avaaUrl( palauteUrl_ );
-}
-
-void AloitusSivu::lahetaTukipyynto()
-{
-    if( kp()->pilvi()) {
-        kp()->avaaUrl( kp()->pilvi()->service("support") );
-    }
-}
-
 void AloitusSivu::initLoginService()
 {
     login_->registerWidgets( ui->emailEdit, ui->salaEdit,
                              ui->palvelinvirheLabel, ui->muistaCheck,
                              ui->loginButton, ui->salasanaButton);
+
 }
 
 QString AloitusSivu::taulu(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString &kuva, const QString ohjelinkki)

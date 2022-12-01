@@ -99,9 +99,6 @@ private slots:
     void siirraPilveen();    
     void vaihdaSalasanaUuteen();
 
-    void lahetaPalaute();
-    void lahetaTukipyynto();
-
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);

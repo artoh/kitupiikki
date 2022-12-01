@@ -93,7 +93,6 @@ public:
     QString kbcOsoite() const { return service("bci");}
 
 public slots:
-    void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
     void paivitaLista(int avaaPilvi = 0);
     void nimiMuuttui();
@@ -102,14 +101,11 @@ public:
     void kirjautuminen(const QVariantMap& data, int avaaPilvi = 0);
 
 private:    
-    void kirjautuminenValmis();
     void pilviLisatty(QVariant* paluu);
-    void poistettu();
-    void yritaUudelleenKirjautumista();
+    void poistettu();    
     void tarkistaKirjautuminen();
 
 private:    
-    void lueTiedotKirjautumisesta(const QVariant& data);
     void asetaPilviLista(const QVariantList lista);
 
 signals:

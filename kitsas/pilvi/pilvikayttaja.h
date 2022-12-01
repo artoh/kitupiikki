@@ -44,6 +44,8 @@ public:
     bool admin() const { return admin_; }
     QString service(const QString& serviceName) const;
 
+    bool with2FA() const { return with2FA_;}
+
     static void asetaVersioMoodi(const KayttajaMoodi versio);
 
 private:
@@ -65,6 +67,8 @@ private:
     int cloudCount_ = 0;
     int capacity_ = 0;
     Euro extraMonthly_;
+
+    bool with2FA_ = false;
 
     static KayttajaMoodi versio__;
 };

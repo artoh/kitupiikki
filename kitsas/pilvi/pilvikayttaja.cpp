@@ -24,6 +24,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
                 NORMAALI;
 
     services_ = map.value("services").toMap();
+    with2FA_ = map.value("with2fa").toBool();
 
 
     const QVariantMap planMap = map.value("plan").toMap();

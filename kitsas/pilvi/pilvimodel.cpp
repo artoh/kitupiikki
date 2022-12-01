@@ -44,8 +44,6 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
     timer_ = new QTimer(this);
     connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);    
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
-    QTimer::singleShot(150, this, [this] { this->kirjaudu(); });
-
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -161,68 +159,6 @@ bool PilviModel::tilausvoimassa() const
 }
 
 
-void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
-{
-    QVariantMap map;
-    if( !salasana.isEmpty()) {
-        map.insert("email", sahkoposti);
-        map.insert("password", salasana);
-        if( pyydaAvain )
-            map.insert("requestKey",true);
-    } else if( kp()->settings()->contains("AuthKey") ) {
-        QVariantMap keyMap;
-        QStringList keyData = kp()->settings()->value("AuthKey").toString().split(",");
-        keyMap.insert("id",keyData.value(0));
-        keyMap.insert("secret", keyData.value(1));
-        map.insert("key", keyMap);
-        map.insert("requestKey",true);
-        kp()->settings()->remove("AuthKey");
-    } else {
-        return;
-    }
-
-    map.insert("application", qApp->applicationName());
-    map.insert("version", qApp->applicationVersion());
-    map.insert("build", KITSAS_BUILD);
-    map.insert("os", QSysInfo::prettyProductName());
-
-    QNetworkAccessManager *mng = kp()->networkManager();
-
-    // Tähän pilviosoite!
-    QNetworkRequest request(QUrl( pilviLoginOsoite() + "/auth") );
-
-
-    request.setRawHeader("Content-Type","application/json");
-    request.setRawHeader("User-Agent",QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1());
-
-    QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
-    connect( reply, &QNetworkReply::finished, this, &PilviModel::kirjautuminenValmis);
-
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, tilitietoPalvelu_, &Tilitieto::TilitietoPalvelu::lataa );
-}
-
-void PilviModel::kirjautuminenValmis()
-{
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
-
-    if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-        emit loginvirhe();
-        return;
-    }
-
-    QByteArray vastaus = reply->readAll();
-    QJsonDocument doc = QJsonDocument::fromJson( vastaus );
-    QVariant variant = doc.toVariant();
-
-    lueTiedotKirjautumisesta(variant);
-    emit kirjauduttu(kayttaja_);
-
-    if( kp()->settings()->value("Viimeisin").toInt() > 0 && !kp()->yhteysModel())
-        avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
-
-}
-
-
 void PilviModel::kirjauduUlos()
 {    
 
@@ -255,7 +191,7 @@ void PilviModel::paivitaLista(int avaaPilvi)
 {
     avaaPilvi_ = avaaPilvi;
     KpKysely* kysymys = kysely( pilviLoginOsoite() + "/auth/" );
-    connect( kysymys, &KpKysely::vastaus, [this] (QVariant* data) { this->lueTiedotKirjautumisesta(*data); } );
+    connect( kysymys, &KpKysely::vastaus, [this] (QVariant* data) { this->kirjautuminen(data->toMap()); } );
     kysymys->kysy();
 }
 
@@ -306,20 +242,6 @@ void PilviModel::poistettu()
     paivitaLista();
 }
 
-void PilviModel::yritaUudelleenKirjautumista()
-{
-    qDebug() << "** Yritä kirjautumista uudelleen ** ";
-
-    kayttaja_ = PilviKayttaja();
-
-    timer_->stop();
-    endResetModel();
-    kp()->yhteysAvattu(nullptr);
-    emit kirjauduttu(PilviKayttaja()); // Jotta etusivu ei näytä kirjautuneelta
-
-    kirjaudu();
-}
-
 void PilviModel::tarkistaKirjautuminen()
 {
     // Jos viimeisestä tokenin uusimisesta on yli tunti ja ollaan kirjautuneena,
@@ -335,25 +257,6 @@ void PilviModel::alustaPilvi(QVariant *data)
 {
     nykyPilvi_ = AvattuPilvi(*data);
     alusta();
-}
-
-void PilviModel::lueTiedotKirjautumisesta(const QVariant &data)
-{
-    const QVariantMap map = data.toMap();
-
-    kayttaja_ = map.value("user");
-    asetaPilviLista( map.value("clouds").toList());
-
-    kayttajaToken_ = map.value("token").toString();
-    tokenUusittu_ = QDateTime::currentDateTime();        
-
-    if(avaaPilvi_) {
-        avaaPilvesta(avaaPilvi_);
-        avaaPilvi_ = 0;
-    } else if( nykyPilvi_) {
-        KpKysely* uusinta = kysely( pilviLoginOsoite() + "/auth/" + nykyPilvi_.id(), KpKysely::GET );
-        connect( uusinta, &KpKysely::vastaus, this, [this] (QVariant* data) { this->nykyPilvi_ = *data; });
-    }
 }
 
 void PilviModel::asetaPilviLista(const QVariantList lista)

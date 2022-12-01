@@ -70,6 +70,8 @@ void JarjestelmaTiedot::lataaSysteemiTiedot()
     lisaa("Muoto", kp()->asetukset()->asetus(AsetusModel::Muoto));
     lisaa("Laajuus", kp()->asetukset()->asetus(AsetusModel::Laajuus));
 
+    lisaa("2FA", kayttaja.with2FA() ? "Kyllä" : "Ei");
+
     lisaa("Kooste", KITSAS_BUILD);
     QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
     lisaa("Käännetty",QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date).toString("dd.MM.yyyy"));
