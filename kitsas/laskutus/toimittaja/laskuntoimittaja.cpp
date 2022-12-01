@@ -110,8 +110,6 @@ void LaskunToimittaja::laskuKasitelty()
                                       tr("Laskujen toimittaminen epäonnistui"),
                                       tr("Toimittamatta jääneet laskut löytyvät Lähetettävät-välilehdeltä.") +
                                       QString("\n")
-                                      .arg(onnistuneet_)
-                                      .arg(epaonnistuneet_)
                              + virhelista.join("\n")) ;
             }
         }
