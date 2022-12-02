@@ -793,7 +793,7 @@ Försök på nytt senare</translation>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="985"/>
         <source>Syötä viimeisimmältä tilinpäätökseltä tilien avaavat saldot %1 järjestelmään.</source>
-        <translation>Från den sista bokslutet, skriv in % 1 kontoöppningssaldon i systemet.</translation>
+        <translation>Från den sista bokslutet, skriv in %1 kontoöppningssaldon i systemet.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aloitussivu.cpp" line="1017"/>
@@ -2531,7 +2531,7 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhoalku.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhoalku.ui" line="25"/>
@@ -2600,7 +2600,7 @@ Ohjeet lähetetään allekirjoittajalle sähköpostissa.</source>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhotiedot.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhotiedot.ui" line="22"/>
@@ -2638,7 +2638,7 @@ Ohjeet lähetetään allekirjoittajalle sähköpostissa.</source>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhovalmis.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/verkkolasku/finvoicevelhovalmis.ui" line="20"/>
@@ -5428,7 +5428,7 @@ adress</translation>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="231"/>
         <source>Tuotekoodi</source>
-        <translation type="unfinished"></translation>
+        <translation>Product kod</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="260"/>
@@ -5443,7 +5443,7 @@ adress</translation>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="20"/>
         <source>Määrä</source>
-        <translation>Belopp</translation>
+        <translation>Antal</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/laskurividialogi.ui" line="26"/>
@@ -5678,7 +5678,7 @@ adress</translation>
     <message>
         <location filename="../maaritys/laskutekstit/laskutekstitmaaritys.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/laskutekstit/laskutekstitmaaritys.ui" line="40"/>
@@ -5834,7 +5834,7 @@ adress</translation>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="322"/>
         <source>Tuotekoodit</source>
-        <translation type="unfinished"></translation>
+        <translation>Produktkoderna</translation>
     </message>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="340"/>
@@ -6217,7 +6217,7 @@ Levereringen av %2 fakturor islyckades</translation>
     <message>
         <location filename="../laskutus/toimittaja/laskuntoimittaja.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../laskutus/toimittaja/laskuntoimittaja.ui" line="46"/>
@@ -9969,7 +9969,7 @@ Rapportera eventuella fel du hittar.</translation>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="141"/>
         <source>Ymmärrän, että ohjelmalla ei ole takuuta.</source>
-        <translation>Jag försår att programmet inte har någon garanti.</translation>
+        <translation>Jag förstår att programmet inte har någon garanti.</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="166"/>
@@ -10101,7 +10101,8 @@ För tilläggsbokföringar faktureras %2 € / månad i efterskott</translation>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="87"/>
         <source>Pakettihintaan kuuluu %1 kirjanpidon tallentaminen pilveen.
 </source>
-        <translation>Paketpriset inkluderar att spara % 1 redovisning i molnet.</translation>
+        <translation>Paketpriset inkluderar att spara %1 redovisning i molnet.
+</translation>
     </message>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="88"/>
@@ -10121,7 +10122,7 @@ För tilläggsbokföringar faktureras %2 € / månad i efterskott</translation>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="42"/>
         <source>Valitse tilaus</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj beställning</translation>
     </message>
     <message>
         <location filename="../tilaus/tilausvalintasivu.cpp" line="92"/>
@@ -10185,7 +10186,7 @@ Hinta %L1 â¬ </source>
         <source>Tilaamasi paketti: %1 
 
 </source>
-        <translation>Abonnemanget du beställt: %1 
+        <translation>Paketet du beställt: %1 
 
 </translation>
     </message>
@@ -10198,7 +10199,7 @@ Paketpriset inkluderar %1-bokföringar. Tilläggsbokföringar faktureras i efter
     <message>
         <location filename="../tilaus/tilauswizard.cpp" line="77"/>
         <source>Paketin hintaan sisältyy %1 kirjanpitoa.</source>
-        <translation>Paketpriset inklusioner% 1 redovisning.</translation>
+        <translation>Paketpriset inklusioner %1 redovisning.</translation>
     </message>
     <message>
         <location filename="../tilaus/tilauswizard.cpp" line="79"/>
@@ -10297,7 +10298,7 @@ Muutokset tehdään asiakaspalvelun kautta.</source>
     <message>
         <location filename="../tilaus/tilauswizard.cpp" line="337"/>
         <source>Vahvista tilaus</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta beställningen</translation>
     </message>
 </context>
 <context>
@@ -11937,7 +11938,7 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="63"/>
         <source>Voit kokeilla palvelua maksutta %1 päivän ajan.</source>
-        <translation>Du kan prova tjänsten kostnadsfritt i% 1 dagar.</translation>
+        <translation>Du kan prova tjänsten kostnadsfritt i %1 dagar.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="65"/>
@@ -11947,7 +11948,7 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="94"/>
         <source>Valtuutus voimassa %1 saakka</source>
-        <translation>Auktorisering giltig till% 1</translation>
+        <translation>Auktorisering giltig till %1</translation>
     </message>
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.cpp" line="125"/>
@@ -12010,7 +12011,7 @@ Försök igen senare.</translation>
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/tilitieto/tilitietomaaritys.ui" line="25"/>
@@ -12056,7 +12057,7 @@ Försök igen senare.</translation>
     <message>
         <location filename="../maaritys/toiminimimaaritys.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../maaritys/toiminimimaaritys.ui" line="25"/>
@@ -12855,7 +12856,7 @@ För inköp av byggnadstjänster borde en moms om %L1 € redovisas</translation
     <message>
         <location filename="../apuri/tulomenoapuri.ui" line="197"/>
         <source>M&amp;äärä</source>
-        <translation>Belopp</translation>
+        <translation>B&amp;elopp</translation>
     </message>
     <message>
         <location filename="../apuri/tulomenoapuri.ui" line="254"/>
@@ -13239,7 +13240,7 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../laskutus/tuotedialogi.ui" line="139"/>
         <source>Tuotekoodi</source>
-        <translation type="unfinished"></translation>
+        <translation>Produkt kod</translation>
     </message>
 </context>
 <context>

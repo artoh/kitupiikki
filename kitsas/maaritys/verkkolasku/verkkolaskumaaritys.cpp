@@ -216,28 +216,37 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
 
     qDebug() << QJsonDocument::fromVariant(maventaInfo_).toJson(QJsonDocument::Compact);
 
+    QString vismaStatus;
+    QString bankStatus;
+    QString peppolStatus;
 
-    QString invoiceProfileStatus;
     for(const auto& profile : profiles) {
         QVariantMap map = profile.toMap();
-        const QString profileName = map.value("profile").toString();
-        if( profileName == "INVOICE" || profileName == "INVOICE_AND_CREDIT_NOTE") {
-            invoiceProfileStatus = map.value("status").toString();
-            if( invoiceProfileStatus == "active") {
-                // Haetaan automaattisesti verkkolaskuosoitteen tiedot
-                ui->ovtEdit->setText( map.value("endpoint_id").toString() );
-                ui->ovtEdit->setReadOnly(true);
-                ui->operaattoriEdit->setText("003721291126");
-                ui->operaattoriEdit->setReadOnly(true);
-                if( onkoMuokattu() ) {
-                    tallenna();
-                    emit tallennaKaytossa(false);
-                }
+        const QString network = map.value("network").toString();
+        const QString status = map.value("status").toString();
+
+        if( network == "VISMA") {
+            vismaStatus = status;
+            // Verkkolaskuosoite löytyy tästä!
+            ui->ovtEdit->setText( map.value("endpoint_id").toString() );
+            ui->ovtEdit->setReadOnly(true);
+            ui->operaattoriEdit->setText("003721291126");
+            ui->operaattoriEdit->setReadOnly(true);
+            if( onkoMuokattu() ) {
+                tallenna();
+                emit tallennaKaytossa(false);
             }
+        } else if( network == "BANK") {
+            bankStatus = status;
+        } else if( network == "PEPPOL") {
+            peppolStatus = status;
         }
     }
 
-    const bool profileOk = invoiceProfileStatus == "active";
+    const bool profileOk =
+            vismaStatus == "active" &&
+            bankStatus == "active" &&
+            peppolStatus == "active";
 
     ui->maventaOk->setVisible( book.value("active").toBool() && profileOk);
     ui->virheLabel->setVisible( !profileOk );
@@ -266,12 +275,25 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
             ui->maventaInfo->setText( tr("Sähköinen allekirjoituspyyntö on peruttu") );
         } else if( authState == "NONE") {
             ui->maventaInfo->setText( tr("Käyttöönottoa ei ole vahvistettu sähköisellä allekirjoituksella"));
-        } else if( invoiceProfileStatus == "pending" ) {
-            ui->maventaInfo->setText( tr("Verkkolaskuosoitteesi rekisteröinti on kesken. Tämä voi kestää muutaman arkipäivän."));
-        } else if( invoiceProfileStatus == "error") {
+        } else if( vismaStatus == "error") {
             ui->maventaInfo->setText( tr("Verkkolaskuosoitteen rekisteröinnissä on tapahtunut virhe."));
+        } else if( vismaStatus == "pending" ) {
+            ui->maventaInfo->setText( tr("Verkkolaskuosoitteesi rekisteröinti on kesken."));
+        } else if( vismaStatus.isEmpty()) {
+            ui->maventaInfo->setText( tr("Verkkolaskujen vastaanottoa ei ole otettu käyttöön."));
+        } else if( bankStatus == "error" ) {
+            ui->maventaInfo->setText( tr("Pankkiyhteyden käyttöönotossa on tapahtunut virhe."));
+        } else if( bankStatus == "pending" ) {
+            ui->maventaInfo->setText( tr("Pankkiyhteyden käyttöönotto on kesken. Tämä voi kestää muutaman arkipäivän."));
+        } else if( bankStatus.isEmpty()) {
+            ui->maventaInfo->setText( tr("Pankkiyhteyttä ei ole otettu käyttöön."));
+        } else if( peppolStatus == "error" ) {
+            ui->maventaInfo->setText( tr("Kansainvälisen PEPPOL-yhteyden käyttöönotossa on tapahtunut virhe.") );
+        } else if( peppolStatus == "pendign") {
+            ui->maventaInfo->setText( tr("Kansainvälisen PEPPOL-yhteyden käyttöönotto on kesken.") );
+        } else if( peppolStatus.isEmpty()) {
+            ui->maventaInfo->setText( tr("Kansainvälistä PEPPOL-yhteyttä ei ole otettu käyttöön.") );
         }
-
         return;
     }
 

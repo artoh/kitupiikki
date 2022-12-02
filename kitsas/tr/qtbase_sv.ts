@@ -10785,7 +10785,7 @@ The minimum Direct2D version required is %1. The Direct2D version on this system
     <message>
         <location line="+3"/>
         <source>&amp;Next</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nästa</translation>
     </message>
     <message>
         <location line="+0"/>
