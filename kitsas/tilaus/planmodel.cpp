@@ -121,6 +121,7 @@ void PlanModel::alusta(const QVariantList &plans, bool puolivuosittain)
     endResetModel();
 }
 
+
 void PlanModel::naytaPuolivuosittain(bool puolivuosittain)
 {
     puolivuosittain_ = puolivuosittain;

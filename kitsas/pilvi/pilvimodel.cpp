@@ -222,7 +222,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
     kayttajaToken_ = data.value("token").toString();
     tokenUusittu_ = QDateTime::currentDateTime();
 
-    if( vanhaKayttaja != kayttaja_.id()) {
+    {
         emit kirjauduttu(kayttaja_);
     }
 

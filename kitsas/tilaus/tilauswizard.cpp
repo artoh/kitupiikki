@@ -140,29 +140,30 @@ void TilausWizard::dataSaapuu()
 
     int nykyplan = current_.value("plan").toInt();
 
-    if( nykyplan >= 100) {
+    bool puolivuosittain = current_.value("months").toInt() == 6;
+    planModel_->alusta( map.value("plans").toList(), puolivuosittain);
+
+    if(  planModel_->rowForPlan( nykyplan ) == -1 ) {
         QMessageBox::information(nullptr, tr("VIP-asiakas"),
-                                 tr("Sinulla on voimassa oleva VIP-asiakkuus. \n\n"
+                                 tr("Sinulla on käytössäsi VIP-tuote, joka ei ole yleisesti myynnissä. \n\n"
                                     "Muutokset tehdään asiakaspalvelun kautta."));
         deleteLater();
         return;
     }
 
 
-    if( current_.value("email").toString().isEmpty())
-        setField("email", kp()->pilvi()->kayttaja().email());
-    else
-        setField("email", current_.value("email"));
 
-    bool puolivuosittain = current_.value("months").toInt() == 6;
-
-    QVariantMap pinfo = current_.value("payer").toMap();
-    setField("name", pinfo.value("name").toString());
+    const QVariantMap pinfo = current_.value("payer").toMap();
+    const QString payerName = pinfo.value("name").toString();
+    setField("name", payerName.isEmpty() ? kp()->pilvi()->kayttaja().nimi() : payerName);
     setField("address", pinfo.value("address"));
     setField("postcode", pinfo.value("postcode"));
     setField("town", pinfo.value("town"));
     setField("asviite", pinfo.value("customerref"));
     setField("phone", pinfo.value("phone"));
+
+    const QString pInfoEmail = pinfo.value("email").toString();
+    setField("email", pInfoEmail.isEmpty() ? kp()->pilvi()->kayttaja().email() : pInfoEmail );
 
     setField("ovt", pinfo.value("ovt"));
     setField("operator", pinfo.value("operator"));
@@ -174,7 +175,6 @@ void TilausWizard::dataSaapuu()
     if(pinfo.contains("vatnumber"))
     setField("ytunnus", AsiakasToimittajaDlg::alvToY( pinfo.value("vatnumber").toString()));
 
-    planModel_->alusta( map.value("plans").toList(), puolivuosittain);
     valintaSivu_->alusta(nykyplan, puolivuosittain,
                          current_.value("refund").toDouble(),
                          map.value("cloudgigas").toDouble(),
@@ -233,7 +233,7 @@ void TilausWizard::tilattu()
     if( reply->error() ) {
         qDebug() << reply->readAll();
         QMessageBox::critical(nullptr, tr("Verkkovirhe"), tr("Tilauksen lähettäminen epäonnistui"));
-    } else {        
+    } else {                
         kp()->pilvi()->paivitaLista();
         if( valintaSivu_->tilaus(PlanModel::PlanRooli).toInt() ) {
             Ui::Kiitos kiitos;
@@ -243,6 +243,7 @@ void TilausWizard::tilattu()
         } else {
             QMessageBox::information(this, tr("Kitsas"),tr("Tilauksesi on päivitetty"));
         }
+        emit kp()->pilvi()->kirjauduttu(kp()->pilvi()->kayttaja());
         deleteLater();
     }
 }

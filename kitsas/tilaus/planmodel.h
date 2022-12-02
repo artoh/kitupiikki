@@ -52,7 +52,7 @@ public:
 
     int rowForPlan(int plan) const;
 
-    void alusta(const QVariantList& plans, bool kuukausittain=false);
+    void alusta(const QVariantList& plans, bool kuukausittain=false);        
 
 public slots:
     void naytaPuolivuosittain(bool puolivuosittain);
