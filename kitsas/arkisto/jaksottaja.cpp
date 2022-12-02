@@ -113,6 +113,10 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         vienti.setSelite( selite );
         vasta.setSelite( selite );
 
+        const int kumppani = map.value("kumppani").toInt();
+        vienti.setKumppani(kumppani);
+        vasta.setKumppani(kumppani);
+
 
         tosite->viennit()->lisaa(vasta);
         tosite->viennit()->lisaa(vienti);
