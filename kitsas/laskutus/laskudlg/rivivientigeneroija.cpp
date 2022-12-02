@@ -178,7 +178,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
                 .arg(rivi.alvkoodi())
                 .arg(rivi.alvProsentti(),0,'f',2)
                 .arg(rivi.jaksoAlkaa().isValid() ? rivi.jaksoAlkaa().toString(Qt::ISODate) : "")
-                .arg(rivi.jaksoLoppuu().isValid() ? rivi.jaksoAlkaa().toString(Qt::ISODate) : "");
+                .arg(rivi.jaksoLoppuu().isValid() ? rivi.jaksoLoppuu().toString(Qt::ISODate) : "");
         for( auto& merkkaus : rivi.merkkaukset()) {
             str.append(QString("/%1").arg(merkkaus.toString()));
         }
