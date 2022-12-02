@@ -29,6 +29,7 @@
 
 class QTimer;
 class QNetworkReply;
+class PaivitysInfo;
 
 namespace Tilitieto {
     class TilitietoPalvelu;
@@ -76,6 +77,7 @@ public:
     QString token() const;
     AvattuPilvi pilvi() const { return nykyPilvi_; }
     PilviKayttaja kayttaja() const { return kayttaja_; }
+    PaivitysInfo *paivitysInfo() { return paivitysInfo_;}
 
     qlonglong oikeudet() const override { return nykyPilvi_.oikeudet(); }
 
@@ -123,6 +125,8 @@ private:
     QTimer* timer_;
 
     int avaaPilvi_ = 0;
+
+    PaivitysInfo* paivitysInfo_;
 
 
 private:

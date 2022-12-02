@@ -5,8 +5,9 @@
 #include <QDate>
 
 #include "model/euro.h"
+#include "palvelunkertoja.h"
 
-class PilviKayttaja
+class PilviKayttaja : public PalvelunKertoja
 {
 public:
     enum KayttajaMoodi {
@@ -41,8 +42,7 @@ public:
     Euro extraMonthly() const { return extraMonthly_; }
     int capacity() const { return capacity_; }
 
-    bool admin() const { return admin_; }
-    QString service(const QString& serviceName) const;
+    bool admin() const { return admin_; }    
 
     bool with2FA() const { return with2FA_;}
 
@@ -60,9 +60,7 @@ private:
     bool admin_ = false;
 
     KayttajaMoodi moodi_ = NORMAALI;
-    Suljettu blocked_ = KAYTOSSA;
-
-    QVariantMap services_;
+    Suljettu blocked_ = KAYTOSSA;    
 
     int cloudCount_ = 0;
     int capacity_ = 0;

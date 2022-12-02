@@ -16,7 +16,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     oikeudet_ = oikeudetListasta(map.value("rights").toList());
     url_ = map.value("url").toString();
     token_ = map.value("token").toString();
-    services_= map.value("services").toMap();
+    setServices(map.value("services").toMap());
 
     const QVariantMap planMap = map.value("plan").toMap();
     plan_id_ = planMap.value("id").toInt();
@@ -31,10 +31,6 @@ AvattuPilvi::operator bool() const
     return id() != 0;
 }
 
-QString AvattuPilvi::service(const QString &serviceName) const
-{
-    return services_.value(serviceName).toString();
-}
 
 
 qlonglong AvattuPilvi::oikeudetListasta(const QVariantList &lista)

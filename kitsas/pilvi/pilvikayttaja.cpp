@@ -23,7 +23,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
                 TOFFEE :
                 NORMAALI;
 
-    services_ = map.value("services").toMap();
+    setServices( map.value("services").toMap());
     with2FA_ = map.value("with2fa").toBool();
 
 
@@ -56,10 +56,6 @@ PilviKayttaja::operator bool() const
     return id_ != 0 && blocked_ == KAYTOSSA;
 }
 
-QString PilviKayttaja::service(const QString &serviceName) const
-{
-    return services_.value(serviceName).toString();
-}
 
 void PilviKayttaja::asetaVersioMoodi(const KayttajaMoodi versio)
 {

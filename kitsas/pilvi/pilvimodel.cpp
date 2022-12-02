@@ -17,8 +17,8 @@
 #include "pilvimodel.h"
 #include "db/kirjanpito.h"
 #include "pilvikysely.h"
-#include "versio.h"
 #include "maaritys/tilitieto/tilitietopalvelu.h"
+#include "paivitysinfo.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -39,6 +39,7 @@
 PilviModel::PilviModel(QObject *parent, const QString &token) :
     YhteysModel (parent),
     kayttajaToken_(token),
+    paivitysInfo_{new PaivitysInfo(this)},
     tilitietoPalvelu_(new Tilitieto::TilitietoPalvelu(this))
 {
     timer_ = new QTimer(this);
@@ -138,7 +139,15 @@ QString PilviModel::token() const
 QString PilviModel::service(const QString &serviceName) const
 {
     const QString cloudService = nykyPilvi_.service(serviceName);
-    return cloudService.isEmpty() ? kayttaja_.service(serviceName) : cloudService;
+    if( !cloudService.isEmpty()) return cloudService;
+
+    const QString userService = kayttaja_.service(serviceName);
+    if( !userService.isEmpty()) return userService;
+
+    const QString infoService = paivitysInfo_->service(serviceName);
+    if( !infoService.isEmpty()) return infoService;
+
+    return QString();
 }
 
 

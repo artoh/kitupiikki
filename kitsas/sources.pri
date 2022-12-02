@@ -1,4 +1,7 @@
 SOURCES += \
+    $$PWD/aloitussivu/aloitusbrowser.cpp \
+    $$PWD/aloitussivu/aloitusinfo.cpp \
+    $$PWD/aloitussivu/aloitusinfot.cpp \
     $$PWD/aloitussivu/jarjestelmatiedot.cpp \
     $$PWD/aloitussivu/kaksivaihedialog.cpp \
     $$PWD/aloitussivu/loginservice.cpp \
@@ -167,6 +170,8 @@ SOURCES += \
     $$PWD/naytin/naytinscene.cpp \
     $$PWD/pilvi/avattupilvi.cpp \
     $$PWD/pilvi/listanpilvi.cpp \
+    $$PWD/pilvi/paivitysinfo.cpp \
+    $$PWD/pilvi/palvelunkertoja.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
     $$PWD/pilvi/pilvikayttaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
@@ -414,6 +419,9 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/aloitussivu/aloitusbrowser.h \
+    $$PWD/aloitussivu/aloitusinfo.h \
+    $$PWD/aloitussivu/aloitusinfot.h \
     $$PWD/aloitussivu/jarjestelmatiedot.h \
     $$PWD/aloitussivu/kaksivaihedialog.h \
     $$PWD/aloitussivu/loginservice.h \
@@ -585,6 +593,8 @@ HEADERS += \
     $$PWD/naytin/naytinscene.h \
     $$PWD/pilvi/avattupilvi.h \
     $$PWD/pilvi/listanpilvi.h \
+    $$PWD/pilvi/paivitysinfo.h \
+    $$PWD/pilvi/palvelunkertoja.h \
     $$PWD/pilvi/pilveensiirto.h \
     $$PWD/pilvi/pilvikayttaja.h \
     $$PWD/raportti/alvraporttiwidget.h \

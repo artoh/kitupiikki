@@ -4,7 +4,9 @@
 #include <QString>
 #include <QVariantMap>
 
-class AvattuPilvi
+#include "palvelunkertoja.h"
+
+class AvattuPilvi : public PalvelunKertoja
 {
 public:
     AvattuPilvi();
@@ -19,8 +21,6 @@ public:
 
     QString url() const { return url_; }
     QString token() const { return token_;}
-
-    QString service(const QString& serviceName) const;
 
     qlonglong oikeudet() const { return oikeudet_; }
 
@@ -40,8 +40,6 @@ private:
     qlonglong oikeudet_ = 0L;
     QString url_;
     QString token_;
-
-    QVariantMap services_;
 
     static std::map<QString,qlonglong> oikeustunnukset__;
 };

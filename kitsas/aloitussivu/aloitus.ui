@@ -279,7 +279,7 @@ border-color: rgb(170, 0, 0);</string>
       </layout>
      </item>
      <item>
-      <widget class="QTextBrowser" name="selain"/>
+      <widget class="AloitusBrowser" name="selain"/>
      </item>
     </layout>
    </item>
@@ -755,6 +755,11 @@ border-color: rgb(170, 0, 0);</string>
    <extends>QWidget</extends>
    <header location="global">aloitussivu/tukiwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AloitusBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header location="global">aloitussivu/aloitusbrowser.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -32,6 +32,7 @@
 #include "pilvi/pilvikayttaja.h"
 #include "ui_aloitus.h"
 
+
 class LoginService;
 
 /**
@@ -54,14 +55,13 @@ public:
     ~AloitusSivu() override;
 
     bool poistuSivulta(int minne) override;
-    static QDate buildDate();
 
     bool eventFilter(QObject* target, QEvent* event) override;
 
 public slots:
     void siirrySivulle() override;
-    void paivitaSivu();
     void kirjanpitoVaihtui();
+    void haeSaldot();
 
     void linkki(const QUrl& linkki);
 
@@ -71,7 +71,6 @@ public slots:
 
     void abouttiarallaa();
 
-    void infoSaapui();
     void varmuuskopioi();
 
     void muistiinpanot();
@@ -79,13 +78,7 @@ public slots:
     void poistaListalta();
     void poistaPilvesta();
 
-    /**
-     * @brief Pyytää infon päivityksistä
-     */
-    void pyydaInfo();
-
 protected slots:
-    void saldotSaapuu(QVariant* data);
     void kpInfoSaapuu(QVariant* data);
 
 private slots:    
@@ -94,7 +87,6 @@ private slots:
 
     void pilviLogout();
     void logoMuuttui();
-    void haeSaldot();
     void haeKpInfo();
     void siirraPilveen();    
     void vaihdaSalasanaUuteen();
@@ -105,35 +97,15 @@ signals:
 
 protected:
     void initLoginService();
-
-    QString taulu(const QString& luokka,const QString& otsikko, const QString& teksti,
-                  const QString& linkki = QString(), const QString& kuva = QString(), const QString ohjelinkki = QString());
-
-    QString vinkit();
-    QString summat();
-
-    void naytaTervetuloTiedosto();
-
-
-    /**
-     * @brief palvelimelta (kitupiikki.arkku.net) haettu tiedote uusista päivityksista tms.
-     *
-     * @since 0.2
-     */
-    QString paivitysInfo;    
-
-    enum PilviPino { KIRJAUDU, LISTA, SISAANTULO };
-
-    QString palauteUrl_ = "https://kitsas.fi";
+    enum PilviPino { KIRJAUDU, LISTA, SISAANTULO };    
 
 protected:
     Ui::Aloitus *ui;
     bool sivulla = false;
-    bool kelpoEmail_=false;
-    QVariantMap saldot_;
-    int tilioimatta_ = 0;
+    bool kelpoEmail_=false;        
 
     LoginService* login_;
+
 };
 
 #endif // ALOITUSSIVU_H
