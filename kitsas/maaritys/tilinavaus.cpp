@@ -22,7 +22,6 @@
 
 #include "tilinavaus.h"
 #include "tilinavausmodel.h"
-#include "kirjaus/eurodelegaatti.h"
 #include "avauseradlg.h"
 
 Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
@@ -30,37 +29,20 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     ui = new Ui::Tilinavaus;
     ui->setupUi(this);
 
-    model = new TilinavausModel();
-
-    proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
-    proxy->setFilterRole(TilinavausModel::KaytossaRooli);
-    proxy->setFilterFixedString("1");    
-    proxy->setSortRole(TilinavausModel::LajitteluRooli);
-
-
-    suodatus = new QSortFilterProxyModel(this);
-    suodatus->setSourceModel(proxy);
-    suodatus->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
-    ui->tiliView->setModel(suodatus);
     ui->siirryEdit->setValidator(new QIntValidator(this));
 
-    ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
-
-    ui->tiliView->horizontalHeader()->setSectionResizeMode(TilinavausModel::NIMI, QHeaderView::Stretch);
 
     connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(hlostoMuutos()));
 
     connect( ui->kaikkiNappi, &QPushButton::clicked, this, &Tilinavaus::naytaPiilotetut);
     connect( ui->kirjauksetNappi, &QPushButton::clicked, this, &Tilinavaus::naytaVainKirjaukset);
 
-    connect( ui->etsiEdit, &QLineEdit::textEdited, this, &Tilinavaus::suodata);
+    connect( ui->etsiEdit, &QLineEdit::textEdited, ui->tiliView, &TilinAvausView::suodata);
     connect( ui->tiliView, &QTableView::activated, this, &Tilinavaus::erittely);
     connect( ui->tiliView, &QTableView::clicked, this, &Tilinavaus::erittely);
     connect( ui->siirryEdit, &QLineEdit::textEdited, this, &Tilinavaus::siirry);
 
-    connect( model, &TilinavausModel::tilasto, this, &Tilinavaus::info);
+    connect( ui->tiliView->avausModel() , &TilinavausModel::tilasto, this, &Tilinavaus::info);
 }
 
 Tilinavaus::~Tilinavaus()
@@ -78,31 +60,14 @@ void Tilinavaus::hlostoMuutos()
 
 void Tilinavaus::naytaPiilotetut(bool naytetaanko)
 {
-    if( naytetaanko) {
-        proxy->setFilterFixedString("0");
-        ui->kirjauksetNappi->setChecked(false);
-    } else
-        proxy->setFilterFixedString("1");
+    ui->tiliView->naytaPiilotetut(naytetaanko);
+    if(naytetaanko) ui->kirjauksetNappi->setChecked(false);
 }
 
 void Tilinavaus::naytaVainKirjaukset(bool naytetaanko)
 {
-    if( naytetaanko ) {
-        ui->kaikkiNappi->setChecked(false);
-        proxy->setFilterFixedString("2");
-    } else {
-        proxy->setFilterFixedString("1");
-    }
-}
-
-void Tilinavaus::suodata(const QString &suodatusteksti)
-{
-    if( suodatusteksti.toInt())
-        suodatus->setFilterRole(TilinavausModel::NumeroRooli);
-    else
-        suodatus->setFilterRole(TilinavausModel::NimiRooli);
-    suodatus->setFilterFixedString(suodatusteksti);
-
+    ui->tiliView->naytaVainKirjaukset(naytetaanko);
+    if(naytetaanko) ui->kaikkiNappi->setChecked(false);
 }
 
 void Tilinavaus::erittely(const QModelIndex &index)
@@ -111,11 +76,11 @@ void Tilinavaus::erittely(const QModelIndex &index)
         int tili = index.data(TilinavausModel::NumeroRooli).toInt();
         AvausEraDlg dlg(tili,
                         index.data(TilinavausModel::ErittelyRooli).toInt() == TilinavausModel::KOHDENNUKSET,
-                        model->erat(tili),
+                        ui->tiliView->avausModel()->erat(tili),
                         this
                         );
         if( dlg.exec() == QDialog::Accepted )
-            model->asetaErat(tili, dlg.erat());
+            ui->tiliView->avausModel()->asetaErat(tili, dlg.erat());
     }
 }
 
@@ -154,8 +119,8 @@ void Tilinavaus::siirry(const QString &minne)
 
 bool Tilinavaus::nollaa()
 {
-    model->lataa();
-    proxy->sort(0);
+
+    ui->tiliView->nollaa();
     ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).henkilosto());
     emit tallennaKaytossa(onkoMuokattu());
     return true;
@@ -164,7 +129,7 @@ bool Tilinavaus::nollaa()
 bool Tilinavaus::tallenna()
 {            
     // #40 Model tallennetaan vain, jos sitä on muokattu
-    if( model->onkoMuokattu()) {
+    if( ui->tiliView->avausModel()->onkoMuokattu()) {
 
         if( !ui->poikkeusLabel->text().isEmpty() ) {
             if( QMessageBox::question(this, tr("Tilinavaus ei täsmää"),
@@ -173,12 +138,12 @@ bool Tilinavaus::tallenna()
                                          "kirjanpidon tilien saldoissa ennen kuin se on korjattu.\n\n"
                                          "Haluatko tallentaa tilinavauksen luonnoksena?"),
                                       QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes) {
-                model->tallenna(Tosite::LUONNOS);
+                ui->tiliView->avausModel()->tallenna(Tosite::LUONNOS);
             } else {
                 return false;
             }
         } else {
-            model->tallenna(Tosite::KIRJANPIDOSSA);
+            ui->tiliView->avausModel()->tallenna(Tosite::KIRJANPIDOSSA);
         }
     }
 
@@ -194,6 +159,6 @@ bool Tilinavaus::tallenna()
 
 bool Tilinavaus::onkoMuokattu()
 {
-    return model->onkoMuokattu() ||
+    return ui->tiliView->avausModel()->onkoMuokattu() ||
           ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).henkilosto();
 }

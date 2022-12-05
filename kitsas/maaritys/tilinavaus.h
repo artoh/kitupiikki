@@ -47,7 +47,6 @@ public slots:
     void hlostoMuutos();
     void naytaPiilotetut(bool naytetaanko);
     void naytaVainKirjaukset(bool naytetaanko);
-    void suodata(const QString& suodatusteksti);
     void erittely(const QModelIndex& index);
 
     void info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulos);
@@ -62,10 +61,6 @@ public:
 
 private:
     Ui::Tilinavaus *ui;
-    TilinavausModel *model;
-
-    QSortFilterProxyModel *proxy;
-    QSortFilterProxyModel *suodatus;
 };
 
 #endif // TILINAVAUS_H

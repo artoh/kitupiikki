@@ -28,8 +28,10 @@
 
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
+#include "tuonti/tilimuuntomodel.h"
 
-TilinavausModel::TilinavausModel() :    
+TilinavausModel::TilinavausModel(QObject* parent) :
+    QAbstractTableModel{parent},
     tosite_(new Tosite(this)),
     muokattu_(false)
 {
@@ -394,6 +396,28 @@ void TilinavausModel::ladattu()
             kaudenTulosIndeksi_ = i;
             break;
         }
+    paivitaInfo();
+}
+
+void TilinavausModel::tuo(TiliMuuntoModel *model)
+{
+    for(int i=0; i < model->rowCount(); i++) {
+        const int tiliNro = model->tilinumeroIndeksilla(i);
+        Tili* tili = kp()->tilit()->tili(tiliNro);
+        if(tili && !tili->onko(TiliLaji::KAUDENTULOS)) {
+            QList<AvausEra> avaus = erat_.value(tiliNro);
+            Euro vanhaSaldo;
+            for( auto &rivi : avaus)
+                vanhaSaldo += rivi.saldo();
+
+            const Euro saldo = model->saldoIndeksilla(i) + vanhaSaldo;
+            QList<AvausEra> list;
+            list.append(AvausEra(saldo));
+            erat_.insert( tiliNro,  list);
+        }
+    }
+    emit dataChanged( createIndex(0, SALDO), createIndex(rowCount(), ERITTELY) );
+    muokattu_ = true;
     paivitaInfo();
 }
 

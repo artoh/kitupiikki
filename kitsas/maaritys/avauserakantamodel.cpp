@@ -41,7 +41,7 @@ QList<AvausEra> AvausEraKantaModel::erat() const
 qlonglong AvausEraKantaModel::summa() const
 {
     qlonglong s = 0l;
-    for( auto era : erat_)
+    for( const auto& era : qAsConst( erat_ ))
         s += era.saldo();
     return s;
 }

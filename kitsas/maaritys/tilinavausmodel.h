@@ -27,6 +27,8 @@
 
 #include "model/euro.h"
 
+class TiliMuuntoModel;
+
 /**
  * @brief Tilinavauksessa oleva yksi erä
  */
@@ -92,7 +94,7 @@ public:
         KOHDENNUKSET
     };
 
-    TilinavausModel();
+    TilinavausModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -115,6 +117,8 @@ public slots:
     void paivitaInfo();
 
     void ladattu();
+
+    void tuo(TiliMuuntoModel* model);
 
 protected:
     void idTietoSaapuu(QVariant* data);
