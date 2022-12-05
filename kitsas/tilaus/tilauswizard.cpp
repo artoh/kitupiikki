@@ -198,10 +198,10 @@ void TilausWizard::dataSaapuu()
             QVariantMap payer;
             payer.insert("name", field("name"));            
             payer.insert("email", field("email"));
-            if( !field("ytunnus").toString().isEmpty())
-                payer.insert("vatnumber", AsiakasToimittajaDlg::yToAlv(field("ytunnus").toString()));
             if( !field("asviite").toString().isEmpty())
                 payer.insert("customref", field("asviite").toString());
+            if( !field("ytunnus").toString().isEmpty())
+                payer.insert("vatnumber", AsiakasToimittajaDlg::yToAlv(field("ytunnus").toString()));
             if( !field("address").toString().isEmpty())
                 payer.insert("address", field("address").toString());
             if( !field("postcode").toString().isEmpty())

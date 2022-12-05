@@ -687,6 +687,7 @@ void CsvTuonti::paivitaOletukset()
             else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
             else if((otsikko.contains("saaja", Qt::CaseInsensitive) ||
+                     otsikko.contains("vastapuoli", Qt::CaseInsensitive) ||
                     otsikko.contains("maksaja", Qt::CaseInsensitive)) &&
                     !otsikko.contains("tili", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SAAJAMAKSAJA);
