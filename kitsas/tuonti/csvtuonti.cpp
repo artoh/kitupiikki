@@ -437,7 +437,7 @@ QChar CsvTuonti::haistaErotin(const QString &data)
                 sarkaimet++;
         }
     }
-    if( puolipisteet > pilkut && puolipisteet > sarkaimet)
+    if( puolipisteet >= pilkut && puolipisteet > sarkaimet)
         return QChar(';');
     else if( sarkaimet > pilkut && sarkaimet > puolipisteet)
         return QChar('\t');

@@ -197,9 +197,9 @@ void TiliMuuntoModel::lisaa(int numero, const QString &nimi, Euro euroSaldo)
         for(int i=0; i < kp()->tilit()->rowCount(); i++) {
             Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
             if( !ptili->otsikkotaso() && !ptili->nimi().compare(nimi, Qt::CaseInsensitive)) {
-                QString numerostr = QString::number(tilinumero);
-                if( numerostr > 3 || numerostr.left(1) == ptili->nimiNumero().left(1)) {
-                    tilinumero = i;
+                QString numerostr = QString::number(numero);
+                if( numerostr > "3" || numerostr.at(0) == ptili->nimiNumero().at(0)  ) {
+                    tilinumero = ptili->numero();
                 }
             }
         }
