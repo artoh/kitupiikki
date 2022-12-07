@@ -80,7 +80,7 @@ bool AvausKohdennusModel::setData(const QModelIndex &index, const QVariant &valu
         }
         // Sitten lisätään jos saldoa
         if( qAbs( value.toDouble() ) > 1e-5) {
-            AvausEra era( qRound64( value.toDouble() * 100 ), QString(), kohid);
+            AvausEra era( qRound64( value.toDouble() * 100 ), QDate(), QString(), kohid);
             erat_.append(era);
         }
         emit dataChanged(index, index, QVector<int>() << role);

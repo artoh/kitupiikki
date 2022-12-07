@@ -34,7 +34,7 @@ class TiliMuuntoModel;
  */
 class AvausEra {
 public:
-    AvausEra(qlonglong saldo = Euro::Zero, const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
+    AvausEra(qlonglong saldo = Euro::Zero, const QDate& pvm = QDate(), const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
              int kumppaniId=0, QString kumppaniNimi=QString(), int tasapoisto = 0);
 
     QString eranimi() const { return eranimi_; }
@@ -44,12 +44,14 @@ public:
     int kumppaniId() const { return kumppaniId_;}
     QString kumppaniNimi() const { return  kumppaniNimi_;}
     int tasapoisto() const { return tasapoisto_;}
+    QDate pvm() const { return pvm_;}
 
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
     void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
     void asetaKumppani(const QVariantMap& map);
     void asetaTasapoisto(const int kuukautta) { tasapoisto_ = kuukautta;}
+    void asetaPvm(const QDate& pvm) { pvm_ = pvm;}
 
 
 protected:
@@ -60,6 +62,7 @@ protected:
     int kumppaniId_ = 0;
     QString kumppaniNimi_;
     int tasapoisto_ = 0;
+    QDate pvm_;
 };
 
 /**
@@ -110,6 +113,9 @@ public:
     void asetaErat(int tili, QList<AvausEra> erat);
     QList<AvausEra> erat(int tili) const;
 
+    bool kuukausittain() const { return avausKuukausittain_;}
+    void setKuukausittain(bool onko);
+
 public slots:
     bool tallenna(int tila = Tosite::KIRJANPIDOSSA);
     void lataa();
@@ -136,6 +142,7 @@ protected:
 
     bool muokattu_;
     int kaudenTulosIndeksi_ = 0;
+    bool avausKuukausittain_ = false;
 };
 
 #endif // TILINAVAUSMODEL_H

@@ -364,7 +364,12 @@ QString AloitusBrowser::saldoTaulu()
 
 void AloitusBrowser::naytaTervetuloa()
 {
-    QFile tttiedosto(Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html");
+    const QString tiedostonnimi =
+            kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::TOFFEE ?
+            ( ":/aloitus/pro.html"  ) :
+            ( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html" );
+
+    QFile tttiedosto(tiedostonnimi);
     tttiedosto.open(QIODevice::ReadOnly);
     QTextStream in(&tttiedosto);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

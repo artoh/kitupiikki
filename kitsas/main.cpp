@@ -116,11 +116,12 @@ int main(int argc, char *argv[])
     }
 
     if( parser.isSet("pro") || TOFFEE_VERSIO ) {
+        qApp->setApplicationName("Kitsas PRO");
         PilviKayttaja::asetaVersioMoodi(PilviKayttaja::TOFFEE);
         ToffeeLogin loginDlg;
         if(loginDlg.keyExec() != QDialog::Accepted) {
             return 0;
-        }
+        }        
     } else if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  ) {
         TervetuloDialogi tervetuloa;
         if( tervetuloa.exec() != QDialog::Accepted)

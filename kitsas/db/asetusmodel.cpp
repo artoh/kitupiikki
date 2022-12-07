@@ -345,5 +345,6 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { LaskuKorttitili, "LaskuKorttitili"},
     { LaskuLisatiedot, "KirjausLaskuLisatiedot"},
     { Toiminimet, "Aputoiminimet"},
-    { TilitietoMaksuHyvaksytty, "TilitietoMaksuHyvaksytty"}
+    { TilitietoMaksuHyvaksytty, "TilitietoMaksuHyvaksytty"},
+    { AvausKuukausittain, "AvausKuukausittain"}
 };

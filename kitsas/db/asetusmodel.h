@@ -109,7 +109,8 @@ public:
         LaskuKorttitili,
         LaskuLisatiedot,
         Toiminimet,
-        TilitietoMaksuHyvaksytty
+        TilitietoMaksuHyvaksytty,
+        AvausKuukausittain
     };
 
 

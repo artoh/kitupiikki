@@ -43,6 +43,7 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     connect( ui->siirryEdit, &QLineEdit::textEdited, this, &Tilinavaus::siirry);
 
     connect( ui->tiliView->avausModel() , &TilinavausModel::tilasto, this, &Tilinavaus::info);
+    connect( ui->kkCheck, &QCheckBox::clicked, ui->tiliView->avausModel(), &TilinavausModel::setKuukausittain);
 }
 
 Tilinavaus::~Tilinavaus()
@@ -122,6 +123,7 @@ bool Tilinavaus::nollaa()
 
     ui->tiliView->nollaa();
     ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).henkilosto());
+    ui->kkCheck->setChecked( ui->tiliView->avausModel()->kuukausittain() );
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }

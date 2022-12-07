@@ -35,6 +35,7 @@ TilinavausModel::TilinavausModel(QObject* parent) :
     tosite_(new Tosite(this)),
     muokattu_(false)
 {
+    setKuukausittain( kp()->asetukset()->onko(AsetusModel::AvausKuukausittain) );
     connect( tosite_, &Tosite::ladattu, this, &TilinavausModel::ladattu);
 }
 
@@ -158,9 +159,13 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             return QColor(Qt::black);
     }
     else if( role == Qt::DecorationRole && index.column() == ERITTELY) {
-        if( tili.eritellaankoTase())
+        if( tili.onko(TiliLaji::OTSIKKO) ||  tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))
+            return QVariant();
+        else if( tili.eritellaankoTase())
             return QIcon(":/pic/format-list-unordered.png");
-        if( kp()->kohdennukset()->kohdennuksia() && (
+        else if( kuukausittain() )
+            return QIcon(":/pic/calendar.png");
+        else if( kp()->kohdennukset()->kohdennuksia() && (
             tili.onko(TiliLaji::TULOS) || tili.luku("kohdennukset")  ))
                 return QIcon(":/pic/kohdennus.png");
     } else if( role == ErittelyRooli ) {
@@ -247,6 +252,14 @@ void TilinavausModel::asetaErat(int tili, QList<AvausEra> erat)
 QList<AvausEra> TilinavausModel::erat(int tili) const
 {
     return erat_.value(tili);
+}
+
+void TilinavausModel::setKuukausittain(bool onko)
+{
+    beginResetModel();
+    avausKuukausittain_ = onko;
+    endResetModel();
+    kp()->asetukset()->aseta(AsetusModel::AvausKuukausittain, onko);
 }
 
 
@@ -377,6 +390,7 @@ void TilinavausModel::ladattu()
         int kumppani = vienti.kumppaniId();
         QString kumppaninimi = vienti.value("kumppani").toMap().value("nimi").toString();
         int poistoaika = vienti.tasaerapoisto();
+        QDate pvm = vienti.pvm();
 
         Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
         qlonglong saldo = tili.onko(TiliLaji::VASTAAVAA)  ?
@@ -384,7 +398,7 @@ void TilinavausModel::ladattu()
                     qRound64(vienti.kredit() * 100) - qRound64(vienti.debet() * 100);
 
         QList<AvausEra>& erat = erat_[tilinro];
-        erat.append( AvausEra(saldo, era, kohdennus, vienti.id(), kumppani, kumppaninimi, poistoaika));
+        erat.append( AvausEra(saldo, pvm, era, kohdennus, vienti.id(), kumppani, kumppaninimi, poistoaika));
 
     }
     endResetModel();
@@ -456,8 +470,9 @@ qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)
 }
 
 
-AvausEra::AvausEra(qlonglong saldo, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi, int tasapoisto) :
-    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi), tasapoisto_(tasapoisto)
+AvausEra::AvausEra(qlonglong saldo, const QDate &pvm, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi, int tasapoisto) :
+    eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi), tasapoisto_(tasapoisto),
+    pvm_{pvm}
 {
 
 }

@@ -213,8 +213,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 {
     if( avaaPilvi) {
         avaaPilvi_ = avaaPilvi;
-    }
-    int vanhaKayttaja = kayttaja_.id();
+    }    
 
     kayttaja_ = data.value("user");
     asetaPilviLista( data.value("clouds").toList());

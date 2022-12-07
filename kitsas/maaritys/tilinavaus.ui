@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -22,6 +22,45 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tilinavaus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Syötä tilien loppusaldot edellisestä tilinpäätöksestä.&lt;br/&gt;Taseen vastaavaa ja vastattavaa syötetään pääsääntöisesti ilman etumerkkiä.&lt;br/&gt;Tuloslaskelman menot syötetään miinusmerkkisinä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Tuo tiedostosta...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kkCheck">
+         <property name="text">
+          <string>Tiedot kuukausittain</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/kalenteri16.png</normaloff>:/pic/kalenteri16.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

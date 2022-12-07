@@ -26,7 +26,7 @@ int AvausEraKantaModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 4;
+    return 5;
 }
 
 QList<AvausEra> AvausEraKantaModel::erat() const
