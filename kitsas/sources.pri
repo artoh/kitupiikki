@@ -894,6 +894,7 @@ FORMS += \
     $$PWD/maaritys/liitemaaritys.ui \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
+    $$PWD/maaritys/minamaaritys.ui \
     $$PWD/maaritys/oletustilimaaritys.ui \
     $$PWD/maaritys/paivitetaandlg.ui \
     $$PWD/maaritys/palkkatilimaaritys.ui \
