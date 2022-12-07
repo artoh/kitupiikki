@@ -20,7 +20,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../pic/pic.qrc">:/pic/kitsas64.png</pixmap>
+      <pixmap resource="../pic/pic.qrc">:/pic/kitsaspro.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

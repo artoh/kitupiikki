@@ -210,6 +210,7 @@
         <file>cloud-64.png</file>
         <file>info-punainen.png</file>
         <file>pixaby/toimisto.svg</file>
+        <file>kitsaspro.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

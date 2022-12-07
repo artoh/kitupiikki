@@ -4,6 +4,7 @@
         <file>tervetuloa.html</file>
         <file>FreeSans.ttf</file>
         <file>svenska.html</file>
+        <file>pro.html</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
