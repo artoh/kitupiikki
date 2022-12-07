@@ -16,11 +16,10 @@
 */
 #include "avauseramodel.h"
 
-AvausEraModel::AvausEraModel(QList<AvausEra> erat, QObject *parent)
-    : AvausEraKantaModel(erat, parent)
+AvausEraModel::AvausEraModel(QObject *parent)
+    : AvausEraKantaModel(parent)
 {
 
-    erat_.append(AvausEra());
 }
 
 QVariant AvausEraModel::headerData(int section, Qt::Orientation orientation, int role) const

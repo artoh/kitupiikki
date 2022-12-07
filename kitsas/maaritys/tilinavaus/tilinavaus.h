@@ -21,9 +21,7 @@
 #include <QWidget>
 
 #include "ui_tilinavaus.h"
-#include "tilinavausmodel.h"
-
-#include "maarityswidget.h"
+#include "../maarityswidget.h"
 
 class QSortFilterProxyModel;
 

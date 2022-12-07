@@ -75,13 +75,8 @@ void Tilinavaus::erittely(const QModelIndex &index)
 {
     if( index.data(TilinavausModel::ErittelyRooli).toInt() != TilinavausModel::EI_ERITTELYA && index.column() == TilinavausModel::ERITTELY) {
         int tili = index.data(TilinavausModel::NumeroRooli).toInt();
-        AvausEraDlg dlg(tili,
-                        index.data(TilinavausModel::ErittelyRooli).toInt() == TilinavausModel::KOHDENNUKSET,
-                        ui->tiliView->avausModel()->erat(tili),
-                        this
-                        );
-        if( dlg.exec() == QDialog::Accepted )
-            ui->tiliView->avausModel()->asetaErat(tili, dlg.erat());
+        AvausEraDlg dlg(ui->tiliView->avausModel(), tili, this);
+        dlg.exec();
     }
 }
 

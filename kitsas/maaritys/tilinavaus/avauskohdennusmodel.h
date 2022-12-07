@@ -23,7 +23,7 @@ class AvausKohdennusModel : public AvausEraKantaModel
 {
     Q_OBJECT
 public:
-    AvausKohdennusModel(QList<AvausEra> erat = QList<AvausEra>(),  QObject *parent = nullptr);
+    AvausKohdennusModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

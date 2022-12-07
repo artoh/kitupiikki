@@ -44,7 +44,7 @@
           <string>Tuo tiedostosta...</string>
          </property>
          <property name="icon">
-          <iconset resource="../pic/pic.qrc">
+          <iconset resource="../../pic/pic.qrc">
            <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
          </property>
         </widget>
@@ -55,7 +55,7 @@
           <string>Tiedot kuukausittain</string>
          </property>
          <property name="icon">
-          <iconset resource="../pic/pic.qrc">
+          <iconset resource="../../pic/pic.qrc">
            <normaloff>:/pic/kalenteri16.png</normaloff>:/pic/kalenteri16.png</iconset>
          </property>
         </widget>
@@ -103,7 +103,7 @@
         <string>Kirjaukset</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/euro.png</normaloff>:/pic/euro.png</iconset>
        </property>
        <property name="checkable">
@@ -117,7 +117,7 @@
         <string>Kaikki tilit</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
        </property>
        <property name="checkable">
@@ -218,11 +218,11 @@
   <customwidget>
    <class>TilinAvausView</class>
    <extends>QTableView</extends>
-   <header location="global">maaritys/tilinavausview.h</header>
+   <header location="global">maaritys/tilinavaus/tilinavausview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../pic/pic.qrc"/>
+  <include location="../../pic/pic.qrc"/>
  </resources>
  <connections/>
 </ui>

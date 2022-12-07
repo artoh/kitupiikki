@@ -16,6 +16,12 @@
 */
 #include "avauserakantamodel.h"
 
+AvausEraKantaModel::AvausEraKantaModel(QObject *parent) :
+    QAbstractTableModel{parent}
+{
+
+}
+
 AvausEraKantaModel::AvausEraKantaModel(QList<AvausEra> erat, QObject *parent) :
     QAbstractTableModel(parent), erat_(erat)
 {
@@ -38,11 +44,18 @@ QList<AvausEra> AvausEraKantaModel::erat() const
     return erat;
 }
 
-qlonglong AvausEraKantaModel::summa() const
+Euro AvausEraKantaModel::summa() const
 {
-    qlonglong s = 0l;
+    Euro s;
     for( const auto& era : qAsConst( erat_ ))
         s += era.saldo();
     return s;
+}
+
+void AvausEraKantaModel::lataa(QList<AvausEra> erat)
+{
+    beginResetModel();
+    erat_ = erat;
+    endResetModel();
 }
 

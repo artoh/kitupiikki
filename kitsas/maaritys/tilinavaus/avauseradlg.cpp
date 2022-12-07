@@ -19,6 +19,7 @@
 
 #include "avauseramodel.h"
 #include "avauskohdennusmodel.h"
+#include "avauskuukausimodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "rekisteri/kumppanivalintadelegaatti.h"
@@ -27,6 +28,33 @@
 #include "db/kirjanpito.h"
 #include "tools/vuosidelegaatti.h"
 
+
+AvausEraDlg::AvausEraDlg(TilinavausModel *avaus, int tilinumero, QWidget *parent) :
+    QDialog{parent},
+    avaus_{avaus}
+{
+    ui->setupUi(this);
+
+    tili_ = kp()->tilit()->tiliNumerolla(tilinumero);
+    ui->tiliLabel->setText( tili_.nimiNumero() );
+
+
+
+    if( tili_.eritellaankoTase()) {
+        model_ = new AvausEraModel(this);
+    } else if( avaus->kuukausittain()) {
+        model_ = new AvausKuukausiModel(this);
+    } else {
+        model_ = new AvausKohdennusModel(this);
+    }
+
+    const QList<AvausEra> erat = avaus_->erat(tilinumero);
+    model_->lataa(erat);
+
+    ui->view->setModel(model_);
+
+}
+/*
 AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AvausEraDlg)
@@ -39,12 +67,12 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     ui->kohdennusOhje->setVisible(kohdennukset);    
 
     if( kohdennukset ) {
-        model = new AvausKohdennusModel(erat, this);
-        ui->view->setModel(model);
+        model_ = new AvausKohdennusModel(erat, this);
+        ui->view->setModel(model_);
         ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);        
     } else {        
-        model = new AvausEraModel(erat, this);
-        ui->view->setModel(model);        
+        model_ = new AvausEraModel(erat, this);
+        ui->view->setModel(model_);
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
                                           new KumppaniValintaDelegaatti(this));
         ui->view->setItemDelegateForColumn(AvausEraModel::POISTOAIKA,
@@ -60,14 +88,14 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
     ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
-    connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
-    connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
+    connect( model_, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
+    connect( model_, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
 
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tilinavaus"); });
 
     paivitaSumma();
 }
-
+*/
 AvausEraDlg::~AvausEraDlg()
 {
     delete ui;
@@ -75,19 +103,26 @@ AvausEraDlg::~AvausEraDlg()
 
 QList<AvausEra> AvausEraDlg::erat() const
 {
-    return model->erat();
+    return model_->erat();
+}
+
+void AvausEraDlg::accept()
+{
+    avaus_->asetaErat(tili_.numero(), model_->erat());
+
+    QDialog::accept();
 }
 
 void AvausEraDlg::paivitaSumma()
 {
-    ui->summaLabel->setText(tr("Yhteensä %L1 €").arg( model->summa() / 100.0, 10, 'f', 2  ));
+    ui->summaLabel->setText(tr("Yhteensä %1").arg( model_->summa().display() ) );
 }
 
 void AvausEraDlg::lisaaTarvittaessa()
 {
-    AvausEraModel* avaus = qobject_cast<AvausEraModel*>(model);
-    if( avaus && ui->view->currentIndex().row() == model->rowCount() - 1 &&
-           !model->data(ui->view->currentIndex()).toString().isEmpty()  ) {
+    AvausEraModel* avaus = qobject_cast<AvausEraModel*>(model_);
+    if( avaus && ui->view->currentIndex().row() == model_->rowCount() - 1 &&
+           !model_->data(ui->view->currentIndex()).toString().isEmpty()  ) {
         QModelIndex current = ui->view->currentIndex();
         avaus->lisaaRivi();
         ui->view->setCurrentIndex(current.sibling(current.row(), current.column()+1));

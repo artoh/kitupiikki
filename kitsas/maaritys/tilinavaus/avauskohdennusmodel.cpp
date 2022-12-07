@@ -16,8 +16,8 @@
 */
 #include "avauskohdennusmodel.h"
 
-AvausKohdennusModel::AvausKohdennusModel(QList<AvausEra> erat, QObject *parent)
-    : AvausEraKantaModel(erat, parent)
+AvausKohdennusModel::AvausKohdennusModel(QObject *parent)
+    : AvausEraKantaModel(parent)
 {
     kohdennukset_ = kp()->kohdennukset()->vainKohdennukset( kp()->asetukset()->pvm("TilinavausPvm") );
 }

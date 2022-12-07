@@ -14,35 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef AVAUSERADLG_H
-#define AVAUSERADLG_H
-
-#include <QDialog>
+#ifndef AVAUSERAMODEL_H
+#define AVAUSERAMODEL_H
 
 #include "avauserakantamodel.h"
 
-namespace Ui {
-class AvausEraDlg;
-}
-
-class AvausEraDlg : public QDialog
+class AvausEraModel : public AvausEraKantaModel
 {
     Q_OBJECT
 
 public:
-    explicit AvausEraDlg(int tili, bool kohdennukset = false,
-                         QList<AvausEra> erat = QList<AvausEra>(), QWidget *parent = nullptr);
-    ~AvausEraDlg();
+    AvausEraModel(QObject *parent = nullptr);
 
-    QList<AvausEra> erat() const;
+    // Header:
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-protected slots:
-    void paivitaSumma();
-    void lisaaTarvittaessa();
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-private:
-    Ui::AvausEraDlg *ui;
-    AvausEraKantaModel *model;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    // Editable:
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole) override;
+
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
+
+    void lisaaRivi();
+
 };
 
-#endif // AVAUSERADLG_H
+#endif // AVAUSERAMODEL_H

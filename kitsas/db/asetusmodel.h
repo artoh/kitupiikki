@@ -110,7 +110,8 @@ public:
         LaskuLisatiedot,
         Toiminimet,
         TilitietoMaksuHyvaksytty,
-        AvausKuukausittain
+        AvausKuukausittain,
+        TilinAvausPvm
     };
 
 

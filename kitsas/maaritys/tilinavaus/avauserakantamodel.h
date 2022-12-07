@@ -28,14 +28,16 @@ class AvausEraKantaModel : public QAbstractTableModel
 public:
     enum { KUMPPANI, NIMI, SALDO, POISTOAIKA };
 
+    AvausEraKantaModel(QObject *parent = nullptr);
     AvausEraKantaModel(QList<AvausEra> erat = QList<AvausEra>(),
                                 QObject *parent = nullptr);
 
     // Basic functionality:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    QList<AvausEra> erat() const;
-    qlonglong summa() const;
+    virtual QList<AvausEra> erat() const;
+    virtual Euro summa() const;
+    virtual void lataa(QList<AvausEra> erat);
 
 protected:
     QList<AvausEra> erat_;

@@ -116,9 +116,6 @@ SOURCES += \
     $$PWD/laskutus/vakioviite/vakioviitemodel.cpp \
     $$PWD/laskutus/viitenumero.cpp \
     $$PWD/laskutus/yksikkomodel.cpp \
-    $$PWD/maaritys/avauserakantamodel.cpp \
-    $$PWD/maaritys/avauseramodel.cpp \
-    $$PWD/maaritys/avauskohdennusmodel.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
@@ -136,7 +133,14 @@ SOURCES += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.cpp \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.cpp \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
-    $$PWD/maaritys/tilinavausview.cpp \
+    $$PWD/maaritys/tilinavaus/avauseradlg.cpp \
+    $$PWD/maaritys/tilinavaus/avauserakantamodel.cpp \
+    $$PWD/maaritys/tilinavaus/avauseramodel.cpp \
+    $$PWD/maaritys/tilinavaus/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/tilinavaus/avauskuukausimodel.cpp \
+    $$PWD/maaritys/tilinavaus/tilinavaus.cpp \
+    $$PWD/maaritys/tilinavaus/tilinavausmodel.cpp \
+    $$PWD/maaritys/tilinavaus/tilinavausview.cpp \
     $$PWD/maaritys/tilitieto/pankitmodel.cpp \
     $$PWD/maaritys/tilitieto/pankki.cpp \
     $$PWD/maaritys/tilitieto/pankkilokimodel.cpp \
@@ -317,8 +321,6 @@ SOURCES += \
     db/tilikausi.cpp \
     selaus/selausmodel.cpp \
     raportti/raporttisivu.cpp \
-    maaritys/tilinavaus.cpp \
-    maaritys/tilinavausmodel.cpp \
     kirjaus/pvmdelegaatti.cpp \
     db/asetusmodel.cpp \
     db/tilimodel.cpp \
@@ -404,7 +406,6 @@ SOURCES += \
     pilvi/pilvimodel.cpp \
     sqlite/sqlitemodel.cpp \
     rekisteri/asiakastoimittajavalinta.cpp \
-    maaritys/avauseradlg.cpp\
     maaritys/maksutapamuokkausdlg.cpp \
     arkisto/tuloverodialog.cpp  \
     kierto/kiertowidget.cpp \
@@ -540,9 +541,6 @@ HEADERS += \
     $$PWD/laskutus/vakioviite/vakioviitemodel.h \
     $$PWD/laskutus/viitenumero.h \
     $$PWD/laskutus/yksikkomodel.h \
-    $$PWD/maaritys/avauserakantamodel.h \
-    $$PWD/maaritys/avauseramodel.h \
-    $$PWD/maaritys/avauskohdennusmodel.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
@@ -560,7 +558,14 @@ HEADERS += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.h \
     $$PWD/maaritys/raportinmuokkaus/raporttimuokkausmodel.h \
     $$PWD/maaritys/tilikarttapaivitys.h \
-    $$PWD/maaritys/tilinavausview.h \
+    $$PWD/maaritys/tilinavaus/avauseradlg.h \
+    $$PWD/maaritys/tilinavaus/avauserakantamodel.h \
+    $$PWD/maaritys/tilinavaus/avauseramodel.h \
+    $$PWD/maaritys/tilinavaus/avauskohdennusmodel.h \
+    $$PWD/maaritys/tilinavaus/avauskuukausimodel.h \
+    $$PWD/maaritys/tilinavaus/tilinavaus.h \
+    $$PWD/maaritys/tilinavaus/tilinavausmodel.h \
+    $$PWD/maaritys/tilinavaus/tilinavausview.h \
     $$PWD/maaritys/tilitieto/pankitmodel.h \
     $$PWD/maaritys/tilitieto/pankki.h \
     $$PWD/maaritys/tilitieto/pankkilokimodel.h \
@@ -743,8 +748,6 @@ HEADERS += \
     db/tilikausi.h \
     selaus/selausmodel.h \
     raportti/raporttisivu.h \
-    maaritys/tilinavaus.h \
-    maaritys/tilinavausmodel.h \
     kirjaus/pvmdelegaatti.h \
     db/asetusmodel.h \
     db/tilimodel.h \
@@ -831,7 +834,6 @@ HEADERS += \
     pilvi/pilvimodel.h \
     sqlite/sqlitemodel.h \
     rekisteri/asiakastoimittajavalinta.h \
-    maaritys/avauseradlg.h\
     maaritys/maksutapamuokkausdlg.h \
     arkisto/tuloverodialog.h \
     kierto/kiertowidget.h \
@@ -902,6 +904,8 @@ FORMS += \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.ui \
     $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
+    $$PWD/maaritys/tilinavaus/avauseradlg.ui \
+    $$PWD/maaritys/tilinavaus/tilinavaus.ui \
     $$PWD/maaritys/tilitieto/tilitapahtumahaku.ui \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.ui \
     $$PWD/maaritys/tilitieto/uusiyhteys.ui \
@@ -946,7 +950,6 @@ FORMS += \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
     selaus/selauswg.ui \
-    maaritys/tilinavaus.ui \
     maaritys/tilikarttamuokkaus.ui \
     maaritys/tilinmuokkaus.ui \
     db/tilinvalintadialogi.ui \
@@ -987,7 +990,6 @@ FORMS += \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
     uusikirjanpito/uusiharjoitus.ui \
-    maaritys/avauseradlg.ui\
     maaritys/maksutapamuokkausdlg.ui\
     arkisto/tuloverodialog.ui \
     kierto/kiertomuokkausdlg.ui\
