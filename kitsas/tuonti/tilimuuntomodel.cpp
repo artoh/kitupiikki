@@ -244,11 +244,14 @@ void TiliMuuntoModel::asetaSaldoPaivat(QList<QDate> saldopaivat)
 
 void TiliMuuntoModel::lisaa(int numero, const QString &nimi, QList<Euro> euroSaldo)
 {
-    int tilinumero = kp()->tilit()->tiliNumerolla(numero).onkoValidi()  ? numero : 0;
+    Tili tiliNumerolla = kp()->tilit()->tiliNumerolla(numero);
+    int tilinumero = (tiliNumerolla.onkoValidi() && tiliNumerolla.nimi() == nimi)
+            ? numero : 0;
+    QString vertailunimi = nimi.toLower();
+    vertailunimi.remove(TyhjaPoisRE__);
+
     if( !tilinumero) {
         // Yritetään löytää sama tilinumero tilikartasta nimeä etsimällä
-        QString vertailunimi = nimi.toLower();
-        vertailunimi.remove(TyhjaPoisRE__);
         for(int i=0; i < kp()->tilit()->rowCount(); i++) {
             Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
             QString tilinimi = ptili->nimi().toLower();
@@ -261,21 +264,26 @@ void TiliMuuntoModel::lisaa(int numero, const QString &nimi, QList<Euro> euroSal
                 }
             }
         }
-        if(!tilinumero) {   // Haetaan vielä tilinimen osalla
-            for(int i=0; i < kp()->tilit()->rowCount(); i++) {
-                Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
-                QString tilinimi = ptili->nimi().toLower();
-                tilinimi.remove(QRegularExpression(TyhjaPoisRE__));
-                if( !ptili->otsikkotaso() && ( vertailunimi.contains(tilinimi) || tilinimi.contains(vertailunimi) )) {
-                    QString numerostr = QString::number(numero);
-                    if( (numerostr > "3" && ptili->nimiNumero() > "3") || numerostr.at(0) == ptili->nimiNumero().at(0)  ) {
-                        tilinumero = ptili->numero();
-                        break;
-                    }
+    }
+
+    if(!tilinumero && numero)
+        tilinumero = numero;
+
+    if(!tilinumero) {   // Haetaan vielä tilinimen osalla
+        for(int i=0; i < kp()->tilit()->rowCount(); i++) {
+            Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
+            QString tilinimi = ptili->nimi().toLower();
+            tilinimi.remove(QRegularExpression(TyhjaPoisRE__));
+            if( !ptili->otsikkotaso() && ( vertailunimi.contains(tilinimi) || tilinimi.contains(vertailunimi) )) {
+                QString numerostr = QString::number(numero);
+                if( (numerostr > "3" && ptili->nimiNumero() > "3") || numerostr.at(0) == ptili->nimiNumero().at(0)  ) {
+                    tilinumero = ptili->numero();
+                    break;
                 }
             }
         }
     }
+
     beginInsertRows(QModelIndex(), data_.count(), data_.count());
     data_.append( TilinMuunnos(numero, nimi, tilinumero, euroSaldo) );
     endInsertRows();

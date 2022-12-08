@@ -42,8 +42,9 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
     rk.lisaaSarake("12345678"); // Tilinumero
     rk.lisaaVenyvaSarake();
 
+    csvOtsikko.lisaa("");
     csvOtsikko.lisaa(tulkkaa("Numero", kielikoodi()));
-    csvOtsikko.lisaa("Nimi");
+    csvOtsikko.lisaa(tulkkaa("Nimi", kielikoodi()));
     otsikko.lisaa(" ",3);
 
     const bool tyypit = valinnat().arvo(RaporttiValinnat::NaytaTyypit).toBool();
@@ -145,6 +146,7 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
             QString nrostr = QString::number( tili->numero());
 
             rr.lisaa("");
+            csvr.lisaa("");
 
             rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), QString::number(tili->numero()));
             csvr.lisaa( nrostr );
@@ -177,6 +179,7 @@ void LaatijanTilikartta::saldotSaapuu(QVariant *data)
         }
         if( kirjausohjeet )
         {
+            rr.lisaa( tili->ohje(kielikoodi()));
             csvr.lisaa( tili->ohje(kielikoodi()));
         }
 
