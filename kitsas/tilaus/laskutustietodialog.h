@@ -16,11 +16,16 @@ public:
     LaskutustietoDialog(QWidget* parent = nullptr);
     ~LaskutustietoDialog();
 
+    void accept() override;
+
 protected:
     void haeTiedot();
     void tiedotSaapuu(QVariant* data);
 
     void maksutapaVaihtui();
+
+    void tallenna();
+    void tallennettu();
 
 protected:
     Ui::TilausYhteys* ui;

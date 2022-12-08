@@ -5,12 +5,14 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QMessageBox>
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "rekisteri/postinumerot.h"
 #include "validator/ytunnusvalidator.h"
+#include "aloitussivu/loginservice.h"
 
 LaskutustietoDialog::LaskutustietoDialog(QWidget *parent) :
     QDialog{parent},
@@ -25,6 +27,7 @@ LaskutustietoDialog::LaskutustietoDialog(QWidget *parent) :
     leiska->addWidget(box);
 
     setLayout(leiska);
+    setWindowTitle(tr("Laskutustiedot"));
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator(false, this));
 
@@ -43,6 +46,29 @@ LaskutustietoDialog::~LaskutustietoDialog()
     delete ui;
 }
 
+void LaskutustietoDialog::accept()
+{
+    if( ui->emailButton->isChecked() ) {
+        if( LoginService::emailRE.match(ui->emailEdit->text()).hasMatch()) {
+            tallenna();
+            return;
+        } else {
+            QMessageBox::critical(this, tr("Puutteelliset laskutustiedot"), tr("Sähköpostiosoite on virheellinen"));
+            return;
+        }
+    }
+    if( ui->nimiEdit->text().isEmpty() ||
+        ui->osoiteEdit->toPlainText().isEmpty() ||
+        ui->postinumero->text().isEmpty() ||
+        ui->postitoimipaikka->text().isEmpty() ||
+        ui->ovtEdit->text().isEmpty() ||
+        ui->operaattoriEdit->text().isEmpty()) {
+        QMessageBox::critical(this, tr("Puutteelliset laskutustiedot"), tr("Nimi, osoite tai verkkolaskutiedot ovat puutteellisia."));
+        return;
+    }
+    tallenna();
+}
+
 void LaskutustietoDialog::haeTiedot()
 {
     KpKysely* kysymys = kp()->pilvi()->loginKysely("/subscription");
@@ -53,7 +79,8 @@ void LaskutustietoDialog::haeTiedot()
 void LaskutustietoDialog::tiedotSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
-    QVariantMap payer = map.value("payer").toMap();
+    QVariantMap current = map.value("current").toMap();
+    QVariantMap payer = current.value("payer").toMap();
 
     const QString payerName = payer.value("name").toString();
     const QString email = payer.value("email").toString();
@@ -87,4 +114,33 @@ void LaskutustietoDialog::maksutapaVaihtui()
     ui->operaattoriEdit->setVisible( ui->verkkolaskuButton->isChecked());
     ui->emailLabel->setVisible(ui->emailButton->isChecked() );
     ui->emailEdit->setVisible( ui->emailButton->isChecked() );
+}
+
+void LaskutustietoDialog::tallenna()
+{
+    QVariantMap data;
+
+    data.insert("name", ui->nimiEdit->text());
+    data.insert("email", ui->emailEdit->text());
+    if( !ui->asviite->text().isEmpty()) data.insert("customref", ui->asviite->text());
+    if( !ui->ytunnusEdit->text().isEmpty()) data.insert("vatnumber", AsiakasToimittajaDlg::yToAlv(ui->ytunnusEdit->text()));
+    if( !ui->osoiteEdit->toPlainText().isEmpty()) data.insert("address", ui->osoiteEdit->toPlainText());
+    if( !ui->postinumero->text().isEmpty()) data.insert("postcode", ui->postinumero->text());
+    if( !ui->postitoimipaikka->text().isEmpty()) data.insert("town", ui->postitoimipaikka->text());
+    if( !ui->puhelinEdit->text().isEmpty()) data.insert("phone", ui->puhelinEdit->text());
+    if( ui->verkkolaskuButton->isChecked()) {
+        data.insert("ovt", ui->ovtEdit->text());
+        data.insert("operator", ui->operaattoriEdit->text());
+    }
+
+    KpKysely* kysely = kp()->pilvi()->loginKysely("/subscription/payer", KpKysely::PUT);
+    connect( kysely, &KpKysely::vastaus, this, &LaskutustietoDialog::tallennettu);
+    kysely->kysy(data);
+
+}
+
+void LaskutustietoDialog::tallennettu()
+{
+
+    QDialog::accept();
 }
