@@ -103,7 +103,7 @@
         "en": "Projects"
     },
     "Asiakas/Toimittaja": {
-        "sv": "Kund/Säljare",
+        "sv": "Kund/Leverantör",
         "en": "Customer/Supplier"
     },
     "TOSITELUETTELO": {
@@ -119,7 +119,7 @@
         "en": "Heading"
     },
     "Liitteitä": {
-        "sv": "Append.",
+        "sv": "Bilagor",
         "en": "Attachm."
     },
     "Summa €": {
@@ -166,7 +166,7 @@
         "en": "Bill of costs"
     },
     "Saapunut verkkolasku": {
-        "sv": "Inkomst online faktura",
+        "sv": "Inkomst nätfaktura",
         "en": "Incoming online invoice"
     },
     "Myyntilasku": {
@@ -270,7 +270,7 @@
         "en": "Beginning balance"
     },
     "Erittelemättömät": {
-        "sv": "Ospecificerad",
+        "sv": "Ospecificerade",
         "en": "Unspecified"
     },
     "Tilin %1 loppusaldo": {
@@ -326,7 +326,7 @@
         "en": "Customer"
     },
     "Toimittaja": {
-        "sv": "Säljare",
+        "sv": "Leverantör",
         "en": "Supplier"
     },
     "Viite": {
@@ -623,7 +623,7 @@
         "sv": "Fullständig information om verifikatet"
     },
     "Kirjanpidossa": {
-        "sv": "Redovisas",
+        "sv": "Redovisad",
         "en": "Accounted"
     },
     "Luonnos": {
@@ -711,7 +711,7 @@
     },
     "mmrivi": {
         "fi": "Laskun avoin saldo",
-        "sv": "Saldo för faktura",
+        "sv": "Öppet saldo för faktura",
         "en": "Open balance for invoice"
     },
     "anetto": {
@@ -782,7 +782,7 @@
     },
     "alv0": {
         "fi": "Veroton myynti",
-        "sv": "Skattefria försäljning ",
+        "sv": "Skattefri försäljning ",
         "en": "Tax free sale"
     },
     "alvtunnus": {
