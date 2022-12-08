@@ -16,8 +16,9 @@
 */
 #include "avauseramodel.h"
 
-AvausEraModel::AvausEraModel(QObject *parent)
-    : AvausEraKantaModel(parent)
+AvausEraModel::AvausEraModel(QObject *parent, int poistoaika)
+    : AvausEraKantaModel(parent),
+      poistoAika_{poistoaika}
 {
 
 }
@@ -46,6 +47,13 @@ int AvausEraModel::rowCount(const QModelIndex &parent) const
     return erat_.count();
 }
 
+int AvausEraModel::columnCount(const QModelIndex &parent) const
+{
+    if( parent.isValid() )
+        return 0;
+    return poistoAika_ ? 4 : 3;
+}
+
 
 QVariant AvausEraModel::data(const QModelIndex &index, int role) const
 {
@@ -64,12 +72,12 @@ QVariant AvausEraModel::data(const QModelIndex &index, int role) const
                 return era.kumppaniNimi();            
         else if( role == Qt::DisplayRole) {
             if( index.column() == SALDO)
-                return QString("%L1 €").arg( era.saldo() / 100.0, 10,'f',2);
+                return era.saldo().display();
             else if(index.column() == POISTOAIKA)
                 return tr("%1 vuotta").arg(era.tasapoisto() / 12);
         } else {
             if( index.column() == SALDO)
-                return era.saldo() / 100.0;
+                return era.saldo().toString();
             else if(index.column() == POISTOAIKA)
                 return era.tasapoisto() / 12;
         }
@@ -118,7 +126,13 @@ Qt::ItemFlags AvausEraModel::flags(const QModelIndex &index) const
 void AvausEraModel::lisaaRivi()
 {
     beginInsertRows(QModelIndex(),rowCount()-1, rowCount()-1);
-    erat_.append(AvausEra());
+    erat_.append(AvausEra(Euro::Zero, QDate(), QString(), 0, 0, 0, QString(), poistoAika_));
     endInsertRows();
+}
+
+void AvausEraModel::lataa(QList<AvausEra> erat)
+{
+    AvausEraKantaModel::lataa(erat);
+    lisaaRivi();
 }
 

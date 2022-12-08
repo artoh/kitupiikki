@@ -39,7 +39,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="tuoNappi">
          <property name="text">
           <string>Tuo tiedostosta...</string>
          </property>

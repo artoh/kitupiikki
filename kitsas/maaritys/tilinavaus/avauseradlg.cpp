@@ -29,73 +29,66 @@
 #include "tools/vuosidelegaatti.h"
 
 
-AvausEraDlg::AvausEraDlg(TilinavausModel *avaus, int tilinumero, QWidget *parent) :
+AvausEraDlg::AvausEraDlg(TilinavausModel::Erittely erittely, QList<AvausEra> erat, int tilinumero, QWidget *parent) :
     QDialog{parent},
-    avaus_{avaus}
+    ui{new Ui::AvausEraDlg},
+    erittelyTyyppi_{erittely},
+    tilinumero_{tilinumero}
 {
     ui->setupUi(this);
 
-    tili_ = kp()->tilit()->tiliNumerolla(tilinumero);
-    ui->tiliLabel->setText( tili_.nimiNumero() );
+    Tili tili = kp()->tilit()->tiliNumerolla(tilinumero);
+    ui->tiliLabel->setText( tili.nimiNumero() );
 
-
-
-    if( tili_.eritellaankoTase()) {
-        model_ = new AvausEraModel(this);
-    } else if( avaus->kuukausittain()) {
-        model_ = new AvausKuukausiModel(this);
+    if( erittely == TilinavausModel::TASEERAT ) {
+        model_ = new AvausEraModel(this, tili.luku("tasaerapoisto"));
+    } else if( erittely == TilinavausModel::KUUKAUDET) {
+        TilinavausModel::Erittely erittely = TilinavausModel::EI_ERITTELYA;
+        if( tili.eritellaankoTase() )
+            erittely = TilinavausModel::TASEERAT;
+        else if(tili.onko(TiliLaji::TULOS) || tili.luku("kohdennukset"))
+            erittely = TilinavausModel::KOHDENNUKSET;
+        model_ = new AvausKuukausiModel(this, erittely);
     } else {
         model_ = new AvausKohdennusModel(this);
     }
 
-    const QList<AvausEra> erat = avaus_->erat(tilinumero);
     model_->lataa(erat);
-
     ui->view->setModel(model_);
 
-}
-/*
-AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AvausEraDlg)
-{
-    ui->setupUi(this);
-
-    ui->tiliLabel->setText( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
-
-    ui->eraLabel->setVisible(!kohdennukset);
-    ui->kohdennusOhje->setVisible(kohdennukset);    
-
-    if( kohdennukset ) {
-        model_ = new AvausKohdennusModel(erat, this);
-        ui->view->setModel(model_);
-        ui->view->hideColumn(AvausKohdennusModel::KUMPPANI);        
-    } else {        
-        model_ = new AvausEraModel(erat, this);
-        ui->view->setModel(model_);
+    if( erittely == TilinavausModel::TASEERAT ) {
         ui->view->setItemDelegateForColumn(AvausEraModel::KUMPPANI,
                                           new KumppaniValintaDelegaatti(this));
-        ui->view->setItemDelegateForColumn(AvausEraModel::POISTOAIKA,
-                                           new VuosiDelegaatti(this));
-        ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);       
-    }    
+        ui->view->setItemDelegateForColumn(AvausEraModel::SALDO,
+                                           new EuroDelegaatti(this));
+        if( tili.onko(TiliLaji::TASAERAPOISTO)) {
+            ui->view->setItemDelegateForColumn(AvausEraModel::POISTOAIKA,
+                                               new VuosiDelegaatti(this));
+        }
+        ui->view->horizontalHeader()->setSectionResizeMode( AvausEraModel::NIMI, QHeaderView::Stretch );
+        ui->view->horizontalHeader()->resizeSection(AvausEraModel::KUMPPANI, 300);
 
-    Tili* tiliObj = kp()->tilit()->tili(tili);
-    if( !tiliObj || !tiliObj->onko(TiliLaji::TASAERAPOISTO))
-        ui->view->hideColumn(AvausEraKantaModel::POISTOAIKA);
+    } else if( erittely == TilinavausModel::KUUKAUDET) {
+        ui->view->setItemDelegateForColumn(AvausKuukausiModel::SALDO, new EuroDelegaatti(this));
+        ui->view->horizontalHeader()->setSectionResizeMode( AvausKuukausiModel::KUUKAUSI, QHeaderView::Stretch );
+        connect( ui->view, &QTableView::clicked, this, &AvausEraDlg::erittely);
+        connect( ui->view, &QTableView::activated, this, &AvausEraDlg::erittely);
+    } else {
+        ui->view->setItemDelegateForColumn(AvausKohdennusModel::SALDO, new EuroDelegaatti(this));
+        ui->view->horizontalHeader()->setSectionResizeMode( AvausKohdennusModel::KOHDENNUS, QHeaderView::Stretch );
+    }
+
+    ui->kohdennusOhje->setVisible( erittely == TilinavausModel::KOHDENNUKSET );
+    ui->eraLabel->setVisible( erittely == TilinavausModel::TASEERAT);
 
 
-    ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
-    ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
-
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tilinavaus"); });
     connect( model_, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
     connect( model_, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
 
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/tilinavaus"); });
-
     paivitaSumma();
 }
-*/
+
 AvausEraDlg::~AvausEraDlg()
 {
     delete ui;
@@ -106,13 +99,6 @@ QList<AvausEra> AvausEraDlg::erat() const
     return model_->erat();
 }
 
-void AvausEraDlg::accept()
-{
-    avaus_->asetaErat(tili_.numero(), model_->erat());
-
-    QDialog::accept();
-}
-
 void AvausEraDlg::paivitaSumma()
 {
     ui->summaLabel->setText(tr("Yhteensä %1").arg( model_->summa().display() ) );
@@ -120,11 +106,27 @@ void AvausEraDlg::paivitaSumma()
 
 void AvausEraDlg::lisaaTarvittaessa()
 {
+
     AvausEraModel* avaus = qobject_cast<AvausEraModel*>(model_);
     if( avaus && ui->view->currentIndex().row() == model_->rowCount() - 1 &&
            !model_->data(ui->view->currentIndex()).toString().isEmpty()  ) {
         QModelIndex current = ui->view->currentIndex();
         avaus->lisaaRivi();
         ui->view->setCurrentIndex(current.sibling(current.row(), current.column()+1));
+    }
+}
+
+void AvausEraDlg::erittely(const QModelIndex& index)
+{
+    if( index.isValid() && index.column() == AvausKuukausiModel::ERITTELY )
+    {
+        AvausKuukausiModel* kuukausi = qobject_cast<AvausKuukausiModel*>(model_);
+        if( !kuukausi) return;
+
+        QList<AvausEra> erat =kuukausi->kuukaudenErat(index.row());
+        AvausEraDlg dlg( kuukausi->erittely(), erat, tilinumero_, this);
+        if( dlg.exec() == QDialog::Accepted) {
+            kuukausi->asetaKuukaudenErat(index.row(), dlg.erat());
+        }
     }
 }

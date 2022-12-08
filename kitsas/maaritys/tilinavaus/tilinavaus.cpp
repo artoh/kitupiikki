@@ -17,6 +17,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QScrollBar>
+#include <QFileDialog>
 
 #include <QMessageBox>
 
@@ -44,6 +45,9 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 
     connect( ui->tiliView->avausModel() , &TilinavausModel::tilasto, this, &Tilinavaus::info);
     connect( ui->kkCheck, &QCheckBox::clicked, ui->tiliView->avausModel(), &TilinavausModel::setKuukausittain);
+    connect( ui->tuoNappi, &QPushButton::clicked, this, &Tilinavaus::tuoTiedostosta);
+
+    connect( ui->tiliView->avausModel(), &TilinavausModel::kuukausittainenVaihtui, ui->kkCheck, &QCheckBox::setChecked);
 }
 
 Tilinavaus::~Tilinavaus()
@@ -73,10 +77,16 @@ void Tilinavaus::naytaVainKirjaukset(bool naytetaanko)
 
 void Tilinavaus::erittely(const QModelIndex &index)
 {
-    if( index.data(TilinavausModel::ErittelyRooli).toInt() != TilinavausModel::EI_ERITTELYA && index.column() == TilinavausModel::ERITTELY) {
+    if( index.isValid() && index.column() == TilinavausModel::ERITTELY )
+    {
+        TilinavausModel::Erittely tyyppi = static_cast<TilinavausModel::Erittely>( index.data(TilinavausModel::ErittelyRooli).toInt() );
         int tili = index.data(TilinavausModel::NumeroRooli).toInt();
-        AvausEraDlg dlg(ui->tiliView->avausModel(), tili, this);
-        dlg.exec();
+        QList<AvausEra> erat = ui->tiliView->avausModel()->erat(tili);
+
+        AvausEraDlg dlg(tyyppi, erat, tili, this);
+        if( dlg.exec() == QDialog::Accepted) {
+            ui->tiliView->avausModel()->asetaErat(tili, dlg.erat());
+        }
     }
 }
 
@@ -111,6 +121,14 @@ void Tilinavaus::siirry(const QString &minne)
             }
         }
     }
+}
+
+void Tilinavaus::tuoTiedostosta()
+{
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuo alkusaldot tiedostosta"),
+                                                    QString(), tr("CSV-tiedostot (*.csv);;Kaikki tiedostot(*.*)"));
+    if(!tiedosto.isEmpty())
+        ui->tiliView->tuoAvausTiedosto(tiedosto);
 }
 
 bool Tilinavaus::nollaa()

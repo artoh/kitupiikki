@@ -19,20 +19,23 @@ public:
     void naytaVainKirjaukset(bool naytetaanko);
     void suodata(const QString& suodatusteksti);
     void nollaa();
+    void tuoAvausTiedosto(const QString& polku);
+
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
-    void tuoAvausTiedosto(const QString& polku);
 
+    static QDate kkPaivaksi(const QString teksti);
 protected:
     TilinavausModel* model_;
     QSortFilterProxyModel* proxy_;
     QSortFilterProxyModel* suodatus_;
 
-    static QRegularExpression tiliRE__;
+
+    static QRegularExpression tiliRE__;    
 
 };
 

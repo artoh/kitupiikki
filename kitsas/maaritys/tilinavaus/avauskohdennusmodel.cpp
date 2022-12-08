@@ -25,7 +25,7 @@ AvausKohdennusModel::AvausKohdennusModel(QObject *parent)
 QVariant AvausKohdennusModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-        if(section == NIMI)
+        if(section == KOHDENNUS)
             return tr("Kohdennus");
         else
             return tr("Saldo");
@@ -42,16 +42,24 @@ int AvausKohdennusModel::rowCount(const QModelIndex &parent) const
     return kohdennukset_.count();
 }
 
+int AvausKohdennusModel::columnCount(const QModelIndex &parent) const
+{
+    if( parent.isValid() )
+        return 0;
+
+    return 2;
+}
+
 QVariant AvausKohdennusModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
     if( role == Qt::DisplayRole || role==Qt::EditRole) {
-        if( index.column() == NIMI)
+        if( index.column() == KOHDENNUS)
             return kohdennukset_.at(index.row()).nimi();
         else {
             int kohdid = kohdennukset_.at(index.row()).id();
-            qlonglong saldo = 0;
+            Euro saldo = Euro::Zero;
             for( const auto& era : qAsConst( erat_ )) {
                 if( era.kohdennus() == kohdid) {
                     saldo = era.saldo();
@@ -59,9 +67,9 @@ QVariant AvausKohdennusModel::data(const QModelIndex &index, int role) const
                 }
             }
             if( role == Qt::DisplayRole)
-                return QString("%L1 €").arg( saldo / 100.0, 10,'f',2);
+                return saldo.display();
             else
-                return saldo / 100.0;
+                return saldo.toString();
         }
     }
 
@@ -91,7 +99,7 @@ bool AvausKohdennusModel::setData(const QModelIndex &index, const QVariant &valu
 
 Qt::ItemFlags AvausKohdennusModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid() || index.column() == NIMI)
+    if (!index.isValid() || index.column() == KOHDENNUS)
         return Qt::ItemIsEnabled;
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!

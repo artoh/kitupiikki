@@ -20,19 +20,32 @@
 
 #include <QAbstractTableModel>
 #include "model/euro.h"
+#include "maaritys/tilinavaus/tilinavausmodel.h"
 
 /**
  * @brief The TiliMuuntoModelin sisäinen tietorakenne
  */
-struct TilinMuunnos
+class TilinMuunnos
 {
-    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0, Euro euroSaldo = Euro::Zero);
+public:
+    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0, QList<Euro> euroSaldot = QList<Euro>());
     QString tiliStr() const;
 
-    int alkuperainenTilinumero;
-    QString tilinNimi;
-    int muunnettuTilinumero;    
-    Euro saldo;
+    int alkuperainen() const { return alkuperainenTilinumero_; }
+    QString tiliNimi() const { return tilinNimi_; }
+    int muunnettu() const { return muunnettuTilinumero_; }
+    Euro saldo() const;
+    QList<Euro> saldot() const { return saldo_; }
+
+    void setMuunnettu(int tilinumero);
+    void setSaldo(const Euro& saldo);
+    int saldoja() const;
+
+protected:
+    int alkuperainenTilinumero_;
+    QString tilinNimi_;
+    int muunnettuTilinumero_;
+    QList<Euro> saldo_;
 };
 
 /**
@@ -61,7 +74,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
     int tilinumeroIndeksilla(int indeksi) const;
-    Euro saldoIndeksilla(int indeksi) const;
+    QList<AvausEra> eraIndeksilla(int indeksi);
 
     /**
      * @brief Tilien muunnostaulukko (alkuperäinen, muunnettu)
@@ -69,15 +82,20 @@ public:
      */
     QMap<QString,int> muunnettu();
 
-    void lisaa(int numero, const QString& nimi, Euro euroSaldo = Euro::Zero);
+    void asetaSaldoPaivat(QList<QDate> saldopaivat);
+    QList<QDate> saldopaivat() const { return saldoPaivat_;}
 
-    bool naytaMuuntoDialogi(QWidget* parent = nullptr, bool avaus = false);
+    void lisaa(int numero, const QString& nimi, QList<Euro> euroSaldo = QList<Euro>());
+
+    bool naytaMuuntoDialogi(QWidget* parent = nullptr);
+    bool kaikkiMuunnettu() const;
 
 protected:
     QList<TilinMuunnos> data_;
     QMap<QString,int> muunteluLista_;
+    QList<QDate> saldoPaivat_;
 
-    bool saldollinen_ = false;
+    static QRegularExpression TyhjaPoisRE__;
 
 
 };

@@ -76,6 +76,14 @@ QVariant Euro::toVariant() const
     return QVariant( toString() );
 }
 
+Euro Euro::abs() const
+{
+    if( cents_ < 0)
+        return Euro(0L - cents_);
+    else
+        return Euro(cents_);
+}
+
 Euro Euro::operator+(const Euro &other) const
 {
     qlonglong sum = this->cents() + other.cents();

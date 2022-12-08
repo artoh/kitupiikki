@@ -50,6 +50,8 @@ public slots:
     void info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulos);
     void siirry(const QString& minne);
 
+    void tuoTiedostosta();
+
 public:
     bool nollaa() override;
     bool tallenna() override;

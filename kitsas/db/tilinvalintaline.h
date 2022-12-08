@@ -72,6 +72,7 @@ public:
     TilinvalintaLineDelegaatille(QWidget *parent = nullptr);
     QString tilinimiAlkaa() const { return alku_; }
     void etsiKayttoon(bool onko);
+    void naytaKaikki();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

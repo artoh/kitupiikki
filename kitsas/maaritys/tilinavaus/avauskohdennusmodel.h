@@ -23,12 +23,15 @@ class AvausKohdennusModel : public AvausEraKantaModel
 {
     Q_OBJECT
 public:
+    enum { KOHDENNUS, SALDO};
+
     AvausKohdennusModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 

@@ -30,7 +30,7 @@
 #include "ulkoasumaaritys.h"
 #include "perusvalinnat.h"
 #include "liitemaaritys.h"
-#include "tilinavaus.h"
+#include "tilinavaus/tilinavaus.h"
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
 #include "raportinmuokkaus/raportinmuokkaus.h"
@@ -49,6 +49,8 @@
 #include "toiminimimaaritys.h"
 #include "tilitieto/tilitietomaaritys.h"
 #include "bannermaaritys.h"
+
+#include "db/kirjanpito.h"
 
 #include "ui_veromaaritys.h"
 #include "ui_oletustilimaaritys.h"

@@ -34,12 +34,12 @@ class TiliMuuntoModel;
  */
 class AvausEra {
 public:
-    AvausEra(qlonglong saldo = Euro::Zero, const QDate& pvm = QDate(), const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
+    AvausEra(Euro saldo = Euro::Zero, const QDate& pvm = QDate(), const QString& eranimi=QString(), int kohdennus=0, int vienti=0,
              int kumppaniId=0, QString kumppaniNimi=QString(), int tasapoisto = 0);
 
     QString eranimi() const { return eranimi_; }
     int kohdennus() const { return kohdennus_;}
-    qlonglong saldo() const { return saldo_.cents(); }
+    Euro saldo() const { return saldo_; }
     int vienti() const { return vienti_;}
     int kumppaniId() const { return kumppaniId_;}
     QString kumppaniNimi() const { return  kumppaniNimi_;}
@@ -48,7 +48,7 @@ public:
 
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
-    void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
+    void asetaSaldo(Euro saldo) { saldo_= saldo;}
     void asetaKumppani(const QVariantMap& map);
     void asetaTasapoisto(const int kuukautta) { tasapoisto_ = kuukautta;}
     void asetaPvm(const QDate& pvm) { pvm_ = pvm;}
@@ -94,7 +94,8 @@ public:
     enum Erittely {
         EI_ERITTELYA,
         TASEERAT,
-        KOHDENNUKSET
+        KOHDENNUKSET,
+        KUUKAUDET
     };
 
     TilinavausModel(QObject* parent = nullptr);
@@ -116,6 +117,9 @@ public:
     bool kuukausittain() const { return avausKuukausittain_;}
     void setKuukausittain(bool onko);
 
+signals:
+    void kuukausittainenVaihtui(bool onko);
+
 public slots:
     bool tallenna(int tila = Tosite::KIRJANPIDOSSA);
     void lataa();
@@ -130,11 +134,11 @@ protected:
     void idTietoSaapuu(QVariant* data);
     void luonnosIdSaapuu(QVariant* data);
 
-    static qlonglong erasumma(const QList<AvausEra>& erat);
+    static Euro erasumma(const QList<AvausEra>& erat) ;
 
 
 signals:
-    void tilasto(qlonglong vastaava, qlonglong vastattava, qlonglong tulos);
+    void tilasto(const Euro& vastaava, const Euro& vastattava, const Euro& tulos);
 
 protected:
     QMap<int, QList<AvausEra>> erat_;

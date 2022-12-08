@@ -30,29 +30,29 @@ class AvausEraDlg : public QDialog
 {
     Q_OBJECT
 
-public:
-    enum AvausDlgLaji {TASE_ERAT, KOHDENUKSET, KUUKAUDET};
+public:    
+    AvausEraDlg(TilinavausModel::Erittely erittely, QList<AvausEra> erat, int tilinumero, QWidget* parent = nullptr);
 
-    AvausEraDlg(TilinavausModel *avaus, int tilinumero, QWidget* parent = nullptr);
 /*
     explicit AvausEraDlg(int tili, bool kohdennukset = false,
                          QList<AvausEra> erat = QList<AvausEra>(), QWidget *parent = nullptr);
 */
     ~AvausEraDlg();
 
-    QList<AvausEra> erat() const;
-
-    void accept() override;
+    QList<AvausEra> erat() const;    
 
 protected slots:
     void paivitaSumma();
     void lisaaTarvittaessa();
 
+    void erittely(const QModelIndex &index);
+
 private:
     Ui::AvausEraDlg *ui;
-    AvausEraKantaModel *model_;
-    TilinavausModel *avaus_;
-    Tili tili_;
+
+    TilinavausModel::Erittely erittelyTyyppi_;
+    AvausEraKantaModel* model_ = nullptr;
+    int tilinumero_ = 0;
 };
 
 #endif // AVAUSERADLG_H

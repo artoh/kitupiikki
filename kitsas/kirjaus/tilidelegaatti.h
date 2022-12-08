@@ -37,9 +37,11 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
     void etsiKayttoon(bool onko);
+    void naytaKaikki();
 
 protected:
     bool etsiKaytossa_ = true;
+    bool naytaKaikki_ = false;
 
 
 };

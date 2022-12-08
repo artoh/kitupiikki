@@ -341,3 +341,15 @@ Vähennyskelvottomat menot,Vähennyskelvottomat menot,Icke avragskill utgifter,
 Puoliksi vähennyskelpoiset menot,Puoliksi vähennyskelpoiset menot,Halvt avragskill utgifter,
 Vähennyskelvottomat poistot,Vähennyskelvottomat poistot,Icke avragskill avskrivningar,
 Ennakkoverot,Ennakkoverot,Förskottsskatter,
+KK1,Tammikuu,Januari,January
+KK2,Helmikuu,Februari,February
+KK3,Maaliskuu,Mars,March
+KK4,Huhtikuu,April,April
+KK5,Toukokuu,Maj,May
+KK6,Kesäkuu,Juni,June,
+KK7,Heinäkuu,Juli,July
+KK8,Elokuu,Augusti,August
+KK9,Syyskuu,September,September
+KK10,Lokakuu,Oktober,October
+KK11,Marraskuu,November,November
+KK12,Joulukuu,December,December

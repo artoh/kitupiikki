@@ -38,6 +38,7 @@ public:
     QString local() const;
     QString display(bool naytaNolla = true) const;
     QVariant toVariant() const;
+    Euro abs() const;
 
     Euro operator+(const Euro& other) const;
     Euro operator-(const Euro& other) const;

@@ -23,21 +23,42 @@
 #include "kirjaus/tilidelegaatti.h"
 #include "kirjaus/eurodelegaatti.h"
 
-TilinMuunnos::TilinMuunnos(int numero, QString nimi, int muunnettu, Euro euroSaldo)
-    : alkuperainenTilinumero(numero), tilinNimi(nimi), saldo{euroSaldo}
+TilinMuunnos::TilinMuunnos(int numero, QString nimi, int muunnettu, QList<Euro> euroSaldot)
+    : alkuperainenTilinumero_(numero), tilinNimi_(nimi), muunnettuTilinumero_{muunnettu}, saldo_{euroSaldot}
 {
-    if( muunnettu)
-        muunnettuTilinumero = muunnettu;
-    else
-        muunnettuTilinumero = numero;
+
 }
 
 QString TilinMuunnos::tiliStr() const
 {
-    if( alkuperainenTilinumero )
-        return QString::number(alkuperainenTilinumero);
+    if( alkuperainen() )
+        return QString::number(alkuperainen());
     else
-        return tilinNimi;
+        return tiliNimi();
+}
+
+Euro TilinMuunnos::saldo() const
+{
+    Euro summa = Euro::Zero;
+    for(const Euro& luku : saldo_) {
+        summa += luku;
+    }
+    return summa;
+}
+
+void TilinMuunnos::setMuunnettu(int tilinumero)
+{
+    muunnettuTilinumero_ = tilinumero;
+}
+
+void TilinMuunnos::setSaldo(const Euro &saldo)
+{
+    saldo_ = QList<Euro>() << saldo;
+}
+
+int TilinMuunnos::saldoja() const
+{
+    return saldo_.count();
 }
 
 
@@ -52,7 +73,7 @@ TiliMuuntoModel::TiliMuuntoModel(const QList<QPair<int, QString>> &tilit)
     // Luetaan asetuksista aiemmat muunnot
     const QStringList& aiempiMuuntoLista = kp()->asetukset()->lista("TiliMuunto");
 
-    for(auto rivi : aiempiMuuntoLista)
+    for(const auto& rivi : qAsConst(aiempiMuuntoLista))
     {
         int vali = rivi.indexOf(' ');
         if( vali < 1)
@@ -66,7 +87,10 @@ TiliMuuntoModel::TiliMuuntoModel(const QList<QPair<int, QString>> &tilit)
 
     for( auto pari : tilit)
     {
-       int muunnettu = muunteluLista_.value(pari.second, 0);
+       int muunnettu = muunteluLista_.value(pari.second, pari.first);
+       if( !kp()->tilit()->tiliNumerolla(muunnettu).onkoValidi())
+           muunnettu = 0;
+
        data_.append(TilinMuunnos(pari.first, pari.second, muunnettu));
     }
 }
@@ -78,7 +102,7 @@ int TiliMuuntoModel::rowCount(const QModelIndex & /* parent */) const
 
 int TiliMuuntoModel::columnCount(const QModelIndex& /* parent */) const
 {
-    return saldollinen_ ? 4 : 3;
+    return saldoPaivat_.isEmpty() ? 3 : 4;
 }
 
 QVariant TiliMuuntoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -112,26 +136,36 @@ QVariant TiliMuuntoModel::data(const QModelIndex &index, int role) const
     {
         switch (index.column()) {
         case ALKUPERAINEN:
-           return rivi.alkuperainenTilinumero;
+           return rivi.alkuperainen();
         case NIMI:
-            return rivi.tilinNimi;
+            return rivi.tiliNimi();
         case UUSI: {
             if( role == Qt::EditRole)
-                return rivi.muunnettuTilinumero;
+                return rivi.muunnettu();
 
-            Tili tili= kp()->tilit()->tiliNumerolla( rivi.muunnettuTilinumero );
+            Tili tili= kp()->tilit()->tiliNumerolla( rivi.muunnettu() );
             if( tili.onkoValidi())
-                return QString("%1 %2").arg(tili.numero()).arg(tili.nimi());
+                return tili.nimiNumero();
             return QString();
         }
         case SALDO:
             if( role == Qt::DisplayRole)
-                return rivi.saldo.display();
+                return rivi.saldo().display();
             else
-                return rivi.saldo.toDouble();
+                return rivi.saldo().toString();
         }
 
     }
+    if( role == Qt::ForegroundRole && index.column() == UUSI) {
+        Tili tili= kp()->tilit()->tiliNumerolla( rivi.muunnettu() );
+        if( tili.onkoValidi()) {
+            if(tili.nimi() == rivi.tiliNimi())
+                return QColor(Qt::darkGreen);
+            else if(rivi.alkuperainen() != rivi.muunnettu())
+                return QColor(Qt::darkMagenta);
+        }
+    }
+
     return QVariant();
 }
 
@@ -140,16 +174,25 @@ bool TiliMuuntoModel::setData(const QModelIndex &index, const QVariant &value, i
     if( index.column() == UUSI && role == Qt::EditRole)
     {
         if( value.toInt()) {
-            data_[index.row()].muunnettuTilinumero = value.toInt();
+            data_[index.row()].setMuunnettu(value.toInt());
+            emit dataChanged(index, index, QVector<int>() << role);
             return true;
         }
+    } else if( index.column() == SALDO && role == Qt::EditRole) {
+        data_[index.row()].setSaldo(value.toString());
+        emit dataChanged(index, index, QVector<int>() << role);
+        return true;
     }
     return false;
 }
 
 Qt::ItemFlags TiliMuuntoModel::flags(const QModelIndex &index) const
 {
-    if( index.column() == UUSI || index.column() == SALDO )
+    if( !index.isValid() || index.column() == ALKUPERAINEN || index.column() == NIMI)
+        return QAbstractTableModel::flags(index);
+
+    TilinMuunnos rivi = data_.value(index.row());
+    if(index.column() == UUSI || ( index.column() == SALDO && rivi.saldoja() < 2 ))
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
@@ -157,21 +200,26 @@ Qt::ItemFlags TiliMuuntoModel::flags(const QModelIndex &index) const
 
 int TiliMuuntoModel::tilinumeroIndeksilla(int indeksi) const
 {
-    return data_.at(indeksi).muunnettuTilinumero;
+    return data_.at(indeksi).muunnettu();
 }
 
-Euro TiliMuuntoModel::saldoIndeksilla(int indeksi) const
+QList<AvausEra> TiliMuuntoModel::eraIndeksilla(int indeksi)
 {
-    return data_.at(indeksi).saldo;
+    QList<Euro> eurot = data_.at(indeksi).saldot();
+    QList<AvausEra> erat;
+    for(int i=0; i < eurot.count() && i < saldoPaivat_.count(); i++) {
+        erat << AvausEra(eurot.at(i), saldoPaivat_.at(i));
+    }
+    return erat;
 }
 
 QMap<QString, int> TiliMuuntoModel::muunnettu()
 {
     QMap<QString,int> tulos;
-    for( auto rivi : data_)
+    for( const auto& rivi :  qAsConst( data_ ))
     {        
-        tulos.insert( rivi.tiliStr(), rivi.muunnettuTilinumero);
-        muunteluLista_.insert( rivi.tiliStr(), rivi.muunnettuTilinumero );
+        tulos.insert( rivi.tiliStr(), rivi.muunnettu());
+        muunteluLista_.insert( rivi.tiliStr(), rivi.muunnettu() );
     }
 
     // Lopuksi päivitetään muuntotaulukko
@@ -189,17 +237,41 @@ QMap<QString, int> TiliMuuntoModel::muunnettu()
     return tulos;
 }
 
-void TiliMuuntoModel::lisaa(int numero, const QString &nimi, Euro euroSaldo)
+void TiliMuuntoModel::asetaSaldoPaivat(QList<QDate> saldopaivat)
 {
-    int tilinumero = kp()->tilit()->tiliNumerolla(numero).onkoValidi() ? numero : 0;
+    saldoPaivat_ = saldopaivat;
+}
+
+void TiliMuuntoModel::lisaa(int numero, const QString &nimi, QList<Euro> euroSaldo)
+{
+    int tilinumero = kp()->tilit()->tiliNumerolla(numero).onkoValidi()  ? numero : 0;
     if( !tilinumero) {
         // Yritetään löytää sama tilinumero tilikartasta nimeä etsimällä
+        QString vertailunimi = nimi.toLower();
+        vertailunimi.remove(TyhjaPoisRE__);
         for(int i=0; i < kp()->tilit()->rowCount(); i++) {
             Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
-            if( !ptili->otsikkotaso() && !ptili->nimi().compare(nimi, Qt::CaseInsensitive)) {
+            QString tilinimi = ptili->nimi().toLower();
+            tilinimi.remove(QRegularExpression(TyhjaPoisRE__));
+            if( !ptili->otsikkotaso() && vertailunimi == tilinimi) {
                 QString numerostr = QString::number(numero);
                 if( numerostr > "3" || numerostr.at(0) == ptili->nimiNumero().at(0)  ) {
                     tilinumero = ptili->numero();
+                    break;
+                }
+            }
+        }
+        if(!tilinumero) {   // Haetaan vielä tilinimen osalla
+            for(int i=0; i < kp()->tilit()->rowCount(); i++) {
+                Tili* ptili = kp()->tilit()->tiliPIndeksilla(i);
+                QString tilinimi = ptili->nimi().toLower();
+                tilinimi.remove(QRegularExpression(TyhjaPoisRE__));
+                if( !ptili->otsikkotaso() && ( vertailunimi.contains(tilinimi) || tilinimi.contains(vertailunimi) )) {
+                    QString numerostr = QString::number(numero);
+                    if( (numerostr > "3" && ptili->nimiNumero() > "3") || numerostr.at(0) == ptili->nimiNumero().at(0)  ) {
+                        tilinumero = ptili->numero();
+                        break;
+                    }
                 }
             }
         }
@@ -209,9 +281,8 @@ void TiliMuuntoModel::lisaa(int numero, const QString &nimi, Euro euroSaldo)
     endInsertRows();
 }
 
-bool TiliMuuntoModel::naytaMuuntoDialogi(QWidget *parent, bool avaus)
-{
-    saldollinen_ = avaus;
+bool TiliMuuntoModel::naytaMuuntoDialogi(QWidget *parent)
+{    
 
     QDialog muuntoDlg(parent);
     Ui::TiliMuunto mui;
@@ -220,12 +291,19 @@ bool TiliMuuntoModel::naytaMuuntoDialogi(QWidget *parent, bool avaus)
 
     TiliDelegaatti* delegaatti = new TiliDelegaatti(this);
     delegaatti->etsiKayttoon(false);
+    delegaatti->naytaKaikki();
     mui.muuntoView->setItemDelegateForColumn( UUSI , delegaatti);
     mui.muuntoView->setItemDelegateForColumn( SALDO, new EuroDelegaatti(this));
+    mui.muuntoView->horizontalHeader()->setSectionResizeMode(NIMI, QHeaderView::Stretch);
     mui.muuntoView->horizontalHeader()->setSectionResizeMode(UUSI, QHeaderView::Stretch);
 
-    if(avaus)
+    if(!saldoPaivat_.isEmpty()) {
         connect( mui.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("asetukset/tilinavaus/");});
+        connect( this, &TiliMuuntoModel::dataChanged, [this, mui] () {
+            mui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled( this->kaikkiMuunnettu() );
+        });
+        mui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled( kaikkiMuunnettu() );
+    }
     else
         connect( mui.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti/");});
 
@@ -233,4 +311,15 @@ bool TiliMuuntoModel::naytaMuuntoDialogi(QWidget *parent, bool avaus)
 
 
 }
+
+bool TiliMuuntoModel::kaikkiMuunnettu() const
+{
+    for(const auto& item: qAsConst(data_)) {
+        if( !item.muunnettu())
+            return false;
+    }
+    return true;
+}
+
+QRegularExpression TiliMuuntoModel::TyhjaPoisRE__ = QRegularExpression("\\W+");
 

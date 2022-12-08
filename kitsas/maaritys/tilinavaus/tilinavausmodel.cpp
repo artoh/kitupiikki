@@ -75,7 +75,15 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
+    if( index.row() > kp()->tilit()->rowCount())
+        return QVariant();
+
     Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
+
+    if( tili.numero() > 99999) {
+        return QVariant();
+    }
+
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column())
@@ -100,7 +108,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     return QVariant();
                 if( tili.onko(TiliLaji::KAUDENTULOS))
                 {
-                    qlonglong tulos = 0;
+                    Euro tulos;
                     QMapIterator<int,QList<AvausEra>> iter(erat_);
                     while( iter.hasNext() )
                     {
@@ -109,22 +117,18 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                         if( tili.onko(TiliLaji::TULOS) )
                             tulos += erasumma(iter.value());
                     }
-                    return QVariant( QString("%L1 €").arg( ( tulos / 100.0 ), 10,'f',2));
+                    return tulos.display(false);
                 }
 
                 QList<AvausEra> avaus = erat_.value(tili.numero());
-                qlonglong saldo = 0;
+                Euro saldo = Euro::Zero;
                 for( auto &rivi : avaus)
                     saldo += rivi.saldo();
 
                 if( role == Qt::EditRole)
-                    return QVariant(saldo / 100.0);
+                    return QVariant(saldo.toString());
 
-                double saldod = saldo / 100.0;
-                if( saldo )
-                    return QVariant( QString("%L1 €").arg( saldod, 10,'f',2));
-                else
-                    return QVariant();
+                return saldo.display(false);
             }
             case ERITTELY:
             {
@@ -159,25 +163,31 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             return QColor(Qt::black);
     }
     else if( role == Qt::DecorationRole && index.column() == ERITTELY) {
-        if( tili.onko(TiliLaji::OTSIKKO) ||  tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))
+        if( tili.onko(TiliLaji::OTSIKKO) ||  tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))            
             return QVariant();
-        else if( tili.eritellaankoTase())
-            return QIcon(":/pic/format-list-unordered.png");
         else if( kuukausittain() )
             return QIcon(":/pic/calendar.png");
+        else if( tili.eritellaankoTase())
+            return QIcon(":/pic/format-list-unordered.png");
         else if( kp()->kohdennukset()->kohdennuksia() && (
             tili.onko(TiliLaji::TULOS) || tili.luku("kohdennukset")  ))
                 return QIcon(":/pic/kohdennus.png");
     } else if( role == ErittelyRooli ) {
-        if( tili.eritellaankoTase())
+        if( tili.onko(TiliLaji::OTSIKKO) || tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))
+            return EI_ERITTELYA;
+        else if( kuukausittain() )
+            return KUUKAUDET;
+        else if( tili.eritellaankoTase())
             return TASEERAT;
-        if( kp()->kohdennukset()->kohdennuksia() && (
+        else if( kp()->kohdennukset()->kohdennuksia() && (
             tili.onko(TiliLaji::TULOS) || tili.luku("kohdennukset")  ))
                 return KOHDENNUKSET;
         return EI_ERITTELYA;
     }
     else if( role == KaytossaRooli)
     {
+        if( tili.otsikkotaso())
+            return "0";
         if( erat_.contains(tili.numero()) )
             return "012";
         else if( tili.tila())
@@ -256,10 +266,13 @@ QList<AvausEra> TilinavausModel::erat(int tili) const
 
 void TilinavausModel::setKuukausittain(bool onko)
 {
-    beginResetModel();
-    avausKuukausittain_ = onko;
-    endResetModel();
-    kp()->asetukset()->aseta(AsetusModel::AvausKuukausittain, onko);
+    if(onko != avausKuukausittain_) {
+        beginResetModel();
+        avausKuukausittain_ = onko;
+        endResetModel();
+        kp()->asetukset()->aseta(AsetusModel::AvausKuukausittain, onko);
+        emit kuukausittainenVaihtui(onko);
+    }
 }
 
 
@@ -284,7 +297,7 @@ bool TilinavausModel::tallenna(int tila)
         for(auto &era : iter.value()) {
 
             TositeVienti vienti;
-            vienti.setPvm( tosite_->pvm() );
+            vienti.setPvm( era.pvm().isValid() ? era.pvm() : tosite_->pvm() );
             vienti.setTili(tili);
             vienti.setSelite( tr("Tilinavaus") );
 
@@ -293,7 +306,7 @@ bool TilinavausModel::tallenna(int tila)
 
             Tili tilio = kp()->tilit()->tiliNumerolla(tili);
 
-            if( qAbs(era.saldo())) {
+            if( era.saldo() ) {
                 if( !tilio.eritellaankoTase()) {
                     // Jos tilillä ei tasetta eritellä, niin ei tule erää
                     vienti.setEra(0);
@@ -321,10 +334,10 @@ bool TilinavausModel::tallenna(int tila)
                 vienti.setKumppani( era.kumppaniNimi());
 
             if( tilio.onko( (TiliLaji::VASTAAVAA))
-                ^ ( era.saldo() < 0 ) )
-                vienti.setDebet( qAbs(era.saldo()) );
+                ^ ( era.saldo() < Euro::Zero ) )
+                vienti.setDebet( era.saldo().abs() );
             else
-                vienti.setKredit( qAbs(era.saldo()));
+                vienti.setKredit( era.saldo().abs());
 
             tosite_->viennit()->lisaa(vienti);
         }
@@ -351,9 +364,9 @@ void TilinavausModel::lataa()
 
 void TilinavausModel::paivitaInfo()
 {
-    qlonglong tasevastaavaa = 0;
-    qlonglong tasevastattavaa = 0;
-    qlonglong tulos = 0;
+    Euro tasevastaavaa;
+    Euro tasevastattavaa = 0;
+    Euro tulos = 0;
 
     QMapIterator<int,QList<AvausEra>> iter(erat_);
     while( iter.hasNext() )
@@ -415,19 +428,25 @@ void TilinavausModel::ladattu()
 
 void TilinavausModel::tuo(TiliMuuntoModel *model)
 {
+    if( model->saldopaivat().count() > 1)
+        setKuukausittain(true);
+
     for(int i=0; i < model->rowCount(); i++) {
         const int tiliNro = model->tilinumeroIndeksilla(i);
         Tili* tili = kp()->tilit()->tili(tiliNro);
         if(tili && !tili->onko(TiliLaji::KAUDENTULOS)) {
-            QList<AvausEra> avaus = erat_.value(tiliNro);
-            Euro vanhaSaldo;
-            for( auto &rivi : avaus)
-                vanhaSaldo += rivi.saldo();
 
-            const Euro saldo = model->saldoIndeksilla(i) + vanhaSaldo;
-            QList<AvausEra> list;
-            list.append(AvausEra(saldo));
-            erat_.insert( tiliNro,  list);
+            QList<AvausEra> uudet = model->eraIndeksilla(i);
+            QList<AvausEra> vanhat = erat_.value(tiliNro);
+
+            if( uudet.length() == vanhat.length()) {
+                for(int i=0; i < uudet.length(); i++) {
+                    vanhat[i].asetaSaldo( vanhat.at(i).saldo() + uudet.at(i).saldo() );
+                }
+                erat_.insert(tiliNro, vanhat);
+            } else {
+                erat_.insert(tiliNro, uudet);
+            }
         }
     }
     emit dataChanged( createIndex(0, SALDO), createIndex(rowCount(), ERITTELY) );
@@ -461,16 +480,16 @@ void TilinavausModel::luonnosIdSaapuu(QVariant *data)
     }
 }
 
-qlonglong TilinavausModel::erasumma(const QList<AvausEra> &erat)
+Euro TilinavausModel::erasumma(const QList<AvausEra> &erat)
 {
-    qlonglong summa = 0l;
+    Euro summa = Euro::Zero;
     for( auto &era : erat)
         summa += era.saldo();
     return summa;
 }
 
 
-AvausEra::AvausEra(qlonglong saldo, const QDate &pvm, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi, int tasapoisto) :
+AvausEra::AvausEra(Euro saldo, const QDate &pvm, const QString &eranimi, int kohdennus, int vienti, int kumppaniId, QString kumppaniNimi, int tasapoisto) :
     eranimi_(eranimi), kohdennus_(kohdennus), saldo_(saldo), vienti_(vienti), kumppaniId_(kumppaniId), kumppaniNimi_(kumppaniNimi), tasapoisto_(tasapoisto),
     pvm_{pvm}
 {

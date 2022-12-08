@@ -166,6 +166,11 @@ void TilinvalintaLineDelegaatille::etsiKayttoon(bool onko)
     etsiKaytossa_ = onko;
 }
 
+void TilinvalintaLineDelegaatille::naytaKaikki()
+{
+    proxyTila_->setFilterFixedString(QString());
+}
+
 void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 {
     if( ((!event->text().isEmpty() && event->text().at(0).isLetter())

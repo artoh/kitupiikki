@@ -34,6 +34,7 @@ QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 {
     TilinvalintaLineDelegaatille *editor = new TilinvalintaLineDelegaatille(parent);
     editor->etsiKayttoon(etsiKaytossa_);
+    if(naytaKaikki_) editor->naytaKaikki();
     return editor;
 }
 
@@ -76,6 +77,11 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 void TiliDelegaatti::etsiKayttoon(bool onko)
 {
     etsiKaytossa_ = onko;
+}
+
+void TiliDelegaatti::naytaKaikki()
+{
+    naytaKaikki_ = true;
 }
 
 

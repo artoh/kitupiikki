@@ -22,19 +22,6 @@ AvausEraKantaModel::AvausEraKantaModel(QObject *parent) :
 
 }
 
-AvausEraKantaModel::AvausEraKantaModel(QList<AvausEra> erat, QObject *parent) :
-    QAbstractTableModel(parent), erat_(erat)
-{
-}
-
-int AvausEraKantaModel::columnCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return 0;
-
-    return 5;
-}
-
 QList<AvausEra> AvausEraKantaModel::erat() const
 {
     QList<AvausEra> erat;

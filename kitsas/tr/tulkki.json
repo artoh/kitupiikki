@@ -1354,5 +1354,65 @@
     },
     "Ennakkoverot": {
         "sv": "Förskottsskatter"
+    },
+    "KK1": {
+        "fi": "Tammikuu",
+        "sv": "Januari",
+        "en": "January"
+    },
+    "KK2": {
+        "fi": "Helmikuu",
+        "sv": "Februari",
+        "en": "February"
+    },
+    "KK3": {
+        "fi": "Maaliskuu",
+        "sv": "Mars",
+        "en": "March"
+    },
+    "KK4": {
+        "fi": "Huhtikuu",
+        "sv": "April",
+        "en": "April"
+    },
+    "KK5": {
+        "fi": "Toukokuu",
+        "sv": "Maj",
+        "en": "May"
+    },
+    "KK6": {
+        "fi": "Kesäkuu",
+        "sv": "Juni",
+        "en": "June"
+    },
+    "KK7": {
+        "fi": "Heinäkuu",
+        "sv": "Juli",
+        "en": "July"
+    },
+    "KK8": {
+        "fi": "Elokuu",
+        "sv": "Augusti",
+        "en": "August"
+    },
+    "KK9": {
+        "fi": "Syyskuu",
+        "sv": "September",
+        "en": "September"
+    },
+    "KK10": {
+        "fi": "Lokakuu",
+        "sv": "Oktober",
+        "en": "October"
+    },
+    "KK11": {
+        "fi": "Marraskuu",
+        "sv": "November",
+        "en": "November"
+    },
+    "KK12": {
+        "fi": "Joulukuu",
+        "sv": "December",
+        "en": "December"
     }
 }

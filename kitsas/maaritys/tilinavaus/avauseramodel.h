@@ -24,12 +24,15 @@ class AvausEraModel : public AvausEraKantaModel
     Q_OBJECT
 
 public:
-    AvausEraModel(QObject *parent = nullptr);
+    enum { KUMPPANI, NIMI, SALDO, POISTOAIKA };
+
+    AvausEraModel(QObject *parent = nullptr, int poistoaika = 0);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
@@ -40,6 +43,11 @@ public:
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
     void lisaaRivi();
+
+    void lataa(QList<AvausEra> erat = QList<AvausEra>()) override;
+
+protected:
+    int poistoAika_ = 0;
 
 };
 

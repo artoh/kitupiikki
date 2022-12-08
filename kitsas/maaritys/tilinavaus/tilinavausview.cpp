@@ -107,6 +107,20 @@ void TilinAvausView::dropEvent(QDropEvent *event)
 
 }
 
+QDate TilinAvausView::kkPaivaksi(const QString teksti)
+{
+    QStringList patkina = teksti.split("/");
+    if( patkina.length() == 2) {
+        int kk = patkina.at(0).toInt();
+        int vvvv = patkina.at(1).toInt();
+        if( kk > 0 && kk < 13 && vvvv > 2010 && vvvv < 2200) {
+            QDate eka(vvvv, kk, 1);
+            return QDate(vvvv, kk, eka.daysInMonth());
+        }
+    }
+    return QDate();
+}
+
 void TilinAvausView::tuoAvausTiedosto(const QString &polku)
 {
     QFile file(polku);
@@ -116,28 +130,62 @@ void TilinAvausView::tuoAvausTiedosto(const QString &polku)
     QByteArray data = file.readAll();
     QList<QStringList> csv = Tuonti::CsvTuonti::csvListana(data);
 
-    TiliMuuntoModel muunto(this);
+    TiliMuuntoModel muunto(this);    
+
+    const QDate avausPvm = kp()->asetukset()->pvm(AsetusModel::TilinAvausPvm);
+    const Tilikausi kausi = kp()->tilikausiPaivalle(avausPvm);
+
+    QList<QDate> paivat;
+    paivat << kausi.paattyy();
 
     for(const QStringList& rivi : qAsConst(csv)) {
         if( rivi.length() < 2) continue;
 
-        const QString tilistr = rivi.value(0);
-        Euro saldo = Euro::fromString(rivi.value(1));
+        if( rivi.length() > 2 && kkPaivaksi(rivi.at(1)).isValid()) {
+            QList<QDate>  haettuPaivaLista;
+            for(int i=1; i < rivi.length(); i++) {
+                QDate paiva = kkPaivaksi(rivi.at(i));
+                if( !paiva.isValid())
+                    break;
+                if( paiva < kausi.alkaa() || paiva > kausi.paattyy()) {
+                    haettuPaivaLista.clear();
+                    break;
+                }
+                haettuPaivaLista << paiva;
+            }
+            if( haettuPaivaLista.length() > paivat.length()) {
+                paivat = haettuPaivaLista;
+            }
+            continue;
+        }
 
-        if( !saldo ) continue;
+        bool saldoja = false;
+        QList<Euro> saldot;
+
+        for(int i=1; i < rivi.length() && i <= paivat.length(); i++) {
+            Euro saldo = Euro::fromString(rivi.at(i));
+            if( saldo ) saldoja = true;
+            saldot << saldo;
+        }
+
+        const QString tilistr = rivi.value(0);        
+
+        if( !saldoja ) continue;
         QRegularExpressionMatch mats = tiliRE__.match(tilistr);
         if( mats.hasMatch()) {
             const int tili = mats.captured(1).toInt();
             const QString nimi = mats.captured(2);
 
-            muunto.lisaa(tili, nimi, saldo);
+            muunto.lisaa(tili, nimi, saldot);
         }
     }
+
     if( muunto.rowCount() < 3) {
         return;
     }
 
-    if( muunto.naytaMuuntoDialogi(this, true)) {
+    muunto.asetaSaldoPaivat(paivat);
+    if( muunto.naytaMuuntoDialogi(this) == QDialog::Accepted) {
         model_->tuo(&muunto);
     }
 
