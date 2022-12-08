@@ -46,6 +46,7 @@ public:
 
     enum Sivut
     {
+        MINA,
         ULKOASU,
         PERUSVALINNAT,
         YHTEYSTIEDOT,

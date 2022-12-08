@@ -16,6 +16,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     id_ = map.value("id").toInt();
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
+    phone_ = map.value("phone").toString();
     cloudCount_ = map.value("cloudcount").toInt();
     admin_ = map.value("admin").toBool();
 

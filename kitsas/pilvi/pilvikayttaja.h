@@ -29,6 +29,7 @@ public:
     int id() const { return id_; }
     QString nimi() const { return nimi_;}
     QString email() const { return email_; }
+    QString phone() const { return phone_;}
 
     int planId() const { return plan_id_; }
     QString planName() const { return plan_name_; }
@@ -52,6 +53,7 @@ private:
     int id_ = 0;
     QString nimi_;
     QString email_;
+    QString phone_;
 
     int plan_id_ = 0;
     QString plan_name_;

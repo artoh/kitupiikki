@@ -128,6 +128,7 @@ SOURCES += \
     $$PWD/maaritys/liitemaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
+    $$PWD/maaritys/minamaaritys.cpp \
     $$PWD/maaritys/palkkatilimaaritys.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.cpp \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.cpp \
@@ -234,6 +235,7 @@ SOURCES += \
     $$PWD/smtpclient/mimeqpformatter.cpp \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
+    $$PWD/tilaus/laskutustietodialog.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
     $$PWD/toimisto/groupbooksmodel.cpp \
@@ -553,6 +555,7 @@ HEADERS += \
     $$PWD/maaritys/liitemaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
+    $$PWD/maaritys/minamaaritys.h \
     $$PWD/maaritys/palkkatilimaaritys.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkaus.h \
     $$PWD/maaritys/raportinmuokkaus/raportinmuokkausdialogi.h \
@@ -685,6 +688,7 @@ HEADERS += \
     $$PWD/sqlite/routes/viennitroute.h \
     $$PWD/sqlite/sqlitealustaja.h \
     $$PWD/sqlite/sqliteroute.h \
+    $$PWD/tilaus/laskutustietodialog.h \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \

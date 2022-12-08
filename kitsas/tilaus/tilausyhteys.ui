@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="infoLabel">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lasku toimitetaan kahden viikon kuluessa tilauksesi alkamisesta.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Jos laskun maksaa yritys tai yhdistys, merkitse tämän tiedot laskun saajaksi.&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>

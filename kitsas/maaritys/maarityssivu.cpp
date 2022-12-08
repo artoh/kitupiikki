@@ -49,6 +49,7 @@
 #include "toiminimimaaritys.h"
 #include "tilitieto/tilitietomaaritys.h"
 #include "bannermaaritys.h"
+#include "minamaaritys.h"
 
 #include "db/kirjanpito.h"
 
@@ -64,6 +65,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
+    lisaaSivu(tr("Minä"), MINA, "mina", QIcon(":/pic/mies.png"));
     lisaaSivu(tr("Käyttöliittymä"), ULKOASU, "kayttoliittyma", QIcon(":/pic/teksti.png"));
     lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, "perusvalinnat", QIcon(":/pic/asetusloota.png"),"perus");
     lisaaSivu(tr("Yhteystiedot ja toiminimet"), YHTEYSTIEDOT, "yhteystiedot", QIcon(":/pic/yhteystiedot.png"),"yhteys");
@@ -214,7 +216,9 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
     int sivu = item->data(Qt::UserRole).toInt();
 
-    if( sivu == ULKOASU)
+    if(sivu == MINA)
+        nykyinen = new MinaMaaritys;
+    else if( sivu == ULKOASU)
         nykyinen = new UlkoasuMaaritys;
     else if( sivu == PERUSVALINNAT)
         nykyinen = new Perusvalinnat;
@@ -296,12 +300,13 @@ void MaaritysSivu::valitseSivu(const QString& otsikko)
 
 void MaaritysSivu::paivitaNakyvat()
 {
-    for(int i=1; i < lista->count(); i++)
+    for(int i = PERUSVALINNAT; i < lista->count(); i++)
         lista->item(i)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
+
+    item( MINA )->setHidden( !kp()->pilvi()->kayttaja() );
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
-
     item( TILINAVAUS )->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") ||
                                    !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) || !kp()->tilikaudet()->tilikausiPaivalle(kp()->asetukset()->pvm("TilinavausPvm")).alkaa().isValid());
     item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() || !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
