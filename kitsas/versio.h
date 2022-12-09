@@ -25,7 +25,7 @@
 */
 
 #define KITSAS_VERSIO "3.3-RC"
-#define KITSAS_BUILD  "RC"
+#define KITSAS_BUILD  "B"
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL

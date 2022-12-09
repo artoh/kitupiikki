@@ -419,6 +419,9 @@ void Arkistoija::viimeistele()
     QFile tiedosto( hakemisto.absoluteFilePath("index.html"));
     tiedosto.open( QIODevice::WriteOnly);
     QTextStream out( &tiedosto );
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    out.setCodec("UTF-8");
+#endif
 
     out << "<html><meta charset=\"UTF-8\"><head><title>";
     out << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " arkisto";
