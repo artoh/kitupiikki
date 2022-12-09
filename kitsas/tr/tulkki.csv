@@ -25,11 +25,11 @@ Budjettiero €,Budjettiero €,Budgetskillnad €,Difference €
 Toteutunut %,Toteutunut %,Förverkligad %,Realized %
 Kustannuspaikat,Kustannuspaikat,Konstnadsställen,Cost pools
 Projektit,Projektit,Projekt,Projects
-Asiakas/Toimittaja,Asiakas/Toimittaja,Kund/Säljare,Customer/Supplier
+Asiakas/Toimittaja,Asiakas/Toimittaja,Kund/Leverantör,Customer/Supplier
 TOSITELUETTELO,TOSITELUETTELO,VERIFIKATLISTA,VOUCHER LIST
 Tositeluettelo,Tositeluettelo,Verifikatlista,Voucher list
 Otsikko,Otsikko,Rubrik,Heading
-Liitteitä,Liitteitä,Append.,Attachm.
+Liitteitä,Liitteitä,Bilagor,Attachm.
 Summa €,Summa €,Totalt €,Total €
 Tilin numero,Tilin numero,Kontonummer,Account number
 Tilin nimi,Tilin nimi,Kontonamn,Account name
@@ -41,7 +41,7 @@ Kirjausohjeet,Kirjausohjeet,Instructoner,Instructions
 Meno,Meno,Utgift,Outcome
 Tulo,Tulo,Intäkt,Income
 Kululasku,Kululasku,Kostnadsräkning,Bill of costs
-Saapunut verkkolasku,Saapunut verkkolasku,Inkomst online faktura,Incoming online invoice
+Saapunut verkkolasku,Saapunut verkkolasku,Inkomst nätfaktura,Incoming online invoice
 Myyntilasku,Myyntilasku,Fölsäljningsfaktura,Sales invoice
 Hyvityslasku,Hyvityslasku,Kreditnota,Credit note
 Maksumuistutus,Maksumuistutus,Betalningspåminnelse,Payment reminder
@@ -67,7 +67,7 @@ Lisäykset/vähennykset %1 saakka,Lisäykset/vähennykset %1 saakka,Ökningar/av
 Jäljellä %1,Jäljellä %1,Återstående %1,Remaining %1
 Loppusaldo %1,Loppusaldo %1,Utgående saldo %1,Ending balance %1
 Alkusaldo %1,Alkusaldo %1,Ingående saldo %1,Beginning balance
-Erittelemättömät,Erittelemättömät,Ospecificerad,Unspecified
+Erittelemättömät,Erittelemättömät,Ospecificerade,Unspecified
 Tilin %1 loppusaldo,Tilin %1 loppusaldo,Utgående saldo på kontot %1,End balance of account %1
 AVOIMET MYYNTILASKUT,AVOIMET MYYNTILASKUT,ÖPPNA KUNDFAKTUROR,OPEN SALES INVOICES
 Avoimet myyntilaskut,Avoimet myyntilaskut,Öppna kundfakturor,Open sales invoices
@@ -81,7 +81,7 @@ Eräpvm,Eräpvm,Förfallogdag,Due date
 Maksamatta,Maksamatta,Obetald,Unpaid
 Päivämäärä,Päivämäärä,Datum,Date
 Asiakas,Asiakas,Kund,Customer
-Toimittaja,Toimittaja,Säljare,Supplier
+Toimittaja,Toimittaja,Leverantör,Supplier
 Viite,Viite,Referens,Reference
 Tuote,Tuote,Produkt,Product
 myynti kpl,myynti kpl,försäljning st,sales pcs
@@ -176,7 +176,7 @@ Edellinen,Edellinen,Föregående,
 Seuraava,Seuraava,Följande,
 Laskun numero,Laskun numero,Faktura nummer,
 Tositteen täydet tiedot,Tositteen täydet tiedot,Fullständig information om verifikatet,
-Kirjanpidossa,Kirjanpidossa,Redovisas,Accounted
+Kirjanpidossa,Kirjanpidossa,Redovisad,Accounted
 Luonnos,Luonnos,Utkast,Draft
 Alv,Alv,Moms,Vat
 Hylätty,Hylätty,Avslagen,Rejected
@@ -196,7 +196,7 @@ asviite,Asiakkaan viite,Kundens referens,Your reference
 maksumuistutus,MAKSUMUISTUTUS,BETALNINGSPÅMINNELSE,REQUEST FOR PAYMENT
 hyvnro,Hyvityslaskun numero,Kreditnotans nummer,Number of compensation invoice
 yhteensa,Yhteensä,Totalt,Total
-mmrivi,Laskun avoin saldo,Saldo för faktura,Open balance for invoice
+mmrivi,Laskun avoin saldo,Öppet saldo för faktura,Open balance for invoice
 anetto,á netto,,á net
 kateislasku,Käteislasku / Kuitti,Kontantkvitto,Cash receipt
 muistutussaate,"Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne oheisen erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.","Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.","According to our records, we have not yet received a remittance for invoice in the attachement. If you have already sent your payment or there is a mistake in this invoice, please contact us."
@@ -211,7 +211,7 @@ bvn,Viitenumero|Ref.nr.,,Ref. No.
 huomaika,Huomautusaika,Anmärkningstid,Period for complaints
 lkm,Määrä,Antal,Qty
 muistutusmaksu,Huomautuskulut,Betalningspåminnelses avgift,Request for payment fee
-alv0,Veroton myynti,Skattefria försäljning ,Tax free sale
+alv0,Veroton myynti,Skattefri försäljning ,Tax free sale
 alvtunnus,ALV-tunnus,MOMS-nummer,VAT number
 paivaa,päivää,dagar,days
 veroton,Veroton,Utan skatt,Excluding VAT
