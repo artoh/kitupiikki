@@ -34,7 +34,7 @@ class LaskunAlaosa
 public:
     LaskunAlaosa(KitsasInterface* interface);
 
-    void lataa(const Lasku& lasku, const QString& vastaanottaja);
+    void lataa(const Lasku& lasku, const QString& vastaanottaja, bool naytaSuomi);
 
     qreal laske(QPainter* painter);
     void piirra(QPainter* painter, const Lasku &lasku);
@@ -45,7 +45,7 @@ public:
 private:
     void lataaIbanit();
     QString kaanna(const QString& avain) const;
-    void lataaYhteystiedot();
+    void lataaYhteystiedot(bool naytaSuomi);
     void lataaMaksutiedot(const Lasku& lasku);
 
     void lisaaYhteys(const int &asetusavain, const QString& kaannosavain);

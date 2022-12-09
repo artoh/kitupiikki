@@ -21,6 +21,7 @@
 #include "db/kitsasinterface.h"
 #include "db/asetusmodel.h"
 #include "model/toiminimimodel.h"
+#include "rekisteri/postinumerot.h"
 #include <QPainter>
 #include <QSvgRenderer>
 
@@ -37,7 +38,7 @@ LaskunAlaosa::LaskunAlaosa(KitsasInterface *interface) :
     virtuaaliviivakoodi_ = interface_->asetukset()->onko(AsetusModel::LaskuVirtuaaliviivakoodi);
 }
 
-void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja)
+void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja, bool naytaSuomi = false)
 {
     kieli_ = lasku.kieli().toLower();
     vastaanottaja_ = vastaanottaja;
@@ -49,7 +50,7 @@ void LaskunAlaosa::lataa(const Lasku &lasku, const QString &vastaanottaja)
 
     maksulaatikko_.asetaKehysVari(kehysVari_);
 
-    lataaYhteystiedot();
+    lataaYhteystiedot(naytaSuomi);
     lataaMaksutiedot(lasku);
 }
 
@@ -206,15 +207,16 @@ QString LaskunAlaosa::kaanna(const QString &avain) const
     return interface_->kaanna(avain, kieli_).replace("|","\n");
 }
 
-void LaskunAlaosa::lataaYhteystiedot()
+void LaskunAlaosa::lataaYhteystiedot(bool naytaSuomi = false)
 {
     const AsetusModel* asetukset = interface_->asetukset();
     const QString organisaatioNimi = asetukset->asetus(AsetusModel::OrganisaatioNimi);
     const QString toiminimi = toimiNimiTieto(ToiminimiModel::Nimi);
 
+
     lahettaja_ = toiminimi + "\n" +
             toimiNimiTieto(ToiminimiModel::Katuosoite) + "\n"+
-            toimiNimiTieto(ToiminimiModel::Postinumero) + " " + toimiNimiTieto(ToiminimiModel::Kaupunki);
+            toimiNimiTieto(ToiminimiModel::Postinumero) + " " + toimiNimiTieto(ToiminimiModel::Kaupunki) + (naytaSuomi ? "\nFINLAND" : "");
 
     virallinenLahettaja_ = organisaatioNimi + "\n" +
             asetukset->asetus(AsetusModel::Katuosoite) + "\n" +

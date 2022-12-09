@@ -33,6 +33,7 @@
 #include "db/tositetyyppimodel.h"
 
 #include "model/bannermodel.h"
+#include "rekisteri/postinumerot.h"
 
 LaskunTulostaja::LaskunTulostaja(KitsasInterface *kitsas, QObject *parent)
     : QObject(parent), kitsas_(kitsas), tietoLaatikko_(kitsas), alaOsa_(kitsas)
@@ -56,11 +57,11 @@ void LaskunTulostaja::tulosta(Tosite &tosite, QPagedPaintDevice *printer, QPaint
 
 
     LaskunOsoiteAlue osoiteosa( kitsas_ );    
+    bool tulostaSuomi = tulostaSuomesta(tosite);
 
-
-    osoiteosa.lataa(tosite);
+    osoiteosa.lataa(tosite, tulostaSuomi);
     tietoLaatikko_.lataa(tosite);
-    alaOsa_.lataa(lasku, osoiteosa.vastaanottaja());
+    alaOsa_.lataa(lasku, osoiteosa.vastaanottaja(), tulostaSuomi);
 
     qreal alalaita = painter->window().height() - alaOsa_.laske(painter) - rivinkorkeus * 2;
 
@@ -268,6 +269,18 @@ qreal LaskunTulostaja::tulostaErittely(const QStringList &erittely, QPainter *pa
     }        
 
     return alalaita;
+}
+
+bool LaskunTulostaja::tulostaSuomesta(Tosite &tosite)
+{
+    const int toiminimiIndeksi = tosite.constLasku().toiminimi();
+    const ToiminimiModel* toiminimet = kitsas_->toiminimet();
+    const QString postinumero = toiminimet->tieto(ToiminimiModel::Postinumero, toiminimiIndeksi);
+    const QString toimipaikka = toiminimet->tieto(ToiminimiModel::Kaupunki, toiminimiIndeksi);
+    const bool suomessa = Postinumerot::toimipaikka(postinumero) == toimipaikka;
+    const QString kohdeMaa = tosite.kumppanimap().value("maa").toString();
+
+    return !kohdeMaa.isEmpty() && kohdeMaa != "fi" && suomessa;
 }
 
 qreal LaskunTulostaja::tulostaBanner(QPainter *painter, const QString &bannerId)

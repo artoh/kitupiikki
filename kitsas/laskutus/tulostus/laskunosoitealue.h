@@ -30,7 +30,7 @@ class LaskunOsoiteAlue
 {
 public:
     LaskunOsoiteAlue( KitsasInterface* kitsas);
-    void lataa(const Tosite& tosite);
+    void lataa(const Tosite& tosite, bool tulostaFinland);
 
     qreal laske(QPainter* painter, QPagedPaintDevice* device);
     void piirra(QPainter* painter);

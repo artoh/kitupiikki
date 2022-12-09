@@ -19,6 +19,7 @@
 #include "db/asetusmodel.h"
 #include "rekisteri/maamodel.h"
 #include "model/toiminimimodel.h"
+#include "rekisteri/postinumerot.h"
 
 #include <QVariantMap>
 #include <QPainter>
@@ -32,7 +33,7 @@ LaskunOsoiteAlue::LaskunOsoiteAlue(KitsasInterface *kitsas) :
 
 }
 
-void LaskunOsoiteAlue::lataa(const Tosite &tosite)
+void LaskunOsoiteAlue::lataa(const Tosite &tosite, bool tulostaFinland)
 {
     const Lasku lasku = tosite.constLasku();
     const int toiminimiIndeksi = lasku.toiminimi();
@@ -52,13 +53,18 @@ void LaskunOsoiteAlue::lataa(const Tosite &tosite)
         nimi_ = toiminimet->tieto(ToiminimiModel::Nimi, toiminimiIndeksi);
     }
 
+    const QVariantMap& kumppani = tosite.kumppanimap();
+    const QString kumppaniMaaKoodi = kumppani.value("maa").toString();
+
+
     lahettajaOsoite_ = isoIkkuna() ?
         toiminimet->tieto(ToiminimiModel::Katuosoite, toiminimiIndeksi) + "\n" +
-        toiminimet->tieto(ToiminimiModel::Postinumero) + " " + toiminimet->tieto(ToiminimiModel::Kaupunki)
+        toiminimet->tieto(ToiminimiModel::Postinumero, toiminimiIndeksi) + " " + toiminimet->tieto(ToiminimiModel::Kaupunki, toiminimiIndeksi) +
+        (tulostaFinland ? "\nFINLAND" : "")
         :   QString();
 
 
-    const QVariantMap& kumppani = tosite.data(Tosite::KUMPPANI).toMap();
+
     if( kumppani.value("osoite").toString().isEmpty()) {
         const Lasku& lasku = tosite.constLasku();
         vastaanottaja_ =  lasku.osoite().isEmpty() ? kumppani.value("nimi").toString() : lasku.osoite();

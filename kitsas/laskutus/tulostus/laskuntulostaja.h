@@ -49,6 +49,8 @@ signals:
     void laskuLiiteTallennettu(QVariantMap tosite);
 
 protected:
+    bool tulostaSuomesta(Tosite& tosite);
+
     qreal tulostaBanner(QPainter* painter, const QString& bannerId);
 
     void tulostaLuonnos(QPainter* painter);
