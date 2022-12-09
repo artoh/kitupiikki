@@ -78,8 +78,8 @@ void JarjestelmaTiedot::lataaSysteemiTiedot()
 #ifdef KITSAS_PORTABLE
     lisaa("Portable","Kyllä");
 #endif
-    lisaa("Toffee", TOFFEE_VERSIO ? "Kyllä" : "Ei");
-    lisaa("Moodi", kayttaja.moodi() == PilviKayttaja::PRO ? "Toffee" : "Normaali");
+    lisaa("Kitsas Pro", PRO_VERSIO ? "Kyllä" : "Ei");
+    lisaa("Moodi", kayttaja.moodi() == PilviKayttaja::PRO ? "Pro" : "Normaali");
 
 }
 

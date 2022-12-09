@@ -22,6 +22,8 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPlainTextEdit>
+#include <QCheckBox>
+#include <QRadioButton>
 
 MaaritysWidget::MaaritysWidget(QWidget *parent) : QWidget(parent)
 {
@@ -55,6 +57,18 @@ void MaaritysWidget::connectMuutokset()
         VarinValinta *variv = qobject_cast<VarinValinta*>(widget);
         if( variv ) {
             connect( variv, &VarinValinta::variVaihtui, this, &MaaritysWidget::tarkastaMuokkaus);
+            continue;
+        }
+
+        QCheckBox *check = qobject_cast<QCheckBox*>(widget);
+        if(check) {
+            connect( check, &QCheckBox::toggled, this, &MaaritysWidget::tarkastaMuokkaus);
+            continue;
+        }
+
+        QRadioButton *radio = qobject_cast<QRadioButton*>(widget);
+        if( radio ) {
+            connect( radio, &QRadioButton::toggled, this, &MaaritysWidget::tarkastaMuokkaus);
             continue;
         }
     }

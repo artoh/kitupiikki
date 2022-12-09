@@ -17,7 +17,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="kuva">
        <property name="text">
         <string/>
        </property>
@@ -29,7 +29,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="otsikkoLabel">
          <property name="font">
           <font>
            <bold>true</bold>
@@ -41,14 +41,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="nameLabel">
+        <widget class="QLabel" name="nimiLabel">
          <property name="text">
           <string>TextLabel</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="ohjeLabel">
          <property name="text">
           <string>Syötä kuusinumeroinen kertakäyttökoodi puhelimesi tunnistautumissovelluksesta</string>
          </property>

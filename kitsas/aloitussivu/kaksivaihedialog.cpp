@@ -22,12 +22,27 @@ KaksivaiheDialog::~KaksivaiheDialog()
 
 QString KaksivaiheDialog::askCode(const QString &name)
 {
-    ui->nameLabel->setText(name);
+    ui->nimiLabel->setText(name);
     if( exec() == QDialog::Accepted) {
         return ui->codeLine->text();
     } else {
         return QString();
     }
+}
+
+QString KaksivaiheDialog::askEmailCode(const QString &email)
+{
+    ui->otsikkoLabel->setText( tr("Sähköpostiosoitteen vahvistaminen") );
+    ui->nimiLabel->setText( email );
+    ui->ohjeLabel->setText(tr("Syötä uuteen sähköpostiosoitteeseesi lähetetty kuusinumeroinen vahvistuskoodi"));
+    adjustSize();
+
+    if( exec() == QDialog::Accepted) {
+        return ui->codeLine->text();
+    } else {
+        return QString();
+    }
+
 }
 
 int KaksivaiheDialog::exec()

@@ -17,6 +17,7 @@ public:
     ~KaksivaiheDialog();
 
     QString askCode(const QString& name);
+    QString askEmailCode(const QString& email);
 
 private:
     int exec() override;
