@@ -24,14 +24,14 @@
   Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "3.3-RC"
-#define KITSAS_BUILD  "RC"
+#define KITSAS_VERSIO "4.0-beta"
+#define KITSAS_BUILD  "D0"
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
 
 #define KITSAS_API "https://api.kitsas.fi"
 
-#define TOFFEE_VERSIO false // Suoraan kirjautumiseen
+#define PRO_VERSIO false // Suoraan kirjautumiseen
 
 #endif // VERSIO_H

@@ -35,7 +35,7 @@ bool MinaMaaritys::nollaa()
     ui->phoneEdit->setText( kayttaja.phone());
 
     ui->normaaliRadio->setChecked( kayttaja.moodi() == PilviKayttaja::NORMAALI );
-    ui->toffeeRadio->setChecked( kayttaja.moodi() == PilviKayttaja::TOFFEE );
+    ui->toffeeRadio->setChecked( kayttaja.moodi() == PilviKayttaja::PRO );
 
     ui->kayta2fa->setChecked( kayttaja.with2FA() );
 

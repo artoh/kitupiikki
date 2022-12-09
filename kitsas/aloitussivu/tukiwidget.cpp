@@ -33,7 +33,7 @@ void TukiWidget::kirjauduttu(PilviKayttaja kayttaja)
     bool tilaaja =
             kayttaja.planId() > 0 ||
             kayttaja.trialPeriod().isValid() ||
-            kayttaja.moodi() == PilviKayttaja::TOFFEE;
+            kayttaja.moodi() == PilviKayttaja::PRO;
 
     ui->tukiNappi->setEnabled( tilaaja );
     ui->debugNappi->setEnabled( kayttaja );

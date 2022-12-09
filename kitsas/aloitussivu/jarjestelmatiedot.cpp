@@ -79,7 +79,7 @@ void JarjestelmaTiedot::lataaSysteemiTiedot()
     lisaa("Portable","Kyllä");
 #endif
     lisaa("Toffee", TOFFEE_VERSIO ? "Kyllä" : "Ei");
-    lisaa("Moodi", kayttaja.moodi() == PilviKayttaja::TOFFEE ? "Toffee" : "Normaali");
+    lisaa("Moodi", kayttaja.moodi() == PilviKayttaja::PRO ? "Toffee" : "Normaali");
 
 }
 

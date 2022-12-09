@@ -12,7 +12,7 @@ class PilviKayttaja : public PalvelunKertoja
 public:
     enum KayttajaMoodi {
         NORMAALI,
-        TOFFEE
+        PRO
     };
 
     enum Suljettu {

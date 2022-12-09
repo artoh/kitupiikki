@@ -184,14 +184,6 @@ void PdfTilioteTuonti::kasitteleTaulukkoRivi(const PdfAnalyzerRow &row)
     }
     rivilla_++;
 
-#ifdef KITSAS_DEVEL
-    std::cerr << "\n(" << rivilla_ << ") ";
-    for(const auto& sana : words_)
-        std::cerr << sana.text().toStdString() << " ";
-    std::cerr << "\n   ";
-#endif
-
-
     QString puskuri;
     int sarake = -1;
     TilioteOtsake::Tyyppi saraketyyppi = TilioteOtsake::TUNTEMATON;

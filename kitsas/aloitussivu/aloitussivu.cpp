@@ -503,7 +503,7 @@ void AloitusSivu::pilviLogout()
     ui->vaaraSalasana->hide();
 
     // Toffee-moodissa ulos kirjauduttaessa annetaan heti uusi kirjautumisikkuna
-    if( kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::TOFFEE) {
+    if( kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO) {
         ToffeeLogin dlg(this);
         dlg.exec();
     } else {

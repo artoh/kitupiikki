@@ -31,18 +31,11 @@ OteRivi::OteRivi()
 
 void OteRivi::setEuro(const Euro &euro)
 {
-#ifdef KITSAS_DEVEL
-    std::cerr << "s€ " << euro.display(true).toStdString();
-#endif
     euro_ = euro;
 }
 
 void OteRivi::setArkistotunnus(QString arkistotunnus)
 {
-#ifdef KITSAS_DEVEL
-    std::cerr << "sAT " << arkistotunnus.toStdString() <<
-                 ( arkistotunnusTyhjennyt_ ? " (TYHJ)" : "(OK)" );
-#endif
     if( arkistotunnusTyhjennyt_)
         return;    
 

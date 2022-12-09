@@ -115,9 +115,9 @@ int main(int argc, char *argv[])
         a.setFont( QFont( fonttinimi, kp()->settings()->value("FonttiKoko").toInt()) );
     }
 
-    if( parser.isSet("pro") || TOFFEE_VERSIO ) {
+    if( parser.isSet("pro") || PRO_VERSIO ) {
         qApp->setApplicationName("Kitsas PRO");
-        PilviKayttaja::asetaVersioMoodi(PilviKayttaja::TOFFEE);
+        PilviKayttaja::asetaVersioMoodi(PilviKayttaja::PRO);
         ToffeeLogin loginDlg;
         if(loginDlg.keyExec() != QDialog::Accepted) {
             return 0;

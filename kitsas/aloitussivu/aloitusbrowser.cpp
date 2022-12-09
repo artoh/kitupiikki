@@ -365,7 +365,7 @@ QString AloitusBrowser::saldoTaulu()
 void AloitusBrowser::naytaTervetuloa()
 {
     const QString tiedostonnimi =
-            kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::TOFFEE ?
+            kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO ?
             ( ":/aloitus/pro.html"  ) :
             ( Kielet::instanssi()->uiKieli() == "sv" ? ":/aloitus/svenska.html" : ":/aloitus/tervetuloa.html" );
 

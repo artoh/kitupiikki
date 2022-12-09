@@ -21,7 +21,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     admin_ = map.value("admin").toBool();
 
     moodi_ = map.value("mode").toString() == "TOFFEE" ?
-                TOFFEE :
+                PRO :
                 NORMAALI;
 
     setServices( map.value("services").toMap());

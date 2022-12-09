@@ -52,17 +52,11 @@ void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)
                     sarakkeet_.append(sarake);
                     puskuri.clear();
                     rect = QRectF();
-#ifdef KITSAS_DEVEL
-                    std::cerr << sarake.tyyppi() << " " << puskuri.toStdString() << " _ ";
-#endif
                 }
             }
             if( rect.isValid() && puskuri.trimmed().length() > 0) {
                 Sarake sarake( Sarake( rect.x(), rect.right(), tyyppiTekstilla(puskuri.toUpper())));
                 sarakkeet_.append(sarake);
-#ifdef KITSAS_DEVEL
-                std::cerr << sarake.tyyppi() << " " << puskuri.toStdString() << " _ ";
-#endif
             }
         }
     }
