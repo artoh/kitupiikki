@@ -27,7 +27,7 @@
 #define KITSAS_VERSIO "4.0-beta"
 #define KITSAS_BUILD  "D0"
 
-#define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
+// #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
 
 #define KITSAS_API "https://api.kitsas.fi"
