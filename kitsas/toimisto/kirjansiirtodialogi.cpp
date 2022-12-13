@@ -29,24 +29,29 @@ void KirjanSiirtoDialogi::siirra(int bookId, GroupTreeModel *tree, GroupData *da
     if( tree->nodes() < 40)
         ui->treeView->expandAll();
 
+    bookId_ = bookId;
+    group_ = data;
+
     updateButton();
     connect( ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KirjanSiirtoDialogi::updateButton);
 
-    if( exec() == QDialog::Accepted) {
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-        int group = ui->treeView->currentIndex().data(GroupTreeModel::IdRole).toInt();
-        if( group ) {
-            // Tehdään siirto
-            KpKysely* kysymys = kp()->pilvi()->loginKysely(
-                QString("/groups/books/%1").arg(bookId), KpKysely::PATCH);
-            QVariantMap payload;
-            payload.insert("group", group);
-            connect( kysymys, &KpKysely::vastaus, this, [this, data] {
-                data->reload();
-                this->accept();
-            });
-            kysymys->kysy(payload);
-        }
+    exec();
+}
+
+void KirjanSiirtoDialogi::accept()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    int group = ui->treeView->currentIndex().data(GroupTreeModel::IdRole).toInt();
+    if( group ) {
+        // Tehdään siirto
+        KpKysely* kysymys = kp()->pilvi()->loginKysely(
+            QString("/groups/books/%1").arg(bookId_), KpKysely::PATCH);
+        QVariantMap payload;
+        payload.insert("group", group);
+        connect( kysymys, &KpKysely::vastaus, this, &KirjanSiirtoDialogi::siirretty);
+        kysymys->kysy(payload);
+    } else {
+        QDialog::reject();
     }
 }
 
@@ -58,5 +63,11 @@ void KirjanSiirtoDialogi::updateButton()
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
                 ( type == GroupNode::GROUP || type == GroupNode::OFFICE) && rightToCreate  );
+}
+
+void KirjanSiirtoDialogi::siirretty()
+{
+    group_->reload();
+    QDialog::accept();
 }
 

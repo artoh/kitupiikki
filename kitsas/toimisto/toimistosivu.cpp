@@ -265,7 +265,13 @@ void ToimistoSivu::kirjaVaihtui()
     ui->bTositteita->setText( QString("%1").arg( bookData_->documents() ) );
     ui->bKoko->setText( bookData_->prettySize() );
 
-    ui->bTuote->setText( bookData_->planName() );
+    if( bookData_->ownerName().isEmpty()) {
+        ui->bTuoteLabel->setText(tr("Tuote"));
+        ui->bTuote->setText( bookData_->planName() );
+    } else {
+        ui->bTuoteLabel->setText(tr("Omistaja"));
+        ui->bTuote->setText( bookData_->ownerName());
+    }
 
     ui->bAvaaNappi->setVisible( bookData_->loginAvailable() );
 

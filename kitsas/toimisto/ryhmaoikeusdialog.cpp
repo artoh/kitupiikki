@@ -43,7 +43,7 @@ RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
     connect( ui->emailEdit, &QLineEdit::textEdited, this, &RyhmaOikeusDialog::emailMuokattu);
     connect( ui->nimiEdit, &QLineEdit::textEdited, this, &RyhmaOikeusDialog::tarkasta);
     connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
-    connect( ui->oikeudet, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
+    connect( ui->toimisto, &OikeusWidget::muokattu, this, &RyhmaOikeusDialog::oikeusMuutos);
 
     connect( ui->alkuPvm, &KpDateEdit::dateChanged, this, [this] (const QDate& pvm) { ui->loppuPvm->setDateRange(pvm, QDate()); } );
     connect( ui->alkuPvm, &KpDateEdit::dateChanged, this, &RyhmaOikeusDialog::tarkasta);

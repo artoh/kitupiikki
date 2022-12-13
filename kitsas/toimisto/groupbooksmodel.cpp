@@ -14,7 +14,7 @@ QVariant GroupBooksModel::headerData(int section, Qt::Orientation orientation, i
         case YTUNNUS:
             return tr("Y-tunnus");
         case TUOTE:
-            return tr("Tuote");
+            return owners_ ? tr("Omistaja") : tr("Tuote");
         }
     }
 
@@ -53,7 +53,7 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
         case YTUNNUS:
             return book.businessid;
         case TUOTE:
-            return book.planname;
+            return owners_ ? book.ownername : book.planname;
         }
 
         return index.column() == 0 ? book.name: book.planname;
@@ -81,6 +81,8 @@ void GroupBooksModel::load(const QVariantList &list)
         const QVariantMap map = item.toMap();
         books_.append(GroupBook(map));
     }
+    owners_ = !books_.value(0).ownername.isEmpty();
+
     endResetModel();
 }
 
@@ -108,6 +110,7 @@ GroupBooksModel::GroupBook::GroupBook(const QVariantMap &map)
     trial = map.value("trial").toBool();
     planname = map.value("plan").toString();
     businessid = map.value("businessid").toString();
+    ownername = map.value("ownername").toString();
 
     QByteArray ba = QByteArray::fromBase64( map.value("logo").toByteArray() );
     if( ba.isEmpty())

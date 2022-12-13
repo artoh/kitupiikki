@@ -20,11 +20,17 @@ public:
 
     void siirra(int bookId, GroupTreeModel* tree, GroupData* books);
 
+    void accept() override;
+
 protected:
     void updateButton();
+    void siirretty();
 
 private:
     Ui::KirjanSiirtoDialogi *ui;    
+
+    int bookId_ = 0;
+    GroupData* group_ = nullptr;
 };
 
 #endif // KIRJANSIIRTODIALOGI_H

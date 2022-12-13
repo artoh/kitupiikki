@@ -32,6 +32,8 @@ public:
     int planId() const { return planId_;}
     QString planName() const { return planName_;}
 
+    QString ownerName() const { return ownername_;}
+
     bool loginAvailable() const;
     void openBook();
     void supportLogin();
@@ -65,6 +67,8 @@ private:
 
     int planId_;
     QString planName_;
+
+    QString ownername_;
 
 
     GroupMembersModel* directUsers_;

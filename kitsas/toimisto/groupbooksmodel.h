@@ -21,6 +21,7 @@ protected:
         QPixmap logo;
         QString planname;
         QString businessid;
+        QString ownername;
     };
 
 public:
@@ -44,6 +45,7 @@ public:
 
 private:
     QList<GroupBook> books_;
+    bool owners_ = false;
 };
 
 #endif // GROUPBOOKSMODEL_H

@@ -103,7 +103,9 @@ void BookData::dataIn(QVariant *data)
     planId_ = plan.value("id").toInt();
     planName_ = plan.value("name").toString();
 
-    int groupid = map.value("group").toMap().value("id").toInt();
+    ownername_ = map.value("owner").toMap().value("name").toString();
+
+    int groupid = map.value("group").toMap().value("id").toInt();    
 
     directUsers_->load( map.value("permissions").toList() );
     groupUsers_->load( map.value("members").toList(), groupid );
