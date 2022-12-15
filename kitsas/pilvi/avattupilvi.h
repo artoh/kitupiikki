@@ -9,6 +9,8 @@
 class AvattuPilvi : public PalvelunKertoja
 {
 public:
+    enum { PROPILVI = 200};
+
     AvattuPilvi();
     AvattuPilvi(const QVariant& data);
 

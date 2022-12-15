@@ -229,9 +229,9 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         const QString& nimi = kp()->asetukset()->nimi();
 
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(nimi, qApp->applicationVersion() ));
+            setWindowTitle( QString("%1 - %2 %3 [%4]").arg(nimi, qApp->applicationName(),  qApp->applicationVersion(), tr("Harjoittelu") ));
         else
-            setWindowTitle( tr("%1 - Kitsas %2").arg(nimi, qApp->applicationVersion()));
+            setWindowTitle( tr("%1 - %2 %3").arg(nimi, qApp->applicationName(), qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 

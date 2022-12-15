@@ -211,6 +211,7 @@
         <file>info-punainen.png</file>
         <file>pixaby/toimisto.svg</file>
         <file>kitsaspro.png</file>
+        <file>procloud-64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

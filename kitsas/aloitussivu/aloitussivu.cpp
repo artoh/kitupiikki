@@ -236,9 +236,11 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     bool pilvessa = qobject_cast<PilviModel*>( kp()->yhteysModel() );
     bool paikallinen = qobject_cast<SQLiteModel*>(kp()->yhteysModel());
+    bool procloud = pilvessa && kp()->pilvi()->pilvi().planId() >= AvattuPilvi::PROPILVI ;
 
     ui->paikallinenKuva->setVisible(paikallinen);
-    ui->pilviKuva->setVisible( pilvessa );
+    ui->pilviKuva->setVisible( pilvessa && !procloud);
+    ui->procloud->setVisible( procloud );
     ui->kopioiPilveenNappi->setVisible(paikallinen && kp()->pilvi()->kayttaja() && kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::NORMAALI);    
     ui->selain->paivita();
 }

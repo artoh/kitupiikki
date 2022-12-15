@@ -101,6 +101,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="procloud">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/procloud-64.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
