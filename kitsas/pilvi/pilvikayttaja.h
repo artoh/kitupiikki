@@ -18,7 +18,8 @@ public:
     enum Suljettu {
         KAYTOSSA = 0,
         MAKSAMATON = 1,
-        EHTOJEN_VASTAINEN = 2
+        EHTOJEN_VASTAINEN = 2,
+        KAYTTAJAN_PYYNNOSTA = 3
     };
 
     PilviKayttaja();    

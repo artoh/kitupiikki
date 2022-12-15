@@ -49,6 +49,8 @@
 #include "model/toiminimimodel.h"
 #include "model/bannermodel.h"
 
+#include "maaritys/verkkolasku/verkkolaskumaaritys.h"
+
 #include <QSortFilterProxyModel>
 
 
@@ -502,7 +504,9 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
     if( osoiteKunnossa() )
         ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), Lasku::POSTITUS);
 
-    if( kp()->asetukset()->luku("FinvoiceKaytossa") &&
+    const int finvoiceMoodi = kp()->asetukset()->luku(AsetusModel::FinvoiceKaytossa);
+
+    if( ( finvoiceMoodi == VerkkolaskuMaaritys::PAIKALLINEN || (finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila) == "SIGNED")  ) &&
         osoiteKunnossa() &&
         ladattuAsiakas_.value("ovt").toString().length() > 9 &&
         ladattuAsiakas_.value("operaattori").toString().length() > 4 &&

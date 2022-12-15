@@ -91,6 +91,19 @@ table.info > tr > td
     margin-bottom: 15px;
 }
 
+table.testaus
+{
+    background-color: #ffa400;
+    margin-bottom: 15px;
+    border: 1px solid black;
+}
+
+table.testaus > tr > td
+{
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
 
 table.memo
 {

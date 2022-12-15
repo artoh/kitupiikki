@@ -111,7 +111,8 @@ public:
         Toiminimet,
         TilitietoMaksuHyvaksytty,
         AvausKuukausittain,
-        TilinAvausPvm
+        TilinAvausPvm,
+        MaventaAutentikointiTila
     };
 
 

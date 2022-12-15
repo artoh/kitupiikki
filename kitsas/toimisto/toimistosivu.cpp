@@ -152,8 +152,10 @@ void ToimistoSivu::siirrySivulle()
         if( groupTree_->nodes() < 50) {
             ui->treeView->expandAll();
         }
-        ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
-        nodeValittu( groupTree_->index(0,0) );
+        if( ui->treeView->model()->rowCount()==1) {
+            ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
+            nodeValittu( groupTree_->index(0,0) );
+        }
     }
 }
 

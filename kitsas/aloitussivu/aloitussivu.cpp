@@ -465,6 +465,9 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
             case PilviKayttaja::EHTOJEN_VASTAINEN:
                 ui->planLabel->setText(tr("Käyttö estetty käyttösääntöjen vastaisen toiminnan takia"));
                 break;
+            case PilviKayttaja::KAYTTAJAN_PYYNNOSTA:
+                ui->planLabel->setText(tr("Käyttäjätunnus suljettu tilapäisesti käyttäjän pyynnöstä"));
+                break;
         default:
             ui->planLabel->setText(tr("Käyttäjätunnus suljettu"));
         }

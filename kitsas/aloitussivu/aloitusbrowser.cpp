@@ -9,6 +9,7 @@
 #include "alv/alvilmoitustenmodel.h"
 #include "sqlite/sqlitemodel.h"
 #include "kieli/kielet.h"
+#include "versio.h"
 #include <QRegularExpression>
 #include <QSettings>
 
@@ -86,6 +87,7 @@ void AloitusBrowser::vinkkaa(const QString &luokka, const QString &otsikko, cons
 void AloitusBrowser::paivitaVinkit()
 {
     vinkit_.clear();
+    paivitaTestiVinkki();
     paivitaTiliointiVinkki();
     paivitaPankkiyhteysVinkki();
     paivitaVarmuuskopioVinkki();
@@ -101,9 +103,19 @@ QString AloitusBrowser::eiOikeuttaUrputus() const
 {
     return QString("<h1>%1</h1><p>%2</p><p>%3</p>")
             .arg(tr("Tämä kirjanpito ei ole käytettävissä"))
-            .arg(tr("Kirjanpidon omistajalla ei ole voimassa olevaa tilausta, tilausmaksu on maksamatta tai "
+            .arg(tr("Kirjanpidon omistajalla ei ole voimassa olevaa tilausta, omistaja on pyytänyt tunnuksen sulkemista, tilausmaksu on maksamatta tai "
                     "palvelun käyttö on estetty käyttösääntöjen vastaisena."))
             .arg(tr("Kirjanpidon palauttamiseksi käyttöön on oltava yhteydessä Kitsas Oy:n myyntiin."));
+}
+
+void AloitusBrowser::paivitaTestiVinkki()
+{
+    if( kp()->pilvi()->pilviLoginOsoite() != KITSAS_API) {
+        vinkkaa("testaus", tr("Testauspalvelin käytössä"), tr("Käytä vain kehitys- ja testauskäytössä!"), QString(), "dev.png");
+    }
+    if( QString(KITSAS_VERSIO).contains("-") ) {
+        vinkkaa("testaus", tr("Kehitysversio käytössä"), tr("Käytössäsi on Kitsaan kehitysversio, jota ei välttämättä ole vielä testattu kattavasti."), QString(), "tietyo.png");
+    }
 }
 
 void AloitusBrowser::paivitaTiliointiVinkki()
@@ -376,7 +388,11 @@ void AloitusBrowser::naytaTervetuloa()
     in.setCodec("utf8");
 #endif
     QString teksti = in.readAll();
-    teksti.replace("<INFO>", kp()->pilvi()->paivitysInfo()->toHtml() );
+
+    vinkit_.clear();
+    paivitaTestiVinkki();
+
+    teksti.replace("<INFO>", kp()->pilvi()->paivitysInfo()->toHtml() + vinkit_.toHtml() );
 
     setHtml( teksti );
 }

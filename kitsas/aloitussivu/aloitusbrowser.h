@@ -29,6 +29,7 @@ protected:
     void paivitaVinkit();
     QString eiOikeuttaUrputus() const;
 
+    void paivitaTestiVinkki();
     void paivitaTiliointiVinkki();
     void paivitaPankkiyhteysVinkki();
     void paivitaVarmuuskopioVinkki();
