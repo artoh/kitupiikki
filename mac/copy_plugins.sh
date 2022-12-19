@@ -17,7 +17,7 @@ PRINTSUPPORT=$APPDIR/printsupport
 SQLDRIVERS=$APPDIR/sqldrivers
 STYLES=$APPDIR/styles
 
-QT_LOCATION=/usr/local/opt/qt5
+QT_LOCATION=../../../Qt/5.15.0/clang_64
 
 mkdir -p $BEARER/
 mkdir -p $ICONENGINES/
