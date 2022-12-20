@@ -14,7 +14,7 @@ Comments, variable names, documentations and the software itself are, of course,
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
 Kotisivu [kitsas.fi](https://kitsas.fi)   
-Käyttöohjeet [ohjeet.kitsas.fi](https://ohjeet.kitsas.fi)
+Käyttöohjeet [kitsas.fi/docs](https://kitsas.fi.docs)
 
 
 ## Tavoitteet
@@ -26,7 +26,8 @@ Käyttöohjeet [ohjeet.kitsas.fi](https://ohjeet.kitsas.fi)
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
 ## Vaatimukset
-Kitsas käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.12.
+Kitsas käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.15 tai 6.4
+
 Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/) ja zip-tiedostojen käsittelyyn [libzip](https://libzip.org)-kirjastoa.
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
@@ -48,9 +49,6 @@ Kitsas käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http:
 
 Kitsaan Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä](https://mxe.cc).
 
-## Kehittäminen
-
-Kehittämisen suuntaviivat löytyvät projektin GitHubin Issues-osastoista. Koodi kommentoidaan doxygenin merkkauksella niin, että API-dokumentaatio on laadittavissa Doxygenillä.
 
 ## Ylläpitäjä
 
