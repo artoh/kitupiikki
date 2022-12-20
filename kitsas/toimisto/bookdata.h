@@ -32,6 +32,7 @@ public:
     int planId() const { return planId_;}
     QString planName() const { return planName_;}
 
+    int ownerId() const { return ownerId_;}
     QString ownerName() const { return ownername_;}
 
     bool loginAvailable() const;
@@ -62,12 +63,13 @@ private:
 
     QDateTime created_;
     QDateTime modified_;
-    int documents_;
+    int documents_ = 0;
     QString size_;
 
-    int planId_;
+    int planId_ = 0;
     QString planName_;
 
+    int ownerId_= 0;
     QString ownername_;
 
 

@@ -315,9 +315,16 @@ void MaaritysSivu::paivitaNakyvat()
     item( SAHKOPOSTI )->setHidden( kp()->yhteysModel() && !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
         // Jos avoimena olevaan kirjanpitoon ei ole asetusoikeuksia, piilotetaan. Siis silloin kun kirjanpitoa ei ole avoinna, voi muokata konekohtaisia asetuksia.
     item( VERKKOLASKU )->setHidden( !kp()->yhteysModel() ||
+           !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN | YhteysModel::KIERTO_SELAAMINEN) ||
           (!qobject_cast<PilviModel*>(kp()->yhteysModel()) && !kp()->pilvi()->tilausvoimassa() ) ||
           ( !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) &&
             !(kp()->asetukset()->luku("FinvoiceKaytossa") > 0 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN))) );
+
+    item( LASKUTUS )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
+    item( LASKUTEKSTIT )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
+    item( BANNERIT )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN | YhteysModel::LASKU_LAHETTAMINEN) );
+    item( KIERTO )->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN) );
+
     // TODO: Disablointi palvelimen mukaan
     item( TILITIEDOT)->setHidden( !kp()->yhteysModel() ||
                                   (!qobject_cast<PilviModel*>(kp()->yhteysModel())) ||

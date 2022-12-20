@@ -59,7 +59,7 @@ QVariant GroupMembersModel::data(const QModelIndex &index, int role) const
     }
     case Qt::DecorationRole:
         if( index.column() == NAME)
-            return( member.admin().isEmpty() ? QIcon(":/pic/mies.png") : QIcon(":/pic/yrittaja.png") );
+            return( member.admin().isEmpty() && !member.rights().contains("Om") ? QIcon(":/pic/mies.png") : QIcon(":/pic/yrittaja.png") );
         return QVariant();
     case Qt::ForegroundRole:
         if( (member.startDate().isValid() && member.startDate() > QDate::currentDate()) ||

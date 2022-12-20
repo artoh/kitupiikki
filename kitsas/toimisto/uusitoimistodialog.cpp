@@ -12,7 +12,7 @@ UusiToimistoDialog::UusiToimistoDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->ytunnusEdit->setValidator(new YTunnusValidator());
+    ui->ytunnusEdit->setValidator(new YTunnusValidator(false, this));
 
 }
 

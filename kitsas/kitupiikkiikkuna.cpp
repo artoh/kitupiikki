@@ -384,6 +384,18 @@ void KitupiikkiIkkuna::kirjaaKirjattavienKansiosta()
     kirjaussivu->lisaaKirjattavienKansiosta();
 }
 
+void KitupiikkiIkkuna::paivitaPossu()
+{
+    // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
+    if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||
+        (QDate::currentDate().month() == 1 && QDate::currentDate().day() <= 6) ) {
+        sivuaktiot[ALOITUSSIVU]->setIcon(QIcon( kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO ? ":/pic/joulupro64.png" : ":/pic/Joulupossu.png"));
+    } else {
+        sivuaktiot[ALOITUSSIVU]->setIcon(QIcon( kp()->pilvi()->kayttaja().moodi() == PilviKayttaja::PRO ? ":/pic/propossu-64.png" : ":/pic/Possu64.png"));
+    }
+
+}
+
 
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
@@ -484,12 +496,8 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
     lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
 
-    // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
-    if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||
-        (QDate::currentDate().month() == 1 && QDate::currentDate().day() <= 6) )
-        sivuaktiot[ALOITUSSIVU]->setIcon(QIcon(":/pic/Joulupossu.png"));
 
-
+    paivitaPossu();
     aktioryhma->actions().first()->setChecked(true);
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));

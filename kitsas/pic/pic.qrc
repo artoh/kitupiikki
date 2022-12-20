@@ -212,6 +212,8 @@
         <file>pixaby/toimisto.svg</file>
         <file>kitsaspro.png</file>
         <file>procloud-64.png</file>
+        <file>joulupro64.png</file>
+        <file>propossu-64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

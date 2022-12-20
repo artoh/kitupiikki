@@ -103,7 +103,9 @@ void BookData::dataIn(QVariant *data)
     planId_ = plan.value("id").toInt();
     planName_ = plan.value("name").toString();
 
-    ownername_ = map.value("owner").toMap().value("name").toString();
+    const QVariantMap ownerMap = map.value("owner").toMap();
+    ownerId_ = ownerMap.value("id").toInt();
+    ownername_ = ownerMap.value("name").toString();
 
     int groupid = map.value("group").toMap().value("id").toInt();    
 

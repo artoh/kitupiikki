@@ -112,7 +112,13 @@ void RyhmaOikeusDialog::accept()
         payload.insert("name", ui->nimiEdit->text());
     }
 
-    const QStringList oikeudet = ui->oikeudet->oikeuslista();
+    QStringList oikeudet = ui->oikeudet->oikeuslista();
+
+    if( book_ && book_->ownerId() == userId_ && !oikeudet.contains("Om")) {
+        // Varmistetaan, että omistajan oikeuslistassa on Om
+        oikeudet.append("Om");
+    }
+
     const QStringList hallinta = ui->toimisto->oikeuslista();
 
     if( !oikeudet.isEmpty()) {

@@ -315,7 +315,7 @@ void AloitusSivu::abouttiarallaa()
     if( !kooste.isEmpty())
         versioteksti.append("<br>Kooste " + kooste);
 
-    aboutUi.versioLabel->setText(versioteksti);
+    aboutUi.versioLabel->setText(versioteksti);    
 
     aboutDlg.exec();
 }

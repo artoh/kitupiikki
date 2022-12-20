@@ -110,6 +110,8 @@ protected slots:
      */
     void kirjaaKirjattavienKansiosta();
 
+    void paivitaPossu();
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);

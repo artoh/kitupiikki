@@ -116,7 +116,8 @@ int main(int argc, char *argv[])
     }
 
     if( parser.isSet("pro") || PRO_VERSIO ) {
-        qApp->setApplicationName("Kitsas PRO");
+        qApp->setApplicationName("Kitsas Pro");
+        qApp->setWindowIcon(QIcon(":/pic/propossu-64.png"));
         PilviKayttaja::asetaVersioMoodi(PilviKayttaja::PRO);
         ToffeeLogin loginDlg;
         if(loginDlg.keyExec() != QDialog::Accepted) {
