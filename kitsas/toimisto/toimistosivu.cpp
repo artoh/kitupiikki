@@ -19,6 +19,9 @@
 
 #include "pikavalintadialogi.h"
 #include "kirjansiirtodialogi.h"
+#include "alv/verovarmennetila.h"
+
+#include "alv/varmennedialog.h"
 
 #include <QAction>
 #include <QMenu>
@@ -111,6 +114,9 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     connect( ui->pUusiNappi, &QPushButton::clicked, this, &ToimistoSivu::lisaaOikeus);
     connect( ui->pMuokkaaNappi, &QPushButton::clicked, this, &ToimistoSivu::muokkaaOikeus);
     connect( ui->pPoistaNappi, &QPushButton::clicked, this, &ToimistoSivu::poistaOikeus);    
+
+    connect( ui->varmenneNappi, &QPushButton::clicked, this, &ToimistoSivu::lisaaVarmenne);
+    connect( ui->poistaVarmenneNappi, &QPushButton::clicked, this, &ToimistoSivu::poistaVarmenne);
 
     connect( ui->mainTab, &QTabWidget::currentChanged, this, &ToimistoSivu::paaTabVaihtui);
 
@@ -227,6 +233,16 @@ void ToimistoSivu::toimistoVaihtui()
     ui->toimistoNimiLabel->setText(  groupData_->name() );
     ui->toimistoYtunnusLabel->setText( groupData_->isOffice() ? groupData_->businessId() : groupData_->officeName() );
     ui->talousverkkoLabel->setVisible( groupData_->officeType() == "Talousverkko" );
+
+    ui->varmenneRyhma->setVisible( groupData_->isOffice() );
+    ui->varmenneInfo->setText(groupData_->varmenneTila()->toString() );
+
+    bool varmenneOikeus = oikeudet.contains("OC") &&
+            !groupData_->businessId().isEmpty() &&
+            groupData_->varmenneTila()->status() != "PG";   // Pending
+
+    ui->varmenneNappi->setVisible(!groupData_->varmenneTila()->isValid() && varmenneOikeus);
+    ui->poistaVarmenneNappi->setVisible(groupData_->varmenneTila()->isValid() && varmenneOikeus);
 
     ui->ryhmaMenuNappi->setVisible( oikeudet.contains("OG"));
 
@@ -352,6 +368,17 @@ void ToimistoSivu::poistaOikeus()
         bookData_->removeRights(userid);
         bookData_->reload();
     }
+}
+
+void ToimistoSivu::lisaaVarmenne()
+{
+    VarmenneDialog dlg(this);
+    dlg.toimistoVarmenne(groupData_);
+}
+
+void ToimistoSivu::poistaVarmenne()
+{
+    groupData_->poistaVarmenne();
 }
 
 void ToimistoSivu::muokkaaRyhmaOikeuksia()

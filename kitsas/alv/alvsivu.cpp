@@ -27,7 +27,6 @@
 #include "alvlaskelma.h"
 
 #include "ui_maksuperusteinen.h"
-#include "model/tosite.h"
 
 #include "naytin/naytinikkuna.h"
 
@@ -36,6 +35,8 @@
 #include "ilmoitintuottaja.h"
 #include "pilvi/pilvimodel.h"
 #include "kieli/kielet.h"
+
+#include "alvilmoitustenmodel.h"
 
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu),

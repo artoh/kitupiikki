@@ -100,6 +100,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBox_8">
+        <property name="text">
+         <string>Varmenteiden hallinta</string>
+        </property>
+        <property name="Oikeus" stdset="0">
+         <string notr="true">OC</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBox_9">
         <property name="text">
          <string>Kirjautumistietojen selaaminen</string>

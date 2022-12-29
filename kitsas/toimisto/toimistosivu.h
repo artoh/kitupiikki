@@ -47,6 +47,9 @@ protected:
     void muokkaaOikeus();
     void poistaOikeus();
 
+    void lisaaVarmenne();
+    void poistaVarmenne();
+
     void muokkaaRyhmaOikeuksia();
 
     void uusiKayttajaRyhmaan();

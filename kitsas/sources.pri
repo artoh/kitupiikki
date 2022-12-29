@@ -12,6 +12,8 @@ SOURCES += \
     $$PWD/aloitussivu/tukiwidget.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
+    $$PWD/alv/varmennedialog.cpp \
+    $$PWD/alv/verovarmennetila.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.cpp \
@@ -157,6 +159,7 @@ SOURCES += \
     $$PWD/maaritys/verkkolasku/finvoicevelho.cpp \
     $$PWD/maaritys/verkkolasku/maventadialog.cpp \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
+    $$PWD/maaritys/veromaaritys.cpp \
     $$PWD/model/bannermodel.cpp \
     $$PWD/model/eramap.cpp \
     $$PWD/model/euro.cpp \
@@ -436,6 +439,8 @@ HEADERS += \
     $$PWD/aloitussivu/tukiwidget.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
+    $$PWD/alv/varmennedialog.h \
+    $$PWD/alv/verovarmennetila.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.h \
@@ -584,6 +589,7 @@ HEADERS += \
     $$PWD/maaritys/verkkolasku/finvoicevelho.h \
     $$PWD/maaritys/verkkolasku/maventadialog.h \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
+    $$PWD/maaritys/veromaaritys.h \
     $$PWD/model/bannermodel.h \
     $$PWD/model/eramap.h \
     $$PWD/model/euro.h \
@@ -866,6 +872,7 @@ FORMS += \
     $$PWD/aloitussivu/salasananvaihto.ui \
     $$PWD/aloitussivu/toffeelogin.ui \
     $$PWD/aloitussivu/tukiwidget.ui \
+    $$PWD/alv/varmennedialog.ui \
     $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tiliote/tilioteapuri.ui \
     $$PWD/apuri/tiliote/tiliotekirjaaja.ui \

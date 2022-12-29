@@ -50,6 +50,7 @@
 #include "tilitieto/tilitietomaaritys.h"
 #include "bannermaaritys.h"
 #include "minamaaritys.h"
+#include "veromaaritys.h"
 
 #include "db/kirjanpito.h"
 
@@ -248,9 +249,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         Ui::OletusTiliMaaritys *ui = new Ui::OletusTiliMaaritys;
         ui->setupUi(nykyinen);
     } else if( sivu == VERO) {
-        nykyinen = new TallentavaMaaritysWidget;
-        Ui::VeroMaaritys *ui = new Ui::VeroMaaritys;
-        ui->setupUi(nykyinen);
+        nykyinen = new VeroMaaritys;
     }
     else if( sivu == MAKSUTAVAT)
         nykyinen = new MaksutapaSivu;

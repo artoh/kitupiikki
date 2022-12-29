@@ -214,6 +214,7 @@
         <file>procloud-64.png</file>
         <file>joulupro64.png</file>
         <file>propossu-64.png</file>
+        <file>certificate.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

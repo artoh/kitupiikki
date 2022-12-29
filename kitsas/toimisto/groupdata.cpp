@@ -6,12 +6,16 @@
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
+#include "alv/verovarmennetila.h"
+
+#include <QTimer>
 
 GroupData::GroupData(QObject *parent)
     : QObject{parent},
       books_{new GroupBooksModel(this)},
       members_{new GroupMembersModel(this)},
-      shortcuts_{ new ShortcutModel(this)}
+      shortcuts_{ new ShortcutModel(this)},
+      varmenneTila_{ new VeroVarmenneTila(this)}
 {
     members_->setShortcuts(shortcuts_);
 }
@@ -64,6 +68,28 @@ void GroupData::deleteBook(const int bookid)
 
 }
 
+void GroupData::lisaaVarmenne(const QString &siirtotunnus, const QString &salasana)
+{
+    QVariantMap payload;
+    payload.insert("transferid", siirtotunnus);
+    payload.insert("password", salasana);
+
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/%1/cert").arg(id()), KpKysely::PUT);
+    connect( kysymys, &KpKysely::vastaus, this, &GroupData::reload);
+    kysymys->kysy(payload);
+
+    QTimer::singleShot(42000, this, &GroupData::reload );
+}
+
+void GroupData::poistaVarmenne()
+{
+    KpKysely* kysymys = kp()->pilvi()->loginKysely(
+                QString("/groups/%1/cert").arg(id()), KpKysely::DELETE);
+    connect( kysymys, &KpKysely::vastaus, this, &GroupData::reload);
+    kysymys->kysy();
+}
+
 void GroupData::dataIn(QVariant *data)
 {
     const QVariantMap map = data->toMap();
@@ -93,6 +119,8 @@ void GroupData::dataIn(QVariant *data)
     officeTypes_ = map.value("officetypes").toList();
     products_ = map.value("products").toList();
 
+    const QVariantMap certMap = map.value("cert").toMap();
+    varmenneTila_->set(certMap);
 
     emit loaded();
 }

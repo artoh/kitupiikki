@@ -21,7 +21,6 @@
 #include <QDate>
 
 #include "../kitupiikkisivu.h"
-#include "alvilmoitustenmodel.h"
 
 
 

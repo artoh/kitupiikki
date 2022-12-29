@@ -2,13 +2,15 @@
 #define GROUPDATA_H
 
 #include <QObject>
-
+#include <QDateTime>
 
 #include "groupnode.h"
+
 
 class GroupBooksModel;
 class GroupMembersModel;
 class ShortcutModel;
+class VeroVarmenneTila;
 
 class GroupData : public QObject
 {
@@ -36,10 +38,14 @@ public:
     QStringList adminRights() const { return admin_;}
     QVariantList officeTypes() const { return officeTypes_; }
     QVariantList products() const { return products_;}    
+    VeroVarmenneTila* varmenneTila() const { return varmenneTila_;}
 
     void addBook(const QVariant& velhoMap);
     void deleteMembership(const int userid);
     void deleteBook(const int bookid);
+
+    void lisaaVarmenne(const QString& siirtotunnus, const QString& salasana);
+    void poistaVarmenne();
 
 signals:
     void loaded();
@@ -62,6 +68,7 @@ private:
     GroupBooksModel* books_;
     GroupMembersModel* members_;
     ShortcutModel* shortcuts_;
+    VeroVarmenneTila* varmenneTila_;
 
 
 };
