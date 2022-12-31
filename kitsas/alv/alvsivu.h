@@ -63,6 +63,7 @@ private:
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
     bool alustaa_ = true;
+
 };
 
 #endif // ALVMAARITYS_H

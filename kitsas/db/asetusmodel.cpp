@@ -325,6 +325,7 @@ std::map<int,QString> AsetusModel::avaimet__ = {
     { TilinpaatosValinnat, "tilinpaatosvalinnat"},
     { TilinpaatosKieli, "tpkieli" },
     { VeroYhteysPuhelin, "VeroYhteysPuhelin"},
+    { VeroYhteysHenkilo, "VeroYhteysHenkilo"},
     { Palkkatilit, "palkkatilit"},
     { OvtTunnnus, "OvtTunnus"},
     { Operaattori, "Operaattori"},

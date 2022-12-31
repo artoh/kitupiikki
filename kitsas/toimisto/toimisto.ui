@@ -253,7 +253,7 @@
    <item>
     <widget class="QTabWidget" name="subTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_4">
       <attribute name="icon">
@@ -530,6 +530,23 @@ color: rgb(255, 255, 255);</string>
          </item>
          <item row="4" column="1">
           <widget class="QLabel" name="bKoko">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Varmenne</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLabel" name="bVarmenne">
            <property name="text">
             <string>TextLabel</string>
            </property>

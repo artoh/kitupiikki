@@ -31,6 +31,20 @@ void BookData::reload()
     load(id());
 }
 
+QString BookData::certInfo() const
+{
+    if( certStatus_ == "OFFICE_OK") return tr("Toimiston varmenne käytössä");
+    else if(certStatus_ == "OFFICE_FAIL") return tr("Toimiston varmenne ei kelpaa\nTarkasta Suomi.fi-valtuutus");
+    else if(certStatus_ == "NO_CERT") return tr("Ei varmennetta");
+    else if(certStatus_ == "BOOK_OK") return tr("Oma varmenne käytössä");
+    else if(certStatus_ == "NO_BID") return tr("Y-tunnus puuttuu");
+    else if(certStatus_ == "BOOK_PG") return tr("Varmenteen hakeminen kesken");
+    else if(certStatus_ == "BOOK_PR") return tr("Varmenteen uusiminen käynnissä");
+    else if(certStatus_ == "BOOK_CR") return tr("Varmenne poistettu");
+    else if(certStatus_ == "BOOK_ES" || certStatus_ == "BOOK_EG") return tr("Varmenteen hakeminen epäonnistui");
+    else return certStatus_;
+}
+
 bool BookData::loginAvailable() const
 {
     const int userid = kp()->pilvi()->kayttaja().id();
@@ -112,6 +126,8 @@ void BookData::dataIn(QVariant *data)
     directUsers_->load( map.value("permissions").toList() );
     groupUsers_->load( map.value("members").toList(), groupid );
     authLog_->load( map.value("log").toList());
+
+    certStatus_ = map.value("cert").toString();
 
     emit loaded();
 }

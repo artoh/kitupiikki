@@ -22,6 +22,7 @@ public:
 
 signals:
     void paivitetty();
+    void kaytossa();
 
 protected:
     void tilaSaapuu(QVariant* data);

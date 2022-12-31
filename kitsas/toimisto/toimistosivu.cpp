@@ -282,6 +282,7 @@ void ToimistoSivu::kirjaVaihtui()
     ui->bMuokattu->setText( bookData_->modified().toString("dd.MM.yyyy"));
     ui->bTositteita->setText( QString("%1").arg( bookData_->documents() ) );
     ui->bKoko->setText( bookData_->prettySize() );
+    ui->bVarmenne->setText( bookData_->certInfo());
 
     if( bookData_->ownerName().isEmpty()) {
         ui->bTuoteLabel->setText(tr("Tuote"));

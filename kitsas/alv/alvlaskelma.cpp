@@ -21,8 +21,8 @@
 #include "model/tositeviennit.h"
 #include "db/tositetyyppimodel.h"
 #include "model/tositeliitteet.h"
-#include "alvsivu.h"
-
+#include "alvilmoitustenmodel.h"
+#include "pilvi/pilvimodel.h"
 #include <QDebug>
 
 AlvLaskelma::AlvLaskelma(QObject *parent, const QString kielikoodi) :
@@ -764,6 +764,35 @@ void AlvLaskelma::tallennusValmis()
     emit tallennettu();
 }
 
+void AlvLaskelma::ilmoitettu(QVariant *data)
+{
+    // Tässä tallennetaan ilmoituksen tunniste jne.
+    const QVariantMap map = data->toMap();
+    const QString status = map.value("status").toString();
+
+    if( status == "OK") {
+        QVariantMap alvdata = tosite_->data(Tosite::ALV).toMap();
+        alvdata.insert("apiid", map.value("id").toString());
+        alvdata.insert("apidate", map.value("timestamp").toString());
+        tosite_->setData(Tosite::ALV, alvdata);
+
+        rk.lisaaTyhjaRivi();
+        RaporttiRivi apiInfo;
+        apiInfo.lisaa("",2);
+        apiInfo.lisaa(kaanna("Ilmoitettu rajapinnan kautta"));
+        apiInfo.lisaa(map.value("timestamp").toString() );
+        rk.lisaaRivi(apiInfo);
+        RaporttiRivi apiId;
+        apiId.lisaa("",3);
+        apiId.lisaa(map.value("id").toString());
+        rk.lisaaRivi(apiId);
+
+        tallenna();
+    } else {
+        emit ilmoitusVirhe(map.value("ErrorCode").toString(), map.value("ErrorText").toString());
+    }
+}
+
 void AlvLaskelma::viimeistele()
 {
 
@@ -826,15 +855,13 @@ void AlvLaskelma::kirjaaHuojennus()
     lisaaKirjausVienti( huojentaja );
 }
 
-void AlvLaskelma::tallenna()
+void AlvLaskelma::valmisteleTosite()
 {
     tosite_->setData( Tosite::PVM, loppupvm_ );
     tosite_->setData( Tosite::OTSIKKO, kaanna("Arvonlisäveroilmoitus %1 - %2")
                      .arg(alkupvm_.toString("dd.MM.yyyy"), loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
     tosite_->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::ALVLASKELMA ) ) ;
-
-    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf", "alv" );
 
     QVariantMap lisat;
     QVariantMap koodit;
@@ -849,12 +876,42 @@ void AlvLaskelma::tallenna()
     lisat.insert("koodit", koodit);
     lisat.insert("kausialkaa", alkupvm_);
     lisat.insert("kausipaattyy", loppupvm_);
-    lisat.insert("erapvm", AlvIlmoitustenModel::erapaiva(loppupvm_));
+    lisat.insert("erapvm", kp()->alvIlmoitukset()->erapaiva(loppupvm_));
     lisat.insert("maksettava", maksettava());
     if( !marginaaliAlijaamat_.isEmpty() )
         lisat.insert("marginaalialijaama", marginaaliAlijaamat_);
     tosite_->setData( Tosite::ALV, lisat);
+}
 
+void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus, bool huojennus)
+{
+    QVariantMap payload;
+    if( !korjaus.isEmpty())
+        payload.insert("replacement", korjaus);
+    payload.insert("period", loppupvm_.toString("yyyy-MM-dd"));
+    payload.insert("person", kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo));
+    payload.insert("phone", kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
+    if( huojennus ) {
+        if( alkupvm_.month() == 1 && loppupvm_.month() == 12)
+            payload.insert("relief",4);
+        else if( alkupvm_.month() == loppupvm_.month())
+            payload.insert("relief",1);
+        else if( alkupvm_.month() == 10 && loppupvm_.month() == 12)
+            payload.insert("relief",2);
+    }
+    payload.insert("codes", tosite_->data(Tosite::ALV).toMap().value("koodit").toMap());
+
+
+    QString url = QString("%1/vat").arg( kp()->pilvi()->service("vero") );
+    KpKysely* kysymys = kpk(url, KpKysely::POST);
+    connect( kysymys, &KpKysely::vastaus, this, &AlvLaskelma::ilmoitettu);
+    kysymys->kysy(payload);
+
+}
+
+void AlvLaskelma::tallenna()
+{
+    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf", "alv" );
 
     connect( tosite_, &Tosite::talletettu, this, &AlvLaskelma::tallennusValmis);
     tosite_->tallenna();

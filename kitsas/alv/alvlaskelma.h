@@ -73,14 +73,20 @@ public:
     Euro maksettava() const { return maksettava_;}
     Euro huojennus() const { return huojennus_;}
 
+    QDate loppupvm() const { return loppupvm_;}
+
     static int huojennusKuukaudet(const QDate& alku, const QDate& loppu);
 
 signals:
     void tallennettu();
+    void ilmoitusVirhe(const QString& koodi, const QString& viesti);
 
 public slots:
     void laske(const QDate& alkupvm, const QDate& loppupvm);
     void kirjaaHuojennus();
+    void valmisteleTosite();
+
+    void ilmoitaJaTallenna(const QString korjaus = QString(), bool huojennus = false);
     void tallenna();
 
 protected:
@@ -89,6 +95,7 @@ protected:
     void haeHuojennusJosTarpeen();
     void laskeHuojennus(QVariant* viennit);
     void tallennusValmis();
+    void ilmoitettu(QVariant* data);
 
 protected:
     void viimeistele();

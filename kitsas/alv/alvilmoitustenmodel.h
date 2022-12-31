@@ -22,6 +22,11 @@
 #include <QAbstractTableModel>
 #include <QList>
 
+class VeroVarmenneTila;
+class AlvKaudet;
+
+#include "model/euro.h"
+
 /**
  * @brief Tehtyjen arvonlisäilmoitusten model
  */
@@ -31,7 +36,7 @@ class AlvIlmoitustenModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        ALKAA, PAATTYY, ERAPVM, VERO
+        ALKAA, PAATTYY, ERAPVM, VERO, TILA
     };
     enum
     {
@@ -44,8 +49,8 @@ public:
 
     AlvIlmoitustenModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent=QModelIndex()) const;
+    int columnCount(const QModelIndex &parent=QModelIndex()) const;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
@@ -60,14 +65,43 @@ public:
      * @param loppupaiva Verokauden viimeinen päivä
      * @return
      */
-    static QDate erapaiva(const QDate& loppupaiva);
+    QDate erapaiva(const QDate& loppupaiva) const;
+    QString tilatieto(const QDate& loppupaiva) const;
+
+    AlvKaudet* kaudet() { return kaudet_;}
 
 public slots:
     void lataa();
     void dataSaapuu(QVariant* data);
+    void kaudetPaivitetetty();
 
 protected:
-    QVariantList tiedot_;
+    class AlvIlmoitusTieto {
+    public:
+        AlvIlmoitusTieto();
+        AlvIlmoitusTieto(const QVariantMap& data);
+
+        int tositeId() const { return tositeId_;}
+        QDate alkaa() const { return alkaa_;}
+        QDate paattyy() const { return paattyy_;}
+        Euro maksettava() const { return maksettava_;}
+        QVariantMap marginaaliAliJaama() const { return marginaaliAliJaama_;}
+
+        QVariantMap map() const;
+
+    protected:
+        int tositeId_;
+        QDate alkaa_;
+        QDate paattyy_;
+        Euro maksettava_;
+        QVariantMap marginaaliAliJaama_;
+    };
+
+protected:
+    QList<AlvIlmoitusTieto> ilmoitukset_;
+
+    VeroVarmenneTila* varmenneTila_;
+    AlvKaudet* kaudet_;
 
 };
 

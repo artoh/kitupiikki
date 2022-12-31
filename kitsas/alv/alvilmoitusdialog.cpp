@@ -31,7 +31,11 @@
 #include "naytin/naytinikkuna.h"
 
 #include "alvlaskelma.h"
+#include "alvilmoitustenmodel.h"
+#include "alvkaudet.h"
 
+#include <QRegularExpressionValidator>
+#include <QMessageBox>
 
 AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     QDialog(parent),
@@ -40,6 +44,17 @@ AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
     connect(ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("alv/ilmoitus/");});
+
+    ui->puhelinEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("\\+\\d+")));
+
+    connect( ui->yhteysEdit, &QLineEdit::textEdited, this, &AlvIlmoitusDialog::tarkastaKelpo);
+    connect( ui->puhelinEdit, &QLineEdit::textEdited, this, &AlvIlmoitusDialog::tarkastaKelpo);
+    connect( ui->ilmoitaGroup, &QGroupBox::toggled, this, &AlvIlmoitusDialog::tarkastaKelpo);
+
+    ui->korjausCombo->addItem(tr("Laskuvirhe"), "CLC");
+    ui->korjausCombo->addItem(tr("Oikeuskäytännön muutos"),"LGL");
+    ui->korjausCombo->addItem(tr("Verotarkastuksessa saatu ohjaus"),"TXA");
+    ui->korjausCombo->addItem(tr("Laintulkintavirhe"), "LAW");
 }
 
 AlvIlmoitusDialog::~AlvIlmoitusDialog()
@@ -50,10 +65,28 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 
 void AlvIlmoitusDialog::accept()
 {
+    kp()->asetukset()->aseta(AsetusModel::VeroYhteysHenkilo, ui->yhteysEdit->text());
+    kp()->asetukset()->aseta(AsetusModel::VeroYhteysPuhelin, ui->puhelinEdit->text());
+
     if( ui->huojennusCheck->isChecked())
         laskelma_->kirjaaHuojennus();
+
+    laskelma_->valmisteleTosite();
+
+
     connect( laskelma_, &AlvLaskelma::tallennettu, this, &AlvIlmoitusDialog::laskemaTallennettu);
-    laskelma_->tallenna();
+    connect( laskelma_, &AlvLaskelma::ilmoitusVirhe, this, &AlvIlmoitusDialog::ilmoitusVirhe);
+
+
+    if( ui->ilmoitaGroup->isChecked()) {
+        laskelma_->ilmoitaJaTallenna( ui->korjausCombo->isVisible() ? ui->korjausCombo->currentData().toString() : QString(),
+                                      ui->huojennusCheck->isChecked());
+    } else {
+        laskelma_->tallenna();
+    }
+    kp()->odotusKursori(true);
+    ui->buttonBox->setEnabled(false);
+
     qApp->processEvents();   
 }
 
@@ -83,17 +116,54 @@ void AlvIlmoitusDialog::luku(const QString &nimike, qlonglong senttia, bool viiv
     kirjoittaja->lisaaRivi(rivi);
 }
 
+void AlvIlmoitusDialog::tarkastaKelpo()
+{
+    bool kelpo =
+            !ui->ilmoitaGroup->isChecked() ||
+            ( ui->yhteysEdit->text().length() > 4 &&
+            ui->puhelinEdit->text() > 8 );
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
+}
+
+void AlvIlmoitusDialog::ilmoitusVirhe(const QString &koodi, const QString &viesti)
+{
+    kp()->odotusKursori(false);
+    QMessageBox::critical(this, tr("Virhe ilmoittamisessa"),
+                          tr("Alv-ilmoituksen toimittaminen verottajalle epäonnistui.\n") +
+                          QString("%1\n(%2)").arg( viesti, koodi ) );
+    ui->buttonBox->setEnabled(true);
+}
+
 
 void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 {
     laskelma_ = qobject_cast<AlvLaskelma*>( sender() );
     ui->ilmoitusBrowser->setHtml( rk.html() );    
-    ui->huojennusCheck->setVisible( laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
-    ui->alarajaInfo->setVisible(laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+
+    bool huojennettavaa = laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili");
+    ui->huojennusCheck->setVisible( huojennettavaa );
+    ui->huojennusCheck->setChecked( huojennettavaa );
+    ui->alarajaInfo->setVisible( huojennettavaa );
 
     QPushButton* avaa = ui->buttonBox->addButton(tr("Tulosta"), QDialogButtonBox::ApplyRole);
     avaa->setIcon(QIcon(":/pic/print.png"));
     connect( avaa, &QPushButton::clicked, [rk] {NaytinIkkuna::naytaRaportti(rk);});
+
+    bool ilmoitusKaytossa = kp()->alvIlmoitukset()->kaudet()->alvIlmoitusKaytossa();
+
+    ui->ilmoitaGroup->setVisible( ilmoitusKaytossa );
+    ui->ilmoitaGroup->setChecked( ilmoitusKaytossa );
+
+    AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( laskelma_->loppupvm() );
+    bool korjaus = kausi.tila() == AlvKausi::KASITELTY || kausi.tila() == AlvKausi::KASITTELYSSA;
+
+    ui->korjausCombo->setVisible(korjaus);
+    ui->korjausLabel->setVisible(korjaus);
+    ui->yhteysEdit->setText(  kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo) );
+    ui->puhelinEdit->setText( kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
+    if( ui->puhelinEdit->text().isEmpty())
+        ui->puhelinEdit->setText("+358");
+    tarkastaKelpo();
 
     show();
 
@@ -101,6 +171,7 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 
 void AlvIlmoitusDialog::laskemaTallennettu()
 {
+    kp()->odotusKursori(false);
     laskelma_->deleteLater();
     QDialog::accept();
 }

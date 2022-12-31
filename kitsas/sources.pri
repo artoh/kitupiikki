@@ -10,6 +10,7 @@ SOURCES += \
     $$PWD/aloitussivu/tervetulodialogi.cpp \
     $$PWD/aloitussivu/toffeelogin.cpp \
     $$PWD/aloitussivu/tukiwidget.cpp \
+    $$PWD/alv/alvkaudet.cpp \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/alv/varmennedialog.cpp \
@@ -437,6 +438,7 @@ HEADERS += \
     $$PWD/aloitussivu/tervetulodialogi.h \
     $$PWD/aloitussivu/toffeelogin.h \
     $$PWD/aloitussivu/tukiwidget.h \
+    $$PWD/alv/alvkaudet.h \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/alv/varmennedialog.h \

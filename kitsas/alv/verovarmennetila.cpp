@@ -4,7 +4,6 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
-#include "alvilmoitustenmodel.h"
 
 VeroVarmenneTila::VeroVarmenneTila(QObject *parent)
     : QObject{parent}
@@ -37,6 +36,8 @@ QString VeroVarmenneTila::toString() const
 {
     if( status().isEmpty()) {
         return tr("Varmennetta ei ole otettu käyttöön.");
+    } else if( status() == "OK" && statusTime_.daysTo(QDateTime::currentDateTime()) < 3) {
+        return tr("Verohallinnon varmenne on noudettu %1.\nVarmenne ei välttämättä ole vielä käytettävissä").arg(statusTime_.toString("dd.MM.yyyy"));
     } else if( status() == "OK") {
         return tr("Verohallinnon varmenne on käytettävissä. \nVarmenne noudettu %1.").arg(statusTime_.toString("dd.MM.yyyy"));
     } else if( status() == "OF") {
@@ -59,6 +60,8 @@ void VeroVarmenneTila::tilaSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
     set(map);
+
     emit paivitetty();
 
+    if( isValid()) emit kaytossa();
 }

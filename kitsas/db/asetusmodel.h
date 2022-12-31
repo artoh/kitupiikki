@@ -89,6 +89,7 @@ public:
         TilinpaatosValinnat,
         TilinpaatosKieli,
         VeroYhteysPuhelin,
+        VeroYhteysHenkilo,
         Palkkatilit,
         OvtTunnnus,
         Operaattori,

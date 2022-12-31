@@ -11,6 +11,8 @@
 #include <QTimer>
 #include <QMessageBox>
 
+#include <QRegularExpressionValidator>
+
 VeroMaaritys::VeroMaaritys() :
     ui{new Ui::VeroMaaritys},
     tila(new VeroVarmenneTila(this))
@@ -20,6 +22,8 @@ VeroMaaritys::VeroMaaritys() :
     connect( ui->uusiVarmenneNappi, &QPushButton::clicked, this, &VeroMaaritys::lisaaVarmenne);
     connect( ui->poistaVarmenneNappi, &QPushButton::clicked, this, &VeroMaaritys::poistaVarmenne);
     connect( tila, &VeroVarmenneTila::paivitetty, this, &VeroMaaritys::tilaPaivitetty);
+
+    ui->puhelinEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("\\+\\d+")));
 }
 
 VeroMaaritys::~VeroMaaritys()

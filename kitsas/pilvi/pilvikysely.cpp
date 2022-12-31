@@ -159,9 +159,9 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
     else if( koodi == QNetworkReply::ContentAccessDenied)
         emit kp()->onni(tr("<b>Oikeutesi eivät riitä tähän toimintoon</b>"), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::InternalServerError)
-        emit kp()->onni(tr("<b>Palvelinvirhe %1</b>").arg(koodi), Kirjanpito::Stop);
+        emit kp()->onni(tr("<b>Palvelinvirhe</b>").arg(koodi), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::ProtocolInvalidOperationError)
-        emit kp()->onni(tr("<b>Virhe palvelimella %1</b>").arg(koodi), Kirjanpito::Stop);
+        emit kp()->onni(tr("<b>Virhe palvelimella</b>").arg(koodi), Kirjanpito::Stop);
     else if( koodi == QNetworkReply::UnknownServerError)
         emit kp()->onni(tr("<b>Palvelinvirhe</b><br>Palvelu on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
     kp()->odotusKursori(false);

@@ -247,7 +247,7 @@ void AloitusBrowser::paivitaAlvVinkki()
             laskennallinenalkupaiva = QDate( kausialkaa.year(), 1, 1);
 
         QDate kausipaattyy = laskennallinenalkupaiva.addMonths( kausi ).addDays(-1);
-        QDate erapaiva = AlvIlmoitustenModel::erapaiva(kausipaattyy);
+        QDate erapaiva = kp()->alvIlmoitukset()->erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)

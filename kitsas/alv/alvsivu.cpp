@@ -37,6 +37,7 @@
 #include "kieli/kielet.h"
 
 #include "alvilmoitustenmodel.h"
+#include "alvkaudet.h"
 
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu),
@@ -79,8 +80,8 @@ void AlvSivu::siirrySivulle()
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
     paivitaMaksuAlvTieto();
 
-    for(int i=0; i<3; i++)
-        ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );
+    for(int i=0; i<4; i++)
+        ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 5 );
 
     ui->kausiCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     ui->maksuperusteNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
@@ -107,7 +108,7 @@ void AlvSivu::paivitaErapaiva()
     if( loppupvm.day() != loppupvm.daysInMonth()) {
         ui->paattyyEdit->setDate(QDate( loppupvm.year(), loppupvm.month(), loppupvm.daysInMonth()));
     } else {
-        QDate erapaiva = AlvIlmoitustenModel::erapaiva(loppupvm);
+        QDate erapaiva = kp()->alvIlmoitukset()->erapaiva(loppupvm);
 
         ui->erapaivaLabel->setText( erapaiva.toString("dd.MM.yyyy") );
 
@@ -123,11 +124,12 @@ void AlvSivu::paivitaErapaiva()
 
 void AlvSivu::ilmoita()
 {
-    AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
+    AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog(this);
     AlvLaskelma *laskelma = new AlvLaskelma(dlg, Kielet::instanssi()->nykyinen());
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);
+
     laskelma->laske(ui->alkaaEdit->date(), ui->paattyyEdit->date());
 
 }
@@ -164,7 +166,13 @@ void AlvSivu::riviValittu()
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
                                         index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() > kp()->tilitpaatetty() );
+
+    QDate pvm = index.data(AlvIlmoitustenModel::PaattyyRooli).toDate();
+    AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi(pvm);
+    bool voiIlmoittaa = kausi.tila() == AlvKausi::PUUTTUVA || kausi.tila() == AlvKausi::EIKAUTTA;
+
     ui->ilmoitinNappi->setEnabled( index.isValid() &&
+                                   voiIlmoittaa &&
                                    ilmoitin->voikoMuodostaa(index.data(AlvIlmoitustenModel::MapRooli).toMap()));
 
 }

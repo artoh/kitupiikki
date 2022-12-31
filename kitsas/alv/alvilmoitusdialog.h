@@ -64,6 +64,10 @@ private:
     void luku(const QString& nimike, qlonglong senttia, bool viiva = false);
 
 
+    void tarkastaKelpo();
+
+    void ilmoitusVirhe(const QString& koodi, const QString& viesti);
+
 public slots:
     void naytaLaskelma(RaportinKirjoittaja rk);
 

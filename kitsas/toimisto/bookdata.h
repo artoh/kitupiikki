@@ -35,6 +35,9 @@ public:
     int ownerId() const { return ownerId_;}
     QString ownerName() const { return ownername_;}
 
+    QString certStatus() const { return certStatus_;}
+    QString certInfo() const;
+
     bool loginAvailable() const;
     void openBook();
     void supportLogin();
@@ -71,6 +74,8 @@ private:
 
     int ownerId_= 0;
     QString ownername_;
+
+    QString certStatus_;
 
 
     GroupMembersModel* directUsers_;
