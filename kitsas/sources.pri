@@ -252,6 +252,7 @@ SOURCES += \
     $$PWD/toimisto/pikavalintadialogi.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
     $$PWD/toimisto/shortcutmodel.cpp \
+    $$PWD/toimisto/toimistokirjanpitodialogi.cpp \
     $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
@@ -712,6 +713,7 @@ HEADERS += \
     $$PWD/toimisto/pikavalintadialogi.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \
     $$PWD/toimisto/shortcutmodel.h \
+    $$PWD/toimisto/toimistokirjanpitodialogi.h \
     $$PWD/toimisto/toimistosivu.h \
     $$PWD/toimisto/uusitoimistoonsivu.h \
     $$PWD/tools/checkcombo.h \
@@ -946,6 +948,7 @@ FORMS += \
     $$PWD/toimisto/pikavalintadialogi.ui \
     $$PWD/toimisto/ryhmaoikeusdialog.ui \
     $$PWD/toimisto/toimisto.ui \
+    $$PWD/toimisto/toimistokirjanpitodialogi.ui \
     $$PWD/toimisto/toimistooikeudet.ui \
     $$PWD/tools/eranvalintadialog.ui \
     $$PWD/tools/paivitys.ui \
