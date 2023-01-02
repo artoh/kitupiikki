@@ -12,6 +12,7 @@
 #include "versio.h"
 #include <QRegularExpression>
 #include <QSettings>
+#include "alv/alvkaudet.h"
 
 AloitusBrowser::AloitusBrowser(QWidget* parent) :
     QTextBrowser(parent)
@@ -37,10 +38,8 @@ void AloitusBrowser::haSaldot(const QDate &saldoPvm)
 
 void AloitusBrowser::asetaTilioimatta(int tilioimatta)
 {
-    if( tilioimatta || !tilioimatta_) {
-        tilioimatta_ = tilioimatta;
-        paivitaAvattu();
-    }
+    tilioimatta_ = tilioimatta;
+    paivitaAvattu();
 }
 
 void AloitusBrowser::naytaPaivitetty()
@@ -228,8 +227,15 @@ void AloitusBrowser::paivitaAlvVinkki()
     if(  kp()->asetukset()->onko("AlvVelvollinen") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
     {
         QDate kausialkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
-        QDate laskennallinenalkupaiva = kausialkaa;
         int kausi = kp()->asetukset()->luku("AlvKausi");
+
+        // Jos alv-ilmoitus on kuitenkin annettu jollain muulla ohjelmalla, ja se on jo käsitelty,
+        // niin eipä sitten urputella...
+        while( kp()->alvIlmoitukset()->kaudet()->kausi( kausialkaa ).tila() == AlvKausi::KASITELTY )
+            kausialkaa = kausialkaa.addMonths(kausi);
+
+
+        QDate laskennallinenalkupaiva = kausialkaa;        
         if( kausi == 1)
             laskennallinenalkupaiva = QDate( kausialkaa.year(), kausialkaa.month(), 1);
         else if( kausi == 3) {
@@ -248,6 +254,7 @@ void AloitusBrowser::paivitaAlvVinkki()
 
         QDate kausipaattyy = laskennallinenalkupaiva.addMonths( kausi ).addDays(-1);
         QDate erapaiva = kp()->alvIlmoitukset()->erapaiva(kausipaattyy);
+
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)

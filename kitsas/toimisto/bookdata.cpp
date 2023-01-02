@@ -135,7 +135,7 @@ void BookData::dataIn(QVariant *data)
     authLog_->load( map.value("log").toList());
 
     certStatus_ = map.value("cert").toString();
-    initialized_ = map.value("initialized").toBool();
+    initialized_ = map.value("initialized", true).toBool();
 
     emit loaded();
 }

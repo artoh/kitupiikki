@@ -147,8 +147,8 @@ void LaatijanPaakirja::kirjoitaDatasta()
     qlonglong kaikkiKredit = 0;
 
     const int otsikkosarakkeet =
-            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 :
-            (( valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 5 : 4 );
+            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 8 :
+            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 : 5 );
 
 
     while( iter.hasNext()) {
@@ -267,7 +267,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.viivaYlle();
         summa.lihavoi();
         summa.lisaa("",2);
-        summa.lisaa(kaanna("Yhteensä"),otsikkosarakkeet);
+        summa.lisaa(kaanna("Yhteensä"),otsikkosarakkeet-2);
 
 
         summa.lisaa(kaikkiDebet);

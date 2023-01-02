@@ -20,7 +20,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     url_ = map.value("url").toString();
     token_ = map.value("token").toString();
     setServices(map.value("services").toMap());
-    alustettu_ = map.value("initialized").toBool();
+    alustettu_ = map.value("initialized",true).toBool();
 
     const QVariantMap planMap = map.value("plan").toMap();
     plan_id_ = planMap.value("id").toInt();
