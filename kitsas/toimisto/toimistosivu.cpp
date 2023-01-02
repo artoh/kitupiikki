@@ -279,6 +279,7 @@ void ToimistoSivu::kirjaVaihtui()
     ui->logo->setPixmap(QPixmap::fromImage(scaled));
 
     ui->bHarjoitus->setVisible( bookData_->trial() );
+    ui->alustamatonLabel->setVisible( !bookData_->initialized() );
 
     ui->bLuotu->setText( bookData_->created().toString("dd.MM.yyyy") );
     ui->bMuokattu->setText( bookData_->modified().toString("dd.MM.yyyy"));
