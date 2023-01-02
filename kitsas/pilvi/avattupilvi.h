@@ -17,6 +17,9 @@ public:
     operator bool() const;
 
     int id() const { return id_; }
+    QString nimi() const { return name_;}
+    QString ytunnus() const { return businessid_;}
+    bool kokeilu() const { return trial_;}
     int planId() const { return plan_id_;}
     bool vat() const { return vat_;}
     bool trial_period() const { return trial_period_; }
@@ -25,6 +28,11 @@ public:
     QString token() const { return token_;}
 
     qlonglong oikeudet() const { return oikeudet_; }
+
+    bool alustettu() const { return alustettu_;}
+
+    void asetaNimi(const QString& nimi);
+    void asetaYTunnus(const QString& ytunnus);
 
     /**
      * @brief Muodostaa oikeuksista bittikartan
@@ -38,10 +46,14 @@ private:
     int plan_id_ = 0;
     bool vat_ = false;
     bool trial_period_ = false;
+    bool trial_ = false;
 
     qlonglong oikeudet_ = 0L;
     QString url_;
     QString token_;
+    bool alustettu_ = false;
+    QString name_;
+    QString businessid_;
 
     static std::map<QString,qlonglong> oikeustunnukset__;
 };

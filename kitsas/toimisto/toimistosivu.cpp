@@ -23,6 +23,8 @@
 
 #include "alv/varmennedialog.h"
 
+#include "toimistokirjanpitodialogi.h"
+
 #include <QAction>
 #include <QMenu>
 #include <QDebug>
@@ -401,11 +403,16 @@ void ToimistoSivu::uusiKayttajaRyhmaan()
 
 void ToimistoSivu::uusiKirjanpito()
 {
+    ToimistoKirjanpitoDialogi dlg(this, groupData_);
+    dlg.exec();
+
+    /**
     UusiVelho velho(this);
     if( velho.toimistoVelho(groupData_)) {
         QVariantMap map = velho.data();
         groupData_->addBook(map);
     }
+    */
 }
 
 void ToimistoSivu::vaihdaTuote()

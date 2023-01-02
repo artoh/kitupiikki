@@ -72,9 +72,18 @@ void TiedotSivu::initializePage()
         QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->laajuusList);
         item->setData(Qt::UserRole, laajuusIter.key());
     }
-    ui->laajuusList->setCurrentRow( velho->asetukset_.value("laajuus").toInt() - 1);
+
+    if( field("ytunnus").toString().isEmpty() ) {
+        ui->laajuusList->setCurrentRow( velho->asetukset_.value("laajuus").toInt() - 1);
+    } else {
+        // Kitsas PRO oletuksena kaikki tilit näkyvissä
+        ui->laajuusList->setCurrentRow( ui->laajuusList->count() - 1 );
+    }
 
     connect( ui->ytunnusEdit , &QLineEdit::textEdited, this, &TiedotSivu::haeytunnarilla);
+
+    if( !ui->ytunnusEdit->text().isEmpty())
+        haeytunnarilla();
 }
 
 bool TiedotSivu::validatePage()

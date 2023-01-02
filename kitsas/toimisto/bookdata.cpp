@@ -45,10 +45,17 @@ QString BookData::certInfo() const
     else return certStatus_;
 }
 
+
 bool BookData::loginAvailable() const
 {
     const int userid = kp()->pilvi()->kayttaja().id();
-    return directUsers_->getMember(userid) || groupUsers_->getMember(userid);
+    if( initialized() ) {
+        return directUsers_->getMember(userid) || groupUsers_->getMember(userid);
+    } else {
+        // Jos ei ole vielä alustettu, edellytetään asetusoikeutta jotta voi kirjautua
+        return  (directUsers_->getMember(userid) && directUsers_->getMember(userid).rights().contains("As"))  ||
+                (groupUsers_->getMember(userid) && groupUsers_->getMember(userid).rights().contains("As"));
+    }
 }
 
 void BookData::openBook()
@@ -128,6 +135,7 @@ void BookData::dataIn(QVariant *data)
     authLog_->load( map.value("log").toList());
 
     certStatus_ = map.value("cert").toString();
+    initialized_ = map.value("initialized").toBool();
 
     emit loaded();
 }

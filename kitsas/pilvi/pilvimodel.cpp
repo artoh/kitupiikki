@@ -35,6 +35,9 @@
 #include <QTimer>
 #include <QFile>
 #include <QNetworkReply>
+#include <QApplication>
+
+#include "uusikirjanpito/uusivelho.h"
 
 PilviModel::PilviModel(QObject *parent, const QString &token) :
     YhteysModel (parent),
@@ -64,7 +67,10 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     }
 
     if( role == Qt::DecorationRole) {
-        return pilvi.logo();
+        if( pilvi.ready())
+            return pilvi.logo();
+        else
+            return QIcon(":/pic/lisaa.png");
     }
     if( role == Qt::ForegroundRole) {
         if( pilvi.kokeilu() )
@@ -263,8 +269,42 @@ void PilviModel::tarkistaKirjautuminen()
 
 void PilviModel::alustaPilvi(QVariant *data)
 {
-    nykyPilvi_ = AvattuPilvi(*data);
-    alusta();
+    AvattuPilvi pilvi(*data);
+    if( !pilvi.alustettu() ) {
+        kp()->odotusKursori(false);
+        if( !(pilvi.oikeudet() & YhteysModel::ASETUKSET)) {
+            // Pilveä ei ole vielä alustettu, eikä siihen ole myöskään oikeuksia
+            QMessageBox::information( qApp->activeWindow() , tr("Kirjanpidon avaaminen"), tr("Kirjanpitoa %1 ei ole vielä alustettu").arg(pilvi.nimi()));
+            return;
+        } else {
+            nykyPilvi_ = pilvi;
+            UusiVelho velho(qApp->activeWindow());
+            QVariantMap data = velho.alustusVelho( pilvi.ytunnus(), pilvi.nimi(), pilvi.kokeilu() );
+            if( data.isEmpty()) { sulje(); return; }
+
+            nykyPilvi_.asetaNimi( data.value("name").toString() );
+            nykyPilvi_.asetaYTunnus(data.value("businessid").toString());
+
+            KpKysely* kyssari = kysely("/init", KpKysely::PUT);
+            connect( kyssari, &KpKysely::vastaus, this, &PilviModel::uusiPilviAlustettu);
+            kyssari->kysy(data.value("init"));
+        }
+    } else {
+        nykyPilvi_ = pilvi;
+        alusta();
+    }
+}
+
+void PilviModel::uusiPilviAlustettu()
+{
+    QVariantMap payload;
+    payload.insert("name", nykyPilvi_.nimi());
+    payload.insert("trial", nykyPilvi_.kokeilu());
+    payload.insert("businessid", nykyPilvi_.ytunnus());
+
+    KpKysely* patchKysely = loginKysely(QString("/clouds/%1").arg(nykyPilvi_.id()), KpKysely::PATCH);
+    connect( patchKysely, &KpKysely::vastaus, this, [this] { this->paivitaLista( this->nykyPilvi_.id() ); });
+    patchKysely->kysy(payload);
 }
 
 void PilviModel::asetaPilviLista(const QVariantList lista)

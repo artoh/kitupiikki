@@ -281,7 +281,6 @@ SOURCES += \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
-    $$PWD/toimisto/uusitoimistoonsivu.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/eraeranvalintadialog.cpp \
@@ -715,7 +714,6 @@ HEADERS += \
     $$PWD/toimisto/shortcutmodel.h \
     $$PWD/toimisto/toimistokirjanpitodialogi.h \
     $$PWD/toimisto/toimistosivu.h \
-    $$PWD/toimisto/uusitoimistoonsivu.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/eraeranvalintadialog.h \
@@ -955,11 +953,11 @@ FORMS += \
     $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \
+    $$PWD/uusikirjanpito/uusialustus.ui \
     $$PWD/uusikirjanpito/uusiloppu.ui \
     $$PWD/uusikirjanpito/uusisijainti.ui \
     $$PWD/uusikirjanpito/uusitiedot.ui \
     $$PWD/uusikirjanpito/uusitilikartta.ui \
-    $$PWD/uusikirjanpito/uusitoimistoon.ui \
     $$PWD/uusikirjanpito/uusivastuu.ui \
     $$PWD/uusikirjanpito/varmista.ui \
     maaritys/perusvalinnat.ui \

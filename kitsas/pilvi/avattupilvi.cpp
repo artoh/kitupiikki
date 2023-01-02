@@ -13,10 +13,14 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     const QVariantMap map = data.toMap();
 
     id_ =  map.value("id").toInt();
+    name_ = map.value("name").toString();
+    businessid_ = map.value("businessid").toString();
+    trial_ = map.value("trial").toBool();
     oikeudet_ = oikeudetListasta(map.value("rights").toList());
     url_ = map.value("url").toString();
     token_ = map.value("token").toString();
     setServices(map.value("services").toMap());
+    alustettu_ = map.value("initialized").toBool();
 
     const QVariantMap planMap = map.value("plan").toMap();
     plan_id_ = planMap.value("id").toInt();
@@ -29,6 +33,16 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
 AvattuPilvi::operator bool() const
 {
     return id() != 0;
+}
+
+void AvattuPilvi::asetaNimi(const QString &nimi)
+{
+    name_ = nimi;
+}
+
+void AvattuPilvi::asetaYTunnus(const QString &ytunnus)
+{
+    businessid_ = ytunnus;
 }
 
 

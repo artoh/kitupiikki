@@ -14,6 +14,7 @@ public:
     QString nimi() const { return nimi_;}
     bool kokeilu() const { return kokeilu_;}
     QPixmap logo() const { return logo_;}
+    bool ready() const { return ready_;}
 
 
 protected:
@@ -21,6 +22,7 @@ protected:
     QString nimi_;
     bool kokeilu_;
     QPixmap logo_;
+    bool ready_;
 
 };
 

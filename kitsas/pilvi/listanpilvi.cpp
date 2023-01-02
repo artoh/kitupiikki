@@ -16,6 +16,7 @@ ListanPilvi::ListanPilvi(const QVariant &variant)
     id_ = map.value("id").toInt();
     nimi_ = map.value("name").toString();
     kokeilu_ = map.value("trial").toBool();
+    ready_ = map.value("ready").toBool();
 
     const QByteArray ba = QByteArray::fromBase64(map.value("logo").toByteArray());
     if( ba.isEmpty() ) {

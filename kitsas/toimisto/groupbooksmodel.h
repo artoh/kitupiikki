@@ -22,6 +22,7 @@ protected:
         QString planname;
         QString businessid;
         QString ownername;
+        bool initialized;
     };
 
 public:

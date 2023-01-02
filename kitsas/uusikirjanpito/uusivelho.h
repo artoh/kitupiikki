@@ -25,6 +25,7 @@ namespace Ui {
     class Varmista;
     class UusiHarjoitus;
     class Uusivastuu;
+    class UusiAlustus;
     class UusiTilikartta;
     class UusiTilikausi;
     class UusiNumerointi;
@@ -32,14 +33,13 @@ namespace Ui {
 }
 
 class GroupData;
-class UusiToimistoonSivu;
 
 class UusiVelho : public QWizard
 {
     Q_OBJECT
 public:
     UusiVelho(QWidget *parent = nullptr);
-    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, TOIMISTO, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
+    enum Sivut { ALOITUS, VARMISTA, HARJOITUS, VASTUU, ALUSTUS, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
     bool lataaKartta(const QString& polku);
     static QVariantMap kartta(const QString& polku);
     bool ladattu() const { return !tilit_.isEmpty();}
@@ -52,15 +52,17 @@ public:
     QVariantMap asetukset_;
     QVariantList tilit_;
     QVariantList tilikaudet_;
-    int tuote_ = 0;
-    bool harjoitus_ = true;
 
     static QVariantMap asetukset( const QString& polku);
 
-    int toimistoVelho(GroupData* group);
+    QVariantMap alustusVelho(const QString& ytunnus, const QString& nimi, bool harjoitus);
 
 protected:
-    UusiToimistoonSivu* toimistoon;
+    void veroViiteTulos(QVariant* data);
+    QVariantMap veroViiteMap_;
+
+protected:
+
 
     class VarmistaSivu : public QWizardPage {
     public:
@@ -73,7 +75,6 @@ protected:
     class Harjoitussivu : public QWizardPage {
     public:
         Harjoitussivu(UusiVelho *wizard);
-        bool validatePage() override;
     protected:        
         Ui::UusiHarjoitus *ui;
         UusiVelho *velho;
@@ -84,6 +85,14 @@ protected:
         VastuuSivu();
     protected:
         Ui::Uusivastuu *ui;
+    };
+
+    class UusiAlustus : public QWizardPage {
+    public:
+        UusiAlustus();
+        void initializePage() override;
+    protected:
+        Ui::UusiAlustus *ui;
     };
 
     class Tilikarttasivu : public QWizardPage {

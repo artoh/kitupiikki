@@ -64,6 +64,7 @@ public:
 
     void avaaPilvesta(int pilviId, bool siirrossa = false);
     void alustaPilvi(QVariant* data);
+    void uusiPilviAlustettu();
 
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;

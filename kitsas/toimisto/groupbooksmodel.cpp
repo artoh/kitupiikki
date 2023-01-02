@@ -1,5 +1,7 @@
 #include "groupbooksmodel.h"
 
+#include <QIcon>
+
 GroupBooksModel::GroupBooksModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -58,7 +60,9 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
 
         return index.column() == 0 ? book.name: book.planname;
     case Qt::DecorationRole:
-        return index.column() == 0 ? book.logo : QVariant();
+        if( index.column() ) return QVariant();
+        else if( !book.initialized ) return QIcon(":/pic/lisaa.png");
+        else return book.logo;
     case IdRooli:
         return book.id;
     case Qt::ForegroundRole:
@@ -111,6 +115,7 @@ GroupBooksModel::GroupBook::GroupBook(const QVariantMap &map)
     planname = map.value("plan").toString();
     businessid = map.value("businessid").toString();
     ownername = map.value("ownername").toString();
+    initialized = map.value("initialized").toBool();
 
     QByteArray ba = QByteArray::fromBase64( map.value("logo").toByteArray() );
     if( ba.isEmpty())

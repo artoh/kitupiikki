@@ -38,6 +38,8 @@ public:
     QString certStatus() const { return certStatus_;}
     QString certInfo() const;
 
+    bool initialized() const { return initialized_; };
+
     bool loginAvailable() const;
     void openBook();
     void supportLogin();
@@ -49,6 +51,8 @@ public:
     void setShortcuts(ShortcutModel* shortcuts);
     void removeRights(const int userid);
     void changePlan(const int planid);
+
+
 
 signals:
     void loaded();
@@ -76,7 +80,7 @@ private:
     QString ownername_;
 
     QString certStatus_;
-
+    bool initialized_ = false;
 
     GroupMembersModel* directUsers_;
     GroupMembersModel* groupUsers_;

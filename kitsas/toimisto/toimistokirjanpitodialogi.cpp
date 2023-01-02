@@ -4,9 +4,11 @@
 #include "validator/ytunnusvalidator.h"
 #include "groupdata.h"
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
+
 
 #include <QPushButton>
-
+#include <QMessageBox>
 
 #include <QNetworkReply>
 #include <QJsonDocument>
@@ -28,10 +30,36 @@ ToimistoKirjanpitoDialogi::~ToimistoKirjanpitoDialogi()
     delete ui;
 }
 
+void ToimistoKirjanpitoDialogi::accept()
+{
+    ui->buttonBox->setEnabled(false);
+    kp()->odotusKursori(true);
+
+    // Luo uuden kirjanpidon
+    // groups/:id/books -rajapinnalla
+    // ja lisää sen listaukseen.
+
+    // Tietokanta alustetaan vasta, kun
+    // siihen kirjaudutaan ensimmäistä kertaa
+    QVariantMap payload;
+    payload.insert("name", ui->nimiEdit->text());
+    payload.insert("businessid", ui->ytunnusEdit->text());
+    payload.insert("product", ui->tuoteList->currentItem()->data(Qt::UserRole).toInt());
+    payload.insert("trial", ui->harjoitusCheck->isChecked());
+
+
+    KpKysely* kysely = kp()->pilvi()->loginKysely(
+        QString("/groups/%1/book").arg(groupData_->id()),
+        KpKysely::POST
+    );
+    connect( kysely, &KpKysely::vastaus, this, &ToimistoKirjanpitoDialogi::created);
+    kysely->kysy(payload);
+}
+
 void ToimistoKirjanpitoDialogi::initUi()
 {
     ui->toimistoLabel->setText( groupData_->officeName() );
-    ui->ryhmaLabel->setText( groupData_->objectName());
+    ui->ryhmaLabel->setText( groupData_->name()  );
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
     for(const auto& item : groupData_->products()) {
@@ -73,4 +101,20 @@ void ToimistoKirjanpitoDialogi::tarkastaKelpo()
             ui->ytunnusEdit->hasAcceptableInput() &&
             ui->nimiEdit->text().length() > 2;
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
+}
+
+void ToimistoKirjanpitoDialogi::created()
+{
+    kp()->odotusKursori(false);
+    groupData_->reload();
+    kp()->pilvi()->paivitaLista();
+    QDialog::accept();
+}
+
+void ToimistoKirjanpitoDialogi::error()
+{
+    QMessageBox::critical(this, tr("Kirjanpidon luominen"),
+                          tr("Kirjanpidon luominen epäonnistui virhetilanteen takia.\nYritä uudelleen myöhemmin."));
+    kp()->odotusKursori(false);
+    ui->buttonBox->setEnabled(true);
 }

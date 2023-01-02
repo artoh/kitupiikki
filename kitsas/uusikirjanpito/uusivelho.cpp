@@ -23,6 +23,7 @@
 #include "ui_numerointi.h"
 #include "ui_uusivastuu.h"
 #include "ui_varmista.h"
+#include "ui_uusialustus.h"
 
 #include <QFile>
 #include <QJsonDocument>
@@ -38,7 +39,6 @@
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
 #include "tiedotsivu.h"
-#include "toimisto/uusitoimistoonsivu.h"
 
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
@@ -56,8 +56,7 @@
 #include <QUuid>
 
 UusiVelho::UusiVelho(QWidget *parent) :
-    QWizard(parent),
-    toimistoon{new UusiToimistoonSivu(this)}
+    QWizard(parent)
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
 
@@ -66,7 +65,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     addPage( new VarmistaSivu );
     addPage( new Harjoitussivu(this) );
     addPage( new VastuuSivu );
-    addPage( toimistoon );
+    addPage( new UusiAlustus);
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
@@ -117,7 +116,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    if( harjoitus_ )
+    if( field("harjoitus").toBool() )
         asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())
@@ -130,6 +129,13 @@ QVariantMap UusiVelho::data() const
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
     asetusMap.insert("Luotu", QDateTime::currentDateTime());
     asetusMap.insert("UID", QUuid::createUuid().toString() );
+
+    if( !veroViiteMap_.isEmpty()) {
+        // Verojen viitteet valmiiksi asetuksiin
+        asetusMap.insert("VeroTuloViite", veroViiteMap_.value("173").toString());
+        asetusMap.insert("VeroOmaViite", veroViiteMap_.value("172").toString());
+
+    }
 
     if( kp()->settings()->value("SmtpServer").toString().isEmpty() &&
         field("pilveen").toBool() ) {
@@ -146,14 +152,11 @@ QVariantMap UusiVelho::data() const
     initMap.insert("tilikaudet", tilikaudet_);
 
     map.insert("name", asetukset_.value("Nimi"));
-    map.insert("trial", harjoitus_);
+    map.insert("trial", field("harjoitus").toBool());
     map.insert("init", initMap);
     if(!field("ytunnus").toString().isEmpty())
         map.insert("businessid", field("ytunnus").toString());
 
-    if( tuote_ ) {
-        map.insert("product", tuote_);
-    }
 
 //    std::cout << QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact).toStdString();
 
@@ -173,12 +176,11 @@ int UusiVelho::nextId() const
             field("pilveen").toBool())
         return HARJOITUS;
 
-    if( currentId() == HARJOITUS && harjoitus_)
+    if( currentId() == HARJOITUS && field("harjoitus").toBool())
         return TILIKARTTA;
 
-    if( currentId() == VASTUU ) {
+    if( currentId() == VASTUU)
         return TILIKARTTA;
-    }
 
     if( currentId() == NUMEROINTI &&
             field("pilveen").toBool())
@@ -238,12 +240,36 @@ QVariantMap UusiVelho::asetukset(const QString &polku)
     return map;
 }
 
-int UusiVelho::toimistoVelho(GroupData *group)
+QVariantMap UusiVelho::alustusVelho(const QString &ytunnus, const QString &nimi, bool harjoitus)
 {
-    toimistoon->yhdista(group);
-    setStartId(TOIMISTO);
-    return exec();
+    setField("nimi", nimi);
+    setField("ytunnus", ytunnus);
+    setField("harjoitus", harjoitus);
+    setField("pilveen", true);
+
+    setStartId(ALUSTUS);
+
+    // Haetaan veroviitteet, jotta ne saadaan jo valmiiksi
+    // asetuksiin
+
+    QString url = QString("%1/info/refs").arg(kp()->pilvi()->service("vero"));
+    KpKysely* kysymys = kp()->pilvi()->kysely(url);
+    connect(kysymys, &KpKysely::vastaus, this, &UusiVelho::veroViiteTulos);
+    kysymys->kysy();
+
+
+    if( exec())
+        return data();
+    else
+        return QVariantMap();
+
 }
+
+void UusiVelho::veroViiteTulos(QVariant *data)
+{
+    veroViiteMap_ = data->toMap();
+}
+
 
 
 
@@ -253,13 +279,9 @@ UusiVelho::Harjoitussivu::Harjoitussivu(UusiVelho *wizard) :
 {
     ui->setupUi(this);
     setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));    
+    registerField("harjoitus", ui->harjoitusButton);
 }
 
-bool UusiVelho::Harjoitussivu::validatePage()
-{
-    velho->harjoitus_ = ui->harjoitusButton->isChecked();
-    return true;
-}
 
 
 UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
@@ -339,4 +361,15 @@ void UusiVelho::LoppuSivu::initializePage()
     ui->pilviLabel->setVisible(pilveen);
     ui->koneLabel->setVisible(!pilveen);
 
+}
+
+UusiVelho::UusiAlustus::UusiAlustus()
+    : ui{ new Ui::UusiAlustus}
+{
+    ui->setupUi(this);
+}
+
+void UusiVelho::UusiAlustus::initializePage()
+{
+    ui->nimiLabel->setText( field("nimi").toString() + "\n" + field("ytunnus").toString() );
 }

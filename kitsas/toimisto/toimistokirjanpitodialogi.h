@@ -17,8 +17,16 @@ public:
     explicit ToimistoKirjanpitoDialogi(QWidget *parent, GroupData* group);
     ~ToimistoKirjanpitoDialogi();
 
+    void accept() override;    
+
 private:
     void initUi();
+    void haeTunnarilla();
+    void hakuSaapuu();
+    void tarkastaKelpo();
+
+    void created();
+    void error();
 
     Ui::ToimistoKirjanpitoDialogi *ui;
     GroupData* groupData_;
