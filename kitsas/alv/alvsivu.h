@@ -52,10 +52,12 @@ public slots:
     void naytaIlmoitus();
     void poistaIlmoitus();
     void riviValittu();
-    void tallennaIlmoitinAineisto();
-    void maksuAlv();
-    void paivitaMaksuAlvTieto();     
+    void tallennaIlmoitinAineisto();     
 
+
+protected:
+    void paivitaKaudet();
+    void kausiValittu();
 
 private:
     Ui::AlvSivu *ui;

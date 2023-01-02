@@ -23,6 +23,8 @@
 #include "verovarmennetila.h"
 #include "alvkaudet.h"
 
+#include "pilvi/pilvimodel.h"
+
 AlvIlmoitustenModel::AlvIlmoitustenModel(QObject *parent)
     : QAbstractTableModel(parent),
       varmenneTila_{new VeroVarmenneTila(this)},
@@ -178,7 +180,13 @@ void AlvIlmoitustenModel::lataa()
     connect( kysely, &KpKysely::vastaus, this, &AlvIlmoitustenModel::dataSaapuu);
     kysely->kysy();
 
-    varmenneTila_->paivita();
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
+        kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET | YhteysModel::ALV_ILMOITUS)) {
+        varmenneTila_->paivita();
+    } else {
+        varmenneTila_->tyhjenna();
+        kaudet_->tyhjenna();
+    }
 }
 
 void AlvIlmoitustenModel::dataSaapuu(QVariant *data)

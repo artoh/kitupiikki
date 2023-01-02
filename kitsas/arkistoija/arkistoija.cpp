@@ -519,6 +519,10 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
     QByteArray ba;
     QTextStream out (&ba);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    out.setCodec("UTF-8");
+#endif
+
     const QVariantList& liitteet = tosite.value("liitteet").toList();
     bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
 
@@ -736,6 +740,9 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 {
     QByteArray ba;
     QTextStream out (&ba);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    out.setCodec("UTF-8");
+#endif
 
     out << "<html><meta charset=\"UTF-8\"><head><title>" << tosite.value("otsikko").toString() << "</title>";
     out << "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'></head><body>";

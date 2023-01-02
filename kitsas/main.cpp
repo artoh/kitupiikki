@@ -48,13 +48,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName("Kitsas");
     a.setApplicationVersion(KITSAS_VERSIO);
     a.setOrganizationDomain("kitsas.fi");
     a.setOrganizationName("Kitsas oy");
 
-    KitsasLokiModel::alusta();
-    Kielet::alustaKielet(":/tr/tulkki.json");    
+    KitsasLokiModel::alusta();  
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
@@ -62,13 +60,7 @@ int main(int argc, char *argv[])
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
-    
-
-#ifndef Q_OS_MACX
-    a.setWindowIcon( QIcon(":/pic/Possu64.png"));
-#endif    
-
-
+        
     QCommandLineParser parser;
     parser.addOptions({
                           {"api",
@@ -84,6 +76,14 @@ int main(int argc, char *argv[])
                       });
     parser.addVersionOption();
     parser.process(a);
+
+    a.setApplicationName( parser.isSet("pro") || PRO_VERSIO ? "Kitsas Pro" : "Kitsas");
+#ifndef Q_OS_MACX
+    a.setWindowIcon( parser.isSet("pro") || PRO_VERSIO ? QIcon(":/pic/propossu-64.png") : QIcon(":/pic/Possu64.png") );
+#endif
+
+
+    Kielet::alustaKielet(":/tr/tulkki.json");
 
     PilviModel::asetaPilviLoginOsoite( parser.value("api") );
     KitsasLokiModel::setLoggingToFile( parser.value("log") );
@@ -115,9 +115,7 @@ int main(int argc, char *argv[])
         a.setFont( QFont( fonttinimi, kp()->settings()->value("FonttiKoko").toInt()) );
     }
 
-    if( parser.isSet("pro") || PRO_VERSIO ) {
-        qApp->setApplicationName("Kitsas Pro");
-        qApp->setWindowIcon(QIcon(":/pic/propossu-64.png"));
+    if( parser.isSet("pro") ||  PRO_VERSIO ) {
         PilviKayttaja::asetaVersioMoodi(PilviKayttaja::PRO);
         ToffeeLogin loginDlg;
         if(loginDlg.keyExec() != QDialog::Accepted) {

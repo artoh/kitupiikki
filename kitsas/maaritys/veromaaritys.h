@@ -17,6 +17,8 @@ public:
     ~VeroMaaritys();
 
     bool nollaa() override;
+    bool onkoMuokattu() override;
+    bool tallenna() override;
 
 protected:
     void varmenneTiedotSaapuu(QVariant* data);
@@ -28,6 +30,9 @@ protected:
 
     void lisaaVarmenne();
     void poistaVarmenne();
+
+    void paivitaMaksuAlvTieto();
+    void maksuAlv();
 
 private:
     Ui::VeroMaaritys* ui;

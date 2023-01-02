@@ -21,6 +21,15 @@ void VeroVarmenneTila::paivita()
     }
 }
 
+void VeroVarmenneTila::tyhjenna()
+{
+    status_.clear();
+    errorCode_.clear();
+    officeName_.clear();
+    officeBid_.clear();
+    emit paivitetty();
+}
+
 void VeroVarmenneTila::set(const QVariantMap &map)
 {
     status_ = map.value("status").toString();

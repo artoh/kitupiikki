@@ -295,9 +295,7 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
 
 bool UusiVelho::Tilikarttasivu::validatePage()
 {
-    if( velho->ladattu())
-        return true;
-    else if( ui->yhdistysButton->isChecked() )
+    if( ui->yhdistysButton->isChecked() )
         return velho->lataaKartta(":/tilikartat/yhdistys.kitsaskartta");
     else if(ui->elinkeinoRadio->isChecked())
         return velho->lataaKartta(":/tilikartat/yritys.kitsaskartta");

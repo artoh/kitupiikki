@@ -86,7 +86,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Verkkolasku"), VERKKOLASKU,"verkkolaskut",QIcon(":/pic/verkkolasku.png"),"verkkolasku");
     lisaaSivu(tr("Tilitapahtumien haku"), TILITIEDOT, "tilitapahtumat", QIcon(":/pic/verkossa.png"),"tilitapahtumat");
     lisaaSivu(tr("Kirjattavien kansio"), INBOX,"inbox",QIcon(":/pic/inbox.png"));
-    lisaaSivu(tr("Verojen maksu"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
+    lisaaSivu(tr("Verot"), VERO,"veronmaksu", QIcon(":/pic/vero.png"),"vero");
     lisaaSivu(tr("Palkkakirjaustilit"), PALKKAKIRJAUS,"palkkatilit", QIcon(":/pic/yrittaja.png"));
     lisaaSivu(tr("Raportit"), RAPORTIT, "raportit", QIcon(":/pic/print.png"));
     lisaaSivu(tr("Tilinpäätöksen malli"), LIITETIETOKAAVA,"tilinpaatos", QIcon(":/pic/tekstisivu.png"));

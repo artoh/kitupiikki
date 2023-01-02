@@ -55,8 +55,7 @@ Kielet::Kielet(const QString &tiedostonnimi)
 
 void Kielet::alustaKielet(const QString &kaannostiedostonnimi)
 {
-    instanssi__ = new Kielet(kaannostiedostonnimi);
-    qInfo() << "Kielet alustettu " << kaannostiedostonnimi;
+    instanssi__ = new Kielet(kaannostiedostonnimi);    
 }
 
 Kielet *Kielet::instanssi()

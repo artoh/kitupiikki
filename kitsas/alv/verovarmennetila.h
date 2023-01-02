@@ -11,6 +11,7 @@ public:
     explicit VeroVarmenneTila(QObject *parent = nullptr);
 
     void paivita();
+    void tyhjenna();
 
     void set(const QVariantMap& map);
     QString toString() const;

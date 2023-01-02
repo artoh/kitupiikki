@@ -28,6 +28,12 @@ void AlvKaudet::haeKaudet()
     }
 }
 
+void AlvKaudet::tyhjenna()
+{
+    kaudet_.clear();
+    emit haettu();
+}
+
 AlvKausi AlvKaudet::kausi(const QDate &date) const
 {
     for( const auto& kausi : qAsConst(kaudet_)) {

@@ -26,12 +26,9 @@
 #include "alvilmoitusdialog.h"
 #include "alvlaskelma.h"
 
-#include "ui_maksuperusteinen.h"
-
 #include "naytin/naytinikkuna.h"
 
 #include "db/kirjanpito.h"
-#include "db/yhteysmodel.h"
 #include "ilmoitintuottaja.h"
 #include "pilvi/pilvimodel.h"
 #include "kieli/kielet.h"
@@ -45,15 +42,12 @@ AlvSivu::AlvSivu() :
 {
     ui->setupUi(this);
 
-    ui->kausiCombo->addItem(tr("Kuukausi"),1);
-    ui->kausiCombo->addItem(tr("Neljännesvuosi"),3);
-    ui->kausiCombo->addItem(tr("Vuosi"), 12);
+    connect( kp()->alvIlmoitukset()->kaudet(), &AlvKaudet::haettu, this, &AlvSivu::paivitaKaudet);
+
     ui->ilmoituksetView->setModel( kp()->alvIlmoitukset() );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    paivitaMaksuAlvTieto();
 
-    connect(ui->kausiCombo, &QComboBox::currentTextChanged, this, [this] { if(!alustaa_) kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt()); this->paivitaLoppu();});
     connect(ui->alkaaEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaLoppu);
     connect(ui->paattyyEdit, &QDateEdit::dateChanged, this, &AlvSivu::paivitaErapaiva);
     connect( kp()->alvIlmoitukset(), &AlvIlmoitustenModel::modelReset, this, &AlvSivu::siirrySivulle);
@@ -61,9 +55,10 @@ AlvSivu::AlvSivu() :
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
-    connect( ui->maksuperusteNappi, SIGNAL(clicked(bool)), this, SLOT(maksuAlv()));
     connect( ui->poistaTilitysNappi, &QPushButton::clicked, this, &AlvSivu::poistaIlmoitus);
     connect( ui->ilmoitinNappi, &QPushButton::clicked, this, &AlvSivu::tallennaIlmoitinAineisto);
+
+    connect( ui->kaudelleCombo, &QComboBox::currentTextChanged, this, &AlvSivu::kausiValittu);
 
 }
 
@@ -75,18 +70,15 @@ AlvSivu::~AlvSivu()
 void AlvSivu::siirrySivulle()
 {
     alustaa_ = true;
-    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus(AsetusModel::AlvKausi) ) );
     riviValittu();      // Jotta napit harmaantuvat
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
-    paivitaMaksuAlvTieto();
 
     for(int i=0; i<4; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 5 );
 
-    ui->kausiCombo->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
-    ui->maksuperusteNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET));
-
     ui->ilmoitinNappi->setVisible( kp()->pilvi() && !kp()->pilvi()->service("ilmoitinkoodi").isEmpty() );
+
+    paivitaKaudet();
 
     alustaa_ = false;
 
@@ -96,10 +88,12 @@ void AlvSivu::siirrySivulle()
 void AlvSivu::paivitaLoppu()
 {
     QDate alkupvm = ui->alkaaEdit->date();
+    int kaudenPituus = kp()->asetukset()->luku(AsetusModel::AlvKausi);
+
     if( alkupvm.day() != 1)
         ui->alkaaEdit->setDate(QDate(alkupvm.year(), alkupvm.month(), 1));
     else
-        ui->paattyyEdit->setDate( alkupvm.addMonths( ui->kausiCombo->currentData().toInt() ).addDays(-1)  );
+        ui->paattyyEdit->setDate( alkupvm.addMonths( kaudenPituus ).addDays(-1)  );
 }
 
 void AlvSivu::paivitaErapaiva()
@@ -184,75 +178,68 @@ void AlvSivu::tallennaIlmoitinAineisto()
         ilmoitin->tallennaAineisto(tositeId);
 }
 
-void AlvSivu::maksuAlv()
+
+void AlvSivu::paivitaKaudet()
 {
-    if( !kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi() || !kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).onkoValidi() )
-    {
-        QMessageBox::critical(nullptr, tr("Tilikartta puutteellinen"), tr("Maksuperusteiseen arvonlisäveroon tarvittavat kohdentamattoman arvonlisäverovelan ja/tai "
-                                                                    "arvonlisäverosaatavien tilit puuttuvat.\n"
-                                                                    "Ottaaksesi maksuperusteisen arvonlisäveron käyttöön lisää tarvittavat tilit "
-                                                                    "tilikarttaasi"));
-        return;
+    ui->kaudelleCombo->clear();
+    QList<AlvKausi> kaudet = kp()->alvIlmoitukset()->kaudet()->kaudet();
+    if(kaudet.count()) {
+        for(const auto& kausi : qAsConst(kaudet)) {
+            if( !kp()->alvIlmoitukset()->onkoIlmoitettu( kausi.loppupvm() ) &&
+                kp()->tilitpaatetty() < kausi.loppupvm() &&
+                kausi.tila() != AlvKausi::ERAANTYNYT  ){
+                ui->kaudelleCombo->addItem(
+                            kausi.tila() == AlvKausi::PUUTTUVA ? QIcon(":/pic/uusitiedosto.png") : QIcon(":/pic/muokkaa.png"),
+                            QString("%1 - %2").arg( kausi.alkupvm().toString("dd.MM.yyyy"), kausi.loppupvm().toString("dd.MM.yyyy") ),
+                            kausi.loppupvm() );
+            }
+        }
+        if( ui->kaudelleCombo->count()) {
+            ui->kaudelleCombo->setCurrentIndex( ui->kaudelleCombo->count() - 1 );
+
+            ui->ilmoitusGroup->setVisible(true);
+
+            ui->kaudelleCombo->setVisible(true);
+            ui->kaudelleLabel->setVisible(true);
+
+            ui->alkaaEdit->setVisible(false);
+            ui->paattyyEdit->setVisible(false);
+            ui->alkaaLabel->setVisible(false);
+            ui->paattyyLabel->setVisible(false);
+
+        } else {
+            ui->ilmoitusGroup->setVisible(false);
+        }
+    } else {
+        ui->ilmoitusGroup->setVisible(true);
+
+        ui->kaudelleCombo->setVisible(false);
+        ui->kaudelleLabel->setVisible(false);
+
+        ui->alkaaEdit->setVisible(true);
+        ui->paattyyEdit->setVisible(true);
+        ui->alkaaLabel->setVisible(true);
+        ui->paattyyLabel->setVisible(true);
     }
 
-
-    QDialog dlg;
-    Ui::Maksuperusteinen ui;
-    ui.setupUi(&dlg);
-
-    QDate alkaa = kp()->asetukset()->pvm("MaksuAlvAlkaa");
-    QDate loppuu = kp()->asetukset()->pvm("MaksuAlvLoppuu");
-
-    // Oletuksena uudelle aloitukselle on seuraavan kuukauden alku
-    if( !alkaa.isValid())
-    {
-        alkaa = kp()->paivamaara();
-        alkaa = alkaa.addMonths(1);
-        alkaa.setDate( alkaa.year(), alkaa.month(), 1 );
-    }
-    if( !loppuu.isValid())
-    {
-        loppuu.setDate( kp()->tilikaudet()->kirjanpitoLoppuu().year() + 1, 1, 1 );
-    }
-
-    ui.alkaaDate->setMinimumDate( kp()->tilikaudet()->kirjanpitoAlkaa());
-    ui.paattyyDate->setMinimumDate( kp()->tilikaudet()->kirjanpitoAlkaa());
-
-    ui.alkaaCheck->setChecked( kp()->asetukset()->onko("MaksuAlvAlkaa") );
-    ui.alkaaDate->setEnabled( kp()->asetukset()->onko("MaksuAlvAlkaa") );
-    ui.alkaaDate->setDate( alkaa );
-    ui.paattyyCheck->setChecked( kp()->asetukset()->onko("MaksuAlvLoppuu"));
-    ui.paattyyDate->setEnabled( kp()->asetukset()->onko("MaksuAlvLoppuu"));
-    ui.paattyyDate->setDate( loppuu );
-
-    connect( ui.ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("alv/maksuperusteinen");} );
-
-    if( dlg.exec() == QDialog::Accepted)
-    {
-        if( ui.alkaaCheck->isChecked())
-            kp()->asetukset()->aseta("MaksuAlvAlkaa", ui.alkaaDate->date());
-        else
-            kp()->asetukset()->poista("MaksuAlvAlkaa");
-
-        if( ui.paattyyCheck->isChecked())
-            kp()->asetukset()->aseta("MaksuAlvLoppuu", ui.paattyyDate->date());
-        else
-            kp()->asetukset()->poista("MaksuAlvLoppuu");
-        paivitaMaksuAlvTieto();
-    }
 }
 
-void AlvSivu::paivitaMaksuAlvTieto()
+void AlvSivu::kausiValittu()
 {
-    QDate alkaa = kp()->asetukset()->pvm("MaksuAlvAlkaa");
-    QDate loppuu = kp()->asetukset()->pvm("MaksuAlvLoppuu");
-
-    if( !alkaa.isValid())
-        ui->maksuAlv->setText(tr("Ei käytössä"));
-    else if( !loppuu.isValid())
-        ui->maksuAlv->setText(tr("Käytössä %1 alkaen").arg(alkaa.toString("dd.MM.yyyy")));
-    else
-        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString("dd.MM.yyyy"), loppuu.toString("dd.MM.yyyy")));
+    QDate pvm = ui->kaudelleCombo->currentData().toDate();
+    if( pvm.isValid()) {
+        AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi(pvm);
+        if( kausi.tila() != AlvKausi::EIKAUTTA) {
+            ui->alkaaEdit->setDate(kausi.alkupvm());
+            ui->paattyyEdit->setDate(kausi.loppupvm());
+            ui->erapaivaLabel->setText( kausi.erapvm().toString("dd.MM.yyyy"));
+            if( kp()->paivamaara().daysTo( kausi.erapvm()) < 3)
+                ui->erapaivaLabel->setStyleSheet("color: red;");
+            else
+                ui->erapaivaLabel->setStyleSheet("color: black;");
+            ui->tilitaNappi->setEnabled(true);
+        }
+    }
 }
 
 

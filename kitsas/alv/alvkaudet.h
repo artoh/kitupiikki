@@ -34,6 +34,8 @@ public:
     explicit AlvKaudet(QObject *parent = nullptr);
 
     void haeKaudet();
+    void tyhjenna();
+
     AlvKausi kausi(const QDate& date) const;
     QList<AlvKausi> kaudet() const;
 

@@ -78,6 +78,8 @@ void ToimistoKirjanpitoDialogi::haeTunnarilla()
         QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/" + ui->ytunnusEdit->text()));
         QNetworkReply *reply = kp()->networkManager()->get(request);
         connect( reply, &QNetworkReply::finished, this, &ToimistoKirjanpitoDialogi::hakuSaapuu);
+    } else {
+        tarkastaKelpo();
     }
 }
 
