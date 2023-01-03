@@ -91,8 +91,6 @@ QVariant TuotteetRoute::myynti(const QUrlQuery &urlquery)
                  + ( ehdot.isEmpty() ? "" : " WHERE " + ehdot.join(" AND ")  )
                  +  " ORDER BY tuote"  );
 
-    qDebug() << kysely.lastQuery();
-
     int tuote = -1;
     double brutto = 0;
     double netto = 0;

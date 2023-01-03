@@ -78,7 +78,6 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
         // Varauduttava pätkimään vientejä. Kuitenkin ensin ylätunniste ja koko sivun levyinen kommentti
 
         QRect mpRect = painter->boundingRect(0,0,leveys, sivunKorkeus, Qt::TextWordWrap, muistiinpanot);
-        qDebug() << muistiinpanot;
 
         int mpkorkeus = mpRect.height() + 5 * rivinkorkeus;
         int vkorkeus = viennit.count() < 15 ? viennit.count() * rivinkorkeus : rivinkorkeus * 11;
@@ -118,7 +117,6 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
                 sivu++; sivua++;
                 tulostaYlatunniste(painter, tosite, sivu, kieli);
                 painter->translate(0, rivinkorkeus * 3);
-                qDebug() << " Uusi sivu " << sivu << " trans " << painter->transform().dy();
             }
         }
     }

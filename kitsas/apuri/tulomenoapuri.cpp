@@ -323,8 +323,6 @@ bool TuloMenoApuri::teeTositteelle()
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
     vasta.insert("tili", vastatili.numero() );
 
-    qDebug() << " Vastatili " << vastatili.numero() << " erittely "  << vastatili.eritellaankoTase() << " Erä " << ui->eraCombo->valittuEra();
-
     if( vastatili.eritellaankoTase())
         vasta.setEra(ui->eraCombo->valittuEra() ) ;   
 
@@ -464,8 +462,6 @@ void TuloMenoApuri::verolajiMuuttui()
     int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
     rivi()->setAlvkoodi(  alvkoodi );
     emit rivit_->dataChanged(rivit_->index(rivilla(), TmRivit::ALV),rivit_->index(rivilla(), TmRivit::EUROA));
-
-    qDebug() << "alvkoodi " << alvkoodi;
 
     bool naytaMaara = rivi()->naytaBrutto();
     bool naytaVeroton =  rivi()->naytaNetto();
@@ -702,8 +698,6 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
 
     TulomenoRivi* rivi = rivit_->rivi(rivilla);
     int tilinumero = rivi->tilinumero();
-
-    qDebug() << "Hae " << rivi->netto() << " " << rivi->alvkoodi() << " " << rivi->viennit( tosite() );
 
     if( !tilinumero) {
         if( tosite()->tyyppi() == TositeTyyppi::TULO )

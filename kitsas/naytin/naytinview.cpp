@@ -95,7 +95,6 @@ NaytinView::~NaytinView()
 {
     if( naytin_)
         delete naytin_;
-    qDebug() << "~NaytinView()";
 }
 
 
@@ -127,7 +126,6 @@ void NaytinView::nayta(const QByteArray &data, bool salliPudotus)
 
 void NaytinView::nayta(RaportinKirjoittaja raportti)
 {
-    qDebug() << "Näytin " << this << " Näytä raportti " << raportti.otsikko();
     vaihdaNaytin( new Naytin::RaporttiNaytin(raportti, this) );
     zoomFit();
 }
@@ -144,7 +142,6 @@ void NaytinView::nayta(const QString &teksti)
 
 Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
 {
-    qDebug() << "NaytinView::esikatsele";
     Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava, nullptr);
     vaihdaNaytin( naytin );
     return naytin;
@@ -442,7 +439,6 @@ QString NaytinView::html()
 
 void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 {
-    qDebug() << " View " << this << " vaihdetaan näytin " << naytin << " vanha " << naytin_;
     if( naytin_ )
     {
         naytin_->widget()->hide();

@@ -98,9 +98,6 @@ void Kielet::valitseUiKieli(const QString &kieli)
     appTranslator_.load("kitsas_" + kieli + ".qm", ":/tr/");    
     qtBaseTranslator_.load("qtbase_" + kieli + ".qm", ":/tr/");
 
-    qDebug() << "AppTranslator " << appTranslator_.isEmpty();
-    qDebug() << "QtBase " << qtBaseTranslator_.isEmpty();
-
     QSettings settings;
     settings.setValue("uiKieli", kieli);
 

@@ -76,7 +76,7 @@ signals:
      * @param lisattyId Vastauksen Location-headerin lopussa oleva numero
      */
     void lisaysVastaus(const QVariant& reply, int lisattyId);
-    void virhe(int virhe, const QString& selitys = QString());
+    void virhe(int virhe, const QString& selitys = QString(), QVariant vastaus = QVariant());
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;

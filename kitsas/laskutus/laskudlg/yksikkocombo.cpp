@@ -69,8 +69,6 @@ void YksikkoCombo::focusOutEvent(QFocusEvent *e)
 {
     QComboBox::focusOutEvent(e);
 
-    qDebug() << "fOUT" << yksikko_;
-
     if( isEditable() )
         lineEdit()->setText( yksikko_ );
 }

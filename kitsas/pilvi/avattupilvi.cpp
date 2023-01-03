@@ -55,7 +55,7 @@ qlonglong AvattuPilvi::oikeudetListasta(const QVariantList &lista)
             bittikartta |= oikeustunnukset__.at(oikeus.toString());
         } catch( std::out_of_range )
         {
-            qDebug() << "Tuntematon oikeus " << oikeus.toString();
+            qWarning() << "Tuntematon oikeus " << oikeus.toString();
         }
     }
     return bittikartta;

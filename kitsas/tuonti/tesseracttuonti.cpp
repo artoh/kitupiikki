@@ -67,8 +67,6 @@ QVariantMap Tuonti::TesserActTuonti::analysoi(const QString &teksti)
     // Hyvin Alkeellinen Analysaattori
     // Pitäisi tutkia: Toimitus- ja eräpäivä, maksutapa jne.
 
-    qDebug() << teksti;
-
     QDate laskupvm;
     QDate erapvm;
     QVariantList ibanit;

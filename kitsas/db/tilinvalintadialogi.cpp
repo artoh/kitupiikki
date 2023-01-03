@@ -247,24 +247,6 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
     }
     return QDialog::eventFilter(object, event);
 }
-/*
-void TilinValintaDialogi::nayta(const QString &alku, const QString &suodatus)
-{
-    qDebug() << alku;
-
-    if( alku.startsWith("*") ) {
-        valitse( alku.mid(1).toInt());
-    } else {
-        ui->suodatusEdit->setText(alku);
-    }
-    suodataTyyppi(suodatus);
-
-    exec();
-    setAttribute(Qt::WA_DeleteOnClose);
-}
-*/
-
-
 
 Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin, TiliModel *model)
 {

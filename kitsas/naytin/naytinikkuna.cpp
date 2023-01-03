@@ -47,7 +47,6 @@ NaytinIkkuna::NaytinIkkuna() : QMainWindow(nullptr)
 
 NaytinIkkuna::~NaytinIkkuna()
 {
-    qDebug() << "~NaytinIkkuna";
 }
 
 void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)

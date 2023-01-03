@@ -392,7 +392,6 @@ void VanhatuontiDlg::tuo()
     QSqlQuery varmistussql( kp()->sqlite()->tietokanta() );
     varmistussql.exec("SELECT SUM(debetsnt) FROM Vienti");
     varmistussql.next();
-    qDebug() << " VANHA " << vanhasumma << " UUSI " << varmistussql.value(0).toLongLong();
     if( varmistussql.value(0).toLongLong() == vanhasumma)
         ui->pino->setCurrentIndex(VALMIS);
     else {
@@ -808,13 +807,13 @@ void VanhatuontiDlg::siirraTositteet()
 
 
             if( !tilio.onkoValidi()) {
-                qDebug() << " ******* TILIVIRHE ************ " << tili;
+                qWarning() << " ******* TILIVIRHE ************ " << tili;
                 continue;   // Maksuperusteisten maksunvalvontariviä ei voi lisätä
             }
             tosite.viennit()->lisaa(vienti);
 
         }
-        connect(&tosite, &Tosite::tallennusvirhe, [] (int virhe) { qDebug() << "TOSITEVIRHE " << virhe;});
+        connect(&tosite, &Tosite::tallennusvirhe, [] (int virhe) { qWarning() << "TOSITEVIRHE " << virhe;});
         tosite.tallenna();
         ui->progressBar->setValue( ui->progressBar->value() + 1 );
         siirraLiiteet(tositeid, tosite.id());

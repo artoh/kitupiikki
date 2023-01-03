@@ -155,9 +155,12 @@ void DevTool::vastausSaapui(QVariant *vastaus)
     sender()->deleteLater();
 }
 
-void DevTool::virhe(int numero, const QString &viesti)
+void DevTool::virhe(int numero, const QString &viesti, const QVariant &vastaus)
 {
-    ui->kyselyBrowser->setPlainText( QString("Virhe %1 %2").arg(numero).arg(viesti) );
+    QJsonDocument doc = QJsonDocument::fromVariant(vastaus);
+    QString teksti =  QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+
+    ui->kyselyBrowser->setPlainText( QString("Virhe %1 %2").arg(numero).arg(viesti) + "\n" + teksti);
     sender()->deleteLater();
 }
 

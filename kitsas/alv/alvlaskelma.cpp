@@ -669,8 +669,6 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
     lista.append(tosite_->viennit()->viennit());
 
-    qDebug() << " =======HUOJENNUSLASKELMA==================";
-
     for( const auto& vienti : lista ) {
 
         if( vienti.tyyppi() == TositeVienti::BRUTTOOIKAISU)
@@ -681,42 +679,34 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
         Euro kreditEuro = vienti.kreditEuro();
 
 
-        qDebug() << vienti.pvm().toString("dd.MM.yyyy ") << " D " << vienti.debet() << " K "  << vienti.kredit() << " ALV " << vienti.alvKoodi() << " " << vienti.selite();
-
         if( alvkoodi > 0 && alvkoodi < 100) {
             // Tämä on veron tai vähennyksen peruste
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
                     alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                     alvkoodi == AlvKoodi::ALV0 ||
                     alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI ) {
-                liikevaihto_ += kreditEuro - debetEuro;
-                qDebug() << " A Liikevaihtoon " << kreditEuro-debetEuro;
+                liikevaihto_ += kreditEuro - debetEuro;                
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 Euro brutto = kreditEuro - debetEuro;
                 Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
                 liikevaihto_ += netto;
-                veroon += brutto - netto;
-                qDebug() << " B Liikevaihtoon " << netto << " Veroon " << brutto-netto;
+                veroon += brutto - netto;                
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
                 Euro brutto = debetEuro - kreditEuro;
                 Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
-                vahennys += brutto - netto;
-                qDebug() << " C Vähennys " << brutto-netto;
+                vahennys += brutto - netto;                
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI) {
                 liikevaihto_ += kreditEuro - debetEuro;
-                qDebug() << " D Liikevaihtoon " << kreditEuro-debetEuro;
             }
         } else if( alvkoodi > 100 && alvkoodi < 200 && vienti.alvProsentti() > 1e-5) {
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
                 alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
-                veroon += kreditEuro - debetEuro;
-                qDebug() << " E Veroon " << kreditEuro-debetEuro;
+                veroon += kreditEuro - debetEuro;                
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
                 qlonglong vero = kreditEuro - debetEuro;
                 veroon += vero;
-                liikevaihto_ -= vero;
-                qDebug() << "F Liikevaihtoon " << 0 - vero << " Veroon " << vero;
+                liikevaihto_ -= vero;                
             } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
                        alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS ) {
                 // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
@@ -731,28 +721,17 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 double veroprossa = vienti.alvProsentti();
                 qlonglong liikevaihtoon = Euro::fromDouble( 100 * vero.toDouble() /  veroprossa);
                 veroon += vero;
-                liikevaihto_ += liikevaihtoon;
-                qDebug() << " G Liikevaihtoon " << liikevaihtoon << " Veroon " << vero;
+                liikevaihto_ += liikevaihtoon;                
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
-            vahennys += debetEuro - kreditEuro;
-            qDebug() << " H Vähennykseen " << debetEuro-kreditEuro;
+            vahennys += debetEuro - kreditEuro;            
         }
     }
 
-    qDebug() << " ================================= ";
-    qDebug() << " Oikeuttava Liikevaihto " << liikevaihto_;
 
-    qDebug() << " Huomioitavat verot " << veroon;
-    qDebug() << " Huomioitavat vähennykset " << vahennys;
     verohuojennukseen_ = veroon - vahennys;
-
-    qDebug() << " Oikeuttava vero " << verohuojennukseen_;
-
     liikevaihto_ = liikevaihto_ * 12 / (suhteutuskuukaudet_ ? suhteutuskuukaudet_ : 1);
-
-    qDebug() << " Suhteutettu "<< liikevaihto_;
 
     viimeViimeistely();
 

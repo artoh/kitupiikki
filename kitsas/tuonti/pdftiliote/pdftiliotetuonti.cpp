@@ -45,8 +45,6 @@ QVariantMap PdfTilioteTuonti::tuo(const QList<PdfAnalyzerPage> pages)
     }
     nykyinenValmis();
 
-    qDebug() << otsake_.debugInfo();
-
     QVariantMap map;
     map.insert("tyyppi", TositeTyyppi::TILIOTE);
     if( iban_.isValid())
@@ -150,7 +148,6 @@ void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
        kokoRivi.startsWith("REGISTR. DAG", Qt::CaseInsensitive)) {
         kirjausPvm_ = OteRivi::strPvm(kokoRivi, loppupvm_);
         nykyinenValmis();
-        qDebug() << "\n *** KIRJAUSPÄIVÄ *** " << kirjausPvm_.toString("dd.MM.yyyy") << " \n";
         return;
     }
 
@@ -240,10 +237,6 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
     if( arvo.trimmed().length() < 2)
         return;
 
-#ifdef KITSAS_DEVEL
-    std::cerr << TilioteOtsake::tyyppiTeksti(tyyppi).toStdString() << "=" <<  arvo.toStdString() << " * ";
-#endif
-
     switch (tyyppi) {
     case TilioteOtsake::SAAJAMAKSAJA: nykyinen_.lisaaYleinen(arvo); break;
     case TilioteOtsake::SELITE: nykyinen_.setSelite(arvo); break;
@@ -263,10 +256,6 @@ void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const 
                 sentit = 0 - sentit;
 
             nykyinen_.setEuro(Euro(sentit));
-
-#ifdef KITSAS_DEVEL
-            std::cerr <<( mats.hasMatch() ?  (QString(" %1 -> %2").arg(sentit).arg( nykyinen_.euro().display() )).toStdString() : "(?) ");
-#endif
 
         } else {
             nykyinen_.lisaaYleinen(arvo);

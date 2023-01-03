@@ -301,5 +301,5 @@ LaskunTietoLaatikko::TietoRivi::TietoRivi()
 LaskunTietoLaatikko::TietoRivi::TietoRivi(const QString &otsikko, const QString &tieto) :
     otsikko_(otsikko), tieto_(tieto)
 {
-    qDebug() << otsikko << " : " << tieto;
+
 }

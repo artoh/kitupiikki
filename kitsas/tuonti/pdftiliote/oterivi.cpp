@@ -64,9 +64,6 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
 
     arkistotunnus_.append(arkistotunnus.remove(QRegularExpression("\\s")));    
 
-#ifdef KITSAS_DEVEL
-    std::cerr << " ARKISTOTUNNUS "  << arkistotunnus_.toStdString();
-#endif
 }
 
 void OteRivi::setSaajaMaksaja(const QString &nimi)
@@ -250,9 +247,6 @@ QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
 
 void OteRivi::tyhjenna()
 {
-#ifdef KISAS_DEVEL
-    std::cerr << " ---";
-#endif
 
     tila = NORMAALI;
     euro_ = 0;

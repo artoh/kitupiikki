@@ -47,7 +47,6 @@ void NaytinScene::dropEvent(QGraphicsSceneDragDropEvent *event)
                 if( polku.startsWith(QChar('/')))
                     polku = polku.mid(1);
 #endif
-            qDebug() << "DROP " << polku;
             emit tiedostoPudotettu(polku);
         }
     }

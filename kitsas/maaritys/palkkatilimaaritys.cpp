@@ -53,8 +53,6 @@ bool PalkkatiliMaaritys::onkoMuokattu()
 {
     QString asetus = QString::fromUtf8(QJsonDocument::fromVariant(taulu()).toJson(QJsonDocument::Compact));
     QString verrokki = QString::fromUtf8(QJsonDocument::fromJson(kp()->asetukset()->asetus(AsetusModel::Palkkatilit).toUtf8()).toJson(QJsonDocument::Compact));
-    qDebug() << asetus;
-    qDebug() << verrokki;
     return asetus != verrokki;
 }
 

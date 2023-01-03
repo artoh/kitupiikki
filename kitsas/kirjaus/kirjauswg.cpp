@@ -395,7 +395,6 @@ void KirjausWg::tulostaTosite()
         doc.setHtml( teksti );
         doc.print( kp()->printer());
 
-        qDebug() << doc.toHtml();
     }
 }
 
@@ -835,13 +834,11 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    qDebug() << "vaihdaTositeTyyppi" << ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt();
     tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
 }
 
 void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
 {
-    qDebug() << "ToTyVa" << tyyppiKoodi;
     // Tässä voisi laittaa muutenkin apurit paikalleen
     if( apuri_ )
     {

@@ -91,7 +91,7 @@ QVariant SQLiteRoute::doDelete(const QString &/*polku*/)
 QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
 {
     if( kysely.lastError().type() != QSqlError::NoError) {
-        qDebug() << " *SQLVIRHE* "
+        qWarning() << " *SQLVIRHE* "
                   << kysely.lastError().text()
                   << kysely.lastQuery();
     }

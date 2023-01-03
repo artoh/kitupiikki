@@ -100,8 +100,6 @@ void TilioteApuri::tuo(QVariantMap map)
 {
     tuodaan_ = true;
 
-    qDebug() << map;
-
     const QDate alku = map.value("alkupvm").toDate();
     const QDate loppu = map.value("loppupvm").toDate();
 
@@ -268,7 +266,6 @@ void TilioteApuri::naytaSummat()
 void TilioteApuri::naytaTosite()
 {
 
-    qDebug() << "naytaTosite \n";
 
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if( !index.isValid())
@@ -282,7 +279,6 @@ void TilioteApuri::naytaTosite()
         const int omaIndeksi = proxy_->mapToSource(index).row();
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
 
-        qDebug() << " i "  << omaIndeksi << " rivi " << rivi.pankkivienti().selite() << "\n";
 
         KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
 
@@ -321,13 +317,10 @@ void TilioteApuri::naytaTosite()
         }
         tosite.viennit()->asetaViennit( ladattavat );
 
-        qDebug() << " LATAA " << ladattavat;
-
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
         connect( sivu->kirjausWg(), &KirjausWg::tositeKasitelty, ikkuna, &LisaIkkuna::close);
     }
-    qDebug() << " naytaTositeLoppu ";
 }
 
 

@@ -134,7 +134,6 @@ void TuoteDialogi::laskeNetto()
 {
     brutto_ = ui->bruttoEdit->value();
     double netto = (100.0 * brutto_) / (100.0 + ui->alvCombo->veroProsentti());
-    qDebug() << brutto_ << "  "  << netto;
 
     ui->nettoEdit->setValue(netto);
 }

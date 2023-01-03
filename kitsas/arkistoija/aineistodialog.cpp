@@ -286,7 +286,6 @@ void AineistoDialog::tositeListaSaapuu(QVariant *data)
 {
     tositteet_ = data->toList();
     progress->setMaximum( tilattuja_ * 10 + tositteet_.count() + 1);
-    qDebug() << "Tositelista saapuu " << progress->value() << " / " << progress->maximum();
     tositepnt_ = 0;
 
     tulostaRaportit();
@@ -320,7 +319,6 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
     }
     if(progress) {
         progress->setValue(progress->value() + 1);
-        qDebug() << "Tosite saapuu " << progress->value() << " / " << progress->maximum();
     }
 
     nykyTosite_ = data->toMap();

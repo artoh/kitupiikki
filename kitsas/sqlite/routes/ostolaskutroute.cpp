@@ -78,7 +78,6 @@ QString OstolaskutRoute::sqlKysymys(const QUrlQuery &urlquery, bool hyvitys) con
         kysymys.append(" AND Vienti.eraid=Vienti.id ");
 
     kysymys.append(" ORDER BY pvm, viite");
-    qDebug() << kysymys;
     return kysymys;
 }
 

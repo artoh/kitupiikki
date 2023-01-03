@@ -217,7 +217,6 @@ void ArkistoSivu::tilinpaatosKasky()
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
     int indeksi = ui->view->selectionModel()->selectedRows().value(0).row();
-    qDebug() << " indekkksi "  << indeksi;
 
     if( indeksi > -1)
     {

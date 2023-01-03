@@ -139,8 +139,6 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     map.insert("trial", kp()->onkoHarjoitus());
     map.insert("init", init);
 
-    qDebug() << "token " << pilviModel_->token();
-
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::POST, pilviModel_->pilviLoginOsoite() + "/clouds");
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::pilviLuotu);
     connect( kysely, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
@@ -165,13 +163,11 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
 }
 
 void PilveenSiirto::avaaLuotuPilvi()
-{
-    qDebug() << "Avataan luotu pilvi";
+{   
     pilviModel_->avaaPilvesta(pilviId_, true);
 
     ui->progressBar->setValue(30);
     haeRyhmaLista();
-    qDebug() << kp()->yhteysModel();
 
 }
 
@@ -208,7 +204,6 @@ void PilveenSiirto::tallennaSeuraavaRyhma()
 
 void PilveenSiirto::haeKumppaniLista()
 {
-    qDebug() << "Hae kumppanilista";
     KpKysely *kaverikysely = kpk("/kumppanit");
     connect( kaverikysely, &KpKysely::vastaus, this, &PilveenSiirto::kumppaniListaSaapuu);
     kaverikysely->kysy();
@@ -235,7 +230,6 @@ void PilveenSiirto::kysySeuraavaKumppani()
         return;
     }
     int id = kumppanit.dequeue();
-    qDebug() << "Kumppani " << id << " jäljellä " << kumppanit.count();
     KpKysely *kaverikysely = kpk(QString("/kumppanit/%1").arg(id));
     connect(kaverikysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaKumppani);
     kaverikysely->kysy();
@@ -247,12 +241,9 @@ void PilveenSiirto::tallennaKumppani(QVariant *data)
     int id = map.take("id").toInt();
 
     if( map.value("nimi").toString() == "Verohallinto") {
-        qDebug() << "Verohallinto";
         kysySeuraavaKumppani();
         return;
     }
-
-    qDebug() << " tallenna kumppani " << map.value("nimi").toString();
 
     PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/kumppanit/%1").arg(id));
     connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::kysySeuraavaKumppani);
@@ -307,8 +298,6 @@ void PilveenSiirto::tallennaTosite(QVariant *data)
         }
         map.insert("lasku", laskuMap);
     }
-
-    qDebug() << "Tosite " << id << " jaljella " << tositteet.count();
 
     PilviKysely *tallennus = new PilviKysely(pilviModel_, KpKysely::PUT, QString("/tositteet/%1").arg(id));
     connect(tallennus, &KpKysely::vastaus, this, &PilveenSiirto::kysySeuraavaTosite);

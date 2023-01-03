@@ -50,10 +50,6 @@ void PilviKysely::kysy(const QVariant &data)
 
     QNetworkReply *reply = nullptr;
 
-    std::cerr << "===========" << url.toString().toStdString() << "================\n";
-    std::cerr << QString::fromUtf8(QJsonDocument::fromVariant(data).toJson(QJsonDocument::Indented)).toStdString();
-
-
     if( metodi() == GET)    {
         reply = kp()->networkManager()->get( request );
     } else if(metodi() == DELETE) {
@@ -118,18 +114,16 @@ void PilviKysely::vastausSaapuu()
         QByteArray vastaus = reply->readAll();
 
         qCritical() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
-
         qCritical() <<  QString::fromUtf8(vastaus);
-        std::cerr << vastaus.toStdString();
+
 
         QString selite = QJsonDocument::fromJson(vastaus).object().value("virhe").toString();
-        emit virhe( reply->error(), selite);
+        QVariant variantti = QJsonDocument::fromJson(vastaus).toVariant();
+        emit virhe( reply->error(), selite, variantti);
 
         return;
     } else {
         QByteArray luettu = reply->readAll();
-//        std::cout << luettu.toStdString();
-//        std::cout.flush();
 
         if( reply->header(QNetworkRequest::ContentTypeHeader).toString().startsWith("application/json") ) {
             vastaus_ = QJsonDocument::fromJson(luettu).toVariant();

@@ -56,8 +56,6 @@ QVariant EraRoute::get(const QString &polku, const QUrlQuery &urlquery)
     if( !urlquery.hasQueryItem("kaikki") )
                    kysymys.append("HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL");
 
-    qDebug() << kysymys;
-
     kysely.exec(kysymys);
     while( kysely.next()) {
         QString tili = kysely.value("tili").toString();

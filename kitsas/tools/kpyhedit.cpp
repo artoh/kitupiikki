@@ -24,9 +24,6 @@ double KpYhEdit::value() const
     QString arvo = QLineEdit::text();
     arvo.replace(',','.');
     arvo.replace(QRegularExpression("[\\s€]", QRegularExpression::UseUnicodePropertiesOption),"");
-
-    qDebug() << QLineEdit::text() << " *value* " << arvo << " ** " << arvo.toDouble();
-
     return arvo.toDouble();
 }
 
@@ -70,8 +67,6 @@ void KpYhEdit::setText(const QString &nt)
         int uusipaikka = uusipilkunpaikka -  suhteellinen + oikaistaanvalit - laskennallisetvalit;
         setCursorPosition(uusipaikka);
     }
-
-    qDebug() << "set " << nt << " arvo " << arvo;
 
 }
 

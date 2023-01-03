@@ -155,7 +155,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                   tr("Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia")
                                   .arg( polku ).arg( tietokanta().lastError().text() ) );
         }
-        qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
+        qWarning() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
         return false;
     }
 
@@ -249,7 +249,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         kp()->odotusKursori(false);
         QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
                               tr("Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut."));
-        qDebug() << tietokanta_.lastError().text();
+        qWarning() << tietokanta_.lastError().text();
         tietokanta_.close();
         return false;
     }        

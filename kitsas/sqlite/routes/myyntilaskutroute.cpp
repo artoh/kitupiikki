@@ -158,6 +158,5 @@ QString MyyntilaskutRoute::sqlKysymys(const QUrlQuery &urlquery, const QString &
 
     kysymys.append(" ORDER BY tosite.laskupvm, tosite.viite");
 
-    qDebug() << kysymys;
     return kysymys;
 }

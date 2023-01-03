@@ -42,8 +42,6 @@ void MaksumuistutusMuodostaja::muodostaMuistutukset(Tosite *tosite, const QDate 
                                                     const QDate &korkoAlkaa, const QDate &korkoLoppuu,
                                                     double korko, int vastatili)
 {
-    qDebug() << " Korko "  << korkoAlkaa.toString() << " - " << korkoLoppuu.toString() << " " << korko << " %";
-
 
     tosite->rivit()->lataa(QVariantList());
     tosite->viennit()->tyhjenna();

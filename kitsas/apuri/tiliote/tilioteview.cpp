@@ -125,15 +125,12 @@ void TilioteView::ennenResetia()
 
 void TilioteView::resetinJalkeen()
 {
-    qDebug() << "Reset " << lisaysIndeksi_;
 
     if( lisaysIndeksi_) {
         for(int i=0; i < model()->rowCount(); i++) {
             const QModelIndex& index = model()->index(i, TilioteRivi::SELITE);
             if(index.data(TilioteRivi::LisaysIndeksiRooli).toInt() == lisaysIndeksi_) {
                 setCurrentIndex(index);
-
-                qDebug() << index.data();
 
                 break;
             }

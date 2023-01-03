@@ -273,7 +273,6 @@ void Arkistoija::merkitseArkistoiduksi()
     progressDlg_->close();
     emit arkistoValmis( hakemistoPolku_ );
 
-    qDebug() << "Arkistoitu";
     progressDlg_->deleteLater();
     deleteLater();
 }
@@ -300,8 +299,6 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
 
 void Arkistoija::jotainArkistoitu()
 {
-    qDebug() << " Tosite " << arkistoitavaTosite_ << " / " << tositeJono_.count() << " Liitteet " << liitelaskuri_ << " Raportit " << raporttilaskuri_ ;
-
     qApp->processEvents();
     if( !keskeytetty_ && tositeluetteloSaapunut_ && arkistoitavaTosite_ >= tositeJono_.count() && liitelaskuri_ <= 0  && raporttilaskuri_ <= 0 )
             viimeistele();    
@@ -401,8 +398,6 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
     raporttilaskuri_--;
     progressDlg_->setValue( progressDlg_->value() + 1);
 
-    qDebug() << " Raportti " << tiedosto << " " << raporttilaskuri_;
-
     jotainArkistoitu();
 }
 
@@ -478,8 +473,6 @@ void Arkistoija::viimeistele()
 
     tiedosto.flush();
     tiedosto.close();
-
-    qDebug() << " Arkistoitu";
 
     merkitseArkistoiduksi();
 }

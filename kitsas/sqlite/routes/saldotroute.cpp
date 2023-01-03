@@ -54,7 +54,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                                       "WHERE Vienti.tili = %1 AND Tosite.tila >= 100 AND ").arg(tili->numero()) +
                    ( tili->onko(TiliLaji::TULOS) ? QString("vienti.pvm BETWEEN '%1' AND '%2").arg(kaudenalku.toString(Qt::ISODate).arg(pvm.toString(Qt::ISODate)))
                                                  : ( urlquery.hasQueryItem("alkusaldot")  ? QString("vienti.pvm < '%1'").arg(pvm.toString(Qt::ISODate))  :  QString("vienti.pvm <= '%1'").arg(pvm.toString(Qt::ISODate)) ));
-            qDebug() << kysymys;
             kysely.exec(kysymys);
             if(kysely.next()) {
                 double saldo = tili->onko(TiliLaji::VASTAAVAA)
@@ -123,8 +122,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             kysymys += QString(" AND (kohdennus.id=%1 OR kohdennus.kuuluu=%1 OR Merkkaus.kohdennus=%1) ").arg(urlquery.queryItemValue("kohdennus"));
         kysymys += QString(" AND vienti.pvm >= '%1' AND CAST(tili as text) >= 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili")
                 .arg(kaudenalku.toString(Qt::ISODate));
-
-        qDebug() << kysymys;
 
         if( !kysely.exec(kysymys) )
             throw SQLiteVirhe(kysely);

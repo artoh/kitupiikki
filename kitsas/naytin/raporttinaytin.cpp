@@ -24,12 +24,10 @@ Naytin::RaporttiNaytin::RaporttiNaytin(RaportinKirjoittaja raportti, QWidget *pa
     : PrintPreviewNaytin (parent),
       raportti_(raportti)
 {    
-    qDebug() << "RaporttiNaytin";
 }
 
 Naytin::RaporttiNaytin::~RaporttiNaytin()
 {
-    qDebug() << "~RaporttiNaytin";
 }
 
 QString Naytin::RaporttiNaytin::otsikko() const
@@ -62,7 +60,6 @@ QString Naytin::RaporttiNaytin::html() const
 
 void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {
-    qDebug() << "Tulosta " << this << " Raportti " << raportti_.otsikko();
 
     if( raportti_.riveja()) {
         QPainter painter(printer);
