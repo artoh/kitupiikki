@@ -53,7 +53,7 @@ QString VeroVarmenneTila::toString() const
         return tr("Tilitoimiston varmenne on käytettävissä\n"
                   "%1 (%2)").arg(officeName_, officeBid_);
     } else if( status() == "PG") {
-        return tr("Varmenteen hakeminen on kesken.");
+        return tr("Varmenteen hakeminen on kesken.\nHakeminen kestää noin minuutin.");
     } else if( status() == "PR") {
         return tr("Varmenteen uusiminen on käynnissä.");
     } else if( status() == "CR") {

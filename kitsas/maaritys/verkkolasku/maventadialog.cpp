@@ -181,18 +181,27 @@ QVariantMap MaventaDialog::settingsAsetuksista()
     if( !logo.isNull()) {
         QByteArray ba;
         QBuffer buffer(&ba);        
-        if( logo.size().width() > 300 || logo.size().height() > 300) {
+        if( logo.size().width() > 280 || logo.size().height() > 280) {
             // #1227 Pienennetään isoa logoa ennen Maventalle lähettämistä
-            logo = logo.scaled(300,300,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+            logo = logo.scaled(280,280,Qt::KeepAspectRatio,Qt::SmoothTransformation);
         }
-        logo.save(&buffer,"JPEG",60);
+        logo.save(&buffer,"JPEG",40);
         buffer.close();
-        QByteArray base64 = ba.toBase64();
-        QVariantMap pdf;
-        pdf.insert("content", base64);
-        QVariantMap logos;
-        logos.insert("pdf", pdf);
-        settings.insert("logos", logos);
+
+        QByteArray jpg; // JPG:n tunnistemerkit
+        jpg.resize(3);
+        jpg[0] =  static_cast<char>( 0xff );
+        jpg[1] = static_cast<char>( 0xd8 );
+        jpg[2] = static_cast<char>( 0xff );
+        if( ba.startsWith(jpg)) {
+            // Varmistetaan, että on jpeg ennen hyväksymistä
+            QByteArray base64 = ba.toBase64();
+            QVariantMap pdf;
+            pdf.insert("content", base64);
+            QVariantMap logos;
+            logos.insert("pdf", pdf);
+            settings.insert("logos", logos);
+        }
     }
 
     return settings;

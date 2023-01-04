@@ -106,8 +106,10 @@ void AlvSivu::paivitaErapaiva()
 
         ui->erapaivaLabel->setText( erapaiva.toString("dd.MM.yyyy") );
 
-        if( kp()->paivamaara().daysTo( erapaiva) < 3)
+        if( kp()->paivamaara().daysTo( erapaiva) < 1)
             ui->erapaivaLabel->setStyleSheet("color: red;");
+        else if( kp()->paivamaara().daysTo( erapaiva) < 6)
+            ui->erapaivaLabel->setStyleSheet("color: yellow;");
         else
             ui->erapaivaLabel->setStyleSheet("color: black;");
     }
@@ -233,8 +235,10 @@ void AlvSivu::kausiValittu()
             ui->alkaaEdit->setDate(kausi.alkupvm());
             ui->paattyyEdit->setDate(kausi.loppupvm());
             ui->erapaivaLabel->setText( kausi.erapvm().toString("dd.MM.yyyy"));
-            if( kp()->paivamaara().daysTo( kausi.erapvm()) < 3)
+            if( kp()->paivamaara().daysTo( kausi.erapvm()) < 1)
                 ui->erapaivaLabel->setStyleSheet("color: red;");
+            else if( kp()->paivamaara().daysTo( kausi.erapvm()) < 6)
+                ui->erapaivaLabel->setStyleSheet("color: yellow;");
             else
                 ui->erapaivaLabel->setStyleSheet("color: black;");
             ui->tilitaNappi->setEnabled(true);

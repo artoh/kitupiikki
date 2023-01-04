@@ -15,6 +15,9 @@
 
 #include "ui_maksuperusteinen.h"
 
+#include "alv/alvilmoitustenmodel.h"
+#include "alv/alvkaudet.h"
+
 VeroMaaritys::VeroMaaritys() :
     ui{new Ui::VeroMaaritys},
     tila(new VeroVarmenneTila(this))
@@ -44,6 +47,10 @@ bool VeroMaaritys::nollaa()
 {
     ui->varmenneGroup->setVisible(false);
 
+    bool kausiVerottajalta = kp()->alvIlmoitukset()->kaudet()->onko();
+    ui->kausiLabel->setVisible(!kausiVerottajalta);
+    ui->kausiCombo->setVisible(!kausiVerottajalta);
+
     if( kp()->pilvi()->pilvi())
         tila->paivita();
 
@@ -57,7 +64,7 @@ bool VeroMaaritys::nollaa()
 bool VeroMaaritys::onkoMuokattu()
 {
     return TallentavaMaaritysWidget::onkoMuokattu() ||
-            kp()->asetukset()->asetus(AsetusModel::AlvKausi) != ui->kausiCombo->currentData().toInt();
+            kp()->asetukset()->luku(AsetusModel::AlvKausi) != ui->kausiCombo->currentData().toInt();
 }
 
 bool VeroMaaritys::tallenna()

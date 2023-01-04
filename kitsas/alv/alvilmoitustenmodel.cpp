@@ -62,7 +62,7 @@ QVariant AlvIlmoitustenModel::headerData(int section, Qt::Orientation orientatio
         case VERO:
             return tr("Maksettava vero");
         case TILA:
-            return tr("Tila");
+            return tr("Ilmoituksen tila");
         }
     }
     return QVariant();
@@ -89,8 +89,14 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
             return erapaiva( tieto.paattyy() );
         case VERO:
             return tieto.maksettava().display();
-        case TILA:
-            return tilatieto( tieto.paattyy());
+        case TILA: {
+                AlvKausi kausi = kaudet_->kausi(tieto.paattyy());
+                if( kausi.tila() == AlvKausi::PUUTTUVA && tieto.ilmoitettu().isValid()) {
+                    return tr("Ilmoitettu %1").arg(tieto.ilmoitettu().toString("dd.MM.yyyy"));
+                } else {
+                    return kausi.tilaInfo();
+                }
+            }
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -111,6 +117,15 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         return tieto.alkaa();
     else if( role == MapRooli)
         return tieto.map();
+    else if( role == Qt::DecorationRole && index.column() == TILA) {
+        AlvKausi kausi = kaudet_->kausi(tieto.paattyy());
+
+        if( kausi.tila() == AlvKausi::KASITELTY) return QIcon(":/pic/kaytossa.png");
+        else if( kausi.tila() == AlvKausi::KASITTELYSSA) return QIcon(":/pic/keltainen.png");
+        else if( kausi.tila() == AlvKausi::PUUTTUVA && tieto.ilmoitettu().isValid()) return QIcon(":/pic/keltainen.png");
+        else if( kausi.tila() == AlvKausi::PUUTTUVA && kausi.erapvm() < QDate::currentDate() ) return QIcon(":/pic/punainen.png");
+        else return QIcon(":/pic/tyhja.png");
+    }
 
     return QVariant();
 
@@ -165,12 +180,6 @@ QDate AlvIlmoitustenModel::erapaiva(const QDate &loppupaiva) const
     return erapvm;
 }
 
-QString AlvIlmoitustenModel::tilatieto(const QDate &loppupaiva) const
-{
-    AlvKausi alvkausi = kaudet_->kausi(loppupaiva);
-    return alvkausi.tilaInfo();
-}
-
 void AlvIlmoitustenModel::lataa()
 {
     KpKysely *kysely = kpk("/alv");
@@ -221,6 +230,7 @@ AlvIlmoitustenModel::AlvIlmoitusTieto::AlvIlmoitusTieto(const QVariantMap &data)
     paattyy_ = data.value("kausipaattyy").toDate();
     maksettava_ = Euro::fromString(data.value("maksettava").toString());
     marginaaliAliJaama_ = data.value("marginaalialijaama").toMap();
+    ilmoitettu_ = data.value("ilmoitettu").toDateTime();
 }
 
 QVariantMap AlvIlmoitustenModel::AlvIlmoitusTieto::map() const

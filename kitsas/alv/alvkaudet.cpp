@@ -47,6 +47,11 @@ QList<AlvKausi> AlvKaudet::kaudet() const
     return kaudet_;
 }
 
+bool AlvKaudet::onko()
+{
+    return !kaudet_.isEmpty();
+}
+
 void AlvKaudet::saapuu(QVariant *data)
 {
     QVariantList list = data->toList();
@@ -93,7 +98,7 @@ QString AlvKausi::tilaInfo() const
     switch(tila()) {
         case KASITELTY: return AlvKaudet::tr("Käsitelty");
         case KASITTELYSSA: return AlvKaudet::tr("Käsittelyssä");
-        case PUUTTUVA: return AlvKaudet::tr("Puutuu");
+        case PUUTTUVA: return AlvKaudet::tr("Ilmoitus puuttuu");
         case ARVIOITU: return AlvKaudet::tr("Arvioitu");
         case ERAANTYNYT: return AlvKaudet::tr("Erääntynyt");
         default: return QString();

@@ -65,8 +65,7 @@ public:
      * @param loppupaiva Verokauden viimeinen päivä
      * @return
      */
-    QDate erapaiva(const QDate& loppupaiva) const;
-    QString tilatieto(const QDate& loppupaiva) const;
+    QDate erapaiva(const QDate& loppupaiva) const;    
 
     AlvKaudet* kaudet() { return kaudet_;}
 
@@ -86,6 +85,7 @@ protected:
         QDate paattyy() const { return paattyy_;}
         Euro maksettava() const { return maksettava_;}
         QVariantMap marginaaliAliJaama() const { return marginaaliAliJaama_;}
+        QDateTime ilmoitettu() const { return ilmoitettu_;}
 
         QVariantMap map() const;
 
@@ -95,6 +95,7 @@ protected:
         QDate paattyy_;
         Euro maksettava_;
         QVariantMap marginaaliAliJaama_;
+        QDateTime ilmoitettu_;
     };
 
 protected:

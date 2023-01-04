@@ -38,6 +38,7 @@ public:
 
     AlvKausi kausi(const QDate& date) const;
     QList<AlvKausi> kaudet() const;
+    bool onko();
 
     static bool descSort(const AlvKausi &a, const AlvKausi& b);
     bool alvIlmoitusKaytossa() const { return varmenneTila == OK;}
