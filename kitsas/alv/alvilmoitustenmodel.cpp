@@ -186,6 +186,7 @@ void AlvIlmoitustenModel::lataa()
     if( !kysely)
         return;
 
+    kaudet_->tyhjenna();
     connect( kysely, &KpKysely::vastaus, this, &AlvIlmoitustenModel::dataSaapuu);
     kysely->kysy();
 
@@ -193,8 +194,7 @@ void AlvIlmoitustenModel::lataa()
         kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET | YhteysModel::ALV_ILMOITUS)) {
         varmenneTila_->paivita();
     } else {
-        varmenneTila_->tyhjenna();
-        kaudet_->tyhjenna();
+        varmenneTila_->tyhjenna();        
     }
 }
 

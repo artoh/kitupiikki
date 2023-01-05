@@ -45,7 +45,7 @@ BannerMaaritys::~BannerMaaritys()
 void BannerMaaritys::uusiBanner()
 {
     BannerDialog dlg(this, model);
-    dlg.exec();
+    dlg.uusi();
 }
 
 void BannerMaaritys::muokkaa()
@@ -59,7 +59,7 @@ void BannerMaaritys::muokkaa()
 void BannerMaaritys::poista()
 {
     if( ui->listView->currentIndex().isValid()) {
-        model->poista( ui->listView->currentIndex().data(BannerModel::IndeksiRooli).toInt() );
+        model->poista( ui->listView->currentIndex().data(BannerModel::IdRooli).toString() );
     }
 }
 

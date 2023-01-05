@@ -25,6 +25,8 @@ public:
 
     void siirrySivulle() override;        
 
+    QString ohjeSivunNimi() override {return "toimisto";}
+
 protected:
     enum Lohko { RYHMALOHKO, KAYTTAJALOHKO, KIRJANPITOLOHKO };
     enum { RYHMATAB, KAYTTAJATAB, KIRJANPITO_TIEDOT, KIRJANPITO_SUORAT, KIRJANPITO_RYHMAT, KIRJANPITO_LOKI };

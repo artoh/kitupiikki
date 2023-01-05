@@ -506,7 +506,8 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
 
     const int finvoiceMoodi = kp()->asetukset()->luku(AsetusModel::FinvoiceKaytossa);
 
-    if( ( finvoiceMoodi == VerkkolaskuMaaritys::PAIKALLINEN || (finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila) == "SIGNED")  ) &&
+    if( ( finvoiceMoodi == VerkkolaskuMaaritys::PAIKALLINEN ||
+          (finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA &&  kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila) == "SIGNED")  ) &&
         osoiteKunnossa() &&
         ladattuAsiakas_.value("ovt").toString().length() > 9 &&
         ladattuAsiakas_.value("operaattori").toString().length() > 4 &&

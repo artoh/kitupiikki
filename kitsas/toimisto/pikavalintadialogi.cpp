@@ -43,6 +43,8 @@ PikavalintaDialogi::PikavalintaDialogi(QWidget *parent, GroupData *groupData) :
     connect( ui->poistaNappi, &QPushButton::clicked, this, &PikavalintaDialogi::poista);
 
     connect( ui->buttonBox->button(QDialogButtonBox::Discard), &QPushButton::clicked, this, &PikavalintaDialogi::poistaPikavalinnat);
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("toimisto/pikavalinnat"); });
 }
 
 PikavalintaDialogi::~PikavalintaDialogi()
@@ -73,6 +75,12 @@ void PikavalintaDialogi::lataa()
     ui->oikeudet->aseta( ui->listView->currentIndex().data(ShortcutModel::RightsRole).toStringList() );
     ui->toimisto->aseta(ui->listView->currentIndex().data(ShortcutModel::AdminRole).toStringList());
     ui->nimiEdit->setText( ui->listView->currentIndex().data(Qt::DisplayRole).toString() );
+
+    // Muokatut oikeudet ei voi muokata
+    for(QGroupBox* box : findChildren<QGroupBox*>()) {
+        box->setEnabled( ui->listView->currentIndex().row() );
+    }
+    ui->nimiEdit->setEnabled( ui->listView->currentIndex().row());
 }
 
 void PikavalintaDialogi::poistaPikavalinnat()

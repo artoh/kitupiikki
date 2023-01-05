@@ -23,6 +23,8 @@ ToimistoKirjanpitoDialogi::ToimistoKirjanpitoDialogi(QWidget *parent, GroupData*
 
     connect( ui->ytunnusEdit, &QLineEdit::textEdited, this, &ToimistoKirjanpitoDialogi::haeTunnarilla);
     connect( ui->nimiEdit, &QLineEdit::textEdited, this, &ToimistoKirjanpitoDialogi::tarkastaKelpo);
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] {kp()->ohje("toimisto/#uuden-kirjanpidon-perustaminen");});
 }
 
 ToimistoKirjanpitoDialogi::~ToimistoKirjanpitoDialogi()

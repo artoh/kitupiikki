@@ -30,11 +30,18 @@ VarmenneDialog::~VarmenneDialog()
 
 bool VarmenneDialog::toimistoVarmenne(GroupData *group)
 {
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("toimisto/varmenne/"); });
     if( exec() == QDialog::Accepted) {
         group->lisaaVarmenne(ui->tunnusEdit->text(), ui->salaEdit->text());
         return true;
     }
     return false;
+}
+
+int VarmenneDialog::pilviVarmenne()
+{
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("alv/varmenne/"); });
+    return exec();
 }
 
 QString VarmenneDialog::tunnus() const

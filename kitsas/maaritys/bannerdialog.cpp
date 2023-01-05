@@ -6,6 +6,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "db/kirjanpito.h"
+
 BannerDialog::BannerDialog(QWidget *parent, BannerModel *model) :
     QDialog(parent),
     ui(new Ui::BannerDialog),
@@ -15,6 +17,8 @@ BannerDialog::BannerDialog(QWidget *parent, BannerModel *model) :
     ui->setupUi(this);
     connect( ui->kuvaNappi, &QPushButton::clicked, this, &BannerDialog::vaihdaKuva );
     connect( ui->nimiEdit, &QLineEdit::textEdited, this, &BannerDialog::tarkasta);
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("asetukset/bannerit/");});
 }
 
 BannerDialog::~BannerDialog()
@@ -22,15 +26,26 @@ BannerDialog::~BannerDialog()
     delete ui;
 }
 
-void BannerDialog::muokkaa(const QModelIndex indeksi)
+void BannerDialog::muokkaa(const QModelIndex &indeksi)
 {
-    indeksi_ = indeksi.data(BannerModel::IndeksiRooli).toInt();
     ui->nimiEdit->setText( indeksi.data(BannerModel::NimiRooli).toString());
-    const QString uuid = indeksi.data(BannerModel::IdRooli).toString();
-    kuva_ = model_->kuva(uuid);
+    uuid_ = indeksi.data(BannerModel::IdRooli).toString();
+    kuva_ = indeksi.data(BannerModel::KuvaRooli).value<QImage>();
+
     QPixmap pixmap = QPixmap::fromImage(kuva_.scaledToWidth( width() - 40, Qt::SmoothTransformation ));
-    ui->kuvaLabel->setPixmap(pixmap);
+    ui->kuvaLabel->setPixmap(pixmap);    
+    ui->tunnisteText->setText(uuid_);
+
     tarkasta();
+    exec();
+}
+
+void BannerDialog::uusi()
+{
+    ui->tunnisteLabel->hide();
+    ui->tunnisteText->hide();
+    tarkasta();
+
     exec();
 }
 
@@ -66,10 +81,10 @@ void BannerDialog::tarkasta()
 
 void BannerDialog::accept()
 {
-    if( indeksi_ < 0 ) {
+    if( uuid_.isEmpty() ) {
         model_->lisaa( ui->nimiEdit->text(), kuva_);
     } else {
-        model_->muuta(indeksi_, ui->nimiEdit->text(), kuva_);
+        model_->muuta( uuid_, ui->nimiEdit->text(), kuva_);
     }
 
     QDialog::accept();

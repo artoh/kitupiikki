@@ -60,6 +60,7 @@ public:
 protected:
     void veroViiteTulos(QVariant* data);
     QVariantMap veroViiteMap_;
+    void help();
 
 protected:
 

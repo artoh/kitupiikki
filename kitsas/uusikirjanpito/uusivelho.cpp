@@ -74,7 +74,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     addPage( new LoppuSivu );
 
     setOption(HaveHelpButton, true);
-    connect(this, &UusiVelho::helpRequested, [] { kp()->ohje("aloittaminen/uusi"); });
+    connect(this, &UusiVelho::helpRequested, this, &UusiVelho::help);
 
 }
 
@@ -249,6 +249,7 @@ QVariantMap UusiVelho::alustusVelho(const QString &ytunnus, const QString &nimi,
 
     setStartId(ALUSTUS);
 
+
     // Haetaan veroviitteet, jotta ne saadaan jo valmiiksi
     // asetuksiin
 
@@ -268,6 +269,14 @@ QVariantMap UusiVelho::alustusVelho(const QString &ytunnus, const QString &nimi,
 void UusiVelho::veroViiteTulos(QVariant *data)
 {
     veroViiteMap_ = data->toMap();
+}
+
+void UusiVelho::help()
+{
+    if( startId() == ALUSTUS)
+        kp()->ohje("toimisto/alustaminen");
+    else
+        kp()->ohje("aloittaminen/uusi");
 }
 
 

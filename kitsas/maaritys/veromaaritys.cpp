@@ -110,7 +110,7 @@ void VeroMaaritys::viitteetSaapuu(QVariant *data)
 void VeroMaaritys::lisaaVarmenne()
 {
     VarmenneDialog dlg(this);
-    if( dlg.exec() == QDialog::Accepted) {
+    if( dlg.pilviVarmenne() == QDialog::Accepted) {
         QVariantMap payload;
         payload.insert("businessid", kp()->asetukset()->ytunnus());
         payload.insert("name", kp()->asetukset()->nimi());

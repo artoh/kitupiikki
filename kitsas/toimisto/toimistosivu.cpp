@@ -81,6 +81,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     connect( ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged,
              this, &ToimistoSivu::nodeValittu);
+    connect( ui->treeView, &QTreeView::clicked, this, &ToimistoSivu::nodeValittu);
 
     connect( ui->groupBooksView->selectionModel(), &QItemSelectionModel::currentRowChanged,
              this, &ToimistoSivu::kirjaValittu);

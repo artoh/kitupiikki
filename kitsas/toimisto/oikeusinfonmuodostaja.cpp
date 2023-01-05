@@ -54,6 +54,7 @@ OikeusInfonMuodostaja::OikeusInfonMuodostaja()
     OikeusOtsikko hallinta("Hallinta");
     hallinta.lisaa("OM", tr("Käyttäjäryhmien muokkaaminen"));
     hallinta.lisaa("OG", tr("Ryhmien muokkaaminen"));
+    hallinta.lisaa("OC", tr("Varmenteiden hallinta"));
     hallinta.lisaa("OL", tr("Kirjautumistietojen selaaminen"));
     hallinta.lisaa("OS", tr("Tukikirjautuminen"));
     otsikot_.append(hallinta);

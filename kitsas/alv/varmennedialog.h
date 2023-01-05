@@ -18,6 +18,8 @@ public:
     ~VarmenneDialog();
 
     bool toimistoVarmenne(GroupData* group);
+    int pilviVarmenne();
+
     QString tunnus() const;
     QString salasana() const;
 

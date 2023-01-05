@@ -47,7 +47,7 @@
         <item>
          <widget class="QPushButton" name="ryhmaMenuNappi">
           <property name="text">
-           <string/>
+           <string>Ryhmä</string>
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
@@ -138,7 +138,7 @@
          <item>
           <widget class="QPushButton" name="bMenuNappi">
            <property name="text">
-            <string/>
+            <string>Kirjanpito</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">

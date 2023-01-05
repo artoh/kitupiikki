@@ -58,7 +58,7 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
 
     QVariantMap asetus;
-    asetus.insert(avain, arvo);
+    asetus.insert(avain, arvo.isNull() ? QVariant() : QVariant(arvo));
 
     paivitys->kysy(asetus);
 

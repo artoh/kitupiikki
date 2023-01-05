@@ -18,8 +18,9 @@ public:
     BannerDialog(QWidget *parent, BannerModel* model);
     ~BannerDialog();
 
-    void muokkaa(const QModelIndex indeksi);
+    void muokkaa(const QModelIndex& indeksi);
     void uusi();
+
     void vaihdaKuva();
     void tarkasta();
 
@@ -31,7 +32,7 @@ private:
 
     BannerModel* model_;
     QImage kuva_;
-    int indeksi_ = -1;
+    QString uuid_;
 };
 
 #endif // BANNERDIALOG_H

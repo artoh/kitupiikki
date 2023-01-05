@@ -50,6 +50,8 @@ RyhmaOikeusDialog::RyhmaOikeusDialog(QWidget *parent, GroupData *groupData) :
     connect( ui->loppuPvm, &KpDateEdit::dateChanged, this, &RyhmaOikeusDialog::tarkasta);
 
     connect( ui->pikaCombo, &QComboBox::currentTextChanged, this, &RyhmaOikeusDialog::pikaMuutos);
+
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("toimisto/kayttajat/");});
 }
 
 RyhmaOikeusDialog::~RyhmaOikeusDialog()

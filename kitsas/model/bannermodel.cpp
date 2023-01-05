@@ -19,7 +19,7 @@ int BannerModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return idt_.count() + 1;
+    return bannerit_.count() + 1;
 }
 
 QVariant BannerModel::data(const QModelIndex &index, int role) const
@@ -46,20 +46,15 @@ QVariant BannerModel::data(const QModelIndex &index, int role) const
         }
     }
 
-    QString avain = idt_.value(index.row() - 1);
+    const Banneri banneri = bannerit_.at(index.row() - 1);
 
     switch (role) {
     case IdRooli:
-        return avain;
+        return banneri.id();
     case NimiRooli:
-        return nimet_.value(avain);
+        return banneri.nimi();
     case KuvaRooli:
-    {
-        QImage scaled = kuva(avain).scaledToWidth(800, Qt::SmoothTransformation);
-        return QPixmap::fromImage(scaled);
-    }
-    case IndeksiRooli:
-        return index.row() - 1;
+        return banneri.kuvake();
     default:
         return QVariant();
     }
@@ -69,7 +64,12 @@ QVariant BannerModel::data(const QModelIndex &index, int role) const
 void BannerModel::lisaa(const QString &nimi, const QImage &kuva)
 {
     const QString id = QUuid::createUuid().toString();
-    kp()->asetukset()->aseta(ASETUSPOLKU + id, nimi);
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    bannerit_.append(Banneri(id, nimi, kuva));
+    endInsertRows();
+
+    kp()->asetukset()->aseta(ASETUSPOLKU.arg(id), nimi);
 
     QByteArray ba;
     QBuffer buffer(&ba);
@@ -80,71 +80,74 @@ void BannerModel::lisaa(const QString &nimi, const QImage &kuva)
     KpKysely* kysely = kpk(QString(KYSELYPOLKU.arg(id)), KpKysely::PUT);
     kysely->lahetaTiedosto(ba);
 
-    nimet_.insert(id, nimi);
-    kuvat_.insert(id, kuva);
+}
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    idt_.append(id);
-    endInsertRows();
+void BannerModel::muuta(const QString id, const QString &nimi, const QImage &kuva)
+{
+    for(int i=0; i < bannerit_.count(); i++) {
+        if(bannerit_.at(i).id() == id) {
+            bannerit_[i].asetaNimi(nimi);
+            bannerit_[i].asetaKuva(kuva);
+            emit dataChanged(index(i+1), index(i+1));
+
+            kp()->asetukset()->aseta(ASETUSPOLKU.arg(id), nimi);
+
+            QByteArray ba;
+            QBuffer buffer(&ba);
+            buffer.open(QIODevice::WriteOnly);
+            kuva.save(&buffer,"JPEG",80);
+            buffer.close();
+
+            KpKysely* kysely = kpk(QString(KYSELYPOLKU.arg(id)), KpKysely::PUT);
+            kysely->lahetaTiedosto(ba);
+            return;
+        }
+    }
 
 }
 
-void BannerModel::muuta(int indeksi, const QString &nimi, const QImage &kuva)
+void BannerModel::poista(const QString id)
 {
-    QString avain = idt_.value(indeksi);
-    nimet_.insert(avain, nimi);
-    kuvat_.insert(avain, kuva);
-    emit dataChanged(index(indeksi+1), index(indeksi+1));
-
-    kp()->asetukset()->aseta(ASETUSPOLKU + avain, nimi);
-
-    QByteArray ba;
-    QBuffer buffer(&ba);
-    buffer.open(QIODevice::WriteOnly);
-    kuva.save(&buffer,"JPEG",80);
-    buffer.close();
-
-    KpKysely* kysely = kpk(QString(KYSELYPOLKU.arg(avain)), KpKysely::PUT);
-    kysely->lahetaTiedosto(ba);
-}
-
-void BannerModel::poista(int indeksi)
-{
-    QString avain = idt_.value(indeksi);
-    beginRemoveRows(QModelIndex(), indeksi, indeksi);
-
-    idt_.removeAt(indeksi);
-    nimet_.remove(avain);
-    kuvat_.remove(avain);
-    kp()->asetukset()->poista(ASETUSPOLKU + avain);
-
-    endRemoveRows();
+    for(int i=0; i < bannerit_.count(); i++) {
+        if( bannerit_.at(i).id() == id) {
+            beginRemoveRows(QModelIndex(), i, i);
+            bannerit_.removeAt(i);
+            endRemoveRows();
+            kp()->asetukset()->poista(ASETUSPOLKU.arg(id));
+        }
+    }
 }
 
 void BannerModel::lataa()
 {
     beginResetModel();
 
-    idt_.clear();
-    nimet_.clear();
-    kuvat_.clear();
+    bannerit_.clear();
+    latausLista_.clear();
 
     const int avainpituus = ASETUSPOLKU.length();
-    for(auto avain : kp()->asetukset()->avaimet(ASETUSPOLKU)) {
-        const QString id = avain.mid(avainpituus);
+    for(auto avain : kp()->asetukset()->avaimet(ASETUSPOLKU.arg(QString()))) {
+        const QString id = avain.mid(avain.lastIndexOf("/") + 1);
         const QString nimi = kp()->asetukset()->asetus(avain);
-        idt_.append( id );
-        nimet_.insert(id, nimi);
+
+        if( nimi.isEmpty()) continue;
+
+        bannerit_.append(Banneri(id, nimi));
+        latausLista_.append(id);
     }
     endResetModel();
 
-    latausLista_ = idt_;
     lataaKuva();
 }
 
 QImage BannerModel::kuva(const QString uuid) const
 {
-    return kuvat_.value(uuid);
+    for(int i=0; i < bannerit_.count(); i++) {
+        if( bannerit_.at(i).id() == uuid) {
+            return bannerit_.at(i).kuva();
+        }
+    }
+    return QImage();
 }
 
 void BannerModel::lataaKuva()
@@ -162,14 +165,43 @@ void BannerModel::kuvaSaapuu(const QString &uuid, QVariant *reply)
 {
     QByteArray ba = reply->toByteArray();
     QImage kuva = QImage::fromData( ba );
-    kuvat_.insert(uuid, kuva);
 
-    const int indeksi = idt_.indexOf(uuid);
-    if( indeksi > -1) {
-        emit dataChanged(index(indeksi), index(indeksi), QVector<int>() << Qt::DecorationRole );
+    for(int i=0; i < bannerit_.count(); i++) {
+        if(bannerit_.at(i).id() == uuid) {
+            bannerit_[i].asetaKuva(kuva);
+            emit dataChanged(index(i+1), index(i+1));
+            break;
+        }
     }
     lataaKuva();
 }
 
-const QString BannerModel::ASETUSPOLKU = "Laskutus/Banneri/";
+const QString BannerModel::ASETUSPOLKU = "Laskutus/Banneri/%1";
 const QString BannerModel::KYSELYPOLKU = "/liitteet/0/banner-%1";
+
+BannerModel::Banneri::Banneri()
+{
+
+}
+
+BannerModel::Banneri::Banneri(const QString &id, const QString &nimi, const QImage &kuva) :
+    id_{id}, nimi_{nimi}, kuva_{kuva}
+{
+
+}
+
+QPixmap BannerModel::Banneri::kuvake() const
+{
+    QImage scaled = kuva_.scaledToWidth(800, Qt::SmoothTransformation);
+    return QPixmap::fromImage(scaled);
+}
+
+void BannerModel::Banneri::asetaKuva(const QImage &image)
+{
+    kuva_ = image;
+}
+
+void BannerModel::Banneri::asetaNimi(const QString &nimi)
+{
+    nimi_ = nimi;
+}
