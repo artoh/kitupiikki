@@ -103,7 +103,7 @@ bool EmailMaaritys::nollaa()
     ui->nimiEdit->setText( asetukset_.lahettajaNimi() );
     ui->emailEdit->setText( asetukset_.lahettajaOsoite());
 
-    ui->tkAsetusRadio->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    ui->kpAsetusRadio->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     ui->kitsasRadio->setEnabled( qobject_cast<PilviModel*>( kp()->yhteysModel() ));
     paivitaKitsasVaihto();
 

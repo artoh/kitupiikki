@@ -131,7 +131,7 @@ void MaaritysSivu::siirrySivulle()
     if( lista->currentItem() && !lista->currentItem()->isHidden() )
         valitseSivu( lista->currentItem());
     else
-        valitseSivu( lista->item(0) );
+        valitseSivu( lista->item(0)->isHidden() ? lista->item(1) : lista->item(0) );
 }
 
 bool MaaritysSivu::poistuSivulta(int /* minne */)
