@@ -150,6 +150,11 @@ void LaatijanPaakirja::kirjoitaDatasta()
             (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 8 :
             ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 : 5 );
 
+    const int summasarakkeet =
+            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 5 :
+            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 4 : 4 );
+
+
 
     while( iter.hasNext()) {
         iter.next();
@@ -163,7 +168,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
             rivi.lihavoi();
             rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
-                                tili.nimiNumero(kielikoodi()), otsikkosarakkeet + 2);
+                                tili.nimiNumero(kielikoodi()), otsikkosarakkeet);
 
             qlonglong saldo =  saldot_.value( QString::number(tili.numero() ));
 
@@ -235,7 +240,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
-                summa.lisaa("",otsikkosarakkeet - 1);
+                summa.lisaa("", summasarakkeet);
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
                     summa.lisaa("");
@@ -267,7 +272,8 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.viivaYlle();
         summa.lihavoi();
         summa.lisaa("",2);
-        summa.lisaa(kaanna("Yhteensä"),otsikkosarakkeet-2);
+        summa.lisaa(kaanna("Yhteensä"),
+                    summasarakkeet + (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 1 : 0)) ;
 
 
         summa.lisaa(kaikkiDebet);
