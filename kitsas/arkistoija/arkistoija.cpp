@@ -91,10 +91,11 @@ bool Arkistoija::luoHakemistot()
     hakemisto.mkdir("tositteet");
     hakemisto.mkdir("liitteet");
     hakemisto.mkdir("static");
+    hakemisto.mkdir("raportit");
 
     if( !kp()->logo().isNull() )
     {
-        kp()->logo().save(hakemisto.absoluteFilePath("logo.png"),"PNG");
+        kp()->logo().save(hakemisto.absoluteFilePath("static/logo.png"),"PNG");
         logo_ = true;
     }
 
@@ -391,10 +392,10 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
 void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedosto)
 {
     QString txt = rk.html(true);
-    txt.insert( txt.indexOf("</head>"), "<link rel='stylesheet' type='text/css' href='static/arkisto.css'>");
-    txt.insert( txt.indexOf("<body>") + 6, navipalkki( ));
+    txt.insert( txt.indexOf("</head>"), "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'>");
+    txt.insert( txt.indexOf("<body>") + 6, navipalkki(-1));
 
-    arkistoiByteArray( tiedosto, txt.toUtf8() );
+    arkistoiByteArray( "raportit/" + tiedosto, txt.toUtf8() );
     raporttilaskuri_--;
     progressDlg_->setValue( progressDlg_->value() + 1);
 
@@ -425,7 +426,7 @@ void Arkistoija::viimeistele()
     out << navipalkki();
 
     if(logo_)
-        out << "<img src=logo.png class=logo>";
+        out << "<img src=static/logo.png class=logo>";
 
     out << "<h1 class=etusivu>" << kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) << "</h1>";
     out << "<h2 class=etusivu>" << tulkkaa("Kirjanpitoarkisto") << "<br>" ;
@@ -438,24 +439,24 @@ void Arkistoija::viimeistele()
     if( QFile::exists( hakemisto.absoluteFilePath("tilinpaatos.pdf")  ))
            out << "<li><a href=tilinpaatos.pdf>" << tulkkaa("Tilinpäätös") << "</a></li>";
 
-    out   << "<li><a href=taseerittely.html>" << tulkkaa("Tase-erittely") << "</a></li></ul>";
+    out   << "<li><a href=raportit/taseerittely.html>" << tulkkaa("Tase-erittely") << "</a></li></ul>";
 
 
     out << "<h3>" << tulkkaa("Kirjanpito") + "</h3>";
-    out << "<ul><li><a href=paakirja.html>" << tulkkaa("Pääkirja") << "</a></li>";
-    out << "<li><a href=paivakirja.html>" << tulkkaa("Päiväkirja") << "</a></li>";
-    out << "<li><a href=tositeluettelo.html>" << tulkkaa("Tositeluettelo") << "</a></li>";
-    out << "<li><a href=tililuettelo.html>" << tulkkaa("Tililuettelo") << "</a></li>";
+    out << "<ul><li><a href=raportit/paakirja.html>" << tulkkaa("Pääkirja") << "</a></li>";
+    out << "<li><a href=raportit/paivakirja.html>" << tulkkaa("Päiväkirja") << "</a></li>";
+    out << "<li><a href=raportit/tositeluettelo.html>" << tulkkaa("Tositeluettelo") << "</a></li>";
+    out << "<li><a href=raportit/tililuettelo.html>" << tulkkaa("Tililuettelo") << "</a></li>";
     out << "</ul><h3>" << tulkkaa("Raportit") << "</h3><ul>";
 
 
     for( const auto& rnimi : qAsConst(raporttiNimet_))
-        out << "<li><a href='" << rnimi.first << "'>" << rnimi.second << "</a></li>";
+        out << "<li><a href='raportit/" << rnimi.first << "'>" << rnimi.second << "</a></li>";
 
     out << "</ul><h3>" << tulkkaa("Laskut ja myynti") << "</h3><ul>";
-    out << "<li><a href=myyntilaskut.html>" << tulkkaa("Avoimet myyntilaskut") << "</a></li>";
-    out << "<li><a href=ostolaskut.html>" << tulkkaa("Avoimet ostolaskut") << "</a></li>";
-    out << "<li><a href=myynnit.html>" << tulkkaa("Myydyt tuotteet") << "</a></li>";
+    out << "<li><a href=raportit/myyntilaskut.html>" << tulkkaa("Avoimet myyntilaskut") << "</a></li>";
+    out << "<li><a href=raportit/ostolaskut.html>" << tulkkaa("Avoimet ostolaskut") << "</a></li>";
+    out << "<li><a href=raportit/myynnit.html>" << tulkkaa("Myydyt tuotteet") << "</a></li>";
 
     out << "</ul>";
 
@@ -598,7 +599,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
             continue;
 
         out << "<tr><td class=pvm>" << vienti.value("pvm").toDate().toString("dd.MM.yyyy") ;
-        out << "</td><td class=tili><a href='../paakirja.html#" << tili->numero() << "'>"
+        out << "</td><td class=tili><a href='../raportit/paakirja.html#" << tili->numero() << "'>"
             << tili->nimiNumero() << "</a>";
 
         QStringList klist;
@@ -766,15 +767,15 @@ QString Arkistoija::tiedostonnimi(const QDate &pvm, const QString &sarja, int tu
 QString Arkistoija::navipalkki(int indeksi) const
 {
     QString navi = "<nav><ul><li class=kotinappi><a href=";
-    if( indeksi > -1)
+    if( indeksi > -2)
         navi.append("../");     // Tositteista palataan päähakemistoon
 
     navi.append("index.html>");
     if( logo_ ) {
-        if( indeksi > -1)
-            navi.append("<img src=../logo.png>");
+        if( indeksi > -2)
+            navi.append("<img src=../static/logo.png>");
         else
-            navi.append("<img src=logo.png>");
+            navi.append("<img src=static/logo.png>");
     }
     navi.append( kp()->asetukset()->asetus(AsetusModel::OrganisaatioNimi) + " ");
 

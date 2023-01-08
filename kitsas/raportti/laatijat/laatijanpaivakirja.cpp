@@ -43,9 +43,9 @@ void LaatijanPaivakirja::laadi()
         rk.lisaaSarake("Kohdennusnimi");
 
     if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
-        rk.lisaaVenyvaSarake(100, RaporttiRivi::EICSV); // Kumppani + selite
-        rk.lisaaSarake("", RaporttiRivi::CSV); // Kumppani
-        rk.lisaaSarake("", RaporttiRivi::CSV); // Selite
+        rk.lisaaVenyvaSarake(100, RaporttiRivi::PDF); // Kumppani + selite
+        rk.lisaaSarake("", RaporttiRivi::EIPDF); // Kumppani
+        rk.lisaaSarake("", RaporttiRivi::EIPDF); // Selite
     } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
         rk.lisaaVenyvaSarake(75); // Kumppani
         rk.lisaaVenyvaSarake(); // Selite

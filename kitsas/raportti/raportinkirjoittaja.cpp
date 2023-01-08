@@ -131,7 +131,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     {
        int leveys = 0;
 
-       if( sarakkeet_[i].sarakkeenKaytto == RaporttiRivi::CSV)
+       if( !(sarakkeet_[i].sarakkeenKaytto & RaporttiRivi::PDF))
            leveys = 0;
        else if( !sarakkeet_[i].leveysteksti.isEmpty())
            leveys = painter->fontMetrics().horizontalAdvance( sarakkeet_[i].leveysteksti );
@@ -165,7 +165,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
     foreach (RaporttiRivi rivi, rivit_)
     {
-        if( rivi.kaytto() == RaporttiRivi::CSV)
+        if( !(rivi.kaytto() & RaporttiRivi::PDF))
             continue;
 
         fontti.setPointSize( rivi.pistekoko() - pienennys );
@@ -368,7 +368,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
         int sarakkeessa = 0;
         for(int i=0; i < otsikkorivi.sarakkeita(); i++)
         {
-            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto != RaporttiRivi::CSV) {
+            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto & RaporttiRivi::HTML) {
                 txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));                
                 txt.append( otsikkorivi.teksti(i));
                 txt.append("</th>");
@@ -382,7 +382,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
     // Rivit
     foreach (RaporttiRivi rivi, rivit_)
     {
-        if( rivi.kaytto() == RaporttiRivi::CSV)
+        if( !(rivi.kaytto() & RaporttiRivi::HTML) )
             continue;
 
         QStringList trluokat;
@@ -402,24 +402,34 @@ QString RaportinKirjoittaja::html(bool linkit) const
         int sarakkeessa = 0;
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
-            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto != RaporttiRivi::CSV) {
+            if( sarakkeet_.value(sarakkeessa).sarakkeenKaytto & RaporttiRivi::HTML) {
 
-                if( rivi.tasattuOikealle(i) )
-                    txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
-                else
-                    txt.append(QString("<td colspan=%1>").arg(rivi.leveysSaraketta(i)));
+                // Vähentää colspanista näkymättömät sarakkeet
+                int leveysSaraketta = rivi.leveysSaraketta(i);
+
+                for(int li=sarakkeessa; li < sarakkeessa + rivi.leveysSaraketta(i); li++) {
+                    if( !(sarakkeet_.value(li).sarakkeenKaytto & RaporttiRivi::HTML) ) {
+                        leveysSaraketta--;
+                    }
+                }
+
+                txt.append("<td");
+                if(leveysSaraketta > 1) txt.append(QString(" colspan=%1").arg(leveysSaraketta));
+                if(rivi.tasattuOikealle(i)) txt.append(" class=oikealle");
+                txt.append("> ");
+
 
                 if(linkit)
                 {
                     if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
                     {
                         // Linkki tositteeseen
-                        txt.append( QString("<a href=\"tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
+                        txt.append( QString("<a href=\"../tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
                     }
                     else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
                     {
                         // Linkki tiliin
-                        txt.append( QString("<a href=\"paakirja.html#%2\">").arg( rivi.sarake(i).linkkidata));
+                        txt.append( QString("<a href=\"../raportit/paakirja.html#%2\">").arg( rivi.sarake(i).linkkidata));
                     }
                     else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_LINKKI)
                     {
@@ -502,12 +512,12 @@ QByteArray RaportinKirjoittaja::csv() const
 
     for( RaporttiRivi otsikko : otsakkeet_)
     {
-        if( otsikko.kaytto() == RaporttiRivi::EICSV)
+        if( !(otsikko.kaytto() & RaporttiRivi::CSV))
             continue;
 
         QStringList otsakkeet;
         for(int i=0; i < otsikko.sarakkeita(); i++) {
-            if( sarakkeet_.value(i).sarakkeenKaytto == RaporttiRivi::EICSV)
+            if( !(sarakkeet_.value(i).sarakkeenKaytto & RaporttiRivi::CSV))
                 continue;
             otsakkeet.append( otsikko.csv(i));
         }
@@ -515,7 +525,7 @@ QByteArray RaportinKirjoittaja::csv() const
     }
     for( RaporttiRivi rivi : rivit_ )
     {
-        if( rivi.kaytto() == RaporttiRivi::EICSV)
+        if( !(rivi.kaytto() & RaporttiRivi::CSV))
             continue;
 
         if( rivi.sarakkeita() )
@@ -525,7 +535,7 @@ QByteArray RaportinKirjoittaja::csv() const
             QStringList sarakkeet;
             for( int i=0; i < rivi.sarakkeita(); i++)
             {
-                if( sarakkeet_.value(i).sarakkeenKaytto != RaporttiRivi::EICSV) {
+                if( sarakkeet_.value(i).sarakkeenKaytto & RaporttiRivi::CSV) {
                     sarakkeet.append( rivi.csv(i));
                 }
             }

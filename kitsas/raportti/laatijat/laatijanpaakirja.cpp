@@ -64,9 +64,9 @@ void LaatijanPaakirja::laadi()
         rk.lisaaSarake("12345/99");
 
     if( valinnat().onko(RaporttiValinnat::TulostaKumppani) && valinnat().onko(RaporttiValinnat::TulostaKohdennus)) {
-        rk.lisaaVenyvaSarake(100,RaporttiRivi::EICSV); // Kumppani + Selite
-        rk.lisaaSarake("", RaporttiRivi::CSV);  // Kumppani
-        rk.lisaaSarake("", RaporttiRivi::CSV);  // Selite
+        rk.lisaaVenyvaSarake(100,RaporttiRivi::PDF); // Kumppani + Selite
+        rk.lisaaSarake("", RaporttiRivi::EIPDF);  // Kumppani
+        rk.lisaaSarake("", RaporttiRivi::EIPDF);  // Selite
     } else if( valinnat().onko(RaporttiValinnat::TulostaKumppani)) {
         rk.lisaaVenyvaSarake(); // Kumppani
         rk.lisaaVenyvaSarake(); // Selite
@@ -151,8 +151,8 @@ void LaatijanPaakirja::kirjoitaDatasta()
             ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 : 5 );
 
     const int summasarakkeet =
-            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 5 :
-            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 4 : 4 );
+            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 3 :
+            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 2 : 2 );
 
 
 
@@ -240,6 +240,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 RaporttiRivi summa(RaporttiRivi::EICSV);
                 summa.viivaYlle();
                 summa.lihavoi();
+                summa.lisaa("", 2);
                 summa.lisaa("", summasarakkeet);
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
@@ -273,7 +274,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.lihavoi();
         summa.lisaa("",2);
         summa.lisaa(kaanna("Yhteensä"),
-                    summasarakkeet + (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 1 : 0)) ;
+                    summasarakkeet + (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 3 : 2)) ;
 
 
         summa.lisaa(kaikkiDebet);
