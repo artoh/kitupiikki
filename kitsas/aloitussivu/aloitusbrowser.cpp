@@ -364,7 +364,7 @@ QString AloitusBrowser::saldoTaulu()
             txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Tuloslaskelma") + "</td></tr>");
         edellinen = tiliteksti;
 
-        txt.append( QString("<tr class=%4><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
+        txt.append( QString("<tr class=%4><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%3</td></tr>")
                     .arg(tili->numero())
                     .arg(tili->nimiNumero().toHtmlEscaped())
                     .arg(saldo.saldo().display(true))
