@@ -41,9 +41,12 @@
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Copyright © Arto Hyvättinen 2017 - 2019
-Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2023
-palaute@kitsas.fi</string>
+        <string>Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;
+Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2023&lt;br/&gt;
+&lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt;</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

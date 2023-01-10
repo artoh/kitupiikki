@@ -107,10 +107,16 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     }
 
     if( !urlquery.hasQueryItem("tase")) {
+        Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( urlquery.queryItemValue("kohdennus").toInt() );
 
         QString kysymys("SELECT tili, SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id ");
-        if(urlquery.hasQueryItem("kohdennus"))
-            kysymys.append("JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id LEFT OUTER JOIN Merkkaus ON Vienti.id=Merkkaus.vienti ");
+        if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA || kohdennus.tyyppi() == Kohdennus::PROJEKTI ) {
+            kysymys.append("JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id");
+        } else if( kohdennus.tyyppi() == Kohdennus::MERKKAUS) {
+            kysymys.append("LEFT OUTER JOIN Merkkaus ON Vienti.id=Merkkaus.vienti ");
+        }
+
+
         kysymys.append(" WHERE vienti.pvm ");
 
         if( urlquery.hasQueryItem("alkusaldot"))
@@ -118,8 +124,13 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         else
             kysymys += "<=";
         kysymys += QString(" '%1' ").arg(pvm.toString(Qt::ISODate));
-        if( urlquery.hasQueryItem("kohdennus"))
-            kysymys += QString(" AND (kohdennus.id=%1 OR kohdennus.kuuluu=%1 OR Merkkaus.kohdennus=%1) ").arg(urlquery.queryItemValue("kohdennus"));
+
+        if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA || kohdennus.tyyppi() == Kohdennus::PROJEKTI ) {
+            kysymys += QString(" AND (kohdennus.id=%1 OR kohdennus.kuuluu=%1) ").arg(kohdennus.id());
+        } else if( kohdennus.tyyppi() == Kohdennus::MERKKAUS) {
+            kysymys += QString(" AND Merkkaus.kohdennus=%1 ").arg(kohdennus.id());
+        }
+
         kysymys += QString(" AND vienti.pvm >= '%1' AND CAST(tili as text) >= 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili")
                 .arg(kaudenalku.toString(Qt::ISODate));
 
