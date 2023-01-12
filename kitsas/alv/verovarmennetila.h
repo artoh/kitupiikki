@@ -21,6 +21,8 @@ public:
     QDateTime statusTime() const { return statusTime_;}
     bool isValid() const { return status_ == "OK" || status_ == "OF";}
 
+    QString information() const;
+
 signals:
     void paivitetty();
     void kaytossa();

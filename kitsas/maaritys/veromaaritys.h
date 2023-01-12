@@ -34,6 +34,7 @@ protected:
     void paivitaMaksuAlvTieto();
     void maksuAlv();
 
+
 private:
     Ui::VeroMaaritys* ui;
     VeroVarmenneTila *tila;

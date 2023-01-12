@@ -75,11 +75,14 @@ bool VeroMaaritys::tallenna()
 
 void VeroMaaritys::tilaPaivitetty()
 {
-    ui->varmenneGroup->setVisible(true);
-    ui->varmenneInfo->setText(tila->toString());
+    ui->varmenneGroup->setVisible(true);            
+
+    // Näytetään myös valtuutuksen tila
+    ui->varmenneInfo->setText(tila->information());
 
     ui->uusiVarmenneNappi->setVisible(
             tila->status() != "OK" &&
+            tila->status() != "OF" &&
             tila->status() != "PG" &&
             !kp()->asetukset()->ytunnus().isEmpty());
     ui->poistaVarmenneNappi->setVisible( tila->status() == "OK");
@@ -204,3 +207,4 @@ void VeroMaaritys::maksuAlv()
         paivitaMaksuAlvTieto();
     }
 }
+

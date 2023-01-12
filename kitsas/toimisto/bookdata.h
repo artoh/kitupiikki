@@ -38,6 +38,8 @@ public:
     QString certStatus() const { return certStatus_;}
     QString certInfo() const;
 
+    QString dealOfficeName() const { return dealOfficeName_;}
+
     bool initialized() const { return initialized_; };
 
     bool loginAvailable() const;
@@ -81,6 +83,8 @@ private:
 
     QString certStatus_;
     bool initialized_ = false;
+
+    QString dealOfficeName_;
 
     GroupMembersModel* directUsers_;
     GroupMembersModel* groupUsers_;

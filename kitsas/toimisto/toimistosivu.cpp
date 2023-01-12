@@ -286,7 +286,15 @@ void ToimistoSivu::kirjaVaihtui()
     ui->bMuokattu->setText( bookData_->modified().toString("dd.MM.yyyy"));
     ui->bTositteita->setText( QString("%1").arg( bookData_->documents() ) );
     ui->bKoko->setText( bookData_->prettySize() );
-    ui->bVarmenne->setText( bookData_->certInfo());
+
+    const QString& varmenneTila = bookData_->certInfo();
+    ui->bVarmenneLabel->setVisible(!varmenneTila.isEmpty());
+    ui->bVarmenne->setVisible(!varmenneTila.isEmpty());
+    ui->bVarmenne->setText( varmenneTila );
+
+    ui->bDealLabel->setVisible( !bookData_->dealOfficeName().isEmpty() );
+    ui->bDealText->setVisible( !bookData_->dealOfficeName().isEmpty());
+    ui->bDealText->setText( bookData_->dealOfficeName() );
 
     if( bookData_->ownerName().isEmpty()) {
         ui->bTuoteLabel->setText(tr("Tuote"));

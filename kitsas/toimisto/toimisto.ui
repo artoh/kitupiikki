@@ -554,7 +554,7 @@ color: rgb(255, 255, 255);</string>
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="bVarmenneLabel">
            <property name="text">
             <string>Varmenne</string>
            </property>
@@ -567,6 +567,24 @@ color: rgb(255, 255, 255);</string>
           <widget class="QLabel" name="bVarmenne">
            <property name="text">
             <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="bDealLabel">
+           <property name="text">
+            <string>Laskuttava
+toimisto</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLabel" name="bDealText">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
            </property>
           </widget>
          </item>
