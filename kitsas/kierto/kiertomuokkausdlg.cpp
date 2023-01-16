@@ -105,9 +105,10 @@ void KiertoMuokkausDlg::alusta()
     ui->osallistujaView->setModel(proxy);
     ui->osallistujaView->horizontalHeader()->setSectionResizeMode(KiertoMuokkausModel::NIMI, QHeaderView::Stretch);
 
-    KpKysely* kysely = kpk(QString("%1/permissions/%2?all")
+    KpKysely* kysely = kpk(QString("%1/permissions/%2")
                            .arg(kp()->pilvi()->pilviLoginOsoite())
                            .arg(kp()->pilvi()->pilviId()));
+    kysely->lisaaAttribuutti("all");
     connect(kysely, &KpKysely::vastaus, this, &KiertoMuokkausDlg::kayttajatSaapuu);
     kysely->kysy();
 
