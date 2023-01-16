@@ -54,6 +54,7 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->postinumeroEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->kaupunkiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->ovtEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
     connect( ui->valittajaEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
@@ -186,6 +187,19 @@ void AsiakasToimittajaDlg::alustaKielet()
     KieliDelegaatti::alustaKieliCombo(ui->kieliCombo);
 }
 
+bool AsiakasToimittajaDlg::osoiteKunnossa()
+{
+    const QString maa = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString();
+    if( maa == "fi")
+        return ui->osoiteEdit->toPlainText().length() > 3 &&
+               ui->postinumeroEdit->text().length() == 5 &&
+               ui->kaupunkiEdit->text().length() > 1;
+    else
+        return ui->osoiteEdit->toPlainText().length() > 3 &&
+               ui->postinumeroEdit->text().length() > 3 &&
+               ui->kaupunkiEdit->text().length() > 1;
+}
+
 void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
 {
     QVariantMap uusi;
@@ -252,9 +266,16 @@ void AsiakasToimittajaDlg::taydennaLaskutavat()
     if( emailRe.match( spostiosoite ).hasMatch() )
         ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), Lasku::SAHKOPOSTI);
     if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 5 ) {
-        ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
-        if( kp()->asetukset()->onko("FinvoiceSuosi"))
-            laskutapa = Lasku::VERKKOLASKU;
+        if( osoiteKunnossa()) {
+            ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
+            if( kp()->asetukset()->onko("FinvoiceSuosi"))
+                laskutapa = Lasku::VERKKOLASKU;
+            ui->osoiteUrputus->hide();
+        } else {
+            ui->osoiteUrputus->show();
+        }
+    } else {
+        ui->osoiteUrputus->show();
     }
 
     int indeksi = ui->laskutapaCombo->findData(laskutapa);

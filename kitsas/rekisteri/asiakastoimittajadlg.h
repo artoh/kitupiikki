@@ -55,6 +55,7 @@ protected:
     void lataa(int id);
     void alustaKielet();
 
+    bool osoiteKunnossa();
 
 private slots:        
     void tarkastaTilit();

@@ -87,6 +87,8 @@ void VeroMaaritys::tilaPaivitetty()
             !kp()->asetukset()->ytunnus().isEmpty());
     ui->poistaVarmenneNappi->setVisible( tila->status() == "OK");
 
+    ui->okPic->setVisible( tila->status() == "OK" || tila->status() == "OF" );
+
     if( tila->isValid() && (ui->omaehtoistenviiteEdit->text().isEmpty() || ui->tuloveroviiteEdit->text().isEmpty()))
         haeViitteet();
 }

@@ -173,6 +173,13 @@ void KantaLaskuDialogi::lataaLoki()
 
 }
 
+void KantaLaskuDialogi::verkkolaskuUrputus(const QString &viesti)
+{
+    ui->urputusTeksti->setText(viesti);
+    ui->urputusKuva->setVisible( !viesti.isEmpty() );
+    ui->urputusTeksti->setVisible( !viesti.isEmpty() );
+}
+
 
 
 
@@ -489,6 +496,8 @@ void KantaLaskuDialogi::taytaAsiakasTiedotMapista(const QVariantMap &map)
     emit alvTunnusVaihtui( asiakkaanAlvTunnus() );
 }
 
+QRegularExpression KantaLaskuDialogi::emailRe__ = QRegularExpression(R"(^.*@.*\.\w+$)");
+
 void KantaLaskuDialogi::paivitaLaskutustavat()
 {
     if(paivitysKaynnissa_) {
@@ -500,27 +509,35 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
 
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), Lasku::TULOSTETTAVA);
 
+
+    bool osoitekunnossa = osoiteKunnossa();
+    const int finvoiceMoodi = kp()->asetukset()->luku(AsetusModel::FinvoiceKaytossa);
+    const QString autentikointitila = kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila);
+
     // Voidaan postittaa vain jos osoite asiakasrekisterissä
-    if( osoiteKunnossa() )
+    if( osoitekunnossa )
         ui->laskutusCombo->addItem( QIcon(":/pic/mail.png"), tr("Postita lasku"), Lasku::POSTITUS);
 
-    const int finvoiceMoodi = kp()->asetukset()->luku(AsetusModel::FinvoiceKaytossa);
 
-    if( ( finvoiceMoodi == VerkkolaskuMaaritys::PAIKALLINEN ||
-        ( finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA &&
-           ( kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila) == "SIGNED" || kp()->asetukset()->asetus(AsetusModel::MaventaAutentikointiTila) == "NONE" ) )
-        ) &&
-        osoiteKunnossa() &&
-        ladattuAsiakas_.value("ovt").toString().length() > 9 &&
-        ladattuAsiakas_.value("operaattori").toString().length() > 4 &&
-        maksutapa() != Lasku::KATEINEN &&
-        maksutapa() != Lasku::KORTTIMAKSU &&
-        maksutapa() != Lasku::KUUKAUSITTAINEN)
-        ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
+    if( (finvoiceMoodi == VerkkolaskuMaaritys::PAIKALLINEN || finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA) &&
+         maksutapa() != Lasku::KATEINEN && maksutapa() != Lasku::KORTTIMAKSU && maksutapa() != Lasku::KUUKAUSITTAINEN &&
+         ladattuAsiakas_.value("ovt").toString().length() > 9 && ladattuAsiakas_.value("operaattori").toString().length() > 4) {
+        if( !osoitekunnossa ) {
+            verkkolaskuUrputus( tr("Ei voi lähettää verkkolaskuna, koska vastaanottajan postiosoite on puutteellinen.") );
+        } else if( finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && autentikointitila != "SIGNED" && autentikointitila != "NONE" && autentikointitila != "VERIFIED") {
+            verkkolaskuUrputus( tr("Verkkolaskutuksen käyttöönotto on kesken.") );
+        } else {
+            verkkolaskuUrputus();
+            ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);
+        }
 
-    QRegularExpression emailRe(R"(^.*@.*\.\w+$)");
-    if( emailRe.match( ui->email->text()).hasMatch() )
+    } else {
+        verkkolaskuUrputus();
+    }
+
+    if( emailRe__.match( ui->email->text()).hasMatch() )
             ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), Lasku::SAHKOPOSTI);
+
     ui->laskutusCombo->addItem( QIcon(":/pic/pdf.png"), tr("Tallenna pdf-tiedostoon"), Lasku::PDF);
     ui->laskutusCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Ei tulosteta"), Lasku::EITULOSTETA);
 

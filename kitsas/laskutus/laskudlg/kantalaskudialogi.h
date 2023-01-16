@@ -100,6 +100,7 @@ private:
     void alustaRivitTab();
     bool osoiteKunnossa();
     void lataaLoki();
+    void verkkolaskuUrputus(const QString& viesti = QString());
 
 protected:
     Ui::LaskuDialogi *ui;
@@ -114,7 +115,7 @@ protected:
     QSortFilterProxyModel* proxy_;
 
 
-
+    static QRegularExpression emailRe__;
 
 };
 
