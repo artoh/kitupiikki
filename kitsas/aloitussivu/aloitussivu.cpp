@@ -127,10 +127,15 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     ui->viimeisetView->setModel( sqliteproxy );
     sqliteproxy->setSortRole(Qt::DisplayRole);
 
-    ui->pilviView->setModel( kp()->pilvi() );
-    ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
+    ui->pilviView->setModel( kp()->pilvi() );    
     ui->vaaraSalasana->setVisible(false);
     ui->palvelinvirheLabel->setVisible(false);
+
+    const int viimeIndeksi = kp()->settings()->value("TietokonePilviValilehti").toInt();
+    if( viimeIndeksi == TIETOKONE_TAB)
+        ui->tkpilviTab->setCurrentIndex(TIETOKONE_TAB);
+    else
+        ui->tkpilviTab->setCurrentIndex(PILVI_TAB);
 
     ui->inboxFrame->setVisible(false);
     ui->inboxFrame->installEventFilter(this);
