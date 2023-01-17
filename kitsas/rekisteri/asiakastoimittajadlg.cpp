@@ -210,10 +210,10 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
         return;
     }
     else {
-        uusi.insert("nimi", map.value("kumppaninimi"));
+        uusi.insert("nimi", map.contains("nimi") ? map.value("nimi") : map.value("kumppaninimi"));
         uusi.insert("iban", map.value("iban"));
-        uusi.insert("osoite", map.value("kumppaniosoite"));
-        uusi.insert("postinumero", map.value("kumppanipostinumero"));
+        uusi.insert("osoite", map.contains("osoite") ? map.value("osoite") : map.value("kumppaniosoite"));
+        uusi.insert("postinumero", map.contains("postinumero") ? map.value("postinumero") : map.value("kumppanipostinumero"));
         tauluun( uusi );
         haeToimipaikka();
     }

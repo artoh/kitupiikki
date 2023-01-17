@@ -136,7 +136,7 @@ void LaskunUusinta::uusittavaLadattu()
         paivitaHinnat();
 
     RiviVientiGeneroija riviGeneroija(kp());
-    riviGeneroija.generoiViennit(uusi_);
+    riviGeneroija.generoiViennit(uusi_, Kitsas::UUSI_ERA);
 
     if( tosite_->kumppani() ) {
         KpKysely* asiakasHaku = kpk(QString("/kumppanit/%1").arg(tosite_->kumppani()));
