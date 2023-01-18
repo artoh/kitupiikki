@@ -174,7 +174,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
                 && !ui->asiakasToimittaja->id())
             ui->asiakasToimittaja->tuonti( map );
 
-        if( map.value("erapvm").isValid() && !ui->maaraEdit->euro())
+        if( map.value("erapvm").isValid() && !ui->erapaivaEdit->date().isValid())
             ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 
         if( map.value("maksutapa").toString() == "kateinen") {
