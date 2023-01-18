@@ -105,10 +105,8 @@ void KpYhEdit::keyPressEvent(QKeyEvent *event)
         cursorForward(false,1);
         emit textEdited( text() );
     }
-    else if( event->key() == Qt::Key_Minus && value() >= 0) {
-        setText("-" + text() );
-        cursorForward(false, 1);
-        emit textEdited(text());
+    else if( event->key() == Qt::Key_Minus) {
+        // Yksikköhinta ei saa olla negatiivinen (Verkkolaskusääntö)
         return;
     }
     else if( !event->text().isEmpty() && event->text().at(0).isDigit() ) {
