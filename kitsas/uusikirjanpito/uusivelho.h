@@ -76,6 +76,7 @@ protected:
     class Harjoitussivu : public QWizardPage {
     public:
         Harjoitussivu(UusiVelho *wizard);
+        void cleanupPage() override {;}
     protected:        
         Ui::UusiHarjoitus *ui;
         UusiVelho *velho;
@@ -100,6 +101,7 @@ protected:
     public:
         Tilikarttasivu(UusiVelho *wizard);
         bool validatePage() override;
+        void cleanupPage() override {;}
     protected:
         void tiedostosta();
         Ui::UusiTilikartta *ui;
@@ -109,6 +111,7 @@ protected:
     class NumerointiSivu : public QWizardPage {
     public:
         NumerointiSivu();
+        void cleanupPage() override {;}
     protected:
         Ui::UusiNumerointi *ui;
     };

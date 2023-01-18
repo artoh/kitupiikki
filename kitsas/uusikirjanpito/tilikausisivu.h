@@ -43,6 +43,7 @@ public:
 
     bool isComplete() const override;
     bool validatePage() override;
+    void cleanupPage() override {;}
 
 public slots:
     void alkuPaivaMuuttui(const QDate& date);

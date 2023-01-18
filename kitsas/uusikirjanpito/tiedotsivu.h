@@ -30,6 +30,7 @@ public:
     TiedotSivu(UusiVelho *wizard);
     void initializePage() override;
     bool validatePage() override;
+    void cleanupPage() override {;}
 
 protected slots:
     void haeytunnarilla();

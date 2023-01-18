@@ -34,6 +34,7 @@ protected:
 public:
     SijaintiSivu();
     ~SijaintiSivu() override;
+    void cleanupPage() override {;}
 
 protected slots:
     void vaihdaSijainti();
