@@ -218,7 +218,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             }
         }
     }
-    if( etsi("IBAN"))
+    if( ibanit.isEmpty() && etsi("IBAN"))
     {
         int ibansijainti = etsi("IBAN");
 
@@ -230,7 +230,11 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             {
                 if( IbanValidator::kelpaako(t))
                 {
-                    ibanit.insert( t.remove("\\s"));
+                    QString iban = t.remove(QRegularExpression("\\s"));
+                    if( kp()->tilit()->tiliIbanilla(iban).onkoValidi())
+                        data.insert("tyyppi", TositeTyyppi::TULO);
+                    else
+                        ibanit.insert(iban);
                 }
             }
         }
@@ -247,21 +251,6 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         }
     }
 
-
-    if( !data.contains("kumppaninimi") )
-    {
-        QStringList haetut;
-        if( data.value("tyyppi").toInt() == TositeTyyppi::TULO)
-            haetut = haeLahelta(15,0,50,40);
-        else
-            haetut = haeLahelta(0,0,15,40);
-        haetut.append(tekstit_.values());
-        while (!haetut.isEmpty() &&
-               ( haetut.first().contains("lasku",Qt::CaseInsensitive) || haetut.first().contains( kp()->asetukset()->asetus("Nimi"), Qt::CaseInsensitive )))
-            haetut.removeAt(0);
-        if( !haetut.isEmpty())
-            data.insert("kumppaninimi", haetut.first());
-    }
 
     QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}(\\s?€)?$");
     // Etsitään ensin yhteensä-rahasummia
@@ -309,9 +298,57 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             {
                 data.insert("kumppaniytunnus", tunnari);
             }
+        }        
+    }
+
+    // Ellei ibania ole muuten löytynyt, etsitään kaikkia
+    // mahdollisia numerosarjoja. Tavoitteena löytää
+    // maksun saajan iban ja tunnistaa samalla, tuleeko
+    // maksu omalle tilille eli onko se tuloa.
+
+    if( ibanit.isEmpty()) {
+        QRegularExpression fiIbanRe("FI\\d{2}[\\w\\s]{6,34}");
+        for(auto teksti : tekstit_.values())
+        {
+            if( fiIbanRe.match(teksti).hasMatch()) {
+                for(QString ehdokas : fiIbanRe.match(teksti).capturedTexts()) {
+                    if( IbanValidator::kelpaako(ehdokas)) {
+                        const auto iban = ehdokas.remove(QRegularExpression("\\s"));
+                        if( kp()->tilit()->tiliIbanilla(iban).onkoValidi())
+                            data.insert("tyyppi", TositeTyyppi::TULO);
+                        else
+                            ibanit.insert(iban);
+                    }
+                }
+            }
         }
     }
 
+    if( !data.contains("kumppaninimi") )
+    {
+        QStringList haetut;
+        if( data.value("tyyppi").toInt() == TositeTyyppi::TULO)
+            haetut = haeLahelta(15,0,50,40);
+        else
+            haetut = haeLahelta(0,0,15,40);
+        haetut.append(tekstit_.values());
+
+        const QString& omanimi = kp()->asetukset()->nimi();
+
+        for(const auto& teksti : tekstit_.values()) {
+            if( teksti.isEmpty()) continue;
+            if( teksti.contains("lasku", Qt::CaseInsensitive) ||
+                teksti.contains(omanimi, Qt::CaseInsensitive) ||
+                teksti.endsWith(":"))
+                continue;
+            if( teksti.split(QRegularExpression("\\s")).count() < 2)
+                continue;
+            if( teksti.at(0).isDigit() || teksti.at(teksti.length() - 1).isDigit())
+                continue;
+            data.insert("kumppaninimi", teksti);
+            break;
+        }
+    }
 
     if( !ibanit.isEmpty()) {
         QVariantList ibanlista;
