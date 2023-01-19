@@ -154,6 +154,7 @@ void KpDateEdit::setDate(QDate date)
         setText( date.toString("dd.MM.yyyy") );
         if( pos > -1)
             setCursorPosition(pos);
+        checkValidity();
     }
     else if( isNullable() )
     {

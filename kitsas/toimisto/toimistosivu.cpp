@@ -28,6 +28,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QDebug>
+#include <QActionGroup>
 
 ToimistoSivu::ToimistoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),

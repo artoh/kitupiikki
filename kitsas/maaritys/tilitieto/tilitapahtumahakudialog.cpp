@@ -6,6 +6,7 @@
 #include "tilitietopalvelu.h"
 #include "laskutus/iban.h"
 #include <QPushButton>
+#include "tools/kpdateedit.h"
 
 namespace Tilitieto {
 
@@ -55,8 +56,8 @@ void TiliTapahtumaHakuDialog::nayta(int yhteysIndeksi)
     ui->alkuPvm->setDate( maxDate );
     ui->loppuPvm->setDate( maxDate );
 
-    connect( ui->alkuPvm, &QDateEdit::dateChanged, this, &TiliTapahtumaHakuDialog::tarkastaPvmVali);
-    connect( ui->loppuPvm, &QDateEdit::dateChanged, this, &TiliTapahtumaHakuDialog::tarkastaPvmVali);
+    connect( ui->alkuPvm, &KpDateEdit::dateChanged, this, &TiliTapahtumaHakuDialog::tarkastaPvmVali);
+    connect( ui->loppuPvm, &KpDateEdit::dateChanged, this, &TiliTapahtumaHakuDialog::tarkastaPvmVali);
 
     exec();
 }
