@@ -30,6 +30,7 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
 {
     ui->setupUi(this);
     oikeusUi->setupUi(ui->oikeusWidget);
+
     ui->oikeusWidget->alusta();
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -50,7 +51,7 @@ KayttoOikeusSivu::KayttoOikeusSivu() :
     connect( ui->kutsuButton, &QPushButton::clicked, this, &KayttoOikeusSivu::kutsu);
     connect( ui->uusikutsuBtn, &QPushButton::clicked, this, &KayttoOikeusSivu::uusiKutsu);
 
-    connect( ui->oikeusWidget, &OikeusWidget::muokattu, this, &KayttoOikeusSivu::tarkastaMuokkaus);
+    connect( ui->oikeusWidget, &OikeusWidget::muokattu, this, &KayttoOikeusSivu::tarkastaMuokattu);
 }
 
 KayttoOikeusSivu::~KayttoOikeusSivu()
