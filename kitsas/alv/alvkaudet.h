@@ -39,6 +39,7 @@ public:
     AlvKausi kausi(const QDate& date) const;
     QList<AlvKausi> kaudet() const;
     bool onko();
+    QString virhe() const;
 
     static bool descSort(const AlvKausi &a, const AlvKausi& b);
     bool alvIlmoitusKaytossa() const { return varmenneTila == OK;}
@@ -51,6 +52,7 @@ protected:
 
 private:
     QList<AlvKausi> kaudet_;
+    QString errorCode_;
 
     int haussa_ = 0;
     VarmenneTila varmenneTila = EIKAYTOSSA;

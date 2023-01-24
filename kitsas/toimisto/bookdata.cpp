@@ -34,7 +34,11 @@ void BookData::reload()
 QString BookData::certInfo() const
 {
     if( certStatus_ == "OFFICE_OK") return tr("Toimiston varmenne käytössä");
-    else if(certStatus_ == "OFFICE_FAIL") return tr("Toimiston varmenne ei kelpaa\nTarkasta Suomi.fi-valtuutus");
+    else if(certStatus_ == "OFFICE_FAIL 1040") return tr("Tilitoimistolta puuttuu Suomi.fi -valtuutus");
+    else if(certStatus_ == "OFFICE_FAIL VAT101") return tr("Tarkasta asiakkaan arvonlisäverovelvollisuus");
+    else if(certStatus_ == "OFFICE_FAIL 1103") return tr("Virheellinen Y-tunnus");
+    else if(certStatus_ == "OFFICE_FAIL 1005") return tr("VeroAPI-yhteydessä virhe");
+    else if(certStatus_.startsWith("OFFICE_FAIL")) return tr("Toimiston varmenne ei kelpaa");
     else if(certStatus_ == "NO_CERT") return tr("Ei varmennetta");
     else if(certStatus_ == "BOOK_OK") return tr("Oma varmenne käytössä");
     else if(certStatus_ == "NO_BID") return tr("Y-tunnus puuttuu");

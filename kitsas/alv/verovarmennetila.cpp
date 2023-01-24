@@ -72,15 +72,29 @@ QString VeroVarmenneTila::information() const
     if( kp()->alvIlmoitukset()->kaudet()->onko()) {
         return toString();
     }
+    const QString errorCode = kp()->alvIlmoitukset()->kaudet()->virhe();
+    if( errorCode == "VAT101") {
+        return tr("Tarkasta arvonlisäverovelvolliseksi rekisteröityminen");
+    } else if( errorCode == "1103") {
+        return tr("Virheellinen y-tunnus");
+    } else if( errorCode == "1005") {
+        return tr("Verokausien hakeminen epäonnistui.");
+    }
 
     if( status() == "OK") {
-        if( statusTime_.daysTo(QDateTime::currentDateTime()) < 2 ) {
+        if( errorCode == "1040") {
+            return tr("Varmenteelta puuttuu oikeudet verotietoihin");
+        } else if( statusTime_.daysTo(QDateTime::currentDateTime()) < 2 ) {
             return tr("Verohallinnon varmenne on noudettu %1.\nVarmenne ei vielä ole käytettävissä.").arg(statusTime_.toString("dd.MM.yyyy"));
         } else {
             return tr("Varmenteessa on ongelma, eikä sillä voi antaa alv-ilmoitusta.");
         }
     } else if( status() == "OF") {
-        return tr("Tarkasta tilitoimiston Suomi.fi-valtuutus veroasioiden hoitamiseen") +
+        if( errorCode == "1040") {
+            return tr("Tilitoimistolta puuttuu Suomi.fi-valtuutus veroasioiden hoitamiseen") +
+                QString("\n%1 (%2)").arg(officeName_, officeBid_);
+        }
+        return tr("Arvonlisäverokausien hakeminen toimiston varmenteella epäonnistui") +
                 QString("\n%1 (%2)").arg(officeName_, officeBid_);
     } else {
         return toString();

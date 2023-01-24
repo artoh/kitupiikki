@@ -14,6 +14,7 @@ AlvKaudet::AlvKaudet(QObject *parent)
 void AlvKaudet::haeKaudet()
 {
     kaudet_.clear();
+    errorCode_.clear();
     QDate pvm = kp()->tilitpaatetty().addDays(1);
     while( pvm < kp()->paivamaara().addDays(1)) {
         haussa_++;
@@ -52,12 +53,28 @@ bool AlvKaudet::onko()
     return !kaudet_.isEmpty();
 }
 
+QString AlvKaudet::virhe() const
+{
+    if( kaudet_.isEmpty())
+        return errorCode_;
+    else
+        return QString();
+}
+
 void AlvKaudet::saapuu(QVariant *data)
 {
     QVariantList list = data->toList();
-    for(const auto& item : qAsConst(list)) {
-        QVariantMap iMap = item.toMap();
-        kaudet_.append(AlvKausi(iMap));
+
+    if(list.isEmpty()) {
+        QVariantMap map = data->toMap();
+        if(map.contains("ErrorCode")) {
+            errorCode_ = map.value("ErrorCode").toString();
+        }
+    } else {
+        for(const auto& item : qAsConst(list)) {
+            QVariantMap iMap = item.toMap();
+            kaudet_.append(AlvKausi(iMap));
+        }
     }
     haussa_--;
     if( haussa_ < 1 && !kaudet_.isEmpty()) {
