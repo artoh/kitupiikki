@@ -121,7 +121,7 @@ void AlvIlmoitusDialog::tarkastaKelpo()
     bool kelpo =
             !ui->ilmoitaGroup->isChecked() ||
             ( ui->yhteysEdit->text().length() > 4 &&
-            ui->puhelinEdit->text() > 8 );
+            ui->puhelinEdit->text().length() > 8 );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
 }
 
