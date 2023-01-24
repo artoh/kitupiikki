@@ -16,74 +16,35 @@
 */
 #include "popplerrendererdocument.h"
 
-
+#include <QBuffer>
 
 PopplerRendererDocument::PopplerRendererDocument(const QByteArray &data)
 {
-    pdfDoc_ = Poppler::Document::loadFromData(data);
 
-    if( pdfDoc_) {
-        pdfDoc_->setRenderHint(Poppler::Document::TextAntialiasing);
-        pdfDoc_->setRenderHint(Poppler::Document::Antialiasing);
-    }
 }
 
 PopplerRendererDocument::~PopplerRendererDocument()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    delete pdfDoc_;
-#endif
 }
 
 int PopplerRendererDocument::pageCount()
 {
-    if(pdfDoc_)
-        return pdfDoc_->numPages();
-    else
-        return 0;
+    return 0;
 }
 
-QImage PopplerRendererDocument::renderPage(int page, double resolution)
-{
-    if( !pdfDoc_ || locked())
-        return QImage();
+QImage PopplerRendererDocument::renderPage(int /* page */, double /* resolution */)
+{    
 
-    auto pdfSivu = pdfDoc_->page(page);
-    if( !pdfSivu)
-        return QImage();
-
-    QImage image = pdfSivu->renderToImage(resolution, resolution);    
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    delete pdfSivu;
-#endif
-    return image;
+    return QImage();
 }
 
 bool PopplerRendererDocument::locked() const
 {
-    if( pdfDoc_)
-        return pdfDoc_->isLocked();
-    else
-        return false;
+    return true;
 }
 
 
-QImage PopplerRendererDocument::renderPageToWidth(int page, double width)
+QImage PopplerRendererDocument::renderPageToWidth(int /* page */, double /* width */)
 {
-    if( !pdfDoc_ || locked())
-        return QImage();
-
-    auto pdfSivu = pdfDoc_->page(page);
-    if( !pdfSivu)
-        return QImage();
-
-    double pdfleveys = pdfSivu->pageSizeF().width();
-    double skaala = width / pdfleveys * 72.0;
-
-    QImage image = pdfSivu->renderToImage(skaala, skaala);    
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    delete pdfSivu;
-#endif
-    return image;
+    return QImage();
 }

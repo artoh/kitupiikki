@@ -52,7 +52,7 @@
 
 #include "naytin/raporttinaytin.h"
 #include "naytin/laaditunraportinnaytin.h"
-// #include "naytin/pdfnaytin.h"
+#include "naytin/pdfnaytin.h"
 
 #include "naytin/scenenaytin.h"
 #include "naytin/tekstinaytin.h"
@@ -102,9 +102,10 @@ void NaytinView::nayta(const QByteArray &data, bool salliPudotus)
 {
     if( data.startsWith("%PDF"))
     {        
-        Naytin::PdfView* view = new Naytin::PdfView(data);
-        view->salliPudotus(salliPudotus);
-        vaihdaNaytin( new Naytin::SceneNaytin( view ));
+        vaihdaNaytin( new Naytin::PdfNaytin(data));
+//        Naytin::PdfView* view = new Naytin::PdfView(data);
+//        view->salliPudotus(salliPudotus);
+//        vaihdaNaytin( new Naytin::SceneNaytin( view ));
     }
     else {
         QImage kuva;

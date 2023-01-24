@@ -235,7 +235,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
         avaaPilvesta(avaaPilvi_);
         avaaPilvi_ = 0;
     } else if( nykyPilvi_) {
-        KpKysely* uusinta = kysely( pilviLoginOsoite() + "/auth/" + nykyPilvi_.id(), KpKysely::GET );
+        KpKysely* uusinta = kysely(QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(nykyPilvi_.id()), KpKysely::GET );
         connect( uusinta, &KpKysely::vastaus, this, [this] (QVariant* data) { this->nykyPilvi_ = *data; });
     }
 

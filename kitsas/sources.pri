@@ -178,6 +178,7 @@ SOURCES += \
     $$PWD/naytin/laaditunraportinnaytin.cpp \
     $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/naytin/naytinscene.cpp \
+    $$PWD/naytin/pdfnaytin.cpp \
     $$PWD/pilvi/avattupilvi.cpp \
     $$PWD/pilvi/listanpilvi.cpp \
     $$PWD/pilvi/paivitysinfo.cpp \
@@ -609,6 +610,7 @@ HEADERS += \
     $$PWD/naytin/laaditunraportinnaytin.h \
     $$PWD/naytin/liitetulostaja.h \
     $$PWD/naytin/naytinscene.h \
+    $$PWD/naytin/pdfnaytin.h \
     $$PWD/pilvi/avattupilvi.h \
     $$PWD/pilvi/listanpilvi.h \
     $$PWD/pilvi/paivitysinfo.h \

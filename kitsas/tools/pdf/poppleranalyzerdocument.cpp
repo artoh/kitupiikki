@@ -20,25 +20,25 @@
 #include <iostream>
 
 #include <QMap>
+#include <QBuffer>
 
 PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
 {
-    pdfDoc_ = Poppler::Document::loadFromData(data);
+    QByteArray arr(data);
+    QBuffer buff(&arr);
+    buff.open(QIODevice::ReadOnly);
+
+    doc_.load(&buff);
 }
 
 PopplerAnalyzerDocument::~PopplerAnalyzerDocument()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    delete pdfDoc_;
-#endif
+
 }
 
 int PopplerAnalyzerDocument::pageCount()
 {
-    if(pdfDoc_ && !pdfDoc_->isLocked())
-        return pdfDoc_->numPages();
-    else
-        return 0;
+    return doc_.pageCount();
 }
 
 
@@ -46,7 +46,15 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
 {   
 
     PdfAnalyzerPage result;
+//    QPdfSelection selection = doc_.getAllText(page);
 
+//    result.setSize( doc_.pagePointSize(page) );
+
+    return result;
+
+
+
+/*
        if( pdfDoc_ && !pdfDoc_->isLocked()) {
 
            auto sivu = pdfDoc_->page(page);
@@ -82,6 +90,8 @@ PdfAnalyzerPage PopplerAnalyzerDocument::page(int page)
            }
        }
     return result;
+
+*/
 }
 
 
@@ -96,8 +106,5 @@ QList<PdfAnalyzerPage> PopplerAnalyzerDocument::allPages()
 
 QString PopplerAnalyzerDocument::title() const
 {
-    if( pdfDoc_)
-        return pdfDoc_->title();
-    else
-        return QString();
+    return doc_.metaData(QPdfDocument::MetaDataField::Title).toString();
 }

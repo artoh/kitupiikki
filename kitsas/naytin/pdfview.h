@@ -19,6 +19,7 @@
 
 #include "abstraktiview.h"
 
+
 namespace Naytin {
 
 class PdfView : public AbstraktiView
@@ -45,6 +46,7 @@ public slots:
 protected:
     QByteArray data_;    
     qreal skaala_;
+
 };
 
 

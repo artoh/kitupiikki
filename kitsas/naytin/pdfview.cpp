@@ -23,6 +23,8 @@
 #include "db/kirjanpito.h"
 #include <QSettings>
 
+
+
 #include "tools/pdf/pdftoolkit.h"
 
 Naytin::PdfView::PdfView(const QByteArray &pdf) :
@@ -126,7 +128,7 @@ void Naytin::PdfView::tulosta(QPrinter *printer) const
 
     }
     painter.end();
-    delete document;
+    delete document;   
 }
 
 void Naytin::PdfView::zoomIn()

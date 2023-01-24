@@ -18,11 +18,7 @@
 #define POPPLERRENDERERDOCUMENT_H
 
 #include "pdftoolkit.h"
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <poppler/qt6/poppler-qt6.h>
-#else
-#include <poppler/qt5/poppler-qt5.h>
-#endif
+#include <QPdfDocument>
 
 class PopplerRendererDocument : public PdfRendererDocument
 {
@@ -36,12 +32,8 @@ public:
     virtual bool locked() const override;
 
 private:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    std::unique_ptr<Poppler::Document> pdfDoc_;
-#else
-    Poppler::Document *pdfDoc_ = nullptr;
-#endif
-
+    QByteArray array_;
+    QPdfDocument doc_;
 
 };
 

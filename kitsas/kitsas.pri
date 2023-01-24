@@ -6,6 +6,8 @@ QT += printsupport
 QT += network
 QT += svg
 QT += xml
+QT += pdf
+QT += pdfwidgets
 
 equals(QT_MAJOR_VERSION,6) {
     QT += core5compat
