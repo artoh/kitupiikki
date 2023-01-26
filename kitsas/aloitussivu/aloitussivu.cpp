@@ -146,10 +146,10 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     if( kp()->pilvi()->kayttaja()) {
         kirjauduttu( kp()->pilvi()->kayttaja() );
-    } else if( kp()->settings()->contains("Authkey")) {
+    } else if( kp()->settings()->contains("AuthKey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
         qApp->processEvents();
-        QTimer::singleShot(250, login_, &LoginService::keyLogin );
+        QTimer::singleShot(500, login_, &LoginService::keyLogin );
     }
 
 }
