@@ -5250,7 +5250,8 @@ ui_tilinavaus.h: ../kitsas/maaritys/tilinavaus/tilinavaus.ui \
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/maaritys/tilinavaus/tilinavaus.ui -o ui_tilinavaus.h
 
 ui_tilitapahtumahaku.h: ../kitsas/maaritys/tilitieto/tilitapahtumahaku.ui \
-		../../../Qt/5.15.0/clang_64/bin/uic
+		../../../Qt/5.15.0/clang_64/bin/uic \
+		../kitsas/tools/kpdateedit.h
 	/Users/petri/Qt/5.15.0/clang_64/bin/uic ../kitsas/maaritys/tilitieto/tilitapahtumahaku.ui -o ui_tilitapahtumahaku.h
 
 ui_tilitietomaaritys.h: ../kitsas/maaritys/tilitieto/tilitietomaaritys.ui \
