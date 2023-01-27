@@ -126,6 +126,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     sqliteproxy->setSourceModel( kp()->sqlite());
     ui->viimeisetView->setModel( sqliteproxy );
     sqliteproxy->setSortRole(Qt::DisplayRole);
+    sqliteproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
 
     ui->pilviView->setModel( kp()->pilvi() );    
     ui->vaaraSalasana->setVisible(false);

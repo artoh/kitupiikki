@@ -54,21 +54,25 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     QSortFilterProxyModel *treeSort = new QSortFilterProxyModel(this);
     treeSort->setSourceModel(groupTree_);
+    treeSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->treeView->setModel(treeSort);
     ui->treeView->setSortingEnabled(true);
 
     QSortFilterProxyModel *bookSort = new QSortFilterProxyModel(this);
     bookSort->setSourceModel(groupData_->books());
+    bookSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->groupBooksView->setModel(bookSort);
     ui->groupBooksView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QSortFilterProxyModel *memberSort = new QSortFilterProxyModel(this);
     memberSort->setSourceModel(groupData_->members());
+    memberSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->groupMembersView->setModel(memberSort);
     ui->groupMembersView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QSortFilterProxyModel* duSort = new QSortFilterProxyModel(this);
     duSort->setSourceModel( bookData_->directUsers() );
+    duSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->bKayttajatView->setModel(duSort);
     ui->bKayttajatView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
