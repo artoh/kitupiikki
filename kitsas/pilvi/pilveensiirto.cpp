@@ -156,19 +156,17 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
     const QVariantMap& map = data->toMap();
     pilviId_ = map.value("id").toInt();
 
-
-    connect( pilviModel_, &PilviModel::kirjauduttu, this, &PilveenSiirto::avaaLuotuPilvi);    
-    pilviModel_->paivitaLista();
+    connect( pilviModel_, &PilviModel::siirtoPilviAvattu, this, &PilveenSiirto::avaaLuotuPilvi  );
     ui->progressBar->setValue(20);
+
+    pilviModel_->avaaPilvesta(pilviId_, true);
+
 }
 
 void PilveenSiirto::avaaLuotuPilvi()
 {   
-    pilviModel_->avaaPilvesta(pilviId_, true);
-
     ui->progressBar->setValue(30);
     haeRyhmaLista();
-
 }
 
 void PilveenSiirto::haeRyhmaLista()
@@ -435,8 +433,6 @@ void PilveenSiirto::tallennaSeuraavaTuote()
 void PilveenSiirto::valmis(QVariant* data)
 { 
 
-    QVariantMap map = data->toMap();
-
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");
     connect( kysely, &KpKysely::vastaus, this, &PilveenSiirto::infoSaapuu);
     kysely->kysy();
@@ -462,7 +458,7 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
         ui->stackedWidget->setCurrentIndex(VALMIS);
 
         kp()->pilvi()->paivitaLista(pilviId_);
-        kp()->pilvi()->avaaPilvesta(pilviId_);
+//        kp()->pilvi()->avaaPilvesta(pilviId_);
 
         kp()->settings()->setValue("PilveenSiirretyt",
                                    kp()->settings()->value("PilveenSiirretyt").toString() + uid + " ");

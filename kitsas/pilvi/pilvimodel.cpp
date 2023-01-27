@@ -45,9 +45,12 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
     paivitysInfo_{new PaivitysInfo(this)},
     tilitietoPalvelu_(new Tilitieto::TilitietoPalvelu(this))
 {
-    timer_ = new QTimer(this);
-    connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);    
-    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+    // Tokenilla alustettaessa ollaan PilveenSiirron yksityisessä kirjoituspilvessä
+    if( token.isEmpty() ) {
+        timer_ = new QTimer(this);
+        connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);
+        connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+    }
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
@@ -104,7 +107,7 @@ void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
 
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
-    connect( kysymys, &KpKysely::vastaus, this, &PilviModel::alustaPilvi);
+    connect( kysymys, &KpKysely::vastaus, this, [this, siirrossa](QVariant* data) { this->alustaPilvi(data, siirrossa);});
     kysymys->kysy();
 }
 
@@ -267,7 +270,7 @@ void PilviModel::tarkistaKirjautuminen()
     }
 }
 
-void PilviModel::alustaPilvi(QVariant *data)
+void PilviModel::alustaPilvi(QVariant *data, bool siirrossa)
 {
     AvattuPilvi pilvi(*data);
     if( !pilvi.alustettu() ) {
@@ -291,7 +294,10 @@ void PilviModel::alustaPilvi(QVariant *data)
         }
     } else {
         nykyPilvi_ = pilvi;
-        alusta();
+        if(siirrossa)
+            emit siirtoPilviAvattu();
+        else
+            alusta();
     }
 }
 
