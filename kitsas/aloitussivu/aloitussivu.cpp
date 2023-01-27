@@ -454,7 +454,7 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 {    
     ui->salaEdit->clear();
 
-    if( !kayttaja && kayttaja.moodi() == PilviKayttaja::NORMAALI) {
+    if( !kayttaja.id() && kayttaja.moodi() == PilviKayttaja::NORMAALI) {
         ui->pilviPino->setCurrentIndex(KIRJAUDU);        
         return;
     }

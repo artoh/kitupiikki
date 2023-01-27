@@ -19,7 +19,8 @@ public:
         KAYTOSSA = 0,
         MAKSAMATON = 1,
         EHTOJEN_VASTAINEN = 2,
-        KAYTTAJAN_PYYNNOSTA = 3
+        KAYTTAJAN_PYYNNOSTA = 3,
+        MUU_SYY = 99
     };
 
     PilviKayttaja();    

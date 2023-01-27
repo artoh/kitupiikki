@@ -67,7 +67,7 @@ private:
     void tallennaTuotteet();
     void tuotteetSaapuu(const QVariant* data);
     void tallennaSeuraavaTuote();
-    void valmis();
+    void valmis(QVariant *data);
     void infoSaapuu(QVariant* data);
     void siirtoVirhe(int koodi);
 

@@ -38,9 +38,10 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
 
 
     const QString sulku = map.value("blocked").toString();
+
     if( sulku.isEmpty())
         blocked_ = KAYTOSSA;
-    if( sulku == "UNPAID")
+    else if( sulku == "UNPAID")
         blocked_ = MAKSAMATON;
     else if( sulku == "RULES")
         blocked_ = EHTOJEN_VASTAINEN;

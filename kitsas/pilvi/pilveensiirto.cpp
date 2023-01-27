@@ -432,8 +432,10 @@ void PilveenSiirto::tallennaSeuraavaTuote()
     }
 }
 
-void PilveenSiirto::valmis()
+void PilveenSiirto::valmis(QVariant* data)
 { 
+
+    QVariantMap map = data->toMap();
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");
     connect( kysely, &KpKysely::vastaus, this, &PilveenSiirto::infoSaapuu);

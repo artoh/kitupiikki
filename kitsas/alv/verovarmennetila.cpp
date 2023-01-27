@@ -15,6 +15,9 @@ VeroVarmenneTila::VeroVarmenneTila(QObject *parent)
 
 void VeroVarmenneTila::paivita()
 {
+    if( kp()->pilvi()->service("vero").isEmpty() )
+        return;
+
     QString url = QString("%1/cert").arg( kp()->pilvi()->service("vero") );
     KpKysely* kysymys = kpk(url);
     if( kysymys ) {
