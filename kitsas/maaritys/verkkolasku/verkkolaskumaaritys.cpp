@@ -261,8 +261,8 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         } else {
             ui->maventaInfo->setText(tr("Yritykselläsi on jo Maventan verkkolaskutili"));
         }
-        return;
-    } else if( !profileOk ) {
+        return;            
+    } else if(!profileOk) {
         QVariantMap status = maventaInfo_.value("status").toMap();
         const QString authState = status.value("auth_state").toString();
         kp()->asetukset()->aseta(AsetusModel::MaventaAutentikointiTila, authState);
@@ -297,6 +297,8 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
         }
         return;
     }
+
+    kp()->asetukset()->aseta(AsetusModel::MaventaAutentikointiTila, "PROFILESOK");
 
     QVariantMap print = maventaInfo_.value("send_invoice_print").toMap();    
 

@@ -524,7 +524,8 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
          ladattuAsiakas_.value("ovt").toString().length() > 9 && ladattuAsiakas_.value("operaattori").toString().length() > 4) {
         if( !osoitekunnossa ) {
             verkkolaskuUrputus( tr("Ei voi lähettää verkkolaskuna, koska vastaanottajan postiosoite on puutteellinen.") );
-        } else if( finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && autentikointitila != "SIGNED" && autentikointitila != "NONE" && autentikointitila != "VERIFIED") {
+        } else if( finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && autentikointitila != "SIGNED"
+                   && autentikointitila != "NONE" && autentikointitila != "VERIFIED" && autentikointitila != "PROFILESOK") {
             verkkolaskuUrputus( tr("Verkkolaskutuksen käyttöönotto on kesken.") );
         } else {
             verkkolaskuUrputus();
