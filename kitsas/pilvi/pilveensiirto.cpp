@@ -92,6 +92,7 @@ void PilveenSiirto::alustaAlkusivu()
             ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
         } else {
             ui->infoLabel->setText(tr("Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen."));
+            ui->infoLabel->setStyleSheet("color: red; font-weight: bold;");
             ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
         }
     }
