@@ -181,10 +181,18 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                          "Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.\n\n"
                                          "Ellei tämä auta, käynnistä tietokoneesi uudelleen.").arg(polku));
             }
+            else if( query.lastError().text().contains("no such table: Asetus") ) {
+                QMessageBox::critical(nullptr,
+                                      tr("Kirjanpitoa ei voi avata"),
+                                      tr("Kirjanpitotiedosto %1 on todennäköisesti vahingoittunut joko tiedostojärjestelmän virheen tai levyvirheen takia, tai tiedosto ei ole Kitsaan kirjanpitotiedosto.").arg(polku) + "\n\n" +
+                                      tr("Ellei tietokoneen uudelleen käynnistäminen auta, ota käyttöön kirjanpitosi varmuuskopio."));
+            }
             else
             {
-                QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
-                                  tr("Sql-virhe: %1").arg(query.lastError().text()));
+                QMessageBox::critical(nullptr,
+                                      tr("Kirjanpitoa ei voi avata"),
+                                      tr("Tiedostoa %1 ei voi avata").arg(polku) + "\n" +
+                                      tr("Sql-virhe: %1").arg(query.lastError().text()));
             }
         }
         tietokanta_.close();
