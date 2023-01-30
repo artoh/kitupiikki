@@ -167,6 +167,11 @@ void SelausWg::paivita()
     QDate alkupvm = ui->alkuEdit->date();
     QDate loppupvm = ui->loppuEdit->date();
 
+    if( !alkupvm.isValid())
+        alkupvm = kp()->tilikaudet()->kirjanpitoAlkaa();
+    if( !loppupvm.isValid())
+        loppupvm = kp()->tilikaudet()->kirjanpitoLoppuu();
+
     qApp->processEvents();
 
     if( ui->valintaTab->currentIndex() == VIENNIT )
