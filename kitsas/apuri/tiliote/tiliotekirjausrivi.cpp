@@ -93,7 +93,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     if(!tilinumero) {
         if(pankki.debet() > 1e-5 && model->kitsas()->asetukset()->onko("TilioteTuloKaytossa") ) {
             tilinumero = model->kitsas()->asetukset()->luku("TilioteTulotili");
-        } else if( tuonti.value("ktokoodi").toInt() == 720 && pankki.kreditEuro() && model->kitsas()->asetukset()->onko("TiliotePankkikorttitiliKaytossa") ) {
+        } else if( tuonti.value("ktokoodi").toInt() == 721 && pankki.kreditEuro() && model->kitsas()->asetukset()->onko("TiliotePankkikorttitiliKaytossa") ) {
             tilinumero = model->kitsas()->asetukset()->luku("TiliotePankkikorttitili");
         } else if( pankki.kredit() > 1e-5 && model->kitsas()->asetukset()->onko("TilioteMenoKaytossa")) {
             tilinumero = model->kitsas()->asetukset()->luku("TilioteMenotili");
