@@ -265,7 +265,9 @@ void VerkkolaskuMaaritys::maventaTiedot(QVariant *data)
     } else if(!profileOk) {
         QVariantMap status = maventaInfo_.value("status").toMap();
         const QString authState = status.value("auth_state").toString();
-        kp()->asetukset()->aseta(AsetusModel::MaventaAutentikointiTila, authState);
+        if( !authState.isEmpty())
+            kp()->asetukset()->aseta(AsetusModel::MaventaAutentikointiTila, authState);
+
         const QString authEmail = status.value("auth_email").toString();
 
         if( authState == "PENDING") {
