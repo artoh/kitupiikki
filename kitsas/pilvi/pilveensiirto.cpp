@@ -88,6 +88,7 @@ void PilveenSiirto::alustaAlkusivu()
     liitelkm_ = kysely.value(0).toInt();    
 
     if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
+        qInfo() << " Kapasiteetti " << pilvia << " / " << kp()->pilvi()->kayttaja().capacity() << " ei riitä pilveen siirtämiseen \n";
         if( kp()->pilvi()->kayttaja().planId()) {
             ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
         } else {
