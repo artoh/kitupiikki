@@ -46,7 +46,8 @@ public:
         ALLESATA = 23,
         SUOMIPVM = 30,
         ISOPVM = 31,
-        USPVM = 32
+        USPVM = 32,
+        NDEAPVM = 33
 
     };
 

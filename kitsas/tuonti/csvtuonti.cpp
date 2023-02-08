@@ -223,7 +223,7 @@ QVariantMap CsvTuonti::kirjaukset()
                 else if( muodot_.at(c) == ISOPVM )
                     vienti.setPvm( QDate::fromString(tieto, Qt::ISODate));
                 else if(muodot_.at(c) == NDEAPVM )
-                    vienti.setPvm( QDate::fromString(tieto, "yyyy/M/d"));
+                    vienti.setPvm( QDate::fromString(tieto, "yyyy/MM/dd"));
                 else
                     vienti.setPvm( QDate::fromString(tieto, Qt::RFC2822Date));
             else if( tuonti == TOSITETUNNUS)
