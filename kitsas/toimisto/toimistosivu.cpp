@@ -1,8 +1,15 @@
 #include "toimistosivu.h"
+#include "db/kirjanpito.h"
+#include "db/kpkysely.h"
 #include "grouptreemodel.h"
 #include "groupdata.h"
+#include "pilvi/pilvimodel.h"
+#include "toimisto/groupuserdata.h"
+#include "toimisto/groupusermembersmodel.h"
 #include "uusitoimistodialog.h"
 #include "bookdata.h"
+#include "groupuserbooksmodel.h"
+#include "groupmembersmodel.h"
 
 #include <QSortFilterProxyModel>
 #include <QInputDialog>
@@ -36,10 +43,13 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     groupTree_(new GroupTreeModel(this)),
     groupData_{new GroupData(this)},
     bookData_{new BookData(this)},
+    userData_{new GroupUserData(this)},
     tuoteRyhma_{new QActionGroup(this)},
     tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))}
 {
     ui->setupUi(this);    
+    ui->hakuList->hide();
+
     pikavalinnatAktio_ = new QAction(QIcon(":/pic/ratas.png"), tr("Pikavalinnat..."), this);
 
     muokkaaRyhmaAktio_ = new QAction(QIcon(":/pic/muokkaa.png"),tr("Muokaa..."), this);
@@ -52,23 +62,27 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     bookData_->setShortcuts(groupData_->shortcuts());
 
-    QSortFilterProxyModel *treeSort = new QSortFilterProxyModel(this);
-    treeSort->setSourceModel(groupTree_);
-    ui->treeView->setModel(treeSort);
+    treeSort_ = new QSortFilterProxyModel(this);
+    treeSort_->setSourceModel(groupTree_);
+    treeSort_->setSortCaseSensitivity(Qt::CaseInsensitive);
+    ui->treeView->setModel(treeSort_);
     ui->treeView->setSortingEnabled(true);
 
     QSortFilterProxyModel *bookSort = new QSortFilterProxyModel(this);
     bookSort->setSourceModel(groupData_->books());
+    bookSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->groupBooksView->setModel(bookSort);
     ui->groupBooksView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QSortFilterProxyModel *memberSort = new QSortFilterProxyModel(this);
     memberSort->setSourceModel(groupData_->members());
+    memberSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->groupMembersView->setModel(memberSort);
     ui->groupMembersView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
     QSortFilterProxyModel* duSort = new QSortFilterProxyModel(this);
     duSort->setSourceModel( bookData_->directUsers() );
+    duSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->bKayttajatView->setModel(duSort);
     ui->bKayttajatView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 
@@ -79,6 +93,9 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     ui->bLokiView->setModel( bookData_->authLog() );
     ui->bLokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+
+    ui->udView->setModel( userData_->books() );
+    ui->umView->setModel( userData_->members());
 
     connect( ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged,
              this, &ToimistoSivu::nodeValittu);
@@ -94,7 +111,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
              this, &ToimistoSivu::kirjanKayttajaValittu);
 
     connect( groupData_, &GroupData::loaded, this, &ToimistoSivu::toimistoVaihtui);
-    connect( groupTree_, &GroupTreeModel::modelReset, this, [treeSort] { treeSort->sort(0); });
+    connect( groupTree_, &GroupTreeModel::modelReset, this, [this] { this->treeSort_->sort(0); });
 
     connect( bookData_, &BookData::loaded, this, &ToimistoSivu::kirjaVaihtui);
     connect( groupData_->books(), &GroupBooksModel::modelReset, this, [bookSort] { bookSort->sort(0);});
@@ -134,6 +151,11 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     connect( siirraKirjaAktio_, &QAction::triggered, this, &ToimistoSivu::siirraKirjanpito);
     connect( poistaKirjaAktio_, &QAction::triggered, this, &ToimistoSivu::poistaKirjanpito);
     connect( tukiKirjautumisAktio_, &QAction::triggered, bookData_, &BookData::supportLogin);
+
+    connect( userData_, &GroupUserData::loaded, this, &ToimistoSivu::kayttajaLadattu);
+
+    connect( ui->hakuEdit, &QLineEdit::textEdited, this, &ToimistoSivu::haku);
+    connect( ui->hakuList, &QListWidget::itemClicked, this, &ToimistoSivu::hakuValittu);
 
     QMenu* ryhmaMenu = new QMenu(this);
     ryhmaMenu->addAction(pikavalinnatAktio_);
@@ -193,6 +215,8 @@ void ToimistoSivu::kayttajaValittu(const QModelIndex &index)
 
     ui->uMuokkaaNappi->setEnabled( userInfo_.userid() );
     ui->uPoistaNappi->setEnabled( userInfo_.userid());
+
+    userData_->load( userInfo_.userid() );
 }
 
 void ToimistoSivu::kirjanKayttajaValittu(const QModelIndex &index)
@@ -211,6 +235,8 @@ void ToimistoSivu::vaihdaLohko(Lohko lohko)
     ui->subTab->setTabVisible( KIRJANPITO_SUORAT, lohko == KIRJANPITOLOHKO && oikeudet.contains("OP"));
     ui->subTab->setTabVisible( KIRJANPITO_RYHMAT, lohko == KIRJANPITOLOHKO && oikeudet.contains("OM"));
     ui->subTab->setTabVisible( KIRJANPITO_LOKI, lohko == KIRJANPITOLOHKO && oikeudet.contains("OL"));
+    ui->subTab->setTabVisible( OIKEUDET_SUORAT, false);
+    ui->subTab->setTabVisible( OIKEUDET_RYHMAT, false);
 }
 
 void ToimistoSivu::paaTabVaihtui(int tab)
@@ -223,7 +249,7 @@ void ToimistoSivu::paaTabVaihtui(int tab)
         ui->subTab->setCurrentIndex( RYHMATAB );
 }
 
-void ToimistoSivu::toimistoVaihtui()
+void ToimistoSivu::toimistoVaihtui(int bookId)
 {
     vaihdaLohko( RYHMALOHKO );
     const QStringList oikeudet = groupData_->adminRights();
@@ -268,7 +294,17 @@ void ToimistoSivu::toimistoVaihtui()
         tuoteMenu_->addAction(tuoteAktio);
     }
 
-    kirjaVaihtui();
+    if(bookId) {
+        for(int i=0; i < ui->groupBooksView->model()->rowCount(); i++) {
+            const QModelIndex& bookIndex = ui->groupBooksView->model()->index(i,0);
+            if( bookIndex.data(GroupBooksModel::IdRooli).toInt() == bookId) {
+                ui->groupBooksView->selectRow(i);
+                break;
+            }
+        }
+    } else {
+        kirjaVaihtui();
+    }
 }
 
 void ToimistoSivu::kirjaVaihtui()
@@ -450,10 +486,98 @@ void ToimistoSivu::siirraKirjanpito()
     dlg.siirra(bookData_->id(), groupTree_, groupData_);
 }
 
+void ToimistoSivu::kayttajaLadattu()
+{
+    vaihdaLohko( KAYTTAJALOHKO );
+    ui->subTab->setTabVisible( OIKEUDET_SUORAT, userData_->books()->rowCount());
+    ui->subTab->setTabVisible( OIKEUDET_RYHMAT, userData_->members()->rowCount());
+
+    if( userData_->id() != userInfo_.userid()) {
+        ui->uNimi->setText( userData_->name());
+        ui->uInfo->setText( QString("%1\n%2").arg(userData_->email(), userData_->phone()) );
+        ui->uBrowser->clear();
+    }
+
+}
+
 void ToimistoSivu::pikavalinnat()
 {
     PikavalintaDialogi dlg(this, groupData_);
     dlg.exec();
+}
+
+void ToimistoSivu::haku(const QString &teksti)
+{
+    if( teksti.length() < 3) {
+        ui->hakuList->hide();
+    } else {
+        KpKysely* kysely = kp()->pilvi()->loginKysely("/groups");
+        kysely->lisaaAttribuutti("search", teksti);
+        connect( kysely, &KpKysely::vastaus, this, &ToimistoSivu::hakuSaapuu);
+        kysely->kysy();
+    }
+}
+
+void ToimistoSivu::hakuSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    ui->hakuList->clear();
+
+    QVariantList books = map.value("books").toList();
+    for(const auto& item : qAsConst(books)) {
+        QVariantMap book = item.toMap();
+        QListWidgetItem* li = new QListWidgetItem(book.value("name").toString(), ui->hakuList);
+        li->setData(TYYPPIROOLI, KIRJANPITO);
+        li->setData(IDROOLI, book.value("id").toInt());
+        li->setData(RYHMAROOLI, book.value("groupid").toInt());
+        QByteArray ba = QByteArray::fromBase64( book.value("logo").toByteArray() );
+        if( ba.isEmpty() )
+            li->setIcon(QIcon(":/pic/tyhja.png"));
+        else
+            li->setIcon( QIcon(  QPixmap::fromImage( QImage::fromData(ba) )) );
+    }
+    QVariantList groups = map.value("groups").toList();
+    for(const auto& item: qAsConst(groups)) {
+        QVariantMap group = item.toMap();
+        QListWidgetItem* li = new QListWidgetItem(group.value("name").toString(), ui->hakuList);
+        li->setData(TYYPPIROOLI, RYHMA);
+        li->setData(RYHMAROOLI, group.value("id"));
+        const QString type = group.value("type").toString();
+        if( type == "UNIT") li->setIcon(QIcon(":/pic/folder.png"));
+        else if(type == "OFFICE") li->setIcon(QIcon(":/pic/pixaby/toimisto.svg"));
+        else if(type == "GROUP") li->setIcon(QIcon(":/pic/kansiot.png"));
+
+    }
+    QVariantList users = map.value("users").toList();
+    for(const auto& item: qAsConst(users)) {
+        QVariantMap user = item.toMap();
+        QListWidgetItem* li = new QListWidgetItem(user.value("name").toString(), ui->hakuList);
+        li->setData(TYYPPIROOLI, KAYTTAJA);
+        li->setData(IDROOLI, user.value("id").toInt());
+        li->setIcon(QIcon(":/pic/mies.png"));
+    }
+
+    ui->hakuList->setVisible( ui->hakuList->count() );
+}
+
+void ToimistoSivu::hakuValittu(QListWidgetItem *item)
+{    
+    const int id = item->data(IDROOLI).toInt();
+    const int ryhma = item->data(RYHMAROOLI).toInt();
+
+    if( ryhma ) {
+        groupData_->load(ryhma, id);
+        const QModelIndex& index = groupTree_->indexById(ryhma);
+        const QModelIndex& mapped = treeSort_->mapFromSource(index);
+
+        qDebug() << " RYHMÄ " << index.data(Qt::DisplayRole).toString();
+        ui->treeView->setExpanded(mapped, true);
+        ui->treeView->selectionModel()->select(mapped, QItemSelectionModel::SelectCurrent);
+    } else {
+        ui->bKayttajatView->selectionModel()->clearSelection();
+        userData_->load(id);
+    }
+
 }
 
 

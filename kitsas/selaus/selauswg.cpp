@@ -167,6 +167,11 @@ void SelausWg::paivita()
     QDate alkupvm = ui->alkuEdit->date();
     QDate loppupvm = ui->loppuEdit->date();
 
+    if( !alkupvm.isValid())
+        alkupvm = kp()->tilikaudet()->kirjanpitoAlkaa();
+    if( !loppupvm.isValid())
+        loppupvm = kp()->tilikaudet()->kirjanpitoLoppuu();
+
     qApp->processEvents();
 
     if( ui->valintaTab->currentIndex() == VIENNIT )
@@ -178,12 +183,12 @@ void SelausWg::paivita()
     }
     else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
         kp()->odotusKursori(true);
-        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::SAAPUNEET);
+        tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::SAAPUNEET);
     }
     else if( ui->valintaTab->currentIndex() == TOSITTEET )
     {
         kp()->odotusKursori(true);
-        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
+        tositeModel->lataa( alkupvm, loppupvm);
     } else if( ui->valintaTab->currentIndex() == LUONNOKSET){
         kp()->odotusKursori(true);
         tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::LUONNOKSET);
@@ -253,8 +258,13 @@ void SelausWg::suodata()
     saldo_ = 0;
 
     if( ui->valintaTab->currentIndex() == VIENNIT && suodatin.toInt() ) {
+
+        QDate loppupvm = ui->loppuEdit->date();
+        if( !loppupvm.isValid())
+            loppupvm = kp()->tilikaudet()->kirjanpitoLoppuu();
+
         KpKysely *saldokysely = kpk("/saldot");
-        saldokysely->lisaaAttribuutti("pvm",ui->loppuEdit->date());
+        saldokysely->lisaaAttribuutti("pvm",loppupvm);
         saldokysely->lisaaAttribuutti("tili", suodatin.toInt() );
         connect( saldokysely, &KpKysely::vastaus, this, &SelausWg::paivitaSummat);
         saldokysely->kysy();

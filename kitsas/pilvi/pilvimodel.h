@@ -63,7 +63,7 @@ public:
     void uusiPilvi(const QVariant& initials);
 
     void avaaPilvesta(int pilviId, bool siirrossa = false);
-    void alustaPilvi(QVariant* data);
+    void alustaPilvi(QVariant* data, bool siirrossa = false);
     void uusiPilviAlustettu();
 
     KpKysely* kysely(const QString& polku = QString(),
@@ -93,12 +93,15 @@ public:
     int pilviId() const { return pilvi().id();}
     int kayttajaPilvessa() const { return kayttaja().id(); }
     QString finvoiceOsoite() const { return service("finvoice");}
-    QString kbcOsoite() const { return service("bci");}
+    QString kbcOsoite() const { return service("bci");}    
 
 public slots:
     void kirjauduUlos();
     void paivitaLista(int avaaPilvi = 0);
     void nimiMuuttui();
+
+signals:
+    void siirtoPilviAvattu();
 
 public:
     void kirjautuminen(const QVariantMap& data, int avaaPilvi = 0);

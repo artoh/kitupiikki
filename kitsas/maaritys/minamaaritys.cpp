@@ -38,7 +38,12 @@ bool MinaMaaritys::nollaa()
     hae();
 
     if( kayttaja.planId()) {
-        ui->tilausInfo->setText( kayttaja.planName() );
+        QString info = kayttaja.planName();
+        if( kayttaja.cloudCount()) info.append("\n" + tr("Käytössä %1 kirjanpitoa").arg(kayttaja.cloudCount()));
+        if( kayttaja.capacity()) info.append("\n" + tr("Tilaukseen sisältyy %1, jonka jälkeen lisäkirjanpidot maksavat %2 /kk")
+                                                  .arg(kayttaja.capacity() == 1 ? tr("yksi kirjanpito") : tr("%1 kirjanpitoa").arg(kayttaja.capacity()), kayttaja.extraMonthly().display(true))
+                                             );
+        ui->tilausInfo->setText( info );
         ui->tilausButton->setText( tr("Tilaukseni"));
     } else if( kayttaja.trialPeriod().isValid()) {
         ui->tilausInfo->setText(tr("Kokeilujakso %1 saakka").arg(kayttaja.trialPeriod().toString("dd.MM.yyyy")));

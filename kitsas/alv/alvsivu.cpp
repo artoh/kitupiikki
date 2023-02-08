@@ -71,7 +71,9 @@ void AlvSivu::siirrySivulle()
 {
     alustaa_ = true;
     riviValittu();      // Jotta napit harmaantuvat
+
     ui->alkaaEdit->setDate( kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1) );
+    paivitaLoppu();
 
     for(int i=0; i<4; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 5 );

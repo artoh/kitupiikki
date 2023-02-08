@@ -137,8 +137,23 @@ void TositeRivi::setNettoYhteensa(const double netto)
                 100 * netto / ( 100 - aleProsentti()) :
                 netto + euroAlennus();
 
-    const double ahinta = alentamaton / myyntiKpl();
-    setANetto(ahinta);
+    const double ahinta = alentamaton / myyntiKpl();        
+
+    if( ahinta < 0) {
+        // Jos kappalehinnan etumerkki olisi muuttumassa,
+        // pitääkin muuttaa myyntikappaleen etumerkkiä,
+        // koska kappalehinnan pitää olla aina positiivinen!
+        setMyyntiKpl( 0 - myyntiKpl());
+        if( laskutetaanKpl().startsWith('-')) {
+            setLaskutetaanKpl( laskutetaanKpl().mid(1) );
+        } else {
+            setLaskutetaanKpl("-" + laskutetaanKpl());
+        }
+        setANetto( 0 - ahinta );
+    } else {
+        setANetto(ahinta);
+    }
+
 }
 
 double TositeRivi::nettoYhteensa() const

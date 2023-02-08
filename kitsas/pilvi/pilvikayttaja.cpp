@@ -19,6 +19,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     phone_ = map.value("phone").toString();
     cloudCount_ = map.value("cloudcount").toInt();
     admin_ = map.value("admin").toBool();
+    trial_ = map.value("trial").toDate();
 
     moodi_ = map.value("mode").toString() == "TOFFEE" ?
                 PRO :
@@ -37,12 +38,17 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
 
 
     const QString sulku = map.value("blocked").toString();
-    if( sulku == "UNPAID")
+
+    if( sulku.isEmpty())
+        blocked_ = KAYTOSSA;
+    else if( sulku == "UNPAID")
         blocked_ = MAKSAMATON;
     else if( sulku == "RULES")
         blocked_ = EHTOJEN_VASTAINEN;
+    else if( sulku == "USER")
+        blocked_ = KAYTTAJAN_PYYNNOSTA;
     else
-        blocked_ = KAYTOSSA;
+        blocked_ = MUU_SYY;
 
     if( map.contains("key")) {
         QVariantMap keyMap = map.value("key").toMap();

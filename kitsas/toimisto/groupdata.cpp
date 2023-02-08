@@ -20,13 +20,14 @@ GroupData::GroupData(QObject *parent)
     members_->setShortcuts(shortcuts_);
 }
 
-void GroupData::load(const int groupId)
+void GroupData::load(const int groupId, const int bookId)
 {
+    bookId_ = bookId;
     if( groupId ) {
         KpKysely* kysymys = kp()->pilvi()->loginKysely(
             QString("/groups/%1").arg(groupId)
         );
-        if( kysymys ) {
+        if( kysymys ) {            
             connect(kysymys, &KpKysely::vastaus, this, &GroupData::dataIn);
             kysymys->kysy();
         }
@@ -122,7 +123,8 @@ void GroupData::dataIn(QVariant *data)
     const QVariantMap certMap = map.value("cert").toMap();
     varmenneTila_->set(certMap);
 
-    emit loaded();
+    emit loaded(bookId_);
+    bookId_ = 0;
 }
 
 void GroupData::reload()

@@ -41,10 +41,20 @@ QModelIndex GroupTreeModel::parent(const QModelIndex &index) const
     GroupNode* childItem = static_cast<GroupNode*>(index.internalPointer());
     GroupNode* parentItem = childItem->parent();
 
-    if( parentItem == rootNode_)
+    if( parentItem == rootNode_ || !parentItem)
         return QModelIndex();
 
     return createIndex( parentItem->myIndex(), 0, parentItem);
+}
+
+QModelIndex GroupTreeModel::indexById(int id)
+{
+    GroupNode* node = nodeById(id);
+    if(node) {
+        return createIndex(node->myIndex(), 0, node);
+    } else {
+        return QModelIndex();
+    }
 }
 
 int GroupTreeModel::rowCount(const QModelIndex &parent) const

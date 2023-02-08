@@ -4,6 +4,8 @@
 #include <kitupiikkisivu.h>
 
 #include "groupmember.h"
+#include "qlistwidget.h"
+#include "qsortfilterproxymodel.h"
 
 namespace Ui {
     class Toimisto;
@@ -15,6 +17,7 @@ class BookData;
 class QAction;
 class QMenu;
 class QActionGroup;
+class GroupUserData;
 
 class ToimistoSivu : public KitupiikkiSivu
 {
@@ -29,8 +32,11 @@ public:
 
 protected:
     enum Lohko { RYHMALOHKO, KAYTTAJALOHKO, KIRJANPITOLOHKO };
-    enum { RYHMATAB, KAYTTAJATAB, KIRJANPITO_TIEDOT, KIRJANPITO_SUORAT, KIRJANPITO_RYHMAT, KIRJANPITO_LOKI };
+    enum { RYHMATAB, KAYTTAJATAB, KIRJANPITO_TIEDOT, KIRJANPITO_SUORAT, KIRJANPITO_RYHMAT, KIRJANPITO_LOKI, OIKEUDET_SUORAT, OIKEUDET_RYHMAT };
     enum { PAA_KIRJANPIDOT, PAA_JASENET };
+
+    enum { KIRJANPITO, RYHMA, KAYTTAJA};
+    enum { TYYPPIROOLI = Qt::UserRole, IDROOLI = Qt::UserRole + 1, RYHMAROOLI = Qt::UserRole+2};
 
     void nodeValittu(const QModelIndex& index);
     void kirjaValittu(const QModelIndex& index);
@@ -40,7 +46,7 @@ protected:
     void vaihdaLohko(Lohko lohko);
     void paaTabVaihtui(int tab);
 
-    void toimistoVaihtui();
+    void toimistoVaihtui(int bookId = 0);
     void kirjaVaihtui();
     void lisaaRyhma();
     void muokkaaRyhma();
@@ -61,7 +67,13 @@ protected:
     void poistaKirjanpito();
     void siirraKirjanpito();
 
+    void kayttajaLadattu();
+
     void pikavalinnat();
+    void haku(const QString& teksti);
+    void hakuSaapuu(QVariant* data);
+    void hakuValittu(QListWidgetItem* item);
+
 private:    
 
     Ui::Toimisto* ui;
@@ -77,6 +89,9 @@ private:
     GroupTreeModel* groupTree_;
     GroupData* groupData_;
     BookData* bookData_;
+    GroupUserData* userData_;
+
+    QSortFilterProxyModel *treeSort_;
 
     GroupMember userInfo_;
 

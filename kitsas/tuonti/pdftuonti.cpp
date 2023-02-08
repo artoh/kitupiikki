@@ -343,7 +343,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
                 continue;
             if( teksti.split(QRegularExpression("\\s")).count() < 2)
                 continue;
-            if( teksti.at(0).isDigit() || teksti.at(teksti.length() - 1).isDigit())
+            if( !teksti.at(0).isLetter() || !teksti.at(teksti.length() - 1).isLetter() )
                 continue;
             data.insert("kumppaninimi", teksti);
             break;

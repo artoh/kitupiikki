@@ -126,6 +126,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     sqliteproxy->setSourceModel( kp()->sqlite());
     ui->viimeisetView->setModel( sqliteproxy );
     sqliteproxy->setSortRole(Qt::DisplayRole);
+    sqliteproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
 
     ui->pilviView->setModel( kp()->pilvi() );    
     ui->vaaraSalasana->setVisible(false);
@@ -146,10 +147,10 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     if( kp()->pilvi()->kayttaja()) {
         kirjauduttu( kp()->pilvi()->kayttaja() );
-    } else if( kp()->settings()->contains("Authkey")) {
+    } else if( kp()->settings()->contains("AuthKey")) {
         ui->pilviPino->setCurrentIndex(SISAANTULO);
         qApp->processEvents();
-        QTimer::singleShot(250, login_, &LoginService::keyLogin );
+        QTimer::singleShot(500, login_, &LoginService::keyLogin );
     }
 
 }
@@ -454,7 +455,7 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
 {    
     ui->salaEdit->clear();
 
-    if( !kayttaja && kayttaja.moodi() == PilviKayttaja::NORMAALI) {
+    if( !kayttaja.id() && kayttaja.moodi() == PilviKayttaja::NORMAALI) {
         ui->pilviPino->setCurrentIndex(KIRJAUDU);        
         return;
     }

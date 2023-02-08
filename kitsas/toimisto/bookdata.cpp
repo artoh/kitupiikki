@@ -71,8 +71,7 @@ void BookData::supportLogin()
 {
     KpKysely* kysymys = kp()->pilvi()->loginKysely(
                 QString("/groups/login/%1").arg(id()));
-    connect( kysymys, &KpKysely::vastaus,
-             kp()->pilvi(), &PilviModel::alustaPilvi);
+    connect( kysymys, &KpKysely::vastaus, this, [] (QVariant* vastaus) { kp()->pilvi()->alustaPilvi(vastaus, false); });
     kysymys->kysy();
 }
 

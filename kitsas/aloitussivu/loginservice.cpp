@@ -97,6 +97,7 @@ void LoginService::paivitaTilat()
 
     bool passOk = passwordEdit_->text().length() >= 10;
     loginButton_->setEnabled( emailOk_ && passOk );
+    rememberBox_->setEnabled( emailOk_ && passOk );
 
 }
 

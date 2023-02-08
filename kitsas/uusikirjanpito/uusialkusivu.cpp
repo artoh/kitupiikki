@@ -65,7 +65,7 @@ void UusiAlkuSivu::initializePage()
                                    "on ensin tehtävä Kitsaan tilaus."));
         }
     } else if( !kp()->pilvi()->kayttaja().planId() && kp()->pilvi()->kayttaja().trialPeriod().isValid())
-        ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista kirjanpitoa, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
+        ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista tilausta, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
 
     if( kp()->pilvi()->kayttaja().planId())
         ui->tilausNappi->setText( tr("Päivitä tilauksesi"));

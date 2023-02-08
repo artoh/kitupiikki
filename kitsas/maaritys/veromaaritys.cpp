@@ -34,6 +34,7 @@ VeroMaaritys::VeroMaaritys() :
     ui->kausiCombo->addItem(tr("Neljännesvuosi"),3);
     ui->kausiCombo->addItem(tr("Vuosi"), 12);
 
+    connect( ui->kausiCombo, &QComboBox::currentTextChanged, this, &VeroMaaritys::ilmoitaMuokattu);
 
     ui->puhelinEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("\\+\\d+")));
 }

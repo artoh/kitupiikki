@@ -249,6 +249,9 @@ SOURCES += \
     $$PWD/toimisto/groupmembersmodel.cpp \
     $$PWD/toimisto/groupnode.cpp \
     $$PWD/toimisto/grouptreemodel.cpp \
+    $$PWD/toimisto/groupuserbooksmodel.cpp \
+    $$PWD/toimisto/groupuserdata.cpp \
+    $$PWD/toimisto/groupusermembersmodel.cpp \
     $$PWD/toimisto/oikeusinfonmuodostaja.cpp \
     $$PWD/toimisto/pikavalintadialogi.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
@@ -710,6 +713,9 @@ HEADERS += \
     $$PWD/toimisto/groupmembersmodel.h \
     $$PWD/toimisto/groupnode.h \
     $$PWD/toimisto/grouptreemodel.h \
+    $$PWD/toimisto/groupuserbooksmodel.h \
+    $$PWD/toimisto/groupuserdata.h \
+    $$PWD/toimisto/groupusermembersmodel.h \
     $$PWD/toimisto/oikeusinfonmuodostaja.h \
     $$PWD/toimisto/pikavalintadialogi.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \

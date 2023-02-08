@@ -88,10 +88,12 @@ void PilveenSiirto::alustaAlkusivu()
     liitelkm_ = kysely.value(0).toInt();    
 
     if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
+        qInfo() << " Kapasiteetti " << pilvia << " / " << kp()->pilvi()->kayttaja().capacity() << " ei riitä pilveen siirtämiseen \n";
         if( kp()->pilvi()->kayttaja().planId()) {
             ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
         } else {
             ui->infoLabel->setText(tr("Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen."));
+            ui->infoLabel->setStyleSheet("color: red; font-weight: bold;");
             ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
         }
     }
@@ -156,19 +158,17 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
     const QVariantMap& map = data->toMap();
     pilviId_ = map.value("id").toInt();
 
-
-    connect( pilviModel_, &PilviModel::kirjauduttu, this, &PilveenSiirto::avaaLuotuPilvi);    
-    pilviModel_->paivitaLista();
+    connect( pilviModel_, &PilviModel::siirtoPilviAvattu, this, &PilveenSiirto::avaaLuotuPilvi  );
     ui->progressBar->setValue(20);
+
+    pilviModel_->avaaPilvesta(pilviId_, true);
+
 }
 
 void PilveenSiirto::avaaLuotuPilvi()
 {   
-    pilviModel_->avaaPilvesta(pilviId_, true);
-
     ui->progressBar->setValue(30);
     haeRyhmaLista();
-
 }
 
 void PilveenSiirto::haeRyhmaLista()
@@ -432,7 +432,7 @@ void PilveenSiirto::tallennaSeuraavaTuote()
     }
 }
 
-void PilveenSiirto::valmis()
+void PilveenSiirto::valmis(QVariant* data)
 { 
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");
@@ -460,7 +460,7 @@ void PilveenSiirto::infoSaapuu(QVariant *data)
         ui->stackedWidget->setCurrentIndex(VALMIS);
 
         kp()->pilvi()->paivitaLista(pilviId_);
-        kp()->pilvi()->avaaPilvesta(pilviId_);
+//        kp()->pilvi()->avaaPilvesta(pilviId_);
 
         kp()->settings()->setValue("PilveenSiirretyt",
                                    kp()->settings()->value("PilveenSiirretyt").toString() + uid + " ");
