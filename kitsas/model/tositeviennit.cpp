@@ -493,8 +493,16 @@ void TositeViennit::asetaVienti(int indeksi, const TositeVienti &vienti)
 
 void TositeViennit::lisaa(const TositeVienti &vienti)
 {
-    beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count());
-    viennit_.append(vienti);
+    if( viennit_.count() &&
+        !viennit_.last().kreditEuro() &&
+        !viennit_.last().debetEuro())
+    {
+        beginInsertRows(QModelIndex(), viennit_.count()-1, viennit_.count()-1);
+        viennit_.insert(viennit_.count()-1, vienti);
+    } else {
+        beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count());
+        viennit_.append(vienti);
+    }
     endInsertRows();
     paivitaAalv(viennit_.count() - 1);
 }
@@ -549,7 +557,9 @@ QVariantList TositeViennit::tallennettavat() const
 {
     QVariantList ulos;
     for( const auto& vienti : viennit_) {
-        ulos.append( vienti.tallennettava());
+        if(vienti.debet() || vienti.kredit() ) {
+            ulos.append( vienti.tallennettava());
+        }
     }
     return ulos;
 }

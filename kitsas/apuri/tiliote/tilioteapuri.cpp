@@ -206,6 +206,9 @@ void TilioteApuri::teeReset()
     model_->lataa(tosite()->viennit()->tallennettavat() );
     if( kp()->yhteysModel() && !tilioteMap.isEmpty())
         lataaHarmaatAjalta( tilioteMap.value("alkupvm").toDate(), tilioteMap.value("loppupvm").toDate() );
+
+    if( tosite()->viennit()->tallennettavat().empty())
+        lisaaRivi();
 }
 
 void TilioteApuri::lisaaRivi(bool dialogi)

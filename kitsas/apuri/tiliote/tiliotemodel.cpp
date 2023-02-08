@@ -109,6 +109,22 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
+bool TilioteModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    beginInsertRows(QModelIndex(),row, row + count - 1);
+
+    for(int i=0; i < count; i++) {
+        if(kirjausRivit_.count() >= row && row) {
+            kirjausRivit_.insert(row+i, TilioteKirjausRivi(kirjausRivit_.at(row-1).pvm(),this));
+        } else {
+            kirjausRivit_.insert(row+i, TilioteKirjausRivi( QDate(),this));
+        }
+    }
+
+    endInsertRows();
+    return true;
+}
+
 int TilioteModel::lisaaRivi(const QDate &pvm)
 {
     return lisaaRivi(TilioteKirjausRivi(pvm, this));
@@ -217,7 +233,7 @@ QVariantList TilioteModel::viennit() const
 {
     QVariantList ulos;
     for(const auto& rivi : kirjausRivit_) {
-        if( !rivi.peitetty()) {
+        if( !rivi.peitetty() && rivi.summa()) {
             ulos << rivi.tallennettavat();
         }
     }

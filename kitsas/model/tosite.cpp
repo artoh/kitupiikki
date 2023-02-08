@@ -400,16 +400,17 @@ void Tosite::tarkasta()
     else if( pvm() <= kp()->tilitpaatetty())
         virheet |= PVMLUKITTU;
 
-    qlonglong debet = 0;
-    qlonglong kredit = 0;
+    Euro debet;
+    Euro kredit;
+
 
     for(const auto& vienti : viennit()->viennit() ) {
         QDate pvm = vienti.pvm();
 
-        debet += qRound64( vienti.debet() * 100.0 );
-        kredit += qRound64( vienti.kredit() * 100.0 );
+        debet += vienti.debetEuro();
+        kredit += vienti.kreditEuro();
 
-        if( !kp()->tilit()->tili(vienti.tili()))
+        if( !kp()->tilit()->tili(vienti.tili()) && (vienti.debetEuro() || vienti.kreditEuro()) )
             virheet |= Tosite::TILIPUUTTUU;
         if( vienti.alvKoodi() && kp()->alvIlmoitukset()->onkoIlmoitettu(pvm) && tyyppi() != TositeTyyppi::ALVLASKELMA)
             virheet |= Tosite::PVMALV;
@@ -426,7 +427,7 @@ void Tosite::tarkasta()
         virheet |= Tosite::EITASMAA;
 
 
-    emit tilaTieto(muutettu_, virheet, debet / 100.0, kredit / 100.0);
+    emit tilaTieto(muutettu_, virheet, debet, kredit);
 
 }
 

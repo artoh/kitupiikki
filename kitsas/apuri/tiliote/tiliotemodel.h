@@ -40,6 +40,7 @@ public:
                  int role = Qt::EditRole) override;
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    bool insertRows(int row, int count, const QModelIndex& parent) override;
     int lisaaRivi(const QDate &pvm);
     int lisaaRivi(TilioteKirjausRivi rivi);
     void poistaRivi(const int indeksi);

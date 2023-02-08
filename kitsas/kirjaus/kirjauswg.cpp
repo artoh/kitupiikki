@@ -444,7 +444,7 @@ void KirjausWg::tositeLadattu()
 }
 
 
-void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
+void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Euro &kredit)
 {
     // Yhdistetty varoitusten näyttäjä
     ui->varoKuva->setPixmap(QPixmap());
@@ -463,10 +463,10 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
         ui->varoTeksti->setText( tr("Alv-ilmoitus on jo annettu") );
         ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
     } else if( virheet & Tosite::EITASMAA) {
-        ui->varoTeksti->setText( tr("Debet %L1 €    Kredit %L2 €    <b>Erotus %L3 €</b>")
-                     .arg(debet,0,'f',2)
-                     .arg(kredit,0,'f',2)
-                     .arg(qAbs(debet-kredit),0,'f',2) );
+        ui->varoTeksti->setText( tr("Debet %1    Kredit %2    <b>Erotus %3</b>")
+                     .arg(debet.display(true))
+                     .arg(kredit.display(true))
+                     .arg((debet-kredit).abs().display(true)) );
     } else if( virheet & Tosite::EIAVOINTAKUTTA )
     {
         ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
@@ -477,7 +477,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     } else if( virheet & Tosite::PVMPUUTTUU) {
         ui->varoTeksti->setText(tr("Päivämääriä puuttuu"));
         ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
-    }  else if( qAbs(debet) > 1e-5) {
+    }  else if( debet ) {
         ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
     }
 
@@ -886,6 +886,9 @@ void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
         ui->tabWidget->setCurrentIndex(1);
     else
         ui->tabWidget->setCurrentIndex(0);
+
+    if( tyyppiKoodi == TositeTyyppi::MUU && !tosite_->viennit()->rowCount())
+        lisaaRivi();
 
     if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE && !tosite()->resetoidaanko())
         ui->otsikkoEdit->clear();
