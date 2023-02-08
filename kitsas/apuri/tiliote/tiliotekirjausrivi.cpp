@@ -181,9 +181,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             }
             return QVariant();
         }
-        case EURO: {            
-            const double summa = pankkivienti().debet() - pankkivienti().kredit();
-            return qAbs(summa) > 1e-5 ? QString("%L1 €").arg( summa,0,'f',2) : QVariant();
+        case EURO: {
+            return (pankkivienti().debetEuro() - pankkivienti().kreditEuro()).display(false);
             }
         default:
             return QVariant();
@@ -224,12 +223,12 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             }
         } else if( sarake == EURO) {
             const int koodi = pankkivienti().tyyppi() - TositeVienti::VASTAKIRJAUS;
-            const qlonglong summa = pankkivienti().debetSnt() - pankkivienti().kreditSnt();
+            Euro summa = pankkivienti().debetEuro() - pankkivienti().kreditEuro();
             if( !summa ) return QVariant();
             if( koodi == TositeVienti::MYYNTI ) {
-                return summa > 0 ? QIcon(":/pic/lisaa.png") : QIcon(":/pic/edit-undo.png");
+                return summa > Euro::Zero ? QIcon(":/pic/lisaa.png") : QIcon(":/pic/edit-undo.png");
             } else if( koodi == TositeVienti::OSTO) {
-                return summa < 0 ? QIcon(":/pic/poista.png") : QIcon(":/pic/edit-undo.png");
+                return summa < Euro::Zero ? QIcon(":/pic/poista.png") : QIcon(":/pic/edit-undo.png");
             } else if( koodi == TositeVienti::SIIRTO) {
                 return QIcon(":/pic/siirra.png");
             } else if( koodi == TositeVienti::SUORITUS) {
@@ -250,6 +249,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         return ekavienti.eraId();
     case EuroRooli:
         return pankkivienti().debet() - pankkivienti().kredit();
+    case PvmRooli:
+        return pankkivienti().pvm();
     default:
         return QVariant();
     }
@@ -377,6 +378,16 @@ void TilioteKirjausRivi::paivitaErikoisrivit()
         else
             model()->tilaaAlkuperaisTosite( lisaysIndeksi(), eraId );
     }
+}
+
+Euro TilioteKirjausRivi::summa() const
+{
+    return pankkivienti().debetEuro() - pankkivienti().kreditEuro();
+}
+
+QDate TilioteKirjausRivi::pvm() const
+{
+    return pankkivienti().pvm();
 }
 
 void TilioteKirjausRivi::sijoitaErikoisrivit()

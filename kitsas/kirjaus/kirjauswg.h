@@ -114,7 +114,7 @@ private slots:
     void tositeLadattu();
 
 private slots:    
-    void paivita(bool muokattu, int virheet, double debet, double kredit);
+    void paivita(bool muokattu, int virheet, const Euro& debet, const Euro& kredit);
     void tallenna(int tilaan);
     void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString(), int tila = Tosite::KIRJANPIDOSSA);
     void tallennusEpaonnistui(int virhe);

@@ -66,7 +66,9 @@ void TilioteView::setModel(QAbstractItemModel *model)
 
 void TilioteView::keyPressEvent(QKeyEvent *event)
 {
-    if( event->key() == Qt::Key_Insert) {
+    TilioteModel* myModel = qobject_cast<TilioteModel*>(model());
+
+    if( event->key() == Qt::Key_Insert) {        
         model()->insertRow(currentIndex().row()+1);
         setCurrentIndex(currentIndex().sibling(currentIndex().row()+1, TilioteRivi::PVM));
         return;
@@ -75,6 +77,10 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Insert ||
         event->key() == Qt::Key_Tab) &&
             event->modifiers() == Qt::NoModifier )  {
+
+        const int  column = currentIndex().column();
+        const int row = currentIndex().row();
+        const int rowCount = model()->rowCount();
 
         if( currentIndex().column() == TilioteRivi::EURO &&
             currentIndex().row() == model()->rowCount() - 1) {

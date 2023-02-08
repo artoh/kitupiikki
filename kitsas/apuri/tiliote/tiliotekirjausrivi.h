@@ -51,6 +51,9 @@ public:
     void asetaLisaysIndeksi(const int indeksi) override;
     void paivitaErikoisrivit();
 
+    Euro summa() const;
+    QDate pvm() const;
+
 protected:    
     void paivitaTyyppi();    
     void sijoitaErikoisrivit();

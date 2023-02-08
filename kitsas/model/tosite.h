@@ -165,7 +165,7 @@ signals:
     void laskuTallennettu(QVariantMap data);
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja, int tila);    
     void tallennusvirhe(int virhe);
-    void tilaTieto(bool muokattu, int virheet, double debet, double kredit);
+    void tilaTieto(bool muokattu, int virheet, const Euro& debet, const Euro& kredit);
 
     void pvmMuuttui(const QDate& pvm);
     void otsikkoMuuttui(const QString& otsikko);

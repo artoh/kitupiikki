@@ -38,7 +38,8 @@ public:
         TositeIdRooli = Qt::UserRole + 3,
         LisaysIndeksiRooli = Qt::UserRole + 4,
         EraIdRooli = Qt::UserRole + 5,
-        EuroRooli = Qt::UserRole + 6
+        EuroRooli = Qt::UserRole + 6,
+        PvmRooli = Qt::UserRole + 7
     };
 
 
