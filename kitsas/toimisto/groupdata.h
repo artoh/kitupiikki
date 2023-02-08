@@ -18,7 +18,7 @@ class GroupData : public QObject
 public:
     explicit GroupData(QObject *parent = nullptr);
 
-    void load(const int groupId);
+    void load(const int groupId, const int bookId = 0);
     void reload();
 
     GroupBooksModel* books() { return books_;}
@@ -48,7 +48,7 @@ public:
     void poistaVarmenne();
 
 signals:
-    void loaded();
+    void loaded(int bookId);
 
 private:
     void dataIn(QVariant* data);    
@@ -70,7 +70,7 @@ private:
     ShortcutModel* shortcuts_;
     VeroVarmenneTila* varmenneTila_;
 
-
+    int bookId_ = 0;
 };
 
 #endif // GROUPDATA_H

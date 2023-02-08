@@ -222,6 +222,8 @@ QVariantMap CsvTuonti::kirjaukset()
                     vienti.setPvm( QDate::fromString(tieto, "d.M.yyyy"));
                 else if( muodot_.at(c) == ISOPVM )
                     vienti.setPvm( QDate::fromString(tieto, Qt::ISODate));
+                else if(muodot_.at(c) == NDEAPVM )
+                    vienti.setPvm( QDate::fromString(tieto, "yyyy/M/d"));
                 else
                     vienti.setPvm( QDate::fromString(tieto, Qt::RFC2822Date));
             else if( tuonti == TOSITETUNNUS)
@@ -517,6 +519,7 @@ QString CsvTuonti::tyyppiTeksti(int muoto)
     case SUOMIPVM:
     case ISOPVM:
     case USPVM:
+    case NDEAPVM:
         return tr("Päivämäärä");        
     default:
         return QString();
@@ -718,6 +721,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     QRegularExpression suomipvmRe("^[0123]?\\d\\.[01]?\\d\\.\\d{4}$");
     QRegularExpression isopvmRe("^\\d{4}-[01]\\d-[0123]\\d$");
     QRegularExpression uspvmRe(R"(^\d\d [A-Z][a-z][a-z] 20\d\d( \d\d:\d\d:\d\d)?$)");
+    QRegularExpression ndeaPvmRe(R"(\d{4}/[01]\d/[0123]\d)");
     QRegularExpression rahaRe("^[+-]?\\d+[.,]?\\d{0,2}$");
     QRegularExpression lukuTekstiRe("^\\d+\\s.*");
     QRegularExpression lukuRe("^[+-]?\\d+$");
@@ -749,6 +753,8 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = ISOPVM;
             else if( teksti.contains(uspvmRe))
                 muoto = USPVM;
+            else if( teksti.contains(ndeaPvmRe))
+                muoto = NDEAPVM;
             // Tilinumeron kanssa samaan kenttään on voitu tunkea IBAN-joten kokeillaan
             // myös vähän muokatuilla versioilla
             else if( !valeitta.startsWith("RF") &&
