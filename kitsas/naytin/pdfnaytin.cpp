@@ -10,6 +10,7 @@
 #include <QSettings>
 
 #include <QImageReader>
+#include <QPdfSelection>
 
 namespace Naytin {
 
@@ -19,6 +20,8 @@ PdfNaytin::PdfNaytin(const QByteArray &ba, QObject *parent)
       buff_{new QBuffer(&data_, this)},
       view_{new QPdfView()}
 {
+    connect( doc_, &QPdfDocument::statusChanged, this, &PdfNaytin::testaaTekstit);
+
     data_ = ba;
     buff_->open(QIODevice::ReadOnly);
     doc_->load(buff_);
@@ -58,7 +61,6 @@ void PdfNaytin::tulosta(QPrinter *printer) const
     QImageReader reader(&buffer);
 
     const int pageCount = reader.imageCount();
-    reader.setScaledSize(QSize(painter.window().width(), painter.window().height()));
 
     for(int i=0; i < pageCount; i++) {
         reader.jumpToImage(i);
@@ -113,6 +115,15 @@ void PdfNaytin::zoomFit()
 {
     view_->setZoomMode(QPdfView::ZoomMode::FitToWidth);
     skaala_ = view_->zoomFactor();
+}
+
+void PdfNaytin::testaaTekstit(QPdfDocument::Status status)
+{
+    if( status == QPdfDocument::Status::Ready) {
+
+        QPdfSelection sel = doc_->getAllText(0);
+        sel.copyToClipboard();
+    }
 }
 
 

@@ -16,6 +16,7 @@
 */
 #include "tositeliitteet.h"
 #include "db/kirjanpito.h"
+#include "model/cacheliite.h"
 #include "tools/pdf/pdftoolkit.h"
 
 #include <QIcon>
@@ -39,9 +40,12 @@
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikysely.h"
 
+#include "model/liitecache.h"
+
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)
 {
+    connect( kp()->liiteCache(), &LiiteCache::liiteHaettu, this, &TositeLiitteet::liiteHaettuValimuistiin);
 }
 
 
@@ -112,11 +116,14 @@ void TositeLiitteet::lataa(QVariantList data)
     for( const auto& item : data) {
         const QVariantMap& map = item.toMap();
 
+        kp()->liiteCache()->liite( map.value("id").toInt() );   // Haetaan kaikki liitteet välimuistiin
+
         liitteet_.append( TositeLiite( map.value("id").toInt(),
                                        map.value("nimi").toString(),
                                        QByteArray(),
                                        map.value("roolinimi").toString()) );
     }
+    int naytettava = -1;
     endResetModel();
 
     // Jos model näyttää liitteitä, näytetään ensimmäinen näytettävä liite
@@ -124,8 +131,7 @@ void TositeLiitteet::lataa(QVariantList data)
     // niistä saadaan esikatselukuvat
 
     if( naytaLiite_ ) {
-        emit naytaliite("*LADATAAN*");
-        int naytettava = -1;
+        emit naytaliite("*LADATAAN*");        
 
         for(int i=0; i < liitteet_.count(); i++) {
             const TositeLiite& liite = liitteet_.at(i);
@@ -140,17 +146,6 @@ void TositeLiitteet::lataa(QVariantList data)
         }
         if( naytettava > -1) {
             nayta(naytettava);
-
-            // Haetaan vielä lopuista esikatseltavat
-            for(int i=0; i < liitteet_.count(); i++) {
-                const QVariantMap map = data.value(i).toMap();
-                const QString& ttyyppi = map.value("tyyppi").toString();
-                if( i != naytettava && ( ttyyppi == "application/pdf" || ttyyppi=="application/jpg")  ) {
-                    KpKysely* kysely = kpk(QString("/liitteet/%1").arg( map.value("id").toInt()));
-                    connect( kysely, &KpKysely::vastaus, this, [this, i] (QVariant* data) {this->liitesaapuuValmiiksi(data, i);});
-                    kysely->kysy();
-                }
-            }
         } else {
             if( liitteet_.count()) {
                 nayta(0);
@@ -167,6 +162,7 @@ void TositeLiitteet::clear()
     liitteet_.clear();
     tallennetaan_ = false;
     inboxista_.clear();
+    naytettava_ = -1;
     endResetModel();
     emit naytaliite(QByteArray());
 }
@@ -454,9 +450,12 @@ void TositeLiitteet::nayta(int indeksi)
     else {
         QByteArray sisalto = liitteet_.at(indeksi).getSisalto();
         if(sisalto.isEmpty()) {
-            KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ));
-            connect( kysely, &KpKysely::vastaus, [this, indeksi] (QVariant* data) {this->liitesaapuu(data, indeksi);});
-            kysely->kysy();
+            CacheLiite* liite = kp()->liiteCache()->liite( liitteet_.at(indeksi).getLiiteId() );
+            if( liite->tila() == CacheLiite::HAETTU) {
+                emit naytaliite(liite->data());
+            } else {
+                naytettava_ = indeksi;
+            }
         } else {
             emit  naytaliite(sisalto) ;
         }
@@ -538,6 +537,17 @@ void TositeLiitteet::lisaysVirhe(int virhe, const QString selitys)
     QMessageBox::critical(nullptr, tr("Liitteen tallentaminen epäonnistui"),
                                    tr("Liitteen tallentamisessa tapahtui virhe %1 : %2")
                           .arg(virhe).arg(selitys));
+}
+
+void TositeLiitteet::liiteHaettuValimuistiin(int liiteId)
+{
+    if( naytettava_ > -1) {
+        int id = liitteet_.at(naytettava_).getLiiteId();
+        CacheLiite* liite = kp()->liiteCache()->liite(id);
+        if( liite->tila() == CacheLiite::HAETTU) {
+            emit naytaliite( liite->data());
+        }
+    }
 }
 
 QByteArray TositeLiitteet::lueTiedosto(const QString &polku)

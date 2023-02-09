@@ -41,7 +41,6 @@
 #include "tilityyppimodel.h"
 
 #include "tilimodel.h"
-#include "tili.h"
 
 #include "laskutus/tuotemodel.h"
 
@@ -65,6 +64,8 @@ class KiertoModel;
 class QNetworkAccessManager;
 class VakioViiteModel;
 class RaporttiValinnat;
+
+class LiiteCache;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -161,6 +162,8 @@ public:
     ToiminimiModel* toiminimet() const override { return toiminimiModel_;}
 
     BannerModel * bannerit() const override { return bannerit_;}
+
+    LiiteCache* liiteCache() const override { return liiteCache_;}
 
     /**
      * @brief Palauttaa tuoteluettelon sisältävän modelin
@@ -392,6 +395,7 @@ protected:
     VakioViiteModel *vakioviitteet_;
     HuoneistoModel *huoneistot_;
     RaporttiValinnat *raporttiValinnat_;
+    LiiteCache *liiteCache_ = nullptr;
 
     QPrinter *printer_;
 

@@ -19,6 +19,7 @@
 
 #include <QByteArray>
 #include <QImage>
+#include <QObject>
 
 class PdfAnalyzerPage;
 
@@ -31,7 +32,9 @@ class PdfAnalyzerPage;
  * Tästä rajapinnasta toteutetaan luokat
  * Popplerille ja muille pdf-kirjastoille
  */
-class PdfAnalyzerDocument {
+class PdfAnalyzerDocument : public QObject {
+    Q_OBJECT
+
 public:
     virtual ~PdfAnalyzerDocument();
     /**

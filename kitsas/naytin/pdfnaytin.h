@@ -3,8 +3,9 @@
 
 #include "abstraktinaytin.h"
 
+#include <QPdfDocument>
+
 class QPdfView;
-class QPdfDocument;
 class QBuffer;
 
 namespace Naytin {
@@ -31,6 +32,8 @@ public slots:
     virtual void zoomIn() override;
     virtual void zoomOut() override;
     virtual void zoomFit() override;
+
+    void testaaTekstit(QPdfDocument::Status status);
 
 
 protected:

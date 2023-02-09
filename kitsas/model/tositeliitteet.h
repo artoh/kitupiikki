@@ -129,6 +129,8 @@ private slots:
     void liiteLisatty(const QVariant& data, int liiteId, int liiteIndeksi);
     void lisaysVirhe(int virhe, const QString selitys);
 
+    void liiteHaettuValimuistiin(int liiteId);
+
 protected:
     static QByteArray lueTiedosto(const QString &polku);
     void liitaFinvoice(const QByteArray& data);
@@ -143,6 +145,8 @@ private:
     QStringList inboxista_;
 
     bool naytaLiite_ = false;
+
+    int naytettava_ = -1;
 
 };
 

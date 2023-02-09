@@ -162,10 +162,12 @@ SOURCES += \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.cpp \
     $$PWD/maaritys/veromaaritys.cpp \
     $$PWD/model/bannermodel.cpp \
+    $$PWD/model/cacheliite.cpp \
     $$PWD/model/eramap.cpp \
     $$PWD/model/euro.cpp \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
+    $$PWD/model/liitecache.cpp \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/toiminimimodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -309,6 +311,9 @@ SOURCES += \
     $$PWD/tools/varinvalinta.cpp \
     $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
+    $$PWD/tuonti/pdf/pdfpala.cpp \
+    $$PWD/tuonti/pdf/pdfrivi.cpp \
+    $$PWD/tuonti/pdf/pdfsivu.cpp \
     $$PWD/tuonti/pdftiliote/oterivi.cpp \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.cpp \
     $$PWD/tuonti/pdftiliote/tilioteotsake.cpp \
@@ -597,10 +602,12 @@ HEADERS += \
     $$PWD/maaritys/verkkolasku/verkkolaskumaaritys.h \
     $$PWD/maaritys/veromaaritys.h \
     $$PWD/model/bannermodel.h \
+    $$PWD/model/cacheliite.h \
     $$PWD/model/eramap.h \
     $$PWD/model/euro.h \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
+    $$PWD/model/liitecache.h \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/toiminimimodel.h \
     $$PWD/model/tosite.h \
@@ -746,6 +753,9 @@ HEADERS += \
     $$PWD/tools/varinvalinta.h \
     $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
+    $$PWD/tuonti/pdf/pdfpala.h \
+    $$PWD/tuonti/pdf/pdfrivi.h \
+    $$PWD/tuonti/pdf/pdfsivu.h \
     $$PWD/tuonti/pdftiliote/oterivi.h \
     $$PWD/tuonti/pdftiliote/pdftiliotetuonti.h \
     $$PWD/tuonti/pdftiliote/tilioteotsake.h \

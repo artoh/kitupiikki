@@ -45,8 +45,8 @@ private:
     QTimer timer_;
     QQueue<int> jono_;
 
-    Tosite* tosite_;
-    Tosite* uusi_;
+    Tosite* tosite_ = nullptr;
+    Tosite* uusi_ = nullptr;
     bool busy_ = false;
 };
 

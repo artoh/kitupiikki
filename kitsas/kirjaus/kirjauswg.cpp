@@ -41,6 +41,7 @@
 #include <QMimeData>
 
 #include "kirjauswg.h"
+#include "model/liitecache.h"
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
@@ -906,10 +907,17 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
     ui->sarjaCombo->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
 
-    if( selaus_ && tosite_->id())
+    if( selaus_ && tosite_->id()) {
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
-    else
+        if( edellinenSeuraava_.first) {
+            kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( edellinenSeuraava_.first );
+        }
+        if( edellinenSeuraava_.second) {
+            kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( edellinenSeuraava_.second );
+        }
+    } else {
         edellinenSeuraava_ = qMakePair(0,0);
+    }
 
     if( tunniste ) {
         ui->vuosiLabel->setVisible(true);

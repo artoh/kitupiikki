@@ -58,6 +58,8 @@
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "laskutus/laskunuusinta.h"
 #include "raportti/raporttivalinnat.h"
+#include "model/liitecache.h"
+
 #include "model/toiminimimodel.h"
 #include "model/bannermodel.h"
 
@@ -77,6 +79,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     vakioviitteet_( new VakioViiteModel(this)),    
     huoneistot_( new HuoneistoModel(this)),
     raporttiValinnat_( new RaporttiValinnat),
+    liiteCache_(new LiiteCache(this, this)),
     printer_(new QPrinter(QPrinter::HighResolution)),
     tempDir_(new QTemporaryDir(QDir::temp().absoluteFilePath("kitsas-XXXXXX"))),
     portableDir_(portableDir),
@@ -122,6 +125,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     connect( pilvi(), &PilviModel::kirjauduttu, verkkolaskuhaku, &FinvoiceHaku::haeUudet);
 
     connect( this, &Kirjanpito::tietokantaVaihtui, vakioviitteet_, &VakioViiteModel::lataa);
+    connect( this, &Kirjanpito::tietokantaVaihtui, liiteCache_, &LiiteCache::tyhjenna);
 
     LaskuDialogiTehdas::kaynnista(this, this);
 

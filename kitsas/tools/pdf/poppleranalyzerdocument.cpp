@@ -16,11 +16,14 @@
 */
 #include "poppleranalyzerdocument.h"
 #include "pdfanalyzerpage.h"
+#include "qregularexpression.h"
 
 #include <iostream>
 
 #include <QMap>
 #include <QBuffer>
+
+#include "tuonti/pdf/pdfsivu.h"
 
 PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
 {
@@ -28,6 +31,7 @@ PopplerAnalyzerDocument::PopplerAnalyzerDocument(const QByteArray &data)
     QBuffer buff(&arr);
     buff.open(QIODevice::ReadOnly);
 
+    connect( &doc_, &QPdfDocument::statusChanged, this, &PopplerAnalyzerDocument::status);
     doc_.load(&buff);
 }
 
@@ -107,4 +111,82 @@ QList<PdfAnalyzerPage> PopplerAnalyzerDocument::allPages()
 QString PopplerAnalyzerDocument::title() const
 {
     return doc_.metaData(QPdfDocument::MetaDataField::Title).toString();
+}
+
+void PopplerAnalyzerDocument::status(QPdfDocument::Status s) {
+    qDebug() << "Status " << s;
+
+
+
+    if( s == QPdfDocument::Status::Ready) {
+
+        Tuonti::PdfSivu sivu;
+        sivu.tuo(&doc_, 0);
+
+        std::cerr << sivu.teksti().toStdString();
+
+/*
+        QRegularExpression empty("\\s");
+
+        QPdfSelection sel = doc_.getAllText(0);
+        qDebug() << sel.text();
+
+        QMap<int,Palanen*> palat;
+
+        QString txt = sel.text();
+        int c = 0;
+        while( c < txt.length()) {
+            int stop = txt.indexOf(empty, c);
+            if( stop < 0) stop = txt.length()-1;
+            if( stop == c) { c++; continue; }
+
+            QPdfSelection piece = doc_.getSelectionAtIndex(0, c, stop - c);
+
+            int sijainti = (int) piece.boundingRectangle().top() * 1000 + (int) piece.boundingRectangle().left();
+            Palanen* pala = new Palanen();
+            pala->ala = piece.boundingRectangle().bottom();
+            pala->yla = piece.boundingRectangle().top();
+            pala->oikea = piece.boundingRectangle().right();
+            pala->vasen = piece.boundingRectangle().left();
+            pala->teksti = piece.text().trimmed();
+
+            palat.insert(sijainti, pala);
+
+            std::cerr << pala->yla << "," << pala->vasen << "|" << pala->teksti.toStdString() << "| " << pala->ala << "," << pala->oikea << "\n";
+
+            c = stop + 1;
+        }
+
+        Palanen* eka = nullptr;
+        Palanen* edellinen = nullptr;
+
+        QMapIterator<int,Palanen*> iter(palat);
+        while(iter.hasNext()) {
+            iter.next();
+            if( !eka) { eka = iter.value(); edellinen = iter.value(); std::cerr << "***ALKU \n";}
+            else {
+                if( qAbs(edellinen->yla - iter.value()->yla) < 8 &&
+                   qAbs(edellinen->oikea - iter.value()->vasen) <= 14 ) {
+                   edellinen->oikea = iter.value()->oikea;
+                   edellinen->teksti.append(" " + iter.value()->teksti);
+                   std::cerr << "+ " << iter.value()->teksti.toStdString() << "}\n";
+                } else {
+                   edellinen->seuraava = iter.value();
+                   edellinen = iter.value();
+                   std::cerr << "> " << iter.value()->teksti.toStdString() << "}\n";
+                }
+            }
+        }
+        while( eka != nullptr) {
+            std::cerr << eka->yla << "," << eka->vasen << "  |" << eka->teksti.toStdString() << "| " << eka->oikea << "\n";
+            eka = eka->seuraava;
+        }
+*/
+    }
+
+}
+
+PopplerAnalyzerDocument::Palanen::Palanen()
+{
+
 }

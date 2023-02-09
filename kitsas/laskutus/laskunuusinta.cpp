@@ -27,8 +27,7 @@
 #include "rekisteri/maamodel.h"
 #include <QMessageBox>
 
-LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent) ,
-    tosite_(new Tosite(this)), uusi_(new Tosite(this))
+LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent)
 {    
     connect( &timer_, &QTimer::timeout, this, &LaskunUusinta::uusiLaskut);
     connect( qobject_cast<Kirjanpito*>(parent), &Kirjanpito::tietokantaVaihtui, this, &LaskunUusinta::ajastaUusita);
@@ -43,6 +42,11 @@ void LaskunUusinta::ajastaUusita()
 void LaskunUusinta::uusiLaskut()
 {
     timer_.stop();
+
+    tosite_ = new Tosite(this);
+    uusi_ = new Tosite(this);
+
+
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
         kp()->yhteysModel()->onkoOikeutta( YhteysModel::LASKU_LAATIMINEN )) {
         KpKysely *kysely = kpk("/myyntilaskut");

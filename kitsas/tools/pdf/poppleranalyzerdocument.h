@@ -23,7 +23,18 @@
 
 class PopplerAnalyzerDocument : public PdfAnalyzerDocument
 {
-public:
+    Q_OBJECT
+
+    class Palanen {
+    public:
+        explicit Palanen();
+        int vasen, oikea, yla, ala;
+        QString teksti;
+        Palanen* seuraava = nullptr;
+    };
+
+
+public:    
     PopplerAnalyzerDocument(const QByteArray& data);
     ~PopplerAnalyzerDocument();
 
@@ -32,6 +43,9 @@ public:
     virtual QList<PdfAnalyzerPage> allPages() override;
     virtual QString title() const override;
 
+
+protected:
+    void status(QPdfDocument::Status s);
 
 private:
     QPdfDocument doc_;
