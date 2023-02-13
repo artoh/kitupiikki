@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QPdfDocument>
+#include <QSettings>
 
 
 LiitteetModel::LiitteetModel(QObject *parent)
@@ -60,6 +61,16 @@ QVariant LiitteetModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/tekstisivu.png");
             else
                 return liite->thumb();
+        case SisaltoRooli:
+            return *liite->dataPtr();
+        case NimiRooli:
+            return liite->nimi();
+        case TyyppiRooli:
+            return liite->tyyppi();
+        case RooliRooli:
+            return liite->rooli();
+        case IdRooli:
+            return liite->id();
     }
 
     return QVariant();
@@ -77,7 +88,6 @@ void LiitteetModel::lataa(const QVariantList &data)
         liitteet_.append(new Liite(this, map));
     }
 
-
     endResetModel();
 
     // TODO: Parhaimman näytettävän tunnistus
@@ -88,6 +98,8 @@ void LiitteetModel::lataa(const QVariantList &data)
             nayta(0);
         }
     }
+
+    tarkastaKaikkiLiitteet();
 }
 
 void LiitteetModel::clear()
@@ -104,6 +116,19 @@ void LiitteetModel::asetaInteraktiiviseksi(bool onko)
     interaktiivinen_ = onko;
 }
 
+bool LiitteetModel::lisaa(const QByteArray &liite, const QString &tiedostonnimi, const QString &rooli)
+{
+    if( liite.isNull())
+        return false;
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    Liite* uusiLiite = new Liite(this, liite, tiedostonnimi, rooli);
+    liitteet_.append( uusiLiite);
+    endInsertRows();
+
+    return true;
+}
+
 bool LiitteetModel::lisaaHeti(const QByteArray &liite, const QString &polku)
 {
     // Esikäsittely
@@ -111,12 +136,14 @@ bool LiitteetModel::lisaaHeti(const QByteArray &liite, const QString &polku)
 
     // Tallennus
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    liitteet_.append(new Liite(this, liite, polku));
+    Liite* uusiLiite = new Liite(this, liite, polku);
+    liitteet_.append( uusiLiite);
     endInsertRows();
 
+    uusiLiite->liita();
 
     // Tuonti
-    return false;
+    return true;
 
 }
 
@@ -136,6 +163,45 @@ bool LiitteetModel::lisaaHetiTiedosto(const QString &polku)
     return lisaaHeti( ba, polku );
 }
 
+int LiitteetModel::tallennettaviaLiitteita() const
+{
+    int lkm = 0;
+    for( const auto ptr : liitteet_) {
+        if( ptr->tila() == Liite::TALLENNETTAVA) {
+            lkm++;
+        }
+    }
+    return lkm;
+}
+
+void LiitteetModel::tallennaLiitteet(int tositeId)
+{
+    if( !tallennettaviaLiitteita()) {
+        emit liitteetTallennettu();
+    } else {
+        for(auto ptr : liitteet_) {
+            if( ptr->tila() == Liite::TALLENNETTAVA) {
+                ptr->tallenna(tositeId);
+            }
+        }
+    }
+}
+
+void LiitteetModel::poistaInboxistaLisattyjenTiedostot()
+{
+    const QString inbox = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienKansio" ).toString();
+    if( inbox.isEmpty()) return;
+
+    const bool siirto = kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirto" ).toBool();
+    const QString siirtoKansio = siirto ? kp()->settings()->value( kp()->asetukset()->uid() + "/KirjattavienSiirtoKansio" ).toString() : QString();
+
+    for(auto ptr: liitteet_) {
+        if( ptr->tila() == Liite::LIITETTY && ptr->polku().startsWith(inbox)) {
+            ptr->poistaInboxistaLisattyTiedosto(siirtoKansio);
+        }
+    }
+}
+
 void LiitteetModel::nayta(int indeksi)
 {
     naytettavaIndeksi_ = indeksi;
@@ -150,12 +216,48 @@ void LiitteetModel::nayta(int indeksi)
     }
 }
 
+bool LiitteetModel::tallennetaanko() const
+{
+    for(const auto ptr : liitteet_) {
+        if( ptr->tila() == Liite::LIITETAAN) return true;
+    }
+    return false;
+}
+
+QVariantList LiitteetModel::liitettavat() const
+{
+    QVariantList lista;
+    for(const auto ptr: liitteet_) {
+        if( ptr->tila() == Liite::LIITETTY) {
+            lista.append(ptr->id());
+        }
+    }
+    return lista;
+}
+
 QByteArray *LiitteetModel::sisalto()
 {
     if( naytettavaIndeksi_ < 0)
         return nullptr;
     QByteArray* data = liitteet_.at(naytettavaIndeksi_)->dataPtr();
     return data;
+}
+
+void LiitteetModel::liitteenTilaVaihtui(Liite::LiiteTila uusiTila)
+{
+    if( uusiTila == Liite::TALLENNETTU && !tallennettaviaLiitteita()) {
+        emit liitteetTallennettu();
+    }
+
+    if( tallennetaanko() != tallennetaanko_) {
+        tallennetaanko_ = !tallennetaanko_;
+        emit liitettaTallennetaan(tallennetaanko_);
+    }
+}
+
+void LiitteetModel::ocr(const QVariantMap &data)
+{
+
 }
 
 void LiitteetModel::valimuistiLiite(int liiteId)
@@ -168,6 +270,7 @@ void LiitteetModel::valimuistiLiite(int liiteId)
             }
         }
     }
+    tarkastaKaikkiLiitteet();
 }
 
 void LiitteetModel::naytaKayttajalle()
@@ -189,7 +292,13 @@ void LiitteetModel::naytaKayttajalle()
 
 void LiitteetModel::tarkastaKaikkiLiitteet()
 {
-
+    for( const auto ptr : liitteet_) {
+        if( ptr->tila() == Liite::HAETAAN) {
+            return;
+        }
+    }
+    emit kaikkiLiitteetHaettu();
 }
+
 
 

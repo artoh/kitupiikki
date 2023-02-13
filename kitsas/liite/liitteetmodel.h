@@ -15,6 +15,15 @@ class LiitteetModel : public QAbstractListModel
 
 
 public:
+
+    enum {
+        SisaltoRooli = Qt::UserRole + 1,
+        NimiRooli = Qt::UserRole + 2,
+        TyyppiRooli = Qt::UserRole + 3,
+        RooliRooli = Qt::UserRole + 4,
+        IdRooli = Qt::UserRole + 5
+    };
+
     explicit LiitteetModel(QObject *parent = nullptr);
     ~LiitteetModel();
 
@@ -25,14 +34,18 @@ public:
     void clear();
     void asetaInteraktiiviseksi(bool onko = true);
 
+    bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
     bool lisaaHeti(const QByteArray& liite, const QString& polku);
     bool lisaaHetiTiedosto(const QString& polku);
 
     int tallennettaviaLiitteita() const;
+    void tallennaLiitteet(int tositeId);
+    void poistaInboxistaLisattyjenTiedostot();
 
     void nayta(int indeksi);
     int naytettavaIndeksi() const { return naytettavaIndeksi_; }
     bool tallennetaanko() const;
+    QVariantList liitettavat() const;
 
     QPdfDocument* pdfDocument() { return pdfDoc_;}
     QByteArray *sisalto();

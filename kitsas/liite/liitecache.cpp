@@ -149,7 +149,12 @@ void LiiteCache::tyhjenna()
     poistoptr_ = nullptr;
 }
 
-void LiiteCache::lisaaTallennettu(CacheLiite *liite)
+void LiiteCache::lisaaTallennettu(int liiteId, CacheLiite *liite)
 {
+    liitteet_.insert(liiteId, liite);
 
+    liite->sijoitaKarkeen( uusin_ );
+    uusin_ = liite;
+    if( !poistoptr_)
+        poistoptr_ = liite;
 }

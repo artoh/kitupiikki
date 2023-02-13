@@ -9,6 +9,7 @@
 
 #include <QVariantMap>
 #include <QMessageBox>
+#include <QSettings>
 
 /*
 Liite::Liite() :
@@ -61,6 +62,8 @@ Liite::Liite(const Liite &liite)
 Liite::~Liite()
 {
     cache_->vapauta();
+    if( !liiteId_)
+        delete cache_;
 }
 
 bool Liite::kaytettavissa() const
@@ -120,10 +123,30 @@ void Liite::tallenna(int tositeId)
 
 }
 
+void Liite::poistaInboxistaLisattyTiedosto(const QString& siirtokansio)
+{
+    if( siirtokansio.isEmpty()) {
+        QFile::remove(polku_);
+    } else {
+        QDir kohde(siirtokansio);
+        QFileInfo info(polku_);
+        QString tnimi = info.fileName();
+        // #809 Jos tiedosto on jo, nimetään se hiljaisesti uudelleen
+        for(int yritys=1; kohde.exists(tnimi) && yritys < 1000; yritys++) {
+            tnimi = QString("%1_%2.%3").arg(info.baseName()).arg(yritys).arg(info.completeSuffix());
+        }
+        if( QFile::copy( info.absoluteFilePath(), kohde.absoluteFilePath(tnimi) )) {
+            QFile::remove(info.absoluteFilePath());
+        }
+    }
+}
+
 void Liite::liitetty(const QVariant &reply, int lisattyId)
 {
     liiteId_ = lisattyId;
     vaihdaTila(LIITETTY);
+
+    kp()->liiteCache()->lisaaTallennettu(liiteId_, cache_);
 
     QVariantMap map = reply.toMap();
     if(!map.isEmpty())
@@ -134,6 +157,8 @@ void Liite::tallennettu(const QVariant & /*reply*/, int lisattyId)
 {
     liiteId_ = lisattyId;
     vaihdaTila(TALLENNETTU);
+
+    kp()->liiteCache()->lisaaTallennettu(liiteId_, cache_);
 }
 
 

@@ -19,6 +19,7 @@ public:
     void tositteenLiitteidenEnnakkoHaku(int tositeId);
 
     void tyhjenna();
+    void lisaaTallennettu(int liiteId, CacheLiite* liite);
 signals:
     void liiteHaettu(int liiteId);
 

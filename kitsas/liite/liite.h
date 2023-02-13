@@ -10,7 +10,7 @@ class Liite : public QObject {
     Q_OBJECT
 
 public:
-    enum LiiteTila { HAETAAN, HAETTU, TALLENNETTAVA, TALLENNETAAN, TALLENNETTU, LIITETAAN, LIITETTY };
+    enum LiiteTila { HAETAAN, HAETTU, TALLENNETTAVA, TALLENNETTU, LIITETAAN, LIITETTY };
 
 //    explicit Liite();
 //    Liite(const Liite& liite);
@@ -26,6 +26,7 @@ public:
     QString nimi() const { return nimi_;}
     QString rooli() const { return rooli_;}
     QString tyyppi() const { return tyyppi_;}
+    QString polku() const { return polku_;}
 
     LiiteTila tila() const;
 
@@ -33,16 +34,20 @@ public:
     QByteArray* dataPtr() const;
 
     void liita(bool ocr = false);
+    void tallenna(int tositeId);
 
-signals:
-    void tilaVaihtui(Liite::LiiteTila uusiTila, Liite::LiiteTila vanhaTila);
+    void poistaInboxistaLisattyTiedosto(const QString &siirtokansio);
 
 
 protected:
     void setThumb();
 
-    void liitetty(QVariant* data);
+    void liitetty(const QVariant& reply, int lisattyId);
+    void tallennettu(const QVariant& reply, int lisattyId);
 
+    void tallennusVirhe(int virhe, const QString selitys);
+
+    void vaihdaTila(Liite::LiiteTila uusiTila);
 
 
     LiitteetModel* model_ = nullptr;
