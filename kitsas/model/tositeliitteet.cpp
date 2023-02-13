@@ -16,7 +16,9 @@
 */
 #include "tositeliitteet.h"
 #include "db/kirjanpito.h"
-#include "model/cacheliite.h"
+#include "liite/cacheliite.h"
+#include "liite/liitecache.h"
+#include "liite/cacheliite.h"
 #include "tools/pdf/pdftoolkit.h"
 
 #include <QIcon>
@@ -40,7 +42,7 @@
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvikysely.h"
 
-#include "model/liitecache.h"
+#include "liite/liitecache.h"
 
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)

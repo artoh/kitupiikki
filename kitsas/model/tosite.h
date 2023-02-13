@@ -31,6 +31,7 @@ class TositeLoki;
 class Asiakas;
 class Toimittaja;
 class TositeRivit;
+class LiitteetModel;
 
 /**
  * @brief Kirjanpitotosite
@@ -99,7 +100,10 @@ public:
     void setData(int kentta, QVariant arvo);
 
     TositeViennit* viennit() { return viennit_; }
-    TositeLiitteet* liitteet() { return liitteet_;}
+    TositeLiitteet* liitteet() { return liitteet_vanha_;}
+
+    LiitteetModel* liitteetModel() { return liitteet_; }
+
     TositeLoki* loki() { return loki_;}
     TositeRivit* rivit() { return rivit_;}
     Lasku& lasku() { return lasku_;}
@@ -207,7 +211,8 @@ private:
     bool muutettu_ = false;
 
     TositeViennit* viennit_;
-    TositeLiitteet* liitteet_;
+    LiitteetModel* liitteet_;
+    TositeLiitteet* liitteet_vanha_;
     TositeLoki* loki_;    
     TositeRivit* rivit_;
 

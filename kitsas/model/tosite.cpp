@@ -27,6 +27,8 @@
 
 #include "laskutus/tulostus/laskuntulostaja.h"
 
+#include "liite/liitteetmodel.h"
+
 #include <QJsonDocument>
 #include <QDebug>
 #include <QTimer>
@@ -35,7 +37,8 @@
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
-    liitteet_(new TositeLiitteet(this)),
+    liitteet_{ new LiitteetModel(this) },
+    liitteet_vanha_(new TositeLiitteet(this)),
     loki_( new TositeLoki(this)),
     rivit_( new TositeRivit(this))
 {
@@ -223,6 +226,7 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool saily
     int siirto = pvm().daysTo(paiva);
 
     viennit_->pohjaksi(paiva, otsikko(), uusiotsikko, sailytaerat);
+    liitteet_vanha_->clear();
     liitteet_->clear();
     loki_->lataa(QVariantList());
 
@@ -272,7 +276,10 @@ void Tosite::lataa(const QVariantMap &map)
     QVariantList vientilista = data_.take("viennit").toList();
 
     loki()->lataa( data_.take("loki").toList());
-    liitteet()->lataa( data_.take("liitteet").toList());
+    liitteetModel()->lataa( data_.value("liitteet").toList() );
+
+    liitteet()->lataa( data_.take("liitteet").toList());    
+
     rivit()->lataa( data_.take("rivit").toList());
     lasku_ = Lasku( data_.take("lasku").toMap());
 
@@ -440,6 +447,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     data_.clear();
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();
+    liitteetModel()->clear();
     rivit_->clear();
     lasku_.clear();
     loki_->clear();
@@ -560,7 +568,7 @@ QVariantMap Tosite::tallennettava() const
             map.insert("kumppani", viennit_->vienti(0).kumppaniMap() );
     }
 
-    map.insert("liita", liitteet_->liitettavat());
+    map.insert("liita", liitteet_vanha_->liitettavat());
 
     return map;
 }

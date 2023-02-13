@@ -28,10 +28,11 @@
 #include "kitupiikkisivu.h"
 
 class KirjausWg;
-class NaytaliiteWg;
 class QSplitter;
 class KitupiikkiIkkuna;
 class SelausWg;
+
+class NaytaLiiteWidget;
 
 /**
  * @brief Sivu, jolla kirjaukset tehdään
@@ -81,7 +82,7 @@ protected:
 
     KitupiikkiIkkuna *ikkuna_;
     KirjausWg *kirjauswg;
-    NaytaliiteWg *liitewg;
+    NaytaLiiteWidget *liitewg;
     QSplitter *splitter;
 
 

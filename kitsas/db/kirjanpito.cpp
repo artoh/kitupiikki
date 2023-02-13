@@ -58,7 +58,7 @@
 #include "laskutus/huoneisto/huoneistomodel.h"
 #include "laskutus/laskunuusinta.h"
 #include "raportti/raporttivalinnat.h"
-#include "model/liitecache.h"
+#include "liite/liitecache.h"
 
 #include "model/toiminimimodel.h"
 #include "model/bannermodel.h"

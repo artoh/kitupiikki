@@ -28,10 +28,11 @@
 #include "kirjaussivu.h"
 
 #include "kirjauswg.h"
-#include "naytaliitewg.h"
-#include "naytin/naytinview.h"
+#include "liite/naytaliitewidget.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
+
+#include "liite/liitteetmodel.h"
 
 #include "db/kirjanpito.h"
 
@@ -39,9 +40,12 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
 
-    liitewg = new NaytaliiteWg(this);
     kirjauswg = new KirjausWg(this, selaus);
     kirjauswg->setObjectName("kirjausWg");
+
+    kirjauswg->tosite()->liitteetModel()->asetaInteraktiiviseksi(true);
+    liitewg = new NaytaLiiteWidget(this);
+    liitewg->setModel(kirjauswg->tosite()->liitteetModel());
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
@@ -53,7 +57,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     leiska->addWidget(splitter);
 
     setLayout(leiska);
-
+/*
     connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
     connect( liitewg, &NaytaliiteWg::lisaaLiiteDatalla, kirjauswg, &KirjausWg::lisaaLiiteDatasta);
 
@@ -62,7 +66,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
     connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaliiteWg::naytaPohjat);
     connect( liitewg, &NaytaliiteWg::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
-
+*/
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }
 

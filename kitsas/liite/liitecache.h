@@ -12,6 +12,7 @@ class LiiteCache : public QObject
     Q_OBJECT
 public:
     explicit LiiteCache(QObject *parent, KitsasInterface* kitsas);
+    ~LiiteCache();
 
     CacheLiite* liite(int liiteId);
     void ennakkoHaku(int liiteId);
@@ -31,6 +32,12 @@ protected:
 
     QHash<int,CacheLiite*> liitteet_;
     KitsasInterface* kitsas_;
+
+    CacheLiite* uusin_;
+    CacheLiite* poistoptr_;
+    qsizetype koko_ = 0L;
+
+    qsizetype rajaKoko_ = 1024L * 1024L * 80L; // 80 Mt
 
 };
 

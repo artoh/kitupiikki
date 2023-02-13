@@ -41,7 +41,9 @@
 #include <QMimeData>
 
 #include "kirjauswg.h"
-#include "model/liitecache.h"
+#include "liite/liitecache.h"
+#include "liite/liitteetmodel.h"
+
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
@@ -149,7 +151,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->lokiView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
-    ui->liiteView->setModel( tosite_->liitteet() );
+    ui->liiteView->setModel( tosite_->liitteetModel() );    // Tämä muutettu
     ui->liiteView->setDropIndicatorShown(true);
 
     kiertoTab_->hide();
@@ -822,7 +824,8 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     else
         ui->tositePvmEdit->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    tosite_->viennit()->asetaMuokattavissa( sallitaanko == Sallittu && !apuri_ );
+    tosite_->viennit()->asetaMuokattavissa( sallitaanko == Sallittu && !apuri_ );    
+
     ui->lisaaRiviNappi->setVisible( !apuri_);
     ui->lisaaVientiNappi->setVisible(!apuri_);
     ui->muokkaaVientiNappi->setVisible(!apuri_);
