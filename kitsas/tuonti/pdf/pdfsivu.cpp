@@ -36,8 +36,12 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
             start = c+1;
         }
     }
+
+
     for(int i=0; i < rivit_.count(); i++)
         rivit_[i]->yhdistaPalat();
+    for(int i=0; i < rivit_.count() - 1; i++)
+        rivit_[i]->pala()->etsiAlapala(  rivit_[i+1]->pala() );
 
 }
 
@@ -50,8 +54,92 @@ QString PdfSivu::teksti() const
     return ulos;
 }
 
+int PdfSivu::etsi(const QStringList &tekstit, int maxRivi)
+{
+    const int saakka = maxRivi && maxRivi < rivit_.count() ? maxRivi : rivit_.count();
+
+    for(int i=0; i < saakka; i++) {
+        if( rivit_.at(i)->sisaltaako(tekstit))
+            return i+1;
+    }
+    return 0;
+}
+
+QList<PdfPala *> PdfSivu::etsiPalat(const QStringList &tekstit, const QRect alue)
+{
+    QList<PdfPala*> palat;
+    for( auto rivi : rivit_) {
+        if( alue.isValid() && !alue.intersects(rivi->alue())) continue;
+        PdfPala* pala = rivi->pala();
+        while( pala ) {
+            if( (alue.isNull() || alue.intersects(pala->rect())) &&
+                 pala->sisaltaako(tekstit)) {
+                palat.append(pala);
+            }
+            pala = pala->seuraava();
+        }
+    }
+    return palat;
+}
+
+QList<PdfPala *> PdfSivu::etsiPalat(const QRect alue)
+{
+    QList<PdfPala*> palat;
+    for( auto rivi : rivit_) {
+        if( !alue.intersects(rivi->alue())) continue;
+        PdfPala* pala = rivi->pala();
+        while( pala ) {
+            if( alue.intersects(pala->rect())) {
+                palat.append(pala);
+            }
+            pala = pala->seuraava();
+        }
+    }
+    return palat;
+}
+
+PdfPala *PdfSivu::etsiPala(const QString &teksti, const QRect &alue)
+{
+    for( auto rivi : rivit_) {
+        if( !alue.intersects(rivi->alue())) continue;
+        PdfPala* pala = rivi->pala();
+        while( pala ) {
+            if( alue.intersects(pala->rect()) && pala->teksti().contains(teksti, Qt::CaseInsensitive)) {
+                return pala;
+            }
+            pala = pala->seuraava();
+        }
+    }
+    return nullptr;
+}
+
+int PdfSivu::riveja() const
+{
+    return rivit_.count();
+}
+
+PdfRivi *PdfSivu::rivi(int rivi)
+{
+    return rivit_.at(rivi);
+}
+
 void PdfSivu::lisaa(const QPdfSelection &selection)
 {
+    if( rivit_.isEmpty()) {
+        rivit_.append( new PdfRivi(selection));
+        return;
+    }
+
+    int lvertaus = rivit_.last()->vertaa(selection);
+    if( lvertaus == 0) {
+        rivit_.last()->tuo(selection);
+        return;
+    } else if( lvertaus > 0) {
+        rivit_.append(new PdfRivi(selection));
+        return;
+    }
+
+
     for(int i=0; i < rivit_.count(); i++) {
         int vertaus = rivit_[i]->vertaa(selection);
         if( vertaus < 0 ) {

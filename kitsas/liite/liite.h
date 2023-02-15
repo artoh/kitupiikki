@@ -35,6 +35,7 @@ public:
 
     void liita(bool ocr = false);
     void tallenna(int tositeId);
+    void poista();
 
     void poistaInboxistaLisattyTiedosto(const QString &siirtokansio);
 

@@ -15,6 +15,12 @@
 #include <QPdfView>
 #include <QBuffer>
 #include <QTextEdit>
+#include <QTextBrowser>
+
+#include <QMimeData>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 NaytaLiiteWidget::NaytaLiiteWidget(QWidget *parent)
     : QWidget{parent},
@@ -22,6 +28,9 @@ NaytaLiiteWidget::NaytaLiiteWidget(QWidget *parent)
 {
     setup();
 
+    connect( uusiLiiteWidget_, &UusiLiiteWidget::lataaPohja, this, &NaytaLiiteWidget::lataaPohja);
+
+    setAcceptDrops(true);
 }
 
 void NaytaLiiteWidget::setModel(LiitteetModel *model)
@@ -39,6 +48,11 @@ void NaytaLiiteWidget::setModel(LiitteetModel *model)
     connect( model, &LiitteetModel::rowsRemoved, this, &NaytaLiiteWidget::paivitaTabit);
 
     connect( tabBar_, &QTabBar::tabBarClicked, model_, &LiitteetModel::nayta);
+}
+
+void NaytaLiiteWidget::naytaPohjat(bool naytetaanko)
+{
+    uusiLiiteWidget_->naytaPohja(naytetaanko);
 }
 
 void NaytaLiiteWidget::vaihdaValittu(int indeksi)
@@ -62,8 +76,8 @@ void NaytaLiiteWidget::naytaSisalto()
     if( data ) {
         QImage kuva = QImage::fromData(*data);
         if(!kuva.isNull()) {
-            kuvaView_->nayta(kuva);
             pino_->setCurrentIndex(KUVA);
+            kuvaView_->nayta(kuva);
         } else {
             const QString teksti = Tuonti::CsvTuonti::haistettuKoodattu(*data);
             textView_->setPlainText(teksti);
@@ -88,14 +102,64 @@ void NaytaLiiteWidget::paivitaTabit()
     }
 }
 
+void NaytaLiiteWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if( event->mimeData()->hasUrls() )
+    {
+        for( const QUrl& url: event->mimeData()->urls())
+        {
+            if(url.isLocalFile())
+                event->accept();
+        }
+    }
+
+    if( event->mimeData()->formats().contains("image/jpg") ||
+        event->mimeData()->formats().contains("image/png"))
+        event->accept();
+}
+
+void NaytaLiiteWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void NaytaLiiteWidget::dropEvent(QDropEvent *event)
+{
+    int lisatty = 0;
+    // Liitetiedosto pudotettu
+    if( event->mimeData()->hasUrls())
+    {
+        QList<QUrl> urlit = event->mimeData()->urls();
+        foreach (QUrl url, urlit)
+        {
+            if( url.isLocalFile())
+            {
+                QString polku = url.path();
+
+#ifdef Q_OS_WIN
+                if( polku.startsWith(QChar('/')))
+                    polku = polku.mid(1);
+#endif
+                model_->lisaaHetiTiedosto(polku);
+                lisatty++;
+            }
+        }
+    }
+    if( !lisatty && event->mimeData()->formats().contains("image/jpg"))
+        model_->lisaaHeti(event->mimeData()->data("image/jpg"), tr("liite.jpg") );
+    else if(!lisatty && event->mimeData()->formats().contains("image/png"))
+        model_->lisaaHeti(event->mimeData()->data("image/png"), tr("liite.png") );
+
+}
+
 
 void NaytaLiiteWidget::setup()
 {
     tabBar_ = new QTabBar;
     tabBar_->setShape(QTabBar::TriangularWest);
-
-    tabBar_->addTab("Tiedosto 1");
-    tabBar_->addTab("Tiedosto 2");
+    tabBar_->setExpanding(false);
+    tabBar_->setUsesScrollButtons(true);
+    tabBar_->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
 
     pino_ = new QStackedWidget;
     pino_->addWidget( uusiLiiteWidget_ );
@@ -113,14 +177,15 @@ void NaytaLiiteWidget::setup()
     kuvaView_ = new KuvaLiiteWidget(this);
     pino_->addWidget(kuvaView_);
 
-    textView_ = new QTextEdit(this);
-    textView_->setReadOnly(true);
+    textView_ = new QTextBrowser(this);
+//    textView_->setReadOnly(true);
     pino_->addWidget(textView_);
 
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(tabBar_);
     leiska->addWidget(pino_);
+
 
     setLayout(leiska);
 

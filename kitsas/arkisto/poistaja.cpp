@@ -23,7 +23,7 @@
 #include "model/tosite.h"
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
-#include "model/tositeliitteet.h"
+#include "liite/liitteetmodel.h"
 #include "db/tositetyyppimodel.h"
 #include "raportti/raportinkirjoittaja.h"
 

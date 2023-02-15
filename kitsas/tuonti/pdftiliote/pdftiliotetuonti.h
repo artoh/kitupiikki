@@ -18,7 +18,6 @@
 #define PDFTILIOTETUONTI_H
 
 #include <QVariant>
-#include "tools/pdf/pdfanalyzerpage.h"
 #include "tilioteotsake.h"
 #include "oterivi.h"
 
@@ -27,27 +26,33 @@
 #include "laskutus/iban.h"
 
 
+
 namespace Tuonti {
+
+class PdfTiedosto;
+class PdfSivu;
+class PdfRivi;
 
 class PdfTilioteTuonti
 {
 public:
     PdfTilioteTuonti();    
-    QVariantMap tuo(const QList<PdfAnalyzerPage> pages );
+    QVariantMap tuo(PdfTiedosto* tiedosto);
 
     QString bic() const { return iban_.bic();}
 
 protected:
-    void lueSivu(const PdfAnalyzerPage& page);
-    void lueRivi(const PdfAnalyzerRow& row);
+    enum { TILIOTETYYPPI = 400 };
+    QVariantMap map() const;
 
-    void lueAlkuRivi(const PdfAnalyzerRow& row);
-    void lueOtsakeRivi(const PdfAnalyzerRow& row);
-    void lueTaulukkoRivi(const PdfAnalyzerRow& row);
-    void lueToisenAlkua(const PdfAnalyzerRow& row);
+    void lueRivi(PdfRivi* rivi);
 
-    void kasitteleTaulukkoRivi(const PdfAnalyzerRow& row);
-    void taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const QString& arvo);
+    void lueAlkuRivi(PdfRivi* rivi);
+    void lueOtsakeRivi(PdfRivi *rivi);
+    void lueTaulukkoRivi(PdfRivi *rivi);
+    void lueToisenAlkua(PdfRivi* rivi);
+
+    void kasitteleTaulukkoRivi(PdfRivi *rivi);
 
     void nykyinenValmis();
 
@@ -70,11 +75,15 @@ protected:
 
     QDate kirjausPvm_;
 
-    QRegularExpression ibanRe;
-    QRegularExpression kauttaRe;
-    QRegularExpression valiReViivalla;
-    QRegularExpression rahaRe;
-    QRegularExpression omaIbanRe;
+    static QRegularExpression kauttaRe__;
+    static QRegularExpression valiReViivalla__;
+    static QRegularExpression rahaRe__;
+    static QRegularExpression omaIbanRe__;
+    static QRegularExpression numeroRe__;
+    static QRegularExpression pieniRe__;
+    static QRegularExpression aakkosRe__;
+
+    static std::vector<QString> jatkuuTekstit__;
 };
 
 };

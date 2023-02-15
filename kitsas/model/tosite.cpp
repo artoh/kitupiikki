@@ -17,7 +17,6 @@
 #include "tosite.h"
 
 #include "tositeviennit.h"
-#include "tositeliitteet.h"
 #include "tositeloki.h"
 #include "tositerivit.h"
 
@@ -38,7 +37,6 @@ Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
     liitteet_{ new LiitteetModel(this) },
-    liitteet_vanha_(new TositeLiitteet(this)),
     loki_( new TositeLoki(this)),
     rivit_( new TositeRivit(this))
 {
@@ -46,7 +44,9 @@ Tosite::Tosite(QObject *parent) :
     connect( viennit_, &TositeViennit::rowsInserted, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::rowsRemoved, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
-    connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu, Qt::QueuedConnection);
+    connect( liitteet(), &LiitteetModel::liitteetTallennettu, this, &Tosite::liitteetTallennettu, Qt::QueuedConnection);
+    connect( liitteet(), &LiitteetModel::kaikkiLiitteetHaettu, this, &Tosite::ladattu, Qt::QueuedConnection);
+    connect( liitteet(), &LiitteetModel::hakuVirhe, this, &Tosite::latausvirhe);
 }
 
 
@@ -70,7 +70,7 @@ void Tosite::setData(int kentta, QVariant arvo)
         setData( Tosite::TUNNISTE, QVariant() );
 
     if( ((arvo.toString().isEmpty() || arvo.toString()=="0") && arvo.type() != QVariant::Map && arvo.type() != QVariant::List) ||
-        ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
+        ( arvo.typeId() == QMetaType::Int  && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
     else
         data_.insert( avaimet__.at(kentta), arvo );
@@ -225,8 +225,7 @@ void Tosite::pohjaksi(const QDate &paiva, const QString &uusiotsikko, bool saily
 {
     int siirto = pvm().daysTo(paiva);
 
-    viennit_->pohjaksi(paiva, otsikko(), uusiotsikko, sailytaerat);
-    liitteet_vanha_->clear();
+    viennit_->pohjaksi(paiva, otsikko(), uusiotsikko, sailytaerat);    
     liitteet_->clear();
     loki_->lataa(QVariantList());
 
@@ -275,10 +274,7 @@ void Tosite::lataa(const QVariantMap &map)
 
     QVariantList vientilista = data_.take("viennit").toList();
 
-    loki()->lataa( data_.take("loki").toList());
-    liitteetModel()->lataa( data_.value("liitteet").toList() );
-
-    liitteet()->lataa( data_.take("liitteet").toList());    
+    loki()->lataa( data_.take("loki").toList());      
 
     rivit()->lataa( data_.take("rivit").toList());
     lasku_ = Lasku( data_.take("lasku").toMap());
@@ -304,7 +300,7 @@ void Tosite::lataa(const QVariantMap &map)
         }
     }
     viennit()->asetaViennit( vientilista );
-    emit ladattu();
+    liitteet()->lataa( data_.take("liitteet").toList());
 
     emit tyyppiMuuttui( tyyppi());
     emit pvmMuuttui( pvm() );
@@ -446,8 +442,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 
     data_.clear();
     viennit_->asetaViennit(QVariantList());
-    liitteet()->clear();
-    liitteetModel()->clear();
+    liitteet()->clear();    
     rivit_->clear();
     lasku_.clear();
     loki_->clear();
@@ -482,7 +477,7 @@ void Tosite::tallennusValmis(QVariant *variant)
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else {
-        liitteet()->tallennettu();
+        liitteet()->poistaInboxistaLisattyjenTiedostot();
         emit talletettu( id(), tunniste(), pvm(),
                          sarja(), tositetila());
         emit kp()->kirjanpitoaMuokattu();
@@ -568,7 +563,7 @@ QVariantMap Tosite::tallennettava() const
             map.insert("kumppani", viennit_->vienti(0).kumppaniMap() );
     }
 
-    map.insert("liita", liitteet_vanha_->liitettavat());
+    map.insert("liita", liitteet_->liitettavat());
 
     return map;
 }

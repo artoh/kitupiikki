@@ -64,7 +64,6 @@ SOURCES += \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.cpp \
     $$PWD/laskutus/huoneisto/huoneistomodel.cpp \
     $$PWD/laskutus/huoneisto/vastikelaskutus.cpp \
-    $$PWD/laskutus/iban.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskudlg/aleprosenttidelegaatti.cpp \
@@ -123,6 +122,7 @@ SOURCES += \
     $$PWD/liite/kuvaliitewidget.cpp \
     $$PWD/liite/liite.cpp \
     $$PWD/liite/liitteetmodel.cpp \
+    $$PWD/liite/liitteetview.cpp \
     $$PWD/liite/naytaliitewidget.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
@@ -169,7 +169,6 @@ SOURCES += \
     $$PWD/maaritys/veromaaritys.cpp \
     $$PWD/model/bannermodel.cpp \
     $$PWD/model/eramap.cpp \
-    $$PWD/model/euro.cpp \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/liite/liitecache.cpp \
@@ -316,12 +315,7 @@ SOURCES += \
     $$PWD/tools/varinvalinta.cpp \
     $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
-    $$PWD/tuonti/pdf/pdfpala.cpp \
-    $$PWD/tuonti/pdf/pdfrivi.cpp \
-    $$PWD/tuonti/pdf/pdfsivu.cpp \
-    $$PWD/tuonti/pdftiliote/oterivi.cpp \
-    $$PWD/tuonti/pdftiliote/pdftiliotetuonti.cpp \
-    $$PWD/tuonti/pdftiliote/tilioteotsake.cpp \
+    $$PWD/tuonti/pdf/tuontiinfo.cpp \    
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -379,8 +373,6 @@ SOURCES += \
     kirjaus/kohdennusproxymodel.cpp \
     arkisto/tararkisto.cpp \
     tuonti/pdftuonti.cpp \
-    validator/viitevalidator.cpp \
-    validator/ibanvalidator.cpp \
     raportti/laskuraportti.cpp \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
@@ -417,7 +409,6 @@ SOURCES += \
     naytin/kuvaview.cpp \
     naytin/scenenaytin.cpp \
     naytin/pdfview.cpp \
-    tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
@@ -436,9 +427,6 @@ SOURCES += \
     toimisto/uusitoimistodialog.cpp \
     toimisto/kirjansiirtodialogi.cpp \
     aloitussivu/debugtiedotdlg.cpp
-
-
-
 
 HEADERS += \
     $$PWD/aloitussivu/aloitusbrowser.h \
@@ -509,7 +497,6 @@ HEADERS += \
     $$PWD/laskutus/huoneisto/huoneistolaskutusmodel.h \
     $$PWD/laskutus/huoneisto/huoneistomodel.h \
     $$PWD/laskutus/huoneisto/vastikelaskutus.h \
-    $$PWD/laskutus/iban.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskudlg/aleprosenttidelegaatti.h \
@@ -567,6 +554,7 @@ HEADERS += \
     $$PWD/liite/kuvaliitewidget.h \
     $$PWD/liite/liite.h \
     $$PWD/liite/liitteetmodel.h \
+    $$PWD/liite/liitteetview.h \
     $$PWD/liite/naytaliitewidget.h \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
@@ -614,7 +602,6 @@ HEADERS += \
     $$PWD/model/bannermodel.h \
     $$PWD/liite/cacheliite.h \
     $$PWD/model/eramap.h \
-    $$PWD/model/euro.h \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/liite/liitecache.h \
@@ -763,12 +750,7 @@ HEADERS += \
     $$PWD/tools/varinvalinta.h \
     $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
-    $$PWD/tuonti/pdf/pdfpala.h \
-    $$PWD/tuonti/pdf/pdfrivi.h \
-    $$PWD/tuonti/pdf/pdfsivu.h \
-    $$PWD/tuonti/pdftiliote/oterivi.h \
-    $$PWD/tuonti/pdftiliote/pdftiliotetuonti.h \
-    $$PWD/tuonti/pdftiliote/tilioteotsake.h \
+    $$PWD/tuonti/pdf/tuontiinfo.h \    
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -826,8 +808,6 @@ HEADERS += \
     kirjaus/kohdennusproxymodel.h \
     arkisto/tararkisto.h \
     tuonti/pdftuonti.h \
-    validator/viitevalidator.h \
-    validator/ibanvalidator.h \
     raportti/laskuraportti.h \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \
@@ -865,7 +845,6 @@ HEADERS += \
     naytin/kuvaview.h \
     naytin/scenenaytin.h \
     naytin/pdfview.h \
-    tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
@@ -877,8 +856,8 @@ HEADERS += \
     maaritys/maksutapamuokkausdlg.h \
     arkisto/tuloverodialog.h \
     kierto/kiertowidget.h \
-    kierto/kiertomuokkausdlg.h\
-    tuonti/tesseracttuonti.h\
+    kierto/kiertomuokkausdlg.h \
+    tuonti/tesseracttuonti.h \
     tools/finvoicehaku.h \
     maaritys/bannerdialog.h \
     toimisto/uusitoimistodialog.h \

@@ -23,8 +23,8 @@
 #include "sahkopostitoimittaja.h"
 #include "finvoicetoimittaja.h"
 #include "pdftoimittaja.h"
-#include "model/tositeliitteet.h"
 #include "../tulostus/laskuntulostaja.h"
+#include "liite/liitteetmodel.h"
 
 #include <QPrintDialog>
 #include <QPageLayout>
@@ -141,7 +141,7 @@ void LaskunToimittaja::toimitaSeuraava()
     Tosite* tosite = new Tosite(this);
 
     connect( tosite, &Tosite::ladattu, this, &LaskunToimittaja::tositeLadattu);
-    connect( tosite, &Tosite::latausvirhe, [this] { this->virhe(tr("Tositteen lataus epäonnistui")); });
+    connect( tosite, &Tosite::latausvirhe, this, [this] { this->virhe(tr("Tositteen lataus epäonnistui")); });
 
     tosite->lataa(tositeId);
 }
@@ -160,18 +160,6 @@ void LaskunToimittaja::tositeLadattu()
 void LaskunToimittaja::laskuTallennettu()
 {
     Tosite* tosite = qobject_cast<Tosite*>(sender());
-    tosite->disconnect();
-
-    connect( tosite->liitteet(), &TositeLiitteet::kaikkiLiitteetHaettu, this, &LaskunToimittaja::liitteetLadattu);
-    connect( tosite->liitteet(), &TositeLiitteet::hakuVirhe, this, [this] { this->virhe(tr("Tositteen liitteiden lataus epäonnistui")); });
-
-    tosite->liitteet()->lataaKaikkiLiitteet();
-}
-
-void LaskunToimittaja::liitteetLadattu()
-{
-    TositeLiitteet* liitteet = qobject_cast<TositeLiitteet*>(sender());
-    Tosite* tosite = qobject_cast<Tosite*>(liitteet->parent());
     tosite->disconnect();
 
     int toimitustapa = tosite->lasku().lahetystapa();

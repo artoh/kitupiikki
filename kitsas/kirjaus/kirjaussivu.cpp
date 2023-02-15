@@ -43,9 +43,9 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     kirjauswg = new KirjausWg(this, selaus);
     kirjauswg->setObjectName("kirjausWg");
 
-    kirjauswg->tosite()->liitteetModel()->asetaInteraktiiviseksi(true);
+    kirjauswg->tosite()->liitteet()->asetaInteraktiiviseksi(true);
     liitewg = new NaytaLiiteWidget(this);
-    liitewg->setModel(kirjauswg->tosite()->liitteetModel());
+    liitewg->setModel(kirjauswg->tosite()->liitteet());
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
@@ -57,16 +57,10 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     leiska->addWidget(splitter);
 
     setLayout(leiska);
-/*
-    connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
-    connect( liitewg, &NaytaliiteWg::lisaaLiiteDatalla, kirjauswg, &KirjausWg::lisaaLiiteDatasta);
 
-    connect( kirjauswg, SIGNAL(liiteValittu(QByteArray, bool)), liitewg, SLOT(naytaPdf(QByteArray, bool)));
-    connect( kirjauswg, &KirjausWg::tositeKasitelty, this, &KirjausSivu::tositeKasitelty );
-    connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
-    connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaliiteWg::naytaPohjat);
-    connect( liitewg, &NaytaliiteWg::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
-*/
+    connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaLiiteWidget::naytaPohjat);
+    connect( liitewg, &NaytaLiiteWidget::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
+
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }
 

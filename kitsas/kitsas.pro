@@ -25,6 +25,7 @@ macx {
 
 include(kitsas.pri)
 include(sources.pri) 
+include(pdftuonti.pri)
 
 
 

@@ -24,12 +24,18 @@ public:
 
     QString teksti() const { return teksti_;}
 
+    bool sisaltaako(const QStringList& tekstit) const;
+    QRect rect() const;
+
     PdfPala* seuraava() { return seuraava_; }
     PdfPala* osapala() { return osapala_;}
+    PdfPala* alapala() { return alla_;}
 
     void lisaaJalkeen( PdfPala* lisattava );
     void yhdistaEdelliseen(PdfPala* edellinen);
     void asetaSeuraava( PdfPala* seuraava);
+
+    void etsiAlapala( PdfPala* ehdokas);
 
 protected:
     int yla_;
@@ -41,7 +47,7 @@ protected:
 
     PdfPala* seuraava_ = nullptr;
     PdfPala* osapala_ = nullptr;
-
+    PdfPala* alla_ = nullptr;
 };
 
 } // namespace Tuonti

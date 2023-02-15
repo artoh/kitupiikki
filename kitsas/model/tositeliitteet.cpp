@@ -545,9 +545,11 @@ void TositeLiitteet::liiteHaettuValimuistiin(int liiteId)
 {
     if( naytettava_ > -1) {
         int id = liitteet_.at(naytettava_).getLiiteId();
-        CacheLiite* liite = kp()->liiteCache()->liite(id);
-        if( liite->tila() == CacheLiite::HAETTU) {
-            emit naytaliite( liite->data());
+        if(liiteId == id) {
+            CacheLiite* liite = kp()->liiteCache()->liite(id);
+            if( liite->tila() == CacheLiite::HAETTU) {
+                emit naytaliite( liite->data());
+            }
         }
     }
 }

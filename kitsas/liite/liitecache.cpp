@@ -77,6 +77,7 @@ bool LiiteCache::kaynnistaHaku(int liiteId)
     KpKysely* kysely = kitsas_->yhteysModel()->kysely(QString("/liitteet/%1").arg(liiteId));
     if( kysely ) {
         connect(kysely, &KpKysely::vastaus, this, [this, liiteId] (QVariant* data) { this->liiteSaapuu(liiteId, data); });
+        connect(kysely, &KpKysely::virhe, this, [this, liiteId] (int virhe)  { emit this->hakuVirhe(virhe, liiteId); });
         kysely->kysy();
         return true;
     }
@@ -157,4 +158,9 @@ void LiiteCache::lisaaTallennettu(int liiteId, CacheLiite *liite)
     uusin_ = liite;
     if( !poistoptr_)
         poistoptr_ = liite;
+}
+
+void LiiteCache::poistaPoistettu(int liiteId)
+{
+    liitteet_.remove(liiteId);
 }

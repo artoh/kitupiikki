@@ -22,6 +22,8 @@
 
 namespace Tuonti {
 
+class PdfRivi;
+class PdfPala;
 class PdfTilioteTuonti;
 
 class TilioteOtsake
@@ -34,30 +36,30 @@ protected:
     class Sarake {
     public:
         Sarake();
-        Sarake(double alku, double loppu, Tyyppi tyyppi);
+        Sarake(int alku, int loppu, Tyyppi tyyppi);
 
         double alku() const { return alku_;}
         double loppu() const { return loppu_;}
         Tyyppi tyyppi() const { return tyyppi_;}
 
     private:
-        double alku_;
-        double loppu_;
+        int alku_;
+        int loppu_;
         Tyyppi tyyppi_ = TUNTEMATON;
     };
 
 public:
     TilioteOtsake(PdfTilioteTuonti *tuonti);
-    bool alkaakoOtsake(const PdfAnalyzerRow& row);
-    void kasitteleRivi(const PdfAnalyzerRow& row);
-    bool tarkastaRivi(const PdfAnalyzerRow& row);
+    bool alkaakoOtsake(PdfRivi* rivi);
+    void kasitteleRivi(PdfRivi* rivi);
+    bool tarkastaRivi(PdfRivi* rivi);
 
     int sarakkeita() const;
     Sarake sarake(int indeksi) const;
     int rivia() const { return otsakeRivia_;}
 
-    int indeksiSijainnilla(double sijainti);
-    Tyyppi tyyppi(double paikka);
+    int indeksiSijainnilla(int sijainti);
+    Tyyppi tyyppi(int paikka);
 
     QString debugInfo() const;
     static QString tyyppiTeksti(Tyyppi tyyppi);

@@ -29,13 +29,15 @@ public:
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
 
     void lataa(const QVariantList& data);
     void clear();
     void asetaInteraktiiviseksi(bool onko = true);
 
-    bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
-    bool lisaaHeti(const QByteArray& liite, const QString& polku);
+    bool lisaa(QByteArray liite, const QString& tiedostonnimi, const QString& rooli=QString());
+    bool lisaaHeti(QByteArray liite, const QString& polku);
     bool lisaaHetiTiedosto(const QString& polku);
 
     int tallennettaviaLiitteita() const;
@@ -44,8 +46,11 @@ public:
 
     void nayta(int indeksi);
     int naytettavaIndeksi() const { return naytettavaIndeksi_; }
+    QModelIndex naytettava() const;
     bool tallennetaanko() const;
     QVariantList liitettavat() const;
+
+    void poista(int indeksi);
 
     QPdfDocument* pdfDocument() { return pdfDoc_;}
     QByteArray *sisalto();
@@ -53,20 +58,31 @@ public:
     void liitteenTilaVaihtui(Liite::LiiteTila uusiTila);
     void ocr(const QVariantMap& data);
 
+    bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+
 protected:
     void valimuistiLiite(int liiteId);
     void naytaKayttajalle();
 
+    void pdfTilaVaihtui(QPdfDocument::Status status);
+
     void tarkastaKaikkiLiitteet();
+
+    QByteArray esikasittely(QByteArray sisalto, const QString &tiedostonnimi = QString());
 
 signals:
     int valittuVaihtui(int indeksi);
     void naytaPdf();
     void naytaSisalto();
     void kaikkiLiitteetHaettu();
-    void liitteetTallennettu();
+    void liitteetTallennettu();    
 
     void liitettaTallennetaan(bool tallennetaanko);
+
+    void tuonti(const QVariantMap& data);
+    void ocrKaynnissa(bool onko);
+    void hakuVirhe(int virhe, int liiteId);
 
 private:
     QList<Liite*> liitteet_;
@@ -75,6 +91,7 @@ private:
 
     bool interaktiivinen_ = false;
     int naytettavaIndeksi_ = -1;
+    int pdfTuontiIndeksi_ = -1;
 
     bool tallennetaanko_ = false;
 };

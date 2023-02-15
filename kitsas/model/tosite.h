@@ -26,7 +26,6 @@
 #include "lasku.h"
 
 class TositeViennit;
-class TositeLiitteet;
 class TositeLoki;
 class Asiakas;
 class Toimittaja;
@@ -100,9 +99,8 @@ public:
     void setData(int kentta, QVariant arvo);
 
     TositeViennit* viennit() { return viennit_; }
-    TositeLiitteet* liitteet() { return liitteet_vanha_;}
+    LiitteetModel* liitteet() { return liitteet_;}
 
-    LiitteetModel* liitteetModel() { return liitteet_; }
 
     TositeLoki* loki() { return loki_;}
     TositeRivit* rivit() { return rivit_;}
@@ -211,8 +209,7 @@ private:
     bool muutettu_ = false;
 
     TositeViennit* viennit_;
-    LiitteetModel* liitteet_;
-    TositeLiitteet* liitteet_vanha_;
+    LiitteetModel* liitteet_;    
     TositeLoki* loki_;    
     TositeRivit* rivit_;
 

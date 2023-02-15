@@ -20,6 +20,7 @@
 #include "model/euro.h"
 #include "laskutus/iban.h"
 #include <QDate>
+#include "tilioteotsake.h"
 
 namespace Tuonti {
 
@@ -29,10 +30,12 @@ class OteRivi
 public:
     OteRivi();
 
-    void setEuro(const Euro& euro);
-    void setArkistotunnus(QString arkistotunnus);
-    void setSaajaMaksaja(const QString& nimi);
-    void setSelite(const QString& selite);
+    void kasittele(const QString& teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate& loppupvm);
+
+    void setEuro(const QString maara);
+    void setArkistotunnus(QString arkistotunnus, int rivi);
+    void setSaajaMaksaja(const QString& nimi, int rivi);
+    void setSelite(const QString& selite, int rivi);
 
     void setKTO(int kto) { kto_ = kto;}
     void setViite(QString viite);
@@ -45,7 +48,9 @@ public:
     QString arkistotunnus() const { return arkistotunnus_;}
     bool valmis() const;
 
-    void lisaaYleinen(const QString& teksti);
+    void kasitteleTuntematon(const QString& teksti, int rivi, const QDate &loppupvm);
+
+    void lisaaYleinen(const QString& teksti, int rivi);
 
     static int ktoKoodi(const QString& teksti);
     static QDate strPvm(const QString& str,
@@ -57,7 +62,7 @@ public:
 protected:
     void lisaaOstoPvm(const QString& teksti);
 
-    enum Tila { NORMAALI, MAKSAJANVIITE, VIESTI, OHITALOPPUUN};
+    enum Tila { NORMAALI, MAKSAJANVIITE, VIESTI, OSTOPVM, OHITALOPPUUN};
 
     Tila tila = NORMAALI;
     Euro euro_;
@@ -69,9 +74,13 @@ protected:
     QDate pvm_;
     QString viesti_;
     QDate ostopvm_;
-    bool arkistotunnusTyhjennyt_=false;
+    int arkistoTunnusRivi_ = -1;
 
-    static std::vector<QString> ohitettavat__;
+    int saajaMaksajaRivi_ = -1;
+
+    static std::vector<QString> ohitettavat__;    
+    static QRegularExpression ibanRe__;
+    static QRegularExpression nroRe__;
 };
 
 

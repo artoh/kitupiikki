@@ -1,5 +1,7 @@
 #include "pdfpala.h"
 
+#include <QRegularExpression>
+
 namespace Tuonti {
 
 PdfPala::PdfPala()
@@ -29,7 +31,6 @@ PdfPala::PdfPala(const QPdfSelection &selection) :
     if(teksti_.length()) {
         kirjainLeveys_ = (oikea_ - vasen_) / teksti_.length();
     }
-
 }
 
 PdfPala::~PdfPala()
@@ -38,6 +39,14 @@ PdfPala::~PdfPala()
         delete osapala_;
     if(seuraava_)
         delete seuraava_;
+}
+
+bool PdfPala::sisaltaako(const QStringList &tekstit) const
+{
+    for(const auto& teksti : tekstit) {
+        if( teksti_.contains(teksti, Qt::CaseInsensitive)) return true;
+    }
+    return false;
 }
 
 void PdfPala::lisaaJalkeen(PdfPala *lisattava)
@@ -57,7 +66,7 @@ void PdfPala::yhdistaEdelliseen(PdfPala *edellinen)
     seuraava_ = nullptr;
 
     edellinen->oikea_ = oikea_;
-    edellinen->teksti_.append("=" + teksti_);
+    edellinen->teksti_.append(" " + teksti_);
 }
 
 void PdfPala::asetaSeuraava(PdfPala *seuraava)
@@ -65,5 +74,32 @@ void PdfPala::asetaSeuraava(PdfPala *seuraava)
     seuraava_ = seuraava;
 }
 
+void PdfPala::etsiAlapala(PdfPala *ehdokas)
+{
+    if( qAbs(ehdokas->vasen() - vasen_) < 12 &&  ala_ - ehdokas->yla() < 8) {
+        alla_ = ehdokas;
+        return;
+    }
+
+    while( ehdokas->seuraava()) {
+        ehdokas = ehdokas->seuraava();
+        if( qAbs(ehdokas->vasen() - vasen_) < 12 &&  ala_ - ehdokas->yla() < 8) {
+            alla_ = ehdokas;
+            return;
+        }
+    }
+
+    if(seuraava_)
+        seuraava_->etsiAlapala(ehdokas);
+}
+
+QRect PdfPala::rect() const
+{
+    return QRect(QPoint(vasen(), yla()), QPoint(oikea(), ala()));
+}
+
+
 
 } // namespace Tuonti
+
+

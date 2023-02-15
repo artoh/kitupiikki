@@ -48,6 +48,7 @@
 
 #include "kitsasinterface.h"
 
+#include "tuonti/pdf/tuontiinfo.h"
 
 class QPrinter;
 class QSettings;
@@ -164,6 +165,7 @@ public:
     BannerModel * bannerit() const override { return bannerit_;}
 
     LiiteCache* liiteCache() const override { return liiteCache_;}
+    Tuonti::TuontiInfo& tuontiInfo() { return tuontiInfo_;}
 
     /**
      * @brief Palauttaa tuoteluettelon sisältävän modelin
@@ -419,7 +421,7 @@ protected:
     BannerModel* bannerit_;
 
     QStringList tositesarjat_;
-
+    Tuonti::TuontiInfo tuontiInfo_;
 
 
     bool waitCursor_ = false;

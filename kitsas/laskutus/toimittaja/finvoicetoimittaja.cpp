@@ -24,7 +24,7 @@
 #include "db/tositetyyppimodel.h"
 #include "model/tositerivi.h"
 #include "rekisteri/maamodel.h"
-#include "model/tositeliitteet.h"
+#include "liite/liitteetmodel.h"
 #include "model/tositerivit.h"
 #include "model/tositerivi.h"
 #include "laskutus/tulostus/laskuntulostaja.h"
@@ -194,7 +194,7 @@ void FinvoiceToimittaja::liiteLiitetty(QVariant *data)
         map.insert("nimi", tosite()->laskuNumero() + ".pdf");
     } else {
         const QModelIndex index = tosite()->liitteet()->index(liiteIndeksi_);
-        map.insert("nimi", index.data(TositeLiitteet::NimiRooli).toString());
+        map.insert("nimi", index.data(LiitteetModel::NimiRooli).toString());
     }
     liitteet_.append(map);
 
@@ -202,14 +202,14 @@ void FinvoiceToimittaja::liiteLiitetty(QVariant *data)
     liiteIndeksi_++;
 
     // Hypätään laskun kuvan yli
-    if( tosite()->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::RooliRooli).toString() == "lasku") {
+    if( tosite()->liitteet()->index(liiteIndeksi_).data(LiitteetModel::RooliRooli).toString() == "lasku") {
         liiteIndeksi_++;
     }
 
     // Jos liitteitä on jäljellä, liitetään seuraava liite, muuten siirrytään
     // eteenpäin
     if( liiteIndeksi_ < tosite()->liitteet()->rowCount()) {
-        const QByteArray& sisalto = tosite()->liitteet()->index(liiteIndeksi_).data(TositeLiitteet::SisaltoRooli).toByteArray();
+        const QByteArray& sisalto = tosite()->liitteet()->index(liiteIndeksi_).data(LiitteetModel::SisaltoRooli).toByteArray();
         QString osoite = kp()->pilvi()->finvoiceOsoite() + "/attachment";
         PilviKysely *pk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
                     osoite );

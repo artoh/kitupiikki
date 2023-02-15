@@ -24,7 +24,6 @@
 
 #include "model/tosite.h"
 #include "ui_kirjaus.h"
-#include "naytaliitewg.h"
 
 
 class Kirjanpito;
@@ -92,8 +91,6 @@ private slots:
      * @brief Liitetiedosto valittu, näytetään se
      * @param selected
      */
-    void liiteValinta(const QModelIndex& valittu);
-    void naytaLiite(const QByteArray& data);
     void poistaLiite();
 
 

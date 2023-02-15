@@ -20,7 +20,7 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "db/tositetyyppimodel.h"
-#include "model/tositeliitteet.h"
+#include "liite/liitteetmodel.h"
 #include "alvilmoitustenmodel.h"
 #include "pilvi/pilvimodel.h"
 #include <QDebug>

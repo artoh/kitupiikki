@@ -48,6 +48,7 @@
 #include "naytin/naytinikkuna.h"
 #include "model/toiminimimodel.h"
 #include "model/bannermodel.h"
+#include "liite/liitteetmodel.h"
 
 #include "maaritys/verkkolasku/verkkolaskumaaritys.h"
 

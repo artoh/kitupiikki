@@ -20,33 +20,45 @@
 
 #include <QDebug>
 #include <iostream>
-#include "db/tositetyyppimodel.h"
+
+#include "tuonti/pdf/pdftiedosto.h"
+#include "tuonti/pdf/pdfsivu.h"
+#include "tuonti/pdf/pdfrivi.h"
+#include "tuonti/pdf/pdfpala.h"
 
 
 namespace Tuonti {
 
 PdfTilioteTuonti::PdfTilioteTuonti() :
-    otsake_(this),
-    ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b"),
-    kauttaRe("\\d+/20\\d\\d"),
-    valiReViivalla("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{0,3}-\\W{0,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})"),
-    rahaRe("^(?<etu>[+-])?\\s*(?<eur>\\d{0,3}([,. ]?\\d{3})*|\\d{1,3})[,.](?<snt>\\d{2})\\s?(?<taka>[+-])?$"),
-    omaIbanRe(R"(FI\d{2}(\s?\d{4}\s?){3}\s?\d{2})")
+    otsake_(this)
 {
 
 }
 
-QVariantMap PdfTilioteTuonti::tuo(const QList<PdfAnalyzerPage> pages)
+QVariantMap PdfTilioteTuonti::tuo(PdfTiedosto *tiedosto)
 {        
+    // Luetaan rivi kerrallaan ;)
 
-    for( auto & sivu : pages) {
-         lueSivu(sivu);
+    tila_ = ALKU;
+    for(int s = 0; s < tiedosto->sivumaara(); s++) {
+        PdfSivu* sivu = tiedosto->sivu(s);
+        for(int r = 0; r < sivu->riveja(); r++ ) {
+            PdfRivi* rivi = sivu->rivi(r);
+
+            lueRivi(rivi);
+        }
         tila_ = TOINENSIVU;
     }
+
     nykyinenValmis();
 
+    return map();
+}
+
+QVariantMap PdfTilioteTuonti::map() const
+{
     QVariantMap map;
-    map.insert("tyyppi", TositeTyyppi::TILIOTE);
+    map.insert("tyyppi", TILIOTETYYPPI);
     if( iban_.isValid())
         map.insert("iban", iban_.valeitta());
     if( !kausiTeksti_.isEmpty())
@@ -60,53 +72,44 @@ QVariantMap PdfTilioteTuonti::tuo(const QList<PdfAnalyzerPage> pages)
 
 }
 
-void PdfTilioteTuonti::lueSivu(const PdfAnalyzerPage &page)
-{
-    edellinenAlalaita_ = 100000;
-    for(const auto& rivi : page.rows()) {
-        lueRivi(rivi);        
-    }
-}
 
-void PdfTilioteTuonti::lueRivi(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::lueRivi(PdfRivi *rivi)
 {
 
     if( tila_ == ALKU)
-        lueAlkuRivi(row);
+        lueAlkuRivi(rivi);
     if( tila_ == OTSAKE)
-        lueOtsakeRivi(row);
+        lueOtsakeRivi(rivi);
     if( tila_ == TAULU)
-        lueTaulukkoRivi(row);
+        lueTaulukkoRivi(rivi);
     if( tila_ == TOINENSIVU)
-        lueToisenAlkua(row);
+        lueToisenAlkua(rivi);
 }
 
-void PdfTilioteTuonti::lueAlkuRivi(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::lueAlkuRivi(PdfRivi *rivi)
 {
-    if( otsake_.alkaakoOtsake(row)) {
+    if( otsake_.alkaakoOtsake(rivi)) {
        tila_ = OTSAKE;
     } else {
-        QString rivinTeksti = row.text();
+        const QString& teksti = rivi->teksti();
+
         if( !iban_.isValid()) {
-            QRegularExpressionMatchIterator ibanIter = omaIbanRe.globalMatch(rivinTeksti);
-            while( ibanIter.hasNext())
-            {
-                QRegularExpressionMatch mats = ibanIter.next();
-                Iban ehdokas(mats.captured());
-                if( ehdokas.isValid()) {
-                    iban_ = ehdokas;
-                    break;
+            QRegularExpressionMatch ibanMats = omaIbanRe__.match(teksti);
+            if( ibanMats.hasMatch()) {
+                Iban iban(ibanMats.captured());
+                if(iban.isValid()) {
+                    iban_ = iban;
                 }
             }
         }
         if( kausiTeksti_.isEmpty()) {
-            QRegularExpressionMatch mats = kauttaRe.match(rivinTeksti);
+            QRegularExpressionMatch mats = kauttaRe__.match(teksti);
             if( mats.hasMatch()) {
                 kausiTeksti_ = mats.captured();
             }
         }
         if( !alkupvm_.isValid()) {
-            QRegularExpressionMatch valiMats = valiReViivalla.match(rivinTeksti);
+            QRegularExpressionMatch valiMats = valiReViivalla__.match(teksti);
             int alkuvuosi = valiMats.captured("v1").toInt();
             int loppuvuosi = valiMats.captured("v2").toInt();
             if( !alkuvuosi )
@@ -117,151 +120,107 @@ void PdfTilioteTuonti::lueAlkuRivi(const PdfAnalyzerRow &row)
                 loppuvuosi += 2000;
             alkupvm_ = QDate( alkuvuosi, valiMats.captured("k1").toInt(), valiMats.captured("p1").toInt() ) ;
             loppupvm_ = QDate( loppuvuosi, valiMats.captured("k2").toInt(), valiMats.captured("p2").toInt());
-        }
+         }
+
     }
 }
 
-void PdfTilioteTuonti::lueOtsakeRivi(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::lueOtsakeRivi(PdfRivi* rivi)
 {
-    if( row.text().contains(QRegularExpression("\\d"))) {
+    if( rivi->teksti().contains(numeroRe__) ) {
+        qDebug() << otsake_.debugInfo();
         tila_ = TAULU;
     } else {
-        otsake_.kasitteleRivi(row);
+        otsake_.kasitteleRivi(rivi);
     }
 }
 
-void PdfTilioteTuonti::lueTaulukkoRivi(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::lueTaulukkoRivi(PdfRivi *rivi)
 {
-    // Ensin pitäisi tarkistaa, mennäänkö taulukosta ulos
-    // Mennään ulos, jos iso väli tai epämääräisiä tekstejä
-    QString kokoRivi = row.text();
+    PdfPala* pala = rivi->pala();
+    const QString& teksti = rivi->teksti();
 
-    if( row.boundingRect().top() > edellinenAlalaita_ + 18 ||
-        kokoRivi.contains("Yhteystiedot", Qt::CaseInsensitive) ||
-        kokoRivi.toUpper() == "JATKUU" || kokoRivi.toUpper() == "TRANSP" || kokoRivi.toUpper() == "* JATKUU *") {
-        tila_ = LOPPU;        
+    // Ensin pitäisi tarkistaa, mennäänkö taulukosta ulos    
+    if(( pala->vasen() > 500 ||
+       (otsake_.indeksiSijainnilla(pala->vasen()) == 0 &&
+        pala->teksti().contains(pieniRe__)))
+            && !teksti.contains("Kirjauspäivä", Qt::CaseInsensitive)
+            && !teksti.startsWith("Registr. dag", Qt::CaseInsensitive)) {
+        tila_ = LOPPU;
         return;
     }
-    edellinenAlalaita_ = row.boundingRect().bottom();
+    for(const auto& txt : jatkuuTekstit__) {
+        if(teksti.contains(txt, Qt::CaseInsensitive)) {
+            tila_ = LOPPU;
+            return;
+        }
+    }
 
-    if(kokoRivi.startsWith("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ||
-       kokoRivi.startsWith("REGISTR. DAG", Qt::CaseInsensitive)) {
-        kirjausPvm_ = OteRivi::strPvm(kokoRivi, loppupvm_);
+
+    if(teksti.contains("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) ||
+       teksti.contains("REGISTR. DAG", Qt::CaseInsensitive)) {
+        kirjausPvm_ = OteRivi::strPvm(teksti, loppupvm_);
         nykyinenValmis();
         return;
     }
 
     // Tekstin lukeminen ja taulukkosarakkeisiin sijoittaminen
     // Taulukoiden laittaminen paikoilleen
-    kasitteleTaulukkoRivi(row);
+    kasitteleTaulukkoRivi(rivi);
 
 
 }
 
-void PdfTilioteTuonti::lueToisenAlkua(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::lueToisenAlkua(PdfRivi *rivi)
 {
-    if( otsake_.tarkastaRivi(row))
+    if( otsake_.tarkastaRivi(rivi))
         tila_ = TAULU;
 }
 
-void PdfTilioteTuonti::kasitteleTaulukkoRivi(const PdfAnalyzerRow &row)
+void PdfTilioteTuonti::kasitteleTaulukkoRivi(PdfRivi* rivi)
 {
-    // Laitetaan sanat yhteen listaan
-    QList<PdfAnalyzerWord> words_;
+    PdfPala* pala = rivi->pala();
 
-    for(const auto& teksti : row.textList()) {
-        words_.append(teksti.words());
-    }
-
-
-    for(const auto& sana : words_) {
-        if( otsake_.tyyppi(sana.boundingRect().right()) == TilioteOtsake::EURO) {
+    // Tarkastetaan, onko tässä euroja
+    while(pala) {
+        if( otsake_.tyyppi(pala->vasen() + 5) == TilioteOtsake::EURO ||
+            otsake_.tyyppi(pala->oikea() - 5) == TilioteOtsake::EURO) {
             nykyinenValmis();
         }
+        pala = pala->seuraava();
     }
-    rivilla_++;
 
-    QString puskuri;
-    int sarake = -1;
-    TilioteOtsake::Tyyppi saraketyyppi = TilioteOtsake::TUNTEMATON;
-    QString kokoTeksti;
-    qreal edellinenLoppuu = 0;
+    // Aloitetaan alusta
+    pala = rivi->pala();
 
+    if( !rivilla_ && otsake_.indeksiSijainnilla(pala->vasen()) > 0) {
+        // Aloittavaan riviin tarvitaan tavaraa vasemmasta laidasta
+        return;
+    }
 
-    for(const auto& sana : words_) {
-        if( sana.boundingRect().left() > edellinenLoppuu + 10 &&
-            sana.text().trimmed() != "-" &&
-            saraketyyppi != TilioteOtsake::ARKISTOTUNNUS) {            
-            taulukkoSarakeValmis(saraketyyppi, puskuri);
-            puskuri.clear();
-            saraketyyppi = TilioteOtsake::TUNTEMATON;
-        }
-        edellinenLoppuu = sana.boundingRect().right();
+    while( pala ) {
+        QString teksti = pala->teksti();
+        if( teksti.length() > 3) {
+            TilioteOtsake::Tyyppi alkuTyyppi = otsake_.tyyppi(pala->vasen() + 5);
+            TilioteOtsake::Tyyppi loppuTyyppi = otsake_.tyyppi(pala->oikea() - 5);
 
-
-        const QString& sanateksti = sana.text().trimmed();
-        kokoTeksti.append(sanateksti);
-        if(sanateksti.length() == 2 && sanateksti.startsWith(QChar('/')))
-            continue;
-
-        int uusisarake = otsake_.indeksiSijainnilla(sana.boundingRect().left());
-        if( uusisarake != sarake && sana.text().trimmed() != "-") {
-            taulukkoSarakeValmis(saraketyyppi, puskuri);
-            sarake = uusisarake;
-            saraketyyppi = otsake_.sarake(sarake).tyyppi();
-            puskuri.clear();
-        }
-        puskuri.append(sanateksti);
-        if(sana.hasSpaceAfter()) {
-            if( saraketyyppi == TilioteOtsake::PVM && puskuri.length() > 3) {
-                taulukkoSarakeValmis(saraketyyppi, puskuri);
-                saraketyyppi = TilioteOtsake::YLEINEN;
-                if( puskuri.contains(QRegularExpression("\\s")))
-                    puskuri = puskuri.mid( puskuri.indexOf(QRegularExpression("\\s")) + 1 );
-                else
-                    puskuri.clear();
+            if(alkuTyyppi != loppuTyyppi && alkuTyyppi != TilioteOtsake::OHITA) {
+                if(alkuTyyppi == TilioteOtsake::EURO) {
+                    int indeksi = teksti.indexOf(aakkosRe__);
+                    nykyinen_.kasittele(teksti.left(indeksi), alkuTyyppi, rivilla_, loppupvm_);
+                    nykyinen_.kasittele(teksti.mid(indeksi), loppuTyyppi, rivilla_, loppupvm_);
+                } else {
+                    int indeksi = teksti.indexOf(" ");
+                    nykyinen_.kasittele(teksti.left(indeksi), alkuTyyppi, rivilla_, loppupvm_);
+                    nykyinen_.kasittele(teksti.mid(indeksi+1), loppuTyyppi, rivilla_, loppupvm_);
+                }
             } else {
-                puskuri.append(" ");
+                nykyinen_.kasittele(teksti, loppuTyyppi, rivilla_, loppupvm_);
             }
         }
+        pala = pala->seuraava();
     }
-
-
-    // Rivin lopussa käsitellään viimeinen sarake
-    taulukkoSarakeValmis(saraketyyppi, puskuri);
-
-}
-
-void PdfTilioteTuonti::taulukkoSarakeValmis(TilioteOtsake::Tyyppi tyyppi, const QString &arvo)
-{
-    if( arvo.trimmed().length() < 2)
-        return;
-
-    switch (tyyppi) {
-    case TilioteOtsake::SAAJAMAKSAJA: nykyinen_.lisaaYleinen(arvo); break;
-    case TilioteOtsake::SELITE: nykyinen_.setSelite(arvo); break;
-    case TilioteOtsake::PVM: if(rivilla_==1)  nykyinen_.setPvm(arvo, loppupvm_); break;
-    case TilioteOtsake::VIITE: if(rivilla_==1) nykyinen_.setViite(arvo); break;
-    case TilioteOtsake::ARKISTOTUNNUS: nykyinen_.setArkistotunnus(arvo); break;
-    default:
-    {
-        QRegularExpressionMatch mats = rahaRe.match(arvo.trimmed());
-
-        if( rivilla_ == 1 && !nykyinen_.euro() && mats.hasMatch() )
-        {
-            QString eurot = mats.captured("eur");
-            eurot.replace(QRegularExpression("\\D"),"");
-            qlonglong sentit = eurot.toInt() * 100 + mats.captured("snt").toInt();
-            if( mats.captured("etu") == '-'  || mats.captured("taka") == '-')
-                sentit = 0 - sentit;
-
-            nykyinen_.setEuro(Euro(sentit));
-
-        } else {
-            nykyinen_.lisaaYleinen(arvo);
-        }        
-    }
-    }
+    rivilla_++;
 }
 
 void PdfTilioteTuonti::nykyinenValmis()
@@ -270,13 +229,27 @@ void PdfTilioteTuonti::nykyinenValmis()
         QVariantMap map = nykyinen_.map(kirjausPvm_);
         if(!map.isEmpty()) {
             tapahtumat_.append(map);
+        } else {
+            ;
         }
     } else {
-        qWarning() <<  kirjausPvm_.toString("dd.MM.yyyy") << "  " << nykyinen_.euro().display(true) << "  "
-                  << nykyinen_.arkistotunnus();
+//        qWarning() <<  "!EI VALMIS!" << kirjausPvm_.toString("dd.MM.yyyy") << "  " << nykyinen_.euro().display(true) << "  "
+//                  << nykyinen_.arkistotunnus();
     }    
     nykyinen_.tyhjenna();
     rivilla_ = 0;
 }
+
+QRegularExpression PdfTilioteTuonti::kauttaRe__("\\d+/20\\d\\d");
+QRegularExpression PdfTilioteTuonti::valiReViivalla__("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{0,3}-\\W{0,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})");
+QRegularExpression PdfTilioteTuonti::rahaRe__("^(?<etu>[+-])?\\s*(?<eur>\\d{0,3}([,. ]?\\d{3})*|\\d{1,3})[,.](?<snt>\\d{2})\\s?(?<taka>[+-])?$");
+QRegularExpression PdfTilioteTuonti::omaIbanRe__(R"(FI\d{2}(\s*\d{4}){3}\s*\d{2})");
+QRegularExpression PdfTilioteTuonti::numeroRe__("\\d+");
+QRegularExpression PdfTilioteTuonti::pieniRe__("[a-z]");
+QRegularExpression PdfTilioteTuonti::aakkosRe__("[A-Za-z]");
+
+std::vector<QString> PdfTilioteTuonti::jatkuuTekstit__ = {
+    "LUOTTAMUKSELLINEN. Tämä viesti sisältää luottamuksellista tietoa ja on tarkoitettu vain valtuutetulle vastaanottajalle"
+};
 
 }

@@ -17,6 +17,9 @@
 #include "tilioteotsake.h"
 #include "pdftiliotetuonti.h"
 
+#include "tuonti/pdf/pdfrivi.h"
+#include "tuonti/pdf/pdfpala.h"
+
 #include <iostream>
 
 namespace Tuonti {
@@ -27,46 +30,56 @@ TilioteOtsake::TilioteOtsake(PdfTilioteTuonti *tuonti) :
 
 }
 
-bool TilioteOtsake::alkaakoOtsake(const PdfAnalyzerRow &row)
+bool TilioteOtsake::alkaakoOtsake(PdfRivi* rivi)
 {
-    if( row.textCount() < 3)
+    if( rivi->paloja() < 3 )
         return false;
-    const QString teksti = row.text();
+
+    const QString teksti = rivi->teksti();
     return teksti.contains("Arkistointitunnus", Qt::CaseInsensitive) ||
            teksti.contains("Arkiveringskod", Qt::CaseInsensitive) ||
-           (teksti.contains("Kirjaus-", Qt::CaseInsensitive) && teksti.contains("Pano", Qt::CaseInsensitive)) ||
+           (teksti.contains("Kirjaus", Qt::CaseInsensitive) && teksti.contains("Pano", Qt::CaseInsensitive)) ||
            (teksti.contains("Kirj.pvm", Qt::CaseInsensitive) && teksti.contains("Arvopvm.", Qt::CaseInsensitive));
 }
 
-void TilioteOtsake::kasitteleRivi(const PdfAnalyzerRow &row)
+void TilioteOtsake::kasitteleRivi(PdfRivi *rivi)
 {
-    if(sarakkeet_.isEmpty()) {        
-        for(const auto& teksti : row.textList()) {
-            QString puskuri;
-            QRectF rect;
-            for(const auto& sana : teksti.words()) {
-                puskuri.append(sana.text());
-                rect = rect.united(sana.boundingRect());
-                if( sana.hasSpaceAfter() && puskuri.trimmed().length() > 2) {
-                    Sarake sarake( Sarake( rect.x(), rect.right(), tyyppiTekstilla(puskuri.toUpper())));
-                    sarakkeet_.append(sarake);
-                    puskuri.clear();
-                    rect = QRectF();
+    if(sarakkeet_.isEmpty()) {
+        PdfPala* pala = rivi->pala();
+        while(pala) {
+            Tyyppi tyyppi = tyyppiTekstilla( pala->teksti().toUpper() );
+            Sarake sarake(pala->vasen(), pala->oikea(), tyyppi);
+            sarakkeet_.append(sarake);
+            pala = pala->seuraava();
+        }
+    } else {
+        // Myöhemmillä riveillä lisätään sarake, jos
+        // vastaavalla kohdalla ei ole saraketta yläpuolella
+        PdfPala* pala = rivi->pala();
+        while(pala) {
+            Tyyppi tyyppi = tyyppiTekstilla( pala->teksti().toUpper() );
+            Sarake sarake(pala->vasen(), pala->oikea(), tyyppi);
+            for(int i=0; i < sarakkeet_.count(); i++) {
+                Sarake vs = sarakkeet_.at(i);
+                if( qAbs(vs.alku() - sarake.alku()) < 20 ) break;
+                if( sarake.alku() < vs.alku()) {
+                    sarakkeet_.insert(i, sarake);
+                    break;
                 }
             }
-            if( rect.isValid() && puskuri.trimmed().length() > 0) {
-                Sarake sarake( Sarake( rect.x(), rect.right(), tyyppiTekstilla(puskuri.toUpper())));
+            if( sarake.alku() > sarakkeet_.last().loppu()) {
                 sarakkeet_.append(sarake);
             }
+            pala = pala->seuraava();
         }
     }
 
     otsakeRivia_++;
 }
 
-bool TilioteOtsake::tarkastaRivi(const PdfAnalyzerRow &row)
+bool TilioteOtsake::tarkastaRivi(PdfRivi *rivi)
 {
-    if( alkaakoOtsake(row) || tarkastusRivia_)
+    if( alkaakoOtsake(rivi) || tarkastusRivia_)
         tarkastusRivia_++;
     if( tarkastusRivia_ == otsakeRivia_) {
         tarkastusRivia_ = 0;
@@ -85,7 +98,8 @@ TilioteOtsake::Sarake TilioteOtsake::sarake(int indeksi) const
     return sarakkeet_.value(indeksi);
 }
 
-int TilioteOtsake::indeksiSijainnilla(double sijainti)
+
+int TilioteOtsake::indeksiSijainnilla(int sijainti)
 {
     for(int i=sarakkeet_.count()-1; i >= 0; i--) {
         const Sarake& sarake = sarakkeet_.at(i);
@@ -101,7 +115,7 @@ int TilioteOtsake::indeksiSijainnilla(double sijainti)
     return -1;
 }
 
-TilioteOtsake::Tyyppi TilioteOtsake::tyyppi(double paikka)
+TilioteOtsake::Tyyppi TilioteOtsake::tyyppi(int paikka)
 {
     for(int i=sarakkeet_.count()-1; i >= 0; i--) {
         const Sarake& sarake = sarakkeet_.at(i);
@@ -180,9 +194,12 @@ TilioteOtsake::Sarake::Sarake()
 
 }
 
-TilioteOtsake::Sarake::Sarake(double alku, double loppu, Tyyppi tyyppi)
+TilioteOtsake::Sarake::Sarake(int alku, int loppu, Tyyppi tyyppi)
     : alku_(alku), loppu_(loppu), tyyppi_(tyyppi)
 {
+    if( alku_ > 510 && tyyppi == EURO) {
+        alku_ = 510;
+    }
 }
 
 }

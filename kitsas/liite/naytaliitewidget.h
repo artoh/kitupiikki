@@ -14,6 +14,7 @@ class QTabBar;
 class QPdfView;
 class QBuffer;
 class QTextEdit;
+class QTextBrowser;
 
 class KuvaLiiteWidget;
 
@@ -26,7 +27,10 @@ public:
 
     void setModel(LiitteetModel* model);
 
+    void naytaPohjat(bool naytetaanko);
+
 signals:
+    void lataaPohja(int tositeId);
 
 protected:
     void setup();
@@ -36,13 +40,17 @@ protected:
     void naytaSisalto();
     void paivitaTabit();
 
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
+
     UusiLiiteWidget* uusiLiiteWidget_;
     QTabBar* tabBar_;
     QStackedWidget* pino_;
 
     QPdfView* pdfView_;
     KuvaLiiteWidget* kuvaView_;
-    QTextEdit* textView_;
+    QTextBrowser* textView_;
 
     LiitteetModel* model_ = nullptr;
 

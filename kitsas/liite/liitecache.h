@@ -20,8 +20,11 @@ public:
 
     void tyhjenna();
     void lisaaTallennettu(int liiteId, CacheLiite* liite);
+    void poistaPoistettu(int liiteId);
+
 signals:
     void liiteHaettu(int liiteId);
+    void hakuVirhe(int virhe, int liiteId);
 
 protected:
     CacheLiite* haku(int liiteId, bool ennakkohaku);

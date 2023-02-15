@@ -149,15 +149,15 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa\tCtrl + W"), this);
     connect( uusiKirjausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiKirjausIkkuna()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(uusiKirjausIkkuna()), nullptr ,Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_W), this, SLOT(uusiKirjausIkkuna()), nullptr ,Qt::ApplicationShortcut);
 
     uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa\tShift+F3"), this );
     connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
-    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), nullptr, Qt::ApplicationShortcut);
 
     uusiLaskuAktio = new QAction(QIcon(":/pic/lasku.png"), tr("Uusi lasku\tShift+F4"), this);
     connect( uusiLaskuAktio, SIGNAL(triggered(bool)), this, SLOT(uusiLasku()));
-    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F4), this, SLOT(uusiLasku()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F4), this, SLOT(uusiLasku()), nullptr, Qt::ApplicationShortcut);
 
     new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(kirjaaKirjattavienKansiosta()), nullptr, Qt::ApplicationShortcut  );

@@ -16,6 +16,9 @@
 */
 #include "oterivi.h"
 #include "validator/viitevalidator.h"
+#include "validator/ibanvalidator.h"
+
+#include "tuonti/tuontiapu.h"
 
 #include <QRegularExpression>
 
@@ -29,16 +32,57 @@ OteRivi::OteRivi()
 
 }
 
-void OteRivi::setEuro(const Euro &euro)
+void OteRivi::kasittele(const QString &teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate &loppupvm)
 {
-    euro_ = euro;
+
+    // Jos IBAN niin IBAN!
+    QRegularExpressionMatch ibanMats = ibanRe__.match(teksti);
+    if( ibanMats.hasMatch() && IbanValidator::kelpaako(ibanMats.captured())) {
+        iban_ = ibanMats.captured();
+        return;
+    }
+
+    switch (tyyppi) {
+    case TilioteOtsake::ARKISTOTUNNUS:
+        setArkistotunnus(teksti, rivi);
+        break;
+    case TilioteOtsake::SAAJAMAKSAJA:
+        setSaajaMaksaja(teksti, rivi);
+        break;
+    case TilioteOtsake::SELITE:
+        setSelite(teksti, rivi);
+        break;
+    case TilioteOtsake::PVM:
+        setPvm(teksti, loppupvm);
+        break;
+    case TilioteOtsake::VIITE:
+        setViite(teksti);
+        break;
+    case TilioteOtsake::EURO:
+        setEuro(teksti);
+        break;
+    case TilioteOtsake::YLEINEN:
+        lisaaYleinen(teksti, rivi);
+        break;
+    case TilioteOtsake::TUNTEMATON:
+        kasitteleTuntematon(teksti, rivi, loppupvm);
+        break;
+    default:
+        break;
+    }
 }
 
-void OteRivi::setArkistotunnus(QString arkistotunnus)
+void OteRivi::setEuro(const QString maara)
 {
-    if( arkistotunnusTyhjennyt_)
-        return;    
+    if( !euro_) {
+        qlonglong sentit = TuontiApu::sentteina(maara);
+        euro_ = Euro(sentit);
+    }
+}
 
+void OteRivi::setArkistotunnus(QString arkistotunnus, int rivi)
+{
+    if(arkistoTunnusRivi_ && rivi > arkistoTunnusRivi_ + 1) return;
     if( arkistotunnus.contains("REGISTR")) return;
 
     Iban iban(arkistotunnus);
@@ -50,23 +94,19 @@ void OteRivi::setArkistotunnus(QString arkistotunnus)
         return;         // Vanhanmallinen tilinumero
     }
 
-    if( arkistotunnus.isEmpty()) {
-        arkistotunnusTyhjennyt_ = true;
-        return;
-    }
 
     for( const auto& ohitettava : ohitettavat__) {
         if( arkistotunnus.toUpper() == ohitettava) {
-            arkistotunnusTyhjennyt_ = true;
             return;
         }
     }
 
     arkistotunnus_.append(arkistotunnus.remove(QRegularExpression("\\s")));    
+    arkistoTunnusRivi_ = rivi;
 
 }
 
-void OteRivi::setSaajaMaksaja(const QString &nimi)
+void OteRivi::setSaajaMaksaja(const QString &nimi, int rivi)
 {
     if( nimi.length() < 6 || !nimi.contains(QRegularExpression("[A-z]"))) {
         if( ViiteValidator::kelpaako(nimi) && viite_.isEmpty() && viesti_.isEmpty() ) {
@@ -82,19 +122,22 @@ void OteRivi::setSaajaMaksaja(const QString &nimi)
         }
     }
 
-    if( saajamaksaja_.isEmpty())
+    if( saajaMaksajaRivi_ == rivi) {
+        saajamaksaja_.append(" " + nimi);
+    } else if( saajamaksaja_.isEmpty()) {
         saajamaksaja_ = nimi;
-    else
-        lisaaYleinen(nimi);
+        saajaMaksajaRivi_ = rivi;
+    } else
+        lisaaYleinen(nimi, rivi);
 }
 
-void OteRivi::setSelite(const QString &selite)
+void OteRivi::setSelite(const QString &selite, int rivi)
 {
     int kto = ktoKoodi(selite);
     if( !kto_ && kto)
         setKTO(kto);
     else
-        lisaaYleinen(selite);
+        lisaaYleinen(selite, rivi);
 
 }
 
@@ -126,12 +169,29 @@ void OteRivi::setPvm(const QString &str, const QDate &loppupvm)
 bool OteRivi::valmis() const
 {
     return euro_ && arkistotunnus_.length() > 6 &&
-            arkistotunnus_.contains(QRegularExpression("\\d"));
+            arkistotunnus_.contains(QRegularExpression(nroRe__));
 }
 
-void OteRivi::lisaaYleinen(const QString &teksti)
+void OteRivi::kasitteleTuntematon(const QString &teksti, int rivi, const QDate& loppupvm)
 {
-    QString iso = teksti.toUpper();
+    if( !rivi && !pvm_.isValid()) {
+        const QDate paiva = strPvm(teksti, loppupvm);
+        if( paiva.isValid()) {
+            pvm_ = paiva;
+            return;
+        }
+    }
+    if( teksti.length() > 10) {
+        lisaaYleinen(teksti, rivi);
+    }
+
+}
+
+void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
+{
+
+
+    QString iso = teksti.toUpper();    
     for( const auto& ohitettava : ohitettavat__) {
         if( iso.contains(ohitettava)) {
             return;
@@ -142,16 +202,23 @@ void OteRivi::lisaaYleinen(const QString &teksti)
     if( saajamaksaja_.isEmpty() && iso.length() > 3 && iso.length() < 11 && strPvm(iso, QDate::currentDate()).isValid())
         return;    
 
-    if( iso.contains("MAKSAJAN")) {
+    if( rivi == saajaMaksajaRivi_) {
+        setSaajaMaksaja(teksti, rivi);
+    } else if( iso.contains("MAKSAJAN")) {
         tila = MAKSAJANVIITE;
     } else if( iso.contains("VIESTI") || iso.contains("MAKSUN TIEDOT")) {
         tila = VIESTI;
+    } else if( iso == "OSTOPVM") {
+        tila = OSTOPVM;
+    } else if( tila == OSTOPVM) {
+        lisaaOstoPvm(iso);
+        tila = NORMAALI;
     } else if( iso.contains("OSTOPVM") && ostopvm_.isNull()) {
         lisaaOstoPvm(iso);
     } else if( iso.contains("ARKISTOINTITUNNUS") && arkistotunnus_.isEmpty()) {
-        setArkistotunnus( iso.mid(18) );
+        setArkistotunnus( iso.mid(18), rivi );
     } else if( iso.contains("ARKISTOVIITE") && arkistotunnus_.isEmpty()) {
-        setArkistotunnus( iso.mid(iso.indexOf(":")) );
+        setArkistotunnus( iso.mid(iso.indexOf(":")), rivi );
     } else if( Iban(teksti).isValid() ) {
         if( iban_.isEmpty() )
             iban_ = teksti;
@@ -168,7 +235,7 @@ void OteRivi::lisaaYleinen(const QString &teksti)
             viesti_ = teksti;
             tila = OHITALOPPUUN;
         } else {
-            setSaajaMaksaja(teksti);
+            setSaajaMaksaja(teksti, rivi);
         }
     } else {
         QRegularExpression viiteRe("(RF\\d{2}\\s?)?\\d+(\\s\\d+)*");
@@ -217,14 +284,14 @@ int OteRivi::ktoKoodi(const QString &teksti)
 
 QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
 {
-    QRegularExpressionMatch mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vvvv>\\d{4})").match(str);
-    if( mats.hasMatch() ) {
+    QRegularExpressionMatch mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vvvv>\\d{4})\b").match(str);
+    if( mats.hasMatch() ) {        
         return QDate(mats.captured("vvvv").toInt(),
                      mats.captured("kk").toInt(),
                      mats.captured("pp").toInt());
     }
 
-    mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vv>\\d{4})").match(str);
+    mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vv>\\d{2})").match(str);
     if( mats.hasMatch() ) {
         return QDate(2000 + mats.captured("vv").toInt(),
                      mats.captured("kk").toInt(),
@@ -233,8 +300,8 @@ QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
 
     QDate pvm;
     mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})").match(str);
-    if( !mats.hasMatch()) mats = QRegularExpression("(?<pp>\\d{1,2})(?<kk>\\d{1,2})").match(str);
-    if( mats.hasMatch() ) {
+    if( !mats.hasMatch()) mats = QRegularExpression("\\b(?<pp>\\d{1,2})(?<kk>\\d{1,2})\\b").match(str);
+    if( mats.hasMatch() ) {        
         pvm = QDate(loppupvm.year(),
                      mats.captured("kk").toInt(),
                      mats.captured("pp").toInt());
@@ -256,8 +323,10 @@ void OteRivi::tyhjenna()
     viite_.clear();
     iban_ = Iban();
     viesti_.clear();
+    pvm_ = QDate();
     ostopvm_ = QDate();
-    arkistotunnusTyhjennyt_ = false;
+    arkistoTunnusRivi_ = 0;
+    saajaMaksajaRivi_ = -1;
 }
 
 QVariantMap OteRivi::map(const QDate &kirjauspvm) const
@@ -267,10 +336,10 @@ QVariantMap OteRivi::map(const QDate &kirjauspvm) const
 
     QVariantMap map;
     map.insert("euro", euro_.toString());
-    map.insert("arkistotunnus", arkistotunnus_);
+    map.insert("arkistotunnus", arkistotunnus_.trimmed());
 
     if(!saajamaksaja_.isEmpty())
-        map.insert("saajamaksaja", saajamaksaja_);
+        map.insert("saajamaksaja", saajamaksaja_.trimmed());
     if(kto_)
         map.insert("ktokoodi", kto_);
     if(!viite_.isEmpty())
@@ -285,7 +354,7 @@ QVariantMap OteRivi::map(const QDate &kirjauspvm) const
         map.insert("pvm", pvm_);
 
     if( !viesti_.isEmpty())
-        map.insert("selite", viesti_);
+        map.insert("selite", viesti_.trimmed());
     if( ostopvm_.isValid())
         map.insert("ostopvm", ostopvm_);
 
@@ -296,9 +365,9 @@ QVariantMap OteRivi::map(const QDate &kirjauspvm) const
 void OteRivi::lisaaOstoPvm(const QString &teksti)
 {
 
-    QRegularExpression pisteRe("OSTOPVM\\s*(?<pp>\\d{2})[.](?<kk>\\d{2})[.](?<vvvv>\\d{4})");
+    QRegularExpression pisteRe("(OSTOPVM\\s*)?(?<pp>\\d{2})[.](?<kk>\\d{2})[.](?<vvvv>\\d{4})");
     QRegularExpressionMatch pisteMatch = pisteRe.match(teksti);
-    QRegularExpression ilmanRe("OSTOPVM\\s*(?<vv>\\d{2})(?<kk>\\d{2})(?<pp>\\d{2})");
+    QRegularExpression ilmanRe("(OSTOPVM\\s*)?(?<vv>\\d{2})(?<kk>\\d{2})(?<pp>\\d{2})");
     QRegularExpressionMatch ilmanMatch = ilmanRe.match(teksti);
 
     if( pisteMatch.hasMatch()) {
@@ -318,6 +387,10 @@ std::vector<QString> OteRivi::ohitettavat__ =
      "HELSFIHH", "DABAFIHH", "DABAFIHX", "HANDFIHH", "NDEAFIHH",
      "OKOYFIHH", "SBANFIHH", "AABAFI22", "POPFI22", "ITELFIHH",
      "BIGKFIH1", "CITIFIHX", "DNBAFIHX", "HOLVFIHH", "ESSEFIHX",
-     "SWEDIFIHH", "VPAYFIH2", "MAKSUPÄIVÄ","****","SEPA-MAKSU","ARKISTOINTITUNNUS","IBAN","BIC"};
+     "SWEDIFIHH", "VPAYFIH2", "MAKSUPÄIVÄ","****","SEPA-MAKSU","IBAN","BIC"};
 
+
+
+QRegularExpression OteRivi::ibanRe__("\\b[A-Z]{2}\\d{2}\\s?(\\w{4}\\s?){3,6}\\w{1,4}\\b");
+QRegularExpression OteRivi::nroRe__("\\d+");
 }

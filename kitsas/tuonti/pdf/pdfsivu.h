@@ -21,6 +21,14 @@ public:
     void tuo(QPdfDocument* doc, int sivu);
 
     QString teksti() const;
+    int etsi(const QStringList& tekstit, int maxRivi = 0);
+    QList<PdfPala*> etsiPalat(const QStringList& tekstit, const QRect alue = QRect());
+    QList<PdfPala*> etsiPalat(const QRect alue);
+
+    PdfPala* etsiPala(const QString& teksti, const QRect& alue);
+
+    int riveja() const;
+    PdfRivi* rivi(int rivi);
 
 private:
     void lisaa(const QPdfSelection& selection);

@@ -151,8 +151,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->lokiView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
-    ui->liiteView->setModel( tosite_->liitteetModel() );    // Tämä muutettu
-    ui->liiteView->setDropIndicatorShown(true);
+    ui->liiteView->setLiitteetModel( tosite_->liitteet() );    // Tämä muutettu
 
     kiertoTab_->hide();
     kommentitTab_->hide();
@@ -161,13 +160,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
 
-    connect( tosite_->liitteet(), &TositeLiitteet::modelReset, this, &KirjausWg::paivitaLiiteNapit);
-    connect( ui->liiteView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KirjausWg::paivitaLiiteNapit);
-    connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::naytaLiite);
+    connect( tosite_->liitteet(), &LiitteetModel::valittuVaihtui, this, &KirjausWg::paivitaLiiteNapit);
 
-
-    connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-             this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
 
@@ -186,11 +180,11 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     });
     connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
     connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
-    connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
-    connect( tosite()->liitteet(), &TositeLiitteet::liitettaTallennetaan, ui->tallennetaanLabel, &QLabel::setVisible );
-    connect( tosite()->liitteet(), &TositeLiitteet::ocrKaynnissa, ui->ocrLabel, &QLabel::setVisible);
+    connect( tosite()->liitteet(), &LiitteetModel::liitettaTallennetaan, tosite(), &Tosite::tarkasta );
+    connect( tosite()->liitteet(), &LiitteetModel::liitettaTallennetaan, ui->tallennetaanLabel, &QLabel::setVisible );
+    connect( tosite()->liitteet(), &LiitteetModel::ocrKaynnissa, ui->ocrLabel, &QLabel::setVisible);
 
-    connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
+    connect( tosite()->liitteet(), &LiitteetModel::tuonti, this, &KirjausWg::tuonti);
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KirjausWg::nollaaTietokannanvaihtuessa);
     connect( tosite(), &Tosite::huomioMuuttui, ui->huomioMerkki, &QToolButton::setChecked);
@@ -209,7 +203,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->muokkaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::muokkaaVientia);
     connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &KirjausWg::uusiVienti);
 
-    tosite()->liitteet()->naytaLadattuLiite();
+//    tosite()->liitteet()->naytaLadattuLiite();
     connect( tosite(), &Tosite::ladattu, this, &KirjausWg::tositeLadattu);
 
     connect(kommentitTab_, &KommentitWidget::kommentteja, this, &KirjausWg::naytaKommenttimerkki);
@@ -691,11 +685,12 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
 
 void KirjausWg::paivitaLiiteNapit()
 {
-    bool valittu = ui->liiteView->currentIndex().isValid();
+    bool valittu = tosite()->liitteet()->naytettavaIndeksi() > -1;
+
 
     ui->poistaLiiteNappi->setEnabled(valittu);
     ui->avaaNappi->setEnabled(valittu);
-    ui->tulostaLiiteNappi->setEnabled(valittu && ui->liiteView->currentIndex().data(TositeLiitteet::TyyppiRooli).toString() != "application/octet-stream");
+    ui->tulostaLiiteNappi->setEnabled(valittu && tosite()->liitteet()->naytettava().data(TositeLiitteet::TyyppiRooli).toString() != "application/octet-stream");
 
     if( tosite_->liitteet()->rowCount() )
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_) , QIcon(":/pic/liite-aktiivinen.png"));
@@ -966,26 +961,6 @@ void KirjausWg::paivitaSarja(bool kateinen)
     if( (kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan)) &&
          !tosite()->id()   )
         tosite()->asetaSarja( kp()->tositeTyypit()->sarja( tosite_->tyyppi(), kateinen ) ) ;
-}
-
-void KirjausWg::liiteValinta(const QModelIndex &valittu)
-{
-    if( !valittu.isValid() )
-    {
-        ui->poistaLiiteNappi->setDisabled(true);
-        emit liiteValittu( QByteArray(), ui->lisaaliiteNappi->isEnabled());
-    }
-    else
-    {
-        tosite_->liitteet()->nayta( valittu.row() );
-        ui->poistaLiiteNappi->setEnabled( true );
-
-    }
-}
-
-void KirjausWg::naytaLiite(const QByteArray &data)
-{
-    emit liiteValittu(data, ui->lisaaliiteNappi->isEnabled());
 }
 
 

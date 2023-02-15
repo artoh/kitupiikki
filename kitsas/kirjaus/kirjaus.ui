@@ -30,7 +30,6 @@
       <widget class="QLabel" name="tositetyyppiLabel">
        <property name="font">
         <font>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -76,7 +75,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="iconSize">
       <size>
@@ -222,7 +221,7 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QListView" name="liiteView">
+        <widget class="LiitteetView" name="liiteView">
          <property name="dragEnabled">
           <bool>false</bool>
          </property>
@@ -422,7 +421,6 @@
        <property name="font">
         <font>
          <pointsize>12</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -630,6 +628,11 @@
    <class>ViennitView</class>
    <extends>QTableView</extends>
    <header>kirjaus/viennitview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LiitteetView</class>
+   <extends>QListView</extends>
+   <header>liite/liitteetview.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

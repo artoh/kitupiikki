@@ -292,6 +292,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         raporttiValinnat()->nollaa();
         kp()->toiminimet()->lataa();
         kp()->bannerit()->lataa();
+        tuontiInfo_.paivita();
     }
 
     emit tietokantaVaihtui();

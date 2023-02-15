@@ -123,6 +123,18 @@ void Liite::tallenna(int tositeId)
 
 }
 
+void Liite::poista()
+{
+    if( !liiteId_) return;
+
+    KpKysely* poisto = kpk( QString("/liitteet/%1").arg( liiteId_ ), KpKysely::DELETE);
+    poisto->kysy();
+
+    kp()->liiteCache()->poistaPoistettu(liiteId_);
+    liiteId_ = 0;
+
+}
+
 void Liite::poistaInboxistaLisattyTiedosto(const QString& siirtokansio)
 {
     if( siirtokansio.isEmpty()) {

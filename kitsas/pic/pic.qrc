@@ -215,6 +215,7 @@
         <file>joulupro64.png</file>
         <file>propossu-64.png</file>
         <file>certificate.png</file>
+        <file>text64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

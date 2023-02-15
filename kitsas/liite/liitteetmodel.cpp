@@ -3,7 +3,12 @@
 #include "liite/cacheliite.h"
 #include "liite/liitecache.h"
 
+#include "model/tosite.h"
+#include "pilvi/pilvimodel.h"
+#include "tuonti/csvtuonti.h"
 
+#include "tuonti/pdf/pdftiedosto.h"
+#include "tuonti/pdf/tuontiinfo.h"
 
 #include <QBuffer>
 #include <QImage>
@@ -13,7 +18,10 @@
 #include <QMessageBox>
 #include <QPdfDocument>
 #include <QSettings>
-
+#include <QMimeData>
+#include <QUrl>
+#include <QTextDocument>
+#include <QPdfWriter>
 
 LiitteetModel::LiitteetModel(QObject *parent)
     : QAbstractListModel(parent),
@@ -22,6 +30,10 @@ LiitteetModel::LiitteetModel(QObject *parent)
 {
     connect( kp()->liiteCache(), &LiiteCache::liiteHaettu,
              this, &LiitteetModel::valimuistiLiite);
+    connect( kp()->liiteCache(), &LiiteCache::hakuVirhe,
+             this, &LiitteetModel::hakuVirhe);
+    connect( pdfDoc_, &QPdfDocument::statusChanged,
+             this, &LiitteetModel::pdfTilaVaihtui);
 }
 
 LiitteetModel::~LiitteetModel()
@@ -58,7 +70,7 @@ QVariant LiitteetModel::data(const QModelIndex &index, int role) const
                 return liite->nimi();
         case Qt::DecorationRole:
             if( liite->thumb().isNull() )
-                return QIcon(":/pic/tekstisivu.png");
+                return QIcon(":/pic/text64.png");
             else
                 return liite->thumb();
         case SisaltoRooli:
@@ -74,6 +86,11 @@ QVariant LiitteetModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+Qt::ItemFlags LiitteetModel::flags(const QModelIndex &index) const
+{
+    return QAbstractListModel::flags(index) | Qt::ItemIsDropEnabled;
 }
 
 void LiitteetModel::lataa(const QVariantList &data)
@@ -109,6 +126,7 @@ void LiitteetModel::clear()
         delete item;
     liitteet_.clear();
     endResetModel();
+    nayta(-1);
 }
 
 void LiitteetModel::asetaInteraktiiviseksi(bool onko)
@@ -116,33 +134,58 @@ void LiitteetModel::asetaInteraktiiviseksi(bool onko)
     interaktiivinen_ = onko;
 }
 
-bool LiitteetModel::lisaa(const QByteArray &liite, const QString &tiedostonnimi, const QString &rooli)
+bool LiitteetModel::lisaa(QByteArray liite, const QString &tiedostonnimi, const QString &rooli)
 {
-    if( liite.isNull())
+    QByteArray sisalto = esikasittely(liite, tiedostonnimi);
+    if( sisalto.isNull())
         return false;
 
+    // Tarkastus ja esikäsittely
+
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    Liite* uusiLiite = new Liite(this, liite, tiedostonnimi, rooli);
+    Liite* uusiLiite = new Liite(this, sisalto, tiedostonnimi, rooli);
     liitteet_.append( uusiLiite);
     endInsertRows();
+
+    nayta( liitteet_.count() - 1 );
 
     return true;
 }
 
-bool LiitteetModel::lisaaHeti(const QByteArray &liite, const QString &polku)
+bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
 {
-    // Esikäsittely
-
+    // Tarkastus ja esikäsittely
+    QFileInfo info(polku);
+    QByteArray sisalto = esikasittely(liite, info.fileName());
+    if( sisalto.isNull())
+        return false;
 
     // Tallennus
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    Liite* uusiLiite = new Liite(this, liite, polku);
+    Liite* uusiLiite = new Liite(this, sisalto, polku);
     liitteet_.append( uusiLiite);
     endInsertRows();
 
-    uusiLiite->liita();
+    Tosite* tosite = qobject_cast<Tosite*>(parent());
+    Q_ASSERT(tosite);
+
+    bool tuoTiedot = liitteet_.count() == 1 && !tosite->tilioterivi();
+    bool tallennusOcr = tuoTiedot && uusiLiite->tyyppi() == "image/jpeg" &&
+          kp()->settings()->value("OCR").toBool() && qobject_cast<PilviModel*>(kp()->yhteysModel());
+
+    uusiLiite->liita(tallennusOcr);
 
     // Tuonti
+    if( tuoTiedot && !tallennusOcr) {
+        if( uusiLiite->tyyppi() == "application/pdf") {
+            // Tehdään pdf-tuonti heti kun on ladattuna
+            pdfTuontiIndeksi_ = liitteet_.count() - 1;
+        } else {
+            // Muut tuonnit ...
+        }
+    }
+
+    nayta( liitteet_.count() - 1 );
     return true;
 
 }
@@ -216,6 +259,14 @@ void LiitteetModel::nayta(int indeksi)
     }
 }
 
+QModelIndex LiitteetModel::naytettava() const
+{
+    if( naytettavaIndeksi_ < 0)
+        return QModelIndex();
+    else
+        return index(naytettavaIndeksi_,0);
+}
+
 bool LiitteetModel::tallennetaanko() const
 {
     for(const auto ptr : liitteet_) {
@@ -233,6 +284,17 @@ QVariantList LiitteetModel::liitettavat() const
         }
     }
     return lista;
+}
+
+void LiitteetModel::poista(int indeksi)
+{
+
+    beginRemoveRows(QModelIndex(),indeksi, indeksi);
+    Liite* liite = liitteet_.takeAt(indeksi);
+    endRemoveRows();
+
+    liite->poista();
+    delete liite;
 }
 
 QByteArray *LiitteetModel::sisalto()
@@ -257,8 +319,54 @@ void LiitteetModel::liitteenTilaVaihtui(Liite::LiiteTila uusiTila)
 
 void LiitteetModel::ocr(const QVariantMap &data)
 {
-
+    emit tuonti(data);
 }
+
+bool LiitteetModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &/*parent*/) const
+{
+    if( action == Qt::IgnoreAction)
+        return true;
+
+    return data->hasUrls() || data->formats().contains("image/jpg") || data->formats().contains("image/png");
+}
+
+bool LiitteetModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &/*parent*/)
+{
+    if( action == Qt::IgnoreAction)
+        return true;
+
+    int lisatty = 0;
+    // Liitetiedosto pudotettu
+    if( data->hasUrls())
+    {
+        QList<QUrl> urlit = data->urls();
+        for(const auto& url : qAsConst( urlit ))
+        {
+            if( url.isLocalFile())
+            {
+                QFileInfo info( url.toLocalFile());
+                lisaaHetiTiedosto(info.absoluteFilePath());
+                lisatty++;
+            }
+        }
+    }
+    if( lisatty)
+        return true;
+
+    if( !lisatty && data->formats().contains("image/jpg"))
+    {
+        lisaaHeti( data->data("image/jpg"), tr("liite.jpg") );
+        return true;
+    }
+    else if(!lisatty && data->formats().contains("image/png"))
+    {
+        lisaaHeti( data->data("image/png"), tr("liite.jpg") );
+        return true;
+    }
+
+    return false;
+}
+
 
 void LiitteetModel::valimuistiLiite(int liiteId)
 {
@@ -290,6 +398,17 @@ void LiitteetModel::naytaKayttajalle()
     }
 }
 
+void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
+{
+    qApp->processEvents();
+    if( status == QPdfDocument::Status::Ready && naytettavaIndeksi_ == pdfTuontiIndeksi_) {
+        Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
+        QVariantMap tuotu = pdfTuonti.tuo( kp()->tuontiInfo() );
+        pdfTuontiIndeksi_ = -1;
+        emit tuonti(tuotu);
+    }
+}
+
 void LiitteetModel::tarkastaKaikkiLiitteet()
 {
     for( const auto ptr : liitteet_) {
@@ -298,6 +417,53 @@ void LiitteetModel::tarkastaKaikkiLiitteet()
         }
     }
     emit kaikkiLiitteetHaettu();
+}
+
+QByteArray LiitteetModel::esikasittely(QByteArray sisalto, const QString& tiedostonnimi)
+{
+    // Muunnetaan kaikki kuvatiedostot jpg-kuviksi (ei kuiteskaan pdf)
+    QImage image = sisalto.startsWith("%PDF") ? QImage() : image.fromData(sisalto);
+    if( !image.isNull()) {
+        int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
+        if( image.width() > image.height()) {
+            if( image.width() > koko) {
+                image = image.scaledToWidth(koko);
+            }
+        } else {
+            if( image.height() > koko) {
+                image = image.scaledToHeight(koko);
+            }
+        }
+        if( kp()->settings()->value("KuvaMustavalko").toBool()) {
+            image = image.convertToFormat(QImage::Format_Grayscale8);
+        }
+        QBuffer buffer(&sisalto);
+        buffer.open(QIODevice::WriteOnly);
+        image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
+    } else if ( sisalto.left(128).contains(QByteArray("<html")) || sisalto.left(128).contains(QByteArray("<HTML")) ) {
+        QTextDocument doc;
+        doc.setHtml(Tuonti::CsvTuonti::haistettuKoodattu(sisalto));
+        QByteArray array;
+        QBuffer buffer(&array);
+        buffer.open(QIODevice::WriteOnly);
+        QPdfWriter writer(&buffer);
+        writer.setTitle(tiedostonnimi);
+        writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
+        writer.setPageSize(QPageSize(QPageSize::A4));
+
+        doc.print(&writer);
+        sisalto = array;
+
+    }
+
+    if( sisalto.length() > 10 * 1024 * 1024 ) {
+        QMessageBox::critical(nullptr, tr("Liitetiedosto liian suuri"),
+                              tr("Liitetiedostoa ei voi lisätä kirjanpitoon, koska liite on kooltaan liian suuri.\n"
+                                 "Voit lisätä enintään 10 megatavun kokoisen liitteen."));
+        return QByteArray();
+    }
+
+    return sisalto;
 }
 
 

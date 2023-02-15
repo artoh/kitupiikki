@@ -5,13 +5,18 @@
 #include <QImage>
 #include <QGraphicsScene>
 
-class KuvaLiiteWidget : public QGraphicsView
+#include <QLabel>
+#include <QScrollArea>
+
+class KuvaLiiteWidget : public QScrollArea
 {
     Q_OBJECT
 public:
     KuvaLiiteWidget(QWidget* parent = nullptr);
 
-    QGraphicsScene* scene_;
+//    QGraphicsScene* scene_;
+    QLabel* label;
+
     void nayta(const QImage& kuva);
 };
 
