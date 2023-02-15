@@ -32,7 +32,7 @@ TilioteOtsake::TilioteOtsake(PdfTilioteTuonti *tuonti) :
 
 bool TilioteOtsake::alkaakoOtsake(PdfRivi* rivi)
 {
-    if( rivi->paloja() < 3 )
+    if( rivi->paloja() < 2 )
         return false;
 
     const QString teksti = rivi->teksti();
@@ -157,7 +157,7 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
 {
     if( tuonti_->bic() == "HELSFIHH") {
         // Aktia pankki
-        if( teksti == "KIRJ.PVM.")
+        if( teksti.contains("KIRJ.PVM") )
             return ARKISTOTUNNUS;
         else if(teksti == "ARVOPVM.")
             return OHITA;

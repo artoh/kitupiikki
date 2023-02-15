@@ -10,6 +10,8 @@
 #include "tuonti/pdf/pdftiedosto.h"
 #include "tuonti/pdf/tuontiinfo.h"
 
+#include "db/tositetyyppimodel.h"
+
 #include <QBuffer>
 #include <QImage>
 #include <QVector>
@@ -405,7 +407,14 @@ void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
         Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
         QVariantMap tuotu = pdfTuonti.tuo( kp()->tuontiInfo() );
         pdfTuontiIndeksi_ = -1;
-        emit tuonti(tuotu);
+        if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
+            KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
+            connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
+            kysely->kysy(tuotu);
+        } else {
+            emit this->tuonti( tuotu);
+        }
+
     }
 }
 

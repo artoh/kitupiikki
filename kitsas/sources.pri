@@ -372,7 +372,6 @@ SOURCES += \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
     arkisto/tararkisto.cpp \
-    tuonti/pdftuonti.cpp \
     raportti/laskuraportti.cpp \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
@@ -807,7 +806,6 @@ HEADERS += \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
     arkisto/tararkisto.h \
-    tuonti/pdftuonti.h \
     raportti/laskuraportti.h \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \

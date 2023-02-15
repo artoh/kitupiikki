@@ -45,6 +45,7 @@ QVariantMap PdfTilioteTuonti::tuo(PdfTiedosto *tiedosto)
         for(int r = 0; r < sivu->riveja(); r++ ) {
             PdfRivi* rivi = sivu->rivi(r);
 
+//            qDebug() << r << " [" << tila_ << "] " << rivi->teksti();
             lueRivi(rivi);
         }
         tila_ = TOINENSIVU;
@@ -74,7 +75,7 @@ QVariantMap PdfTilioteTuonti::map() const
 
 
 void PdfTilioteTuonti::lueRivi(PdfRivi *rivi)
-{
+{    
 
     if( tila_ == ALKU)
         lueAlkuRivi(rivi);

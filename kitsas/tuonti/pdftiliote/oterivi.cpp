@@ -35,6 +35,8 @@ OteRivi::OteRivi()
 void OteRivi::kasittele(const QString &teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate &loppupvm)
 {
 
+//    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
+
     // Jos IBAN niin IBAN!
     QRegularExpressionMatch ibanMats = ibanRe__.match(teksti);
     if( ibanMats.hasMatch() && IbanValidator::kelpaako(ibanMats.captured())) {
@@ -249,7 +251,7 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
             }
         } else if(viesti_.isEmpty() && kto_ &&
                   !saajamaksaja_.startsWith(teksti)) {
-            viesti_ = teksti;
+            viesti_.append(teksti);
         }
     }
 }
@@ -284,14 +286,14 @@ int OteRivi::ktoKoodi(const QString &teksti)
 
 QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
 {
-    QRegularExpressionMatch mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vvvv>\\d{4})\b").match(str);
+    QRegularExpressionMatch mats = QRegularExpression("\\b(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vvvv>\\d{4})\\b").match(str);
     if( mats.hasMatch() ) {        
         return QDate(mats.captured("vvvv").toInt(),
                      mats.captured("kk").toInt(),
                      mats.captured("pp").toInt());
     }
 
-    mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vv>\\d{2})").match(str);
+    mats = QRegularExpression("\\b(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})[.](?<vv>\\d{2})\\b").match(str);
     if( mats.hasMatch() ) {
         return QDate(2000 + mats.captured("vv").toInt(),
                      mats.captured("kk").toInt(),
@@ -299,7 +301,7 @@ QDate OteRivi::strPvm(const QString &str, const QDate &loppupvm)
     }
 
     QDate pvm;
-    mats = QRegularExpression("(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})").match(str);
+    mats = QRegularExpression("\\b(?<pp>\\d{1,2})[.](?<kk>\\d{1,2})\\b").match(str);
     if( !mats.hasMatch()) mats = QRegularExpression("\\b(?<pp>\\d{1,2})(?<kk>\\d{1,2})\\b").match(str);
     if( mats.hasMatch() ) {        
         pvm = QDate(loppupvm.year(),

@@ -34,7 +34,7 @@
 #include <QImage>
 
 #include "db/tositetyyppimodel.h"
-#include "tuonti/pdftuonti.h"
+// #include "tuonti/pdftuonti.h"
 #include "tuonti/csvtuonti.h"
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
@@ -297,7 +297,7 @@ bool TositeLiitteet::lisaaHeti(QByteArray liite, const QString &tiedostonnimi, c
 
     if( liitteet_.count() == 1 && !tosite->tilioterivi()) {
         if( tyyppi == "application/pdf") {
-            const QVariantMap &tuotu = Tuonti::PdfTuonti::tuo(liite);
+            const QVariantMap &tuotu = QVariantMap(); // Tuonti::PdfTuonti::tuo(liite);
             if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
                 KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
                 connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* var) { emit this->tuonti(var->toMap()); });
