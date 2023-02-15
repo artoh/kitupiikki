@@ -7,9 +7,16 @@
 
 # CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
-LIBS += -lzip
+
+
+linux {
+    DEFINES += USE_ZIPLIB
+    LIBS += -lzip
+}
 
 windows {
+    DEFINES += USE_ZIPLIB
+    LIBS += -lzip
     LIBS += -lopenjp2
     LIBS += -lbcrypt
 }
@@ -18,6 +25,7 @@ macx {
     LIBS += -L/usr/local/opt/libzip/lib -lzip
     INCLUDEPATH += /usr/local/include
 }
+
 
 # Otetaan mukaan tiedostot, joissa määritellään
 # Kitsaan käyttämät Qt-määrittelyt sekä

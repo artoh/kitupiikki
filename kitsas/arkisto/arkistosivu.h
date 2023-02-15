@@ -65,7 +65,9 @@ private:
     Ui::TilikausiMaaritykset *ui;
 
     void jatkaVientia(const QString &polku);
+#ifdef USE_ZIPLIB
     bool teeZip(const QString& polku);
+#endif
     bool vieHakemistoon(const QString& polku);
 };
 
