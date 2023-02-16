@@ -32,9 +32,10 @@ class LiitePoimija : public QObject
 {
     Q_OBJECT
 public:
+    enum PoimintaRajaus { Kaikki, Tulot, Menot};
     LiitePoimija(const QString kieli, int dpi = 175, QObject *parent = nullptr);
 
-    void poimi(const QDate& alkaa, const QDate& paattyy, int tili=-1, int kohdennus=-1);
+    void poimi(const QDate& alkaa, const QDate& paattyy, int tili=-1, int kohdennus=-1, PoimintaRajaus rajaus = Kaikki);
 
 protected:
     void viennitSaapuu(QVariant* data);
@@ -60,6 +61,7 @@ private:
     bool ekatulostettu_ = false;
     int dpi_ = 175;
     int tulostettu_ = 0;
+    PoimintaRajaus rajaus_ = Kaikki;
 
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;

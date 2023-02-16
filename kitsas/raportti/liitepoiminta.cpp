@@ -30,6 +30,7 @@ LiitePoiminta::LiitePoiminta() : PvmRaporttiWidget("liitepoiminta")
 
     ui->laatuLabel->show();
     ui->laatuSlider->show();
+    ui->poimiGroup->show();
 
     if( kp()->kohdennukset()->kohdennuksia() ) {
         ui->kohdennusCheck->show();

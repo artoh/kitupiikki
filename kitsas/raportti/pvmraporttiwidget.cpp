@@ -66,6 +66,7 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
 {
     ui->laatuLabel->hide();
     ui->laatuSlider->hide();
+    ui->poimiGroup->hide();
 
     if( tyyppi() != "paivakirja" && tyyppi() != "tositeluettelo") {
         ui->jarjestysRyhma->hide();

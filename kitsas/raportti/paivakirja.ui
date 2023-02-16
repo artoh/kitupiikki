@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -107,6 +107,47 @@
       <widget class="LaatuSlider" name="laatuSlider" native="true"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="poimiGroup">
+     <property name="title">
+      <string>Poimi</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="text">
+         <string>Kaikki</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="tulotRadio">
+        <property name="text">
+         <string>Tulot</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="menotRadio">
+        <property name="text">
+         <string>Menot</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="jarjestysRyhma">

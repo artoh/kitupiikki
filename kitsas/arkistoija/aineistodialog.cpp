@@ -431,7 +431,6 @@ void AineistoDialog::pdfTilaVaihtuu(QPdfDocument::Status status)
             try {
                 QSizeF koko = pdfDoc_->pagePointSize(i);
                 QSizeF kohde( painter->window().width(), painter->window().height() - 12 * rivinKorkeus);
-                if( koko.width() > koko.height()) kohde.transpose();
                 koko.scale(kohde, Qt::KeepAspectRatio);
 
                 QPdfDocumentRenderOptions options;

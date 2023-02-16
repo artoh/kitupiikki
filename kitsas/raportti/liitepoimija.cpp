@@ -36,8 +36,10 @@ LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
     connect( pdfDoc_, &QPdfDocument::statusChanged, this, &LiitePoimija::pdfTilaMuuttuu );
 }
 
-void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int kohdennus)
+void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int kohdennus, PoimintaRajaus rajaus)
 {
+    rajaus_ = rajaus;
+
     QPdfWriter *writer = new QPdfWriter(tiedosto_);
     writer->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
     writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi(), QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
@@ -71,6 +73,17 @@ void LiitePoimija::viennitSaapuu(QVariant *data)
         QVariantMap map = item.toMap();
         QVariantMap tositeMap = map.value("tosite").toMap();
         int id = tositeMap.value("id").toInt();
+
+        if( rajaus_ != Kaikki) {
+            if( map.value("tili").toString() < "2")  continue;  // Ei tasetileille
+            if( rajaus_ == Tulot) {
+                if( Euro(map.value("debet").toString())) continue; // Ei menoja
+            } else if( rajaus_ == Menot) {
+                if( Euro(map.value("kredit").toString())) continue; // Ei tuloja
+            }
+        }
+
+
 
         if( !tositeJono_.contains(id))
             tositeJono_.append(id);
@@ -159,7 +172,6 @@ void LiitePoimija::pdfTilaMuuttuu(QPdfDocument::Status tila)
             painter->resetTransform();
             QSizeF koko = pdfDoc_->pagePointSize(i);
             QSizeF kohde( painter->window().width(), painter->window().height());
-            if( koko.width() > koko.height()) kohde.transpose();
             koko.scale(kohde, Qt::KeepAspectRatio);
 
             QPdfDocumentRenderOptions options;
