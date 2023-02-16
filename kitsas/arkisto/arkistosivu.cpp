@@ -54,8 +54,9 @@
 
 #include "arkistoija/aineistodialog.h"
 
+#ifdef USE_ZIPLIB
 #include <zip.h>
-
+#endif
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -169,6 +170,9 @@ void ArkistoSivu::vieArkisto()
 
 void ArkistoSivu::jatkaVientia(const QString& polku)
 {
+
+#ifdef USE_ZIPLIB
+
     QDialog dlg;
     Ui::ArkistonVienti dlgUi;
     dlgUi.setupUi(&dlg);
@@ -185,6 +189,10 @@ void ArkistoSivu::jatkaVientia(const QString& polku)
             QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
                                   tr("Arkiston vienti epäonnistui.") );
     }
+
+#else
+    vieHakemistoon(polku);
+#endif
 }
 
 void ArkistoSivu::tilinpaatos()
@@ -274,6 +282,7 @@ void ArkistoSivu::uudellenNumerointi()
     }
 }
 
+#ifdef USE_ZIPLIB
 bool ArkistoSivu::teeZip(const QString &polku)
 {
     QDirIterator iter( polku,
@@ -328,6 +337,7 @@ bool ArkistoSivu::teeZip(const QString &polku)
     }
     return true;
 }
+#endif
 
 bool ArkistoSivu::vieHakemistoon(const QString &polku)
 {
@@ -345,30 +355,29 @@ bool ArkistoSivu::vieHakemistoon(const QString &polku)
 
     QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
                                                             QDir::rootPath());
-    if( !hakemistoon.isEmpty())
+
+    if( hakemistoon.isEmpty()) return false;
+
+    QDir minne( hakemistoon );
+    minne.mkdir("liitteet");
+    minne.mkdir("static");
+    minne.mkdir("tositteet");
+
+
+    QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+    int kopioitu = 0;
+    for( const QString& tiedosto : tiedostot)
     {
-
-        QDir minne( hakemistoon );
-        minne.mkdir("liitteet");
-        minne.mkdir("static");
-        minne.mkdir("tositteet");
-
-
-
-        QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
-        int kopioitu = 0;
-        for( const QString& tiedosto : tiedostot)
+        if( odota.wasCanceled())
+            break;
+        if( !QFile::copy( mista.absoluteFilePath(tiedosto), minne.absoluteFilePath(tiedosto) ) )
         {
-            if( odota.wasCanceled())
-                break;
-            if( !QFile::copy( mista.absoluteFilePath(tiedosto), minne.absoluteFilePath(tiedosto) ) )
-            {
-                QMessageBox::critical(this, tr("Kopiointi ei onnistu"), tr("Tiedoston %1 kopiointi ei onnistunut.\n Kopiointi on keskeytetty.").arg(tiedosto) );
-                return false;
-            }
-            odota.setValue(++kopioitu);
+            QMessageBox::critical(this, tr("Kopiointi ei onnistu"), tr("Tiedoston %1 kopiointi ei onnistunut.\n Kopiointi on keskeytetty.").arg(tiedosto) );
+            return false;
         }
+        odota.setValue(++kopioitu);
     }
+
     QMessageBox::information(this, tr("Arkiston kopiointi valmis"), tr("Arkisto on kopioitu hakemistoon %1.\n"
                                                                        "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
     return true;
