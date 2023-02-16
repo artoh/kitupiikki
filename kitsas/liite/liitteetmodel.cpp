@@ -12,6 +12,12 @@
 
 #include "db/tositetyyppimodel.h"
 
+#include "tuonti/csvtuonti.h"
+#include "tuonti/titotuonti.h"
+#include "tuonti/tesseracttuonti.h"
+#include "tuonti/palkkafituonti.h"
+#include "pilvi/pilvikysely.h"
+
 #include <QBuffer>
 #include <QImage>
 #include <QVector>
@@ -162,9 +168,19 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
     if( sisalto.isNull())
         return false;
 
-    // Tallennus
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
     Liite* uusiLiite = new Liite(this, sisalto, polku);
+    if( uusiLiite->tyyppi() == "application/octet-stream") {
+        if(QMessageBox::question(nullptr, tr("Liitetiedoston tyyppiä ei tueta"),
+                              tr("Tätä liitetiedostoa ei voi välttämättä näyttää Kitsaalla eikä sisällyttää arkistoon.\n"
+                                 "Haluatko silti lisätä tämän tiedoston?"),
+                                 QMessageBox::Yes | QMessageBox::No,
+                                 QMessageBox::No) != QMessageBox::Yes)
+        delete uusiLiite;
+        return false;
+    }
+
+    // Tallennus
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());    
     liitteet_.append( uusiLiite);
     endInsertRows();
 
@@ -183,7 +199,7 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
             // Tehdään pdf-tuonti heti kun on ladattuna
             pdfTuontiIndeksi_ = liitteet_.count() - 1;
         } else {
-            // Muut tuonnit ...
+            tuoLiite(uusiLiite->tyyppi(), liite);
         }
     }
 
@@ -418,6 +434,46 @@ void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
     }
 }
 
+void LiitteetModel::tuoLiite(const QString& tyyppi, const QByteArray& sisalto)
+{
+    if( tyyppi == "text/csv" && sisalto.startsWith("T;") ) {
+        emit tuonti( PalkkaFiTuonti::tuo(sisalto) );
+    } else if( sisalto.startsWith("T00322100") || tyyppi == "text/csv" ) {
+        QVariant tuotu = sisalto.startsWith("T00322100") ?
+                    Tuonti::TitoTuonti::tuo(sisalto)  // Konekielinen tiliote
+                  : Tuonti::CsvTuonti::tuo(sisalto);
+        KpKysely* kysely = kpk("/tuontitulkki", KpKysely::POST);
+        connect( kysely, &KpKysely::vastaus, this, [this] (QVariant* var)
+            { emit this->tuonti(var->toMap()); });
+        kysely->kysy(tuotu);
+    } else if( tyyppi == "image/jpeg" && kp()->settings()->value("OCR").toBool() &&
+               !qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
+               kp()->pilvi()->tilausvoimassa()) {
+        // Paikallinen kirjanpito, tekstintunnistus pilvessä
+        emit ocrKaynnissa(true);
+        Tuonti::TesserActTuonti *tesser = new Tuonti::TesserActTuonti(this);
+        connect( tesser, &Tuonti::TesserActTuonti::tuotu, this,
+                 [this] (const QVariantMap& data) { emit this->tuonti(data); emit ocrKaynnissa(false); });
+        tesser->tuo(sisalto);
+    }
+
+    if(  kp()->pilvi()->tilausvoimassa() &&
+            (sisalto.startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-15\"?>") ||
+            (sisalto.startsWith("<SOAP-ENV:"))) &&
+            sisalto.contains("<Finvoice")) {
+        // Käsin lisätyn Finvoice-laskun sisällön liittäminen
+        QMap<QString,QString> meta;
+        meta.insert("Content-type","application/xml;charset=ISO-8859-15");
+
+        PilviKysely* jsonk = new PilviKysely( kp()->pilvi(), KpKysely::POST,
+                                              kp()->pilvi()->finvoiceOsoite() + "/tojson");
+        connect( jsonk, &PilviKysely::vastaus, this,
+                 [this] (QVariant* data)
+                  { emit this->tuonti( data->toMap()); });
+        jsonk->lahetaTiedosto(sisalto, meta);
+    }
+}
+
 void LiitteetModel::tarkastaKaikkiLiitteet()
 {
     for( const auto ptr : liitteet_) {
@@ -470,7 +526,7 @@ QByteArray LiitteetModel::esikasittely(QByteArray sisalto, const QString& tiedos
                               tr("Liitetiedostoa ei voi lisätä kirjanpitoon, koska liite on kooltaan liian suuri.\n"
                                  "Voit lisätä enintään 10 megatavun kokoisen liitteen."));
         return QByteArray();
-    }
+    }  
 
     return sisalto;
 }
