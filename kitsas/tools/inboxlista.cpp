@@ -76,41 +76,14 @@ void InboxLista::paivita()
             tiedostonimi.endsWith(".jpeg") || tiedostonimi.endsWith(".png"))
         {
             QListWidgetItem *item = new QListWidgetItem( info.fileName(), this );
-            if( tiedostonimi.endsWith(".pdf") && !kp()->settings()->value("PopplerPois").toBool())
+            QImage kuva( info.absoluteFilePath() );
+            if( kuva.isNull())
             {
-                QImage kuva;
-                QFile tiedosto( info.absoluteFilePath());
-                if( tiedosto.open(QFile::ReadOnly) ) {
-                    QByteArray sisalto = tiedosto.readAll();
-                    PdfRendererDocument* pdfDoc = PdfToolkit::renderer( sisalto );
-                    if( pdfDoc->locked()) {
-                        kuva.load(":/pic/lukittupdf.png");
-                    } else {
-                        kuva = pdfDoc->renderPage(0, 24.0);
-                    }
-                    delete pdfDoc;
-                }
-
-                if( kuva.isNull())
-                {
-                    item->setIcon(QIcon(":/pic/pdf.png"));
-                }
-                else
-                {
-                    item->setIcon( QIcon( QPixmap::fromImage(kuva)));
-                }
+                item->setIcon( tiedostonimi.endsWith(".pdf") ? QIcon(":/pic/pdf.png") : QIcon(":/pic/kuva.png"));
             }
             else
             {
-                QImage kuva( info.absoluteFilePath() );
-                if( kuva.isNull())
-                {
-                    item->setIcon(QIcon(":/pic/kuva.png"));
-                }
-                else
-                {
-                    item->setIcon( QIcon( QPixmap::fromImage(kuva) ) );
-                }
+                item->setIcon( QIcon( QPixmap::fromImage(kuva) ) );
             }
             item->setData(Qt::UserRole, info.absoluteFilePath());
         }

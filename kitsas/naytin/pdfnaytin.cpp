@@ -52,7 +52,7 @@ void PdfNaytin::paivita() const
 
 void PdfNaytin::tulosta(QPrinter *printer) const
 {
-    QPainter painter(printer);
+/*    QPainter painter(printer);
 
     QByteArray ba(data_);
     QBuffer buffer(&ba);
@@ -60,19 +60,23 @@ void PdfNaytin::tulosta(QPrinter *printer) const
 
     QImageReader reader(&buffer);
 
+    qDebug() << " Quality option " << reader.supportsOption(QImageIOHandler::Quality);
+
+
     const int pageCount = reader.imageCount();
 
     for(int i=0; i < pageCount; i++) {
         reader.jumpToImage(i);
-        QImage image = reader.read();
+        QImage image = reader.read();        
         painter.drawImage(painter.window(), image);
 
         if( i < pageCount - 1)
             printer->newPage();
     }
 
-/*
+*/
     QPainter painter(printer);
+
     const int pageCount = doc_->pageCount();
 
     for(int i=0; i < pageCount; i++) {
@@ -86,8 +90,6 @@ void PdfNaytin::tulosta(QPrinter *printer) const
             printer->newPage();
 
     }
-
-*/
 }
 
 void PdfNaytin::zoomIn()

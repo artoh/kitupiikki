@@ -37,7 +37,6 @@ public:
     static int tulostaTiedot(QPagedPaintDevice *printer, QPainter* painter, const QVariantMap& tosite, int sivu, const QString& kieli = "fi",
                              bool naytaInfo=true, bool naytaViennit=true);
 
-protected:
     static int tulostaPdfLiite(QPagedPaintDevice *printer, QPainter* painter,
                         const QByteArray& data,
                         const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli = QString(),

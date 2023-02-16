@@ -175,7 +175,6 @@ SOURCES += \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/toiminimimodel.cpp \
     $$PWD/model/tosite.cpp \
-    $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositerivi.cpp \
     $$PWD/model/tositerivit.cpp \
@@ -407,7 +406,6 @@ SOURCES += \
     naytin/abstraktiview.cpp \
     naytin/kuvaview.cpp \
     naytin/scenenaytin.cpp \
-    naytin/pdfview.cpp \
     kirjaus/viennitview.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
@@ -607,7 +605,6 @@ HEADERS += \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/toiminimimodel.h \
     $$PWD/model/tosite.h \
-    $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositerivi.h \
     $$PWD/model/tositerivit.h \
@@ -842,7 +839,6 @@ HEADERS += \
     naytin/abstraktiview.h \
     naytin/kuvaview.h \
     naytin/scenenaytin.h \
-    naytin/pdfview.h \
     kirjaus/viennitview.h \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \

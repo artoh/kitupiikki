@@ -21,6 +21,7 @@
 #include <QHash>
 #include <QQueue>
 
+#include <QPdfDocument>
 
 #include "db/tilikausi.h"
 #include "raportti/raportinkirjoittaja.h"
@@ -29,6 +30,7 @@
 class QProgressDialog;
 class QPagedPaintDevice;
 class QPainter;
+class QBuffer;
 
 namespace Ui {
 class AineistoDialog;
@@ -71,6 +73,7 @@ private:
     void tilaaRaportti(RaporttiValinnat& valinnat);
     void raporttiSaapuu(const RaportinKirjoittaja& kirjoittaja, const RaporttiValinnat& valinnat);
 
+    void pdfTilaVaihtuu(QPdfDocument::Status status);
 
     Ui::AineistoDialog *ui;
 
@@ -98,6 +101,10 @@ private:
     QProgressDialog* progress;
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;
+
+    QPdfDocument* pdfDoc_;
+    QByteArray bytes_;
+    QBuffer* puskuri_;
 };
 
 #endif // AINEISTODIALOG_H

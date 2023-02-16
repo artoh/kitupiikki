@@ -34,6 +34,8 @@
 #include <QMessageBox>
 
 #include <QDir>
+#include <QPdfDocument>
+#include <QBuffer>
 
 #include "raportti/raportinlaatija.h"
 
@@ -44,7 +46,11 @@
 
 AineistoDialog::AineistoDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AineistoDialog)
+    ui(new Ui::AineistoDialog),
+    pdfDoc_{new QPdfDocument(this)},
+    puskuri_{new QBuffer(this)}
+
+
 {
     ui->setupUi(this);
     ui->tilikausiCombo->setModel(kp()->tilikaudet());
@@ -54,6 +60,8 @@ AineistoDialog::AineistoDialog(QWidget *parent) :
     connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AineistoDialog::paivitaNimi);
     connect( ui->tiedostoNappi, &QPushButton::clicked, this, &AineistoDialog::vaihdaNimi);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] {kp()->ohje("tilikaudet/aineisto/");});
+
+    connect( pdfDoc_, &QPdfDocument::statusChanged, this, &AineistoDialog::pdfTilaVaihtuu);
 }
 
 AineistoDialog::~AineistoDialog()
@@ -90,6 +98,7 @@ void AineistoDialog::accept()
     writer->setTitle(tulkkaa("Kirjanpitoaineisto %1", kieli_).arg(tilikausi_.kausivaliTekstina()));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
     writer->setPageSize( QPageSize( QPageSize::A4));
+    writer->setResolution( ui->dpiSlider->value() );
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
 
@@ -385,24 +394,79 @@ void AineistoDialog::tilaaLiite()
 
 void AineistoDialog::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
 {
-    QByteArray ba = data->toByteArray();    
-    int sivua = LiiteTulostaja::tulostaLiite(
-                device, painter,
-                ba,
-                tyyppi,
-                nykyTosite_,
-                tulostaAlatunniste_,
-                sivu_,
-                kieli_,
-                ui->dpiSlider->value());
-    if( sivua < 0)
-        virhe_ = true;
-    else
-        sivu_ += sivua;
-
-    tulostaAlatunniste_ = false;
-    tilaaLiite();
+    if( tyyppi == "application/pdf") {
+        puskuri_->close();
+        bytes_ = data->toByteArray();
+        puskuri_->setBuffer(&bytes_);
+        puskuri_->open(QIODevice::ReadOnly);
+        pdfDoc_->load(puskuri_);
+    } else if( tyyppi.startsWith("image")) {
+        QByteArray ba = data->toByteArray();
+        int sivua = LiiteTulostaja::tulostaKuvaLiite(
+                    device, painter, ba, nykyTosite_, tulostaAlatunniste_, sivu_, kieli_ );
+        if( sivua < 0)
+            virhe_ = true;
+        else {
+            sivu_ += sivua;
+            tulostaAlatunniste_ = false;
+        }
+        tilaaLiite();
+    }
 }
+
+void AineistoDialog::pdfTilaVaihtuu(QPdfDocument::Status status)
+{
+    if( status == QPdfDocument::Status::Ready) {
+        painter->setFont(QFont("FreeSans",8));
+        device->newPage();
+
+        int rivinKorkeus = painter->fontMetrics().height();
+
+        int pageCount = pdfDoc_->pageCount();
+        for(int i=0; i < pageCount; i++)
+        {
+            painter->resetTransform();
+            try {
+                QSizeF koko = pdfDoc_->pagePointSize(i);
+                QSizeF kohde( painter->window().width(), painter->window().height() - 12 * rivinKorkeus);
+                if( koko.width() > koko.height()) kohde.transpose();
+                koko.scale(kohde, Qt::KeepAspectRatio);
+
+                QPdfDocumentRenderOptions options;
+                if( koko.width() > koko.height())
+                    options.setRotation(QPdfDocumentRenderOptions::Rotation::Clockwise270);
+
+                QImage image = pdfDoc_->render(i, kohde.toSize(), options);
+                painter->drawImage(0, rivinKorkeus*2, image);
+
+                LiiteTulostaja::tulostaYlatunniste(painter, nykyTosite_, sivu_ , kieli_);
+                painter->translate(0, painter->window().height() - ( i ? 1 : 8 ) * rivinKorkeus);
+                sivu_++;
+
+            }
+                catch (std::bad_alloc&) {
+                virhe_ = true;
+            }
+
+            if(tulostaAlatunniste_) {
+                LiiteTulostaja::tulostaAlatunniste(painter, nykyTosite_, kieli_);
+                tulostaAlatunniste_ = false;
+            }
+
+            if( i < pageCount - 1 )
+                device->newPage();
+        }
+        painter->translate(0, painter->window().height() - painter->transform().dy());
+        tilaaLiite();
+
+    } else if( status == QPdfDocument::Status::Error) {
+        virhe_ = true;
+        tilaaLiite();
+    }
+}
+
+
+
 
 void AineistoDialog::valmis()
 {
@@ -467,6 +531,7 @@ void AineistoDialog::raporttiSaapuu(const RaportinKirjoittaja &kirjoittaja, cons
     progress->setValue(progress->value() + 5);
     jatkaTositelistaan();
 }
+
 
 
 
