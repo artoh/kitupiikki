@@ -18,7 +18,6 @@
 
 #include "db/kirjanpito.h"
 #include "naytin/liitetulostaja.h"
-#include "tilinpaatoseditori/tilinpaatostulostaja.h"
 
 #include <QPdfWriter>
 #include <QPainter>

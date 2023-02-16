@@ -303,13 +303,6 @@ SOURCES += \
     $$PWD/tools/kpkpledit.cpp \
     $$PWD/tools/kpviiteedit.cpp \
     $$PWD/tools/kpyhedit.cpp \
-    $$PWD/tools/pdf/pdfanalyzerpage.cpp \
-    $$PWD/tools/pdf/pdfanalyzerrow.cpp \
-    $$PWD/tools/pdf/pdfanalyzertext.cpp \
-    $$PWD/tools/pdf/pdfanalyzerword.cpp \
-    $$PWD/tools/pdf/pdftoolkit.cpp \
-    $$PWD/tools/pdf/poppleranalyzerdocument.cpp \
-    $$PWD/tools/pdf/popplerrendererdocument.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tools/varinvalinta.cpp \
     $$PWD/tools/vuosidelegaatti.cpp \
@@ -735,13 +728,6 @@ HEADERS += \
     $$PWD/tools/kpkpledit.h \
     $$PWD/tools/kpviiteedit.h \
     $$PWD/tools/kpyhedit.h \
-    $$PWD/tools/pdf/pdfanalyzerpage.h \
-    $$PWD/tools/pdf/pdfanalyzerrow.h \
-    $$PWD/tools/pdf/pdfanalyzertext.h \
-    $$PWD/tools/pdf/pdfanalyzerword.h \
-    $$PWD/tools/pdf/pdftoolkit.h \
-    $$PWD/tools/pdf/poppleranalyzerdocument.h \
-    $$PWD/tools/pdf/popplerrendererdocument.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tools/varinvalinta.h \
     $$PWD/tools/vuosidelegaatti.h \
