@@ -30,16 +30,6 @@
 
 #include <QDebug>
 
-int LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QString &tyyppi, const QVariantMap &tosite, bool ensisivu, int sivu, const QString &kieli, int resoluutio, bool aloitaSivunvaihdolla)
-{
-    if( tyyppi == "application/pdf")
-        return tulostaPdfLiite(printer, painter, data, tosite, ensisivu, sivu, kieli, resoluutio, aloitaSivunvaihdolla);
-    if( tyyppi.startsWith("image"))
-        return tulostaKuvaLiite(printer, painter, data, tosite, ensisivu, sivu, kieli);
-    return 0;
-}
-
-
 int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
                                   const QVariantMap &tosite, int sivu, const QString &kieli,
                                   bool naytaInfo, bool naytaViennit)
@@ -122,61 +112,6 @@ int LiiteTulostaja::tulostaTiedot(QPagedPaintDevice *printer, QPainter *painter,
     }
     return sivua;
 
-}
-
-int LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli, int resoluutio, bool aloitaSivunvaihdolla)
-{
-    PdfRendererDocument *document = PdfToolkit::renderer(data);
-
-    if( document->locked()) {
-        delete document;
-        if(ensisivu)
-            return tulostaTiedot(printer, painter, tosite, sivu, kieli, true, true);
-        else
-            return 0;
-    }
-
-
-    painter->setFont(QFont("FreeSans",8));
-    if( aloitaSivunvaihdolla )
-        printer->newPage();
-
-    int rivinKorkeus = painter->fontMetrics().height();
-    int sivut = 0;
-
-    int pageCount = document->pageCount();
-    for(int i=0; i < pageCount; i++)
-    {
-        painter->resetTransform();
-        try {
-
-            QImage image = document->renderPage(i, resoluutio);
-            QImage scaled = image.scaled(painter->window().width(), painter->window().height() - 12 * rivinKorkeus, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-            painter->drawImage(0, rivinKorkeus * 2, scaled);
-            QRect rect(0, rivinKorkeus * 2, painter->window().width(), painter->window().height() - 10 * rivinKorkeus);            
-
-            tulostaYlatunniste(painter, tosite, sivu + (++sivut), kieli);
-            painter->translate(0, painter->window().height() - ( ensisivu ? 8 : 1 ) * rivinKorkeus);
-
-        }
-            catch (std::bad_alloc&) {            
-            delete document;
-            return -1;
-        }
-
-        if(ensisivu) {
-            tulostaAlatunniste(painter, tosite, kieli);
-            ensisivu = false;
-        }
-
-        if( i < pageCount - 1 )
-            printer->newPage();               
-    }
-    painter->translate(0, painter->window().height() - painter->transform().dy());
-
-    delete document;
-    return sivut;
 }
 
 int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QVariantMap& tosite, bool ensisivu, int sivu, const QString& kieli)

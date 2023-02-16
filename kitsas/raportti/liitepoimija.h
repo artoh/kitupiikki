@@ -21,6 +21,9 @@
 #include <QQueue>
 #include <QVariant>
 
+#include <QPdfDocument>
+#include <QBuffer>
+
 class QPagedPaintDevice;
 class QPainter;
 
@@ -39,6 +42,7 @@ protected:
     void tositeSaapuu(QVariant* data);
     void seuraavaLiite();
     void liiteSaapuu(QVariant* data, const QString& tyyppi);
+    void pdfTilaMuuttuu(QPdfDocument::Status tila);
     void tehty();
     void avaa();
 
@@ -60,6 +64,9 @@ private:
     QPagedPaintDevice *device;
     QPainter *painter = nullptr;
 
+    QPdfDocument* pdfDoc_;
+    QByteArray bytes_;
+    QBuffer* puskuri_;
 
 };
 

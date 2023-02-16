@@ -411,6 +411,8 @@ void AineistoDialog::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
             tulostaAlatunniste_ = false;
         }
         tilaaLiite();
+    } else {
+        tilaaLiite();
     }
 }
 

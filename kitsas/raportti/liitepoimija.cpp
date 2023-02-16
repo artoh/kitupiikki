@@ -28,9 +28,12 @@
 #include <QMessageBox>
 
 LiitePoimija::LiitePoimija(const QString kieli, int dpi, QObject *parent)
-    : QObject(parent), kieli_(kieli), dpi_(dpi)
+    : QObject(parent), kieli_(kieli), dpi_(dpi),
+      pdfDoc_{new QPdfDocument(this)},
+      puskuri_{new QBuffer(this)}
 {
     tiedosto_ = kp()->tilapainen("Tositekooste-%1.pdf").arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"));
+    connect( pdfDoc_, &QPdfDocument::statusChanged, this, &LiitePoimija::pdfTilaMuuttuu );
 }
 
 void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int kohdennus)
@@ -40,6 +43,7 @@ void LiitePoimija::poimi(const QDate &alkaa, const QDate &paattyy, int tili, int
     writer->setTitle(tulkkaa("Tositekooste %1 %2", kieli_).arg(kp()->asetukset()->nimi(), QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")));
     writer->setCreator(QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
     writer->setPageSize( QPageSize(QPageSize::A4));
+    writer->setResolution(dpi_);
 
     writer->setPageMargins( QMarginsF(20,10,10,10), QPageLayout::Millimeter );
 
@@ -120,27 +124,66 @@ void LiitePoimija::seuraavaLiite()
 
 void LiitePoimija::liiteSaapuu(QVariant *data, const QString &tyyppi)
 {
-    QByteArray ba = data->toByteArray();
-    if( ekatulostettu_ && painter->transform().dy() > 0) {
-        device->newPage();
-        painter->resetTransform();
+
+    if( tyyppi == "application/pdf") {
+        puskuri_->close();
+        bytes_ = data->toByteArray();
+        puskuri_->setBuffer(&bytes_);
+        puskuri_->open(QIODevice::ReadOnly);
+        pdfDoc_->load(puskuri_);
+    } else if( tyyppi.startsWith("image")) {
+        QByteArray ba = data->toByteArray();
+        LiiteTulostaja::tulostaKuvaLiite(
+                    device, painter, ba, nykyTosite_, false, -1000, kieli_ );
+        ekatulostettu_ = true;
+        tulostettu_++;
+        seuraavaLiite();
+    } else {
+        seuraavaLiite();
     }
+}
 
-    LiiteTulostaja::tulostaLiite(
-                device, painter,
-                ba,
-                tyyppi,
-                nykyTosite_,
-                false,
-                -1000,
-                kieli_,
-                dpi_,
-                false);
+void LiitePoimija::pdfTilaMuuttuu(QPdfDocument::Status tila)
+{
+    if( tila == QPdfDocument::Status::Ready) {
+        painter->setFont(QFont("FreeSans",8));
 
-    ekatulostettu_ = true;
-    tulostettu_++;
+        if( ekatulostettu_)
+            device->newPage();
 
-    seuraavaLiite();
+        int rivinKorkeus = painter->fontMetrics().height();
+
+        int pageCount = pdfDoc_->pageCount();
+        for(int i=0; i < pageCount; i++)
+        {
+            painter->resetTransform();
+            QSizeF koko = pdfDoc_->pagePointSize(i);
+            QSizeF kohde( painter->window().width(), painter->window().height());
+            if( koko.width() > koko.height()) kohde.transpose();
+            koko.scale(kohde, Qt::KeepAspectRatio);
+
+            QPdfDocumentRenderOptions options;
+            if( koko.width() > koko.height())
+                options.setRotation(QPdfDocumentRenderOptions::Rotation::Clockwise270);
+
+            QImage image = pdfDoc_->render(i, kohde.toSize(), options);
+            painter->drawImage(0, rivinKorkeus*2, image);
+
+            LiiteTulostaja::tulostaYlatunniste(painter, nykyTosite_, -1000 , kieli_);
+            painter->translate(0, painter->window().height() - ( i ? 1 : 8 ) * rivinKorkeus);
+
+            if( i < pageCount - 1 )
+                device->newPage();
+        }
+        painter->translate(0, painter->window().height() - painter->transform().dy());
+
+        ekatulostettu_ = true;
+        tulostettu_++;
+
+        seuraavaLiite();
+    } else if( tila == QPdfDocument::Status::Error) {
+        seuraavaLiite();
+    }
 }
 
 void LiitePoimija::tehty()
