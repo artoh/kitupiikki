@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QByteArray>
 #include <QBuffer>
+#include "pdfliiteview.h"
 
 class LiitteetModel;
 
@@ -30,20 +31,31 @@ public:
     void naytaPohjat(bool naytetaanko);
 
     void tulosta();
+    void tallenna();
+    void avaa();
+
 signals:
     void lataaPohja(int tositeId);
 
 protected:
     void setup();
+    void alustaAktionit();
 
     void vaihdaValittu(int indeksi);
     void naytaPdf();
     void naytaSisalto();
     void paivitaTabit();
 
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+
+    void scaleZoom(qreal scale);
+    void fitZoom(PdfLiiteView::ZoomMode mode);
+
+    void refreshZoom();
+    void contextMenuEvent(QContextMenuEvent *event) override;
+
 
     UusiLiiteWidget* uusiLiiteWidget_;
     QTabBar* tabBar_;
@@ -55,6 +67,17 @@ protected:
 
     LiitteetModel* model_ = nullptr;
 
+    PdfLiiteView::ZoomMode zoomMode_ = PdfLiiteView::ZoomMode::FitToWidth;
+    qreal zoomFactor_ = 1.00;
+
+
+    QAction* zoomAktio_;
+    QAction* zoomFitAktio_;
+    QAction* zoomInAktio_;
+    QAction* zoomOutAktio_;
+    QAction* tulostaAktio_;
+    QAction* tallennaAktio_;
+    QAction* avaaAktio_;
 
 
 };

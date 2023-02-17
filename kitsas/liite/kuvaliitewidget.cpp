@@ -7,24 +7,15 @@
 KuvaLiiteWidget::KuvaLiiteWidget(QWidget *parent) :
     QScrollArea(parent),
     label(new QLabel)
-//    QGraphicsView(parent),
-//    scene_{new QGraphicsScene(this)}
 {
-//    setScene(scene_);
 
     setAlignment(Qt::AlignCenter);
 }
 
 void KuvaLiiteWidget::nayta(const QImage &kuva)
 {    
-    qDebug() << " kuva " << kuva.width() << " näkymä " << viewport()->sizeHint().width() << " widget " << width();
     kuva_ = kuva;
-    QImage skaalattu = kuva.scaledToWidth(width()-25);
-
-
-    QPixmap pixmap = QPixmap::fromImage(skaalattu);
-    label->setPixmap(pixmap);
-    setWidget(label);
+    paivita();
 }
 
 void KuvaLiiteWidget::tulosta(QPrinter *printer)
@@ -40,5 +31,34 @@ void KuvaLiiteWidget::tulosta(QPrinter *printer)
         painter.drawImage(rect, kuva_);
     }
 
+}
+
+void KuvaLiiteWidget::paivita()
+{
+    QImage image;
+    if( zoomMode_ == QPdfView::ZoomMode::FitInView) {
+        QSize koko(width() - 20, height() - 20);
+        image = kuva_.scaled(koko, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    } else if( zoomMode_ == QPdfView::ZoomMode::FitToWidth) {
+        image = kuva_.scaledToWidth(width() - 20, Qt::SmoothTransformation);
+    } else {
+        QSize koko = kuva_.size() * zoomFactor_;
+        image = kuva_.scaled(koko, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    }
+    QPixmap pixmap = QPixmap::fromImage(image);
+    setAlignment(Qt::AlignCenter);
+
+    delete takeWidget();
+    label = new QLabel();
+    label->setPixmap(pixmap);
+
+    setWidget(label);
+}
+
+void KuvaLiiteWidget::setZoom(QPdfView::ZoomMode mode, qreal factor)
+{
+    zoomMode_ = mode;
+    zoomFactor_ = factor;
+    paivita();
 }
 

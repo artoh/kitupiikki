@@ -256,6 +256,17 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="tallennaLiiteNappi">
+           <property name="text">
+            <string>Tallenna</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="tulostaLiiteNappi">
            <property name="text">
             <string>Tulosta</string>

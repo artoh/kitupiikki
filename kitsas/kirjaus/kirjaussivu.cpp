@@ -60,6 +60,8 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
 
     connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaLiiteWidget::naytaPohjat);
     connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg, &NaytaLiiteWidget::tulosta);
+    connect( kirjauswg, &KirjausWg::avaaLiite, liitewg, &NaytaLiiteWidget::avaa);
+    connect( kirjauswg, &KirjausWg::tallennaLiite, liitewg, &NaytaLiiteWidget::tallenna);
 
     connect( liitewg, &NaytaLiiteWidget::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
 

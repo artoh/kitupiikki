@@ -120,7 +120,6 @@ private slots:
 
     void nollaaTietokannanvaihtuessa();
 
-    void avaaLiite();
     void naytaKommenttimerkki(bool onko);
     void vaihdaTunniste();
 
@@ -142,6 +141,8 @@ signals:
      */
     void tositeKasitelty(bool tallennettu);
     void tulostaLiite();
+    void avaaLiite();
+    void tallennaLiite();
 
     void naytaPohjat(bool nayta);
 

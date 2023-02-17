@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QScrollArea>
 
+#include "pdfliiteview.h"
+
 class QPrinter;
 
 class KuvaLiiteWidget : public QScrollArea
@@ -22,6 +24,13 @@ public:
 
     void nayta(const QImage& kuva);
     void tulosta(QPrinter* printer);
+
+    void paivita();
+    void setZoom(PdfLiiteView::ZoomMode mode, qreal factor);
+
+    PdfLiiteView::ZoomMode zoomMode_ = PdfLiiteView::ZoomMode::FitToWidth;
+    qreal zoomFactor_ = 1.00;
+
 };
 
 #endif // KUVALIITEWIDGET_H

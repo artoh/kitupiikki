@@ -119,6 +119,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
         { this->lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)"))); });
 
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
+    connect( ui->tallennaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tallennaLiite);
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
@@ -594,23 +595,6 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
 
 }
 
-void KirjausWg::avaaLiite()
-{
-    QByteArray data = ui->liiteView->currentIndex().data(LiitteetModel::SisaltoRooli).toByteArray();
-    QString nimi = ui->liiteView->currentIndex().data(LiitteetModel::NimiRooli).toByteArray();
-    QString paate = nimi.mid(nimi.lastIndexOf("."));
-
-    QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX").append(paate) );
-
-    QFile tiedosto( tiedostonnimi);
-    tiedosto.open( QIODevice::WriteOnly);
-    tiedosto.write( data);
-    tiedosto.close();
-
-    if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
-        QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( paate ) );
-
-}
 
 void KirjausWg::naytaKommenttimerkki(bool onko)
 {
@@ -689,6 +673,7 @@ void KirjausWg::paivitaLiiteNapit()
 
     ui->poistaLiiteNappi->setEnabled(valittu);
     ui->avaaNappi->setEnabled(valittu);
+    ui->tallennaLiiteNappi->setEnabled(valittu);
     ui->tulostaLiiteNappi->setEnabled(valittu && tosite()->liitteet()->naytettava().data(LiitteetModel::TyyppiRooli).toString() != "application/octet-stream");
 
     if( tosite_->liitteet()->rowCount() )

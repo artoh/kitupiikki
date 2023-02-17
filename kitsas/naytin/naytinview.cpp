@@ -58,7 +58,6 @@
 #include "naytin/tekstinaytin.h"
 
 #include "naytin/kuvaview.h"
-#include "naytin/pdfview.h"
 
 #include "tuonti/csvtuonti.h"
 #include "naytin/esikatselunaytin.h"

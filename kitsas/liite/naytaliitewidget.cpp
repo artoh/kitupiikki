@@ -23,6 +23,13 @@
 #include <QDropEvent>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QSettings>
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+#include <QDesktopServices>
+
+#include <QMenu>
 
 #include "db/kirjanpito.h"
 
@@ -32,6 +39,7 @@ NaytaLiiteWidget::NaytaLiiteWidget(QWidget *parent)
       uusiLiiteWidget_{ new UusiLiiteWidget(this)}
 {
     setup();
+    alustaAktionit();
 
     connect( uusiLiiteWidget_, &UusiLiiteWidget::lataaPohja, this, &NaytaLiiteWidget::lataaPohja);
 
@@ -74,6 +82,51 @@ void NaytaLiiteWidget::tulosta()
     }
 }
 
+void NaytaLiiteWidget::tallenna()
+{
+    const QModelIndex& nykyinen = model_->index( model_->naytettavaIndeksi(),0 );
+    if( !nykyinen.isValid()) return;
+
+    const QDir polku(kp()->settings()->value(kp()->asetukset()->uid() + "/raporttipolku", QDir::homePath()).toString());
+    const QString& tiedostonnimi = nykyinen.data(LiitteetModel::NimiRooli).toString();
+    const QString tiedosto = QFileDialog::getSaveFileName(this, tr("Tallenna liite"), polku.absoluteFilePath(tiedostonnimi));
+    if( !tiedosto.isEmpty()) {
+        kp()->settings()->setValue( kp()->asetukset()->uid() + "/raporttipolku", polku.absolutePath() );
+
+        QFile file(tiedosto);
+        if( !file.open( QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(this, tr("Tiedoston tallentaminen"),
+                                  tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(tiedosto));
+            return;
+        }
+        file.write( nykyinen.data(LiitteetModel::SisaltoRooli).toByteArray() );
+    }
+
+}
+
+void NaytaLiiteWidget::avaa()
+{
+    const QModelIndex& nykyinen = model_->index( model_->naytettavaIndeksi(),0 );
+    if( !nykyinen.isValid()) return;
+
+    QByteArray data = nykyinen.data(LiitteetModel::SisaltoRooli).toByteArray();
+    QString nimi = nykyinen.data(LiitteetModel::NimiRooli).toByteArray();
+    QString paate = nimi.mid(nimi.lastIndexOf("."));
+
+    QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX").append(paate) );
+
+    QFile tiedosto( tiedostonnimi);
+    tiedosto.open( QIODevice::WriteOnly);
+    tiedosto.write( data);
+    tiedosto.close();
+
+    if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
+        QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( paate ) );
+
+
+}
+
 void NaytaLiiteWidget::vaihdaValittu(int indeksi)
 {
     if(indeksi < 0) {
@@ -97,6 +150,7 @@ void NaytaLiiteWidget::naytaSisalto()
         if(!kuva.isNull()) {
             pino_->setCurrentIndex(KUVA);
             kuvaView_->nayta(kuva);
+            refreshZoom();
         } else {
             const QString teksti = Tuonti::CsvTuonti::haistettuKoodattu(*data);
             textView_->setPlainText(teksti);
@@ -171,6 +225,48 @@ void NaytaLiiteWidget::dropEvent(QDropEvent *event)
 
 }
 
+void NaytaLiiteWidget::scaleZoom(qreal scale)
+{
+    zoomFactor_ *= scale;
+    zoomMode_ = PdfLiiteView::ZoomMode::Custom;
+    refreshZoom();
+}
+
+void NaytaLiiteWidget::fitZoom(QPdfView::ZoomMode mode)
+{
+    zoomMode_ = mode;
+    refreshZoom();
+}
+
+void NaytaLiiteWidget::refreshZoom()
+{
+    pdfView_->setZoomFactor(zoomFactor_);
+    pdfView_->setZoomMode(zoomMode_);
+    if( pino_->currentIndex() == KUVA) {
+        kuvaView_->setZoom(zoomMode_, zoomFactor_);
+    }
+}
+
+void NaytaLiiteWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    if( pino_->currentIndex() < PDF) return;
+
+    QMenu valikko(this);
+    if( pino_->currentIndex() != TEKSTI )
+    {
+        valikko.addAction(zoomAktio_);
+        valikko.addAction(zoomFitAktio_);
+        valikko.addAction(zoomInAktio_);
+        valikko.addAction(zoomOutAktio_);
+        valikko.addSeparator();
+    }
+    valikko.addAction(avaaAktio_);
+    valikko.addAction(tulostaAktio_);
+    valikko.addAction(tallennaAktio_);
+
+    valikko.exec( event->globalPos() );
+}
+
 
 void NaytaLiiteWidget::setup()
 {
@@ -210,5 +306,32 @@ void NaytaLiiteWidget::setup()
 
     pdfView_->setPageMode(QPdfView::PageMode::MultiPage);
     pdfView_->setZoomMode(QPdfView::ZoomMode::FitToWidth);
+}
+
+void NaytaLiiteWidget::alustaAktionit()
+{
+    zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"),this);
+    connect( zoomAktio_, &QAction::triggered, this, [this] {this->fitZoom(PdfLiiteView::ZoomMode::FitToWidth);});
+
+    zoomFitAktio_ = new QAction( QIcon(":/pic/zoom-fit.png"), tr("Sovita sivu"),this);
+    connect( zoomFitAktio_, &QAction::triggered, this, [this] {this->fitZoom(PdfLiiteView::ZoomMode::FitInView);});
+
+    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
+    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
+    connect( zoomInAktio_, &QAction::triggered, this, [this] {this->scaleZoom(1.2);});
+
+    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
+    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
+    connect( zoomOutAktio_, &QAction::triggered, this, [this] {this->scaleZoom( 1.0 / 1.2);});
+
+    tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"), this);
+    connect( tulostaAktio_, &QAction::triggered, this, &NaytaLiiteWidget::tulosta);
+
+    tallennaAktio_ = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this);
+    connect( tallennaAktio_, &QAction::triggered, this, &NaytaLiiteWidget::tallenna);
+
+    avaaAktio_ = new QAction( QIcon(":/pic/pdf.png"), tr("Avaa"), this);
+    connect( avaaAktio_, &QAction::triggered, this, &NaytaLiiteWidget::avaa);
+
 }
 
