@@ -165,7 +165,7 @@ bool LiitteetModel::lisaa(QByteArray liite, const QString &tiedostonnimi, const 
 
 bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
 {
-    qDebug() << "Lisays " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+//    qDebug() << "Lisays " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
 
     // Tarkastus ja esikäsittely
     QFileInfo info(polku);
@@ -411,7 +411,7 @@ void LiitteetModel::naytaKayttajalle()
         if( !data) return;
 
         if( data->startsWith("%PDF")) {
-            qDebug() << "Lataus " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+//            qDebug() << "Lataus " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
 
             puskuri_->setBuffer(data);
             puskuri_->open(QIODevice::ReadOnly);
@@ -425,13 +425,13 @@ void LiitteetModel::naytaKayttajalle()
 
 void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
 {
-    qDebug() << "Tila  " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+//    qDebug() << "Tila  " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
     qApp->processEvents();  // Jotta saadaan latausnäkymä
     if( status == QPdfDocument::Status::Ready && naytettavaIndeksi_ == pdfTuontiIndeksi_) {
         Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
-        qDebug() << "Luettu " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+//        qDebug() << "Luettu " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
         QVariantMap tuotu = pdfTuonti.tuo( kp()->tuontiInfo() );
-        qDebug() << "Tuotu: " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+//        qDebug() << "Tuotu: " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
         pdfTuontiIndeksi_ = -1;
         if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);

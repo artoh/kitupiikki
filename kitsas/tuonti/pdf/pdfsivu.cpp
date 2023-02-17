@@ -27,7 +27,7 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
     QString text = sel.text();
 
 //    qDebug() << sel.text();
-//    const QDateTime startTime = QDateTime::currentDateTime();
+    const QDateTime startTime = QDateTime::currentDateTime();
 
     int start = 0;
     for(int c=0; c < text.length(); c++) {
@@ -39,11 +39,10 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
 
             QPdfSelection piece = doc->getSelectionAtIndex(sivu, start, c - start);
 
-            lisaa(new PdfPala(piece));
             start = c+1;
         }
     }
-//  qDebug() << "E  " << sivu << "  " << startTime.msecsTo(QDateTime::currentDateTime());
+  qDebug() << "E  " << sivu << "  " << startTime.msecsTo(QDateTime::currentDateTime());
 
 
 //    qDebug() << teksti();
