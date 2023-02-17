@@ -31,6 +31,8 @@
 #include <QTextDocument>
 #include <QPdfWriter>
 
+#include <QTimer>
+
 LiitteetModel::LiitteetModel(QObject *parent)
     : QAbstractListModel(parent),
       puskuri_{new QBuffer()},
@@ -42,6 +44,7 @@ LiitteetModel::LiitteetModel(QObject *parent)
              this, &LiitteetModel::hakuVirhe);
     connect( pdfDoc_, &QPdfDocument::statusChanged,
              this, &LiitteetModel::pdfTilaVaihtui);
+
 }
 
 LiitteetModel::~LiitteetModel()
@@ -418,10 +421,10 @@ void LiitteetModel::naytaKayttajalle()
 
 void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
 {
-    qApp->processEvents();
     if( status == QPdfDocument::Status::Ready && naytettavaIndeksi_ == pdfTuontiIndeksi_) {
         Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
         QVariantMap tuotu = pdfTuonti.tuo( kp()->tuontiInfo() );
+        qDebug() << "TUOTU " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
         pdfTuontiIndeksi_ = -1;
         if( tuotu.value("tyyppi").toInt() == TositeTyyppi::TILIOTE) {
             KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
@@ -430,9 +433,9 @@ void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
         } else {
             emit this->tuonti( tuotu);
         }
-
     }
 }
+
 
 void LiitteetModel::tuoLiite(const QString& tyyppi, const QByteArray& sisalto)
 {

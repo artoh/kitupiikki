@@ -18,7 +18,6 @@
 #define TILIOTEOTSAKE_H
 
 #include <QStringList>
-#include "tools/pdf/pdfanalyzerrow.h"
 
 namespace Tuonti {
 

@@ -59,6 +59,8 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     setLayout(leiska);
 
     connect( kirjauswg, &KirjausWg::naytaPohjat, liitewg, &NaytaLiiteWidget::naytaPohjat);
+    connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg, &NaytaLiiteWidget::tulosta);
+
     connect( liitewg, &NaytaLiiteWidget::lataaPohja, kirjauswg, &KirjausWg::lataaTosite);
 
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));

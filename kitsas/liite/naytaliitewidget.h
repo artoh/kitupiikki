@@ -11,10 +11,10 @@ class LiitteetModel;
 class QStackedWidget;
 class UusiLiiteWidget;
 class QTabBar;
-class QPdfView;
 class QBuffer;
 class QTextEdit;
 class QTextBrowser;
+class PdfLiiteView;
 
 class KuvaLiiteWidget;
 
@@ -29,6 +29,7 @@ public:
 
     void naytaPohjat(bool naytetaanko);
 
+    void tulosta();
 signals:
     void lataaPohja(int tositeId);
 
@@ -48,7 +49,7 @@ protected:
     QTabBar* tabBar_;
     QStackedWidget* pino_;
 
-    QPdfView* pdfView_;
+    PdfLiiteView* pdfView_;
     KuvaLiiteWidget* kuvaView_;
     QTextBrowser* textView_;
 

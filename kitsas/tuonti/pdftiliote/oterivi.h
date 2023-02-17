@@ -81,6 +81,7 @@ protected:
     static std::vector<QString> ohitettavat__;    
     static QRegularExpression ibanRe__;
     static QRegularExpression nroRe__;
+    static QRegularExpression emailRe__;
 };
 
 

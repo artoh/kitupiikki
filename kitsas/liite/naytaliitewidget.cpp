@@ -3,7 +3,7 @@
 #include "liite/liitteetmodel.h"
 
 #include "kuvaliitewidget.h"
-
+#include "pdfliiteview.h"
 #include "tuonti/csvtuonti.h"
 
 #include <QStackedWidget>
@@ -21,6 +21,9 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+
+#include "db/kirjanpito.h"
+
 
 NaytaLiiteWidget::NaytaLiiteWidget(QWidget *parent)
     : QWidget{parent},
@@ -53,6 +56,14 @@ void NaytaLiiteWidget::setModel(LiitteetModel *model)
 void NaytaLiiteWidget::naytaPohjat(bool naytetaanko)
 {
     uusiLiiteWidget_->naytaPohja(naytetaanko);
+}
+
+void NaytaLiiteWidget::tulosta()
+{
+    if( pino_->currentIndex() == PDF)
+        pdfView_->tulosta( kp()->printer() );
+    else if(pino_->currentIndex() == KUVA)
+        kuvaView_->tulosta(kp()->printer());
 }
 
 void NaytaLiiteWidget::vaihdaValittu(int indeksi)
@@ -171,7 +182,7 @@ void NaytaLiiteWidget::setup()
     QLabel* tyhjaLabel = new QLabel();
     pino_->addWidget(tyhjaLabel);
 
-    pdfView_ = new QPdfView();
+    pdfView_ = new PdfLiiteView();
     pino_->addWidget(pdfView_);
 
     kuvaView_ = new KuvaLiiteWidget(this);

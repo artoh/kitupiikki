@@ -18,7 +18,6 @@
 #include "ui_laskudialogi.h"
 
 #include "model/tosite.h"
-#include "model/tositeliitteet.h"
 #include "db/kirjanpito.h"
 
 #include "db/tositetyyppimodel.h"
@@ -218,9 +217,9 @@ void KantaLaskuDialogi::teeConnectit()
     connect( ui->liiteView->selectionModel(), &QItemSelectionModel::currentChanged, this, &KantaLaskuDialogi::paivitaLiiteNapit);
     connect( ui->liiteView, &QListView::clicked, this, &KantaLaskuDialogi::paivitaLiiteNapit);
 
-    connect( tosite()->liitteet(), &TositeLiitteet::modelReset, this, &KantaLaskuDialogi::paivitaLiiteNapit);
-    connect( tosite()->liitteet(), &TositeLiitteet::rowsInserted, this, &KantaLaskuDialogi::paivitaLiiteNapit);
-    connect( tosite()->liitteet(), &TositeLiitteet::rowsRemoved, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( tosite()->liitteet(), &LiitteetModel::modelReset, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( tosite()->liitteet(), &LiitteetModel::rowsInserted, this, &KantaLaskuDialogi::paivitaLiiteNapit);
+    connect( tosite()->liitteet(), &LiitteetModel::rowsRemoved, this, &KantaLaskuDialogi::paivitaLiiteNapit);
 }
 
 void KantaLaskuDialogi::alustaMaksutavat()
@@ -773,9 +772,9 @@ void KantaLaskuDialogi::kieliVaihtuu()
 
 void KantaLaskuDialogi::naytaLiite()
 {
-    QByteArray data = ui->liiteView->currentIndex().data(TositeLiitteet::SisaltoRooli).toByteArray();
+    QByteArray data = ui->liiteView->currentIndex().data(LiitteetModel::SisaltoRooli).toByteArray();
     if( data.isEmpty()) {
-        const int liiteId = ui->liiteView->currentIndex().data(TositeLiitteet::IdRooli).toInt();
+        const int liiteId = ui->liiteView->currentIndex().data(LiitteetModel::IdRooli).toInt();
         NaytinIkkuna::naytaLiite(liiteId);
     } else {
         NaytinIkkuna::nayta(data);
@@ -809,7 +808,7 @@ void KantaLaskuDialogi::paivitaLiiteNapit()
     bool valittu = ui->liiteView->currentIndex().isValid();
     // Laskun kuvaa ei voi poistaa
     ui->poistaLiiteNappi->setEnabled( valittu &&
-                                      ui->liiteView->currentIndex().data(TositeLiitteet::RooliRooli).toString().isEmpty());
+                                      ui->liiteView->currentIndex().data(LiitteetModel::RooliRooli).toString().isEmpty());
     ui->avaaLiiteNappi->setEnabled(valittu);
 
     const int tabIndex = ui->tabWidget->indexOf( ui->tabWidget->findChild<QWidget*>("liitteet") );

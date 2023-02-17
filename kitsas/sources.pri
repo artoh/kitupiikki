@@ -124,6 +124,7 @@ SOURCES += \
     $$PWD/liite/liitteetmodel.cpp \
     $$PWD/liite/liitteetview.cpp \
     $$PWD/liite/naytaliitewidget.cpp \
+    $$PWD/liite/pdfliiteview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
@@ -546,6 +547,7 @@ HEADERS += \
     $$PWD/liite/liitteetmodel.h \
     $$PWD/liite/liitteetview.h \
     $$PWD/liite/naytaliitewidget.h \
+    $$PWD/liite/pdfliiteview.h \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \

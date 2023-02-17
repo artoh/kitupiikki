@@ -124,10 +124,13 @@ void OteRivi::setSaajaMaksaja(const QString &nimi, int rivi)
         }
     }
 
+    QString siivottu(nimi);
+    siivottu.replace(emailRe__,"");
+
     if( saajaMaksajaRivi_ == rivi) {
-        saajamaksaja_.append(" " + nimi);
+        saajamaksaja_.append(" " + siivottu);
     } else if( saajamaksaja_.isEmpty()) {
-        saajamaksaja_ = nimi;
+        saajamaksaja_ = siivottu;
         saajaMaksajaRivi_ = rivi;
     } else
         lisaaYleinen(nimi, rivi);
@@ -217,8 +220,8 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
         tila = NORMAALI;
     } else if( iso.contains("OSTOPVM") && ostopvm_.isNull()) {
         lisaaOstoPvm(iso);
-    } else if( iso.contains("ARKISTOINTITUNNUS") && arkistotunnus_.isEmpty()) {
-        setArkistotunnus( iso.mid(18), rivi );
+    } else if( iso.contains("ARKISTOINTITUNNUS")) {
+        if(arkistotunnus_.isEmpty()) setArkistotunnus( iso.mid(18), rivi );
     } else if( iso.contains("ARKISTOVIITE") && arkistotunnus_.isEmpty()) {
         setArkistotunnus( iso.mid(iso.indexOf(":")), rivi );
     } else if( Iban(teksti).isValid() ) {
@@ -395,4 +398,5 @@ std::vector<QString> OteRivi::ohitettavat__ =
 
 QRegularExpression OteRivi::ibanRe__("\\b[A-Z]{2}\\d{2}\\s?(\\w{4}\\s?){3,6}\\w{1,4}\\b");
 QRegularExpression OteRivi::nroRe__("\\d+");
+QRegularExpression OteRivi::emailRe__("<.*@.*>");
 }

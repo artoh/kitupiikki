@@ -62,7 +62,6 @@
 #include "apuri/tiliote/tilioteapuri.h"
 #include "apuri/palkkaapuri.h"
 #include "model/tosite.h"
-#include "model/tositeliitteet.h"
 #include "model/tositeviennit.h"
 #include "model/tositeloki.h"
 #include "tallennettuwidget.h"
@@ -597,8 +596,8 @@ void KirjausWg::nollaaTietokannanvaihtuessa()
 
 void KirjausWg::avaaLiite()
 {
-    QByteArray data = ui->liiteView->currentIndex().data(TositeLiitteet::SisaltoRooli).toByteArray();
-    QString nimi = ui->liiteView->currentIndex().data(TositeLiitteet::NimiRooli).toByteArray();
+    QByteArray data = ui->liiteView->currentIndex().data(LiitteetModel::SisaltoRooli).toByteArray();
+    QString nimi = ui->liiteView->currentIndex().data(LiitteetModel::NimiRooli).toByteArray();
     QString paate = nimi.mid(nimi.lastIndexOf("."));
 
     QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX").append(paate) );
@@ -690,7 +689,7 @@ void KirjausWg::paivitaLiiteNapit()
 
     ui->poistaLiiteNappi->setEnabled(valittu);
     ui->avaaNappi->setEnabled(valittu);
-    ui->tulostaLiiteNappi->setEnabled(valittu && tosite()->liitteet()->naytettava().data(TositeLiitteet::TyyppiRooli).toString() != "application/octet-stream");
+    ui->tulostaLiiteNappi->setEnabled(valittu && tosite()->liitteet()->naytettava().data(LiitteetModel::TyyppiRooli).toString() != "application/octet-stream");
 
     if( tosite_->liitteet()->rowCount() )
         ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_) , QIcon(":/pic/liite-aktiivinen.png"));

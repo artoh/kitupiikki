@@ -184,7 +184,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
         }
 
     }
-    QTimer::singleShot(0, [this] {this->tositteelle();});
+    QTimer::singleShot(0, this, [this] {this->tositteelle();});
 }
 
 void TuloMenoApuri::salliMuokkaus(bool sallitaanko)

@@ -3,6 +3,8 @@
 #include <QPdfDocument>
 #include <iostream>
 
+#include <QDateTime>
+
 namespace Tuonti {
 
 PdfSivu::PdfSivu()
@@ -24,6 +26,7 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
     QPdfSelection sel = doc->getAllText(sivu);
     QString text = sel.text();
 
+
     int start = 0;
     for(int c=0; c < text.length(); c++) {
         if( text.at(c).isSpace()) {
@@ -36,7 +39,6 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
             start = c+1;
         }
     }
-
 
     for(int i=0; i < rivit_.count(); i++)
         rivit_[i]->yhdistaPalat();

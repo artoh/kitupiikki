@@ -38,7 +38,7 @@ bool TilioteOtsake::alkaakoOtsake(PdfRivi* rivi)
     const QString teksti = rivi->teksti();
     return teksti.contains("Arkistointitunnus", Qt::CaseInsensitive) ||
            teksti.contains("Arkiveringskod", Qt::CaseInsensitive) ||
-           (teksti.contains("Kirjaus", Qt::CaseInsensitive) && teksti.contains("Pano", Qt::CaseInsensitive)) ||
+           ( teksti.contains("Kirjaus", Qt::CaseInsensitive) && ( teksti.contains("Pano", Qt::CaseInsensitive) || teksti.contains("Maksutiedot", Qt::CaseInsensitive) )) ||
            (teksti.contains("Kirj.pvm", Qt::CaseInsensitive) && teksti.contains("Arvopvm.", Qt::CaseInsensitive));
 }
 
@@ -62,8 +62,9 @@ void TilioteOtsake::kasitteleRivi(PdfRivi *rivi)
             for(int i=0; i < sarakkeet_.count(); i++) {
                 Sarake vs = sarakkeet_.at(i);
                 if( qAbs(vs.alku() - sarake.alku()) < 20 ) break;
-                if( sarake.alku() < vs.alku()) {
-                    sarakkeet_.insert(i, sarake);
+                if( sarake.alku() >= vs.alku() - 5 && sarake.loppu() <= vs.loppu() + 5) break;
+                if( sarake.alku() < vs.alku() ) {
+                        sarakkeet_.insert(i, sarake);
                     break;
                 }
             }
@@ -181,6 +182,8 @@ TilioteOtsake::Tyyppi TilioteOtsake::tyyppiTekstilla(const QString &teksti)
         return SAAJAMAKSAJA;
     else if( teksti.contains("ARKISTOINTI") || teksti.contains("ARKIVERINGS"))
         return ARKISTOTUNNUS;
+    else if( teksti.contains("MAKSUTIEDOT"))
+        return YLEINEN;
     else if(teksti.contains("TAP") ||
             teksti.contains("SALDO") ||
             teksti.contains("TILIÖINTI"))
