@@ -13,11 +13,11 @@ class PdfRivi
 {
 public:
     PdfRivi();
-    PdfRivi(const QPdfSelection& selection);
+    PdfRivi(PdfPala* pala);
     ~PdfRivi();
 
-    int vertaa(const QPdfSelection& selection) const;
-    void tuo(const QPdfSelection& selection);
+    int vertaa(PdfPala* uusipala) const;
+    void tuo(PdfPala* uusipala);
 
     void yhdistaPalat();        
 

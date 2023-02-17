@@ -8,11 +8,11 @@ PdfRivi::PdfRivi()
 
 }
 
-PdfRivi::PdfRivi(const QPdfSelection &selection)
+PdfRivi::PdfRivi(PdfPala *pala)
 {
-    ekapala_ = new PdfPala(selection);
-    vikapala_ = ekapala_;
-    alue_ = selection.boundingRectangle().toRect();
+    ekapala_ = pala;
+    vikapala_ = pala;
+    alue_ = pala->rect();
 }
 
 PdfRivi::~PdfRivi()
@@ -21,31 +21,31 @@ PdfRivi::~PdfRivi()
         delete ekapala_;
 }
 
-int PdfRivi::vertaa(const QPdfSelection &selection) const
+int PdfRivi::vertaa(PdfPala *uusipala) const
 {
-    const int ylareuna = selection.boundingRectangle().top();
-    const int alareuna = selection.boundingRectangle().bottom();
-    const int neljannes = ekapala_->korkeus();
+//    const int ylareuna = uusipala.boundingRectangle().top();
+//    const int alareuna = uusipala.boundingRectangle().bottom();
+//    const int neljannes = ekapala_->korkeus();
 
-    if( ylareuna == ekapala_->yla() && alareuna == ekapala_->ala()) return 0;
+    if( uusipala->yla() == ekapala_->yla() && uusipala->ala() == ekapala_->ala()) return 0;
 
-    if( alareuna < ekapala_->yla())
+    if( uusipala->ala() < ekapala_->yla())
         return -1;
-    else if( ylareuna > ekapala_->ala())
+    else if( uusipala->yla() > ekapala_->ala())
         return 1;
 
-    if( alareuna < ekapala_->ala() - neljannes ||
-        ylareuna < ekapala_->yla() - neljannes)
-        return -1;
-    if( ylareuna > ekapala_->yla() + neljannes ||
-        alareuna > ekapala_->ala() + neljannes   )
-        return 1;
+//    if( alareuna < ekapala_->ala() - neljannes ||
+//        ylareuna < ekapala_->yla() - neljannes)
+//        return -1;
+//    if( ylareuna > ekapala_->yla() + neljannes ||
+//        alareuna > ekapala_->ala() + neljannes   )
+//        return 1;
 
     PdfPala* pala = ekapala_->seuraava();
     while(pala) {
-        if( pala->yla() >= alareuna)
+        if( pala->yla() >= uusipala->ala())
             return -1;
-        else if(pala->ala() <= ylareuna)
+        else if(pala->ala() <= uusipala->yla())
             return 1;
         pala = pala->seuraava();
     }
@@ -54,28 +54,25 @@ int PdfRivi::vertaa(const QPdfSelection &selection) const
     return 0;       // KELPAA ;)
 }
 
-void PdfRivi::tuo(const QPdfSelection &selection)
-{
-    int vasen = selection.boundingRectangle().left();
+void PdfRivi::tuo(PdfPala *uusipala)
+{    
+    alue_ = alue_.united(uusipala->rect());
 
-    PdfPala* uusi = new PdfPala(selection);
-    alue_ = alue_.united(uusi->rect());
-
-    if( vasen > vikapala_->vasen()) {
-        vikapala_->asetaSeuraava(uusi);
-        vikapala_ = uusi;
+    if( uusipala->vasen() > vikapala_->vasen()) {
+        vikapala_->asetaSeuraava(uusipala);
+        vikapala_ = uusipala;
         return;
     }
 
-    if( vasen < ekapala_->vasen()) {        
-        uusi->asetaSeuraava( ekapala_ );
-        ekapala_ = uusi;
+    if( uusipala->vasen() < ekapala_->vasen()) {
+        uusipala->asetaSeuraava( ekapala_ );
+        ekapala_ = uusipala;
     } else {
         PdfPala* pala = ekapala_;
-        while( pala->vasen() > vasen && pala->seuraava())
+        while( pala->vasen() > uusipala->vasen() && pala->seuraava())
             pala = pala->seuraava();        
-        uusi->asetaSeuraava(pala->seuraava());
-        pala->asetaSeuraava( uusi );
+        uusipala->asetaSeuraava(pala->seuraava());
+        pala->asetaSeuraava( uusipala );
 
     }
 }

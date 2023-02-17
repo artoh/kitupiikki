@@ -87,7 +87,7 @@ void Testaaja::ladattu(QPdfDocument::Status status)
 
         }
 
-        if( !ok || 1 ) {
+        if( !ok ) {
             QJsonDocument doc = QJsonDocument::fromVariant(tuotu);
             std::cout << doc.toJson().toStdString();
         }

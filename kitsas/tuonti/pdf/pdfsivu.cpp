@@ -26,6 +26,8 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
     QPdfSelection sel = doc->getAllText(sivu);
     QString text = sel.text();
 
+//    qDebug() << sel.text();
+//    const QDateTime startTime = QDateTime::currentDateTime();
 
     int start = 0;
     for(int c=0; c < text.length(); c++) {
@@ -33,12 +35,18 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
             if(start >= c) {
                 start = c+1;
                 continue;
-            }
+            }            
+
             QPdfSelection piece = doc->getSelectionAtIndex(sivu, start, c - start);
-            lisaa(piece);
+
+            lisaa(new PdfPala(piece));
             start = c+1;
         }
     }
+//  qDebug() << "E  " << sivu << "  " << startTime.msecsTo(QDateTime::currentDateTime());
+
+
+//    qDebug() << teksti();
 
     for(int i=0; i < rivit_.count(); i++)
         rivit_[i]->yhdistaPalat();
@@ -126,35 +134,35 @@ PdfRivi *PdfSivu::rivi(int rivi)
     return rivit_.at(rivi);
 }
 
-void PdfSivu::lisaa(const QPdfSelection &selection)
+void PdfSivu::lisaa(PdfPala *uusipala)
 {
     if( rivit_.isEmpty()) {
-        rivit_.append( new PdfRivi(selection));
+        rivit_.append( new PdfRivi(uusipala) );
         return;
     }
 
-    int lvertaus = rivit_.last()->vertaa(selection);
+    int lvertaus = rivit_.last()->vertaa(uusipala);
     if( lvertaus == 0) {
-        rivit_.last()->tuo(selection);
+        rivit_.last()->tuo(uusipala);
         return;
     } else if( lvertaus > 0) {
-        rivit_.append(new PdfRivi(selection));
+        rivit_.append(new PdfRivi(uusipala));
         return;
     }
 
 
     for(int i=0; i < rivit_.count(); i++) {
-        int vertaus = rivit_[i]->vertaa(selection);
+        int vertaus = rivit_[i]->vertaa(uusipala);
         if( vertaus < 0 ) {
-            rivit_.insert(i, new PdfRivi(selection));
+            rivit_.insert(i, new PdfRivi(uusipala));
             return;
         }
         if( vertaus == 0) {
-            rivit_[i]->tuo(selection);
+            rivit_[i]->tuo(uusipala);
             return;
         }
     }
-    rivit_.append( new PdfRivi(selection) );
+    rivit_.append( new PdfRivi(uusipala) );
 }
 
 } // namespace Tuonti

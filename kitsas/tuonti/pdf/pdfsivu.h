@@ -31,7 +31,7 @@ public:
     PdfRivi* rivi(int rivi);
 
 private:
-    void lisaa(const QPdfSelection& selection);
+    void lisaa(PdfPala* uusipala);
 
 protected:
     QList<PdfRivi*> rivit_;

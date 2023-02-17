@@ -45,7 +45,7 @@ QVariantMap PdfTilioteTuonti::tuo(PdfTiedosto *tiedosto)
         for(int r = 0; r < sivu->riveja(); r++ ) {
             PdfRivi* rivi = sivu->rivi(r);
 
-//           qDebug() << r << " [" << tila_ << "] " << rivi->teksti();
+//          qDebug() << r << " [" << tila_ << "] " << rivi->teksti();
             lueRivi(rivi);
         }
         tila_ = TOINENSIVU;
@@ -141,12 +141,12 @@ void PdfTilioteTuonti::lueTaulukkoRivi(PdfRivi *rivi)
     const QString& teksti = rivi->teksti();
 
     // Ensin pitäisi tarkistaa, mennäänkö taulukosta ulos    
-    if(( pala->vasen() < 500 ||
+    if(( pala->vasen() > 500 ||
        (otsake_.indeksiSijainnilla(pala->vasen()) == 0 &&
         pala->teksti().contains(pieniRe__)))
             && !teksti.contains("Kirjauspäivä", Qt::CaseInsensitive)
             && !teksti.startsWith("Registr. dag", Qt::CaseInsensitive)
-            && !teksti.startsWith("SALDO"), Qt::CaseInsensitive) {
+            && !pala->teksti().startsWith("SALDO", Qt::CaseInsensitive) ) {
         tila_ = LOPPU;
         return;
     }
