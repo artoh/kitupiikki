@@ -21,6 +21,8 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QPrintDialog>
+#include <QPrinter>
 
 #include "db/kirjanpito.h"
 
@@ -64,6 +66,12 @@ void NaytaLiiteWidget::tulosta()
         pdfView_->tulosta( kp()->printer() );
     else if(pino_->currentIndex() == KUVA)
         kuvaView_->tulosta(kp()->printer());
+    else if( pino_->currentIndex() == TEKSTI) {
+        QPrintDialog dlg(kp()->printer(), this);
+        if( dlg.exec()) {
+            textView_->print(kp()->printer());
+        }
+    }
 }
 
 void NaytaLiiteWidget::vaihdaValittu(int indeksi)

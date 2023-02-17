@@ -36,6 +36,7 @@ private:
 protected:
     QList<PdfRivi*> rivit_;
     QSize sivunKoko_;
+
 };
 
 } // namespace Tuonti

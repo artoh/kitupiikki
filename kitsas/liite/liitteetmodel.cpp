@@ -421,6 +421,7 @@ void LiitteetModel::naytaKayttajalle()
 
 void LiitteetModel::pdfTilaVaihtui(QPdfDocument::Status status)
 {
+    qApp->processEvents();  // Jotta saadaan latausnäkymä
     if( status == QPdfDocument::Status::Ready && naytettavaIndeksi_ == pdfTuontiIndeksi_) {
         Tuonti::PdfTiedosto pdfTuonti(pdfDoc_);
         QVariantMap tuotu = pdfTuonti.tuo( kp()->tuontiInfo() );

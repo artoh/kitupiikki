@@ -45,6 +45,7 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
     for(int i=0; i < rivit_.count() - 1; i++)
         rivit_[i]->pala()->etsiAlapala(  rivit_[i+1]->pala() );
 
+
 }
 
 QString PdfSivu::teksti() const
