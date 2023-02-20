@@ -23,7 +23,6 @@
 #include <QPagedPaintDevice>
 #include <QPainter>
 
-#include "tools/pdf/pdftoolkit.h"
 #include <QGraphicsPixmapItem>
 #include <QImage>
 #include <QRegularExpression>

@@ -27,8 +27,6 @@
 #include <QSettings>
 #include <QMouseEvent>
 
-#include "tools/pdf/pdftoolkit.h"
-
 InboxLista::InboxLista()
 {
     vahti_ = new QFileSystemWatcher(this);

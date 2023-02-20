@@ -35,7 +35,6 @@
 #include "db/kirjanpito.h"
 
 #include "kieli/monikielinen.h"
-#include "model/tositeliitteet.h"
 
 
 LaskuDialogiTehdas::LaskuDialogiTehdas(KitsasInterface *kitsas, QObject *parent) :
