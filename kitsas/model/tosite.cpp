@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QMessageBox>
+#include <QApplication>
 
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
@@ -167,12 +168,23 @@ void Tosite::asetaPvm(const QDate &paivamaara)
 
 void Tosite::asetaKommentti(const QString &kommentti)
 {
-    setData(LISATIEDOT, kommentti);
+    if(kommentti.isEmpty())
+        data_.remove(avaimet__.at(LISATIEDOT));
+    else
+        setData(LISATIEDOT, kommentti);
 }
 
 void Tosite::asetaSarja(const QString &sarja)
 {
     setData(SARJA, sarja);
+}
+
+void Tosite::asetaLaskupvm(const QDate &pvm)
+{
+    if( pvm.isValid())
+        data_.insert(avaimet__.at(LASKUPVM), pvm);
+    else
+        data_.remove(avaimet__.at(LASKUPVM));
 }
 
 void Tosite::asetaKumppani(int id)
@@ -303,6 +315,9 @@ void Tosite::lataa(const QVariantMap &map)
     liitteet()->lataa( data_.take("liitteet").toList());
 
     emit tyyppiMuuttui( tyyppi());
+
+    qApp->processEvents();
+
     emit pvmMuuttui( pvm() );
     emit otsikkoMuuttui( otsikko() );
     emit sarjaMuuttui( sarja() );
@@ -310,10 +325,20 @@ void Tosite::lataa(const QVariantMap &map)
     emit kommenttiMuuttui( kommentti());
     emit huomioMuuttui( huomio());
 
-    QTimer::singleShot(100, this, &Tosite::latausValmis);
+    qApp->processEvents();
+
+    if( tila() != Tila::POISTETTU) {
+        tallennettu_ = tallennettava();
+    }
+    resetointiKaynnissa_ = false;
+    QTimer::singleShot(100, this, &Tosite::tarkasta);
+
+    /*
+     QTimer::singleShot(100, this, &Tosite::latausValmis);
     if( tila() != Tila::POISTETTU) {
         QTimer::singleShot(250, this, &Tosite::laitaTalteen);
     }
+    */
 
     kp()->odotusKursori(false);
 }
@@ -388,10 +413,17 @@ void Tosite::tarkasta()
 
 
     const QVariantMap& talteen = tallennettava();
-    muutettu_ = !tallennettu_.isEmpty() && (
-            tallennettu_ != talteen ||
-            liitteet()->tallennettaviaLiitteita() ||
-            !liitteet()->liitettavat().isEmpty() );
+
+    QByteArray tallennettavaArray = QJsonDocument::fromVariant(talteen).toJson(QJsonDocument::Compact);
+    QByteArray tallennettuArray = QJsonDocument::fromVariant(tallennettu_).toJson(QJsonDocument::Compact);
+
+    const bool muokattu = tallennettavaArray != tallennettuArray;
+    const bool liitteita = liitteet_->tallennettaviaLiitteita() || !liitteet_->liitettavat().isEmpty();
+
+//    qDebug() << "U " << tallennettavaArray;
+//    qDebug() << "V " << tallennettuArray;
+
+    muutettu_ = !tallennettu_.isEmpty() && (muokattu || liitteita);
 
 
     int virheet = 0;    
@@ -500,6 +532,7 @@ void Tosite::laitaTalteen()
 {
     if (!resetointiKaynnissa_)
         tallennettu_ = tallennettava();
+    tarkasta();
 }
 
 void Tosite::latausValmis()

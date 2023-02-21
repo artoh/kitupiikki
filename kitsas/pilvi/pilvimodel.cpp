@@ -230,8 +230,11 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
     kayttajaToken_ = data.value("token").toString();
     tokenUusittu_ = QDateTime::currentDateTime();
 
-    {
-        emit kirjauduttu(kayttaja_);
+
+    emit kirjauduttu(kayttaja_);
+    if( kayttaja_ ) {
+        // Tarkastetaan tokenin uusintatarve kerran minuutissa
+        timer_->start(1000 * 60);
     }
 
     if(avaaPilvi_) {
@@ -261,10 +264,10 @@ void PilviModel::poistettu()
 
 void PilviModel::tarkistaKirjautuminen()
 {
-    // Jos viimeisestä tokenin uusimisesta on yli tunti ja ollaan kirjautuneena,
+    // Jos viimeisestä tokenin uusimisesta on yli 12 tuntia ja ollaan kirjautuneena,
     // yritetään uusia token
 
-    if( kayttaja_ && tokenUusittu_.isValid() && tokenUusittu_.secsTo(QDateTime::currentDateTime()) > 60 * 60 ) {
+    if( kayttaja_ && tokenUusittu_.isValid() && tokenUusittu_.secsTo(QDateTime::currentDateTime()) > 60 * 60 * 12 ) {
         tokenUusittu_ = QDateTime();
         paivitaLista();
     }

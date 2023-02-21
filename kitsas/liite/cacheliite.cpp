@@ -22,17 +22,16 @@ void CacheLiite::setData(const QByteArray &data)
     thumb_ = QPixmap::fromImage(image);
 }
 
-void CacheLiite::sijoitaKarkeen(CacheLiite *karki)
+void CacheLiite::asetaSeuraava(CacheLiite *seuraava)
 {
-    // Poistetaan vanhasta sijainnista
-    if( edellinen_)
-        edellinen_->seuraava_ = seuraava_;
-    if( seuraava_ )
-        seuraava_->edellinen_ = edellinen_;
-    if( karki )
-        karki->seuraava_ = this;
-
+    seuraava_ = seuraava;
 }
+
+void CacheLiite::asetaEdellinen(CacheLiite *edellinen)
+{
+    edellinen_ = edellinen;
+}
+
 
 void CacheLiite::lukitse()
 {

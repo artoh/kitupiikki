@@ -105,8 +105,12 @@ void KommentitWidget::lataa()
 void KommentitWidget::paivita()
 {
     QVariantMap map;
-    map.insert("teksti", edit_->toPlainText());
-    tosite_->setData(Tosite::KOMMENTTI, map);
+    if( edit_->toPlainText().isEmpty()) {
+        tosite_->setData(Tosite::KOMMENTTI, QString());
+    } else {
+        map.insert("teksti", edit_->toPlainText());
+        tosite_->setData(Tosite::KOMMENTTI, map);
+    }
 
     bool oikeus = kp()->yhteysModel() &&            
             tosite_->id() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_KOMMENTTI);

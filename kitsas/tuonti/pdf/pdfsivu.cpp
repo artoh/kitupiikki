@@ -38,20 +38,19 @@ void PdfSivu::tuo(QPdfDocument *doc, int sivu)
             }            
 
             QPdfSelection piece = doc->getSelectionAtIndex(sivu, start, c - start);
-
+            lisaa(new PdfPala(piece));
             start = c+1;
         }
-    }
+    }  
   qDebug() << "E  " << sivu << "  " << startTime.msecsTo(QDateTime::currentDateTime());
 
-
-//    qDebug() << teksti();
 
     for(int i=0; i < rivit_.count(); i++)
         rivit_[i]->yhdistaPalat();
     for(int i=0; i < rivit_.count() - 1; i++)
         rivit_[i]->pala()->etsiAlapala(  rivit_[i+1]->pala() );
 
+//    qDebug() << teksti();
 
 }
 

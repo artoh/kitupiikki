@@ -21,8 +21,10 @@ public:
 
     void setData(const QByteArray& data);
 
-    void sijoitaKarkeen(CacheLiite* karki);
     CacheLiite* seuraava() { return seuraava_;}
+    void asetaSeuraava(CacheLiite* seuraava);
+    CacheLiite* edellinen() { return edellinen_;}
+    void asetaEdellinen(CacheLiite* edellinen);
 
     bool lukossa() { return lukko_;}
     void lukitse();
@@ -41,8 +43,8 @@ private:
     QByteArray data_;
     QPixmap thumb_;
 
-    CacheLiite* edellinen_ = nullptr;
     CacheLiite* seuraava_ = nullptr;
+    CacheLiite* edellinen_ = nullptr;
 
     int lukko_ = 0;
 

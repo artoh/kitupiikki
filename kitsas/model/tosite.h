@@ -137,7 +137,7 @@ public:
     void asetaPvm(const QDate& paivamaara);
     void asetaKommentti(const QString& kommentti);
     void asetaSarja(const QString& sarja);
-    void asetaLaskupvm(const QDate& pvm) { setData(LASKUPVM, pvm);}
+    void asetaLaskupvm(const QDate& pvm);
     void asetaErapvm(const QDate& pvm) { setData(ERAPVM, pvm);}
     void asetaViite(const QString& viite) { setData(VIITE, viite.left(64));}
     void asetaViite(const ViiteNumero& viite) { setData(VIITE, viite.viite());}

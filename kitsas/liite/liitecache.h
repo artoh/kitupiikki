@@ -33,12 +33,14 @@ protected:
     void liiteSaapuu(int liiteId, QVariant* data);
     void tositeSaapuuu(QVariant* data);
 
+    void karkeen(CacheLiite* liite);
 
     QHash<int,CacheLiite*> liitteet_;
     KitsasInterface* kitsas_;
 
-    CacheLiite* uusin_;
-    CacheLiite* poistoptr_;
+    CacheLiite* uusin_ = nullptr;
+    CacheLiite* vanhin_ = nullptr;
+
     qsizetype koko_ = 0L;
 
     qsizetype rajaKoko_ = 1024L * 1024L * 80L; // 80 Mt

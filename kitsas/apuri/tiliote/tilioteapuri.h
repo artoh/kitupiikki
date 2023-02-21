@@ -75,6 +75,8 @@ private:
     double alkusaldo_;
     bool tuodaan_ = false;
     bool paivanlaitto_ = false;
+
+    QVariantMap tilioteMap_;
 };
 
 #endif // TILIOTEAPURI_H

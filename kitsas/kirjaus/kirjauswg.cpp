@@ -299,7 +299,7 @@ void KirjausWg::valmis()
 
 void KirjausWg::hylkaa()
 {
-    if( (ui->tallennaButton->isEnabled() || ui->valmisNappi->isEnabled())
+    if( ((ui->tallennaButton->isVisible() && ui->tallennaButton->isEnabled()) || (ui->valmisNappi->isVisible() &&  ui->valmisNappi->isEnabled()))
             && tosite()->viennit()->summa() && tosite()->muutettu() ) {
         if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
                                   tosite()->tila() <= Tosite::MALLIPOHJA ?

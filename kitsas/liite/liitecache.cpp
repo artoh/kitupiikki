@@ -49,13 +49,7 @@ CacheLiite *LiiteCache::haku(int liiteId, bool ennakkohaku)
 
     // Koska tätä on vast'ikään haettu, sijoitetaan se listan kärkeen
     // jolloin sitä ei poisteta välittömästi
-    if(poistoptr_ == liite && liite->seuraava()) {
-        poistoptr_ = liite->seuraava();
-    }
-    liite->sijoitaKarkeen( uusin_ );
-    uusin_ = liite;
-    if( !poistoptr_)
-        poistoptr_ = liite;
+    karkeen(liite);
 
 
     if( liite->tila() == CacheLiite::ALUSTAMATON || liite->tila() == CacheLiite::TYHJENNETTY) {
@@ -89,8 +83,9 @@ void LiiteCache::liiteSaapuu(int liiteId, QVariant *data)
     CacheLiite* liite = liitteet_.value(liiteId, nullptr);
     if( !liite) {
         liite = new CacheLiite();
-        liitteet_.insert(liiteId, liite);
-    }
+        // Uusi liite kärkeen
+        karkeen( liite );
+    }    
     bool ilmoita = liite->tila() == CacheLiite::LiiteTila::HAETAAN;
 
     liite->setData( data->toByteArray() );
@@ -101,18 +96,20 @@ void LiiteCache::liiteSaapuu(int liiteId, QVariant *data)
     // Jos välimuistin koko on ylitetty, poistetaan välimuistista riittävä määrä
     // liitteita, joita ei ole vähään aikaan haettu
 
-    while( koko_ > rajaKoko_ && poistoptr_ && poistoptr_ != liite && poistoptr_->seuraava()) {
-        if( poistoptr_->lukossa()) {
-            // Jos poistopointterin alla oleva on lukittuna,
-            // ei sitä poisteta vaan se siirretään kärkeen
-            CacheLiite* seuraava = poistoptr_->seuraava();
-            poistoptr_->sijoitaKarkeen(uusin_);
-            uusin_ = poistoptr_;
-            poistoptr_ = seuraava;
+
+    while( koko_ > rajaKoko_ && vanhin_ != liite && vanhin_->seuraava()) {
+        if( vanhin_->lukossa()) {
+            karkeen( vanhin_ );
+            qDebug() << " Kärkeen ";
+            break;
         } else {
-            koko_ -= poistoptr_->size();
-            poistoptr_->tyhjenna();
-            poistoptr_ = poistoptr_->seuraava();
+            // Poistetaan vanhin
+            koko_ -= vanhin_->size();
+            vanhin_->tyhjenna();
+
+            vanhin_ = vanhin_->seuraava();
+            vanhin_->asetaEdellinen(nullptr);
+
             qDebug() << " Poistettu liite, uusi koko " << koko_;
         }
     }
@@ -133,6 +130,45 @@ void LiiteCache::tositeSaapuuu(QVariant *data)
     }
 }
 
+void LiiteCache::karkeen(CacheLiite *liite)
+{
+    if( liite == uusin_ )
+        return;
+
+    if( !vanhin_ ) {
+        vanhin_ = liite;
+    }
+
+    if( liite->edellinen())
+        liite->edellinen()->asetaSeuraava(liite->seuraava() );
+    if( liite->seuraava() )
+        liite->seuraava()->asetaEdellinen(liite->edellinen() );
+
+    if( liite == vanhin_ && liite->seuraava() ) {
+        vanhin_ = liite->seuraava();
+    }
+
+    if( uusin_ )
+        uusin_->asetaSeuraava(liite);
+    liite->asetaEdellinen(uusin_);
+    liite->asetaSeuraava(nullptr);
+    uusin_ = liite;
+
+/*
+    QList<CacheLiite*> lista;
+    int lkm = 0;
+    int lukossa = 0;
+    CacheLiite* ptr = vanhin_;
+    while( ptr ) {
+        lista.append(ptr);
+        lkm++;
+        if( ptr->lukossa()) lukossa++;
+        ptr = ptr->seuraava();
+    }
+    qDebug() << " LISTALLA " << lkm << " LUKOSSA " << lukossa << lista;
+*/
+}
+
 void LiiteCache::tyhjenna()
 {
     QHashIterator<int, CacheLiite*> iter(liitteet_);
@@ -147,17 +183,13 @@ void LiiteCache::tyhjenna()
     liitteet_.clear();
 
     uusin_ = nullptr;
-    poistoptr_ = nullptr;
+    vanhin_ = nullptr;
 }
 
 void LiiteCache::lisaaTallennettu(int liiteId, CacheLiite *liite)
 {
     liitteet_.insert(liiteId, liite);
-
-    liite->sijoitaKarkeen( uusin_ );
-    uusin_ = liite;
-    if( !poistoptr_)
-        poistoptr_ = liite;
+    karkeen( liite );
 }
 
 void LiiteCache::poistaPoistettu(int liiteId)

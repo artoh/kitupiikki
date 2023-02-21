@@ -85,7 +85,10 @@ QVariant LiitteetModel::data(const QModelIndex &index, int role) const
             else
                 return liite->thumb();
         case SisaltoRooli:
+        if( liite->dataPtr() )
             return *liite->dataPtr();
+        else
+            return QByteArray();
         case NimiRooli:
             return liite->nimi();
         case TyyppiRooli:
@@ -108,7 +111,7 @@ void LiitteetModel::lataa(const QVariantList &data)
 {
     beginResetModel();
 
-    liitteet_.clear();
+    clear();
     naytettavaIndeksi_ = -1;
 
     for(const auto& item : qAsConst(data)) {
@@ -413,6 +416,7 @@ void LiitteetModel::naytaKayttajalle()
         if( data->startsWith("%PDF")) {
 //            qDebug() << "Lataus " << QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
 
+            puskuri_->close();
             puskuri_->setBuffer(data);
             puskuri_->open(QIODevice::ReadOnly);
             pdfDoc_->load(puskuri_);

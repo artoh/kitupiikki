@@ -161,13 +161,13 @@ bool TilioteApuri::teeTositteelle()
 
     model()->asetaTilinumero(ui->tiliCombo->valittuTilinumero());
     tosite()->viennit()->asetaViennit( model_->viennit() );
-    QVariantMap tilioteMap;
-    tilioteMap.insert("alkupvm", ui->alkuDate->date());
-    tilioteMap.insert("loppupvm", ui->loppuDate->date());
-    tilioteMap.insert("tili", ui->tiliCombo->valittuTilinumero());
-    tosite()->setData(Tosite::TILIOTE,tilioteMap);
 
-    tosite()->asetaLaskupvm(QDate());
+    tilioteMap_.insert("alkupvm", ui->alkuDate->date().toString("yyyy-MM-dd"));
+    tilioteMap_.insert("loppupvm", ui->loppuDate->date().toString("yyyy-MM-dd"));
+    tilioteMap_.insert("tili", ui->tiliCombo->valittuTilinumero());
+    tosite()->setData(Tosite::TILIOTE,tilioteMap_);
+
+//    tosite()->asetaLaskupvm(QDate());
     tosite()->asetaKumppani(QVariantMap());
     tosite()->asetaTilioterivi(0);
 
@@ -192,11 +192,11 @@ void TilioteApuri::teeReset()
             ui->tiliCombo->valitseTili(ekarivi.tili());
         }
     }
-    QVariantMap tilioteMap = tosite()->data(Tosite::TILIOTE).toMap();
-    if( !tilioteMap.isEmpty()) {
-        ui->tiliCombo->valitseTili( tilioteMap.value("tili").toInt() );
-        ui->alkuDate->setDate( tilioteMap.value("alkupvm").toDate());
-        ui->loppuDate->setDate( tilioteMap.value("loppupvm").toDate() );
+    tilioteMap_ = tosite()->data(Tosite::TILIOTE).toMap();
+    if( !tilioteMap_.isEmpty()) {
+        ui->tiliCombo->valitseTili( tilioteMap_.value("tili").toInt() );
+        ui->alkuDate->setDate( tilioteMap_.value("alkupvm").toDate());
+        ui->loppuDate->setDate( tilioteMap_.value("loppupvm").toDate() );
     } else {
         ui->loppuDate->setDate(tosite()->pvm());
         ui->alkuDate->setDate( tosite()->pvm().addDays(1).addMonths(-1) );
@@ -204,8 +204,8 @@ void TilioteApuri::teeReset()
 
     model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
     model_->lataa(tosite()->viennit()->tallennettavat() );
-    if( kp()->yhteysModel() && !tilioteMap.isEmpty())
-        lataaHarmaatAjalta( tilioteMap.value("alkupvm").toDate(), tilioteMap.value("loppupvm").toDate() );
+    if( kp()->yhteysModel() && !tilioteMap_.isEmpty())
+        lataaHarmaatAjalta( tilioteMap_.value("alkupvm").toDate(), tilioteMap_.value("loppupvm").toDate() );
 
     if( tosite()->viennit()->tallennettavat().empty())
         lisaaRivi();
