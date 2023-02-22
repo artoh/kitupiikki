@@ -96,6 +96,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     ui->udView->setModel( userData_->books() );
     ui->umView->setModel( userData_->members());
+    ui->gbooksView->setModel( userData_->groupBooks() );
 
     connect( ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged,
              this, &ToimistoSivu::nodeValittu);
@@ -237,6 +238,7 @@ void ToimistoSivu::vaihdaLohko(Lohko lohko)
     ui->subTab->setTabVisible( KIRJANPITO_LOKI, lohko == KIRJANPITOLOHKO && oikeudet.contains("OL"));
     ui->subTab->setTabVisible( OIKEUDET_SUORAT, false);
     ui->subTab->setTabVisible( OIKEUDET_RYHMAT, false);
+    ui->subTab->setTabVisible( KIRJAT_RYHMAT, false);
 }
 
 void ToimistoSivu::paaTabVaihtui(int tab)
@@ -491,6 +493,7 @@ void ToimistoSivu::kayttajaLadattu()
     vaihdaLohko( KAYTTAJALOHKO );
     ui->subTab->setTabVisible( OIKEUDET_SUORAT, userData_->books()->rowCount());
     ui->subTab->setTabVisible( OIKEUDET_RYHMAT, userData_->members()->rowCount());
+    ui->subTab->setTabVisible( KIRJAT_RYHMAT, userData_->groupBooks()->rowCount());
 
     if( userData_->id() != userInfo_.userid()) {
         ui->uNimi->setText( userData_->name());

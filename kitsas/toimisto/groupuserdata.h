@@ -22,6 +22,7 @@ public:
 
     GroupUserBooksModel *books() const;
     GroupUserMembersModel *members() const;
+    GroupUserBooksModel *groupBooks() const;
 
 signals:
     void loaded();
@@ -37,6 +38,7 @@ private:
 
     GroupUserBooksModel* books_;
     GroupUserMembersModel* members_;
+    GroupUserBooksModel* groupBooks_;
 
 };
 

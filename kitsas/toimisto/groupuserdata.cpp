@@ -8,7 +8,8 @@
 GroupUserData::GroupUserData(QObject *parent)
     : QObject{parent},
       books_{new GroupUserBooksModel(this)},
-      members_{new GroupUserMembersModel(this)}
+      members_{new GroupUserMembersModel(this)},
+      groupBooks_{new GroupUserBooksModel(this)}
 {
 
 }
@@ -57,6 +58,7 @@ void GroupUserData::dataIn(QVariant *data)
 
     books_->load(map.value("books").toList());
     members_->load(map.value("groups").toList());
+    groupBooks_->load(map.value("groupbooks").toList());
 
     emit loaded();
 }
@@ -64,6 +66,11 @@ void GroupUserData::dataIn(QVariant *data)
 GroupUserMembersModel *GroupUserData::members() const
 {
     return members_;
+}
+
+GroupUserBooksModel *GroupUserData::groupBooks() const
+{
+    return groupBooks_;
 }
 
 GroupUserBooksModel *GroupUserData::books() const

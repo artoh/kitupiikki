@@ -279,7 +279,7 @@
    <item>
     <widget class="QTabWidget" name="subTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="tab_4">
       <attribute name="icon">
@@ -778,6 +778,20 @@ toimisto</string>
       <layout class="QVBoxLayout" name="verticalLayout_15">
        <item>
         <widget class="QListView" name="umView"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ryhmakirjatab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/kirja64.png</normaloff>:/pic/kirja64.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Ryhmäoikeudet</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_16">
+       <item>
+        <widget class="QListView" name="gbooksView"/>
        </item>
       </layout>
      </widget>
