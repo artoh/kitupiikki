@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tilioteharmaarivi.h"
+#include "db/kirjanpito.h"
 #include "tiliotemodel.h"
 
 #include "db/kitsasinterface.h"
@@ -22,6 +23,7 @@
 #include "db/tilimodel.h"
 #include "db/tilikausimodel.h"
 #include "db/tositetyyppimodel.h"
+#include "db/verotyyppimodel.h"
 
 #include <QColor>
 #include <QBrush>
@@ -75,6 +77,17 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
                 return strlist.join(", ");
             }
         }
+        case ALV: {
+            QVariantList list = vienti_.value("alv").toList();
+            if( list.count() == 1) {
+                int prossa = qRound(list.at(0).toMap().value("prosentti").toString().toDouble());
+                if(prossa) return QString("%1 %").arg(prossa);
+            }
+            else if(list.count() > 1) {
+                return "...";
+            }
+            return QVariant();
+        }
         case KOHDENNUS: {
             QVariantMap tosite = vienti_.value("tosite").toMap();
             return model()->kitsas()->tositeTunnus(tosite.value("tunniste").toInt(),
@@ -88,7 +101,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         default: return QVariant();
     }
     case Qt::TextAlignmentRole:
-        return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
+        return sarake == EURO || sarake == ALV ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case Qt::ForegroundRole:
         return QBrush(QColor(Qt::darkGreen));
     case TilaRooli:
@@ -101,6 +114,15 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         if( sarake == KOHDENNUS) {
             const QVariantMap& tosite = vienti_.value("tosite").toMap();
             return model()->kitsas()->tositeTyypit()->kuvake( tosite.value("tyyppi").toInt() );
+        } else if(sarake == ALV) {
+
+            QVariantList list = vienti_.value("alv").toList();
+            if( list.count() == 1) {
+                int koodi = list.at(0).toMap().value("koodi").toInt();
+                return kp()->alvTyypit()->kuvakeKoodilla(koodi);
+            }
+            return QVariant();
+
         } else {
             return QVariant();
         }

@@ -207,6 +207,8 @@ void TilioteApuri::teeReset()
     if( kp()->yhteysModel() && !tilioteMap_.isEmpty())
         lataaHarmaatAjalta( tilioteMap_.value("alkupvm").toDate(), tilioteMap_.value("loppupvm").toDate() );
 
+    ui->oteView->setColumnHidden( TilioteKirjausRivi::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
+
     if( tosite()->viennit()->tallennettavat().empty())
         lisaaRivi();
 }

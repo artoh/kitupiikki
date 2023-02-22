@@ -43,6 +43,8 @@ QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int 
             return tr("Euro");
         case TilioteRivi::TILI:
             return tr("Tili");
+        case TilioteRivi::ALV:
+            return tr("Alv");
         case TilioteRivi::KOHDENNUS:
             return tr("Kohdennus");
         case TilioteRivi::SAAJAMAKSAJA:
@@ -67,7 +69,7 @@ int TilioteModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return 6;
+    return 7;
 }
 
 QVariant TilioteModel::data(const QModelIndex &index, int role) const

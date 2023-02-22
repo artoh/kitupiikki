@@ -29,7 +29,7 @@ public:
     virtual ~TilioteRivi();
 
     enum Sarakkeet {
-        PVM, SAAJAMAKSAJA, SELITE, TILI, KOHDENNUS, EURO
+        PVM, SAAJAMAKSAJA, SELITE, TILI, ALV, KOHDENNUS, EURO
     };
 
     enum {
