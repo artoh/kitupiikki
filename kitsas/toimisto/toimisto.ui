@@ -787,7 +787,7 @@ toimisto</string>
         <normaloff>:/pic/kirja64.png</normaloff>:/pic/kirja64.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Ryhmäoikeudet</string>
+       <string>Ryhmien kirjanpidot</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_16">
        <item>
