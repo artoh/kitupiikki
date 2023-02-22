@@ -56,12 +56,22 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         case TILI:
         {
             QVariantList list = vienti_.value("vastatilit").toList();
-            if(list.count() == 1) {
-                return model()->kitsas()->tilit()->tiliNumerolla(list.value(0).toInt()).nimiNumero();
+            QList<int> suodatettu;
+
+            for(const auto& item: list) {
+                int numero = item.toInt();
+                if(suodatettu.contains(numero)) continue;
+                Tili tili = model()->kitsas()->tilit()->tiliNumerolla(numero);
+                if( tili.onko(TiliLaji::ALVVELKA) || tili.onko(TiliLaji::ALVSAATAVA)) continue;
+                suodatettu.append(numero);
+            }
+
+            if(suodatettu.count() == 1) {
+                return model()->kitsas()->tilit()->tiliNumerolla(suodatettu.value(0)).nimiNumero();
             } else {
                 QStringList strlist;
-                for(auto const &item : qAsConst(list))
-                    strlist << item.toString();
+                for(auto const &item : qAsConst(suodatettu))
+                    strlist << QString::number(item);
                 return strlist.join(", ");
             }
         }
