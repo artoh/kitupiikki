@@ -80,7 +80,9 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
         case ALV: {
             QVariantList list = vienti_.value("alv").toList();
             if( list.count() == 1) {
-                int prossa = qRound(list.at(0).toMap().value("prosentti").toString().toDouble());
+                const QVariantMap& map = list.at(0).toMap();
+                if( map.value("koodi").toInt() == AlvKoodi::EIALV) return QString();
+                int prossa = (int) map.value("prosentti").toString().toDouble();
                 if(prossa) return QString("%1 %").arg(prossa);
             }
             else if(list.count() > 1) {
@@ -119,7 +121,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
             QVariantList list = vienti_.value("alv").toList();
             if( list.count() == 1) {
                 int koodi = list.at(0).toMap().value("koodi").toInt();
-                return kp()->alvTyypit()->kuvakeKoodilla(koodi);
+                return model()->kitsas()->alvTyypit()->kuvakeKoodilla(koodi);
             }
             return QVariant();
 

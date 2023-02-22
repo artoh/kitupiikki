@@ -36,6 +36,7 @@ class TositeSelausModel;
 #include "tositeselausproxymodel.h"
 #include "selausproxymodel.h"
 #include "model/euro.h"
+#include "kirjaus/kirjaussivu.h"
 
 /**
  * @brief Sivu kirjausten selaamiseen
@@ -59,8 +60,6 @@ public:
 
     SelausWg(QWidget *parent = nullptr);
     ~SelausWg() override;
-
-    QPair<int,int> edellinenSeuraava(int tositeId);
 
 public slots:
     void alusta();
@@ -105,7 +104,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 signals:
-    void tositeValittu(int id);
+    void tositeValittu(int id, QList<int> selauslista, KirjausSivu::Takaisinpaluu paluu);
 
 
 private:

@@ -120,23 +120,6 @@ SelausWg::~SelausWg()
     delete ui;
 }
 
-QPair<int, int> SelausWg::edellinenSeuraava(int tositeId)
-{
-    QAbstractItemModel *model = ui->selausView->model();
-    for(int i=0; i < model->rowCount(); i++) {
-        if( model->index(i,0).data(Qt::UserRole).toInt() == tositeId ) {
-            int edellinen = 0;
-            int seuraava = 0;
-            if( i > 0)
-                edellinen = model->index(i-1,0).data(Qt::UserRole).toInt();
-            if( i < model->rowCount()-1)
-                seuraava = model->index(i+1,0).data(Qt::UserRole).toInt();
-            return qMakePair(edellinen, seuraava);
-        }
-    }
-    return qMakePair(0,0);
-}
-
 void SelausWg::alusta()
 {
     QDate alku = Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa();
@@ -370,8 +353,16 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
 
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi < TositeTyyppi::SIIRTO) {
         LaskuDialogiTehdas::naytaLasku(id);
-    } else
-        emit tositeValittu( id );
+    } else {
+        QList<int> lista;
+        for(int i=0; i < index.model()->rowCount(); i++) {
+            QModelIndex indeksi = index.sibling(i,0);
+            int sId = indeksi.data(Qt::UserRole).toInt();
+            if( !lista.contains(sId)) lista.append(sId);
+        }
+
+        emit tositeValittu( id, lista, KirjausSivu::PALATAAN_AINA );
+    }
 
 }
 

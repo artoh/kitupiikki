@@ -46,7 +46,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(QWidget *parent=nullptr, SelausWg* selaus = nullptr);
+    KirjausWg(QWidget *parent=nullptr, QList<int> selauslista = QList<int>());
     ~KirjausWg();
 
     enum Valilehdet { VIENNIT, MUISTIINPANOT, LIITTEET, VARASTO, LOKI } ;
@@ -110,6 +110,9 @@ private slots:
 
     void tositeLadattu();
 
+    void siirryEdelliseen();
+    void siirrySeuraavaan();
+
 private slots:    
     void paivita(bool muokattu, int virheet, const Euro& debet, const Euro& kredit);
     void tallenna(int tilaan);
@@ -131,6 +134,9 @@ public:
      * @return
      */
     int nykyinenRivi() const { return ui->viennitView->currentIndex().row(); }
+
+    void paivitaSelausLista(QList<int> lista);
+
 
 signals:
     void liiteValittu(const QByteArray& pdf, bool salliPudotus);
@@ -185,9 +191,7 @@ protected:
     KiertoWidget* kiertoTab_;
     KommentitWidget* kommentitTab_;
 
-
-    SelausWg* selaus_;
-    QPair<int,int> edellinenSeuraava_;
+    QList<int> selausLista_;
 };
 
 #endif // KIRJAUSWG_H

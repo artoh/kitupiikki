@@ -95,7 +95,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
 
-    kirjaussivu =  new KirjausSivu(this, selaussivu);
+    kirjaussivu =  new KirjausSivu(this);
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -134,13 +134,12 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 
 
-    connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
+    connect( selaussivu, &SelausWg::tositeValittu, this, &KitupiikkiIkkuna::naytaTosite );
     connect( kiertosivu, &KiertoSivu::tositeValittu, this, &KitupiikkiIkkuna::naytaTosite);
-    connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
-    connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
+    connect( aloitussivu, &AloitusSivu::selaus, this, &KitupiikkiIkkuna::selaaTilia);
+    connect( kirjaussivu, &KirjausSivu::palaaEdelliselleSivulle, this, &KitupiikkiIkkuna::palaaSivulta);
 
     connect( kp(), &Kirjanpito::onni, this, &KitupiikkiIkkuna::naytaOnni);
-    connect( kp(), SIGNAL(naytaTosite(int)), this, SLOT(naytaTosite(int)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
@@ -298,13 +297,13 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
     valitseSivu(sivu);
 }
 
-void KitupiikkiIkkuna::naytaTosite(int tositeid)
+void KitupiikkiIkkuna::naytaTosite(int tositeid, QList<int> lista, KirjausSivu::Takaisinpaluu paluu)
 {
     // valitseSivu( KIRJAUSSIVU );        
     edellisetIndeksit.push( pino->currentIndex() == KIERTOSIVU ? KIERTOSIVU : SELAUSSIVU );
     pino->setCurrentWidget(kirjaussivu);
     nykysivu = kirjaussivu;
-    kirjaussivu->naytaTosite(tositeid);
+    kirjaussivu->naytaTosite(tositeid, -1, lista, paluu);
 }
 
 void KitupiikkiIkkuna::ktpKasky(const QString& kasky)

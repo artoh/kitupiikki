@@ -18,6 +18,7 @@
 #define KIERTOSIVU_H
 
 #include "kitupiikkisivu.h"
+#include "kirjaus/kirjaussivu.h"
 
 class KiertoSelausModel;
 
@@ -38,7 +39,7 @@ public:
 
     QString ohjeSivunNimi() override { return "kierto";}
 signals:
-    void tositeValittu(int id);
+    void tositeValittu(int id, QList<int> lista, KirjausSivu::Takaisinpaluu paluu);
 private:
     void naytaTosite(const QModelIndex& index);
     void vaihdaTab(int tab);

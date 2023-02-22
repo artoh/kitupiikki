@@ -36,11 +36,11 @@
 
 #include "db/kirjanpito.h"
 
-KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
+KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, QList<int> selausLista) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
 
-    kirjauswg = new KirjausWg(this, selaus);
+    kirjauswg = new KirjausWg(this, selausLista);
     kirjauswg->setObjectName("kirjausWg");
 
     kirjauswg->tosite()->liitteet()->asetaInteraktiiviseksi(true);
@@ -100,11 +100,14 @@ bool KirjausSivu::poistuSivulta(int minne)
     return true;
 }
 
-void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
+void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi, QList<int> selausLista, Takaisinpaluu takaisinpaluu)
 {
     // Tositteeseen -1 siirtyminen tarkoittaa, että ollaan
     // kirjaamassa lisäikkunalla, jolloin hylkää-nappi sulkee
     // ikkunan
+
+    kirjausWg()->paivitaSelausLista(selausLista);
+    palataanTakaisin_ = takaisinpaluu;
 
     if( tositetyyppi > -1) {
         QDate pvm = kp()->paivamaara();
@@ -114,9 +117,6 @@ void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
     }
     if( tositeId > -1) {
         kirjauswg->lataaTosite(tositeId);
-        palataanTakaisin_ = PALATAAN_AINA;
-    } else {
-        palataanTakaisin_ = PALATAAN_HYLATYSTA;
     }
 
 }

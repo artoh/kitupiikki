@@ -40,13 +40,13 @@ LisaIkkuna::~LisaIkkuna()
     kp()->settings()->setValue("LisaIkkuna", saveGeometry());
 }
 
-KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi)
+KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi, QList<int> selauslista, KirjausSivu::Takaisinpaluu paluu)
 {
-    KirjausSivu *sivu = new KirjausSivu(nullptr, nullptr);
+    KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );
     show();
     sivu->siirrySivulle();
-    sivu->naytaTosite(tositeId, tyyppi);
+    sivu->naytaTosite(tositeId, tyyppi, selauslista, paluu);
 
 
     connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));
@@ -73,10 +73,10 @@ void LisaIkkuna::selaa()
     new QShortcut( QKeySequence(Qt::Key_Escape), this, SLOT(close()));
 }
 
-void LisaIkkuna::naytaTosite(int tositeId)
+void LisaIkkuna::naytaTosite(int tositeId, QList<int> selausLista)
 {
     LisaIkkuna *uusi = new LisaIkkuna;
-    uusi->kirjaa(tositeId);
+    uusi->kirjaa(tositeId, -1, selausLista, KirjausSivu::PALATAAN_AINA);
 }
 
 void LisaIkkuna::ohje()

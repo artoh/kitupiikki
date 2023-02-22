@@ -28,7 +28,6 @@ class QAction;
 class QActionGroup;
 class QToolBar;
 class AloitusSivu;
-class KirjausSivu;
 class SelausWg;
 class KiertoSivu;
 class RaporttiSivu;
@@ -49,7 +48,7 @@ class TallennettuWidget;
 #include "db/kirjanpito.h"
 
 #include "pilvi/pilvikayttaja.h"
-
+#include "kirjaus/kirjaussivu.h"
 
 /**
  * @brief Ohjelmiston pääikkuna
@@ -89,7 +88,7 @@ public slots:
 
 protected slots:
     void aktivoiSivu(QAction* aktio);
-    void naytaTosite(int tositeid);
+    void naytaTosite(int tositeid, QList<int> lista = QList<int>(), KirjausSivu::Takaisinpaluu paluu = KirjausSivu::PALATAAN_AINA);
     void ktpKasky(const QString &kasky);
 
     /**

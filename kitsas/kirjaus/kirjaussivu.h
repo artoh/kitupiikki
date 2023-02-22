@@ -48,7 +48,9 @@ class KirjausSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
-    KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus);
+    enum Takaisinpaluu { EI_PALATA, PALATAAN_HYLATYSTA, PALATAAN_AINA };
+
+    KirjausSivu(KitupiikkiIkkuna *ikkuna, QList<int> selausLista = QList<int>());
     ~KirjausSivu();
 
     void siirrySivulle();
@@ -65,7 +67,7 @@ signals:
     void palaaEdelliselleSivulle();
 
 public slots:
-    void naytaTosite(int tositeId, int tositetyyppi = -1);
+    void naytaTosite(int tositeId, int tositetyyppi = -1, QList<int> selausLista = QList<int>(), Takaisinpaluu takaisinpaluu = PALATAAN_AINA);
     void tositeKasitelty(bool tallennettu);
     /**
      * @brief Kun splitteriä säädetään, talletaan asetus
@@ -78,8 +80,6 @@ public slots:
     void lisaaKirjattavienKansiosta();
 
 protected:
-    enum Takaisinpaluu { EI_PALATA, PALATAAN_HYLATYSTA, PALATAAN_AINA };
-
     KitupiikkiIkkuna *ikkuna_;
     KirjausWg *kirjauswg;
     NaytaLiiteWidget *liitewg;

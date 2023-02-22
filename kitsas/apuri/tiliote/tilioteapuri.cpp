@@ -240,8 +240,7 @@ void TilioteApuri::muokkaa()
 {
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
-        LisaIkkuna* ikkuna = new LisaIkkuna;
-        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
+        naytaTosite();
     } else {
         kirjaaja_->show();
         kirjaaja_->muokkaaRivia( proxy_->mapToSource( index ).row()  );
@@ -270,8 +269,6 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::naytaTosite()
 {
-
-
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if( !index.isValid())
         return;
@@ -279,7 +276,13 @@ void TilioteApuri::naytaTosite()
     LisaIkkuna* ikkuna = new LisaIkkuna;
 
     if(index.data(TilioteRivi::TositeIdRooli).toInt()) {
-        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt());
+        QList<int> selauslista;
+        for(int i=0; i < index.model()->rowCount(); i++) {
+            int sId = index.sibling(i,0).data(TilioteRivi::TositeIdRooli).toInt();
+            if( sId && !selauslista.contains(sId))
+                selauslista.append(sId);
+        }
+        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt(), selauslista);
     } else {
         const int omaIndeksi = proxy_->mapToSource(index).row();
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);

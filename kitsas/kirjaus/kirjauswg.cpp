@@ -78,12 +78,11 @@
 #include "pilvi/pilvimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 
-KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
+KirjausWg::KirjausWg(QWidget *parent, QList<int> selauslista)
     : QWidget(parent),
       tosite_( new Tosite(this)),
       apuri_(nullptr),              
-      selaus_(selaus),
-      edellinenSeuraava_( qMakePair(0,0))
+      selausLista_(selauslista)
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -123,8 +122,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
-    connect( ui->edellinenButton, &QPushButton::clicked, this, [this]() { lataaTosite(this->edellinenSeuraava_.first); });
-    connect( ui->seuraavaButton, &QPushButton::clicked, this, [this]() { lataaTosite(this->edellinenSeuraava_.second); });
+    connect( ui->edellinenButton, &QPushButton::clicked, this, &KirjausWg::siirryEdelliseen);
+    connect( ui->seuraavaButton, &QPushButton::clicked, this, &KirjausWg::siirrySeuraavaan);
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
@@ -172,7 +171,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
-    connect( tosite(), &Tosite::pvmMuuttui, this, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
+    connect( tosite(), &Tosite::pvmMuuttui, this, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);
+                                                                              this->ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle( pvm ).pitkakausitunnus() ); });
     connect( tosite(), &Tosite::otsikkoMuuttui, this, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
     connect( tosite(), &Tosite::sarjaMuuttui, this, [this] (const QString& sarja) {
@@ -439,6 +439,26 @@ void KirjausWg::tositeLadattu()
     }
     poistaAktio_->setEnabled(poistoOikeus);
 }
+
+void KirjausWg::paivitaSelausLista(QList<int> lista)
+{
+    selausLista_ = lista;
+}
+
+void KirjausWg::siirryEdelliseen()
+{
+    int omaIndeksi = selausLista_.indexOf( tosite()->id() );
+    if( omaIndeksi > 0)
+        lataaTosite( selausLista_.at(omaIndeksi - 1) );
+}
+
+void KirjausWg::siirrySeuraavaan()
+{
+    int omaIndeksi = selausLista_.indexOf( tosite()->id() );
+    if( omaIndeksi > -1 && omaIndeksi < selausLista_.count() - 1)
+        lataaTosite( selausLista_.at(omaIndeksi + 1) );
+}
+
 
 
 void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Euro &kredit)
@@ -889,16 +909,23 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
     ui->sarjaCombo->setVisible( kp()->asetukset()->onko(AsetusModel::EriSarjaan) || kp()->asetukset()->onko(AsetusModel::KateisSarjaan) || !sarja.isEmpty() );
 
-    if( selaus_ && tosite_->id()) {
-        edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
-        if( edellinenSeuraava_.first) {
-            kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( edellinenSeuraava_.first );
-        }
-        if( edellinenSeuraava_.second) {
-            kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( edellinenSeuraava_.second );
-        }
+    int omaIndeksi = selausLista_.indexOf( tosite()->id() );
+
+    ui->edellinenButton->setVisible( omaIndeksi > -1 );
+    ui->seuraavaButton->setVisible( omaIndeksi > -1);
+
+    if( omaIndeksi > 0) {
+        ui->edellinenButton->setEnabled(true);
+        kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( selausLista_.at(omaIndeksi - 1) );
     } else {
-        edellinenSeuraava_ = qMakePair(0,0);
+        ui->edellinenButton->setEnabled(false);
+    }
+
+    if( omaIndeksi > -1 && omaIndeksi < selausLista_.count() - 1) {
+        ui->seuraavaButton->setEnabled( true );
+        kp()->liiteCache()->tositteenLiitteidenEnnakkoHaku( selausLista_.at(omaIndeksi + 1) );
+    } else {
+        ui->seuraavaButton->setEnabled( false );
     }
 
     if( tunniste ) {
@@ -908,18 +935,6 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
 
         ui->tunnisteLabel->setText( QString::number( tunniste ) );
         ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle( tosite()->pvm() ).pitkakausitunnus() );
-
-        if( selaus_) {
-            ui->seuraavaButton->setVisible(true);
-            ui->tunnisteLabel->setVisible(true);
-            ui->edellinenButton->setEnabled( edellinenSeuraava_.first );
-            ui->seuraavaButton->setEnabled( edellinenSeuraava_.second );
-        }
-
-    } else {
-        ui->edellinenButton->setVisible(false);
-        ui->seuraavaButton->setVisible(false);
-        ui->vuosiLabel->setVisible(false);
     }
 
     int kiertoIndex = ui->tabWidget->indexOf(kiertoTab_);

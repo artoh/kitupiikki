@@ -142,7 +142,7 @@ public:
      * @brief Palauttaa alv-kirjauksen tyypit sisältävän modelin
      * @return
      */
-    VerotyyppiModel *alvTyypit() const { return veroTyypit_; }
+    VerotyyppiModel *alvTyypit() const override { return veroTyypit_; }
 
     /**
      * @brief Tositteiden tyyppien model
@@ -339,12 +339,6 @@ signals:
      */
     void tositeTallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
     void piilotaTallennusWidget();
-
-    /**
-     * @brief Pyytää näyttämään tositteen
-     * @param tositeId
-     */
-    void naytaTosite(int tositeId);
 
     /**
      * @brief Tietokantavirhe on tapahtunut

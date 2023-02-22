@@ -58,8 +58,14 @@ void KiertoSivu::siirrySivulle()
 
 void KiertoSivu::naytaTosite(const QModelIndex &index)
 {
-    if( index.isValid())
-        emit tositeValittu( index.data(KiertoSelausModel::IdRooli).toInt());
+    if( index.isValid()) {
+        QList<int> lista;
+        for(int i=0; i < index.model()->rowCount(); i++) {
+            lista.append( index.sibling(i,0).data(KiertoSelausModel::IdRooli).toInt() );
+        }
+
+        emit tositeValittu( index.data(KiertoSelausModel::IdRooli).toInt(), lista, KirjausSivu::PALATAAN_AINA);
+    }
 }
 
 void KiertoSivu::vaihdaTab(int tab)

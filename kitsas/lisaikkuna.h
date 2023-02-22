@@ -33,7 +33,7 @@ public:
     LisaIkkuna(QWidget *parent = nullptr);
     ~LisaIkkuna();
 
-    KirjausSivu *kirjaa(int tositeId = -1, int tyyppi = TositeTyyppi::TULO);
+    KirjausSivu *kirjaa(int tositeId = -1, int tyyppi = TositeTyyppi::TULO, QList<int> selauslista = QList<int>(), KirjausSivu::Takaisinpaluu paluu = KirjausSivu::PALATAAN_HYLATYSTA);
     void selaa();
 
 signals:
@@ -43,7 +43,7 @@ public slots:
      * @brief Näyttää tositteen uudessa ikkunassa
      * @param tositeId
      */
-    void naytaTosite(int tositeId);
+    void naytaTosite(int tositeId, QList<int> selausLista = QList<int>());
 
     /**
      * @brief Näyttää ohjeen

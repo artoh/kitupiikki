@@ -162,6 +162,16 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
                 return strlist.join(", ");
             }
         }
+        case ALV: {
+            if( viennit_.count() < 2) return QString();
+            if( viennit_.value(1).alvKoodi() == AlvKoodi::EIALV) return QVariant();
+            int prossa = (int) viennit_.value(1).alvProsentti();
+            for(int i=2; i < viennit_.count(); i++) {
+                if( (int) viennit_.value(i).alvProsentti() != prossa) return "...";
+            }
+            return QString("%1 %").arg(prossa);
+
+        }
         case KOHDENNUS:
         {
             if( viennit_.count() > 2) {
@@ -234,11 +244,18 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             } else if( koodi == TositeVienti::SUORITUS) {
                 return QIcon(":/pic/lasku.png");
             }
+        } else if( sarake == ALV) {
+            if( viennit_.count() < 2) return QVariant();
+            int koodi = viennit_.at(1).alvKoodi();
+            for(int i=2; i < viennit_.count(); i++) {
+                if( viennit_.at(i).alvKoodi() != koodi) return QVariant();
+            }
+            return model()->kitsas()->alvTyypit()->kuvakeKoodilla(koodi);
         }
         return QVariant();
 
     case Qt::TextAlignmentRole:
-        return sarake == EURO ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
+        return sarake == EURO || sarake == ALV ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case Qt::ForegroundRole:
         return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QColor(Qt::blue)) : QBrush(QColor(Qt::black)));
     case TilaRooli:
