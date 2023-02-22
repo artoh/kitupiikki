@@ -2,6 +2,7 @@
 #include "db/yhteysmodel.h"
 
 #include <QDebug>
+#include <stdexcept>
 
 AvattuPilvi::AvattuPilvi()
 {
