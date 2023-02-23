@@ -44,6 +44,7 @@
 #include "tools/kitsaslokimodel.h"
 #include "aloitussivu/toffeelogin.h"
 
+#include "laskutus/laskunuusinta.h"
 
 int main(int argc, char *argv[])
 {
@@ -137,6 +138,8 @@ int main(int argc, char *argv[])
     // Avaa argumenttina olevan tiedostonnimen
     if( !parser.positionalArguments().isEmpty() && QFile(parser.positionalArguments().value(0)).exists())
         kirjanpito.sqlite()->avaaTiedosto( parser.positionalArguments().value(0) );
+
+    new LaskunUusinta(&kirjanpito);
 
     splash->finish( &ikkuna );
     delete splash;

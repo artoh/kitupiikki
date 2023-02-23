@@ -32,7 +32,7 @@ public:
 signals:
 
 private:
-    void ajastaUusita();
+    void ajastaUusinta();
     void uusiLaskut();
     void listaSaapuu(QVariant* lista);
     void uusiSeuraava();

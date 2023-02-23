@@ -27,13 +27,16 @@
 #include "rekisteri/maamodel.h"
 #include <QMessageBox>
 
-LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent)
+LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent),
+    tosite_{new Tosite(this)}
 {    
     connect( &timer_, &QTimer::timeout, this, &LaskunUusinta::uusiLaskut);
-    connect( qobject_cast<Kirjanpito*>(parent), &Kirjanpito::tietokantaVaihtui, this, &LaskunUusinta::ajastaUusita);    
+    connect( qobject_cast<Kirjanpito*>(parent), &Kirjanpito::tietokantaVaihtui, this, &LaskunUusinta::ajastaUusinta);
+    connect( tosite_, &Tosite::ladattu, this, &LaskunUusinta::uusittavaLadattu);
+
 }
 
-void LaskunUusinta::ajastaUusita()
+void LaskunUusinta::ajastaUusinta()
 {
     timer_.start(3000);
 }
@@ -42,14 +45,8 @@ void LaskunUusinta::uusiLaskut()
 {
     timer_.stop();
 
-    tosite_ = new Tosite(this);
-    connect( tosite_, &Tosite::ladattu, this, &LaskunUusinta::uusittavaLadattu);
-
-    uusi_ = new Tosite(this);
-
-
     if( qobject_cast<PilviModel*>(kp()->yhteysModel()) &&
-        kp()->yhteysModel()->onkoOikeutta( YhteysModel::LASKU_LAATIMINEN )) {
+        kp()->yhteysModel()->onkoOikeutta( YhteysModel::LASKU_LAATIMINEN ) && !busy_) {
         KpKysely *kysely = kpk("/myyntilaskut");
         kysely->lisaaAttribuutti("uusittavat", kp()->paivamaara());
         connect( kysely, &KpKysely::vastaus, this, &LaskunUusinta::listaSaapuu);
@@ -60,6 +57,7 @@ void LaskunUusinta::uusiLaskut()
 void LaskunUusinta::listaSaapuu(QVariant *lista)
 {
     QVariantList laskut = lista->toList();
+    qDebug() << laskut.count() << " uusittavaa laskua ";
 
     if( laskut.count() &&
         (!kp()->tilikaudet()->onkoTilikautta( kp()->paivamaara())
@@ -76,6 +74,7 @@ void LaskunUusinta::listaSaapuu(QVariant *lista)
     }
     if( !jono_.isEmpty() && !busy_) {
         emit kp()->onni(tr("Luodaan toistuvia laskuja"), Kirjanpito::Haetaan);
+        busy_ = true;
         uusiSeuraava();
     }
 }
@@ -88,7 +87,6 @@ void LaskunUusinta::uusiSeuraava()
         emit kp()->kirjanpitoaMuokattu();
         busy_ = false;
     } else {
-        busy_ = true;
         int id = jono_.dequeue();
         tosite_->lataa(id);
     }
@@ -96,6 +94,9 @@ void LaskunUusinta::uusiSeuraava()
 
 void LaskunUusinta::uusittavaLadattu()
 {
+    qDebug() << " Uusittava tosite " << tosite_->id() << " ladattu ";
+    if( !tosite_->id() || !busy_) return;
+
     uusi_ = new Tosite(this);
     uusi_->lataa( tosite_->tallennettava() );
     const Lasku& lasku = tosite_->constLasku();
@@ -186,6 +187,10 @@ void LaskunUusinta::laskuUusittu()
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tosite_->id()), KpKysely::PATCH);
     QVariantMap map;
+    if( uusi_ ) {
+        uusi_->deleteLater();
+        uusi_ = nullptr;
+    }
     map.insert("laskutoisto", QVariant());
     connect( kysely, &KpKysely::vastaus, this, &LaskunUusinta::uusiSeuraava );
     kysely->kysy(map);

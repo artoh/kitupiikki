@@ -56,7 +56,6 @@
 #include "laskutus/laskudlg/laskudialogitehdas.h"
 #include "laskutus/vakioviite/vakioviitemodel.h"
 #include "laskutus/huoneisto/huoneistomodel.h"
-#include "laskutus/laskunuusinta.h"
 #include "raportti/raporttivalinnat.h"
 #include "liite/liitecache.h"
 
@@ -129,7 +128,6 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
 
     LaskuDialogiTehdas::kaynnista(this, this);
 
-    new LaskunUusinta(this);    // Laskujen uusintasysteemi käyttöön
 }
 
 Kirjanpito::~Kirjanpito()
