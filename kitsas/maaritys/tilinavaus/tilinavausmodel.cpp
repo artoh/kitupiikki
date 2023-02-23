@@ -300,6 +300,7 @@ bool TilinavausModel::tallenna(int tila)
             vienti.setPvm( era.pvm().isValid() ? era.pvm() : tosite_->pvm() );
             vienti.setTili(tili);
             vienti.setSelite( tr("Tilinavaus") );
+            vienti.setEra(0);
 
             if( era.vienti() )
                 vienti.set(TositeVienti::ID, era.vienti());
@@ -307,14 +308,12 @@ bool TilinavausModel::tallenna(int tila)
             Tili tilio = kp()->tilit()->tiliNumerolla(tili);
 
             if( era.saldo() ) {
-                if( !tilio.eritellaankoTase()) {
-                    // Jos tilillä ei tasetta eritellä, niin ei tule erää
-                    vienti.setEra(0);
-                }
-                else if( era.vienti()) {
-                    vienti.setEra( era.vienti() );
-                } else if( !era.eranimi().isEmpty() || era.kumppaniId() ){
-                    vienti.setEra(-1);
+                if( tilio.eritellaankoTase() && ( !era.eranimi().isEmpty() || era.kumppaniId() )) {
+                    // Erän muodostuminen vaatii, että erällä on tietoja
+                    if( era.vienti())
+                        vienti.setEra(era.vienti());
+                    else
+                        vienti.setEra(-1);
                 }
 
                 // Ostosaamiset ja velat -kirjataan niin,
