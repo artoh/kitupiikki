@@ -282,7 +282,9 @@ void TilioteApuri::naytaTosite()
             if( sId && !selauslista.contains(sId))
                 selauslista.append(sId);
         }
-        ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt(), selauslista);
+        KirjausSivu* sivu = ikkuna->naytaTosite(index.data(TilioteRivi::TositeIdRooli).toInt(), selauslista);
+        connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
+
     } else {
         const int omaIndeksi = proxy_->mapToSource(index).row();
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
@@ -327,7 +329,6 @@ void TilioteApuri::naytaTosite()
 
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
-        connect( sivu->kirjausWg(), &KirjausWg::tositeKasitelty, ikkuna, &LisaIkkuna::close);
     }
 }
 

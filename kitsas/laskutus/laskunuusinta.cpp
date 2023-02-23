@@ -30,8 +30,7 @@
 LaskunUusinta::LaskunUusinta(QObject *parent) : QObject(parent)
 {    
     connect( &timer_, &QTimer::timeout, this, &LaskunUusinta::uusiLaskut);
-    connect( qobject_cast<Kirjanpito*>(parent), &Kirjanpito::tietokantaVaihtui, this, &LaskunUusinta::ajastaUusita);
-    connect( tosite_, &Tosite::ladattu, this, &LaskunUusinta::uusittavaLadattu);
+    connect( qobject_cast<Kirjanpito*>(parent), &Kirjanpito::tietokantaVaihtui, this, &LaskunUusinta::ajastaUusita);    
 }
 
 void LaskunUusinta::ajastaUusita()
@@ -44,6 +43,8 @@ void LaskunUusinta::uusiLaskut()
     timer_.stop();
 
     tosite_ = new Tosite(this);
+    connect( tosite_, &Tosite::ladattu, this, &LaskunUusinta::uusittavaLadattu);
+
     uusi_ = new Tosite(this);
 
 

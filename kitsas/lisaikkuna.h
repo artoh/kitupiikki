@@ -43,7 +43,7 @@ public slots:
      * @brief Näyttää tositteen uudessa ikkunassa
      * @param tositeId
      */
-    void naytaTosite(int tositeId, QList<int> selausLista = QList<int>());
+    KirjausSivu *naytaTosite(int tositeId, QList<int> selausLista = QList<int>());
 
     /**
      * @brief Näyttää ohjeen

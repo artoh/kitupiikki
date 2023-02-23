@@ -332,15 +332,6 @@ signals:
     void onni(const QString& teksti, Kirjanpito::Onni onni = Onnistui);
 
     /**
-     * @brief Näytetään ilmoitus tositteen tallentumisesta
-     * @param tunnus Tositteen tunnistenumero
-     * @param paiva Tositteen päivämäärä
-     * @param sarja Tositesarja
-     */
-    void tositeTallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
-    void piilotaTallennusWidget();
-
-    /**
      * @brief Tietokantavirhe on tapahtunut
      * @param virheilmoitus
      */

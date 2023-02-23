@@ -510,6 +510,7 @@ void Tosite::tallennusValmis(QVariant *variant)
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else {
         liitteet()->poistaInboxistaLisattyjenTiedostot();
+        muutettu_ = false;
         emit talletettu( id(), tunniste(), pvm(),
                          sarja(), tositetila());
         emit kp()->kirjanpitoaMuokattu();

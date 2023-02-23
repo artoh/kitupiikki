@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>178</height>
+    <width>315</width>
+    <height>93</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,13 +23,28 @@
    <property name="spacing">
     <number>0</number>
    </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../pic/pic.qrc">:/pic/ok-128.png</pixmap>
+      <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -41,28 +56,10 @@
      <item>
       <widget class="QLabel" name="tunnisteellaLabel">
        <property name="text">
-        <string>Tosite tallennettu tunnisteella</string>
+        <string>Tosite tallennettu tunnisteella  </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="luonnosLabel">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Tosite tallennettu</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -76,7 +73,6 @@
          <property name="font">
           <font>
            <pointsize>26</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -100,6 +96,24 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="luonnosLabel">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tosite tallennettu</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

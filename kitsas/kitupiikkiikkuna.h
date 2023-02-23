@@ -86,6 +86,8 @@ public slots:
 
     void kirjauduttu(const PilviKayttaja& kayttaja);
 
+    void naytaTallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
+
 protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid, QList<int> lista = QList<int>(), KirjausSivu::Takaisinpaluu paluu = KirjausSivu::PALATAAN_AINA);

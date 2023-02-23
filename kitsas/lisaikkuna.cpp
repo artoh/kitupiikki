@@ -73,10 +73,10 @@ void LisaIkkuna::selaa()
     new QShortcut( QKeySequence(Qt::Key_Escape), this, SLOT(close()));
 }
 
-void LisaIkkuna::naytaTosite(int tositeId, QList<int> selausLista)
+KirjausSivu* LisaIkkuna::naytaTosite(int tositeId, QList<int> selausLista)
 {
     LisaIkkuna *uusi = new LisaIkkuna;
-    uusi->kirjaa(tositeId, -1, selausLista, KirjausSivu::PALATAAN_AINA);
+    return uusi->kirjaa(tositeId, -1, selausLista, KirjausSivu::PALATAAN_AINA);
 }
 
 void LisaIkkuna::ohje()

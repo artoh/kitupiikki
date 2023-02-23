@@ -35,9 +35,11 @@
 #include "liite/liitteetmodel.h"
 
 #include "db/kirjanpito.h"
+#include "tallennettuwidget.h"
 
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, QList<int> selausLista) :
-    KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
+    KitupiikkiSivu(nullptr), ikkuna_(ikkuna),
+    tallennettuWidget_{new TallennettuWidget(this)}
 {
 
     kirjauswg = new KirjausWg(this, selausLista);
@@ -96,8 +98,21 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
     }
-    emit kp()->piilotaTallennusWidget();
     return true;
+}
+
+void KirjausSivu::tallennettu(int tunnus, const QDate &paiva, const QString &sarja, int tila)
+{
+    if( ikkuna_ && palataanTakaisin_ == PALATAAN_AINA ) {
+        ikkuna_->naytaTallennettu(tunnus, paiva, sarja, tila);
+    } else {
+        tallennettuWidget_->nayta(tunnus, paiva, sarja, tila, 60000);
+    }
+}
+
+void KirjausSivu::piilotaTallennus()
+{
+    tallennettuWidget_->piiloon();
 }
 
 void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi, QList<int> selausLista, Takaisinpaluu takaisinpaluu)

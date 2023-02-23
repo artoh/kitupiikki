@@ -64,9 +64,7 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "model/tositeloki.h"
-#include "tallennettuwidget.h"
 
-#include "selaus/selauswg.h"
 #include "arkistoija/arkistoija.h"
 
 #include "db/yhteysmodel.h"
@@ -77,12 +75,14 @@
 #include "muumuokkausdlg.h"
 #include "pilvi/pilvimodel.h"
 #include "alv/alvilmoitustenmodel.h"
+#include "kirjaussivu.h"
 
-KirjausWg::KirjausWg(QWidget *parent, QList<int> selauslista)
+KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     : QWidget(parent),
       tosite_( new Tosite(this)),
       apuri_(nullptr),              
-      selausLista_(selauslista)
+      selausLista_(selauslista),
+      kirjausSivu_{parent}
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -299,21 +299,9 @@ void KirjausWg::valmis()
 
 void KirjausWg::hylkaa()
 {
-    if( ((ui->tallennaButton->isVisible() && ui->tallennaButton->isEnabled()) || (ui->valmisNappi->isVisible() &&  ui->valmisNappi->isEnabled()))
-            && tosite()->viennit()->summa() && tosite()->muutettu() ) {
-        if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
-                                  tosite()->tila() <= Tosite::MALLIPOHJA ?
-                                    tr("Haluatko keskeyttää kirjauksen tallentamatta tositetta?") :
-                                    tr("Haluatko keskeyttää kirjauksen tallentamatta muutoksia?")
-                                  ,
-                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
-            return;
-        }
-    }
-
-
+    if( !tarkastaHylkays()) return;
     tyhjenna();
-    emit tositeKasitelty(false);
+    kirjausSivu_->tositeKasitelty(false);
 }
 
 void KirjausWg::poistaTosite()
@@ -325,7 +313,7 @@ void KirjausWg::poistaTosite()
         KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tosite()->data(Tosite::ID).toInt() ), KpKysely::DELETE );
         connect(kysely, &KpKysely::virhe, this, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
                                                                         tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( selitys ));});
-        connect(kysely, &KpKysely::vastaus, this, [this] {this->tyhjenna(); emit this->tositeKasitelty(false); emit kp()->kirjanpitoaMuokattu();});
+        connect(kysely, &KpKysely::vastaus, this, [this] {this->tyhjenna(); kirjausSivu_->tositeKasitelty(false); emit kp()->kirjanpitoaMuokattu();});
 
         kysely->kysy();
     }
@@ -448,15 +436,21 @@ void KirjausWg::paivitaSelausLista(QList<int> lista)
 void KirjausWg::siirryEdelliseen()
 {
     int omaIndeksi = selausLista_.indexOf( tosite()->id() );
-    if( omaIndeksi > 0)
+    if( omaIndeksi > 0) {
+        if(!tarkastaHylkays()) return;
         lataaTosite( selausLista_.at(omaIndeksi - 1) );
+        selauksesta_ = EDELLISEEN;
+    }
 }
 
 void KirjausWg::siirrySeuraavaan()
 {
     int omaIndeksi = selausLista_.indexOf( tosite()->id() );
-    if( omaIndeksi > -1 && omaIndeksi < selausLista_.count() - 1)
+    if( omaIndeksi > -1 && omaIndeksi < selausLista_.count() - 1) {
+        if(!tarkastaHylkays()) return;
         lataaTosite( selausLista_.at(omaIndeksi + 1) );
+        selauksesta_ = SEURAAVAAN;
+    }
 }
 
 
@@ -521,7 +515,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Eur
                        Sallittu :
                        ( virheet & Tosite::PVMLUKITTU ? Lukittu : (virheet & Tosite::PVMALV ? AlvLukittu : Sallittu) ));
     if( muokattu )
-        emit kp()->piilotaTallennusWidget();
+        kirjausSivu_->piilotaTallennus();
 
     emit naytaPohjat(!tosite()->liitteet()->rowCount() && !tosite()->id());
 }
@@ -554,9 +548,18 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
         ui->tositetyyppiCombo->setCurrentIndex(0);
 
     kp()->odotusKursori(false);
-    emit kp()->tositeTallennettu(tunniste, pvm, sarja, tila);
-    tyhjenna();
-    emit tositeKasitelty(true);
+    ui->tallennetaanLabel->hide();
+
+    kirjausSivu_->tallennettu(tunniste, pvm, sarja, tila);
+
+    if( selauksesta_ == EDELLISEEN && ui->edellinenButton->isEnabled()) {
+        siirryEdelliseen();
+    } else if( selauksesta_ == SEURAAVAAN && ui->seuraavaButton->isEnabled()) {
+        siirrySeuraavaan();
+    } else {
+        tyhjenna();
+        kirjausSivu_->tositeKasitelty(true);
+    }
 }
 
 void KirjausWg::tallennusEpaonnistui(int virhe)
@@ -755,6 +758,22 @@ void KirjausWg::tuplaTietoSaapuu(QVariant *data, int tila)
             return;
     }
     tosite()->tallenna(tila);
+}
+
+bool KirjausWg::tarkastaHylkays()
+{
+    if( ((ui->tallennaButton->isVisible() && ui->tallennaButton->isEnabled()) || (ui->valmisNappi->isVisible() &&  ui->valmisNappi->isEnabled()))
+            && tosite()->viennit()->summa() && tosite()->muutettu() ) {
+        if( QMessageBox::question(this, tr("Keskeytä kirjaus"),
+                                  tosite()->tila() <= Tosite::MALLIPOHJA ?
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta tositetta?") :
+                                    tr("Haluatko keskeyttää kirjauksen tallentamatta muutoksia?")
+                                  ,
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes) {
+            return false;
+        }
+    }
+    return true;
 }
 
 

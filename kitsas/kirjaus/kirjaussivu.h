@@ -31,7 +31,7 @@ class KirjausWg;
 class QSplitter;
 class KitupiikkiIkkuna;
 class SelausWg;
-
+class TallennettuWidget;
 class NaytaLiiteWidget;
 
 /**
@@ -58,7 +58,10 @@ public:
 
     QString ohjeSivunNimi() { return "kirjaus"; }
 
-    KirjausWg* kirjausWg() { return kirjauswg; }
+    KirjausWg* kirjausWg() { return kirjauswg; }    
+
+    void tallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
+    void piilotaTallennus();
 
 signals:
     /**
@@ -84,7 +87,7 @@ protected:
     KirjausWg *kirjauswg;
     NaytaLiiteWidget *liitewg;
     QSplitter *splitter;
-
+    TallennettuWidget* tallennettuWidget_;
 
     /**
      * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen

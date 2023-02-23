@@ -103,6 +103,9 @@ private:
     QString viimeMaksutapa_;
     QString arkistotunnus_;
 
+    int vastatili_ = 0;
+    QDateTime vastatiliSaldoPaivitetty_;
+
 };
 
 #endif // TULOMENOAPURI_H

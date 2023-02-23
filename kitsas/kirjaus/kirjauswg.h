@@ -34,6 +34,8 @@ class Tosite;
 class ApuriWidget;
 class KiertoWidget;
 class KommentitWidget;
+class TallennettuWidget;
+class KirjausSivu;
 
 /**
  * @brief Kirjausten muokkaus
@@ -46,7 +48,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(QWidget *parent=nullptr, QList<int> selauslista = QList<int>());
+    KirjausWg(KirjausSivu *parent=nullptr, QList<int> selauslista = QList<int>());
     ~KirjausWg();
 
     enum Valilehdet { VIENNIT, MUISTIINPANOT, LIITTEET, VARASTO, LOKI } ;
@@ -140,12 +142,7 @@ public:
 
 signals:
     void liiteValittu(const QByteArray& pdf, bool salliPudotus);
-    /**
-     * @brief Yksi tosite on saatu käsiteltyä.
-     *
-     * Jos ollaan tultu selauksesta, palataan selaukseen
-     */
-    void tositeKasitelty(bool tallennettu);
+
     void tulostaLiite();
     void avaaLiite();
     void tallennaLiite();
@@ -170,7 +167,12 @@ protected:
     void tarkastaTuplatJaTallenna(int tila);
     void tuplaTietoSaapuu(QVariant* data, int tila = Tosite::KIRJANPIDOSSA);
 
+    bool tarkastaHylkays();
+    KirjausSivu* kirjausSivu();
+
 protected:
+    enum Selauksesta { EI_SELAUKSESTA, EDELLISEEN, SEURAAVAAN };
+
     Ui::KirjausWg *ui;    
 
     QAction *poistaAktio_;
@@ -192,6 +194,8 @@ protected:
     KommentitWidget* kommentitTab_;
 
     QList<int> selausLista_;
+    Selauksesta selauksesta_ = EI_SELAUKSESTA;
+    KirjausSivu* kirjausSivu_;
 };
 
 #endif // KIRJAUSWG_H

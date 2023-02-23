@@ -167,9 +167,6 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    connect( kp(), &Kirjanpito::tositeTallennettu, tallennettuWidget_, &TallennettuWidget::nayta);
-    connect( kp(), &Kirjanpito::piilotaTallennusWidget, tallennettuWidget_, &TallennettuWidget::piiloon);
-
     LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
 }
 
@@ -289,6 +286,11 @@ void KitupiikkiIkkuna::uusiLasku()
 void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
 {
     sivuaktiot[TOIMISTOSIVU]->setVisible( kayttaja.admin() );
+}
+
+void KitupiikkiIkkuna::naytaTallennettu(int tunnus, const QDate &paiva, const QString &sarja, int tila)
+{
+    tallennettuWidget_->nayta(tunnus, paiva, sarja, tila, 5000);
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
