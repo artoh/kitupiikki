@@ -16,7 +16,7 @@ void AlvKaudet::haeKaudet()
     kaudet_.clear();
     errorCode_.clear();
     QDate pvm = kp()->tilitpaatetty().addDays(1);
-    while( pvm < kp()->paivamaara().addDays(1)) {
+    while( pvm.year() <= kp()->paivamaara().year() ) {
         haussa_++;
         QString url = QString("%1/info/periods/%2")
                 .arg( kp()->pilvi()->service("vero"),
