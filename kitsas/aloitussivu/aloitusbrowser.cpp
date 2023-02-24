@@ -357,22 +357,22 @@ QString AloitusBrowser::saldoTaulu()
         const QString tiliteksti = QString::number( tili->numero() );
 
         if( tiliteksti.at(0) == '1' && edellinen.at(0) != '1')
-            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Vastaavaa") + "</td></tr>");
+            txt.append("<tr class=saldootsikko><td colspan=2 class=saldootsikko><br/>" + tr("Vastaavaa") + "</td></tr>");
         if( tiliteksti.at(0) == '2' && edellinen.at(0) != '2')
-            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Vastattavaa") + "</td></tr>");
+            txt.append("<tr class=saldootsikko><td colspan=2 class=saldootsikko><br/>" + tr("Vastattavaa") + "</td></tr>");
         if( tiliteksti.at(0) > '2' && edellinen.at(0) <= '2')
-            txt.append("<tr><td colspan=2 class=saldootsikko>" + tr("Tuloslaskelma") + "</td></tr>");
+            txt.append("<tr class=saldootsikko><td colspan=2 class=saldootsikko><br/>" + tr("Tuloslaskelma") + "</td></tr>");
         edellinen = tiliteksti;
 
-        txt.append( QString("<tr class=%4><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%3</td></tr>")
+        txt.append( QString("<tr class=%4><td class=tili><a class=tililinkki href=\"selaa:%1\">%2</a></td><td class=euro>%3</td></tr>")
                     .arg(tili->numero())
                     .arg(tili->nimiNumero().toHtmlEscaped())
                     .arg(saldo.saldo().display(true))
-                    .arg(rivi++ % 4 == 3 ? "tumma" : "vaalea"));
+                    .arg(rivi++ % 2 == 1 ? "tumma" : "vaalea"));
     }
 
 
-    txt.append( QString("<tr class=tulosrivi><td>" + tr("Tilikauden tulos") + "</td><td class=euro>%L1 €</td></tr>")
+    txt.append( QString("<tr class=tulosrivi><td><br/>" + tr("Tilikauden tulos") + "</td><td class=euro><br/>%L1 €</td></tr>")
                 .arg(tulossaldo.display(true)) );
     txt.append("</table>");
 
