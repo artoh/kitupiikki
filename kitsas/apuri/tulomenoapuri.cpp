@@ -572,10 +572,13 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     int vastatilinumero = ui->vastatiliLine->valittuTilinumero();
 
+    qDebug() << "VTM " << vastatilinumero << " ennen " << vastatili_;
+
     // Jotta saldoa ei haettaisi tolkuttoman montaa kertaa,
     // varmistetaan että vastatili on todella muuttunut
     if( vastatilinumero == vastatili_ &&
         vastatiliSaldoPaivitetty_.msecsTo(QDateTime::currentDateTime()) < 1000 ) return;
+
     vastatili_ = vastatilinumero;
     vastatiliSaldoPaivitetty_ = QDateTime::currentDateTime();
 

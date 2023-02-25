@@ -79,8 +79,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
             }
         }
         case ALV: {
-            QVariantList list = vienti_.value("alv").toList();
-            qDebug() << vienti_.kumppaniNimi() << " " << list;
+            QVariantList list = vienti_.value("alv").toList();            
             if( list.count() == 1) {
                 const QVariantMap& map = list.at(0).toMap();
                 if( map.value("koodi").toInt() == AlvKoodi::EIALV) return QString();
