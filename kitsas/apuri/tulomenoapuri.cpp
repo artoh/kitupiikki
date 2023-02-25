@@ -572,8 +572,6 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     int vastatilinumero = ui->vastatiliLine->valittuTilinumero();
 
-    qDebug() << "VTM " << vastatilinumero << " ennen " << vastatili_;
-
     // Jotta saldoa ei haettaisi tolkuttoman montaa kertaa,
     // varmistetaan että vastatili on todella muuttunut
     if( vastatilinumero == vastatili_ &&

@@ -70,8 +70,10 @@ void ViennitView::setTosite(Tosite *tosite)
 void ViennitView::seuraavaSarake()
 {
     const QModelIndex index = currentIndex();
+
     if( index.row() == model()->rowCount() -1 &&
-        index.column() == model()->columnCount() -1)
+        index.column() == model()->columnCount() -1 &&
+        index.flags() & Qt::ItemIsEditable)
     {
         // Lisätään uusi rivi
         TositeViennit *vientiModel = tosite_->viennit();
@@ -161,8 +163,9 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
             else
                 setCurrentIndex( currentIndex().sibling( currentIndex().row(), currentIndex().column() - 1 ) );
         }
-    } else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) {
-        QModelIndex indeksi = currentIndex();
+    } else if( (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) && currentIndex().flags() & Qt::ItemIsEditable ) {
+        QModelIndex indeksi = currentIndex();        
+
         if(indeksi.data(TositeViennit::TiliNumeroRooli).toInt() == 0
                 && indeksi.data(TositeViennit::DebetRooli).toDouble() < 1e-5
                 && indeksi.data(TositeViennit::KreditRooli).toDouble() < 1e-5 ) {
