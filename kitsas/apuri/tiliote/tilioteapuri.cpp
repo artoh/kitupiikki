@@ -48,8 +48,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 {
     ui->setupUi(this);
 
-    proxy_ = new QSortFilterProxyModel(this);
-    proxy_->setSourceModel( model_ );
+    proxy_ = model_->initProxy();
 
     ui->oteView->setModel(proxy_);
     proxy_->setSortRole(TilioteRivi::LajitteluRooli);
@@ -87,7 +86,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
     connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);
 
-    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);
+    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);        
 
 }
 

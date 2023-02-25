@@ -1,8 +1,8 @@
 body
 {
-    background: white;
+    background: palette(base);
     font-size: 12pt;
-    color: black;
+    color: palette(text);
     margin-top: 15px;
 }
 
@@ -38,7 +38,7 @@ pre
     font-family: "Helvetica";
 }
 
-table 
+table
 {
   margin-left: 15px;
   margin-right: 15px;
@@ -49,23 +49,27 @@ table.vinkki
 {
   background-color: #bbff99;
   margin-bottom: 15px;
+  color: black;
 }
 
 table.vinkki > tr > td
 {
     padding: 15px;
+    color: black;
 }
 
 table.varoitus
 {
     background-color: #ff6666;
     margin-bottom: 15px;
+    color: black;
 }
 
 table.tilioimatta
 {
     background-color: #ff6600;
     margin-bottom: 15px;
+    color: black;
 }
 
 table.tilioimatta > tr > td
@@ -82,7 +86,8 @@ table.info
 {
     background-color: #ffff99;
     margin-bottom: 15px;
-    border: 1px solid black;
+    border: 1px solid palette(text);
+    color: black;
 }
 
 table.info > tr > td
@@ -96,6 +101,7 @@ table.testaus
     background-color: #ffa400;
     margin-bottom: 15px;
     border: 1px solid black;
+    color: black;
 }
 
 table.testaus > tr > td
@@ -109,6 +115,7 @@ table.memo
 {
     background-color: #ffffcc;
     margin-bottom: 15px;
+    color: black;
 }
 
 table.memo > tr > td
@@ -124,7 +131,7 @@ a
 
 table.saldot
 {
-    border: 0px solid #ffffff00;
+    border: 0px solid palette(base);
 }
 
 tr.summa > td
@@ -136,7 +143,7 @@ tr.summa > td
 
 tr.tumma
 {
-    background-color: #eeeeee;
+    background-color: palette(alternate-base);
 }
 
 tr.vaalea
@@ -156,6 +163,7 @@ td.otsikko
     font-weight: bold;
 }
 
+
 td.saldootsikko
 {
     font-weight: bold;
@@ -163,7 +171,13 @@ td.saldootsikko
 
 tr.tulosrivi
 {
-    color: #555555;
+    color: palette(dark);
+}
+
+a.tililinkki
+{
+    color: palette(text);
+    text-decoration: none;
 }
 
 
@@ -187,7 +201,7 @@ img
     margin-bottom: 4px;
 }
 
-td.content 
+td.content
 {
     padding: 6px;
 }

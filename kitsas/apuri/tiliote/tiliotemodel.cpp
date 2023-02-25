@@ -25,6 +25,8 @@
 #include "db/tositetyyppimodel.h"
 #include "tilioterivi.h"
 
+#include <QSortFilterProxyModel>
+
 TilioteModel::TilioteModel(QObject *parent, KitsasInterface *kitsasInterface)
     : QAbstractTableModel(parent),
       kitsasInterface_(kitsasInterface)    
@@ -82,8 +84,10 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
     if( rivi < kirjausriveja )
         return kirjausRivit_.at(rivi).riviData(index.column(), role);
-    else
-        return harmaatRivit_.at(rivi - kirjausriveja).riviData(index.column(), role);
+    else {
+        const bool alternate = role == Qt::BackgroundRole ? proxy_->mapFromSource(index).row() % 2 == 1 : false;
+        return harmaatRivit_.at(rivi - kirjausriveja).riviData(index.column(), role, alternate);
+    }
 }
 
 bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -216,6 +220,13 @@ void TilioteModel::asetaTositeId(int id)
 int TilioteModel::tositeId() const
 {
     return tositeId_;
+}
+
+QSortFilterProxyModel *TilioteModel::initProxy()
+{
+    proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setSourceModel(this);
+    return proxy_;
 }
 
 void TilioteModel::lataaHarmaat(const QDate &mista, const QDate &mihin)

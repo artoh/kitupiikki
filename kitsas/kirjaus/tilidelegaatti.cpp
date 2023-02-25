@@ -19,7 +19,6 @@
 
 #include "tilidelegaatti.h"
 
-#include "db/kirjanpito.h"
 #include "model/tositeviennit.h"
 
 #include "db/tilinvalintadialogi.h"

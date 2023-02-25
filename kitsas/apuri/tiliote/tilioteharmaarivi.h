@@ -20,6 +20,7 @@
 #include "tilioterivi.h"
 #include "model/tositevienti.h"
 
+
 class TilioteHarmaaRivi : public TilioteRivi
 {
 public:
@@ -27,7 +28,7 @@ public:
     TilioteHarmaaRivi(const QVariantMap& data, TilioteModel* model);
 
 
-    QVariant riviData(int sarake, int role=Qt::DisplayRole) const;
+    QVariant riviData(int sarake, int role=Qt::DisplayRole, bool alternateColor = false) const;
 
     TositeVienti vienti() const;
 

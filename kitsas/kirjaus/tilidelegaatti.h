@@ -20,7 +20,6 @@
 
 #include <QItemDelegate>
 
-#include "db/tili.h"
 
 /**
  * @brief Delegaatti tilin valitsemiseen täydennyksen avulla

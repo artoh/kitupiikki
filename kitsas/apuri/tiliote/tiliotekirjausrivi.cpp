@@ -28,6 +28,7 @@
 
 #include <QRandomGenerator>
 #include <QBrush>
+#include <QPalette>
 
 TilioteKirjausRivi::TilioteKirjausRivi() :
     taydennys_(nullptr)
@@ -257,7 +258,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
     case Qt::TextAlignmentRole:
         return sarake == EURO || sarake == ALV ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
     case Qt::ForegroundRole:
-        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QColor(Qt::blue)) : QBrush(QColor(Qt::black)));
+        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QColor(Qt::blue)) : QBrush( QPalette().brush(QPalette::Text)) );
     case TilaRooli:
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:

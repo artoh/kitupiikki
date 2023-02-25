@@ -27,6 +27,7 @@
 
 #include <QColor>
 #include <QBrush>
+#include <QPalette>
 
 TilioteHarmaaRivi::TilioteHarmaaRivi()
 {
@@ -39,7 +40,7 @@ TilioteHarmaaRivi::TilioteHarmaaRivi(const QVariantMap &data, TilioteModel *mode
 
 }
 
-QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
+QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor ) const
 {
     switch (role) {
     case Qt::DisplayRole:    
@@ -104,8 +105,18 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role) const
     }
     case Qt::TextAlignmentRole:
         return sarake == EURO || sarake == ALV ? QVariant(Qt::AlignRight | Qt::AlignVCenter) : QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-    case Qt::ForegroundRole:
-        return QBrush(QColor(Qt::darkGreen));
+/*    case Qt::ForegroundRole:
+        if( QPalette().base().color().lightness() > 128)
+            return QBrush(QColor(0,77,0));
+        else
+            return QBrush(QColor(200,255,200));
+*/
+    case Qt::BackgroundRole:
+        if( QPalette().base().color().lightness() > 128) {
+            return alternateColor ? QBrush(QColor(173, 255, 153)) : QBrush(QColor(214,255,204));
+        } else {
+            return alternateColor ? QBrush(QColor(26, 102, 0)) : QBrush(QColor(38,153,0));
+        }
     case TilaRooli:
         return "AH";
     case TositeIdRooli:

@@ -23,7 +23,9 @@
 #include "tilioteharmaarivi.h"
 
 
+
 class KitsasInterface;
+class QSortFilterProxyModel;
 
 class TilioteModel : public QAbstractTableModel
 {
@@ -68,6 +70,8 @@ public:
     void asetaTositeId(int id);
     int tositeId() const;
 
+    QSortFilterProxyModel *initProxy();
+
 protected:
     void harmaatSaapuu(QVariant* data);
     void peita(int harmaaIndeksi, int kirjausIndeksi);
@@ -86,6 +90,7 @@ private:
     int tositeId_ = 0;
 
     KitsasInterface* kitsasInterface_;
+    QSortFilterProxyModel* proxy_ = nullptr;
 };
 
 #endif // TILIOTEMODEL_H
