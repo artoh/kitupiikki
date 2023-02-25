@@ -66,6 +66,8 @@ protected slots:
     void alkusummaSaapuu(QVariant *data);
     void naytaHarmaat(bool nayta);
 
+
+
 private:
     Ui::TilioteApuri *ui;
     TilioteModel *model_;

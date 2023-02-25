@@ -53,6 +53,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->oteView->setModel(proxy_);
     proxy_->setSortRole(TilioteRivi::LajitteluRooli);
     proxy_->setFilterRole(TilioteRivi::TilaRooli);
+    proxy_->setDynamicSortFilter(true);
+    proxy_->sort(TilioteRivi::PVM);
 
     ui->tiliCombo->suodataTyypilla("ARP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
@@ -79,14 +81,10 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->harmaaNappi, &QPushButton::toggled, this, &TilioteApuri::naytaHarmaat);
     ui->harmaaNappi->setChecked(!kp()->settings()->value("TiliotePiilotaHarmaat",false).toBool());
 
-    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::kysyAlkusumma);
-    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::teeTositteelle);
-    connect( ui->tiliCombo, &TiliCombo::currentTextChanged, this, &TilioteApuri::tiliPvmMuutos);
-
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
     connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);
 
-    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);        
+//    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);
 
 }
 
@@ -203,8 +201,7 @@ void TilioteApuri::teeReset()
 
     model_->asetaTilinumero( ui->tiliCombo->valittuTilinumero() );
     model_->lataa(tosite()->viennit()->tallennettavat() );
-    if( kp()->yhteysModel() && !tilioteMap_.isEmpty())
-        lataaHarmaatAjalta( tilioteMap_.value("alkupvm").toDate(), tilioteMap_.value("loppupvm").toDate() );
+    lataaHarmaatAjalta( ui->alkuDate->date(), ui->loppuDate->date() );
 
     ui->oteView->setColumnHidden( TilioteKirjausRivi::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
 
@@ -352,6 +349,7 @@ void TilioteApuri::tiliPvmMuutos()
     }
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());
+    kysyAlkusumma();
 }
 
 void TilioteApuri::lataaHarmaat()
@@ -363,8 +361,8 @@ void TilioteApuri::lataaHarmaatAjalta(const QDate &mista, const QDate &mihin)
 {    
     model_->asetaTositeId(tosite()->id());
     model_->lataaHarmaat( mista, mihin);
-    kysyAlkusumma();
-    proxy_->sort(TilioteRivi::PVM);
+//    kysyAlkusumma();
+//    proxy_->sort(TilioteRivi::PVM);
 }
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)
@@ -406,5 +404,6 @@ void TilioteApuri::naytaHarmaat(bool nayta)
     proxy_->setFilterFixedString( nayta ? "A" : "AA");
     kp()->settings()->setValue("'TiliotePiilotaHarmaat", !nayta);
 }
+
 
 

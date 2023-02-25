@@ -80,6 +80,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
         }
         case ALV: {
             QVariantList list = vienti_.value("alv").toList();
+            qDebug() << vienti_.kumppaniNimi() << " " << list;
             if( list.count() == 1) {
                 const QVariantMap& map = list.at(0).toMap();
                 if( map.value("koodi").toInt() == AlvKoodi::EIALV) return QString();
@@ -87,7 +88,14 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
                 if(prossa) return QString("%1 %").arg(prossa);
             }
             else if(list.count() > 1) {
-                return "...";
+                QStringList prossat;
+                for(const auto& item : list) {
+                    const QVariantMap map = item.toMap();
+                    const QString txt = QString("%1 %").arg((int) map.value("prosentti").toString().toDouble());
+                    if(!prossat.contains(txt)) prossat.append(txt);
+                }
+                prossat.sort();
+                return prossat.join(", ");
             }
             return QVariant();
         }
@@ -113,7 +121,7 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
 */
     case Qt::BackgroundRole:
         if( QPalette().base().color().lightness() > 128) {
-            return alternateColor ? QBrush(QColor(173, 255, 153)) : QBrush(QColor(214,255,204));
+            return alternateColor ? QBrush(QColor(173, 255, 153)) : QBrush(QColor(194,255,179));
         } else {
             return alternateColor ? QBrush(QColor(26, 102, 0)) : QBrush(QColor(38,153,0));
         }

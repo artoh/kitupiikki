@@ -123,7 +123,7 @@ bool TilioteModel::insertRows(int row, int count, const QModelIndex &parent)
         if(kirjausRivit_.count() >= row && row) {
             kirjausRivit_.insert(row+i, TilioteKirjausRivi(kirjausRivit_.at(row-1).pvm(),this));
         } else {
-            kirjausRivit_.insert(row+i, TilioteKirjausRivi( QDate(),this));
+            kirjausRivit_.append(TilioteKirjausRivi( QDate(),this));
         }
     }
 
@@ -231,14 +231,17 @@ QSortFilterProxyModel *TilioteModel::initProxy()
 
 void TilioteModel::lataaHarmaat(const QDate &mista, const QDate &mihin)
 {
-    harmaaLaskuri_++;
     KpKysely *kysely = kitsas()->yhteysModel()->kysely("/viennit");
+    if( !kysely ) return;
+
     kysely->lisaaAttribuutti("tili", tilinumero());
     kysely->lisaaAttribuutti("alkupvm", mista);
     kysely->lisaaAttribuutti("loppupvm", mihin);
     kysely->lisaaAttribuutti("vastatilit");
 
     connect(kysely, &KpKysely::vastaus, this, &TilioteModel::harmaatSaapuu);
+    harmaaLaskuri_++;
+
     kysely->kysy();
 }
 
@@ -265,12 +268,12 @@ QPair<qlonglong, qlonglong> TilioteModel::summat() const
     qlonglong panot = 0l, otot = 0l;
     for(const auto& rivi : kirjausRivit_) {
         if( rivi.peitetty()) continue;
-        panot += qRound64( rivi.pankkivienti().debet() * 100.0 );
-        otot += qRound64( rivi.pankkivienti().kredit() * 100.0 );
+        panot += rivi.pankkivienti().debetSnt();
+        otot += rivi.pankkivienti().kreditSnt();
     }
     for(const auto& rivi : harmaatRivit_) {
-        panot += qRound64( rivi.vienti().debet() * 100.0 );
-        otot += qRound64( rivi.vienti().kredit() * 100.0 );
+        panot += rivi.vienti().debetSnt();
+        otot +=  rivi.vienti().kreditSnt();
     }
     return qMakePair(panot, otot);
 }
@@ -289,7 +292,9 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
     beginResetModel();
     harmaatRivit_.clear();
 
-    for (const auto& vienti : data->toList()) {
+    const QList lista = data->toList();
+
+    for (const auto& vienti : lista) {
         QVariantMap map = vienti.toMap();
         if(map.value("tosite").toMap().value("id").toInt() == tositeId())
             continue;
