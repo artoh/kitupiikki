@@ -207,6 +207,9 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             return ekavienti.tili();
         case EURO:
             return pankkivienti().debet() > 1e-5 ? pankkivienti().debet() : 0 - pankkivienti().kredit();
+        case ALV:
+            if( viennit_.count() != 2) return QVariant();
+            return viennit_.value(1).alvProsentti();
         case KOHDENNUS:
             return ekavienti.kohdennus();
         case SAAJAMAKSAJA:
@@ -298,6 +301,11 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
             viennit_[1].setKohdennus(tili->luku("kohdennus"));
         break;
     }
+    case ALV: {
+        const Tili* tili = model()->kitsas()->tilit()->tili( viennit_.value(1).tili() );
+        const int prosentti = tili && tili->onko(TiliLaji::TULOS) ? value.toInt() : 0;
+        viennit_[1].setAlvProsentti( (double) prosentti );
+    }
     case KOHDENNUS:
         for(int i=1; i < viennit_.count(); i++)
             viennit_[i].setKohdennus(value.toInt());
@@ -325,12 +333,13 @@ Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
     if( sarake == EURO && viennit_.count() != 2)
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    if( sarake == ALV)
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;    // TODO: Alv-muokkaus
-
     const Tili* tili = model()->kitsas()->tilit()->tili(viennit_.value(1).tili());
     if( sarake == KOHDENNUS && ( (tili && tili->onko(TiliLaji::TASE)) || !model()->kitsas()->kohdennukset()->kohdennuksia()) )
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+    if( sarake == ALV && ( !tili || tili->onko(TiliLaji::TASE)) )
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
 
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
@@ -380,6 +389,13 @@ void TilioteKirjausRivi::paivitaTyyppi()
         tyyppi = TositeVienti::MYYNTI;
     } else if( tili && tili->onko(TiliLaji::MENO)) {
         tyyppi = TositeVienti::OSTO;
+    }
+
+    if( (tyyppi == TositeVienti::MYYNTI || tyyppi == TositeVienti::OSTO) && viennit_.value(1).alvProsentti() > 0e-5) {
+        viennit_[1].setAlvKoodi( tyyppi == TositeVienti::MYYNTI ? AlvKoodi::MYYNNIT_BRUTTO : AlvKoodi::OSTOT_BRUTTO );
+    } else if( viennit_.count() > 1) {
+        viennit_[1].setAlvKoodi(AlvKoodi::EIALV);
+        viennit_[1].setAlvProsentti(0.0);
     }
 
     if(!viennit_.isEmpty())

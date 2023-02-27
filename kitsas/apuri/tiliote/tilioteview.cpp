@@ -19,6 +19,7 @@
 #include "kirjaus/tilidelegaatti.h"
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
+#include "tiliotealvdelegaatti.h"
 
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
@@ -37,6 +38,7 @@ TilioteView::TilioteView(QWidget *parent) :
 {
     setItemDelegateForColumn( TilioteRivi::TILI, new TiliDelegaatti(this) );
     setItemDelegateForColumn( TilioteRivi::EURO, new EuroDelegaatti(this) );
+    setItemDelegateForColumn( TilioteRivi::ALV, new TilioteAlvDelegaatti(this));
     setItemDelegateForColumn( TilioteRivi::KOHDENNUS, new KohdennusDelegaatti(this) );
 
     setItemDelegateForColumn(TilioteRivi::SAAJAMAKSAJA,
@@ -77,10 +79,6 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Insert ||
         event->key() == Qt::Key_Tab) &&
             event->modifiers() == Qt::NoModifier )  {
-
-        const int  column = currentIndex().column();
-        const int row = currentIndex().row();
-        const int rowCount = model()->rowCount();
 
         if( currentIndex().column() == TilioteRivi::EURO &&
             currentIndex().row() == model()->rowCount() - 1) {
