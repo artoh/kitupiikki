@@ -325,6 +325,9 @@ Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
     if( sarake == EURO && viennit_.count() != 2)
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
+    if( sarake == ALV)
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;    // TODO: Alv-muokkaus
+
     const Tili* tili = model()->kitsas()->tilit()->tili(viennit_.value(1).tili());
     if( sarake == KOHDENNUS && ( (tili && tili->onko(TiliLaji::TASE)) || !model()->kitsas()->kohdennukset()->kohdennuksia()) )
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;

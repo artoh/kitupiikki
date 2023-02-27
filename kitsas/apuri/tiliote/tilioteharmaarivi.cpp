@@ -142,7 +142,14 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
                 return model()->kitsas()->alvTyypit()->kuvakeKoodilla(koodi);
             }
             return QVariant();
-
+        } else if( sarake == TILI) {
+            QVariantList list = vienti_.value("vastatilit").toList();
+            for(const auto& item: list) {
+                Tili tili = model()->kitsas()->tilit()->tiliNumerolla(item.toInt());
+                if( tili.nimi("fi").contains("selvittelytili", Qt::CaseInsensitive)) {
+                    return QIcon(":/pic/varoitus.png");
+                }
+            }
         } else {
             return QVariant();
         }
