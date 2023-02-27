@@ -21,6 +21,8 @@
 #include <QVariantList>
 #include <QDate>
 
+#include "model/euro.h"
+
 class Tosite;
 
 /**
@@ -58,14 +60,14 @@ public:
     void setPoistoaika(int kk) { poistoaika_ = kk;}
 
 
-    qlonglong brutto() const;
-    qlonglong netto() const;
+    Euro brutto() const;
+    Euro netto() const;
 
     bool nettoSyotetty() const { return netto_; }
 
-    void setBrutto(qlonglong sentit);
-    void setNetto(qlonglong sentit);
-    void setNetonVero(qlonglong sentit);
+    void setBrutto(Euro eurot);
+    void setNetto(Euro eurot);
+    void setNetonVero(Euro eurot);
 
     bool naytaBrutto() const;
     bool naytaNetto() const;
@@ -76,8 +78,9 @@ public:
 
 protected:
     int tilinumero_ = 0;
-    qlonglong brutto_ = 0;
-    qlonglong netto_ = 0;
+
+    Euro brutto_ = 0;
+    Euro netto_ = 0;
 
     QString selite_;
 

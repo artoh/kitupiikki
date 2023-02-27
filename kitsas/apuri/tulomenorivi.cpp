@@ -60,9 +60,10 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
             verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ;
 
-    qlonglong maara = vienti.tyyppi() == TositeVienti::MYYNTI + TositeVienti::KIRJAUS ?
-                qRound64(vienti.kredit() * 100.0) - qRound64(vienti.debet() * 100.0) :
-                qRound64(vienti.debet() * 100.0) - qRound64(vienti.kredit() * 100.0);
+    Euro maara = vienti.tyyppi() == TositeVienti::MYYNTI + TositeVienti::KIRJAUS ?
+                vienti.kreditEuro() - vienti.debetEuro() :
+                vienti.debetEuro() - vienti.kreditEuro();
+
 
     if( nettoon )
         setNetto( maara);
@@ -81,42 +82,42 @@ void TulomenoRivi::setAlvvahennys(bool vahennys)
    alvvahennys_ = vahennys;
 }
 
-qlonglong TulomenoRivi::brutto() const
+Euro TulomenoRivi::brutto() const
 {
     if( !brutto_ ) {
         if( kp()->alvTyypit()->nollaTyyppi(alvkoodi_))
             return brutto_;
-        return qRound64( ( 100 + veroprosentti_ ) * netto_ / 100.0);
+        return Euro::fromCents(qRound64( ( 100 + veroprosentti_) * netto_.cents() / 100.0 ));
     } else
         return brutto_;
 }
 
-qlonglong TulomenoRivi::netto() const
+Euro TulomenoRivi::netto() const
 {
     if( !netto_ ) {
         if( kp()->alvTyypit()->nollaTyyppi(alvkoodi_) )
             return brutto_;
-        qlonglong vero = qRound64( brutto_ * veroprosentti_ / ( 100 + veroprosentti_) );
+        Euro vero = Euro::fromCents(qRound64( brutto_.cents() * veroprosentti_ / ( 100 + veroprosentti_) ));
         return brutto_ - vero;
     } else
         return netto_;
 }
 
-void TulomenoRivi::setBrutto(qlonglong sentit)
+void TulomenoRivi::setBrutto(Euro eurot)
 {
-    brutto_ = sentit;
+    brutto_ = eurot;
     netto_ = 0;
 }
 
-void TulomenoRivi::setNetto(qlonglong sentit)
+void TulomenoRivi::setNetto(Euro eurot)
 {
-    netto_ = sentit;
+    netto_ = eurot;
     brutto_ = 0;
 }
 
-void TulomenoRivi::setNetonVero(qlonglong sentit)
+void TulomenoRivi::setNetonVero(Euro eurot)
 {
-    brutto_ = netto_ + sentit;
+    brutto_ = netto_ + eurot;
     netto_ = 0;
 }
 
@@ -154,9 +155,9 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     if( !tilinumero() )
         return vientilista;
 
-    double maara = this->brutto() / 100.0 ;
-    double netto = this->netto() / 100.0;
-    double vero = (this->brutto() - this->netto() ) / 100.0;
+    Euro maara = this->brutto();
+    Euro netto = this->netto();
+    Euro vero = this->brutto() - this->netto() ;
 
     bool menoa = tosite->tyyppi() < TositeTyyppi::TULO;
     QDate pvm = tosite->data(Tosite::PVM).toDate();
@@ -205,23 +206,17 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     }
 
 
-    double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
+    Euro kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
                              verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || verokoodi== AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
                              verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                              verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
                              verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
                         ) ? netto : maara;
 
-    if( menoa ) {
-        if( kirjattava > 1e-5)
-            vienti.setDebet(kirjattava);
-        else
-            vienti.setKredit(0-kirjattava);
+    if( menoa ^ kirjattava < Euro::Zero) {
+        vienti.setDebet( kirjattava.abs() );
     } else {
-        if( kirjattava > 1e-5)
-            vienti.setKredit( kirjattava );
-        else
-            vienti.setDebet( 0-kirjattava );
+        vienti.setKredit( kirjattava.abs() );
     }
 
     vientilista.append( vienti );
@@ -244,10 +239,10 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
         }
-        if( vero > 0)
-            palautus.setDebet( vero );
+        if(menoa ^ vero < Euro::Zero )
+            palautus.setDebet( vero.abs() );
         else
-            palautus.setKredit( 0 - vero);
+            palautus.setKredit( vero.abs());
 
         palautus.setAlvProsentti( alvprosentti() );
         palautus.setSelite( otsikko );
@@ -262,6 +257,9 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
             verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
     {
+
+        const bool kaanteinen = verokoodi != AlvKoodi::MYYNNIT_NETTO;
+
         TositeVienti verorivi;
         verorivi.setTyyppi( TositeVienti::MYYNTI + TositeVienti::ALVKIRJAUS );
         verorivi.setPvm(pvm);
@@ -274,10 +272,10 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);
         }
 
-        if( vero > 0)
-            verorivi.setKredit( vero );
+        if(menoa ^ vero > Euro::Zero ^ kaanteinen)
+            verorivi.setKredit( vero.abs() );
         else
-            verorivi.setDebet( 0 - vero);
+            verorivi.setDebet( vero.abs());
 
         verorivi.setAlvProsentti( alvprosentti());
         verorivi.setSelite(otsikko);
@@ -292,10 +290,10 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         tuonti.setTyyppi(TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS);
         tuonti.setPvm(pvm);
         tuonti.setTili( tilinumero() );
-        if( netto > 0)
-            tuonti.setKredit(netto);
+        if( menoa ^ netto < Euro::Zero)
+            tuonti.setKredit(netto.abs());
         else
-            tuonti.setDebet( 0 - netto);
+            tuonti.setDebet( netto.abs());
 
         tuonti.setSelite(otsikko);
         tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
@@ -316,10 +314,10 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         palautus.setAlvKoodi( AlvKoodi::VAHENNYSKELVOTON);
         palautus.setAlvProsentti( alvprosentti() );
 
-        if( vero > 0)
-            palautus.setDebet( vero );
+        if( menoa ^ vero < Euro::Zero)
+            palautus.setDebet( vero.abs() );
         else
-            palautus.setKredit( 0 - vero);
+            palautus.setKredit( vero.abs());
 
         palautus.setSelite( otsikko );
         if( !tosite->data(Tosite::KUMPPANI).isNull() )
