@@ -18,7 +18,7 @@ public:
     PdfSivu();
     ~PdfSivu();
 
-    void tuo(QPdfDocument* doc, int sivu);
+    void tuo(QPdfDocument* doc, int sivu, const QPdfSelection &selection, bool rivit = false);
 
     QString teksti() const;
     int etsi(const QStringList& tekstit, int maxRivi = 0);

@@ -295,7 +295,7 @@ QStringList PdfLaskunTuoja::rivitPaloista(QList<PdfPala *> palat, const QStringL
     PdfPala* edellinen = palat.value(0);
     for(auto pala : palat) {
         if( pala->yla() > edellinen->ala() + 20) break;
-        if( qAbs(pala->vasen() < edellinen->vasen() ) ) {
+        if( pala->vasen() < edellinen->vasen()) {
             if(!rivi.isEmpty()) ulos.append(rivi.trimmed());
             rivi.clear();
         }
@@ -379,8 +379,10 @@ QVariantMap PdfLaskunTuoja::map() const
         data.insert("erapvm", erapvm_);
     if(laskupvm_.isValid())
         data.insert("tositepvm", laskupvm_);
-    if(!viite_.isEmpty())
-        data.insert("viite", viite_);
+    if(!viite_.isEmpty()) {
+        QString viiteTxt(viite_);
+        data.insert("viite", viiteTxt.remove(PdfLaskunTuoja::tyhjaRe__));
+    }
     if( euro_)
         data.insert("summa", euro_);
     if( !laskunumero_.isEmpty())

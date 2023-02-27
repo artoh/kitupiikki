@@ -18,6 +18,9 @@ public:
     PdfTiedosto(QPdfDocument* doc);
     ~PdfTiedosto();
 
+    void lueEnsimmainenSivu(const QPdfSelection selection, bool rivit = false);
+    void lueLoputSivut();
+
     const QVariantMap tuo(const TuontiApuInfo& info);
 
     QPdfDocument* pdfDoc() { return doc_; }
@@ -29,6 +32,8 @@ public:
     QString kokoTeksti() const;
 
     QList<PdfPala*> etsiPalat(const QStringList& tekstit);
+
+    static bool findText(const QStringList& list, const QString& target);
 
 protected:
     QPdfDocument* doc_;

@@ -10,11 +10,7 @@ namespace Tuonti {
 PdfTiedosto::PdfTiedosto(QPdfDocument *doc) :
     doc_{doc}
 {
-    for(int i=0; i < doc->pageCount(); i++) {
-        PdfSivu* sivu = new PdfSivu();
-        sivu->tuo(doc, i);
-        sivut_.append(sivu);
-    }
+
 }
 
 PdfTiedosto::~PdfTiedosto()
@@ -23,23 +19,43 @@ PdfTiedosto::~PdfTiedosto()
         delete ptr;
 }
 
+void PdfTiedosto::lueEnsimmainenSivu(const QPdfSelection selection, bool rivit)
+{
+    PdfSivu* sivu = new PdfSivu();
+    sivu->tuo(doc_, 0, selection, rivit);
+    sivut_.append(sivu);
+
+}
+
+void PdfTiedosto::lueLoputSivut()
+{
+    for(int i=1; i < doc_->pageCount(); i++) {
+        PdfSivu* sivu = new PdfSivu();
+        sivu->tuo(doc_, i, doc_->getAllText(i));
+        sivut_.append(sivu);
+    }
+}
+
 const QVariantMap PdfTiedosto::tuo(const TuontiApuInfo &info)
 {
     QStringList hyvariTekstit = QStringList() << "hyvityslasku";
     QStringList tilioteTekstit = QStringList() << "tiliote" << "kontoutdrag" << "account statement";
     QStringList laskuTekstit = QStringList() << "lasku" << "faktura" << "invoice" << "kuitti" << "kvitto";
 
-    PdfSivu* ekaSivu = sivut_.value(0);
-    if(!ekaSivu) return QVariantMap();
+    QPdfSelection sel = doc_->getAllText(0);
 
-    if( ekaSivu->etsi(hyvariTekstit, 10)) return QVariantMap();
-    else if(ekaSivu->etsi(tilioteTekstit)) {
+
+    if( findText(hyvariTekstit, sel.text()) ) return QVariantMap();
+    else if( findText(tilioteTekstit, sel.text()) ) {
+        lueEnsimmainenSivu(sel);
+        lueLoputSivut();
         // Tuodaan tiliote
         PdfTilioteTuonti tuoja;
         return tuoja.tuo(this);
     }
-    else if(ekaSivu->etsi(laskuTekstit)) {
+    else if( findText(laskuTekstit, sel.text())) {
         // Tuodaan lasku
+        lueEnsimmainenSivu(sel);
         PdfLaskunTuoja tuoja(this, info);
         return tuoja.tuo();
     }
@@ -78,6 +94,14 @@ QList<PdfPala *> PdfTiedosto::etsiPalat(const QStringList &tekstit)
         palat.append( ptr->etsiPalat(tekstit) );
     }
     return palat;
+}
+
+bool PdfTiedosto::findText(const QStringList &list, const QString &target)
+{
+    for(const auto& text : list) {
+        if( target.contains(text, Qt::CaseInsensitive)) return true;
+    }
+    return false;
 }
 
 QRegularExpression PdfTiedosto::ibanRe__("FI\\d{2}[\\w\\s]{6,34}");

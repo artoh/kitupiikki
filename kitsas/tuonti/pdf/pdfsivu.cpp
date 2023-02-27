@@ -19,19 +19,18 @@ PdfSivu::~PdfSivu()
     }
 }
 
-void PdfSivu::tuo(QPdfDocument *doc, int sivu)
+void PdfSivu::tuo(QPdfDocument *doc, int sivu, const QPdfSelection& selection, bool rivit)
 {
     sivunKoko_ = doc->pagePointSize(sivu).toSize();
 
-    QPdfSelection sel = doc->getAllText(sivu);
-    QString text = sel.text();
+    QString text = selection.text();
 
 //    qDebug() << sel.text();
     const QDateTime startTime = QDateTime::currentDateTime();
 
     int start = 0;
     for(int c=0; c < text.length(); c++) {
-        if( text.at(c).isSpace()) {
+        if( rivit ? text.at(c) == '\n' : text.at(c).isSpace()) {
             if(start >= c) {
                 start = c+1;
                 continue;
