@@ -798,14 +798,21 @@ osoite</string>
         </widget>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="erittelyTextEdit">
+        <widget class="QTextEdit" name="erittelyTextEdit">
          <property name="font">
           <font>
-           <family>Courier</family>
+           <family>FreeMono</family>
+           <bold>false</bold>
           </font>
          </property>
          <property name="lineWrapMode">
-          <enum>QPlainTextEdit::NoWrap</enum>
+          <enum>QTextEdit::FixedColumnWidth</enum>
+         </property>
+         <property name="lineWrapColumnOrWidth">
+          <number>80</number>
+         </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
          </property>
          <property name="placeholderText">
           <string>Erittely laskun lopussa</string>
@@ -1409,7 +1416,6 @@ osoite</string>
   <tabstop>huomautusaikaSpin</tabstop>
   <tabstop>sopimusNumeroEdit</tabstop>
   <tabstop>lisatietoEdit</tabstop>
-  <tabstop>erittelyTextEdit</tabstop>
   <tabstop>toistoGroup</tabstop>
   <tabstop>toistoJaksoSpin</tabstop>
   <tabstop>toistoLaskuaikaSpin</tabstop>

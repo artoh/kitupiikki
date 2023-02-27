@@ -140,6 +140,8 @@ void KantaLaskuDialogi::alustaUi()
     ui->bannerCombo->setVisible( ui->bannerCombo->model()->rowCount() > 1 );
 
     ui->laskuPvm->setDateRange(kp()->tilitpaatetty(), kp()->tilikaudet()->kirjanpitoLoppuu());
+
+
 }
 
 void KantaLaskuDialogi::alustaToiminimiCombo()
@@ -414,9 +416,21 @@ void KantaLaskuDialogi::tositteelle()
     tosite()->lasku().setBannerId( ui->bannerCombo->currentData(BannerModel::IdRooli).toString() );
 
     tosite()->lasku().setLisatiedot( ui->lisatietoEdit->toPlainText());
-    if( ui->erittelyTextEdit->toPlainText().length())
-        tosite()->lasku().setErittely( ui->erittelyTextEdit->toPlainText().split("\n") );
-    else
+    if( ui->erittelyTextEdit->toPlainText().length()) {
+        QStringList erittely;
+        QString editorista = ui->erittelyTextEdit->toPlainText() + "\n";
+        while(!editorista.isEmpty()) {
+            int indeksi = editorista.indexOf('\n');
+            if( indeksi > 80) {
+                erittely.append(editorista.left(80));
+                editorista = editorista.mid(80);
+            } else {
+                erittely.append(editorista.left(indeksi));
+                editorista = editorista.mid(indeksi+1);
+            }
+        }
+        tosite()->lasku().setErittely( erittely );
+    } else
         tosite()->lasku().setErittely(QStringList());
 
     tosite()->lasku().setSaate( ui->saateEdit->toPlainText() );
