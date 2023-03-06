@@ -580,7 +580,7 @@
       <set>QTextEdit::AutoNone</set>
      </property>
      <property name="tabChangesFocus">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
    </item>
