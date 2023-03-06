@@ -116,7 +116,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    if( field("harjoitus").toBool() )
+    if( field("harjoitus").toBool() && startId() != ALUSTUS )
         asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())
@@ -152,7 +152,7 @@ QVariantMap UusiVelho::data() const
     initMap.insert("tilikaudet", tilikaudet_);
 
     map.insert("name", asetukset_.value("Nimi"));
-    map.insert("trial", field("harjoitus").toBool());
+    map.insert("trial", field("harjoitus").toBool() && startId() != ALUSTUS);
     map.insert("init", initMap);
     if(!field("ytunnus").toString().isEmpty())
         map.insert("businessid", field("ytunnus").toString());
