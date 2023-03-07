@@ -837,6 +837,8 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     ui->lisaaVientiNappi->setEnabled(sallitaanko == Sallittu);
     ui->huomioMerkki->setEnabled( sallitaanko != Lukittu);
 
+    tyhjennaViennitAktio_->setEnabled( sallitaanko == Sallittu);
+
     if(sallitaanko == Sallittu)
         ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
