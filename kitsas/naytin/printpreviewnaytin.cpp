@@ -22,6 +22,7 @@
 #include <QPrinterInfo>
 #include <QPdfWriter>
 #include <QPageSize>
+#include <QSettings>
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
     : AbstraktiNaytin (parent)
@@ -45,11 +46,23 @@ Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QWidget *parent)
 
     widget_ = new QPrintPreviewWidget(printer_, parent);
 
+    qreal zoomFactor = kp()->settings()->value("PrintPreviewZoomFactor").toDouble();
+    int mode = kp()->settings()->value("PrintPreviewZoomMode").toInt();
+    if( mode == QPrintPreviewWidget::ZoomMode::FitInView)
+        widget_->setZoomMode(QPrintPreviewWidget::ZoomMode::FitInView);
+    else if( mode == QPrintPreviewWidget::ZoomMode::CustomZoom && zoomFactor > 0.1) {
+        widget_->setZoomMode(QPrintPreviewWidget::ZoomMode::CustomZoom);
+        widget_->setZoomFactor( zoomFactor );
+    }
+
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
 }
 
 Naytin::PrintPreviewNaytin::~PrintPreviewNaytin()
-{    
+{
+    kp()->settings()->setValue("PrintPreviewZoomFactor", widget_->zoomFactor());
+    kp()->settings()->setValue("PrintPreviewZoomMode", widget_->zoomMode());
+
     delete printer_;
 }
 
