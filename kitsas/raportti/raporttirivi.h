@@ -64,7 +64,7 @@ class RaporttiRivi
 {
 public:
 
-    enum RivinKaytto { PDF=1, HTML=2, CSV=4, EICSV=3, EIPDF=6, KAIKKI=7};
+    enum RivinKaytto { PDF=1, HTML=2, CSV=4, EICSV=3, EIPDF=6, KAIKKI=7, VIIVAKOODI=9};
 
     /**
      * @brief Luo uuden raporttirivin

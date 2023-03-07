@@ -114,6 +114,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     int pienennys = sarakkeet_.count() > 4 && printer->pageLayout().pageSize().size(QPageSize::Millimeter).width()  < 300 ? 2 : 0;
 
     QFont fontti("FreeSans", 10 - pienennys );
+    QFont koodifontti( "code128_XL", 36);
+    koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
+
     painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();
@@ -168,9 +171,13 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         if( !(rivi.kaytto() & RaporttiRivi::PDF))
             continue;
 
-        fontti.setPointSize( rivi.pistekoko() - pienennys );
-        fontti.setBold( rivi.onkoLihava() );
-        painter->setFont(fontti);
+        if( rivi.kaytto() == RaporttiRivi::VIIVAKOODI) {
+            painter->setFont(koodifontti);
+        } else {
+            fontti.setPointSize( rivi.pistekoko() - pienennys );
+            fontti.setBold( rivi.onkoLihava() );
+            painter->setFont(fontti);
+        }
 
         // Lasketaan ensin sarakkeiden rectit
         // ja samalla lasketaan taulukkoon liput
@@ -305,9 +312,13 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         }
 
-        fontti.setPointSize( rivi.pistekoko() - pienennys );
-        fontti.setBold( rivi.onkoLihava() );
-        painter->setFont(fontti);
+        if( rivi.kaytto() == RaporttiRivi::VIIVAKOODI) {
+            painter->setFont(koodifontti);
+        } else {
+            fontti.setPointSize( rivi.pistekoko() - pienennys );
+            fontti.setBold( rivi.onkoLihava() );
+            painter->setFont(fontti);
+        }
 
         // Sitten tulostetaan tämä varsinainen rivi
         for( int i=0; i < rivi.sarakkeita(); i++)

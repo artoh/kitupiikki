@@ -107,6 +107,7 @@ protected:
 
     void kirjoitaOtsikot();
     void kirjoitaYhteenveto();
+    void kirjoitaMaksutiedot();
     void kirjaaVerot();
     void kirjoitaErittely();
     void yvRivi(int koodi, const QString& selite, Euro euro);

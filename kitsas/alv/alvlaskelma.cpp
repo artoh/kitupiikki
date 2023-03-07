@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "alvlaskelma.h"
+#include "alv/alvkaudet.h"
 #include "db/kirjanpito.h"
 #include "db/verotyyppimodel.h"
 #include "model/tosite.h"
@@ -24,6 +25,9 @@
 #include "alvilmoitustenmodel.h"
 #include "pilvi/pilvimodel.h"
 #include <QDebug>
+#include "laskutus/iban.h"
+#include "laskutus/viitenumero.h"
+#include "model/lasku.h"
 
 AlvLaskelma::AlvLaskelma(QObject *parent, const QString kielikoodi) :
   Raportteri (parent, kielikoodi),
@@ -40,6 +44,7 @@ void AlvLaskelma::kirjoitaLaskelma()
 {
     kirjoitaOtsikot();
     kirjoitaYhteenveto();
+    kirjoitaMaksutiedot();
     kirjoitaErittely();
 }
 
@@ -176,6 +181,64 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     rk.lisaaTyhjaRivi();
 
+}
+
+void AlvLaskelma::kirjoitaMaksutiedot()
+{
+    if(!( maksettava_ > Euro::Zero)) return;
+
+    AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( loppupvm_ );
+    if( kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_) return;
+
+    Iban verottajaIban("FI56 8919 9710 0007 24");
+
+    RaporttiRivi otsikko;
+    otsikko.lisaa(kaanna("Maksutiedot"),5);
+    otsikko.lihavoi();
+    otsikko.asetaKoko(12);
+    rk.lisaaRivi(otsikko);
+
+    const QString viite = kp()->asetukset()->asetus(AsetusModel::VeroOmaViite).remove(QChar(' '));
+
+    RaporttiRivi viiteRivi;
+    viiteRivi.lisaa(kaanna("Viitenumero"),2);
+    viiteRivi.lisaa( Iban::lisaaValit(viite));
+    rk.lisaaRivi( viiteRivi );
+
+    RaporttiRivi eraPvmRivi;
+    eraPvmRivi.lisaa(kaanna("Eräpäivä"),2);
+    eraPvmRivi.lisaa( kausi.erapvm() );
+    rk.lisaaRivi( eraPvmRivi );
+
+    RaporttiRivi summaRivi;
+    summaRivi.lisaa(kaanna("Maksettavaa"),2);
+    summaRivi.lisaa(maksettava_.display());
+    rk.lisaaRivi(summaRivi);
+
+    RaporttiRivi tililleRivi;
+    tililleRivi.lisaa(kaanna("Tilille"),2);
+    tililleRivi.lisaa(verottajaIban.pankki() + " " + verottajaIban.valeilla());
+    rk.lisaaRivi(tililleRivi);
+
+    QString koodi = QString("5 %1 %2 %3 %4 %5")
+                       .arg(verottajaIban.valeitta().mid(2,16))    // Numeerinen tilinumero
+                       .arg(maksettava_.cents(), 8, 10, QChar('0'))
+                       .arg(viite.mid(2,2) )
+                       .arg(viite.mid(4),21,QChar('0'))
+                       .arg( kausi.erapvm().toString("yyMMdd"))
+                       .remove(QChar(' '));
+
+
+    RaporttiRivi virtuaaliRivi;
+    virtuaaliRivi.lisaa(kaanna("Virtuaaliviivakoodi"),2);
+    virtuaaliRivi.lisaa( koodi, 2 );
+    rk.lisaaRivi(virtuaaliRivi);
+
+    RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
+    koodiRivi.lisaa(koodi,5);
+    rk.lisaaRivi(koodiRivi);
+
+    rk.lisaaTyhjaRivi();
 }
 
 void AlvLaskelma::kirjaaVerot()

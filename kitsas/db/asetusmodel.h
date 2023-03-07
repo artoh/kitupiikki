@@ -113,7 +113,8 @@ public:
         TilitietoMaksuHyvaksytty,
         AvausKuukausittain,
         TilinAvausPvm,
-        MaventaAutentikointiTila
+        MaventaAutentikointiTila,
+        VeroOmaViite
     };
 
 
