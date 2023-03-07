@@ -30,6 +30,7 @@
 class QTimer;
 class QNetworkReply;
 class PaivitysInfo;
+class QProgressDialog;
 
 namespace Tilitieto {
     class TilitietoPalvelu;
@@ -111,6 +112,10 @@ private:
     void poistettu();    
     void tarkistaKirjautuminen();
 
+    void alusta();
+    void lataaInit(QVariant* reply);
+    void keskeytaLataus();
+
 private:    
     void asetaPilviLista(const QVariantList lista);
 
@@ -131,7 +136,7 @@ private:
     int avaaPilvi_ = 0;
 
     PaivitysInfo* paivitysInfo_;
-
+    QProgressDialog* progressDialog_ = nullptr;
 
 private:
 

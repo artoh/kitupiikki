@@ -36,6 +36,7 @@
 #include <QFile>
 #include <QNetworkReply>
 #include <QApplication>
+#include <QProgressDialog>
 
 #include "uusikirjanpito/uusivelho.h"
 
@@ -92,6 +93,12 @@ QString PilviModel::pilviLoginOsoite()
 
 void PilviModel::uusiPilvi(const QVariant &initials)
 {
+    QWidget* main = qApp->topLevelWidgets().isEmpty() || qApp->topLevelWidgets().first()->isHidden() ? nullptr : qApp->topLevelWidgets().first();
+    progressDialog_ = new QProgressDialog( tr("Kirjanpitoa luodaan..."), tr("Keskeytä"), 0, 100, main);
+    connect( progressDialog_, &QProgressDialog::canceled, this, &PilviModel::keskeytaLataus);
+    progressDialog_->setValue(5);
+    progressDialog_->setMinimumDuration(10);
+
     PilviKysely* kysely = new PilviKysely(this, KpKysely::POST, pilviLoginOsoite() + "/clouds");
     connect( kysely, &PilviKysely::vastaus, this, &PilviModel::pilviLisatty);
     connect( kysely, &PilviKysely::virhe, [] (int koodi, const QString& viesti) {QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"),
@@ -99,11 +106,52 @@ void PilviModel::uusiPilvi(const QVariant &initials)
     kysely->kysy(initials);
 }
 
+void PilviModel::alusta()
+{
+    if( !nykyPilvi_) return;    // Lataus keskeytetty
+
+    if(progressDialog_) progressDialog_->setValue(60);
+    KpKysely *initkysely = kysely("/init");
+    connect( initkysely, &KpKysely::vastaus, this, &PilviModel::lataaInit );
+    initkysely->kysy();
+}
+
+void PilviModel::lataaInit(QVariant *reply)
+{
+    if( !nykyPilvi_) return;    // Lataus keskeytetty
+
+    if( progressDialog_) progressDialog_->setValue(90);
+
+    YhteysModel::lataaInit(reply);
+    if( progressDialog_ ) {
+        progressDialog_->setValue(100);
+        progressDialog_->deleteLater();
+        progressDialog_ = nullptr;
+    }
+
+    kp()->yhteysAvattu(this);
+    kp()->odotusKursori(false);
+}
+
+void PilviModel::keskeytaLataus()
+{
+    nykyPilvi_ = AvattuPilvi();
+    kp()->odotusKursori(false);
+    kp()->yhteysAvattu(nullptr);
+
+}
+
 
 
 void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
 {
-    if(!siirrossa) kp()->odotusKursori(true);
+    if(!siirrossa && !progressDialog_) {
+        kp()->odotusKursori(true);
+        progressDialog_ = new QProgressDialog( tr("Kirjanpitoa avataan..."), tr("Keskeytä"), 0, 100, qApp->activeWindow());
+        connect( progressDialog_, &QProgressDialog::canceled, this, &PilviModel::keskeytaLataus);
+        progressDialog_->setMinimumDuration(100);
+    }
+    if(progressDialog_) progressDialog_->setValue(40);
 
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
@@ -251,6 +299,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 
 void PilviModel::pilviLisatty(QVariant *paluu)
 {
+    if(progressDialog_) progressDialog_->setValue(15);
     QVariantMap map = paluu->toMap();    
     paivitaLista(map.value("id").toInt());
 
@@ -275,6 +324,14 @@ void PilviModel::tarkistaKirjautuminen()
 
 void PilviModel::alustaPilvi(QVariant *data, bool siirrossa)
 {
+    if( !progressDialog_ ) {
+        progressDialog_ = new QProgressDialog( tr("Kirjanpitoa alustetaan..."), tr("Keskeytä"), 0, 100, qApp->activeWindow());
+        connect( progressDialog_, &QProgressDialog::canceled, this, &PilviModel::keskeytaLataus);
+        progressDialog_->setMinimumDuration(50);
+    }
+
+    progressDialog_->setValue(30);
+
     AvattuPilvi pilvi(*data);
     if( !pilvi.alustettu() ) {
         kp()->odotusKursori(false);
