@@ -51,16 +51,7 @@ void UusiYhteysDialog::lisaaValtuutus()
     ui->ValmisNappi->setVisible(false);
     ui->seuraavaNappi->setEnabled(false);
 
-    if( kp()->asetukset()->onko(AsetusModel::TilitietoMaksuHyvaksytty)) {
-        ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
-    } else {
-        ui->stackedWidget->setCurrentIndex(MAKSUINFO);
-        ui->infoLabel->setText(tr("Tilitapahtumien noutaminen pankista on maksullinen lisäpalvelu hintaan %1 kuukaudessa (sis.alv), mikä veloitetaan jälkikäteen.\n\n"
-                                  "Palvelua voi ensin kokeilla maksutta %2 päivän ajan. Kokeilujakso alkaa ensimmäisestä onnistuneesta tilitapahtumien hakemisesta. "
-                                  "Maksu on kirjanpitokohtainen, ja veloitetaan niiltä kuukausilta, jolloin tilitietoja on haettu onnistuneesti."
-                                  "\n\nKatso lisätietoja Kitsaan ohjeista!").arg(palvelu_->price().display()).arg(palvelu_->trialDays()));        
-    }
-
+    ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
 
     // Yritetään esivalita pankki, johon on tili
     for(int i = 0; i < kp()->tilit()->rowCount(); i++) {

@@ -27,7 +27,6 @@ public:
     bool nollaa() override;
 
 private:
-    void paivitaTilaus();
     void paivitaYhteydet();
 
     void naytaTosite(const QModelIndex& index);

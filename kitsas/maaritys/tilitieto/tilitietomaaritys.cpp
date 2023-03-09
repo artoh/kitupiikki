@@ -31,7 +31,6 @@ TilitietoMaaritys::TilitietoMaaritys() :
     ui->lokiView->setModel( palvelu_->loki() );
 
     connect( ui->lisaaNappi, &QPushButton::clicked, dlg_, &UusiYhteysDialog::lisaaValtuutus);
-    connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaTilaus);
     connect( palvelu_, &TilitietoPalvelu::ladattu, this, &TilitietoMaaritys::paivitaYhteydet);
     connect( ui->lokiView, &QTableView::clicked, this, &TilitietoMaaritys::naytaTosite);
 }
@@ -48,28 +47,11 @@ bool TilitietoMaaritys::nollaa()
     return true;
 }
 
-void TilitietoMaaritys::paivitaTilaus()
-{
-
-    Euro price = palvelu_->price();
-    const int kokeiluPituus = palvelu_->trialDays();
-    const QDate kokeiluSaakka = palvelu_->trialPeriod();
-
-    ui->infoLabel->setVisible( price  );
-
-    const QString maksutieto = tr("Tilitapahtumien hakeminen on maksullinen lisäpalvelu hintaan %1/kk (sis.alv).").arg(price.display());
-
-    if( kokeiluSaakka.isNull()) {
-        ui->infoLabel->setText(  maksutieto + "\n" + tr("Voit kokeilla palvelua maksutta %1 päivän ajan.").arg(kokeiluPituus) );
-    } else if( kokeiluSaakka >= QDate::currentDate() ) {
-        ui->infoLabel->setText( maksutieto + "\n" + tr("Hakeminen on maksutonta vielä kokeilujakson ajan %1 saakka.").arg(kokeiluSaakka.toString("dd.MM.yyyy")));
-    } else {
-        ui->infoLabel->setText( maksutieto );
-    }
-}
 
 void TilitietoMaaritys::paivitaYhteydet()
 {
+    ui->infoLabel->hide();
+
     QGridLayout* paaleiska = new QGridLayout(this);
     for(int i=0; i < palvelu_->yhteyksia(); i++) {
         Yhteys yhteys = palvelu_->yhteys(i);

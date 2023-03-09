@@ -6,7 +6,6 @@
 #include <QObject>
 #include "yhteys.h"
 
-#include "model/euro.h"
 #include "laskutus/iban.h"
 
 namespace Tilitieto{
@@ -19,10 +18,6 @@ class TilitietoPalvelu : public QObject
     Q_OBJECT
 public:
     TilitietoPalvelu(QObject* parent = nullptr);
-
-    int trialDays() const { return trialDays_;}
-    QDate trialPeriod() const { return trialPeriod_;}
-    Euro price() const { return price_;}
 
     PankitModel* pankit();
 
@@ -54,10 +49,6 @@ signals:
 private:
     PankitModel* pankit_;
     QList<Yhteys> yhteydet_;
-
-    QDate trialPeriod_;
-    int trialDays_;
-    Euro price_;
 
     PankkiLokiModel* loki_;
 
