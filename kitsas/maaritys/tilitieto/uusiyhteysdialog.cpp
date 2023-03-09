@@ -37,6 +37,8 @@ UusiYhteysDialog::UusiYhteysDialog(TilitietoPalvelu *palvelu) :
     filter->sort(0);
     ui->pankkiView->setModel(filter);
 
+    pankkiValittu();
+
 }
 
 UusiYhteysDialog::~UusiYhteysDialog()
@@ -122,12 +124,7 @@ void UusiYhteysDialog::asetaLogo(int pankkiId)
 
 void UusiYhteysDialog::seuraava()
 {
-    if( ui->stackedWidget->currentIndex() == MAKSUINFO) {
-        pankkiValittu();
-        kp()->asetukset()->aseta(AsetusModel::TilitietoMaksuHyvaksytty, QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-        ui->stackedWidget->setCurrentIndex(VALITSEPANKKI);
-        pankkiValittu();
-    } else if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
+    if( ui->stackedWidget->currentIndex() == VALITSEPANKKI) {
         ui->seuraavaNappi->setEnabled(false);
         int pankki = ui->pankkiView->currentIndex().data(PankitModel::IdRooli).toInt();
         if( pankki ) {
