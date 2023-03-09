@@ -54,7 +54,8 @@ void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
     QDialog::accept();
     emit kp()->kirjanpitoaMuokattu();
 
-    int tila = tosite_->tila();
+    int tila = tosite.value("tila").toInt();
+
     if( tila == Tosite::LAHETETAAN) {
         QList<int> lista;
         lista.append(tosite.value("id").toInt());
