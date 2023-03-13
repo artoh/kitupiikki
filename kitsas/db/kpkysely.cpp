@@ -22,16 +22,20 @@
 #include <QDate>
 
 KpKysely::KpKysely(YhteysModel *parent, KpKysely::Metodi metodi, QString polku) :
-    QObject (parent), metodi_(metodi), polku_(polku)
+    QObject (parent), metodi_(metodi)
 {
-
+    asetaUrl(polku);
 }
 
 void KpKysely::asetaUrl(const QString &kysely)
 {
-    QUrl url(kysely);
-    polku_ = url.path();
-    kysely_ = QUrlQuery( url );
+    int kyssari = kysely.indexOf("?");
+    if( kyssari < 0) {
+        polku_ = kysely;
+    } else {
+        polku_ = kysely.left(kyssari);
+        kysely_ = QUrlQuery(kysely.mid(kyssari+1));
+    }
 }
 
 void KpKysely::lisaaAttribuutti(const QString &avain, const QString &arvo)
