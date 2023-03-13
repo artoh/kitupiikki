@@ -138,6 +138,7 @@ SOURCES += \
     $$PWD/maaritys/laskutekstit/laskutekstimaaritys.cpp \
     $$PWD/maaritys/laskutekstit/laskutekstitmodel.cpp \
     $$PWD/maaritys/liitemaaritys.cpp \
+    $$PWD/maaritys/lisapalvelutmaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/minamaaritys.cpp \
@@ -192,6 +193,7 @@ SOURCES += \
     $$PWD/pilvi/paivitysinfo.cpp \
     $$PWD/pilvi/palvelunkertoja.cpp \
     $$PWD/pilvi/pilveensiirto.cpp \
+    $$PWD/pilvi/pilviextra.cpp \
     $$PWD/pilvi/pilvikayttaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/laatijat/laatijanalv.cpp \
@@ -563,6 +565,7 @@ HEADERS += \
     $$PWD/maaritys/laskutekstit/laskutekstimaaritys.h \
     $$PWD/maaritys/laskutekstit/laskutekstitmodel.h \
     $$PWD/maaritys/liitemaaritys.h \
+    $$PWD/maaritys/lisapalvelutmaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/minamaaritys.h \
@@ -618,6 +621,7 @@ HEADERS += \
     $$PWD/pilvi/paivitysinfo.h \
     $$PWD/pilvi/palvelunkertoja.h \
     $$PWD/pilvi/pilveensiirto.h \
+    $$PWD/pilvi/pilviextra.h \
     $$PWD/pilvi/pilvikayttaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/laatijat/laatijanalv.h \

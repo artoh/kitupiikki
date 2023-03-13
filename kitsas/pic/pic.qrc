@@ -217,6 +217,7 @@
         <file>certificate.png</file>
         <file>text64.png</file>
         <file>zoom-fit.png</file>
+        <file>palat.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

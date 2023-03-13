@@ -5,6 +5,7 @@
 #include <QVariantMap>
 
 #include "palvelunkertoja.h"
+#include "pilviextra.h"
 
 class AvattuPilvi : public PalvelunKertoja
 {
@@ -34,6 +35,9 @@ public:
     void asetaNimi(const QString& nimi);
     void asetaYTunnus(const QString& ytunnus);
 
+    PilviExtra extra(int id) const;
+    QList<int> extrat() const;
+
     /**
      * @brief Muodostaa oikeuksista bittikartan
      * @param Oikeudet listana ["Ts","Tl"] jne
@@ -54,6 +58,8 @@ private:
     bool alustettu_ = false;
     QString name_;
     QString businessid_;
+
+    QMap<int,PilviExtra> extrat_;
 
     static std::map<QString,qlonglong> oikeustunnukset__;
 };

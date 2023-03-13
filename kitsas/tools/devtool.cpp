@@ -28,7 +28,7 @@
 #include "ui_devtool.h"
 
 #include "db/kirjanpito.h"
-
+#include "pilvi/pilvimodel.h"
 #include "db/kpkysely.h"
 
 #include "kitsaslokimodel.h"
@@ -137,8 +137,11 @@ void DevTool::kysely()
     else if( ui->deleteRadio->isChecked())
         metodi = KpKysely::DELETE;
 
-    KpKysely *kysely = kpk( QString(), metodi);
-    kysely->asetaUrl(ui->kyselyLine->text());
+    const QString& polku = ui->kyselyLine->text();
+    KpKysely *kysely = ui->loginRadio->isChecked() ?
+                kp()->pilvi()->loginKysely(polku, metodi) :
+                kpk( polku, metodi);
+
 
     connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
     connect( kysely, &KpKysely::virhe, this, &DevTool::virhe);

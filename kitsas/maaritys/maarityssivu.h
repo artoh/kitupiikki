@@ -70,7 +70,8 @@ public:
         VERO,
         PALKKAKIRJAUS,
         PAIVITYS,
-        TILITIEDOT
+        TILITIEDOT,
+        LISAPALVELUT
 
     };
 

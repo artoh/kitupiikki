@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="lokiTab">
       <attribute name="icon">
@@ -183,43 +183,78 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
-          <widget class="QRadioButton" name="getRadio">
-           <property name="text">
-            <string>GET</string>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string/>
            </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QRadioButton" name="getRadio">
+              <property name="text">
+               <string>GET</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="postRadio">
+              <property name="text">
+               <string>POST</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="putRadio">
+              <property name="text">
+               <string>PUT</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="patchRadio">
+              <property name="text">
+               <string>PATCH</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="deleteRadio">
+              <property name="text">
+               <string>DELETE</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="postRadio">
-           <property name="text">
-            <string>POST</string>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string/>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="putRadio">
-           <property name="text">
-            <string>PUT</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="patchRadio">
-           <property name="text">
-            <string>PATCH</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="deleteRadio">
-           <property name="text">
-            <string>DELETE</string>
-           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QRadioButton" name="loginRadio">
+              <property name="text">
+               <string>Login</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="cloudRadio">
+              <property name="text">
+               <string>Cloud</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>

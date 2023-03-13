@@ -28,6 +28,11 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     vat_ = planMap.value("vat").toBool();
     trial_period_ = planMap.value("trial").toBool();
 
+    QVariantList ekstraLista = map.value("extras").toList();
+    for(auto const& item : ekstraLista) {
+        PilviExtra extra(item.toMap());
+        extrat_.insert(extra.id(), extra);
+    }
 
 }
 
@@ -44,6 +49,16 @@ void AvattuPilvi::asetaNimi(const QString &nimi)
 void AvattuPilvi::asetaYTunnus(const QString &ytunnus)
 {
     businessid_ = ytunnus;
+}
+
+PilviExtra AvattuPilvi::extra(int id) const
+{
+    return extrat_.value(id);
+}
+
+QList<int> AvattuPilvi::extrat() const
+{
+    return extrat_.keys();
 }
 
 

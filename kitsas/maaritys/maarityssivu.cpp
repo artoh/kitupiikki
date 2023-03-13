@@ -51,6 +51,7 @@
 #include "bannermaaritys.h"
 #include "minamaaritys.h"
 #include "veromaaritys.h"
+#include "lisapalvelutmaaritys.h"
 
 #include "db/kirjanpito.h"
 
@@ -91,7 +92,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Raportit"), RAPORTIT, "raportit", QIcon(":/pic/print.png"));
     lisaaSivu(tr("Tilinpäätöksen malli"), LIITETIETOKAAVA,"tilinpaatos", QIcon(":/pic/tekstisivu.png"));
     lisaaSivu(tr("Tilikartan päivitys"), PAIVITYS, "paivitys", QIcon(":/pic/paivita.png"),"paivita");
-
+    lisaaSivu(tr("Lisäpalvelut"), LISAPALVELUT, "lisapalvelut", QIcon(":/pic/palat.svg"),"ekstrat");
 
 
     // connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
@@ -271,6 +272,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new PalkkatiliMaaritys;
     else if(sivu == TILITIEDOT)
         nykyinen = new Tilitieto::TilitietoMaaritys();
+    else if(sivu == LISAPALVELUT)
+        nykyinen = new LisaPalvelutMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -331,7 +334,9 @@ void MaaritysSivu::paivitaNakyvat()
                                    !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
-        item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä
+        item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä    
+
+    item(LISAPALVELUT)->setHidden(!pilvi);
 }
 
 
