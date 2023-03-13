@@ -18,9 +18,7 @@
 #include "ui_laskudialogi.h"
 
 #include "model/tosite.h"
-#include "rivivientigeneroija.h"
 #include "db/kirjanpito.h"
-#include "../tulostus/laskuntulostaja.h"
 
 
 #include "laskutus/toimittaja/laskuntoimittaja.h"
@@ -51,16 +49,14 @@ void YksittainenLaskuDialogi::tallennettu(QVariantMap tosite)
     // Nyt tallennus on saatettu loppuun saakka!
     // Tähän vielä laskun toimittaminen
 
-    QDialog::accept();
-    emit kp()->kirjanpitoaMuokattu();
-
     int tila = tosite.value("tila").toInt();
 
     if( tila == Tosite::LAHETETAAN) {
-        QList<int> lista;
-        lista.append(tosite.value("id").toInt());
+        QList<int> lista = QList<int>() << tosite.value("id").toInt();
         LaskunToimittaja::toimita(lista);
-
     }
+
+    emit kp()->kirjanpitoaMuokattu();
+    QDialog::accept();
 }
 
