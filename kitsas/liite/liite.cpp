@@ -111,7 +111,7 @@ void Liite::tallenna(int tositeId)
 {
     KpKysely* liitekysely = rooli().isEmpty() ?
                 kpk(QString("/liitteet/%1").arg(tositeId), KpKysely::POST) :
-                kpk(QString("/liitteet/%1/%2").arg(tositeId).arg(rooli()), KpKysely::POST);
+                kpk(QString("/liitteet/%1/%2").arg(tositeId).arg(rooli()), KpKysely::PUT);
 
     connect( liitekysely, &KpKysely::lisaysVastaus, this, &Liite::tallennettu);
     connect( liitekysely, &KpKysely::virhe, this, &Liite::tallennusVirhe);
