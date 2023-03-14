@@ -39,6 +39,7 @@ protected:
     void paivitaAlvVinkki();
     void paivitaTilikausiVinkki();
     void paivitaTilinpaatosVinkki();
+    void paivitaPassiivinenVinkki();
 
     void paivitaSaldot();
     void saldotSaapuu(QVariant* data);
