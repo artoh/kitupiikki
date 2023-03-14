@@ -87,6 +87,7 @@ void AloitusBrowser::paivitaVinkit()
 {
     vinkit_.clear();
     paivitaTestiVinkki();
+    paivitaPassiivinenVinkki();
     paivitaTiliointiVinkki();
     paivitaPankkiyhteysVinkki();
     paivitaVarmuuskopioVinkki();
@@ -308,6 +309,13 @@ void AloitusBrowser::paivitaTilinpaatosVinkki()
         }
     }
 
+}
+
+void AloitusBrowser::paivitaPassiivinenVinkki()
+{
+    if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) && !kp()->onkoHarjoitus() && !kp()->pilvi()->pilvi().aktiivinen()) {
+        vinkkaa("testaus", tr("Y-tunnus on jo käytössä"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), ":/pic/varoitus.png" );
+    }
 }
 
 void AloitusBrowser::paivitaSaldot()

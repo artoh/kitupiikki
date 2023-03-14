@@ -51,7 +51,7 @@
 #include "bannermaaritys.h"
 #include "minamaaritys.h"
 #include "veromaaritys.h"
-#include "lisapalvelutmaaritys.h"
+#include "extra/lisapalvelutmaaritys.h"
 
 #include "db/kirjanpito.h"
 
@@ -336,7 +336,7 @@ void MaaritysSivu::paivitaNakyvat()
     if( pilvi == nullptr)
         item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä    
 
-    item(LISAPALVELUT)->setHidden(!pilvi);
+    item(LISAPALVELUT)->setHidden(!pilvi || !kp()->pilvi()->pilvi().aktiivinen() );
 }
 
 

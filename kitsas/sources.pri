@@ -129,6 +129,7 @@ SOURCES += \
     $$PWD/liite/pdfliiteview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
+    $$PWD/maaritys/extra/lisapalveluwidget.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.cpp \
@@ -138,7 +139,7 @@ SOURCES += \
     $$PWD/maaritys/laskutekstit/laskutekstimaaritys.cpp \
     $$PWD/maaritys/laskutekstit/laskutekstitmodel.cpp \
     $$PWD/maaritys/liitemaaritys.cpp \
-    $$PWD/maaritys/lisapalvelutmaaritys.cpp \
+    $$PWD/maaritys/extra/lisapalvelutmaaritys.cpp \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/minamaaritys.cpp \
@@ -312,7 +313,7 @@ SOURCES += \
     $$PWD/tools/varinvalinta.cpp \
     $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
-    $$PWD/tuonti/pdf/tuontiinfo.cpp \    
+    $$PWD/tuonti/pdf/tuontiinfo.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -556,6 +557,7 @@ HEADERS += \
     $$PWD/liite/pdfliiteview.h \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
+    $$PWD/maaritys/extra/lisapalveluwidget.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.h \
@@ -565,7 +567,7 @@ HEADERS += \
     $$PWD/maaritys/laskutekstit/laskutekstimaaritys.h \
     $$PWD/maaritys/laskutekstit/laskutekstitmodel.h \
     $$PWD/maaritys/liitemaaritys.h \
-    $$PWD/maaritys/lisapalvelutmaaritys.h \
+    $$PWD/maaritys/extra/lisapalvelutmaaritys.h \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/minamaaritys.h \
@@ -742,7 +744,7 @@ HEADERS += \
     $$PWD/tools/varinvalinta.h \
     $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
-    $$PWD/tuonti/pdf/tuontiinfo.h \    
+    $$PWD/tuonti/pdf/tuontiinfo.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -1008,5 +1010,3 @@ FORMS += \
     toimisto/uusitoimistodialog.ui \
     toimisto/kirjansiirtodialogi.ui \
     aloitussivu/debugtiedotdlg.ui
-
-

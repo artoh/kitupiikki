@@ -1,7 +1,9 @@
 #ifndef LISAPALVELUTMAARITYS_H
 #define LISAPALVELUTMAARITYS_H
 
-#include "maarityswidget.h"
+#include "../maarityswidget.h"
+
+class QVBoxLayout;
 
 class LisaPalvelutMaaritys : public MaaritysWidget
 {
@@ -9,12 +11,15 @@ class LisaPalvelutMaaritys : public MaaritysWidget
 public:
     LisaPalvelutMaaritys();
 
-
-
     bool naytetaankoTallennus() override { return false; }
 
 protected:
     void setupUi();
+
+    void updateExtras();
+    void showExtras(QVariant* data);
+
+    QVBoxLayout* extraLayout;
 };
 
 #endif // LISAPALVELUTMAARITYS_H

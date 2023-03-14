@@ -21,6 +21,7 @@ public:
     QString nimi() const { return name_;}
     QString ytunnus() const { return businessid_;}
     bool kokeilu() const { return trial_;}
+    bool aktiivinen() const { return active_;}
     int planId() const { return plan_id_;}
     bool vat() const { return vat_;}
     bool trial_period() const { return trial_period_; }
@@ -51,6 +52,7 @@ private:
     bool vat_ = false;
     bool trial_period_ = false;
     bool trial_ = false;
+    bool active_ = false;
 
     qlonglong oikeudet_ = 0L;
     QString url_;
