@@ -46,7 +46,7 @@ void FinvoiceToimittaja::toimita()
     } else if( kp()->asetukset()->asetus(AsetusModel::LaskuIbanit).isEmpty() ) {
         virhe(tr("Laskutuksen asetuksissa ei ole määritelty yhtään tilinumeroa."));
     } else {
-        if( init_.isEmpty())
+        if( init_.isEmpty() || init_.value("ovt") != kp()->asetukset()->asetus(AsetusModel::OvtTunnnus))    // Varmistetaan, ettei kirjanpito vaihtunut
             alustaInit();
         if( kp()->asetukset()->luku("FinvoiceKaytossa") == VerkkolaskuMaaritys::PAIKALLINEN) {
            paikallinenVerkkolasku();
