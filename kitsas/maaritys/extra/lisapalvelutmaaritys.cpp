@@ -59,6 +59,7 @@ void LisaPalvelutMaaritys::showExtras(QVariant *data)
     for(const auto& item : lista) {
         LisaPalveluWidget* widget = new LisaPalveluWidget(item.toMap());
         extraLayout->addWidget(widget);
+        connect( widget, &LisaPalveluWidget::update, this, &LisaPalvelutMaaritys::updateExtras);
     }
     extraLayout->setSizeConstraint(QLayout::SetMinimumSize);
     extraLayout->addStretch();

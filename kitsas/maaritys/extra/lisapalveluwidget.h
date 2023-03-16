@@ -13,9 +13,19 @@ public:
 protected:
     void updateUi();
 
+    void activate();
+    void passivate();
+
+    void setOnOff(bool on = true);
+    void action(const QString& action);
+    void actionData(QVariant* data);
+    void actionDialog(const QVariantMap& dialogData);
+    void actionMessage(const QVariantMap& data);
+
     PilviExtra data_;
 
 signals:
+    void update();
 
 };
 

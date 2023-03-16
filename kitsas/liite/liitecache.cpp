@@ -2,6 +2,7 @@
 
 #include "cacheliite.h"
 #include <QVariant>
+#include <QJsonDocument>
 
 #include "db/kitsasinterface.h"
 #include "db/yhteysmodel.h"
@@ -88,7 +89,9 @@ void LiiteCache::liiteSaapuu(int liiteId, QVariant *data)
     }    
     bool ilmoita = liite->tila() == CacheLiite::LiiteTila::HAETAAN;
 
-    liite->setData( data->toByteArray() );
+    QJsonDocument doc = QJsonDocument::fromVariant( *data );
+
+    liite->setData( doc.isEmpty() ? data->toByteArray() : doc.toJson());
     liite->setTila( CacheLiite::HAETTU );
 
     koko_ += liite->size();
