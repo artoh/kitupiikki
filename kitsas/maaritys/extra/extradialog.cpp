@@ -5,6 +5,9 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QLineEdit>
+#include <QRegularExpressionValidator>
+#include <QComboBox>
 
 #include "db/kirjanpito.h"
 #include "tools/kpdateedit.h"
@@ -28,6 +31,7 @@ void ExtraDialog::init(const QString &title, const QVariantMap &map, const QVari
     QLabel* headerLabel = new QLabel(header.teksti());
     headerLabel->setStyleSheet("font-weight: bold");
     QLabel* introLabel = new QLabel(intro.teksti());
+    introLabel->setWordWrap(true);
     mainLayout->addWidget(headerLabel);
     mainLayout->addWidget(introLabel);
 
@@ -55,7 +59,19 @@ QVariantMap ExtraDialog::values()
 
         KpDateEdit* kpdate = qobject_cast<KpDateEdit*>(widget);
         if( kpdate ) {
-            data.insert(id, kpdate->date().toString(Qt::ISODate));
+            data.insert(id, kpdate->date().toString("yyyy-MM-dd"));
+            continue;
+        }
+
+        QLineEdit* lineEdit = qobject_cast<QLineEdit*>(widget);
+        if( lineEdit ) {
+            data.insert(id, lineEdit->text());
+            continue;
+        }
+
+        QComboBox* combo = qobject_cast<QComboBox*>(widget);
+        if( combo ) {
+            data.insert(id, combo->currentData().toString());
             continue;
         }
     }
@@ -75,10 +91,26 @@ QFormLayout *ExtraDialog::initFields(const QVariantList &fields, const QVariantM
         const QString& value = map.contains("value") ? map.value("value").toString() : values.value(id, QString()).toString();
         QWidget* widget = nullptr;
 
-        if( type == "date") {
+        if( type == "text") {
+            QLineEdit* edit = new QLineEdit();
+            if( !value.isEmpty()) edit->setText(value);
+            if( map.contains("regexp")) edit->setValidator(new QRegularExpressionValidator(QRegularExpression(map.value("regexp").toString())));
+            widget = edit;
+
+        } else if( type == "date") {
             KpDateEdit* edit = new KpDateEdit();
             if( !value.isEmpty()) edit->setDate(QDate::fromString(value, Qt::ISODate));
+            edit->setDateRange( map.value("min", QDate()).toDate(), map.value("max", QDate()).toDate() );
             widget = edit;
+        } else if( type == "select") {
+            QComboBox *box = new QComboBox();
+            for(const auto& citem : map.value("options").toList()) {
+                QVariantMap cMap = citem.toMap();
+                Monikielinen ctext(cMap.value("text").toMap());
+                box->addItem( ctext.teksti(), cMap.value("value").toString() );
+            }
+            if( !value.isEmpty()) box->setCurrentIndex( box->findData(value) );
+            widget = box;
         }
 
         if( widget ) {

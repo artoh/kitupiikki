@@ -16,9 +16,9 @@ public:
     QString title() const { return title_.teksti();}
     QVariantMap info() const { return info_;}
     QVariantMap status() const { return status_;}
-    QVariantMap settings() const { return settings_;}
     QString description() const { return description_.teksti();}
     QString statusinfo() const { return statusinfo_.teksti();}
+    QVariantList actions() const { return actions_;}
 
 private:
     int id_;
@@ -29,8 +29,7 @@ private:
     Monikielinen statusinfo_;
     QVariantMap info_;
     QVariantMap status_;
-    QVariantMap settings_;
-
+    QVariantList actions_;
 };
 
 #endif // PILVIEXTRA_H

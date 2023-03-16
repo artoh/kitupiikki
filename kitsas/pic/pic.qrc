@@ -218,6 +218,12 @@
         <file>text64.png</file>
         <file>zoom-fit.png</file>
         <file>palat.svg</file>
+        <file>palat-harmaa.svg</file>
+        <file>palat.png</file>
+        <file>palat-harmaa.png</file>
+        <file>ok64.png</file>
+        <file>virhe64.png</file>
+        <file>varoitus64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

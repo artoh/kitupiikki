@@ -22,6 +22,9 @@ protected:
     void actionDialog(const QVariantMap& dialogData);
     void actionMessage(const QVariantMap& data);
 
+    void loki();
+    void naytaLoki(const QVariant* data);
+
     PilviExtra data_;
 
 signals:

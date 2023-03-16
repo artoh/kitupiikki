@@ -130,6 +130,7 @@ SOURCES += \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/extra/extradialog.cpp \
+    $$PWD/maaritys/extra/extralogmodel.cpp \
     $$PWD/maaritys/extra/lisapalveluwidget.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.cpp \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.cpp \
@@ -559,6 +560,7 @@ HEADERS += \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/extra/extradialog.h \
+    $$PWD/maaritys/extra/extralogmodel.h \
     $$PWD/maaritys/extra/lisapalveluwidget.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeusmodel.h \
     $$PWD/maaritys/kayttooikeudet/kayttooikeussivu.h \

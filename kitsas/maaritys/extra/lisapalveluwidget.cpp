@@ -3,6 +3,9 @@
 #include "pilvi/pilvimodel.h"
 
 #include "extradialog.h"
+#include "extralogmodel.h"
+
+#include <QSvgWidget>
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -10,6 +13,9 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QTableView>
+#include <QMainWindow>
+#include <QHeaderView>
 
 LisaPalveluWidget::LisaPalveluWidget(const QVariantMap &data, QWidget *parent)
     : QGroupBox{parent}, data_{data}
@@ -22,6 +28,22 @@ void LisaPalveluWidget::updateUi()
     qDeleteAll(children());
 
     QHBoxLayout* mainLayout = new QHBoxLayout();
+
+    const QString& status = data_.status().value("status").toString();
+    QLabel *icon = new QLabel();
+    if( !data_.active()) {
+        icon->setPixmap(QPixmap(":/pic/palat-harmaa.png"));
+    } else if(status == "OK") {
+        icon->setPixmap(QPixmap(":/pic/ok64.png"));
+    } else if(status == "ERROR") {
+        icon->setPixmap(QPixmap(":/pic/virhe64.png"));
+    } else if(status == "WARNING") {
+        icon->setPixmap(QPixmap(":/pic/varoitus64.png"));
+    } else {
+        icon->setPixmap(QPixmap(":/pic/palat.png"));
+    }
+    mainLayout->addWidget(icon);
+
     QVBoxLayout* textLayout = new QVBoxLayout();
 
     QLabel* nameLabel = new QLabel( data_.title() );
@@ -36,8 +58,8 @@ void LisaPalveluWidget::updateUi()
 
     if( data_.active()) {
         QVBoxLayout* actionLayout = new QVBoxLayout();
-        const QVariantList actionList = data_.info().value("actions").toList();
-        for(const auto& item : actionList) {
+        actionLayout->setAlignment(Qt::AlignTop);
+        for(const auto& item : data_.actions()) {
             const QVariantMap map = item.toMap();
             Monikielinen buttonText(map.value("label").toMap());
             const QString& actionName = map.value("name").toString();
@@ -48,6 +70,7 @@ void LisaPalveluWidget::updateUi()
         mainLayout->addLayout(actionLayout);
     }
     QVBoxLayout* buttonLayout = new QVBoxLayout();
+    buttonLayout->setAlignment(Qt::AlignTop);
 
     const QString url = data_.info().value("doc").toString();
     QPushButton* helpButton = new QPushButton(QIcon(":/pic/ohje.png"), tr("Ohje"));
@@ -55,6 +78,10 @@ void LisaPalveluWidget::updateUi()
     buttonLayout->addWidget(helpButton);
 
     if( data_.active()) {
+        QPushButton* logButton = new QPushButton(QIcon(":/pic/Paivakirja64.png"), tr("Tapahtumat"));
+        connect( logButton, &QPushButton::clicked, this, &LisaPalveluWidget::loki);
+        buttonLayout->addWidget(logButton);
+
         QPushButton* removeButton = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista käytöstä"));
         connect( removeButton, &QPushButton::clicked, this, &LisaPalveluWidget::passivate);
         buttonLayout->addWidget(removeButton);
@@ -102,7 +129,6 @@ void LisaPalveluWidget::setOnOff(bool on)
     KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1").arg(data_.id()), KpKysely::PUT);
     QVariantMap payload;
     payload.insert("active", on);
-    payload.insert("settings", data_.settings());
     connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::update);
     kysely->kysy(payload);
 }
@@ -122,6 +148,8 @@ void LisaPalveluWidget::actionData(QVariant *data)
         actionDialog(map);
     } else if( type == "message") {
         actionMessage(map);
+    } else if( type == "update") {
+        emit update();
     }
 }
 
@@ -157,5 +185,28 @@ void LisaPalveluWidget::actionMessage(const QVariantMap &data)
         box.setIcon(QMessageBox::Critical);
 
     box.exec();
+}
+
+void LisaPalveluWidget::loki()
+{
+    KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1/log").arg(data_.id()), KpKysely::GET);
+    connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::naytaLoki);
+    kysely->kysy();
+}
+
+
+void LisaPalveluWidget::naytaLoki(const QVariant *data)
+{
+    QMainWindow* lokiIkkuna = new QMainWindow();
+    ExtraLogModel* model = new ExtraLogModel(lokiIkkuna);
+    model->lataa(data->toList());
+    QTableView* view = new QTableView(lokiIkkuna);
+    view->horizontalHeader()->setStretchLastSection(true);
+    view->setModel(model);
+    lokiIkkuna->setCentralWidget(view);
+    lokiIkkuna->setWindowTitle(data_.title());
+    lokiIkkuna->show();
+    view->resizeColumnToContents(0);
+    lokiIkkuna->setAttribute(Qt::WA_DeleteOnClose);
 }
 
