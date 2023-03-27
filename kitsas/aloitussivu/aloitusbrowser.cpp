@@ -213,7 +213,7 @@ void AloitusBrowser::paivitaAloitusVinkit()
                             "", "info64.png");
 
     }
-    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() &&
+    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") >= kp()->tilitpaatetty() &&
              kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET))
         vinkkaa("vinkki", tr("Tee tilinavaus"),
                             tr("Syötä viimeisimmältä tilinpäätökseltä tilien "
