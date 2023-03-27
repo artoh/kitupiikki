@@ -109,6 +109,14 @@ void TilinAvausView::dropEvent(QDropEvent *event)
 
 QDate TilinAvausView::kkPaivaksi(const QString teksti)
 {
+    if( teksti.contains(" - ")) {
+        QStringList osat = teksti.split(" - ");
+        if( osat.count() == 2) {
+            QDate loppu = QDate::fromString(osat.last(),"dd.MM.yyyy");
+            if(loppu.isValid()) return loppu;
+        }
+    }
+
     QStringList patkina = teksti.split("/");
     if( patkina.length() == 2) {
         int kk = patkina.at(0).toInt();
