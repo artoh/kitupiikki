@@ -102,7 +102,9 @@ public:
      * @brief Tilikauden päättävä tase
      * @return Tase sentteinä
      */
-    qlonglong tase() const { return qRound64( dbl("tase") * 100); }
+    qlonglong tase() const { return qRound64( dbl("tase") * 100); }    
+
+    qlonglong koko() const { return arvo("liitekoko").toLongLong(); }
 
     /**
      * @brief Tilikauden keskimääräinen henkilöstö

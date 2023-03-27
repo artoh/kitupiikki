@@ -27,6 +27,7 @@
 
 #include "sqlite/sqlitemodel.h"
 #include <QDebug>
+#include <QPalette>
 
 
 SelausModel::SelausModel(QObject *parent) :
@@ -82,7 +83,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    return rivit_.at(index.row()).data(index.column(), role);
+    return rivit_.at(index.row()).data(index.column(), role, index.row() % 2 == 1);
 }
 
 void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDate &loppuu, int tili)
@@ -321,7 +322,7 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     }
 }
 
-QVariant SelausRivi::data(int sarake, int role) const
+QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
 {
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -410,8 +411,13 @@ QVariant SelausRivi::data(int sarake, int role) const
         return tositeTyyppi;
     } else if(role == SelausModel::TiliRooli) {
         return tili;
-    } else if(role == Qt::ForegroundRole && !tili) {
-        return QVariant(QColor(Qt::red));
+    } else if(role == Qt::BackgroundRole && !tili) {
+        if( QPalette().base().color().lightness() > 128) {
+            return alternateColor ? QBrush(QColor(255, 153, 153)) : QBrush(QColor(255,179,179));
+        } else {
+            return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
+        }
+
     }
 
 

@@ -85,7 +85,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
     if( rivi < kirjausriveja )
         return kirjausRivit_.at(rivi).riviData(index.column(), role);
     else {
-        const bool alternate = role == Qt::BackgroundRole ? proxy_->mapFromSource(index).row() % 2 == 1 : false;
+        const bool alternate = role == Qt::BackgroundRole ? proxy_->mapToSource(index).row() % 2 == 1 : false;
         return harmaatRivit_.at(rivi - kirjausriveja).riviData(index.column(), role, alternate);
     }
 }

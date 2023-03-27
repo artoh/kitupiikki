@@ -290,7 +290,7 @@
         "en": "Gross profit or loss",
         "M": "bold",
         "L": "3,4 S *"
-      },          
+      },
       {
         "fi": "Henkilöstökulut",
         "sv": "Personalkostnader",
@@ -490,7 +490,7 @@
         "V": 1
       }
     ]
-  },  
+  },
   "tulos/mikrobrutto": {
     "nimi": {
       "fi": "Tuloslaskelma",
@@ -836,6 +836,14 @@
         "en": "Short-term creditors",
         "L": "28..29 *",
         "S": 1
+      },
+      {
+        "fi": "Tiliöimättömät kirjaukset",
+        "sv": "Poster utanför balansräkningen",
+        "en": "Unaccounted entries",
+        "L": "0",
+        "V": 1,
+        "S": 2
       },
       {
         "fi": "Vastattavaa yhteensä",
@@ -1624,10 +1632,18 @@
         "S": 2
       },
       {
+        "fi": "Tiliöimättömät kirjaukset",
+        "sv": "Poster utanför balansräkningen",
+        "en": "Unaccounted entries",
+        "L": "0",
+        "V": 1,
+        "S": 2
+      },
+      {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
-        "L": "S 2",
+        "L": "S 0 2",
         "M": "bold",
         "V": 1
       }

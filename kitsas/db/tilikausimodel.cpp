@@ -34,7 +34,7 @@ int TilikausiModel::rowCount(const QModelIndex & /* parent */) const
 
 int TilikausiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 7;
+    return 8;
 }
 
 QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -54,6 +54,8 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
             return tr("Tase");
         case TULOS:
             return tr("Yli/alijäämä");
+        case LIITEKOKO:
+            return tr("Liitteiden koko");
         case ARKISTOITU:
             return tr("Arkistoitu");
         case TILINPAATOS:
@@ -85,8 +87,11 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
             return QString("%L1 €").arg( kausi.liikevaihto()  / 100.0,0,'f',2);
         else if(index.column() == TASE)
             return QString("%L1 €").arg( kausi.tase()  / 100.0,0,'f',2);
-
-        else if( index.column() == ARKISTOITU )
+        else if( index.column() == LIITEKOKO) {
+            const qlonglong megat = kausi.koko() / ( 1024L * 1024L );
+            if( megat < 1) return QVariant();
+            return QString("%L1 Mt").arg(megat);
+        } else if( index.column() == ARKISTOITU )
             return kausi.arkistoitu().date();
         else if( index.column() == TILINPAATOS )
         {
@@ -119,7 +124,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()>=TASE && index.column() <= TULOS )
+        if( index.column()>=TASE && index.column() <= LIITEKOKO )
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);

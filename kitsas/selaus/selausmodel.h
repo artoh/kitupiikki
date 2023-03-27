@@ -36,7 +36,7 @@ public:
      SelausRivi(const QVariantMap& data, bool samakausi = false);
      SelausRivi(QSqlQuery& data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia);
 
-     QVariant data(int sarake, int role) const;
+     QVariant data(int sarake, int role, bool alternateColor) const;
      int getTili() const { return tili;}
      QString getEtsi() const { return etsi;}
 

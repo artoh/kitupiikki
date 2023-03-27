@@ -38,6 +38,7 @@ public:
         TASE,
         LIIKEVAIHTO,
         TULOS,
+        LIITEKOKO,
         ARKISTOITU,
         TILINPAATOS,
         LYHENNE

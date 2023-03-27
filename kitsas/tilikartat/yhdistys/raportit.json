@@ -887,6 +887,14 @@
         "S": 2
       },
       {
+        "fi": "Tiliöimättömät kirjaukset",
+        "sv": "Poster utanför balansräkningen",
+        "en": "Unaccounted entries",
+        "L": "0",
+        "V": 1,
+        "S": 2
+      },
+      {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
@@ -1083,6 +1091,14 @@
         "L": "29 *",
         "S": 1
       },
+      {
+        "fi": "Tiliöimättömät kirjaukset",
+        "sv": "Poster utanför balansräkningen",
+        "en": "Unaccounted entries",
+        "L": "0",
+        "V": 1,
+        "S": 2
+      },          
       {
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",

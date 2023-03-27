@@ -121,7 +121,8 @@ void AloitusBrowser::paivitaTestiVinkki()
 void AloitusBrowser::paivitaTiliointiVinkki()
 {
     if( tilioimatta_ ) {
-        vinkkaa("tilioimatta",tr("Tiliöinti on kesken %1 tiliotteessa.").arg(tilioimatta_), tr("Kirjanpitosi ei täsmää ennen kuin nämä tositteet on tiliöity loppuun saakka."),
+        vinkkaa("tilioimatta",tr("Tiliöinti on kesken %1 tositteessa.").arg(tilioimatta_),
+                tr("Tositteissa on kirjaamattomia vientejä."),
                             "ktp:/huomio", "oranssi.png");
     }
 

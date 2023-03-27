@@ -119,6 +119,15 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
             return QBrush(QColor(200,255,200));
 */
     case Qt::BackgroundRole:
+        if( vienti_.value("vastatilit").toList().isEmpty()) {
+            // Tiliöimätön
+            if( QPalette().base().color().lightness() > 128) {
+                return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
+            } else {
+                return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
+            }
+        }
+
         if( QPalette().base().color().lightness() > 128) {
             return alternateColor ? QBrush(QColor(173, 255, 153)) : QBrush(QColor(194,255,179));
         } else {

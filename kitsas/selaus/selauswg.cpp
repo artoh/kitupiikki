@@ -57,7 +57,6 @@ SelausWg::SelausWg(QWidget *parent) :
     // Proxyä käytetään tilien tai tositelajien suodattamiseen
     selausProxy_ = new SelausProxyModel(model, this);
     tositeProxy_ = new TositeSelausProxyModel(tositeModel, this);
-
     connect( selausProxy_, &QSortFilterProxyModel::modelReset, this, &SelausWg::modelResetoitu);
     connect( selausProxy_, &QSortFilterProxyModel::dataChanged, this, &SelausWg::modelResetoitu);
 

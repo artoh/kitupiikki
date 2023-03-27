@@ -31,9 +31,12 @@
 #include "db/tositetyyppimodel.h"
 
 #include "model/tosite.h"
+#include "tositeselausproxymodel.h"
 
 #include <algorithm>
 #include <QJsonDocument>
+
+#include <QPalette>
 
 TositeSelausModel::TositeSelausModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -86,7 +89,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    return rivit_.at(index.row()).data(index.column(), role, tila_);
+    bool alternateColor = index.row() % 2 == 1;
+
+    return rivit_.at(index.row()).data(index.column(), role, tila_, alternateColor);
 }
 
 QList<int> TositeSelausModel::tyyppiLista() const
@@ -102,7 +107,6 @@ QStringList TositeSelausModel::sarjaLista() const
     std::sort( lista.begin(), lista.end());
     return lista;
 }
-
 
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
@@ -255,7 +259,7 @@ TositeSelausRivi::TositeSelausRivi(QSqlQuery &data, bool samakausi)
 
 }
 
-QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
+QVariant TositeSelausRivi::data(int sarake, int role, int selaustila, bool alternateColor) const
 {
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -322,15 +326,20 @@ QVariant TositeSelausRivi::data(int sarake, int role, int selaustila) const
         return kp()->tositeTyypit()->kuvake( tositeTyyppi );
     else if( role == Qt::DecorationRole && sarake == TositeSelausModel::TUNNISTE ) {
         if( tilioimatta )
-            return QImage(":/pic/oranssi.png");
+            return QIcon(":/pic/oranssi.png");
         return Tosite::tilakuva(tila);
     } else if( role == TositeSelausModel::TositeTyyppiRooli)
     {
         return tositeTyyppi;
     } else if( role == TositeSelausModel::TositeSarjaRooli) {
         return sarja;
-    } else if( role == Qt::ForegroundRole && tilioimatta ) {
-        return QVariant(QColor(Qt::red));
+    } else if( role == Qt::BackgroundRole && tilioimatta ) {
+        if( QPalette().base().color().lightness() > 128) {
+            return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
+        } else {
+            return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
+        }
+
     }
     return QVariant();
 }

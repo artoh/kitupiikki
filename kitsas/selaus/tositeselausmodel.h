@@ -24,6 +24,8 @@
 #include <QSet>
 #include <QSqlQuery>
 
+class TositeSelausProxyModel;
+
 #include "model/euro.h"
 
 class SQLiteModel;
@@ -36,7 +38,7 @@ class TositeSelausRivi
 public:
     TositeSelausRivi(const QVariantMap& data, bool samakausi = false);
     TositeSelausRivi(QSqlQuery& data, bool samakausi=false);
-    QVariant data(int sarake, int role, int selaustila) const;
+    QVariant data(int sarake, int role, int selaustila, bool alternateColor=false) const;
 
     QString getSarja() const { return sarja; }
     int getTyyppi() const { return tositeTyyppi; }

@@ -93,7 +93,7 @@ void ArkistoSivu::siirrySivulle()
     ui->view->resizeColumnsToContents();
 
     for(int i=0; i < 6; i++)
-        ui->view->setColumnWidth( i, (ui->view->width()-10) / 6);
+        ui->view->setColumnWidth( i, (ui->view->width()-10) / 7);
     ui->view->horizontalHeader()->setStretchLastSection(true);
 
     // Pyritään valitsemaan tilikausi, jolle laaditaan seuraavaksi tilinpäätös
