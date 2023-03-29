@@ -45,10 +45,19 @@ void LisaPalveluWidget::updateUi()
     mainLayout->addWidget(icon);
 
     QVBoxLayout* textLayout = new QVBoxLayout();
+    QHBoxLayout* nameLayout = new QHBoxLayout();
 
     QLabel* nameLabel = new QLabel( data_.title() );
     nameLabel->setStyleSheet("font-weight: bold");
-    textLayout->addWidget(nameLabel);
+    nameLayout->addWidget(nameLabel);
+
+    if( data_.inTesting()) {
+        QLabel *testingLabel = new QLabel(tr("Testikäytössä"));
+        testingLabel->setStyleSheet("background-color: orange");
+        nameLayout->addWidget(testingLabel);
+        nameLayout->addStretch();
+    }
+    textLayout->addLayout(nameLayout);
 
     QLabel* infoLabel = new QLabel( data_.active() ? data_.statusinfo() : data_.description() );
     textLayout->addWidget(infoLabel);

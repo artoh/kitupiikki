@@ -19,6 +19,7 @@ public:
     QString description() const { return description_.teksti();}
     QString statusinfo() const { return statusinfo_.teksti();}
     QVariantList actions() const { return actions_;}
+    bool inTesting() const { return inTesting_;}
 
 private:
     int id_;
@@ -30,6 +31,7 @@ private:
     QVariantMap info_;
     QVariantMap status_;
     QVariantList actions_;
+    bool inTesting_;
 };
 
 #endif // PILVIEXTRA_H
