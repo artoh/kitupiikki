@@ -52,7 +52,7 @@ void LisaPalveluWidget::updateUi()
     nameLayout->addWidget(nameLabel);
 
     if( data_.inTesting()) {
-        QLabel *testingLabel = new QLabel(tr("Testikäytössä"));
+        QLabel *testingLabel = new QLabel(tr(" Vain testikäyttäjille "));
         testingLabel->setStyleSheet("background-color: orange");
         nameLayout->addWidget(testingLabel);
         nameLayout->addStretch();
@@ -206,16 +206,22 @@ void LisaPalveluWidget::loki()
 
 void LisaPalveluWidget::naytaLoki(const QVariant *data)
 {
-    QMainWindow* lokiIkkuna = new QMainWindow();
-    ExtraLogModel* model = new ExtraLogModel(lokiIkkuna);
+    QDialog* lokiDlg = new QDialog(this);
+
+    ExtraLogModel* model = new ExtraLogModel(lokiDlg);
     model->lataa(data->toList());
-    QTableView* view = new QTableView(lokiIkkuna);
+    QTableView* view = new QTableView(lokiDlg);
     view->horizontalHeader()->setStretchLastSection(true);
     view->setModel(model);
-    lokiIkkuna->setCentralWidget(view);
-    lokiIkkuna->setWindowTitle(data_.title());
-    lokiIkkuna->show();
+
+    QHBoxLayout* leiska = new QHBoxLayout();
+    leiska->addWidget(view);
+    lokiDlg->setLayout(leiska);
+    lokiDlg->setWindowTitle(data_.title());
     view->resizeColumnToContents(0);
-    lokiIkkuna->setAttribute(Qt::WA_DeleteOnClose);
+    view->setSelectionBehavior(QTableView::SelectionBehavior::SelectRows);
+    lokiDlg->resize(600,400);
+    lokiDlg->exec();
+
 }
 
