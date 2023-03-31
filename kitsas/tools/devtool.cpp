@@ -310,7 +310,8 @@ void DevTool::vieKartta(QVariant *init, const QString &tiedosto)
     QVariantMap asetukset = map.value("asetukset").toMap();
     for(const auto& avain : QStringList{"AlvAlkaa", "LaskuAputoiminimi", "LaskuIbanit", "LaskuNumerointialkaa",
         "Nimi", "Tilinavaus", "TilinavausPvm", "TilitPaatetty", "UID", "KpVersio", "Harjoitus",
-        "Luotu", "LuotuVersiolla"})
+        "Luotu", "LuotuVersiolla", "Email", "EmailNimi", "EmailOsoite", "Katuosoite","Kaupunki",
+        "KitsasEmail", "Ytunnus"})
         asetukset.remove(avain);
 
     for(const auto& avain : asetukset.keys()) {
