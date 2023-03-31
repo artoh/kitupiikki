@@ -31,7 +31,7 @@ QValidator::State YTunnusValidator::validate(QString &input, int & /* pos */) co
 
 QValidator::State YTunnusValidator::kelpo(const QString &input, bool alvkelpaa)
 {
-    QString str = input.simplified();
+    QString str = alvkelpaa ? input.simplified() : input;
 
     if( alvkelpaa && str.length() && str.at(0).isLetter() )
     {
