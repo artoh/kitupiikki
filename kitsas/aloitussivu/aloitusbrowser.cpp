@@ -90,6 +90,7 @@ void AloitusBrowser::paivitaVinkit()
     paivitaPassiivinenVinkki();
     paivitaTiliointiVinkki();
     paivitaPankkiyhteysVinkki();
+    paivitaExtraVinkki();
     paivitaVarmuuskopioVinkki();
     paivitaVerotonValitus();
     paivitaPaivitysVinkki();
@@ -316,6 +317,26 @@ void AloitusBrowser::paivitaPassiivinenVinkki()
 {
     if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) && !kp()->onkoHarjoitus() && !kp()->pilvi()->pilvi().aktiivinen()) {
         vinkkaa("testaus", tr("Y-tunnus on jo käytössä"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), ":/pic/varoitus.png" );
+    }
+}
+
+void AloitusBrowser::paivitaExtraVinkki()
+{
+    if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) == nullptr ) return;
+
+    for(const int indeksi : kp()->pilvi()->pilvi().extrat()) {
+        const PilviExtra extra = kp()->pilvi()->pilvi().extra(indeksi);
+        const QVariantMap top = extra.status().value("top").toMap();
+
+        const Monikielinen otsikko(top.value("title").toMap());
+        const Monikielinen teksti(top.value("text").toMap());
+
+        vinkkaa( top.value("class").toString(),
+                 otsikko.teksti(), teksti.teksti(),
+                 "ktp:/maaritys/ekstrat",
+                 top.value("image").toString(),
+                 top.value("doc").toString() );
+
     }
 }
 

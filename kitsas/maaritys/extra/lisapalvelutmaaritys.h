@@ -4,6 +4,7 @@
 #include "../maarityswidget.h"
 
 class QVBoxLayout;
+class QLabel;
 
 class LisaPalvelutMaaritys : public MaaritysWidget
 {
@@ -19,7 +20,7 @@ protected:
     void updateExtras();
     void showExtras(QVariant* data);
 
-    QVBoxLayout* extraLayout;
+    QVBoxLayout* extraLayout;    
 };
 
 #endif // LISAPALVELUTMAARITYS_H

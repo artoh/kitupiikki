@@ -224,6 +224,7 @@
         <file>ok64.png</file>
         <file>virhe64.png</file>
         <file>varoitus64.png</file>
+        <file>link.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

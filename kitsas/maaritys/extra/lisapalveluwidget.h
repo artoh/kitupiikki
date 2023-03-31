@@ -28,7 +28,7 @@ protected:
     PilviExtra data_;
 
 signals:
-    void update();
+    void updateStatus();
 
 };
 

@@ -12,6 +12,7 @@
 #include "pilvi/pilvimodel.h"
 
 #include "lisapalveluwidget.h"
+#include "aliaswidget.h"
 
 
 LisaPalvelutMaaritys::LisaPalvelutMaaritys()
@@ -24,7 +25,8 @@ void LisaPalvelutMaaritys::setupUi()
 {
     QLabel* otsikko = new QLabel("Lisäpalvelut");
     otsikko->setStyleSheet("font-weight: bold");
-    QScrollArea* skrolli = new QScrollArea;
+
+    QScrollArea* skrolli = new QScrollArea;    
 
     extraLayout = new QVBoxLayout;
 
@@ -48,7 +50,8 @@ void LisaPalvelutMaaritys::updateExtras()
 
 void LisaPalvelutMaaritys::showExtras(QVariant *data)
 {
-    QVariantList lista = data->toList();
+    QVariantMap map = data->toMap();
+    QVariantList lista = map.value("extras").toList();
 
     QLayoutItem *child;
     while ((child = extraLayout->takeAt(0)) != nullptr) {
@@ -56,10 +59,14 @@ void LisaPalvelutMaaritys::showExtras(QVariant *data)
         delete child;
     }
 
+    AliasWidget* alias = new AliasWidget(map.value("alias").toString());
+    extraLayout->addWidget(alias);
+    connect( alias, &AliasWidget::updateStatus, this, &LisaPalvelutMaaritys::updateExtras);
+
     for(const auto& item : lista) {
         LisaPalveluWidget* widget = new LisaPalveluWidget(item.toMap());
         extraLayout->addWidget(widget);
-        connect( widget, &LisaPalveluWidget::update, this, &LisaPalvelutMaaritys::updateExtras);
+        connect( widget, &LisaPalveluWidget::updateStatus, this, &LisaPalvelutMaaritys::updateExtras);
     }
     extraLayout->setSizeConstraint(QLayout::SetMinimumSize);
     extraLayout->addStretch();

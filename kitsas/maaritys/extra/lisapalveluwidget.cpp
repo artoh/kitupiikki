@@ -138,7 +138,7 @@ void LisaPalveluWidget::setOnOff(bool on)
     KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1").arg(data_.id()), KpKysely::PUT);
     QVariantMap payload;
     payload.insert("active", on);
-    connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::update);
+    connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::updateStatus);
     kysely->kysy(payload);
 }
 
@@ -158,7 +158,7 @@ void LisaPalveluWidget::actionData(QVariant *data)
     } else if( type == "message") {
         actionMessage(map);
     } else if( type == "update") {
-        emit update();
+        emit updateStatus();
     }
 }
 

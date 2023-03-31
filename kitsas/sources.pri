@@ -129,6 +129,8 @@ SOURCES += \
     $$PWD/liite/pdfliiteview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
+    $$PWD/maaritys/extra/aliasdialog.cpp \
+    $$PWD/maaritys/extra/aliaswidget.cpp \
     $$PWD/maaritys/extra/extradialog.cpp \
     $$PWD/maaritys/extra/extralogmodel.cpp \
     $$PWD/maaritys/extra/lisapalveluwidget.cpp \
@@ -559,6 +561,8 @@ HEADERS += \
     $$PWD/liite/pdfliiteview.h \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
+    $$PWD/maaritys/extra/aliasdialog.h \
+    $$PWD/maaritys/extra/aliaswidget.h \
     $$PWD/maaritys/extra/extradialog.h \
     $$PWD/maaritys/extra/extralogmodel.h \
     $$PWD/maaritys/extra/lisapalveluwidget.h \
@@ -905,6 +909,7 @@ FORMS += \
     $$PWD/laskutus/uusimaksumuistutusdialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
     $$PWD/maaritys/bannermaaritys.ui \
+    $$PWD/maaritys/extra/aliasdialog.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \
     $$PWD/maaritys/kayttooikeudet/kutsudialog.ui \
     $$PWD/maaritys/kayttooikeudet/oikeuswidget.ui \
