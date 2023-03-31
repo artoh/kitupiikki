@@ -18,6 +18,7 @@ public:
     QVariantMap status() const { return status_;}
     QString description() const { return description_.teksti();}
     QString statusinfo() const { return statusinfo_.teksti();}
+    QString price() const { return price_.teksti();}
     QVariantList actions() const { return actions_;}
     bool inTesting() const { return inTesting_;}
 
@@ -28,6 +29,7 @@ private:
     Monikielinen title_;
     Monikielinen description_;
     Monikielinen statusinfo_;
+    Monikielinen price_;
     QVariantMap info_;
     QVariantMap status_;
     QVariantList actions_;

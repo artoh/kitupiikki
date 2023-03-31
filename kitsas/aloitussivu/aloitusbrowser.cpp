@@ -333,7 +333,7 @@ void AloitusBrowser::paivitaExtraVinkki()
 
         vinkkaa( top.value("class").toString(),
                  otsikko.teksti(), teksti.teksti(),
-                 "ktp:/maaritys/ekstrat",
+                 top.contains("link") ? top.value("link").toString() : "ktp:/maaritys/ekstrat",
                  top.value("image").toString(),
                  top.value("doc").toString() );
 

@@ -16,6 +16,7 @@
 #include <QTableView>
 #include <QMainWindow>
 #include <QHeaderView>
+#include <QDesktopServices>
 
 LisaPalveluWidget::LisaPalveluWidget(const QVariantMap &data, QWidget *parent)
     : QGroupBox{parent}, data_{data}
@@ -55,8 +56,16 @@ void LisaPalveluWidget::updateUi()
         QLabel *testingLabel = new QLabel(tr(" Vain testikäyttäjille "));
         testingLabel->setStyleSheet("background-color: orange");
         nameLayout->addWidget(testingLabel);
-        nameLayout->addStretch();
+
     }
+
+    if( !data_.price().isEmpty()) {
+        QLabel *priceLabel = new QLabel( data_.price());
+        priceLabel->setStyleSheet("backgroud-color: yellow");
+        nameLayout->addWidget(priceLabel);
+    }
+
+    nameLayout->addStretch();
     textLayout->addLayout(nameLayout);
 
     QLabel* infoLabel = new QLabel( data_.active() ? data_.statusinfo() : data_.description() );
@@ -70,10 +79,19 @@ void LisaPalveluWidget::updateUi()
         actionLayout->setAlignment(Qt::AlignTop);
         for(const auto& item : data_.actions()) {
             const QVariantMap map = item.toMap();
-            Monikielinen buttonText(map.value("label").toMap());
-            const QString& actionName = map.value("name").toString();
+            Monikielinen buttonText(map.value("label").toMap());            
             QPushButton* actionButton = new QPushButton(buttonText.teksti());
-            connect( actionButton, &QPushButton::clicked, this, [this, actionName] { this->action(actionName);});
+
+            if( map.contains("name")) {
+                const QString& actionName = map.value("name").toString();
+                connect( actionButton, &QPushButton::clicked, this, [this, actionName] { this->action(actionName);});
+            } else if (map.contains("url"))  {
+                const QString& actionUrl = map.value("url").toString();
+                connect( actionButton, &QPushButton::clicked, this, [this, actionUrl] { this->actionLink(actionUrl);});
+            }   else {
+                delete actionButton;
+                continue;
+            }
             actionLayout->addWidget(actionButton);
         }
         mainLayout->addLayout(actionLayout);
@@ -159,6 +177,8 @@ void LisaPalveluWidget::actionData(QVariant *data)
         actionMessage(map);
     } else if( type == "update") {
         emit updateStatus();
+    } else if( type == "link") {
+        actionLink(map.value("url").toString());
     }
 }
 
@@ -194,6 +214,27 @@ void LisaPalveluWidget::actionMessage(const QVariantMap &data)
         box.setIcon(QMessageBox::Critical);
 
     box.exec();
+}
+
+void LisaPalveluWidget::actionLink(const QString url)
+{
+    if( !lastLink_.isEmpty() && lastLink_ == url &&
+        linkTime_.secsTo(QDateTime::currentDateTime()) < 15) {
+
+        // Näytetään osoite koska avaaminen ei välttis toimi
+        QMessageBox::information(this, data_.title(),
+                                 tr("Jatka verkkoselaimella osoitteeseen <a href=%1>%1</a>").arg(url));
+        lastLink_.clear();
+        return;
+
+    }
+    if( QDesktopServices::openUrl(url) ) {
+        lastLink_ = url;
+        linkTime_ = QDateTime::currentDateTime();
+    } else {
+        QMessageBox::information(this, data_.title(),
+                                 tr("Jatka verkkoselaimella osoitteeseen <a href=%1>%1</a>").arg(url));
+    }
 }
 
 void LisaPalveluWidget::loki()
