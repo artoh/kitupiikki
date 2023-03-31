@@ -304,6 +304,9 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
 
 bool UusiVelho::Tilikarttasivu::validatePage()
 {
+    if( karttaLadattu_)
+        return true;
+
     if( ui->yhdistysButton->isChecked() )
         return velho->lataaKartta(":/tilikartat/yhdistys.kitsaskartta");
     else if(ui->elinkeinoRadio->isChecked())
@@ -319,8 +322,10 @@ void UusiVelho::Tilikarttasivu::tiedostosta()
     QString tiedosto = QFileDialog::getOpenFileName(this, UusiVelho::tr("Valitse tilikarttatiedoston"), QString(),
                                                     UusiVelho::tr("Kitsaan tilikartta (*.kitsaskartta)",".kitsaskartta on tiedostopääte - älä käännä sitä"));
     if( !tiedosto.isEmpty() ) {
-        if( velho->lataaKartta(tiedosto) )
+        if( velho->lataaKartta(tiedosto) ) {
+            karttaLadattu_ = true;
             wizard()->next();
+        }
     }
 }
 

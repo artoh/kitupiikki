@@ -106,6 +106,7 @@ protected:
         void tiedostosta();
         Ui::UusiTilikartta *ui;
         UusiVelho *velho;
+        bool karttaLadattu_ = false;
     };
 
     class NumerointiSivu : public QWizardPage {
