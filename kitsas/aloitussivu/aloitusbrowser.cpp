@@ -227,8 +227,50 @@ void AloitusBrowser::paivitaAloitusVinkit()
 void AloitusBrowser::paivitaAlvVinkki()
 {
     // Muistutus arvonlisäverolaskelmasta
-    if(  kp()->asetukset()->onko("AlvVelvollinen") && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
+    if(  kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
     {
+        QDate kausiAlkaa;
+        QDate kausiPaattyy;
+        QDate eraPaiva;
+
+        QList<AlvKausi> kaudet = kp()->alvIlmoitukset()->kaudet()->kaudet();
+        if( kaudet.isEmpty() ) {
+            // Lasketaan itse tiedoista
+            const int kaudenPituus = kp()->asetukset()->luku(AsetusModel::AlvKausi);
+            kausiAlkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
+
+            QDate laskennallinenalkupaiva = kausiAlkaa;
+            if( kaudenPituus == 1)
+                laskennallinenalkupaiva = QDate( kausiAlkaa.year(), kausiAlkaa.month(), 1);
+            else if( kaudenPituus == 3) {
+                int kk = kausiAlkaa.month();
+                if( kk < 4)
+                    kk = 1;
+                else if( kk < 7)
+                    kk = 4;
+                else if( kk < 10)
+                    kk = 7;
+                else
+                    kk = 10;
+                laskennallinenalkupaiva = QDate( kausiAlkaa.year(), kk, 1);
+            } else if( kaudenPituus == 12)
+                laskennallinenalkupaiva = QDate( kausiAlkaa.year(), 1, 1);
+
+            kausiPaattyy = laskennallinenalkupaiva.addMonths( kaudenPituus ).addDays(-1);
+            eraPaiva = kp()->alvIlmoitukset()->erapaiva(kausiPaattyy);
+
+        } else {
+            // Saadaan tieto verottajalta ;)
+            for(const auto& kausi : kaudet) {
+                if( kausi.tila() == AlvKausi::PUUTTUVA) {
+                    kausiAlkaa = kausi.alkupvm();
+                    kausiPaattyy = kausi.loppupvm();
+                    eraPaiva = kausi.erapvm();
+                }
+            }
+        }
+
+
         QDate kausialkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
         int kausi = kp()->asetukset()->luku("AlvKausi");
 
@@ -264,14 +306,14 @@ void AloitusBrowser::paivitaAlvVinkki()
         {
             vinkkaa("varoitus", tr("Arvonlisäveroilmoitus myöhässä"),
                                 tr("Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.")
-                                .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
+                                .arg(kausiAlkaa.toString("dd.MM.yyyy"),kausiPaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
                                 "ktp:/alvilmoitus", "vero64.png");
         }
         else if( paivaaIlmoitukseen < 12)
         {
             vinkkaa("vinkki", tr("Tee arvonlisäverotilitys"),
                                 tr("Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.")
-                                .arg(kausialkaa.toString("dd.MM.yyyy"),kausipaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
+                                .arg(kausiAlkaa.toString("dd.MM.yyyy"),kausiPaattyy.toString("dd.MM.yyyy"),erapaiva.toString("dd.MM.yyyy")),
                                 "ktp:/alvilmoitus", "vero64.png");
         }
     }
