@@ -135,7 +135,8 @@ void PilviKysely::vastausSaapuu()
             QString location = QString::fromLatin1(reply->rawHeader("Location"));
 
             int lisattyid = location.mid( location.lastIndexOf('/') + 1 ).toInt();
-            emit lisaysVastaus(vastaus_, lisattyid);
+            if(lisattyid)
+                emit lisaysVastaus(vastaus_, lisattyid);
         }
     }
 

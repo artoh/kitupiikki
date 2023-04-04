@@ -113,7 +113,7 @@ void Liite::tallenna(int tositeId)
                 kpk(QString("/liitteet/%1").arg(tositeId), KpKysely::POST) :
                 kpk(QString("/liitteet/%1/%2").arg(tositeId).arg(rooli()), KpKysely::PUT);
 
-    connect( liitekysely, &KpKysely::lisaysVastaus, this, &Liite::tallennettu);
+    connect( liitekysely, &KpKysely::vastaus, this, &Liite::tallennettu);
     connect( liitekysely, &KpKysely::virhe, this, &Liite::tallennusVirhe);
 
     QMap<QString,QString> meta;
@@ -165,9 +165,11 @@ void Liite::liitetty(const QVariant &reply, int lisattyId)
         model_->ocr(map);
 }
 
-void Liite::tallennettu(const QVariant & /*reply*/, int lisattyId)
+void Liite::tallennettu(const QVariant *data)
 {
-    liiteId_ = lisattyId;
+    QVariantMap map = data->toMap();
+
+    liiteId_ = map.value("liiteId").toInt();
     vaihdaTila(TALLENNETTU);
 
     kp()->liiteCache()->lisaaTallennettu(liiteId_, cache_);

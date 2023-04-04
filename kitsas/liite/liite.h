@@ -44,7 +44,7 @@ protected:
     void setThumb();
 
     void liitetty(const QVariant& reply, int lisattyId);
-    void tallennettu(const QVariant& reply, int lisattyId);
+    void tallennettu(const QVariant* data);
 
     void tallennusVirhe(int virhe, const QString selitys);
 
