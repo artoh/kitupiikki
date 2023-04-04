@@ -15,7 +15,7 @@ PilviExtra::PilviExtra(const QVariantMap &map)
     description_ = Monikielinen(info_.value("description"));
     status_ = map.value("status").toMap();
     actions_ = map.value("actions").toList();
-    price_ = Monikielinen(map.value("price").toMap());
+    price_ = Monikielinen(info_.value("price").toMap());
     statusinfo_ = Monikielinen(status_.value("info"));
     inTesting_ = !map.value("public").toBool();
 }

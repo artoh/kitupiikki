@@ -116,7 +116,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    if( field("harjoitus").toBool() /* && startId() != ALUSTUS */)
+    if( field("harjoitus").toBool())
         asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())

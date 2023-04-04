@@ -60,8 +60,8 @@ void LisaPalveluWidget::updateUi()
     }
 
     if( !data_.price().isEmpty()) {
-        QLabel *priceLabel = new QLabel( data_.price());
-        priceLabel->setStyleSheet("backgroud-color: yellow");
+        QLabel *priceLabel = new QLabel( " " + data_.price() + " ");
+        priceLabel->setStyleSheet("background-color: yellow");
         nameLayout->addWidget(priceLabel);
     }
 
@@ -81,6 +81,8 @@ void LisaPalveluWidget::updateUi()
             const QVariantMap map = item.toMap();
             Monikielinen buttonText(map.value("label").toMap());            
             QPushButton* actionButton = new QPushButton(buttonText.teksti());
+            if( map.contains("icon"))
+                actionButton->setIcon(QIcon(":/pic/" + map.value("icon").toString()));
 
             if( map.contains("name")) {
                 const QString& actionName = map.value("name").toString();
