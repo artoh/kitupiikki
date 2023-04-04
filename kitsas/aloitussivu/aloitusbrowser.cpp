@@ -370,6 +370,8 @@ void AloitusBrowser::paivitaExtraVinkki()
         const PilviExtra extra = kp()->pilvi()->pilvi().extra(indeksi);
         const QVariantMap top = extra.status().value("top").toMap();
 
+        if( top.isEmpty()) continue;
+
         const Monikielinen otsikko(top.value("title").toMap());
         const Monikielinen teksti(top.value("text").toMap());
 
