@@ -288,6 +288,8 @@ UusiVelho::Harjoitussivu::Harjoitussivu(UusiVelho *wizard) :
 {
     ui->setupUi(this);
     setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));    
+    if( !field("harjoitus").toBool())
+        ui->tosiButton->setChecked(true);
     registerField("harjoitus", ui->harjoitusButton);
 }
 
