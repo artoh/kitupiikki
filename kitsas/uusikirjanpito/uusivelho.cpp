@@ -116,7 +116,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    if( field("harjoitus").toBool() && startId() != ALUSTUS )
+    if( field("harjoitus").toBool() /* && startId() != ALUSTUS */)
         asetusMap.insert("Harjoitus", "ON");
 
     if( field("erisarjaan").toBool())
@@ -288,6 +288,8 @@ UusiVelho::Harjoitussivu::Harjoitussivu(UusiVelho *wizard) :
 {
     ui->setupUi(this);
     setTitle(UusiVelho::tr("Harjoitus vai todellinen?"));    
+    if( !field("harjoitus").toBool())
+        ui->tosiButton->setChecked(true);
     registerField("harjoitus", ui->harjoitusButton);
 }
 
