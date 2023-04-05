@@ -8,10 +8,14 @@
 #include <QLineEdit>
 #include <QRegularExpressionValidator>
 #include <QComboBox>
+#include <QPlainTextEdit>
 
 #include "db/kirjanpito.h"
 #include "tools/kpdateedit.h"
 #include "kieli/monikielinen.h"
+#include "db/tilinvalintaline.h"
+#include "tools/tilicombo.h"
+
 
 ExtraDialog::ExtraDialog(QWidget *parent)
     : QDialog(parent)
@@ -63,6 +67,18 @@ QVariantMap ExtraDialog::values()
             continue;
         }
 
+        TilinvalintaLine* tiliEdit = qobject_cast<TilinvalintaLine*>(widget);
+        if( tiliEdit) {
+            data.insert(id, tiliEdit->valittuTilinumero());
+            continue;
+        }
+
+        TiliCombo* tcombo = qobject_cast<TiliCombo*>(widget);
+        if( tcombo ) {
+            data.insert(id, tcombo->valittuTilinumero());
+            continue;
+        }
+
         QLineEdit* lineEdit = qobject_cast<QLineEdit*>(widget);
         if( lineEdit ) {
             data.insert(id, lineEdit->text());
@@ -72,6 +88,12 @@ QVariantMap ExtraDialog::values()
         QComboBox* combo = qobject_cast<QComboBox*>(widget);
         if( combo ) {
             data.insert(id, combo->currentData().toString());
+            continue;
+        }
+
+        QPlainTextEdit* editor = qobject_cast<QPlainTextEdit*>(widget);
+        if( editor ) {
+            data.insert(id, editor->toPlainText());
             continue;
         }
     }
@@ -111,6 +133,26 @@ QFormLayout *ExtraDialog::initFields(const QVariantList &fields, const QVariantM
             }
             if( !value.isEmpty()) box->setCurrentIndex( box->findData(value) );
             widget = box;
+        } else if( type == "accountline") {
+            TilinvalintaLine* edit = new TilinvalintaLine();
+            edit->asetaModel(kp()->tilit());
+            if( map.contains("filter"))
+                edit->suodataTyypilla( map.value("filter").toString() );
+            if( !value.isEmpty())
+                edit->valitseTiliNumerolla(value.toInt());
+            widget = edit;
+        } else if( type == "accountcombo") {
+            TiliCombo* edit = new TiliCombo();
+            if( map.contains("filter"))
+                edit->suodataTyypilla(map.value("filter").toString());
+            if( !value.isEmpty())
+                edit->valitseTili( value.toInt() );
+            widget = edit;
+        } else if( type == "textedit") {
+            QPlainTextEdit* edit = new QPlainTextEdit();
+            if( !value.isEmpty())
+                edit->setPlainText(value);
+            widget = edit;
         }
 
         if( widget ) {
