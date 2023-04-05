@@ -102,6 +102,11 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
             rivit_.append( RaporttiRivi(RaporttiRivi::EICSV));
 }
 
+void RaportinKirjoittaja::lisaaSivunvaihto()
+{
+    rivit_.append(RaporttiRivi(RaporttiRivi::SIVUNVAIHTO));
+}
+
 int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
 {
     if( rivit_.isEmpty()) {
@@ -234,7 +239,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
                 korkeinrivi = laatikot[i].height();
         }
 
-        if( painter->transform().dy() > sivunkorkeus - korkeinrivi)
+        if( painter->transform().dy() > sivunkorkeus - korkeinrivi || rivi.kaytto() == RaporttiRivi::SIVUNVAIHTO)
         {
             // Sivu tulee täyteen
             printer->newPage();

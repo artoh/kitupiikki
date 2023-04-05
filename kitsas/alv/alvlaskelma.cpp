@@ -190,7 +190,9 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( loppupvm_ );
     if( kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_) return;
 
-    Iban verottajaIban("FI56 8919 9710 0007 24");
+    const QString verottajaTilit = kp()->pilvi()->service("veroiban");
+    const QStringList verottajaTiliLista = verottajaTilit.split(",");
+    if( verottajaTiliLista.isEmpty()) return;
 
     RaporttiRivi otsikko;
     otsikko.lisaa(kaanna("Maksutiedot"),5);
@@ -215,10 +217,22 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     summaRivi.lisaa(maksettava_.display());
     rk.lisaaRivi(summaRivi);
 
+    RaporttiRivi saajaRivi;
+    saajaRivi.lisaa(kaanna("Saaja"),2);
+    saajaRivi.lisaa(kaanna("Verohallinto"));
+    rk.lisaaRivi(saajaRivi);
+
     RaporttiRivi tililleRivi;
     tililleRivi.lisaa(kaanna("Tilille"),2);
-    tililleRivi.lisaa(verottajaIban.pankki() + " " + verottajaIban.valeilla());
+    QStringList tiliTekstit;
+    for(const auto& tili : verottajaTiliLista) {
+        Iban iban(tili);
+        tiliTekstit.append(iban.pankki() + " " + iban.valeilla() );
+    }
+    tililleRivi.lisaa(tiliTekstit.join("\n"),3);
     rk.lisaaRivi(tililleRivi);
+
+    Iban verottajaIban(verottajaTiliLista.first());
 
     QString koodi = QString("5 %1 %2 %3 %4 %5")
                        .arg(verottajaIban.valeitta().mid(2,16))    // Numeerinen tilinumero
@@ -233,12 +247,13 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     virtuaaliRivi.lisaa(kaanna("Virtuaaliviivakoodi"),2);
     virtuaaliRivi.lisaa( koodi, 2 );
     rk.lisaaRivi(virtuaaliRivi);
+    rk.lisaaTyhjaRivi();
 
     RaporttiRivi koodiRivi(RaporttiRivi::VIIVAKOODI);
     koodiRivi.lisaa(koodi,5);
     rk.lisaaRivi(koodiRivi);
 
-    rk.lisaaTyhjaRivi();
+    rk.lisaaSivunvaihto();
 }
 
 void AlvLaskelma::kirjaaVerot()

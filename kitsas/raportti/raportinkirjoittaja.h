@@ -121,6 +121,8 @@ public:
      */
     void lisaaTyhjaRivi();
 
+    void lisaaSivunvaihto();
+
     /**
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
