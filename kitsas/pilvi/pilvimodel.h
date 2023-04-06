@@ -89,6 +89,7 @@ public:
     Tilitieto::TilitietoPalvelu* tilitietoPalvelu();
 
     bool tilausvoimassa() const;
+    void asetaAlias(const QString& alias);
 
 // Yhteensopivuutta varten
     int pilviId() const { return pilvi().id();}

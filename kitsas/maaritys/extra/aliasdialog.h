@@ -19,6 +19,7 @@ public:
     void tarkasta();
 
     void accept() override;
+    QString alias() const;
 
 protected:
     void tieto(QVariant* data);

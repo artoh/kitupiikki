@@ -50,6 +50,7 @@ public slots:
     void alvilaajuudesta();
 
     void naytaVastuu(bool harjoitus);
+    void vaihdaAlias();
 
 private:
     void avaaHakemisto();

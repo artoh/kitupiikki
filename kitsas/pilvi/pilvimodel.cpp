@@ -224,6 +224,11 @@ bool PilviModel::tilausvoimassa() const
             nykyPilvi_.planId() || nykyPilvi_.trial_period() ;
 }
 
+void PilviModel::asetaAlias(const QString &alias)
+{
+    nykyPilvi_.asetaAlias(alias);
+}
+
 
 void PilviModel::kirjauduUlos()
 {    

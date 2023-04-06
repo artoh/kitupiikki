@@ -23,6 +23,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     setServices(map.value("services").toMap());
     alustettu_ = map.value("initialized",true).toBool();
     active_ = map.value("active", true).toBool();
+    alias_ = map.value("alias").toString();
 
     const QVariantMap planMap = map.value("plan").toMap();
     plan_id_ = planMap.value("id").toInt();
@@ -50,6 +51,11 @@ void AvattuPilvi::asetaNimi(const QString &nimi)
 void AvattuPilvi::asetaYTunnus(const QString &ytunnus)
 {
     businessid_ = ytunnus;
+}
+
+void AvattuPilvi::asetaAlias(const QString &alias)
+{
+    alias_ = alias;
 }
 
 PilviExtra AvattuPilvi::extra(int id) const

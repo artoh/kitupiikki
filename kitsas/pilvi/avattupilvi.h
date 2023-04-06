@@ -28,6 +28,7 @@ public:
 
     QString url() const { return url_; }
     QString token() const { return token_;}
+    QString alias() const { return alias_;}
 
     qlonglong oikeudet() const { return oikeudet_; }
 
@@ -35,6 +36,7 @@ public:
 
     void asetaNimi(const QString& nimi);
     void asetaYTunnus(const QString& ytunnus);
+    void asetaAlias(const QString& alias);
 
     PilviExtra extra(int id) const;
     QList<int> extrat() const;
@@ -60,6 +62,7 @@ private:
     bool alustettu_ = false;
     QString name_;
     QString businessid_;
+    QString alias_;
 
     QMap<int,PilviExtra> extrat_;
 

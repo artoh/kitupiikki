@@ -34,6 +34,7 @@
 #include "validator/ytunnusvalidator.h"
 
 #include "kieli/kielet.h"
+#include "extra/aliasdialog.h"
 
 Perusvalinnat::Perusvalinnat() :
     TallentavaMaaritysWidget(nullptr),
@@ -45,6 +46,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, this, [this] { kp()->avaaUrl( QUrl("file://" + ui->arkistoEdit->text(), QUrl::TolerantMode) ); });
     connect( ui->vaihdaArkistoNappi, &QPushButton::clicked, this, &Perusvalinnat::vaihdaArkistoHakemisto);
     connect( ui->harjoitusCheck, &QPushButton::clicked, this, &Perusvalinnat::naytaVastuu);
+    connect( ui->aliasButton, &QPushButton::clicked, this, &Perusvalinnat::vaihdaAlias);
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -64,10 +66,19 @@ bool Perusvalinnat::nollaa()
     SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
     if( sqlite ) {
         ui->sijaintiLabel->setText( sqlite->tiedostopolku() );
+
+        ui->aliasLabel->hide();
+        ui->aliasEdit->hide();
+        ui->aliasButton->hide();
     } else {
         ui->sijaintiLabel->hide();
         ui->hakemistoNappi->hide();
         ui->tsLabel->hide();
+
+        ui->aliasLabel->show();
+        ui->aliasEdit->show();
+        ui->aliasButton->show();
+        ui->aliasEdit->setText( kp()->pilvi()->pilvi().alias() );
     }    
 
     ui->karttaInfo->setText( QString("%1 %2")
@@ -122,6 +133,17 @@ void Perusvalinnat::naytaVastuu(bool harjoitus)
                              tr("Olet itse vastuussa kirjanpitosi oikeellisuudesta ja laillisuudesta sekä siitä, että kaikki verot maksetaan asianmukaisesti.\n\n"
                                 "Ohjelmalla ei ole mitään takuuta. Kitsas Oy ei myöskään anna oikeudellista neuvontaa kirjanpidosta tai verotuksesta.\n\n"
                                 "Käänny tarvittaessa kirjanpidon ammattilaisen puoleen"));
+    }
+}
+
+void Perusvalinnat::vaihdaAlias()
+{
+    AliasDialog dlg(this);
+    dlg.asetaAlias(kp()->pilvi()->pilvi().alias());
+    if( dlg.exec() == QDialog::Accepted) {
+        const QString& alias = dlg.alias();
+        kp()->pilvi()->asetaAlias(alias);
+        ui->aliasEdit->setText(alias);
     }
 }
 

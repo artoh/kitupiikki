@@ -18,7 +18,6 @@
     <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -117,71 +116,15 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
      <item row="0" column="0">
-      <widget class="QLabel" name="tsLabel">
+      <widget class="QLabel" name="aliasLabel">
        <property name="text">
-        <string>Tiedoston sijainti</string>
+        <string>Alias</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="sijaintiLabel">
-       <property name="mouseTracking">
-        <bool>true</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="hakemistoNappi">
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Avaa hakemisto</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="arkistoLabel">
-       <property name="text">
-        <string>Arkiston sijainti</string>
-       </property>
-       <property name="buddy">
-        <cstring>arkistoEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="arkistoEdit">
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
+     <item row="2" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QPushButton" name="vaihdaArkistoNappi">
@@ -219,17 +162,70 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Tilikartta</string>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="kokoEdit">
+       <property name="frame">
+        <bool>false</bool>
        </property>
-       <property name="buddy">
-        <cstring>karttaInfo</cstring>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="tsLabel">
+       <property name="text">
+        <string>Tiedoston sijainti</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="hakemistoNappi">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Avaa hakemisto</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="sijaintiLabel">
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
+      <widget class="QLineEdit" name="arkistoEdit">
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
       <widget class="QLineEdit" name="karttaInfo">
        <property name="frame">
         <bool>false</bool>
@@ -240,6 +236,26 @@
       </widget>
      </item>
      <item row="3" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Tilikartta</string>
+       </property>
+       <property name="buddy">
+        <cstring>karttaInfo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="arkistoLabel">
+       <property name="text">
+        <string>Arkiston sijainti</string>
+       </property>
+       <property name="buddy">
+        <cstring>arkistoEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
       <widget class="QLabel" name="label_12">
        <property name="text">
         <string>Kirjanpidon koko</string>
@@ -249,13 +265,21 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="kokoEdit">
-       <property name="frame">
-        <bool>false</bool>
-       </property>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="aliasEdit">
        <property name="readOnly">
         <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="aliasButton">
+       <property name="text">
+        <string>Määritä alias</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/link.png</normaloff>:/pic/link.png</iconset>
        </property>
       </widget>
      </item>

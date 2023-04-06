@@ -12,7 +12,6 @@
 #include "pilvi/pilvimodel.h"
 
 #include "lisapalveluwidget.h"
-#include "aliaswidget.h"
 
 
 LisaPalvelutMaaritys::LisaPalvelutMaaritys()
@@ -49,19 +48,14 @@ void LisaPalvelutMaaritys::updateExtras()
 }
 
 void LisaPalvelutMaaritys::showExtras(QVariant *data)
-{
-    QVariantMap map = data->toMap();
-    QVariantList lista = map.value("extras").toList();
+{    
+    QVariantList lista = data->toList();
 
     QLayoutItem *child;
     while ((child = extraLayout->takeAt(0)) != nullptr) {
         delete child->widget();
         delete child;
     }
-
-    AliasWidget* alias = new AliasWidget(map.value("alias").toString());
-    extraLayout->addWidget(alias);
-    connect( alias, &AliasWidget::updateStatus, this, &LisaPalvelutMaaritys::updateExtras);
 
     for(const auto& item : lista) {
         LisaPalveluWidget* widget = new LisaPalveluWidget(item.toMap());

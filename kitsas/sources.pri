@@ -130,7 +130,6 @@ SOURCES += \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/extra/aliasdialog.cpp \
-    $$PWD/maaritys/extra/aliaswidget.cpp \
     $$PWD/maaritys/extra/extradialog.cpp \
     $$PWD/maaritys/extra/extralogmodel.cpp \
     $$PWD/maaritys/extra/lisapalveluwidget.cpp \
@@ -562,7 +561,6 @@ HEADERS += \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/extra/aliasdialog.h \
-    $$PWD/maaritys/extra/aliaswidget.h \
     $$PWD/maaritys/extra/extradialog.h \
     $$PWD/maaritys/extra/extralogmodel.h \
     $$PWD/maaritys/extra/lisapalveluwidget.h \

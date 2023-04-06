@@ -64,3 +64,8 @@ void AliasDialog::accept()
     kysely->kysy(map);
 
 }
+
+QString AliasDialog::alias() const
+{
+    return ui->nimiEdit->text();
+}
