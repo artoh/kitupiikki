@@ -194,14 +194,17 @@ void PdfTilioteTuonti::kasitteleTaulukkoRivi(PdfRivi* rivi)
     // Aloitetaan alusta
     pala = rivi->pala();
 
-    if( !rivilla_ && otsake_.indeksiSijainnilla(pala->vasen()) > 0) {
+    if( !rivilla_ && otsake_.indeksiSijainnilla(pala->vasen()) > 0 ) {
         // Aloittavaan riviin tarvitaan tavaraa vasemmasta laidasta
         return;
     }
 
     while( pala ) {
         QString teksti = pala->teksti();
-        if( teksti.length() > 3) {
+        if( otsake_.sarakkeita() && pala->vasen() < otsake_.sarake(0).alku() && pala->korkeus() > 72) {
+            // Vasemman laidan tekstiä
+            qDebug() << "Vasemmalla " << teksti << " " << pala->korkeus();
+        } else if( teksti.length() > 3) {
             TilioteOtsake::Tyyppi alkuTyyppi = otsake_.tyyppi(pala->vasen() + 5);
             TilioteOtsake::Tyyppi loppuTyyppi = otsake_.tyyppi(pala->oikea() - 5);
 
@@ -215,6 +218,14 @@ void PdfTilioteTuonti::kasitteleTaulukkoRivi(PdfRivi* rivi)
                     nykyinen_.kasittele(teksti.left(indeksi), alkuTyyppi, rivilla_, loppupvm_);
                     nykyinen_.kasittele(teksti.mid(indeksi+1), loppuTyyppi, rivilla_, loppupvm_);
                 }
+            } else if(loppuTyyppi == TilioteOtsake::TUNTEMATON) {
+                while( pala->seuraava() &&
+                       otsake_.tyyppi(pala->seuraava()->vasen()+5) == TilioteOtsake::TUNTEMATON &&
+                       otsake_.tyyppi(pala->seuraava()->oikea()-5) == TilioteOtsake::TUNTEMATON) {
+                    pala = pala->seuraava();
+                    teksti.append(" " + pala->teksti());
+                }
+                nykyinen_.kasittele(teksti, TilioteOtsake::TUNTEMATON, rivilla_, loppupvm_);
             } else {
                 nykyinen_.kasittele(teksti, loppuTyyppi, rivilla_, loppupvm_);
             }

@@ -20,7 +20,8 @@ public:
     int vasen() const { return vasen_;}
     int oikea() const { return oikea_;}
     int kirjainLeveys() const { return kirjainLeveys_;}
-    int korkeus() const { return oikea_ - vasen_;}
+    int korkeus() const { return ala_ - yla_;}
+    int leveys() const { return oikea_ - vasen_;}
 
     QString teksti() const { return teksti_;}
 

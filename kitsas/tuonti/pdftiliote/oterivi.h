@@ -82,6 +82,7 @@ protected:
     static QRegularExpression ibanRe__;
     static QRegularExpression nroRe__;
     static QRegularExpression emailRe__;
+    static QRegularExpression tekstiRe__;
 };
 
 

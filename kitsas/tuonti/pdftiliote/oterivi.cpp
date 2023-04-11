@@ -35,7 +35,7 @@ OteRivi::OteRivi()
 void OteRivi::kasittele(const QString &teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate &loppupvm)
 {
 
-//    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
+    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
 
     // Jos IBAN niin IBAN!
     QRegularExpressionMatch ibanMats = ibanRe__.match(teksti);
@@ -186,16 +186,21 @@ void OteRivi::kasitteleTuntematon(const QString &teksti, int rivi, const QDate& 
             return;
         }
     }
-    if( teksti.length() > 10) {
+    if( !kto_ && ktoKoodi(teksti)) {
+        kto_ = ktoKoodi(teksti);
+    } else if( teksti.length() > 10) {
+        lisaaYleinen(teksti, rivi);
+    } else if(teksti.length() > 1){
+        for(const QChar& letter : teksti) {
+            if( !letter.isLetter() && !letter.isSpace()) return;
+        }
         lisaaYleinen(teksti, rivi);
     }
 
 }
 
 void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
-{
-
-
+{    
     QString iso = teksti.toUpper();    
     for( const auto& ohitettava : ohitettavat__) {
         if( iso.contains(ohitettava)) {
@@ -203,6 +208,7 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
         }
     }
 
+    QRegularExpression viiteRe("(RF\\d{2}\\s?)?\\d+(\\s\\d+)*");
     // Päivämäärä ei kuulu tähän sarakkeeseen
     if( saajamaksaja_.isEmpty() && iso.length() > 3 && iso.length() < 11 && strPvm(iso, QDate::currentDate()).isValid())
         return;    
@@ -227,6 +233,8 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
     } else if( Iban(teksti).isValid() ) {
         if( iban_.isEmpty() )
             iban_ = teksti;
+    } else if( iso.startsWith("VIITE") && ViiteValidator::kelpaako(iso.mid(6))) {
+        setViite(iso.mid(6));
     } else if( tila == OHITALOPPUUN) {
         ;
     } else if( tila == VIESTI) {
@@ -242,8 +250,7 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
         } else {
             setSaajaMaksaja(teksti, rivi);
         }
-    } else {
-        QRegularExpression viiteRe("(RF\\d{2}\\s?)?\\d+(\\s\\d+)*");
+    } else {        
         QRegularExpressionMatch match = viiteRe.match(teksti);
 
         if( match.hasMatch()) {
