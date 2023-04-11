@@ -542,11 +542,6 @@ void AlvLaskelma::tilaaNollausLista(const QDate &pvm)
     kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
     connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
     kysely->kysy();
-
-    kysely = kpk("/erat");
-    kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero());
-    connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
-    kysely->kysy();
 }
 
 void AlvLaskelma::nollaaMaksuperusteisetErat(QVariant *variant, const QDate& pvm)

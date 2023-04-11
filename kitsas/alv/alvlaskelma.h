@@ -134,7 +134,7 @@ protected:
     QList<int> maksuperusteTositteet_;
     QList<QPair<int,Euro>> nollattavatErat_;
     QSet<int> nollatutErat_;
-    int nollattavatHaut_ = 2;
+    int nollattavatHaut_ = 1;
 
     Euro maksettava_;
 
