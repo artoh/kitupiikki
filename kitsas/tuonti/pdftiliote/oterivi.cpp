@@ -35,7 +35,7 @@ OteRivi::OteRivi()
 void OteRivi::kasittele(const QString &teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate &loppupvm)
 {
 
-    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
+//    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
 
     // Jos IBAN niin IBAN!
     QRegularExpressionMatch ibanMats = ibanRe__.match(teksti);
