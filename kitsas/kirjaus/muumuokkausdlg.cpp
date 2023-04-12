@@ -150,6 +150,8 @@ void MuuMuokkausDlg::lataa(const TositeVienti &v)
     if(!tili.onkoValidi())
         tiliMuuttui();
 
+    ui->eraCombo->valitse( v.era() );
+
     alvLajiMuuttui();
 
     ladataan_ = false;
