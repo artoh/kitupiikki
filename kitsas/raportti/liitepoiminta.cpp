@@ -51,8 +51,11 @@ void LiitePoiminta::esikatsele()
     int tililta = -1;
     if( ui->tiliBox->isChecked())
         tililta = ui->tiliCombo->currentData().toInt();
+    LiitePoimija::PoimintaRajaus rajaus = LiitePoimija::PoimintaRajaus::Kaikki;
+    if( ui->menotRadio->isChecked()) rajaus = LiitePoimija::PoimintaRajaus::Menot;
+    else if(ui->tulotRadio->isChecked()) rajaus = LiitePoimija::PoimintaRajaus::Tulot;
 
     LiitePoimija *poimija = new LiitePoimija(ui->kieliCombo->currentData().toString(), ui->laatuSlider->value());
-    poimija->poimi(ui->alkupvm->date(), ui->loppupvm->date(), tililta, kohdennuksella);
+    poimija->poimi(ui->alkupvm->date(), ui->loppupvm->date(), tililta, kohdennuksella, rajaus);
 
 }
