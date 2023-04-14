@@ -364,7 +364,7 @@ void PilveenSiirto::liiteEpaonnistui(int virhe)
         siirtoVirhe(virhe);
     } else {
         qCritical() << "Siirtovirhe " << virhe;
-        QTimer::singleShot(5000, this, &PilveenSiirto::tallennaTamaLiite);
+        QTimer::singleShot(10000, this, &PilveenSiirto::tallennaTamaLiite);
     }
 }
 
