@@ -30,6 +30,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSettings>
+#include <QTimer>
 
 PilveenSiirto::PilveenSiirto(QWidget *parent) :
     QDialog(parent),
@@ -320,31 +321,50 @@ void PilveenSiirto::tallennaLiitteet()
 
 void PilveenSiirto::tallennaSeuraavaLiite()
 {
+    qApp->processEvents();
+
     if( liitekysely.next()) {
-        QString nimi = liitekysely.value("nimi").toString();
-        QString tyyppi = liitekysely.value("tyyppi").toString();
-        QString rooli = liitekysely.value("roolinimi").toString();
-        QByteArray data = liitekysely.value("data").toByteArray();
-        int tosite = liitekysely.value("tosite").toInt();
-
-        if(tyyppi.isEmpty())
-            tyyppi = KpKysely::tiedostotyyppi(data);
-
-        QMap<QString,QString> meta;
-        meta.insert("Content-type", tyyppi);
-        meta.insert("Filename", nimi);
-
-        KpKysely *kysely = rooli.isEmpty() ?
-                    new PilviKysely(pilviModel_, KpKysely::POST, QString("/liitteet/%1").arg(tosite)) :
-                    new PilviKysely(pilviModel_, KpKysely::PUT, QString("/liitteet/%1/%2").arg(tosite).arg(rooli));
-        connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaLiite);
-        connect(kysely, &KpKysely::virhe, this, &PilveenSiirto::siirtoVirhe);
-        kysely->lahetaTiedosto(data, meta);
-        ui->progressBar->setValue(ui->progressBar->value()+1);
-
+        yrityksia_ = 3;
+        tallennaTamaLiite();
     } else {
         tallennaBudjetit();
         tallennaVakioviitteet();
+    }
+}
+
+void PilveenSiirto::tallennaTamaLiite()
+{
+    QString nimi = liitekysely.value("nimi").toString();
+    QString tyyppi = liitekysely.value("tyyppi").toString();
+    QString rooli = liitekysely.value("roolinimi").toString();
+    QByteArray data = liitekysely.value("data").toByteArray();
+    int tosite = liitekysely.value("tosite").toInt();
+
+    if(tyyppi.isEmpty())
+        tyyppi = KpKysely::tiedostotyyppi(data);
+
+    QMap<QString,QString> meta;
+    meta.insert("Content-type", tyyppi);
+    meta.insert("Filename", nimi);
+
+    KpKysely *kysely = rooli.isEmpty() ?
+                           new PilviKysely(pilviModel_, KpKysely::POST, QString("/liitteet/%1").arg(tosite)) :
+                           new PilviKysely(pilviModel_, KpKysely::PUT, QString("/liitteet/%1/%2").arg(tosite).arg(rooli));
+    connect(kysely, &KpKysely::vastaus, this, &PilveenSiirto::tallennaSeuraavaLiite);
+    connect(kysely, &KpKysely::virhe, this, &PilveenSiirto::liiteEpaonnistui);
+    kysely->lahetaTiedosto(data, meta);
+    ui->progressBar->setValue(ui->progressBar->value()+1);
+
+}
+
+void PilveenSiirto::liiteEpaonnistui(int virhe)
+{
+    yrityksia_--;
+    if(yrityksia_ < 0) {
+        siirtoVirhe(virhe);
+    } else {
+        qCritical() << "Siirtovirhe " << virhe;
+        QTimer::singleShot(5000, this, &PilveenSiirto::tallennaTamaLiite);
     }
 }
 

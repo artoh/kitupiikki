@@ -103,7 +103,7 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
                 kp()->networkManager()->post(request, ba) :
                 kp()->networkManager()->put(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
-    connect(reply, &QNetworkReply::errorOccurred,
+    connect(reply, &QNetworkReply::errorOccurred, this,
         [this](QNetworkReply::NetworkError code){ this->verkkovirhe(code); });
 }
 
@@ -141,6 +141,7 @@ void PilviKysely::vastausSaapuu()
     }
 
     this->deleteLater();
+    reply->deleteLater();
 }
 
 void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)

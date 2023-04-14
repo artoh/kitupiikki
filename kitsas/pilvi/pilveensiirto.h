@@ -59,6 +59,8 @@ private:
     void tallennaTosite(QVariant* data);
     void tallennaLiitteet();
     void tallennaSeuraavaLiite();
+    void tallennaTamaLiite();
+    void liiteEpaonnistui(int virhe);
     void tallennaBudjetit();
     void tallennaBudjetti(const QString& tilikausi, QVariant* data);
     void tallennaVakioviitteet();
@@ -78,6 +80,7 @@ private:
     int tositelkm_ = 0;
     int liitelkm_ = 0;
     int pilviId_ = 0;
+    int yrityksia_ = 0;
 
     QQueue<int> kumppanit;
     QQueue<int> tositteet;

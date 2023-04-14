@@ -285,7 +285,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 
 
     emit kirjauduttu(kayttaja_);
-    if( kayttaja_ ) {
+    if( kayttaja_ && timer_) {
         // Tarkastetaan tokenin uusintatarve kerran minuutissa
         timer_->start(1000 * 60);
     }
@@ -329,13 +329,13 @@ void PilviModel::tarkistaKirjautuminen()
 
 void PilviModel::alustaPilvi(QVariant *data, bool siirrossa)
 {
-    if( !progressDialog_ ) {
+    if( !progressDialog_ && !siirrossa) {
         progressDialog_ = new QProgressDialog( tr("Kirjanpitoa alustetaan..."), tr("Keskeytä"), 0, 100, qApp->activeWindow());
         connect( progressDialog_, &QProgressDialog::canceled, this, &PilviModel::keskeytaLataus);
         progressDialog_->setMinimumDuration(50);
     }
 
-    progressDialog_->setValue(30);
+    if(progressDialog_) progressDialog_->setValue(30);
 
     AvattuPilvi pilvi(*data);
     if( !pilvi.alustettu() ) {
