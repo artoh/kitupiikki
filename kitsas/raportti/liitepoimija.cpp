@@ -74,7 +74,7 @@ void LiitePoimija::viennitSaapuu(QVariant *data)
         int id = tositeMap.value("id").toInt();
 
         if( rajaus_ != Kaikki) {
-            if( map.value("tili").toString() < "2")  continue;  // Ei tasetileille
+            if( map.value("tili").toString() < "3")  continue;  // Ei tasetileille
             if( rajaus_ == Tulot) {
                 if( Euro(map.value("debet").toString())) continue; // Ei menoja
             } else if( rajaus_ == Menot) {
