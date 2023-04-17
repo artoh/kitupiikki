@@ -305,6 +305,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         const Tili* tili = model()->kitsas()->tilit()->tili( viennit_.value(1).tili() );
         const int prosentti = tili && tili->onko(TiliLaji::TULOS) ? value.toInt() : 0;
         viennit_[1].setAlvProsentti( (double) prosentti );
+        break;
     }
     case KOHDENNUS:
         for(int i=1; i < viennit_.count(); i++)
