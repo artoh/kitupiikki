@@ -114,7 +114,8 @@ public:
         AvausKuukausittain,
         TilinAvausPvm,
         MaventaAutentikointiTila,
-        VeroOmaViite
+        VeroOmaViite,
+        OhitaAlvLukko
     };
 
 

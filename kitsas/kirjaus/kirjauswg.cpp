@@ -827,14 +827,19 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 
 void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
 {
-    ui->tositePvmEdit->setEnabled(sallitaanko == Sallittu);
-    ui->tositetyyppiCombo->setEnabled(sallitaanko == Sallittu);
+     bool alvSallittu = sallitaanko == AlvLukittu ?
+                       ( kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko) && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) ):
+                       sallitaanko == Sallittu;
+
+
+    ui->tositePvmEdit->setEnabled( alvSallittu );
+    ui->tositetyyppiCombo->setEnabled( alvSallittu );
     ui->kommentitEdit->setEnabled(sallitaanko != Lukittu);
     ui->otsikkoEdit->setEnabled(sallitaanko != Lukittu);
     ui->lisaaliiteNappi->setEnabled(sallitaanko != Lukittu);
-    ui->poistaLiiteNappi->setEnabled(sallitaanko == Sallittu);
-    ui->lisaaRiviNappi->setEnabled(sallitaanko == Sallittu);
-    ui->lisaaVientiNappi->setEnabled(sallitaanko == Sallittu);
+    ui->poistaLiiteNappi->setEnabled( alvSallittu );
+    ui->lisaaRiviNappi->setEnabled( alvSallittu );
+    ui->lisaaVientiNappi->setEnabled( alvSallittu );
     ui->huomioMerkki->setEnabled( sallitaanko != Lukittu);
 
     tyhjennaViennitAktio_->setEnabled( sallitaanko == Sallittu);
@@ -852,7 +857,7 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     ui->poistariviNappi->setVisible( !apuri_);
 
     if( apuri_ ) {
-        apuri_->salliMuokkaus(sallitaanko == Sallittu);
+        apuri_->salliMuokkaus( alvSallittu );
     }
 }
 

@@ -29,6 +29,7 @@ VeroMaaritys::VeroMaaritys() :
     connect( tila, &VeroVarmenneTila::paivitetty, this, &VeroMaaritys::tilaPaivitetty);
 
     connect( ui->maksuALVNappi, &QPushButton::clicked, this, &VeroMaaritys::maksuAlv);
+    connect( ui->ohitaLukkoCheck, &QCheckBox::clicked, this, &VeroMaaritys::alvLukkoPurku);
 
     ui->kausiCombo->addItem(tr("Kuukausi"),1);
     ui->kausiCombo->addItem(tr("Neljännesvuosi"),3);
@@ -208,6 +209,20 @@ void VeroMaaritys::maksuAlv()
         else
             kp()->asetukset()->poista("MaksuAlvLoppuu");
         paivitaMaksuAlvTieto();
+    }
+}
+
+void VeroMaaritys::alvLukkoPurku()
+{
+    if( ui->ohitaLukkoCheck->isChecked()) {
+        if( QMessageBox::question(this, tr("Tositteiden muokkaaminen alv-ilmoituksen antamisen jälkeen"),
+                                  tr("Otatko todella käyttöön tositteiden muokkaamisen alv-ilmoituksen antamisen jälkeen?\n\n"
+                                  "Olet vastuussa siitä, jos tositteiden muokkaaminen edellyttää uuden alv-ilmoituksen antamista.\n\n"
+                                  "Huomioi Kirjanpitolan 2. luvun 7§ 2. mom. kielto kirjanpidon sisällön muokkaamisesta sen jälkeen "
+                                  "kun kirjanpidosta viranomaiselle verotusta varten annettu ilmoitus on tehty.")) != QMessageBox::Yes) {
+            ui->ohitaLukkoCheck->setChecked(false);
+            ilmoitaMuokattu();
+        }
     }
 }
 

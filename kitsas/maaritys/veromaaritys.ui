@@ -102,6 +102,25 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Tositteiden lukitseminen</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QCheckBox" name="ohitaLukkoCheck">
+        <property name="text">
+         <string>Salli tositteiden muokkaaminen alv-ilmoituksen antamisen jälkeen</string>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string notr="true">OhitaAlvLukko</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Viitenumerot</string>
@@ -173,6 +192,13 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="puhelinEdit">
+        <property name="Asetus" stdset="0">
+         <string notr="true">VeroYhteysPuhelin</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
@@ -180,13 +206,6 @@
         </property>
         <property name="buddy">
          <cstring>puhelinEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="puhelinEdit">
-        <property name="Asetus" stdset="0">
-         <string notr="true">VeroYhteysPuhelin</string>
         </property>
        </widget>
       </item>
