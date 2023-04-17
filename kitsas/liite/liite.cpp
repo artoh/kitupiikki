@@ -38,6 +38,7 @@ Liite::Liite(LiitteetModel *model, const QByteArray &ba, const QString &polku, c
 
     liiteId_ = 0;
     nimi_ = info.fileName();
+    polku_ = polku;
     rooli_ = rooli;    
     tyyppi_ = KpKysely::tiedostotyyppi(ba);
     cache_ = new CacheLiite();
