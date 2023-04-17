@@ -20,6 +20,8 @@ TukiWidget::TukiWidget(QWidget *parent) :
 
     if( kp()->pilvi()->kayttaja()) {
         kirjauduttu( kp()->pilvi()->kayttaja() );
+    } else {
+        ui->tunnusGroup->hide();
     }
 }
 
