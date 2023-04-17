@@ -28,7 +28,7 @@ protected:
     void dropEvent(QDropEvent *event);
 
 
-    static QDate kkPaivaksi(const QString teksti);
+
 protected:
     TilinavausModel* model_;
     QSortFilterProxyModel* proxy_;

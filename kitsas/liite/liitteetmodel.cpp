@@ -16,6 +16,7 @@
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
 #include "tuonti/palkkafituonti.h"
+#include "tuonti/procountorsaldotuonti.h"
 #include "pilvi/pilvikysely.h"
 
 #include <QBuffer>
@@ -177,14 +178,15 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
         return false;
 
     Liite* uusiLiite = new Liite(this, sisalto, polku);
-    if( uusiLiite->tyyppi() == "application/octet-stream") {
+    if( uusiLiite->tyyppi() == "application/octet-stream" && !sisalto.startsWith("Laatija:;")) {
         if(QMessageBox::question(nullptr, tr("Liitetiedoston tyyppiä ei tueta"),
                               tr("Tätä liitetiedostoa ei voi välttämättä näyttää Kitsaalla eikä sisällyttää arkistoon.\n"
                                  "Haluatko silti lisätä tämän tiedoston?"),
                                  QMessageBox::Yes | QMessageBox::No,
-                                 QMessageBox::No) != QMessageBox::Yes)
-        delete uusiLiite;
-        return false;
+                                  QMessageBox::No) != QMessageBox::Yes) {
+            delete uusiLiite;
+            return false;
+        }
     }
 
     // Tallennus
@@ -453,6 +455,8 @@ void LiitteetModel::tuoLiite(const QString& tyyppi, const QByteArray& sisalto)
 
     if( tyyppi == "text/csv" && sisalto.startsWith("T;") ) {
         emit tuonti( PalkkaFiTuonti::tuo(sisalto) );
+    } else if( sisalto.startsWith("Laatija:;") && sisalto.contains("Kirjanpitoraportin tyyppi")) {
+        emit tuonti( ProcountorSaldoTuonti::tuo(sisalto));
     } else if( sisalto.startsWith("T00322100") || tyyppi == "text/csv" ) {
         QVariant tuotu = sisalto.startsWith("T00322100") ?
                     Tuonti::TitoTuonti::tuo(sisalto)  // Konekielinen tiliote

@@ -317,6 +317,7 @@ SOURCES += \
     $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/tuonti/pdf/tuontiinfo.cpp \
+    $$PWD/tuonti/procountorsaldotuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -751,6 +752,7 @@ HEADERS += \
     $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
     $$PWD/tuonti/pdf/tuontiinfo.h \
+    $$PWD/tuonti/procountorsaldotuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \

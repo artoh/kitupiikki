@@ -7,6 +7,7 @@
 
 #include "tuonti/csvtuonti.h"
 #include "tuonti/tilimuuntomodel.h"
+#include "tuonti/procountorsaldotuonti.h"
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -107,28 +108,6 @@ void TilinAvausView::dropEvent(QDropEvent *event)
 
 }
 
-QDate TilinAvausView::kkPaivaksi(const QString teksti)
-{
-    if( teksti.contains(" - ")) {
-        QStringList osat = teksti.split(" - ");
-        if( osat.count() == 2) {
-            QDate loppu = QDate::fromString(osat.last(),"dd.MM.yyyy");
-            if(loppu.isValid()) return loppu;
-        }
-    }
-
-    QStringList patkina = teksti.split("/");
-    if( patkina.length() == 2) {
-        int kk = patkina.at(0).toInt();
-        int vvvv = patkina.at(1).toInt();
-        if( kk > 0 && kk < 13 && vvvv > 2010 && vvvv < 2200) {
-            QDate eka(vvvv, kk, 1);
-            return QDate(vvvv, kk, eka.daysInMonth());
-        }
-    }
-    return QDate();
-}
-
 void TilinAvausView::tuoAvausTiedosto(const QString &polku)
 {
     QFile file(polku);
@@ -149,10 +128,10 @@ void TilinAvausView::tuoAvausTiedosto(const QString &polku)
     for(const QStringList& rivi : qAsConst(csv)) {
         if( rivi.length() < 2) continue;
 
-        if( rivi.length() > 2 && kkPaivaksi(rivi.at(1)).isValid()) {
+        if( rivi.length() > 2 && ProcountorSaldoTuonti::kkPaivaksi(rivi.at(1)).isValid()) {
             QList<QDate>  haettuPaivaLista;
             for(int i=1; i < rivi.length(); i++) {
-                QDate paiva = kkPaivaksi(rivi.at(i));
+                QDate paiva = ProcountorSaldoTuonti::kkPaivaksi(rivi.at(i));
                 if( !paiva.isValid())
                     break;
                 if( paiva < kausi.alkaa() || paiva > kausi.paattyy()) {
