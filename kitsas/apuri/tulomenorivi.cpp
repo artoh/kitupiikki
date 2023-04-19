@@ -258,7 +258,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT )
     {
 
-        const bool kaanteinen = verokoodi != AlvKoodi::MYYNNIT_NETTO;
+        const bool kaanteinen = verokoodi != AlvKoodi::MYYNNIT_NETTO && verokoodi != AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
         TositeVienti verorivi;
         verorivi.setTyyppi( TositeVienti::MYYNTI + TositeVienti::ALVKIRJAUS );

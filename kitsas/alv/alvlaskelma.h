@@ -24,6 +24,7 @@
 #include <QVariantMap>
 #include <QHash>
 #include <QSet>
+#include <QQueue>
 
 class Tosite;
 
@@ -90,7 +91,6 @@ public slots:
     void tallenna();
 
 protected:
-    void tallennaViennit(const QVariantList& viennit, bool maksuperusteinen=false);
     void viennitSaapuu(QVariant* viennit);
     void haeHuojennusJosTarpeen();
     void laskeHuojennus(QVariant* viennit);
@@ -113,11 +113,9 @@ protected:
     void yvRivi(int koodi, const QString& selite, Euro euro);
     Euro kotimaanmyyntivero(int prosentinsadasosa);
 
-    void tilaaMaksuperusteisenTosite();
-    void kasitteleMaksuperusteinen(const QVariantMap& map);
-    void maksuperusteTositesaapuu(QVariant* variant, Euro euro);
-    void tilaaNollausLista(const QDate& pvm);
+    void tilaaNollausLista(const QDate& pvm, bool palautukset = false);
     void nollaaMaksuperusteisetErat(QVariant* variant, const QDate &pvm);
+    void nollaaMaksuperusteinenEra(QVariant* variant);
 
     void laskeMarginaaliVerotus(int kanta);
     void marginaaliRivi(const QString selite, int kanta, Euro summa);
@@ -134,7 +132,9 @@ protected:
     QList<int> maksuperusteTositteet_;
     QList<QPair<int,Euro>> nollattavatErat_;
     QSet<int> nollatutErat_;
-    int nollattavatHaut_ = 1;
+    int nollattavatHaut_ = 0;
+
+    QQueue<int> nollattavatMaksuperusteErat_;
 
     Euro maksettava_;
 
