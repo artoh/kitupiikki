@@ -96,7 +96,14 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
     QMapIterator<QString,QString> iter(meta);
     while( iter.hasNext()) {
         iter.next();
-        request.setRawHeader(iter.key().toLatin1(), iter.value().toLatin1());
+        const QString name = iter.key();
+        QString value = iter.value();
+        value.remove(turvaRe__);
+        request.setRawHeader(name.toLatin1(), value.toLatin1());
+
+        if( name == "Filename") {
+            request.setRawHeader("Filename-Base64", iter.value().toUtf8().toBase64());
+        }
     }
 
     QNetworkReply *reply = metodi()==KpKysely::POST ?
@@ -162,3 +169,5 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
         emit kp()->onni(tr("<b>Palvelinvirhe</b><br>Palvelu on ehkä tilapäisesti poissa käytöstä"), Kirjanpito::Verkkovirhe);
     kp()->odotusKursori(false);
 }
+
+QRegularExpression PilviKysely::turvaRe__ = QRegularExpression("[^A-Za-z0-9/.]");

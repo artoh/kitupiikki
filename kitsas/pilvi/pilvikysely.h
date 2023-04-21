@@ -21,6 +21,7 @@
 #include "pilvimodel.h"
 
 #include <QNetworkReply>
+#include <QRegularExpression>
 
 class YhteysModel;
 
@@ -37,6 +38,9 @@ public slots:
 protected slots:
     void vastausSaapuu();
     void verkkovirhe(QNetworkReply::NetworkError koodi);
+
+protected:
+    static QRegularExpression turvaRe__;
 
 };
 
