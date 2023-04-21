@@ -185,20 +185,31 @@ void AlvLaskelma::kirjoitaMaksutiedot()
 {
     if(!( maksettava_ > Euro::Zero)) return;
 
-    AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( loppupvm_ );
-    if( kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_) return;
 
     const QString verottajaTilit = kp()->pilvi()->service("veroiban");
     const QStringList verottajaTiliLista = verottajaTilit.split(",");
-    if( verottajaTiliLista.isEmpty()) return;
+    if( verottajaTilit.isEmpty()) return;
+
+    const QString viite = kp()->asetukset()->asetus(AsetusModel::VeroOmaViite).remove(QChar(' '));
+    if( viite.isEmpty()) return;
+
+    if( kp()->alvIlmoitukset()->kaudet()->onko()) {
+        AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( loppupvm_ );
+        if( kausi.alkupvm().isValid() && (kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_)) {
+            RaporttiRivi poikkeus;
+            poikkeus.lisaa(kaanna("Laskelman kausi poikkeaa verottajan järjestelmässä olevasta alv-kaudesta %1 - %2").arg(kausi.alkupvm().toString("dd.MM.yyyy"), kausi.loppupvm().toString("dd.MM.yyyy")),5);
+            rk.lisaaRivi(poikkeus);
+            return;
+        }
+    }
+
+    QDate erapvm = kp()->alvIlmoitukset()->erapaiva(loppupvm_);
 
     RaporttiRivi otsikko;
     otsikko.lisaa(kaanna("Maksutiedot"),5);
     otsikko.lihavoi();
     otsikko.asetaKoko(12);
     rk.lisaaRivi(otsikko);
-
-    const QString viite = kp()->asetukset()->asetus(AsetusModel::VeroOmaViite).remove(QChar(' '));
 
     RaporttiRivi viiteRivi;
     viiteRivi.lisaa(kaanna("Viitenumero"),2);
@@ -207,7 +218,7 @@ void AlvLaskelma::kirjoitaMaksutiedot()
 
     RaporttiRivi eraPvmRivi;
     eraPvmRivi.lisaa(kaanna("Eräpäivä"),2);
-    eraPvmRivi.lisaa( kausi.erapvm() );
+    eraPvmRivi.lisaa( erapvm );
     rk.lisaaRivi( eraPvmRivi );
 
     RaporttiRivi summaRivi;
@@ -237,7 +248,7 @@ void AlvLaskelma::kirjoitaMaksutiedot()
                        .arg(maksettava_.cents(), 8, 10, QChar('0'))
                        .arg(viite.mid(2,2) )
                        .arg(viite.mid(4),21,QChar('0'))
-                       .arg( kausi.erapvm().toString("yyMMdd"))
+                       .arg( erapvm.toString("yyMMdd"))
                        .remove(QChar(' '));
 
 
