@@ -62,6 +62,7 @@ public:
 
     Euro brutto() const;
     Euro netto() const;
+    Euro naytettava() const;
 
     bool nettoSyotetty() const { return netto_; }
 

@@ -83,12 +83,8 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
                 return QString("%1 %").arg(alv,0,'f',0);
         }
         else if( index.column() == EUROA)
-        {            
-            qlonglong sentit =
-                    rivit_.at( index.row() ).netto();
-
-            if( qAbs(sentit) > 1e-5 )
-               return QVariant( QString("%L1 €").arg(sentit / 100.0,0,'f',2));
+        {
+            return rivit_.at( index.row() ).naytettava().display(false);
         }
     }
     else if( role == Qt::TextAlignmentRole)

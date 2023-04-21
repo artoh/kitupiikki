@@ -103,6 +103,15 @@ Euro TulomenoRivi::netto() const
         return netto_;
 }
 
+Euro TulomenoRivi::naytettava() const
+{
+    // Marginaalimyynneistä näytetään brutto, muista netti
+    if( alvkoodi() == AlvKoodi::MYYNNIT_MARGINAALI || alvkoodi() == AlvKoodi::OSTOT_MARGINAALI)
+        return brutto();
+    else
+        return netto();
+}
+
 void TulomenoRivi::setBrutto(Euro eurot)
 {
     brutto_ = eurot;
