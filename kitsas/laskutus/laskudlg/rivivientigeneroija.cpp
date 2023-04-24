@@ -222,7 +222,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
             vienti.setEra(-1);  // Ennakkolaskujen erät seurannassa
         } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO &&
                  kitsas_->onkoMaksuperusteinenAlv(pvm)) {
-            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;            
+            alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
         }
 
         vienti.setAlvKoodi(alvkoodi);
@@ -273,6 +273,7 @@ void RiviVientiGeneroija::generoiVeroVienti(const double prosentti, const Euro& 
         kitsas_->onkoMaksuperusteinenAlv(pvm) ) {
         vienti.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON );
         vienti.setTili( kitsas_->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero() );
+        vienti.setEra(-1);  // Maksuperusteisella alv-kirjauksella pitää olla tase-erä
     } else if( lasku.maksutapa() == Lasku::ENNAKKOLASKU ) {
         vienti.setAlvKoodi( AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON);
         vienti.setTili( kitsas_->asetukset()->luku(AsetusModel::EnnakkoAlvTili) );
