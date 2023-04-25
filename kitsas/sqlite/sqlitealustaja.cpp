@@ -85,13 +85,15 @@ bool SqliteAlustaja::alustaTietokanta(const QString &polku)
 
     QString sqluonti = in.readAll();
     sqluonti.replace("\n","");
+    sqluonti.replace("\r","");
     QStringList sqlista = sqluonti.split(";");
 
-    for(QString kysely : sqlista)
+    for(const QString& kysely : sqlista)
     {
         if(!kysely.isEmpty() &&  !query.exec(kysely))
         {
-            QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"), tr("Virhe tietokantaa luotaessa: %1 (%2)").arg(query.lastError().text()).arg(kysely) );
+            qWarning() << "SQL-lause " << kysely << " epäonnistui ";
+            QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"), tr("Virhe tietokantaa luotaessa: %1 (%2)").arg(query.lastError().text(), kysely) );
             return false;
         }
         qApp->processEvents();
