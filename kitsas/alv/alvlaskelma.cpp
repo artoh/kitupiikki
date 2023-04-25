@@ -627,7 +627,7 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
     // Jos maksuperusteinen nollaus, tehdään se ensin
     // Jos maksuperusteinen käytössä, ovat erääntyvät vuosi sitten tehdyt erät
     if( kp()->onkoMaksuperusteinenAlv(loppupvm_))
-        tilaaNollausLista(alkupvm_.addYears(-1));
+        tilaaNollausLista(loppupvm_.addYears(-1));
     else if( kp()->asetukset()->pvm("MaksuAlvLoppuu") == alkupvm_)
         // Kun maksuperusteinen alv päätetään, erääntyvät kaikki erät
         tilaaNollausLista( alkupvm_, true);
