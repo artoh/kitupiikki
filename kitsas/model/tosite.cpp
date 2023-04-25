@@ -316,20 +316,19 @@ void Tosite::lataa(const QVariantMap &map)
 
     emit tyyppiMuuttui( tyyppi());
 
-    qApp->processEvents();
 
     emit pvmMuuttui( pvm() );
     emit otsikkoMuuttui( otsikko() );
     emit sarjaMuuttui( sarja() );
     emit tunnisteMuuttui( tunniste() );
     emit kommenttiMuuttui( kommentti());
-    emit huomioMuuttui( huomio());
-
-    qApp->processEvents();
+    emit huomioMuuttui( huomio());    
 
     if( tila() != Tila::POISTETTU) {
         tallennettu_ = tallennettava();
     }
+
+
     resetointiKaynnissa_ = false;
     QTimer::singleShot(100, this, &Tosite::tarkasta);
 
