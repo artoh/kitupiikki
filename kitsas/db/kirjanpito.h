@@ -389,7 +389,7 @@ protected:
     QTemporaryDir *tempDir_;
     QImage logo_;
 
-    QSettings* settings_;
+    QSettings* settings_ = nullptr;
     QString portableDir_;      // Portable-ohjelman käynnistyshakemisto
 
     QStringList virheloki_;

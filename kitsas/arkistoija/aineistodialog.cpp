@@ -27,7 +27,6 @@
 #include <QDesktopServices>
 #include <QProgressDialog>
 #include <QDebug>
-#include <QSettings>
 #include <QPdfWriter>
 #include <QDesktopServices>
 #include <QRegularExpression>

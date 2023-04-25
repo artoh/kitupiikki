@@ -29,8 +29,6 @@
 #include <QToolButton>
 #include <QLabel>
 
-#include <QSettings>
-
 SaldoDock *SaldoDock::dock()
 {
     if( !instanssi__)

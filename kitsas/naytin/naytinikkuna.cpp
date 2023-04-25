@@ -47,6 +47,7 @@ NaytinIkkuna::NaytinIkkuna() : QMainWindow(nullptr)
 
 NaytinIkkuna::~NaytinIkkuna()
 {
+    kp()->settings()->setValue("NaytinIkkuna",saveGeometry());
 }
 
 void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)

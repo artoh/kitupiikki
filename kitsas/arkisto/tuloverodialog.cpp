@@ -53,14 +53,12 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
 
     setAttribute(Qt::WA_DeleteOnClose);
 
-    QSettings settings;
-    restoreGeometry( settings.value("TuloveroDialog").toByteArray() );
+    restoreGeometry( kp()->settings()->value("TuloveroDialog").toByteArray() );
 }
 
 TuloveroDialog::~TuloveroDialog()
 {
-    QSettings settings;
-    settings.setValue("TuloveroDialog", saveGeometry());
+    kp()->settings()->setValue("TuloveroDialog", saveGeometry());
 
     delete ui;
 }

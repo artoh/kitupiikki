@@ -372,14 +372,12 @@ void NaytinView::zoomOut()
 
 QString NaytinView::raporttipolku() const
 {
-    QSettings settings;
-    return settings.value(kp()->asetukset()->uid() + "/raporttipolku", QDir::homePath()).toString();
+    return kp()->settings()->value(kp()->asetukset()->uid() + "/raporttipolku", QDir::homePath()).toString();
 }
 
 void NaytinView::setRaporttipolku(const QString &polku)
-{
-    QSettings settings;
-    settings.setValue( kp()->asetukset()->uid() + "/raporttipolku", QFileInfo(polku).absolutePath() );
+{    
+    kp()->settings()->setValue( kp()->asetukset()->uid() + "/raporttipolku", QFileInfo(polku).absolutePath() );
 }
 
 QString NaytinView::otsikko() const

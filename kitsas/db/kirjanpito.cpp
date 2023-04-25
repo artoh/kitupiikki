@@ -134,7 +134,7 @@ Kirjanpito::~Kirjanpito()
 {
     pilviModel_->sulje();
     sqliteModel_->sulje();
-    tietokanta_.close();
+    tietokanta_.close();    
     delete tempDir_;
     delete printer_;
 }
