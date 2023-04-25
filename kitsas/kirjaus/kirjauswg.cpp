@@ -129,8 +129,8 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     QMenu *valikko = new QMenu(this);
     valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
 
-    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
-    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(pohjaksi()), QKeySequence("Ctrl+T"));
+    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), QKeySequence("Ctrl+P"), this, &KirjausWg::tulostaTosite );
+    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), QKeySequence("Ctrl+T"), this, &KirjausWg::pohjaksi );
     mallipohjaksiAktio_ = valikko->addAction(QIcon(":/pic/uusitiedosto.png"), tr("Tallenna mallipohjaksi"), [this] {this->tosite()->tallenna(Tosite::MALLIPOHJA);});
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));    
 

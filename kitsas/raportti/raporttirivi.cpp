@@ -89,20 +89,20 @@ void RaporttiRivi::lisaa(const QDate &pvm)
 
 QString RaporttiRivi::teksti(int sarake)
 {
-    QVariant arvo = sarakkeet_.at(sarake).arvo;    
+    QVariant arvo = sarakkeet_.at(sarake).arvo;
 
-    if( arvo.type() == QVariant::LongLong )
+    if( arvo.typeId() == QMetaType::LongLong )
     {
         if( sarakkeet_.at(sarake).tulostaPlus && arvo.toLongLong() > 0)
             return QString("+%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
 
         return QString("%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
-    else if( arvo.type() == QVariant::Date )
+    else if( arvo.typeId() == QMetaType::QDate)
     {
         return arvo.toDate().toString("dd.MM.yyyy");
     }
-    else if( arvo.type() == QVariant::String)
+    else if( arvo.typeId() == QMetaType::QString)
     {
         return arvo.toString();
     }

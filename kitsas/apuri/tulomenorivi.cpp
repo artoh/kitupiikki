@@ -222,7 +222,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
                              verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
                         ) ? netto : maara;
 
-    if( menoa ^ kirjattava < Euro::Zero) {
+    if( menoa ^ (kirjattava < Euro::Zero)) {
         vienti.setDebet( kirjattava.abs() );
     } else {
         vienti.setKredit( kirjattava.abs() );
@@ -299,7 +299,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         tuonti.setTyyppi(TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS);
         tuonti.setPvm(pvm);
         tuonti.setTili( tilinumero() );
-        if( menoa ^ netto < Euro::Zero)
+        if( menoa ^ ( netto < Euro::Zero))
             tuonti.setKredit(netto.abs());
         else
             tuonti.setDebet( netto.abs());
@@ -323,7 +323,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         palautus.setAlvKoodi( AlvKoodi::VAHENNYSKELVOTON);
         palautus.setAlvProsentti( alvprosentti() );
 
-        if( menoa ^ vero < Euro::Zero)
+        if( menoa ^ ( vero < Euro::Zero))
             palautus.setDebet( vero.abs() );
         else
             palautus.setKredit( vero.abs());

@@ -115,7 +115,7 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-bool TilioteModel::insertRows(int row, int count, const QModelIndex &parent)
+bool TilioteModel::insertRows(int row, int count, const QModelIndex & /* parent */)
 {
     beginInsertRows(QModelIndex(),row, row + count - 1);
 

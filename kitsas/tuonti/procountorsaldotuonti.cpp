@@ -77,7 +77,7 @@ QVariantMap ProcountorSaldoTuonti::tuo(const QByteArray &data)
                     vienti.setTili(tiliNro);
                     Euro saldo = era.saldo();
                     if( saldo == Euro::Zero) continue;
-                    bool debet = tili->onko(TiliLaji::VASTATTAVAA) ^ saldo < Euro::Zero;
+                    bool debet = tili->onko(TiliLaji::VASTATTAVAA) ^ (saldo < Euro::Zero);
                     if(debet)
                         vienti.setDebet(saldo.abs());
                     else

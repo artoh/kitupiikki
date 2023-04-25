@@ -452,7 +452,7 @@ void PilveenSiirto::tallennaSeuraavaTuote()
     }
 }
 
-void PilveenSiirto::valmis(QVariant* data)
+void PilveenSiirto::valmis(QVariant* /*data*/)
 { 
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, "/info");

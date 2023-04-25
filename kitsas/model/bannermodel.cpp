@@ -125,7 +125,6 @@ void BannerModel::lataa()
     bannerit_.clear();
     latausLista_.clear();
 
-    const int avainpituus = ASETUSPOLKU.length();
     for(auto avain : kp()->asetukset()->avaimet(ASETUSPOLKU.arg(QString()))) {
         const QString id = avain.mid(avain.lastIndexOf("/") + 1);
         const QString nimi = kp()->asetukset()->asetus(avain);

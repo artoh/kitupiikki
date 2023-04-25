@@ -133,7 +133,7 @@ void TuoteTuontiModel::arvaaSarakkeet()
         } else if(txt.contains("alvprosentti", Qt::CaseInsensitive)) {
             sarakkeet_[i] = ALVPROSENTTI;
             otsikkoja = true;
-        } else if(txt.contains("koodi"), Qt::CaseInsensitive) {
+        } else if(txt.contains("koodi", Qt::CaseInsensitive)) {
             sarakkeet_[i] = KOODI;
             otsikkoja = true;
         }

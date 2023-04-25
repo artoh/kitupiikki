@@ -68,7 +68,6 @@ void TilioteView::setModel(QAbstractItemModel *model)
 
 void TilioteView::keyPressEvent(QKeyEvent *event)
 {
-    TilioteModel* myModel = qobject_cast<TilioteModel*>(model());
 
     if( event->key() == Qt::Key_Insert) {        
         model()->insertRow(currentIndex().row()+1);

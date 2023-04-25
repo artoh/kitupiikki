@@ -66,7 +66,6 @@ void TilausValintaSivu::alusta(int nykyinen, bool puolivuosittain, double palaut
 void TilausValintaSivu::paivita()
 {
     int pilvia = ui->planView->currentIndex().data(PlanModel::PilviaRooli).toInt();
-    int pilviayht = pilvia + ui->lisaSpin->value();
     double pilvihinta = ui->planView->currentIndex().data(PlanModel::LisaPilviHinta).toDouble();
 
     QString info;

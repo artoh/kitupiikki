@@ -262,15 +262,15 @@ void NaytinIkkuna::teeToolbar()
     tb->addSeparator();
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita"));
-    zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
+    zoomAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     connect( zoomAktio_, &QAction::triggered, this, [this] { this->view()->zoomFit();} );
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
-    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
+    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
     connect( zoomInAktio_, &QAction::triggered, this, [this] { this->view()->zoomIn(); });
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"), this);
-    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
+    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     connect( zoomOutAktio_, &QAction::triggered, this, [this] { this->view()->zoomOut();} );
 
     tb->addAction(zoomAktio_);
