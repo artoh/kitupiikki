@@ -37,7 +37,7 @@ public:
 
     void clear();
 
-    void set(const QString& avain, const QVariant& arvo);
+    void set(const QString& avain, const QVariant& arvo);    
 
     void setEuro(const QString& avain, const Euro& arvo);
     void setStr(const QString& avain,  const QString &arvo);
