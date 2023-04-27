@@ -86,6 +86,15 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
     else if( ba.startsWith("T00322100"))
         return("text/plain");
 
+    // Tunnistetaan tekstitiedosto
+    if( ba.length() < 1024 * 10) {
+        QString string = QString::fromUtf8(ba);
+        for(const QChar& ch : string) {
+            if( !ch.isPrint()) return "application/octect-stream";
+        }
+        return "text/plain";
+    }
+
     return "application/octet-stream";
 }
 
