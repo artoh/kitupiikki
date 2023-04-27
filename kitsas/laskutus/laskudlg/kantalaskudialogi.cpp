@@ -719,6 +719,11 @@ bool KantaLaskuDialogi::tarkasta()
         return false;
     }
 
+    if( maksutapa() == Lasku::SUORITEPERUSTE && !ui->toimitusDate->date().isValid()) {
+        QMessageBox::critical(this, tr("Puuttuva toimituspäivä"), tr("Suoritusperusteiselle laskulle on määriteltä toimituspäivä, koska suoritusperusteinen lasku kirjataan kirjanpitoon toimituspäivän mukaisesti."));
+        return false;
+    }
+
     return true;
 }
 
