@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tee tilinpäätökseen tulostuviin tietoihin liittyvät valinnat.&lt;/p&gt;&lt;p&gt;Jos olet tehnyt vahvistetun tilinpäätöksen muulla ohjelmalla, lataa pdf-tiedosto Kitupiikin arkistoon valitsemalla &lt;span style=&quot; font-weight:600;&quot;&gt;Lataa tiedosto&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tee tilinpäätökseen tulostuviin tietoihin liittyvät valinnat.&lt;/p&gt;&lt;p&gt;Jos olet tehnyt vahvistetun tilinpäätöksen muulla ohjelmalla, lataa pdf-tiedosto Kitsaan arkistoon valitsemalla &lt;span style=&quot; font-weight:600;&quot;&gt;Lataa tiedosto&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
