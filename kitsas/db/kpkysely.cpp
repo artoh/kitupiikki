@@ -87,10 +87,12 @@ QString KpKysely::tiedostotyyppi(const QByteArray &ba)
         return("text/plain");
 
     // Tunnistetaan tekstitiedosto
-    if( ba.length() < 1024 * 10) {
+    if( ba.length() < 1024 * 100) {
         QString string = QString::fromUtf8(ba);
         for(const QChar& ch : string) {
-            if( !ch.isPrint()) return "application/octect-stream";
+            if( !ch.isPrint() && !ch.isSpace()) {
+                return "application/octet-stream";
+            }
         }
         return "text/plain";
     }

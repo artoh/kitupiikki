@@ -26,7 +26,7 @@ QVariantMap ProcountorSaldoTuonti::tuo(const QByteArray &data)
             QList<QDate>  haettuPaivaLista;
             for(int i=1; i < rivi.length(); i++) {
                 QDate paiva = ProcountorSaldoTuonti::kkPaivaksi(rivi.at(i));
-                if( !paiva.isValid())
+                if( !paiva.isValid() || haettuPaivaLista.contains(paiva))
                     break;
                 haettuPaivaLista << paiva;
             }
@@ -77,7 +77,7 @@ QVariantMap ProcountorSaldoTuonti::tuo(const QByteArray &data)
                     vienti.setTili(tiliNro);
                     Euro saldo = era.saldo();
                     if( saldo == Euro::Zero) continue;
-                    bool debet = tili->onko(TiliLaji::VASTATTAVAA) ^ (saldo < Euro::Zero);
+                    bool debet = tili->onko(TiliLaji::VASTAAVAA) ^ (saldo < Euro::Zero);
                     if(debet)
                         vienti.setDebet(saldo.abs());
                     else
