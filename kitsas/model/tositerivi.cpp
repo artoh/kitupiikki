@@ -52,7 +52,7 @@ void TositeRivi::setABrutto(const double hinta)
 void TositeRivi::setAleProsentti(const double prosentti)
 {
     if( qAbs(prosentti) < 1e-3)
-        remove("aleprosentti");
+        unset("aleprosentti");
     else
         set("aleprosentti", prosentti);
 }
@@ -70,7 +70,7 @@ double TositeRivi::laskettuAleProsentti() const
 void TositeRivi::setEuroAlennus(const double euro)
 {
     if( qAbs(euro) < 1e-3)
-        remove("euroalennus");
+        unset("euroalennus");
     else
         set("euroalennus", euro );
 }
