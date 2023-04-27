@@ -204,7 +204,10 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
     uusiLiite->liita(tallennusOcr);
 
     // Tuonti
-    if( tuoTiedot && !tallennusOcr) {
+    // Procountor-avaus tuodaan vaikka liitteitä olisi jo aiemminkin, jotta voidaan tuoda tase ja tuloslaskelma
+    if( liite.startsWith("Laatija:;") && liite.contains("Kirjanpitoraportin tyyppi")) {
+            emit tuonti( ProcountorSaldoTuonti::tuo(sisalto));
+    } else if( tuoTiedot && !tallennusOcr) {
         if( uusiLiite->tyyppi() == "application/pdf") {
             // Tehdään pdf-tuonti heti kun on ladattuna
             pdfTuontiIndeksi_ = liitteet_.count() - 1;
