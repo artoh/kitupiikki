@@ -98,12 +98,13 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QStrin
         iter.next();
         const QString name = iter.key();
         QString value = iter.value();
-        value.remove(turvaRe__);
-        request.setRawHeader(name.toLatin1(), value.toLatin1());
 
         if( name == "Filename") {
-            request.setRawHeader("Filename-Base64", iter.value().toUtf8().toBase64());
+            // Turvataan tiedostonnimi skandeilta
+            request.setRawHeader("Filename-Base64", value.toUtf8().toBase64());
+            value.remove(turvaRe__);
         }
+        request.setRawHeader(name.toLatin1(), value.toLatin1());
     }
 
     QNetworkReply *reply = metodi()==KpKysely::POST ?
@@ -170,4 +171,4 @@ void PilviKysely::verkkovirhe(QNetworkReply::NetworkError koodi)
     kp()->odotusKursori(false);
 }
 
-QRegularExpression PilviKysely::turvaRe__ = QRegularExpression("[^A-Za-z0-9/.]");
+QRegularExpression PilviKysely::turvaRe__ = QRegularExpression("[^A-Za-z0-9/.-]");
