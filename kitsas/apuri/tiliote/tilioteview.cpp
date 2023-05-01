@@ -23,7 +23,6 @@
 
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
-#include "tiliotemodel.h"
 #include "tilioterivi.h"
 #include "db/kirjanpito.h"
 
@@ -49,13 +48,14 @@ TilioteView::TilioteView(QWidget *parent) :
     setFocusPolicy(Qt::StrongFocus);
 
     QTimer::singleShot(15, this, [this] {this->horizontalHeader()->setSectionResizeMode( TilioteRivi::SELITE, QHeaderView::Stretch );});
-    QTimer::singleShot(10, this, [this] {this->horizontalHeader()->restoreState(kp()->settings()->value("TilioteRuudukko").toByteArray());});
+    QTimer::singleShot(10, this, &TilioteView::palautaRuudukonGeometria);
 
 }
 
 TilioteView::~TilioteView()
 {
-    kp()->settings()->setValue("TilioteRuudukko", horizontalHeader()->saveState());
+    const QString ruudukkoNimi = this->horizontalHeader()->isSectionHidden(TilioteRivi::ALV) ? "TilioteRuudukko" : "TilioteRuudukkoAlvilla";
+    kp()->settings()->setValue(ruudukkoNimi, horizontalHeader()->saveState());
 }
 
 void TilioteView::setModel(QAbstractItemModel *model)
@@ -139,6 +139,12 @@ void TilioteView::resetinJalkeen()
             }
         }
     }
+}
+
+void TilioteView::palautaRuudukonGeometria()
+{
+    const QString ruudukkoNimi = this->horizontalHeader()->isSectionHidden(TilioteRivi::ALV) ? "TilioteRuudukko" : "TilioteRuudukkoAlvilla";
+    this->horizontalHeader()->restoreState(kp()->settings()->value(ruudukkoNimi).toByteArray());
 }
 
 

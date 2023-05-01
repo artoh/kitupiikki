@@ -36,6 +36,7 @@ protected:
     void resetinJalkeen();
 
 private:
+    void palautaRuudukonGeometria();
     QModelIndex lastValidIndex_;
     int lisaysIndeksi_ = 0;
 
