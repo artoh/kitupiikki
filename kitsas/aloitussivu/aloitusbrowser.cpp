@@ -358,7 +358,10 @@ void AloitusBrowser::paivitaTilinpaatosVinkki()
 void AloitusBrowser::paivitaPassiivinenVinkki()
 {
     if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) && !kp()->onkoHarjoitus() && !kp()->pilvi()->pilvi().aktiivinen()) {
-        vinkkaa("testaus", tr("Y-tunnus on jo käytössä"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), ":/pic/varoitus.png" );
+        if( kp()->asetukset()->ytunnus().isEmpty() )
+            vinkkaa("testaus", tr("Y-tunnus puuttuu"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), "varoitus.png" );
+        else
+            vinkkaa("testaus", tr("Y-tunnus on jo käytössä"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), "varoitus.png" );
     }
 }
 
