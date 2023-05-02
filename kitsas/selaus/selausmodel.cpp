@@ -413,7 +413,7 @@ QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
         return tili;
     } else if(role == Qt::BackgroundRole && !tili) {
         if( QPalette().base().color().lightness() > 128) {
-            return alternateColor ? QBrush(QColor(255, 153, 153)) : QBrush(QColor(255,179,179));
+            return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
         } else {
             return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
         }
