@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
     Kirjanpito::asetaInstanssi(&kirjanpito);
 
     QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
+    QFontDatabase::addApplicationFont(":/aloitus/FreeMono.ttf");
     QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
 
     // Fonttimääritykset
