@@ -18,7 +18,6 @@
 
 #include "ui_uusiharjoitus.h"
 #include "ui_uusitilikartta.h"
-#include "ui_uusitiedot.h"
 #include "ui_uusiloppu.h"
 #include "ui_numerointi.h"
 #include "ui_uusivastuu.h"
@@ -40,17 +39,12 @@
 #include "sijaintisivu.h"
 #include "tiedotsivu.h"
 
-#include "validator/ibanvalidator.h"
-#include "validator/ytunnusvalidator.h"
-
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
-#include "db/tositetyyppimodel.h"
 #include "sqlite/sqlitemodel.h"
 
 #include <iostream>
-#include "kieli/kielet.h"
 
 #include <QSettings>
 #include <QUuid>
