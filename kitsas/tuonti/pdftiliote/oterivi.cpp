@@ -35,7 +35,7 @@ OteRivi::OteRivi()
 void OteRivi::kasittele(const QString &teksti, TilioteOtsake::Tyyppi tyyppi, int rivi, const QDate &loppupvm)
 {
 
-//    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
+    qDebug() << "  " << TilioteOtsake::tyyppiTeksti(tyyppi) << " " << teksti;
 
     // Jos IBAN niin IBAN!
     QRegularExpressionMatch ibanMats = ibanRe__.match(teksti);
@@ -175,14 +175,14 @@ void OteRivi::setPvm(const QString &str, const QDate &loppupvm)
 
 bool OteRivi::valmis()
 {
-    if( pcRe__.match(yleinenTeksti_).hasMatch()) {
-        QStringList osat = yleinenTeksti_.split("/");
-        setKTO(ktoKoodi(osat.value(0)));
-        saajamaksaja_ = osat.value(1);
-        if( nroRe__.match(osat.value(2).trimmed()).hasMatch()) {
-            setViite(osat.value(3));
+    QRegularExpressionMatch mats = pcRe__.match(yleinenTeksti_);
+    if( mats.hasMatch()) {
+        kto_ = mats.captured(1).toInt();
+        saajamaksaja_ = mats.captured(3);
+        if( ViiteValidator::kelpaako(mats.captured(4))) {
+            setViite(mats.captured(4));
         } else {
-            viesti_ = osat.value(3);
+            viesti_ = mats.captured(4).trimmed();
         }
     }
 
@@ -341,7 +341,7 @@ void OteRivi::tyhjenna()
 {
 
     tila = NORMAALI;
-    euro_ = 0;
+    euro_ = Euro::Zero;
     arkistotunnus_.clear();
     saajamaksaja_.clear();
     kto_ = 0;
@@ -421,5 +421,5 @@ QRegularExpression OteRivi::ibanRe__("\\b[A-Z]{2}\\d{2}\\s?(\\w{4}\\s?){3,6}\\w{
 QRegularExpression OteRivi::nroRe__("\\d+");
 QRegularExpression OteRivi::emailRe__("<.*@.*>");
 QRegularExpression OteRivi::ktoRe__("(7[0-8][0-6])\\s\\w+");
-QRegularExpression OteRivi::pcRe__("(7[0-8][0-6])\\s\\w+(\\s|\\w)*/(\\s|\\w)*/(\\s|\\w)*");
+QRegularExpression OteRivi::pcRe__("(7[0-8][0-6])\\s\\w+(\\s|\\w)*/(.*?)/(.*)", QRegularExpression::UseUnicodePropertiesOption);
 }
