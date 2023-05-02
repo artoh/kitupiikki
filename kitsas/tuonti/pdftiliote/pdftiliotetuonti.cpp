@@ -44,8 +44,6 @@ QVariantMap PdfTilioteTuonti::tuo(PdfTiedosto *tiedosto)
         PdfSivu* sivu = tiedosto->sivu(s);
         for(int r = 0; r < sivu->riveja(); r++ ) {
             PdfRivi* rivi = sivu->rivi(r);
-
-//          qDebug() << r << " [" << tila_ << "] " << rivi->teksti();
             lueRivi(rivi);
         }
         tila_ = TOINENSIVU;
@@ -241,6 +239,9 @@ void PdfTilioteTuonti::nykyinenValmis()
         QVariantMap map = nykyinen_.map(kirjausPvm_);
         if(!map.isEmpty()) {
             tapahtumat_.append(map);
+            const QDate pvm = map.value("pvm").toDate();
+            if( !alkupvm_.isValid() || pvm < alkupvm_) alkupvm_ = pvm;
+            if( !loppupvm_.isValid() || pvm > loppupvm_) loppupvm_ = pvm;
         } else {
             ;
         }
