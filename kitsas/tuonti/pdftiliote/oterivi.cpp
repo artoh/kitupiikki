@@ -110,6 +110,8 @@ void OteRivi::setArkistotunnus(QString arkistotunnus, int rivi)
 
 void OteRivi::setSaajaMaksaja(const QString &nimi, int rivi)
 {
+    yleinenTeksti_.append(nimi + " ");
+
     if( nimi.length() < 6 || !nimi.contains(QRegularExpression("[A-z]"))) {
         if( ViiteValidator::kelpaako(nimi) && viite_.isEmpty() && viesti_.isEmpty() ) {
             setViite(nimi);
@@ -171,8 +173,19 @@ void OteRivi::setPvm(const QString &str, const QDate &loppupvm)
 
 
 
-bool OteRivi::valmis() const
+bool OteRivi::valmis()
 {
+    if( pcRe__.match(yleinenTeksti_).hasMatch()) {
+        QStringList osat = yleinenTeksti_.split("/");
+        setKTO(ktoKoodi(osat.value(0)));
+        saajamaksaja_ = osat.value(1);
+        if( nroRe__.match(osat.value(2).trimmed()).hasMatch()) {
+            setViite(osat.value(3));
+        } else {
+            viesti_ = osat.value(3);
+        }
+    }
+
     return euro_ && arkistotunnus_.length() > 6 &&
             arkistotunnus_.contains(QRegularExpression(nroRe__));
 }
@@ -211,7 +224,7 @@ void OteRivi::lisaaYleinen(const QString &teksti, int rivi)
     QRegularExpression viiteRe("(RF\\d{2}\\s?)?\\d+(\\s\\d+)*");
     // Päivämäärä ei kuulu tähän sarakkeeseen
     if( saajamaksaja_.isEmpty() && iso.length() > 3 && iso.length() < 11 && strPvm(iso, QDate::currentDate()).isValid())
-        return;    
+        return;
 
     if( rivi == saajaMaksajaRivi_) {
         setSaajaMaksaja(teksti, rivi);
@@ -339,6 +352,7 @@ void OteRivi::tyhjenna()
     ostopvm_ = QDate();
     arkistoTunnusRivi_ = 0;
     saajaMaksajaRivi_ = -1;
+    yleinenTeksti_.clear();
 }
 
 QVariantMap OteRivi::map(const QDate &kirjauspvm) const
@@ -406,4 +420,6 @@ std::vector<QString> OteRivi::ohitettavat__ =
 QRegularExpression OteRivi::ibanRe__("\\b[A-Z]{2}\\d{2}\\s?(\\w{4}\\s?){3,6}\\w{1,4}\\b");
 QRegularExpression OteRivi::nroRe__("\\d+");
 QRegularExpression OteRivi::emailRe__("<.*@.*>");
+QRegularExpression OteRivi::ktoRe__("(7[0-8][0-6])\\s\\w+");
+QRegularExpression OteRivi::pcRe__("(7[0-8][0-6])\\s\\w+(\\s|\\w)*/(\\s|\\w)*/(\\s|\\w)*");
 }

@@ -46,7 +46,7 @@ public:
 
     Euro euro() const { return euro_;}
     QString arkistotunnus() const { return arkistotunnus_;}
-    bool valmis() const;
+    bool valmis();
 
     void kasitteleTuntematon(const QString& teksti, int rivi, const QDate &loppupvm);
 
@@ -77,12 +77,15 @@ protected:
     int arkistoTunnusRivi_ = -1;
 
     int saajaMaksajaRivi_ = -1;
+    QString yleinenTeksti_;
 
     static std::vector<QString> ohitettavat__;    
     static QRegularExpression ibanRe__;
     static QRegularExpression nroRe__;
     static QRegularExpression emailRe__;
     static QRegularExpression tekstiRe__;
+    static QRegularExpression ktoRe__;
+    static QRegularExpression pcRe__;
 };
 
 
