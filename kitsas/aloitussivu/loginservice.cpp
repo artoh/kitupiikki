@@ -18,6 +18,8 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include <QRegularExpressionValidator>
+
 #include "versio.h"
 #include "kaksivaihedialog.h"
 
@@ -36,9 +38,12 @@ void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit
     loginButton_ = loginButon;
     forgetButton_ = forgotButton;
 
+    emailEdit_->setValidator(new QRegularExpressionValidator(emailRE, this));
+
     messageLabel_->hide();
     loginButton_->setEnabled(false);
     forgetButton_->setEnabled(false);
+    passwordEdit_->setEnabled(false);
 
     connect( emailEdit_, &QLineEdit::textEdited, this, &LoginService::emailMuokattu);
     connect( passwordEdit_, &QLineEdit::textEdited, this, &LoginService::paivitaTilat);
@@ -49,6 +54,7 @@ void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit
 void LoginService::emailMuokattu()
 {
     emailOk_ = false;
+    passwordEdit_->setPlaceholderText(QString());
     paivitaTilat();
     if( emailRE.match( emailEdit_->text() ).hasMatch()) {
         tarkastaEmail();
@@ -86,7 +92,14 @@ void LoginService::emailTarkastettu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
     emailOk_ = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
-    messageLabel_->hide();
+    if( emailOk_ ) {
+        passwordEdit_->setPlaceholderText("Kirjoita nyt salasana");
+        messageLabel_->hide();
+    } else if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 ) {
+        messageLabel_->setText("Käyttäjätunnusta ei löydy");
+        messageLabel_->setStyleSheet("color: darkorange");
+        messageLabel_->show();
+    }
     paivitaTilat();
 }
 
@@ -189,20 +202,26 @@ void LoginService::verkkovirhe(QNetworkReply::NetworkError virhe)
 {
     QString txt;
     if( virhe == QNetworkReply::ConnectionRefusedError)
-        txt = tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");
+        txt = tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");    
     else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
         txt = tr("Verkkoon ei saada yhteyttä");
+    else if( virhe == QNetworkReply::HostNotFoundError)
+        txt = tr("Palvelinta ei löydetä. Tarkasta verkkoyhteys.");
     else if(virhe < QNetworkReply::ContentAccessDenied )
         txt = tr("Palvelinyhteydessä on virhe (%1)").arg(virhe);
     else if( virhe == QNetworkReply::UnknownServerError)
-        txt = tr("<p><b>Palvelu on tilapäisesti poissa käytöstä.</b>");
+        txt = tr("Palvelu on tilapäisesti poissa käytöstä.");
+    else if( virhe == QNetworkReply::ContentNotFoundError && !emailOk_)
+        return; // Ei ole virhe jos ei löydä sähköpostia
 
     if( virhe < QNetworkReply::ContentAccessDenied || virhe == QNetworkReply::UnknownServerError) {
         QTimer::singleShot(30000, this, &LoginService::tarkastaEmail);
     }
 
+    qWarning() << "LoginService verkkovirhe " << virhe << " " << txt;
+
     messageLabel_->setText(QString("<b>%1</b>").arg(txt));
-    messageLabel_->setStyleSheet("backgroud-color: yellow;");
+    messageLabel_->setStyleSheet("background-color: yellow;");
     messageLabel_->show();
 }
 
@@ -251,5 +270,5 @@ void LoginService::auth(QVariantMap map)
 
 
 
-QRegularExpression LoginService::emailRE{QRegularExpression(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)")};
+QRegularExpression LoginService::emailRE{QRegularExpression(R"(^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,64}$)", QRegularExpression::UseUnicodePropertiesOption)};
 

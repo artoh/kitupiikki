@@ -3,6 +3,7 @@
 
 #include <QVariantMap>
 #include "tilimuuntomodel.h"
+#include "db/tilikausi.h"
 
 class ProcountorSaldoTuonti
 {
@@ -11,6 +12,8 @@ protected:
 
 public:
     static QVariantMap tuo(const QByteArray& data);
+
+    static QDate alustaMuunto(const QByteArray& data, TiliMuuntoModel& muunto, const Tilikausi& kausi = Tilikausi());
 
     static QDate kkPaivaksi(const QString teksti);
 
