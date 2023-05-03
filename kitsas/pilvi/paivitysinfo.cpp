@@ -55,6 +55,7 @@ void PaivitysInfo::pyydaInfo()
 
     QNetworkRequest pyynto = QNetworkRequest( QUrl(osoite));
     pyynto.setRawHeader("Content-type","application/json");
+    pyynto.setRawHeader("User-Agent", QString("%1 %2 %3").arg(qApp->applicationName(),qApp->applicationVersion(), QSysInfo::prettyProductName()).toUtf8()  );
     QNetworkReply *reply = kp()->networkManager()->post(pyynto, ba);
     connect( reply, &QNetworkReply::finished, this, &PaivitysInfo::infoSaapui);
 
