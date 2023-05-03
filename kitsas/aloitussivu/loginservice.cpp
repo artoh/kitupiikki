@@ -97,7 +97,7 @@ void LoginService::emailTarkastettu()
         messageLabel_->hide();
     } else if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 ) {
         messageLabel_->setText("Käyttäjätunnusta ei löydy");
-        messageLabel_->setStyleSheet("color: darkorange");
+        messageLabel_->setStyleSheet("color: orangered");
         messageLabel_->show();
     }
     paivitaTilat();
