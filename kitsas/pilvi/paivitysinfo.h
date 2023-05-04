@@ -4,6 +4,7 @@
 #include <QObject>
 #include "palvelunkertoja.h"
 #include "aloitussivu/aloitusinfot.h"
+#include <QNetworkReply>
 
 class PaivitysInfo : public QObject, public PalvelunKertoja, public AloitusInfot
 {
@@ -17,6 +18,7 @@ public:
 
 signals:
     void infoSaapunut();
+    void verkkovirhe(QNetworkReply::NetworkError virhe);
 
 private:
     void pyydaInfo();
