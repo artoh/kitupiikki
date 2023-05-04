@@ -9,6 +9,7 @@
 #include "kieli/kielet.h"
 #include "pilvi/pilvimodel.h"
 #include "versio.h"
+#include "aloitussivu/loginservice.h"
 
 #include <QTimer>
 
@@ -38,18 +39,6 @@ void PaivitysInfo::pyydaInfo()
     tilasto.insert("language", Kielet::instanssi()->uiKieli());
     tilasto.insert("builddate", buildDate().toString(Qt::ISODate));
 
-    // Lista niistä tilikartoista, joita on käytetty viimeisimmän kuukauden aikana
-    QStringList kartat;
-    kp()->settings()->beginGroup("tilastokartta");
-    for(const auto& kartta : kp()->settings()->allKeys()) {
-        QDate kaytetty = kp()->settings()->value(kartta).toDate();
-        if( kaytetty > QDate::currentDate().addMonths(-1)) {
-            kartat.append(kartta);
-        }
-    }
-    kp()->settings()->endGroup();
-    tilasto.insert("maps", kartat);
-
     QByteArray ba = QJsonDocument::fromVariant(tilasto).toJson();
     QString osoite = kp()->pilvi()->pilviLoginOsoite() + "/updateinfo";
 
@@ -74,6 +63,12 @@ void PaivitysInfo::infoSaapui()
 
         asetaInfot( map.value("info").toList());
         emit infoSaapunut();
-    }
+   } else {
+        QNetworkReply::NetworkError error = reply->error();
+        info( "varoitus", tr("Palvelimeen ei saada yhteyttä"), LoginService::verkkovirheteksti(error),
+             QString(), "verkkovirhe.png");
+        emit infoSaapunut();
+        emit verkkovirhe(error);
+   }
     reply->deleteLater();
 }

@@ -23,6 +23,8 @@ public:
 
     void keyLogin();
 
+    static QString verkkovirheteksti(QNetworkReply::NetworkError virhe);
+
 signals:
     void logged(PilviKayttaja kayttaja);    
 

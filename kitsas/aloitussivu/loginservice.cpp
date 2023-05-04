@@ -22,11 +22,13 @@
 
 #include "versio.h"
 #include "kaksivaihedialog.h"
+#include "pilvi/paivitysinfo.h"
 
 LoginService::LoginService(QWidget *parent)
     : QObject{parent}
 {
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &LoginService::kirjauduttu);
+    connect( kp()->pilvi()->paivitysInfo(), &PaivitysInfo::verkkovirhe, this, &LoginService::verkkovirhe);
 }
 
 void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit, QLabel *messageLabel, QCheckBox *rememberBox, QPushButton *loginButon, QPushButton *forgotButton)
@@ -56,8 +58,10 @@ void LoginService::emailMuokattu()
     emailOk_ = false;
     passwordEdit_->setPlaceholderText(QString());
     paivitaTilat();
-    if( emailRE.match( emailEdit_->text() ).hasMatch()) {
+    if( emailRE.match( emailEdit_->text() ).hasMatch() && !emailEdit_->text().endsWith("gmail.co")) {
         tarkastaEmail();
+    } else {
+        messageLabel_->hide();
     }
 }
 
@@ -143,6 +147,20 @@ void LoginService::keyLogin()
     }
 }
 
+QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe)
+{
+    if( virhe == QNetworkReply::ConnectionRefusedError)
+        return tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");
+    else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
+        return("Verkkoon ei saada yhteyttä");
+    else if( virhe == QNetworkReply::HostNotFoundError)
+        return("Palvelinta ei löydetä. Tarkasta verkkoyhteys.");
+    else if( virhe == QNetworkReply::UnknownServerError)
+        return tr("Palvelu on tilapäisesti poissa käytöstä.");
+    else
+        return tr("Palvelinyhteydessä on virhe (%1)").arg(virhe);
+}
+
 void LoginService::loginVastaus()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
@@ -199,20 +217,11 @@ void LoginService::request2fa(const QVariantMap &map)
 }
 
 void LoginService::verkkovirhe(QNetworkReply::NetworkError virhe)
-{
-    QString txt;
-    if( virhe == QNetworkReply::ConnectionRefusedError)
-        txt = tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");    
-    else if( virhe == QNetworkReply::TemporaryNetworkFailureError || virhe == QNetworkReply::NetworkSessionFailedError)
-        txt = tr("Verkkoon ei saada yhteyttä");
-    else if( virhe == QNetworkReply::HostNotFoundError)
-        txt = tr("Palvelinta ei löydetä. Tarkasta verkkoyhteys.");
-    else if(virhe < QNetworkReply::ContentAccessDenied )
-        txt = tr("Palvelinyhteydessä on virhe (%1)").arg(virhe);
-    else if( virhe == QNetworkReply::UnknownServerError)
-        txt = tr("Palvelu on tilapäisesti poissa käytöstä.");
-    else if( virhe == QNetworkReply::ContentNotFoundError && !emailOk_)
+{    
+    if( virhe == QNetworkReply::ContentNotFoundError && !emailOk_)
         return; // Ei ole virhe jos ei löydä sähköpostia
+
+    const QString txt = verkkovirheteksti(virhe);
 
     if( virhe < QNetworkReply::ContentAccessDenied || virhe == QNetworkReply::UnknownServerError) {
         QTimer::singleShot(30000, this, &LoginService::tarkastaEmail);
