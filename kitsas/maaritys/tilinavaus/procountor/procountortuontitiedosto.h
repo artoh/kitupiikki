@@ -32,7 +32,7 @@ protected:
 public:
     enum TiedostonTyyppi { TUNTEMATON = 0, TULOSLASKELMA = 0b00100, TASE = 0b01000, TASE_UUSI = 0b11000};
     enum TiedostonKausi { VIRHEELLINEN = 0, EDELLINEN = 0b01, TAMA = 0b10 };
-    enum TuontiStatus { TUONTI_OK, TIEDOSTO_VIRHE, PAIVAT_PUUTTUU, KAUDET_PUUTTUU, VIRHEELLISET_KAUDET };
+    enum TuontiStatus { TUONTI_OK, TIEDOSTO_VIRHE, PAIVAT_PUUTTUU, KAUDET_PUUTTUU, VIRHEELLISET_KAUDET, TIEDOSTO_TUNTEMATON };
 
     ProcountorTuontiTiedosto();
     TuontiStatus tuo(const QString& polku);

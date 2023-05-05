@@ -78,6 +78,9 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
         return VIRHEELLISET_KAUDET;
     }
 
+    if( !validi())
+        return TIEDOSTO_TUNTEMATON;
+
     return TUONTI_OK;
 }
 
