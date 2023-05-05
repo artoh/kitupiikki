@@ -25,6 +25,8 @@
 #include "tilinavausmodel.h"
 #include "avauseradlg.h"
 
+#include "procountor/procountortuontidialog.h"
+
 Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 {
     ui = new Ui::Tilinavaus;
@@ -125,10 +127,9 @@ void Tilinavaus::siirry(const QString &minne)
 
 void Tilinavaus::tuoTiedostosta()
 {
-    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Tuo alkusaldot tiedostosta"),
-                                                    QString(), tr("CSV-tiedostot (*.csv);;Kaikki tiedostot(*.*)"));
-    if(!tiedosto.isEmpty())
-        ui->tiliView->tuoAvausTiedosto(tiedosto);
+    ProcountorTuontiDialog dlg(this, ui->tiliView->avausModel());
+    dlg.exec();
+
 }
 
 bool Tilinavaus::nollaa()

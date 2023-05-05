@@ -18,14 +18,7 @@ public:
     void naytaPiilotetut(bool naytetaanko);
     void naytaVainKirjaukset(bool naytetaanko);
     void suodata(const QString& suodatusteksti);
-    void nollaa();
-    void tuoAvausTiedosto(const QString& polku);
-
-
-protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
+    void nollaa();    
 
 
 

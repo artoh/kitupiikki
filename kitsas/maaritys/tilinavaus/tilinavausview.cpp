@@ -5,10 +5,6 @@
 #include "kirjaus/eurodelegaatti.h"
 #include "tilinavausmodel.h"
 
-#include "tuonti/csvtuonti.h"
-#include "tuonti/tilimuuntomodel.h"
-#include "tuonti/procountorsaldotuonti.h"
-
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
@@ -34,7 +30,6 @@ TilinAvausView::TilinAvausView(QWidget *parent) :
     setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
     horizontalHeader()->setSectionResizeMode(TilinavausModel::NIMI, QHeaderView::Stretch);
 
-    setAcceptDrops(true);
 }
 
 TilinavausModel *TilinAvausView::avausModel()
@@ -75,60 +70,6 @@ void TilinAvausView::nollaa()
     proxy_->sort(0);
 }
 
-void TilinAvausView::dragEnterEvent(QDragEnterEvent *event)
-{
-    if( event->mimeData()->hasUrls() )
-    {
-        for( const QUrl& url: event->mimeData()->urls())
-        {
-            if(url.isLocalFile())
-                event->accept();
-        }
-    }
-}
-
-void TilinAvausView::dragMoveEvent(QDragMoveEvent *event)
-{
-    event->accept();
-}
-
-void TilinAvausView::dropEvent(QDropEvent *event)
-{
-    if( event->mimeData()->hasUrls())
-    {
-        QList<QUrl> urlit = event->mimeData()->urls();
-        foreach (QUrl url, urlit)
-        {
-            if( url.isLocalFile())
-            {
-                tuoAvausTiedosto(url.toLocalFile());
-            }
-        }
-    }
-
-}
-
-void TilinAvausView::tuoAvausTiedosto(const QString &polku)
-{
-    QFile file(polku);
-    if( !file.open( QIODevice::ReadOnly | QIODevice::Text)) {
-        return;
-    }
-    QByteArray data = file.readAll();
-
-    TiliMuuntoModel muunto(this);    
-
-    const QDate avausPvm = kp()->asetukset()->pvm(AsetusModel::TilinAvausPvm);
-    const Tilikausi kausi = kp()->tilikausiPaivalle(avausPvm);
-
-    if( !ProcountorSaldoTuonti::alustaMuunto(data, muunto, kausi).isValid())
-        return;
-
-    if( muunto.naytaMuuntoDialogi(this) == QDialog::Accepted) {
-        model_->tuo(&muunto);
-    }
-
-}
 
 QRegularExpression TilinAvausView::tiliRE__ = QRegularExpression(R"(\D*(\d{3,8})\W*(.+))", QRegularExpression::UseUnicodePropertiesOption);
 

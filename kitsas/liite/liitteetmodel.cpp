@@ -16,7 +16,6 @@
 #include "tuonti/titotuonti.h"
 #include "tuonti/tesseracttuonti.h"
 #include "tuonti/palkkafituonti.h"
-#include "tuonti/procountorsaldotuonti.h"
 #include "pilvi/pilvikysely.h"
 
 #include <QBuffer>
@@ -204,10 +203,7 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
     uusiLiite->liita(tallennusOcr);
 
     // Tuonti
-    // Procountor-avaus tuodaan vaikka liitteitä olisi jo aiemminkin, jotta voidaan tuoda tase ja tuloslaskelma
-    if( liite.startsWith("Laatija:;") && liite.contains("Kirjanpitoraportin tyyppi")) {
-            emit tuonti( ProcountorSaldoTuonti::tuo(sisalto));
-    } else if( tuoTiedot && !tallennusOcr) {
+    if( tuoTiedot && !tallennusOcr) {
         if( uusiLiite->tyyppi() == "application/pdf") {
             // Tehdään pdf-tuonti heti kun on ladattuna
             pdfTuontiIndeksi_ = liitteet_.count() - 1;
@@ -458,8 +454,6 @@ void LiitteetModel::tuoLiite(const QString& tyyppi, const QByteArray& sisalto)
 
     if( tyyppi == "text/csv" && sisalto.startsWith("T;") ) {
         emit tuonti( PalkkaFiTuonti::tuo(sisalto) );
-    } else if( sisalto.startsWith("Laatija:;") && sisalto.contains("Kirjanpitoraportin tyyppi")) {
-        emit tuonti( ProcountorSaldoTuonti::tuo(sisalto));
     } else if( sisalto.startsWith("T00322100") || tyyppi == "text/csv" ) {
         QVariant tuotu = sisalto.startsWith("T00322100") ?
                     Tuonti::TitoTuonti::tuo(sisalto)  // Konekielinen tiliote

@@ -28,24 +28,22 @@
 class TilinMuunnos
 {
 public:
-    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0, QList<Euro> euroSaldot = QList<Euro>());
+    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0, Euro saldo = Euro::Zero);
     QString tiliStr() const;
 
     int alkuperainen() const { return alkuperainenTilinumero_; }
     QString tiliNimi() const { return tilinNimi_; }
     int muunnettu() const { return muunnettuTilinumero_; }
-    Euro saldo() const;
-    QList<Euro> saldot() const { return saldo_; }
+    Euro saldo() const { return saldo_;}
 
     void setMuunnettu(int tilinumero);
-    void setSaldo(const Euro& saldo);
-    int saldoja() const;
+    void setSaldo(const Euro& saldo);    
 
 protected:
     int alkuperainenTilinumero_;
     QString tilinNimi_;
     int muunnettuTilinumero_;
-    QList<Euro> saldo_;
+    Euro saldo_;
 };
 
 /**
@@ -63,6 +61,12 @@ public:
         SALDO
     };
 
+    enum TiliMuuntoMoodi {
+        TUONTI_VAIN_TILIT,
+        TILINAVAUS_NAYTA_SALDO,
+        TILINAVAUS_MUOKKAA_SALDO
+    };
+
     TiliMuuntoModel(QObject *parent = nullptr);
     TiliMuuntoModel(const QList<QPair<int, QString>> &tilit);
 
@@ -74,7 +78,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
     int tilinumeroIndeksilla(int indeksi) const;
-    QList<AvausEra> eraIndeksilla(int indeksi);
+
 
     /**
      * @brief Tilien muunnostaulukko (alkuperäinen, muunnettu)
@@ -82,18 +86,26 @@ public:
      */
     QMap<QString,int> muunnettu();
 
-    void asetaSaldoPaivat(QList<QDate> saldopaivat);
-    QList<QDate> saldopaivat() const { return saldoPaivat_;}
+    /**
+     * @brief Yksittäinen muunnettu tilinumero
+     * @param alkuperainen Alkuperäinen tilinumero
+     * @return Muunnettu tilinumero
+     */
+    int muunnettu(int alkuperainen) const;
 
-    void lisaa(int numero, const QString& nimi, QList<Euro> euroSaldo = QList<Euro>());
+
+    void lisaa(int numero, const QString& nimi, Euro saldo = Euro::Zero);
 
     bool naytaMuuntoDialogi(QWidget* parent = nullptr);
     bool kaikkiMuunnettu() const;
 
+    void asetaMoodi(TiliMuuntoMoodi moodi);
+
 protected:
     QList<TilinMuunnos> data_;
     QMap<QString,int> muunteluLista_;
-    QList<QDate> saldoPaivat_;
+
+    TiliMuuntoMoodi moodi_ = TUONTI_VAIN_TILIT;
 
     static QRegularExpression TyhjaPoisRE__;
 

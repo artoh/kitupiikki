@@ -156,6 +156,8 @@ SOURCES += \
     $$PWD/maaritys/tilinavaus/avauseramodel.cpp \
     $$PWD/maaritys/tilinavaus/avauskohdennusmodel.cpp \
     $$PWD/maaritys/tilinavaus/avauskuukausimodel.cpp \
+    $$PWD/maaritys/tilinavaus/procountor/procountortuontidialog.cpp \
+    $$PWD/maaritys/tilinavaus/procountor/procountortuontitiedosto.cpp \
     $$PWD/maaritys/tilinavaus/tilinavaus.cpp \
     $$PWD/maaritys/tilinavaus/tilinavausmodel.cpp \
     $$PWD/maaritys/tilinavaus/tilinavausview.cpp \
@@ -317,7 +319,6 @@ SOURCES += \
     $$PWD/tools/vuosidelegaatti.cpp \
     $$PWD/tuonti/palkkafituonti.cpp \
     $$PWD/tuonti/pdf/tuontiinfo.cpp \
-    $$PWD/tuonti/procountorsaldotuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -588,6 +589,8 @@ HEADERS += \
     $$PWD/maaritys/tilinavaus/avauseramodel.h \
     $$PWD/maaritys/tilinavaus/avauskohdennusmodel.h \
     $$PWD/maaritys/tilinavaus/avauskuukausimodel.h \
+    $$PWD/maaritys/tilinavaus/procountor/procountortuontidialog.h \
+    $$PWD/maaritys/tilinavaus/procountor/procountortuontitiedosto.h \
     $$PWD/maaritys/tilinavaus/tilinavaus.h \
     $$PWD/maaritys/tilinavaus/tilinavausmodel.h \
     $$PWD/maaritys/tilinavaus/tilinavausview.h \
@@ -752,7 +755,6 @@ HEADERS += \
     $$PWD/tools/vuosidelegaatti.h \
     $$PWD/tuonti/palkkafituonti.h \
     $$PWD/tuonti/pdf/tuontiinfo.h \
-    $$PWD/tuonti/procountorsaldotuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -926,6 +928,7 @@ FORMS += \
     $$PWD/maaritys/raportinmuokkaus/raporttinimikedialogi.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/tilinavaus/avauseradlg.ui \
+    $$PWD/maaritys/tilinavaus/procountor/procountortuontidialog.ui \
     $$PWD/maaritys/tilinavaus/tilinavaus.ui \
     $$PWD/maaritys/tilitieto/tilitapahtumahaku.ui \
     $$PWD/maaritys/tilitieto/tilitietomaaritys.ui \

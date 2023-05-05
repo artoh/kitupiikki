@@ -425,6 +425,7 @@ void TilinavausModel::ladattu()
     paivitaInfo();
 }
 
+/*
 void TilinavausModel::tuo(TiliMuuntoModel *model)
 {
     if( model->saldopaivat().count() > 1)
@@ -452,6 +453,7 @@ void TilinavausModel::tuo(TiliMuuntoModel *model)
     muokattu_ = true;
     paivitaInfo();
 }
+*/
 
 void TilinavausModel::idTietoSaapuu(QVariant *data)
 {

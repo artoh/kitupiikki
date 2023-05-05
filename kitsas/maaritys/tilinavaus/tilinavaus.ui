@@ -41,7 +41,7 @@
        <item>
         <widget class="QPushButton" name="tuoNappi">
          <property name="text">
-          <string>Tuo tiedostosta...</string>
+          <string>Tuo Procountorista ...</string>
          </property>
          <property name="icon">
           <iconset resource="../../pic/pic.qrc">

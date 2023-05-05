@@ -128,7 +128,7 @@ public slots:
 
     void ladattu();
 
-    void tuo(TiliMuuntoModel* model);
+//    void tuo(TiliMuuntoModel* model);
 
 protected:
     void idTietoSaapuu(QVariant* data);
