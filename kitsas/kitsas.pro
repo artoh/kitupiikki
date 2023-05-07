@@ -22,8 +22,6 @@ windows {
 }
 
 macx {
-    LIBS += -L/usr/local/opt/libzip/lib -lzip
-    INCLUDEPATH += /usr/local/include
 }
 
 
