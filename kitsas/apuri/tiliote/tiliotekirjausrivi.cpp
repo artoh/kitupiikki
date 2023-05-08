@@ -89,6 +89,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
         pankki.setOstoPvm(ostopvm);
 
     tapahtuma.setEra(tuonti.value("era").toMap());
+    tapahtuma.setId(tuonti.value("id").toInt());
 
     int tilinumero = tuonti.value("tili").toInt();
     if(!tilinumero) {
