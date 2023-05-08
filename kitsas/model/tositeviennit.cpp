@@ -557,7 +557,7 @@ QVariantList TositeViennit::tallennettavat() const
 {
     QVariantList ulos;
     for( const auto& vienti : viennit_) {
-        if(vienti.debet() || vienti.kredit() ) {
+        if(vienti.debet() || vienti.kredit() || (vienti.eraId() && vienti.tyyppi())) {
             ulos.append( vienti.tallennettava());
         }
     }
