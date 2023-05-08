@@ -15,10 +15,14 @@ linux {
 }
 
 windows {
-    DEFINES += USE_ZIPLIB
-    LIBS += -lzip
-    LIBS += -lopenjp2
+ #   DEFINES += USE_ZIPLIB
+ #   LIBS += -lzip
+    LIBS += -L$$PWD/../../../../openjpeg-v2.5.0-windows-x64/openjpeg-v2.5.0-windows-x64/lib/ -lopenjp2
+    INCLUDEPATH += $$PWD/../../../../openjpeg-v2.5.0-windows-x64/openjpeg-v2.5.0-windows-x64/include
+    DEPENDPATH += $$PWD/../../../../openjpeg-v2.5.0-windows-x64/openjpeg-v2.5.0-windows-x64/include
     LIBS += -lbcrypt
+
+
 }
 
 macx {
@@ -34,10 +38,6 @@ macx {
 include(kitsas.pri)
 include(sources.pri) 
 include(pdftuonti.pri)
-
-
-
-
 
 
 
