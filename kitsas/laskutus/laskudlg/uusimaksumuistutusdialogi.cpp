@@ -112,6 +112,7 @@ void UusiMaksumuistutusDialogi::tositeSaapuu( QVariant *data)
             QVariantMap vMap = vienti.toMap();
             if( vientiId == vMap.value("id").toInt()) {
                 map.insert("erapvm", vMap.value("pvm"));
+                lasku.insert("erapvm", vMap.value("pvm"));
                 break;
             }
         }
