@@ -43,7 +43,7 @@ public slots:
      * @brief Näyttää tositteen uudessa ikkunassa
      * @param tositeId
      */
-    KirjausSivu *naytaTosite(int tositeId, QList<int> selausLista = QList<int>());
+    KirjausSivu *naytaTosite(int tositeId, QList<int> selausLista = QList<int>(), KirjausSivu::Takaisinpaluu paluu = KirjausSivu::Takaisinpaluu::PALATAAN_AINA);
 
     /**
      * @brief Näyttää ohjeen

@@ -48,9 +48,7 @@ KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi, QList<int> selauslista
     sivu->siirrySivulle();
     sivu->naytaTosite(tositeId, tyyppi, selauslista, paluu);
 
-
-    connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));
-
+    connect( sivu, &KirjausSivu::palaaEdelliselleSivulle, this, &KirjausSivu::close);
 
     ohjesivu = sivu->ohjeSivunNimi();
 
@@ -68,15 +66,16 @@ void LisaIkkuna::selaa()
     show();
 
     ohjesivu = sivu->ohjeSivunNimi();
-    connect( sivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)));
+    connect( sivu, &SelausWg::tositeValittu, this, &LisaIkkuna::naytaTosite);
+
     setWindowTitle(tr("%1 - Selaus").arg(kp()->asetukset()->nimi()));
     new QShortcut( QKeySequence(Qt::Key_Escape), this, SLOT(close()));
 }
 
-KirjausSivu* LisaIkkuna::naytaTosite(int tositeId, QList<int> selausLista)
+KirjausSivu* LisaIkkuna::naytaTosite(int tositeId, QList<int> selausLista, KirjausSivu::Takaisinpaluu paluu)
 {
     LisaIkkuna *uusi = new LisaIkkuna;
-    return uusi->kirjaa(tositeId, -1, selausLista, KirjausSivu::PALATAAN_AINA);
+    return uusi->kirjaa(tositeId, -1, selausLista, paluu);
 }
 
 void LisaIkkuna::ohje()
