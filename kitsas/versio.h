@@ -25,7 +25,7 @@
 */
 
 #define KITSAS_VERSIO "5.0-beta.1"
-#define KITSAS_BUILD  "2604"
+#define KITSAS_BUILD  "0905"
 
 // #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
