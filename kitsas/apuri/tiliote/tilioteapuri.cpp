@@ -203,7 +203,6 @@ void TilioteApuri::teeReset()
     model_->lataa(tosite()->viennit()->tallennettavat() );
     lataaHarmaatAjalta( ui->alkuDate->date(), ui->loppuDate->date() );
 
-//    ui->oteView->setColumnHidden( TilioteKirjausRivi::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
 
     if( tosite()->viennit()->tallennettavat().empty())
         lisaaRivi();
@@ -286,7 +285,7 @@ void TilioteApuri::naytaTosite()
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
 
 
-        KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU);
+        KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU, QList<int>(), KirjausSivu::PALATAAN_AINA);
 
         const TositeVienti& pankki = rivi.pankkivienti();
 
@@ -358,7 +357,8 @@ void TilioteApuri::lataaHarmaat()
 }
 
 void TilioteApuri::lataaHarmaatAjalta(const QDate &mista, const QDate &mihin)
-{    
+{
+    kysyAlkusumma();
     model_->asetaTositeId(tosite()->id());
     model_->lataaHarmaat( mista, mihin);
 //    kysyAlkusumma();
