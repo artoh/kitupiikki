@@ -25,6 +25,7 @@
 
 #include "tilioterivi.h"
 #include "db/kirjanpito.h"
+#include "db/asetusmodel.h"
 
 #include <QHeaderView>
 #include <QSettings>
@@ -54,7 +55,8 @@ TilioteView::TilioteView(QWidget *parent) :
 
 TilioteView::~TilioteView()
 {
-    const QString ruudukkoNimi = this->horizontalHeader()->isSectionHidden(TilioteRivi::ALV) ? "TilioteRuudukko" : "TilioteRuudukkoAlvilla";
+    const bool naytaAlv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    const QString ruudukkoNimi = naytaAlv ? "TilioteruudukkoAlvilla" : "Tilioteruudukko";
     kp()->settings()->setValue(ruudukkoNimi, horizontalHeader()->saveState());
 }
 
@@ -143,8 +145,10 @@ void TilioteView::resetinJalkeen()
 
 void TilioteView::palautaRuudukonGeometria()
 {
-    const QString ruudukkoNimi = this->horizontalHeader()->isSectionHidden(TilioteRivi::ALV) ? "TilioteRuudukko" : "TilioteRuudukkoAlvilla";
+    const bool naytaAlv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+    const QString ruudukkoNimi = naytaAlv ? "TilioteruudukkoAlvilla" : "Tilioteruudukko";
     this->horizontalHeader()->restoreState(kp()->settings()->value(ruudukkoNimi).toByteArray());
+    setColumnHidden( TilioteRivi::ALV, !naytaAlv);
 }
 
 

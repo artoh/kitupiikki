@@ -203,7 +203,7 @@ void TilioteApuri::teeReset()
     model_->lataa(tosite()->viennit()->tallennettavat() );
     lataaHarmaatAjalta( ui->alkuDate->date(), ui->loppuDate->date() );
 
-    ui->oteView->setColumnHidden( TilioteKirjausRivi::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
+//    ui->oteView->setColumnHidden( TilioteKirjausRivi::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
 
     if( tosite()->viennit()->tallennettavat().empty())
         lisaaRivi();
