@@ -56,6 +56,8 @@ RyhmaLaskuDialogi::RyhmaLaskuDialogi(Tosite *tosite, QWidget *parent) :
 
 void RyhmaLaskuDialogi::tallenna(int /* tilaan */)
 {
+    if( !tarkasta()) return;
+
     jono_ = ryhmalaskuTab_->model()->laskutettavat();
     if( jono_.isEmpty()) {
         QMessageBox::information(this, tr("Ryhmälasku"),

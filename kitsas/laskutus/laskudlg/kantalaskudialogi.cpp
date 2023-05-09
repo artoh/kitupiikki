@@ -717,6 +717,12 @@ void KantaLaskuDialogi::naytaEsikatselu()
 bool KantaLaskuDialogi::tarkasta()
 {
     const QDate& pvm = paivamaara();
+
+    if( maksutapa() == Lasku::SUORITEPERUSTE && !ui->toimitusDate->date().isValid()) {
+        QMessageBox::critical(this, tr("Puuttuva toimituspäivä"), tr("Suoritusperusteiselle laskulle on määriteltä toimituspäivä, koska suoritusperusteinen lasku kirjataan kirjanpitoon toimituspäivän mukaisesti."));
+        return false;
+    }
+
     if( pvm <= kp()->tilitpaatetty() ) {
         QMessageBox::critical(this, tr("Lukittu tilikausi"), maksutapa() == Lasku::SUORITEPERUSTE ? tr("Toimituspäivämäärälle ei ole avointa tilikautta") : tr("Laskun päivämäärälle ei ole avointa tilikautta"));
         return false;
@@ -733,10 +739,6 @@ bool KantaLaskuDialogi::tarkasta()
         return false;
     }
 
-    if( maksutapa() == Lasku::SUORITEPERUSTE && !ui->toimitusDate->date().isValid()) {
-        QMessageBox::critical(this, tr("Puuttuva toimituspäivä"), tr("Suoritusperusteiselle laskulle on määriteltä toimituspäivä, koska suoritusperusteinen lasku kirjataan kirjanpitoon toimituspäivän mukaisesti."));
-        return false;
-    }
 
     return true;
 }
