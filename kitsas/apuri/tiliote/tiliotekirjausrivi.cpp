@@ -26,6 +26,8 @@
 #include "db/verotyyppimodel.h"
 #include "db/tositetyyppimodel.h"
 
+#include "model/eramap.h"
+
 #include <QRandomGenerator>
 #include <QBrush>
 #include <QPalette>
@@ -181,14 +183,18 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             } else if(ekavienti.kohdennus()) {
                 return model()->kitsas()->kohdennukset()->kohdennus( ekavienti.kohdennus() ).nimi();
             } else if(ekavienti.eraId()) {
-                const QVariantMap& eraMap = ekavienti.era();
-                int eraId = eraMap.value("id").toInt();
-                if( eraId > 0) {
-                    return model()->kitsas()->tositeTunnus(eraMap.value("tunniste").toInt(),
-                                                       eraMap.value("pvm").toDate(),
-                                                       eraMap.value("sarja").toString());
-                } else if( eraMap.contains("huoneisto")) {
-                    return eraMap.value("huoneisto").toMap().value("nimi").toString();
+                const EraMap era(ekavienti.era());
+
+                if( era.id() > 0) {
+                    return model()->kitsas()->tositeTunnus(era.tunniste(),
+                                                       era.pvm(),
+                                                       era.sarja());
+                } else if (era.id() == EraMap::Uusi) {
+                    return TilioteModel::tr("Uusi erä");
+                } else if( era.eratyyppi() == EraMap::Huoneisto) {
+                    return era.huoneistoNimi();
+                } else if( era.eratyyppi() == EraMap::Asiakas) {
+                    return era.asiakasNimi();
                 }
             }
             return QVariant();

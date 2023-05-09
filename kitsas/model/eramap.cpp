@@ -48,6 +48,7 @@ int EraMap::eratyyppi() const
         return id() % 10;
 }
 
+
 EraMap EraMap::AsiakasEra(int id, const QString &nimi)
 {
     EraMap map;

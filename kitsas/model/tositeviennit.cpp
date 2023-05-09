@@ -18,6 +18,7 @@
 
 #include <QDate>
 #include "db/tili.h"
+#include "db/tositetyyppimodel.h"
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
 #include "tosite.h"
@@ -199,6 +200,8 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt() );
             if(kohdennus.tyyppi())
                 return kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt()).tyyppiKuvake();
+            else if( rivi.contains("era"))
+                return kp()->tositeTyypit()->kuvake( rivi.value("era").toMap().value("tositetyyppi").toInt() );
             else
                 return QIcon(":/pic/tyhja.png");
         } else if( index.column() == PVM)
