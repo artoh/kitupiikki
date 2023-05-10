@@ -116,54 +116,33 @@ void LisaPalveluWidget::updateUi()
         buttonLayout->addWidget(removeButton);
     } else {
         QPushButton* addButton = new QPushButton(QIcon(":/pic/lisaa.png"), tr("Ota käyttöön"));
-        connect( addButton, &QPushButton::clicked, this, &LisaPalveluWidget::activate);
+        connect( addButton, &QPushButton::clicked, this, [this] { this->action("enable"); });
         buttonLayout->addWidget(addButton);
     }
     mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
 }
 
-void LisaPalveluWidget::activate()
-{
-    Monikielinen getStartedText( data_.info().value("getstarted").toMap() );
-    const QString text = tr("Otatko käyttöön lisäosan %1?").arg(data_.title()) + "\n\n" +
-            getStartedText.teksti();
-
-
-    QMessageBox mbox( QMessageBox::NoIcon, tr("Vahvista lisäosan käyttöönotto"),
-                      text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Help, this );
-    int answer = mbox.exec();
-    if( answer == QMessageBox::Help) {
-        kp()->ohje( data_.info().value("doc").toString() );
-    } else if( answer == QMessageBox::Yes) {
-        setOnOff(true);
-    }
-}
-
 void LisaPalveluWidget::passivate()
 {
     const QString text = tr("Poistatko käytöstä lisäosan %1?").arg(data_.title());
-    QMessageBox mbox( QMessageBox::NoIcon, tr("Vahvista lisäosan käyttöönotto"),
+    QMessageBox mbox( QMessageBox::NoIcon, data_.title(),
                       text, QMessageBox::Yes | QMessageBox::No | QMessageBox::Help, this );
     int answer = mbox.exec();
     if( answer == QMessageBox::Help) {
         kp()->ohje( data_.info().value("doc").toString() );
     } else if( answer == QMessageBox::Yes) {
-        setOnOff(false);
+        KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1/disable").arg(data_.id()), KpKysely::POST);
+        connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::actionData);
+        kp()->odotusKursori(true);
+        kysely->kysy();
     }
 }
 
-void LisaPalveluWidget::setOnOff(bool on)
-{
-    KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1").arg(data_.id()), KpKysely::PUT);
-    QVariantMap payload;
-    payload.insert("active", on);
-    connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::updateStatus);
-    kysely->kysy(payload);
-}
 
 void LisaPalveluWidget::action(const QString &action)
 {
+    kp()->odotusKursori(true);
     KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/extras/%1/%2").arg(data_.id()).arg(action), KpKysely::GET);
     connect( kysely, &KpKysely::vastaus, this, &LisaPalveluWidget::actionData);
     kysely->kysy();
@@ -171,6 +150,7 @@ void LisaPalveluWidget::action(const QString &action)
 
 void LisaPalveluWidget::actionData(QVariant *data)
 {
+    kp()->odotusKursori(false);
     const QVariantMap& map = data->toMap();
     const QString& type = map.value("show").toString();
     if( type == "form") {
@@ -208,6 +188,10 @@ void LisaPalveluWidget::actionMessage(const QVariantMap &data)
     box.setText(text.teksti());
     box.setStandardButtons(QMessageBox::Ok);
 
+    if( data.contains("help")) {
+        box.addButton(QMessageBox::Help);
+    }
+
     if( icon == "info")
         box.setIcon(QMessageBox::Information);
     else if(icon == "warning")
@@ -215,7 +199,10 @@ void LisaPalveluWidget::actionMessage(const QVariantMap &data)
     else if(icon == "critical")
         box.setIcon(QMessageBox::Critical);
 
-    box.exec();
+    if( box.exec() == QMessageBox::Help) {
+        kp()->ohje( data.value("help").toString() );
+    }
+
 }
 
 void LisaPalveluWidget::actionLink(const QString url)
