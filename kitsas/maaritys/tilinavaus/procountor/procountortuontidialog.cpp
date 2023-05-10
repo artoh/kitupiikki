@@ -35,6 +35,8 @@ ProcountorTuontiDialog::ProcountorTuontiDialog(QWidget *parent, TilinavausModel*
 
     connect( ui->valitseTiedostoNappi, &QPushButton::clicked, this, &ProcountorTuontiDialog::avaaTiedosto);
     connect( ui->buttonBox, &QDialogButtonBox::accepted, this, &ProcountorTuontiDialog::accept);
+    connect( ui->buttonBox, &QDialogButtonBox::rejected, this, &ProcountorTuontiDialog::rejected);
+    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, this, [] { kp()->ohje("asetukset/tilinavaus/procountor"); });
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     setAcceptDrops(true);
