@@ -64,7 +64,7 @@ void UusiAlkuSivu::initializePage()
             ui->pilviInfo->setText( tr("Luodaksesi enemmän kirjanpitoja pilveen sinun "
                                    "on ensin tehtävä Kitsaan tilaus."));
         }
-    } else if( !kp()->pilvi()->kayttaja().planId() && kp()->pilvi()->kayttaja().trialPeriod().isValid())
+    } else if( !kp()->pilvi()->kayttaja().planId() && kp()->pilvi()->kayttaja().trialActive())
         ui->pilviInfo->setText( tr("Maksuttoman kokeilujaksosi ajan sinulla voi olla yksi pilveen tallennettu kirjanpito. Ellet tee maksullista tilausta, poistetaan tämä kirjanpito kokeilujaksosi päätyttyä."));
 
     if( kp()->pilvi()->kayttaja().planId())

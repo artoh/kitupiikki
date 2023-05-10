@@ -54,8 +54,9 @@ public:
         TOSITTEET = 0,        
         LUONNOKSET = 1,
         VIENNIT = 2,
-        POISTETUT = 3,
-        SAAPUNEET = 4,
+        HUOMIO = 3,
+        POISTETUT = 4,
+        SAAPUNEET = 5,
     };
 
     SelausWg(QWidget *parent = nullptr);

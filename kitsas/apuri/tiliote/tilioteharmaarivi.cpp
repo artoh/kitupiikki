@@ -119,8 +119,8 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
             return QBrush(QColor(200,255,200));
 */
     case Qt::BackgroundRole:
-        if( vienti_.value("vastatilit").toList().isEmpty()) {
-            // Tiliöimätön
+        if( vienti_.value("vastatilit").toList().isEmpty() || vienti_.value("huomio").toBool()) {
+            // Tiliöimätön TAI huomio
             if( QPalette().base().color().lightness() > 128) {
                 return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
             } else {
@@ -139,8 +139,11 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
         return vienti_.value("tosite").toMap().value("id").toInt();
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
-    case Qt::DecorationRole:        
-        if( sarake == KOHDENNUS) {
+    case Qt::DecorationRole:
+        if( sarake == PVM) {
+            if(vienti_.value("huomio").toBool())
+                return QIcon(":/pic/huomio.png");
+        } else if( sarake == KOHDENNUS) {
             const QVariantMap& tosite = vienti_.value("tosite").toMap();
             return model()->kitsas()->tositeTyypit()->kuvake( tosite.value("tyyppi").toInt() );
         } else if(sarake == ALV) {

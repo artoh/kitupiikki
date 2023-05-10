@@ -63,6 +63,12 @@ PilviKayttaja::operator bool() const
     return id_ != 0 && blocked_ == KAYTOSSA;
 }
 
+bool PilviKayttaja::trialActive() const
+{
+    return trial_.isValid() &&
+           trial_.daysTo( QDate::currentDate() ) <= 0;
+}
+
 
 void PilviKayttaja::asetaVersioMoodi(const KayttajaMoodi versio)
 {

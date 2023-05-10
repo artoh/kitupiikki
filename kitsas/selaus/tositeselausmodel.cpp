@@ -333,7 +333,7 @@ QVariant TositeSelausRivi::data(int sarake, int role, int selaustila, bool alter
         return tositeTyyppi;
     } else if( role == TositeSelausModel::TositeSarjaRooli) {
         return sarja;
-    } else if( role == Qt::BackgroundRole && tilioimatta ) {
+    } else if( role == Qt::BackgroundRole && (tilioimatta || huomio) ) {
         if( QPalette().base().color().lightness() > 128) {
             return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
         } else {

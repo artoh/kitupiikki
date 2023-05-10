@@ -37,6 +37,7 @@ public:
     QString planName() const { return plan_name_; }
 
     QDate trialPeriod() const { return trial_; }
+    bool trialActive() const;
 
     KayttajaMoodi moodi() const { return moodi_;}
     Suljettu suljettu() const { return blocked_;}

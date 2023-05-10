@@ -46,8 +46,9 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
     ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
+    ui->valintaTab->addTab(QIcon(":/pic/harmaahuomio.png"),tr("&Huomioitavat"));
     ui->valintaTab->addTab(QIcon(":/pic/roskis.png"), tr("&Poistetut"));
-    ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
+    ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));    
 
 
     model = new SelausModel(this);
@@ -103,7 +104,7 @@ SelausWg::SelausWg(QWidget *parent) :
     connect( ui->kuukausiNappi, &QPushButton::clicked, this, &SelausWg::tamaKuukausi);
     connect( ui->tilikausiButton, &QPushButton::clicked, this, &SelausWg::tamaTilikausi);
 
-    connect( ui->huomioButton, &QPushButton::toggled, tositeProxy_, &TositeSelausProxyModel::suodataHuomio);
+//    connect( ui->huomioButton, &QPushButton::toggled, tositeProxy_, &TositeSelausProxyModel::suodataHuomio);
 
     ui->selausView->horizontalHeader()->setSectionsMovable(true);
 
@@ -156,6 +157,7 @@ void SelausWg::paivita()
 
     qApp->processEvents();
 
+
     if( ui->valintaTab->currentIndex() == VIENNIT )
     {
         kp()->odotusKursori(true);
@@ -167,7 +169,7 @@ void SelausWg::paivita()
         kp()->odotusKursori(true);
         tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::SAAPUNEET);
     }
-    else if( ui->valintaTab->currentIndex() == TOSITTEET )
+    else if( ui->valintaTab->currentIndex() == TOSITTEET || ui->valintaTab->currentIndex() == HUOMIO )
     {
         kp()->odotusKursori(true);
         tositeModel->lataa( alkupvm, loppupvm);
@@ -178,6 +180,7 @@ void SelausWg::paivita()
         kp()->odotusKursori(true);
         tositeModel->lataa( alkupvm, loppupvm, TositeSelausModel::POISTETUT);
     }
+    tositeProxy_->suodataHuomio( ui->valintaTab->currentIndex() == HUOMIO );
 
     bool naytaSelaus = false;
 
@@ -212,7 +215,7 @@ void SelausWg::paivita()
     }
 
     // Huomio käytettävissä vain tositteita selattaessa
-    ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT);
+    // ui->huomioButton->setVisible(  ui->valintaTab->currentIndex() != VIENNIT);
 
 }
 
@@ -387,10 +390,9 @@ void SelausWg::naytaSaapuneet()
 
 void SelausWg::naytaHuomioitavat()
 {
-    ui->valintaTab->setCurrentIndex(TOSITTEET);
+    ui->valintaTab->setCurrentIndex(HUOMIO);
     ui->alkuEdit->setDate( kp()->tilitpaatetty().addDays(1) );
-    ui->loppuEdit->setDate( kp()->tilikaudet()->kirjanpitoLoppuu() );
-    ui->huomioButton->setChecked(true);
+    ui->loppuEdit->setDate( kp()->tilikaudet()->kirjanpitoLoppuu() );   
     paivita();
 }
 
