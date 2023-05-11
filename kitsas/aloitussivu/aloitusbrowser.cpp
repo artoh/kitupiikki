@@ -467,10 +467,7 @@ QString AloitusBrowser::memo() const
     if( muistiinpanot.isEmpty())
         return QString();
 
-    muistiinpanot.replace(QRegularExpression("[<>]"),"");
-    muistiinpanot.replace("\n", "<br>");
-
-    return "<table class=memo width=100%><tr><td>" + muistiinpanot + "</td></tr></table>";
+    return "<table class=memo width=100%><tr><td>" + muistiinpanot.toHtmlEscaped() + "</td></tr></table>";
 }
 
 
