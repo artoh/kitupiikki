@@ -1,6 +1,7 @@
 #ifndef GROUPBOOKSMODEL_H
 #define GROUPBOOKSMODEL_H
 
+#include "qdatetime.h"
 #include <QAbstractTableModel>
 #include <QPixmap>
 
@@ -14,20 +15,30 @@ protected:
     public:
         explicit GroupBook();
         GroupBook(const QVariantMap &map);
+        QString vatInfo() const;
 
         int id;
         QString name;
         bool trial;
-        QPixmap logo;
+        QByteArray logo;
         QString planname;
         QString businessid;
         QString ownername;
         bool initialized;
+
+        int notifications;
+        int inbox;
+        int outbox;
+        int marked;
+
+        QDate vatDate;
+        int vatPeriod;
+        QDate vatDue;
     };
 
 public:
     enum { IdRooli = Qt::UserRole };
-    enum { NIMI, YTUNNUS, TUOTE};
+    enum { NIMI, YTUNNUS, ALV, TUOTE};
 
     explicit GroupBooksModel(QObject *parent = nullptr);
 

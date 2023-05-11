@@ -18,6 +18,7 @@
 
 #include "ui_toimisto.h"
 #include "uusikirjanpito/uusivelho.h"
+#include "booknotificationmodel.h"
 #include "ryhmaoikeusdialog.h"
 
 #include "authlogmodel.h"
@@ -31,6 +32,8 @@
 #include "alv/varmennedialog.h"
 
 #include "toimistokirjanpitodialogi.h"
+
+#include "aloitussivu/kirjanpitodelegaatti.h"
 
 #include <QAction>
 #include <QMenu>
@@ -73,6 +76,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     bookSort->setSortCaseSensitivity(Qt::CaseInsensitive);
     ui->groupBooksView->setModel(bookSort);
     ui->groupBooksView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->groupBooksView->setItemDelegateForColumn(GroupBooksModel::NIMI, new KirjanpitoDelegaatti(this));
 
     QSortFilterProxyModel *memberSort = new QSortFilterProxyModel(this);
     memberSort->setSourceModel(groupData_->members());
@@ -97,6 +101,8 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     ui->udView->setModel( userData_->books() );
     ui->umView->setModel( userData_->members());
     ui->gbooksView->setModel( userData_->groupBooks() );
+
+    ui->notifyView->setModel( bookData_->notificatios() );
 
     connect( ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged,
              this, &ToimistoSivu::nodeValittu);
@@ -343,7 +349,17 @@ void ToimistoSivu::kirjaVaihtui()
         ui->bTuote->setText( bookData_->ownerName());
     }
 
+    const QString& alvInfo = bookData_->vatString();
+    ui->bAlvLabel->setVisible( !alvInfo.isEmpty());
+    ui->bAlvText->setVisible( !alvInfo.isEmpty());
+    ui->bAlvText->setText( alvInfo );
+
+    ui->bAlvDueLabel->setVisible( bookData_->vatDueDate().isValid() );
+    ui->bAlvDueText->setVisible( bookData_->vatDueDate().isValid());
+    ui->bAlvDueText->setText( bookData_->vatDueDate().toString("dd.MM.yyyy"));
+
     ui->bAvaaNappi->setVisible( bookData_->loginAvailable() );
+
 
     const bool luontiOikeus = groupData_->adminRights().contains("OB");
     const bool muokkausOikeus = groupData_->adminRights().contains("OD");

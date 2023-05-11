@@ -44,9 +44,11 @@ protected:
 
     void paivitaSaldot();
     void saldotSaapuu(QVariant* data);
-    QString saldoTaulu();    
+    QString saldoTaulu();
 
-    void naytaTervetuloa();
+    QString memo() const;
+
+    void naytaTervetuloa();    
 
 private:
     class SaldoTieto {

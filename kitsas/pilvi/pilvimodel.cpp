@@ -39,6 +39,7 @@
 #include <QProgressDialog>
 
 #include "uusikirjanpito/uusivelho.h"
+#include "aloitussivu/kirjanpitodelegaatti.h"
 
 PilviModel::PilviModel(QObject *parent, const QString &token) :
     YhteysModel (parent),
@@ -62,26 +63,29 @@ int PilviModel::rowCount(const QModelIndex & /* parent */) const
 QVariant PilviModel::data(const QModelIndex &index, int role) const
 {
     const ListanPilvi& pilvi = pilvet_.at(index.row());
-
-    if( role == Qt::DisplayRole || role == NimiRooli)
-    {        
+    switch (role) {
+    case Qt::DisplayRole:
+    case NimiRooli:
         return pilvi.nimi();
-    } else if( role == IdRooli ) {
+    case IdRooli:
         return pilvi.id();
+    case KirjanpitoDelegaatti::LogoRooli:
+        return pilvi.logo();
+    case KirjanpitoDelegaatti::HarjoitusRooli:
+        return pilvi.kokeilu();
+    case KirjanpitoDelegaatti::IlmoitusRooli:
+        return pilvi.notifications();
+    case KirjanpitoDelegaatti::AlustettuRooli:
+        return pilvi.ready();
+    case KirjanpitoDelegaatti::InboxRooli:
+        return pilvi.inbox();
+    case KirjanpitoDelegaatti::OutboxRooli:
+        return pilvi.outbox();
+    case KirjanpitoDelegaatti::MarkedRooli:
+        return pilvi.marked();
+    default:
+        return QVariant();
     }
-
-    if( role == Qt::DecorationRole) {
-        if( pilvi.ready())
-            return pilvi.logo();
-        else
-            return QIcon(":/pic/lisaa.png");
-    }
-    if( role == Qt::ForegroundRole) {
-        if( pilvi.kokeilu() )
-            return QColor(Qt::darkGreen);
-    }
-
-    return QVariant();
 }
 
 
@@ -227,6 +231,11 @@ bool PilviModel::tilausvoimassa() const
 void PilviModel::asetaAlias(const QString &alias)
 {
     nykyPilvi_.asetaAlias(alias);
+}
+
+void PilviModel::poistaNotify(const int id)
+{
+    nykyPilvi_.poistaNotify(id);
 }
 
 

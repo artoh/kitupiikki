@@ -6,8 +6,9 @@
 
 #include "palvelunkertoja.h"
 #include "pilviextra.h"
+#include "aloitussivu/aloitusinfot.h"
 
-class AvattuPilvi : public PalvelunKertoja
+class AvattuPilvi : public PalvelunKertoja, public AloitusInfot
 {
 public:
     enum { PROPILVI = 200};

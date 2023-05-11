@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <stdexcept>
+#include <QJsonDocument>
 
 AvattuPilvi::AvattuPilvi()
 {
@@ -34,6 +35,20 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     for(auto const& item : ekstraLista) {
         PilviExtra extra(item.toMap());
         extrat_.insert(extra.id(), extra);
+    }
+
+    QVariantList notifies = map.value("notifications").toList();
+    for(auto const& item : notifies) {
+        const QVariantMap map = item.toMap();
+
+        // TODO: Tyylit sisällön mukaan
+        const QString type = map.value("type").toString();
+        const QVariantMap im = map.value("info").toMap();
+        const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-sininen.svg" : "ilmoitus-vihrea.svg";
+
+        info("notify", im.value("title").toString(), im.value("info").toString(),
+             im.value("link").toString(), image, im.value("help").toString(),
+             map.value("id").toInt());
     }
 
 }

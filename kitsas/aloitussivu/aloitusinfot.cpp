@@ -14,14 +14,24 @@ QString AloitusInfot::toHtml() const
     return txt;
 }
 
-void AloitusInfot::info(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki)
+void AloitusInfot::info(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki, int id)
 {
-    infot_.append( AloitusInfo(luokka, otsikko, teksti, linkki, kuva, ohjelinkki));
+    infot_.append( AloitusInfo(luokka, otsikko, teksti, linkki, kuva, ohjelinkki, id));
 }
 
 void AloitusInfot::clear()
 {
     infot_.clear();
+}
+
+void AloitusInfot::poistaNotify(int notifyId)
+{
+    for(int i=0; i < infot_.count(); i++) {
+        if( infot_.at(i).notifyId() == notifyId) {
+            infot_.removeAt(i);
+            return;
+        }
+    }
 }
 
 void AloitusInfot::asetaInfot(const QVariantList &data)

@@ -13,16 +13,23 @@ public:
     int id() const { return id_;}
     QString nimi() const { return nimi_;}
     bool kokeilu() const { return kokeilu_;}
-    QPixmap logo() const { return logo_;}
+    QByteArray logo() const { return logo_;}
     bool ready() const { return ready_;}
-
+    int notifications() const { return notifications_;}
+    int inbox() const { return inbox_;}
+    int outbox() const { return outbox_;}
+    int marked() const { return marked_;}
 
 protected:
     int id_;
     QString nimi_;
     bool kokeilu_;
-    QPixmap logo_;
+    QByteArray logo_;
     bool ready_;
+    int notifications_;
+    int inbox_;
+    int outbox_;
+    int marked_;
 
 };
 

@@ -1,0 +1,77 @@
+#include "kirjanpitodelegaatti.h"
+
+#include <QSvgRenderer>
+#include <QPainter>
+
+KirjanpitoDelegaatti::KirjanpitoDelegaatti(QObject *parent, bool limitys)
+    : QItemDelegate{parent}, limitys_{limitys}
+{
+
+}
+
+void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QRect rect = option.rect;
+    QRect logoRect(rect.x(), rect.y(), 32, 32);
+
+    QRect textRect(rect.x() + 34 , rect.y(), rect.width() - 34, rect.height());
+
+    QPixmap logo = index.data(AlustettuRooli).toBool() ?
+        QPixmap::fromImage(QImage::fromData(index.data(LogoRooli).toByteArray())) :
+        QPixmap(":/pic/lisaa.png");
+
+    const QString text = index.data(Qt::DisplayRole).toString();
+
+    QStyleOptionViewItem myOption = option;
+
+
+    drawBackground(painter, option, index);
+    drawDecoration(painter, option, logoRect, logo);
+
+    painter->save();
+    if( index.data(HarjoitusRooli).toBool())
+        painter->setPen(QColor(Qt::darkGreen));
+    else
+        painter->setPen(QColor(Qt::black));
+
+    painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter ,text);
+
+    painter->restore();
+    int indeksi = 1;
+
+    if( index.data(IlmoitusRooli).toBool()) {
+        QSvgRenderer renderer(QString(":/pic/ilmoitus.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+    if( index.data(InboxRooli).toBool()) {
+        QSvgRenderer renderer(QString(":/pic/kierto.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+    if( index.data(OutboxRooli).toBool()) {
+        QSvgRenderer renderer(QString(":/pic/paperilennokki.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+    if( index.data(MarkedRooli).toBool()) {
+        QSvgRenderer renderer(QString(":/pic/huomio.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+
+    drawFocus(painter, option, rect);
+}
+
+QSize KirjanpitoDelegaatti::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QSize base = QItemDelegate::sizeHint(option, index);
+
+    return QSize(base.width(), base.height() > 34 ? base.height() : 34);
+}
+
+QRect KirjanpitoDelegaatti::oikealla(int indeksi, QRect iso) const
+{
+    const int x = limitys_ ?
+        iso.x() + iso.width() - iso.height() - (indeksi > 1 ? (indeksi - 1) * (iso.height() / 3 * 2) : 0)    :
+        iso.x() + iso.width() - indeksi * iso.height();
+
+    return QRect( x, iso.y(),
+                 iso.height(), iso.height());
+}

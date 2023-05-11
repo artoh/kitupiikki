@@ -5,12 +5,14 @@
 
 #include "groupmembersmodel.h"
 #include "authlogmodel.h"
+#include "booknotificationmodel.h"
 
 BookData::BookData(QObject *parent)
     : QObject{parent},
       directUsers_{new GroupMembersModel(this)},
       groupUsers_{new GroupMembersModel(this)},
-      authLog_{new AuthLogModel(this)}
+      authLog_{new AuthLogModel(this)},
+      notifications_{new BookNotificationModel(this)}
 {
 
 }
@@ -75,6 +77,23 @@ void BookData::supportLogin()
     kysymys->kysy();
 }
 
+QString BookData::vatString() const
+{
+
+    if( !vatDate_.isValid()) {
+        return QString();
+    } else if( vatPeriod_ == 1)
+        return vatDate_.toString("M / yy");
+    else if( vatPeriod_ == 3) {
+        return QString("Q%1 / %2").arg(vatDate_.month() / 3).arg(vatDate_.year() % 100);
+    } else if( vatPeriod_ == 12) {
+        return QString::number(vatDate_.year() );
+    } else {
+        return vatDate_.toString("dd.MM.yyyy");
+    }
+
+}
+
 void BookData::setShortcuts(ShortcutModel *shortcuts)
 {
     directUsers_->setShortcuts(shortcuts);
@@ -131,15 +150,25 @@ void BookData::dataIn(QVariant *data)
     ownerId_ = ownerMap.value("id").toInt();
     ownername_ = ownerMap.value("name").toString();
 
+    const QVariantMap vatMap = map.value("vat").toMap();
+    vatDate_ = vatMap.value("date").toDate();
+    vatPeriod_ = vatMap.value("period").toInt();
+    vatDue_ = vatMap.value("duedate").toDate();
+
     int groupid = map.value("group").toMap().value("id").toInt();    
 
     directUsers_->load( map.value("permissions").toList() );
     groupUsers_->load( map.value("members").toList(), groupid );
     authLog_->load( map.value("log").toList());
+    notifications_->load( map.value("notifications").toList());
 
     certStatus_ = map.value("cert").toString();
     initialized_ = map.value("initialized", true).toBool();
     dealOfficeName_ = map.value("dealoffice").toMap().value("name").toString();
 
+
     emit loaded();
 }
+
+
+

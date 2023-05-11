@@ -53,6 +53,8 @@
 #include "kitupiikkituonti/vanhatuontidlg.h"
 #include "pilvi/pilveensiirto.h"
 
+#include "kirjanpitodelegaatti.h"
+
 #include <QJsonDocument>
 #include <QTimer>
 #include <QSortFilterProxyModel>
@@ -128,7 +130,8 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     sqliteproxy->setSortRole(Qt::DisplayRole);
     sqliteproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
 
-    ui->pilviView->setModel( kp()->pilvi() );    
+    ui->pilviView->setModel( kp()->pilvi() );
+    ui->pilviView->setItemDelegate(new KirjanpitoDelegaatti(this, true));
     ui->vaaraSalasana->setVisible(false);
     ui->palvelinvirheLabel->setVisible(false);
 
@@ -275,6 +278,15 @@ void AloitusSivu::linkki(const QUrl &linkki)
     else if( linkki.scheme().startsWith("http"))
     {        
         Kirjanpito::avaaUrl( linkki );
+    }
+    else if( linkki.scheme() == "close") {
+        const int id = linkki.path().toInt();
+        if( id ) {
+            kp()->pilvi()->poistaNotify(id);
+            KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/notifications/%1").arg(id), KpKysely::DELETE);
+            kysely->kysy();
+            ui->selain->paivita();
+        }
     }
 }
 

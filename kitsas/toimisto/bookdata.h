@@ -8,6 +8,8 @@
 class GroupMembersModel;
 class AuthLogModel;
 class ShortcutModel;
+class BookNotificationModel;
+
 
 class BookData : public QObject
 {
@@ -46,9 +48,13 @@ public:
     void openBook();
     void supportLogin();
 
+    QString vatString() const;
+    QDate vatDueDate() const { return vatDue_;}
+
     GroupMembersModel* directUsers() const { return directUsers_;}
     GroupMembersModel* groupUsers() const { return groupUsers_;}
     AuthLogModel* authLog() const { return authLog_; }
+    BookNotificationModel* notificatios() const { return notifications_;}
 
     void setShortcuts(ShortcutModel* shortcuts);
     void removeRights(const int userid);
@@ -86,9 +92,16 @@ private:
 
     QString dealOfficeName_;
 
+
+    QDate vatDate_;
+    int vatPeriod_;
+    QDate vatDue_;
+
     GroupMembersModel* directUsers_;
     GroupMembersModel* groupUsers_;
     AuthLogModel* authLog_;
+    BookNotificationModel* notifications_;
+
 
 };
 

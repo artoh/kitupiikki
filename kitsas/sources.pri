@@ -4,6 +4,7 @@ SOURCES += \
     $$PWD/aloitussivu/aloitusinfot.cpp \
     $$PWD/aloitussivu/jarjestelmatiedot.cpp \
     $$PWD/aloitussivu/kaksivaihedialog.cpp \
+    $$PWD/aloitussivu/kirjanpitodelegaatti.cpp \
     $$PWD/aloitussivu/loginservice.cpp \
     $$PWD/aloitussivu/luotunnusdialogi.cpp \
     $$PWD/aloitussivu/salasananvaihto.cpp \
@@ -259,6 +260,7 @@ SOURCES += \
     $$PWD/tilaus/laskutustietodialog.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
+    $$PWD/toimisto/booknotificationmodel.cpp \
     $$PWD/toimisto/groupbooksmodel.cpp \
     $$PWD/toimisto/groupdata.cpp \
     $$PWD/toimisto/groupmember.cpp \
@@ -435,6 +437,7 @@ HEADERS += \
     $$PWD/aloitussivu/aloitusinfot.h \
     $$PWD/aloitussivu/jarjestelmatiedot.h \
     $$PWD/aloitussivu/kaksivaihedialog.h \
+    $$PWD/aloitussivu/kirjanpitodelegaatti.h \
     $$PWD/aloitussivu/loginservice.h \
     $$PWD/aloitussivu/luotunnusdialogi.h \
     $$PWD/aloitussivu/salasananvaihto.h \
@@ -722,6 +725,7 @@ HEADERS += \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/toimisto/authlogmodel.h \
     $$PWD/toimisto/bookdata.h \
+    $$PWD/toimisto/booknotificationmodel.h \
     $$PWD/toimisto/groupbooksmodel.h \
     $$PWD/toimisto/groupdata.h \
     $$PWD/toimisto/groupmember.h \

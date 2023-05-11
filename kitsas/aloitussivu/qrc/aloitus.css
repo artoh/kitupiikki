@@ -82,6 +82,20 @@ table.varoitus > tr > td
     padding: 15px;
 }
 
+table.notify
+{
+    background-color: #85C1E9;
+    margin-bottom: 15px;
+    border: 1px solid palette(text);
+    color: black;
+}
+
+table.notify > tr > td
+{
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
 table.info
 {
     background-color: #ffff99;
@@ -95,6 +109,7 @@ table.info > tr > td
     padding: 15px;
     margin-bottom: 15px;
 }
+
 
 table.testaus
 {
@@ -117,6 +132,7 @@ table.memo
     margin-bottom: 15px;
     color: black;
 }
+
 
 table.memo > tr > td
 {
@@ -180,6 +196,10 @@ a.tililinkki
     text-decoration: none;
 }
 
+td.sulkuruksi
+{
+    text-align: right;
+}
 
 td.euro
 {

@@ -17,11 +17,10 @@ ListanPilvi::ListanPilvi(const QVariant &variant)
     nimi_ = map.value("name").toString();
     kokeilu_ = map.value("trial").toBool();
     ready_ = map.value("ready", true).toBool();
+    notifications_ = map.value("notifications").toInt();
+    inbox_ = map.value("inbox").toInt();
+    outbox_ = map.value("outbox").toInt();
+    marked_ = map.value("marked").toInt();
 
-    const QByteArray ba = QByteArray::fromBase64(map.value("logo").toByteArray());
-    if( ba.isEmpty() ) {
-        logo_ = QPixmap(":/pic/tyhja.png").scaled(32,32);
-    } else {
-        logo_ = QPixmap::fromImage( QImage::fromData(ba).scaled(32,32,Qt::KeepAspectRatio, Qt::SmoothTransformation) );
-    }
+    logo_ = QByteArray::fromBase64(map.value("logo").toByteArray());
 }

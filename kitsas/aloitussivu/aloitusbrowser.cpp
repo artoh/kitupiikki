@@ -60,16 +60,20 @@ void AloitusBrowser::paivitaAvattu()
         txt.append( eiOikeuttaUrputus()  );
     } else {
         paivitaVinkit();
-        txt.append( kp()->pilvi()->paivitysInfo()->toHtml() );
+        txt.append( kp()->pilvi()->paivitysInfo()->toHtml() );        
 
         const int saldoja = saldot_.count();
         if( saldoja == 0) {
             txt.append("<h1>" + tr("Avataan kirjanpitoa...") + "</h1>");
         } else if( saldoja < 3) {
             txt.append( vinkit_.toHtml() );
+            txt.append( kp()->pilvi()->pilvi().toHtml() );
+            txt.append(memo());
             txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
         } else {
             txt.append( vinkit_.toHtml() );
+            txt.append( kp()->pilvi()->pilvi().toHtml() );
+            txt.append( memo());
             txt.append( saldoTaulu() );
         }
     }
@@ -94,8 +98,8 @@ void AloitusBrowser::paivitaVinkit()
     paivitaVarmuuskopioVinkki();
     paivitaVerotonValitus();
     paivitaPaivitysVinkki();
-    paivitaAloitusVinkit();
     paivitaAlvVinkki();
+    paivitaAloitusVinkit();
     paivitaTilikausiVinkki();
     paivitaTilinpaatosVinkki();
 }
@@ -457,6 +461,18 @@ QString AloitusBrowser::saldoTaulu()
 
 }
 
+QString AloitusBrowser::memo() const
+{
+    QString muistiinpanot = kp()->asetukset()->asetus("Muistiinpanot");
+    if( muistiinpanot.isEmpty())
+        return QString();
+
+    muistiinpanot.replace(QRegularExpression("[<>]"),"");
+    muistiinpanot.replace("\n", "<br>");
+
+    return "<table class=memo width=100%><tr><td>" + muistiinpanot + "</td></tr></table>";
+}
+
 
 void AloitusBrowser::naytaTervetuloa()
 {
@@ -480,6 +496,7 @@ void AloitusBrowser::naytaTervetuloa()
 
     setHtml( teksti );
 }
+
 
 AloitusBrowser::SaldoTieto::SaldoTieto()
 {

@@ -1,5 +1,5 @@
 #include "groupbooksmodel.h"
-
+#include "aloitussivu/kirjanpitodelegaatti.h"
 #include <QIcon>
 
 GroupBooksModel::GroupBooksModel(QObject *parent)
@@ -15,6 +15,8 @@ QVariant GroupBooksModel::headerData(int section, Qt::Orientation orientation, i
             return tr("Nimi");
         case YTUNNUS:
             return tr("Y-tunnus");
+        case ALV:
+            return tr("ALV valmis");
         case TUOTE:
             return owners_ ? tr("Omistaja") : tr("Tuote");
         }
@@ -36,7 +38,7 @@ int GroupBooksModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 3;
+    return 4;
 }
 
 QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
@@ -54,22 +56,41 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
             return book.name;
         case YTUNNUS:
             return book.businessid;
+        case ALV:
+            return book.vatInfo();
         case TUOTE:
             return owners_ ? book.ownername : book.planname;
         }
-
-        return index.column() == 0 ? book.name: book.planname;
-    case Qt::DecorationRole:
-        if( index.column() ) return QVariant();
-        else if( !book.initialized ) return QIcon(":/pic/lisaa.png");
-        else return book.logo;
+    case Qt::TextAlignmentRole:
+        return index.column() == ALV ? (int) (Qt::AlignRight | Qt::AlignVCenter) : (int) (Qt::AlignLeft | Qt::AlignVCenter);
     case IdRooli:
         return book.id;
+    case KirjanpitoDelegaatti::LogoRooli:
+        return book.logo;
+    case KirjanpitoDelegaatti::AlustettuRooli:
+        return book.initialized;
+    case KirjanpitoDelegaatti::IlmoitusRooli:
+        return book.notifications;
+    case KirjanpitoDelegaatti::HarjoitusRooli:
+        return book.trial;
+    case KirjanpitoDelegaatti::OutboxRooli:
+        return book.outbox;
+    case KirjanpitoDelegaatti::InboxRooli:
+        return book.inbox;
+    case KirjanpitoDelegaatti::MarkedRooli:
+        return book.marked;
+    case Qt::DecorationRole:
+    {
+        if( index.column() != ALV) return QVariant();
+        else if( !book.vatDue.isValid()) return QIcon(":/pic/tyhja.png");
+        else if( book.vatDue < QDate::currentDate()) return QIcon(":/pic/punainen.png");
+        const QDate vrt = book.vatDue.addDays( 0 - book.vatDate.day() );
+        if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi.png");
+        if( vrt.addMonths(-1) < QDate::currentDate()) return QIcon(":/pic/keltainen.png");
+        return QIcon(":/pic/kaytossa.png");
+    }
     case Qt::ForegroundRole:
-        if( book.trial) {
-            return QColor(Qt::darkGreen);
-        }
-        return QVariant();
+        return index.column() == ALV && book.vatDue < QDate::currentDate() ? QColor(Qt::red) : QVariant();
     default:
         return QVariant();;
     }
@@ -117,9 +138,29 @@ GroupBooksModel::GroupBook::GroupBook(const QVariantMap &map)
     ownername = map.value("ownername").toString();
     initialized = map.value("initialized").toBool();
 
-    QByteArray ba = QByteArray::fromBase64( map.value("logo").toByteArray() );
-    if( ba.isEmpty())
-        logo = QPixmap(":/pic/tyhja.png").scaled(32,32);
-    else
-        logo = QPixmap::fromImage(QImage::fromData(ba));
+    notifications = map.value("notifications").toInt();
+    inbox = map.value("inbox").toInt();
+    outbox = map.value("outbox").toInt();
+    marked = map.value("marked").toInt();
+
+    vatDate = map.value("vatdate").toDate();
+    vatPeriod = map.value("vatperiod").toInt();
+    vatDue = map.value("vatdue").toDate();
+
+
+    logo = QByteArray::fromBase64( map.value("logo").toByteArray() );
+}
+
+QString GroupBooksModel::GroupBook::vatInfo() const
+{
+    if( vatPeriod == 1)
+        return vatDate.toString("M / yy");
+    else if( vatPeriod == 3) {
+        return QString("Q%1 / %2").arg(vatDate.month() / 3).arg(vatDate.year() % 100);
+    } else if( vatPeriod == 12) {
+        return QString::number(vatDate.year() % 100);
+    } else if(vatDate.isValid()) {
+        return vatDate.toString("dd.MM.yyyy");
+    }
+    return QString();
 }

@@ -10,8 +10,11 @@ public:
     AloitusInfo();
     AloitusInfo(const QVariantMap& map);
     AloitusInfo(const QString& luokka, const QString& otsikko, const QString& teksti,
-                const QString& linkki = QString(), const QString kuva = QString(), const QString ohjelinkki = QString());
+                const QString& linkki = QString(), const QString kuva = QString(), const QString ohjelinkki = QString(),
+                const int id = 0);
     QString toHtml() const;
+
+    int notifyId() const { return notifyId_;}
 
 protected:
     QString luokka_;
@@ -20,6 +23,7 @@ protected:
     QString linkki_;
     QString kuva_;
     QString ohjelinkki_;
+    int notifyId_ = 0;
 
 };
 
