@@ -42,6 +42,7 @@ public:
     static void kopioi(int tositeId);
 
 protected:
+    static void alustaMyyntilaskuTosite(Tosite* tosite);
     void naytaDialogi(Tosite* tosite);
     void tositeLadattu();
     void hyvitettavaLadattu();
