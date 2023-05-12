@@ -33,16 +33,16 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     connect( ui->laskutetaanEdit, &KpKplEdit::textEdited, this, &LaskuRiviDialogi::maaraMuutos );
     connect( ui->alvCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &LaskuRiviDialogi::veroMuutos );
 
-    connect( ui->aNetto, &KpEuroEdit::euroMuuttui, this, [this] (Euro euro) { if(!paivitys_) rivi_.setANetto(euro.toDouble()); paivita(); } );
-    connect( ui->aBrutto, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setABrutto(euro.toDouble()); paivita(); } );
+    connect( ui->aNetto, &KpEuroEdit::euroMuuttui, this, [this] (Euro euro) { if(!paivitys_) { rivi_.setANetto(euro.toDouble()); paivita(); }} );
+    connect( ui->aBrutto, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setABrutto(euro.toDouble()); paivita(); }} );
 
     connect( ui->alennusSpin, qOverload<double>(&QDoubleSpinBox::valueChanged), this, [this] (double prossat) { if(!paivitys_) { rivi_.setEuroAlennus(0); rivi_.setAleProsentti(prossat); paivita(); }} );
 
     connect( ui->euroAleEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setEuroAlennus(euro.toDouble()); paivita(); }} );
     connect( ui->bruttoAleEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setAleProsentti(0); rivi_.setBruttoEuroAlennus(euro.toDouble()); paivita(); }} );
 
-    connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setNettoYhteensa(euro.toDouble()); paivita(); } );
-    connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) rivi_.setBruttoYhteensa(euro); paivita(); } );
+    connect( ui->nettoYhteensa, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setNettoYhteensa(euro.toDouble()); paivita(); }} );
+    connect( ui->verollinenEdit, &KpEuroEdit::euroMuuttui, this, [this](Euro euro) { if(!paivitys_) { rivi_.setBruttoYhteensa(euro); paivita(); }} );
 
     connect( ui->alkupvmEdit, &KpDateEdit::dateChanged, this, [this](const QDate& date) { this->ui->loppupvmEdit->setEnabled(date.isValid()); this->ui->loppupvmEdit->setDateRange(date, QDate()); } );
 
@@ -71,6 +71,7 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
                              KitsasInterface* interface)
 {
     rivi_ = rivi;
+    paivitys_ = true;
 
     ui->nimikeEdit->setText( rivi.nimike() );
     ui->kuvausEdit->setText( rivi.kuvaus());
@@ -103,6 +104,11 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->merkkausCombo->haeMerkkaukset(pvm);
     ui->merkkausCombo->setSelectedItems( rivi.merkkaukset() );
 
+    if( rivi.aleProsentti() > 0.005)
+        ui->alennusSpin->setValue( rivi.aleProsentti() );
+    else if( rivi.euroAlennus() > 0.005)
+        ui->euroAleEdit->setValue( rivi.euroAlennus() );
+
     if( rivi.alennusSyy())
         ui->alennusSyyCombo->setCurrentIndex(
                     ui->alennusSyyCombo->findData(rivi.alennusSyy()) );
@@ -112,6 +118,8 @@ void LaskuRiviDialogi::lataa(const TositeRivi &rivi, const QDate &pvm, LaskuAlvC
     ui->alkupvmEdit->setDate( rivi.jaksoAlkaa() );
     ui->loppupvmEdit->setDate( rivi.jaksoLoppuu() );
     ui->loppupvmEdit->setEnabled( rivi.jaksoAlkaa().isValid() );
+
+    paivitys_ = false;
 
     paivita();
 }
@@ -158,17 +166,11 @@ void LaskuRiviDialogi::paivita()
     if( qAbs( ui->aBrutto->value() - rivi_.aBrutto()) > 0.005)
         ui->aBrutto->setValue( rivi_.aBrutto() );
 
-    if( qAbs( ui->alennusSpin->value() - rivi_.laskettuAleProsentti()) > 0.005)
+    if( qAbs( ui->alennusSpin->value() - rivi_.laskettuAleProsentti()) > 0.005 )
         ui->alennusSpin->setValue( rivi_.laskettuAleProsentti() );
 
-    if( qAbs( ui->euroAleEdit->value() - rivi_.laskennallinenEuroAlennus()) > 0.005)
+    if( qAbs( ui->euroAleEdit->value() - rivi_.laskennallinenEuroAlennus()) > 0.005 )
         ui->euroAleEdit->setValue( rivi_.laskennallinenEuroAlennus() );
-
-    if( qAbs(rivi_.laskennallinenEuroAlennus()) < 1e-7) {
-        ui->alennusSpin->setValue(0);
-        ui->euroAleEdit->setValue(0.00);
-    }
-
 
     if( qAbs( ui->bruttoAleEdit->value() - rivi_.laskennallinenBruttoEuroAlennus()) > 0.005)
         ui->bruttoAleEdit->setValue( rivi_.laskennallinenBruttoEuroAlennus() );
