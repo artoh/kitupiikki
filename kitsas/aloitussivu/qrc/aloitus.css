@@ -179,6 +179,11 @@ td.otsikko
     font-weight: bold;
 }
 
+tr.nollatili
+{
+    color: red;
+    font-weight: bold;
+}
 
 td.saldootsikko
 {
@@ -194,6 +199,13 @@ a.tililinkki
 {
     color: palette(text);
     text-decoration: none;
+}
+
+a.nollatililinkki
+{
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 td.sulkuruksi

@@ -432,6 +432,13 @@ QString AloitusBrowser::saldoTaulu()
     Euro tulossaldo;
 
     for(const auto& saldo : qAsConst(saldot_)) {
+
+        if( saldo.tili() == 0 and saldo.saldo()) {
+            txt.append( QString("<tr class=nollatili><td><a class=nollatililinkki href=\"ktp:/huomio\">Tiliöimättä</a></td><td class=euro>%1</td></tr>")
+                           .arg(saldo.saldo().display(true)) );
+
+        }
+
         const Tili* tili = saldo.tili();
         if( !tili) continue;
         if( tili->onko(TiliLaji::KAUDENTULOS) ) tulossaldo = saldo.saldo();
