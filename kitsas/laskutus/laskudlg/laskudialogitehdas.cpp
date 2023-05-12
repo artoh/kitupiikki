@@ -59,21 +59,9 @@ void LaskuDialogiTehdas::naytaLasku(int tositeId)
 KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
 {
     Tosite* tosite = new Tosite();
-    tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
+    alustaMyyntilaskuTosite(tosite);
     tosite->asetaKumppani(asiakasId);
 
-    tosite->asetaLaskupvm( paivamaara() );
-    tosite->lasku().setToimituspvm( paivamaara() );
-    tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
-    tosite->asetaErapvm( Lasku::oikaiseErapaiva( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) ) );
-    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );            
-    tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
-    tosite->lasku().setHuomautusAika( instanssi__->kitsas_->asetukset()->luku("LaskuHuomautusaika") );
-
-    const QString kieli = Kielet::instanssi()->nykyinen().toLower();
-    tosite->lasku().setSaate( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate") ).kaannos(kieli) );
-    tosite->lasku().setSaateOtsikko( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate_otsikko")).kaannos(kieli) );
-    tosite->lasku().setLisatiedot( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Lisatiedot")).kaannos(kieli) );
 
     KantaLaskuDialogi *dlg = new TavallinenLaskuDialogi(tosite);
     dlg->show();
@@ -83,11 +71,7 @@ KantaLaskuDialogi *LaskuDialogiTehdas::myyntilasku(int asiakasId)
 KantaLaskuDialogi *LaskuDialogiTehdas::ryhmalasku()
 {
     Tosite* tosite = new Tosite();
-    tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
-    tosite->asetaLaskupvm( paivamaara() );
-    tosite->asetaErapvm( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) );
-    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
-    tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
+    alustaMyyntilaskuTosite(tosite);
 
     RyhmaLaskuDialogi *dlg = new RyhmaLaskuDialogi(tosite);
     dlg->show();
@@ -106,6 +90,25 @@ void LaskuDialogiTehdas::kopioi(int tositeId)
     Tosite* tosite = new Tosite(instanssi__);    
     connect( tosite, &Tosite::ladattu, instanssi__, &LaskuDialogiTehdas::ladattuKopioitavaksi);
     tosite->lataa(tositeId);
+}
+
+void LaskuDialogiTehdas::alustaMyyntilaskuTosite(Tosite *tosite)
+{
+    tosite->asetaTyyppi(TositeTyyppi::MYYNTILASKU);
+    tosite->asetaLaskupvm( paivamaara() );
+    tosite->lasku().setToimituspvm( paivamaara() );
+    tosite->lasku().setKieli( Kielet::instanssi()->nykyinen().toUpper());
+
+    tosite->asetaErapvm( Lasku::oikaiseErapaiva( paivamaara().addDays( instanssi__->kitsas_->asetukset()->luku(AsetusModel::LaskuMaksuaika) ) ) );
+    tosite->lasku().setViivastyskorko( instanssi__->kitsas_->asetukset()->asetus(AsetusModel::LaskuPeruskorko).toDouble() + 7.0 );
+    tosite->lasku().setRiviTyyppi( oletusRiviTyyppi() );
+    tosite->lasku().setHuomautusAika( instanssi__->kitsas_->asetukset()->luku("LaskuHuomautusaika") );
+
+    const QString kieli = Kielet::instanssi()->nykyinen().toLower();
+    tosite->lasku().setSaate( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate") ).kaannos(kieli) );
+    tosite->lasku().setSaateOtsikko( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Saate_otsikko")).kaannos(kieli) );
+    tosite->lasku().setLisatiedot( Monikielinen( kp()->asetukset()->asetus("Laskuteksti/Lisatiedot")).kaannos(kieli) );
+
 }
 
 void LaskuDialogiTehdas::naytaDialogi(Tosite *tosite)
