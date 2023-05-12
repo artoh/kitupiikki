@@ -160,7 +160,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         if( !tili.tila() )
             return QColor( QPalette().base().color().lightness() > 128 ? Qt::darkGray : Qt::lightGray);
         else if( tili.onko(TiliLaji::KAUDENTULOS))
-            return QPalette().color(QPalette::Disabled, QPalette::Base);
+            return QPalette().color(QPalette::Disabled, QPalette::Text);
         else
             return QPalette().text().color();
     }
