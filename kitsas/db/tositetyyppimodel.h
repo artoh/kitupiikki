@@ -40,6 +40,7 @@ namespace TositeTyyppi {
         JARJESTELMATOSITE = 1000,
         TILINAVAUS = 9010,
         ALVLASKELMA = 9100,
+        YHTEENVETOILMOITUS = 9110,
         POISTOLASKELMA = 9910,
         JAKSOTUS = 9920,
         TULOVERO = 9930

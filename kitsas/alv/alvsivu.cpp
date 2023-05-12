@@ -35,6 +35,7 @@
 
 #include "alvilmoitustenmodel.h"
 #include "alvkaudet.h"
+#include "eumyyntiyhteenvetodialogi.h"
 
 AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu),
@@ -60,6 +61,8 @@ AlvSivu::AlvSivu() :
 
     connect( ui->kaudelleCombo, &QComboBox::currentTextChanged, this, &AlvSivu::kausiValittu);
 
+    connect( ui->yhteenvetoButton, &QPushButton::clicked, this, &AlvSivu::yhteenvetoIlmoitus);
+
 }
 
 AlvSivu::~AlvSivu()
@@ -81,6 +84,9 @@ void AlvSivu::siirrySivulle()
     ui->ilmoitinNappi->setVisible( kp()->pilvi() && !kp()->pilvi()->service("ilmoitinkoodi").isEmpty() );
 
     paivitaKaudet();
+
+    ui->yhteenvetoGroup->hide();
+    pyydaYhteenvetoTiedot();
 
     alustaa_ = false;
 
@@ -246,6 +252,48 @@ void AlvSivu::kausiValittu()
             ui->tilitaNappi->setEnabled(true);
         }
     }
+}
+
+void AlvSivu::pyydaYhteenvetoTiedot()
+{
+    if( qobject_cast<PilviModel*>(kp()->yhteysModel())) {
+        KpKysely* kysely = kpk("/alv/eu");
+        kysely->lisaaAttribuutti("pvm", kp()->paivamaara());
+        connect( kysely, &KpKysely::vastaus, this, &AlvSivu::yhteenvetoTiedotSaapuu);
+        kysely->kysy();
+    }
+}
+
+void AlvSivu::yhteenvetoTiedotSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    if( map.contains("tosite")) {
+        ui->yhteenvetoLabel->setText(tr("Yhteenvetoilmoitus edelliseltä kuukaudelta on jo annettu"));
+        ui->yhteenvetoGroup->setVisible(true);
+        ui->yhteenvetoButton->setVisible(false);
+    } else if( map.contains("ilmoitus")) {
+        ui->yhteenvetoGroup->setVisible(true);
+        ui->yhteenvetoButton->setVisible(true);
+
+        yhteenvetoIlmoitus_ = map;
+        QVariantList lista = map.value("ilmoitus").toList();
+        if( lista.value(0).toMap().value("alvtunnus").toString().isEmpty()) {
+            ui->yhteenvetoLabel->setText(tr("Kitsas ei voi muodostaa ilmoitusta, koska kaikkien yhteisömyynnin asiakkaiden ALV-tunnuksia ei ole syötetty."));
+            ui->yhteenvetoButton->setEnabled(false);
+        } else {
+            ui->yhteenvetoLabel->setText(tr("Anna yhteenvetoilmoitus edelliseltä kuukaudelta 20. päivään mennessä."));
+            ui->yhteenvetoButton->setEnabled(true);
+            ui->yhteenvetoButton->setEnabled(true);
+        }
+
+    }
+}
+
+void AlvSivu::yhteenvetoIlmoitus()
+{
+    EuMyyntiYhteenvetoDialogi* dlg = new EuMyyntiYhteenvetoDialogi(this);
+    connect( dlg, &EuMyyntiYhteenvetoDialogi::tallennettu, this, &AlvSivu::pyydaYhteenvetoTiedot);
+    dlg->naytaIlmoitus(yhteenvetoIlmoitus_);
 }
 
 

@@ -30,6 +30,7 @@ class AlvSivu;
 
 class IlmoitinTuottaja;
 
+
 /**
  * @brief Arvonlisäveromääritysten sivu, jolla tehdään alv-tilitys
  */
@@ -59,12 +60,18 @@ protected:
     void paivitaKaudet();
     void kausiValittu();
 
+    void pyydaYhteenvetoTiedot();
+    void yhteenvetoTiedotSaapuu(QVariant* data);
+    void yhteenvetoIlmoitus();
+
 private:
     Ui::AlvSivu *ui;
     IlmoitinTuottaja *ilmoitin;
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
     bool alustaa_ = true;
+
+    QVariantMap yhteenvetoIlmoitus_;
 
 };
 

@@ -52,6 +52,7 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
 
     lisaa(TositeTyyppi::TILINAVAUS, "Tilinavaus", "rahaa", false);
     lisaa(TositeTyyppi::ALVLASKELMA, "Alv-laskelma", "verotilitys", false);
+    lisaa(TositeTyyppi::YHTEENVETOILMOITUS, "Yhteenvetoilmoitus", "verotilitys", false);
     lisaa(TositeTyyppi::POISTOLASKELMA, "Poistolaskelma", "kirjalaatikko", false);
     lisaa(TositeTyyppi::JAKSOTUS, "Jaksotus", "ratas", false);
     lisaa(TositeTyyppi::TULOVERO, "Tulovero", "verotilitys", false);

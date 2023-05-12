@@ -13,96 +13,130 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1,0">
    <item>
-    <widget class="QGroupBox" name="ilmoitusGroup">
-     <property name="title">
-      <string>Uusi ALV-ilmoitus</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="kaudelleLabel">
+    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="4,1">
+     <item>
+      <widget class="QGroupBox" name="ilmoitusGroup">
+       <property name="title">
+        <string>Uusi ALV-ilmoitus</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="kaudelleLabel">
+            <property name="text">
+             <string>Alv-kausi</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="kaudelleCombo"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="alkaaLabel">
+            <property name="text">
+             <string>Alv-ilmoitus alkaa</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDateEdit" name="alkaaEdit">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="paattyyLabel">
+            <property name="text">
+             <string>Alv-ilmoitus päättyy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDateEdit" name="paattyyEdit">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Eräpäivä</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="erapaivaLabel">
+            <property name="text">
+             <string>xxx</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="tilitaNappi">
           <property name="text">
-           <string>Alv-kausi</string>
+           <string>&amp;Tee alv-ilmoitus</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/verotilitys.png</normaloff>:/pic/verotilitys.png</iconset>
+          </property>
+          <property name="shortcut">
+           <string>F11</string>
           </property>
          </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="kaudelleCombo"/>
         </item>
        </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="alkaaLabel">
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="yhteenvetoGroup">
+       <property name="title">
+        <string>Yhteenvetoilmoitus</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="yhteenvetoLabel">
           <property name="text">
-           <string>Alv-ilmoitus alkaa</string>
+           <string/>
           </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDateEdit" name="alkaaEdit">
-          <property name="calendarPopup">
+          <property name="wordWrap">
            <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="paattyyLabel">
+        <item>
+         <widget class="QPushButton" name="yhteenvetoButton">
           <property name="text">
-           <string>Alv-ilmoitus päättyy</string>
+           <string>Tee &amp;yhteenvetoilmoitus</string>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QDateEdit" name="paattyyEdit">
-          <property name="calendarPopup">
-           <bool>true</bool>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/eu.png</normaloff>:/pic/eu.png</iconset>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Eräpäivä</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="erapaivaLabel">
-          <property name="text">
-           <string>xxx</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="tilitaNappi">
-        <property name="text">
-         <string>&amp;Tee alv-ilmoitus</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/verotilitys.png</normaloff>:/pic/verotilitys.png</iconset>
-        </property>
-        <property name="shortcut">
-         <string>F11</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">

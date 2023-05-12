@@ -13,6 +13,7 @@ SOURCES += \
     $$PWD/aloitussivu/tukiwidget.cpp \
     $$PWD/alv/alvkaudet.cpp \
     $$PWD/alv/alvlaskelma.cpp \
+    $$PWD/alv/eumyyntiyhteenvetodialogi.cpp \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/alv/varmennedialog.cpp \
     $$PWD/alv/verovarmennetila.cpp \
@@ -446,6 +447,7 @@ HEADERS += \
     $$PWD/aloitussivu/tukiwidget.h \
     $$PWD/alv/alvkaudet.h \
     $$PWD/alv/alvlaskelma.h \
+    $$PWD/alv/eumyyntiyhteenvetodialogi.h \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/alv/varmennedialog.h \
     $$PWD/alv/verovarmennetila.h \

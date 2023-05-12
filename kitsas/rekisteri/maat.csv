@@ -179,7 +179,7 @@ Ranskan Polynesia;FRENCH POLYNESIA;PF
 Réunion;RÉUNION;RE
 Romania;ROMANIA;RO;RO\d{2,10}
 Ruanda;RWANDA;RW
-Ruotsi;SWEDEN;SE;SE\d{10}01
+Ruotsi;SWEDEN;SE;SE\d{12}
 Saint Barthélemy;SAINT BARTHÉLEMY;BL
 Saint Helena, Ascension ja Tristan da Cunha;SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA;SH
 Saint Kitts ja Nevis;SAINT KITTS AND NEVIS;KN
