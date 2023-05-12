@@ -78,7 +78,7 @@ void AlvIlmoitusDialog::accept()
     connect( laskelma_, &AlvLaskelma::ilmoitusVirhe, this, &AlvIlmoitusDialog::ilmoitusVirhe);
 
 
-    if( ui->ilmoitaGroup->isChecked()) {
+    if( ui->ilmoitaGroup->isChecked() ) {
         laskelma_->ilmoitaJaTallenna( ui->korjausCombo->isVisible() ? ui->korjausCombo->currentData().toString() : QString(),
                                       ui->huojennusCheck->isChecked());
     } else {
@@ -149,7 +149,8 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
     avaa->setIcon(QIcon(":/pic/print.png"));
     connect( avaa, &QPushButton::clicked, [rk] {NaytinIkkuna::naytaRaportti(rk);});
 
-    bool ilmoitusKaytossa = kp()->alvIlmoitukset()->kaudet()->alvIlmoitusKaytossa();
+    bool ilmoitusKaytossa = kp()->alvIlmoitukset()->kaudet()->alvIlmoitusKaytossa() &&
+                            !kp()->onkoHarjoitus();
 
     ui->ilmoitaGroup->setVisible( ilmoitusKaytossa );
     ui->ilmoitaGroup->setChecked( ilmoitusKaytossa );
