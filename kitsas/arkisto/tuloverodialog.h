@@ -43,12 +43,9 @@ signals:
 
 protected slots:
     void paivitaTulos();
-    void paivitaEnnenYlea();
-    void paivitaYlevero();
-    void paivitaYlenjalkeen();
+    void paivitaLopullinenTulos();
     void paivitaVero();
-    void paivitaJaannos();
-    void paivitaMaksettavaYle();
+    void paivitaJaannos();    
 
     void kirjattu();
 

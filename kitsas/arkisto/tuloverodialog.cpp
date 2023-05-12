@@ -37,14 +37,10 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
     connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
     connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
 
-    connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
-    connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaEnnenYlea);
+    connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaLopullinenTulos);
+    connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaLopullinenTulos);
 
-    connect( ui->ennenYlea, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlevero);
-    connect( ui->yleveroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaYlenjalkeen);
-    connect( ui->ennakkoYle, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaMaksettavaYle);
-
-    connect( ui->ylenJalkeen, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
+    connect( ui->loppuTulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaVero);
 
     connect( ui->veroEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
     connect( ui->maksetutEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaJaannos);
@@ -70,7 +66,6 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
     ui->tuloEdit->setEuro( verolaskelma.value("tulo").toString());
     ui->vahennysEdit->setEuro( verolaskelma.value("vahennys").toString());
     ui->maksetutEdit->setEuro( verolaskelma.value("ennakko").toString());
-    ui->ennakkoYle->setEuro( verolaskelma.value("ennakkoyle").toString() );
 
     paivitaTulos();
 
@@ -78,7 +73,7 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
 
 void TuloveroDialog::accept()
 {
-    if( !ui->yleveroEdit->asCents() && !ui->jaaveroaEdit->asCents()) {
+    if( !ui->jaaveroaEdit->asCents()) {
 
         QDialog::accept();
         QMessageBox::information(this, tr("Tuloveron kirjaaminen"),
@@ -96,29 +91,6 @@ void TuloveroDialog::accept()
     tosite->asetaOtsikko(tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina()));
     tosite->asetaSarja( kp()->tositeTyypit()->sarja( TositeTyyppi::TULOVERO ) ) ;
 
-    Euro maksettavaYle = ui->maksettavaYle->euro();
-    if( maksettavaYle.cents()) {
-        QString yleselite = tr("Ylevero tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
-
-        TositeVienti yledebet;
-        yledebet.setPvm(tilikausi_.paattyy());
-        yledebet.setTili( kp()->asetukset()->luku("Yleverotili", 8740) );
-        yledebet.setDebet(maksettavaYle);
-        yledebet.setSelite(yleselite);
-        tosite->viennit()->lisaa(yledebet);
-
-        TositeVienti ylekredit;
-        ylekredit.setPvm(tilikausi_.paattyy());
-        if( maksettavaYle.cents() > 0) {
-            ylekredit.setTili( kp()->asetukset()->luku("Tuloverosiirtovelat", 2968));
-        } else {
-            ylekredit.setTili( kp()->asetukset()->luku("Tuloverosiirtosaamiset", 1813) );
-        }
-        ylekredit.setKredit( maksettavaYle);
-        ylekredit.setSelite(yleselite);
-        ylekredit.setEra(-1);   // Tämä on oma tase-eränsä
-        tosite->viennit()->lisaa(ylekredit);
-    }
     QString selite = tr("Tuloveron jaksotus tilikaudelta %1").arg(tilikausi_.kausivaliTekstina());
 
     TositeVienti jaksovienti;
@@ -154,40 +126,20 @@ void TuloveroDialog::accept()
 void TuloveroDialog::paivitaTulos()
 {
     ui->tulosEdit->setValue( ui->tuloEdit->value() - ui->vahennysEdit->value());
-    paivitaEnnenYlea();
+    paivitaLopullinenTulos();
 }
 
-void TuloveroDialog::paivitaEnnenYlea()
-{
-    Euro ennenYlea = ui->tulosEdit->euro() - ui->tappioEdit->euro();  // Ei voi vähentää enemmän kuin tuloksen
-    ui->ennenYlea->setEuro(ennenYlea > Euro::Zero ? ennenYlea : Euro::Zero);
-    paivitaYlevero();
-}
 
-void TuloveroDialog::paivitaYlevero()
+void TuloveroDialog::paivitaLopullinenTulos()
 {
-    double tulo = ui->ennenYlea->value();
-
-    if( tulo < 50000)
-        ui->yleveroEdit->setValue(0);
-    else if( tulo >= 867142)
-        ui->yleveroEdit->setValue(3000);
-    else
-        ui->yleveroEdit->setValue(140+(0.0035*(tulo - 50000)));
-    paivitaYlenjalkeen();
-}
-
-void TuloveroDialog::paivitaYlenjalkeen()
-{
-    ui->ylenJalkeen->setValue(ui->ennenYlea->value() - ui->yleveroEdit->value());
-    paivitaVero();
-    paivitaMaksettavaYle();
+    ui->loppuTulosEdit->setValue(ui->tulosEdit->value() - ui->tappioEdit->value());
+    paivitaVero();    
 }
 
 
 void TuloveroDialog::paivitaVero()
 {
-    double tulos = ui->ylenJalkeen->value();
+    double tulos = ui->loppuTulosEdit->value();
 
     if( tulos > 1e-5)
         ui->veroEdit->setValue(0.2 * tulos);
@@ -199,14 +151,6 @@ void TuloveroDialog::paivitaVero()
 void TuloveroDialog::paivitaJaannos()
 {
     ui->jaaveroaEdit->setValue( ui->veroEdit->value() - ui->maksetutEdit->value());
-}
-
-void TuloveroDialog::paivitaMaksettavaYle()
-{
-    Euro ylevero = ui->yleveroEdit->euro();
-    Euro ennakko = ui->ennakkoYle->euro();
-    Euro maksettavaa = ylevero - ennakko;
-    ui->maksettavaYle->setEuro(maksettavaa);
 }
 
 void TuloveroDialog::kirjattu()
@@ -235,12 +179,7 @@ QByteArray TuloveroDialog::liite() const
     rivi(rk, tr("Verotettava tulos"), ui->tulosEdit->euro());
     rivi(rk, tr("Vähennettävä aiempi tappio"), ui->tappioEdit->euro());
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Verotettava tulos ennen Yle-veroa"), ui->ennenYlea->euro());
-    rivi(rk, tr("Yle-vero"), ui->yleveroEdit->euro());
-    rivi(rk, tr("Ennakkoon maksettu Yle-vero"), ui->ennakkoYle->euro());
-    rivi(rk, tr("Maksamaton Yle-vero"), ui->maksettavaYle->euro());
-    rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Lopullinen verotettava tulos"), ui->ylenJalkeen->euro());
+    rivi(rk, tr("Lopullinen verotettava tulos"), ui->loppuTulosEdit->euro());
     rivi(rk, tr("Tuloveron määrä"), ui->veroEdit->euro());
     rk.lisaaTyhjaRivi();
     rivi(rk, tr("Maksetut tuloverot"), ui->maksetutEdit->euro());
