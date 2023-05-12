@@ -232,9 +232,6 @@ void KpDateEdit::editMuuttui(const QString& uusi)
            setCursorPosition(3);
        } else if (uusi.at(0)=='3' && uusi.mid(1) != '1')  {
            pp = 30;
-       } else if( uusi.length() > 1 && uusi.at(1) == '9' && QString("123").contains( uusi.at(0) ) ) {
-           // Päivämäärän korottaminen
-           pp = uusi.mid(0,1).toInt() * 10;
        }
    }
 
