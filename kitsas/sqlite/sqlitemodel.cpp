@@ -55,6 +55,8 @@
 
 #include "versio.h"
 
+#include <QPalette>
+
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
@@ -127,11 +129,19 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
         }
     }
     if( role == Qt::ForegroundRole) {
-        if( map.value("harjoitus").toBool())
-            return QColor(Qt::darkGreen);
+        if( map.value("harjoitus").toBool()) {
+            if( QPalette().base().color().lightness() > 128)
+                return QColor(Qt::darkGreen);
+            else
+                return QColor(Qt::green);
+        }
         const QString& polku = map.value("polku").toString();
-        if( polku.contains(QRegularExpression("\\d{6}")) )
-            return QColor(Qt::darkMagenta);
+        if( polku.contains(QRegularExpression("\\d{6}")) ) {
+            if( QPalette().base().color().lightness() > 128)
+                return QColor(Qt::darkMagenta);
+            else
+                return QColor(Qt::magenta);
+        }
     }
 
     return QVariant();

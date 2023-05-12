@@ -23,8 +23,10 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QPalette>
+#include <QPalette>
 
 #include <QMessageBox>
+#include <QPalette>
 
 #include "db/tositetyyppimodel.h"
 #include "model/tositevienti.h"
@@ -156,11 +158,11 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::ForegroundRole)
     {
         if( !tili.tila() )
-            return QColor(Qt::darkGray);
+            return QColor( QPalette().base().color().lightness() > 128 ? Qt::darkGray : Qt::lightGray);
         else if( tili.onko(TiliLaji::KAUDENTULOS))
-            return QColor(Qt::gray);
+            return QPalette().color(QPalette::Disabled, QPalette::Base);
         else
-            return QColor(Qt::black);
+            return QPalette().text().color();
     }
     else if( role == Qt::DecorationRole && index.column() == ERITTELY) {
         if( tili.onko(TiliLaji::OTSIKKO) ||  tili.onko(TiliLaji::KAUDENTULOS) || tili.onko(TiliLaji::EDELLISTENTULOS))            

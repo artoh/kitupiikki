@@ -40,8 +40,7 @@ public:
 private:
     LiiteTila tila_ = ALUSTAMATON;
 
-    QByteArray data_;
-    QPixmap thumb_;
+    QByteArray data_;    
 
     CacheLiite* seuraava_ = nullptr;
     CacheLiite* edellinen_ = nullptr;

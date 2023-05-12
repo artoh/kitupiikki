@@ -3,6 +3,8 @@
 #include <QSvgRenderer>
 #include <QPainter>
 
+#include <QPalette>
+
 KirjanpitoDelegaatti::KirjanpitoDelegaatti(QObject *parent, bool limitys)
     : QItemDelegate{parent}, limitys_{limitys}
 {
@@ -29,10 +31,14 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
     drawDecoration(painter, option, logoRect, logo);
 
     painter->save();
-    if( index.data(HarjoitusRooli).toBool())
-        painter->setPen(QColor(Qt::darkGreen));
-    else
-        painter->setPen(QColor(Qt::black));
+    if( index.data(HarjoitusRooli).toBool()) {
+        if( QPalette().base().color().lightness() > 128)
+            painter->setPen(QColor(Qt::darkGreen));
+        else
+            painter->setPen(QColor(Qt::green));
+    } else {
+        painter->setPen(QPen(QPalette().text(),1));
+    }
 
     painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter ,text);
 

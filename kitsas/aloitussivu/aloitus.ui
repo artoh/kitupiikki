@@ -405,7 +405,8 @@ border-color: rgb(170, 0, 0);</string>
                 <item>
                  <widget class="QLabel" name="palvelinvirheLabel">
                   <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 255, 0);</string>
+                   <string notr="true">background-color: rgb(255, 255, 0);
+color: rgb(0, 0, 0);</string>
                   </property>
                   <property name="text">
                    <string>Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudestaan. </string>

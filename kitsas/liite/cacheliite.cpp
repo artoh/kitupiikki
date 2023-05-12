@@ -1,6 +1,7 @@
 #include "cacheliite.h"
 
 #include <QImage>
+#include <QPainter>
 
 CacheLiite::CacheLiite()
 {
@@ -16,10 +17,8 @@ CacheLiite::CacheLiite(LiiteTila tila) :
 void CacheLiite::setData(const QByteArray &data)
 {
     data_ = data;        
-    tila_ = HAETTU;
+    tila_ = HAETTU;    
 
-    QImage image = QImage::fromData(data).scaled(64,64,Qt::KeepAspectRatio);
-    thumb_ = QPixmap::fromImage(image);
 }
 
 void CacheLiite::asetaSeuraava(CacheLiite *seuraava)
@@ -53,8 +52,7 @@ bool CacheLiite::kaytettavissa() const
 
 void CacheLiite::tyhjenna()
 {
-    data_.clear();
-    thumb_ = QPixmap();
+    data_.clear();    
     tila_ = TYHJENNETTY;
 }
 
@@ -67,6 +65,12 @@ QByteArray *CacheLiite::dataPtr()
 }
 
 QPixmap CacheLiite::thumb() const
-{
-    return thumb_;
+{    
+    QImage image = QImage::fromData(data_).scaled(64,64,Qt::KeepAspectRatio);
+    QImage filled(image.size(), QImage::Format_RGB32);
+    filled.fill(Qt::white);
+    QPainter p(&filled);
+    p.drawImage(image.rect(), image);
+    return QPixmap::fromImage(filled);
+
 }

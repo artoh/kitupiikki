@@ -230,7 +230,7 @@ void LoginService::verkkovirhe(QNetworkReply::NetworkError virhe)
     qWarning() << "LoginService verkkovirhe " << virhe << " " << txt;
 
     messageLabel_->setText(QString("<b>%1</b>").arg(txt));
-    messageLabel_->setStyleSheet("background-color: yellow;");
+    messageLabel_->setStyleSheet("background-color: yellow; color: black;");
     messageLabel_->show();
 }
 

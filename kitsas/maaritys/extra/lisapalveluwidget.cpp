@@ -54,14 +54,14 @@ void LisaPalveluWidget::updateUi()
 
     if( data_.inTesting()) {
         QLabel *testingLabel = new QLabel(tr(" Vain testikäyttäjille "));
-        testingLabel->setStyleSheet("background-color: orange");
+        testingLabel->setStyleSheet("background-color: orange; color: black;");
         nameLayout->addWidget(testingLabel);
 
     }
 
     if( !data_.price().isEmpty()) {
         QLabel *priceLabel = new QLabel( " " + data_.price() + " ");
-        priceLabel->setStyleSheet("background-color: yellow");
+        priceLabel->setStyleSheet("background-color: yellow; color: black;");
         nameLayout->addWidget(priceLabel);
     }
 
@@ -243,6 +243,8 @@ void LisaPalveluWidget::naytaLoki(const QVariant *data)
     QTableView* view = new QTableView(lokiDlg);
     view->horizontalHeader()->setStretchLastSection(true);
     view->setModel(model);
+    view->setSelectionMode(QTableView::SelectionMode::NoSelection);
+    view->setAlternatingRowColors(true);
 
     QHBoxLayout* leiska = new QHBoxLayout();
     leiska->addWidget(view);

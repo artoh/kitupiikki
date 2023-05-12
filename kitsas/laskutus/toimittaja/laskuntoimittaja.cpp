@@ -64,7 +64,7 @@ void LaskunToimittaja::toimitaLasku(const QList<int> laskuTositeIdt)
     }
     ui->progressBar->setMaximum( ui->progressBar->maximum() + laskuTositeIdt.count() );
 
-    setStyleSheet("background-color: rgba(230, 230, 230, 125)");
+    setStyleSheet("background-color: rgba(230, 230, 230, 125); color: black;");
 
     QWidget* pw = qobject_cast<QWidget*>(parent());
 

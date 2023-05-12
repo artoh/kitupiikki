@@ -16,6 +16,7 @@
 */
 
 #include "kaavankorostin.h"
+#include <QPalette>
 
 KaavanKorostin::KaavanKorostin(QTextDocument *parent) :
     QSyntaxHighlighter( parent )
@@ -44,7 +45,7 @@ void KaavanKorostin::highlightBlock(const QString &text)
     }
     else if( text.startsWith("?"))
     {
-        setFormat(0, text.length(), QColor(Qt::darkCyan));
+        setFormat(0, text.length(), QColor( QPalette().base().color().lightness() > 128 ? Qt::darkCyan : Qt::cyan));
     }
     else if( text.startsWith("@"))
     {
@@ -64,7 +65,7 @@ void KaavanKorostin::highlightBlock(const QString &text)
                 tagialkaa = i;
             else if( merkki == '>' && tagialkaa > -1)
             {
-                setFormat(tagialkaa, i - tagialkaa + 1, QColor(Qt::blue));
+                setFormat(tagialkaa, i - tagialkaa + 1, QColor( QPalette().base().color().lightness() > 128 ? Qt::blue : Qt::yellow ));
                 tagialkaa = -1;
             }
         }
