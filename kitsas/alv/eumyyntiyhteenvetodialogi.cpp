@@ -62,9 +62,14 @@ void EuMyyntiYhteenvetoDialogi::accept()
     tosite_ = new Tosite(this);
 
     if( ui->ilmoitaGroup->isChecked())
+    {
+        kp()->asetukset()->aseta(AsetusModel::VeroYhteysHenkilo, ui->yhteysEdit->text());
+        kp()->asetukset()->aseta(AsetusModel::VeroYhteysPuhelin, ui->puhelinEdit->text());
+
         ilmoita();
-    else
+    } else {
         tallennaTosite();
+    }
 
 }
 
@@ -152,6 +157,11 @@ void EuMyyntiYhteenvetoDialogi::naytaIlmoitus(const QVariantMap &data)
 
     ui->ilmoitaGroup->setVisible( ilmoitusKaytossa );
     ui->ilmoitaGroup->setChecked( ilmoitusKaytossa );
+
+    ui->yhteysEdit->setText(  kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo) );
+    ui->puhelinEdit->setText( kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
+    if( ui->puhelinEdit->text().isEmpty())
+        ui->puhelinEdit->setText("+358");
 
     tarkastaKelpo();
     show();
