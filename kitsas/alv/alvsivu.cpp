@@ -268,7 +268,7 @@ void AlvSivu::yhteenvetoTiedotSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
     if( map.contains("tosite")) {
-        ui->yhteenvetoLabel->setText(tr("Yhteenvetoilmoitus edelliseltä kuukaudelta on jo annettu"));
+        ui->yhteenvetoLabel->setText(tr("Yhteenvetoilmoitus edelliseltä kuukaudelta on annettu"));
         ui->yhteenvetoGroup->setVisible(true);
         ui->yhteenvetoButton->setVisible(false);
     } else if( map.contains("ilmoitus")) {
