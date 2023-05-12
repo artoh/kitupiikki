@@ -4335,7 +4335,7 @@
             "sv": "Bankkortsinköp"
         },
         "laajuus": 1
-    },    
+    },
     {
         "numero": 2888,
         "tyyppi": "BO",
@@ -9302,7 +9302,7 @@
     },
     {
         "numero": 8740,
-        "tyyppi": "DZ",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Yle-vero",
             "sv": "Yle-skatt"
