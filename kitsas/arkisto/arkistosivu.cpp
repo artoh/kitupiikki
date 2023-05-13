@@ -362,6 +362,7 @@ bool ArkistoSivu::vieHakemistoon(const QString &polku)
     minne.mkdir("liitteet");
     minne.mkdir("static");
     minne.mkdir("tositteet");
+    minne.mkdir("raportit");
 
 
     QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
