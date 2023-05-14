@@ -147,7 +147,7 @@ void LoginService::keyLogin()
     }
 }
 
-QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe)
+QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe, const QString &virheTeksti = "")
 {
     if( virhe == QNetworkReply::ConnectionRefusedError)
         return tr("Palvelin ei juuri nyt ole käytettävissä. Yritä myöhemmin uudelleen.");
@@ -158,7 +158,7 @@ QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe)
     else if( virhe == QNetworkReply::UnknownServerError)
         return tr("Palvelu on tilapäisesti poissa käytöstä.");
     else
-        return tr("Palvelinyhteydessä on virhe (%1)").arg(virhe);
+        return tr("Palvelinyhteydessä on virhe (%1: %2)").arg(virhe).arg(virheTeksti);
 }
 
 void LoginService::loginVastaus()

@@ -43,6 +43,7 @@ void PaivitysInfo::pyydaInfo()
     QString osoite = kp()->pilvi()->pilviLoginOsoite() + "/updateinfo";
 
     QNetworkRequest pyynto = QNetworkRequest( QUrl(osoite));
+    pyynto.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     pyynto.setRawHeader("Content-type","application/json");
     pyynto.setRawHeader("User-Agent", QString("%1 %2 %3").arg(qApp->applicationName(),qApp->applicationVersion(), QSysInfo::prettyProductName()).toUtf8()  );
     QNetworkReply *reply = kp()->networkManager()->post(pyynto, ba);
@@ -65,7 +66,7 @@ void PaivitysInfo::infoSaapui()
         emit infoSaapunut();
    } else {
         QNetworkReply::NetworkError error = reply->error();
-        info( "varoitus", tr("Palvelimeen ei saada yhteyttä"), LoginService::verkkovirheteksti(error),
+        info( "varoitus", tr("Palvelimeen ei saada yhteyttä"), LoginService::verkkovirheteksti(error, reply->errorString()),
              QString(), "verkkovirhe.png");
         emit infoSaapunut();
         emit verkkovirhe(error);
