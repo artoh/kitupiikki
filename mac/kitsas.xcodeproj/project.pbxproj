@@ -172,6 +172,14 @@
 		CB3F30512A10CE8E00538778 /* moc_kirjanpitodelegaatti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB3F304F2A10CE8D00538778 /* moc_kirjanpitodelegaatti.cpp */; };
 		CB3F30532A10F10800538778 /* libqsecuretransportbackend.dylib in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */; };
 		CB3F30542A10F13E00538778 /* libqsecuretransportbackend.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		CB3F30552A1128D400538778 /* QtCore5Compat.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */; };
+		CB3F30562A1128D400538778 /* QtCore5Compat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB3F30572A1128D800538778 /* QtPdf.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87429FFFE4C000B0FAE /* QtPdf.framework */; };
+		CB3F30582A1128D800538778 /* QtPdf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB64F87429FFFE4C000B0FAE /* QtPdf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB3F30592A1128DB00538778 /* QtPdfWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */; };
+		CB3F305A2A1128DB00538778 /* QtPdfWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB3F305B2A1128E100538778 /* QtSvgWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */; };
+		CB3F305C2A1128E100538778 /* QtSvgWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB4688F62A07D9EC002A3020 /* libqcocoa.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB4688A72A07CE83002A3020 /* libqcocoa.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		CB4688F72A07DA12002A3020 /* libqmacstyle.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB4688A92A07CEA7002A3020 /* libqmacstyle.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		CB4688F82A07DA2E002A3020 /* libqsvgicon.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB4688AB2A07CF6D002A3020 /* libqsvgicon.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -194,11 +202,7 @@
 		CB6109B92A0018AB00B086A8 /* aliasdialog.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB6109AF2A0018AB00B086A8 /* aliasdialog.cpp */; };
 		CB6109BA2A0018AB00B086A8 /* extralogmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB6109B42A0018AB00B086A8 /* extralogmodel.cpp */; };
 		CB64F87229FFFD86000B0FAE /* ApplicationServices.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87129FFFD86000B0FAE /* ApplicationServices.framework */; };
-		CB64F87629FFFE4D000B0FAE /* QtSvgWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */; };
-		CB64F87729FFFE4D000B0FAE /* QtPdf.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87429FFFE4C000B0FAE /* QtPdf.framework */; };
-		CB64F87829FFFE4D000B0FAE /* QtPdfWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */; };
 		CB64F87A29FFFE9C000B0FAE /* ImageIO.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87929FFFE9C000B0FAE /* ImageIO.framework */; };
-		CB64F87C29FFFED0000B0FAE /* QtCore5Compat.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */; };
 		CB64F87F2A0005C1000B0FAE /* pdfnaytin.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB64F87D2A0005C1000B0FAE /* pdfnaytin.cpp */; };
 		CB64F8932A0006C9000B0FAE /* liitecache.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB64F8822A0006C9000B0FAE /* liitecache.cpp */; };
 		CB64F8942A0006C9000B0FAE /* kuvaliitewidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB64F8842A0006C9000B0FAE /* kuvaliitewidget.cpp */; };
@@ -832,6 +836,8 @@
 		CBCA607C27A599D800262752 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB932E2A23EFD62000167D0B /* Images.xcassets */; };
 		CBD44ADE24EEC73F00340AA3 /* moc_kutsudialog.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBD44ADB24EEC73F00340AA3 /* moc_kutsudialog.cpp */; };
 		CBD44ADF24EEC73F00340AA3 /* moc_salasananvaihto.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBD44ADD24EEC73F00340AA3 /* moc_salasananvaihto.cpp */; };
+		CBFEDC4A2A11377F003AD718 /* QtDBus.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBFEDC482A113736003AD718 /* QtDBus.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CBFEDC4B2A1137D7003AD718 /* QtDBus.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CBFEDC482A113736003AD718 /* QtDBus.framework */; };
 		CE7489B6C6C6CB6B9E7B4F14 /* moc_palkkaapuri.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 04EA27E42220C9CB6152D37F /* moc_palkkaapuri.cpp */; settings = {ATTRIBUTES = (); }; };
 		D303573DB6D9F6E0A0538E51 /* moc_ulkoasumaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 876B184E4EC816CD59988952 /* moc_ulkoasumaaritys.cpp */; settings = {ATTRIBUTES = (); }; };
 		D46249216C64A5EEDB5EB2BC /* moc_arkistohakemistodialogi.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 2D38392E6472BF5958CF20DF /* moc_arkistohakemistodialogi.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -863,13 +869,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CBFEDC4A2A11377F003AD718 /* QtDBus.framework in Embed Frameworks */,
 				CB932E1523EF043000167D0B /* QtCore.framework in Embed Frameworks */,
 				CB932E1F23EF043C00167D0B /* QtSvg.framework in Embed Frameworks */,
 				CB932E1D23EF043900167D0B /* QtPrintSupport.framework in Embed Frameworks */,
 				CB932E2123EF043E00167D0B /* QtWidgets.framework in Embed Frameworks */,
 				CB932E2323EF044200167D0B /* QtXml.framework in Embed Frameworks */,
+				CB3F305A2A1128DB00538778 /* QtPdfWidgets.framework in Embed Frameworks */,
+				CB3F30562A1128D400538778 /* QtCore5Compat.framework in Embed Frameworks */,
+				CB3F30582A1128D800538778 /* QtPdf.framework in Embed Frameworks */,
 				CB932E1923EF043500167D0B /* QtNetwork.framework in Embed Frameworks */,
 				CB932E1723EF043200167D0B /* QtGui.framework in Embed Frameworks */,
+				CB3F305C2A1128E100538778 /* QtSvgWidgets.framework in Embed Frameworks */,
 				CB932E1B23EF043700167D0B /* QtSql.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -3145,6 +3156,7 @@
 		CBDC2ECB27788FA900A20B56 /* moc_laatijanpaivakirja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laatijanpaivakirja.cpp; sourceTree = "<group>"; };
 		CBDC2ECC27788FA900A20B56 /* moc_laaditunraportinnaytin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laaditunraportinnaytin.cpp; sourceTree = "<group>"; };
 		CBE47FCB2F985179CC264512 /* moc_ryhmaanasiakkaatproxy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_ryhmaanasiakkaatproxy.cpp; path = /Users/petri/git/kitupiikki/mac/moc_ryhmaanasiakkaatproxy.cpp; sourceTree = "<absolute>"; };
+		CBFEDC482A113736003AD718 /* QtDBus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtDBus.framework; path = ../../../Qt/6.5.0/macos/lib/QtDBus.framework; sourceTree = "<group>"; };
 		CC380CB5EA55D2073F2E1052 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/6.5.0/macos/lib/QtXml.framework; sourceTree = "<group>"; };
 		CD1D76884A8C257712D9F612 /* moc_apuriwidget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_apuriwidget.cpp; path = /Users/petri/git/kitupiikki/mac/moc_apuriwidget.cpp; sourceTree = "<absolute>"; };
 		CE1D8B0D54253CAC8EC022BA /* emailmaaritys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = emailmaaritys.ui; path = /Users/petri/git/kitupiikki/kitsas/maaritys/emailmaaritys.ui; sourceTree = "<absolute>"; };
@@ -3185,11 +3197,10 @@
 			files = (
 				CB932E1C23EF043900167D0B /* QtPrintSupport.framework in Link Binary With Libraries */,
 				CB64F87229FFFD86000B0FAE /* ApplicationServices.framework in Link Binary With Libraries */,
-				CB64F87829FFFE4D000B0FAE /* QtPdfWidgets.framework in Link Binary With Libraries */,
-				CB64F87629FFFE4D000B0FAE /* QtSvgWidgets.framework in Link Binary With Libraries */,
+				CB3F30552A1128D400538778 /* QtCore5Compat.framework in Link Binary With Libraries */,
 				CB932E2023EF043E00167D0B /* QtWidgets.framework in Link Binary With Libraries */,
+				CB3F30572A1128D800538778 /* QtPdf.framework in Link Binary With Libraries */,
 				CB932E1E23EF043C00167D0B /* QtSvg.framework in Link Binary With Libraries */,
-				CB64F87729FFFE4D000B0FAE /* QtPdf.framework in Link Binary With Libraries */,
 				CB932E1623EF043200167D0B /* QtGui.framework in Link Binary With Libraries */,
 				F2A75ACAC9DF6A3F4E5711E7 /* AppKit.framework in Link Binary With Libraries */,
 				CB64F87A29FFFE9C000B0FAE /* ImageIO.framework in Link Binary With Libraries */,
@@ -3197,9 +3208,11 @@
 				CB932E1A23EF043700167D0B /* QtSql.framework in Link Binary With Libraries */,
 				CB932E1823EF043500167D0B /* QtNetwork.framework in Link Binary With Libraries */,
 				CB932E2223EF044200167D0B /* QtXml.framework in Link Binary With Libraries */,
-				CB64F87C29FFFED0000B0FAE /* QtCore5Compat.framework in Link Binary With Libraries */,
 				CB932E1423EF043000167D0B /* QtCore.framework in Link Binary With Libraries */,
+				CBFEDC4B2A1137D7003AD718 /* QtDBus.framework in Link Binary With Libraries */,
+				CB3F305B2A1128E100538778 /* QtSvgWidgets.framework in Link Binary With Libraries */,
 				8D267F2E4776F0ECA2F49DC8 /* IOKit.framework in Link Binary With Libraries */,
+				CB3F30592A1128DB00538778 /* QtPdfWidgets.framework in Link Binary With Libraries */,
 				A99B2AA0F9CBBDD12BA126A4 /* DiskArbitration.framework in Link Binary With Libraries */,
 				E45E51A644D5FC9F942ECE55 /* AGL.framework in Link Binary With Libraries */,
 				CB932E1223EF042D00167D0B /* OpenGL.framework in Link Binary With Libraries */,
@@ -3976,42 +3989,43 @@
 		AF39DD055C3EF8226FBE929D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */,
+				8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */,
+				723F90793B2C195E2CCB2233 /* AppKit.framework */,
+				CB64F87129FFFD86000B0FAE /* ApplicationServices.framework */,
+				2B774D8E4178765CE52EAAF5 /* DiskArbitration.framework */,
+				CB64F87929FFFE9C000B0FAE /* ImageIO.framework */,
+				A1A67BEAA744704B29168D39 /* IOKit.framework */,
+				CB4688A72A07CE83002A3020 /* libqcocoa.dylib */,
 				CB4688D12A07D0A3002A3020 /* libqgif.dylib */,
 				CB4688CC2A07D0A2002A3020 /* libqicns.dylib */,
 				CB4688D22A07D0A3002A3020 /* libqico.dylib */,
 				CB4688CD2A07D0A2002A3020 /* libqjpeg.dylib */,
 				CB4688D02A07D0A3002A3020 /* libqmacheif.dylib */,
 				CB4688CE2A07D0A2002A3020 /* libqmacjp2.dylib */,
+				CB4688A92A07CEA7002A3020 /* libqmacstyle.dylib */,
+				CB3F30522A10F10800538778 /* libqsecuretransportbackend.dylib */,
+				CB4688AD2A07CF91002A3020 /* libqsqlite.dylib */,
 				CB4688C92A07D0A2002A3020 /* libqsvg.dylib */,
+				CB4688AB2A07CF6D002A3020 /* libqsvgicon.dylib */,
 				CB4688CA2A07D0A2002A3020 /* libqtga.dylib */,
 				CB4688CF2A07D0A3002A3020 /* libqtiff.dylib */,
 				CB4688AF2A07D0A2002A3020 /* libqwbmp.dylib */,
 				CB4688CB2A07D0A2002A3020 /* libqwebp.dylib */,
-				CB4688AD2A07CF91002A3020 /* libqsqlite.dylib */,
-				CB4688AB2A07CF6D002A3020 /* libqsvgicon.dylib */,
-				CB4688A92A07CEA7002A3020 /* libqmacstyle.dylib */,
-				CB4688A72A07CE83002A3020 /* libqcocoa.dylib */,
-				83637733A66D05C0C7174C1F /* QtPrintSupport.framework */,
-				CB64F87129FFFD86000B0FAE /* ApplicationServices.framework */,
+				1B2543FCC48E9436F21C4F63 /* Metal.framework */,
+				D4B32C2222F82AC56BADEB21 /* OpenGL.framework */,
+				D01F1517FA0663487ECE0785 /* QtCore.framework */,
+				CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */,
+				CBFEDC482A113736003AD718 /* QtDBus.framework */,
+				A65BE9A069DA8D68F38407CF /* QtGui.framework */,
+				5ABB8CEF7F10FE343021B518 /* QtNetwork.framework */,
+				CB64F87429FFFE4C000B0FAE /* QtPdf.framework */,
 				CB64F87529FFFE4D000B0FAE /* QtPdfWidgets.framework */,
+				83637733A66D05C0C7174C1F /* QtPrintSupport.framework */,
+				153A5B8C9A2350226AAA50FF /* QtSql.framework */,
+				71FF985D34B6AC98470C412E /* QtSvg.framework */,
 				CB64F87329FFFE4C000B0FAE /* QtSvgWidgets.framework */,
 				44D855DBFC1E97999C2E0A0D /* QtWidgets.framework */,
-				71FF985D34B6AC98470C412E /* QtSvg.framework */,
-				CB64F87429FFFE4C000B0FAE /* QtPdf.framework */,
-				A65BE9A069DA8D68F38407CF /* QtGui.framework */,
-				723F90793B2C195E2CCB2233 /* AppKit.framework */,
-				CB64F87929FFFE9C000B0FAE /* ImageIO.framework */,
-				1B2543FCC48E9436F21C4F63 /* Metal.framework */,
-				153A5B8C9A2350226AAA50FF /* QtSql.framework */,
-				5ABB8CEF7F10FE343021B518 /* QtNetwork.framework */,
 				CC380CB5EA55D2073F2E1052 /* QtXml.framework */,
-				CB64F87B29FFFECF000B0FAE /* QtCore5Compat.framework */,
-				D01F1517FA0663487ECE0785 /* QtCore.framework */,
-				A1A67BEAA744704B29168D39 /* IOKit.framework */,
-				2B774D8E4178765CE52EAAF5 /* DiskArbitration.framework */,
-				8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */,
-				D4B32C2222F82AC56BADEB21 /* OpenGL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7548,6 +7562,10 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@loader_path/../Frameworks",
@@ -7584,6 +7602,10 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
