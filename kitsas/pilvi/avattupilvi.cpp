@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <QJsonDocument>
 
+#include "kieli/monikielinen.h"
+
 AvattuPilvi::AvattuPilvi()
 {
 
@@ -46,7 +48,10 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
         const QVariantMap im = map.value("info").toMap();
         const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-sininen.svg" : "ilmoitus-vihrea.svg";
 
-        info("notify", im.value("title").toString(), im.value("info").toString(),
+        Monikielinen text( im.value("info") );
+        Monikielinen title( im.value("title"));
+
+        info("notify", title.teksti(), text.teksti(),
              im.value("link").toString(), image, im.value("help").toString(),
              map.value("id").toInt());
     }
