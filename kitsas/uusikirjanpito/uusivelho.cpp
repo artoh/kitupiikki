@@ -70,6 +70,7 @@ UusiVelho::UusiVelho(QWidget *parent) :
     setOption(HaveHelpButton, true);
     connect(this, &UusiVelho::helpRequested, this, &UusiVelho::help);
 
+    setStyleSheet("background-color: palette(base)");
 }
 
 bool UusiVelho::lataaKartta(const QString &polku)

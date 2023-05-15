@@ -44,6 +44,8 @@ TilausWizard::TilausWizard() :
     addPage( valintaSivu_ );
     addPage( new TilausYhteysSivu);
     addPage( new TilausVahvistusSivu(this));
+
+    setStyleSheet("background-color: palette(base)");
 }
 
 int TilausWizard::nextId() const
