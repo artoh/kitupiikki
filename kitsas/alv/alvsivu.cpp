@@ -119,7 +119,7 @@ void AlvSivu::paivitaErapaiva()
         else if( kp()->paivamaara().daysTo( erapaiva) < 6)
             ui->erapaivaLabel->setStyleSheet("color: yellow;");
         else
-            ui->erapaivaLabel->setStyleSheet("color: black;");
+            ui->erapaivaLabel->setStyleSheet("color: palette(text);");
     }
     ui->tilitaNappi->setEnabled( loppupvm > kp()->tilitpaatetty() &&
                                  !kp()->alvIlmoitukset()->onkoIlmoitettu(loppupvm) &&
