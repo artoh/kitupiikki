@@ -29,8 +29,9 @@ void ExtraDialog::init(const QString &title, const QVariantMap &map, const QVari
 
     QVBoxLayout* mainLayout = new QVBoxLayout();
 
-    Monikielinen header(map.value("header").toMap());
-    Monikielinen intro(map.value("intro").toMap());
+    Monikielinen header(map.value("header"));
+    Monikielinen intro(map.value("intro"));
+    Monikielinen footer(map.value("footer"));
 
     QLabel* headerLabel = new QLabel(header.teksti());
     headerLabel->setStyleSheet("font-weight: bold");
@@ -41,9 +42,15 @@ void ExtraDialog::init(const QString &title, const QVariantMap &map, const QVari
 
     mainLayout->addLayout( initFields( map.value("fields").toList(), values ) );
 
+
     QString helpUrl = map.value("help").toString();
 
     mainLayout->addStretch();
+
+    QLabel* footerLabel = new QLabel(footer.teksti());
+    footerLabel->setWordWrap(true);
+    mainLayout->addWidget(footerLabel);
+
     QDialogButtonBox* bbox = new QDialogButtonBox( QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Help);
     connect( bbox, &QDialogButtonBox::accepted, this, &ExtraDialog::accept);
     connect( bbox, &QDialogButtonBox::rejected, this, &ExtraDialog::reject);
