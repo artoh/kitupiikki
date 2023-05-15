@@ -77,7 +77,7 @@ void ExtraLogModel::lataa(const QVariantList &lista)
 
 ExtraLogModel::EkstraLokiRivi::EkstraLokiRivi(const QVariantMap &map)
 {
-    aika_ = map.value("timestamp").toDateTime().toLocalTime().toString("dd.MM.yyyy HH.ss");
+    aika_ = map.value("timestamp").toDateTime().toLocalTime().toString("dd.MM.yyyy HH.mm");
     QVariantMap data = map.value("data").toMap();
     Monikielinen info(data.value("info").toMap());
     info_ = info.teksti();
