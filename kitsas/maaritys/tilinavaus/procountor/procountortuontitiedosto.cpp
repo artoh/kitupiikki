@@ -178,12 +178,11 @@ void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuun
 
 QDate ProcountorTuontiTiedosto::paivaksi(const QString &teksti)
 {
-    if( teksti.contains(" - ")) {
-        QStringList osat = teksti.split(" - ");
-        if( osat.count() == 2) {
-            QDate loppu = QDate::fromString(osat.last(),"dd.MM.yyyy");
-            if(loppu.isValid()) return loppu;
-        }
+    QRegularExpressionMatchIterator matsi = pvmRE__.globalMatch(teksti);
+    if( matsi.hasNext() ) {
+        QRegularExpressionMatch mats;
+        while(matsi.hasNext()) mats = matsi.next();
+        return QDate::fromString(mats.captured(), "dd.MM.yyyy");
     }
 
     QStringList patkina = teksti.split("/");
@@ -199,6 +198,7 @@ QDate ProcountorTuontiTiedosto::paivaksi(const QString &teksti)
 }
 
 QRegularExpression ProcountorTuontiTiedosto::tiliRE__ = QRegularExpression(R"(\D*(\d{3,8})\W*(.+))", QRegularExpression::UseUnicodePropertiesOption);
+QRegularExpression ProcountorTuontiTiedosto::pvmRE__ = QRegularExpression(R"([0-3]?\d[.][01]\d[.]2\d{3})", QRegularExpression::UseUnicodePropertiesOption);
 
 ProcountorTuontiTiedosto::SaldoTieto::SaldoTieto()
 {

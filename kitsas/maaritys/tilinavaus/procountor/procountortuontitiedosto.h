@@ -61,6 +61,7 @@ private:
 
 
     static QRegularExpression tiliRE__;
+    static QRegularExpression pvmRE__;
 };
 
 #endif // PROCOUNTORTUONTITIEDOSTO_H
