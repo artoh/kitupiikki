@@ -270,7 +270,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
     case Qt::ForegroundRole:
         if( sarake == PVM && ekavienti.selite().isEmpty() && ekavienti.kumppaniNimi().isEmpty() && !ekavienti.tili() && !pankkivienti().debetEuro() && !pankkivienti().kreditEuro())
             return QPalette().placeholderText();
-        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QColor(Qt::blue)) : QPalette().text() );
+        return (sarake == SELITE && ekavienti.selite().isEmpty() ? QBrush(QPalette().base().color().lightness() > 128 ?  QColor(Qt::blue) : QColor(Qt::cyan)) : QPalette().text() );
     case TilaRooli:
         return peitetty() ? "-" : "AA";
     case LisaysIndeksiRooli:
