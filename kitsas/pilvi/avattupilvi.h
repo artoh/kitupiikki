@@ -42,6 +42,8 @@ public:
     PilviExtra extra(int id) const;
     QList<int> extrat() const;
 
+    void asetaNotifikaatiot(const QVariantList& lista);
+
     /**
      * @brief Muodostaa oikeuksista bittikartan
      * @param Oikeudet listana ["Ts","Tl"] jne

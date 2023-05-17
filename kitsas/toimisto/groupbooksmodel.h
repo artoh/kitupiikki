@@ -5,6 +5,8 @@
 #include <QAbstractTableModel>
 #include <QPixmap>
 
+#include "pilvi/badges.h"
+
 class GroupBooksModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -26,10 +28,7 @@ protected:
         QString ownername;
         bool initialized;
 
-        int notifications;
-        int inbox;
-        int outbox;
-        int marked;
+        Badges badges_;
 
         QDate vatDate;
         int vatPeriod;

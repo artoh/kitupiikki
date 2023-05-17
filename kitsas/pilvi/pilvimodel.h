@@ -118,6 +118,9 @@ private:
     void lataaInit(QVariant* reply);
     void keskeytaLataus();
 
+    void haeIlmoitusPaivitys();
+    void paivitaIlmoitukset(QVariant* data);
+
 private:    
     void asetaPilviLista(const QVariantList lista);
 
@@ -134,6 +137,7 @@ private:
     QString kayttajaToken_;
     QDateTime tokenUusittu_;
     QTimer* timer_;
+    QTimer* ilmoitusTimer_ = nullptr;
 
     int avaaPilvi_ = 0;
 

@@ -69,16 +69,10 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
         return book.logo;
     case KirjanpitoDelegaatti::AlustettuRooli:
         return book.initialized;
-    case KirjanpitoDelegaatti::IlmoitusRooli:
-        return book.notifications;
+    case KirjanpitoDelegaatti::BadgesRooli:
+        return book.badges_.badges();
     case KirjanpitoDelegaatti::HarjoitusRooli:
         return book.trial;
-    case KirjanpitoDelegaatti::OutboxRooli:
-        return book.outbox;
-    case KirjanpitoDelegaatti::InboxRooli:
-        return book.inbox;
-    case KirjanpitoDelegaatti::MarkedRooli:
-        return book.marked;
     case Qt::DecorationRole:
     {
         if( index.column() != ALV) return QVariant();
@@ -138,15 +132,11 @@ GroupBooksModel::GroupBook::GroupBook(const QVariantMap &map)
     ownername = map.value("ownername").toString();
     initialized = map.value("initialized").toBool();
 
-    notifications = map.value("notifications").toInt();
-    inbox = map.value("inbox").toInt();
-    outbox = map.value("outbox").toInt();
-    marked = map.value("marked").toInt();
-
     vatDate = map.value("vatdate").toDate();
     vatPeriod = map.value("vatperiod").toInt();
     vatDue = map.value("vatdue").toDate();
 
+    badges_ = map.value("badges").toStringList();
 
     logo = QByteArray::fromBase64( map.value("logo").toByteArray() );
 }

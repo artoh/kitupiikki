@@ -2,6 +2,7 @@
 #define LISTANPILVI_H
 
 #include <QPixmap>
+#include "badges.h"
 
 class ListanPilvi
 {
@@ -15,10 +16,9 @@ public:
     bool kokeilu() const { return kokeilu_;}
     QByteArray logo() const { return logo_;}
     bool ready() const { return ready_;}
-    int notifications() const { return notifications_;}
-    int inbox() const { return inbox_;}
-    int outbox() const { return outbox_;}
-    int marked() const { return marked_;}
+    Badges badges() const { return badges_;}
+
+    void asetaBadget(const QStringList& lista);
 
 protected:
     int id_;
@@ -26,10 +26,7 @@ protected:
     bool kokeilu_;
     QByteArray logo_;
     bool ready_;
-    int notifications_;
-    int inbox_;
-    int outbox_;
-    int marked_;
+    Badges badges_;
 
 };
 

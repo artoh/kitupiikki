@@ -61,7 +61,8 @@ bool MinaMaaritys::onkoMuokattu()
             ui->emailEdit->text() != minaMap_.value("email").toString() ||
             ui->phoneEdit->text() != minaMap_.value("phone").toString() ||
             ui->kayta2fa->isChecked() != minaMap_.value("use2fa").toBool() ||
-            ui->toffeeRadio->isChecked() != minaMap_.value("pro").toBool();
+            ui->toffeeRadio->isChecked() != minaMap_.value("pro").toBool() ||
+            paivalista() != minaMap_.value("emaildays").toList();
 }
 
 bool MinaMaaritys::tallenna()
@@ -78,6 +79,9 @@ bool MinaMaaritys::tallenna()
         tallennus.insert("twofa", ui->kayta2fa->isChecked());
     if( ui->toffeeRadio->isChecked() != minaMap_.value("pro").toBool())
         tallennus.insert("pro", ui->toffeeRadio->isChecked());
+    if( paivalista() != minaMap_.value("emaildays").toList())
+        tallennus.insert("emaildays", paivalista());
+
 
 
     KpKysely* kysymys = kp()->pilvi()->loginKysely("/me", KpKysely::PATCH);
@@ -131,6 +135,15 @@ void MinaMaaritys::lueVastaus(QVariant *data)
 
     ui->kayta2fa->setChecked( minaMap_.value("use2fa").toBool() );
 
+    QVariantList viikonpaivat = minaMap_.value("emaildays").toList();
+    ui->ilmoSu->setChecked( viikonpaivat.contains(0) );
+    ui->ilmoMa->setChecked( viikonpaivat.contains(1) );
+    ui->ilmoTi->setChecked( viikonpaivat.contains(2) );
+    ui->ilmoKe->setChecked( viikonpaivat.contains(3) );
+    ui->ilmoTo->setChecked( viikonpaivat.contains(4) );
+    ui->ilmoPe->setChecked( viikonpaivat.contains(5) );
+    ui->ilmoLa->setChecked( viikonpaivat.contains(6) );
+
     paivitaMoodi();
     tarkastaMuokkaus();
 }
@@ -172,4 +185,17 @@ void MinaMaaritys::tallennettu(QVariant *data)
     } else {
         nollaa();
     }
+}
+
+QVariantList MinaMaaritys::paivalista() const
+{
+    QVariantList lista;
+    if( ui->ilmoSu->isChecked()) lista << 0;
+    if( ui->ilmoMa->isChecked()) lista << 1;
+    if( ui->ilmoTi->isChecked()) lista << 2;
+    if( ui->ilmoKe->isChecked()) lista << 3;
+    if( ui->ilmoTo->isChecked()) lista << 4;
+    if( ui->ilmoPe->isChecked()) lista << 5;
+    if( ui->ilmoLa->isChecked()) lista << 6;
+    return lista;
 }

@@ -9,11 +9,9 @@ class KirjanpitoDelegaatti : public QItemDelegate
 public:
     enum { LogoRooli = Qt::UserRole + 1000,
            AlustettuRooli = Qt::UserRole + 1001,
-           IlmoitusRooli = Qt::UserRole + 1002,
            HarjoitusRooli = Qt::UserRole + 1003,
-           InboxRooli = Qt::UserRole + 1004,
-           OutboxRooli = Qt::UserRole + 1005,
-           MarkedRooli = Qt::UserRole + 1006
+           BadgesRooli = Qt::UserRole + 1100
+
     };
 
     KirjanpitoDelegaatti(QObject *parent = nullptr, bool limitys = false);

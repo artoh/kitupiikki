@@ -29,6 +29,8 @@ protected:
     void lueVastaus(QVariant* data);
     void tallennettu(QVariant* data);
 
+    QVariantList paivalista() const;
+
 private:
     Ui::MinaMaaritys *ui;
     QVariantMap minaMap_;

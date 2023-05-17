@@ -17,10 +17,16 @@ ListanPilvi::ListanPilvi(const QVariant &variant)
     nimi_ = map.value("name").toString();
     kokeilu_ = map.value("trial").toBool();
     ready_ = map.value("ready", true).toBool();
-    notifications_ = map.value("notifications").toInt();
-    inbox_ = map.value("inbox").toInt();
-    outbox_ = map.value("outbox").toInt();
-    marked_ = map.value("marked").toInt();
+
+    badges_ = map.value("badges").toStringList();
+
 
     logo_ = QByteArray::fromBase64(map.value("logo").toByteArray());
 }
+
+void ListanPilvi::asetaBadget(const QStringList &lista)
+{
+    badges_ = lista;
+}
+
+

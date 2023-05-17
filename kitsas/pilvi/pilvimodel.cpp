@@ -52,6 +52,8 @@ PilviModel::PilviModel(QObject *parent, const QString &token) :
         timer_ = new QTimer(this);
         connect(timer_, &QTimer::timeout, this, &PilviModel::tarkistaKirjautuminen);
         connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, [this] { QTimer::singleShot(1500, this, &PilviModel::nimiMuuttui); });
+        ilmoitusTimer_ = new QTimer(this);
+        connect( ilmoitusTimer_, &QTimer::timeout, this, &PilviModel::haeIlmoitusPaivitys);
     }
 }
 
@@ -73,16 +75,10 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
         return pilvi.logo();
     case KirjanpitoDelegaatti::HarjoitusRooli:
         return pilvi.kokeilu();
-    case KirjanpitoDelegaatti::IlmoitusRooli:
-        return pilvi.notifications();
     case KirjanpitoDelegaatti::AlustettuRooli:
         return pilvi.ready();
-    case KirjanpitoDelegaatti::InboxRooli:
-        return pilvi.inbox();
-    case KirjanpitoDelegaatti::OutboxRooli:
-        return pilvi.outbox();
-    case KirjanpitoDelegaatti::MarkedRooli:
-        return pilvi.marked();
+    case KirjanpitoDelegaatti::BadgesRooli:
+        return pilvi.badges().badges();
     default:
         return QVariant();
     }
@@ -145,6 +141,38 @@ void PilviModel::keskeytaLataus()
 
 }
 
+void PilviModel::haeIlmoitusPaivitys()
+{
+    if( kayttajaPilvessa() ) {
+        KpKysely* kysely = loginKysely("/notifications");
+        connect( kysely, &KpKysely::vastaus, this, &PilviModel::paivitaIlmoitukset);
+        kysely->kysy();
+    }
+}
+
+void PilviModel::paivitaIlmoitukset(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    QVariantList pilvet = map.value("books").toList();
+    QVariantList notifikaatiot = map.value("notifications").toList();
+
+    nykyPilvi_.asetaNotifikaatiot(notifikaatiot);
+
+    QMap<int,QStringList> badgeMap;
+    for(const auto& item : pilvet) {
+        const QVariantMap map = item.toMap();
+        badgeMap.insert(map.value("id").toInt(), map.value("badges").toStringList());
+    }
+
+    for(int i=0; i < pilvet_.count(); i++) {
+        const int id = pilvet_.at(i).id();
+        pilvet_[i].asetaBadget( badgeMap.value(id) );
+    }
+    emit dataChanged(index(0), index(pilvet_.count()-1), QList<int>() << Qt::DisplayRole);
+
+    ilmoitusTimer_->start();
+}
+
 
 
 void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
@@ -157,10 +185,15 @@ void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
     }
     if(progressDialog_) progressDialog_->setValue(40);
 
+    if( nykyPilvi_ ) {
+        haeIlmoitusPaivitys();
+    }
+
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
     connect( kysymys, &KpKysely::vastaus, this, [this, siirrossa](QVariant* data) { this->alustaPilvi(data, siirrossa);});
     kysymys->kysy();
+
 }
 
 KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
@@ -258,6 +291,7 @@ void PilviModel::kirjauduUlos()
     kayttajaToken_.clear();
     tokenUusittu_ = QDateTime();        
     timer_->stop();
+    ilmoitusTimer_->stop();
 
     beginResetModel();
     pilvet_.clear();
@@ -294,9 +328,10 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 
 
     emit kirjauduttu(kayttaja_);
-    if( kayttaja_ && timer_) {
+    if( kayttaja_ && timer_ && ilmoitusTimer_) {
         // Tarkastetaan tokenin uusintatarve kerran minuutissa
         timer_->start(1000 * 60);
+        ilmoitusTimer_->start( 1000 * 60 * 10);  // Päivitys 10 min välein - voisi olla harvemmin?
     }
 
     if(avaaPilvi_) {
@@ -370,8 +405,10 @@ void PilviModel::alustaPilvi(QVariant *data, bool siirrossa)
         nykyPilvi_ = pilvi;
         if(siirrossa)
             emit siirtoPilviAvattu();
-        else
+        else {
             alusta();
+        }
+
     }
 }
 

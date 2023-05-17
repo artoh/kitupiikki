@@ -195,6 +195,8 @@ void ToimistoSivu::siirrySivulle()
             ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
             nodeValittu( groupTree_->index(0,0) );
         }
+    } else {
+        groupData_->reload();
     }
 }
 

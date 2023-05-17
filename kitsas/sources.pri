@@ -197,6 +197,7 @@ SOURCES += \
     $$PWD/naytin/naytinscene.cpp \
     $$PWD/naytin/pdfnaytin.cpp \
     $$PWD/pilvi/avattupilvi.cpp \
+    $$PWD/pilvi/badges.cpp \
     $$PWD/pilvi/listanpilvi.cpp \
     $$PWD/pilvi/paivitysinfo.cpp \
     $$PWD/pilvi/palvelunkertoja.cpp \
@@ -634,6 +635,7 @@ HEADERS += \
     $$PWD/naytin/naytinscene.h \
     $$PWD/naytin/pdfnaytin.h \
     $$PWD/pilvi/avattupilvi.h \
+    $$PWD/pilvi/badges.h \
     $$PWD/pilvi/listanpilvi.h \
     $$PWD/pilvi/paivitysinfo.h \
     $$PWD/pilvi/palvelunkertoja.h \

@@ -39,22 +39,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
         extrat_.insert(extra.id(), extra);
     }
 
-    QVariantList notifies = map.value("notifications").toList();
-    for(auto const& item : notifies) {
-        const QVariantMap map = item.toMap();
-
-        // TODO: Tyylit sisällön mukaan
-        const QString type = map.value("type").toString();
-        const QVariantMap im = map.value("info").toMap();
-        const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-sininen.svg" : "ilmoitus-vihrea.svg";
-
-        Monikielinen text( im.value("info") );
-        Monikielinen title( im.value("title"));
-
-        info("notify", title.teksti(), text.teksti(),
-             im.value("link").toString(), image, im.value("help").toString(),
-             map.value("id").toInt());
-    }
+    asetaNotifikaatiot( map.value("notifications").toList() );
 
 }
 
@@ -86,6 +71,27 @@ PilviExtra AvattuPilvi::extra(int id) const
 QList<int> AvattuPilvi::extrat() const
 {
     return extrat_.keys();
+}
+
+void AvattuPilvi::asetaNotifikaatiot(const QVariantList &lista)
+{
+    clear();
+    for(auto const& item : lista) {
+        const QVariantMap map = item.toMap();
+
+        // TODO: Tyylit sisällön mukaan
+        const QString type = map.value("type").toString();
+        const QVariantMap im = map.value("info").toMap();
+        const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-sininen.svg" : "ilmoitus-vihrea.svg";
+
+        Monikielinen text( im.value("info") );
+        Monikielinen title( im.value("title"));
+
+        info("notify", title.teksti(), text.teksti(),
+             im.value("link").toString(), image, im.value("help").toString(),
+             map.value("id").toInt());
+    }
+
 }
 
 
