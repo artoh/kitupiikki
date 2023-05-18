@@ -14,7 +14,7 @@ Comments, variable names, documentations and the software itself are, of course,
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
 Kotisivu [kitsas.fi](https://kitsas.fi)   
-Käyttöohjeet [kitsas.fi/docs](https://kitsas.fi.docs)
+Käyttöohjeet [kitsas.fi/docs](https://kitsas.fi/docs)
 
 
 ## Tavoitteet
