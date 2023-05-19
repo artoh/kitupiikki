@@ -232,6 +232,7 @@
         <file>ilmoitus-vihrea.svg</file>
         <file>paperilennokki.svg</file>
         <file>huomio.svg</file>
+        <file>mail-readed.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -197,6 +197,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return QIcon(":/pic/mailfail.png");
                 else if(tila == Tosite::TOIMITETTULASKU)
                     return QIcon(":/pic/mailok.png");
+                else if( tila == Tosite::AVATTULASKU)
+                    return QIcon(":/pic/mail-readed.png");
 
                 switch (map.value("tyyppi").toInt()) {
                 case TositeTyyppi::MYYNTILASKU:                    
