@@ -100,7 +100,7 @@ public:
     void setTilaaja(const QString& tilaaja) { setStr("tilaaja", tilaaja);}
 
     QDate tilausPvm() const { return pvm("tilauspvm");}
-    void setTilausPvm(const QDate& tilauspvm) { set("tilauspvm", tilauspvm);}
+    void setTilausPvm(const QDate& tilauspvm) { if(tilauspvm.isValid()) set("tilauspvm", tilauspvm); else unset("tilauspvm");}
 
     QString sopimusnumero() const { return str("sopimusnumero");}
     void setSopimusnumero(const QString& numero) { setStr("sopimusnumero",  numero);}
