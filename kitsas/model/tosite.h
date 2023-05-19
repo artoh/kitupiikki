@@ -89,6 +89,7 @@ public:
         KIRJANPIDOSSA   = 100,
         LAHETETTYLASKU  = 110,
         TOIMITETTULASKU = 113,
+        AVATTULASKU     = 114,
         MUISTUTETTU     = 120
     };
 

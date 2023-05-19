@@ -111,6 +111,7 @@ QString Tosite::tilateksti(int tila)
     case LAHETETTYLASKU: return tulkkaa("Lähetetty");
     case MUISTUTETTU: return tulkkaa("Muistutettu");
     case TOIMITETTULASKU: return tulkkaa("Toimitettu");
+    case AVATTULASKU: return tulkkaa("Avattu");
     case LAHETYSVIRHE: return tulkkaa("Epäonnistui");
     }
     return QString();
@@ -131,6 +132,7 @@ QIcon Tosite::tilakuva(int tila)
     case LAHETETTYLASKU: return QIcon(":/pic/mail.png");
     case MUISTUTETTU: return QIcon(":/pic/punainenkuori.png");
     case TOIMITETTULASKU: return QIcon(":/pic/mailok.png");
+    case AVATTULASKU: return QIcon(":/pic/mail-readed.png");
     case LAHETYSVIRHE: return QIcon(":/pic/mailfail.png");
     }
     return QIcon(":/pic/tyhja.png");
