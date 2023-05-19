@@ -113,10 +113,16 @@ void TpAloitus::lataaTiedosto()
     if( !tiedosto.isEmpty() )
     {
         QFile luku(tiedosto);
-        if(!luku.open(QIODevice::ReadOnly))
+        if(!luku.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Tiedostovirhe"), tr("Tiedoston %1 luku epäonnistui\n%2")
                                   .arg(tiedosto)
                                   .arg(luku.errorString()));
+            return;
+        }
+        if( luku.size() > 10L * 1024L * 1024L) {
+            QMessageBox::critical(this, tr("Tiedostovirhe"), tr("Tiedoston koko on liian suuri. Voit lisätä enintään 10 megatavun kokoisen tiedoston."));
+            return;
+        }
         QMap<QString,QString> meta;
         meta.insert("Filename",tiedosto);
         KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
