@@ -178,6 +178,8 @@ void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuun
 
 QDate ProcountorTuontiTiedosto::paivaksi(const QString &teksti)
 {
+    // Mahdolliset päivämäärämuodot 31.12.2023 TAI 12/2023
+
     QRegularExpressionMatchIterator matsi = pvmRE__.globalMatch(teksti);
     if( matsi.hasNext() ) {
         QRegularExpressionMatch mats;
@@ -185,20 +187,22 @@ QDate ProcountorTuontiTiedosto::paivaksi(const QString &teksti)
         return QDate::fromString(mats.captured(), "dd.MM.yyyy");
     }
 
-    QStringList patkina = teksti.split("/");
-    if( patkina.length() == 2) {
-        int kk = patkina.at(0).toInt();
-        int vvvv = patkina.at(1).toInt();
-        if( kk > 0 && kk < 13 && vvvv > 2010 && vvvv < 2200) {
-            QDate eka(vvvv, kk, 1);
-            return QDate(vvvv, kk, eka.daysInMonth());
-        }
+    matsi = kausiRE__.globalMatch(teksti);
+    if( matsi.hasNext() ) {
+        QRegularExpressionMatch mats;
+        while(matsi.hasNext()) mats = matsi.next();
+        const int kk = mats.captured(1).toInt();
+        const int vvvv = mats.captured(2).toInt();
+        const QDate eka(vvvv, kk, 1);
+        return QDate(vvvv, kk, eka.daysInMonth());
     }
+
     return QDate();
 }
 
 QRegularExpression ProcountorTuontiTiedosto::tiliRE__ = QRegularExpression(R"(\D*(\d{3,8})\W*(.+))", QRegularExpression::UseUnicodePropertiesOption);
 QRegularExpression ProcountorTuontiTiedosto::pvmRE__ = QRegularExpression(R"([0-3]?\d[.][01]\d[.]2\d{3})", QRegularExpression::UseUnicodePropertiesOption);
+QRegularExpression ProcountorTuontiTiedosto::kausiRE__ = QRegularExpression(R"((1?\d)\s*/\s*(2\d{3}))", QRegularExpression::UseUnicodePropertiesOption);
 
 ProcountorTuontiTiedosto::SaldoTieto::SaldoTieto()
 {
