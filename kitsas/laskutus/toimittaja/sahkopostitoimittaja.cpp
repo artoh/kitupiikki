@@ -217,6 +217,7 @@ void SahkopostiToimittaja::lahetaViesti()
     viesti.insert("attachments", liitteet_);
     viesti.insert("senderName", ema_.lahettajaNimi());
     viesti.insert("senderAddress", ema_.lahettajaOsoite());
+    viesti.insert("docid", tosite()->id());
 
     if(lasku.email().contains(",")) {
         viesti.insert("to", lasku.email());
