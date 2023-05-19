@@ -17,6 +17,7 @@ protected:
         SaldoTieto(const QString& tilinumero, const QString& tilinimi, const QList<Euro>& saldot);
 
         int tilinumero() const { return tilinumero_.toInt();}
+        QString tili() const { return tilinumero_;}
         QString tilinimi() const { return tilinimi_;}
         QList<Euro> saldot() const { return saldot_;}
         Euro summa() const;
@@ -48,6 +49,8 @@ public:
     void oikaiseTilinavaus(const ProcountorTuontiTiedosto& edellinenTase);
     void oikaiseTili(const SaldoTieto& saldotieto);
     void tallennaAlkutositteeseen(Tosite* tosite, TiliMuuntoModel* muunto);
+
+    Euro tiedostoSumma() const;
 
 protected:
     QDate paivaksi(const QString& teksti);

@@ -35,7 +35,7 @@ ProcountorTuontiDialog::ProcountorTuontiDialog(QWidget *parent, TilinavausModel*
 
     connect( ui->valitseTiedostoNappi, &QPushButton::clicked, this, &ProcountorTuontiDialog::avaaTiedosto);
     connect( ui->buttonBox, &QDialogButtonBox::accepted, this, &ProcountorTuontiDialog::accept);
-    connect( ui->buttonBox, &QDialogButtonBox::rejected, this, &ProcountorTuontiDialog::rejected);
+    connect( ui->buttonBox, &QDialogButtonBox::rejected, this, &ProcountorTuontiDialog::reject);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, this, [] { kp()->ohje("asetukset/tilinavaus/procountor"); });
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
@@ -113,8 +113,18 @@ void ProcountorTuontiDialog::paivitaRuksit()
     ui->edTaseCheck->setVisible( taseEdellinen_.validi() );
     ui->edTulosCheck->setVisible( tulosEdellinen_.validi() );
 
+    const Euro eTase = taseEdellinen_.tiedostoSumma();
+    const Euro eTulos = tulosEdellinen_.tiedostoSumma();
+
+    ui->edellinenEiTasmaa->setVisible( taseEdellinen_.validi() && tulosEdellinen_.validi() && ( taseEdellinen_.tiedostoSumma() + tulosEdellinen_.tiedostoSumma() ) );
+
     ui->nykTaseCheck->setVisible( taseNykyinen_.validi() );
     ui->nykTulosCheck->setVisible( tulosNykyinen_.validi() );
+
+    const Euro tase = taseNykyinen_.tiedostoSumma();
+    const Euro tulos = tulosNykyinen_.tiedostoSumma();
+
+    ui->nykyinenEiTasmaa->setVisible( taseNykyinen_.validi() && tulosNykyinen_.validi() && ( taseNykyinen_.tiedostoSumma() + tulosNykyinen_.tiedostoSumma()) );
 }
 
 

@@ -308,11 +308,12 @@ bool TiliMuuntoModel::naytaMuuntoDialogi(QWidget *parent)
             mui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled( this->kaikkiMuunnettu() );
         });
         mui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled( kaikkiMuunnettu() );
-    }
+    }    
 
     return( muuntoDlg.exec() == QDialog::Accepted);
 
 }
+
 
 bool TiliMuuntoModel::kaikkiMuunnettu() const
 {

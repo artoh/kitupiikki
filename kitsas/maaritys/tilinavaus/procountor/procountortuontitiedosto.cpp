@@ -144,7 +144,7 @@ void ProcountorTuontiTiedosto::oikaiseTili(const SaldoTieto &saldotieto)
     nollaus << Euro::Zero - saldotieto.summa();
     for(int i=1; i < paivat_.count(); i++)
         nollaus << Euro::Zero;
-    saldot_.append(SaldoTieto(QString::number(saldotieto.tilinumero()), saldotieto.tilinimi(), nollaus));
+    saldot_.append(SaldoTieto(saldotieto.tili(), saldotieto.tilinimi(), nollaus));
 }
 
 void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuuntoModel *muunto)
@@ -174,6 +174,18 @@ void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuun
             tosite->viennit()->lisaa(vienti);
         }
     }
+}
+
+Euro ProcountorTuontiTiedosto::tiedostoSumma() const
+{
+    Euro summa;
+    for( const auto& saldo : saldot_) {
+        if( saldo.tili().startsWith('1'))
+            summa -= saldo.summa();
+        else
+            summa += saldo.summa();
+    }
+    return summa;
 }
 
 QDate ProcountorTuontiTiedosto::paivaksi(const QString &teksti)

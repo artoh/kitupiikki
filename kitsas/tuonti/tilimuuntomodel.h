@@ -20,7 +20,6 @@
 
 #include <QAbstractTableModel>
 #include "model/euro.h"
-#include "maaritys/tilinavaus/tilinavausmodel.h"
 
 /**
  * @brief The TiliMuuntoModelin sisäinen tietorakenne
