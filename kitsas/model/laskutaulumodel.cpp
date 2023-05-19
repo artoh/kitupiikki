@@ -151,8 +151,13 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return QVariant();
     case Qt::ForegroundRole:
             if( index.column() == ERAPVM )
-                if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin").toDouble() > 1e-5 )
+                if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin").toDouble() > 1e-5 ) {
+                    const int tila = map.value("tila").toInt();
+                    if( (tila == Tosite::LAHETETAAN || tila == Tosite::LAHETYSVIRHE) && QPalette().base().color().lightness() < 128 ) {
+                        return QPalette().brightText().color();
+                    }
                     return QBrush(QColor(Qt::red));
+                }
             return QVariant();
     case AvoinnaRooli:
         return map.value("avoin");
@@ -259,10 +264,23 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return ostoja_;
     case MapRooli:
         return map;
+    case Qt::BackgroundRole:
+    {
+        const int tila = map.value("tila").toInt();
+        if( tila == Tosite::LAHETETAAN || tila == Tosite::LAHETYSVIRHE ) {
+            const bool alternateColor = index.row() % 2 == 1;
+            if( QPalette().base().color().lightness() > 128) {
+                return alternateColor ? QBrush(QColor(255, 200, 77)) : QBrush(QColor(255,209,102));
+            } else {
+                return alternateColor ? QBrush(QColor(204, 41, 0)) : QBrush(QColor(255,51,0));
+            }
+
+        }
+        return QVariant();
     }
-
-
-    return QVariant();
+    default:
+        return QVariant();
+    }
 }
 
 void LaskuTauluModel::lataaAvoimetMaksettavat(bool ostoja)
