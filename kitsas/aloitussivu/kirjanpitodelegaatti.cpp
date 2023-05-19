@@ -59,14 +59,16 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
         QSvgRenderer renderer(QString(":/pic/kierto.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));
     }
-    if( badges & Badges::INFORMATION ) {
-        QSvgRenderer renderer(QString(":/pic/ilmoitus.svg"));
-        renderer.render(painter, oikealla(indeksi++, rect));
-    }
     if( badges & Badges::NOTIFICATION ) {
         QSvgRenderer renderer(QString(":/pic/ilmoitus-vihrea.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));
     }
+
+    if( badges & Badges::INFORMATION ) {
+        QSvgRenderer renderer(QString(":/pic/ilmoitus-keltainen.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+
     if( badges & Badges::ERROR ) {
         QSvgRenderer renderer(QString(":/pic/ilmoitus-punainen.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));

@@ -82,12 +82,13 @@ void AvattuPilvi::asetaNotifikaatiot(const QVariantList &lista)
         // TODO: Tyylit sisällön mukaan
         const QString type = map.value("type").toString();
         const QVariantMap im = map.value("info").toMap();
-        const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-sininen.svg" : "ilmoitus-vihrea.svg";
+        const QString image = im.contains("image") ? im.value("image").toString() : type == "ERROR" ? "ilmoitus-punainen.svg" : type == "INFO" ? "ilmoitus-keltainen.svg" : "ilmoitus-vihrea.svg";
+        const QString notifyClass = im.contains("class") ? im.value("class").toString() : "notify";
 
         Monikielinen text( im.value("info") );
         Monikielinen title( im.value("title"));
 
-        info("notify", title.teksti(), text.teksti(),
+        info(notifyClass, title.teksti(), text.teksti(),
              im.value("link").toString(), image, im.value("help").toString(),
              map.value("id").toInt());
     }

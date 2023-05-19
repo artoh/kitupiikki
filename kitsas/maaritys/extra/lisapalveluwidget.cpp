@@ -203,6 +203,7 @@ void LisaPalveluWidget::actionMessage(const QVariantMap &data)
         kp()->ohje( data.value("help").toString() );
     }
 
+    emit updateStatus();
 }
 
 void LisaPalveluWidget::actionLink(const QString url)

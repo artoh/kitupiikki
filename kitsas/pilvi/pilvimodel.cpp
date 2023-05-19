@@ -170,7 +170,10 @@ void PilviModel::paivitaIlmoitukset(QVariant *data)
     }
     emit dataChanged(index(0), index(pilvet_.count()-1), QList<int>() << Qt::DisplayRole);
 
-    ilmoitusTimer_->start();
+    if(ilmoitusTimer_) {
+        ilmoitusTimer_->start(10 * 60 * 1000);
+    }
+
 }
 
 
@@ -184,10 +187,6 @@ void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
         progressDialog_->setMinimumDuration(100);
     }
     if(progressDialog_) progressDialog_->setValue(40);
-
-    if( nykyPilvi_ ) {
-        haeIlmoitusPaivitys();
-    }
 
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
@@ -209,6 +208,7 @@ KpKysely *PilviModel::loginKysely(const QString &polku, KpKysely::Metodi metodi)
 void PilviModel::sulje()
 {
     nykyPilvi_ = AvattuPilvi();
+    ilmoitusTimer_->stop();
 }
 
 void PilviModel::poistaNykyinenPilvi()
@@ -330,8 +330,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
     emit kirjauduttu(kayttaja_);
     if( kayttaja_ && timer_ && ilmoitusTimer_) {
         // Tarkastetaan tokenin uusintatarve kerran minuutissa
-        timer_->start(1000 * 60);
-        ilmoitusTimer_->start( 1000 * 60 * 10);  // Päivitys 10 min välein - voisi olla harvemmin?
+        timer_->start(1000 * 60);        
     }
 
     if(avaaPilvi_) {
