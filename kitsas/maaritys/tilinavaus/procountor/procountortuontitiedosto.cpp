@@ -147,6 +147,18 @@ void ProcountorTuontiTiedosto::oikaiseTili(const SaldoTieto &saldotieto)
     saldot_.append(SaldoTieto(saldotieto.tili(), saldotieto.tilinimi(), nollaus));
 }
 
+void ProcountorTuontiTiedosto::oikaiseEdellinenTulos(const Euro &euroa, TiliMuuntoModel *muunto)
+{
+    for(int i=0; i < saldot_.count(); i++) {
+        const int muunnettu = muunto->muunnettu(saldot_.at(i).tilinumero());
+        Tili* tili = kp()->tilit()->tili(muunnettu);
+        if( tili && tili->onko(TiliLaji::EDELLISTENTULOS)) {
+            saldot_[i].oikaiseAvauksesta(euroa);
+            return;
+        }
+    }
+}
+
 void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuuntoModel *muunto)
 {
     for( const auto& saldo : saldot_) {
@@ -155,7 +167,6 @@ void ProcountorTuontiTiedosto::tallennaAlkutositteeseen(Tosite *tosite, TiliMuun
 
         Tili* tili = kp()->tilit()->tili(muunnettu);
         if(!tili) continue;
-        if(tili->onko(TiliLaji::KAUDENTULOS) || tili->onko(TiliLaji::EDELLISTENTULOS)) continue;
 
         for(int i=0; i < paivat_.count(); i++) {
             const Euro& maara = saldo.saldot().value(i);

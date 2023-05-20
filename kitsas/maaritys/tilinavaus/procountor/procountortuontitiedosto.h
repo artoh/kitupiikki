@@ -48,6 +48,7 @@ public:
     void tallennaTilinavaukseen(TilinavausModel* tilinavaus, TiliMuuntoModel* muunto);
     void oikaiseTilinavaus(const ProcountorTuontiTiedosto& edellinenTase);
     void oikaiseTili(const SaldoTieto& saldotieto);
+    void oikaiseEdellinenTulos(const Euro& euroa, TiliMuuntoModel *muunto);
     void tallennaAlkutositteeseen(Tosite* tosite, TiliMuuntoModel* muunto);
 
     Euro tiedostoSumma() const;

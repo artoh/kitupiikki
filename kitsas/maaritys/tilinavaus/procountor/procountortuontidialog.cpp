@@ -179,12 +179,15 @@ void ProcountorTuontiDialog::accept()
 
     if( taseNykyinen_.validi()) {
 
-        if( taseNykyinen_.tyyppi() == ProcountorTuontiTiedosto::TASE)
+        if( taseNykyinen_.tyyppi() == ProcountorTuontiTiedosto::TASE) {
             taseNykyinen_.oikaiseTilinavaus(taseEdellinen_);
+            taseNykyinen_.oikaiseEdellinenTulos( tulosEdellinen_.tiedostoSumma(), &muunto );
+        }
 
         Tosite kausitosite;
 
-        kausitosite.asetaPvm( kp()->tilikaudet()->tilikausiIndeksilla(1).alkaa() );
+        const QDate avausPvm = kp()->tilikaudet()->tilikausiIndeksilla(1).alkaa();
+        kausitosite.asetaPvm( avausPvm );
         kausitosite.asetaTyyppi( TositeTyyppi::TILINAVAUS);
         kausitosite.asetaOtsikko(tr("Tilinavaus Procountorista (keskeneräinen tilikausi)"));
 
@@ -197,8 +200,14 @@ void ProcountorTuontiDialog::accept()
 
         if( kausitosite.viennit()->debetKreditTasmaa()) {
             kausitosite.tallenna();
+            QMessageBox::information(this, tr("Aloitussaldojen tuonti"),
+                                     tr("Keskeneräisen tilikauden saldoista on muodostettu tosite päivämäärällä %1").arg(avausPvm.toString("dd.MM.yyyy")));
         } else {
             kausitosite.tallenna(Tosite::LUONNOS);
+            QMessageBox::information(this, tr("Aloitussaldojen tuonti"),
+                                     tr("Keskeneräisen tilikauden saldoista on muodostettu tosite päivämäärällä %1").arg(avausPvm.toString("dd.MM.yyyy")) +
+                                     "\n" +
+                                     tr("Näiden saldojen debet ja kredit ei täsmää, joten tosite löytyy Selaa-toiminnon Luonnokset-välilehdeltä."));
         }
 
 
