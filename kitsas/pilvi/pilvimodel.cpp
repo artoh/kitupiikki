@@ -154,9 +154,11 @@ void PilviModel::paivitaIlmoitukset(QVariant *data)
 {
     QVariantMap map = data->toMap();
     QVariantList pilvet = map.value("books").toList();
-    QVariantList notifikaatiot = map.value("notifications").toList();
 
-    nykyPilvi_.asetaNotifikaatiot(notifikaatiot);
+    if( pilvet.contains("notifications")) {
+        QVariantList notifikaatiot = map.value("notifications").toList();
+        nykyPilvi_.asetaNotifikaatiot(notifikaatiot);
+    }
 
     QMap<int,QStringList> badgeMap;
     for(const auto& item : pilvet) {
@@ -328,6 +330,8 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 
 
     emit kirjauduttu(kayttaja_);
+    haeIlmoitusPaivitys();
+
     if( kayttaja_ && timer_ && ilmoitusTimer_) {
         // Tarkastetaan tokenin uusintatarve kerran minuutissa
         timer_->start(1000 * 60);        
