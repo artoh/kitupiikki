@@ -143,6 +143,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
     if( tab == MAKSU ) {
         ui->maksuView->setModel(avoinProxy_);
+        ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
         laskut_->lataaAvoimetMaksettavat( menoa_ );
 
     } else if( tab == TULOMENO || tab == HYVITYS) {
