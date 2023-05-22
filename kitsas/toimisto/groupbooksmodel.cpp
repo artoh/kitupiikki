@@ -88,7 +88,6 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
             switch( book.certStatus) {
             case GroupBook::CertStatus::OK: return QIcon(":/pic/cert-green.svg");
             case GroupBook::CertStatus::VAT: return QIcon(":/pic/cert-yellow.svg");
-            case GroupBook::CertStatus::FAIL: return QIcon(":/pic/cert-red.svg");
             default: return QIcon(":/pic/tyhja.png");
             }
         }
