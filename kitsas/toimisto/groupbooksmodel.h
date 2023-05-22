@@ -15,6 +15,8 @@ class GroupBooksModel : public QAbstractTableModel
 protected:
     class GroupBook {
     public:
+        enum CertStatus {NO_CERT, OK, VAT, FAIL};
+
         explicit GroupBook();
         GroupBook(const QVariantMap &map);
         QString vatInfo() const;
@@ -33,6 +35,7 @@ protected:
         QDate vatDate;
         int vatPeriod;
         QDate vatDue;
+        CertStatus certStatus = NO_CERT;
     };
 
 public:

@@ -234,6 +234,9 @@
         <file>huomio.svg</file>
         <file>mail-readed.png</file>
         <file>ilmoitus-keltainen.svg</file>
+        <file>cert-green.svg</file>
+        <file>cert-yellow.svg</file>
+        <file>cert-red.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

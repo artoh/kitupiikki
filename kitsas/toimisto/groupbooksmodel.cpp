@@ -75,13 +75,23 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
         return book.trial;
     case Qt::DecorationRole:
     {
-        if( index.column() != ALV) return QVariant();
-        else if( !book.vatDue.isValid()) return QIcon(":/pic/tyhja.png");
-        else if( book.vatDue < QDate::currentDate()) return QIcon(":/pic/punainen.png");
-        const QDate vrt = book.vatDue.addDays( 0 - book.vatDate.day() );
-        if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi.png");
-        if( vrt.addMonths(-1) < QDate::currentDate()) return QIcon(":/pic/keltainen.png");
-        return QIcon(":/pic/kaytossa.png");
+        if(index.column() == ALV) {
+            if( !book.vatDue.isValid()) return QIcon(":/pic/tyhja.png");
+            else if( book.vatDue < QDate::currentDate()) return QIcon(":/pic/punainen.png");
+
+            const QDate vrt = book.vatDue.addDays( 0 - book.vatDate.day() );
+            if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi.png");
+            if( vrt.addMonths(-1) < QDate::currentDate()) return QIcon(":/pic/keltainen.png");
+            return QIcon(":/pic/kaytossa.png");
+        }
+        else if(index.column() == YTUNNUS) {
+            switch( book.certStatus) {
+            case GroupBook::CertStatus::OK: return QIcon(":/pic/cert-green.svg");
+            case GroupBook::CertStatus::VAT: return QIcon(":/pic/cert-yellow.svg");
+            case GroupBook::CertStatus::FAIL: return QIcon(":/pic/cert-red.svg");
+            default: return QIcon(":/pic/tyhja.png");
+            }
+        }
     }
     case Qt::ForegroundRole:
         return index.column() == ALV && book.vatDue < QDate::currentDate() ? QColor(Qt::red) : QVariant();
@@ -139,6 +149,12 @@ GroupBooksModel::GroupBook::GroupBook(const QVariantMap &map)
     badges_ = map.value("badges").toStringList();
 
     logo = QByteArray::fromBase64( map.value("logo").toByteArray() );
+
+    const QString cert = map.value("certstatus").toString();
+    if( cert.contains("OK")) certStatus = OK;
+    else if(cert.contains("VAT")) certStatus = VAT;
+    else if(cert.contains("FAIL")) certStatus = FAIL;
+
 }
 
 QString GroupBooksModel::GroupBook::vatInfo() const
