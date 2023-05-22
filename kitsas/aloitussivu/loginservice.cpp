@@ -209,6 +209,7 @@ void LoginService::loginVastaus()
         emailEdit_->clear();
         passwordEdit_->clear();
         passwordEdit_->hide();
+        passwordLabel_->hide();
 
     }
 }
