@@ -79,7 +79,7 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
             if( !book.vatDue.isValid()) return QIcon(":/pic/tyhja.png");
             else if( book.vatDue < QDate::currentDate()) return QIcon(":/pic/punainen.png");
 
-            const QDate vrt = book.vatDue.addDays( 0 - book.vatDate.day() );
+            const QDate vrt = book.vatDue.addDays( 0 - book.vatDue.day() );
             if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi.png");
             if( vrt.addMonths(-1) < QDate::currentDate()) return QIcon(":/pic/keltainen.png");
             return QIcon(":/pic/kaytossa.png");
