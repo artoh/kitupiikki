@@ -19,7 +19,8 @@ public:
 
     void registerWidgets( QLineEdit* emailEdit, QLineEdit* passwordEdit,
                           QLabel* messageLabel, QCheckBox* rememberBox,
-                          QPushButton* loginButon, QPushButton* forgotButton);
+                          QPushButton* loginButon, QPushButton* forgotButton,
+                          QLabel* passwordLabel);
 
     void keyLogin();
 
@@ -49,6 +50,7 @@ private:
     void auth(QVariantMap map);
 
 
+
 protected:
     QLineEdit* emailEdit_ = nullptr;
     QLineEdit* passwordEdit_ = nullptr;
@@ -56,6 +58,7 @@ protected:
     QCheckBox* rememberBox_ = nullptr;
     QPushButton* loginButton_ = nullptr;
     QPushButton* forgetButton_ = nullptr;
+    QLabel* passwordLabel_ = nullptr;
 
 private:
     bool emailOk_ = false;

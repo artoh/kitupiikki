@@ -28,10 +28,11 @@ LoginService::LoginService(QWidget *parent)
     : QObject{parent}
 {
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &LoginService::kirjauduttu);
-    connect( kp()->pilvi()->paivitysInfo(), &PaivitysInfo::verkkovirhe, this, &LoginService::verkkovirhe);
+    connect( kp()->pilvi()->paivitysInfo(), &PaivitysInfo::verkkovirhe, this, &LoginService::verkkovirhe);   
 }
 
-void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit, QLabel *messageLabel, QCheckBox *rememberBox, QPushButton *loginButon, QPushButton *forgotButton)
+void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit, QLabel *messageLabel, QCheckBox *rememberBox,
+                                   QPushButton *loginButon, QPushButton *forgotButton, QLabel *passwordLabel)
 {
     emailEdit_ = emailEdit;
     passwordEdit_ = passwordEdit;
@@ -39,18 +40,22 @@ void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit
     rememberBox_ = rememberBox;
     loginButton_ = loginButon;
     forgetButton_ = forgotButton;
+    passwordLabel_ = passwordLabel;
 
     emailEdit_->setValidator(new QRegularExpressionValidator(emailRE, this));
 
     messageLabel_->hide();
     loginButton_->setEnabled(false);
     forgetButton_->setEnabled(false);
-    passwordEdit_->setEnabled(false);
+
+    passwordLabel_->hide();
+    passwordEdit_->hide();
 
     connect( emailEdit_, &QLineEdit::textEdited, this, &LoginService::emailMuokattu);
     connect( passwordEdit_, &QLineEdit::textEdited, this, &LoginService::paivitaTilat);
     connect( loginButton_, &QPushButton::clicked, this, &LoginService::login);
     connect( forgetButton_, &QPushButton::clicked, this, &LoginService::forgetPassword);
+
 }
 
 void LoginService::emailMuokattu()
@@ -97,6 +102,8 @@ void LoginService::emailTarkastettu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
     emailOk_ = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
     if( emailOk_ ) {
+        passwordLabel_->setVisible(true);
+        passwordEdit_->setVisible(true);
         passwordEdit_->setPlaceholderText("Kirjoita nyt salasana");
         messageLabel_->hide();
     } else if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 404 ) {
@@ -109,8 +116,9 @@ void LoginService::emailTarkastettu()
 
 void LoginService::paivitaTilat()
 {
-    passwordEdit_->setEnabled( emailOk_ );
-    forgetButton_->setEnabled( emailOk_);
+    passwordLabel_->setVisible( emailOk_);
+    passwordEdit_->setVisible( emailOk_ );
+    forgetButton_->setVisible( emailOk_);
 
     bool passOk = passwordEdit_->text().length() >= 10;
     loginButton_->setEnabled( emailOk_ && passOk );
@@ -120,6 +128,8 @@ void LoginService::paivitaTilat()
 
 void LoginService::login()
 {
+    kp()->odotusKursori(true);
+
     QVariantMap map;
     map.insert("email", emailEdit_->text());
     map.insert("password", passwordEdit_->text());
@@ -163,6 +173,8 @@ QString LoginService::verkkovirheteksti(QNetworkReply::NetworkError virhe)
 
 void LoginService::loginVastaus()
 {
+    kp()->odotusKursori(false);
+
     QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
     QWidget* myParent = qobject_cast<QWidget*>(parent());
     const int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -196,6 +208,7 @@ void LoginService::loginVastaus()
 
         emailEdit_->clear();
         passwordEdit_->clear();
+        passwordEdit_->hide();
 
     }
 }

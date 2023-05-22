@@ -576,7 +576,8 @@ void AloitusSivu::initLoginService()
 {
     login_->registerWidgets( ui->emailEdit, ui->salaEdit,
                              ui->palvelinvirheLabel, ui->muistaCheck,
-                             ui->loginButton, ui->salasanaButton);
+                            ui->loginButton, ui->salasanaButton, ui->salaLabel
+                            );
 
 }
 

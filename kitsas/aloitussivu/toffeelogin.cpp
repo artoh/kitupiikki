@@ -25,7 +25,8 @@ ToffeeLogin::ToffeeLogin(QWidget *parent) :
                                    ui->infoLabel,
                                    ui->muistaBox,
                                    ui->loginNappi,
-                                   ui->unohdusNappi);
+                                   ui->unohdusNappi,
+                                   ui->salaLabel);
 
 }
 

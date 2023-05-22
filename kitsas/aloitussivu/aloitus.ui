@@ -456,7 +456,7 @@ color: rgb(0, 0, 0);</string>
                 <item>
                  <widget class="QLineEdit" name="salaEdit">
                   <property name="enabled">
-                   <bool>false</bool>
+                   <bool>true</bool>
                   </property>
                   <property name="echoMode">
                    <enum>QLineEdit::Password</enum>
