@@ -80,7 +80,7 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
             else if( book.vatDue < QDate::currentDate()) return QIcon(":/pic/punainen.png");
 
             const QDate vrt = book.vatDue.addDays( 0 - book.vatDue.day() );
-            if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi.png");
+            if( vrt < QDate::currentDate()) return QIcon(":/pic/oranssi2.png");
             if( vrt.addMonths(-1) < QDate::currentDate()) return QIcon(":/pic/keltainen.png");
             return QIcon(":/pic/kaytossa.png");
         }
@@ -92,8 +92,6 @@ QVariant GroupBooksModel::data(const QModelIndex &index, int role) const
             }
         }
     }
-    case Qt::ForegroundRole:
-        return index.column() == ALV && book.vatDue < QDate::currentDate() ? QColor(Qt::red) : QVariant();
     default:
         return QVariant();;
     }
@@ -163,7 +161,7 @@ QString GroupBooksModel::GroupBook::vatInfo() const
     else if( vatPeriod == 3) {
         return QString("Q%1 / %2").arg(vatDate.month() / 3).arg(vatDate.year() % 100);
     } else if( vatPeriod == 12) {
-        return QString::number(vatDate.year() % 100);
+        return QString::number(vatDate.year() );
     } else if(vatDate.isValid()) {
         return vatDate.toString("dd.MM.yyyy");
     }
