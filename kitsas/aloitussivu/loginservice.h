@@ -24,7 +24,7 @@ public:
 
     void keyLogin();
 
-    static QString verkkovirheteksti(QNetworkReply::NetworkError virhe);
+    static QString verkkovirheteksti(QNetworkReply::NetworkError virhe, const QString &virheTeksti);
 
 signals:
     void logged(PilviKayttaja kayttaja);    
