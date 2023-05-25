@@ -173,7 +173,7 @@ void PilviModel::paivitaIlmoitukset(QVariant *data)
     emit dataChanged(index(0), index(pilvet_.count()-1), QList<int>() << Qt::DisplayRole);
 
     if(ilmoitusTimer_) {
-        ilmoitusTimer_->start(10 * 60 * 1000);
+        ilmoitusTimer_->start(15 * 60 * 1000);
     }
 
 }
