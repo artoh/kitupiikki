@@ -56,6 +56,8 @@ void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit
     connect( loginButton_, &QPushButton::clicked, this, &LoginService::login);
     connect( forgetButton_, &QPushButton::clicked, this, &LoginService::forgetPassword);
 
+    emailEdit_->setPlaceholderText(tr("Kirjoita ensin sähköpostiosoitteesi"));
+
 }
 
 void LoginService::emailMuokattu()
