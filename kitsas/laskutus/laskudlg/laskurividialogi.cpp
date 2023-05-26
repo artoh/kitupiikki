@@ -172,11 +172,6 @@ void LaskuRiviDialogi::paivita()
     if( qAbs( ui->euroAleEdit->value() - rivi_.laskennallinenEuroAlennus()) > 0.005 )
         ui->euroAleEdit->setValue( rivi_.laskennallinenEuroAlennus() );
 
-    if( qAbs(rivi_.laskennallinenEuroAlennus()) < 1e-7) {
-        ui->alennusSpin->setValue(0);
-        ui->euroAleEdit->setValue(0.00);
-    }
-
 
     if( qAbs( ui->bruttoAleEdit->value() - rivi_.laskennallinenBruttoEuroAlennus()) > 0.005)
         ui->bruttoAleEdit->setValue( rivi_.laskennallinenBruttoEuroAlennus() );

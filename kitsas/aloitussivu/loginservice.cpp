@@ -46,8 +46,7 @@ void LoginService::registerWidgets(QLineEdit *emailEdit, QLineEdit *passwordEdit
 
     messageLabel_->hide();
     loginButton_->setEnabled(false);
-    forgetButton_->setEnabled(false);
-    passwordEdit_->setEnabled(false);
+    forgetButton_->setEnabled(false);    
 
     passwordLabel_->hide();
     passwordEdit_->hide();
