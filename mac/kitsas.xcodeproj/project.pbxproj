@@ -161,6 +161,7 @@
 		CB2AB8C1297D97CD005A3181 /* moc_laskutustietodialog.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2AB7B1297D8D0C005A3181 /* moc_laskutustietodialog.cpp */; };
 		CB2AB8C2297D97CD005A3181 /* moc_groupmembersmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2AB7B6297D8D0C005A3181 /* moc_groupmembersmodel.cpp */; };
 		CB2AB8C3297D97CD005A3181 /* moc_minamaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2AB7BC297D8D0D005A3181 /* moc_minamaaritys.cpp */; };
+		CB33E0B32A233B0A00953712 /* badges.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB33E0B12A233B0A00953712 /* badges.cpp */; };
 		CB3F30372A10CAAB00538778 /* kirjanpitodelegaatti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB3F30362A10CAAB00538778 /* kirjanpitodelegaatti.cpp */; };
 		CB3F303A2A10CAF400538778 /* booknotificationmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB3F30382A10CAF400538778 /* booknotificationmodel.cpp */; };
 		CB3F30452A10CBB900538778 /* procountortuontidialog.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB3F30402A10CBB900538778 /* procountortuontidialog.cpp */; };
@@ -1296,6 +1297,8 @@
 		CB2AB883297D931D005A3181 /* kiitos.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = kiitos.ui; sourceTree = "<group>"; };
 		CB2AB884297D931D005A3181 /* debugtiedotdlg.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = debugtiedotdlg.ui; sourceTree = "<group>"; };
 		CB2AB885297D931D005A3181 /* tukiwidget.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tukiwidget.ui; sourceTree = "<group>"; };
+		CB33E0B12A233B0A00953712 /* badges.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = badges.cpp; sourceTree = "<group>"; };
+		CB33E0B22A233B0A00953712 /* badges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = badges.h; sourceTree = "<group>"; };
 		CB3F30352A10CAAB00538778 /* kirjanpitodelegaatti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kirjanpitodelegaatti.h; sourceTree = "<group>"; };
 		CB3F30362A10CAAB00538778 /* kirjanpitodelegaatti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kirjanpitodelegaatti.cpp; sourceTree = "<group>"; };
 		CB3F30382A10CAF400538778 /* booknotificationmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = booknotificationmodel.cpp; sourceTree = "<group>"; };
@@ -4766,25 +4769,27 @@
 		CB91D9FE2660C7CC00A2FAA2 /* pilvi */ = {
 			isa = PBXGroup;
 			children = (
-				CB6109A62A00184500B086A8 /* pilviextra.cpp */,
-				CB6109A72A00184500B086A8 /* pilviextra.h */,
 				CB2AB7FB297D8E1A005A3181 /* avattupilvi.cpp */,
 				CB2AB7F8297D8E1A005A3181 /* avattupilvi.h */,
+				CB33E0B12A233B0A00953712 /* badges.cpp */,
+				CB33E0B22A233B0A00953712 /* badges.h */,
 				CB2AB7FA297D8E1A005A3181 /* listanpilvi.cpp */,
 				CB2AB7FD297D8E1A005A3181 /* listanpilvi.h */,
 				CB2AB7F9297D8E1A005A3181 /* paivitysinfo.cpp */,
 				CB2AB7F7297D8E1A005A3181 /* paivitysinfo.h */,
 				CB2AB7F6297D8E1A005A3181 /* palvelunkertoja.cpp */,
 				CB2AB7F5297D8E1A005A3181 /* palvelunkertoja.h */,
+				CB91DA022660C7CC00A2FAA2 /* pilveensiirto.cpp */,
+				CB91DA052660C7CC00A2FAA2 /* pilveensiirto.h */,
+				CB91DA002660C7CC00A2FAA2 /* pilveensiirto.ui */,
+				CB6109A62A00184500B086A8 /* pilviextra.cpp */,
+				CB6109A72A00184500B086A8 /* pilviextra.h */,
 				CB2AB7FC297D8E1A005A3181 /* pilvikayttaja.cpp */,
 				CB2AB7FE297D8E1B005A3181 /* pilvikayttaja.h */,
-				CB91D9FF2660C7CC00A2FAA2 /* pilvikysely.h */,
-				CB91DA002660C7CC00A2FAA2 /* pilveensiirto.ui */,
-				CB91DA012660C7CC00A2FAA2 /* pilvimodel.cpp */,
-				CB91DA022660C7CC00A2FAA2 /* pilveensiirto.cpp */,
-				CB91DA032660C7CC00A2FAA2 /* pilvimodel.h */,
 				CB91DA042660C7CC00A2FAA2 /* pilvikysely.cpp */,
-				CB91DA052660C7CC00A2FAA2 /* pilveensiirto.h */,
+				CB91D9FF2660C7CC00A2FAA2 /* pilvikysely.h */,
+				CB91DA012660C7CC00A2FAA2 /* pilvimodel.cpp */,
+				CB91DA032660C7CC00A2FAA2 /* pilvimodel.h */,
 			);
 			path = pilvi;
 			sourceTree = "<group>";
@@ -6956,6 +6961,7 @@
 				CB91E1CA2660C7D100A2FAA2 /* kappaledelegaatti.cpp in Compile Sources */,
 				CB91DE522660C7CF00A2FAA2 /* devtool.cpp in Compile Sources */,
 				CBD44ADE24EEC73F00340AA3 /* moc_kutsudialog.cpp in Compile Sources */,
+				CB33E0B32A233B0A00953712 /* badges.cpp in Compile Sources */,
 				CB91DE642660C7CF00A2FAA2 /* eranvalintadialog.cpp in Compile Sources */,
 				CB91E15F2660C7D100A2FAA2 /* esikatseltava.cpp in Compile Sources */,
 				CB9B80C62799BD0B000E9EE5 /* moc_tallentavamaarityswidget.cpp in Compile Sources */,
@@ -7558,7 +7564,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7574,7 +7580,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "5.0-RC";
+				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7598,7 +7604,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7615,7 +7621,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = "5.0-RC";
+				MARKETING_VERSION = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;

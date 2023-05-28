@@ -523,6 +523,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/kitsas350.png \
 		../kitsas/pic/uusitosite.png \
 		../kitsas/pic/kitsas64.png \
+		../kitsas/pic/cert-green.svg \
 		../kitsas/pic/netto.png \
 		../kitsas/pic/info-punainen.png \
 		../kitsas/pic/etsi.png \
@@ -532,9 +533,11 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/zoom-fit-width.png \
 		../kitsas/pic/vero64.png \
 		../kitsas/pic/computer-mainframe.png \
+		../kitsas/pic/cert-red.svg \
 		../kitsas/pic/kirja64.png \
 		../kitsas/pic/kierto-harmaa.svg \
 		../kitsas/pic/talo.png \
+		../kitsas/pic/cert-yellow.svg \
 		../kitsas/pic/edit-undo.png \
 		../kitsas/pic/insert-image.png \
 		../kitsas/pic/splash_fi.png \
@@ -589,6 +592,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/siirtonuoli.png \
 		../kitsas/pic/format-list-unordered.png \
 		../kitsas/pic/email32.png \
+		../kitsas/pic/mail-readed.png \
 		../kitsas/pic/punainenkuori.png \
 		../kitsas/pic/uusiasiakas.png \
 		../kitsas/pic/dokumentti.png \
@@ -605,6 +609,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/ok64.png \
 		../kitsas/pic/ratas.png \
 		../kitsas/pic/salkku.png \
+		../kitsas/pic/oranssi2.png \
 		../kitsas/pic/web.png \
 		../kitsas/pic/ilmoitus-sininen.svg \
 		../kitsas/pic/print.png \
@@ -612,6 +617,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/qr.png \
 		../kitsas/pic/QtIcon.png \
 		../kitsas/pic/palat.png \
+		../kitsas/pic/ilmoitus-keltainen.svg \
 		../kitsas/pic/uusikirja.png \
 		../kitsas/pic/edit-clear.png \
 		../kitsas/pic/text64.png \
@@ -3239,6 +3245,8 @@ moc_groupbooksmodel.cpp: ../kitsas/toimisto/groupbooksmodel.h \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/6.5.0/macos/lib/QtGui.framework/Headers/QPixmap \
+		../kitsas/pilvi/badges.h \
+		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QStringList \
 		../../../Qt/6.5.0/macos/libexec/moc
 	/Users/petri/Qt/6.5.0/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=13 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/petri/Qt/6.5.0/macos/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/Users/petri/Qt/6.5.0/macos/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtPdfWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSvgWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSvg.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtPdf.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtGui.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSql.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtXml.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtCore5Compat.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/petri/Qt/6.5.0/macos/lib ../kitsas/toimisto/groupbooksmodel.h -o moc_groupbooksmodel.cpp
 
@@ -4394,48 +4402,6 @@ moc_tilimuuntomodel.cpp: ../kitsas/tuonti/tilimuuntomodel.h \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QDataStream \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QVariant \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QDebug \
-		../kitsas/maaritys/tilinavaus/tilinavausmodel.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QList \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QMap \
-		../kitsas/db/kirjanpito.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QStringList \
-		../kitsas/db/tilikausi.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QDateTime \
-		../kitsas/db/kantavariantti.h \
-		../kitsas/db/asetusmodel.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/6.5.0/macos/lib/QtGui.framework/Headers/QColor \
-		../kitsas/db/tilikausimodel.h \
-		../kitsas/db/kohdennusmodel.h \
-		../../../Qt/6.5.0/macos/lib/QtSql.framework/Headers/QSqlDatabase \
-		../kitsas/db/kohdennus.h \
-		../../../Qt/6.5.0/macos/lib/QtGui.framework/Headers/QIcon \
-		../kitsas/kieli/monikielinen.h \
-		../kitsas/kieli/abstraktimonikielinen.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QVariantMap \
-		../kitsas/db/verotyyppimodel.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QAbstractListModel \
-		../kitsas/kitsas.h \
-		../kitsas/db/tilityyppimodel.h \
-		../kitsas/db/tilimodel.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QSet \
-		../kitsas/db/tili.h \
-		../kitsas/laskutus/tuotemodel.h \
-		../kitsas/laskutus/tuote.h \
-		../kitsas/db/kpkysely.h \
-		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QUrlQuery \
-		../kitsas/db/kitsasinterface.h \
-		../../../Qt/6.5.0/macos/lib/QtGui.framework/Headers/QImage \
-		../kitsas/tuonti/pdf/tuontiinfo.h \
-		../kitsas/tuonti/pdf/tuontiapuinfo.h \
-		../kitsas/model/tosite.h \
-		../kitsas/model/lasku.h \
-		../kitsas/laskutus/iban.h \
-		../kitsas/laskutus/viitenumero.h \
 		../../../Qt/6.5.0/macos/libexec/moc
 	/Users/petri/Qt/6.5.0/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=13 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/petri/Qt/6.5.0/macos/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitsas -I/Users/petri/Qt/6.5.0/macos/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtPdfWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSvgWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSvg.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtPdf.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtGui.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtSql.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtXml.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtCore5Compat.framework/Headers -I/Users/petri/Qt/6.5.0/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/petri/Qt/6.5.0/macos/lib ../kitsas/tuonti/tilimuuntomodel.h -o moc_tilimuuntomodel.cpp
 
@@ -4776,6 +4742,8 @@ moc_pilvikysely.cpp: ../kitsas/pilvi/pilvikysely.h \
 		../kitsas/pilvi/palvelunkertoja.h \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QVariantMap \
 		../kitsas/pilvi/listanpilvi.h \
+		../kitsas/pilvi/badges.h \
+		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QStringList \
 		../kitsas/pilvi/avattupilvi.h \
 		../kitsas/pilvi/pilviextra.h \
 		../kitsas/kieli/monikielinen.h \
@@ -4807,6 +4775,8 @@ moc_pilvimodel.cpp: ../kitsas/pilvi/pilvimodel.h \
 		../kitsas/pilvi/palvelunkertoja.h \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QVariantMap \
 		../kitsas/pilvi/listanpilvi.h \
+		../kitsas/pilvi/badges.h \
+		../../../Qt/6.5.0/macos/lib/QtCore.framework/Headers/QStringList \
 		../kitsas/pilvi/avattupilvi.h \
 		../kitsas/pilvi/pilviextra.h \
 		../kitsas/kieli/monikielinen.h \
