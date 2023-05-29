@@ -26,6 +26,7 @@
 #include <QJsonDocument>
 #include <QVariant>
 #include <QScreen>
+#include <QPalette>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
@@ -305,13 +306,13 @@ void TilinMuokkausDialog::ibanCheck()
 {
     switch ( IbanValidator::kelpo( ui->ibanLine->text())) {
     case IbanValidator::Acceptable:
-        ui->ibanLine->setStyleSheet("color: darkGreen;");
+        ui->ibanLine->setStyleSheet( QPalette().base().color().lightness() > 125 ? "color: darkGreen;" : "color: green;");
         break;
     case IbanValidator::Invalid :
         ui->ibanLine->setStyleSheet("color: red;");
         break;
     default:
-        ui->ibanLine->setStyleSheet("color: black;");
+        ui->ibanLine->setStyleSheet("color: palette(text);");
         break;
     }
 

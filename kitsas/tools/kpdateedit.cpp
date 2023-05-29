@@ -42,7 +42,7 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
     setDate( kp()->paivamaara() );
     oletuspaiva_ = kp()->tilikaudet()->indeksiPaivalle(kp()->paivamaara()) > -1 ? kp()->paivamaara() : kp()->tilitpaatetty().addDays(1) ;
     setPlaceholderText( tr("pp.kk.vvvv","Päivämääräsyötön placeholder") );
-    setStyleSheet("color: black;");
+    setStyleSheet("color: palette(text);");
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KpDateEdit::checkValidity);
 }
