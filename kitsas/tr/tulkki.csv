@@ -308,7 +308,7 @@ maksettavaa,Maksettavaa,Betalningsbelopp,Payable
 tilausnro,Tilausnumero,Beställningsnummer,Order number
 sopimusnro,Sopimusnumero,Avtalsnummer,Contract number
 myyja,Myyjä,Säljare,Salesperson
-tilaaja,Tilaaja,Beställare,Ordeder
+tilaaja,Tilaaja,Beställare,Orderer
 tilauspvm,Tilauspäivämäärä,Beställningdatum,Order date
 Vastaavaa,Vastaavaa,Passiva,
 Poistokelpoinen omaisuus menojäännöspoisto,Poistokelpoinen omaisuus menojäännöspoisto,Avskrivningbara tillgångar restvärdeavskrivning,
@@ -346,7 +346,7 @@ KK2,Helmikuu,Februari,February
 KK3,Maaliskuu,Mars,March
 KK4,Huhtikuu,April,April
 KK5,Toukokuu,Maj,May
-KK6,Kesäkuu,Juni,June,
+KK6,Kesäkuu,Juni,June
 KK7,Heinäkuu,Juli,July
 KK8,Elokuu,Augusti,August
 KK9,Syyskuu,September,September

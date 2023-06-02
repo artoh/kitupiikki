@@ -1255,7 +1255,7 @@
     "tilaaja": {
         "fi": "Tilaaja",
         "sv": "Beställare",
-        "en": "Ordeder"
+        "en": "Orderer"
     },
     "tilauspvm": {
         "fi": "Tilauspäivämäärä",
