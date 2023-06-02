@@ -433,21 +433,21 @@ void KirjausWg::paivitaSelausLista(QList<int> lista)
     selausLista_ = lista;
 }
 
-void KirjausWg::siirryEdelliseen()
+void KirjausWg::siirryEdelliseen(bool tallennuksesta)
 {
     int omaIndeksi = selausLista_.indexOf( tosite()->id() );
     if( omaIndeksi > 0) {
-        if(!tarkastaHylkays()) return;
+        if(!tallennuksesta && !tarkastaHylkays()) return;
         lataaTosite( selausLista_.at(omaIndeksi - 1) );
         selauksesta_ = EDELLISEEN;
     }
 }
 
-void KirjausWg::siirrySeuraavaan()
+void KirjausWg::siirrySeuraavaan(bool tallennuksesta)
 {
     int omaIndeksi = selausLista_.indexOf( tosite()->id() );
     if( omaIndeksi > -1 && omaIndeksi < selausLista_.count() - 1) {
-        if(!tarkastaHylkays()) return;
+        if(!tallennuksesta && !tarkastaHylkays()) return;
         lataaTosite( selausLista_.at(omaIndeksi + 1) );
         selauksesta_ = SEURAAVAAN;
     }
@@ -553,9 +553,9 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
     kirjausSivu_->tallennettu(tunniste, pvm, sarja, tila);
 
     if( selauksesta_ == EDELLISEEN && ui->edellinenButton->isEnabled()) {
-        siirryEdelliseen();
+        siirryEdelliseen(true);
     } else if( selauksesta_ == SEURAAVAAN && ui->seuraavaButton->isEnabled()) {
-        siirrySeuraavaan();
+        siirrySeuraavaan(true);
     } else {
         tyhjenna();
         kirjausSivu_->tositeKasitelty(true);

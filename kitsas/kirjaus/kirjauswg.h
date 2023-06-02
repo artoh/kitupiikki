@@ -112,8 +112,8 @@ private slots:
 
     void tositeLadattu();
 
-    void siirryEdelliseen();
-    void siirrySeuraavaan();
+    void siirryEdelliseen(bool tallennuksesta = false);
+    void siirrySeuraavaan(bool tallennuksesta = false);
 
 private slots:    
     void paivita(bool muokattu, int virheet, const Euro& debet, const Euro& kredit);
