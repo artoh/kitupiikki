@@ -33,7 +33,7 @@ KohdennusProxyModel::KohdennusProxyModel(QObject *parent, QDate paiva, int kohde
 void KohdennusProxyModel::asetaVali(const QDate &alkupvm, const QDate &loppupvm)
 {
     nykyinenPaiva = alkupvm;
-    nykyinenPaiva = loppupvm;
+    nykyinenPaattyy = loppupvm;
     invalidate();
 }
 
