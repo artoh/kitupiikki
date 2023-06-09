@@ -120,7 +120,8 @@ void LoginService::paivitaTilat()
 {
     passwordLabel_->setVisible( emailOk_);
     passwordEdit_->setVisible( emailOk_ );
-    forgetButton_->setVisible( emailOk_);
+
+    forgetButton_->setEnabled( emailOk_);
 
     bool passOk = passwordEdit_->text().length() >= 10;
     loginButton_->setEnabled( emailOk_ && passOk );
