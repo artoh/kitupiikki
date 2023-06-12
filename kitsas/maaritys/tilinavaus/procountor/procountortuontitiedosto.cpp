@@ -30,22 +30,20 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
     tyyppi_ = TASE_UUSI;
 
     for(const QStringList& rivi : qAsConst(csv)) {
-        if( rivi.length() < 7 ) continue;
+        if( rivi.length() < 2 ) continue;
 
         // Haetaan päivämäärälista
-        if(paivat_.isEmpty() && paivaksi(rivi.at(1)).isValid()) {
+        if(paivat_.isEmpty() && rivi.at(0).isEmpty() && paivaksi(rivi.at(1)).isValid()) {
             QList<QDate> paivalista;
             for(int i=1; i < rivi.length(); i++) {
                 QDate paiva = paivaksi(rivi.at(i));
                 if( !paiva.isValid() || paivalista.contains(paiva))
                     break;
-                paivalista << paiva;
-            }
-            if( paivalista.length() > 5) {
-                paivat_ = paivalista;
-            }
+                paivat_ << paiva;
+            }           
             continue;
         }
+        if( paivat_.isEmpty()) continue;
 
         const QString tilistr = rivi.value(0);
         QRegularExpressionMatch mats = tiliRE__.match(tilistr);
