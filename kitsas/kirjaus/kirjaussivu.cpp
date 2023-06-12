@@ -52,6 +52,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, QList<int> selausLista) :
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
     splitter->addWidget(kirjauswg);
+    splitter->setCollapsible(0, false);
     splitter->setCollapsible(1, false);
 
     splitter->restoreState(kp()->settings()->value("KirjausSplitter").toByteArray());
