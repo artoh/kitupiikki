@@ -42,6 +42,7 @@ public:
 
     TiedostonTyyppi tyyppi() const { return tyyppi_;}
     TiedostonKausi kausi() const { return kausi_;}
+    int kausia() const { return paivat_.count();}
 
     bool validi();
 

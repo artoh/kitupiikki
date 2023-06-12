@@ -100,7 +100,8 @@ bool ProcountorTuontiTiedosto::validi()
 
 void ProcountorTuontiTiedosto::tallennaTilinavaukseen(TilinavausModel *tilinavaus, TiliMuuntoModel *muunto)
 {
-    tilinavaus->setKuukausittain(true);
+    if( paivat_.count() > 1)
+        tilinavaus->setKuukausittain(true);
 
     for(const auto& saldo : saldot_) {
         const int muunnettu = muunto->muunnettu(saldo.tilinumero());
