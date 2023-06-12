@@ -210,7 +210,9 @@ KpKysely *PilviModel::loginKysely(const QString &polku, KpKysely::Metodi metodi)
 void PilviModel::sulje()
 {
     nykyPilvi_ = AvattuPilvi();
-    ilmoitusTimer_->stop();
+    if( ilmoitusTimer_) {
+        ilmoitusTimer_->stop();
+    }
 }
 
 void PilviModel::poistaNykyinenPilvi()
