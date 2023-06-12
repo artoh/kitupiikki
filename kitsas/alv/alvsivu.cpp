@@ -193,11 +193,13 @@ void AlvSivu::paivitaKaudet()
 {
     ui->kaudelleCombo->clear();
     QList<AlvKausi> kaudet = kp()->alvIlmoitukset()->kaudet()->kaudet();
+    const QDate alvAlkaa = kp()->asetukset()->pvm(AsetusModel::AlvAlkaa);
     if(kaudet.count()) {
-        for(const auto& kausi : qAsConst(kaudet)) {
+        for(const auto& kausi : qAsConst(kaudet)) {                       
             if( !kp()->alvIlmoitukset()->onkoIlmoitettu( kausi.loppupvm() ) &&
                 kp()->tilitpaatetty() < kausi.loppupvm() &&
-                kausi.tila() != AlvKausi::ERAANTYNYT  ){
+                kausi.tila() != AlvKausi::ERAANTYNYT  &&
+                ( !alvAlkaa.isValid() || kausi.loppupvm() >= alvAlkaa ) ){
                 ui->kaudelleCombo->addItem(
                             kausi.tila() == AlvKausi::PUUTTUVA ? QIcon(":/pic/uusitiedosto.png") : QIcon(":/pic/muokkaa.png"),
                             QString("%1 - %2").arg( kausi.alkupvm().toString("dd.MM.yyyy"), kausi.loppupvm().toString("dd.MM.yyyy") ),

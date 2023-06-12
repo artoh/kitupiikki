@@ -115,7 +115,8 @@ public:
         TilinAvausPvm,
         MaventaAutentikointiTila,
         VeroOmaViite,
-        OhitaAlvLukko
+        OhitaAlvLukko,
+        AlvAlkaa
     };
 
 
