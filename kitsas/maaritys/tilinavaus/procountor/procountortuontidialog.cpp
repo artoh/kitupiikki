@@ -93,7 +93,7 @@ bool ProcountorTuontiDialog::tuoTiedosto(const QString &tiedostonnimi)
     else if( status == ProcountorTuontiTiedosto::TIEDOSTO_VIRHE)
         QMessageBox::critical(this, tr("Procountor-tuonti"), tr("Tiedoston %1 lukeminen ei onnistunut tiedostovirheen takia.").arg(tiedostonnimi));
     else if( status == ProcountorTuontiTiedosto::PAIVAT_PUUTTUU)
-        QMessageBox::critical(this, tr("Procountor-tuonti"), tr("Tiedosto %1 ei ole muodoltaan oikea - kuukausittaisen erittelyn päivämääriä ei löydetty.").arg(tiedostonnimi));
+        QMessageBox::critical(this, tr("Procountor-tuonti"), tr("Tiedosto %1 ei ole muodoltaan oikea - päivämääriä ei löydetty.").arg(tiedostonnimi));
 
 
     return false;
