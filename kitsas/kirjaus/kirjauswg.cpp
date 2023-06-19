@@ -849,12 +849,19 @@ void KirjausWg::salliMuokkaus(MuokkausSallinta sallitaanko)
     else
         ui->tositePvmEdit->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    tosite_->viennit()->asetaMuokattavissa( sallitaanko == Sallittu && !apuri_ );    
+    tosite_->viennit()->asetaMuokattavissa( alvSallittu && !apuri_ );
 
     ui->lisaaRiviNappi->setVisible( !apuri_);
+    ui->lisaaRiviNappi->setEnabled( alvSallittu );
+
     ui->lisaaVientiNappi->setVisible(!apuri_);
+    ui->lisaaVientiNappi->setEnabled( alvSallittu );
+
     ui->muokkaaVientiNappi->setVisible(!apuri_);
+    ui->muokkaaVientiNappi->setEnabled( alvSallittu );
+
     ui->poistariviNappi->setVisible( !apuri_);
+    ui->poistariviNappi->setEnabled( alvSallittu );
 
     if( apuri_ ) {
         apuri_->salliMuokkaus( alvSallittu );

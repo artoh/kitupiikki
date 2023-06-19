@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "muumuokkausdlg.h"
+#include "db/yhteysmodel.h"
 #include "ui_muumuokkausdlg.h"
 
 #include "db/verotyyppimodel.h"
@@ -169,7 +170,9 @@ void MuuMuokkausDlg::accept()
    if(!ui->tiliLine->valittuTilinumero() ||
       !ui->euroEdit->asCents() ||
       ( ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() &&
-       kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()))
+       kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()) &&
+         !( kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko) && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS))
+       )
       )
        return;
 
@@ -408,8 +411,10 @@ void MuuMuokkausDlg::tarkasta()
                 ui->tiliLine->valittuTilinumero() &&
                 ui->euroEdit->asCents() &&
                 ( ui->alvlajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() == 0 ||
-                  !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()))
-                );
+                  !kp()->alvIlmoitukset()->onkoIlmoitettu(ui->pvmEdit->date()) ||
+                  ( kp()->asetukset()->onko(AsetusModel::OhitaAlvLukko) && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::ALV_ILMOITUS) )
+                )
+            );
 }
 
 double MuuMuokkausDlg::alvProsentti() const
