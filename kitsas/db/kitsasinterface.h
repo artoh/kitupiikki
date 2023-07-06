@@ -64,6 +64,7 @@ public:
     virtual KiertoModel* kierrot() const { return nullptr;}
     virtual QSettings* settings() const { return nullptr;}
     virtual YhteysModel* yhteysModel() { return nullptr;}
+    virtual bool onkoPilvessa() const { return false;}
     virtual TositeTyyppiModel* tositeTyypit() const { return nullptr;}
     virtual VakioViiteModel* vakioViitteet() const { return nullptr;}
     virtual HuoneistoModel* huoneistot() const { return nullptr;}

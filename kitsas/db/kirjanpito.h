@@ -251,6 +251,7 @@ public:
      */
     YhteysModel* yhteysModel() override { return yhteysModel_; }
 
+    bool onkoPilvessa() const override;
 
     /**
      * @brief Palauttaa tositetunnuksen muodossa OL 1/19

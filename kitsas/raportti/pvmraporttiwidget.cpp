@@ -1,7 +1,6 @@
 #include "pvmraporttiwidget.h"
 
 #include "ui_paivakirja.h"
-#include "naytin/naytinikkuna.h"
 #include "db/kirjanpito.h"
 
 

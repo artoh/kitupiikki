@@ -23,10 +23,11 @@
 #include <QDebug>
 #include <QMessageBox>
 
-TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *parent) :
+TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, bool kuukausittain, QWidget *parent) :
     RaporttiWidget (parent),
     ui( new Ui::MuokattavaRaportti ),
-    tyyppi_(raportinTyyppi)
+    tyyppi_(raportinTyyppi),
+    kuukausittain_(kuukausittain)
 
 {
     ui->setupUi( raporttiWidget );
@@ -87,10 +88,14 @@ TaseTulosRaportti::TaseTulosRaportti(const QString &raportinTyyppi, QWidget *par
 void TaseTulosRaportti::tallenna()
 {
     aseta(RaporttiValinnat::Tyyppi, tyyppi_);
+    aseta(RaporttiValinnat::Kuukausittain, kuukausittain_);
     aseta(RaporttiValinnat::RaportinMuoto, ui->muotoCombo->currentData().toString());
     aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     aseta(RaporttiValinnat::TulostaErittely, ui->erittelyCheck->isChecked());
 
+    aseta(RaporttiValinnat::AlkuPvm, ui->alkuEdit->date());
+    aseta(RaporttiValinnat::LoppuPvm, ui->loppuEdit->date());
+    aseta(RaporttiValinnat::KuukaudetYhteensa, ui->summaCheck->isChecked());
 
     aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() : -1);
 
@@ -270,6 +275,18 @@ void TaseTulosRaportti::paivitaUi()
         ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
     }
     ui->sarake4Box->setChecked(false);
+
+    ui->alkuEdit->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::AlkuPvm).toDate() );
+    ui->loppuEdit->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::LoppuPvm).toDate() );
+    ui->summaCheck->setChecked( kp()->raporttiValinnat()->arvo(RaporttiValinnat::KuukaudetYhteensa).toBool() );
+
+    ui->pvmKehys->setVisible( !kuukausittain_ );
+    ui->alkuLabel->setVisible( kuukausittain_ );
+    ui->alkuEdit->setVisible( kuukausittain_ );
+    ui->loppuLabel->setVisible( kuukausittain_ );
+    ui->loppuEdit->setVisible( kuukausittain_ );
+    ui->summaCheck->setVisible( kuukausittain_ && tyyppi_ == "tulos");
+
 }
 
 void TaseTulosRaportti::lisaaSarake(bool kaytossa, const QDate &alku, const QDate &loppu, int valintaIndeksi)

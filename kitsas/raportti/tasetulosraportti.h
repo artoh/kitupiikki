@@ -26,7 +26,7 @@ class TaseTulosRaportti : public RaporttiWidget
 public:
 
 
-    TaseTulosRaportti(const QString& raportinTyyppi, QWidget* parent = nullptr);
+    TaseTulosRaportti(const QString& raportinTyyppi, bool kuukausittain = false, QWidget* parent = nullptr);
 
 public slots:
 //    void esikatsele() override;
@@ -60,6 +60,7 @@ private:
     QString tyyppi_;
 
     bool paivitetaan_ = false;
+    bool kuukausittain_ = false;
 
 };
 

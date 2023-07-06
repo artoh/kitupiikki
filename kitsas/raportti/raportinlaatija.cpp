@@ -9,6 +9,7 @@
 #include "laatijat/laatijantilikartta.h"
 #include "laatijat/laatijantasetulos.h"
 #include "laatijat/laatijanalv.h"
+#include "laatijat/laatijankuukausiraportti.h"
 
 RaportinLaatija::RaportinLaatija(QObject *parent) : QObject(parent)
 {
@@ -36,6 +37,8 @@ void RaportinLaatija::laadi(const RaporttiValinnat &valinnat)
         raportti = new LaatijanTilikartta(this, valinnat);
     else if(raporttiTyyppi == "alv")
         raportti = new LaatijanAlv(this, valinnat);
+    else if( valinnat.onko(RaporttiValinnat::Kuukausittain) )
+        raportti = new LaatijanKuukausiRaportti(this, valinnat);
     else
         raportti = new LaatijanTaseTulos(this, valinnat);
 

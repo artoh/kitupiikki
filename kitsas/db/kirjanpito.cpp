@@ -233,6 +233,11 @@ void Kirjanpito::asetaLogo(const QImage &logo)
     emit logoMuuttui();
 }
 
+bool Kirjanpito::onkoPilvessa() const
+{
+    return qobject_cast<PilviModel*>(yhteysModel_);
+}
+
 
 
 QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)

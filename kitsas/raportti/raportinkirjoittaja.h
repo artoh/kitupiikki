@@ -102,7 +102,7 @@ public:
      * @brief Lisää venyvän sarakkeen
      * @param tekija Missä suhteessa jäljellä oleva tila jaetaan
      */
-    void lisaaVenyvaSarake(int tekija = 100, RaporttiRivi::RivinKaytto kaytto = RaporttiRivi::KAIKKI);
+    void lisaaVenyvaSarake(int tekija = 100, RaporttiRivi::RivinKaytto kaytto = RaporttiRivi::KAIKKI, const QString& leveysteksti = QString());
 
     /**
      * @brief Lisää euromääräisen sarakkeen
@@ -169,12 +169,14 @@ public:
 
     void asetaKieli(const QString& kieli);
 
+
 signals:
 
 public slots:
 
 protected:
     QString kaanna(const QString& teksti) const;
+    bool mahtuukoSivulle(QPainter* painter, int sivunLeveys) const;
 
 
 protected:
@@ -186,6 +188,7 @@ protected:
     QList<RaporttiSarake> sarakkeet_;
     QList<RaporttiRivi> otsakkeet_;
     QList<RaporttiRivi> rivit_;
+
 
 };
 

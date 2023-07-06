@@ -67,7 +67,9 @@ public:
         AlvLoppuPvm,
         TiedostonNimi,
         TilausJarjestysNumero,
-        TilinpaatosOtsikko
+        TilinpaatosOtsikko,
+        Kuukausittain,
+        KuukaudetYhteensa
     };
 
     RaporttiValinnat();

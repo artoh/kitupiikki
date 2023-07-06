@@ -67,11 +67,12 @@ void RaportinKirjoittaja::lisaaSarake(int leveysprosentti)
     sarakkeet_.append(uusi);
 }
 
-void RaportinKirjoittaja::lisaaVenyvaSarake(int tekija, RaporttiRivi::RivinKaytto kaytto)
+void RaportinKirjoittaja::lisaaVenyvaSarake(int tekija, RaporttiRivi::RivinKaytto kaytto, const QString &leveysteksti)
 {
     RaporttiSarake uusi;
     uusi.jakotekija = tekija;
     uusi.sarakkeenKaytto = kaytto;
+    uusi.leveysteksti = leveysteksti;
     sarakkeet_.append(uusi);
 }
 
@@ -107,6 +108,26 @@ void RaportinKirjoittaja::lisaaSivunvaihto()
     rivit_.append(RaporttiRivi(RaporttiRivi::SIVUNVAIHTO));
 }
 
+
+bool RaportinKirjoittaja::mahtuukoSivulle( QPainter* painter, int sivunLeveys) const {
+
+    int leveys = painter->fontMetrics().horizontalAdvance( "X" ) * sarakkeet_.count();
+
+    for( int i=0; i < sarakkeet_.count(); i++)
+    {
+
+        if( !(sarakkeet_[i].sarakkeenKaytto & RaporttiRivi::PDF))
+            continue;
+        else if( !sarakkeet_[i].leveysteksti.isEmpty())
+            leveys += painter->fontMetrics().horizontalAdvance( sarakkeet_[i].leveysteksti );
+        else if( sarakkeet_[i].leveysprossa )
+            leveys += sivunLeveys * sarakkeet_[i].leveysprossa / 100;
+        else
+            leveys += painter->fontMetrics().horizontalAdvance( "XXXXXXXXXX" );
+    }
+    return sivunLeveys > leveys;
+}
+
 int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
 {
     if( rivit_.isEmpty()) {
@@ -114,18 +135,24 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         return 1;     // Ei tulostettavaa !
     }
 
-     double mm = printer->width() * 1.00 / printer->widthMM();
+    const double mm = printer->width() * 1.00 / printer->widthMM();
+    const int sivunleveys = painter->window().width();
 
-    int pienennys = sarakkeet_.count() > 4 && printer->pageLayout().pageSize().size(QPageSize::Millimeter).width()  < 300 ? 2 : 0;
+    int pienennys = 0;
+    QFont fontti;
 
-    QFont fontti("FreeSans", 10 - pienennys );
+    while( pienennys < 8) {
+        fontti = QFont("FreeSans", 10 - pienennys );
+        painter->setFont(fontti);
+        if( mahtuukoSivulle(painter, sivunleveys)) break;
+        pienennys++;
+    }
+
     QFont koodifontti( "code128_XL", 36);
     koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
 
-    painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();
-    int sivunleveys = painter->window().width();
     int sivunkorkeus = painter->window().height();
     const int sisennysMetrics = painter->fontMetrics().horizontalAdvance("XX");
 
@@ -141,12 +168,12 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
        if( !(sarakkeet_[i].sarakkeenKaytto & RaporttiRivi::PDF))
            leveys = 0;
-       else if( !sarakkeet_[i].leveysteksti.isEmpty())
-           leveys = painter->fontMetrics().horizontalAdvance( sarakkeet_[i].leveysteksti );
-       else if( sarakkeet_[i].leveysprossa)
-           leveys = sivunleveys * sarakkeet_[i].leveysprossa / 100;
-       else
+       else if( sarakkeet_[i].jakotekija)
            tekijayhteensa += sarakkeet_[i].jakotekija;
+       else if( sarakkeet_[i].leveysprossa)
+            leveys = sivunleveys * sarakkeet_[i].leveysprossa / 100;
+       else if( !sarakkeet_[i].leveysteksti.isEmpty())
+           leveys = painter->fontMetrics().horizontalAdvance( sarakkeet_[i].leveysteksti );                  
 
        leveydet[i] = leveys;
        jaljella -= leveys;

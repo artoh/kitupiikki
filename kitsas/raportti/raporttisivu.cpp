@@ -66,8 +66,14 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti(tr("Päiväkirja"),"Päiväkirja",":/pic/Paivakirja64.png");
     lisaaRaportti(tr("Pääkirja"),"Pääkirja",":/pic/Diary64.png");
     lisaaRaportti(tr("Tositeluettelo"),"Tositeluettelo",":/pic/dokumentti.png");
+
     lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
     lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
+
+    if( kp()->onkoPilvessa() ) {
+        lisaaRaportti(tr("Tase kuukausittain"), "Kk/Tase", ":/pic/calendar.png");
+        lisaaRaportti(tr("Tuloslaskelma kuukausittain"), "Kk/Tuloslaskelma", ":/pic/calendar.png");
+    }
 
     if( kp()->kohdennukset()->kustannuspaikkoja())
         lisaaRaportti(tr("Kustannuspaikat"), "Kustannuspaikat", ":/pic/kohdennus.png");
@@ -159,6 +165,10 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TaseTulosRaportti("tase");
     else if( raporttinimi == "Tuloslaskelma")
         nykyinen = new TaseTulosRaportti("tulos");
+    else if( raporttinimi == "Kk/Tase")
+        nykyinen = new TaseTulosRaportti("tase", true);
+    else if( raporttinimi == "Kk/Tuloslaskelma")
+        nykyinen = new TaseTulosRaportti("tulos", true);
     else if( raporttinimi == "Kustannuspaikat")
         nykyinen = new TaseTulosRaportti("kohdennus");
     else if( raporttinimi == "Projektit")
