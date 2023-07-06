@@ -48,6 +48,8 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
     connect( ui->fiKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->svKieli, &QRadioButton::clicked, this, &UlkoasuMaaritys::vaihdaKieli);
     connect( ui->tilikarttaKieli, &KieliCombo::currentTextChanged, this, &UlkoasuMaaritys::vaihdaTilikarttaKieli);
+
+    connect( ui->pikaPdfCheck, &QRadioButton::clicked, this, [] (bool checked) { kp()->settings()->setValue("PikaPdf", checked); });
 }
 
 UlkoasuMaaritys::~UlkoasuMaaritys()
@@ -81,6 +83,8 @@ bool UlkoasuMaaritys::nollaa()
     ui->tilikarttaKieli->valitse( Kielet::instanssi()->nykyinen() );
 
     ui->saldotCheck->setChecked( kp()->settings()->value("SaldoDock").toBool() );
+
+    ui->pikaPdfCheck->setChecked( kp()->settings()->value("PikaPdf").toBool() );
 
     return true;
 }

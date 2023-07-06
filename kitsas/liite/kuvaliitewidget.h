@@ -7,8 +7,7 @@
 
 #include <QLabel>
 #include <QScrollArea>
-
-#include "pdfliiteview.h"
+#include <QPdfView>
 
 class QPrinter;
 
@@ -26,9 +25,9 @@ public:
     void tulosta(QPrinter* printer);
 
     void paivita();
-    void setZoom(PdfLiiteView::ZoomMode mode, qreal factor);
+    void setZoom(QPdfView::ZoomMode mode, qreal factor);
 
-    PdfLiiteView::ZoomMode zoomMode_ = PdfLiiteView::ZoomMode::FitToWidth;
+    QPdfView::ZoomMode zoomMode_ = QPdfView::ZoomMode::FitToWidth;
     qreal zoomFactor_ = 1.00;
 
 };

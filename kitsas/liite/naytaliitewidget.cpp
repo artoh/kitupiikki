@@ -3,7 +3,6 @@
 #include "liite/liitteetmodel.h"
 
 #include "kuvaliitewidget.h"
-#include "pdfliiteview.h"
 #include "tuonti/csvtuonti.h"
 
 #include <QStackedWidget>
@@ -30,8 +29,10 @@
 #include <QDesktopServices>
 
 #include <QMenu>
+#include <QTimer>
 
 #include "db/kirjanpito.h"
+#include "pdfrenderview.h"
 
 
 NaytaLiiteWidget::NaytaLiiteWidget(QWidget *parent)
@@ -50,7 +51,11 @@ void NaytaLiiteWidget::setModel(LiitteetModel *model)
 {
     model_ = model;    
     uusiLiiteWidget_->setModel(model);
-    pdfView_->setDocument( model_->pdfDocument() );
+
+    if(pdfView_)
+        pdfView_->setDocument( model_->pdfDocument() );
+    else if( pdfRender_)
+        pdfRender_->setDocument( model_->pdfDocument() );
 
     connect( model, &LiitteetModel::valittuVaihtui, this, &NaytaLiiteWidget::vaihdaValittu);
     connect( model, &LiitteetModel::naytaPdf, this, &NaytaLiiteWidget::naytaPdf);
@@ -70,9 +75,9 @@ void NaytaLiiteWidget::naytaPohjat(bool naytetaanko)
 
 void NaytaLiiteWidget::tulosta()
 {
-    if( pino_->currentIndex() == PDF)
-        pdfView_->tulosta( kp()->printer() );
-    else if(pino_->currentIndex() == KUVA)
+    if( pino_->currentIndex() == PDF) {
+        tulostaPdf();
+    } else if(pino_->currentIndex() == KUVA)
         kuvaView_->tulosta(kp()->printer());
     else if( pino_->currentIndex() == TEKSTI) {
         QPrintDialog dlg(kp()->printer(), this);
@@ -124,6 +129,43 @@ void NaytaLiiteWidget::avaa()
     if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
         QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( paate ) );
 
+
+}
+
+void NaytaLiiteWidget::tulostaPdf()
+{
+    QPdfDocument* doc = pdfView_ ? pdfView_->document() : pdfRender_->document();
+    QPrinter* printer = kp()->printer();
+
+    QPrintDialog dlg(printer, this);
+    dlg.setMinMax(1, doc->pageCount() + 1);
+
+
+    if( dlg.exec() ) {
+        QPainter painter(printer);
+        QSizeF kohde(painter.window().width(), painter.window().height());
+
+        int sivulta = 0;
+        int sivulle = doc->pageCount();
+
+        if( dlg.printRange() == QPrintDialog::PrintRange::PageRange ) {
+            sivulta = dlg.fromPage() - 1;
+            sivulle = dlg.toPage() - 1;
+        }
+
+        for(int i=sivulta; i < sivulle; i++) {
+
+            if( i > sivulta)
+                printer->newPage();
+
+            QSizeF koko = doc->pagePointSize(i);
+            QPdfDocumentRenderOptions options;
+            if( koko.width() > koko.height())
+                options.setRotation(QPdfDocumentRenderOptions::Rotation::Clockwise90);
+            QImage image = doc->render(i, kohde.toSize(), options);
+            painter.drawImage(0,0,image);
+        }
+    }
 
 }
 
@@ -228,7 +270,7 @@ void NaytaLiiteWidget::dropEvent(QDropEvent *event)
 void NaytaLiiteWidget::scaleZoom(qreal scale)
 {
     zoomFactor_ *= scale;
-    zoomMode_ = PdfLiiteView::ZoomMode::Custom;
+    zoomMode_ = QPdfView::ZoomMode::Custom;
     refreshZoom();
 }
 
@@ -240,8 +282,12 @@ void NaytaLiiteWidget::fitZoom(QPdfView::ZoomMode mode)
 
 void NaytaLiiteWidget::refreshZoom()
 {
-    pdfView_->setZoomFactor(zoomFactor_);
-    pdfView_->setZoomMode(zoomMode_);
+    if( pdfView_) {
+        pdfView_->setZoomFactor(zoomFactor_);
+        pdfView_->setZoomMode(zoomMode_);
+    } else if( pdfRender_ ) {
+        pdfRender_->setZoom(zoomMode_, zoomFactor_);
+    }
     if( pino_->currentIndex() == KUVA) {
         kuvaView_->setZoom(zoomMode_, zoomFactor_);
     }
@@ -286,8 +332,15 @@ void NaytaLiiteWidget::setup()
     QLabel* tyhjaLabel = new QLabel();
     pino_->addWidget(tyhjaLabel);
 
-    pdfView_ = new PdfLiiteView();
-    pino_->addWidget(pdfView_);
+    if( kp()->settings()->value("PikaPdf").toBool()) {
+        pdfView_ = new QPdfView();
+        pino_->addWidget(pdfView_);
+        pdfView_->setPageMode(QPdfView::PageMode::MultiPage);
+        pdfView_->setZoomMode(QPdfView::ZoomMode::FitToWidth);
+    } else {
+        pdfRender_ = new PdfRenderView();
+        pino_->addWidget( pdfRender_ );
+    }
 
     kuvaView_ = new KuvaLiiteWidget(this);
     pino_->addWidget(kuvaView_);
@@ -303,18 +356,15 @@ void NaytaLiiteWidget::setup()
 
 
     setLayout(leiska);
-
-    pdfView_->setPageMode(QPdfView::PageMode::MultiPage);
-    pdfView_->setZoomMode(QPdfView::ZoomMode::FitToWidth);
 }
 
 void NaytaLiiteWidget::alustaAktionit()
 {
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"),this);
-    connect( zoomAktio_, &QAction::triggered, this, [this] {this->fitZoom(PdfLiiteView::ZoomMode::FitToWidth);});
+    connect( zoomAktio_, &QAction::triggered, this, [this] {this->fitZoom(QPdfView::ZoomMode::FitToWidth);});
 
     zoomFitAktio_ = new QAction( QIcon(":/pic/zoom-fit.png"), tr("Sovita sivu"),this);
-    connect( zoomFitAktio_, &QAction::triggered, this, [this] {this->fitZoom(PdfLiiteView::ZoomMode::FitInView);});
+    connect( zoomFitAktio_, &QAction::triggered, this, [this] {this->fitZoom(QPdfView::ZoomMode::FitInView);});
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"), this);
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));

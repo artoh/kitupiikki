@@ -128,7 +128,7 @@ SOURCES += \
     $$PWD/liite/liitteetmodel.cpp \
     $$PWD/liite/liitteetview.cpp \
     $$PWD/liite/naytaliitewidget.cpp \
-    $$PWD/liite/pdfliiteview.cpp \
+    $$PWD/liite/pdfrenderview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/extra/aliasdialog.cpp \
@@ -352,7 +352,6 @@ SOURCES += \
     kitupiikkisivu.cpp \
     raportti/raportinkirjoittaja.cpp \
     raportti/raporttirivi.cpp \
-    kirjaus/naytaliitewg.cpp \
     maaritys/tilikarttamuokkaus.cpp \
     db/tilinvalintaline.cpp \
     db/tilinvalintadialogi.cpp \
@@ -566,7 +565,7 @@ HEADERS += \
     $$PWD/liite/liitteetmodel.h \
     $$PWD/liite/liitteetview.h \
     $$PWD/liite/naytaliitewidget.h \
-    $$PWD/liite/pdfliiteview.h \
+    $$PWD/liite/pdfrenderview.h \
     $$PWD/liite/uusiliitewidget.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/extra/aliasdialog.h \
@@ -794,7 +793,6 @@ HEADERS += \
     kitupiikkisivu.h \
     raportti/raportinkirjoittaja.h \
     raportti/raporttirivi.h \
-    kirjaus/naytaliitewg.h \
     maaritys/tilikarttamuokkaus.h \
     db/tilinvalintaline.h \
     db/tilinvalintadialogi.h \

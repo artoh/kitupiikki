@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QByteArray>
 #include <QBuffer>
-#include "pdfliiteview.h"
+#include <QPdfView>
 
 class LiitteetModel;
 
@@ -15,7 +15,7 @@ class QTabBar;
 class QBuffer;
 class QTextEdit;
 class QTextBrowser;
-class PdfLiiteView;
+class PdfRenderView;
 
 class KuvaLiiteWidget;
 
@@ -38,6 +38,7 @@ signals:
     void lataaPohja(int tositeId);
 
 protected:
+    void tulostaPdf();
     void setup();
     void alustaAktionit();
 
@@ -51,7 +52,7 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
     void scaleZoom(qreal scale);
-    void fitZoom(PdfLiiteView::ZoomMode mode);
+    void fitZoom(QPdfView::ZoomMode mode);
 
     void refreshZoom();
     void contextMenuEvent(QContextMenuEvent *event) override;
@@ -61,13 +62,14 @@ protected:
     QTabBar* tabBar_;
     QStackedWidget* pino_;
 
-    PdfLiiteView* pdfView_;
+    QPdfView* pdfView_ = nullptr;
+    PdfRenderView* pdfRender_ = nullptr;
     KuvaLiiteWidget* kuvaView_;
     QTextBrowser* textView_;
 
     LiitteetModel* model_ = nullptr;
 
-    PdfLiiteView::ZoomMode zoomMode_ = PdfLiiteView::ZoomMode::FitToWidth;
+    QPdfView::ZoomMode zoomMode_ = QPdfView::ZoomMode::FitToWidth;
     qreal zoomFactor_ = 1.00;
 
 
