@@ -208,6 +208,8 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
 
     connect(kommentitTab_, &KommentitWidget::kommentteja, this, &KirjausWg::naytaKommenttimerkki);
 
+    connect( ui->otsikkoEdit, &QLineEdit::editingFinished, this, &KirjausWg::paivitaOtsikkoSelitteeksi);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -230,6 +232,17 @@ void KirjausWg::lisaaRivi()
     ui->viennitView->setFocus(Qt::TabFocusReason);
     ui->viennitView->setCurrentIndex( indeksi.sibling( indeksi.row(), TositeViennit::TILI )  );
 
+}
+
+void KirjausWg::paivitaOtsikkoSelitteeksi()
+{
+    const QString otsikko = ui->otsikkoEdit->text();
+    for(int i=0; i < tosite()->viennit()->rowCount(); i++) {
+        QModelIndex indeksi = tosite()->viennit()->index(i, TositeViennit::SELITE);
+        if( indeksi.flags() & Qt::ItemIsEditable && indeksi.data(Qt::DisplayRole).toString().isEmpty()) {
+            tosite()->viennit()->setData(indeksi, otsikko);
+        }
+    }
 }
 
 void KirjausWg::poistaRivi()

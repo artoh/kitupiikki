@@ -70,6 +70,7 @@ private slots:
 
     void valmis();
     void lisaaRivi();
+    void paivitaOtsikkoSelitteeksi();
     void poistaRivi();
 
     void hylkaa();
