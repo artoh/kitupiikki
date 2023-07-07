@@ -27,7 +27,7 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
 
     QList<QStringList> csv = Tuonti::CsvTuonti::csvListana(data);
 
-    tyyppi_ = TASE_UUSI;
+    tyyppi_ = TASE;
 
     for(const QStringList& rivi : qAsConst(csv)) {
         if( rivi.length() < 2 ) continue;
@@ -59,7 +59,7 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
 
             if( tili > '3') tyyppi_ = TULOSLASKELMA;
             if( tili.startsWith("2") && nimi.contains("Edellisten tilikausien") && tieto.summa())
-                tyyppi_ = TASE;  // Tase on avattu, koska siinä edellisten tilikausien tulos
+                oikaistavaTase_ = true;  // Tase on avattu, koska siinä edellisten tilikausien tulos
 
             saldot_.append(tieto);
         }
@@ -72,8 +72,7 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
     if( kaudet->rowCount() < 2) return ProcountorTuontiTiedosto::KAUDET_PUUTTUU;
 
     if( paivat_.last() == kaudet->tilikausiIndeksilla(0).paattyy()) {
-        kausi_ = EDELLINEN;
-        if( tyyppi_ == TASE_UUSI) tyyppi_ = TASE;
+        kausi_ = EDELLINEN;        
     } else if( paivat_.last() == kaudet->tilikausiIndeksilla(1).paattyy())
         kausi_ = TAMA;
     else {

@@ -21,7 +21,7 @@ protected:
         QString tilinimi() const { return tilinimi_;}
         QList<Euro> saldot() const { return saldot_;}
         Euro summa() const;
-        void oikaiseAvauksesta(const Euro& euro);
+        void oikaiseAvauksesta(const Euro& euro);        
 
     protected:
         QString tilinumero_;
@@ -31,7 +31,7 @@ protected:
 
 
 public:
-    enum TiedostonTyyppi { TUNTEMATON = 0, TULOSLASKELMA = 0b00100, TASE = 0b01000, TASE_UUSI = 0b11000};
+    enum TiedostonTyyppi { TUNTEMATON = 0, TULOSLASKELMA = 0b00100, TASE = 0b01000};
     enum TiedostonKausi { VIRHEELLINEN = 0, EDELLINEN = 0b01, TAMA = 0b10 };
     enum TuontiStatus { TUONTI_OK, TIEDOSTO_VIRHE, PAIVAT_PUUTTUU, KAUDET_PUUTTUU, VIRHEELLISET_KAUDET, TIEDOSTO_TUNTEMATON };
 
@@ -45,6 +45,7 @@ public:
     int kausia() const { return paivat_.count();}
 
     bool validi();
+    bool oikaistavaTase() const { return oikaistavaTase_; }
 
     void tallennaTilinavaukseen(TilinavausModel* tilinavaus, TiliMuuntoModel* muunto);
     void oikaiseTilinavaus(const ProcountorTuontiTiedosto& edellinenTase);
@@ -63,6 +64,7 @@ private:
 
     TiedostonTyyppi tyyppi_ = TUNTEMATON;
     TiedostonKausi kausi_ = VIRHEELLINEN;
+    bool oikaistavaTase_ = false;
 
 
     static QRegularExpression tiliRE__;

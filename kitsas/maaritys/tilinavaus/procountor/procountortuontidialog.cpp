@@ -72,9 +72,10 @@ bool ProcountorTuontiDialog::tuoTiedosto(const QString &tiedostonnimi)
             taseEdellinen_ = tuotu;
         else if( tuotu.tyyppi() == ProcountorTuontiTiedosto::TULOSLASKELMA && tuotu.kausi() == ProcountorTuontiTiedosto::EDELLINEN)
             tulosEdellinen_ = tuotu;
-        else if( (tuotu.tyyppi() & ProcountorTuontiTiedosto::TASE) && tuotu.kausi() == ProcountorTuontiTiedosto::TAMA)
+        else if( (tuotu.tyyppi() & ProcountorTuontiTiedosto::TASE) && tuotu.kausi() == ProcountorTuontiTiedosto::TAMA) {
             taseNykyinen_ = tuotu;
-        else if( (tuotu.tyyppi() == ProcountorTuontiTiedosto::TULOSLASKELMA) && tuotu.kausi() == ProcountorTuontiTiedosto::TAMA)
+            ui->oikaiseTaseCheck->setChecked( tuotu.oikaistavaTase() );
+        } else if( (tuotu.tyyppi() == ProcountorTuontiTiedosto::TULOSLASKELMA) && tuotu.kausi() == ProcountorTuontiTiedosto::TAMA)
             tulosNykyinen_ = tuotu;
 
         const bool kelpaa =
@@ -113,16 +114,12 @@ void ProcountorTuontiDialog::paivitaRuksit()
     ui->edTaseCheck->setVisible( taseEdellinen_.validi() );
     ui->edTulosCheck->setVisible( tulosEdellinen_.validi() );
 
-    const Euro eTase = taseEdellinen_.tiedostoSumma();
-    const Euro eTulos = tulosEdellinen_.tiedostoSumma();
-
     ui->edellinenEiTasmaa->setVisible( taseEdellinen_.validi() && tulosEdellinen_.validi() && ( taseEdellinen_.tiedostoSumma() + tulosEdellinen_.tiedostoSumma() ) );
 
     ui->nykTaseCheck->setVisible( taseNykyinen_.validi() );
     ui->nykTulosCheck->setVisible( tulosNykyinen_.validi() );
 
-    const Euro tase = taseNykyinen_.tiedostoSumma();
-    const Euro tulos = tulosNykyinen_.tiedostoSumma();
+    ui->oikaiseTaseCheck->setEnabled( taseNykyinen_.validi() );
 
     ui->nykyinenEiTasmaa->setVisible( taseNykyinen_.validi() && tulosNykyinen_.validi() && ( taseNykyinen_.tiedostoSumma() + tulosNykyinen_.tiedostoSumma()) );
 }
@@ -179,7 +176,7 @@ void ProcountorTuontiDialog::accept()
 
     if( taseNykyinen_.validi()) {
 
-        if( taseNykyinen_.tyyppi() == ProcountorTuontiTiedosto::TASE) {
+        if( ui->oikaiseTaseCheck->isChecked()) {
             taseNykyinen_.oikaiseTilinavaus(taseEdellinen_);
             taseNykyinen_.oikaiseEdellinenTulos( tulosEdellinen_.tiedostoSumma(), &muunto );
         }

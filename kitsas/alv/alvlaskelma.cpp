@@ -139,11 +139,14 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(307, kaanna("Verokauden vähennettävä vero"), taulu_.summa(200,299));
+    Euro verot = taulu_.summa(100, 199);
+    Euro vahennys = taulu_.summa(200,299);
+    maksettava_ = verot - vahennys - huojennus();
+
+    yvRivi(307, kaanna("Verokauden vähennettävä vero"), vahennys);
 
     rk.lisaaTyhjaRivi();
 
-    maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
     yvRivi(308, kaanna("Maksettava vero / Palautukseen oikeuttava vero"), maksettava_);
 
     rk.lisaaTyhjaRivi();
@@ -1104,10 +1107,10 @@ Euro AlvLaskelma::TiliTaulu::summa(bool debetista) const
     for( auto& vienti : viennit ) {
         if( debetista ) {
             s += Euro::fromVariant(vienti.value("debet"));
-            s -= Euro::fromVariant(vienti.value("kredit").toDouble());
+            s -= Euro::fromVariant(vienti.value("kredit"));
         } else {
-            s -= Euro::fromVariant( vienti.value("debet").toDouble());
-            s += Euro::fromVariant( vienti.value("kredit").toDouble());
+            s -= Euro::fromVariant( vienti.value("debet"));
+            s += Euro::fromVariant( vienti.value("kredit"));
         }
     }
     return s;
