@@ -385,6 +385,15 @@ void Tosite::tallenna(int tilaan)
         }
     }
 
+    // #1348 Ellei viennillä ole selitettä, kopioituu otsikko selitteeksi
+    for( int i=0; i < viennit()->rowCount(); i++) {
+        TositeVienti vienti = viennit()->vienti(i);
+        if( vienti.selite().isEmpty()) {
+            vienti.setSelite( otsikko() );
+            viennit()->asetaVienti(i, vienti);
+        }
+    }
+
     setData( TILA, tilaan );
     if( tilaan >= Tosite::KIRJANPIDOSSA && !viennit_->debetKreditTasmaa() && tyyppi() != TositeTyyppi::TILINAVAUS) {
         QMessageBox::critical(nullptr, tr("Virheellinen tosite"),
