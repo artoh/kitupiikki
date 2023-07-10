@@ -21,7 +21,7 @@ AlvRaporttiWidget::AlvRaporttiWidget() :
     RaporttiWidget(nullptr),
     ui( new Ui::PvmVali)
 {
-    ui->setupUi(raporttiWidget);
+    ui->setupUi(raporttiWidget);    
 
     lataa();
 }

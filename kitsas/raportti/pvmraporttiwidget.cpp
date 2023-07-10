@@ -2,7 +2,7 @@
 
 #include "ui_paivakirja.h"
 #include "db/kirjanpito.h"
-
+#include "eranselvittaja/eranselvitys.h"
 
 PvmRaporttiWidget::PvmRaporttiWidget(const QString &tyyppi) :
     RaporttiWidget(nullptr), tyyppi_(tyyppi)
@@ -48,6 +48,8 @@ void PvmRaporttiWidget::lataa()
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PvmRaporttiWidget::paivita);
 
+    connect( ui->selvittelyNappi, &QPushButton::clicked, this, &PvmRaporttiWidget::taseSelvittely);
+
 }
 
 void PvmRaporttiWidget::paivita()
@@ -92,6 +94,16 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
     if( tyyppi() != "paivakirja" && tyyppi() != "tositeluettelo") {
         ui->eriPaivatCheck->hide();
     }
+
+    if( tyyppi() != "taseerittely") {
+        ui->selvittelyNappi->hide();
+    }
+}
+
+void PvmRaporttiWidget::taseSelvittely()
+{
+    EranSelvitys* selvitys = new EranSelvitys( ui->loppupvm->date() );
+    selvitys->show();
 }
 
 void PvmRaporttiWidget::tallenna()

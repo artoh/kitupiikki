@@ -239,6 +239,34 @@
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="selvittelyNappi">
+       <property name="text">
+        <string>Tase-erien selvittely</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/etsi.png</normaloff>:/pic/etsi.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -255,15 +283,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KieliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">kieli/kielicombo.h</header>
+  </customwidget>
+  <customwidget>
    <class>LaatuSlider</class>
    <extends>QWidget</extends>
    <header location="global">arkistoija/laatuslider.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KieliCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">kieli/kielicombo.h</header>
   </customwidget>
   <customwidget>
    <class>KohdennusCombo</class>

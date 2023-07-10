@@ -20,6 +20,8 @@ protected:
     void paivita();
     void piilotaTarpeettomat();
 
+    void taseSelvittely();
+
     virtual void tallenna() override;
 
 private:

@@ -105,6 +105,7 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti(tr("Budjettivertailu"),"Budjettivertailu",":/pic/raha2.png");
 
     lisaaRaportti(tr("Tase-erittely"),"TaseErittely",":/pic/valilehdet.png");
+
     lisaaRaportti(tr("Tililuettelo"),"Tilikartta",":/pic/valilehdet.png");
 
     lisaaRaportti(tr("Laskut"), "Laskut", ":/pic/lasku.png");

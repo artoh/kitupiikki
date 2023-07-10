@@ -205,6 +205,10 @@ SOURCES += \
     $$PWD/pilvi/pilviextra.cpp \
     $$PWD/pilvi/pilvikayttaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvitys.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvityseramodel.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvitystilimodel.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvitysviennit.cpp \
     $$PWD/raportti/laatijat/laatijanalv.cpp \
     $$PWD/raportti/laatijat/laatijankuukausiraportti.cpp \
     $$PWD/raportti/laatijat/laatijanlaskut.cpp \
@@ -643,6 +647,10 @@ HEADERS += \
     $$PWD/pilvi/pilviextra.h \
     $$PWD/pilvi/pilvikayttaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
+    $$PWD/raportti/eranselvittaja/eranselvitys.h \
+    $$PWD/raportti/eranselvittaja/eranselvityseramodel.h \
+    $$PWD/raportti/eranselvittaja/eranselvitystilimodel.h \
+    $$PWD/raportti/eranselvittaja/eranselvitysviennit.h \
     $$PWD/raportti/laatijat/laatijanalv.h \
     $$PWD/raportti/laatijat/laatijankuukausiraportti.h \
     $$PWD/raportti/laatijat/laatijanlaskut.h \
