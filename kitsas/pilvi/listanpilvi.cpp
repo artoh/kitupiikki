@@ -16,7 +16,7 @@ ListanPilvi::ListanPilvi(const QVariant &variant)
     id_ = map.value("id").toInt();
     nimi_ = map.value("name").toString();
     kokeilu_ = map.value("trial").toBool();
-    ready_ = map.value("ready", true).toBool();
+    ready_ = map.value("initialized", true).toBool();
 
     badges_ = map.value("badges").toStringList();
 

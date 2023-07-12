@@ -72,6 +72,8 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     case IdRooli:
         return pilvi.id();
     case KirjanpitoDelegaatti::LogoRooli:
+        if( !pilvi.ready())
+            return QIcon(":/pic/lisaa.png");
         return pilvi.logo();
     case KirjanpitoDelegaatti::HarjoitusRooli:
         return pilvi.kokeilu();
