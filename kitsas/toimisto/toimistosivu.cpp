@@ -55,7 +55,7 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
 
     pikavalinnatAktio_ = new QAction(QIcon(":/pic/ratas.png"), tr("Pikavalinnat..."), this);
 
-    muokkaaRyhmaAktio_ = new QAction(QIcon(":/pic/muokkaa.png"),tr("Muokaa..."), this);
+    muokkaaRyhmaAktio_ = new QAction(QIcon(":/pic/muokkaa.png"),tr("Muokkaa..."), this);
     poistaRyhmaAktio_ = new QAction(QIcon(":/pic/roskis.png"), tr("Poista"), this);
 
     siirraKirjaAktio_ = new QAction(QIcon(":/pic/siirra.png"),tr("Siirrä..."), this);

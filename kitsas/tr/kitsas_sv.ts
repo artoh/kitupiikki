@@ -6567,7 +6567,7 @@ Du kan lägga till en fil som är maximalt 10 Mb stor.</translation>
     <message>
         <location filename="../maaritys/extra/lisapalveluwidget.cpp" line="56"/>
         <source> Vain testikäyttäjille </source>
-        <translation></translation>
+        <translation type="unfinished"> Endast för testanvändarna </translation>
     </message>
     <message>
         <location filename="../maaritys/extra/lisapalveluwidget.cpp" line="105"/>
@@ -7601,7 +7601,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/minamaaritys.ui" line="210"/>
         <source>Tilitoimistokäyttäjä tai tilitoimiston asiakas</source>
-        <translation></translation>
+        <translation>Revisionsbyråanvändare eller kunden av revisionsbyrå</translation>
     </message>
     <message>
         <location filename="../maaritys/minamaaritys.ui" line="224"/>
@@ -11179,7 +11179,7 @@ Muutokset tehdään asiakaspalvelun kautta.</source>
     <message>
         <location filename="../tilaus/tilausyhteys.ui" line="43"/>
         <source>Verkkolasku</source>
-        <translation>#Nätfaktura</translation>
+        <translation>Nätfaktura</translation>
     </message>
     <message>
         <location filename="../tilaus/tilausyhteys.ui" line="52"/>
@@ -13332,7 +13332,7 @@ förfallodagen</translation>
     <message>
         <location filename="../toimisto/toimisto.ui" line="670"/>
         <source>Suorat käyttäjät</source>
-        <translation>Direkta användare</translation>
+        <translation>Direkta användarna</translation>
     </message>
     <message>
         <location filename="../toimisto/toimisto.ui" line="691"/>
@@ -13367,7 +13367,7 @@ förfallodagen</translation>
     <message>
         <location filename="../toimisto/toimisto.ui" line="803"/>
         <source>Ryhmien jäsenyydet</source>
-        <translation>Medlemskapet i grupper</translation>
+        <translation>Medlemskapen i grupper</translation>
     </message>
     <message>
         <location filename="../toimisto/toimisto.ui" line="817"/>
@@ -13509,7 +13509,7 @@ Försöka på nytt senare.</translation>
     <message>
         <location filename="../toimisto/toimistosivu.cpp" line="56"/>
         <source>Pikavalinnat...</source>
-        <translation>Snabbval...</translation>
+        <translation>Snabbvalen...</translation>
     </message>
     <message>
         <location filename="../toimisto/toimistosivu.cpp" line="58"/>
