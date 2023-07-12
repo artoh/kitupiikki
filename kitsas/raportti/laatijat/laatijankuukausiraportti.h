@@ -16,6 +16,7 @@ private:
     void dataSaapuu(QVariant* variant);
     bool yhteensaSarake_ = false;
     QString kieli_;
+    bool jaksotettu_ = false;
 };
 
 #endif // LAATIJANKUUKAUSIRAPORTTI_H

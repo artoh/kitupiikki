@@ -69,7 +69,8 @@ public:
         TilausJarjestysNumero,
         TilinpaatosOtsikko,
         Kuukausittain,
-        KuukaudetYhteensa
+        KuukaudetYhteensa,
+        Jaksotettu
     };
 
     RaporttiValinnat();

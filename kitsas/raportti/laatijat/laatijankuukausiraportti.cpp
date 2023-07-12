@@ -11,12 +11,13 @@ void LaatijanKuukausiRaportti::laadi()
 {
     QVariantMap map;
     const QString tyyppi = valinnat().arvo(RaporttiValinnat::Tyyppi).toString();
+    jaksotettu_ = tyyppi == "tulos" && valinnat().onko(RaporttiValinnat::Jaksotettu);
 
-    map.insert("tyyppi", tyyppi == "tulos" ? "tuloslaskelma" : "tase" );
+    map.insert("tyyppi", tyyppi == "tulos" ? ( jaksotettu_ ? "jaksotettu" : "tuloslaskelma" ) : "tase" );
     map.insert("kieli", valinnat().arvo(RaporttiValinnat::Kieli));
     map.insert("raportti", valinnat().arvo(RaporttiValinnat::RaportinMuoto));
 
-    yhteensaSarake_ = valinnat().arvo(RaporttiValinnat::KuukaudetYhteensa).toBool() && tyyppi == "tulos";
+    yhteensaSarake_ = valinnat().arvo(RaporttiValinnat::KuukaudetYhteensa).toBool() && tyyppi != "tase";
     kieli_ = valinnat().arvo(RaporttiValinnat::Kieli).toString();
 
     const int kohdennuksella = valinnat().arvo(RaporttiValinnat::Kohdennuksella).toInt();
@@ -28,20 +29,8 @@ void LaatijanKuukausiRaportti::laadi()
     const QDate alkupvm = valinnat().arvo(RaporttiValinnat::AlkuPvm).toDate();
     const QDate loppupvm = valinnat().arvo(RaporttiValinnat::LoppuPvm).toDate();
 
-    QDate pvm(alkupvm.year(), alkupvm.month(), 1);
-
-    QVariantList kaudet;
-    while( pvm < loppupvm) {
-        QVariantMap kausi;
-        kausi.insert("loppupvm", QDate(pvm.year(), pvm.month(), pvm.daysInMonth()).toString("yyyy-MM-dd"));
-        kausi.insert("tyyppi", "toteutunut");
-        if( tyyppi == "tulos") {
-            kausi.insert("alkupvm", pvm.toString("yyyy-MM-dd"));
-        }
-        kaudet.append(kausi);
-        pvm = pvm.addMonths(1);
-    }
-    map.insert("sarakkeet", kaudet);
+    map.insert("alkukk", alkupvm.toString("yyyy-MM"));
+    map.insert("loppukk", loppupvm.toString("yyyy-MM"));
     map.insert("erittely", valinnat().onko(RaporttiValinnat::TulostaErittely));
 
     KpKysely* kysely = kpk("/raportti", KpKysely::POST);
@@ -59,7 +48,7 @@ void LaatijanKuukausiRaportti::dataSaapuu(QVariant *variant)
     QVariantMap map = variant->toMap();
     RaporttiRivi otsake;
 
-    rk.asetaOtsikko( map.value("otsikko").toString() );
+    rk.asetaOtsikko( map.value("otsikko").toString() + (jaksotettu_ ? " (" + tulkkaa("jaksotettu", kieli_) + ")" : "") );
     rk.lisaaVenyvaSarake(100, RaporttiRivi::KAIKKI, "1234 XXXXXXXXXXXX");
     otsake.lisaa("");
 

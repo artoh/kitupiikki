@@ -269,6 +269,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="jaksotusCheck">
+     <property name="text">
+      <string>Huomioi jaksotukset</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/month.png</normaloff>:/pic/month.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

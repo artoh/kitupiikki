@@ -95,6 +95,9 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
             tasevienti.setKohdennus( map.value("kohdennus").toInt());
             tulosvienti.setKohdennus( map.value("kohdennus").toInt());
 
+            tulosvienti.setJaksoalkaa( map.contains("jaksoalkaa") ? map.value("jaksoalkaa").toDate() : kausi.alkaa() );
+            tulosvienti.setJaksoloppuu( map.contains("jaksoloppuu") ? map.value("jaksoloppuu").toDate() : kausi.paattyy() );
+
             QString selite = map.contains("eraid") ?
                         tulkkaa("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
                       : tulkkaa("Menojäännöspoisto %1").arg(tili->nimiNumero());

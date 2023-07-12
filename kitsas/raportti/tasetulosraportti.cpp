@@ -96,6 +96,7 @@ void TaseTulosRaportti::tallenna()
     aseta(RaporttiValinnat::AlkuPvm, ui->alkuEdit->date());
     aseta(RaporttiValinnat::LoppuPvm, ui->loppuEdit->date());
     aseta(RaporttiValinnat::KuukaudetYhteensa, ui->summaCheck->isChecked());
+    aseta(RaporttiValinnat::Jaksotettu, ui->jaksotusCheck->isChecked());
 
     aseta(RaporttiValinnat::Kohdennuksella, ui->kohdennusCheck->isVisible() && ui->kohdennusCheck->isChecked() && !ui->kohdennusCombo->currentText().isEmpty() ? ui->kohdennusCombo->kohdennus() : -1);
 
@@ -279,6 +280,7 @@ void TaseTulosRaportti::paivitaUi()
     ui->alkuEdit->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::AlkuPvm).toDate() );
     ui->loppuEdit->setDate( kp()->raporttiValinnat()->arvo(RaporttiValinnat::LoppuPvm).toDate() );
     ui->summaCheck->setChecked( kp()->raporttiValinnat()->arvo(RaporttiValinnat::KuukaudetYhteensa).toBool() );
+    ui->jaksotusCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::Jaksotettu) );
 
     ui->pvmKehys->setVisible( !kuukausittain_ );
     ui->alkuLabel->setVisible( kuukausittain_ );
@@ -286,6 +288,7 @@ void TaseTulosRaportti::paivitaUi()
     ui->loppuLabel->setVisible( kuukausittain_ );
     ui->loppuEdit->setVisible( kuukausittain_ );
     ui->summaCheck->setVisible( kuukausittain_ && tyyppi_ == "tulos");
+    ui->jaksotusCheck->setVisible( kuukausittain_ && tyyppi_ == "tulos");
 
 }
 
