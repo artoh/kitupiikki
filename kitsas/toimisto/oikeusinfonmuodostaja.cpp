@@ -51,7 +51,7 @@ OikeusInfonMuodostaja::OikeusInfonMuodostaja()
     tilitoimisto.lisaa("OT", tr("Tilitoimistonäkymä"));
     otsikot_.append(tilitoimisto);
 
-    OikeusOtsikko hallinta("Hallinta");
+    OikeusOtsikko hallinta(tr("Hallinta"));
     hallinta.lisaa("OM", tr("Käyttäjäryhmien muokkaaminen"));
     hallinta.lisaa("OO", tr("Tilitoimistojen luominen"));
     hallinta.lisaa("OG", tr("Ryhmien muokkaaminen"));
