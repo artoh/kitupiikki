@@ -288,7 +288,7 @@ void TaseTulosRaportti::paivitaUi()
     ui->loppuLabel->setVisible( kuukausittain_ );
     ui->loppuEdit->setVisible( kuukausittain_ );
     ui->summaCheck->setVisible( kuukausittain_ && tyyppi_ == "tulos");
-    ui->jaksotusCheck->setVisible( kuukausittain_ && tyyppi_ == "tulos");
+    ui->jaksotusCheck->setVisible( kuukausittain_ );
 
 }
 

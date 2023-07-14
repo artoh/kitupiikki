@@ -209,6 +209,9 @@ SOURCES += \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.cpp \
+    $$PWD/raportti/kooste/koosteraportitview.cpp \
+    $$PWD/raportti/kooste/koosteraporttilistamodel.cpp \
+    $$PWD/raportti/kooste/raporttikoostajawidget.cpp \
     $$PWD/raportti/laatijat/laatijanalv.cpp \
     $$PWD/raportti/laatijat/laatijankuukausiraportti.cpp \
     $$PWD/raportti/laatijat/laatijanlaskut.cpp \
@@ -651,6 +654,9 @@ HEADERS += \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.h \
+    $$PWD/raportti/kooste/koosteraportitview.h \
+    $$PWD/raportti/kooste/koosteraporttilistamodel.h \
+    $$PWD/raportti/kooste/raporttikoostajawidget.h \
     $$PWD/raportti/laatijat/laatijanalv.h \
     $$PWD/raportti/laatijat/laatijankuukausiraportti.h \
     $$PWD/raportti/laatijat/laatijanlaskut.h \
@@ -961,6 +967,7 @@ FORMS += \
     $$PWD/maaritys/veromaaritys.ui \
     $$PWD/maaritys/yhteystiedot.ui \
     $$PWD/pilvi/pilveensiirto.ui \
+    $$PWD/raportti/kooste/raporttikoostajawidget.ui \
     $$PWD/raportti/paivakirja.ui \
     $$PWD/raportti/pvmvali.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \

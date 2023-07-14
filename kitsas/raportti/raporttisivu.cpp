@@ -38,7 +38,8 @@
 #include "alvraporttiwidget.h"
 
 #include "liitepoiminta.h"
-
+#include "kooste/raporttikoostajawidget.h"
+#include "kooste/koosteraportitview.h"
 
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
@@ -116,6 +117,12 @@ void RaporttiSivu::siirrySivulle()
 
     lisaaRaportti(tr("Tositekooste"), "Tositekooste", ":/pic/arkisto64.png");
 
+    if( kp()->onkoPilvessa() ) {
+        // TODO: Nämä näkyviin vain PRO-puolelle
+        lisaaRaportti(tr("Lähetä raporttikooste"), "Raporttikooste", ":/pic/email.png");
+        lisaaRaportti(tr("Lähetetyt raporttikoosteet"), "Koostelista", ":/pic/arkisto64.png");
+    }
+
     lista->setCurrentItem(lista->item(0));
 }
 
@@ -178,6 +185,10 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new AlvRaporttiWidget();
     else if( raporttinimi == "Tositekooste")
         nykyinen = new LiitePoiminta();
+    else if( raporttinimi == "Raporttikooste")
+        nykyinen = new RaporttiKoostajaWidget();
+    else if( raporttinimi == "Koostelista")
+        nykyinen = new KoosteRaportitView;
 
 
     if( nykyinen )

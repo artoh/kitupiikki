@@ -11,11 +11,11 @@ void LaatijanKuukausiRaportti::laadi()
 {
     QVariantMap map;
     const QString tyyppi = valinnat().arvo(RaporttiValinnat::Tyyppi).toString();
-    jaksotettu_ = tyyppi == "tulos" && valinnat().onko(RaporttiValinnat::Jaksotettu);
 
-    map.insert("tyyppi", tyyppi == "tulos" ? ( jaksotettu_ ? "jaksotettu" : "tuloslaskelma" ) : "tase" );
+    map.insert("tyyppi", tyyppi == "tulos" ? "tuloslaskelma" : "tase" );
     map.insert("kieli", valinnat().arvo(RaporttiValinnat::Kieli));
     map.insert("raportti", valinnat().arvo(RaporttiValinnat::RaportinMuoto));
+    map.insert("jaksotettu", valinnat().onko(RaporttiValinnat::Jaksotettu));
 
     yhteensaSarake_ = valinnat().arvo(RaporttiValinnat::KuukaudetYhteensa).toBool() && tyyppi != "tase";
     kieli_ = valinnat().arvo(RaporttiValinnat::Kieli).toString();
@@ -48,7 +48,7 @@ void LaatijanKuukausiRaportti::dataSaapuu(QVariant *variant)
     QVariantMap map = variant->toMap();
     RaporttiRivi otsake;
 
-    rk.asetaOtsikko( map.value("otsikko").toString() + (jaksotettu_ ? " (" + tulkkaa("jaksotettu", kieli_) + ")" : "") );
+    rk.asetaOtsikko( map.value("otsikko").toString());
     rk.lisaaVenyvaSarake(100, RaporttiRivi::KAIKKI, "1234 XXXXXXXXXXXX");
     otsake.lisaa("");
 
