@@ -97,6 +97,7 @@ bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
 
             tulosvienti.setJaksoalkaa( map.contains("jaksoalkaa") ? map.value("jaksoalkaa").toDate() : kausi.alkaa() );
             tulosvienti.setJaksoloppuu( map.contains("jaksoloppuu") ? map.value("jaksoloppuu").toDate() : kausi.paattyy() );
+            tulosvienti.setJaksotustili( tili->numero() );      // Jaksotukset tasetilille
 
             QString selite = map.contains("eraid") ?
                         tulkkaa("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())

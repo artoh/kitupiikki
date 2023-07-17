@@ -100,6 +100,9 @@ void TuloveroDialog::accept()
         jaksovienti.setDebet(ui->jaaveroaEdit->asCents());
     else
         jaksovienti.setKredit(0 - ui->jaaveroaEdit->asCents());
+    jaksovienti.setJaksoalkaa( tilikausi_.alkaa() );
+    jaksovienti.setJaksoloppuu( tilikausi_.paattyy());
+    jaksovienti.setJaksotustili( kp()->asetukset()->luku("Tuloverojaksotasetili", 2981) );
     jaksovienti.setSelite(selite);
     tosite->viennit()->lisaa(jaksovienti);
 

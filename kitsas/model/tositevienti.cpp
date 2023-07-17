@@ -277,6 +277,11 @@ void TositeVienti::setOstoPvm(const QDate &pvm)
     set( OSTOPVM, pvm);
 }
 
+void TositeVienti::setJaksotustili(const int tili)
+{
+    set( JAKSOTUSTILI, tili);
+}
+
 
 
 
@@ -304,5 +309,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ALKUPVIENNIT, "alkupviennit"},
     { VIITE, "viite"},
     { AALV, "aalv"},
-    { OSTOPVM, "ostopvm"}
+    { OSTOPVM, "ostopvm"},
+    { JAKSOTUSTILI, "jaksotustili"}
 };

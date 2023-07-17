@@ -142,7 +142,7 @@
       "sv" : "Bankkort",
       "TILI" : 2964,
       "KUVA" : "pankkikortti"
-    },    
+    },
     {
       "fi" : "Luottokortti",
       "sv" : "Kreditkort",
@@ -195,6 +195,7 @@
   "Tuloveroennakkotili":"7099",
   "Tuloverojaksotustili":"7099",
   "Tuloverosiirtovelat":"2990",
+  "Tuloverojaksotasetili": "2990",
   "Tuloverosiirtosaamiset":"1770",
   "PankkiPalvelumaksutili":"4921",
   "PankkiSaapuvakorko":"9050",

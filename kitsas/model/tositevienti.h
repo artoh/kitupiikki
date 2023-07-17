@@ -48,7 +48,8 @@ public:
         ALKUPVIENNIT,
         VIITE,
         AALV,
-        OSTOPVM
+        OSTOPVM,
+        JAKSOTUSTILI
     };
 
     enum VientiTyyppi {
@@ -140,6 +141,7 @@ public:
     void setId(int id);
     void setViite(const QString& viite);
     void setOstoPvm(const QDate& pvm);
+    void setJaksotustili(const int tili);
 
 private:
     static std::map<int,QString> avaimet__;
