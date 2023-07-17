@@ -4,6 +4,7 @@
 #include "db/kirjanpito.h"
 #include "kieli/monikielinen.h"
 #include "naytin/naytinikkuna.h"
+#include "kieli/kielet.h"
 
 #include <QJsonDocument>
 #include <QMessageBox>
@@ -23,13 +24,14 @@ RaporttiKoostajaWidget::RaporttiKoostajaWidget(QWidget *parent) :
 
 RaporttiKoostajaWidget::~RaporttiKoostajaWidget()
 {
-    kp()->asetukset()->aseta("RaporttiKooste", QString::fromUtf8(QJsonDocument::fromVariant(valintaMap()).toJson(QJsonDocument::Compact)));
+    valintaMap();   // To save ;)
     delete ui;
 }
 
 void RaporttiKoostajaWidget::lataaValinnat()
 {
     KpKysely* kysely = kpk("/raportti/koostevalinnat");
+    kysely->lisaaAttribuutti("kieli",  Kielet::instanssi()->nykyinen());
     connect(kysely, &KpKysely::vastaus, this, &RaporttiKoostajaWidget::valinnatSaapuu);
     kysely->kysy();        
 }
@@ -45,19 +47,27 @@ void RaporttiKoostajaWidget::valinnatSaapuu(QVariant *data)
     ui->kieliCombo->valitse( lastData.value("language").toString());
     ui->vastaanottajaEdit->setText( lastData.value("emails").toString());
     ui->otsikkoEdit->setText( lastData.value("title").toString());
+    ui->textEdit->setPlainText(lastData.value("freetext").toString() );
 
 }
 
 void RaporttiKoostajaWidget::alustaJaksot(const QVariantList &lista)
 {
+    const int currentIndex = ui->jaksoCombo->currentIndex();
     ui->jaksoCombo->clear();
     for(const auto& item : lista) {
         QVariantMap map = item.toMap();
-        const QString jaksoTeksti = QString("%1 - %2").arg( map.value("startDate").toDate().toString("dd.MM"), map.value("endDate").toDate().toString("dd.MM.yyyy") );
+        const QString jaksoTeksti = map.value("text").toString();
         QVariantMap jaksoData;
         jaksoData.insert("startDate", map.value("startDate").toDate().toString("yyyy-MM-dd"));
         jaksoData.insert("endDate", map.value("endDate").toDate().toString("yyyy-MM-dd"));
-        ui->jaksoCombo->addItem( jaksoTeksti, jaksoData );
+        QIcon icon(":/pic/tyhja16.png");
+        if (map.value("reported").toBool()) icon = QIcon(":/pic/ok.png");
+        else if( map.value("vat").toBool()) icon = QIcon(":/pic/vero.png");
+        ui->jaksoCombo->addItem( icon, jaksoTeksti, jaksoData );
+    }
+    if( currentIndex > -1) {
+        ui->jaksoCombo->setCurrentIndex( currentIndex );
     }
 }
 
@@ -66,10 +76,10 @@ void RaporttiKoostajaWidget::alustaValinnat(const QVariantList &lista, const QSt
     ui->listWidget->clear();
     for(const auto& item: lista) {
         QVariantMap map = item.toMap();
-        Monikielinen teksti( map.value("label"));
+        QString label = map.value("label").toString();
         const QString& value = map.value("value").toString();
         QListWidgetItem* option = new QListWidgetItem(ui->listWidget);
-        option->setText( teksti.teksti() );
+        option->setText( label );
         option->setFlags( Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
         option->setData(Qt::UserRole, value);
         option->setCheckState(valitut.contains(value) ? Qt::Checked :  Qt::Unchecked);
@@ -94,6 +104,9 @@ QVariantMap RaporttiKoostajaWidget::valintaMap() const
         }
     }
     map.insert("options", options);
+
+    kp()->asetukset()->aseta("RaporttiKooste", QString::fromUtf8(QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact)));
+
     return map;
 }
 
@@ -159,9 +172,10 @@ void RaporttiKoostajaWidget::sended(QVariant *data)
     } else if( !map.value("id").toInt()) {
         QMessageBox::critical(this, tr("Raportin tallentaminen epäonnistui"), tr("Raportin tallentaminen kirjanpitoon epäonnistui"));
     } else if( !accepted.isEmpty()) {
-        kp()->onni( tr("Raportti lähetetty %1 vastaanottajalle").arg( accepted.count()) );
+        emit kp()->onni( tr("Raportti lähetetty %1 vastaanottajalle").arg( accepted.count()) );
     } else {
-        kp()->onni( tr("Raportti tallennettu"));
+        emit kp()->onni( tr("Raportti tallennettu"));
     }
+    lataaValinnat();    // To see check mark
     ui->sendButton->setEnabled( true );
 }
