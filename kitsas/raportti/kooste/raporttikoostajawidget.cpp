@@ -6,6 +6,7 @@
 #include "naytin/naytinikkuna.h"
 
 #include <QJsonDocument>
+#include <QMessageBox>
 
 
 RaporttiKoostajaWidget::RaporttiKoostajaWidget(QWidget *parent) :
@@ -120,7 +121,7 @@ QString RaporttiKoostajaWidget::emails() const
             formatted.append("\"" + name.join(" ") + "\" " + address);
         }
     }
-    return formatted.join("\n");
+    return formatted.join(", ");
 }
 
 void RaporttiKoostajaWidget::preview()
@@ -140,6 +141,7 @@ void RaporttiKoostajaWidget::showPreview(QVariant *data)
 
 void RaporttiKoostajaWidget::send()
 {
+    ui->sendButton->setEnabled(false);
     QVariantMap map = valintaMap();
     map.insert("action", "send");
     KpKysely* kysely = kpk("/raportti/kooste", KpKysely::POST);
@@ -149,6 +151,17 @@ void RaporttiKoostajaWidget::send()
 
 void RaporttiKoostajaWidget::sended(QVariant *data)
 {
-    QVariant map = data->toMap();
-    /* TODO */
+    QVariantMap map = data->toMap();
+    QStringList rejected = map.value("rejected").toStringList();
+    QStringList accepted = map.value("accepted").toStringList();
+    if( !rejected.isEmpty()) {
+        QMessageBox::critical(this, tr("Raportin lähettäminen epäonnistui"), tr("Raporttia ei voitu lähettää osoitteeseen %1").arg(rejected.join(", ")));
+    } else if( !map.value("id").toInt()) {
+        QMessageBox::critical(this, tr("Raportin tallentaminen epäonnistui"), tr("Raportin tallentaminen kirjanpitoon epäonnistui"));
+    } else if( !accepted.isEmpty()) {
+        kp()->onni( tr("Raportti lähetetty %1 vastaanottajalle").arg( accepted.count()) );
+    } else {
+        kp()->onni( tr("Raportti tallennettu"));
+    }
+    ui->sendButton->setEnabled( true );
 }
