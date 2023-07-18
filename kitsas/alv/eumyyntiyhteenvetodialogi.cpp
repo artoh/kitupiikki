@@ -172,7 +172,7 @@ void EuMyyntiYhteenvetoDialogi::alusta()
 {
     loppupvm_ = data_.value("pvm").toDate();
 
-    ui->ylaLabel->setText("Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti");
+    ui->ylaLabel->setText(tr("Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti"));
 
     rk.asetaKausiteksti( QString("%1 / %2").arg(loppupvm_.month()).arg(loppupvm_.year()) );
     rk.asetaOtsikko(tr("YHTEISÖMYYNNIN YHTEENVETOILMOITUS"));

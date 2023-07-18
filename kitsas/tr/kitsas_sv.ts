@@ -6662,7 +6662,7 @@ Du kan lägga till en fil som är maximalt 10 Mb stor.</translation>
     <message>
         <location filename="../maaritys/extra/lisapalveluwidget.cpp" line="56"/>
         <source> Vain testikäyttäjille </source>
-        <translation type="unfinished"> Endast för testanvändarna </translation>
+        <translation> Endast för testanvändarna </translation>
     </message>
     <message>
         <location filename="../maaritys/extra/lisapalveluwidget.cpp" line="105"/>
@@ -9401,7 +9401,7 @@ För att kunna kopiera filen till molnet tag kontakt med stödet på Kitsas elle
     <message>
         <location filename="../pilvi/pilvimodel.cpp" line="189"/>
         <source>Kirjanpitoa avataan...</source>
-        <translation>Bokföingen öppnas...</translation>
+        <translation>Bokföringen öppnas...</translation>
     </message>
     <message>
         <location filename="../pilvi/pilvimodel.cpp" line="384"/>
@@ -16229,7 +16229,7 @@ Beakta Bokföringslagens 2. kapitel 7§ 2. momentets förbudet att ändra bokfö
     <message>
         <location filename="../alv/verovarmennetila.cpp" line="52"/>
         <source>Varmennetta ei ole otettu käyttöön.</source>
-        <translation>Certifikater hatŕ inte tagit i bruk.</translation>
+        <translation>Certifikat har inte tagits i bruk.</translation>
     </message>
     <message>
         <location filename="../alv/verovarmennetila.cpp" line="54"/>
