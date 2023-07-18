@@ -2571,7 +2571,7 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="175"/>
         <source>Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti</source>
-        <translation type="unfinished"></translation>
+        <translation>Sammandragsdeklarationen om EU-försäljningar deklareras enligt informationen i bokföringen, enligt momsbeteckningarna matats in kundens information</translation>
     </message>
     <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="178"/>
