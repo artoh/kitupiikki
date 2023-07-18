@@ -2421,7 +2421,7 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitys.cpp" line="22"/>
         <source>Tase-erien selvittely</source>
-        <translation type="unfinished"></translation>
+        <translation>Utredandet av balansspecifikationer</translation>
     </message>
 </context>
 <context>
@@ -2429,27 +2429,27 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../raportti/eranselvittaja/eranselvityseramodel.cpp" line="13"/>
         <source>Pvm</source>
-        <translation type="unfinished">Datum</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvityseramodel.cpp" line="14"/>
         <source>Asiakas/Toimittaja</source>
-        <translation type="unfinished"></translation>
+        <translation>Kund/Leverantör</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvityseramodel.cpp" line="15"/>
         <source>Selite</source>
-        <translation type="unfinished">Förklaring</translation>
+        <translation>Förklaring</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvityseramodel.cpp" line="16"/>
         <source>Saldo</source>
-        <translation type="unfinished">Saldo</translation>
+        <translation>Saldo</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvityseramodel.cpp" line="52"/>
         <source>Erittelemättömät</source>
-        <translation type="unfinished"></translation>
+        <translation>Ospecificerade</translation>
     </message>
 </context>
 <context>
@@ -2457,12 +2457,12 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitystilimodel.cpp" line="16"/>
         <source>Tili</source>
-        <translation type="unfinished">Konto</translation>
+        <translation>Konto</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitystilimodel.cpp" line="18"/>
         <source>Saldo</source>
-        <translation type="unfinished">Saldo</translation>
+        <translation>Saldo</translation>
     </message>
 </context>
 <context>
@@ -2470,27 +2470,27 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="14"/>
         <source>Päivämäärä</source>
-        <translation type="unfinished">Datum</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="15"/>
         <source>Tosite</source>
-        <translation type="unfinished">Verifikat</translation>
+        <translation>Verifikat</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="16"/>
         <source>Selite</source>
-        <translation type="unfinished">Förklaring</translation>
+        <translation>Förklaring</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="17"/>
         <source>Debet</source>
-        <translation type="unfinished">Debet</translation>
+        <translation>Debet</translation>
     </message>
     <message>
         <location filename="../raportti/eranselvittaja/eranselvitysviennit.cpp" line="18"/>
         <source>Kredit</source>
-        <translation type="unfinished">Kredit</translation>
+        <translation>Kredit</translation>
     </message>
 </context>
 <context>
@@ -4823,17 +4823,17 @@ Verifikat</translation>
     <message>
         <location filename="../raportti/kooste/koosteraporttilistamodel.cpp" line="16"/>
         <source>Ajalta</source>
-        <translation type="unfinished">Från perioden</translation>
+        <translation>Från perioden</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/koosteraporttilistamodel.cpp" line="17"/>
         <source>Laatinut</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapad av</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/koosteraporttilistamodel.cpp" line="18"/>
         <source>Lähetetty</source>
-        <translation type="unfinished"></translation>
+        <translation>Skickat</translation>
     </message>
 </context>
 <context>
@@ -7839,12 +7839,12 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../raportti/muokattavaraportti.ui" line="263"/>
         <source>Ynteensä-sarake</source>
-        <translation type="unfinished"></translation>
+        <translation>Totalt-kolumn</translation>
     </message>
     <message>
         <location filename="../raportti/muokattavaraportti.ui" line="274"/>
         <source>Huomioi jaksotukset</source>
-        <translation type="unfinished"></translation>
+        <translation>Beakta periodisering</translation>
     </message>
     <message>
         <location filename="../raportti/muokattavaraportti.ui" line="196"/>
@@ -8351,7 +8351,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="14"/>
         <source>Selaus</source>
-        <translation>Bläddrande</translation>
+        <translation>Bläddra</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="15"/>
@@ -8361,12 +8361,12 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="16"/>
         <source>Luonnoksen laatiminen</source>
-        <translation>Skapande av utkast</translation>
+        <translation>Skapa utkast</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="17"/>
         <source>Tallentaminen ja muokkaaminen</source>
-        <translation>Sparande och redigering</translation>
+        <translation>Spara och redigera</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="20"/>
@@ -8376,53 +8376,53 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="21"/>
         <source>Selaaminen</source>
-        <translation>Bläddrande</translation>
+        <translation>Bläddra</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="22"/>
         <source>Laskun laatiminen</source>
-        <translation>Skapande av faktura</translation>
+        <translation>Skapa faktura</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="23"/>
         <source>Laskun lähettäminen</source>
-        <translation>Sändningen av fakturor</translation>
+        <translation>Skicka fakturor</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="24"/>
         <source>Tuotteiden muokkaminen</source>
-        <translation>Redigering av produkter</translation>
+        <translation>Redigera produkter</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="25"/>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="57"/>
         <source>Ryhmien muokkaaminen</source>
-        <translation>Redigeringen av grupper</translation>
+        <translation>Redigera grupper</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="28"/>
         <source>Laskujen kierto</source>
-        <translation>Cirkulationen av fakturor</translation>
+        <translation>Cirkulera fakturor</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="29"/>
         <source>Laskun lisääminen kiertoon</source>
-        <translation>Läggningen av fakturor i cirkulation</translation>
+        <translation>Lägg faktura i cirkulation</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="30"/>
         <source>Laskun tarkastaminen</source>
-        <translation>Gransningen av fakturor</translation>
+        <translation>Granska fakturor</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="31"/>
         <source>Laskun hyväksyminen</source>
-        <translation>Godkännandet av fakturor</translation>
+        <translation>Godkänna fakturor</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="32"/>
         <source>Kaikkien kiertojen selaaminen</source>
-        <translation>Bläddrande i alla cirkulationer</translation>
+        <translation>Bläddra i alla cirkulationer</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="35"/>
@@ -8457,7 +8457,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="43"/>
         <source>Asetuksten muokkaaminen</source>
-        <translation>Redigering av inställningarna</translation>
+        <translation>Redigering av inställningar</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="44"/>
@@ -8472,12 +8472,12 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="48"/>
         <source>Kirjanpidon luominen</source>
-        <translation>Skapande av bokföringen</translation>
+        <translation>Skapa bokföring</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="49"/>
         <source>Kirjanpidon siirtäminen ja poistaminen</source>
-        <translation>Flytta och radeda bokföringen</translation>
+        <translation>Flytta och radeda bokföring</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="50"/>
@@ -8492,7 +8492,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="54"/>
         <source>Hallinta</source>
-        <translation type="unfinished">Administration</translation>
+        <translation>Byroadministration</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="55"/>
@@ -8512,12 +8512,12 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="59"/>
         <source>Kirjautumistietojen selaaminen</source>
-        <translation>Bläddande av information om inloggningarna</translation>
+        <translation>Bläddra information om inloggningarna</translation>
     </message>
     <message>
         <location filename="../toimisto/oikeusinfonmuodostaja.cpp" line="60"/>
         <source>Tukikirjautuminen</source>
-        <translation>Stöd-logga in</translation>
+        <translation>Stödinloggning</translation>
     </message>
 </context>
 <context>
@@ -8536,7 +8536,7 @@ Granska nycklarna du har skrivit.</translation>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="28"/>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="77"/>
         <source>Selaaminen</source>
-        <translation>Bläddrande</translation>
+        <translation>Bläddra</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="38"/>
@@ -8546,12 +8546,12 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="48"/>
         <source>Luonnoksen laatiminen</source>
-        <translation>Skapande av utkast</translation>
+        <translation>Skapa utkast</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="58"/>
         <source>Tallentaminen ja muokkaminen</source>
-        <translation>Sparande och redigering</translation>
+        <translation>Spara och redigera</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="71"/>
@@ -8561,17 +8561,17 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="87"/>
         <source>Laskun laatiminen</source>
-        <translation>Skapande av faktura</translation>
+        <translation>Skapa faktura</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="97"/>
         <source>Laskun lähettäminen</source>
-        <translation>Sändningen av fakturor</translation>
+        <translation>Skicka fakturor</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="107"/>
         <source>Tuotteiden muokkaaminen</source>
-        <translation>Redigering av produkter</translation>
+        <translation>Redigera produkter</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="117"/>
@@ -8581,7 +8581,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="147"/>
         <source>Laskujen kierto</source>
-        <translation>Fakturacirculation</translation>
+        <translation>Cirkulera fakturor</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="153"/>
@@ -8601,7 +8601,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="183"/>
         <source>Kaikkien kiertojen selaaminen</source>
-        <translation>Bläddrande i alla cirkulationer</translation>
+        <translation>Bläddra i alla cirkulationer</translation>
     </message>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="196"/>
@@ -8641,7 +8641,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../maaritys/kayttooikeudet/oikeuswidget.ui" line="261"/>
         <source>Käyttöoikeuksien myöntäminen</source>
-        <translation>Beviljande av användarrättigheter</translation>
+        <translation>Beviljande av  användarrättigheter</translation>
     </message>
 </context>
 <context>
@@ -8804,7 +8804,7 @@ Granska nycklarna du har skrivit.</translation>
     <message>
         <location filename="../raportti/paivakirja.ui" line="259"/>
         <source>Tase-erien selvittely</source>
-        <translation type="unfinished"></translation>
+        <translation>Utredandet av balanspefikationer</translation>
     </message>
 </context>
 <context>
@@ -9520,7 +9520,9 @@ eivät täsmää</source>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.ui" line="172"/>
         <source>Oikaise taseesta 
 edellinen tilikausi</source>
-        <translation type="unfinished"></translation>
+        <translation>Räta föregående 
+räkenskapsperioden 
+från balansen</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.ui" line="183"/>
@@ -9571,7 +9573,7 @@ stämmer inte</translation>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="97"/>
         <source>Tiedosto %1 ei ole muodoltaan oikea - päivämääriä ei löydetty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filen %1 är inte i rätt form - inga datum hittats.</translation>
     </message>
     <message>
         <source>Tiedosto %1 ei ole muodoltaan oikea - kuukausittaisen erittelyn päivämääriä ei löydetty.</source>
@@ -9765,67 +9767,67 @@ ID: n visas inte för användaren</translation>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="24"/>
         <source>Kausi</source>
-        <translation type="unfinished"></translation>
+        <translation>Period</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="37"/>
         <source>Kieli</source>
-        <translation type="unfinished">Språk</translation>
+        <translation>Språk</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="50"/>
         <source>Vastaanottajat</source>
-        <translation type="unfinished"></translation>
+        <translation>Mottagaren</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="63"/>
         <source>Otsikko</source>
-        <translation type="unfinished">Rubrik</translation>
+        <translation>Rubrik</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="96"/>
         <source>Vapaamuotoinen saateviesti</source>
-        <translation type="unfinished"></translation>
+        <translation>Informell följebrev</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="118"/>
         <source>Esikatsele</source>
-        <translation type="unfinished">Förhandsgranska</translation>
+        <translation>Förhandsgranska</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.ui" line="129"/>
         <source>Lähetä</source>
-        <translation type="unfinished">Skicka</translation>
+        <translation>Skicka</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="171"/>
         <source>Raportin lähettäminen epäonnistui</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten mislyckades att skicka</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="171"/>
         <source>Raporttia ei voitu lähettää osoitteeseen %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten kunde inte skickas till addressen %1</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="173"/>
         <source>Raportin tallentaminen epäonnistui</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten mislyckades att lagra</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="173"/>
         <source>Raportin tallentaminen kirjanpitoon epäonnistui</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten mislyckades att lagra i bokföringen</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="175"/>
         <source>Raportti lähetetty %1 vastaanottajalle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten skickats till %1 mottagarna</translation>
     </message>
     <message>
         <location filename="../raportti/kooste/raporttikoostajawidget.cpp" line="177"/>
         <source>Raportti tallennettu</source>
-        <translation type="unfinished"></translation>
+        <translation>Rapporten lagrades</translation>
     </message>
 </context>
 <context>
@@ -9915,12 +9917,12 @@ ID: n visas inte för användaren</translation>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="75"/>
         <source>Tase kuukausittain</source>
-        <translation type="unfinished"></translation>
+        <translation>Månatlig balansräkning</translation>
     </message>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="76"/>
         <source>Tuloslaskelma kuukausittain</source>
-        <translation type="unfinished"></translation>
+        <translation>Månatlig resultatsräkning</translation>
     </message>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="80"/>
@@ -9970,12 +9972,12 @@ ID: n visas inte för användaren</translation>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="122"/>
         <source>Lähetä raporttikooste</source>
-        <translation type="unfinished"></translation>
+        <translation>Skicka rapportcollage</translation>
     </message>
     <message>
         <location filename="../raportti/raporttisivu.cpp" line="123"/>
         <source>Lähetetyt raporttikoosteet</source>
-        <translation type="unfinished"></translation>
+        <translation>Skickad rapportcollage</translation>
     </message>
 </context>
 <context>
@@ -13446,7 +13448,7 @@ Försök igen senare.</translation>
     <message>
         <location filename="../toimisto/toimisto.ui" line="309"/>
         <source>1234567-1</source>
-        <translation type="unfinished">15  {1234567-1?}</translation>
+        <translation>1234567-1</translation>
     </message>
     <message>
         <location filename="../toimisto/toimisto.ui" line="326"/>
@@ -13669,7 +13671,7 @@ Försöka på nytt senare.</translation>
     <message>
         <location filename="../toimisto/toimistooikeudet.ui" line="36"/>
         <source>Kirjanpidon siirtäminen ja poistaminen</source>
-        <translation>Flyttaning och radering av bokföringarna</translation>
+        <translation>Flytta och radera bokföringarna</translation>
     </message>
     <message>
         <location filename="../toimisto/toimistooikeudet.ui" line="46"/>
@@ -13684,7 +13686,7 @@ Försöka på nytt senare.</translation>
     <message>
         <location filename="../toimisto/toimistooikeudet.ui" line="69"/>
         <source>Hallinta</source>
-        <translation>Administration</translation>
+        <translation>Byråadministration</translation>
     </message>
     <message>
         <location filename="../toimisto/toimistooikeudet.ui" line="75"/>
@@ -13736,7 +13738,7 @@ Försöka på nytt senare.</translation>
     <message>
         <location filename="../toimisto/toimistosivu.cpp" line="58"/>
         <source>Muokkaa...</source>
-        <translation type="unfinished">Redigera...</translation>
+        <translation>Redigera...</translation>
     </message>
     <message>
         <location filename="../toimisto/toimistosivu.cpp" line="59"/>
@@ -14893,7 +14895,7 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="136"/>
         <source>Nopeampi pdf-tiedostojen esittäminen</source>
-        <translation type="unfinished"></translation>
+        <translation>Snabbare uppförande av pdf-filer</translation>
     </message>
     <message>
         <location filename="../maaritys/ulkoasumaaritys.ui" line="93"/>
