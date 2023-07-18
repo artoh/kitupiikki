@@ -2569,6 +2569,11 @@ Till registret kopieras flera filer så det är att rekommendera att skapa en ny
         <translation>Sammandragsdeklarationen om EU-försäljningar %1/%2</translation>
     </message>
     <message>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="175"/>
+        <source>Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="178"/>
         <source>YHTEISÖMYYNNIN YHTEENVETOILMOITUS</source>
         <translation>SAMMANDRAGSDEKLARTIONEN OM EU-FÖRSÄLJNINGAR</translation>

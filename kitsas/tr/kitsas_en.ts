@@ -2548,6 +2548,11 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="175"/>
+        <source>Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="178"/>
         <source>YHTEISÖMYYNNIN YHTEENVETOILMOITUS</source>
         <translation type="unfinished"></translation>
