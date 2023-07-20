@@ -135,7 +135,7 @@ QFormLayout *ExtraDialog::initFields(const QVariantList &fields, const QVariantM
             QComboBox *box = new QComboBox();
             for(const auto& citem : map.value("options").toList()) {
                 QVariantMap cMap = citem.toMap();
-                Monikielinen ctext(cMap.value("text").toMap());
+                Monikielinen ctext(cMap.value("text"));
                 box->addItem( ctext.teksti(), cMap.value("value").toString() );
             }
             if( !value.isEmpty()) box->setCurrentIndex( box->findData(value) );
