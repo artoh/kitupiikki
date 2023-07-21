@@ -1,4 +1,7 @@
 #include "pdfrenderview.h"
+#include "liite/liitteetmodel.h"
+#include "qevent.h"
+#include "qmimedata.h"
 #include <QGraphicsPixmapItem>
 
 PdfRenderView::PdfRenderView(QWidget *parent) :
@@ -12,17 +15,17 @@ QPdfDocument *PdfRenderView::document()
     return doc_;
 }
 
-void PdfRenderView::setDocument(QPdfDocument *document)
-{
-    doc_ = document;
-    connect( document, &QPdfDocument::statusChanged, this, &PdfRenderView::statusChanged);
-}
-
 void PdfRenderView::setZoom(QPdfView::ZoomMode mode, qreal factor)
 {
     zoomMode_ = mode;
     zoomFactor_ = factor;
     if( doc_) statusChanged( doc_->status());
+}
+
+void PdfRenderView::setDocument(QPdfDocument *document)
+{
+    doc_ = document;
+    connect( doc_, &QPdfDocument::statusChanged, this, &PdfRenderView::statusChanged);
 }
 
 void PdfRenderView::statusChanged(QPdfDocument::Status status)
@@ -63,6 +66,21 @@ void PdfRenderView::statusChanged(QPdfDocument::Status status)
             ypos += pixmap.height() + 10.0;
         }
     }
+}
+
+void PdfRenderView::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->ignore();
+}
+
+void PdfRenderView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->ignore();
+}
+
+void PdfRenderView::dropEvent(QDropEvent *event)
+{
+    event->ignore();
 }
 
 void PdfRenderView::resizeEvent(QResizeEvent * /*event*/)
