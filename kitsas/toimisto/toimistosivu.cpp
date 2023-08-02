@@ -220,7 +220,7 @@ void ToimistoSivu::kayttajaValittu(const QModelIndex &index)
     // nykyisessä kirjanpidossa?
     ui->uNimi->setText( userInfo_.name());
     ui->uInfo->setText( QString("%1\n%2").arg(userInfo_.email(), userInfo_.phone()) );
-    ui->uBrowser->setHtml( userInfo_.oikeusInfo() );
+    ui->uBrowser->setHtml( userInfo_.oikeusInfo( groupData_->isUnit() ) );
 
     ui->uMuokkaaNappi->setEnabled( userInfo_.userid() );
     ui->uPoistaNappi->setEnabled( userInfo_.userid());
