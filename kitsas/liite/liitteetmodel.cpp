@@ -502,39 +502,47 @@ void LiitteetModel::tarkastaKaikkiLiitteet()
 
 QByteArray LiitteetModel::esikasittely(QByteArray sisalto, const QString& tiedostonnimi)
 {
+    if( !sisalto.startsWith("%PDF") && sisalto.length() > 1024 * 100) {
     // Muunnetaan kaikki kuvatiedostot jpg-kuviksi (ei kuiteskaan pdf)
-    QImage image = sisalto.startsWith("%PDF") ? QImage() : image.fromData(sisalto);
-    if( !image.isNull()) {
-        int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
-        if( image.width() > image.height()) {
-            if( image.width() > koko) {
-                image = image.scaledToWidth(koko);
+        QImage image = image.fromData(sisalto);
+        if( !image.isNull()) {
+            int koko = kp()->settings()->value("KuvaKoko",2048).toInt();
+            if( image.width() > image.height()) {
+                if( image.width() > koko) {
+                    image = image.scaledToWidth(koko);
+                }
+            } else {
+                if( image.height() > koko) {
+                    image = image.scaledToHeight(koko);
+                }
             }
-        } else {
-            if( image.height() > koko) {
-                image = image.scaledToHeight(koko);
+            if( kp()->settings()->value("KuvaMustavalko").toBool()) {
+                image = image.convertToFormat(QImage::Format_Grayscale8);
             }
-        }
-        if( kp()->settings()->value("KuvaMustavalko").toBool()) {
-            image = image.convertToFormat(QImage::Format_Grayscale8);
-        }
-        QBuffer buffer(&sisalto);
-        buffer.open(QIODevice::WriteOnly);
-        image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
-    } else if ( sisalto.left(128).contains(QByteArray("<html")) || sisalto.left(128).contains(QByteArray("<HTML")) ) {
-        QTextDocument doc;
-        doc.setHtml(Tuonti::CsvTuonti::haistettuKoodattu(sisalto));
-        QByteArray array;
-        QBuffer buffer(&array);
-        buffer.open(QIODevice::WriteOnly);
-        QPdfWriter writer(&buffer);
-        writer.setTitle(tiedostonnimi);
-        writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-        writer.setPageSize(QPageSize(QPageSize::A4));
 
-        doc.print(&writer);
-        sisalto = array;
+            QByteArray array;
+            QBuffer buffer(&array);
+            buffer.open(QIODevice::WriteOnly);
+            image.save(&buffer,"JPG", kp()->settings()->value("KuvaLaatu",40).toInt());
+            buffer.close();
+            if( sisalto.length() > array.length()) {
+                sisalto = array;
+            }
+        } else if ( sisalto.left(128).contains(QByteArray("<html")) || sisalto.left(128).contains(QByteArray("<HTML")) ) {
+            QTextDocument doc;
+            doc.setHtml(Tuonti::CsvTuonti::haistettuKoodattu(sisalto));
+            QByteArray array;
+            QBuffer buffer(&array);
+            buffer.open(QIODevice::WriteOnly);
+            QPdfWriter writer(&buffer);
+            writer.setTitle(tiedostonnimi);
+            writer.setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
+            writer.setPageSize(QPageSize(QPageSize::A4));
 
+            doc.print(&writer);
+            sisalto = array;
+
+        }
     }
 
     if( sisalto.length() > 10 * 1024 * 1024 ) {
