@@ -39,6 +39,7 @@
 #include <QMenu>
 #include <QDebug>
 #include <QActionGroup>
+#include <QWebEngineView>
 
 ToimistoSivu::ToimistoSivu(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -48,9 +49,17 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     bookData_{new BookData(this)},
     userData_{new GroupUserData(this)},
     tuoteRyhma_{new QActionGroup(this)},
-    tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))}
+    tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))},
+    webView_{new QWebEngineView(this)},
+    toimistoWidget_{new QWidget(this)}
 {
-    ui->setupUi(this);    
+    QHBoxLayout* leiska = new QHBoxLayout();
+    ui->setupUi(toimistoWidget_);
+    leiska->addWidget(toimistoWidget_);
+    leiska->addWidget(webView_);
+    // ui->setupUi(this);
+    setLayout(leiska);
+
     ui->hakuList->hide();
 
     pikavalinnatAktio_ = new QAction(QIcon(":/pic/ratas.png"), tr("Pikavalinnat..."), this);
@@ -186,17 +195,26 @@ ToimistoSivu::~ToimistoSivu()
 }
 
 void ToimistoSivu::siirrySivulle()
-{        
-    if( ui->treeView->selectionModel()->selectedIndexes().isEmpty() ) {
-        if( groupTree_->nodes() < 50) {
-            ui->treeView->expandAll();
-        }
-        if( ui->treeView->model()->rowCount()==1) {
-            ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
-            nodeValittu( groupTree_->index(0,0) );
-        }
+{
+    // TODO: Onko optiona suoraan siirto ???
+    if( 1 == 1) {
+        webView_->show();
+        toimistoWidget_->hide();
+        webView_->load(QUrl("https://possu.kitsas.fi"));
     } else {
-        groupData_->reload();
+        webView_->hide();
+        toimistoWidget_->show();
+        if( ui->treeView->selectionModel()->selectedIndexes().isEmpty() ) {
+            if( groupTree_->nodes() < 50) {
+                ui->treeView->expandAll();
+            }
+            if( ui->treeView->model()->rowCount()==1) {
+                ui->treeView->selectionModel()->select( groupTree_->index(0,0), QItemSelectionModel::SelectCurrent );
+                nodeValittu( groupTree_->index(0,0) );
+            }
+        } else {
+            groupData_->reload();
+        }
     }
 }
 

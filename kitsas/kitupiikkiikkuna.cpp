@@ -70,6 +70,8 @@
 #include "saldodock/saldodock.h"
 #include "laskutus/toimittaja/laskuntoimittaja.h"
 
+#include <QtWebEngineWidgets/QWebEngineView>
+
 #include "versio.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
@@ -205,7 +207,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu, bool siirry)
     else if( !edellisetIndeksit.isEmpty())
         edellisetIndeksit.pop();
 
-    nykysivu = sivut[mikasivu];
+    nykysivu = sivut[mikasivu]; // TODO! TILAPÄINEN TESTI
     sivuaktiot[mikasivu]->setChecked(true);
 
     // Sivu esille
@@ -495,8 +497,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
-
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);    
 
     paivitaPossu();
     aktioryhma->actions().first()->setChecked(true);

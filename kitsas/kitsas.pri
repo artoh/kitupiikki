@@ -8,6 +8,7 @@ QT += svg
 QT += xml
 QT += pdf
 QT += pdfwidgets
+QT += webenginewidgets
 
 equals(QT_MAJOR_VERSION,6) {
     QT += core5compat

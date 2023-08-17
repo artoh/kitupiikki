@@ -19,6 +19,8 @@ class QMenu;
 class QActionGroup;
 class GroupUserData;
 
+class QWebEngineView;
+
 class ToimistoSivu : public KitupiikkiSivu
 {
     Q_OBJECT
@@ -97,6 +99,9 @@ private:
 
     QActionGroup* tuoteRyhma_;
     QMenu* tuoteMenu_;
+
+    QWebEngineView* webView_;
+    QWidget* toimistoWidget_;
 };
 
 #endif // TOIMISTOSIVU_H
