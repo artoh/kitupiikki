@@ -38,6 +38,8 @@ QString Iban::bic() const
 
     if( tunnus.startsWith("405") || tunnus.startsWith("497"))
         return "HELSFIHH";  // Aktia Pankki
+    else if(tunnus.startsWith("714"))
+        return "EVSEFIHH";
     else if( tunnus.startsWith('8') )
         return "DABAFIHH";  // Danske Bank
     else if( tunnus.startsWith("34"))
@@ -71,6 +73,7 @@ QString Iban::bic() const
     else if(tunnus.startsWith("798"))
         return "VPAYFIH2";
 
+
     // Tuntematon pankkikoodi
     return QString();
 }
@@ -80,6 +83,7 @@ QString Iban::pankki() const
     QString b = bic();
     if( b == "HELSFIHH") return "Aktia";
     else if( b == "BIGKFIH1") return "Bigbank";
+    else if( b == "EVSEFIHH") return "Alisa Pankki";
     else if( b == "CITIFIHX") return "Citibank";
     else if( b == "DABAFIHH" || b == "DABAFIHX" ) return "Danske Bank";
     else if( b == "DNBAFIHX") return "DnB NOR Bank";
