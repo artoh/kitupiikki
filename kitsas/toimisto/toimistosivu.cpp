@@ -196,11 +196,11 @@ ToimistoSivu::~ToimistoSivu()
 
 void ToimistoSivu::siirrySivulle()
 {
-    // TODO: Onko optiona suoraan siirto ???
-    if( 1 == 1) {
+    const QString adminUrl = kp()->pilvi()->service("admin");
+    if( !adminUrl.isEmpty()) {
         webView_->show();
         toimistoWidget_->hide();
-        webView_->load(QUrl("https://possu.kitsas.fi"));
+        webView_->load(QUrl(adminUrl));
     } else {
         webView_->hide();
         toimistoWidget_->show();
