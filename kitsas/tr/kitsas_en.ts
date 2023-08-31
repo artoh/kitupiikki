@@ -5949,45 +5949,50 @@ osoite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="340"/>
-        <source>Pankkiviivakoodi</source>
+        <location filename="../maaritys/laskumaaritys.ui" line="336"/>
+        <source>Tulostuspäivä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="354"/>
-        <source>QR-koodi</source>
+        <source>Pankkiviivakoodi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="368"/>
+        <source>QR-koodi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../maaritys/laskumaaritys.ui" line="382"/>
         <source>Virtuaaliviivakoodi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="406"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="420"/>
         <source>Etäisyys yläreunaan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="413"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="446"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="480"/>
-        <location filename="../maaritys/laskumaaritys.ui" line="506"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="427"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="460"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="494"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="520"/>
         <source> mm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="439"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="453"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Etäisyys&lt;br/&gt;vasemmalle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="473"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="487"/>
         <source>Ikkunan leveys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="499"/>
+        <location filename="../maaritys/laskumaaritys.ui" line="513"/>
         <source>Ikkunan korkeus</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9513,7 +9518,7 @@ eivät tsmää</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../maaritys/tilinavaus/procountor/procountortuontitiedosto.cpp" line="176"/>
+        <location filename="../maaritys/tilinavaus/procountor/procountortuontitiedosto.cpp" line="175"/>
         <source>Procountorista %3 %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12401,67 +12406,77 @@ Haluatko tallentaa tilinavauksen luonnoksena?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="68"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="73"/>
         <source>Tallenna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="71"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="76"/>
         <source>Esikatsele</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="74"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="79"/>
         <source>Aloita uudelleen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="77"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="82"/>
         <source>Valmis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="80"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="85"/>
+        <source>Näytä pvm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="88"/>
+        <source>Tulostuspäivämäärä tilinpäätöksen oikeassa yläkulmassa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="90"/>
         <source>Ohje</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="86"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="96"/>
         <source>&amp;Tilinpäätös</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="206"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="218"/>
         <source>Tilinpäätöstekstin lataaminen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="206"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="218"/>
         <source>Tilinpäätöstekstin lataaminen epäonnistui</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="216"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="228"/>
         <source>Tilinpäätöstä muokattu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="217"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="229"/>
         <source>Tallennetaanko muokattu tilinpäätös?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="288"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="303"/>
         <source>Tilinpäätös tallennettu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="241"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="253"/>
         <source>&lt;table width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td align=center&gt;%1&lt;/td&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="245"/>
+        <location filename="../tilinpaatoseditori/tilinpaatoseditori.cpp" line="257"/>
         <source>&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;%1&lt;/td&gt;&lt;td align=center&gt;%2&lt;/td&gt;</source>
         <translation type="unfinished"></translation>
     </message>
