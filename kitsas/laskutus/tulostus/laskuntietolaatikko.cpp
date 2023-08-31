@@ -153,6 +153,7 @@ void LaskunTietoLaatikko::ylatunnistePvmalue(QPainter *painter)
 {
     const qreal sivunleveys = painter->window().width();
     QRectF pRect(0, 0, sivunleveys, rivinKorkeus_ * 2);
+
     if( kitsas_->onkoHarjoitus()) {
         painter->save();
         painter->setPen( QPen(Qt::green ));
@@ -163,8 +164,10 @@ void LaskunTietoLaatikko::ylatunnistePvmalue(QPainter *painter)
     }
 
     painter->setFont( QFont("FreeSans", fonttikoko_, QFont::Normal) );
-    painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
-                       kitsas_->paivamaara().toString("dd.MM.yyyy"));
+    if( kitsas_->asetukset()->onko(AsetusModel::NaytaLaskunTulostusPvm) ) {
+        painter->drawText( pRect, Qt::AlignRight | Qt::AlignVCenter,
+                           kitsas_->paivamaara().toString("dd.MM.yyyy"));
+    }
 
 }
 
@@ -210,7 +213,9 @@ void LaskunTietoLaatikko::piirra(QPainter *painter)
     if( kitsas_->onkoHarjoitus())
         piirraHarjoitus(painter);
 
-    piirraTulostusPaiva(painter);
+    if( kitsas_->asetukset()->onko(AsetusModel::NaytaLaskunTulostusPvm))
+        piirraTulostusPaiva(painter);
+
     piirraLaatikko(painter);
     piirraTekstit(painter);
 }

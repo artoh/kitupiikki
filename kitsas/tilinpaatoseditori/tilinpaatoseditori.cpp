@@ -55,11 +55,16 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     lataa();
 }
 
+TilinpaatosEditori::~TilinpaatosEditori()
+{
+
+}
+
 
 void TilinpaatosEditori::esikatselu()
 {    
     TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(),
-                                                        raportit_,  kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli)  ,this);
+                                                        raportit_,  kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli), pvmAktio_->isChecked(), this);
     tp->nayta();
 }
 
@@ -77,6 +82,11 @@ void TilinpaatosEditori::luoAktiot()
     valmisAktio_ = new QAction( QIcon(":/pic/ok.png"), tr("Valmis"), this);
     connect( valmisAktio_, &QAction::triggered, this, &TilinpaatosEditori::valmis);
 
+    pvmAktio_ = new QAction( QIcon(":/pic/calendar.png"), tr("Näytä pvm"), this);
+    pvmAktio_->setCheckable(true);
+    pvmAktio_->setChecked( kp()->asetukset()->onko(AsetusModel::NaytaTilinpaatoksenLaatimisPvm) );
+    pvmAktio_->setToolTip(tr("Tulostuspäivämäärä tilinpäätöksen oikeassa yläkulmassa"));
+
     ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
     connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
 }
@@ -90,6 +100,8 @@ void TilinpaatosEditori::luoPalkit()
     tilinpaatosTb_->addAction( tallennaAktio_ );
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( valmisAktio_);
+    tilinpaatosTb_->addSeparator();
+    tilinpaatosTb_->addAction( pvmAktio_ );
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( ohjeAktio_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -282,8 +294,11 @@ void TilinpaatosEditori::tallenna()
     kausi.set("tilinpaatos", QDateTime::currentDateTime());
     kausi.tallenna();
 
+    kp()->asetukset()->aseta(AsetusModel::NaytaTilinpaatoksenLaatimisPvm, pvmAktio_->isChecked());
+
     TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,
-                                                        kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli) ,this);
+                                                        kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli),
+                                                        pvmAktio_->isChecked(),this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
     connect( tp, &TilinpaatosTulostaja::tallennettu, [] { emit kp()->onni(tr("Tilinpäätös tallennettu")); });
     tp->tallenna();

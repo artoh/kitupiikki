@@ -116,7 +116,9 @@ public:
         MaventaAutentikointiTila,
         VeroOmaViite,
         OhitaAlvLukko,
-        AlvAlkaa
+        AlvAlkaa,
+        NaytaTilinpaatoksenLaatimisPvm,
+        NaytaLaskunTulostusPvm
     };
 
 

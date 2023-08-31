@@ -128,10 +128,10 @@ bool RaportinKirjoittaja::mahtuukoSivulle( QPainter* painter, int sivunLeveys) c
     return sivunLeveys > leveys;
 }
 
-int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
+int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero, bool naytaPaivamaara) const
 {
     if( rivit_.isEmpty()) {
-        tulostaYlatunniste( painter,alkusivunumero);
+        tulostaYlatunniste( painter,alkusivunumero, naytaPaivamaara);
         return 1;     // Ei tulostettavaa !
     }
 
@@ -284,7 +284,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
-                tulostaYlatunniste( painter, sivu + alkusivunumero - 1);
+                tulostaYlatunniste( painter, sivu + alkusivunumero - 1, naytaPaivamaara);
 
             if( !otsakkeet_.isEmpty())
                 painter->translate(0, rivinkorkeus);
@@ -595,7 +595,7 @@ QByteArray RaportinKirjoittaja::csv() const
         return txt.toUtf8();
 }
 
-void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
+void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu, bool naytaPaivamaara) const
 {
 
     int sivunleveys = painter->window().width();
@@ -632,7 +632,12 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
     painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
     painter->drawText(ytunnusRect, Qt::AlignLeft, ytunnus);
     painter->drawText( otsikkoRect, Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
-    painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
+
+    if( naytaPaivamaara ) {
+        painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
+    } else if( sivu ) {
+        painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, kaanna("Sivu %1").arg(sivu));
+    }
 
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
     {
@@ -643,13 +648,12 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         painter->restore();
     }
 
-    painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );    
+    painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );
+    // Alempi rivi : Kausiteksti ja päivämäärä
 
-    painter->drawText(QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
-    if( sivu )
+    painter->drawText(QRect(sivunleveys/3, 0, sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
+    if( sivu && naytaPaivamaara)    // Jos päivämäärä ylemmällä rivillä, tulee sivunumero alemmalle
         painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, kaanna("Sivu %1").arg(sivu));
-
-
 
     painter->translate(0, rivinkorkeus );
     painter->setPen(QPen(QBrush(Qt::black),1.00));

@@ -330,6 +330,20 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_3">
+            <property name="text">
+             <string>Tulostuspäivä</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../pic/pic.qrc">
+              <normaloff>:/pic/calendar.png</normaloff>:/pic/calendar.png</iconset>
+            </property>
+            <property name="Asetus" stdset="0">
+             <string notr="true">LaskuNaytaTulostusPvm</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>

@@ -130,7 +130,8 @@ public:
      * @param alkusivunumero Ensimmäisen tulostettavan sivun numero. Jos 0 ei tulosteta sivunumeroita.
      * @return sivuja tulostettu
      */
-    int tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1) const;
+    int tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1,
+        bool naytaPaivamaara = true) const;
 
     /**
      * @brief Palauttaa raportin html-muodossa
@@ -162,7 +163,7 @@ public:
 
     bool csvKaytossa() const { return csvKaytossa_;}
 
-    void tulostaYlatunniste(QPainter *painter, int sivu) const;
+    void tulostaYlatunniste(QPainter *painter, int sivu, bool naytaPaivamaara = true) const;
 
     bool tyhja() const { return rivit_.isEmpty(); }
     int riveja() const { return  rivit_.count(); }

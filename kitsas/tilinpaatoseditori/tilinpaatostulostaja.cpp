@@ -41,8 +41,8 @@
 
 #include <cmath>
 
-TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, const QString& kieli, QObject *parent)
-    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit), kieli_(kieli)
+TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, const QString& kieli, bool naytaTulostusPvm, QObject *parent)
+    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit), kieli_(kieli), naytaTulostusPvm_(naytaTulostusPvm)
 {
 
 }
@@ -79,7 +79,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     for(auto& rk : kirjoittajat_) {
         if( rk.riveja()) {
             writer->newPage();
-            sivulla += rk.tulosta(writer, &painter, false, sivulla);
+            sivulla += rk.tulosta(writer, &painter, false, sivulla, naytaTulostusPvm_);
         }
     }
 
@@ -105,7 +105,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     {
         writer->newPage();
         painter.save();
-        kirjoittaja.tulostaYlatunniste( &painter, sivulla);
+        kirjoittaja.tulostaYlatunniste( &painter, sivulla, naytaTulostusPvm_);
         painter.drawLine(0,0,qRound(sivunkoko.width()),0);
         painter.translate(0, rivinkorkeus );
 
