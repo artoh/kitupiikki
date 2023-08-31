@@ -33,11 +33,10 @@ ProcountorTuontiTiedosto::TuontiStatus ProcountorTuontiTiedosto::tuo(const QStri
         if( rivi.length() < 2 ) continue;
 
         // Haetaan päivämäärälista
-        if(paivat_.isEmpty() && rivi.at(0).isEmpty() && paivaksi(rivi.at(1)).isValid()) {
-            QList<QDate> paivalista;
+        if(paivat_.isEmpty() && rivi.at(0).isEmpty() && paivaksi(rivi.at(1)).isValid()) {            
             for(int i=1; i < rivi.length(); i++) {
                 QDate paiva = paivaksi(rivi.at(i));
-                if( !paiva.isValid() || paivalista.contains(paiva))
+                if( !paiva.isValid() || paivat_.contains(paiva))
                     break;
                 paivat_ << paiva;
             }           
