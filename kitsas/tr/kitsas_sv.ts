@@ -9493,7 +9493,7 @@ För att kunna kopiera filen till molnet tag kontakt med stödet på Kitsas elle
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.ui" line="14"/>
         <source>Tilinavauksen tuonti Procountorista</source>
-        <translation>importen av ingående balans från Procountor</translation>
+        <translation>Importen av ingående balans från Procountor</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.ui" line="27"/>
@@ -9570,7 +9570,7 @@ stämmer inte</translation>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="67"/>
         <source>Samankaltainen avaustiedosto on jo lisätty. Tätä tiedostoa %1 ei käytetä.</source>
-        <translation>likadan öppmimgfil har redan tillsatts. Den hör filen %1 används inte.</translation>
+        <translation>Likadan öppmimgfil har redan tillsatts. Den hör filen %1 används inte.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="91"/>
@@ -9580,7 +9580,7 @@ stämmer inte</translation>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="93"/>
         <source>Tiedostossa %1 olevat tilikaudet eivät vastaa Kitsaassa määriteltyjä kahta ensimmäistä tilikautta.</source>
-        <translation>Räkenskapperioderna i filen %1 stäämer inte med två första räkenskpaperioderna som är definerad i Kitsas.</translation>
+        <translation>Räkenskapperioderna i filen %1 stämmer inte med två första räkenskpaperioderna som är definerad i Kitsas.</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="95"/>
@@ -9611,7 +9611,7 @@ stämmer inte</translation>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="201"/>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="205"/>
         <source>Keskeneräisen tilikauden saldoista on muodostettu tosite päivämäärällä %1</source>
-        <translation>Verifikatet med datum %1 har skapats om informationen av oavaslutad räkenskpaperioden</translation>
+        <translation>Verifikatet med datum %1 har skapats om informationen av oavslutad räkenskpaperioden</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/procountor/procountortuontidialog.cpp" line="207"/>
@@ -12494,7 +12494,7 @@ Ett fastställt bokslut kan inte längre redigeras.</translation>
     <message>
         <location filename="../maaritys/tilinavaus/tilinavaus.ui" line="44"/>
         <source>Tuo Procountorista ...</source>
-        <translation>iportera från Procountor</translation>
+        <translation>Importera från Procountor</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinavaus/tilinavaus.ui" line="55"/>
