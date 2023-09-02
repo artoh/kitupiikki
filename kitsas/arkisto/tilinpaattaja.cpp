@@ -19,6 +19,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QFile>
+#include <QSettings>
 
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
@@ -46,6 +47,8 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     ui(new Ui::TilinPaattaja)
 {
     ui->setupUi(this);
+    restoreGeometry( kp()->settings()->value("TilinpaatosDialogi").toByteArray());
+
     ui->tilioimattaFrame->hide();
     paivitaDialogi();
 
@@ -63,6 +66,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
 
 TilinPaattaja::~TilinPaattaja()
 {
+    kp()->settings()->setValue("TilinpaatosDialogi", saveGeometry());
     delete ui;
 }
 

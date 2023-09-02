@@ -21,7 +21,7 @@ public:
     QString groupname() const { return groupname_;}
     int groupid() const { return groupid_;}
 
-    QString oikeusInfo() const;
+    QString oikeusInfo(const bool isGroup = false) const;
 
     operator bool() const;
 

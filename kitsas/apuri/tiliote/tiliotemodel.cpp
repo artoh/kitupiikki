@@ -258,6 +258,12 @@ QVariantList TilioteModel::viennit() const
 
 void TilioteModel::tuo(const QVariantList tuotavat)
 {
+    if( kirjausRivit_.count() == 1 && kirjausRivit_.first().summa() == Euro::Zero ) {
+        beginResetModel();
+        kirjausRivit_.clear();
+        endResetModel();
+    }
+
     for(const auto& tuotava : tuotavat) {
         kirjausRivit_.append(TilioteKirjausRivi(tuotava.toMap(), this));
     }

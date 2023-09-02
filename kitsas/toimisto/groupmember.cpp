@@ -18,11 +18,15 @@ GroupMember::GroupMember(const QVariantMap &map)
     groupid_ = map.value("groupid").toInt();
 }
 
-QString GroupMember::oikeusInfo() const
+QString GroupMember::oikeusInfo(const bool isGroup) const
 {
-    QString info = "<html><body>";
+    QString info = "<html><body>";        
     info.append(OikeusInfonMuodostaja::oikeusinfo(rights()));
-    info.append(OikeusInfonMuodostaja::oikeusinfo(admin()));
+
+    QStringList filteredAdmin = admin();
+    if( !isGroup ) filteredAdmin.removeAll("OO");
+
+    info.append(OikeusInfonMuodostaja::oikeusinfo(filteredAdmin));
     info.append("</body></html>");
     return info;
 }

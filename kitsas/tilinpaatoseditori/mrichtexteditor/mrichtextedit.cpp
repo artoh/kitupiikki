@@ -173,14 +173,15 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     // text foreground color
 
     QPixmap pix(16, 16);
-    pix.fill(QApplication::palette().windowText().color());
+    pix.fill(Qt::black);
     f_fgcolor->setIcon(pix);
+    f_fgcolor->setVisible(false);
 
     connect(f_fgcolor, SIGNAL(clicked()), this, SLOT(textFgColor()));
 
     // text background color
 
-    pix.fill(QApplication::palette().window().color());
+    pix.fill(Qt::white);
     f_bgcolor->setIcon(pix);
     f_bgcolor->setVisible(false);   // #1131 Piilotetaan taustavärin namiska.
 
@@ -214,8 +215,8 @@ void MRichTextEdit::textRemoveFormat() {
     fmt.setFontUnderline  (false);
     fmt.setFontStrikeOut  (false);
     fmt.setFontItalic     (false);
-    fmt.setFontPointSize  (9);
-    fmt.setFontFamily     ("FreeSans");
+    fmt.setFontPointSize  (10);
+    fmt.setFontFamilies   (QStringList() << "FreeSans");
     fmt.setFontStyleHint  (QFont::SansSerif);
     fmt.setFontFixedPitch (true);
 
@@ -223,12 +224,14 @@ void MRichTextEdit::textRemoveFormat() {
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    f_fontsize  ->setCurrentIndex(f_fontsize->findText("10"));
 
 //  QTextBlockFormat bfmt = cursor.blockFormat();
 //  bfmt->setIndent(0);
 
     fmt.clearBackground();
+    fmt.setForeground     (QBrush(Qt::black));
+
 
     mergeFormatOnWordOrSelection(fmt);
 }
@@ -239,7 +242,7 @@ void MRichTextEdit::textRemoveAllFormat() {
     f_underline ->setChecked(false);
     f_italic    ->setChecked(false);
     f_strikeout ->setChecked(false);
-    f_fontsize  ->setCurrentIndex(f_fontsize->findText("9"));
+    f_fontsize  ->setCurrentIndex(f_fontsize->findText("10"));
     QString text = f_textedit->toPlainText();
     f_textedit->setPlainText(text);
 }
@@ -297,7 +300,7 @@ void MRichTextEdit::textLink(bool checked) {
         if (ok) {
             fmt.setAnchor(true);
             fmt.setAnchorHref(newUrl);
-            fmt.setForeground(QApplication::palette().color(QPalette::Link));
+            fmt.setForeground(Qt::darkBlue);
             fmt.setFontUnderline(true);
           } else {
             unlink = true;
@@ -307,7 +310,7 @@ void MRichTextEdit::textLink(bool checked) {
         }
     if (unlink) {
         fmt.setAnchor(false);
-        fmt.setForeground(QApplication::palette().color(QPalette::Text));
+        fmt.setForeground(Qt::black);
         fmt.setFontUnderline(false);
         }
     mergeFormatOnWordOrSelection(fmt);
@@ -506,7 +509,7 @@ void MRichTextEdit::fgColorChanged(const QColor &c) {
     if (c.isValid()) {
         pix.fill(c);
       } else {
-        pix.fill(QApplication::palette().windowText().color());
+        pix.fill(Qt::black);
         }
     f_fgcolor->setIcon(pix);
 }
@@ -516,7 +519,7 @@ void MRichTextEdit::bgColorChanged(const QColor &c) {
     if (c.isValid()) {
         pix.fill(c);
       } else {
-        pix.fill(QApplication::palette().window().color());
+        pix.fill(Qt::white);
         }
     f_bgcolor->setIcon(pix);
 }
@@ -536,6 +539,13 @@ void MRichTextEdit::slotClipboardDataChanged() {
 }
 
 QString MRichTextEdit::toHtml() const {
+    f_textedit->selectAll();
+    f_textedit->setTextColor(Qt::black);
+
+    QTextCursor cursor = f_textedit->textCursor();
+    cursor.clearSelection();
+    f_textedit->setTextCursor( cursor );
+
     QString s = f_textedit->toHtml();
     // convert emails to links
     s = s.replace(QRegularExpression("(<[^a][^>]+>(?:<span[^>]+>)?|\\s)([a-zA-Z\\d]+@[a-zA-Z\\d]+\\.[a-zA-Z]+)"), "\\1<a href=\"mailto:\\2\">\\2</a>");

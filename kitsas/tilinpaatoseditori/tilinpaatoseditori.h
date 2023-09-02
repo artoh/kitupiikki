@@ -46,6 +46,7 @@ class TilinpaatosEditori : public QMainWindow
     Q_OBJECT
 public:
     explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=nullptr);
+    ~TilinpaatosEditori();
 
 signals:
 
@@ -87,6 +88,7 @@ protected:
     QAction *aloitaUudelleenAktio_;
     QAction *ohjeAktio_;
     QAction *valmisAktio_;
+    QAction *pvmAktio_;
 
     QToolBar *tilinpaatosTb_;
 

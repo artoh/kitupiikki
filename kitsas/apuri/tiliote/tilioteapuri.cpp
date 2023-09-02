@@ -153,6 +153,8 @@ void TilioteApuri::salliMuokkaus(bool sallitaanko)
 
 bool TilioteApuri::teeTositteelle()
 {
+    naytaSummat();
+
     if( resetoidaanko())
         return false;
 
@@ -173,7 +175,6 @@ bool TilioteApuri::teeTositteelle()
                        tr("Tiliote %1 - %2 %3")
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") , ui->loppuDate->date().toString("dd.MM.yyyy"), kp()->tilit()->tiliNumerolla(ui->tiliCombo->valittuTilinumero()).nimi()));
 
-    naytaSummat();    
     return true;
 }
 

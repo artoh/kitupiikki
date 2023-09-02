@@ -157,12 +157,8 @@ void LaatijanTaseTulos::dataSaapuu(int sarake, QVariant *variant)
     tilauslaskuri_--;
 
     if( !tilauslaskuri_) {
-        if( eurot_.isEmpty() && kohdennetut_.isEmpty()) {
-            tyhja();
-            return;
-        }
 
-        else if( !kohdennetut_.isEmpty()) {
+        if( !kohdennetut_.isEmpty()) {
             // Puretaan kohdennuslaskelmaa
             QMapIterator<int, QHash<int, QVector<Euro>>> kkiter( kohdennetut_);
             while( kkiter.hasNext()) {
