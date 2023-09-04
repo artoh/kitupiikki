@@ -324,16 +324,24 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/6.5.0/macos/m
 		../kitsas/aloitussivu/qrc/aloitus.qrc \
 		../kitsas/arkistoija/arkisto.qrc \
 		../kitsas/laskutus/lasku.qrc \
+		../../../Qt/6.5.0/macos/lib/QtWebEngineWidgets.framework/Resources/QtWebEngineWidgets.prl \
 		../../../Qt/6.5.0/macos/lib/QtPrintSupport.framework/Resources/QtPrintSupport.prl \
 		../../../Qt/6.5.0/macos/lib/QtPdfWidgets.framework/Resources/QtPdfWidgets.prl \
 		../../../Qt/6.5.0/macos/lib/QtSvgWidgets.framework/Resources/QtSvgWidgets.prl \
 		../../../Qt/6.5.0/macos/lib/QtWidgets.framework/Resources/QtWidgets.prl \
 		../../../Qt/6.5.0/macos/lib/QtSvg.framework/Resources/QtSvg.prl \
 		../../../Qt/6.5.0/macos/lib/QtPdf.framework/Resources/QtPdf.prl \
+		../../../Qt/6.5.0/macos/lib/QtWebEngineCore.framework/Resources/QtWebEngineCore.prl \
+		../../../Qt/6.5.0/macos/lib/QtQuick.framework/Resources/QtQuick.prl \
+		../../../Qt/6.5.0/macos/lib/QtOpenGL.framework/Resources/QtOpenGL.prl \
 		../../../Qt/6.5.0/macos/lib/QtGui.framework/Resources/QtGui.prl \
 		../../../Qt/6.5.0/macos/lib/QtSql.framework/Resources/QtSql.prl \
+		../../../Qt/6.5.0/macos/lib/QtQmlModels.framework/Resources/QtQmlModels.prl \
+		../../../Qt/6.5.0/macos/lib/QtWebChannel.framework/Resources/QtWebChannel.prl \
+		../../../Qt/6.5.0/macos/lib/QtQml.framework/Resources/QtQml.prl \
 		../../../Qt/6.5.0/macos/lib/QtNetwork.framework/Resources/QtNetwork.prl \
 		../../../Qt/6.5.0/macos/lib/QtXml.framework/Resources/QtXml.prl \
+		../../../Qt/6.5.0/macos/lib/QtPositioning.framework/Resources/QtPositioning.prl \
 		../../../Qt/6.5.0/macos/lib/QtCore5Compat.framework/Resources/QtCore5Compat.prl \
 		../../../Qt/6.5.0/macos/lib/QtCore.framework/Resources/QtCore.prl
 	$(QMAKE) -o kitsas.xcodeproj/project.pbxproj ../kitsas/kitsas.pro -spec macx-xcode
@@ -651,16 +659,24 @@ kitsas.xcodeproj/project.pbxproj: ../kitsas/kitsas.pro ../../../Qt/6.5.0/macos/m
 ../kitsas/aloitussivu/qrc/aloitus.qrc:
 ../kitsas/arkistoija/arkisto.qrc:
 ../kitsas/laskutus/lasku.qrc:
+../../../Qt/6.5.0/macos/lib/QtWebEngineWidgets.framework/Resources/QtWebEngineWidgets.prl:
 ../../../Qt/6.5.0/macos/lib/QtPrintSupport.framework/Resources/QtPrintSupport.prl:
 ../../../Qt/6.5.0/macos/lib/QtPdfWidgets.framework/Resources/QtPdfWidgets.prl:
 ../../../Qt/6.5.0/macos/lib/QtSvgWidgets.framework/Resources/QtSvgWidgets.prl:
 ../../../Qt/6.5.0/macos/lib/QtWidgets.framework/Resources/QtWidgets.prl:
 ../../../Qt/6.5.0/macos/lib/QtSvg.framework/Resources/QtSvg.prl:
 ../../../Qt/6.5.0/macos/lib/QtPdf.framework/Resources/QtPdf.prl:
+../../../Qt/6.5.0/macos/lib/QtWebEngineCore.framework/Resources/QtWebEngineCore.prl:
+../../../Qt/6.5.0/macos/lib/QtQuick.framework/Resources/QtQuick.prl:
+../../../Qt/6.5.0/macos/lib/QtOpenGL.framework/Resources/QtOpenGL.prl:
 ../../../Qt/6.5.0/macos/lib/QtGui.framework/Resources/QtGui.prl:
 ../../../Qt/6.5.0/macos/lib/QtSql.framework/Resources/QtSql.prl:
+../../../Qt/6.5.0/macos/lib/QtQmlModels.framework/Resources/QtQmlModels.prl:
+../../../Qt/6.5.0/macos/lib/QtWebChannel.framework/Resources/QtWebChannel.prl:
+../../../Qt/6.5.0/macos/lib/QtQml.framework/Resources/QtQml.prl:
 ../../../Qt/6.5.0/macos/lib/QtNetwork.framework/Resources/QtNetwork.prl:
 ../../../Qt/6.5.0/macos/lib/QtXml.framework/Resources/QtXml.prl:
+../../../Qt/6.5.0/macos/lib/QtPositioning.framework/Resources/QtPositioning.prl:
 ../../../Qt/6.5.0/macos/lib/QtCore5Compat.framework/Resources/QtCore5Compat.prl:
 ../../../Qt/6.5.0/macos/lib/QtCore.framework/Resources/QtCore.prl:
 qmake: FORCE
