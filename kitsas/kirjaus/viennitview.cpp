@@ -70,10 +70,12 @@ void ViennitView::setTosite(Tosite *tosite)
 void ViennitView::seuraavaSarake()
 {
     const QModelIndex index = currentIndex();
+    TositeViennit* vientiModel = qobject_cast<TositeViennit*>(model());
 
     if( index.row() == model()->rowCount() -1 &&
         index.column() == model()->columnCount() -1 &&
-        index.flags() & Qt::ItemIsEditable)
+        vientiModel &&
+        vientiModel->muokattavissa())
     {
         // Lisätään uusi rivi
         TositeViennit *vientiModel = tosite_->viennit();

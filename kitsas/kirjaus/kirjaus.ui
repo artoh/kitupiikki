@@ -75,7 +75,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -140,7 +140,7 @@
              <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
            </property>
            <property name="shortcut">
-            <string>Ctrl+S</string>
+            <string>F11</string>
            </property>
           </widget>
          </item>
