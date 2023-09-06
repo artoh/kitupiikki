@@ -89,6 +89,17 @@ void TilinpaatosEditori::luoAktiot()
 
     ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
     connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
+
+    undoAction_ = new QAction( QIcon(":/pic/edit-undo.png"), tr("Kumoa"), this);
+    redoAction_ = new QAction( QIcon(":/pic/edit-redo.png"), tr("Toista"), this);
+
+    cutAction_ = new QAction( QIcon(":/pic/edit-cut.png"), tr("Leikkaa"), this);
+    copyAction_ = new QAction( QIcon(":/pic/edit-copy.png"), tr("Kopioi"), this);
+    pasteAction_ = new QAction( QIcon(":/pic/edit-paste.png"), tr("Liitä"), this);
+
+    boldAction_ = new QAction( QIcon(":/pic/lihavoi.png"), tr("Lihavoi"), this);
+    italicAction_ = new QAction( QIcon(":/pic/format-italic.png"), tr("Kursivoi"), this);
+
 }
 
 void TilinpaatosEditori::luoPalkit()
@@ -105,6 +116,34 @@ void TilinpaatosEditori::luoPalkit()
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( ohjeAktio_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+    muokkausTb_ = addToolBar( tr("&Muokkaus"));
+    muokkausTb_->addAction(undoAction_);
+    muokkausTb_->addAction(redoAction_);
+
+    muokkausTb_->addSeparator();
+
+    muokkausTb_->addAction(cutAction_);
+    muokkausTb_->addAction(copyAction_);
+    muokkausTb_->addAction(pasteAction_);
+
+    muokkausTb_->addSeparator();
+
+    tekstiTyyppiCombo_ = new QComboBox();
+
+    tekstiTyyppiCombo_->addItems( QStringList() << tr("Tavallinen teksti") << tr("Otsikko") << tr("Alaotsikko") << tr("Kirjoituskone"));
+    muokkausTb_->addWidget(tekstiTyyppiCombo_);
+
+    muokkausTb_->addSeparator();
+    muokkausTb_->addAction( boldAction_ );
+    muokkausTb_->addAction( italicAction_);
+
+    muokkaudTb_->addSeparator();
+
+
+
+
+
 }
 
 void TilinpaatosEditori::uusiTp()

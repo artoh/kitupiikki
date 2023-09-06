@@ -92,6 +92,9 @@ protected:
 
     QToolBar *tilinpaatosTb_;
 
+    QToolBar *muokkausTb_;
+    QComboBox *tekstiTyyppiCombo_;
+
     QStringList raportit_;
     QString tallennettu_;
 };
