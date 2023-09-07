@@ -25,18 +25,23 @@
 #include <QVariant>
 #include <QNetworkReply>
 
+#include <QActionGroup>
+#include <QMenu>
+
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
-#include "naytin/naytinikkuna.h"
 #include "arkisto/tilinpaattaja.h"
+
+#include "mytexteditor.h"
 
 TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *parent)
     : QMainWindow(parent),
       tilikausi_(tilikausi)
 {
-    editori_ = new MRichTextEdit;
+    editori_ = new MyTextEditor(this);
+
     setCentralWidget( editori_);
     setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));
 
@@ -89,7 +94,10 @@ void TilinpaatosEditori::luoAktiot()
 
     ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
     connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
+
+
 }
+
 
 void TilinpaatosEditori::luoPalkit()
 {
@@ -105,6 +113,9 @@ void TilinpaatosEditori::luoPalkit()
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( ohjeAktio_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+    addToolBar( editori_->toolbar() );
+
 }
 
 void TilinpaatosEditori::uusiTp()
@@ -178,8 +189,7 @@ void TilinpaatosEditori::uusiTp()
         }
         else if( tulosta )
             teksti.append(rivi);
-    }
-    editori_->setFont( QFont("FreeSans", 12));
+    }    
     editori_->setText(teksti);
 }
 

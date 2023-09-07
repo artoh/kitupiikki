@@ -24,15 +24,14 @@
 #define TILINPAATOSEDITORI_H
 
 #include <QMainWindow>
-#include <QTextEdit>
 #include <QAction>
 #include <QToolBar>
 #include <QPrinter>
+#include <QTextEdit>
 
 #include "db/tilikausi.h"
-#include "mrichtexteditor/mrichtextedit.h"
 
-#include "naytin/esikatseltava.h"
+class MyTextEditor;
 
 /**
  * @brief Tilinpäätöksen editori
@@ -66,6 +65,7 @@ protected:
     void tekstiSaapuu(QVariant* data);
     void eitekstia(int virhe);
 
+
 signals:
     void tallennettu();
 
@@ -80,17 +80,16 @@ protected:
 
 
 protected:
-    MRichTextEdit *editori_;
+    MyTextEditor *editori_;
     Tilikausi tilikausi_;
 
+    QToolBar *tilinpaatosTb_;
     QAction *esikatseleAction_;
     QAction *tallennaAktio_;
     QAction *aloitaUudelleenAktio_;
     QAction *ohjeAktio_;
     QAction *valmisAktio_;
     QAction *pvmAktio_;
-
-    QToolBar *tilinpaatosTb_;
 
     QStringList raportit_;
     QString tallennettu_;

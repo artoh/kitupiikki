@@ -268,6 +268,7 @@ SOURCES += \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
     $$PWD/tilaus/laskutustietodialog.cpp \
+    $$PWD/tilinpaatoseditori/mytexteditor.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
     $$PWD/toimisto/booknotificationmodel.cpp \
@@ -374,8 +375,6 @@ SOURCES += \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
     maaritys/liitetietokaavamuokkaus.cpp \
     tilinpaatoseditori/tpaloitus.cpp \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.cpp \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
     db/tilityyppimodel.cpp \
@@ -742,6 +741,7 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/tilinpaatoseditori/mytexteditor.h \
     $$PWD/toimisto/authlogmodel.h \
     $$PWD/toimisto/bookdata.h \
     $$PWD/toimisto/booknotificationmodel.h \
@@ -822,8 +822,6 @@ HEADERS += \
     tilinpaatoseditori/tilinpaatostulostaja.h \
     maaritys/liitetietokaavamuokkaus.h \
     tilinpaatoseditori/tpaloitus.h \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
     db/tilityyppimodel.h \
     laskutus/tuotemodel.h \
@@ -892,6 +890,7 @@ HEADERS += \
 RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
     $$PWD/sqlite/sqlite.qrc \
+    $$PWD/tilinpaatoseditori/tilinpaatos.qrc \
     $$PWD/tr/tr.qrc \
     $$PWD/tilikartat/tilikartat.qrc \
     $$PWD/pic/pic.qrc \
@@ -1008,7 +1007,6 @@ FORMS += \
     raportti/tilikarttaraportti.ui \
     aloitussivu/aboutdialog.ui \
     tilinpaatoseditori/tpaloitus.ui \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui \
     aloitussivu/aloitus.ui \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
@@ -1045,3 +1043,7 @@ FORMS += \
     toimisto/uusitoimistodialog.ui \
     toimisto/kirjansiirtodialogi.ui \
     aloitussivu/debugtiedotdlg.ui
+
+DISTFILES += \
+    $$PWD/tilinpaatoseditori/tilinpaatos.css \
+    $$PWD/tilinpaatoseditori/tulostus.css
