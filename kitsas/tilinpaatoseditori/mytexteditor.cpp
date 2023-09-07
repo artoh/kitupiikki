@@ -7,6 +7,8 @@
 #include <QToolBar>
 #include <QTextTable>
 #include <QFile>
+#include <QApplication>
+#include <QClipboard>
 
 MyTextEditor::MyTextEditor(QWidget* parent) :
     QTextEdit(parent)
@@ -41,6 +43,9 @@ void MyTextEditor::createActions()
     connect( document(), &QTextDocument::redoAvailable, redoAction_, &QAction::setEnabled);
     connect( redoAction_, &QAction::triggered, this, &QTextEdit::redo);
 
+    undoAction_->setEnabled(false);
+    redoAction_->setEnabled(false);
+
     cutAction_ = new QAction( QIcon(":/pic/edit-cut.png"), tr("Leikkaa"), this);
     connect( cutAction_, &QAction::triggered, this, &QTextEdit::cut);
     connect( this, &QTextEdit::copyAvailable, cutAction_, &QAction::setEnabled);
@@ -52,8 +57,11 @@ void MyTextEditor::createActions()
     pasteAction_ = new QAction( QIcon(":/pic/edit-paste.png"), tr("Liitä"), this);
         connect( pasteAction_, &QAction::triggered, this, &QTextEdit::paste);
     pasteAction_->setShortcut(QKeySequence::Paste);
+
     cutAction_->setEnabled(false);
     copyAction_->setEnabled(false);
+    connect( QApplication::clipboard(), &QClipboard::dataChanged, this, &MyTextEditor::updatePasteEnabled);
+    updatePasteEnabled();
 
     boldAction_ = new QAction( QIcon(":/pic/lihavoi.png"), tr("Lihavoi"), this);
     connect( boldAction_, &QAction::triggered, this, [this] (bool toggled) {this->setFontWeight(toggled ? QFont::Bold : QFont::Normal);} );
@@ -63,9 +71,9 @@ void MyTextEditor::createActions()
     connect( italicAction_, &QAction::triggered, this, &QTextEdit::setFontItalic);
     italicAction_->setShortcut(QKeySequence::Italic);
 
-    listAction_ = new QAction( QIcon(":/pic/format-list-unordered.png"), tr("Lista"), this);
+    listAction_ = new QAction( QIcon(":/pic/format-list-unordered.png"), tr("Lisää luettelo"), this);
     connect( listAction_, &QAction::triggered, this, &MyTextEditor::makeList);
-    tableAction_ = new QAction( QIcon(":/pic/insert-table.png"), tr("Taulukko"), this);
+    tableAction_ = new QAction( QIcon(":/pic/insert-table.png"), tr("Lisää taulukko"), this);
 
     addTableActions_ = new QActionGroup(this);
     QMenu* addTableMenu = new QMenu(this);
@@ -163,6 +171,11 @@ void MyTextEditor::updateParagraphFormat()
     foreach (QAction *action, alignActions_->actions())
         action->setChecked(action->data().toInt() == (int) aligment);
 
+}
+
+void MyTextEditor::updatePasteEnabled()
+{
+    pasteAction_->setEnabled( !QApplication::clipboard()->text().isEmpty());
 }
 
 void MyTextEditor::styleText(int index)
