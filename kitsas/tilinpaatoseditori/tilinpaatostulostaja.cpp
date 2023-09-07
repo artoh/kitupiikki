@@ -92,6 +92,10 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     kirjoittaja.asetaKausiteksti( tilikausi_.kausivaliTekstina());
 
     QTextDocument doc;
+    QFile styleFile(":/tilinpaatos/tulostus.css");
+    styleFile.open(QFile::ReadOnly);
+    QString style(styleFile.readAll());
+    doc.setDefaultStyleSheet(style);
     // Sivutetaan niin, että ylätunniste mahtuu
 
     QSizeF sivunkoko( painter.viewport().width()  ,  painter.viewport().height() - rivinkorkeus * 4 );

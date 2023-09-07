@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/tilinpaatos">
+        <file>tilinpaatos.css</file>
+        <file>tulostus.css</file>
+    </qresource>
+</RCC>

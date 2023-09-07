@@ -238,6 +238,10 @@
         <file>cert-yellow.svg</file>
         <file>cert-red.svg</file>
         <file>oranssi2.png</file>
+        <file>insert-table.png</file>
+        <file>format-justify-center.png</file>
+        <file>format-justify-left.png</file>
+        <file>format-justify-right.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

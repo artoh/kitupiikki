@@ -1,0 +1,22 @@
+body {
+    color: black;
+    background-color: white;
+    font-family: 'FreeSans';
+    font-size: 10pt;
+}
+
+p {
+    color: black;
+}
+
+h1 {
+    font-size: 14pt;
+    font-weight: bold;
+    color: black;
+}
+
+h2 {
+    font-size: 12pt;
+    font-weight: bold;
+    color: black;
+}

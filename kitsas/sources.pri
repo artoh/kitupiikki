@@ -268,6 +268,7 @@ SOURCES += \
     $$PWD/smtpclient/mimebase64formatter.cpp \
     $$PWD/smtpclient/mimecontentformatter.cpp \
     $$PWD/tilaus/laskutustietodialog.cpp \
+    $$PWD/tilinpaatoseditori/mytexteditor.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
     $$PWD/toimisto/booknotificationmodel.cpp \
@@ -742,6 +743,7 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/tilinpaatoseditori/mytexteditor.h \
     $$PWD/toimisto/authlogmodel.h \
     $$PWD/toimisto/bookdata.h \
     $$PWD/toimisto/booknotificationmodel.h \
@@ -892,6 +894,7 @@ HEADERS += \
 RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
     $$PWD/sqlite/sqlite.qrc \
+    $$PWD/tilinpaatoseditori/tilinpaatos.qrc \
     $$PWD/tr/tr.qrc \
     $$PWD/tilikartat/tilikartat.qrc \
     $$PWD/pic/pic.qrc \
@@ -1045,3 +1048,7 @@ FORMS += \
     toimisto/uusitoimistodialog.ui \
     toimisto/kirjansiirtodialogi.ui \
     aloitussivu/debugtiedotdlg.ui
+
+DISTFILES += \
+    $$PWD/tilinpaatoseditori/tilinpaatos.css \
+    $$PWD/tilinpaatoseditori/tulostus.css
