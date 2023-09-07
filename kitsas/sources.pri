@@ -375,8 +375,6 @@ SOURCES += \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
     maaritys/liitetietokaavamuokkaus.cpp \
     tilinpaatoseditori/tpaloitus.cpp \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.cpp \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
     db/tilityyppimodel.cpp \
@@ -824,8 +822,6 @@ HEADERS += \
     tilinpaatoseditori/tilinpaatostulostaja.h \
     maaritys/liitetietokaavamuokkaus.h \
     tilinpaatoseditori/tpaloitus.h \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
     db/tilityyppimodel.h \
     laskutus/tuotemodel.h \
@@ -1011,7 +1007,6 @@ FORMS += \
     raportti/tilikarttaraportti.ui \
     aloitussivu/aboutdialog.ui \
     tilinpaatoseditori/tpaloitus.ui \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui \
     aloitussivu/aloitus.ui \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
