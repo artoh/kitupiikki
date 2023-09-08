@@ -31,7 +31,9 @@
 
 #include "db/tilikausi.h"
 
+
 class MyTextEditor;
+class TilinpaatosGeneraattori;
 
 /**
  * @brief Tilinpäätöksen editori
@@ -61,6 +63,8 @@ protected:
     void luoPalkit();
 
     void uusiTp();
+    void lataaGeneraattorista();
+
     void lataa();
     void tekstiSaapuu(QVariant* data);
     void eitekstia(int virhe);
@@ -93,6 +97,8 @@ protected:
 
     QStringList raportit_;
     QString tallennettu_;
+
+    TilinpaatosGeneraattori* generaattori_;
 };
 
 #endif // TILINPAATOSEDITORI_H

@@ -35,10 +35,12 @@
 #include "arkisto/tilinpaattaja.h"
 
 #include "mytexteditor.h"
+#include "tilinpaatosgeneraattori.h"
 
 TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *parent)
     : QMainWindow(parent),
-      tilikausi_(tilikausi)
+      tilikausi_(tilikausi),
+       generaattori_(new TilinpaatosGeneraattori(tilikausi, this))
 {
     editori_ = new MyTextEditor(this);
 
@@ -51,6 +53,8 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     if(paattaja) {
         connect( this, &TilinpaatosEditori::tallennettu, paattaja, &TilinPaattaja::paivitaDialogi);
     }
+
+    connect( generaattori_, &TilinpaatosGeneraattori::valmis, this, &TilinpaatosEditori::lataaGeneraattorista);
 
     luoAktiot();
     luoPalkit();
@@ -120,6 +124,9 @@ void TilinpaatosEditori::luoPalkit()
 
 void TilinpaatosEditori::uusiTp()
 {
+    generaattori_->generoi();
+    return;
+
     QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli));
 
     QStringList valinnat = kp()->asetukset()->asetus(AsetusModel::TilinpaatosValinnat).split(",");
@@ -189,8 +196,14 @@ void TilinpaatosEditori::uusiTp()
         }
         else if( tulosta )
             teksti.append(rivi);
-    }    
+    }
     editori_->setText(teksti);
+}
+
+void TilinpaatosEditori::lataaGeneraattorista()
+{
+    raportit_ = generaattori_->raportit();
+    editori_->setHtml( generaattori_->html());
 }
 
 void TilinpaatosEditori::lataa()

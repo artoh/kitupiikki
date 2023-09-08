@@ -26,6 +26,7 @@ protected:
 
     void updateCharFormat(const QTextCharFormat &format);
     void updateParagraphFormat();
+    void updatePasteEnabled();
 
     void styleText(int index);
     void makeList();

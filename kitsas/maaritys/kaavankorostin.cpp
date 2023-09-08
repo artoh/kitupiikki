@@ -49,14 +49,12 @@ void KaavanKorostin::highlightBlock(const QString &text)
     }
     else if( text.startsWith("@"))
     {
-        if( text == "@sha@" || text == "@henkilosto@" || text == "@tositelajit@" || text == "@tulos@")
-            setFormat(0, text.length(), QColor(Qt::green));
-        else if( raporttiRe.match(text).hasMatch() )
-            setFormat(0, text.length(), QColor(Qt::green));
+        setFormat(0, text.length(), QColor( QPalette().base().color().lightness() > 128 ? Qt::darkGreen :  Qt::green));
     }
     else
     {
         int tagialkaa = -1;
+        int aaltoalkaa = -1;
         for(int i=0; i < text.length(); i++)
         {
             QChar merkki = text.at(i);
@@ -67,6 +65,11 @@ void KaavanKorostin::highlightBlock(const QString &text)
             {
                 setFormat(tagialkaa, i - tagialkaa + 1, QColor( QPalette().base().color().lightness() > 128 ? Qt::blue : Qt::yellow ));
                 tagialkaa = -1;
+            } else if( i>0 && merkki == '{' && text.at(i-1) == '{') {
+                aaltoalkaa = i;
+            } else if( i>0 && merkki == '}' && text.at(i-1) == '}') {
+                setFormat(aaltoalkaa, i - aaltoalkaa + 1, QColor( QPalette().base().color().lightness() > 128 ? Qt::darkRed : Qt::red ));
+                aaltoalkaa = -1;
             }
         }
     }
