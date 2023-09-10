@@ -6,4 +6,4 @@
 #  Created by Petri Aarnio on 14/02/2019.
 #  
 
-~/Qt/6.5.0/macos/bin/qmake -spec macx-xcode ../kitsas/kitsas.pro
+~/Qt/6.5.2/macos/bin/qmake -spec macx-xcode ../kitsas/kitsas.pro
