@@ -37,7 +37,7 @@
 
 #include "raportti/raportinlaatija.h"
 
-
+#include "taulukonkasittelija.h"
 
 #include <cmath>
 
@@ -102,7 +102,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 
     doc.documentLayout()->setPaintDevice( painter.device() );
     doc.setPageSize( sivunkoko );
-    doc.setHtml( teksti_ );
+    doc.setHtml( kasitteleTaulukot(teksti_) );
 
     int pages = qRound(std::ceil( doc.size().height() / sivunkoko.height()  ));
     for( int i=0; i < pages; i++)
@@ -129,6 +129,33 @@ QString TilinpaatosTulostaja::otsikko() const
 {
     return QString("%1 %2").arg(tulkkaa("Tilinpäätös", kieli_)).arg(tilikausi_.kausivaliTekstina());
 }
+
+QString TilinpaatosTulostaja::kasitteleTaulukot(const QString &teksti)
+{
+
+    QString out;
+    int position = 0;
+    int tablePosition = teksti.indexOf("<table");
+    while( tablePosition > 0) {
+
+        out.append( teksti.mid(position, tablePosition-position));
+
+        int tableEnd = teksti.indexOf("</table>", tablePosition);
+        QString table = teksti.mid(tablePosition, tableEnd - tablePosition + 8);
+
+        out.append(  TaulukonKasittelija::processTable(table) );
+
+        position = tableEnd + 8;
+        tablePosition = teksti.indexOf("<table", position);
+    }
+
+    out.append( teksti.mid(position));
+
+    qDebug() << out;
+
+    return out;
+}
+
 
 void TilinpaatosTulostaja::tilaaRaportit()
 {

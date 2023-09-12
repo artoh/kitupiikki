@@ -74,6 +74,7 @@ private:
 
 private:
     qlonglong cents_ = 0l;
+    static QRegularExpression cleaner__;
 };
 
 Q_DECLARE_METATYPE(Euro);

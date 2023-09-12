@@ -3,6 +3,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
+#include <QDebug>
+
 TilinpaatosGeneraattori::TilinpaatosGeneraattori(const Tilikausi &tilikausi, QObject *parent)
     :   QObject{parent}, tilikausi_{tilikausi}
 {
@@ -76,6 +78,7 @@ void TilinpaatosGeneraattori::jatka()
 
     bool tulosta = true;
     bool atEhto = true;
+    bool kyssariEhto = true;
 
     for( const QString& rivi : pohja) {
         // #-alkuiset rivit (valintarivit)
@@ -93,11 +96,13 @@ void TilinpaatosGeneraattori::jatka()
                     break;
                 }
             }
-        } else if( rivi.startsWith("@?") && tulosta) {
+        } else if( rivi.startsWith("?")) {
+            kyssariEhto = kyssariTesti(rivi.mid(1));
+        } else if( rivi.startsWith("@?") && tulosta && kyssariEhto) {
             atEhto = ehto(rivi.mid(2));
-        } else if( rivi.startsWith('@') && tulosta) {
+        } else if( rivi.startsWith('@') && tulosta && kyssariEhto) {
             atRivi(rivi);
-        } else if( tulosta && atEhto) {
+        } else if( tulosta && atEhto && kyssariEhto) {
             tekstiRivi(rivi);
         }
     }
@@ -175,6 +180,21 @@ bool TilinpaatosGeneraattori::ehto(const QString ehto)
     }
 }
 
+bool TilinpaatosGeneraattori::kyssariTesti(const QString &ehto)
+{
+    QRegularExpressionMatch match = ehtoRe__.match(ehto);
+    if( match.hasMatch()) {
+        const QString avain = match.captured("v");
+        const QString vertailu = match.captured("o");
+        const QString& oper = match.captured("e");
+
+        const QString asetusArvo = kp()->asetukset()->asetus(avain);
+        if( oper == "=") return asetusArvo == vertailu;
+    }
+    return true;
+
+}
+
 void TilinpaatosGeneraattori::atRivi(const QString &rivi)
 {
     if( rivi.startsWith("@henkilosto@")) {
@@ -198,13 +218,13 @@ QString TilinpaatosGeneraattori::henkilostoTaulukko(const QString &teksti)
     if( kp()->tilikaudet()->indeksiPaivalle( tilikausi_.paattyy()))
         verrokki = kp()->tilikaudet()->tilikausiIndeksilla(  kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) - 1 );
 
-    QString txt = tr("<table width=100%><tr><td></td><td align=center>%1</td>").arg(tilikausi_.kausivaliTekstina());
+    QString txt = tr("<table width=100%><tr><td width=\"50%\"></td><th align=right width=\"25%\">%1</th>").arg(tilikausi_.kausivaliTekstina());
     if( verrokki.alkaa().isValid() )
-        txt.append( QString("<td align=center>%1</td>").arg(verrokki.kausivaliTekstina()) );
+        txt.append( QString("<th align=right width=\"25%\">%1</th>").arg(verrokki.kausivaliTekstina()) );
 
-    txt.append(tr("</tr><tr><td>%1</td><td align=center>%2</td>").arg(teksti).arg( kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.paattyy() ).henkilosto()));
+    txt.append(tr("</tr><tr><td>%1</td><td align=right>%2</td>").arg(teksti).arg( kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.paattyy() ).henkilosto()));
     if( verrokki.alkaa().isValid())
-        txt.append( QString("<td align=center>%1</td>").arg(verrokki.henkilosto()));
+        txt.append( QString("<td align=right>%1</td>").arg(verrokki.henkilosto()));
     txt.append("</tr></table>");
     return txt;
 }
@@ -212,6 +232,7 @@ QString TilinpaatosGeneraattori::henkilostoTaulukko(const QString &teksti)
 Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
 {
     Euro summa;
+    qDebug() << "Kaava " << kaava;
 
     QStringList splitted = kaava.split(' ', Qt::SkipEmptyParts);
     for(const QString& part : splitted) {
@@ -222,8 +243,8 @@ Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
         QRegularExpressionMatch match = kaavaRe__.match(part);
         if( match.hasMatch()) {
             bool minus = match.captured("m") == '-';
-            QString type = match.captured("t");
-            QString start = match.captured("a");
+            const QString type = match.captured("t");
+            const QString start = match.captured("a");
             QString end = match.captured("l");
             if( end.isEmpty()) end = start;
 
@@ -234,16 +255,21 @@ Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
             while( iter.hasNext()) {
                 iter.next();
                 const QString& tili = iter.key();
-                const TilinSaldot& saldot = iter.value();
 
                 if( tili.left(startLenght) >= start &&
                     tili.left(endLength) <= end) {
+                    const TilinSaldot& saldot = iter.value();
                     Euro value = saldot.saldo(type);
+
+                    qDebug() << tili << " " <<value.display(true);
+
                     if( minus ) {
                         summa -= value;
                     } else {
                         summa += value;
                     }
+                } else {
+                    qDebug() << tili << " --- " << start << " .. " << end;
                 }
             }
         } else if( Euro(part)) {
@@ -288,5 +314,5 @@ Euro TilinpaatosGeneraattori::TilinSaldot::saldo(const QString &tyyppi) const
 
 QRegularExpression TilinpaatosGeneraattori::tunnisteRe__ = QRegularExpression(R"(^#(?<t>\w+)?\s?(?<p>([-]\w+\s?)*).*$)", QRegularExpression::UseUnicodePropertiesOption);
 QRegularExpression TilinpaatosGeneraattori::raporttiRe__ = QRegularExpression("@(.+)(:\\w*)?[!](.+)@", QRegularExpression::UseUnicodePropertiesOption);
-QRegularExpression TilinpaatosGeneraattori::kaavaRe__ = QRegularExpression(R"((?<m>[-])?(?<t>[edsEDS])(?<a>\d{1,8})(\.\.(?<l>\d{1,8))?)", QRegularExpression::UseUnicodePropertiesOption);
+QRegularExpression TilinpaatosGeneraattori::kaavaRe__ = QRegularExpression(R"((?<m>[-])?(?<t>[edsEDS])(?<a>\d{1,8})(\.\.(?<l>\d{1,8}))?)", QRegularExpression::UseUnicodePropertiesOption);
 QRegularExpression TilinpaatosGeneraattori::ehtoRe__ = QRegularExpression(R"((?<v>.+)(?<e>(<|<=|=|>=|>|<>))(?<o>.+))", QRegularExpression::UseUnicodePropertiesOption);

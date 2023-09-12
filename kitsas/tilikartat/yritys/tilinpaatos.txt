@@ -110,14 +110,96 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
 #oypaaoma Oman pääoman muutokset
 <h2>Oman pääoman muutokset</h2>
-<p> ... </p>
+
+<table width="100%">
+  <tr><th width="60%"> </th><th align="right" width="30%">{{kausi.loppupvm}}</th><th align="right" width="30%">{{edkausi.loppupvm}}</th></tr>
+  <tr><td>Osakepääoma {{alkupvm}}</td><td align="right">{{s200}}</td><td align="right">{{S200}}</td></tr>
+  <tr><td>Osakepääoman korotus</td><td align="right">{{d200}}</td><td align="right">{{D200}}</td></tr>
+  <tr><td>Osakepääoma {{loppupvm}}</td><td align="right">{{e200}}</td><td align="right">{{E200}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Ylikurssirahasto {{alkupvm}}</td><td align="right">{{s202}}</td><td align="right">{{S202}}</td></tr>
+  <tr><td>Ylikurssirahaston lisäys</td><td align="right">{{d202}}</td><td align="right">{{D202}}</td></tr>
+  <tr><td>Ylikurssirahasto {{loppupvm}}</td><td align="right">{{e202}}</td><td align="right">{{E202}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Arvonkorotusrahasto {{alkupvm}}</td><td align="right">{{s203}}</td><td align="right">{{S203}}</td></tr>
+  <tr><td>Arvonkorotusrahaston lisäys</td><td align="right">{{d203}}</td><td align="right">{{D203}}</td></tr>
+  <tr><td>Arvonkorotusrahasto {{loppupvm}}</td><td align="right">{{e203}}</td><td align="right">{{E203}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td><b>Sidottu oma pääoma yhteensä</b></td><td align="right"><b>{{s200..205}}</b></td><td align="right"><b>{{S200..205}}</b></td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Sijoitetun vapaan oman pääoman rahasto {{alkupvm}}</td><td align="right">{{s206}}</td><td align="right">{{S206}}</td></tr>
+  <tr><td>Sijoitetun vapaan oman pääoman lisäys</td><td align="right">{{d206}}</td><td align="right">{{D206}}</td></tr>
+  <tr><td>Sijoitetun vapaan oman pääoman rahasto {{loppupvm}}</td><td align="right">{{e206}}</td><td align="right">{{E206}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Yhtiöjärjestyksen mukaiset rahastot {{alkupvm}}</td><td align="right">{{s207}}</td><td align="right">{{S207}}</td></tr>
+  <tr><td>Yhtiöjärjestyksen mukaisten rahastojen lisäys</td><td align="right">{{d207}}</td><td align="right">{{D207}}</td></tr>
+  <tr><td>Yhtiöjärjestyksen mukaiset rahastot {{loppupvm}}</td><td align="right">{{e207}}</td><td align="right">{{E207}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Muut rahastot {{alkupvm}}</td><td align="right">{{s208}}</td><td align="right">{{S208}}</td></tr>
+  <tr><td>Muiden rahastojen lisäys</td><td align="right">{{d208}}</td><td align="right">{{D208}}</td></tr>
+  <tr><td>Muut rahastot {{loppupvm}}</td><td align="right">{{e208}}</td><td align="right">{{E208}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Edellisten tilikausien voitto (tappio) {{alkupvm}}</td><td align="right">{{s2251}}</td><td align="right">{{S2251}}</td></tr>
+  <tr><td>Osingonjako</td><td align="right">{{e2261}}</td><td align="right">{{E2261}}</td></tr>
+  <tr><td>Omien osakkeiden osto</td><td align="right">{{e2265}}</td><td align="right">{{E2265}}</td></tr>
+  <tr><td>Siirto osakepääomaan tai sijoitetun oman pääoman rahastoon</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Voittovarojen siirto yhtiöjärjestyksen mukaiseen rahastoon</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Edellisen tilikauden virheen oikaisu</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Edellisten tilikausien voitto (tappio) {{loppupvm}}</td><td align="right">{{e2251}}</td><td align="right">{{E2251}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Tilikauden voitto (tappio)</td><td align="right">{{e2371}}</td><td align="right">{{S2371}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Oman pääoman ehtoinen pääomalaina {{alkupvm}}</td><td align="right">{{s238}}</td><td align="right">{{S238}}</td></tr>
+  <tr><td>Oman pääoman ehtoisen pääomalainan lisäys</td><td align="right">{{d238}}</td><td align="right">{{D238}}</td></tr>
+  <tr><td>Oman pääoman ehtoinen pääomalaina {{loppupvm}}</td><td align="right">{{e238}}</td><td align="right">{{E238}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td><b>Vapaa oma pääoma yhteensä</b></td><td align="right"><b>{{e206..24}}</b></td><td align="right"><b>{{E206..24}}</b></td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td><b>OMA PÄÄOMA YHTEENSÄ</b></td><td align="right"><b>{{e20..24}}</b></td><td align="right"><b>{{E20..24}}</b></td></tr>
+</table>
+
+<p>  </p>
+
+#jakokelpoinen Laskelma jakokelpoisesta omasta pääomasta
+<h2>Laskelma jakokelpoisesta omasta pääomasta</h2>
+
+<table width="100%">
+  <tr><th width="60%"> </th><th align="right" width="30%"> {{kausi.loppupvm}}</th><th align="right" width="30%"> {{edkausi.loppupvm}}</th></tr>
+  <tr><td>Voitto edellisiltä tilikausilta</td><td align="right">{{e2251}}</td><td align="right">{{E2251}}</td></tr>
+  <tr><td>Tilikauden voitto</td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
+  <tr><td>Sijoitetun vapaan oman pääoman rahasto</td><td align="right">{{e206}}</td><td align="right">{{E206}}</td></tr>
+  <tr><td>Muut jakokelpoiset rahastot</td><td align="right">{{e207..208}}</td><td align="right">{{E207..208}}</td></tr>
+  <tr><td>Määrä, joka yhtiöjärjestyksen mukaan on jätettävä jakamatta tai siirrettävä rahastoon</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Muut jakokelvottomat erät</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Aktivoidut kehittämismenot</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td><b>Yhteensä</b></td><td align="right"><b>^^^^</b></td><td align="right"><b>^^^^</b></td></tr>
+</table>
+
+@? e238 e280
+<p>Pääomalainan haltijat ovat oikeudettuja X,XX euroon jakokelpoisesta vapaasta omasta pääomasta.</p>
+@?
+
 #oyeiosinko -oykaytto Ei osinkoa
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
 <p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
 #oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Jakokelpoinen vapaa oma pääoma on ...</p>
+<p>Jakokelpoinen vapaa oma pääoma on {{s2251 s2371 s206..208}}</p>
 <p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
+?muoto=tmi
+#tmipaaoma
+<h2>Oman pääoman muutokset</h2>
+<table width="100%">
+  <tr><th width="60%"> </th><th align="right" width="40%">{{kausi.loppupvm}}</th><th align="right" width="40%">{{edkausi.loppupvm}}</th></tr>
+  <tr><td>Edellisten tilikausien voitto (tappio) {{alkupvm}}</td><td align="right">{{s220 s225}}</td><td align="right">{{E220 E225}}</td></tr>
+  <tr><td>Yksityissijoitukset</td><td align="right">{{e2361..2364}}</td><td align="right">{{D2361..2364}}</td></tr>
+  <tr><td>Yksityisotot</td><td align="right">{{e2365..2369}}</td><td align="right">{{E2365..2369}}</td></tr>
+  <tr><td>Edellisten tilikausien voitto (tappio) {{loppupvm}}</td><td align="right">{{e200}}</td><td align="right">{{E200}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td>Tilikauden voitto (tappio) {{loppupvm}}</td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
+  <tr><td> </td><td> </td><td> </td></tr>
+  <tr><td><b>OMA PÄÄOMA YHTEENSÄ</b></td><td align="right"><b>{{e20..24}}</b></td><td align="right"><b>{{E20..24}}</b></td></tr>
+</table>
 ?
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
@@ -129,10 +211,12 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>Selvitys kirjanpitoaineistosta ja sen säilyttämisestä</p>
 #
 <h2>Allekirjoitukset</h2>
-<p> __________________ssa XX.XX.20XX</p>
-<p>
-<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
-<tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
+<p> {{kotipaikka}} ____________</p>
+<p> </p>
+<table width=100%><tr><td width="33%">______________</td><td width="33%">______________</td><td width="33%">______________</td></tr></table>
+<p> </p>
+<table width=100%><tr><td width="33%">______________</td><td width="33%">______________</td><td width="33%">______________</td></tr></table>
+
 <p>
 <p>
 <p>

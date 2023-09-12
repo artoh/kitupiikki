@@ -15,6 +15,7 @@ public:
     MyTextEditor(QWidget *parent = nullptr);
 
     QToolBar* toolbar();
+    void setContent(const QString& html);
 
 protected:
     enum { BodyText, Header, SubHeader, Monospace };
@@ -33,7 +34,9 @@ protected:
     void makeTable(int columns);
     void addRow();
 
-    void keyPressEvent(QKeyEvent *event) override;
+    void addMinus();
+
+    void keyPressEvent(QKeyEvent *event) override;        
 
 private:
     QAction *undoAction_;

@@ -269,6 +269,7 @@ SOURCES += \
     $$PWD/smtpclient/mimecontentformatter.cpp \
     $$PWD/tilaus/laskutustietodialog.cpp \
     $$PWD/tilinpaatoseditori/mytexteditor.cpp \
+    $$PWD/tilinpaatoseditori/taulukonkasittelija.cpp \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
@@ -743,6 +744,7 @@ HEADERS += \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/tilinpaatoseditori/mytexteditor.h \
+    $$PWD/tilinpaatoseditori/taulukonkasittelija.h \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.h \
     $$PWD/toimisto/authlogmodel.h \
     $$PWD/toimisto/bookdata.h \

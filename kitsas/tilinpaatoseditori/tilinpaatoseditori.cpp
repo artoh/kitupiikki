@@ -126,84 +126,12 @@ void TilinpaatosEditori::uusiTp()
 {
     generaattori_->generoi();
     return;
-
-    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetukset()->asetus(AsetusModel::TilinpaatosKieli));
-
-    QStringList valinnat = kp()->asetukset()->asetus(AsetusModel::TilinpaatosValinnat).split(",");
-    QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
-    tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
-    QRegularExpression raporttiRe("@(.+)(:\\w*)?[!](.+)@");
-    
-    QRegularExpression poisRe("-(?<pois>\\w+)");
-    poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
-
-    QString teksti;
-    raportit_.clear();
-
-    bool tulosta = true;
-
-    foreach (QString rivi, pohja)
-    {
-        if( rivi.startsWith('#') )
-        {
-            QRegularExpressionMatch tmats = tunnisteRe.match(rivi);
-            if( tmats.hasMatch())
-            {
-                // Tulostetaan, jos haluttu tunniste valittu ei ei-ehdolla ei valittu ;)
-                QString tunniste = tmats.captured(1);
-                if( tunniste.startsWith('-'))
-                    tulosta = !valinnat.contains( tunniste.mid(1));
-                else
-                    tulosta = valinnat.contains(tunniste);
-
-                // Kuitenkin jos rivillä myös -eiehto, niin ei kuitenkaan tulosteta
-                QString pois = tmats.captured("pois");
-                if( !pois.isEmpty())
-                {
-                    QStringList poisTunnukset;
-                    QRegularExpressionMatchIterator iter = poisRe.globalMatch(pois);
-                    while( iter.hasNext())
-                    {
-                        QString poistunnus = iter.next().captured(1);
-                        if( valinnat.contains(poistunnus))
-                        {
-                            tulosta = false;
-                            break;
-                        }
-                    }
-                }
-                
-            }
-            else
-                // Pelkkä # tai kelvoton ehto niin tulostetaan joka tapauksessa
-                tulosta = true;
-        }
-        else if( rivi.startsWith('@') && tulosta)
-        {
-            // Näillä tulostetaan erityisiä kenttiä
-            if( rivi.startsWith("@henkilosto@"))
-                teksti.append( henkilostotaulukko(rivi.mid(12)));
-            else if( rivi == "@tulos@")
-                teksti.append( QString(" %L1 € ").arg( tilikausi_.tulos() ) );
-            else
-            {
-                QRegularExpressionMatch rmats = raporttiRe.match(rivi);
-                if( rmats.hasMatch())
-                {
-                    raportit_.append( rmats.captured() );
-                }
-            }
-        }
-        else if( tulosta )
-            teksti.append(rivi);
-    }
-    editori_->setText(teksti);
 }
 
 void TilinpaatosEditori::lataaGeneraattorista()
 {
     raportit_ = generaattori_->raportit();
-    editori_->setHtml( generaattori_->html());
+    editori_->setContent(generaattori_->html());
 }
 
 void TilinpaatosEditori::lataa()
@@ -226,7 +154,7 @@ void TilinpaatosEditori::tekstiSaapuu(QVariant *data)
         raportit_.append(mats.captured());
     }
 
-    editori_->setText( teksti.mid(teksti.indexOf("\n")+1));
+    editori_->setContent( teksti.mid(teksti.indexOf("\n")+1));
     tallennettu_ = editori_->toHtml();
 }
 

@@ -24,6 +24,7 @@ protected:
     void tekstiRivi(const QString& rivi);
 
     bool ehto(const QString ehto);
+    bool kyssariTesti(const QString& ehto);
     void atRivi(const QString& rivi);
     QString henkilostoTaulukko(const QString& teksti);
     Euro laskenta(const QString& kaava);

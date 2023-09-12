@@ -246,6 +246,11 @@ void MyTextEditor::addRow()
     }
 }
 
+void MyTextEditor::addMinus()
+{
+    textCursor().insertText("−");
+}
+
 void MyTextEditor::keyPressEvent(QKeyEvent *event)
 {
     if( event->key() == Qt::Key_Tab && textCursor().currentTable()) {
@@ -263,5 +268,12 @@ void MyTextEditor::keyPressEvent(QKeyEvent *event)
     } else {
         QTextEdit::keyPressEvent(event);
     }
+}
+
+void MyTextEditor::setContent(const QString &html)
+{
+    clear();
+    initStyleSheets();
+    setHtml(html);
 }
 

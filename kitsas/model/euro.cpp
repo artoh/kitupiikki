@@ -143,7 +143,7 @@ Euro Euro::fromDouble(const double euro)
 Euro Euro::fromString(QString euroString)
 {
     bool miinus = euroString.contains('-');
-    euroString.remove(QRegularExpression("([+-]|\\s)"));
+    euroString.remove(cleaner__);
     euroString.replace(',','.');
     if(miinus)
         euroString = "-" + euroString;
@@ -271,3 +271,4 @@ Euro operator/(const Euro& a, const double b) {
 
 const Euro Euro::Zero = Euro(0);
 
+QRegularExpression Euro::cleaner__ = QRegularExpression("([+-]|\\s)");
