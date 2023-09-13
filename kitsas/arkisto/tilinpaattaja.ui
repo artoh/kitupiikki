@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1656</width>
-    <height>688</height>
+    <height>745</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -504,6 +504,73 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
          <bool>false</bool>
         </property>
        </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="yksityistiliGroup">
+     <property name="title">
+      <string>Yksityistilien päättäminen</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="yksityistiliLabel">
+        <property name="text">
+         <string>11. Päätä yksityistilit peruspääomaan </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QPushButton" name="yksityistiliButton">
+          <property name="text">
+           <string>Päätä yksityistilit...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/kirja64.png</normaloff>:/pic/kirja64.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistiliCheck">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistiliTehtyLabel">
+          <property name="text">
+           <string>Yksityistilit päätetty</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

@@ -43,6 +43,7 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
        generaattori_(new TilinpaatosGeneraattori(tilikausi, this))
 {
     editori_ = new MyTextEditor(this);
+    editori_->setPeriods(tilikausi_.kausivaliTekstina(), kp()->tilikaudet()->tilikausiPaivalle(tilikausi_.alkaa().addDays(-1)).kausivaliTekstina());
 
     setCentralWidget( editori_);
     setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));

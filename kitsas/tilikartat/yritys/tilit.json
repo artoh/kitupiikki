@@ -2979,7 +2979,7 @@
     },
     {
         "numero": 2341,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityissijoitukset rahana yhtiömies A",
             "sv": "Privata insättningar kontant bolagsman A"
@@ -2993,7 +2993,7 @@
     },
     {
         "numero": 2343,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Muut yksityissijoitukset yhtiömies A",
             "sv": "Övriga privata insättningar bolagsman A"
@@ -3007,7 +3007,7 @@
     },
     {
         "numero": 2345,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityissijoitukset rahana yhtiömies B",
             "sv": "Privata insättningar kontant bolagsman B"
@@ -3021,7 +3021,7 @@
     },
     {
         "numero": 2347,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Muut yksityissijoitukset  yhtiömies B",
             "sv": "Övriga privata insättningar bolagsman B"

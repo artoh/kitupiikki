@@ -55,6 +55,7 @@ private slots:
     void esikatsele();
     void mappi();
     void vahvista();
+    void paataYksityisTilit();
 
 protected slots:
     void dataSaapuu(QVariant* data);

@@ -39,6 +39,7 @@ SOURCES += \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
     $$PWD/arkisto/uusitilikausidlg.cpp \
+    $$PWD/arkisto/yksityistilienpaattaja.cpp \
     $$PWD/arkistoija/aineistodialog.cpp \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
@@ -482,6 +483,7 @@ HEADERS += \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \
     $$PWD/arkisto/uusitilikausidlg.h \
+    $$PWD/arkisto/yksityistilienpaattaja.h \
     $$PWD/arkistoija/aineistodialog.h \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
@@ -916,6 +918,7 @@ FORMS += \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkisto/tilikausimuokkausdlg.ui \
     $$PWD/arkisto/uudelleennumerointi.ui \
+    $$PWD/arkisto/yksityistilienpaattaja.ui \
     $$PWD/arkistoija/aineistodialog.ui \
     $$PWD/arkistoija/arkistohakemistodialogi.ui \
     $$PWD/kierto/kiertomaaritys.ui \

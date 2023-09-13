@@ -1,5 +1,6 @@
 #include "tilinpaatosgeneraattori.h"
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
@@ -91,11 +92,11 @@ void TilinpaatosGeneraattori::jatka()
             // Kuitenkin jos yksikin pois-ehto voimassa niin ei tulosteta
             QStringList pois = tunnisteMatch.captured("p").split(" ", Qt::SkipEmptyParts);
             for( const QString& poistettava : pois) {
-                if( valinnat.contains(poistettava)) {
+                if( valinnat.contains(poistettava.mid(1))) {
                     tulosta = false;
                     break;
                 }
-            }
+            }            
         } else if( rivi.startsWith("?")) {
             kyssariEhto = kyssariTesti(rivi.mid(1));
         } else if( rivi.startsWith("@?") && tulosta && kyssariEhto) {
@@ -143,6 +144,10 @@ void TilinpaatosGeneraattori::tekstiRivi(const QString &rivi)
         } else if( field == "edkausi.alkupvm") {
             const Tilikausi edellinen = kp()->tilikausiPaivalle(tilikausi_.alkaa().addDays(-1));
             html_.append( edellinen.alkaa().toString("dd.MM.yyyy"));
+        } else if( field == "kayttaja.nimi" && kp()->pilvi()) {
+            html_.append( kp()->pilvi()->kayttaja().nimi());
+        } else if( field == "pvm") {
+            html_.append( QDate::currentDate().toString("dd.MM.yyyy"));
         } else {
             html_.append( laskenta(field).display(true) );
         }

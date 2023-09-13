@@ -13,7 +13,7 @@
 @tulos/pienbrutto!TULOSLASKELMA (TILINPÄÄTÖS)@
 #-mikrobrutto -pienbrutto
 @tulos/yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
-<h2>Tilinpäätöksen laatimisperusteet</h2>
+<h2>Tilinpäätöksen liitetiedot</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
 #PIEN
@@ -53,6 +53,15 @@
 #jalkeen Olennaiset tapahtumat tilikauden jälkeen
 <h2>Olennaiset tapahtumat tilikauden jälkeen </h2>
 <p> Tähän tieto olennaisista tapahtumista ja niiden taloudellisesta merkityksestä </p>
+#arvonkorotus Arvonkorotusrahasto
+<h2>Arvonkorotusrahasto</h2>
+<table width="100%">
+  <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
+  <tr><td>Arvonkorotusrahasto {{alkupvm}}</td><td align="right">{{s203}}</td><td align="right">{{S203}}</td></tr>
+  <tr><td>Arvonkorotusrahaston lisäys</td><td align="right">{{d203}}</td><td align="right">{{D203}}</td></tr>
+  <tr><td>Arvonkorotusrahasto {{loppupvm}}</td><td align="right">{{e203}}</td><td align="right">{{E203}}</td></tr>
+</table>
+<p>  </p>
 #kaypa -MIKRO Käypään arvoon merkitseminen
 <h2>Käypään arvoon merkitseminen</h2>
 <ol>
@@ -68,11 +77,18 @@
 <p>Jokaisen johdannaislajin osalta johdannaisten käypä arvo, sekä tiedot käytön laajuudesta  ja luonteesta</p>
 #pitkalaina Yli viiden vuoden kuluttua erääntyvät lainat
 <h2>Pitkäaikaiset lainat</h2>
-<p>Yhteenlaskettu määrä pitkäaikaiseen vieraaseen pääomaan kuuluvista veloista, jotka erääntyvät yli viiden vuoden kuluttua</p>
+<p>Yli viiden vuoden kuluttua erääntyvät pitkäaikaiset velat yhteensä XXX euroa.</p>
 #vastuut Esineoikeudelliset vakuudet
 <h2>Annetut esineoikeudelliset vakuudet</h2>
-<p>Esineoikeudelliset vakuudet, eriteltyinä käteispanttien, ajoneuvokiinnitysten, yrityskiinnitysten, kiinteistökiinnitysten ja muun
-mahdollisen esinevakuuslakin mukaisiin määriin</p>
+<table width="100%">
+  <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
+  <tr><td>Käteispantit</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Ajoneuvokiinnitykset</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Yrityskiinnitykset</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Kiinteistökiinnitykset</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td>Muu esinevakuus</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
+  <tr><td><b>Yhteensä</b></td><td align="right"><b>^^^^</b></td><td align="right"><b>^^^^</b></td></tr>
+</table>
 #sitoumukset Taseen ulkopuoliset sitoumukset
 <h2>Taseen ulkopuoliset sitoumukset</h2>
 <p>Taseen ulkopuolisten sitoumusten yhteismäärä on XXX euroa.</p>
@@ -112,7 +128,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Oman pääoman muutokset</h2>
 
 <table width="100%">
-  <tr><th width="60%"> </th><th align="right" width="30%">{{kausi.loppupvm}}</th><th align="right" width="30%">{{edkausi.loppupvm}}</th></tr>
+  <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
   <tr><td>Osakepääoma {{alkupvm}}</td><td align="right">{{s200}}</td><td align="right">{{S200}}</td></tr>
   <tr><td>Osakepääoman korotus</td><td align="right">{{d200}}</td><td align="right">{{D200}}</td></tr>
   <tr><td>Osakepääoma {{loppupvm}}</td><td align="right">{{e200}}</td><td align="right">{{E200}}</td></tr>
@@ -164,7 +180,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Laskelma jakokelpoisesta omasta pääomasta</h2>
 
 <table width="100%">
-  <tr><th width="60%"> </th><th align="right" width="30%"> {{kausi.loppupvm}}</th><th align="right" width="30%"> {{edkausi.loppupvm}}</th></tr>
+  <tr><th width="50%"> </th><th align="right" width="25%"> {{kausi.loppupvm}}</th><th align="right" width="25%"> {{edkausi.loppupvm}}</th></tr>
   <tr><td>Voitto edellisiltä tilikausilta</td><td align="right">{{e2251}}</td><td align="right">{{E2251}}</td></tr>
   <tr><td>Tilikauden voitto</td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
   <tr><td>Sijoitetun vapaan oman pääoman rahasto</td><td align="right">{{e206}}</td><td align="right">{{E206}}</td></tr>
@@ -184,13 +200,13 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
 #oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Jakokelpoinen vapaa oma pääoma on {{s2251 s2371 s206..208}}</p>
+<p>Jakokelpoinen vapaa oma pääoma on {{e2251 e2371 e206..208}}</p>
 <p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
 ?muoto=tmi
 #tmipaaoma
 <h2>Oman pääoman muutokset</h2>
 <table width="100%">
-  <tr><th width="60%"> </th><th align="right" width="40%">{{kausi.loppupvm}}</th><th align="right" width="40%">{{edkausi.loppupvm}}</th></tr>
+  <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
   <tr><td>Edellisten tilikausien voitto (tappio) {{alkupvm}}</td><td align="right">{{s220 s225}}</td><td align="right">{{E220 E225}}</td></tr>
   <tr><td>Yksityissijoitukset</td><td align="right">{{e2361..2364}}</td><td align="right">{{D2361..2364}}</td></tr>
   <tr><td>Yksityisotot</td><td align="right">{{e2365..2369}}</td><td align="right">{{E2365..2369}}</td></tr>
@@ -204,21 +220,22 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitsas-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä  tositteet on arkistoitu sähköiseksi arkistoksi.
+<p>Kirjanpito on järjestetty Kitsas-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä tositteet on arkistoitu sähköiseksi arkistoksi.
 </p>
 #-sahko
 <h2>Kirjanpitoaineisto</h2>
 <p>Selvitys kirjanpitoaineistosta ja sen säilyttämisestä</p>
 #
 <h2>Allekirjoitukset</h2>
-<p> {{kotipaikka}} ____________</p>
-<p> </p>
+<p>{{kotipaikka}} ____________</p>
+<p> <span font-size="12pt"> &nbsp;  </span></p>
 <table width=100%><tr><td width="33%">______________</td><td width="33%">______________</td><td width="33%">______________</td></tr></table>
-<p> </p>
+<p> <span font-size="12pt"> &nbsp;  </span></p>
 <table width=100%><tr><td width="33%">______________</td><td width="33%">______________</td><td width="33%">______________</td></tr></table>
-
-<p>
-<p>
+<p> <span font-size="12pt"> &nbsp; </span></p>
+#laatija Tilinpäätöksen laatija
+<p>Tilinpäätöksen laati {{pvm}} {{kayttaja.nimi}} </p>
+<p> <span font-size="18pt"> &nbsp; </span></p>
 <p>
 ##Tilintarkastus
 #tilintarkastus Tilintarkastusmerkintä

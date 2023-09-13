@@ -82,6 +82,13 @@ void MyTextEditor::createActions()
         addAction->setActionGroup(addTableActions_);
         connect( addAction, &QAction::triggered, this, [this,i] { this->makeTable(i);});
         addTableMenu->addAction(addAction);
+
+        if( i == 3) {
+            QAction* threeAction = new QAction(tr("3 saraketta, tilikaudet"), this);
+            threeAction->setActionGroup(addTableActions_);
+            connect( threeAction, &QAction::triggered, this, &MyTextEditor::makeThreeTable);
+            addTableMenu->addAction(threeAction);
+        }
     }
     tableAction_->setMenu(addTableMenu);
 
@@ -228,21 +235,53 @@ void MyTextEditor::makeTable(int columns)
     table->setFormat(format);
 }
 
+void MyTextEditor::makeThreeTable()
+{
+    QTextTable* table = textCursor().insertTable(2, 3);
+    QTextTableFormat format = table->format();
+    QList<QTextLength> cells;
+    cells << QTextLength(QTextLength::PercentageLength, 50.0);
+    cells << QTextLength(QTextLength::PercentageLength, 25.0);
+    cells << QTextLength(QTextLength::PercentageLength, 25.0);
+    format.setColumnWidthConstraints(cells);
+    table->setFormat(format);
+    table->cellAt(0,1).firstCursorPosition().insertText( currentPeriodText_ );
+    table->cellAt(0,2).firstCursorPosition().insertText( previousPeriodText_ );
+}
+
 void MyTextEditor::addRow()
 {
     QTextCursor cursor = textCursor();
-    if( cursor.currentTable()) {
-        cursor.currentTable()->appendRows(1);
-        const int lastRow = cursor.currentTable()->rows() - 1;
-        for(int c=0; c < cursor.currentTable()->columns(); c++) {
-            // Sama tasaus yms. kun ylemmässä solussa
-            const QTextBlockFormat format = cursor.currentTable()->cellAt(lastRow-1, c).firstCursorPosition().blockFormat();
-            cursor.currentTable()->cellAt(lastRow, c).firstCursorPosition().setBlockFormat(format);
+    const QTextTable* table = cursor.currentTable();
+    if( table) {
+        for(int r=0; r < table->rows(); r++) {
+            if( cursor.position() < table->cellAt(r, table->columns() - 1).lastCursorPosition().position()) {
+                insertRow(r);
+                break;
+            }
         }
-        for(int c=1; c < cursor.currentTable()->columns(); c++) {
-            cursor.movePosition(QTextCursor::PreviousCell);
-        }
+    }
+}
 
+void MyTextEditor::insertRow(int row)
+{
+    QTextCursor cursor = textCursor();
+    if( cursor.currentTable()) {
+        if( row < 0) {
+            cursor.currentTable()->appendRows(1);
+            row = cursor.currentTable()->rows() - 1;
+        } else {
+            cursor.currentTable()->insertRows(row, 1);
+        }
+        qApp->processEvents();
+        if( row > 0) {
+            for(int c=0; c < cursor.currentTable()->columns(); c++) {
+                // Sama tasaus yms. kun ylemmässä solussa
+                const QTextBlockFormat format = cursor.currentTable()->cellAt(row-1, c).firstCursorPosition().blockFormat();
+                cursor.currentTable()->cellAt(row, c).firstCursorPosition().setBlockFormat(format);
+            }
+        }
+        qApp->processEvents();
     }
 }
 
@@ -260,7 +299,9 @@ void MyTextEditor::keyPressEvent(QKeyEvent *event)
             const QTextTable* table = textCursor().currentTable();
             const QTextTableCell& lastCell = table->cellAt(table->rows()-1, table->columns()-1);
             if( textCursor().position() >= lastCell.firstPosition()) {
-                addRow();
+                insertRow(-1);
+                for(int c=1; c < table->columns(); c++)
+                    moveCursor(QTextCursor::PreviousCell);
             } else {
                 moveCursor( QTextCursor::NextCell);
             }
@@ -275,5 +316,11 @@ void MyTextEditor::setContent(const QString &html)
     clear();
     initStyleSheets();
     setHtml(html);
+}
+
+void MyTextEditor::setPeriods(const QString &current, const QString &previous)
+{
+    currentPeriodText_ = current;
+    previousPeriodText_ = previous;
 }
 

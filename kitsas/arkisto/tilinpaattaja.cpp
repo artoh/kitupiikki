@@ -33,6 +33,7 @@
 #include "poistaja.h"
 #include "jaksottaja.h"
 #include "tuloverodialog.h"
+#include "yksityistilienpaattaja.h"
 
 #include "arkisto/arkistosivu.h"
 
@@ -60,6 +61,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->mappiNappi, &QPushButton::clicked, this, &TilinPaattaja::mappi);
     connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
+    connect( ui->yksityistiliButton, &QPushButton::clicked, this, &TilinPaattaja::paataYksityisTilit);
 
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/tilinpaatos/"); });
 }
@@ -215,6 +217,15 @@ void TilinPaattaja::vahvista()
     close();
 }
 
+void TilinPaattaja::paataYksityisTilit()
+{
+    YksityistilienPaattaja *dlg = new YksityistilienPaattaja(this);
+    const QVariant map = data_.value("yksityistilit");
+    dlg->alusta(tilikausi, map.toMap());
+    connect( dlg, &YksityistilienPaattaja::tallennettu, this, &TilinPaattaja::paivitaDialogi);
+    dlg->show();
+}
+
 void TilinPaattaja::dataSaapuu(QVariant *data)
 {
     data_ = data->toMap();
@@ -260,7 +271,14 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->tilioimattaFrame->setVisible(tilioimattomia);
     if( tilioimattomia ) {
         ui->lukitseNappi->setEnabled(false);
-
     }
+
+    ui->yksityistiliGroup->setVisible( muoto == "tmi" );
+    const bool yksityistilitPaatetty = data_.value("yksityistilit").toString() == "kirjattu";
+    bool lukittu = kp()->tilitpaatetty() >= tilikausi.paattyy();
+
+    ui->yksityistiliCheck->setVisible(yksityistilitPaatetty);
+    ui->yksityistiliTehtyLabel->setVisible(yksityistilitPaatetty);
+    ui->yksityistiliButton->setVisible(!yksityistilitPaatetty && lukittu);
 
 }

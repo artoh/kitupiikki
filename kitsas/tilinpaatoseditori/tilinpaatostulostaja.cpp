@@ -169,10 +169,10 @@ void TilinpaatosTulostaja::tilaaRaportit()
 
 void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli)
 {
-    tulostaKansilehti(painter, otsikko, kausi.kausivaliTekstina(), kieli);
+    tulostaKansilehti(painter, otsikko, kausi.kausivaliTekstina(), kieli, kausi.paattyy());
 }
 
-void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &otsikko, const QString &alaotsikko, const QString &kieli)
+void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &otsikko, const QString &alaotsikko, const QString &kieli, const QDate& kausiloppuu)
 {
     painter->save();
     painter->setFont(QFont("FreeSans",24,QFont::Bold));
@@ -201,6 +201,16 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &o
     painter->setFont(QFont("FreeSans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus*4 ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , alaotsikko);
+
+    painter->setFont(QFont("FreeSans",12));
+    if( kausiloppuu.isValid() ) {
+        QDate tilinpaatosSailytys = kausiloppuu.addYears(10);
+        painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
+                          QString(tulkkaa("Tilinpäätöstä on säilytettävä %1 saakka").arg(tilinpaatosSailytys.toString("dd.MM.yyyy"))));
+        QDate tositeSailytys = QDate( kausiloppuu.year() + 6, 12, 31 );
+        painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9 + painter->fontMetrics().height(), sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
+                          QString(tulkkaa("Tositteita on säilytettävä %1 saakka").arg(tositeSailytys.toString("dd.MM.yyyy"))));
+    }
 
     painter->setFont(QFont("FreeSans",12));
     QString omaOsoite = kp()->asetukset()->asetus(AsetusModel::Katuosoite) + "\n" +

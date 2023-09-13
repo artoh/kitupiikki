@@ -49,7 +49,7 @@ public:
     static QString kasitteleTaulukot(const QString& teksti);
 
     static void tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli);
-    static void tulostaKansilehti(QPainter *painter, const QString& otsikko, const QString& alaotsikko, const QString& kieli);
+    static void tulostaKansilehti(QPainter *painter, const QString& otsikko, const QString& alaotsikko, const QString& kieli, const QDate &kausiloppuu = QDate());
 
 signals:
     void tallennettu();
