@@ -345,6 +345,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
     }
 
     verolaskelma( kausi, ulos);
+    yksityistilit( kausi, ulos);
 
     return ulos;
 }
@@ -409,5 +410,39 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
             vmap.insert("ennakkoyle", (kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
 
         ulos.insert("tulovero", vmap);
+    }
+}
+
+void TilikaudetRoute::yksityistilit(const Tilikausi &kausi, QVariantMap &ulos)
+{
+    QSqlQuery kysely(db());
+    // Tarkistetaan, onko tulovero jo kirjattu
+    kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
+                        "AND tyyppi=%2 AND tila >= 100 LIMIT 1")
+                    .arg(kausi.paattyy().addDays(1).toString(Qt::ISODate))
+                    .arg( TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN ));
+    if( kysely.next()) {
+        ulos.insert("yksityistilit","kirjattu");
+    } else {
+        QVariantMap yksityistiliMap;
+        QVariantMap tiliMap;
+
+        kysely.exec(QString("SELECT tili, SUM(COALESCE(kreditsnt,0)) - SUM(COALESCE(debetsnt,0)) AS saldo FROM Vienti "
+            "JOIN Tosite ON Vienti.tosite=Tosite.id JOIN Tili ON Vienti.tili=Tili.numero "
+            "WHERE Tosite.tila >= 100 AND Tili.tyyppi='BY' AND Vienti.pvm BETWEEN '%1' AND '%2' "
+            "GROUP BY tili")
+                        .arg(kausi.alkaa().toString(Qt::ISODate), kausi.paattyy().toString(Qt::ISODate)));
+        while( kysely.next() ) {
+            tiliMap.insert( kysely.value(0).toString(), Euro::fromCents(kysely.value(1).toLongLong()).toString() );
+        }
+        yksityistiliMap.insert("tilit", tiliMap);
+
+        kysely.exec(QString("SELECT SUM(COALESCE(kreditsnt,0)) - SUM(COALESCE(debetsnt,0)) AS tulos FROM "
+            "Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili AS TEXT) >= '3' AND Vienti.pvm BETWEEN '%1' AND '%2' AND tila >= 100")
+                .arg(kausi.alkaa().toString(Qt::ISODate), kausi.paattyy().toString(Qt::ISODate)));
+        if(kysely.next()) {
+            yksityistiliMap.insert("tulos", Euro::fromCents(kysely.value(0).toLongLong()));
+        }
+        ulos.insert("yksityistilit", yksityistiliMap);
     }
 }

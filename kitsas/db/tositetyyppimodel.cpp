@@ -54,7 +54,7 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::ALVLASKELMA, "Alv-laskelma", "verotilitys", false);
     lisaa(TositeTyyppi::YHTEENVETOILMOITUS, "Yhteenvetoilmoitus", "verotilitys", false);
     lisaa(TositeTyyppi::POISTOLASKELMA, "Poistolaskelma", "kirjalaatikko", false);
-    lisaa(TositeTyyppi::JAKSOTUS, "Jaksotus", "ratas", false);
+    lisaa(TositeTyyppi::JAKSOTUS, "Jaksotus", "yrittaja", false);
     lisaa(TositeTyyppi::TULOVERO, "Tulovero", "verotilitys", false);
 
     lisaa(TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN, "Yksityistilien päättäminen", "ratas", false);

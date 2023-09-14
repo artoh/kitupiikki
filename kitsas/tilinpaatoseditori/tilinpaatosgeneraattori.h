@@ -14,7 +14,7 @@ public:
     QString html() const;
     QStringList raportit() const;
 
-    enum SaldoTyyppi { Nykyinen, NykyinenAlku, EdellinenAlku};
+    enum SaldoTyyppi { Nykyinen, NykyinenAlku, Edellinen, EdellinenAlku};
 protected:
     void tilaaSaldot();
     void tilaaSaldo(SaldoTyyppi tyyppi);
@@ -44,6 +44,7 @@ protected:
     protected:
         Euro saldo_;
         Euro alkusaldo_;
+        Euro edellinen_;
         Euro edellinenAlku_;
     };
 

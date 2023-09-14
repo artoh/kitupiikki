@@ -70,7 +70,8 @@ public:
         TilinpaatosOtsikko,
         Kuukausittain,
         KuukaudetYhteensa,
-        Jaksotettu
+        Jaksotettu,
+        PiilotaNollasaldot
     };
 
     RaporttiValinnat();

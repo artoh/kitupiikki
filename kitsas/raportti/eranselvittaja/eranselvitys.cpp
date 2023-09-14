@@ -19,7 +19,7 @@ EranSelvitys::EranSelvitys(QDate date, QWidget *parent)
     date_{date}
 {
     setAttribute(Qt::WA_DeleteOnClose);
-    setWindowTitle(tr("Tase-erien selvittely"));
+    setWindowTitle(tr("Tase-erien selvittely %1").arg(date.toString("dd.MM.yyyy")));
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(close()));
     restoreGeometry(  kp()->settings()->value("EranSelvitysIkkuna").toByteArray() );
 
@@ -29,11 +29,11 @@ EranSelvitys::EranSelvitys(QDate date, QWidget *parent)
     tiliView->setSelectionBehavior(QTableView::SelectionBehavior::SelectRows);
     tiliView->setSelectionMode(QTableView::SelectionMode::SingleSelection);
 
-    QTableView* eraView = new QTableView();
-    eraView->setModel(eraModel_);
-    eraView->horizontalHeader()->setSectionResizeMode( EranSelvitysEraModel::SELITE, QHeaderView::Stretch );
-    eraView->setSelectionBehavior( QTableView::SelectionBehavior::SelectRows );
-    eraView->setSelectionMode(QTableView::SelectionMode::SingleSelection);
+    eraView_ = new QTableView();
+    eraView_->setModel(eraModel_);
+    eraView_->horizontalHeader()->setSectionResizeMode( EranSelvitysEraModel::SELITE, QHeaderView::Stretch );
+    eraView_->setSelectionBehavior( QTableView::SelectionBehavior::SelectRows );
+    eraView_->setSelectionMode(QTableView::SelectionMode::SingleSelection);
 
     QTableView* viennitView = new QTableView();
     viennitView->setModel( viennit_ );
@@ -42,14 +42,16 @@ EranSelvitys::EranSelvitys(QDate date, QWidget *parent)
 
     QSplitter* splitter = new QSplitter();
     splitter->addWidget(tiliView);
-    splitter->addWidget(eraView);
+    splitter->addWidget(eraView_);
     splitter->addWidget(viennitView);
 
     setCentralWidget( splitter );
 
     connect( tiliView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::tiliValittu);
-    connect( eraView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::eraValittu);
+    connect( eraView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::eraValittu);
     connect( viennitView, &QTableView::clicked, this, &EranSelvitys::naytaVienti);
+
+    connect( eraModel_, &EranSelvitysEraModel::modelReset, this, &EranSelvitys::eratLadattu);
 }
 
 EranSelvitys::~EranSelvitys()
@@ -80,5 +82,12 @@ void EranSelvitys::naytaVienti(const QModelIndex &index)
         const int tosite = index.data(Qt::UserRole).toInt();
         LisaIkkuna *ikkuna = new LisaIkkuna();
         ikkuna->naytaTosite( tosite );
+    }
+}
+
+void EranSelvitys::eratLadattu()
+{
+    if( eraModel_->rowCount()) {
+        eraView_->selectRow(0);
     }
 }

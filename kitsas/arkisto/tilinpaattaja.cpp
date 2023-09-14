@@ -279,6 +279,9 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
 
     ui->yksityistiliCheck->setVisible(yksityistilitPaatetty);
     ui->yksityistiliTehtyLabel->setVisible(yksityistilitPaatetty);
-    ui->yksityistiliButton->setVisible(!yksityistilitPaatetty && lukittu);
+    ui->yksityistiliButton->setVisible(!yksityistilitPaatetty);
+    ui->yksityistiliButton->setEnabled(!kppaattyy && lukittu);
+    ui->yksityistilitStop->setVisible(kppaattyy);
+    ui->yksityistilitStopLabel->setVisible(kppaattyy);
 
 }

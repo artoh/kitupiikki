@@ -45,6 +45,7 @@ public:
 
     int tunniste() const { return value("tunniste").toInt(); }
     QString sarja() const { return value("sarja").toString(); }
+    QIcon tyyppiKuvake() const;
 
     int eratyyppi() const;
 

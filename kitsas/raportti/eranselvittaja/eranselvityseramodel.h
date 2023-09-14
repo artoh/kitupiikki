@@ -5,6 +5,7 @@
 #include <QDate>
 
 #include "model/eramap.h"
+#include "db/tili.h"
 
 class EranSelvitysEraModel : public QAbstractTableModel
 {
@@ -30,6 +31,7 @@ private:
     void eratSaapuu(QVariant* data);
 
     QList<EraMap> erat_;
+    Tili tili_;
 };
 
 #endif // ERANSELVITYSERAMODEL_H

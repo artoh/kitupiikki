@@ -34,13 +34,13 @@ void YksityistilienPaattaja::alusta(const Tilikausi &kausi, const QVariantMap &d
     ui->browser->setHtml( selvitys().html() );
     ui->tiliCombo->suodataTyypilla("B");
 
-    int oletusTili = kp()->asetukset()->luku("Peruspaaoma");
+    int oletusTili = kp()->asetukset()->luku("Yksityistilit/Peruspaaoma");
     if(oletusTili) ui->tiliCombo->valitseTili(oletusTili);
 }
 
 void YksityistilienPaattaja::accept()
 {
-    kp()->asetukset()->aseta("Peruspaaoma", ui->tiliCombo->valittuTilinumero());
+    kp()->asetukset()->aseta("Yksityistilit/Peruspaaoma", ui->tiliCombo->valittuTilinumero());
 
     Tosite* tosite = new Tosite(this);
     tosite->asetaTyyppi(TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN);

@@ -29,6 +29,7 @@ void PvmRaporttiWidget::lataa()
     ui->tulostasummat->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaSummarivit));
     ui->kumppaniCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaKumppani));
     ui->eriPaivatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelePaivat));
+    ui->piilotaNollaCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::PiilotaNollasaldot) );
 
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
     paivita();
@@ -97,6 +98,7 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
 
     if( tyyppi() != "taseerittely") {
         ui->selvittelyNappi->hide();
+        ui->piilotaNollaCheck->hide();
     }
 }
 
@@ -128,6 +130,7 @@ void PvmRaporttiWidget::tallenna()
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::TulostaKumppani, ui->kumppaniCheck->isChecked());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::ErittelePaivat, ui->eriPaivatCheck->isChecked());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::PiilotaNollasaldot, ui->piilotaNollaCheck->isChecked());
 
     if( ui->tiliBox->isChecked()) {
         kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tililta, ui->tiliCombo->currentData());

@@ -29,23 +29,30 @@ QStringList TilinpaatosGeneraattori::raportit() const
 
 void TilinpaatosGeneraattori::tilaaSaldot()
 {
+    tilattuja_++;   // Jotta ei päättyisi paikallisella ennen aikojaan
     tilaaSaldo(Nykyinen);
     tilaaSaldo(NykyinenAlku);
+    tilaaSaldo(Edellinen);
+    tilattuja_--;
     tilaaSaldo(EdellinenAlku);
 }
 
 void TilinpaatosGeneraattori::tilaaSaldo(SaldoTyyppi tyyppi)
 {
-    Tilikausi kausi = tyyppi == EdellinenAlku ? kp()->tilikaudet()->tilikausiPaivalle(tilikausi_.alkaa().addDays(-1)) : tilikausi_;
+    Tilikausi kausi = (tyyppi == Edellinen || tyyppi == EdellinenAlku) ? kp()->tilikaudet()->tilikausiPaivalle(tilikausi_.alkaa().addDays(-1)) : tilikausi_;
     if( !kausi.alkaa().isValid()) return;
     tilattuja_++;
 
-    KpKysely* saldoKysely = kpk("/saldot");
-    saldoKysely->lisaaAttribuutti("pvm", tyyppi == Nykyinen ? tilikausi_.paattyy() : tilikausi_.alkaa());
+    KpKysely* saldoKysely = kpk("/saldot");    
+
+    saldoKysely->lisaaAttribuutti("pvm", (tyyppi == Nykyinen || tyyppi== Edellinen) ? kausi.paattyy() : kausi.alkaa());
     saldoKysely->lisaaAttribuutti("tase");
-    if( tyyppi != Nykyinen) {
+    if( tyyppi == NykyinenAlku || tyyppi == EdellinenAlku) {
         saldoKysely->lisaaAttribuutti("alkusaldot");
     }
+    qDebug() << " SALDOT " << tyyppi << " KAUSI " << kausi.kausivaliTekstina() << " ? " << saldoKysely->urlKysely().toString();
+
+
     connect( saldoKysely, &KpKysely::vastaus, this, [this, tyyppi] (QVariant* data) { this->saldotSaapuu(tyyppi, data); });
     saldoKysely->kysy();
 }
@@ -266,7 +273,7 @@ Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
                     const TilinSaldot& saldot = iter.value();
                     Euro value = saldot.saldo(type);
 
-                    qDebug() << tili << " " <<value.display(true);
+                    qDebug() << tili << " (" << type << ") " << value.display(true);
 
                     if( minus ) {
                         summa -= value;
@@ -298,6 +305,9 @@ void TilinpaatosGeneraattori::TilinSaldot::setSaldo(SaldoTyyppi tyyppi, Euro sal
     case NykyinenAlku:
         alkusaldo_ = saldo;
         break;
+    case Edellinen:
+        edellinen_ = saldo;
+        break;
     case EdellinenAlku:
         edellinenAlku_ = saldo;
         break;
@@ -309,9 +319,9 @@ Euro TilinpaatosGeneraattori::TilinSaldot::saldo(const QString &tyyppi) const
     if( tyyppi == "e") return saldo_;
     else if( tyyppi == "s") return alkusaldo_;
     else if( tyyppi == "d") return saldo_ - alkusaldo_;
-    else if( tyyppi == "E") return alkusaldo_;
+    else if( tyyppi == "E") return edellinen_;
     else if( tyyppi == "S") return edellinenAlku_;
-    else if( tyyppi == "D") return alkusaldo_ - edellinenAlku_;
+    else if( tyyppi == "D") return edellinen_ - edellinenAlku_;
     else return Euro::Zero;
 }
 

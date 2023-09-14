@@ -60,6 +60,12 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
         if( index.column() == SALDO) return Qt::AlignRight;
     } else if( role == Qt::UserRole) {
         return era.id();
+    } else if( role == Qt::DecorationRole && index.column() == SELITE) {
+        if( tili_.eritellaankoTase() && era.eratyyppi() == EraMap::EiEraa) {
+            return QIcon(":/pic/huomio.png");
+        } else {
+            return era.tyyppiKuvake();
+        }
     }
 
     return QVariant();
@@ -73,6 +79,8 @@ void EranSelvitysEraModel::load(const int tili, const QDate& date)
     kysely->lisaaAttribuutti("pvm", date);
     connect( kysely, &KpKysely::vastaus, this, &EranSelvitysEraModel::eratSaapuu);
     kysely->kysy();
+
+    tili_ = kp()->tilit()->tiliNumerolla(tili);
 }
 
 void EranSelvitysEraModel::eratSaapuu(QVariant *data)

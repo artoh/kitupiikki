@@ -1,6 +1,7 @@
 #include "eranselvitysviennit.h"
 
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 EranSelvitysViennit::EranSelvitysViennit(QObject *parent)
     : QAbstractTableModel(parent)
@@ -64,6 +65,9 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
         return Qt::AlignRight;
     } else if( role == Qt::UserRole) {
         return map.value("tosite").toMap().value("id").toInt();
+    } else if( role == Qt::DisplayRole && index.column() == TOSITE) {
+        const int tositeTyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
+        return kp()->tositeTyypit()->kuvake(tositeTyyppi);
     }
 
     return QVariant();

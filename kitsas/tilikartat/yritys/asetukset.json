@@ -110,7 +110,7 @@
       "sv" : "Bankkonto",
       "TILI" : 1910,
       "KUVA" : "pankki"
-    },    
+    },
     {
       "fi" : "Luottokortti",
       "sv" : "Kreditkort",
@@ -129,6 +129,13 @@
       "TILI" : 1849,
       "KUVA" : "siirra",
       "ERA" : -1
+    },
+    {
+      "fi" : "Yksityistili",
+      "sv" : "Privatkonto",
+      "TILI": 2365,
+      "KUVA": "yksityis",
+      "MUOTO": "tmi"
     }
 
   ],
@@ -176,6 +183,13 @@
       "TILI" : 2979,
       "KUVA" : "siirra",
       "ERA" : -1
+    },
+    {
+      "fi" : "Yksityistili",
+      "sv" : "Privatkonto",
+      "TILI": 2361,
+      "KUVA": "yksityis",
+      "MUOTO": "tmi"
     }
   ],
   "LaskuTilit" : "1910",
@@ -199,7 +213,7 @@
   "LaskuIkkunaKorkeus" : "35",
   "LaskuQR" : true,
   "LaskuLogoKorkeus": "20",
-  "LogonSijainti" : "VIERESSA",  
+  "LogonSijainti" : "VIERESSA",
   "VariKehys": "128,128,128",
   "VariVarjo": "230,230,230",
   "AlvKausi" : "1",
@@ -225,6 +239,7 @@
   "AlvPalautusSaatavatilille": true,
   "AlvMaksettava": "2922",
   "AlvPalautettava": "1762",
+  "Yksityistilit/Peruspaaoma":"2201",
   "Laskuteksti/Saate": {
     "en":"The attachment contains an invoice for your order.\nPlease pay the invoice no later than the due date.\n\nYou can use the virtual barcode {{virtuaali}} to pay\nInvoice sum {{summa}}\nReference number {{viite}}\nOur account number {{iban}}",
     "fi":"Liitteessä on lasku tilauksestasi.\nMaksathan laskun viimeistään eräpäivänä.\n\nVoit käyttää maksamiseen virtuaaliviivakoodia {{virtuaali}}\nLaskun summa {{summa}}\nViitenumero {{viite}}\nTilinumeromme {{iban}}",

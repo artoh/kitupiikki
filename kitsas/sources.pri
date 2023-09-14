@@ -185,6 +185,7 @@ SOURCES += \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/liite/liitecache.cpp \
+    $$PWD/model/maksutapa.cpp \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/toiminimimodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -632,6 +633,7 @@ HEADERS += \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/liite/liitecache.h \
+    $$PWD/model/maksutapa.h \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/toiminimimodel.h \
     $$PWD/model/tosite.h \
