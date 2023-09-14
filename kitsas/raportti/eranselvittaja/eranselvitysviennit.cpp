@@ -65,7 +65,7 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
         return Qt::AlignRight;
     } else if( role == Qt::UserRole) {
         return map.value("tosite").toMap().value("id").toInt();
-    } else if( role == Qt::DisplayRole && index.column() == TOSITE) {
+    } else if( role == Qt::DecorationRole && index.column() == TOSITE) {
         const int tositeTyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
         return kp()->tositeTyypit()->kuvake(tositeTyyppi);
     }

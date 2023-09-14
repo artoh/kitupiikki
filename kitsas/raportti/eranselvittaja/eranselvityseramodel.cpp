@@ -40,31 +40,35 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    const EraMap& era = erat_.at(index.row());
+    const SelvitysEra& era = erat_.at(index.row());
 
     if( role == Qt::DisplayRole) {
         switch( index.column()) {
         case PVM:
             return era.pvm().isValid() ? era.pvm().toString("dd.MM.yyyy") : "";
         case KUMPPANI:
-            return era.kumppaniNimi();
+            return era.nimi();
         case SELITE:
-            if( era.id() == 0) return tr("Erittelemättömät");
-            else if( era.eratyyppi() == EraMap::Asiakas) return era.asiakasNimi();
-            else if( era.eratyyppi() == EraMap::Huoneisto) return era.huoneistoNimi();
-            else return era.nimi();
-        case SALDO:
-            return era.saldo().display(true);
+            if( era.id() == 0)
+                return tr("Erittelemättömät");
+            else
+                return era.selite();
+        case SALDO: {
+            Euro saldo = era.saldo();
+            if( QString::number(tili_.numero()).startsWith("1"))
+                saldo = Euro::Zero - saldo;
+            return saldo.display(true);
+            }
         }
     } else if( role == Qt::TextAlignmentRole) {
         if( index.column() == SALDO) return Qt::AlignRight;
     } else if( role == Qt::UserRole) {
         return era.id();
     } else if( role == Qt::DecorationRole && index.column() == SELITE) {
-        if( tili_.eritellaankoTase() && era.eratyyppi() == EraMap::EiEraa) {
+        if( tili_.eritellaankoTase() && era.id() == 0) {
             return QIcon(":/pic/huomio.png");
         } else {
-            return era.tyyppiKuvake();
+            return EraMap::kuvakeIdlla(era.id());
         }
     }
 
@@ -73,9 +77,8 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
 
 void EranSelvitysEraModel::load(const int tili, const QDate& date)
 {
-    KpKysely* kysely = kpk("/erat");
-    kysely->lisaaAttribuutti("tili", tili);
-    kysely->lisaaAttribuutti("selvitys");
+    KpKysely* kysely = kpk("/erat/selvittely");
+    kysely->lisaaAttribuutti("tili", tili);    
     kysely->lisaaAttribuutti("pvm", date);
     connect( kysely, &KpKysely::vastaus, this, &EranSelvitysEraModel::eratSaapuu);
     kysely->kysy();
@@ -89,7 +92,21 @@ void EranSelvitysEraModel::eratSaapuu(QVariant *data)
     erat_.clear();
     for(const auto& item : data->toList()) {
         QVariantMap map = item.toMap();
-        erat_.append( EraMap(map));
+        erat_.append( SelvitysEra(map));
     }
     endResetModel();
+}
+
+EranSelvitysEraModel::SelvitysEra::SelvitysEra()
+{
+
+}
+
+EranSelvitysEraModel::SelvitysEra::SelvitysEra(const QVariantMap &map)
+{
+    id_ = map.value("id").toInt();
+    pvm_ = map.value("pvm").toDate();
+    saldo_ = Euro::fromVariant(map.value("saldo"));
+    nimi_ = map.value("nimi").toString();
+    selite_ = map.value("selite").toString();
 }

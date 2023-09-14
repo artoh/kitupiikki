@@ -46,7 +46,10 @@ QVariant EranSelvitysTiliModel::data(const QModelIndex &index, int role) const
         const EranSelvitysTili& rData = data_.at(index.row());
         if( index.column() == TILI) {
             Tili* tili = kp()->tilit()->tili(rData.tili());
-            if(tili) return tili->nimiNumero();
+            if(tili)
+                return tili->nimiNumero();
+            else
+                return tr("Tiliöimättä");
         } else if( index.column() == SALDO) {
             return rData.saldo().display(true);
         }
@@ -54,6 +57,9 @@ QVariant EranSelvitysTiliModel::data(const QModelIndex &index, int role) const
         return data_.at(index.row()).tili();
     } else if( role == Qt::TextAlignmentRole && index.column() == SALDO) {
         return Qt::AlignRight;
+    } else if( role == Qt::DecorationRole && index.column() == TILI) {
+        if( data_.at(index.row()).tili() == 0)
+            return QIcon(":/pic/punainen.png");
     }
 
     return QVariant();

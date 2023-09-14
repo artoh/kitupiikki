@@ -27,10 +27,30 @@ public:
 
     void load(const int tili, const QDate& date);
 
+protected:
+    class SelvitysEra {
+    public:
+        SelvitysEra();
+        SelvitysEra(const QVariantMap& map);
+
+        int id() const { return id_; }
+        QDate pvm() const { return pvm_; }
+        Euro saldo() const { return saldo_; }
+        QString selite() const { return selite_; }
+        QString nimi() const { return nimi_; }
+
+    protected:
+        int id_;
+        QDate pvm_;
+        Euro saldo_;
+        QString selite_;
+        QString nimi_;
+    };
+
 private:
     void eratSaapuu(QVariant* data);
 
-    QList<EraMap> erat_;
+    QList<SelvitysEra> erat_;
     Tili tili_;
 };
 

@@ -50,6 +50,8 @@ public:
     int eratyyppi() const;
 
     static EraMap AsiakasEra(int id, const QString& nimi);
+    static QIcon kuvakeTyypilla(int tyyppi);
+    static QIcon kuvakeIdlla(int eraid);
 };
 
 #endif // ERAMAP_H

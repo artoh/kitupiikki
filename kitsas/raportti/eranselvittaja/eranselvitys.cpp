@@ -38,7 +38,8 @@ EranSelvitys::EranSelvitys(QDate date, QWidget *parent)
     QTableView* viennitView = new QTableView();
     viennitView->setModel( viennit_ );
     viennitView->horizontalHeader()->setSectionResizeMode( EranSelvitysViennit::SELITE, QHeaderView::Stretch);
-    viennitView->setSelectionMode( QTableView::SelectionMode::NoSelection);
+    viennitView->setSelectionBehavior(QTableView::SelectionBehavior::SelectRows);
+    viennitView->setSelectionMode( QTableView::SelectionMode::SingleSelection);
 
     QSplitter* splitter = new QSplitter();
     splitter->addWidget(tiliView);
