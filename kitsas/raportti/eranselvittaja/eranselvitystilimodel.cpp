@@ -82,6 +82,7 @@ void EranSelvitysTiliModel::saldotSaapuu(QVariant *data)
     QMapIterator<QString,QVariant> iter(map);
     while(iter.hasNext()) {
         iter.next();
+        if( kp()->tilit()->tiliNumerolla(iter.key().toInt()).onko(TiliLaji::KAUDENTULOS)) continue;
         data_.append( EranSelvitysTili(iter.key().toInt(), iter.value().toString()) );
     }
 

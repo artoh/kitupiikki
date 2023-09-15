@@ -77,13 +77,27 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
 
 void EranSelvitysEraModel::load(const int tili, const QDate& date)
 {
+    tili_ = kp()->tilit()->tiliNumerolla(tili);
+    saldopvm_ = date;
+
+    refresh();
+}
+
+void EranSelvitysEraModel::refresh()
+{
     KpKysely* kysely = kpk("/erat/selvittely");
-    kysely->lisaaAttribuutti("tili", tili);    
-    kysely->lisaaAttribuutti("pvm", date);
+    kysely->lisaaAttribuutti("tili", tili_.numero());
+    kysely->lisaaAttribuutti("pvm", saldopvm_);
+    if( nollatut_)
+        kysely->lisaaAttribuutti("nollat", "true");
     connect( kysely, &KpKysely::vastaus, this, &EranSelvitysEraModel::eratSaapuu);
     kysely->kysy();
+}
 
-    tili_ = kp()->tilit()->tiliNumerolla(tili);
+void EranSelvitysEraModel::naytaNollatut(bool nollatut)
+{
+    nollatut_ = nollatut;
+    refresh();
 }
 
 void EranSelvitysEraModel::eratSaapuu(QVariant *data)

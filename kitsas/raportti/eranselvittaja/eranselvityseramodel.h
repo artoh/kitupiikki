@@ -26,6 +26,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void load(const int tili, const QDate& date);
+    void refresh();
+
+    void naytaNollatut(bool kaikki);
 
 protected:
     class SelvitysEra {
@@ -52,6 +55,8 @@ private:
 
     QList<SelvitysEra> erat_;
     Tili tili_;
+    QDate saldopvm_;
+    bool nollatut_ = false;
 };
 
 #endif // ERANSELVITYSERAMODEL_H
