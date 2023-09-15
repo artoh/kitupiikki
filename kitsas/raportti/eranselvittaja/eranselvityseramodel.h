@@ -25,6 +25,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+
     void load(const int tili, const QDate& date);
     void refresh();
 
@@ -41,6 +44,8 @@ protected:
         Euro saldo() const { return saldo_; }
         QString selite() const { return selite_; }
         QString nimi() const { return nimi_; }
+
+        void setSelite(const QString& selite);
 
     protected:
         int id_;

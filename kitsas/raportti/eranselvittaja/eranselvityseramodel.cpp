@@ -1,5 +1,6 @@
 #include "eranselvityseramodel.h"
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 
 EranSelvitysEraModel::EranSelvitysEraModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -42,7 +43,7 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
 
     const SelvitysEra& era = erat_.at(index.row());
 
-    if( role == Qt::DisplayRole) {
+    if( role == Qt::DisplayRole | role == Qt::EditRole) {
         switch( index.column()) {
         case PVM:
             return era.pvm().isValid() ? era.pvm().toString("dd.MM.yyyy") : "";
@@ -73,6 +74,37 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+Qt::ItemFlags EranSelvitysEraModel::flags(const QModelIndex &index) const
+{
+    const int eraid = index.data(Qt::UserRole).toInt();
+
+    if( index.column() == SELITE && eraid > 0 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS)) {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+bool EranSelvitysEraModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if( role == Qt::EditRole) {
+        if( index.column() == SELITE) {
+            SelvitysEra era = erat_.at(index.row());
+            era.setSelite(value.toString());
+            erat_[index.row()] = era;
+
+            KpKysely* kysely = kpk(QString("/viennit/%1").arg(era.id()), KpKysely::PATCH);
+            QVariantMap data;
+            data.insert("selite", value.toString());
+            kysely->kysy(data);
+
+            emit dataChanged(index, index);
+            return true;
+        }
+    }
+    return false;
 }
 
 void EranSelvitysEraModel::load(const int tili, const QDate& date)
@@ -123,4 +155,9 @@ EranSelvitysEraModel::SelvitysEra::SelvitysEra(const QVariantMap &map)
     saldo_ = Euro::fromVariant(map.value("saldo"));
     nimi_ = map.value("nimi").toString();
     selite_ = map.value("selite").toString();
+}
+
+void EranSelvitysEraModel::SelvitysEra::setSelite(const QString &selite)
+{
+    selite_ = selite;
 }
