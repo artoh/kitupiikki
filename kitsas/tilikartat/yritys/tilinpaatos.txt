@@ -163,7 +163,7 @@
   <tr><td>Edellisen tilikauden virheen oikaisu</td><td align="right">0,00 €</td><td align="right">0,00 €</td></tr>
   <tr><td>Edellisten tilikausien voitto (tappio) {{loppupvm}}</td><td align="right">{{e2251}}</td><td align="right">{{E2251}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td>Tilikauden voitto (tappio)</td><td align="right">{{e2371}}</td><td align="right">{{S2371}}</td></tr>
+  <tr><td>Tilikauden voitto (tappio)</td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
   <tr><td>Oman pääoman ehtoinen pääomalaina {{alkupvm}}</td><td align="right">{{s238}}</td><td align="right">{{S238}}</td></tr>
   <tr><td>Oman pääoman ehtoisen pääomalainan lisäys</td><td align="right">{{d238}}</td><td align="right">{{D238}}</td></tr>
