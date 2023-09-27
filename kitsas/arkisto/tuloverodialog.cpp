@@ -36,6 +36,7 @@ TuloveroDialog::TuloveroDialog(QWidget *parent) :
 
     connect( ui->tuloEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
     connect( ui->vahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
+    connect( ui->puoliVahennysEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaTulos);
 
     connect( ui->tulosEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaLopullinenTulos);
     connect( ui->tappioEdit, &KpEuroEdit::textEdited, this, &TuloveroDialog::paivitaLopullinenTulos);
@@ -64,7 +65,9 @@ void TuloveroDialog::alusta(const QVariantMap &verolaskelma, const Tilikausi &ti
     tilikausi_ = tilikausi;
 
     ui->tuloEdit->setEuro( verolaskelma.value("tulo").toString());
-    ui->vahennysEdit->setEuro( verolaskelma.value("vahennys").toString());
+
+    ui->vahennysEdit->setEuro(  verolaskelma.value("taysivahennys").toString() );
+    ui->puoliVahennysEdit->setEuro( verolaskelma.value("puolivahennys").toString());
     ui->maksetutEdit->setEuro( verolaskelma.value("ennakko").toString());
 
     paivitaTulos();
@@ -128,26 +131,27 @@ void TuloveroDialog::accept()
 
 void TuloveroDialog::paivitaTulos()
 {
-    ui->tulosEdit->setValue( ui->tuloEdit->value() - ui->vahennysEdit->value());
+    ui->tulosEdit->setCents( ui->tuloEdit->asCents() - ui->vahennysEdit->asCents() - ui->puoliVahennysEdit->asCents() / 2 );
     paivitaLopullinenTulos();
 }
 
 
 void TuloveroDialog::paivitaLopullinenTulos()
 {
-    ui->loppuTulosEdit->setValue(ui->tulosEdit->value() - ui->tappioEdit->value());
+    ui->loppuTulosEdit->setEuro(ui->tulosEdit->euro() - ui->tappioEdit->euro());
     paivitaVero();    
 }
 
 
 void TuloveroDialog::paivitaVero()
-{
-    double tulos = ui->loppuTulosEdit->value();
+{    
 
-    if( tulos > 1e-5)
-        ui->veroEdit->setValue(0.2 * tulos);
+    Euro tulos = ui->loppuTulosEdit->euro();
+
+    if( tulos > Euro::Zero)
+        ui->veroEdit->setCents( tulos.cents() / 5 );    // 20 % vero
     else
-        ui->veroEdit->setValue(0);
+        ui->veroEdit->setEuro( Euro::Zero);
     paivitaJaannos();
 }
 
