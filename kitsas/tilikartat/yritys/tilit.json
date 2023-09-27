@@ -10356,7 +10356,7 @@
     },
     {
         "numero": 9910,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Ennakonpidätys työkorvauksista",
             "sv": "Förskottsinnehållning på arbetsersättning"
@@ -10370,7 +10370,7 @@
     },
     {
         "numero": 9920,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Veronhyvitys osingoista",
             "sv": "Gottgörelse för dividender"
@@ -10384,7 +10384,7 @@
     },
     {
         "numero": 9930,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Lähdeverot",
             "sv": "Källskatter"
@@ -10398,7 +10398,7 @@
     },
     {
         "numero": 9940,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Tilikauden verojaksotus",
             "sv": "Räkenskapsperiodens skatteperiodisering"
@@ -10412,7 +10412,7 @@
     },
     {
         "numero": 9950,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Veronpalautukset / jäännösverot",
             "sv": "Skatteåterbäringar/Restskatt"
@@ -10426,7 +10426,7 @@
     },
     {
         "numero": 9960,
-        "tyyppi": "DVE",
+        "tyyppi": "D",
         "nimi": {
             "fi": "Muut tuloverot",
             "sv": "Övriga inkomstskatter"
