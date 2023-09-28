@@ -16,6 +16,11 @@ Euro TaulukonKasittelija::sum(int column) const
     return value;
 }
 
+bool TaulukonKasittelija::isColumnEmpty(int column) const
+{
+    return emptyColumns_.value(column);
+}
+
 TaulukonKasittelija::TaulukonKasittelija()
 {
 
@@ -24,7 +29,22 @@ TaulukonKasittelija::TaulukonKasittelija()
 QString TaulukonKasittelija::process(const QString &table)
 {
     makeTable(table);
+    checkEmptyColumns();
     return getTable();
+}
+
+void TaulukonKasittelija::checkEmptyColumns()
+{
+    emptyColumns_.fill(true,10);
+    for(const auto& row: rows_) {
+        const QVector<Cell>& cells = row.cells();
+        for(int i=0; i < cells.size(); i++) {
+            const Cell& cell = cells.at(i);
+            if( !cell.isEmpty() && !cell.isZero() && !cell.isSum()) {
+                emptyColumns_[i] = false;
+            }
+        }
+    }
 }
 
 void TaulukonKasittelija::makeTable(const QString &table)
@@ -34,7 +54,6 @@ void TaulukonKasittelija::makeTable(const QString &table)
     while( position >= 0) {
         const int endPosition = table.indexOf("</tr>", position);
         const QString row = table.mid(position+4, endPosition-position-4);
-        qDebug() << "ADD ROW " << row;
         rows_.append(Row(row));
         position = table.indexOf("<tr>", endPosition);
     }
@@ -87,7 +106,7 @@ QString TaulukonKasittelija::Cell::content(TaulukonKasittelija *processor, int c
     QString cleaned = this->cleaned();
     QString content = this->content_;
 
-    if( cleaned == "^^^^") {
+    if( isSum()) {
         return tag_ + content.replace("^^^^", processor->sum(column).display(true) + "</td>");
     } else {
         return tag_ + content.replace("--","&ndash;") + "</td>";
@@ -102,6 +121,11 @@ bool TaulukonKasittelija::Cell::isEmpty() const
 bool TaulukonKasittelija::Cell::isZero() const
 {
     return cleaned() == "0,00 €";
+}
+
+bool TaulukonKasittelija::Cell::isSum() const
+{
+    return cleaned() == "^^^^";
 }
 
 Euro TaulukonKasittelija::Cell::sum() const
@@ -162,7 +186,9 @@ QString TaulukonKasittelija::Row::content(TaulukonKasittelija *processer) const
 {
     QString out = "<tr>";
     for(int i=0; i < cells_.size(); i++) {
-        out.append( cells_.at(i).content(processer, i));
+        if( !processer->isColumnEmpty(i)) {
+            out.append( cells_.at(i).content(processer, i));
+        }
     }
     return out + "</tr>";
 }
@@ -171,6 +197,11 @@ Euro TaulukonKasittelija::Row::sum(int column) const
 {
     Cell cell = cells_.value(column);
     return cell.sum();
+}
+
+QVector<TaulukonKasittelija::Cell> TaulukonKasittelija::Row::cells() const
+{
+    return cells_;
 }
 
 

@@ -30,11 +30,11 @@ QStringList TilinpaatosGeneraattori::raportit() const
 void TilinpaatosGeneraattori::tilaaSaldot()
 {
     tilattuja_++;   // Jotta ei päättyisi paikallisella ennen aikojaan
-    tilaaSaldo(Nykyinen);
-    tilaaSaldo(NykyinenAlku);
     tilaaSaldo(Edellinen);
-    tilattuja_--;
     tilaaSaldo(EdellinenAlku);
+    tilaaSaldo(Nykyinen);
+    tilattuja_--;
+    tilaaSaldo(NykyinenAlku);
 }
 
 void TilinpaatosGeneraattori::tilaaSaldo(SaldoTyyppi tyyppi)
@@ -244,7 +244,6 @@ QString TilinpaatosGeneraattori::henkilostoTaulukko(const QString &teksti)
 Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
 {
     Euro summa;
-    qDebug() << "Kaava " << kaava;
 
     QStringList splitted = kaava.split(' ', Qt::SkipEmptyParts);
     for(const QString& part : splitted) {
@@ -271,17 +270,13 @@ Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
                 if( tili.left(startLenght) >= start &&
                     tili.left(endLength) <= end) {
                     const TilinSaldot& saldot = iter.value();
-                    Euro value = saldot.saldo(type);
-
-                    qDebug() << tili << " (" << type << ") " << value.display(true);
+                    Euro value = saldot.saldo(type);                    
 
                     if( minus ) {
                         summa -= value;
                     } else {
                         summa += value;
                     }
-                } else {
-                    qDebug() << tili << " --- " << start << " .. " << end;
                 }
             }
         } else if( Euro(part)) {

@@ -11,6 +11,7 @@ public:
     static QString processTable(const QString& table);
 
     Euro sum(int column) const;
+    bool isColumnEmpty(int column) const;
 
 protected:
     class Cell {
@@ -21,6 +22,7 @@ protected:
         QString content(TaulukonKasittelija* processor, int column) const;
         bool isEmpty() const;
         bool isZero() const;
+        bool isSum() const;
         Euro sum() const;
     protected:
         QString cleaned() const;
@@ -39,9 +41,11 @@ protected:
         Row(const QString& content);
 
         bool isEmpty() const;
-        bool isZero() const;
+        bool isZero() const;        
         QString content(TaulukonKasittelija* processer) const;
         Euro sum(int column) const;
+
+        QVector<Cell> cells() const;
 
     protected:
         QVector<Cell> cells_;
@@ -51,13 +55,14 @@ protected:
 private:
     TaulukonKasittelija();
     QString process(const QString& table);
-
-    void makeTable(const QString& table);
+    void checkEmptyColumns();
+    void makeTable(const QString& table);    
     QString getTable();
 
 private:
     QString tag_;
     QList<Row> rows_;
+    QVector<bool> emptyColumns_;
 
 };
 
