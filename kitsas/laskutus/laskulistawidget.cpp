@@ -206,7 +206,7 @@ void LaskulistaWidget::paivitaNapit()
     ui->uusiNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->ryhmalaskuNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 
-    if( ui->tabs->currentIndex() >= KAIKKI )
+    if( ui->tabs->currentIndex() >= LAHETETTAVAT )
         ui->poistaNappi->setEnabled( index.isValid() && !lukittu &&
                                      ( qAbs(index.data( LaskuTauluModel::SummaRooli ).toDouble() - index.data( LaskuTauluModel::AvoinnaRooli ).toDouble()) < 1e-5 || tyyppi != TositeTyyppi::MYYNTILASKU )
                                      && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN)
