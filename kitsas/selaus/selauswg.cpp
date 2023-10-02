@@ -324,11 +324,11 @@ void SelausWg::paivitaSummat(QVariant *data)
         }
 
         if( saldo_ ) {
-            ui->summaLabel->setText( tr("Debet %L1   Kredit %L2 \nLoppusaldo %L3")
-                    .arg( debetSumma.display(), kreditSumma.display(),saldo_.display()));
+            ui->summaLabel->setText( tr("Debet %L1\tKredit %L2 \nLoppusaldo %L3\tLkm %L4")
+                                        .arg( debetSumma.display(), kreditSumma.display(),saldo_.display(), QString::number(model->rowCount())));
         } else {
-            ui->summaLabel->setText( tr("Debet %L1\tKredit %L2")
-                    .arg( debetSumma.display(), kreditSumma.display()) );
+            ui->summaLabel->setText( tr("Debet %L1\tKredit %L2\tLkm %L3")
+                                        .arg( debetSumma.display(), kreditSumma.display(), QString::number(model->rowCount())) );
         }
 
 
@@ -340,7 +340,7 @@ void SelausWg::paivitaSummat(QVariant *data)
         {
             summa += model->index(i, TositeSelausModel::SUMMA).data(Qt::EditRole).toLongLong();
         }
-        ui->summaLabel->setText( tr("Summa %L1").arg(summa.display()));
+        ui->summaLabel->setText( tr("Summa %1 \tLkm %L2").arg(summa.display(), QString::number(model->rowCount())));
 
     }
 
