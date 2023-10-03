@@ -179,7 +179,7 @@ void LaskulistaWidget::paivitaNapit()
     int tila = index.data(LaskuTauluModel::TilaRooli).toInt();
 
     QDate pvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
-    bool lukittu = pvm < kp()->tilitpaatetty() || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
+    bool lukittu = pvm <= kp()->tilitpaatetty() || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
 
     ui->lahetaNappi->setEnabled( index.isValid()
                                  && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
