@@ -209,15 +209,15 @@
 <h2>Oman pääoman muutokset</h2>
 <table width="100%">
   <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
-  <tr><td>Oma pääoma {{alkupvm}}</td><td align="right">{{s20..24}}</td><td align="right">{{S20..24}}</td></tr>
+  <tr><td>Oma pääoma {{alkupvm}}</td><td align="right">{{s20..23}}</td><td align="right">{{S20..23}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
   <tr><td>Yksityissijoitukset</td><td align="right">{{e2361..2364}}</td><td align="right">{{E2361..2364}}</td></tr>
   <tr><td>Yksityisotot</td><td align="right">{{e2365..2369}}</td><td align="right">{{E2365..2369}}</td></tr>
   <tr><td>Tilikauden voitto (tappio) </td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td>Oman pääoman lisäys (vähennys) yhteensä</td><td align="right">{{d20..24}}</td><td align="right">{{D20..24}}</td></tr>
+  <tr><td>Oman pääoman lisäys (vähennys) yhteensä</td><td align="right">{{d20..23}}</td><td align="right">{{D20..23}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td>Oma pääoma {{loppupvm}}</td><td align="right">{{e20..24}}</td><td align="right">{{E20..24}}</td></tr>
+  <tr><td>Oma pääoma {{loppupvm}}</td><td align="right">{{e20..23}}</td><td align="right">{{E20..23}}</td></tr>
 </table>
 ?
 ##Kirjanpito
