@@ -218,6 +218,7 @@ void LaskulistaWidget::paivitaNapit()
             ui->poistaNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN) &&
                                         !lukittu &&
                                         summa == avoinna );
+        }
     } else
         // Luonnoksen voi aina poistaa
         ui->poistaNappi->setEnabled( validi && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
