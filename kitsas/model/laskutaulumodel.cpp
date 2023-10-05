@@ -248,7 +248,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
     case SeliteRooli:
         return map.value("selite");
     case TilaRooli:
-        return map.value("tila");
+        return ostoja_ ? Tosite::KIRJANPIDOSSA : map.value("tila");
     case SummaRooli:
         return map.value("summa");
     case OtsikkoRooli:
