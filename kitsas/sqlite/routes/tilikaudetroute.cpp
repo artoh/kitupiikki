@@ -426,9 +426,9 @@ void TilikaudetRoute::yksityistilit(const Tilikausi &kausi, QVariantMap &ulos)
 
         kysely.exec(QString("SELECT tili, SUM(COALESCE(kreditsnt,0)) - SUM(COALESCE(debetsnt,0)) AS saldo FROM Vienti "
             "JOIN Tosite ON Vienti.tosite=Tosite.id JOIN Tili ON Vienti.tili=Tili.numero "
-            "WHERE Tosite.tila >= 100 AND Tili.tyyppi='BY' AND Vienti.pvm BETWEEN '%1' AND '%2' "
+            "WHERE Tosite.tila >= 100 AND Tili.tyyppi='BY' AND Vienti.pvm <= '%1' "
             "GROUP BY tili")
-                        .arg(kausi.alkaa().toString(Qt::ISODate), kausi.paattyy().toString(Qt::ISODate)));
+                        .arg( kausi.paattyy().toString(Qt::ISODate)));
         while( kysely.next() ) {
             tiliMap.insert( kysely.value(0).toString(), Euro::fromCents(kysely.value(1).toLongLong()).toString() );
         }
