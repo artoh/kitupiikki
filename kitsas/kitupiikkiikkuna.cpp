@@ -52,6 +52,7 @@
 #include "alv/alvsivu.h"
 #include "kirjaus/tallennettuwidget.h"
 #include "toimisto/toimistosivu.h"
+#include "toimisto/hubtoimistosivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -85,6 +86,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
     toimistosivu( new ToimistoSivu(this)),
+    hubToimistoSivu(new HubToimistoSivu(this)),
+    majavaSivu(new HubToimistoSivu(this, HubToimistoSivu::MAJAVA)),
     nykysivu(nullptr),
     onni_(new OnniWidget(this))
 
@@ -252,6 +255,8 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
     sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+    sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
+    sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
 
     valitseSivu(ALOITUSSIVU);
 }
@@ -497,7 +502,10 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);    
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+0", HUBTOIMISTOSIVU, hubToimistoSivu);
+    lisaaSivu(tr("Majava"), ":/pixaby/majava.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "", MAJAVASIVU, majavaSivu);
+
 
     paivitaPossu();
     aktioryhma->actions().first()->setChecked(true);

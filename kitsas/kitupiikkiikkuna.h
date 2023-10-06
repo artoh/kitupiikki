@@ -37,6 +37,7 @@ class LaskuSivu;
 class AlvSivu;
 class OnniWidget;
 class ToimistoSivu;
+class HubToimistoSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -63,7 +64,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = nullptr);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, TOIMISTOSIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, TOIMISTOSIVU, HUBTOIMISTOSIVU, MAJAVASIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -142,6 +143,9 @@ protected:
     ArkistoSivu *arkistosivu;
     AlvSivu *alvsivu;
     ToimistoSivu* toimistosivu;
+    HubToimistoSivu* hubToimistoSivu;
+    HubToimistoSivu* majavaSivu;
+
     KitupiikkiSivu *nykysivu;
 
     QStack<int> edellisetIndeksit;
