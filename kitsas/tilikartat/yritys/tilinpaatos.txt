@@ -141,7 +141,7 @@
   <tr><td>Arvonkorotusrahaston lisäys</td><td align="right">{{d203}}</td><td align="right">{{D203}}</td></tr>
   <tr><td>Arvonkorotusrahasto {{loppupvm}}</td><td align="right">{{e203}}</td><td align="right">{{E203}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td><b>Sidottu oma pääoma yhteensä</b></td><td align="right"><b>{{s200..205}}</b></td><td align="right"><b>{{S200..205}}</b></td></tr>
+  <tr><td><b>Sidottu oma pääoma yhteensä</b></td><td align="right"><b>{{e200..205}}</b></td><td align="right"><b>{{E200..205}}</b></td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
   <tr><td>Sijoitetun vapaan oman pääoman rahasto {{alkupvm}}</td><td align="right">{{s206}}</td><td align="right">{{S206}}</td></tr>
   <tr><td>Sijoitetun vapaan oman pääoman lisäys</td><td align="right">{{d206}}</td><td align="right">{{D206}}</td></tr>
@@ -169,9 +169,9 @@
   <tr><td>Oman pääoman ehtoisen pääomalainan lisäys</td><td align="right">{{d238}}</td><td align="right">{{D238}}</td></tr>
   <tr><td>Oman pääoman ehtoinen pääomalaina {{loppupvm}}</td><td align="right">{{e238}}</td><td align="right">{{E238}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td><b>Vapaa oma pääoma yhteensä</b></td><td align="right"><b>{{e206..24}}</b></td><td align="right"><b>{{E206..24}}</b></td></tr>
+  <tr><td><b>Vapaa oma pääoma yhteensä</b></td><td align="right"><b>{{e206..238}}</b></td><td align="right"><b>{{E206..238}}</b></td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td><b>OMA PÄÄOMA YHTEENSÄ</b></td><td align="right"><b>{{e20..24}}</b></td><td align="right"><b>{{E20..24}}</b></td></tr>
+  <tr><td><b>OMA PÄÄOMA YHTEENSÄ</b></td><td align="right"><b>{{e20..238}}</b></td><td align="right"><b>{{E20..238}}</b></td></tr>
 </table>
 
 <p>  </p>
@@ -192,7 +192,7 @@
 </table>
 
 @? e238 e280
-<p>Pääomalainan haltijat ovat oikeudettuja X,XX euroon jakokelpoisesta vapaasta omasta pääomasta.</p>
+<p>Pääomalainan haltijat ovat oikeutettuja X,XX euroon jakokelpoisesta vapaasta omasta pääomasta.</p>
 @?
 
 #oyeiosinko -oykaytto Ei osinkoa
@@ -209,15 +209,15 @@
 <h2>Oman pääoman muutokset</h2>
 <table width="100%">
   <tr><th width="50%"> </th><th align="right" width="25%">{{kausi.loppupvm}}</th><th align="right" width="25%">{{edkausi.loppupvm}}</th></tr>
-  <tr><td>Oma pääoma {{alkupvm}}</td><td align="right">{{s20..23}}</td><td align="right">{{S20..23}}</td></tr>
+  <tr><td>Oma pääoma {{alkupvm}}</td><td align="right">{{s20..238}}</td><td align="right">{{S20..238}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
   <tr><td>Yksityissijoitukset</td><td align="right">{{e2361..2364}}</td><td align="right">{{E2361..2364}}</td></tr>
   <tr><td>Yksityisotot</td><td align="right">{{e2365..2369}}</td><td align="right">{{E2365..2369}}</td></tr>
   <tr><td>Tilikauden voitto (tappio) </td><td align="right">{{e2371}}</td><td align="right">{{E2371}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td>Oman pääoman lisäys (vähennys) yhteensä</td><td align="right">{{d20..23}}</td><td align="right">{{D20..23}}</td></tr>
+  <tr><td>Oman pääoman lisäys (vähennys) yhteensä</td><td align="right">{{d20..238}}</td><td align="right">{{D20..238}}</td></tr>
   <tr><td> </td><td> </td><td> </td></tr>
-  <tr><td>Oma pääoma {{loppupvm}}</td><td align="right">{{e20..23}}</td><td align="right">{{E20..23}}</td></tr>
+  <tr><td>Oma pääoma {{loppupvm}}</td><td align="right">{{e20..238}}</td><td align="right">{{E20..238}}</td></tr>
 </table>
 ?
 ##Kirjanpito
