@@ -48,7 +48,7 @@ void YksityistilienPaattaja::accept()
     tosite->asetaOtsikko( tr("Yksityistilien %1 päättäminen").arg(kausi_.kausivaliTekstina()));
     tosite->asetaSarja(kp()->tositeTyypit()->sarja( TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN ) );;
 
-    if( ui->paataTilit) {
+    if( ui->paataTilit->isChecked()) {
         Euro summa;
 
         QMapIterator<QString, QVariant> i(data_.value("tilit").toMap());
@@ -72,7 +72,7 @@ void YksityistilienPaattaja::accept()
         tosite->viennit()->lisaa(vastaVienti);
     }
 
-    if( ui->paataTulos) {
+    if( ui->paataTulos->isChecked()) {
         QString selite = tr("Tilikauden %1 tuloksen päättäminen peruspääomaan").arg(kausi_.kausivaliTekstina());
         Euro tulos = data_.value("tulos").toString();
 
