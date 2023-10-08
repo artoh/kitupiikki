@@ -20,6 +20,8 @@
 #include <QDialog>
 #include <QVariantMap>
 
+#include "model/maksutapa.h"
+
 namespace Ui {
 class MaksutapaMuokkausDlg;
 }
@@ -35,7 +37,7 @@ public:
     ~MaksutapaMuokkausDlg();
 
 public:
-    QVariantMap muokkaa(const QVariantMap& ladattu = QVariantMap());
+    Maksutapa muokkaaMaksutapa(const Maksutapa &muokattava = Maksutapa());
 
 
 private:

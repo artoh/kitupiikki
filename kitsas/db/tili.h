@@ -112,7 +112,7 @@ public:
      * @brief Millä tasolla tase-erittely laaditaan
      * @return TaseErittelyTapa
      */
-    int taseErittelyTapa();
+    int taseErittelyTapa() const;
     /**
      * @brief Pidetäänkö tase-eristä kirjaa
      *
@@ -120,7 +120,7 @@ public:
      *
      * @return
      */
-    bool eritellaankoTase()  { return taseErittelyTapa() == TASEERITTELY_TAYSI ||
+    bool eritellaankoTase() const  { return taseErittelyTapa() == TASEERITTELY_TAYSI ||
                                   taseErittelyTapa() == TASEERITTELY_LISTA;  }
 
     QVariantMap data() const;

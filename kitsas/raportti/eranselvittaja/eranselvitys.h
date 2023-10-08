@@ -9,6 +9,9 @@
 class EranSelvitysTiliModel;
 class EranSelvitysEraModel;
 class EranSelvitysViennit;
+class EranSelvitysSortFilterProxyModel;
+
+class QTableView;
 
 class EranSelvitys : public QMainWindow
 {
@@ -20,13 +23,20 @@ public:
 signals:
 
 protected:
+    void initToolbar();
+
     void tiliValittu(const QItemSelection& selected);
     void eraValittu(const QItemSelection& selected);
     void naytaVienti(const QModelIndex& index);
 
+    void eratLadattu();
+
     EranSelvitysTiliModel* tiliModel_;
     EranSelvitysEraModel *eraModel_;
     EranSelvitysViennit *viennit_;
+    EranSelvitysSortFilterProxyModel *proxyModel_;
+
+    QTableView* eraView_;
 
     int tili_ = 0;
     QDate date_;

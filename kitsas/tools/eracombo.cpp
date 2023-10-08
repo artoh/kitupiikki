@@ -57,8 +57,14 @@ void EraCombo::asetaTili(int tili, int asiakas)
 
 void EraCombo::valitseUusiEra()
 {
-    era_.clear();
-    era_.insert("id",-1);
+    era_ = EraMap(EraMap::Uusi);
+    paivita();
+}
+
+void EraCombo::valitseEiEraa()
+{
+    era_ = EraMap(EraMap::EiEraa);
+    paivita();
 }
 
 void EraCombo::valitse(const EraMap &eraMap)
@@ -90,7 +96,7 @@ void EraCombo::paivita()
         addItem(QIcon(":/pic/talo.png"),  huoneistoNimiIdlla(era_.id()) ,era_);
     }
 
-    addItem(QIcon(":/pic/tyhja.png"), tr("Ei tase-erää"), EraMap(EraMap::EiEraa));
+    addItem(QIcon(":/pic/huomio.png"), tr("Ei tase-erää (Erittelemätön)"), EraMap(EraMap::EiEraa));
     addItem(QIcon(":/pic/lisaa.png"), tr("Uusi tase-erä"), EraMap(EraMap::Uusi));
     addItem(QIcon(":/pic/lasku.png"), tr("Valitse tase-erä"), EraMap(EraMap::Valitse));
 

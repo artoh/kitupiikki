@@ -18,6 +18,7 @@
 #define MAKSUTAPAMODEL_H
 
 #include <QAbstractTableModel>
+#include "maksutapa.h"
 
 class MaksutapaModel : public QAbstractTableModel
 {
@@ -39,9 +40,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    QVariantMap rivi(int indeksi);
-    void lisaaRivi(int indeksi, QVariantMap rivi);
-    void muutaRivi(int indeksi, QVariantMap rivi);
+    Maksutapa maksutapa(int indeksi) const;
+    void lisaaRivi(int indeksi, const Maksutapa& maksutapa);
+    void muutaRivi(int indeksi, const Maksutapa& maksutapa);
     void poistaRivi(int indeksi);
 
     void siirra(int mista, int minne);
@@ -52,7 +53,7 @@ public slots:
 
 
 private:
-    QVariantList lista_;
+    QList<Maksutapa> maksutavat_;
     int tuloVaiMeno_ = 0;
 };
 

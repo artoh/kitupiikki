@@ -2780,7 +2780,7 @@
             "sv": "Grundkapital"
         },
         "erittely": 1,
-        "laajuus": 6,
+        "laajuus": 1,
         "muodot": [
             "tmi"
         ]
@@ -2979,7 +2979,7 @@
     },
     {
         "numero": 2341,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityissijoitukset rahana yhtiömies A",
             "sv": "Privata insättningar kontant bolagsman A"
@@ -2993,7 +2993,7 @@
     },
     {
         "numero": 2343,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Muut yksityissijoitukset yhtiömies A",
             "sv": "Övriga privata insättningar bolagsman A"
@@ -3007,7 +3007,7 @@
     },
     {
         "numero": 2345,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Yksityissijoitukset rahana yhtiömies B",
             "sv": "Privata insättningar kontant bolagsman B"
@@ -3021,7 +3021,7 @@
     },
     {
         "numero": 2347,
-        "tyyppi": "B",
+        "tyyppi": "BY",
         "nimi": {
             "fi": "Muut yksityissijoitukset  yhtiömies B",
             "sv": "Övriga privata insättningar bolagsman B"
@@ -10356,7 +10356,7 @@
     },
     {
         "numero": 9910,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Ennakonpidätys työkorvauksista",
             "sv": "Förskottsinnehållning på arbetsersättning"
@@ -10370,7 +10370,7 @@
     },
     {
         "numero": 9920,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Veronhyvitys osingoista",
             "sv": "Gottgörelse för dividender"
@@ -10384,7 +10384,7 @@
     },
     {
         "numero": 9930,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Lähdeverot",
             "sv": "Källskatter"
@@ -10398,7 +10398,7 @@
     },
     {
         "numero": 9940,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Tilikauden verojaksotus",
             "sv": "Räkenskapsperiodens skatteperiodisering"
@@ -10412,7 +10412,7 @@
     },
     {
         "numero": 9950,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Veronpalautukset / jäännösverot",
             "sv": "Skatteåterbäringar/Restskatt"
@@ -10426,7 +10426,7 @@
     },
     {
         "numero": 9960,
-        "tyyppi": "DVE",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Muut tuloverot",
             "sv": "Övriga inkomstskatter"
@@ -10448,7 +10448,7 @@
     },
     {
         "numero": 9970,
-        "tyyppi": "D",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Laskennalliset verot",
             "sv": "Latenta skatter"
@@ -10465,7 +10465,7 @@
     },
     {
         "numero": 9980,
-        "tyyppi": "D",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Varallisuusverot / Muut välittömät verot",
             "sv": "Förmögenhetsskatter / Övriga direkta skatter"
@@ -10482,7 +10482,7 @@
     },
     {
         "numero": 9990,
-        "tyyppi": "D",
+        "tyyppi": "DZ",
         "nimi": {
             "fi": "Vähemmistöosuudet",
             "sv": "Minoritetsandelar"

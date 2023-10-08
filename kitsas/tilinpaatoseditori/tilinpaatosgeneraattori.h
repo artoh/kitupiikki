@@ -14,7 +14,7 @@ public:
     QString html() const;
     QStringList raportit() const;
 
-    enum SaldoTyyppi { Nykyinen, NykyinenAlku, EdellinenAlku};
+    enum SaldoTyyppi { Nykyinen, NykyinenAlku, Edellinen, EdellinenAlku};
 protected:
     void tilaaSaldot();
     void tilaaSaldo(SaldoTyyppi tyyppi);
@@ -24,6 +24,7 @@ protected:
     void tekstiRivi(const QString& rivi);
 
     bool ehto(const QString ehto);
+    bool kyssariTesti(const QString& ehto);
     void atRivi(const QString& rivi);
     QString henkilostoTaulukko(const QString& teksti);
     Euro laskenta(const QString& kaava);
@@ -43,6 +44,7 @@ protected:
     protected:
         Euro saldo_;
         Euro alkusaldo_;
+        Euro edellinen_;
         Euro edellinenAlku_;
     };
 

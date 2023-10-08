@@ -316,14 +316,14 @@ bool TilinavausModel::tallenna(int tila)
                         vienti.setEra(era.vienti());
                     else
                         vienti.setEra(-1);
-                }
 
-                // Ostosaamiset ja velat -kirjataan niin,
-                // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
-                if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
-                    vienti.setTyyppi( TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS );
-                else if( tilio.onko(TiliLaji::OSTOVELKA) )
-                    vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
+                    // Ostosaamiset ja velat -kirjataan niin,
+                    // että ne voidaan kirjata maksetuiksi Maksettu lasku -valinnalla
+                    if(  tilio.onko(TiliLaji::MYYNTISAATAVA) )
+                        vienti.setTyyppi( TositeTyyppi::TULO + TositeVienti::VASTAKIRJAUS );
+                    else if( tilio.onko(TiliLaji::OSTOVELKA) )
+                        vienti.setTyyppi( TositeTyyppi::MENO + TositeVienti::VASTAKIRJAUS );
+                }
 
                 vienti.setSelite( era.eranimi() );
                 vienti.setTasaerapoisto( era.tasapoisto());

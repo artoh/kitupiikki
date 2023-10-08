@@ -541,6 +541,8 @@ void KantaLaskuDialogi::paivitaLaskutustavat()
         } else if( finvoiceMoodi == VerkkolaskuMaaritys::MAVENTA && autentikointitila != "SIGNED"
                    && autentikointitila != "NONE" && autentikointitila != "VERIFIED" && autentikointitila != "PROFILESOK") {
             verkkolaskuUrputus( tr("Verkkolaskutuksen käyttöönotto on kesken.") );
+        } else if(tosite_->tila() >= Tosite::LAHETETTYLASKU) {
+            verkkolaskuUrputus(tr("Muokattua laskua ei voi lähettää verkkolaskuna. Laadi tarvittaessa hyvityslasku."));
         } else {
             verkkolaskuUrputus();
             ui->laskutusCombo->addItem( QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), Lasku::VERKKOLASKU);

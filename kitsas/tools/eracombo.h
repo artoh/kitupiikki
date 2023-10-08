@@ -34,6 +34,7 @@ public:
 public slots:
     void asetaTili(int tili, int asiakas=0);
     void valitseUusiEra();
+    void valitseEiEraa();
     void valitse(const EraMap& eraMap);
 
 protected:

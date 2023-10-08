@@ -105,7 +105,7 @@ bool Tili::onko(TiliLaji::TiliLuonne luonne) const
     return tyyppi().onko(luonne);
 }
 
-int Tili::taseErittelyTapa()
+int Tili::taseErittelyTapa() const
 {
 
     return luku("erittely");

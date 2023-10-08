@@ -44,7 +44,7 @@ int MaksutapaModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return lista_.count() + 1;
+    return maksutavat_.count() + 1;
 }
 
 int MaksutapaModel::columnCount(const QModelIndex &parent) const
@@ -60,7 +60,7 @@ QVariant MaksutapaModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if( index.row() == lista_.count()) {
+    if( index.row() == maksutavat_.count()) {
         if( role == Qt::DisplayRole || role == Qt::EditRole) {
             if( index.column() == NIMI)
                 return tr("Kaikki vastatilit");
@@ -69,45 +69,45 @@ QVariant MaksutapaModel::data(const QModelIndex &index, int role) const
 
         return QVariant();
     }
-
-    QVariantMap map = lista_.value(index.row()).toMap();
+    
+    const Maksutapa& tapa = maksutavat_.at(index.row());
+    
     if( role == Qt::DisplayRole || role == Qt::EditRole) {
         if( index.column() == NIMI) {
-            Monikielinen kk( map );
-            return kk.teksti();
+            return tapa.nimi();
         } else if( index.column() == TILI) {
-            return kp()->tilit()->tiliNumerolla( map.value("TILI").toInt() ).nimiNumero();
+            return kp()->tilit()->tiliNumerolla( tapa.tili() ).nimiNumero();
         } else if( index.column() == ERA) {
-            if( map.value("ERA").toInt() == -1 )
+            if( tapa.uusiEra() )
                 return "X";
         }
     } else if( role == Qt::DecorationRole && index.column() == NIMI) {
-        return QIcon(":/maksutavat/" + map.value("KUVA").toString() + ".png");
+        return QIcon(":/maksutavat/" + tapa.kuva() + ".png");
     } else if( role == TiliRooli) {
-        return map.value("TILI");
+        return tapa.tili();
     } else if( role == UusiEraRooli) {
-        return map.value("ERA").toInt();
+        return tapa.uusiEra();
     }
 
     return QVariant();
 }
 
-QVariantMap MaksutapaModel::rivi(int indeksi)
+Maksutapa MaksutapaModel::maksutapa(int indeksi) const
 {
-    return lista_.value(indeksi).toMap();
+    return maksutavat_.value(indeksi);
 }
 
-void MaksutapaModel::lisaaRivi(int indeksi, QVariantMap rivi)
+void MaksutapaModel::lisaaRivi(int indeksi, const Maksutapa &maksutapa)
 {
     beginInsertRows(QModelIndex(), indeksi, indeksi);
-    lista_.insert(indeksi, rivi);
+    maksutavat_.insert(indeksi, maksutapa);
     endInsertRows();
     tallenna();
 }
 
-void MaksutapaModel::muutaRivi(int indeksi, QVariantMap rivi)
+void MaksutapaModel::muutaRivi(int indeksi, const Maksutapa &maksutapa)
 {
-    lista_[indeksi] = rivi;
+    maksutavat_[indeksi] = maksutapa;
     emit dataChanged(index(indeksi,0), index(indeksi,3));
     tallenna();
 }
@@ -115,14 +115,14 @@ void MaksutapaModel::muutaRivi(int indeksi, QVariantMap rivi)
 void MaksutapaModel::poistaRivi(int indeksi)
 {
     beginRemoveRows(QModelIndex(), indeksi, indeksi);
-    lista_.removeAt(indeksi);
+    maksutavat_.removeAt(indeksi);
     endRemoveRows();
     tallenna();
 }
 
 void MaksutapaModel::siirra(int mista, int minne)
 {
-    lista_.move(mista, minne);
+    maksutavat_.move(mista, minne);
     emit dataChanged(index(mista,0), index(minne,ERA));
     tallenna();
 }
@@ -130,14 +130,27 @@ void MaksutapaModel::siirra(int mista, int minne)
 void MaksutapaModel::lataa(int tuloVaiMeno)
 {
     tuloVaiMeno_ = tuloVaiMeno;
+    const QString& muoto = kp()->asetukset()->asetus(AsetusModel::Muoto);
+
     beginResetModel();
-    lista_ = QJsonDocument::fromJson( kp()->asetukset()->asetus( tuloVaiMeno == MENO ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList();
+    QVariantList lista = QJsonDocument::fromJson( kp()->asetukset()->asetus( tuloVaiMeno == MENO ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList();
+    for(const auto& item: lista) {
+        Maksutapa maksutapa(item.toMap());
+        const QString& muotoEhto = maksutapa.muotoehto();
+        if( !muotoEhto.isEmpty() && muotoEhto != muoto)
+            continue;
+        maksutavat_.append(maksutapa);
+    }
     endResetModel();
 }
 
 void MaksutapaModel::tallenna()
 {
-    QString json = QString::fromUtf8(QJsonDocument::fromVariant( lista_ ).toJson());
+    QVariantList lista;
+    for(const auto& tapa: maksutavat_)
+        lista.append(tapa.map());
+
+    QString json = QString::fromUtf8(QJsonDocument::fromVariant( lista ).toJson());
     if( tuloVaiMeno_ == MENO)
         kp()->asetukset()->aseta("maksutavat-", json);
     else if( tuloVaiMeno_ == TULO)

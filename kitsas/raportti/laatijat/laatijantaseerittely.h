@@ -16,6 +16,7 @@ private:
 
     QDate mista_;
     QDate mihin_;
+    bool piilotaNollat_;
 };
 
 #endif // LAATIJANTASEERITTELY_H

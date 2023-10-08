@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "eramap.h"
+#include <QIcon>
 
 EraMap::EraMap()
 {
@@ -40,6 +41,11 @@ Euro EraMap::saldo() const
         return Euro::fromVariant(value("avoin"));
 }
 
+QIcon EraMap::tyyppiKuvake() const
+{
+    return kuvakeTyypilla( eratyyppi());
+}
+
 int EraMap::eratyyppi() const
 {
     if( id() > 0)
@@ -58,4 +64,23 @@ EraMap EraMap::AsiakasEra(int id, const QString &nimi)
     asMap.insert("id", id);
     map.insert("asiakas", asMap);
     return map;
+}
+
+QIcon EraMap::kuvakeTyypilla(int tyyppi)
+{
+    switch( tyyppi ) {
+    case Asiakas: return QIcon(":/pic/mies.png");
+    case Huoneisto: return QIcon(":/pic/talo.png");
+    case Lasku: return QIcon(":/pic/lasku.png");
+    case Uusi: return QIcon(":/pic/lisaa.png");
+    default: return QIcon(":/pic/tyhja.png");
+    }
+}
+
+QIcon EraMap::kuvakeIdlla(int eraid)
+{
+    if( eraid > 0)
+        return kuvakeTyypilla(Lasku);
+    else
+        return kuvakeTyypilla( eraid % 10 );
 }

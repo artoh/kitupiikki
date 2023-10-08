@@ -96,6 +96,11 @@ void RaportinKirjoittaja::lisaaRivi(const RaporttiRivi& rivi)
     rivit_.append(rivi);
 }
 
+void RaportinKirjoittaja::lisaaRivit(const QList<RaporttiRivi> rivit)
+{
+    rivit_.append(rivit);
+}
+
 void RaportinKirjoittaja::lisaaTyhjaRivi()
 {
     if( rivit_.count())

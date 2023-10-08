@@ -212,7 +212,6 @@ void TuloMenoApuri::teeReset()
 
     alusta( menoa );
 
-
     rivit_->clear();
     ui->viiteEdit->clear();    
     ui->erapaivaEdit->setNull();    
@@ -235,37 +234,35 @@ void TuloMenoApuri::teeReset()
 
 
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
-            Tili* vastatili = kp()->tilit()->tili( vienti.tili());
+            if(vienti.eraId()) {
+                valitutErat_.insert(vienti.tili(), vienti.era());
+            }
+
+            Tili* vastatili = kp()->tilit()->tili( vienti.tili());                        
             if( vastatili ) {
+                int maksutapaindeksi = ui->maksutapaCombo->count() - 1;
+                bool uusiEra = vienti.eraId() && vienti.eraId() == vienti.id(); // Tämä vienti aloittaa uuden erän
 
-                int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
-                if( maksutapaind >= 0)
-                {
-                    // Jotta hyvityslasku saisi oman tyyppinsä
-                    if( maksutapaModel_->index(maksutapaind,0).data(MaksutapaModel::UusiEraRooli).toBool() && vienti.eraId() > 0 &&
-                            vienti.eraId() != vienti.id()) {
-                        for(int i=0; i<maksutapaModel_->rowCount();i++) {
-                            QModelIndex indeksi = maksutapaModel_->index(i,0);
-                            if( indeksi.data(MaksutapaModel::TiliRooli).toInt() == vastatili->numero() && !indeksi.data(MaksutapaModel::UusiEraRooli).toBool()) {
-                                maksutapaind = i;
-                                break;
-                            }
-                        }
+                for(int i=0; i < ui->maksutapaCombo->count()-1; i++) {
+                    const int maksutavanTili = ui->maksutapaCombo->itemData(i, MaksutapaModel::TiliRooli).toInt();
+                    const bool uusiEraMaksutavassa = ui->maksutapaCombo->itemData(i, MaksutapaModel::UusiEraRooli).toBool();
+
+                    if( maksutavanTili == vastatili->numero() && uusiEra == uusiEraMaksutavassa) {
+                        maksutapaindeksi = i;
+                        break;
                     }
-                    ui->maksutapaCombo->setCurrentIndex(maksutapaind);
                 }
-                else
-                    ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);                
-
+                ui->maksutapaCombo->setCurrentIndex( maksutapaindeksi );
                 ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
                 if( vastatili->eritellaankoTase()) {
-                    if(vienti.eraId() == vienti.id())
+                    if(uusiEra)
                         ui->eraCombo->valitseUusiEra();
                     else
                         ui->eraCombo->valitse( vienti.era() );
                 }
                 maksutapaMuuttui();
+
                 if( !vienti.arkistotunnus().isEmpty())
                     arkistotunnus_ = vienti.arkistotunnus();
             }
@@ -577,24 +574,31 @@ void TuloMenoApuri::vastatiliMuuttui()
     if( vastatilinumero == vastatili_ &&
         vastatiliSaldoPaivitetty_.msecsTo(QDateTime::currentDateTime()) < 1000 ) return;
 
-    vastatili_ = vastatilinumero;
-    vastatiliSaldoPaivitetty_ = QDateTime::currentDateTime();
-
 
     Tili vastatili = kp()->tilit()->tiliNumerolla( vastatilinumero );
+    const bool uusiEraMaksutapa = ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool();
 
-    bool eritellankotaso = (vastatili.eritellaankoTase() &&
-             !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool()) ||
-              tosite()->viennit()->vienti(0).eraId() ;
+    bool eritellankotaso = vastatili.eritellaankoTase();
 
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->asetaTili( vastatili.numero() , ui->asiakasToimittaja->id());
-    if( ( !eritellankotaso
-          || ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toBool())
-         && !tosite()->viennit()->vienti(0).eraId() && sender() != ui->eraCombo) {
-        ui->eraCombo->valitseUusiEra();
+
+    if( vastatili_ != vastatilinumero ) {
+        // Vastatili on todellisuudessa muuttunut, vastatilin mukainen tase-erä
+        if( valitutErat_.contains(vastatili_)) {
+            ui->eraCombo->valitse(valitutErat_.value(vastatili_));
+        } else {
+            if( uusiEraMaksutapa )
+                ui->eraCombo->valitseUusiEra();
+            else
+                ui->eraCombo->valitseEiEraa();
+        }
     }
+
+    vastatili_ = vastatilinumero;
+    vastatiliSaldoPaivitetty_ = QDateTime::currentDateTime();
+
 
     const QString lisatietovalinta = kp()->asetukset()->asetus(AsetusModel::LaskuLisatiedot);
 
@@ -886,5 +890,6 @@ void TuloMenoApuri::eraValittu( EraMap era)
 {
     if( !ui->asiakasToimittaja->id())
         ui->asiakasToimittaja->valitse(era.kumppani());
+    valitutErat_.insert( vastatili_, era);
 }
 

@@ -54,19 +54,19 @@ void MaksutapaMuokkaus::setModel(MaksutapaModel *model)
 void MaksutapaMuokkaus::uusi()
 {
     MaksutapaMuokkausDlg dlg(this);
-    QVariantMap map = dlg.muokkaa();
-    if( map.contains("TILI"))
+    Maksutapa uusi = dlg.muokkaaMaksutapa();
+    if( uusi.tili())
         model_->lisaaRivi( ui->view->currentIndex().isValid() ?
                            ui->view->currentIndex().row() :
-                           model_->rowCount()-1, map );
+                           model_->rowCount()-1, uusi );
 }
 
 void MaksutapaMuokkaus::muokkaa()
 {
     if( ui->view->currentIndex().isValid()) {
         MaksutapaMuokkausDlg dlg(this);
-        QVariantMap muokattu = dlg.muokkaa( model_->rivi( ui->view->currentIndex().row()  ) );
-        if( muokattu.contains("TILI"))
+        const Maksutapa muokattu = dlg.muokkaaMaksutapa( model_->maksutapa( ui->view->currentIndex().row()  ) );
+        if( muokattu.tili())
             model_->muutaRivi( ui->view->currentIndex().row(), muokattu);
     }
 }

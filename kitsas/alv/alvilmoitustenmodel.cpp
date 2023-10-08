@@ -153,7 +153,7 @@ bool AlvIlmoitustenModel::onkoIlmoitettu(const QDate &paiva) const
 
 QDate AlvIlmoitustenModel::viimeinenIlmoitus() const
 {
-    QDate viimeinen = kp()->asetukset()->pvm("AlvAlkaa", kp()->tilitpaatetty().addDays(-1));
+    QDate viimeinen = kp()->asetukset()->pvm("AlvAlkaa", kp()->tilitpaatetty()).addDays(-1);
     for(const auto& item : qAsConst(ilmoitukset_)) {
         if( item.paattyy() > viimeinen)
             viimeinen = item.paattyy();

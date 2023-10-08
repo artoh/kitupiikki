@@ -1,5 +1,6 @@
 #include "eranselvityseramodel.h"
 #include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
 
 EranSelvitysEraModel::EranSelvitysEraModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -40,39 +41,95 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    const EraMap& era = erat_.at(index.row());
+    const SelvitysEra& era = erat_.at(index.row());
 
-    if( role == Qt::DisplayRole) {
+    if( role == Qt::DisplayRole | role == Qt::EditRole) {
         switch( index.column()) {
         case PVM:
             return era.pvm().isValid() ? era.pvm().toString("dd.MM.yyyy") : "";
         case KUMPPANI:
-            return era.kumppaniNimi();
+            return era.nimi();
         case SELITE:
-            if( era.id() == 0) return tr("Erittelemättömät");
-            else if( era.eratyyppi() == EraMap::Asiakas) return era.asiakasNimi();
-            else if( era.eratyyppi() == EraMap::Huoneisto) return era.huoneistoNimi();
-            else return era.nimi();
-        case SALDO:
-            return era.saldo().display(true);
+            if( era.id() == 0)
+                return tr("Erittelemättömät");
+            else
+                return era.selite();
+        case SALDO: {
+            Euro saldo = era.saldo();
+            if( QString::number(tili_.numero()).startsWith("1"))
+                saldo = Euro::Zero - saldo;
+            return saldo.display(true);
+            }
         }
     } else if( role == Qt::TextAlignmentRole) {
         if( index.column() == SALDO) return Qt::AlignRight;
     } else if( role == Qt::UserRole) {
         return era.id();
+    } else if( role == Qt::DecorationRole && index.column() == SELITE) {
+        if( tili_.eritellaankoTase() && era.id() == 0) {
+            return QIcon(":/pic/huomio.png");
+        } else {
+            return EraMap::kuvakeIdlla(era.id());
+        }
     }
 
     return QVariant();
 }
 
+Qt::ItemFlags EranSelvitysEraModel::flags(const QModelIndex &index) const
+{
+    const int eraid = index.data(Qt::UserRole).toInt();
+
+    if( index.column() == SELITE && eraid > 0 && kp()->yhteysModel()->onkoOikeutta(YhteysModel::TOSITE_MUOKKAUS)) {
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+    }
+
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+bool EranSelvitysEraModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if( role == Qt::EditRole) {
+        if( index.column() == SELITE) {
+            SelvitysEra era = erat_.at(index.row());
+            era.setSelite(value.toString());
+            erat_[index.row()] = era;
+
+            KpKysely* kysely = kpk(QString("/viennit/%1").arg(era.id()), KpKysely::PATCH);
+            QVariantMap data;
+            data.insert("selite", value.toString());
+            kysely->kysy(data);
+
+            emit dataChanged(index, index);
+            return true;
+        }
+    }
+    return false;
+}
+
 void EranSelvitysEraModel::load(const int tili, const QDate& date)
 {
-    KpKysely* kysely = kpk("/erat");
-    kysely->lisaaAttribuutti("tili", tili);
-    kysely->lisaaAttribuutti("selvitys");
-    kysely->lisaaAttribuutti("pvm", date);
+    tili_ = kp()->tilit()->tiliNumerolla(tili);
+    saldopvm_ = date;
+
+    refresh();
+}
+
+void EranSelvitysEraModel::refresh()
+{
+    KpKysely* kysely = kpk("/erat/selvittely");
+    kysely->lisaaAttribuutti("tili", tili_.numero());
+    kysely->lisaaAttribuutti("pvm", saldopvm_);
+    if( nollatut_)
+        kysely->lisaaAttribuutti("nollat", "true");
     connect( kysely, &KpKysely::vastaus, this, &EranSelvitysEraModel::eratSaapuu);
     kysely->kysy();
+}
+
+void EranSelvitysEraModel::naytaNollatut(bool nollatut)
+{
+    nollatut_ = nollatut;
+    refresh();
 }
 
 void EranSelvitysEraModel::eratSaapuu(QVariant *data)
@@ -81,7 +138,26 @@ void EranSelvitysEraModel::eratSaapuu(QVariant *data)
     erat_.clear();
     for(const auto& item : data->toList()) {
         QVariantMap map = item.toMap();
-        erat_.append( EraMap(map));
+        erat_.append( SelvitysEra(map));
     }
     endResetModel();
+}
+
+EranSelvitysEraModel::SelvitysEra::SelvitysEra()
+{
+
+}
+
+EranSelvitysEraModel::SelvitysEra::SelvitysEra(const QVariantMap &map)
+{
+    id_ = map.value("id").toInt();
+    pvm_ = map.value("pvm").toDate();
+    saldo_ = Euro::fromVariant(map.value("saldo"));
+    nimi_ = map.value("nimi").toString();
+    selite_ = map.value("selite").toString();
+}
+
+void EranSelvitysEraModel::SelvitysEra::setSelite(const QString &selite)
+{
+    selite_ = selite;
 }

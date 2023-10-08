@@ -45,10 +45,13 @@ public:
 
     int tunniste() const { return value("tunniste").toInt(); }
     QString sarja() const { return value("sarja").toString(); }
+    QIcon tyyppiKuvake() const;
 
     int eratyyppi() const;
 
     static EraMap AsiakasEra(int id, const QString& nimi);
+    static QIcon kuvakeTyypilla(int tyyppi);
+    static QIcon kuvakeIdlla(int eraid);
 };
 
 #endif // ERAMAP_H

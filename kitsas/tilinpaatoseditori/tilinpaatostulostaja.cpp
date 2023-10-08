@@ -37,7 +37,7 @@
 
 #include "raportti/raportinlaatija.h"
 
-
+#include "taulukonkasittelija.h"
 
 #include <cmath>
 
@@ -102,7 +102,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 
     doc.documentLayout()->setPaintDevice( painter.device() );
     doc.setPageSize( sivunkoko );
-    doc.setHtml( teksti_ );
+    doc.setHtml( kasitteleTaulukot(teksti_) );
 
     int pages = qRound(std::ceil( doc.size().height() / sivunkoko.height()  ));
     for( int i=0; i < pages; i++)
@@ -130,6 +130,33 @@ QString TilinpaatosTulostaja::otsikko() const
     return QString("%1 %2").arg(tulkkaa("Tilinpäätös", kieli_)).arg(tilikausi_.kausivaliTekstina());
 }
 
+QString TilinpaatosTulostaja::kasitteleTaulukot(const QString &teksti)
+{
+
+    QString out;
+    int position = 0;
+    int tablePosition = teksti.indexOf("<table");
+    while( tablePosition > 0) {
+
+        out.append( teksti.mid(position, tablePosition-position));
+
+        int tableEnd = teksti.indexOf("</table>", tablePosition);
+        QString table = teksti.mid(tablePosition, tableEnd - tablePosition + 8);
+
+        out.append(  TaulukonKasittelija::processTable(table) );
+
+        position = tableEnd + 8;
+        tablePosition = teksti.indexOf("<table", position);
+    }
+
+    out.append( teksti.mid(position));
+
+    qDebug() << out;
+
+    return out;
+}
+
+
 void TilinpaatosTulostaja::tilaaRaportit()
 {
     tilattuja_ = raportit_.count();
@@ -142,10 +169,10 @@ void TilinpaatosTulostaja::tilaaRaportit()
 
 void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi, const QString& kieli)
 {
-    tulostaKansilehti(painter, otsikko, kausi.kausivaliTekstina(), kieli);
+    tulostaKansilehti(painter, otsikko, kausi.kausivaliTekstina(), kieli, kausi.paattyy());
 }
 
-void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &otsikko, const QString &alaotsikko, const QString &kieli)
+void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &otsikko, const QString &alaotsikko, const QString &kieli, const QDate& kausiloppuu)
 {
     painter->save();
     painter->setFont(QFont("FreeSans",24,QFont::Bold));
@@ -174,6 +201,16 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &o
     painter->setFont(QFont("FreeSans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus*4 ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , alaotsikko);
+
+    painter->setFont(QFont("FreeSans",12));
+    if( kausiloppuu.isValid() ) {
+        QDate tilinpaatosSailytys = kausiloppuu.addYears(10);
+        painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
+                          QString(tulkkaa("Tilinpäätöstä on säilytettävä %1 saakka").arg(tilinpaatosSailytys.toString("dd.MM.yyyy"))));
+        QDate tositeSailytys = QDate( kausiloppuu.year() + 6, 12, 31 );
+        painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9 + painter->fontMetrics().height(), sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
+                          QString(tulkkaa("Tositteita on säilytettävä %1 saakka").arg(tositeSailytys.toString("dd.MM.yyyy"))));
+    }
 
     painter->setFont(QFont("FreeSans",12));
     QString omaOsoite = kp()->asetukset()->asetus(AsetusModel::Katuosoite) + "\n" +

@@ -345,6 +345,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
     }
 
     verolaskelma( kausi, ulos);
+    yksityistilit( kausi, ulos);
 
     return ulos;
 }
@@ -378,8 +379,10 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                     "WHERE Tosite.tila >= 100 AND (Tili.tyyppi='D' or Tili.tyyppi='DP') AND "
                     "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
-        if( kysely.next() )
+        if( kysely.next() ) {
             vahennykset = kysely.value(1).toLongLong() - kysely.value(0).toLongLong() ;
+            vmap.insert("taysivahennys", vahennykset / 100.0);
+        }
 
         // 50% VÄHENNYKSET
         kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
@@ -387,8 +390,11 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                     "WHERE Tosite.tila >= 100 AND Tili.tyyppi='DH' AND "
                     "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
-        if( kysely.next() )
-            vahennykset += ( kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 2;
+        if( kysely.next() ) {
+            const qlonglong puolivahennys = ( kysely.value(1).toLongLong() - kysely.value(0).toLongLong());
+            vahennykset += puolivahennys / 2;
+            vmap.insert("puolivahennys", puolivahennys / 100.0);
+        }
         vmap.insert("vahennys", vahennykset / 100.0);
 
         // ENNAKOT
@@ -400,14 +406,40 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
         if( kysely.next() )
             vmap.insert("ennakko",(kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
 
-        kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
-                    "WHERE Tosite.tila >= 100 AND Vienti.tili=%3 AND "
-                    "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
-                                                       .arg(kausi.paattyy().toString(Qt::ISODate))
-                                                       .arg(kp()->asetukset()->luku("Yleverotili", 8740)));
-        if( kysely.next())
-            vmap.insert("ennakkoyle", (kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
-
         ulos.insert("tulovero", vmap);
+    }
+}
+
+void TilikaudetRoute::yksityistilit(const Tilikausi &kausi, QVariantMap &ulos)
+{
+    QSqlQuery kysely(db());
+    // Tarkistetaan, onko tulovero jo kirjattu
+    kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
+                        "AND tyyppi=%2 AND tila >= 100 LIMIT 1")
+                    .arg(kausi.paattyy().addDays(1).toString(Qt::ISODate))
+                    .arg( TositeTyyppi::YKSITYISTILIEN_PAATTAMINEN ));
+    if( kysely.next()) {
+        ulos.insert("yksityistilit","kirjattu");
+    } else {
+        QVariantMap yksityistiliMap;
+        QVariantMap tiliMap;
+
+        kysely.exec(QString("SELECT tili, SUM(COALESCE(kreditsnt,0)) - SUM(COALESCE(debetsnt,0)) AS saldo FROM Vienti "
+            "JOIN Tosite ON Vienti.tosite=Tosite.id JOIN Tili ON Vienti.tili=Tili.numero "
+            "WHERE Tosite.tila >= 100 AND Tili.tyyppi='BY' AND Vienti.pvm <= '%1' "
+            "GROUP BY tili")
+                        .arg( kausi.paattyy().toString(Qt::ISODate)));
+        while( kysely.next() ) {
+            tiliMap.insert( kysely.value(0).toString(), Euro::fromCents(kysely.value(1).toLongLong()).toString() );
+        }
+        yksityistiliMap.insert("tilit", tiliMap);
+
+        kysely.exec(QString("SELECT SUM(COALESCE(kreditsnt,0)) - SUM(COALESCE(debetsnt,0)) AS tulos FROM "
+            "Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili AS TEXT) >= '3' AND Vienti.pvm BETWEEN '%1' AND '%2' AND tila >= 100")
+                .arg(kausi.alkaa().toString(Qt::ISODate), kausi.paattyy().toString(Qt::ISODate)));
+        if(kysely.next()) {
+            yksityistiliMap.insert("tulos", Euro::fromCents(kysely.value(0).toLongLong()));
+        }
+        ulos.insert("yksityistilit", yksityistiliMap);
     }
 }

@@ -43,7 +43,8 @@ namespace TositeTyyppi {
         YHTEENVETOILMOITUS = 9110,
         POISTOLASKELMA = 9910,
         JAKSOTUS = 9920,
-        TULOVERO = 9930
+        TULOVERO = 9930,
+        YKSITYISTILIEN_PAATTAMINEN = 9040
     };    
 }
 

@@ -105,25 +105,18 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             case SUMMA:
                 if( role == Qt::DisplayRole)
                 {
-                    double summa = map.value("summa").toDouble();
-                    if( qAbs(summa) > 1e-5)
-                        return QString("%L1 €").arg(summa,0,'f',2);
-                    else
-                        return QVariant();  // Nollalle tyhjää
+                    return Euro::fromVariant(map.value("summa")).display(false);
                 }
                 else
-                   return map.value("summa").toDouble();
+                   return map.value("summa");
             case MAKSAMATTA:
                 if( role == Qt::DisplayRole)
-                {                                     
-                    double avoin = map.value("avoin").toDouble();
-                    if( qAbs(avoin) > 1e-5)
-                        return QString("%L1 €").arg( avoin ,0,'f',2);
-                    else
-                        return QVariant();  // Nollalle tyhjää
+                {
+                   Euro avoin = Euro::fromVariant(map.value("avoin"));
+                   return avoin.display(false);
                 }
                 else {
-                    return map.value("avoin").toDouble();
+                   return map.value("avoin");
                 }
             case LAHETYSTAPA:
             {
@@ -255,9 +248,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
     case SeliteRooli:
         return map.value("selite");
     case TilaRooli:
-        return map.value("tila");
+        return ostoja_ ? Tosite::KIRJANPIDOSSA : map.value("tila");
     case SummaRooli:
-        return map.value("summa").toDouble();
+        return map.value("summa");
     case OtsikkoRooli:
         return map.value("otsikko");
     case OstoLaskutTieto:

@@ -17,7 +17,6 @@
 #include "maksutapamuokkausdlg.h"
 #include "ui_maksutapamuokkausdlg.h"
 
-#include "model/maksutapamodel.h"
 #include "db/kirjanpito.h"
 #include <QListWidgetItem>
 #include <QDirIterator>
@@ -35,17 +34,15 @@ MaksutapaMuokkausDlg::~MaksutapaMuokkausDlg()
     delete ui;
 }
 
-QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
+Maksutapa MaksutapaMuokkausDlg::muokkaaMaksutapa(const Maksutapa& muokattava)
 {
-    Monikielinen nimi( ladattu );
-    ui->nimiLista->lataa(nimi);
+    ui->nimiLista->lataa(muokattava);
 
     ui->tiliCombo->suodataTyypilla("[AB]");
-    if( ladattu.value("TILI").toInt())
-    ui->tiliCombo->valitseTili( ladattu.value("TILI").toInt() );
-    ui->eraCheck->setChecked( ladattu.value("ERA").toInt() < 0);
+    ui->tiliCombo->valitseTili( muokattava.tili() );
+    ui->eraCheck->setChecked( muokattava.uusiEra() );
 
-    QString kuva = ladattu.value("KUVA").toString();
+    QString kuva = muokattava.kuva();
 
     QDirIterator iter(":/maksutavat");
     while( iter.hasNext() ) {
@@ -60,15 +57,13 @@ QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
     }
 
     if( exec() == QDialog::Accepted ) {
-        QVariantMap paluu = ui->nimiLista->tekstit().map();
-
-        paluu.insert("TILI", ui->tiliCombo->valittuTilinumero());
-        if( ui->eraCheck->isChecked())
-            paluu.insert("ERA", -1);
+        Maksutapa muokattu = ui->nimiLista->tekstit().map();
+        muokattu.asetaTili( ui->tiliCombo->valittuTilinumero() );
+        muokattu.asetaUusiEra( ui->eraCheck->isChecked() );
         if( ui->kuvakeLista->selectedItems().count() )
-            paluu.insert("KUVA", ui->kuvakeLista->selectedItems().first()->data(Qt::UserRole));
-        return paluu;
+            muokattu.asetaKuva(ui->kuvakeLista->selectedItems().first()->data(Qt::UserRole).toString());
+        return muokattu;
     }
-    return QVariantMap();
+    return muokattava;
 }
 

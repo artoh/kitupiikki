@@ -39,6 +39,7 @@ SOURCES += \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
     $$PWD/arkisto/uusitilikausidlg.cpp \
+    $$PWD/arkisto/yksityistilienpaattaja.cpp \
     $$PWD/arkistoija/aineistodialog.cpp \
     $$PWD/arkistoija/arkistohakemistodialogi.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
@@ -184,6 +185,7 @@ SOURCES += \
     $$PWD/model/lasku.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/liite/liitecache.cpp \
+    $$PWD/model/maksutapa.cpp \
     $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/toiminimimodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -207,6 +209,7 @@ SOURCES += \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitys.cpp \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvityssortfilterproxymodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.cpp \
     $$PWD/raportti/kooste/koosteraportitview.cpp \
@@ -269,6 +272,7 @@ SOURCES += \
     $$PWD/smtpclient/mimecontentformatter.cpp \
     $$PWD/tilaus/laskutustietodialog.cpp \
     $$PWD/tilinpaatoseditori/mytexteditor.cpp \
+    $$PWD/tilinpaatoseditori/taulukonkasittelija.cpp \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.cpp \
     $$PWD/toimisto/authlogmodel.cpp \
     $$PWD/toimisto/bookdata.cpp \
@@ -282,6 +286,7 @@ SOURCES += \
     $$PWD/toimisto/groupuserbooksmodel.cpp \
     $$PWD/toimisto/groupuserdata.cpp \
     $$PWD/toimisto/groupusermembersmodel.cpp \
+    $$PWD/toimisto/hubtoimistosivu.cpp \
     $$PWD/toimisto/oikeusinfonmuodostaja.cpp \
     $$PWD/toimisto/pikavalintadialogi.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
@@ -481,6 +486,7 @@ HEADERS += \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \
     $$PWD/arkisto/uusitilikausidlg.h \
+    $$PWD/arkisto/yksityistilienpaattaja.h \
     $$PWD/arkistoija/aineistodialog.h \
     $$PWD/arkistoija/arkistohakemistodialogi.h \
     $$PWD/arkistoija/arkistoija.h \
@@ -629,6 +635,7 @@ HEADERS += \
     $$PWD/model/lasku.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/liite/liitecache.h \
+    $$PWD/model/maksutapa.h \
     $$PWD/model/maksutapamodel.h \
     $$PWD/model/toiminimimodel.h \
     $$PWD/model/tosite.h \
@@ -652,6 +659,7 @@ HEADERS += \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/eranselvittaja/eranselvitys.h \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.h \
+    $$PWD/raportti/eranselvittaja/eranselvityssortfilterproxymodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.h \
     $$PWD/raportti/kooste/koosteraportitview.h \
@@ -743,6 +751,7 @@ HEADERS += \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/tilinpaatoseditori/mytexteditor.h \
+    $$PWD/tilinpaatoseditori/taulukonkasittelija.h \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.h \
     $$PWD/toimisto/authlogmodel.h \
     $$PWD/toimisto/bookdata.h \
@@ -756,6 +765,7 @@ HEADERS += \
     $$PWD/toimisto/groupuserbooksmodel.h \
     $$PWD/toimisto/groupuserdata.h \
     $$PWD/toimisto/groupusermembersmodel.h \
+    $$PWD/toimisto/hubtoimistosivu.h \
     $$PWD/toimisto/oikeusinfonmuodostaja.h \
     $$PWD/toimisto/pikavalintadialogi.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \
@@ -914,6 +924,7 @@ FORMS += \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/arkisto/tilikausimuokkausdlg.ui \
     $$PWD/arkisto/uudelleennumerointi.ui \
+    $$PWD/arkisto/yksityistilienpaattaja.ui \
     $$PWD/arkistoija/aineistodialog.ui \
     $$PWD/arkistoija/arkistohakemistodialogi.ui \
     $$PWD/kierto/kiertomaaritys.ui \

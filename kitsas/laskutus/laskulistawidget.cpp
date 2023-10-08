@@ -85,6 +85,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
+    connect( ui->view, &QTableView::clicked, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->vainlaskuNappi, &QPushButton::toggled, proxy_, &LaskuProxyModel::suodataLaskut);
 
     connect( ui->tulostaButton, &QPushButton::clicked, this, &LaskulistaWidget::raportti);
@@ -178,7 +179,7 @@ void LaskulistaWidget::paivitaNapit()
     int tila = index.data(LaskuTauluModel::TilaRooli).toInt();
 
     QDate pvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
-    bool lukittu = pvm < kp()->tilitpaatetty() || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
+    bool lukittu = ( pvm <= kp()->tilitpaatetty()) || kp()->alvIlmoitukset()->onkoIlmoitettu(pvm);
 
     ui->lahetaNappi->setEnabled( index.isValid()
                                  && tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS &&
@@ -206,14 +207,21 @@ void LaskulistaWidget::paivitaNapit()
     ui->uusiNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
     ui->ryhmalaskuNappi->setEnabled( kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 
-    if( ui->tabs->currentIndex() >= KAIKKI )
-        ui->poistaNappi->setEnabled( index.isValid() && !lukittu &&
-                                     ( qAbs(index.data( LaskuTauluModel::SummaRooli ).toDouble() - index.data( LaskuTauluModel::AvoinnaRooli ).toDouble()) < 1e-5 || tyyppi != TositeTyyppi::MYYNTILASKU )
-                                     && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN)
-                                     );
-    else
+    if( paalehti_ == OSTO || (paalehti_ == MYYNTI && ui->tabs->currentIndex() >= LAHETETTAVAT) ) {
+        if( !validi || !kp()->yhteysModel()) {
+            ui->poistaNappi->setEnabled(false);
+        } else if( tila < Tosite::Tila::KIRJANPIDOSSA) {
+            ui->poistaNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
+        } else {
+            const QString summa = index.data(LaskuTauluModel::SummaRooli).toString();
+            const QString avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toString();
+            ui->poistaNappi->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAHETTAMINEN) &&
+                                        !lukittu &&
+                                        summa == avoinna );
+        }
+    } else
         // Luonnoksen voi aina poistaa
-        ui->poistaNappi->setEnabled( index.isValid() && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
+        ui->poistaNappi->setEnabled( validi && kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LASKU_LAATIMINEN));
 }
 
 void LaskulistaWidget::laheta()

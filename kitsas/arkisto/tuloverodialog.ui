@@ -64,7 +64,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Vähennyskelpoiset kulut</string>
+        <string>Kokonaan vähennyskelpoiset kulut</string>
        </property>
        <property name="buddy">
         <cstring>vahennysEdit</cstring>
@@ -161,6 +161,16 @@
       <widget class="KpEuroEdit" name="veroEdit">
        <property name="readOnly">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="KpEuroEdit" name="puoliVahennysEdit"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Puoliksi vähennyskelpoiset kulut</string>
        </property>
       </widget>
      </item>

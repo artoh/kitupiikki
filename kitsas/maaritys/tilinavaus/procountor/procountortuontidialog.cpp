@@ -64,7 +64,10 @@ bool ProcountorTuontiDialog::tuoTiedosto(const QString &tiedostonnimi)
     if( status == ProcountorTuontiTiedosto::TUONTI_OK) {
         if( onkoJo(tuotu)) {
             // Ilmoita virheestä
-            QMessageBox::critical(this, tr("Procountor-tuonti"), tr("Samankaltainen avaustiedosto on jo lisätty. Tätä tiedostoa %1 ei käytetä.").arg(tiedostonnimi));
+            QString tyyppiTeksti = tuotu.tyyppi() && ProcountorTuontiTiedosto::TASE ? tr("Tase") : tr("Tuloslaskelma");
+            QString kausiTeksti = tuotu.kausi() && ProcountorTuontiTiedosto::EDELLINEN ? tr("edellinen") : tr("nykyinen");
+
+            QMessageBox::critical(this, tr("Procountor-tuonti"), tr("Samankaltainen avaustiedosto (%2 %3 tilikausi) on jo lisätty. Tätä tiedostoa %1 ei käytetä.").arg(tiedostonnimi, tyyppiTeksti, kausiTeksti));
             return false;
         }
 

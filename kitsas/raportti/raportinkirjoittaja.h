@@ -115,6 +115,7 @@ public:
 
     void lisaaOtsake(const RaporttiRivi &otsikkorivi);
     void lisaaRivi(const RaporttiRivi &rivi = RaporttiRivi(RaporttiRivi::EICSV));
+    void lisaaRivit(const QList<RaporttiRivi> rivit);
 
     /**
      * @brief Lisää tyhjän rivin jo edellinen ei ollut jo tyhjä

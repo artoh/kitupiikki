@@ -15,6 +15,9 @@ public:
     MyTextEditor(QWidget *parent = nullptr);
 
     QToolBar* toolbar();
+    void setContent(const QString& html);
+
+    void setPeriods(const QString& current, const QString& previous);
 
 protected:
     enum { BodyText, Header, SubHeader, Monospace };
@@ -31,9 +34,13 @@ protected:
     void styleText(int index);
     void makeList();
     void makeTable(int columns);
+    void makeThreeTable();
     void addRow();
+    void insertRow(int row);
 
-    void keyPressEvent(QKeyEvent *event) override;
+    void addMinus();
+
+    void keyPressEvent(QKeyEvent *event) override;        
 
 private:
     QAction *undoAction_;
@@ -52,6 +59,9 @@ private:
 
     QToolBar *toolbar_;
     QComboBox *tekstiTyyppiCombo_;
+
+    QString currentPeriodText_;
+    QString previousPeriodText_;
 };
 
 #endif // MYTEXTEDITOR_H
