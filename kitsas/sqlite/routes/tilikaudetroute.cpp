@@ -212,8 +212,8 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
             QVariantMap map;
             map.insert("tili", tili->numero());
-            map.insert("ennen", summa / 100.0);
-            map.insert("poisto", poisto / 100.0);
+            map.insert("ennen", Euro::fromCents(summa));
+            map.insert("poisto", Euro::fromCents(poisto));
             map.insert("kohdennus", kysely.value(3).toInt());
             poistot.append(map);
 
@@ -256,8 +256,8 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
                     map.insert("tili", kysely.value(0).toInt());
                     map.insert("nimike", apukysely.value(2).toString());
                     map.insert("pvm", hankintapaiva);
-                    map.insert("ennen", saldo / 100.0);
-                    map.insert("poisto", poisto / 100.0);
+                    map.insert("ennen", Euro::fromCents(saldo));
+                    map.insert("poisto", Euro::fromCents(poisto));
                     map.insert("poistoaika", poistokk );
                     map.insert("kohdennus", apukysely.value(5).toInt());
                     poistot.append(map);
@@ -340,7 +340,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         if( kysely.next() ) {
             qlonglong velka = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
             if( velka > 0)
-                ulos.insert("verosaaminen", velka / 100.0);
+                ulos.insert("verosaaminen", Euro::fromCents(velka));
         }
     }
 
@@ -381,7 +381,7 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
         if( kysely.next() ) {
             vahennykset = kysely.value(1).toLongLong() - kysely.value(0).toLongLong() ;
-            vmap.insert("taysivahennys", vahennykset / 100.0);
+            vmap.insert("taysivahennys", Euro::fromCents(vahennykset));
         }
 
         // 50% VÄHENNYKSET
@@ -393,9 +393,9 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
         if( kysely.next() ) {
             const qlonglong puolivahennys = ( kysely.value(1).toLongLong() - kysely.value(0).toLongLong());
             vahennykset += puolivahennys / 2;
-            vmap.insert("puolivahennys", puolivahennys / 100.0);
+            vmap.insert("puolivahennys", Euro::fromCents(puolivahennys));
         }
-        vmap.insert("vahennys", vahennykset / 100.0);
+        vmap.insert("vahennys", Euro::fromCents(vahennykset));
 
         // ENNAKOT
         kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
@@ -404,7 +404,7 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                     "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
         if( kysely.next() )
-            vmap.insert("ennakko",(kysely.value(1).toLongLong() - kysely.value(0).toLongLong()) / 100.0);
+            vmap.insert("ennakko",(Euro::fromCents(kysely.value(1).toLongLong() - kysely.value(0).toLongLong())));
 
         ulos.insert("tulovero", vmap);
     }
