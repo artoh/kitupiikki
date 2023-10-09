@@ -370,7 +370,7 @@ void TilikaudetRoute::verolaskelma(const Tilikausi &kausi, QVariantMap &ulos)
                     "Vienti.pvm BETWEEN '%1' AND '%2'").arg(kausi.alkaa().toString(Qt::ISODate))
                                                        .arg(kausi.paattyy().toString(Qt::ISODate)));
         if( kysely.next() )
-            vmap.insert("tulo", (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
+            vmap.insert("tulo", (Euro::fromCents(kysely.value(0).toLongLong()) - Euro::fromCents(kysely.value(1).toLongLong())));
 
         // VÄHENNYKSET
         qlonglong vahennykset = 0;
