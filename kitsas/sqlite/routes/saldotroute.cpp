@@ -79,10 +79,12 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         kysely.exec(kysymys);
         while (kysely.next()) {
             QString tilistr = kysely.value(0).toString();
+            Euro debet = Euro::fromCents(kysely.value(1).toLongLong());
+            Euro kredit = Euro::fromCents(kysely.value(2).toLongLong());
             if( tilistr.startsWith(QChar('1')))
-                saldot.insert( tilistr, (kysely.value(1).toLongLong() - kysely.value(2).toLongLong() ) / 100.0);
+                saldot.insert( tilistr, (debet - kredit).toString());
             else
-                saldot.insert( tilistr, (kysely.value(2).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 );
+                saldot.insert( tilistr, (kredit - debet).toString());
         }
 
         // Edellisten tulos
@@ -137,9 +139,10 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         if( !kysely.exec(kysymys) )
             throw SQLiteVirhe(kysely);
 
-
         while( kysely.next()) {
-            saldot.insert( kysely.value(0).toString(), (kysely.value(1).toLongLong() - kysely.value(2).toLongLong() ) / 100.0 );
+            Euro debet = Euro::fromCents(kysely.value(1).toLongLong());
+            Euro kredit = Euro::fromCents(kysely.value(2).toLongLong());
+            saldot.insert( kysely.value(0).toString(), (kredit-debet).toString());
         }
     }
     return saldot;
