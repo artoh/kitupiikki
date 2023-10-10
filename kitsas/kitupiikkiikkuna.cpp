@@ -174,8 +174,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
 
-    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
-    kirjanpitoLadattu();
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjanpitoLadattu);    
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()

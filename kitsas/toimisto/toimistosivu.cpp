@@ -48,10 +48,8 @@ ToimistoSivu::ToimistoSivu(QWidget *parent) :
     bookData_{new BookData(this)},
     userData_{new GroupUserData(this)},
     tuoteRyhma_{new QActionGroup(this)},
-    tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))},
-    toimistoWidget_{new QWidget(this)}
+    tuoteMenu_{new QMenu(tr("Vaihda tuotetta"))}
 {
-    ui->setupUi(toimistoWidget_);
     ui->setupUi(this);
     ui->hakuList->hide();
 
@@ -189,6 +187,7 @@ ToimistoSivu::~ToimistoSivu()
 
 void ToimistoSivu::siirrySivulle()
 {
+    repaint();
 
     if( ui->treeView->selectionModel()->selectedIndexes().isEmpty() ) {
         if( groupTree_->nodes() < 50) {
