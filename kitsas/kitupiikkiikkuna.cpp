@@ -173,6 +173,9 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
+
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
+    kirjanpitoLadattu();
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()

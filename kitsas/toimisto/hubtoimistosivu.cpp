@@ -14,6 +14,8 @@ HubToimistoSivu::HubToimistoSivu(QWidget* parent, Jarjestelma jarjestelma)
     QHBoxLayout* layout = new QHBoxLayout;
     layout->addWidget(view_);
     setLayout(layout);
+
+    view_->setHtml("<html><body></body></html>");
 }
 
 void HubToimistoSivu::siirrySivulle()
