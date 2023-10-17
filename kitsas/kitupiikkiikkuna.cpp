@@ -53,6 +53,7 @@
 #include "kirjaus/tallennettuwidget.h"
 #include "toimisto/toimistosivu.h"
 #include "toimisto/hubtoimistosivu.h"
+#include "lisaosat/lisaosasivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -85,6 +86,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
+    lisaosaSivu( new LisaosaSivu(this)),
     toimistosivu( new ToimistoSivu(this)),
     hubToimistoSivu(new HubToimistoSivu(this)),
     majavaSivu(new HubToimistoSivu(this, HubToimistoSivu::MAJAVA)),
@@ -256,6 +258,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
+    sivuaktiot[LISAOSASIVU]->setVisible(true); // TODO: Lisäosasivun ehdot
     sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
     sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
     sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
@@ -504,7 +507,8 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
+    lisaaSivu(tr("Lisäosat"), ":/pic/palat.svg", tr("Lisäosien hallinta"), "Ctrl+9", LISAOSASIVU, lisaosaSivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", TOIMISTOSIVU, toimistosivu);
     lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+0", HUBTOIMISTOSIVU, hubToimistoSivu);
     lisaaSivu(tr("Majava"), ":/pixaby/majava.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "", MAJAVASIVU, majavaSivu);
 

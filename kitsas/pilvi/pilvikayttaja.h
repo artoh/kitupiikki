@@ -29,6 +29,7 @@ public:
     operator bool() const;
 
     int id() const { return id_; }
+    QString uuid() const { return uuid_;}
     QString nimi() const { return nimi_;}
     QString email() const { return email_; }
     QString phone() const { return phone_;}
@@ -54,6 +55,7 @@ public:
 
 private:
     int id_ = 0;
+    QString uuid_;
     QString nimi_;
     QString email_;
     QString phone_;

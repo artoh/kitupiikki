@@ -131,6 +131,13 @@ SOURCES += \
     $$PWD/liite/naytaliitewidget.cpp \
     $$PWD/liite/pdfrenderview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
+    $$PWD/lisaosat/lisaosa.cpp \
+    $$PWD/lisaosat/lisaosalistmodel.cpp \
+    $$PWD/lisaosat/lisaosalokiikkuna.cpp \
+    $$PWD/lisaosat/lisaosalokimodel.cpp \
+    $$PWD/lisaosat/lisaosasivu.cpp \
+    $$PWD/lisaosat/lisaosasortproxymodel.cpp \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/extra/aliasdialog.cpp \
     $$PWD/maaritys/extra/extradialog.cpp \
@@ -580,6 +587,13 @@ HEADERS += \
     $$PWD/liite/naytaliitewidget.h \
     $$PWD/liite/pdfrenderview.h \
     $$PWD/liite/uusiliitewidget.h \
+    $$PWD/lisaosat/lisaosa.h \
+    $$PWD/lisaosat/lisaosalistmodel.h \
+    $$PWD/lisaosat/lisaosalokiikkuna.h \
+    $$PWD/lisaosat/lisaosalokimodel.h \
+    $$PWD/lisaosat/lisaosasivu.h \
+    $$PWD/lisaosat/lisaosasortproxymodel.h \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/extra/aliasdialog.h \
     $$PWD/maaritys/extra/extradialog.h \
@@ -944,6 +958,7 @@ FORMS += \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/uusimaksumuistutusdialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.ui \
     $$PWD/maaritys/bannermaaritys.ui \
     $$PWD/maaritys/extra/aliasdialog.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \

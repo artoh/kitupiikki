@@ -17,6 +17,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     const QVariantMap map = data.toMap();
 
     id_ =  map.value("id").toInt();
+    bookId_ = map.value("bookId").toString();
     name_ = map.value("name").toString();
     businessid_ = map.value("businessid").toString();
     trial_ = map.value("trial").toBool();
