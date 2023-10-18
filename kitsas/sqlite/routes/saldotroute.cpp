@@ -140,8 +140,8 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             throw SQLiteVirhe(kysely);
 
         while( kysely.next()) {
-            Euro debet = Euro::fromCents(kysely.value(1).toLongLong());
-            Euro kredit = Euro::fromCents(kysely.value(2).toLongLong());
+            Euro kredit = Euro::fromCents(kysely.value(1).toLongLong());
+            Euro debet = Euro::fromCents(kysely.value(2).toLongLong());
             saldot.insert( kysely.value(0).toString(), (kredit-debet).toString());
         }
     }
