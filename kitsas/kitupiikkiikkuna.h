@@ -85,6 +85,7 @@ public slots:
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
     void uusiLasku();
+    void naytaToimisto(const QString& id);
 
     void kirjauduttu(const PilviKayttaja& kayttaja);
 

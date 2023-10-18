@@ -170,6 +170,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( new QShortcut(QKeySequence("Ctrl+D"), this), &QShortcut::activated, this, [] () { DevTool *dev = new DevTool(); dev->show(); } );
 
+    connect( majavaSivu, &HubToimistoSivu::toimistoLinkki, this, &KitupiikkiIkkuna::naytaToimisto);
 
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -293,6 +294,12 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 void KitupiikkiIkkuna::uusiLasku()
 {
     LaskuDialogiTehdas::myyntilasku();
+}
+
+void KitupiikkiIkkuna::naytaToimisto(const QString &id)
+{
+    hubToimistoSivu->naytaToimisto(id);
+    valitseSivu(HUBTOIMISTOSIVU);
 }
 
 void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
