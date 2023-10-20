@@ -91,7 +91,7 @@ void AvattuPilvi::asetaNotifikaatiot(const QVariantList &lista)
 
         info(notifyClass, title.teksti(), text.teksti(),
              im.value("link").toString(), image, im.value("help").toString(),
-             map.value("id").toInt());
+             map.value("id").toString());
     }
 
 }
@@ -133,5 +133,33 @@ std::map<QString,qlonglong> AvattuPilvi::oikeustunnukset__ = {
     {"Xr", YhteysModel::RYHMAT},
     {"Ra", YhteysModel::RAPORTIT},
     {"Ks", YhteysModel::KIERTO_SELAAMINEN},
-    {"Tk", YhteysModel::TOSITE_KOMMENTTI}
+    {"Tk", YhteysModel::TOSITE_KOMMENTTI},
+    {"Ao", YhteysModel::LISAOSA_ASETUKSET},
+    {"Ad", YhteysModel::LISAOSA_KAYTTO},
+    {"Ab", YhteysModel::PERUSASETUKSET},
+    {"Pm", YhteysModel::MAKSETTAVAKSI},
+    {"Pl", YhteysModel::MAKSETTAVAT},
+    {"O", YhteysModel::HALLINTA},
+    {"OT", YhteysModel::HALLINTA},
+    {"OB", YhteysModel::HALLINTA},
+    {"OC", YhteysModel::HALLINTA},
+    {"OD", YhteysModel::HALLINTA},
+    {"OG", YhteysModel::HALLINTA},
+    {"OR", YhteysModel::HALLINTA},
+    {"OU", YhteysModel::HALLINTA},
+    {"OL", YhteysModel::HALLINTA},
+    {"OP", YhteysModel::HALLINTA},
+    {"OA", YhteysModel::HALLINTA},
+    {"A", YhteysModel::HALLINTA},
+    {"AT", YhteysModel::HALLINTA},
+    {"AO", YhteysModel::HALLINTA},
+    {"AS", YhteysModel::HALLINTA},
+    {"AP", YhteysModel::HALLINTA},
+    {"AK", YhteysModel::HALLINTA},
+    {"R", YhteysModel::KIRJANPITAJA},
+    {"RT", YhteysModel::TOSITE},
+    {"RL", YhteysModel::LASKU},
+    {"RK", YhteysModel::KIERTO},
+    {"RO", YhteysModel::TYOKALUT},
+    {"O", YhteysModel::KPHALLINTA},
 };

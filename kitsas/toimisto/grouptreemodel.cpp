@@ -151,7 +151,8 @@ GroupNode *GroupTreeModel::nodeById(const int id) const
 
 void GroupTreeModel::refresh()
 {
-    if( kp()->pilvi()->kayttaja()) {
+    if( kp()->pilvi()->kayttaja() &&
+        kp()->pilvi()->kayttaja().admin()) {
         KpKysely* kysymys = kp()->pilvi()->loginKysely("/groups");
         connect( kysymys, &KpKysely::vastaus, this, &GroupTreeModel::createTree);
         kysymys->kysy();

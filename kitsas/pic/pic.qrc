@@ -242,6 +242,7 @@
         <file>format-justify-center.png</file>
         <file>format-justify-left.png</file>
         <file>format-justify-right.png</file>
+        <file>ilmoitus-oranssi.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -90,7 +90,7 @@ public:
 
     bool tilausvoimassa() const;
     void asetaAlias(const QString& alias);
-    void poistaNotify(const int id);
+    void poistaNotify(const QString &id);
 
 // Yhteensopivuutta varten
     int pilviId() const { return pilvi().id();}

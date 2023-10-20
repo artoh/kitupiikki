@@ -34,8 +34,8 @@ QString AloitusInfo::toHtml() const
     }
     ulos.append("</p></td>");
 
-    if( notifyId_) {
-        ulos.append("<td width='32px' class='sulkuruksi'><a href='close:" + QString::number(notifyId_) + "'><img src=\'qrc:/pic/close.svg\' width=32 height=32></a></td>");
+    if( !notifyId_.isEmpty()) {
+        ulos.append("<td width='32px' class='sulkuruksi'><a href='close:" + notifyId_ + "'><img src=\'qrc:/pic/close.svg\' width=32 height=32></a></td>");
     }
 
     ulos.append("</tr></table>\n");
@@ -53,7 +53,7 @@ AloitusInfo::AloitusInfo(const QVariantMap &map)
 
 }
 
-AloitusInfo::AloitusInfo(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki, const int id) :
+AloitusInfo::AloitusInfo(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki, const QString id) :
     luokka_{luokka}, otsikko_{otsikko}, teksti_{teksti}, linkki_{linkki}, kuva_{kuva}, ohjelinkki_{ohjelinkki}, notifyId_{id}
 {
 

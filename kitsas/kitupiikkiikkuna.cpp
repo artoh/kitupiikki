@@ -259,7 +259,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
-    sivuaktiot[LISAOSASIVU]->setVisible(true); // TODO: Lisäosasivun ehdot
+    sivuaktiot[LISAOSASIVU]->setVisible(kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LISAOSA_KAYTTO));
     sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
     sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
     sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
