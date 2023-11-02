@@ -161,5 +161,5 @@ std::map<QString,qlonglong> AvattuPilvi::oikeustunnukset__ = {
     {"RL", YhteysModel::LASKU},
     {"RK", YhteysModel::KIERTO},
     {"RO", YhteysModel::TYOKALUT},
-    {"O", YhteysModel::KPHALLINTA},
+    {"RA", YhteysModel::KPHALLINTA},
 };
