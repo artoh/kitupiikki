@@ -234,9 +234,13 @@ void TositeVienti::setKumppani(int kumppaniId)
 
 void TositeVienti::setKumppani(const QString &kumppani)
 {
-    QVariantMap kmap;
-    kmap.insert("nimi",kumppani);
-    set( KUMPPANI, kmap);
+    if( kumppani.isEmpty()) {
+        remove(avaimet__.at(KUMPPANI));
+    } else {
+        QVariantMap kmap;
+        kmap.insert("nimi",kumppani);
+        set( KUMPPANI, kmap);
+    }
 }
 
 void TositeVienti::setKumppani(const QVariantMap &map)
