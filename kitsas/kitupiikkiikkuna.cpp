@@ -148,6 +148,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
