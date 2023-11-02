@@ -254,7 +254,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     if( tyyppi.onko(TiliLaji::TULO)) {
         veroproxy_->setFilterRegularExpression(QRegularExpression("^(0|1[1-79])$"));
     } else if( tyyppi.onko(TiliLaji::MENO)) {
-        veroproxy_->setFilterRegularExpression(QRegularExpression("^(0|2[1-7])$"));
+        veroproxy_->setFilterRegularExpression(QRegularExpression("^(0|2[1-79])$"));
     } else
         veroproxy_->setFilterFixedString("");
 
