@@ -77,6 +77,10 @@ void LaatijanPaakirja::laadi()
 
     if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
         rk.lisaaSarake("Kohdennusnimi"); // Kohdennus
+
+    if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
+        rk.lisaaSarake("EU 24%");
+
     rk.lisaaEurosarake();   // Debet
     rk.lisaaEurosarake();   // Kredit
     rk.lisaaEurosarake();   // Saldo
@@ -101,6 +105,10 @@ void LaatijanPaakirja::laadi()
 
     if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
         otsikko.lisaa(kaanna("Kohdennus"));
+
+    if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
+        otsikko.lisaa(kaanna("ALV"));
+
     otsikko.lisaa(kaanna("Debet €"),1,true);
     otsikko.lisaa(kaanna("Kredit €"),1,true);
     otsikko.lisaa(kaanna("Saldo €"),1, true);
@@ -118,7 +126,7 @@ void LaatijanPaakirja::saldotSaapuu(QVariant *data)
     while(iter.hasNext()) {
         iter.next();
         const QString tili = iter.key();
-        saldot_.insert(tili, qRound64(iter.value().toDouble() * 100.0));
+        saldot_.insert(tili, iter.value().toString());
         if( !data_.contains(tili))
             data_.insert(tili, QList<QVariantMap>());
     }
@@ -143,17 +151,8 @@ void LaatijanPaakirja::kirjoitaDatasta()
 {
     QMapIterator<QString, QList<QVariantMap>> iter(data_);
 
-    qlonglong kaikkiDebet = 0;
-    qlonglong kaikkiKredit = 0;
-
-    const int otsikkosarakkeet =
-            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 8 :
-            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 6 : 5 );
-
-    const int summasarakkeet =
-            (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 3 :
-            ((valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 2 : 2 );
-
+    Euro kaikkiDebet = Euro::Zero;
+    Euro kaikkiKredit = Euro::Zero;
 
 
     while( iter.hasNext()) {
@@ -168,9 +167,10 @@ void LaatijanPaakirja::kirjoitaDatasta()
             rivi.lihavoi();
             rivi.lisaa("",2);
             rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),
-                                tili.nimiNumero(kielikoodi()), otsikkosarakkeet);
+                                tili.nimiNumero(kielikoodi()), rk.sarakkeita() - 3);
 
-            qlonglong saldo =  saldot_.value( QString::number(tili.numero() ));
+            Euro saldo = saldot_.value( QString::number(tili.numero() ));
+
 
             // #827 Ei näytä tyhjää otsikkoriviä esimerkiksi tilikauden tulokselle
             if( iter.value().isEmpty() && !saldo)
@@ -179,8 +179,9 @@ void LaatijanPaakirja::kirjoitaDatasta()
             rivi.lisaa( saldo );
             rk.lisaaRivi(rivi);
 
-            qlonglong debetSumma = 0l;
-            qlonglong kreditSumma = 0l;
+            Euro debetSumma;
+            Euro kreditSumma;
+
 
             for(const QVariantMap& vienti : iter.value()) {
 
@@ -215,20 +216,26 @@ void LaatijanPaakirja::kirjoitaDatasta()
 
                 if( valinnat().onko(RaporttiValinnat::TulostaKohdennus))
                     rr.lisaa(kp()->kohdennukset()->kohdennus( vienti.value("kohdennus").toInt() ).nimi(kielikoodi()) );
+                if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
+                    rr.lisaa(alvTeksti(vienti), 1, true);
 
-                rr.lisaa(  vienti.value("debet").toDouble()  );
-                rr.lisaa(  vienti.value("kredit").toDouble()  );
+                Euro debet = vienti.value("debet").toString();
+                Euro kredit = vienti.value("kredit").toString();
 
-                debetSumma += qRound64( vienti.value("debet").toDouble() * 100 );
-                kreditSumma += qRound64( vienti.value("kredit").toDouble() * 100 );
+                rr.lisaa(  debet  );
+                rr.lisaa(  kredit  );
+
+                debetSumma += debet;
+                kreditSumma += kredit;
+
 
                 if( tili.onko(TiliLaji::VASTAAVAA))
                 {
-                    saldo += qRound64( vienti.value("debet").toDouble() * 100 );
-                    saldo -= qRound64( vienti.value("kredit").toDouble() * 100 );
+                    saldo += debet;
+                    saldo -= kredit;
                 } else {
-                    saldo -= qRound64( vienti.value("debet").toDouble() * 100 );
-                    saldo += qRound64( vienti.value("kredit").toDouble() * 100 );
+                    saldo -= debet;
+                    saldo += kredit;
                 }
 
                 if( tili.onko(TiliLaji::TULOS) || valinnat().arvo(RaporttiValinnat::Kohdennuksella).toInt() < 0)
@@ -241,22 +248,18 @@ void LaatijanPaakirja::kirjoitaDatasta()
                 summa.viivaYlle();
                 summa.lihavoi();
                 summa.lisaa("", 2);
-                summa.lisaa("", summasarakkeet);
+                summa.lisaa("", rk.sarakkeita() - 7);
 
-                if( valinnat().onko(RaporttiValinnat::TulostaKohdennus) )
-                    summa.lisaa("");
-                if( valinnat().onko(RaporttiValinnat::TulostaKumppani) )
-                    summa.lisaa("");
 
-                qlonglong muutos = tili.onko(TiliLaji::VASTAAVAA) ?
+                Euro muutos = tili.onko(TiliLaji::VASTAAVAA) ?
                         debetSumma - kreditSumma : kreditSumma - debetSumma;
-                summa.lisaa(muutos,false, true);
+                summa.lisaa(muutos,true, true, 2);
 
-                summa.lisaa(debetSumma);
-                summa.lisaa(kreditSumma);
+                summa.lisaa(debetSumma, true);
+                summa.lisaa(kreditSumma, true);
 
                 if( tili.onko(TiliLaji::TULOS) || valinnat().arvo(RaporttiValinnat::Kohdennuksella).toInt() < 0)
-                    summa.lisaa(saldo);
+                    summa.lisaa(saldo, true);
 
                 rk.lisaaRivi(summa);
 
@@ -274,7 +277,7 @@ void LaatijanPaakirja::kirjoitaDatasta()
         summa.lihavoi();
         summa.lisaa("",2);
         summa.lisaa(kaanna("Yhteensä"),
-                    summasarakkeet + (valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 3 : 2)) ;
+                    rk.sarakkeita() - 5) ;
 
 
         summa.lisaa(kaikkiDebet);

@@ -206,6 +206,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="alvCheck">
+     <property name="text">
+      <string>Tulosta alv-prosentti</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="ryhmittelelajeittainCheck">
      <property name="text">
       <string>Ryhmittele tositelajeittain</string>
@@ -318,12 +329,19 @@
   <tabstop>tiliBox</tabstop>
   <tabstop>tiliCombo</tabstop>
   <tabstop>kieliCombo</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>tulotRadio</tabstop>
+  <tabstop>menotRadio</tabstop>
   <tabstop>aikajarjestysRadio</tabstop>
   <tabstop>tositejarjestysRadio</tabstop>
   <tabstop>kumppaniCheck</tabstop>
   <tabstop>tulostakohdennuksetCheck</tabstop>
+  <tabstop>alvCheck</tabstop>
   <tabstop>ryhmittelelajeittainCheck</tabstop>
   <tabstop>tulostasummat</tabstop>
+  <tabstop>eriPaivatCheck</tabstop>
+  <tabstop>piilotaNollaCheck</tabstop>
+  <tabstop>selvittelyNappi</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
@@ -336,12 +354,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>93</x>
-     <y>124</y>
+     <x>103</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
-     <x>409</x>
-     <y>124</y>
+     <x>561</x>
+     <y>98</y>
     </hint>
    </hints>
   </connection>
@@ -352,12 +370,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>77</x>
-     <y>151</y>
+     <x>87</x>
+     <y>127</y>
     </hint>
     <hint type="destinationlabel">
-     <x>203</x>
-     <y>152</y>
+     <x>355</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>

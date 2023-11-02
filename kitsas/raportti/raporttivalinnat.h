@@ -71,7 +71,8 @@ public:
         Kuukausittain,
         KuukaudetYhteensa,
         Jaksotettu,
-        PiilotaNollasaldot
+        PiilotaNollasaldot,
+        NaytaAlvProsentti,
     };
 
     RaporttiValinnat();

@@ -100,9 +100,9 @@ public:
      * @param tulostanollat Tulostetaanko nollat (oletuksena ei)
      * @param tulostaplus Tulostetaanko + positiivisen eteen (oletuksena ei)
      */
-    void lisaa(qlonglong sentit, bool tulostanollat = false, bool tulostaplus = false);
+    void lisaa(qlonglong sentit, bool tulostanollat = false, bool tulostaplus = false, int leveysSaraketta = 1);
     void lisaa(double eurot, bool tulostanollat = false, bool tulostaplus = false);
-    void lisaa(const Euro& eurot, bool tulostanollat = false, bool tulostaplus = false);
+    void lisaa(const Euro& eurot, bool tulostanollat = false, bool tulostaplus = false, int leveysSaraketta = 1);
     /**
      * @brief Lisää päivämäärän
      * @param pvm Päivämäärä QDate:na

@@ -21,7 +21,7 @@ private:
 private:
 
     QMap<QString,QList<QVariantMap>> data_;
-    QMap<QString,qlonglong> saldot_;
+    QMap<QString,Euro> saldot_;
 
     bool samatilikausi_ = true;
     int saapuneet_ = 0;

@@ -53,6 +53,8 @@ void LaatijanPaivakirja::laadi()
         rk.lisaaVenyvaSarake(); // Selite
     }
 
+    if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
+        rk.lisaaSarake("EU 24%");
     rk.lisaaEurosarake();
     rk.lisaaEurosarake();
 
@@ -71,6 +73,9 @@ void LaatijanPaivakirja::laadi()
             otsikko.lisaa(kaanna("Asiakas/Toimittaja"));
         }
         otsikko.lisaa(kaanna("Selite"));
+
+        if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
+            otsikko.lisaa(kaanna("ALV"));
 
         otsikko.lisaa(kaanna("Debet €"), 1, true);
         otsikko.lisaa(kaanna("Kredit €"), 1, true);
@@ -113,10 +118,6 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
     Euro kreditvalisumma;
 
 
-    const int otsikkosarakkeet =
-            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) && valinnat().onko(RaporttiValinnat::TulostaKumppani)) ? 7 :
-            ( valinnat().onko(RaporttiValinnat::TulostaKohdennus) || valinnat().onko(RaporttiValinnat::TulostaKumppani) ? 5 : 4 );
-
     for( const auto& item : qAsConst( lista )) {
         QVariantMap map = item.toMap();
 
@@ -124,7 +125,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
         if(  valinnat().onko(RaporttiValinnat::RyhmitteleTositelajit)  && edellinentyyppi != tositetyyppi ) {
             if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) && edellinentyyppi != EITYYPPIA) {
                 RaporttiRivi valisumma(RaporttiRivi::EICSV);
-                valisumma.lisaa(kaanna("Yhteensä"), otsikkosarakkeet  );
+                valisumma.lisaa(kaanna("Yhteensä"), rk.sarakkeita() - 2  );
                 valisumma.lisaa( debetvalisumma, true);
                 valisumma.lisaa(kreditvalisumma, true);
                 valisumma.viivaYlle();
@@ -183,6 +184,9 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
         } else {
             rivi.lisaa(selite.isEmpty() ? kumppani : selite);
         }
+        if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti)) {
+            rivi.lisaa( alvTeksti(map), 1, true );
+        }
 
         Euro debetsnt = Euro::fromString( map.value("debet").toString() );
         Euro kreditsnt = Euro::fromString( map.value("kredit").toString() );
@@ -203,7 +207,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
 
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit)  && edellinentyyppi != EITYYPPIA) {
         RaporttiRivi valisumma(RaporttiRivi::EICSV);
-        valisumma.lisaa(kaanna("Yhteensä"), otsikkosarakkeet);
+        valisumma.lisaa(kaanna("Yhteensä"), rk.sarakkeita() - 2);
         valisumma.lisaa( debetvalisumma, true);
         valisumma.lisaa(kreditvalisumma, true);
         valisumma.viivaYlle();
@@ -213,7 +217,7 @@ void LaatijanPaivakirja::dataSaapuu(QVariant *data)
     if( valinnat().onko(RaporttiValinnat::TulostaSummarivit) ) {
         rk.lisaaTyhjaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa(kaanna("Yhteensä"), otsikkosarakkeet );
+        summarivi.lisaa(kaanna("Yhteensä"), rk.sarakkeita() - 2 );
         summarivi.lisaa( debetsumma, true);
         summarivi.lisaa(kreditsumma, true);
         summarivi.viivaYlle();
