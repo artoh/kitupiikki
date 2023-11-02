@@ -76,7 +76,7 @@ public slots:
      */
     void valitseSivu(int mikasivu, bool paluu = false, bool siirry=true);
 
-    void kirjanpitoLadattu();
+    void paivitaAktiivisuudet();
 
     void palaaSivulta();
 

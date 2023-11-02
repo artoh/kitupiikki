@@ -113,9 +113,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     addDockWidget(Qt::BottomDockWidgetArea, SaldoDock::dock());
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
-    for(int i=KIRJAUSSIVU; i<MAARITYSSIVU;i++)
-        sivuaktiot[i]->setEnabled(false);
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+    paivitaAktiivisuudet();
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
@@ -149,7 +147,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), &Kirjanpito::onni, this, &KitupiikkiIkkuna::naytaOnni);
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
-    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
@@ -177,7 +175,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
 
-    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjanpitoLadattu);    
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
@@ -228,7 +226,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu, bool siirry)
 }
 
 
-void KitupiikkiIkkuna::kirjanpitoLadattu()
+void KitupiikkiIkkuna::paivitaAktiivisuudet()
 {
     if( kp()->yhteysModel() )
     {
@@ -251,19 +249,25 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         sivuaktiot[ARKISTOSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TILINPAATOS | YhteysModel::BUDJETTI ));
         sivuaktiot[ALVSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::ALV_ILMOITUS ));
         sivuaktiot[KIERTOSIVU]->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_TARKASTAMINEN) );
+        sivuaktiot[LISAOSASIVU]->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LISAOSA_KAYTTO));
+        sivuaktiot[ALVSIVU]->setVisible(  kp()->asetukset()->onko("AlvVelvollinen") );
+
     } else {
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
         setWindowTitle(tr("Kitsas %1").arg(qApp->applicationVersion()));
     }
 
-    edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
-    sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
-    sivuaktiot[LISAOSASIVU]->setVisible(kp()->yhteysModel() && kp()->yhteysModel()->onkoOikeutta(YhteysModel::LISAOSA_KAYTTO));
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
-    sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
-    sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
+    if( kp()->pilvi()->kayttajaPilvessa()) {
+        sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+        sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
+        sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
+    } else {
+        for(int i=LISAOSASIVU; i <= MAJAVASIVU; i++)
+            sivuaktiot[i]->setVisible(false);
+    }
 
+    edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     valitseSivu(ALOITUSSIVU);
 }
 
