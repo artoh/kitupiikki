@@ -334,9 +334,10 @@ void MaaritysSivu::paivitaNakyvat()
                                    !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
     PilviModel *pilvi = qobject_cast<PilviModel*>(kp()->yhteysModel());
     if( pilvi == nullptr)
-        item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä    
+        item( KIERTO )->setHidden(true); // Kierto on käytössä vain pilvessä
 
-    item(LISAPALVELUT)->setHidden(!pilvi || !kp()->pilvi()->pilvi().aktiivinen() );
+    item(LISAPALVELUT)->setHidden(!pilvi || !kp()->pilvi()->pilvi().aktiivinen()
+                                  || pilvi->onkoOikeutta(YhteysModel::LISAOSA_KAYTTO));
 }
 
 
