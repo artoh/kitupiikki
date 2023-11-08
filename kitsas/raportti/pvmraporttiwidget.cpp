@@ -87,7 +87,7 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
         ui->kohdennusCombo->hide();
         ui->tulostakohdennuksetCheck->hide();
         ui->alvCheck->hide();
-    }
+    }    
 
     if( tyyppi() != "paivakirja" && tyyppi() != "paakirja" && tyyppi() != "tositeluettelo") {
         ui->kumppaniCheck->hide();
@@ -102,6 +102,9 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
         ui->selvittelyNappi->hide();
         ui->piilotaNollaCheck->hide();
     }
+
+    if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
+        ui->alvCheck->hide();   // Alv-ruksi ei käytössä jos ei alv-velvollinen
 }
 
 void PvmRaporttiWidget::taseSelvittely()
