@@ -43,7 +43,7 @@ QString LaatijanRaportti::alvTeksti(const QVariantMap &data)
     case AlvKoodi::MYYNNIT_NETTO: case AlvKoodi::OSTOT_NETTO: return QString::number(alvProsentti) + "%";
     case AlvKoodi::MYYNNIT_BRUTTO: case AlvKoodi::OSTOT_BRUTTO: return "B " + QString::number(alvProsentti) + "%";
     case AlvKoodi::MYYNNIT_MARGINAALI: case AlvKoodi::OSTOT_MARGINAALI: return "M " + QString::number(alvProsentti) + "%";
-    case AlvKoodi::YHTEISOHANKINNAT_PALVELUT: case AlvKoodi::YHTEISOHANKINNAT_TAVARAT: "EU " + QString::number(alvProsentti) + "%";
+    case AlvKoodi::YHTEISOHANKINNAT_PALVELUT: case AlvKoodi::YHTEISOHANKINNAT_TAVARAT: return "EU " + QString::number(alvProsentti) + "%";
     case AlvKoodi::YHTEISOMYYNTI_PALVELUT: case AlvKoodi::YHTEISOMYYNTI_TAVARAT: return "EU";
     case AlvKoodi::RAKENNUSPALVELU_OSTO: return "R " + QString::number(alvProsentti) + "%";
     case AlvKoodi::RAKENNUSPALVELU_MYYNTI: return "R";
