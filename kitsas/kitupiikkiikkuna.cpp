@@ -116,6 +116,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     paivitaAktiivisuudet();
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
+
     // Ladataan viimeksi avoinna ollut kirjanpito
     // Vain sqlite
     if( kp()->settings()->contains("Viimeisin") && kp()->settings()->value("Viimeisin").toInt() == 0 )
@@ -133,6 +134,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
             kp()->sqlite()->avaaTiedosto(viimeisin, false);
         else
             aloitussivu->kirjanpitoVaihtui();
+
+        paivitaAktiivisuudet();
     }
     else
         aloitussivu->kirjanpitoVaihtui();
