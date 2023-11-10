@@ -39,7 +39,7 @@ void AloitusBrowser::haSaldot(const QDate &saldoPvm)
 void AloitusBrowser::asetaTilioimatta(int tilioimatta)
 {
     tilioimatta_ = tilioimatta;
-    paivitaAvattu();
+    naytaPaivitetty();
 }
 
 void AloitusBrowser::naytaPaivitetty()
@@ -56,9 +56,7 @@ void AloitusBrowser::paivitaAvattu()
 
     QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
-    if( !kp()->yhteysModel()) {
-        txt.append("<h1>" + tr("Avataan kirjanpitoa...") + "</h1>");
-    } else if( !kp()->yhteysModel()->oikeudet()) {
+    if( !kp()->yhteysModel()->oikeudet()) {
         txt.append( eiOikeuttaUrputus()  );
     } else {
         paivitaVinkit();
@@ -385,7 +383,7 @@ void AloitusBrowser::saldotSaapuu(QVariant *data)
         iter.next();
         saldot_.append(SaldoTieto(iter.key(), iter.value().toString()));
     }
-    paivitaAvattu();
+    naytaPaivitetty();
 }
 
 QString AloitusBrowser::saldoTaulu()
