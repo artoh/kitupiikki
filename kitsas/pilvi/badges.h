@@ -7,12 +7,13 @@ class Badges
 {
 public:
     enum Badge {
-        INBOX =         0b000001,
-        OUTBOX =        0b000010,
-        MARKED=         0b000100,
-        INFORMATION=    0b001000,
-        NOTIFICATION=   0b010000,
-        ERROR=          0b100000
+        INBOX =         0b0000001,
+        OUTBOX =        0b0000010,
+        MARKED=         0b0000100,
+        INFORMATION=    0b0001000,
+        NOTIFICATION=   0b0010000,
+        ERROR=          0b0100000,
+        WARN=           0b1000000,
     };
 
     Badges();

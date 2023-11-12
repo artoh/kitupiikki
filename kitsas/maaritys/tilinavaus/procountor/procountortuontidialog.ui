@@ -181,7 +181,7 @@ edellinen tilikausi</string>
           </property>
           <property name="text">
            <string>Debet ja kredit 
-eivät tsmää</string>
+eivät täsmää</string>
           </property>
          </widget>
         </item>

@@ -30,6 +30,7 @@ void PvmRaporttiWidget::lataa()
     ui->kumppaniCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaKumppani));
     ui->eriPaivatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelePaivat));
     ui->piilotaNollaCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::PiilotaNollasaldot) );
+    ui->alvCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::NaytaAlvProsentti) );
 
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
     paivita();
@@ -85,7 +86,8 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
         ui->kohdennusCheck->hide();
         ui->kohdennusCombo->hide();
         ui->tulostakohdennuksetCheck->hide();
-    }
+        ui->alvCheck->hide();
+    }    
 
     if( tyyppi() != "paivakirja" && tyyppi() != "paakirja" && tyyppi() != "tositeluettelo") {
         ui->kumppaniCheck->hide();
@@ -100,6 +102,9 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
         ui->selvittelyNappi->hide();
         ui->piilotaNollaCheck->hide();
     }
+
+    if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
+        ui->alvCheck->hide();   // Alv-ruksi ei käytössä jos ei alv-velvollinen
 }
 
 void PvmRaporttiWidget::taseSelvittely()
@@ -131,6 +136,7 @@ void PvmRaporttiWidget::tallenna()
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::ErittelePaivat, ui->eriPaivatCheck->isChecked());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::PiilotaNollasaldot, ui->piilotaNollaCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::NaytaAlvProsentti, ui->alvCheck->isChecked());
 
     if( ui->tiliBox->isChecked()) {
         kp()->raporttiValinnat()->aseta(RaporttiValinnat::Tililta, ui->tiliCombo->currentData());

@@ -53,6 +53,7 @@
 #include "kirjaus/tallennettuwidget.h"
 #include "toimisto/toimistosivu.h"
 #include "toimisto/hubtoimistosivu.h"
+#include "lisaosat/lisaosasivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -85,6 +86,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
+    lisaosaSivu( new LisaosaSivu(this)),
     toimistosivu( new ToimistoSivu(this)),
     hubToimistoSivu(new HubToimistoSivu(this)),
     majavaSivu(new HubToimistoSivu(this, HubToimistoSivu::MAJAVA)),
@@ -111,11 +113,10 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     addDockWidget(Qt::BottomDockWidgetArea, SaldoDock::dock());
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
-    for(int i=KIRJAUSSIVU; i<MAARITYSSIVU;i++)
-        sivuaktiot[i]->setEnabled(false);
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+    paivitaAktiivisuudet();
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
+
     // Ladataan viimeksi avoinna ollut kirjanpito
     // Vain sqlite
     if( kp()->settings()->contains("Viimeisin") && kp()->settings()->value("Viimeisin").toInt() == 0 )
@@ -133,6 +134,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
             kp()->sqlite()->avaaTiedosto(viimeisin, false);
         else
             aloitussivu->kirjanpitoVaihtui();
+
+        paivitaAktiivisuudet();
     }
     else
         aloitussivu->kirjanpitoVaihtui();
@@ -147,7 +150,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), &Kirjanpito::onni, this, &KitupiikkiIkkuna::naytaOnni);
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
-    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::kirjanpitoLadattu);
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
@@ -168,13 +172,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( new QShortcut(QKeySequence("Ctrl+D"), this), &QShortcut::activated, this, [] () { DevTool *dev = new DevTool(); dev->show(); } );
 
+    connect( majavaSivu, &HubToimistoSivu::toimistoLinkki, this, &KitupiikkiIkkuna::naytaToimisto);
 
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
     LaskunToimittaja::luoInstanssi(this);   // Alustetaan laskujen toimittaja
 
-    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjanpitoLadattu);    
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
@@ -225,7 +230,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu, bool siirry)
 }
 
 
-void KitupiikkiIkkuna::kirjanpitoLadattu()
+void KitupiikkiIkkuna::paivitaAktiivisuudet()
 {
     if( kp()->yhteysModel() )
     {
@@ -248,18 +253,25 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         sivuaktiot[ARKISTOSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::TILINPAATOS | YhteysModel::BUDJETTI ));
         sivuaktiot[ALVSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::ALV_ILMOITUS ));
         sivuaktiot[KIERTOSIVU]->setVisible(kp()->yhteysModel()->onkoOikeutta(YhteysModel::KIERTO_LISAAMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_TARKASTAMINEN) );
+        sivuaktiot[LISAOSASIVU]->setVisible( kp()->yhteysModel()->onkoOikeutta(YhteysModel::LISAOSA_KAYTTO));
+        sivuaktiot[ALVSIVU]->setVisible(  kp()->asetukset()->onko("AlvVelvollinen") );
+
     } else {
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
         setWindowTitle(tr("Kitsas %1").arg(qApp->applicationVersion()));
     }
 
-    edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
-    sivuaktiot[ALVSIVU]->setVisible( kp()->yhteysModel() && kp()->asetukset()->onko("AlvVelvollinen") );
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
-    sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
-    sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
+    if( kp()->pilvi()->kayttajaPilvessa()) {
+        sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
+        sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
+        sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
+    } else {
+        for(int i=LISAOSASIVU; i <= MAJAVASIVU; i++)
+            sivuaktiot[i]->setVisible(false);
+    }
 
+    edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     valitseSivu(ALOITUSSIVU);
 }
 
@@ -290,6 +302,12 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 void KitupiikkiIkkuna::uusiLasku()
 {
     LaskuDialogiTehdas::myyntilasku();
+}
+
+void KitupiikkiIkkuna::naytaToimisto(const QString &id)
+{
+    hubToimistoSivu->naytaToimisto(id);
+    valitseSivu(HUBTOIMISTOSIVU);
 }
 
 void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
@@ -504,7 +522,8 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"Ctrl+6", ARKISTOSIVU, arkistosivu);
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+9", TOIMISTOSIVU, toimistosivu);
+    lisaaSivu(tr("Lisäosat"), ":/pic/palat.svg", tr("Lisäosien hallinta"), "Ctrl+9", LISAOSASIVU, lisaosaSivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", TOIMISTOSIVU, toimistosivu);
     lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+0", HUBTOIMISTOSIVU, hubToimistoSivu);
     lisaaSivu(tr("Majava"), ":/pixaby/majava.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "", MAJAVASIVU, majavaSivu);
 

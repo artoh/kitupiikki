@@ -58,7 +58,7 @@ void RaporttiRivi::lisaaTositeTunnus(const QDate &pvm, const QString &sarja, int
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus)
+void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus, int leveysSaraketta)
 {
     RaporttiRiviSarake uusi;
     if( sentit || tulostanollat)
@@ -66,6 +66,8 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus)
 
     uusi.tasaaOikealle = true;
     uusi.tulostaPlus = tulostaplus;
+    uusi.leveysSaraketta = leveysSaraketta;
+
     sarakkeet_.append( uusi );
 }
 
@@ -74,9 +76,9 @@ void RaporttiRivi::lisaa(double eurot, bool tulostanollat, bool tulostaplus)
     lisaa( qRound64( eurot * 100.0), tulostanollat, tulostaplus);
 }
 
-void RaporttiRivi::lisaa(const Euro &eurot, bool tulostanollat, bool tulostaplus)
+void RaporttiRivi::lisaa(const Euro &eurot, bool tulostanollat, bool tulostaplus, int leveysSaraketta)
 {
-    lisaa( eurot.cents(), tulostanollat, tulostaplus );
+    lisaa( eurot.cents(), tulostanollat, tulostaplus, leveysSaraketta );
 }
 
 void RaporttiRivi::lisaa(const QDate &pvm)

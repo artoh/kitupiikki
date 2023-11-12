@@ -38,6 +38,7 @@ class AlvSivu;
 class OnniWidget;
 class ToimistoSivu;
 class HubToimistoSivu;
+class LisaosaSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -64,7 +65,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = nullptr);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, TOIMISTOSIVU, HUBTOIMISTOSIVU, MAJAVASIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, LISAOSASIVU, TOIMISTOSIVU, HUBTOIMISTOSIVU, MAJAVASIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -75,7 +76,7 @@ public slots:
      */
     void valitseSivu(int mikasivu, bool paluu = false, bool siirry=true);
 
-    void kirjanpitoLadattu();
+    void paivitaAktiivisuudet();
 
     void palaaSivulta();
 
@@ -84,6 +85,7 @@ public slots:
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
     void uusiLasku();
+    void naytaToimisto(const QString& id);
 
     void kirjauduttu(const PilviKayttaja& kayttaja);
 
@@ -142,6 +144,7 @@ protected:
     MaaritysSivu *maarityssivu;
     ArkistoSivu *arkistosivu;
     AlvSivu *alvsivu;
+    LisaosaSivu *lisaosaSivu;
     ToimistoSivu* toimistosivu;
     HubToimistoSivu* hubToimistoSivu;
     HubToimistoSivu* majavaSivu;

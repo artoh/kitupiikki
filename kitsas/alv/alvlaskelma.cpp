@@ -201,8 +201,7 @@ void AlvLaskelma::kirjoitaMaksutiedot()
         if( kausi.alkupvm().isValid() && (kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_)) {
             RaporttiRivi poikkeus;
             poikkeus.lisaa(kaanna("Laskelman kausi poikkeaa verottajan järjestelmässä olevasta alv-kaudesta %1 - %2").arg(kausi.alkupvm().toString("dd.MM.yyyy"), kausi.loppupvm().toString("dd.MM.yyyy")),5);
-            rk.lisaaRivi(poikkeus);
-            return;
+            rk.lisaaRivi(poikkeus);            
         }
     }
 

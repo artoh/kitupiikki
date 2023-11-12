@@ -69,6 +69,11 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
         renderer.render(painter, oikealla(indeksi++, rect));
     }
 
+    if( badges & Badges::WARN ) {
+        QSvgRenderer renderer(QString(":/pic/ilmoitus-oranssi.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
+
     if( badges & Badges::ERROR ) {
         QSvgRenderer renderer(QString(":/pic/ilmoitus-punainen.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));

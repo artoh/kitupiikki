@@ -198,7 +198,7 @@ bool LiitteetModel::lisaaHeti(QByteArray liite, const QString &polku)
 
     bool tuoTiedot = liitteet_.count() == 1 && !tosite->tilioterivi();
     bool tallennusOcr = tuoTiedot && qobject_cast<PilviModel*>(kp()->yhteysModel())
-                        && ( uusiLiite->tyyppi() == "application/pdf" || (uusiLiite->tyyppi() == "image/jpeg" || kp()->settings()->value("OCR").toBool())) ;
+                        && ( uusiLiite->tyyppi() == "application/pdf" || (uusiLiite->tyyppi() == "image/jpeg" && kp()->settings()->value("OCR").toBool())) ;
 
     uusiLiite->liita(tallennusOcr);
 

@@ -19,6 +19,7 @@ public:
     operator bool() const;
 
     int id() const { return id_; }
+    QString bookId() const { return bookId_;}
     QString nimi() const { return name_;}
     QString ytunnus() const { return businessid_;}
     bool kokeilu() const { return trial_;}
@@ -53,6 +54,7 @@ public:
 
 private:
     int id_ = 0;
+    QString bookId_;
     int plan_id_ = 0;
     bool vat_ = false;
     bool trial_period_ = false;

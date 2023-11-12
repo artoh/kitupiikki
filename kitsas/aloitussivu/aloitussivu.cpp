@@ -280,8 +280,8 @@ void AloitusSivu::linkki(const QUrl &linkki)
         Kirjanpito::avaaUrl( linkki );
     }
     else if( linkki.scheme() == "close") {
-        const int id = linkki.path().toInt();
-        if( id ) {
+        const QString id = linkki.path();
+        if( !id.isEmpty() ) {
             kp()->pilvi()->poistaNotify(id);
             KpKysely* kysely = kp()->pilvi()->loginKysely(QString("/notifications/%1").arg(id), KpKysely::DELETE);
             kysely->kysy();

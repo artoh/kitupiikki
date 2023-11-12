@@ -131,6 +131,13 @@ SOURCES += \
     $$PWD/liite/naytaliitewidget.cpp \
     $$PWD/liite/pdfrenderview.cpp \
     $$PWD/liite/uusiliitewidget.cpp \
+    $$PWD/lisaosat/lisaosa.cpp \
+    $$PWD/lisaosat/lisaosalistmodel.cpp \
+    $$PWD/lisaosat/lisaosalokiikkuna.cpp \
+    $$PWD/lisaosat/lisaosalokimodel.cpp \
+    $$PWD/lisaosat/lisaosasivu.cpp \
+    $$PWD/lisaosat/lisaosasortproxymodel.cpp \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.cpp \
     $$PWD/maaritys/bannermaaritys.cpp \
     $$PWD/maaritys/extra/aliasdialog.cpp \
     $$PWD/maaritys/extra/extradialog.cpp \
@@ -287,6 +294,7 @@ SOURCES += \
     $$PWD/toimisto/groupuserdata.cpp \
     $$PWD/toimisto/groupusermembersmodel.cpp \
     $$PWD/toimisto/hubtoimistosivu.cpp \
+    $$PWD/toimisto/hubwebpage.cpp \
     $$PWD/toimisto/oikeusinfonmuodostaja.cpp \
     $$PWD/toimisto/pikavalintadialogi.cpp \
     $$PWD/toimisto/ryhmaoikeusdialog.cpp \
@@ -580,6 +588,13 @@ HEADERS += \
     $$PWD/liite/naytaliitewidget.h \
     $$PWD/liite/pdfrenderview.h \
     $$PWD/liite/uusiliitewidget.h \
+    $$PWD/lisaosat/lisaosa.h \
+    $$PWD/lisaosat/lisaosalistmodel.h \
+    $$PWD/lisaosat/lisaosalokiikkuna.h \
+    $$PWD/lisaosat/lisaosalokimodel.h \
+    $$PWD/lisaosat/lisaosasivu.h \
+    $$PWD/lisaosat/lisaosasortproxymodel.h \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.h \
     $$PWD/maaritys/bannermaaritys.h \
     $$PWD/maaritys/extra/aliasdialog.h \
     $$PWD/maaritys/extra/extradialog.h \
@@ -766,6 +781,7 @@ HEADERS += \
     $$PWD/toimisto/groupuserdata.h \
     $$PWD/toimisto/groupusermembersmodel.h \
     $$PWD/toimisto/hubtoimistosivu.h \
+    $$PWD/toimisto/hubwebpage.h \
     $$PWD/toimisto/oikeusinfonmuodostaja.h \
     $$PWD/toimisto/pikavalintadialogi.h \
     $$PWD/toimisto/ryhmaoikeusdialog.h \
@@ -944,6 +960,7 @@ FORMS += \
     $$PWD/laskutus/tuotedialogi.ui \
     $$PWD/laskutus/uusimaksumuistutusdialogi.ui \
     $$PWD/laskutus/vakioviite/vakioviitedlg.ui \
+    $$PWD/lisaosat/yksityinenlisaosadialogi.ui \
     $$PWD/maaritys/bannermaaritys.ui \
     $$PWD/maaritys/extra/aliasdialog.ui \
     $$PWD/maaritys/kayttooikeudet/kayttooikeudet.ui \

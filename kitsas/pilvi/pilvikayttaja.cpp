@@ -14,6 +14,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     const QVariantMap map = data.toMap();
 
     id_ = map.value("id").toInt();
+    uuid_ = map.value("uuid").toString();
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
     phone_ = map.value("phone").toString();

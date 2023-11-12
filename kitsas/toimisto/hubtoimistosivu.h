@@ -15,6 +15,14 @@ public:
 
     void siirrySivulle() override;
 
+    void alustaSivu();
+
+public slots:
+    void naytaToimisto(const QString& id);
+
+signals:
+    void toimistoLinkki(const QString& id);
+
 protected:
     QWebEngineView* view_;
     Jarjestelma jarjestelma_;

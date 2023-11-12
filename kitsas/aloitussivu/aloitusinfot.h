@@ -13,11 +13,11 @@ public:
     void asetaInfot(const QVariantList& data);
 
     void info(const QString& luokka, const QString& otsikko, const QString& teksti,
-              const QString& linkki = QString(), const QString kuva = QString(), const QString ohjelinkki = QString(), int id=0);
+              const QString& linkki = QString(), const QString kuva = QString(), const QString ohjelinkki = QString(), const QString &id=QString());
 
     void clear();
 
-    void poistaNotify(int notifyId);
+    void poistaNotify(const QString &notifyId);
 
 private:
     QList<AloitusInfo> infot_;

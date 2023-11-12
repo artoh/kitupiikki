@@ -14,7 +14,7 @@ QString AloitusInfot::toHtml() const
     return txt;
 }
 
-void AloitusInfot::info(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki, int id)
+void AloitusInfot::info(const QString &luokka, const QString &otsikko, const QString &teksti, const QString &linkki, const QString kuva, const QString ohjelinkki, const QString& id)
 {
     infot_.append( AloitusInfo(luokka, otsikko, teksti, linkki, kuva, ohjelinkki, id));
 }
@@ -24,7 +24,7 @@ void AloitusInfot::clear()
     infot_.clear();
 }
 
-void AloitusInfot::poistaNotify(int notifyId)
+void AloitusInfot::poistaNotify(const QString& notifyId)
 {
     for(int i=0; i < infot_.count(); i++) {
         if( infot_.at(i).notifyId() == notifyId) {

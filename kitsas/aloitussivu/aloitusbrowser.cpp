@@ -39,7 +39,7 @@ void AloitusBrowser::haSaldot(const QDate &saldoPvm)
 void AloitusBrowser::asetaTilioimatta(int tilioimatta)
 {
     tilioimatta_ = tilioimatta;
-    paivitaAvattu();
+    naytaPaivitetty();
 }
 
 void AloitusBrowser::naytaPaivitetty()
@@ -383,7 +383,7 @@ void AloitusBrowser::saldotSaapuu(QVariant *data)
         iter.next();
         saldot_.append(SaldoTieto(iter.key(), iter.value().toString()));
     }
-    paivitaAvattu();
+    naytaPaivitetty();
 }
 
 QString AloitusBrowser::saldoTaulu()

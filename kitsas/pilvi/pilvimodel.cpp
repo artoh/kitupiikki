@@ -157,7 +157,7 @@ void PilviModel::paivitaIlmoitukset(QVariant *data)
     QVariantMap map = data->toMap();
     QVariantList pilvet = map.value("books").toList();
 
-    if( pilvet.contains("notifications")) {
+    if( map.contains("notifications")) {
         QVariantList notifikaatiot = map.value("notifications").toList();
         nykyPilvi_.asetaNotifikaatiot(notifikaatiot);
     }
@@ -272,7 +272,7 @@ void PilviModel::asetaAlias(const QString &alias)
     nykyPilvi_.asetaAlias(alias);
 }
 
-void PilviModel::poistaNotify(const int id)
+void PilviModel::poistaNotify(const QString& id)
 {
     nykyPilvi_.poistaNotify(id);
 }

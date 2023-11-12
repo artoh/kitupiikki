@@ -168,6 +168,7 @@ public:
 
     bool tyhja() const { return rivit_.isEmpty(); }
     int riveja() const { return  rivit_.count(); }
+    int sarakkeita() const { return sarakkeet_.count();}
 
     void asetaKieli(const QString& kieli);
 
