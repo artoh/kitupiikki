@@ -23,6 +23,8 @@ UusiLiiteWidget::UusiLiiteWidget(QWidget *parent)
     ui->malliView->setModel(MallipohjaModel::instanssi());
     connect( MallipohjaModel::instanssi(), &MallipohjaModel::modelReset, this, &UusiLiiteWidget::nollaaPohjat);
 
+    connect( ui->liitaNappi, &QPushButton::clicked, this, &UusiLiiteWidget::leikepoydalta);
+
     connect(ui->malliView, &QListView::clicked, this, [this] (const QModelIndex& index)
         {emit this->lataaPohja(index.data(Qt::UserRole).toInt());});
 
