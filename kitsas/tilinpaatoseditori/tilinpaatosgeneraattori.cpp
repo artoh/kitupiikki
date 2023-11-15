@@ -230,7 +230,7 @@ QString TilinpaatosGeneraattori::henkilostoTaulukko(const QString &teksti)
     if( kp()->tilikaudet()->indeksiPaivalle( tilikausi_.paattyy()))
         verrokki = kp()->tilikaudet()->tilikausiIndeksilla(  kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) - 1 );
 
-    QString txt = tr("<table width=100%><tr><td width=\"50%\"></td><th align=right width=\"25%\">%1</th>").arg(tilikausi_.kausivaliTekstina());
+    QString txt = tr("<table width=100%><tr><th width=\"50%\"></th><th align=right width=\"25%\">%1</th>").arg(tilikausi_.kausivaliTekstina());
     if( verrokki.alkaa().isValid() )
         txt.append( QString("<th align=right width=\"25%\">%1</th>").arg(verrokki.kausivaliTekstina()) );
 
