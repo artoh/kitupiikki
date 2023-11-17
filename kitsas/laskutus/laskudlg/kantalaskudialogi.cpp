@@ -250,11 +250,13 @@ void KantaLaskuDialogi::paivitaValvonnat()
         ui->valvontaCombo->addItem(QIcon(":/pic/lasku.png"), tr("Yksittäinen lasku"), Lasku::LASKUVALVONTA);
 
     bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel());
+    // Maksuperusteisella alv:llä ei voi olla huoneisto- eikä asiakasvalvontaa
+    bool maksuAlv = kp()->onkoMaksuperusteinenAlv(ui->laskuPvm->date());
 
 
-    if( !ladattuAsiakas_.isEmpty() && pilvessa )
+    if( !ladattuAsiakas_.isEmpty() && pilvessa && !maksuAlv)
         ui->valvontaCombo->addItem(QIcon(":/pic/mies.png"), tr("Asiakas"), Lasku::ASIAKAS);
-    if( kp()->huoneistot()->rowCount())
+    if( kp()->huoneistot()->rowCount() && !maksuAlv)
         ui->valvontaCombo->addItem(QIcon(":/pic/talo.png"), tr("Huoneisto"), Lasku::HUONEISTO);
     if( kp()->vakioViitteet()->rowCount())
         ui->valvontaCombo->addItem(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"), Lasku::VAKIOVIITE);
