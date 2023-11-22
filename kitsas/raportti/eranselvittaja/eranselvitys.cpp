@@ -74,7 +74,6 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
     connect( tiliView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::tiliValittu);
     connect( eraView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::eraValittu);
 
-    connect( eraModel_, &EranSelvitysEraModel::modelReset, this, &EranSelvitys::eratLadattu);
     splitter->setCollapsible(0, false);
     splitter->setCollapsible(1, false);
     splitter->setCollapsible(2, false);
@@ -87,6 +86,11 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
 
     connect( eraView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::paivitaNapit);
     connect( viennitView_->selectionModel(), &QItemSelectionModel::selectionChanged, this, &EranSelvitys::paivitaNapit);
+
+    connect( tiliModel_, &EranSelvitysTiliModel::modelReset, this, &EranSelvitys::tiliListaPaivitetty);
+    connect( eraModel_, &EranSelvitysEraModel::modelReset, this, &EranSelvitys::eraListaPaivitetty);
+    connect( viennit_, &EranSelvitysViennit::modelReset, this, &EranSelvitys::vientiListaPaivitetty);
+
     paivitaNapit();
 }
 
@@ -142,6 +146,7 @@ void EranSelvitys::initActions()
     connect(nollausAktio_, &QAction::triggered, this, &EranSelvitys::nollausTosite);
 
     nimeaAktio_ = new QAction(QIcon(":/pixaby/rename.svg"), tr("Uudelleennimeä"));
+    connect( nimeaAktio_, &QAction::triggered, this, &EranSelvitys::uudelleennimea);
 
 }
 
@@ -179,8 +184,11 @@ void EranSelvitys::initActionBar()
 
 void EranSelvitys::tiliValittu(const QItemSelection &selected)
 {
-    if( !selected.empty()) {
-        tili_ = selected.indexes().first().data(Qt::UserRole).toInt();
+    if( !selected.empty()  ) {
+        const int tili = selected.indexes().first().data(Qt::UserRole).toInt();
+        if( tili == tili_) return;
+
+        tili_ = tili;
         viennit_->clear();
         eraModel_->load( tili_, endDate_ );
     }
@@ -188,7 +196,7 @@ void EranSelvitys::tiliValittu(const QItemSelection &selected)
 
 void EranSelvitys::eraValittu(const QItemSelection &selected)
 {    
-    if( !selected.empty()) {
+    if( !selected.empty() ) {
         eraId_ = selected.indexes().first().data(Qt::UserRole).toInt();
         viennit_->load(tili_, eraId_);
     }
@@ -213,13 +221,6 @@ void EranSelvitys::naytaTaseErittely()
     valinnat.aseta(RaporttiValinnat::Tyyppi, "taseerittely");
 
     NaytinIkkuna::naytaRaportti(valinnat);
-}
-
-void EranSelvitys::eratLadattu()
-{
-    if( eraModel_->rowCount()) {
-        eraView_->selectRow(0);
-    }
 }
 
 Euro EranSelvitys::nollausSumma() const
@@ -344,7 +345,7 @@ void EranSelvitys::erittelemattomiin()
         QVariantMap map;
 
         map.insert("vientiId", vienti.id());
-        map.insert("eraId", QVariant());
+        map.insert("eraId", 0);
         lista.append( map );
     }
 
@@ -353,50 +354,47 @@ void EranSelvitys::erittelemattomiin()
     kysely->kysy(lista);
 }
 
+void EranSelvitys::uudelleennimea()
+{
+    QModelIndexList entries = viennitView_->selectionModel()->selectedRows();
+    if( entries.isEmpty()) return;
+    TositeVienti vienti( entries.first().data(EranSelvitysEraModel::EraMapRooli).toMap());
+
+    bool ok;
+    const QString selite = QInputDialog::getText(this, tr("Vaihda selite"),
+                                                 tr("Viennin selite") + "\n\n" + tr("Korvaa viennin selitteen myös kirjanpitotositteella.") , QLineEdit::Normal, vienti.selite(), &ok);
+    if( !ok ) return;
+
+    QVariantList lista;
+    QVariantMap map;
+    map.insert("vientiId", vienti.id());
+    map.insert("selite", selite);
+    lista.append(map);
+
+    KpKysely* kysely = kpk("/erat", KpKysely::PATCH);
+    connect( kysely, &KpKysely::vastaus, this, &EranSelvitys::paivita);
+    kysely->kysy(lista);
+
+}
+
 void EranSelvitys::paivita()
 {
     tiliModel_->refresh();
-
-    for(int i=0; i < tiliView_->model()->rowCount() ; i++) {
-        const QModelIndex& index = tiliView_->model()->index(i,0);
-        if( index.data(EranSelvitysTiliModel::TiliNumeroRooli).toInt() == tili_  ) {
-            tiliView_->selectRow(i);
-            tiliView_->setCurrentIndex(index);
-            break;
-        }
-    }
-
     eraModel_->refresh();
-
-    for(int i=0; i < eraView_->model()->rowCount(); i++) {
-        const QModelIndex& index = eraView_->model()->index(i,0);
-        if( index.data(EranSelvitysEraModel::IdRooli).toInt() == eraId_) {
-            eraView_->selectRow(i);
-            eraView_->setCurrentIndex(index);
-        }
-    }
-
-    QModelIndexList viennit = viennitView_->selectionModel()->selectedRows();
-    QList<int> vientiIdt;
-    for(const auto& vienti : viennit) {
-        vientiIdt.append(vienti.data(EranSelvitysViennit::VientiIdRooli).toInt() );
-    }
-
     viennit_->load(tili_, eraId_);
-    for( int i=0; i < viennitView_->model()->rowCount(); i++) {
-        const QModelIndex& index = viennitView_->model()->index(i,0);
-        const int vientiId = index.data(EranSelvitysViennit::VientiIdRooli).toInt();
-        if( vientiIdt.contains(vientiId)) {
-            viennitView_->selectRow(i);
-        }
-    }
-
 }
 
 void EranSelvitys::paivitaNapit()
 {
 
     QModelIndexList viennit = viennitView_->selectionModel()->selectedRows();
+
+    valitutViennit_.clear();
+    for(const auto& vienti : viennit) {
+        valitutViennit_.append(vienti.data(EranSelvitysViennit::VientiIdRooli).toInt() );
+    }
+
+
     avaaAktio_->setEnabled(viennit.count() == 1);
 
     bool kelpoViennit = !viennit.isEmpty() && tili_;
@@ -412,4 +410,47 @@ void EranSelvitys::paivitaNapit()
     uusiAktio_->setEnabled(kelpoViennit);
     siirtoAktio_->setEnabled(kelpoViennit);
     erittelematonAktio_->setEnabled(kelpoViennit && eraId_);
+    nimeaAktio_->setEnabled(kelpoViennit && viennit.count() == 1);
+}
+
+void EranSelvitys::tiliListaPaivitetty()
+{
+    for(int i=0; i < tiliView_->model()->rowCount() ; i++) {
+        const QModelIndex& index = tiliView_->model()->index(i,0);
+        const int tili = index.data(EranSelvitysTiliModel::TiliNumeroRooli).toInt();
+        if( index.data(EranSelvitysTiliModel::TiliNumeroRooli).toInt() == tili_  ) {
+            tiliView_->selectRow(i);
+            break;
+        }
+    }
+}
+
+void EranSelvitys::eraListaPaivitetty()
+{
+
+    for(int i=0; i < eraView_->model()->rowCount(); i++) {
+        const QModelIndex& index = eraView_->model()->index(i,0);
+        const int eraId = index.data(EranSelvitysEraModel::IdRooli).toInt();
+        if( eraId == eraId_) {
+            eraView_->selectRow(i);
+            return;
+        }
+    }
+    if( eraModel_->rowCount()) {
+        eraView_->selectRow(0);
+        eraId_ = viennitView_->model()->index(0,0).data(Qt::UserRole).toInt();
+        viennit_->load(tili_, eraId_);
+    }
+}
+
+void EranSelvitys::vientiListaPaivitetty()
+{
+    QList<int> valitut = valitutViennit_;
+    for(int i=0; i < viennitView_->model()->rowCount(); i++) {
+        const QModelIndex& index = viennitView_->model()->index(i,0);
+        const int vientiId = index.data(EranSelvitysViennit::VientiIdRooli).toInt();
+        if( valitut.contains(vientiId)) {
+            viennitView_->selectRow(i);
+        }
+    }
 }

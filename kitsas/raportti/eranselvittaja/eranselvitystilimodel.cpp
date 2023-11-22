@@ -58,7 +58,7 @@ QVariant EranSelvitysTiliModel::data(const QModelIndex &index, int role) const
         } else if( index.column() == SALDO) {
             return rData.saldo().display(true);
         }
-    } else if( role == Qt::UserRole) {
+    } else if( role == TiliNumeroRooli) {
         return data_.at(index.row()).tili();
     } else if( role == Qt::TextAlignmentRole && (index.column() == SALDO || index.column() == KAUSI)) {
         return (int(Qt::AlignRight) | int(Qt::AlignVCenter));

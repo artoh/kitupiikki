@@ -42,9 +42,14 @@ protected:
     void siirra();
     void uusiEra();
     void erittelemattomiin();
+    void uudelleennimea();
 
     void paivita();
     void paivitaNapit();
+
+    void tiliListaPaivitetty();
+    void eraListaPaivitetty();
+    void vientiListaPaivitetty();
 
     EranSelvitysTiliModel* tiliModel_;
     EranSelvitysEraModel *eraModel_;
@@ -57,6 +62,7 @@ protected:
 
     int tili_ = 0;
     int eraId_ = 0;
+    QList<int> valitutViennit_;
     QDate startDate_;
     QDate endDate_;
 
@@ -66,7 +72,6 @@ protected:
     QAction* erittelematonAktio_;
     QAction* nollausAktio_;
     QAction* nimeaAktio_;
-
 
 };
 
