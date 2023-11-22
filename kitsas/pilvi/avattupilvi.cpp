@@ -23,7 +23,7 @@ AvattuPilvi::AvattuPilvi(const QVariant &data)
     trial_ = map.value("trial").toBool();
     oikeudet_ = oikeudetListasta(map.value("rights").toList());
     url_ = map.value("url").toString();
-    token_ = map.value("token").toString();
+    token_ = map.value("token").toString();    
     setServices(map.value("services").toMap());
     alustettu_ = map.value("initialized",true).toBool();
     active_ = map.value("active", true).toBool();
@@ -111,6 +111,7 @@ qlonglong AvattuPilvi::oikeudetListasta(const QVariantList &lista)
     }
     return bittikartta;
 }
+
 
 
 std::map<QString,qlonglong> AvattuPilvi::oikeustunnukset__ = {

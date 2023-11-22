@@ -180,6 +180,12 @@ void PilviModel::paivitaIlmoitukset(QVariant *data)
 
 }
 
+void PilviModel::paivitaPilviToken(QVariant *data)
+{
+    AvattuPilvi pilvi(*data);
+    nykyPilvi_ = pilvi;
+}
+
 
 
 void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
@@ -324,21 +330,26 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
 {
     if( avaaPilvi) {
         avaaPilvi_ = avaaPilvi;
-    }    
+    }
 
-    kayttaja_ = data.value("user");
+    PilviKayttaja kayttaja = data.value("user");
+    const bool kayttajaVaihtui = kayttaja_.id() != kayttaja.id();
+    kayttaja_ = kayttaja;
+
     asetaPilviLista( data.value("clouds").toList());
-
     kayttajaToken_ = data.value("token").toString();
     tokenUusittu_ = QDateTime::currentDateTime();
 
 
-    emit kirjauduttu(kayttaja_);
+    if( kayttajaVaihtui) {
+        emit kirjauduttu(kayttaja_);
+    }
+
     haeIlmoitusPaivitys();
 
     if( kayttaja_ && timer_ && ilmoitusTimer_) {
-        // Tarkastetaan tokenin uusintatarve kerran minuutissa
-        timer_->start(1000 * 60);        
+        // Tarkastetaan tokenin uusintatarve kerran 15 sekunnissa
+        timer_->start(1000 * 15);
     }
 
     if(avaaPilvi_) {
@@ -347,6 +358,7 @@ void PilviModel::kirjautuminen(const QVariantMap &data, int avaaPilvi)
     } else if( nykyPilvi_) {
         KpKysely* uusinta = kysely(QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(nykyPilvi_.id()), KpKysely::GET );
         connect( uusinta, &KpKysely::vastaus, this, [this] (QVariant* data) { this->nykyPilvi_ = *data; });
+        uusinta->kysy();
     }
 
 }
@@ -373,7 +385,8 @@ void PilviModel::tarkistaKirjautuminen()
     // yritetään uusia token
 
     if( kayttaja_ && tokenUusittu_.isValid() && tokenUusittu_.secsTo(QDateTime::currentDateTime()) > 60 * 60 * 12 ) {
-        tokenUusittu_ = QDateTime();
+        qDebug() << "Uusitaan token ";
+        tokenUusittu_ = QDateTime();        
         paivitaLista();
     }
 }
@@ -406,6 +419,7 @@ void PilviModel::alustaPilvi(QVariant *data, bool siirrossa)
 
             KpKysely* kyssari = kysely("/init", KpKysely::PUT);
             connect( kyssari, &KpKysely::vastaus, this, &PilviModel::uusiPilviAlustettu);
+            connect( kyssari, &KpKysely::virhe, this, &PilviModel::virheUudenPilvenAlustamisessa);
             kyssari->kysy(data.value("init"));
         }
     } else {
@@ -429,6 +443,14 @@ void PilviModel::uusiPilviAlustettu()
     KpKysely* patchKysely = loginKysely(QString("/clouds/%1").arg(nykyPilvi_.id()), KpKysely::PATCH);
     connect( patchKysely, &KpKysely::vastaus, this, [this] { this->paivitaLista( this->nykyPilvi_.id() ); });
     patchKysely->kysy(payload);
+}
+
+void PilviModel::virheUudenPilvenAlustamisessa()
+{
+    if( progressDialog_ ) progressDialog_->cancel();
+    QMessageBox::critical( qApp->activeWindow(), tr("Kirjanpidon alustaminen epäonnistui"),
+                          tr("Virhe palvelimella kirjanpitoa alustettaessa") );
+
 }
 
 void PilviModel::asetaPilviLista(const QVariantList lista)

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVariantMap>
+#include <QDateTime>
 
 #include "palvelunkertoja.h"
 #include "pilviextra.h"
@@ -52,6 +53,7 @@ public:
      */
     static qlonglong oikeudetListasta(const QVariantList& lista);
 
+
 private:
     int id_ = 0;
     QString bookId_;
@@ -67,7 +69,7 @@ private:
     bool alustettu_ = false;
     QString name_;
     QString businessid_;
-    QString alias_;
+    QString alias_;    
 
     QMap<int,PilviExtra> extrat_;
 
