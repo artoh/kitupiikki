@@ -14,7 +14,10 @@ class EranSelvitysEraModel : public QAbstractTableModel
 public:
     explicit EranSelvitysEraModel(QObject *parent = nullptr);
 
-    enum { PVM, KUMPPANI, SELITE, SALDO};
+    enum { PVM, KUMPPANI, SELITE, KAUSI, SALDO};
+    enum { IdRooli = Qt::UserRole,
+           EraMapRooli = Qt::UserRole + 1
+    };
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -37,22 +40,28 @@ protected:
     class SelvitysEra {
     public:
         SelvitysEra();
-        SelvitysEra(const QVariantMap& map);
+        SelvitysEra(const QVariantMap& map, bool vastaavaa = false);
 
         int id() const { return id_; }
         QDate pvm() const { return pvm_; }
         Euro saldo() const { return saldo_; }
+        Euro kausi() const { return kausi_; }
         QString selite() const { return selite_; }
         QString nimi() const { return nimi_; }
 
         void setSelite(const QString& selite);
+        QVariantMap eraMap() const;
 
     protected:
         int id_;
         QDate pvm_;
         Euro saldo_;
+        Euro kausi_;
         QString selite_;
         QString nimi_;
+        int kumppaniId_;
+        int tunniste_;
+        QString sarja_;
     };
 
 private:

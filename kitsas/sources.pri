@@ -216,6 +216,7 @@ SOURCES += \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitys.cpp \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.cpp \
+    $$PWD/raportti/eranselvittaja/eranselvityseranvalintadialog.cpp \
     $$PWD/raportti/eranselvittaja/eranselvityssortfilterproxymodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.cpp \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.cpp \
@@ -674,6 +675,7 @@ HEADERS += \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/eranselvittaja/eranselvitys.h \
     $$PWD/raportti/eranselvittaja/eranselvityseramodel.h \
+    $$PWD/raportti/eranselvittaja/eranselvityseranvalintadialog.h \
     $$PWD/raportti/eranselvittaja/eranselvityssortfilterproxymodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitystilimodel.h \
     $$PWD/raportti/eranselvittaja/eranselvitysviennit.h \

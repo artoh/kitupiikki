@@ -27,15 +27,11 @@ class EraEranValintaDialog : public EranValintaDialog
 public:
     EraEranValintaDialog(int tili, int asiakas, int nykyinen, QWidget* parent = nullptr);
 
-    virtual QVariantMap valittu() const override;
-
-protected:
-    virtual void paivitaNykyinen() override;
+protected:    
     void paivita();
 
 
-private:
-    int nykyinen_;
+private:    
     EranValintaModel* model_;
 
 };

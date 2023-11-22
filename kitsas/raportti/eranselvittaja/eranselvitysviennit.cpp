@@ -2,9 +2,12 @@
 
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include <QPalette>
 
-EranSelvitysViennit::EranSelvitysViennit(QObject *parent)
-    : QAbstractTableModel(parent)
+EranSelvitysViennit::EranSelvitysViennit(const QDate& alkuPvm, const QDate& loppuPvm, QObject *parent)
+    : QAbstractTableModel(parent),
+      alkuPvm_{ alkuPvm },
+      loppuPvm_{ loppuPvm }
 {
 }
 
@@ -63,11 +66,27 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
         }
     } else if( role == Qt::TextAlignmentRole && index.column() >= DEBET) {
         return Qt::AlignRight;
-    } else if( role == Qt::UserRole) {
+    } else if( role == TositeIdRooli) {
         return map.value("tosite").toMap().value("id").toInt();
+    } else if( role == Qt::DecorationRole && index.column() == PVM) {
+        const QDate pvm = map.value("pvm").toDate();
+        if( pvm.isValid() && pvm <= kp()->tilitpaatetty())
+            return QIcon(":/pic/lukittu.png");
+        else
+            return QIcon(":/pic/tyhja.png");
     } else if( role == Qt::DecorationRole && index.column() == TOSITE) {
         const int tositeTyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
         return kp()->tositeTyypit()->kuvake(tositeTyyppi);
+    } else if( role == Qt::BackgroundRole) {
+        const QDate pvm = map.value("pvm").toDate();
+        if( pvm < alkuPvm_ || pvm > loppuPvm_)
+            return QPalette().brush(QPalette::AlternateBase);
+    } else if( role == VientiMapRooli) {
+        return map;
+    } else if( role == PvmRooli) {
+        return map.value("pvm").toDate();
+    } else if( role == VientiIdRooli) {
+        return map.value("id").toInt();
     }
 
     return QVariant();

@@ -43,7 +43,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 8;
+    return 9;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -66,6 +66,8 @@ QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int r
             return tr("Debet");
         case KREDIT:
             return tr("Kredit");
+        case ALV:
+            return tr("Alv");
         case KOHDENNUS:
             return tr("Kohdennus");
         case KUMPPANI:
@@ -91,7 +93,7 @@ void SelausModel::lataaSqlite(SQLiteModel* sqlite, const QDate &alkaa, const QDa
 
     QString tilistr = tili > 0 ? QString(" AND tili=%1").arg(tili) : "";
 
-    QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, "
+    QString kysymys = QString("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debetsnt, kreditsnt, alvprosentti, alvkoodi, "
                     "selite, vienti.kohdennus as kohdennus, eraid, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"
                     "tosite.tyyppi as tosite_tyyppi, tosite.sarja as tosite_sarja, "
                     "kumppani.nimi as kumppani_nimi, liitteita "
@@ -209,6 +211,8 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
     tili = data.value("tili").toInt();
     debet = data.value("debet").toString();
     kredit = data.value("kredit").toString();
+    alvKoodi = data.value("alvkoodi").toInt();
+    alvProsentti = qRound(data.value("alvprosentti").toDouble());
     kumppani = data.value("kumppani").toMap().value("nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
@@ -241,7 +245,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
                                                  era.pvm(),
                                                  era.sarja(),
                                                  kp()->tilikaudet()->tilikausiPaivalle(era.pvm()).alkaa() == kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa() ));
-        }        
+        }
     } else if( era.eratyyppi() == EraMap::Asiakas) {
         kohdennuskuvake = QIcon(":/pic/mies.png");
     } else if( era.eratyyppi() == EraMap::Huoneisto) {
@@ -249,8 +253,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
         if(!kohdennus.isEmpty())
              kohdennus.append(" ");
         kohdennus.append(era.huoneistoNimi());
-    }
-
+    }    
 }
 
 SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, bool merkkauksia)
@@ -271,6 +274,8 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     tili = data.value("tili").toInt();
     debet = data.value("debetsnt").toLongLong();
     kredit = data.value("kreditsnt").toLongLong();
+    alvKoodi = data.value("alvkoodi").toInt();
+    alvProsentti = qRound(data.value("alvprosentti").toDouble());
     kumppani = data.value("kumppani_nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
@@ -364,6 +369,15 @@ QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
                 else
                     return kredit.display(false);
             }
+
+            case SelausModel::ALV:
+            {
+                if(alvProsentti)
+                    return QString("%1 %").arg(alvProsentti);
+                else
+                    return QString();
+            }
+
             case SelausModel::SELITE:
                 if( selite == kumppani )
                     return QVariant();
@@ -377,7 +391,7 @@ QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
         }
     } else if( role == Qt::TextAlignmentRole)
     {
-        if( sarake==SelausModel::KREDIT || sarake == SelausModel::DEBET)
+        if( sarake==SelausModel::KREDIT || sarake == SelausModel::DEBET || sarake == SelausModel::ALV)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -407,7 +421,9 @@ QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
         else
             return QIcon(":/pic/tyhja.png");
     }
-    else if( role == TositeSelausModel::TositeTyyppiRooli) {
+    else if( role == Qt::DecorationRole && sarake==SelausModel::ALV) {
+        return kp()->alvTyypit()->kuvakeKoodilla(alvKoodi);
+    } else if( role == TositeSelausModel::TositeTyyppiRooli) {
         return tositeTyyppi;
     } else if(role == SelausModel::TiliRooli) {
         return tili;

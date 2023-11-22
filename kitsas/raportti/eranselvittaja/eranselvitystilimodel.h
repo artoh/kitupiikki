@@ -14,19 +14,24 @@ protected:
     class EranSelvitysTili {
     public:
         EranSelvitysTili();
-        EranSelvitysTili(int tilinumero, Euro saldo);
+        EranSelvitysTili(const QVariantMap& map);
 
         int tili() const { return tili_;}
         Euro saldo() const { return saldo_;}
+        Euro kausi() const { return kausi_;}
+        int erittelemattomia() const { return erittelemattomia_;}
     protected:
         int tili_ = 0;
         Euro saldo_ = Euro::Zero;
+        Euro kausi_ = Euro::Zero;
+        int erittelemattomia_ = 0;
     };
 
 public:
-    explicit EranSelvitysTiliModel(QDate date, QObject *parent = nullptr);
+    explicit EranSelvitysTiliModel(QDate startDate, QDate date, QObject *parent = nullptr);
 
-    enum { TILI, SALDO };
+    enum { TILI, KAUSI, SALDO };
+    enum { TiliNumeroRooli = Qt::UserRole } ;
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -44,6 +49,7 @@ private:
 
 
     QList<EranSelvitysTili> data_;
+    QDate startDate_;
     QDate date_;
 };
 

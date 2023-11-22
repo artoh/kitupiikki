@@ -34,18 +34,20 @@ public:
     explicit EranValintaDialog(QWidget *parent = nullptr);
     virtual ~EranValintaDialog();
 
-    virtual QVariantMap valittu() const = 0;
+    virtual QVariantMap valittu() const;
 
     void paivitaSuodatus();
     void paivitaOk();
+    void asetaNykyinen(int eraId);
 
 protected:
     void asetaModel(QAbstractItemModel* model);
-    virtual void paivitaNykyinen() = 0;
+    virtual void paivitaNykyinen();
 
 protected:
     Ui::EranValintaDialog *ui;
     EraProxyModel* proxy_;
+    int nykyinen_ = 0;
 };
 
 #endif // ERANVALINTADIALOG_H

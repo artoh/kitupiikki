@@ -1,6 +1,7 @@
 #ifndef ERANSELVITYSVIENNIT_H
 #define ERANSELVITYSVIENNIT_H
 
+#include <QDate>
 #include <QAbstractTableModel>
 
 class EranSelvitysViennit : public QAbstractTableModel
@@ -8,9 +9,15 @@ class EranSelvitysViennit : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    explicit EranSelvitysViennit(QObject *parent = nullptr);
+    explicit EranSelvitysViennit(const QDate &alkuPvm, const QDate &loppuPvm, QObject *parent = nullptr);
 
     enum { PVM, TOSITE, SELITE, DEBET, KREDIT };
+
+    enum { TositeIdRooli = Qt::UserRole,
+           VientiMapRooli = Qt::UserRole + 1,
+           PvmRooli = Qt::UserRole + 2,
+           VientiIdRooli = Qt::UserRole + 3
+    };
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -28,6 +35,8 @@ private:
     void dataSaapuu(QVariant* data);
 
     QVariantList data_;
+    QDate alkuPvm_;
+    QDate loppuPvm_;
 };
 
 #endif // ERANSELVITYSVIENNIT_H

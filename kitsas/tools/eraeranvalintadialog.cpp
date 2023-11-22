@@ -22,13 +22,9 @@
 #include "db/tilikausimodel.h"
 
 EraEranValintaDialog::EraEranValintaDialog(int tili, int asiakas, int nykyinen, QWidget *parent)
-    : EranValintaDialog(parent),
-      nykyinen_(nykyinen),
+    : EranValintaDialog(parent),      
       model_(new EranValintaModel(this))
 {
-    ui->alkuDate->setDate(kp()->tilikaudet()->kirjanpitoAlkaa());
-    ui->loppuDate->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
-
     model_->lataa(tili, asiakas);
 
     asetaModel(model_);
@@ -36,27 +32,15 @@ EraEranValintaDialog::EraEranValintaDialog(int tili, int asiakas, int nykyinen, 
 
     connect( ui->avoimetCheck, &QCheckBox::toggled,
              this, &EraEranValintaDialog::paivita);
-}
 
 
-void EraEranValintaDialog::paivitaNykyinen()
-{
-    if( nykyinen_) {
-        for(int i=0; i < ui->view->model()->rowCount(); i++) {
-            if( ui->view->model()->index(i,0).data(EranValintaModel::IdRooli).toInt() == nykyinen_) {
-                ui->view->selectRow(i);
-                break;
-            }
-        }
-    }
+    asetaNykyinen(nykyinen);
 }
+
 
 void EraEranValintaDialog::paivita()
 {
     model_->paivita( ui->avoimetCheck->isChecked() );
 }
 
-QVariantMap EraEranValintaDialog::valittu() const
-{
-    return ui->view->currentIndex().data(EranValintaModel::MapRooli).toMap();
-}
+

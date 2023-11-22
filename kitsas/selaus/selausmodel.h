@@ -58,6 +58,8 @@ protected:
     QString etsi;
     int kohdennustyyppi;
     bool liitteita;
+    int alvKoodi;
+    int alvProsentti;
 };
 
 /**
@@ -70,7 +72,7 @@ public:
 
     enum SelausSarake
     {
-        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, KUMPPANI, SELITE
+        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV,  KUMPPANI, SELITE
     };
 
     enum {

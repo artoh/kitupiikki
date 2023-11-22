@@ -20,6 +20,7 @@
 #include <QPushButton>
 #include "db/kirjanpito.h"
 #include <QSettings>
+#include "eranvalintamodel.h"
 
 EranValintaDialog::EranValintaDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,6 +28,9 @@ EranValintaDialog::EranValintaDialog(QWidget *parent) :
     proxy_(new EraProxyModel(this))
 {        
     ui->setupUi(this);
+    ui->alkuDate->setDate(kp()->tilikaudet()->kirjanpitoAlkaa());
+    ui->loppuDate->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
+    paivitaSuodatus();
 
     connect( ui->alkuDate, &KpDateEdit::dateChanged,
              this, &EranValintaDialog::paivitaSuodatus);
@@ -46,6 +50,11 @@ EranValintaDialog::~EranValintaDialog()
     delete ui;
 }
 
+QVariantMap EranValintaDialog::valittu() const
+{
+    return ui->view->currentIndex().data(EranValintaModel::MapRooli).toMap();
+}
+
 void EranValintaDialog::paivitaSuodatus()
 {
     proxy_->suodata( ui->alkuDate->date(),
@@ -57,7 +66,13 @@ void EranValintaDialog::paivitaOk()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
                 ui->view->selectionModel() &&
-                ui->view->selectionModel()->selectedRows().count());
+                                                            ui->view->selectionModel()->selectedRows().count());
+}
+
+void EranValintaDialog::asetaNykyinen(int eraId)
+{
+    nykyinen_ = eraId;
+    paivitaNykyinen();
 }
 
 void EranValintaDialog::asetaModel(QAbstractItemModel *model)
@@ -76,4 +91,14 @@ void EranValintaDialog::asetaModel(QAbstractItemModel *model)
 
     paivitaNykyinen();
     ui->view->setFocus();
+}
+
+void EranValintaDialog::paivitaNykyinen()
+{
+    for(int i=0; i < ui->view->model()->rowCount(); i++) {
+        if( ui->view->model()->index(i,0).data(EranValintaModel::IdRooli).toInt() == nykyinen_) {
+            ui->view->selectRow(i);
+            break;
+        }
+    }
 }

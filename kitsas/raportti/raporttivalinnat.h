@@ -73,6 +73,7 @@ public:
         Jaksotettu,
         PiilotaNollasaldot,
         NaytaAlvProsentti,
+        ErittelemattomienViennit,
     };
 
     RaporttiValinnat();

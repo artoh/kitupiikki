@@ -30,6 +30,7 @@ void PvmRaporttiWidget::lataa()
     ui->kumppaniCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::TulostaKumppani));
     ui->eriPaivatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelePaivat));
     ui->piilotaNollaCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::PiilotaNollasaldot) );
+    ui->erittelemattomatCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::ErittelemattomienViennit) );
     ui->alvCheck->setChecked( kp()->raporttiValinnat()->onko(RaporttiValinnat::NaytaAlvProsentti) );
 
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
@@ -95,12 +96,13 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
     }
 
     if( tyyppi() != "paivakirja" && tyyppi() != "tositeluettelo") {
-        ui->eriPaivatCheck->hide();
+        ui->eriPaivatCheck->hide();        
     }
 
     if( tyyppi() != "taseerittely") {
         ui->selvittelyNappi->hide();
         ui->piilotaNollaCheck->hide();
+        ui->erittelemattomatCheck->hide();
     }
 
     if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
@@ -109,7 +111,7 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
 
 void PvmRaporttiWidget::taseSelvittely()
 {
-    EranSelvitys* selvitys = new EranSelvitys( ui->loppupvm->date() );
+    EranSelvitys* selvitys = new EranSelvitys( ui->alkupvm->date(), ui->loppupvm->date() );
     selvitys->show();
 }
 
@@ -136,6 +138,7 @@ void PvmRaporttiWidget::tallenna()
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::ErittelePaivat, ui->eriPaivatCheck->isChecked());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::Kieli, ui->kieliCombo->currentData().toString());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::PiilotaNollasaldot, ui->piilotaNollaCheck->isChecked());
+    kp()->raporttiValinnat()->aseta(RaporttiValinnat::ErittelemattomienViennit, ui->erittelemattomatCheck->isChecked());
     kp()->raporttiValinnat()->aseta(RaporttiValinnat::NaytaAlvProsentti, ui->alvCheck->isChecked());
 
     if( ui->tiliBox->isChecked()) {

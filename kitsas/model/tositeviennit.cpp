@@ -154,6 +154,10 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                 txt.append( rivi.era().value("huoneisto").toMap().value("nimi").toString());
             } else if( rivi.era().contains("asiakas")) {
                 txt.append( rivi.era().value("asiakas").toMap().value("nimi").toString());
+            } else if( rivi.eraId() == 0) {
+                Tili *tili = kp()->tilit()->tili( rivi.value("tili").toInt() );
+                if( tili && tili->eritellaankoTase())
+                    return tr("Ei tase-erää");
             }
 
             return txt;
@@ -194,16 +198,21 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/talo.png");
             if( rivi.value("era").toMap().contains("asiakas"))
                 return QIcon(":/pic/mies.png");
-
             if( rivi.contains("era") && rivi.value("era").toMap().value("saldo") == 0 )
                 return QIcon(":/pic/ok.png");
             Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt() );
+            Tili *tili = kp()->tilit()->tili( rivi.value("tili").toInt() );
             if(kohdennus.tyyppi())
                 return kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt()).tyyppiKuvake();
             else if( rivi.contains("era"))
                 return kp()->tositeTyypit()->kuvake( rivi.value("era").toMap().value("tositetyyppi").toInt() );
-            else
+            else if( tili && tili->eritellaankoTase()) {
+                return QIcon(":/pic/huomio.png");
+            } else if( rivi.eraId() == -1 || (rivi.eraId() == rivi.id() && rivi.eraId() > 0)) {
+                return QIcon(":/pic/lisaa.png");
+            } else {
                 return QIcon(":/pic/tyhja.png");
+            }
         } else if( index.column() == PVM)
         {
             // Väärät päivät
@@ -800,7 +809,7 @@ bool TositeViennit::debetKreditTasmaa() const
     Euro debet;
     Euro kredit;
 
-    for(auto vienti : viennit_) {
+    for(const auto& vienti : viennit_) {
         debet += vienti.debetEuro();
         kredit += vienti.kreditEuro();
     }

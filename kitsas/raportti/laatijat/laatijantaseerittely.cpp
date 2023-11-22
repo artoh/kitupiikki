@@ -94,6 +94,50 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
         }
 
         QChar tyyppi = koodi.at( koodi.length()-1 );
+
+        if( tyyppi == 'X') {
+            Euro summa = Euro::fromVariant(tieto.toMap().value("eur"));
+            if(valinnat().onko(RaporttiValinnat::ErittelemattomienViennit)) {
+                RaporttiRivi tilioimatonRivi;
+                tilioimatonRivi.lisaa(kaanna("TILIÖIMÄTTÖMÄT VIENNIT"), 5);
+                rk.lisaaRivi(tilioimatonRivi);
+
+                for(const auto& vienti : tieto.toMap().value("viennit").toList()) {
+                    const QVariantMap& iMap = vienti.toMap();
+                    RaporttiRivi ir;
+                    lisaaTositeTunnus(&ir, iMap);
+                    ir.lisaa( iMap.value("pvm").toDate());
+                    QString kumppani = iMap.value("kumppani").toString();
+
+                    QString selite = iMap.value("selite").toString();
+
+                    if(kumppani.isEmpty() || selite == kumppani) {
+                        ir.lisaa(selite, 2);
+                    } else {
+                        ir.lisaa( kumppani);
+                        ir.lisaa( selite);
+                    }
+                    ir.lisaa( Euro::fromVariant(iMap.value("eur")));
+                    rk.lisaaRivi(ir);
+                }
+                RaporttiRivi vikaRivi;
+                vikaRivi.lisaa(kaanna("Tiliöimättömiä vientejä yhteensä"),4);
+                vikaRivi.lisaa( summa, true);
+                vikaRivi.lihavoi();
+                vikaRivi.viivaYlle();
+                rk.lisaaRivi(vikaRivi);
+
+            } else {
+                RaporttiRivi tilioimatonRivi;
+                tilioimatonRivi.lisaa(kaanna("TILIÖIMÄTTÖMÄT VIENNIT"), 4);
+                tilioimatonRivi.lisaa( summa );
+                rk.lisaaRivi(tilioimatonRivi);
+            }
+            yhteensa += summa;
+            rk.lisaaTyhjaRivi();
+            continue;
+        }
+
         int tilinumero = koodi.left(koodi.length()-1).toInt();
         Tili* tili = kp()->tilit()->tili(tilinumero);
         if( !tili)
@@ -247,6 +291,8 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
                     QVariantMap emap = era.toMap();
                     RaporttiRivi rr;
 
+                    const bool erittelemattomatErittelylla = valinnat().onko(RaporttiValinnat::ErittelemattomienViennit) && emap.contains("viennit");
+
                     if( emap.contains("id")) {
                         int eraid = emap.value("id").toInt();
                         lisaaTositeTunnus(&rr, emap);
@@ -266,13 +312,42 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
                         }
 
                     } else {
-                        rr.lisaa("",2);
-                        rr.lisaa(kaanna("Erittelemättömät"),2);
+                        rr.lisaa(kaanna("Erittelemättömät"),4);
+                        if( erittelemattomatErittelylla) {
+                            rr.lihavoi();
+                        }
                     }
                     Euro euro = Euro::fromVariant(emap.value("eur"));
-                    rr.lisaa(euro);
+                    if( erittelemattomatErittelylla )
+                        // Jos eriteltynä, niin ei tähän summaa!
+                        rr.lisaa("");
+                    else
+                        rr.lisaa(euro);
+
                     rivit.append(rr);
                     tilinLoppusaldo += euro;
+
+                    if( erittelemattomatErittelylla ) {
+                        for(const auto& item : emap.value("viennit").toList()) {
+                            const auto iMap = item.toMap();
+                            RaporttiRivi ir;
+                            lisaaTositeTunnus(&ir, iMap);
+                            ir.lisaa( iMap.value("pvm").toDate());
+                            QString kumppani = iMap.value("kumppani").toString();
+
+                            QString selite = iMap.value("selite").toString();
+
+                            if(kumppani.isEmpty() || selite == kumppani) {
+                                ir.lisaa(selite, 2);
+                            } else {
+                                ir.lisaa( kumppani);
+                                ir.lisaa( selite);
+                            }
+                            ir.lisaa( Euro::fromVariant(iMap.value("eur")));
+                            rivit.append(ir);
+                        }
+                    }
+
                 }
             }
 

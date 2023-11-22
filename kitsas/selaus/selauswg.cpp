@@ -412,6 +412,7 @@ void SelausWg::selaa(int kumpi)
 
     if( kumpi == VIENNIT) {
         selausProxy_->setFilterFixedString(ui->etsiEdit->text());
+        ui->selausView->setColumnHidden( SelausModel::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) );
         ui->selausView->setModel(selausProxy_);        
     } else {
         tositeProxy_->setFilterFixedString(ui->etsiEdit->text());

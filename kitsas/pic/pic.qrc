@@ -526,5 +526,6 @@
         <file>pixaby/mobile.png</file>
         <file>maksutavat/yksityis.png</file>
         <file>pixaby/majava.svg</file>
+        <file>pixaby/rename.svg</file>
     </qresource>
 </RCC>
