@@ -382,6 +382,7 @@ void EranSelvitys::paivita()
     tiliModel_->refresh();
     eraModel_->refresh();
     viennit_->load(tili_, eraId_);
+    paivitaNapit();
 }
 
 void EranSelvitys::paivitaNapit()
