@@ -376,7 +376,9 @@ void MuuMuokkausDlg::alvLajiMuuttui()
     if( !nollalaji && alvProsentti() < 1e-5 )
         ui->kantaCombo->setCurrentText("24,00 %");
 
-    ui->sisAlvCheck->setVisible(!nollalaji);
+    ui->sisAlvCheck->setVisible(!nollalaji &&
+                                alvlaji != AlvKoodi::MYYNNIT_BRUTTO &&
+                                alvlaji != AlvKoodi::OSTOT_BRUTTO);
 
     kirjausLajiMuuttui();
     tarkasta();
