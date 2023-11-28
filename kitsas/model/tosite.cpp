@@ -470,18 +470,21 @@ void Tosite::tarkasta()
         else if( vienti.pvm() <= kp()->tilitpaatetty())
             virheet |= Tosite::PVMLUKITTU;
 
-        pvmLaskenta.insert( pvm, pvmLaskenta.value(pvm, Euro::Zero) + debet - kredit );
+        const Euro pvmEnnen = pvmLaskenta.value(pvm, Euro::Zero);
+        const Euro pvmJalkeen = pvmEnnen + vienti.debetEuro() - vienti.kreditEuro();
+        pvmLaskenta.insert( pvm , pvmJalkeen );
 
     }
     if( debet != kredit)
         virheet |= Tosite::EITASMAA;
 
     // Valvotaaan debet ja kredit myös päivittäin
-    QMapIterator<QDate,Euro> pIter(pvmLaskenta);
+    QMapIterator<QDate, Euro> pIter(pvmLaskenta);
     while( pIter.hasNext()) {
         pIter.next();
         if( pIter.value()) {
             virheet |= Tosite::EITASMAAPVM;
+            qDebug() << "D/K EI TÄSMÄÄ: PVM " << pIter.key().toString("dd.MM.yyyy") << " SALDO " << pIter.value().display(true);
             break;
         }
     }
