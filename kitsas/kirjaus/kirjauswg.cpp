@@ -501,6 +501,8 @@ void KirjausWg::paivita(bool muokattu, int virheet, const Euro &debet, const Eur
     } else if( virheet & Tosite::PVMPUUTTUU) {
         ui->varoTeksti->setText(tr("Päivämääriä puuttuu"));
         ui->varoKuva->setPixmap(QPixmap(":/pic/varoitus.png"));
+    } else if( virheet & Tosite::EITASMAAPVM) {
+        ui->varoTeksti->setText( tr("Debet ja kredit eivät täsmää jokaisella päivämäärällä."));
     }  else if( debet ) {
         ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
     }

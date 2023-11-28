@@ -72,7 +72,8 @@ public:
         PVMALV          = 0b100,
         EITASMAA        = 0b1000,
         TILIPUUTTUU     = 0b100000,
-        EIAVOINTAKUTTA  = 0b1000000
+        EIAVOINTAKUTTA  = 0b1000000,
+        EITASMAAPVM     = 0b10000000
     };
 
     enum Tila {

@@ -448,12 +448,14 @@ void Tosite::tarkasta()
     Euro debet;
     Euro kredit;
 
+    QMap<QDate, Euro> pvmLaskenta;
+
 
     for(const auto& vienti : viennit()->viennit() ) {
         QDate pvm = vienti.pvm();
 
         debet += vienti.debetEuro();
-        kredit += vienti.kreditEuro();
+        kredit += vienti.kreditEuro();                
 
         if( !kp()->tilit()->tili(vienti.tili()) && (vienti.debetEuro() || vienti.kreditEuro()) )
             virheet |= Tosite::TILIPUUTTUU;
@@ -467,9 +469,23 @@ void Tosite::tarkasta()
             virheet |= Tosite::EIAVOINTAKUTTA;
         else if( vienti.pvm() <= kp()->tilitpaatetty())
             virheet |= Tosite::PVMLUKITTU;
+
+        pvmLaskenta.insert( pvm, pvmLaskenta.value(pvm, Euro::Zero) + debet - kredit );
+
     }
     if( debet != kredit)
         virheet |= Tosite::EITASMAA;
+
+    // Valvotaaan debet ja kredit myös päivittäin
+    QMapIterator<QDate,Euro> pIter(pvmLaskenta);
+    while( pIter.hasNext()) {
+        pIter.next();
+        if( pIter.value()) {
+            virheet |= Tosite::EITASMAAPVM;
+            break;
+        }
+    }
+
 
 
     emit tilaTieto(muutettu_, virheet, debet, kredit);
