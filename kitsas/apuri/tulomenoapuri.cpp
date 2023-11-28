@@ -439,7 +439,7 @@ void TuloMenoApuri::tiliMuuttui()
             ui->vastatiliLine->valitseTiliNumerolla(vastatili);
             int maksutapaind = ui->maksutapaCombo->findData(vastatili, MaksutapaModel::TiliRooli);
             if( maksutapaind >= 0)
-                ui->maksutapaCombo->setCurrentIndex(vastatili);
+                ui->maksutapaCombo->setCurrentIndex(maksutapaind);
             else
                 ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
         }
