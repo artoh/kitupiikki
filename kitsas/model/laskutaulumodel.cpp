@@ -166,6 +166,12 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("viite");
     case AsiakasToimittajaIdRooli:
         return ostoja_ ? map.value("toimittajaid") : map.value("asiakasid");
+    case KumppaniMapRooli: {
+        QVariantMap kumppani;
+        kumppani.insert("id", ostoja_ ? map.value("toimittajaid") : map.value("asiakasid"));
+        kumppani.insert("nimi", ostoja_ ? map.value("toimittaja") : map.value("asiakas"));
+        return kumppani;
+    }
     case TositeIdRooli:
         return map.value("tosite");
     case TyyppiRooli:

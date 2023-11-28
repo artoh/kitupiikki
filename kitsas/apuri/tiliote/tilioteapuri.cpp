@@ -265,6 +265,9 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::naytaTosite()
 {
+    // TODO !!!
+
+/*
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if( !index.isValid())
         return;
@@ -288,7 +291,7 @@ void TilioteApuri::naytaTosite()
 
         KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU, QList<int>(), KirjausSivu::PALATAAN_AINA);
 
-        const TositeVienti& pankki = rivi.pankkivienti();
+        TositeVienti pankki ;
 
         int tositetyyppi = TositeTyyppi::MENO;
         if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS && pankki.debetEuro() ) {
@@ -326,6 +329,7 @@ void TilioteApuri::naytaTosite()
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }
+*/
 }
 
 

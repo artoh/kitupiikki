@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 #include "model/tositevienti.h"
 #include "model/tosite.h"
+#include "db/tositetyyppimodel.h"
 
 TmRivit::TmRivit(QObject *parent)
     : QAbstractTableModel(parent)
@@ -110,7 +111,7 @@ void TmRivit::lisaa(const QVariantMap &map)
     else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::ALVKIRJAUS && rivit_.count()) {
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true);
         if( vienti.alvKoodi() == AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS) {
-            qlonglong vahennys = qRound64( vienti.debet()*100) - qRound64( vienti.kredit()*100);
+            Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
             rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
         }
     }
@@ -118,7 +119,7 @@ void TmRivit::lisaa(const QVariantMap &map)
              vienti.alvKoodi() == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS &&
              rivit_.count())
     {
-        qlonglong vero = qRound64( vienti.kredit()*100 - vienti.debet()*100 );
+        Euro vero = vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero);
     } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS && rivit_.count())
         rivit_[ rivit_.count() - 1 ].setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO );
@@ -161,7 +162,8 @@ QVariantList TmRivit::viennit(Tosite* tosite)
     for(int i=0; i < rowCount(); i++) {
         const TulomenoRivi& rivi = rivit_.at(i);
         if( tosite->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA || (rivi.brutto() && rivi.tilinumero() )  )
-            lista.append( rivit_.at(i).viennit(tosite) );
+            lista.append( rivit_.at(i).viennit( tosite->tyyppi() == TositeTyyppi::TULO ? TositeVienti::MYYNTI : TositeVienti::OSTO,
+                                              tosite->otsikko(), tosite->kumppanimap(), tosite->pvm()) );
     }
 
     return lista;

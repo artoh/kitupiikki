@@ -391,3 +391,26 @@ void SiirtoApuri::laskuMaksettu(QList<TositeVienti> viennit)
     }
 }
 
+void SiirtoApuri::laskuMaksettu(const QDate &pvm,
+                                const QString &otsikko,
+                                const int tili,
+                                const EraMap &era,
+                                const QVariantMap& kumppani,
+                                const Euro &euro,
+                                bool debet)
+{
+    tosite()->asetaPvm(pvm);
+    tosite()->asetaOtsikko(otsikko);
+    ui->asiakas->valitse(kumppani);
+    ui->euroEdit->setEuro(euro);
+    if( debet ) {
+        ui->tililleEdit->valitseTiliNumerolla(tili);
+        ui->tililleEraCombo->valitse(era);
+        haeAlkuperaistosite(true, era.id());
+    } else {
+        ui->tililtaEdit->valitseTiliNumerolla(tili);
+        ui->tililtaEraCombo->valitse(era);
+        haeAlkuperaistosite(false, era.id());
+    }
+}
+

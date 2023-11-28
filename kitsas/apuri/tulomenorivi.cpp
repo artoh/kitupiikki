@@ -156,23 +156,22 @@ bool TulomenoRivi::naytaVahennysvalinta() const
             alvkoodi() == AlvKoodi::MAAHANTUONTI_PALVELUT;
 }
 
-QVariantList TulomenoRivi::viennit(Tosite* tosite) const
+QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, const QVariantMap& kumppani, const QDate& pvm) const
 {
     QVariantList vientilista;
     // Ensin varsinainen vienti
 
-    if( !tilinumero() )
+    if( !brutto())
         return vientilista;
 
     Euro maara = this->brutto();
     Euro netto = this->netto();
     Euro vero = this->brutto() - this->netto() ;
 
-    bool menoa = tosite->tyyppi() < TositeTyyppi::TULO;
-    QDate pvm = tosite->data(Tosite::PVM).toDate();
+    bool menoa = tyyppi == TositeVienti::OSTO;
 
-    QString otsikko = selite().isEmpty() ?
-                tosite->otsikko() :
+    QString rivinSelite = selite().isEmpty() ?
+                otsikko :
                 selite();
 
     TositeVienti vienti;
@@ -185,13 +184,13 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
     }
 
 
-    vienti.setTyyppi( ( menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::KIRJAUS );
+    vienti.setTyyppi( tyyppi + TositeVienti::KIRJAUS );
     if( vientiId_)
         vienti.setId( vientiId_);
 
     vienti.setTili( tilinumero() );
     vienti.setPvm(pvm);
-    vienti.setSelite( otsikko );
+    vienti.setSelite( rivinSelite );
     vienti.setKohdennus( kohdennus() );
     vienti.setMerkkaukset( merkkaukset() );
 
@@ -206,8 +205,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         verokoodi != AlvKoodi::ALV0)
         vienti.setAlvProsentti( alvprosentti());
 
-    if( !tosite->data(Tosite::KUMPPANI).isNull() )
-        vienti.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
+    if( !kumppani.isEmpty() )
+        vienti.set(TositeVienti::KUMPPANI, kumppani );
 
     if( poistoaika()) {
         vienti.setTasaerapoisto( poistoaika());
@@ -255,8 +254,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         palautus.setAlvProsentti( alvprosentti() );
         palautus.setSelite( otsikko );
-        if( !tosite->data(Tosite::KUMPPANI).isNull() )
-            palautus.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
+        if( !kumppani.isEmpty() )
+            palautus.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(palautus);
     }
 
@@ -288,8 +287,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         verorivi.setAlvProsentti( alvprosentti());
         verorivi.setSelite(otsikko);
-        if( !tosite->data(Tosite::KUMPPANI).isNull() )
-            verorivi.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
+        if( !kumppani.isEmpty() )
+            verorivi.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(verorivi);
     }
 
@@ -306,8 +305,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
 
         tuonti.setSelite(otsikko);
         tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
-        if( !tosite->data(Tosite::KUMPPANI).isNull() )
-            tuonti.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
+        if( !kumppani.isEmpty() )
+            tuonti.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(tuonti);
     }
     // Jos ei oikeuta alv-vähennykseen, kirjataan myös tämä osuus menoksi
@@ -329,8 +328,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
             palautus.setKredit( vero.abs());
 
         palautus.setSelite( otsikko );
-        if( !tosite->data(Tosite::KUMPPANI).isNull() )
-            palautus.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
+        if( !kumppani.isEmpty() )
+            palautus.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(palautus);
     }
 

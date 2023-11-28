@@ -58,6 +58,7 @@ public:
     void setJaksoalkaa(const QDate& pvm) { jaksoalkaa_ = pvm;}
     void setJaksopaattyy(const QDate& pvm) { jaksoloppuu_=pvm;}
     void setPoistoaika(int kk) { poistoaika_ = kk;}
+    void setVientiId(int id) { vientiId_ = id;}
 
 
     Euro brutto() const;
@@ -74,7 +75,8 @@ public:
     bool naytaNetto() const;
     bool naytaVahennysvalinta() const;
 
-    QVariantList viennit(Tosite *tosite) const;
+    QVariantList viennit(const int tyyppi, const QString &otsikko = QString(),
+                         const QVariantMap &kumppani = QVariantMap(), const QDate &pvm = QDate()) const;
 
 
 protected:

@@ -21,6 +21,7 @@
 
 #include "tiliotemodel.h"
 #include "tiliotekirjausrivi.h"
+#include "tiliotealirivitmodel.h"
 #include "model/eramap.h"
 
 class LaskuTauluTilioteProxylla;
@@ -58,10 +59,14 @@ public slots:
 
 private slots:
     void alaTabMuuttui(int tab);
+
     void euroMuuttuu();
+    void verotonMuuttuu();
+    void alvMuuttuu();
+    void alvProssaMuttuu();
+
     void ylaTabMuuttui(int tab);
-    void tiliMuuttuu();
-    void paivitaAlvInfo();
+    void tiliMuuttuu();    
     void eraValittu(EraMap era);
     void jaksomuuttuu(const QDate& pvm);
 
@@ -84,32 +89,39 @@ private slots:
 private:
     void alusta();
 
+    double alvProssa();
+
     TilioteApuri* apuri() const;
     void lataa(const TilioteKirjausRivi& rivi);
     void lataaNakymaan();
 
     void riviVaihtuu(const QModelIndex &current, const QModelIndex &previous);
     void naytaRivi();
-    void tallennaRivi();
-    TilioteKirjausRivi tallennettava() const;
+    void tallennaRivi();    
 
+    void tallenna();
+
+    void paivitaVeroFiltteri(const int verokoodi);
+
+    TilioteAliRivi *aliRivi();
+    void aliRiviaMuokattu();
 
 private:    
     Ui::TilioteKirjaaja *ui;
 
     int riviIndeksi_ = -1;
     int menoa_ = false;
-    int nykyVientiRivi_ = 0;
+    int nykyAliRiviIndeksi_ = 0;
 
     QSortFilterProxyModel* maksuProxy_;    
     QSortFilterProxyModel* avoinProxy_;
+    QSortFilterProxyModel* veroFiltteri_;
 
     LaskuTauluModel *laskut_;
-
     QVariantList alkuperaisRivit_;
 
-    TositeVienti pankkiVienti_;
-    TilioteViennit* viennit_;
+    TilioteKirjausRivi rivi_;
+    TilioteAliRivitModel* aliRiviModel_ = nullptr;
 
     bool ladataan_ = false;
 

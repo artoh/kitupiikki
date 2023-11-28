@@ -445,8 +445,8 @@ void TuloMenoApuri::tiliMuuttui()
         if(tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus( tili.luku("kohdennus") );
 
-        emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
-                                  rivit_->index(TmRivit::TILI, rivilla()));
+        emit rivit_->dataChanged( rivit_->index(rivilla(),  TmRivit::TILI),
+                                  rivit_->index(rivilla(), TmRivit::TILI));
 
         tositteelle();
     }

@@ -21,6 +21,8 @@ SOURCES += \
     $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/tiliote/taydennysviennit.cpp \
+    $$PWD/apuri/tiliote/tiliotealirivi.cpp \
+    $$PWD/apuri/tiliote/tiliotealirivitmodel.cpp \
     $$PWD/apuri/tiliote/tiliotealvcombo.cpp \
     $$PWD/apuri/tiliote/tiliotealvdelegaatti.cpp \
     $$PWD/apuri/tiliote/tilioteapuri.cpp \
@@ -477,6 +479,8 @@ HEADERS += \
     $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.h \
     $$PWD/apuri/tiliote/taydennysviennit.h \
+    $$PWD/apuri/tiliote/tiliotealirivi.h \
+    $$PWD/apuri/tiliote/tiliotealirivitmodel.h \
     $$PWD/apuri/tiliote/tiliotealvcombo.h \
     $$PWD/apuri/tiliote/tiliotealvdelegaatti.h \
     $$PWD/apuri/tiliote/tilioteapuri.h \

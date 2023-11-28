@@ -35,7 +35,12 @@ QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 void EuroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     KpEuroEdit *edit = qobject_cast<KpEuroEdit*>(editor);
-    edit->setEuro( index.data(Qt::EditRole).toString() );
+    const Euro euro(index.data(Qt::EditRole).toString());
+    edit->setEuro( euro );
+    if( !euro) {
+        edit->setMiinus( index.data(MiinusRooli).toBool() );
+    }
+
 }
 
 void EuroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const

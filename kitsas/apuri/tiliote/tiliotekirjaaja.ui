@@ -73,8 +73,8 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="4" column="0">
+        <widget class="QLabel" name="euroLabel">
          <property name="text">
           <string>Euroa</string>
          </property>
@@ -83,37 +83,24 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="KpEuroEdit" name="euroEdit">
          <property name="toolTip">
           <string>Kirjaa tililtä otto miinusmerkkisenä</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="tiliLabel">
-         <property name="text">
-          <string>Tiliöinti</string>
-         </property>
-         <property name="buddy">
-          <cstring>tiliEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="TilinvalintaLine" name="tiliEdit"/>
-       </item>
-       <item row="5" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="eraLabel">
          <property name="text">
           <string>Tase-erä</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="8" column="1">
         <widget class="EraCombo" name="eraCombo"/>
        </item>
-       <item row="6" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="kohdennusLabel">
          <property name="text">
           <string>Kohdennus</string>
@@ -123,10 +110,10 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="9" column="1">
         <widget class="KohdennusCombo" name="kohdennusCombo"/>
        </item>
-       <item row="7" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="merkkausLabel">
          <property name="text">
           <string>Merkkaukset</string>
@@ -136,17 +123,17 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="10" column="1">
         <widget class="CheckCombo" name="merkkausCC"/>
        </item>
-       <item row="8" column="0">
+       <item row="11" column="0">
         <widget class="QLabel" name="seliteLabel">
          <property name="text">
           <string>Selite</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="11" column="1">
         <widget class="QTextEdit" name="seliteEdit">
          <property name="minimumSize">
           <size>
@@ -162,14 +149,14 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="12" column="0">
         <widget class="QLabel" name="jaksotusLabel">
          <property name="text">
           <string>Jaksotus</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="12" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="KpDateEdit" name="jaksoAlkaaEdit"/>
@@ -193,33 +180,7 @@
          </item>
         </layout>
        </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="alvLabel">
-         <property name="text">
-          <string>Alv</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
-         <item>
-          <widget class="QComboBox" name="alvCombo"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="alvVaro">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 0);
-color: rgb(0, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>Tiliotteelta voit kirjata arvonlisäveron vain bruttomenettelyllä. 
-Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="11" column="1">
+       <item row="14" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <spacer name="horizontalSpacer_2">
@@ -274,6 +235,57 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
          </property>
          <property name="focusPolicy">
           <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="tiliLabel">
+         <property name="text">
+          <string>Tiliöinti</string>
+         </property>
+         <property name="buddy">
+          <cstring>tiliEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="TilinvalintaLine" name="tiliEdit"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="verotonLabel">
+         <property name="text">
+          <string>Veroton</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="KpEuroEdit" name="verotonEdit"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="alvLabel">
+         <property name="text">
+          <string>Alv</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+         <item>
+          <widget class="QComboBox" name="alvCombo"/>
+         </item>
+         <item>
+          <widget class="QComboBox" name="alvProssaCombo">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="1">
+        <widget class="QCheckBox" name="eiVahennysCheck">
+         <property name="text">
+          <string>Ei oikeuta alv-vähennykseen</string>
          </property>
         </widget>
        </item>
@@ -422,15 +434,18 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
   <tabstop>maksuView</tabstop>
   <tabstop>pvmEdit</tabstop>
   <tabstop>asiakastoimittaja</tabstop>
-  <tabstop>euroEdit</tabstop>
   <tabstop>tiliEdit</tabstop>
+  <tabstop>euroEdit</tabstop>
+  <tabstop>verotonEdit</tabstop>
+  <tabstop>alvCombo</tabstop>
+  <tabstop>alvProssaCombo</tabstop>
+  <tabstop>eiVahennysCheck</tabstop>
   <tabstop>eraCombo</tabstop>
   <tabstop>kohdennusCombo</tabstop>
   <tabstop>merkkausCC</tabstop>
   <tabstop>seliteEdit</tabstop>
   <tabstop>jaksoAlkaaEdit</tabstop>
   <tabstop>jaksoLoppuuEdit</tabstop>
-  <tabstop>alvCombo</tabstop>
   <tabstop>lisaaVientiNappi</tabstop>
   <tabstop>poistaVientiNappi</tabstop>
   <tabstop>viennitView</tabstop>
@@ -450,8 +465,8 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>924</x>
-     <y>660</y>
+     <x>1192</x>
+     <y>888</y>
     </hint>
     <hint type="destinationlabel">
      <x>698</x>
@@ -466,8 +481,8 @@ Tositteessa on oltava riittävät merkinnät arvonlisäverosta.</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1175</x>
-     <y>657</y>
+     <x>1364</x>
+     <y>888</y>
     </hint>
     <hint type="destinationlabel">
      <x>815</x>

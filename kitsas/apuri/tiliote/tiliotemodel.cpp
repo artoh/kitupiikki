@@ -165,7 +165,7 @@ void TilioteModel::asetaRivi(int indeksi, const TilioteKirjausRivi& rivi)
 
 TilioteKirjausRivi TilioteModel::rivi(const int indeksi) const
 {
-    return kirjausRivit_.value(indeksi);
+    return kirjausRivit_.at(indeksi);
 }
 
 void TilioteModel::lataa(const QVariantList &lista)
@@ -193,8 +193,6 @@ void TilioteModel::lataa(const QVariantList &lista)
 void TilioteModel::asetaTilinumero(int tilinumero)
 {
     tili_ = tilinumero;
-    for(int i=0; i < kirjausRivit_.count(); i++)
-        kirjausRivit_[i].asetaPankkitili(tilinumero);
 }
 
 int TilioteModel::lisaysIndeksi()
@@ -250,7 +248,7 @@ QVariantList TilioteModel::viennit() const
     QVariantList ulos;
     for(const auto& rivi : kirjausRivit_) {
         if( !rivi.peitetty() && rivi.summa()) {
-            ulos << rivi.tallennettavat();
+           ulos << rivi.viennit(tili_);
         }
     }
     return ulos;
@@ -271,15 +269,18 @@ void TilioteModel::tuo(const QVariantList tuotavat)
 
 QPair<qlonglong, qlonglong> TilioteModel::summat() const
 {
-    qlonglong panot = 0l, otot = 0l;
+    Euro panot, otot;
     for(const auto& rivi : kirjausRivit_) {
         if( rivi.peitetty()) continue;
-        panot += rivi.pankkivienti().debetSnt();
-        otot += rivi.pankkivienti().kreditSnt();
+        const Euro summa = rivi.summa();
+        if( summa > Euro::Zero)
+            panot += summa;
+        else
+            otot += summa.abs();
     }
     for(const auto& rivi : harmaatRivit_) {
-        panot += rivi.vienti().debetSnt();
-        otot +=  rivi.vienti().kreditSnt();
+        panot += rivi.vienti().debetEuro();
+        otot +=  rivi.vienti().kreditEuro();
     }
     return qMakePair(panot, otot);
 }
@@ -321,6 +322,7 @@ void TilioteModel::peita(int harmaaIndeksi, int kirjausIndeksi)
 void TilioteModel::peitaHarmailla(int harmaaIndeksi)
 {
     const TositeVienti& harmaa = harmaatRivit_.at(harmaaIndeksi).vienti();
+    Euro harmaaSumma = harmaa.debetEuro() - harmaa.kreditEuro();
     const QString& arkistotunnus = harmaa.arkistotunnus();
 
     // Ensin etsitään arkistotunnuksella
@@ -328,7 +330,7 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
         for(int ki=0; ki < kirjausRivit_.count(); ki++) {
             const TilioteKirjausRivi& rivi = kirjausRivit_.at(ki);
             if( rivi.peitetty()) continue;
-            if( rivi.pankkivienti().arkistotunnus() == arkistotunnus) {
+            if( rivi.arkistotunnus() == arkistotunnus) {
                 peita(harmaaIndeksi, ki);
                 return;
             }
@@ -339,11 +341,9 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
 
     for(int ki=0; ki < kirjausRivit_.count(); ki++) {
         const TilioteKirjausRivi& rivi = kirjausRivit_.at(ki);
-        if( rivi.peitetty()  || !rivi.tuotu() ) continue;
-        const TositeVienti& kirjaus = rivi.pankkivienti();
-        if( kirjaus.pvm() == harmaa.pvm() &&
-            qAbs(kirjaus.debet() - harmaa.debet()) < 1e-5 &&
-            qAbs(kirjaus.kredit() - harmaa.kredit()) < 1e-5) {
+        if( rivi.peitetty()  || !rivi.tuotu() ) continue;        
+        if( rivi.pvm() == harmaa.pvm() &&
+            rivi.summa() == harmaaSumma ){
             sopivat.append(ki);
         }
     }
@@ -355,11 +355,9 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
         }
         for(int ki=0; ki < kirjausRivit_.count(); ki++) {
             const TilioteKirjausRivi& rivi = kirjausRivit_.at(ki);
-            if( rivi.peitetty()  || !rivi.tuotu() ) continue;
-            const TositeVienti& kirjaus = rivi.pankkivienti();
-            if( kirjaus.pvm() == harmaa.ostopvm() &&
-                qAbs(kirjaus.debet() - harmaa.debet()) < 1e-5 &&
-                qAbs(kirjaus.kredit() - harmaa.kredit()) < 1e-5) {
+            if( rivi.peitetty()  || !rivi.tuotu() ) continue;            
+            if( rivi.pvm() == harmaa.ostopvm() &&
+                rivi.summa() == harmaaSumma ) {
                 sopivat.append(ki);
             }
         }
@@ -377,8 +375,8 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
     QList<int> kumppaniSopivat;
 
     for(int sopiva : sopivat) {
-        const TositeVienti& kirjaus = kirjausRivit_.at(sopiva).pankkivienti();
-        if(kirjaus.kumppaniId() == harmaa.kumppaniId())
+        const TilioteKirjausRivi& rivi = kirjausRivit_.at(sopiva);
+        if(rivi.kumppani().value("id").toInt() == harmaa.kumppaniId())
             kumppaniSopivat.append(sopiva);
     }
 
@@ -391,8 +389,8 @@ void TilioteModel::peitaHarmailla(int harmaaIndeksi)
     QList<int> seliteSopivat;
 
     for(int sopiva : sopivat) {
-        const TositeVienti& kirjaus = kirjausRivit_.at(sopiva).pankkivienti();
-        if(kirjaus.selite().toLower() == harmaa.selite().toLower())
+        const TilioteKirjausRivi& rivi = kirjausRivit_.at(sopiva);
+        if(rivi.otsikko().toLower() == harmaa.selite().toLower())
             seliteSopivat.append(sopiva);
     }
 

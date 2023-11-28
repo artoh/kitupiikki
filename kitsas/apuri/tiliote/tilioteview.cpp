@@ -21,6 +21,8 @@
 #include "kirjaus/kohdennusdelegaatti.h"
 #include "tiliotealvdelegaatti.h"
 
+#include "tiliotemodel.h"
+
 #include "rekisteri/kumppanivalintadelegaatti.h"
 
 #include "tilioterivi.h"
@@ -79,7 +81,8 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Return ||
         event->key() == Qt::Key_Insert ||
         event->key() == Qt::Key_Tab) &&
-            event->modifiers() == Qt::NoModifier )  {
+            (event->modifiers() == Qt::NoModifier ||
+             event->modifiers() == Qt::KeypadModifier )  ){
 
         if( currentIndex().column() == TilioteRivi::EURO &&
             currentIndex().row() == model()->rowCount() - 1) {
@@ -97,7 +100,21 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             setCurrentIndex(currentIndex().sibling(uusirivi, currentIndex().column()));
         }
 
+    } else if( currentIndex().column() ==  TilioteRivi::ALV) {
+        if( event->key() == Qt::Key_0) {
+            model()->setData(currentIndex(), 0);
+            return;
+        } else if( event->key() == Qt::Key_2) {
+            model()->setData(currentIndex(), 24);
+            return;
+        } else if( event->key() == Qt::Key_1) {
+            const int alv = currentIndex().data(Qt::EditRole).toInt();
+            model()->setData(currentIndex(), alv == 14 ? 10 : 14);
+            return;
+        }
     }
+
+
     QTableView::keyPressEvent(event);
 }
 

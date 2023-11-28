@@ -38,6 +38,7 @@ public:
 
     void otaFokus() override;    
     void laskuMaksettu(QList<TositeVienti> viennit);
+    void laskuMaksettu(const QDate& pvm, const QString& otsikko, const int tili, const EraMap& era, const QVariantMap& kumppani, const Euro& euro, bool debet);
 
 private slots:
     void tililtaMuuttui();

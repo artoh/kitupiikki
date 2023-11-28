@@ -30,6 +30,10 @@ class EuroDelegaatti : public QItemDelegate
 {
     Q_OBJECT
 public:
+    enum {
+        MiinusRooli = Qt::UserRole + 1234
+    };
+
     EuroDelegaatti(QObject *parent = nullptr);
 
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;

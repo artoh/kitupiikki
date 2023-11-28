@@ -21,8 +21,8 @@ int TilioteAlvCombo::prosentti() const
 void TilioteAlvCombo::alusta()
 {
     addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), 0);
-    addItem(QIcon(":/pic/brutto.png"),"10%", 10);
-    addItem(QIcon(":/pic/brutto.png"),"14%", 14);
-    addItem(QIcon(":/pic/brutto.png"),"24%", 24);
+    addItem(QIcon(":/pic/netto.png"),"10%", 10);
+    addItem(QIcon(":/pic/netto.png"),"14%", 14);
+    addItem(QIcon(":/pic/netto.png"),"24%", 24);
 
 }
