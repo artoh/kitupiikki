@@ -80,7 +80,7 @@ int AsiakasToimittajaValinta::id() const
 
 QString AsiakasToimittajaValinta::nimi() const
 {
-    return map_.value("nimi").toString();
+    return map_.value("nimi").toString().trimmed();
 }
 
 QStringList AsiakasToimittajaValinta::ibanit() const
@@ -179,7 +179,7 @@ void AsiakasToimittajaValinta::nimiMuuttui()
     if( modelLataa_)
         return;
 
-    QString syotetty = combo_->currentText();
+    QString syotetty = combo_->currentText().trimmed();
 
     if( syotetty == nimi() )
         return;
@@ -206,17 +206,19 @@ void AsiakasToimittajaValinta::nimiMuuttui()
             combo_->setCurrentIndex( combo_->findData(hakuId) );
         else
             dlg_->ytunnuksella( combo_->currentText());
-    } else {
-        map_.clear();
+    } else {        
+        map_.clear();        
         setId(0);
-        map_.insert("nimi", combo_->currentText());
+        if( !syotetty.isEmpty()) {
+            map_.insert("nimi", syotetty);
+        };
         emit muuttui(map_);
     }
 }
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    if(property("MuokkaaUusi").toBool() && !id() && !nimi().isEmpty() )
+    if(property("MuokkaaUusi").toBool() && !id() && !nimi().trimmed().isEmpty() )
         muokkaa();
 }
 
