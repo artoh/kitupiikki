@@ -75,6 +75,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
 
     connect( ui->alkuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
+    connect( ui->tiliCombo, &QComboBox::currentTextChanged, this, &TilioteApuri::tiliMuuttui);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
 
@@ -265,9 +266,6 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::naytaTosite()
 {
-    // TODO !!!
-
-/*
     const QModelIndex& index = ui->oteView->selectionModel()->currentIndex();
     if( !index.isValid())
         return;
@@ -288,48 +286,22 @@ void TilioteApuri::naytaTosite()
         const int omaIndeksi = proxy_->mapToSource(index).row();
         const TilioteKirjausRivi& rivi = model()->rivi(omaIndeksi);
 
-
-        KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU, QList<int>(), KirjausSivu::PALATAAN_AINA);
-
-        TositeVienti pankki ;
-
-        int tositetyyppi = TositeTyyppi::MENO;
-        if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS && pankki.debetEuro() ) {
-            tositetyyppi = pankki.debetEuro() ? TositeTyyppi::TULO : TositeTyyppi::MENO;
-        } else if( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::MYYNTI) {
-            tositetyyppi = TositeTyyppi::TULO;
-        } else if ( pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::SIIRTO ||
-                        pankki.tyyppi() == TositeVienti::VASTAKIRJAUS + TositeVienti::SUORITUS) {
-            tositetyyppi = TositeTyyppi::SIIRTO;
-        }
+        KirjausSivu* sivu = ikkuna->kirjaa(-1, TositeTyyppi::MUU, QList<int>(), KirjausSivu::PALATAAN_AINA);                
 
         Tosite tosite;
-        tosite.asetaPvm(pankki.pvm());
-        tosite.asetaKumppani(pankki.kumppaniMap());
-        tosite.asetaOtsikko(pankki.selite());
-        tosite.asetaViite(pankki.viite());
+        tosite.asetaPvm(rivi.pvm());
+        tosite.asetaKumppani(rivi.kumppani());
+        tosite.asetaOtsikko(rivi.otsikko());
+        tosite.asetaViite(rivi.viite());
         tosite.asetaTilioterivi( omaIndeksi );
-        tosite.asetaTyyppi( tositetyyppi );
+        tosite.asetaTyyppi( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS ? TilioteKirjausRivi::SIIRTO : rivi.tyyppi() );
 
-        QList<TositeVienti> viennit = rivi.viennit();
-        QVariantList ladattavat;
-
-        for(auto vienti : qAsConst(viennit)) {
-            vienti.setTyyppi( tositetyyppi + vienti.tyyppi() % 100 );
-            vienti.setId(0);
-            if(!vienti.tili() && tositetyyppi == TositeTyyppi::MENO) {
-                vienti.setTili( kp()->asetukset()->luku(AsetusModel::OletusMenotili) );
-            } else if( !vienti.tili() && tositetyyppi == TositeTyyppi::TULO) {
-                vienti.setTili( kp()->asetukset()->luku(AsetusModel::OletusMyyntitili));
-            }
-            ladattavat << vienti;
-        }
-        tosite.viennit()->asetaViennit( ladattavat );
+        tosite.viennit()->asetaViennit( rivi.viennit(model_->tilinumero()) );
 
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
+
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }
-*/
 }
 
 
@@ -354,6 +326,15 @@ void TilioteApuri::tiliPvmMuutos()
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());
     kysyAlkusumma();
+}
+
+void TilioteApuri::tiliMuuttui()
+{
+    const int tilinumero = ui->tiliCombo->valittuTilinumero();
+    if( tilinumero != model_->tilinumero()) {
+        model_->asetaTilinumero(tilinumero);
+        lataaHarmaat();
+    }
 }
 
 void TilioteApuri::lataaHarmaat()

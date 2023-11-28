@@ -58,6 +58,7 @@ protected slots:
     void naytaTosite();
 
     void tiliPvmMuutos();
+    void tiliMuuttui();
     void lataaHarmaat();
     void lataaHarmaatAjalta(const QDate& mista, const QDate& mihin);
     void laitaPaivat(const QDate& pvm);
