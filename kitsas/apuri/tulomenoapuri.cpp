@@ -280,7 +280,7 @@ void TuloMenoApuri::teeReset()
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
 
-    if( ui->tilellaView->isVisible())
+    if( rivit_->rowCount())
         ui->tilellaView->selectRow(0);
 
 
