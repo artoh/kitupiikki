@@ -440,7 +440,7 @@ void AsiakasToimittajaDlg::accept()
 {
     QVariantMap map;
 
-    map.insert("nimi", ui->nimiEdit->text());
+    map.insert("nimi", ui->nimiEdit->text().trimmed());
 
     QString maa =  ui->maaCombo->currentData(MaaModel::KoodiRooli).toString();
     map.insert("maa", maa);
