@@ -18,7 +18,7 @@ HubToimistoSivu::HubToimistoSivu(QWidget* parent, Jarjestelma jarjestelma)
     layout->addWidget(view_);
     setLayout(layout);
 
-    view_->setHtml("<html><body></body></html>");
+    view_->load(QUrl("qrc:/loading.html"));
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &HubToimistoSivu::alustaSivu);
 
     if( jarjestelma == MAJAVA ) {
@@ -36,12 +36,14 @@ void HubToimistoSivu::siirrySivulle()
 
 void HubToimistoSivu::alustaSivu()
 {
+    view_->load(QUrl("qrc:/loading.html"));
     const QString url = kp()->pilvi()->service(jarjestelma_ == MAJAVA ? "majava" : "admin");
     view_->load(url);
 }
 
 void HubToimistoSivu::naytaToimisto(const QString &id)
 {
+    view_->load(QUrl("qrc:/loading.html"));
     const QString url = kp()->pilvi()->service("admin");
     view_->load(url + "&office=" + id);
 }

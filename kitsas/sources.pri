@@ -925,6 +925,7 @@ RESOURCES += \
     $$PWD/rekisteri/rekisteri.qrc \
     $$PWD/sqlite/sqlite.qrc \
     $$PWD/tilinpaatoseditori/tilinpaatos.qrc \
+    $$PWD/toimisto/qrc/web.qrc \
     $$PWD/tr/tr.qrc \
     $$PWD/tilikartat/tilikartat.qrc \
     $$PWD/pic/pic.qrc \

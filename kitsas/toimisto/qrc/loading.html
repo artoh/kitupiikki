@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.spinner{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  border:10px solid transparent;
+  margin:10% 40%;
+  position:relative;
+  z-index:1;
+}
+.spinner:before{
+  content:'';
+  width:100px;
+  height:100px;
+  border-radius:50%;
+
+  border: 18px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 18px solid #7e57c2;
+  position:absolute;
+  z-index:9;
+  top:-18px;
+  left:-18px;
+  animation:rt 2s infinite;
+}
+@keyframes rt{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+.spinner > .logo{
+  width: 80px;
+  height: 80px;  
+  display:block;
+  margin: 10% 10%;
+}
+</style>
+</head>
+<body>
+
+<div class="spinner"><img src="kitsas.svg" class="logo"></div>
+
+</body>
+</html>

@@ -29,6 +29,8 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
     connect( listView_->selectionModel(), &QItemSelectionModel::currentChanged, this, &LisaosaSivu::valittu);
     connect( webView_, &QWebEngineView::iconChanged, this, &LisaosaSivu::kuvakeVaihtui);
     connect( listModel_, &LisaosaListModel::modelReset, this, &LisaosaSivu::listReseted);
+
+    webView_->load(QUrl("qrc:/loading.html"));
 }
 
 void LisaosaSivu::siirrySivulle()
@@ -137,6 +139,7 @@ void LisaosaSivu::passivoi()
 
 void LisaosaSivu::hae(const QString lisaosaId, Toiminto toiminto)
 {
+    webView_->load(QUrl("qrc:/loading.html"));
     KpKysely* kysely = kp()->pilvi()->loginKysely("/v1/addons/" + lisaosaId);
     kysely->lisaaAttribuutti("target", kp()->pilvi()->pilvi().bookId());
     if(toiminto == AKTIVOI) {

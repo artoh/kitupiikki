@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>loading.html</file>
+        <file>kitsas.svg</file>
+    </qresource>
+</RCC>

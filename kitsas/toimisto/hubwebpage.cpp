@@ -5,8 +5,7 @@
 
 HubWebPage::HubWebPage(QObject *parent)
     : QWebEnginePage{parent}
-{
-
+{    
 }
 
 void HubWebPage::supportLogin(const QString &cloudId)
