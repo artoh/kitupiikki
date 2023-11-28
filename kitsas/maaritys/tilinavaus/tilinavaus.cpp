@@ -83,6 +83,10 @@ void Tilinavaus::erittely(const QModelIndex &index)
     {
         TilinavausModel::Erittely tyyppi = static_cast<TilinavausModel::Erittely>( index.data(TilinavausModel::ErittelyRooli).toInt() );
         int tili = index.data(TilinavausModel::NumeroRooli).toInt();
+
+        const Tili tilini = kp()->tilit()->tiliNumerolla(tili);
+        if( tilini.onko(TiliLaji::KAUDENTULOS)) return;     // Tulokselle ei saa syöttää saldoja!!
+
         QList<AvausEra> erat = ui->tiliView->avausModel()->erat(tili);
 
         AvausEraDlg dlg(tyyppi, erat, tili, this);
