@@ -255,7 +255,7 @@ void TilioteKirjaaja::alvMuuttuu()
         ui->alvProssaCombo->setCurrentText("24 %");
    }
 
-
+   alvProssaMuttuu();   // Pitää päivittää joka tapauksessa!
    aliRiviaMuokattu();
 
 }
@@ -266,6 +266,12 @@ void TilioteKirjaaja::alvProssaMuttuu()
    aliRivi()->setAlvprosentti(prossa);
    ui->euroEdit->setEuro( aliRivi()->brutto() );
    ui->verotonEdit->setEuro( aliRivi()->netto());
+   aliRiviaMuokattu();
+}
+
+void TilioteKirjaaja::alvVahennettavaMuuttuu()
+{
+   aliRivi()->setAlvvahennys( !ui->eiVahennysCheck->isChecked() );
    aliRiviaMuokattu();
 }
 
@@ -443,6 +449,8 @@ void TilioteKirjaaja::lisaaVienti()
 
     ui->euroEdit->setMiinus(menoa_);
     ui->verotonEdit->setMiinus(menoa_);
+
+    paivitaVientiNakyma();
 }
 
 void TilioteKirjaaja::poistaVienti()
@@ -450,17 +458,19 @@ void TilioteKirjaaja::poistaVienti()
     nykyAliRiviIndeksi_ = -1;
     const int rivi = ui->viennitView->currentIndex().row();
     if( rivi >= 0) {
-//        viennit_->poistaVienti(rivi);
+        aliRiviModel_->poista(rivi);
         ui->viennitView->selectRow(0);
     }
+
+    paivitaVientiNakyma();
 }
 
 void TilioteKirjaaja::paivitaVientiNakyma()
 {
     int alatabu = ui->alaTabs->currentIndex();
     ui->lisaaVientiNappi->setVisible(alatabu == TULOMENO);
-//    ui->poistaVientiNappi->setVisible( viennit_->rowCount() > 1 && alatabu == TULOMENO);
-//    ui->viennitView->setVisible(viennit_->rowCount() > 1 && alatabu == TULOMENO);
+    ui->poistaVientiNappi->setVisible( aliRiviModel_->rowCount() > 1 && alatabu == TULOMENO);
+    ui->viennitView->setVisible( aliRiviModel_->rowCount() > 1 && alatabu == TULOMENO);
 }
 
 void TilioteKirjaaja::alusta()
@@ -517,9 +527,10 @@ void TilioteKirjaaja::alusta()
     tyhjenna();
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
 
-    connect( ui->alvProssaCombo, &QComboBox::currentIndexChanged, this, &TilioteKirjaaja::alvProssaMuttuu);
+    connect( ui->alvProssaCombo, &QComboBox::currentTextChanged, this, &TilioteKirjaaja::alvProssaMuttuu);
     connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TilioteKirjaaja::alvMuuttuu );
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
+    connect( ui->eiVahennysCheck, &QCheckBox::toggled, this, &TilioteKirjaaja::alvVahennettavaMuuttuu);
 
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
@@ -651,7 +662,6 @@ void TilioteKirjaaja::naytaRivi()
     ui->eraCombo->valitse( ar.era());
     ui->kohdennusCombo->valitseKohdennus( ar.kohdennus() );
     ui->merkkausCC->setSelectedItems( ar.merkkaukset() );
-//    ui->seliteEdit->setText( vienti.selite() );
 
     if(ar.jaksoalkaa().isValid())
         ui->jaksoAlkaaEdit->setDate( ar.jaksoalkaa() );
@@ -663,10 +673,9 @@ void TilioteKirjaaja::naytaRivi()
     else
         ui->jaksoLoppuuEdit->setNull();
 
-    // Alv-käsittely
-    // ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(vienti.alvProsentti()));
+    ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(ar.alvkoodi(), VerotyyppiModel::KoodiRooli));
+    ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
 
-    // nykyAliRiviIndeksi_ = rivi;
 }
 
 

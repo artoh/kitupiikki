@@ -64,6 +64,7 @@ private slots:
     void verotonMuuttuu();
     void alvMuuttuu();
     void alvProssaMuttuu();
+    void alvVahennettavaMuuttuu();
 
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();    
