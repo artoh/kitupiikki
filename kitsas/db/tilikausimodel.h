@@ -73,6 +73,8 @@ public:
     QDate kirjanpitoLoppuu() const;
 
     void lataa(const QVariantList& lista);
+    void tallenna(const Tilikausi& kausi);
+    void poista(const QDate& alkupvm);
 
     QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false) const;
 

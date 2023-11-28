@@ -146,7 +146,7 @@ public:
     void asetaAlkaa(const QDate& pvm);
     void asetaPaattyy(const QDate& pvm);
 
-    void tallenna(const QDate& pvm = QDate());
+    void tallenna();
     void poista();
 
     QVariantMap data() const;

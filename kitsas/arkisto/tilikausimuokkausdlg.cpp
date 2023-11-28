@@ -85,7 +85,7 @@ void TilikausiMuokkausDlg::accept()
     if( !ui->lukittuCheck->isChecked())
         uusi.unset("vahvistettu");
 
-    uusi.tallenna(kausi_.alkaa());
+    uusi.tallenna();
 
     // Lukitseminen/lukituksen poisto
     if( ui->lukittuCheck->isChecked()) {

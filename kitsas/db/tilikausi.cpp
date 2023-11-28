@@ -161,23 +161,14 @@ void Tilikausi::asetaPaattyy(const QDate &pvm)
     paattyy_ = pvm;
 }
 
-void Tilikausi::tallenna(const QDate &pvm)
+void Tilikausi::tallenna()
 {
-    QVariantMap map = data();
-
-    KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( pvm.isValid() ? pvm.toString(Qt::ISODate) : alkaa().toString(Qt::ISODate)), KpKysely::PUT );
-    QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
-    QObject::connect(kysely, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
-    kysely->kysy( map );
+    kp()->tilikaudet()->tallenna(*this);
 }
 
 void Tilikausi::poista()
 {
-    KpKysely *poisto = kpk(QString("/tilikaudet/%1").arg(alkaa().toString(Qt::ISODate)), KpKysely::DELETE);
-    QObject::connect(poisto, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
-    QObject::connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
-    poisto->kysy();
-
+    kp()->tilikaudet()->poista(alkaa());
 }
 
 QVariantMap Tilikausi::data() const

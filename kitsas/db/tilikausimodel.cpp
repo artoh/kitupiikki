@@ -230,6 +230,44 @@ void TilikausiModel::lataa(const QVariantList &lista)
     endResetModel();
 }
 
+void TilikausiModel::tallenna(const Tilikausi &kausi)
+{
+    KpKysely* kysely = nullptr;
+
+    for(int i=0; i < kaudet_.count(); i++) {
+        if( kausi.alkaa() == kaudet_[i].alkaa()) {
+            kaudet_[i] = kausi;
+            emit dataChanged(index(i,0), index(i, rowCount() ));
+            kysely = kpk("/tilikaudet/%1" + kausi.alkaa().toString(Qt::ISODate), KpKysely::PUT);
+            break;
+        }
+    }
+    if( !kysely) {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount());
+        kysely = kpk("/tilikaudet/%1" + kausi.alkaa().toString(Qt::ISODate), KpKysely::POST);
+        kaudet_.append(kausi);
+        endInsertRows();
+    }
+    QObject::connect(kysely, &KpKysely::vastaus, this, &TilikausiModel::paivita);
+    QObject::connect(kysely, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
+    kysely->kysy( kausi.data() );
+}
+
+void TilikausiModel::poista(const QDate &alkupvm)
+{
+    for(int i=0; i < kaudet_.count(); i++) {
+        if( alkupvm == kaudet_[i].alkaa()) {
+            beginRemoveRows(QModelIndex(), i, i);
+            kaudet_.removeAt(i);
+            endRemoveRows();
+            break;
+        }
+    }
+    KpKysely *poisto = kpk(QString("/tilikaudet/%1").arg(alkupvm.toString(Qt::ISODate)), KpKysely::DELETE);
+    QObject::connect(poisto, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
+    poisto->kysy();
+}
+
 QString TilikausiModel::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu) const
 {
     if( vertailu)
