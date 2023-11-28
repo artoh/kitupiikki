@@ -279,7 +279,9 @@ void TuloMenoApuri::teeReset()
 
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
-    ui->tilellaView->selectRow(0);    
+
+    if( ui->tilellaView->isVisible())
+        ui->tilellaView->selectRow(0);
 
 
     tiliMuuttui();    
@@ -791,7 +793,7 @@ void TuloMenoApuri::alusta(bool meno)
     int viimeIndeksi = ui->maksutapaCombo->findText( viimeMaksutapa_);
     if( viimeIndeksi > -1)
         ui->maksutapaCombo->setCurrentIndex( viimeIndeksi );
-    else
+    else if( ui->maksutapaCombo->count())
         ui->maksutapaCombo->setCurrentIndex(0);
 
     ui->vastatiliLine->suodataTyypilla("[AB]");
