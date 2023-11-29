@@ -503,16 +503,16 @@ void TilioteKirjaaja::alusta()
 
     maksuProxy_->setSourceModel( laskut_ );
 
-
     avoinProxy_->setSourceModel(maksuProxy_);
     avoinProxy_->setFilterRole(Qt::DisplayRole);
     avoinProxy_->setFilterKeyColumn(LaskuTauluModel::MAKSAMATTA);
     avoinProxy_->setFilterFixedString("€");
 
-
     ui->maksuView->setModel(avoinProxy_);
     ui->maksuView->setSortingEnabled(true);
     avoinProxy_->setDynamicSortFilter(true);
+
+
     ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
     connect( ui->maksuView, &QTableView::clicked , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);

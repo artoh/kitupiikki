@@ -28,6 +28,7 @@ FinvoiceVelho::FinvoiceVelho(QWidget *parent) :
     setOption(HaveHelpButton, true);
     connect(this, &FinvoiceVelho::helpRequested, [] { kp()->ohje("asetukset/verkkolasku"); });
 
+    setStyleSheet("background-color: palette(base)");
 }
 
 void FinvoiceVelho::kitsasKaytossa(bool onko)

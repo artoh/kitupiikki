@@ -24,6 +24,7 @@ LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteMod
     connect( tiliote, &TilioteModel::rowsInserted, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
     connect( tiliote, &TilioteModel::rowsRemoved, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
     connect( tiliote, &TilioteModel::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
+    connect( this, &LaskuTauluTilioteProxylla::modelReset, this, &LaskuTauluTilioteProxylla::paivitaSuoritukset);
 }
 
 QVariant LaskuTauluTilioteProxylla::data(const QModelIndex &index, int role) const
