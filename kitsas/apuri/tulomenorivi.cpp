@@ -60,9 +60,10 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
             verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ;
 
-    Euro maara = vienti.tyyppi() == TositeVienti::MYYNTI + TositeVienti::KIRJAUS ?
-                vienti.kreditEuro() - vienti.debetEuro() :
-                vienti.debetEuro() - vienti.kreditEuro();
+    Euro maara = vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::KIRJAUS ?
+                 vienti.debetEuro() - vienti.kreditEuro() :
+                 vienti.kreditEuro() - vienti.debetEuro() ;
+
 
 
     if( nettoon )

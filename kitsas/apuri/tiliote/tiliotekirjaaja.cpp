@@ -721,7 +721,7 @@ void TilioteKirjaaja::tallenna()
         TilioteAliRivi aliRivi;
         aliRivi.setTili( index.data(LaskuTauluModel::TiliRooli).toInt() );
         aliRivi.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
-        aliRivi.setBrutto( menoa_ ? ui->euroEdit->euro() : Euro::Zero - ui->euroEdit->euro() );
+        aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
         rivi_.asetaRivi(aliRivi);
 
     } else if( ui->alaTabs->currentIndex() == SIIRTO ) {
@@ -731,7 +731,7 @@ void TilioteKirjaaja::tallenna()
         aliRivi.setTili(ui->tiliEdit->valittuTilinumero());
         aliRivi.setEra( ui->eraCombo->eraMap());
         aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas() );
-        aliRivi.setBrutto( menoa_ ? ui->euroEdit->euro() : Euro::Zero - ui->euroEdit->euro() );
+        aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() :  ui->euroEdit->euro() );
 
         rivi_.asetaRivi(aliRivi);
 
