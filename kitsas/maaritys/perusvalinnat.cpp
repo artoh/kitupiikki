@@ -75,10 +75,12 @@ bool Perusvalinnat::nollaa()
         ui->hakemistoNappi->hide();
         ui->tsLabel->hide();
 
-        ui->aliasLabel->show();
-        ui->aliasEdit->show();
-        ui->aliasButton->show();
-        ui->aliasEdit->setText( kp()->pilvi()->pilvi().alias() );
+        ui->aliasLabel->hide();
+        ui->aliasEdit->hide();
+        ui->aliasButton->hide();
+
+        // Alias toistaiseksi poissa käytöstä
+        // ui->aliasEdit->setText( kp()->pilvi()->pilvi().alias() );
     }    
 
     ui->karttaInfo->setText( QString("%1 %2")
