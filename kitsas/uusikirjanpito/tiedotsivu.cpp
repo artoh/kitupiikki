@@ -121,7 +121,8 @@ bool TiedotSivu::validatePage()
 
     // 3.3 beta: VAT-kirjanpidon luominen
     // 5.0-beta.1 Myös jos alustettava kirjanpito
-    const bool voiLuodaVatKirjanpidon = kp()->pilvi()->pilvi().vat() || wizard()->startId() == UusiVelho::ALUSTUS;
+    // 5.3: Korjataan ehto: Jos käyttäjän plan ei 10 (Kitsas Kerho)
+    const bool voiLuodaVatKirjanpidon = kp()->pilvi()->kayttaja().planId() != 10  || wizard()->startId() == UusiVelho::ALUSTUS;
 
     if( velho->asetukset_.value("laajuus").toInt() >= velho->asetukset_.value("alvlaajuus").toInt()) {
         if( voiLuodaVatKirjanpidon || !field("pilveen").toBool() ) {
