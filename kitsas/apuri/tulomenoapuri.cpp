@@ -401,7 +401,8 @@ void TuloMenoApuri::tiliMuuttui()
     ui->poistoLabel->setVisible(tasapoisto);
     ui->poistoSpin->setVisible(tasapoisto);
 
-    if( !resetoidaanko() || !tosite()->id()) {
+    if( !resetoidaanko() || ( !tosite()->id() && tosite()->viennit()->vienti(0).arkistotunnus().isEmpty() ) ) {
+        // Vastaviennillä arkistotunnus kun tehdään tiliotteelta uutta riviä
 
         if( tasapoisto ) {
             ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
