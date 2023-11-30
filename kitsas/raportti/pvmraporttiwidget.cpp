@@ -3,6 +3,7 @@
 #include "ui_paivakirja.h"
 #include "db/kirjanpito.h"
 #include "eranselvittaja/eranselvitys.h"
+#include "pilvi/pilvimodel.h"
 
 PvmRaporttiWidget::PvmRaporttiWidget(const QString &tyyppi) :
     RaporttiWidget(nullptr), tyyppi_(tyyppi)
@@ -99,7 +100,8 @@ void PvmRaporttiWidget::piilotaTarpeettomat()
         ui->eriPaivatCheck->hide();        
     }
 
-    if( tyyppi() != "taseerittely") {
+    const bool pilvessa = qobject_cast<PilviModel*>(kp()->yhteysModel()) != nullptr;
+    if( tyyppi() != "taseerittely" || !pilvessa) {
         ui->selvittelyNappi->hide();
         ui->piilotaNollaCheck->hide();
         ui->erittelemattomatCheck->hide();
