@@ -479,6 +479,20 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         paivamaara_ = vienti.pvm();
         arkistotunnus_ = vienti.arkistotunnus();
         ostoPvm_ = vienti.ostopvm();
+        const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
+        switch (tyyppiPohja) {
+        case MYYNTI:
+            tyyppi_ = MYYNTI;
+            break;
+        case OSTO:
+            tyyppi_ = OSTO;
+            break;
+        case SIIRTO:
+            tyyppi_ = SIIRTO;
+            break;
+        default:
+            tyyppi_ = TUNTEMATON;
+        }
 
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
         rivit_.append( TilioteAliRivi( vienti) );
@@ -497,6 +511,8 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         rivit_[ rivit_.count()-1].setNetonVero(vero);
     } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS && rivit_.count())
         rivit_[ rivit_.count() - 1 ].setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO );
+
+    paivitaTyyppi();
 }
 
 void TilioteKirjausRivi::asetaRivi(int indeksi, TilioteAliRivi rivi)
