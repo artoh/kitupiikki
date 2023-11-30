@@ -260,6 +260,7 @@ void KitupiikkiIkkuna::paivitaAktiivisuudet()
         for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
         setWindowTitle(tr("Kitsas %1").arg(qApp->applicationVersion()));
+        sivuaktiot[LISAOSASIVU]->setVisible(false);
     }
 
     if( kp()->pilvi()->kayttajaPilvessa()) {
