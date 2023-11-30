@@ -219,7 +219,18 @@ void BudjettiModel::laskeSumma()
 
 void BudjettiModel::kopioiEdellinen()
 {
-    data_ = edellinen_;
+    QMapIterator<QString, QVariant> iter(edellinen_);
+
+    data_.clear();
+    while(iter.hasNext()) {
+        iter.next();
+        const int kohdennusId = iter.value().toInt();
+        const Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennusId);
+        if( kohdennus.paattyy().isValid() && kohdennus.paattyy() < paivamaara_ ) {
+            continue;
+        }
+        data_.insert( iter.key(), iter.value() );
+    }
     emit dataChanged( index(0, EUROT), index( rowCount(), EUROT ) );
 }
 
