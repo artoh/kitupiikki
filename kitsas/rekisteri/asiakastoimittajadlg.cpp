@@ -433,7 +433,7 @@ void AsiakasToimittajaDlg::haeToimipaikka()
 void AsiakasToimittajaDlg::nimiMuuttuu()
 {
     const QString& nimi = ui->nimiEdit->text().trimmed();
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( nimi.isEmpty() );
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( !nimi.isEmpty() );
 }
 
 void AsiakasToimittajaDlg::accept()
