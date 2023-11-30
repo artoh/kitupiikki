@@ -95,8 +95,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 {
 
-    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
-    connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
+    connect(kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
     connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjauduttu);
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
