@@ -323,6 +323,16 @@ void TilioteApuri::tiliPvmMuutos()
                        tr("Tiliote %1 - %2 %3")
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy"), ui->loppuDate->date().toString("dd.MM.yyyy"), tili.tyyppiKoodi() == "ARP" ? tili.nimi() : ""));
     }
+    tosite()->asetaPvm( ui->loppuDate->date() );
+
+
+    // Jos päivämäärää muutetaan, muuttuu myös avoimen kirjauksen päivä
+    QModelIndex pvmIndex = ui->oteView->model()->index(0, TilioteRivi::PVM);
+    if( pvmIndex.isValid() && Euro(pvmIndex.data(TilioteKirjausRivi::EuroRooli).toString()) == Euro::Zero) {
+        ui->oteView->model()->setData(pvmIndex, ui->alkuDate->date());
+    }
+
+
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());
     kysyAlkusumma();
