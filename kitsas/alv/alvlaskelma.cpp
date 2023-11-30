@@ -655,8 +655,9 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 {
     QDate huojennusloppu;
 
-
-    if( loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32 ) {
+    if( loppupvm_ >= QDate(2025,1,1)) {
+        // Alarajahuojennus päättyy vuoden 2025 alusta!
+    } else if ( loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32 ) {
         huojennusalku_ = kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).alkaa();
         huojennusloppu = loppupvm_;
     } else if( loppupvm_.month() == 12 && loppupvm_.day() == 31 && alkupvm_.daysTo(loppupvm_) > 31) {
