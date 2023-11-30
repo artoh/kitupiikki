@@ -107,6 +107,7 @@ protected:
     QString arkistotunnus_;
     QString viite_;
     QDate ostoPvm_;
+    int vientiId_ = 0;
 
 };
 

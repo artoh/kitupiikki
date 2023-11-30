@@ -51,7 +51,7 @@ public:
     void setTili(int numero) { tilinumero_=numero;}
     void setAlvkoodi(int koodi);
     void setAlvprosentti(double prosentti) { veroprosentti_ = prosentti;}
-    void setAlvvahennys(bool vahennys);
+    void setAlvvahennys(bool vahennys, int vahennysvientiId = 0);
     void setSelite(const QString& selite) { selite_ = selite;}
     void setKohdennus(int kohdennus) { kohdennus_ = kohdennus;}
     void setMerkkaukset(const QVariantList& merkkaukset) { merkkaukset_=merkkaukset;}
@@ -69,7 +69,7 @@ public:
 
     void setBrutto(Euro eurot);
     void setNetto(Euro eurot);
-    void setNetonVero(Euro eurot);
+    void setNetonVero(Euro eurot, int vientiId = 0);
 
     bool naytaBrutto() const;
     bool naytaNetto() const;
@@ -78,6 +78,8 @@ public:
     QVariantList viennit(const int tyyppi, const QString &otsikko = QString(),
                          const QVariantMap &kumppani = QVariantMap(), const QDate &pvm = QDate()) const;
 
+    void setMaahantuonninAlv(int vientiId);
+    void setVahentamaton(int vientiId);
 
 protected:
     int tilinumero_ = 0;
@@ -99,6 +101,11 @@ protected:
     QDate jaksoloppuu_;
 
     int vientiId_ = 0;
+    int veroVientiId_ = 0;
+    int vahennysVientiId_ = 0;
+    int maahantuontiVastaId_ = 0;
+    int vahentamatonVientiId_ = 0;
+
     int poistoaika_ = 0;
 
 };

@@ -524,7 +524,9 @@ void TositeViennit::asetaViennit(QVariantList viennit)
 {    
     QList<TositeVienti> tlista;
     for(const auto& item : viennit) {
-        tlista.append( TositeVienti(item.toMap()) );
+        TositeVienti vienti(item.toMap());
+        vienti.siivoa();
+        tlista.append( vienti );
     }
     asetaViennit(tlista);
 
@@ -570,7 +572,9 @@ QVariantList TositeViennit::tallennettavat() const
     QVariantList ulos;
     for( const auto& vienti : viennit_) {
         if(vienti.debet() || vienti.kredit() || (vienti.eraId() && vienti.tyyppi())) {
-            ulos.append( vienti.tallennettava());
+            TositeVienti kopio(vienti);
+            kopio.siivoa();
+            ulos.append( kopio );
         }
     }
     return ulos;

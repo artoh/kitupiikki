@@ -23,7 +23,6 @@
 TositeVienti::TositeVienti(const QVariantMap &vienti) :
     QVariantMap (vienti)
 {
-
 }
 
 QVariant TositeVienti::data(int kentta) const
@@ -42,8 +41,6 @@ void TositeVienti::set(int kentta, const QVariant &arvo)
 
 QVariant TositeVienti::tallennettava() const
 {
-    // Tallennettavassa erän tilalla on kyseiset id:t
-
     QVariantMap ulos(*this);
     return ulos;
 }
@@ -163,6 +160,7 @@ void TositeVienti::setSelite(const QString &selite)
 void TositeVienti::setAlvKoodi(int koodi)
 {
     set(ALVKOODI, koodi);
+
     if( kp()->alvTyypit()->nollaTyyppi(koodi) ) {
         remove( avaimet__.at(ALVPROSENTTI) );
     }
@@ -286,9 +284,21 @@ void TositeVienti::setJaksotustili(const int tili)
     set( JAKSOTUSTILI, tili);
 }
 
-
-
-
+void TositeVienti::siivoa()
+{
+    QMutableMapIterator<QString, QVariant> i(*this);
+    while( i.hasNext()) {
+        i.next();
+        const int typeId = i.value().typeId();
+        if( (typeId == QMetaType::Int && i.value().toInt() == 0) ||
+            (typeId == QMetaType::LongLong && i.value().toLongLong() == 0L) ||
+            (typeId == QMetaType::QString && i.value().toString().isEmpty()) ||
+            (typeId == QMetaType::Double && qAbs(i.value().toDouble()) < 1e-5) ||
+            (typeId == QMetaType::QVariantMap && i.value().toMap().isEmpty()) ){
+            i.remove();
+        }
+    }
+}
 
 
 std::map<int,QString> TositeVienti::avaimet__ = {

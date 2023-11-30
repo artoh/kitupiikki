@@ -430,9 +430,8 @@ void Tosite::tarkasta()
     const bool muokattu = tallennettavaArray != tallennettuArray;
     const bool liitteita = liitteet_->tallennettaviaLiitteita() || !liitteet_->liitettavat().isEmpty();
 
-//    qDebug() << "U " << tallennettavaArray;
-//    qDebug() << "V " << tallennettuArray;
-
+    qDebug() << "U " << tallennettavaArray;
+    qDebug() << "V " << tallennettuArray;
     muutettu_ = !tallennettu_.isEmpty() && (muokattu || liitteita);
 
 

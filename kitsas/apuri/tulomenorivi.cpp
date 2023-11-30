@@ -78,9 +78,10 @@ void TulomenoRivi::setAlvkoodi(int koodi)
     alvkoodi_ = koodi;
 }
 
-void TulomenoRivi::setAlvvahennys(bool vahennys)
+void TulomenoRivi::setAlvvahennys(bool vahennys, int vahennysVientiId)
 {
    alvvahennys_ = vahennys;
+   vahennysVientiId_ = vahennysVientiId;
 }
 
 Euro TulomenoRivi::brutto() const
@@ -125,10 +126,11 @@ void TulomenoRivi::setNetto(Euro eurot)
     brutto_ = 0;
 }
 
-void TulomenoRivi::setNetonVero(Euro eurot)
+void TulomenoRivi::setNetonVero(Euro eurot, int vientiId)
 {
     brutto_ = netto_ + eurot;
     netto_ = 0;
+    veroVientiId_ = vientiId;
 }
 
 bool TulomenoRivi::naytaBrutto() const
@@ -253,6 +255,9 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         else
             palautus.setKredit( vero.abs());
 
+        if( vahennysVientiId_ )
+            palautus.setId( vahennysVientiId_ );
+
         palautus.setAlvProsentti( alvprosentti() );
         palautus.setSelite( otsikko );
         if( !kumppani.isEmpty() )
@@ -288,6 +293,10 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
 
         verorivi.setAlvProsentti( alvprosentti());
         verorivi.setSelite(otsikko);
+
+        if( veroVientiId_ )
+            verorivi.setId(veroVientiId_);
+
         if( !kumppani.isEmpty() )
             verorivi.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(verorivi);
@@ -308,6 +317,8 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
         if( !kumppani.isEmpty() )
             tuonti.set(TositeVienti::KUMPPANI, kumppani );
+        if( maahantuontiVastaId_)
+            tuonti.setId( maahantuontiVastaId_ );
         vientilista.append(tuonti);
     }
     // Jos ei oikeuta alv-vähennykseen, kirjataan myös tämä osuus menoksi
@@ -331,10 +342,23 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         palautus.setSelite( otsikko );
         if( !kumppani.isEmpty() )
             palautus.set(TositeVienti::KUMPPANI, kumppani );
+        if( vahentamatonVientiId_)
+            palautus.setId( vahentamatonVientiId_ );
         vientilista.append(palautus);
     }
 
     return vientilista;
+}
+
+void TulomenoRivi::setMaahantuonninAlv(int vientiId)
+{
+    setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO);
+    maahantuontiVastaId_ = vientiId;
+}
+
+void TulomenoRivi::setVahentamaton(int vientiId)
+{
+    vahentamatonVientiId_ = vientiId;
 }
 
 

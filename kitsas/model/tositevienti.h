@@ -143,6 +143,8 @@ public:
     void setOstoPvm(const QDate& pvm);
     void setJaksotustili(const int tili);
 
+    void siivoa();
+
 private:
     static std::map<int,QString> avaimet__;
 

@@ -101,9 +101,6 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
     TilioteRivi(model), taydennys_(model->kitsas())
 {
-    TositeVienti pankki;
-    TositeVienti tapahtuma;
-
     paivamaara_ = pvm;
     arkistotunnus_ = pseudoarkistotunnus();
 
@@ -392,6 +389,7 @@ QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
     pankki.setArkistotunnus( arkistotunnus() );
     pankki.setViite( viite());
     pankki.setOstoPvm( ostoPvm() );
+    pankki.setId( vientiId_ );
 
     pankki.setTyyppi( tyyppi() + TositeVienti::VASTAKIRJAUS);
 
@@ -479,6 +477,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         paivamaara_ = vienti.pvm();
         arkistotunnus_ = vienti.arkistotunnus();
         ostoPvm_ = vienti.ostopvm();
+        vientiId_ = vienti.id();
         const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
         switch (tyyppiPohja) {
         case MYYNTI:
@@ -497,7 +496,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
         rivit_.append( TilioteAliRivi( vienti) );
     else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::ALVKIRJAUS && rivit_.count()) {
-        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true);
+        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
         if( vienti.alvKoodi() == AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS) {
             Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
             rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
@@ -508,9 +507,12 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
              rivit_.count())
     {
         qlonglong vero = qRound64( vienti.kredit()*100 - vienti.debet()*100 );
-        rivit_[ rivit_.count()-1].setNetonVero(vero);
-    } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS && rivit_.count())
-        rivit_[ rivit_.count() - 1 ].setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO );
+        rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
+    } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS && rivit_.count()) {
+        rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
+    } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::VAHENNYSKELVOTON) {
+        rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
+    }
 
     paivitaTyyppi();
 }
