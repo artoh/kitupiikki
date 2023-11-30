@@ -201,6 +201,7 @@ void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
     connect( kysymys, &KpKysely::vastaus, this, [this, siirrossa](QVariant* data) { this->alustaPilvi(data, siirrossa);});
+    connect( kysymys, &KpKysely::virhe, this, &PilviModel::virheAvaamisessa);
     kysymys->kysy();
 
 }
@@ -453,6 +454,15 @@ void PilviModel::virheUudenPilvenAlustamisessa()
 
 }
 
+void PilviModel::virheAvaamisessa(int virhekoodi, const QString virheviesti)
+{
+    const QString& viesti = avaamisVirheTeksti(virhekoodi);
+    qWarning() << "Virhe " << virhekoodi << " " << virheviesti << " kirjanpitoa avattaessa " << viesti;
+    if( progressDialog_ ) progressDialog_->cancel();
+    QMessageBox::critical( qApp->activeWindow(), tr("Kirjanpidon avaaminen epäonnistui"),
+                                                 viesti );
+}
+
 void PilviModel::asetaPilviLista(const QVariantList lista)
 {
     beginResetModel();
@@ -462,6 +472,20 @@ void PilviModel::asetaPilviLista(const QVariantList lista)
         pilvet_.append(ListanPilvi(item));
     }
     endResetModel();
+}
+
+QString PilviModel::avaamisVirheTeksti(int koodi) const
+{
+    switch (koodi) {
+    case QNetworkReply::ConnectionRefusedError:
+    case QNetworkReply::TimeoutError:
+    case QNetworkReply::ServiceUnavailableError:
+        return tr("Tilapäinen virhe verkkoyhteydessä tai palvelimella. Tarkasta verkkoyhteys ja yritä vähän ajan kuluttua uudelleen.");
+    case QNetworkReply::ContentAccessDenied:
+        return tr("Kirjanpidon avaamiseen ei ole oikeutta. Tarkasta käyttöoikeus ja kirjaudu uudelleen.");
+    default:
+        return tr("Virhe kirjanpidon avaamisessa.");
+    }
 }
 
 
