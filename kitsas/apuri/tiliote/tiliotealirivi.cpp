@@ -3,7 +3,7 @@
 
 TilioteAliRivi::TilioteAliRivi()
 {
-
+    alvvahennys_ = true;
 }
 
 TilioteAliRivi::TilioteAliRivi(const QVariantMap &data)

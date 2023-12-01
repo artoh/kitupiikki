@@ -51,6 +51,7 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
     jaksoalkaa_ = vienti.jaksoalkaa();
     jaksoloppuu_ = vienti.jaksoloppuu();
     poistoaika_ = vienti.tasaerapoisto();
+    alvvahennys_ = true;
 
     // Sitten netto/brutto tilanteen mukaan
 
@@ -81,7 +82,7 @@ void TulomenoRivi::setAlvkoodi(int koodi)
 void TulomenoRivi::setAlvvahennys(bool vahennys, int vahennysVientiId)
 {
    alvvahennys_ = vahennys;
-   vahennysVientiId_ = vahennysVientiId;
+   if( vahennysVientiId) vahennysVientiId_ = vahennysVientiId;
 }
 
 Euro TulomenoRivi::brutto() const

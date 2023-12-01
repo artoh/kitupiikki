@@ -43,7 +43,7 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti",":/pic/eu-tavara.png", true));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti",":/pic/eu.png", true));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat",":/pic/eu-tavara.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat",":/pic/eu-palvelu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat",":/pic/eu.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAAHANTUONTI,"Tavaroiden maahantuonti EU:n ulkopuolelta",":/pic/laiva.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAAHANTUONTI_VERO,"Tavaroiden maahantuonti, veron kirjaus",":/pic/laiva.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAAHANTUONTI_PALVELUT, "Palveluostot EU:n ulkopuolelta", ":/pixaby/globe.png"));

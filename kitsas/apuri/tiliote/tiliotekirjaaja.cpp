@@ -675,6 +675,7 @@ void TilioteKirjaaja::naytaRivi()
 
     ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(ar.alvkoodi(), VerotyyppiModel::KoodiRooli));
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
+    ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
 
 }
 
@@ -692,6 +693,7 @@ void TilioteKirjaaja::tallennaRivi()
     aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas());
     aliRivi.setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi.setJaksopaattyy( ui->jaksoLoppuuEdit->date());
+
 
     // Tähän bruton ja neton käsittelyt!
 

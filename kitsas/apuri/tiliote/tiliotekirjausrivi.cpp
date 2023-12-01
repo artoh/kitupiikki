@@ -153,11 +153,18 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
 
             if( prossat.count() == 1 && koodit.count() == 1) {
                 Euro vero;
-                for(const auto& rivi: rivit_) {
-                    vero += (rivi.brutto() - rivi.netto());
-                }
                 const int prossa = *prossat.begin();
-                return prossa ? QString("%2   %1 %").arg( QString::number(prossa), vero.display(false)) : QString();
+
+                if( rivit_.first().naytaBrutto() && rivit_.first().naytaNetto()) {
+                    for(const auto& rivi: rivit_) {
+                        vero += (rivi.brutto() - rivi.netto());
+                    }
+                    return QString("%2   %1 %").arg( QString::number(prossa), vero.display(false));
+                } else if( prossa ) {
+                    return QString("%1").arg(prossa);
+                } else {
+                    return QString();
+                }
             } else if( prossat.count() > 1) {
                 return "...";
             }
