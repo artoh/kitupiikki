@@ -161,7 +161,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
                     }
                     return QString("%2   %1 %").arg( QString::number(prossa), vero.display(false));
                 } else if( prossa ) {
-                    return QString("%1").arg(prossa);
+                    return QString("%1 %").arg(prossa);
                 } else {
                     return QString();
                 }
