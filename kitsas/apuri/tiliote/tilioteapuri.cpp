@@ -294,7 +294,16 @@ void TilioteApuri::naytaTosite()
         tosite.asetaOtsikko(rivi.otsikko());
         tosite.asetaViite(rivi.viite());
         tosite.asetaTilioterivi( omaIndeksi );
-        tosite.asetaTyyppi( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS ? TilioteKirjausRivi::SIIRTO : rivi.tyyppi() );
+
+        if( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS) {
+            tosite.asetaTyyppi( TositeTyyppi::SIIRTO);
+        } else if( rivi.tyyppi() == TilioteKirjausRivi::TUNTEMATON) {
+            if( rivi.summa()) {
+                tosite.asetaTyyppi( rivi.summa() > Euro::Zero ? TositeTyyppi::TULO : TositeTyyppi::MENO );
+            }
+        } else {
+            tosite.asetaTyyppi( rivi.tyyppi());
+        }
 
         tosite.viennit()->asetaViennit( rivi.viennit(model_->tilinumero()) );
 
