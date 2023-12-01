@@ -202,8 +202,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         case EURO:
             return summa().toDouble();
         case ALV:
-
-            return rivit_.value(0).alvprosentti();
+            return rivit_.value(0).alvkoodi() * 100 +
+                   (int) rivit_.value(0).alvprosentti();
         case KOHDENNUS:
             return rivit_.value(0).kohdennus();
         case SAAJAMAKSAJA:
@@ -271,6 +271,14 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
         return summa();
     case PvmRooli:
         return pvm();
+    case TiliRooli: {
+        const QList<int> tilinumerot = kirjausTilit();
+        if( tilinumerot.count() == 1) {
+            return tilinumerot.first();
+        } else {
+            return QVariant();
+        }
+    }
     case EuroDelegaatti::MiinusRooli:
     {
         const Euro& euro = summa();
@@ -315,18 +323,12 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         break;
     }
     case ALV: {
-        const int prosentti = value.toInt();
-        if( prosentti ) {
-            for(int i=0; i < rivit_.count(); i++) {
-                rivit_[i].setAlvkoodi( summa() < Euro::Zero ? AlvKoodi::OSTOT_NETTO : AlvKoodi::MYYNNIT_NETTO );
+        const int prosentti = value.toInt() % 100;
+        const int koodi = value.toInt() / 100;
+        for(int i=0; i < rivit_.count(); i++) {
+                rivit_[i].setAlvkoodi( koodi );
                 rivit_[i].setAlvprosentti( prosentti );
             }
-        } else {
-            for(int i=0; i < rivit_.count(); i++) {
-                rivit_[i].setAlvkoodi( AlvKoodi::EIALV );
-                rivit_[i].setAlvprosentti( 0 );
-            }
-        }
         break;
     }
     case KOHDENNUS:

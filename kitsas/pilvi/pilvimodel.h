@@ -67,7 +67,6 @@ public:
     void alustaPilvi(QVariant* data, bool siirrossa = false);
     void uusiPilviAlustettu();
     void virheUudenPilvenAlustamisessa();
-    void virheAvaamisessa(int virhekoodi, const QString virheviesti);
 
     KpKysely* kysely(const QString& polku = QString(),
                      KpKysely::Metodi metodi = KpKysely::GET) override;
@@ -127,6 +126,9 @@ private:
 
 private:    
     void asetaPilviLista(const QVariantList lista);
+
+    QString avaamisVirheTeksti(int koodi) const;
+    void virheAvaamisessa(int virhekoodi, const QString virheviesti);
 
 signals:
     void kirjauduttu(PilviKayttaja kayttaja);

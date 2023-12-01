@@ -51,6 +51,8 @@
         <file>folder.png</file>
         <file>suomi.png</file>
         <file>eu.png</file>
+        <file>eu-palvelu.png</file>
+        <file>eu-tavara.png</file>              
         <file>kansiossa.png</file>
         <file>lihavoi.png</file>
         <file>lasku.png</file>
@@ -526,6 +528,6 @@
         <file>pixaby/mobile.png</file>
         <file>maksutavat/yksityis.png</file>
         <file>pixaby/majava.svg</file>
-        <file>pixaby/rename.svg</file>
+        <file>pixaby/rename.svg</file>  
     </qresource>
 </RCC>

@@ -39,7 +39,8 @@ public:
         LisaysIndeksiRooli = Qt::UserRole + 4,
         EraIdRooli = Qt::UserRole + 5,
         EuroRooli = Qt::UserRole + 6,
-        PvmRooli = Qt::UserRole + 7
+        PvmRooli = Qt::UserRole + 7,
+        TiliRooli = Qt::UserRole + 8,
     };
 
 

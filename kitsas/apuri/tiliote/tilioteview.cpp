@@ -101,16 +101,28 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
         }
 
     } else if( currentIndex().column() ==  TilioteRivi::ALV) {
+        const int tiliNumero = currentIndex().data(TilioteRivi::TiliRooli).toInt();
+        const Tili* tili = kp()->tilit()->tili(tiliNumero);
+        if( !tili  || !tili->onko(TiliLaji::TULOS))
+            return;
+        const int koodi = tili->onko(TiliLaji::TULO) ? AlvKoodi::MYYNNIT_NETTO : AlvKoodi::OSTOT_NETTO;
+
         if( event->key() == Qt::Key_0) {
             model()->setData(currentIndex(), 0);
             return;
         } else if( event->key() == Qt::Key_2) {
-            model()->setData(currentIndex(), 24);
+            model()->setData(currentIndex(), koodi * 100 + 24);
             return;
         } else if( event->key() == Qt::Key_1) {
             const int alv = currentIndex().data(Qt::EditRole).toInt();
-            model()->setData(currentIndex(), alv == 14 ? 10 : 14);
+            model()->setData(currentIndex(), alv % 100 == 14 ? koodi * 100 + 10 : koodi  * 100 + 14);
             return;
+        } else if( event->key() == Qt::Key_T) {
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_TAVARAT * 100 : AlvKoodi::YHTEISOHANKINNAT_TAVARAT * 100);
+        } else if( event->key() == Qt::Key_P) {
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT * 100 : AlvKoodi::YHTEISOHANKINNAT_PALVELUT * 100);
+        } else if( event->key() == Qt::Key_R) {
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI * 100 : AlvKoodi::RAKENNUSPALVELU_OSTO * 100);
         }
     }
 

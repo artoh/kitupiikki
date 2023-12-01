@@ -1,6 +1,7 @@
 #ifndef TILIOTEALVCOMBO_H
 #define TILIOTEALVCOMBO_H
 
+#include "kitsas.h"
 #include <QComboBox>
 
 class TilioteAlvCombo : public QComboBox
@@ -9,11 +10,14 @@ class TilioteAlvCombo : public QComboBox
 public:
     TilioteAlvCombo(QWidget* parent = nullptr);
 
-    void aseta(int prosentti);
-    int prosentti() const;
+    void aseta(int koodi);
+    int koodi() const;
 
-protected:
-    void alusta();
+    void alustaTulolle();
+    void alustaMenolle();
+
+protected:    
+    void lisaa( AlvKoodi::Koodi koodi, int prosentti = 0, const QString& teksti = QString());
 };
 
 #endif // TILIOTEALVCOMBO_H
