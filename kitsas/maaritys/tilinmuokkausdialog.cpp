@@ -263,8 +263,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     } else
         veroproxy_->setFilterFixedString("");
 
-    ui->pankkiGroup->setVisible( tyyppi.onko(TiliLaji::PANKKITILI) );
-    // TODO: Velkatili IBANilla!
+    ui->pankkiGroup->setVisible( tyyppi.onko(TiliLaji::IBANTILI));
 
     ui->poistoaikaLabel->setVisible( tyyppi.onko( TiliLaji::TASAERAPOISTO));
     ui->poistoaikaSpin->setVisible( tyyppi.onko(TiliLaji::TASAERAPOISTO) );
@@ -386,7 +385,7 @@ void TilinMuokkausDialog::accept()
         }
     }
 
-    if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
+    if( tili_->onko(TiliLaji::IBANTILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
         Iban iban( ui->ibanLine->text() );
         tili_->set("iban", iban.valeitta());
         tili_->set("bic", ui->bicEdit->text());

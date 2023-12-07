@@ -44,6 +44,7 @@ namespace TiliLaji {
         MYYNTISAATAVA  =    0b0010001001010,
         SIIRTOSAATAVA  =    0b0100001001010,
 
+        IBANTILI        =   0b0001000000000,
         PANKKITILI      =   0b0001010001010,
         KATEINEN        =   0b0010010001010,
 
