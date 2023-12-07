@@ -37,6 +37,8 @@ protected slots:
     void yTietoSaapuu();
     void haeToimipaikka();
 
+    void haeBic();
+
 protected:
     Ui::UusiTiedot *ui;
     UusiVelho *velho;

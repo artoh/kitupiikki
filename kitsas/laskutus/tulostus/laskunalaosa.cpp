@@ -24,6 +24,8 @@
 #include "rekisteri/postinumerot.h"
 #include <QPainter>
 #include <QSvgRenderer>
+#include "db/tili.h"
+#include "db/tilimodel.h"
 
 
 #include <QDebug>
@@ -193,12 +195,14 @@ void LaskunAlaosa::lataaIbanit()
 {
     const AsetusModel* asetukset = interface_->asetukset();
     QStringList ibanLista = asetukset->asetus(AsetusModel::LaskuIbanit).split(",");
+    TiliModel* tilit = interface_->tilit();
 
     for(const auto& ibanteksti : qAsConst( ibanLista )) {
-        Iban iban(ibanteksti);
-        pankit_ << iban.pankki();
-        ibanit_ << iban.valeilla();
-        bicit_ << iban.bic();
+        Tili tili = tilit->tiliIbanilla(ibanteksti);
+
+        pankit_ << tili.pankki();
+        ibanit_ << tili.iban().valeilla();
+        bicit_ << tili.bic();
     }
 }
 

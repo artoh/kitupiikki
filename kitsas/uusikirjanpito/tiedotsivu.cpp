@@ -39,12 +39,17 @@ TiedotSivu::TiedotSivu(UusiVelho *wizard) :
     setTitle(tr("Organisaation tiedot"));
     ui->tiliLine->setValidator( new IbanValidator );
     ui->ytunnusEdit->setValidator( new YTunnusValidator);
+    ui->bicEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(R"(^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$)"), this));
+
 
     registerField("nimi*", ui->nimiEdit);
     registerField("tili", ui->tiliLine);
     registerField("ytunnus", ui->ytunnusEdit);
 
     connect(ui->postinumeroEdit, &QLineEdit::textEdited, this, [this] (const QString& numero) { this->ui->kaupunkiEdit->setText( Postinumerot::toimipaikka(numero)); });
+    connect(ui->tiliLine, &QLineEdit::textEdited, this, &TiedotSivu::haeBic);
+
+    haeBic();
 
 }
 
@@ -134,16 +139,18 @@ bool TiedotSivu::validatePage()
     }
 
     if( IbanValidator::kelpaako(ui->tiliLine->text())) {
-        QString iban = ui->tiliLine->text().remove(QRegularExpression("\\W"));
+        Iban iban( ui->tiliLine->text());
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
                 QVariantMap map = velho->tilit_.at(i).toMap();                
-                map.insert("iban", iban);
+                map.insert("iban", iban.valeitta());
+                map.insert( "bic", ui->bicEdit->text());
+                map.insert( "pankki", ui->pankkiEdit->text());
                 velho->tilit_[i] = map;
                 break;
             }
         }
-        velho->asetukset_.insert("LaskuIbanit", iban);
+        velho->asetukset_.insert("LaskuIbanit", iban.valeitta());
     }
 
     return true;
@@ -219,4 +226,22 @@ void TiedotSivu::haeToimipaikka()
     QString toimipaikka = Postinumerot::toimipaikka( ui->postinumeroEdit->text() );
     if( !toimipaikka.isEmpty() )
         ui->kaupunkiEdit->setText(toimipaikka);
+}
+
+void TiedotSivu::haeBic()
+{
+    Iban iban( ui->tiliLine->text());
+
+    if( iban.isValid() && !iban.bic().isEmpty()) {
+        ui->bicEdit->setText( iban.bic());
+        ui->pankkiEdit->setText( iban.pankki());
+    }
+
+    const bool naytaBic = iban.isValid() && iban.bic().isEmpty();
+
+    ui->bicLabel->setVisible( naytaBic );
+    ui->bicEdit->setVisible( naytaBic );
+    ui->pankkiLabel->setVisible( naytaBic );
+    ui->pankkiEdit->setVisible( naytaBic );
+
 }

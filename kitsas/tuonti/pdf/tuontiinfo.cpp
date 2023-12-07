@@ -35,8 +35,8 @@ void TuontiInfo::paivita()
 
     for(int i=0; i < tilit->rowCount(); i++) {
         Tili* tili = tilit->tiliPIndeksilla(i);
-        if( !tili->iban().isEmpty())
-            omatIbanit_.append(tili->iban());
+        if( tili->iban().isValid() )
+            omatIbanit_.append(tili->iban().valeitta());
     }
 }
 

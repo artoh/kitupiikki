@@ -58,9 +58,9 @@ void UusiYhteysDialog::lisaaValtuutus()
     // Yritetään esivalita pankki, johon on tili
     for(int i = 0; i < kp()->tilit()->rowCount(); i++) {
         Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
-        const QString ibanStr = tili->iban();
-        if( !ibanStr.isEmpty()) {
-            const QString bic = Iban(ibanStr).bic();
+        const Iban iban = tili->iban();
+        if( iban.isValid()  ) {
+            const QString bic = tili->bic();
             if( !bic.isEmpty() && !palvelu_->onkoValtuutettu(bic)) {
                 // Valitaan tämä aktiiviseksi
                 for(int j = 0; j < ui->pankkiView->model()->rowCount(); j++) {
@@ -79,10 +79,10 @@ void UusiYhteysDialog::lisaaValtuutus()
     // Esivalitaan pankki
     for(int i=0; i < kp()->tilit()->rowCount(); i++) {
         Tili* tili = kp()->tilit()->tiliPIndeksilla(i);
-        Iban iban( tili->iban());
-        if( !iban.bic().isEmpty() && !palvelu_->onkoValtuutettu(iban.bic())) {
+        Iban iban = tili->iban();
+        if( !tili->bic().isEmpty() && !palvelu_->onkoValtuutettu(tili->bic())) {
             ui->pankkiView->setCurrentIndex(
-                        palvelu_->pankit()->index( palvelu_->pankit()->indeksiBicilla( iban.bic() ) ));
+                        palvelu_->pankit()->index( palvelu_->pankit()->indeksiBicilla( tili->bic() ) ));
             pankkiValittu();
             break;
         }

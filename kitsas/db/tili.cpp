@@ -99,6 +99,27 @@ bool Tili::onkoValidi() const
     return numero() > 0 ;
 }
 
+Iban Tili::iban() const
+{
+    return Iban( str("iban") );
+}
+
+QString Tili::bic() const
+{
+    const QString myBic = str("bic");
+    if( !myBic.isEmpty() )
+        return myBic;
+    return iban().bic();
+}
+
+QString Tili::pankki() const
+{
+    const QString pankkini = str("pankki");
+    if( !pankkini.isEmpty() )
+        return pankkini;
+    return iban().pankki();
+}
+
 
 bool Tili::onko(TiliLaji::TiliLuonne luonne) const
 {

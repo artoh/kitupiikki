@@ -67,7 +67,7 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
+   <item row="13" column="0">
     <widget class="QLabel" name="muotoLabel">
      <property name="text">
       <string>Yritysmuoto</string>
@@ -77,10 +77,10 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
+   <item row="13" column="1">
     <widget class="QListWidget" name="muotoList"/>
    </item>
-   <item row="12" column="0">
+   <item row="14" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tilikartan laajuus</string>
@@ -90,10 +90,10 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
+   <item row="14" column="1">
     <widget class="QListWidget" name="laajuusList"/>
    </item>
-   <item row="13" column="0">
+   <item row="15" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -183,6 +183,26 @@
    </item>
    <item row="7" column="1">
     <widget class="QLineEdit" name="puhelinEdit"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="bicLabel">
+     <property name="text">
+      <string>BIC</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="pankkiLabel">
+     <property name="text">
+      <string>Pankki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QLineEdit" name="bicEdit"/>
+   </item>
+   <item row="12" column="1">
+    <widget class="QLineEdit" name="pankkiEdit"/>
    </item>
   </layout>
  </widget>

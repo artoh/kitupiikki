@@ -34,6 +34,7 @@
 #include "validator/ibanvalidator.h"
 #include "kieli/monikielinen.h"
 #include "kieli/kielet.h"
+#include "laskutus/iban.h"
 
 
 TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila)
@@ -55,7 +56,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     ui->veroCombo->setModel( veroproxy_ );
 
     ui->poistotiliCombo->suodataTyypilla("DP", true);
-    ui->ibanLine->setValidator(new IbanValidator());    
+    ui->ibanLine->setValidator(new IbanValidator());
+    ui->bicEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(R"(^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$)"), this));
 
     alustalaajuus();
 
@@ -183,7 +185,10 @@ void TilinMuokkausDialog::lataa()
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
 
-    ui->ibanLine->setText(tili_->str("iban"));
+    ui->ibanLine->setText(tili_->iban().valeilla());
+    ui->bicEdit->setText( tili_->bic());
+    ui->pankkiEdit->setText(tili_->pankki());
+
     ui->veroSpin->setValue( tili_->luku("alvprosentti"));
 
     int alvlaji = tili_->luku("alvlaji");
@@ -258,8 +263,8 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     } else
         veroproxy_->setFilterFixedString("");
 
-    ui->ibanLabel->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
-    ui->ibanLine->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
+    ui->pankkiGroup->setVisible( tyyppi.onko(TiliLaji::PANKKITILI) );
+    // TODO: Velkatili IBANilla!
 
     ui->poistoaikaLabel->setVisible( tyyppi.onko( TiliLaji::TASAERAPOISTO));
     ui->poistoaikaSpin->setVisible( tyyppi.onko(TiliLaji::TASAERAPOISTO) );
@@ -306,8 +311,15 @@ void TilinMuokkausDialog::ibanCheck()
 {
     switch ( IbanValidator::kelpo( ui->ibanLine->text())) {
     case IbanValidator::Acceptable:
+    {
         ui->ibanLine->setStyleSheet( QPalette().base().color().lightness() > 125 ? "color: darkGreen;" : "color: green;");
+        if( ui->bicEdit->text().isEmpty() && ui->pankkiEdit->text().isEmpty()) {
+            Iban iban( ui->ibanLine->text());
+            ui->bicEdit->setText( iban.bic() );
+            ui->pankkiEdit->setText( iban.pankki() );
+        }
         break;
+    }
     case IbanValidator::Invalid :
         ui->ibanLine->setStyleSheet("color: red;");
         break;
@@ -315,6 +327,8 @@ void TilinMuokkausDialog::ibanCheck()
         ui->ibanLine->setStyleSheet("color: palette(text);");
         break;
     }
+
+
 
 }
 
@@ -373,11 +387,14 @@ void TilinMuokkausDialog::accept()
     }
 
     if( tili_->onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
-        QString tilinumero = ui->ibanLine->text().remove(QRegularExpression("\\W"));
-        tili_->set("iban", tilinumero);
+        Iban iban( ui->ibanLine->text() );
+        tili_->set("iban", iban.valeitta());
+        tili_->set("bic", ui->bicEdit->text());
+        tili_->set("pankki", ui->pankkiEdit->text());
+
         // Ainoa tilinumero laitetaan myös laskulle
         if( !kp()->asetukset()->onko("LaskuIbanit"))
-            kp()->asetukset()->aseta("LaskuIbanit", tilinumero);
+            kp()->asetukset()->aseta("LaskuIbanit", iban.valeitta());
     }
 
     if( tili_->onko(TiliLaji::TULOS))

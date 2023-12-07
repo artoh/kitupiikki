@@ -125,23 +125,6 @@
          <item row="5" column="1">
           <widget class="TiliCombo" name="vastaCombo"/>
          </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="ibanLabel">
-           <property name="text">
-            <string>IBAN-tilinumero</string>
-           </property>
-           <property name="buddy">
-            <cstring>ibanLine</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QLineEdit" name="ibanLine">
-           <property name="placeholderText">
-            <string>FI00000000000000</string>
-           </property>
-          </widget>
-         </item>
          <item row="6" column="0">
           <widget class="QLabel" name="kohdennusLabel">
            <property name="text">
@@ -153,6 +136,56 @@
           <widget class="KohdennusCombo" name="kohdennusKombo"/>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="pankkiGroup">
+         <property name="title">
+          <string>Pankkitili</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="ibanLabel">
+            <property name="text">
+             <string>IBAN</string>
+            </property>
+            <property name="buddy">
+             <cstring>ibanLine</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="ibanLine">
+            <property name="placeholderText">
+             <string>FI00000000000000</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="bicLabel">
+            <property name="text">
+             <string>BIC</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="pankkiLabel">
+            <property name="text">
+             <string>Pankki</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="pankkiEdit"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="bicEdit">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer">

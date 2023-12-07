@@ -25,6 +25,7 @@
 
 #include "kantavariantti.h"
 #include "kieli/monikielinen.h"
+#include "laskutus/iban.h"
 
 
 /**
@@ -78,7 +79,11 @@ public:
      */
     bool onkoValidi() const;
 
-    QString iban() const { return str("iban");}
+
+    Iban iban() const;
+    QString bic() const;
+    QString pankki() const;
+
 
     /**
      * @brief Onko tili kysyttyä tyyppiä
