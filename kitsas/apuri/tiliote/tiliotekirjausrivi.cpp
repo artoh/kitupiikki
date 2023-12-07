@@ -437,9 +437,7 @@ void TilioteKirjausRivi::paivitaErikoisrivit()
     const int eraId = rivit_.value(0).eraId();
 
     if( eraId > 0 && summa() ) {
-        if( eraId == taydennys_.eraId() )
-            sijoitaErikoisrivit();
-        else
+        if( eraId != taydennys_.eraId() )
             model()->tilaaAlkuperaisTosite( lisaysIndeksi(), eraId );
     }
 }
@@ -487,6 +485,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         arkistotunnus_ = vienti.arkistotunnus();
         ostoPvm_ = vienti.ostopvm();
         vientiId_ = vienti.id();
+        viite_ = vienti.viite();
         const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
         switch (tyyppiPohja) {
         case MYYNTI:
@@ -556,17 +555,6 @@ void TilioteKirjausRivi::tyhjenna()
     lisaaRivi();
 }
 
-void TilioteKirjausRivi::sijoitaErikoisrivit()
-{
-/*    const QList<TositeVienti>& taydennys = taydennys_.paivita(viennit_);
-    if(!taydennys.isEmpty()) {
-        QList<TositeVienti> uudet;
-        uudet << viennit_.value(0) << viennit_.value(1);
-        uudet << taydennys;
-        viennit_ = uudet;
-    } */
-}
-
 QString TilioteKirjausRivi::pseudoarkistotunnus() const
 {
     const QString merkit("abcdefghijklmnopqrstuvwxyz0123456789");
@@ -586,8 +574,7 @@ QString TilioteKirjausRivi::pseudoarkistotunnus() const
 void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data, int eraId)
 {
     const QVariantList lista = data->toMap().value("viennit").toList();
-    taydennys_.asetaEra(eraId, lista);
-    sijoitaErikoisrivit();
+    taydennys_.asetaEra(eraId, lista);    
 }
 
 void TilioteKirjausRivi::asetaLisaysIndeksi(const int indeksi)

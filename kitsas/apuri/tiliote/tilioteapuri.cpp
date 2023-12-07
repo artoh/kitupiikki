@@ -56,7 +56,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     proxy_->setDynamicSortFilter(true);
     proxy_->sort(TilioteRivi::PVM);
 
-    ui->tiliCombo->suodataTyypilla("ARP");
+    ui->tiliCombo->suodataTyypilla("ARP|BSP");
     laitaPaivat( tosite->data(Tosite::PVM).toDate() );
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, [this]  {this->lisaaRivi(true);} );

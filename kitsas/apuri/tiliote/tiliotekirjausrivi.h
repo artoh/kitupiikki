@@ -90,7 +90,6 @@ public:
 
 protected:        
     void paivitaTyyppi(const EraMap& era, const int tilinumero);
-    void sijoitaErikoisrivit();
 
     bool peitetty_ = false;
     bool tuotu_ = false;
