@@ -60,7 +60,7 @@ protected:
     QTableView* eraView_;
     QTableView* viennitView_;
 
-    int tili_ = 0;
+    int tili_ = -1;
     int eraId_ = 0;
     QList<int> valitutViennit_;
     QDate startDate_;

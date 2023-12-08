@@ -25,6 +25,7 @@
 #include <QHeaderView>
 #include <QSplitter>
 #include <QSettings>
+#include <QTimer>
 
 EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
     : QMainWindow{parent},
@@ -57,8 +58,11 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
     eraView_->setSortingEnabled(true);    
     eraView_->sortByColumn(0, Qt::AscendingOrder);
 
+    QSortFilterProxyModel* viennitProxy = new QSortFilterProxyModel(this);
+    viennitProxy->setSourceModel(viennit_);
     viennitView_ = new QTableView();
-    viennitView_->setModel( viennit_ );
+    viennitView_->setModel( viennitProxy );
+
     viennitView_->horizontalHeader()->setSectionResizeMode( EranSelvitysViennit::SELITE, QHeaderView::Stretch);
     viennitView_->setSelectionBehavior(QTableView::SelectionBehavior::SelectRows);
     viennitView_->setSelectionMode( QTableView::SelectionMode::MultiSelection);
@@ -92,6 +96,9 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
     connect( viennit_, &EranSelvitysViennit::modelReset, this, &EranSelvitys::vientiListaPaivitetty);
 
     paivitaNapit();
+
+    QTimer::singleShot(100, this, [this] { this->tiliView_->selectRow(0);}  );
+
 }
 
 EranSelvitys::~EranSelvitys()
@@ -178,6 +185,7 @@ void EranSelvitys::initActionBar()
 
     QAction* ohjeAktio = new QAction(QIcon(":/pic/ohje.png"), tr("Ohje"));
     aBar->addAction(ohjeAktio);
+    connect( ohjeAktio, &QAction::triggered, [] { kp()->ohje("raportit/taseerittely/selvittely/"); });
 
     addToolBar(Qt::ToolBarArea::RightToolBarArea, aBar);
 }
@@ -374,6 +382,9 @@ void EranSelvitys::uudelleennimea()
     KpKysely* kysely = kpk("/erat", KpKysely::PATCH);
     connect( kysely, &KpKysely::vastaus, this, &EranSelvitys::paivita);
     kysely->kysy(lista);
+
+    tiliView_->selectRow(0);
+
 
 }
 

@@ -11,7 +11,7 @@ class EranSelvitysViennit : public QAbstractTableModel
 public:
     explicit EranSelvitysViennit(const QDate &alkuPvm, const QDate &loppuPvm, QObject *parent = nullptr);
 
-    enum { PVM, TOSITE, SELITE, DEBET, KREDIT };
+    enum { PVM, TOSITE, KUMPPANI, SELITE, DEBET, KREDIT };
 
     enum { TositeIdRooli = Qt::UserRole,
            VientiMapRooli = Qt::UserRole + 1,

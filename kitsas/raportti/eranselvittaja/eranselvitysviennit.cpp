@@ -17,6 +17,7 @@ QVariant EranSelvitysViennit::headerData(int section, Qt::Orientation orientatio
         switch (section) {
         case PVM: return tr("Päivämäärä");
         case TOSITE: return tr("Tosite");
+        case KUMPPANI: return tr("Asiakas/Toimittaja");
         case SELITE: return tr("Selite");
         case DEBET: return tr("Debet");
         case KREDIT: return tr("Kredit");
@@ -38,7 +39,7 @@ int EranSelvitysViennit::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 5;
+    return 6;
 }
 
 QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
@@ -48,10 +49,12 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
 
     QVariantMap map = data_.at(index.row()).toMap();
 
-    if( role == Qt::DisplayRole) {
+    if( role == Qt::DisplayRole || role == Qt::EditRole) {
         switch (index.column()) {
         case PVM:
-            return map.value("pvm").toDate().toString("dd.MM.yyyy");
+            return role == Qt::DisplayRole ?
+                map.value("pvm").toDate().toString("dd.MM.yyyy") :
+                map.value("pvm").toString();
         case TOSITE:
         {
             QVariantMap tositeMap = map.value("tosite").toMap();
@@ -59,6 +62,8 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
         }
         case SELITE:
             return map.value("selite").toString();
+        case KUMPPANI:
+            return map.value("kumppani").toMap().value("nimi").toString();
         case DEBET:
             return Euro(map.value("debet").toString()).display(false);
         case KREDIT:
