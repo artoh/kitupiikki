@@ -48,7 +48,9 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
     if( role == Qt::DisplayRole | role == Qt::EditRole) {
         switch( index.column()) {
         case PVM:
-            return era.pvm().isValid() ? era.pvm().toString("dd.MM.yyyy") : "";
+            return role == Qt::DisplayRole ?
+                (era.pvm().isValid() ? era.pvm().toString("dd.MM.yyyy") : "") :
+                (era.pvm().isValid() ? era.pvm().toString("yyyy-MM-dd") : "") ;
         case KUMPPANI:
             return era.nimi();
         case SELITE:
