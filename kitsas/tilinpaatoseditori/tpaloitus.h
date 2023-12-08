@@ -48,6 +48,8 @@ public:
     explicit TpAloitus(Tilikausi kausi, QWidget *parent = nullptr);
     ~TpAloitus();
 
+    bool kaytetaankoTiedostoa() const { return kaytaTiedostoa_; }
+
 private slots:
     void valintaMuuttui(QStandardItem *item);
     void accept();
@@ -69,6 +71,8 @@ private:
     Ui::TpAloitus *ui;
     Tilikausi tilikausi;
     QStandardItemModel *model;
+
+    bool kaytaTiedostoa_ = false;
 
 };
 

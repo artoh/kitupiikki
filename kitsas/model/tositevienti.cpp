@@ -292,7 +292,8 @@ void TositeVienti::siivoa()
         const int typeId = i.value().typeId();
         if( (typeId == QMetaType::Int && i.value().toInt() == 0) ||
             (typeId == QMetaType::LongLong && i.value().toLongLong() == 0L) ||
-            (typeId == QMetaType::QString && i.value().toString().isEmpty()) ||
+            (typeId == QMetaType::QString && ( i.value().toString().isEmpty()
+                                            || i.value().toString() == "0.00")) ||
             (typeId == QMetaType::Double && qAbs(i.value().toDouble()) < 1e-5) ||
             (typeId == QMetaType::QVariantMap && i.value().toMap().isEmpty()) ){
             i.remove();

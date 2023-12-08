@@ -216,7 +216,7 @@ QString TilinpaatosEditori::henkilostotaulukko(const QString &teksti)
 
 bool TilinpaatosEditori::aloitaAlusta()
 {
-    TpAloitus tpaloitus(tilikausi_);
+    TpAloitus tpaloitus(tilikausi_, this);
     if( tpaloitus.exec() == QDialog::Accepted)
     {
         uusiTp();   // Aloitetaan alusta
@@ -224,6 +224,9 @@ bool TilinpaatosEditori::aloitaAlusta()
     else
     {
         emit tallennettu();
+        if( tpaloitus.kaytetaankoTiedostoa()) {
+            close();
+        }
         return false;
     }
     return true;

@@ -238,13 +238,13 @@ void TilikausiModel::tallenna(const Tilikausi &kausi)
         if( kausi.alkaa() == kaudet_[i].alkaa()) {
             kaudet_[i] = kausi;
             emit dataChanged(index(i,0), index(i, rowCount() ));
-            kysely = kpk("/tilikaudet/%1" + kausi.alkaa().toString(Qt::ISODate), KpKysely::PUT);
+            kysely = kpk("/tilikaudet/" + kausi.alkaa().toString(Qt::ISODate), KpKysely::PUT);
             break;
         }
     }
     if( !kysely) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
-        kysely = kpk("/tilikaudet/%1" + kausi.alkaa().toString(Qt::ISODate), KpKysely::POST);
+        kysely = kpk("/tilikaudet/" + kausi.alkaa().toString(Qt::ISODate), KpKysely::POST);
         kaudet_.append(kausi);
         endInsertRows();
     }

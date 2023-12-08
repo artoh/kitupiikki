@@ -136,6 +136,11 @@ void TpAloitus::tiedostoLadattu()
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(tilikausi.paattyy());
     kausi.set("tilinpaatos", QDateTime::currentDateTime());
     kausi.tallenna();
+
+    QMessageBox::information(this, tr("Tilinpäätös tallennettu"),
+        tr("Laatimasi tilinpäätös on tallennettu kirjanpitoon."));
+
+    kaytaTiedostoa_ = true;
     reject();
 }
 
