@@ -15,7 +15,7 @@ void AlvKaudet::haeKaudet()
 {
     kaudet_.clear();
     errorCode_.clear();
-    QDate pvm = kp()->tilitpaatetty().addDays(1);
+    QDate pvm = kp()->tilitpaatetty();
     while( pvm.year() <= kp()->paivamaara().year() ) {
         haussa_++;
         QString url = QString("%1/info/periods/%2")
@@ -38,7 +38,7 @@ void AlvKaudet::tyhjenna()
 AlvKausi AlvKaudet::kausi(const QDate &date) const
 {
     for( const auto& kausi : qAsConst(kaudet_)) {
-        if( kausi.loppupvm() == date) return kausi;
+        if( kausi.alkupvm() <= date &&  kausi.loppupvm() >= date) return kausi;
     }
     return AlvKausi();
 }

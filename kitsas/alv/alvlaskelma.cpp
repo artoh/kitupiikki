@@ -801,7 +801,17 @@ void AlvLaskelma::ilmoitettu(QVariant *data)
         rk.lisaaRivi(apiId);
 
         tallenna();
+
+        // Jos verokauden pituus on muuttunut, päivitetään se asetuksiin, jotta
+        // alv-varoitus olisi validi myös ennen kausien hakemista.
+        const int kuukautta = (loppupvm_.year() - alkupvm_.year()) * 12 + loppupvm_.month() - alkupvm_.month() + 1;
+        const int kaudenpituus = kp()->asetukset()->luku(AsetusModel::AlvKausi);
+        if( (kuukautta == 12 || kuukautta == 3 || kuukautta == 1) && ( kuukautta != kaudenpituus) ) {
+            kp()->asetukset()->aseta(AsetusModel::AlvKausi, kuukautta);
+        }
+
     } else {
+        qCritical() << "Alv-ilmoituksen lähetys epäonnistui: " << map.value("ErrorText").toString();
         emit ilmoitusVirhe(map.value("ErrorCode").toString(), map.value("ErrorText").toString());
     }
 }

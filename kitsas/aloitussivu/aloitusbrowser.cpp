@@ -19,6 +19,7 @@ AloitusBrowser::AloitusBrowser(QWidget* parent) :
 {
     setOpenLinks(false);
     connect( kp()->pilvi()->paivitysInfo(), &PaivitysInfo::infoSaapunut, this, &AloitusBrowser::naytaPaivitetty );
+    connect( kp()->alvIlmoitukset()->kaudet(), &AlvKaudet::haettu, this, &AloitusBrowser::paivita);
 }
 
 void AloitusBrowser::paivita()
@@ -252,6 +253,10 @@ void AloitusBrowser::paivitaAlvVinkki()
         // Saadaan ilmoituksen kausi ja eräpäivä verottajalta
         loppuPvm = kausi.loppupvm();
         eraPvm = kausi.erapvm();
+    } else if( !kp()->alvIlmoitukset()->kaudet()->kaudet().isEmpty() ) {
+        // Jos ollaan saatu verottajalta kausilista, jossa ei ole puuttuvaa kautta,
+        // niin silloinhan ilmoitus on jo annettu
+        return;
     } else {
         const int kaudenPituus = kp()->asetukset()->luku(AsetusModel::AlvKausi);
         QDate laskennallinenalkupaiva = kausiAlkaa;
