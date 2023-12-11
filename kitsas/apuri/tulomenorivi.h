@@ -82,6 +82,8 @@ public:
     void setVahentamaton(int vientiId);
 
 protected:
+    int vientiId() const { return vientiId_;}
+
     int tilinumero_ = 0;
 
     Euro brutto_ = 0;
@@ -107,6 +109,7 @@ protected:
     int vahentamatonVientiId_ = 0;
 
     int poistoaika_ = 0;
+
 
 };
 

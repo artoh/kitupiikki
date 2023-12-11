@@ -34,6 +34,11 @@ QVariantList TilioteAliRivi::viennit(const int tyyppi, const QString &otsikko, c
     vienti.setEra( era() );
     vienti.setKredit( brutto() );
 
+    if( vientiId() > 0) {
+        vienti.setId( vientiId() );
+    }
+
+
     vienti.setTyyppi( tyyppi == TilioteKirjausRivi::SUORITUS ?
         TilioteKirjausRivi::SIIRTO + TositeVienti::KIRJAUS :
         tyyppi + TositeVienti::KIRJAUS);
