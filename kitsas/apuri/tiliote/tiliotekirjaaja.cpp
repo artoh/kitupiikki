@@ -600,6 +600,8 @@ void TilioteKirjaaja::lataaNakymaan()
     ui->asiakastoimittaja->valitse( rivi_.kumppani() );
     ui->seliteEdit->setText( rivi_.otsikko() );
 
+    ui->tiliEdit->valitseTiliNumerolla(tili);
+
     QString saajamaksaja = rivi_.kumppani().value("nimi").toString();
     int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
     if( valinpaikka > 2)
@@ -628,6 +630,7 @@ void TilioteKirjaaja::lataaNakymaan()
 
     bool maksu = false;
     const int eraId = aliRiviModel_->rivi(0).eraId();
+    ui->eraCombo->valitse( aliRiviModel_->rivi(0).era() );
 
     if( eraId) {
         for(int i=0; i < avoinProxy_->rowCount(); i++) {
@@ -639,7 +642,7 @@ void TilioteKirjaaja::lataaNakymaan()
         }
     }
     if( eraId && !maksu) {
-        ui->alaTabs->setCurrentIndex( SIIRTO );
+        ui->alaTabs->setCurrentIndex( SIIRTO );        
     }
 
     ui->suodatusEdit->setText( saajamaksaja );
