@@ -598,6 +598,7 @@ void TilioteKirjaaja::lataaNakymaan()
 
     ui->pvmEdit->setDate(rivi_.pvm());
     ui->asiakastoimittaja->valitse( rivi_.kumppani() );
+    ui->seliteEdit->setText( rivi_.otsikko() );
 
     QString saajamaksaja = rivi_.kumppani().value("nimi").toString();
     int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
