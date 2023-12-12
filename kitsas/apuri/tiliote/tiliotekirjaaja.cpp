@@ -117,6 +117,7 @@ void TilioteKirjaaja::kirjaaUusia(const QDate &pvm)
 {
     setWindowTitle( tr("Kirjaa tiliotteelle"));
     nykyAliRiviIndeksi_ = -1;
+    riviIndeksi_ = -1;
     tyhjenna();
     ui->pvmEdit->setDate(pvm);
 
