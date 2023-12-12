@@ -17,6 +17,8 @@
 
 #include <QJsonDocument>
 #include <QSettings>
+#include <QMessageBox>
+#include <QApplication>
 
 #include "tilikausimodel.h"
 #include "kirjanpito.h"
@@ -244,12 +246,14 @@ void TilikausiModel::tallenna(const Tilikausi &kausi)
     }
     if( !kysely) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
-        kysely = kpk("/tilikaudet/" + kausi.alkaa().toString(Qt::ISODate), KpKysely::POST);
+        kysely = kpk("/tilikaudet/" + kausi.alkaa().toString(Qt::ISODate), KpKysely::PUT);
         kaudet_.append(kausi);
         endInsertRows();
     }
+
     QObject::connect(kysely, &KpKysely::vastaus, this, &TilikausiModel::paivita);
     QObject::connect(kysely, &KpKysely::vastaus, kp(), &Kirjanpito::tilikausiAvattu);
+    QObject::connect(kysely, &KpKysely::virhe, this, [] (int virhe) { QMessageBox::critical( qApp->topLevelWidgets().value(0), tr("Tilikauden tallentaminen epäonnistui"), tr("Virhe %1 tilikautta tallennettaessa.").arg(virhe) );  });
     kysely->kysy( kausi.data() );
 }
 
