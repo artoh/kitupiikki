@@ -505,7 +505,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     else
         toolbar->setIconSize(QSize(32,32));
 
-    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API) {
+    if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
         toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
     } else {
         toolbar->setStyleSheet("QToolBar {background-color: #FFA500; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");

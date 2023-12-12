@@ -61,7 +61,8 @@ void AloitusBrowser::paivitaAvattu()
         txt.append( eiOikeuttaUrputus()  );
     } else {
         paivitaVinkit();
-        txt.append( kp()->pilvi()->paivitysInfo()->toHtml() );        
+        if( !qApp->property("demo").toBool())
+            txt.append( kp()->pilvi()->paivitysInfo()->toHtml() );
 
         const int saldoja = saldot_.count();
         if( saldoja == 0) {
@@ -90,8 +91,11 @@ void AloitusBrowser::vinkkaa(const QString &luokka, const QString &otsikko, cons
 
 void AloitusBrowser::paivitaVinkit()
 {
+    const bool demotila = qApp->property("demo").toBool();
+
     vinkit_.clear();
-    paivitaTestiVinkki();
+    if(!demotila) paivitaTestiVinkki();
+
     paivitaPassiivinenVinkki();
     paivitaTiliointiVinkki();
     paivitaPankkiyhteysVinkki();
@@ -472,7 +476,8 @@ void AloitusBrowser::naytaTervetuloa()
     vinkit_.clear();
     paivitaTestiVinkki();
 
-    teksti.replace("<INFO>", kp()->pilvi()->paivitysInfo()->toHtml() + vinkit_.toHtml() );
+    if( !qApp->property("demo").toBool())
+        teksti.replace("<INFO>", kp()->pilvi()->paivitysInfo()->toHtml() + vinkit_.toHtml() );
 
     setHtml( teksti );
 }

@@ -73,7 +73,9 @@ int main(int argc, char *argv[])
                           "tiedostopolku",
                           QString()},
                           {"pro",
-                          "Kirjautuminen suoraan pilveen"}
+                          "Kirjautuminen suoraan pilveen"},
+                           {"demo",
+                           "Demo-tila"}
                       });
     parser.addVersionOption();
     parser.process(a);
@@ -129,6 +131,8 @@ int main(int argc, char *argv[])
             return 0;
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
+    a.setProperty("demo", parser.isSet("demo"));
+
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash_" + Kielet::instanssi()->uiKieli() + ".png"));
     splash->show();
