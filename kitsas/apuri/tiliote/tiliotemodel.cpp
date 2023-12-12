@@ -417,4 +417,5 @@ void TilioteModel::alkuperaisTositeSaapuu(int lisaysIndeksi, QVariant *data, int
             break;
         }
     }
+    emit dataChanged(index(0,0), index(rowCount()-1, columnCount()-1));
 }

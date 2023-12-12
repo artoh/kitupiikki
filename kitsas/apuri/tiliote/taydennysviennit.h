@@ -30,16 +30,19 @@ public:
     void asetaEra(int eraId, QVariantList alkuperaisviennit);
     int eraId() const { return eraId_;}
 
-    QList<TositeVienti> paivita(const QList<TositeVienti> omatViennit);
-
-    QList<TositeVienti> viennit() const;
+    QList<TositeVienti> viennit(const QVariantList &omatViennit) const;
 
     static void asetaKitsas(KitsasInterface* interface);
+
+    void asetaDebetId(int id) { taydennysDebetId_ = id;}
+    void asetaKreditId(int id) { taydennysKreditId_ = id;}
 
 private:
     QList<TositeVienti> alkuperaiset_;
     int eraId_ = 0;
-    QList <TositeVienti> taydennys_;
+
+    int taydennysDebetId_ = 0;
+    int taydennysKreditId_ = 0;
 
     KitsasInterface* kitsasInterface_;
 };

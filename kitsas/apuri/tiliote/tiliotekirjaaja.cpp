@@ -743,7 +743,9 @@ void TilioteKirjaaja::tallenna()
         aliRivi.setTili( index.data(LaskuTauluModel::TiliRooli).toInt() );
         aliRivi.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
         aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
+
         rivi_.asetaRivi(aliRivi);
+        rivi_.paivitaErikoisrivit();
 
     } else if( ui->alaTabs->currentIndex() == SIIRTO ) {
         rivi_.asetaTyyppi(TilioteKirjausRivi::SIIRTO);
@@ -755,6 +757,7 @@ void TilioteKirjaaja::tallenna()
         aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() :  ui->euroEdit->euro() );
 
         rivi_.asetaRivi(aliRivi);
+        rivi_.paivitaErikoisrivit();
 
     } else if( ui->alaTabs->currentIndex() == VAKIOVIITE) {
         rivi_.asetaTyyppi( TilioteKirjausRivi::MYYNTI);

@@ -35,14 +35,17 @@ void TaydennysViennit::asetaEra(int eraId, QVariantList alkuperaisviennit)
         alkuperaiset_.append( TositeVienti( item.toMap()) );
 }
 
-QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatViennit)
+QList<TositeVienti> TaydennysViennit::viennit(const QVariantList& omatViennit) const
 {
     qlonglong omaSentit = 0L;
     QString selite;
     QDate pvm;
-    taydennys_.clear();
 
-    for(const auto& omaVienti : omatViennit) {
+    QList<TositeVienti> out;
+
+    for(const auto& vienti : omatViennit) {
+        TositeVienti omaVienti(vienti.toMap());
+
         if(omaVienti.eraId() == eraId()) {
             omaSentit = omaVienti.kreditSnt() - omaVienti.debetSnt();
             selite = omaVienti.selite().isEmpty() ? omaVienti.kumppaniNimi() : omaVienti.selite();
@@ -50,19 +53,19 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
             break;
         }
     }
-    if( !omaSentit) return taydennys_;
+    if( !omaSentit) return out;
 
     double osuusErasta = 0.0;
 
     for(const auto& avienti : qAsConst( alkuperaiset_)) {
         if( avienti.id() == eraId()) {
             const qlonglong asentit = avienti.debetSnt() - avienti.kreditSnt();
-            if( !asentit ) return taydennys_;
+            if( !asentit ) return out;
             osuusErasta = omaSentit / asentit;
             break;
         }
     }
-    if( qAbs(osuusErasta) < 1e-5) return taydennys_;
+    if( qAbs(osuusErasta) < 1e-5) return out;
 
     for( const auto& avienti : qAsConst( alkuperaiset_)) {
         if( avienti.alvKoodi() / 100 == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON / 100) {
@@ -72,11 +75,13 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
             debet.setPvm( pvm );
             debet.setTili( avienti.tili() );
             debet.setDebet(sentit);
-            debet.setSelite(selite);
+            debet.setSelite(selite);            
             debet.setEra(avienti.era());
             debet.setAlvKoodi(AlvKoodi::TILITYS);
             debet.setAlvProsentti( avienti.alvProsentti());
-            taydennys_ << debet;
+            if( taydennysDebetId_)
+                debet.setId( taydennysDebetId_ );
+            out << debet;
 
             TositeVienti kredit;
             kredit.setPvm(pvm);
@@ -87,21 +92,19 @@ QList<TositeVienti> TaydennysViennit::paivita(const QList<TositeVienti> omatVien
             } else if( avienti.tili() == kitsasInterface_->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero() ) {
                 kredit.setTili( kitsasInterface_->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero() );
                 kredit.setAlvKoodi( avienti.alvKoodi() % 100 + AlvKoodi::ALVVAHENNYS );
-            }
+            }            
             kredit.setKredit(sentit);
             kredit.setSelite(selite);
             kredit.setAlvProsentti(avienti.alvProsentti());
-            taydennys_ << kredit;
+            if( taydennysKreditId_ )
+                kredit.setId( taydennysKreditId_ );
+            out << kredit;
         }
     }
 
-    return taydennys_;
+    return out;
 }
 
-QList<TositeVienti> TaydennysViennit::viennit() const
-{
-    return taydennys_;
-}
 
 
 

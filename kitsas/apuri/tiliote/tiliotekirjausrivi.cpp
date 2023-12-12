@@ -34,7 +34,7 @@
 
 TilioteKirjausRivi::TilioteKirjausRivi(TilioteModel *model) :
     TilioteRivi(model),
-    taydennys_(nullptr)
+    taydennys_(model->kitsas())
 {
     rivit_.append(TilioteAliRivi());
 }
@@ -45,6 +45,8 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantList &data, TilioteModel *m
     for(auto const &vienti : data) {
         lisaaVienti( vienti.toMap() );
     }
+
+    paivitaErikoisrivit();
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *model) :
@@ -406,9 +408,9 @@ QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
 
     for(const auto& rivi: rivit_) {
         lista.append( rivi.viennit(tyyppi(), otsikko(), kumppani(), pvm()));
-    }
+    }        
 
-    for(const auto& taydennys: taydennys_.viennit()) {
+    for(const auto& taydennys: taydennys_.viennit(lista)) {
         lista.append(taydennys);
     }
 
@@ -503,8 +505,13 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
 
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
         rivit_.append( TilioteAliRivi( vienti) );
-    else if( !rivit_.count()) {
+    else if( !rivit_.count() ) {
         ;
+    } else if( !vienti.tyyppi()) {
+        if( vienti.alvKoodi() == AlvKoodi::TILITYS)
+            taydennys_.asetaDebetId(vienti.id());
+        else
+            taydennys_.asetaKreditId(vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
         Euro vero = vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
@@ -570,7 +577,8 @@ QString TilioteKirjausRivi::pseudoarkistotunnus() const
 void TilioteKirjausRivi::alkuperaistositeSaapuu(QVariant *data, int eraId)
 {
     const QVariantList lista = data->toMap().value("viennit").toList();
-    taydennys_.asetaEra(eraId, lista);    
+    taydennys_.asetaEra(eraId, lista);
+
 }
 
 void TilioteKirjausRivi::asetaLisaysIndeksi(const int indeksi)
