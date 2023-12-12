@@ -92,7 +92,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
 
 bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if( index.row() < kirjausRivit_.count()) {
+    if( index.isValid() && index.row() < kirjausRivit_.count()) {
         if( kirjausRivit_[index.row()].setRiviData(index.column(), value)) {
             emit dataChanged(
                         index.sibling(index.row(), TilioteRivi::PVM),

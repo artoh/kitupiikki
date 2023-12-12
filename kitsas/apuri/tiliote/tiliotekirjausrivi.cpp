@@ -319,8 +319,8 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         break;
     case TILI: {        
         const Tili* tili = model()->kitsas()->tilit()->tili(value.toInt());
-        const int tiliKohdennus = tili->luku("kohdennus");        
         if( !tili) return false;
+        const int tiliKohdennus = tili->luku("kohdennus");                
         for(int i=0; i < rivit_.count(); i++) {
             rivit_[i].setTili(tili->numero());
             if(tiliKohdennus) rivit_[i].setKohdennus(tiliKohdennus);
@@ -503,23 +503,19 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
 
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
         rivit_.append( TilioteAliRivi( vienti) );
-    else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::ALVKIRJAUS && rivit_.count()) {
-        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
-        if( vienti.alvKoodi() == AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS) {
-            Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
-            rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
-        }
-    }
-    else if( vienti.tyyppi() == TositeVienti::MYYNTI + TositeVienti::ALVKIRJAUS &&
-             vienti.alvKoodi() == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS &&
-             rivit_.count())
-    {
-        qlonglong vero = qRound64( vienti.kredit()*100 - vienti.debet()*100 );
+    else if( !rivit_.count()) {
+        ;
+    } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
+        Euro vero = vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
-    } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS && rivit_.count()) {
-        rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
-    } else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::VAHENNYSKELVOTON) {
+    } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
+        Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
+        rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
+        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
+    } else if( vienti.alvKoodi() == AlvKoodi::VAHENNYSKELVOTON) {
         rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
+    } else if( vienti.alvKoodi() == AlvKoodi::MAAHANTUONTI_VERO) {
+        rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
     }
 
     paivitaTyyppi();

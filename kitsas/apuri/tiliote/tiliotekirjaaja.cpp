@@ -230,7 +230,9 @@ void TilioteKirjaaja::verotonMuuttuu()
 void TilioteKirjaaja::alvMuuttuu()
 {
    int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
-   aliRivi()->setAlvkoodi( alvkoodi );
+   if( !ladataan_) {
+        aliRivi()->setAlvkoodi( alvkoodi );
+   }
 
    bool naytaMaara = aliRivi()->naytaBrutto();
    bool naytaVeroton = aliRivi()->naytaNetto();
@@ -263,7 +265,9 @@ void TilioteKirjaaja::alvMuuttuu()
 void TilioteKirjaaja::alvProssaMuttuu()
 {
    double prossa = alvProssa();
-   aliRivi()->setAlvprosentti(prossa);
+   if( !ladataan_) {
+        aliRivi()->setAlvprosentti(prossa);
+   }
    ui->euroEdit->setEuro( aliRivi()->brutto() );
    ui->verotonEdit->setEuro( aliRivi()->netto());
    aliRiviaMuokattu();
@@ -293,7 +297,8 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
     }
     alaTabMuuttui( ui->alaTabs->currentIndex() );
 
-    paivitaVeroFiltteri( ui->alvCombo->currentData().toInt() );
+    if( !ladataan_ )
+        paivitaVeroFiltteri( ui->alvCombo->currentData().toInt() );
 
     ui->euroEdit->setMiinus( tab );
     ui->verotonEdit->setMiinus( tab );
@@ -321,12 +326,14 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoViivaLabel->setVisible(jakso);
     ui->jaksoLoppuuEdit->setVisible(jakso);
 
-    if(tili.luku("kohdennus"))
-        ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
+    if( !ladataan_) {
+        if(tili.luku("kohdennus"))
+            ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
 
-    const int alvIndeksi = ui->alvCombo->findData(tili.alvlaji());
-    ui->alvCombo->setCurrentIndex(alvIndeksi);
-    ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
+        const int alvIndeksi = ui->alvCombo->findData(tili.alvlaji());
+        ui->alvCombo->setCurrentIndex(alvIndeksi);
+        ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
+    }
 
     alvMuuttuu();
     alvProssaMuttuu();
@@ -571,19 +578,21 @@ TilioteApuri *TilioteKirjaaja::apuri() const
 
 void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
 {
+    ladataan_ = true;
     rivi_ = rivi;
 
 
     lataaNakymaan();
     ui->viennitView->selectRow(0);
-    nykyAliRiviIndeksi_ = 0;
+    qApp->processEvents();
     naytaRivi();
+
+    ladataan_ = false;
 }
 
 
 void TilioteKirjaaja::lataaNakymaan()
-{
-    ladataan_ = true;
+{    
 
     const int tili = aliRiviModel_->rivi(0).tilinumero();
 
@@ -636,12 +645,11 @@ void TilioteKirjaaja::lataaNakymaan()
     if( !saajamaksaja.isEmpty())
         suodata(saajamaksaja);
 
-    ladataan_ = false;
 }
 
 void TilioteKirjaaja::riviVaihtuu(const QModelIndex &/*current*/, const QModelIndex &previous)
 {
-    if( previous.isValid()) {
+    if( previous.isValid() && !ladataan_) {
         tallennaRivi();
     }
     naytaRivi();
@@ -657,7 +665,11 @@ void TilioteKirjaaja::naytaRivi()
 
     const TilioteAliRivi& ar = aliRiviModel_->rivi(rivi);
 
-    ui->euroEdit->setEuro(ar.brutto()); // TODO: Brutto ja netto
+    if( ar.naytaBrutto())
+        ui->euroEdit->setEuro(ar.brutto());
+    else
+        ui->verotonEdit->setEuro(ar.netto());
+
     ui->tiliEdit->valitseTiliNumerolla(ar.tilinumero());
     ui->eraCombo->valitse( ar.era());
     ui->kohdennusCombo->valitseKohdennus( ar.kohdennus() );
@@ -673,8 +685,10 @@ void TilioteKirjaaja::naytaRivi()
     else
         ui->jaksoLoppuuEdit->setNull();
 
-    ui->alvCombo->setCurrentIndex(ui->alvCombo->findData(ar.alvkoodi(), VerotyyppiModel::KoodiRooli));
+    menoa_ = ar.brutto() < Euro::Zero;
+    paivitaVeroFiltteri( ar.alvkoodi() );
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
+
     ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
 
 }
