@@ -31,7 +31,7 @@ protected:
     void initActionBar();
 
     void tiliValittu(const QItemSelection& selected);
-    void eraValittu(const QItemSelection& selected);
+    void eraValittu();
     void naytaVienti();
     void naytaTaseErittely();
 

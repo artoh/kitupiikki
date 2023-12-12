@@ -202,12 +202,11 @@ void EranSelvitys::tiliValittu(const QItemSelection &selected)
     }
 }
 
-void EranSelvitys::eraValittu(const QItemSelection &selected)
+void EranSelvitys::eraValittu()
 {    
-    if( !selected.empty() ) {
-        eraId_ = selected.indexes().first().data(Qt::UserRole).toInt();
-        viennit_->load(tili_, eraId_);
-    }
+    const int eraId = eraView_->selectionModel()->selectedIndexes().value(0).data(Qt::UserRole).toInt();
+    eraId_ = eraId;
+    viennit_->load(tili_, eraId_);
 }
 
 void EranSelvitys::naytaVienti()
@@ -449,7 +448,7 @@ void EranSelvitys::eraListaPaivitetty()
         }
     }
     if( eraModel_->rowCount()) {
-        eraView_->selectRow(0);
+        viennitView_->selectRow(0);
         eraId_ = viennitView_->model()->index(0,0).data(Qt::UserRole).toInt();
         viennit_->load(tili_, eraId_);
     }
