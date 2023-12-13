@@ -450,13 +450,24 @@
   <tabstop>numeroEdit</tabstop>
   <tabstop>nimiList</tabstop>
   <tabstop>tyyppiCombo</tabstop>
-  <tabstop>veroCombo</tabstop>
+  <tabstop>laajuusCombo</tabstop>
+  <tabstop>vastaCheck</tabstop>
+  <tabstop>vastaCombo</tabstop>
+  <tabstop>kohdennusKombo</tabstop>
+  <tabstop>ibanLine</tabstop>
+  <tabstop>bicEdit</tabstop>
+  <tabstop>pankkiEdit</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>veroSpin</tabstop>
   <tabstop>poistoaikaSpin</tabstop>
   <tabstop>poistoprossaSpin</tabstop>
   <tabstop>poistotiliCombo</tabstop>
-  <tabstop>laajuusCombo</tabstop>
   <tabstop>ohjeTabs</tabstop>
+  <tabstop>veroCombo</tabstop>
+  <tabstop>taseEratRadio</tabstop>
+  <tabstop>taseEraLuettelo</tabstop>
+  <tabstop>teLiVaRadio</tabstop>
+  <tabstop>teSaldoRadio</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>

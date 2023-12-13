@@ -102,6 +102,11 @@ bool TiedotSivu::validatePage()
         return false;
     }
 
+    if( !ui->bicEdit->text().isEmpty() && !ui->bicEdit->hasAcceptableInput()) {
+        QMessageBox::critical(this, tr("Perustiedot"), tr("BIC-numeron muoto virheellinen."));
+        return false;
+    }
+
     velho->asetukset_.insert("Nimi", ui->nimiEdit->text());
     if( !ui->ytunnusEdit->text().isEmpty())
         velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text().simplified());

@@ -385,6 +385,16 @@ void TilinMuokkausDialog::accept()
         }
     }
 
+    if( tili_->onko(TiliLaji::IBANTILI) && !ui->ibanLine->text().isEmpty()) {
+        if(  !ui->ibanLine->hasAcceptableInput()) {
+            QMessageBox::critical(this, "Tilin muokkaus", "Tilinumero on virheellinen. Syötä tilinumero IBAN-muodossa");
+            return;
+        } else if( !ui->bicEdit->hasAcceptableInput()) {
+            QMessageBox::critical(this, "Tilin muokkaus", "BIC-numero on virheellinen.");
+            return;
+        }
+    }
+
     if( tili_->onko(TiliLaji::IBANTILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
         Iban iban( ui->ibanLine->text() );
         tili_->set("iban", iban.valeitta());
