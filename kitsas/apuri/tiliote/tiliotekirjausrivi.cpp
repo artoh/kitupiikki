@@ -326,8 +326,10 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         for(int i=0; i < rivit_.count(); i++) {
             rivit_[i].setTili(tili->numero());
             if(tiliKohdennus) rivit_[i].setKohdennus(tiliKohdennus);
-            rivit_[i].setAlvkoodi(tili->alvlaji());
-            rivit_[i].setAlvprosentti(tili->alvprosentti());
+            if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+                rivit_[i].setAlvkoodi(tili->alvlaji());
+                rivit_[i].setAlvprosentti(tili->alvprosentti());
+            }
         }
         break;
     }

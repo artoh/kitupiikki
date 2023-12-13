@@ -331,9 +331,11 @@ void TilioteKirjaaja::tiliMuuttuu()
         if(tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
 
-        const int alvIndeksi = ui->alvCombo->findData(tili.alvlaji());
-        ui->alvCombo->setCurrentIndex(alvIndeksi);
-        ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
+        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+            const int alvIndeksi = ui->alvCombo->findData(tili.alvlaji());
+            ui->alvCombo->setCurrentIndex(alvIndeksi);
+            ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
+        }
     }
 
     alvMuuttuu();
