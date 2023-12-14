@@ -122,6 +122,7 @@ void TilioteKirjaaja::kirjaaUusia(const QDate &pvm)
     ui->pvmEdit->setDate(pvm);
 
     show();
+    ylaTabMuuttui( ui->ylaTab->currentIndex() );
 }
 
 void TilioteKirjaaja::muokkaaRivia(int riviNro)
@@ -156,6 +157,9 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->seliteLabel->setVisible(tab != MAKSU && tab != VAKIOVIITE);
     ui->seliteEdit->setVisible( tab != MAKSU && tab != VAKIOVIITE);
 
+    ui->euroEdit->setMiinus( menoa_ );
+    ui->verotonEdit->setMiinus( menoa_ );
+
     if( tab == MAKSU ) {
         ui->maksuView->setModel(avoinProxy_);
         ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
@@ -182,9 +186,6 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     const bool alv = (tab == TULOMENO || tab == HYVITYS) && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
     ui->alvLabel->setVisible(alv);
     ui->alvCombo->setVisible(alv);
-    ui->alvProssaCombo->setVisible(alv);
-    ui->verotonEdit->setVisible(alv);
-    ui->verotonLabel->setVisible(alv);
 
     tiliMuuttuu();
     paivitaVientiNakyma();
@@ -204,8 +205,9 @@ void TilioteKirjaaja::euroMuuttuu()
    }
 
    aliRivi()->setBrutto( euro );
-   ui->verotonEdit->setEuro( aliRivi()->netto());
+
    ui->verotonEdit->setMiinus( ui->euroEdit->miinus());
+   ui->verotonEdit->setEuro( aliRivi()->netto());   
 
    aliRiviaMuokattu();
 
@@ -222,8 +224,9 @@ void TilioteKirjaaja::verotonMuuttuu()
    }
 
    aliRivi()->setNetto( euro );
-   ui->euroEdit->setEuro( aliRivi()->brutto() );
+
    ui->euroEdit->setMiinus( ui->verotonEdit->miinus() );
+   ui->euroEdit->setEuro( aliRivi()->brutto() );
 
    aliRiviaMuokattu();
 }
@@ -235,8 +238,10 @@ void TilioteKirjaaja::alvMuuttuu()
         aliRivi()->setAlvkoodi( alvkoodi );
    }
 
+   bool const verolehti = ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS;
+
    bool naytaMaara = aliRivi()->naytaBrutto();
-   bool naytaVeroton = aliRivi()->naytaNetto();
+   bool naytaVeroton = aliRivi()->naytaNetto() && verolehti;
 
    ui->euroLabel->setVisible( naytaMaara );
    ui->euroEdit->setVisible( naytaMaara );
@@ -250,8 +255,9 @@ void TilioteKirjaaja::alvMuuttuu()
         aliRivi()->setNetto(maara);
    }
 
-   ui->alvProssaCombo->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );
-   ui->eiVahennysCheck->setVisible(  aliRivi()->naytaVahennysvalinta() );
+   ui->alvProssaCombo->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && verolehti);
+
+   ui->eiVahennysCheck->setVisible(  aliRivi()->naytaVahennysvalinta() && verolehti);
    ui->eiVahennysCheck->setChecked( false );
 
    if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 0.1 ) {
@@ -282,8 +288,9 @@ void TilioteKirjaaja::alvVahennettavaMuuttuu()
 
 void TilioteKirjaaja::ylaTabMuuttui(int tab)
 {
-    menoa_ = tab;
-    if( menoa_ ) {
+   menoa_ = (tab == TILILTA);
+
+   if( menoa_ ) {
         ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
         ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
@@ -296,13 +303,12 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
         if( ui->alaTabs->count() == VAKIOVIITE )
             ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"));
     }
+
     alaTabMuuttui( ui->alaTabs->currentIndex() );
 
     if( !ladataan_ )
         paivitaVeroFiltteri( ui->alvCombo->currentData().toInt() );
 
-    ui->euroEdit->setMiinus( tab );
-    ui->verotonEdit->setMiinus( tab );
 }
 
 void TilioteKirjaaja::tiliMuuttuu()
@@ -332,8 +338,7 @@ void TilioteKirjaaja::tiliMuuttuu()
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
 
         if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
-            const int alvIndeksi = ui->alvCombo->findData(tili.alvlaji());
-            ui->alvCombo->setCurrentIndex(alvIndeksi);
+            paivitaVeroFiltteri( tili.alvlaji() );
             ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
         }
     }
@@ -369,6 +374,7 @@ void TilioteKirjaaja::valitseLasku()
     if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU && ui->euroEdit->euro() == Euro::Zero) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
+        tarkastaTallennus();
     }
 }
 
@@ -506,8 +512,9 @@ void TilioteKirjaaja::alusta()
 
     alaTabMuuttui(0);
 
-    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
-    connect( ui->verotonEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::verotonMuuttuu);
+    connect( ui->euroEdit, &KpEuroEdit::euroMuuttui, this, &TilioteKirjaaja::euroMuuttuu);
+    connect( ui->verotonEdit, &KpEuroEdit::euroMuuttui, this, &TilioteKirjaaja::verotonMuuttuu);
+
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
     connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);    
 

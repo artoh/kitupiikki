@@ -62,6 +62,8 @@ private slots:
 
     void euroMuuttuu();
     void verotonMuuttuu();
+
+
     void alvMuuttuu();
     void alvProssaMuttuu();
     void alvVahennettavaMuuttuu();
@@ -111,7 +113,7 @@ private:
     Ui::TilioteKirjaaja *ui;
 
     int riviIndeksi_ = -1;
-    int menoa_ = false;
+    bool menoa_ = false;
     int nykyAliRiviIndeksi_ = 0;
 
     QSortFilterProxyModel* maksuProxy_;    
