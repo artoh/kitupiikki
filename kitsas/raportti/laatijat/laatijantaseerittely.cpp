@@ -232,7 +232,7 @@ void LaatijanTaseErittely::dataSaapuu(QVariant *data)
                             rr.lisaa( kumppani);
                             rr.lisaa( selite);
                         }
-                        rr.lisaa(Euro::fromVariant(map.value("eur")));
+                        rr.lisaa(Euro::fromVariant(mmap.value("eur")));
                         rivit.append(rr);
                     }
                     // Loppusaldo
