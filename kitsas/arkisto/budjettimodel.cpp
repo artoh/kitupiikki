@@ -224,7 +224,7 @@ void BudjettiModel::kopioiEdellinen()
     data_.clear();
     while(iter.hasNext()) {
         iter.next();
-        const int kohdennusId = iter.value().toInt();
+        const int kohdennusId = iter.key().toInt();
         const Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennusId);
         if( kohdennus.paattyy().isValid() && kohdennus.paattyy() < paivamaara_ ) {
             continue;
@@ -232,6 +232,8 @@ void BudjettiModel::kopioiEdellinen()
         data_.insert( iter.key(), iter.value() );
     }
     emit dataChanged( index(0, EUROT), index( rowCount(), EUROT ) );
+    muokattu_ = true;
+    laskeSumma();
 }
 
 void BudjettiModel::dataSaapuu(QVariant *saapuva)
