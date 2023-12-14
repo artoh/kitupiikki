@@ -319,6 +319,7 @@ void PilviModel::paivitaLista(int avaaPilvi)
     avaaPilvi_ = avaaPilvi;
     KpKysely* kysymys = kysely( pilviLoginOsoite() + "/auth/" );
     connect( kysymys, &KpKysely::vastaus, [this] (QVariant* data) { this->kirjautuminen(data->toMap()); } );
+    connect( kysymys, &KpKysely::virhe, this, &PilviModel::kirjauduUlos );
     kysymys->kysy();
 }
 
