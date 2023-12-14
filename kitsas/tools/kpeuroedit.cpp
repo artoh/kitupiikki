@@ -68,8 +68,8 @@ void KpEuroEdit::setCents(qlonglong cents)
 
     setClearButtonEnabled( cents );
 
-    emit sntMuuttui(cents_);
-    emit euroMuuttui( cents_ );
+    emit sntMuuttui(cents );
+    emit euroMuuttui( cents );
 }
 
 void KpEuroEdit::setValue(double euros)
@@ -86,6 +86,9 @@ void KpEuroEdit::setMiinus(bool miinus)
 
     QString etumerkki = miinus_ ? "−" : "" ;
     setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
+
+    emit sntMuuttui( miinus_ ? 0 - cents_ : cents_ );
+    emit euroMuuttui( miinus_ ? 0 - cents_ : cents_ );
 }
 
 void KpEuroEdit::edited(const QString &newtext)

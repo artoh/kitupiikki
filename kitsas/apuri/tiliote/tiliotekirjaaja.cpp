@@ -160,6 +160,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->euroEdit->setMiinus( menoa_ );
     ui->verotonEdit->setMiinus( menoa_ );
 
+
+
     if( tab == MAKSU ) {
         ui->maksuView->setModel(avoinProxy_);
         ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
