@@ -678,6 +678,7 @@ void TilioteKirjaaja::naytaRivi()
     ui->eraCombo->valitse( ar.era());
     ui->kohdennusCombo->valitseKohdennus( ar.kohdennus() );
     ui->merkkausCC->setSelectedItems( ar.merkkaukset() );
+    ui->seliteEdit->setText( ar.selite() );
 
     if(ar.jaksoalkaa().isValid())
         ui->jaksoAlkaaEdit->setDate( ar.jaksoalkaa() );
@@ -710,6 +711,7 @@ void TilioteKirjaaja::tallennaRivi()
     aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas());
     aliRivi.setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi.setJaksopaattyy( ui->jaksoLoppuuEdit->date());
+    aliRivi.setSelite( ui->seliteEdit->toPlainText() );
 
 
     // Tähän bruton ja neton käsittelyt!
@@ -726,8 +728,7 @@ void TilioteKirjaaja::tallennaRivi()
 
 void TilioteKirjaaja::tallenna()
 {
-    rivi_.asetaPvm( ui->pvmEdit->date() );
-    rivi_.asetaOtsikko( ui->seliteEdit->toPlainText());
+    rivi_.asetaPvm( ui->pvmEdit->date() );    
     rivi_.asetaKumppani( ui->asiakastoimittaja->map());
 
     if ( ui->alaTabs->currentIndex() == MAKSU ) {
@@ -739,6 +740,10 @@ void TilioteKirjaaja::tallenna()
         rivi_.asetaKumppani( index.data(LaskuTauluModel::KumppaniMapRooli).toMap() );
 
         TilioteAliRivi aliRivi;
+
+        rivi_.asetaOtsikko( ui->seliteEdit->toPlainText());
+        aliRivi.setSelite( ui->seliteEdit->toPlainText());
+
         aliRivi.setTili( index.data(LaskuTauluModel::TiliRooli).toInt() );
         aliRivi.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
         aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
@@ -750,6 +755,10 @@ void TilioteKirjaaja::tallenna()
         rivi_.asetaTyyppi(TilioteKirjausRivi::SIIRTO);
 
         TilioteAliRivi aliRivi;
+
+        rivi_.asetaOtsikko( ui->seliteEdit->toPlainText());
+        aliRivi.setSelite( ui->seliteEdit->toPlainText());
+
         aliRivi.setTili(ui->tiliEdit->valittuTilinumero());
         aliRivi.setEra( ui->eraCombo->eraMap());
         aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas() );
@@ -765,11 +774,12 @@ void TilioteKirjaaja::tallenna()
         QModelIndex index = ui->maksuView->currentIndex();
         const QVariantMap& map = index.data(VakioViiteModel::MapRooli).toMap();
 
-        rivi_.asetaOtsikko(map.value("otsikko").toString());
+        rivi_.asetaOtsikko(map.value("otsikko").toString());                
         rivi_.asetaKumppani( ui->asiakastoimittaja->map() );
         rivi_.asetaViite( map.value("viite").toString() );
 
         TilioteAliRivi aliRivi;
+        aliRivi.setSelite( ui->seliteEdit->toPlainText());
         aliRivi.setTili( map.value("tili").toInt());
         aliRivi.setKohdennus( map.value("kohdennus").toInt());
         aliRivi.setBrutto( ui->euroEdit->euro() );
@@ -778,7 +788,7 @@ void TilioteKirjaaja::tallenna()
 
     } else {
         tallennaRivi();
-
+        rivi_.asetaOtsikko( rivi_.rivi(0).selite() );
     }
 
 

@@ -261,7 +261,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
             palautus.setId( vahennysVientiId_ );
 
         palautus.setAlvProsentti( alvprosentti() );
-        palautus.setSelite( otsikko );
+        palautus.setSelite( rivinSelite );
         if( !kumppani.isEmpty() )
             palautus.set(TositeVienti::KUMPPANI, kumppani );
         vientilista.append(palautus);
@@ -294,7 +294,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
             verorivi.setDebet( vero.abs());
 
         verorivi.setAlvProsentti( alvprosentti());
-        verorivi.setSelite(otsikko);
+        verorivi.setSelite(rivinSelite);
 
         if( veroVientiId_ )
             verorivi.setId(veroVientiId_);
@@ -315,7 +315,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         else
             tuonti.setDebet( netto.abs());
 
-        tuonti.setSelite(otsikko);
+        tuonti.setSelite(rivinSelite);
         tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
         if( !kumppani.isEmpty() )
             tuonti.set(TositeVienti::KUMPPANI, kumppani );
@@ -341,7 +341,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         else
             palautus.setKredit( vero.abs());
 
-        palautus.setSelite( otsikko );
+        palautus.setSelite( rivinSelite );
         if( !kumppani.isEmpty() )
             palautus.set(TositeVienti::KUMPPANI, kumppani );
         if( vahentamatonVientiId_)
