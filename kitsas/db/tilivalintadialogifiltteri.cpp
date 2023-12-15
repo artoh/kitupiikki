@@ -86,7 +86,7 @@ void TilivalintaDialogiFiltteri::doFiltering()
             if( tilaSuodatus_ == KIRJATTU && qAbs(sourceIndex.data(TiliModel::SaldoRooli).toDouble()) < 1e-5)
                 continue;
 
-            if( tyyppiSuodatus_.isValid() && !tyyppiSuodatus_.match(sourceIndex.data(TiliModel::TyyppiRooli).toString()).hasMatch())
+            if( tilaSuodatus_ != KAIKKI && tyyppiSuodatus_.isValid() && !tyyppiSuodatus_.match(sourceIndex.data(TiliModel::TyyppiRooli).toString()).hasMatch())
                 continue;
 
             tasolle = 255;

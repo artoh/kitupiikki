@@ -348,7 +348,7 @@ void TilioteKirjaaja::eraValittu(EraMap era)
 void TilioteKirjaaja::jaksomuuttuu(const QDate &pvm)
 {
     ui->jaksoLoppuuEdit->setEnabled( pvm.isValid() );
-    ui->jaksoLoppuuEdit->setDateRange( pvm, kp()->tilikaudet()->kirjanpitoLoppuu().addYears(10) );
+    ui->jaksoLoppuuEdit->setDateRange( pvm, QDate() );
     if( !pvm.isValid())
         ui->jaksoLoppuuEdit->setNull();
 }
@@ -786,7 +786,9 @@ void TilioteKirjaaja::tallenna()
 
 void TilioteKirjaaja::paivitaVeroFiltteri(const int verokoodi)
 {
-    if( menoa_) {
+    Tili tili = ui->tiliEdit->valittuTili();
+
+    if( tili.onko(TiliLaji::MENO)) {
         veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^(0|2[1-69]|927|" + QString::number(verokoodi) + ")" ) );
     } else {
         veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^(0|1[1-79]|" + QString::number(verokoodi) + ")" ) );

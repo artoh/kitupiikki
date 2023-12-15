@@ -196,7 +196,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
             return QVariant();
         }
         case EURO: {
-            return summa();
+            return summa().display(false);
             }
         default:
             return QVariant();

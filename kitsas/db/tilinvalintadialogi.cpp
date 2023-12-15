@@ -69,6 +69,7 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
         ui->kaikkiNappi->setChecked(true);
     else if(viimetila == TilivalintaDialogiFiltteri::KIRJATTU)
         ui->saldoButton->setChecked(true);
+
     filtteri_->suodataTilalla(viimetila);
     filtteri_->naytaOtsikot(kp()->settings()->value("TilinvalintaOtsikot", true).toBool());
 

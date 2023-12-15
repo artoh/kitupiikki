@@ -298,9 +298,9 @@ void TilioteApuri::naytaTosite()
         if( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS || rivi.tyyppi() == TilioteKirjausRivi::SIIRTO) {
             tosite.asetaTyyppi( TositeTyyppi::SIIRTO);
         } else if( rivi.tyyppi() == TilioteKirjausRivi::MYYNTI) {
-            tosite.asetaTyyppi(TositeTyyppi::MENO);
+            tosite.asetaTyyppi(TositeTyyppi::TULO);
         } else if( rivi.tyyppi() == TilioteKirjausRivi::OSTO) {
-            tosite.asetaTilioterivi( TositeTyyppi::TULO);
+            tosite.asetaTyyppi( TositeTyyppi::MENO);
         } else {
             if( rivi.summa()) {
                 tosite.asetaTyyppi( rivi.summa() > Euro::Zero ? TositeTyyppi::TULO : TositeTyyppi::MENO );
