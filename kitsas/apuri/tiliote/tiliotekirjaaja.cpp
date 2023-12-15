@@ -157,10 +157,6 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->seliteLabel->setVisible(tab != MAKSU && tab != VAKIOVIITE);
     ui->seliteEdit->setVisible( tab != MAKSU && tab != VAKIOVIITE);
 
-    ui->euroEdit->setMiinus( menoa_ );
-    ui->verotonEdit->setMiinus( menoa_ );
-
-
 
     if( tab == MAKSU ) {
         ui->maksuView->setModel(avoinProxy_);
@@ -199,16 +195,10 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 void TilioteKirjaaja::euroMuuttuu()
 {
    const Euro& euro = ui->euroEdit->euro();
-   if( euro == aliRivi()->brutto())
+    if( euro == aliRivi()->brutto())
     return;
 
-   if( euro && !nykyAliRiviIndeksi_) {
-        ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0 );
-   }
-
    aliRivi()->setBrutto( euro );
-
-   ui->verotonEdit->setMiinus( ui->euroEdit->miinus());
    ui->verotonEdit->setEuro( aliRivi()->netto());   
 
    aliRiviaMuokattu();
@@ -221,13 +211,7 @@ void TilioteKirjaaja::verotonMuuttuu()
    if( euro == aliRivi()->netto())
         return;
 
-   if( euro && !nykyAliRiviIndeksi_ ) {
-        ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0);
-   }
-
    aliRivi()->setNetto( euro );
-
-   ui->euroEdit->setMiinus( ui->verotonEdit->miinus() );
    ui->euroEdit->setEuro( aliRivi()->brutto() );
 
    aliRiviaMuokattu();
@@ -375,7 +359,7 @@ void TilioteKirjaaja::valitseLasku()
 
     if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU && ui->euroEdit->euro() == Euro::Zero) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
-        ui->euroEdit->setValue( menoa_ ? 0 - avoinna : avoinna  );
+        ui->euroEdit->setValue( avoinna  );
         tarkastaTallennus();
     }
 }
@@ -404,12 +388,13 @@ void TilioteKirjaaja::tyhjenna()
     ui->euroEdit->clear();
     ui->seliteEdit->clear();
 
-    aliRiviModel_->tyhjenna();
     nykyAliRiviIndeksi_ = 0;
+    aliRiviModel_->tyhjenna();        
 
     tiliMuuttuu();
 
     ui->viennitView->selectRow(0);
+    ui->viennitView->hide();
 
     tarkastaTallennus();
     avoinProxy_->setFilterFixedString("€");
@@ -461,13 +446,9 @@ void TilioteKirjaaja::lisaaVienti()
     TositeVienti uusi;
     aliRiviModel_->uusiRivi();
     ui->viennitView->selectRow(aliRiviModel_->rowCount()-1);
-    ui->tiliEdit->valitseTiliNumerolla(menoa_ ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );
+    ui->tiliEdit->valitseTiliNumerolla( ui->ylaTab->currentIndex() == TILILTA ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );
 
     tiliMuuttuu();
-
-    ui->euroEdit->setMiinus(menoa_);
-    ui->verotonEdit->setMiinus(menoa_);
-
     paivitaVientiNakyma();
 }
 
@@ -591,11 +572,14 @@ TilioteApuri *TilioteKirjaaja::apuri() const
 void TilioteKirjaaja::lataa(const TilioteKirjausRivi &rivi)
 {
     ladataan_ = true;
+
     rivi_ = rivi;
+    aliRiviModel_->lataa(&rivi_);
 
 
     lataaNakymaan();
     ui->viennitView->selectRow(0);
+    ui->viennitView->setVisible( rivi_.riveja() > 1 );
     qApp->processEvents();
     naytaRivi();
 
@@ -663,11 +647,15 @@ void TilioteKirjaaja::lataaNakymaan()
 
 }
 
-void TilioteKirjaaja::riviVaihtuu(const QModelIndex &/*current*/, const QModelIndex &previous)
+void TilioteKirjaaja::riviVaihtuu(const QModelIndex &current, const QModelIndex &previous)
 {
     if( previous.isValid() && !ladataan_) {
         tallennaRivi();
     }
+
+    ui->euroEdit->setProperty("EiMiinus", current.row() < 1);
+    ui->verotonEdit->setProperty("EiMiinus", current.row() < 1);
+
     naytaRivi();
 }
 
@@ -701,7 +689,6 @@ void TilioteKirjaaja::naytaRivi()
     else
         ui->jaksoLoppuuEdit->setNull();
 
-    menoa_ = ar.brutto() < Euro::Zero;
     paivitaVeroFiltteri( ar.alvkoodi() );
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
 
@@ -726,11 +713,12 @@ void TilioteKirjaaja::tallennaRivi()
 
 
     // Tähän bruton ja neton käsittelyt!
+    const bool etumerkki = ui->alaTabs->currentIndex() == HYVITYS;
 
     if( aliRivi.naytaBrutto())
-        aliRivi.setBrutto( ui->euroEdit->euro() );
+        aliRivi.setBrutto( etumerkki ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
     else
-        aliRivi.setNetto( ui->euroEdit->euro() );
+        aliRivi.setNetto( etumerkki ? Euro::Zero - ui->verotonEdit->euro() : ui->verotonEdit->euro() );
 
     aliRiviModel_->korvaa(rivi, aliRivi);
 }

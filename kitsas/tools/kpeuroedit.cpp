@@ -38,7 +38,7 @@ KpEuroEdit::KpEuroEdit(QWidget *parent) :
 
 void KpEuroEdit::setEuro(const Euro &euro)
 {
-    if( euro.cents() == cents_)
+    if( euro.cents() == asCents() )
         return;
 
     setCents( euro.cents());
@@ -46,14 +46,15 @@ void KpEuroEdit::setEuro(const Euro &euro)
 
 void KpEuroEdit::clear()
 {
-    // Kun tyhjennetään, säilyy miinustieto, jotta
-    // tiliotekirjaajan ylälehti ei vaihdu villisti ;)
+    // 5.3 --> tyhjennettäessä miinus häippäsee
+
     cents_ = 0;
-    QString etumerkki = miinus_ ? "−" : "" ;
-    setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
+    miinus_ = false;
+
+    setText(QString(" %L1 €").arg( cents_ / 100.0 ,0,'f',2) );
     setClearButtonEnabled( false );
 
-    emit sntMuuttui(cents_);
+    emit sntMuuttui( 0 );
     emit euroMuuttui( 0 );
 
 }
@@ -68,8 +69,10 @@ void KpEuroEdit::setCents(qlonglong cents)
 
     setClearButtonEnabled( cents );
 
-    emit sntMuuttui(cents );
-    emit euroMuuttui( cents );
+    qlonglong aCents = asCents();
+
+    emit sntMuuttui( aCents );
+    emit euroMuuttui( aCents );
 }
 
 void KpEuroEdit::setValue(double euros)
@@ -87,8 +90,10 @@ void KpEuroEdit::setMiinus(bool miinus)
     QString etumerkki = miinus_ ? "−" : "" ;
     setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
 
-    emit sntMuuttui( miinus_ ? 0 - cents_ : cents_ );
-    emit euroMuuttui( miinus_ ? 0 - cents_ : cents_ );
+    if( cents_) {
+        emit sntMuuttui( miinus_ ? 0 - cents_ : cents_ );
+        emit euroMuuttui( miinus_ ? 0 - cents_ : cents_ );
+    }
 }
 
 void KpEuroEdit::edited(const QString &newtext)

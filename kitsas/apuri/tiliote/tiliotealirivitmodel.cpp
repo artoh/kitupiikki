@@ -90,6 +90,13 @@ void TilioteAliRivitModel::tyhjenna()
     endResetModel();
 }
 
+void TilioteAliRivitModel::lataa(TilioteKirjausRivi *rivi)
+{
+    beginResetModel();
+    kirjausRivi_ = rivi;
+    endResetModel();
+}
+
 void TilioteAliRivitModel::korvaa(int rivi, const TilioteAliRivi &uusi)
 {
     kirjausRivi_->asetaRivi(rivi, uusi);

@@ -224,11 +224,13 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
                              verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
                         ) ? netto : maara;
 
-    if( menoa ^ (kirjattava < Euro::Zero)) {
+    if( menoa != (kirjattava < Euro::Zero)) {
         vienti.setDebet( kirjattava.abs() );
     } else {
         vienti.setKredit( kirjattava.abs() );
     }
+
+    qDebug() << " MAARA " << maara.display() << " NETTO " << netto.display() << " KIRJATTAVA " << kirjattava.display();
 
     vientilista.append( vienti );
 

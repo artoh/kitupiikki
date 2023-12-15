@@ -31,6 +31,7 @@
 class KpEuroEdit : public QLineEdit
 {
     Q_OBJECT
+
 public:
     KpEuroEdit(QWidget* parent = nullptr);
 
@@ -60,6 +61,7 @@ protected:
     qlonglong cents_;
     bool miinus_ = false;
 
+    bool unsigned_ = false;
 
 
 };

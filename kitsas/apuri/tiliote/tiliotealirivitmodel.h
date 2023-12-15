@@ -23,7 +23,9 @@ public:
 
     TilioteAliRivi rivi(int indeksi) const;
 
+
     void tyhjenna();
+    void lataa(TilioteKirjausRivi* rivi);
     void korvaa(int rivi, const TilioteAliRivi& uusi);
     void poista(int indeksi);
     void uusiRivi();
