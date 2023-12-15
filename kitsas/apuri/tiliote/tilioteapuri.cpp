@@ -308,8 +308,9 @@ void TilioteApuri::naytaTosite()
         }
 
         tosite.viennit()->asetaViennit( rivi.viennit(model_->tilinumero()) );
-
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
+
+        qApp->processEvents();
 
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
     }

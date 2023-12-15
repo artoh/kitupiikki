@@ -36,11 +36,11 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     maksuProxy_(new QSortFilterProxyModel(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
     laskut_( new LaskuTauluTilioteProxylla(this, apuri->model())),
-    rivi_{apuri->model()}
+    rivi_{apuri->tosite()->data(Tosite::PVM).toDate(), apuri->model()}
 {
     aliRiviModel_ = new TilioteAliRivitModel(kp(), &rivi_,  this);
     alusta();
-    ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
+    ui->pvmEdit->setDate( rivi_.pvm() );
 
 }
 
