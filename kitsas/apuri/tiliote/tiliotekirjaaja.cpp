@@ -799,7 +799,7 @@ void TilioteKirjaaja::paivitaVeroFiltteri(const int verokoodi)
     Tili tili = ui->tiliEdit->valittuTili();
 
     if( tili.onko(TiliLaji::MENO)) {
-        veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^(0|2[1-69]|927|" + QString::number(verokoodi) + ")" ) );
+        veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^(0|2[1-69]|" + QString::number(verokoodi) + ")" ) );
     } else {
         veroFiltteri_->setFilterRegularExpression( QRegularExpression( "^(0|1[1-79]|" + QString::number(verokoodi) + ")" ) );
     }
