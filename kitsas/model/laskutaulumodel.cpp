@@ -132,7 +132,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 QString selite = map.value("selite").toString();
                 if( kumppani == selite)
                     return QVariant();
-                return map.value("selite").toString();
+                return selite;
             }
             default:
                 return QVariant();

@@ -360,6 +360,7 @@ void TilioteKirjaaja::valitseLasku()
     if( index.isValid() && ui->alaTabs->currentIndex() == MAKSU && ui->euroEdit->euro() == Euro::Zero) {
         double avoinna = index.data(LaskuTauluModel::AvoinnaRooli).toDouble();
         ui->euroEdit->setValue( avoinna  );
+
         tarkastaTallennus();
     }
 }
@@ -740,9 +741,7 @@ void TilioteKirjaaja::tallenna()
         rivi_.asetaKumppani( index.data(LaskuTauluModel::KumppaniMapRooli).toMap() );
 
         TilioteAliRivi aliRivi;
-
-        rivi_.asetaOtsikko( ui->seliteEdit->toPlainText());
-        aliRivi.setSelite( ui->seliteEdit->toPlainText());
+        aliRivi.setSelite( selite );
 
         aliRivi.setTili( index.data(LaskuTauluModel::TiliRooli).toInt() );
         aliRivi.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
