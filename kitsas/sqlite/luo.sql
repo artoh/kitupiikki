@@ -71,7 +71,7 @@ INSERT INTO Kumppani(nimi,alvtunnus,json)
 	VALUES ('Verohallinto','FI02454583','{"osoite":"PL 325","postinumero":"00510","kaupunki":"VERO"}');
 INSERT INTO KumppaniIban(iban,kumppani)	VALUES
 	('FI5689199710000724',1),
-	('FI3550000120253504',1);
+        ('FI6416603000117625',1);
 
 
 CREATE TABLE Ryhma
