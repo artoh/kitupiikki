@@ -121,6 +121,8 @@ QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
             }
             else if( kenttanimi.endsWith("snt")) {
                 map.insert( kenttanimi.left( kenttanimi.length() - 3 ), Euro( tietue.value(i).toLongLong() ).toString() );
+            } else if( kenttanimi == "alvprosentti") {
+                map.insert("alvprosentti", QString::number( tietue.value(i).toDouble(), 'f', 2 ));
             }
             else if( kenttanimi != "json") {
                 map.insert( kenttanimi, tietue.value(i));
