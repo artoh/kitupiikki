@@ -89,7 +89,7 @@ Euro TulomenoRivi::brutto() const
 {
     if( !brutto_ ) {
         if( kp()->alvTyypit()->nollaTyyppi(alvkoodi_))
-            return brutto_;
+            return netto_;
         return Euro::fromCents(qRound64( ( 100 + veroprosentti_) * netto_.cents() / 100.0 ));
     } else
         return brutto_;
