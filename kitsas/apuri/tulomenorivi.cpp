@@ -59,7 +59,8 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
     bool nettoon = verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
             verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || verokoodi== AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
             verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ;
+            verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
+            verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT;
 
     Euro maara = vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::KIRJAUS ?
                  vienti.debetEuro() - vienti.kreditEuro() :
@@ -222,7 +223,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
                              verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi== AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                              verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
                              verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
-                        ) ? netto : maara;
+                        ) && naytaNetto() ? netto : maara;
 
     if( menoa != (kirjattava < Euro::Zero)) {
         vienti.setDebet( kirjattava.abs() );

@@ -472,7 +472,7 @@ void TuloMenoApuri::verolajiMuuttui()
     ui->verotonLabel->setVisible(naytaVeroton);
     ui->verotonEdit->setVisible(naytaVeroton);
 
-    if( !naytaMaara && !rivi()->nettoSyotetty()) {
+    if( !naytaMaara && !rivi()->nettoSyotetty() && !resetoidaanko()) {
         qlonglong maara = rivi()->brutto();
         ui->verotonEdit->setCents(maara);
         rivi()->setNetto(maara);
@@ -484,8 +484,12 @@ void TuloMenoApuri::verolajiMuuttui()
     ui->vahennysCheck->setVisible( rivi()->naytaVahennysvalinta());
     ui->vahennysCheck->setChecked( false );
 
-    if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 1e-5) {
-        setAlvProssa(24.0);
+    if( !resetoidaanko()) {
+        veroprossaMuuttui();
+
+        if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 1e-5) {
+            setAlvProssa(24.0);
+        }
     }
 
 

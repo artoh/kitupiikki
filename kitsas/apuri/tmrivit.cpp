@@ -113,7 +113,7 @@ void TmRivit::lisaa(const QVariantMap &map)
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
         Euro vero = vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
-    } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS) {
+    } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
         Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
         rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());

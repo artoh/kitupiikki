@@ -440,7 +440,7 @@ QString AloitusBrowser::saldoTaulu()
     }
 
 
-    txt.append( QString("<tr class=tulosrivi><td><br/>" + tr("Tilikauden tulos") + "</td><td class=euro><br/>%L1 €</td></tr>")
+    txt.append( QString("<tr class=tulosrivi><td><br/>" + tr("Tilikauden tulos") + "</td><td class=euro><br/>%1</td></tr>")
                 .arg(tulossaldo.display(true)) );
     txt.append("</table>");
 
