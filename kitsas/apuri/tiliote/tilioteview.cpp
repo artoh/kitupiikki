@@ -123,6 +123,8 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT * 100 : AlvKoodi::YHTEISOHANKINNAT_PALVELUT * 100);
         } else if( event->key() == Qt::Key_R) {
             model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI * 100 : AlvKoodi::RAKENNUSPALVELU_OSTO * 100);
+        } else {
+            QTableView::keyPressEvent(event);
         }
     }
 
