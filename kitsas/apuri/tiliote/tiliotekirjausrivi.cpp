@@ -424,6 +424,15 @@ void TilioteKirjausRivi::paivitaTyyppi(const EraMap &era, const int tilinumero)
 {
     const Tili* tili = model()->kitsas()->tilit()->tili( tilinumero );
 
+    // Koska ostot ovat ilman etumerkkiä, pitää tehdä etumerkin muunnos
+    // kun päivitetään tyyppi ostoksi
+    if( !rivit_.isEmpty() &&  (tyyppi_ == OSTO) != ( !era.id() && tili && tili->onko(TiliLaji::MENO)) ) {
+        if( rivit_[0].naytaBrutto())
+            rivit_[0].setBrutto(Euro::Zero - rivit_.at(0).brutto());
+        else
+            rivit_[0].setNetto(Euro::Zero - rivit_.at(0).netto());
+    }
+
     if( era.id() > 0)
         tyyppi_ = SUORITUS;
     else if( !tili)
@@ -432,8 +441,9 @@ void TilioteKirjausRivi::paivitaTyyppi(const EraMap &era, const int tilinumero)
         tyyppi_ = SIIRTO;
     else if( tili->onko(TiliLaji::TULO))
         tyyppi_ = MYYNTI;
-    else if( tili->onko(TiliLaji::MENO))
+    else if( tili->onko(TiliLaji::MENO)) {
         tyyppi_ = OSTO;
+    }
 }
 
 void TilioteKirjausRivi::paivitaErikoisrivit()
@@ -490,6 +500,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         ostoPvm_ = vienti.ostopvm();
         vientiId_ = vienti.id();
         viite_ = vienti.viite();
+
         const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
         switch (tyyppiPohja) {
         case MYYNTI:
@@ -505,9 +516,10 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
             tyyppi_ = TUNTEMATON;
         }
 
-    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
+    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS) {
+        vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
         rivit_.append( TilioteAliRivi( vienti) );
-    else if( !rivit_.count() ) {
+    } else if( !rivit_.count() ) {
         ;
     } else if( !vienti.tyyppi()) {
         if( vienti.alvKoodi() == AlvKoodi::TILITYS)
