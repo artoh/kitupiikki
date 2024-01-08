@@ -671,9 +671,9 @@ void TilioteKirjaaja::naytaRivi()
     const TilioteAliRivi& ar = aliRiviModel_->rivi(rivi);
 
     if( ar.naytaBrutto())
-        ui->euroEdit->setEuro(ar.brutto());
+        ui->euroEdit->setEuro(ar.brutto().abs());
     else
-        ui->verotonEdit->setEuro(ar.netto());
+        ui->verotonEdit->setEuro(ar.netto().abs());
 
     ui->tiliEdit->valitseTiliNumerolla(ar.tilinumero());
     ui->eraCombo->valitse( ar.era());
