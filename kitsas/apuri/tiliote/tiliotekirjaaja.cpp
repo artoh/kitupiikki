@@ -793,6 +793,7 @@ void TilioteKirjaaja::tallenna()
     } else {
         tallennaRivi();
         rivi_.asetaOtsikko( rivi_.rivi(0).selite() );
+        rivi_.asetaTyyppi( (ui->alaTabs->currentIndex() == TULOMENO) == (menoa_) ? TilioteKirjausRivi::OSTO : TilioteKirjausRivi::MYYNTI );
     }
 
 
