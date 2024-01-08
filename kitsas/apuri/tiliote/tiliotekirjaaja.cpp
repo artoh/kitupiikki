@@ -29,6 +29,7 @@
 #include "../siirtoapuri.h"
 
 #include <QShortcut>
+#include <QSettings>
 
 TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     QDialog(apuri),
@@ -41,6 +42,9 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     aliRiviModel_ = new TilioteAliRivitModel(kp(), &rivi_,  this);
     alusta();
     ui->pvmEdit->setDate( rivi_.pvm() );
+
+    resize(800,600);
+    restoreGeometry( kp()->settings()->value("TilioteKirjaaja").toByteArray());
 
 }
 
@@ -73,6 +77,7 @@ TilioteKirjaaja::~TilioteKirjaaja()
 
 void TilioteKirjaaja::asetaPvm(const QDate &pvm)
 {
+    kp()->settings()->setValue("TilioteKirjaaja", saveGeometry());
     ui->pvmEdit->setDate(pvm);
 }
 
