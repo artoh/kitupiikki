@@ -232,15 +232,16 @@ void TilikausiModel::lataa(const QVariantList &lista)
     endResetModel();
 }
 
-void TilikausiModel::tallenna(const Tilikausi &kausi)
+void TilikausiModel::tallenna(const Tilikausi &kausi, const QDate& vanhaAlku)
 {
     KpKysely* kysely = nullptr;
+    const QDate viitePvm = vanhaAlku.isValid() ? vanhaAlku : kausi.alkaa();
 
     for(int i=0; i < kaudet_.count(); i++) {
-        if( kausi.alkaa() == kaudet_[i].alkaa()) {
+        if( viitePvm == kaudet_[i].alkaa()) {
             kaudet_[i] = kausi;
             emit dataChanged(index(i,0), index(i, rowCount() ));
-            kysely = kpk("/tilikaudet/" + kausi.alkaa().toString(Qt::ISODate), KpKysely::PUT);
+            kysely = kpk("/tilikaudet/" + viitePvm.toString(Qt::ISODate), KpKysely::PUT);
             break;
         }
     }

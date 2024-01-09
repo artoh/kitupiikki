@@ -161,9 +161,9 @@ void Tilikausi::asetaPaattyy(const QDate &pvm)
     paattyy_ = pvm;
 }
 
-void Tilikausi::tallenna()
+void Tilikausi::tallenna(const QDate &vanhaPvm)
 {
-    kp()->tilikaudet()->tallenna(*this);
+    kp()->tilikaudet()->tallenna(*this, vanhaPvm);
 }
 
 void Tilikausi::poista()
