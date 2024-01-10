@@ -83,7 +83,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
     int kirjausriveja = kirjausRivit_.count();
 
     if( rivi < kirjausriveja )
-        return kirjausRivit_.at(rivi).riviData(index.column(), role);
+        return kirjausRivit_.at(rivi).riviData(index.column(), role, alkuPvm_, loppuPvm_);
     else {
         const bool alternate = role == Qt::BackgroundRole ? proxy_->mapFromSource(index).row() % 2 == 1 : false;
         return harmaatRivit_.at(rivi - kirjausriveja).riviData(index.column(), role, alternate);
@@ -229,6 +229,9 @@ QSortFilterProxyModel *TilioteModel::initProxy()
 
 void TilioteModel::lataaHarmaat(const QDate &mista, const QDate &mihin)
 {
+    alkuPvm_ = mista;
+    loppuPvm_ = mihin;
+
     KpKysely *kysely = kitsas()->yhteysModel()->kysely("/viennit");
     if( !kysely ) return;
 

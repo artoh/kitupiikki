@@ -38,7 +38,7 @@ public:
     TilioteKirjausRivi(const QVariantMap& tuonti, TilioteModel* model);
     TilioteKirjausRivi(const QDate& pvm, TilioteModel* model);
 
-    QVariant riviData(int sarake, int role) const;
+    QVariant riviData(int sarake, int role, const QDate& alkuPvm = QDate(), const QDate& loppuPvm = QDate()) const;
     bool setRiviData(int sarake, const QVariant& value);
     Qt::ItemFlags riviFlags(int sarake) const;
 

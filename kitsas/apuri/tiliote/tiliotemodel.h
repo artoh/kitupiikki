@@ -91,6 +91,9 @@ private:
 
     KitsasInterface* kitsasInterface_;
     QSortFilterProxyModel* proxy_ = nullptr;
+
+    QDate alkuPvm_;
+    QDate loppuPvm_;
 };
 
 #endif // TILIOTEMODEL_H

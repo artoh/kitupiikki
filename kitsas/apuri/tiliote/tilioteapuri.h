@@ -18,6 +18,7 @@
 #define TILIOTEAPURI_H
 
 #include "../apuriwidget.h"
+#include "qdatetime.h"
 
 class TilioteModel;
 
@@ -80,6 +81,7 @@ private:
     bool paivanlaitto_ = false;
 
     QVariantMap tilioteMap_;
+
 };
 
 #endif // TILIOTEAPURI_H

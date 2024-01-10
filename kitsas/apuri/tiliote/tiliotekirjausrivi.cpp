@@ -110,7 +110,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
 }
 
 
-QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
+QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm, const QDate &loppuPvm) const
 {            
 
     switch (role) {
@@ -226,7 +226,12 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role) const
     case Qt::UserRole:
         return sarake == SAAJAMAKSAJA ? kumppani_.value("id").toInt() : QVariant();
     case Qt::DecorationRole:
-        if(sarake == KOHDENNUS ) {
+        if(sarake == PVM) {
+            if( pvm() < alkuPvm || pvm() > loppuPvm)
+                return QIcon(":/pic/varoitus.png");
+            else
+                return QVariant();
+        } else if(sarake == KOHDENNUS ) {
             const int kohd = kohdennus();
             const EraMap& era = rivit_.value(0).era();
             if( kohd) {
