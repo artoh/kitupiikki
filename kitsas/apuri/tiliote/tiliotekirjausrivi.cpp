@@ -515,6 +515,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         default:
             tyyppi_ = TUNTEMATON;
         }
+        return;
 
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS) {
         vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
