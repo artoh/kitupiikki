@@ -610,7 +610,12 @@ void TilioteKirjaaja::lataaNakymaan()
         saajamaksaja = saajamaksaja.left(valinpaikka);        
 
     Euro summa = rivi_.summa();
-    ui->ylaTab->setCurrentIndex( summa < Euro::Zero );
+    if( summa ) {
+        ui->ylaTab->setCurrentIndex( summa < Euro::Zero );
+    } else if( tili) {
+        Tili* tiliObj = kp()->tilit()->tili(tili);
+        ui->ylaTab->setCurrentIndex( tili && tiliObj->onko(TiliLaji::MENO) ? TILILTA : TILILLE );
+    }
 
     if( rivi_.tyyppi() == TilioteKirjausRivi::SIIRTO)
         ui->alaTabs->setCurrentIndex( SIIRTO );

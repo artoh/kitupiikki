@@ -230,7 +230,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
             if( pvm() < alkuPvm || pvm() > loppuPvm)
                 return QIcon(":/pic/varoitus.png");
             else
-                return QVariant();
+                return QIcon(":/pic/tyhja.png");
         } else if(sarake == KOHDENNUS ) {
             const int kohd = kohdennus();
             const EraMap& era = rivit_.value(0).era();
