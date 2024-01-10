@@ -16,6 +16,7 @@
 */
 #include "tilioteview.h"
 
+#include "kirjaus/pvmdelegaatti.h"
 #include "kirjaus/tilidelegaatti.h"
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -38,6 +39,7 @@
 TilioteView::TilioteView(QWidget *parent) :
     QTableView(parent)
 {
+    setItemDelegateForColumn( TilioteRivi::PVM, new PvmDelegaatti(this) );
     setItemDelegateForColumn( TilioteRivi::TILI, new TiliDelegaatti(this) );
     setItemDelegateForColumn( TilioteRivi::EURO, new EuroDelegaatti(this) );
     setItemDelegateForColumn( TilioteRivi::ALV, new TilioteAlvDelegaatti(this));

@@ -313,9 +313,15 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         return false;
 
     switch (sarake) {
-    case PVM:
+    case PVM: {
+        const QDate pvm = value.toDate();
+        if( pvm <= model()->kitsas()->tilitpaatetty()  ) {
+            return false;
+        }
+
         paivamaara_ = value.toDate();
         break;
+    }
     case SAAJAMAKSAJA:
         kumppani_ = value.toMap();
         break;
@@ -540,7 +546,9 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
     }
 
-    paivitaTyyppi();
+//    if( tyyppi_ == TUNTEMATON) {
+//        paivitaTyyppi();
+//    }
 }
 
 void TilioteKirjausRivi::asetaRivi(int indeksi, TilioteAliRivi rivi)

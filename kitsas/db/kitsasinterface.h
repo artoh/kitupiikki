@@ -82,6 +82,7 @@ public:
     virtual bool onkoHarjoitus() const { return true; }
     virtual bool onkoMaksuperusteinenAlv(const QDate& paiva) const;
 
+    virtual QDate tilitpaatetty() const { return QDate();}
 };
 
 inline QString KitsasInterface::tositeTunnus(int /*tunniste*/, const QDate &/*pvm*/, const QString &/*sarja*/, bool /*samakausi*/, bool /*vertailu*/) const { return QString();}

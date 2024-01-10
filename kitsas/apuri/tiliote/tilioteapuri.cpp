@@ -34,6 +34,7 @@
 #include "lisaikkuna.h"
 #include "kirjaus/kirjaussivu.h"
 #include "kirjaus/kirjauswg.h"
+#include "kirjaus/pvmdelegaatti.h"
 
 #include <QDebug>
 #include <QSettings>
@@ -83,7 +84,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->harmaaNappi->setChecked(!kp()->settings()->value("TiliotePiilotaHarmaat",false).toBool());
 
     connect( ui->oteView, &QTableView::doubleClicked, this, &TilioteApuri::muokkaa);
-    connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);
+    connect( kirjaaja_, &TilioteKirjaaja::rejected, this, &TilioteApuri::tositteelle);        
 
 //    QTimer::singleShot(100, this, &TilioteApuri::lataaHarmaat);
 

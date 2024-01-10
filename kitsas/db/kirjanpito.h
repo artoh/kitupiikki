@@ -110,7 +110,7 @@ public:
      * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata
      * @return
      */
-    QDate tilitpaatetty() const { return asetukset()->pvm("TilitPaatetty"); }
+    QDate tilitpaatetty() const override { return asetukset()->pvm("TilitPaatetty"); }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 

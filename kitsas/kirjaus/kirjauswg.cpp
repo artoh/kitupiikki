@@ -95,10 +95,6 @@ KirjausWg::KirjausWg(KirjausSivu *parent, QList<int> selauslista)
     kiertoTab_ = new KiertoWidget(tosite(), this);
     kommentitTab_ = new KommentitWidget(tosite(), this);
 
-
-    // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
-    ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit, this));
-
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
     connect( ui->tallennaButton, &QPushButton::clicked, this, [this] { this->tallenna(Tosite::LUONNOS); } );

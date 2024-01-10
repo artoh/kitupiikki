@@ -21,23 +21,26 @@
 
 #include "tools/kpdateedit.h"
 
-PvmDelegaatti::PvmDelegaatti(KpDateEdit *kantapaivaeditori, QObject *parent) :
-    QItemDelegate(parent),
-    kantaeditori(kantapaivaeditori)
+PvmDelegaatti::PvmDelegaatti(QObject *parent) :
+    QItemDelegate(parent)
 {
 
 }
 
 QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */ ) const
 {
-    KpDateEditDelegaatille *edit = new KpDateEditDelegaatille(parent);
+    KpDateEditDelegaatille *edit = new KpDateEditDelegaatille(parent);    
     return edit;
 }
 
 void PvmDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     KpDateEditDelegaatille *edit = qobject_cast<KpDateEditDelegaatille*>(editor);
-    edit->setDate( index.data(Qt::EditRole).toDate());
+    const QDate pvm = index.data(Qt::EditRole).toDate();
+    edit->setDate( pvm);
+    if( pvm > kp()->tilitpaatetty() && pvm <= kp()->tilikaudet()->kirjanpitoLoppuu() ) {
+        edit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
+    }
 }
 
 void PvmDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const

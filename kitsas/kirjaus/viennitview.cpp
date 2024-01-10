@@ -37,6 +37,7 @@
 ViennitView::ViennitView(QWidget *parent)
     : QTableView (parent)
 {
+    setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(this ) );
     setItemDelegateForColumn( TositeViennit::TILI, new TiliDelegaatti(this ) );
     setItemDelegateForColumn( TositeViennit::DEBET, new EuroDelegaatti(this));
     setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti(this));
