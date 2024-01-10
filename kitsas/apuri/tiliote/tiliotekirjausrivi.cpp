@@ -186,11 +186,15 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
                     return era.huoneistoNimi();
                 } else if( era.eratyyppi() == EraMap::Asiakas) {
                     return era.asiakasNimi();
-                }
+                }                
             } else {
                 const int kohd = kohdennus();
                 if(kohd) {
                     return model()->kitsas()->kohdennukset()->kohdennus( kohd ).nimi();
+                }
+                Tili* tili = model()->kitsas()->tilit()->tili( rivit_.value(0).tilinumero() );
+                if( tili && tili->eritellaankoTase()) {
+                    return TilioteModel::tr("Ei tase-erää");
                 }
             }
             return QVariant();
@@ -242,6 +246,10 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
                 return QIcon(":/pic/mies.png"); // Asiakaskohtainen lasku
             } else if( era.id() > 0) {
                 return model()->kitsas()->tositeTyypit()->kuvake( era.tositetyyppi() );
+            }
+            Tili* tili = model()->kitsas()->tilit()->tili( rivit_.value(0).tilinumero() );
+            if( tili && tili->eritellaankoTase()) {
+                return QIcon(":/pic/huomio.png");
             } else {
                 return QIcon(":/pic/tyhja.png");
             }
