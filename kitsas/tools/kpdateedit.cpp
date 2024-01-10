@@ -324,6 +324,10 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
             setDate( date().addMonths(-1));
         else if( 5 < pos)
             setDate( date().addYears(-1));
+    } else if( event->key() == Qt::Key_Plus) {
+        setDate( date().addDays(1));
+    } else if( event->key() == Qt::Key_Minus) {
+        setDate( date().addDays(-1));
     }
     else if( event->key() == Qt::Key_Space) {
         setCursorPosition(pos + 1);
