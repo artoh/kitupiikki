@@ -367,9 +367,11 @@ void TilioteApuri::lataaHarmaat()
 
 void TilioteApuri::lataaHarmaatAjalta(const QDate &mista, const QDate &mihin)
 {
-    kysyAlkusumma();
+
     model_->asetaTositeId(tosite()->id());
     model_->lataaHarmaat( mista, mihin);
+    kysyAlkusumma();
+
 //    kysyAlkusumma();
 //    proxy_->sort(TilioteRivi::PVM);
 }
