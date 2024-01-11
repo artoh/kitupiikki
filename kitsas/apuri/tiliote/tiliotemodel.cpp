@@ -119,11 +119,14 @@ bool TilioteModel::insertRows(int row, int count, const QModelIndex & /* parent 
 {
     beginInsertRows(QModelIndex(),row, row + count - 1);
 
+    QModelIndex edellinen = index(row - 1, 0);
+    const QDate pvm = edellinen.data(TilioteRivi::PvmRooli).toDate();
+
     for(int i=0; i < count; i++) {
         if(kirjausRivit_.count() >= row && row) {
-            kirjausRivit_.insert(row+i, TilioteKirjausRivi(kirjausRivit_.at(row-1).pvm(),this));
+            kirjausRivit_.insert(row+i, TilioteKirjausRivi(pvm,this));
         } else {
-            kirjausRivit_.append(TilioteKirjausRivi( QDate(),this));
+            kirjausRivit_.append(TilioteKirjausRivi(pvm, this));
         }
     }
 

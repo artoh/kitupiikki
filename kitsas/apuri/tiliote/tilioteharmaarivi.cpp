@@ -139,6 +139,8 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
         return vienti_.value("tosite").toMap().value("id").toInt();
     case LisaysIndeksiRooli:
         return lisaysIndeksi();
+    case PvmRooli:
+        return vienti_.pvm();
     case Qt::DecorationRole:
         if( sarake == PVM) {
             if(vienti_.value("huomio").toBool())
