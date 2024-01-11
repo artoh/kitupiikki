@@ -42,6 +42,7 @@ QList<TositeVienti> TaydennysViennit::viennit(const QVariantList& omatViennit) c
     QDate pvm;
 
     QList<TositeVienti> out;
+    if( !eraId()) return out;
 
     for(const auto& vienti : omatViennit) {
         TositeVienti omaVienti(vienti.toMap());
