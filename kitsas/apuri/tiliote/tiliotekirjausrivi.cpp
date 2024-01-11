@@ -422,6 +422,8 @@ QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
     pankki.setViite( viite());
     pankki.setOstoPvm( ostoPvm() );
     pankki.setId( vientiId_ );
+    pankki.setTilioteTieto( tilioteLisatieto_);
+
 
     pankki.setTyyppi( tyyppi() + TositeVienti::VASTAKIRJAUS);
 
@@ -519,8 +521,10 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         ostoPvm_ = vienti.ostopvm();
         vientiId_ = vienti.id();
         viite_ = vienti.viite();
+        tilioteLisatieto_ = vienti.tilioteTieto();
 
         const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
+
         switch (tyyppiPohja) {
         case MYYNTI:
             tyyppi_ = MYYNTI;
@@ -530,6 +534,9 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
             break;
         case SIIRTO:
             tyyppi_ = SIIRTO;
+            break;
+        case SUORITUS:
+            tyyppi_ = SUORITUS;
             break;
         default:
             tyyppi_ = TUNTEMATON;

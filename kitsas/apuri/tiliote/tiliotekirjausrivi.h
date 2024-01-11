@@ -107,6 +107,7 @@ protected:
     QString viite_;
     QDate ostoPvm_;
     int vientiId_ = 0;
+    QVariantMap tilioteLisatieto_;
 
 };
 

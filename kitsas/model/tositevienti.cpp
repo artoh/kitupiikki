@@ -284,6 +284,11 @@ void TositeVienti::setJaksotustili(const int tili)
     set( JAKSOTUSTILI, tili);
 }
 
+void TositeVienti::setTilioteTieto(const QVariantMap &tieto)
+{
+    set(TILIOTE, tieto);
+}
+
 void TositeVienti::siivoa()
 {
     QMutableMapIterator<QString, QVariant> i(*this);
@@ -325,5 +330,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { VIITE, "viite"},
     { AALV, "aalv"},
     { OSTOPVM, "ostopvm"},
-    { JAKSOTUSTILI, "jaksotustili"}
+    { JAKSOTUSTILI, "jaksotustili"},
+    { TILIOTE, "tiliote"}
 };

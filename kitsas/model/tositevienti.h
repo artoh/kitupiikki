@@ -49,7 +49,8 @@ public:
         VIITE,
         AALV,
         OSTOPVM,
-        JAKSOTUSTILI
+        JAKSOTUSTILI,
+        TILIOTE
     };
 
     enum VientiTyyppi {
@@ -107,6 +108,7 @@ public:
     QDate jaksoloppuu() const { return data(JAKSOLOPPUU).toDate();}
     QString viite() const { return data(VIITE).toString();}
     QDate ostopvm() const { return data(OSTOPVM).toDate(); }
+    QVariantMap tilioteTieto() const { return data(TILIOTE).toMap();}
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -142,6 +144,7 @@ public:
     void setViite(const QString& viite);
     void setOstoPvm(const QDate& pvm);
     void setJaksotustili(const int tili);
+    void setTilioteTieto(const QVariantMap& tieto);
 
     void siivoa();
 
