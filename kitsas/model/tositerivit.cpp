@@ -343,7 +343,9 @@ void TositeRivit::lisaaRivi()
     rivi.setTili(uusitili);
     Tili *tili = kp()->tilit()->tili(uusitili);
     if(tili && kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
-        rivi.setAlvKoodi( tili->alvlaji() );
+        const int alvlaji = tili->alvlaji();
+        rivi.setAlvKoodi( alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::ALV0 || alvlaji == AlvKoodi::RAKENNUSPALVELU_MYYNTI || alvlaji == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvlaji == AlvKoodi::YHTEISOMYYNTI_TAVARAT
+                             ? alvlaji : AlvKoodi::MYYNNIT_NETTO );
         rivi.setAlvProsentti( tili->alvprosentti());
     }
 
