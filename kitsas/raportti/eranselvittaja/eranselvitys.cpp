@@ -60,13 +60,14 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
 
     QSortFilterProxyModel* viennitProxy = new QSortFilterProxyModel(this);
     viennitProxy->setSourceModel(viennit_);
+    viennitProxy->setSortRole(Qt::EditRole);
     viennitView_ = new QTableView();
     viennitView_->setModel( viennitProxy );
 
     viennitView_->horizontalHeader()->setSectionResizeMode( EranSelvitysViennit::SELITE, QHeaderView::Stretch);
     viennitView_->setSelectionBehavior(QTableView::SelectionBehavior::SelectRows);
     viennitView_->setSelectionMode( QTableView::SelectionMode::MultiSelection);
-    viennitView_->setSortingEnabled(true);    
+    viennitView_->setSortingEnabled(true);
     viennitView_->sortByColumn(0, Qt::AscendingOrder);
 
     QSplitter* splitter = new QSplitter();

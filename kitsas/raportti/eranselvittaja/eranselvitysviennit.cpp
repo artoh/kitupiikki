@@ -54,7 +54,7 @@ QVariant EranSelvitysViennit::data(const QModelIndex &index, int role) const
         case PVM:
             return role == Qt::DisplayRole ?
                 map.value("pvm").toDate().toString("dd.MM.yyyy") :
-                map.value("pvm").toString();
+                map.value("pvm").toDate().toString("yyyy-MM-dd");
         case TOSITE:
         {
             QVariantMap tositeMap = map.value("tosite").toMap();

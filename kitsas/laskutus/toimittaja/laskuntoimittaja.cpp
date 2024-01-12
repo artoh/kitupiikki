@@ -26,6 +26,8 @@
 #include "../tulostus/laskuntulostaja.h"
 #include "liite/liitteetmodel.h"
 
+#include "db/tositetyyppimodel.h"
+
 #include <QPrintDialog>
 #include <QPageLayout>
 #include <QPainter>
@@ -43,6 +45,8 @@ LaskunToimittaja::LaskunToimittaja(QWidget *parent) : QWidget(parent), ui( new U
     rekisteroiToimittaja(Lasku::SAHKOPOSTI, new SahkopostiToimittaja(this));
     rekisteroiToimittaja(Lasku::VERKKOLASKU, new FinvoiceToimittaja(this));
     rekisteroiToimittaja(Lasku::PDF, new PdfToimittaja(this));
+
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskunToimittaja::tyhjennaJono);
 }
 
 
@@ -60,7 +64,9 @@ void LaskunToimittaja::toimita(const QList<int> laskuTositeIdt)
 void LaskunToimittaja::toimitaLasku(const QList<int> laskuTositeIdt)
 {
     for(int id : laskuTositeIdt) {
-        toimitettavaIdt_.enqueue( id );
+        if( !toimitettavaIdt_.contains(id)) {
+            toimitettavaIdt_.enqueue( id );
+        }
     }
     ui->progressBar->setMaximum( ui->progressBar->maximum() + laskuTositeIdt.count() );
 
@@ -150,6 +156,20 @@ void LaskunToimittaja::tositeLadattu()
 {
     Tosite* tosite = qobject_cast<Tosite*>(sender());
     tosite->disconnect();
+
+    if( tosite->tyyppi() < TositeTyyppi::MYYNTILASKU || tosite->tyyppi() > TositeTyyppi::MAKSUMUISTUTUS) {
+        virhe(tr("Ei ole myyntilasku #%1"));
+        qCritical() << "Tosite# " << tosite->id() << " Tyyppi " << tosite->tyyppi();
+        return;
+    } else if( tosite->tila() == Tosite::POISTETTU) {
+        virhe(tr("Lasku on poistettu"));
+        qCritical() << "Tosite# " << tosite->id() << " on poistettu ";
+        return;
+    } else if( tosite->pvm() < kp()->tilitpaatetty()) {
+        virhe(tr("Lukitulla tilikaudella"));
+        qCritical() << "Tosite# " << tosite->id() << " lukitulla tilikaudella";
+        return;
+    }
 
     connect( tosite, &Tosite::laskuTallennettu, this, &LaskunToimittaja::laskuTallennettu);
     connect( tosite, &Tosite::tallennusvirhe, this, [this] { this->virhe(tr("Tallennusvirhe"));} );
@@ -244,6 +264,12 @@ void LaskunToimittaja::rekisteroiToimittaja(int tyyppi, AbstraktiToimittaja *toi
     connect( toimittaja, &AbstraktiToimittaja::onnistui, this, &LaskunToimittaja::merkkaa, Qt::QueuedConnection);
     connect( toimittaja, &AbstraktiToimittaja::onnistuiMerkitty, this, &LaskunToimittaja::merkattu, Qt::QueuedConnection);
     connect( toimittaja, &AbstraktiToimittaja::epaonnistui, this, &LaskunToimittaja::virhe);
+}
+
+void LaskunToimittaja::tyhjennaJono()
+{
+    toimitettavaIdt_.clear();
+    kaynnissa_ = false;
 }
 
 

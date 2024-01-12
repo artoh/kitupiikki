@@ -61,6 +61,8 @@ protected:
     void virhe(const QString virhe);
     void rekisteroiToimittaja(int tyyppi, AbstraktiToimittaja* toimittaja);
 
+    void tyhjennaJono();
+
 protected:
     Ui::LaskunToimittaja *ui;
     static LaskunToimittaja* instanssi__;
