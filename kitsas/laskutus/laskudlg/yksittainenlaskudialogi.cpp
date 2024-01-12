@@ -37,6 +37,7 @@ void YksittainenLaskuDialogi::tallenna(int tilaan)
 {
     if( tarkasta() ) {
         ui->tallennaNappi->setEnabled(false);
+        ui->valmisNappi->setEnabled(false);
         ui->luonnosNappi->setEnabled(false);
         tositteelle();
         valmisteleTallennus();
