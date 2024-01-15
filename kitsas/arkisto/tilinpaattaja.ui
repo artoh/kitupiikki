@@ -276,7 +276,7 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
        </layout>
       </item>
       <item row="5" column="1">
-       <layout class="QHBoxLayout" name="tuloveroLeiska">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QPushButton" name="tuloveroNappi">
           <property name="text">
@@ -322,7 +322,7 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
          </widget>
         </item>
         <item>
-         <spacer name="tuloveroSpacer">
+         <spacer name="horizontalSpacer_4">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -337,7 +337,7 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
        </layout>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="tuloveroLabel">
+       <widget class="QLabel" name="label_9">
         <property name="text">
          <string>6. Laske ja kirjaa yhteisön tulovero</string>
         </property>
@@ -363,93 +363,6 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
          <string>5. Tarkasta raportteja tutkimalla, että kaikki kirjaukset on tehty</string>
         </property>
        </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="yksityistiliGroup">
-     <property name="title">
-      <string>Yksityistilien päättäminen</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="yksityistiliLabel">
-        <property name="text">
-         <string>6. Päätä yksityistilit peruspääomaan </string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QPushButton" name="yksityistiliButton">
-          <property name="text">
-           <string>Päätä yksityistilit...</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/yrittaja.png</normaloff>:/pic/yrittaja.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="yksityistiliCheck">
-          <property name="maximumSize">
-           <size>
-            <width>32</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="yksityistiliTehtyLabel">
-          <property name="text">
-           <string>Yksityistilit päätetty</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="yksityistilitStop">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../pic/pic.qrc">:/pic/stop.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="yksityistilitStopLabel">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Uusi tilikausi avattava ennen yksityistilien päättämistä</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>
@@ -596,6 +509,93 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="yksityistiliGroup">
+     <property name="title">
+      <string>Yksityistilien päättäminen</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="yksityistiliLabel">
+        <property name="text">
+         <string>11. Päätä yksityistilit peruspääomaan </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QPushButton" name="yksityistiliButton">
+          <property name="text">
+           <string>Päätä yksityistilit...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/yrittaja.png</normaloff>:/pic/yrittaja.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistiliCheck">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistiliTehtyLabel">
+          <property name="text">
+           <string>Yksityistilit päätetty</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistilitStop">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/stop.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="yksityistilitStopLabel">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Uusi tilikausi avattava ennen yksityistilien päättämistä</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -655,19 +655,6 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>poistoNappi</tabstop>
-  <tabstop>jaksotusNappi</tabstop>
-  <tabstop>tuloveroNappi</tabstop>
-  <tabstop>yksityistiliButton</tabstop>
-  <tabstop>lukitseNappi</tabstop>
-  <tabstop>tilinpaatosNappi</tabstop>
-  <tabstop>tulostaNappi</tabstop>
-  <tabstop>vahvistaNappi</tabstop>
-  <tabstop>ohjeNappi</tabstop>
-  <tabstop>suljeNappi</tabstop>
-  <tabstop>mappiNappi</tabstop>
- </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
@@ -679,8 +666,8 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1645</x>
-     <y>734</y>
+     <x>852</x>
+     <y>662</y>
     </hint>
     <hint type="destinationlabel">
      <x>384</x>

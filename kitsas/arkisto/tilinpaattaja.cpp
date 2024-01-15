@@ -262,7 +262,6 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
         ui->eiveroaLabel->setText(tr("Tuloverotus yrittäjän verotuksessa"));
     else if( eiverotettavaa)
         ui->eiveroaLabel->setText(tr("Ei verotettavaa tuloverossa"));
-
     ui->eiveroaLabel->setVisible(!verokirjattu && (vaaramuoto || eiverotettavaa));
     ui->veroTehty->setVisible(verokirjattu);
     ui->veroKirjattuLabel->setVisible(verokirjattu);
@@ -273,19 +272,6 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     if( tilioimattomia ) {
         ui->lukitseNappi->setEnabled(false);
     }
-
-    const bool toiminimi = muoto == "tmi";
-    ui->yksityistiliGroup->setVisible( toiminimi );
-    ui->tuloveroLabel->setVisible(!toiminimi);
-    if( toiminimi ) {
-        for(int i=0; i < ui->tuloveroLeiska->count(); i++) {
-            QWidget* child = ui->tuloveroLeiska->itemAt(i)->widget();
-            if( child)
-                child->hide();
-        }
-    }
-
-
 
     ui->yksityistiliGroup->setVisible( muoto == "tmi" );
     const bool yksityistilitPaatetty = data_.value("yksityistilit").toString() == "kirjattu";
