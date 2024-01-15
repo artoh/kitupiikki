@@ -370,7 +370,7 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
    <item>
     <widget class="QGroupBox" name="paatosRyhma">
      <property name="title">
-      <string>Tilinpäätös</string>
+      <string>Tilinpäätöksen laatiminen</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
@@ -481,30 +481,6 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>10. Vahvista tilinpäätös</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="vahvistaNappi">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>&amp;Vahvista ...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/allekirjoitus.png</normaloff>:/pic/allekirjoitus.png</iconset>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -517,7 +493,7 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
       <item row="0" column="0">
        <widget class="QLabel" name="yksityistiliLabel">
         <property name="text">
-         <string>11. Päätä yksityistilit peruspääomaan </string>
+         <string>10. Päätä yksityistilit peruspääomaan </string>
         </property>
        </widget>
       </item>
@@ -579,6 +555,56 @@ Kirjanpito ei täsmää. Tee tiliöinnit ennen tilinpäätöksen jatkamista.</st
         </item>
         <item>
          <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Tilinpäätöksen vahvistaminen</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="vahvistaLabel">
+        <property name="text">
+         <string>10. Vahvista tilinpäätös</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QPushButton" name="vahvistaNappi">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>&amp;Vahvista ja lukitse tilinpäätös ...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/lukittu.png</normaloff>:/pic/lukittu.png</iconset>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_6">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>

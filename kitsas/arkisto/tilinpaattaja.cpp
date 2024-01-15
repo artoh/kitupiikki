@@ -283,5 +283,8 @@ void TilinPaattaja::dataSaapuu(QVariant *data)
     ui->yksityistiliButton->setEnabled(!kppaattyy && lukittu);
     ui->yksityistilitStop->setVisible(kppaattyy);
     ui->yksityistilitStopLabel->setVisible(kppaattyy);
+    if( muoto == "tmi") {
+        ui->vahvistaLabel->setText(tr("11. Lukitse tilinpäätös"));
+    }
 
 }
