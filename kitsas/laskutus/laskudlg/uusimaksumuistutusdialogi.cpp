@@ -26,6 +26,8 @@
 #include "model/tositeviennit.h"
 #include "model/tositevienti.h"
 
+#include <QMessageBox>
+
 UusiMaksumuistutusDialogi::UusiMaksumuistutusDialogi(QVariantList muistutuslista, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MaksumuistutusDialogi),
@@ -241,6 +243,8 @@ void UusiMaksumuistutusDialogi::tallennaMuistutus()
     } else {
         connect( muistutus, &Tosite::laskuTallennettu, this, &UusiMaksumuistutusDialogi::merkkaaMuistutetuksi );
     }
+    connect( muistutus, &Tosite::tallennusvirhe, [] () { QMessageBox::critical(nullptr, tr("Maksumuistutuksen tallentaminen epäonnistui") ,tr("Maksumuistuksen muodostaminen epäonnistui.")); } );
+
     muistutus->tallennaLasku( Tosite::VALMISLASKU );
 }
 
