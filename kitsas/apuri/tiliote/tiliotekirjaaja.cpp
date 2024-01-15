@@ -71,17 +71,15 @@ TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
 
 TilioteKirjaaja::~TilioteKirjaaja()
 {
+    kp()->settings()->setValue("TilioteKirjaaja", saveGeometry());
     delete ui;
     delete aliRiviModel_;
 }
 
 void TilioteKirjaaja::asetaPvm(const QDate &pvm)
-{
-    kp()->settings()->setValue("TilioteKirjaaja", saveGeometry());
+{    
     ui->pvmEdit->setDate(pvm);
 }
-
-
 
 
 void TilioteKirjaaja::accept()
