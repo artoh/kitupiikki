@@ -35,6 +35,8 @@ protected:
 
     void verolaskelma(const Tilikausi& kausi, QVariantMap& ulos);
     void yksityistilit(const Tilikausi& kausi, QVariantMap& ulos);
+
+    static Euro laskeJaksotus(const QDate& kausipaattyy, const QDate& pvm, const QDate& jaksoalkaa, const QDate& jaksopaattyy, const Euro& euro);
 };
 
 #endif // TILIKAUDETROUTE_H

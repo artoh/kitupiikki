@@ -293,42 +293,25 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             QDate loppuu = kysely.value(5).toDate();
             QDate vientipvm = kysely.value(10).toDate();
 
-            if( vientipvm <= kausi.paattyy() && ( alkaa < kausi.alkaa()
-                                                  ||  ( loppuu.isValid() && loppuu <= kausi.paattyy())
-                                                  || (!loppuu.isValid() && alkaa <= kausi.paattyy() ) ))
-                continue;   // Kokonaan tämän vuoden puolella
-            else if (vientipvm > kausi.paattyy() && alkaa > kausi.paattyy())
-                continue;   // Kokonaan tulevaisuudessa
-
-            double jaksotettavaa = 1.0;
-            if( vientipvm <= kausi.paattyy() && loppuu.isValid() && alkaa <= kausi.paattyy()) {
-                qlonglong ennen = alkaa.daysTo( kausi.paattyy() ) + 1;
-                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu ) - 1;
-                jaksotettavaa = 1.00 * jalkeen / (ennen + jalkeen);
-            } else if( vientipvm > kausi.paattyy() && alkaa < kausi.paattyy() && loppuu.isValid()) {
-                qlonglong ennen = alkaa.daysTo( kausi.paattyy()) + 1;
-                qlonglong jalkeen = kausi.paattyy().daysTo(loppuu) - 1;
-                jaksotettavaa = 1.00 * ennen / (ennen + jalkeen);
+            Euro euro = Euro::fromCents( debet - kredit );
+            Euro jaksotus = laskeJaksotus(kausi.paattyy(), vientipvm, alkaa, loppuu, euro);
+            if( jaksotus) {
+                QVariantMap map;
+                map.insert("tili", tili);
+                if( jaksotus > Euro::Zero)
+                    map.insert("debet", jaksotus.toString());
+                else
+                    map.insert("kredit", jaksotus.abs().toString());
+                map.insert("selite", selite);
+                map.insert("jaksoalkaa", alkaa);
+                if( loppuu.isValid())
+                    map.insert("jaksoloppuu", loppuu);
+                map.insert("kohdennus", kysely.value(6).toInt());
+                map.insert("pvm", kysely.value(7).toDate());
+                map.insert("sarja", kysely.value(8));
+                map.insert("tunniste", kysely.value(9));
+                jaksotukset.append(map);
             }
-
-            qlonglong jaksodebet = vientipvm <= kausi.paattyy() ? qRound64( jaksotettavaa * kredit ) : qRound64( jaksotettavaa * debet );
-            qlonglong jaksokredit = vientipvm <= kausi.paattyy() ? qRound64( jaksotettavaa * debet ) : qRound64( jaksotettavaa * kredit );
-
-            QVariantMap map;
-            map.insert("tili", tili);
-            if( qAbs(jaksodebet) > 1e-5)
-                map.insert("debet", jaksodebet / 100.0);
-            if( qAbs(jaksokredit) > 1e-5)
-                map.insert("kredit", jaksokredit / 100.0);
-            map.insert("selite", selite);
-            map.insert("jaksoalkaa", alkaa);
-            if( loppuu.isValid())
-                map.insert("jaksoloppuu", loppuu);
-            map.insert("kohdennus", kysely.value(6).toInt());
-            map.insert("pvm", kysely.value(7).toDate());
-            map.insert("sarja", kysely.value(8));
-            map.insert("tunniste", kysely.value(9));
-            jaksotukset.append(map);
         }
         ulos.insert("jaksotukset", jaksotukset);
 
@@ -441,5 +424,24 @@ void TilikaudetRoute::yksityistilit(const Tilikausi &kausi, QVariantMap &ulos)
             yksityistiliMap.insert("tulos", Euro::fromCents(kysely.value(0).toLongLong()));
         }
         ulos.insert("yksityistilit", yksityistiliMap);
+    }
+}
+
+Euro TilikaudetRoute::laskeJaksotus(const QDate &kausipaattyy, const QDate &pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const Euro &euro)
+{
+    int ennen = kausipaattyy.daysTo(jaksoalkaa) + 1;
+    int jalkeen = jaksopaattyy.daysTo(kausipaattyy);
+
+    if( pvm > kausipaattyy) {
+        if( jaksoalkaa > kausipaattyy) return Euro::Zero;
+        if( !jaksopaattyy.isValid() || jaksopaattyy > kausipaattyy) return euro;
+
+        return Euro::fromCents(qRound64( 1.00 * euro.cents() * ennen / (ennen + jalkeen) ));
+    } else {
+        if( jaksopaattyy.isValid() && jaksopaattyy > kausipaattyy) return Euro::Zero;
+        if( !jaksopaattyy.isValid() && jaksoalkaa > kausipaattyy) return Euro::Zero;
+        if( !jaksopaattyy.isValid() && jaksoalkaa > kausipaattyy) return euro;
+
+        return Euro::fromCents(qRound64( 1.00 * euro.cents() / (ennen + jalkeen)));
     }
 }
