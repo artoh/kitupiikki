@@ -429,19 +429,24 @@ void TilikaudetRoute::yksityistilit(const Tilikausi &kausi, QVariantMap &ulos)
 
 Euro TilikaudetRoute::laskeJaksotus(const QDate &kausipaattyy, const QDate &pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const Euro &euro)
 {
-    int ennen = kausipaattyy.daysTo(jaksoalkaa) + 1;
-    int jalkeen = jaksopaattyy.daysTo(kausipaattyy);
+
+     int ennen = jaksoalkaa.daysTo(kausipaattyy) + 1;
+     int jalkeen = kausipaattyy.daysTo(jaksopaattyy);
 
     if( pvm > kausipaattyy) {
         if( jaksoalkaa > kausipaattyy) return Euro::Zero;
-        if( !jaksopaattyy.isValid() || jaksopaattyy > kausipaattyy) return euro;
+        if( !jaksopaattyy.isValid() || jaksopaattyy <= kausipaattyy) return euro;
 
-        return Euro::fromCents(qRound64( 1.00 * euro.cents() * ennen / (ennen + jalkeen) ));
+        double osa = (1.0 * ennen) / (ennen + jalkeen);
+
+        return Euro::fromCents(qRound64( euro.cents() * osa));
     } else {
-        if( jaksopaattyy.isValid() && jaksopaattyy > kausipaattyy) return Euro::Zero;
-        if( !jaksopaattyy.isValid() && jaksoalkaa > kausipaattyy) return Euro::Zero;
-        if( !jaksopaattyy.isValid() && jaksoalkaa > kausipaattyy) return euro;
+        if( jaksopaattyy.isValid() && jaksopaattyy <= kausipaattyy) return Euro::Zero;
+        if( !jaksopaattyy.isValid() && jaksoalkaa <= kausipaattyy) return Euro::Zero;
+        if( !jaksopaattyy.isValid() || jaksoalkaa > kausipaattyy) return euro;
 
-        return Euro::fromCents(qRound64( 1.00 * euro.cents() / (ennen + jalkeen)));
+        double osa = (1.0 * jalkeen) / (ennen+jalkeen);
+
+        return Euro::fromCents(qRound64( (euro.cents()) * osa));
     }
 }
