@@ -49,6 +49,7 @@ EranSelvitys::EranSelvitys(QDate startDate, QDate endDate, QWidget *parent)
 
     proxyModel_->setSourceModel(eraModel_);
     proxyModel_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxyModel_->setSortRole(Qt::EditRole);
 
     eraView_ = new QTableView();
     eraView_->setModel(proxyModel_);

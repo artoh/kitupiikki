@@ -48,6 +48,8 @@ protected:
         Euro kausi() const { return kausi_; }
         QString selite() const { return selite_; }
         QString nimi() const { return nimi_; }
+        int tunniste() const { return tunniste_; }
+        bool invalid() const;
 
         void setSelite(const QString& selite);
         QVariantMap eraMap() const;
@@ -62,6 +64,7 @@ protected:
         int kumppaniId_;
         int tunniste_;
         QString sarja_;
+        bool eraok_;
     };
 
 private:
