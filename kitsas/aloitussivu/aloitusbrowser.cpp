@@ -414,7 +414,7 @@ QString AloitusBrowser::saldoTaulu()
 
     if( vastaavaa != vastattavaa) {
         AloitusInfo valitus("eitasmaa", tr("Tase ei täsmää!"),
-            tr("Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa") + "<br/>" +
+            tr("Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa.") + "<br/>" +
             tr("Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!"),"","stop.svg");
         txt.append(valitus.toHtml());
     }
