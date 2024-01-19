@@ -22,11 +22,14 @@
 #include "db/kohdennusmodel.h"
 #include "db/kirjanpito.h"
 
+#include <QSettings>
+
 LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LaskuRiviDialogi)
 {
     ui->setupUi(this);
+        restoreGeometry( kp()->settings()->value("LaskuRiviDialogi").toByteArray());
 
     ui->alennusSyyCombo->setModel(new AlennusTyyppiModel);    
 
@@ -64,6 +67,7 @@ LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
 
 LaskuRiviDialogi::~LaskuRiviDialogi()
 {
+    kp()->settings()->setValue("LaskuRiviDialogi", saveGeometry());
     delete ui;
 }
 
