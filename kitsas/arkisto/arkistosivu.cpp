@@ -206,7 +206,12 @@ void ArkistoSivu::tilinpaatos()
         {        
             NaytinIkkuna::naytaLiite(0, QString("TP_%1").arg(kausi.paattyy().toString(Qt::ISODate)) );
         }
-        else
+        else if( kausi.virhe()) {
+            QMessageBox::critical(this,
+                                  tr("Kirjanpito virheellinen"),
+                                  tr("Tase ei täsmää.\n"
+                                     "Tilinpäätöstä ei voi tehdä ennen kuin virhe on korjattu.") );
+        } else
         {
             TilinPaattaja *paattaja = new TilinPaattaja(kausi, this, parentWidget() );
             connect( paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));

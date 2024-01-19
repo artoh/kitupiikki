@@ -31,6 +31,7 @@ protected:
 
     void paivitaTestiVinkki();
     void paivitaTiliointiVinkki();
+
     void paivitaPankkiyhteysVinkki();
     void paivitaVarmuuskopioVinkki();
     void paivitaVerotonValitus();

@@ -97,7 +97,7 @@ void AloitusBrowser::paivitaVinkit()
     if(!demotila) paivitaTestiVinkki();
 
     paivitaPassiivinenVinkki();
-    paivitaTiliointiVinkki();
+    paivitaTiliointiVinkki();   
     paivitaPankkiyhteysVinkki();
     paivitaExtraVinkki();
     paivitaVarmuuskopioVinkki();
@@ -137,6 +137,7 @@ void AloitusBrowser::paivitaTiliointiVinkki()
     }
 
 }
+
 
 void AloitusBrowser::paivitaPankkiyhteysVinkki()
 {
@@ -400,6 +401,24 @@ QString AloitusBrowser::saldoTaulu()
     QString txt;
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiPaivalle( saldoPvm_ );
+
+    // Tarkastaa täsmäävätkö saldot
+    Euro vastaavaa;
+    Euro vastattavaa;
+    for(const auto& saldo : qAsConst(saldot_)) {
+        const Tili* tili = saldo.tili();
+        if( !tili) continue;
+        else if( tili->onko(TiliLaji::VASTAAVAA) ) vastaavaa += saldo.saldo();
+        else if( tili->onko(TiliLaji::VASTATTAVAA)) vastattavaa += saldo.saldo();
+    }
+
+    if( vastaavaa != vastattavaa) {
+        AloitusInfo valitus("eitasmaa", tr("Tase ei täsmää!"),
+            tr("Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa") + "<br/>" +
+            tr("Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!"),"","stop.svg");
+        txt.append(valitus.toHtml());
+    }
+
 
     txt.append(tr("<p><h2 class=kausi>Tilikausi %1 - %2 </h1>").arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));

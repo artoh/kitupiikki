@@ -42,6 +42,15 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
     for(int i=0; i < list.count(); i++){
         QVariantMap map = list.at(i).toMap();
 
+        // Kirjanpidon täsmääminen
+        kysely.exec( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm <= '%1' AND Tosite.tila >= 100 ")
+                        .arg(map.value("loppuu").toString()) );
+        if( kysely.next()) {
+            if( kysely.value(0).toLongLong() != kysely.value(1).toLongLong()) {
+                map.insert("virhe",true);
+            }
+        }
+
         // Tase
         kysely.exec( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm <= '%1' AND CAST(tili as text) < '2' AND Tosite.tila >= 100 ")
                      .arg(map.value("loppuu").toString()) );

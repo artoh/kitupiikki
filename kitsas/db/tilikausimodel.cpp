@@ -87,9 +87,12 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
             return QString("%L1 €").arg( kausi.tulos()  / 100.0,0,'f',2);
         else if(index.column() == LIIKEVAIHTO)
             return QString("%L1 €").arg( kausi.liikevaihto()  / 100.0,0,'f',2);
-        else if(index.column() == TASE)
-            return QString("%L1 €").arg( kausi.tase()  / 100.0,0,'f',2);
-        else if( index.column() == LIITEKOKO) {
+        else if(index.column() == TASE) {
+            if( kausi.virhe())
+                return tr("Tase ei täsmää!");
+            else
+                return QString("%L1 €").arg( kausi.tase()  / 100.0,0,'f',2);
+        } else if( index.column() == LIITEKOKO) {
             const qlonglong megat = kausi.koko() / ( 1024L * 1024L );
             if( megat < 1) return QVariant();
             return QString("%L1 Mt").arg(megat);
@@ -126,7 +129,9 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()>=TASE && index.column() <= LIITEKOKO )
+        if( index.column() == TASE && kausi.virhe())
+            return Qt::AlignCenter;
+        else if( index.column()>=TASE && index.column() <= LIITEKOKO )
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -135,18 +140,16 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::DecorationRole )
     {
         if( index.column() == KAUSI)
-        {
-
-        if( kp()->tilitpaatetty() >= kausi.paattyy() )
-            return QIcon(":/pic/lukittu.png");
+        {                    
+            if( kp()->tilitpaatetty() >= kausi.paattyy() )
+                return QIcon(":/pic/lukittu.png");
         }
         else if(  index.column() == ARKISTOITU)
         {
             if( kausi.arkistoitu() > kausi.viimeinenPaivitys() &&
                     QFile::exists( kausi.uusiArkistopolku() + "/index.html") )
-                return QIcon(":/pic/ok.png");
-        }
-        else if( index.column() == TILINPAATOS)
+                return QIcon(":/pic/ok.png");        
+        } else if( index.column() == TILINPAATOS)
         {
             if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU)
                 return QIcon(":/pic/ok.png");
@@ -158,6 +161,11 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
             else if( kausi.paattyy().daysTo( kp()->paivamaara()) > 1 &&
                      kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30)
                 return QIcon(":/pic/info.png");                        
+        }
+    }
+    else if( role == Qt::ForegroundRole) {
+        if( index.column() == TASE && kausi.virhe()) {
+            return QColor(Qt::red);
         }
     }
 

@@ -82,6 +82,25 @@ table.varoitus > tr > td
     padding: 15px;
 }
 
+table.eitasmaa
+{
+    background-color: white;
+    margin-bottom: 15px;
+    color: red;
+    font-weight: bold;
+}
+
+table.eitasmaa > tr > td > h3
+{
+    font-size: x-large;
+    font-weight: 800;
+}
+
+table.eitasmaa > tr > td
+{
+    padding: 15px;
+}
+
 table.notify
 {
     background-color: #85C1E9;

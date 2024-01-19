@@ -102,7 +102,9 @@ public:
      * @brief Tilikauden päättävä tase
      * @return Tase sentteinä
      */
-    qlonglong tase() const { return qRound64( dbl("tase") * 100); }    
+    qlonglong tase() const { return qRound64( dbl("tase") * 100); }
+
+    bool virhe() const { return arvo("virhe").toBool();}
 
     qlonglong koko() const { return arvo("liitekoko").toLongLong(); }
 
