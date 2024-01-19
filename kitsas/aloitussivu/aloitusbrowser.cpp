@@ -407,16 +407,19 @@ QString AloitusBrowser::saldoTaulu()
     Euro vastattavaa;
     for(const auto& saldo : qAsConst(saldot_)) {
         const Tili* tili = saldo.tili();
-        if( !tili) continue;
-        else if( tili->onko(TiliLaji::VASTAAVAA) ) vastaavaa += saldo.saldo();
+        if( !tili || tili->onko(TiliLaji::VASTAAVAA) ) vastaavaa += saldo.saldo();
         else if( tili->onko(TiliLaji::VASTATTAVAA)) vastattavaa += saldo.saldo();
     }
 
     if( vastaavaa != vastattavaa) {
-        AloitusInfo valitus("eitasmaa", tr("Tase ei täsmää!"),
+        txt.append("<table class=eitasmaa width=100%><tr><td width=90><img src=qrc:/pic/stop.svg width=80 height=80></td><td width=90% class=content><h3 class=eitasmaah>");
+        txt.append(tr("Tase ei täsmää"));
+        txt.append("</h3><p>");
+        txt.append(
             tr("Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa.") + "<br/>" +
-            tr("Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!"),"","stop.svg");
-        txt.append(valitus.toHtml());
+            tr("Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!")
+            );
+        txt.append("</td></tr></table>");
     }
 
 

@@ -84,22 +84,24 @@ table.varoitus > tr > td
 
 table.eitasmaa
 {
-    background-color: white;
+    background-color: palette(base);
     margin-bottom: 15px;
     color: red;
-    font-weight: bold;
-}
-
-table.eitasmaa > tr > td > h3
-{
-    font-size: x-large;
-    font-weight: 800;
 }
 
 table.eitasmaa > tr > td
 {
     padding: 15px;
+    margin-top: 12px;
+    font-size: 16pt;
 }
+
+h3.eitasmaah
+{
+    font-size: 24pt;
+    font-weight: bold;
+}
+
 
 table.notify
 {
