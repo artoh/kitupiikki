@@ -312,9 +312,14 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
                 else
                     map.insert("kredit", jaksotus.abs().toString());
                 map.insert("selite", selite);
+
+                if (vientipvm <= kausi.paattyy())
+                {
                 map.insert("jaksoalkaa", alkaa);
                 if( loppuu.isValid())
                     map.insert("jaksoloppuu", loppuu);
+                }
+
                 map.insert("kohdennus", kysely.value(6).toInt());
                 map.insert("pvm", kysely.value(7).toDate());
                 map.insert("sarja", kysely.value(8));
