@@ -77,10 +77,10 @@ QVariant EranSelvitysEraModel::data(const QModelIndex &index, int role) const
     } else if( role == Qt::DecorationRole && index.column() == SELITE) {
         if( !tili_.onkoValidi() )
             return QIcon(":/pic/punainen.png");
-        else if( era.id() == 0) {
-            return tili_.eritellaankoTase() ? QIcon(":/pic/keltainen.png") : QIcon(":/pic/harmaa.png");
-        } else if( era.invalid() ) {
+        else if( era.invalid()) {
             return QIcon(":/pic/oranssi.png");
+        } else if( era.id() == 0) {
+            return tili_.eritellaankoTase() ? QIcon(":/pic/keltainen.png") : QIcon(":/pic/harmaa.png");
         } else {
             return EraMap::kuvakeIdlla(era.id());
         }
@@ -180,12 +180,12 @@ EranSelvitysEraModel::SelvitysEra::SelvitysEra(const QVariantMap &map, bool vast
     selite_ = map.value("selite").toString();
     tunniste_ = map.value("tunniste").toInt();
     sarja_ = map.value("sarja").toString();
-    eraok_ = map.value("eraok").toBool();
+    eraok_ = map.value("eraok").toBool() || map.value("id").isNull() || id_ < 0;
 }
 
 bool EranSelvitysEraModel::SelvitysEra::invalid() const
 {
-    if( id() > 0 && (!eraok_ || !tunniste() ))
+    if( !eraok_ || (id_ > 0 && !tunniste() ) )
         return true;
     return false;
 }

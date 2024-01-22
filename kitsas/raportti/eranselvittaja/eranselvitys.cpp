@@ -429,8 +429,7 @@ void EranSelvitys::paivitaNapit()
 void EranSelvitys::tiliListaPaivitetty()
 {
     for(int i=0; i < tiliView_->model()->rowCount() ; i++) {
-        const QModelIndex& index = tiliView_->model()->index(i,0);
-        const int tili = index.data(EranSelvitysTiliModel::TiliNumeroRooli).toInt();
+        const QModelIndex& index = tiliView_->model()->index(i,0);        
         if( index.data(EranSelvitysTiliModel::TiliNumeroRooli).toInt() == tili_  ) {
             tiliView_->selectRow(i);
             break;
@@ -466,4 +465,5 @@ void EranSelvitys::vientiListaPaivitetty()
             viennitView_->selectRow(i);
         }
     }
+    paivitaNapit();
 }
