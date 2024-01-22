@@ -452,10 +452,10 @@ Euro TilikaudetRoute::laskeJaksotus(const QDate &kausipaattyy, const QDate &pvm,
     } else {
         if( jaksopaattyy.isValid() && jaksopaattyy <= kausipaattyy) return Euro::Zero;
         if( !jaksopaattyy.isValid() && jaksoalkaa <= kausipaattyy) return Euro::Zero;
-        if( !jaksopaattyy.isValid() || jaksoalkaa > kausipaattyy) return euro;
+        if( !jaksopaattyy.isValid() || jaksoalkaa > kausipaattyy) return Euro::Zero-euro;
 
         double osa = (1.0 * jalkeen) / (ennen+jalkeen);
 
-        return Euro::fromCents(qRound64( (euro.cents()) * osa));
+        return Euro::Zero - Euro::fromCents(qRound64( (euro.cents()) * osa));
     }
 }
