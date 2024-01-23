@@ -13208,7 +13208,7 @@ Bokslutsmallen måste korrigeras innan bokslutet kan skrivas ut.</translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.ui" line="72"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="178"/>
         <source>Asiakas</source>
         <translation>Kund</translation>
     </message>
@@ -13308,25 +13308,25 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
         <translation>Stäng</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="488"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="489"/>
         <source>Tilille</source>
         <translation>Till konto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="489"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="490"/>
         <source>Tililtä</source>
         <translation>Från konto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="491"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
         <source>Laskun maksu</source>
         <translation>Betalning av fakturan</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="295"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="296"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
         <source>Tulo</source>
         <translation>Inkomst</translation>
     </message>
@@ -13336,17 +13336,17 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
         <translation>Motkonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="297"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="298"/>
         <source>Vakioviite</source>
         <translation>Standardreferens</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
         <source>Hyvitys</source>
         <translation>Kreditering</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="495"/>
         <source>Siirto</source>
         <translation>Överföring</translation>
     </message>
@@ -13356,52 +13356,52 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
         <translation>Netto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="125"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="126"/>
         <source>Kirjaa tiliotteelle</source>
         <translation>Kontera på kontoutdraget</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="137"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="138"/>
         <source>Muokkaa tiliotekirjausta</source>
         <translation>Redigera kontoutdragskontering</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Menotili</source>
         <translation>Utgiftskonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Tulotili</source>
         <translation>Inkomstkonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="178"/>
         <source>Toimittaja</source>
         <translation>Leverantör</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="185"/>
         <source>Saaja</source>
         <translation>Mottagare</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="185"/>
         <source>Maksaja</source>
         <translation>Betalare</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="287"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="288"/>
         <source>Maksettu lasku</source>
         <translation>Betald faktura</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="289"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="290"/>
         <source>Meno</source>
         <translation>Utgift</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="293"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="294"/>
         <source>Saapuva maksu</source>
         <translation>Inkommande betalning</translation>
     </message>
