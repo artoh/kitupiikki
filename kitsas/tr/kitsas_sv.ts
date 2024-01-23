@@ -772,7 +772,7 @@ Alias måste vara 3–32 tecken lång, starta med en bokstav och innehålla bara
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="416"/>
         <source>Tase ei täsmää</source>
-        <translation type="unfinished"></translation>
+        <translation>Balansen stämmer inte</translation>
     </message>
     <message>
         <source>Tase ei täsmää!</source>
@@ -15686,12 +15686,12 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../laskutus/laskudlg/uusimaksumuistutusdialogi.cpp" line="246"/>
         <source>Maksumuistutuksen tallentaminen epäonnistui</source>
-        <translation type="unfinished"></translation>
+        <translation>Sparande av påminnelsen mislyckades</translation>
     </message>
     <message>
         <location filename="../laskutus/laskudlg/uusimaksumuistutusdialogi.cpp" line="246"/>
         <source>Maksumuistuksen muodostaminen epäonnistui.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skapande av betaningspåminnelsen mislyckades</translation>
     </message>
 </context>
 <context>
@@ -15830,12 +15830,12 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../uusikirjanpito/uusitiedot.ui" line="190"/>
         <source>BIC</source>
-        <translation type="unfinished"></translation>
+        <translation>BIC</translation>
     </message>
     <message>
         <location filename="../uusikirjanpito/uusitiedot.ui" line="197"/>
         <source>Pankki</source>
-        <translation type="unfinished"></translation>
+        <translation>Banken</translation>
     </message>
 </context>
 <context>
@@ -17111,12 +17111,12 @@ Certifikatet är inte ännu tillgängligt.</translation>
     <message>
         <location filename="../lisaosat/yksityinenlisaosadialogi.ui" line="14"/>
         <source>Yksityinen lisäosa</source>
-        <translation type="unfinished"></translation>
+        <translation>Privat tilläggsdel</translation>
     </message>
     <message>
         <location filename="../lisaosat/yksityinenlisaosadialogi.ui" line="24"/>
         <source>Käyttöön otettavan lisäosan tunniste:</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifikation av tilläggsdelen som tas i bruk</translation>
     </message>
 </context>
 <context>
@@ -17125,47 +17125,47 @@ Certifikatet är inte ännu tillgängligt.</translation>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="14"/>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="103"/>
         <source>Yksityistilien päättäminen</source>
-        <translation type="unfinished">Avslutande av privatkontona</translation>
+        <translation>Avslutande av privatkontona</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="23"/>
         <source>Päätä yksityistilit peruspääomaan</source>
-        <translation type="unfinished"></translation>
+        <translation>Avsluta privatkontona till grundkapital</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="33"/>
         <source>Päätä tilikauden tulos peruspääomaan</source>
-        <translation type="unfinished"></translation>
+        <translation>Avsluta räkenskapsperiodens resultat till grundkapital</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="45"/>
         <source>Peruspääoman tili</source>
-        <translation type="unfinished"></translation>
+        <translation>Konton av grundkapital</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="48"/>
         <source>Yksityistilien %1 päättäminen</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutande av privatkontona %1</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="76"/>
         <source>Tilikauden %1 tuloksen päättäminen peruspääomaan</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutande av räkenskapperiodens %1 resultat till grundkapital</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="112"/>
         <source>Yksityistilit tilikaudella</source>
-        <translation type="unfinished"></translation>
+        <translation>Privatkontona i räkenskapsperioden</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="130"/>
         <source>Yhteensä</source>
-        <translation type="unfinished">Totalt</translation>
+        <translation>Totalt</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="137"/>
         <source>Tilikauden tulos</source>
-        <translation type="unfinished">Räkenskapsperiodens resultat</translation>
+        <translation>Räkenskapsperiodens resultat</translation>
     </message>
 </context>
 <context>
@@ -17240,22 +17240,22 @@ Certifikatet är inte ännu tillgängligt.</translation>
     <message>
         <location filename="../maaritys/tilinmuokkaus.ui" line="143"/>
         <source>Pankkitili</source>
-        <translation type="unfinished"></translation>
+        <translation>Bankkonto</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkaus.ui" line="149"/>
         <source>IBAN</source>
-        <translation type="unfinished">IBAN</translation>
+        <translation>IBAN</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkaus.ui" line="166"/>
         <source>BIC</source>
-        <translation type="unfinished"></translation>
+        <translation>BIC</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkaus.ui" line="173"/>
         <source>Pankki</source>
-        <translation type="unfinished"></translation>
+        <translation>Bank</translation>
     </message>
     <message>
         <location filename="../maaritys/tilinmuokkaus.ui" line="211"/>
