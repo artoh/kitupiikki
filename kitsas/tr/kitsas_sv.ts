@@ -15128,7 +15128,7 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="186"/>
         <source>Puoleksi vähennyskelpoiset kulut</source>
-        <translation>Halvt avdragsgilla utgiftarna</translation>
+        <translation>Halvt avdragsgilla utgifter</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="187"/>
