@@ -96,7 +96,8 @@ void TilioteKirjaaja::accept()
                     index.data(LaskuTauluModel::EraMapRooli).toMap(),
                     index.data(LaskuTauluModel::KumppaniMapRooli).toMap(),
                     ui->euroEdit->euro(),
-                    menoa_
+                    menoa_,
+                    ui->tiliEdit->valittuTilinumero()
                 );
                 QDialog::accept();
             }
