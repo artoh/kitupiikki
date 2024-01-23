@@ -123,7 +123,7 @@ private:
     LaskuTauluModel *laskut_;
     QVariantList alkuperaisRivit_;
 
-    TilioteKirjausRivi rivi_;
+    TilioteKirjausRivi rivi_ = nullptr;
     TilioteAliRivitModel* aliRiviModel_ = nullptr;
 
     bool ladataan_ = false;

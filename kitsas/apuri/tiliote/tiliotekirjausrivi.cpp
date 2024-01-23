@@ -34,8 +34,8 @@
 
 TilioteKirjausRivi::TilioteKirjausRivi(TilioteModel *model) :
     TilioteRivi(model),
-    taydennys_(model->kitsas())
-{
+    taydennys_(model ? model->kitsas() : nullptr)
+{            
     rivit_.append(TilioteAliRivi());
 }
 

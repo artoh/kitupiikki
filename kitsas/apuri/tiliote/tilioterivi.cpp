@@ -28,10 +28,10 @@ TilioteRivi::TilioteRivi()
 }
 
 TilioteRivi::TilioteRivi(TilioteModel *model) :
-    model_(model),
-    lisaysIndeksi_(model->lisaysIndeksi())
+    model_(model)
 {
-
+    if( model )
+        lisaysIndeksi_ = model->lisaysIndeksi();
 }
 
 

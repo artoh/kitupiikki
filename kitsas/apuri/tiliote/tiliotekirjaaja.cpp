@@ -53,8 +53,7 @@ TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
     ui(new Ui::TilioteKirjaaja),
     maksuProxy_(new QSortFilterProxyModel(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
-    laskut_( new LaskuTauluModel(this)),
-    rivi_{nullptr}
+    laskut_( new LaskuTauluModel(this))
 {
     aliRiviModel_ = new TilioteAliRivitModel(kp(), &rivi_,  this);
     alusta();
@@ -88,12 +87,14 @@ void TilioteKirjaaja::accept()
         if( !apuri()) {
             SiirtoApuri* siirto = qobject_cast<SiirtoApuri*>(parent());
             if( siirto ) {
+                QModelIndex index = ui->maksuView->currentIndex();
+
                 siirto->laskuMaksettu(
                     ui->pvmEdit->date(),
-                    ui->seliteEdit->toPlainText(),
-                    ui->tiliEdit->valittuTilinumero(),
-                    ui->eraCombo->eraMap(),
-                    ui->asiakastoimittaja->map(),
+                    index.data(LaskuTauluModel::SeliteRooli).toString(),
+                    index.data(LaskuTauluModel::TiliRooli).toInt(),
+                    index.data(LaskuTauluModel::EraMapRooli).toMap(),
+                    index.data(LaskuTauluModel::KumppaniMapRooli).toMap(),
                     ui->euroEdit->euro(),
                     menoa_
                 );
