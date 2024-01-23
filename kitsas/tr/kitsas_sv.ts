@@ -771,41 +771,45 @@ Alias måste vara 3–32 tecken lång, starta med en bokstav och innehålla bara
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="416"/>
-        <source>Tase ei täsmää!</source>
-        <translation>Balansen stämmer inte överens!</translation>
+        <source>Tase ei täsmää</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="417"/>
+        <source>Tase ei täsmää!</source>
+        <translation type="vanished">Balansen stämmer inte överens!</translation>
+    </message>
+    <message>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="419"/>
         <source>Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa.</source>
         <translation>Debet- och kreditr-registreringar stämmer inte. Balansräkningen är inte balanserad.</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="418"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="420"/>
         <source>Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!</source>
         <translation>Detta är ett allvarligt fel och betyder alltid att bokföringen är inte i ordning.</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="423"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="426"/>
         <source>&lt;p&gt;&lt;h2 class=kausi&gt;Tilikausi %1 - %2 &lt;/h1&gt;</source>
         <translation>&lt;p&gt;&lt;h2 class=kausi&gt;Räkenskapsperiod %1 - %2 &lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="447"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="450"/>
         <source>Vastaavaa</source>
         <translation>Aktiva</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="449"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="452"/>
         <source>Vastattavaa</source>
         <translation>Passiva</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="451"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="454"/>
         <source>Tuloslaskelma</source>
         <translation>Resultaträkning</translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="462"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="465"/>
         <source>Tilikauden tulos</source>
         <translation>Räkenskapsperiodens resultat</translation>
     </message>
@@ -13204,7 +13208,7 @@ Bokslutsmallen måste korrigeras innan bokslutet kan skrivas ut.</translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.ui" line="72"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Asiakas</source>
         <translation>Kund</translation>
     </message>
@@ -13304,45 +13308,45 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
         <translation>Stäng</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="182"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="487"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="488"/>
         <source>Tilille</source>
         <translation>Till konto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="182"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="488"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="489"/>
         <source>Tililtä</source>
         <translation>Från konto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="490"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="491"/>
         <source>Laskun maksu</source>
         <translation>Betalning av fakturan</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="294"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="491"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="295"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
         <source>Tulo</source>
         <translation>Inkomst</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="65"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="64"/>
         <source>Vastatili</source>
         <translation>Motkonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="296"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="297"/>
         <source>Vakioviite</source>
         <translation>Standardreferens</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
         <source>Hyvitys</source>
         <translation>Kreditering</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
         <source>Siirto</source>
         <translation>Överföring</translation>
     </message>
@@ -13352,52 +13356,52 @@ Verifikatet måste innehålla tillräcklig information om mervärdesskatten.</tr
         <translation>Netto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="124"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="125"/>
         <source>Kirjaa tiliotteelle</source>
         <translation>Kontera på kontoutdraget</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="136"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="137"/>
         <source>Muokkaa tiliotekirjausta</source>
         <translation>Redigera kontoutdragskontering</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="175"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
         <source>Menotili</source>
         <translation>Utgiftskonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="175"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
         <source>Tulotili</source>
         <translation>Inkomstkonto</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Toimittaja</source>
         <translation>Leverantör</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
         <source>Saaja</source>
         <translation>Mottagare</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
         <source>Maksaja</source>
         <translation>Betalare</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="286"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="287"/>
         <source>Maksettu lasku</source>
         <translation>Betald faktura</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="288"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="289"/>
         <source>Meno</source>
         <translation>Utgift</translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="292"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="293"/>
         <source>Saapuva maksu</source>
         <translation>Inkommande betalning</translation>
     </message>
@@ -15033,6 +15037,7 @@ För inköp av byggnadstjänster borde en moms om %L1 € redovisas</translation
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="67"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="185"/>
         <source>Kokonaan vähennyskelpoiset kulut</source>
         <translation>Helt avdragsgilla utgifter</translation>
     </message>
@@ -15117,9 +15122,8 @@ Spara skattedeklarationen och eventuella skattekalkyler.</translation>
         <translation>Beräkning av inkomstskatt</translation>
     </message>
     <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="185"/>
         <source>Kokonaan vähennyskelpoiset tulot</source>
-        <translation>Helt avdragsgilla utgiftarna</translation>
+        <translation type="vanished">Helt avdragsgilla utgiftarna</translation>
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="186"/>
@@ -17121,7 +17125,7 @@ Certifikatet är inte ännu tillgängligt.</translation>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="14"/>
         <location filename="../arkisto/yksityistilienpaattaja.cpp" line="103"/>
         <source>Yksityistilien päättäminen</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avslutande av privatkontona</translation>
     </message>
     <message>
         <location filename="../arkisto/yksityistilienpaattaja.ui" line="23"/>

@@ -754,41 +754,41 @@ Aliaksen tulee olla 3-32 merkkiä pitkä, alkaa kirjaimella, ja sisältää vain
     </message>
     <message>
         <location filename="../aloitussivu/aloitusbrowser.cpp" line="416"/>
-        <source>Tase ei täsmää!</source>
+        <source>Tase ei täsmää</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="417"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="419"/>
         <source>Kirjanpidon debet- ja kredit-kirjaukset eivät täsmää. Tase ei ole tasapainossa.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="418"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="420"/>
         <source>Tämä on vakava virhe ja tarkoittaa aina, ettei kirjanpito ole kunnossa!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="423"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="426"/>
         <source>&lt;p&gt;&lt;h2 class=kausi&gt;Tilikausi %1 - %2 &lt;/h1&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="447"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="450"/>
         <source>Vastaavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="449"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="452"/>
         <source>Vastattavaa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="451"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="454"/>
         <source>Tuloslaskelma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aloitussivu/aloitusbrowser.cpp" line="462"/>
+        <location filename="../aloitussivu/aloitusbrowser.cpp" line="465"/>
         <source>Tilikauden tulos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12807,7 +12807,7 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.ui" line="72"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Asiakas</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12897,45 +12897,45 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="182"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="487"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="488"/>
         <source>Tilille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="490"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="491"/>
         <source>Laskun maksu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="294"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="491"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="295"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
         <source>Tulo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="65"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="64"/>
         <source>Vastatili</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="182"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="488"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="489"/>
         <source>Tililtä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="296"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="297"/>
         <source>Vakioviite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
         <source>Hyvitys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
         <source>Siirto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12945,52 +12945,52 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="124"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="125"/>
         <source>Kirjaa tiliotteelle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="136"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="137"/>
         <source>Muokkaa tiliotekirjausta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="175"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
         <source>Menotili</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="175"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
         <source>Tulotili</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="176"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="177"/>
         <source>Toimittaja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
         <source>Saaja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="183"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
         <source>Maksaja</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="286"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="287"/>
         <source>Maksettu lasku</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="288"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="289"/>
         <source>Meno</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="292"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="293"/>
         <source>Saapuva maksu</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14605,6 +14605,7 @@ Rakennuspalveluiden ostoista pitäisi tilittää arvonlisäveroa %L1 €</source
     </message>
     <message>
         <location filename="../arkisto/tuloverodialog.ui" line="67"/>
+        <location filename="../arkisto/tuloverodialog.cpp" line="185"/>
         <source>Kokonaan vähennyskelpoiset kulut</source>
         <translation type="unfinished"></translation>
     </message>
@@ -14680,11 +14681,6 @@ Säilytä veroilmoitus ja mahdolliset verolaskelmasi kirjanpitosi yhteydessä.</
     <message>
         <location filename="../arkisto/tuloverodialog.cpp" line="176"/>
         <source>Tuloverolaskelma</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../arkisto/tuloverodialog.cpp" line="185"/>
-        <source>Kokonaan vähennyskelpoiset tulot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

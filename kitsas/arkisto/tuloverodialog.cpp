@@ -182,7 +182,7 @@ QByteArray TuloveroDialog::liite() const
 
     rivi(rk, tr("Veronalainen tulo yhteensä"), ui->tuloEdit->euro());
     rk.lisaaTyhjaRivi();
-    rivi(rk, tr("Kokonaan vähennyskelpoiset tulot"), ui->vahennysEdit->euro());
+    rivi(rk, tr("Kokonaan vähennyskelpoiset kulut"), ui->vahennysEdit->euro());
     rivi(rk, tr("Puoleksi vähennyskelpoiset kulut"), ui->puoliVahennysEdit->euro());
     rivi(rk, tr("Vähennyskelpoiset kulut yhteensä"), ui->vahennysEdit->euro() + ui->puoliVahennysEdit->euro()/2);
     rk.lisaaTyhjaRivi();
