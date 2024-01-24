@@ -105,7 +105,7 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
     } else if( currentIndex().column() ==  TilioteRivi::ALV) {
         const int tiliNumero = currentIndex().data(TilioteRivi::TiliRooli).toInt();
         const Tili* tili = kp()->tilit()->tili(tiliNumero);
-        if( !tili  || !tili->onko(TiliLaji::TULOS)) {
+        if( !tili  || (!tili->onko(TiliLaji::TULOS) && !tili->onko(TiliLaji::MENOJAANNOSPOISTO))) {
             QTableView::keyPressEvent(event);
             return;
         }

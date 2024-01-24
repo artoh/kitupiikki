@@ -27,7 +27,7 @@ void TilioteAlvDelegaatti::setEditorData(QWidget *editor, const QModelIndex &ind
         if(tili) {
             if( tili->onko(TiliLaji::TULO))
                 combo->alustaTulolle();
-            else if( tili->onko(TiliLaji::MENO))
+            else if( tili->onko(TiliLaji::MENO) || tili->onko(TiliLaji::MENOJAANNOSPOISTO))
                 combo->alustaMenolle();
             combo->aseta( index.data(Qt::EditRole).toInt() );
         }
