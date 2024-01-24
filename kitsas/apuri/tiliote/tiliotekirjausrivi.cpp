@@ -77,7 +77,12 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     rivi.setSelite( otsikko_ );
     rivi.setKohdennus( tuonti.value("kohdennus").toInt());
     rivi.setEra( era );
-    rivi.setVientiId( tuonti.value("id").toInt() );
+
+    Tili tili = model->kitsas()->tilit()->tiliNumerolla(tiliNumero);
+    if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::MENO) ) {
+        rivi.setAlvkoodi(tili.alvlaji());
+        rivi.setAlvprosentti(tili.alvprosentti());
+    }
 
     rivit_.append(rivi);
 

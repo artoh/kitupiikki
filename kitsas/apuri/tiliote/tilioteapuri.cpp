@@ -296,7 +296,9 @@ void TilioteApuri::naytaTosite()
         tosite.asetaViite(rivi.viite());
         tosite.asetaTilioterivi( omaIndeksi );
 
+
         if( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS || rivi.tyyppi() == TilioteKirjausRivi::SIIRTO) {
+
             tosite.asetaTyyppi( TositeTyyppi::SIIRTO);
         } else if( rivi.tyyppi() == TilioteKirjausRivi::MYYNTI) {
             tosite.asetaTyyppi(TositeTyyppi::TULO);
