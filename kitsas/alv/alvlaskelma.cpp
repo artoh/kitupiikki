@@ -878,6 +878,13 @@ void AlvLaskelma::kirjaaHuojennus()
     lisaaKirjausVienti( huojentaja );
 }
 
+void AlvLaskelma::tyhjennaHuojennus()
+{
+    koodattu_.remove(315);
+    koodattu_.remove(316);
+    koodattu_.remove(317);
+}
+
 void AlvLaskelma::valmisteleTosite()
 {
     tosite_->setData( Tosite::PVM, loppupvm_ );

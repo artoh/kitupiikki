@@ -85,6 +85,7 @@ signals:
 public slots:
     void laske(const QDate& alkupvm, const QDate& loppupvm);
     void kirjaaHuojennus();
+    void tyhjennaHuojennus();
     void valmisteleTosite();
 
     void ilmoitaJaTallenna(const QString korjaus = QString(), bool huojennus = false);

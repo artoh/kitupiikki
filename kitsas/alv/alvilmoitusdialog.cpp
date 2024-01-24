@@ -70,6 +70,8 @@ void AlvIlmoitusDialog::accept()
 
     if( ui->huojennusCheck->isChecked())
         laskelma_->kirjaaHuojennus();
+    else
+        laskelma_->tyhjennaHuojennus();
 
     laskelma_->valmisteleTosite();
 
