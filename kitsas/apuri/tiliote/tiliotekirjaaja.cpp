@@ -311,6 +311,11 @@ void TilioteKirjaaja::tiliMuuttuu()
     aliRivi()->setTili( tili.numero() );
     aliRiviaMuokattu();
 
+    if( tili.onko(TiliLaji::TASE) && (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS)) {
+        ui->alaTabs->setCurrentIndex(SIIRTO);
+        return;
+    }
+
     bool erat = tili.eritellaankoTase() &&
             ui->alaTabs->currentIndex() != MAKSU;
     ui->eraLabel->setVisible(erat);

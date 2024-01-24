@@ -346,7 +346,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
             rivit_[i].setTili(tili->numero());
             if(tiliKohdennus) rivit_[i].setKohdennus(tiliKohdennus);
             if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen) &&
-                (tili->onko(TiliLaji::TULO) || tili->onko(TiliLaji::MENO) || tili->onko(TiliLaji::MENOJAANNOSPOISTO)) )  {
+                (tili->onko(TiliLaji::TULO) || tili->onko(TiliLaji::MENO)))  {
                 rivit_[i].setAlvkoodi(tili->alvlaji());
                 rivit_[i].setAlvprosentti(tili->alvprosentti());
             }
@@ -396,7 +396,7 @@ Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
     }
 
 
-    if( sarake == ALV && ( !tili || (tili->onko(TiliLaji::TASE) && !tili->onko(TiliLaji::MENOJAANNOSPOISTO)) ) )
+    if( sarake == ALV && ( !tili || tili->onko(TiliLaji::TASE) ) )
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
 
@@ -448,7 +448,7 @@ void TilioteKirjausRivi::paivitaTyyppi(const EraMap &era, const int tilinumero)
 
     // Koska ostot ovat ilman etumerkkiä, pitää tehdä etumerkin muunnos
     // kun päivitetään tyyppi ostoksi
-    if( !rivit_.isEmpty() &&  (tyyppi_ == OSTO) != ( !era.id() && tili && ( tili->onko(TiliLaji::MENO) || tili->onko(TiliLaji::MENOJAANNOSPOISTO))  ) ) {
+    if( !rivit_.isEmpty() &&  (tyyppi_ == OSTO) != ( !era.id() && tili && tili->onko(TiliLaji::MENO) ) ) {
         if( rivit_[0].naytaBrutto())
             rivit_[0].setBrutto(Euro::Zero - rivit_.at(0).brutto());
         else
@@ -459,11 +459,11 @@ void TilioteKirjausRivi::paivitaTyyppi(const EraMap &era, const int tilinumero)
         tyyppi_ = SUORITUS;
     else if( !tili)
         tyyppi_ = TUNTEMATON;
-    else if( tili->onko(TiliLaji::MENO) || tili->onko(TiliLaji::MENOJAANNOSPOISTO)) {
-        tyyppi_ = OSTO;
-    }
     else if( tili->onko(TiliLaji::TASE))
         tyyppi_ = SIIRTO;
+    else if( tili->onko(TiliLaji::MENO) ) {
+        tyyppi_ = OSTO;
+    }
     else if( tili->onko(TiliLaji::TULO))
         tyyppi_ = MYYNTI;
 }
