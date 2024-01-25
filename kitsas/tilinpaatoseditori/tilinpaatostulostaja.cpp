@@ -206,10 +206,10 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString &o
     if( kausiloppuu.isValid() ) {
         QDate tilinpaatosSailytys = kausiloppuu.addYears(10);
         painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
-                          QString(tulkkaa("Tilinpäätöstä on säilytettävä %1 saakka").arg(tilinpaatosSailytys.toString("dd.MM.yyyy"))));
+                          QString(tulkkaa("Tilinpäätöstä on säilytettävä %1 saakka", kieli).arg(tilinpaatosSailytys.toString("dd.MM.yyyy"))));
         QDate tositeSailytys = QDate( kausiloppuu.year() + 6, 12, 31 );
         painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 9 + painter->fontMetrics().height(), sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter ,
-                          QString(tulkkaa("Tositteita on säilytettävä %1 saakka").arg(tositeSailytys.toString("dd.MM.yyyy"))));
+                          QString(tulkkaa("Tositteita on säilytettävä %1 saakka", kieli).arg(tositeSailytys.toString("dd.MM.yyyy"))));
     }
 
     painter->setFont(QFont("FreeSans",12));
@@ -241,6 +241,8 @@ bool TilinpaatosTulostaja::tilaaRaportti(const QString &raporttistr)
     }
 
     RaporttiValinnat valinnat(raporttitunnus);
+    valinnat.aseta(RaporttiValinnat::Kieli, kieli_);
+
     if(optiot.contains("K"))
         valinnat.aseta(RaporttiValinnat::Tyyppi, "kohdennus");
     else if(optiot.contains("P"))
