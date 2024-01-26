@@ -90,6 +90,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     RaportinKirjoittaja kirjoittaja;
     kirjoittaja.asetaOtsikko(tulkkaa("Tilinpäätös", kieli_).toUpper() );
     kirjoittaja.asetaKausiteksti( tilikausi_.kausivaliTekstina());
+    kirjoittaja.asetaKieli(kieli_);
 
     QTextDocument doc;
     QFile styleFile(":/tilinpaatos/tulostus.css");

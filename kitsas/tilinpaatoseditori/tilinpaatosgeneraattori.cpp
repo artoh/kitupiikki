@@ -232,11 +232,11 @@ QString TilinpaatosGeneraattori::henkilostoTaulukko(const QString &teksti)
 
     QString txt = tr("<table width=100%><tr><th width=\"50%\"></th><th align=right width=\"25%\">%1</th>").arg(tilikausi_.kausivaliTekstina());
     if( verrokki.alkaa().isValid() )
-        txt.append( QString("<th align=right width=\"25%\">%1</th>").arg(verrokki.kausivaliTekstina()) );
+        txt.append( QString("<th align=right width=\"25%\">&nbsp;%1</th>").arg(verrokki.kausivaliTekstina()) );
 
     txt.append(tr("</tr><tr><td>%1</td><td align=right>%2</td>").arg(teksti).arg( kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.paattyy() ).henkilosto()));
     if( verrokki.alkaa().isValid())
-        txt.append( QString("<td align=right>%1</td>").arg(verrokki.henkilosto()));
+        txt.append( QString("<td align=right>&nbsp;%1</td>").arg(verrokki.henkilosto()));
     txt.append("</tr></table>");
     return txt;
 }
