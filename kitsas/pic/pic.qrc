@@ -246,6 +246,12 @@
         <file>format-justify-right.png</file>
         <file>ilmoitus-oranssi.svg</file>
         <file>stop.svg</file>
+        <file>brutto-s.svg</file>
+        <file>brutto-m.svg</file>
+        <file>netto-m.svg</file>
+        <file>netto-s.svg</file>
+        <file>brutto-m.svg</file>
+        <file>brutto-s.svg</file>        
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

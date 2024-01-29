@@ -27,10 +27,10 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent) :
 }
 
 void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int alvkoodi, bool ennakkolasku, const QDate &pvm)
-{    
-    addItem(QIcon(":/pic/netto.png"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
-    addItem(QIcon(":/pic/netto.png"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
-    addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
+{
+    addItem(QIcon(":/pic/netto-m.svg"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
+    addItem(QIcon(":/pic/netto-m.svg"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
+    addItem(QIcon(":/pic/netto-m.svg"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
     addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), QVariant(AlvKoodi::EIALV ));
     addItem(QIcon(":/pic/0pros.png"),"Nollaverokannan alainen myynti", QVariant(AlvKoodi::ALV0));
 

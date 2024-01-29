@@ -30,13 +30,13 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     : QAbstractListModel( parent)
 {
     tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton",":/pic/tyhja.png",true));
-    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti (netto)",":/pic/netto.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto (netto)", ":/pic/netto.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti (netto)",":/pic/netto-m.svg"));
+    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto (netto)", ":/pic/netto-s.svg"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, "Verollinen myynti (maksuperusteinen alv)",":/pic/euro.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAKSUPERUSTEINEN_OSTO, "Verollinen osto (maksuperusteinen alv)",":/pic/euro.png"));    
     tyypit.append( VeroTyyppi(AlvKoodi::ENNAKKOLASKU_MYYNTI, "Ennakkolasku (myynti)",":/pic/lasku.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti (brutto)",":/pic/lihavoi.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_BRUTTO,"Verollinen osto (brutto)",":/pic/lihavoi.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti (brutto)",":/pic/brutto-m.svg"));
+    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_BRUTTO,"Verollinen osto (brutto)",":/pic/brutto-s.svg"));
     tyypit.append( VeroTyyppi(AlvKoodi::ALV0,"Nollaverokannan alainen myynti",":/pic/0pros.png",true));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_MARGINAALI,"Voittomarginaalijärjestelmä, myynti",":/pic/marginaali.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_MARGINAALI,"Voittomarginaalijärjestelmä, osto",":/pic/marginaali.png"));

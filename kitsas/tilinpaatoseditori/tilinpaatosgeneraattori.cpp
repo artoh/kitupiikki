@@ -248,7 +248,7 @@ Euro TilinpaatosGeneraattori::laskenta(const QString &kaava)
     QStringList splitted = kaava.split(' ', Qt::SkipEmptyParts);
     for(const QString& part : splitted) {
         if( part.startsWith(':')) {
-            summa += muuttujat_.value(part.mid(1), Euro::Zero);
+            summa += muuttujat_.value(part.mid(1), Euro::Zero);           
         }
 
         QRegularExpressionMatch match = kaavaRe__.match(part);

@@ -295,8 +295,8 @@ void RivillinenLaskuDialogi::alustaRiviTab()
 
 void RivillinenLaskuDialogi::alustaRivityyppiCombo(QComboBox *combo)
 {
-    combo->addItem(QIcon(":/pic/netto.png"), tr("Verottomat rivit"), Lasku::NETTORIVIT);
-    combo->addItem(QIcon(":/pic/lihavoi.png"), tr("Verolliset rivit"), Lasku::BRUTTORIVIT);
+    combo->addItem(QIcon(":/pic/netto-m.svg"), tr("Verottomat rivit"), Lasku::NETTORIVIT);
+    combo->addItem(QIcon(":/pic/brutto-m.svg"), tr("Verolliset rivit"), Lasku::BRUTTORIVIT);
     combo->addItem(QIcon(":/pic/vientilista.png"), tr("Pitkät rivit"), Lasku::PITKATRIVIT);
 }
 
