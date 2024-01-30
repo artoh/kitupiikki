@@ -69,10 +69,16 @@ public:
     explicit AlvLaskelma(QObject *parent = nullptr, const QString kielikoodi = QString());
     ~AlvLaskelma() override;
 
-    void kirjoitaLaskelma();
+    RaportinKirjoittaja kirjoitaLaskelma();
 
     Euro maksettava() const { return maksettava_;}
     Euro huojennus() const { return huojennus_;}
+    Euro liikevaihto() const { return liikevaihto_;}
+    Euro verohuojennukseen() const { return verohuojennukseen_;}
+    bool huojennusAika() const { return huojennusalku_.isValid(); }
+
+    void korjaaHuojennus(Euro liikevaihto = Euro::Zero, Euro veroa = Euro::Zero);
+    Euro huojennuksenMaara(Euro liikevaihto, Euro verohuojennukseen) const;
 
     QDate loppupvm() const { return loppupvm_;}
 

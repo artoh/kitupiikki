@@ -65,6 +65,7 @@ private:
 
 
     void tarkastaKelpo();
+    void paivitaHuojennus();
 
     void ilmoitusVirhe(const QString& koodi, const QString& viesti);
 

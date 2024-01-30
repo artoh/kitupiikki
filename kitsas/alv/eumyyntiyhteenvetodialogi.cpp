@@ -28,8 +28,7 @@ EuMyyntiYhteenvetoDialogi::EuMyyntiYhteenvetoDialogi(QWidget *parent) :
     ui->puhelinEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("\\+\\d+")));
     ui->korjausLabel->hide();
     ui->korjausCombo->hide();
-    ui->alarajaInfo->hide();
-    ui->huojennusCheck->hide();
+    ui->alarajaGroup->hide();
 
     QPushButton* avaa = ui->buttonBox->addButton(tr("Tulosta"), QDialogButtonBox::ApplyRole);
     avaa->setIcon(QIcon(":/pic/print.png"));

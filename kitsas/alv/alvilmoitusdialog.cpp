@@ -51,6 +51,10 @@ AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     connect( ui->puhelinEdit, &QLineEdit::textEdited, this, &AlvIlmoitusDialog::tarkastaKelpo);
     connect( ui->ilmoitaGroup, &QGroupBox::toggled, this, &AlvIlmoitusDialog::tarkastaKelpo);
 
+    connect( ui->alaLvEdit, &KpEuroEdit::textEdited, this, &AlvIlmoitusDialog::paivitaHuojennus);
+    connect( ui->alaVeroEdit, &KpEuroEdit::textEdited, this, &AlvIlmoitusDialog::paivitaHuojennus);
+
+
     ui->korjausCombo->addItem(tr("Laskuvirhe"), "CLC");
     ui->korjausCombo->addItem(tr("Oikeuskäytännön muutos"),"LGL");
     ui->korjausCombo->addItem(tr("Verotarkastuksessa saatu ohjaus"),"TXA");
@@ -68,13 +72,18 @@ void AlvIlmoitusDialog::accept()
     kp()->asetukset()->aseta(AsetusModel::VeroYhteysHenkilo, ui->yhteysEdit->text());
     kp()->asetukset()->aseta(AsetusModel::VeroYhteysPuhelin, ui->puhelinEdit->text());
 
-    if( ui->huojennusCheck->isChecked())
+    if( ui->alarajaGroup->isChecked()) {
+        laskelma_->korjaaHuojennus( ui->alaLvEdit->euro(), ui->alaVeroEdit->euro() );
         laskelma_->kirjaaHuojennus();
-    else
-        laskelma_->tyhjennaHuojennus();
+    } else {
+        laskelma_->korjaaHuojennus();
+    }
 
-    laskelma_->valmisteleTosite();
+    if( ui->alarajaGroup->isVisible()) {
+        laskelma_->kirjoitaLaskelma();
+    }
 
+    laskelma_->valmisteleTosite();    
 
     connect( laskelma_, &AlvLaskelma::tallennettu, this, &AlvIlmoitusDialog::laskemaTallennettu);
     connect( laskelma_, &AlvLaskelma::ilmoitusVirhe, this, &AlvIlmoitusDialog::ilmoitusVirhe);
@@ -82,7 +91,7 @@ void AlvIlmoitusDialog::accept()
 
     if( ui->ilmoitaGroup->isChecked() ) {
         laskelma_->ilmoitaJaTallenna( ui->korjausCombo->isVisible() ? ui->korjausCombo->currentData().toString() : QString(),
-                                      ui->huojennusCheck->isChecked());
+                                      ui->alarajaGroup->isChecked());
     } else {
         laskelma_->tallenna();
     }
@@ -127,6 +136,17 @@ void AlvIlmoitusDialog::tarkastaKelpo()
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(kelpo);
 }
 
+void AlvIlmoitusDialog::paivitaHuojennus()
+{
+    Euro huojennus = laskelma_->huojennuksenMaara(ui->alaLvEdit->euro(), ui->alaVeroEdit->euro());
+    if( huojennus ) {
+        ui->maaraLabel->setText( huojennus.display(true));
+    } else {
+        ui->maaraLabel->setText( tr("Ei oikeuta alarajahuojennukseen"));
+    }
+
+}
+
 void AlvIlmoitusDialog::ilmoitusVirhe(const QString &koodi, const QString &viesti)
 {
     kp()->odotusKursori(false);
@@ -140,12 +160,13 @@ void AlvIlmoitusDialog::ilmoitusVirhe(const QString &koodi, const QString &viest
 void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 {
     laskelma_ = qobject_cast<AlvLaskelma*>( sender() );
-    ui->ilmoitusBrowser->setHtml( rk.html() );    
+    ui->ilmoitusBrowser->setHtml( rk.html() );
 
-    bool huojennettavaa = laskelma_->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili");
-    ui->huojennusCheck->setVisible( huojennettavaa );
-    ui->huojennusCheck->setChecked( huojennettavaa );
-    ui->alarajaInfo->setVisible( huojennettavaa );
+    ui->alarajaGroup->setVisible( laskelma_->huojennusAika() );
+    ui->alarajaGroup->setChecked( laskelma_->huojennus());
+    ui->alaLvEdit->setEuro( laskelma_->liikevaihto() );
+    ui->alaVeroEdit->setEuro( laskelma_->verohuojennukseen() );
+    if( laskelma_->liikevaihto()) paivitaHuojennus();
 
     QPushButton* avaa = ui->buttonBox->addButton(tr("Tulosta"), QDialogButtonBox::ApplyRole);
     avaa->setIcon(QIcon(":/pic/print.png"));

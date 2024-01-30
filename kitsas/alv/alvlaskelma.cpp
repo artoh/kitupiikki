@@ -38,12 +38,40 @@ AlvLaskelma::~AlvLaskelma()
 {
 }
 
-void AlvLaskelma::kirjoitaLaskelma()
+RaportinKirjoittaja AlvLaskelma::kirjoitaLaskelma()
 {
+    rk = RaportinKirjoittaja();
+    rk.asetaKieli(kielikoodi_);
+    koodattu_.clear();
+
     kirjoitaOtsikot();
     kirjoitaYhteenveto();
     kirjoitaMaksutiedot();
     kirjoitaErittely();
+
+    return rk;
+}
+
+void AlvLaskelma::korjaaHuojennus(Euro liikevaihto, Euro veroa)
+{
+    liikevaihto_ = liikevaihto;
+    verohuojennukseen_ = veroa;
+}
+
+Euro AlvLaskelma::huojennuksenMaara(Euro liikevaihto, Euro verohuojennukseen) const
+{
+    Euro huojennusraja = huojennusalku_ < QDate(2021,1,1) ? Euro("10000") : Euro("15000") ;
+    Euro huojennus;
+    if( liikevaihto < huojennusraja)
+        huojennus = verohuojennukseen;
+    else {
+        huojennus = verohuojennukseen - ( (liikevaihto - huojennusraja) * verohuojennukseen ) / ( Euro("30000") - huojennusraja );
+    }
+    if( huojennus > verohuojennukseen)
+        huojennus = verohuojennukseen;
+    if( huojennus < Euro(0) )
+        huojennus = Euro::Zero;
+    return huojennus;
 }
 
 int AlvLaskelma::huojennusKuukaudet(const QDate &alku, const QDate &loppu)
@@ -113,17 +141,8 @@ void AlvLaskelma::kirjoitaYhteenveto()
         rk.lisaaTyhjaRivi();
     }
 
-    if( suhteutuskuukaudet_ ) {
-        Euro huojennusraja = huojennusalku_ < QDate(2021,1,1) ? Euro("10000") : Euro("15000") ;
-        if( liikevaihto_ < huojennusraja)
-            huojennus_ = verohuojennukseen_;
-        else {
-            huojennus_ = verohuojennukseen_ - ( (liikevaihto_ - huojennusraja) * verohuojennukseen_ ) / ( Euro("30000") - huojennusraja );
-        }
-        if( huojennus_ > verohuojennukseen_)
-            huojennus_ = verohuojennukseen_;
-        if( huojennus_ < Euro(0) )
-            huojennus_ = 0;
+    if( huojennusAika() ) {
+        huojennus_ = huojennuksenMaara(liikevaihto_, verohuojennukseen_);
     }
 
     // Kotimaan myynti
@@ -170,14 +189,10 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
-    yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
-    yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
-    if( liikevaihto_ && !huojennus()) {
-        RaporttiRivi rivi;
-        rivi.lisaa("", 2);
-        rivi.lisaa(kaanna("Ei oikeutta alarajahuojennukseen"),3);
-        rk.lisaaRivi(rivi);
+    if( huojennus()) {
+        yvRivi(315, kaanna("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
+        yvRivi(316, kaanna("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
+        yvRivi(317, kaanna("Alarajahuojennuksen määrä"), huojennus());
     }
 
     rk.lisaaTyhjaRivi();
@@ -670,7 +685,7 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
     }
 
 
-    if( huojennusalku_.isValid()) {
+    if( huojennusalku_.isValid() ){
         suhteutuskuukaudet_ = huojennusKuukaudet(huojennusalku_, loppupvm_);
 
         // Sitten tehdään huojennushaku
