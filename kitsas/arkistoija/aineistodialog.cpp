@@ -298,7 +298,16 @@ void AineistoDialog::tositeListaSaapuu(QVariant *data)
 
     tulostaRaportit();
     painter->translate(0, painter->window().height() - painter->transform().dy());
-    tilaaSeuraavaTosite();
+
+    if( kp()->onkoPilvessa()) {
+        tilaaSeuraavaTosite();
+    } else {
+        // Paikallisessa toteutuksessa puretaan välillä pinoa
+        while( tositepnt_ < tositteet_.count()) {
+            tilaaSeuraavaTosite();
+        }
+        valmis();
+    }
 }
 
 void AineistoDialog::tilaaSeuraavaTosite()
@@ -371,7 +380,12 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
     }
 
     if( liiteJono_.isEmpty()) {
-        tilaaSeuraavaTosite();
+        if( kp()->onkoPilvessa()) {
+            tilaaSeuraavaTosite();
+        } else {
+            // Paikallisella välitetään pinon kasvattamista
+            return;
+        }
     } else {
         tilaaLiite();
     }
