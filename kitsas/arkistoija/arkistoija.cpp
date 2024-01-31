@@ -308,11 +308,11 @@ void Arkistoija::jotainArkistoitu()
 void Arkistoija::arkistoiSeuraavaTosite()
 {
     // Hae tosite arkistoitavaksi
-    int indeksi = arkistoitavaTosite_;
+    int indeksi = arkistoitavaTosite_;    
 
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tositeJono_.value(indeksi).id() ));
     connect( kysely, &KpKysely::vastaus, this,
-             [this, indeksi] (QVariant* data) { this->arkistoiTosite(data, indeksi);} );
+        [this, indeksi] (QVariant* data) { this->arkistoiTosite(data, indeksi);}, kp()->onkoPilvessa() ?  Qt::DirectConnection : Qt::QueuedConnection);
 
     kysely->kysy();
 }
