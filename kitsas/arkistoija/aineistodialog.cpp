@@ -395,7 +395,10 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
 void AineistoDialog::tilaaLiite()
 {
     if( liiteJono_.isEmpty()) {
-        tilaaSeuraavaTosite();
+        if( kp()->onkoPilvessa())
+            tilaaSeuraavaTosite();
+        else
+            return;
     } else {
         QPair<int,QString> liitetieto = liiteJono_.dequeue();
         KpKysely *liiteHaku = kpk(QString("/liitteet/%1").arg(liitetieto.first));
