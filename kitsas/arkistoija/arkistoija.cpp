@@ -294,8 +294,15 @@ void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
 
     if( tositeJono_.isEmpty())
         jotainArkistoitu();
-    else
+    else if(kp()->onkoPilvessa())
         arkistoiSeuraavaTosite();
+    else {
+        while( arkistoitavaTosite_ < tositeJono_.count() && !keskeytetty_)
+            arkistoiSeuraavaTosite();
+        while( !liiteJono_.isEmpty() && !keskeytetty_)
+            arkistoiSeuraavaLiite();
+        jotainArkistoitu();
+    }
 }
 
 void Arkistoija::jotainArkistoitu()
@@ -312,7 +319,7 @@ void Arkistoija::arkistoiSeuraavaTosite()
 
     KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tositeJono_.value(indeksi).id() ));
     connect( kysely, &KpKysely::vastaus, this,
-        [this, indeksi] (QVariant* data) { this->arkistoiTosite(data, indeksi);}, kp()->onkoPilvessa() ?  Qt::DirectConnection : Qt::QueuedConnection);
+        [this, indeksi] (QVariant* data) { this->arkistoiTosite(data, indeksi);});
 
     kysely->kysy();
 }
@@ -357,6 +364,8 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
     progressDlg_->setValue( progressDlg_->value() + 1);
 
     arkistoitavaTosite_++;
+    if( !kp()->onkoPilvessa())
+        return;
     if( arkistoitavaTosite_ < tositeJono_.count())
         arkistoiSeuraavaTosite();
     else if( !liiteJono_.isEmpty() )
@@ -382,7 +391,9 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
     progressDlg_->setValue(progressDlg_->value() + 1);
     liitelaskuri_--;
 
-    if( !liiteJono_.isEmpty())
+    if( !kp()->onkoPilvessa())
+        return;
+    else if( !liiteJono_.isEmpty())
         arkistoiSeuraavaLiite();
     else
         jotainArkistoitu();
