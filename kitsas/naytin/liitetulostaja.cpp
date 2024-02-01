@@ -134,12 +134,12 @@ int LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter *paint
 
             printer->newPage();
             painter->resetTransform();
-            sivu++; sivua++;
+            sivua++;
         }
 
 
         painter->drawImage(0, rivinKorkeus * 3, scaled);
-        tulostaYlatunniste(painter, tosite, sivu + 1, kieli);
+        tulostaYlatunniste(painter, tosite, sivu + sivua, kieli);
 
         painter->translate(0, rivinKorkeus * 3);
         painter->translate(0, scaled.height() + rivinKorkeus * 4);

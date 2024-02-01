@@ -373,10 +373,11 @@ void AineistoDialog::tositeSaapuu(QVariant *data)
 
     if( tulostaErillinen ) {
         // Tulostetaan tiliöinti- ja muistiinpano-osio erikseen
-        sivu_ += LiiteTulostaja::tulostaTiedot(device, painter, nykyTosite_,
-                                               sivu_, kieli_,
+        const int sivua = LiiteTulostaja::tulostaTiedot(device, painter, nykyTosite_,
+                                               sivu_-1, kieli_,
                                                ui->muistiinpanotCheck->isChecked() && !muistiinpanot.isEmpty(),
                                                ui->tilioinnitCheck->isChecked());
+        sivu_  += sivua;
     }
 
     if( liiteJono_.isEmpty()) {
@@ -419,7 +420,9 @@ void AineistoDialog::tilattuLiiteSaapuu(QVariant *data, const QString &tyyppi)
     } else if( tyyppi.startsWith("image")) {
         QByteArray ba = data->toByteArray();
         int sivua = LiiteTulostaja::tulostaKuvaLiite(
-                    device, painter, ba, nykyTosite_, tulostaAlatunniste_, sivu_, kieli_ );
+                    device, painter, ba, nykyTosite_, tulostaAlatunniste_, sivu_-1, kieli_ );
+
+
         if( sivua < 0)
             virhe_ = true;
         else {
@@ -455,6 +458,7 @@ void AineistoDialog::pdfTilaVaihtuu(QPdfDocument::Status status)
 
                 QImage image = pdfDoc_->render(i, kohde.toSize(), options);
                 painter->drawImage(0, rivinKorkeus*2, image);
+
 
                 LiiteTulostaja::tulostaYlatunniste(painter, nykyTosite_, sivu_ , kieli_);
                 painter->translate(0, painter->window().height() - ( i ? 1 : 8 ) * rivinKorkeus);
