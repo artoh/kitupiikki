@@ -47,6 +47,8 @@ RaportinKirjoittaja AlvLaskelma::kirjoitaLaskelma()
     kirjoitaOtsikot();
     kirjoitaYhteenveto();
     kirjoitaMaksutiedot();
+    kirjoitaIlmoitusTiedot();
+    rk.lisaaSivunvaihto();
     kirjoitaErittely();
 
     return rk;
@@ -56,6 +58,7 @@ void AlvLaskelma::korjaaHuojennus(Euro liikevaihto, Euro veroa)
 {
     liikevaihto_ = liikevaihto;
     verohuojennukseen_ = veroa;
+    huojennus_ = huojennuksenMaara(liikevaihto, veroa);
 }
 
 Euro AlvLaskelma::huojennuksenMaara(Euro liikevaihto, Euro verohuojennukseen) const
@@ -139,10 +142,6 @@ void AlvLaskelma::kirjoitaYhteenveto()
         rivi.lisaa(kaanna("Maksuperusteinen arvonlisävero"),5);
         rk.lisaaRivi(rivi);
         rk.lisaaTyhjaRivi();
-    }
-
-    if( huojennusAika() ) {
-        huojennus_ = huojennuksenMaara(liikevaihto_, verohuojennukseen_);
     }
 
     // Kotimaan myynti
@@ -279,7 +278,26 @@ void AlvLaskelma::kirjoitaMaksutiedot()
     koodiRivi.lisaa(koodi,5);
     rk.lisaaRivi(koodiRivi);
 
-    rk.lisaaSivunvaihto();
+}
+
+void AlvLaskelma::kirjoitaIlmoitusTiedot()
+{
+    QVariantMap map = tosite_->data(Tosite::ALV).toMap();
+    const QString& id = map.value("apiid").toString();
+    const QString& date = map.value("apidate").toString();
+
+    if( id.isEmpty()) return;
+
+    rk.lisaaTyhjaRivi();
+    RaporttiRivi apiInfo;
+    apiInfo.lisaa("",2);
+    apiInfo.lisaa(kaanna("Ilmoitettu rajapinnan kautta"));
+    apiInfo.lisaa(date);
+    rk.lisaaRivi(apiInfo);
+    RaporttiRivi apiId;
+    apiId.lisaa("",3);
+    apiId.lisaa(id);
+    rk.lisaaRivi(apiId);
 }
 
 void AlvLaskelma::kirjaaVerot()
@@ -781,6 +799,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
     verohuojennukseen_ = veroon - vahennys;
     liikevaihto_ = liikevaihto_ * 12 / (suhteutuskuukaudet_ ? suhteutuskuukaudet_ : 1);
+    huojennus_ = huojennuksenMaara(liikevaihto_, verohuojennukseen_);
 
     viimeViimeistely();
 
@@ -804,17 +823,7 @@ void AlvLaskelma::ilmoitettu(QVariant *data)
         alvdata.insert("apidate", map.value("timestamp").toString());
         tosite_->setData(Tosite::ALV, alvdata);
 
-        rk.lisaaTyhjaRivi();
-        RaporttiRivi apiInfo;
-        apiInfo.lisaa("",2);
-        apiInfo.lisaa(kaanna("Ilmoitettu rajapinnan kautta"));
-        apiInfo.lisaa(map.value("timestamp").toString() );
-        rk.lisaaRivi(apiInfo);
-        RaporttiRivi apiId;
-        apiId.lisaa("",3);
-        apiId.lisaa(map.value("id").toString());
-        rk.lisaaRivi(apiId);
-
+        kirjoitaLaskelma();
         tallenna();
 
         // Jos verokauden pituus on muuttunut, päivitetään se asetuksiin, jotta
@@ -844,7 +853,6 @@ void AlvLaskelma::viimeistele()
 void AlvLaskelma::viimeViimeistely()
 {
     kirjoitaLaskelma();
-    kirjaaVerot();
     emit valmis( rk );
 }
 
@@ -928,7 +936,7 @@ void AlvLaskelma::valmisteleTosite()
     tosite_->setData( Tosite::ALV, lisat);
 }
 
-void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus, bool huojennus)
+void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
 {
     QVariantMap payload;
     if( !korjaus.isEmpty())
@@ -936,7 +944,7 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus, bool huojennus)
     payload.insert("period", loppupvm_.toString("yyyy-MM-dd"));
     payload.insert("person", kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo));
     payload.insert("phone", kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
-    if( huojennus ) {
+    if( huojennus_ ) {
         if( alkupvm_.month() == 1 && loppupvm_.month() == 12)
             payload.insert("relief",4);
         else if( alkupvm_.month() == loppupvm_.month())
@@ -1070,6 +1078,8 @@ bool AlvLaskelma::debetistaKoodilla(int alvkoodi)
 void AlvLaskelma::AlvTaulu::lisaa(const QVariantMap &rivi)
 {
     int koodi = rivi.value("alvkoodi").toInt();
+    if( koodi == AlvKoodi::EIALV) return;     // Ei verottomia
+
     if( !koodit.contains(koodi))
         koodit.insert(koodi, KoodiTaulu());
     koodit[koodi].lisaa(rivi);

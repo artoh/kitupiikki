@@ -72,16 +72,14 @@ void AlvIlmoitusDialog::accept()
     kp()->asetukset()->aseta(AsetusModel::VeroYhteysHenkilo, ui->yhteysEdit->text());
     kp()->asetukset()->aseta(AsetusModel::VeroYhteysPuhelin, ui->puhelinEdit->text());
 
-    if( ui->alarajaGroup->isChecked()) {
-        laskelma_->korjaaHuojennus( ui->alaLvEdit->euro(), ui->alaVeroEdit->euro() );
-        laskelma_->kirjaaHuojennus();
-    } else {
-        laskelma_->korjaaHuojennus();
-    }
+    bool huojennusRuksattu = ui->alarajaGroup->isChecked();
 
-    if( ui->alarajaGroup->isVisible()) {
-        laskelma_->kirjoitaLaskelma();
-    }
+    // Korjataan huojennukseen syötetyt lukemat. Jos ei ruksattu, nollat
+    laskelma_->korjaaHuojennus( huojennusRuksattu ? ui->alaLvEdit->euro() : Euro::Zero,
+                                huojennusRuksattu ? ui->alaVeroEdit->euro() : Euro::Zero);
+    laskelma_->kirjoitaLaskelma();
+    laskelma_->kirjaaVerot();
+    laskelma_->kirjaaHuojennus();
 
     laskelma_->valmisteleTosite();    
 
@@ -90,8 +88,7 @@ void AlvIlmoitusDialog::accept()
 
 
     if( ui->ilmoitaGroup->isChecked() ) {
-        laskelma_->ilmoitaJaTallenna( ui->korjausCombo->isVisible() ? ui->korjausCombo->currentData().toString() : QString(),
-                                      ui->alarajaGroup->isChecked());
+        laskelma_->ilmoitaJaTallenna( ui->korjausCombo->isVisible() ? ui->korjausCombo->currentData().toString() : QString());
     } else {
         laskelma_->tallenna();
     }

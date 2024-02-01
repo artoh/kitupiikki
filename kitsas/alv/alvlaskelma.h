@@ -94,8 +94,9 @@ public slots:
     void tyhjennaHuojennus();
     void valmisteleTosite();
 
-    void ilmoitaJaTallenna(const QString korjaus = QString(), bool huojennus = false);
+    void ilmoitaJaTallenna(const QString korjaus = QString());
     void tallenna();
+    void kirjaaVerot();
 
 protected:
     void viennitSaapuu(QVariant* viennit);
@@ -115,7 +116,7 @@ protected:
     void kirjoitaOtsikot();
     void kirjoitaYhteenveto();
     void kirjoitaMaksutiedot();
-    void kirjaaVerot();
+    void kirjoitaIlmoitusTiedot();
     void kirjoitaErittely();
     void yvRivi(int koodi, const QString& selite, Euro euro);
     Euro kotimaanmyyntivero(int prosentinsadasosa);
