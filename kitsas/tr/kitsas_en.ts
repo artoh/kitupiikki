@@ -184,12 +184,12 @@ Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2024&lt;br/&gt;
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkistoija/aineistodialog.cpp" line="478"/>
+        <location filename="../arkistoija/aineistodialog.cpp" line="495"/>
         <source>Virhe aineiston muodostamisessa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../arkistoija/aineistodialog.cpp" line="479"/>
+        <location filename="../arkistoija/aineistodialog.cpp" line="496"/>
         <source>Tositteiden muodostamisessa aineistoksi tapahtui virhe.
 
 Todennäköisesti liitetiedostojen koko yhteensä on liian suuri, jotta ohjelma pystyisi muodostamaan niistä kaikista yhden pdf-tiedoston.
@@ -905,67 +905,87 @@ Poistaaksesi tämän kirjanpidon sinun pitää ensin asettaa Asetukset/Perusvali
     </message>
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="45"/>
-        <source>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Ellei huojennusta voi laskea ohjelman käyttämien perussäännösten nojalla (esim. metsätaloustulon takia), sinun on laskettava ja kirjattava mahdollinen alarajahuojennus itse.</source>
+        <source>Kirjaa alarajahuojennus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.ui" line="55"/>
-        <source>Kirjaa alarajahuojennus laskelman mukaisesti</source>
+        <location filename="../alv/alvilmoitusdialog.ui" line="54"/>
+        <source>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Mikäli liikevaihtoon sisältyy esimerksi metsätalouden, kiinteistön käyttöoikeuden tai käyttöomaisuuden myynnin tuloa, joudut korjaamaan laskennan perusteena olevia määriä.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.ui" line="65"/>
+        <location filename="../alv/alvilmoitusdialog.ui" line="66"/>
+        <source>Alarajahuojennukseen oikeuttava liikevaihto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../alv/alvilmoitusdialog.ui" line="79"/>
+        <source>Alarajahuojennukseen oikeuttava vero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../alv/alvilmoitusdialog.ui" line="92"/>
+        <source>Alarajahuojennuksen määrä</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../alv/alvilmoitusdialog.ui" line="114"/>
         <source>Lähetä alv-ilmoitus verottajalle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.ui" line="74"/>
+        <location filename="../alv/alvilmoitusdialog.ui" line="123"/>
         <source>Yhteyshenkilön nimi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.ui" line="91"/>
+        <location filename="../alv/alvilmoitusdialog.ui" line="140"/>
         <source>Puhelinnumero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.ui" line="108"/>
+        <location filename="../alv/alvilmoitusdialog.ui" line="157"/>
         <source>Korjauksen syy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="54"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="58"/>
         <source>Laskuvirhe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="55"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="59"/>
         <source>Oikeuskäytännön muutos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="56"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="60"/>
         <source>Verotarkastuksessa saatu ohjaus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="57"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="61"/>
         <source>Laintulkintavirhe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="131"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="142"/>
+        <source>Ei oikeuta alarajahuojennukseen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="150"/>
         <source>Virhe ilmoittamisessa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="132"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="151"/>
         <source>Alv-ilmoituksen toimittaminen verottajalle epäonnistui.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/alvilmoitusdialog.cpp" line="148"/>
+        <location filename="../alv/alvilmoitusdialog.cpp" line="168"/>
         <source>Tulosta</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1034,7 +1054,7 @@ Poistaaksesi tämän kirjanpidon sinun pitää ensin asettaa Asetukset/Perusvali
 <context>
     <name>AlvLaskelma</name>
     <message>
-        <location filename="../alv/alvlaskelma.cpp" line="511"/>
+        <location filename="../alv/alvlaskelma.cpp" line="544"/>
         <source>Vanhentunut maksuperusteinen alv %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2648,63 +2668,63 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
 <context>
     <name>EuMyyntiYhteenvetoDialogi</name>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="34"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="33"/>
         <source>Tulosta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="103"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="102"/>
         <source>Ilmoitettu rajapinnan kautta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="120"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="119"/>
         <source>Virhe ilmoittamisessa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="121"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="120"/>
         <source>Alv-ilmoituksen toimittaminen verottajalle epäonnistui.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="130"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="129"/>
         <source>Yhteisömyynnin yhteenvetoilmoitus %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="175"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="174"/>
         <source>Yhteisömyynti-ilmoitus annetaan kirjanpidossa olevien tietojen mukaisesti, asiakkaan tietoihin syötettyjen alv-tunnusten mukaisesti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="178"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="177"/>
         <source>YHTEISÖMYYNNIN YHTEENVETOILMOITUS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="186"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="185"/>
         <source>Asiakas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="187"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="186"/>
         <source>Alv-tunnus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="188"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="187"/>
         <source>Tavaramyynti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="189"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="188"/>
         <source>Palvelumyynti</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="217"/>
+        <location filename="../alv/eumyyntiyhteenvetodialogi.cpp" line="216"/>
         <source>Yhteensä</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12705,12 +12725,12 @@ Haluatko tallentaa tilinavauksen luonnoksena?</source>
 <context>
     <name>TilinpaatosTulostaja</name>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatostulostaja.cpp" line="237"/>
+        <location filename="../tilinpaatoseditori/tilinpaatostulostaja.cpp" line="238"/>
         <source>Virheellinen tilinpäätöskaava</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tilinpaatoseditori/tilinpaatostulostaja.cpp" line="238"/>
+        <location filename="../tilinpaatoseditori/tilinpaatostulostaja.cpp" line="239"/>
         <source>Tilinpäätöskaavan asetuksiin sisältyy raportti %1 jota ei ole olemassa.
 Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</source>
         <translation type="unfinished"></translation>
@@ -12778,7 +12798,7 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
     </message>
     <message>
         <location filename="../apuri/tiliote/tilioteapuri.cpp" line="177"/>
-        <location filename="../apuri/tiliote/tilioteapuri.cpp" line="336"/>
+        <location filename="../apuri/tiliote/tilioteapuri.cpp" line="338"/>
         <source>Tiliote %1 - %2 %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12898,18 +12918,18 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="489"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
         <source>Tilille</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="492"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="497"/>
         <source>Laskun maksu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="296"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="493"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="498"/>
         <source>Tulo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12920,7 +12940,7 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
     </message>
     <message>
         <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="184"/>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="490"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="495"/>
         <source>Tililtä</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12930,12 +12950,12 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="494"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="499"/>
         <source>Hyvitys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="495"/>
+        <location filename="../apuri/tiliote/tiliotekirjaaja.cpp" line="500"/>
         <source>Siirto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -13033,12 +13053,12 @@ Tilinpäätöksen kaavaa on korjattava jotta tilinpäätöksen voi tulostaa.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjausrivi.cpp" line="184"/>
+        <location filename="../apuri/tiliote/tiliotekirjausrivi.cpp" line="189"/>
         <source>Uusi erä</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../apuri/tiliote/tiliotekirjausrivi.cpp" line="197"/>
+        <location filename="../apuri/tiliote/tiliotekirjausrivi.cpp" line="202"/>
         <source>Ei tase-erää</source>
         <translation type="unfinished"></translation>
     </message>

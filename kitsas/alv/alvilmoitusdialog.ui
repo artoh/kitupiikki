@@ -51,7 +51,7 @@
       <item>
        <widget class="QLabel" name="alarajaInfo">
         <property name="text">
-         <string>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Ellei huojennusta voi laskea ohjelman käyttämien perussäännösten nojalla (esim. metsätaloustulon takia), sinun on laskettava mahdollinen alarajahuojennus itse.</string>
+         <string>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Mikäli liikevaihtoon sisältyy esimerksi metsätalouden, kiinteistön käyttöoikeuden tai käyttöomaisuuden myynnin tuloa, joudut korjaamaan laskennan perusteena olevia määriä.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
