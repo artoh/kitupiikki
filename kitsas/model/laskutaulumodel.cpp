@@ -108,7 +108,9 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return Euro::fromVariant(map.value("summa")).display(false);
                 }
                 else
-                   return map.value("summa");
+                {
+                    return Euro::fromVariant(map.value("summa")).cents();;
+                }
             case MAKSAMATTA:
                 if( role == Qt::DisplayRole)
                 {
@@ -116,7 +118,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                    return avoin.display(false);
                 }
                 else {
-                   return map.value("avoin");
+                   Euro avoin = Euro::fromVariant(map.value("avoin"));
+                   return avoin.cents();
                 }
             case LAHETYSTAPA:
             {
