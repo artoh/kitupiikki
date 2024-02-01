@@ -426,11 +426,11 @@
     "Alarajahuojennukseen oikeuttava vero": {
         "sv": "Skatt som berättigar till lättnad vid den nedre gränsen"
     },
-    "Alarajahuojennukseen määrä": {
+    "Alarajahuojennuksen määrä": {
         "sv": "Beloppet av lättnad vid den nedre gränsen"
     },
     "Ei oikeutta alarajahuojennukseen": {
-        "sv": "Ingen rätt till lägre gränslättnad"
+        "sv": "Ingen rätt till lättnad vid den nedre gränsen"
     },
     "Arvonlisävero %1 - %2": {
         "sv": "Medvärdesskatt %1 - %2"

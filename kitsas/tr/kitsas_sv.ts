@@ -938,12 +938,12 @@ För att radera denna bokföring måste du först på sidan Inställningar/Basin
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="45"/>
         <source>Kirjaa alarajahuojennus</source>
-        <translation type="unfinished">Notera den lättnaden vid nedre gränsen</translation>
+        <translation>Notera den lättnaden vid den nedre gränsen för moms</translation>
     </message>
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="54"/>
         <source>&lt;b&gt;Tarkasta laskelma alarajahuojennuksesta!&lt;/b&gt; Mikäli liikevaihtoon sisältyy esimerksi metsätalouden, kiinteistön käyttöoikeuden tai käyttöomaisuuden myynnin tuloa, joudut korjaamaan laskennan perusteena olevia määriä.</source>
-        <translation>&lt;b&gt;Granska beräkningen av den lättnaden vid nedre gränsen!&lt;/b&gt; Om omsättningen t.ex. innehåller inkomst av skogsbruk, nyttjanderätt till fastighet eller försäljning av anläggningstillgångar, måste du korrigera de belopp som beräkningen grundar sig på.</translation>
+        <translation>&lt;b&gt;Granska beräkningen av den lättnaden vid den nedre gränsen för moms!&lt;/b&gt; Om omsättningen t.ex. innehåller inkomst av skogsbruk, nyttjanderätt till fastighet eller försäljning av anläggningstillgångar, måste du korrigera de belopp som beräkningen grundar sig på.</translation>
     </message>
     <message>
         <location filename="../alv/alvilmoitusdialog.ui" line="66"/>
