@@ -114,9 +114,9 @@ void TilinPaattaja::paivitaDialogi()
     kysely->kysy();
 
     KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::GET);
-    connect( tkysely, &KpKysely::vastaus, this, [this] () {
-        this->ui->tulostaNappi->setEnabled(true);
-        this->ui->vahvistaNappi->setEnabled(true);
+    connect( tkysely, &KpKysely::vastaus, this, [this, lukittu] () {
+        this->ui->tulostaNappi->setEnabled(lukittu);
+        this->ui->vahvistaNappi->setEnabled(lukittu);
     });
     tkysely->kysy();
 
