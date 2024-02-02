@@ -521,6 +521,7 @@ RaporttiValinnat AineistoDialog::raportti(const QString &tyyppi) const
     valinnat.aseta(RaporttiValinnat::AlkuPvm, tilikausi_.alkaa());
     valinnat.aseta(RaporttiValinnat::LoppuPvm, tilikausi_.paattyy());
     valinnat.aseta(RaporttiValinnat::SaldoPvm, tilikausi_.paattyy());
+    valinnat.aseta(RaporttiValinnat::LuetteloPvm, tilikausi_.paattyy());
     valinnat.aseta(RaporttiValinnat::TulostaKumppani);
     valinnat.aseta(RaporttiValinnat::TulostaSummarivit);
     valinnat.aseta(RaporttiValinnat::TulostaErittely);
