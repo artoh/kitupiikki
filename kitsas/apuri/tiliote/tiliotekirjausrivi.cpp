@@ -354,6 +354,9 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
                 (tili->onko(TiliLaji::TULO) || tili->onko(TiliLaji::MENO)))  {
                 rivit_[i].setAlvkoodi(tili->alvlaji());
                 rivit_[i].setAlvprosentti(tili->alvprosentti());
+            } else {
+                rivit_[i].setAlvkoodi(AlvKoodi::EIALV);
+                rivit_[i].setAlvprosentti(0);
             }
         }
         break;
