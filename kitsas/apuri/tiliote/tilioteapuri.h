@@ -18,6 +18,7 @@
 #define TILIOTEAPURI_H
 
 #include "../apuriwidget.h"
+#include "model/euro.h"
 #include "qdatetime.h"
 
 class TilioteModel;
@@ -76,7 +77,7 @@ private:
     TilioteKirjaaja *kirjaaja_;
 
     QSortFilterProxyModel *proxy_;
-    double alkusaldo_;
+    Euro alkusaldo_;
     bool tuodaan_ = false;
     bool paivanlaitto_ = false;
 
