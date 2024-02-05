@@ -6006,9 +6006,7 @@
             "fi": "Tavaraostot Ahvenanmaalta",
             "sv": "Varuinköp från Åland"
         },
-        "laajuus": 3,
-        "alvlaji": 27,
-        "alvprosentti": 24
+        "laajuus": 3
     },
     {
         "numero": 4100,
@@ -6017,9 +6015,7 @@
             "fi": "Verot ja muut maksut Ahvenanmaan maahantuonnissa",
             "sv": "Skatt och övriga avgifter på inköp från Åland"
         },
-        "laajuus": 3,
-        "alvlaji": 27,
-        "alvprosentti": 24
+        "laajuus": 3
     },
     {
         "numero": 4110,
@@ -6048,9 +6044,7 @@
             "fi": "Ostot tuonti",
             "sv": "Inköp import"
         },
-        "laajuus": 3,
-        "alvlaji": 27,
-        "alvprosentti": 24
+        "laajuus": 3
     },
     {
         "numero": 4140,
@@ -6059,9 +6053,7 @@
             "fi": "Tullit, verot ja muut maksut tullattaessa",
             "sv": "Tull, skatt och övriga avgifter vid förtullning"
         },
-        "laajuus": 3,
-        "alvlaji": 27,
-        "alvprosentti": 24
+        "laajuus": 3
     },
     {
         "numero": 415,
