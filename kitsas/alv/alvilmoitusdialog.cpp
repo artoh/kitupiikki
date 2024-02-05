@@ -193,6 +193,16 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 void AlvIlmoitusDialog::laskemaTallennettu()
 {
     kp()->odotusKursori(false);
+    if( ui->ilmoitaGroup->isVisible() && !ui->ilmoitaGroup->isChecked()) {
+        QMessageBox::information(this, tr("Arvonlisäverolaskelma tallennettu"),
+                                 tr("Et valinnut ilmoittamista verottajalle rajapinnan kautta") + "\n" +
+                                 tr("Huolehdi ilmoittamisesta verottajalle esimerkiksi OmaVerossa."));
+    } else if( ui->ilmoitaGroup->isChecked()) {
+        emit kp()->onni(tr("Arvonlisäveroilmoitus annettu"));
+    } else {
+        emit kp()->onni(tr("Arvonlisäverolaskelma tallennettu."));
+    }
+
     laskelma_->deleteLater();
     QDialog::accept();
 }
