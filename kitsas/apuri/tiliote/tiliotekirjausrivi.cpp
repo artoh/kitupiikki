@@ -73,16 +73,25 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
     paivitaTyyppi( era, tiliNumero);
 
     rivi.setTili(tiliNumero);
-    rivi.setBrutto( tyyppi_ == OSTO ? Euro::Zero - euro : euro );
-    rivi.setSelite( otsikko_ );
-    rivi.setKohdennus( tuonti.value("kohdennus").toInt());
-    rivi.setEra( era );
 
     Tili tili = model->kitsas()->tilit()->tiliNumerolla(tiliNumero);
     if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::MENO) ) {
         rivi.setAlvkoodi(tili.alvlaji());
         rivi.setAlvprosentti(tili.alvprosentti());
+    } else {
+        rivi.setAlvkoodi(AlvKoodi::EIALV);
+        rivi.setAlvprosentti(0);
     }
+
+    // Tuonnissa huomioidaan alv-laji (PALAUTE-356)
+    if( rivi.naytaBrutto() || rivi.alvkoodi() == AlvKoodi::EIALV)
+        rivi.setBrutto(tyyppi() == OSTO ? Euro::Zero - euro : euro);
+    else
+        rivi.setNetto( tyyppi() == OSTO ? Euro::Zero - euro: euro );
+
+    rivi.setSelite( otsikko_ );
+    rivi.setKohdennus( tuonti.value("kohdennus").toInt());
+    rivi.setEra( era );
 
     rivit_.append(rivi);
 
@@ -506,6 +515,7 @@ int TilioteKirjausRivi::kohdennus() const
     else
         return 0;
 }
+
 
 QList<int> TilioteKirjausRivi::kirjausTilit() const
 {
