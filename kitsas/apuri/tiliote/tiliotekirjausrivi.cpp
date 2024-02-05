@@ -355,6 +355,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
     case TILI: {        
         const Tili* tili = model()->kitsas()->tilit()->tili(value.toInt());
         if( !tili) return false;
+        const bool onkoBruttoa = rivit_.at(0).naytaBrutto();
         const int tiliKohdennus = tili->luku("kohdennus");                
         for(int i=0; i < rivit_.count(); i++) {
             rivit_[i].setTili(tili->numero());
@@ -363,6 +364,11 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
                 (tili->onko(TiliLaji::TULO) || tili->onko(TiliLaji::MENO)))  {
                 rivit_[i].setAlvkoodi(tili->alvlaji());
                 rivit_[i].setAlvprosentti(tili->alvprosentti());
+                if( onkoBruttoa && !rivit_[i].naytaBrutto()) {
+                    rivit_[i].setNetto(rivit_.at(i).brutto());
+                } else if( !onkoBruttoa && rivit_[i].naytaBrutto()) {
+                    rivit_[i].setBrutto(rivit_.at(i).netto());
+                }
             } else {
                 rivit_[i].setAlvkoodi(AlvKoodi::EIALV);
                 rivit_[i].setAlvprosentti(0);
