@@ -32,7 +32,7 @@ protected:
 
     void ilmoita();
     void ilmoitettu(QVariant* data);
-    void ilmoitusVirhe(const QString& koodi, const QString& viesti);
+    void ilmoitusVirhe(const QString &koodi, const QString& viesti);
 
     void tallennaTosite();
     void valmis();

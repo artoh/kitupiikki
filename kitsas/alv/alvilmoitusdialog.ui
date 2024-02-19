@@ -165,6 +165,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="ilmoitaItseLabel">
+     <property name="text">
+      <string>Sähköisen ilmoittamisen rajapinta ei ole käytössä. Tee itse ilmoitus verottajalle OmaVero-palvelussa.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

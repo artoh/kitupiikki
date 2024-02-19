@@ -82,6 +82,10 @@ void EuMyyntiYhteenvetoDialogi::ilmoita()
     QString url = QString("%1/vateu").arg( kp()->pilvi()->service("vero") );
     KpKysely* kysymys = kpk(url, KpKysely::POST);
     connect( kysymys, &KpKysely::vastaus, this, &EuMyyntiYhteenvetoDialogi::ilmoitettu);
+    connect( kysymys, &KpKysely::virhe, this, [this] (int koodi, const QString& selite) {
+        this->ilmoitusVirhe(QString::number(koodi), selite);
+    });
+
     kysymys->kysy(payload);
 }
 

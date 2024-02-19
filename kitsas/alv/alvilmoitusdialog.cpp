@@ -174,6 +174,7 @@ void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
 
     ui->ilmoitaGroup->setVisible( ilmoitusKaytossa );
     ui->ilmoitaGroup->setChecked( ilmoitusKaytossa );
+    ui->ilmoitaItseLabel->setVisible( !ilmoitusKaytossa );
 
     AlvKausi kausi = kp()->alvIlmoitukset()->kaudet()->kausi( laskelma_->loppupvm() );
     bool korjaus = kausi.tila() == AlvKausi::KASITELTY || kausi.tila() == AlvKausi::KASITTELYSSA;
