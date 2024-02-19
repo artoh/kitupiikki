@@ -91,8 +91,12 @@ void LaatijanTaseTulos::laadi()
                 KpKysely* kysely = kpk( QString("/budjetti/%1").arg(sarake.alkuPvm().toString(Qt::ISODate)));
                 if( kohdennuksella > -1)
                     kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
-                if( tyyppi_ == "kohdennus" || tyyppi_ == "projektit")
-                    kysely->lisaaAttribuutti("kohdennukset");
+
+                if( tyyppi_ == "kohdennus")
+                    kysely->lisaaAttribuutti("kustannuspaikat");
+                else if( tyyppi_ == "projektit")
+                    kysely->lisaaAttribuutti("projektit");
+
                 int sarakeid = ++sarakemaara_ - 1;
                 connect(kysely, &KpKysely::vastaus, this,
                         [this, sarakeid] (QVariant* vastaus) {this->dataSaapuu(sarakeid, vastaus);});
