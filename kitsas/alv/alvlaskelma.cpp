@@ -215,7 +215,7 @@ void AlvLaskelma::kirjoitaMaksutiedot()
         if( kausi.alkupvm().isValid() && (kausi.alkupvm() != alkupvm_ || kausi.loppupvm() != loppupvm_)) {
             RaporttiRivi poikkeus;
             poikkeus.lisaa(kaanna("Laskelman kausi poikkeaa verottajan järjestelmässä olevasta alv-kaudesta %1 - %2").arg(kausi.alkupvm().toString("dd.MM.yyyy"), kausi.loppupvm().toString("dd.MM.yyyy")),5);
-            rk.lisaaRivi(poikkeus);            
+            rk.lisaaRivi(poikkeus);
         }
     }
 
@@ -399,7 +399,7 @@ void AlvLaskelma::kirjoitaErittely()
 
                 for(auto& vienti : tiliIter.value().viennit) {
                     RaporttiRivi rivi;
-                    rivi.lisaa( vienti.value("pvm").toDate() );                    
+                    rivi.lisaa( vienti.value("pvm").toDate() );
                     QVariantMap tositeMap = vienti.value("tosite").toMap();
                     rivi.lisaa( kp()->tositeTunnus(tositeMap.value("tunniste").toInt(),
                                 tositeMap.value("pvm").toDate(),
@@ -474,8 +474,8 @@ void AlvLaskelma::tilaaNollausLista(const QDate &pvm, bool palautukset)
 
     KpKysely *kysely = kpk("/erat");
     kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
-    connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );    
-    kysely->kysy();    
+    connect( kysely, &KpKysely::vastaus, this, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
+    kysely->kysy();
 
     if(palautukset) {
         KpKysely *pkysely = kpk("/erat");
@@ -719,9 +719,9 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
 }
 
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
-{ 
+{
 
-    liikevaihto_ = 0;  
+    liikevaihto_ = 0;
 
     Euro veroon;
     Euro vahennys;
@@ -752,16 +752,16 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                     alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                     alvkoodi == AlvKoodi::ALV0 ||
                     alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI ) {
-                liikevaihto_ += kreditEuro - debetEuro;                
+                liikevaihto_ += kreditEuro - debetEuro;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 Euro brutto = kreditEuro - debetEuro;
                 Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
                 liikevaihto_ += netto;
-                veroon += brutto - netto;                
+                veroon += brutto - netto;
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
                 Euro brutto = debetEuro - kreditEuro;
                 Euro netto = Euro::fromDouble( ( 100 * brutto.toDouble() / (100 + vienti.alvProsentti()) )) ;
-                vahennys += brutto - netto;                
+                vahennys += brutto - netto;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI) {
                 liikevaihto_ += kreditEuro - debetEuro;
             }
@@ -769,11 +769,11 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
                 alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS ) {
-                veroon += kreditEuro - debetEuro;                
+                veroon += kreditEuro - debetEuro;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
                 qlonglong vero = kreditEuro - debetEuro;
                 veroon += vero;
-                liikevaihto_ -= vero;                
+                liikevaihto_ -= vero;
             } else if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS ||
                        alvkoodi == AlvKoodi::ENNAKKOLASKU_MYYNTI + AlvKoodi::ALVKIRJAUS ) {
                 // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
@@ -788,11 +788,11 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 double veroprossa = vienti.alvProsentti();
                 qlonglong liikevaihtoon = Euro::fromDouble( 100 * vero.toDouble() /  veroprossa);
                 veroon += vero;
-                liikevaihto_ += liikevaihtoon;                
+                liikevaihto_ += liikevaihtoon;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             // Kaikki ostojen alv-vähennykset lasketaan huojennukseen
-            vahennys += debetEuro - kreditEuro;            
+            vahennys += debetEuro - kreditEuro;
         }
     }
 
@@ -952,7 +952,11 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
     payload.insert("person", kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo));
     payload.insert("phone", kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
     if( huojennus_ ) {
-        if( kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
+        if( alkupvm_.month() == 1 && loppupvm_.month() == 12)
+            payload.insert("relief",4);
+        else if( alkupvm_.month() == 10 && loppupvm_.month() == 12)
+            payload.insert("relief",2);
+        else if( kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
             payload.insert("relief",1);
         else if( alkupvm_.month() >= 10 )
             payload.insert("relief",2);
