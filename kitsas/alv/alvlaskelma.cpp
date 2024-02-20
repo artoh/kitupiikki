@@ -951,6 +951,13 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
             payload.insert("relief",1);
         else if( alkupvm_.month() == 10 && loppupvm_.month() == 12)
             payload.insert("relief",2);
+        else if( kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
+            payload.insert("relief",1);
+        else if( alkupvm_.month() < 10)
+            payload.insert("relief",4);
+        else
+            payload.insert("relief",2);
+
     }
     payload.insert("codes", tosite_->data(Tosite::ALV).toMap().value("koodit").toMap());
 
