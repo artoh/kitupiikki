@@ -64,6 +64,7 @@ void PdfRenderView::statusChanged(QPdfDocument::Status status)
             item->setY( ypos);
 
             ypos += pixmap.height() + 10.0;
+            scene()->setSceneRect(0, 0, std::max(sceneRect().width(), 1.0 * pixmap.width()), ypos );
         }
     }
 }
