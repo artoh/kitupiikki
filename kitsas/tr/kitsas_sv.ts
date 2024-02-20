@@ -6178,7 +6178,7 @@ adress</translation>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="192"/>
         <source>Viivästyskoron viitekorko</source>
-        <translation type="unfinished"></translation>
+        <translation>Dröjsmålräntas referensränta</translation>
     </message>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="212"/>
@@ -11500,7 +11500,7 @@ som mall
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="47"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2024&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen och Kitsas Oy 2017 - 2022&lt;/p&gt;&lt;/body&gt;&lt;/html&gt; {2017 ?} {2023&lt;?} {2017 ?} {2024&lt;?}</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen och Kitsas Oy 2017 - 2022&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/tervetuloa.ui" line="77"/>
@@ -13722,7 +13722,7 @@ Försök igen senare.</translation>
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="40"/>
         <source>&lt;p&gt;Copyright &amp;copy; Arto Hyvättinen ja Kitsas Oy 2017 - 2024&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Copyright &amp;copy; Arto Hyvättinen och Kitsas Oy 2017 - 2023&lt;/p&gt; {2017 ?} {2024&lt;?}</translation>
+        <translation type="unfinished">&lt;p&gt;Copyright &amp;copy; Arto Hyvättinen och Kitsas Oy 2017 - 2024&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/toffeelogin.ui" line="47"/>
