@@ -7,6 +7,7 @@
 class AlvKausi {
 public:
     enum IlmoitusTila { PUUTTUVA, KASITELTY, KASITTELYSSA, ARVIOITU, ERAANTYNYT, EIKAUTTA  };
+    enum KaudenPituus { KUUKAUSI, NELJANNES, VUOSI, EITIEDOSSA };
 
     AlvKausi();
     AlvKausi(const QVariantMap &map);
@@ -15,6 +16,7 @@ public:
     QDate loppupvm() const { return loppupvm_;}
     QDate erapvm() const { return erapvm_;}
     IlmoitusTila tila() const { return tila_;}
+    KaudenPituus pituus() const { return pituus_;}
     QString tilaInfo() const;
 
 protected:
@@ -22,6 +24,7 @@ protected:
     QDate loppupvm_;
     QDate erapvm_;
     IlmoitusTila tila_;
+    KaudenPituus pituus_;
 };
 
 

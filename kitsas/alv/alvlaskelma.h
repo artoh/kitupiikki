@@ -26,6 +26,8 @@
 #include <QSet>
 #include <QQueue>
 
+#include "alvkaudet.h"
+
 class Tosite;
 
 /**
@@ -89,7 +91,7 @@ signals:
     void ilmoitusVirhe(const QString& koodi, const QString& viesti);
 
 public slots:
-    void laske(const QDate& alkupvm, const QDate& loppupvm);
+    void laske(const QDate& alkupvm, const QDate& loppupvm, AlvKausi::KaudenPituus pituus = AlvKausi::EITIEDOSSA);
     void kirjaaHuojennus();
     void tyhjennaHuojennus();
     void valmisteleTosite();
@@ -155,6 +157,7 @@ protected:
     QVariantMap marginaaliAlijaamat_;
 
     Tosite* tosite_;
+    AlvKausi::KaudenPituus pituus_;
 
 
 public:

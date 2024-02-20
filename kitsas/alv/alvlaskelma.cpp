@@ -654,10 +654,11 @@ void AlvLaskelma::hae()
 
 }
 
-void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
+void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm, AlvKausi::KaudenPituus pituus)
 {
     alkupvm_ = alkupvm;
     loppupvm_ = loppupvm;
+    pituus_ = pituus;
 
     // Jos maksuperusteinen nollaus, tehdään se ensin
     // Jos maksuperusteinen käytössä, ovat erääntyvät vuosi sitten tehdyt erät
@@ -900,7 +901,7 @@ void AlvLaskelma::kirjaaHuojennus()
     huojentaja.setKredit( huojennus() );
     lisaaKirjausVienti( huojentaja );
 
-    if( kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
+    if( pituus_ == AlvKausi::KUUKAUSI || kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
         koodattu_.insert(336, 1);
     else
         koodattu_.insert(336, 2);
@@ -952,16 +953,12 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
     payload.insert("person", kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo));
     payload.insert("phone", kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
     if( huojennus_ ) {
-        if( alkupvm_.month() == 1 && loppupvm_.month() == 12)
-            payload.insert("relief",4);
-        else if( alkupvm_.month() == 10 && loppupvm_.month() == 12)
-            payload.insert("relief",2);
-        else if( kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
-            payload.insert("relief",1);
-        else if( alkupvm_.month() >= 10 )
-            payload.insert("relief",2);
-        else
-            payload.insert("relief",4);
+        int relief = 1;
+        if( pituus_ == AlvKausi::NELJANNES)
+            relief = 2;
+        else if( pituus_ == AlvKausi::VUOSI)
+            relief = 4;
+        payload.insert("relief", relief);
     }
     payload.insert("codes", tosite_->data(Tosite::ALV).toMap().value("koodit").toMap());
 

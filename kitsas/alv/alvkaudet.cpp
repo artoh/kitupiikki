@@ -108,6 +108,12 @@ AlvKausi::AlvKausi(const QVariantMap &map)
     else if(status == "Expired") tila_ = ERAANTYNYT;
     else tila_ = EIKAUTTA;
 
+    QString frequence = map.value("Frequency").toString();
+    if( frequence == "VATANN") pituus_ = VUOSI;
+    else if( frequence == "VATQTR") pituus_ = NELJANNES;
+    else if( frequence == "VATMON") pituus_ = KUUKAUSI;
+    else pituus_ = EITIEDOSSA;
+
 }
 
 QString AlvKausi::tilaInfo() const
