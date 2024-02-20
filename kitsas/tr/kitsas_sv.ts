@@ -1089,27 +1089,27 @@ För att radera denna bokföring måste du först på sidan Inställningar/Basin
 <context>
     <name>AlvKaudet</name>
     <message>
-        <location filename="../alv/alvkaudet.cpp" line="116"/>
+        <location filename="../alv/alvkaudet.cpp" line="122"/>
         <source>Käsitelty</source>
         <translation>Behandlad</translation>
     </message>
     <message>
-        <location filename="../alv/alvkaudet.cpp" line="117"/>
+        <location filename="../alv/alvkaudet.cpp" line="123"/>
         <source>Käsittelyssä</source>
         <translation>Under behandling</translation>
     </message>
     <message>
-        <location filename="../alv/alvkaudet.cpp" line="118"/>
+        <location filename="../alv/alvkaudet.cpp" line="124"/>
         <source>Ilmoitus puuttuu</source>
         <translation>Det saknas deklarationen</translation>
     </message>
     <message>
-        <location filename="../alv/alvkaudet.cpp" line="119"/>
+        <location filename="../alv/alvkaudet.cpp" line="125"/>
         <source>Arvioitu</source>
         <translation>Uppskattad</translation>
     </message>
     <message>
-        <location filename="../alv/alvkaudet.cpp" line="120"/>
+        <location filename="../alv/alvkaudet.cpp" line="126"/>
         <source>Erääntynyt</source>
         <translation>Förfallen</translation>
     </message>
@@ -6176,6 +6176,11 @@ adress</translation>
         <translation>Anmärkningstid</translation>
     </message>
     <message>
+        <location filename="../maaritys/laskumaaritys.ui" line="192"/>
+        <source>Viivästyskoron viitekorko</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../maaritys/laskumaaritys.ui" line="212"/>
         <source>Laskurivit</source>
         <translation>Faktura rader</translation>
@@ -6221,9 +6226,8 @@ adress</translation>
         <translation>RF-referens</translation>
     </message>
     <message>
-        <location filename="../maaritys/laskumaaritys.ui" line="192"/>
         <source>Peruskorko</source>
-        <translation>Grundränta</translation>
+        <translation type="vanished">Grundränta</translation>
     </message>
     <message>
         <location filename="../maaritys/laskumaaritys.ui" line="257"/>
@@ -7034,12 +7038,12 @@ Du kan lägga till en fil som är maximalt 10 Mb stor.</translation>
         <translation>Ta i bruk en privat tilläggsdel</translation>
     </message>
     <message>
-        <location filename="../lisaosat/lisaosasivu.cpp" line="148"/>
+        <location filename="../lisaosat/lisaosasivu.cpp" line="149"/>
         <source>Lisäosan käyttöönottaminen epäonnistui</source>
         <translation>Aktivering av tilläggsdelen mislyckades</translation>
     </message>
     <message>
-        <location filename="../lisaosat/lisaosasivu.cpp" line="148"/>
+        <location filename="../lisaosat/lisaosasivu.cpp" line="149"/>
         <source>Lisäosan tunniste on virheellinen tai käyttöönotossa tapahtui virhe.</source>
         <translation>Tilläggdelens identifikation är felaktig eller ett fel hände i aktiveringen.</translation>
     </message>
