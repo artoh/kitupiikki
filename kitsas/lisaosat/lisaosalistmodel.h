@@ -11,7 +11,8 @@ class LisaosaListModel : public QAbstractListModel
 public:
     enum { IdRooli = Qt::UserRole + 1,
            NimiRooli = Qt::UserRole + 2,
-           AktiivinenRooli = Qt::UserRole + 3 };
+           AktiivinenRooli = Qt::UserRole + 3,
+           SystemRooli = Qt::UserRole + 4};
 
     explicit LisaosaListModel(QObject *parent = nullptr);
 

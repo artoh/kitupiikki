@@ -36,6 +36,8 @@ QVariant LisaosaListModel::data(const QModelIndex &index, int role) const
         return osa.nimi().teksti();
     case AktiivinenRooli:
         return osa.active();
+    case SystemRooli:
+        return osa.system();
     case Qt::DecorationRole:
         if(osa.active())
             return QIcon(":/pic/palat.png");

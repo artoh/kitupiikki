@@ -14,12 +14,14 @@ public:
     Monikielinen nimi() const { return nimi_;}
     QStringList rights() const { return rights_;}
     bool active() const { return active_;}
+    bool system() const { return system_;}
 
 private:
     QString id_;
     Monikielinen nimi_;
     QStringList rights_;
     bool active_;
+    bool system_;
 };
 
 #endif // LISAOSA_H

@@ -93,8 +93,9 @@ void LisaosaSivu::valittu(const QModelIndex &indeksi)
         currentId_ = indeksi.data(LisaosaListModel::IdRooli).toString();
         hae(currentId_);
         const bool aktiivinen = indeksi.data(LisaosaListModel::AktiivinenRooli).toBool();
+        const bool jarjestelmaTasolla = indeksi.data(LisaosaListModel::SystemRooli).toBool();
         aktivoiNappi_->setVisible( !aktiivinen );
-        passivoiNappi_->setVisible( aktiivinen );
+        passivoiNappi_->setVisible( aktiivinen && !jarjestelmaTasolla);
     }
 }
 
