@@ -901,11 +901,6 @@ void AlvLaskelma::kirjaaHuojennus()
     huojentaja.setKredit( huojennus() );
     lisaaKirjausVienti( huojentaja );
 
-    if( pituus_ == AlvKausi::KUUKAUSI || kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() == loppupvm_)
-        koodattu_.insert(336, 1);
-    else
-        koodattu_.insert(336, 2);
-
 }
 
 void AlvLaskelma::tyhjennaHuojennus()
@@ -913,7 +908,6 @@ void AlvLaskelma::tyhjennaHuojennus()
     koodattu_.remove(315);
     koodattu_.remove(316);
     koodattu_.remove(317);
-    koodattu_.remove(336);
 }
 
 void AlvLaskelma::valmisteleTosite()
