@@ -27,8 +27,8 @@ Copyright © Arto Hyvättinen och Kitsas Oy 2019 - 2023&lt;br/&gt;
 Copyright © Arto Hyvättinen ja Kitsas Oy 2019 - 2024&lt;br/&gt;
 &lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt;</source>
         <translation>Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;
-Copyright © Arto Hyvättinen och Kitsas Oy 2019 - 2023&lt;br/&gt;
-&lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt; {2017 ?} {2019&lt;?} {2019 ?} {2024&lt;?}</translation>
+Copyright © Arto Hyvättinen och Kitsas Oy 2019 - 2024&lt;br/&gt;
+&lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../aloitussivu/aboutdialog.ui" line="56"/>
