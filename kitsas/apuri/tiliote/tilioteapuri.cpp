@@ -315,6 +315,10 @@ void TilioteApuri::naytaTosite()
         tosite.viennit()->asetaViennit( viennit );
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
 
+        // Varmistetaan, että oletustili yms tulee käyttöön
+        if( sivu->kirjausWg()->apuri())
+            sivu->kirjausWg()->apuri()->tositteelle();
+
         qApp->processEvents();
 
         connect( sivu->kirjausWg()->tosite(), &Tosite::talletettu, this, &TilioteApuri::lataaHarmaat);
