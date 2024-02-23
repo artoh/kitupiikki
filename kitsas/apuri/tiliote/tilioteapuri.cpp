@@ -293,21 +293,26 @@ void TilioteApuri::naytaTosite()
         tosite.asetaViite(rivi.viite());
         tosite.asetaTilioterivi( omaIndeksi );
 
+        QVariantList viennit = rivi.viennit(model_->tilinumero());
 
         if( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS || rivi.tyyppi() == TilioteKirjausRivi::SIIRTO) {
-
             tosite.asetaTyyppi( TositeTyyppi::SIIRTO);
         } else if( rivi.tyyppi() == TilioteKirjausRivi::MYYNTI) {
             tosite.asetaTyyppi(TositeTyyppi::TULO);
         } else if( rivi.tyyppi() == TilioteKirjausRivi::OSTO) {
             tosite.asetaTyyppi( TositeTyyppi::MENO);
-        } else {
-            if( rivi.summa()) {
+        } else if(!rivi.tyyppi()){
+            if( rivi.summa() ) {
                 tosite.asetaTyyppi( rivi.summa() > Euro::Zero ? TositeTyyppi::TULO : TositeTyyppi::MENO );
+                for(int i=0; i < viennit.count(); i++) {
+                    QVariantMap map = viennit.at(i).toMap();
+                    map.insert("tyyppi", map.value("tyyppi").toInt() + tosite.tyyppi());
+                    viennit.replace(i, map);
+                }
             }
         }
 
-        tosite.viennit()->asetaViennit( rivi.viennit(model_->tilinumero()) );
+        tosite.viennit()->asetaViennit( viennit );
         sivu->kirjausWg()->tosite()->lataa(tosite.tallennettava());
 
         qApp->processEvents();
