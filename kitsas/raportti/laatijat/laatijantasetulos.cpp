@@ -163,13 +163,26 @@ void LaatijanTaseTulos::dataSaapuu(int sarake, QVariant *variant)
     if( !tilauslaskuri_) {
 
         if( !kohdennetut_.isEmpty()) {
-            // Puretaan kohdennuslaskelmaa
+            // Puretaan ensin aakkosjärjestykseen
+            QMap<QString,int> aakkostaja;
+
             QMapIterator<int, QHash<int, QVector<Euro>>> kkiter( kohdennetut_);
             while( kkiter.hasNext()) {
-                kkiter.next();
-                eurot_ = kkiter.value();
+                const int kohdennusKoodi = kkiter.next().key();
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennusKoodi);
+                if( kohdennus.kuuluu()) {
+                    Kohdennus ylempi = kp()->kohdennukset()->kohdennus(kohdennus.kuuluu());
+                    aakkostaja.insert(ylempi.nimi(kielikoodi()) + "/" + kohdennus.nimi(kielikoodi()), kohdennusKoodi);
+                } else {
+                    aakkostaja.insert(kohdennus.nimi(kielikoodi()), kohdennusKoodi );
+                }
+            }
 
-                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( kkiter.key());
+            QMapIterator<QString,int> aIter(aakkostaja);
+            while(aIter.hasNext()) {
+                const int kohdennuskoodi = aIter.next().value();
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennuskoodi);
+                eurot_ = kohdennetut_.value(kohdennuskoodi);
                 RaporttiRivi korivi;
                 korivi.lisaa( kohdennus.nimi(kielikoodi()), 2 );
                 korivi.asetaKoko(14);
