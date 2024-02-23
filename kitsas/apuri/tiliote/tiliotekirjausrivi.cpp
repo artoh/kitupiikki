@@ -214,7 +214,10 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
             return QVariant();
         }
         case EURO: {
-            return summa().display(false);
+            if( role == LajitteluRooli)
+                return summa().cents();
+            else
+                return summa().display(false);
             }
         default:
             return QVariant();
