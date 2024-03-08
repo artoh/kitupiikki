@@ -130,8 +130,9 @@ void KpDateEdit::kalenteri()
     kalenteri_ = new QCalendarWidget(nullptr);
 
     kalenteri_->setWindowFlag(Qt::FramelessWindowHint);
+    kalenteri_->setWindowFlag(Qt::Popup);
     kalenteri_->show();
-    kalenteri_->move( mapToGlobal( QPoint(0, height()  )));
+    kalenteri_->move( mapToGlobal( QPoint(width() - kalenteri_->width(), height()  )));
 
     // Jotta kalenterista poistuttaessa kalenteri suljetaan:
     kalenteri_->installEventFilter(this);
@@ -140,7 +141,7 @@ void KpDateEdit::kalenteri()
     kalenteri_->setDateRange( minimumDate(), maximumDate() );
     kalenteri_->setGridVisible(true);
 
-    connect( kalenteri_, SIGNAL(clicked(QDate)), this, SLOT( setDateFromPopUp(QDate)));
+    connect( kalenteri_, &QCalendarWidget::clicked, this, &KpDateEdit::setDateFromPopUp);
 
 }
 
@@ -213,6 +214,9 @@ void KpDateEdit::setDateFromPopUp(const QDate &date)
     setDate( date );
     QKeyEvent *event = new QKeyEvent( QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
     qApp->postEvent( parent(), event );
+    if( kalenteri_) {
+        kalenteri_->close();
+    }
 
 }
 
@@ -293,7 +297,7 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 bool KpDateEdit::eventFilter(QObject *watched, QEvent *event)
 {
     // Jotta kalenterista fokuksen kadotessa kalenteri katoaisi
-    if( watched == kalenteri_ && event->type() == QEvent::WindowDeactivate )
+    if( watched == kalenteri_ && (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::Close ))
     {
         kalenteri_->deleteLater();
         kalenteri_ = nullptr;
