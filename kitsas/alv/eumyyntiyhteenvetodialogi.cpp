@@ -160,6 +160,7 @@ void EuMyyntiYhteenvetoDialogi::naytaIlmoitus(const QVariantMap &data)
 
     ui->ilmoitaGroup->setVisible( ilmoitusKaytossa );
     ui->ilmoitaGroup->setChecked( ilmoitusKaytossa );
+    ui->ilmoitaItseLabel->setVisible( !ilmoitusKaytossa );
 
     ui->yhteysEdit->setText(  kp()->asetukset()->asetus(AsetusModel::VeroYhteysHenkilo) );
     ui->puhelinEdit->setText( kp()->asetukset()->asetus(AsetusModel::VeroYhteysPuhelin));
