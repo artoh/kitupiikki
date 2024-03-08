@@ -688,10 +688,12 @@ void TilioteKirjaaja::naytaRivi()
 
     const TilioteAliRivi& ar = aliRiviModel_->rivi(rivi);
 
+    // Ensimmäinen rivi on aina tyypin mukainen (voi olla hyvitystä)
+    // Myöhemmillä riveillä voi olla myös vastakkainen kirjaus
     if( ar.naytaBrutto())
-        ui->euroEdit->setEuro(ar.brutto().abs());
+        ui->euroEdit->setEuro(!rivi ? ar.brutto().abs() : ar.brutto());
     else
-        ui->verotonEdit->setEuro(ar.netto().abs());
+        ui->verotonEdit->setEuro(!rivi ? ar.netto().abs() : ar.netto());
 
     ui->tiliEdit->valitseTiliNumerolla(ar.tilinumero());
     ui->eraCombo->valitse( ar.era());
@@ -836,7 +838,18 @@ void TilioteKirjaaja::aliRiviaMuokattu()
         aliRiviModel_->index(nykyAliRiviIndeksi_, 0),
         aliRiviModel_->index(nykyAliRiviIndeksi_, 2));
 
+    if( aliRiviModel_->rowCount() > 1) {
+        Euro summa;
+        for(int i=0; i < aliRiviModel_->rowCount(); i++) {
+            summa += aliRiviModel_->rivi(i).brutto();
+        }
+        ui->summaLabel->setText(summa.display(true));
+    } else {
+        ui->summaLabel->clear();
+    }
+
     tarkastaTallennus();
+
 }
 
 
