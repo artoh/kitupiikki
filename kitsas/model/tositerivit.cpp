@@ -385,10 +385,13 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
     rivi.setANetto( tuote.ahinta() );
     rivi.setTili( tuote.tili() );
     rivi.setKohdennus( tuote.kohdennus() );
-    rivi.setAlvKoodi( tuote.alvkoodi() );
-    rivi.setAlvProsentti( tuote.alvprosentti() );
-    rivi.setTuoteKoodi( tuote.koodi() );
 
+    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+        rivi.setAlvKoodi( tuote.alvkoodi() );
+        rivi.setAlvProsentti( tuote.alvprosentti() );
+    };
+
+    rivi.setTuoteKoodi( tuote.koodi() );
 
     int indeksi = rivit_.count();
     if(indeksi > 0 && !rivit_.at(indeksi - 1).bruttoYhteensa() )
