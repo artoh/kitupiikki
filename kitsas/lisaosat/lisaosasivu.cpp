@@ -31,6 +31,7 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
     connect( listModel_, &LisaosaListModel::modelReset, this, &LisaosaSivu::listReseted);
 
     webView_->load(QUrl("qrc:/loading.html"));
+    webView_->setZoomFactor(1.25);
 }
 
 void LisaosaSivu::siirrySivulle()
