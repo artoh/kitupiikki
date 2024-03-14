@@ -1,11 +1,15 @@
-#include "hubwebpage.h"
 
+#include "hubwebpage.h"
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
+#include <QDesktopServices>
+#include <QWebEngineNewWindowRequest>
+
 HubWebPage::HubWebPage(QObject *parent)
     : QWebEnginePage{parent}
-{    
+{
+    connect( this, &HubWebPage::newWindowRequested, this, &HubWebPage::openLinkInNewWindow);
 }
 
 void HubWebPage::supportLogin(const QString &cloudId)
@@ -41,3 +45,10 @@ bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType /*type*
         return true;
     }
 }
+
+void HubWebPage::openLinkInNewWindow(QWebEngineNewWindowRequest &request)
+{
+    if( request.destination() == QWebEngineNewWindowRequest::InNewWindow || request.destination() == QWebEngineNewWindowRequest::InNewTab)
+        QDesktopServices::openUrl(request.requestedUrl());
+}
+
