@@ -18,6 +18,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 
 LisaosaSivu::LisaosaSivu(QWidget* parent) :
@@ -32,6 +33,8 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
 
     webView_->load(QUrl("qrc:/loading.html"));
     webView_->setZoomFactor(1.25);
+
+    connect( webView_->page(), &QWebEnginePage::newWindowRequested, this, &LisaosaSivu::openLinkInNewWindow);
 }
 
 void LisaosaSivu::siirrySivulle()
@@ -202,4 +205,10 @@ void LisaosaSivu::listReseted()
     if( !listView_->currentIndex().isValid()) {
         listView_->setCurrentIndex( listView_->model()->index(0,0) );
     }
+}
+
+void LisaosaSivu::openLinkInNewWindow(QWebEngineNewWindowRequest &request)
+{
+    if( request.destination() == QWebEngineNewWindowRequest::InNewWindow || request.destination() == QWebEngineNewWindowRequest::InNewTab)
+        QDesktopServices::openUrl(request.requestedUrl());
 }

@@ -1,6 +1,7 @@
 #ifndef LISAOSASIVU_H
 #define LISAOSASIVU_H
 
+#include "qwebenginenewwindowrequest.h"
 #include <kitupiikkisivu.h>
 #include <QObject>
 
@@ -38,6 +39,8 @@ protected:
     void kuvakeVaihtui(const QIcon& icon);
 
     void listReseted();
+
+    void openLinkInNewWindow(QWebEngineNewWindowRequest &request);
 
 protected:
     LisaosaListModel* listModel_;
