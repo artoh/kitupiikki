@@ -348,6 +348,9 @@ void SelausWg::paivitaSummat(QVariant *data)
 
 void SelausWg::naytaTositeRivilta(QModelIndex index)
 {
+    if( !index.isValid() )
+        return;
+
     int id = index.data( Qt::UserRole).toInt();
     int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
     valittu_ = id;
