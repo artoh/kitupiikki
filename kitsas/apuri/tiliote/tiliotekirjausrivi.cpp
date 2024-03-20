@@ -541,6 +541,11 @@ QList<int> TilioteKirjausRivi::kirjausTilit() const
 void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
 {
     TositeVienti vienti(map);
+
+    if( !vienti.tyyppi() && vienti.tili() == model()->tilinumero()) {
+        vienti.setTyyppi( TositeVienti::VASTAKIRJAUS );
+    }
+
     if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
         kumppani_ = vienti.kumppaniMap();
         otsikko_ = vienti.selite();
@@ -571,7 +576,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         }
         return;
 
-    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS) {
+    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS || (!vienti.tyyppi() && rivit_.isEmpty() && vienti.alvKoodi() < AlvKoodi::ALVKIRJAUS)) {
         vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
         rivit_.append( TilioteAliRivi( vienti) );
     } else if( !rivit_.count() ) {
@@ -594,9 +599,9 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
     }
 
-//    if( tyyppi_ == TUNTEMATON) {
-//        paivitaTyyppi();
-//    }
+    if( tyyppi_ == TUNTEMATON && vienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS) {
+        paivitaTyyppi();
+    }
 }
 
 void TilioteKirjausRivi::asetaRivi(int indeksi, TilioteAliRivi rivi)
