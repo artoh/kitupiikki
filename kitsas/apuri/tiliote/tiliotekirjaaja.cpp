@@ -311,7 +311,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     aliRivi()->setTili( tili.numero() );
     aliRiviaMuokattu();
 
-    if( tili.onko(TiliLaji::TASE) && (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS)) {
+    if( rivilla() == 0 && tili.onko(TiliLaji::TASE) && (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS)) {
         ui->alaTabs->setCurrentIndex(SIIRTO);
         return;
     }
@@ -323,6 +323,10 @@ void TilioteKirjaaja::tiliMuuttuu()
     if( erat ) {
         ui->eraCombo->asetaTili(tili.numero(), ui->asiakastoimittaja->id());
     }
+
+    bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
+    ui->poistoaikaLabel->setVisible(tasapoisto);
+    ui->poistoaikaSpin->setVisible(tasapoisto);
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
             (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == HYVITYS);
@@ -481,9 +485,10 @@ void TilioteKirjaaja::poistaVienti()
 void TilioteKirjaaja::paivitaVientiNakyma()
 {
     int alatabu = ui->alaTabs->currentIndex();
-    ui->lisaaVientiNappi->setVisible(alatabu == TULOMENO);
-    ui->poistaVientiNappi->setVisible( aliRiviModel_->rowCount() > 1 && alatabu == TULOMENO);
-    ui->viennitView->setVisible( aliRiviModel_->rowCount() > 1 && alatabu == TULOMENO);
+    const bool alirivit = alatabu == TULOMENO || alatabu == SIIRTO;
+    ui->lisaaVientiNappi->setVisible(alirivit);
+    ui->poistaVientiNappi->setVisible( aliRiviModel_->rowCount() > 1 && alirivit);
+    ui->viennitView->setVisible( aliRiviModel_->rowCount() > 1 && alirivit);
 }
 
 void TilioteKirjaaja::alusta()
@@ -615,11 +620,12 @@ void TilioteKirjaaja::lataaNakymaan()
     QString saajamaksaja = rivi_.kumppani().value("nimi").toString();
     int valinpaikka = saajamaksaja.indexOf(QRegularExpression("\\W",QRegularExpression::UseUnicodePropertiesOption));
     if( valinpaikka > 2)
-        saajamaksaja = saajamaksaja.left(valinpaikka);        
+        saajamaksaja = saajamaksaja.left(valinpaikka);
 
-    Euro summa = rivi_.summa();
-    if( summa ) {
-        ui->ylaTab->setCurrentIndex( summa < Euro::Zero );
+    Euro maara = rivi_.rivi(0).brutto();
+
+    if( maara ) {
+        ui->ylaTab->setCurrentIndex( maara < Euro::Zero );
     } else if( tili) {
         Tili* tiliObj = kp()->tilit()->tili(tili);
         ui->ylaTab->setCurrentIndex( tili && tiliObj->onko(TiliLaji::MENO) ? TILILTA : TILILLE );
@@ -629,11 +635,9 @@ void TilioteKirjaaja::lataaNakymaan()
         ui->alaTabs->setCurrentIndex( SIIRTO );
     else if( rivi_.tyyppi() == TilioteKirjausRivi::SUORITUS )
         ui->alaTabs->setCurrentIndex( MAKSU );
-    else if( rivi_.tyyppi() == TilioteKirjausRivi::SIIRTO)
-        ui->alaTabs->setCurrentIndex( SIIRTO );
     else {
-        if( (rivi_.tyyppi() == TilioteKirjausRivi::OSTO && summa > Euro::Zero) ||
-            (rivi_.tyyppi() == TilioteKirjausRivi::MYYNTI  && summa < Euro::Zero)) {
+        if( (rivi_.tyyppi() == TilioteKirjausRivi::OSTO && maara > Euro::Zero) ||
+            (rivi_.tyyppi() == TilioteKirjausRivi::MYYNTI  && maara < Euro::Zero)) {
             ui->alaTabs->setCurrentIndex(HYVITYS);
         } else {
             ui->alaTabs->setCurrentIndex(TULOMENO );
@@ -715,6 +719,7 @@ void TilioteKirjaaja::naytaRivi()
     ui->alvProssaCombo->setCurrentText( ar.alvprosentti() ? QString("%1 %").arg( (int) ar.alvprosentti() ) : QString() );
 
     ui->eiVahennysCheck->setChecked( !ar.alvvahennys() );
+    ui->poistoaikaSpin->setValue( ar.poistoaika() / 12 );
 
 }
 
@@ -733,10 +738,11 @@ void TilioteKirjaaja::tallennaRivi()
     aliRivi.setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi.setJaksopaattyy( ui->jaksoLoppuuEdit->date());
     aliRivi.setSelite( ui->seliteEdit->toPlainText() );
-
+    aliRivi.setPoistoaika( ui->poistoaikaSpin->isVisible() ? ui->poistoaikaSpin->value() * 12 : 0 );
 
     // Tähän bruton ja neton käsittelyt!
-    const bool etumerkki = ui->alaTabs->currentIndex() == HYVITYS;
+    const bool etumerkki = ( ui->alaTabs->currentIndex() == HYVITYS ||
+                           ( ui->alaTabs->currentIndex() == SIIRTO && ui->ylaTab->currentIndex() == TILILTA) );
 
     if( aliRivi.naytaBrutto())
         aliRivi.setBrutto( etumerkki ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
@@ -770,19 +776,23 @@ void TilioteKirjaaja::tallenna()
         rivi_.asetaRivi(aliRivi);        
 
     } else if( ui->alaTabs->currentIndex() == SIIRTO ) {
-        rivi_.asetaTyyppi(TilioteKirjausRivi::SIIRTO);
-
-        TilioteAliRivi aliRivi;
-
+        rivi_.asetaTyyppi(TilioteKirjausRivi::SIIRTO);      
         rivi_.asetaOtsikko( ui->seliteEdit->toPlainText());
-        aliRivi.setSelite( ui->seliteEdit->toPlainText());
 
-        aliRivi.setTili(ui->tiliEdit->valittuTilinumero());
-        aliRivi.setEra( ui->eraCombo->eraMap());
-        aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas() );
-        aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() :  ui->euroEdit->euro() );
+        if( rivi_.riveja() > 1) {
+            tallennaRivi();
+        } else {
 
-        rivi_.asetaRivi(aliRivi);        
+            TilioteAliRivi aliRivi;
+            aliRivi.setSelite( ui->seliteEdit->toPlainText());
+
+            aliRivi.setTili(ui->tiliEdit->valittuTilinumero());
+            aliRivi.setEra( ui->eraCombo->eraMap());
+            aliRivi.setMerkkaukset( ui->merkkausCC->selectedDatas() );
+            aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() :  ui->euroEdit->euro() );
+
+            rivi_.asetaRivi(aliRivi);
+        }
 
     } else if( ui->alaTabs->currentIndex() == VAKIOVIITE) {
         rivi_.asetaTyyppi( TilioteKirjausRivi::MYYNTI);

@@ -108,6 +108,7 @@ private:
 
     TilioteAliRivi *aliRivi();
     void aliRiviaMuokattu();
+    int rivilla() const { return nykyAliRiviIndeksi_;}
 
 private:    
     Ui::TilioteKirjaaja *ui;

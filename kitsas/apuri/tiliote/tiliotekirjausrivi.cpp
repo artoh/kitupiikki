@@ -181,7 +181,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
                 } else {
                     return QString();
                 }
-            } else if( prossat.count() > 1) {
+            } else {
                 return "...";
             }
             break;
@@ -359,38 +359,38 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         const Tili* tili = model()->kitsas()->tilit()->tili(value.toInt());
         if( !tili) return false;
         const bool onkoBruttoa = rivit_.at(0).naytaBrutto();
-        const int tiliKohdennus = tili->luku("kohdennus");                
-        for(int i=0; i < rivit_.count(); i++) {
-            rivit_[i].setTili(tili->numero());
-            if(tiliKohdennus) rivit_[i].setKohdennus(tiliKohdennus);
-            if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen) &&
-                (tili->onko(TiliLaji::TULO) || tili->onko(TiliLaji::MENO)))  {
-                rivit_[i].setAlvkoodi(tili->alvlaji());
-                rivit_[i].setAlvprosentti(tili->alvprosentti());
-                if( onkoBruttoa && !rivit_[i].naytaBrutto()) {
-                    rivit_[i].setNetto(rivit_.at(i).brutto());
-                } else if( !onkoBruttoa && rivit_[i].naytaBrutto()) {
-                    rivit_[i].setBrutto(rivit_.at(i).netto());
-                }
-            } else {
-                rivit_[i].setAlvkoodi(AlvKoodi::EIALV);
-                rivit_[i].setAlvprosentti(0);
+        const int tiliKohdennus = tili->luku("kohdennus");
+
+        rivit_[0].setTili(tili->numero());
+        if( tiliKohdennus) rivit_[0].setKohdennus(tiliKohdennus);
+        if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen) && tili->onko(TiliLaji::TULOS)) {
+            rivit_[0].setAlvkoodi(tili->alvlaji());
+            rivit_[0].setAlvprosentti(tili->alvprosentti());
+            if( onkoBruttoa && !rivit_.at(0).naytaBrutto()) {
+                rivit_[0].setNetto(rivit_.at(0).brutto());
+            } else if( !onkoBruttoa && rivit_[0].naytaBrutto()) {
+                rivit_[0].setBrutto(rivit_.at(0).netto());
             }
+        } else {
+            rivit_[0].setAlvkoodi(AlvKoodi::EIALV);
+            rivit_[0].setAlvprosentti(0);
         }
+        paivitaTyyppi();
         break;
     }
     case ALV: {
         const int prosentti = value.toInt() % 100;
         const int koodi = value.toInt() / 100;
+        rivit_[0].setAlvkoodi(koodi);
+        rivit_[0].setAlvprosentti(prosentti);
         for(int i=0; i < rivit_.count(); i++) {
                 rivit_[i].setAlvkoodi( koodi );
                 rivit_[i].setAlvprosentti( prosentti );
             }
         break;
     }
-    case KOHDENNUS:
-        for(int i=1; i < rivit_.count(); i++)
-            rivit_[i].setKohdennus(value.toInt());
+    case KOHDENNUS:                
+        rivit_[0].setKohdennus(value.toInt());
         break;
     case SELITE:
         otsikko_ = value.toString();
@@ -401,30 +401,30 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
             rivit_[0].setBrutto(tyyppi() == OSTO ? Euro::Zero - summa : summa);
         else
             rivit_[0].setNetto( tyyppi() == OSTO ? Euro::Zero - summa : summa );
+        paivitaTyyppi();
         break;
     }
-    paivitaTyyppi();
     return true;
 }
 
 Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
 {
-    if( sarake == EURO && rivit_.count() != 1)
+    if (sarake == PVM || sarake == SAAJAMAKSAJA)
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
+
+    // Monirivisiä on muokattava muokkausikkunan kautta
+    if( rivit_.count() != 1)
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
-    const QList<int> tiliNumerot = kirjausTilit();
-    const Tili* tili = model()->kitsas()->tilit()->tili(tiliNumerot.value(0));
-
+    const Tili* tili = model()->kitsas()->tilit()->tili(rivit_.at(0).tilinumero());
 
     if( sarake == KOHDENNUS) {
-        if( tiliNumerot.count() > 1 || !tili || tili->onko(TiliLaji::TASE) || !model()->kitsas()->kohdennukset()->kohdennuksia() )
+        if( !tili || tili->onko(TiliLaji::TASE) || !model()->kitsas()->kohdennukset()->kohdennuksia() )
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
     }
 
-
     if( sarake == ALV && ( !tili || tili->onko(TiliLaji::TASE) ) )
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-
 
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
