@@ -14,20 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "tmrivit.h"
+#include "apuririvit.h"
 
 #include "db/kirjanpito.h"
 #include "model/tositevienti.h"
 #include "model/tosite.h"
-#include "db/tositetyyppimodel.h"
 
-TmRivit::TmRivit(QObject *parent)
+ApuriRivit::ApuriRivit(QObject *parent)
     : QAbstractTableModel(parent)
 {
 
 }
 
-QVariant TmRivit::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ApuriRivit::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
@@ -49,7 +48,7 @@ QVariant TmRivit::headerData(int section, Qt::Orientation orientation, int role)
     return QVariant();
 }
 
-int TmRivit::rowCount(const QModelIndex &parent) const
+int ApuriRivit::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -57,7 +56,7 @@ int TmRivit::rowCount(const QModelIndex &parent) const
     return rivit_.count();
 }
 
-int TmRivit::columnCount(const QModelIndex &parent) const
+int ApuriRivit::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -65,7 +64,7 @@ int TmRivit::columnCount(const QModelIndex &parent) const
     return 3;
 }
 
-QVariant TmRivit::data(const QModelIndex &index, int role) const
+QVariant ApuriRivit::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -102,12 +101,12 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TmRivit::lisaa(const QVariantMap &map)
+void ApuriRivit::lisaa(const QVariantMap &map)
 {
     TositeVienti vienti(map);
 
     if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS) {
-        rivit_.append( TulomenoRivi( vienti) );
+        rivit_.append( ApuriRivi( vienti, plusOnKredit()) );
     } else if( !rivit_.count()) {
         ;
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
@@ -124,15 +123,22 @@ void TmRivit::lisaa(const QVariantMap &map)
     }
 }
 
-int TmRivit::lisaaRivi(int tili)
+int ApuriRivit::lisaaRivi(int tili)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    rivit_.append(TulomenoRivi(tili));
+    rivit_.append(ApuriRivi(tili));
     endInsertRows();
     return rowCount() - 1;
 }
 
-void TmRivit::poistaRivi(int rivi)
+void ApuriRivit::lisaaRivi(const ApuriRivi &rivi)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    rivit_.append(rivi);
+    endInsertRows();
+}
+
+void ApuriRivit::poistaRivi(int rivi)
 {
     if(rivi < rowCount() && rowCount() > 1) {
         beginRemoveRows(QModelIndex(), rivi, rivi);
@@ -141,29 +147,70 @@ void TmRivit::poistaRivi(int rivi)
     }
 }
 
-TulomenoRivi *TmRivit::rivi(int indeksi)
+ApuriRivi *ApuriRivit::rivi(int indeksi)
 {
+    if( indeksi == rivit_.count())
+        rivit_.append(ApuriRivi());
     return &rivit_[indeksi];
 }
 
-void TmRivit::clear()
+ApuriRivi ApuriRivit::at(int indeksi) const
+{
+    return rivit_.at(indeksi);
+}
+
+ApuriRivi ApuriRivit::eka() const
+{
+    return rivit_.at(0);
+}
+
+void ApuriRivit::clear()
 {
     beginResetModel();
     rivit_.clear();
     endResetModel();
 }
 
-QVariantList TmRivit::viennit(Tosite* tosite)
+QVariantList ApuriRivit::viennit(Tosite* tosite)
 {
     QVariantList lista;
 
     for(int i=0; i < rowCount(); i++) {
-        const TulomenoRivi& rivi = rivit_.at(i);
+        const ApuriRivi& rivi = rivit_.at(i);
         if( tosite->data(Tosite::TILA).toInt() == Tosite::MALLIPOHJA || (rivi.brutto() && rivi.tilinumero() )  )
-            lista.append( rivit_.at(i).viennit( tosite->tyyppi() == TositeTyyppi::TULO ? TositeVienti::MYYNTI : TositeVienti::OSTO,
+            lista.append( rivit_.at(i).viennit( tyyppi(), plusOnKredit(),
                                               tosite->otsikko(), tosite->kumppanimap(), tosite->pvm()) );
     }
 
     return lista;
+}
+
+void ApuriRivit::asetaTyyppi(TositeVienti::VientiTyyppi tyyppi, bool plusOnKredit)
+{
+    tyyppi_ = tyyppi;
+    plusOnKredit_ = plusOnKredit;
+}
+
+void ApuriRivit::asetaRivit(const QList<ApuriRivi> &rivit)
+{
+    beginResetModel();
+    rivit_ = rivit;
+    endResetModel();
+}
+
+Euro ApuriRivit::summa() const
+{
+    Euro yhteensa;
+    for(int i=0; i < rowCount(); i++)
+        yhteensa += rivit_.at(i).naytettava();
+    if( plusOnKredit() )
+        return yhteensa;
+    else
+        return Euro::Zero-yhteensa;
+}
+
+QList<ApuriRivi> ApuriRivit::rivit() const
+{
+    return rivit_;
 }
 

@@ -285,6 +285,7 @@ void MyTextEditor::insertRow(int row)
     }
 }
 
+
 void MyTextEditor::addMinus()
 {
     textCursor().insertText("−");

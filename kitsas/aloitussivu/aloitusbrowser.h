@@ -29,18 +29,16 @@ protected:
     void paivitaVinkit();
     QString eiOikeuttaUrputus() const;
 
+    void paivitaVarmuuskopioVinkki();
     void paivitaTestiVinkki();
     void paivitaTiliointiVinkki();
-
     void paivitaPankkiyhteysVinkki();
-    void paivitaVarmuuskopioVinkki();
     void paivitaVerotonValitus();
     void paivitaPaivitysVinkki();
     void paivitaAloitusVinkit();
     void paivitaAlvVinkki();
     void paivitaTilikausiVinkki();
     void paivitaTilinpaatosVinkki();
-    void paivitaPassiivinenVinkki();
     void paivitaExtraVinkki();
 
     void paivitaSaldot();

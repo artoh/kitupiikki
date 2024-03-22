@@ -17,21 +17,14 @@
 #ifndef TILIOTEKIRJAUSRIVI_H
 #define TILIOTEKIRJAUSRIVI_H
 
-#include "apuri/tiliote/tiliotealirivi.h"
+#include "apuri/apuririvit.h"
 #include "tilioterivi.h"
-#include "model/tositevienti.h"
 #include "taydennysviennit.h"
+#include "apuri/apuririvi.h"
 
 class TilioteKirjausRivi : public TilioteRivi
 {
 public:
-    enum KirjausRiviTyyppi {
-        TUNTEMATON = 0,
-        OSTO = 100,
-        MYYNTI = 200,
-        SUORITUS = 300,
-        SIIRTO = 400
-    };
 
     TilioteKirjausRivi(TilioteModel* model);
     TilioteKirjausRivi(const QVariantList& data, TilioteModel* model);
@@ -58,7 +51,7 @@ public:
     QString viite() const { return viite_;}
     QDate ostoPvm() const { return ostoPvm_;}
     QVariantMap kumppani() const { return kumppani_;}
-    KirjausRiviTyyppi tyyppi() const { return tyyppi_;}
+    TositeVienti::VientiTyyppi tyyppi() const { return tyyppi_;}
     QString arkistotunnus() const { return arkistotunnus_;}
 
     int kohdennus() const;
@@ -66,40 +59,34 @@ public:
     void asetaPvm(const QDate& pvm) { paivamaara_ = pvm;}
     void asetaOtsikko(const QString& otsikko) { otsikko_ = otsikko;}
     void asetaKumppani(const QVariantMap& map) { kumppani_ = map;}
-    void asetaTyyppi(const KirjausRiviTyyppi tyyppi) { tyyppi_ = tyyppi;}
+    void asetaTyyppi(const TositeVienti::VientiTyyppi tyyppi) { tyyppi_ = tyyppi;}
     void asetaViite(const QString& viite) { viite_ = viite;}
     void asetaArkistotunnus(const QString& tunnus) { arkistotunnus_ = tunnus;}
 
-    QList<int> kirjausTilit() const;
-
     void lisaaVienti(const QVariantMap& map);
 
-    int riveja() const { return rivit_.count();}
+    QList<ApuriRivi> rivit() const { return rivit_;}
+    void asetaRivit(ApuriRivit* rivit);
 
-    TilioteAliRivi rivi(int indeksi) const { return rivit_.value(indeksi);}
-    TilioteAliRivi* pRivi(int indeksi) { return &rivit_[indeksi];}
-    void asetaRivi(int indeksi, TilioteAliRivi rivi);
-    void asetaRivi(TilioteAliRivi rivi);
-
-    void poistaRivi(int indeksi);
-    void lisaaRivi();
-    void tyhjenna();
-    void paivitaTyyppi();
 
     QVariantList viennit(const int tilinumero) const;
 
-protected:        
+protected:
+    void paivitaTyyppi();
     void paivitaTyyppi(const EraMap& era, const int tilinumero);
+
+    QList<int> kirjausTilit() const;
+
 
     bool peitetty_ = false;
     bool tuotu_ = false;
 
-//    QList<TositeVienti> viennit_;
-    QList<TilioteAliRivi> rivit_;
+    Euro summa_;
+    QList<ApuriRivi> rivit_;
 
     TaydennysViennit taydennys_;
 
-    KirjausRiviTyyppi tyyppi_ = TUNTEMATON;
+    TositeVienti::VientiTyyppi tyyppi_ = TositeVienti::TUNTEMATON;
     QDate paivamaara_;
     QString otsikko_;
     QVariantMap kumppani_;

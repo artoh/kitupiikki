@@ -251,7 +251,10 @@
         <file>netto-m.svg</file>
         <file>netto-s.svg</file>
         <file>brutto-m.svg</file>
-        <file>brutto-s.svg</file>        
+        <file>brutto-s.svg</file>
+        <file>tilille.png</file>
+        <file>tililta.png</file>
+        <file>usbdrive.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

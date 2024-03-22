@@ -31,12 +31,13 @@
 #include <QRandomGenerator>
 #include <QBrush>
 #include <QPalette>
+#include <QtGlobal>
 
 TilioteKirjausRivi::TilioteKirjausRivi(TilioteModel *model) :
     TilioteRivi(model),
     taydennys_(model ? model->kitsas() : nullptr)
-{            
-    rivit_.append(TilioteAliRivi());
+{
+    rivit_.append(ApuriRivi());
 }
 
 TilioteKirjausRivi::TilioteKirjausRivi(const QVariantList &data, TilioteModel *model) :
@@ -52,10 +53,11 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantList &data, TilioteModel *m
 TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *model) :
     TilioteRivi(model), tuotu_(true), taydennys_(model->kitsas())
 {
-    TilioteAliRivi rivi;
+    ApuriRivi rivi;
     paivamaara_ = tuonti.value("pvm").toDate();
 
     Euro euro = tuonti.value("euro").toString();
+    summa_ = euro;
     int tiliNumero = tuonti.value("tili").toInt();
     if( !tiliNumero ) {
         if(euro > Euro::Zero && model->kitsas()->asetukset()->onko("TilioteTuloKaytossa") ) {
@@ -85,9 +87,9 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 
     // Tuonnissa huomioidaan alv-laji (PALAUTE-356)
     if( rivi.naytaBrutto() || rivi.alvkoodi() == AlvKoodi::EIALV)
-        rivi.setBrutto(tyyppi() == OSTO ? Euro::Zero - euro : euro);
+        rivi.setBrutto(euro.abs());
     else
-        rivi.setNetto( tyyppi() == OSTO ? Euro::Zero - euro: euro );
+        rivi.setNetto(euro.abs());
 
     rivi.setSelite( otsikko_ );
     rivi.setKohdennus( tuonti.value("kohdennus").toInt());
@@ -120,7 +122,7 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QDate &pvm, TilioteModel *model) :
     paivamaara_ = pvm;
     arkistotunnus_ = pseudoarkistotunnus();
 
-    rivit_.append(TilioteAliRivi());
+    rivit_.append(ApuriRivi());
 }
 
 
@@ -275,10 +277,12 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
             if( !eur ) return QIcon(":/pic/tyhja.png");
 
             switch(tyyppi()) {
-            case OSTO: return eur < Euro::Zero ? QIcon(":/pic/poista.png") : QIcon(":/pic/edit-undo.png");
-            case MYYNTI: return eur > Euro::Zero ? QIcon(":/pic/lisaa.png") : QIcon(":/pic/edit-undo.png");
-            case SUORITUS: return QIcon(":/pic/lasku.png");
-            case SIIRTO: return QIcon(":/pic/siirra.png");
+            case TositeVienti::OSTO:
+            case TositeVienti::MYYNTI:
+                return eur > Euro::Zero ? QIcon(":/pic/lisaa.png") : QIcon(":/pic/poista.png");
+            case TositeVienti::SUORITUS: return QIcon(":/pic/lasku.png");
+            case TositeVienti::SIIRTO:
+                return eur > Euro::Zero ? QIcon(":/pic/tilille.png") : QIcon(":/pic/tililta.png");
             default: return QIcon(":/pic/tyhja.png");
             }
         } else if( sarake == ALV) {
@@ -322,12 +326,9 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
     {
         const Euro& euro = summa();
         if(euro) return euro < Euro::Zero;
-        const QList<int> tilinumerot = kirjausTilit();
-        if( tilinumerot.count() == 1) {
-            Tili* tili = model()->kitsas()->tilit()->tili(tilinumerot.first());
-            if( tili) {
-                return tili->onko(TiliLaji::MENO);
-            }
+        const int tilinumero = rivit_.value(0).tilinumero();
+        if( tilinumero ) {
+            return model()->kitsas()->tilit()->tiliNumerolla(tilinumero).onko(TiliLaji::MENO);
         }
         return QVariant();
     }
@@ -394,13 +395,16 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         break;
     case SELITE:
         otsikko_ = value.toString();
+        if( rivit_.count() == 1)
+            rivit_[0].setSelite(value.toString());
         break;
     case EURO:
         Euro summa = Euro::fromVariant(value);
+        summa_ = summa;
         if( rivit_[0].naytaBrutto())
-            rivit_[0].setBrutto(tyyppi() == OSTO ? Euro::Zero - summa : summa);
+            rivit_[0].setBrutto(summa.abs());
         else
-            rivit_[0].setNetto( tyyppi() == OSTO ? Euro::Zero - summa : summa );
+            rivit_[0].setNetto(summa.abs());
         paivitaTyyppi();
         break;
     }
@@ -409,7 +413,7 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
 
 Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
 {
-    if (sarake == PVM || sarake == SAAJAMAKSAJA)
+    if (sarake == PVM || sarake == SAAJAMAKSAJA || sarake == SELITE)
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 
     // Monirivisiä on muokattava muokkausikkunan kautta
@@ -429,11 +433,6 @@ Qt::ItemFlags TilioteKirjausRivi::riviFlags(int sarake) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-
-void TilioteKirjausRivi::paivitaTyyppi()
-{
-    paivitaTyyppi( rivit_.value(0).era(), rivit_.value(0).tilinumero());
-}
 
 QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
 {
@@ -456,8 +455,10 @@ QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
 
     lista.append( pankki);
 
+    const bool plusOnKredit = summa() > Euro::Zero;
+
     for(const auto& rivi: rivit_) {
-        lista.append( rivi.viennit(tyyppi(), otsikko(), kumppani(), pvm()));
+        lista.append( rivi.viennit(tyyppi(), plusOnKredit, otsikko(), kumppani(), pvm()));
     }        
 
     for(const auto& taydennys: taydennys_.viennit(lista)) {
@@ -468,30 +469,25 @@ QVariantList TilioteKirjausRivi::viennit(const int tilinumero) const
 
 }
 
+void TilioteKirjausRivi::paivitaTyyppi() {
+    paivitaTyyppi( rivit_.value(0).era(), rivit_.value(0).tilinumero());
+}
+
 void TilioteKirjausRivi::paivitaTyyppi(const EraMap &era, const int tilinumero)
 {
     const Tili* tili = model()->kitsas()->tilit()->tili( tilinumero );
 
-    // Koska ostot ovat ilman etumerkkiä, pitää tehdä etumerkin muunnos
-    // kun päivitetään tyyppi ostoksi
-    if( !rivit_.isEmpty() &&  (tyyppi_ == OSTO) != ( !era.id() && tili && tili->onko(TiliLaji::MENO) ) ) {
-        if( rivit_[0].naytaBrutto())
-            rivit_[0].setBrutto(Euro::Zero - rivit_.at(0).brutto());
-        else
-            rivit_[0].setNetto(Euro::Zero - rivit_.at(0).netto());
-    }
-
     if( era.id() > 0)
-        tyyppi_ = SUORITUS;
+        tyyppi_ = TositeVienti::SUORITUS;
     else if( !tili)
-        tyyppi_ = TUNTEMATON;
+        tyyppi_ = TositeVienti::TUNTEMATON;
     else if( tili->onko(TiliLaji::TASE))
-        tyyppi_ = SIIRTO;
+        tyyppi_ = TositeVienti::SIIRTO;
     else if( tili->onko(TiliLaji::MENO) ) {
-        tyyppi_ = OSTO;
+        tyyppi_ = TositeVienti::OSTO;
     }
     else if( tili->onko(TiliLaji::TULO))
-        tyyppi_ = MYYNTI;
+        tyyppi_ = TositeVienti::MYYNTI;
 }
 
 void TilioteKirjausRivi::paivitaErikoisrivit()
@@ -506,11 +502,7 @@ void TilioteKirjausRivi::paivitaErikoisrivit()
 
 Euro TilioteKirjausRivi::summa() const
 {
-    Euro summa;
-    for(const auto& rivi : rivit_) {
-        summa += rivi.naytaBrutto() ? rivi.brutto() : rivi.netto();
-    }
-    return tyyppi_ == OSTO ? Euro::Zero - summa : summa;
+    return summa_;
 }
 
 int TilioteKirjausRivi::kohdennus() const
@@ -555,30 +547,31 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         vientiId_ = vienti.id();
         viite_ = vienti.viite();
         tilioteLisatieto_ = vienti.tilioteTieto();
+        summa_ = vienti.debetEuro() - vienti.kreditEuro();
 
         const int tyyppiPohja = vienti.tyyppi() - TositeVienti::VASTAKIRJAUS;
 
         switch (tyyppiPohja) {
-        case MYYNTI:
-            tyyppi_ = MYYNTI;
+        case TositeVienti::MYYNTI:
+            tyyppi_ = TositeVienti::MYYNTI;
             break;
-        case OSTO:
-            tyyppi_ = OSTO;
+        case TositeVienti::OSTO:
+            tyyppi_ = TositeVienti::OSTO;
             break;
-        case SIIRTO:
-            tyyppi_ = SIIRTO;
+        case TositeVienti::SUORITUS:
+            tyyppi_ = TositeVienti::SUORITUS;
             break;
-        case SUORITUS:
-            tyyppi_ = SUORITUS;
+        case TositeVienti::SIIRTO:
+            tyyppi_ = TositeVienti::SIIRTO;
             break;
         default:
-            tyyppi_ = TUNTEMATON;
+            tyyppi_ = TositeVienti::TUNTEMATON;
         }
         return;
 
     } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS || (!vienti.tyyppi() && rivit_.isEmpty() && vienti.alvKoodi() < AlvKoodi::ALVKIRJAUS)) {
         vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
-        rivit_.append( TilioteAliRivi( vienti) );
+        rivit_.append( ApuriRivi( vienti, summa_ > Euro::Zero) );
     } else if( !rivit_.count() ) {
         ;
     } else if( !vienti.tyyppi()) {
@@ -587,10 +580,10 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         else
             taydennys_.asetaKreditId(vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVKIRJAUS / 100) {
-        Euro vero = vienti.kreditEuro() - vienti.debetEuro();
+        Euro vero = summa_ > Euro::Zero ? vienti.kreditEuro() - vienti.debetEuro() : vienti.debetEuro() - vienti.kreditEuro();
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
-        Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
+        Euro vahennys = summa_ < Euro::Zero ? vienti.debetEuro() - vienti.kreditEuro() : vienti.kreditEuro() - vienti.debetEuro();
         rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
     } else if( vienti.alvKoodi() == AlvKoodi::VAHENNYSKELVOTON) {
@@ -599,40 +592,24 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         rivit_[ rivit_.count() - 1 ].setMaahantuonninAlv(vienti.id());
     }
 
-    if( tyyppi_ == TUNTEMATON && vienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS) {
+    if( tyyppi_ == TositeVienti::TUNTEMATON && vienti.tyyppi() % 100 != TositeVienti::VASTAKIRJAUS) {
         paivitaTyyppi();
     }
 }
 
-void TilioteKirjausRivi::asetaRivi(int indeksi, TilioteAliRivi rivi)
+void TilioteKirjausRivi::asetaRivit(ApuriRivit *rivit)
 {
-    if( indeksi >= rivit_.count())
-        rivit_.append(rivi);
-    else
-        rivit_[indeksi] = rivi;
+    const Euro summa = rivit->summa();
+
+    rivit_ = rivit->rivit();
+    summa_ = rivit->summa();
+
+    if( (summa > Euro::Zero) != rivit->plusOnKredit() ) {
+        for(int i=0; i < rivit_.count(); i++)
+            rivit_[i].vaihdaEtumerkki();
+    }
 }
 
-void TilioteKirjausRivi::asetaRivi(TilioteAliRivi rivi)
-{
-    rivit_.clear();
-    rivit_.append(rivi);
-}
-
-void TilioteKirjausRivi::poistaRivi(int indeksi)
-{
-    rivit_.removeAt(indeksi);
-}
-
-void TilioteKirjausRivi::lisaaRivi()
-{
-    rivit_.append(TilioteAliRivi());
-}
-
-void TilioteKirjausRivi::tyhjenna()
-{
-    rivit_.clear();
-    lisaaRivi();
-}
 
 QString TilioteKirjausRivi::pseudoarkistotunnus() const
 {

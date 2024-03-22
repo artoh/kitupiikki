@@ -302,8 +302,15 @@ void MaaritysSivu::valitseSivu(const QString& otsikko)
 
 void MaaritysSivu::paivitaNakyvat()
 {
-    for(int i = PERUSVALINNAT; i < lista->count(); i++)
-        lista->item(i)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
+    // Jaoteltu kahteen eri oikeuskategoriaan
+    const QList<int> perusvalinnoilla = QList<int>() << PERUSVALINNAT << YHTEYSTIEDOT << LIITTEET << KOHDENNUS
+                                                     << LASKUTUS << LASKUTEKSTIT << BANNERIT << SAHKOPOSTI << INBOX << VERKKOLASKU;
+    const QList<int> taydetOikeudet = QList<int>() << TILIKARTTA << TILINAVAUS << OLETUSTILIT << KAYTTOOIKEUDET << MAKSUTAVAT << TILITIEDOT
+                                                    << TOSITESARJAT << VERO << PALKKAKIRJAUS << RAPORTIT << KIERTO << LISAPALVELUT << VERO << PAIVITYS;
+    for(const auto& valinta : perusvalinnoilla)
+        item(valinta)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::PERUSASETUKSET) );
+    for(const auto& valinta : taydetOikeudet)
+        item(valinta)->setHidden( !kp()->yhteysModel() || !kp()->yhteysModel()->onkoOikeutta(YhteysModel::ASETUKSET) );
 
 
     item( MINA )->setHidden( !kp()->pilvi()->kayttaja() );

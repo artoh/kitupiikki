@@ -14,21 +14,22 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TMRIVIT_H
-#define TMRIVIT_H
+#ifndef APURIRIVIT_H
+#define APURIRIVIT_H
 
 #include <QAbstractTableModel>
+#include "model/tositevienti.h"
 
-#include "tulomenorivi.h"
+#include "apuririvi.h"
 class Tili;
 class Tosite;
 
-class TmRivit : public QAbstractTableModel
+class ApuriRivit : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit TmRivit(QObject *parent = nullptr);
+    explicit ApuriRivit(QObject *parent = nullptr);
 
     enum Sarakkeet {
         TILI, ALV, EUROA
@@ -46,17 +47,31 @@ public:
     void lisaa(const QVariantMap& map);
 
     int lisaaRivi(int tili=0);
+    void lisaaRivi(const ApuriRivi& rivi);
     void poistaRivi(int rivi);
-
-    TulomenoRivi* rivi(int indeksi);
-
+    
+    ApuriRivi* rivi(int indeksi);
+    ApuriRivi at(int indeksi) const;
+    ApuriRivi eka() const;
 
     void clear();
+
     QVariantList viennit(Tosite *tosite);
 
-private:
+    void asetaTyyppi(TositeVienti::VientiTyyppi tyyppi, bool plusOnKredit = true);
+    void asetaRivit(const QList<ApuriRivi>& rivit);
 
-    QList<TulomenoRivi> rivit_;
+    Euro summa() const;
+    QList<ApuriRivi> rivit() const;
+
+    TositeVienti::VientiTyyppi tyyppi() const { return tyyppi_;}
+    bool plusOnKredit() const { return plusOnKredit_; }
+
+private:
+    TositeVienti::VientiTyyppi tyyppi_ = TositeVienti::VientiTyyppi::TUNTEMATON;
+    bool plusOnKredit_ = true;  // Näin tulolla!
+
+    QList<ApuriRivi> rivit_;
 };
 
-#endif // TMRIVIT_H
+#endif // APURIRIVIT_H

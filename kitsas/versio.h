@@ -24,7 +24,7 @@
   Kitsaan versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITSAS_VERSIO "5.4.4"
+#define KITSAS_VERSIO "5.5-beta"
 #define KITSAS_BUILD  "E"
 
 // #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)

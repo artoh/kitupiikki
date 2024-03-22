@@ -21,7 +21,7 @@
 
 #include "tiliotemodel.h"
 #include "tiliotekirjausrivi.h"
-#include "tiliotealirivitmodel.h"
+#include "apuri/apuririvit.h"
 #include "model/eramap.h"
 
 class LaskuTauluTilioteProxylla;
@@ -41,7 +41,7 @@ class TilioteKirjaaja : public QDialog
     Q_OBJECT    
 public:
     enum YlaTab { TILILLE, TILILTA};
-    enum AlaTab { MAKSU, TULOMENO, HYVITYS, SIIRTO, VAKIOVIITE, PIILOSSA };
+    enum AlaTab { MAKSU, TULOMENO, SIIRTO, VAKIOVIITE, PIILOSSA };
 
     TilioteKirjaaja( TilioteApuri* apuri );
     TilioteKirjaaja( SiirtoApuri* apuri);
@@ -57,7 +57,7 @@ public slots:
     void muokkaaRivia(int riviNro);
 
 
-private slots:
+private:
     void alaTabMuuttui(int tab);
 
     void euroMuuttuu();
@@ -86,7 +86,6 @@ private slots:
 
     void lisaaVienti();
     void poistaVienti();
-    void paivitaVientiNakyma();
 
 
 private:
@@ -96,19 +95,20 @@ private:
 
     TilioteApuri* apuri() const;
     void lataa(const TilioteKirjausRivi& rivi);
-    void lataaNakymaan();
 
     void riviVaihtuu(const QModelIndex &current, const QModelIndex &previous);
     void naytaRivi();
-    void tallennaRivi();    
+    void tallennaRivi();
 
-    void tallenna();
+    TositeVienti::VientiTyyppi tyyppi();
+    TilioteKirjausRivi tallennettava();
 
     void paivitaVeroFiltteri(const int verokoodi);
 
-    TilioteAliRivi *aliRivi();
     void aliRiviaMuokattu();
     int rivilla() const { return nykyAliRiviIndeksi_;}
+    ApuriRivi* rivi() const;
+    int oletustili() const;
 
 private:    
     Ui::TilioteKirjaaja *ui;
@@ -124,8 +124,8 @@ private:
     LaskuTauluModel *laskut_;
     QVariantList alkuperaisRivit_;
 
-    TilioteKirjausRivi rivi_ = nullptr;
-    TilioteAliRivitModel* aliRiviModel_ = nullptr;
+    ApuriRivit* rivit_;
+
 
     bool ladataan_ = false;
 

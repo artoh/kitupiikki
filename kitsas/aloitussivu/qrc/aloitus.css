@@ -58,6 +58,20 @@ table.vinkki > tr > td
     color: black;
 }
 
+table.local
+{
+    background-color: #daf3fc;
+    margin-bottom: 15px;
+    color: black;
+}
+
+table.local > tr > td
+{
+    padding: 15px;
+    color: black;
+}
+
+
 table.varoitus
 {
     background-color: #ff6666;

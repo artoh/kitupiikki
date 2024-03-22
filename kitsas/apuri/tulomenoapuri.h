@@ -22,10 +22,10 @@
 #include "model/eramap.h"
 
 class QSortFilterProxyModel;
-class TmRivit;
+class ApuriRivit;
 class KohdennusProxyModel;
 class QCompleter;
-class TulomenoRivi;
+class ApuriRivi;
 class MaksutapaModel;
 
 namespace Ui {
@@ -81,7 +81,7 @@ protected:
 
     void alusta(bool meno);
     int rivilla() const;
-    TulomenoRivi *rivi();
+    ApuriRivi *rivi();
 
     void setAlvProssa(double prosentti);
     double alvProssa() const;
@@ -92,7 +92,7 @@ protected:
 
 private:
     Ui::TuloMenoApuri *ui;
-    TmRivit* rivit_;
+    ApuriRivit* rivit_;
 
     bool menoa_ = false;
     bool tuonnissa_ = false;

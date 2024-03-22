@@ -16,7 +16,7 @@
 */
 #include "tulomenoapuri.h"
 #include "ui_tulomenoapuri.h"
-#include "tmrivit.h"
+#include "apuririvit.h"
 
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
@@ -36,7 +36,7 @@
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
-    rivit_(new TmRivit(this)),
+    rivit_(new ApuriRivit(this)),
     maksutapaModel_(new MaksutapaModel(this))
 {
     ui->setupUi(this);
@@ -57,9 +57,9 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KOHDENNUKSET_PROJEKTIT);
 
     ui->tilellaView->setModel( rivit_);
-    ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
+    ui->tilellaView->horizontalHeader()->setSectionResizeMode(ApuriRivit::TILI, QHeaderView::Stretch);
     if( !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
-        ui->tilellaView->hideColumn(TmRivit::ALV);
+        ui->tilellaView->hideColumn(ApuriRivit::ALV);
 
 
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tiliMuuttui );
@@ -209,6 +209,7 @@ void TuloMenoApuri::teeReset()
     // Haetaan tietoja mallista ;)
     bool menoa = tosite()->tyyppi() < TositeTyyppi::TULO;
     tuonnissa_ = false;
+    rivit_->asetaTyyppi(menoa ? TositeVienti::VientiTyyppi::OSTO : TositeVienti::VientiTyyppi::MYYNTI, !menoa);
 
     alusta( menoa );
 
@@ -447,9 +448,9 @@ void TuloMenoApuri::tiliMuuttui()
 
         if(tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus( tili.luku("kohdennus") );
-
-        emit rivit_->dataChanged( rivit_->index(rivilla(),  TmRivit::TILI),
-                                  rivit_->index(rivilla(), TmRivit::TILI));
+        
+        emit rivit_->dataChanged( rivit_->index(rivilla(),  ApuriRivit::TILI),
+                                 rivit_->index(rivilla(), ApuriRivit::TILI));
 
         tositteelle();
     }
@@ -461,7 +462,7 @@ void TuloMenoApuri::verolajiMuuttui()
 
     int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
     rivi()->setAlvkoodi(  alvkoodi );
-    emit rivit_->dataChanged(rivit_->index(rivilla(), TmRivit::ALV),rivit_->index(rivilla(), TmRivit::EUROA));
+    emit rivit_->dataChanged(rivit_->index(rivilla(), ApuriRivit::ALV),rivit_->index(rivilla(), ApuriRivit::EUROA));
 
     bool naytaMaara = rivi()->naytaBrutto();
     bool naytaVeroton =  rivi()->naytaNetto();
@@ -476,7 +477,7 @@ void TuloMenoApuri::verolajiMuuttui()
         qlonglong maara = rivi()->brutto();
         ui->verotonEdit->setCents(maara);
         rivi()->setNetto(maara);
-        emit rivit_->dataChanged(rivit_->index(rivilla(), TmRivit::EUROA),rivit_->index(rivilla(), TmRivit::EUROA));
+        emit rivit_->dataChanged(rivit_->index(rivilla(), ApuriRivit::EUROA),rivit_->index(rivilla(), ApuriRivit::EUROA));
     }
 
 
@@ -510,9 +511,9 @@ void TuloMenoApuri::maaraMuuttui()
     qlonglong maara = ui->maaraEdit->asCents();
     rivi()->setBrutto( maara );
     ui->verotonEdit->setCents( rivi()->netto() );
-
-    emit rivit_->dataChanged( rivit_->index(TmRivit::EUROA, rivilla()),
-                              rivit_->index(TmRivit::EUROA, rivilla()));
+    
+    emit rivit_->dataChanged( rivit_->index(ApuriRivit::EUROA, rivilla()),
+                             rivit_->index(ApuriRivit::EUROA, rivilla()));
 
     tositteelle();
 }
@@ -523,9 +524,9 @@ void TuloMenoApuri::verotonMuuttui()
 
     rivi()->setNetto( veroton );
     ui->maaraEdit->setCents( rivi()->brutto());
-
-    emit rivit_->dataChanged( rivit_->index(TmRivit::EUROA, rivilla()),
-                              rivit_->index(TmRivit::EUROA, rivilla()));
+    
+    emit rivit_->dataChanged( rivit_->index(ApuriRivit::EUROA, rivilla()),
+                             rivit_->index(ApuriRivit::EUROA, rivilla()));
 
 
     tositteelle();
@@ -538,9 +539,9 @@ void TuloMenoApuri::veroprossaMuuttui()
     ui->maaraEdit->setCents( rivi()->brutto());
     ui->verotonEdit->setCents( rivi()->netto() );
     tositteelle();
-
-    emit rivit_->dataChanged( rivit_->index(TmRivit::ALV, rivilla()),
-                              rivit_->index(TmRivit::ALV, rivilla()));
+    
+    emit rivit_->dataChanged( rivit_->index(ApuriRivit::ALV, rivilla()),
+                             rivit_->index(ApuriRivit::ALV, rivilla()));
 }
 
 void TuloMenoApuri::alvVahennettavaMuuttui()
@@ -716,8 +717,8 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     if(!resetoinnissa) aloitaResetointi();
 
     int rivilla = index.row();
-
-    TulomenoRivi* rivi = rivit_->rivi(rivilla);
+    
+    ApuriRivi* rivi = rivit_->rivi(rivilla);
     int tilinumero = rivi->tilinumero();
 
     if( !tilinumero) {
@@ -823,7 +824,7 @@ int TuloMenoApuri::rivilla() const
 
 }
 
-TulomenoRivi *TuloMenoApuri::rivi()
+ApuriRivi *TuloMenoApuri::rivi()
 {    
     return rivit_->rivi(rivilla());
 }

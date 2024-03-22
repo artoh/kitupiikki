@@ -14,25 +14,27 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TULOMENORIVI_H
-#define TULOMENORIVI_H
+#ifndef APURIRIVI_H
+#define APURIRIVI_H
 
 #include <QString>
 #include <QVariantList>
 #include <QDate>
 
+#include "model/eramap.h"
 #include "model/euro.h"
+#include "model/tositevienti.h"
 
 class Tosite;
 
 /**
- * @brief Yksi Tulomenoapurilla kirjattava rivi
+ * @brief Yksi apurilla kirjattava rivi
  */
-class TulomenoRivi
+class ApuriRivi
 {
 public:
-    TulomenoRivi(int tili=0);
-    TulomenoRivi(const QVariantMap& data);
+    ApuriRivi(int tili=0);
+    ApuriRivi(const TositeVienti& vienti, bool plusOnKredit = true);
 
     int tilinumero() const { return tilinumero_; }
     int alvkoodi() const { return alvkoodi_; }
@@ -45,6 +47,10 @@ public:
 
     QDate jaksoalkaa() const { return jaksoalkaa_;}
     QDate jaksopaattyy() const { return jaksoloppuu_;}
+
+    void setEra(const EraMap& era);
+    EraMap era() const  { return era_;}
+    int eraId() const { return era_.id();}
 
     int poistoaika() const { return poistoaika_;}
 
@@ -75,11 +81,13 @@ public:
     bool naytaNetto() const;
     bool naytaVahennysvalinta() const;
 
-    QVariantList viennit(const int tyyppi, const QString &otsikko = QString(),
+    QVariantList viennit(const TositeVienti::VientiTyyppi tyyppi, const bool plusOnKredit, const QString &otsikko = QString(),
                          const QVariantMap &kumppani = QVariantMap(), const QDate &pvm = QDate()) const;
 
     void setMaahantuonninAlv(int vientiId);
     void setVahentamaton(int vientiId);
+
+    void vaihdaEtumerkki();
 
 protected:
     int vientiId() const { return vientiId_;}
@@ -94,13 +102,15 @@ protected:
     int alvkoodi_ = 0;
     double veroprosentti_ = 0;
 
-    bool alvvahennys_ = false;
+    bool alvvahennys_ = true;
 
     int kohdennus_ = 0;
     QVariantList merkkaukset_;
 
     QDate jaksoalkaa_;
     QDate jaksoloppuu_;
+
+    EraMap era_;
 
     int vientiId_ = 0;
     int veroVientiId_ = 0;
@@ -113,4 +123,4 @@ protected:
 
 };
 
-#endif // TULOMENORIVI_H
+#endif // APURIRIVI_H

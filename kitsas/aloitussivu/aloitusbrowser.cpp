@@ -94,13 +94,13 @@ void AloitusBrowser::paivitaVinkit()
     const bool demotila = qApp->property("demo").toBool();
 
     vinkit_.clear();
+
+    paivitaVarmuuskopioVinkki();
     if(!demotila) paivitaTestiVinkki();
 
-    paivitaPassiivinenVinkki();
-    paivitaTiliointiVinkki();   
+    paivitaTiliointiVinkki();
     paivitaPankkiyhteysVinkki();
     paivitaExtraVinkki();
-    paivitaVarmuuskopioVinkki();
     paivitaVerotonValitus();
     paivitaPaivitysVinkki();
     paivitaAlvVinkki();
@@ -179,6 +179,10 @@ void AloitusBrowser::paivitaVarmuuskopioVinkki()
                             tr("Käytössäsi on omalle tietokoneellesi tallennettu kirjanpito. Muutokset eivät tallennu Kitsaan pilveen.</p>"
                                 "<p>Pilvessä olevan kirjanpitosi voit avata Pilvi-välilehdeltä."),
                             "", "computer-laptop.png") ;
+    } else if( sqlite ) {
+        vinkkaa("local", tr("Muista varmuuskopiointi"),
+                tr("Kirjanpito tallennetaan omalle tietokoneellesi. Muista tehdä säännöllisesti varmuuskopioita ja säilyttää niitä turvallisessa paikassa."),
+                "", "usbdrive.png");
     }
 
 }
@@ -340,16 +344,6 @@ void AloitusBrowser::paivitaTilinpaatosVinkki()
 
 }
 
-void AloitusBrowser::paivitaPassiivinenVinkki()
-{
-    if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) && !kp()->onkoHarjoitus() && !kp()->pilvi()->pilvi().aktiivinen()) {
-        if( kp()->asetukset()->ytunnus().isEmpty() )
-            vinkkaa("testaus", tr("Y-tunnus puuttuu"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), "varoitus.png" );
-        else
-            vinkkaa("testaus", tr("Y-tunnus on jo käytössä"), tr("Tässä kirjanpidossa ei voi ottaa käyttöön lisäpalveluita"), QString(), "varoitus.png" );
-    }
-}
-
 void AloitusBrowser::paivitaExtraVinkki()
 {
     if( qobject_cast<PilviModel*>( kp()->yhteysModel() ) == nullptr ) return;
@@ -407,8 +401,9 @@ QString AloitusBrowser::saldoTaulu()
     Euro vastattavaa;
     for(const auto& saldo : qAsConst(saldot_)) {
         const Tili* tili = saldo.tili();
-        if( !tili || tili->onko(TiliLaji::VASTATTAVAA)) vastattavaa += saldo.saldo();
-        else if(  tili->onko(TiliLaji::VASTAAVAA) ) vastaavaa += saldo.saldo();
+        const QString numero = QString::number( tili->numero() );
+        if( numero.startsWith('1') ) vastattavaa += saldo.saldo();
+        else if(  numero.startsWith('2') ) vastaavaa += saldo.saldo();
     }
 
     if( vastaavaa != vastattavaa) {

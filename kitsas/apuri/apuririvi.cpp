@@ -14,15 +14,13 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "tulomenorivi.h"
+#include "apuririvi.h"
 #include "db/verotyyppimodel.h"
 #include "model/tositevienti.h"
 #include "db/kirjanpito.h"
-#include "model/tosite.h"
-#include "db/tositetyyppimodel.h"
 
 
-TulomenoRivi::TulomenoRivi(int tili)
+ApuriRivi::ApuriRivi(int tili)
 {
     if( tili ) {
         tilinumero_=tili;
@@ -37,9 +35,8 @@ TulomenoRivi::TulomenoRivi(int tili)
     }
 }
 
-TulomenoRivi::TulomenoRivi(const QVariantMap &data)
-{
-    TositeVienti vienti( data );
+ApuriRivi::ApuriRivi(const TositeVienti &vienti, bool plusOnKredit)
+{    
 
     vientiId_ = vienti.id();
     tilinumero_ = vienti.tili();
@@ -51,6 +48,7 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
     jaksoalkaa_ = vienti.jaksoalkaa();
     jaksoloppuu_ = vienti.jaksoloppuu();
     poistoaika_ = vienti.tasaerapoisto();
+    era_ = vienti.era();
     alvvahennys_ = true;
 
     // Sitten netto/brutto tilanteen mukaan
@@ -62,11 +60,9 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
             verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI ||
             verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT;
 
-    Euro maara = vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::KIRJAUS ?
-                 vienti.debetEuro() - vienti.kreditEuro() :
-                 vienti.kreditEuro() - vienti.debetEuro() ;
-
-
+    Euro maara = plusOnKredit ?
+                 vienti.kreditEuro() - vienti.debetEuro() :
+                 vienti.debetEuro() - vienti.kreditEuro();
 
     if( nettoon )
         setNetto( maara);
@@ -75,18 +71,23 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
 
 }
 
-void TulomenoRivi::setAlvkoodi(int koodi)
+void ApuriRivi::setEra(const EraMap &era)
+{
+    era_ = era;
+}
+
+void ApuriRivi::setAlvkoodi(int koodi)
 {
     alvkoodi_ = koodi;
 }
 
-void TulomenoRivi::setAlvvahennys(bool vahennys, int vahennysVientiId)
+void ApuriRivi::setAlvvahennys(bool vahennys, int vahennysVientiId)
 {
    alvvahennys_ = vahennys;
    if( vahennysVientiId) vahennysVientiId_ = vahennysVientiId;
 }
 
-Euro TulomenoRivi::brutto() const
+Euro ApuriRivi::brutto() const
 {
     if( !brutto_ ) {
         if( kp()->alvTyypit()->nollaTyyppi(alvkoodi_))
@@ -96,7 +97,7 @@ Euro TulomenoRivi::brutto() const
         return brutto_;
 }
 
-Euro TulomenoRivi::netto() const
+Euro ApuriRivi::netto() const
 {
     if( !netto_ ) {
         if( kp()->alvTyypit()->nollaTyyppi(alvkoodi_) )
@@ -107,34 +108,34 @@ Euro TulomenoRivi::netto() const
         return netto_;
 }
 
-Euro TulomenoRivi::naytettava() const
+Euro ApuriRivi::naytettava() const
 {
-    // Marginaalimyynneistä näytetään brutto, muista netti
-    if( alvkoodi() == AlvKoodi::MYYNNIT_MARGINAALI || alvkoodi() == AlvKoodi::OSTOT_MARGINAALI)
+    // Näytetään ensisijaisesti bruttosumma
+    if( naytaBrutto())
         return brutto();
     else
         return netto();
 }
 
-void TulomenoRivi::setBrutto(Euro eurot)
+void ApuriRivi::setBrutto(Euro eurot)
 {
     brutto_ = eurot;
     netto_ = 0;
 }
 
-void TulomenoRivi::setNetto(Euro eurot)
+void ApuriRivi::setNetto(Euro eurot)
 {
     netto_ = eurot;
     brutto_ = 0;
 }
 
-void TulomenoRivi::setNetonVero(Euro eurot, int vientiId)
+void ApuriRivi::setNetonVero(Euro eurot, int vientiId)
 {
     brutto_ = netto_ + eurot;    
     veroVientiId_ = vientiId;
 }
 
-bool TulomenoRivi::naytaBrutto() const
+bool ApuriRivi::naytaBrutto() const
 {
     return !( alvkoodi() == AlvKoodi::RAKENNUSPALVELU_OSTO || alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_TAVARAT
                                  || alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi() == AlvKoodi::MAAHANTUONTI
@@ -142,7 +143,7 @@ bool TulomenoRivi::naytaBrutto() const
 
 }
 
-bool TulomenoRivi::naytaNetto() const
+bool ApuriRivi::naytaNetto() const
 {
     return  alvkoodi() == AlvKoodi::OSTOT_NETTO || alvkoodi() == AlvKoodi::MYYNNIT_NETTO ||
                                  alvkoodi() == AlvKoodi::OSTOT_BRUTTO || alvkoodi() == AlvKoodi::MYYNNIT_BRUTTO ||
@@ -150,7 +151,7 @@ bool TulomenoRivi::naytaNetto() const
             !naytaBrutto() ;
 }
 
-bool TulomenoRivi::naytaVahennysvalinta() const
+bool ApuriRivi::naytaVahennysvalinta() const
 {
     return alvkoodi() == AlvKoodi::RAKENNUSPALVELU_OSTO ||
             alvkoodi() == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
@@ -160,7 +161,8 @@ bool TulomenoRivi::naytaVahennysvalinta() const
             alvkoodi() == AlvKoodi::MAAHANTUONTI_PALVELUT;
 }
 
-QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, const QVariantMap& kumppani, const QDate& pvm) const
+QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const bool plusOnKredit,
+                                const QString& otsikko, const QVariantMap& kumppani, const QDate& pvm) const
 {
     QVariantList vientilista;
     // Ensin varsinainen vienti
@@ -171,8 +173,6 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
     Euro maara = this->brutto();
     Euro netto = this->netto();
     Euro vero = this->brutto() - this->netto() ;
-
-    bool menoa = tyyppi == TositeVienti::OSTO;
 
     QString rivinSelite = selite().isEmpty() ?
                 otsikko :
@@ -197,6 +197,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
     vienti.setSelite( rivinSelite );
     vienti.setKohdennus( kohdennus() );
     vienti.setMerkkaukset( merkkaukset() );
+    vienti.setEra( era() );
 
     if( jaksoalkaa().isValid())
         vienti.setJaksoalkaa( jaksoalkaa() );
@@ -225,7 +226,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
                              verokoodi == AlvKoodi::MAAHANTUONTI_PALVELUT
                         ) && naytaNetto() ? netto : maara;
 
-    if( menoa != (kirjattava < Euro::Zero)) {
+    if( !plusOnKredit ^ (kirjattava < Euro::Zero)) {
         vienti.setDebet( kirjattava.abs() );
     } else {
         vienti.setKredit( kirjattava.abs() );
@@ -242,7 +243,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
            &&  alvvahennys() ) ) {
 
         TositeVienti palautus;
-        palautus.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::ALVKIRJAUS );
+        palautus.setTyyppi( tyyppi + TositeVienti::ALVKIRJAUS );
 
         palautus.setPvm(pvm);
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
@@ -253,7 +254,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
         }
-        if(menoa ^ vero < Euro::Zero )
+        if(plusOnKredit == vero < Euro::Zero )
             palautus.setDebet( vero.abs() );
         else
             palautus.setKredit( vero.abs());
@@ -278,7 +279,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
         const bool kaanteinen = verokoodi != AlvKoodi::MYYNNIT_NETTO && verokoodi != AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
 
         TositeVienti verorivi;
-        verorivi.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::ALVKIRJAUS );
+        verorivi.setTyyppi( tyyppi + TositeVienti::ALVKIRJAUS );
         verorivi.setPvm(pvm);
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
             verorivi.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA ).numero() );
@@ -289,7 +290,7 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);
         }
 
-        if(menoa ^ vero > Euro::Zero ^ kaanteinen)
+        if(!plusOnKredit ^ vero > Euro::Zero ^ kaanteinen)
             verorivi.setKredit( vero.abs() );
         else
             verorivi.setDebet( vero.abs());
@@ -308,10 +309,10 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
     // Mahdollinen maahantuonnin veron kirjaamisen vastakirjaaminen
     if( maahantuonninvero ) {
         TositeVienti tuonti;
-        tuonti.setTyyppi(TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS);
+        tuonti.setTyyppi(tyyppi + TositeVienti::MAAHANTUONTIVASTAKIRJAUS);
         tuonti.setPvm(pvm);
         tuonti.setTili( tilinumero() );
-        if( menoa ^ ( netto < Euro::Zero))
+        if( !plusOnKredit ^ ( netto < Euro::Zero))
             tuonti.setKredit(netto.abs());
         else
             tuonti.setDebet( netto.abs());
@@ -332,12 +333,12 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
 
         TositeVienti palautus;
         palautus.setPvm( pvm );
-        palautus.setTyyppi( TositeVienti::OSTO + TositeVienti::VAHENNYSKELVOTON );
+        palautus.setTyyppi( tyyppi + TositeVienti::VAHENNYSKELVOTON );
         palautus.setTili( tilinumero() );
         palautus.setAlvKoodi( AlvKoodi::VAHENNYSKELVOTON);
         palautus.setAlvProsentti( alvprosentti() );
 
-        if( menoa ^ ( vero < Euro::Zero))
+        if( !plusOnKredit ^ ( vero < Euro::Zero))
             palautus.setDebet( vero.abs() );
         else
             palautus.setKredit( vero.abs());
@@ -353,16 +354,22 @@ QVariantList TulomenoRivi::viennit(const int tyyppi, const QString& otsikko, con
     return vientilista;
 }
 
-void TulomenoRivi::setMaahantuonninAlv(int vientiId)
+void ApuriRivi::setMaahantuonninAlv(int vientiId)
 {
     setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO);
     maahantuontiVastaId_ = vientiId;
 }
 
-void TulomenoRivi::setVahentamaton(int vientiId)
+void ApuriRivi::setVahentamaton(int vientiId)
 {
     alvvahennys_ = false;
     vahentamatonVientiId_ = vientiId;
+}
+
+void ApuriRivi::vaihdaEtumerkki()
+{
+    brutto_ = Euro::Zero - brutto_;
+    netto_ = Euro::Zero - netto_;
 }
 
 

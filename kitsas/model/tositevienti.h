@@ -54,6 +54,7 @@ public:
     };
 
     enum VientiTyyppi {
+        TUNTEMATON = 0,
         KIRJAUS = 1,
         VASTAKIRJAUS = 2,
         ALVKIRJAUS = 3,

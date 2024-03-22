@@ -17,12 +17,12 @@ SOURCES += \
     $$PWD/alv/ilmoitintuottaja.cpp \
     $$PWD/alv/varmennedialog.cpp \
     $$PWD/alv/verovarmennetila.cpp \
+    $$PWD/apuri/apuririvi.cpp \
+    $$PWD/apuri/apuririvit.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/tiliote/taydennysviennit.cpp \
-    $$PWD/apuri/tiliote/tiliotealirivi.cpp \
-    $$PWD/apuri/tiliote/tiliotealirivitmodel.cpp \
     $$PWD/apuri/tiliote/tiliotealvcombo.cpp \
     $$PWD/apuri/tiliote/tiliotealvdelegaatti.cpp \
     $$PWD/apuri/tiliote/tilioteapuri.cpp \
@@ -33,10 +33,8 @@ SOURCES += \
     $$PWD/apuri/tiliote/tilioterivi.cpp \
     $$PWD/apuri/tiliote/tilioteviennit.cpp \
     $$PWD/apuri/tiliote/tilioteview.cpp \
-    $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
-    $$PWD/apuri/tulomenorivi.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkisto/tilikausimuokkausdlg.cpp \
     $$PWD/arkisto/uudelleennumerointi.cpp \
@@ -475,12 +473,12 @@ HEADERS += \
     $$PWD/alv/ilmoitintuottaja.h \
     $$PWD/alv/varmennedialog.h \
     $$PWD/alv/verovarmennetila.h \
+    $$PWD/apuri/apuririvi.h \
+    $$PWD/apuri/apuririvit.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tiliote/laskutaulutilioteproxylla.h \
     $$PWD/apuri/tiliote/taydennysviennit.h \
-    $$PWD/apuri/tiliote/tiliotealirivi.h \
-    $$PWD/apuri/tiliote/tiliotealirivitmodel.h \
     $$PWD/apuri/tiliote/tiliotealvcombo.h \
     $$PWD/apuri/tiliote/tiliotealvdelegaatti.h \
     $$PWD/apuri/tiliote/tilioteapuri.h \
@@ -491,10 +489,8 @@ HEADERS += \
     $$PWD/apuri/tiliote/tilioterivi.h \
     $$PWD/apuri/tiliote/tilioteviennit.h \
     $$PWD/apuri/tiliote/tilioteview.h \
-    $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
-    $$PWD/apuri/tulomenorivi.h \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkisto/tilikausimuokkausdlg.h \
     $$PWD/arkisto/uudelleennumerointi.h \

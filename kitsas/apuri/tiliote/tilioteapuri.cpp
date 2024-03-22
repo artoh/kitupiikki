@@ -295,11 +295,11 @@ void TilioteApuri::naytaTosite()
 
         QVariantList viennit = rivi.viennit(model_->tilinumero());
 
-        if( rivi.tyyppi() == TilioteKirjausRivi::SUORITUS || rivi.tyyppi() == TilioteKirjausRivi::SIIRTO) {
+        if( rivi.tyyppi() == TositeVienti::SUORITUS || rivi.tyyppi() == TositeVienti::SIIRTO) {
             tosite.asetaTyyppi( TositeTyyppi::SIIRTO);
-        } else if( rivi.tyyppi() == TilioteKirjausRivi::MYYNTI) {
+        } else if( rivi.tyyppi() == TositeVienti::MYYNTI) {
             tosite.asetaTyyppi(TositeTyyppi::TULO);
-        } else if( rivi.tyyppi() == TilioteKirjausRivi::OSTO) {
+        } else if( rivi.tyyppi() == TositeVienti::OSTO) {
             tosite.asetaTyyppi( TositeTyyppi::MENO);
         } else if(!rivi.tyyppi()){
             if( rivi.summa() ) {

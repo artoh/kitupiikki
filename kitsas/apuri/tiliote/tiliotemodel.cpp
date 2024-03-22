@@ -118,9 +118,8 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
 bool TilioteModel::insertRows(int row, int count, const QModelIndex & /* parent */)
 {
     beginInsertRows(QModelIndex(),row, row + count - 1);
+    QDate pvm = kirjausRivit_.isEmpty() ? alkuPvm_ : kirjausRivit_.last().pvm();
 
-    QModelIndex edellinen = index(row - 1, 0);
-    const QDate pvm = edellinen.data(TilioteRivi::PvmRooli).toDate();
 
     for(int i=0; i < count; i++) {
         if(kirjausRivit_.count() >= row && row) {
@@ -161,6 +160,10 @@ void TilioteModel::asetaRivi(int indeksi, const TilioteKirjausRivi& rivi)
     emit dataChanged( index(indeksi, TilioteRivi::PVM),
                       index(indeksi, TilioteRivi::EURO),
                       QVector<int>() << Qt::EditRole);
+    if( rivi.tyyppi() == TositeVienti::SUORITUS || rivi.tyyppi() == TositeVienti::SIIRTO) {
+        kirjausRivit_[indeksi].paivitaErikoisrivit();
+    }
+
 }
 
 TilioteKirjausRivi TilioteModel::rivi(const int indeksi) const
