@@ -57,6 +57,7 @@ private:
 
         Tili *tili() const;
         Euro saldo() const;
+        int tilinumero() const;
     private:
         int tilinumero_;
         Euro saldo_;

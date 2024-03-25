@@ -181,7 +181,7 @@ void AloitusBrowser::paivitaVarmuuskopioVinkki()
                             "", "computer-laptop.png") ;
     } else if( sqlite ) {
         vinkkaa("local", tr("Muista varmuuskopiointi"),
-                tr("Kirjanpito tallennetaan omalle tietokoneellesi. Muista tehdä säännöllisesti varmuuskopioita ja säilyttää niitä turvallisessa paikassa."),
+                tr("Kirjanpito on tallennettu omalle tietokoneellesi.") + "<br/>" +  tr("Muista tehdä säännöllisesti varmuuskopioita ja säilyttää niitä turvallisessa paikassa."),
                 "", "usbdrive.png");
     }
 
@@ -400,8 +400,7 @@ QString AloitusBrowser::saldoTaulu()
     Euro vastaavaa;
     Euro vastattavaa;
     for(const auto& saldo : qAsConst(saldot_)) {
-        const Tili* tili = saldo.tili();
-        const QString numero = QString::number( tili->numero() );
+        const QString numero = QString::number( saldo.tilinumero());
         if( numero.startsWith('1') ) vastattavaa += saldo.saldo();
         else if(  numero.startsWith('2') ) vastaavaa += saldo.saldo();
     }
@@ -519,4 +518,9 @@ Tili *AloitusBrowser::SaldoTieto::tili() const
 Euro AloitusBrowser::SaldoTieto::saldo() const
 {
     return saldo_;
+}
+
+int AloitusBrowser::SaldoTieto::tilinumero() const
+{
+    return tilinumero_;
 }
