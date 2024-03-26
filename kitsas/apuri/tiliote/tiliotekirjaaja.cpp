@@ -52,7 +52,8 @@ TilioteKirjaaja::TilioteKirjaaja(SiirtoApuri *apuri):
     ui(new Ui::TilioteKirjaaja),
     maksuProxy_(new QSortFilterProxyModel(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
-    laskut_( new LaskuTauluModel(this))
+    laskut_( new LaskuTauluModel(this)),
+    rivit_(new ApuriRivit())
 {
     alusta();
     ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
@@ -753,7 +754,7 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava()
         aliRivi.setSelite(selite);
         aliRivi.setTili( index.data(LaskuTauluModel::TiliRooli).toInt() );
         aliRivi.setEra(index.data(LaskuTauluModel::EraMapRooli).toMap());
-        aliRivi.setBrutto( menoa_ ? Euro::Zero - ui->euroEdit->euro() : ui->euroEdit->euro() );
+        aliRivi.setBrutto( ui->euroEdit->euro() );
         rivit_->clear();
         rivit_->lisaaRivi(aliRivi);
 
