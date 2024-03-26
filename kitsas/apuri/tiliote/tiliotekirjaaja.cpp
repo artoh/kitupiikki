@@ -30,6 +30,7 @@
 
 #include <QShortcut>
 #include <QSettings>
+#include <QTimer>
 
 TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     QDialog(apuri),
@@ -312,6 +313,8 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->eraCombo->setVisible(erat);
     if( erat ) {
         ui->eraCombo->asetaTili(tili.numero(), ui->asiakastoimittaja->id());
+        if( rivi()->era().id() == 0 )
+            ui->eraCombo->valitseUusiEra();
     }
 
     bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
@@ -461,6 +464,7 @@ void TilioteKirjaaja::lisaaVienti()
     const int uusiRivi = rivit_->lisaaRivi( oletustili() );
     ui->viennitView->setVisible(true);
     ui->viennitView->selectRow(uusiRivi);
+    QTimer::singleShot(50, this, &TilioteKirjaaja::tiliMuuttuu);
 }
 
 void TilioteKirjaaja::poistaVienti()
