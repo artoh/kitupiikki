@@ -317,6 +317,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
     ui->poistoaikaLabel->setVisible(tasapoisto);
     ui->poistoaikaSpin->setVisible(tasapoisto);
+    ui->poistoaikaSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
             (ui->alaTabs->currentIndex() == TULOMENO || ui->alaTabs->currentIndex() == SIIRTO);
