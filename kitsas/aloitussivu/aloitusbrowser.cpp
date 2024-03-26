@@ -402,7 +402,7 @@ QString AloitusBrowser::saldoTaulu()
     for(const auto& saldo : qAsConst(saldot_)) {
         const QString numero = QString::number( saldo.tilinumero());
         if( numero.startsWith('1') ) vastattavaa += saldo.saldo();
-        else if(  numero.startsWith('2') ) vastaavaa += saldo.saldo();
+        else if(  numero.startsWith('2') || numero == '0' ) vastaavaa += saldo.saldo();
     }
 
     if( vastaavaa != vastattavaa) {

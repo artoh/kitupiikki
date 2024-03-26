@@ -898,7 +898,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
-        "L": "2",
+        "L": "0 2",
         "M": "bold",
         "V": 1
       }
@@ -1103,7 +1103,7 @@
         "fi": "Vastattavaa yhteensä",
         "sv": "Passiva sammanlagt",
         "en": "Capital, reserves and liabilities, total",
-        "L": "2",
+        "L": "0 2",
         "M": "bold",
         "V": 1
       }
