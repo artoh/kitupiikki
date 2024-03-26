@@ -417,6 +417,7 @@ void TilioteKirjaaja::tyhjenna()
 
     tarkastaTallennus();
     avoinProxy_->setFilterFixedString("€");
+    QTimer::singleShot(50, this, &TilioteKirjaaja::tiliMuuttuu);
 
 }
 
