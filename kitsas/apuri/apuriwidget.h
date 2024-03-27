@@ -53,7 +53,7 @@ protected:
 protected:
     Tosite* pTosite_;
 
-private:
+protected:
     bool resetointiKaynnissa_ = false;
 
 };

@@ -714,7 +714,7 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm, int verokoodi)
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
     bool resetoinnissa = resetoidaanko();
-    if(!resetoinnissa) aloitaResetointi();
+    if(!resetoinnissa) resetointiKaynnissa_ = true;
 
     int rivilla = index.row();
     
@@ -751,7 +751,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->seliteEdit->setText( rivi->selite() );
 
     haeKohdennukset();
-    if(!resetoinnissa) lopetaResetointi();
+    if(!resetoinnissa) resetointiKaynnissa_ = false;
 }
 
 void TuloMenoApuri::haeKohdennukset()
