@@ -726,10 +726,11 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
             tilinumero = kp()->tilit()->tiliTyypilla(TiliLaji::LVTULO).numero();
         else
             tilinumero = kp()->tilit()->tiliTyypilla(TiliLaji::MENO).numero();
+        ui->tiliEdit->valitseTiliNumerolla( tilinumero );
+        tiliMuuttui();
+    } else {
+        ui->tiliEdit->valitseTiliNumerolla(tilinumero);
     }
-
-    ui->tiliEdit->valitseTiliNumerolla( tilinumero );
-    tiliMuuttui();
 
     paivitaVeroFiltterit( tosite()->pvm(), rivi->alvkoodi() );
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
@@ -740,7 +741,6 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->verotonEdit->setCents( rivi->netto());
 
     ui->vahennysCheck->setChecked( !rivi->alvvahennys() );
-
     ui->poistoSpin->setValue( rivi->poistoaika() / 12 );
 
     ui->alkuEdit->setDate( rivi->jaksoalkaa() );
