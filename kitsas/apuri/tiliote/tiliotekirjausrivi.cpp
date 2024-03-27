@@ -267,9 +267,11 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
                 return QIcon(":/pic/mies.png"); // Asiakaskohtainen lasku
             } else if( era.id() > 0) {
                 return model()->kitsas()->tositeTyypit()->kuvake( era.tositetyyppi() );
+            } else if( era.eratyyppi() == EraMap::Uusi) {
+                return QIcon(":/pic/lisaa.png");
             }
             Tili* tili = model()->kitsas()->tilit()->tili( rivit_.value(0).tilinumero() );
-            if( tili && tili->eritellaankoTase()) {
+            if( era.eratyyppi() == EraMap::EiEraa && tili && tili->eritellaankoTase()) {
                 return QIcon(":/pic/huomio.png");
             } else {
                 return QIcon(":/pic/tyhja.png");
