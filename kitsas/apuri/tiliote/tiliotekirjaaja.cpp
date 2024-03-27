@@ -707,6 +707,7 @@ void TilioteKirjaaja::tallennaRivi()
 
     aliRivi->setTili( ui->tiliEdit->valittuTilinumero());
     aliRivi->setKohdennus( ui->kohdennusCombo->kohdennus());
+    aliRivi->setEra(ui->eraCombo->eraMap());
     aliRivi->setMerkkaukset( ui->merkkausCC->selectedDatas());
     aliRivi->setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi->setJaksopaattyy( ui->jaksoLoppuuEdit->date());

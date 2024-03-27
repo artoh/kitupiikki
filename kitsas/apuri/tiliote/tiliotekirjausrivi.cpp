@@ -190,7 +190,9 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
         }
         case KOHDENNUS:
         {
-            if( rivit_.value(0).eraId()) {
+            if( rivit_.count() > 1) return QVariant();
+            const EraMap& era = rivit_.value(0).era();
+            if( era.id()) {
                 const EraMap& era = rivit_.value(0).era();
                 if( era.id() > 0) {
                     return model()->kitsas()->tositeTunnus(era.tunniste(),
