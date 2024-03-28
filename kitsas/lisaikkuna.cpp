@@ -18,6 +18,7 @@
 #include "lisaikkuna.h"
 
 #include "kirjaus/kirjaussivu.h"
+#include "kirjaus/kirjauswg.h"
 #include "selaus/selauswg.h"
 
 #include "db/kirjanpito.h"
@@ -45,7 +46,8 @@ KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi, QList<int> selauslista
     KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );
     show();
-    sivu->siirrySivulle();
+    sivu->kirjausWg()->nollaaTietokannanvaihtuessa();
+    sivu->siirrySivulle();    
     sivu->naytaTosite(tositeId, tyyppi, selauslista, paluu);
 
     connect( sivu, &KirjausSivu::palaaEdelliselleSivulle, this, &KirjausSivu::close);

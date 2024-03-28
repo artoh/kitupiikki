@@ -124,8 +124,6 @@ private slots:
 
     void tuonti(const QVariantMap &map);
 
-    void nollaaTietokannanvaihtuessa();
-
     void naytaKommenttimerkki(bool onko);
     void vaihdaTunniste();
 
@@ -139,6 +137,7 @@ public:
     int nykyinenRivi() const { return ui->viennitView->currentIndex().row(); }
 
     void paivitaSelausLista(QList<int> lista);
+    void nollaaTietokannanvaihtuessa();
 
 
 signals:
