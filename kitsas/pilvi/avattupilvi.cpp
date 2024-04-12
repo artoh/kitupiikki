@@ -102,6 +102,7 @@ qlonglong AvattuPilvi::oikeudetListasta(const QVariantList &lista)
 {
     qlonglong bittikartta = 0;
     for(const auto& oikeus : lista) {
+        if( oikeus.toString().isUpper() ) continue; // Koontioikeudet eivät vaikuta tässä
         try {
             bittikartta |= oikeustunnukset__.at(oikeus.toString());
         } catch( std::out_of_range )
