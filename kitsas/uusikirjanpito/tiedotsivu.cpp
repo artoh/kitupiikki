@@ -207,6 +207,9 @@ void TiedotSivu::yTietoSaapuu()
         const QVariantMap iMap = item.toMap();
         const QString typeName = iMap.value("type").toString();
         const QString value = iMap.value("value").toString();
+        // Skipataan vanhentuneet yhteystiedot
+        if( iMap.value("endDate").toDate().isValid() )
+            continue;
         if( typeName == "Kotisivun www-osoite" && ui->webEdit->text().isEmpty()) {
             ui->webEdit->setText( value );
         } else if( typeName == "Puhelin" && ui->puhelinEdit->text().isEmpty()) {
