@@ -28,7 +28,7 @@ void HubWebPage::login(const QString &cloudId)
     kysymys->kysy();
 }
 
-bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType /*type*/, bool /*isMainFrame*/)
+bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType type, bool /*isMainFrame*/)
 {
     if( url.scheme() == "kitsas") {
         const QString path = url.path();
@@ -40,6 +40,8 @@ bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType /*type*
         return false;
     } else if(url.scheme() == "office") {
         emit toimistoLinkki(url.path());
+        return false;
+    } else if( type == QWebEnginePage::NavigationTypeBackForward) {
         return false;
     } else {
         return true;
