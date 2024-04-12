@@ -133,6 +133,12 @@ void MinaMaaritys::lueVastaus(QVariant *data)
     ui->normaaliRadio->setChecked( !proMode );
     ui->toffeeRadio->setChecked( proMode );
 
+    // Näkymä piiloon jos esim. asiakastyyppinen tunnari
+    bool naytaNakyma = !minaMap_.contains("mode") ||
+                        minaMap_.value("mode") == "NORMAL" ||
+                        minaMap_.value("mode") == "PRO";
+    ui->nakymaGroup->setVisible(naytaNakyma);
+
     ui->kayta2fa->setChecked( minaMap_.value("use2fa").toBool() );
 
     QVariantList viikonpaivat = minaMap_.value("emaildays").toList();
