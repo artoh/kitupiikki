@@ -15,7 +15,7 @@ HubToimistoSivu::HubToimistoSivu(QWidget* parent, Jarjestelma jarjestelma)
     jarjestelma_(jarjestelma)
 {
 #ifdef Q_OS_WIN
-    if( !qApp()->property("noweb").toBool()) {
+    if( !qApp->property("noweb").toBool()) {
         alusta();
     }
 #endif
