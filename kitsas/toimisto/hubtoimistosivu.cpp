@@ -7,13 +7,17 @@
 #include "pilvi/pilvimodel.h"
 #include "hubwebpage.h"
 #include <QtGlobal>
+#include <QApplication>
+#include <QDesktopServices>
 
 HubToimistoSivu::HubToimistoSivu(QWidget* parent, Jarjestelma jarjestelma)
     :  KitupiikkiSivu(parent),    
     jarjestelma_(jarjestelma)
 {
 #ifdef Q_OS_WIN
-    alusta();
+    if( !qApp()->property("noweb").toBool()) {
+        alusta();
+    }
 #endif
 }
 
@@ -21,7 +25,11 @@ HubToimistoSivu::HubToimistoSivu(QWidget* parent, Jarjestelma jarjestelma)
 
 void HubToimistoSivu::siirrySivulle()
 {
-    if( !view_ ) {
+    if( qApp->property("noweb").toBool()) {
+        QString url = kp()->pilvi()->service(jarjestelma_ == MAJAVA ? "majava" : "admin");
+        url.replace("client=desktop","client=web");
+        QDesktopServices::openUrl(url);
+    } else if( !view_ ) {
         alusta();
         alustaSivu();
     }

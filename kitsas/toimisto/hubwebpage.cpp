@@ -42,7 +42,7 @@ bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType type, b
         emit toimistoLinkki(url.path());
         return false;
     } else if( type == QWebEnginePage::NavigationTypeBackForward) {
-        return false;
+        return url.scheme() == "http" || url.scheme() == "https";
     } else {
         return true;
     }
