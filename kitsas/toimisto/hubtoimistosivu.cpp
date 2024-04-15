@@ -32,6 +32,8 @@ void HubToimistoSivu::siirrySivulle()
     } else if( !view_ ) {
         alusta();
         alustaSivu();
+    } else if( jarjestelma_ == ADMIN ) {
+        view_->load(kp()->pilvi()->service("admin") );
     }
 }
 
