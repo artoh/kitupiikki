@@ -17,6 +17,8 @@ public:
 
     void alustaSivu();
 
+    void alusta();
+
 public slots:
     void naytaToimisto(const QString& id);
 
@@ -24,7 +26,7 @@ signals:
     void toimistoLinkki(const QString& id);
 
 protected:
-    QWebEngineView* view_;
+    QWebEngineView* view_ = nullptr;
     Jarjestelma jarjestelma_;
 };
 
