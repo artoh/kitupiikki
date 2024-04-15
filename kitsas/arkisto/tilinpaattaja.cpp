@@ -113,10 +113,12 @@ void TilinPaattaja::paivitaDialogi()
     connect( kysely, &KpKysely::vastaus, this, &TilinPaattaja::dataSaapuu);
     kysely->kysy();
 
+    tilinpaatosOlemassa_ = false;
     KpKysely* tkysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::GET);
     connect( tkysely, &KpKysely::vastaus, this, [this, lukittu] () {
         this->ui->tulostaNappi->setEnabled(lukittu);
         this->ui->vahvistaNappi->setEnabled(lukittu);
+        tilinpaatosOlemassa_ = true;
     });
     tkysely->kysy();
 
@@ -150,6 +152,11 @@ void TilinPaattaja::lukitse()
                               QMessageBox::Yes | QMessageBox::No,
                               QMessageBox::Yes) == QMessageBox::Yes)
         arkistosivu->teeArkisto(tilikausi);
+
+    if( tilinpaatosOlemassa_ ) {
+        QMessageBox::information(this, tr("Tilinpäätöksen päivittäminen"),
+                                tr("Jos olet muokannut tilinpäätökseen vaikuttavia tietoja, muodosta tilinpäätösdokumentti uudelleen <b>Liitetiedot</b>-kohdasta."));
+    }
 
     paivitaDialogi();
 }
