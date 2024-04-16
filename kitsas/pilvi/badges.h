@@ -14,6 +14,7 @@ public:
         NOTIFICATION=   0b0010000,
         ERROR=          0b0100000,
         WARN=           0b1000000,
+        DRAFT=         0b10000000,
     };
 
     Badges();

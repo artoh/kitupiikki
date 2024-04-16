@@ -51,6 +51,10 @@ void KirjanpitoDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &
         QSvgRenderer renderer(QString(":/pic/huomio.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));
     }
+    if( badges & Badges::DRAFT) {
+        QSvgRenderer renderer(QString(":/pic/draft.svg"));
+        renderer.render(painter, oikealla(indeksi++, rect));
+    }
     if( badges & Badges::OUTBOX) {
         QSvgRenderer renderer(QString(":/pic/paperilennokki.svg"));
         renderer.render(painter, oikealla(indeksi++, rect));

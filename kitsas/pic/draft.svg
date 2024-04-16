@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Ebene_1"
+   data-name="Ebene 1"
+   viewBox="0 0 800 800"
+   version="1.1"
+   sodipodi:docname="draft.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview23"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.805"
+     inkscape:cx="400"
+     inkscape:cy="424.2236"
+     inkscape:window-width="1875"
+     inkscape:window-height="1228"
+     inkscape:window-x="495"
+     inkscape:window-y="451"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Ebene_1" />
+  <defs
+     id="defs10">
+    <clipPath
+       id="clip-path">
+      <circle
+         cx="400"
+         cy="400"
+         r="400"
+         style="fill:none"
+         id="circle2" />
+    </clipPath>
+    <linearGradient
+       id="Unbenannter_Verlauf_5"
+       x1="392.5418"
+       y1="439.8751"
+       x2="174.207"
+       y2="658.2099"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         id="stop5" />
+      <stop
+         offset="1"
+         stop-opacity="0"
+         id="stop7" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Greyscale"
+       id="filter844"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         id="feColorMatrix842"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix833" />
+      <feColorMatrix
+         id="feColorMatrix835"
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         in="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <title
+     id="title12">stift</title>
+  <circle
+     cx="400"
+     cy="400"
+     style="fill:#868686;fill-opacity:1"
+     id="circle14"
+     r="400" />
+  <g
+     style="clip-path:url(#clip-path)"
+     clip-path="url(#clip-path)"
+     id="g18">
+    <path
+       d="M362.3315,798.7065,592.7029,568.3351,572.164,471.8309l-270.0994-270.1-294.5,294.5C59.46,673.5159,172.8036,780,362.3315,798.7065Z"
+       style="opacity:0.30000001192092896;fill:url(#Unbenannter_Verlauf_5)"
+       id="path16" />
+  </g>
+  <path
+     d="M586.088,537.2539h0l-13.9239-65.423h0L302.0646,201.7313l-75.9655,75.9655L496.1985,547.7961h0L561.6217,561.72l31.0812,6.6149ZM557.32,550.875,506.394,540.0366l58.01-58.01,10.8384,50.9256A26.5056,26.5056,0,0,0,557.32,550.875Z"
+     style="fill:#fff"
+     id="path20" />
+  <metadata
+     id="metadata840">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>stift</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

@@ -255,6 +255,7 @@
         <file>tilille.png</file>
         <file>tililta.png</file>
         <file>usbdrive.png</file>
+        <file>draft.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>
