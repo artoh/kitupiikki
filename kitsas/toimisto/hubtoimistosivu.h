@@ -16,6 +16,7 @@ public:
     void siirrySivulle() override;
 
     void alustaSivu();
+    void naytaSivu();
 
     void alusta();
 
