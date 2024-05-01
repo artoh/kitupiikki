@@ -2,6 +2,7 @@
 #include "hubwebpage.h"
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
+#include "qaction.h"
 
 #include <QDesktopServices>
 #include <QWebEngineNewWindowRequest>
@@ -9,6 +10,26 @@
 HubWebPage::HubWebPage(QObject *parent)
     : QWebEnginePage{parent}
 {
+    action(QWebEnginePage::SavePage)->setVisible(false);
+    action(QWebEnginePage::Reload)->setVisible(false);
+    action(QWebEnginePage::ViewSource)->setVisible(false);
+    action(QWebEnginePage::Forward)->setText(tr("Seuraava sivu"));
+    action(QWebEnginePage::Back)->setText(tr("Edellinen sivu"));
+    action(QWebEnginePage::OpenLinkInNewTab)->setVisible(false);
+    action(QWebEnginePage::OpenLinkInNewWindow)->setVisible(false);
+    action(QWebEnginePage::CopyLinkToClipboard)->setVisible(false);
+    action(QWebEnginePage::CopyImageUrlToClipboard)->setVisible(false);
+    action(QWebEnginePage::CopyImageToClipboard)->setVisible(false);
+    action(QWebEnginePage::Paste)->setText(tr("Liitä"));
+    action(QWebEnginePage::PasteAndMatchStyle)->setVisible(false);
+    action(QWebEnginePage::Copy)->setText(tr("Kopioi"));
+    action(QWebEnginePage::Cut)->setText(tr("Leikkaa"));
+    action(QWebEnginePage::SelectAll)->setVisible(false);
+    action(QWebEnginePage::DownloadImageToDisk)->setVisible(false);
+    action(QWebEnginePage::DownloadLinkToDisk)->setVisible(false);
+    action(QWebEnginePage::Undo)->setText(tr("kumoa"));
+    action(QWebEnginePage::Redo)->setText(tr("Tee uudelleen"));
+
     connect( this, &HubWebPage::newWindowRequested, this, &HubWebPage::openLinkInNewWindow);
 }
 
@@ -42,7 +63,7 @@ bool HubWebPage::acceptNavigationRequest(const QUrl &url, NavigationType type, b
         emit toimistoLinkki(url.path());
         return false;
     } else if( type == QWebEnginePage::NavigationTypeBackForward) {
-        return false;
+        return url.scheme() == "http" || url.scheme() == "https";
     } else {
         return true;
     }

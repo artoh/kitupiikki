@@ -18,7 +18,9 @@ void Badges::set(const QStringList &badgeList)
             ( badgeList.contains("notify") || badgeList.contains("success") ? Badge::NOTIFICATION : 0) |
             ( badgeList.contains("info") ? Badge::INFORMATION : 0 ) |
             ( badgeList.contains("warn") ? Badge::WARN : 0 ) |
-            ( badgeList.contains("error") ? Badge::ERROR : 0 );
+            ( badgeList.contains("error") ? Badge::ERROR : 0 ) |
+            ( badgeList.contains("drafts") ? Badge::DRAFT : 0 )
+        ;
 
 }
 

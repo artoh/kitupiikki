@@ -19,7 +19,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QDesktopServices>
-
+#include <QApplication>
 
 LisaosaSivu::LisaosaSivu(QWidget* parent) :
     KitupiikkiSivu(parent),
@@ -167,7 +167,12 @@ void LisaosaSivu::infoSaapuu(QVariant *data)
     nameLabel_->setText(nimi.teksti());
 
     const QString link = url + "?callId=" + callId + "&lang=" + Kielet::instanssi()->uiKieli() ;
-    webView_->load(link);
+
+    if( qApp->property("noweb").toBool()) {
+        QDesktopServices::openUrl(link);
+    } else {
+        webView_->load(link);
+    }
 }
 
 void LisaosaSivu::aktivointiInfoSaapuu(QVariant *data)

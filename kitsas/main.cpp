@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
                           {"pro",
                           "Kirjautuminen suoraan pilveen"},
                            {"demo",
-                           "Demo-tila"}
+                           "Demo-tila"},
+                            {"noweb","Käytä aina ulkoista selainta"}
                       });
     parser.addVersionOption();
     parser.process(a);
@@ -90,6 +91,7 @@ int main(int argc, char *argv[])
 
     PilviModel::asetaPilviLoginOsoite( parser.value("api") );
     KitsasLokiModel::setLoggingToFile( parser.value("log") );
+    a.setProperty("noweb", parser.isSet("noweb"));
 
     QStringList argumentit = qApp->arguments();
 

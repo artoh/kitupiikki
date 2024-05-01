@@ -69,6 +69,7 @@ private:
     ArkistoSivu *arkistosivu;
     Ui::TilinPaattaja *ui;
     QVariantMap data_;
+    bool tilinpaatosOlemassa_ = false;
 };
 
 #endif // TILINPAATTAJA_H
