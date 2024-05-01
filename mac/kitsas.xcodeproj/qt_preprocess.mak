@@ -632,6 +632,7 @@ qrc_pic.cpp: ../kitsas/pic/pic.qrc \
 		../kitsas/pic/calendar.png \
 		../kitsas/pic/format-justify-center.png \
 		../kitsas/pic/format-justify-right.png \
+		../kitsas/pic/draft.svg \
 		../kitsas/pic/format-italic.png \
 		../kitsas/pic/down.png \
 		../kitsas/pic/cloud-64.png \

@@ -3328,6 +3328,7 @@
 		CBDC2ECA27788FA900A20B56 /* moc_laatijanraportti.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laatijanraportti.cpp; sourceTree = "<group>"; };
 		CBDC2ECB27788FA900A20B56 /* moc_laatijanpaivakirja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laatijanpaivakirja.cpp; sourceTree = "<group>"; };
 		CBDC2ECC27788FA900A20B56 /* moc_laaditunraportinnaytin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_laaditunraportinnaytin.cpp; sourceTree = "<group>"; };
+		CBE08F0F2BE23E490043420C /* draft.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = draft.svg; sourceTree = "<group>"; };
 		CBE47FCB2F985179CC264512 /* moc_ryhmaanasiakkaatproxy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_ryhmaanasiakkaatproxy.cpp; path = /Users/petri/git/kitupiikki/mac/moc_ryhmaanasiakkaatproxy.cpp; sourceTree = "<absolute>"; };
 		CBF158A82BCBADA1008BC29D /* moc_apuririvit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_apuririvit.cpp; sourceTree = "<group>"; };
 		CBF158A92BCBAE3E008BC29D /* apuririvi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = apuririvi.cpp; sourceTree = "<group>"; };
@@ -5225,6 +5226,7 @@
 				CB91DA652660C7CC00A2FAA2 /* Diary64.png */,
 				CB91DA6A2660C7CC00A2FAA2 /* dokumentti.png */,
 				CB91DAB62660C7CC00A2FAA2 /* down.png */,
+				CBE08F0F2BE23E490043420C /* draft.svg */,
 				CB91DBF72660C7CD00A2FAA2 /* e64.png */,
 				CB91DC412660C7CE00A2FAA2 /* edellinen.png */,
 				CB91DAC32660C7CC00A2FAA2 /* edit-clear.png */,
@@ -7932,7 +7934,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7949,7 +7951,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7973,7 +7975,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 48;
+				CURRENT_PROJECT_VERSION = 49;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
@@ -7991,7 +7993,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libraries";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 5.5;
+				MARKETING_VERSION = 5.5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
