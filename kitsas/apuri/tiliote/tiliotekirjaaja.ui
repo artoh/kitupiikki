@@ -56,7 +56,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Päivämäärä</string>
+          <string>&amp;Päivämäärä</string>
          </property>
          <property name="buddy">
           <cstring>pvmEdit</cstring>
@@ -79,7 +79,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="euroLabel">
          <property name="text">
-          <string>Euroa</string>
+          <string>&amp;Euroa</string>
          </property>
          <property name="buddy">
           <cstring>euroEdit</cstring>
@@ -209,6 +209,9 @@
            <property name="icon">
             <iconset resource="../../pic/pic.qrc">
              <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
+           </property>
+           <property name="shortcut">
+            <string>Ins</string>
            </property>
           </widget>
          </item>
@@ -355,6 +358,9 @@
        <property name="icon">
         <iconset resource="../../pic/pic.qrc">
          <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F1</string>
        </property>
       </widget>
      </item>
