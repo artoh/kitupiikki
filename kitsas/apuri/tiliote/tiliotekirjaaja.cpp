@@ -745,6 +745,9 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava()
     rivi.asetaKumppani( ui->asiakastoimittaja->map());
     rivi.asetaTyyppi(tyyppi());
     rivit_->asetaTyyppi(tyyppi(), !menoa_ );
+    if( rivit_->rowCount() == 1) {
+        rivi.asetaOtsikko( ui->seliteEdit->toPlainText() );
+    }
 
     if( ui->alaTabs->currentIndex() == MAKSU) {
         QModelIndex index = ui->maksuView->currentIndex();

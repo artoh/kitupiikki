@@ -17,7 +17,6 @@ public:
     explicit VarmenneDialog(QWidget *parent = nullptr);
     ~VarmenneDialog();
 
-    bool toimistoVarmenne(GroupData* group);
     int pilviVarmenne();
 
     QString tunnus() const;

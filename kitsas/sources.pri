@@ -282,26 +282,8 @@ SOURCES += \
     $$PWD/tilinpaatoseditori/mytexteditor.cpp \
     $$PWD/tilinpaatoseditori/taulukonkasittelija.cpp \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.cpp \
-    $$PWD/toimisto/authlogmodel.cpp \
-    $$PWD/toimisto/bookdata.cpp \
-    $$PWD/toimisto/booknotificationmodel.cpp \
-    $$PWD/toimisto/groupbooksmodel.cpp \
-    $$PWD/toimisto/groupdata.cpp \
-    $$PWD/toimisto/groupmember.cpp \
-    $$PWD/toimisto/groupmembersmodel.cpp \
-    $$PWD/toimisto/groupnode.cpp \
-    $$PWD/toimisto/grouptreemodel.cpp \
-    $$PWD/toimisto/groupuserbooksmodel.cpp \
-    $$PWD/toimisto/groupuserdata.cpp \
-    $$PWD/toimisto/groupusermembersmodel.cpp \
     $$PWD/toimisto/hubtoimistosivu.cpp \
     $$PWD/toimisto/hubwebpage.cpp \
-    $$PWD/toimisto/oikeusinfonmuodostaja.cpp \
-    $$PWD/toimisto/pikavalintadialogi.cpp \
-    $$PWD/toimisto/ryhmaoikeusdialog.cpp \
-    $$PWD/toimisto/shortcutmodel.cpp \
-    $$PWD/toimisto/toimistokirjanpitodialogi.cpp \
-    $$PWD/toimisto/toimistosivu.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -450,8 +432,6 @@ SOURCES += \
     tuonti/tesseracttuonti.cpp \
     tools/finvoicehaku.cpp \
     maaritys/bannerdialog.cpp \
-    toimisto/uusitoimistodialog.cpp \
-    toimisto/kirjansiirtodialogi.cpp \
     aloitussivu/debugtiedotdlg.cpp
 
 HEADERS += \
@@ -770,26 +750,8 @@ HEADERS += \
     $$PWD/tilinpaatoseditori/mytexteditor.h \
     $$PWD/tilinpaatoseditori/taulukonkasittelija.h \
     $$PWD/tilinpaatoseditori/tilinpaatosgeneraattori.h \
-    $$PWD/toimisto/authlogmodel.h \
-    $$PWD/toimisto/bookdata.h \
-    $$PWD/toimisto/booknotificationmodel.h \
-    $$PWD/toimisto/groupbooksmodel.h \
-    $$PWD/toimisto/groupdata.h \
-    $$PWD/toimisto/groupmember.h \
-    $$PWD/toimisto/groupmembersmodel.h \
-    $$PWD/toimisto/groupnode.h \
-    $$PWD/toimisto/grouptreemodel.h \
-    $$PWD/toimisto/groupuserbooksmodel.h \
-    $$PWD/toimisto/groupuserdata.h \
-    $$PWD/toimisto/groupusermembersmodel.h \
     $$PWD/toimisto/hubtoimistosivu.h \
     $$PWD/toimisto/hubwebpage.h \
-    $$PWD/toimisto/oikeusinfonmuodostaja.h \
-    $$PWD/toimisto/pikavalintadialogi.h \
-    $$PWD/toimisto/ryhmaoikeusdialog.h \
-    $$PWD/toimisto/shortcutmodel.h \
-    $$PWD/toimisto/toimistokirjanpitodialogi.h \
-    $$PWD/toimisto/toimistosivu.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/eraeranvalintadialog.h \
@@ -912,8 +874,6 @@ HEADERS += \
     tuonti/tesseracttuonti.h \
     tools/finvoicehaku.h \
     maaritys/bannerdialog.h \
-    toimisto/uusitoimistodialog.h \
-    toimisto/kirjansiirtodialogi.h \
     aloitussivu/debugtiedotdlg.h
 
 
@@ -1009,11 +969,6 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
-    $$PWD/toimisto/pikavalintadialogi.ui \
-    $$PWD/toimisto/ryhmaoikeusdialog.ui \
-    $$PWD/toimisto/toimisto.ui \
-    $$PWD/toimisto/toimistokirjanpitodialogi.ui \
-    $$PWD/toimisto/toimistooikeudet.ui \
     $$PWD/tools/eranvalintadialog.ui \
     $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
@@ -1073,8 +1028,6 @@ FORMS += \
     arkisto/tuloverodialog.ui \
     kierto/kiertomuokkausdlg.ui\
     maaritys/bannerdialog.ui \
-    toimisto/uusitoimistodialog.ui \
-    toimisto/kirjansiirtodialogi.ui \
     aloitussivu/debugtiedotdlg.ui
 
 DISTFILES += \

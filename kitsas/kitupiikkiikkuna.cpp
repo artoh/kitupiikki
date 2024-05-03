@@ -51,7 +51,6 @@
 #include "kierto/kiertosivu.h"
 #include "alv/alvsivu.h"
 #include "kirjaus/tallennettuwidget.h"
-#include "toimisto/toimistosivu.h"
 #include "toimisto/hubtoimistosivu.h"
 #include "lisaosat/lisaosasivu.h"
 
@@ -86,8 +85,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
-    lisaosaSivu( new LisaosaSivu(this)),
-    toimistosivu( new ToimistoSivu(this)),
+    lisaosaSivu( new LisaosaSivu(this)),    
     hubToimistoSivu(new HubToimistoSivu(this)),
     majavaSivu(new HubToimistoSivu(this, HubToimistoSivu::MAJAVA)),
     nykysivu(nullptr),
@@ -97,7 +95,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
     connect(kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
-    connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjauduttu);
+    connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
@@ -264,7 +262,6 @@ void KitupiikkiIkkuna::paivitaAktiivisuudet()
     }
 
     if( kp()->pilvi()->kayttajaPilvessa()) {
-        sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
         sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
         sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
     } else {
@@ -309,11 +306,6 @@ void KitupiikkiIkkuna::naytaToimisto(const QString &id)
 {
     hubToimistoSivu->naytaToimisto(id);
     valitseSivu(HUBTOIMISTOSIVU);
-}
-
-void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
-{
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kayttaja.admin() );
 }
 
 void KitupiikkiIkkuna::naytaTallennettu(int tunnus, const QDate &paiva, const QString &sarja, int tila)
@@ -524,8 +516,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
     lisaaSivu(tr("Lisäosat"), ":/pic/palat.svg", tr("Lisäosien hallinta"), "Ctrl+9", LISAOSASIVU, lisaosaSivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", TOIMISTOSIVU, toimistosivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+0", HUBTOIMISTOSIVU, hubToimistoSivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", HUBTOIMISTOSIVU, hubToimistoSivu);
     lisaaSivu(tr("Majava"), ":/pixaby/majava.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "", MAJAVASIVU, majavaSivu);
 
 
