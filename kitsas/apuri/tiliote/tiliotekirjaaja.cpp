@@ -179,7 +179,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
-        ui->tiliEdit->suodataTyypilla( ".*");
+        ui->tiliEdit->suodataTyypilla( "[ABCD].*");
 
     } else if( tab == VAKIOVIITE) {
         ui->maksuView->setModel( kp()->vakioViitteet() );
@@ -704,10 +704,14 @@ void TilioteKirjaaja::tallennaRivi()
         return;
 
     ApuriRivi* aliRivi = rivit_->rivi(rivi);
+    Tili tili = ui->tiliEdit->valittuTili();
 
     aliRivi->setTili( ui->tiliEdit->valittuTilinumero());
     aliRivi->setKohdennus( ui->kohdennusCombo->kohdennus());
-    aliRivi->setEra(ui->eraCombo->eraMap());
+    if( tili.eritellaankoTase())
+        aliRivi->setEra(ui->eraCombo->eraMap());
+    else
+        aliRivi->setEra(EraMap());
     aliRivi->setMerkkaukset( ui->merkkausCC->selectedDatas());
     aliRivi->setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi->setJaksopaattyy( ui->jaksoLoppuuEdit->date());
