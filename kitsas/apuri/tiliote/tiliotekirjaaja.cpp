@@ -280,19 +280,19 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
    menoa_ = (tab == TILILTA);
 
    if( menoa_ ) {
-        ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
+        ui->alaTabs->setTabText(MAKSU, tr("Maksettu &lasku"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tililta.png"));
-        ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
+        ui->alaTabs->setTabText(TULOMENO, tr("&Meno"));
         if( ui->alaTabs->count() > VAKIOVIITE)
             ui->alaTabs->removeTab(VAKIOVIITE);
     } else {
-        ui->alaTabs->setTabText(MAKSU, tr("Saapuva maksu"));
+        ui->alaTabs->setTabText(MAKSU, tr("Saapuva &maksu"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tilille.png"));
-        ui->alaTabs->setTabText(TULOMENO, tr("Tulo"));
+        ui->alaTabs->setTabText(TULOMENO, tr("&Tulo"));
         if( ui->alaTabs->count() == VAKIOVIITE )
-            ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"));
+            ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviite"));
     }
 
     alaTabMuuttui( ui->alaTabs->currentIndex() );
@@ -483,12 +483,12 @@ void TilioteKirjaaja::alusta()
     ui->setupUi(this);
     ui->viennitView->setModel(rivit_);
 
-    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilille"));
-    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililtä"));
+    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilill&e"));
+    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililt&ä"));
 
-    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Laskun maksu"));
-    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
-    ui->alaTabs->addTab(QIcon(":/pic/tilille.png"), tr("Siirto"));
+    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("&Laskun maksu"));
+    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("&Tulo"));
+    ui->alaTabs->addTab(QIcon(":/pic/tilille.png"), tr("&Siirto"));
 
 
     veroFiltteri_ = new QSortFilterProxyModel(this);
@@ -551,6 +551,9 @@ void TilioteKirjaaja::alusta()
 
     connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::lisaaVienti);
     connect( ui->poistaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::poistaVienti);
+
+    new QShortcut(QKeySequence(Qt::Key_Plus | Qt::ALT), this, [this] { this->ui->ylaTab->setCurrentIndex(TILILLE); });
+    new QShortcut(QKeySequence(Qt::Key_Minus | Qt::ALT), this, [this] { this->ui->alaTabs->setCurrentIndex(TILILTA);});
 
     ylaTabMuuttui( ui->ylaTab->currentIndex() );
 }
