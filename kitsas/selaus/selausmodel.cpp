@@ -275,7 +275,7 @@ SelausRivi::SelausRivi(QSqlQuery &data, bool samakausi, SQLiteModel *sqlite, boo
     debet = data.value("debetsnt").toLongLong();
     kredit = data.value("kreditsnt").toLongLong();
     alvKoodi = data.value("alvkoodi").toInt();
-    alvProsentti = qRound(data.value("alvprosentti").toDouble());
+    alvProsentti = data.value("alvprosentti").toDouble();
     kumppani = data.value("kumppani_nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
@@ -373,7 +373,7 @@ QVariant SelausRivi::data(int sarake, int role, bool alternateColor) const
             case SelausModel::ALV:
             {
                 if(alvProsentti)
-                    return QString("%1 %").arg(alvProsentti);
+                    return QString("%1 %").arg(alvProsentti,0,'f',1);
                 else
                     return QString();
             }

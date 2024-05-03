@@ -189,9 +189,9 @@ void TilinMuokkausDialog::lataa()
     ui->bicEdit->setText( tili_->bic());
     ui->pankkiEdit->setText(tili_->pankki());
 
-    ui->veroSpin->setValue( tili_->luku("alvprosentti"));
+    ui->veroSpin->setValue( tili_->alvprosentti());
 
-    int alvlaji = tili_->luku("alvlaji");
+    int alvlaji = tili_->alvlaji();
     ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji , VerotyyppiModel::KoodiRooli) );
 
     ui->poistoaikaSpin->setValue( tili_->luku("tasaerapoisto") / 12);  // kk -> vuosi
@@ -360,7 +360,7 @@ void TilinMuokkausDialog::accept()
 
         tili_->setInt("alvlaji", ui->veroCombo->currentData().toInt());
         if( !ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
-            tili_->setInt("alvprosentti", ui->veroSpin->value());
+            tili_->set("alvprosentti", ui->veroSpin->value());
         else
             tili_->unset("alvprosentti");
         tili_->setInt("tasaerapoisto", tyyppi == "APT" ? ui->poistoaikaSpin->value() * 12 : 0);
