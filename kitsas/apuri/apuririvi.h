@@ -37,7 +37,7 @@ public:
     ApuriRivi(const TositeVienti& vienti, bool plusOnKredit = true);
 
     int tilinumero() const { return tilinumero_; }
-    int alvkoodi() const { return alvkoodi_; }
+    int alvkoodi() const;
     double alvprosentti() const { return veroprosentti_; }
     bool alvvahennys() const { return alvvahennys_; }
     QString selite() const { return selite_;}
@@ -56,7 +56,7 @@ public:
 
     void setTili(int numero) { tilinumero_=numero;}
     void setAlvkoodi(int koodi);
-    void setAlvprosentti(double prosentti) { veroprosentti_ = prosentti;}
+    void setAlvprosentti(double prosentti);
     void setAlvvahennys(bool vahennys, int vahennysvientiId = 0);
     void setSelite(const QString& selite) { selite_ = selite;}
     void setKohdennus(int kohdennus) { kohdennus_ = kohdennus;}

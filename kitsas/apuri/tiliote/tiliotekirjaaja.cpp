@@ -44,6 +44,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     resize(800,600);
     restoreGeometry( kp()->settings()->value("TilioteKirjaaja").toByteArray());
+    ui->viennitView->setColumnHidden(ApuriRivit::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen));
 
 }
 
@@ -189,7 +190,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     tiliMuuttuu();
     ui->viennitView->horizontalHeader()->setSectionResizeMode(TilioteViennit::TILI, QHeaderView::Stretch);
 
-    bool const voiLisataVienteja = tab != MAKSU && ui->alaTabs->currentIndex() != VAKIOVIITE && tab != MAKSU;
+    bool const voiLisataVienteja = tab != MAKSU && ui->alaTabs->currentIndex() != VAKIOVIITE;
     ui->lisaaVientiNappi->setVisible( voiLisataVienteja );
     ui->poistaVientiNappi->setVisible( voiLisataVienteja && rivit_->rowCount() > 1);
     ui->viennitView->setVisible( voiLisataVienteja && rivit_->rowCount() > 1);
@@ -223,6 +224,7 @@ void TilioteKirjaaja::verotonMuuttuu()
 
 void TilioteKirjaaja::alvMuuttuu()
 {
+
    int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
    if( !ladataan_) {
         rivi()->setAlvkoodi( alvkoodi );
@@ -466,12 +468,14 @@ void TilioteKirjaaja::lisaaVienti()
     const int uusiRivi = rivit_->lisaaRivi( oletustili() );
     ui->viennitView->setVisible(true);
     ui->viennitView->selectRow(uusiRivi);
+    ui->poistaVientiNappi->setVisible( true );
     QTimer::singleShot(50, this, &TilioteKirjaaja::tiliMuuttuu);
 }
 
 void TilioteKirjaaja::poistaVienti()
 {
     ui->viennitView->setVisible( rivit_->rowCount() > 2 );
+    ui->poistaVientiNappi->setVisible( rivit_->rowCount() > 2);
     rivit_->poistaRivi(nykyAliRiviIndeksi_);
     ui->viennitView->selectRow( qMin(nykyAliRiviIndeksi_, rivit_->rowCount()-1) );
 }
@@ -551,9 +555,6 @@ void TilioteKirjaaja::alusta()
 
     connect( ui->lisaaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::lisaaVienti);
     connect( ui->poistaVientiNappi, &QPushButton::clicked, this, &TilioteKirjaaja::poistaVienti);
-
-    new QShortcut(QKeySequence(Qt::Key_Plus | Qt::ALT), this, [this] { this->ui->ylaTab->setCurrentIndex(TILILLE); });
-    new QShortcut(QKeySequence(Qt::Key_Minus | Qt::ALT), this, [this] { this->ui->alaTabs->setCurrentIndex(TILILTA);});
 
     ylaTabMuuttui( ui->ylaTab->currentIndex() );
 }

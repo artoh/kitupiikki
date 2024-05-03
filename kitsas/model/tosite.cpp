@@ -397,12 +397,9 @@ void Tosite::tallenna(int tilaan)
         }
 
         if( !alvVelvollinen && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
-            // Varmistetaan, että arvonlisäverovelvottomaan kirjanpitoon
-            // ei voi tallentua arvonlisäverollisia kirjauksia
-            qDebug() << "Arvonlisäveroton kirjanpito " << vienti.alvKoodi() << " " << vienti.alvProsentti() << "% ";
-            vienti.setAlvKoodi(AlvKoodi::EIALV);
-            vienti.setAlvProsentti(0);
-            viennit()->asetaVienti(i, vienti);
+            QMessageBox::critical( nullptr, tr("Virheellinen tosite"), tr("Arvonlisäverottomaan kirjanpitoon ei voi tehdä arvonlisäverollista kirjausta"));
+            tallennuksessaVirhe(0);
+            return;
         }
 
         if( vienti.eraId() && !kp()->tilit()->tili(vienti.tili())->eritellaankoTase()) {
