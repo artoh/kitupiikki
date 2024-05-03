@@ -397,19 +397,21 @@ void Tosite::tallenna(int tilaan)
         }
 
         if( !alvVelvollinen && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
-            QMessageBox::critical( nullptr, tr("Virheellinen tosite"), tr("Arvonlisäverottomaan kirjanpitoon ei voi tehdä arvonlisäverollista kirjausta"));
-            tallennuksessaVirhe(0);
-            return;
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Arvonlisäverottomaan kirjanpitoon ei pitäisi tehdä arvonlisäverollista kirjausta. \n Tallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+                tallennuksessaVirhe(0);
+                return;
+            };
         }
 
-        if( vienti.eraId() && !kp()->tilit()->tili(vienti.tili())->eritellaankoTase()) {
+        Tili* tili = kp()->tilit()->tili(vienti.tili());
+        if( tili && vienti.eraId() && !tili->eritellaankoTase() && !tili->onko(TiliLaji::KOHDENTAMATONALVVELKA) && !tili->onko(TiliLaji::KOHDENTAMATONALVSAATAVA) ) {
             // Varmistetaan, että erä voidaan syöttää vain sellaiselle tilille,
             // jossa tase-erittely on käytössä
-            qDebug() << "Poistetaan tase-erä tililtä " << vienti.tili();
-            vienti.setEra(EraMap::EiEraa);
-            viennit()->asetaVienti(i, vienti);
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Tilille %1 syötetty tase-erä, vaikka tilillä ei ole tase-erittelyä. \nTallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+                tallennuksessaVirhe(0);
+                return;
+            }
         }
-
     }
 
     setData( TILA, tilaan );
