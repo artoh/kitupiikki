@@ -42,7 +42,6 @@ public:
     virtual QWidget* widget() override;
 
     virtual bool voikoZoomata() const override { return true;}
-    virtual void asetaSuunta(QPageLayout::Orientation suunta) override;
 
 public slots:
     virtual void paivita() const override;
@@ -56,7 +55,6 @@ public slots:
 protected:
     QPrintPreviewWidget *widget_ ;
     QPrinter* printer_;
-    QPageLayout::Orientation suunta_ = QPageLayout::Portrait;
 };
 
 }
