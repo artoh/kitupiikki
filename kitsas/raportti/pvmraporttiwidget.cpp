@@ -155,11 +155,16 @@ void PvmRaporttiWidget::tallenna()
 void PvmRaporttiWidget::tiliListaSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
+    const int valittuTili = ui->tiliCombo->currentData().toInt();
 
     ui->tiliCombo->clear();
     for( const QString& tiliStr : map.keys()) {
         const Tili& tili = kp()->tilit()->tiliNumerolla( tiliStr.toInt() );
         ui->tiliCombo->addItem( tili.nimiNumero(), tili.numero() );
     }
+    const int valitunIndeksi = ui->tiliCombo->findData(valittuTili);
+    if( valitunIndeksi)
+        ui->tiliCombo->setCurrentIndex(valitunIndeksi);
+
     ui->tiliCombo->model()->sort(0);
 }
