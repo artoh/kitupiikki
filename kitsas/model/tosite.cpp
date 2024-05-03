@@ -16,6 +16,7 @@
 */
 #include "tosite.h"
 
+#include "model/eramap.h"
 #include "tositeviennit.h"
 #include "tositeloki.h"
 #include "tositerivit.h"
@@ -372,6 +373,8 @@ void Tosite::tallenna(int tilaan)
         return;
     tallennusKaynnissa_ = true;
 
+    bool alvVelvollinen = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+
     if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
         // Kun mallipohjasta tallennetaan tosite, niin varmistetaan
         // että tiedot kopioituvat eikä vientejä kaapata ;)
@@ -392,6 +395,24 @@ void Tosite::tallenna(int tilaan)
             vienti.setSelite( otsikko() );
             viennit()->asetaVienti(i, vienti);
         }
+
+        if( !alvVelvollinen && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
+            // Varmistetaan, että arvonlisäverovelvottomaan kirjanpitoon
+            // ei voi tallentua arvonlisäverollisia kirjauksia
+            qDebug() << "Arvonlisäveroton kirjanpito " << vienti.alvKoodi() << " " << vienti.alvProsentti() << "% ";
+            vienti.setAlvKoodi(AlvKoodi::EIALV);
+            vienti.setAlvProsentti(0);
+            viennit()->asetaVienti(i, vienti);
+        }
+
+        if( vienti.eraId() && !kp()->tilit()->tili(vienti.tili())->eritellaankoTase()) {
+            // Varmistetaan, että erä voidaan syöttää vain sellaiselle tilille,
+            // jossa tase-erittely on käytössä
+            qDebug() << "Poistetaan tase-erä tililtä " << vienti.tili();
+            vienti.setEra(EraMap::EiEraa);
+            viennit()->asetaVienti(i, vienti);
+        }
+
     }
 
     setData( TILA, tilaan );
