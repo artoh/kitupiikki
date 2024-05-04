@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>436</height>
+    <height>459</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,29 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string/>
+       </property>
+       <widget class="QCheckBox" name="checkBox_R">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>261</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Kaikki kirjanpito-oikeudet</string>
+        </property>
+        <property name="Oikeus" stdset="0">
+         <string notr="true">R</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
      <item>
       <widget class="QGroupBox" name="groupBox_3">
        <property name="title">
@@ -26,6 +49,9 @@
          <widget class="QCheckBox" name="checkBox_2">
           <property name="text">
            <string>Selaaminen</string>
+          </property>
+          <property name="tristate">
+           <bool>true</bool>
           </property>
           <property name="Oikeus" stdset="0">
            <string notr="true">Ts</string>

@@ -35,7 +35,9 @@ signals:
     void muokattu(bool onko);
 
 private:
+    bool omistaja_;
     void tarkasta();
+    void asetaKaytossaOlevat();
 
     QSet<QString> alussa_;
 
