@@ -28,7 +28,7 @@ ApuriRivi::ApuriRivi(int tili)
         bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
         if( tilini ) {
             alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
-            veroprosentti_ = alv ? tilini->luku("alvprosentti") : 0;
+            veroprosentti_ = alv ? tilini->alvprosentti() : 0;
             poistoaika_ = tilini->luku("menojaannospoisto");
             kohdennus_ = tilini->luku("kohdennus");
         }

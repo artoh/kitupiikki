@@ -212,7 +212,7 @@ SelausRivi::SelausRivi(const QVariantMap &data, bool samakausi)
     debet = data.value("debet").toString();
     kredit = data.value("kredit").toString();
     alvKoodi = data.value("alvkoodi").toInt();
-    alvProsentti = qRound(data.value("alvprosentti").toDouble());
+    alvProsentti = data.value("alvprosentti").toDouble();
     kumppani = data.value("kumppani").toMap().value("nimi").toString();
     selite = data.value("selite").toString();
     liitteita = data.value("liitteita").toInt();
