@@ -23,10 +23,13 @@ void OikeusWidget::aseta(const QStringList &oikeus)
 {
     omistaja_ = oikeus.contains("Om");
 
+    bool onX = oikeus.contains("R");
+
+
     for( QCheckBox* box: findChildren<QCheckBox*>()) {
 
         QString boxoikeus = box->property("Oikeus").toString();
-        box->setChecked( oikeus.contains(boxoikeus ) );
+        box->setChecked( oikeus.contains(boxoikeus) || (onX && boxoikeus != "Ko") );
         connect( box, &QCheckBox::clicked, this, &OikeusWidget::tarkasta );
 
     }
@@ -39,7 +42,7 @@ QSet<QString> OikeusWidget::oikeudet() const
 {
     QSet<QString> set;
     for(const QCheckBox* box : findChildren<QCheckBox*>()) {
-        if( box->isChecked()) {
+        if( box->isChecked() && (box->isEnabled() || box->property("Oikeus").toString() == "Ko"  )) {
             set.insert( box->property("Oikeus").toString() );
         }
     }
@@ -54,14 +57,7 @@ QStringList OikeusWidget::oikeuslista() const
     return lista;
 }
 
-void OikeusWidget::kayttoon(const QString &oikeus, bool onkoKaytossa)
-{
-    for( QCheckBox* box: findChildren<QCheckBox*>()) {
-        if( box->property("Oikeus").toString() == oikeus) {
-            box->setEnabled(onkoKaytossa);
-        }
-    }
-}
+
 
 void OikeusWidget::nakyviin(const QString &oikeus, bool onkoNakyvissa)
 {
@@ -75,8 +71,7 @@ void OikeusWidget::nakyviin(const QString &oikeus, bool onkoNakyvissa)
 void OikeusWidget::kaikki()
 {
     for(QCheckBox* box : findChildren<QCheckBox*>()) {
-        QString boxoikeus = box->property("Oikeus").toString();
-        box->setChecked(boxoikeus == "R" || boxoikeus == "Ko");
+        box->setChecked(true);
     }
     tarkasta();
 
@@ -96,6 +91,20 @@ bool OikeusWidget::onkoMuokattu()
 
 void OikeusWidget::tarkasta()
 {
+    bool onX = false;
+    for(const QCheckBox* box : findChildren<QCheckBox*>()) {
+        if( box->property("Oikeus").toString() == "R" && box->isChecked()  ) {
+          onX = true;
+        }
+    }
+
+    if (onX) {
+    for(QCheckBox* box : findChildren<QCheckBox*>()) {
+        if(box->property("Oikeus").toString() != "Ko"  ) {
+            box->setChecked(true) ;
+        }
+    }
+    }
     asetaKaytossaOlevat();
     emit muokattu( onkoMuokattu() );
 }

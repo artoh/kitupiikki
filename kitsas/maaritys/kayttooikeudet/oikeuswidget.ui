@@ -51,7 +51,7 @@
            <string>Selaaminen</string>
           </property>
           <property name="tristate">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="Oikeus" stdset="0">
            <string notr="true">Ts</string>
@@ -63,6 +63,9 @@
           <property name="text">
            <string>Kommentointi</string>
           </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
           <property name="Oikeus" stdset="0">
            <string notr="true">Tk</string>
           </property>
@@ -73,6 +76,9 @@
           <property name="text">
            <string>Luonnoksen laatiminen</string>
           </property>
+          <property name="tristate">
+           <bool>false</bool>
+          </property>
           <property name="Oikeus" stdset="0">
            <string notr="true">Tl</string>
           </property>
@@ -82,6 +88,9 @@
          <widget class="QCheckBox" name="checkBox">
           <property name="text">
            <string>Tallentaminen ja muokkaminen</string>
+          </property>
+          <property name="tristate">
+           <bool>false</bool>
           </property>
           <property name="Oikeus" stdset="0">
            <string notr="true">Tt</string>
