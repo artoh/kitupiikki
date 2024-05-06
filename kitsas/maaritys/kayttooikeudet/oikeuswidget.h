@@ -36,7 +36,7 @@ signals:
 private:
     bool omistaja_;
     void tarkasta();
-    void asetaKaytossaOlevat();
+    void asetaKaytossaOlevatJaKasitteleAlioikeudet();
 
     QSet<QString> alussa_;
 

@@ -34,7 +34,7 @@ void OikeusWidget::aseta(const QStringList &oikeus)
 
     }
     alussa_ = oikeudet();
-    asetaKaytossaOlevat();
+    asetaKaytossaOlevatJaKasitteleAlioikeudet();
 
 }
 
@@ -91,33 +91,40 @@ bool OikeusWidget::onkoMuokattu()
 
 void OikeusWidget::tarkasta()
 {
-    bool onX = false;
-    for(const QCheckBox* box : findChildren<QCheckBox*>()) {
-        if( box->property("Oikeus").toString() == "R" && box->isChecked()  ) {
-          onX = true;
-        }
-    }
-
-    if (onX) {
-    for(QCheckBox* box : findChildren<QCheckBox*>()) {
-        if(box->property("Oikeus").toString() != "Ko"  ) {
-            box->setChecked(true) ;
-        }
-    }
-    }
-    asetaKaytossaOlevat();
+    asetaKaytossaOlevatJaKasitteleAlioikeudet();
     emit muokattu( onkoMuokattu() );
 }
 
-void OikeusWidget::asetaKaytossaOlevat()
+void OikeusWidget::asetaKaytossaOlevatJaKasitteleAlioikeudet()
 {
-    bool onX = false;
+    bool onKaikkiKO = false;
+    bool onTositeoikeudet = false;
+    bool onLaskuOikeudet = false;
+    bool onKiertoOikeudet = false;
+    bool onTyokaluOikeudet = false;
+    bool onAsetusOikeudet = false;
+    bool onLisaosaOikeudet = false;
+
 
     for( QCheckBox* box: findChildren<QCheckBox*>()) {
 
         QString boxoikeus = box->property("Oikeus").toString();
-        if (boxoikeus == "R" && box->isChecked() ) {
-            onX = true;
+
+        if (box->isChecked()) {
+            if (boxoikeus == "R")
+                onKaikkiKO = true;
+            else if (boxoikeus == "RT")
+                onTositeoikeudet = true;
+            else if (boxoikeus == "RL")
+                onLaskuOikeudet = true;
+            else if (boxoikeus == "RK")
+                onKiertoOikeudet = true;
+            else if (boxoikeus == "RO")
+                onTyokaluOikeudet = true;
+            else if (boxoikeus == "As")
+                onAsetusOikeudet = true;
+            else if (boxoikeus == "Ao")
+                onLisaosaOikeudet = true;
         }
     }
 
@@ -125,11 +132,41 @@ void OikeusWidget::asetaKaytossaOlevat()
 
         QString boxoikeus = box->property("Oikeus").toString();
 
-        if (onX) {
-            box->setEnabled(boxoikeus == "R" || (boxoikeus == "Ko" && !omistaja_ ));
-        } else {
-            box->setEnabled(boxoikeus != "Ko" || !omistaja_);
+
+        if (boxoikeus == "Ko") {
+            box->setDisabled(omistaja_);
+        } else if (onKaikkiKO) {
+            box->setEnabled(boxoikeus == "R");
+            box->setChecked(true);
+        } else if (boxoikeus == "Ts" || boxoikeus == "Tl" || boxoikeus == "Tt" || boxoikeus == "Tk") {
+            box->setDisabled(onTositeoikeudet);
+            if (onTositeoikeudet)
+                box->setChecked(true);
+        } else if (boxoikeus == "Ls" || boxoikeus == "Ll" || boxoikeus == "Lt" || boxoikeus == "Xt" || boxoikeus == "Xr") {
+            box->setDisabled(onLaskuOikeudet);
+            if (onLaskuOikeudet)
+                box->setChecked(true);
+        } else if (boxoikeus == "Kl" || boxoikeus == "Kt" || boxoikeus == "Kh" || boxoikeus=="Ks" || boxoikeus == "Pm" || boxoikeus == "Pl") {
+            box->setDisabled(onKiertoOikeudet);
+            if (onKiertoOikeudet)
+                box->setChecked(true);
+        } else if (boxoikeus == "Av" || boxoikeus == "Bm" || boxoikeus == "Tp") {
+            box->setDisabled(onTyokaluOikeudet);
+            if (onTyokaluOikeudet)
+               box->setChecked(true);
+        } else if (boxoikeus == "Ab" || boxoikeus == "Ao") {
+            box->setDisabled(onAsetusOikeudet);
+            if (onAsetusOikeudet)
+                box->setChecked(true);
+
+        } else if (boxoikeus == "Ad") {
+            box->setDisabled(onAsetusOikeudet || onLisaosaOikeudet);
+            if (onAsetusOikeudet || onLisaosaOikeudet)
+                box->setChecked(true);
         }
+
+
+        else box->setEnabled(true);
 
     }
 }
