@@ -467,13 +467,13 @@ void KitupiikkiIkkuna::closeEvent(QCloseEvent *event)
 void KitupiikkiIkkuna::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "Resize " << event->size().height();
-    if( event->size().height() > 1060)
+    if( event->size().height() > 1200)
         toolbar->setIconSize(QSize(64,64));
-    else if( event->size().height() > 900)
+    else if( event->size().height() > 990)
         toolbar->setIconSize(QSize(48,48));
-    else if (event->size().height() > 740)
+    else if (event->size().height() > 780)
         toolbar->setIconSize(QSize(32,32));
-    else if (event->size().height() > 620)
+    else if (event->size().height() > 670)
         toolbar->setIconSize(QSize(28,28));
     else
         toolbar->setIconSize(QSize(24,24));
