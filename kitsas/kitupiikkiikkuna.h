@@ -117,6 +117,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);
     void closeEvent(QCloseEvent* event);
+    void resizeEvent(QResizeEvent* event);
 
 protected:
 
@@ -152,6 +153,8 @@ protected:
     QAction* uusiKirjausAktio;
     QAction* uusiSelausAktio;
     QAction* uusiLaskuAktio;
+
+    QToolBar* paaValikko_ = nullptr;
 
 
     OnniWidget* onni_;

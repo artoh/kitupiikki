@@ -464,6 +464,18 @@ void KitupiikkiIkkuna::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
+void KitupiikkiIkkuna::resizeEvent(QResizeEvent *event)
+{
+    qDebug() << "Resize " << event->size().height();
+    if( event->size().height() > 1200)
+        toolbar->setIconSize(QSize(64,64));
+    else if( event->size().height() > 1000)
+        toolbar->setIconSize(QSize(48,48));
+    else
+        toolbar->setIconSize(QSize(32,32));
+
+}
+
 QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,
                                      KitupiikkiSivu *sivu)
 {
@@ -484,6 +496,9 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
     return uusi;
 }
 
+
+
+
 void KitupiikkiIkkuna::lisaaSivut()
 {
     // Luodaan vasemman reunan työkalupalkki
@@ -491,6 +506,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     // Työkalupalkin namiskat sopeutuvat jonkin verran näytön kokoon, että mahtuvat läppärin näytöllekin
+    /*
     QScreen *screen = QGuiApplication::primaryScreen();
     if( screen->availableGeometry().height() > 2048)
         toolbar->setIconSize(QSize(64,64));
@@ -498,6 +514,7 @@ void KitupiikkiIkkuna::lisaaSivut()
         toolbar->setIconSize(QSize(48,48));
     else
         toolbar->setIconSize(QSize(32,32));
+    */
 
     if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
         toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
