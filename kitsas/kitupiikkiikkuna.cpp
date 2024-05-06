@@ -492,8 +492,10 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     // Työkalupalkin namiskat sopeutuvat jonkin verran näytön kokoon, että mahtuvat läppärin näytöllekin
     QScreen *screen = QGuiApplication::primaryScreen();
-    if( screen->availableGeometry().height() > 1024)
+    if( screen->availableGeometry().height() > 2048)
         toolbar->setIconSize(QSize(64,64));
+    else if( screen->availableGeometry().height() > 1024)
+        toolbar->setIconSize(QSize(48,48));
     else
         toolbar->setIconSize(QSize(32,32));
 
