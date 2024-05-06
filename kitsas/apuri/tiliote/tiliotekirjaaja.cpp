@@ -282,14 +282,14 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
    menoa_ = (tab == TILILTA);
 
    if( menoa_ ) {
-        ui->alaTabs->setTabText(MAKSU, tr("Maksettu &lasku"));
+        ui->alaTabs->setTabText(MAKSU, tr("Maksett&u lasku"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tililta.png"));
         ui->alaTabs->setTabText(TULOMENO, tr("&Meno"));
         if( ui->alaTabs->count() > VAKIOVIITE)
             ui->alaTabs->removeTab(VAKIOVIITE);
     } else {
-        ui->alaTabs->setTabText(MAKSU, tr("Saapuva &maksu"));
+        ui->alaTabs->setTabText(MAKSU, tr("Saap&uva maksu"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tilille.png"));
         ui->alaTabs->setTabText(TULOMENO, tr("&Tulo"));
@@ -487,10 +487,10 @@ void TilioteKirjaaja::alusta()
     ui->setupUi(this);
     ui->viennitView->setModel(rivit_);
 
-    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilill&e"));
+    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("T&ilille"));
     ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililt&ä"));
 
-    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("&Laskun maksu"));
+    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Lask&un maksu"));
     ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("&Tulo"));
     ui->alaTabs->addTab(QIcon(":/pic/tilille.png"), tr("&Siirto"));
 
