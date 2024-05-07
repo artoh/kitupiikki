@@ -152,10 +152,7 @@ protected:
 
     QAction* uusiKirjausAktio;
     QAction* uusiSelausAktio;
-    QAction* uusiLaskuAktio;
-
-    QToolBar* paaValikko_ = nullptr;
-
+    QAction* uusiLaskuAktio;    
 
     OnniWidget* onni_;
 
