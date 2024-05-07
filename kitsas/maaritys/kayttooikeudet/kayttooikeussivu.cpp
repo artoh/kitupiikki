@@ -77,7 +77,6 @@ void KayttoOikeusSivu::naytaValittu(const QModelIndex &index)
 
     ui->omistajaLabel->setVisible(omistaja_);
 
-    ui->oikeusWidget->kayttoon("Ko", !omistaja_);
     ui->poistaNappi->setDisabled(omistaja_);
     ui->uusikutsuBtn->setVisible( !index.data(KayttooikeusModel::VahvistettuRooli).toBool() );
 

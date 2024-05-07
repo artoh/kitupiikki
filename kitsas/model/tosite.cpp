@@ -16,6 +16,7 @@
 */
 #include "tosite.h"
 
+#include "model/eramap.h"
 #include "tositeviennit.h"
 #include "tositeloki.h"
 #include "tositerivit.h"
@@ -372,6 +373,8 @@ void Tosite::tallenna(int tilaan)
         return;
     tallennusKaynnissa_ = true;
 
+    bool alvVelvollinen = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
+
     if( data(TILA).toInt() == MALLIPOHJA && tilaan != MALLIPOHJA) {
         // Kun mallipohjasta tallennetaan tosite, niin varmistetaan
         // että tiedot kopioituvat eikä vientejä kaapata ;)
@@ -391,6 +394,23 @@ void Tosite::tallenna(int tilaan)
         if( vienti.selite().isEmpty()) {
             vienti.setSelite( otsikko() );
             viennit()->asetaVienti(i, vienti);
+        }
+
+        if( !alvVelvollinen && (vienti.alvKoodi() != AlvKoodi::EIALV || vienti.alvProsentti() > 1e-5)) {
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Arvonlisäverottomaan kirjanpitoon ei pitäisi tehdä arvonlisäverollista kirjausta. \n Tallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+                tallennuksessaVirhe(0);
+                return;
+            };
+        }
+
+        Tili* tili = kp()->tilit()->tili(vienti.tili());
+        if( tili && vienti.eraId() && !tili->eritellaankoTase() && !tili->onko(TiliLaji::KOHDENTAMATONALVVELKA) && !tili->onko(TiliLaji::KOHDENTAMATONALVSAATAVA) ) {
+            // Varmistetaan, että erä voidaan syöttää vain sellaiselle tilille,
+            // jossa tase-erittely on käytössä
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Tilille %1 syötetty tase-erä, vaikka tilillä ei ole tase-erittelyä. \nTallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+                tallennuksessaVirhe(0);
+                return;
+            }
         }
     }
 

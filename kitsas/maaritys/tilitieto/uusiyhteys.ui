@@ -38,11 +38,17 @@
        </item>
        <item>
         <widget class="QLabel" name="OPlabel">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 170, 0);</string>
          </property>
          <property name="text">
-          <string>Osuuspankin asiakkaiden on erikseen pyydettävä pankin asiakaspalvelusta PSD2-käyttöoikeuksia, katso tarkemmin ohjeista.</string>
+          <string>Tilitietojen haku on siirtynyt lisäosaksi. 
+Tämä toiminnallisuus poistuu käytöstä 1.9.2024</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

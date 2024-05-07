@@ -71,19 +71,6 @@ QWidget *Naytin::PrintPreviewNaytin::widget()
     return widget_;
 }
 
-void Naytin::PrintPreviewNaytin::asetaSuunta(QPageLayout::Orientation suunta)
-{
-#ifdef Q_OS_WINDOWS
-    if( suunta_ != suunta) {
-
-        QSizeF pagesize = printer_->pageLayout().pageSize().size(QPageSize::Millimeter);
-        QSizeF rotated = QSizeF(pagesize.height(), pagesize.width());
-        printer_->setPageSize(QPageSize(rotated, QPageSize::Millimeter));
-    }
-#endif
-    suunta_ = suunta;
-}
-
 void Naytin::PrintPreviewNaytin::paivita() const
 {
     widget_->updatePreview();

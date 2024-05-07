@@ -44,6 +44,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     resize(800,600);
     restoreGeometry( kp()->settings()->value("TilioteKirjaaja").toByteArray());
+    ui->viennitView->setColumnHidden(ApuriRivit::ALV, !kp()->asetukset()->onko(AsetusModel::AlvVelvollinen));
 
 }
 
@@ -179,7 +180,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
-        ui->tiliEdit->suodataTyypilla( ".*");
+        ui->tiliEdit->suodataTyypilla( "[ABCD].*");
 
     } else if( tab == VAKIOVIITE) {
         ui->maksuView->setModel( kp()->vakioViitteet() );
@@ -189,7 +190,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     tiliMuuttuu();
     ui->viennitView->horizontalHeader()->setSectionResizeMode(TilioteViennit::TILI, QHeaderView::Stretch);
 
-    bool const voiLisataVienteja = tab != MAKSU && ui->alaTabs->currentIndex() != VAKIOVIITE && tab != MAKSU;
+    bool const voiLisataVienteja = tab != MAKSU && ui->alaTabs->currentIndex() != VAKIOVIITE;
     ui->lisaaVientiNappi->setVisible( voiLisataVienteja );
     ui->poistaVientiNappi->setVisible( voiLisataVienteja && rivit_->rowCount() > 1);
     ui->viennitView->setVisible( voiLisataVienteja && rivit_->rowCount() > 1);
@@ -223,6 +224,7 @@ void TilioteKirjaaja::verotonMuuttuu()
 
 void TilioteKirjaaja::alvMuuttuu()
 {
+
    int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
    if( !ladataan_) {
         rivi()->setAlvkoodi( alvkoodi );
@@ -280,19 +282,19 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
    menoa_ = (tab == TILILTA);
 
    if( menoa_ ) {
-        ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
+        ui->alaTabs->setTabText(MAKSU, tr("Maksett&u lasku"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tililta.png"));
-        ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
+        ui->alaTabs->setTabText(TULOMENO, tr("&Meno"));
         if( ui->alaTabs->count() > VAKIOVIITE)
             ui->alaTabs->removeTab(VAKIOVIITE);
     } else {
-        ui->alaTabs->setTabText(MAKSU, tr("Saapuva maksu"));
+        ui->alaTabs->setTabText(MAKSU, tr("Saap&uva maksu"));
         ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
         ui->alaTabs->setTabIcon(SIIRTO, QIcon(":/pic/tilille.png"));
-        ui->alaTabs->setTabText(TULOMENO, tr("Tulo"));
+        ui->alaTabs->setTabText(TULOMENO, tr("&Tulo"));
         if( ui->alaTabs->count() == VAKIOVIITE )
-            ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("Vakioviite"));
+            ui->alaTabs->addTab(QIcon(":/pic/viivakoodi.png"), tr("&Vakioviite"));
     }
 
     alaTabMuuttui( ui->alaTabs->currentIndex() );
@@ -466,12 +468,14 @@ void TilioteKirjaaja::lisaaVienti()
     const int uusiRivi = rivit_->lisaaRivi( oletustili() );
     ui->viennitView->setVisible(true);
     ui->viennitView->selectRow(uusiRivi);
+    ui->poistaVientiNappi->setVisible( true );
     QTimer::singleShot(50, this, &TilioteKirjaaja::tiliMuuttuu);
 }
 
 void TilioteKirjaaja::poistaVienti()
 {
     ui->viennitView->setVisible( rivit_->rowCount() > 2 );
+    ui->poistaVientiNappi->setVisible( rivit_->rowCount() > 2);
     rivit_->poistaRivi(nykyAliRiviIndeksi_);
     ui->viennitView->selectRow( qMin(nykyAliRiviIndeksi_, rivit_->rowCount()-1) );
 }
@@ -483,12 +487,12 @@ void TilioteKirjaaja::alusta()
     ui->setupUi(this);
     ui->viennitView->setModel(rivit_);
 
-    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("Tilille"));
-    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililtä"));
+    ui->ylaTab->addTab(QIcon(":/pic/lisaa.png"), tr("T&ilille"));
+    ui->ylaTab->addTab(QIcon(":/pic/poista.png"), tr("Tililt&ä"));
 
-    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Laskun maksu"));
-    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
-    ui->alaTabs->addTab(QIcon(":/pic/tilille.png"), tr("Siirto"));
+    ui->alaTabs->addTab(QIcon(":/pic/lasku.png"), tr("Lask&un maksu"));
+    ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("&Tulo"));
+    ui->alaTabs->addTab(QIcon(":/pic/tilille.png"), tr("&Siirto"));
 
 
     veroFiltteri_ = new QSortFilterProxyModel(this);
@@ -704,10 +708,14 @@ void TilioteKirjaaja::tallennaRivi()
         return;
 
     ApuriRivi* aliRivi = rivit_->rivi(rivi);
+    Tili tili = ui->tiliEdit->valittuTili();
 
     aliRivi->setTili( ui->tiliEdit->valittuTilinumero());
     aliRivi->setKohdennus( ui->kohdennusCombo->kohdennus());
-    aliRivi->setEra(ui->eraCombo->eraMap());
+    if( tili.eritellaankoTase())
+        aliRivi->setEra(ui->eraCombo->eraMap());
+    else
+        aliRivi->setEra(EraMap());
     aliRivi->setMerkkaukset( ui->merkkausCC->selectedDatas());
     aliRivi->setJaksoalkaa( ui->jaksoAlkaaEdit->date());
     aliRivi->setJaksopaattyy( ui->jaksoLoppuuEdit->date());
@@ -745,6 +753,9 @@ TilioteKirjausRivi TilioteKirjaaja::tallennettava()
     rivi.asetaKumppani( ui->asiakastoimittaja->map());
     rivi.asetaTyyppi(tyyppi());
     rivit_->asetaTyyppi(tyyppi(), !menoa_ );
+    if( rivit_->rowCount() == 1) {
+        rivi.asetaOtsikko( ui->seliteEdit->toPlainText() );
+    }
 
     if( ui->alaTabs->currentIndex() == MAKSU) {
         QModelIndex index = ui->maksuView->currentIndex();

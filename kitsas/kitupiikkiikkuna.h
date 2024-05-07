@@ -36,7 +36,6 @@ class ArkistoSivu;
 class LaskuSivu;
 class AlvSivu;
 class OnniWidget;
-class ToimistoSivu;
 class HubToimistoSivu;
 class LisaosaSivu;
 
@@ -65,7 +64,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = nullptr);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, LISAOSASIVU, TOIMISTOSIVU, HUBTOIMISTOSIVU, MAJAVASIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, KIERTOSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, LISAOSASIVU, HUBTOIMISTOSIVU, MAJAVASIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -85,9 +84,7 @@ public slots:
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
     void uusiLasku();
-    void naytaToimisto(const QString& id);
-
-    void kirjauduttu(const PilviKayttaja& kayttaja);
+    void naytaToimisto(const QString& id);    
 
     void naytaTallennettu(int tunnus, const QDate& paiva, const QString& sarja, int tila);
 
@@ -120,6 +117,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);
     void closeEvent(QCloseEvent* event);
+    void resizeEvent(QResizeEvent* event);
 
 protected:
 
@@ -144,8 +142,7 @@ protected:
     MaaritysSivu *maarityssivu;
     ArkistoSivu *arkistosivu;
     AlvSivu *alvsivu;
-    LisaosaSivu *lisaosaSivu;
-    ToimistoSivu* toimistosivu;
+    LisaosaSivu *lisaosaSivu;    
     HubToimistoSivu* hubToimistoSivu;
     HubToimistoSivu* majavaSivu;
 
@@ -155,8 +152,7 @@ protected:
 
     QAction* uusiKirjausAktio;
     QAction* uusiSelausAktio;
-    QAction* uusiLaskuAktio;
-
+    QAction* uusiLaskuAktio;    
 
     OnniWidget* onni_;
 

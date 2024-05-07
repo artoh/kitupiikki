@@ -4,10 +4,7 @@
 #include <QRegularExpressionValidator>
 #include <QPushButton>
 
-#include "toimisto/groupdata.h"
 #include "db/kirjanpito.h"
-#include "db/asetusmodel.h"
-#include "pilvi/pilvimodel.h"
 
 VarmenneDialog::VarmenneDialog(QWidget *parent) :
     QDialog(parent),
@@ -28,15 +25,6 @@ VarmenneDialog::~VarmenneDialog()
     delete ui;
 }
 
-bool VarmenneDialog::toimistoVarmenne(GroupData *group)
-{
-    connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("toimisto/varmenne/"); });
-    if( exec() == QDialog::Accepted) {
-        group->lisaaVarmenne(ui->tunnusEdit->text(), ui->salaEdit->text());
-        return true;
-    }
-    return false;
-}
 
 int VarmenneDialog::pilviVarmenne()
 {

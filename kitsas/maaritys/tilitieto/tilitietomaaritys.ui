@@ -70,6 +70,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Tilitietojen haku on siirtynyt lisäosaksi. 
+Tämä toiminto poistuu käytöstä 1.9.2024</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QWidget" name="yhteydetWidget" native="true"/>
    </item>
    <item>

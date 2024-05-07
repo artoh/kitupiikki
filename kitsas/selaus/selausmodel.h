@@ -59,7 +59,7 @@ protected:
     int kohdennustyyppi;
     bool liitteita;
     int alvKoodi;
-    int alvProsentti;
+    double alvProsentti;
 };
 
 /**

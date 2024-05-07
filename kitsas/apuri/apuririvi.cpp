@@ -28,7 +28,7 @@ ApuriRivi::ApuriRivi(int tili)
         bool alv = kp()->asetukset()->onko(AsetusModel::AlvVelvollinen);
         if( tilini ) {
             alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
-            veroprosentti_ = alv ? tilini->luku("alvprosentti") : 0;
+            veroprosentti_ = alv ? tilini->alvprosentti() : 0;
             poistoaika_ = tilini->luku("menojaannospoisto");
             kohdennus_ = tilini->luku("kohdennus");
         }
@@ -71,6 +71,11 @@ ApuriRivi::ApuriRivi(const TositeVienti &vienti, bool plusOnKredit)
 
 }
 
+int ApuriRivi::alvkoodi() const
+{
+    return alvkoodi_;
+}
+
 void ApuriRivi::setEra(const EraMap &era)
 {
     era_ = era;
@@ -78,7 +83,18 @@ void ApuriRivi::setEra(const EraMap &era)
 
 void ApuriRivi::setAlvkoodi(int koodi)
 {
-    alvkoodi_ = koodi;
+    if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
+        alvkoodi_ = koodi;
+    else
+        alvkoodi_ = AlvKoodi::EIALV;
+}
+
+void ApuriRivi::setAlvprosentti(double prosentti)
+{
+    if(kp()->asetukset()->onko(AsetusModel::AlvVelvollinen))
+        veroprosentti_ = prosentti;
+    else
+        veroprosentti_ = 0.0;
 }
 
 void ApuriRivi::setAlvvahennys(bool vahennys, int vahennysVientiId)

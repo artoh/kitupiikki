@@ -51,7 +51,6 @@
 #include "kierto/kiertosivu.h"
 #include "alv/alvsivu.h"
 #include "kirjaus/tallennettuwidget.h"
-#include "toimisto/toimistosivu.h"
 #include "toimisto/hubtoimistosivu.h"
 #include "lisaosat/lisaosasivu.h"
 
@@ -86,8 +85,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu( new MaaritysSivu()),
     arkistosivu( new ArkistoSivu()),
     alvsivu( new AlvSivu()),
-    lisaosaSivu( new LisaosaSivu(this)),
-    toimistosivu( new ToimistoSivu(this)),
+    lisaosaSivu( new LisaosaSivu(this)),    
     hubToimistoSivu(new HubToimistoSivu(this)),
     majavaSivu(new HubToimistoSivu(this, HubToimistoSivu::MAJAVA)),
     nykysivu(nullptr),
@@ -97,7 +95,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
     connect(kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
-    connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::kirjauduttu);
+    connect(kp()->pilvi(), &PilviModel::kirjauduttu, this, &KitupiikkiIkkuna::paivitaAktiivisuudet);
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( QString("%1 %2").arg(qApp->applicationName(), qApp->applicationVersion()));
@@ -264,7 +262,6 @@ void KitupiikkiIkkuna::paivitaAktiivisuudet()
     }
 
     if( kp()->pilvi()->kayttajaPilvessa()) {
-        sivuaktiot[TOIMISTOSIVU]->setVisible( kp()->pilvi()->kayttaja().admin() );
         sivuaktiot[HUBTOIMISTOSIVU]->setVisible( !kp()->pilvi()->service("admin").isEmpty() );
         sivuaktiot[MAJAVASIVU]->setVisible( !kp()->pilvi()->service("majava").isEmpty());
     } else {
@@ -309,11 +306,6 @@ void KitupiikkiIkkuna::naytaToimisto(const QString &id)
 {
     hubToimistoSivu->naytaToimisto(id);
     valitseSivu(HUBTOIMISTOSIVU);
-}
-
-void KitupiikkiIkkuna::kirjauduttu(const PilviKayttaja &kayttaja)
-{
-    sivuaktiot[TOIMISTOSIVU]->setVisible( kayttaja.admin() );
 }
 
 void KitupiikkiIkkuna::naytaTallennettu(int tunnus, const QDate &paiva, const QString &sarja, int tila)
@@ -472,6 +464,22 @@ void KitupiikkiIkkuna::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
+void KitupiikkiIkkuna::resizeEvent(QResizeEvent *event)
+{
+    qDebug() << "Resize " << event->size().height();
+    if( event->size().height() > 1200)
+        toolbar->setIconSize(QSize(64,64));
+    else if( event->size().height() > 990)
+        toolbar->setIconSize(QSize(48,48));
+    else if (event->size().height() > 780)
+        toolbar->setIconSize(QSize(32,32));
+    else if (event->size().height() > 670)
+        toolbar->setIconSize(QSize(28,28));
+    else
+        toolbar->setIconSize(QSize(24,24));
+
+}
+
 QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,
                                      KitupiikkiSivu *sivu)
 {
@@ -492,6 +500,9 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
     return uusi;
 }
 
+
+
+
 void KitupiikkiIkkuna::lisaaSivut()
 {
     // Luodaan vasemman reunan työkalupalkki
@@ -499,11 +510,15 @@ void KitupiikkiIkkuna::lisaaSivut()
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     // Työkalupalkin namiskat sopeutuvat jonkin verran näytön kokoon, että mahtuvat läppärin näytöllekin
+    /*
     QScreen *screen = QGuiApplication::primaryScreen();
-    if( screen->availableGeometry().height() > 1024)
+    if( screen->availableGeometry().height() > 2048)
         toolbar->setIconSize(QSize(64,64));
+    else if( screen->availableGeometry().height() > 1024)
+        toolbar->setIconSize(QSize(48,48));
     else
         toolbar->setIconSize(QSize(32,32));
+    */
 
     if( kp()->pilvi()->pilviLoginOsoite() == KITSAS_API || qApp->property("demo").toBool()) {
         toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
@@ -524,8 +539,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Ctrl+7",ALVSIVU, alvsivu );
     lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"Ctrl+8", MAARITYSSIVU, maarityssivu);
     lisaaSivu(tr("Lisäosat"), ":/pic/palat.svg", tr("Lisäosien hallinta"), "Ctrl+9", LISAOSASIVU, lisaosaSivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", TOIMISTOSIVU, toimistosivu);
-    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+0", HUBTOIMISTOSIVU, hubToimistoSivu);
+    lisaaSivu(tr("Toimisto"), ":/pic/pixaby/toimisto.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "Ctrl+F9", HUBTOIMISTOSIVU, hubToimistoSivu);
     lisaaSivu(tr("Majava"), ":/pixaby/majava.svg", tr("Tilitoimistojen käyttäjien ja kirjanpitojen hallinta"), "", MAJAVASIVU, majavaSivu);
 
 

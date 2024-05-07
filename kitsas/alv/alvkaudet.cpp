@@ -15,6 +15,8 @@ void AlvKaudet::haeKaudet()
 {
     kaudet_.clear();
     errorCode_.clear();
+    varmenneTila = EIKAYTOSSA;
+
     QDate pvm = kp()->tilitpaatetty();
     while( pvm.year() <= kp()->paivamaara().year() ) {
         haussa_++;

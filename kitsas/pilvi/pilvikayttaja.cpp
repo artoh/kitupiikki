@@ -18,8 +18,7 @@ PilviKayttaja::PilviKayttaja(const QVariant &data)
     nimi_ = map.value("name").toString();
     email_ = map.value("email").toString();
     phone_ = map.value("phone").toString();
-    cloudCount_ = map.value("cloudcount").toInt();
-    admin_ = map.value("admin").toBool();
+    cloudCount_ = map.value("cloudcount").toInt();    
     trial_ = map.value("trial").toDate();
 
     moodi_ = map.value("mode").toString() == "TOFFEE" ?

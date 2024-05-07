@@ -182,9 +182,6 @@ void NaytinView::sivunAsetukset()
 {
     QPageSetupDialog dlg(naytin_ ? naytin_->printer() : kp()->printer(), this);
     dlg.exec();
-    if(naytin_) {
-        naytin_->asetaSuunta(dlg.printer()->pageLayout().orientation() == QPageLayout::Portrait ? QPageLayout::Portrait : QPageLayout::Landscape);
-    }
     paivita();
 }
 

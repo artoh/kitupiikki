@@ -45,9 +45,7 @@ public:
 
     int cloudCount() const { return cloudCount_;}
     Euro extraMonthly() const { return extraMonthly_; }
-    int capacity() const { return capacity_; }
-
-    bool admin() const { return admin_; }    
+    int capacity() const { return capacity_; }    
 
     bool with2FA() const { return with2FA_;}
 
@@ -63,8 +61,7 @@ private:
     int plan_id_ = 0;
     QString plan_name_;
 
-    QDate trial_;
-    bool admin_ = false;
+    QDate trial_;    
 
     KayttajaMoodi moodi_ = NORMAALI;
     Suljettu blocked_ = KAYTOSSA;    

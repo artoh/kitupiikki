@@ -23,7 +23,6 @@ public:
     void aseta(const QStringList& oikeus);
     QSet<QString> oikeudet() const;
     QStringList oikeuslista() const;
-    void kayttoon(const QString& oikeus, bool onkoKaytossa);
     void nakyviin(const QString& oikeus, bool onkoNakyvissa);
 
     void kaikki();
@@ -35,7 +34,9 @@ signals:
     void muokattu(bool onko);
 
 private:
+    bool omistaja_;
     void tarkasta();
+    void asetaKaytossaOlevatJaKasitteleAlioikeudet();
 
     QSet<QString> alussa_;
 
