@@ -28,7 +28,7 @@ void HubToimistoSivu::siirrySivulle()
     } else if( !view_ ) {
         alusta();
         naytaSivu();
-    } else if( jarjestelma_ == ADMIN ) {
+    } else if( jarjestelma_ == ADMIN || view_->url().isEmpty()) {
         naytaSivu();
     }
 }
