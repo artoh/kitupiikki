@@ -245,6 +245,11 @@ void TilioteKirjaaja::alvMuuttuu()
         ui->verotonEdit->setEuro(maara);
         rivi()->setNetto(maara);
    }
+   if( !naytaVeroton && rivi()->nettoSyotetty()) {
+        Euro maara = rivi()->netto();
+        ui->euroEdit->setEuro(maara);
+        rivi()->setBrutto(maara);
+   }
 
    ui->alvProssaCombo->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && ui->alvCombo->isVisible());
 
