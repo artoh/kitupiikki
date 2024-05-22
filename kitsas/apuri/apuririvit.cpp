@@ -114,7 +114,7 @@ void ApuriRivit::lisaa(const QVariantMap &map)
         rivit_[ rivit_.count()-1].setNetonVero(vero, vienti.id());
     } else if( vienti.alvKoodi() / 100 == AlvKoodi::ALVVAHENNYS / 100) {
         Euro vahennys = vienti.debetEuro() - vienti.kreditEuro();
-        rivit_[ rivit_.count() - 1].setNetonVero(vahennys);
+        rivit_[ rivit_.count() - 1].setNetonVero(vahennys, 0);
         rivit_[ rivit_.count() - 1 ].setAlvvahennys(true, vienti.id());
     } else if( vienti.alvKoodi() == AlvKoodi::VAHENNYSKELVOTON) {
         rivit_[ rivit_.count() - 1].setVahentamaton( vienti.id());
