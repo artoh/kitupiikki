@@ -297,7 +297,7 @@ void LaskulistaWidget::kopioi()
 }
 
 void LaskulistaWidget::hyvita()
-{
+{   
     int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     if( tositeId ) {
         LaskuDialogiTehdas::hyvityslasku(tositeId);
@@ -306,6 +306,12 @@ void LaskulistaWidget::hyvita()
 
 void LaskulistaWidget::muistuta()
 {
+    if( kp()->onkoMaksuperusteinenAlv(kp()->paivamaara())) {
+        QMessageBox::critical(this, tr("Maksuperusteinen arvonlisävero"),
+                              tr("Kitsaalla ei voi laatia maksumuistutuksia, kun maksuperusteinen arvonlisävero on käytössä."));
+        return;
+    }
+
     QVariantList muistutettavat;
     for(const auto& item : ui->view->selectionModel()->selectedRows()) {
         muistutettavat.append( item.data(LaskuTauluModel::MapRooli) );
