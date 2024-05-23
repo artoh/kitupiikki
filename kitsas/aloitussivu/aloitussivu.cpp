@@ -130,7 +130,17 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     sqliteproxy->setSortRole(Qt::DisplayRole);
     sqliteproxy->setSortCaseSensitivity(Qt::CaseInsensitive);
 
-    ui->pilviView->setModel( kp()->pilvi() );
+    pilviProxy_ = new QSortFilterProxyModel(this);
+    pilviProxy_->setSortRole(Qt::DisplayRole);
+    pilviProxy_->setSortCaseSensitivity(Qt::CaseInsensitive);
+    pilviProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    pilviProxy_->setFilterRole(Qt::DisplayRole);
+    pilviProxy_->setSourceModel( kp()->pilvi() );
+
+    connect( ui->pilviSuodin, &QLineEdit::textChanged, pilviProxy_, &QSortFilterProxyModel::setFilterFixedString);
+
+    ui->pilviView->setModel( pilviProxy_ );
+
     ui->pilviView->setItemDelegate(new KirjanpitoDelegaatti(this, true));
     ui->vaaraSalasana->setVisible(false);
     ui->palvelinvirheLabel->setVisible(false);
@@ -508,6 +518,10 @@ void AloitusSivu::kirjauduttu(const PilviKayttaja& kayttaja)
     ui->tkpilviTab->setTabVisible(TIETOKONE_TAB, naytaNormaalit || kp()->sqlite()->rowCount());
 
     ui->tilausButton->setText( kp()->pilvi()->kayttaja().planId() ? tr("Tilaukseni") : tr("Tee tilaus") );
+
+    ui->pilviSuodin->clear();
+    ui->etsiIcon->setVisible( kp()->pilvi()->rowCount() > 10 );
+    ui->pilviSuodin->setVisible( kp()->pilvi()->rowCount() > 10 );
 
 }
 

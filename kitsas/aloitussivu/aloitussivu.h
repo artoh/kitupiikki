@@ -25,6 +25,7 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QSortFilterProxyModel>
 
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
@@ -102,7 +103,8 @@ protected:
 protected:
     Ui::Aloitus *ui;
     bool sivulla = false;
-    bool kelpoEmail_=false;        
+    bool kelpoEmail_=false;
+    QSortFilterProxyModel* pilviProxy_ = nullptr;
 
     LoginService* login_;
 

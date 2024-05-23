@@ -301,7 +301,7 @@ border-color: rgb(170, 0, 0);</string>
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tietokone">
         <attribute name="icon">
@@ -619,6 +619,30 @@ color: rgb(0, 0, 0);</string>
                  <normaloff>:/freeicons/timantti.svg</normaloff>:/freeicons/timantti.svg</iconset>
                </property>
               </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="etsiIcon">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../pic/pic.qrc">:/pic/etsi.png</pixmap>
+                 </property>
+                 <property name="buddy">
+                  <cstring>pilviSuodin</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="pilviSuodin">
+                 <property name="placeholderText">
+                  <string>Etsi kirjanpitoa...</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <widget class="QListView" name="pilviView">
