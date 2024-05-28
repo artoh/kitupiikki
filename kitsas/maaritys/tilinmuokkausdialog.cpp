@@ -308,12 +308,12 @@ void TilinMuokkausDialog::tarkasta()
 
 void TilinMuokkausDialog::ibanCheck()
 {
-    switch ( IbanValidator::kelpo( ui->ibanLine->text())) {
+    switch ( IbanValidator::kelpo( ui->ibanLine->text().trimmed())) {
     case IbanValidator::Acceptable:
     {
         ui->ibanLine->setStyleSheet( QPalette().base().color().lightness() > 125 ? "color: darkGreen;" : "color: green;");
         if( ui->bicEdit->text().isEmpty() && ui->pankkiEdit->text().isEmpty()) {
-            Iban iban( ui->ibanLine->text());
+            Iban iban( ui->ibanLine->text().trimmed());
             ui->bicEdit->setText( iban.bic() );
             ui->pankkiEdit->setText( iban.pankki() );
         }
@@ -395,8 +395,8 @@ void TilinMuokkausDialog::accept()
         }
     }
 
-    if( tili_->onko(TiliLaji::IBANTILI) && IbanValidator::kelpaako( ui->ibanLine->text()) ) {
-        Iban iban( ui->ibanLine->text() );
+    if( tili_->onko(TiliLaji::IBANTILI) && IbanValidator::kelpaako( ui->ibanLine->text().trimmed()) ) {
+        Iban iban( ui->ibanLine->text().trimmed() );
         tili_->set("iban", iban.valeitta());
         tili_->set("bic", ui->bicEdit->text());
         tili_->set("pankki", ui->pankkiEdit->text());

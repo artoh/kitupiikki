@@ -44,6 +44,8 @@ public:
 
 private:
     QString tilinumero_;
+
+    static QRegularExpression removeNonvalidPattern__;
 };
 
 #endif // IBAN_H

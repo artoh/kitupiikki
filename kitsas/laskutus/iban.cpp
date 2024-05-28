@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "iban.h"
+#include "qregularexpression.h"
 
 Iban::Iban()
 {
@@ -24,7 +25,7 @@ Iban::Iban()
 Iban::Iban(const QString &tilinumero)
 {
     tilinumero_ = tilinumero;
-    tilinumero_.remove(' ');
+    tilinumero_.remove(removeNonvalidPattern__);
 }
 
 QString Iban::bic() const
@@ -181,4 +182,6 @@ int Iban::ibanModulo(const QString &iban)
     return jaannos;
 
 }
+
+QRegularExpression Iban::removeNonvalidPattern__ = QRegularExpression("[^A-Z0-9]");
 
