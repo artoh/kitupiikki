@@ -24,7 +24,7 @@ protected:
 
     void initUi();
 
-    void valittu(const QModelIndex& indeksi);
+    void valittu();
     void aktivoi();
     void yksityinen();
     void naytaLoki();
@@ -53,6 +53,10 @@ protected:
     QPushButton* toiminnotNappi_;
     QAction* yksityinenAktio_;
     QAction* lokiAktio_;
+
+    QPushButton* kotiNappi_;
+
+
 
     QString currentId_;
 

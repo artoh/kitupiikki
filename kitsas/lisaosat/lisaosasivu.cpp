@@ -53,6 +53,9 @@ void LisaosaSivu::initUi()
     aktivoiNappi_ = new QPushButton(QIcon(":/pic/lisaa.png"), tr("Ota käyttöön"), this);
     passivoiNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("Poista käytöstä"), this);
 
+    kotiNappi_ = new QPushButton(QIcon(":/pic/talo.png"), tr("Alkuun"), this);
+    connect( kotiNappi_, &QPushButton::clicked, this, &LisaosaSivu::valittu);
+
     lokiAktio_ = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Näytä tapahtumat"), this);
     yksityinenAktio_ = new QAction(QIcon(":/pic/lisaa.png"), tr("Ota käyttöön yksityinen lisäosa"), this);
 
@@ -67,6 +70,7 @@ void LisaosaSivu::initUi()
     ylaLeiska->addWidget(logoLabel_);
     ylaLeiska->addWidget(nameLabel_);
     ylaLeiska->addStretch();
+    ylaLeiska->addWidget(kotiNappi_);
     ylaLeiska->addWidget(aktivoiNappi_);
     ylaLeiska->addWidget(passivoiNappi_);
     ylaLeiska->addWidget(toiminnotNappi_);
@@ -91,8 +95,9 @@ void LisaosaSivu::initUi()
     connect( yksityinenAktio_, &QAction::triggered, this, &LisaosaSivu::yksityinen);
 }
 
-void LisaosaSivu::valittu(const QModelIndex &indeksi)
+void LisaosaSivu::valittu()
 {
+    const QModelIndex& indeksi = listView_->currentIndex();
     if( indeksi.isValid()) {
         currentId_ = indeksi.data(LisaosaListModel::IdRooli).toString();
         hae(currentId_);
@@ -100,6 +105,7 @@ void LisaosaSivu::valittu(const QModelIndex &indeksi)
         const bool jarjestelmaTasolla = indeksi.data(LisaosaListModel::SystemRooli).toBool();
         aktivoiNappi_->setVisible( !aktiivinen );
         passivoiNappi_->setVisible( aktiivinen && !jarjestelmaTasolla);
+        kotiNappi_->setVisible(aktiivinen);
     }
 }
 
