@@ -403,3 +403,11 @@ QString tulkkaa(const QString &teksti, const QString &kieli)
 {
     return kp()->kaanna(teksti, kieli);
 }
+
+int yleinenAlv(const QDate &pvm)
+{
+    if( pvm >= QDate(2024,9,1))
+        return 2550;
+    else
+        return 2400;
+}

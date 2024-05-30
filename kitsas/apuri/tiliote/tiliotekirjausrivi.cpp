@@ -167,24 +167,24 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
             }
         }
         case ALV: {
-            QSet<int> prossat;
+            QSet<double> prossat;
             QSet<int> koodit;
             for(const auto& rivi : rivit_) {
-                prossat.insert( (int) rivi.alvprosentti() );
+                prossat.insert( rivi.alvprosentti() );
                 koodit.insert( rivi.alvkoodi());
             }
 
             if( prossat.count() == 1 && koodit.count() == 1) {
                 Euro vero;
-                const int prossa = *prossat.begin();
+                const double prossa = *prossat.begin();
 
                 if( rivit_.first().naytaBrutto() && rivit_.first().naytaNetto()) {
                     for(const auto& rivi: rivit_) {
                         vero += (rivi.brutto() - rivi.netto());
                     }
-                    return QString("%2   %1 %").arg( QString::number(prossa), vero.display(false));
+                    return QString("%2   %1 %").arg( QString::number(prossa,'f',1), vero.display(false));
                 } else if( prossa ) {
-                    return QString("%1 %").arg(prossa);
+                    return QString("%1 %").arg(prossa,0,'f',1);
                 } else {
                     return QString();
                 }
@@ -241,8 +241,8 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
         case EURO:
             return summa().toDouble();
         case ALV:
-            return rivit_.value(0).alvkoodi() * 100 +
-                   (int) rivit_.value(0).alvprosentti();
+            return rivit_.value(0).alvkoodi() +
+                   (int) (rivit_.value(0).alvprosentti()*100);
         case KOHDENNUS:
             return rivit_.value(0).kohdennus();
         case SAAJAMAKSAJA:
@@ -389,8 +389,8 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         break;
     }
     case ALV: {
-        const int prosentti = value.toInt() % 100;
-        const int koodi = value.toInt() / 100;
+        const double prosentti = (value.toInt() / 100) / 100.0;
+        const int koodi = value.toInt() % 100;
         rivit_[0].setAlvkoodi(koodi);
         rivit_[0].setAlvprosentti(prosentti);
         for(int i=0; i < rivit_.count(); i++) {

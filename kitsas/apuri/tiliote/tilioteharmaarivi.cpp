@@ -83,14 +83,14 @@ QVariant TilioteHarmaaRivi::riviData(int sarake, int role, bool alternateColor )
             if( list.count() == 1) {
                 const QVariantMap& map = list.at(0).toMap();
                 if( map.value("koodi").toInt() == AlvKoodi::EIALV) return QString();
-                int prossa = (int) map.value("prosentti").toString().toDouble();
-                if(prossa) return QString("%1 %").arg(prossa);
+                double prossa = map.value("prosentti").toString().toDouble();
+                if(prossa > 1e-5) return QString("%1 %").arg(prossa,0,'f',1);
             }
             else if(list.count() > 1) {
                 QStringList prossat;
                 for(const auto& item : list) {
                     const QVariantMap map = item.toMap();
-                    const QString txt = QString("%1 %").arg((int) map.value("prosentti").toString().toDouble());
+                    const QString txt = QString("%1 %").arg(map.value("prosentti").toDouble(), 0, 'f', 1);
                     if(!prossat.contains(txt)) prossat.append(txt);
                 }
                 prossat.sort();

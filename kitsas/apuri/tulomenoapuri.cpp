@@ -67,7 +67,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->maaraEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::maaraMuuttui);
     connect( ui->verotonEdit, &KpEuroEdit::textEdited, this, &TuloMenoApuri::verotonMuuttui);
 
-    ui->alvProssa->addItems(QStringList() << "24,00 %" << "14,00 %" << "10,00 %");
+    ui->alvProssa->addItems(QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "10,00 %");
     ui->alvProssa->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
     connect( ui->alvProssa, &QComboBox::currentTextChanged, this, &TuloMenoApuri::veroprossaMuuttui);
 
@@ -430,7 +430,10 @@ void TuloMenoApuri::tiliMuuttui()
                 veroFiltteri_->setFilterRegularExpression( uusifiltteri );
 
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( verotyyppi, VerotyyppiModel::KoodiRooli ) );
-                setAlvProssa(tili.str("alvprosentti").toDouble() );
+                double pohjaAlv = tili.alvprosentti();
+                // Automaattinen alv-muutos
+                double alv = pohjaAlv == 24.0 ? yleinenAlv(tosite()->pvm()) / 100.0 : pohjaAlv;
+                setAlvProssa( alv );
             } else {
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( AlvKoodi::EIALV, VerotyyppiModel::KoodiRooli) );
             }
@@ -489,7 +492,7 @@ void TuloMenoApuri::verolajiMuuttui()
         veroprossaMuuttui();
 
         if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 1e-5) {
-            setAlvProssa(24.0);
+            setAlvProssa(yleinenAlv(tosite()->pvm()));
         }
     }
 

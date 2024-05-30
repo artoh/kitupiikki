@@ -498,5 +498,6 @@ QIcon lippu(const QString& kielikoodi);
  * @return Käännetty teksti
  */
 QString tulkkaa(const QString& teksti, const QString& kieli = QString());
+int yleinenAlv(const QDate& pvm);
 
 #endif // KIRJANPITO_H

@@ -174,7 +174,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         if( (!valittuna || (menotili && !valittuna->onko(TiliLaji::MENO)) || (!menotili && !valittuna->onko(TiliLaji::TULO))) && !ui->euroEdit->euro() ) {
             ui->tiliEdit->valitseTiliNumerolla(  menotili ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
             paivitaVeroFiltteri( ui->tiliEdit->tili()->alvlaji() );
-            ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(ui->tiliEdit->tili()->alvprosentti())));
+            ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(ui->tiliEdit->tili()->alvprosentti(),0,'f',2));
             alvMuuttuu();
         }
     } else if ( tab == SIIRTO ) {
@@ -504,7 +504,7 @@ void TilioteKirjaaja::alusta()
     veroFiltteri_->setFilterRole( VerotyyppiModel::KoodiTekstiRooli);
     veroFiltteri_->setSourceModel( kp()->alvTyypit());
     ui->alvCombo->setModel(veroFiltteri_);
-    ui->alvProssaCombo->addItems( QStringList() << "24 %" << "14 %" << "10 %");
+    ui->alvProssaCombo->addItems( QStringList() << "25,50 %" << "24,00 %" << "14,00 %" << "10,00 %");
     ui->alvProssaCombo->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d{1,2}(,\\d{1,2})\\s?%?"),this));
 
     alaTabMuuttui(0);

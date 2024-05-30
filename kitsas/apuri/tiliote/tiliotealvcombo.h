@@ -13,8 +13,8 @@ public:
     void aseta(int koodi);
     int koodi() const;
 
-    void alustaTulolle();
-    void alustaMenolle();
+    void alustaTulolle(const QDate &pvm);
+    void alustaMenolle(const QDate &pvm);
 
 protected:    
     void lisaa( AlvKoodi::Koodi koodi, int prosentti = 0, const QString& teksti = QString());
