@@ -575,7 +575,9 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
 
 void KirjausWg::tallennusEpaonnistui(int virhe)
 {
-    QMessageBox::critical(this, tr("Tallennus epäonnistui"), tr("Tositteen tallentaminen epäonnistui (Virhe %1)").arg(virhe));
+    if( virhe ) {
+        QMessageBox::critical(this, tr("Tallennus epäonnistui"), tr("Tositteen tallentaminen epäonnistui (Virhe %1)").arg(virhe));
+    }
     ui->tallennetaanLabel->hide();
     ui->tallennaButton->setEnabled(true);
 }

@@ -52,7 +52,7 @@ public:
     EraMap era() const  { return era_;}
     int eraId() const { return era_.id();}
 
-    int poistoaika() const { return poistoaika_;}
+    int poistoaika() const;
 
     void setTili(int numero) { tilinumero_=numero;}
     void setAlvkoodi(int koodi);

@@ -407,7 +407,7 @@ void Tosite::tallenna(int tilaan)
         if( tili && vienti.eraId() && !tili->eritellaankoTase() && !tili->onko(TiliLaji::KOHDENTAMATONALVVELKA) && !tili->onko(TiliLaji::KOHDENTAMATONALVSAATAVA) ) {
             // Varmistetaan, että erä voidaan syöttää vain sellaiselle tilille,
             // jossa tase-erittely on käytössä
-            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Tilille %1 syötetty tase-erä, vaikka tilillä ei ole tase-erittelyä. \nTallennetaanko tosite silti?"), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
+            if( QMessageBox::warning( nullptr, tr("Virheellinen tosite"), tr("Tilille %1 syötetty tase-erä, vaikka tilillä ei ole tase-erittelyä. \nTallennetaanko tosite silti?").arg(tili->numero()), QMessageBox::Yes | QMessageBox::No ) != QMessageBox::Yes) {
                 tallennuksessaVirhe(0);
                 return;
             }

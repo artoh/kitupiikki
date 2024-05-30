@@ -81,6 +81,11 @@ void ApuriRivi::setEra(const EraMap &era)
     era_ = era;
 }
 
+int ApuriRivi::poistoaika() const
+{
+    return poistoaika_;
+}
+
 void ApuriRivi::setAlvkoodi(int koodi)
 {
     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) )
@@ -230,8 +235,11 @@ QVariantList ApuriRivi::viennit(const TositeVienti::VientiTyyppi tyyppi, const b
         vienti.set(TositeVienti::KUMPPANI, kumppani );
 
     if( poistoaika()) {
-        vienti.setTasaerapoisto( poistoaika());
-        vienti.setEra(-1);
+        Tili* tili = kp()->tilit()->tili(tilinumero());
+        if( tili && tili->tyyppi().onko(TiliLaji::TASAERAPOISTO)) {
+            vienti.setTasaerapoisto( poistoaika());
+            vienti.setEra(-1);
+        }
     }
 
 
