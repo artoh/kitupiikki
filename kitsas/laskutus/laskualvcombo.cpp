@@ -28,9 +28,9 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent) :
 
 void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int alvkoodi, bool ennakkolasku, const QDate &pvm)
 {
-    addItem(QIcon(":/pic/netto-m.svg"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
-    addItem(QIcon(":/pic/netto-m.svg"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
-    addItem(QIcon(":/pic/netto-m.svg"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
+    addItem(QIcon(":/pic/netto-m.svg"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 10000 ));
+    addItem(QIcon(":/pic/netto-m.svg"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 10000));
+    addItem(QIcon(":/pic/netto-m.svg"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 10000 ));
     addItem(QIcon(":/pic/tyhja.png"),tr("Veroton"), QVariant(AlvKoodi::EIALV ));
     addItem(QIcon(":/pic/0pros.png"),"Nollaverokannan alainen myynti", QVariant(AlvKoodi::ALV0));
 
@@ -58,7 +58,7 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
 
 void LaskuAlvCombo::aseta(int alvkoodi, double alvprosentti)
 {
-    int koodi = alvkoodi + qRound(alvprosentti) * 100;
+    int koodi = alvkoodi + qRound(alvprosentti * 10000);
     int indeksi = findData( koodi );
     if(indeksi > -1)
         setCurrentIndex( indeksi );
@@ -72,7 +72,7 @@ int LaskuAlvCombo::veroKoodi() const
 double LaskuAlvCombo::veroProsentti() const
 {
     if( veroKoodi() == AlvKoodi::MYYNNIT_NETTO)
-        return currentData().toInt() / 100 * 1.0;
+        return (currentData().toInt() / 100) / 100.0;
     else
         return 0.0;
 }
