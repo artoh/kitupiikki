@@ -16,6 +16,7 @@
 */
 #include "tiliotekirjausrivi.h"
 
+#include "db/kirjanpito.h"
 #include "db/kitsasinterface.h"
 #include "kirjaus/eurodelegaatti.h"
 #include "tiliotemodel.h"
@@ -84,7 +85,8 @@ TilioteKirjausRivi::TilioteKirjausRivi(const QVariantMap &tuonti, TilioteModel *
 
     if( onkoAlv && (tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::MENO)) ) {
         rivi.setAlvkoodi(tili.alvlaji());
-        rivi.setAlvprosentti(tili.alvprosentti());
+        const double prosentti = tili.alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : tili.alvprosentti();
+        rivi.setAlvprosentti(prosentti);
     } else {
         rivi.setAlvkoodi(AlvKoodi::EIALV);
         rivi.setAlvprosentti(0);
@@ -242,7 +244,7 @@ QVariant TilioteKirjausRivi::riviData(int sarake, int role, const QDate &alkuPvm
             return summa().toDouble();
         case ALV:
             return rivit_.value(0).alvkoodi() +
-                   (int) (rivit_.value(0).alvprosentti()*100);
+                   (int) (rivit_.value(0).alvprosentti()*100) * 100;
         case KOHDENNUS:
             return rivit_.value(0).kohdennus();
         case SAAJAMAKSAJA:
@@ -375,7 +377,8 @@ bool TilioteKirjausRivi::setRiviData(int sarake, const QVariant &value)
         if( tiliKohdennus) rivit_[0].setKohdennus(tiliKohdennus);
         if( model()->kitsas()->asetukset()->onko(AsetusModel::AlvVelvollinen) && tili->onko(TiliLaji::TULOS)) {
             rivit_[0].setAlvkoodi(tili->alvlaji());
-            rivit_[0].setAlvprosentti(tili->alvprosentti());
+            const double prosentti = tili->alvprosentti() == 24.0 ? yleinenAlv(paivamaara_) / 100.0 : tili->alvprosentti();
+            rivit_[0].setAlvprosentti(prosentti);
             if( onkoBruttoa && !rivit_.at(0).naytaBrutto()) {
                 rivit_[0].setNetto(rivit_.at(0).brutto());
             } else if( !onkoBruttoa && rivit_[0].naytaBrutto()) {

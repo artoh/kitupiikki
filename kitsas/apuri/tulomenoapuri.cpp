@@ -492,7 +492,7 @@ void TuloMenoApuri::verolajiMuuttui()
         veroprossaMuuttui();
 
         if( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() && alvProssa() < 1e-5) {
-            setAlvProssa(yleinenAlv(tosite()->pvm()));
+            setAlvProssa(yleinenAlv(tosite()->pvm()) / 100.0);
         }
     }
 

@@ -16,6 +16,7 @@
 */
 #include "rivivientigeneroija.h"
 
+#include "db/kirjanpito.h"
 #include "model/tosite.h"
 #include "model/tositevienti.h"
 #include "model/tositeviennit.h"
@@ -205,7 +206,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
         }
 
         int alvkoodi = strlist.takeFirst().toInt();
-        int alvprosentti = strlist.takeFirst().toDouble();
+        double alvprosentti = strlist.takeFirst().toDouble();
 
         const QString alkupvm = strlist.takeFirst();
         const QDate jaksoAlkaa = alkupvm.isEmpty() ? QDate() : QDate::fromString(alkupvm, Qt::ISODate);
@@ -215,7 +216,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 
         if(alvkoodi >= Lasku::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
-            alvprosentti = 24.0;
+            alvprosentti = yleinenAlv(pvm) / 100,0;
         } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO &&
                    lasku.maksutapa() == Lasku::ENNAKKOLASKU) {
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;

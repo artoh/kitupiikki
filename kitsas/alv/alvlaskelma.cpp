@@ -387,7 +387,7 @@ void AlvLaskelma::kirjoitaErittely()
 
             RaporttiRivi kantaOtsikko;
             kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi, kielikoodi_), 4 );
-            kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',0));
+            kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',2));
             kantaOtsikko.lisaa( kantaIter.value().summa(debetistaKoodilla(koodi)) );
             kantaOtsikko.lihavoi();
             rk.lisaaRivi(kantaOtsikko);
@@ -415,7 +415,7 @@ void AlvLaskelma::kirjoitaErittely()
                     rivi.lisaa(kumppani);
                     rivi.lisaa(selite == kumppani ? "" : selite);
 
-                    rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
+                    rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',2) );
 
 
                     Euro debet = Euro::fromVariant(vienti.value("debet"));
@@ -431,7 +431,7 @@ void AlvLaskelma::kirjoitaErittely()
                 // Tilin summa
                 RaporttiRivi tiliSumma;
                 tiliSumma.lisaa(QString(), 4);
-                tiliSumma.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
+                tiliSumma.lisaa(  QString("%L1").arg(verokanta,0,'f',2) );
                 tiliSumma.lisaa( tiliIter.value().summa( debetistaKoodilla(koodi) ) );
                 tiliSumma.viivaYlle();
                 rk.lisaaRivi(tiliSumma);

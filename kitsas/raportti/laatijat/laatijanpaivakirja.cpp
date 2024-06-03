@@ -54,7 +54,7 @@ void LaatijanPaivakirja::laadi()
     }
 
     if( valinnat().onko(RaporttiValinnat::NaytaAlvProsentti))
-        rk.lisaaSarake("EU 24%");
+        rk.lisaaSarake("EU25,5%");
     rk.lisaaEurosarake();
     rk.lisaaEurosarake();
 

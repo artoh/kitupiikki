@@ -188,7 +188,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
 
     veroRuudukko.asetaPistekoko(8);
 
-    if( painter->transform().dy() + veroRuudukko.koko().height() >= alalaita) {
+    if( painter->transform().dy() + rivinkorkeus + veroRuudukko.koko().height() >= alalaita) {
         alalaita = vaihdaSivua(painter, device);
         veroRuudukko.piirra(painter, device, alalaita, this);
     } else {

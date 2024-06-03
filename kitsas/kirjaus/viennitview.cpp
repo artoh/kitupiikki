@@ -194,10 +194,11 @@ void ViennitView::keyPressEvent(QKeyEvent *event)
             muokkaa(currentIndex());
         } else if( event->key() == Qt::Key_2 || event->key() == Qt::Key_1) {
             int tilinumero = currentIndex().data(TositeViennit::TiliNumeroRooli).toInt();
+            const double nykyinen = currentIndex().data(TositeViennit::AlvProsenttiRooli).toDouble();
             Tili* tili = kp()->tilit()->tili(tilinumero);
             double prosentti =
-                    event->key() == Qt::Key_2 ? 24.0 :
-                    currentIndex().data(TositeViennit::AlvProsenttiRooli).toInt() == 14 ? 10 : 14;
+                event->key() == Qt::Key_2 ? ( nykyinen == 24.0 ? 25.5 : ( nykyinen == 25.5 ? 24.0 : yleinenAlv( currentIndex().data(TositeViennit::PvmRooli).toDate() ) / 100.0) ) :
+                    nykyinen == 14 ? 10 : 14;
             model()->setData(currentIndex(), prosentti, TositeViennit::AlvProsenttiRooli);
 
             if(tili && kp()->alvTyypit()->nollaTyyppi(currentIndex().data(TositeViennit::AlvKoodiRooli).toInt())) {

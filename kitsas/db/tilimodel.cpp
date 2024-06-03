@@ -126,7 +126,9 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili->tyyppiKoodi() ).kuvaus() );
         case ALV: {
             double vero = tili->alvprosentti();
-            if(vero > 1e-5)
+            if( vero == 24.0)
+                return QString("%1 %").arg(yleinenAlv(kp()->paivamaara()) / 100.0,0,'f',1);
+            else if(vero > 1e-5)
                 return QVariant( QString("%1 %").arg(vero,0,'f',1));
             return QVariant();
         }

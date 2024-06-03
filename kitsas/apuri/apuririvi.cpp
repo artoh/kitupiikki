@@ -29,6 +29,7 @@ ApuriRivi::ApuriRivi(int tili)
         if( tilini ) {
             alvkoodi_ = alv ? tilini->luku("alvlaji") : AlvKoodi::EIALV;
             veroprosentti_ = alv ? tilini->alvprosentti() : 0;
+            if( veroprosentti_ == 24.0 ) veroprosentti_ = yleinenAlv(kp()->paivamaara()) / 100.0;
             poistoaika_ = tilini->luku("menojaannospoisto");
             kohdennus_ = tilini->luku("kohdennus");
         }

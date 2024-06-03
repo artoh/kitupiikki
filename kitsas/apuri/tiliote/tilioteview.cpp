@@ -115,20 +115,26 @@ void TilioteView::keyPressEvent(QKeyEvent *event)
             model()->setData(currentIndex(), 0);
             return;
         } else if( event->key() == Qt::Key_2) {
-            model()->setData(currentIndex(), koodi * 100 + 24);
+            const int nykyinen = currentIndex().data(Qt::EditRole).toInt() / 100;
+            if( nykyinen == 2400)
+                model()->setData(currentIndex(), koodi + 255000);
+            else if(nykyinen == 2550)
+                model()->setData(currentIndex(), koodi + 240000);
+            else
+                model()->setData(currentIndex(), koodi + yleinenAlv(currentIndex().data(TilioteKirjausRivi::PvmRooli).toDate()) * 100);
             return;
         } else if( event->key() == Qt::Key_1) {
             const int alv = currentIndex().data(Qt::EditRole).toInt();
-            model()->setData(currentIndex(), alv % 100 == 14 ? koodi * 100 + 10 : koodi  * 100 + 14);
+            model()->setData(currentIndex(), alv / 100 == 1400 ? koodi + 100000 : koodi + 140000);
             return;
         } else if( event->key() == Qt::Key_T) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_TAVARAT * 100 : AlvKoodi::YHTEISOHANKINNAT_TAVARAT * 100);
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_TAVARAT : AlvKoodi::YHTEISOHANKINNAT_TAVARAT );
             return;
         } else if( event->key() == Qt::Key_P) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT * 100 : AlvKoodi::YHTEISOHANKINNAT_PALVELUT * 100);
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::YHTEISOMYYNTI_PALVELUT : AlvKoodi::YHTEISOHANKINNAT_PALVELUT );
             return;
         } else if( event->key() == Qt::Key_R) {
-            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI * 100 : AlvKoodi::RAKENNUSPALVELU_OSTO * 100);
+            model()->setData(currentIndex(), tili->onko(TiliLaji::TULO) ? AlvKoodi::RAKENNUSPALVELU_MYYNTI : AlvKoodi::RAKENNUSPALVELU_OSTO );
             return;
         }
     }

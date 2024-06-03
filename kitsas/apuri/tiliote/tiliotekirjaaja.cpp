@@ -174,7 +174,9 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         if( (!valittuna || (menotili && !valittuna->onko(TiliLaji::MENO)) || (!menotili && !valittuna->onko(TiliLaji::TULO))) && !ui->euroEdit->euro() ) {
             ui->tiliEdit->valitseTiliNumerolla(  menotili ? kp()->asetukset()->luku("OletusMenotili") : kp()->asetukset()->luku("OletusMyyntitili") );    // TODO: Tod. oletukset
             paivitaVeroFiltteri( ui->tiliEdit->tili()->alvlaji() );
-            ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(ui->tiliEdit->tili()->alvprosentti(),0,'f',2));
+            const double tiliProsentti = ui->tiliEdit->tili()->alvprosentti();
+            const double vakioitu = tiliProsentti == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tiliProsentti;
+            ui->alvProssaCombo->setCurrentText(QString("%L1 %").arg(vakioitu,0,'f',2));
             alvMuuttuu();
         }
     } else if ( tab == SIIRTO ) {
@@ -344,7 +346,8 @@ void TilioteKirjaaja::tiliMuuttuu()
 
         if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
             paivitaVeroFiltteri( tili.alvlaji() );
-            ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(qRound(tili.alvprosentti())));
+            const double alvProssa = tili.alvprosentti() == 24.0 ? yleinenAlv(ui->pvmEdit->date()) / 100.0 : tili.alvprosentti();
+            ui->alvProssaCombo->setCurrentText(QString("%1 %").arg(alvProssa, 0, 'f', 1));
         }
     }
 

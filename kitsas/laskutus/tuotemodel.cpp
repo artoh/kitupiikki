@@ -77,7 +77,7 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
             double netto = tuote.ahinta();
 
             double alvprossa = tuote.alvkoodi() == AlvKoodi::MYYNNIT_NETTO ?
-                    tuote.alvprosentti() : 0.0;
+                (tuote.alvprosentti() == 24.0 ? yleinenAlv(kp()->paivamaara()) / 100.0 : tuote.alvprosentti() ) : 0.0;
 
             double brutto = netto * (100 + alvprossa) / 100.0;
 

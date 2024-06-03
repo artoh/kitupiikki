@@ -150,7 +150,7 @@ QVariant TositeRivit::data(const QModelIndex &index, int role) const
             case Lasku::ANTIIKKI:
                 return tr("Margin. keräily","Marginaaliverotus keräily- ja antiikkiesineet/ Lyhyt teksti laskunäkymässä");
             default:
-                return QString("%1 %").arg( rivi.alvProsentti() );
+                return QString("%L1 %").arg( rivi.alvProsentti(), 0, 'f', 1 );
             }
         case KOHDENNUS:
             {
@@ -249,7 +249,8 @@ bool TositeRivit::setData(const QModelIndex &index, const QVariant &value, int r
                     int alvlaji = uusitili.alvlaji();
                     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) && (alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::MYYNNIT_NETTO )) {
                         rivit_[r].setAlvKoodi( uusitili.alvlaji() );
-                        rivit_[r].setAlvProsentti( uusitili.alvprosentti() );
+                        const double prossa = uusitili.alvprosentti() == 24.00 ? yleinenAlv( kp()->paivamaara() ) / 100.0 : rivit_[r].alvProsentti();
+                        rivit_[r].setAlvProsentti( prossa );
                     }
                 }
             }
@@ -346,7 +347,8 @@ void TositeRivit::lisaaRivi()
         const int alvlaji = tili->alvlaji();
         rivi.setAlvKoodi( alvlaji == AlvKoodi::EIALV || alvlaji == AlvKoodi::ALV0 || alvlaji == AlvKoodi::RAKENNUSPALVELU_MYYNTI || alvlaji == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvlaji == AlvKoodi::YHTEISOMYYNTI_TAVARAT
                              ? alvlaji : AlvKoodi::MYYNNIT_NETTO );
-        rivi.setAlvProsentti( tili->alvprosentti());
+        const double prosentit = tili->alvprosentti() == 24 ? yleinenAlv( kp()->paivamaara() ) / 100.0 : tili->alvprosentti();
+        rivi.setAlvProsentti( prosentit);
     }
 
     rivi.setMyyntiKpl(1.0);
@@ -366,7 +368,7 @@ void TositeRivit::lisaaRivi(TositeRivi rivi)
     endInsertRows();
 }
 
-void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QString kieli)
+void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QString kieli, const QDate& pvm)
 {
     TositeRivi rivi;
     rivi.setTuote(tuote.id());
@@ -388,7 +390,8 @@ void TositeRivit::lisaaTuote(const Tuote &tuote, const QString &lkm, const QStri
 
     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
         rivi.setAlvKoodi( tuote.alvkoodi() );
-        rivi.setAlvProsentti( tuote.alvprosentti() );
+        const double prossa = tuote.alvprosentti() == 24.00 ? yleinenAlv( pvm ) / 100.0 : tuote.alvprosentti();
+        rivi.setAlvProsentti( prossa );
     };
 
     rivi.setTuoteKoodi( tuote.koodi() );

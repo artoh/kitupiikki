@@ -109,7 +109,7 @@ void RivillinenLaskuDialogi::uusiRivi()
     rivi.setTili( kp()->asetukset()->luku(AsetusModel::OletusMyyntitili) );
     if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen) ) {
         rivi.setAlvKoodi(AlvKoodi::MYYNNIT_NETTO);
-        rivi.setAlvProsentti(24.0);
+        rivi.setAlvProsentti(yleinenAlv(ui->toimitusDate->date()));
     }
 
     LaskuRiviDialogi dlg(this);
@@ -204,7 +204,8 @@ bool RivillinenLaskuDialogi::tarkasta()
 void RivillinenLaskuDialogi::lisaaTuote(const QModelIndex &index)
 {
     tosite()->rivit()->lisaaTuote( index.data(TuoteModel::MapRooli).toMap(), "1",
-                                   ui->kieliCombo->currentData().toString().toLower() );
+                                   ui->kieliCombo->currentData().toString().toLower(),
+                                   ui->toimitusDate->date() );
 }
 
 void RivillinenLaskuDialogi::vaihdaRivilajia(const QString &asiakkaanAlvTunnus)
