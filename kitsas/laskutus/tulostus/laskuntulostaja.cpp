@@ -184,7 +184,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
 
     TulostusRuudukko veroRuudukko = tayttaja.alvRuudukko(painter);
     veroRuudukko.asetaVarjo(varjoVari_);
-    veroRuudukko.asetaLeveys( sivunleveys / 4, sivunleveys * 3 / 4 );
+    veroRuudukko.asetaLeveys( sivunleveys / 2, sivunleveys * 3 / 4 );
 
     veroRuudukko.asetaPistekoko(8);
 

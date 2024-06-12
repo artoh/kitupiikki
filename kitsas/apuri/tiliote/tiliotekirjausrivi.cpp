@@ -581,7 +581,7 @@ void TilioteKirjausRivi::lisaaVienti(const QVariantMap &map)
         }
         return;
 
-    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS || (!vienti.tyyppi() && rivit_.isEmpty() && vienti.alvKoodi() < AlvKoodi::ALVKIRJAUS)) {
+    } else if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS || (!vienti.tyyppi() && vienti.alvKoodi() < AlvKoodi::ALVKIRJAUS)) {
         vienti.setTyyppi( tyyppi_ + TositeVienti::KIRJAUS );
         rivit_.append( ApuriRivi( vienti, summa_ > Euro::Zero) );
     } else if( !rivit_.count() ) {

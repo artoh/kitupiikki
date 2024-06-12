@@ -53,6 +53,8 @@ public:
      */
     static qlonglong oikeudetListasta(const QVariantList& lista);
 
+    static qlonglong tehokkaatOikeudetListasta(const QVariantList& lista);
+
 
 private:
     int id_ = 0;

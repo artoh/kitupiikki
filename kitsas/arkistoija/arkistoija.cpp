@@ -656,7 +656,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
         if( alv ) {
             out << "<td class=alv>";
             int alvkoodi = vienti.value("alvkoodi").toInt();
-            int alvprosentti = vienti.value("alvprosentti").toDouble();
+            const double alvprosentti = vienti.value("alvprosentti").toDouble();
             if( alvkoodi == AlvKoodi::ALV0) {
                 out << "0 %";
             } else if( alvkoodi % 100 == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvkoodi % 100 == AlvKoodi::YHTEISOMYYNTI_TAVARAT) {
@@ -675,7 +675,7 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
                 else if( alvkoodi % 100 == AlvKoodi::MAAHANTUONTI)
                     out << "T ";
 
-                out << QString::number(alvprosentti,'f',0) << " %";
+                out << QString("%L1 %").arg(alvprosentti,0,'f',2);
             }
 
 
@@ -700,13 +700,13 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
     out << "<table class=extra>\n";
     if( laskumap.contains("numero"))
-        out << "<tr><td class=extrahead>" << tulkkaa("Laskun numero") << "</td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>\n";
+        out << "<tr><td class=extrahead>" << tulkkaa("Laskun numero") << " </td><td class=extracol>" << laskumap.value("numero").toString() << "</td><tr>\n";
     if( tosite.contains("laskupvm") && tosite.value("laskupvm") != tosite.value("pvm"))
-        out << "<tr><td class=extrahead>" << tulkkaa("Laskun päivämäärä") << "</td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
+        out << "<tr><td class=extrahead>" << tulkkaa("Laskun päivämäärä") << " </td><td class=extracol>" << tosite.value("laskupvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("erapvm"))
-       out << "<tr><td class=extrahead>" << tulkkaa("Eräpäivä") << "</td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
+       out << "<tr><td class=extrahead>" << tulkkaa("Eräpäivä") << " </td><td class=extracol>" << tosite.value("erapvm").toDate().toString("dd.MM.yyyy") << "</td><tr>\n";
     if (tosite.contains("viite"))
-       out << "<tr><td class=extrahead>" << tulkkaa("Viite") << "</td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>\n";
+       out << "<tr><td class=extrahead>" << tulkkaa("Viite") << " </td><td class=extracol>" << tosite.value("viite").toString() << "</td><tr>\n";
 
     out << "</table></table class=loki>\n";
 
@@ -725,16 +725,18 @@ QByteArray Arkistoija::tositeRunko(const QVariantMap &tosite, bool tuloste)
 
 
     // Loki
-    out << "<h3>" << tulkkaa("Muokkaukset") << "</h3>";
-    out << "<table class=loki>";
     QVariantList lokiLista = tosite.value("loki").toList();
-    for(auto &lokiItem : lokiLista) {
-        QVariantMap lokiMap = lokiItem.toMap();        
-        out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
-        out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
-        out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
+    if( !lokiLista.isEmpty()) {
+        out << "<h3>" << tulkkaa("Muokkaukset") << "</h3>";
+        out << "<table class=loki>";
+        for(auto &lokiItem : lokiLista) {
+            QVariantMap lokiMap = lokiItem.toMap();
+            out << "<tr><td class=lokiaika>" << lokiMap.value("aika").toDateTime().toLocalTime().toString("dd.MM.yyyy hh.mm");
+            out << "</td><td class=lokitila>" << Tosite::tilateksti(lokiMap.value("tila").toInt());
+            out << "</td><td class=lokinimi>" << lokiMap.value("nimi").toString() << "</td></tr>\n";
+        }
+        out << "</table>\n";
     }
-    out << "</table>\n";
 
     out.flush();
     return ba;

@@ -56,7 +56,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
 {
     painter->save();
     painter->setFont(QFont("FreeSans", 10));
-    qreal vahintaan = painter->fontMetrics().horizontalAdvance("1 000,00 e");
+    qreal vahintaan = painter->fontMetrics().horizontalAdvance("100 000,00 e");
 
     painter->restore();
 
@@ -84,7 +84,7 @@ TulostusRuudukko LaskuRuudukonTayttaja::alvRuudukko(QPainter *painter)
 
         if( verokoodi == AlvKoodi::MYYNNIT_NETTO) {
             tekstit << QString("%1 %L2 %").arg(kitsas_->kaanna("alv", kieli_))
-                                        .arg(alv_.veroprosentti(indeksi),0,'f',2);
+                                        .arg(alv_.veroprosentti(indeksi),0,'f',1);
         } else {
             tekstit << kitsas_->kaanna( QString("alv%1").arg(verokoodi), kieli_ );
         }

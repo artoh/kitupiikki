@@ -113,6 +113,20 @@ qlonglong AvattuPilvi::oikeudetListasta(const QVariantList &lista)
     return bittikartta;
 }
 
+qlonglong AvattuPilvi::tehokkaatOikeudetListasta(const QVariantList &lista)
+{
+    qlonglong bittikartta = 0;
+    for(const auto& oikeus : lista) {
+        try {
+            bittikartta |= oikeustunnukset__.at(oikeus.toString());
+        } catch( std::out_of_range )
+        {
+            qWarning() << "Tuntematon oikeus " << oikeus.toString();
+        }
+    }
+    return bittikartta;
+}
+
 
 
 std::map<QString,qlonglong> AvattuPilvi::oikeustunnukset__ = {
