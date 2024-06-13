@@ -146,7 +146,7 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     // Kotimaan myynti
     // Alv-uudistuksen 1.9.2024 mukainen
-    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("24/25,5"), kotimaanmyyntivero(2550) + kotimaanmyyntivero(2400) );
+    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("24% / 25,5"), kotimaanmyyntivero(2550) + kotimaanmyyntivero(2400) );
 
     yvRivi(302, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(14), kotimaanmyyntivero(1400));
     yvRivi(303, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(10), kotimaanmyyntivero(1000));
@@ -692,8 +692,10 @@ void AlvLaskelma::haeHuojennusJosTarpeen()
     QDate huojennusloppu;
 
     if( loppupvm_ >= QDate(2025,1,1)) {
-        // Alarajahuojennus päättyy vuoden 2025 alusta!
-    } else if ( loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32 ) {
+    // Alarajahuojennus päättyy vuoden 2025 alusta!
+    // 31.12.2024 ilmoitetaan huojennus myös kesken tilikautta (huojennustyyppi 5)
+    } else if ( (loppupvm_ == kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() && alkupvm_.daysTo(loppupvm_) < 32) ||
+                ( alkupvm_.daysTo(loppupvm_) < 32 && loppupvm_ == QDate(2024,12,31) ) ) {
         huojennusalku_ = kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).alkaa();
         huojennusloppu = loppupvm_;
     } else if( loppupvm_.month() == 12 && loppupvm_.day() == 31 && alkupvm_.daysTo(loppupvm_) > 31) {
@@ -954,6 +956,9 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
             relief = 2;
         else if( pituus_ == AlvKausi::VUOSI)
             relief = 4;
+        // Viimeinen huojennettu alv-ilmoitus
+        else if( loppupvm_ == QDate(2024,12,31) && kp()->tilikaudet()->tilikausiPaivalle(loppupvm_).paattyy() > loppupvm_ )
+            relief = 5;
         payload.insert("relief", relief);
     }
     payload.insert("codes", tosite_->data(Tosite::ALV).toMap().value("koodit").toMap());
