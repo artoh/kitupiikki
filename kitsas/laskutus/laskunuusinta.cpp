@@ -138,7 +138,7 @@ void LaskunUusinta::uusittavaLadattu()
         uusi_->lasku().setErapaiva( erapvm );
     }
 
-    paivitaYleinenAlv( uusi_->lasku().toimituspvm() );
+    paivitaYleinenAlv( uusi_->lasku().jaksopvm() );
     paivitaHinnat();
 
     RiviVientiGeneroija riviGeneroija(kp());
@@ -156,24 +156,24 @@ void LaskunUusinta::uusittavaLadattu()
 
 void LaskunUusinta::paivitaHinnat()
 {
-    for(int i=0; i < tosite_->rivit()->rowCount(); i++) {
-        const TositeRivi& rivi = tosite_->rivit()->rivi(i);
+    for(int i=0; i < uusi_->rivit()->rowCount(); i++) {
+        const TositeRivi& rivi = uusi_->rivit()->rivi(i);
         if( !rivi.tuote())
             continue;
 
         const Tuote& tuote = kp()->tuotteet()->tuote( rivi.tuote() );
         if( qAbs(tuote.ahinta()) > 1e-5)
-            tosite_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::AHINTA),
+            uusi_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::AHINTA),
                                        tuote.ahinta());
     }
 }
 
 void LaskunUusinta::paivitaYleinenAlv(const QDate &pvm)
 {
-    for(int i=0; i < tosite_->rivit()->rowCount(); i++) {
-        const double prossa = tosite_->rivit()->rivi(i).alvProsentti();
+    for(int i=0; i < uusi_->rivit()->rowCount(); i++) {
+        const double prossa = uusi_->rivit()->rivi(i).alvProsentti();
         if( prossa == 24.0) {
-            tosite_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::ALV),
+            uusi_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::ALV),
                                       yleinenAlv(pvm) / 100.0,
                                       TositeRivit::AlvProsenttiRooli);
         }

@@ -51,7 +51,7 @@ void LaskuAlvCombo::alusta(LaskuAlvCombo::AsiakasVeroLaji asiakasVerolaji, int a
     }
 
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {
-        setCurrentIndex(3); // Alv 24
+        setCurrentIndex(pvm < QDate(2024,9,1) ? 2 : 3); // Alv 24
     } else {
         setCurrentIndex(4);  // Veroton
     }

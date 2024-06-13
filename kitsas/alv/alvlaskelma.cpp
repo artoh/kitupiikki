@@ -557,29 +557,47 @@ void AlvLaskelma::nollaaMaksuperusteinenEra(QVariant *variant)
 
 void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 {
+    int laskukanta = kanta;
     KoodiTaulu taulu = taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI);
     KantaTaulu ktaulu = taulu.kannat.value(kanta);
+
+    if(kanta == 2400) {
+        KantaTaulu utaulu = taulu.kannat.value(2550);
+        for(const TiliTaulu& ttaulu : utaulu.tilit.values()) {
+            for(const auto& rivi: ttaulu.viennit) {
+                ktaulu.lisaa(rivi);
+            }
+        }
+        if( loppupvm_ > QDate(2024,9,1))
+            laskukanta = 2550;
+    }
     Euro myynti = ktaulu.summa();
+
 
     KoodiTaulu ostotaulu = taulu_.koodit.value(AlvKoodi::OSTOT_MARGINAALI);
     KantaTaulu oktaulu = ostotaulu.kannat.value(kanta);
     Euro ostot = oktaulu.summa(true);
+    if( kanta == 2400) {
+        KantaTaulu utaulu = ostotaulu.kannat.value(2550);
+        ostot += utaulu.summa(true);
+    }
+
     Euro alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
 
     Euro marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
-    Euro vero = Euro::fromDouble( kanta / (10000.0 + kanta) *  marginaali.toDouble() );
+    Euro vero = Euro::fromDouble( laskukanta / (10000.0 + kanta) *  marginaali.toDouble() );
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
-        marginaaliRivi(kaanna("Voittomarginaalimenettely myynti"),kanta,myynti);
-        marginaaliRivi(kaanna("Voittomarginaalimenettely ostot"), kanta, ostot);
+        marginaaliRivi(kaanna("Voittomarginaalimenettely myynti"),laskukanta,myynti);
+        marginaaliRivi(kaanna("Voittomarginaalimenettely ostot"), laskukanta, ostot);
         if( alijaama )
             marginaaliRivi(kaanna("Aiempi alijäämä"), kanta, alijaama);
         if( marginaali > Euro::Zero || kp()->asetukset()->onko("AlvMatkatoimisto")) {
-            marginaaliRivi(kaanna("Marginaali"), kanta, marginaali);
-            marginaaliRivi(kaanna("Vero"),kanta,vero);
+            marginaaliRivi(kaanna("Marginaali"), laskukanta, marginaali);
+            marginaaliRivi(kaanna("Vero"),laskukanta,vero);
         } else if( marginaali < Euro::Zero) {
-            marginaaliRivi(kaanna("Alijäämä"), kanta, Euro::Zero -marginaali);
+            marginaaliRivi(kaanna("Alijäämä"), laskukanta, Euro::Zero -marginaali);
         }
     }
 
@@ -592,7 +610,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
             Euro tilinmyynti = kirjausIter.value().summa();
 
             QString selite = kaanna("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
-                    .arg(kanta / 100.0, 0, 'f', 2)
+                    .arg(laskukanta / 100.0, 0, 'f', 2)
                     .arg(tilinmyynti.cents() * 100.0 / myynti.cents(), 0, 'f', 2);
             TositeVienti tililta;
             tililta.setTili(tili);
@@ -602,7 +620,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
             else
                 tililta.setKredit( Euro::Zero-eurot);
 
-            tililta.setAlvProsentti(kanta / 100.0);
+            tililta.setAlvProsentti(laskukanta / 100.0);
             tililta.setSelite(selite);
             tililta.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::TILITYS);
             tililta.setTyyppi(TositeVienti::BRUTTOOIKAISU);
@@ -614,7 +632,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
                 tilille.setKredit( eurot );
             else
                 tilille.setDebet( Euro::Zero-eurot);
-            tilille.setAlvProsentti( kanta / 100.0);
+            tilille.setAlvProsentti( laskukanta / 100.0);
             tilille.setSelite( selite );
             tilille.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS);
             lisaaKirjausVienti(tilille);
@@ -632,7 +650,7 @@ void AlvLaskelma::marginaaliRivi(const QString selite, int kanta, Euro summa)
     RaporttiRivi rr;
     rr.lisaa("",2);
     rr.lisaa(selite);
-    rr.lisaa(QString("%L1").arg(kanta / 100.0,0,'f',0) );
+    rr.lisaa(QString("%L1").arg(kanta / 100.0,0,'f',2) );
     rr.lisaa(summa);
     marginaaliRivit_.append(rr);
 

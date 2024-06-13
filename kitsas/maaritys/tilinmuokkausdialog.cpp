@@ -300,7 +300,7 @@ void TilinMuokkausDialog::alustalaajuus()
 bool TilinMuokkausDialog::onkoIban(const TiliTyyppi tyyppi)
 {
     return tyyppi.onko(TiliLaji::PANKKITILI) ||
-           tyyppi.onko(TiliLaji::VASTAAVAA) ||
+           tyyppi.onko(TiliLaji::VASTATTAVAA) ||
            tyyppi.onko(TiliLaji::OSTOVELKA);
 }
 

@@ -216,7 +216,7 @@ void RiviVientiGeneroija::generoiTiliviennit(const QDate &pvm)
 
         if(alvkoodi >= Lasku::KAYTETYT) {
             alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI;
-            alvprosentti = yleinenAlv(pvm) / 100,0;
+            alvprosentti = yleinenAlv(pvm) / 100.0;
         } else if( alvkoodi == AlvKoodi::MYYNNIT_NETTO &&
                    lasku.maksutapa() == Lasku::ENNAKKOLASKU) {
             alvkoodi = AlvKoodi::ENNAKKOLASKU_MYYNTI;
