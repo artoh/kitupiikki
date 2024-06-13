@@ -929,7 +929,7 @@ void AlvLaskelma::valmisteleTosite()
         iter.next();
         koodit.insert( QString::number( iter.key() ), iter.value().cents());
     }
-    if( kp()->onkoMaksuperusteinenAlv(loppupvm_))
+    if( kp()->onkoMaksuperusteinenAlv(loppupvm_) && loppupvm_ < QDate(2025,1,1))
         koodit.insert("337",1);
 
     lisat.insert("koodit", koodit);

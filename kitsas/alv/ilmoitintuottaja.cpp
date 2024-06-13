@@ -156,8 +156,14 @@ bool IlmoitinTuottaja::muodosta(const QVariantMap &data)
     }
 
     if( kooditMap.contains("317")) {
+        const QDate& loppuPvm = data.value("kausipaattyy").toDate();
         if( kausitieto.value(0).toString() == "Q")
             lisaa(336,"2");
+        // Alarajahuojennus sillä perusteella, että viimeinen mahdollinen kuukausi
+        else if( loppuPvm == QDate(2024,12,31) &&
+                 kausitieto.value(0).toString() == "K" &&
+                 kp()->tilikaudet()->tilikausiPaivalle(loppuPvm).paattyy() != loppuPvm )
+            lisaa(336, "4");
         else if( kausitieto.value(0).toString() == "K")
             lisaa(336,"1");
     }
