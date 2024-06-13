@@ -107,7 +107,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
         case NRONIMI :
-            if( tili->onko(TiliLaji::IBANTILI))
+            if( tili->onko(TiliLaji::PANKKITILI))
                 return tili->nimiNumero() + " " + tili->iban().valeilla();
             return tili->nimiNumero();
         case NUMERO:

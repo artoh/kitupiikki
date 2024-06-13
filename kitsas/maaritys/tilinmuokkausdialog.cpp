@@ -263,7 +263,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     } else
         veroproxy_->setFilterFixedString("");
 
-    ui->pankkiGroup->setVisible( tyyppi.onko(TiliLaji::IBANTILI));
+    ui->pankkiGroup->setVisible( onkoIban(tyyppi));
 
     ui->poistoaikaLabel->setVisible( tyyppi.onko( TiliLaji::TASAERAPOISTO));
     ui->poistoaikaSpin->setVisible( tyyppi.onko(TiliLaji::TASAERAPOISTO) );
@@ -295,6 +295,13 @@ void TilinMuokkausDialog::alustalaajuus()
         ui->laajuusCombo->addItem( kk.teksti(), iter.key() );
     }
     ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( kp()->asetukset()->asetus(AsetusModel::Laajuus) ) );
+}
+
+bool TilinMuokkausDialog::onkoIban(const TiliTyyppi tyyppi)
+{
+    return tyyppi.onko(TiliLaji::PANKKITILI) ||
+           tyyppi.onko(TiliLaji::VASTAAVAA) ||
+           tyyppi.onko(TiliLaji::OSTOVELKA);
 }
 
 
@@ -385,7 +392,7 @@ void TilinMuokkausDialog::accept()
         }
     }
 
-    if( tili_->onko(TiliLaji::IBANTILI) && !ui->ibanLine->text().isEmpty()) {
+    if( onkoIban(tili_->tyyppi()) && !ui->ibanLine->text().isEmpty()) {
         if(  !ui->ibanLine->hasAcceptableInput()) {
             QMessageBox::critical(this, "Tilin muokkaus", "Tilinumero on virheellinen. Syötä tilinumero IBAN-muodossa");
             return;
@@ -395,7 +402,7 @@ void TilinMuokkausDialog::accept()
         }
     }
 
-    if( tili_->onko(TiliLaji::IBANTILI) && IbanValidator::kelpaako( ui->ibanLine->text().trimmed()) ) {
+    if( onkoIban(tili_->tyyppi()) && IbanValidator::kelpaako( ui->ibanLine->text().trimmed()) ) {
         Iban iban( ui->ibanLine->text().trimmed() );
         tili_->set("iban", iban.valeitta());
         tili_->set("bic", ui->bicEdit->text());

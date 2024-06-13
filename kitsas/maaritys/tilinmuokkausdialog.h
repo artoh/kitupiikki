@@ -84,7 +84,7 @@ protected slots:
 protected:
     void alustaOhjeet();
     void alustalaajuus();
-
+    static bool onkoIban(const TiliTyyppi tyyppi);
 
 protected:
 
