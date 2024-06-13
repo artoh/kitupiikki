@@ -203,6 +203,7 @@ qreal LaskunTulostaja::tulostaRuudukko(Tosite &tosite, QPainter *painter, QPaged
 
     if( lasku.maksutapa() == Lasku::KUUKAUSITTAINEN && tulostaKuukaudet) {
         TulostusRuudukko kuukaudet = tayttaja.kuukausiRuudukko(lasku, painter);
+        kuukaudet.asetaLeveys( sivunleveys / 2, sivunleveys * 3 / 4);
         kuukaudet.asetaVarjo(varjoVari_);
         if( painter->transform().dy() + kuukaudet.koko().height() >= alalaita )
             alalaita = vaihdaSivua(painter, device);
