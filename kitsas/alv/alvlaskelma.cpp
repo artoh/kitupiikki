@@ -145,10 +145,9 @@ void AlvLaskelma::kirjoitaYhteenveto()
     }
 
     // Kotimaan myynti
-    // TODO: Oikeat alv-ilmoittamisen koodit !!!
-    yvRivi(1301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("25,5"), kotimaanmyyntivero(2550) );
+    // Alv-uudistuksen 1.9.2024 mukainen
+    yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg("24/25,5"), kotimaanmyyntivero(2550) + kotimaanmyyntivero(2400) );
 
-        yvRivi(301, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(24), kotimaanmyyntivero(2400) );
     yvRivi(302, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(14), kotimaanmyyntivero(1400));
     yvRivi(303, kaanna("Suoritettava %1%:n vero kotimaan myynnistä").arg(10), kotimaanmyyntivero(1000));
 
