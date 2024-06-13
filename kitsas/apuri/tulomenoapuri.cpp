@@ -712,6 +712,11 @@ void TuloMenoApuri::paivitaVeroFiltterit(const QDate &pvm, int verokoodi)
             ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(verokoodi, VerotyyppiModel::KoodiRooli) );
     }
 
+    // Päivämäärä muuttaa yleistä alvia
+    if( !ui->maaraEdit->euro() && ui->alvProssa->currentText() == "24,00 %"  ) {
+        ui->alvProssa->setCurrentText( QString("%L1 %").arg(yleinenAlv(pvm) / 100.0, 0, 'f', 2) );
+    }
+
 }
 
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
