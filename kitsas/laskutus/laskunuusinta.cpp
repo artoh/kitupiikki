@@ -138,8 +138,8 @@ void LaskunUusinta::uusittavaLadattu()
         uusi_->lasku().setErapaiva( erapvm );
     }
 
-    if( lasku.toistoHinnastonMukaan())
-        paivitaHinnat();
+    paivitaYleinenAlv( uusi_->lasku().toimituspvm() );
+    paivitaHinnat();
 
     RiviVientiGeneroija riviGeneroija(kp());
     riviGeneroija.generoiViennit(uusi_, Kitsas::UUSI_ERA);
@@ -165,6 +165,18 @@ void LaskunUusinta::paivitaHinnat()
         if( qAbs(tuote.ahinta()) > 1e-5)
             tosite_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::AHINTA),
                                        tuote.ahinta());
+    }
+}
+
+void LaskunUusinta::paivitaYleinenAlv(const QDate &pvm)
+{
+    for(int i=0; i < tosite_->rivit()->rowCount(); i++) {
+        const double prossa = tosite_->rivit()->rivi(i).alvProsentti();
+        if( prossa == 24.0) {
+            tosite_->rivit()->setData( tosite_->rivit()->index(i, TositeRivit::ALV),
+                                      yleinenAlv(pvm) / 100.0,
+                                      TositeRivit::AlvProsenttiRooli);
+        }
     }
 }
 

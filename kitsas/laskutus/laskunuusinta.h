@@ -38,6 +38,7 @@ private:
     void uusiSeuraava();
     void uusittavaLadattu();
     void paivitaHinnat();
+    void paivitaYleinenAlv(const QDate& pvm);
     void asiakasSaapuu(QVariant* asiakas);
     void jatkaTallentamaan();
     void laskuUusittu();
