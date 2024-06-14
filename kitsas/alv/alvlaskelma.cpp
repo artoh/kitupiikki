@@ -585,7 +585,7 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
     Euro alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
 
     Euro marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
-    Euro vero = Euro::fromDouble( laskukanta / (10000.0 + kanta) *  marginaali.toDouble() );
+    Euro vero = Euro::fromDouble( laskukanta / (10000.0 + laskukanta) *  marginaali.toDouble() );
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
