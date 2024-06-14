@@ -132,9 +132,12 @@ void KiertoMuokkausDlg::kayttajatSaapuu(QVariant *data)
         const QVariantMap& map = item.toMap();
         qlonglong oikeudet = AvattuPilvi::tehokkaatOikeudetListasta(map.value("rights").toList());
         if( oikeudet & (YhteysModel::KIERTO_TARKASTAMINEN | YhteysModel::KIERTO_HYVAKSYMINEN | YhteysModel::KIERTO_SELAAMINEN | YhteysModel::TOSITE_MUOKKAUS)) {
-            ui->osallistujaCombo->addItem(map.value("name").toString(), map.value("userid"));
-            ui->osallistujaCombo->setItemData(comboIndeksi++, oikeudet, Qt::UserRole + 1);
-            kayttajat.insert(map.value("userid").toInt(), map.value("name").toString());
+            const int userId = map.value("userid").toInt();
+            if( !kayttajat.contains(userId)) {
+                ui->osallistujaCombo->addItem(map.value("name").toString(), userId);
+                ui->osallistujaCombo->setItemData(comboIndeksi++, oikeudet, Qt::UserRole + 1);
+            }
+            kayttajat.insert(userId, map.value("name").toString());
         }
     }
     model->lisaaNimet(kayttajat);
