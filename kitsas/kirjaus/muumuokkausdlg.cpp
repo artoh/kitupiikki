@@ -287,6 +287,7 @@ void MuuMuokkausDlg::pvmMuuttui()
 void MuuMuokkausDlg::tiliMuuttui()
 {
     Tili tili = ui->tiliLine->valittuTili();
+    if( !tili.onkoValidi()) return;
 
     bool kohdennuksia = kp()->kohdennukset()->kohdennuksia();
     ui->kohdennusLabel->setVisible( kohdennuksia && (tili.onko(TiliLaji::TULOS) || tili.onko(TiliLaji::POISTETTAVA)));
@@ -308,9 +309,16 @@ void MuuMuokkausDlg::tiliMuuttui()
     ui->reskontraGroup->setVisible( tili.onko(TiliLaji::TASE));
 
     if( !ladataan_) {
+        if( kp()->asetukset()->onko(AsetusModel::AlvVelvollinen)) {
+            setAlvKoodi( tili.alvlaji() );
+            const double tilinProssa = tili.alvprosentti() == 24 ? yleinenAlv( ui->pvmEdit->date() ) / 100.0 : tili.alvprosentti();
+            setAlvProssa( tilinProssa );
+        } else {
+            setAlvKoodi( AlvKoodi::EIALV );
+        }
+
         ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12);
-        setAlvKoodi( tili.luku("alvlaji") );
-        setAlvProssa( tili.str("alvprosentti").toDouble());
+
         if( tili.luku("kohdennus"))
             ui->kohdennusCombo->valitseKohdennus(tili.luku("kohdennus"));
 
