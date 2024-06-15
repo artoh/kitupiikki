@@ -144,6 +144,9 @@ int TilioteModel::lisaaRivi(TilioteKirjausRivi rivi)
     beginInsertRows(QModelIndex(), indeksi, indeksi);
     kirjausRivit_.append( rivi );
     endInsertRows();
+    if( rivi.tyyppi() == TositeVienti::SUORITUS || rivi.tyyppi() == TositeVienti::SIIRTO) {
+        kirjausRivit_[indeksi].paivitaErikoisrivit();
+    }
     return indeksi;
 }
 
