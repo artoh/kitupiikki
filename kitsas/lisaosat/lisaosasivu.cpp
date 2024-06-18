@@ -237,6 +237,6 @@ void LisaosaSivu::downloadFinished()
 {
     const QWebEngineDownloadRequest* download = qobject_cast<QWebEngineDownloadRequest*>(sender());
     if( download->isFinished()) {
-        kp()->onni( tr("%1 ladattu").arg(download->downloadFileName()), Kirjanpito::Onni::Ladattu  );
+        emit kp()->onni( tr("%1 ladattu").arg(download->downloadFileName()), Kirjanpito::Onni::Ladattu );
     }
 }
