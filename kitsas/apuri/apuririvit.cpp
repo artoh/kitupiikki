@@ -161,6 +161,8 @@ ApuriRivi ApuriRivit::at(int indeksi) const
 
 ApuriRivi ApuriRivit::eka() const
 {
+    if( rivit_.isEmpty())
+        return ApuriRivi();
     return rivit_.at(0);
 }
 
