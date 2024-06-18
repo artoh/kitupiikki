@@ -981,6 +981,10 @@ void AlvLaskelma::ilmoitaJaTallenna(const QString korjaus)
     }
     payload.insert("codes", tosite_->data(Tosite::ALV).toMap().value("koodit").toMap());
 
+    QVariantMap alvdata = tosite_->data(Tosite::ALV).toMap();
+    alvdata.insert("payload", payload);
+    tosite_->setData(Tosite::ALV, alvdata);
+
 
     QString url = QString("%1/vat").arg( kp()->pilvi()->service("vero") );
     KpKysely* kysymys = kpk(url, KpKysely::POST);
