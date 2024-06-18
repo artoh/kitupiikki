@@ -743,7 +743,10 @@ TositeVienti::VientiTyyppi TilioteKirjaaja::tyyppi()
     case MAKSU:
         return TositeVienti::SUORITUS;
     case TULOMENO:
-        return menoa_ != ( rivit_->summa() < Euro::Zero) ? TositeVienti::OSTO : TositeVienti::MYYNTI;
+        if( rivit_->summa() < Euro::Zero)
+            return menoa_ ? TositeVienti::MYYNTI : TositeVienti::OSTO;
+        else
+            return menoa_ ? TositeVienti::OSTO : TositeVienti::MYYNTI;
     case SIIRTO:
         return TositeVienti::SIIRTO;
     default:
