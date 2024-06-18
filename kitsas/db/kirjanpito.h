@@ -83,7 +83,7 @@ public:
     Kirjanpito(const QString& portableDir = QString());
     ~Kirjanpito();
 
-    enum Onni { Onnistui = 0, Verkkovirhe = 2, Stop=3, Haetaan = 4 };
+    enum Onni { Onnistui = 0, Verkkovirhe = 2, Stop=3, Haetaan = 4, Ladattu = 5 };
 
     /**
      * @brief Polku kirjanpitotiedostoon

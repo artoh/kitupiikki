@@ -6,6 +6,7 @@
 
 #include <QDesktopServices>
 #include <QWebEngineNewWindowRequest>
+#include <QWebEngineProfile>
 
 HubWebPage::HubWebPage(QObject *parent)
     : QWebEnginePage{parent}
@@ -31,6 +32,7 @@ HubWebPage::HubWebPage(QObject *parent)
     action(QWebEnginePage::Redo)->setText(tr("Tee uudelleen"));
 
     connect( this, &HubWebPage::newWindowRequested, this, &HubWebPage::openLinkInNewWindow);
+
 }
 
 void HubWebPage::supportLogin(const QString &cloudId)
@@ -74,4 +76,6 @@ void HubWebPage::openLinkInNewWindow(QWebEngineNewWindowRequest &request)
     if( request.destination() == QWebEngineNewWindowRequest::InNewWindow || request.destination() == QWebEngineNewWindowRequest::InNewTab)
         QDesktopServices::openUrl(request.requestedUrl());
 }
+
+
 

@@ -17,8 +17,9 @@ protected:
     void login(const QString& cloudId);
 
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) override;
-
     void openLinkInNewWindow(QWebEngineNewWindowRequest &request);
+
+
 };
 
 #endif // HUBWEBPAGE_H

@@ -32,6 +32,9 @@ void OnniWidget::nayta(const QString &teksti, Kirjanpito::Onni tyyppi, int aika)
     } else if( tyyppi == Kirjanpito::Haetaan) {
         setStyleSheet("background-color: rgba(255, 255, 100, 125)");
         ui->kuvaLabel->setPixmap(QPixmap(":/pic/tiedostoon.png"));
+    } else if( tyyppi == Kirjanpito::Onni::Ladattu) {
+        setStyleSheet("background-color: rgba(152, 255, 0, 80)");
+        ui->kuvaLabel->setPixmap(QPixmap(":/pic/paivita.png"));
     }
 
     ui->viestiLabel->setText( teksti );

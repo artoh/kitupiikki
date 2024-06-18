@@ -11,6 +11,7 @@ class QLabel;
 class QPushButton;
 class LisaosaListModel;
 class QAction;
+class QWebEngineDownloadRequest;
 
 class LisaosaSivu : public KitupiikkiSivu
 {
@@ -41,6 +42,8 @@ protected:
     void listReseted();
 
     void openLinkInNewWindow(QWebEngineNewWindowRequest &request);
+    void downloadRequested(QWebEngineDownloadRequest *download);
+    void downloadFinished();
 
 protected:
     LisaosaListModel* listModel_;

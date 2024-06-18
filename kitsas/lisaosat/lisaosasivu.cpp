@@ -5,6 +5,7 @@
 #include "pilvi/pilvimodel.h"
 #include "pilvi/avattupilvi.h"
 #include "lisaosasortproxymodel.h"
+#include "qwebengineprofile.h"
 #include "yksityinenlisaosadialogi.h"
 #include "kieli/kielet.h"
 
@@ -20,6 +21,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QApplication>
+#include <QWebEngineDownloadRequest>
 
 LisaosaSivu::LisaosaSivu(QWidget* parent) :
     KitupiikkiSivu(parent),
@@ -35,6 +37,7 @@ LisaosaSivu::LisaosaSivu(QWidget* parent) :
     webView_->setZoomFactor(1.25);
 
     connect( webView_->page(), &QWebEnginePage::newWindowRequested, this, &LisaosaSivu::openLinkInNewWindow);
+    connect( webView_->page()->profile(), &QWebEngineProfile::downloadRequested, this, &LisaosaSivu::downloadRequested);
 }
 
 void LisaosaSivu::siirrySivulle()
@@ -222,4 +225,18 @@ void LisaosaSivu::openLinkInNewWindow(QWebEngineNewWindowRequest &request)
 {
     if( request.destination() == QWebEngineNewWindowRequest::InNewWindow || request.destination() == QWebEngineNewWindowRequest::InNewTab)
         QDesktopServices::openUrl(request.requestedUrl());
+}
+
+void LisaosaSivu::downloadRequested(QWebEngineDownloadRequest *download)
+{
+    connect( download, &QWebEngineDownloadRequest::isFinishedChanged, this, &LisaosaSivu::downloadFinished);
+    download->accept();
+}
+
+void LisaosaSivu::downloadFinished()
+{
+    const QWebEngineDownloadRequest* download = qobject_cast<QWebEngineDownloadRequest*>(sender());
+    if( download->isFinished()) {
+        kp()->onni( tr("%1 ladattu").arg(download->downloadFileName()), Kirjanpito::Onni::Ladattu  );
+    }
 }
