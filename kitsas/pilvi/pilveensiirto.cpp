@@ -46,6 +46,11 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     connect( ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &PilveenSiirto::close);
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/pilvi"); });
+
+
+    ui->sijaintiLabel->hide();
+    ui->sijainiCombo->hide();
+    haeToimistot();
 }
 
 PilveenSiirto::~PilveenSiirto()
@@ -72,7 +77,8 @@ void PilveenSiirto::accept()
 }
 
 void PilveenSiirto::alustaAlkusivu()
-{
+{    
+
     ui->nimiLabel->setText( kp()->asetukset()->nimi() );
     if( !kp()->logo().isNull())
         ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(32,32,Qt::KeepAspectRatio)) );
@@ -141,6 +147,11 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     map.insert("businessid", kp()->asetukset()->ytunnus());
     map.insert("trial", kp()->onkoHarjoitus());
     map.insert("init", init);
+
+    const QString& location = ui->sijainiCombo->currentData().toString();
+    if( !location.isEmpty() && location != "'USER" ) {
+        map.insert("location", location);
+    }
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::POST, pilviModel_->pilviLoginOsoite() + "/clouds");
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::pilviLuotu);
@@ -505,7 +516,59 @@ void PilveenSiirto::siirtoVirhe(int koodi)
                                     "ohjelmiston tuen tai muun asiantuntijan avulla."));
     else
         ui->valmisLabel->setText(tr("Kirjanpidon siirto pilveen epäonnistui virheen %1 takia").arg(koodi));
-    pilviModel_->poistaNykyinenPilvi();
+            pilviModel_->poistaNykyinenPilvi();
+}
+
+void PilveenSiirto::haeToimistot()
+{
+    ui->sijainiCombo->addItem(QIcon(":/pic/mies.png"), tr("Henkilökohtaiset kirjanpidot"), 'USER');
+
+    PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/offices");
+    connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::toimistotSaapuu);
+    kysely->kysy();
+}
+
+void PilveenSiirto::toimistotSaapuu(const QVariant *data)
+{
+    QVariantList lista = data->toList();
+    for(const auto& item : lista) {
+        const QString id = item.toMap().value("id").toString();
+        const QString name = item.toMap().value("name").toString();
+        PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/bookshelves?officeId=" + id);
+        connect( kysely, &PilviKysely::vastaus, [this, name] (const QVariant* data) { this->hyllytSaapuu(data, name); } );
+        kysely->kysy();
+    }
+}
+
+
+void PilveenSiirto::hyllytSaapuu(const QVariant *data, const QString &officeName)
+{
+    for(const auto& item : data->toList()) {
+        const auto& map = item.toMap();
+        lisaaHylly(map, officeName);
+    }
+
+}
+
+void PilveenSiirto::lisaaHylly(const QVariantMap &hylly, const QString &officeName)
+{
+    const auto rights = hylly.value("rights").toList();
+    if( rights.contains("OB")) {
+        // Oikeus lisätä tähän hyllyyn
+        const auto id = hylly.value("id").toString();
+        if( ui->sijainiCombo->findData(id) < 0) {
+            const auto name = hylly.value("name").toString();
+            ui->sijainiCombo->addItem(QIcon(":/pic/arkisto64.png"),officeName == name ? officeName : officeName + " / " + name, id);
+
+            ui->sijaintiLabel->show();
+            ui->sijainiCombo->show();
+        }
+    }
+
+    for( const auto& sub : hylly.value("subgroups").toList()) {
+        const auto group = sub.toMap();
+        lisaaHylly(group, officeName);
+    }
 }
 
 

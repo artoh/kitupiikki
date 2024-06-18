@@ -73,6 +73,11 @@ private:
     void infoSaapuu(QVariant* data);
     void siirtoVirhe(int koodi);
 
+    void haeToimistot();
+    void toimistotSaapuu(const QVariant* data);
+    void hyllytSaapuu(const QVariant* data, const QString& officeName);
+    void lisaaHylly(const QVariantMap& hylly, const QString& officeName);
+
 private:
     Ui::PilveenSiirto *ui;
     PilviModel* pilviModel_;

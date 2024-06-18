@@ -70,6 +70,23 @@ Nykyinen kirjanpitotiedosto jää edelleen tietokoneellesi.</string>
         </widget>
        </item>
        <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="sijaintiLabel">
+           <property name="text">
+            <string>Kirjanpidon sijainti</string>
+           </property>
+           <property name="buddy">
+            <cstring>sijainiCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="sijainiCombo"/>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
