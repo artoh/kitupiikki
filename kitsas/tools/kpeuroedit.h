@@ -47,6 +47,7 @@ public slots:
     void setValue(double euros);
     void setMiinus(bool miinus);
     void clear();
+    void paste();
 
 signals:
     void sntMuuttui(qlonglong snt);
@@ -63,6 +64,7 @@ protected:
 
     bool unsigned_ = false;
 
+    static QRegularExpression pasteRe__;
 
 };
 
