@@ -29,8 +29,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maksullisella tilauksella pääset tallentamaan kirjanpitosi varmuuskopioituun kotimaiseen pilveen, ja saat käyttöösi monia lisäominaisuuksia.&lt;/p&gt;&lt;p&gt;Tutustu tarkemmin tarjolla oleviin ominaisuuksiin ja paketteihin osoitteessa &lt;a href=&quot;https://kitsas.fi&quot;&gt;kitsas.fi&lt;/a&gt; ja valitse sinulle parhaiten sopiva palvelu&lt;/p&gt;
-&lt;p&gt;Hinnat sisältävät arvonlisäveron 24%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maksullisella tilauksella pääset tallentamaan kirjanpitosi varmuuskopioituun kotimaiseen pilveen, ja saat käyttöösi monia lisäominaisuuksia.&lt;/p&gt;&lt;p&gt;Tutustu tarkemmin tarjolla oleviin ominaisuuksiin ja paketteihin osoitteessa &lt;a href=&quot;https://kitsas.fi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0078d4;&quot;&gt;kitsas.fi&lt;/span&gt;&lt;/a&gt; ja valitse sinulle parhaiten sopiva palvelu&lt;/p&gt;&lt;p&gt;Hinnat sisältävät arvonlisäveron&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
