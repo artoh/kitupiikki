@@ -46,6 +46,7 @@ PilveenSiirto::PilveenSiirto(QWidget *parent) :
     connect( ui->buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &PilveenSiirto::close);
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &PilveenSiirto::accept);
     connect( ui->buttonBox, &QDialogButtonBox::helpRequested, [] { kp()->ohje("aloittaminen/pilvi"); });
+    connect( ui->sijainiCombo, &QComboBox::currentIndexChanged, this, &PilveenSiirto::paivitaInfot);
 
 
     ui->sijaintiLabel->hide();
@@ -83,7 +84,6 @@ void PilveenSiirto::alustaAlkusivu()
     if( !kp()->logo().isNull())
         ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(32,32,Qt::KeepAspectRatio)) );
 
-    int pilvia = kp()->pilvi()->kayttaja().cloudCount();
 
     QSqlQuery kysely(kp()->sqlite()->tietokanta());
     kysely.exec("SELECT COUNT(id) FROM Tosite");
@@ -92,18 +92,9 @@ void PilveenSiirto::alustaAlkusivu()
 
     kysely.exec("SELECT COUNT(id) FROM Liite");
     kysely.next();
-    liitelkm_ = kysely.value(0).toInt();    
+    liitelkm_ = kysely.value(0).toInt();
 
-    if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
-        qInfo() << " Kapasiteetti " << pilvia << " / " << kp()->pilvi()->kayttaja().capacity() << " ei riitä pilveen siirtämiseen \n";
-        if( kp()->pilvi()->kayttaja().planId()) {
-            ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
-        } else {
-            ui->infoLabel->setText(tr("Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen."));
-            ui->infoLabel->setStyleSheet("color: red; font-weight: bold;");
-            ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-        }
-    }
+    paivitaInfot(0);
 
     kysely.exec("SELECT pvm, sarja, tunniste, nimi, LENGTH(data) AS koko FROM Liite LEFT OUTER JOIN Tosite ON Liite.tosite=Tosite.id WHERE LENGTH(data) > 10 * 1024 * 1024");
     while( kysely.next())
@@ -568,6 +559,28 @@ void PilveenSiirto::lisaaHylly(const QVariantMap &hylly, const QString &officeNa
     for( const auto& sub : hylly.value("subgroups").toList()) {
         const auto group = sub.toMap();
         lisaaHylly(group, officeName);
+    }
+}
+
+void PilveenSiirto::paivitaInfot( const int indeksi)
+{
+    if( indeksi < 1) {
+        ui->infoLabel->show();
+        int pilvia = kp()->pilvi()->kayttaja().cloudCount();
+        if( pilvia >= kp()->pilvi()->kayttaja().capacity() ) {
+            qInfo() << " Kapasiteetti " << pilvia << " / " << kp()->pilvi()->kayttaja().capacity() << " ei riitä pilveen siirtämiseen \n";
+            if( kp()->pilvi()->kayttaja().planId()) {
+                ui->infoLabel->setText(tr("Kirjanpidon tallentamisesta pilveen veloitetaan %1/kk").arg( kp()->pilvi()->kayttaja().extraMonthly().display() ));
+                ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+            } else {
+                ui->infoLabel->setText(tr("Sinun pitää päivittää tilauksesi ennen kuin voit kopioida tämän kirjanpidon pilveen."));
+                ui->infoLabel->setStyleSheet("color: red; font-weight: bold;");
+                ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+            }
+        }
+    } else {
+        ui->infoLabel->hide();
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     }
 }
 
