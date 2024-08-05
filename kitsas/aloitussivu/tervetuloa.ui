@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>982</width>
-    <height>791</height>
+    <width>479</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,47 +47,6 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;© Arto Hyvättinen ja Kitsas Oy 2017 - 2024&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
-     <item>
-      <widget class="QLabel" name="esiKuva">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/tietyo.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="esiVaro">
-       <property name="font">
-        <font>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>Käytössäsi on ohjelman kehitysversio, jonka kaikkia toimintoja ei ole testattu perusteellisesti! 
-
-Muista varmuuskopioida tiedostosi.
-Ilmoitathan kaikista havaitsemistasi virheistä.</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item>
     <widget class="QLabel" name="label_4">
@@ -150,8 +109,8 @@ Ilmoitathan kaikista havaitsemistasi virheistä.</string>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>5</width>
+       <height>2</height>
       </size>
      </property>
     </spacer>
