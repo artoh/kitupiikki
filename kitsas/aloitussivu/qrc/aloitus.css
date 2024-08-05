@@ -175,6 +175,21 @@ table.memo > tr > td
 }
 
 
+table.virhe
+{
+  background-color: white;
+  margin-bottom: 15px;
+  color: black;
+  font-size: 18pt;
+}
+
+table.virhe > tr > td
+{
+    padding: 15px;
+    color: black;
+    font-size: 14pt;
+}
+
 a
 {
     text-decoration: none;

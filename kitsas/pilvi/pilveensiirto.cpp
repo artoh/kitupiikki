@@ -161,10 +161,17 @@ void PilveenSiirto::pilviLuotu(QVariant *data)
     const QVariantMap& map = data->toMap();
     pilviId_ = map.value("id").toInt();
 
+    QVariant info = map.value("info");
+
+    connect( pilviModel_, &PilviModel::siirtoPilviAvattu, this, &PilveenSiirto::avaaLuotuPilvi  );
+    pilviModel_->alustaPilvi( &info, true);
+
+    /*
     connect( pilviModel_, &PilviModel::siirtoPilviAvattu, this, &PilveenSiirto::avaaLuotuPilvi  );
     ui->progressBar->setValue(20);
 
     pilviModel_->avaaPilvesta(pilviId_, true);
+    */
 
 }
 

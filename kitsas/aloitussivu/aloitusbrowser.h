@@ -27,7 +27,7 @@ protected:
                  const QString& linkki = QString(), const QString kuva = QString(), const QString ohjelinkki = QString());
 
     void paivitaVinkit();
-    QString eiOikeuttaUrputus() const;
+    void eiOikeuttaUrputus();
 
     void paivitaVarmuuskopioVinkki();
     void paivitaTestiVinkki();

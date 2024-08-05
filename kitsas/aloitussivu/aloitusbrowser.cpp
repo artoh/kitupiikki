@@ -58,7 +58,8 @@ void AloitusBrowser::paivitaAvattu()
     QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
     if( !kp()->yhteysModel()->oikeudet()) {
-        txt.append( eiOikeuttaUrputus()  );
+        eiOikeuttaUrputus();
+        txt.append( vinkit_.toHtml() );
     } else {
         paivitaVinkit();
         if( !qApp->property("demo").toBool())
@@ -109,13 +110,15 @@ void AloitusBrowser::paivitaVinkit()
     paivitaTilinpaatosVinkki();
 }
 
-QString AloitusBrowser::eiOikeuttaUrputus() const
+void AloitusBrowser::eiOikeuttaUrputus()
 {
-    return QString("<h1>%1</h1><p>%2</p><p>%3</p>")
-            .arg(tr("Tämä kirjanpito ei ole käytettävissä"))
-            .arg(tr("Kirjanpidon omistajalla ei ole voimassa olevaa tilausta, omistaja on pyytänyt tunnuksen sulkemista, tilausmaksu on maksamatta tai "
-                    "palvelun käyttö on estetty käyttösääntöjen vastaisena."))
-            .arg(tr("Kirjanpidon palauttamiseksi käyttöön on oltava yhteydessä Kitsas Oy:n myyntiin."));
+    vinkit_.clear();
+    paivitaTestiVinkki();
+    vinkkaa("virhe", tr("Kirjanpito ei ole käytettävissä"),
+                tr("Sinulla ei ole kirjanpidon avaamiseen tarvittavia oikeuksia tai kirjanpidon omistajan käyttäoikeus ei ole voimassa.") + "<br>" +
+                tr("Ole tarvittaessa yhteydessä Kitsaan Helpdeskiin."),
+            "",
+            "peru.png");
 }
 
 void AloitusBrowser::paivitaTestiVinkki()

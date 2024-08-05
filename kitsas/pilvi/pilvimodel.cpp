@@ -196,7 +196,7 @@ void PilviModel::avaaPilvesta(int pilviId, bool siirrossa)
         connect( progressDialog_, &QProgressDialog::canceled, this, &PilviModel::keskeytaLataus);
         progressDialog_->setMinimumDuration(100);
     }
-    if(progressDialog_) progressDialog_->setValue(40);
+    if(progressDialog_) progressDialog_->setValue(40);        
 
     // Autentikoidaan ensin
     KpKysely* kysymys = kysely( QString("%1/auth/%2").arg(pilviLoginOsoite()).arg(pilviId));
