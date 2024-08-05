@@ -140,7 +140,7 @@ void PilveenSiirto::initSaapuu(QVariant *data)
     map.insert("init", init);
 
     const QString& location = ui->sijainiCombo->currentData().toString();
-    if( !location.isEmpty() && location != "'USER" ) {
+    if( !location.isEmpty() && location != "USER" ) {
         map.insert("location", location);
     }
 
@@ -519,7 +519,7 @@ void PilveenSiirto::siirtoVirhe(int koodi)
 
 void PilveenSiirto::haeToimistot()
 {
-    ui->sijainiCombo->addItem(QIcon(":/pic/mies.png"), tr("Henkilökohtaiset kirjanpidot"), 'USER');
+    ui->sijainiCombo->addItem(QIcon(":/pic/mies.png"), tr("Henkilökohtaiset kirjanpidot"), "USER");
 
     PilviKysely* kysely = new PilviKysely(pilviModel_, KpKysely::GET, pilviModel_->pilviLoginOsoite() + "/v1/offices");
     connect( kysely, &PilviKysely::vastaus, this, &PilveenSiirto::toimistotSaapuu);
