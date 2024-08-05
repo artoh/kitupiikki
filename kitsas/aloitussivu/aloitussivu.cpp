@@ -133,11 +133,13 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     pilviProxy_ = new QSortFilterProxyModel(this);
     pilviProxy_->setSortRole(Qt::DisplayRole);
     pilviProxy_->setSortCaseSensitivity(Qt::CaseInsensitive);
+    pilviProxy_->setSortLocaleAware(true);
     pilviProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
     pilviProxy_->setFilterRole(Qt::DisplayRole);
     pilviProxy_->setSourceModel( kp()->pilvi() );
 
     connect( ui->pilviSuodin, &QLineEdit::textChanged, pilviProxy_, &QSortFilterProxyModel::setFilterFixedString);
+    connect( kp()->pilvi(), &PilviModel::modelReset, [this] { this->pilviProxy_->sort(0);});
 
     ui->pilviView->setModel( pilviProxy_ );
 
