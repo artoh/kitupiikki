@@ -115,7 +115,7 @@ void AloitusBrowser::eiOikeuttaUrputus()
     vinkit_.clear();
     paivitaTestiVinkki();
     vinkkaa("virhe", tr("Kirjanpito ei ole käytettävissä"),
-                tr("Sinulla ei ole kirjanpidon avaamiseen tarvittavia oikeuksia tai kirjanpidon omistajan käyttäoikeus ei ole voimassa.") + "<br>" +
+                tr("Sinulla ei ole kirjanpidon avaamiseen tarvittavia oikeuksia tai kirjanpidon omistajan käyttöoikeus ei ole voimassa.") + "<br>" +
                 tr("Ole tarvittaessa yhteydessä Kitsaan Helpdeskiin."),
             "",
             "peru.png");
